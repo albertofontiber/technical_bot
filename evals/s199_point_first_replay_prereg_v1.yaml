@@ -1,0 +1,124 @@
+instrument: s199_point_first_replay_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: replay_unchanged_s198_semantic_package_on_s199_restored_margin_cohort
+
+models:
+  point_author: {provider: anthropic, id: claude-haiku-4-5-20251001, role: economic_support_bound_point_author, max_output_tokens: 1200}
+  point_screen: {provider: openai, id: gpt-5.6-luna, role: economic_point_plan_semantic_screen, reasoning_effort: none, max_output_tokens: 700, store: false}
+  question_writer: {provider: anthropic, id: claude-haiku-4-5-20251001, role: economic_scope_bound_question_writer, max_output_tokens: 300}
+  question_screen: {provider: openai, id: gpt-5.6-luna, role: economic_question_scope_screen, reasoning_effort: none, max_output_tokens: 500, store: false}
+
+sdk: {anthropic: 0.97.0, openai: 2.30.0}
+
+execution:
+  point_author_calls_max: 14
+  point_screen_calls_max: 14
+  question_writer_calls_max: 14
+  question_screen_calls_max: 14
+  paid_calls_max: 56
+  provider_preflight_requests_max: 56
+  provider_requests_max: 112
+  retries: 0
+  frontier_execution_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  database_writes: 0
+  downstream_planner_calls: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+
+validation:
+  eligible_questions_min: 12
+  eligible_manufacturers_min: 12
+  table_questions_min: 5
+  prose_questions_min: 5
+  answer_points_min: 24
+  invalid_outputs_max_per_stage: 0
+  semantic_failures_max_per_stage: 0
+  passing_action: GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED
+  production: false
+  official_fact_credit: 0
+
+pricing_usd_per_million_tokens:
+  point_author: {input: 1, output: 5}
+  point_screen: {input: 1, output: 6}
+  question_writer: {input: 1, output: 5}
+  question_screen: {input: 1, output: 6}
+budget: {internal_ceiling_usd: 3, user_ceiling_usd: 250}
+
+outputs:
+  execution_lock: evals/s199_point_first_replay_execution_lock_v1.json
+  point_author_prepaid: evals/s199_point_author_prepaid_v1.json
+  point_author_receipts: evals/s199_point_author_receipts_v1.json
+  point_screen_prepaid: evals/s199_point_screen_prepaid_v1.json
+  point_screen_receipts: evals/s199_point_screen_receipts_v1.json
+  question_writer_prepaid: evals/s199_question_writer_prepaid_v1.json
+  question_writer_receipts: evals/s199_question_writer_receipts_v1.json
+  question_screen_prepaid: evals/s199_question_screen_prepaid_v1.json
+  question_screen_receipts: evals/s199_question_screen_receipts_v1.json
+  screened_cohort: evals/s199_point_first_replay_screened_cohort_v1.json
+  result: evals/s199_point_first_replay_gate_v1.json
+
+point_transport_schema_sha256: 9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624
+question_transport_schema_sha256: ebcfc171dc93d1f2b4a64e4230a995cd537a024385814167e95a2b0e1f6f6f65
+eligibility_definition: The sealed evidence units support two to four atomic, semantically distinct and materially useful obligations which together form one coherent, non-trivial and natural field-technician question about the bound product without outside knowledge.
+facet_definitions:
+  access_or_prerequisite: permission, dependency or prior state required before the task
+  target_or_configuration_field: address, terminal, parameter or value to set
+  input_trigger_or_observed_condition: event or observed state that activates logic
+  output_action_or_corrective_step: commanded behavior or technician remediation
+  option_mode_or_default: selectable operating mode, alternative or default
+  measurement_limit_or_timing: measured value, tolerance, capacity, range or time
+  safety_warning_exception_or_conflict: hazard, prohibition, exception or conflict
+  verification_commissioning_or_recovery: test, confirmation, commissioning or restore step
+facet_precedence:
+  - safety_warning_exception_or_conflict
+  - verification_commissioning_or_recovery
+  - output_action_or_corrective_step
+  - access_or_prerequisite
+  - measurement_limit_or_timing
+  - target_or_configuration_field
+  - option_mode_or_default
+  - input_trigger_or_observed_condition
+
+frozen_inputs:
+  s198_design: {path: evals/s198_point_first_scope_design_v1.md, sha256: 1189a14a38243c97bc12a63b860791294a660e7094f424308723433241bb1026}
+  s198_frontier_adjudication: {path: evals/s198_point_first_scope_frontier_adjudication_v1.json, sha256: cac6611070a49c451b8ef0545a22edef6c3905c1d87a1892b94814777c5e1f9c}
+  s198_question_canary: {path: evals/s198_question_schema_canary_result_v1.json, sha256: 99ef2d443032833ad45453955beb0e9e0113c870a967258c2fbef2cb0093f08b}
+  s198_semantic_engine: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
+  s198_engine_tests: {path: tests/test_s198_point_first_scope_gate.py, sha256: 92ad2b0f8064d4553c16a641606d060cbe2197c73bb972d39206726e9fe50639}
+  s199_population_addendum: {path: evals/s199_restored_margin_population_addendum_v1.md, sha256: 7f47b8556814e66b9343b4b47c381186cbbb4fa044b3ae9e728f4258e7c276fe}
+  s199_source_packet: {path: evals/s199_restored_margin_source_packet_v1.json, sha256: 7582ae38ecc50a9c964ccdaf4fd2aef5b814b11e1774029e5e38464834e111fd}
+  s199_source_builder: {path: scripts/s199_build_restored_margin_packet.py, sha256: 2b22a40a313b6267fe6963deba7475cf15051915b848edcc4b11e99b0db5d7ad}
+  s199_source_tests: {path: tests/test_s199_restored_margin_packet.py, sha256: 592f1b329e6d9e6cc779a4e772740e7dbbd5ec4b1e9d15b862f8d6889e7401cc}
+  s199_replay_adapter: {path: scripts/s199_point_first_replay.py, sha256: 50948804b1c02a17e407d5eb0c6c020f9ce45200195c037d65d4fc48725116e8}
+  s199_replay_tests: {path: tests/test_s199_point_first_replay.py, sha256: a207356d34207670d54386500ee8e2104ff2759d2c85b34626b1a502369765bf}
+  point_transport_authority: {path: scripts/s196_static_transport_canary.py, sha256: fe889a97df191a44ddeb9d803bc5145635e29daadb4b1e9906fd3fe0872f65f3}
+  question_transport_authority: {path: scripts/s198_question_schema_canary.py, sha256: c812893d3a45ccffb848d9c409cc6a569ab698713ba818223388d41e8c1c43f1}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  eol_contract: {path: .gitattributes, sha256: 2c9d985cbf341fdf986651205ed05681170632d2cde970c0d06967311211005b}
+  runtime_requirements: {path: requirements.txt, sha256: e4946c926457f51bc81e3ea8e27c4b275d95537d29abe4cb26cd77b2965e2872}
+
+frontier_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: inherited_completed_and_adjudicated_from_s198}
+  independent: {model: claude-fable-5, display_name: Fable 5, status: inherited_completed_and_adjudicated_from_s198}
+  new_frontier_calls: 0
+  frontier_execution_calls: 0
+
+chunks_v3_lane:
+  status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  changed_by_s199: false
+
+forbidden:
+  - retry_repair_or_rebuild_same_source_cohort
+  - change_s198_semantic_engine_schema_prompt_facet_or_threshold
+  - use_s198_item_level_outputs_for_s199_selection_or_repair
+  - open_downstream_planner_or_protected_target_probe_before_upstream_go
+  - use_frontier_model_for_execution
+  - database_write_or_chunks_table_change
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - deployment_or_railway_gate
+  - production_or_official_fact_credit
