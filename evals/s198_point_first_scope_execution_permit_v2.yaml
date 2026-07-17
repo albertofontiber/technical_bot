@@ -3,7 +3,7 @@ status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
 authority: user_requested_continue_toward_more_facts_ok
 
 frozen_artifacts:
-  preregistration: {path: evals/s198_point_first_scope_prereg_v2.yaml, sha256: f6113d3d17bf7ad5352d3654df44632dfde783a3a0183355b2027d65a42f63ec}
+  preregistration: {path: evals/s198_point_first_scope_prereg_v2.yaml, sha256: 575f674cc25c06ecf7eb6b57cf058a81cdd4d428ee860725f8ce9955ebddd489}
   runner: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
   gate_tests: {path: tests/test_s198_point_first_scope_gate.py, sha256: 92ad2b0f8064d4553c16a641606d060cbe2197c73bb972d39206726e9fe50639}
 

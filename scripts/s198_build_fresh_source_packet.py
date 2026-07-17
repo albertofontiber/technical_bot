@@ -412,7 +412,7 @@ def main() -> int:
     packet["eligible_inventory"] = inventory
     packet["target_equivalence_exclusion"] = target_equivalence
     packet["packet_sha256"] = stable_sha(packet)
-    with args.out.open("x", encoding="utf-8") as handle:
+    with args.out.open("x", encoding="utf-8", newline="\n") as handle:
         handle.write(json.dumps(packet, ensure_ascii=False, indent=2) + "\n")
     print(
         json.dumps(

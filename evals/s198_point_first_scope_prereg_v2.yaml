@@ -91,8 +91,8 @@ frozen_inputs:
   population_no_go: {path: evals/s198_fresh_population_no_go_v1.json, sha256: 74aa9bf17fef995999286ad107e52df5eff820094e5def70d2af16c1f5f08e31}
   builder_kind_bug: {path: evals/s198_fresh_builder_kind_bug_v1.json, sha256: 36901a6f83a0227d448a1ea4fd9ca91863796326be3a68cf5f241801dba478f5}
   question_canary_result: {path: evals/s198_question_schema_canary_result_v1.json, sha256: 99ef2d443032833ad45453955beb0e9e0113c870a967258c2fbef2cb0093f08b}
-  fresh_source_packet: {path: evals/s198_fresh_source_packet_v2.json, sha256: 446f8a210af5530b524db9f50be8910535fc8946b8bd62bd221b2133cbc28a90}
-  source_builder: {path: scripts/s198_build_fresh_source_packet.py, sha256: 6a3f561fb2f1b2880d0b856705da7849b2002c647d306edcb481c828e3ec271d}
+  fresh_source_packet: {path: evals/s198_fresh_source_packet_v2.json, sha256: f0f41949b0c73b5aa7fb7bd224906a38a30f423a434b55383348a0c7028a3487}
+  source_builder: {path: scripts/s198_build_fresh_source_packet.py, sha256: a5baad69e7e927067127e7b12e9fdf1c2cb72a75a79e9d0cac5023345c6ca17d}
   source_builder_tests: {path: tests/test_s198_fresh_source_packet.py, sha256: 3cde775d08d17a19d4ea4ee522825af9e8d739b5a7543fd8688fe50524dc55e4}
   runner: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
   gate_tests: {path: tests/test_s198_point_first_scope_gate.py, sha256: 92ad2b0f8064d4553c16a641606d060cbe2197c73bb972d39206726e9fe50639}
