@@ -1,0 +1,27 @@
+instrument: s191_visual_utility_classifier_execution_permit_v1
+status: AUTHORIZED_BY_USER_BOUNDED_EXECUTION
+
+authorization_basis:
+  user_ceiling_usd: 250
+  s191_internal_stop_line_usd: 10
+  autonomous_parallel_visual_improvement: true
+
+allowed:
+  - six_no_retry_haiku_batches_over_the_frozen_60_assets
+  - one_sol_xhigh_positive_only_review_if_local_trigger_passes
+  - one_fable_xhigh_positive_only_review_if_local_trigger_passes
+  - local_scoring_and_receipt_generation
+
+forbidden:
+  - prompt_tuning_after_labels
+  - retrying_incomplete_frontier_calls
+  - database_or_storage_writes
+  - chunks_v2_url_backfill
+  - production_flag_or_deploy
+  - fact_reclassification
+
+stop_conditions:
+  - executor_invalid_or_incomplete
+  - executor_positive_count_outside_10_to_30
+  - cumulative_s191_cost_reaches_10_usd
+  - any_provenance_hash_mismatch
