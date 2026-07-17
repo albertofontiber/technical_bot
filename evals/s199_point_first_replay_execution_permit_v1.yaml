@@ -1,0 +1,36 @@
+instrument: s199_point_first_replay_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+authority: user_requested_continue_toward_more_facts_ok
+
+frozen_artifacts:
+  preregistration: {path: evals/s199_point_first_replay_prereg_v1.yaml, sha256: c3346543454f5a4af4784e4870e2ee71e891342f8fe161c26dbfbd1795eb696a}
+  adapter: {path: scripts/s199_point_first_replay.py, sha256: 95e829c3fd56292d12cd748bd66832434ff8631d66a26c1bc1f7dd87a68c4376}
+  adapter_tests: {path: tests/test_s199_point_first_replay.py, sha256: 77554877675c47e725768d08980a8a8d0750f0f101cacc3bcb5468959e876cb2}
+  semantic_engine: {path: scripts/s198_point_first_scope_gate.py, sha256: 922bd11b6fcc591aeccdf4ff5f841c16b4b60cf256108529bcb01ede11a682fb}
+
+limits:
+  paid_calls_max: 56
+  provider_requests_max: 112
+  retries: 0
+  internal_ceiling_usd: 3
+  frontier_execution_calls: 0
+  database_calls: 0
+  database_writes: 0
+  production_changes: 0
+  chunks_v3_changes: 0
+  deployments: 0
+  exclusive_lock_before_provider_requests: true
+  lock_scope: current_workspace
+  immutable_prepaid_checkpoints: true
+  atomic_progress_and_finalization: true
+
+stopping:
+  any_existing_checkpoint: forbid_retry
+  point_author_structural_or_population_failure: NO_GO_POINT_PLAN_STRUCTURAL_GATE
+  point_screen_invalid_or_false: NO_GO_POINT_PLAN_SEMANTIC_GATE
+  question_writer_invalid: NO_GO_QUESTION_TRANSPORT_GATE
+  question_screen_invalid_or_false: NO_GO_QUESTION_SCOPE_GATE
+  provider_interruption_before_known_content_failure: HOLD_EXTERNAL_DEPENDENCY_INCOMPLETE
+  provider_interruption_after_known_content_failure: stage_specific_no_go
+  downstream_planner: forbidden_unless_GO_POINT_FIRST_SCOPE_BOUND_COHORT_SEALED
+  deployment_or_railway_gate: forbidden
