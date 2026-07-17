@@ -1,0 +1,52 @@
+instrument: s162_numeric_superscript_overlay_prereg_v2
+status: FROZEN_BEFORE_V2_IMPLEMENTATION
+design: evals/s162_numeric_superscript_overlay_design_v2.md
+prior_no_go: evals/s162_numeric_superscript_overlay_gate_v1.yaml
+discovery: evals/s162_numeric_superscript_discovery_scan_v1.json
+
+preserved_rules:
+  pdf_sha_must_match_extraction_sha: true
+  native_pdf_superscript_flag: true
+  numeric_base_and_script: true
+  max_script_to_base_font_ratio: 0.80
+  min_baseline_elevation_points: 0.5
+  min_horizontal_gap_points: -0.25
+  max_horizontal_gap: max_1.25_points_or_0.30_base_font_size
+  flattened_complete_token_occurrences_on_page: 1
+  min_matching_markdown_anchors: 2
+  markup: "<sup>...</sup>"
+  conflicts: abstain
+
+v2_visual_row:
+  min_vertical_bbox_overlap_ratio: 0.60
+  max_baseline_delta_points_alternative: 1.0
+  max_horizontal_distance_in_base_font_widths: 25
+  min_anchor_letters: 3
+
+target_gate:
+  exact_replacements: 1
+  expected_original: "105"
+  expected_derived: "10<sup>5</sup>"
+  page: 5
+  other_markdown_deltas_max: 0
+  raw_record_mutations_max: 0
+  second_pass_replacements: 0
+
+independent_gate:
+  target_excluded: true
+  documents_with_applied_min: 8
+  applied_candidates_min: 10
+  correct_pdf_typography_rate: 1.0
+  correct_markdown_attachment_rate: 1.0
+  false_attachments_max: 0
+
+execution:
+  model_calls: 0
+  network_calls: 0
+  database_writes: 0
+  full_test_suite_required: true
+  adversarial_review_only_after_local_go: true
+
+credit:
+  facts_moved_to_ok: 0
+  production: false
