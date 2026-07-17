@@ -5,6 +5,7 @@ import copy
 from src.rag.table_preamble_closure import (
     LANE,
     begins_with_markdown_table,
+    contains_markdown_table,
     matching_preamble_span,
     normalize_heading,
     select_table_preambles,
@@ -33,6 +34,8 @@ def test_markdown_table_detection_is_strict():
     assert begins_with_markdown_table("| A | B |\n| --- | :---: |\n| 1 | 2 |")
     assert not begins_with_markdown_table("Introduction\n\n| A | B |\n| --- | --- |")
     assert not begins_with_markdown_table("| A | B |\n| values | only |")
+    assert contains_markdown_table("Intro\n| A | B |\n| --- | --- |\n| 1 | 2 |")
+    assert not contains_markdown_table("Intro\n| value | only |")
 
 
 def test_heading_normalization_is_format_only():
@@ -97,6 +100,20 @@ def test_rejects_ambiguous_or_oversized_preamble():
     assert selected == []
 
 
+def test_v2_rejects_predecessor_tail_that_already_contains_a_table():
+    seed = _row("table", 10, "| C | D |\n| --- | --- |\n| 3 | 4 |")
+    predecessor = _row(
+        "cross-table",
+        9,
+        "### Table 2: Wiring Terminal Designations\n"
+        "| A | B |\n| --- | --- |\n| 1 | 2 |\n"
+        "Explanatory prose before another split table.",
+    )
+    selected, trace = select_table_preambles([seed], [predecessor])
+    assert selected == []
+    assert trace["cross_table_rejected_rows"] == 1
+
+
 def test_span_uses_final_matching_heading_and_is_deterministic():
     seed = _row("table", 10, "| A | B |\n| --- | --- |\n| 1 | 2 |")
     content = (
@@ -135,4 +152,3 @@ def test_caps_two_preambles_in_seed_order():
         )
     selected, _ = select_table_preambles(seeds, candidates)
     assert [row["id"] for row in selected] == ["candidate-0", "candidate-1"]
-

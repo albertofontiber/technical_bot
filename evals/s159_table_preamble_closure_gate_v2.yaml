@@ -1,0 +1,77 @@
+instrument: s159_table_preamble_closure_gate_v2
+status: LOCAL_NO_GO_PERMISSIVE_TABLE_DELIMITER_NEGATIVE
+
+frozen_contract:
+  design: evals/s159_table_preamble_closure_design_v2.md
+  preregistration: evals/s159_table_preamble_closure_prereg_v2.yaml
+  prior_gate: evals/s158_table_preamble_closure_gate_v1.yaml
+
+implementation:
+  selector: src/rag/table_preamble_closure.py
+  selector_sha256: 942b176aa325d3220cf952d8ff6ad483af70dadfa5f7ea3b02b8cd3c77486177
+  tests: tests/test_table_preamble_closure.py
+  tests_sha256: e9d557b037cc4f87887a705399411408299078f008e8cf63948e5858e338491c
+  cohort_builder: scripts/s159_build_table_preamble_cohort_v2.py
+  cohort_builder_sha256: 3e98b7effa48d9fce8e68651e55de36a6170a1ba54d175d70eb245edfcffd1f1
+
+target_result:
+  artifact: evals/s159_target_table_preamble_probe_v2.json
+  source_incomplete_claims_structurally_completed: 5
+  facts_moved_to_ok: 0
+
+fresh_independent_generalization:
+  packet: evals/s159_independent_table_preamble_packet_v2.json
+  packet_sha256: 8f779969ead3a4ba22e7d5dd456aece43c59a0be9dd9781054b78621b8884eca
+  s158_document_ids_excluded: true
+  corpus_rows_read: 22339
+  pairs_rejected_by_v2_cross_table_guard_before_sampling: 37
+  mechanically_eligible_pairs: 570
+  reviewed_pairs: 30
+  manufacturers: 8
+  distinct_section_titles: 30
+  semantically_correct_table_preambles: 29
+  cross_table_attachments: 1
+  precision: 0.9666666667
+  negative:
+    seed_id: dcf67ed9-53f4-498c-b172-b4c61833f976
+    predecessor_id: 23e9a831-5948-404b-bf5b-ed1c1221b87d
+    source_file: MIDT180
+    reason: >-
+      The predecessor tail contains a distinct metadata pipe table whose
+      delimiter includes a one-hyphen empty-width column. The v2 detector used
+      the stricter three-hyphen Markdown delimiter and failed to reject this
+      corpus-valid extracted table shape.
+
+checks:
+  target_still_passes: true
+  prior_s158_negative_rejected: true
+  fresh_document_disjoint_cohort: true
+  independent_minimum_pairs: true
+  independent_minimum_manufacturers: true
+  independent_minimum_section_titles: true
+  exact_span_receipts_complete: true
+  protected_prefix_mutations: 0
+  semantic_precision_one: false
+  cross_table_attachments_max_zero: false
+  model_calls: 0
+  database_writes: 0
+
+decision:
+  local_candidate_v2: NO_GO
+  paid_answer_probe: NOT_RUN
+  production: NO_GO
+  facts_moved_to_ok: 0
+  rationale: >-
+    V2 eliminates the first independent failure but misses a second legitimate
+    extracted-table delimiter shape. The frozen zero-cross-table gate takes
+    precedence over the target recovery.
+  next: >-
+    Freeze v3 with the same invariant but recognize one-or-more hyphens in
+    extracted delimiter cells. Evaluate on a third document-disjoint cohort;
+    S158 and S159 examples remain development-only.
+
+cost:
+  usd: 0
+  model_calls: 0
+  database_writes: 0
+

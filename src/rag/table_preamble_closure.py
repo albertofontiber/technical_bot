@@ -10,8 +10,8 @@ import re
 import unicodedata
 from typing import Any
 
-LANE = "same_blob_table_preamble_closure_v1"
-VALIDATION = "same_blob_exact_predecessor_matching_table_heading_v1"
+LANE = "same_blob_table_preamble_closure_v2"
+VALIDATION = "same_blob_exact_predecessor_single_table_heading_v2"
 MAX_PREAMBLE_CHARS = 1200
 MAX_PREAMBLES = 2
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -34,14 +34,29 @@ def normalize_heading(value: str) -> str:
     return " ".join(folded.split())
 
 
-def begins_with_markdown_table(content: str) -> bool:
-    lines = [line.strip() for line in (content or "").splitlines() if line.strip()]
-    if len(lines) < 2 or not lines[0].startswith("|") or not lines[0].endswith("|"):
+def _is_markdown_table_pair(first: str, second: str) -> bool:
+    first = first.strip()
+    second = second.strip()
+    if not first.startswith("|") or not first.endswith("|"):
         return False
-    if not lines[1].startswith("|") or not lines[1].endswith("|"):
+    if not second.startswith("|") or not second.endswith("|"):
         return False
-    cells = [cell.strip() for cell in lines[1].strip("|").split("|")]
+    cells = [cell.strip() for cell in second.strip("|").split("|")]
     return len(cells) >= 2 and all(_TABLE_SEPARATOR_CELL.fullmatch(cell) for cell in cells)
+
+
+def begins_with_markdown_table(content: str) -> bool:
+    lines = [line for line in (content or "").splitlines() if line.strip()]
+    return len(lines) >= 2 and _is_markdown_table_pair(lines[0], lines[1])
+
+
+def contains_markdown_table(content: str) -> bool:
+    """Detect a complete pipe-table header anywhere in a candidate span."""
+    lines = (content or "").splitlines()
+    return any(
+        _is_markdown_table_pair(lines[index], lines[index + 1])
+        for index in range(len(lines) - 1)
+    )
 
 
 def _identity(row: dict[str, Any]) -> tuple[str, str] | None:
@@ -117,6 +132,7 @@ def select_table_preambles(
         "table_seed_rows": 0,
         "exact_predecessor_rows": 0,
         "heading_matched_rows": 0,
+        "cross_table_rejected_rows": 0,
         "selected_ids": [],
         "model_calls": 0,
         "database_writes": 0,
@@ -150,6 +166,9 @@ def select_table_preambles(
             continue
         trace["heading_matched_rows"] += 1
         start, end = span
+        if contains_markdown_table(content[start:end]):
+            trace["cross_table_rejected_rows"] += 1
+            continue
         card = {
             "candidate_id": predecessor_id,
             "candidate_rank": len(selected) + 1,
@@ -179,4 +198,3 @@ def select_table_preambles(
     trace["selected_ids"] = [str(row["id"]) for row in selected]
     trace["status"] = "selected" if selected else "no_exact_table_preamble"
     return selected, trace
-
