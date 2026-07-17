@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-"""Revisor adversarial CROSS-MODEL (GPT-5.5) — Protocolo 3.
+"""Revisor adversarial principal (GPT-5.6 Sol xhigh) — Protocolo 3.
 
-Da independencia CONCEPTUAL (modelo distinto del autor, que es Claude), rompiendo el
-echo-chamber del mismo-modelo (lección validator s13). Complementa al sub-agente Claude
-(que lee el repo y ancla en código). Ver docs/ADVERSARIAL_REVIEWER.md.
+Da una lente CONCEPTUAL cross-family y complementa a Fable 5, el segundo revisor
+frontera, que se ejecuta de forma independiente (lee el repo y ancla en código). Ver
+docs/ADVERSARIAL_REVIEWER.md.
 
-s88 (pedido de Alberto): PARIDAD DE INFORMACIÓN — el cross-model ya no depende de lo que el
-autor le pegue (sesgo de SELECCIÓN, TECH_DEBT #36): corre un LOOP AGÉNTICO con tools
-READ-ONLY (`read_file` / `grep_repo` / `list_dir`) sandboxeadas al repo, la misma
-información que el sub-agente Claude (Read/Grep/Glob). Deny-list: `.env*` (secretos),
+s88 (pedido de Alberto): ACCESO AUTÓNOMO AL REPO VERSIONADO — el cross-model ya no depende
+de lo que el autor le pegue (sesgo de SELECCIÓN, TECH_DEBT #36): corre un LOOP AGÉNTICO con tools
+READ-ONLY (`read_file` / `grep_repo` / `list_dir`) sandboxeadas al repo versionado.
+La memoria externa que vea Fable 5 solo entra mediante snapshot/contexto autorizado.
+Deny-list: `.env*` (secretos),
 `.git/` interno y el propio log de tally (anti-contaminación). Cap de tool-calls
 (disciplina de coste); al agotarlo se fuerza la review con lo leído.
 
 El system prompt canónico vive en scripts/adversarial_briefing.md (fuente ÚNICA, también
-citada por el sub-agente) — no se duplica aquí, para no re-divergir.
+citado por Fable 5) — no se duplica aquí, para no re-divergir.
 
 Uso:
   python scripts/adversarial_review.py <propuesta.md> [<contexto> ...] [--diff] [--no-tools]
@@ -44,7 +45,47 @@ from openai import OpenAI
 
 ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env", override=True)
-MODEL = os.getenv("ADVERSARIAL_MODEL", "gpt-5.5")
+DEFAULT_MODEL = "gpt-5.6-sol"
+DEFAULT_REASONING_EFFORT = "xhigh"
+MODEL = os.getenv("ADVERSARIAL_MODEL", DEFAULT_MODEL)
+REASONING_EFFORT = os.getenv(
+    "ADVERSARIAL_REASONING_EFFORT", DEFAULT_REASONING_EFFORT
+).strip().lower()
+VALID_REASONING_EFFORTS = {"none", "minimal", "low", "medium", "high", "xhigh", "max"}
+
+
+def primary_contract_satisfied() -> bool:
+    """El rol principal exige exactamente el modelo y esfuerzo aprobados."""
+    return MODEL == DEFAULT_MODEL and REASONING_EFFORT == DEFAULT_REASONING_EFFORT
+
+
+class ReviewRunError(RuntimeError):
+    """Fallo auditable con el coste/traza acumulados antes de abortar."""
+
+    def __init__(self, message: str, total_tokens: int, n_calls: int,
+                 files_read: list[str], tool_trace: list[dict]) -> None:
+        super().__init__(message)
+        self.total_tokens = total_tokens
+        self.n_calls = n_calls
+        self.files_read = sorted(set(files_read))
+        self.tool_trace = tool_trace
+
+
+def _pending_fable_review() -> dict:
+    return {
+        "model": "fable",
+        "display_name": "Fable 5",
+        "status": "pending",
+        "review_id": None,
+        "tokens": None,
+        "elapsed_s": None,
+        "findings": None,
+        "confirmed": None,
+        "false_pos": None,
+        "severity_max": None,
+    }
+
+
 BRIEFING = ROOT / "scripts" / "adversarial_briefing.md"
 LOG = ROOT / "evals" / "adversarial_review_log.jsonl"
 LOG_REL = "evals/adversarial_review_log.jsonl"
@@ -137,28 +178,28 @@ def tool_list_dir(path: str = ".") -> str:
 
 
 TOOLS_SPEC = [
-    {"type": "function", "function": {
-        "name": "read_file",
-        "description": "Lee un fichero del repo (relativo a la raíz), con números de línea para anclar "
-                       "fichero:línea. Pagina con start_line si es largo.",
-        "parameters": {"type": "object", "properties": {
-            "path": {"type": "string"},
-            "start_line": {"type": "integer", "default": 1},
-            "max_lines": {"type": "integer", "default": READ_MAX_LINES}},
-            "required": ["path"]}}},
-    {"type": "function", "function": {
-        "name": "grep_repo",
-        "description": "Busca una regex en los ficheros del repo. Devuelve fichero:línea:texto.",
-        "parameters": {"type": "object", "properties": {
-            "pattern": {"type": "string"},
-            "glob": {"type": "string", "default": "**/*", "description": "p.ej. src/**/*.py, docs/*.md"},
-            "max_hits": {"type": "integer", "default": GREP_MAX_HITS}},
-            "required": ["pattern"]}}},
-    {"type": "function", "function": {
-        "name": "list_dir",
-        "description": "Lista un directorio del repo.",
-        "parameters": {"type": "object", "properties": {
-            "path": {"type": "string", "default": "."}}, "required": []}}},
+    {"type": "function",
+     "name": "read_file",
+     "description": "Lee un fichero del repo (relativo a la raíz), con números de línea para anclar "
+                    "fichero:línea. Pagina con start_line si es largo.",
+     "parameters": {"type": "object", "properties": {
+         "path": {"type": "string"},
+         "start_line": {"type": "integer", "default": 1},
+         "max_lines": {"type": "integer", "default": READ_MAX_LINES}},
+         "required": ["path"]}},
+    {"type": "function",
+     "name": "grep_repo",
+     "description": "Busca una regex en los ficheros del repo. Devuelve fichero:línea:texto.",
+     "parameters": {"type": "object", "properties": {
+         "pattern": {"type": "string"},
+         "glob": {"type": "string", "default": "**/*", "description": "p.ej. src/**/*.py, docs/*.md"},
+         "max_hits": {"type": "integer", "default": GREP_MAX_HITS}},
+         "required": ["pattern"]}},
+    {"type": "function",
+     "name": "list_dir",
+     "description": "Lista un directorio del repo.",
+     "parameters": {"type": "object", "properties": {
+         "path": {"type": "string", "default": "."}}, "required": []}},
 ]
 TOOL_IMPL = {"read_file": tool_read_file, "grep_repo": tool_grep_repo, "list_dir": tool_list_dir}
 
@@ -191,44 +232,130 @@ def git_context() -> str:
     return "\n\n".join(blocks)
 
 
+def _log_display_path() -> str:
+    try:
+        return str(LOG.relative_to(ROOT))
+    except ValueError:
+        return str(LOG)
+
+
+def _write_preflight_failure(files: list[str], include_diff: bool, use_tools: bool,
+                             reason: str) -> None:
+    entry = {
+        "ts": datetime.now().isoformat(timespec="seconds"),
+        "run_status": "failed_preflight",
+        "duo_status": "sol_omitted",
+        "model": MODEL,
+        "reasoning_effort": REASONING_EFFORT,
+        "primary_contract_satisfied": primary_contract_satisfied(),
+        "files": [Path(f).name for f in files],
+        "diff_included": include_diff,
+        "tools": use_tools,
+        "tool_calls": 0,
+        "files_read": [],
+        "tool_trace": [],
+        "tokens": None,
+        "elapsed_s": 0.0,
+        "findings": None,
+        "confirmed": None,
+        "false_pos": None,
+        "severity_max": None,
+        "verdict_notes": f"RUN_FAILED_PREFLIGHT: {reason}",
+        "fable_review": _pending_fable_review(),
+    }
+    with LOG.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    print(f"[tally] omisión Sol registrada → {_log_display_path()} "
+          f"(ts={entry['ts']}).", file=sys.stderr)
+
+
 def run_review(client: OpenAI, sys_prompt: str, user_prompt: str, use_tools: bool):
-    """Loop agéntico (tools ON) o single-shot (legacy). Devuelve (texto, total_tokens, n_calls, files_read)."""
-    messages = [{"role": "system", "content": sys_prompt},
-                {"role": "user", "content": user_prompt}]
+    """Loop agéntico. Devuelve texto, tokens, calls, files_read y traza de tools."""
+    input_items: list = [{"role": "user", "content": user_prompt}]
     total_tokens = 0
     n_calls = 0
     files_read: list[str] = []
+    tool_trace: list[dict] = []
     while True:
-        kwargs = {"model": MODEL, "messages": messages}
+        kwargs = {
+            "model": MODEL,
+            "instructions": sys_prompt,
+            "input": input_items,
+            "reasoning": {"effort": REASONING_EFFORT},
+            "store": False,
+        }
         if use_tools and n_calls < MAX_TOOL_CALLS:
             kwargs["tools"] = TOOLS_SPEC
-        resp = client.chat.completions.create(**kwargs)
+        try:
+            resp = client.responses.create(**kwargs)
+        except Exception as exc:
+            raise ReviewRunError(
+                f"Responses API falló ({type(exc).__name__})",
+                total_tokens, n_calls, files_read, tool_trace,
+            ) from exc
         usage = getattr(resp, "usage", None)
         total_tokens += getattr(usage, "total_tokens", 0) or 0
-        msg = resp.choices[0].message
-        tcs = getattr(msg, "tool_calls", None)
+        status = getattr(resp, "status", None)
+        if status != "completed":
+            incomplete = getattr(resp, "incomplete_details", None)
+            raise ReviewRunError(
+                f"Responses API no completó la revisión (status={status!r}, "
+                f"incomplete_details={incomplete!r})",
+                total_tokens, n_calls, files_read, tool_trace,
+            )
+        output_items = list(getattr(resp, "output", None) or [])
+        tcs = [item for item in output_items
+               if getattr(item, "type", None) == "function_call"]
         if not tcs:
-            return (msg.content or "").strip(), total_tokens, n_calls, sorted(set(files_read))
-        messages.append({"role": "assistant", "content": msg.content,
-                         "tool_calls": [tc.model_dump() for tc in tcs]})
+            review_text = (getattr(resp, "output_text", "") or "").strip()
+            if not review_text:
+                raise ReviewRunError(
+                    "Responses API completó sin texto de revisión",
+                    total_tokens, n_calls, files_read, tool_trace,
+                )
+            return review_text, total_tokens, n_calls, sorted(set(files_read)), tool_trace
+        # Responses conserva los function_call previos en el siguiente input; es necesario
+        # para enlazarlos con sus function_call_output mediante call_id.
+        input_items.extend(output_items)
         for tc in tcs:
-            n_calls += 1
-            name = tc.function.name
-            try:
-                args = json.loads(tc.function.arguments or "{}")
-            except json.JSONDecodeError:
-                args = {}
-            impl = TOOL_IMPL.get(name)
-            out = impl(**args) if impl else f"ERROR: tool desconocida {name}"
-            if name == "read_file" and not out.startswith("ERROR"):
-                files_read.append(str(args.get("path")))
-            print(f"  [tool {n_calls}] {name}({json.dumps(args, ensure_ascii=False)[:110]})",
-                  file=sys.stderr)
-            messages.append({"role": "tool", "tool_call_id": tc.id, "content": out[:12000]})
+            name = tc.name
+            if n_calls >= MAX_TOOL_CALLS:
+                out = (f"ERROR: presupuesto agotado; no se ejecutan más de "
+                       f"{MAX_TOOL_CALLS} tool-calls")
+                print(f"  [tool bloqueada por cap] {name}", file=sys.stderr)
+            else:
+                n_calls += 1
+                try:
+                    args = json.loads(tc.arguments or "{}")
+                    if not isinstance(args, dict):
+                        raise TypeError("los argumentos deben ser un objeto JSON")
+                except (json.JSONDecodeError, TypeError) as exc:
+                    args = None
+                    out = f"ERROR: argumentos inválidos ({type(exc).__name__})"
+                    tool_status = "invalid_arguments"
+                else:
+                    impl = TOOL_IMPL.get(name)
+                    if impl is None:
+                        out = f"ERROR: tool desconocida {name}"
+                        tool_status = "unknown_tool"
+                    else:
+                        try:
+                            out = impl(**args)
+                            tool_status = "tool_error" if out.startswith("ERROR") else "ok"
+                        except Exception as exc:
+                            out = f"ERROR ejecutando {name}: {type(exc).__name__}"
+                            tool_status = "execution_error"
+                tool_trace.append({"name": name, "arguments": args, "status": tool_status})
+                if name == "read_file" and not out.startswith("ERROR"):
+                    files_read.append(str(args.get("path")))
+                print(f"  [tool {n_calls}] {name}({json.dumps(args, ensure_ascii=False)[:110]})",
+                      file=sys.stderr)
+            input_items.append({"type": "function_call_output",
+                                "call_id": tc.call_id, "output": out[:12000]})
         if n_calls >= MAX_TOOL_CALLS:
-            messages.append({"role": "user", "content":
-                             f"Presupuesto de lectura agotado ({MAX_TOOL_CALLS} tool-calls). "
-                             "Emite AHORA tu review final con lo leído, en el formato del briefing."})
+            input_items.append({"role": "user", "content":
+                                f"Presupuesto de lectura agotado ({MAX_TOOL_CALLS} tool-calls). "
+                                "Emite AHORA tu review final con lo leído, en el formato del briefing."})
 
 
 def main() -> int:
@@ -249,16 +376,26 @@ def main() -> int:
         sys.exit("uso: adversarial_review.py <propuesta> [contexto...] [--diff] [--no-tools]")
     if not BRIEFING.is_file():
         sys.exit(f"falta el briefing canónico (¿versionado?): {BRIEFING}")
+    if REASONING_EFFORT not in VALID_REASONING_EFFORTS:
+        reason = ("ADVERSARIAL_REASONING_EFFORT inválido: "
+                  f"{REASONING_EFFORT!r}; usa {sorted(VALID_REASONING_EFFORTS)}")
+        _write_preflight_failure(files, include_diff, use_tools, reason)
+        print(reason, file=sys.stderr)
+        return 2
     if "OPENAI_API_KEY" not in os.environ:
-        sys.exit("OPENAI_API_KEY ausente — fallback: sub-agente Claude + marcar "
-                 "'cross-model omitido' (docs/ADVERSARIAL_REVIEWER.md §cross-model).")
+        reason = ("OPENAI_API_KEY ausente — fallback: Fable 5 + marcar "
+                  "'revisor principal Sol omitido'")
+        _write_preflight_failure(files, include_diff, use_tools, reason)
+        print(reason, file=sys.stderr)
+        return 1
 
     sys_prompt = BRIEFING.read_text(encoding="utf-8")
     parts = []
     if use_tools:
         parts.append(
-            "Tienes tools READ-ONLY sobre el repo (read_file / grep_repo / list_dir) — la MISMA "
-            "información que el sub-agente Claude. ÚSALAS: verifica cada claim contra el código "
+            "Tienes tools READ-ONLY sobre el repo versionado (read_file / grep_repo / list_dir). "
+            "La memoria externa solo está disponible si se adjunta como contexto autorizado. "
+            "ÚSALAS: verifica cada claim contra el código "
             "ANTES de afirmarla y ancla fichero:línea. Los ficheros de abajo son el punto de "
             f"partida, no el límite. Presupuesto: {MAX_TOOL_CALLS} tool-calls."
         )
@@ -276,21 +413,60 @@ def main() -> int:
 
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     t0 = time.monotonic()
-    review, total_tokens, n_calls, files_read = run_review(
-        client, sys_prompt, "\n\n".join(parts), use_tools)
+    is_primary = primary_contract_satisfied()
+    try:
+        review, total_tokens, n_calls, files_read, tool_trace = run_review(
+            client, sys_prompt, "\n\n".join(parts), use_tools)
+    except ReviewRunError as exc:
+        elapsed = time.monotonic() - t0
+        entry = {
+            "ts": datetime.now().isoformat(timespec="seconds"),
+            "run_status": "failed",
+            "duo_status": "sol_failed",
+            "model": MODEL,
+            "reasoning_effort": REASONING_EFFORT,
+            "primary_contract_satisfied": is_primary,
+            "files": [Path(f).name for f in files],
+            "diff_included": include_diff,
+            "tools": use_tools,
+            "tool_calls": exc.n_calls,
+            "files_read": exc.files_read,
+            "tool_trace": exc.tool_trace,
+            "tokens": exc.total_tokens or None,
+            "elapsed_s": round(elapsed, 1),
+            "findings": None,
+            "confirmed": None,
+            "false_pos": None,
+            "severity_max": None,
+            "verdict_notes": f"RUN_FAILED: {exc}",
+            "fable_review": _pending_fable_review(),
+        }
+        with LOG.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+        print(f"[tally] ejecución fallida registrada → {_log_display_path()} "
+              f"(ts={entry['ts']}).", file=sys.stderr)
+        print(str(exc), file=sys.stderr)
+        return 1
     elapsed = time.monotonic() - t0
-    print(f"--- {MODEL} (revisor adversarial cross-model; tools={'ON' if use_tools else 'off'}, "
+    role = "revisor adversarial principal" if is_primary else "override no-principal"
+    print(f"--- {MODEL} · reasoning={REASONING_EFFORT} "
+          f"({role}; tools={'ON' if use_tools else 'off'}, "
           f"{n_calls} tool-calls) ---")
     print(review)
 
     entry = {
         "ts": datetime.now().isoformat(timespec="seconds"),
+        "run_status": "completed",
+        "duo_status": "pending_fable",
         "model": MODEL,
+        "reasoning_effort": REASONING_EFFORT,
+        "primary_contract_satisfied": is_primary,
         "files": [Path(f).name for f in files],
         "diff_included": include_diff,
         "tools": use_tools,
         "tool_calls": n_calls,
         "files_read": files_read,
+        "tool_trace": tool_trace,
         "tokens": total_tokens or None,
         "elapsed_s": round(elapsed, 1),
         # Campos de JUICIO — los completo YO tras verificar sus claims (regla C):
@@ -299,12 +475,14 @@ def main() -> int:
         "false_pos": None,
         "severity_max": None,
         "verdict_notes": "",
+        "fable_review": _pending_fable_review(),
     }
     with LOG.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    print(f"\n[tally] entrada parcial → {LOG.relative_to(ROOT)} (ts={entry['ts']}).")
+    print(f"\n[tally] entrada parcial → {_log_display_path()} (ts={entry['ts']}).")
     print("[tally] COMPLETA tras verificar (regla C): "
-          "findings/confirmed/false_pos/severity_max.")
+          "findings/confirmed/false_pos/severity_max + recibo Fable 5; "
+          "hasta entonces duo_status=pending_fable.")
     return 0
 
 

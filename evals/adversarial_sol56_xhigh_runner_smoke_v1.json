@@ -1,0 +1,36 @@
+{
+  "instrument": "adversarial_sol56_xhigh_runner_smoke_v1",
+  "executed_at": "2026-07-17T12:57:44+02:00",
+  "status": "PASS",
+  "contract": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "primary_contract_satisfied": true,
+    "api": "responses",
+    "store": false,
+    "function_tools": true,
+    "stateless_continuation": true,
+    "max_tool_calls": 1
+  },
+  "observed": {
+    "output": "SOL_SMOKE_OK",
+    "responses_api_calls": 2,
+    "tool_calls_executed": 1,
+    "tokens_total": 543,
+    "files_read": [],
+    "tool_trace": [
+      {
+        "name": "list_dir",
+        "arguments": {"path": "."},
+        "status": "ok"
+      }
+    ]
+  },
+  "runtime": {
+    "openai_python": "2.30.0",
+    "network": true,
+    "repo_writes_by_tool": 0,
+    "database_calls": 0,
+    "deploy_calls": 0
+  }
+}
