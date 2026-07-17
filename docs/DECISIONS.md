@@ -1904,3 +1904,26 @@ cohorte de documentos, source-files y pares fabricante/producto totalmente nuevo
 cohortes históricas. Es la única relajación: prompts, schemas, facets, zero-failure screens y
 umbrales no cambian; sólo se pueden usar los conteos agregados, nunca los dos ítems observados.
 `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.
+
+## DEC-110 — S199: margen 14→12 restaurado, pero la elegibilidad sigue bloqueando antes del screen
+
+**Población.** Tras S198 sólo quedaban 13 fabricantes con documentos nuevos. S199 congeló el
+máximo real sin usar outputs semánticos: 14 documentos/source-files/pares nuevos, 7 tabla + 7
+prosa, 13 fabricantes y una repetición cross-stratum. Doble scan GET-only idéntico de 25.090
+filas, cero overlap histórico/target y cero escrituras. El motor semántico S198 se reutilizó sin
+cambiar prompts, schemas, facets o screens mediante un adaptador de evaluación, no un seam runtime.
+
+**Resultado y STOP.** Haiku completó 14/14 outputs, 0 inválidos, 9 elegibles de 9 fabricantes,
+4 tabla + 5 prosa y 34 puntos por **$0,083863**. Fallaron `eligible_items_gte_12`,
+`eligible_manufacturers_gte_12` y `table_items_gte_5`; estado
+`NO_GO_POINT_PLAN_STRUCTURAL_GATE`. Luna, writer, scope-screen, planner y targets recibieron cero
+llamadas. No se usan identidades, claims, facets o issues observados y no se repara/postselecciona
+el cohorte. El mecanismo semántico continúa `NOT_MEASURED`, no falsificado.
+
+**Último trigger de esta línea.** La reserva totalmente nueva tiene 647 documentos pero sólo 10
+fabricantes, por lo que el gate anterior de 12 fabricantes ya es imposible. Se autoriza una única
+generalización final basada sólo en conteos agregados: 24 fuentes balanceadas (12 tabla + 12
+prosa) sobre esos 10 fabricantes, motor S198 intacto y mínimos 12 ítems, 8 fabricantes, 5+5,
+24 puntos y cero inválidos/fallos semánticos. Si la fuente o el upstream vuelven a fallar, se
+cierra la línea point-first sin otro ajuste poblacional y se vuelve a otro mecanismo. No hay
+nueva convergencia frontera. `chunks_v3` sigue `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.
