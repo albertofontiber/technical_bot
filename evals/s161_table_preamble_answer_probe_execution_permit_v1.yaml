@@ -1,0 +1,63 @@
+instrument: s161_table_preamble_answer_probe_execution_permit_v1
+status: EXECUTION_GO_ONE_PAID_CALL
+
+authorization:
+  user_budget_usd: 250
+  internal_probe_ceiling_usd: 0.20
+  paid_generator_calls_max: 1
+  retries: 0
+  production: false
+  deployment: false
+  push: false
+
+local_evidence:
+  focused_tests: 40_passed
+  full_regression: 1407_passed_4_skipped
+  protected_prefix_rows: 11
+  appended_exact_preambles: 1
+  duplicate_exact_preambles_rejected: 1
+  model_calls_before_permit: 0
+  database_writes: 0
+
+frozen_artifacts:
+  preregistration:
+    path: evals/s161_table_preamble_answer_probe_prereg_v1.yaml
+    sha256: 402ab377ce1fecbb9674204a45976064fd8cf628092a737c90bdb448b476cbfa
+  design:
+    path: evals/s161_table_preamble_answer_probe_design_v1.md
+    sha256: 3081dec3eff2c8ae6179f4fc2453b8e55b16d71844c1ef8ef1aa53a0d7890cc0
+  source_gate:
+    path: evals/s160_table_preamble_closure_gate_v3.yaml
+    sha256: 7e85091248430858acce18798906469dcef29eef0d6abb2514307d8169e7e89d
+  context_freeze:
+    path: evals/s113_full_contexts_freeze_v1.json
+    sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  selector:
+    path: src/rag/table_preamble_closure.py
+    sha256: 9022e2e26e0a88cc4f4ede3fc0e8195372bf7b92f18ff78a4e74ed12262db51c
+  serving_integration:
+    path: src/rag/post_rerank_coverage.py
+    sha256: 53ae1e1e8bd85c34b2524df3af0fa4b33cd98699e08439571094105eb30e7dc6
+  generator:
+    path: src/rag/generator.py
+    sha256: e2ca013e7dc3fce5cf6d43f718c0b5e7ce99eaaf20aec1f8f4b912fc893f9b21
+  runtime_config:
+    path: src/config.py
+    sha256: 765e72ca3270e5d7eedae79cdbf4e8f9d63be786b2c4cea73ca0a303a0ee2f2
+  lane_config:
+    path: config/table_preamble_closure_v3.yaml
+    sha256: c96b81898f1fe075cd7751e3abd95bbc97c9f18b2efa6f75f68c93f1021ae1a6
+  runner:
+    path: scripts/s161_table_preamble_answer_probe.py
+    sha256: b1e8f0df260bcc729edeed2d0c4ecf1cdc9e6949f0635b7cf17e95e9852f96c1
+  scorer_tests:
+    path: tests/test_s161_table_preamble_answer_probe.py
+    sha256: 0aa117e5d85b8c215b7921c5b7eb0e8f9fa2860d55dfa3dc9a65d8935ac058d9
+
+stop_rules:
+  - abort_if_any_frozen_hash_drifts
+  - abort_if_conservative_preflight_is_not_below_internal_ceiling
+  - checkpoint_provider_answer_before_scoring
+  - never_retry_after_provider_attempt
+  - do_not_run_judge_or_frontier_review
+

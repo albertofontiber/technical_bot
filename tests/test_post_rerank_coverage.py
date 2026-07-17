@@ -10,6 +10,7 @@ from src.rag.post_rerank_coverage import (
     append_validated_coverage,
     apply_post_rerank_coverage_with_trace,
     collect_cascaded_structural_coverage,
+    collect_table_preamble_closure,
     coverage_context_content,
     has_exact_served_coverage_receipt,
     is_validated_coverage_chunk,
@@ -17,6 +18,7 @@ from src.rag.post_rerank_coverage import (
 from src.rag.rerank_pool_coverage import LANE as POOL_LANE
 from src.rag.structural_neighbor_coverage import LANE as STRUCTURAL_LANE
 from src.rag.structural_neighbor_coverage import CASCADED_LANE as CASCADE_LANE
+from src.rag.table_preamble_closure import LANE as TABLE_PREAMBLE_LANE
 
 
 _COMPATIBILITY_QUERY = (
@@ -91,6 +93,8 @@ def _candidate(row_id="coverage", *, lane=STRUCTURAL_LANE):
     }
     if lane in {STRUCTURAL_LANE, CASCADE_LANE}:
         row["structural_neighbor_validated"] = True
+    elif lane == TABLE_PREAMBLE_LANE:
+        row["table_preamble_validated"] = True
     elif lane == POOL_LANE:
         row["rerank_pool_coverage_validated"] = True
     else:
@@ -109,10 +113,12 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
         reranked,
         enabled=False,
         structural_enabled=True,
+        table_preamble_enabled=True,
         hyq_enabled=True,
         pool_enabled=True,
         compatibility_enabled=True,
         structural_collector=forbidden,
+        table_preamble_collector=forbidden,
         hyq_collector=forbidden,
         pool_collector=forbidden,
     )
@@ -231,6 +237,123 @@ def test_append_preserves_prefix_and_attests_exact_real_source_span():
     assert output[1]["coverage_validated"] is True
     assert output[1]["post_rerank_coverage_rank"] == 1
     assert is_validated_coverage_chunk(output[1]) is True
+
+
+def test_table_preamble_lane_appends_only_its_exact_card_and_protects_prefix():
+    reranked = [{"id": "base", "content": "base", "similarity": 0.9}]
+    snapshot = deepcopy(reranked)
+    content = (
+        "Installation instructions.\n\n"
+        "### Table 2: Wiring\n"
+        "(Note: CH2 only exists on two-channel models)"
+    )
+    start = content.index("### Table 2")
+    candidate = {
+        "id": "preamble",
+        "content": content,
+        "source_file": "manual.pdf",
+        "retrieval_lane": TABLE_PREAMBLE_LANE,
+        "local_semantic_validated": True,
+        "table_preamble_validated": True,
+        "coverage_cards": [
+            {
+                "candidate_id": "preamble",
+                "start": start,
+                "end": len(content),
+                "quote": content[start:],
+                "facet": "table_preamble",
+                "exact_source_span_validated": True,
+            }
+        ],
+    }
+
+    output = append_validated_coverage(reranked, [candidate])
+
+    assert reranked == snapshot
+    assert output[:1] == snapshot
+    assert is_validated_coverage_chunk(output[1]) is True
+    assert coverage_context_content(output[1]) == content[start:]
+    assert "Installation instructions" not in coverage_context_content(output[1])
+
+
+def test_table_preamble_collector_uses_bounded_exact_neighbor_read():
+    seed = {
+        "id": "table",
+        "document_id": "doc",
+        "extraction_sha256": "a" * 64,
+        "chunk_index": 10,
+        "section_title": "Table 2: Wiring",
+        "content": "| A | B |\n| --- | --- |\n| 1 | 2 |",
+    }
+    predecessor = {
+        "id": "preamble",
+        "document_id": "doc",
+        "extraction_sha256": "a" * 64,
+        "chunk_index": 9,
+        "section_title": "Table 2: Wiring",
+        "source_file": "manual.pdf",
+        "content": "### Table 2: Wiring\nNote",
+    }
+    observed = {}
+
+    def fetcher(seeds, **kwargs):
+        observed.update(kwargs)
+        return seeds, [predecessor], {"http_requests": 2}
+
+    selected, trace = collect_table_preamble_closure(
+        "ignored relevance query", [seed], fetcher=fetcher
+    )
+
+    assert [row["id"] for row in selected] == ["preamble"]
+    assert selected[0]["table_preamble_validated"] is True
+    assert observed == {
+        "max_gap": 1,
+        "max_candidates": 64,
+        "max_http_requests": 12,
+        "timeout_seconds": 2.0,
+    }
+    assert trace["http_requests"] == 2
+
+
+def test_table_preamble_collector_deduplicates_byte_identical_preambles():
+    seeds = []
+    predecessors = []
+    for ordinal in range(2):
+        document_id = f"doc-{ordinal}"
+        seeds.append(
+            {
+                "id": f"table-{ordinal}",
+                "document_id": document_id,
+                "extraction_sha256": "a" * 64,
+                "chunk_index": 10,
+                "section_title": "Table 2: Wiring",
+                "content": "| A | B |\n| --- | --- |\n| 1 | 2 |",
+            }
+        )
+        predecessors.append(
+            {
+                "id": f"preamble-{ordinal}",
+                "document_id": document_id,
+                "extraction_sha256": "a" * 64,
+                "chunk_index": 9,
+                "section_title": "Table 2: Wiring",
+                "source_file": f"manual-{ordinal}.pdf",
+                "content": "### Table 2: Wiring\nSame note",
+            }
+        )
+
+    selected, trace = collect_table_preamble_closure(
+        "ignored",
+        seeds,
+        fetcher=lambda hydrated, **_kwargs: (
+            hydrated,
+            predecessors,
+            {"http_requests": 2},
+        ),
+    )
+
+    assert [row["id"] for row in selected] == ["preamble-0"]
+    assert trace["duplicate_exact_preambles_rejected"] == 1
 
 
 def test_rejects_tampered_span_unknown_lane_and_duplicate_parent():

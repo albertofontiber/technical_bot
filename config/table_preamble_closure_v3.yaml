@@ -1,0 +1,24 @@
+schema: table_preamble_closure_v3
+status: local_go_default_off
+
+max_seeds: 10
+max_gap: 1
+max_candidates: 64
+max_preambles: 2
+max_http_requests: 12
+timeout_seconds: 2.0
+
+identity:
+  require_same_document_id: true
+  require_same_extraction_sha256: true
+  predecessor_index_delta: -1
+  require_matching_normalized_table_heading: true
+  reject_candidate_span_containing_table: true
+
+serving:
+  default_enabled: false
+  fail_open: true
+  exact_card_only: true
+  protected_prefix_mutable: false
+  database_writes: false
+  model_calls: 0

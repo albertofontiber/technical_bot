@@ -100,6 +100,12 @@ STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
     "STRUCTURAL_NEIGHBOR_COVERAGE"
 )
 
+# S161 exact table-boundary repair.  A reranked table whose heading/preamble
+# was split into its immutable predecessor may recover only that exact source
+# span.  The independent lane remains inert unless both this switch and the
+# post-rerank master switch are enabled.
+TABLE_PREAMBLE_CLOSURE = _strict_on_off("TABLE_PREAMBLE_CLOSURE")
+
 # S107 v4 candidate, default inert. This lane flag and the S109 master switch
 # enable canonical-document HYQ independently of the other coverage lanes.
 CANONICAL_HYQ_COVERAGE = _strict_on_off("CANONICAL_HYQ_COVERAGE")
