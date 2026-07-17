@@ -1,0 +1,58 @@
+instrument: s165_answer_archetype_ledger_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+design: evals/s165_answer_archetype_ledger_design_v1.md
+
+frozen_inputs:
+  design: {path: evals/s165_answer_archetype_ledger_design_v1.md, sha256: 5cc6822d8675d3524232a4577f8a105c6d6c431afc5d6592fc43ba511bec72c6}
+  source_packet: {path: evals/s147_fresh_source_packet_v1.json, sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295}
+  exact_quote_cohort: {path: evals/s147_fresh_obligation_cohort_v1.json, sha256: 63904c71c361aa72d2536f42b33b3d11ad599b0692bc8716fd2ee691f19013de}
+  evidence_unitizer: {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  prior_no_go: {path: evals/s164_legacy_heldout_omission_canary_gate_v1.yaml, sha256: d74a00aa3921ea3f1651bcece9e708ebabbc41dba59a5170b8dbf5ecbcdde6fa}
+
+independence:
+  questions: 14
+  manufacturers: 14
+  answer_points: 37
+  target_question_overlap: 0
+  target_document_overlap: 0
+  cohort_role: target_independent_development_reuse
+  fresh_promotion_cohort: false
+  product_or_manufacturer_specific_runtime_rules: 0
+
+model:
+  id: claude-haiku-4-5-20251001
+  max_output_tokens_per_call: 800
+  max_counted_input_tokens_total: 100000
+
+execution:
+  paid_calls_max: 14
+  retries: 0
+  selector_calls_per_question: 1
+  model_written_claims: 0
+  model_written_quotes: 0
+  selected_source_units_reconstructible: true
+  retrieval_calls: 0
+  reranker_calls: 0
+  writer_calls: 0
+  database_calls: 0
+
+validation:
+  claim_recall_min: 0.90
+  unit_precision_min: 0.80
+  question_complete_rate_min: 0.75
+  invalid_ids_max: 0
+  source_identity_mismatches_max: 0
+  passing_action: GO_TO_FRESH_INDEPENDENT
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens: {input: 2, output: 10}
+
+budget:
+  internal_ceiling_usd: 1.0
+  user_ceiling_usd: 250
+
+outputs:
+  receipts: evals/s165_answer_archetype_ledger_receipts_v1.json
+  result: evals/s165_answer_archetype_ledger_v1.json
