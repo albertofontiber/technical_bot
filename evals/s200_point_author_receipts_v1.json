@@ -1,0 +1,612 @@
+{
+  "instrument": "s200_point_author_receipts_v1",
+  "status": "COMPLETE",
+  "model": "claude-haiku-4-5-20251001",
+  "sdk": "0.97.0",
+  "sdk_max_retries": 0,
+  "completed_calls": 24,
+  "invalid_outputs": 0,
+  "receipts": [
+    {
+      "item_id": "s200_src_01",
+      "response_id": "msg_011Cd8FBb6iThc4DtT4jn4Tn",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5589,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5589,
+        "output_tokens": 284,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007009,
+      "validation_error": null,
+      "point_author_input_sha256": "1f9ca14a36ae80e6c571d9ba40cd23f4517087c997168691a192bf9f4cbc675a",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_01\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The NC-MC-0-G manual call point is available in green color\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E016_168f2ef27e\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"For surface mounting the manual call point, a backbox in green color (N-MC-BB-G) can be ordered\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E021_ffaf911749\",\"support_2\":\"E037_302d320416\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"For recess mounting, a green recess adaptor (N-MC-AFM-G) can be ordered\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E024_273de33d05\",\"support_2\":\"E043_a2de488511\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "27de04e86cb16361e979eb54e6e419e50668cbae7ed78a9e486b483f9fcf9461"
+    },
+    {
+      "item_id": "s200_src_02",
+      "response_id": "msg_011Cd8FBrWfKVXcJ89syGKh8",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5295,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5295,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00608,
+      "validation_error": null,
+      "point_author_input_sha256": "af1fd26accb054188f5c70e95f011846a5dbd505d24bc8ef59c69bd023ec109a",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_02\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "d9771f3c4456399d000ea617cfdf1e14de6de7ae791cfa8de6c269dcf497bfad"
+    },
+    {
+      "item_id": "s200_src_03",
+      "response_id": "msg_011Cd8FC2xTtMo14DFeayUMD",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 7832,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 7832,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.008617,
+      "validation_error": null,
+      "point_author_input_sha256": "d7752c8c7d665d1b6aa71e07a45f5e7dfbde06beb264274f36eedb42777b60ce",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_03\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "b57339282974ee96e886a4f524ee2c303de807b4d92faa5ca92e60cced7e6b29"
+    },
+    {
+      "item_id": "s200_src_04",
+      "response_id": "msg_011Cd8FCCN1fU9M6LSUm1WeM",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5457,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5457,
+        "output_tokens": 300,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006957,
+      "validation_error": null,
+      "point_author_input_sha256": "62b72e68e85b238dcee4baf516f2f093e0368c00c9ca0b92762902c792c0270d",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_04\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Press the RESET button to enter configuration mode and change functions\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E004_b78edafa27\",\"support_2\":\"E007_2df002c433\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Follow the lighted keys on the panel to select the desired configuration option\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E006_33320901d3\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Remove the level 3 access jumper (PROG) to save the configuration automatically\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E007_2df002c433\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"The control panel always starts configuration at option 1 (Digital Input) when entering configuration mode\",\"facet\":\"input_trigger_or_observed_condition\",\"support_1\":\"E008_6bcb685cd2\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "0ff7e02142991e760e6ea9c0f61d73c752ca6ab6aee033b913a60d7b0af822cc"
+    },
+    {
+      "item_id": "s200_src_05",
+      "response_id": "msg_011Cd8FCaSZLCunWRiPpQoxE",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5375,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5375,
+        "output_tokens": 275,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00675,
+      "validation_error": null,
+      "point_author_input_sha256": "4d727172aebbdefaeb225144b1c112fc8f5615cf0c35e3dd680674445481fecf",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_05\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The RTS451 mounts to a single gang box with 2-1/2 inch minimum depth\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E017_b54fc23fc2\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Place and hold the painted side of the magnet to the RTS451 on the right or left side of the LED\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E028_4680489839\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Alarm indicating LED will light within 40 seconds maximum after magnet placement depending on detector type\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E030_8fa5b15498\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "5173d87c1653d85d4730f3f49e7ab483eb7496648101dcdbfce41ce4f18ebd13"
+    },
+    {
+      "item_id": "s200_src_06",
+      "response_id": "msg_011Cd8FCwqB4jx6fT2MPRxdt",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4554,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4554,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005339,
+      "validation_error": null,
+      "point_author_input_sha256": "a68f82082950c5989a89266c509b5df755faafa0217904d213c06957370f71a6",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_06\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "35082027168e2d9c769b0d28c9b8bf29186770f6f734141d9a82721b8a3908a9"
+    },
+    {
+      "item_id": "s200_src_07",
+      "response_id": "msg_011Cd8FD7pwFjMtyJ2ZJNtN7",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4400,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4400,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005185,
+      "validation_error": null,
+      "point_author_input_sha256": "aa462c08c231fcc1d4a10862ea3f6aed378c1f38a19a5838f5156a86ec94e55c",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_07\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "7c93f4aae99448ba6882ccd19d51792368a955a5f9d50b5080b83782be6a73fd"
+    },
+    {
+      "item_id": "s200_src_08",
+      "response_id": "msg_011Cd8FDK38UhzyzR1U53giY",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4753,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4753,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005538,
+      "validation_error": null,
+      "point_author_input_sha256": "a2e82b574d732ec80e0a269b6403a7984cdd0328a66000caede6b2f3e0cd5353",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_08\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "cafd72df51631d9e553e4d0f494aa5d67df48c5771dc4cd248091f8d8446c592"
+    },
+    {
+      "item_id": "s200_src_09",
+      "response_id": "msg_011Cd8FDWSyV4Lnj6KUi3YqQ",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4387,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4387,
+        "output_tokens": 326,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006017,
+      "validation_error": null,
+      "point_author_input_sha256": "7d194a897ebe9cbbcb99a521c4b9d2a3163f6c07795f369fb1f1ec0e810c20af",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_09\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Wiring connections must be made to pluggable terminal blocks accepting wire sizes from 0.3 mm² to 3.2 mm², with screened cable recommended for best results.\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E005_046e1382cf\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"All INPUT and OUTPUT signal terminals are active LOW (0V) and connecting any other voltage to these terminals will cause serious damage to the product.\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E021_35df9736c6\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Before working on the system, notify the proper authorities that the system is undergoing maintenance and will be temporarily out of service.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E004_9b4dccd350\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"All wiring must be installed in accordance with local requirements.\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E003_b871052b26\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "721c31a0b39e6bae40fb220bd99c2018b4afa7456634e280e90e9530aeede649"
+    },
+    {
+      "item_id": "s200_src_10",
+      "response_id": "msg_011Cd8FDukSFwsAY95TENBB5",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4905,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4905,
+        "output_tokens": 292,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006365,
+      "validation_error": null,
+      "point_author_input_sha256": "fd3f6507c057d435d59f52a112e443ba2976a885d97e621fb860e1cf09a082db",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_10\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Insert the PAK into either of the USB type A slots on the control panel main board\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E012_f6f11375d4\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Installer level access is required to register or unregister the PAK\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E010_0028385aec\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Press Apply to apply the registration details to the panel\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E019_059d118949\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Remove the PAK from the USB slot after registration or unregistration is complete\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E020_19d6ef989d\",\"support_2\":\"E027_95baf02fac\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "dff98cd7caa517171f4b0ec3cb464884db3549f624e961f64436a9b437f79130"
+    },
+    {
+      "item_id": "s200_src_11",
+      "response_id": "msg_011Cd8FEDE9yHYPmwdimrK6S",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4751,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4751,
+        "output_tokens": 293,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006216,
+      "validation_error": null,
+      "point_author_input_sha256": "82e8a5f9715defa46ce51657361f595c3257412c2a48392ab424acefe4861a92",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_11\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Insert the detector head into the mounting base and rotate it clockwise until it snaps into the locked position\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E027_086be79983\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Remove the locking tab before installation if the detector may be locked into the mounting base\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E028_42c3c03507\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Insert a small screwdriver into the locking tab slot and press and rotate the detector anticlockwise to remove a locked detector\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E030_bc9a146734\",\"support_2\":\"E031_35b586007e\",\"support_3\":\"E032_cb9fc82f55\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "321c0ef24f7896f0c03a3faa7633fbfde81baba234b0dd48d3a2f0f4bde8c303"
+    },
+    {
+      "item_id": "s200_src_12",
+      "response_id": "msg_011Cd8FEXQ491xGTM9bwu66W",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5204,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5204,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005989,
+      "validation_error": null,
+      "point_author_input_sha256": "8211d78ad5ea07a48d95f7d7d18dff9946350c277e7d426afc885bff759eb12e",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_12\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "6178b2a6515c4dfd1892992aa8dbee4c424d52c5fbce5ac35309b8e3a22dad55"
+    },
+    {
+      "item_id": "s200_src_13",
+      "response_id": "msg_011Cd8FEikBD6h3tPVJCQRCg",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3994,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3994,
+        "output_tokens": 298,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005484,
+      "validation_error": null,
+      "point_author_input_sha256": "938b039ca13a7ad792a7485c0357256ada018b6f0118a433ebd80e7495edd807",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_13\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Verify that the secondary battery is present before proceeding with linking operation\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E016_c3be33fb1e\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Move the link-program switch to position ON\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E018_c17d73e928\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Insert the main battery and ensure both battery polarities are correct\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E019_fa25e14b3c\",\"support_2\":\"E020_e4f630821a\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Confirm successful linking when green LED switches on once, blinks many times, then alternates green-red for one second before turning off\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E023_23c3225e37\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "3046c3f4c8b638cb3e9d2abb4cab8d016f559db97b212547c57917522030eedf"
+    },
+    {
+      "item_id": "s200_src_14",
+      "response_id": "msg_011Cd8FF6FEw2mxPuJV1Vn5X",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5720,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5720,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006505,
+      "validation_error": null,
+      "point_author_input_sha256": "af9079c3aaab3f061c0bedc4c8cb8d2b911fa722fed8c9aecb9380ac829874f1",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_14\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "1a2e1794837ea2c54f1b2b7255d5a0702678901524c09eb901912ecb2829f71a"
+    },
+    {
+      "item_id": "s200_src_15",
+      "response_id": "msg_011Cd8FFHVuunWMrDuNNnupT",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4841,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4841,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005626,
+      "validation_error": null,
+      "point_author_input_sha256": "9e170192f205e4c4eae15a5abffc55142e80d8e73c5cdcffab64f0e066a6119a",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_15\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "7d95026473683272e499b6c0607ac1a285e3481b9df83bfc43bbb6729c59b34e"
+    },
+    {
+      "item_id": "s200_src_16",
+      "response_id": "msg_011Cd8FFSgZq2G9R4jwFmTcy",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5565,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5565,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00635,
+      "validation_error": null,
+      "point_author_input_sha256": "88451b06907f855c50872fc0a7b5466c2621d8d6836175ac3607e9951f8da2a5",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_16\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "ce810df6a86cce0f7a7afe32ce52c96e33c3551065b673b85715c9afb2d82362"
+    },
+    {
+      "item_id": "s200_src_17",
+      "response_id": "msg_011Cd8FFcMygqDkn1iXarN1e",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3389,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3389,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004174,
+      "validation_error": null,
+      "point_author_input_sha256": "81b4c317bf52b709af36be83fa783e8abb914bb9ccbce4a6fd28fd426b6c4c1b",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_17\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "552b5c1ed2f30a8577d207134214b08f0647fc06d9c3307a605d3abffea82a08"
+    },
+    {
+      "item_id": "s200_src_18",
+      "response_id": "msg_011Cd8FFprZTFxGDpQZafmRe",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3562,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3562,
+        "output_tokens": 305,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005087,
+      "validation_error": null,
+      "point_author_input_sha256": "da03d463dcd8b95a67be4c71f577f7b5bdc8d9cb88d81b6a866bdd93d8dbf161",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_18\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Disconnect power before installing modules\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E006_06be2ab1ca\",\"support_2\":\"E007_2159d15634\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Use a grounding wrist strap when handling circuits to eliminate static charges\",\"facet\":\"safety_warning_exception_or_conflict\",\"support_1\":\"E007_2159d15634\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Configure the module address using rotary selectors numbered 01 to 94 for the first module\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E010_29e9a893aa\",\"support_2\":\"E011_22937cfeee\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Subsequent modules are automatically assigned the following five numerical addresses\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E010_29e9a893aa\",\"support_2\":\"E011_22937cfeee\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "eba77f2c90b908eb99ec199240e993ac77fe5424a48b55bd83eb7831f0d890eb"
+    },
+    {
+      "item_id": "s200_src_19",
+      "response_id": "msg_011Cd8FGLvZiyApeDgpxb7Z2",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5374,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5374,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006159,
+      "validation_error": null,
+      "point_author_input_sha256": "64cff6566403910e18cb2dd780c925ae64616957c3624e3c315b724b6ce8c68e",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_19\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "37026e66ea771ce785f4b7e5a816fa51875bc18144f77ae8f0119e303160b72e"
+    },
+    {
+      "item_id": "s200_src_20",
+      "response_id": "msg_011Cd8FGVtpVPXY5RhWFVcLp",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 3590,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 3590,
+        "output_tokens": 267,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.004925,
+      "validation_error": null,
+      "point_author_input_sha256": "b194617faba55cfec6db4fe2f97ef1873190e7423c55a9787278c805fe6a84de",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_20\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"The panel supports up to 256 devices in 512 zones with 2 High Power Loops\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E010_2f10d01de0\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"An extra 2 High Power Loop board option brings the panel capacity to up to 512 devices\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E012_8ff38cb395\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"High loop power PAK available increases loop power from 500mA to 800mA\",\"facet\":\"option_mode_or_default\",\"support_1\":\"E014_72f741f2db\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "bcf0d04b5bee8233b05beb846fd4276ccf3f985a5258516df75ee41553ce2148"
+    },
+    {
+      "item_id": "s200_src_21",
+      "response_id": "msg_011Cd8FGhZ3sk7WP78FEsB1h",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4384,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4384,
+        "output_tokens": 312,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005944,
+      "validation_error": null,
+      "point_author_input_sha256": "525d271d54c8a0a3134dff464adb445cef4b5a0926c9d1bcd2db251076a0d80e",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_21\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"An EOL resistor must be installed in the last sounder of the line between positive and negative poles to detect faults in sounder wiring\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E010_746cdf397c\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":true,\"claim\":\"Both sounder output circuits should have an EOL resistor even if not used\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E011_9da12533b2\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Before connecting sounders, meter connected in reverse polarity should read 4k7\",\"facet\":\"verification_commissioning_or_recovery\",\"support_1\":\"E018_164f76cf19\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":true,\"claim\":\"Each sounder circuit supports a maximum of 250mA when activated and is protected against short circuits or overload\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E013_c447b7775a\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "edd3b907d3c283b8c19e5e8c79ff1ea4aacb5d4e6c1c2cc1fa211b55f028aa70"
+    },
+    {
+      "item_id": "s200_src_22",
+      "response_id": "msg_011Cd8FH4DkwjYAaWGAYB3Av",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 5745,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 5745,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00653,
+      "validation_error": null,
+      "point_author_input_sha256": "7a746c669681a850320d5e8de39c0960671f88b612863c66c138f691ecca63a9",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_22\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "25be18d473d36bcb9ac91900617fa19dd1dc535ee4c013612b2309820c717caf"
+    },
+    {
+      "item_id": "s200_src_23",
+      "response_id": "msg_011Cd8FHEAo4YKJBpmB2FYmK",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4284,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4284,
+        "output_tokens": 157,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.005069,
+      "validation_error": null,
+      "point_author_input_sha256": "e3e7479753dc9fd72d3cd7db0cb3faa2d52ed981ffbfe69e9d28e4445496c249",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_23\",\"eligible\":false,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_2\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_3\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"},\"point_4\":{\"active\":false,\"claim\":\"\",\"facet\":\"\",\"support_1\":\"\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "5342ef2582b5c95202538983622f505c859c3a060110826eff611a5b697a45dc"
+    },
+    {
+      "item_id": "s200_src_24",
+      "response_id": "msg_011Cd8FHRPUmfNdCy7KXvN1K",
+      "stop_reason": "end_turn",
+      "counted_input_tokens": 4852,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 4852,
+        "output_tokens": 350,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006602,
+      "validation_error": null,
+      "point_author_input_sha256": "48e458cc0671041183155a1bfdbc812479802fc6117ee080d26d5bc7b1538220",
+      "point_transport_schema_sha256": "9173461711bf78b7065bc37c3eb91fbe0ef5b641bb72f81c24fb815ea3599624",
+      "raw_point_author_output": "{\"item_id\":\"s200_src_24\",\"eligible\":true,\"question\":\"\",\"answer_point_slots\":{\"point_1\":{\"active\":true,\"claim\":\"Locate connectors SND1 and SND2 on the main board before connecting sirens\",\"facet\":\"access_or_prerequisite\",\"support_1\":\"E006_4a949fce1e\",\"support_2\":\"E017_90a3ce2ea0\",\"support_3\":\"E030_f3bc6443db\"},\"point_2\":{\"active\":true,\"claim\":\"Connect positive and negative cables to the corresponding terminals on the main board\",\"facet\":\"target_or_configuration_field\",\"support_1\":\"E007_19b82d3ef2\",\"support_2\":\"E018_663f23151a\",\"support_3\":\"\"},\"point_3\":{\"active\":true,\"claim\":\"Close the loop by connecting a 4k7 Ohm resistor between the positive and negative cables at the end of the main line\",\"facet\":\"output_action_or_corrective_step\",\"support_1\":\"E009_7d7a2ee781\",\"support_2\":\"E022_b8b8bc5fb3\",\"support_3\":\"E010_740e12ae8b\"},\"point_4\":{\"active\":true,\"claim\":\"Each siren output is protected by a 500 mA fuse\",\"facet\":\"measurement_limit_or_timing\",\"support_1\":\"E023_9f69640315\",\"support_2\":\"\",\"support_3\":\"\"}}}",
+      "raw_text_sha256": "6fb0c7212f0824ca0fb7bc4e1646672bf45088300935795a738210e5c9420e3c"
+    }
+  ],
+  "created_at": "2026-07-17T20:17:59.571629+00:00"
+}

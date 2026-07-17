@@ -1927,3 +1927,26 @@ prosa) sobre esos 10 fabricantes, motor S198 intacto y mínimos 12 ítems, 8 fab
 24 puntos y cero inválidos/fallos semánticos. Si la fuente o el upstream vuelven a fallar, se
 cierra la línea point-first sin otro ajuste poblacional y se vuelve a otro mecanismo. No hay
 nueva convergencia frontera. `chunks_v3` sigue `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.
+
+## DEC-111 — S200: el holdout final no alcanza población y cierra la línea point-first
+
+**Último holdout.** S200 consumió el trigger final de DEC-110: 24 documentos/source-files/pares
+totalmente nuevos, 12 tabla + 12 prosa, balanceados sobre los 10 fabricantes restantes. El packet
+se selló tras doble scan GET-only idéntico de 25.090 filas, cero overlap y cero escrituras. Se
+reutilizó literalmente el motor semántico S198; sólo cambiaron namespace, límites de llamadas y
+el mínimo poblacional predeclarado de 8 fabricantes. No hubo nueva revisión frontera.
+
+**Resultado.** Haiku completó 24/24 outputs, 0 inválidos, 11 elegibles de 7 fabricantes,
+6 tabla + 5 prosa y 40 puntos por **$0,144517**. Pasaron estratos, puntos y transporte; fallaron
+los mínimos 12 ítems y 8 fabricantes. Estado `NO_GO_POINT_PLAN_STRUCTURAL_GATE`; Luna, writer,
+scope-screen, planner y targets recibieron 0 llamadas. La key heredada
+`eligible_manufacturers_gte_12` tiene label obsoleto, pero compara correctamente contra el valor
+8 del preregistro. No cambia el veredicto.
+
+**Cierre.** La línea de generalización source-first queda cerrada: cero cohortes sucesoras, cero
+postselección y cero reparación desde identidades/issues S200. El paquete semántico no fue medido
+ni falsificado; lo que no generaliza es la construcción de preguntas multi-obligación desde
+chunks arbitrarios con densidad suficiente. Siguiente: limpiar el puente local/default-off con
+generalización independiente S188 y después S172, declarando que eso no sube el 143 diagnóstico
+que ya las presupone; luego volver a los 12 synthesis-miss con un mecanismo de preguntas reales,
+no otro cohorte source-first. `chunks_v3` permanece `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no bloquea.
