@@ -1,0 +1,71 @@
+{
+  "schema": "s210_query_evidence_compiler_incomplete_closure_v1",
+  "status": "NO_GO_INCOMPLETE_FAIL_CLOSED",
+  "executed_against_main_sha": "90e4597a346dc09c45ab4c901f3479d124c2e5e4",
+  "inputs": {
+    "preflight_sha256": "34b1edc6f30f8efc78b5532c654d85017f2d7019da1984f949853bdaa07e00be",
+    "permit_sha256": "9cc1e04727ef521a8b49e23df9fd196adb34ff06bc5450d15390a717ed58cf4c",
+    "partial_journal_sha256": "e8cc0020425cca73ce931a36ba5ca8893669eed0d127d5c182697aee7802f5ff"
+  },
+  "execution": {
+    "sealed_calls": 126,
+    "planned_calls": 202,
+    "completed_answer_rows": 19,
+    "planned_answer_rows": 36,
+    "role_calls": {
+      "extractor": 88,
+      "planner": 19,
+      "verifier": 19
+    },
+    "model_calls": {
+      "claude-haiku-4-5-20251001": 88,
+      "gpt-5.6-terra": 38
+    },
+    "provider_retries": 0,
+    "resume_attempts": 0,
+    "estimated_cost_usd": 0.958119
+  },
+  "first_failure": {
+    "call_index": 126,
+    "call_id": "hp002:r2:extract:f10",
+    "provider": "anthropic",
+    "model": "claude-haiku-4-5-20251001",
+    "response_id": "msg_011Cd93oyeeDJhPzsacHZyVK",
+    "response_status": "end_turn",
+    "raw_output_sha256": "5a8b6c7ebba6416bb3d5668fcc522239515ca414c558f11dbe6ae04eb059f904",
+    "exception_type": "ValueError",
+    "exception_message": "claim count exceeds the per-chunk bound",
+    "observed_claims": 17,
+    "local_claim_limit": 16,
+    "provider_schema_claims_max_items": null
+  },
+  "causal_analysis": {
+    "category": "SCHEMA_VALIDATOR_BOUND_DRIFT",
+    "upstream_defect": "The JSON schema omitted maxItems while the downstream validator enforced 16, so a provider-valid 17-claim response stopped the run.",
+    "target_specific": false,
+    "semantic_prompt_failure": false,
+    "provider_transport_failure": false,
+    "result_quality_observed": false
+  },
+  "credit": {
+    "facts_moved_to_ok": 0,
+    "canonical_facts_ok": 143,
+    "denominator": 157,
+    "ok_rate_percent": 91.08,
+    "relation_projection_allowed": false
+  },
+  "decision": {
+    "same_run_resume": false,
+    "same_run_retry": false,
+    "partial_result_scoring": false,
+    "runtime_integration": false,
+    "production_default": "off",
+    "next": "S211_SCHEMA_VALIDATOR_BOUND_EQUIVALENCE_FRESH_PREREG"
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "9f7fb2ba20cb4394773e60318f240ca2d8ffb48b348eea222920b4392b0587eb"
+}
