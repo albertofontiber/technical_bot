@@ -10,6 +10,7 @@ from src.rag.query_evidence_compiler import (
     compile_evidence_appendix,
     deterministic_fallback_candidates,
     merge_candidate_pool,
+    portable_file_sha,
     validate_claim_response,
     validate_plan,
     validate_verification,
@@ -148,3 +149,14 @@ def test_compiler_renders_every_selected_exact_quote_with_valid_fragment_markers
 def test_compiler_never_accepts_duplicate_selection():
     with pytest.raises(ValueError, match="duplicate"):
         compile_evidence_appendix([_candidate("QE_one")], ["QE_one", "QE_one"])
+
+
+def test_portable_file_sha_normalizes_text_line_endings_but_not_binary(tmp_path):
+    lf = tmp_path / "lf.txt"
+    crlf = tmp_path / "crlf.txt"
+    binary = tmp_path / "binary.bin"
+    lf.write_bytes(b"one\ntwo\n")
+    crlf.write_bytes(b"one\r\ntwo\r\n")
+    binary.write_bytes(b"one\r\n\xfftwo")
+    assert portable_file_sha(lf) == portable_file_sha(crlf)
+    assert portable_file_sha(binary) != portable_file_sha(crlf)

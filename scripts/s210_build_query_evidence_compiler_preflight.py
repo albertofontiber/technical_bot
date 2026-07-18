@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.s141_source_bound_technical_obligations import answer_map
-from src.rag.query_evidence_compiler import stable_sha
+from src.rag.query_evidence_compiler import portable_file_sha, stable_sha
 
 
 TARGET_FREEZE = ROOT / "evals/s113_full_contexts_freeze_v1.json"
@@ -43,7 +43,7 @@ IMPLEMENTATION_FILES = (
 
 
 def file_sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return portable_file_sha(path)
 
 
 def _source_chunk(item: dict[str, Any]) -> dict[str, Any]:

@@ -25,6 +25,7 @@ from src.rag.query_evidence_compiler import (
     merge_candidate_pool,
     plan_schema,
     planner_payload,
+    portable_file_sha,
     stable_sha,
     validate_claim_response,
     validate_plan,
@@ -67,7 +68,7 @@ invent an ID, or add more than six IDs."""
 
 
 def file_sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return portable_file_sha(path)
 
 
 def _append(row: dict[str, Any]) -> None:

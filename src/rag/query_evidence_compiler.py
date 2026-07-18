@@ -17,6 +17,7 @@ import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any, Iterable
 
 from jsonschema import Draft202012Validator
@@ -38,6 +39,18 @@ FACETS = (
 MAX_MODEL_CLAIMS_PER_CHUNK = 16
 MAX_PRIMARY_IDS = 12
 MAX_ADDITIONAL_IDS = 6
+
+
+def portable_file_sha(path: Path) -> str:
+    """Hash UTF-8 text canonically across LF/CRLF checkouts; preserve binaries."""
+    raw = path.read_bytes()
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        canonical = raw
+    else:
+        canonical = text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 MAX_COMPILED_IDS = 16
 MAX_COMPILED_CHARS = 12_000
 

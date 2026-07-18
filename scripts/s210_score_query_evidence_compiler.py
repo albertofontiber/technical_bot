@@ -19,7 +19,7 @@ from scripts.s206_score_answer_facet_ab import hp017_cardinality_contradiction
 from src.rag.answer_planner import validate_answer_plan
 from src.rag.evidence_units_v2 import build_header_aware_evidence_units
 from src.rag.omission_correction import point_covered
-from src.rag.query_evidence_compiler import stable_sha
+from src.rag.query_evidence_compiler import portable_file_sha, stable_sha
 
 
 PREFLIGHT = ROOT / "evals/s210_query_evidence_compiler_preflight_v1.json"
@@ -31,7 +31,7 @@ TARGETS = ("cat018", "hp002", "hp011", "hp017")
 
 
 def file_sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return portable_file_sha(path)
 
 
 def _assert_sealed(value: dict[str, Any]) -> None:

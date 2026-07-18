@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
@@ -10,7 +9,7 @@ from scripts.s210_run_query_evidence_compiler import (
     MAX_PLANNER_PROMPT_BYTES,
     conservative_execution_upper_bound_usd,
 )
-from src.rag.query_evidence_compiler import stable_sha
+from src.rag.query_evidence_compiler import portable_file_sha, stable_sha
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +19,7 @@ PERMIT = ROOT / "evals/s210_query_evidence_compiler_execution_permit_v1.yaml"
 
 
 def file_sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return portable_file_sha(path)
 
 
 def _json(path: Path):

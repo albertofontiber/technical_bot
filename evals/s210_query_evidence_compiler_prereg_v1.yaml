@@ -3,22 +3,22 @@ status: FROZEN_BEFORE_PAID_EXECUTION
 main_sha: 82e42a6a6df4733588e33699e0db999e7b441357
 
 frozen_inputs:
-  target_contexts: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d}
-  residual_audit: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: caaf08fbe9fdfc49550a2d3b7c8da6cbf6c012048d178def041ca02026541ab7}
-  independent_guardrail: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
-  independent_baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: ddaff2ed2daf867cb7196af2f22bb51444856985d9bf468fa5fc3d5594d05054}
-  independent_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
-  s155_basis: {path: evals/s155_question_conditioned_claim_map_v1.json, sha256: b4cc020e910ad19e3692500856526d19977e3fe1a53f235a0d8930ea1fe08939}
-  s193_basis: {path: evals/s193_terra_id_planner_deterministic_append_v1.json, sha256: 1db394d05858e1ef053dc6f9db23267b10b077332a3878cb3821cbc5b6089875}
-  s206_closed_prompt_line: {path: evals/s206_answer_facet_ab_score_v1.json, sha256: 8defbafe15da67bb1da2f01fc735a48077d1044268504a0d4917ec0345a97f06}
-  s209_planner_holdout_closure: {path: evals/s209_gold_failure_analysis_v1.json, sha256: e3a787dd41f55f395af5d24bfe0d29061ed19e90ec458d365b145c39e01953ec}
+  target_contexts: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498}
+  residual_audit: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: 53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb}
+  independent_guardrail: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: 670c3c4243b1ab98195aab99638963b55b245b44ba527dfe211fe6b79ba981c0}
+  independent_baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: 03e4ba0d4565031b6da43916809e6b5acbc347f7bb7c38c2523679bda30cfceb}
+  independent_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 1fcca415d830c54d5aeaa3b94a52f28ca3498a4df2ca35c0a1b46f6e4290ef46}
+  s155_basis: {path: evals/s155_question_conditioned_claim_map_v1.json, sha256: 0932b365617d32e2cfebbeb09a480deb1cbaaea8f6c898ce105d2cfa865535de}
+  s193_basis: {path: evals/s193_terra_id_planner_deterministic_append_v1.json, sha256: 58923ea510de752add859bfa4bf5b29862b8b77f0e2205182776363779b9f650}
+  s206_closed_prompt_line: {path: evals/s206_answer_facet_ab_score_v1.json, sha256: e6a58ba4fec53738731910e1e9e267322ba95364b1b29b81578723cc7f5dec7d}
+  s209_planner_holdout_closure: {path: evals/s209_gold_failure_analysis_v1.json, sha256: 4a5b5039b90c4f6eeae152d9e54c620f915620455b16efbd1d0da19abdf182e0}
   design: {path: evals/s210_query_evidence_compiler_design_v1.md, sha256: e72871c92d156f595e10d3da8d2843a5600e7594c704ff31847821d3beb059d3}
-  compiler: {path: src/rag/query_evidence_compiler.py, sha256: 11649d4a82a53cb8a5c89f8685f0befeda664386d06b048960f6d601e57eedd5}
-  deterministic_fallback: {path: src/rag/query_evidence_obligations.py, sha256: 3248482947abbf66abe1b3cac334a9c686ca66321db3635921db667d8f9a665e}
-  preflight_builder: {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: 9b7e1d78d32606e407177b0b0e54f7b6fc11e1fe697bf09feb297371e4def07f}
-  runner: {path: scripts/s210_run_query_evidence_compiler.py, sha256: 24dd856cad49dd1fa22058122c776407215d2b17801850ff421844006563ee04}
-  scorer: {path: scripts/s210_score_query_evidence_compiler.py, sha256: 83780dec15d3d49c86e0b5e9e99ed3f88291cc92c03ad5ac76581c791b704a10}
-  compiler_tests: {path: tests/test_query_evidence_compiler.py, sha256: 3e0edeed59c69f524f0fdf5a4a378ae886781f1340aab623200dadd7f8f335e7}
+  compiler: {path: src/rag/query_evidence_compiler.py, sha256: a7a1b085e5463b542920c6ab81c7aa52d6ac18bc982f5baf42ff98bc5dd3b8d0}
+  deterministic_fallback: {path: src/rag/query_evidence_obligations.py, sha256: 28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800}
+  preflight_builder: {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: e45a732f3125a32b78f121e2d207dde5fce1fef724b98f1624940556014e2f54}
+  runner: {path: scripts/s210_run_query_evidence_compiler.py, sha256: b6bd5e1754fb4604ea031355793955c669e26e5274e033feb96c192a7880a70e}
+  scorer: {path: scripts/s210_score_query_evidence_compiler.py, sha256: b9a524a35223491b14f4d76afdd0848121a53a48876e6e6d0f56b693b0a2767c}
+  compiler_tests: {path: tests/test_query_evidence_compiler.py, sha256: 73db15897b2a80617f7e431eb3bddf387238e22c6d02fb17b4f43c0ca41c4743}
 
 population:
   target_questions: 4

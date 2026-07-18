@@ -1,7 +1,7 @@
 instrument: s210_query_evidence_compiler_execution_permit_v1
 status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
 issued_against_main_sha: 82e42a6a6df4733588e33699e0db999e7b441357
-preflight_sha256: 69592124cfc32f70eafaf3597c1f3dc4433481c158a84c3f6ade887110d330f2
+preflight_sha256: 34b1edc6f30f8efc78b5532c654d85017f2d7019da1984f949853bdaa07e00be
 
 frontier_design_gate:
   principal:
@@ -9,32 +9,36 @@ frontier_design_gate:
     reasoning_effort: xhigh
     verdict: PASS
     artifact: evals/s210_frontier_design_decision_reviews_v1.json
-    artifact_sha256: ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e
+    artifact_sha256: 5a3b9814e166c178e91d9a105a75a63f2073d6845a72d37ae505da90c30d3ddb
   independent:
     model: claude-fable-5
     verdict: PASS
     artifact: evals/s210_fable_final_design_verdict_v1.json
-    artifact_sha256: 6be6d5d8fc024b7c430e6dc737b89d726005c8a1abcf8e06328ea950d36debbe
+    artifact_sha256: eaa365a2d4e22b0ba70de11ac756062b2a71a17478f1d9b1bbb065b492f77ed2
   instrumentation_incident:
     first_response_completed_but_local_max_items_rejected: true
     native_schema_repair_rejected_before_model_call: true
     final_minimal_plain_json_verdict_complete: true
     convergence_rounds: 0
     further_design_review_calls: false
+  post_review_ci_portability_fix:
+    scope: newline_canonicalization_for_utf8_artifact_hashes_only
+    mechanism_or_gate_changed: false
+    cohorts_or_prompts_changed: false
 
 frozen_artifacts:
   - {path: evals/s210_query_evidence_compiler_design_v1.md, sha256: e72871c92d156f595e10d3da8d2843a5600e7594c704ff31847821d3beb059d3}
-  - {path: evals/s210_query_evidence_compiler_prereg_v1.yaml, sha256: da2bd2d2fbae0a2916c3c0213377a098ca22e0ac2d23bce2db9c646243eb29e0}
-  - {path: src/rag/query_evidence_compiler.py, sha256: 11649d4a82a53cb8a5c89f8685f0befeda664386d06b048960f6d601e57eedd5}
-  - {path: src/rag/query_evidence_obligations.py, sha256: 3248482947abbf66abe1b3cac334a9c686ca66321db3635921db667d8f9a665e}
-  - {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: 9b7e1d78d32606e407177b0b0e54f7b6fc11e1fe697bf09feb297371e4def07f}
-  - {path: scripts/s210_run_query_evidence_compiler.py, sha256: 24dd856cad49dd1fa22058122c776407215d2b17801850ff421844006563ee04}
-  - {path: scripts/s210_score_query_evidence_compiler.py, sha256: 83780dec15d3d49c86e0b5e9e99ed3f88291cc92c03ad5ac76581c791b704a10}
-  - {path: evals/s210_query_evidence_compiler_preflight_v1.json, sha256: 69592124cfc32f70eafaf3597c1f3dc4433481c158a84c3f6ade887110d330f2}
+  - {path: evals/s210_query_evidence_compiler_prereg_v1.yaml, sha256: a0ca7c288adb072c600b097d447d6079e5871b14a3e2acd080c7e77f3737b6a2}
+  - {path: src/rag/query_evidence_compiler.py, sha256: a7a1b085e5463b542920c6ab81c7aa52d6ac18bc982f5baf42ff98bc5dd3b8d0}
+  - {path: src/rag/query_evidence_obligations.py, sha256: 28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800}
+  - {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: e45a732f3125a32b78f121e2d207dde5fce1fef724b98f1624940556014e2f54}
+  - {path: scripts/s210_run_query_evidence_compiler.py, sha256: b6bd5e1754fb4604ea031355793955c669e26e5274e033feb96c192a7880a70e}
+  - {path: scripts/s210_score_query_evidence_compiler.py, sha256: b9a524a35223491b14f4d76afdd0848121a53a48876e6e6d0f56b693b0a2767c}
+  - {path: evals/s210_query_evidence_compiler_preflight_v1.json, sha256: 34b1edc6f30f8efc78b5532c654d85017f2d7019da1984f949853bdaa07e00be}
   - {path: evals/s210_compact_design_review_brief_v1.md, sha256: 379d9a9ba8802687a2e83d674248bb78e9b68604c08ab9b6629efa6bafc2133b}
-  - {path: evals/s210_frontier_design_decision_reviews_v1.json, sha256: ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e}
-  - {path: evals/s210_fable_design_decision_format_repair_v1.json, sha256: 5823d7c0759f9639267c305bb4d0db9a181e9261e87400f5f49e0d541e22e8b6}
-  - {path: evals/s210_fable_final_design_verdict_v1.json, sha256: 6be6d5d8fc024b7c430e6dc737b89d726005c8a1abcf8e06328ea950d36debbe}
+  - {path: evals/s210_frontier_design_decision_reviews_v1.json, sha256: 5a3b9814e166c178e91d9a105a75a63f2073d6845a72d37ae505da90c30d3ddb}
+  - {path: evals/s210_fable_design_decision_format_repair_v1.json, sha256: d6475eb1a5d980b17cd725e1bd0175bfca272121ebe0716a479cae5bdbf686af}
+  - {path: evals/s210_fable_final_design_verdict_v1.json, sha256: eaa365a2d4e22b0ba70de11ac756062b2a71a17478f1d9b1bbb065b492f77ed2}
 
 call_geometry:
   extractor_calls: 130
