@@ -2153,3 +2153,29 @@ preregistro, envelopes, receipts, scorer y reviews. Esto evita otro puente híbr
 línea “recordar al modelo que cubra más facetas” queda cerrada como mecanismo. El scoreboard no
 cambia: **143/157 OK (91,08%)**, 12 synthesis-miss y 2 retrieval-miss; faltan 11 facts para 98%.
 `chunks_v2` permanece activo, `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no es gate.
+
+## DEC-120 — S216: la descomposición por pregunta se cierra en diseño antes de una ejecución cara
+
+**Hipótesis estructural.** S216 proponía sustituir la síntesis monolítica por una descomposición
+question-only, responder cada foco con el contexto completo y ensamblar todos los bloques de forma
+determinista. La versión corregida eliminó baselines históricos, igualó a 1.600 tokens el máximo
+agregado de control y tratamiento, retiró el texto de los focos del candidato y separó generación
+de scoring. La PR #167 congeló un A/B contemporáneo sobre 14 preguntas de desarrollo y un
+guardrail de 35 preguntas multichunk, sin abrir los cuatro targets ni mover facts.
+
+**Gate Frontier dual.** Sol 5.6 `xhigh` principal y Fable 5 independiente devolvieron NO-PASS
+sobre el mismo commit mergeado. Coincidieron en tres defectos materiales: `question_complete` se
+recogía pero no bloqueaba, el supuesto cegado revelaba treatment por sus encabezados `Parte N` y
+el contrato sobre-afirmaba protección de 87 facts aunque solo vetaba los estables en ambos
+controles contemporáneos. Sol añadió dos fallos de aislamiento confirmados: scorer/reviewer no
+revalidaban el freeze completo entre fases y el runner leía los bytes de los score packets para
+hashearlos mientras afirmaba que no estaban disponibles. Fable añadió un mismatch decisivo: la
+eficacia se mediría en single-source mientras el objetivo real es multichunk.
+
+**Cierre sin convergencia ni gasto masivo.** No se crea permit y no se ejecutan las 49 llamadas
+Terra, las 196–686 Sonnet ni la revisión semántica de resultados. Se descarta parchear y repetir
+S216 o reutilizar otra vez la cohorte S173. Una reapertura futura requeriría una población
+multichunk fresca, aislamiento de contenido real entre fases, completitud bloqueante, outputs
+cegables por formato y revalidación end-to-end del freeze. El marcador queda en **143/157 OK
+(91,08%)**, con 12 synthesis-miss y 2 retrieval-miss; faltan 11 facts para 98%. `chunks_v2`
+permanece activo, `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge.

@@ -1,0 +1,83 @@
+schema: s216_decomposed_synthesis_closure_v1
+status: CLOSED_NO_GO_DUAL_FRONTIER_DESIGN
+
+hypothesis: question_decomposition_full_context_blocks_reduce_source_attested_synthesis_omissions
+reviewed_snapshot:
+  git_commit: 2c45730eb6fa1beee20351c7c192d13ff9ad1e3b
+  design_pr: 167
+  preregistration:
+    path: evals/s216_decomposed_synthesis_prereg_v1.yaml
+    sha256: dc32b573e1a359de98e183cb4e69979816b7e1aae1d80948b88bdc6ab3975e87
+
+frontier_design_review:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    status: NO_PASS
+    findings: 7
+    confirmed: 6
+    false_positive: 1
+    review: {path: evals/adversarial_reviews/2026-07-18T13-02-19_gpt-5.6-sol_839f7db186d0.md, sha256: 839f7db186d00141ac172edfeec9e08bf3d93f04ff3c0bc5be2956d6d95a71d2}
+    provider_trace: {path: evals/adversarial_reviews/2026-07-18T13-02-19_gpt-5.6-sol_responses_5e8eacdc8fe5.json, sha256: 5e8eacdc8fe51e9c1d514c9f3eba4cf2066c37d31521d90ffeb62b3db8f5237d}
+  independent:
+    model: claude-fable-5
+    effort: xhigh
+    status: NO_PASS
+    findings: 7
+    confirmed: 5
+    false_positive: 2
+    review: {path: evals/adversarial_reviews/2026-07-18T13-05-28_claude-fable-5_fa2c905bd5d4.md, sha256: fa2c905bd5d479b84aaa41b1c7c41396798474fb41b2ae61c238cb78037c89f1}
+    provider_trace: {path: evals/adversarial_reviews/2026-07-18T13-05-28_claude-fable-5_responses_bfeea0a0dd74.json, sha256: bfeea0a0dd743f668e11b50436b340900cc4e11751c73b3ad94c7ab51eabc961}
+  adjudication: RULE_C_COMPLETE_NO_PASS
+
+confirmed_blockers:
+  - question_complete_was_measured_but_not_a_semantic_blocker
+  - scorer_and_semantic_reviewer_did_not_revalidate_the_frozen_authorization_and_outputs
+  - only_contemporaneously_stable_control_facts_were_vetoed_despite_claiming_protection_of_all_87
+  - treatment_structure_and_visible_focus_plan_made_the_blind_arm_recognizable
+  - generation_hashed_score_packet_bytes_despite_claiming_score_packets_unavailable
+  - provider_token_count_attempts_were_not_checkpointed_under_the_literal_no_retry_contract
+  - efficacy_was_measured_on_single_source_questions_while_the_target_regime_is_multichunk
+  - all_or_nothing_provider_failure_risk_was_understated
+
+rejected_findings:
+  - system_prompt_drift_between_arms: focused queries contain the original query verbatim, preserving the deterministic selection trigger
+  - temperature_zero_makes_replicates_valueless: provider nondeterminism remains and paired replicates still bound instability, though two replicates are weak evidence
+  - semantic_review_will_truncate: speculative and not observed
+
+execution:
+  execution_permit_created: false
+  decomposer_calls: 0
+  writer_calls: 0
+  semantic_result_review_calls: 0
+  target_calls: 0
+  score_packets_opened_by_generation: 0
+  facts_moved_to_ok: 0
+  paid_mechanism_screen: NOT_EXECUTED
+
+decision:
+  s216_execution: forbidden
+  production_integration: rejected
+  default_on: false
+  target_probe: forbidden
+  retry_or_design_convergence: forbidden
+  exact_line_closed: question_decomposition_plus_full_context_per_focus_plus_deterministic_block_assembly_as_s216
+  successor_constraint: do_not_patch_and_rerun_s216_or_reuse_the_s173_single_source_efficacy_cohort
+  legitimate_future_reopening_requires:
+    - a_fresh_multichunk_efficacy_population_independent_of_the_12_targets
+    - content_isolation_between_generation_and_score_phases_not_merely_hash_checks
+    - a_semantic_gate_where_completeness_is_blocking
+    - reviewer_outputs_that_do_not_reveal_arm_by_format_or_visible_plan
+    - end_to_end_freeze_validation_at_every_phase
+
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+  facts_needed_for_98_percent: 11
+
+chunks_v2: active
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway: demo_non_blocking
