@@ -1,0 +1,1799 @@
+{
+  "schema": "s267_kidde_sol_reviews_of_fable_v1",
+  "status": "COMPLETE",
+  "items": [
+    {
+      "canary_id": "kidde_2xa_installation_operation_boundaries",
+      "review": {
+        "reviewer_model": "gpt-5.6-sol",
+        "candidate_author": "claude-fable-5",
+        "reviews": [
+          {
+            "canary_id": "kidde_2xa_installation_operation_boundaries",
+            "verdict": "FAIL",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": false,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": false,
+            "material_disagreements": [
+              "El counterpart limita correctamente los requisitos de entradas y salidas a instalaciones que no exigen EN 54-13; el candidato los presenta sin esa condición."
+            ],
+            "unsupported_answer_claims": [
+              "Los valores de 62 Ω–8 kΩ y la precaución de polaridad/diodo 1N4007 se presentan como aplicables en general, aunque la fuente indica que esa información no se aplica a instalaciones que requieren conformidad con EN 54-13."
+            ],
+            "blocking_issues": [
+              "Falta la advertencia de aplicabilidad EN 54-13. Como la pregunta no excluye dichas instalaciones, F01, F02 y la síntesis F06 quedan incorrectamente acotadas."
+            ],
+            "nonblocking_notes": [],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": false,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Valor visible, pero falta la exclusión para instalaciones que requieren EN 54-13."
+              },
+              {
+                "fact_id": "F02",
+                "supported": false,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Precaución visible, pero se omite su condición de aplicabilidad respecto de EN 54-13."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": ""
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": ""
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": ""
+              },
+              {
+                "fact_id": "F06",
+                "supported": false,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "La separación entre instalación y operación requiere ambas fuentes, pero hereda la omisión de alcance EN 54-13 de F01 y F02."
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "sol",
+        "call_label": "review:fable:kidde_2xa_installation_operation_boundaries",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "background": true,
+        "transport_retries_configured": 2,
+        "background_create_retries_configured": 0,
+        "background_poll_retries_configured": 2,
+        "status": "completed",
+        "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_2xa_installation_operation_boundaries\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"El counterpart limita correctamente los requisitos de entradas y salidas a instalaciones que no exigen EN 54-13; el candidato los presenta sin esa condición.\"],\"unsupported_answer_claims\":[\"Los valores de 62 Ω–8 kΩ y la precaución de polaridad/diodo 1N4007 se presentan como aplicables en general, aunque la fuente indica que esa información no se aplica a instalaciones que requieren conformidad con EN 54-13.\"],\"blocking_issues\":[\"Falta la advertencia de aplicabilidad EN 54-13. Como la pregunta no excluye dichas instalaciones, F01, F02 y la síntesis F06 quedan incorrectamente acotadas.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Valor visible, pero falta la exclusión para instalaciones que requieren EN 54-13.\"},{\"fact_id\":\"F02\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Precaución visible, pero se omite su condición de aplicabilidad respecto de EN 54-13.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"La separación entre instalación y operación requiere ambas fuentes, pero hereda la omisión de alcance EN 54-13 de F01 y F02.\"}]}]}",
+        "usage": {
+          "input_tokens": 41657,
+          "output_tokens": 14516,
+          "total_tokens": 56173
+        },
+        "provider_trace": {
+          "id": "resp_010b4dec0596ea77006a5bdeabdd608197b6e53b7586567d52",
+          "created_at": 1784405675.0,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": "Follow the user contract exactly. Return only JSON.",
+          "metadata": {},
+          "model": "gpt-5.6-sol",
+          "object": "response",
+          "output": [
+            {
+              "id": "rs_010b4dec0596ea77006a5bdeb0134481978d18fc3069580443",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_010b4dec0596ea77006a5bdebad5e08197a0ddbd7481e6a6e0",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_010b4dec0596ea77006a5bdec5947c81978836f5824f654a92",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_010b4dec0596ea77006a5bded2a690819798bed185fa8cd6b1",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_010b4dec0596ea77006a5bdede7a7c8197bcae0065ef56d90d",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_010b4dec0596ea77006a5bdeea953c8197b106bc9e154097b6",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "msg_010b4dec0596ea77006a5bdef58fa08197baf2175dbf009a91",
+              "content": [
+                {
+                  "annotations": [],
+                  "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_2xa_installation_operation_boundaries\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"El counterpart limita correctamente los requisitos de entradas y salidas a instalaciones que no exigen EN 54-13; el candidato los presenta sin esa condición.\"],\"unsupported_answer_claims\":[\"Los valores de 62 Ω–8 kΩ y la precaución de polaridad/diodo 1N4007 se presentan como aplicables en general, aunque la fuente indica que esa información no se aplica a instalaciones que requieren conformidad con EN 54-13.\"],\"blocking_issues\":[\"Falta la advertencia de aplicabilidad EN 54-13. Como la pregunta no excluye dichas instalaciones, F01, F02 y la síntesis F06 quedan incorrectamente acotadas.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Valor visible, pero falta la exclusión para instalaciones que requieren EN 54-13.\"},{\"fact_id\":\"F02\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Precaución visible, pero se omite su condición de aplicabilidad respecto de EN 54-13.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"La separación entre instalación y operación requiere ambas fuentes, pero hereda la omisión de alcance EN 54-13 de F01 y F02.\"}]}]}",
+                  "type": "output_text",
+                  "logprobs": []
+                }
+              ],
+              "role": "assistant",
+              "status": "completed",
+              "type": "message",
+              "phase": "final_answer"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "temperature": 1.0,
+          "tool_choice": "auto",
+          "tools": [],
+          "top_p": 0.98,
+          "background": true,
+          "completed_at": 1784405757.0,
+          "conversation": null,
+          "max_output_tokens": 12000,
+          "max_tool_calls": null,
+          "previous_response_id": null,
+          "prompt": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": "24h",
+          "reasoning": {
+            "effort": "xhigh",
+            "generate_summary": null,
+            "summary": null,
+            "context": "all_turns",
+            "mode": "standard"
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "status": "completed",
+          "text": {
+            "format": {
+              "name": "review_fable_kidde_2xa_installation_operation_boundaries",
+              "schema_": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reviewer_model",
+                  "candidate_author",
+                  "reviews"
+                ],
+                "properties": {
+                  "reviewer_model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-5.6-sol"
+                    ]
+                  },
+                  "candidate_author": {
+                    "type": "string",
+                    "enum": [
+                      "claude-fable-5"
+                    ]
+                  },
+                  "reviews": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "canary_id",
+                        "verdict",
+                        "question_fully_answerable",
+                        "question_duplicate",
+                        "topic_aligned",
+                        "gold_complete",
+                        "source_geometry_valid",
+                        "known_conflicts_handled",
+                        "counterpart_materially_agrees",
+                        "material_disagreements",
+                        "unsupported_answer_claims",
+                        "blocking_issues",
+                        "nonblocking_notes",
+                        "fact_verdicts"
+                      ],
+                      "properties": {
+                        "canary_id": {
+                          "type": "string",
+                          "enum": [
+                            "kidde_2xa_installation_operation_boundaries"
+                          ]
+                        },
+                        "verdict": {
+                          "type": "string",
+                          "enum": [
+                            "PASS",
+                            "FAIL"
+                          ]
+                        },
+                        "question_fully_answerable": {
+                          "type": "boolean"
+                        },
+                        "question_duplicate": {
+                          "type": "boolean"
+                        },
+                        "topic_aligned": {
+                          "type": "boolean"
+                        },
+                        "gold_complete": {
+                          "type": "boolean"
+                        },
+                        "source_geometry_valid": {
+                          "type": "boolean"
+                        },
+                        "known_conflicts_handled": {
+                          "type": "boolean"
+                        },
+                        "counterpart_materially_agrees": {
+                          "type": "boolean"
+                        },
+                        "material_disagreements": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "unsupported_answer_claims": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "blocking_issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "nonblocking_notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "fact_verdicts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "fact_id",
+                              "supported",
+                              "source_pages_correct",
+                              "answer_entails",
+                              "genuinely_cross_source",
+                              "notes"
+                            ],
+                            "properties": {
+                              "fact_id": {
+                                "type": "string"
+                              },
+                              "supported": {
+                                "type": "boolean"
+                              },
+                              "source_pages_correct": {
+                                "type": "boolean"
+                              },
+                              "answer_entails": {
+                                "type": "boolean"
+                              },
+                              "genuinely_cross_source": {
+                                "type": "boolean"
+                              },
+                              "notes": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        }
+                      }
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "type": "json_schema",
+              "description": null,
+              "strict": true
+            },
+            "verbosity": "low"
+          },
+          "top_logprobs": 0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 41657,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 14516,
+            "output_tokens_details": {
+              "reasoning_tokens": 3106
+            },
+            "total_tokens": 56173
+          },
+          "user": null,
+          "billing": {
+            "payer": "developer"
+          },
+          "frequency_penalty": 0.0,
+          "moderation": null,
+          "presence_penalty": 0.0,
+          "store": false,
+          "tool_usage": {
+            "image_gen": {
+              "input_tokens": 0,
+              "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "output_tokens": 0,
+              "output_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "total_tokens": 0
+            },
+            "web_search": {
+              "num_requests": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_2xaf2_variant_relational_matrix",
+      "review": {
+        "reviewer_model": "gpt-5.6-sol",
+        "candidate_author": "claude-fable-5",
+        "reviews": [
+          {
+            "canary_id": "kidde_2xaf2_variant_relational_matrix",
+            "verdict": "FAIL",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": false,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": false,
+            "material_disagreements": [
+              "El contraparte incluye la comparación de salidas programables, mientras que la candidata omite esa dimensión exigida por el tema congelado."
+            ],
+            "unsupported_answer_claims": [],
+            "blocking_issues": [
+              "Falta la matriz de salidas programables de los tres modelos, pese a que «salidas» forma parte expresa del contrato congelado.",
+              "F05 incluye «300 grupos de salida», pero el gold_answer no menciona ese dato; por tanto, el hecho no está completamente entrañado y además combina dos magnitudes separables.",
+              "Los pesos de envío y la afirmación transversal de 512 zonas para las tres fichas aparecen en el gold_answer, pero no están representados como hechos atómicos con sus pares de páginas."
+            ],
+            "nonblocking_notes": [],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Las cuatro filas citadas respaldan la comparación y la discrepancia interna de la SCFB."
+              },
+              {
+                "fact_id": "F02",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Dimensiones, factor de forma y peso neto son exactos."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Los máximos 4/2/4 son exactos."
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Corrientes y rangos de tensión coinciden con las tres tablas."
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": false,
+                "genuinely_cross_source": false,
+                "notes": "La página respalda 512 zonas, 64 por lazo y 300 grupos, pero la respuesta omite los 300 grupos."
+              },
+              {
+                "fact_id": "F06",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "El conflicto 18 Ah general frente a 7,2 Ah en el alojamiento de la FB-S está correctamente conservado y delimitado."
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "sol",
+        "call_label": "review:fable:kidde_2xaf2_variant_relational_matrix",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "background": true,
+        "transport_retries_configured": 2,
+        "background_create_retries_configured": 0,
+        "background_poll_retries_configured": 2,
+        "status": "completed",
+        "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_2xaf2_variant_relational_matrix\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"El contraparte incluye la comparación de salidas programables, mientras que la candidata omite esa dimensión exigida por el tema congelado.\"],\"unsupported_answer_claims\":[],\"blocking_issues\":[\"Falta la matriz de salidas programables de los tres modelos, pese a que «salidas» forma parte expresa del contrato congelado.\",\"F05 incluye «300 grupos de salida», pero el gold_answer no menciona ese dato; por tanto, el hecho no está completamente entrañado y además combina dos magnitudes separables.\",\"Los pesos de envío y la afirmación transversal de 512 zonas para las tres fichas aparecen en el gold_answer, pero no están representados como hechos atómicos con sus pares de páginas.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las cuatro filas citadas respaldan la comparación y la discrepancia interna de la SCFB.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Dimensiones, factor de forma y peso neto son exactos.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los máximos 4/2/4 son exactos.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Corrientes y rangos de tensión coinciden con las tres tablas.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":false,\"genuinely_cross_source\":false,\"notes\":\"La página respalda 512 zonas, 64 por lazo y 300 grupos, pero la respuesta omite los 300 grupos.\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"El conflicto 18 Ah general frente a 7,2 Ah en el alojamiento de la FB-S está correctamente conservado y delimitado.\"}]}]}",
+        "usage": {
+          "input_tokens": 58566,
+          "output_tokens": 78711,
+          "total_tokens": 137277
+        },
+        "provider_trace": {
+          "id": "resp_042d90a025b59585006a5bdf3f6a7c81a385454b666e83dbfa",
+          "created_at": 1784405823.0,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": "Follow the user contract exactly. Return only JSON.",
+          "metadata": {},
+          "model": "gpt-5.6-sol",
+          "object": "response",
+          "output": [
+            {
+              "id": "rs_042d90a025b59585006a5bdf43e9c881a3bd5790ded9062b31",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf4f2d3081a38e07322d4745fb84",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf59c9d881a38591cefd4313eb33",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf63c5e481a3a6dc3969f61bd03d",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf6d832081a3b7d2b9bb95a5e982",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf799cbc81a381fffd406caf9811",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf85858881a38959acb99355285d",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf937b7481a38d1ec98c47174de2",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdf9ee3e881a3b0e311e5464a35e5",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfaaee2881a399918ff933b27100",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfb6d2c881a382e7f87b6bf424c9",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfc2e4a081a3a2146347dad5ad88",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfce114481a386f9c03b696ab52a",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfd9a33481a38e865e051f5a7fee",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdfe6ba4081a3b45a4bcd6bf0570c",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_042d90a025b59585006a5bdff3198c81a397c4b920dff229f9",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "msg_042d90a025b59585006a5bdff7690881a39baf987663ada323",
+              "content": [
+                {
+                  "annotations": [],
+                  "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_2xaf2_variant_relational_matrix\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"El contraparte incluye la comparación de salidas programables, mientras que la candidata omite esa dimensión exigida por el tema congelado.\"],\"unsupported_answer_claims\":[],\"blocking_issues\":[\"Falta la matriz de salidas programables de los tres modelos, pese a que «salidas» forma parte expresa del contrato congelado.\",\"F05 incluye «300 grupos de salida», pero el gold_answer no menciona ese dato; por tanto, el hecho no está completamente entrañado y además combina dos magnitudes separables.\",\"Los pesos de envío y la afirmación transversal de 512 zonas para las tres fichas aparecen en el gold_answer, pero no están representados como hechos atómicos con sus pares de páginas.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las cuatro filas citadas respaldan la comparación y la discrepancia interna de la SCFB.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Dimensiones, factor de forma y peso neto son exactos.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los máximos 4/2/4 son exactos.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Corrientes y rangos de tensión coinciden con las tres tablas.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":false,\"genuinely_cross_source\":false,\"notes\":\"La página respalda 512 zonas, 64 por lazo y 300 grupos, pero la respuesta omite los 300 grupos.\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"El conflicto 18 Ah general frente a 7,2 Ah en el alojamiento de la FB-S está correctamente conservado y delimitado.\"}]}]}",
+                  "type": "output_text",
+                  "logprobs": []
+                }
+              ],
+              "role": "assistant",
+              "status": "completed",
+              "type": "message",
+              "phase": "final_answer"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "temperature": 1.0,
+          "tool_choice": "auto",
+          "tools": [],
+          "top_p": 0.98,
+          "background": true,
+          "completed_at": 1784406017.0,
+          "conversation": null,
+          "max_output_tokens": 12000,
+          "max_tool_calls": null,
+          "previous_response_id": null,
+          "prompt": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": "24h",
+          "reasoning": {
+            "effort": "xhigh",
+            "generate_summary": null,
+            "summary": null,
+            "context": "all_turns",
+            "mode": "standard"
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "status": "completed",
+          "text": {
+            "format": {
+              "name": "review_fable_kidde_2xaf2_variant_relational_matrix",
+              "schema_": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reviewer_model",
+                  "candidate_author",
+                  "reviews"
+                ],
+                "properties": {
+                  "reviewer_model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-5.6-sol"
+                    ]
+                  },
+                  "candidate_author": {
+                    "type": "string",
+                    "enum": [
+                      "claude-fable-5"
+                    ]
+                  },
+                  "reviews": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "canary_id",
+                        "verdict",
+                        "question_fully_answerable",
+                        "question_duplicate",
+                        "topic_aligned",
+                        "gold_complete",
+                        "source_geometry_valid",
+                        "known_conflicts_handled",
+                        "counterpart_materially_agrees",
+                        "material_disagreements",
+                        "unsupported_answer_claims",
+                        "blocking_issues",
+                        "nonblocking_notes",
+                        "fact_verdicts"
+                      ],
+                      "properties": {
+                        "canary_id": {
+                          "type": "string",
+                          "enum": [
+                            "kidde_2xaf2_variant_relational_matrix"
+                          ]
+                        },
+                        "verdict": {
+                          "type": "string",
+                          "enum": [
+                            "PASS",
+                            "FAIL"
+                          ]
+                        },
+                        "question_fully_answerable": {
+                          "type": "boolean"
+                        },
+                        "question_duplicate": {
+                          "type": "boolean"
+                        },
+                        "topic_aligned": {
+                          "type": "boolean"
+                        },
+                        "gold_complete": {
+                          "type": "boolean"
+                        },
+                        "source_geometry_valid": {
+                          "type": "boolean"
+                        },
+                        "known_conflicts_handled": {
+                          "type": "boolean"
+                        },
+                        "counterpart_materially_agrees": {
+                          "type": "boolean"
+                        },
+                        "material_disagreements": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "unsupported_answer_claims": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "blocking_issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "nonblocking_notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "fact_verdicts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "fact_id",
+                              "supported",
+                              "source_pages_correct",
+                              "answer_entails",
+                              "genuinely_cross_source",
+                              "notes"
+                            ],
+                            "properties": {
+                              "fact_id": {
+                                "type": "string"
+                              },
+                              "supported": {
+                                "type": "boolean"
+                              },
+                              "source_pages_correct": {
+                                "type": "boolean"
+                              },
+                              "answer_entails": {
+                                "type": "boolean"
+                              },
+                              "genuinely_cross_source": {
+                                "type": "boolean"
+                              },
+                              "notes": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        }
+                      }
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "type": "json_schema",
+              "description": null,
+              "strict": true
+            },
+            "verbosity": "low"
+          },
+          "top_logprobs": 0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 58566,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 78711,
+            "output_tokens_details": {
+              "reasoning_tokens": 7994
+            },
+            "total_tokens": 137277
+          },
+          "user": null,
+          "billing": {
+            "payer": "developer"
+          },
+          "frequency_penalty": 0.0,
+          "moderation": null,
+          "presence_penalty": 0.0,
+          "store": false,
+          "tool_usage": {
+            "image_gen": {
+              "input_tokens": 0,
+              "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "output_tokens": 0,
+              "output_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "total_tokens": 0
+            },
+            "web_search": {
+              "num_requests": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_excellence_loop_device_roles",
+      "review": {
+        "reviewer_model": "gpt-5.6-sol",
+        "candidate_author": "claude-fable-5",
+        "reviews": [
+          {
+            "canary_id": "kidde_excellence_loop_device_roles",
+            "verdict": "FAIL",
+            "question_fully_answerable": true,
+            "question_duplicate": true,
+            "topic_aligned": true,
+            "gold_complete": false,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": false,
+            "material_disagreements": [
+              "La contraparte conserva la base compartida y los límites ambientales exigidos por el contrato congelado; la candidata omite ambos ámbitos."
+            ],
+            "unsupported_answer_claims": [
+              "La afirmación de que el bloque aislador es «idéntico» físicamente no está demostrada; las fichas solo muestran parámetros publicados coincidentes."
+            ],
+            "blocking_issues": [
+              "La pregunta y la respuesta omiten la base compartida y los límites ambientales exigidos por el contrato congelado.",
+              "El subapartado sobre cómo direccionar el KE-DP3120W reproduce semánticamente consultas retriever ya divulgadas.",
+              "F03 infiere identidad del bloque aislador a partir de especificaciones coincidentes."
+            ],
+            "nonblocking_notes": [
+              "La mención de baterías sería más precisa como 3 × CR123 opcionales para activación asistida."
+            ],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Las listas de supervisión están visibles en ambas páginas citadas."
+              },
+              {
+                "fact_id": "F02",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "La alimentación por lazo y ambos intervalos de tensión coinciden."
+              },
+              {
+                "fact_id": "F03",
+                "supported": false,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Los valores coinciden, pero las fuentes no establecen que el bloque físico sea idéntico."
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Los métodos de direccionamiento son correctos, aunque el subtema está cubierto previamente."
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": ""
+              },
+              {
+                "fact_id": "F06",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": ""
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "sol",
+        "call_label": "review:fable:kidde_excellence_loop_device_roles",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "background": true,
+        "transport_retries_configured": 2,
+        "background_create_retries_configured": 0,
+        "background_poll_retries_configured": 2,
+        "status": "completed",
+        "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_excellence_loop_device_roles\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":true,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"La contraparte conserva la base compartida y los límites ambientales exigidos por el contrato congelado; la candidata omite ambos ámbitos.\"],\"unsupported_answer_claims\":[\"La afirmación de que el bloque aislador es «idéntico» físicamente no está demostrada; las fichas solo muestran parámetros publicados coincidentes.\"],\"blocking_issues\":[\"La pregunta y la respuesta omiten la base compartida y los límites ambientales exigidos por el contrato congelado.\",\"El subapartado sobre cómo direccionar el KE-DP3120W reproduce semánticamente consultas retriever ya divulgadas.\",\"F03 infiere identidad del bloque aislador a partir de especificaciones coincidentes.\"],\"nonblocking_notes\":[\"La mención de baterías sería más precisa como 3 × CR123 opcionales para activación asistida.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las listas de supervisión están visibles en ambas páginas citadas.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"La alimentación por lazo y ambos intervalos de tensión coinciden.\"},{\"fact_id\":\"F03\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los valores coinciden, pero las fuentes no establecen que el bloque físico sea idéntico.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los métodos de direccionamiento son correctos, aunque el subtema está cubierto previamente.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"}]}]}",
+        "usage": {
+          "input_tokens": 45037,
+          "output_tokens": 79253,
+          "total_tokens": 124290
+        },
+        "provider_trace": {
+          "id": "resp_09cedee4082fbf83006a5be05c5e78819fa1455ab97eeeecaf",
+          "created_at": 1784406108.0,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": "Follow the user contract exactly. Return only JSON.",
+          "metadata": {},
+          "model": "gpt-5.6-sol",
+          "object": "response",
+          "output": [
+            {
+              "id": "rs_09cedee4082fbf83006a5be05fe834819f8133dc4842a37408",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be06d39ec819f861cf69b2f6b84b4",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0781ee0819f80ab73edcc1ae97c",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be08255dc819f873794c8bd4060c9",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be08cef9c819fb51ca91ffead939b",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be099a40c819f8f8aaac835613862",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0a6e0bc819fb923a48c0bea77af",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0b27610819fa44a33ad952e87b1",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0bd2308819faf3ae9d6006a7994",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0ca5480819fa7ac9f1948b5aa92",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0d5bff4819fb8849d83eb9e6594",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0e218e0819fa895c673a083b16c",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0ecea34819fac14050e8833c0ea",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be0f8c974819fb89e31d5704040c8",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be103d6ec819fa29e37f685f425f5",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_09cedee4082fbf83006a5be110c070819f82bb8a581aace919",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "msg_09cedee4082fbf83006a5be11c8cb0819f8b2c365d301bd4b3",
+              "content": [
+                {
+                  "annotations": [],
+                  "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_excellence_loop_device_roles\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":true,\"topic_aligned\":true,\"gold_complete\":false,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"La contraparte conserva la base compartida y los límites ambientales exigidos por el contrato congelado; la candidata omite ambos ámbitos.\"],\"unsupported_answer_claims\":[\"La afirmación de que el bloque aislador es «idéntico» físicamente no está demostrada; las fichas solo muestran parámetros publicados coincidentes.\"],\"blocking_issues\":[\"La pregunta y la respuesta omiten la base compartida y los límites ambientales exigidos por el contrato congelado.\",\"El subapartado sobre cómo direccionar el KE-DP3120W reproduce semánticamente consultas retriever ya divulgadas.\",\"F03 infiere identidad del bloque aislador a partir de especificaciones coincidentes.\"],\"nonblocking_notes\":[\"La mención de baterías sería más precisa como 3 × CR123 opcionales para activación asistida.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las listas de supervisión están visibles en ambas páginas citadas.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"La alimentación por lazo y ambos intervalos de tensión coinciden.\"},{\"fact_id\":\"F03\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los valores coinciden, pero las fuentes no establecen que el bloque físico sea idéntico.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Los métodos de direccionamiento son correctos, aunque el subtema está cubierto previamente.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"\"}]}]}",
+                  "type": "output_text",
+                  "logprobs": []
+                }
+              ],
+              "role": "assistant",
+              "status": "completed",
+              "type": "message",
+              "phase": "final_answer"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "temperature": 1.0,
+          "tool_choice": "auto",
+          "tools": [],
+          "top_p": 0.98,
+          "background": true,
+          "completed_at": 1784406307.0,
+          "conversation": null,
+          "max_output_tokens": 12000,
+          "max_tool_calls": null,
+          "previous_response_id": null,
+          "prompt": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": "24h",
+          "reasoning": {
+            "effort": "xhigh",
+            "generate_summary": null,
+            "summary": null,
+            "context": "all_turns",
+            "mode": "standard"
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "status": "completed",
+          "text": {
+            "format": {
+              "name": "review_fable_kidde_excellence_loop_device_roles",
+              "schema_": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reviewer_model",
+                  "candidate_author",
+                  "reviews"
+                ],
+                "properties": {
+                  "reviewer_model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-5.6-sol"
+                    ]
+                  },
+                  "candidate_author": {
+                    "type": "string",
+                    "enum": [
+                      "claude-fable-5"
+                    ]
+                  },
+                  "reviews": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "canary_id",
+                        "verdict",
+                        "question_fully_answerable",
+                        "question_duplicate",
+                        "topic_aligned",
+                        "gold_complete",
+                        "source_geometry_valid",
+                        "known_conflicts_handled",
+                        "counterpart_materially_agrees",
+                        "material_disagreements",
+                        "unsupported_answer_claims",
+                        "blocking_issues",
+                        "nonblocking_notes",
+                        "fact_verdicts"
+                      ],
+                      "properties": {
+                        "canary_id": {
+                          "type": "string",
+                          "enum": [
+                            "kidde_excellence_loop_device_roles"
+                          ]
+                        },
+                        "verdict": {
+                          "type": "string",
+                          "enum": [
+                            "PASS",
+                            "FAIL"
+                          ]
+                        },
+                        "question_fully_answerable": {
+                          "type": "boolean"
+                        },
+                        "question_duplicate": {
+                          "type": "boolean"
+                        },
+                        "topic_aligned": {
+                          "type": "boolean"
+                        },
+                        "gold_complete": {
+                          "type": "boolean"
+                        },
+                        "source_geometry_valid": {
+                          "type": "boolean"
+                        },
+                        "known_conflicts_handled": {
+                          "type": "boolean"
+                        },
+                        "counterpart_materially_agrees": {
+                          "type": "boolean"
+                        },
+                        "material_disagreements": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "unsupported_answer_claims": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "blocking_issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "nonblocking_notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "fact_verdicts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "fact_id",
+                              "supported",
+                              "source_pages_correct",
+                              "answer_entails",
+                              "genuinely_cross_source",
+                              "notes"
+                            ],
+                            "properties": {
+                              "fact_id": {
+                                "type": "string"
+                              },
+                              "supported": {
+                                "type": "boolean"
+                              },
+                              "source_pages_correct": {
+                                "type": "boolean"
+                              },
+                              "answer_entails": {
+                                "type": "boolean"
+                              },
+                              "genuinely_cross_source": {
+                                "type": "boolean"
+                              },
+                              "notes": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        }
+                      }
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "type": "json_schema",
+              "description": null,
+              "strict": true
+            },
+            "verbosity": "low"
+          },
+          "top_logprobs": 0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 45037,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 79253,
+            "output_tokens_details": {
+              "reasoning_tokens": 8286
+            },
+            "total_tokens": 124290
+          },
+          "user": null,
+          "billing": {
+            "payer": "developer"
+          },
+          "frequency_penalty": 0.0,
+          "moderation": null,
+          "presence_penalty": 0.0,
+          "store": false,
+          "tool_usage": {
+            "image_gen": {
+              "input_tokens": 0,
+              "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "output_tokens": 0,
+              "output_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "total_tokens": 0
+            },
+            "web_search": {
+              "num_requests": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_nc_panel_relational_matrix",
+      "review": {
+        "reviewer_model": "gpt-5.6-sol",
+        "candidate_author": "claude-fable-5",
+        "reviews": [
+          {
+            "canary_id": "kidde_nc_panel_relational_matrix",
+            "verdict": "FAIL",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": true,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": false,
+            "material_disagreements": [
+              "F02: el candidato afirma que solo la NC-PF8-SC incorpora llave escandinava; la contraparte limita la conclusión a que dicha llave está especificada para la NC-PF8-SC y no especificada para la NC-PF4."
+            ],
+            "unsupported_answer_claims": [
+              "La afirmación de que la NC-PF4 carece de soporte/cerradura de llave escandinava. Su ficha no lo menciona, pero esa ausencia no constituye una especificación negativa concluyente."
+            ],
+            "blocking_issues": [
+              "F02 transforma «no documentado para la NC-PF4» en «no incorporado», introduciendo una exclusividad no demostrada y un desacuerdo material con la contraparte."
+            ],
+            "nonblocking_notes": [],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F02",
+                "supported": false,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Las páginas respaldan la llave de la NC-PF8-SC y la falta de mención en la NC-PF4, no la exclusión técnica absoluta de esta última."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F06",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F07",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              },
+              {
+                "fact_id": "F08",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": ""
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "sol",
+        "call_label": "review:fable:kidde_nc_panel_relational_matrix",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "background": true,
+        "transport_retries_configured": 2,
+        "background_create_retries_configured": 0,
+        "background_poll_retries_configured": 2,
+        "status": "completed",
+        "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"F02: el candidato afirma que solo la NC-PF8-SC incorpora llave escandinava; la contraparte limita la conclusión a que dicha llave está especificada para la NC-PF8-SC y no especificada para la NC-PF4.\"],\"unsupported_answer_claims\":[\"La afirmación de que la NC-PF4 carece de soporte/cerradura de llave escandinava. Su ficha no lo menciona, pero esa ausencia no constituye una especificación negativa concluyente.\"],\"blocking_issues\":[\"F02 transforma «no documentado para la NC-PF4» en «no incorporado», introduciendo una exclusividad no demostrada y un desacuerdo material con la contraparte.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las páginas respaldan la llave de la NC-PF8-SC y la falta de mención en la NC-PF4, no la exclusión técnica absoluta de esta última.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F08\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"}]}]}",
+        "usage": {
+          "input_tokens": 44298,
+          "output_tokens": 46275,
+          "total_tokens": 90573
+        },
+        "provider_trace": {
+          "id": "resp_015c1288519d6d78006a5be1b3a378819e9a049da307360c1d",
+          "created_at": 1784406451.0,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": "Follow the user contract exactly. Return only JSON.",
+          "metadata": {},
+          "model": "gpt-5.6-sol",
+          "object": "response",
+          "output": [
+            {
+              "id": "rs_015c1288519d6d78006a5be1b6a6a8819ea7ad8b444f8ccab3",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1c58d88819e8e1be0afd8205cd7",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1d00a1c819ead2af9834b0ee570",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1dae6c8819e898385aab7c5ae34",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1e58578819e88f9cde0161f4998",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1f07dd8819e916c1520dc5430aa",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be1fc75e4819e9c2551e8902a75bb",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be206a8c8819e88ca9d1aa5895227",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be2121aa0819e89bfacd2faf0315c",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be21ddd98819ea45d5d0d0e0d6ae9",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be2293b90819e916b39c6191b3030",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "rs_015c1288519d6d78006a5be235c764819e8b76d29c8c7baf32",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": null,
+              "status": null
+            },
+            {
+              "id": "msg_015c1288519d6d78006a5be2373d04819ea83c9e16d430c4f6",
+              "content": [
+                {
+                  "annotations": [],
+                  "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"verdict\":\"FAIL\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":false,\"material_disagreements\":[\"F02: el candidato afirma que solo la NC-PF8-SC incorpora llave escandinava; la contraparte limita la conclusión a que dicha llave está especificada para la NC-PF8-SC y no especificada para la NC-PF4.\"],\"unsupported_answer_claims\":[\"La afirmación de que la NC-PF4 carece de soporte/cerradura de llave escandinava. Su ficha no lo menciona, pero esa ausencia no constituye una especificación negativa concluyente.\"],\"blocking_issues\":[\"F02 transforma «no documentado para la NC-PF4» en «no incorporado», introduciendo una exclusividad no demostrada y un desacuerdo material con la contraparte.\"],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":false,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Las páginas respaldan la llave de la NC-PF8-SC y la falta de mención en la NC-PF4, no la exclusión técnica absoluta de esta última.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"},{\"fact_id\":\"F08\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"\"}]}]}",
+                  "type": "output_text",
+                  "logprobs": []
+                }
+              ],
+              "role": "assistant",
+              "status": "completed",
+              "type": "message",
+              "phase": "final_answer"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "temperature": 1.0,
+          "tool_choice": "auto",
+          "tools": [],
+          "top_p": 0.98,
+          "background": true,
+          "completed_at": 1784406590.0,
+          "conversation": null,
+          "max_output_tokens": 12000,
+          "max_tool_calls": null,
+          "previous_response_id": null,
+          "prompt": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": "24h",
+          "reasoning": {
+            "effort": "xhigh",
+            "generate_summary": null,
+            "summary": null,
+            "context": "all_turns",
+            "mode": "standard"
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "status": "completed",
+          "text": {
+            "format": {
+              "name": "review_fable_kidde_nc_panel_relational_matrix",
+              "schema_": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reviewer_model",
+                  "candidate_author",
+                  "reviews"
+                ],
+                "properties": {
+                  "reviewer_model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-5.6-sol"
+                    ]
+                  },
+                  "candidate_author": {
+                    "type": "string",
+                    "enum": [
+                      "claude-fable-5"
+                    ]
+                  },
+                  "reviews": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "canary_id",
+                        "verdict",
+                        "question_fully_answerable",
+                        "question_duplicate",
+                        "topic_aligned",
+                        "gold_complete",
+                        "source_geometry_valid",
+                        "known_conflicts_handled",
+                        "counterpart_materially_agrees",
+                        "material_disagreements",
+                        "unsupported_answer_claims",
+                        "blocking_issues",
+                        "nonblocking_notes",
+                        "fact_verdicts"
+                      ],
+                      "properties": {
+                        "canary_id": {
+                          "type": "string",
+                          "enum": [
+                            "kidde_nc_panel_relational_matrix"
+                          ]
+                        },
+                        "verdict": {
+                          "type": "string",
+                          "enum": [
+                            "PASS",
+                            "FAIL"
+                          ]
+                        },
+                        "question_fully_answerable": {
+                          "type": "boolean"
+                        },
+                        "question_duplicate": {
+                          "type": "boolean"
+                        },
+                        "topic_aligned": {
+                          "type": "boolean"
+                        },
+                        "gold_complete": {
+                          "type": "boolean"
+                        },
+                        "source_geometry_valid": {
+                          "type": "boolean"
+                        },
+                        "known_conflicts_handled": {
+                          "type": "boolean"
+                        },
+                        "counterpart_materially_agrees": {
+                          "type": "boolean"
+                        },
+                        "material_disagreements": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "unsupported_answer_claims": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "blocking_issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "nonblocking_notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "fact_verdicts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "fact_id",
+                              "supported",
+                              "source_pages_correct",
+                              "answer_entails",
+                              "genuinely_cross_source",
+                              "notes"
+                            ],
+                            "properties": {
+                              "fact_id": {
+                                "type": "string"
+                              },
+                              "supported": {
+                                "type": "boolean"
+                              },
+                              "source_pages_correct": {
+                                "type": "boolean"
+                              },
+                              "answer_entails": {
+                                "type": "boolean"
+                              },
+                              "genuinely_cross_source": {
+                                "type": "boolean"
+                              },
+                              "notes": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 8
+                        }
+                      }
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              },
+              "type": "json_schema",
+              "description": null,
+              "strict": true
+            },
+            "verbosity": "low"
+          },
+          "top_logprobs": 0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 44298,
+            "input_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 46275,
+            "output_tokens_details": {
+              "reasoning_tokens": 5765
+            },
+            "total_tokens": 90573
+          },
+          "user": null,
+          "billing": {
+            "payer": "developer"
+          },
+          "frequency_penalty": 0.0,
+          "moderation": null,
+          "presence_penalty": 0.0,
+          "store": false,
+          "tool_usage": {
+            "image_gen": {
+              "input_tokens": 0,
+              "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "output_tokens": 0,
+              "output_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "total_tokens": 0
+            },
+            "web_search": {
+              "num_requests": 0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "result_sha256": "5e65f5698f71c074537bda4699e49bb26097ea038326c769e655b3369366a81b"
+}
