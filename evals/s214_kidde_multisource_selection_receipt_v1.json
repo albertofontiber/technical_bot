@@ -1,0 +1,91 @@
+{
+  "schema": "s214_kidde_multisource_selection_receipt_v1",
+  "status": "CANDIDATES_SELECTED_BEFORE_MODEL_OUTPUT",
+  "selection_claim": "fresh_multisource_predicate_candidates_pending_frontier_semantic_veto",
+  "selected_at_utc": "2026-07-18T08:35:08Z",
+  "method": [
+    "inventory every Kidde PDF and its existing S99 retriever-augmentation coverage",
+    "exclude every source identity appearing anywhere in S203 through S209 packets, including secondary source arrays and citations",
+    "exclude every source identity appearing in the official gold ledger",
+    "prefer natural product-selection or architectural comparisons that require evidence from multiple documents",
+    "freeze source-page geometry before any Frontier authorship or chatbot output",
+    "defer semantic novelty, question adequacy and gold correctness to independent Sol and Fable pixel authorship plus reciprocal cross-review"
+  ],
+  "selected": [
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdfs": [
+        "nc-pf2-161721-es.pdf",
+        "nc-pf4-sc-161721-es.pdf",
+        "nc-pf8-161721-es.pdf"
+      ],
+      "reason": "The three datasheets expose a natural family-selection predicate across zone count, network-node geometry, power supply, supervised outputs and battery capacity; same-source S99 asks isolated specifications but not this bounded cross-model decision.",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "source_identity_used_by_official_gold": false,
+      "cross_source_dependency": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "source_pdfs": [
+        "2x-af1-s-161721-es.pdf",
+        "2x-af2-scfb-s-161721-es.pdf"
+      ],
+      "reason": "The pair supports a bounded selection predicate around no-Fire-Brigade versus integrated Scandinavian interface, key-lock consequences and supervised-output geometry. Loop cardinality is explicitly excluded because the AF1 sheet contradicts itself.",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "source_identity_used_by_official_gold": false,
+      "cross_source_dependency": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_mcp_surface_kit_selection",
+      "source_pdfs": [
+        "ke-dm3010r-161721-es.pdf",
+        "ke-dm3010r-kit-161721-es.pdf"
+      ],
+      "reason": "The sheets support a precise purchasing and installation distinction: only the KIT sheet explicitly says it is supplied complete with a back box, while both share the bounded MCP capabilities shown in their own pixels.",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "source_identity_used_by_official_gold": false,
+      "cross_source_dependency": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "source_pdfs": [
+        "9-30781-kid-en-161721-es.pdf",
+        "9-30783-kid-en-161721-es.pdf"
+      ],
+      "reason": "The pair supports a clean architectural predicate separating the Standard display module user-interface/configuration role from the detector module aspiration, analysis, relay and sampling-pipe role.",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "source_identity_used_by_official_gold": false,
+      "cross_source_dependency": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    }
+  ],
+  "rejected_after_visual_inspection": [
+    {
+      "candidate": "KE-AS3115R-WM versus KE-AS3115R-WMIP",
+      "reason": "KE-AS3115R-WM occurs as a secondary source in S204; the pair is therefore not fresh even though a shallow source_pdf-only inventory had missed it. Its rendered pages were removed before packet freeze."
+    },
+    {
+      "candidate": "2X-AF1 loop-count comparison",
+      "reason": "The AF1 title/details say one loop while its narrative and technical table say two; authors must avoid loop cardinality rather than silently resolve the conflict."
+    }
+  ],
+  "cohort_contract": {
+    "candidate_items": 4,
+    "distinct_source_pdfs": 9,
+    "minimum_pixel_gold_items": 3,
+    "minimum_support_validated_items": 3,
+    "item_level_fail_closed": true,
+    "same_item_retry": false,
+    "candidate_repair_or_merge": false
+  },
+  "claims_not_made": [
+    "external validation",
+    "semantic novelty before Frontier review",
+    "official benchmark expansion",
+    "official fact credit",
+    "exhaustive proof that no other useful Kidde predicate exists"
+  ]
+}
