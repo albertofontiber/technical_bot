@@ -1,0 +1,457 @@
+{
+  "schema": "s208_kidde_visual_gold_v1",
+  "status": "PIXEL_GOLD_PASS_UNINTEGRATED",
+  "questions": [
+    {
+      "qid": "s208k01",
+      "canary_id": "kidde_dual_optical_isolator_geometry",
+      "adequacy": "SUFFICIENT",
+      "question": "Estoy dimensionando un lazo con detectores KE-DP3120W: ¿qué impedancia máxima se permite entre la central y el primer aislador y entre aisladores, a qué cable equivale ese límite según la nota, y cuántos aisladores por lazo y dispositivos entre aisladores se admiten como máximo?",
+      "expected_behavior": "answer",
+      "gold_answer": "La impedancia máxima es de 13 Ω entre la central y el primer aislador y de 13 Ω entre aisladores. La nota asociada equivale ese límite a 500 m de cable de 1,5 mm² (16 AWG). Se admiten como máximo 128 aisladores por lazo y 32 dispositivos entre aisladores.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "Para el KE-DP3120W, la impedancia máxima entre la central y el primer aislador es de 13 Ω.",
+          "type": "core",
+          "state": "present",
+          "value": "13 Ω máx.",
+          "citations": [
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 2
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 2,
+              "evidence": "En la tabla «Isolation», bajo «Maximum impedance [1]», la fila «Between the first isolator and the control panel» indica «13 Ω»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F02",
+          "text": "Para el KE-DP3120W, la impedancia máxima entre aisladores es de 13 Ω.",
+          "type": "core",
+          "state": "present",
+          "value": "13 Ω máx.",
+          "citations": [
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 2
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 2,
+              "evidence": "En la tabla «Isolation», bajo «Maximum impedance [1]», la fila «Between each isolator» indica «13 Ω»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F03",
+          "text": "La nota [1] vinculada a los límites de impedancia máxima establece una equivalencia de 500 m de cable de 1,5 mm² (16 AWG).",
+          "type": "core",
+          "state": "present",
+          "value": "500 m de cable de 1,5 mm² (16 AWG)",
+          "citations": [
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 2
+            },
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 3
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 2,
+              "evidence": "El rótulo «Maximum impedance [1]» muestra que la especificación de impedancia remite a la nota [1]."
+            },
+            {
+              "page": 3,
+              "evidence": "La nota visible «[1] Equivalent to 500 m of 1.5 mm² (16 AWG) cable» define la equivalencia."
+            }
+          ]
+        },
+        {
+          "fact_id": "F04",
+          "text": "El número máximo de aisladores por lazo es 128.",
+          "type": "core",
+          "state": "present",
+          "value": "128 aisladores por lazo, máx.",
+          "citations": [
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 3
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 3,
+              "evidence": "La fila «Number of isolators per loop» indica «128 max.»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F05",
+          "text": "El número máximo de dispositivos entre aisladores es 32.",
+          "type": "core",
+          "state": "present",
+          "value": "32 dispositivos entre aisladores, máx.",
+          "citations": [
+            {
+              "pdf": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+              "page": 3
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 3,
+              "evidence": "La fila «Number of devices between isolators» indica «32 max.»."
+            }
+          ]
+        }
+      ],
+      "notes": "F03 es un hecho genuinamente cruzado entre páginas: la página 2 enlaza la impedancia con la nota [1] y la página 3 proporciona la equivalencia de cable.",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "b3aa13af3416b894337b9b541ed100ec366af31611d27eac91f753dd7a19577a",
+      "pixel_sha256": [
+        "d7f54b9ee064a4e8dfd6a37279d004da033f57eb0fb285bee546214347c32f51",
+        "86ec23b97967da5802c7fceb430e92adad8b312de38d25a6c89fe3ee00759223"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s208k02",
+      "canary_id": "kidde_2xa_self_test_schedule",
+      "adequacy": "SUFFICIENT",
+      "question": "En una central Kidde 2X-A, ¿Self-test viene activado por defecto y cuál es el procedimiento completo para habilitarlo, fijar la hora de la autoprueba y la del informe, y guardar y aplicar la configuración?",
+      "expected_behavior": "answer",
+      "gold_answer": "Self-test está desactivado de forma predeterminada. Sirve para programar una autoprueba funcional de cada dispositivo de lazo y generar un informe diario en los dispositivos compatibles. Entre en Menú principal → Ajustes del panel → Otros ajustes → Self-test, marque la casilla Habili, configure TestH con la hora de inicio de la autoprueba y ReportH con la hora de generación del informe; ambos campos admiten de 00:00 a 23:59. Después pulse F4 (Enter) y F1 (Atrás), guarde con F1 (Guardar) y aplique los ajustes guardados desde el Menú principal con F3 (Aplicar).",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "De forma predeterminada, la autoprueba Self-test no está activada.",
+          "type": "core",
+          "state": "present",
+          "value": "No activada",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "En el párrafo bajo el encabezado «Self-test» aparece la frase «De forma predeterminada, la autoprueba no está activada»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F02",
+          "text": "Self-test programa una autoprueba funcional para cada dispositivo de lazo y genera un informe diario en los dispositivos que admiten la función.",
+          "type": "supplementary",
+          "state": "present",
+          "value": "Autoprueba funcional por dispositivo de lazo e informe diario en dispositivos compatibles",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El párrafo introductorio de «Self-test» indica «programar una autoprueba funcional para cada dispositivo de lazo» y «generar un informe diario» en los dispositivos compatibles."
+            }
+          ]
+        },
+        {
+          "fact_id": "F03",
+          "text": "La ruta de configuración es Menú principal → Ajustes del panel → Otros ajustes → Self-test.",
+          "type": "core",
+          "state": "present",
+          "value": "Menú principal > Ajustes del panel > Otros ajustes > Self-test",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "Los pasos 1 y 2 de «Para cambiar la configuración» muestran «Ajustes del panel», después «Otros ajustes» y finalmente «Self-test»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F04",
+          "text": "Para habilitar Self-test hay que seleccionar y marcar la casilla de verificación Habili.",
+          "type": "core",
+          "state": "present",
+          "value": "Habili marcada",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El paso 3 dice «Seleccione y marque la casilla de verificación Habili»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F05",
+          "text": "El campo TestH establece la hora de inicio de la autoprueba y admite valores de 00:00 a 23:59.",
+          "type": "core",
+          "state": "present",
+          "value": "TestH: 00:00–23:59",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El paso 4 identifica «TestH» como la hora de inicio de la autoprueba y muestra el intervalo «de 00:00 a 23:59»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F06",
+          "text": "El campo ReportH establece la hora de generación del informe y admite valores de 00:00 a 23:59.",
+          "type": "core",
+          "state": "present",
+          "value": "ReportH: 00:00–23:59",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El paso 5 identifica «ReportH» como la hora de generación del informe y muestra el intervalo «de 00:00 a 23:59»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F07",
+          "text": "Tras introducir los parámetros, hay que pulsar F4 (Enter) y después F1 (Atrás).",
+          "type": "supplementary",
+          "state": "present",
+          "value": "F4 (Enter) → F1 (Atrás)",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El paso 6 indica «Pulse F4 (Enter) y, a continuación, pulse F1 (Atrás)»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F08",
+          "text": "La configuración debe guardarse con F1 (Guardar) y los ajustes guardados deben aplicarse desde el Menú principal con F3 (Aplicar).",
+          "type": "core",
+          "state": "present",
+          "value": "F1 (Guardar) y F3 (Aplicar) en el Menú principal",
+          "citations": [
+            {
+              "pdf": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf",
+              "page": 91
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 91,
+              "evidence": "El paso 7 muestra «F1 (Guardar), F3 (Aplicar)» y la frase final recuerda «aplicar los ajustes guardados en el Menú principal»."
+            }
+          ]
+        }
+      ],
+      "notes": "La única página de enfoque contiene el estado predeterminado y toda la secuencia de configuración solicitada; no se necesita una dependencia entre páginas.",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "3fda944ecbca316b0fa9f53cf947be63bd685205e8b824a645bfa1ea3dd2fefe",
+      "pixel_sha256": [
+        "1e480857b2e27dd25603c8025f760e8a4202336d5ac68315882967c42d50fa43"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s208k03",
+      "canary_id": "kidde_nc_internal_fault_startup",
+      "adequacy": "SUFFICIENT",
+      "question": "Al energizar una central Kidde NC que ha detectado una avería interna, ¿cómo identifico la secuencia especial de inicio por los dos LED, qué credencial y mando debo usar para restablecerla y qué ocurre si la avería persiste?",
+      "expected_behavior": "answer",
+      "gold_answer": "Es la secuencia especial de inicio de avería utilizada después de que la central detecte una avería interna. Se reconoce porque el LED general «Avería» parpadea rápidamente y el LED «Avería sistema» parpadea lentamente. Para intentar restablecer la central, introduzca primero la contraseña del nivel de usuario operador y después pulse «Rearme». Si el estado de avería continúa, la central cancela la secuencia de inicio y enciende el LED «Avería sistema»; en ese caso deben comprobarse todas las conexiones y la configuración de la central.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La secuencia especial de inicio de avería se utiliza después de que la central haya detectado una avería interna.",
+          "type": "core",
+          "state": "present",
+          "value": "Secuencia especial posterior a la detección de una avería interna",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "Bajo el encabezado «Inicio de avería», la primera frase describe una secuencia especial usada tras detectar una avería interna."
+            }
+          ]
+        },
+        {
+          "fact_id": "F02",
+          "text": "Durante esta secuencia, el LED general «Avería» parpadea de forma rápida.",
+          "type": "core",
+          "state": "present",
+          "value": "LED «Avería» general: parpadeo rápido",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "Primer punto de la lista bajo «Se indica de la siguiente manera»: el LED «Avería» general parpadea rápidamente."
+            }
+          ]
+        },
+        {
+          "fact_id": "F03",
+          "text": "Al mismo tiempo, el LED «Avería sistema» parpadea de forma lenta.",
+          "type": "core",
+          "state": "present",
+          "value": "LED «Avería sistema»: parpadeo lento",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "Segundo punto de la lista de indicaciones: el LED «Avería sistema» parpadea lentamente."
+            }
+          ]
+        },
+        {
+          "fact_id": "F04",
+          "text": "Para intentar restablecer la central debe seguirse este orden: introducir la contraseña del nivel de usuario operador y después pulsar el botón «Rearme».",
+          "type": "core",
+          "state": "present",
+          "value": "Contraseña de operador → botón «Rearme»",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "La lista numerada «Cuando esto ocurre» indica como paso 1 la contraseña del usuario operador y como paso 2 pulsar «Rearme»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F05",
+          "text": "Si el estado de avería continúa después del rearme, la central cancela la secuencia de inicio.",
+          "type": "core",
+          "state": "present",
+          "value": "Avería persistente tras rearme: cancelación de la secuencia de inicio",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "La frase posterior a los pasos numerados afirma que, si la avería continúa tras el rearme, se cancela la secuencia de inicio."
+            }
+          ]
+        },
+        {
+          "fact_id": "F06",
+          "text": "Tras esa persistencia, la central enciende el LED «Avería sistema».",
+          "type": "core",
+          "state": "present",
+          "value": "LED «Avería sistema» encendido",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "La misma frase sobre la avería persistente especifica que la central encenderá el LED «Avería sistema»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F07",
+          "text": "Si se mantiene esa situación, deben comprobarse todas las conexiones y la configuración de la central.",
+          "type": "supplementary",
+          "state": "present",
+          "value": "Comprobar todas las conexiones y la configuración",
+          "citations": [
+            {
+              "pdf": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual.pdf",
+              "page": 89
+            }
+          ],
+          "visual_evidence": [
+            {
+              "page": 89,
+              "evidence": "El último párrafo indica comprobar todas las conexiones y la configuración de la central cuando se produce esta situación."
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "609d5ef1533d65666f2c183d69a8ba5542a90c29c3fba7663eaa34d64b35d821",
+      "pixel_sha256": [
+        "af7887e1c17aa601e10ee3c0cb894fb46e8227de60b9fd18026ba4ac62eac5b1"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    }
+  ],
+  "official_fact_credit": 0,
+  "result_sha256": "ea21a6ff275287e5b9607ff84acb87be17fdd5d04c782ba73993465ac3990292"
+}

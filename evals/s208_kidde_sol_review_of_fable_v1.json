@@ -1,0 +1,337 @@
+{
+  "schema": "s208_sol_review_of_fable_v1",
+  "review": {
+    "reviewer_model": "gpt-5.6-sol",
+    "candidate_author": "claude-fable-5",
+    "reviews": [
+      {
+        "canary_id": "kidde_dual_optical_isolator_geometry",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La relación entre los valores de 13 Ω de la página 2 y la equivalencia de cable de la página 3 está explícitamente establecida mediante la nota [1]."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_2xa_self_test_schedule",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La respuesta reproduce las opciones mostradas por el manual y recuerda expresamente que los ajustes guardados deben aplicarse desde el Menú principal."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_nc_internal_fault_startup",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": ""
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La página de enfoque ordena comprobar todas las conexiones y la configuración y remite explícitamente al procedimiento de la página 82; no se atribuyen detalles no visibles de ese procedimiento."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "sol",
+    "call_label": "review:fable_candidates",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "status": "completed",
+    "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_dual_optical_isolator_geometry\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La relación entre los valores de 13 Ω de la página 2 y la equivalencia de cable de la página 3 está explícitamente establecida mediante la nota [1].\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"}]},{\"canary_id\":\"kidde_2xa_self_test_schedule\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La respuesta reproduce las opciones mostradas por el manual y recuerda expresamente que los ajustes guardados deben aplicarse desde el Menú principal.\"}]},{\"canary_id\":\"kidde_nc_internal_fault_startup\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página de enfoque ordena comprobar todas las conexiones y la configuración y remite explícitamente al procedimiento de la página 82; no se atribuyen detalles no visibles de ese procedimiento.\"}]}]}",
+    "usage": {
+      "input_tokens": 163560,
+      "output_tokens": 2929,
+      "total_tokens": 166489
+    },
+    "provider_trace": {
+      "id": "resp_011ff03deb27b9cc016a5afdb4358c81959d1fbdbbdf0221b5",
+      "created_at": 1784348084.0,
+      "error": null,
+      "incomplete_details": null,
+      "instructions": "Follow the user contract exactly. Return only JSON.",
+      "metadata": {},
+      "model": "gpt-5.6-sol",
+      "object": "response",
+      "output": [
+        {
+          "id": "rs_011ff03deb27b9cc016a5afdb825d88195ab25af463c4c8a48",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWv3hTQWrchkMIuRhUVUfwdQjTrYqBgrfMBr9F8ifa4KMTDgZft6WxYTw-_wsnVQkmwlyH1SOaX2j1pQdZxTY2ZcRm6Qed8p4SBmKPWuDzqHb_tlttQJMdGVJwziVIFFa0WksDtpWiNDXnbSIQJE5UCXEk60mdLThYJcgUksT5WOeW5DPLEhExhtRERCK5arPwvaY6seHvhtU-0f2DFTv7u8hXIAWZoG6-tqoCZ8orf5Tdc-rq5jiqZIdL21zyb8XYmeU4iz2DGxl1HoUFFgEgoov27jZp5Qy1PbUFmDIX1cMdrrO687lzZmmxx6689IU4groBrcAWYs7s0rWc6KMPIGrEbMvBrjCcOVGaHD9UaaHmmVHLYli6hS-TnQZtx-1WxbDcq2SkwD2ZJobT_WJzqsEcq8PAc11g-halr27H3moWbihan3ISw9soiF1ao1eoZb-CTcsYzWfnPlxtSTJ0uhmwmG1yqbFhQpUEiGAVfBNvDn44S3wgCn42Vv22d1opZbYRm-SKUmc6FmR5Vtp0gJ4ouPaz0ThyZ4E3lqmWzWlN_xZFF0v2Of8h1yXEks2ShWcl6-Gud-d8ofyTie5IXzezmFVsjP2GrL41UsbjMj3NCr2BIyqO2KtVMX6Zm_ytbPOCHtsupqp5-P4mpzSD9G65LXqxJLGZdTi9vIVUJ7yMopSDs_jbI6FV5FlJrFaU7NgZdjmeawHwJSqlye-_XTo7-C8iCnrsJfIQmB2Po5vfFrDpqOYBDjHxKNxDhJT17KBYXItUa6RXFnOh1e1D18tOlg_ZSkIkabXFVWcYnZAm1iml0vjKKswETuIElFMqODTzqYPQojDYpDUdZW-E3JkETZI3427KEJP-1Tmt5VV78keSKIKenyJCOFohj44s1owrzCrKS00hJ4lvErciXbdQqguvKhzJT_sxLkOc88P7_Sd0YRYJTRRc2r_GXRSf6ipoUByRr5By4gup_BwFRPAR_-45cwKeFbmAnyTUIdPkkKkmw4UQ6-yr29bp2_UCTOjSz57v8K8wAhoLHKlqFhwqGF0iAvyZyC9tx1AZwrpjY9DN63B-OqmuZ0vkFDZm_QXw8OJrkIeT03i5Dgpwt4EG2FCkAfH8ChZx5k12DahB3lYTy978_Sj6OS2aV9KO2LNLARnhNAwCSpRiGUVOoFjQlE2rllCbcCW_CR33S7vsqJQRzcWU5mMuLWcjY-7bzJ-VuZcgM2hc4Fvb-nCBUTW4E8CrgsFqlNJrEfqe4Dpbyes2cZBiGibvb_aWNJqekHBQlWE3re7tDEeSw6y3UiuzmBZRHkdZryZQHRSgn9rugxH-h5xjQJKCBo1IfnEMHx_geWV7K6C3bGtAu_0pcsRAlFv5WpWrVc9l1PorVX860CBL6vDYjf4dL1Q_MrxZFvdfegZZO_RI6eVIsxoHS9cUHSQPFMGvQREU0Uln6hrVLw600qNtdZp3tbDw4CdeV68gMkRy4V5yvg3GtCxxnTrPZjUSS-tVVghyN_vDsywc4yHGV_BGtwxQBAiJUH89-bLwvTAle7pJTjPB8-mAfn3E9e6PT1yJgWM4jHmKXBdjp12eG3rj7bCM_dy9fwJIB890ypIfITGrSlcb5e4c8aYMyXnta70Zo4Xpv6KEuNnRbhP2OgdkiawL1Pa-DUr6zFLJG6FPadvGjQmMffwoVoy1Zj5kmFcbfFwhRpf8ZQxLB3-13yzwyhN9rXI8BmpGSFeswQMWXX8gK43L3SXH_UAlTSppRSiYekHugwDrW3yYhzVOrrm12ZUWIssVzWPaKKpsxLVxBWvGJXGtTyB2uX5IljmpjIvmf2a-c2sMxg8uUBgZp4CYFKCRSvX5qgVnCxpsrDqiTgFkCVSZ_VVFk6vbaK0rLItP84F1JYDTJOMQShlKX74EO0qvi9nTzdIUTEdRSWPvBajw6gfkJVyo45rn6RDt2pOBsev8OYESDXgRwJ5yxtCoh-2Zzyi_fXtz0RzrWo0Hc2efhQY8Tw0v63yhex-lQk6zi6ed0zZyv2VQnb5fCCsfH-HGLtV-L58PQh_e-xdD3lMc1TTYqBxvIZUCYKNtGVSQsVbqvdGMAd_x1v4HASnzE89Gx9BXV-Zl0qm0cNildJ-3JE3ziSzhqpqetSf6jlP2AXEGnWl_0XJN7wr7wG5o-KxNFsnTa5KYBFnpReJvG24oo0Z0o0Sy7P7KQjXRWIoXSLxHPFapJysSx7688LHENl8evZ1Z9WA3YVAECC1MFGAJeKsNOcc-gZr-MZpfVBMZfBU_DSIhl0STtFnJ7SeIBb0rSV_Il8yjTz2ENNYGkqxuDLijqEDhZwNQGE98UURd_xmPUQsxZk1icQxJHiSFmO-n6R3kH-e9Ysd6apI3NC9C2XNbVPJ3UJV2CrHtbDxqheUer-QZEsdF4xevpZTAJllvvay4jmhYpr1RTbWIue-Zw2qk87pfjh13RDuvyBJmKiscv6wQQsnD0hK2ejtKMLxbXOEVG4X99YnlF1_1hhPWTKrrVUKub6wm51Etj-tj5wzlkQPyN1lcssYZfQ6uMOwiV4WQLJjTJiVBEdh0K0MQRQvOT_t9GuKS0Mf_c0aJdYM9fioA_CsKZYQRVmMvp24AN14tXEJ-iZMhjch3pcL5lUymGFZ2c-Krm0r0aAGdQ1cMfIRic7E01GJCVh82coDHKAWkvUftNVDCvx1v22Uz0HMhBQ7FPBYIWQpXc552uDO2Vjd3DOI8jqtJE3fu-1UEKIFn63Wr3eKNN2H2Vkxmi3v6BwVL3HP6B9EL92XbJDLskgpwCOZhianz_3LgBl7EZLQFM6aImPZj4y4SNASKrZma25zFjnpnMDGNr8CfNnpA0iPUz8yVn47H24193flztCbMRLd5H0P1umteWsTUxgW9EymIrPLWJbwe5BLFqKh-7fK3unH-ouDlkwgxTUza0QgoTaGJO_niZt8X8rK_YBjoHrbCypHqD-B6VrU0OEvqNllbrmDuMTxUouSW2n-rywSUfR9BRBNAXRJZsMCDsGz8eyvZWBDAVxqp3bunKAR9aYTjDC8VCx6fYKBo-FllyD_dLVnnKsOauTPGKbYMwCgyQ_XmL60GoyRqCCTlMmK4XsVkbF6S9xGDq5qrmzX8yjteiCWF4OtKcgMjfAwvKIctJRI-Pg5sYyq6rzl-PN9cqc70on0QiYOIyc_xc0HdupcAyjVlnvFAfDO-t6TsQxjiBJO8Ay-Annpz8SK6MvDkjkMNJK4rTc1Jo5GWCEGhjNVHPP13it7mLSz6K-iYYLmH8dP0Uwxfi9w4h1Fd_7uUIHxBFPibou-3iOog7kRN8UB05GKttdPkk_CKWLGJG-IXuDprQ9l3M_0DwF0rC0qKbu8zMI2D2wksdqHeUikuMh1IJXQrPgcc770KKB7fe_rFkQU0vCUIA5RI6Ta62hlksMUUa3ycm2E-QtDNQYmlzkWKQaGjrhdnobO9aM2swQ6NQam9ljsyuoWSM860PyEAXUV3-YyWk3ZOMPwk_FkaixojCKXOrKBEydd-drfJOu7cZrUHNVXa2dAId36gLEWsICjhJxBNSAzI3KNMsDMLDOTQLv-dJQBoW-qQcFkAOxH2ULVMHV5W207E0_8RBlhtLq25-N1yrt4qPbVtmKinLTp70Qwc-KRdYNNgOLsrBhfryWOK0TbEFKMEN7_Xasean3GUvDUCDBRTjZeNcaW6s3KfGKY8rUGHieeGaCAJYqU1LqmeS8RCswakUZeEbk8i0t78uffhlIy7Q7iqja3qWO2mUpoKlEfLtLkMHUjQ-DqIn65uDZPUrBMywNRvTejkKg-VrRLlt8mRMdFeKlE3ozzBemf5BMctTOdk-6XrNnD4BzM0djTb-19wvRdeu9jHRvErVZ0QoKVX2JQN263ydeqR1iYb9nHt01mBcuTaDXtrcllRsu-n393dNY9AZIxN8OmirnjyyiLzaOLg9w2j6GviVGBOUNPourSXfJXOh810AeJxSDMgzr_tRP0uWjfwF1uh9iX64DAm1kjD6cF_7-kMLD8dFFk",
+          "status": null
+        },
+        {
+          "id": "rs_011ff03deb27b9cc016a5afdc1774c8195914db3fd81602605",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWv3hlr_bC0PiqbTBOt2umLx5mrGpjrgTVVU88Kg6tvruZ0-YyUpm1k2HXsdAYOkS7yhuefyOFl7Z5CgMvRZeCNiJDvTMy8WNd0MK77Vc_OoR-fbwCWjaDqJzlfyRA8ZKzYReVdmjWe9CrzjbeH0ccwGXYWPdU2SKSXAWh0jEqj8-QjjkMwytAiA4-7ykqHNmGkM4yp7SJxh7TYtDcHX6_Wz24x5_nIlrPINRiMuipJDCvw-3IRifZLFBQph3miN7TK0auRhpcR6bLVLhUc2KlIGu9Bcv3UShKzYu4nd88vsJ61bE3S6-X90vxypKwO3hnlmAPrVx4pV71Olbh43mmS7hCEvjYw20DhFgBAccjG9D2_vXCOB_bRC1YMaRVhp1vNGmzw-tcX0i2IyXXZVoUpkyjW9tyRNC98pbyxIO9DkPH0k0OBF8Rhig0WUQWkZJol5KqtD2NY2TQdIRC5n31jlbdtEzFRyV6DewabfOnBfpVcS9eE-SJgG2Becy-c1WT6MjfPUz0obgo1s03KsqEWvdc841uIEnKlNWMTMMyswjCK19rvK_h0qiMAEcX9CXpZZ0sqPxVQ77jRmB14bmeC7GST6oew88up-BAkNeXDHhLTQu-PU49Bw4BaMOkbZZsJtc2SqPcSEkiLVVmsSuwqVoSH4Gb89X_Fm2KDNcvOQz7aeIm0u7hihG_g_BaWk4aB3pWjhZXsjxADBCaxPIFvyK21wdgwiRiNs657DHX88d8ZZoyz3ZaBu2lTNrIIKW4Wg_1cpi_ctKMcTZTXK0w-33U5y2u91FcpdVZcU5HDH3smRn0epVRPvpqzfKSmYuFD1B8eMdi7zEPoxgO4z8COxPqJogcIxoX0CWHXO7UCNrWRE0rV3CbaWZ33ADdk3nZbc44mGuhPJMRD-IZLYkz_e84BiHuoOhoCeM27JFaKhYzOEzAfoEsFeVttF7EL8uOJ1JOf9_sV62B88KeMMOqZTB3IkQOu8BODp18eGIKRQeETTXI2L2nRqPu_UdL4NrBgWUSnSEhXItbMCK2zgmIthpSUvu2rNULZC3DZg-ECDrp0UKJQWDH3iyY-2YVI2eQ5cebS8zKxQuGv1dVJH2KOyVC0xctQqK2QnWsfxglekAEOl_E8y-2M3q3ClUpy92nJ2E5mVvZEcgFKMr1XeeF90r5zUhKG9wG59YJRSXj64G3kzungNPD0BJsuaC0tG8V5dAZ-ou9gbiCS-soirQwi1sTibBje-Kud95e3PUtV0AU4zIEV-tVHT4kKYi-WB8KNV0TA3mSJSzB6HE2upGtEYOv_zq4dUK5giRAl1r-RKPczubhJhZ82BxBafCtFoex6NteQuEBUeFW7BRFn6J0PvPP9tMDHjYBx1s4p8RNSPX_DAgKik2KzochAvYXjGbhy5_-VTf4wzWDHVrMUw5cS3tuSbI6RBZspUKX2h6VUkEtNesWywNIPiMHJB_Nrdc8oq43LtrqTQUDp3kwSJNF_vInLLmgOijVRzpHOG8gzDaMDOO0tysSR_LuUj8ccFDm-x9KGOXKHQB8EwKpGg0FY6I8JdSjITLsTUfr0YggECBtH4fyrV0H9g1cZ8LxFaxBtJIkvNXsQRuHon6NHz0vnGgUGOxzzClkHpxgqP5d59M-pvgnYo90uU3ULklypF7-5TmGL5snLmgxpQwxr6m9k29Wg1WtjUUFASDJhQ6gczvUIFQLAgE2NTmwFTYSUeRJ6DklRFeKZYp1F2nQo41qBN5xP3Q8VrCfSXMx2c86GZiPJRNP9JjBCXVXovWtkjZepIn9cEaUM84pE1HvqMF_0SGnfV-cZYeRRdVpql1quF0ppaLPtSnZH4AjhSzlGB9djk6PpW-UX0FcHFKOfhU7KpI_AR6zyKXNmxVT1Tysw-80dEZuNrtgf6S8LiQjRQNyuhPQXVX5jia8Sh99W1ZHAk46hiG6Os6qTf-5hmBr6Rv5urCWUPPM0CSUmZ3MsbeS3oGNviXOo_bhqF2gA_kfg331IRNbMBgbT9-S0SDDsihqC6YTQDl0lJK7bXNHiToeSczRXz8wRQJ7zqdJBYBvAgHvLJU3iYjpwWn2xWkFCWMKIfW5_1p95e40P-nDHwVKTC3kFlhRsNoyYI2HpgeYli_7DzH9hmI2mhnoN2FpvqUVCma_BRdQlpMk4lpYQK5wr9WD0BNWrBf-FBjBRKNiJo8OcOFFJo-7ZWUVFvcSkOvCDAfu3MkXL5p8bMm_34h3Mne9D2PLRL37ETpV1dOpidzaIDPESdnKTOgtBEJm-h77PBhTw3B9kOhkpjr8TO9VI62T0t0ndbN0xv8u2KsYcqxeXAXDDlbmqtsoKXoPYc46AugwQ-Hfp372SvloL5fIigaWS2EcUc1SQEGkRSGIE0HG2HjbwJH2mwAr2KQfM1mkVXscT4H_zwXQgpCa-dC1DP4M0aE8NZqn8x2vvMEOL-gBt_TnwMyEwdkMliJ1K5iQD6QiclK157G-4mx3uQ9PA-33zQy5NRcgwqI9eQVkwPd6331NsJ2GUs42Q5FJ6IEoZ6pe5FRFehG99TeBRqo6sY3ReWGKrEu-teq-2uyhTZR7rs_ZoIPEE--szY68zB3e6bdNhOeuLOzcCt28nsiyAgSUViR7jDCdVrDkp0Fq6IQWn1T7jmHsfl9ti6hqr-UTDrhM9ALlf-5EMZRhTiTDV3WvYL-O1e-IR0oTy_zPto-W7cKtjSSe53_lsC5AKaJCKR6HtJPehp-pFdS7tW0aLYse_KmUeJU8St0DTzrXh69IcMAm4mDSXZVuOZS_M2jds-puhHc9BuMf-3cFf2f8AkVRdwPhLif6nY3DaoHvnnWEyl5BeaenJSF-YND82bRRXtLwLJZ2LPOGhNhOVpW7xnggKrjgSsR1l6eZCn5BGjFNRcqj_R4Ng7x5nD4-LJNucYecBe64rQtrIpe-07CZ-8wjlBVXorWQbM2bkWYn7zXHQdIEAEte6kyqDp2-k_SfLShafxzm6f5s72Qct3ToXdadceZqioPIhQfosR7eHAsKk8vnSBF1o6jnQc9VXEM4DUBQ3ykqr-ubc1zEoA2yAiEBuP_RAoX-p4yEGL95PeqoLJOlv8lGQNlULKlBDe9q6VFRUyVi6DBpeMINtisZFsoFAnKsNqPpNEujp4AEVSKYdSe1MlQREPzBxVgzDG-_Gb7FsDFm_oZ0rLmqcahmKCmLR9Y9Sxj8jfN6leIi6wheNSSqehCMHQDCsS5EQUe0U7404D7JUTDfwmdlCkSY4Mv-aOySbgdw8BI__C41jBNXWZsAdcqlK2KH6pTYb8HypeuxE8cFJtnT1SZ6gVii3ncQSMv9-P5mdz7ujC6u9vwUw9yHOnzc4tpyOS_d9ql6n1QvyZ4-sP-1NVvI3apj_m5w0gmh0GVDco256ayCXqE9b1qTXyT7yb6-Ovhtnw_-bCzcHEdq7LlZTUYAxc3CEI2NDlIkQOQpe9y34x3i791FVgvjaXg8Ne4jUOJhUzyj6czcHfLYp1B_tFr2665w2G2UJKGPidUG4p-HvWJ9hLTTIdoxXUsLHBQ5W3D1bsWXrVhdnTReT5SpZYcKEOBpVzqIXQaygeFoOznnGC3P1Ia_81-XsJzxyuy6RCWq7Y45EYtQpajbM80AdEfBFM6NUkgkpndMiJQn0MGSbQ7847qPNAkJDQpYJCpgsfeIRO65nzcOsnGIzpVkp0nCF3jjSQEHxSF-fyQwH5Fvbvf9kClT_R8lPIZFKEaJUrjL1t5MKIhum5Y4TDGojM3HXWTyd7dJpi2Yy3MbEP4HuUytf4FpWfiZTEyjpEMrKwnk3kAznst7p9MfZywhlYqGyctIuJpcXIwbaJ8VcBq8RuBA-Jhx-Pbnyk3PzZW4e9cIatcO68OhC0I94xE0QnyxBoM8pl3oJjTIjIzngK6lMGtyKxIyC-jHXq24MgeblirfdDvC_aDZYsA_92hd0wn3rXszw1f369H90Ho7TKDfoo2iEEKQqCWD4WeCeok1PsFszTzOyvGgozufrWYHUwxeOdF3ZfdDkhWe_fr0keQiC-ocjWzRpINjqjJFHKUhOvdL1OHLnjppSfRJnDAOsg-V7OERPWplpDFL_CPGns9foWuTxBAFSY_c5035uXVyXO5tu6EpDEVr43Dz13uFwIwc9PAA8zu2Jlx1bllcYyCEWag_geevg==",
+          "status": null
+        },
+        {
+          "id": "rs_011ff03deb27b9cc016a5afdca8f508195a7a36d1ada08391e",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWv3h838O2fpn5LemPvqsUUIlMSsBNJIESkO6KlRW3Sb-NSCo7nOWDezsaUqHmLRugcIBPt5ZRZKj5PnI58FI3d4_wq8PYtD2wKLylbpdhgq5_Ha_nzZJ27572LRyLe6jFVKNivgno_01JSETyhCxCnQlUWikGxoOseSfqCGFol-Xmk07Lph6bR_MpSyDuxc20_DO-6Urc0L1J3PJCCO5RpZy7rxA7GbJmyX0bmZmt5GL84tvr5e6_QlHUznCrYzvwLVIUhQmk3wrFgS1EorxBezUKVsmoatw_UjN7HcyutE9EBEfq1TfS66-gF3orAp43mLburIOAfcY_AwcdKLqcb6KjD8D5qvSG1WIZ7bAMSzCzklyH_BZEQcsXLqdLj9Nlgq3lMLHjg1ktpTNT7SI6Dg3ChvsdM5nApHrZRtyGpp2NlZnkCArGX4WiRG_I69TibR42jqUPZ7QnzE8FJ2GUv1hEfC3lrXyfrNae0yt9Hs6UWbaE9s5Ty1nQ6qraD5fOZxSQF1coonbyFLqcbynY2mr8yq90yue_o_yVZ4mwivk1W0kSWSgR2p0NlXFuHlw4T3Q0CluAVnqbZli-D2I3w5LMQWRNu8NmyBH8zVkQdhLqZY3ZdhkFx394hC5wSvdn9iolh0DdMkVy7I0ejUntXZXJfHwSyyhm4OMY5dbu06XI9yPRI9zSUxoiueE5kKNnhyNA6h2Q9Wrmk0Ai8eaqXgk4IAaOaarod17QeyUtIb6SkVfA-o9KOoK659FDxDFJ1QSLcOQh_tHuQSxvVBIwc1Kv_oHtbh-n47L5uowi7eW59sSw2ZWoDf6EoWI-0I4u3ZWfrAdjCr0-C7Eub_yv3-JejYSB7qQzBFdiDAJhdgcd20AbAhkbEUKo8aiAZTZiUJqfgkTlmRJMcxrhKkTV5oXvxNl-9MxD6ps2BZbIvjep2XnWpugulCuXhIvcu5yN1oloBDQD7NkMYwWi6vv961kLP7adul1IoCtCXIFHK6PYg6pxfo10NVHCp6zyXkhhYz1ICto8R4xWmXGBWAw0poBp7o2YNMv0-lREeifSyaGMR8-2PAUcG3FBZiHmzZOK0jaV0PIfJ7RVpbidenn6IXrvgrBhMqA4sllaYnmVivm9s1ysmFPLn-tkSCzLqGyjdi_YYPn4w9oz9HoWP7JlN45LTvVGUExDDE0CZDGlg-P_IzYO32NuutgQYtprYxsshLeAkqLK9xXeZDzsMa6ZdpZpwU7x831YELS0nieyhiCaZ31LL3vUiui6X6W9K-Fsuj65paBxXL45P-QJtCn2h4_dAcidzoBtxM8zN90HPbNPpK4oXqkP6JNnNfcYMnn41EGbkKtqxktBJJP8wL3RB7nE6tUjKJl3W59_eS8LE34jUtlAYtXgDz8MygHXqv6SKgGh3yff7r9_eVV2MQ5AZwBxj2LQtNfFvu-zQTWw_pDZJCLPV4vk6CbQajogHAEDdz_OD8jJW-CRsIG6KNNYbRg3Np6bofVWVp2HZ_qy78k37sF9Sd3JGSR4pDAO-S47ETbcdi2-RPYpKZGV77uUWMgyMmoN5Hs5YZuUsCkFYdokjqsEmvgtG3jAv5xrn--BpGfJXfra0K0oTrbySKTBeVdIoInK77ERK8FEtkf7OdCJf7bAtMdHvgc_TUUyH9Tn5OeCT3uLSb2aFvOTIsqCmOtjCx9KCs4MWnMeZ1wyCfZzEC05v6P8gnQqRpwogKi1Uzu349YiitF0EHg2pzOtdiaKRn9nsEokDg0BjKFl6x8-_6SmbL1hS8oaLqCH_uZL2sD-5jEO_u7uqsa-bNFNC6MSqEJLhIkF2L7IWOntvMbevCiCOaMNvHDd7CeHmo2uAzGQsehq2g7HD20q25EcfSSD_j-W37OboyJcDAErcA60xbxySFdojIJad_alhhL4U3mvJwCyo8-T78G6rPwWRI2NxFJ-DL_R-Cw0f-jiIlgVb5k8xJqKeqd056POxdL3MwZDpAS-Re8Gxv8Boq-0c0Tb-rJSRRkTauaSglzgYgMs0_ZlINiQiiL48oJEyQPH2-L45J2Cs3yXvO96qX5WJKqSWK95g0SkooPPocc_L7BPbA1SuBeUX8rTVjwdfwfkKJx-oVQrRn0lyMLODPRb0Gb22QYAI-LhpJcshl4OPMbxSFNudu7aUCLeJAzuZxHECEeYGMwEoB_TgJG__AZMae9U9lI1vBmHoZ249oePW8lloz6qIs7N_H0fGO2MXDhwyMMzcBF5RiczXZmzpZVRNM3gQlXQ1LGJnLPW1ogypBtPoE0nKIDKt3GaxH5iiqoUiakCtRZqUYXEu4UEF_HYkObmfPB3xWai473xYjOHaXMueuO2e4y8WLddW3znS60BtPW5qOFWbj89Wlu4Hyw4pcDdOHSbR3Emu31yuZClWajJ-dri3b4dlxJqTctNeQGCAVUEfpFfG4S1y6IsBbaCFaFnUzekEUUirL6O5US3J1oNh3hZdzYq-zpc9-UPwlOpI9_4rMAtzYj9tpDR7IybLP7yO1VCoq_PdgL6XtMLRF0FzGKw4XB0OI4_ZbCYvIanmiwCo5YLOqI3mggHKfg_HtdizzA_ePo2CHmErJw74yQ2r1Rsdehk2beIRSm6SnW_fwWr8pgtsUo_5RsgIf7QGXXmZ7C9E2mSKPKI84EgMo3UjU3QeOUGjaM4WyJkYKXSpbWDyCBrg2fu6yFm0IxKGLrvxOoxp6knyTzW9HzNsFPbbnhPmrnljFGrbJCYW90Tp76PwaKUfyNFjWTGXxJt_zzKNPoTdnvsJbEKCUp4XP6Fi_daKwqh0KYOaCXLj9ZNMVd0pAzV_01k4uw3_xqcTnhIS_ZzimVG69ICXZ006LHP2J7jRliZcKmEHbo4Pq-Vv-Yv9hS1Q_wL3lDl0IS9r41z_Y_St2_Kvv3wPFdfqhIWWXRG8MKt7gNBJVg-1nti9tSRj840RTE68_unQjJFKguHrqp5adQJRJ2QMPd5PuDT9lIqEl9Krnt3oYL-yBzsiZjdVBHcBPXYkOBw4jyTAexZ5rRg7zu7NuKVL51BRxxfeylxE797OVAzNfHnn0f9cAyf9gqLrR5SK6sN1Hi_5vh73Ardjsby_I9m8ccPdLDqqCjdcHs_qBctZVAJgfzziSyDCw5224How5HRJRUoM0WrjmvxlLjQdfh769R934SG-badHVCbOeZQ5DbiKK574O4Elqo1oxXBiMu2XDz_0js4jXOJMTROcND-6DppiulYy0gG3mJuNlMmsDFTHgUat89eox4Rx_9lWYIpHXo7qH0f7gYtZj6hjihYbAWTbiQiZtABfq-x95snIrlCulCYeEQQSrSbqblwEbcJXMkuqao_SalUktnSQXFxsgq2Y5QDPq83IDxWlw2xt3A-0TNENoD2jUHdy3udtvuzcL6wgEHmyXKeuSG2CJktY5j7p1hQLZ2clAgPKhshonr5_zPm8fBvUdaQ1nLbjaiu8w2eDtRCoU2DfTNE0b7lA4AUfvOexr9bgXn0-9EYyASZxSayByVHuoJHDCVgUgkTfBhK1PyBQ4Pp2xboFkG5UcNZQtaDS9jBlvzlMTC-DykVUgSsQCo6A0XYwZWM47mi3HwDqDbYyBteer8bEEAV-H2UJz6zRxbSX8CVB8ATR9Cr7UprwUrXYMzco2lBGHaLypWpWnF1pGStquvDulBR5G268NKl-bZsQqHbeIproFtmLc0sbmO53y2UkJCujHzdJOtHPDPs40ultvh4jt_rpyRUblzvZ7qJkR4R1KeqKdXi7nYSb5MwXTfRukT2viiTljDEdwYUsbSwJjLjW2mHoLw-4s7uT8AjZicfhltUQ7okPH67DBUXc_2rMkqVM6MbSWBipF06VWVT5i1k5nT5T0_u6CUcbdEcQILtpWtUYHjpvh2dWXPKWqJPoGip9WGw7UpHxj5UKilt7rRlXYoEoMGTH6MHzjLd3wmyer4iXLrQKXOC5Zij5cFcEmynJeehh4F1L6wLQ==",
+          "status": null
+        },
+        {
+          "id": "rs_011ff03deb27b9cc016a5afdd21d788195b48ecf1a1b868de7",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWv3htOd7b0MBaRylNRYGuULuW8DXAlopZC-_XrTJFTOsPqaFWL84LhNqlRUcryKQsdubTz0r_5W0YhFi3XsayfZM_jOdGpTb7teVqAtJF3WXfjUv1FoYOobLwGkbm7b7znpUdIrhNV1T8fByPtRvKJ1KwEDcgbwjWNVsf8pSL7FkjSlpwxedzVWS61xqIYzE5J4CX6bgGVRUmR6_4kEmRqbL1YISHBeo9SnPd48Z8yHk0qkA6KYquAQ1evUkXmW8HQ1hQLlTvhjFVPwXxcY-XjMqyGMAJihCO8UzEQn0DmBR9hsPOh6jN7qbqXT7ZMDUJAdXMmdWaEtk-zVdjYcoaI5_Nddtn1q-G4nzeoX-6G24RHLN_3HlpyxnbSB5ZuRuszLizEYze3i_fA_j8KQRnC3n35MTKGsmlFmGvlQGunmXFSfS3f-yAXMQufzMbFvFUVPV48RBQn-DcGjXP65KVr53eMpT99NAx5EnGVPjbRgkgil8uQnsse_BgRBTM4Hi9yfCF4UYZmclKx100ud4_iLXdPPkYuI7v7saj4z-cO8-a9fJ-Pxdj-vs5vOla1wwbsNBhWqmNKushlo3vSB8pIM07Y1ITmm-CG7Lu_U9xyZbrIiY71lCfTPblRkaXTW8A83bNPLJXbK7j5CUL_61lS2lyxww0gOv0VOQzOLMv67fxSt9daOyv_YToXmO6m5dG2VXPP-FdRt_4aZhLxB-2mbTq1f3n3TBGKjCGzh73ECt-S2-PlxSywH6LB_A7U77jyWR6035iVr7dKhiPpmb6I7d6TCO6V7HUqpj-UN9w6m7EBLY6aGNTkqQeWFjUCO17HL4kQNEKmOBQ4OvDqYLgLiJoLtBl6z7_3xUimX6WUx5S8--1hgl5xCVRDOzhaCwXoLSmki3XNk4z1BOt8fUEZxdZgGf6AU2fAFU0Qa9DORp1waOTbMEwW2bHXBILQ1PqUSWvzkIHwfvX0K74R1Emk7oHAR09mAmIWEM03vEy70k_y-2GjRQGiR-HtZT76sm0dwj-D0ZOUoEfujRyr2K8FWkKPWh2ieW2BFF6ZSMllMRhc4ocpKq1hUG3W7-igav_GFUmQXWtZ1-__Kg3kWYTiI4TkGYF5ap8oiuvYWfVSoUkWAKs4WbgOMQEebVk5WD09d7fzqdTaZxdud4sKDJkidJMmUvgcTvBNrF6QGOK6UYYZPKDD5gEFHQjtYKGVcQtF4obMRWeOANlhPZKMO1Kh43INYd22TcC8YnN9kWEFV8O4X-jkOT4taepqXxiioWonEVP9hKccBFYCs2IaP90SwmTvd1afx4qSn76CjlmfqC1b7vFIM5yteerCiOSkMDScPzXnADMBp9Pk9DSdAUy8WRyBNW5nVnE7TIKBEOscTVFfmGPcZWkkKUAdwnVJSOfUoYWEruaX5HG_OO9gRB9r8PAxQRo3ofts7JzSM8VqqfoRR6vgXlmhTaai2ywX3_0kZTGxXoiJ1K_dhG6VBR0WVjtppD8tqFi-rKbddc3AJNY8VsagXXmM_X6Rt4aIiA2pwTTYHmC9M7oPavjQ9ufhOIu5gwvaF0-_nYVPcUSIIdbj4GbcxbeOr7T02MMPJT25Jbj9qAkfHO-eXY6OtxwftRj7UFeLHgrTEhVquOz-gFwESKYML_a381RPLSEt5CIXsaj__gsuEyZBvkYofV1nYhfVeIANSxi8G13NtRi9Tp7MHCm_AfadZdFxI-PhFq2fiCzeoDMGSnbAAc5x-N16HPXfDgi2Yk3OM6eZvjhKOp0t64I0KIzBzPgjIJkFDtn8tKrQiRgA0HvMm4cbdl2ByR8iQZivIWPHtF-UzKlZRyqWYx3cF2tau6ytVOvHwRSrnmAhdYm4_sePGxTc6c92RCDHBY8YwKUoJ5ZK-J_5cPPuclTFdabWZwcoHZGgvUAbFmx-pY5DxsB2PMo2KIlQlZy9p5icILDRvqF6woc2dzioDudSsl3dcjhIWldX1JyoI2-msLKkTXfT6aQUqenPES6GP5s4-UTrwLHD7wZsNzFZ1H-i4vdwVmSl-2p-UbMWRJ5VbaAVcQTEwuabOoccbwDd_7QTvb8cm7pqeJK7xj13CN8HeSDmGgeAQWWwW6NKHIDv0RMaS4Af7pyuALkGpYPaCXPb9vqUVs1izKqbDHQbSTEu9svRyczD2a3_zt80EJpo9SdJK638mF-1CJbuswYAgX1mx-URggNpmZTlQyNDkmJVvsS0RpR7InokRou5N8lzWNdZNGnsh97tLqFDLA-QQan-dK8C6Cfac_nYEVAioncSayIwKl4I0d_G7Brimy8nXeZrJ4hB0fdwFboziuzJ2-QaSfzY_D6ePr0Bk9Ijsd-9aDo0PoqvPiSs_nGWKh4gKUsNTZ18HM277F3VsoIiOFTQBR3F1KSLS0_e5BmP1SdJDBzfM_yQZdWqDvLZh_jNItv8DqIPFsHFiFrNMlx-ATaK6xxwvvSH9nDcplbLE2xcwCUdpQzjV8tEZangkVpyayW1ATzyIk62dQNc5bl9RPPgISxjwcmVeyxE8E0XWdVsF72N0M816hT2ffsHXNRe2vdgQtJqHLgGRpMFUXYii3XyyE8UV8BL18f4aPa0cdtvsQB-lhXS3it_u2TT4XgMNBIKMsgP6DLPmcaT0dWV7zsYCAgt6X1Sp4buR1L-FZOjCMfinvw8uufb6a8Lr2LxjwjxRD_OkhoZ5s5254lvKb4g2G5sXZ1hCL2WifhijunLt9jj6tCyO9n092LmucDviTRijau_zyvPPcELRCvj2H-f3wbBny4gIiplslT6T9oxZJ4Tm8UIuUCi64FHNU5JBaapmopjyB_fPD_8Fwtp6siOqrqDAWb2K9GhpAVsce7Nrw6IbWR0mrRRuQweqcP-dB-eAAsYwsptooIuRmVX0XeuyqPr-SkbFOJe57BCI-xYq77Acz0OxRcCCGa1NCfklRPP4cRey6fJ-5fl9-fIFJplWmLDbVK0bYeyOt3XiLb4joDREHYuke2T7tCV9gI61BeV1BnUi_MYo9ppcuuD2P9glW1TH8U8J_4B18ly_2AY0NymGP2jIlKn4ss-32VCbul4xCO9CwM0X4_MG7fiUyB93F9jIy-08trfXIDw2hbql3fzDecWth0aKSA4QhYmNOxKYN4QMyaOChR2UE-bPCJx5bAmdioxNRaKMzP3mT_dfWaIkyUoX5vAlNZxqkHvXjZFsY8cjA_nHbGaAALMTixoooDPpHF2I_mVkMtlUIqbTurpN0IeawWkUNM2EUh1A9fVg91yw4iQ-oZbuPE-kB2lZhqDdjwC0D6utC0zSlu1vqfOhiaicBmSXL-6O4gEihbx_x308qjlQ9U68Fnomhzz2BUOVwmPr_STVdKP9KDP_CTEdvGrd8ANvK4i5T7zwNS-siy1V7rn_rjuuNnsGad_xyqNYNld-IfdfFeMtnhI_VYjQVVuZAOm9tQKDpMhCl_Bjq3T2GBUX7z54adSonGU6QXqDSpNCCEs5ojgC8_wUiamqcm9coxlv1-YwESlBrhJP7-mjvg6dtwpcD6VlvepnjLl1Ygu1sRVViJtMADgY8e9nAAw6opfzp0pbD6lZ1fAKJrMUCMcE0LxaCpKe__ylq_uG9ItJ4dOGZd5TLaRZlfU13XmHWkPLM5vP90caxQMqs22NRTQNbRS0qXDV4sDOQMXct82uqfb0d_qX0Em8mHFJamUNyIPuWPFkKGoNjASTUjfy6qfe__UjBGQOsDpf5h_4mIDDgeXTOF_Q4GFe6858jijBqmdRvcIzImPCMAU3yeX6Z7m2TD9hfT9FQmq4UpubLTzel0o1hqAEI-dixWWn_81Xyym07U5JeUYAxZfpQMGMPJgST2iefGhnHJjlaTpyNu1tfqKh_sjgerl6Rv84zrM5cCV_wvR6dGWIZlf96iPqb7ptRJGWpB7douUK0bQvqEpV-oWr2k_uno_CA-_6cywmnzWiYRc9Q6usac87VkfdSSv7fK9vawxHtxdLxMIfadV06tPgFxH6qgd42UZqynek6Fu_Ev0fCyEKUU-zxdOWabQGk9RT3eQtRIdD5KfWBYafYrR1ZOk2K_A63-QaZKHfW4XNtk4MRzfJV99xw5tyoYSIyi0PoxqQ_VhZTvNQ-a9Gw4Vu9NK5yOlb1V6hYhPGSshAcK24DgLcEDHK43UXA3mM-B7S0a7ZbW9d4OpLhru0zS8XLqw4T0gxgCB7w4ANJ2Fd-KJ8G",
+          "status": null
+        },
+        {
+          "id": "msg_011ff03deb27b9cc016a5afdd8cf988195b18851e6d307d017",
+          "content": [
+            {
+              "annotations": [],
+              "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_dual_optical_isolator_geometry\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La relación entre los valores de 13 Ω de la página 2 y la equivalencia de cable de la página 3 está explícitamente establecida mediante la nota [1].\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"}]},{\"canary_id\":\"kidde_2xa_self_test_schedule\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La respuesta reproduce las opciones mostradas por el manual y recuerda expresamente que los ajustes guardados deben aplicarse desde el Menú principal.\"}]},{\"canary_id\":\"kidde_nc_internal_fault_startup\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página de enfoque ordena comprobar todas las conexiones y la configuración y remite explícitamente al procedimiento de la página 82; no se atribuyen detalles no visibles de ese procedimiento.\"}]}]}",
+              "type": "output_text",
+              "logprobs": []
+            }
+          ],
+          "role": "assistant",
+          "status": "completed",
+          "type": "message",
+          "phase": "final_answer"
+        }
+      ],
+      "parallel_tool_calls": true,
+      "temperature": 1.0,
+      "tool_choice": "auto",
+      "tools": [],
+      "top_p": 0.98,
+      "background": false,
+      "completed_at": 1784348129.0,
+      "conversation": null,
+      "max_output_tokens": 12000,
+      "max_tool_calls": null,
+      "previous_response_id": null,
+      "prompt": null,
+      "prompt_cache_key": null,
+      "prompt_cache_retention": "24h",
+      "reasoning": {
+        "effort": "xhigh",
+        "generate_summary": null,
+        "summary": null,
+        "context": "all_turns",
+        "mode": "standard"
+      },
+      "safety_identifier": null,
+      "service_tier": "default",
+      "status": "completed",
+      "text": {
+        "format": {
+          "type": "text"
+        },
+        "verbosity": "medium"
+      },
+      "top_logprobs": 0,
+      "truncation": "disabled",
+      "usage": {
+        "input_tokens": 163560,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 163557
+        },
+        "output_tokens": 2929,
+        "output_tokens_details": {
+          "reasoning_tokens": 2057
+        },
+        "total_tokens": 166489
+      },
+      "user": null,
+      "billing": {
+        "payer": "developer"
+      },
+      "frequency_penalty": 0.0,
+      "moderation": null,
+      "presence_penalty": 0.0,
+      "store": false,
+      "tool_usage": {
+        "image_gen": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "web_search": {
+          "num_requests": 0
+        }
+      }
+    }
+  },
+  "result_sha256": "77a5aa21ca317a95ed75e018c429892ff9a05844ec520bc6a93c513079acc83b"
+}
