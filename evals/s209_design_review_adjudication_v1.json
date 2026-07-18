@@ -1,0 +1,47 @@
+{
+  "schema": "s209_design_review_adjudication_v1",
+  "status": "PASS_TO_PREREG_WITH_DISCLOSED_FABLE_NONBLOCKING_SHAPE_OVERFLOW",
+  "principal_review": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "artifact": "evals/s209_frontier_decision_card_reviews_v1.json",
+    "contract_status": "VALID",
+    "verdict": "PASS",
+    "blocking_findings": []
+  },
+  "independent_review": {
+    "model": "claude-fable-5",
+    "artifact": "evals/s209_frontier_decision_card_reviews_v1.json",
+    "provider_status": "end_turn",
+    "semantic_verdict": "PASS",
+    "reviewer_identity_exact": true,
+    "blocking_findings": [],
+    "contract_status": "INVALID_RESIDUAL_RISKS_CARDINALITY_6_GT_3",
+    "raw_response_preserved": true,
+    "adjudication": "NONBLOCKING_DESIGN_REVIEW_TRANSPORT_OVERFLOW"
+  },
+  "rationale": [
+    "the principal reviewer satisfied the exact model, reasoning and schema contract and found no blocker",
+    "the independent reviewer completed on the same decision card, used the exact identity, returned PASS and found no blocker",
+    "all six Fable entries are explicitly residual risks, not blocking findings, and concern already-disclosed sample size, source overlap, reviewer error, precision granularity and HOLD classification",
+    "the unpreregistered design-review maxItems=3 presentation bound has no bearing on gold support, planner scoring or GO derivation",
+    "the raw independent response remains preserved; it is not truncated, repaired or reissued"
+  ],
+  "execution_gate_waived": false,
+  "runtime_support_review_v4_unchanged": true,
+  "further_design_review_calls": false,
+  "same_subject_retry": false,
+  "design_review_cost_usd": {
+    "full_subject_incomplete": 2.563935,
+    "compact_subject_incomplete_or_invalid": 1.242015,
+    "decision_card": 0.92613,
+    "total": 4.73208
+  },
+  "residual_risks_carried_forward": [
+    "two questions provide only a narrow mechanism decision, not an effect estimate",
+    "official-source overlap prevents unseen-source generalization claims",
+    "semantic novelty and alternative-path completeness retain ordinary reviewer-error risk",
+    "selected-unit precision is coarse at this cohort size; full support recall and question completeness are the primary gates",
+    "provider incompleteness must remain HOLD and semantic failure must remain NO-GO"
+  ]
+}
