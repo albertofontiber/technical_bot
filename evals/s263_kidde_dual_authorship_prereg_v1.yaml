@@ -1,0 +1,67 @@
+schema: s263_kidde_dual_authorship_prereg_v1
+status: FROZEN_BEFORE_PAID_AUTHORSHIP
+objective: >-
+  Recover the already selected and pixel-inspected S217 external Kidde cohort
+  through dual independent authorship only, before paying for reciprocal review,
+  support mapping, synthesis generation or canonical target probes.
+lineage:
+  packet: evals/s217_kidde_external_cohort_packet_v1.json
+  packet_sha256: 8c8cd8e1410ae31f9961b0da83f5c6bb3ed759291623ae0bd3f8408ca917d234
+  s227_result: evals/s227_kidde_external_cohort_result_v1.json
+  s227_failure: one_fable_generation_stopped_at_max_tokens_8000
+  semantic_feedback_used_for_recovery: false
+recovery_delta:
+  fable_generation_max_tokens_before: 8000
+  fable_generation_max_tokens_now: 16000
+  strict_provider_schema: true
+  prompt_or_packet_changed: false
+  candidate_merge_or_repair: false
+  same_item_transport_recovery_max: 1
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5, adaptive_effort: xhigh}
+population:
+  items: 4
+  distinct_pdfs: 9
+  rendered_pages: 18
+  official_gold_source_overlap: 0
+execution:
+  order_per_item: [fable, sol]
+  calls_max: 8
+  calls_per_provider: 4
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  reciprocal_review_calls: 0
+  support_mapping_calls: 0
+  synthesis_calls: 0
+  target_calls: 0
+gate:
+  independently_valid_pairs_min: 3
+  pass: GO_S263_TO_SEPARATE_RECIPROCAL_PIXEL_REVIEW
+  fail: NO_GO_S263_DUAL_AUTHORSHIP
+  hold: HOLD_S263_EXTERNAL_OR_INCOMPLETE
+budget:
+  internal_stop_usd: 35
+  user_ceiling_usd: 200
+frozen_inputs:
+  packet: {path: evals/s217_kidde_external_cohort_packet_v1.json, sha256: 494f8718ee6d067d14f8a779396ea783d0c22cf72f05922b8c63878bacfb4a87}
+  prior_result: {path: evals/s227_kidde_external_cohort_result_v1.json, sha256: c3d8ca1694d1f70c51dcae335b3497fe0141fb308df511b8bb803169c618649c}
+  prior_ledger: {path: evals/s227_kidde_fable_first_frontier_call_ledger_v1.json, sha256: e1c57184189e37abd75c65c69bec2d4bfc3ad8518de795c3e2f76d59c4981ac4}
+  gold_contract: {path: src/rag/multisource_visual_gold.py, sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime_v2.py, sha256: 8a81048efe697cd13f35527e30ae1fabf4c5f867681783805cc95df75343670e}
+  schemas: {path: src/rag/frontier_visual_schemas.py, sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4}
+  runner: {path: scripts/s263_run_kidde_dual_authorship.py, sha256: 8b94ec45e14f06bbee57aa42869237ec6d31c8bea735d518ee69e46108e73dbb}
+  tests: {path: tests/test_s263_kidde_dual_authorship.py, sha256: 8ce4817e643c9ff1e69185d29a9adc03e2cd6d540bac83892a29df741aa00f91}
+forbidden:
+  - alter_topic_sources_pages_or_question_contract_after_s227
+  - reuse_partial_fable_text
+  - retry_or_resume_after_any_s263_provider_response
+  - open_reciprocal_review_or_support_mapping_before_authorship_gate
+  - open_canonical_targets
+  - production_integration_or_deployment
+invariants:
+  official_fact_credit: 0
+  production_default_changed: false
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
