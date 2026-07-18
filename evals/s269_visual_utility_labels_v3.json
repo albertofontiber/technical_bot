@@ -1,0 +1,1924 @@
+{
+  "instrument": "s269_visual_utility_labels_v3",
+  "status": "BAND_OUT_OF_RANGE_NO_GO",
+  "created_at": "2026-07-18T22:36:32.087290+00:00",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "none",
+  "cohort": {
+    "path": "evals/s269_visual_utility_cohort_v3.json",
+    "cohort_sha256": "bfa829c8d4e2b81816c449c85048be1d9a435fcf0f1ed4a0f8e65b62cb1907e7",
+    "items": 80
+  },
+  "prereg": {
+    "path": "evals/s269_visual_utility_cohort_v3_prereg.yaml",
+    "preregistered_positive_range": [
+      28,
+      44
+    ],
+    "band_source": "parsed_from_prereg_and_matched_frozen_constant"
+  },
+  "measurement": {
+    "valid_labels": 80,
+    "unique_items": 80,
+    "positives": 56,
+    "positive_item_ids": [
+      "s269_visual_002",
+      "s269_visual_004",
+      "s269_visual_006",
+      "s269_visual_007",
+      "s269_visual_010",
+      "s269_visual_011",
+      "s269_visual_012",
+      "s269_visual_016",
+      "s269_visual_021",
+      "s269_visual_022",
+      "s269_visual_024",
+      "s269_visual_026",
+      "s269_visual_028",
+      "s269_visual_030",
+      "s269_visual_032",
+      "s269_visual_033",
+      "s269_visual_034",
+      "s269_visual_035",
+      "s269_visual_037",
+      "s269_visual_038",
+      "s269_visual_040",
+      "s269_visual_041",
+      "s269_visual_042",
+      "s269_visual_043",
+      "s269_visual_044",
+      "s269_visual_045",
+      "s269_visual_046",
+      "s269_visual_047",
+      "s269_visual_048",
+      "s269_visual_049",
+      "s269_visual_050",
+      "s269_visual_051",
+      "s269_visual_052",
+      "s269_visual_053",
+      "s269_visual_055",
+      "s269_visual_057",
+      "s269_visual_058",
+      "s269_visual_059",
+      "s269_visual_060",
+      "s269_visual_062",
+      "s269_visual_063",
+      "s269_visual_064",
+      "s269_visual_066",
+      "s269_visual_067",
+      "s269_visual_068",
+      "s269_visual_069",
+      "s269_visual_070",
+      "s269_visual_071",
+      "s269_visual_072",
+      "s269_visual_073",
+      "s269_visual_075",
+      "s269_visual_076",
+      "s269_visual_077",
+      "s269_visual_078",
+      "s269_visual_079",
+      "s269_visual_080"
+    ],
+    "positives_by_group": {
+      "expected_control": 21,
+      "expected_technical": 35
+    },
+    "by_utility": {
+      "not_useful": 19,
+      "useful": 60,
+      "uncertain": 1
+    },
+    "by_role": {
+      "cover": 13,
+      "procedure": 17,
+      "table": 13,
+      "wiring": 19,
+      "product_photo": 3,
+      "ui": 11,
+      "other": 4
+    },
+    "band_pass": false
+  },
+  "labels": [
+    {
+      "item_id": "s269_visual_001",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Manual cover with product images, title, and branding only."
+    },
+    {
+      "item_id": "s269_visual_002",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Installation instructions include terminal connections, assembly diagrams, and anti-tamper procedures."
+    },
+    {
+      "item_id": "s269_visual_003",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Guide cover shows equipment photograph and multilingual title without technical instructions."
+    },
+    {
+      "item_id": "s269_visual_004",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Page contains legible specification tables, installation text, and a technical response graph."
+    },
+    {
+      "item_id": "s269_visual_005",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Installation guide cover primarily contains product rendering, title, and publication details."
+    },
+    {
+      "item_id": "s269_visual_006",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Detector guide includes labeled diagrams, wiring-related details, tables, and battery-removal procedure."
+    },
+    {
+      "item_id": "s269_visual_007",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Clearly labeled wiring diagram with terminals, connector legend, enclosure illustrations, and instructions."
+    },
+    {
+      "item_id": "s269_visual_008",
+      "technical_utility": "not_useful",
+      "visual_role": "product_photo",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Technical description page shows only a product photograph and descriptive text."
+    },
+    {
+      "item_id": "s269_visual_009",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "User manual cover contains product photograph, model, title, and branding only."
+    },
+    {
+      "item_id": "s269_visual_010",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Manual page includes technical characteristics table and clearly labeled control-panel illustration."
+    },
+    {
+      "item_id": "s269_visual_011",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Page contains legible wiring diagrams and terminal connection illustrations."
+    },
+    {
+      "item_id": "s269_visual_012",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Technical specification page includes legible electrical and marking tables."
+    },
+    {
+      "item_id": "s269_visual_013",
+      "technical_utility": "not_useful",
+      "visual_role": "product_photo",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Product component photographs lack an actionable technical visual."
+    },
+    {
+      "item_id": "s269_visual_014",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Manual cover shows product image but no technical content."
+    },
+    {
+      "item_id": "s269_visual_015",
+      "technical_utility": "not_useful",
+      "visual_role": "product_photo",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Mostly prose with a product photograph and no useful technical visual."
+    },
+    {
+      "item_id": "s269_visual_016",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Clearly illustrates installation and removal procedures using numbered steps."
+    },
+    {
+      "item_id": "s269_visual_017",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Instruction manual cover contains only branding and a product image."
+    },
+    {
+      "item_id": "s269_visual_018",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Quick-guide cover is primarily branding and product photography."
+    },
+    {
+      "item_id": "s269_visual_019",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "medium",
+      "has_legible_technical_visual": true,
+      "reason": "Instruction page includes a visible simplified wiring block diagram."
+    },
+    {
+      "item_id": "s269_visual_020",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Installation manual cover has product imagery but no actionable technical visual."
+    },
+    {
+      "item_id": "s269_visual_021",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible leaflet includes wiring diagram, installation illustration, specifications, and operating instructions."
+    },
+    {
+      "item_id": "s269_visual_022",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains readable temperature classification tables and technical mounting diagrams."
+    },
+    {
+      "item_id": "s269_visual_023",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Manual cover contains title, branding, translation note, and QR code only."
+    },
+    {
+      "item_id": "s269_visual_024",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible figures illustrate sound localization and frequency-dependent attenuation."
+    },
+    {
+      "item_id": "s269_visual_025",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Manual cover shows product photograph and title without actionable technical content."
+    },
+    {
+      "item_id": "s269_visual_026",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains extensive technical table, coverage diagram, settings, and address configuration."
+    },
+    {
+      "item_id": "s269_visual_027",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Configuration guide cover primarily shows product photographs and title."
+    },
+    {
+      "item_id": "s269_visual_028",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible installation instructions include component diagrams and adjustment procedures."
+    },
+    {
+      "item_id": "s269_visual_029",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Installation-instructions cover contains product image and document metadata only."
+    },
+    {
+      "item_id": "s269_visual_030",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Technical sheet includes specifications, wiring illustration, tables, and troubleshooting information."
+    },
+    {
+      "item_id": "s269_visual_031",
+      "technical_utility": "not_useful",
+      "visual_role": "cover",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Manual cover with product photo and contents, but no actionable technical visual."
+    },
+    {
+      "item_id": "s269_visual_032",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible programming instructions include configuration menu screenshots and network settings."
+    },
+    {
+      "item_id": "s269_visual_033",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Technical manual page contains legible input tables and connection procedure."
+    },
+    {
+      "item_id": "s269_visual_034",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible technical specifications table supports verification and maintenance work."
+    },
+    {
+      "item_id": "s269_visual_035",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains legible wiring diagrams, connection variants, and configuration tables."
+    },
+    {
+      "item_id": "s269_visual_036",
+      "technical_utility": "not_useful",
+      "visual_role": "other",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Declaration and safety text page lacks an actionable technical visual."
+    },
+    {
+      "item_id": "s269_visual_037",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Includes programming instructions and a legible connection schematic."
+    },
+    {
+      "item_id": "s269_visual_038",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains a legible address-assignment configuration table for RS485 communication."
+    },
+    {
+      "item_id": "s269_visual_039",
+      "technical_utility": "uncertain",
+      "visual_role": "wiring",
+      "confidence": "low",
+      "has_legible_technical_visual": false,
+      "reason": "Appears to contain wiring schematics, but text and symbols are too illegible."
+    },
+    {
+      "item_id": "s269_visual_040",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Installation sheet clearly shows wiring diagrams, terminals, dimensions, and technical data."
+    },
+    {
+      "item_id": "s269_visual_041",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Shows legible controller connection diagrams and wiring-related configuration details."
+    },
+    {
+      "item_id": "s269_visual_042",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Shows a configuration software interface with operational instructions."
+    },
+    {
+      "item_id": "s269_visual_043",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Shows downloadable event-log interface and recent-events screen."
+    },
+    {
+      "item_id": "s269_visual_044",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Shows configuration software screens and clearly annotated interface controls."
+    },
+    {
+      "item_id": "s269_visual_045",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains terminal tables and legible amplifier wiring diagrams."
+    },
+    {
+      "item_id": "s269_visual_046",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Illustrates detector installation with labeled parts and mounting orientation."
+    },
+    {
+      "item_id": "s269_visual_047",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Includes a legible programming workflow diagram and operational guidance."
+    },
+    {
+      "item_id": "s269_visual_048",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains connection diagrams, terminal layouts, and installation instructions."
+    },
+    {
+      "item_id": "s269_visual_049",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Shows a labeled mains power supply and cable connection diagram."
+    },
+    {
+      "item_id": "s269_visual_050",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Provides labeled mechanical installation illustrations and adjustment procedure."
+    },
+    {
+      "item_id": "s269_visual_051",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible interlock operating-mode wiring diagram with zone, fault, alarm, and EOL connections."
+    },
+    {
+      "item_id": "s269_visual_052",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Technical detector-to-PLC wiring diagrams and connection illustrations are visibly legible."
+    },
+    {
+      "item_id": "s269_visual_053",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains legible terminal-assignment and detector-type technical tables."
+    },
+    {
+      "item_id": "s269_visual_054",
+      "technical_utility": "not_useful",
+      "visual_role": "other",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Certification document and environmental notice contain no actionable technical visual."
+    },
+    {
+      "item_id": "s269_visual_055",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Annotated product views identify components, accessories, and interface controls."
+    },
+    {
+      "item_id": "s269_visual_056",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "medium",
+      "has_legible_technical_visual": true,
+      "reason": "Shows a controller interface and operational instructions for verified zones."
+    },
+    {
+      "item_id": "s269_visual_057",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Two legible annotated panel cable-routing and wiring illustrations are provided."
+    },
+    {
+      "item_id": "s269_visual_058",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Contains calculation tables, dimensional limits, and a technical ducting diagram."
+    },
+    {
+      "item_id": "s269_visual_059",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Illustrates battery installation and cable connection procedure in an equipment cabinet."
+    },
+    {
+      "item_id": "s269_visual_060",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible audio equipment control-panel screen with labeled buttons and operating instructions."
+    },
+    {
+      "item_id": "s269_visual_061",
+      "technical_utility": "useful",
+      "visual_role": "other",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible horizontal and vertical sensor viewing-field diagrams support installation or verification."
+    },
+    {
+      "item_id": "s269_visual_062",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Installation instructions include legible aspiration-device mounting illustrations and labeled details."
+    },
+    {
+      "item_id": "s269_visual_063",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Multiple legible wiring diagrams show power, relay, detector, and switching connections."
+    },
+    {
+      "item_id": "s269_visual_064",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Detailed programming-menu flowchart supports configuration and operational verification."
+    },
+    {
+      "item_id": "s269_visual_065",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "medium",
+      "has_legible_technical_visual": true,
+      "reason": "Device rear-panel illustration labels connectors and controls for field servicing."
+    },
+    {
+      "item_id": "s269_visual_066",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Operating-mode wiring diagram clearly shows zones, alarms, faults, and control-panel connections."
+    },
+    {
+      "item_id": "s269_visual_067",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Four manual-test wiring options and commissioning procedures are visibly documented."
+    },
+    {
+      "item_id": "s269_visual_068",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible display and button layout plus LCD success-code table aid operation."
+    },
+    {
+      "item_id": "s269_visual_069",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Dimensioned mechanical drawings and installation requirements support mounting and cabling."
+    },
+    {
+      "item_id": "s269_visual_070",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible configuration software screen shows CPU module settings and selection controls."
+    },
+    {
+      "item_id": "s269_visual_071",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Legible configuration instructions include controller interface screenshots and operational steps."
+    },
+    {
+      "item_id": "s269_visual_072",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Installation page clearly illustrates inlet and outlet tube connections."
+    },
+    {
+      "item_id": "s269_visual_073",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Stepwise touchscreen and keypad screenshots explain network filter operation."
+    },
+    {
+      "item_id": "s269_visual_074",
+      "technical_utility": "not_useful",
+      "visual_role": "other",
+      "confidence": "high",
+      "has_legible_technical_visual": false,
+      "reason": "Page contains safety prose without a technical visual."
+    },
+    {
+      "item_id": "s269_visual_075",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Detector targeting procedure includes labeled device illustration and detection-range table."
+    },
+    {
+      "item_id": "s269_visual_076",
+      "technical_utility": "useful",
+      "visual_role": "procedure",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Programming instructions include a legible control and visualization diagram."
+    },
+    {
+      "item_id": "s269_visual_077",
+      "technical_utility": "useful",
+      "visual_role": "table",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Approval page contains legible technical specification tables and connection diagrams."
+    },
+    {
+      "item_id": "s269_visual_078",
+      "technical_utility": "useful",
+      "visual_role": "ui",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Programming procedure shows clearly labeled instrument display screens."
+    },
+    {
+      "item_id": "s269_visual_079",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Page provides terminal table and detailed relay wiring schematics."
+    },
+    {
+      "item_id": "s269_visual_080",
+      "technical_utility": "useful",
+      "visual_role": "wiring",
+      "confidence": "high",
+      "has_legible_technical_visual": true,
+      "reason": "Operating-mode page includes a legible interlock wiring schematic."
+    }
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "response_id": "resp_06903e257913b597006a5bffa3f9a0819ca44f2d1fa1497f82",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 727
+      },
+      "cost_usd": 0.006946,
+      "raw_text_sha256": "59b9c28b0433d8f939025ab82cc12565bc54268d9fa4631bb45d250e5add6e61",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_001",
+          "asset_sha256": "afa38af39df33b84f2f1c56e1e626edd1d2e9ad6341242f507c8866f2a31f175",
+          "asset_bytes": 51067
+        },
+        {
+          "item_id": "s269_visual_002",
+          "asset_sha256": "eeda9c3b4919edda454698eaf65681b609636b9c31f7db47e93bea689761a244",
+          "asset_bytes": 251071
+        },
+        {
+          "item_id": "s269_visual_003",
+          "asset_sha256": "be3d3de7b70e90d80d0e28ece5175df7715a13d0e909ff78231cc10eef60967d",
+          "asset_bytes": 90397
+        },
+        {
+          "item_id": "s269_visual_004",
+          "asset_sha256": "ed64a0dc04e1681b837f5ab6cddf6b879cf62a979265489966b23e520b22d0f5",
+          "asset_bytes": 199288
+        },
+        {
+          "item_id": "s269_visual_005",
+          "asset_sha256": "10149c41cde1fe295371870df7f0996b8867e237bd1268aa041e96258f1f90f2",
+          "asset_bytes": 101892
+        },
+        {
+          "item_id": "s269_visual_006",
+          "asset_sha256": "8235992d833bd4f9851d3c33f5ebb101afd944bdca5d95aaa1e9d8c2b21d3b43",
+          "asset_bytes": 303112
+        },
+        {
+          "item_id": "s269_visual_007",
+          "asset_sha256": "52e9817dd91fa1baee3ab64031b2b2679c93dd8c59b473abffea76e0e3f13a2b",
+          "asset_bytes": 358701
+        },
+        {
+          "item_id": "s269_visual_008",
+          "asset_sha256": "3d40c0e8fda03b8ac5378c8e689e5c36b6a6f9634257ba91ea575272d84667f5",
+          "asset_bytes": 66696
+        },
+        {
+          "item_id": "s269_visual_009",
+          "asset_sha256": "31baa1093a5250cdd07e32a3c2cd805ae2d249c771694f97ea4ed4635e7c8dcf",
+          "asset_bytes": 70134
+        },
+        {
+          "item_id": "s269_visual_010",
+          "asset_sha256": "0997d165354a6fc3d5928d02bb59728d365921e58fb47afbd5f13a6892e0eeca",
+          "asset_bytes": 198640
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_001",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover with product images, title, and branding only."
+        },
+        {
+          "item_id": "s269_visual_002",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation instructions include terminal connections, assembly diagrams, and anti-tamper procedures."
+        },
+        {
+          "item_id": "s269_visual_003",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Guide cover shows equipment photograph and multilingual title without technical instructions."
+        },
+        {
+          "item_id": "s269_visual_004",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Page contains legible specification tables, installation text, and a technical response graph."
+        },
+        {
+          "item_id": "s269_visual_005",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Installation guide cover primarily contains product rendering, title, and publication details."
+        },
+        {
+          "item_id": "s269_visual_006",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Detector guide includes labeled diagrams, wiring-related details, tables, and battery-removal procedure."
+        },
+        {
+          "item_id": "s269_visual_007",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Clearly labeled wiring diagram with terminals, connector legend, enclosure illustrations, and instructions."
+        },
+        {
+          "item_id": "s269_visual_008",
+          "technical_utility": "not_useful",
+          "visual_role": "product_photo",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Technical description page shows only a product photograph and descriptive text."
+        },
+        {
+          "item_id": "s269_visual_009",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "User manual cover contains product photograph, model, title, and branding only."
+        },
+        {
+          "item_id": "s269_visual_010",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Manual page includes technical characteristics table and clearly labeled control-panel illustration."
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "response_id": "resp_0a2579e851afde4a006a5bffaef9ec819daa0c8a5206323f05",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 692
+      },
+      "cost_usd": 0.006736,
+      "raw_text_sha256": "e863db4527852b42aa7124efba947fa9b46816094896fc82835e445a6299f92d",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_011",
+          "asset_sha256": "1945163b0e2008a7cbd0179c3367a738d448cea7d53bcdcf2357bc17db86206e",
+          "asset_bytes": 205439
+        },
+        {
+          "item_id": "s269_visual_012",
+          "asset_sha256": "453a1848f13e243fe68e8efb2682fc42f106d76b862b2e6311c37bfe65aad395",
+          "asset_bytes": 306671
+        },
+        {
+          "item_id": "s269_visual_013",
+          "asset_sha256": "645a16a27c351a11a550b5c4afc039f2bdacda6e7857b0a457a7f68d4dc3cec4",
+          "asset_bytes": 245705
+        },
+        {
+          "item_id": "s269_visual_014",
+          "asset_sha256": "7e5ebdd9fde791aa1f3d85ec47135f3772ed6c5a28bfe96647b492019fafd512",
+          "asset_bytes": 135895
+        },
+        {
+          "item_id": "s269_visual_015",
+          "asset_sha256": "e0abcb15c32afeca1cfa189187d90d5565b7ff77110059cb3edddfd0c5840ad5",
+          "asset_bytes": 493768
+        },
+        {
+          "item_id": "s269_visual_016",
+          "asset_sha256": "682040890aff06ba39b3c7e4a9265c8040fcb2460be86d3863f3515f0b0a2f52",
+          "asset_bytes": 133664
+        },
+        {
+          "item_id": "s269_visual_017",
+          "asset_sha256": "2dd46fdec3b1f727769c011d0b89dbb7011db8782f9caf059b18dbac806c7adb",
+          "asset_bytes": 63556
+        },
+        {
+          "item_id": "s269_visual_018",
+          "asset_sha256": "da40b38673f92af960ca3cfc007607f2a06e553b87fbbb99479c0a84ec2c5546",
+          "asset_bytes": 111609
+        },
+        {
+          "item_id": "s269_visual_019",
+          "asset_sha256": "3d5bfd0b006e2902ce0d30185c2569602793f0d34215e2cdfb63536f0a6ca9ef",
+          "asset_bytes": 274054
+        },
+        {
+          "item_id": "s269_visual_020",
+          "asset_sha256": "0542cd60ddfd8920ae917251e7b8806bfba3b6d08d3482354c825bebb1218350",
+          "asset_bytes": 94354
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_011",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Page contains legible wiring diagrams and terminal connection illustrations."
+        },
+        {
+          "item_id": "s269_visual_012",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical specification page includes legible electrical and marking tables."
+        },
+        {
+          "item_id": "s269_visual_013",
+          "technical_utility": "not_useful",
+          "visual_role": "product_photo",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Product component photographs lack an actionable technical visual."
+        },
+        {
+          "item_id": "s269_visual_014",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover shows product image but no technical content."
+        },
+        {
+          "item_id": "s269_visual_015",
+          "technical_utility": "not_useful",
+          "visual_role": "product_photo",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Mostly prose with a product photograph and no useful technical visual."
+        },
+        {
+          "item_id": "s269_visual_016",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Clearly illustrates installation and removal procedures using numbered steps."
+        },
+        {
+          "item_id": "s269_visual_017",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Instruction manual cover contains only branding and a product image."
+        },
+        {
+          "item_id": "s269_visual_018",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Quick-guide cover is primarily branding and product photography."
+        },
+        {
+          "item_id": "s269_visual_019",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "medium",
+          "has_legible_technical_visual": true,
+          "reason": "Instruction page includes a visible simplified wiring block diagram."
+        },
+        {
+          "item_id": "s269_visual_020",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Installation manual cover has product imagery but no actionable technical visual."
+        }
+      ]
+    },
+    {
+      "batch": 3,
+      "response_id": "resp_08922d169023d03e006a5bffb95eac819c9a7500e2b5492391",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 705
+      },
+      "cost_usd": 0.006814,
+      "raw_text_sha256": "39248c2445d8ad27dcc0572d83eed9fed4b5aba25cbc7264ba446b7fbaa87778",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_021",
+          "asset_sha256": "f3361bc7f575b0a73fba71a50d44fb86f46925edf113dda69b4e071ee4320dd6",
+          "asset_bytes": 263109
+        },
+        {
+          "item_id": "s269_visual_022",
+          "asset_sha256": "8f544fbdb6dec3584520c7daba68d89a70b73d292bca2f6cf0568e1c6c8fce49",
+          "asset_bytes": 162130
+        },
+        {
+          "item_id": "s269_visual_023",
+          "asset_sha256": "9fcd8176de4025ee11f67174f10a9fc5ac0d4496c01ca5c9a73d7d0bed66f95d",
+          "asset_bytes": 104642
+        },
+        {
+          "item_id": "s269_visual_024",
+          "asset_sha256": "019e7f20e173bbabe9bb058c9b4887af4ea0c45b9bf28acbaf82f15eb6092fbe",
+          "asset_bytes": 140709
+        },
+        {
+          "item_id": "s269_visual_025",
+          "asset_sha256": "90694951f74d0d1b4342801b5f10d364feaf8af423c75688f572caf5c1e5380a",
+          "asset_bytes": 114217
+        },
+        {
+          "item_id": "s269_visual_026",
+          "asset_sha256": "3848d58072c94d81f9655f433a03d28610f2f363075641ff2cd5e6fff875085d",
+          "asset_bytes": 249039
+        },
+        {
+          "item_id": "s269_visual_027",
+          "asset_sha256": "f445451e8f1ae2a259c20126d60ce3fcf1de581530f5a07b0f09c5888651bccd",
+          "asset_bytes": 57381
+        },
+        {
+          "item_id": "s269_visual_028",
+          "asset_sha256": "0f925e55f5d19952e1b9345048205739d0de9f3924bf95d4ed69216b439e5959",
+          "asset_bytes": 240323
+        },
+        {
+          "item_id": "s269_visual_029",
+          "asset_sha256": "5381d0c65953a330bb4ae4465cf6d62b2e79daad05b0fe63fd54c3fa2601f2c5",
+          "asset_bytes": 87078
+        },
+        {
+          "item_id": "s269_visual_030",
+          "asset_sha256": "c575409f879767b08644532caf72a0c80a05fd9bd94e8204880e88902454b45a",
+          "asset_bytes": 221028
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_021",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible leaflet includes wiring diagram, installation illustration, specifications, and operating instructions."
+        },
+        {
+          "item_id": "s269_visual_022",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains readable temperature classification tables and technical mounting diagrams."
+        },
+        {
+          "item_id": "s269_visual_023",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover contains title, branding, translation note, and QR code only."
+        },
+        {
+          "item_id": "s269_visual_024",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible figures illustrate sound localization and frequency-dependent attenuation."
+        },
+        {
+          "item_id": "s269_visual_025",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover shows product photograph and title without actionable technical content."
+        },
+        {
+          "item_id": "s269_visual_026",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains extensive technical table, coverage diagram, settings, and address configuration."
+        },
+        {
+          "item_id": "s269_visual_027",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Configuration guide cover primarily shows product photographs and title."
+        },
+        {
+          "item_id": "s269_visual_028",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible installation instructions include component diagrams and adjustment procedures."
+        },
+        {
+          "item_id": "s269_visual_029",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Installation-instructions cover contains product image and document metadata only."
+        },
+        {
+          "item_id": "s269_visual_030",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical sheet includes specifications, wiring illustration, tables, and troubleshooting information."
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "response_id": "resp_06827d4dbaccbc29006a5bffc3aa5c819caef20818558ba011",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 711
+      },
+      "cost_usd": 0.006831,
+      "raw_text_sha256": "aa04439fd1c79df84e595ef76a2f11012b4a117e635d55642482fc705e1e2a7b",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_031",
+          "asset_sha256": "508dc1c6529e82b241e7ee9ed91b27968fd74251551f084e1dd4deeb5bed0fa6",
+          "asset_bytes": 186343
+        },
+        {
+          "item_id": "s269_visual_032",
+          "asset_sha256": "7ef099e637789da0a1a0b85fab95f4923819b7b6b56d84896718e18e9b309857",
+          "asset_bytes": 175465
+        },
+        {
+          "item_id": "s269_visual_033",
+          "asset_sha256": "715571fcd9dacba324fbf294dbff25790b1c11eab07f0e9a8e5ec1ee711f096d",
+          "asset_bytes": 189538
+        },
+        {
+          "item_id": "s269_visual_034",
+          "asset_sha256": "50966699e83ce7837cc13a0687c09e67ec94f89454f584f92df76ac5317dcdd4",
+          "asset_bytes": 327087
+        },
+        {
+          "item_id": "s269_visual_035",
+          "asset_sha256": "a2b60a9330e6d9c9a2b73e6ece4504d640779efa79107d80cd0cf3438efe985d",
+          "asset_bytes": 285335
+        },
+        {
+          "item_id": "s269_visual_036",
+          "asset_sha256": "28a03f7ee2744e09a154765d3f902a6d86aa46b7048700c0b916cfec05215256",
+          "asset_bytes": 254908
+        },
+        {
+          "item_id": "s269_visual_037",
+          "asset_sha256": "352acfb891354e35a4c6aa542aaaf738159587e73488b41946f1df43555b861f",
+          "asset_bytes": 210197
+        },
+        {
+          "item_id": "s269_visual_038",
+          "asset_sha256": "81efb068a1383e76d948a19df0bf6bb5be8d81ee215d1c37e40187872863bf3f",
+          "asset_bytes": 211393
+        },
+        {
+          "item_id": "s269_visual_039",
+          "asset_sha256": "ec8e714fc4533284b178a3902cdfe0bc5f1aaaa2e959b4cc23f6b95d148f2082",
+          "asset_bytes": 318358
+        },
+        {
+          "item_id": "s269_visual_040",
+          "asset_sha256": "af91cc6e869101e74f7e221beb649aee450432c53f2c9c7d52b5f4abdd51eac8",
+          "asset_bytes": 224447
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_031",
+          "technical_utility": "not_useful",
+          "visual_role": "cover",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Manual cover with product photo and contents, but no actionable technical visual."
+        },
+        {
+          "item_id": "s269_visual_032",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible programming instructions include configuration menu screenshots and network settings."
+        },
+        {
+          "item_id": "s269_visual_033",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical manual page contains legible input tables and connection procedure."
+        },
+        {
+          "item_id": "s269_visual_034",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible technical specifications table supports verification and maintenance work."
+        },
+        {
+          "item_id": "s269_visual_035",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains legible wiring diagrams, connection variants, and configuration tables."
+        },
+        {
+          "item_id": "s269_visual_036",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Declaration and safety text page lacks an actionable technical visual."
+        },
+        {
+          "item_id": "s269_visual_037",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Includes programming instructions and a legible connection schematic."
+        },
+        {
+          "item_id": "s269_visual_038",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains a legible address-assignment configuration table for RS485 communication."
+        },
+        {
+          "item_id": "s269_visual_039",
+          "technical_utility": "uncertain",
+          "visual_role": "wiring",
+          "confidence": "low",
+          "has_legible_technical_visual": false,
+          "reason": "Appears to contain wiring schematics, but text and symbols are too illegible."
+        },
+        {
+          "item_id": "s269_visual_040",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation sheet clearly shows wiring diagrams, terminals, dimensions, and technical data."
+        }
+      ]
+    },
+    {
+      "batch": 5,
+      "response_id": "resp_0e2c37e351972720006a5bffce3ce481a3969569bfea380daa",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 684
+      },
+      "cost_usd": 0.006688,
+      "raw_text_sha256": "94134e497f1d6ea1eefbb845f2a1d35088775a958421f0b820859c1b485f19c9",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_041",
+          "asset_sha256": "f60c2fef59aea790ab5f70d2e4512778f2d4a2be88d489c29b6549f8103b1626",
+          "asset_bytes": 171030
+        },
+        {
+          "item_id": "s269_visual_042",
+          "asset_sha256": "b44fa3546cd451b101af3da9a29d2bbc43c2185e332f74f51a7ad8587dc0c7d1",
+          "asset_bytes": 173533
+        },
+        {
+          "item_id": "s269_visual_043",
+          "asset_sha256": "71f3ca93d4e6b93b45bf8285b5127bdd29aa04ace58489c8ddfcf88f7880c85f",
+          "asset_bytes": 165388
+        },
+        {
+          "item_id": "s269_visual_044",
+          "asset_sha256": "40f7403eaf1ea862d6639dd7ab45cdae9b35b37fcdf3e35d063edb1c22718d41",
+          "asset_bytes": 181663
+        },
+        {
+          "item_id": "s269_visual_045",
+          "asset_sha256": "b30a9aec750cce02541928f24976f28fd08a3c3bdd3bb7393bf25f5b455dc745",
+          "asset_bytes": 285432
+        },
+        {
+          "item_id": "s269_visual_046",
+          "asset_sha256": "82dd538f76a61ab3c9cdae79b023abed15ad2d20769fdfda309243596a765d06",
+          "asset_bytes": 91091
+        },
+        {
+          "item_id": "s269_visual_047",
+          "asset_sha256": "aa060f158c44044d981b8a586793b7e2d5492dffdff3c50650b483cbe3411c1c",
+          "asset_bytes": 309802
+        },
+        {
+          "item_id": "s269_visual_048",
+          "asset_sha256": "51fd65f44d3ff73e5ecfcaad484cd6f8b786ded5260542260ce375ca2342d8b9",
+          "asset_bytes": 322902
+        },
+        {
+          "item_id": "s269_visual_049",
+          "asset_sha256": "28ed12fe348e183f6b7845c8e0811a7b346e1b179968427fcf4423de57418eaf",
+          "asset_bytes": 122945
+        },
+        {
+          "item_id": "s269_visual_050",
+          "asset_sha256": "7d8f67261e8ccc2cf05c945bddd5465a9a956664b8916079ca24d47ee1453172",
+          "asset_bytes": 240583
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_041",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows legible controller connection diagrams and wiring-related configuration details."
+        },
+        {
+          "item_id": "s269_visual_042",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows a configuration software interface with operational instructions."
+        },
+        {
+          "item_id": "s269_visual_043",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows downloadable event-log interface and recent-events screen."
+        },
+        {
+          "item_id": "s269_visual_044",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows configuration software screens and clearly annotated interface controls."
+        },
+        {
+          "item_id": "s269_visual_045",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains terminal tables and legible amplifier wiring diagrams."
+        },
+        {
+          "item_id": "s269_visual_046",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Illustrates detector installation with labeled parts and mounting orientation."
+        },
+        {
+          "item_id": "s269_visual_047",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Includes a legible programming workflow diagram and operational guidance."
+        },
+        {
+          "item_id": "s269_visual_048",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains connection diagrams, terminal layouts, and installation instructions."
+        },
+        {
+          "item_id": "s269_visual_049",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Shows a labeled mains power supply and cable connection diagram."
+        },
+        {
+          "item_id": "s269_visual_050",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Provides labeled mechanical installation illustrations and adjustment procedure."
+        }
+      ]
+    },
+    {
+      "batch": 6,
+      "response_id": "resp_02f5579725503210006a5bffd849b081a0aad6888f2a8d2f94",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2565,
+        "output_tokens": 715
+      },
+      "cost_usd": 0.006855,
+      "raw_text_sha256": "4a08d8a86e25e222ba54697b3e971e6663c74f852fb73bac66a3782f9d51a2ff",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_051",
+          "asset_sha256": "825b0854bbb55502abeaf4d30b6e28b31aa0b3e770744ae12f236e82174b39cd",
+          "asset_bytes": 222968
+        },
+        {
+          "item_id": "s269_visual_052",
+          "asset_sha256": "a3edfd5c9c996a463d21c851a98d439f166ce08817f1aecf940a834118b44379",
+          "asset_bytes": 180640
+        },
+        {
+          "item_id": "s269_visual_053",
+          "asset_sha256": "47fc057c2e3821ae88eac82d2f18b0792e40e31958ce781a020bee8bf29d75ff",
+          "asset_bytes": 172029
+        },
+        {
+          "item_id": "s269_visual_054",
+          "asset_sha256": "5fa7b273dab236490a8e958756200cac24e6328d9c327b64297be9e8abf6f1af",
+          "asset_bytes": 207476
+        },
+        {
+          "item_id": "s269_visual_055",
+          "asset_sha256": "4e526a700100444c1994e50db46c7bdc987e7c8c8efb1de121627699a5f806ea",
+          "asset_bytes": 141986
+        },
+        {
+          "item_id": "s269_visual_056",
+          "asset_sha256": "37e43f96af8deacf9cc987335e6f75657548253f084e56e3e4af69096666f46f",
+          "asset_bytes": 211561
+        },
+        {
+          "item_id": "s269_visual_057",
+          "asset_sha256": "0f0d7dfcc0d9183f2dbec7661eac4fb92c6bdb779a0603590518ccecef181f59",
+          "asset_bytes": 148947
+        },
+        {
+          "item_id": "s269_visual_058",
+          "asset_sha256": "02c6a3ff5cc6fc69697438ead6928a35e3adea29b1e01b42bd8d99d15e383b68",
+          "asset_bytes": 140847
+        },
+        {
+          "item_id": "s269_visual_059",
+          "asset_sha256": "6de90eeb763846dfdc220e8f4f0ab33f6c89bd1cd1678ee53dd7a13384e127f1",
+          "asset_bytes": 202057
+        },
+        {
+          "item_id": "s269_visual_060",
+          "asset_sha256": "9789f192a99a5d7efbd214b419acd089be2882bb2bc80eac33e85cff2eb5916d",
+          "asset_bytes": 261424
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_051",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible interlock operating-mode wiring diagram with zone, fault, alarm, and EOL connections."
+        },
+        {
+          "item_id": "s269_visual_052",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Technical detector-to-PLC wiring diagrams and connection illustrations are visibly legible."
+        },
+        {
+          "item_id": "s269_visual_053",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains legible terminal-assignment and detector-type technical tables."
+        },
+        {
+          "item_id": "s269_visual_054",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Certification document and environmental notice contain no actionable technical visual."
+        },
+        {
+          "item_id": "s269_visual_055",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Annotated product views identify components, accessories, and interface controls."
+        },
+        {
+          "item_id": "s269_visual_056",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "medium",
+          "has_legible_technical_visual": true,
+          "reason": "Shows a controller interface and operational instructions for verified zones."
+        },
+        {
+          "item_id": "s269_visual_057",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Two legible annotated panel cable-routing and wiring illustrations are provided."
+        },
+        {
+          "item_id": "s269_visual_058",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Contains calculation tables, dimensional limits, and a technical ducting diagram."
+        },
+        {
+          "item_id": "s269_visual_059",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Illustrates battery installation and cable connection procedure in an equipment cabinet."
+        },
+        {
+          "item_id": "s269_visual_060",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible audio equipment control-panel screen with labeled buttons and operating instructions."
+        }
+      ]
+    },
+    {
+      "batch": 7,
+      "response_id": "resp_0194d078bbbabb54006a5bffe2bf5081a09ff035a0cab3c850",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 714
+      },
+      "cost_usd": 0.006868,
+      "raw_text_sha256": "4861ffdf00ea4a074fcdc0e8d45917ce0e478c7f9a4c6aa39bb696f404642267",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_061",
+          "asset_sha256": "9997cdde5866e66c7f8083d55e8677a681911981f16ee0a3a26f7b579b6743d2",
+          "asset_bytes": 119770
+        },
+        {
+          "item_id": "s269_visual_062",
+          "asset_sha256": "954a9698784c5710f1b06ea5fc7f711e3dfcdc615379b8df5765f016e2e9c8b5",
+          "asset_bytes": 212902
+        },
+        {
+          "item_id": "s269_visual_063",
+          "asset_sha256": "456c2e349bf0c892cbb316c703d22fa56e43ffcdb907374055a0056b6d99cd4c",
+          "asset_bytes": 216341
+        },
+        {
+          "item_id": "s269_visual_064",
+          "asset_sha256": "8df63894026e5a06e0ad328885029955c1dec14d1c976fdf9aabfe54d5f5e8fe",
+          "asset_bytes": 186768
+        },
+        {
+          "item_id": "s269_visual_065",
+          "asset_sha256": "f3c17f4b6f1bf8ed0c0114362fa5ecd347a9a065b5e089dd1678c36c69bbb91e",
+          "asset_bytes": 170957
+        },
+        {
+          "item_id": "s269_visual_066",
+          "asset_sha256": "141aa68295d8959718c08c14c858ace60e5e933019e97c434b5ce6b41ca78f82",
+          "asset_bytes": 187253
+        },
+        {
+          "item_id": "s269_visual_067",
+          "asset_sha256": "0cc016bceeeefcc1a999b3880ee234b3e3c5b202aacd0490de7f63cacd1e12d9",
+          "asset_bytes": 255102
+        },
+        {
+          "item_id": "s269_visual_068",
+          "asset_sha256": "307edee242f7381810f08dfdc218219766685aff8164be3a50d03c0796c9f2c3",
+          "asset_bytes": 142091
+        },
+        {
+          "item_id": "s269_visual_069",
+          "asset_sha256": "207ae562ba1c969f606d71c9809524d2d43893c3f1ee48c63dddf60736df3e51",
+          "asset_bytes": 239829
+        },
+        {
+          "item_id": "s269_visual_070",
+          "asset_sha256": "7264e0a16adbc0a7cdd230040f086f5162c7a191fd2d92a613fcfbbc3175a484",
+          "asset_bytes": 78665
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_061",
+          "technical_utility": "useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible horizontal and vertical sensor viewing-field diagrams support installation or verification."
+        },
+        {
+          "item_id": "s269_visual_062",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation instructions include legible aspiration-device mounting illustrations and labeled details."
+        },
+        {
+          "item_id": "s269_visual_063",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Multiple legible wiring diagrams show power, relay, detector, and switching connections."
+        },
+        {
+          "item_id": "s269_visual_064",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Detailed programming-menu flowchart supports configuration and operational verification."
+        },
+        {
+          "item_id": "s269_visual_065",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "medium",
+          "has_legible_technical_visual": true,
+          "reason": "Device rear-panel illustration labels connectors and controls for field servicing."
+        },
+        {
+          "item_id": "s269_visual_066",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Operating-mode wiring diagram clearly shows zones, alarms, faults, and control-panel connections."
+        },
+        {
+          "item_id": "s269_visual_067",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Four manual-test wiring options and commissioning procedures are visibly documented."
+        },
+        {
+          "item_id": "s269_visual_068",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible display and button layout plus LCD success-code table aid operation."
+        },
+        {
+          "item_id": "s269_visual_069",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Dimensioned mechanical drawings and installation requirements support mounting and cabling."
+        },
+        {
+          "item_id": "s269_visual_070",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible configuration software screen shows CPU module settings and selection controls."
+        }
+      ]
+    },
+    {
+      "batch": 8,
+      "response_id": "resp_0e496aa906b47d20006a5bffecb63c8192b29a4d31f5e9aeb9",
+      "model": "gpt-5.6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 2584,
+        "output_tokens": 688
+      },
+      "cost_usd": 0.006712,
+      "raw_text_sha256": "d8208b8dc7861be74190fe27acec00d975b14698308a9d0002063466008c00b6",
+      "binary_receipts": [
+        {
+          "item_id": "s269_visual_071",
+          "asset_sha256": "0ff4ec9df6706eab5f2d437f577f3e7e4511e5ca94a52a6f8193ff204370b624",
+          "asset_bytes": 131153
+        },
+        {
+          "item_id": "s269_visual_072",
+          "asset_sha256": "add8bae96d5676a5eb91646cdd9bcc473f59f83cd5e25d9329fd4f563377b172",
+          "asset_bytes": 186466
+        },
+        {
+          "item_id": "s269_visual_073",
+          "asset_sha256": "c0c01b70380f6017ce6f9afc4b0eb87858223defbc352ede02fe2476ecb5e62f",
+          "asset_bytes": 166151
+        },
+        {
+          "item_id": "s269_visual_074",
+          "asset_sha256": "aa9e2b8eec2475b91a6e3af517a619987120e76c01cf7eca4d2b02045d3d7b07",
+          "asset_bytes": 256477
+        },
+        {
+          "item_id": "s269_visual_075",
+          "asset_sha256": "ad27658379100d0eb5893e41564777c2ef36a86d1443db2bf567419833cd3560",
+          "asset_bytes": 146727
+        },
+        {
+          "item_id": "s269_visual_076",
+          "asset_sha256": "544cdc2840e952f98eb9c553fbf439cf11da2a3d40ac19ca103dbfeb140a745d",
+          "asset_bytes": 314462
+        },
+        {
+          "item_id": "s269_visual_077",
+          "asset_sha256": "d7a9aa25454928f56288301d1593fa856908a18d4b51c19c905793d4e8c4428f",
+          "asset_bytes": 294108
+        },
+        {
+          "item_id": "s269_visual_078",
+          "asset_sha256": "3ba149ffaace4c0ae995a485d586f263e7f0df6b61025d14b7b440c14964443b",
+          "asset_bytes": 202330
+        },
+        {
+          "item_id": "s269_visual_079",
+          "asset_sha256": "defd27791ad676a04fe536ad73e1b6afa6b39a25f2f692c92d08a15cebd0c981",
+          "asset_bytes": 297329
+        },
+        {
+          "item_id": "s269_visual_080",
+          "asset_sha256": "a4c8e9600215e2fde0b5a331344152091bf3201764873f20b2b5c1fce6e28f18",
+          "asset_bytes": 235859
+        }
+      ],
+      "labels": [
+        {
+          "item_id": "s269_visual_071",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Legible configuration instructions include controller interface screenshots and operational steps."
+        },
+        {
+          "item_id": "s269_visual_072",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Installation page clearly illustrates inlet and outlet tube connections."
+        },
+        {
+          "item_id": "s269_visual_073",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Stepwise touchscreen and keypad screenshots explain network filter operation."
+        },
+        {
+          "item_id": "s269_visual_074",
+          "technical_utility": "not_useful",
+          "visual_role": "other",
+          "confidence": "high",
+          "has_legible_technical_visual": false,
+          "reason": "Page contains safety prose without a technical visual."
+        },
+        {
+          "item_id": "s269_visual_075",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Detector targeting procedure includes labeled device illustration and detection-range table."
+        },
+        {
+          "item_id": "s269_visual_076",
+          "technical_utility": "useful",
+          "visual_role": "procedure",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Programming instructions include a legible control and visualization diagram."
+        },
+        {
+          "item_id": "s269_visual_077",
+          "technical_utility": "useful",
+          "visual_role": "table",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Approval page contains legible technical specification tables and connection diagrams."
+        },
+        {
+          "item_id": "s269_visual_078",
+          "technical_utility": "useful",
+          "visual_role": "ui",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Programming procedure shows clearly labeled instrument display screens."
+        },
+        {
+          "item_id": "s269_visual_079",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Page provides terminal table and detailed relay wiring schematics."
+        },
+        {
+          "item_id": "s269_visual_080",
+          "technical_utility": "useful",
+          "visual_role": "wiring",
+          "confidence": "high",
+          "has_legible_technical_visual": true,
+          "reason": "Operating-mode page includes a legible interlock wiring schematic."
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "luna_usd": 0.05445,
+    "calls": 8,
+    "retries": 0
+  },
+  "authorization": {
+    "frontier_calls": 0,
+    "database_writes": 0,
+    "production": false
+  }
+}

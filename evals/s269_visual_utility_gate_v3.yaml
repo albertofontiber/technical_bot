@@ -1,0 +1,88 @@
+instrument: s269_visual_utility_gate_v3
+status: BAND_OUT_OF_RANGE_NO_GO_TRIGGER_DESIGN
+
+inputs:
+  preregistration: evals/s269_visual_utility_cohort_v3_prereg.yaml
+  cohort: evals/s269_visual_utility_cohort_v3.json
+  cohort_sha256: bfa829c8d4e2b81816c449c85048be1d9a435fcf0f1ed4a0f8e65b62cb1907e7
+  labels: evals/s269_visual_utility_labels_v3.json
+  labels_file_sha256: e24345fe6f7671621bfab95fdde97004895ec21c82b21def35ead0744dcf018d
+  spot_check_renders: spotcheck/
+
+executor:
+  model: gpt-5.6-luna
+  reasoning_effort: none
+  max_retries: 0
+  valid_labels: 80
+  unique_items: 80
+  by_utility: {useful: 60, not_useful: 19, uncertain: 1}
+  by_role: {wiring: 19, procedure: 17, table: 13, cover: 13, ui: 11, other: 4, product_photo: 3}
+  strict_policy_positives: 56
+  positives_by_group: {expected_control: 21, expected_technical: 35}
+  preregistered_positive_range: [28, 44]
+  band_pass: false
+  calls: 8
+  retries: 0
+  measured_cost_usd: 0.05445
+
+decision:
+  band_verdict: OUT_OF_RANGE  # 56 > 44; la banda NO se mueve (queda registrada tal cual)
+  classifier_quality_conclusion: POSITIVE_SIGNAL_DEVELOPMENT_EVIDENCE
+  failure_attribution: COHORT_TRIGGER_DESIGN_NOT_CLASSIFIER
+  explanation: >-
+    La banda [28,44] se derivo de la premisa de composicion "page_index 1-2 =
+    control esperado-negativo". Los labels + el spot-check manual REFUTAN esa
+    proxy posicional: 21/40 controles fueron positivos estrictos, y la
+    verificacion humana confirmo que varios son contenido tecnico LEGITIMO en
+    primeras paginas (p.ej. s269_visual_006, SG350 p.1: guia rapida con
+    diagrama de instalacion + tabla de LEDs -> useful correcto; s269_visual_010,
+    PAN AVD2 p.1: tabla tecnica en portada -> useful correcto). El trigger
+    fallo por DISENO de la cohorte (proxy falsa), no por el clasificador. La
+    senal de calidad del clasificador es POSITIVA y va en dos recibos:
+    (a) cross-tab rol x utilidad con 0 cover/marketing en useful (13/13 covers
+    -> not_useful; 0 items etiquetados marketing); (b) spot-check manual del
+    orquestador 10/10 correcto (tabla abajo, renders mapeados por sha256 del
+    binario a los binary_receipts del recibo v3). NADA de esto autoriza servir:
+    la precision de servicio se mide en el gate v4 pre-registrado.
+
+danger_class:
+  definition: cover_or_marketing_predicted_useful
+  false_positives: 0
+  evidence: cross_tab_13_of_13_covers_not_useful_and_zero_marketing_labels
+
+spot_check:
+  verified_by: orchestrator_manual_review
+  items: 10
+  design: 5_predicted_useful_plus_5_predicted_not_useful
+  result: 10_of_10_correct
+  mapping: >-
+    Cada render descargado en spotcheck/ se mapeo a su item_id por sha256 del
+    binario contra los binary_receipts de evals/s269_visual_utility_labels_v3.json
+    (identidad criptografica, no por nombre de fichero).
+  rows:
+    - {file: spotcheck/00_useful_procedure.jpg, item_id: s269_visual_006, group: expected_control, manufacturer: Argus Security, source: "Instruction Manual SG350 ENG p.1", prediction: useful/procedure/high, verdict: correct, asset_sha256: 8235992d833bd4f9851d3c33f5ebb101afd944bdca5d95aaa1e9d8c2b21d3b43}
+    - {file: spotcheck/01_useful_table.jpg, item_id: s269_visual_004, group: expected_control, manufacturer: System Sensor, source: "I56-1726-003 6200R Manual ES p.2", prediction: useful/table/high, verdict: correct, asset_sha256: ed64a0dc04e1681b837f5ab6cddf6b879cf62a979265489966b23e520b22d0f5}
+    - {file: spotcheck/02_useful_table.jpg, item_id: s269_visual_077, group: expected_technical, manufacturer: Pfannenberg, source: "085501945t_PA5_Installation_manual_D-GB-F-RU-IT p.6", prediction: useful/table/high, verdict: correct, asset_sha256: d7a9aa25454928f56288301d1593fa856908a18d4b51c19c905793d4e8c4428f}
+    - {file: spotcheck/03_useful_table.jpg, item_id: s269_visual_010, group: expected_control, manufacturer: Avotec, source: "PAN AVD2_SPANISH p.1", prediction: useful/table/high, verdict: correct, asset_sha256: 0997d165354a6fc3d5928d02bb59728d365921e58fb47afbd5f13a6892e0eeca}
+    - {file: spotcheck/04_useful_ui.jpg, item_id: s269_visual_068, group: expected_technical, manufacturer: Zellweger Analytics, source: "Manual Unipoint Esp p.13", prediction: useful/ui/high, verdict: correct, asset_sha256: 307edee242f7381810f08dfdc218219766685aff8164be3a50d03c0796c9f2c3}
+    - {file: spotcheck/05_not_useful_cover.jpg, item_id: s269_visual_018, group: expected_control, manufacturer: Testifire, source: "Testifire_Quick_Guide_Spanish p.1", prediction: not_useful/cover/high, verdict: correct, asset_sha256: da40b38673f92af960ca3cfc007607f2a06e553b87fbbb99479c0a84ec2c5546}
+    - {file: spotcheck/06_not_useful_cover.jpg, item_id: s269_visual_014, group: expected_control, manufacturer: Fidegas, source: "Manual-de-Usuario-CS4 p.1", prediction: not_useful/cover/high, verdict: correct, asset_sha256: 7e5ebdd9fde791aa1f3d85ec47135f3772ed6c5a28bfe96647b492019fafd512}
+    - {file: spotcheck/07_not_useful_cover.jpg, item_id: s269_visual_020, group: expected_control, manufacturer: LGM Products, source: "LocatorPlus-EN-Installation-Manual-1.0 p.1", prediction: not_useful/cover/high, verdict: correct, asset_sha256: 0542cd60ddfd8920ae917251e7b8806bfba3b6d08d3482354c825bebb1218350}
+    - {file: spotcheck/08_not_useful_other.jpg, item_id: s269_visual_074, group: expected_technical, manufacturer: LDA audioTech, source: "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1 p.5", prediction: not_useful/other/high, verdict: correct, asset_sha256: aa9e2b8eec2475b91a6e3af517a619987120e76c01cf7eca4d2b02045d3d7b07}
+    - {file: spotcheck/09_not_useful_other.jpg, item_id: s269_visual_036, group: expected_control, manufacturer: COELBO, source: "AC1460R - CESI 03 ATEX 050 p.2", prediction: not_useful/other/high, verdict: correct, asset_sha256: 28a03f7ee2744e09a154765d3f902a6d86aa46b7048700c0b916cfec05215256}
+
+anti_overfit:
+  - do_not_move_the_28_to_44_band_after_observing_labels_it_stays_failed_as_recorded
+  - do_not_reuse_these_80_labels_or_items_to_tune_prompt_reasoning_or_thresholds
+  - do_not_rescore_or_relabel_any_of_the_80_items
+  - position_based_control_proxies_are_retired_as_trigger_design_refuted_twice_s191_and_v3
+  - treat_v3_as_development_evidence_only_serving_precision_is_measured_by_the_v4_gate
+
+next:
+  - v4_full_bridge_classification_with_a_pre_registered_SERVING_gate_not_a_band_gate
+  - preregistration: evals/s269_visual_utility_v4_prereg.yaml
+
+authorization:
+  database_writes: 0
+  production_changes: false
+  facts_moved_to_ok: 0
