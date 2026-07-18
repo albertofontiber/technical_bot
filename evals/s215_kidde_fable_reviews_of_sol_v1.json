@@ -1,0 +1,375 @@
+{
+  "schema": "s215_kidde_fable_reviews_of_sol_v1",
+  "status": "COMPLETE",
+  "items": [
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "review": {
+        "reviewer_model": "claude-fable-5",
+        "candidate_author": "gpt-5.6-sol",
+        "reviews": [
+          {
+            "canary_id": "kidde_2xa_interface_tradeoffs",
+            "verdict": "PASS",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": true,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": true,
+            "material_disagreements": [],
+            "unsupported_answer_claims": [],
+            "blocking_issues": [],
+            "nonblocking_notes": [
+              "The counterpart additionally covers the 2X-AF1-S 20/40-zone LED indicator board option (AF1 page 1 'Options'), a scope broadening the candidate deliberately omits; this is an enrichment difference, not a contradiction, and the candidate's narrower question ('en la variante escandinava, ¿qué ocurre con la llave...?') remains self-contained and fully answered.",
+              "The counterpart cites 2x-af2-scfb-s page 2 ('Interfaz escandinava' table row) for the interface contrast while the candidate cites page 1 (title/Detalles); both citations are pixel-supported, so no conflict-handling disagreement exists.",
+              "F02's content overlaps a single-source retriever-augmentation hyq (24-zone board limitation on the AF2), but the overall question is a genuine cross-model comparison mandated by the frozen topic and is not a semantic duplicate of any disclosed coverage.",
+              "The known loop-count conflict on 2x-af1-s (title '1 loop' vs panel paragraph/table '2') is correctly avoided: no fact or answer sentence asserts loop cardinality, and the notes field documents the exclusion."
+            ],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "AF1 p2 'General' table shows 'Interfaz usuario: Sin controles de Bomberos'; AF2 p1 title reads 'Integrated scandinavian UI' and Detalles lists 'Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'. Contrast requires both PDFs."
+              },
+              {
+                "fact_id": "F02",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "AF2 p1 'Options': 'a 24 zone fire/fault LED indicator board can be mounted... however this will remove the Scandinavian-key lock'. Single-source by design; correctly cited to the only page showing it."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "AF1 p1 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well'; AF2 p1: 'standard 4 supervised sounder/fire-routing outputs...'. Numerically exact 2 vs 4 contrast is genuinely cross-source."
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Both p1 'The Panel' paragraphs state 'In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions'. The per-model claim requires reading both datasheets."
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "review:sol:kidde_2xa_interface_tradeoffs",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "```json\n{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\n\"reviews\":[{\"canary_id\":\"kidde_2xa_interface_tradeoffs\",\"verdict\":\"PASS\",\n\"question_fully_answerable\":true,\"question_duplicate\":false,\n\"topic_aligned\":true,\"gold_complete\":true,\n\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\n\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\n\"unsupported_answer_claims\":[],\"blocking_issues\":[],\n\"nonblocking_notes\":[\"The counterpart additionally covers the 2X-AF1-S 20/40-zone LED indicator board option (AF1 page 1 'Options'), a scope broadening the candidate deliberately omits; this is an enrichment difference, not a contradiction, and the candidate's narrower question ('en la variante escandinava, ¿qué ocurre con la llave...?') remains self-contained and fully answered.\",\"The counterpart cites 2x-af2-scfb-s page 2 ('Interfaz escandinava' table row) for the interface contrast while the candidate cites page 1 (title/Detalles); both citations are pixel-supported, so no conflict-handling disagreement exists.\",\"F02's content overlaps a single-source retriever-augmentation hyq (24-zone board limitation on the AF2), but the overall question is a genuine cross-model comparison mandated by the frozen topic and is not a semantic duplicate of any disclosed coverage.\",\"The known loop-count conflict on 2x-af1-s (title '1 loop' vs panel paragraph/table '2') is correctly avoided: no fact or answer sentence asserts loop cardinality, and the notes field documents the exclusion.\"],\n\"fact_verdicts\":[\n{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"AF1 p2 'General' table shows 'Interfaz usuario: Sin controles de Bomberos'; AF2 p1 title reads 'Integrated scandinavian UI' and Detalles lists 'Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'. Contrast requires both PDFs.\"},\n{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"AF2 p1 'Options': 'a 24 zone fire/fault LED indicator board can be mounted... however this will remove the Scandinavian-key lock'. Single-source by design; correctly cited to the only page showing it.\"},\n{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"AF1 p1 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well'; AF2 p1: 'standard 4 supervised sounder/fire-routing outputs...'. Numerically exact 2 vs 4 contrast is genuinely cross-source.\"},\n{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both p1 'The Panel' paragraphs state 'In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions'. The per-model claim requires reading both datasheets.\"}]}]}\n```",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 57766,
+          "output_tokens": 2906
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9JwwRfemB1dEAvdXS7n",
+          "container": null,
+          "content": [
+            {
+              "signature": "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",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "```json\n{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\n\"reviews\":[{\"canary_id\":\"kidde_2xa_interface_tradeoffs\",\"verdict\":\"PASS\",\n\"question_fully_answerable\":true,\"question_duplicate\":false,\n\"topic_aligned\":true,\"gold_complete\":true,\n\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\n\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\n\"unsupported_answer_claims\":[],\"blocking_issues\":[],\n\"nonblocking_notes\":[\"The counterpart additionally covers the 2X-AF1-S 20/40-zone LED indicator board option (AF1 page 1 'Options'), a scope broadening the candidate deliberately omits; this is an enrichment difference, not a contradiction, and the candidate's narrower question ('en la variante escandinava, ¿qué ocurre con la llave...?') remains self-contained and fully answered.\",\"The counterpart cites 2x-af2-scfb-s page 2 ('Interfaz escandinava' table row) for the interface contrast while the candidate cites page 1 (title/Detalles); both citations are pixel-supported, so no conflict-handling disagreement exists.\",\"F02's content overlaps a single-source retriever-augmentation hyq (24-zone board limitation on the AF2), but the overall question is a genuine cross-model comparison mandated by the frozen topic and is not a semantic duplicate of any disclosed coverage.\",\"The known loop-count conflict on 2x-af1-s (title '1 loop' vs panel paragraph/table '2') is correctly avoided: no fact or answer sentence asserts loop cardinality, and the notes field documents the exclusion.\"],\n\"fact_verdicts\":[\n{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"AF1 p2 'General' table shows 'Interfaz usuario: Sin controles de Bomberos'; AF2 p1 title reads 'Integrated scandinavian UI' and Detalles lists 'Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'. Contrast requires both PDFs.\"},\n{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"AF2 p1 'Options': 'a 24 zone fire/fault LED indicator board can be mounted... however this will remove the Scandinavian-key lock'. Single-source by design; correctly cited to the only page showing it.\"},\n{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"AF1 p1 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs as well'; AF2 p1: 'standard 4 supervised sounder/fire-routing outputs...'. Numerically exact 2 vs 4 contrast is genuinely cross-source.\"},\n{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both p1 'The Panel' paragraphs state 'In addition 2 conventional relay outputs and 2 supervised outputs, working in pair and dedicated to common fire and fault conditions'. The per-model claim requires reading both datasheets.\"}]}]}\n```",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 57766,
+            "output_tokens": 2906,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 1680
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_mcp_surface_kit_selection",
+      "review": {
+        "reviewer_model": "claude-fable-5",
+        "candidate_author": "gpt-5.6-sol",
+        "reviews": [
+          {
+            "canary_id": "kidde_mcp_surface_kit_selection",
+            "verdict": "PASS",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": true,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": true,
+            "material_disagreements": [],
+            "unsupported_answer_claims": [],
+            "blocking_issues": [],
+            "nonblocking_notes": [
+              "The question embeds an explicit scoping instruction ('Limítate a lo indicado expresamente...'); slightly unusual phrasing for a field user but it keeps the item self-contained and aligned to the frozen topic.",
+              "The candidate omits the shared 'sin cambios en la configuración de CIE' compatibility statement that the counterpart included; this is an additive difference, not a contradiction, and the frozen topic does not require it.",
+              "The two sheets differ in the Compatibilidad wording ('compatibles Excellence' vs 'Aritech compatibles'); the candidate wisely does not assert identical compatibility branding, avoiding an undisclosed near-conflict.",
+              "F04 relies on the Estética paragraphs, which are verbatim identical on both pages ('adecuado para instalaciones de montaje empotrado y en superficie...'), so the shared-capability claim is safe despite the KIT Detalles bullet mentioning only surface mounting."
+            ],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Standalone p.1: 'Se entrega completo con elemento rearmable, conector de prueba y llave de prueba'; KIT p.1: 'Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba'. Comparison requires both pages."
+              },
+              {
+                "fact_id": "F02",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Correctly scoped to the explicit supply sentences; refuses to infer exclusion for the standalone sheet, exactly matching the required handling of the disclosed back_box_inclusion conflict."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Both General sections describe a red single-action indoor call point with the house-on-fire functional indicator ('casa en llamas' / 'Casa-en-llamas')."
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Both Estética sections carry identical wording about flush and surface mounting with standard or legacy European electrical boxes."
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Both pages state dual tri-color LEDs with clear 180° local status indication."
+              },
+              {
+                "fact_id": "F06",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Last Detalles bullet on each page: 'Se admiten hasta 128 dispositivos por lazo' / 'por bucle'; the lazo/bucle wording variance is faithfully represented."
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "review:sol:kidde_mcp_surface_kit_selection",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_mcp_surface_kit_selection\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The question embeds an explicit scoping instruction ('Limítate a lo indicado expresamente...'); slightly unusual phrasing for a field user but it keeps the item self-contained and aligned to the frozen topic.\",\"The candidate omits the shared 'sin cambios en la configuración de CIE' compatibility statement that the counterpart included; this is an additive difference, not a contradiction, and the frozen topic does not require it.\",\"The two sheets differ in the Compatibilidad wording ('compatibles Excellence' vs 'Aritech compatibles'); the candidate wisely does not assert identical compatibility branding, avoiding an undisclosed near-conflict.\",\"F04 relies on the Estética paragraphs, which are verbatim identical on both pages ('adecuado para instalaciones de montaje empotrado y en superficie...'), so the shared-capability claim is safe despite the KIT Detalles bullet mentioning only surface mounting.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Standalone p.1: 'Se entrega completo con elemento rearmable, conector de prueba y llave de prueba'; KIT p.1: 'Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba'. Comparison requires both pages.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Correctly scoped to the explicit supply sentences; refuses to infer exclusion for the standalone sheet, exactly matching the required handling of the disclosed back_box_inclusion conflict.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both General sections describe a red single-action indoor call point with the house-on-fire functional indicator ('casa en llamas' / 'Casa-en-llamas').\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both Estética sections carry identical wording about flush and surface mounting with standard or legacy European electrical boxes.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both pages state dual tri-color LEDs with clear 180° local status indication.\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Last Detalles bullet on each page: 'Se admiten hasta 128 dispositivos por lazo' / 'por bucle'; the lazo/bucle wording variance is faithfully represented.\"}]}]}",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 46603,
+          "output_tokens": 2724
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9KADMxKqQ75BBNNj9oK",
+          "container": null,
+          "content": [
+            {
+              "signature": "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",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_mcp_surface_kit_selection\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The question embeds an explicit scoping instruction ('Limítate a lo indicado expresamente...'); slightly unusual phrasing for a field user but it keeps the item self-contained and aligned to the frozen topic.\",\"The candidate omits the shared 'sin cambios en la configuración de CIE' compatibility statement that the counterpart included; this is an additive difference, not a contradiction, and the frozen topic does not require it.\",\"The two sheets differ in the Compatibilidad wording ('compatibles Excellence' vs 'Aritech compatibles'); the candidate wisely does not assert identical compatibility branding, avoiding an undisclosed near-conflict.\",\"F04 relies on the Estética paragraphs, which are verbatim identical on both pages ('adecuado para instalaciones de montaje empotrado y en superficie...'), so the shared-capability claim is safe despite the KIT Detalles bullet mentioning only surface mounting.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Standalone p.1: 'Se entrega completo con elemento rearmable, conector de prueba y llave de prueba'; KIT p.1: 'Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba'. Comparison requires both pages.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Correctly scoped to the explicit supply sentences; refuses to infer exclusion for the standalone sheet, exactly matching the required handling of the disclosed back_box_inclusion conflict.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both General sections describe a red single-action indoor call point with the house-on-fire functional indicator ('casa en llamas' / 'Casa-en-llamas').\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both Estética sections carry identical wording about flush and surface mounting with standard or legacy European electrical boxes.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Both pages state dual tri-color LEDs with clear 180° local status indication.\"},{\"fact_id\":\"F06\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Last Detalles bullet on each page: 'Se admiten hasta 128 dispositivos por lazo' / 'por bucle'; the lazo/bucle wording variance is faithfully represented.\"}]}]}",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 46603,
+            "output_tokens": 2724,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 1523
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "review": {
+        "reviewer_model": "claude-fable-5",
+        "candidate_author": "gpt-5.6-sol",
+        "reviews": [
+          {
+            "canary_id": "kidde_modulaser_role_selection",
+            "verdict": "PASS",
+            "question_fully_answerable": true,
+            "question_duplicate": false,
+            "topic_aligned": true,
+            "gold_complete": true,
+            "source_geometry_valid": true,
+            "known_conflicts_handled": true,
+            "counterpart_materially_agrees": true,
+            "material_disagreements": [],
+            "unsupported_answer_claims": [],
+            "blocking_issues": [],
+            "nonblocking_notes": [
+              "F02's enumeration of configuration methods (local UI, PC with Remote software, SenseNET via Command Display Module) overlaps in content with retriever-augmentation question hyq:14e1aaec-ce03-4f2c-ad48-05d63f217bd6:2 on the same source page; however, the candidate question as a whole (architectural role separation across both datasheets) is not a semantic duplicate of any disclosed coverage item, so this is not blocking.",
+              "F05's spec row ('Sampling pipe / Inlet quantity — 1 per detector module') also appears verbatim in the shared spec table on 9-30781-kid-en-161721-es.pdf p.2 (uncited); the two datasheets duplicate the spec table, and the counterpart made the identical citation choice, so this is treated as a non-blocking citation-minimality note rather than a scoping error.",
+              "The counterpart adds an extra cross-source fact (coverage area up to 3000 m² present only in the detector datasheet) that the candidate omits; this is additive and does not contradict the candidate, whose answer remains complete for its own question."
+            ],
+            "fact_verdicts": [
+              {
+                "fact_id": "F01",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": true,
+                "notes": "Headers on both page 1s identify 9-30781-KID-EN as 'Standard display module' and 9-30783-KID-EN as 'Detector module'; the pairing genuinely requires both sources."
+              },
+              {
+                "fact_id": "F02",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Supported by the 'Standard display module' section on 9-30781 p.1 (TFT color display, navigation buttons, status LEDs; configuration via user interface, computer with Remote software, or SenseNET using a Command Display Module). Content overlaps a same-source retriever-augmentation question, though the candidate question itself is not a duplicate."
+              },
+              {
+                "fact_id": "F03",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Supported by 'Detector module' section on 9-30783 p.1: 'fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air and based on ClassiFire determine if a pre-alarm or alarm should be raise'."
+              },
+              {
+                "fact_id": "F04",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Supported on 9-30783 p.1: 'the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'."
+              },
+              {
+                "fact_id": "F05",
+                "supported": true,
+                "source_pages_correct": true,
+                "answer_entails": true,
+                "genuinely_cross_source": false,
+                "notes": "Supported by 'Sampling pipe / Inlet quantity: 1 per detector module' on 9-30783 p.2; identical row also exists in the mirrored spec table on 9-30781 p.2 (non-blocking, see notes)."
+              }
+            ]
+          }
+        ]
+      },
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "review:sol:kidde_modulaser_role_selection",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_modulaser_role_selection\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"F02's enumeration of configuration methods (local UI, PC with Remote software, SenseNET via Command Display Module) overlaps in content with retriever-augmentation question hyq:14e1aaec-ce03-4f2c-ad48-05d63f217bd6:2 on the same source page; however, the candidate question as a whole (architectural role separation across both datasheets) is not a semantic duplicate of any disclosed coverage item, so this is not blocking.\",\"F05's spec row ('Sampling pipe / Inlet quantity — 1 per detector module') also appears verbatim in the shared spec table on 9-30781-kid-en-161721-es.pdf p.2 (uncited); the two datasheets duplicate the spec table, and the counterpart made the identical citation choice, so this is treated as a non-blocking citation-minimality note rather than a scoping error.\",\"The counterpart adds an extra cross-source fact (coverage area up to 3000 m² present only in the detector datasheet) that the candidate omits; this is additive and does not contradict the candidate, whose answer remains complete for its own question.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Headers on both page 1s identify 9-30781-KID-EN as 'Standard display module' and 9-30783-KID-EN as 'Detector module'; the pairing genuinely requires both sources.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by the 'Standard display module' section on 9-30781 p.1 (TFT color display, navigation buttons, status LEDs; configuration via user interface, computer with Remote software, or SenseNET using a Command Display Module). Content overlaps a same-source retriever-augmentation question, though the candidate question itself is not a duplicate.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by 'Detector module' section on 9-30783 p.1: 'fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air and based on ClassiFire determine if a pre-alarm or alarm should be raise'.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported on 9-30783 p.1: 'the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by 'Sampling pipe / Inlet quantity: 1 per detector module' on 9-30783 p.2; identical row also exists in the mirrored spec table on 9-30781 p.2 (non-blocking, see notes).\"}]}]}",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 59529,
+          "output_tokens": 4416
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9KP8yeBCJ3pP7bv27vL",
+          "container": null,
+          "content": [
+            {
+              "signature": "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",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_modulaser_role_selection\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"source_geometry_valid\":true,\"known_conflicts_handled\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"F02's enumeration of configuration methods (local UI, PC with Remote software, SenseNET via Command Display Module) overlaps in content with retriever-augmentation question hyq:14e1aaec-ce03-4f2c-ad48-05d63f217bd6:2 on the same source page; however, the candidate question as a whole (architectural role separation across both datasheets) is not a semantic duplicate of any disclosed coverage item, so this is not blocking.\",\"F05's spec row ('Sampling pipe / Inlet quantity — 1 per detector module') also appears verbatim in the shared spec table on 9-30781-kid-en-161721-es.pdf p.2 (uncited); the two datasheets duplicate the spec table, and the counterpart made the identical citation choice, so this is treated as a non-blocking citation-minimality note rather than a scoping error.\",\"The counterpart adds an extra cross-source fact (coverage area up to 3000 m² present only in the detector datasheet) that the candidate omits; this is additive and does not contradict the candidate, whose answer remains complete for its own question.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":true,\"notes\":\"Headers on both page 1s identify 9-30781-KID-EN as 'Standard display module' and 9-30783-KID-EN as 'Detector module'; the pairing genuinely requires both sources.\"},{\"fact_id\":\"F02\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by the 'Standard display module' section on 9-30781 p.1 (TFT color display, navigation buttons, status LEDs; configuration via user interface, computer with Remote software, or SenseNET using a Command Display Module). Content overlaps a same-source retriever-augmentation question, though the candidate question itself is not a duplicate.\"},{\"fact_id\":\"F03\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by 'Detector module' section on 9-30783 p.1: 'fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air and based on ClassiFire determine if a pre-alarm or alarm should be raise'.\"},{\"fact_id\":\"F04\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported on 9-30783 p.1: 'the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'.\"},{\"fact_id\":\"F05\",\"supported\":true,\"source_pages_correct\":true,\"answer_entails\":true,\"genuinely_cross_source\":false,\"notes\":\"Supported by 'Sampling pipe / Inlet quantity: 1 per detector module' on 9-30783 p.2; identical row also exists in the mirrored spec table on 9-30781 p.2 (non-blocking, see notes).\"}]}]}",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 59529,
+            "output_tokens": 4416,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 3153
+            }
+          }
+        }
+      }
+    }
+  ],
+  "result_sha256": "592819f5289c48b387a25e82cf7e3946f53a4711fccd9ca6c2adc510cbd15aff"
+}

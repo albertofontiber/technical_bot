@@ -1,0 +1,52 @@
+{
+  "schema": "s215_kidde_multisource_failure_analysis_v1",
+  "status": "FINAL_NO_GO_S215_THREE_OF_THREE",
+  "cause": {
+    "required_published_items": 3,
+    "actual_published_items": 2,
+    "published_item_ids": [
+      "kidde_2xa_interface_tradeoffs",
+      "kidde_modulaser_role_selection"
+    ],
+    "publication_blocked_item": "kidde_mcp_surface_kit_selection",
+    "classification": "INDEPENDENT_AUTHOR_SCOPE_DISAGREEMENT",
+    "detail": "The Fable MCP candidate omitted shared capabilities requested by its own question, and the principal review marked the counterpart disagreement material."
+  },
+  "observations": {
+    "first_attempt_fable_candidates_completed": 3,
+    "first_attempt_fable_candidates_locally_valid": 3,
+    "fable_pixel_reviews_of_principal_sol_pass": 3,
+    "sol_pixel_reviews_of_independent_fable_pass": 0,
+    "principal_publication_gate_pass": 2,
+    "support_calls": 0
+  },
+  "execution": {
+    "frontier_calls": 9,
+    "conservative_cost_usd": 17.78412,
+    "provider_retries": 0,
+    "same_item_retry": false,
+    "partial_cohort_published": false
+  },
+  "credit": {
+    "facts_ok_before": 143,
+    "facts_ok_after": 143,
+    "denominator": 157,
+    "facts_moved_to_ok": 0,
+    "canonical_ok_rate_percent": 91.08
+  },
+  "decision": {
+    "retry_or_repair_s214_s215_item": false,
+    "fable_convergence_round": false,
+    "output_conditioned_top_up_item": false,
+    "kidde_frontier_authorship_line": "CLOSED_NO_RETRY_OR_TOP_UP",
+    "next": "RETURN_TO_GENERIC_MECHANISM_DEVELOPMENT_ON_EXISTING_FROZEN_NON_TARGET_POPULATIONS",
+    "reason": "Do not spend further calls tuning independent authorship after the bounded 3-of-3 gate failed; preserve the independently approved principal candidates only as unintegrated evidence."
+  },
+  "invariants": {
+    "source_independent_validation": false,
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "aeab8cd75cc15b934a775b9cc8adbc20b0371c5997a4dacd7ebdaedd65a72944"
+}
