@@ -1,0 +1,55 @@
+schema: s218_s217_external_520_continuation_prereg_v1
+status: FROZEN_BEFORE_SINGLE_CONTINUATION_ATTEMPT
+objective: >-
+  Execute the unchanged S217 fresh-cohort protocol once after its first call
+  returned a retryable external HTTP 520 before any model response or billable
+  call receipt existed.
+frozen_inputs:
+  continuation_runner:
+    path: scripts/s218_continue_s217_after_external_520.py
+    sha256: 4a7e7664d80979f42278dad5fb9d03d443220e24107f56eae0737784eb7b4282
+  s217_runner:
+    path: scripts/s217_run_kidde_external_cohort.py
+    sha256: 68795a80c0e03c3361c1e0ba2f191dd0e838abbdfca4331e65a4e06f6a227c8b
+  s217_packet:
+    path: evals/s217_kidde_external_cohort_packet_v1.json
+    sha256: 494f8718ee6d067d14f8a779396ea783d0c22cf72f05922b8c63878bacfb4a87
+  s217_preregistration:
+    path: evals/s217_kidde_external_cohort_prereg_v1.yaml
+    sha256: 4fe22ac369873a7cc7df29df1b4c31bee94feeb6e1c0982b8791e536d64972e6
+  s217_zero_call_hold:
+    path: evals/s217_kidde_external_cohort_result_v1.json
+    sha256: 56e607a3759de6f067fcd52943c487130c5817111b335d408646b3379c816ab3
+precondition:
+  prior_status: HOLD_S217_EXTERNAL_OR_INCOMPLETE
+  prior_frontier_calls: 0
+  prior_call_ledger_exists: false
+  external_error: HTTP_520_RETRYABLE_AFTER_60_SECONDS
+execution:
+  continuation_attempts: 1
+  provider_retries_inside_attempt: 0
+  same_item_semantic_retry: false
+  prompt_or_cohort_change: false
+  frontier_paid_calls_max: 24
+  target_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+budget:
+  user_ceiling_usd: 200
+  internal_stop_usd: 150
+credit:
+  official_fact_credit: 0
+  official_denominator_change: 0
+closed_lines:
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+forbidden:
+  - modify_the_frozen_cohort_prompt_or_threshold_after_the_520
+  - run_a_second_s218_attempt
+  - interpret_external_520_as_a_model_verdict
+  - expose_canonical_targets
+  - patch_per_question

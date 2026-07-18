@@ -1,0 +1,66 @@
+schema: s222_monotonic_addendum_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: replace_full_answer_rewrite_with_a_monotonic_source_bound_addendum
+
+frozen_generation_inputs:
+  design: {path: evals/s222_monotonic_addendum_design_v1.md, sha256: b9624cb58b98c2ad2917a3cc0609b24dc2e990cae647c1cc6b371837c34c602c}
+  runner: {path: scripts/s222_run_monotonic_addendum.py, sha256: bfb3d8fbe9dc78ec0c25aa2725ea44027c80d63f7f015319c46514e39e8fed9c}
+  generation_packet: {path: evals/s219_omission_generation_packet_v1.json, sha256: 1e396659bc234651b430f2e0e1855b98ac452e55bfbaf9c1de0d09cf986de55f}
+  sealed_external_baselines: {path: evals/s219_baseline_answer_receipts_v1.json, sha256: d1e91e2f7ebf99bfb0b7bffc57c8c0b0afd2e49a182e7a3eac1adbff1a050c17}
+  blind_s220_selections: {path: evals/s220_omission_selector_receipts_v1.json, sha256: 177e8a40cb2b7490ff46e5b30cd97529104e66787f7ed3eacac5fd4bc03cc7a1}
+
+frozen_score_inputs:
+  score_packet: {path: evals/s219_omission_score_packet_v1.json, sha256: e7e8b845d855821a44438bbf30a83cfa685a2bfcb60525fbbc30ea697faa2524}
+  score_wrapper: {path: scripts/s222_score_monotonic_addendum.py, sha256: 0df3043ffeb07d42279972bd49342e9a825944f4fde6b61d3c36170759ac606b}
+  frozen_score_logic: {path: scripts/s219_score_omission_pilot.py, sha256: 4c33e730a02d60b5597c06e155e3a89ed7cda160f68caba69122cf81dab0ed0b}
+  atomic_scorer: {path: scripts/atomic_scorer.py, sha256: 6ec4e025c6d1b0bddea356605db332684f139871c4d5a91dd759e389cd74c25d}
+
+population:
+  development_items: 7
+  kidde_guardrail_items: 2
+  inherited_blind_selected_units: 48
+  canonical_targets: 0
+  role: development_only_not_independent_validation
+
+model:
+  id: claude-sonnet-4-6
+  max_output_tokens: 900
+
+execution:
+  addendum_calls: 9
+  selector_calls: 0
+  full_rewrite_calls: 0
+  provider_retries: 0
+  baseline_must_be_byte_prefix: true
+  score_packet_opened_by_generation: false
+  target_calls: 0
+
+validation:
+  development_synthesis_gains_min: 3
+  development_protected_regressions_max: 0
+  kidde_guardrail_regressions_max: 0
+  kidde_candidate_not_worse: true
+  invalid_citations_max: 0
+  token_limit_stops_max: 0
+  monotonic_prefix_required: true
+  go_only_authorizes_full_non_target_guardrail: true
+
+pricing_usd_per_million_tokens: {input: 3, output: 15}
+budget:
+  internal_stop_usd: 5
+  user_ceiling_usd: 200
+credit:
+  official_fact_credit: 0
+  official_denominator_change: 0
+closed_lines:
+  full_answer_omission_rewrite: CLOSED_NO_GO_S221
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+forbidden:
+  - alter_or_replace_the_baseline
+  - repeat_or_change_selection
+  - expose_score_facts_to_generation
+  - tune_after_output
+  - patch_per_question
+  - execute_targets_or_integrate_production

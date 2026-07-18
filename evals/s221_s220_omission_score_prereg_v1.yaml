@@ -1,0 +1,26 @@
+schema: s221_s220_omission_score_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: score_the_sealed_s220_generation_without_model_calls
+frozen_score_inputs:
+  sealed_s220_generation: {path: evals/s220_omission_generation_result_v1.json, sha256: 0b9ad570eebec8ea2a3e57edd3e7f58c280c4bea4c5d394163fdf76fb1f09f7f}
+  score_packet: {path: evals/s219_omission_score_packet_v1.json, sha256: e7e8b845d855821a44438bbf30a83cfa685a2bfcb60525fbbc30ea697faa2524}
+  score_wrapper: {path: scripts/s221_score_s220_omission_pilot.py, sha256: 37eaa482acfdb909e5a01aa21c1fb82ab63252b0b8c4b24839089acd3c6aac33}
+  frozen_score_logic: {path: scripts/s219_score_omission_pilot.py, sha256: 4c33e730a02d60b5597c06e155e3a89ed7cda160f68caba69122cf81dab0ed0b}
+  atomic_scorer: {path: scripts/atomic_scorer.py, sha256: 6ec4e025c6d1b0bddea356605db332684f139871c4d5a91dd759e389cd74c25d}
+execution:
+  model_calls: 0
+  target_calls: 0
+  rescoring: false
+validation:
+  development_synthesis_gains_min: 3
+  development_protected_regressions_max: 0
+  kidde_guardrail_regressions_max: 0
+  kidde_candidate_not_worse: true
+budget:
+  internal_stop_usd: 20
+credit:
+  official_fact_credit: 0
+closed_lines:
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

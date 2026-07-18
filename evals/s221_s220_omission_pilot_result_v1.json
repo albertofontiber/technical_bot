@@ -1,0 +1,187 @@
+{
+  "schema": "s221_s220_omission_pilot_result_v1",
+  "status": "NO_GO_S221_OMISSION_PILOT",
+  "population": {
+    "historical_multichunk_development_items": 7,
+    "development_synthesis_facts": 7,
+    "development_historical_ok_facts": 17,
+    "kidde_multisource_guardrail_items": 2,
+    "kidde_atomic_facts": 9,
+    "canonical_targets": 0
+  },
+  "metrics": {
+    "development_synthesis_gains": 7,
+    "development_synthesis_gain_ids": [
+      "cat008#3:1/2/3/4 lazo; 6-7 entrada A",
+      "cat016#1:menu ZONA + ELEMENTO",
+      "cat017#2:licencia CLIP por lazo",
+      "hp001#2:1111",
+      "hp003#1:cable puente",
+      "hp010#1:Nivel 3",
+      "hp015#2:32"
+    ],
+    "development_protected_regressions": [
+      "cat017#1:159 + 159",
+      "hp010#2:nuevos, eliminados y modificados",
+      "hp015#0:convencional"
+    ],
+    "kidde_baseline_facts_covered": 7,
+    "kidde_candidate_facts_covered": 8,
+    "kidde_regressions": [],
+    "candidate_invalid_citations": {},
+    "inherited_baseline_calls": 2,
+    "new_baseline_calls": 0,
+    "selector_calls": 85,
+    "revision_calls": 9,
+    "selected_units": 48,
+    "invalid_selector_outputs": 0,
+    "token_limit_stops": 1,
+    "s219_inherited_cost_usd": 0.106914,
+    "s220_actual_cost_usd": 1.172098,
+    "actual_cost_usd": 1.279012
+  },
+  "checks": {
+    "development_synthesis_gains_gte_3_of_7": true,
+    "development_protected_regressions_zero": false,
+    "kidde_guardrail_regressions_zero": true,
+    "kidde_candidate_not_worse": true,
+    "invalid_selector_outputs_zero": true,
+    "candidate_invalid_citations_zero": true,
+    "token_limit_stops_zero": false,
+    "actual_cost_below_internal_stop": true,
+    "canonical_target_calls_zero": true
+  },
+  "development_rows": [
+    {
+      "item_id": "cat008",
+      "synthesis_fact_ids": [
+        "cat008#3:1/2/3/4 lazo; 6-7 entrada A"
+      ],
+      "gained_fact_ids": [
+        "cat008#3:1/2/3/4 lazo; 6-7 entrada A"
+      ],
+      "historical_ok_facts": 3,
+      "protected_regression_ids": [],
+      "selected_units": 3,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "cat016",
+      "synthesis_fact_ids": [
+        "cat016#1:menu ZONA + ELEMENTO"
+      ],
+      "gained_fact_ids": [
+        "cat016#1:menu ZONA + ELEMENTO"
+      ],
+      "historical_ok_facts": 3,
+      "protected_regression_ids": [],
+      "selected_units": 3,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "cat017",
+      "synthesis_fact_ids": [
+        "cat017#2:licencia CLIP por lazo"
+      ],
+      "gained_fact_ids": [
+        "cat017#2:licencia CLIP por lazo"
+      ],
+      "historical_ok_facts": 3,
+      "protected_regression_ids": [
+        "cat017#1:159 + 159"
+      ],
+      "selected_units": 9,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "hp001",
+      "synthesis_fact_ids": [
+        "hp001#2:1111"
+      ],
+      "gained_fact_ids": [
+        "hp001#2:1111"
+      ],
+      "historical_ok_facts": 2,
+      "protected_regression_ids": [],
+      "selected_units": 6,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "hp003",
+      "synthesis_fact_ids": [
+        "hp003#1:cable puente"
+      ],
+      "gained_fact_ids": [
+        "hp003#1:cable puente"
+      ],
+      "historical_ok_facts": 2,
+      "protected_regression_ids": [],
+      "selected_units": 3,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "hp010",
+      "synthesis_fact_ids": [
+        "hp010#1:Nivel 3"
+      ],
+      "gained_fact_ids": [
+        "hp010#1:Nivel 3"
+      ],
+      "historical_ok_facts": 2,
+      "protected_regression_ids": [
+        "hp010#2:nuevos, eliminados y modificados"
+      ],
+      "selected_units": 10,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "hp015",
+      "synthesis_fact_ids": [
+        "hp015#2:32"
+      ],
+      "gained_fact_ids": [
+        "hp015#2:32"
+      ],
+      "historical_ok_facts": 2,
+      "protected_regression_ids": [
+        "hp015#0:convencional"
+      ],
+      "selected_units": 4,
+      "candidate_source": "bounded_revision"
+    }
+  ],
+  "kidde_rows": [
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "atomic_facts": 4,
+      "baseline_covered": 3,
+      "candidate_covered": 4,
+      "regression_ids": [],
+      "selected_units": 4,
+      "candidate_source": "bounded_revision"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "atomic_facts": 5,
+      "baseline_covered": 4,
+      "candidate_covered": 4,
+      "regression_ids": [],
+      "selected_units": 6,
+      "candidate_source": "bounded_revision"
+    }
+  ],
+  "decision": {
+    "next": "close_exact_s157_multichunk_post_answer_line",
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "external_validation_claimed": false
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "scored_generation": "S220_COMPLETE_SCORE_NOT_OPENED",
+  "result_sha256": "03e35dfb51a48159163766fd127860c7b0c8dc3e294614e5f154dad3e94dbe30"
+}

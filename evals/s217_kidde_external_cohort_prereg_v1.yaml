@@ -1,0 +1,61 @@
+schema: s217_kidde_external_cohort_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Build a genuinely external, pixel-grounded Kidde cohort for a causal
+  evaluation of generic post-answer omission correction, without exposing the
+  12 canonical synthesis misses.
+packet_sha256: 8c8cd8e1410ae31f9961b0da83f5c6bb3ed759291623ae0bd3f8408ca917d234
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+frozen_inputs:
+  packet:
+    path: evals/s217_kidde_external_cohort_packet_v1.json
+    sha256: 494f8718ee6d067d14f8a779396ea783d0c22cf72f05922b8c63878bacfb4a87
+  packet_builder:
+    path: scripts/s217_build_kidde_external_cohort.py
+    sha256: 6839fc49ccba0f3508b29877aa9180a3cd89364d938fefab02634871e8b927f7
+  runner:
+    path: scripts/s217_run_kidde_external_cohort.py
+    sha256: 68795a80c0e03c3361c1e0ba2f191dd0e838abbdfca4331e65a4e06f6a227c8b
+  gold_contract:
+    path: src/rag/multisource_visual_gold.py
+    sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime.py
+    sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe
+execution:
+  frontier_generation_calls: 8
+  frontier_reciprocal_review_calls_max: 8
+  frontier_support_calls_max: 8
+  frontier_paid_calls_max: 24
+  provider_retries: 0
+  same_item_retry: false
+  candidate_merge_or_repair: false
+  target_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+budget:
+  user_ceiling_usd: 200
+  internal_stop_usd: 150
+validation:
+  candidate_items: 4
+  minimum_pixel_gold_items: 3
+  minimum_support_validated_items: 3
+  pixel_authority: true
+  source_identity_overlap_with_prior_packets: 0
+  source_identity_overlap_with_official_gold: 0
+states:
+  go: GO_S217_FRESH_MULTISOURCE_COHORT
+  no_go:
+    - NO_GO_S217_INSUFFICIENT_AUTHORSHIP
+    - NO_GO_S217_PIXEL_REVIEW
+    - NO_GO_S217_SUPPORT_MAPPING
+  hold: HOLD_S217_EXTERNAL_OR_INCOMPLETE
+next_authorized_step_on_go: >-
+  Evaluate the already integrated default-off generic post-answer omission
+  correction on this cohort before any canonical target exposure.
+official_fact_credit: 0
+chunks_v2_status: ACTIVE
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

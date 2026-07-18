@@ -1,0 +1,99 @@
+schema: s219_omission_pilot_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: test_source_preserving_post_answer_correction_on_multichunk_synthesis_omissions
+
+canonical_baseline:
+  facts_ok: 143
+  denominator: 157
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+  facts_needed_for_98_percent: 11
+
+frozen_generation_inputs:
+  design: {path: evals/s219_omission_pilot_design_v1.md, sha256: 39edb19a3a73f5b555f9e25096a55610848429c5a9ae48390fd4afcd710ae0d1}
+  packet_builder: {path: scripts/s219_build_omission_pilot_packets.py, sha256: 151d4e156afff57adae7f713ec24b605fa45fa68563e9d91d8d6a27e272f39e7}
+  generation_packet: {path: evals/s219_omission_generation_packet_v1.json, sha256: 1e396659bc234651b430f2e0e1855b98ac452e55bfbaf9c1de0d09cf986de55f}
+  generation_runner: {path: scripts/s219_run_omission_pilot.py, sha256: 158263c6597bdc7baa60311b7bc155df38ee0163a65b755fa61c769613a3396a}
+  omission_contract: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  current_prompt_builder: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+  revision_contract: {path: scripts/s157_post_answer_omission_correction.py, sha256: 47aeb35fe82884c87302954126d5cfc86bf35a7c44f43a28c5dc6df46fdb19c6}
+
+frozen_score_inputs:
+  design: {path: evals/s219_omission_pilot_design_v1.md, sha256: 39edb19a3a73f5b555f9e25096a55610848429c5a9ae48390fd4afcd710ae0d1}
+  score_packet: {path: evals/s219_omission_score_packet_v1.json, sha256: e7e8b845d855821a44438bbf30a83cfa685a2bfcb60525fbbc30ea697faa2524}
+  score_runner: {path: scripts/s219_score_omission_pilot.py, sha256: 4c33e730a02d60b5597c06e155e3a89ed7cda160f68caba69122cf81dab0ed0b}
+  atomic_scorer: {path: scripts/atomic_scorer.py, sha256: 6ec4e025c6d1b0bddea356605db332684f139871c4d5a91dd759e389cd74c25d}
+
+population:
+  historical_multichunk_development_items: 7
+  development_synthesis_facts: 7
+  development_historical_ok_facts: 17
+  kidde_multisource_guardrail_items: 2
+  kidde_atomic_facts: 9
+  canonical_target_items: 0
+  selection_uses_failure_class: true
+  selection_role: development_only_not_validation
+  external_validation_claimed: false
+
+models:
+  selector: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  selector_max_output_tokens: 500
+  writer_max_output_tokens: 2200
+
+execution:
+  historical_baseline_calls: 0
+  contemporary_kidde_baseline_calls: 2
+  omission_selector_calls: 86
+  revision_writer_calls_max: 9
+  total_paid_calls_max: 97
+  selector_concurrency: 8
+  selected_units_per_fragment_max: 8
+  selected_units_per_item_max: 32
+  revision_loops_max: 1
+  provider_retries: 0
+  resume: false
+  target_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_calls: 0
+  score_packet_opened_by_generation: false
+
+validation:
+  development_synthesis_gains_min: 3
+  development_protected_regressions_max: 0
+  kidde_guardrail_regressions_max: 0
+  kidde_candidate_not_worse: true
+  invalid_selector_outputs_max: 0
+  invalid_candidate_citations_max: 0
+  token_limit_stops_max: 0
+  go_state: GO_S219_TO_FULL_PROTECTED_REGRESSION
+  no_go_state: NO_GO_S219_OMISSION_PILOT
+  go_does_not_authorize_target: true
+
+pricing_usd_per_million_tokens:
+  selector: {input: 2, output: 10}
+  writer: {input: 3, output: 15}
+
+budget:
+  internal_stop_usd: 20
+  user_ceiling_usd: 200
+
+credit:
+  official_fact_credit: 0
+  official_denominator_change: 0
+
+closed_lines:
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+
+forbidden:
+  - expose_score_packet_facts_or_golds_to_generation
+  - tune_after_generation_or_score
+  - retry_resume_repair_merge_or_replace_an_output
+  - patch_per_question_or_qid
+  - execute_canonical_targets
+  - claim_external_or_source_independent_validation
+  - integrate_production_or_deploy
