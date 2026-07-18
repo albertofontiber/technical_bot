@@ -1,0 +1,112 @@
+instrument: s216_decomposed_synthesis_prereg_v1
+status: FROZEN_BEFORE_FRONTIER_DESIGN_REVIEW
+objective: reduce_source_attested_synthesis_misses_without_target_tuning
+
+frozen_inputs:
+  design: {path: evals/s216_decomposed_synthesis_design_v1.md, sha256: fbf4c2bcbd0b4caf2c6204c2db6473499825f52f95f41fd33efbcdbb03cfe4e2}
+  mechanism: {path: src/rag/decomposed_synthesis.py, sha256: 71e81bf42ab2405a7d92f7bac1f88aa4962876034cfaa5287bc10db4dc7f3228}
+  runner: {path: scripts/s216_run_decomposed_synthesis_screen.py, sha256: 63e407d21d5e9d531182711d810ab13a952ef1547ff02665b7136e58014b323e}
+  tests: {path: tests/test_decomposed_synthesis.py, sha256: a27815a4440c5768811758ca62dbdcf40f43ae6d0f5015a5e8b80c136e2bcdc8}
+  development_cohort: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  frozen_baselines: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: ddaff2ed2daf867cb7196af2f22bb51444856985d9bf468fa5fc3d5594d05054}
+  delayed_score_packet: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a}
+
+population:
+  role: reused_non_target_development_screen_not_external_validation
+  questions: 14
+  manufacturers: 14
+  table_questions: 7
+  prose_questions: 7
+  answer_points: 37
+  frozen_baseline_points: 26
+  frozen_baseline_complete_questions: 6
+  target_qids_excluded: [cat018, hp002, hp011, hp017]
+  target_questions_opened_by_screen: 0
+
+models:
+  decomposer:
+    provider: openai
+    id: gpt-5.6-terra
+    reasoning_effort: low
+    max_output_tokens: 800
+    role: question_only_economic_executor
+  writer:
+    provider: anthropic
+    id: claude-sonnet-4-6
+    max_output_tokens: 1600
+    temperature: 0
+    role: unchanged_runtime_generator_per_focus
+  design_review:
+    principal: {provider: openai, id: gpt-5.6-sol, reasoning_effort: xhigh}
+    independent: {provider: anthropic, id: claude-fable-5, effort: xhigh}
+
+runtime_flags:
+  CHUNKS_TABLE: chunks_v2
+  GENERATOR_PROMPT_VARIANT: fidelity
+  GENERATOR_SELECTION_BLOCK: "on"
+  GENERATOR_INCLUDE_CONTEXT: "0"
+  ANSWER_OBLIGATION_PLANNER: guided
+  LLM_MODEL: claude-sonnet-4-6
+  LLM_MAX_TOKENS: "1600"
+
+execution:
+  decomposition_calls_max: 14
+  answer_calls_min: 14
+  answer_calls_max: 84
+  focus_count_per_question_min: 1
+  focus_count_per_question_max: 6
+  provider_retries: 0
+  resume_attempts: 0
+  final_model_rewrite_calls: 0
+  retrieval_calls: 0
+  reranker_calls: 0
+  database_reads: 0
+  database_writes: 0
+  target_calls: 0
+  gold_loaded_only_after_all_generation_checkpoints: true
+
+validation:
+  point_gain_min: 4
+  complete_question_gain_min: 2
+  regressed_points_max: 0
+  invalid_decompositions_max: 0
+  invalid_fragment_citations_max: 0
+  max_token_stops_max: 0
+  every_focus_assembled_exactly_once: true
+  local_pass_next: DUAL_FRONTIER_SEMANTIC_RESULT_REVIEW
+  semantic_pass_next: SEPARATE_TARGET_PREREGISTRATION
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+pricing_usd_per_million_tokens:
+  decomposer: {input: 1, output: 6}
+  writer: {input: 3, output: 15}
+
+budget:
+  internal_ceiling_usd: 15
+  user_ceiling_usd: 200
+
+outputs:
+  decomposition_receipts: evals/s216_decomposition_receipts_v1.json
+  answer_block_receipts: evals/s216_answer_block_receipts_v1.json
+  result: evals/s216_decomposed_synthesis_screen_v1.json
+
+states:
+  go_local: GO_TO_DUAL_SEMANTIC_REVIEW
+  go_semantic: GO_TO_SEPARATE_TARGET_PREREGISTRATION
+  no_go: CLOSED_NO_GO_S216
+
+forbidden:
+  - retry_or_resume_after_any_provider_attempt
+  - tune_decomposition_after_opening_outputs
+  - reopen_the_same_development_cohort_with_a_successor
+  - expose_chunks_answers_golds_qids_or_prior_misses_to_decomposer
+  - evidence_selection_or_claim_extraction
+  - final_model_rewrite_after_block_assembly
+  - open_target_before_local_and_dual_semantic_pass
+  - claim_external_validation_from_the_reused_development_screen
+  - production_default_on_or_official_fact_credit_from_the_screen
+  - database_or_chunks_mutation
+  - chunks_v3_wholesale_reopen
+  - railway_as_pr_or_merge_gate
