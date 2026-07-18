@@ -105,7 +105,10 @@ si una respuesta falla cerrada, conserva el trace en la fila fallida sin inventa
 - `list_dir(path)`.
 - **Deny-list:** `.env*` (secretos), `.git/` y dirs internos, y el **propio log de tally**
   (anti-contaminación). Sandbox: paths resueltos bajo la raíz (no traversal).
-- **Cap 30 tool-calls** (disciplina de coste); al agotarlo se fuerza la review con lo leído.
+- **Presupuesto adaptativo de lecturas.** El runner principal usa 60 tool-calls por defecto
+  (`ADVERSARIAL_REVIEW_MAX_TOOL_CALLS`) para revisiones repo-wide; puede bajarse en propuestas
+  acotadas. Al agotarlo se fuerza la review con lo leído y el revisor debe enumerar las
+  dependencias relevantes que no pudo inspeccionar. El tally registra presupuesto y agotamiento.
   `--no-tools` restaura el modo legacy (pegado) como escape; seeds y manifiesto siguen ligados
   al mismo snapshot.
 - El tally registra `tool_calls`, `files_read` y `tool_trace` (tool, argumentos y estado;

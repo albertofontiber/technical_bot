@@ -1,0 +1,71 @@
+schema: s252_adaptive_reasoning_writer_ab_prereg_v1
+status: FROZEN_BEFORE_FINAL_DUAL_FRONTIER_REVIEW
+supersedes_closed: evals/s251_adaptive_reasoning_writer_ab_closeout_v1.yaml
+canonical_scoreboard: {denominator: 157, facts_ok: 143, synthesis_miss: 12, retrieval_miss: 2}
+population:
+  qids: [cat018, hp002, hp011, hp017]
+  questions: 4
+  chunks: 51
+  evaluator_obligations: 20
+  synthesis_residuals: 12
+  conflicts: 1
+arms:
+  model: claude-sonnet-4-6
+  max_output_tokens: 8000
+  control: {temperature: 0, thinking: off}
+  treatment_package: {thinking: adaptive, effort: high, temperature: omitted}
+  system_and_user_messages_byte_identical: true
+execution:
+  paired_replicates: 2
+  exact_replica_ids: [1, 2]
+  control_calls: 8
+  treatment_calls: 8
+  semantic_retries: 0
+  transport_retries: 0
+  total_semantic_calls: 16
+gates:
+  stable_treatment_beats_control: true
+  stable_observed_gains_min: 2
+  protected_regressions_max: 0
+  unsafe_conflicts_max: 0
+  invalid_citations_max: 0
+  observed_response_usage_usd_max: 15
+  deterministic_score_grants_official_credit: false
+post_generation_score_permit_required: true
+full_answer_semantic_review_if_go:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: claude-fable-5, effort: xhigh}
+  inspect_every_treatment_answer: true
+  unsupported_new_claims_block: true
+  rounds: 1
+frozen_review_inputs:
+  design: {path: evals/s252_adaptive_reasoning_writer_ab_design_v1.md, sha256: 5b104be1f10f9fc4a9c73a0947a8b20635e813230901c681110568e3c2d53413}
+  runner: {path: scripts/s252_run_adaptive_reasoning_writer_ab.py, sha256: 455ab499cf746f302705becf14151f530bb94489616c887a5da6832d46135d71}
+  score_permit_builder: {path: scripts/s252_build_score_execution_permit.py, sha256: 8c26b26cdcf010548118b4a2078795c3b1f179d66bcb7840928a695731712cce}
+  scorer: {path: scripts/s252_score_adaptive_reasoning_writer_ab.py, sha256: 1c0e501678acbf2c6dff16fe9a4b1ddbca6ff5afe475e1ee19b20c968b362f48}
+  test: {path: tests/test_s252_adaptive_reasoning_writer_ab.py, sha256: 9197fab72e93ac5047cc31f53c4d1cdac8f4faf53e30137070ff2576a1735eff}
+frozen_generation_inputs:
+  design: {path: evals/s252_adaptive_reasoning_writer_ab_design_v1.md, sha256: 5b104be1f10f9fc4a9c73a0947a8b20635e813230901c681110568e3c2d53413}
+  runner: {path: scripts/s252_run_adaptive_reasoning_writer_ab.py, sha256: 455ab499cf746f302705becf14151f530bb94489616c887a5da6832d46135d71}
+  core_runner: {path: scripts/s251_run_adaptive_reasoning_writer_ab.py, sha256: a5bad2debf6855139742e4244a6af3301fddd94827a803afa140fb91fa190e79}
+  score_permit_builder: {path: scripts/s252_build_score_execution_permit.py, sha256: 8c26b26cdcf010548118b4a2078795c3b1f179d66bcb7840928a695731712cce}
+  generation_packet: {path: evals/s235_direct_clause_bound_generation_packet_v1.json, sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47}
+  prompt_builder: {path: scripts/s156_frontier_synthesis_ceiling.py, sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5}
+frozen_scoring_inputs:
+  score_packet: {path: evals/s235_direct_clause_bound_score_packet_v1.json, sha256: e3062b10a32200b15b737e2c36e98febe6e04a637d828a82fe4f1ca6541cff01}
+  scorer: {path: scripts/s252_score_adaptive_reasoning_writer_ab.py, sha256: 1c0e501678acbf2c6dff16fe9a4b1ddbca6ff5afe475e1ee19b20c968b362f48}
+  scoring_core: {path: scripts/s251_score_adaptive_reasoning_writer_ab.py, sha256: 18db26f3013cc2737c6123d1fadc4a3ba96b22136c6a8644d621b67a7786f02b}
+  obligation_loader: {path: scripts/s201_real_question_planner_gate.py, sha256: a6b5d379ccaab5db11915f0e89fd46e40d37d07f49869c88b3722d54df842090}
+  answer_planner: {path: src/rag/answer_planner.py, sha256: c9feb1fc86db6929be900f9a4e2446f597fc06dd513fb870eaa37a168c5305a8}
+  citation_validator: {path: src/rag/omission_correction.py, sha256: 9011fd60b10dc313917aae323c58e3395de5e508f1ecd9563386ebd06321b648}
+  artifact_contract: {path: src/rag/visual_gold.py, sha256: ec07ad78feaa5502540efe9e7896274bb35e7140541e6724c7382699165a18b9}
+budget:
+  user_ceiling_usd: 200
+  design_review_stage_ceiling_usd: 12
+  observed_generation_usage_ceiling_usd: 15
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

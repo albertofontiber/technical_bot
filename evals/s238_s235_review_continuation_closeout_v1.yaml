@@ -1,0 +1,26 @@
+schema: s238_s235_review_continuation_closeout_v1
+status: CLOSED_NO_VALID_REVIEW_JSON
+sol:
+  previous_response_id: resp_0007d25ae2a53e05006a5b976a89208195ba0644b412776fac
+  continuation_response_id: resp_0007d25ae2a53e05006a5b9968c01c8195aa02c0c48c821ab4
+  status: incomplete
+  reason: max_output_tokens
+  max_output_tokens: 6000
+  final_output_received: false
+  usage: {input_tokens: 9231, output_tokens: 40166, reasoning_tokens: 6000}
+  conservative_cost_usd: 4.958385
+fable:
+  status: max_tokens
+  max_tokens: 8000
+  final_json_complete: false
+  partial_verdict: PASS
+  partial_checks_true: 8
+  usage: {input_tokens: 16025, output_tokens: 8000}
+  conservative_cost_usd: 1.68075
+cumulative_review_cost_usd: 25.36794
+valid_semantic_reviews_received: 0
+next: one_final_concise_design_only_review_with_sensible_token_limits
+further_review_convergence_authorized: false
+official_fact_credit: 0
+production_default_changed: false
+

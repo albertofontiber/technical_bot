@@ -1,0 +1,59 @@
+schema: s260_evidence_claim_ir_closeout_v1
+status: CLOSED_BEFORE_TERRA_GENERATION_DUAL_FRONTIER_NO_PASS
+review_timestamp: '2026-07-18T20:12:24'
+review:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    tool_call_budget: 60
+    tool_calls: 60
+    tool_budget_exhausted: true
+    tokens: 561861
+    output: evals/adversarial_reviews/2026-07-18T20-12-24_gpt-5.6-sol_97c08c57c0b0.md
+    findings: 5
+    confirmed: 5
+    severity_max: critical
+    uninspected_dependencies_declared: true
+  independent:
+    model: claude-fable-5
+    tool_calls: 8
+    tokens: 180945
+    output: evals/adversarial_reviews/2026-07-18T20-15-37_claude-fable-5_fe1c19ce04eb.md
+    status: completed_valid_review
+    findings: 5
+    confirmed: 5
+    false_positives: 0
+    severity_max: critical
+  review_rounds: 1
+  convergence_rounds: 0
+confirmed_blockers:
+  - target_probe_precedes_required_independent_structural_cohort
+  - no_contemporary_same_model_control_for_answer_ir_attribution
+  - claim_to_fragment_entailment_is_not_validated
+  - conflict_omission_can_pass_the_unsafe_conflict_gate
+  - generation_does_not_record_the_execution_permit_it_used
+additional_confirmed_risks:
+  - answer_ir_prompt_is_derived_from_the_same_twelve_target_failures
+  - accumulated_multiple_testing_on_the_same_residuals_is_undeclared
+  - lexical_proxy_and_projected_fact_kpi_are_not_directly_commensurate
+  - invalid_citation_gate_is_vacuous_after_deterministic_citation_derivation
+decision:
+  create_execution_permit: false
+  execute_terra: false
+  terra_calls: 0
+  sonnet_calls: 0
+  target_calls: 0
+  score_permit: false
+  facts_moved_to_ok: 0
+  production_default_changed: false
+  corrected_s260_successor: false
+  research_runtime_integration: false
+next_evidence_requirement: >-
+  A new synthesis architecture may reach the twelve targets only after a small
+  independent positive/negative structural cohort and a contemporaneous
+  same-model control establish generalization and attribution. Reusing S260 on
+  the targets or relabeling the same package is forbidden.
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

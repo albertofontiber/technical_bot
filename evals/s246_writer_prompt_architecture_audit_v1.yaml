@@ -1,0 +1,62 @@
+schema: s246_writer_prompt_architecture_audit_v1
+status: LOCAL_CODE_AUDIT_COMPLETE_HYPOTHESIS_NOT_YET_MEASURED
+objective_metric: synthesis_miss_fact_gain
+code_authority:
+  generator: src/rag/generator.py
+observations:
+  base_system_prompt_chars: 21454
+  base_system_prompt_lines: 223
+  fidelity_addendum_chars: 913
+  base_prompt_applies_to_every_llm_answer: true
+  route_specific_selection_block_is_code_gated: true
+  base_prompt_policy_domains_always_visible:
+    - source_only_and_citations
+    - anti_examples
+    - matrix_calendar_policy
+    - concrete_vs_ambiguous_conversation
+    - clarification_format
+    - urgency
+    - follow_up_suggestions
+    - negation_and_absence
+    - model_variants
+    - cross_brand_compatibility
+    - multi_manufacturer
+    - comparisons
+    - confidence
+    - manual_revision_citation
+    - diagrams
+  instruction_tension:
+    base: concise_but_complete
+    fidelity: include_every_relevant_value_step_prerequisite_and_list_member
+  stale_scope_text: >-
+    The invariant prompt names Detnov, Notifier and Morley as the current
+    manufacturer set even though the product contract is 30+ manufacturers.
+  target_answer_chars_frozen_s113:
+    cat018: 3912
+    hp002: 2675
+    hp011: 3347
+    hp017: 4267
+causal_status:
+  proven_cause: false
+  hypothesis: >-
+    A monolithic prompt gives the writer many irrelevant policy branches and a
+    concision/completeness tension on every request. The fidelity addendum asks
+    for completeness but does not remove the conflicting or irrelevant base
+    instructions. A compact compiled policy could improve adherence without a
+    new evidence selector.
+  required_test: CONTEMPORARY_PAIRED_AB_ON_NONTARGET_BEFORE_TARGET
+settled_metric_check:
+  s102_fidelity_prompt_metric: fact_level_conveyed_gain
+  s102_result: PLUS_3_ZERO_REGRESSIONS_SHIPPED
+  same_metric_as_today: true
+  implication: >-
+    Prompt quality is a live synthesis lever, but an additive fidelity block
+    was already measured. A legitimate next test must replace/compile the
+    monolith rather than add another reminder or reword the same block.
+forbidden:
+  - another_additive_completeness_block
+  - target_specific_prompt
+  - remove_source_only_or_citation_guards
+  - claim_causality_before_ab
+official_fact_credit: 0
+production_default_changed: false

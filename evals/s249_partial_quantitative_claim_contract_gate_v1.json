@@ -1,0 +1,462 @@
+{
+  "schema": "s249_partial_quantitative_claim_contract_gate_v1",
+  "status": "NO_GO_CLOSE_S249_V1",
+  "population": {
+    "questions": 14,
+    "manufacturers": 14,
+    "target_question_overlap": 0
+  },
+  "metrics": {
+    "qualifying_atoms": 27,
+    "represented_questions": 6,
+    "represented_manufacturers": 6,
+    "represented_languages": [
+      "en",
+      "es"
+    ],
+    "represented_strata": [
+      "prose",
+      "table"
+    ],
+    "mutation_recall": 0.7777777777777778,
+    "negative_precision": 1.0,
+    "false_positive_rate": 0.0,
+    "global_source_span_density": 0.08088379065371831,
+    "median_item_source_span_density": 0.0,
+    "source_bound_failures": 0,
+    "baseline_answer_mutations": 0,
+    "real_baseline_findings": 8,
+    "real_baseline_findings_with_missing_gold": 2
+  },
+  "checks": {
+    "qualifying_atoms_min": true,
+    "questions_min": false,
+    "manufacturers_min": true,
+    "languages_required": true,
+    "strata_required": true,
+    "mutation_recall_min": false,
+    "negative_precision_min": true,
+    "false_positive_rate_max": true,
+    "global_density_max": true,
+    "median_density_max": true,
+    "source_bound_failures_zero": true,
+    "baseline_answer_mutations_zero": true
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "manufacturer": "Notifier",
+      "language": "en",
+      "stratum": "table",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 1708,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_02",
+      "manufacturer": "Morley",
+      "language": "es",
+      "stratum": "table",
+      "qualifying_atoms": 2,
+      "nonblank_source_chars": 2285,
+      "qualifying_nonblank_chars": 528,
+      "source_span_density": 0.23107221006564552,
+      "mutations": [
+        {
+          "atom_id": "A_55e517d27237",
+          "field_count": 2,
+          "removed_field": "18kw",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_f89b93635faa",
+          "field_count": 2,
+          "removed_field": "18kw",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_03",
+      "manufacturer": "Spectrex",
+      "language": "es",
+      "stratum": "table",
+      "qualifying_atoms": 12,
+      "nonblank_source_chars": 2231,
+      "qualifying_nonblank_chars": 1081,
+      "source_span_density": 0.4845360824742268,
+      "mutations": [
+        {
+          "atom_id": "A_401f1e6284d8",
+          "field_count": 2,
+          "removed_field": "20ma",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_24f18150cf56",
+          "field_count": 4,
+          "removed_field": "250vca",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_c69b686595e8",
+          "field_count": 3,
+          "removed_field": "250vca",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_b0421c245c81",
+          "field_count": 3,
+          "removed_field": "250vca",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_b74e87308c3e",
+          "field_count": 5,
+          "removed_field": "250vca",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_7c0e9ff897ac",
+          "field_count": 3,
+          "removed_field": "600ohm",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_6555cbe29031",
+          "field_count": 2,
+          "removed_field": "20ma",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_fa478fd9fd30",
+          "field_count": 2,
+          "removed_field": "10%",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_8a33cb2e8a7d",
+          "field_count": 2,
+          "removed_field": "10%",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_521ad729cd4f",
+          "field_count": 2,
+          "removed_field": "5%",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_679aa1bb74d8",
+          "field_count": 2,
+          "removed_field": "5%",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_f5b4e9649c4b",
+          "field_count": 7,
+          "removed_field": "5%",
+          "mutation_detected": false,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 5,
+      "real_baseline_findings_with_missing_gold": 2
+    },
+    {
+      "item_id": "s147_src_04",
+      "manufacturer": "Xtralis",
+      "language": "en",
+      "stratum": "table",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 1190,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_05",
+      "manufacturer": "Detnov",
+      "language": "es",
+      "stratum": "table",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 1481,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_06",
+      "manufacturer": "Aritech",
+      "language": "en",
+      "stratum": "table",
+      "qualifying_atoms": 1,
+      "nonblank_source_chars": 2392,
+      "qualifying_nonblank_chars": 53,
+      "source_span_density": 0.022157190635451504,
+      "mutations": [
+        {
+          "atom_id": "A_46da71c86cb9",
+          "field_count": 2,
+          "removed_field": "1hz",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_07",
+      "manufacturer": "Securiton",
+      "language": "es",
+      "stratum": "table",
+      "qualifying_atoms": 9,
+      "nonblank_source_chars": 2368,
+      "qualifying_nonblank_chars": 513,
+      "source_span_density": 0.21663851351351351,
+      "mutations": [
+        {
+          "atom_id": "A_1f84280909df",
+          "field_count": 4,
+          "removed_field": "18v",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_68ffb38d4556",
+          "field_count": 4,
+          "removed_field": "210ma",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_a6415053ccc5",
+          "field_count": 4,
+          "removed_field": "10ma",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_3d78581bf026",
+          "field_count": 4,
+          "removed_field": "10ma",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_c240e3f933c7",
+          "field_count": 4,
+          "removed_field": "15ma",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_462c4f32656b",
+          "field_count": 4,
+          "removed_field": "6v",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_4b4a0418f9df",
+          "field_count": 12,
+          "removed_field": "6v",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_3f47352d1ef6",
+          "field_count": 2,
+          "removed_field": "12v",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_a98649488cf7",
+          "field_count": 2,
+          "removed_field": "24v",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 3,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_08",
+      "manufacturer": "LGM Products",
+      "language": "en",
+      "stratum": "prose",
+      "qualifying_atoms": 2,
+      "nonblank_source_chars": 2462,
+      "qualifying_nonblank_chars": 118,
+      "source_span_density": 0.0479285134037368,
+      "mutations": [
+        {
+          "atom_id": "A_d1c123e1a7f5",
+          "field_count": 4,
+          "removed_field": "185°c",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        },
+        {
+          "atom_id": "A_b454d0ebb619",
+          "field_count": 4,
+          "removed_field": "185°c",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_09",
+      "manufacturer": "System Sensor",
+      "language": "en",
+      "stratum": "prose",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 2471,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_10",
+      "manufacturer": "Kidde",
+      "language": "es",
+      "stratum": "prose",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 2801,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_11",
+      "manufacturer": "Pfannenberg",
+      "language": "en",
+      "stratum": "prose",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 2338,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_12",
+      "manufacturer": "Avotec",
+      "language": "es",
+      "stratum": "prose",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 2182,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_13",
+      "manufacturer": "LDA audioTech",
+      "language": "es",
+      "stratum": "prose",
+      "qualifying_atoms": 1,
+      "nonblank_source_chars": 2257,
+      "qualifying_nonblank_chars": 189,
+      "source_span_density": 0.08373947718210013,
+      "mutations": [
+        {
+          "atom_id": "A_32d40b91fb08",
+          "field_count": 5,
+          "removed_field": "2.9cm",
+          "mutation_detected": true,
+          "complete_false_positive": false,
+          "unrelated_false_positive": false
+        }
+      ],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    },
+    {
+      "item_id": "s147_src_14",
+      "manufacturer": "Argus Security",
+      "language": "en",
+      "stratum": "prose",
+      "qualifying_atoms": 0,
+      "nonblank_source_chars": 2520,
+      "qualifying_nonblank_chars": 0,
+      "source_span_density": 0.0,
+      "mutations": [],
+      "real_baseline_findings": 0,
+      "real_baseline_findings_with_missing_gold": 0
+    }
+  ],
+  "decision": {
+    "frontier_review_authorized": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0,
+    "tune_same_cohort": false
+  },
+  "cost": {
+    "model_calls": 0,
+    "usd": 0
+  }
+}

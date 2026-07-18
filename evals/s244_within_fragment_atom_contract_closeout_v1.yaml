@@ -1,0 +1,37 @@
+schema: s244_within_fragment_atom_contract_closeout_v1
+status: CLOSED_BEFORE_IMPLEMENTATION_DUAL_FRONTIER_NO_PASS
+review_subject:
+  design: evals/s244_within_fragment_atom_contract_design_v1.md
+  prereg: evals/s244_within_fragment_atom_contract_prereg_v1.yaml
+  taxonomy: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+frontier_review:
+  principal: gpt-5.6-sol
+  principal_reasoning_effort: xhigh
+  principal_tokens: 160908
+  independent: claude-fable-5
+  independent_tokens: 58380
+  review_timestamp: '2026-07-18T18:10:49'
+adjudication:
+  findings: 12
+  confirmed: 12
+  false_positive: 0
+  maximum_severity: critical
+  blockers:
+    - quote recall across a union of atoms does not preserve one usable relation
+    - the causal A/B was not frozen or paired against a contemporary control
+    - the S176 exact-evidence-card precedent was omitted from the decision gate
+    - a local fragment atomizer cannot promise cross-fragment conflict detection
+    - real ES and EN gates were absent
+    - the 70 percent density limit allowed a nearly trivial highlighter
+    - S242's pre-existing hp017 conflict was incorrectly framed as treatment-caused
+decision:
+  implementation: false
+  local_gate: false
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+  corrected_successor: evals/s245_relation_complete_highlight_design_v1.md
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

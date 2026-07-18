@@ -1,0 +1,50 @@
+schema: s232_fable_schema_correction_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Complete the independent design review with exactly one Fable call after
+  S231's request schema was rejected before inference.
+precondition:
+  principal_review: PASS
+  principal_model: gpt-5.6-sol
+  independent_model_responses_seen: 0
+  independent_semantic_feedback_seen: 0
+models:
+  principal_reused: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5, effort: xhigh, max_tokens: 12000}
+frozen_inputs:
+  continuation_wrapper:
+    path: scripts/s232_complete_fable_design_review.py
+    sha256: a983d43e5c575caff81b5aee8aa608a531d1025ac00b717afa20d782b8c934d3
+  design:
+    path: evals/s230_fresh_clause_bound_design_v1.md
+    sha256: 63a00aa8907138305c5ccc9340ac61b93108e08533096a0478b45b00ba578e37
+  corrected_reviewer:
+    path: scripts/s230_review_fresh_clause_bound_design.py
+    sha256: 51792288b14d56144532f1d160a14ddd1a2cf4d58a12f153dc7688f4c00aa667
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime.py
+    sha256: 8ffb06a8b1920408ed07e7a33c56e03da4daa7fdaeb28d8a728beee9ae07c7b8
+  principal_ledger:
+    path: evals/s231_design_frontier_call_ledger_v1.json
+    sha256: 7554b12c0e6732258a0cb62a8e23bb6f3a123ccac55f62dbfd1a91d4edb60903
+  prior_closeout:
+    path: evals/s231_design_transport_closeout_v1.yaml
+    sha256: 77789d77c7118bad156d1155a1d7b967198870ab70a9bbb676d90508781bc9fd
+execution:
+  fable_calls: 1
+  sol_calls: 0
+  provider_retries: 0
+  same_response_retry: false
+  semantic_convergence_rounds: 0
+  target_calls: 0
+schema_policy:
+  provider_schema_max_items: false
+  local_cardinality_validation: true
+budget:
+  user_ceiling_usd: 200
+  stage_stop_usd: 3
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

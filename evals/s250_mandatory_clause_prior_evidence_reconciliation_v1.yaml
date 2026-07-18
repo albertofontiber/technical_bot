@@ -1,0 +1,51 @@
+schema: s250_mandatory_clause_prior_evidence_reconciliation_v1
+status: RECONCILED_NO_REUSABLE_RUNTIME_GATE
+objective: >-
+  Determine whether prior S174 or S245 evidence already justifies a new
+  mandatory-safety/verification mechanism for the three S243 residuals.
+s243_target_family:
+  mandatory_safety_or_verification_omission: 3
+prior_evidence:
+  s174_access_prerequisite:
+    source: evals/s174_prerequisite_blind_adjudication_v1.json
+    candidates: 19
+    true_positives: 8
+    true_positive_manufacturers: 7
+    precision: 0.42105263157894735
+    interpretation: >-
+      The positive-count breadth generalized, but eleven of nineteen candidates
+      were false positives. The facet is access authorization, not the current
+      maintenance-isolation, contradiction-warning and commissioning-verification
+      family. It cannot be promoted or treated as a safety-clause validator.
+  s245_mandatory_label:
+    source: evals/s245_relation_complete_highlight_gate_v1.json
+    atoms: 44
+    answer_point_exact_quote_coverage: 13_of_37
+    approximate_global_source_density: 0.27204588411653524
+    semantic_false_positive_examples:
+      - required switch configuration labelled mandatory
+      - address threshold labelled mandatory
+      - ordinary troubleshooting action labelled mandatory
+    interpretation: >-
+      The broad lexical label is neither a high-precision safety classifier nor
+      a sparse representation, and S245 already closed same-cohort tuning.
+decision:
+  reuse_s174_as_runtime_classifier: false
+  split_and_tune_s245_on_s147: false
+  target_probe: false
+  frontier_review: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    Neither historical line supplies a clean generalizable gate. Reusing either
+    would overstate evidence or tune on an exhausted cohort. A future successor
+    requires genuinely fresh representation or independent evidence.
+next: >-
+  Test a representation-independent downstream lever: adaptive reasoning on
+  the unchanged current Sonnet writer, in a sealed paired A/B with no prompt,
+  retrieval or obligation changes.
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  production_default_changed: false
+  railway_merge_gate: false
+

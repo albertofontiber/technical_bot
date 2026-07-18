@@ -1,0 +1,59 @@
+{
+  "schema": "s230_design_frontier_call_ledger_v1",
+  "status": "COMPLETE",
+  "calls": [
+    {
+      "provider": "fable",
+      "call_label": "design:fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"verdict\":\"PASS\",\"checks\":{\"freshness_honest\":true,\"pixel_gold_honest\":true,\"transport_fail_closed\":true,\"clause_bound_causal_test\":true,\"no_overfit\":true,\"target_closed\":true,\"budget_bounded\":true},\"blocking_issues\":[],\"minimum_changes\":[],\"rationale\":\"Freshness is honest: the cohort was frozen before any model output, exact source-identity exclusion covers S203-S217 and official gold, and three candidate PDFs were rejected for gold-provenance overlap, leaving two wholly unseen identities and six non-overlapping pages. Gold is pixel-grounded and dual-authored with reciprocal cross-review and independently reviewed evidence-unit mapping, so no hand-authored or contaminated gold enters. Transport fails closed: one call per item, strict schemas, append-only receipts and pre-call checkpoints, zero retries, no repair or merge, and a hard 18-call cap; any gate failure closes the mechanism without same-page tuning. The A/B is a genuine clause-bound causal test holding question, evidence, and writer family constant, with two replicates, a validator that rejects out-of-bound IDs, an assembly step that cannot silently drop accepted blocks, and an external gate requiring stable gains on 2 of 3 items, zero supported-fact regressions, zero invalid IDs/citations/claims, and dual semantic PASS; the local matcher can only open review, never grant credit, so no unsupported-credit path exists. Overfitting is avoided by fresh pages and explicit closure of failed mechanisms without retuning. The target stays closed: even a full external PASS authorizes only a pre-registered bounded probe and never touches production defaults, the canonical 143/157 score, or official credit; chunks_v3 wholesale remains NO-GO and Railway is not a gate. Budget is bounded at USD 150 internal stop under the USD 200 ceiling. No false-GO, contamination, unsupported-credit, transport, or budget blocker is present.\"}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1980,
+        "output_tokens": 1662
+      },
+      "provider_trace": {
+        "id": "msg_011Cd9fg5BVPsSA85B2HBBco",
+        "container": null,
+        "content": [
+          {
+            "signature": "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",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\"reviewer_model\":\"claude-fable-5\",\"verdict\":\"PASS\",\"checks\":{\"freshness_honest\":true,\"pixel_gold_honest\":true,\"transport_fail_closed\":true,\"clause_bound_causal_test\":true,\"no_overfit\":true,\"target_closed\":true,\"budget_bounded\":true},\"blocking_issues\":[],\"minimum_changes\":[],\"rationale\":\"Freshness is honest: the cohort was frozen before any model output, exact source-identity exclusion covers S203-S217 and official gold, and three candidate PDFs were rejected for gold-provenance overlap, leaving two wholly unseen identities and six non-overlapping pages. Gold is pixel-grounded and dual-authored with reciprocal cross-review and independently reviewed evidence-unit mapping, so no hand-authored or contaminated gold enters. Transport fails closed: one call per item, strict schemas, append-only receipts and pre-call checkpoints, zero retries, no repair or merge, and a hard 18-call cap; any gate failure closes the mechanism without same-page tuning. The A/B is a genuine clause-bound causal test holding question, evidence, and writer family constant, with two replicates, a validator that rejects out-of-bound IDs, an assembly step that cannot silently drop accepted blocks, and an external gate requiring stable gains on 2 of 3 items, zero supported-fact regressions, zero invalid IDs/citations/claims, and dual semantic PASS; the local matcher can only open review, never grant credit, so no unsupported-credit path exists. Overfitting is avoided by fresh pages and explicit closure of failed mechanisms without retuning. The target stays closed: even a full external PASS authorizes only a pre-registered bounded probe and never touches production defaults, the canonical 143/157 score, or official credit; chunks_v3 wholesale remains NO-GO and Railway is not a gate. Budget is bounded at USD 150 internal stop under the USD 200 ceiling. No false-GO, contamination, unsupported-credit, transport, or budget blocker is present.\"}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 1980,
+          "output_tokens": 1662,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 957
+          }
+        }
+      }
+    }
+  ],
+  "conservative_cost_usd": 0.3087,
+  "result_sha256": "298ca3c4729984e5012ace1824aa88946db8c63ef47b80e933ead739d4fc6860"
+}

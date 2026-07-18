@@ -213,6 +213,14 @@ def test_override_does_not_satisfy_primary_contract(monkeypatch) -> None:
     assert review.primary_contract_satisfied() is False
 
 
+def test_positive_env_int_accepts_override_and_rejects_invalid(monkeypatch) -> None:
+    monkeypatch.setenv("REVIEW_TEST_BUDGET", "42")
+    assert review._positive_env_int("REVIEW_TEST_BUDGET", 60) == 42
+    monkeypatch.setenv("REVIEW_TEST_BUDGET", "0")
+    with pytest.raises(RuntimeError, match="entero positivo"):
+        review._positive_env_int("REVIEW_TEST_BUDGET", 60)
+
+
 def test_review_subject_identity_binds_order_paths_and_bytes(monkeypatch, tmp_path) -> None:
     first = tmp_path / "first.md"
     second = tmp_path / "second.md"

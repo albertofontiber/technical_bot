@@ -1,0 +1,105 @@
+{
+  "schema": "s230_kidde_fresh_pixel_receipts_v1",
+  "status": "COMPLETE_BEFORE_FRONTIER_OUTPUT",
+  "inspection_method": "200dpi_full_page_original_resolution_visual_review",
+  "receipts": [
+    {
+      "canary_id": "kidde_2xa_class_a_to_class_b_loop_tradeoffs",
+      "source_pdf": "00-3280-507-4003-03_r003_2x-a_series_quick_installation_guide_en.pdf",
+      "page": 2,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_quick_install_p2_200dpi.png",
+      "image_sha256": "96bf0b951d01a8f5da1edc7b3802ccd4a1b08c4fb6d719b42ab77fb323c386bf",
+      "image_bytes": 471017,
+      "width_px": 1654,
+      "height_px": 2338,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "Class A open-and-short supervision",
+        "unused Class A A-to-B termination",
+        "Class A ceiling of 128 devices"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_class_a_to_class_b_loop_tradeoffs",
+      "source_pdf": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf",
+      "page": 41,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_install_p41_200dpi.png",
+      "image_sha256": "25520c8b85947bfba5217d6a56c26e3e28e0eb1d7f07cefad8fce59292adbf94",
+      "image_bytes": 199132,
+      "width_px": 1654,
+      "height_px": 2339,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "Class B does not comply with EN 54-13",
+        "Class B ceiling of 32 devices",
+        "A or B connectors but not both and short-circuit supervision"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_battery_configuration_and_location",
+      "source_pdf": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf",
+      "page": 34,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_install_p34_200dpi.png",
+      "image_sha256": "6d30d10e0cf3aac78ee33e64994d36e0a952faabe2dcb0308a280e81e39dfc73",
+      "image_bytes": 329934,
+      "width_px": 1654,
+      "height_px": 2339,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "battery-type configuration differs for 4 A or 6 A versus 10 A PSU",
+        "compatible battery table scoped by PSU"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_battery_configuration_and_location",
+      "source_pdf": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf",
+      "page": 36,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_install_p36_200dpi.png",
+      "image_sha256": "904220c13c301e0e5f7810956b25469eb40a11e407ffd4f833ad74620005574e",
+      "image_bytes": 277368,
+      "width_px": 1654,
+      "height_px": 2339,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "battery installation location matrix by cabinet and capacity",
+        "external boxes restricted to large-cabinet 10 A variants"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_output_termination_by_compliance_class",
+      "source_pdf": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf",
+      "page": 43,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_install_p43_200dpi.png",
+      "image_sha256": "d26cedf2526ec5263d94d46cee53035e2f0c6ef0f11675c7f5614d5a82b3712a",
+      "image_bytes": 390163,
+      "width_px": 1654,
+      "height_px": 2339,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "Class B 15 kohm and Class A 4.7 kohm output termination",
+        "unused outputs require 15 kohm and Class B configuration"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_output_termination_by_compliance_class",
+      "source_pdf": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf",
+      "page": 44,
+      "image": "evals/s230_kidde_fresh_pages_v1/2xa_install_p44_200dpi.png",
+      "image_sha256": "074a53bec38ca3c5a3efb4f03a3b82081a41486305add0a25fa14564f6292edb",
+      "image_bytes": 370100,
+      "width_px": 1654,
+      "height_px": 2339,
+      "dpi": 200,
+      "status": "PASS_VISUALLY_INSPECTED_AT_ORIGINAL_RESOLUTION",
+      "visible_anchors": [
+        "Class A and Class B configurable output counts by panel topology",
+        "sounder is the default configurable-output setting"
+      ]
+    }
+  ]
+}

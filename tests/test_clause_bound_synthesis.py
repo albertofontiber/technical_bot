@@ -21,3 +21,18 @@ def test_assembly_is_ordered_lossless_and_derives_citations():
 def test_assembly_rejects_missing_block():
     with pytest.raises(ValueError,match="every obligation"):
         assemble_claim_blocks("q",[{"label":"a","unit_ids":["E1"]}],[],[unit("E1",1,"a")])
+
+
+def test_validator_rejects_unbounded_writer_geometry():
+    too_many = {
+        "claims": [
+            {"text": f"Dato tÃ©cnico nÃºmero {index}.", "unit_ids": ["E1"]}
+            for index in range(4)
+        ]
+    }
+    with pytest.raises(ValueError, match="cardinality"):
+        validate_claim_block(too_many, {"E1"})
+    with pytest.raises(ValueError, match="claim text"):
+        validate_claim_block(
+            {"claims": [{"text": "x" * 281, "unit_ids": ["E1"]}]}, {"E1"}
+        )

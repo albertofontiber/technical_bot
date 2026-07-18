@@ -1,0 +1,45 @@
+schema: s247_clean_prompt_compiler_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION_AND_FRONTIER_REVIEW
+audit: evals/s246_writer_prompt_architecture_audit_v1.yaml
+design: evals/s247_clean_prompt_compiler_design_v1.md
+objective_metric: synthesis_miss_fact_gain
+canonical: {facts_ok: 143, denominator: 157, needed_for_98_percent: 11}
+treatment: REPLACE_MONOLITH_WITH_COMPILED_SOURCE_BOUND_CORE
+forbidden:
+  - append_to_legacy_prompt
+  - target_specific_text
+  - same_cohort_rewording_after_gate
+  - change_user_prompt_context_planner_or_scorer_between_arms
+  - frontier_model_as_writer
+local_gate:
+  maximum_core_chars: 4000
+  minimum_reduction_vs_base_plus_fidelity: 0.75
+  control_byte_identity_required: true
+nontarget_gate:
+  cohort_questions: 14
+  facts: 37
+  repetitions_per_arm: 2
+  minimum_strict_point_gains: 4
+  minimum_strict_complete_question_gains: 2
+  maximum_strict_regressions: 0
+  maximum_invalid_citations: 0
+  maximum_max_token_stops: 0
+  failure_action: CLOSE_WITHOUT_REWORDING_OR_TARGET
+target_gate:
+  requires_nontarget_go: true
+  qids: [cat018, hp002, hp011, hp017]
+  repetitions_per_arm: 2
+  minimum_strict_residual_gains: 3
+  maximum_strict_regressions: 0
+  maximum_invalid_citations: 0
+  maximum_max_token_stops: 0
+frontier_review:
+  principal: gpt-5.6-sol
+  principal_reasoning_effort: xhigh
+  independent: claude-fable-5
+  rounds: 1
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

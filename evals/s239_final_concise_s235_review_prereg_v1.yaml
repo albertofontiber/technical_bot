@@ -1,0 +1,58 @@
+schema: s239_final_concise_s235_review_prereg_v1
+status: FROZEN_FINAL_CONCISE_REVIEW_NO_FURTHER_ROUNDS
+objective: >-
+  Obtain the required principal Sol 5.6 xhigh and independent Fable 5 xhigh
+  design verdicts with a concise design-only prompt after code-rich reviews
+  exhausted their output limits; no subsequent review repair is authorized.
+local_precondition:
+  contract_tests_passed: 26
+  test_failures: 0
+prior_review_transport_and_limits:
+  synchronous_sol_520_before_response: 2
+  background_sol_incomplete_max_tokens: 1
+  same_response_sol_continuation_incomplete_max_tokens: 1
+  fable_incomplete_max_tokens: 1
+  valid_review_json_received: 0
+  conservative_cost_usd: 25.36794
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, max_output_tokens: 24000}
+  independent: {id: claude-fable-5, effort: xhigh, max_tokens: 12000}
+execution:
+  design_only_prompt: true
+  sol_background_submissions: 1
+  fable_calls: 1
+  parallel: true
+  provider_sdk_retries: 0
+  semantic_repair: false
+  convergence_rounds: 0
+  further_review_calls_authorized: false
+budget:
+  user_ceiling_usd: 200
+  cumulative_review_stop_usd: 80
+frozen_inputs:
+  prior_closeout:
+    path: evals/s238_s235_review_continuation_closeout_v1.yaml
+    sha256: 59c330d8ef4501b7ab5f7dffcddce262e2d6c53562bee693173ccd0c0f38ff54
+  prior_ledger:
+    path: evals/s238_s235_review_continuation_ledger_v1.json
+    sha256: d4a6db0bc69bfc19e263ece801b1ed22fb221aae48d1ee68f2e2f74449f1839e
+  s235_preregistration:
+    path: evals/s235_direct_clause_bound_ab_prereg_v1.yaml
+    sha256: 7d3bcf0fc5f629e13d2f47ea7c371692e285e046822411cd332a6b8a6fb2c125
+  final_reviewer:
+    path: scripts/s239_final_concise_s235_design_review.py
+    sha256: a6bbf8bb68fb161559e5211452d0977123b67f71728b2cecdb61b761e2150e50
+  original_reviewer:
+    path: scripts/s235_review_direct_clause_bound_ab_design.py
+    sha256: 45a5b77cdc22f4f542c161514dfcca5fd88d73cf53326a0c2c2fb4f1693c33f0
+  design:
+    path: evals/s235_direct_clause_bound_ab_design_v1.md
+    sha256: 4e5ca91beae1918126d245b0fa72b36fcfaa6bbcf5da770b2c799e94440f0fee
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

@@ -1,0 +1,190 @@
+schema: s243_synthesis_miss_causal_taxonomy_v1
+status: CANONICAL_LOCAL_CAUSAL_CLASSIFICATION
+objective: >-
+  Classify the twelve frozen synthesis misses by causal stage and lost-detail
+  shape before authorizing another mechanism.
+inputs:
+  residual_audit: evals/s163_synthesis_residual_audit_v1.json
+  sealed_score_packet: evals/s235_direct_clause_bound_score_packet_v1.json
+  direct_ab_result: evals/s242_direct_clause_bound_ab_result_v1.json
+population:
+  denominator: 157
+  facts_ok: 143
+  synthesis_misses: 12
+  residuals_whose_source_fragment_was_cited: 11
+  residuals_whose_source_fragment_was_not_cited: 1
+stage_attribution:
+  within_cited_fragment_detail_loss: 11
+  source_fragment_selection_loss: 1
+symptom_histogram:
+  partial_relation: 6
+  relation_omitted: 5
+  internal_cardinality_contradiction: 1
+lost_detail_family_histogram:
+  compound_relation_qualifier_loss: 5
+  structured_bundle_member_loss: 3
+  mandatory_safety_or_verification_omission: 3
+  enumeration_cardinality_inconsistency: 1
+rows:
+  - qid: cat018
+    obligation_id: obl_015f9b9aaa3a
+    kind: software_type_cbe_activation
+    fragment_number: 8
+    source_fragment_cited: true
+    symptom: partial_relation
+    stage: within_cited_fragment_detail_loss
+    family: compound_relation_qualifier_loss
+    lost_detail: activation condition, siren scope and software type SND
+    general_guard: preserve predicate condition, target scope and type qualifiers together
+  - qid: cat018
+    obligation_id: obl_7bba8d03d496
+    kind: point_programming_fields
+    fragment_number: 3
+    source_fragment_cited: true
+    symptom: partial_relation
+    stage: within_cited_fragment_detail_loss
+    family: structured_bundle_member_loss
+    lost_detail: parent Program tab context for the Zone and CBE fields
+    general_guard: bind structured field members to their parent header or tab
+  - qid: hp002
+    obligation_id: obl_a5d9fa1f9253
+    kind: initial_reference_calibration
+    fragment_number: 2
+    source_fragment_cited: true
+    symptom: partial_relation
+    stage: within_cited_fragment_detail_loss
+    family: compound_relation_qualifier_loss
+    lost_detail: measured values are stored as nominal reference values at 100 percent
+    general_guard: preserve semantic role of numeric values, not only the number
+  - qid: hp002
+    obligation_id: obl_07eee3300535
+    kind: bounded_fault_window
+    fragment_number: 2
+    source_fragment_cited: true
+    symptom: partial_relation
+    stage: within_cited_fragment_detail_loss
+    family: compound_relation_qualifier_loss
+    lost_detail: switch-position scope A11-C32 and upper bound 120 percent
+    general_guard: preserve configuration scope and both ends of every bounded range
+  - qid: hp002
+    obligation_id: obl_b6f6211be439
+    kind: maintenance_isolation_prerequisite
+    fragment_number: 9
+    source_fragment_cited: true
+    symptom: relation_omitted
+    stage: within_cited_fragment_detail_loss
+    family: mandatory_safety_or_verification_omission
+    lost_detail: isolate fire controls, remote alerts and extinguishing zones before maintenance
+    general_guard: never prune prerequisite callouts with mandatory or hazard language
+  - qid: hp011
+    obligation_id: obl_161564ff41bf
+    kind: extinction_duration_range
+    fragment_number: 11
+    source_fragment_cited: true
+    symptom: partial_relation
+    stage: within_cited_fragment_detail_loss
+    family: compound_relation_qualifier_loss
+    lost_detail: five-second programming granularity within the 05-295 second range
+    general_guard: preserve range, unit and step or granularity as one numeric bundle
+  - qid: hp011
+    obligation_id: obl_2f5d79e354b9
+    kind: reset_inhibit_special_state
+    fragment_number: 13
+    source_fragment_cited: false
+    symptom: partial_relation
+    stage: source_fragment_selection_loss
+    family: compound_relation_qualifier_loss
+    lost_detail: termination condition, t.A transition and zero-second state
+    general_guard: preserve state transition, exit condition and parameter value together
+  - qid: hp017
+    obligation_id: obl_872c35fb41d7
+    kind: option_family_cardinality
+    fragment_number: 1
+    source_fragment_cited: true
+    symptom: internal_cardinality_contradiction
+    stage: within_cited_fragment_detail_loss
+    family: enumeration_cardinality_inconsistency
+    lost_detail: asserted count of six conflicts with another option count in the answer
+    general_guard: verify asserted counts against enumerated members before assembly
+  - qid: hp017
+    obligation_id: obl_b2043cd4379b
+    kind: input_condition_definition
+    fragment_number: 12
+    source_fragment_cited: true
+    symptom: relation_omitted
+    stage: within_cited_fragment_detail_loss
+    family: structured_bundle_member_loss
+    lost_detail: input instruction definition and examples of input conditions
+    general_guard: preserve each required member of a source-defined rule schema
+  - qid: hp017
+    obligation_id: obl_7aa723717412
+    kind: output_condition_action
+    fragment_number: 12
+    source_fragment_cited: true
+    symptom: relation_omitted
+    stage: within_cited_fragment_detail_loss
+    family: structured_bundle_member_loss
+    lost_detail: output executes only after all input conditions and acts on assigned equipment
+    general_guard: preserve dependency edges between schema members and their action targets
+  - qid: hp017
+    obligation_id: obl_16637b935bd4
+    kind: logic_contradiction_warning
+    fragment_number: 12
+    source_fragment_cited: true
+    symptom: relation_omitted
+    stage: within_cited_fragment_detail_loss
+    family: mandatory_safety_or_verification_omission
+    lost_detail: warning to avoid contradictory logic
+    general_guard: never prune explicit warning clauses from an otherwise cited rule block
+  - qid: hp017
+    obligation_id: obl_0d6a30948dfd
+    kind: commissioning_rule_verification
+    fragment_number: 12
+    source_fragment_cited: true
+    symptom: relation_omitted
+    stage: within_cited_fragment_detail_loss
+    family: mandatory_safety_or_verification_omission
+    lost_detail: rigorously test every rule during commissioning for logical conflicts
+    general_guard: preserve explicit verification or commissioning requirements
+causal_conclusions:
+  - >-
+    Retrieval is not the dominant cause: all required source material was served,
+    and eleven misses occur inside fragments the canonical answer already cited.
+  - >-
+    Global evidence selection is not the next lever: S149, S150 and S153 closed
+    under-coverage, and S242's generic clause planner produced zero stable gains,
+    three protected regressions and an unsafe conflict.
+  - >-
+    Direct model substitution is not the next lever: S156 closed with only 4/13
+    relations for Fable and 2/13 for Sol before the residual became twelve.
+  - >-
+    The largest actionable cause is loss of must-preserve atoms inside evidence
+    already judged relevant, especially conditions, bounds, structured siblings,
+    prerequisites, warnings and verification clauses.
+next_mechanism_requirements:
+  priority: WITHIN_FRAGMENT_MUST_PRESERVE_ATOMS
+  must_be_generic:
+    - detect condition and dependency clauses without product-specific relation types
+    - keep numeric value, unit, lower and upper bound, and step together
+    - retain parent-child structure for headers, tables, lists and rule schemas
+    - mark prerequisite, warning and verification language as non-prunable
+    - validate count claims against enumerated members
+    - disclose rather than resolve conflicting source values
+  forbidden_reopens:
+    - s141_target_specific_relation_templates
+    - s149_single_pass_global_selector
+    - s150_repeated_coverage_verifier
+    - s153_typed_relation_branch
+    - s156_direct_model_substitution
+    - s216_decomposition_with_merge
+    - s222_s223_post_answer_addendum_family
+  evaluation_order:
+    - independent positive and negative structural-unit cohort
+    - direct twelve-fact probe only after independent generalization
+    - full protected-fact regression before any default-on decision
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

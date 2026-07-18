@@ -1,0 +1,32 @@
+schema: s245_relation_complete_highlight_gate_freeze_v1
+status: FROZEN_BEFORE_REAL_GATE_OPEN
+frozen_inputs:
+  design:
+    path: evals/s245_relation_complete_highlight_design_v1.md
+    sha256: ef41746df4016e6a2f6678a21e2dcd39d514cf092878d010e11a0c76af108a2f
+  prereg:
+    path: evals/s245_relation_complete_highlight_prereg_v1.yaml
+    sha256: 85fb0a82d3b96cde461d41a827cbd684efaea667e2347d04f767753e2dc7ff3c
+  source:
+    path: evals/s147_fresh_source_packet_v1.json
+    sha256: 38911f3e9b180064e4e9f5ae5e909e32dd6285dfb9f773944fa88184139f1295
+  gold:
+    path: evals/s171_s147_source_unit_gold_v1.json
+    sha256: 040e538f2df23282848fc6f058c9f570635564ac51b5dfb03247b2710fb5c13a
+  implementation:
+    path: src/rag/relation_complete_highlights.py
+    sha256: c30246caffcd8de8f683e990769547e3b1573571850a54b403539cc6f1cab0a8
+  runner:
+    path: scripts/s245_gate_relation_complete_highlights.py
+    sha256: 20faa02f838ca2728c3d084f9220a8817ac8cfea07f43098c17e424106c34ec7
+  synthetic_tests:
+    path: tests/test_relation_complete_highlights.py
+    sha256: ad1cef3e37f7c912fa3d1178032d2a722dec0dbf0dbfc85d42322e3cd28db9ad
+pre_open_verification:
+  synthetic_tests: 9_PASSED
+  target_qids_executed: 0
+  model_calls: 0
+  network_calls: 0
+same_cohort_retry: forbidden
+official_fact_credit: 0
+production_default_changed: false

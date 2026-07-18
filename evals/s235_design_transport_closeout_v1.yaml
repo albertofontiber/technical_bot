@@ -1,0 +1,20 @@
+schema: s235_design_transport_closeout_v1
+status: HOLD_TRANSIENT_BEFORE_INFERENCE
+stage: principal_design_review
+model: gpt-5.6-sol
+reason:
+  type: openai.InternalServerError
+  http_status: 520
+  cloudflare_error: true
+  retryable: true
+  retry_after_seconds: 60
+  detail: origin returned an empty or unparseable response
+provider_response_received: false
+semantic_review_received: false
+usage_received: false
+cost_usd: 0
+fable_calls: 0
+semantic_convergence_rounds: 0
+official_fact_credit: 0
+production_default_changed: false
+

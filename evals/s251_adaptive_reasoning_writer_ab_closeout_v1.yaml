@@ -1,0 +1,41 @@
+schema: s251_adaptive_reasoning_writer_ab_closeout_v1
+status: CLOSED_BEFORE_GENERATION_ADVERSARIAL_NO_PASS
+review:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    output: evals/adversarial_reviews/2026-07-18T19-27-06_gpt-5.6-sol_ec64d1478958.md
+    findings: 5
+    confirmed: 5
+    false_positives: 0
+    severity_max: critical
+  independent:
+    model: claude-fable-5
+    output: evals/adversarial_reviews/2026-07-18T19-28-46_claude-fable-5_2724ccd1f886.md
+    provider_stop_reason: end_turn
+    status: completed_invalid_no_review
+    reason: returned_tool_intention_but_no_findings_with_tools_disabled
+  review_rounds: 1
+  convergence_rounds: 0
+confirmed_blockers:
+  - post_generation_score_freeze_gap
+  - exact_two_replicate_invariant_not_validated_by_scorer
+  - full_answer_unsupported_claim_review_missing_from_release_boundary
+  - causal_label_overstates_observed_treatment_package_difference
+  - worst_case_cost_does_not_cover_uncertain_transport_billing
+decision:
+  execute_s251: false
+  generation_calls: 0
+  target_calls: 0
+  facts_moved_to_ok: 0
+  production_default_changed: false
+  fable_unavailable: false
+  successor: >-
+    One corrected successor may add a post-generation score permit, exact
+    replicate validation, full-answer semantic review and accurate attribution.
+    It is a bounded correction, not a convergence loop.
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+

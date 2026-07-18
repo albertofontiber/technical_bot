@@ -1,0 +1,2294 @@
+{
+  "schema": "s235_direct_clause_bound_generation_v1",
+  "status": "HOLD_EXTERNAL_OR_INVALID_NO_SEMANTIC_RETRY",
+  "items": [
+    {
+      "qid": "cat018",
+      "replicas": [
+        {
+          "replicate": 1,
+          "baseline_answer": "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto básico\n\nLas ecuaciones **CBE (Control By Events)** permiten programar condiciones lógicas que la central evalúa cuando un punto, zona o grupo está activo, ejecutando las actuaciones programadas [F1]. Para activar un módulo de salida, la CBE define qué eventos (sensores, módulos de entrada o grupos) deben ocurrir para disparar esa salida [F1].\n\n---\n\n## Paso a paso: cómo programar la CBE de un módulo de salida\n\n**1. Accede al menú de programación del punto de salida**\n\nNavega hasta el menú de programación del módulo de salida correspondiente [F3].\n\n**2. Selecciona el campo CBE**\n\nEn la pestaña **Programa**, selecciona el parámetro **CBE** con las teclas flecha **▲▼** y pulsa la tecla de confirmación **☑** para editarlo [F3].\n\n**3. Introduce la ecuación CBE**\n\nUsa el teclado alfanumérico de la pantalla. Los operadores disponibles son: **NOT, AND, OR, DEL, SDEL, XGRP, TIM, DIS, PRE, FLT** [F3].\n\n> ⚠️ **Regla crítica:** escribe la ecuación **sin espacios** entre caracteres. La longitud máxima es de **64 caracteres** [F3].\n\n**4. Confirma con Enter**\n\nPulsa la tecla **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Reglas de sintaxis obligatorias [F1]\n\n- Los operadores que trabajan con varios operandos se escriben así:\n  `OPERADOR(OPERANDO-1 OPERANDO-2 ...)`\n- **NOT** y **XGRP** funcionan solo con un operando y se escriben delante del operando.\n- Si se usan varios operadores combinados, el primer carácter debe ser **(** y el último **)**.\n- **No insertar espacios** entre caracteres.\n\n---\n\n## Opciones de programación: 3 métodos para activar una salida desde un detector\n\nEl manual describe tres opciones equivalentes para activar el módulo de salida **L1M1** cuando el detector **L1S1** entra en alarma [F8]:\n\n**Opción A — Mediante grupo software:**\n- CBE del detector: `(G1)`\n- CBE del módulo de salida: `(G1)`\n- El detector se asigna al grupo G1; el módulo se activa cuando G1 está activo.\n\n**Opción B — Referencia directa al sensor desde el módulo:**\n- CBE del detector: *(vacía o la que corresponda)*\n- CBE del módulo de salida: `(C1L1S1)`\n- El módulo se activa directamente cuando el sensor C1L1S1 entra en alarma.\n\n**Opción C — Referencia directa al módulo desde el detector:**\n- CBE del detector: `(C1L1M1)`\n- CBE del módulo de salida: *(vacía)*\n\n> **Nota del manual:** para módulos de salida, la CBE contiene las direcciones de los objetos que los activarán (sensores, módulos de entrada o grupos). Si la activación depende de varios objetos combinados, se usan operadores AND, OR, etc. [F1]\n\n---\n\n## Ejemplos de ecuaciones para módulos de salida\n\n**OR — Al menos un evento activo:**\n`OR(G9 G15 G23)` → el módulo se activa si cualquiera de los grupos G9, G15 o G23 está en alarma [F4].\n*(El operador OR puede omitirse: `(G9 G15 G23)` es equivalente)* [F4]\n\n**AND — Todos los eventos activos simultáneamente:**\n`AND(G9 G15 G23)` → el módulo se activa solo si los tres grupos están en alarma a la vez [F4].\n\n**NOT — Activación por ausencia de evento:**\n`NOT(G23)` → el módulo está activo mientras G23 **no** esté en alarma; se desactiva cuando G23 entra en alarma [F4].\n\n**XGRP — Doble coincidencia (al menos 2 dispositivos del grupo activos):**\n`XGRP(G23)` → el módulo se activa cuando al menos dos dispositivos del grupo G23 están activos [F5].\n> ⚠️ No se permite `XGRP(G23 G24)` — solo admite un grupo [F5].\n\n**PRE — Activación por pre-alarma:**\n`OR(PRE(C1L1S2)PRE(C2L1S10))` → el módulo se activa si cualquiera de los dos sensores está en pre-alarma [F7].\n\n**FLT — Activación por avería:**\n`OR(FLT(C1L1S2)PRE(C2L1S10))` → el módulo se activa si el sensor L1S2 está en avería o el sensor L1S10 está en pre-alarma [F6].\n\n---\n\n## Ejemplo avanzado: OR de muchos grupos (cuando la memoria es limitada)\n\nSi necesitas un OR de 16 grupos pero la memoria no lo permite, usa grupos inversos intermedios [F10]:\n\n```\nG301 = OR(G1 G2 G3 G4 G5 G6 G7 G8)\nG302 = OR(G9 G10 G11 G12 G13 G14 G15 G16)\nL01M01 CBE = OR(G301 G302)\n```\n\n---\n\n## Restricciones importantes [F4]\n\n- Para **grupos directos**: no se puede escribir una CBE donde los operandos sean grupos con índice **menor** que el grupo al que se asocia.\n  - ❌ `G33 = (G23 G24)` → **no permitida**\n  - ✅ `G21 = (G23 G24)` → **permitida**\n- Para **grupos inversos**: no se puede escribir una CBE donde los operandos sean grupos con índice **mayor** que el grupo al que se asocia.\n  - ❌ `G305 = (G306 G307)` → **no permitida**\n  - ✅ `G307 = (G305 G306)` → **permitida**\n- **No se puede programar una CBE para un módulo de salida si ese módulo tiene un TIPO ID para señalizaciones de carácter general** [F4].\n\n---\n\nFuente: AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **operador DEL/SDEL para retardos de activación**, **programación de grupos software (menú Grupos)** o **asignación de zonas a puntos** en la AM-8200.",
+          "treatment_answer": "- Una programación típica de la central AM-8200 se define como ECUACIÓN CONTROL POR EVENTO (CBE). [F1]\n- La ecuación CBE permite programar condiciones que la central evaluará cuando un punto, zona o grupo estén ACTIVOS, ejecutando las actuaciones programadas. [F1]\n- Para definir las condiciones CBE se utilizan los operadores lógicos: OR, AND, XGRP, NOT, DEL, SDEL y TIM. [F1]\n\n- Durante la fase de programación, cada punto, zona o grupo debe tener asociada una ecuación CBE para definir la relación causa-efecto entre eventos y salidas. [F1]\n\n- Un punto de entrada o sensor está ACTIVO cuando se encuentra en estado de alarma; un punto de salida está ACTIVO cuando está ACTIVADO; un grupo está ACTIVO cuando al menos uno de sus puntos está activo. [F1]\n\n- Las ecuaciones de control deben seguir reglas sintácticas precisas para ser válidas y aceptadas por la central; si se detectan errores de sintaxis, la ecuación será rechazada. [F1]\n\n- Los operadores lógicos con más de dos operandos se escriben con el formato: OPERADOR(OPERANDO-1, OPERANDO-2...) [F1]\n\n- Los operadores lógicos NOT y XGRP funcionan solo con un operando y se escriben delante del operando relativo. [F1]\n\n- Cuando se usan más operadores en una ecuación causa-efecto, el primer carácter debe ser un paréntesis abierto y el último carácter debe ser un paréntesis cerrado. [F1]\n\n- El operador OR requiere que AL MENOS UN operando esté activo para activar la salida. [F4]\n- La ecuación de un módulo de salida se programa como OR (G9 G15 G23), pudiendo omitir el operador OR escribiendo simplemente (G9 G15 G23). [F4]\n\n- El operador AND requiere que TODOS los operandos estén ACTIVOS para activar la salida. [F4]\n- Un módulo de salida se programa con la ecuación AND (G9 G15 G23), donde todos los grupos listados deben estar activos. [F4]\n\n- Para modificar el campo CBE, seleccionar el parámetro con las teclas flecha ▲▼ y después pulsar la tecla de confirmación ☑ [F3]\n- Utilizar el teclado alfanumérico para insertar los datos de la ecuación y pulsar la tecla Enter para confirmar [F3]\n\n- La longitud máxima de una CBE (ecuación causa-efecto) es de 64 caracteres. [F3]\n- Para insertar los datos de la CBE se utiliza el teclado alfanumérico y se pulsa Enter para confirmar. [F3]\n\n- Para activar una salida desde un dispositivo de detección, se asigna el dispositivo (ej. C1L1S1) a un Grupo Software (ej. Grupo Software 1), y ese grupo se usa como ecuación del módulo de salida. [F8]\n- La ecuación del detector y la ecuación del módulo de salida pueden referenciar el mismo grupo (ej. G1) para vincular causa y efecto en la programación CBE. [F8]",
+          "plan": [
+            {
+              "label": "Identify the definition and purpose of CBE (Control By Event) equations in AM-8200",
+              "unit_ids": [
+                "E002_0b8cc41aa0",
+                "E003_cd3c1bd913"
+              ]
+            },
+            {
+              "label": "Understand when CBE equations must be associated to points, zones, or groups during programming",
+              "unit_ids": [
+                "E004_e67d715c51"
+              ]
+            },
+            {
+              "label": "Learn the definition of ACTIVE condition for different device types",
+              "unit_ids": [
+                "E006_1ac450d5a2"
+              ]
+            },
+            {
+              "label": "Understand the syntax rules that CBE equations must follow to be valid",
+              "unit_ids": [
+                "E008_29329cf513"
+              ]
+            },
+            {
+              "label": "Learn the format for logical operators with multiple operands",
+              "unit_ids": [
+                "E010_a79ced79ba",
+                "E011_c3231ea21c"
+              ]
+            },
+            {
+              "label": "Understand the NOT and XGRP operators that work with single operands",
+              "unit_ids": [
+                "E012_81613bd957"
+              ]
+            },
+            {
+              "label": "Learn the parenthesis requirements when using multiple operators",
+              "unit_ids": [
+                "E013_f25a9d21a7"
+              ]
+            },
+            {
+              "label": "Understand the OR operator for activating when at least one operand is active",
+              "unit_ids": [
+                "E007_d07ed3a3c4",
+                "E008_6e48e675cc"
+              ]
+            },
+            {
+              "label": "Understand the AND operator for activating when all operands are active",
+              "unit_ids": [
+                "E013_843321f11d",
+                "E014_d936e99021"
+              ]
+            },
+            {
+              "label": "Learn how to program CBE equations in the Program tab of the sensor/point configuration",
+              "unit_ids": [
+                "E018_b7a7405ad3",
+                "E026_4ece0a375e"
+              ]
+            },
+            {
+              "label": "Understand the maximum CBE length and input method using alphanumeric keyboard",
+              "unit_ids": [
+                "E025_e4045a0550",
+                "E026_4ece0a375e"
+              ]
+            },
+            {
+              "label": "Learn practical programming examples showing simple activation of output modules from input devices",
+              "unit_ids": [
+                "E024_b4dd979ca9"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E002_0b8cc41aa0",
+            "E003_cd3c1bd913",
+            "E004_e67d715c51",
+            "E006_1ac450d5a2",
+            "E008_29329cf513",
+            "E010_a79ced79ba",
+            "E011_c3231ea21c",
+            "E012_81613bd957",
+            "E013_f25a9d21a7",
+            "E007_d07ed3a3c4",
+            "E008_6e48e675cc",
+            "E013_843321f11d",
+            "E014_d936e99021",
+            "E018_b7a7405ad3",
+            "E026_4ece0a375e",
+            "E025_e4045a0550",
+            "E024_b4dd979ca9"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Una programación típica de la central AM-8200 se define como ECUACIÓN CONTROL POR EVENTO (CBE).",
+                    "unit_ids": [
+                      "E002_0b8cc41aa0",
+                      "E003_cd3c1bd913"
+                    ]
+                  },
+                  {
+                    "text": "La ecuación CBE permite programar condiciones que la central evaluará cuando un punto, zona o grupo estén ACTIVOS, ejecutando las actuaciones programadas.",
+                    "unit_ids": [
+                      "E002_0b8cc41aa0"
+                    ]
+                  },
+                  {
+                    "text": "Para definir las condiciones CBE se utilizan los operadores lógicos: OR, AND, XGRP, NOT, DEL, SDEL y TIM.",
+                    "unit_ids": [
+                      "E002_0b8cc41aa0"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Durante la fase de programación, cada punto, zona o grupo debe tener asociada una ecuación CBE para definir la relación causa-efecto entre eventos y salidas.",
+                    "unit_ids": [
+                      "E004_e67d715c51"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Un punto de entrada o sensor está ACTIVO cuando se encuentra en estado de alarma; un punto de salida está ACTIVO cuando está ACTIVADO; un grupo está ACTIVO cuando al menos uno de sus puntos está activo.",
+                    "unit_ids": [
+                      "E006_1ac450d5a2"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Las ecuaciones de control deben seguir reglas sintácticas precisas para ser válidas y aceptadas por la central; si se detectan errores de sintaxis, la ecuación será rechazada.",
+                    "unit_ids": [
+                      "E008_29329cf513"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Los operadores lógicos con más de dos operandos se escriben con el formato: OPERADOR(OPERANDO-1, OPERANDO-2...)",
+                    "unit_ids": [
+                      "E010_a79ced79ba",
+                      "E011_c3231ea21c"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Los operadores lógicos NOT y XGRP funcionan solo con un operando y se escriben delante del operando relativo.",
+                    "unit_ids": [
+                      "E012_81613bd957"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Cuando se usan más operadores en una ecuación causa-efecto, el primer carácter debe ser un paréntesis abierto y el último carácter debe ser un paréntesis cerrado.",
+                    "unit_ids": [
+                      "E013_f25a9d21a7"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El operador OR requiere que AL MENOS UN operando esté activo para activar la salida.",
+                    "unit_ids": [
+                      "E007_d07ed3a3c4"
+                    ]
+                  },
+                  {
+                    "text": "La ecuación de un módulo de salida se programa como OR (G9 G15 G23), pudiendo omitir el operador OR escribiendo simplemente (G9 G15 G23).",
+                    "unit_ids": [
+                      "E008_6e48e675cc"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 9,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El operador AND requiere que TODOS los operandos estén ACTIVOS para activar la salida.",
+                    "unit_ids": [
+                      "E013_843321f11d"
+                    ]
+                  },
+                  {
+                    "text": "Un módulo de salida se programa con la ecuación AND (G9 G15 G23), donde todos los grupos listados deben estar activos.",
+                    "unit_ids": [
+                      "E014_d936e99021",
+                      "E013_843321f11d"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 10,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para modificar el campo CBE, seleccionar el parámetro con las teclas flecha ▲▼ y después pulsar la tecla de confirmación ☑",
+                    "unit_ids": [
+                      "E018_b7a7405ad3"
+                    ]
+                  },
+                  {
+                    "text": "Utilizar el teclado alfanumérico para insertar los datos de la ecuación y pulsar la tecla Enter para confirmar",
+                    "unit_ids": [
+                      "E026_4ece0a375e"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 11,
+              "value": {
+                "claims": [
+                  {
+                    "text": "La longitud máxima de una CBE (ecuación causa-efecto) es de 64 caracteres.",
+                    "unit_ids": [
+                      "E025_e4045a0550"
+                    ]
+                  },
+                  {
+                    "text": "Para insertar los datos de la CBE se utiliza el teclado alfanumérico y se pulsa Enter para confirmar.",
+                    "unit_ids": [
+                      "E026_4ece0a375e"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 12,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para activar una salida desde un dispositivo de detección, se asigna el dispositivo (ej. C1L1S1) a un Grupo Software (ej. Grupo Software 1), y ese grupo se usa como ecuación del módulo de salida.",
+                    "unit_ids": [
+                      "E024_b4dd979ca9"
+                    ]
+                  },
+                  {
+                    "text": "La ecuación del detector y la ecuación del módulo de salida pueden referenciar el mismo grupo (ej. G1) para vincular causa y efecto en la programación CBE.",
+                    "unit_ids": [
+                      "E024_b4dd979ca9"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "41f11419915a403f89b26a2c7abbeb5c2d2989815cfd9bb9dde85eba0c36e100",
+            "obligations": 12,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E002_0b8cc41aa0",
+                  "E003_cd3c1bd913"
+                ],
+                "used_unit_ids": [
+                  "E002_0b8cc41aa0",
+                  "E003_cd3c1bd913"
+                ],
+                "block_sha256": "426585b6723ee02102cc883f5255d7fdf728dfdc5f7e5acae57cd22b7140a5c4"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E004_e67d715c51"
+                ],
+                "used_unit_ids": [
+                  "E004_e67d715c51"
+                ],
+                "block_sha256": "41d131569ee391800d68290353bce825c8b5f0edc2f3facad7dd6e82a4e0d0b7"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_1ac450d5a2"
+                ],
+                "used_unit_ids": [
+                  "E006_1ac450d5a2"
+                ],
+                "block_sha256": "86900c3a1702106fe5e72f4ae8b14a4bb6c550fc38d56759dbc2eb5b29ee612d"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E008_29329cf513"
+                ],
+                "used_unit_ids": [
+                  "E008_29329cf513"
+                ],
+                "block_sha256": "b8e48af28ab402436523fd1f4ec2b7abdb1e49c88d89ddf65524b8cccfd333eb"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E010_a79ced79ba",
+                  "E011_c3231ea21c"
+                ],
+                "used_unit_ids": [
+                  "E010_a79ced79ba",
+                  "E011_c3231ea21c"
+                ],
+                "block_sha256": "65834b6bd2281602b41379b22ebcc0938c4f030bb7043f67c0e9785287771f0e"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E012_81613bd957"
+                ],
+                "used_unit_ids": [
+                  "E012_81613bd957"
+                ],
+                "block_sha256": "bbc62b4936ed942a69c986ccb8e644dc5573b4b8aa68818d9f18c527cb7e478e"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E013_f25a9d21a7"
+                ],
+                "used_unit_ids": [
+                  "E013_f25a9d21a7"
+                ],
+                "block_sha256": "474661f353b2f83b6b59bca0dcf4c6f2ac99381b7e4fa25bac7504d98d9705b9"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E007_d07ed3a3c4",
+                  "E008_6e48e675cc"
+                ],
+                "used_unit_ids": [
+                  "E007_d07ed3a3c4",
+                  "E008_6e48e675cc"
+                ],
+                "block_sha256": "e3ee6520037a2a40f7e989b4ca9c1a81ac22d35a23f2165f233bb6e23d076670"
+              },
+              {
+                "obligation_index": 9,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E013_843321f11d",
+                  "E014_d936e99021"
+                ],
+                "used_unit_ids": [
+                  "E013_843321f11d",
+                  "E014_d936e99021"
+                ],
+                "block_sha256": "24da90ceaf7180920055d4ff75d68fa501810dfa2348b8608e971503fc2cf751"
+              },
+              {
+                "obligation_index": 10,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E018_b7a7405ad3",
+                  "E026_4ece0a375e"
+                ],
+                "used_unit_ids": [
+                  "E018_b7a7405ad3",
+                  "E026_4ece0a375e"
+                ],
+                "block_sha256": "227e9a9c192821d75f033d58154297d84a6bc4f807fdb280d61f4c3300ae5c43"
+              },
+              {
+                "obligation_index": 11,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E025_e4045a0550",
+                  "E026_4ece0a375e"
+                ],
+                "used_unit_ids": [
+                  "E025_e4045a0550",
+                  "E026_4ece0a375e"
+                ],
+                "block_sha256": "468c4638cd54b84fe391cd1cb2e056eac6158a3fd6c71bdc1663327ed679d2e2"
+              },
+              {
+                "obligation_index": 12,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E024_b4dd979ca9"
+                ],
+                "used_unit_ids": [
+                  "E024_b4dd979ca9"
+                ],
+                "block_sha256": "fb40ab87a54a51afcb36d876f8784ef3641d408e23d3d73ae1257cb84f960457"
+              }
+            ],
+            "answer_sha256": "8f985e08bf6304fc296c7ffc5f3552858604242d8d9aa986da8598c4be3c959c"
+          },
+          "fragment_count": 13
+        },
+        {
+          "replicate": 2,
+          "baseline_answer": "# Programación de ecuación CBE en AM-8200 para activar una salida\n\n## Concepto básico\n\nLas ecuaciones **CBE (Control By Events)** permiten programar condiciones que la central evalúa cuando un punto, zona o grupo está activo, ejecutando las actuaciones programadas [F1]. Para activar un módulo de salida, la CBE define qué eventos (sensores, módulos de entrada o grupos) deben ocurrir para disparar esa salida [F1].\n\n---\n\n## Paso a paso: cómo programar la CBE de un módulo de salida\n\n**1. Accede al menú de programación del punto de salida**\n\nNavega hasta el módulo de salida en el menú `MENU PROGRAMMAZIONE \\ Punti` [F3].\n\n**2. Selecciona el campo CBE**\n\nEn la pestaña **Programa**, selecciona el parámetro **CBE** con las teclas flecha **▲▼** y pulsa la tecla de confirmación **☑** para entrar en edición [F3].\n\n- Si ya hay una ecuación configurada, se visualizará en pantalla.\n- Si el campo está vacío, no hay ecuación asignada aún [F3].\n\n**3. Escribe la ecuación CBE**\n\nUsa el teclado alfanumérico del panel para introducir la ecuación [F3].\n\n> ⚠️ **Regla crítica:** escribe la ecuación **sin espacios** entre caracteres [F1].\n\n> ⚠️ **Límite:** la longitud máxima de una CBE es de **64 caracteres** [F3].\n\n**4. Confirma con Enter**\n\nPulsa la tecla **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Operadores disponibles y ejemplos prácticos\n\n### Activar salida si AL MENOS UN evento ocurre → operador **OR**\n\n```\nOR(G9G15G23)\n```\nSi cualquiera de los grupos G9, G15 o G23 entra en alarma → el módulo de salida se activa [F4].\n\n> El operador OR puede omitirse: `(G9G15G23)` es equivalente [F4].\n\n---\n\n### Activar salida solo si TODOS los eventos ocurren → operador **AND**\n\n```\nAND(G9G15G23)\n```\nSolo si los tres grupos están simultáneamente en alarma → el módulo de salida se activa [F4].\n\n---\n\n### Activar salida si AL MENOS DOS detectores del grupo están activos → operador **XGRP**\n\n```\nXGRP(G23)\n```\nSe activa cuando al menos dos dispositivos del grupo G23 están activos (doble coincidencia) [F5].\n\n> ⚠️ No se permite usar más de un grupo con XGRP: `XGRP(G23G24)` es **inválido** [F5].\n\n---\n\n### Activar salida por estado de avería → operador **FLT**\n\n```\nOR(FLT(C1L1S2)FLT(Z1))\n```\nSe activa si el sensor C1L1S2 o la zona Z1 están en avería [F6].\n\n---\n\n### Activar salida por estado de pre-alarma → operador **PRE**\n\n```\nOR(PRE(C1L1S2)PRE(C2L1S10))\n```\nSe activa si cualquiera de los dos sensores está en pre-alarma [F7].\n\n---\n\n## Tres opciones típicas de programación (detector → módulo de salida)\n\nEl manual describe tres opciones equivalentes para asociar el detector **C1L1S1** con el módulo de salida **C1L1M1** [F8]:\n\n- **Opción A** — vía grupo software:\n  - Ecuación del detector: `(G1)`\n  - Ecuación del módulo: `(G1)`\n\n- **Opción B** — detector referencia directa al módulo:\n  - Ecuación del detector: *(campo vacío en el fragmento)*\n  - Ecuación del módulo: `(C1L1S1)`\n\n- **Opción C** — módulo referencia directa al detector:\n  - Ecuación del detector: `(C1L1M1)`\n  - Ecuación del módulo: *(campo vacío en el fragmento)*\n\n> ℹ️ Las opciones B y C del fragmento no muestran el campo completo de ambas ecuaciones [F8]. La Opción A (vía grupo) es la más habitual y está completamente documentada.\n\n---\n\n## Reglas sintácticas importantes\n\n- Si se usan **múltiples operadores**, el primer carácter debe ser `(` y el último `)` [F1].\n- El operador **NOT** y **XGRP** funcionan solo con **un operando** [F1].\n- **No programar CBE con ecuación «Ninguna»** en módulos de salida con tipo ID de señalización general — la central no lo permite [F4].\n- Para grupos directos: los operandos deben tener **índice mayor** que el grupo al que se asocia la CBE. Para grupos inversos: los operandos deben tener **índice menor** [F4].\n\n---\n\n## Nota sobre anulación de salidas\n\nCuando se activa la anulación de salida sirena, la central retarda las salidas durante los tiempos programados en `Prog\\Sist\\Tiempos\\Salidas` [F11]. Ten esto en cuenta al verificar el funcionamiento de la CBE en pruebas.\n\n---\n\n**Fuente:** AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **operadores DEL/SDEL para retardos en CBE**, **programación de grupos software (G1–G400)** o **verificación y prueba funcional de la ecuación programada**.",
+          "treatment_answer": "- Una programación típica de la central AM-8200 se define como ECUACIÓN CONTROL POR EVENTO (CBE), que permite asociar a cada punto, zona o grupo una serie de condiciones evaluadas cuando están ACTIVOS. [F1]\n- La ecuación CBE se define utilizando operadores lógicos: OR, AND, XGRP, NOT, DEL, SDEL y TIM para establecer las condiciones y actuaciones programadas. [F1]\n\n- Durante la fase de programación, cada punto, zona o grupo debe tener asociada una ecuación CBE para definir su comportamiento causa-efecto. [F1]\n\n- Un punto de entrada o sensor está ACTIVO cuando se encuentra en estado de alarma; un punto de salida está ACTIVO cuando está ACTIVADO; un grupo está ACTIVO cuando al menos uno de sus puntos está activo. [F1]\n\n- Las ecuaciones de control deben seguir reglas sintácticas precisas para ser válidas y aceptadas por la central; si se detectan errores de sintaxis, la ecuación será rechazada. [F1]\n\n- Los operadores lógicos con múltiples operandos se escriben con el formato: OPERADOR (OPERANDO-1, OPERANDO-2...) [F1]\n\n- Los operadores lógicos NOT y XGRP funcionan solo con un operando y se escriben delante del operando relativo. [F1]\n\n- Cuando se usan más operadores en una ecuación causa-efecto, el primer carácter debe ser un paréntesis abierto y el último carácter debe ser un paréntesis cerrado. [F1]\n\n- El operador OR requiere que AL MENOS UN operando esté ACTIVO para activar la salida. [F4]\n- La ecuación de un módulo de salida se programa como OR (G9 G15 G23), o bien omitiendo el operador: (G9 G15 G23). [F4]\n\n- El operador AND requiere que TODOS los operandos estén ACTIVOS para activar la salida. [F4]\n- Una ecuación CBE de módulo de salida con AND se escribe así: AND (G9 G15 G23). [F4]\n\n- Para modificar el campo CBE, selecciona el parámetro con las teclas flecha ▲▼ y pulsa la tecla de confirmación ☑. [F3]\n- Utiliza el teclado alfanumérico para insertar los datos de la ecuación y pulsa Enter para confirmar. [F3]\n- La longitud máxima de una CBE es de 64 caracteres. [F3]\n\n- La longitud máxima de una ecuación CBE es de 64 caracteres. [F3]\n- Para ingresar los datos de la ecuación, se utiliza el teclado alfanumérico y se confirma pulsando la tecla Enter. [F3]\n\n- Para activar una salida mediante un detector, se asigna el dispositivo de detección (ej. C1L1S1) a un Grupo Software (ej. Grupo 1), y ese grupo se configura como ecuación del módulo de salida correspondiente. [F8]",
+          "plan": [
+            {
+              "label": "Identify the definition and purpose of CBE (Control By Event) equations in AM-8200",
+              "unit_ids": [
+                "E002_0b8cc41aa0",
+                "E003_cd3c1bd913"
+              ]
+            },
+            {
+              "label": "Understand when CBE equations must be associated to points, zones, or groups during programming",
+              "unit_ids": [
+                "E004_e67d715c51"
+              ]
+            },
+            {
+              "label": "Learn the definition of ACTIVE condition for different device types",
+              "unit_ids": [
+                "E006_1ac450d5a2"
+              ]
+            },
+            {
+              "label": "Understand the syntax rules that CBE equations must follow to be valid",
+              "unit_ids": [
+                "E008_29329cf513"
+              ]
+            },
+            {
+              "label": "Learn the format for logical operators with multiple operands",
+              "unit_ids": [
+                "E010_a79ced79ba",
+                "E011_c3231ea21c"
+              ]
+            },
+            {
+              "label": "Understand the NOT and XGRP operators that work with single operands",
+              "unit_ids": [
+                "E012_81613bd957"
+              ]
+            },
+            {
+              "label": "Learn the parenthesis requirements when using multiple operators",
+              "unit_ids": [
+                "E013_f25a9d21a7"
+              ]
+            },
+            {
+              "label": "Understand the OR operator for activating when at least one operand is active",
+              "unit_ids": [
+                "E007_d07ed3a3c4",
+                "E008_6e48e675cc"
+              ]
+            },
+            {
+              "label": "Understand the AND operator for activating when all operands are active",
+              "unit_ids": [
+                "E013_843321f11d",
+                "E014_d936e99021"
+              ]
+            },
+            {
+              "label": "Learn how to program CBE equations in the Program tab of the central",
+              "unit_ids": [
+                "E018_b7a7405ad3",
+                "E025_e4045a0550",
+                "E026_4ece0a375e"
+              ]
+            },
+            {
+              "label": "Understand the maximum CBE equation length and input method",
+              "unit_ids": [
+                "E025_e4045a0550",
+                "E026_4ece0a375e"
+              ]
+            },
+            {
+              "label": "Learn practical programming examples for simple output activation from detector alarms",
+              "unit_ids": [
+                "E024_b4dd979ca9"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E002_0b8cc41aa0",
+            "E003_cd3c1bd913",
+            "E004_e67d715c51",
+            "E006_1ac450d5a2",
+            "E008_29329cf513",
+            "E010_a79ced79ba",
+            "E011_c3231ea21c",
+            "E012_81613bd957",
+            "E013_f25a9d21a7",
+            "E007_d07ed3a3c4",
+            "E008_6e48e675cc",
+            "E013_843321f11d",
+            "E014_d936e99021",
+            "E018_b7a7405ad3",
+            "E025_e4045a0550",
+            "E026_4ece0a375e",
+            "E024_b4dd979ca9"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Una programación típica de la central AM-8200 se define como ECUACIÓN CONTROL POR EVENTO (CBE), que permite asociar a cada punto, zona o grupo una serie de condiciones evaluadas cuando están ACTIVOS.",
+                    "unit_ids": [
+                      "E002_0b8cc41aa0",
+                      "E003_cd3c1bd913"
+                    ]
+                  },
+                  {
+                    "text": "La ecuación CBE se define utilizando operadores lógicos: OR, AND, XGRP, NOT, DEL, SDEL y TIM para establecer las condiciones y actuaciones programadas.",
+                    "unit_ids": [
+                      "E002_0b8cc41aa0"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Durante la fase de programación, cada punto, zona o grupo debe tener asociada una ecuación CBE para definir su comportamiento causa-efecto.",
+                    "unit_ids": [
+                      "E004_e67d715c51"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Un punto de entrada o sensor está ACTIVO cuando se encuentra en estado de alarma; un punto de salida está ACTIVO cuando está ACTIVADO; un grupo está ACTIVO cuando al menos uno de sus puntos está activo.",
+                    "unit_ids": [
+                      "E006_1ac450d5a2"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Las ecuaciones de control deben seguir reglas sintácticas precisas para ser válidas y aceptadas por la central; si se detectan errores de sintaxis, la ecuación será rechazada.",
+                    "unit_ids": [
+                      "E008_29329cf513"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Los operadores lógicos con múltiples operandos se escriben con el formato: OPERADOR (OPERANDO-1, OPERANDO-2...)",
+                    "unit_ids": [
+                      "E010_a79ced79ba",
+                      "E011_c3231ea21c"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Los operadores lógicos NOT y XGRP funcionan solo con un operando y se escriben delante del operando relativo.",
+                    "unit_ids": [
+                      "E012_81613bd957"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Cuando se usan más operadores en una ecuación causa-efecto, el primer carácter debe ser un paréntesis abierto y el último carácter debe ser un paréntesis cerrado.",
+                    "unit_ids": [
+                      "E013_f25a9d21a7"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El operador OR requiere que AL MENOS UN operando esté ACTIVO para activar la salida.",
+                    "unit_ids": [
+                      "E007_d07ed3a3c4"
+                    ]
+                  },
+                  {
+                    "text": "La ecuación de un módulo de salida se programa como OR (G9 G15 G23), o bien omitiendo el operador: (G9 G15 G23).",
+                    "unit_ids": [
+                      "E008_6e48e675cc"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 9,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El operador AND requiere que TODOS los operandos estén ACTIVOS para activar la salida.",
+                    "unit_ids": [
+                      "E013_843321f11d"
+                    ]
+                  },
+                  {
+                    "text": "Una ecuación CBE de módulo de salida con AND se escribe así: AND (G9 G15 G23).",
+                    "unit_ids": [
+                      "E014_d936e99021"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 10,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para modificar el campo CBE, selecciona el parámetro con las teclas flecha ▲▼ y pulsa la tecla de confirmación ☑.",
+                    "unit_ids": [
+                      "E018_b7a7405ad3"
+                    ]
+                  },
+                  {
+                    "text": "Utiliza el teclado alfanumérico para insertar los datos de la ecuación y pulsa Enter para confirmar.",
+                    "unit_ids": [
+                      "E026_4ece0a375e"
+                    ]
+                  },
+                  {
+                    "text": "La longitud máxima de una CBE es de 64 caracteres.",
+                    "unit_ids": [
+                      "E025_e4045a0550"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 11,
+              "value": {
+                "claims": [
+                  {
+                    "text": "La longitud máxima de una ecuación CBE es de 64 caracteres.",
+                    "unit_ids": [
+                      "E025_e4045a0550"
+                    ]
+                  },
+                  {
+                    "text": "Para ingresar los datos de la ecuación, se utiliza el teclado alfanumérico y se confirma pulsando la tecla Enter.",
+                    "unit_ids": [
+                      "E026_4ece0a375e"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 12,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para activar una salida mediante un detector, se asigna el dispositivo de detección (ej. C1L1S1) a un Grupo Software (ej. Grupo 1), y ese grupo se configura como ecuación del módulo de salida correspondiente.",
+                    "unit_ids": [
+                      "E024_b4dd979ca9"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "41f11419915a403f89b26a2c7abbeb5c2d2989815cfd9bb9dde85eba0c36e100",
+            "obligations": 12,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E002_0b8cc41aa0",
+                  "E003_cd3c1bd913"
+                ],
+                "used_unit_ids": [
+                  "E002_0b8cc41aa0",
+                  "E003_cd3c1bd913"
+                ],
+                "block_sha256": "255ab6e825efa185389b60d212e20c381e6ba09a845d6fe416b25fa5178383d1"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E004_e67d715c51"
+                ],
+                "used_unit_ids": [
+                  "E004_e67d715c51"
+                ],
+                "block_sha256": "ac6d43135ce70d0e3eeae6b1ae7ba04979fd3be512e2671f316a0b07af85784b"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_1ac450d5a2"
+                ],
+                "used_unit_ids": [
+                  "E006_1ac450d5a2"
+                ],
+                "block_sha256": "86900c3a1702106fe5e72f4ae8b14a4bb6c550fc38d56759dbc2eb5b29ee612d"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E008_29329cf513"
+                ],
+                "used_unit_ids": [
+                  "E008_29329cf513"
+                ],
+                "block_sha256": "b8e48af28ab402436523fd1f4ec2b7abdb1e49c88d89ddf65524b8cccfd333eb"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E010_a79ced79ba",
+                  "E011_c3231ea21c"
+                ],
+                "used_unit_ids": [
+                  "E010_a79ced79ba",
+                  "E011_c3231ea21c"
+                ],
+                "block_sha256": "c4c999a050cbf39f6e615c87e81a646439216edfea111ece1a4b1226a57679a6"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E012_81613bd957"
+                ],
+                "used_unit_ids": [
+                  "E012_81613bd957"
+                ],
+                "block_sha256": "bbc62b4936ed942a69c986ccb8e644dc5573b4b8aa68818d9f18c527cb7e478e"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E013_f25a9d21a7"
+                ],
+                "used_unit_ids": [
+                  "E013_f25a9d21a7"
+                ],
+                "block_sha256": "474661f353b2f83b6b59bca0dcf4c6f2ac99381b7e4fa25bac7504d98d9705b9"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E007_d07ed3a3c4",
+                  "E008_6e48e675cc"
+                ],
+                "used_unit_ids": [
+                  "E007_d07ed3a3c4",
+                  "E008_6e48e675cc"
+                ],
+                "block_sha256": "7c7086df8c24a2722904c7bb340342aee20f457650f40dbca84aeaf49dbd81c2"
+              },
+              {
+                "obligation_index": 9,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E013_843321f11d",
+                  "E014_d936e99021"
+                ],
+                "used_unit_ids": [
+                  "E013_843321f11d",
+                  "E014_d936e99021"
+                ],
+                "block_sha256": "1c190ceb5a22e6d45686aac1bfaec55eba620909bb9a2316c4a926f958d810e1"
+              },
+              {
+                "obligation_index": 10,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E018_b7a7405ad3",
+                  "E025_e4045a0550",
+                  "E026_4ece0a375e"
+                ],
+                "used_unit_ids": [
+                  "E018_b7a7405ad3",
+                  "E026_4ece0a375e",
+                  "E025_e4045a0550"
+                ],
+                "block_sha256": "5d9da776099ab8d8534f16353417bff2d6d3314926c78087fb511ba2130e8c49"
+              },
+              {
+                "obligation_index": 11,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E025_e4045a0550",
+                  "E026_4ece0a375e"
+                ],
+                "used_unit_ids": [
+                  "E025_e4045a0550",
+                  "E026_4ece0a375e"
+                ],
+                "block_sha256": "0d3d2a1c96b5c006355d141dc831168b373d6cbedf4f55609d665adfdc38dc5c"
+              },
+              {
+                "obligation_index": 12,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E024_b4dd979ca9"
+                ],
+                "used_unit_ids": [
+                  "E024_b4dd979ca9"
+                ],
+                "block_sha256": "3377698803206366022885243eafdaa63b17cf2f7f4d73978ff662ab95464df6"
+              }
+            ],
+            "answer_sha256": "41b7ab9da3f94a22687b23cf546e17727e22d0734889427be43a0bef6c44630a"
+          },
+          "fragment_count": 13
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "replicas": [
+        {
+          "replicate": 1,
+          "baseline_answer": "# ASD535 — Diagnóstico de fallo de flujo bajo\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F1][F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando la variación supera el **±20 %** (es decir, flujo por debajo del **80 %**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F2].\n\nEl código de fallo asociado es el **código 001** (obstrucción, conducto de aspiración) [F10].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\nAccede a la posición de conmutador **V** del AMB 35 para leer el valor de flujo del conducto de aspiración afectado [F9]. Compara el valor leído con el registrado en el protocolo de puesta en funcionamiento.\n\n- Valor **< 100 %** → obstrucción [F1][F9]\n- Valor **> 100 %** → rotura de tubo [F1][F9]\n\n> ⚠️ Si la sensibilidad LS-Ü configurada es **±20 %** (estándar), ya debes inspeccionar el conducto cuando el valor caiga por debajo del **90 %** (la mitad de la sensibilidad = ±10 %) [F9].\n\n**2. Inspeccionar el conducto de aspiración**\nComprueba los siguientes puntos [F10]:\n- Orificios de aspiración obstruidos (suciedad, polvo, cinta, etc.)\n- Salida de aire del ASD obstruida [F9]\n- Caja de filtro / unidad de filtrado: inspeccionar y limpiar [F10]\n\n**3. Inspeccionar y limpiar el sensor de flujo de aire**\nEl propio sensor puede estar sucio o ser defectuoso [F10]:\n- Inspeccionar y limpiar el sensor de flujo de aire\n- Si el código de fallo es **004** (parámetros LS-Ü no válidos) o **008** (sensor defectuoso/inexistente), valorar la sustitución del sensor [F10]\n\n**4. Verificar la tensión de servicio**\nAbre la caja y mide en los bornes **1 (+) y 2 (-)** [F9]:\n- Funcionamiento a **12 V-CC**: valor nominal **12,3 a 13,8 V-CC** [F9]\n- Funcionamiento a **24 V-CC**: valor nominal **21,6 a 27,6 V-CC** [F9]\n\nUn fallo de baja tensión (**10,4 V-CC, +0/–0,3 V**) también puede disparar un aviso de fallo [F3].\n\n**5. Comprobar el estado del filtro**\nSi hay monitorización de filtro activa y ha vencido su vida útil, puede aparecer «Fallo de filtro (fin de vida útil)» [F7]. Sustituye el elemento de filtro siguiendo el procedimiento de sustitución (activar función «Sustitución del filtro» desde el botón Reset o desde *EasyConfig*) [F7].\n\n---\n\n## ⚠️ Advertencia importante antes de cualquier reset inicial\n\nSi tras los trabajos de limpieza fuera necesario ejecutar un reset inicial, **solo debe realizarse cuando se tenga la seguridad de que el conducto de aspiración está completamente limpio** (incluyendo la instalación de un nuevo elemento de filtro si procede). Realizar un reset inicial con orificios obstruidos puede impedir que el ASD535 dispare la alarma [F7].\n\n---\n\n## Tabla de códigos de fallo de flujo relevantes\n\n- **Código 001**: Obstrucción en conducto de aspiración → comprobar orificios, salida de aire, filtro y sensor de flujo [F10]\n- **Código 002**: Rotura de tubo → comprobar fugas, racores, orificio de inspección [F10]\n- **Código 004**: Parámetros LS-Ü no válidos → punto de funcionamiento fuera de rango, limpiar/sustituir sensor [F10]\n- **Código 008**: Sensor de flujo defectuoso/inexistente → comprobar cable de conexión, sustituir sensor [F10]\n\n---\n\n**Fuente:** ASD535 Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento completo de reset inicial**, **sustitución del sensor de flujo de aire** o **ajuste de la ventana de monitorización LS-Ü** del ASD535.",
+          "treatment_answer": "- Air flow monitoring uses the calorimetric measurement method (mass flow measurement technique). [F2]\n- The detector housing contains two air flow sensors that detect changes in the aspiration duct (pipe break or obstruction) in each monitored zone. [F2]\n- During the initial reset with the aspiration duct intact, air flow measurement values are recorded and stored as nominal baseline values (100%). [F2]\n\n- Un valor de flujo de aire inferior al 100 % apunta a obstrucción en el conducto de aspiración, mientras que un valor superior al 100 % apunta a rotura de tubo. [F1]\n- Según EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo; en el ASD 535, el 100 % representa el flujo nominal con el conducto limpio y en correcto estado tras el reset inicial. [F1]\n\n- El flujo de aire se establece al 100% tras el reset inicial con el conducto limpio; una caída por debajo del 80% indica suciedad u obstrucción en el conducto de aspiración. [F1][F2]\n- En posiciones de conmutador A11 a C32, una variación superior al ±20% del valor nominal dispara un aviso de fallo de flujo de aire tras un retardo de 300 s de la LS-Ü. [F1][F2]\n\n- La causa más probable de flujo bajo en el ASD es una obstrucción en el conducto de aspiración (orificios de aspiración o salida de aire), en la caja de filtro/unidad de filtrado, o en el sensor de flujo de aire. [F10]\n- Para diagnosticar, se debe comprobar si el conducto de aspiración está obstruido, inspeccionar y limpiar la caja de filtro/unidad de filtrado, e inspeccionar y limpiar el sensor de flujo de aire. [F10]\n\n- Verificar si hay suciedad en la salida de aire y limpiarla si es necesario, ya que puede reducir el flujo. [F9]\n- Medir la tensión en bornes 1(+) y 2(-): debe estar entre 12,3–13,8 V-CC (12 V) o 21,6–27,6 V-CC (24 V). [F9]\n- Leer el valor de flujo del conducto de aspiración en posición V y comparar con el protocolo; si la desviación supera la mitad de la sensibilidad establecida, inspeccionar el conducto de aspiración. [F9]\n\n- Para inspección, limpiar el espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos con un pincel suave y seco, nitrógeno o aire comprimido sin aceite. [F9]\n- Abrir la cubierta de la caja del detector, fijarla en la posición media de anclaje del fondo y realizar las mediciones correspondientes, prestando atención a la conexión de cable plano. [F9]\n\n- El código 001 indica un valor de reset inicial I con flujo de aire demasiado bajo en el conducto de aspiración I, siendo consecuencia del fallo G30/004. [F4]\n- El código 002 indica un valor de reset inicial II con flujo de aire demasiado bajo en el conducto de aspiración II, siendo consecuencia del fallo G40/004. [F4]\n\n- Un reset inicial interrumpido mediante «ASD Off» genera parámetros no válidos en el conducto de aspiración II, requiriendo respetar las especificaciones del conducto y ejecutar un nuevo reset inicial. [F4]\n- Si no se respeta el tiempo de espera previo al reset inicial, se produce un timeout que obliga a ejecutar un nuevo reset inicial. [F4]",
+          "plan": [
+            {
+              "label": "Identify air flow monitoring method and baseline measurement",
+              "unit_ids": [
+                "E002_9b330e1aa6",
+                "E004_5ed7529c8d"
+              ]
+            },
+            {
+              "label": "Determine air flow value interpretation for obstruction vs tube rupture",
+              "unit_ids": [
+                "E001_ae476d67cc",
+                "E002_1b1e53df79"
+              ]
+            },
+            {
+              "label": "Establish air flow monitoring threshold and fault trigger conditions",
+              "unit_ids": [
+                "E003_2de0a1e225",
+                "E010_6c2135ed59"
+              ]
+            },
+            {
+              "label": "Identify probable causes of low air flow readings",
+              "unit_ids": [
+                "E005_ee7ccf24a9",
+                "E001_335274b2b9"
+              ]
+            },
+            {
+              "label": "Specify diagnostic checks for aspiration duct obstruction",
+              "unit_ids": [
+                "E009_c428c4154f",
+                "E014_30ab723eb5"
+              ]
+            },
+            {
+              "label": "Determine maintenance inspection procedures for air flow sensor",
+              "unit_ids": [
+                "E021_8eb0f83f97",
+                "E012_f7f793016e"
+              ]
+            },
+            {
+              "label": "Identify fault codes related to low initial reset air flow values",
+              "unit_ids": [
+                "E004_1fd79bab57",
+                "E005_5c833ec6a9"
+              ]
+            },
+            {
+              "label": "Specify air flow sensor cleaning and replacement procedures",
+              "unit_ids": [
+                "E010_82a360e6b7",
+                "E007_fa215f2de0"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E002_9b330e1aa6",
+            "E004_5ed7529c8d",
+            "E001_ae476d67cc",
+            "E002_1b1e53df79",
+            "E003_2de0a1e225",
+            "E010_6c2135ed59",
+            "E005_ee7ccf24a9",
+            "E001_335274b2b9",
+            "E009_c428c4154f",
+            "E014_30ab723eb5",
+            "E021_8eb0f83f97",
+            "E012_f7f793016e",
+            "E004_1fd79bab57",
+            "E005_5c833ec6a9",
+            "E010_82a360e6b7",
+            "E007_fa215f2de0"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Air flow monitoring uses the calorimetric measurement method (mass flow measurement technique).",
+                    "unit_ids": [
+                      "E002_9b330e1aa6",
+                      "E004_5ed7529c8d"
+                    ]
+                  },
+                  {
+                    "text": "The detector housing contains two air flow sensors that detect changes in the aspiration duct (pipe break or obstruction) in each monitored zone.",
+                    "unit_ids": [
+                      "E002_9b330e1aa6"
+                    ]
+                  },
+                  {
+                    "text": "During the initial reset with the aspiration duct intact, air flow measurement values are recorded and stored as nominal baseline values (100%).",
+                    "unit_ids": [
+                      "E002_9b330e1aa6"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Un valor de flujo de aire inferior al 100 % apunta a obstrucción en el conducto de aspiración, mientras que un valor superior al 100 % apunta a rotura de tubo.",
+                    "unit_ids": [
+                      "E001_ae476d67cc",
+                      "E002_1b1e53df79"
+                    ]
+                  },
+                  {
+                    "text": "Según EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo; en el ASD 535, el 100 % representa el flujo nominal con el conducto limpio y en correcto estado tras el reset inicial.",
+                    "unit_ids": [
+                      "E002_1b1e53df79"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El flujo de aire se establece al 100% tras el reset inicial con el conducto limpio; una caída por debajo del 80% indica suciedad u obstrucción en el conducto de aspiración.",
+                    "unit_ids": [
+                      "E010_6c2135ed59",
+                      "E003_2de0a1e225"
+                    ]
+                  },
+                  {
+                    "text": "En posiciones de conmutador A11 a C32, una variación superior al ±20% del valor nominal dispara un aviso de fallo de flujo de aire tras un retardo de 300 s de la LS-Ü.",
+                    "unit_ids": [
+                      "E010_6c2135ed59",
+                      "E003_2de0a1e225"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "La causa más probable de flujo bajo en el ASD es una obstrucción en el conducto de aspiración (orificios de aspiración o salida de aire), en la caja de filtro/unidad de filtrado, o en el sensor de flujo de aire.",
+                    "unit_ids": [
+                      "E005_ee7ccf24a9"
+                    ]
+                  },
+                  {
+                    "text": "Para diagnosticar, se debe comprobar si el conducto de aspiración está obstruido, inspeccionar y limpiar la caja de filtro/unidad de filtrado, e inspeccionar y limpiar el sensor de flujo de aire.",
+                    "unit_ids": [
+                      "E005_ee7ccf24a9"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Verificar si hay suciedad en la salida de aire y limpiarla si es necesario, ya que puede reducir el flujo.",
+                    "unit_ids": [
+                      "E009_c428c4154f"
+                    ]
+                  },
+                  {
+                    "text": "Medir la tensión en bornes 1(+) y 2(-): debe estar entre 12,3–13,8 V-CC (12 V) o 21,6–27,6 V-CC (24 V).",
+                    "unit_ids": [
+                      "E014_30ab723eb5"
+                    ]
+                  },
+                  {
+                    "text": "Leer el valor de flujo del conducto de aspiración en posición V y comparar con el protocolo; si la desviación supera la mitad de la sensibilidad establecida, inspeccionar el conducto de aspiración.",
+                    "unit_ids": [
+                      "E014_30ab723eb5"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para inspección, limpiar el espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos con un pincel suave y seco, nitrógeno o aire comprimido sin aceite.",
+                    "unit_ids": [
+                      "E021_8eb0f83f97"
+                    ]
+                  },
+                  {
+                    "text": "Abrir la cubierta de la caja del detector, fijarla en la posición media de anclaje del fondo y realizar las mediciones correspondientes, prestando atención a la conexión de cable plano.",
+                    "unit_ids": [
+                      "E012_f7f793016e"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El código 001 indica un valor de reset inicial I con flujo de aire demasiado bajo en el conducto de aspiración I, siendo consecuencia del fallo G30/004.",
+                    "unit_ids": [
+                      "E004_1fd79bab57",
+                      "E005_5c833ec6a9"
+                    ]
+                  },
+                  {
+                    "text": "El código 002 indica un valor de reset inicial II con flujo de aire demasiado bajo en el conducto de aspiración II, siendo consecuencia del fallo G40/004.",
+                    "unit_ids": [
+                      "E005_5c833ec6a9"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Un reset inicial interrumpido mediante «ASD Off» genera parámetros no válidos en el conducto de aspiración II, requiriendo respetar las especificaciones del conducto y ejecutar un nuevo reset inicial.",
+                    "unit_ids": [
+                      "E010_82a360e6b7"
+                    ]
+                  },
+                  {
+                    "text": "Si no se respeta el tiempo de espera previo al reset inicial, se produce un timeout que obliga a ejecutar un nuevo reset inicial.",
+                    "unit_ids": [
+                      "E007_fa215f2de0"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "6305ab8957ab451f07a735098e98d3b690622e5476e24467a73df8fb0d8e57b8",
+            "obligations": 8,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E002_9b330e1aa6",
+                  "E004_5ed7529c8d"
+                ],
+                "used_unit_ids": [
+                  "E002_9b330e1aa6",
+                  "E004_5ed7529c8d"
+                ],
+                "block_sha256": "ecabf9696d183a10569bab0f4d64f1f9f2380575ee552bafcb6534720dd66364"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E001_ae476d67cc",
+                  "E002_1b1e53df79"
+                ],
+                "used_unit_ids": [
+                  "E001_ae476d67cc",
+                  "E002_1b1e53df79"
+                ],
+                "block_sha256": "7e51cd3a701305203566ebda276ea4dc09c7c9e18e1c7391307205d55205af48"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E003_2de0a1e225",
+                  "E010_6c2135ed59"
+                ],
+                "used_unit_ids": [
+                  "E010_6c2135ed59",
+                  "E003_2de0a1e225"
+                ],
+                "block_sha256": "9c12f9a2d4ee00cce2fc6750613c48cd1922dfdb27cf95649c4b6b099b09c48c"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E005_ee7ccf24a9",
+                  "E001_335274b2b9"
+                ],
+                "used_unit_ids": [
+                  "E005_ee7ccf24a9"
+                ],
+                "block_sha256": "0bbf3b97f2a7802aea97b8db8d3f2fb90f0d01770ba7cee8d851c15d1c959016"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E009_c428c4154f",
+                  "E014_30ab723eb5"
+                ],
+                "used_unit_ids": [
+                  "E009_c428c4154f",
+                  "E014_30ab723eb5"
+                ],
+                "block_sha256": "06d5138083cca5ef0bee12dc4dccfc0f7e39b65ae8acfb5a78e8630e3ba049a9"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E021_8eb0f83f97",
+                  "E012_f7f793016e"
+                ],
+                "used_unit_ids": [
+                  "E021_8eb0f83f97",
+                  "E012_f7f793016e"
+                ],
+                "block_sha256": "60de685752f8f56d3b4a318d17e11e04fabfabe29335fb0e917f684d75eca168"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E004_1fd79bab57",
+                  "E005_5c833ec6a9"
+                ],
+                "used_unit_ids": [
+                  "E004_1fd79bab57",
+                  "E005_5c833ec6a9"
+                ],
+                "block_sha256": "f3269df7aead219a7902ca6f5bff02d88d44443bb120597e550b5502596d0d02"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E010_82a360e6b7",
+                  "E007_fa215f2de0"
+                ],
+                "used_unit_ids": [
+                  "E010_82a360e6b7",
+                  "E007_fa215f2de0"
+                ],
+                "block_sha256": "ee38df405d4ba48506959890701eaecd5b34ef9fe181ad125e1e13f78e7152c4"
+              }
+            ],
+            "answer_sha256": "74ab8f923b24d62c0148594957f49da03a80fe8f5c98f0fd0fc4e996db92b723"
+          },
+          "fragment_count": 11
+        },
+        {
+          "replicate": 2,
+          "baseline_answer": "# ASD535 — Fallo de flujo bajo: diagnóstico\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta a una **obstrucción en el conducto de aspiración** [F1][F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando la variación supera el **±20 %** (es decir, flujo por debajo del **80 %**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F2].\n\nEl código de fallo asociado es el **código 001** (obstrucción, conducto de aspiración) [F10].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\nColoca el conmutador en posición **V** (sección 7.6.1) para leer el porcentaje de flujo real [F9]. Compara con el valor registrado en el protocolo de puesta en funcionamiento.\n\n- Flujo **< 100 %** → obstrucción [F1][F9]\n- Flujo **> 100 %** → rotura de tubo [F1][F9]\n\n> Si la sensibilidad LS-Ü está en **±20 %** (estándar), ya debes inspeccionar el conducto cuando el valor caiga por debajo del **90 %** (la mitad de la sensibilidad = ±10 %) [F9].\n\n**2. Inspeccionar el conducto de aspiración**\nComprueba los siguientes puntos [F10]:\n- Orificios de aspiración obstruidos (suciedad, polvo, cinta, etc.)\n- Salida de aire del ASD obstruida\n- Caja de filtro / unidad de filtrado: inspeccionar y limpiar\n\n**3. Inspeccionar y limpiar el sensor de flujo de aire**\nEl propio sensor puede estar sucio o ser defectuoso [F10]:\n- Código **001**: limpiar sensor de flujo de aire\n- Código **004**: parámetros LS-Ü fuera de rango → inspeccionar y limpiar sensor; si persiste, **sustituir**\n- Código **008**: sensor defectuoso o no conectado → comprobar cable de conexión; si persiste, **sustituir** [F10]\n\n**4. Verificar la tensión de servicio**\nAbre la caja y mide en los bornes **1 (+) y 2 (−)** [F9]:\n- Funcionamiento a **12 V CC**: valor nominal **12,3 a 13,8 V CC**\n- Funcionamiento a **24 V CC**: valor nominal **21,6 a 27,6 V CC**\n\nUna tensión baja puede generar un fallo de flujo secundario (código **«Fallo baja tensión»** a **10,4 V CC +0/−0,3 V**) [F3].\n\n**5. Comprobar el estado del filtro**\nSi hay una unidad de filtrado instalada, inspecciona el elemento de filtro. Un filtro colmatado reduce el flujo [F7].\n\n---\n\n## ⚠️ Advertencias importantes\n\n- **No ejecutes un reset inicial** con el conducto obstruido: si se realiza con orificios tapados, el nuevo valor nominal quedará registrado con flujo reducido, lo que puede impedir que el ASD dispare alarma en caso de incendio [F7].\n- Si tras limpiar el conducto es necesario un reset inicial, asegúrate primero de que **todo el conducto está limpio y el filtro está en buen estado** [F7].\n- Los ajustes de ventana LS-Ü **por encima de ±20 % o tiempo de retardo superior a 300 s** implican incumplimiento de la norma **EN 54-20** y solo pueden aplicarse previa consulta con el fabricante [F6].\n\n---\n\n**Fuente:** ASD535 Descripción técnica, T 131 192 h es (sin revisión registrada en los fragmentos)\n\n---\n\nTambién puedo ayudarte con: **procedimiento completo de reset inicial**, **sustitución del sensor de flujo de aire** o **configuración de la ventana LS-Ü** del ASD535.",
+          "treatment_answer": "- La monitorización del flujo de aire se basa en el método de medición calorimétrico (técnica de medición de flujo másico). [F2]\n- El detector contiene dos sensores de flujo de aire que permiten detectar cambios en el conducto de aspiración, como rotura de tubo u obstrucción, en cada zona vigilada. [F2]\n- Los valores nominales de flujo (100%) se registran durante el reset inicial con el conducto de aspiración intacto; cualquier desviación posterior indica una anomalía en el conducto. [F2]\n\n- Un valor de flujo de aire inferior al 100 % apunta a obstrucción en el conducto de aspiración, mientras que un valor superior al 100 % apunta a rotura de tubo. [F1]\n- Según EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo; el ASD 535 indica 100 % cuando, tras el reset inicial, el conducto está limpio y en correcto estado. [F1]\n\n- El flujo de aire se establece al 100% tras el reset inicial con el conducto limpio; una caída por debajo del 80% indica suciedad u obstrucción en el conducto de aspiración. [F1][F2]\n- En posiciones de conmutador A11 a C32, una variación superior al ±20% del valor nominal dispara un aviso de fallo de flujo de aire tras un retardo de 300 s de la LS-Ü. [F1][F2]\n\n- La causa más probable de flujo bajo en el ASD es una obstrucción en el conducto de aspiración (orificios de aspiración o salida de aire), en la caja de filtro/unidad de filtrado, o en el sensor de flujo de aire. [F10]\n- Para diagnosticar, se debe comprobar si el conducto de aspiración está obstruido, inspeccionar y limpiar la caja de filtro/unidad de filtrado, e inspeccionar y limpiar el sensor de flujo de aire. [F10]\n\n- Verificar si hay suciedad en la salida de aire y limpiarla si es necesario, ya que puede reducir el flujo. [F9]\n- Leer el valor de flujo del conducto de aspiración en posición V y comparar con el protocolo de puesta en marcha; si la desviación supera la mitad de la sensibilidad establecida, inspeccionar el conducto de aspiración. [F9]\n- Medir la tensión en bornes 1(+) y 2(-): valor nominal 12,3–13,8 V CC (12 V) o 21,6–27,6 V CC (24 V) para descartar causa eléctrica. [F9]\n\n- Para inspección, limpiar el espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos con un pincel suave y seco, nitrógeno o aire comprimido sin aceite. [F9]\n- Para diagnóstico, abrir la cubierta de la caja del detector, fijarla en posición media de anclaje y efectuar las mediciones indicadas, prestando atención a la conexión de cable plano. [F9]\n\n- El código 001 indica un valor de reset inicial I con flujo de aire demasiado bajo en el conducto de aspiración I, siendo consecuencia del fallo G30/004. [F4]\n- El código 002 indica un valor de reset inicial II con flujo de aire demasiado bajo en el conducto de aspiración II, siendo consecuencia del fallo G40/004. [F4]\n\n- Si el reset inicial es interrumpido mediante «ASD Off», se debe ejecutar un nuevo reset inicial para resolver errores de parámetros no válidos en el conducto de aspiración II. [F4]\n- Un timeout en el reset inicial puede deberse a que no se respetó el tiempo de espera previo; la solución es ejecutar un nuevo reset inicial. [F4]",
+          "plan": [
+            {
+              "label": "Identify air flow monitoring method and baseline measurement",
+              "unit_ids": [
+                "E002_9b330e1aa6",
+                "E004_5ed7529c8d"
+              ]
+            },
+            {
+              "label": "Determine air flow value interpretation for obstruction vs tube rupture",
+              "unit_ids": [
+                "E001_ae476d67cc",
+                "E002_1b1e53df79"
+              ]
+            },
+            {
+              "label": "Establish air flow monitoring threshold and fault trigger conditions",
+              "unit_ids": [
+                "E003_2de0a1e225",
+                "E010_6c2135ed59"
+              ]
+            },
+            {
+              "label": "Identify probable causes of low air flow readings",
+              "unit_ids": [
+                "E005_ee7ccf24a9",
+                "E001_335274b2b9"
+              ]
+            },
+            {
+              "label": "Specify diagnostic checks for aspiration duct obstruction",
+              "unit_ids": [
+                "E009_c428c4154f",
+                "E014_30ab723eb5"
+              ]
+            },
+            {
+              "label": "Determine maintenance inspection procedures for air flow sensor",
+              "unit_ids": [
+                "E021_8eb0f83f97",
+                "E012_f7f793016e"
+              ]
+            },
+            {
+              "label": "Identify fault codes related to low initial reset air flow values",
+              "unit_ids": [
+                "E004_1fd79bab57",
+                "E005_5c833ec6a9"
+              ]
+            },
+            {
+              "label": "Specify air flow sensor cleaning and replacement procedures",
+              "unit_ids": [
+                "E010_82a360e6b7",
+                "E007_fa215f2de0"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E002_9b330e1aa6",
+            "E004_5ed7529c8d",
+            "E001_ae476d67cc",
+            "E002_1b1e53df79",
+            "E003_2de0a1e225",
+            "E010_6c2135ed59",
+            "E005_ee7ccf24a9",
+            "E001_335274b2b9",
+            "E009_c428c4154f",
+            "E014_30ab723eb5",
+            "E021_8eb0f83f97",
+            "E012_f7f793016e",
+            "E004_1fd79bab57",
+            "E005_5c833ec6a9",
+            "E010_82a360e6b7",
+            "E007_fa215f2de0"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "La monitorización del flujo de aire se basa en el método de medición calorimétrico (técnica de medición de flujo másico).",
+                    "unit_ids": [
+                      "E002_9b330e1aa6",
+                      "E004_5ed7529c8d"
+                    ]
+                  },
+                  {
+                    "text": "El detector contiene dos sensores de flujo de aire que permiten detectar cambios en el conducto de aspiración, como rotura de tubo u obstrucción, en cada zona vigilada.",
+                    "unit_ids": [
+                      "E002_9b330e1aa6"
+                    ]
+                  },
+                  {
+                    "text": "Los valores nominales de flujo (100%) se registran durante el reset inicial con el conducto de aspiración intacto; cualquier desviación posterior indica una anomalía en el conducto.",
+                    "unit_ids": [
+                      "E002_9b330e1aa6"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Un valor de flujo de aire inferior al 100 % apunta a obstrucción en el conducto de aspiración, mientras que un valor superior al 100 % apunta a rotura de tubo.",
+                    "unit_ids": [
+                      "E001_ae476d67cc",
+                      "E002_1b1e53df79"
+                    ]
+                  },
+                  {
+                    "text": "Según EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo; el ASD 535 indica 100 % cuando, tras el reset inicial, el conducto está limpio y en correcto estado.",
+                    "unit_ids": [
+                      "E002_1b1e53df79"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El flujo de aire se establece al 100% tras el reset inicial con el conducto limpio; una caída por debajo del 80% indica suciedad u obstrucción en el conducto de aspiración.",
+                    "unit_ids": [
+                      "E010_6c2135ed59",
+                      "E003_2de0a1e225"
+                    ]
+                  },
+                  {
+                    "text": "En posiciones de conmutador A11 a C32, una variación superior al ±20% del valor nominal dispara un aviso de fallo de flujo de aire tras un retardo de 300 s de la LS-Ü.",
+                    "unit_ids": [
+                      "E010_6c2135ed59",
+                      "E003_2de0a1e225"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "La causa más probable de flujo bajo en el ASD es una obstrucción en el conducto de aspiración (orificios de aspiración o salida de aire), en la caja de filtro/unidad de filtrado, o en el sensor de flujo de aire.",
+                    "unit_ids": [
+                      "E005_ee7ccf24a9"
+                    ]
+                  },
+                  {
+                    "text": "Para diagnosticar, se debe comprobar si el conducto de aspiración está obstruido, inspeccionar y limpiar la caja de filtro/unidad de filtrado, e inspeccionar y limpiar el sensor de flujo de aire.",
+                    "unit_ids": [
+                      "E005_ee7ccf24a9"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Verificar si hay suciedad en la salida de aire y limpiarla si es necesario, ya que puede reducir el flujo.",
+                    "unit_ids": [
+                      "E009_c428c4154f"
+                    ]
+                  },
+                  {
+                    "text": "Leer el valor de flujo del conducto de aspiración en posición V y comparar con el protocolo de puesta en marcha; si la desviación supera la mitad de la sensibilidad establecida, inspeccionar el conducto de aspiración.",
+                    "unit_ids": [
+                      "E014_30ab723eb5"
+                    ]
+                  },
+                  {
+                    "text": "Medir la tensión en bornes 1(+) y 2(-): valor nominal 12,3–13,8 V CC (12 V) o 21,6–27,6 V CC (24 V) para descartar causa eléctrica.",
+                    "unit_ids": [
+                      "E014_30ab723eb5"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para inspección, limpiar el espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos con un pincel suave y seco, nitrógeno o aire comprimido sin aceite.",
+                    "unit_ids": [
+                      "E021_8eb0f83f97"
+                    ]
+                  },
+                  {
+                    "text": "Para diagnóstico, abrir la cubierta de la caja del detector, fijarla en posición media de anclaje y efectuar las mediciones indicadas, prestando atención a la conexión de cable plano.",
+                    "unit_ids": [
+                      "E012_f7f793016e"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "El código 001 indica un valor de reset inicial I con flujo de aire demasiado bajo en el conducto de aspiración I, siendo consecuencia del fallo G30/004.",
+                    "unit_ids": [
+                      "E004_1fd79bab57",
+                      "E005_5c833ec6a9"
+                    ]
+                  },
+                  {
+                    "text": "El código 002 indica un valor de reset inicial II con flujo de aire demasiado bajo en el conducto de aspiración II, siendo consecuencia del fallo G40/004.",
+                    "unit_ids": [
+                      "E005_5c833ec6a9"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Si el reset inicial es interrumpido mediante «ASD Off», se debe ejecutar un nuevo reset inicial para resolver errores de parámetros no válidos en el conducto de aspiración II.",
+                    "unit_ids": [
+                      "E010_82a360e6b7"
+                    ]
+                  },
+                  {
+                    "text": "Un timeout en el reset inicial puede deberse a que no se respetó el tiempo de espera previo; la solución es ejecutar un nuevo reset inicial.",
+                    "unit_ids": [
+                      "E007_fa215f2de0"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "6305ab8957ab451f07a735098e98d3b690622e5476e24467a73df8fb0d8e57b8",
+            "obligations": 8,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E002_9b330e1aa6",
+                  "E004_5ed7529c8d"
+                ],
+                "used_unit_ids": [
+                  "E002_9b330e1aa6",
+                  "E004_5ed7529c8d"
+                ],
+                "block_sha256": "309c48548279577d9c5124b31bb2a470b35e6648ec019b32f19c0ea98cfa2980"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E001_ae476d67cc",
+                  "E002_1b1e53df79"
+                ],
+                "used_unit_ids": [
+                  "E001_ae476d67cc",
+                  "E002_1b1e53df79"
+                ],
+                "block_sha256": "386a9d34a40d3a6c2823c67d9e2f716fdea9e24241723190cb0808d1c7acfb35"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E003_2de0a1e225",
+                  "E010_6c2135ed59"
+                ],
+                "used_unit_ids": [
+                  "E010_6c2135ed59",
+                  "E003_2de0a1e225"
+                ],
+                "block_sha256": "9c12f9a2d4ee00cce2fc6750613c48cd1922dfdb27cf95649c4b6b099b09c48c"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E005_ee7ccf24a9",
+                  "E001_335274b2b9"
+                ],
+                "used_unit_ids": [
+                  "E005_ee7ccf24a9"
+                ],
+                "block_sha256": "0bbf3b97f2a7802aea97b8db8d3f2fb90f0d01770ba7cee8d851c15d1c959016"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 3,
+                "allowed_unit_ids": [
+                  "E009_c428c4154f",
+                  "E014_30ab723eb5"
+                ],
+                "used_unit_ids": [
+                  "E009_c428c4154f",
+                  "E014_30ab723eb5"
+                ],
+                "block_sha256": "46f1521b9092de1e4b0dbee7375334892f58c6363734bbd2ca1cb192666a46ce"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E021_8eb0f83f97",
+                  "E012_f7f793016e"
+                ],
+                "used_unit_ids": [
+                  "E021_8eb0f83f97",
+                  "E012_f7f793016e"
+                ],
+                "block_sha256": "a52b8d5bbb449d6cf7c7d3c7be1d335f3d55d24f14a042ea1975993efe5eec4d"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E004_1fd79bab57",
+                  "E005_5c833ec6a9"
+                ],
+                "used_unit_ids": [
+                  "E004_1fd79bab57",
+                  "E005_5c833ec6a9"
+                ],
+                "block_sha256": "f3269df7aead219a7902ca6f5bff02d88d44443bb120597e550b5502596d0d02"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E010_82a360e6b7",
+                  "E007_fa215f2de0"
+                ],
+                "used_unit_ids": [
+                  "E010_82a360e6b7",
+                  "E007_fa215f2de0"
+                ],
+                "block_sha256": "f42783176e932bd909987d47ea6fda190c7193f631d0796ea6cc9daadbd894c8"
+              }
+            ],
+            "answer_sha256": "bdca65418a857f3b2babf3e3d586fac196e45dd4148138f9bfdf436d4486c6f7"
+          },
+          "fragment_count": 11
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "replicas": [
+        {
+          "replicate": 1,
+          "baseline_answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de descarga\n\nSituación reconocida. Hay varios puntos concretos que comprobar, ordenados por probabilidad:\n\n---\n\n## 1. Verificar si hay \"Fallo de Sistema\" activo\n\nEl LED **Fallo Sistema** puede estar encendido tras el arranque post-descarga [F7]. Esto ocurre cuando el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango [F7].\n\n**Acción:** Comprueba si el LED **Fallo Sistema** está iluminado [F8]. Si es así, realiza un **Rearme** (nivel de acceso 2 + tecla **Resetear**) [F6]. Según el boletín técnico, con el rearme esta avería desaparece [F7].\n\n> ⚠️ Importante: si existe **Fallo de Sistema** y NO se rearma, la central **no realizará el proceso de extinción** al considerar que no funciona correctamente [F7].\n\n---\n\n## 2. Comprobar si el Rearme Inhibido (rI) está activo\n\nSegún la normativa **EN12094:1/2003 Punto 4.12.2**, puede haber un periodo de inhibición de rearme programado entre **0 y 30 minutos** desde que la central señaliza el estado de ACTIVADO [F3].\n\n**Acción:**\n- Comprueba si el display de 7 segmentos muestra **rI** [F3].\n- Si el microinterruptor **SW1-6** está en posición **ON**, esta función está habilitada [F3].\n- Hasta que no transcurra el tiempo programado en el campo **rI**, no será posible rearmar [F3].\n- Por defecto esta función está **anulada** (SW1-6 en OFF) [F3].\n\n---\n\n## 3. Verificar averías enclavadas en circuitos de supervisión\n\nTodas las entradas y salidas supervisadas requieren una **Resistencia Final de Línea (RFL) de 6K8** [F10]. Si hay cortocircuito o circuito abierto, la central indica avería y puede impedir el retorno al estado normal.\n\nComprueba los LEDs intermitentes de los siguientes circuitos [F10]:\n\n- **CCT EXT 1 / CCT EXT 2** (circuitos de solenoide, bornes 10 y 11) → LED \"Avería Circuito de Extinción\" intermitente\n- **SND 1 / SND 2** (sirenas, bornes 18 y 19) → LED \"Sirenas Fallo/Anuladas\" intermitente\n- **ABORT SWITCH (F)** → Esta avería **requiere rearme manual** y detiene la extinción [F10]\n- **LOW PRESS (C), FLOW PRESS (D), DOOR OPEN (E)** → Rearme automático posible [F10]\n\n> ⚠️ La avería en el circuito **ABORT SWITCH** es la única que **no permite rearme automático** y requiere intervención manual [F10].\n\n---\n\n## 4. Confirmar el procedimiento de Rearme correcto\n\n1. Habilitar **nivel de acceso 2** (giro de llave o habilitación de teclado) [F6]\n2. Pulsar la tecla **Rearme** [F6]\n3. Las entradas enclavadas se reiniciarán [F6]\n\nSi el display muestra **S1** tras manipular SW1-6, significa que se ha registrado un cambio en la configuración del microinterruptor [F4].\n\n---\n\n## Resumen de comprobaciones por orden\n\n1. ¿LED **Fallo Sistema** encendido? → Rearmar [F7]\n2. ¿Display muestra **rI** y SW1-6 en ON? → Esperar el tiempo programado (hasta 30 min) [F3]\n3. ¿Algún LED de circuito de supervisión **intermitente**? → Revisar RFL de 6K8 en ese circuito [F10]\n4. ¿LED **Avería Paro** (ABORT SWITCH) activo? → Requiere rearme manual obligatorio [F10]\n5. ¿LED **Extinción Realizada** fijo? → Estado normal post-descarga; comprobar que no hay otras averías activas [F1]\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **programación del parámetro rI (inhibición de rearme)**, **verificación de RFL en circuitos de extinción** o **procedimiento de prueba funcional post-mantenimiento** de la RP1r.",
+          "treatment_answer": "- Al expirar el tiempo de extinción (parámetro dr), los dos circuitos de solenoide se desactivan, el temporizador queda a 00 en estado fijo y el LED de extinción realizada queda en estado fijo. [F1]\n\n- Tras la extinción, los dos circuitos de solenoide se desactivan, el temporizador queda fijo en 00 y el LED de extinción realizada permanece en estado fijo, sin retorno automático al estado normal. [F1]\n\n- To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs. [F4]\n\n- Per EN12094:1 Section 4.12.2, the reset function may be inhibited after the Activated condition starts, requiring access level 3 to perform the reset operation. [F4]\n\n- Para habilitar la función Reset, el microswitch SW1-6 debe estar en posición ON; el display de 7 segmentos mostrará S1 confirmando el cambio de configuración. [F4]\n- Con SW1-6 en ON, conectar un jumper en el switch PROG (esquina inferior izquierda de la placa) y pulsar la tecla Reset; el LED número 6 se activará en rojo fijo. [F4]\n\n- To enable Reset, place SW1-6 microswitch in ON position, connect a jumper on the PROG switch at the bottom-left corner of the Release control panel board, then press the Reset key. [F4]\n- After correctly performing the reset procedure, LED number 6 should activate in red steady mode as confirmation. [F4]\n\n- To reset the control panel, enable access level 2 and press the Reset key; latched inputs will be reset. [F4]\n\n- Si aparece esta avería, es necesario REARMAR la central; de lo contrario, NO realizará el proceso de extinción al considerar que no está funcionando correctamente. [F7]\n\n- To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs. [F4]",
+          "plan": [
+            {
+              "label": "Verify solenoid circuit deactivation after extinction duration expires",
+              "unit_ids": [
+                "E003_aa05d0c8a3",
+                "E004_926d5bab83"
+              ]
+            },
+            {
+              "label": "Confirm timer and extinction LED status after activation period",
+              "unit_ids": [
+                "E004_926d5bab83"
+              ]
+            },
+            {
+              "label": "Check reset function accessibility and requirements",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            },
+            {
+              "label": "Verify reset inhibition configuration per EN12094:1 Section 4.12.2",
+              "unit_ids": [
+                "E007_09c633a258"
+              ]
+            },
+            {
+              "label": "Confirm SW1-6 microswitch position for reset enablement",
+              "unit_ids": [
+                "E008_8712c061dd"
+              ]
+            },
+            {
+              "label": "Verify PROG jumper connection on control panel board",
+              "unit_ids": [
+                "E008_8712c061dd"
+              ]
+            },
+            {
+              "label": "Check latched input reset after reset key activation",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            },
+            {
+              "label": "Verify system fault LED status and rearming requirement",
+              "unit_ids": [
+                "E007_f25c30208d"
+              ]
+            },
+            {
+              "label": "Confirm access level 2 enablement for reset operation",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E003_aa05d0c8a3",
+            "E004_926d5bab83",
+            "E006_b6e468db30",
+            "E007_09c633a258",
+            "E008_8712c061dd",
+            "E007_f25c30208d"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Al expirar el tiempo de extinción (parámetro dr), los dos circuitos de solenoide se desactivan, el temporizador queda a 00 en estado fijo y el LED de extinción realizada queda en estado fijo.",
+                    "unit_ids": [
+                      "E003_aa05d0c8a3",
+                      "E004_926d5bab83"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Tras la extinción, los dos circuitos de solenoide se desactivan, el temporizador queda fijo en 00 y el LED de extinción realizada permanece en estado fijo, sin retorno automático al estado normal.",
+                    "unit_ids": [
+                      "E004_926d5bab83"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Per EN12094:1 Section 4.12.2, the reset function may be inhibited after the Activated condition starts, requiring access level 3 to perform the reset operation.",
+                    "unit_ids": [
+                      "E007_09c633a258"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para habilitar la función Reset, el microswitch SW1-6 debe estar en posición ON; el display de 7 segmentos mostrará S1 confirmando el cambio de configuración.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  },
+                  {
+                    "text": "Con SW1-6 en ON, conectar un jumper en el switch PROG (esquina inferior izquierda de la placa) y pulsar la tecla Reset; el LED número 6 se activará en rojo fijo.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To enable Reset, place SW1-6 microswitch in ON position, connect a jumper on the PROG switch at the bottom-left corner of the Release control panel board, then press the Reset key.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  },
+                  {
+                    "text": "After correctly performing the reset procedure, LED number 6 should activate in red steady mode as confirmation.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, enable access level 2 and press the Reset key; latched inputs will be reset.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Si aparece esta avería, es necesario REARMAR la central; de lo contrario, NO realizará el proceso de extinción al considerar que no está funcionando correctamente.",
+                    "unit_ids": [
+                      "E007_f25c30208d"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 9,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "2a2fafd5191e9ea55f59600c283669e4ffdf14f0ba817407731574c9fe33c990",
+            "obligations": 9,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E003_aa05d0c8a3",
+                  "E004_926d5bab83"
+                ],
+                "used_unit_ids": [
+                  "E003_aa05d0c8a3",
+                  "E004_926d5bab83"
+                ],
+                "block_sha256": "1b4c25b2ae8696bda3aee621ea2b2b1aef911626c958cb00e94d9c7676fbea3e"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E004_926d5bab83"
+                ],
+                "used_unit_ids": [
+                  "E004_926d5bab83"
+                ],
+                "block_sha256": "d8c6dccfdd8203fc5f9832dd1c191543b55f16d9e9aa8e0487d51ab4e7042786"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "01e26cb670f7a809651f4f022eb72e5b25ba674d1cf1bdbb8e5f83c8103b1da9"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E007_09c633a258"
+                ],
+                "used_unit_ids": [
+                  "E007_09c633a258"
+                ],
+                "block_sha256": "bd2924688cd15f6f01675b353c54c1bcf308ce359c4e0a022f99601d37e18a2e"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "used_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "block_sha256": "79bec357e3e769033f853bc49a24aaf2474a048576f9ec347c4bb619514b3deb"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "used_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "block_sha256": "74fd99850d4275e9140bf3bfd25f753cc23368caca1bdf0c9cdd2364ebeaea78"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "7001942fefc62109a0b50fec0dc9f286658ac3ce1a206bd000fd126cd6f688ce"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E007_f25c30208d"
+                ],
+                "used_unit_ids": [
+                  "E007_f25c30208d"
+                ],
+                "block_sha256": "64075c656ebb9af6ee9698d789389d20d5925acf7b41520fb6ce222db4f3a256"
+              },
+              {
+                "obligation_index": 9,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "01e26cb670f7a809651f4f022eb72e5b25ba674d1cf1bdbb8e5f83c8103b1da9"
+              }
+            ],
+            "answer_sha256": "c21afbfba46a38c22fe6d612216646a8d6ee7dbd57796615c686904fe98e45cf"
+          },
+          "fragment_count": 13
+        },
+        {
+          "replicate": 2,
+          "baseline_answer": "# RP1r — Sistema no vuelve a estado normal tras resetear después de descarga\n\nSituación reconocida. Hay varios puntos concretos que comprobar, ordenados por probabilidad:\n\n---\n\n## 1. Verificar si hay \"Rearme Inhibido\" (rI) activo\n\nSegún la normativa **EN12094:1/2003 Punto 4.12.2** [F3], existe un parámetro **rI** que inhibe el rearme durante un tiempo programable entre **0 y 30 minutos** desde que la central señaliza el estado de ACTIVADO.\n\n- Comprueba si el microinterruptor **SW1-6 está en posición ON** [F3] — si es así, la función de rearme inhibido está habilitada.\n- Mientras no transcurra el tiempo programado en **rI**, el rearme no será posible [F3].\n- **Acción:** Espera a que transcurra el tiempo configurado, o si no es necesario este retardo, sitúa **SW1-6 en OFF** para anular la función [F3].\n\n---\n\n## 2. Verificar si hay \"Fallo de Sistema\" activo\n\nEl boletín técnico **HLSI-BT-001** [F7] indica específicamente:\n\n> Si aparece la avería **FALLO DE SISTEMA**, es necesario REARMAR la central, ya que en caso contrario la central NO realizará el proceso de extinción al considerar que no está funcionando correctamente.\n\n- Esta avería puede aparecer al arrancar si el microprocesador principal tarda en inicializar o hay lecturas de tensión fuera de rango [F7].\n- **Acción:** Comprueba si el LED **Fallo Sistema** está encendido [F8]. Si es así, realiza un rearme. Si la avería desaparece tras el rearme, el sistema debería volver a estado normal [F7].\n\n---\n\n## 3. Verificar averías en circuitos supervisados con RFL\n\nLa RP1r supervisa todas sus entradas/salidas con una **Resistencia Final de Línea (RFL) de 6K8** [F10]. Si hay cortocircuito o circuito abierto, la central quedará en avería y no volverá a estado normal.\n\nComprueba los LEDs intermitentes en el panel. Los circuitos más críticos tras una descarga son [F10]:\n\n- **CCT EXT 1 / CCT EXT 2** (circuitos de solenoide, bornes 10 y 11) → LED \"Avería Circuito de Extinción\" intermitente. Rearme automático posible.\n- **ABORT SWITCH** (borno F) → LED \"Avería Paro\" intermitente + \"Paro\" fijo. **Esta avería requiere rearme manual** y detiene la extinción [F10].\n- **SND 1 / SND 2** (bornes 18 y 19) → LED \"Sirenas Fallo/Anuladas\" intermitente. Rearme automático.\n\n> ⚠️ **Importante:** Tras la descarga, los circuitos de solenoide (CCT EXT 1/2) pueden quedar en circuito abierto si el cilindro está vacío y no se ha reconectado o sustituido. Esto generará avería de circuito de extinción.\n\n---\n\n## 4. Procedimiento de rearme correcto\n\nPara rearmar la RP1r [F6]:\n1. Habilita el **acceso nivel 2** (gira la llave o habilita el teclado).\n2. Pulsa la tecla **Rearme**.\n3. Las entradas enclavadas se reiniciarán.\n\nSi el rearme no es posible, verifica primero si SW1-6 está en ON (rearme inhibido activo) [F3].\n\n---\n\n**Resumen de comprobaciones por orden:**\n- ¿LED **Fallo Sistema** encendido? → Rearme [F7]\n- ¿Parámetro **rI** con tiempo > 0 y SW1-6 en ON? → Esperar o anular [F3]\n- ¿LEDs intermitentes de avería de circuito? → Identificar circuito afectado y resolver la causa (RFL, cableado, cilindro) [F10]\n- ¿LED **Avería Paro** (ABORT SWITCH)? → Requiere rearme manual obligatorio [F10]\n\n---\n\nFuentes:\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n\n---\n\nTambién puedo ayudarte con: **verificación del cableado RFL de los circuitos de extinción**, **programación del parámetro rI** o **procedimiento de puesta en servicio tras recarga del cilindro**.",
+          "treatment_answer": "- Al expirar el tiempo de extinción (parámetro dr), los dos circuitos de solenoide se desactivan, el temporizador queda a 00 en estado fijo y el LED de extinción realizada permanece en estado fijo. [F1]\n\n- Tras la descarga, los dos circuitos de solenoide se desactivan, el temporizador queda fijo en 00 y el LED de extinción realizada permanece en estado fijo, sin retorno automático al estado normal. [F1]\n\n- To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs. [F4]\n\n- Per EN12094:1 Section 4.12.2, the reset function may be inhibited after the Activated condition starts, requiring access level 3 to manage this inhibition. [F4]\n\n- Para habilitar la función Reset, el microswitch SW1-6 debe estar en posición ON; el display de 7 segmentos mostrará S1 confirmando el cambio de configuración. [F4]\n- Con SW1-6 en ON, conectar un jumper en el switch PROG (esquina inferior izquierda de la placa) y pulsar la tecla Reset; el LED número 6 se activará en rojo fijo. [F4]\n\n- To enable Reset, place SW1-6 microswitch in ON position, connect a jumper on the PROG switch at the bottom-left corner of the Release control panel board, then press the Reset key. [F4]\n\n- To reset the control panel, enable access level 2 and press the Reset key; latched inputs will be reset. [F4]\n\n- Si aparece esta avería, es necesario REARMAR la central; de lo contrario, NO realizará el proceso de extinción al considerar que no está funcionando correctamente. [F7]\n\n- To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs. [F4]",
+          "plan": [
+            {
+              "label": "Verify solenoid circuit deactivation after extinction duration expires",
+              "unit_ids": [
+                "E003_aa05d0c8a3",
+                "E004_926d5bab83"
+              ]
+            },
+            {
+              "label": "Confirm timer and extinction LED status after activation period",
+              "unit_ids": [
+                "E004_926d5bab83"
+              ]
+            },
+            {
+              "label": "Check reset function accessibility and requirements",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            },
+            {
+              "label": "Verify reset inhibition configuration per EN12094:1 Section 4.12.2",
+              "unit_ids": [
+                "E007_09c633a258"
+              ]
+            },
+            {
+              "label": "Confirm SW1-6 microswitch position for reset enablement",
+              "unit_ids": [
+                "E008_8712c061dd"
+              ]
+            },
+            {
+              "label": "Verify PROG jumper connection on control panel board",
+              "unit_ids": [
+                "E008_8712c061dd"
+              ]
+            },
+            {
+              "label": "Check latched input reset after reset key activation",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            },
+            {
+              "label": "Verify system fault LED status and rearming requirement",
+              "unit_ids": [
+                "E007_f25c30208d"
+              ]
+            },
+            {
+              "label": "Confirm access level 2 enablement for reset operation",
+              "unit_ids": [
+                "E006_b6e468db30"
+              ]
+            }
+          ],
+          "selected_unit_ids": [
+            "E003_aa05d0c8a3",
+            "E004_926d5bab83",
+            "E006_b6e468db30",
+            "E007_09c633a258",
+            "E008_8712c061dd",
+            "E007_f25c30208d"
+          ],
+          "claim_blocks": [
+            {
+              "obligation_index": 1,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Al expirar el tiempo de extinción (parámetro dr), los dos circuitos de solenoide se desactivan, el temporizador queda a 00 en estado fijo y el LED de extinción realizada permanece en estado fijo.",
+                    "unit_ids": [
+                      "E003_aa05d0c8a3",
+                      "E004_926d5bab83"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 2,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Tras la descarga, los dos circuitos de solenoide se desactivan, el temporizador queda fijo en 00 y el LED de extinción realizada permanece en estado fijo, sin retorno automático al estado normal.",
+                    "unit_ids": [
+                      "E004_926d5bab83"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 3,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 4,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Per EN12094:1 Section 4.12.2, the reset function may be inhibited after the Activated condition starts, requiring access level 3 to manage this inhibition.",
+                    "unit_ids": [
+                      "E007_09c633a258"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 5,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Para habilitar la función Reset, el microswitch SW1-6 debe estar en posición ON; el display de 7 segmentos mostrará S1 confirmando el cambio de configuración.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  },
+                  {
+                    "text": "Con SW1-6 en ON, conectar un jumper en el switch PROG (esquina inferior izquierda de la placa) y pulsar la tecla Reset; el LED número 6 se activará en rojo fijo.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 6,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To enable Reset, place SW1-6 microswitch in ON position, connect a jumper on the PROG switch at the bottom-left corner of the Release control panel board, then press the Reset key.",
+                    "unit_ids": [
+                      "E008_8712c061dd"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 7,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, enable access level 2 and press the Reset key; latched inputs will be reset.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 8,
+              "value": {
+                "claims": [
+                  {
+                    "text": "Si aparece esta avería, es necesario REARMAR la central; de lo contrario, NO realizará el proceso de extinción al considerar que no está funcionando correctamente.",
+                    "unit_ids": [
+                      "E007_f25c30208d"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "obligation_index": 9,
+              "value": {
+                "claims": [
+                  {
+                    "text": "To reset the control panel, access level 2 must be enabled before pressing the Reset key, which will clear latched inputs.",
+                    "unit_ids": [
+                      "E006_b6e468db30"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "assembly": {
+            "contract": "clause_bound_source_bound_synthesis_s228_v1",
+            "question_sha256": "2a2fafd5191e9ea55f59600c283669e4ffdf14f0ba817407731574c9fe33c990",
+            "obligations": 9,
+            "all_obligations_assembled_once": true,
+            "blocks": [
+              {
+                "obligation_index": 1,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E003_aa05d0c8a3",
+                  "E004_926d5bab83"
+                ],
+                "used_unit_ids": [
+                  "E003_aa05d0c8a3",
+                  "E004_926d5bab83"
+                ],
+                "block_sha256": "21c74070387668b9c316f92c29c0a84b984b8b268a304f36945076303d88756a"
+              },
+              {
+                "obligation_index": 2,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E004_926d5bab83"
+                ],
+                "used_unit_ids": [
+                  "E004_926d5bab83"
+                ],
+                "block_sha256": "1793b6dcc8a1ffe44fd68c5bf037ee5d796775efe75d7e697fd130cd6b9581c8"
+              },
+              {
+                "obligation_index": 3,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "01e26cb670f7a809651f4f022eb72e5b25ba674d1cf1bdbb8e5f83c8103b1da9"
+              },
+              {
+                "obligation_index": 4,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E007_09c633a258"
+                ],
+                "used_unit_ids": [
+                  "E007_09c633a258"
+                ],
+                "block_sha256": "37f54f9184cc649d2113c85bc81969e3ce10f45208544ea3a47608a7b10c68fe"
+              },
+              {
+                "obligation_index": 5,
+                "claim_count": 2,
+                "allowed_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "used_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "block_sha256": "79bec357e3e769033f853bc49a24aaf2474a048576f9ec347c4bb619514b3deb"
+              },
+              {
+                "obligation_index": 6,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "used_unit_ids": [
+                  "E008_8712c061dd"
+                ],
+                "block_sha256": "20835b3332813a48bb1d8965819c92b1d01809657baae9c85ea2547640924c3e"
+              },
+              {
+                "obligation_index": 7,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "7001942fefc62109a0b50fec0dc9f286658ac3ce1a206bd000fd126cd6f688ce"
+              },
+              {
+                "obligation_index": 8,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E007_f25c30208d"
+                ],
+                "used_unit_ids": [
+                  "E007_f25c30208d"
+                ],
+                "block_sha256": "64075c656ebb9af6ee9698d789389d20d5925acf7b41520fb6ce222db4f3a256"
+              },
+              {
+                "obligation_index": 9,
+                "claim_count": 1,
+                "allowed_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "used_unit_ids": [
+                  "E006_b6e468db30"
+                ],
+                "block_sha256": "01e26cb670f7a809651f4f022eb72e5b25ba674d1cf1bdbb8e5f83c8103b1da9"
+              }
+            ],
+            "answer_sha256": "0377812ae1b334e23581dc29bbc35a915d584175c154debd3016411f6eda8e2e"
+          },
+          "fragment_count": 13
+        }
+      ]
+    }
+  ],
+  "actual_cost_usd": 1.104491,
+  "score_packet_opened": false,
+  "semantic_retries": 0,
+  "transport_retries_max_per_label": 1,
+  "result_sha256": "3cb939454546d9cb988ff5be36035afc5e3edf5164fd3f2525b309b70b7085c9"
+}

@@ -1,0 +1,40 @@
+schema: s235_direct_clause_bound_ab_execution_permit_v1
+status: EXECUTION_GO_DIRECT_AB_DUAL_PASS
+authorization_basis:
+  design_review_status: DUAL_PASS
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, verdict: PASS}
+  independent: {model: claude-fable-5, effort: xhigh, verdict: PASS}
+  semantic_convergence_rounds: 0
+  local_contract_tests_passed: 26
+execution:
+  questions: 4
+  paired_replicates: 2
+  total_semantic_calls_max: 112
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  transport_retries_max_per_label: 1
+budget:
+  user_ceiling_usd: 200
+  prior_review_cost_usd: 28.02582
+  direct_ab_stage_stop_usd: 25
+frozen_artifacts:
+  design_reviews:
+    path: evals/s235_design_frontier_reviews_v1.json
+    sha256: 2144d74030d2445663b843bfec698752b318389e75bf92cf8ca3567a1870f06d
+  final_review_ledger:
+    path: evals/s239_final_concise_s235_review_ledger_v1.json
+    sha256: fa403940bee0bd71986a7a3fa49ecd9f6a6b48b2941791751e1e414a02915d9a
+  preregistration:
+    path: evals/s235_direct_clause_bound_ab_prereg_v1.yaml
+    sha256: 7d3bcf0fc5f629e13d2f47ea7c371692e285e046822411cd332a6b8a6fb2c125
+  generation_packet:
+    path: evals/s235_direct_clause_bound_generation_packet_v1.json
+    sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47
+  generation_runner:
+    path: scripts/s235_run_direct_clause_bound_ab.py
+    sha256: ab41faa16bf35530f1ba9f40f46866474828633ab7ee88a8134730637154e0f5
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

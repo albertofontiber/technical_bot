@@ -1,0 +1,91 @@
+schema: s260_evidence_claim_ir_prereg_v1
+status: PENDING_DUAL_FRONTIER_REVIEW
+objective: >-
+  Test whether a source-bound claim IR with deterministic publication recovers
+  stable compound relation and qualifier losses without protected regressions,
+  unsafe conflict handling or invalid citations.
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  synthesis_miss: 12
+  retrieval_miss: 2
+population:
+  qids: [cat018, hp002, hp011, hp017]
+  questions: 4
+  served_chunks: 51
+  evaluator_obligations: 20
+  residual_obligations: 12
+  compound_relation_qualifier_loss: 5
+  role: one_shot_target_mechanism_screen_not_independent_validation
+model:
+  provider: openai
+  id: gpt-5.6-terra
+  reasoning_effort: medium
+  max_output_tokens: 6000
+execution:
+  replicas_per_question: 2
+  calls: 8
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  retrieval_calls: 0
+  database_calls: 0
+  free_form_writer_calls: 0
+  post_answer_calls: 0
+  final_rewrite_calls: 0
+  target_tuning_after_outputs: false
+  score_packet_opened_only_after_generation_and_score_permit: true
+pricing_usd_per_million_tokens: {input: 2.5, output: 15}
+budget:
+  internal_ceiling_usd: 5
+  user_ceiling_usd: 200
+gates:
+  all_eight_calls_complete: true
+  stable_residual_gains_min: 3
+  stable_compound_relation_gains_min: 2
+  protected_regressions_max: 0
+  unsafe_conflicts_max: 0
+  invalid_citations_max: 0
+  deterministic_score_grants_official_credit: false
+  dual_full_answer_semantic_review_after_local_go: true
+frozen_generation_inputs:
+  design: {path: evals/s260_evidence_claim_ir_design_v1.md, sha256: 1f6e7f786536ceeecf6e201b8d7e95655f4e8fd42f2f5d6873bb5096767bc2dd}
+  generation_packet: {path: evals/s235_direct_clause_bound_generation_packet_v1.json, sha256: 1b8a7505125d033f04d0b55f59ad86b078fcab29cb314fae4fa6a8c9093230c7}
+  runner: {path: scripts/s260_run_evidence_claim_ir.py, sha256: 4d3c73e2ad75c4dbef77fcb3b2988c217e6cd8ea9bb087e957d2a5a3b6968a2d}
+  sealed_artifact_contract: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
+frozen_scoring_inputs:
+  post_generation_permit_builder: {path: scripts/s260_build_score_execution_permit.py, sha256: 058f9242958ace1507d963c4b788729c3d7ed1b40a2c449e1e88351c38c77a11}
+  scorer: {path: scripts/s260_score_evidence_claim_ir.py, sha256: b6c8be66657c4b18317756cd21d22a56cf130d21f615bd2f69c2ad2703dd9a6d}
+  score_packet: {path: evals/s235_direct_clause_bound_score_packet_v1.json, sha256: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48}
+  residual_taxonomy: {path: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml, sha256: 6e7bf8894ebb5074c66ba24741fa5d49a8c5f4c22e8e394a16702836f4cf4fe8}
+  frozen_score_adapter: {path: scripts/s201_real_question_planner_gate.py, sha256: 6c5fad579f5fde3160d3c1d0940cd2476a6217f60cd28f89725b6c5ba2177fc6}
+  answer_planner: {path: src/rag/answer_planner.py, sha256: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3}
+  citation_validator: {path: src/rag/omission_correction.py, sha256: d6f39838cd3ea46a31227a64f066e64c45c0e671f73ba986201c1e0571cd2c9b}
+  sealed_artifact_contract: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
+frozen_tests:
+  answer_ir_contract: {path: tests/test_s260_evidence_claim_ir.py, sha256: c42c6cee34843a253e4b8ff347fd0fcad92d14e3ca348459e2af944e9cf8f913}
+frontier_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: claude-fable-5}
+  review_rounds: 1
+  convergence_rounds: 0
+  principal_repo_wide_tool_budget_default: 60
+  pass_required_before_execution_permit: true
+prior_lines_not_reopened:
+  - s156_s192_direct_model_substitution
+  - s153_s186_s193_relation_store_and_selector
+  - s175_s247_free_form_prompt_compaction
+  - s216_question_decomposition
+  - s235_s242_clause_bound_multi_writer
+  - s220_s223_post_answer_correction
+forbidden:
+  - expose_score_packet_or_taxonomy_to_generation
+  - alter_prompt_reasoning_or_gate_after_generation
+  - retry_or_resume_partial_generation
+  - third_replica
+  - successor_correction_loop_on_same_targets
+  - production_integration_or_deployment
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

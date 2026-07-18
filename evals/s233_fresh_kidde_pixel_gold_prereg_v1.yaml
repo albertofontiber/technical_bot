@@ -1,0 +1,67 @@
+schema: s233_fresh_kidde_pixel_gold_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Produce three source-fresh, pixel-authoritative Kidde golds with independent
+  authorship, reciprocal frontier review, and exact support-unit validation.
+packet_sha256: 747c08ea46e8752db1a483a9291f8f2cdecdb1995bc80f0e06fcf8859472d338
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, max_output_tokens: 12000}
+  independent:
+    id: claude-fable-5
+    effort: xhigh
+    author_max_tokens: 16000
+    review_max_tokens: 12000
+frozen_inputs:
+  runner:
+    path: scripts/s233_run_fresh_kidde_pixel_gold.py
+    sha256: 5ea4487d7257e8812b5a02d69f8485b336726d57ae1c4f6d31abaece0343b0ef
+  audited_orchestrator:
+    path: scripts/s217_run_kidde_external_cohort.py
+    sha256: 68795a80c0e03c3361c1e0ba2f191dd0e838abbdfca4331e65a4e06f6a227c8b
+  packet:
+    path: evals/s230_kidde_fresh_clause_bound_packet_v1.json
+    sha256: 9a9014c5359066d1c5a0ae5a5fb7ee07798dff0be42fca71a60836c3a0d82fe8
+  design_gate:
+    path: evals/s232_design_frontier_reviews_v1.json
+    sha256: a59b38dd2c3c037093a54b5f22a2803c095e956cd97574153932d540db1c169d
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime_v2.py
+    sha256: 8a81048efe697cd13f35527e30ae1fabf4c5f867681783805cc95df75343670e
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: e6c05baadc6471ae48180b7bad72e5c9ab1b35c6c9620f47ea71a87e3ef97273
+  gold_contract:
+    path: src/rag/multisource_visual_gold.py
+    sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1
+population:
+  candidate_items: 3
+  minimum_pass_items: 3
+  source_identity_overlap_with_s203_s217: 0
+  source_identity_overlap_with_official_gold: 0
+  page_overlap_between_items: 0
+execution:
+  authorship_calls: 6
+  reciprocal_review_calls_max: 6
+  support_mapping_and_review_calls_max: 6
+  paid_calls_max: 18
+  provider_retries: 0
+  same_item_retry: false
+  candidate_repair_or_merge: false
+  semantic_convergence_rounds: 0
+  target_calls: 0
+schema_policy:
+  strict_provider_json_schema: true
+  provider_schema_max_items: false
+  local_cardinality_validation: true
+transport_policy:
+  checkpoint_before_every_call: true
+  provider_receipt_before_semantic_validation: true
+  any_failure: HOLD_OR_NO_GO_NO_RETRY
+budget:
+  user_ceiling_usd: 200
+  stage_stop_usd: 100
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

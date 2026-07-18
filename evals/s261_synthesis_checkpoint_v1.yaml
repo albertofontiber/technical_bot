@@ -1,0 +1,80 @@
+schema: s261_synthesis_checkpoint_v1
+status: CANONICAL_CHECKPOINT_NO_FACT_MOVEMENT
+baseline:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_misses: 12
+  retrieval_misses: 2
+  facts_required_for_98_percent: 11
+causal_taxonomy:
+  authority: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+  source_fragment_cited: 11
+  source_fragment_selection_loss: 1
+  families:
+    compound_relation_qualifier_loss: 5
+    structured_bundle_member_loss: 3
+    mandatory_safety_or_verification_omission: 3
+    enumeration_cardinality_inconsistency: 1
+mechanism_status:
+  direct_clause_bound_planner:
+    status: NO_GO
+    authority: evals/s242_direct_clause_bound_ab_result_v1.json
+    strict_causal_gains: 0
+    protected_regressions: 3
+    unsafe_conflicts: 1
+  relation_complete_highlights:
+    status: NO_GO
+    authority: evals/s245_relation_complete_highlight_closeout_v1.yaml
+  current_s122_enforcement:
+    status: NO_GO
+    authority: evals/s248_s122_current_residual_coverage_closeout_v1.yaml
+    residuals_enforced: 0
+  partial_quantitative_claim_contract:
+    status: NO_GO
+    authority: evals/s249_partial_quantitative_claim_contract_closeout_v1.yaml
+  adaptive_reasoning_writer:
+    status: CLOSED_BEFORE_GENERATION
+    authority: evals/s252_adaptive_reasoning_writer_ab_closeout_v1.yaml
+    sonnet_calls: 0
+  evidence_claim_ir:
+    status: CLOSED_BEFORE_GENERATION
+    authority: evals/s260_evidence_claim_ir_closeout_v1.yaml
+    terra_calls: 0
+    sonnet_calls: 0
+    target_calls: 0
+integrated_state:
+  production_default_changed: false
+  research_only_modules:
+    - src/rag/clause_bound_synthesis.py
+    - src/rag/decomposed_evidence_planner_v2.py
+    - src/rag/quantitative_claim_contract.py
+    - src/rag/relation_complete_highlights.py
+  adversarial_reviewer:
+    principal: gpt-5.6-sol
+    principal_reasoning_effort: xhigh
+    independent: claude-fable-5
+    default_tool_call_budget: 60
+    budget_environment_variable: ADVERSARIAL_REVIEW_MAX_TOOL_CALLS
+    exhausted_budget_requires_uninspected_dependency_disclosure: true
+model_policy:
+  sonnet_default: false
+  rationale: >-
+    S192 already showed that direct Terra substitution was not a safe writer
+    improvement. Sonnet is retained only when a frozen experiment needs the
+    current writer as a contemporaneous control; S251, S252 and S260 made zero
+    Sonnet calls.
+  frontier_models_for_design_and_critical_review_only: true
+next_authorized_evidence:
+  status: REQUIRED_BEFORE_ANY_TARGET_PROBE
+  requirement: >-
+    A small fresh independent positive/negative structural cohort and a
+    contemporaneous same-model control must demonstrate generalization and
+    attribution before another architecture reaches the twelve targets.
+  reuse_s260_targets: forbidden
+  same_cohort_tuning: forbidden
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+  official_facts_moved_to_ok: 0

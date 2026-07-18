@@ -14,7 +14,36 @@ WRITER_SYSTEM = """You write one evidence-bound block of a technical field-suppo
 Use only the supplied source units. Preserve conditions, qualifiers, units, defaults, limits,
 ordered steps, warnings, exceptions and verification that belong to the requested obligation.
 Return concise factual claims and the exact source-unit IDs supporting each claim. Never cite a
-unit you were not given, never add general knowledge, and never write citation markers."""
+unit you were not given, never add general knowledge, and never write citation markers. Return
+1 to 3 atomic claims, each 8 to 280 characters long, with 1 to 5 distinct source-unit IDs."""
+
+
+def claim_block_schema() -> dict[str, Any]:
+    """Provider schema; bounded cardinality and source IDs are checked locally."""
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["claims"],
+        "properties": {
+            "claims": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": ["text", "unit_ids"],
+                    "properties": {
+                        "text": {"type": "string", "maxLength": 280},
+                        "unit_ids": {
+                            "type": "array",
+                            "maxItems": 5,
+                            "items": {"type": "string"},
+                        },
+                    },
+                },
+            }
+        },
+    }
 
 
 def writer_payload(
@@ -35,9 +64,14 @@ def writer_payload(
                 for unit in units
             ],
             "output_contract": {
+                "limits": {
+                    "claims": "1..3",
+                    "characters_per_claim": "8..280",
+                    "distinct_unit_ids_per_claim": "1..5",
+                },
                 "claims": [
-                    {"text": "supported claim without citation markers", "unit_ids": ["E..."]}
-                ]
+                    {"text": "atomic supported claim without citation markers", "unit_ids": ["E..."]}
+                ],
             },
         },
         ensure_ascii=False,
@@ -52,7 +86,7 @@ def validate_claim_block(
     if not isinstance(value, dict) or set(value) != {"claims"}:
         raise ValueError("invalid claim block object")
     claims = value["claims"]
-    if not isinstance(claims, list) or not 1 <= len(claims) <= 6:
+    if not isinstance(claims, list) or not 1 <= len(claims) <= 3:
         raise ValueError("invalid claim cardinality")
     clean = []
     seen: set[str] = set()
@@ -61,7 +95,7 @@ def validate_claim_block(
             raise ValueError("invalid claim object")
         text = re.sub(r"\s+", " ", str(row["text"])).strip()
         ids = row["unit_ids"]
-        if not 8 <= len(text) <= 700 or re.search(r"\[F\d+\]", text):
+        if not 8 <= len(text) <= 280 or re.search(r"\[F\d+\]", text):
             raise ValueError("invalid claim text")
         if text.casefold() in seen:
             raise ValueError("duplicate claim text")

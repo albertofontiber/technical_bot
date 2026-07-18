@@ -1,0 +1,34 @@
+{
+  "schema": "s230_kidde_fresh_selection_receipt_v1",
+  "status": "FROZEN_BEFORE_MODEL_OR_BOT_OUTPUT",
+  "selection_method": "source_identity_exclusion_then_human_pixel_geometry",
+  "model_outputs_seen": 0,
+  "bot_outputs_seen": 0,
+  "items": [
+    {
+      "canary_id": "kidde_2xa_class_a_to_class_b_loop_tradeoffs",
+      "stratum": "cross_document_topology_constraints",
+      "source_pdfs": [
+        "00-3280-507-4003-03_r003_2x-a_series_quick_installation_guide_en.pdf",
+        "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf"
+      ],
+      "topic": "compare the Class A quick-install loop with the Class B manual alternative across EN 54-13 status, device ceiling, supervision and terminal geometry, keeping every qualification scoped to its class"
+    },
+    {
+      "canary_id": "kidde_2xa_battery_configuration_and_location",
+      "stratum": "same_document_distant_page_constraint_join",
+      "source_pdfs": [
+        "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf"
+      ],
+      "topic": "join battery type configuration requirements with the internal or external installation location matrix for 4 A, 6 A and 10 A power supplies without generalizing a capacity to an unsupported cabinet"
+    },
+    {
+      "canary_id": "kidde_2xa_output_termination_by_compliance_class",
+      "stratum": "same_document_adjacent_page_conditional_join",
+      "source_pdfs": [
+        "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0.pdf"
+      ],
+      "topic": "relate output supervision and termination to typical Class B versus EN 54-13 Class A installation, including unused-output configuration and the model-dependent count of configurable outputs"
+    }
+  ]
+}

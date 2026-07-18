@@ -1,0 +1,50 @@
+{
+  "schema": "s232_design_frontier_reviews_v1",
+  "status": "DUAL_PASS",
+  "reviews": {
+    "sol": {
+      "reviewer_model": "gpt-5.6-sol",
+      "verdict": "PASS",
+      "checks": {
+        "freshness_honest": true,
+        "pixel_gold_honest": true,
+        "transport_fail_closed": true,
+        "clause_bound_causal_test": true,
+        "no_overfit": true,
+        "target_closed": true,
+        "budget_bounded": true
+      },
+      "blocking_issues": [],
+      "minimum_changes": [],
+      "rationale": "The design uses a preselected source-disjoint pixel cohort, reciprocal evidence-grounded gold review, fail-closed transport and validation, a bounded paired structural canary, no same-page tuning, no production or official-credit path, and explicit spending ceilings."
+    },
+    "fable": {
+      "reviewer_model": "claude-fable-5",
+      "verdict": "PASS",
+      "checks": {
+        "freshness_honest": true,
+        "pixel_gold_honest": true,
+        "transport_fail_closed": true,
+        "clause_bound_causal_test": true,
+        "no_overfit": true,
+        "target_closed": true,
+        "budget_bounded": true
+      },
+      "blocking_issues": [],
+      "minimum_changes": [],
+      "rationale": "Freshness is honest: the cohort was frozen before any model output, exact source-identity exclusion covers S203-S217 and official gold, and three candidate PDFs were rejected for gold-provenance overlap, leaving two wholly unseen identities and six non-overlapping pages. Gold is pixel-grounded and dual-authored with reciprocal cross-review and independently reviewed evidence-unit mapping, so no hand-authored or contaminated gold enters. Transport fails closed: one call per item, strict schemas, append-only receipts and pre-call checkpoints, zero retries, no repair or merge, and a hard 18-call cap; any gate failure closes the mechanism without same-page tuning. The A/B is a genuine clause-bound causal test holding question, evidence, and writer family constant, with two replicates, a validator that rejects out-of-bound IDs, an assembly step that cannot silently drop accepted blocks, and an external gate requiring stable gains on 2 of 3 items, zero supported-fact regressions, zero invalid IDs/citations/claims, and dual semantic PASS; the local matcher can only open review, never grant credit, so no unsupported-credit path exists. Overfitting is avoided by fresh pages and explicit closure of failed mechanisms without retuning. The target stays closed: even a full external PASS authorizes only a pre-registered bounded probe and never touches production defaults, the canonical 143/157 score, or official credit; chunks_v3 wholesale remains NO-GO and Railway is not a gate. Budget is bounded at USD 150 internal stop under the USD 200 ceiling. No false-GO, contamination, unsupported-credit, transport, or budget blocker is present."
+    }
+  },
+  "frontier_calls_total": 2,
+  "frontier_calls_s232": 1,
+  "provider_retries": 0,
+  "cost_usd_total": 0.873105,
+  "next_authorized_step": "pixel_gold",
+  "target_calls": 0,
+  "facts_moved_to_ok": 0,
+  "production_default_changed": false,
+  "chunks_v2": "ACTIVE_READ_ONLY",
+  "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_merge_gate": false,
+  "result_sha256": "1b9e6443bd6dee48629e5eddc8d4b3f3ef7b4eefb3abbfd1ead137541e447f11"
+}

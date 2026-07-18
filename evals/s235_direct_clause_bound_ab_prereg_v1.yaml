@@ -1,0 +1,116 @@
+schema: s235_direct_clause_bound_ab_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Directly test whether clause-bound evidence-isolated synthesis recovers the
+  twelve already-frozen synthesis misses without protected-fact regressions,
+  unsafe conflict handling or invalid citations.
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+population:
+  qids: [cat018, hp002, hp011, hp017]
+  questions: 4
+  chunks: 51
+  evaluator_obligations: 20
+  genuine_synthesis_residuals: 12
+  frozen_conflicts: 1
+models:
+  planner: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  planner_max_output_tokens: 1200
+  baseline_max_output_tokens: 3600
+  aggregate_treatment_max_output_tokens_per_question: 3600
+frontier_review:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, max_output_tokens: 12000}
+  independent: {id: claude-fable-5, effort: xhigh, max_tokens: 8000}
+  calls: 2
+  convergence_rounds: 0
+pricing_usd_per_million_tokens:
+  planner: {input: 1.0, output: 5.0}
+  writer: {input: 3.0, output: 15.0}
+frozen_design_inputs:
+  design:
+    path: evals/s235_direct_clause_bound_ab_design_v1.md
+    sha256: 4e5ca91beae1918126d245b0fa72b36fcfaa6bbcf5da770b2c799e94440f0fee
+  packet_builder:
+    path: scripts/s235_build_direct_clause_bound_ab_packets.py
+    sha256: bfb9441015b648ce0c4b087cb6af564f20cd1c97fc6561e0d26ac7823a2d5208
+  generation_packet:
+    path: evals/s235_direct_clause_bound_generation_packet_v1.json
+    sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47
+  score_packet:
+    path: evals/s235_direct_clause_bound_score_packet_v1.json
+    sha256: e3062b10a32200b15b737e2c36e98febe6e04a637d828a82fe4f1ca6541cff01
+  generation_runner:
+    path: scripts/s235_run_direct_clause_bound_ab.py
+    sha256: ab41faa16bf35530f1ba9f40f46866474828633ab7ee88a8134730637154e0f5
+  scorer:
+    path: scripts/s235_score_direct_clause_bound_ab.py
+    sha256: d4262c146eac6c468a227af497616397827251fb2aaea989b8a87757b96e3213
+  design_reviewer:
+    path: scripts/s235_review_direct_clause_bound_ab_design.py
+    sha256: 45a5b77cdc22f4f542c161514dfcca5fd88d73cf53326a0c2c2fb4f1693c33f0
+  clause_bound_contract:
+    path: src/rag/clause_bound_synthesis.py
+    sha256: e8cf4957cc074e18ebcf37e5578c398f1d2eebd4cc5cfdb41e30eefda8cf485e
+  planner_contract:
+    path: src/rag/decomposed_evidence_planner.py
+    sha256: b465ecd2a3a03b0801d1a640fc734919f6bfef53e351a79a3f660c2dabe48355
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime_v2.py
+    sha256: 8a81048efe697cd13f35527e30ae1fabf4c5f867681783805cc95df75343670e
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4
+frozen_generation_inputs:
+  design:
+    path: evals/s235_direct_clause_bound_ab_design_v1.md
+    sha256: 4e5ca91beae1918126d245b0fa72b36fcfaa6bbcf5da770b2c799e94440f0fee
+  generation_packet:
+    path: evals/s235_direct_clause_bound_generation_packet_v1.json
+    sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47
+  generation_runner:
+    path: scripts/s235_run_direct_clause_bound_ab.py
+    sha256: ab41faa16bf35530f1ba9f40f46866474828633ab7ee88a8134730637154e0f5
+  production_prompt_builder:
+    path: scripts/s156_frontier_synthesis_ceiling.py
+    sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5
+  clause_bound_contract:
+    path: src/rag/clause_bound_synthesis.py
+    sha256: e8cf4957cc074e18ebcf37e5578c398f1d2eebd4cc5cfdb41e30eefda8cf485e
+  planner_contract:
+    path: src/rag/decomposed_evidence_planner.py
+    sha256: b465ecd2a3a03b0801d1a640fc734919f6bfef53e351a79a3f660c2dabe48355
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4
+execution:
+  paired_replicates: 2
+  baseline_semantic_calls: 8
+  planner_semantic_calls: 8
+  treatment_writer_calls_max: 96
+  total_semantic_calls_max: 112
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  transport_retries_max_per_label: 1
+  writer_parallelism_max: 4
+budget:
+  user_ceiling_usd: 200
+  design_review_stop_usd: 8
+  direct_ab_stage_stop_usd: 25
+gates:
+  stable_treatment_beats_stable_baseline: true
+  strict_causal_gain_minimum: 1
+  protected_regressions_maximum: 0
+  unsafe_conflicts_maximum: 0
+  invalid_citations_maximum: 0
+  deterministic_score_grants_official_credit: false
+  dual_semantic_review_required: true
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

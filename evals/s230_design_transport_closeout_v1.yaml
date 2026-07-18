@@ -1,0 +1,35 @@
+schema: s230_design_transport_closeout_v1
+status: HOLD_ZERO_RESPONSE_OPENAI_520
+attempt:
+  provider: openai
+  model: gpt-5.6-sol
+  reasoning_effort: xhigh
+  call_label: design:sol
+  model_responses_returned: 0
+  provider_retries: 0
+  error_code: 520
+  error_category: origin
+  provider_retryable: true
+  provider_retry_after_seconds: 60
+  ray_id: a1d2095f2ad50269
+  checkpoint: evals/s230_design_frontier_attempts_v1.json
+availability_check:
+  models_list_succeeded: true
+  exact_model_listed: gpt-5.6-sol
+cost_usd: 0
+target_calls: 0
+facts_moved_to_ok: 0
+decision:
+  semantic_retry_in_s230: false
+  one_zero_response_transport_recovery_in_new_stage: true
+  recovery_stage: s231
+  recovery_rationale: >-
+    No model output was exposed and the provider explicitly classified the
+    origin failure as retryable after backoff. One separately frozen recovery
+    does not tune against semantic feedback.
+  further_recovery_after_s231: false
+production_default_changed: false
+chunks_v2: ACTIVE_READ_ONLY
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

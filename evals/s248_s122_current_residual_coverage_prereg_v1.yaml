@@ -1,0 +1,35 @@
+schema: s248_s122_current_residual_coverage_prereg_v1
+status: FROZEN_BEFORE_LOCAL_REPLAY
+objective: >-
+  Determine whether the already-integrated, default-off S122 enforced answer
+  contract can address any of the twelve current synthesis misses before
+  designing another mechanism or spending model tokens.
+inputs:
+  generation_packet: evals/s235_direct_clause_bound_generation_packet_v1.json
+  score_packet: evals/s235_direct_clause_bound_score_packet_v1.json
+  causal_taxonomy: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+  planner_contract: answer_planner_s122_v1
+  enforcement_policy: answer_enforcement_s122_v2
+population:
+  questions: 4
+  synthesis_residuals: 12
+measurements:
+  - residual_obligation_id_present_in_s122_plan
+  - residual_obligation_id_present_in_s122_enforced_plan
+  - deterministic_enforcement_action_on_canonical_answer
+  - canonical_answer_changed
+decision_rules:
+  candidate_only_if:
+    enforced_residual_coverage_min: 1
+    fail_closed_questions_max: 0
+  close_without_paid_calls_if:
+    - enforced_residual_coverage_is_zero
+    - any_question_fail_closes_without_covering_a_residual
+constraints:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  target_generation_calls: 0
+  production_default_change: false
+  forbidden_extension: s141_target_specific_relation_templates
+

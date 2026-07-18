@@ -1,0 +1,61 @@
+schema: s230_fresh_clause_bound_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Build a source-identity-fresh pixel gold and use it for one causal external
+  canary of clause-bound source-bound synthesis before any target exposure.
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+packet_sha256: 747c08ea46e8752db1a483a9291f8f2cdecdb1995bc80f0e06fcf8859472d338
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5, effort: xhigh}
+frozen_inputs:
+  design:
+    path: evals/s230_fresh_clause_bound_design_v1.md
+    sha256: 63a00aa8907138305c5ccc9340ac61b93108e08533096a0478b45b00ba578e37
+  design_reviewer:
+    path: scripts/s230_review_fresh_clause_bound_design.py
+    sha256: 6f5c04eddda224e8c679402426d701e62a1479c1196137122a6a87a34778f33a
+  packet:
+    path: evals/s230_kidde_fresh_clause_bound_packet_v1.json
+    sha256: 9a9014c5359066d1c5a0ae5a5fb7ee07798dff0be42fca71a60836c3a0d82fe8
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime.py
+    sha256: 8ffb06a8b1920408ed07e7a33c56e03da4daa7fdaeb28d8a728beee9ae07c7b8
+  gold_contract:
+    path: src/rag/multisource_visual_gold.py
+    sha256: 2aad8812d88e0e5e2bdfa88dc3b498595697925d4ed5ef7aa0f541f0aeb91681
+execution:
+  design_frontier_calls: 2
+  gold_frontier_calls_max: 18
+  semantic_frontier_calls_max: 2
+  provider_retries: 0
+  same_item_retry: false
+  repair_or_merge: false
+  target_calls: 0
+budget:
+  user_ceiling_usd: 200
+  internal_stop_usd: 150
+validation:
+  candidate_items: 3
+  minimum_pixel_gold_items: 3
+  source_identity_overlap_with_s203_s217: 0
+  source_identity_overlap_with_official_gold: 0
+  page_overlap_between_items: 0
+  pixel_authority: true
+  strict_structured_output: true
+  checkpoint_before_semantic_validation: true
+states:
+  design_go: DUAL_PASS
+  gold_go: GO_S230_FRESH_PIXEL_GOLD
+  experiment_go: GO_S230_EXTERNAL_CLAUSE_BOUND_CANARY
+  no_go: NO_GO_S230_NO_RETRY
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

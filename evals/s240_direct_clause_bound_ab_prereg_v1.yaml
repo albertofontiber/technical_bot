@@ -1,0 +1,80 @@
+schema: s240_direct_clause_bound_ab_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Re-run the already dual-approved direct A/B after aligning the general
+  Anthropic planner prompt with the unchanged local cardinality validator.
+change_scope:
+  failure_observed: provider-valid plan had 25 obligations and 31 unique units
+  general_fix:
+    obligations: 1..12
+    unit_ids_per_obligation: 1..6
+    distinct_unit_ids_per_plan_max: 18
+    question_relevance: do not enumerate facts merely present in evidence
+  gold_or_score_opened_before_fix: false
+  evaluator_specific_terms_added: 0
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+models:
+  planner: claude-haiku-4-5-20251001
+  writer: claude-sonnet-4-6
+  planner_max_output_tokens: 1200
+  baseline_max_output_tokens: 3600
+  aggregate_treatment_max_output_tokens_per_question: 3600
+pricing_usd_per_million_tokens:
+  planner: {input: 1.0, output: 5.0}
+  writer: {input: 3.0, output: 15.0}
+review_reuse:
+  status: DUAL_PASS
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, verdict: PASS}
+  independent: {id: claude-fable-5, effort: xhigh, verdict: PASS}
+  justification: >-
+    S235's reviewed design already specified these exact limits; S240 makes the
+    provider prompt conform to that design and to the existing local validator.
+local_validation:
+  tests_passed: 27
+  failures: 0
+frozen_generation_inputs:
+  design:
+    path: evals/s235_direct_clause_bound_ab_design_v1.md
+    sha256: 4e5ca91beae1918126d245b0fa72b36fcfaa6bbcf5da770b2c799e94440f0fee
+  generation_packet:
+    path: evals/s235_direct_clause_bound_generation_packet_v1.json
+    sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47
+  base_runner:
+    path: scripts/s235_run_direct_clause_bound_ab.py
+    sha256: ab41faa16bf35530f1ba9f40f46866474828633ab7ee88a8134730637154e0f5
+  s240_runner:
+    path: scripts/s240_run_direct_clause_bound_ab.py
+    sha256: 0478e46794c3acfd3a591d6d3175e4a1a93215833b346adf3040053f0e18838d
+  production_prompt_builder:
+    path: scripts/s156_frontier_synthesis_ceiling.py
+    sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5
+  clause_bound_contract:
+    path: src/rag/clause_bound_synthesis.py
+    sha256: e8cf4957cc074e18ebcf37e5578c398f1d2eebd4cc5cfdb41e30eefda8cf485e
+  corrected_planner_contract:
+    path: src/rag/decomposed_evidence_planner.py
+    sha256: b2fc5266fbc611f1a34a97f91f01843af8d387ada6b292948639c159aa289d9b
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4
+execution:
+  paired_replicates: 2
+  total_semantic_calls_max: 112
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  transport_retries_max_per_label: 1
+budget:
+  user_ceiling_usd: 200
+  prior_review_cost_usd: 28.02582
+  prior_s235_generation_cost_usd: 0.109656
+  s240_stage_stop_usd: 25
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

@@ -1,0 +1,33 @@
+schema: s233_transport_closeout_v1
+status: HOLD_ZERO_RESPONSE_OPENAI_520
+attempt:
+  provider: openai
+  model: gpt-5.6-sol
+  reasoning_effort: xhigh
+  call_label: generate:kidde_2xa_class_a_to_class_b_loop_tradeoffs
+  model_responses_returned: 0
+  provider_retries: 0
+  error_code: 520
+  error_category: origin
+  provider_retryable: true
+  provider_retry_after_seconds: 60
+  ray_id: a1d22cc3abaccf8d
+  checkpoint: evals/s233_frontier_attempts_v1.json
+availability_check:
+  models_list_succeeded: true
+  exact_model_listed: gpt-5.6-sol
+cost_usd: 0
+semantic_feedback_seen: false
+gold_items_authored: 0
+target_calls: 0
+facts_moved_to_ok: 0
+decision:
+  retry_inside_s233: false
+  one_zero_response_transport_recovery_in_new_stage: true
+  recovery_stage: s234
+  exact_inputs_preserved: true
+  further_recovery_after_s234: false
+production_default_changed: false
+chunks_v2: ACTIVE_READ_ONLY
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

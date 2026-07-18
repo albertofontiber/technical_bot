@@ -1,0 +1,438 @@
+{
+  "schema": "s235_direct_clause_bound_score_packet_v1",
+  "status": "SEALED_SCORE_ONLY_OPEN_AFTER_GENERATION",
+  "population": {
+    "questions": 4,
+    "qids": [
+      "cat018",
+      "hp002",
+      "hp011",
+      "hp017"
+    ],
+    "obligations": 20,
+    "genuine_synthesis_residuals": 12,
+    "conflicts": 1
+  },
+  "items": [
+    {
+      "qid": "cat018",
+      "canonical_answer": "# Programación de ecuación CBE en la AM-8200 para activar una salida\n\n## Concepto básico\n\nLas ecuaciones **CBE (Control By Events)** permiten programar condiciones lógicas que la central evalúa cuando un punto, zona o grupo está **ACTIVO**, ejecutando las actuaciones programadas [F1]. Para un módulo de salida, la CBE contiene las direcciones de los objetos (sensores, módulos de entrada o grupos) que lo activarán [F1].\n\n---\n\n## Procedimiento paso a paso\n\n### 1. Acceder al punto de salida\n\nNavega en el menú a la programación del módulo de salida:\n`MENU PROGRAMMAZIONE \\ Punti \\ Sensori` [F3]\n\n### 2. Seleccionar el campo CBE\n\n- Usa las teclas **▲▼** para seleccionar el parámetro **CBE** [F3]\n- Pulsa la tecla de confirmación **☑** para entrar en edición [F3]\n- Si ya existe una ecuación, se mostrará; si no, el campo estará vacío [F3]\n- **Longitud máxima de la CBE: 64 caracteres** [F3]\n\n### 3. Escribir la ecuación\n\nUsa el teclado alfanumérico del panel. Los operadores disponibles son: **NOT, AND, OR, DEL, SDEL, XGRP, TIM, DIS, PRE, FLT** [F3].\n\n> ⚠️ **Regla crítica de sintaxis:** escribe la ecuación **sin espacios** entre caracteres. Si usas más de un operador, el primer carácter debe ser `(` y el último `)` [F1].\n\n### 4. Confirmar\n\nPulsa **Enter** para confirmar la ecuación introducida [F3].\n\n---\n\n## Opciones de programación para activar una salida\n\nEl manual describe **tres opciones equivalentes** para activar el módulo de salida `C1L1M1` desde el detector `C1L1S1` [F8]:\n\n- **Opción A** — Vía grupo software:\n  - Ecuación del detector: `(G1)`\n  - Ecuación del módulo de salida: `(G1)`\n\n- **Opción B** — El módulo referencia directamente al sensor:\n  - Ecuación del detector: *(sin especificar en el fragmento)*\n  - Ecuación del módulo de salida: `(C1L1S1)`\n\n- **Opción C** — El detector referencia directamente al módulo:\n  - Ecuación del detector: `(C1L1M1)`\n  - Ecuación del módulo de salida: *(sin especificar en el fragmento)*\n\n---\n\n## Operadores más habituales para activar salidas\n\n**OR** — Al menos UN operando activo activa la salida [F4]:\n```\nOR(G9 G15 G23)\n```\n→ Si cualquiera de los grupos G9, G15 o G23 entra en alarma, el módulo se activa. También se puede omitir el operador OR: `(G9 G15 G23)` [F4]\n\n**AND** — TODOS los operandos deben estar activos [F4]:\n```\nAND(G9 G15 G23)\n```\n→ Solo si los tres grupos están simultáneamente en alarma se activa la salida.\n\n**NOT** — La salida permanece activa mientras el operando NO esté en alarma [F4]:\n```\nNOT(G23)\n```\n→ El módulo se desactiva cuando G23 entra en alarma.\n\n**XGRP** — Al menos DOS elementos del grupo indicado deben estar activos (doble coincidencia) [F5]:\n```\nXGRP(G23)\n```\n> ⚠️ No se permite usar más de un grupo con XGRP: `XGRP(G23 G24)` es **CBE no válida** [F5].\n\n**PRE** — Activa la salida cuando un sensor está en **pre-alarma** [F7]:\n```\nOR(PRE(C1L1S2)PRE(C2L1S10))\n```\n\n**FLT** — Activa la salida cuando un dispositivo o zona está en **avería** [F6]:\n```\nOR(FLT(Z1)FLT(Z2))\n```\n\n---\n\n## Reglas de sintaxis importantes\n\n- **Para módulos de salida:** la CBE contiene direcciones de sensores, módulos de entrada o grupos [F1].\n- **Para sensores/módulos de entrada:** la CBE contiene direcciones de módulos de salida o grupos, escritos en secuencia sin operadores [F1].\n- **La central rechaza ecuaciones con errores de sintaxis** [F1].\n- **No se puede programar una CBE para un módulo de salida si tiene tipo ID para señalizaciones generales** [F4].\n- Para grupos directos: los operandos deben tener índice **mayor** que el grupo al que se asocia la CBE. Para grupos inversos: los operandos deben tener índice **menor** [F4].\n\n---\n\n## Nota sobre anulación de salidas\n\nCuando se activa la anulación de salida sirena, la central retarda las salidas durante los tiempos programados en `Prog\\Sist\\Tiempos\\Salidas` [F11]. Esto afecta a todos los módulos de salida programados con tipo-SW **SND** [F11].\n\n---\n\n**Fuente:** AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **operadores DEL/SDEL para retardos en CBE**, **programación de grupos software (directos e inversos)** o **asignación de tipo-SW a módulos de salida** en la AM-8200.",
+      "fragment_count": 13,
+      "obligations": [
+        {
+          "obligation_id": "obl_015f9b9aaa3a",
+          "fragment_number": 8,
+          "candidate_id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+          "facet": "served_technical:software_type_cbe_activation",
+          "kind": "software_type_cbe_activation",
+          "statement": "Programando las siguientes CBE: ## TONOS (10 2 Z2:Z4 (Z10 G20)) En la activación de la Zona 10 o del Grupo 20 se configura el tono 10 y el volumen 2 para las sirenas (con tipo software SND) de las zonas Z2, Z3 y Z4.",
+          "required_anchors": [
+            "CBE",
+            "activacion",
+            "tipo software SND",
+            "sirenas"
+          ],
+          "source_start": 633,
+          "source_end": 850,
+          "identity_receipt_sha256": "4f33024737977e35ba0ee27346f13c4afb1f3c7093423d3446b2c43fd5b986ad"
+        },
+        {
+          "obligation_id": "obl_7bba8d03d496",
+          "fragment_number": 3,
+          "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+          "facet": "served_relation:point_programming_fields",
+          "kind": "point_programming_fields",
+          "statement": "## Pestaña Programa (Programación ecuaciones CBE, asociación zona); **Zona** - número de zona asignada; **CBE** - ecuación CBE del punto.; **CBE** (Control By Events), son las ecuaciones que sirven para activar un comando en función de un evento.",
+          "required_anchors": [
+            "Pestana Programa",
+            "Zona",
+            "CBE"
+          ],
+          "source_start": 0,
+          "source_end": 1526,
+          "identity_receipt_sha256": "4f33024737977e35ba0ee27346f13c4afb1f3c7093423d3446b2c43fd5b986ad"
+        },
+        {
+          "obligation_id": "obl_5784f16b1a11",
+          "fragment_number": 11,
+          "candidate_id": "d85a9a89-e469-473a-b345-ee7c77783127",
+          "facet": "served_relation:output_software_type",
+          "kind": "output_software_type",
+          "statement": "Esta función permite la anulación de la salida sirena y todos los módulos de salida programados con tipo-SW «SND» (abrazaderas CNU-17 y CNU18 de la tarjeta principal).",
+          "required_anchors": [
+            "modulos de salida",
+            "tipo-SW",
+            "snd"
+          ],
+          "source_start": 183,
+          "source_end": 350,
+          "identity_receipt_sha256": "4f33024737977e35ba0ee27346f13c4afb1f3c7093423d3446b2c43fd5b986ad"
+        }
+      ],
+      "conflicts": [],
+      "residual_obligation_ids": [
+        "obl_015f9b9aaa3a",
+        "obl_7bba8d03d496"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "canonical_answer": "# ASD535 — Diagnóstico de fallo de flujo bajo\n\n## Causa más probable\n\nUn valor de flujo **por debajo del 100 %** apunta directamente a una **obstrucción en el conducto de aspiración** [F1][F2]. El ASD535 dispara el aviso «fallo flujo de aire» cuando la variación supera el **±20 %** (es decir, flujo por debajo del **80 %**), una vez transcurrido el tiempo de retardo de **300 s** de la LS-Ü [F2].\n\nEl código de fallo asociado es el **código 001: Obstrucción, conducto de aspiración** [F10].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\n\nColoca el conmutador en **posición V** para leer el valor de flujo del conducto de aspiración [F9]. Compara el valor leído con el registrado en el protocolo de puesta en funcionamiento [F9]:\n\n- Valor **< 100 %** → obstrucción [F1][F9]\n- Valor **> 100 %** → rotura de tubo [F1][F9]\n\n> ⚠️ Si la sensibilidad LS-Ü configurada es **±20 %** (estándar), realiza inspección del conducto cuando el valor caiga por debajo del **90 %** (la mitad de la sensibilidad = ±10 %) [F9].\n\n---\n\n**2. Inspeccionar el conducto de aspiración**\n\nComprueba los siguientes puntos [F10]:\n\n- Orificios de aspiración obstruidos (suciedad, polvo, objetos)\n- Salida de aire del ASD obstruida [F9]\n- Caja de filtro / unidad de filtrado: inspeccionar y limpiar [F10]\n- Sensor de flujo de aire: inspeccionar y limpiar [F10]\n\n---\n\n**3. Verificar el código de evento en el AMB 35**\n\nColoca el conmutador en **posición E** para leer el código de evento y delimitar el patrón de error [F3]. Los códigos relevantes para fallo de flujo son [F10]:\n\n- **001** — Obstrucción, conducto de aspiración → comprobar orificios, filtro y sensor de flujo\n- **002** — Rotura de tubo → comprobar uniones, racores y orificio de inspección\n- **004** — Parámetros LS-Ü no válidos → fuera de rango o sensor de flujo defectuoso\n- **008** — Sensor de flujo defectuoso/inexistente → comprobar cable de conexión o sustituir sensor\n\n---\n\n**4. Limpiar el conducto de aspiración**\n\nSi se confirma obstrucción [F9]:\n\n- Limpiar orificios de aspiración según los puntos **9 o 10** del manual de mantenimiento [F9]\n- Limpiar la salida de aire [F9]\n- Sustituir el elemento de filtro si procede [F7]\n\n> ⚠️ **Advertencia crítica**: Si tras los trabajos de limpieza es necesario ejecutar un reset inicial, este **solo** podrá realizarse cuando se tenga la seguridad de que el conducto de aspiración está completamente limpio (incluyendo instalación de nuevo elemento de filtro si aplica). Realizar un reset inicial con orificios obstruidos puede impedir que el ASD535 dispare la alarma [F7].\n\n---\n\n**5. Verificar la tensión de servicio**\n\nDurante el mantenimiento, mide la tensión en los bornes **1 (+) y 2 (-)** [F9]:\n\n- Funcionamiento a **12 V-CC**: valor nominal **12,3 a 13,8 V-CC** [F9]\n- Funcionamiento a **24 V-CC**: valor nominal **21,6 a 27,6 V-CC** [F9]\n\nUn fallo de baja tensión (**< 10,4 V-CC, +0/–0,3 V**) también puede disparar un aviso de fallo [F3].\n\n---\n\n> 🔔 **Nota sobre la norma**: Conforme a **EN 54-20**, toda variación del flujo superior al **±20 %** debe notificarse como fallo [F2]. Si la ventana de monitorización está configurada por debajo de ±20 % con un tiempo de retardo ≤ 300 s, existe mayor riesgo de avisos de fallo erróneos [F6]. Cualquier modificación de estos parámetros por encima de ±20 % o del tiempo de retardo de 300 s implica incumplimiento de EN 54-20 y requiere consulta previa con el fabricante [F6].\n\n---\n\n**Fuente:** ASD 535, Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento completo de reset inicial**, **sustitución del sensor de flujo de aire** o **configuración de la ventana de monitorización LS-Ü** del ASD535.",
+      "fragment_count": 11,
+      "obligations": [
+        {
+          "obligation_id": "obl_a5d9fa1f9253",
+          "fragment_number": 2,
+          "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "facet": "served_technical:initial_reference_calibration",
+          "kind": "initial_reference_calibration",
+          "statement": "Al realizar un reset inicial del dispositivo, y con el conducto de aspiración intacto, se registrarán los valores de la medición del flujo de aire y se guardarán como valores nominales (100 %). Para ello, el sistema colocará los valores en el centro de una ventana de monitorización creada electrónicamente. En caso de que los valores (valores reales) se salgan fuera de la ventana de monitorización (±xx %) debido a una obstrucción o a una rotura de tubo en el conducto de aspiración, el ASD 535 disparará el aviso «fallo flujo de aire». El ASD 535 permite configurar distintos tamaños para la ventana de monitorización.",
+          "required_anchors": [
+            "reset inicial",
+            "valores nominales",
+            "100 %"
+          ],
+          "source_start": 367,
+          "source_end": 992,
+          "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104"
+        },
+        {
+          "obligation_id": "obl_07eee3300535",
+          "fragment_number": 2,
+          "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+          "facet": "served_technical:bounded_fault_window",
+          "kind": "bounded_fault_window",
+          "statement": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %. En el detector de humos por aspiración ASD 535, el flujo de aire se mostrará al 100 % si, después del reset inicial, el conducto de aspiración está limpio y en perfecto estado. En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+          "required_anchors": [
+            "A11 a C32",
+            "20 %",
+            "80 %",
+            "120 %",
+            "300 s"
+          ],
+          "source_start": 1623,
+          "source_end": 2193,
+          "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104"
+        },
+        {
+          "obligation_id": "obl_b6f6211be439",
+          "fragment_number": 9,
+          "candidate_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "facet": "served_technical:maintenance_isolation_prerequisite",
+          "kind": "maintenance_isolation_prerequisite",
+          "statement": "> Indicación > > Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es imprescindible bloquearlos o desconectarlos previamente.",
+          "required_anchors": [
+            "controles de incendios",
+            "alertas remotas",
+            "zonas de extincion",
+            "bloquearlos o desconectarlos previamente"
+          ],
+          "source_start": 57,
+          "source_end": 290,
+          "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104"
+        },
+        {
+          "obligation_id": "obl_0db2b9f2842a",
+          "fragment_number": 1,
+          "candidate_id": "b5804921-836c-49ca-8316-cecae6da409b",
+          "facet": "served_relation:diagnostic_threshold_direction",
+          "kind": "diagnostic_threshold_direction",
+          "statement": "**Significado**: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+          "required_anchors": [
+            "< 100 %",
+            "obstruccion",
+            "> 100 %",
+            "rotura"
+          ],
+          "source_start": 0,
+          "source_end": 89,
+          "identity_receipt_sha256": "bf07e66e64a931962d289b1f2e423981d3352cbaa8049a4c73f304a0a472f104"
+        }
+      ],
+      "conflicts": [],
+      "residual_obligation_ids": [
+        "obl_a5d9fa1f9253",
+        "obl_07eee3300535",
+        "obl_b6f6211be439"
+      ]
+    },
+    {
+      "qid": "hp011",
+      "canonical_answer": "## RP1r — Sistema no vuelve a estado normal tras resetear después de descarga\n\nHay varias causas posibles. Comprueba en este orden:\n\n---\n\n### 1. Rearme inhibido (parámetro rI / r.i)\n\nLa central puede tener programado un tiempo de inhibición del rearme tras la activación [F3][F12]. Según la norma **EN12094:1/2003 Punto 4.12.2**, puede haber un periodo de **0 a 30 minutos** desde el estado ACTIVADO hasta que se permite rearmar [F3].\n\n- Comprueba el parámetro **rI** en programación.\n- Si está configurado con un valor entre 01 y 30, la central no permitirá el rearme hasta que transcurra ese tiempo.\n- Por defecto es **00 minutos** (función anulada, SW1-6 en OFF) [F3].\n- **Excepción:** si la central está en modo **paro/espera**, sí se puede rearmar aunque rI esté activo [F3].\n\n---\n\n### 2. Fallo de Sistema (FALLO DE SISTEMA)\n\nSi el led **Fallo Sistema** está encendido, la central no volverá a estado normal aunque pulses Rearme [F7].\n\n- Esto ocurre cuando el microprocesador principal tarda en inicializar o detecta tensiones fuera de rango [F7].\n- **Acción:** Rearmar la central. Si la avería desaparece tras el rearme, el sistema es funcional [F7].\n- Si persiste, puede indicar un problema de alimentación o perturbación externa.\n\n---\n\n### 3. Entradas enclavadas sin restablecer\n\nTodas las entradas supervisadas son **enclavadas por defecto** y requieren rearme manual para su restablecimiento [F9]. Si alguna condición de avería sigue activa en campo (detector, circuito de paro, supervisión...), el sistema no volverá a estado normal aunque se pulse Rearme.\n\nComprueba los leds intermitentes del panel para identificar qué circuito sigue en avería [F10]:\n\n- **Cto. F (ABORT SWITCH / Paro):** avería que requiere **rearme manual** y detiene la extinción. No tiene rearme automático [F10].\n- **Ctos. 10, 11 (CCT EXT 1 y 2), 18, 19 (SND 1 y 2), C, D, E, G, H, I, J:** tienen rearme automático cuando desaparece la condición [F10].\n- Verifica que la **RFL de 6K8** esté correctamente instalada en todos los circuitos supervisados [F10].\n\n---\n\n### 4. Parámetro de duración de extinción (dr) — circuito activo hasta rearme\n\nSi el parámetro de duración de extinción está configurado como **\"- -\"** (guiones), el circuito de extinción permanece activado **hasta que se rearme la central** [F11]. Verifica que este parámetro esté configurado con un tiempo en segundos (05 a 295 seg.) si no es el comportamiento deseado.\n\n---\n\n### 5. Procedimiento correcto de rearme\n\nPara rearmar correctamente [F6]:\n1. Habilitar **acceso nivel 2** (llave o teclado).\n2. Pulsar la tecla **Rearme**.\n\nSi el rearme está inhibido por SW1-6 en ON, necesitarás además colocar un puente en la posición **PROG** de la placa base y pulsar Rearme [F4].\n\n---\n\n**Fuentes:**\n- MNDT102 — Manual de usuario RP1r (sin revisión registrada)\n- HLSI-BT-001 — Boletín técnico Honeywell Life Safety Iberia, 04/11/2011\n- HLSI-MN-103\\_RP1r-Supra\\_lr — Manual de usuario RP1r-Supra (sin revisión registrada)\n- MIEMN570 — Manual VSN-RP1r (Rev. 008)\n\n---\n\nTambién puedo ayudarte con: **verificación de la RFL de 6K8 en circuitos supervisados**, **configuración del parámetro rI de inhibición de rearme** o **diagnóstico del led Fallo Sistema**.",
+      "fragment_count": 13,
+      "obligations": [
+        {
+          "obligation_id": "obl_b5eca19cefe9",
+          "fragment_number": 13,
+          "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "facet": "query_alignment",
+          "kind": "option_pair",
+          "statement": "--: Rearme inhibido hasta finalizar extinción o cuando agotado tiempo configurado en parámetro t.Fi (t.A → 0 seg.)",
+          "required_anchors": [
+            "--",
+            "agotado",
+            "configurado",
+            "cuando",
+            "extincion"
+          ],
+          "source_start": 560,
+          "source_end": 1667
+        },
+        {
+          "obligation_id": "obl_a8cd5d2d58c2",
+          "fragment_number": 13,
+          "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "facet": "query_alignment",
+          "kind": "option_pair",
+          "statement": "00: Rearme permitido en cualquier momento (por defecto)",
+          "required_anchors": [
+            "00",
+            "cualquier",
+            "defecto",
+            "momento",
+            "permitido"
+          ],
+          "source_start": 560,
+          "source_end": 1667
+        },
+        {
+          "obligation_id": "obl_08d9b9c21070",
+          "fragment_number": 13,
+          "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "facet": "query_alignment",
+          "kind": "option_pair",
+          "statement": "De01a30: Rearme inhibido durante intervalo definido (expresado en minutos)",
+          "required_anchors": [
+            "De01a30",
+            "definido",
+            "durante",
+            "expresado",
+            "inhibido"
+          ],
+          "source_start": 560,
+          "source_end": 1667
+        },
+        {
+          "obligation_id": "obl_161564ff41bf",
+          "fragment_number": 11,
+          "candidate_id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+          "facet": "served_technical:extinction_duration_range",
+          "kind": "extinction_duration_range",
+          "statement": "Valor variable de 05 a 295 seg. | Tiempo de activación del circuito de extinción, o periodo de inundación. Variable en intervalos de 5 seg.",
+          "required_anchors": [
+            "05 a 295 seg",
+            "intervalos de 5 seg",
+            "circuito de extincion"
+          ],
+          "source_start": 0,
+          "source_end": 147,
+          "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9"
+        },
+        {
+          "obligation_id": "obl_2f5d79e354b9",
+          "fragment_number": 13,
+          "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+          "facet": "served_technical:reset_inhibit_special_state",
+          "kind": "reset_inhibit_special_state",
+          "statement": "\\[LCD display showing \"r.i\"] | Rearme inhibido tras extinción | De acuerdo con la norma UNE-EN 12094-1:2004, apartado 4.12.2, debe existir un intervalo de tiempo programable, entre 0 y 30 minutos, desde que la central notifica el estado de ACTIVADO hasta que permite su rearme.- - Rearme inhibido hasta finalizar extinción o cuando agotado tiempo configurado en parámetro t.Fi (t.A → 0 seg.)&#xA;00 Rearme permitido en cualquier momento (por defecto)&#xA;De 01 a 30 Rearme inhibido durante intervalo definido (expresado en minutos)",
+          "required_anchors": [
+            "--",
+            "rearme inhibido",
+            "finalizar extincion",
+            "t.A",
+            "0 seg"
+          ],
+          "source_start": 1120,
+          "source_end": 1667,
+          "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9"
+        },
+        {
+          "obligation_id": "obl_05482a6b3f0e",
+          "fragment_number": 9,
+          "candidate_id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+          "facet": "served_relation:default_latched_faults",
+          "kind": "default_latched_faults",
+          "statement": "> ℹ️ <sup>(*)</sup> **Todas las averías son por defecto, enclavadas, y requieren de un rearme manual de la central para su restablecimiento.",
+          "required_anchors": [
+            "averias",
+            "por defecto",
+            "enclavadas",
+            "rearme manual"
+          ],
+          "source_start": 566,
+          "source_end": 706,
+          "identity_receipt_sha256": "d27c4336496f996e01399cfa269da131f9a7e37edc46e1c495041fcef0b5cdb9"
+        }
+      ],
+      "conflicts": [],
+      "residual_obligation_ids": [
+        "obl_161564ff41bf",
+        "obl_2f5d79e354b9"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "canonical_answer": "# Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de salida de alarma en la PEARL se configura a través de las **reglas de causa-efecto**. Te explico el proceso completo:\n\n---\n\n## 1. Acceso al menú de Causa-Efecto\n\nDesde el **Menú de Configuración** (nivel de acceso 3) [F8]:\n\n1. Selecciona **«8: Causa y Efecto»** en el menú «Editar Configuración» [F11]\n2. Si no hay reglas personalizadas, encontrarás dos reglas por defecto — **elimínalas antes de crear las tuyas** [F11]\n\n> ⚠️ **Recomendación del fabricante:** Se recomienda usar el **programa de configuración por ordenador** como método principal de programación. El menú de la central solo debe usarse para modificaciones menores [F12].\n\n---\n\n## 2. Configuración del retardo en la regla de causa-efecto\n\nDentro de cada regla de causa-efecto, debes seleccionar el **tipo de retardo de salida**. Hay **6 tipos disponibles** [F1]:\n\n- **Fijo**\n- **Estándar**\n- **No Silenc.**\n- **Est. Ext.**\n- **RetExtStd**\n- **No Sil. Ext**\n- **SinRetExt**\n\n---\n\n## 3. Comportamiento de cada tipo de retardo\n\nSegún la tabla de tipos de retardo [F2]:\n\n**Tipo Estándar:**\n- ✓ La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo\n- ✓ El retardo puede anularse en nivel de acceso 2 con «Anular retardos»\n- ✓ El tiempo restante se muestra en la pestaña ALARMA\n- ✓ El retardo activo puede detenerse pulsando FIN RETARDO (nivel de acceso 2)\n- ✗ No se detiene al pulsar AMPLIAR RETARDO\n- ✗ No inicia temporizador de RETARDO AMPLIADO\n\n**Tipo Fijo:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✗ No puede anularse en nivel de acceso 2\n- ✗ No muestra tiempo restante en LCD\n- ✗ No puede detenerse con FIN RETARDO\n\n**Tipo Est. Ext. (Estándar Extendido):**\n- ✓ Se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ **Se detiene también al pulsar AMPLIAR RETARDO**\n\n**Tipo No Silenc.:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n\n**Tipo RetExtStd:**\n- ✓ Se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ **Inicia temporizador de RETARDO AMPLIADO**\n\n**Tipo No Sil. Ext:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ Se detiene al pulsar AMPLIAR RETARDO\n\n**Tipo SinRetExt:**\n- ✗ No se detiene con SILENCIAR SIRENAS\n- ✓ Puede anularse en nivel de acceso 2\n- ✓ Muestra tiempo restante en LCD\n- ✓ Puede detenerse con FIN RETARDO\n- ✓ Inicia temporizador de RETARDO AMPLIADO\n\n---\n\n## 4. Retardo a nivel de equipo individual\n\nAdicionalmente, en la edición de equipos de lazo (**«2: Equipos de Lazo»**) es posible configurar un **retardo de alarma por equipo individual** [F14], así como un **retardo de confirmación de coincidencia de detector**, ajustable hasta **240 s (4 min)** [F14].\n\n---\n\n## 5. Anular/Habilitar retardos en operación\n\nUna vez configurados, los retardos pueden activarse/desactivarse desde el **Menú Anular/Habilitar → «5: Retardo Activación Salidas»** [F3]:\n- Pulsa **✓** para cambiar entre estado HABILITADO/ANULADO\n- Pulsa **✕** para salir\n\nEl **LED de RETARDO ACTIVO** se ilumina cuando hay un retardo en curso [F3].\n\n---\n\nFuente: Manual de configuración de la central PEARL — 997-671-005-3_Configuration_ES (sin revisión registrada); Manual de funcionamiento PEARL — 997-670-005-3_Operating_ES (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **borrar o editar reglas de causa-efecto existentes**, **configuración de coincidencia de zona** o **uso de la tecla AMPLIAR RETARDO en campo**.",
+      "fragment_count": 14,
+      "obligations": [
+        {
+          "obligation_id": "obl_872c35fb41d7",
+          "fragment_number": 1,
+          "candidate_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "facet": "served_technical:option_family_cardinality",
+          "kind": "option_family_cardinality",
+          "statement": "Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.",
+          "required_anchors": [
+            "seis",
+            "tipos de retardo",
+            "regla"
+          ],
+          "source_start": 238,
+          "source_end": 452,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_b2043cd4379b",
+          "fragment_number": 12,
+          "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "facet": "served_technical:input_condition_definition",
+          "kind": "input_condition_definition",
+          "statement": "* Instrucción de entrada: esta parte de la regla es una condición de entrada, como una alarma, una avería o la detección de un cambio de estado en una determinada categoría de entrada (condiciones de regla de coincidencia de zona, entrada de un equipo externo, etc.).",
+          "required_anchors": [
+            "instruccion de entrada",
+            "condicion de entrada"
+          ],
+          "source_start": 1425,
+          "source_end": 1692,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_7aa723717412",
+          "fragment_number": 12,
+          "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "facet": "served_technical:output_condition_action",
+          "kind": "output_condition_action",
+          "statement": "* Instrucción de salida: esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas. La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés, o el cambio de estado de una condición de salida, mediante un flag lógico, para realizar una acción de fase secundaria, que exige el cumplimiento de una serie de instrucciones de entrada.",
+          "required_anchors": [
+            "instruccion de salida",
+            "todas las condiciones de entrada",
+            "equipos asignados"
+          ],
+          "source_start": 1694,
+          "source_end": 2107,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_16637b935bd4",
+          "fragment_number": 12,
+          "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "facet": "served_technical:logic_contradiction_warning",
+          "kind": "logic_contradiction_warning",
+          "statement": "> Al programar reglas de causa-efecto evite las lógicas contradictorias.",
+          "required_anchors": [
+            "evite",
+            "logicas contradictorias"
+          ],
+          "source_start": 2479,
+          "source_end": 2555,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_0d6a30948dfd",
+          "fragment_number": 12,
+          "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+          "facet": "served_technical:commissioning_rule_verification",
+          "kind": "commissioning_rule_verification",
+          "statement": "> Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.",
+          "required_anchors": [
+            "probar rigurosamente",
+            "todas las reglas",
+            "puesta en marcha"
+          ],
+          "source_start": 2558,
+          "source_end": 2724,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_e8491bc1c321",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_rule_behavior",
+          "kind": "cause_effect_rule_behavior",
+          "statement": "Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).",
+          "required_anchors": [
+            "Regla 1",
+            "cualquier entrada de alarma",
+            "todas las sirenas"
+          ],
+          "source_start": 812,
+          "source_end": 967,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        },
+        {
+          "obligation_id": "obl_e265a4c97a31",
+          "fragment_number": 11,
+          "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "facet": "served_relation:cause_effect_default_rules_precondition",
+          "kind": "cause_effect_default_rules_precondition",
+          "statement": "Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto.; **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+          "required_anchors": [
+            "dos reglas",
+            "por defecto",
+            "eliminar"
+          ],
+          "source_start": 2133,
+          "source_end": 2345,
+          "identity_receipt_sha256": "d2d49f45084f2e0580a1c544cabee4a6e54ec8f5e2567efd620479afc46c410c"
+        }
+      ],
+      "conflicts": [
+        {
+          "conflict_id": "conf_26f63590494f",
+          "kind": "document_value_conflict",
+          "product_scope": "pearl",
+          "operation": "cause_effect_menu_path",
+          "values": [
+            "7",
+            "8"
+          ],
+          "evidence": [
+            {
+              "fragment_number": 11,
+              "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+              "product_scope": "Pearl",
+              "source_file": "997-671-005-3_Configuration_ES",
+              "document_revision": "",
+              "value": "7",
+              "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**",
+              "source_start": 2033,
+              "source_end": 2347
+            },
+            {
+              "fragment_number": 8,
+              "candidate_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+              "product_scope": "Pearl",
+              "source_file": "997-671-005-3_Configuration_ES",
+              "document_revision": "",
+              "value": "8",
+              "statement": "8:Causa y Efecto",
+              "source_start": 1313,
+              "source_end": 1330
+            }
+          ]
+        }
+      ],
+      "residual_obligation_ids": [
+        "obl_872c35fb41d7",
+        "obl_b2043cd4379b",
+        "obl_7aa723717412",
+        "obl_16637b935bd4",
+        "obl_0d6a30948dfd"
+      ]
+    }
+  ],
+  "generation_content_absent": true,
+  "database_reads": 0,
+  "database_writes": 0,
+  "result_sha256": "27109b60dd6f682545e59c3d08134c87b873b3fbef1d0baa272d17793549538b"
+}

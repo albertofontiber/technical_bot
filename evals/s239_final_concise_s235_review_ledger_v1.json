@@ -1,0 +1,47 @@
+{
+  "schema": "s239_final_concise_s235_review_ledger_v1",
+  "status": "COMPLETE_RESPONSES_RECEIVED",
+  "sol": {
+    "response_id": "resp_0546c4c1c5378d00006a5b9ab38d7c8197b165534c5b5a33a2",
+    "status": "completed",
+    "model": "gpt-5.6-sol",
+    "polls": [
+      "queued",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "completed"
+    ],
+    "usage": {
+      "input_tokens": 1418,
+      "output_tokens": 17747,
+      "total_tokens": 19165
+    },
+    "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"verdict\":\"PASS\",\"checks\":{\"direct_target_use_justified\":true,\"paired_causal_design\":true,\"generation_score_isolated\":true,\"same_writer_and_equal_budget\":true,\"safety_and_regression_gate\":true,\"no_overfit_or_unsupported_credit\":true,\"transport_and_cost_bounded\":true,\"best_practice_aligned\":true},\"blocking_issues\":[],\"minimum_changes\":[],\"rationale\":\"The frozen design supports a leakage-controlled paired comparison of the bundled clause-bound architecture against the production baseline. It fixes writer family, retrieval, inputs, temperature, and answer-token budget; requires replicated strict gains, no canonical losses, citation and conflict safety, bounded cost, dual semantic acceptance, and full regression before official credit or default-on activation.\"}"
+  },
+  "fable": {
+    "response_id": "msg_011Cd9kisaQVXPDHoeithF9q",
+    "status": "end_turn",
+    "model": "claude-fable-5",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 2829,
+      "output_tokens": 2814
+    },
+    "raw_output": "{\"reviewer_model\": \"claude-fable-5\", \"verdict\": \"PASS\", \"checks\": {\"direct_target_use_justified\": true, \"paired_causal_design\": true, \"generation_score_isolated\": true, \"same_writer_and_equal_budget\": true, \"safety_and_regression_gate\": true, \"no_overfit_or_unsupported_credit\": true, \"transport_and_cost_bounded\": true, \"best_practice_aligned\": true}, \"blocking_issues\": [], \"minimum_changes\": [], \"rationale\": \"Direct use of the four frozen residual questions is justified: the residual set is frozen in S163, the treatment (S228 clause-bound architecture) pre-exists this experiment rather than being tuned against these targets, and official credit is gated behind dual semantic review plus the full regression suite. The paired design is sound: identical questions, 51 frozen chunks, fixed retrieval, same claude-sonnet-4-6 writer family at temperature 0 in both arms, two replicas per arm, and a strict causal gain definition (both treatment replicas cover, neither baseline replica does) that resists single-sample noise. Generation/score isolation holds: the generation packet contains only question and served context; the score packet opens only after all eight generations are sealed COMPLETE_SCORE_NOT_OPENED; planner-created obligation labels are explicitly untrusted generation outputs. Budget parity holds: 3,600 output tokens per baseline answer versus a 3,600-token aggregate writer cap per treatment answer, so decomposition cannot win via a larger answer budget; the haiku planner is part of the intervention, not the answer writer. Safety gates are adequate: no loss of any canonically covered obligation in either treatment replica, zero invalid citations, safe handling of the frozen conflict, and production stays default-off. Unsupported-credit risk is controlled: the deterministic match is explicitly a routing gate, 154/157 is labeled a projection, and score movement requires dual semantic acceptance plus regression. Transport/cost are bounded: SDK retries off, at most one manual retry on recognized transport errors only, zero retries for semantic/schema failures, sealed attempt logs, a doubled conservative preflight under $25, and exactly one Sol plus one Fable review with no convergence loop. Nonblocking observations: (1) claude-fable-5 serves as both a design reviewer and the independent semantic adjudicator; using a distinct model family for one of those roles would strengthen independence, though the tasks differ and dual acceptance plus regression bounds the risk. (2) Temperature-0 replicas from the same model are stability probes rather than fully independent samples; the strict-gain definition still functions as intended. (3) Regenerating the baseline afresh (rather than reusing archived outputs) is the correct choice here, as it controls for provider-side drift in the paired comparison.\"}"
+  },
+  "prior_cost_usd": 25.36794,
+  "current_cost_usd": 2.65788,
+  "cumulative_cost_usd": 28.02582,
+  "result_sha256": "e27884e6f3ea2a5f3d035b309d1e9b1cadf45e41d1c94bda5d53fd45bcf98418"
+}

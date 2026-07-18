@@ -1,0 +1,35 @@
+schema: s245_relation_complete_highlight_closeout_v1
+status: CLOSED_LOCAL_GATE_NO_GO
+frozen_gate: evals/s245_relation_complete_highlight_gate_freeze_v1.yaml
+result: evals/s245_relation_complete_highlight_gate_v1.json
+measurement:
+  answer_points: 37
+  single_atom_quote_covered: 32
+  single_atom_quote_recall: 0.8648648648648649
+  table_recall: 0.9411764705882353
+  prose_recall: 0.8
+  real_es_recall: 0.9444444444444444
+  real_en_recall: 0.7894736842105263
+  global_nonblank_span_density: 0.7861565534771557
+  median_item_nonblank_span_density: 0.7672564211231353
+  source_bound_failures: 0
+  atoms: 207
+decision:
+  representation_gate: NO_GO
+  gate_b_paired_nontarget_ab: false
+  target_probe: false
+  same_cohort_tuning: false
+  production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    The generic source-form detector missed the frozen recall and real-English
+    thresholds while highlighting roughly four fifths of source text. It is
+    source-safe but does not create the sparse relation-complete representation
+    needed to reduce synthesis load. Adjusting patterns after opening the same
+    cohort is forbidden.
+next_stage: WRITER_PROMPT_ARCHITECTURE_AUDIT
+cost: {model_calls: 0, network_calls: 0, database_calls: 0, usd: 0}
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+
