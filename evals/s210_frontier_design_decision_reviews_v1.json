@@ -1,0 +1,50 @@
+{
+  "schema": "s210_frontier_design_decision_reviews_v1",
+  "status": "INCOMPLETE_NO_FURTHER_RETRY",
+  "subject": "evals/s210_compact_design_review_brief_v1.md",
+  "subject_sha256": "379d9a9ba8802687a2e83d674248bb78e9b68604c08ab9b6629efa6bafc2133b",
+  "decisions": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "PASS",
+      "blocking_findings": [],
+      "residual_risks": [
+        "A local GO is limited to this frozen diagnostic cohort and does not establish fresh external generalization or authorize runtime integration.",
+        "Atomic source support, entailment, contradiction, and usefulness remain subject to the explicitly separate Sol/Fable review before any diagnostic projection.",
+        "The pre-existing cardinality conflict remains unresolved debt even if S210 reaches local GO."
+      ]
+    },
+    "fable": {
+      "status": "INVALID",
+      "reason": "residual risks invalid",
+      "raw_sha256": "b929a91b2c262df5f02b4bb6c9f1b20c16e6153de871ad14b983e79eff773ae0"
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 1095,
+        "output_tokens": 2661,
+        "total_tokens": 3756
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1599,
+        "output_tokens": 1427
+      }
+    }
+  ],
+  "conservative_cost_usd": 0.597765,
+  "provider_retries": 0,
+  "further_design_review_calls": false,
+  "result_sha256": "ee5b795322b630e83386a5797f82e01280a7a866b00b87282168bc0256ba68d0"
+}

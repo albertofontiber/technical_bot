@@ -1,0 +1,30 @@
+{
+  "schema": "s210_fable_final_design_verdict_v1",
+  "status": "COMPLETE",
+  "subject": "evals/s210_compact_design_review_brief_v1.md",
+  "subject_sha256": "379d9a9ba8802687a2e83d674248bb78e9b68604c08ab9b6629efa6bafc2133b",
+  "original_review_sha256": "ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e",
+  "zero_call_repair_sha256": "5823d7c0759f9639267c305bb4d0db9a181e9261e87400f5f49e0d541e22e8b6",
+  "decision": {
+    "reviewer": "claude-fable-5",
+    "verdict": "PASS",
+    "blocking_findings": []
+  },
+  "receipt": {
+    "provider": "fable",
+    "model": "claude-fable-5",
+    "status": "end_turn",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 1652,
+      "output_tokens": 125
+    }
+  },
+  "raw_text": "{\"reviewer\": \"claude-fable-5\", \"verdict\": \"PASS\", \"blocking_findings\": []}",
+  "raw_sha256": "71b9fe30c7b3ce531c17659b65b3e4fdac45e13822276e506a22e09d36da7c3b",
+  "conservative_cost_usd": 0.06831,
+  "provider_retries": 0,
+  "further_design_review_calls": false,
+  "result_sha256": "b91d03f87dfeef1d28c44eab1f2a3f209468d6b3c625fec6a94ac9e413b5f2ae"
+}
