@@ -1,0 +1,68 @@
+{
+  "schema": "s208_kidde_predicate_selection_receipt_v1",
+  "status": "CANDIDATES_SELECTED_BEFORE_MODEL_OUTPUT",
+  "selection_claim": "candidate_novelty_only_pending_frontier_semantic_veto",
+  "source_identity_independence_available": false,
+  "method": [
+    "exclude every S203-S207 visual source identity",
+    "scan Kidde PDF/extraction identities against official gold PDF identities",
+    "inspect same-source S99 questions for every selected PDF",
+    "prefer bounded technical predicates and require one natural multi-page dependency",
+    "defer semantic novelty validation to blind Sol/Fable pixel authorship and cross-review"
+  ],
+  "selected": [
+    {
+      "canary_id": "kidde_dual_optical_isolator_geometry",
+      "reason": "only audited candidate with a natural required fact split between a specification row and its next-page footnote",
+      "source_overlap_disclosed": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_2xa_self_test_schedule",
+      "reason": "same-source S99 covers adjacent siren reactivation but contains no Self-test schedule question",
+      "source_overlap_disclosed": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_nc_internal_fault_startup",
+      "reason": "same-source S99 covers normal and battery startup but not the special internal-fault startup sequence",
+      "source_overlap_disclosed": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    }
+  ],
+  "rejected_examples": [
+    {
+      "candidate": "ModuLaser battery replacement decision",
+      "reason": "semantic duplicate in same-source S99",
+      "coverage_qid": "hyq:2d131984-4f19-4054-a3fa-9aea32b0e3a5:2",
+      "coverage_question": "¿Cómo sé si tengo que cambiar las baterías del ModuLaser y qué hago si una da mal voltaje, cambio solo esa o todas?"
+    },
+    {
+      "candidate": "NC pre-start checks plus normal startup",
+      "reason": "semantic duplicate in same-source S99 page 88"
+    },
+    {
+      "candidate": "NC battery-only startup",
+      "reason": "semantic duplicate in same-source S99 page 90"
+    },
+    {
+      "candidate": "2X-A siren reactivation across pages 90-91",
+      "reason": "semantic duplicate in same-source S99 page 90"
+    },
+    {
+      "candidate": "ModuLaser event-log export across pages 64-65",
+      "reason": "semantic duplicate in same-source S99 pages 63 and 132"
+    },
+    {
+      "candidate": "prior Kidde installation-sheet source identities",
+      "reason": "excluded because S203-S207 already used them as visual cohorts"
+    }
+  ],
+  "claims_not_made": [
+    "external validation",
+    "source-independent validation",
+    "official benchmark expansion",
+    "semantic novelty before frontier review",
+    "exhaustive proof that no other useful Kidde predicate exists"
+  ]
+}

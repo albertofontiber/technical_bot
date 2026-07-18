@@ -1,0 +1,55 @@
+{
+  "schema": "s208_agent_full_page_pixel_inspection_v1",
+  "status": "COMPLETE_BEFORE_PACKET_REFREEZE",
+  "inspector": "codex_agent_direct_visual_inspection",
+  "inspected_at_utc": "2026-07-18T05:34:00Z",
+  "renderer": "PyMuPDF_200dpi",
+  "receipts": [
+    {
+      "canary_id": "kidde_dual_optical_isolator_geometry",
+      "page": 2,
+      "image": "evals/s208_kidde_planner_pages_v1/kidde_dual_optical_isolator_geometry_p2_200dpi.png",
+      "image_sha256": "d7f54b9ee064a4e8dfd6a37279d004da033f57eb0fb285bee546214347c32f51",
+      "status": "PASS",
+      "visible_anchors": [
+        "KE-DP3120W-only isolation scope",
+        "13 ohm maximum impedance in both table rows"
+      ]
+    },
+    {
+      "canary_id": "kidde_dual_optical_isolator_geometry",
+      "page": 3,
+      "image": "evals/s208_kidde_planner_pages_v1/kidde_dual_optical_isolator_geometry_p3_200dpi.png",
+      "image_sha256": "86ec23b97967da5802c7fceb430e92adad8b312de38d25a6c89fe3ee00759223",
+      "status": "PASS",
+      "visible_anchors": [
+        "128 isolators per loop and 32 devices between isolators",
+        "footnote equating the impedance limit to 500 m of 1.5 mm2 cable"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_self_test_schedule",
+      "page": 91,
+      "image": "evals/s208_kidde_planner_pages_v1/kidde_2xa_self_test_schedule_p91_200dpi.png",
+      "image_sha256": "1e480857b2e27dd25603c8025f760e8a4202336d5ac68315882967c42d50fa43",
+      "status": "PASS",
+      "visible_anchors": [
+        "Self-test disabled by default",
+        "Habili, TestH and ReportH controls with 00:00-23:59 ranges",
+        "save and apply instruction"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_internal_fault_startup",
+      "page": 89,
+      "image": "evals/s208_kidde_planner_pages_v1/kidde_nc_internal_fault_startup_p89_200dpi.png",
+      "image_sha256": "af7887e1c17aa601e10ee3c0cb894fb46e8227de60b9fd18026ba4ac62eac5b1",
+      "status": "PASS",
+      "visible_anchors": [
+        "general Fault LED fast flash and System fault LED slow flash",
+        "operator password then Reset procedure",
+        "persistent-fault System fault LED outcome"
+      ]
+    }
+  ]
+}

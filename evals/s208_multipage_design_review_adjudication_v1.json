@@ -1,0 +1,142 @@
+{
+  "schema": "s208_multipage_design_review_adjudication_v1",
+  "status": "PRINCIPAL_ADJUDICATED_CORRECTED_FABLE_DESIGN_REVIEW_EXTERNAL_FAILURE",
+  "adjudicated_at_utc": "2026-07-18T06:05:00Z",
+  "review_contract": {
+    "principal_initial": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "review_path": "evals/adversarial_reviews/2026-07-18T05-41-17_gpt-5.6-sol_4221e22bac1c.md",
+      "review_sha256": "4221e22bac1c5ee39e08f3d1e1a8bdaddbd8e9c40d486f0cb205987c948d5d17"
+    },
+    "principal_corrected_pass": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "review_path": "evals/adversarial_reviews/2026-07-18T05-49-51_gpt-5.6-sol_76cc087dc646.md",
+      "review_sha256": "76cc087dc646f3d968b25be6fa42dbac26c2ed0b4baddcd73196ece0e1e877f6"
+    },
+    "independent": {
+      "model": "claude-fable-5",
+      "status": "FAILED_EXTERNAL_NO_FINAL_REVIEW",
+      "paired_attempts": [
+        {
+          "status": "failed_empty_final",
+          "provider_receipt": "evals/adversarial_reviews/2026-07-18T05-51-36_claude-fable-5_failed_attempt_4e6e7dbf676a.json",
+          "provider_receipt_sha256": "4e6e7dbf676ad32814f9ec245f1f6bb40f67ea0bac2fbabb419140963d0f2444"
+        },
+        {
+          "status": "failed_empty_final",
+          "provider_receipt": "evals/adversarial_reviews/2026-07-18T05-53-25_claude-fable-5_failed_attempt_cb1e0e2f4d1d.json",
+          "provider_receipt_sha256": "cb1e0e2f4d1dae6eb02a0b2bab39900b6514ce4708440d0ffb1b42e95f7d1f82"
+        }
+      ],
+      "corrected_standalone_attempt": {
+        "status": "failed_provider_refusal",
+        "provider_receipt": "evals/adversarial_reviews/2026-07-18T06-00-46_claude-fable-5_failed_attempt_8b746c13d9b3.json",
+        "provider_receipt_sha256": "8b746c13d9b3ce45f9db00e2f3050883f1a4e412ed0a10eb4597fdcbdcb7725f"
+      },
+      "claim": "Fable was invoked and read the paired snapshot independently, but no valid final design verdict was returned; it is not marked unavailable or complete."
+    }
+  },
+  "confirmed_fixed": [
+    {
+      "id": "SOL1-01",
+      "finding": "ModuLaser battery predicate duplicated a same-source S99 question",
+      "correction": "The item and its obsolete render were removed; the exact rejected question is recorded in the selection receipt."
+    },
+    {
+      "id": "SOL1-02",
+      "finding": "The inherited unit filtering omitted source spans required by all candidate topics",
+      "correction": "The serializer is now one gap-free, non-overlapping 450-character partition with no alternative ID path; tests bind the omitted anchors."
+    },
+    {
+      "id": "SOL1-03",
+      "finding": "Hardcoded pixel PASS fields did not prove an inspection act",
+      "correction": "Direct full-page inspection is versioned separately and the builder verifies path, SHA-256, status and anchors."
+    },
+    {
+      "id": "SOL1-04",
+      "finding": "A privileged Sol mapping could penalize an equivalent unit path",
+      "correction": "Sol must enumerate every alternative minimal complete support set, Fable reviews exhaustiveness, and scoring accepts any reviewed equivalent set."
+    },
+    {
+      "id": "SOL1-05",
+      "finding": "The 90 percent recall gate was weaker than and redundant with complete-question gating",
+      "correction": "Recall remains reported but only 3/3 fact completeness gates the run."
+    },
+    {
+      "id": "SOL2-01",
+      "finding": "A misplaced test block caused collection failure",
+      "correction": "The render assertions were restored to the packet loop; targeted tests collect and pass."
+    },
+    {
+      "id": "SOL2-02",
+      "finding": "Incomplete Terra responses could be mislabeled as a configuration NO-GO",
+      "correction": "Any incomplete response or provider model mismatch now writes HOLD_S208_EXTERNAL_OR_INCOMPLETE with actual call count."
+    },
+    {
+      "id": "SOL2-03",
+      "finding": "The pre-frontier packet overclaimed validated novelty and source-pool exhaustion",
+      "correction": "It now claims only candidate novelty, binds a versioned selection receipt, disclaims exhaustiveness and requires frontier PASS for semantic novelty."
+    },
+    {
+      "id": "SOL2-04",
+      "finding": "The target freeze omitted judge, scorer, seeds and full configuration",
+      "correction": "Those fields are now explicit prerequisites of any later target A/B preregistration."
+    }
+  ],
+  "not_applicable_or_stage_misread": [
+    {
+      "id": "SOL1-PREREG",
+      "finding": "Paid preflight could not run because the preregistration was absent",
+      "outcome": "EXPECTED_AT_DESIGN_REVIEW",
+      "reason": "The reviewed snapshot intentionally preceded final adjudication and preregistration; both preflight and paid execution remain impossible until the final hash contract exists."
+    }
+  ],
+  "fable_failure_policy": {
+    "further_design_convergence_calls": false,
+    "reason": "Two paired empty-final attempts plus one corrected no-tools refusal establish a runner/provider failure pattern; additional design-review retries would be paralysis by analysis.",
+    "paid_execution_independent_model_gate_waived": false,
+    "execution_requirement": "Fable must still independently author all candidates, review every Sol publication candidate, and review every support mapping. Any missing, refused, invalid or non-PASS Fable execution result closes S208 without planner or target calls."
+  },
+  "corrected_subject": [
+    {
+      "path": "evals/s208_multipage_planner_holdout_design_v1.md",
+      "sha256": "788415e0fe4e67d0716622f85739b1e51c453b8c9d9fec8eefe17bb2bae9f188"
+    },
+    {
+      "path": "evals/s208_multipage_planner_holdout_packet_v1.json",
+      "sha256": "23f9c58288d19398697333c550a0264dce55f5abb5c5166373d27923e47c6f3a"
+    },
+    {
+      "path": "evals/s208_pixel_inspection_receipts_v1.json",
+      "sha256": "8005ed1f4d9b3aa8af04ef8fd3c4bfe66ea712136850fc6b18c4eb2cc597b453"
+    },
+    {
+      "path": "evals/s208_kidde_predicate_selection_receipt_v1.json",
+      "sha256": "41b15ce138a5c69410b3269959aabc9c8c7d9a9463023562cf052ff3b204220d"
+    },
+    {
+      "path": "scripts/s208_build_multipage_planner_holdout.py",
+      "sha256": "971e17f3e1505a6d63da2b52951dffb70c41d382a53607d867d550412864976d"
+    },
+    {
+      "path": "scripts/s208_run_multipage_planner_holdout.py",
+      "sha256": "409faa6ed27cdc7484533777837c3307b93538591720a27a6deb0a939582d826"
+    },
+    {
+      "path": "src/rag/planner_holdout_gold.py",
+      "sha256": "9be0dbae400e862cb98dfa1494d36c99a344b2528a6ebebf7c1af65af147827e"
+    },
+    {
+      "path": "src/rag/holdout_evidence.py",
+      "sha256": "c5082fca84778cac3f09969d3989b27c4801294846a2928fbe4131371112f645"
+    },
+    {
+      "path": "tests/test_s208_multipage_planner_holdout.py",
+      "sha256": "db908115b03be543b4bd66e3ef725c3f7b870ee225fe6aabf0010525b228cd4e"
+    }
+  ],
+  "second_frontier_design_review": false,
+  "reason_no_further_review": "All principal findings were independently reproduced and fixed. The only independent-model failure is explicitly external and remains a hard fail-closed gate in measured execution; no more design convergence calls are allowed."
+}
