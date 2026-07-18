@@ -1,0 +1,236 @@
+{
+  "schema": "s205_kidde_visual_gold_v1",
+  "status": "GO_KIDDE_GOLD_CANARY",
+  "questions": [
+    {
+      "qid": "s205k01",
+      "canary_id": "kidde_kuwait_pcb_callouts",
+      "adequacy": "SUFFICIENT",
+      "question": "Al revisar la PCB de una Kidde 2X-A Kuwait de armario grande con fuente de 6 A, ¿qué números de llamada identifican Ethernet, USB tipo B y tipo A, COM2, COM0, COM1, el conector de batería, el conector de la fuente de alimentación y el conector de la interfaz de usuario?",
+      "expected_behavior": "answer",
+      "gold_answer": "Las llamadas son: Ethernet, 6; USB tipo B, 7; conectores USB tipo A, 8; puerto serie COM2, 2; puerto serie y conector de interfaz COM0, 9; puerto serie y conector de interfaz COM1, 10; conector de batería, 11; conector de la fuente de alimentación, 12; y conector de la interfaz de usuario, 17.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "El conector Ethernet corresponde a la llamada 6.",
+          "type": "core",
+          "state": "present",
+          "value": "6",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior izquierda: «6. Ethernet connector»."
+        },
+        {
+          "fact_id": "F02",
+          "text": "El conector USB tipo B corresponde a la llamada 7 y los conectores USB tipo A a la llamada 8.",
+          "type": "core",
+          "state": "present",
+          "value": "USB B = 7; USB A = 8",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior izquierda: filas «7. USB type B connector» y «8. USB type A connectors»."
+        },
+        {
+          "fact_id": "F03",
+          "text": "El puerto serie COM2 corresponde a la llamada 2.",
+          "type": "core",
+          "state": "present",
+          "value": "2",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior izquierda: «2. COM2 serial port»."
+        },
+        {
+          "fact_id": "F04",
+          "text": "El puerto serie y conector de interfaz COM0 corresponde a la llamada 9.",
+          "type": "core",
+          "state": "present",
+          "value": "9",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior derecha: «9. COM0 serial port and interface connector»."
+        },
+        {
+          "fact_id": "F05",
+          "text": "El puerto serie y conector de interfaz COM1 corresponde a la llamada 10.",
+          "type": "core",
+          "state": "present",
+          "value": "10",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior derecha: «10. COM1 serial port and interface connector»."
+        },
+        {
+          "fact_id": "F06",
+          "text": "El conector de batería corresponde a la llamada 11.",
+          "type": "core",
+          "state": "present",
+          "value": "11",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior derecha: «11. Battery connector»."
+        },
+        {
+          "fact_id": "F07",
+          "text": "El conector de la fuente de alimentación corresponde a la llamada 12.",
+          "type": "core",
+          "state": "present",
+          "value": "12",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior derecha: «12. Power supply connector»."
+        },
+        {
+          "fact_id": "F08",
+          "text": "El conector de la interfaz de usuario corresponde a la llamada 17.",
+          "type": "core",
+          "state": "present",
+          "value": "17",
+          "citation": {
+            "pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Lista inferior derecha: «17. User interface connector»."
+        }
+      ],
+      "notes": "",
+      "split": "candidate_unintegrated",
+      "source_pdf_sha256": "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+      "pixel_sha256": [
+        "39f6572b03d9a51e56af09aa6a46a5346bc385e60663d06eee6c7dd156b94a15"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s205k02",
+      "canary_id": "kidde_touchscreen_regions",
+      "adequacy": "SUFFICIENT",
+      "question": "En el esquema de la pantalla táctil en reposo de la Kidde 2X-AT, ¿qué función corresponde a cada una de las regiones numeradas 1, 2 y 3?",
+      "expected_behavior": "answer",
+      "gold_answer": "La región 1 es el panel de control, destinado a los controles de acceso, navegación y configuración. La región 2 es el panel de configuración de estado y pantalla, que muestra información de estado del sistema y de la central y permite configurar la pantalla táctil. La región 3 corresponde al menú principal y al área de visualización de mensajes.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La región 1 es el panel de control, con los controles de acceso, navegación y configuración.",
+          "type": "core",
+          "state": "present",
+          "value": "1 = panel de control: acceso, navegación y configuración",
+          "citation": {
+            "pdf": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+            "page": 11
+          },
+          "visual_evidence": "Fila numerada 1 bajo la figura: «Panel de control (controles de acceso, navegación y configuración)»."
+        },
+        {
+          "fact_id": "F02",
+          "text": "La región 2 es el panel de configuración de estado y pantalla; proporciona información de estado del sistema y de la central y permite configurar la pantalla táctil.",
+          "type": "core",
+          "state": "present",
+          "value": "2 = estado del sistema y la central, y configuración de la pantalla táctil",
+          "citation": {
+            "pdf": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+            "page": 11
+          },
+          "visual_evidence": "Fila numerada 2 bajo la figura: «Panel de configuración de estado y pantalla» y su descripción entre paréntesis."
+        },
+        {
+          "fact_id": "F03",
+          "text": "La región 3 corresponde al menú principal y al área de visualización de mensajes.",
+          "type": "core",
+          "state": "present",
+          "value": "3 = menú principal y visualización de mensajes",
+          "citation": {
+            "pdf": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+            "page": 11
+          },
+          "visual_evidence": "Fila numerada 3 bajo la figura: «Menú principal y área de visualización de mensajes»."
+        }
+      ],
+      "notes": "La correspondencia se limita a las tres regiones numeradas de la pantalla táctil en reposo.",
+      "split": "candidate_unintegrated",
+      "source_pdf_sha256": "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+      "pixel_sha256": [
+        "70c53b9b608ec671a1fdef7b1eebac09bd2d01f93846c59913773eaa2dd3ed43"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s205k03",
+      "canary_id": "kidde_900_is_barriers",
+      "adequacy": "SUFFICIENT",
+      "question": "Estoy cotejando una lista de materiales del protocolo 900 Series para centrales Kidde 2X-A/ZP2-A: ¿qué tres modelos exactos aparecen en la categoría «Conventional IS Barriers» y qué función se indica para cada uno?",
+      "expected_behavior": "answer",
+      "gold_answer": "Las tres entradas, tal como aparecen con asterisco, son: GBX370*, aislador galvánico para dispositivos de notificación; TCA-0066*, aislador galvánico doble; y TCC-0012*, barrera de diodo en derivación (shunt).",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "El modelo GBX370* se describe como un aislador galvánico para dispositivos de notificación.",
+          "type": "core",
+          "state": "present",
+          "value": "GBX370* — aislador galvánico para dispositivos de notificación",
+          "citation": {
+            "pdf": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+            "page": 5
+          },
+          "visual_evidence": "Fila «Conventional IS Barriers»: modelo GBX370* y descripción «Galvanic isolator for notification devices»."
+        },
+        {
+          "fact_id": "F02",
+          "text": "El modelo TCA-0066* se describe como un aislador galvánico doble.",
+          "type": "core",
+          "state": "present",
+          "value": "TCA-0066* — aislador galvánico doble",
+          "citation": {
+            "pdf": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+            "page": 5
+          },
+          "visual_evidence": "Fila «Conventional IS Barriers»: modelo TCA-0066* y descripción «Dual galvanic isolator»."
+        },
+        {
+          "fact_id": "F03",
+          "text": "El modelo TCC-0012* se describe como una barrera de diodo en derivación (shunt).",
+          "type": "core",
+          "state": "present",
+          "value": "TCC-0012* — barrera de diodo shunt",
+          "citation": {
+            "pdf": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+            "page": 5
+          },
+          "visual_evidence": "Fila «Conventional IS Barriers»: modelo TCC-0012* y descripción «Shunt diode barrier»."
+        }
+      ],
+      "notes": "Se conservan los asteriscos porque son visibles junto a las tres referencias; no se atribuye aquí ningún significado adicional al marcador.",
+      "split": "candidate_unintegrated",
+      "source_pdf_sha256": "575ded0ceac828a4b91047cb28133356dd9cefe3ba91513b70f24c3e8ba186f4",
+      "pixel_sha256": [
+        "85dee51e5b7f0354f9b5bd81815ced2768d91d77eff35a0523e1db2a879322b6"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    }
+  ],
+  "official_fact_credit": 0,
+  "result_sha256": "2c42ac1f67656f13877146178675e391ddc9cd302d54b621b99926c9633fac30"
+}

@@ -1,0 +1,213 @@
+{
+  "schema": "s205_fable_review_of_sol_v1",
+  "review": {
+    "reviewer_model": "claude-fable-5",
+    "candidate_author": "gpt-5.6-sol",
+    "reviews": [
+      {
+        "canary_id": "kidde_kuwait_pcb_callouts",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The retriever-augmentation question hyq:7d166450 asks where the USB connector is on the 2X-A Táctil PCB, but that concerns a different document/product and only the USB location; this candidate covers the full numbered callout map of the Kuwait large-cabinet Figure 1, so it is not a semantic duplicate.",
+          "The counterpart additionally distinguishes callout 13 (power supply itself) from 12 (power supply connector); the candidate correctly reports 12 for the connector as asked, so no disagreement."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '6. Ethernet connector' visible on page 10."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend items '7. USB type B connector' and '8. USB type A connectors' visible."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '2. COM2 serial port' visible."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '9. COM0 serial port and interface connector' visible."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '10. COM1 serial port and interface connector' visible."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '11. Battery connector' visible."
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '12. Power supply connector' visible."
+          },
+          {
+            "fact_id": "F08",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Legend item '17. User interface connector' visible."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_touchscreen_regions",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "Existing retriever-augmentation questions about touchscreen icons (hyq:6312cef2) and front-panel controls (hyq:6f86e5cd) cover different content (icon meanings / physical controls), not the three numbered idle-screen regions, so no duplication.",
+          "The counterpart adds supplementary details (idle-state counter values, cross-reference to page 9) that the candidate omits; these are optional context and do not make the candidate incomplete for the question asked."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Item 1: 'Panel de control (controles de acceso, navegación y configuración)' visible on page 11."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Item 2: 'Panel de configuración de estado y pantalla (información de estado del sistema y la central, y configuración de la pantalla táctil)' visible."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Item 3: 'Menú principal y área de visualización de mensajes' visible."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_900_is_barriers",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "Retriever-augmentation question hyq:54c2275f:2 asks about galvanic/isolation barriers for conventional devices on the 2X-A Táctil, which is a different document (Táctil compatibility list) and product line; the candidate is explicitly scoped to the 900 Series protocol list for 2X-A/ZP2-A, so it is treated as distinct rather than a semantic duplicate, though the topics are adjacent.",
+          "The candidate prudently preserves the asterisks without attributing meaning to them, since the asterisk definition is not on the focus page; this avoids an unsupported claim."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Row 'Conventional IS Barriers | GBX370* | Galvanic isolator for notification devices' visible on page 5."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Row 'Conventional IS Barriers | TCA-0066* | Dual galvanic isolator' visible."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Row 'Conventional IS Barriers | TCC-0012* | Shunt diode barrier' visible."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "fable",
+    "call_label": "review:sol_candidates",
+    "model": "claude-fable-5",
+    "status": "end_turn",
+    "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_kuwait_pcb_callouts\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The retriever-augmentation question hyq:7d166450 asks where the USB connector is on the 2X-A Táctil PCB, but that concerns a different document/product and only the USB location; this candidate covers the full numbered callout map of the Kuwait large-cabinet Figure 1, so it is not a semantic duplicate.\",\"The counterpart additionally distinguishes callout 13 (power supply itself) from 12 (power supply connector); the candidate correctly reports 12 for the connector as asked, so no disagreement.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '6. Ethernet connector' visible on page 10.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend items '7. USB type B connector' and '8. USB type A connectors' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '2. COM2 serial port' visible.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '9. COM0 serial port and interface connector' visible.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '10. COM1 serial port and interface connector' visible.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '11. Battery connector' visible.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '12. Power supply connector' visible.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '17. User interface connector' visible.\"}]},{\"canary_id\":\"kidde_touchscreen_regions\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Existing retriever-augmentation questions about touchscreen icons (hyq:6312cef2) and front-panel controls (hyq:6f86e5cd) cover different content (icon meanings / physical controls), not the three numbered idle-screen regions, so no duplication.\",\"The counterpart adds supplementary details (idle-state counter values, cross-reference to page 9) that the candidate omits; these are optional context and do not make the candidate incomplete for the question asked.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 1: 'Panel de control (controles de acceso, navegación y configuración)' visible on page 11.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 2: 'Panel de configuración de estado y pantalla (información de estado del sistema y la central, y configuración de la pantalla táctil)' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 3: 'Menú principal y área de visualización de mensajes' visible.\"}]},{\"canary_id\":\"kidde_900_is_barriers\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Retriever-augmentation question hyq:54c2275f:2 asks about galvanic/isolation barriers for conventional devices on the 2X-A Táctil, which is a different document (Táctil compatibility list) and product line; the candidate is explicitly scoped to the 900 Series protocol list for 2X-A/ZP2-A, so it is treated as distinct rather than a semantic duplicate, though the topics are adjacent.\",\"The candidate prudently preserves the asterisks without attributing meaning to them, since the asterisk definition is not on the focus page; this avoids an unsupported claim.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | GBX370* | Galvanic isolator for notification devices' visible on page 5.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | TCA-0066* | Dual galvanic isolator' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | TCC-0012* | Shunt diode barrier' visible.\"}]}]}",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 64785,
+      "output_tokens": 3112
+    },
+    "provider_trace": {
+      "id": "msg_011Cd8ZbXGYXXYyrELU7DCo5",
+      "container": null,
+      "content": [
+        {
+          "signature": "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",
+          "thinking": "",
+          "type": "thinking"
+        },
+        {
+          "citations": null,
+          "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_kuwait_pcb_callouts\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The retriever-augmentation question hyq:7d166450 asks where the USB connector is on the 2X-A Táctil PCB, but that concerns a different document/product and only the USB location; this candidate covers the full numbered callout map of the Kuwait large-cabinet Figure 1, so it is not a semantic duplicate.\",\"The counterpart additionally distinguishes callout 13 (power supply itself) from 12 (power supply connector); the candidate correctly reports 12 for the connector as asked, so no disagreement.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '6. Ethernet connector' visible on page 10.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend items '7. USB type B connector' and '8. USB type A connectors' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '2. COM2 serial port' visible.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '9. COM0 serial port and interface connector' visible.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '10. COM1 serial port and interface connector' visible.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '11. Battery connector' visible.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '12. Power supply connector' visible.\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Legend item '17. User interface connector' visible.\"}]},{\"canary_id\":\"kidde_touchscreen_regions\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Existing retriever-augmentation questions about touchscreen icons (hyq:6312cef2) and front-panel controls (hyq:6f86e5cd) cover different content (icon meanings / physical controls), not the three numbered idle-screen regions, so no duplication.\",\"The counterpart adds supplementary details (idle-state counter values, cross-reference to page 9) that the candidate omits; these are optional context and do not make the candidate incomplete for the question asked.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 1: 'Panel de control (controles de acceso, navegación y configuración)' visible on page 11.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 2: 'Panel de configuración de estado y pantalla (información de estado del sistema y la central, y configuración de la pantalla táctil)' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Item 3: 'Menú principal y área de visualización de mensajes' visible.\"}]},{\"canary_id\":\"kidde_900_is_barriers\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Retriever-augmentation question hyq:54c2275f:2 asks about galvanic/isolation barriers for conventional devices on the 2X-A Táctil, which is a different document (Táctil compatibility list) and product line; the candidate is explicitly scoped to the 900 Series protocol list for 2X-A/ZP2-A, so it is treated as distinct rather than a semantic duplicate, though the topics are adjacent.\",\"The candidate prudently preserves the asterisks without attributing meaning to them, since the asterisk definition is not on the focus page; this avoids an unsupported claim.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | GBX370* | Galvanic isolator for notification devices' visible on page 5.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | TCA-0066* | Dual galvanic isolator' visible.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Row 'Conventional IS Barriers | TCC-0012* | Shunt diode barrier' visible.\"}]}]}",
+          "type": "text"
+        }
+      ],
+      "model": "claude-fable-5",
+      "role": "assistant",
+      "stop_details": null,
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "type": "message",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 64785,
+        "output_tokens": 3112,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 1177
+        }
+      }
+    }
+  },
+  "result_sha256": "9d0120ca21efb16435226f8a97171aec5e0a70a224ebe2bf8001cb17b12c8dc3"
+}
