@@ -1,0 +1,565 @@
+{
+  "schema": "s215_kidde_fable_generations_v1",
+  "status": "COMPLETE",
+  "provider": "fable",
+  "items": [
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "candidate": {
+        "canary_id": "kidde_2xa_interface_tradeoffs",
+        "adequacy": "SUFFICIENT",
+        "question": "Tengo dos proyectos con centrales Kidde de la serie 2X-A: uno sin requisitos de bomberos y otro nórdico que exige interfaz de brigada de bomberos escandinava. Entre la 2X-AF1-S y la 2X-AF2-SCFB-S, ¿en qué se diferencian exactamente la interfaz de usuario y el número de salidas supervisadas de sirena/enrutado de fuego que trae cada una de serie? Y si en cualquiera de las dos monto la placa opcional de indicadores LED de zona de fuego/avería, ¿de cuántas zonas es en cada modelo y qué ocurre con la llave escandinava?",
+        "expected_behavior": "answer",
+        "gold_answer": "Interfaz de usuario: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava', es decir, con la interfaz de usuario de brigada de bomberos escandinava integrada; solo la 2X-AF2-SCFB-S incorpora además el bloqueo por llave escandinava (Scandinavian-key lock). Salidas supervisadas de sirena/enrutado de fuego de serie: la 2X-AF1-S trae 2 y la 2X-AF2-SCFB-S trae 4; en ambos modelos esas salidas pueden usarse también como salidas libremente programables. Placa de indicadores LED de zona: en la 2X-AF1-S la placa opcional de fuego/avería es de 20 o 40 zonas, con amplio espacio para texto personalizado, y el documento no asocia su montaje a ninguna llave; en la 2X-AF2-SCFB-S la placa es de 24 zonas, con espacio para un número de 4 dígitos, y su montaje elimina la llave escandinava (Scandinavian-key lock), un compromiso que solo existe en el modelo escandinavo porque la 2X-AF1-S no dispone de esa llave.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "La interfaz de usuario difiere entre ambos paneles: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava'.",
+            "type": "core",
+            "state": "present",
+            "value": "2X-AF1-S = Sin controles de Bomberos; 2X-AF2-SCFB-S = Interfaz escandinava",
+            "citations": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 2
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 2,
+                "evidence": "Tabla General, fila 'Interfaz usuario: Sin controles de Bomberos'"
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 2,
+                "evidence": "Tabla General, fila 'Interfaz usuario: Interfaz escandinava'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F02",
+            "text": "De serie, la 2X-AF1-S dispone de 2 salidas supervisadas de sirena/enrutado de fuego, mientras que la 2X-AF2-SCFB-S dispone de 4; en ambos modelos estas salidas pueden usarse también como salidas libremente programables.",
+            "type": "core",
+            "state": "present",
+            "value": "2X-AF1-S = 2 salidas supervisadas sirena/enrutado; 2X-AF2-SCFB-S = 4; ambas usables como programables",
+            "citations": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'"
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'The Panel': 'standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F03",
+            "text": "La placa opcional de indicadores LED de zona de fuego/avería es distinta: en la 2X-AF1-S es de 20 o 40 zonas con amplio espacio para texto personalizado y sin efecto documentado sobre ninguna llave; en la 2X-AF2-SCFB-S es de 24 zonas con espacio para un número de 4 dígitos y su montaje elimina la llave escandinava (Scandinavian-key lock).",
+            "type": "core",
+            "state": "present",
+            "value": "AF1-S: placa 20 o 40 zonas; AF2-SCFB-S: placa 24 zonas y su montaje elimina la Scandinavian-key lock",
+            "citations": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'Options': 'a 20 or a 40 zone fire/fault LED indicator board can be mounted... with ample space for custom text'"
+              },
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'Options': 'a 24 zone fire/fault LED indicator board... space for a 4 digit number, however this will remove the Scandinavian-key lock'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F04",
+            "text": "Solo la 2X-AF2-SCFB-S incorpora bloqueo por llave escandinava (Scandinavian-key lock) junto con los controles de interfaz de brigada de bomberos escandinava; la 2X-AF1-S carece de él, ya que se suministra sin controles de bomberos.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "Scandinavian-key lock presente solo en 2X-AF2-SCFB-S; ausente en 2X-AF1-S",
+            "citations": [
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "2x-af2-scfb-s-161721-es.pdf",
+                "page": 1,
+                "evidence": "Detalles: '2 High Power Loops... with Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'"
+              },
+              {
+                "pdf": "2x-af1-s-161721-es.pdf",
+                "page": 2,
+                "evidence": "Fila 'Interfaz usuario: Sin controles de Bomberos' (sin mención de llave)"
+              }
+            ]
+          }
+        ],
+        "notes": "Se excluye deliberadamente la cardinalidad de lazos por el conflicto documentado en 2x-af1-s (título '1 loop' vs párrafo/tabla '2'). Todos los hechos son comparaciones cross-source: los hyq de aumento cubren cada dato por separado en una sola fuente (p.ej. salidas de serie de cada panel, limitación de la placa de zonas en la AF2), pero no el contraste 2 vs 4 salidas, la diferencia 'Sin controles de Bomberos' vs 'Interfaz escandinava', ni el trade-off de la placa (20/40 zonas sin llave vs 24 zonas con pérdida de la Scandinavian-key lock). No se emite recomendación de compra; solo se enuncian las diferencias explícitas en los píxeles."
+      },
+      "validation_status": "VALID",
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "generate:kidde_2xa_interface_tradeoffs",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "```json\n{\n  \"canary_id\": \"kidde_2xa_interface_tradeoffs\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Tengo dos proyectos con centrales Kidde de la serie 2X-A: uno sin requisitos de bomberos y otro nórdico que exige interfaz de brigada de bomberos escandinava. Entre la 2X-AF1-S y la 2X-AF2-SCFB-S, ¿en qué se diferencian exactamente la interfaz de usuario y el número de salidas supervisadas de sirena/enrutado de fuego que trae cada una de serie? Y si en cualquiera de las dos monto la placa opcional de indicadores LED de zona de fuego/avería, ¿de cuántas zonas es en cada modelo y qué ocurre con la llave escandinava?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Interfaz de usuario: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava', es decir, con la interfaz de usuario de brigada de bomberos escandinava integrada; solo la 2X-AF2-SCFB-S incorpora además el bloqueo por llave escandinava (Scandinavian-key lock). Salidas supervisadas de sirena/enrutado de fuego de serie: la 2X-AF1-S trae 2 y la 2X-AF2-SCFB-S trae 4; en ambos modelos esas salidas pueden usarse también como salidas libremente programables. Placa de indicadores LED de zona: en la 2X-AF1-S la placa opcional de fuego/avería es de 20 o 40 zonas, con amplio espacio para texto personalizado, y el documento no asocia su montaje a ninguna llave; en la 2X-AF2-SCFB-S la placa es de 24 zonas, con espacio para un número de 4 dígitos, y su montaje elimina la llave escandinava (Scandinavian-key lock), un compromiso que solo existe en el modelo escandinavo porque la 2X-AF1-S no dispone de esa llave.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La interfaz de usuario difiere entre ambos paneles: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava'.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2X-AF1-S = Sin controles de Bomberos; 2X-AF2-SCFB-S = Interfaz escandinava\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Interfaz usuario: Sin controles de Bomberos'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Interfaz usuario: Interfaz escandinava'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"De serie, la 2X-AF1-S dispone de 2 salidas supervisadas de sirena/enrutado de fuego, mientras que la 2X-AF2-SCFB-S dispone de 4; en ambos modelos estas salidas pueden usarse también como salidas libremente programables.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2X-AF1-S = 2 salidas supervisadas sirena/enrutado; 2X-AF2-SCFB-S = 4; ambas usables como programables\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'The Panel': 'standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La placa opcional de indicadores LED de zona de fuego/avería es distinta: en la 2X-AF1-S es de 20 o 40 zonas con amplio espacio para texto personalizado y sin efecto documentado sobre ninguna llave; en la 2X-AF2-SCFB-S es de 24 zonas con espacio para un número de 4 dígitos y su montaje elimina la llave escandinava (Scandinavian-key lock).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"AF1-S: placa 20 o 40 zonas; AF2-SCFB-S: placa 24 zonas y su montaje elimina la Scandinavian-key lock\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Options': 'a 20 or a 40 zone fire/fault LED indicator board can be mounted... with ample space for custom text'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Options': 'a 24 zone fire/fault LED indicator board... space for a 4 digit number, however this will remove the Scandinavian-key lock'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Solo la 2X-AF2-SCFB-S incorpora bloqueo por llave escandinava (Scandinavian-key lock) junto con los controles de interfaz de brigada de bomberos escandinava; la 2X-AF1-S carece de él, ya que se suministra sin controles de bomberos.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Scandinavian-key lock presente solo en 2X-AF2-SCFB-S; ausente en 2X-AF1-S\",\n      \"citations\": [\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles: '2 High Power Loops... with Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'\"},\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Fila 'Interfaz usuario: Sin controles de Bomberos' (sin mención de llave)\"}\n      ]\n    }\n  ],\n  \"notes\": \"Se excluye deliberadamente la cardinalidad de lazos por el conflicto documentado en 2x-af1-s (título '1 loop' vs párrafo/tabla '2'). Todos los hechos son comparaciones cross-source: los hyq de aumento cubren cada dato por separado en una sola fuente (p.ej. salidas de serie de cada panel, limitación de la placa de zonas en la AF2), pero no el contraste 2 vs 4 salidas, la diferencia 'Sin controles de Bomberos' vs 'Interfaz escandinava', ni el trade-off de la placa (20/40 zonas sin llave vs 24 zonas con pérdida de la Scandinavian-key lock). No se emite recomendación de compra; solo se enuncian las diferencias explícitas en los píxeles.\"\n}\n```",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 53005,
+          "output_tokens": 6388
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9JW9VyBrZErdFbc35t8",
+          "container": null,
+          "content": [
+            {
+              "signature": "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",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "```json\n{\n  \"canary_id\": \"kidde_2xa_interface_tradeoffs\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Tengo dos proyectos con centrales Kidde de la serie 2X-A: uno sin requisitos de bomberos y otro nórdico que exige interfaz de brigada de bomberos escandinava. Entre la 2X-AF1-S y la 2X-AF2-SCFB-S, ¿en qué se diferencian exactamente la interfaz de usuario y el número de salidas supervisadas de sirena/enrutado de fuego que trae cada una de serie? Y si en cualquiera de las dos monto la placa opcional de indicadores LED de zona de fuego/avería, ¿de cuántas zonas es en cada modelo y qué ocurre con la llave escandinava?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Interfaz de usuario: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava', es decir, con la interfaz de usuario de brigada de bomberos escandinava integrada; solo la 2X-AF2-SCFB-S incorpora además el bloqueo por llave escandinava (Scandinavian-key lock). Salidas supervisadas de sirena/enrutado de fuego de serie: la 2X-AF1-S trae 2 y la 2X-AF2-SCFB-S trae 4; en ambos modelos esas salidas pueden usarse también como salidas libremente programables. Placa de indicadores LED de zona: en la 2X-AF1-S la placa opcional de fuego/avería es de 20 o 40 zonas, con amplio espacio para texto personalizado, y el documento no asocia su montaje a ninguna llave; en la 2X-AF2-SCFB-S la placa es de 24 zonas, con espacio para un número de 4 dígitos, y su montaje elimina la llave escandinava (Scandinavian-key lock), un compromiso que solo existe en el modelo escandinavo porque la 2X-AF1-S no dispone de esa llave.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La interfaz de usuario difiere entre ambos paneles: la 2X-AF1-S se suministra 'Sin controles de Bomberos', mientras que la 2X-AF2-SCFB-S se suministra con 'Interfaz escandinava'.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2X-AF1-S = Sin controles de Bomberos; 2X-AF2-SCFB-S = Interfaz escandinava\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Interfaz usuario: Sin controles de Bomberos'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Interfaz usuario: Interfaz escandinava'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"De serie, la 2X-AF1-S dispone de 2 salidas supervisadas de sirena/enrutado de fuego, mientras que la 2X-AF2-SCFB-S dispone de 4; en ambos modelos estas salidas pueden usarse también como salidas libremente programables.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2X-AF1-S = 2 salidas supervisadas sirena/enrutado; 2X-AF2-SCFB-S = 4; ambas usables como programables\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'The Panel': 'standard 2 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'The Panel': 'standard 4 supervised sounder/fire-routing outputs, which can be used as freely programmable outputs'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La placa opcional de indicadores LED de zona de fuego/avería es distinta: en la 2X-AF1-S es de 20 o 40 zonas con amplio espacio para texto personalizado y sin efecto documentado sobre ninguna llave; en la 2X-AF2-SCFB-S es de 24 zonas con espacio para un número de 4 dígitos y su montaje elimina la llave escandinava (Scandinavian-key lock).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"AF1-S: placa 20 o 40 zonas; AF2-SCFB-S: placa 24 zonas y su montaje elimina la Scandinavian-key lock\",\n      \"citations\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Options': 'a 20 or a 40 zone fire/fault LED indicator board can be mounted... with ample space for custom text'\"},\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Options': 'a 24 zone fire/fault LED indicator board... space for a 4 digit number, however this will remove the Scandinavian-key lock'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Solo la 2X-AF2-SCFB-S incorpora bloqueo por llave escandinava (Scandinavian-key lock) junto con los controles de interfaz de brigada de bomberos escandinava; la 2X-AF1-S carece de él, ya que se suministra sin controles de bomberos.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Scandinavian-key lock presente solo en 2X-AF2-SCFB-S; ausente en 2X-AF1-S\",\n      \"citations\": [\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"2x-af2-scfb-s-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles: '2 High Power Loops... with Scandinavian Fire Brigade user interface controls and Scandinavian-key lock'\"},\n        {\"pdf\": \"2x-af1-s-161721-es.pdf\", \"page\": 2, \"evidence\": \"Fila 'Interfaz usuario: Sin controles de Bomberos' (sin mención de llave)\"}\n      ]\n    }\n  ],\n  \"notes\": \"Se excluye deliberadamente la cardinalidad de lazos por el conflicto documentado en 2x-af1-s (título '1 loop' vs párrafo/tabla '2'). Todos los hechos son comparaciones cross-source: los hyq de aumento cubren cada dato por separado en una sola fuente (p.ej. salidas de serie de cada panel, limitación de la placa de zonas en la AF2), pero no el contraste 2 vs 4 salidas, la diferencia 'Sin controles de Bomberos' vs 'Interfaz escandinava', ni el trade-off de la placa (20/40 zonas sin llave vs 24 zonas con pérdida de la Scandinavian-key lock). No se emite recomendación de compra; solo se enuncian las diferencias explícitas en los píxeles.\"\n}\n```",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 53005,
+            "output_tokens": 6388,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 3449
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_mcp_surface_kit_selection",
+      "candidate": {
+        "canary_id": "kidde_mcp_surface_kit_selection",
+        "adequacy": "SUFFICIENT",
+        "question": "Para un pedido tengo que elegir entre el pulsador Kidde KE-DM3010R y el KE-DM3010R-KIT. Según lo que el fabricante declara que se entrega con cada referencia, ¿en qué se diferencia exactamente el suministro de uno y otro, y qué elementos entregados y capacidades declaradas tienen en común (por ejemplo, dispositivos por lazo y uso en instalaciones existentes)?",
+        "expected_behavior": "answer",
+        "gold_answer": "La única diferencia en el suministro declarado es la caja de superficie: el KE-DM3010R-KIT se describe como pulsador de la serie Excellence «con caja de superficie» y su ficha dice que se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba. La ficha del KE-DM3010R dice que se entrega completo con elemento rearmable, conector de prueba y llave de prueba, sin mencionar una caja trasera en la frase de suministro; por tanto, solo el KIT declara explícitamente incluir la caja. Ojo: la ficha del KE-DM3010R sí lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior y borne de pantalla), pero no afirma que esa caja venga incluida, así que tampoco puede concluirse que la excluya; simplemente no lo declara. En lo demás son coincidentes: ambos se entregan con elemento rearmable, conector de prueba y llave de prueba; ambas fichas indican que se admiten hasta 128 dispositivos por lazo/bucle; y ambas indican que en muchos casos pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "Solo el KE-DM3010R-KIT declara explícitamente en su frase de suministro que se entrega con caja trasera (además de elemento rearmable, conector de prueba y llave de prueba); la frase de suministro del KE-DM3010R no menciona una caja trasera.",
+            "type": "core",
+            "state": "present",
+            "value": "KIT: incluye caja trasera explícitamente; KE-DM3010R: la frase de suministro no la menciona",
+            "citations": [
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección General: «Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba»"
+              },
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección General: «Se entrega completo con elemento rearmable, conector de prueba y llave de prueba» (sin mención de caja trasera)"
+              }
+            ]
+          },
+          {
+            "fact_id": "F02",
+            "text": "Ambas referencias (KE-DM3010R y KE-DM3010R-KIT) se entregan con elemento rearmable, conector de prueba y llave de prueba según sus respectivas frases de suministro.",
+            "type": "core",
+            "state": "present",
+            "value": "elemento rearmable + conector de prueba + llave de prueba en ambos",
+            "citations": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1,
+                "evidence": "General: «completo con elemento rearmable, conector de prueba y llave de prueba»"
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1,
+                "evidence": "General: «caja trasera, elemento rearmable, conector de prueba y llave de prueba»"
+              }
+            ]
+          },
+          {
+            "fact_id": "F03",
+            "text": "Ambas fichas declaran la misma capacidad de lazo: se admiten hasta 128 dispositivos por lazo/bucle.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "hasta 128 dispositivos por lazo (KE-DM3010R) / por bucle (KIT)",
+            "citations": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1,
+                "evidence": "Detalles, último punto: «Se admiten hasta 128 dispositivos por lazo»"
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1,
+                "evidence": "Detalles, último punto: «Se admiten hasta 128 dispositivos por bucle»"
+              }
+            ]
+          },
+          {
+            "fact_id": "F04",
+            "text": "Ambas fichas indican que, en muchos casos, los pulsadores pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "implementación en sistemas existentes sin cambios en configuración de CIE (ambos)",
+            "citations": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1,
+                "evidence": "Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»"
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1,
+                "evidence": "Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»"
+              }
+            ]
+          },
+          {
+            "fact_id": "F05",
+            "text": "La ficha del KE-DM3010R lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior), pero su frase de suministro no afirma que la caja venga incluida; no puede concluirse que la excluya, únicamente que solo el KE-DM3010R-KIT declara explícitamente incluir una caja trasera.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "KE-DM3010R: características de caja en Detalles sin declaración de inclusión; inclusión explícita solo en el KIT",
+            "citations": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "ke-dm3010r-161721-es.pdf",
+                "page": 1,
+                "evidence": "Detalles: «Caja posterior con entrada de cables posterior, superior e inferior»; General sin mención de caja en el suministro"
+              },
+              {
+                "pdf": "ke-dm3010r-kit-161721-es.pdf",
+                "page": 1,
+                "evidence": "General: «Se entrega completo con caja trasera...» y título «con caja de superficie»"
+              }
+            ]
+          }
+        ],
+        "notes": "El gold se limita al alcance pre-congelado: elementos que cada ficha declara suministrar y capacidades compartidas. El conflicto conocido (back_box_inclusion) se maneja según lo requerido en F01/F05: se afirma únicamente que el KIT declara explícitamente la caja trasera y que la ficha del KE-DM3010R no la menciona en el suministro, sin concluir exclusión. Se evitó la diferencia de redacción de montaje (empotrado/superficie) y de marca de compatibilidad (Excellence vs Aritech) por estar fuera del alcance del topic, y se evitó cualquier recomendación de compra. Los hechos F01-F05 son cross-source (comparaciones no entailadas por una sola ficha) y no duplican la cobertura hyq de una sola fuente, que pregunta contenidos de cada referencia por separado."
+      },
+      "validation_status": "VALID",
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "generate:kidde_mcp_surface_kit_selection",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "```json\n{\n  \"canary_id\": \"kidde_mcp_surface_kit_selection\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Para un pedido tengo que elegir entre el pulsador Kidde KE-DM3010R y el KE-DM3010R-KIT. Según lo que el fabricante declara que se entrega con cada referencia, ¿en qué se diferencia exactamente el suministro de uno y otro, y qué elementos entregados y capacidades declaradas tienen en común (por ejemplo, dispositivos por lazo y uso en instalaciones existentes)?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La única diferencia en el suministro declarado es la caja de superficie: el KE-DM3010R-KIT se describe como pulsador de la serie Excellence «con caja de superficie» y su ficha dice que se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba. La ficha del KE-DM3010R dice que se entrega completo con elemento rearmable, conector de prueba y llave de prueba, sin mencionar una caja trasera en la frase de suministro; por tanto, solo el KIT declara explícitamente incluir la caja. Ojo: la ficha del KE-DM3010R sí lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior y borne de pantalla), pero no afirma que esa caja venga incluida, así que tampoco puede concluirse que la excluya; simplemente no lo declara. En lo demás son coincidentes: ambos se entregan con elemento rearmable, conector de prueba y llave de prueba; ambas fichas indican que se admiten hasta 128 dispositivos por lazo/bucle; y ambas indican que en muchos casos pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Solo el KE-DM3010R-KIT declara explícitamente en su frase de suministro que se entrega con caja trasera (además de elemento rearmable, conector de prueba y llave de prueba); la frase de suministro del KE-DM3010R no menciona una caja trasera.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"KIT: incluye caja trasera explícitamente; KE-DM3010R: la frase de suministro no la menciona\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección General: «Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba»\"},\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección General: «Se entrega completo con elemento rearmable, conector de prueba y llave de prueba» (sin mención de caja trasera)\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Ambas referencias (KE-DM3010R y KE-DM3010R-KIT) se entregan con elemento rearmable, conector de prueba y llave de prueba según sus respectivas frases de suministro.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"elemento rearmable + conector de prueba + llave de prueba en ambos\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «completo con elemento rearmable, conector de prueba y llave de prueba»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «caja trasera, elemento rearmable, conector de prueba y llave de prueba»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Ambas fichas declaran la misma capacidad de lazo: se admiten hasta 128 dispositivos por lazo/bucle.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"hasta 128 dispositivos por lazo (KE-DM3010R) / por bucle (KIT)\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles, último punto: «Se admiten hasta 128 dispositivos por lazo»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles, último punto: «Se admiten hasta 128 dispositivos por bucle»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Ambas fichas indican que, en muchos casos, los pulsadores pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"implementación en sistemas existentes sin cambios en configuración de CIE (ambos)\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"La ficha del KE-DM3010R lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior), pero su frase de suministro no afirma que la caja venga incluida; no puede concluirse que la excluya, únicamente que solo el KE-DM3010R-KIT declara explícitamente incluir una caja trasera.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"KE-DM3010R: características de caja en Detalles sin declaración de inclusión; inclusión explícita solo en el KIT\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles: «Caja posterior con entrada de cables posterior, superior e inferior»; General sin mención de caja en el suministro\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «Se entrega completo con caja trasera...» y título «con caja de superficie»\"}\n      ]\n    }\n  ],\n  \"notes\": \"El gold se limita al alcance pre-congelado: elementos que cada ficha declara suministrar y capacidades compartidas. El conflicto conocido (back_box_inclusion) se maneja según lo requerido en F01/F05: se afirma únicamente que el KIT declara explícitamente la caja trasera y que la ficha del KE-DM3010R no la menciona en el suministro, sin concluir exclusión. Se evitó la diferencia de redacción de montaje (empotrado/superficie) y de marca de compatibilidad (Excellence vs Aritech) por estar fuera del alcance del topic, y se evitó cualquier recomendación de compra. Los hechos F01-F05 son cross-source (comparaciones no entailadas por una sola ficha) y no duplican la cobertura hyq de una sola fuente, que pregunta contenidos de cada referencia por separado.\"\n}\n```",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 41053,
+          "output_tokens": 5398
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9JbjJbzaZa4enSvHthw",
+          "container": null,
+          "content": [
+            {
+              "signature": "CAISkjMKiAEIDxgCKkCZ0WlBEbLPWhRH07tLuizetjo0OBAB398mDA5g1CwZycE7B8m5YZd6l8STW+wQvnYf1I7SUy4B/kbVN5jlPvDsMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgywEAhhaWl9S4+RIfcaDDurwthui38JppcbJyIw+6xmNYX0S1schddoG9RZ1nbxePlTWlQgrRsN8isktQuNWmRPIJP6Q/ydTj/FnFJiKrYxpCodRkUTtv1+DkmVBXgFfNFdA8wjw7wLj1PSTVflkIoRgEmx64PLHF+KNenyKEockBcpN9yNo6f6CAYf3gC5gRrbHtL4ItDq9F2+7xM7hry5/uWU/ehhXnx/r0h6mb17PknhRyVJXT/rvMEg3UxQzNih2JNmoIpo9FuWcU6dY0gogm5gyhHQuyIdFzbv49xafSdlYf5YKQkH1ujCWOGbpe+9+sJAt1Fxvxv+anwFXuRnfQReAIOUKGUFyeSMmN8rDalt68r9AhfDzJSW2ObdTAg37DckTclXhZaYVXDXGTbGCZHVeiB2r3igrX/ShyyDOlo05EQTNdup/P88G98dTEk4zsT/W0ImrM95GOeAzQ2MEQM3jBmJrzvihbUqg4B9IXev5hYfZajCwdOVq56AbKOpvdwlM3tVwMsvaECyeK9jO1xGWKrHYz7uZ22Bte6BAlKfacasO+2/l1Pg63GXy88N7D1i/wQ/BlwYUV4jm5j/khBze0yyErStPMUhCj0I5HeUoLDTVG5Zh8d4EoOqU8cGNWujmz40ahGw8ux1LmcWnQjpavz1PpED2jYbM3vgSQjbDEmp6YCxMzhEvAJZOUpBSPwNlVZ1SzKl+SzKZuXfjeltdX9SM9ZRSc3OpCEvtInDwKV3cp+izKRhJU+EJae2m1vUwZfjPZLb3StG8OhC4RJjyDyQYI35+tvzpk63lJZZK9HBtyunqT4ZgaHNxKrFCwnxNKe0Ilf9B9W6XgjxiRCChh+LVpLBt5lDolojLtJmSG43Jb0O3D9JgN9l7KaB+p3DG0We1yucoWfL1K1V6QXtaN8ff7jfty0beNu+LC0ORc67wLanhalHIx8svGNBF9TUWXvZkI1kxa611NsuwWpJ7TKAk9bCGyXMx4ptF1tlYRdvp70zzuUH6ite47vpU/vrqhVE9JBAe+GzwQFZco5ZToALCT3YVsdewtPygNoRRSUHSJf48zsPygxab7zlWU0g+RN/R4OXa7ECIkhk7ODrK+8+DLiHAzWa3rlLMXFQA9l2qxKpsBQwY2FIJcqy9PU61oP4ZQUlYn2MPLgTWHiesCC27wc7WIdAM6oiEfenBGHA1Y+5oK42N0Uostuuq3w3WhEC1f2OX9+RNRtBKqdoht5C74EXIE6q5TbjK2GHg67JUOXUAQPLYzrdqxjYy/zcUhr8h7W4TViiP5C7mQvYMlnN9K53cL6Yj8eHT9ERjkppxFoobgLqbGZpnQDZYDB3YfQTy+syfeli2pli8b0r7oAsxb7tGKWlXzfM9l87zWlhczajBnXg6/6Fkethp8AOPQ470w4kd+gIIUbkzWxTr7Yae6LI+8mHrBou0fbndPLJUcTHECU2w0kJ6DD/ardXkozZYiOMhyTMqrP9jyl6vWpaSgvZHSEieyHx6njSDgmNdR5qjH6iNAXaLWa94VcRJwx3TnLJ2FV4ptlmhBOHgUyTaXlSVQmlPJW+o+2Pd14F632e2bi2HT2BthuogWx4t7Eit7LnY3ukbQPL4wbpX/m+p75CtKTppJaxM9RgCxBQ/Iw1RgdzMkSC7nKXVEevD8HGh5qaJmXv0C6LyO7zW1VM/EW8YDTBte05azRlHOFwp+oZl0h9/DH5vMfu3/wefbQmNLDd++YVY/hatNEPPfwxUweYydijHS82uw+MPz82M5pg4pkoxi/ak6/747jGdYYdRrysghwW0UaJy28Za6rtm5NBSkXB9RmYP1crz0ApJTl47mqSJ6AofQdarAN2wsV09xX2YWkO6pwp+rnVPuMlF2+odpVJ2+NzwOAfQkeebpjISt+PI3tf9VXaRoViVL73F66znCnCAj9LNpcWST2ys2rIsMOe2kOMiHvj/JBF92q4X3Sthqj+JAHi3+SwfylwDsIi2iE/7RSMdIAHAEdjauK2TJ5o3iG7eTf9qxzE6DWijgYQoAE5m+ydeOupjrmJ20T2KeNKeWWo+oHkO86gW2Xhx635oPOaf33xbLInJfWWj5Pk34IZv4RCrolxtAd03lSoK6ic6TNbZBpc/0LCyinEDglepdjzNvpTQTNENRgUVtChVrSThDEqSPLAYIbRlEapoKU7s6qTgcONKajWqOkWwxxF7J/9TT70MVa8ZPvH84ozzlkccER0Pyv6uOP1wqY2tszbjg2uVAOOEK02uaMNE2e0jojhfRfzxo5HpvkWUaZFpZlflkpxaaumaBUTyAWvHDDsTMS9J6Hv6iqmACOhx1I2D6RP/ZaTjfsRVhoMiGvnOGvZnNoEhBdIyddw9kk1+vD2V88AbknAnHkged4PPV4pND+ESRpXAe+J+cveXs53svJ3qayFAeg33fJr2QzZnq4as4Ix7ohLhZCr0Z2NVq/9faudWmtAfLdMTrYEPOZugsJhqNHhpy16bTI/7sgRcQJD1EFq0acUQDaXbZQ0243hMR02+saSpDPNZmOOUfvrL821AgmhEWU7QnTtClG3SDiyij71fWuDlWJpRMqV8Hz4f2TM1I7j5yyuR/ANYIBssOUAQOdsQVe63PYRvXnZyS5Ym9O1g7OdCfm3CGuPfUcGGh60sZCkhZMBkjL0bb1KXDHXur9XJyLIdr0j6wRynh0WZBQvn3YNkzt0DTixGbtXhpCASFO6SuqOgd1ti4gVWvjbArZA+pI9i/jUznVkmY0GQtGc4xLW3IqBo/OzPwWeVv67i6nDh1SdYGIp55aTEpSbzCBdtNIE9wqHqMk9lnPrW2bT1peX9Pnp2c/uPA5+VmPTEWPy2hPGm0PZs6uaNNN8bZIUhOgNvlhKpM0Xh4Mr3JFb8CL99ya6daBO8EWUhKttkqeVLObKDDbtvIfeV9xZmgdfmYK3nMY2UrH5j4V+V0mkS4KQOHVJibS/SW5Z5onUrpBLV/3zMB0G4SF3xteYBHzzSPf5ki9AYjPWwn4WHFIHzEtfcX5iJ0F5TQaUTaZoFiYANGLRu0NCQBUsETmld9AemfrCN+tdZC65OXmA2RvneTWd4BdQkco0XxMigPdCBDAbegoQCBz3vqzXR9jAZFdg1xIK2+hV8AmiSLCig8/gWrPye7vCoq8YUdmJot9ja5AV0qKpNgNncu3dR759+CluOIPNbsncsd3bpCQl4Fvpcv4eLl7cXlhiWl7XwfUA7RKRnFDgd4TQcEE5nlnbQf+JJQtKJ/NGzXs+p3bmgJdLuWc7kLA5ETWEl4TPzvtPXE12G4JYWEoDjjtsvcQd6WpWcP4cAQZca4Aw87g8YYwnYI9qt0m7e+e2UtH5KbTQT6FspQL/SluIP774LKzSFlF3zMJniGZNAGT4+6rV+DGAP9NNCuaeaS12CmyicS5JTEHENlf6uXeUKqkybcEpCzANs4eOCQrdxI1dnPiK6+CL3cJ6JbzO5e8KSYnjm2gRgfmOPm+x1kPRAockPpF+CFSXfE7zIgzn+rSTLFhfpOMYTaCdf8scJc31Jgfvea2RfMTzljXBHFON6iMNPBKlK62hn6dYjyp/aR+TWw1q1iMOjQ8o+UMUZ7KTxDhbuIpV7e8n1SqX8/87uoyAgszSvqAhHiyZh36/UF/9H++Ssgm+cb9NFlRLZ4AbUaW7EYknzmAHZJeto68QbPY4QflajabhXdoKn/DM53tyy+7+qA+E2g/6eJleyiQaP+vXmt0CtBKLDBzU51Qn0hG4WJg14CeO1TseLkb+AvBEZNmL4gmbTVG7c12kg8QIBufDLQDrMfjYlj6cnGQamegmKl/albjdXfpZxhm/eSLWoqitegcR9i+dSdxP/nrIIysPf7OZW8YqL2Gxnllt8CqNz3VySUTc1EQqkA/fgdz9zViPg7QRzFDXYnUg+UU0vnbxEq3ZBKqVoBsKZFdx/STD6FDsZDF9wbtoSqeS+scnBUdepFYPF9+c0qGSNb5RX/pfnWX+OmCSC44NkpecucAJGLFUbkXNfXEprKMSA1aan1d9jtDpF3y9u1wbKjJa1INn2qWOQ+VClHKl6AxnL1vkYSCSj24/YUZnJxZbDRvv/oiB4aQOE7LnJWbY+MfQ0BY60IDQGVfG+t06g4Oxo+ZthQhcLq2jDwEg3pSU/mmrKw26N7RGA7t+ACgX3v8/nhovPbCDnfAARAnMjnKOPr/hDJbSpchpE/I6RC/8WkFdX8afm0WDNpotKyjXDJYMr3wt0PF8zf7voLdyaQhE4RiFxR9wIK1Q8eFsvRrDAOy9x8uZasNslUoN8DYf66cOPKykBY/K54G58aDXozx/A9/mRfqrMNl4yQs4S0M3lTWpzcu8aZzDuo/VOW99oY0iFVZkKdM3te8b0fN+2DDfZGuXhUERYW1PcUrLFYdmWmnAg3IdHJldU6rdgqcTCF5H+Vdxs9ct3bxtqsvctUVraQPPn6le7JX6Pu5dqUXza9Fa7GgVn9rqg4Ygir/CVduyQkYYWejNjr0q9l9zfodWMoFRBwYTM44p/DENIlOiikM9Wn4sxaL4R7Pp+0/gnKJ8NVeJSr3zMnrD03NeGDkdJ1nKmvIGhxLxspCxh+9dlXvOiZATAZxu/EwyalTVXVrYf/aynHG2s6oMrE2x/mD8Q1ECWH2Ngu/0tlasBDFOOBCyoRHPDNkHLI8QPd7/nurtMU5z53GLvuyP6S2v1bxy9ea6vXtMSlMKpxhWKGn2fyMOp0uh0mpvBYPjN/7lrPU1TTtDWzvg9Nveb4sLCawagBk4k/VhRDGwjPzbVcn6J553omf0FobfszOE645TdTHKzVYqL6evhIpiy2t/CTWPaL4B1mJzJGsCGVTQb+g4Wao2Us5Y2yeWysxSl1ZjTnrLAVxrjKTV36ipYuxs5K7+aEVNyBtwOVtW80mCdBccaO3K5FAUt4U5nukUetgIwt777ow9nk0DSb+o0ONUCSClayhbj7NAK0FLqdPjwzhzSG8WGYeUbyoBZorAdB61shxLqkofUR5wzMbEUL1rVbcL26lffjYqpu3WAhYsDuQdMGQyCwSguI2CC5yZAfIKb2ZEgD6ThPkHy7H8ubV08xsFKUeCH+N5bSR+RM43M0lrkY82TwZUeFZUsmgts1fbeiBJPGhf+quMT50wM1vvWgb2tl34eQcHhUJJHKBjyo6Vr2SXHW5KvxrLcWysSOQOaHtriMt2uzwkPHVNcrh9hc9Te4m3DkXnen/ggrhSAEXO0kHS2ZZaibDfOEhSZRgHTHbOegwGPoPUJi2O4dqacr+cQSussuNM9OUmq/g5VoWp0ktXGVDT1T5XZzkqOZkkUAzGJywlmSQ0TA23NZEHs4t8GZJfjCpRHRuI+nA62Wine27pxlzg9mr2X9BDrCKydjpwAYfqyToDdJebeWJ6FD/GCH5Ys82far8u/UolJMyZ+xves8OwKyXDR7SaH9EZqMfjwJK0tJ3RER+vMnIfUsGf/RsD27ENdJDGYFViNAT2NoghdN5tviCs1OvQkwhgU8/wlpk6/q/wPTz4iFP2O8SU4uWkHiEq/exBIO9t6zEZmPkfvjhNpPFXsz+/UfI6oT+1RcytiKPTklcw9xefqOuURZvt+G2ZZFmQShgKVspit9f++PfEGqlXc88kuSwJvh/UOKjjZdylVyHHYTwIl7cA9/ejKILWKSh87fPig/Y+5al5TY+S5EjabAgBzj5SxT82oQXw2/NdJdnjiEF08TWV8Supi7FJVDdgYSRcz8fJ28woRBGIRVkBgjSvSy1UFnk+nwqQhe4FahBy80jmSGJ0kpIEeFUvVPg5wT5ND+je8AppV7CXsaEUikAiQ6sQI/Rbbm+k5cSuxHPhoUXRzYWU6GPSE3ADsPWeIK+DU/kAbnpKBNdyFFNtj9TjGFogBMdCsOIIhc3p4QQVVOg4jXN94LpGJ3dJpszhSHCkvDhuYBmF6rdvlykkgVXVIzMknVF/Dp5unJFFqfVkA7FA7XbWdZIUh40iby+wb4XWqinhb6pX11yzDAB5LKsQ19ccBkaiTLmYI/ake0ny3IVGyCHaE5pRyQcJLgcgbFVhjjZw0uxZAT5TYc2dmJslbeMCF3+hsJsveOhVSyOpcdjIRR8gdL5ed43xvrHpzi6nc9HnaR5DHZi+N1lYPapIwesqH35QDYpo5q5JaFTtAS8WyxxEgpXxpAG826TIsDimNOvmyFjC4COwpseDSlQYJUZLZjXipTOfkf8P2Op3I2EDADcjhH3dBHuszsFimHAVnp0qA+VMUUpSZhTF2Ss48hersD0wk1qstyvpy2BcRFP5ZYY5oXJVi24qiJWQrKpF1NyVEd/BmNPEjKE+1g71HbuWkW+dGgeflqINVaUxDhxljvn7Kq7bzVD+MZXls/L5bSNtvEBjeODlqK+TDGVM70m5PPvPzGZkcXeojZ+udLR9fS7vsBd88FppPMAGO5JWezoirfW4HCFIVby2ElFFgS20JxgVMXc0hRN5ErG3JLtBrYscdsIcf70NAzd+eA1dYMuarkkrou+l8KbQ8cvMxQcPW6VoL6iM3scw1bvX4dR2o4aoVcSemW0f/NrwLluzFObmrsX74YoW0RQMMF/RkBHVtC9eXMOQWDyi/efL+2nHp4XMgo9OFlvgLAW6dwV/t31TPc4z7BGcsehgV5OtJSmyGDDqvhHhp8sXTOvfIxa86RoVJ753HT1GWh47CjdpGXGq6cfdMJl7HmHykAiB0bDsBOlhofmviIqoecWeFAYefnEolPKKtZ8RkdzzOmaD75VKZ1gpPIJ98emaudkHq/joNbtXvFKgZT8VaVOWKaHEjh5Nkb+ocMdABEQBxLGaptcy+Zk0jtmduX9jOOMo7aNVmqdr+66qjlAmjbA0/Ym08vf9vBCCc46z2UP3A8C6S/D7LH/+fKR7Q5bAxDH7yOstQuyjxdBoF1+H34DKCG5e/Cq6LBOtN2rCsJa+nLK75FmqSeUruEV8weOjyrjlPeJrDDpRmTsBsUFyQ5fkGJ6LtoysiCIls3xLcVA22oh3RfHItYpOtMdOe3tlHyc/9pYwv0PCDYH1Z21kBAi9m4JmsoiJHsmw5d2PmOa+z8/wCBmxQ3mpe5DGaf8w9sURhLGkbwn58rcQqXisyJn/2Gf8tRGMIKDAG6LFzw3ltTH1y1kAehrKzaVGLXUQnpEar6nBy40fhyDhxDSNqqqd1Sjj/VpqNVBBR4VU3lQWaZMhL4+5m2TJjfjaBpxf9xqQw8T7M66PZ8AOLEQY0hMzQgd9R+XsKddx0+K5rNE5Jo1FBar197SnGodMml+1Zbje/TjSnjQ/TsbUKWUx4hpr+a/iAcuVvRE29VCKzWWKI6UWm9Z689aQWMcRI8fZgMb9Zis+gk+XGnBeXNG2TIbnjY30Kj1rJTi5qdygaLY3mT63UrTqEfqqc/kMYYRqb3AK6y+BJPzJpEOFKq8Z7iKbpx2Uydavg3sY0wl09bBGG2TYjN7UUg5NmQJLhr6ZG4uRck8gmXMxNREOvjoxmcb6YjMfk8NctFB9flxUES5KVwXBNgICoCQSyPkLwHiJSOPnASmekFcv816BwdXCL6rBawY67hdvaU2eWVirCmRoIwSEVihdahv4KZPSBYsvvKnjdSV9YxAfzxW1GUkbJMrsWtqo9TU6qjD2yo16y4mJe3y0M6oSKX1OCB3pcpldJIu4PtlzwZpYBTBNN+KNQqL0gNMIb394NGFsIxt80EGAQyQdxGQjW8mntcTmBR63YmRYdhzR8quwbcftKLZ6imSjCmtyf36BWKKB6JDvkvmM0JmUQVXe34gVHjjrWCX5+w3QrRayH5CCvA+rQv6W/iHr2tE/5+2gycysIvCODuSTrF1BXaANR5fopnvs7rLbjskB6VJR2FctD9qHJlafwMCeJc7cd4I7IgWsJFKeH5/YGVpidXc29VZ0CTZ7aT+lyWAIW6E57Aqvoac6Rp7GRkSn3KxAcavWKlafAj62o1NslTIITprV7gVaZnIVSR1gcapIuasgDtVPhRYjgDiOUmQa92JieJH25PIbOTyCHV4EXfeQM/0C4vYFsmgta+1hjIeW8L4c3AWUUCvAl36Lu7kYLp3UW4nSuHWrAqmBdqtGN07/y9dUcFWIx9GoheapKiUxz3NW6TgBw1kF/k3ttE0xsWLMfjMExCUFvE9U9JLCFNWMufon2k/H/nq6rdc9Tdc5OKSpiGLnCcUqbpICcoC8+5lOy8fpu1lLXwgU0maMgirNGcyg+43WURkDk9lmYgtNFFHtM6kjN9DW+UAdITgbg/BnkoCIrMH9g8obmy+ejh3JkqFk/eMpemx4cQ1hOVdXdPd+AfgubXXMioWWl0IoZg5KFKIn/gqR+SiYH/jimHYhknEpWXZw2Js15pmyLYe1HpX1uIDkg0YoqJleJZ46CFHz4mo/GwpvqgAY7CQA8BzTVGIAqvCorPo8IL+NF/pnCuXI+ifgyqDmN53ywhHVKihyNRvOQv8+Yk6EMrsn4u6h3n+0iunvlLgusF3F80EczdUYAQ==",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "```json\n{\n  \"canary_id\": \"kidde_mcp_surface_kit_selection\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Para un pedido tengo que elegir entre el pulsador Kidde KE-DM3010R y el KE-DM3010R-KIT. Según lo que el fabricante declara que se entrega con cada referencia, ¿en qué se diferencia exactamente el suministro de uno y otro, y qué elementos entregados y capacidades declaradas tienen en común (por ejemplo, dispositivos por lazo y uso en instalaciones existentes)?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La única diferencia en el suministro declarado es la caja de superficie: el KE-DM3010R-KIT se describe como pulsador de la serie Excellence «con caja de superficie» y su ficha dice que se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba. La ficha del KE-DM3010R dice que se entrega completo con elemento rearmable, conector de prueba y llave de prueba, sin mencionar una caja trasera en la frase de suministro; por tanto, solo el KIT declara explícitamente incluir la caja. Ojo: la ficha del KE-DM3010R sí lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior y borne de pantalla), pero no afirma que esa caja venga incluida, así que tampoco puede concluirse que la excluya; simplemente no lo declara. En lo demás son coincidentes: ambos se entregan con elemento rearmable, conector de prueba y llave de prueba; ambas fichas indican que se admiten hasta 128 dispositivos por lazo/bucle; y ambas indican que en muchos casos pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Solo el KE-DM3010R-KIT declara explícitamente en su frase de suministro que se entrega con caja trasera (además de elemento rearmable, conector de prueba y llave de prueba); la frase de suministro del KE-DM3010R no menciona una caja trasera.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"KIT: incluye caja trasera explícitamente; KE-DM3010R: la frase de suministro no la menciona\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección General: «Se entrega completo con caja trasera, elemento rearmable, conector de prueba y llave de prueba»\"},\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección General: «Se entrega completo con elemento rearmable, conector de prueba y llave de prueba» (sin mención de caja trasera)\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Ambas referencias (KE-DM3010R y KE-DM3010R-KIT) se entregan con elemento rearmable, conector de prueba y llave de prueba según sus respectivas frases de suministro.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"elemento rearmable + conector de prueba + llave de prueba en ambos\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «completo con elemento rearmable, conector de prueba y llave de prueba»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «caja trasera, elemento rearmable, conector de prueba y llave de prueba»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Ambas fichas declaran la misma capacidad de lazo: se admiten hasta 128 dispositivos por lazo/bucle.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"hasta 128 dispositivos por lazo (KE-DM3010R) / por bucle (KIT)\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles, último punto: «Se admiten hasta 128 dispositivos por lazo»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles, último punto: «Se admiten hasta 128 dispositivos por bucle»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Ambas fichas indican que, en muchos casos, los pulsadores pueden implementarse en sistemas existentes sin cambios en la configuración de CIE.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"implementación en sistemas existentes sin cambios en configuración de CIE (ambos)\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"Compatibilidad: «pueden implementarse en sistemas existentes sin cambios en la configuración de CIE»\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"La ficha del KE-DM3010R lista en «Detalles» características de una caja posterior (entrada de cables posterior, superior e inferior), pero su frase de suministro no afirma que la caja venga incluida; no puede concluirse que la excluya, únicamente que solo el KE-DM3010R-KIT declara explícitamente incluir una caja trasera.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"KE-DM3010R: características de caja en Detalles sin declaración de inclusión; inclusión explícita solo en el KIT\",\n      \"citations\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"ke-dm3010r-161721-es.pdf\", \"page\": 1, \"evidence\": \"Detalles: «Caja posterior con entrada de cables posterior, superior e inferior»; General sin mención de caja en el suministro\"},\n        {\"pdf\": \"ke-dm3010r-kit-161721-es.pdf\", \"page\": 1, \"evidence\": \"General: «Se entrega completo con caja trasera...» y título «con caja de superficie»\"}\n      ]\n    }\n  ],\n  \"notes\": \"El gold se limita al alcance pre-congelado: elementos que cada ficha declara suministrar y capacidades compartidas. El conflicto conocido (back_box_inclusion) se maneja según lo requerido en F01/F05: se afirma únicamente que el KIT declara explícitamente la caja trasera y que la ficha del KE-DM3010R no la menciona en el suministro, sin concluir exclusión. Se evitó la diferencia de redacción de montaje (empotrado/superficie) y de marca de compatibilidad (Excellence vs Aritech) por estar fuera del alcance del topic, y se evitó cualquier recomendación de compra. Los hechos F01-F05 son cross-source (comparaciones no entailadas por una sola ficha) y no duplican la cobertura hyq de una sola fuente, que pregunta contenidos de cada referencia por separado.\"\n}\n```",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 41053,
+            "output_tokens": 5398,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 2355
+            }
+          }
+        }
+      }
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "candidate": {
+        "canary_id": "kidde_modulaser_role_selection",
+        "adequacy": "SUFFICIENT",
+        "question": "Estoy proyectando un sistema de aspiración Kidde ModuLaser con módulos de display estándar y módulos detectores, y necesito tener claro el reparto de funciones entre ambos: ¿qué módulo aporta la interfaz de usuario y actúa como punto de configuración, cuál es el que aspira y analiza el aire y activa los relés locales ante alarma o fallo, a cuál de los dos se conecta la tubería de muestreo (y con cuántas entradas de tubería por módulo), y en la ficha técnica de cuál de los dos módulos está especificada el área de cobertura?",
+        "expected_behavior": "answer",
+        "gold_answer": "En la arquitectura ModuLaser las funciones están repartidas: el módulo de display estándar (9-30781-KID-EN) aporta la interfaz de usuario —pantalla TFT en color, botones de navegación y LEDs de estado— y es el punto desde el que se configura el propio display y sus módulos detectores asociados. El módulo detector (9-30783-KID-EN) es una unidad totalmente autocontenida: aspira el aire muestreado del área protegida, lo analiza y, en base a ClassiFire, determina por sí mismo si debe generarse una prealarma o una alarma; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (según la programación de los relés) y, simultáneamente, reporta la condición al módulo de display al que está conectado. La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería por módulo detector. El área de cobertura —hasta 3000 m², sujeta a aprobaciones locales y normas de instalación— es un parámetro del módulo detector: figura en la ficha del detector y no aparece en la sección de detección de la ficha del display estándar.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "Reparto de funciones entre módulos: el módulo de display estándar aporta la interfaz de usuario (pantalla TFT en color, botones de navegación y LEDs de estado) y es el punto de configuración del propio display y de sus módulos detectores asociados, mientras que el módulo detector es la unidad totalmente autocontenida que aspira el aire muestreado del área protegida y lo analiza.",
+            "type": "core",
+            "state": "present",
+            "value": "display estándar = interfaz + configuración; módulo detector = unidad autocontenida que aspira y analiza",
+            "citations": [
+              {
+                "pdf": "9-30781-kid-en-161721-es.pdf",
+                "page": 1
+              },
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "9-30781-kid-en-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'Standard display module': 'features a user interface which consist of a TFT color display, navigation buttons and status LED's. Configuration of the Standard Display Module (and associated detectors modules) can be done...'"
+              },
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 1,
+                "evidence": "Sección 'Detector module': 'The Detector Module is a fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air...'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F02",
+            "text": "El módulo detector decide por sí mismo, en base a ClassiFire, si debe generarse una prealarma o una alarma cuando hay partículas de humo en el aire muestreado; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (sujeto a la programación de los relés) y simultáneamente reporta esa condición al módulo de display al que está conectado.",
+            "type": "core",
+            "state": "present",
+            "value": "detector: decisión ClassiFire de prealarma/alarma + activación de relé local según programación + reporte simultáneo al display",
+            "citations": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 1
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 1,
+                "evidence": "Texto 'Detector module': 'based on ClassiFire determine if a pre-alarm or alarm should be raise... the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F03",
+            "text": "La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería de muestreo (inlet) por módulo detector.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "Sampling pipe: Inlet quantity = 1 per detector module",
+            "citations": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 2,
+                "evidence": "Tabla 'Sampling pipe': 'Inlet quantity — 1 per detector module'"
+              }
+            ]
+          },
+          {
+            "fact_id": "F04",
+            "text": "El área de cobertura de hasta 3000 m² (sujeta a aprobaciones locales y normas de instalación) es un parámetro especificado en la ficha técnica del módulo detector; la sección de detección de la ficha del módulo de display estándar no incluye ningún campo de área de cobertura.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "Área de cobertura hasta 3000 m² solo en la ficha del módulo detector; ausente en la ficha del display estándar",
+            "citations": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 2
+              },
+              {
+                "pdf": "9-30781-kid-en-161721-es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "9-30783-kid-en-161721-es.pdf",
+                "page": 2,
+                "evidence": "Sección 'Detección', fila 'Área de cobertura: Up to 3000m2 (subjected to local approvals and installation standards)'"
+              },
+              {
+                "pdf": "9-30781-kid-en-161721-es.pdf",
+                "page": 2,
+                "evidence": "Sección 'Detección' del display estándar solo muestra 'Principio de detección' y 'Rango de sensibilidad de partículas'; no existe fila 'Área de cobertura'"
+              }
+            ]
+          }
+        ],
+        "notes": "Tema prefijado: separación arquitectónica de roles display/detector. F01 y F04 son genuinamente cross-source (la comparación de roles y la presencia/ausencia del campo de área de cobertura requieren ambas fichas). Se evitaron deliberadamente los valores ya cubiertos por la retriever augmentation (250 m de tubería, número de detectores por display, métodos de configuración UI/PC, USB, APIC, consumos, sensibilidad %obs/m, puntos de muestreo por clase, entradas/salidas y sus resistencias, dimensiones/pesos, ambientales, chart recorder)."
+      },
+      "validation_status": "VALID",
+      "validation_error": null,
+      "receipt": {
+        "provider": "fable",
+        "call_label": "generate:kidde_modulaser_role_selection",
+        "model": "claude-fable-5",
+        "status": "end_turn",
+        "raw_output": "```json\n{\n  \"canary_id\": \"kidde_modulaser_role_selection\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy proyectando un sistema de aspiración Kidde ModuLaser con módulos de display estándar y módulos detectores, y necesito tener claro el reparto de funciones entre ambos: ¿qué módulo aporta la interfaz de usuario y actúa como punto de configuración, cuál es el que aspira y analiza el aire y activa los relés locales ante alarma o fallo, a cuál de los dos se conecta la tubería de muestreo (y con cuántas entradas de tubería por módulo), y en la ficha técnica de cuál de los dos módulos está especificada el área de cobertura?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"En la arquitectura ModuLaser las funciones están repartidas: el módulo de display estándar (9-30781-KID-EN) aporta la interfaz de usuario —pantalla TFT en color, botones de navegación y LEDs de estado— y es el punto desde el que se configura el propio display y sus módulos detectores asociados. El módulo detector (9-30783-KID-EN) es una unidad totalmente autocontenida: aspira el aire muestreado del área protegida, lo analiza y, en base a ClassiFire, determina por sí mismo si debe generarse una prealarma o una alarma; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (según la programación de los relés) y, simultáneamente, reporta la condición al módulo de display al que está conectado. La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería por módulo detector. El área de cobertura —hasta 3000 m², sujeta a aprobaciones locales y normas de instalación— es un parámetro del módulo detector: figura en la ficha del detector y no aparece en la sección de detección de la ficha del display estándar.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Reparto de funciones entre módulos: el módulo de display estándar aporta la interfaz de usuario (pantalla TFT en color, botones de navegación y LEDs de estado) y es el punto de configuración del propio display y de sus módulos detectores asociados, mientras que el módulo detector es la unidad totalmente autocontenida que aspira el aire muestreado del área protegida y lo analiza.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"display estándar = interfaz + configuración; módulo detector = unidad autocontenida que aspira y analiza\",\n      \"citations\": [\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Standard display module': 'features a user interface which consist of a TFT color display, navigation buttons and status LED's. Configuration of the Standard Display Module (and associated detectors modules) can be done...'\"},\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Detector module': 'The Detector Module is a fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air...'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El módulo detector decide por sí mismo, en base a ClassiFire, si debe generarse una prealarma o una alarma cuando hay partículas de humo en el aire muestreado; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (sujeto a la programación de los relés) y simultáneamente reporta esa condición al módulo de display al que está conectado.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"detector: decisión ClassiFire de prealarma/alarma + activación de relé local según programación + reporte simultáneo al display\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Texto 'Detector module': 'based on ClassiFire determine if a pre-alarm or alarm should be raise... the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería de muestreo (inlet) por módulo detector.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Sampling pipe: Inlet quantity = 1 per detector module\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla 'Sampling pipe': 'Inlet quantity — 1 per detector module'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"El área de cobertura de hasta 3000 m² (sujeta a aprobaciones locales y normas de instalación) es un parámetro especificado en la ficha técnica del módulo detector; la sección de detección de la ficha del módulo de display estándar no incluye ningún campo de área de cobertura.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Área de cobertura hasta 3000 m² solo en la ficha del módulo detector; ausente en la ficha del display estándar\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2},\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Sección 'Detección', fila 'Área de cobertura: Up to 3000m2 (subjected to local approvals and installation standards)'\"},\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Sección 'Detección' del display estándar solo muestra 'Principio de detección' y 'Rango de sensibilidad de partículas'; no existe fila 'Área de cobertura'\"}\n      ]\n    }\n  ],\n  \"notes\": \"Tema prefijado: separación arquitectónica de roles display/detector. F01 y F04 son genuinamente cross-source (la comparación de roles y la presencia/ausencia del campo de área de cobertura requieren ambas fichas). Se evitaron deliberadamente los valores ya cubiertos por la retriever augmentation (250 m de tubería, número de detectores por display, métodos de configuración UI/PC, USB, APIC, consumos, sensibilidad %obs/m, puntos de muestreo por clase, entradas/salidas y sus resistencias, dimensiones/pesos, ambientales, chart recorder).\"\n}\n```",
+        "usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "input_tokens": 55105,
+          "output_tokens": 6783
+        },
+        "provider_trace": {
+          "id": "msg_011Cd9JgHtmsnsYozuUt46ak",
+          "container": null,
+          "content": [
+            {
+              "signature": "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",
+              "thinking": "",
+              "type": "thinking"
+            },
+            {
+              "citations": null,
+              "text": "```json\n{\n  \"canary_id\": \"kidde_modulaser_role_selection\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy proyectando un sistema de aspiración Kidde ModuLaser con módulos de display estándar y módulos detectores, y necesito tener claro el reparto de funciones entre ambos: ¿qué módulo aporta la interfaz de usuario y actúa como punto de configuración, cuál es el que aspira y analiza el aire y activa los relés locales ante alarma o fallo, a cuál de los dos se conecta la tubería de muestreo (y con cuántas entradas de tubería por módulo), y en la ficha técnica de cuál de los dos módulos está especificada el área de cobertura?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"En la arquitectura ModuLaser las funciones están repartidas: el módulo de display estándar (9-30781-KID-EN) aporta la interfaz de usuario —pantalla TFT en color, botones de navegación y LEDs de estado— y es el punto desde el que se configura el propio display y sus módulos detectores asociados. El módulo detector (9-30783-KID-EN) es una unidad totalmente autocontenida: aspira el aire muestreado del área protegida, lo analiza y, en base a ClassiFire, determina por sí mismo si debe generarse una prealarma o una alarma; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (según la programación de los relés) y, simultáneamente, reporta la condición al módulo de display al que está conectado. La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería por módulo detector. El área de cobertura —hasta 3000 m², sujeta a aprobaciones locales y normas de instalación— es un parámetro del módulo detector: figura en la ficha del detector y no aparece en la sección de detección de la ficha del display estándar.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Reparto de funciones entre módulos: el módulo de display estándar aporta la interfaz de usuario (pantalla TFT en color, botones de navegación y LEDs de estado) y es el punto de configuración del propio display y de sus módulos detectores asociados, mientras que el módulo detector es la unidad totalmente autocontenida que aspira el aire muestreado del área protegida y lo analiza.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"display estándar = interfaz + configuración; módulo detector = unidad autocontenida que aspira y analiza\",\n      \"citations\": [\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 1},\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Standard display module': 'features a user interface which consist of a TFT color display, navigation buttons and status LED's. Configuration of the Standard Display Module (and associated detectors modules) can be done...'\"},\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Sección 'Detector module': 'The Detector Module is a fully self-contained unit, which aspirate the sampled air from the protected area, analyze the air...'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El módulo detector decide por sí mismo, en base a ClassiFire, si debe generarse una prealarma o una alarma cuando hay partículas de humo en el aire muestreado; ante una condición de alarma o de fallo activa la salida de relé local correspondiente (sujeto a la programación de los relés) y simultáneamente reporta esa condición al módulo de display al que está conectado.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"detector: decisión ClassiFire de prealarma/alarma + activación de relé local según programación + reporte simultáneo al display\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 1, \"evidence\": \"Texto 'Detector module': 'based on ClassiFire determine if a pre-alarm or alarm should be raise... the unit will activate the corresponding local relay output, subjected to the programming of the relays. Simultaneously the alarm or fault condition would also be reported to the Display Module'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La tubería de muestreo se conecta al módulo detector, con 1 entrada de tubería de muestreo (inlet) por módulo detector.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Sampling pipe: Inlet quantity = 1 per detector module\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla 'Sampling pipe': 'Inlet quantity — 1 per detector module'\"}\n      ]\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"El área de cobertura de hasta 3000 m² (sujeta a aprobaciones locales y normas de instalación) es un parámetro especificado en la ficha técnica del módulo detector; la sección de detección de la ficha del módulo de display estándar no incluye ningún campo de área de cobertura.\",\n      \"type\": \"supplementary\",\n      \"state\": \"present\",\n      \"value\": \"Área de cobertura hasta 3000 m² solo en la ficha del módulo detector; ausente en la ficha del display estándar\",\n      \"citations\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2},\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 2}\n      ],\n      \"visual_evidence\": [\n        {\"pdf\": \"9-30783-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Sección 'Detección', fila 'Área de cobertura: Up to 3000m2 (subjected to local approvals and installation standards)'\"},\n        {\"pdf\": \"9-30781-kid-en-161721-es.pdf\", \"page\": 2, \"evidence\": \"Sección 'Detección' del display estándar solo muestra 'Principio de detección' y 'Rango de sensibilidad de partículas'; no existe fila 'Área de cobertura'\"}\n      ]\n    }\n  ],\n  \"notes\": \"Tema prefijado: separación arquitectónica de roles display/detector. F01 y F04 son genuinamente cross-source (la comparación de roles y la presencia/ausencia del campo de área de cobertura requieren ambas fichas). Se evitaron deliberadamente los valores ya cubiertos por la retriever augmentation (250 m de tubería, número de detectores por display, métodos de configuración UI/PC, USB, APIC, consumos, sensibilidad %obs/m, puntos de muestreo por clase, entradas/salidas y sus resistencias, dimensiones/pesos, ambientales, chart recorder).\"\n}\n```",
+              "type": "text"
+            }
+          ],
+          "model": "claude-fable-5",
+          "role": "assistant",
+          "stop_details": null,
+          "stop_reason": "end_turn",
+          "stop_sequence": null,
+          "type": "message",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "inference_geo": "global",
+            "input_tokens": 55105,
+            "output_tokens": 6783,
+            "server_tool_use": null,
+            "service_tier": "standard",
+            "output_tokens_details": {
+              "thinking_tokens": 4202
+            }
+          }
+        }
+      }
+    }
+  ],
+  "result_sha256": "8a641350e5081e381b64cbf6d69e8da0a807c9ffb451656e7e5a1faadd448c5f"
+}
