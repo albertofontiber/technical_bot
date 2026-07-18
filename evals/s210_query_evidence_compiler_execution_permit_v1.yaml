@@ -1,0 +1,63 @@
+instrument: s210_query_evidence_compiler_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+issued_against_main_sha: 82e42a6a6df4733588e33699e0db999e7b441357
+preflight_sha256: 69592124cfc32f70eafaf3597c1f3dc4433481c158a84c3f6ade887110d330f2
+
+frontier_design_gate:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    verdict: PASS
+    artifact: evals/s210_frontier_design_decision_reviews_v1.json
+    artifact_sha256: ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e
+  independent:
+    model: claude-fable-5
+    verdict: PASS
+    artifact: evals/s210_fable_final_design_verdict_v1.json
+    artifact_sha256: 6be6d5d8fc024b7c430e6dc737b89d726005c8a1abcf8e06328ea950d36debbe
+  instrumentation_incident:
+    first_response_completed_but_local_max_items_rejected: true
+    native_schema_repair_rejected_before_model_call: true
+    final_minimal_plain_json_verdict_complete: true
+    convergence_rounds: 0
+    further_design_review_calls: false
+
+frozen_artifacts:
+  - {path: evals/s210_query_evidence_compiler_design_v1.md, sha256: e72871c92d156f595e10d3da8d2843a5600e7594c704ff31847821d3beb059d3}
+  - {path: evals/s210_query_evidence_compiler_prereg_v1.yaml, sha256: da2bd2d2fbae0a2916c3c0213377a098ca22e0ac2d23bce2db9c646243eb29e0}
+  - {path: src/rag/query_evidence_compiler.py, sha256: 11649d4a82a53cb8a5c89f8685f0befeda664386d06b048960f6d601e57eedd5}
+  - {path: src/rag/query_evidence_obligations.py, sha256: 3248482947abbf66abe1b3cac334a9c686ca66321db3635921db667d8f9a665e}
+  - {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: 9b7e1d78d32606e407177b0b0e54f7b6fc11e1fe697bf09feb297371e4def07f}
+  - {path: scripts/s210_run_query_evidence_compiler.py, sha256: 24dd856cad49dd1fa22058122c776407215d2b17801850ff421844006563ee04}
+  - {path: scripts/s210_score_query_evidence_compiler.py, sha256: 83780dec15d3d49c86e0b5e9e99ed3f88291cc92c03ad5ac76581c791b704a10}
+  - {path: evals/s210_query_evidence_compiler_preflight_v1.json, sha256: 69592124cfc32f70eafaf3597c1f3dc4433481c158a84c3f6ade887110d330f2}
+  - {path: evals/s210_compact_design_review_brief_v1.md, sha256: 379d9a9ba8802687a2e83d674248bb78e9b68604c08ab9b6629efa6bafc2133b}
+  - {path: evals/s210_frontier_design_decision_reviews_v1.json, sha256: ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e}
+  - {path: evals/s210_fable_design_decision_format_repair_v1.json, sha256: 5823d7c0759f9639267c305bb4d0db9a181e9261e87400f5f49e0d541e22e8b6}
+  - {path: evals/s210_fable_final_design_verdict_v1.json, sha256: 6be6d5d8fc024b7c430e6dc737b89d726005c8a1abcf8e06328ea950d36debbe}
+
+call_geometry:
+  extractor_calls: 130
+  planner_calls: 36
+  verifier_calls: 36
+  total_paid_calls: 202
+  provider_retries: 0
+  resume: false
+
+budget_ceiling_usd: 75
+conservative_full_run_upper_bound_usd: 22.948314
+pricing_usd_per_million_tokens:
+  extractor: {input: 2.0, output: 10.0}
+  planner: {input: 2.5, output: 15.0}
+
+post_execution:
+  local_go_action: RUN_ONE_SEALED_SOL_XHIGH_PLUS_FABLE_ATOMIC_RESULT_REVIEW
+  no_go_action: CLOSE_S210_WITHOUT_ITERATION
+  facts_moved_to_ok_by_local_gate: 0
+  runtime_integration: false
+  production_default: off
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

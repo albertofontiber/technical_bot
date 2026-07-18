@@ -1,0 +1,23 @@
+{
+  "schema": "s210_fable_design_decision_format_repair_v1",
+  "status": "INCOMPLETE_FINAL",
+  "original_review_sha256": "ddd932db6eb42c2045bc2acbf33d95bed9b47efd5df0330aac33ced3ccf9be4e",
+  "subject": "evals/s210_compact_design_review_brief_v1.md",
+  "subject_sha256": "379d9a9ba8802687a2e83d674248bb78e9b68604c08ab9b6629efa6bafc2133b",
+  "eligibility": "LOCAL_MAX_ITEMS_REJECTION_ONLY",
+  "decision": {
+    "status": "TRANSPORT_ERROR",
+    "error_type": "BadRequestError"
+  },
+  "receipt": {
+    "provider": "fable",
+    "model": "claude-fable-5",
+    "status": "ERROR",
+    "usage": {}
+  },
+  "conservative_cost_usd": 0.0,
+  "provider_retries": 0,
+  "format_repair_calls": 1,
+  "further_design_review_calls": false,
+  "result_sha256": "6589a3a95608878631cd09d762675e30f60b69f3b7625ac2f94d655b69330d03"
+}
