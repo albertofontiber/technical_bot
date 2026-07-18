@@ -1,0 +1,242 @@
+{
+  "schema": "s235_direct_clause_bound_ab_result_v1",
+  "status": "NO_GO_S235_DIRECT_AB",
+  "metrics": {
+    "canonical_facts_ok": 143,
+    "denominator": 157,
+    "stable_baseline_residuals": [],
+    "stable_treatment_residuals": [],
+    "strict_causal_gain_ids": [],
+    "protected_regression_ids": [
+      "obl_05482a6b3f0e",
+      "obl_0db2b9f2842a",
+      "obl_5784f16b1a11"
+    ],
+    "treatment_unsafe_conflict_ids": [
+      "conf_26f63590494f"
+    ],
+    "treatment_invalid_citations": {},
+    "projected_facts_ok_before_semantic_review": 143,
+    "projected_percent_before_semantic_review": 91.08,
+    "projected_reaches_98": false,
+    "actual_cost_usd": 1.104491
+  },
+  "checks": {
+    "stable_treatment_beats_stable_baseline": false,
+    "at_least_one_strict_causal_gain": false,
+    "protected_regressions_zero": false,
+    "treatment_unsafe_conflicts_zero": false,
+    "treatment_invalid_citations_zero": true,
+    "actual_cost_below_25": true
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "canonical": {
+        "covered_obligation_ids": [
+          "obl_5784f16b1a11"
+        ],
+        "covered": 1,
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "baseline_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "treatment_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "stable_baseline_residual_ids": [],
+      "stable_treatment_residual_ids": [],
+      "causal_gain_ids": [],
+      "protected_regression_ids": [
+        "obl_5784f16b1a11"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "canonical": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "covered": 1,
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "baseline_replicates": [
+        {
+          "covered_obligation_ids": [
+            "obl_0db2b9f2842a"
+          ],
+          "covered": 1,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [
+            "obl_0db2b9f2842a"
+          ],
+          "covered": 1,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "treatment_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [
+            "obl_a5d9fa1f9253"
+          ],
+          "covered": 1,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "stable_baseline_residual_ids": [],
+      "stable_treatment_residual_ids": [],
+      "causal_gain_ids": [],
+      "protected_regression_ids": [
+        "obl_0db2b9f2842a"
+      ]
+    },
+    {
+      "qid": "hp011",
+      "canonical": {
+        "covered_obligation_ids": [
+          "obl_05482a6b3f0e"
+        ],
+        "covered": 1,
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "baseline_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "treatment_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [],
+          "invalid_citations": []
+        }
+      ],
+      "stable_baseline_residual_ids": [],
+      "stable_treatment_residual_ids": [],
+      "causal_gain_ids": [],
+      "protected_regression_ids": [
+        "obl_05482a6b3f0e"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "canonical": {
+        "covered_obligation_ids": [],
+        "covered": 0,
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": []
+      },
+      "baseline_replicates": [
+        {
+          "covered_obligation_ids": [
+            "obl_e265a4c97a31"
+          ],
+          "covered": 1,
+          "unsafe_conflict_ids": [
+            "conf_26f63590494f"
+          ],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [
+            "obl_872c35fb41d7",
+            "obl_e265a4c97a31"
+          ],
+          "covered": 2,
+          "unsafe_conflict_ids": [
+            "conf_26f63590494f"
+          ],
+          "invalid_citations": []
+        }
+      ],
+      "treatment_replicates": [
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [
+            "conf_26f63590494f"
+          ],
+          "invalid_citations": []
+        },
+        {
+          "covered_obligation_ids": [],
+          "covered": 0,
+          "unsafe_conflict_ids": [
+            "conf_26f63590494f"
+          ],
+          "invalid_citations": []
+        }
+      ],
+      "stable_baseline_residual_ids": [],
+      "stable_treatment_residual_ids": [],
+      "causal_gain_ids": [],
+      "protected_regression_ids": []
+    }
+  ],
+  "decision": {
+    "official_fact_credit": 0,
+    "production_default_changed": false,
+    "next": "close_or_redesign_from_observed_stage"
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "d90a0385152c6efcaf109066edde0e8ff892b7c2580ec3d27009ce24c4a05a90"
+}

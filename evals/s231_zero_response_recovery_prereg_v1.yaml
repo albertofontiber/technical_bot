@@ -1,0 +1,43 @@
+schema: s231_zero_response_recovery_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Perform exactly one design-review transport recovery after S230 returned an
+  OpenAI origin 520 with zero model responses and explicit retry-after guidance.
+precondition:
+  closeout: evals/s230_design_transport_closeout_v1.yaml
+  model_responses_seen: 0
+  semantic_feedback_seen: 0
+  backoff_elapsed_seconds_min: 60
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5, effort: xhigh}
+frozen_inputs:
+  recovery_wrapper:
+    path: scripts/s231_recover_zero_response_design_review.py
+    sha256: 2f60c3c92c9eba1b337de7bedfc96abbb51786a045cd7b9828e278e91ab46da7
+  design:
+    path: evals/s230_fresh_clause_bound_design_v1.md
+    sha256: 63a00aa8907138305c5ccc9340ac61b93108e08533096a0478b45b00ba578e37
+  reviewer:
+    path: scripts/s230_review_fresh_clause_bound_design.py
+    sha256: 6f5c04eddda224e8c679402426d701e62a1479c1196137122a6a87a34778f33a
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime.py
+    sha256: 8ffb06a8b1920408ed07e7a33c56e03da4daa7fdaeb28d8a728beee9ae07c7b8
+  prior_closeout:
+    path: evals/s230_design_transport_closeout_v1.yaml
+    sha256: f6d1fb48813efbd387da53f5f9ac5cba98092762a666986a2ab242b11cc0057b
+execution:
+  frontier_calls: 2
+  provider_retries: 0
+  further_recovery_on_failure: false
+  semantic_convergence_rounds: 0
+  target_calls: 0
+budget:
+  user_ceiling_usd: 200
+  internal_stop_usd: 5
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

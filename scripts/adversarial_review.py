@@ -218,8 +218,18 @@ LOG = ROOT / "evals" / "adversarial_review_log.jsonl"
 LOG_REL = "evals/adversarial_review_log.jsonl"
 KNOWN_FLAGS = {"--no-tools"}
 
+
+def _positive_env_int(name: str, default: int) -> int:
+    try:
+        value = int(os.getenv(name, str(default)))
+    except ValueError as exc:
+        raise RuntimeError(f"{name} debe ser un entero positivo") from exc
+    if value <= 0:
+        raise RuntimeError(f"{name} debe ser un entero positivo")
+    return value
+
 # ─────────────────────────── tools read-only (paridad con el sub-agente, s88) ───────────────────────────
-MAX_TOOL_CALLS = 30          # cap total (disciplina de coste); al agotar → review con lo leído
+MAX_TOOL_CALLS = _positive_env_int("ADVERSARIAL_REVIEW_MAX_TOOL_CALLS", 60)
 READ_MAX_LINES = 250         # por llamada (paginable con start_line)
 GREP_MAX_HITS = 50
 FILE_SIZE_CAP = 2_000_000    # skip binarios/monstruos en grep
@@ -718,7 +728,8 @@ def run_review(client: OpenAI, sys_prompt: str, user_prompt: str, use_tools: boo
         if n_calls >= MAX_TOOL_CALLS:
             input_items.append({"role": "user", "content":
                                 f"Presupuesto de lectura agotado ({MAX_TOOL_CALLS} tool-calls). "
-                                "Emite AHORA tu review final con lo leído, en el formato del briefing."})
+                                "Emite AHORA tu review final con lo leído, en el formato del briefing, "
+                                "y enumera cualquier dependencia relevante que no hayas podido inspeccionar."})
 
 
 def persist_sol_outputs(
@@ -852,6 +863,8 @@ def main() -> int:
             "files": [Path(f).name for f in files],
             "diff_included": include_diff,
             "tools": use_tools,
+            "tool_call_budget": MAX_TOOL_CALLS if use_tools else 0,
+            "tool_budget_exhausted": bool(use_tools and exc.n_calls >= MAX_TOOL_CALLS),
             "tool_calls": exc.n_calls,
             "files_read": exc.files_read,
             "tool_trace": exc.tool_trace,
@@ -891,6 +904,8 @@ def main() -> int:
         "files": [Path(f).name for f in files],
         "diff_included": include_diff,
         "tools": use_tools,
+        "tool_call_budget": MAX_TOOL_CALLS if use_tools else 0,
+        "tool_budget_exhausted": bool(use_tools and n_calls >= MAX_TOOL_CALLS),
         "tool_calls": n_calls,
         "files_read": files_read,
         "tool_trace": tool_trace,

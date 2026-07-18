@@ -1,0 +1,40 @@
+schema: s234_pixel_gold_closeout_v1
+status: NO_GO_S234_ORIGINAL_THREE_ITEM_GOLD
+principal_authorship:
+  model: gpt-5.6-sol
+  calls_completed: 3
+  valid_items: 2
+  insufficient_items: 1
+  invalid_items: 0
+  conservative_cost_usd: 5.831475
+  ledger: evals/s234_frontier_call_ledger_v1.json
+  generations: evals/s234_kidde_sol_generations_v1.json
+independent_authorship:
+  model: claude-fable-5
+  calls_started: 1
+  model_responses_returned: 0
+  inference_cost_recorded_usd: 0
+  rejection_stage: request_schema_compilation
+  error_code: 400
+  request_id: req_011Cd9hAEhdPMi6mSn82411j
+  unsupported_constraint: minimum
+root_cause:
+  provider_or_model_unavailable: false
+  repository_schema_adapter_incomplete: true
+  official_provider_guidance_checked: true
+  local_validation_retained: true
+decision:
+  continue_fable_on_original_three_items: false
+  reason: fewer_than_three_principal_candidates_already_makes_gate_impossible
+  repair_or_regenerate_insufficient_candidate: false
+  reuse_failed_pages: false
+  select_one_page_disjoint_replacement_before_any_new_model_call: true
+  synthesis_mechanism_feedback_seen: false
+  target_feedback_seen: false
+official_fact_credit: 0
+target_calls: 0
+facts_moved_to_ok: 0
+production_default_changed: false
+chunks_v2: ACTIVE_READ_ONLY
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

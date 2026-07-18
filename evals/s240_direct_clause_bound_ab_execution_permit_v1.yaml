@@ -1,0 +1,40 @@
+schema: s240_direct_clause_bound_ab_execution_permit_v1
+status: EXECUTION_GO_DIRECT_AB_DUAL_PASS
+authorization_basis:
+  reused_design_review: DUAL_PASS
+  principal: gpt-5.6-sol-xhigh
+  independent: claude-fable-5-xhigh
+  reviewed_limits_implemented: true
+  local_tests_passed: 27
+  score_packet_opened: false
+execution:
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  transport_retries_max_per_label: 1
+budget:
+  user_ceiling_usd: 200
+  s240_stage_stop_usd: 25
+frozen_artifacts:
+  preregistration:
+    path: evals/s240_direct_clause_bound_ab_prereg_v1.yaml
+    sha256: 2ceb1ad5d81030ec1b6811ee1082bd92a1678b517136e3c2e85d10afe354b045
+  design_reviews:
+    path: evals/s235_design_frontier_reviews_v1.json
+    sha256: 2144d74030d2445663b843bfec698752b318389e75bf92cf8ca3567a1870f06d
+  s235_failure_closeout:
+    path: evals/s235_direct_clause_bound_ab_closeout_v1.yaml
+    sha256: 034215f7137fa4c3f426a9f30a363143dc63bbfdade64380d16c1477373bd8f9
+  corrected_planner_contract:
+    path: src/rag/decomposed_evidence_planner.py
+    sha256: b2fc5266fbc611f1a34a97f91f01843af8d387ada6b292948639c159aa289d9b
+  s240_runner:
+    path: scripts/s240_run_direct_clause_bound_ab.py
+    sha256: 0478e46794c3acfd3a591d6d3175e4a1a93215833b346adf3040053f0e18838d
+  contract_tests:
+    path: tests/test_s235_direct_clause_bound_ab.py
+    sha256: 08a51de3f1741efc1cfb63d15e1ef44c7959a6f23bf9babf9e292531879dd4aa
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

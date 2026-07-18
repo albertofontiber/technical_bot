@@ -1,0 +1,45 @@
+schema: s249_partial_quantitative_claim_contract_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION_AND_LOCAL_GATE
+design: evals/s249_partial_quantitative_claim_contract_design_v1.md
+frozen_inputs:
+  cohort: evals/s173_single_source_omission_cohort_v1.json
+  gold: evals/s171_s147_source_unit_gold_v1.json
+  baselines: evals/s173_baseline_answer_receipts_v1.json
+  baseline_scoring: evals/s193_terra_id_planner_deterministic_append_v1.json
+  prior_atom_receipt: evals/s245_relation_complete_highlight_candidates_v1.json
+  source_atom_contract: src/rag/relation_complete_highlights.py
+population:
+  questions: 14
+  manufacturers: 14
+  target_question_overlap: 0
+algorithm:
+  source_bound: true
+  answer_led: true
+  citation_bound: true
+  minimum_technical_fields_per_atom: 2
+  minimum_shared_lexical_anchors: 2
+  product_specific_vocabulary: false
+local_gate:
+  qualifying_atoms_min: 12
+  questions_min: 8
+  manufacturers_min: 6
+  languages_required: [es, en]
+  strata_required: [table, prose]
+  mutation_recall_min: 0.90
+  negative_precision_min: 0.95
+  false_positive_rate_max: 0.05
+  global_source_span_density_max: 0.25
+  median_item_source_span_density_max: 0.30
+  source_bound_failures_max: 0
+  baseline_answer_mutations_max: 0
+resources:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+  target_calls: 0
+failure_policy:
+  tune_same_cohort: false
+  target_probe: false
+  frontier_review: false
+  facts_moved_to_ok: 0

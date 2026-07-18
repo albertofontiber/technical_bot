@@ -1,0 +1,42 @@
+schema: s248_s122_current_residual_coverage_closeout_v1
+status: CLOSED_NO_GO_CURRENT_RESIDUALS
+lineage:
+  preregistration:
+    path: evals/s248_s122_current_residual_coverage_prereg_v1.yaml
+    sha256: c2178261d960db880b72d3d6011b66276adf4d02da5d4a113263d7c5267bbacf
+  runner:
+    path: scripts/s248_audit_s122_current_residual_coverage.py
+    sha256: 5ce0a9392e7db08179543a1eb47005443c6c1c6d8ea35703ff39a59980554c7c
+  result:
+    path: evals/s248_s122_current_residual_coverage_v1.json
+    sha256: 4bd9da37a0736fe1af8a0b1c950dfd7a8280166bf5b4aede333be5cbe97c74f9
+  test:
+    path: tests/test_s248_s122_current_residual_coverage.py
+    sha256: 4aaf3d95d5c465cfb423b3ac081de31cd71a53fbafd3d8f43cf03e6e2c143502
+measurement:
+  questions: 4
+  synthesis_residuals: 12
+  residual_plan_coverage: 1
+  residual_enforced_coverage: 0
+  fail_closed_questions: 1
+  canonical_answers_changed: 1
+decision:
+  enable_s122_enforced: NO_GO
+  extend_s122_with_target_specific_s141_kinds: FORBIDDEN_REOPEN
+  facts_moved_to_ok: 0
+  paid_calls: 0
+  rationale: >-
+    The integrated S122 boundary enforces none of the current twelve residual
+    obligations. On hp017 it instead replaces the answer with a fail-closed
+    response driven by two unrelated default-rule obligations. Enabling it
+    would therefore add no fact coverage and would regress answer utility.
+next: >-
+  Attack the largest S243 causal family with a generic qualifier-completeness
+  invariant. Gate it on non-target structural units before any target or paid
+  generation call.
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  production_default_changed: false
+  railway_merge_gate: false
+

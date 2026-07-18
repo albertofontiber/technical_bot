@@ -1,0 +1,28 @@
+schema: s235_direct_clause_bound_ab_closeout_v1
+status: NO_GO_PLANNER_CONTRACT_NOT_SCORE
+failed_stage: upstream_planner_local_validation
+failure:
+  qid: cat018
+  replicate: 1
+  provider_json_valid: true
+  provider_stop_reason: end_turn
+  obligations_returned: 25
+  local_obligations_maximum: 12
+  unique_unit_ids_returned: 31
+  local_unique_unit_ids_maximum: 18
+root_cause: >-
+  Anthropic-compatible schema correctly removed unsupported maxItems, but the
+  equivalent cardinality constraints were not explicit in PLANNER_SYSTEM.
+gold_or_score_packet_opened: false
+canonical_answers_opened_by_generation: false
+semantic_retries: 0
+paid_calls_completed: 2
+actual_cost_usd: 0.109656
+official_fact_credit: 0
+production_default_changed: false
+next: >-
+  Align the general planner prompt with its existing local validator and rerun
+  as S240 without viewing evaluator obligations, anchors or scores.
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

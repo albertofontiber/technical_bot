@@ -1,0 +1,48 @@
+schema: s249_partial_quantitative_claim_contract_closeout_v1
+status: CLOSED_NO_GO_LOCAL_GENERALIZATION
+measurement:
+  questions: 14
+  manufacturers: 14
+  target_question_overlap: 0
+  qualifying_atoms: 27
+  represented_questions: 6
+  represented_manufacturers: 6
+  languages: [en, es]
+  strata: [prose, table]
+  mutation_recall: 0.7777777777777778
+  negative_precision: 1.0
+  false_positive_rate: 0.0
+  global_source_span_density: 0.08088379065371831
+  median_item_source_span_density: 0.0
+  source_bound_failures: 0
+  real_baseline_findings: 8
+  real_baseline_findings_with_missing_gold: 2
+failed_gates:
+  represented_questions_min_8: false
+  mutation_recall_min_0_90: false
+decision:
+  frontier_review: NOT_CALLED
+  target_probe: false
+  tune_same_cohort: false
+  runtime_or_production: false
+  facts_moved_to_ok: 0
+  rationale: >-
+    The narrow quantitative detector is precise and sparse, and it identifies
+    two real non-target omissions, but its mutation recall and breadth fail the
+    frozen independent gate. The signal is insufficient for target exposure or
+    a writer/compiler experiment.
+next: >-
+  Move to the tied three-fact mandatory-safety/verification family. Reconcile
+  the already-measured cross-manufacturer S174 access-prerequisite signal before
+  designing a new mechanism; do not tune S249 on S147/S171.
+resources:
+  model_calls: 0
+  network_calls: 0
+  database_reads: 0
+  database_writes: 0
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  production_default_changed: false
+  railway_merge_gate: false
+

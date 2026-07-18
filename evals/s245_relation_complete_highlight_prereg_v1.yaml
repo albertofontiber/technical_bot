@@ -1,0 +1,65 @@
+schema: s245_relation_complete_highlight_prereg_v1
+status: FROZEN_AFTER_DUAL_FRONTIER_CORRECTIONS_BEFORE_IMPLEMENTATION
+predecessor:
+  design: evals/s244_within_fragment_atom_contract_design_v1.md
+  closeout: evals/s244_within_fragment_atom_contract_closeout_v1.yaml
+  verdict: CLOSED_BEFORE_IMPLEMENTATION_DUAL_FRONTIER_NO_PASS
+objective_metric: {denominator: 157, facts_ok: 143, synthesis_misses: 12}
+scope: PRE_ANSWER_EPHEMERAL_RELATION_COMPLETE_SOURCE_HIGHLIGHT
+forbidden:
+  - target_specific_patterns
+  - multi_atom_quote_credit
+  - post_answer_append
+  - persisted_relation_store
+  - global_obligation_planner
+  - conflict_detection_claim
+  - tune_after_s171_gate
+gate_a:
+  gold: evals/s171_s147_source_unit_gold_v1.json
+  source: evals/s147_fresh_source_packet_v1.json
+  disclosure: NON_TARGET_PREVIOUSLY_EXPOSED_DEVELOPMENT_REUSE
+  minimum_single_atom_quote_count: 34
+  minimum_single_atom_quote_ratio: 0.9189
+  minimum_table_recall: 0.80
+  minimum_prose_recall: 0.80
+  minimum_real_es_recall: 0.80
+  minimum_real_en_recall: 0.80
+  maximum_global_nonblank_span_density: 0.35
+  maximum_median_item_nonblank_span_density: 0.40
+  source_bound_and_deterministic: true
+  target_calls: 0
+gate_b:
+  questions: 14
+  facts: 37
+  arms: [contemporary_control, s245_inline_highlight]
+  repetitions_per_arm: 2
+  strict_gain: TREATMENT_2_OF_2_AND_CONTROL_0_OF_2
+  strict_regression: CONTROL_2_OF_2_AND_TREATMENT_0_OF_2
+  minimum_strict_point_gains: 4
+  minimum_strict_complete_question_gains: 2
+  maximum_strict_regressions: 0
+  maximum_invalid_citations: 0
+  target_calls: 0
+  failure_action: CLOSE_WITHOUT_TUNING_OR_TARGET
+gate_c:
+  requires: [gate_a_pass, gate_b_pass]
+  qids: [cat018, hp002, hp011, hp017]
+  repetitions_per_arm: 2
+  strict_gain: TREATMENT_2_OF_2_AND_CONTROL_0_OF_2
+  strict_regression: CONTROL_2_OF_2_AND_TREATMENT_0_OF_2
+  minimum_strict_residual_gains_to_continue: 3
+  maximum_strict_regressions: 0
+  maximum_invalid_citations: 0
+  hp017_disclosure: NOT_WORSE_THAN_CONTEMPORARY_CONTROL
+frontier_review:
+  review_timestamp: '2026-07-18T18:10:49'
+  principal: gpt-5.6-sol
+  principal_reasoning_effort: xhigh
+  independent: claude-fable-5
+  repeat_review: false
+  reason: ALL_CONFIRMED_FINDINGS_APPLIED_WITHOUT_CONVERGENCE_LOOP
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

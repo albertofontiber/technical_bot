@@ -1,0 +1,71 @@
+{
+  "schema": "s238_s235_review_continuation_ledger_v1",
+  "status": "HOLD",
+  "previous_sol": {
+    "response_id": "resp_0007d25ae2a53e05006a5b976a89208195ba0644b412776fac",
+    "status": "incomplete",
+    "incomplete_reason": "max_output_tokens",
+    "usage": {
+      "input_tokens": 9211,
+      "output_tokens": 154922,
+      "total_tokens": 164133
+    }
+  },
+  "continued_sol": {
+    "response_id": "resp_0007d25ae2a53e05006a5b9968c01c8195aa02c0c48c821ab4",
+    "status": "incomplete",
+    "model": "gpt-5.6-sol",
+    "polls": [
+      "queued",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "in_progress",
+      "incomplete"
+    ],
+    "usage": {
+      "input_tokens": 9231,
+      "output_tokens": 40166,
+      "total_tokens": 49397
+    },
+    "raw_output": ""
+  },
+  "fable": {
+    "response_id": "msg_011Cd9kJnvC4wTbmLchTCj54",
+    "status": "max_tokens",
+    "model": "claude-fable-5",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 16025,
+      "output_tokens": 8000
+    },
+    "raw_output": "{\"reviewer_model\": \"claude-fable-5\", \"verdict\": \"PASS\", \"checks\": {\"direct_target_use_justified\": true, \"paired_causal_design\": true, \"generation_score_isolated\": true, \"same_writer_and_equal_budget\": true, \"safety_and_regression_gate\": true, \"no_overfit_or_unsupported_credit\": true, \"transport_and_cost_bounded\": true, \"best_practice_aligned\": true}, \"blocking_issues\": [], \"minimum_changes\": [\"Nonblocking: have s235_score_direct_clause_b"
+  },
+  "result_sha256": "a3d11804ded7007e6d80c2eb16be703719c185123b9f15bab97fae1df980011a"
+}

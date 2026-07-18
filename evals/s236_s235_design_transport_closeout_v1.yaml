@@ -1,0 +1,27 @@
+schema: s236_s235_design_transport_closeout_v1
+status: CLOSED_SYNC_TRANSPORT_NO_RESPONSE
+attempts:
+  - stage: s235_principal_design_review
+    model: gpt-5.6-sol
+    http_status: 520
+    provider_response_received: false
+    usage_received: false
+    cost_usd: 0
+  - stage: s236_single_sync_transport_replacement
+    model: gpt-5.6-sol
+    http_status: 520
+    provider_response_received: false
+    usage_received: false
+    cost_usd: 0
+common_observation:
+  elapsed_seconds_approx: 60
+  provider_retryable: true
+  retry_after_seconds: 60
+  diagnosis: synchronous proxy timeout is the leading transport hypothesis
+semantic_reviews_received: 0
+fable_calls: 0
+same_sync_transport_further_retries: false
+next: one_background_submission_with_polling
+official_fact_credit: 0
+production_default_changed: false
+

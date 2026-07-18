@@ -1,0 +1,61 @@
+schema: s244_within_fragment_atom_contract_prereg_v1
+status: FROZEN_BEFORE_IMPLEMENTATION_AND_GATE
+objective_metric:
+  denominator: 157
+  facts_ok: 143
+  synthesis_misses: 12
+  needed_for_98_percent: 11
+causal_basis: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+design: evals/s244_within_fragment_atom_contract_design_v1.md
+mechanism_scope: PRE_ANSWER_SOURCE_BOUND_WITHIN_FRAGMENT_REPRESENTATION
+excluded_scope:
+  - source_fragment_selection_loss
+  - post_answer_addendum
+  - global_obligation_planning
+  - target_specific_relation_templates
+development_contract:
+  fixtures: SYNTHETIC_ES_EN_ONLY
+  target_qids_forbidden:
+    - cat018
+    - hp002
+    - hp011
+    - hp017
+generalization_gate:
+  source_gold: evals/s171_s147_source_unit_gold_v1.json
+  source_excerpts: evals/s147_fresh_source_packet_v1.json
+  disclosure: NON_TARGET_BUT_PREVIOUSLY_EXPOSED_NOT_PRISTINE_HELDOUT
+  items: 14
+  facts: 37
+  manufacturers: 14
+  minimum_quote_recall_count: 34
+  minimum_quote_recall_ratio: 0.9189
+  minimum_table_recall_ratio: 0.80
+  minimum_prose_recall_ratio: 0.80
+  maximum_corpus_nonblank_span_density: 0.70
+  maximum_median_item_nonblank_span_density: 0.75
+  source_bound_determinism_required: true
+  synthetic_family_recall_required: 1.0
+  synthetic_negative_atoms_required: 0
+  tuning_after_open: FORBIDDEN_FOR_V1
+target_probe_permit:
+  requires_local_gate: PASS
+  repetitions_per_qid: 2
+  minimum_stable_gains_to_continue: 3
+  maximum_protected_regressions: 0
+  maximum_invalid_citations: 0
+  conflict_policy: DISCLOSE_NEVER_UNILATERALLY_RESOLVE
+frontier_review:
+  required_before_implementation: true
+  principal: gpt-5.6-sol
+  principal_reasoning_effort: xhigh
+  independent: claude-fable-5
+  convergence_loops: 0
+cost_policy:
+  local_first: true
+  no_new_gold: true
+  target_calls_before_local_pass: 0
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

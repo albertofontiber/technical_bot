@@ -1,0 +1,3805 @@
+{
+  "schema": "s245_relation_complete_highlight_candidates_v1",
+  "status": "BUILT_BEFORE_GOLD_LOAD",
+  "population": {
+    "items": 14
+  },
+  "rows": [
+    {
+      "item_id": "s147_src_01",
+      "stratum": "table",
+      "language": "en",
+      "source_sha256": "d13200bcbb566ad56b898f19eb54d20f36ea206e1ae8be8788916fad6d5810df",
+      "atoms": [
+        {
+          "atom_id": "A_0c561089af2f",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              312,
+              620
+            ]
+          ],
+          "content": "NAS-2, apart from indicating alarms and faults through relays, has a connection to an M710 or MM-103 Monitor Module. Terminals J15 connect the module to the analogue loop and terminals J14 connect it to the module monitored zone. **Do not fit the module's termination link** (NAS-2 has built-in termination).",
+          "content_sha256": "763fa0a064aa615c07167d7215f6be87cd5388621d8317dc8d3ee2a865cede47"
+        },
+        {
+          "atom_id": "A_4a062ca2fe25",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              622,
+              891
+            ]
+          ],
+          "content": "In case of alarm, the system \"adds\" a 18Kohms resistance in parallel with the end of zone resistance in the J14 terminals, allowing the indication of an alarm in the module when ANY of the two sensors goes into alarm (SW4-OFF, SW5-ON and SW6-ON), that is **0 - 1 - 1**.",
+          "content_sha256": "17dc618a928c79f14ec28ab63bcfe1a1aa02c4c74bb722132b3c145eadeda442"
+        },
+        {
+          "atom_id": "A_67ddf669a03a",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              893,
+              1062
+            ]
+          ],
+          "content": "The configuration is different if an alarm is required to be activated when BOTH sensors go into alarm (coincidence): SW4-ON, SW5-OFF and SW6-OFF, that is **1 - 0 - 0**.",
+          "content_sha256": "365630350c527f8f61246416cbfc16095d31e888ef17e6d7641b66b7c9e85787"
+        },
+        {
+          "atom_id": "A_6aef969c5e2a",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1064,
+              1269
+            ],
+            [
+              1476,
+              1681
+            ]
+          ],
+          "content": "| SW4,SW5,SW6           | SW4,SW5,SW6 | SW4,SW5,SW6 | Normal | Fault | Alarm1 Sens | Alarm2 Sens | Fault +Alarm1 Sens | Fault +Alarm2 Sens |                                                                |\n\n| 0                     | 1           | 1           | Normal | Fault | Alarm       | Alarm       | Alarm              | Alarm              | SW1 SW4 SW5 SW6<br/>\\[Switch diagram showing ON/OFF positions] |",
+          "content_sha256": "86aaa17a0b2a68ebd219c13f706299c68b7f4fa6d4e34f3d99fe2ab438a1d804"
+        },
+        {
+          "atom_id": "A_2f4b86d7cbcd",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1064,
+              1269
+            ],
+            [
+              1682,
+              1887
+            ]
+          ],
+          "content": "| SW4,SW5,SW6           | SW4,SW5,SW6 | SW4,SW5,SW6 | Normal | Fault | Alarm1 Sens | Alarm2 Sens | Fault +Alarm1 Sens | Fault +Alarm2 Sens |                                                                |\n\n| 1<br/>**COINCIDENCE** | 0           | 0           | Normal | Fault | Normal      | Alarm       | Fault              | Alarm              | SW1 SW4 SW5 SW6<br/>\\[Switch diagram showing ON/OFF positions] |",
+          "content_sha256": "a118c45b3d1dd1769adf6a9dda603e9d7bd2d088dcd198ecb4b647a5197c4be4"
+        },
+        {
+          "atom_id": "A_47b9f622d257",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1889,
+              2061
+            ]
+          ],
+          "content": "9                                                                997-528-000-1, Issue 1\n                                                                        October 2005",
+          "content_sha256": "d29fddd2253d51d94dfcebd86d0e00a87b2631e81645d020a6630a4607acfc94"
+        },
+        {
+          "atom_id": "A_8fe00298f767",
+          "fragment_number": 1,
+          "candidate_id": "a8eaa4e7-401a-474b-b555-039c264a36f4",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              2094,
+              2218
+            ]
+          ],
+          "content": "If a fault occurs at NAS-2, there will be an open circuit between J14 terminals and a fault will be indicated in the module.",
+          "content_sha256": "e4f70e99cfd818e5484fe6dea0f430a64fbbe37a31e74cd3b252e2cacf44262c"
+        }
+      ],
+      "nonblank_source_chars": 1708,
+      "nonblank_highlighted_chars": 1080,
+      "nonblank_span_density": 0.6323185011709602
+    },
+    {
+      "item_id": "s147_src_02",
+      "stratum": "table",
+      "language": "es",
+      "source_sha256": "b74fda0415d5cd07239f60100835a4a392f5d2f91d813e11678ca337d3c983dc",
+      "atoms": [
+        {
+          "atom_id": "A_310fc7131747",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              118,
+              152
+            ],
+            [
+              188,
+              222
+            ]
+          ],
+          "content": "| ENTRADAS PULS/MONIT    |       |\n\n| 2 PULS. SIN RETARDO 2E | 1 PUL |",
+          "content_sha256": "3a3b956edfb6861707e40a79d4c4d9ade5aa79054dc75646b97a21b49d0698d4"
+        },
+        {
+          "atom_id": "A_d332f3644e79",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              118,
+              152
+            ],
+            [
+              223,
+              257
+            ]
+          ],
+          "content": "| ENTRADAS PULS/MONIT    |       |\n\n| 3 PULS.SIN RETARDO 3E  | 1 P3E |",
+          "content_sha256": "4cd99b5bc14c05489503584d933fbccd673b88ed8359ce6df9f782ba93eb41d9"
+        },
+        {
+          "atom_id": "A_196fc0163014",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              118,
+              152
+            ],
+            [
+              258,
+              292
+            ]
+          ],
+          "content": "| ENTRADAS PULS/MONIT    |       |\n\n| 4 MONIT. RETARDO 3E    | 1 MON |",
+          "content_sha256": "7c547ccd3d65ecff343d55ff04d18b474f0e553c759c57c19d789b1fe9ee3b5e"
+        },
+        {
+          "atom_id": "A_1408d978656f",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              118,
+              152
+            ],
+            [
+              293,
+              327
+            ]
+          ],
+          "content": "| ENTRADAS PULS/MONIT    |       |\n\n| 5 MONIT. RETARDO 2E    | 1 M2E |",
+          "content_sha256": "66c01dd94dcc8ce287e6aece46a3ae35a5b93cb20c1c99192b9b3e42de902ed2"
+        },
+        {
+          "atom_id": "A_9be18889fb2f",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              339,
+              417
+            ]
+          ],
+          "content": "Matriz que ilumina el LED del módulo cuando se cumple la condición de la misma",
+          "content_sha256": "49438d59658d38a645a5aefb674a7c2f0184a0458d505d6977ae5511bc147158"
+        },
+        {
+          "atom_id": "A_7d12f81ce8d4",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              419,
+              783
+            ]
+          ],
+          "content": "**PUL**. Pulsador de alarma 2 estados (NO permite retardo con fuego de zona), este módulo indica un cortocircuito como alarma. Normalmente asociado al pulsador *MI-MCP* o pulsadores convencionales conectados a *MI-MM1E* o *MI-MM3E* (En este caso solo se conectará el contacto N.A. de alarma y la resistencia final de línea de 47KW entre los terminales del módulo).",
+          "content_sha256": "b69fde7b2c9c7c5a4f9953d326e70b1043422d3cc7faf79f152963d3c1d50594"
+        },
+        {
+          "atom_id": "A_55e517d27237",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              785,
+              1059
+            ]
+          ],
+          "content": "**MON**. Módulo Monitor de 3 estados (Permite retardo con fuego de zona). A diferencia del *PUL*, este módulo indica un cortocircuito como avería. Para ello además de la resistencia de final de línea de 47KW, se debe colocar una resistencia de 18KW en el contacto de alarma.",
+          "content_sha256": "d41a7145c31531e7dbdaf33e519ebf7f7d09ffcda2488bf4c509fcf227c2a91f"
+        },
+        {
+          "atom_id": "A_4b195ebc7192",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1061,
+              1321
+            ]
+          ],
+          "content": "En estado normal un módulo monitor tiene una resistencia de 47KW. La central indica avería de CIRCUITO ABIERTO si no detecta la resistencia final de línea o avería por CORTOCIRCUITO si se produce un cortocircuito entre los terminales del *MI-MM1E* o *MI-MM3E*.",
+          "content_sha256": "58038db9f02c3b6383e7bd228c50e8160ca454d91581c8c5cc83c552e79ff1ed"
+        },
+        {
+          "atom_id": "A_b2d82fee0801",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1323,
+              1541
+            ]
+          ],
+          "content": "Para señalizar la alarma, debe colocarse en serie con el contacto N.A. de alarma una resistencia de 18KW de forma que al cerrar el contacto quede conectada entre los terminales de supervisión del *MI-MM1E* o *MI-MM3E*.",
+          "content_sha256": "ad04ae6e0c63248a6500c13542d003bde9d67974ea2f0b8ea66e2b708498474d"
+        },
+        {
+          "atom_id": "A_1b0501137ba5",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1543,
+              1928
+            ]
+          ],
+          "content": "**M2E**. Módulo Monitor de 2 estados (Permite retardo con fuego de zona). A diferencia del *MON*, este módulo indica un cortocircuito como alarma. Normalmente asociado al pulsador *MI-MCP* o pulsadores convencionales conectados a *MI-MM1E* o *MI-MM3E* (En este caso solo se conectará el contacto N.A. de alarma y la resistencia final de línea de 47KW entre los terminales del módulo)..",
+          "content_sha256": "678965e0a97d5db732e1de32351ff6244a25117953da7f4cefb7ee011c32a03a"
+        },
+        {
+          "atom_id": "A_f89b93635faa",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1930,
+              2286
+            ]
+          ],
+          "content": "**P3E**. Pulsador de 3 estados (NO Permite retardo con fuego de zona). A diferencia del *PUL*, este módulo indica un cortocircuito como avería. Para ello además de la resistencia de final de línea de 47KW, se debe colocar una resistencia de 18KW en el contacto de alarma. Normalmente asociado a pulsadores convencionales conectados a *MI-MM1E* o *MI-MM3E*.",
+          "content_sha256": "2e5ee258b072133c909d530da649f033429df172f94c2ceb149ed2ef1f708688"
+        },
+        {
+          "atom_id": "A_37b5638b4544",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2288,
+              2548
+            ]
+          ],
+          "content": "En estado normal un módulo monitor tiene una resistencia de 47KW. La central indica avería de CIRCUITO ABIERTO si no detecta la resistencia final de línea o avería por CORTOCIRCUITO si se produce un cortocircuito entre los terminales del *MI-MM1E* o *MI-MM3E*.",
+          "content_sha256": "58038db9f02c3b6383e7bd228c50e8160ca454d91581c8c5cc83c552e79ff1ed"
+        },
+        {
+          "atom_id": "A_afc00b9e72f8",
+          "fragment_number": 1,
+          "candidate_id": "2f3cdf4b-f381-4141-a0bc-0c4f7d2bc600",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2550,
+              2768
+            ]
+          ],
+          "content": "Para señalizar la alarma, debe colocarse en serie con el contacto N.A. de alarma una resistencia de 18KW de forma que al cerrar el contacto quede conectada entre los terminales de supervisión del *MI-MM1E* o *MI-MM3E*.",
+          "content_sha256": "ad04ae6e0c63248a6500c13542d003bde9d67974ea2f0b8ea66e2b708498474d"
+        }
+      ],
+      "nonblank_source_chars": 2285,
+      "nonblank_highlighted_chars": 2147,
+      "nonblank_span_density": 0.9396061269146608
+    },
+    {
+      "item_id": "s147_src_03",
+      "stratum": "table",
+      "language": "es",
+      "source_sha256": "0cd01d408cc151a77c5e52e0c528bf341115422187126a2b8bdf52263ca2286c",
+      "atoms": [
+        {
+          "atom_id": "A_4cdad3a8362f",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              40,
+              198
+            ]
+          ],
+          "content": "El detector dispone de cinco opciones de cableado de salida. Estas opciones se definen en fábrica según lo solicitado y no se pueden modificar por el usuario.",
+          "content_sha256": "923caae3c0137a689a8be74392a8ad82d1b23bf07160975bb289391285644e27"
+        },
+        {
+          "atom_id": "A_81073b09256c",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              200,
+              541
+            ]
+          ],
+          "content": "Véase el apartado **B.1 Instrucciones generales para las conexiones eléctricas** en el que se muestran diagramas de cableado para cada opción. A menos que se especifique lo contrario, el ajuste por defecto del detector es la Opción 4. El tipo de conexión se identifica en la referencia del detector, véase la sección **1.2 Tipos y modelos**.",
+          "content_sha256": "e05ecb0bddf6d2e1926e08e61997250bd2ff4a2b4fe4aaa57b8fac9e5c14fd8a"
+        },
+        {
+          "atom_id": "A_401f1e6284d8",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              543,
+              1092
+            ]
+          ],
+          "content": "* **Opción 1**: Alimentación, RS-485, 0-20mA (receptor), protocolo HART, relé de avería (N.C), relé de alarma (N.A).\n* **Opción 2**: Alimentación, RS-485, 0-20mA (fuente), relé de avería (N.A), relé de alarma (N.A), (N.C).\n* **Opción 3**: Alimentación, RS-485, 0-20mA (fuente) y protocolo HART, relé de avería (N.A), relé de alarma (N.A, N.C).\n* **Opción 4**: Alimentación, RS-485, relé de avería (N.C), relé auxiliar (N.A), relé de alarma (N.A).\n* **Opción 5**: Alimentación, RS-485, relé de avería (N.A), relé auxiliar (N.A), relé de alarma (N.A).",
+          "content_sha256": "64768869d58f53a1717e6ecee11074f3e7fe42ed7f49711088f3ce9b2fab6827"
+        },
+        {
+          "atom_id": "A_55ea55a4a7a5",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1094,
+              1116
+            ],
+            [
+              1118,
+              1146
+            ]
+          ],
+          "content": "### Salidas eléctricas\n\n* **Relés de contacto seco**",
+          "content_sha256": "67e6ce17421d35806360bb7692c1eb0a66c9c5cd635281133e255b035275e31c"
+        },
+        {
+          "atom_id": "A_79f6fc998ad9",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1148,
+              1186
+            ]
+          ],
+          "content": "**Tabla 24: Valores de los contactos**",
+          "content_sha256": "7acdc5fc3f91da07630d7dcf554f463569b31764a8dfc4a9ffebc861325e758b"
+        },
+        {
+          "atom_id": "A_24f18150cf56",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1188,
+              1257
+            ],
+            [
+              1328,
+              1397
+            ]
+          ],
+          "content": "| Relé      | Tipo | Posición normal | Valores máximos              |\n\n| Alarma    | DPST | N.A., N.C.      | 2A a 30 Vcc o 0,5A a 250 Vca |",
+          "content_sha256": "7345b84e1c1235069aeee429f1633f76acda7edcad1b3f5854d180dcc54bc155"
+        },
+        {
+          "atom_id": "A_c69b686595e8",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1188,
+              1257
+            ],
+            [
+              1398,
+              1467
+            ]
+          ],
+          "content": "| Relé      | Tipo | Posición normal | Valores máximos              |\n\n| Auxiliar  | SPST | N.A.            | 5A a 30 Vcc o 250 Vca        |",
+          "content_sha256": "420dea9f2ebd0208ff471b954f1f1807270ccc5707bf7102cd050038f3a685bd"
+        },
+        {
+          "atom_id": "A_b0421c245c81",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1188,
+              1257
+            ],
+            [
+              1468,
+              1537
+            ]
+          ],
+          "content": "| Relé      | Tipo | Posición normal | Valores máximos              |\n\n| Avería \\* | SPST | N.C. o N.A      | 5A a 30 Vcc o 250 Vca        |",
+          "content_sha256": "2c06e2a98096696d7ee2e146e5da61c773ce72dfa58591ec71b67d30a4331c49"
+        },
+        {
+          "atom_id": "A_b74e87308c3e",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1188,
+              1537
+            ]
+          ],
+          "content": "| Relé      | Tipo | Posición normal | Valores máximos              |\n| --------- | ---- | --------------- | ---------------------------- |\n| Alarma    | DPST | N.A., N.C.      | 2A a 30 Vcc o 0,5A a 250 Vca |\n| Auxiliar  | SPST | N.A.            | 5A a 30 Vcc o 250 Vca        |\n| Avería \\* | SPST | N.C. o N.A      | 5A a 30 Vcc o 250 Vca        |",
+          "content_sha256": "7cf23133a709406afb3158c735743cc89b11945d709a848f55386d8ecb59b90f"
+        },
+        {
+          "atom_id": "A_8451f9e41227",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1539,
+              1617
+            ]
+          ],
+          "content": "**Leyenda: DPST** (doble polo, única activación, *Double Pole, Single Throe*).",
+          "content_sha256": "326623fab6875abc03b3b9a42f98307a35195e9a98317d42a4f4e2d4d478524d"
+        },
+        {
+          "atom_id": "A_791d8320bd83",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1702,
+              1946
+            ]
+          ],
+          "content": "* El relé de avería (en las opciones de conexión 1, 2 y 4) está activado, normalmente cerrado, durante el funcionamiento normal del detector. El relé se desactiva, abierto, si surge una condición de avería o cuando la tensión es demasiado baja.",
+          "content_sha256": "fca902ce104ab26ea89830b452fd20bb7746816f3bf6513dcbe82a094a8c7249"
+        },
+        {
+          "atom_id": "A_a34752368f66",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2068,
+              2300
+            ]
+          ],
+          "content": "* * En las opciones de conexión 3 y 5, el relé está activado, normalmente abierto, durante el funcionamiento normal del detector. El relé se desactiva, cerrado, si surge una condición de avería o cuando la tensión es demasiado baja.",
+          "content_sha256": "28844d3f6c66f79d31ca947eda2d873f7b08fd7989f1831c4ac25be33c6bcc1b"
+        },
+        {
+          "atom_id": "A_7c0e9ff897ac",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2302,
+              2552
+            ]
+          ],
+          "content": "* **Salida de corriente 0-20mA**: La salida de 0-20mA puede ser \"receptor\" o \"fuente\" según la opción de cableado (véase el apartado **B.1 Instrucciones generales para las conexiones eléctricas**). La máxima resistencia de carga permitida es de 600Ω.",
+          "content_sha256": "a1c5534f5fec02fcbf0f100a58ace610b1134c2f68aaf54a55e8b0846f42937e"
+        },
+        {
+          "atom_id": "A_6555cbe29031",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2554,
+              2598
+            ]
+          ],
+          "content": "**Tabla 25: Salida de corriente de 0-20 mA**",
+          "content_sha256": "c3448722d4fb7195e24bb71d303d5c2a7f2acbc02e9cdc78eb885a0dd771a889"
+        },
+        {
+          "atom_id": "A_83480e2fdd6e",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2670,
+              2704
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n\n| Avería              | 0 + 1 mA |",
+          "content_sha256": "27c363a0ddb7c1474b9d73165fd84d9eb2e3a6b141d1734378411e1ceb10cd00"
+        },
+        {
+          "atom_id": "A_fa478fd9fd30",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2705,
+              2739
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n\n| Fallo de prueba BIT | 2 mA±10% |",
+          "content_sha256": "51ad2b5d210b156b4182335a3455fa67ea6fd41b467f6a8827c2a175bed0a431"
+        },
+        {
+          "atom_id": "A_8a33cb2e8a7d",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2740,
+              2774
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n\n| Normal              | 4 mA±10% |",
+          "content_sha256": "d4ad10d7ed76525761ce4fac1575f96bbfac45eb515f3f4f1826ec20b2886588"
+        },
+        {
+          "atom_id": "A_521ad729cd4f",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2775,
+              2809
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n\n| Prealarma (aviso)   | 16 mA±5% |",
+          "content_sha256": "ac2d567c56f30a0cd1cdcb3d4bb5131fb82a98c5a796bff1507a9e236b983199"
+        },
+        {
+          "atom_id": "A_679aa1bb74d8",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2634
+            ],
+            [
+              2810,
+              2844
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n\n| Alarma              | 20 mA±5% |",
+          "content_sha256": "d6ef06f9833373e6fffd08c3d58ea5c7e83ef050e5849792c9a3a919c49d9785"
+        },
+        {
+          "atom_id": "A_f5b4e9649c4b",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2600,
+              2844
+            ]
+          ],
+          "content": "| Estado              | Salida   |\n| ------------------- | -------- |\n| Avería              | 0 + 1 mA |\n| Fallo de prueba BIT | 2 mA±10% |\n| Normal              | 4 mA±10% |\n| Prealarma (aviso)   | 16 mA±5% |\n| Alarma              | 20 mA±5% |",
+          "content_sha256": "1fa6cd17e7b7627036eadf88419a73b18d4e1f210fd10d50091a4b0ccbdc346d"
+        },
+        {
+          "atom_id": "A_266334127122",
+          "fragment_number": 1,
+          "candidate_id": "dbefaf41-2164-486b-9a14-3e60f11844c0",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2846,
+              2866
+            ]
+          ],
+          "content": "* **Protocolo HART**",
+          "content_sha256": "5fead53f457042221e8d34c9801987eb732fa01f1a13088e084881f27a8c03e7"
+        }
+      ],
+      "nonblank_source_chars": 2231,
+      "nonblank_highlighted_chars": 2059,
+      "nonblank_span_density": 0.9229045271178844
+    },
+    {
+      "item_id": "s147_src_04",
+      "stratum": "table",
+      "language": "en",
+      "source_sha256": "97112c04dbae8c39751dcae7b8767c30123ff31047290bcdf52c78a6dac54ef1",
+      "atoms": [
+        {
+          "atom_id": "A_1a70e05323af",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              439,
+              499
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 1\\*               | 0.02 % obs/ft | 0.07 % obs/m   |",
+          "content_sha256": "490ae71a206512fbb3d5f6921ac1e32190f7bf346bca07a40efc4657e23cb7ba"
+        },
+        {
+          "atom_id": "A_2ac9026a287e",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              500,
+              560
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 2                 | 0.03 % obs/ft | 0.10 % obs/m   |",
+          "content_sha256": "db17f9b615aeb833e666e4f43e41f64b4b31c167514b6509856a64146d686650"
+        },
+        {
+          "atom_id": "A_1f8b9932b48b",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              561,
+              621
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 3                 | 0.05 % obs/ft | 0.16 % obs/m   |",
+          "content_sha256": "46b2129b5216dfa662887cb9e82fe1d748dee36328b93e9265f87536d51dfd6f"
+        },
+        {
+          "atom_id": "A_13a217cbcbed",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              622,
+              682
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 4                 | 0.10 % obs/ft | 0.33 % obs/m   |",
+          "content_sha256": "2ffeebb7755785fd2035b63d35e1bef750cdcee2e7667d2c55376db892034bb0"
+        },
+        {
+          "atom_id": "A_3dde1f54c805",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              683,
+              743
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 5                 | 0.20 % obs/ft | 0.66 % obs/m   |",
+          "content_sha256": "e75021c6ea7208fa8b31c2e4e91f0be3b44195148c7c732d14e5bce0ad3f5039"
+        },
+        {
+          "atom_id": "A_f7043e55e882",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              744,
+              804
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 6                 | 0.50 % obs/ft | 1.64 % obs/m   |",
+          "content_sha256": "dc25ca5b8a6ec06302e254557883f53a55ca85785ac93bed81251d68fb14abf1"
+        },
+        {
+          "atom_id": "A_f914717a6aeb",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              805,
+              865
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 7                 | 1.00 % obs/ft | 3.28 % obs/m   |",
+          "content_sha256": "d9a0234365cdb1362881eb1b79ade40ed5a0b9ef5efac617f234fcfc5cc240e1"
+        },
+        {
+          "atom_id": "A_328265cb1b2e",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              866,
+              926
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 8                 | 1.50 % obs/ft | 4.92 % obs/m   |",
+          "content_sha256": "8e5ccbb6ce468b56c20d29739ab10b2b02b354744d326b9807d838f08cc69a25"
+        },
+        {
+          "atom_id": "A_36d69ae7c761",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              317,
+              377
+            ],
+            [
+              927,
+              987
+            ]
+          ],
+          "content": "| Smoke Sensitivity Level | Obs in %/Feet | Obs in %/meter |\n\n| Level 9                 | 2.00 % obs/ft | 6.56 % obs/m   |",
+          "content_sha256": "b48c03cbc91fdc9a2e9b861250c7bdf4800ca92934da4d20ca1b3ce86281880c"
+        },
+        {
+          "atom_id": "A_1ba3e1a25e26",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              989,
+              1061
+            ]
+          ],
+          "content": "\\* Pre-alarm will be set to 70% of this value if alarm is set to Level 1",
+          "content_sha256": "a06f379123119f17093184f38b09d4169fa14ad7d4fce4743b3227fdd0562e36"
+        },
+        {
+          "atom_id": "A_540187c27490",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1063,
+              1124
+            ]
+          ],
+          "content": "**Note: Only Levels 1 to 5 are available for use in PipeIQ.**",
+          "content_sha256": "40ee8742a572232d94091b6cf832efd3f9f4650597f8fc5949a800636dae86e9"
+        },
+        {
+          "atom_id": "A_0e14b6965ac0",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              1126,
+              1345
+            ]
+          ],
+          "content": "To set these levels, ensure the *Configuration* tab is selected in the left pane and click the *Advanced* button in the *Channels and Sensors* tab of the right pane. Set the required alarm value from the drop down menu.",
+          "content_sha256": "8492ea3f97304fe9237bce6c351401471bca677a84b68bf4ec8daef80759fe98"
+        },
+        {
+          "atom_id": "A_7432948d1251",
+          "fragment_number": 1,
+          "candidate_id": "1f6103bb-8062-43c3-9f40-c6bc9551b763",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              1440,
+              1654
+            ]
+          ],
+          "content": "In the common chamber version of the FAAST LT-200 ( 1 channel - 2 detectors), it is possible to configure the detector to give alarm when only 1 sensor **(OR)** or when both sensors **(AND)** reach the alarm level.",
+          "content_sha256": "e78ee232153beb2c73bf370792fa4d29c12c51de18ae3474670ce6648b65b1c5"
+        }
+      ],
+      "nonblank_source_chars": 1190,
+      "nonblank_highlighted_chars": 792,
+      "nonblank_span_density": 0.6655462184873949
+    },
+    {
+      "item_id": "s147_src_05",
+      "stratum": "table",
+      "language": "es",
+      "source_sha256": "0433234b17d8b8bcb9c9c9aadcf7cdc66fe40c3ad869a0bf2c194e81213bb2b6",
+      "atoms": [
+        {
+          "atom_id": "A_271862192ac3",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              0,
+              35
+            ],
+            [
+              37,
+              522
+            ]
+          ],
+          "content": "# Software Gráfico Detnov - SGD 151\n\n* El marcador de panel, de forma análoga al dispositivo activo se muestra cambiante de forma intermitente para indicar que está bajo la condición de avería.\n* La barra de navegación muestra el primer elemento en avería si no hay algún elemento de alarma prioritario\n* El marco derecho del árbol de sistema muestra el marcador de panel y zona en la condición de avería. Al hacer clic sobre los elementos en alarma de este marco, navegaremos hasta el plano donde el elemento está activo.",
+          "content_sha256": "cecfc36d5f06df86c7d78077be35d68b4d3cba1f2dd47f2e718cf5c69143e330"
+        },
+        {
+          "atom_id": "A_38affc641991",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              524,
+              863
+            ]
+          ],
+          "content": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |",
+          "content_sha256": "772af3e773f69f691807d4746d97d78e88524bb6d6c572cc4b403c03b45afe54"
+        },
+        {
+          "atom_id": "A_8ce4d8674f51",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1204,
+              1543
+            ]
+          ],
+          "content": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |\n\n| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |",
+          "content_sha256": "c5ede4b70cdd59bd2d69e59debd01e23c17da7abfe5c3b6f1857478926318c04"
+        },
+        {
+          "atom_id": "A_484f92d42308",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1544,
+              1883
+            ]
+          ],
+          "content": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |\n\n| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |",
+          "content_sha256": "c5ede4b70cdd59bd2d69e59debd01e23c17da7abfe5c3b6f1857478926318c04"
+        },
+        {
+          "atom_id": "A_589d8aadd7b6",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              1884,
+              2223
+            ]
+          ],
+          "content": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |\n\n| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |",
+          "content_sha256": "e5cab7094db6128795f4732a3fa7c0d384e67be029e3ba20eb888ae62e71fa28"
+        },
+        {
+          "atom_id": "A_4005425457ee",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              524,
+              863
+            ],
+            [
+              2224,
+              2563
+            ]
+          ],
+          "content": "| Avisos<br/>Fecha/Hora | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Evento | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Panel | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Zona | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Dispositivo | Aviso: Panel de Pruebas - Averia de alimentacion<br/>Detalles |\n\n| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |",
+          "content_sha256": "e5cab7094db6128795f4732a3fa7c0d384e67be029e3ba20eb888ae62e71fa28"
+        },
+        {
+          "atom_id": "A_10339f16d0e8",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1204,
+              1543
+            ]
+          ],
+          "content": "| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |",
+          "content_sha256": "33bf2b5776891f56c331cc830976265ea29eba1aa9ed0a44d3f36a2713ac8b13"
+        },
+        {
+          "atom_id": "A_c33245c9de43",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1544,
+              1883
+            ]
+          ],
+          "content": "| 2019-12-09 14:42:08   | Averia de alimentacion                                      | Panel de Pruebas                                           |                                                           |                                                                  | Fallo de alimentacion                                         |",
+          "content_sha256": "33bf2b5776891f56c331cc830976265ea29eba1aa9ed0a44d3f36a2713ac8b13"
+        },
+        {
+          "atom_id": "A_35833ee0c2ba",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1884,
+              2223
+            ]
+          ],
+          "content": "| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |",
+          "content_sha256": "bd072d3e5450160c0a85afba4835da2807969fc11c01ee1054ff06ecf445090d"
+        },
+        {
+          "atom_id": "A_f1adf1307ba8",
+          "fragment_number": 1,
+          "candidate_id": "6e9af7bb-619a-49ab-91b6-68bbda9c9e56",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2224,
+              2563
+            ]
+          ],
+          "content": "| 2019-12-09 14:41:28   | Averia                                                      | Panel de Pruebas                                           | Zona MCP                                                  | 01:01:003 Detector 2                                             | El dispositivo esta en averia                                 |",
+          "content_sha256": "bd072d3e5450160c0a85afba4835da2807969fc11c01ee1054ff06ecf445090d"
+        }
+      ],
+      "nonblank_source_chars": 1481,
+      "nonblank_highlighted_chars": 1068,
+      "nonblank_span_density": 0.7211343686698177
+    },
+    {
+      "item_id": "s147_src_06",
+      "stratum": "table",
+      "language": "en",
+      "source_sha256": "083bf2e1405d521fe4c303cc827422ae38d14ab39508ebc2dbcd433b91145b5f",
+      "atoms": [
+        {
+          "atom_id": "A_288b35de87e3",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              217,
+              371
+            ]
+          ],
+          "content": "CAUTION: This product must be installed by qualified personnel adhering to the TS54-14 specification and any other applicable local authority regulations.",
+          "content_sha256": "8350953e4f13f4a09ac295b731a7981587b8c9507cb5eaeae483b5eaf2d9b750"
+        },
+        {
+          "atom_id": "A_1cfaa7479400",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              373,
+              786
+            ]
+          ],
+          "content": "If required, the mechanism for locking the sounder to the base can be activated by removing the thin section of plastic shown in Fig. 1a with side cutters or a similar tool. To open a locked head, remove the small rubber bung from the hole on the side of the sounder, insert a tool into the hole and depress the clip whilst twisting the head. The O-ring and bung must be re-fitted to maintain the weatherproofing.",
+          "content_sha256": "59439ea4b73552cd5f0b2c0566f467eb81f62cb89aa21862b503848b6a5a34ba"
+        },
+        {
+          "atom_id": "A_c6961f7f26f0",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              788,
+              949
+            ]
+          ],
+          "content": "An alternative locking method is shown in Fig. 1b. Drive the hexagonal locking screw forward by turning a 1.5mm hexagonal key clockwise until the head is locked.",
+          "content_sha256": "0f29743a2e58a83199c1b62ebf201ba41db00cb53f9d93658fc6cd0e8fa8168b"
+        },
+        {
+          "atom_id": "A_1a4df8711cd2",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              963,
+              1001
+            ],
+            [
+              1041,
+              1079
+            ]
+          ],
+          "content": "| Line            | Terminal Marking |\n\n| Line (positive) | (3) L +          |",
+          "content_sha256": "4a567bfadbf7721e11213680c9ccee3440481ba01785edd6c57509ed393c0d95"
+        },
+        {
+          "atom_id": "A_bc9109231dfa",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              963,
+              1001
+            ],
+            [
+              1080,
+              1118
+            ]
+          ],
+          "content": "| Line            | Terminal Marking |\n\n| Line (negative) | (2) L -          |",
+          "content_sha256": "4d0199c7967e4ce91fd493aca12f80ff1fe919b023cb56ac0b41979793964e61"
+        },
+        {
+          "atom_id": "A_eb57c55c2941",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1301,
+              1464
+            ]
+          ],
+          "content": "Each device requires a numeric address between 1 and 128 for identification purposes. This is set using switches 1-8 on the Address Selector switch (see Figure 2).",
+          "content_sha256": "ed8445baa4e1dc54947019f7360cad007cb1654a7cf8ff9317f397bbb620f250"
+        },
+        {
+          "atom_id": "A_c33f030c0253",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              1466,
+              1751
+            ]
+          ],
+          "content": "When this device is used in conjunction with the FP1200/2000 range of fire panels, it must have an address of 80 or higher when it is used as a sounder and beacon. When an address lower that 80 is assigned to the device, it will function as a sounder only, without the beacon flashing.",
+          "content_sha256": "07785816138762775b75609cc415adb94a93c3ba6680f7cce918e4495a299e30"
+        },
+        {
+          "atom_id": "A_b93d47b3822a",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1799,
+              1960
+            ]
+          ],
+          "content": "**a.** The device tone is set using switches 1-5 on the Tone Selector DIP switch (see Figure 2a). See tone table for a complete list of tone/DIP switch settings.",
+          "content_sha256": "92b9c7e0bd0dd376f30863f47918d4a1de732c64e3e49f2dc27211b200602b1e"
+        },
+        {
+          "atom_id": "A_f82c82d9e305",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1962,
+              2169
+            ]
+          ],
+          "content": "**b.** Switch 6 on the Tone Selector DIP switch is used to select the sound volume (See Figure 2b). The default setting (switch OFF) is high volume. Changing the switch to ON reduces the sound output by 8dB.",
+          "content_sha256": "79e8c10fb87bc7311dfdb7a449bb28085041690a97ea1f55b5cd6462cd717afb"
+        },
+        {
+          "atom_id": "A_46da71c86cb9",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2171,
+              2234
+            ]
+          ],
+          "content": "**c.** Switch 7 Flash rate: 0.5Hz =OFF/1Hz =ON (See Figure 2c).",
+          "content_sha256": "44d347c4a38b494605d8f698040cc2ae684adc387c8dd684b2b7840714e3dea7"
+        },
+        {
+          "atom_id": "A_9b7963b41e17",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              2265,
+              2399
+            ]
+          ],
+          "content": "Basic maintenance is reduced to an annual inspection. Do not modify internal wiring or circuitry. Test all devices after installation.",
+          "content_sha256": "970f8ea6acafe629de3bf01a5b42f719d58003d7cee1ee381ece0130d333fce5"
+        },
+        {
+          "atom_id": "A_c07c06a0b090",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              2421,
+              2568
+            ]
+          ],
+          "content": "Before investigating individual units for faults, check the system wiring is fault free. Earth faults on data loops may cause communication errors.",
+          "content_sha256": "37f81439f4cee1153a9e8835926ca9590616b92caa824a22f22195517395716a"
+        },
+        {
+          "atom_id": "A_70c9f564f02f",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2570,
+              2670
+            ],
+            [
+              2772,
+              2872
+            ]
+          ],
+          "content": "| Problem                 | Possible Cause                                                         |\n\n| No response or missing  | Incorrect address setting or incorrect loop wiring (polarity reversed) |",
+          "content_sha256": "8729b2e4296a78516c95db32e625202fe39fd049654b545fe3a7afea20fad81e"
+        },
+        {
+          "atom_id": "A_6da30b8a8b0f",
+          "fragment_number": 1,
+          "candidate_id": "f799fc25-df52-4d99-afae-181eec12a286",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2570,
+              2670
+            ],
+            [
+              2873,
+              2973
+            ]
+          ],
+          "content": "| Problem                 | Possible Cause                                                         |\n\n| Device fails to operate | Control panel has incorrect cause and effect programming               |",
+          "content_sha256": "968c056d46a486000a6fe45b706c6d19b065583957e91b46955bf22bf546f9bb"
+        }
+      ],
+      "nonblank_source_chars": 2392,
+      "nonblank_highlighted_chars": 1818,
+      "nonblank_span_density": 0.7600334448160535
+    },
+    {
+      "item_id": "s147_src_07",
+      "stratum": "table",
+      "language": "es",
+      "source_sha256": "3de6d4cab569a3930f63def2a494d8861217ce184116db874e9c00da6b62b8e3",
+      "atoms": [
+        {
+          "atom_id": "A_9defda945661",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              92,
+              481
+            ]
+          ],
+          "content": "* En todos los casos deberá determinarse y anotarse la sección de cable. El cálculo de secciones de cable demasiado débiles puede provocar un funcionamiento defectuoso del detector de humos por aspiración.\n* Para determinar la sección de cable necesaria, además del consumo de corriente del ASD 533 también deberán tenerse en cuenta los datos límite del sistema de línea o de CDI empleado.",
+          "content_sha256": "9cd4e08eabc699941c451aaea9db2ebe723926e0ae19bb2afb9d213c9ec420fe"
+        },
+        {
+          "atom_id": "A_384bdacb37f0",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              165,
+              297
+            ]
+          ],
+          "content": "El cálculo de secciones de cable demasiado débiles puede provocar un funcionamiento defectuoso del detector de humos por aspiración.",
+          "content_sha256": "b828aee2f17cde2b0676f8f50b0276fe3e485634399dba5ee0732ad9320254d8"
+        },
+        {
+          "atom_id": "A_5e9090adc94b",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              747,
+              1111
+            ]
+          ],
+          "content": "* Los bornes de conexión del ASD 533 están diseñados para un espacio máximo de 2,5 mm². Por ello, para llevar el cable de alimentación hasta un ASD adyacente, en determinados casos será necesario añadir bornes distribuidores o auxiliares.\n* En el cálculo de corriente debe incluirse el consumo eléctrico de los dispositivos que utilizan las salidas Open Collector.",
+          "content_sha256": "ed4eb6d70cf2aa5d009d2f1bcc026b21678bedffc2052bab9e51910fe3d3a9c2"
+        },
+        {
+          "atom_id": "A_60729c851592",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              835,
+              1111
+            ]
+          ],
+          "content": "Por ello, para llevar el cable de alimentación hasta un ASD adyacente, en determinados casos será necesario añadir bornes distribuidores o auxiliares.\n* En el cálculo de corriente debe incluirse el consumo eléctrico de los dispositivos que utilizan las salidas Open Collector.",
+          "content_sha256": "4a1448c66490aa4e88f191903e59752513ec6a7ef4de2fc5ddbbaeefb391faa3"
+        },
+        {
+          "atom_id": "A_a9e3a74e5f1b",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              986,
+              1111
+            ]
+          ],
+          "content": "* En el cálculo de corriente debe incluirse el consumo eléctrico de los dispositivos que utilizan las salidas Open Collector.",
+          "content_sha256": "ddb0fa03c5ca822dfb5883ad84bed4662092fa0dbadaf5c09c6555d6a02cad1f"
+        },
+        {
+          "atom_id": "A_9058bd11bdce",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1113,
+              1361
+            ]
+          ],
+          "content": "Para asegurar el correcto funcionamiento del ASD 533, la sección de cable debe dimensionarse de tal manera que permita que al final de la instalación eléctrica (es decir, en el ASD 533) se siga disponiendo del máximo consumo de corriente necesario.",
+          "content_sha256": "c71ac9ef84d71cce4697a6501accdadf7579064f78430a4777a9a1a6b03204ad"
+        },
+        {
+          "atom_id": "A_1bcb3fee86ce",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1363,
+              1675
+            ]
+          ],
+          "content": "En consecuencia, para determinar la sección de cable será decisivo el consumo de corriente máximo posible del ASD 533 en servicio normal (tras el encendido). Debido a su sistema de circuitos, el ASD 533 experimenta el consumo de corriente más elevado con la tensión de alimentación mínima, es decir, a 10,5 V-CC.",
+          "content_sha256": "3d85cf238a8be19bfb11c311b49272e84551de481cf4af7e032eea878803a5f8"
+        },
+        {
+          "atom_id": "A_33e28c0fe248",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1768,
+              1887
+            ]
+          ],
+          "content": "* Diámetro de hilo mínimo:                                                                             0,8 mm (0,5 mm²)",
+          "content_sha256": "69ef9bfcf59c865a3286a0dbd08d37818c2b1516e70217ddf31a4a2140257f63"
+        },
+        {
+          "atom_id": "A_1f84280909df",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2105,
+              2212
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| Consumo de corriente máximo con:                                                 | 10,5 V-CC | 18 V-CC  |",
+          "content_sha256": "a2af9c59d29a99c3bbab603c0f03f51e8e8d448480323d0f83347cdac8784f7c"
+        },
+        {
+          "atom_id": "A_68ffb38d4556",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2213,
+              2320
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA   |",
+          "content_sha256": "6a6bb7cdc624784d7b4b84045b78f1c5d9181df65e930185616cceb915e1cd2e"
+        },
+        {
+          "atom_id": "A_a6415053ccc5",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2321,
+              2427
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| - adicionalmente con RIM 35 (disparo de todos los relés, con 2 RIM 35 = x 2)    | 15 mA     | 10 mA    |",
+          "content_sha256": "104342f82304a203524498c665b4900d33183f5e5d5362cf4253c57022149f13"
+        },
+        {
+          "atom_id": "A_3d78581bf026",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2428,
+              2535
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| - adicionalmente con XLM 35 o SLM 35                                             | 20 mA     | 10 mA    |",
+          "content_sha256": "e91ca368b376ad95282e5715a1a6bf107a0b6ee8842e720a001f65c75b6ab27e"
+        },
+        {
+          "atom_id": "A_c240e3f933c7",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2536,
+              2643
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| - adicionalmente con MCM 35                                                      | 25 mA     | 15 mA    |",
+          "content_sha256": "54e96ed7a3c06a5f1d5daca33a742cd628c719b1805c923546c9d7100a48ed59"
+        },
+        {
+          "atom_id": "A_462c4f32656b",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1889,
+              1996
+            ],
+            [
+              2644,
+              2751
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n\n| Caída de tensión máxima permitida en la instalación:                             | 1,5 V-CC  | 6 V-CC   |",
+          "content_sha256": "8df3dfe2fa09732d78ea6ce054eec9bf179b057c9c92b69ba3766bf6a3bace7d"
+        },
+        {
+          "atom_id": "A_4b4a0418f9df",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1889,
+              2751
+            ]
+          ],
+          "content": "|                                                                                  | 12 V-CC   | 24 V-CC  |\n|----------------------------------------------------------------------------------|-----------|----------|\n| Consumo de corriente máximo con:                                                 | 10,5 V-CC | 18 V-CC  |\n| - ASD 533, ASD en alarma                                                         | 340 mA    | 210 mA   |\n| - adicionalmente con RIM 35 (disparo de todos los relés, con 2 RIM 35 = x 2)    | 15 mA     | 10 mA    |\n| - adicionalmente con XLM 35 o SLM 35                                             | 20 mA     | 10 mA    |\n| - adicionalmente con MCM 35                                                      | 25 mA     | 15 mA    |\n| Caída de tensión máxima permitida en la instalación:                             | 1,5 V-CC  | 6 V-CC   |",
+          "content_sha256": "41502a1b519e9ec397d935c2d7a91a2f5fb177f765a05f897b9656d084bd407e"
+        },
+        {
+          "atom_id": "A_40cc47e49cc5",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2753,
+              2991
+            ]
+          ],
+          "content": "Cálculo:    $$A = \\frac{I \\times L \\times 2}{\\gamma \\times \\Delta U}$$    I = Consumo de corriente (en A)    L = Longitud simple de línea (en m)\n2 = Factor para línea de retorno    γ = Conductividad Cu (57)    ΔU = Caída de tensión (en V)",
+          "content_sha256": "da2a81be067c8ae18fb2feffa0575dcf6936ffade3031dbb919fafd72fd8f0be"
+        },
+        {
+          "atom_id": "A_3f47352d1ef6",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2993,
+              3050
+            ]
+          ],
+          "content": "**Ejemplo 1,** ASD 533, longitud de cable 100 m, 12 V-CC:",
+          "content_sha256": "eb86deb0bc121d5c61b48402289854a09e2460e3264b2556766235bee9673111"
+        },
+        {
+          "atom_id": "A_dcd2e08005d3",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              3052,
+              3157
+            ]
+          ],
+          "content": "**Cálculo:**    $$A = \\frac{0,340 \\times 100 \\times 2}{57 \\times 1,5}$$    =    0,79 mm²    🡪 **1,0 mm²**",
+          "content_sha256": "67add7ea40a4c4d049508a0c2bfb86bbf5c196d77041320977754bdd16243ef8"
+        },
+        {
+          "atom_id": "A_a98649488cf7",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              3159,
+              3227
+            ]
+          ],
+          "content": "**Ejemplo 2,** ASD 533 con XLM 35, longitud de cable 300 m, 24 V-CC:",
+          "content_sha256": "b6d630f470482cc06d456b1f9af3b207684efbc23fee8c0aef4a0cc06968c73c"
+        },
+        {
+          "atom_id": "A_08bbb6cb145d",
+          "fragment_number": 1,
+          "candidate_id": "34597bee-b899-4c72-a534-b228e03d31f6",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              3229,
+              3331
+            ]
+          ],
+          "content": "**Cálculo:**    $$A = \\frac{0,22 \\times 300 \\times 2}{57 \\times 6}$$    =    0,38 mm²    🡪 **0,5 mm²**",
+          "content_sha256": "a85247126dd8fa03a84f042055b33818d6709df2170aa6e06e753e9ac153b25a"
+        }
+      ],
+      "nonblank_source_chars": 2368,
+      "nonblank_highlighted_chars": 1981,
+      "nonblank_span_density": 0.8365709459459459
+    },
+    {
+      "item_id": "s147_src_08",
+      "stratum": "prose",
+      "language": "en",
+      "source_sha256": "a921b5a36a6f22daa51da4b66c2d437d267f07eff57372c963dd8512b845d280",
+      "atoms": [
+        {
+          "atom_id": "A_98d1acdbf8c8",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              0,
+              15
+            ],
+            [
+              17,
+              146
+            ]
+          ],
+          "content": "# Commissioning\n\n1. After wiring the unit up (see wiring diagram) power up the device. Device will show screen including software revision number.",
+          "content_sha256": "2d80ee78a2afea24caec22fd96a52334221454db5dbdbe100a0976acb2c758db"
+        },
+        {
+          "atom_id": "A_aef020d6168f",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              148,
+              362
+            ]
+          ],
+          "content": "2. If the unit is being setup for the first time the following options will be shown. If the unit has previously been installed the display will automatically cycle through the options, showing the stored settings.",
+          "content_sha256": "b7eb2d2fbe0a32bd5f8f663e81a46dc9c6be5db180e0fdf7328714375ac847bc"
+        },
+        {
+          "atom_id": "A_53f54b206b77",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              364,
+              620
+            ]
+          ],
+          "content": "3. After the initial title screen the next screen will show a menu with three options: Load Configs, New Configs, and Self Test. On a previously configured device, after 10s of no button press the device will automatically proceed to loading saved configs.",
+          "content_sha256": "5a7f81345ba497320b451f01332bb2ebec59fbd2b38d0f1f70258f0c54a88f84"
+        },
+        {
+          "atom_id": "A_41d0f5e630ae",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              622,
+              831
+            ]
+          ],
+          "content": "4. If \"Load Configs\" is selected or no button has been pressed after 10s on a previously configured device, the screen will show \"Loading Saved Configs\". The previously saved parameters will then be displayed.",
+          "content_sha256": "5cb0842f1be3327e2f40edc82654162c456a411ac1032e2d44de1c26952c792d"
+        },
+        {
+          "atom_id": "A_61a4217d6bc4",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              833,
+              1142
+            ]
+          ],
+          "content": "5. Select the operating mode. (see \"Operating modes\" for more detail. **Independent**: the two zones operate independently of each other (default). **Interlock**: Both fault outputs activate when a fault occurs on either zone 1 or zone 2. Both alarm outputs activate only when both LHD zones trigger an alarm.",
+          "content_sha256": "b9a500e9b5e6bcfb53cd84e13e53e33217efbff99b148af5c5b044b45ff8bbe2"
+        },
+        {
+          "atom_id": "A_d1c123e1a7f5",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1144,
+              1212
+            ]
+          ],
+          "content": "6. Select the cable type connected to Zone 1 (68°C/88°C/105°C/185°C)",
+          "content_sha256": "47da976287dd290c60cb471331784c8e826099315bd2879ceeec5854f73c586c"
+        },
+        {
+          "atom_id": "A_b454d0ebb619",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1214,
+              1282
+            ]
+          ],
+          "content": "7. Select the cable type connected to Zone 2 (68°C/88°C/105°C/185°C)",
+          "content_sha256": "09e5071a2381a55191cb179f59334117fa4b60972833e94fc62798a5f0ddb5ed"
+        },
+        {
+          "atom_id": "A_d782cb30b5a4",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1284,
+              1464
+            ]
+          ],
+          "content": "8. If leader cable is connected between the linear heat detection cable and the LocatorPlus for this zone, press the Select button and select Yes. Press the Set button to continue.",
+          "content_sha256": "f8888e627f5e410c11c7be3fa24db77cd0c1da11db3845e616f83bf8a821394f"
+        },
+        {
+          "atom_id": "A_762c67686b97",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1466,
+              1706
+            ]
+          ],
+          "content": "9. The controller will then ask if the zone is ready to be calibrated. The leader cable must be connected to the LocatorPlus and shorted out at the end where it connects to the START of the LHD cable. Once this is done press the Set button.",
+          "content_sha256": "a463a98c7c1e175cffb3b5f436dd9e9b84c1bf5a1640c8d7d5270ba7c7428651"
+        },
+        {
+          "atom_id": "A_5a2733dbaac0",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1708,
+              1877
+            ]
+          ],
+          "content": "10. The LocatorPlus will display the voltage drop across the leader cable. Remove the short from the leader cable and connect it to the START of the LHD cable as normal.",
+          "content_sha256": "e824148354a7d9d3d82c46fb9e7d941314239ce160bb14eb5a99aa223b5e77f6"
+        },
+        {
+          "atom_id": "A_1f79e83736ca",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1879,
+              2011
+            ]
+          ],
+          "content": "11. If the Linear Heat Detection cable is connected directly to the LocatorPlus then select No and press the Set button to continue.",
+          "content_sha256": "196bac41259373c8ce4d193c493a3bc82389354660d494df3b6cd9f3a7f44969"
+        },
+        {
+          "atom_id": "A_fd49b183dfcb",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2013,
+              2044
+            ]
+          ],
+          "content": "*See next page for steps 12-25*",
+          "content_sha256": "791e1e1b4d5c492ace7424a6997bb19f07b98cd6896576e2b2ecca56a027353a"
+        },
+        {
+          "atom_id": "A_f8c5b866d13b",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2046,
+              2315
+            ]
+          ],
+          "content": "Tel: +44(0)1252 725257          Revision 1 (2018)    © 2018/19 LGM Products Ltd.\nEmail: sales@lgmproducts.com    Web: www.lgmproducts.com    ISO 9001:2015 certified\nAddress:  LGM Products Ltd, Unit 15 Riverside Industrial Park, Farnham, Surrey, GU9 7UG, United Kingdom.",
+          "content_sha256": "d9719ade86b7a810252393808c37397fd3626fae973705da8d980bb1f19204ba"
+        },
+        {
+          "atom_id": "A_b650609b0a09",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2333,
+              2357
+            ],
+            [
+              2359,
+              2657
+            ]
+          ],
+          "content": "## Commissioning (cont.)\n\n12. Select whether you would like the alarm outputs for both zones to be latching. If set to Yes, then if an alarm is triggered the unit will either require the power supply to be interrupted (min. 10s) or the Set button to be pressed to reset to normal once the alarm conditioned has been cleared.",
+          "content_sha256": "5185143fc9bb7ccd7713a1f4ae161ce93c0b6979272eb61372935cdfd6fc613a"
+        },
+        {
+          "atom_id": "A_1eeebc4e8315",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2659,
+              2766
+            ]
+          ],
+          "content": "13. Select whether the Modbus RTU output should be enabled. If this is not enabled then proceed to step 17.",
+          "content_sha256": "67a1570bb3eacc87252b0d4067aceac8e19e2757ef6b9316552c633a92090099"
+        },
+        {
+          "atom_id": "A_1b3ff715a5d8",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2768,
+              2820
+            ]
+          ],
+          "content": "14. Select required Modbus type, either RTU or ASCII",
+          "content_sha256": "d8ece23be7a034a71e65b6e773a297ce48211623d7d666ff55783513410a7ca3"
+        },
+        {
+          "atom_id": "A_c4dfe2d82704",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2822,
+              2872
+            ]
+          ],
+          "content": "15. Set the Modbus address of this unit. (1 - 247)",
+          "content_sha256": "fc27900361bc84a719651133a207f5644db994405305ce447c2ccbe240527771"
+        },
+        {
+          "atom_id": "A_f1c1a831b9c8",
+          "fragment_number": 1,
+          "candidate_id": "47e58e1a-d780-403c-a395-8b9ce11c0cfe",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2874,
+              2997
+            ]
+          ],
+          "content": "16. Cycle through the possible Baud Rates for the Modbus RTU output. (1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200).",
+          "content_sha256": "49dac89bdd2b540f504b682f6ac830942d5bbbd143d1cf04b32fea70587834f0"
+        }
+      ],
+      "nonblank_source_chars": 2462,
+      "nonblank_highlighted_chars": 2449,
+      "nonblank_span_density": 0.9947197400487409
+    },
+    {
+      "item_id": "s147_src_09",
+      "stratum": "prose",
+      "language": "en",
+      "source_sha256": "614aa6f4c1eebb18e8714f21a8c9048c9715cf52e95f905a29493f52b1a251e6",
+      "atoms": [
+        {
+          "atom_id": "A_165e75c23850",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              42,
+              73
+            ]
+          ],
+          "content": "**To test the fault condition**",
+          "content_sha256": "11bbd723b387e35d527c85b11d185ef0ad2d458d3d7fcfa6d9117596113e7150"
+        },
+        {
+          "atom_id": "A_16b6d0ed5803",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              75,
+              248
+            ]
+          ],
+          "content": "Completely obstruct the beam between the transmitter and reflector with a non-reflective material, such as a sheet of cardboard, for example. After approximately 20 seconds:",
+          "content_sha256": "c763f29b6ad1c3b625cf8ca9c5dfa06687f762a38c4c409699c4fd2b8f5adce1"
+        },
+        {
+          "atom_id": "A_442b3400f601",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              250,
+              348
+            ]
+          ],
+          "content": "1. The yellow fault LED should light\n2. A fault condition should be signalled to the control panel",
+          "content_sha256": "c1b9a363a56a19b9f2fd59cf5e4d923a0b288d0efd8975a9fe40d96f9b93aec1"
+        },
+        {
+          "atom_id": "A_143e5d84c1c6",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              350,
+              412
+            ]
+          ],
+          "content": "Clear the obstruction from the beam path. After a few seconds:",
+          "content_sha256": "71bf3d332720ff266bcc6911b98e5787d96160cceb559a0eece12ec277ce522f"
+        },
+        {
+          "atom_id": "A_8d02306ed9d3",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              414,
+              507
+            ]
+          ],
+          "content": "1. The yellow fault LED should go out\n2. The device returns to standby on the indicator panel",
+          "content_sha256": "45d6ad5d391980454e936835fe82a52669adb2c078991f2fe0b907e4c66f373b"
+        },
+        {
+          "atom_id": "A_49454c369c4f",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              509,
+              540
+            ]
+          ],
+          "content": "**To test the alarm condition**",
+          "content_sha256": "1e6e53058e3eb710d6251176e03a85b7c11f5300b84aa1275328e1180ba0c3ac"
+        },
+        {
+          "atom_id": "A_37ae0758d983",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              542,
+              847
+            ]
+          ],
+          "content": "Obstruct the beam at or close to the transmitter/receiver unit, with one of the filters supplied, see Note: 2. Insert the filter into the path of the beam at an oblique angle (not perpendicular to the beam path) otherwise it may act as a reflector instead of an obscuration filter. After up to 30 seconds:",
+          "content_sha256": "1c783ed3e96121a4aa06de61e7dd05f75880c21d577430463a9b5c4e0951c256"
+        },
+        {
+          "atom_id": "A_7db695fbd6bb",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              849,
+              945
+            ]
+          ],
+          "content": "1. The red alarm led should light\n2. An alarm condition should be signalled to the control panel",
+          "content_sha256": "20b67fb831dae42158a9ded2ab250e49dbc02924b6ceb09a111f6698344d1c6c"
+        },
+        {
+          "atom_id": "A_790f3ef357d0",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              947,
+              1038
+            ]
+          ],
+          "content": "Remove the filter from the beam path, then reset at the control panel. After a few seconds:",
+          "content_sha256": "63baf409522c6cbf59820eabcb4608a2f826ada4660abb4d297c6f517321a2f9"
+        },
+        {
+          "atom_id": "A_c71ec727232e",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1040,
+              1130
+            ]
+          ],
+          "content": "1. The red alarm LED should go out\n2. The device returns to standby on the indicator panel",
+          "content_sha256": "ad5dfa86245bf1b0dc75daf5684255673a96ae445dcdb3e42d7059f317c954b3"
+        },
+        {
+          "atom_id": "A_1faaaa4fbdc3",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1132,
+              1333
+            ]
+          ],
+          "content": "**Note:** 2 filters are supplied, one green and one red. Depending on selected sensitivity and range, at least one filter should trigger an alarm condition whilst the other may cause a fault condition.",
+          "content_sha256": "db174e3be883a371ab87b81ba0f9c81669b5921dcd18e489ccd78c124ebe3e69"
+        },
+        {
+          "atom_id": "A_6ede3b1f9b24",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              1475,
+              1623
+            ]
+          ],
+          "content": "The red alarm LED (under the 6200R) is lit continuously. The alarm LED will remain lit until the unit is reset under command from the control panel.",
+          "content_sha256": "ab5dbff24790943b36b359d4e6b2ca7258831c42cde8b8a0d01143c73b3ad937"
+        },
+        {
+          "atom_id": "A_49d744952c1c",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1750,
+              1963
+            ]
+          ],
+          "content": "1. Acknowledge the alarm signal\n2. Follow the fire instructions\n3. When the cause of the alarm has been investigated and resolved, reset the control panel, which resets the detector (and switches off the red LED).",
+          "content_sha256": "ac9f13609ed89d002828f3e7866930f32dd8d9d6355620d22e2c7e24642dfa09"
+        },
+        {
+          "atom_id": "A_cd3054eab6d9",
+          "fragment_number": 1,
+          "candidate_id": "6a7752d6-e47d-4f5d-b2ca-f268f0edd2a4",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2023,
+              2892
+            ]
+          ],
+          "content": "1. **Obstruction / mis-alignment of the beam:** In this case, the yellow fault LED is turned on steady. To return to standby status remove the obstruction or re-align to ensure the path of the beam remains clear to the reflector.\n2. **Incorrect start-up or detector failure:** This fault occurs immediately after exiting the installation mode. The yellow fault LED illuminates continuously. The installation procedure should be repeated and all parameters checked for this fault to be cancelled.\n3. **Excessive contamination of the optical parts:** The yellow fault led flashes. The 6200R is capable of compensating the signal for contamination up to a preset limit. Carefully wipe the beam window and the reflector surface clean with a damp cloth then revert to installation mode to check signal strength and beam alignment. The detector should then return to standby.",
+          "content_sha256": "514376340983243fe0ccc62dc7f789053fac88d66a1bb2f4e63de9c5f78226a0"
+        }
+      ],
+      "nonblank_source_chars": 2471,
+      "nonblank_highlighted_chars": 2092,
+      "nonblank_span_density": 0.8466208012950223
+    },
+    {
+      "item_id": "s147_src_10",
+      "stratum": "prose",
+      "language": "es",
+      "source_sha256": "9914c57cb5b96957ea07fd7ca7cf6bc836c3e643d7a4b1a7f453096b92b81657",
+      "atoms": [
+        {
+          "atom_id": "A_aa018a82c4bf",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              40,
+              135
+            ]
+          ],
+          "content": "Esta sección proporciona un resumen de los indicadores del estado predeterminado de la central.",
+          "content_sha256": "8e6f00985658e4f03e9685ed0d86f25f2c02b20622e48e0795500c07be7908de"
+        },
+        {
+          "atom_id": "A_d76cd92a0f0c",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              235,
+              273
+            ]
+          ],
+          "content": "* LED de alimentación: permanece fijo.",
+          "content_sha256": "f0dc579147c3a51e68e9ca2e41c7dd1ff1e6229f6716cbb5805a8cad723586ea"
+        },
+        {
+          "atom_id": "A_7336adccbd9a",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              275,
+              383
+            ]
+          ],
+          "content": "* LED de retardo de evacuación o sirena: permanece fijo si se ha activado un retardo de evacuación o sirena.",
+          "content_sha256": "7ea0626977eb5b7fa40e1db057a775a7604556512c151eb43eb4f3f34c527376"
+        },
+        {
+          "atom_id": "A_5c2ddac6d912",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              385,
+              513
+            ]
+          ],
+          "content": "* LED de retardo de alerta o enrutado de incendio: permanece fijo si se ha activado un retardo de alerta o enrutado de incendio.",
+          "content_sha256": "32e607f2c1513580405c57de2d127502e3647496fe8ccb9c09c5cfd98506615f"
+        },
+        {
+          "atom_id": "A_b6dfca7005e8",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              515,
+              549
+            ]
+          ],
+          "content": "* Zumbador de la central: apagado.",
+          "content_sha256": "9039b07eaff8e719aad6e390c3f3250ebfdc8b8a7e7200290824ac4b9b1b1d27"
+        },
+        {
+          "atom_id": "A_5d17fdff28f8",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              641,
+              747
+            ]
+          ],
+          "content": "* LED de alarma general: parpadea (si un detector activó la alarma). Está fijo (si la activó un pulsador).",
+          "content_sha256": "a23f1f657c55a969b7ca566a1ac69ae686264c864b45565690f71da60e099550"
+        },
+        {
+          "atom_id": "A_f06ad585ba03",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              749,
+              919
+            ]
+          ],
+          "content": "* LED de zona: parpadea en rojo si un detector ha activado una alarma. Permanece fijo en rojo si un pulsador ha activado la alarma. Muestra las zonas que están en alarma.",
+          "content_sha256": "5a97d79f2ba9d29023c4906372b887bad9719f49a9c422601109b7716a82a1b6"
+        },
+        {
+          "atom_id": "A_6285031f0403",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              921,
+              1124
+            ]
+          ],
+          "content": "* LED \"Retardo sirena\": permanece fijo si se ha activado un retardo de sirena. Parpadea mientras el retardo está activo (cuenta atrás en curso). Permanece fijo cuando las sirenas están activas (sonando).",
+          "content_sha256": "962045748637f70f8b72f1e1bd103d4a8ba0f36af6241789df194f1c79c7a8a4"
+        },
+        {
+          "atom_id": "A_e485fa5e6940",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1126,
+              1357
+            ]
+          ],
+          "content": "* LED \"Enrutado incendio retardo\": parpadea lentamente cuando un retardo de enrutado de incendio está activo (cuenta en curso). Parpadea rápidamente cuando un retardo extendido de enrutado de incendio está activo (cuenta en curso).",
+          "content_sha256": "c4aa65fd6540d2045f767734e15dd3fe9ff6439abbe6f649857cb36cbbe5bc39"
+        },
+        {
+          "atom_id": "A_59286aeb7bbe",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1359,
+              1550
+            ]
+          ],
+          "content": "* LED \"Enrutado incendio on/recibido\": parpadea si se ha activado el enrutado de incendio. Permanece fijo cuando el equipo de supervisión remoto ha recibido la señal del enrutado de incendio.",
+          "content_sha256": "8b0cbb9f1e794ce8b55751f82a72ecf16caf372f7d957b03974cda59fbe16346"
+        },
+        {
+          "atom_id": "A_e0c356255520",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1552,
+              1598
+            ]
+          ],
+          "content": "* Zumbador de la central: suena continuamente.",
+          "content_sha256": "0a673ea95ecca6731bdd413ed02b5356b6587a60826a8a84957dd952d5bef9be"
+        },
+        {
+          "atom_id": "A_d088bb92f479",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              1600,
+              1861
+            ]
+          ],
+          "content": "Las alarmas que se activan a través de un pulsador siempre tienen prioridad sobre las que se activan mediante un detector. Si una alarma se activa mediante ambos dispositivos, los LED de alarma de incendio y los LED (rojos) de alarma de zona permanecerán fijos.",
+          "content_sha256": "05997e21586cb0a8dd5dd97d8fba6567429bc4cb4bc8de17c13098211b000dd2"
+        },
+        {
+          "atom_id": "A_493665f81caa",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1954,
+              2054
+            ]
+          ],
+          "content": "En el modo de funcionamiento NBN S 21-100, están disponibles los siguientes indicadores adicionales:",
+          "content_sha256": "4f1ae3f10569cd78d86a124d8d7b7726839aa4b579aaecf55b4dd470d4eb9ad0"
+        },
+        {
+          "atom_id": "A_feb08f2a9668",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2056,
+              2257
+            ]
+          ],
+          "content": "* LED \"Retardo evacuación\": permanece fijo si se ha activado un retardo de evacuación. Parpadea mientras el retardo está activo. Permanece fijo cuando las sirenas de evacuación están activas (sonando).",
+          "content_sha256": "f050059d3a5dafe32ac0661d081dc36f5f5df5b5b6fdd8c112f73d495985a79f"
+        },
+        {
+          "atom_id": "A_46aa23c0f66a",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2259,
+              2372
+            ]
+          ],
+          "content": "* LED \"Retardo alerta\": parpadea lentamente cuando un retardo de sirenas de alerta está activo (cuenta en curso).",
+          "content_sha256": "a1df2325198f4a61dd9c4cd82d1cba9824f25c121489597a7bd3cf9e1e7fb981"
+        },
+        {
+          "atom_id": "A_ca2667d24530",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2374,
+              2460
+            ]
+          ],
+          "content": "* LED \"Alerta inicio/paro\": permanece fijo cuando las sirenas están activas (sonando).",
+          "content_sha256": "5b907df9568e59766ad5a5fa2897e100619ac71ed3cd6838a186bff10bb87d81"
+        },
+        {
+          "atom_id": "A_a39ab87b76c4",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2477,
+              2587
+            ]
+          ],
+          "content": "Esta función solo está disponible para el modo de evacuación EN 54-2 y el modo de funcionamiento NBN S 21-100.",
+          "content_sha256": "5c701e02719812996b2db2dd2d7b97e19b299e2529412da631419e3e507d55b9"
+        },
+        {
+          "atom_id": "A_83bc320d9061",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              2589,
+              2738
+            ]
+          ],
+          "content": "En el estado de evacuación, la central activa las sirenas sin la detección de una alarma de zona. El estado se indica como se muestra a continuación.",
+          "content_sha256": "378ccab598b2bcd728df18d9d8ed54e18ab7a17324eb55ba9b4ad67c375fc58c"
+        },
+        {
+          "atom_id": "A_466c42374d77",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2740,
+              2816
+            ]
+          ],
+          "content": "Para el modo de evacuación EN 54-2 y el modo de funcionamiento NBN S 21-100:",
+          "content_sha256": "ca4aca9f2b4cbe43ffe581575ec2fb46d1d375b52c816d21518e66b61e091cac"
+        },
+        {
+          "atom_id": "A_ba7db1ef4490",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2818,
+              2858
+            ]
+          ],
+          "content": "* LED de alarma general: permanece fijo.",
+          "content_sha256": "17e6d2093d64d20e8a909e3277c4cd6e98a0aa860061e1c33e17c1d8b57e2433"
+        },
+        {
+          "atom_id": "A_9e43f01d8e10",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2860,
+              2889
+            ]
+          ],
+          "content": "* Sirenas: activas (sonando).",
+          "content_sha256": "7731ac621bc68f1c3592957c70fe4b26aab2373ef7b3190eb8a11cf49adcddf8"
+        },
+        {
+          "atom_id": "A_5161723763e3",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2891,
+              2935
+            ]
+          ],
+          "content": "* LED \"Sirena disparo/paro\": permanece fijo.",
+          "content_sha256": "effc859fdf6dd3adb03a602d10c25f7b202c8092f8ce6fd2eb55f67d3da32b4e"
+        },
+        {
+          "atom_id": "A_41c95a79f77b",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2937,
+              2983
+            ]
+          ],
+          "content": "* Zumbador de la central: suena continuamente.",
+          "content_sha256": "0a673ea95ecca6731bdd413ed02b5356b6587a60826a8a84957dd952d5bef9be"
+        },
+        {
+          "atom_id": "A_94961c26a1a7",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2985,
+              3085
+            ]
+          ],
+          "content": "En el modo de funcionamiento NBN S 21-100, están disponibles los siguientes indicadores adicionales:",
+          "content_sha256": "4f1ae3f10569cd78d86a124d8d7b7726839aa4b579aaecf55b4dd470d4eb9ad0"
+        },
+        {
+          "atom_id": "A_be0fed1cc0be",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              3087,
+              3191
+            ]
+          ],
+          "content": "* LED \"Evacuación inicio/paro\": permanece fijo cuando las sirenas de evacuación están activas (sonando).",
+          "content_sha256": "9007e9c5d96b7d261bda02b6774f581903012f6b21d76e34940a3368aa381e20"
+        },
+        {
+          "atom_id": "A_1199982b4601",
+          "fragment_number": 1,
+          "candidate_id": "107d4e9c-2244-484b-834e-324a861ac73a",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              3193,
+              3289
+            ]
+          ],
+          "content": "* LED \"Alerta inicio/paro\": permanece fijo cuando las sirenas de alerta están activas (sonando).",
+          "content_sha256": "c9c476ebce8a4d5f80cf52a10da423533a667c8bca31865c09c60324e01ffb29"
+        }
+      ],
+      "nonblank_source_chars": 2801,
+      "nonblank_highlighted_chars": 2460,
+      "nonblank_span_density": 0.8782577650838986
+    },
+    {
+      "item_id": "s147_src_11",
+      "stratum": "prose",
+      "language": "en",
+      "source_sha256": "ebaf75e718a4adf0adc3796cbe89359be8a2a32f5db7b47abd4a6fc26d887016",
+      "atoms": [
+        {
+          "atom_id": "A_ea185f0d5aa4",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              43,
+              268
+            ]
+          ],
+          "content": "- Installation must be carried out by an electrician in compliance with the latest codes and regulations.\n- Danger: High voltage may be present.\n- Prior to opening, it must be ensured that no voltage is applied to the device.",
+          "content_sha256": "dbc4a1efc51003ea62100d9fab4a98d6279ce968a3453672dbe52196fcaaa90d"
+        },
+        {
+          "atom_id": "A_9063b3e369d1",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              149,
+              355
+            ]
+          ],
+          "content": "- Danger: High voltage may be present.\n- Prior to opening, it must be ensured that no voltage is applied to the device.\n- Before electrical connection, the supply voltage on the type plate is to be checked.",
+          "content_sha256": "dd00909dc69c728d76e4e4b46123481a0dd4f9be5cbd89dd4137c22a66647ee1"
+        },
+        {
+          "atom_id": "A_1db26644bd43",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              188,
+              443
+            ]
+          ],
+          "content": "- Prior to opening, it must be ensured that no voltage is applied to the device.\n- Before electrical connection, the supply voltage on the type plate is to be checked. The wrong operating voltage can lead to damages or to the destruction of the equipment.",
+          "content_sha256": "2e96bfb0a190ac65197b3292d2e9d3ce2c09415c74db0d6522b8125e2c82f26b"
+        },
+        {
+          "atom_id": "A_d17882cc3b17",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              269,
+              555
+            ]
+          ],
+          "content": "- Before electrical connection, the supply voltage on the type plate is to be checked. The wrong operating voltage can lead to damages or to the destruction of the equipment.\n- During installation it must be ensured that the connection cables are secured against tension and distortion.",
+          "content_sha256": "269b504ea00706470edaa3d8fd84bccd0e428e64f0d9fcc38573f9b62b7e95de"
+        },
+        {
+          "atom_id": "A_1be4844d45bf",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              444,
+              738
+            ]
+          ],
+          "content": "- During installation it must be ensured that the connection cables are secured against tension and distortion.\n- Please observe: The devices are not designed for portable use.\n- CAUTION: When making installation, route field wiring away from sharp projections, corners and internal components.",
+          "content_sha256": "0e8bebfb228f1c09d132a933dc37ef3362756a73df6e2de963d1591449b358ad"
+        },
+        {
+          "atom_id": "A_6476b1be7499",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              556,
+              873
+            ]
+          ],
+          "content": "- Please observe: The devices are not designed for portable use.\n- CAUTION: When making installation, route field wiring away from sharp projections, corners and internal components.\n- The opening of the bell mouth must not point upwards, especially in the case of use outdoors or in a particularly dusty environment.",
+          "content_sha256": "94112e078b02afb013c16bd52dd1941d9b7d2f1786fee37a4af019aa498782d7"
+        },
+        {
+          "atom_id": "A_8e469281269c",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              621,
+              971
+            ]
+          ],
+          "content": "- CAUTION: When making installation, route field wiring away from sharp projections, corners and internal components.\n- The opening of the bell mouth must not point upwards, especially in the case of use outdoors or in a particularly dusty environment.\n- The function of the unit is only guaranteed if the upper and lower section is joined correctly.",
+          "content_sha256": "6841954abeacc63aea6d8863e050448ff8a57eeb47423279341a01bce2f2db18"
+        },
+        {
+          "atom_id": "A_ffdb3f406f6d",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              739,
+              971
+            ]
+          ],
+          "content": "- The opening of the bell mouth must not point upwards, especially in the case of use outdoors or in a particularly dusty environment.\n- The function of the unit is only guaranteed if the upper and lower section is joined correctly.",
+          "content_sha256": "45087e576ad760a1641c2a6c578ef791048664fd367e5c516b45be51ddb668a3"
+        },
+        {
+          "atom_id": "A_7657ffd695af",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              874,
+              971
+            ]
+          ],
+          "content": "- The function of the unit is only guaranteed if the upper and lower section is joined correctly.",
+          "content_sha256": "db7e2c09e1356e740064c983543ba1390d6c50dce766161db2959332298e85dd"
+        },
+        {
+          "atom_id": "A_c522ea87f3aa",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              973,
+              1065
+            ]
+          ],
+          "content": "When using the sounder –beacon combination (PA X 10-10; PA X 10-15; PA X 20-10; PA X 20-15):",
+          "content_sha256": "fc2b76bb3a5a8300caa93d51c0d093cc7cb425693f80d9286f75c30d30d11696"
+        },
+        {
+          "atom_id": "A_07c3dbbef861",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1067,
+              1179
+            ]
+          ],
+          "content": "- In order to prevent detriment to sight, continuously looking directly in the activated light is to be avoided.",
+          "content_sha256": "c7e2dab4f82ccb5b0d92d492d300cd5945a315f5eb2844c7bc02730d66ed0471"
+        },
+        {
+          "atom_id": "A_86931124f264",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1181,
+              1204
+            ],
+            [
+              1206,
+              1388
+            ]
+          ],
+          "content": "## Opening the housing:\n\n1. [Diagram showing device with crosshatch pattern and 3/8 marking]\n2. [Diagram showing device with cross pattern] By loosing the four cover screws, the upper section can be removed.",
+          "content_sha256": "d367a3baf50f81ab61604ba15b737160e41c6788a8153e77b19d292b766cba33"
+        },
+        {
+          "atom_id": "A_91693ac21c0b",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1390,
+              1412
+            ],
+            [
+              1414,
+              1636
+            ]
+          ],
+          "content": "## Closing the housing\n\n1. [Diagram showing device with cross pattern]\n2. [Diagram showing device with crosshatch pattern and 3/8 marking] The housing is closed by turning the cover screws to the limit position until the housing locks into place.",
+          "content_sha256": "99aee8dccf9deb21999fc1e352235b21cd5b5edb19ed45f5ccd57b941c12a83f"
+        },
+        {
+          "atom_id": "A_07bd3db65c1c",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              1638,
+              1743
+            ]
+          ],
+          "content": "The unit is not closed when delivered.\nSealing plugs for the housing screws are available as accessories.",
+          "content_sha256": "a086d1f19e08f099ce22d29e6fb55e8a064079b816d9fb18031903595964d98a"
+        },
+        {
+          "atom_id": "A_9a977fab92b9",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              2054,
+              2116
+            ]
+          ],
+          "content": "[Diagram showing four cable entry options from left to right:]",
+          "content_sha256": "f48e858e0f7c90b6ab5e807a0e7bddf44e815b3488f1ac5ab3acb41378613318"
+        },
+        {
+          "atom_id": "A_56c536efd03f",
+          "fragment_number": 1,
+          "candidate_id": "f154ea61-58a4-4d9e-819a-02a003d8cbe9",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              2118,
+              2242
+            ]
+          ],
+          "content": "IP 66 only when funnel of membrane is pointing outward. After installation of the cable remove the remains of the diaphragm.",
+          "content_sha256": "8404cf42aea58f5f6dbd67930353a462e3777ff4d57ceaee2d0573114db715f3"
+        }
+      ],
+      "nonblank_source_chars": 2338,
+      "nonblank_highlighted_chars": 1568,
+      "nonblank_span_density": 0.6706586826347305
+    },
+    {
+      "item_id": "s147_src_12",
+      "stratum": "prose",
+      "language": "es",
+      "source_sha256": "c31f9a15018065a28bbc5a1c85277315fdea8ba4a5774eb6c6f9fdcaa8518c4c",
+      "atoms": [
+        {
+          "atom_id": "A_691bcdce124a",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              78,
+              160
+            ]
+          ],
+          "content": "El panel PAN AVD2 incluye tres mensajes de fábrica para indicar estas condiciones:",
+          "content_sha256": "bf6d0a336fa4288ed59d5a4026d2f129e499f8bc51b2e1e42dc0806d52b61221"
+        },
+        {
+          "atom_id": "A_e60dbbd985bd",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              162,
+              192
+            ]
+          ],
+          "content": "- alerta\n- evacuación\n- rearme",
+          "content_sha256": "9f160aa442c05aeef7bc059fcb13cc3ec67ce0c93333ccc92844dcc32f9c57e8"
+        },
+        {
+          "atom_id": "A_213c05970cbd",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              194,
+              287
+            ]
+          ],
+          "content": "Si necesita crear un mensaje propio, puede grabar mensajes con el micrófono opcional ADV MIC.",
+          "content_sha256": "f90f76c0d2dd45d3bd7c71e421cefe72686cb068f6b5fab60c9af1538a3ee144"
+        },
+        {
+          "atom_id": "A_a01211474f31",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1118,
+              1576
+            ]
+          ],
+          "content": "Pulse el botón P1 de la placa base. Si el puente JP2 está colocado en los conectores 1-2, se emitirá un pitido que indica el inicio de la grabación. Pulse el botón y manténgalo pulsado durante la grabación de todo el mensaje. Cuando finalice el mensaje, suelte el botón. Se oirá otro pitido que indica el final de la grabación. Si excede el tiempo de grabación, se oirán dos pitidos. Si el puente está colocado en los conectores 2-3, no se oirán los pitidos.",
+          "content_sha256": "ebba00b1abe0b0738d490409d6a011bad599028bc258b24417bef7fee343c735"
+        },
+        {
+          "atom_id": "A_bcf1de4ed2f6",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1627,
+              2085
+            ]
+          ],
+          "content": "Pulse el botón P2 de la placa base. Si el puente JP2 está colocado en los conectores 1-2, se emitirá un pitido que indica el inicio de la grabación. Pulse el botón y manténgalo pulsado durante la grabación de todo el mensaje. Cuando finalice el mensaje, suelte el botón. Se oirá otro pitido que indica el final de la grabación. Si excede el tiempo de grabación, se oirán dos pitidos. Si el puente está colocado en los conectores 2-3, no se oirán los pitidos.",
+          "content_sha256": "7dabcdf3866a6d1b995f20a02d4653341ad01457de60875b02051341d0cc0093"
+        },
+        {
+          "atom_id": "A_90c32cbebc70",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2132,
+              2590
+            ]
+          ],
+          "content": "Pulse el botón P3 de la placa base. Si el puente JP2 está colocado en los conectores 1-2, se emitirá un pitido que indica el inicio de la grabación. Pulse el botón y manténgalo pulsado durante la grabación de todo el mensaje. Cuando finalice el mensaje, suelte el botón. Se oirá otro pitido que indica el final de la grabación. Si excede el tiempo de grabación, se oirán dos pitidos. Si el puente está colocado en los conectores 2-3, no se oirán los pitidos.",
+          "content_sha256": "70c9ffb5a7458449bb7f00911d21820d1c5c32af07612913a1312310dd76d017"
+        },
+        {
+          "atom_id": "A_b80e710cad1b",
+          "fragment_number": 1,
+          "candidate_id": "d92dc9dd-5596-4da6-af55-da26a37d16f0",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2592,
+              2661
+            ]
+          ],
+          "content": ">> **NOTA:** el tiempo máximo para cada mensaje es de 12 segundos. <<",
+          "content_sha256": "ac9c9e82e4bddb0542c977cfa3fd3cf0e4eaad241dcc7caf73882819a4993531"
+        }
+      ],
+      "nonblank_source_chars": 2182,
+      "nonblank_highlighted_chars": 1356,
+      "nonblank_span_density": 0.6214482126489459
+    },
+    {
+      "item_id": "s147_src_13",
+      "stratum": "prose",
+      "language": "es",
+      "source_sha256": "17fab58665f8a55e6caaebed5eda53c7c72dd9a44e1e4b0c37967645a9cc7641",
+      "atoms": [
+        {
+          "atom_id": "A_285d43f53c4b",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              63,
+              196
+            ]
+          ],
+          "content": "El equipo indicará un fallo de enlace con el sistema cuando se detecte que la vía de transmisión está cortocircuitada o desconectada.",
+          "content_sha256": "e6337fb5b25832821cf718f247f58161123e8e19fb0e0092c5f805256e7dd29e"
+        },
+        {
+          "atom_id": "A_3955f9a1eb4a",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              198,
+              409
+            ]
+          ],
+          "content": "Compruebe que el VAP 1 que no enlaza, es el único en el bus que no puede conectar. Si existieran más equipos en el bus con este problema, comience comprobando el más cercano al equipo donde empieza el bus (NEO).",
+          "content_sha256": "b83b304cae6b705377d710493993e817357dbf8df10568bc1320cbc32d631166"
+        },
+        {
+          "atom_id": "A_608f93e8e53d",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              411,
+              487
+            ]
+          ],
+          "content": "[Technical diagram showing two views of mounting template with measurements:",
+          "content_sha256": "2c3761ad83b2444e8317ae3181e6c9786ec9020d39805aa16660d2898370ad9c"
+        },
+        {
+          "atom_id": "A_32d40b91fb08",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              489,
+              717
+            ]
+          ],
+          "content": "- Top view showing horizontal spacing: 22.5 cm, 3.5 cm, 5.2 cm, 3.5 cm, 5.2 cm\n- Bottom view showing: 7 cm horizontal spacing and 2.9 cm vertical spacing\n- Both views show rectangular outline with mounting hole positions marked]",
+          "content_sha256": "b887f471425cdfdb21cc666a8575d110c1dfb75daa02c3f7f8461fc663f1eb75"
+        },
+        {
+          "atom_id": "A_c6fd1aed5b89",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              719,
+              764
+            ]
+          ],
+          "content": "*Ilustración 18: Plantilla Instalación Mural*",
+          "content_sha256": "af18f6c3b23d39b8e827bca06a331056137204131ef59aa9515d0ed9745878c3"
+        },
+        {
+          "atom_id": "A_dd0f4cc3b8d4",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "numeric_bundle",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1120,
+              1204
+            ]
+          ],
+          "content": "LDA Audio Tech - Severo Ochoa Nº 31- 29590 MÁLAGA, ESPAÑA. Tlf: +34 952028805     17",
+          "content_sha256": "fb572c65b5d304268e4714ea974d849bdd7f50601c81cfab81a1c17a537be14b"
+        },
+        {
+          "atom_id": "A_765e238cb6a2",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              1295,
+              1782
+            ]
+          ],
+          "content": "Compruebe que la conexión entre el equipo y el sistema se ha realizado de forma correcta según el apartado 4.2. Para depurar el fallo, desconecte los dos extremos de los dos cables de bus conectados entre el sistema y el equipo, y mida entre cada uno de los terminales de los cables con un polímetro en la escala kΩ. Si el resultado de la medición es 0, la línea se encuentra en cortocircuito, y debe ser revisada o reemplazada. Si el resultado es 1, significa que se encuentra correcta.",
+          "content_sha256": "5744db304be6000476e3d02abb763fc4cd143c7ade0c299a05a946c0155600a2"
+        },
+        {
+          "atom_id": "A_ab39ba16f8a7",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              1784,
+              2000
+            ]
+          ],
+          "content": "Realice un RESET (El equipo deberá ser configurado de nuevo), para ello, pulse simultáneamente las teclas \"ACK\", \"RST\" y \"TEST\" durante 5 segundos. El equipo se reiniciará. Configure la dirección del equipo según 4.2",
+          "content_sha256": "ab90aff4b5ac4ba30a43d3dec92064a392c3ea6e2eadcf863352fbe640a9d722"
+        },
+        {
+          "atom_id": "A_ea41428ee534",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "condition_dependency"
+          ],
+          "source_spans": [
+            [
+              2002,
+              2296
+            ]
+          ],
+          "content": "Si nada de lo anterior funciona, retire el equipo del bus y póngase en contacto con el servicio de soporte / reparación. Si existen más equipos conectados en el bus, conecte las líneas de entrada y salida de bus ACSI del equipo para que el resto del sistema continúe funcionando con normalidad.",
+          "content_sha256": "17fd958490f20fca506dfa09528f93a9f504e5f79cd0982c3a2dcb0121d22b70"
+        },
+        {
+          "atom_id": "A_67b30d70461a",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "condition_dependency",
+            "enumeration_cardinality"
+          ],
+          "source_spans": [
+            [
+              2370,
+              2481
+            ]
+          ],
+          "content": "El sistema indicará un fallo de dirección de bus ACSI cuando existan dos equipos que tengan la misma dirección.",
+          "content_sha256": "6dc920e0bf66494340596212b3eaa44cde0c1b90ce39114f6bd47403d58b6333"
+        },
+        {
+          "atom_id": "A_7c796a95a53d",
+          "fragment_number": 1,
+          "candidate_id": "3e4cd285-d808-4acc-8d12-ce754a42b295",
+          "reason_labels": [
+            "enumeration_cardinality",
+            "mandatory_safety_verification",
+            "numeric_bundle"
+          ],
+          "source_spans": [
+            [
+              2586,
+              2802
+            ]
+          ],
+          "content": "Realice un RESET (El equipo deberá ser configurado de nuevo), para ello, pulse simultáneamente las teclas \"ACK\", \"RST\" y \"TEST\" durante 5 segundos. El equipo se reiniciará. Configure la dirección del equipo según 4.2",
+          "content_sha256": "ab90aff4b5ac4ba30a43d3dec92064a392c3ea6e2eadcf863352fbe640a9d722"
+        }
+      ],
+      "nonblank_source_chars": 2257,
+      "nonblank_highlighted_chars": 1748,
+      "nonblank_span_density": 0.7744793974302171
+    },
+    {
+      "item_id": "s147_src_14",
+      "stratum": "prose",
+      "language": "en",
+      "source_sha256": "0100c58fc041f852a32a3b953e91403f6d9eb190c444e24e091d9b5b45027e31",
+      "atoms": [
+        {
+          "atom_id": "A_4dfb32fb656c",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              0,
+              266
+            ]
+          ],
+          "content": "1) Choose for the detector a placement position that:\n   a) Compliances with your specific standards.\n   b) Is reached by a strong wireless signal from its linked-to translator or expander module.\n   c) Is not interfered by environmental factors (as per note above).",
+          "content_sha256": "1083163867f69c9334e51d6ecfb6e3ea1466ec0ec991a3db2a127f8261a3f214"
+        },
+        {
+          "atom_id": "A_7c2a3d19c632",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              268,
+              530
+            ]
+          ],
+          "content": "> **!** Dust covers DO NOT provide complete protection against contamination: detectors should be removed before construction, major re-decoration or other dust producing work is started.\n>\n> Dust covers MUST be removed before the system can be made operational.",
+          "content_sha256": "99ed2b06f4588b41ce1936232d3f7637987f189fdff796024afe72c307cac485"
+        },
+        {
+          "atom_id": "A_d7c7fb2252aa",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              532,
+              624
+            ]
+          ],
+          "content": "2) Install and fix the base, in the selected position, with the screws provided (picture 3).",
+          "content_sha256": "a62ba896bfe81c3fbb7e00b9806898ee0a9133db7095cc2ec946875a0f754ab5"
+        },
+        {
+          "atom_id": "A_217497e3fadb",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              626,
+              676
+            ]
+          ],
+          "content": "3) Install the detector onto the base (picture 3).",
+          "content_sha256": "3a06224834f9aacb04ce25a4c3317867136f4c552c66cb4df5fe3f9b6ab4914e"
+        },
+        {
+          "atom_id": "A_f747094a17ff",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              678,
+              752
+            ]
+          ],
+          "content": "4) Carry out a test of the device to meet local regulations (see TESTING).",
+          "content_sha256": "e38fea8440bfe09d6f594c011b1b6494c22adacacca33a2695886e30a8ba7eeb"
+        },
+        {
+          "atom_id": "A_134bf860fe0f",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              754,
+              947
+            ]
+          ],
+          "content": "5) If the detector fails the test:\n   - Clean it if dirty (see MAINTENANCE - CLEANING).\n   - Change batteries if low battery is indicated on the translator (see MAINTENANCE - BATTERY CHANGING).",
+          "content_sha256": "6405c5ece0bbc42b2eee66dccf8e910b0ab7a379f2d3fc07ffb9e5c7929a9d17"
+        },
+        {
+          "atom_id": "A_7f6bd84daf5e",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              949,
+              990
+            ]
+          ],
+          "content": "6) Test the detector again (see TESTING).",
+          "content_sha256": "9ee5a71d4280bee9722732d8c1287ec804201a3e83000405465793e6ff8f5f6b"
+        },
+        {
+          "atom_id": "A_9ef7a8e40661",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              992,
+              1058
+            ]
+          ],
+          "content": "7) If the detector fails the test again replace it (see WARRANTY).",
+          "content_sha256": "aa7b6468a2c61fef4f83008fb256d38b3af8de53ed0a93d3a877ba4e5c9fad49"
+        },
+        {
+          "atom_id": "A_ca55b78833c0",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1596,
+              1691
+            ]
+          ],
+          "content": "1) Cut off the small plastic lug on the plastic blocking grip on the detector base (picture 4).",
+          "content_sha256": "f0cbeb66f5bb9ece8b48bc2b84b060038c7c11fa595cd462a875d7cd31ea3146"
+        },
+        {
+          "atom_id": "A_8eb7d36e009b",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1693,
+              1731
+            ]
+          ],
+          "content": "2) Install the detector onto the base.",
+          "content_sha256": "f9331bc8247c7ff9ce84ebdf451565a55ce9f0d2ff2848990f3c1dfeacdc21d3"
+        },
+        {
+          "atom_id": "A_6f905cd7cb57",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification",
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1733,
+              1780
+            ]
+          ],
+          "content": "3) Check if the detector is effectively locked!",
+          "content_sha256": "b7d156bc66c41ea3b9f9894dafe6237969ebec87804c57a5117dcc07260929b3"
+        },
+        {
+          "atom_id": "A_f77559074d7a",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1821,
+              1916
+            ]
+          ],
+          "content": "1) Insert the tip of a small screwdriver into the side hole of the supporting base (picture 5).",
+          "content_sha256": "214e02044d45e1e7a295fd52bd5a75b1658a8f8ec52574aa2838d48430b24812"
+        },
+        {
+          "atom_id": "A_3517088e6acf",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              1918,
+              2004
+            ]
+          ],
+          "content": "2) Push and keep down, with the tip of the screwdriver, the blocking grip on the base.",
+          "content_sha256": "a22a7feafd64d1d8000e19fd0f4f135e364728edec16c0b2f456aeb83ec4a899"
+        },
+        {
+          "atom_id": "A_68311fa107f2",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2006,
+              2046
+            ]
+          ],
+          "content": "3) Uninstall the detector from the base.",
+          "content_sha256": "5afac1a774686bc88fa5200c851dfd3d1317aa8d660c9e07b4c5f26d798c62d2"
+        },
+        {
+          "atom_id": "A_1135db5b71f9",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "structured_member"
+          ],
+          "source_spans": [
+            [
+              2579,
+              2746
+            ]
+          ],
+          "content": "The wireless heat detector is provided with a tamper switch: in case of removal of the detector from its base, a tamper detection message is sent to the control panel.",
+          "content_sha256": "86817882cc1db5645510e6fcbd6be66252c8efb689bd9d706162aa0ac2a440af"
+        },
+        {
+          "atom_id": "A_81f06a764b1f",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              2760,
+              2849
+            ]
+          ],
+          "content": "*All detectors must be tested after installation and, successively, on a periodic basis.*",
+          "content_sha256": "158c037c6d5d188f510a7051948274a8db2552aa772ce254fb0588c1976e315a"
+        },
+        {
+          "atom_id": "A_6738eb2ef298",
+          "fragment_number": 1,
+          "candidate_id": "99e69585-eb72-4a2e-a455-6758de21e6b5",
+          "reason_labels": [
+            "condition_dependency",
+            "mandatory_safety_verification"
+          ],
+          "source_spans": [
+            [
+              2851,
+              2961
+            ]
+          ],
+          "content": "After each test reset the fire security system from the control panel, as per your control panel instructions.",
+          "content_sha256": "a1a05de190f8387133293e321758672ae8b4c2cea4e09caac106df27f0143c37"
+        }
+      ],
+      "nonblank_source_chars": 2520,
+      "nonblank_highlighted_chars": 1506,
+      "nonblank_span_density": 0.5976190476190476
+    }
+  ],
+  "result_sha256": "e56a11b52b79e8c9e99a7a3eae3ff8c7f4e9dbbb242c55cddd44cd51122751d1"
+}

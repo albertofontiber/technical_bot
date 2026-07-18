@@ -1,0 +1,66 @@
+schema: s234_zero_response_pixel_gold_recovery_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: >-
+  Execute one exact pixel-gold transport recovery after S233 returned an
+  OpenAI origin 520 before any model response, cost, or semantic feedback.
+packet_sha256: 747c08ea46e8752db1a483a9291f8f2cdecdb1995bc80f0e06fcf8859472d338
+precondition:
+  prior_stage: s233
+  prior_model_responses: 0
+  prior_cost_usd: 0
+  semantic_feedback_seen: false
+  backoff_elapsed_seconds_min: 60
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, max_output_tokens: 12000}
+  independent:
+    id: claude-fable-5
+    effort: xhigh
+    author_max_tokens: 16000
+    review_max_tokens: 12000
+frozen_inputs:
+  recovery_wrapper:
+    path: scripts/s234_recover_zero_response_pixel_gold.py
+    sha256: ac1922c9e6ba2f27901e96437fb661d06babe3f75fc981efd4db858de390e758
+  runner:
+    path: scripts/s233_run_fresh_kidde_pixel_gold.py
+    sha256: 5ea4487d7257e8812b5a02d69f8485b336726d57ae1c4f6d31abaece0343b0ef
+  packet:
+    path: evals/s230_kidde_fresh_clause_bound_packet_v1.json
+    sha256: 9a9014c5359066d1c5a0ae5a5fb7ee07798dff0be42fca71a60836c3a0d82fe8
+  design_gate:
+    path: evals/s232_design_frontier_reviews_v1.json
+    sha256: a59b38dd2c3c037093a54b5f22a2803c095e956cd97574153932d540db1c169d
+  prior_result:
+    path: evals/s233_kidde_pixel_gold_result_v1.json
+    sha256: 108564819e8cb38e1b1ffe2b0654fa902005f01c14c06eab3a994512b525ade3
+  prior_closeout:
+    path: evals/s233_transport_closeout_v1.yaml
+    sha256: 82ba84c0f0f9f8c29d243dc238aa4c91d5f4d0489d9849f3d9da111fd141bddb
+  frontier_runtime:
+    path: src/rag/frontier_visual_runtime_v2.py
+    sha256: 8a81048efe697cd13f35527e30ae1fabf4c5f867681783805cc95df75343670e
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: e6c05baadc6471ae48180b7bad72e5c9ab1b35c6c9620f47ea71a87e3ef97273
+  gold_contract:
+    path: src/rag/multisource_visual_gold.py
+    sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1
+population:
+  candidate_items: 3
+  minimum_pass_items: 3
+  exact_inputs_preserved_from_s233: true
+execution:
+  paid_calls_max: 18
+  provider_retries: 0
+  same_response_retry: false
+  semantic_convergence_rounds: 0
+  further_transport_recovery: false
+  target_calls: 0
+budget:
+  user_ceiling_usd: 200
+  stage_stop_usd: 100
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false

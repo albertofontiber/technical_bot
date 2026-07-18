@@ -1,0 +1,94 @@
+schema: s251_adaptive_reasoning_writer_ab_prereg_v1
+status: FROZEN_BEFORE_DUAL_FRONTIER_REVIEW
+objective: >-
+  Test the current Sonnet writer with and without adaptive reasoning while
+  holding prompt, evidence, model, output ceiling and evaluation fixed.
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  synthesis_miss: 12
+  retrieval_miss: 2
+population:
+  qids: [cat018, hp002, hp011, hp017]
+  questions: 4
+  chunks: 51
+  evaluator_obligations: 20
+  synthesis_residuals: 12
+  conflicts: 1
+arms:
+  model: claude-sonnet-4-6
+  max_output_tokens: 8000
+  control: {temperature: 0, thinking: off}
+  treatment: {thinking: adaptive, effort: high, temperature: omitted}
+  system_and_user_messages_byte_identical: true
+execution:
+  paired_replicates: 2
+  control_calls: 8
+  treatment_calls: 8
+  semantic_retries: 0
+  transport_retries_max_per_label: 1
+  total_semantic_calls_max: 16
+  writer_parallelism_max: 2
+gates:
+  stable_treatment_beats_control: true
+  strict_causal_gains_min: 2
+  protected_regressions_max: 0
+  unsafe_conflicts_max: 0
+  invalid_citations_max: 0
+  all_calls_end_turn_nonempty: true
+  actual_cost_usd_max: 15
+  deterministic_score_grants_official_credit: false
+review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: claude-fable-5, effort: xhigh}
+  rounds: 1
+  convergence_loop: false
+  any_critical_blocker: close
+frozen_review_inputs:
+  design:
+    path: evals/s251_adaptive_reasoning_writer_ab_design_v1.md
+    sha256: f882115a329d50ef11d40947a2d8e579ba5bb6018656bfd307a27e98e21c99f1
+  runner:
+    path: scripts/s251_run_adaptive_reasoning_writer_ab.py
+    sha256: a5bad2debf6855139742e4244a6af3301fddd94827a803afa140fb91fa190e79
+  scorer:
+    path: scripts/s251_score_adaptive_reasoning_writer_ab.py
+    sha256: 18db26f3013cc2737c6123d1fadc4a3ba96b22136c6a8644d621b67a7786f02b
+  test:
+    path: tests/test_s251_adaptive_reasoning_writer_ab.py
+    sha256: 7df7f0091199a709bee4809197445d9bddced389ed2ca89ca23e1d53cb448272
+  taxonomy:
+    path: evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+    sha256: 6e7bf8894ebb5074c66ba24741fa5d49a8c5f4c22e8e394a16702836f4cf4fe8
+frozen_generation_inputs:
+  design:
+    path: evals/s251_adaptive_reasoning_writer_ab_design_v1.md
+    sha256: f882115a329d50ef11d40947a2d8e579ba5bb6018656bfd307a27e98e21c99f1
+  runner:
+    path: scripts/s251_run_adaptive_reasoning_writer_ab.py
+    sha256: a5bad2debf6855139742e4244a6af3301fddd94827a803afa140fb91fa190e79
+  scorer:
+    path: scripts/s251_score_adaptive_reasoning_writer_ab.py
+    sha256: 18db26f3013cc2737c6123d1fadc4a3ba96b22136c6a8644d621b67a7786f02b
+  test:
+    path: tests/test_s251_adaptive_reasoning_writer_ab.py
+    sha256: 7df7f0091199a709bee4809197445d9bddced389ed2ca89ca23e1d53cb448272
+  generation_packet:
+    path: evals/s235_direct_clause_bound_generation_packet_v1.json
+    sha256: 513950c7e13e1cc5a4ad04c42200f023938497f1927b1c43e60cc4ad57a29c47
+  score_packet:
+    path: evals/s235_direct_clause_bound_score_packet_v1.json
+    sha256: e3062b10a32200b15b737e2c36e98febe6e04a637d828a82fe4f1ca6541cff01
+  prompt_builder:
+    path: scripts/s156_frontier_synthesis_ceiling.py
+    sha256: aeaa65fb6e82c35a52fc91661cead8473b1044ea5cd06106440878baa8a7eaf5
+budget:
+  user_ceiling_usd: 200
+  review_stage_ceiling_usd: 12
+  generation_stage_ceiling_usd: 15
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

@@ -1,0 +1,25 @@
+schema: s237_s235_background_review_closeout_v1
+status: HOLD_SOL_INCOMPLETE_NO_FINAL
+response_id: resp_0007d25ae2a53e05006a5b976a89208195ba0644b412776fac
+model: gpt-5.6-sol
+reasoning_effort: xhigh
+transport:
+  background_submission: true
+  submission_status: queued
+  terminal_status: incomplete
+  polling_succeeded: true
+incomplete_reason: max_output_tokens
+max_output_tokens: 12000
+usage:
+  input_tokens: 9211
+  output_tokens: 154922
+  reasoning_tokens: 12000
+conservative_cost_usd: 18.728805
+semantic_review_received: false
+raw_final_output_received: false
+fable_calls: 0
+next: one_same_response_continuation_for_final_json_plus_one_fable_review
+further_full_sol_reanalysis_authorized: false
+official_fact_credit: 0
+production_default_changed: false
+

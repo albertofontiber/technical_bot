@@ -1,0 +1,33 @@
+schema: s241_direct_clause_bound_ab_closeout_v1
+status: HOLD_ONE_LOCAL_LENGTH_REJECTION_NOT_SCORE
+failed_stage: final_downstream_writer_local_validation
+population_completed_before_failure:
+  fully_assembled_questions: 3
+  fully_assembled_replicates: 6
+  hp017_provider_responses_complete: true
+failure:
+  qid: hp017
+  replicate: 2
+  obligation_index: 6
+  writer_stop_reason: end_turn
+  claims: 2
+  invalid_claim_characters: 246
+  local_maximum_characters: 220
+  citation_markers_in_claim: false
+  invalid_source_unit_ids: false
+  unknown_json_fields: false
+root_cause: >-
+  The 220-character local sentence bound was unnecessarily narrower than a
+  complete concise technical sentence; the claim-count bound already prevents
+  unbounded writer output.
+gold_or_score_packet_opened: false
+semantic_retries: 0
+provider_calls_to_reuse: 91
+actual_cost_usd: 1.104491
+official_fact_credit: 0
+production_default_changed: false
+next: deterministic_revalidation_and_assembly_only
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+

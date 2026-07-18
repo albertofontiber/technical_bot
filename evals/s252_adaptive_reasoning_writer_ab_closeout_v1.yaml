@@ -1,0 +1,59 @@
+schema: s252_adaptive_reasoning_writer_ab_closeout_v1
+status: CLOSED_BEFORE_GENERATION_DUAL_FRONTIER_NO_PASS
+review_timestamp: '2026-07-18T19:42:36'
+review:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    output: evals/adversarial_reviews/2026-07-18T19-42-36_gpt-5.6-sol_70526da0cb0a.md
+    tokens: 222956
+    tool_calls: 30
+    tool_call_budget_exhausted: true
+    findings: 4
+    confirmed: 4
+    severity_max: critical
+  independent:
+    model: claude-fable-5
+    output: evals/adversarial_reviews/2026-07-18T19-46-29_claude-fable-5_c1cbbb849a34.md
+    provider_stop_reason: end_turn
+    tokens: 88517
+    tool_calls: 6
+    status: completed_valid_review
+    findings: 5
+    confirmed: 4
+    false_positives: 1
+    severity_max: medium
+  review_rounds: 1
+  convergence_rounds: 0
+confirmed_blockers:
+  - generation_freeze_omits_dynamic_prompt_dependencies
+  - full_answer_semantic_review_omits_control_arm
+  - sealed_retry_metadata_contradicts_zero_retry_execution
+  - prereg_objective_not_self_contained
+additional_confirmed_audit_gaps:
+  - mutable_prereg_is_not_bound_as_the_root_of_the_post_generation_score_chain
+  - invalid_citation_gate_scope_is_not_declared_as_treatment_only
+adjudication:
+  fable_zero_retry_monkeypatch_finding: duplicate_of_sealed_retry_metadata_blocker
+  fable_tautological_message_equality_finding: false_positive_not_a_functional_defect
+decision:
+  execute_s252: false
+  generation_calls: 0
+  target_calls: 0
+  facts_moved_to_ok: 0
+  production_default_changed: false
+  successor_correction_loop: false
+  rationale: >-
+    The experiment cannot support its observed package-difference claim with the
+    declared freeze and semantic-review boundary. A further S253 correction would
+    be convergence on instrumentation rather than progress on synthesis misses.
+review_governance:
+  fixed_tool_call_cap_30_suitable_for_repo_wide_review: false
+  future_policy: >-
+    Use an adaptive repository-review allowance, normally up to 50-60 reads, bounded
+    by cost and elapsed time; require the reviewer to enumerate relevant dependencies
+    left uninspected when it stops earlier or exhausts the allowance.
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

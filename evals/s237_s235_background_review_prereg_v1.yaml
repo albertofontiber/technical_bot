@@ -1,0 +1,65 @@
+schema: s237_s235_background_review_prereg_v1
+status: FROZEN_ONE_BACKGROUND_SUBMISSION
+objective: >-
+  Preserve the exact S235 principal review while moving its single Sol 5.6
+  xhigh execution behind background submission and polling, because two
+  synchronous attempts ended at the proxy boundary with 520 and no response.
+transport_evidence:
+  synchronous_attempts: 2
+  common_http_status: 520
+  common_elapsed_seconds_approx: 60
+  provider_responses_received: 0
+  usage_receipts_received: 0
+  cost_usd: 0
+hypothesis: synchronous_proxy_timeout_before_long_xhigh_response
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, max_output_tokens: 12000}
+  independent: {id: claude-fable-5, effort: xhigh, max_tokens: 8000}
+execution:
+  background_sol_submissions: 1
+  sol_poll_interval_seconds: 5
+  sol_poll_deadline_seconds: 900
+  fable_calls_after_completed_sol: 1
+  provider_sdk_retries: 0
+  semantic_retries: 0
+  convergence_rounds: 0
+  further_sol_submissions_authorized: false
+budget:
+  user_ceiling_usd: 200
+  stage_stop_usd: 8
+frozen_inputs:
+  sync_transport_closeout:
+    path: evals/s236_s235_design_transport_closeout_v1.yaml
+    sha256: bc007b187e9153cab64844cc668121b8dec5815d537a8f8ccbae4ef8e627c218
+  attempts:
+    path: evals/s235_design_frontier_attempts_v1.json
+    sha256: 0c9e1a5c4d7b603a60fea6f15bb6b1f5630458b97faf7e9cd1089f0e18cf559e
+  s235_preregistration:
+    path: evals/s235_direct_clause_bound_ab_prereg_v1.yaml
+    sha256: 7d3bcf0fc5f629e13d2f47ea7c371692e285e046822411cd332a6b8a6fb2c125
+  original_reviewer:
+    path: scripts/s235_review_direct_clause_bound_ab_design.py
+    sha256: 45a5b77cdc22f4f542c161514dfcca5fd88d73cf53326a0c2c2fb4f1693c33f0
+  background_wrapper:
+    path: scripts/s237_background_s235_design_review.py
+    sha256: d22cf58ec2881d01b482e272842352077af0e949ba921335186fe2ccfe29db10
+  design:
+    path: evals/s235_direct_clause_bound_ab_design_v1.md
+    sha256: 4e5ca91beae1918126d245b0fa72b36fcfaa6bbcf5da770b2c799e94440f0fee
+  generation_runner:
+    path: scripts/s235_run_direct_clause_bound_ab.py
+    sha256: ab41faa16bf35530f1ba9f40f46866474828633ab7ee88a8134730637154e0f5
+  scorer:
+    path: scripts/s235_score_direct_clause_bound_ab.py
+    sha256: d4262c146eac6c468a227af497616397827251fb2aaea989b8a87757b96e3213
+  clause_bound_contract:
+    path: src/rag/clause_bound_synthesis.py
+    sha256: e8cf4957cc074e18ebcf37e5578c398f1d2eebd4cc5cfdb41e30eefda8cf485e
+  frontier_schemas:
+    path: src/rag/frontier_visual_schemas.py
+    sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
