@@ -1,0 +1,162 @@
+{
+  "schema": "s207_fable_generation_receipts_v1",
+  "status": "COMPLETE",
+  "provider": "fable",
+  "receipts": [
+    {
+      "provider": "fable",
+      "call_label": "generate:kidde_mcp_isolation_parasitics",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "{\n  \"canary_id\": \"kidde_mcp_isolation_parasitics\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy haciendo el cálculo eléctrico de un lazo con pulsadores KE-DM3110 con aislador de cortocircuito integrado. ¿Cuánto consume el dispositivo cuando el aislamiento está activo, y qué corriente de dispersión e impedancia en serie máximas introduce el aislador en el lazo?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Según las especificaciones de aislamiento del KE-DM3110 (válidas solo para los modelos con aislador de cortocircuito integrado): el consumo de corriente con el aislamiento activo es de 1,5 mA; la corriente de dispersión es de 1 mA como máximo; y la impedancia en serie es de 0,06 Ω como máximo.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Con el aislamiento activo, el consumo de corriente del KE-DM3110 (modelo con aislador de cortocircuito integrado) es de 1,5 mA\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,5 mA\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 15\n      },\n      \"visual_evidence\": \"Tabla 'Isolamento': fila 'Assorbimento di corrente (isolamento attivo)' = 1,5 mA, bajo la nota de que aplica a los modelos KE-DM3110 con isolatore di cortocircuito integrato\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La corriente de dispersión del aislador integrado es de 1 mA como máximo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1 mA max.\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 16\n      },\n      \"visual_evidence\": \"Fila 'Corrente di dispersione' = '1 mA max.' en la continuación de la tabla de aislamiento, parte superior izquierda de la página\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La impedancia en serie del aislador integrado es de 0,06 Ω como máximo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"0,06 Ω max.\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 16\n      },\n      \"visual_evidence\": \"Fila 'Impedenza in serie' = '0,06 Ω max.' inmediatamente debajo de 'Corrente di dispersione'\"\n    }\n  ],\n  \"notes\": \"Los tres valores pertenecen a la sección 'Isolamento' de las especificaciones técnicas (la tabla comienza en la página 15 y continúa en la 16) y aplican explícitamente a los modelos KE-DM3110 con aislador de cortocircuito integrado. Se evitó deliberadamente cualquier solapamiento con las preguntas de aumento del retriever, que cubren tensiones de aislamiento/reconexión, número de aisladores por lazo y número de dispositivos entre aisladores; ninguna de ellas pregunta por el consumo con aislamiento activo, la corriente de dispersión ni la impedancia en serie.\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 49503,
+        "output_tokens": 1583
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8nX648tncFE4v3MZUY6",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAISoAgKiAEIDxgCKkAWTYXSS/kjN1UjKJx//YUyp8Hoz1SpIJmJxS0zmNxzzN07eSsSrcbtZo8ZamMUde8oQe96RQjFzi60CLQ/c8/qMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgwTY/1fZkVSH8Q7bSgaDFx/oeMJmEF/TGidSCIw8PaQuN54NDyvxkQSmdf+Khs0w9CVcfHh9+YPwhpQ1RT72OyWjdyfovgyBWkzWxW7KsQGW3nuXVcTMmmogLUhdFc/3eDR9LDIdketpYo0a/M1zn8FANABXp3KQz+B3WysvAhKdywS/+qRFaPp/ldtVBfPo0q5j9vQ1QHZ2dIKL9v2GOH7Q8ty7uepym6ZKiZ+3Z4L0bRIrvNXl6Pav4X0QQDvxv/8yrI3N0S41fuK8uQv7JsVnjuNQAQRGLnsAFyAbNoibL+D19RFRRJbJY13sPTVSJfOrp01I0Yradx1GZyNx8so7XBBIRYdJ2amrkjoLvpoEwVwEozmgpLRXn4qmZtrf50WXAThR/lrvINRgNQ/AA2o5Y8FsvmkfE880hos3kNdV6g4Tik+CdQXaWRThHPM+9VtsUzPVcXODa57gFQX+v6wwti/k3hfcNTfQ7PiEUFpsiHhIoThhfz4TDPdt9eVIuA57ST/ODUlPoYNx80ETKsVQaL7s7P5uuKeVseDle+cpLREXOBoZLyFtXDqzRjdZHQ+eCcdVQ6XOJYS5jvk6s2IzVAIXukrjNsBhA5K2APUr2yQdjR6GyiLrgZhc4wJGc/lCY4HlFYzYjRGr/KFMItNQM9M0V1IpbL4TfVX5qmWc13Otezt+NFDzHf8eJBDPVYBk2tmGm1EoylPjZmeuGU+F9l0vBqLXsQkdZ05UUOsGGX4A8tZNCpV2kz6EDPgkTnrLRzGd8mHhQp1Yhr6YifZTD2r4GdFzRRUoNNN0OeorOo36pA71j1Wr5DPOrmMCfa0R2fxNIFvUFzu8u+DhM9ADjOFgoTxmqiyW8MsPLZsZQMosnFEfhiNdWxTMjEbr8c42BKlu6MzjvjlXVbkAFpH7uLWjd2v0Do0wJAGQSdN/c1Vv8GxIzQCnTdMvDtl6gdLsw/ZRibhf6pNZIr2u4LP+0x9oDV7lEutLhgrZMtsW2ilmXTE5v3L87PWh8MEpVxfqlhv2rFQwDRkD36Bo2qtIXyqcBb6qyCryZP+7sjMZKN/mk54WFP2LP8DBofMAtYNpwKKWfZQ6gJD3TicESl5zIE2g2iiiQ7HTtlgh6bS4vQop3ekrmxUBvotqc3TeREyjz2A4JAqjYk4w8TfnDT6aIzxS/jIuBhq9+doggLZzPfA0j61v4Iym+adz+7Vibt4J0YYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\n  \"canary_id\": \"kidde_mcp_isolation_parasitics\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy haciendo el cálculo eléctrico de un lazo con pulsadores KE-DM3110 con aislador de cortocircuito integrado. ¿Cuánto consume el dispositivo cuando el aislamiento está activo, y qué corriente de dispersión e impedancia en serie máximas introduce el aislador en el lazo?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Según las especificaciones de aislamiento del KE-DM3110 (válidas solo para los modelos con aislador de cortocircuito integrado): el consumo de corriente con el aislamiento activo es de 1,5 mA; la corriente de dispersión es de 1 mA como máximo; y la impedancia en serie es de 0,06 Ω como máximo.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"Con el aislamiento activo, el consumo de corriente del KE-DM3110 (modelo con aislador de cortocircuito integrado) es de 1,5 mA\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,5 mA\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 15\n      },\n      \"visual_evidence\": \"Tabla 'Isolamento': fila 'Assorbimento di corrente (isolamento attivo)' = 1,5 mA, bajo la nota de que aplica a los modelos KE-DM3110 con isolatore di cortocircuito integrato\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La corriente de dispersión del aislador integrado es de 1 mA como máximo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1 mA max.\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 16\n      },\n      \"visual_evidence\": \"Fila 'Corrente di dispersione' = '1 mA max.' en la continuación de la tabla de aislamiento, parte superior izquierda de la página\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La impedancia en serie del aislador integrado es de 0,06 Ω como máximo\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"0,06 Ω max.\",\n      \"citation\": {\n        \"pdf\": \"03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf\",\n        \"page\": 16\n      },\n      \"visual_evidence\": \"Fila 'Impedenza in serie' = '0,06 Ω max.' inmediatamente debajo de 'Corrente di dispersione'\"\n    }\n  ],\n  \"notes\": \"Los tres valores pertenecen a la sección 'Isolamento' de las especificaciones técnicas (la tabla comienza en la página 15 y continúa en la 16) y aplican explícitamente a los modelos KE-DM3110 con aislador de cortocircuito integrado. Se evitó deliberadamente cualquier solapamiento con las preguntas de aumento del retriever, que cubren tensiones de aislamiento/reconexión, número de aisladores por lazo y número de dispositivos entre aisladores; ninguna de ellas pregunta por el consumo con aislamiento activo, la corriente de dispersión ni la impedancia en serie.\"\n}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 49503,
+          "output_tokens": 1583,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 322
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "call_label": "generate:kidde_outdoor_isolator_nominal_currents",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "{\n  \"canary_id\": \"kidde_outdoor_isolator_nominal_currents\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En el dispositivo de notificación exterior direccionable Kidde de la serie Excellence (KE-AS3115R-WMIP), ¿cuál es la corriente nominal que soporta el aislador integrado con el aislador cerrado en funcionamiento continuo, y cuál es la corriente nominal cuando el aislador está activo por un cortocircuito en el lazo?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Según los datos técnicos del aislador integrado del dispositivo, la corriente nominal (Nennstrom) tiene dos valores: en funcionamiento continuo con el aislador cerrado es de 1,05 A, y con el aislador activo (es decir, durante un cortocircuito en el lazo) es de 1,4 A.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La corriente nominal continua del aislador integrado con el aislador cerrado es de 1,05 A\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,05 A (continuo, aislador cerrado)\",\n      \"citation\": {\n        \"pdf\": \"3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Fila 'Nennstrom – Kontinuierlich (Isolator geschlossen): 1,05 A' en la tabla 'Isolation'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La corriente nominal con el aislador activo durante un cortocircuito es de 1,4 A\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,4 A (aislador activo / cortocircuito)\",\n      \"citation\": {\n        \"pdf\": \"3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Fila 'Nennstrom – Isolator aktiv (Kurzschluss): 1,4 A' en la tabla 'Isolation'\"\n    }\n  ],\n  \"notes\": \"Ambos valores proceden de la subsección 'Nennstrom' de la tabla 'Isolation' de la página 10 (versión en alemán del documento multilingüe). Se limita deliberadamente a los dos valores de corriente nominal para no solaparse con las preguntas de retriever-augmentation existentes sobre el consumo del aislador actuado (5 mA), el número máximo de aisladores/melders por lazo y la impedancia máxima entre aisladores.\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 55152,
+        "output_tokens": 1497
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8nYe4koCDCY5LokxEN8",
+        "container": null,
+        "content": [
+          {
+            "signature": "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",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\n  \"canary_id\": \"kidde_outdoor_isolator_nominal_currents\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En el dispositivo de notificación exterior direccionable Kidde de la serie Excellence (KE-AS3115R-WMIP), ¿cuál es la corriente nominal que soporta el aislador integrado con el aislador cerrado en funcionamiento continuo, y cuál es la corriente nominal cuando el aislador está activo por un cortocircuito en el lazo?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Según los datos técnicos del aislador integrado del dispositivo, la corriente nominal (Nennstrom) tiene dos valores: en funcionamiento continuo con el aislador cerrado es de 1,05 A, y con el aislador activo (es decir, durante un cortocircuito en el lazo) es de 1,4 A.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La corriente nominal continua del aislador integrado con el aislador cerrado es de 1,05 A\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,05 A (continuo, aislador cerrado)\",\n      \"citation\": {\n        \"pdf\": \"3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Fila 'Nennstrom – Kontinuierlich (Isolator geschlossen): 1,05 A' en la tabla 'Isolation'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La corriente nominal con el aislador activo durante un cortocircuito es de 1,4 A\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1,4 A (aislador activo / cortocircuito)\",\n      \"citation\": {\n        \"pdf\": \"3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Fila 'Nennstrom – Isolator aktiv (Kurzschluss): 1,4 A' en la tabla 'Isolation'\"\n    }\n  ],\n  \"notes\": \"Ambos valores proceden de la subsección 'Nennstrom' de la tabla 'Isolation' de la página 10 (versión en alemán del documento multilingüe). Se limita deliberadamente a los dos valores de corriente nominal para no solaparse con las preguntas de retriever-augmentation existentes sobre el consumo del aislador actuado (5 mA), el número máximo de aisladores/melders por lazo y la impedancia máxima entre aisladores.\"\n}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 55152,
+          "output_tokens": 1497,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 536
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "call_label": "generate:kidde_2xa_lcd_test",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "```json\n{\n  \"canary_id\": \"kidde_2xa_lcd_test\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En una central Kidde de la serie 2X-A quiero verificar la pantalla porque sospecho que tiene píxeles muertos. ¿Cómo se ejecuta la prueba de LCD desde el menú, qué muestra exactamente durante el test y cómo se sale al terminar?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La prueba de LCD sirve para confirmar que la pantalla LCD de la central funciona correctamente. Procedimiento: 1) En el Menú principal, seleccione Prueba. 2) Seleccione Prueba de IU y, a continuación, Test LCD. Durante el test, se muestran una serie de secuencias de prueba en la pantalla LCD que ayudan a identificar la ubicación de los píxeles defectuosos (así podrá localizar los píxeles muertos que sospecha). 3) Para salir de la prueba, pulse F2 (Salir).\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La finalidad de la prueba de LCD es confirmar que la pantalla LCD funciona correctamente.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"comprobación de LCD para confirmar que la LCD funciona correctamente\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Frase 'Realice una comprobación de LCD para confirmar que la LCD funciona correctamente' bajo el encabezado 'Realización de una prueba de LCD'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Paso 1: en el Menú principal, seleccionar Prueba.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Menú principal → Prueba\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '1. En el Menú principal, seleccione Prueba' de la sección de prueba de LCD\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Paso 2: seleccionar Prueba de IU y, a continuación, Test LCD.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Prueba de IU → Test LCD\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '2. Seleccione Prueba de IU y, a continuación, Test LCD.'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Durante el test se muestran secuencias de prueba en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"secuencias de test en la LCD → identificar la ubicación de los píxeles defectuosos\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Frase 'Una secuencias de test se muestran en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.' tras el paso 2\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Para salir de la prueba de LCD se pulsa F2 (Salir).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"salida del test = tecla F2 (Salir)\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '3. Pulse F2 (Salir).' que cierra la sección de prueba de LCD\"\n    }\n  ],\n  \"notes\": \"Todos los hechos proceden de la sección 'Realización de una prueba de LCD' de la página 37 (numerada 31 en el pie). El tema (test de LCD/píxeles defectuosos) no solapa con las entradas de aumento del retriever, que cubren la prueba de LEDs/zumbador y la prueba de teclado, no el test de LCD.\"\n}\n```",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 50877,
+        "output_tokens": 1860
+      },
+      "provider_trace": {
+        "id": "msg_011Cd8naAmVP8xivgeGnGEBJ",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAISjgcKiAEIDxgCKkDW/yRKoMrCU07glDFAwTbS6U7C4YHQYVpWcgnd9O0vhtI2OQqJ1AFlTxW5glR9SMPj4rYkO48xtBvsJjLdtiYEMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgyStVz8inyT01pmLVsaDAxKOta0bwXwRntPgyIwo3GFdQiJ4bsggM01SY4H8LPyGDHRJcDkX9OqTH7cZkbCzD5/91jsEZ4Ik/aZQE5VKrIFQrITeKgIpqVVXhkaAym+WmCGq1y+Oc0FQltfzNlTVpvm+8jkumifpYJQF8V2mIUWFFQypVOtuYuc7VWXbVliknf22nBadTCKR1qvxtLx2T8fQGCHHlsmpliEgGilIA7kn+igXXkhNmRbdWXZkVBNmT1ZPEr/7NgbYlonLbkvvZGrI3PfH7bR/ktRT8sVeZZuIjL11qOx+uuWAkBq/yy/6Fb3tLTS9KwxTY6tdepc2kSUFvtat7auoNHWZn2LITPXByuvT6gINQmew1L+KX8Qf4IpfGlARR4lmSd5vhYdCYhVhbluoiDHT9wbOTN9yG+mPXSn0yOxj8Blu2vsT8XOj32ZjW3uTvhOJwD4D7h8LfHlE7kSxByVb9E7lWOipLDOxhg45botPZcsjhxFftIBIF92nuC3e1QzHuGdIWT8ZaKzBFjJHhdqyYDp/ZYyfF8odpQu6ABRLj+V9GE+iZ8u6BQ0g6Rk7lumeB/AWJVDY9E2rMKJULdtYNxAz9WB+Dltv6aLunB+S6bx9bJMOVrUeoN4BFfgvMuoVfgarqdqOQJhcMGO+1QWTlB+UckW3SJNdeuKC8I9U+zHDgFjPPVtWqELiYqtrKAOEVKpeXTXLaQ1/6iu5ynybPuAW6YFR1X9MrkKfeEdFeB+CMbjVVi4OfCafsb1TLVnWJD/LKlRZn4FfK4hx4S8ZgXilSbPJhVQQwpKLTUFpd0Q1ryCXQQJyRgKo2qHyk8nd2O/zh6ZX/NsGHaxdRjs4D+6yl8Xtum5S/QTW87fXIhd6/wGBprgMXE670buqgZE3vScEyJK9imicQRHRm8cnpCuHFDYN9PDyyqHoXImj+6EEURqXDWAEpjuFIBvhpCShY4Ww1/w5jmg6RXqrwutyAW7m7TBUNt/4QCJ3VlyHgIlfNuR9QrblXmxGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "```json\n{\n  \"canary_id\": \"kidde_2xa_lcd_test\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En una central Kidde de la serie 2X-A quiero verificar la pantalla porque sospecho que tiene píxeles muertos. ¿Cómo se ejecuta la prueba de LCD desde el menú, qué muestra exactamente durante el test y cómo se sale al terminar?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La prueba de LCD sirve para confirmar que la pantalla LCD de la central funciona correctamente. Procedimiento: 1) En el Menú principal, seleccione Prueba. 2) Seleccione Prueba de IU y, a continuación, Test LCD. Durante el test, se muestran una serie de secuencias de prueba en la pantalla LCD que ayudan a identificar la ubicación de los píxeles defectuosos (así podrá localizar los píxeles muertos que sospecha). 3) Para salir de la prueba, pulse F2 (Salir).\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La finalidad de la prueba de LCD es confirmar que la pantalla LCD funciona correctamente.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"comprobación de LCD para confirmar que la LCD funciona correctamente\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Frase 'Realice una comprobación de LCD para confirmar que la LCD funciona correctamente' bajo el encabezado 'Realización de una prueba de LCD'\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"Paso 1: en el Menú principal, seleccionar Prueba.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Menú principal → Prueba\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '1. En el Menú principal, seleccione Prueba' de la sección de prueba de LCD\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"Paso 2: seleccionar Prueba de IU y, a continuación, Test LCD.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"Prueba de IU → Test LCD\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '2. Seleccione Prueba de IU y, a continuación, Test LCD.'\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"Durante el test se muestran secuencias de prueba en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"secuencias de test en la LCD → identificar la ubicación de los píxeles defectuosos\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Frase 'Una secuencias de test se muestran en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.' tras el paso 2\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"Para salir de la prueba de LCD se pulsa F2 (Salir).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"salida del test = tecla F2 (Salir)\",\n      \"citation\": {\"pdf\": \"00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf\", \"page\": 37},\n      \"visual_evidence\": \"Paso numerado '3. Pulse F2 (Salir).' que cierra la sección de prueba de LCD\"\n    }\n  ],\n  \"notes\": \"Todos los hechos proceden de la sección 'Realización de una prueba de LCD' de la página 37 (numerada 31 en el pie). El tema (test de LCD/píxeles defectuosos) no solapa con las entradas de aumento del retriever, que cubren la prueba de LEDs/zumbador y la prueba de teclado, no el test de LCD.\"\n}\n```",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 50877,
+          "output_tokens": 1860,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 287
+          }
+        }
+      }
+    }
+  ],
+  "conservative_cost_usd": 5.40696,
+  "result_sha256": "167fa190ac360bd04adc3896b369bc6719c0357dd2c6c3a76cc146736caf5565"
+}

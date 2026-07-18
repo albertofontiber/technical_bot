@@ -1,0 +1,251 @@
+{
+  "schema": "s207_sol_review_of_fable_v1",
+  "review": {
+    "reviewer_model": "gpt-5.6-sol",
+    "candidate_author": "claude-fable-5",
+    "reviews": [
+      {
+        "canary_id": "kidde_mcp_isolation_parasitics",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La página 15 indica 1,5 mA para el consumo con aislamiento activo y limita estas especificaciones a los modelos KE-DM3110 con aislador de cortocircuito integrado."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La continuación de la tabla en la página 16 indica una corriente de dispersión máxima de 1 mA."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La página 16 indica una impedancia en serie máxima de 0,06 Ω."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_outdoor_isolator_nominal_currents",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La tabla «Isolation» de la página 10 especifica 1,05 A para servicio continuo con el aislador cerrado."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La misma tabla especifica 1,4 A con el aislador activo durante un cortocircuito."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_2xa_lcd_test",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La página 37 declara que la comprobación sirve para confirmar que la pantalla LCD funciona correctamente."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "El primer paso visible es seleccionar «Prueba» en el Menú principal."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "El segundo paso visible indica «Prueba de IU» y después «Test LCD»."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "La página indica que se muestran secuencias de test para ayudar a identificar la ubicación de los píxeles defectuosos."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "El tercer paso indica pulsar F2 (Salir)."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "sol",
+    "call_label": "review:fable_candidates",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "status": "completed",
+    "raw_output": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_mcp_isolation_parasitics\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 15 indica 1,5 mA para el consumo con aislamiento activo y limita estas especificaciones a los modelos KE-DM3110 con aislador de cortocircuito integrado.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La continuación de la tabla en la página 16 indica una corriente de dispersión máxima de 1 mA.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 16 indica una impedancia en serie máxima de 0,06 Ω.\"}]},{\"canary_id\":\"kidde_outdoor_isolator_nominal_currents\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La tabla «Isolation» de la página 10 especifica 1,05 A para servicio continuo con el aislador cerrado.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La misma tabla especifica 1,4 A con el aislador activo durante un cortocircuito.\"}]},{\"canary_id\":\"kidde_2xa_lcd_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 37 declara que la comprobación sirve para confirmar que la pantalla LCD funciona correctamente.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El primer paso visible es seleccionar «Prueba» en el Menú principal.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El segundo paso visible indica «Prueba de IU» y después «Test LCD».\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página indica que se muestran secuencias de test para ayudar a identificar la ubicación de los píxeles defectuosos.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El tercer paso indica pulsar F2 (Salir).\"}]}]}",
+    "usage": {
+      "input_tokens": 75819,
+      "output_tokens": 1474,
+      "total_tokens": 77293
+    },
+    "provider_trace": {
+      "id": "resp_055ce27962338f5f016a5aee3958b08197af74cf71abe7f704",
+      "created_at": 1784344121.0,
+      "error": null,
+      "incomplete_details": null,
+      "instructions": "Follow the user contract exactly. Return only JSON.",
+      "metadata": {},
+      "model": "gpt-5.6-sol",
+      "object": "response",
+      "output": [
+        {
+          "id": "rs_055ce27962338f5f016a5aee3c28fc8197800e66cd23547410",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWu5MbmWfJL6YQK37-cYGpyWmt7QOGThzENCe37mM3PG1PIogTn_AVaTJL1fYwgYaxoNnQfLoKAdblFbZ5872zX7RNNIgrVPSYN_TmRxHhBObaVxV9VWRRm2LA5i5fzlvSJyhtDVyenaDHrLsKa6lQIjlyXnFSitaj8rjxWSaef2uSJhrqXGD0cdsxxoWctY7OU785ipGaH1_Yi9vP-1V0UyO_li6vC5ln5X93B_rJzK8L2HwyYwTAO1sFDklJZOSV42IhFySQmLJr4yP3sLJjkwedspnnkvvDl1490nzEiAGODqT5qW_1Nk35bLFlj0uJiXZywpTVxwGDpZqbzef_DsyChmTZT1VcJXU5UsMD1xCPmVn7q11eUmi8LTloN6-LwDT9uX0kEZuRZ_JHC3Nb5FOB4xS_a9lHZsKg-O_2wgl7zl0vB1Wgf3ma9q8zBqyufjPNDzkZCdLGQ8wVxRotkqLK94gBhtukcPnBc5x8w9AjFuw1ui0V4WIFX3ZWl0IdD9vAQXsBVYLRTZliuUt5qXl1byn5WuSdGNaLBUqBrR2ZJMONTSwpRx0_c4K5Iqq3Dun4qUBqQ6scDh3K-qPPksK4Lc8VMowvrqe5S1EiXz1xCIqI-9cE10mIVndbBF1pZQ8YvCV40D37LbcqAFi1tz5ha5oi8CjK6hm0OF68TKBZlhYWXaWZSVCv6ntL_00xvw1uuiDzMgnK0hxw2yEHGpH-MamZf03IOsinIpJnov5_ZMKGbQZMrRBKi-pp2Y0oQL7vmQsmdCd9VsjWtMm8ctfcQbAEImuZVGUWmNHpVzvtt_6Ax3YYoSjDUwSxm_lp0ELk7_r3UsRK2JxzBZpRxCckIQfkx37aatr6ZZ8bwYvy01F8bqLZ-R1Vk4o9cW2_6jNftd9zbsVXiFnmQbEKL0I5GqwCYBVgzWW005GF7SuL1ohgDOSM9z4K4WrJRHyVmt1ssC39-Gm7TVeeKm_vpIrxfUeQoTwOFjte0gUQ_kPF9_g-wfLR221-2XaR6WPbPPeoDnfUmiIzQH5t5ldTkvGTdpPztfdZSqx2vvfnU6T_7Qn4YX-pXU6Mfa_lpLqcC-Zyx9FkR9j4Qeh9Zb15ddPfpInCKXNznh7CBw5iNA4xhPF-afzlJMhoVp3RUOGYBKoJT4UzqjYs2zSuoEIJCOtJ2Z0Cq4HTS8EYyaQybWr_iWifhJPAAxVfabyHXAlCPT4h5B5hIdjzar5k5Wb--0F2rK3hOALk0rNR8x0iX1WZdYxA5_dCqeJvzfqBDZvYHDquHrjuNo3WgL5Boaywpm320PVANcpVixBejHlw64w3MnGLPZGmZiiL7UqXpp7BcnbcE_QTqh_YoFX0eYuFH76CJYmB45e1KtqKHapdOuPWZXN5RgFzBKZ72Xla_JXESoJuQIQP_FAvgxajC5VevJdBAmNd62ESmnTOMFwlW7-ay0EolDWuuywwLyS2sStfkXv5pOd5sgfpO9gy9md7Pt1ohWuolBVAonko_S1rcOR6Fhg9lhFq7QFXk1_t9vSuOU1JvLHeOBdNxBf3-OzdXPv7Bd9v_HDyT7HRBAFDrDZZEN0txWPY9SBdTMBkiQGbI4Gjkll75vKlF7ALohEHgzpuWFbTXCJQvPnuDVVAat8d9-vlowOKX9c1jNOJjBJx0oinYYqrT5IMHA0GzagsngQ68uPhIvRTiRZPhRpl6uN_pSrRL2QXM58RGvLVFiLzHhTXHuOReRuEIgsqDQSwQ0zr81xVU5YNv1j0lWlWEeF0nL39A1DN_W2pbKLsz7rRbXf7W1iEUDmUP4SX7vC4vehB3x0KzkJKA9xaiIoZ1Nn5yG0rJEmeRfqRll3IP4iyz_jOYF8yix9o92DzfhlkVXwvbZ_i1rBkz5pDbwWVnZRmXf-NzCzU8IneRk1Mj7sEnVeeWO6w3hBq41WPZBTguiOUO1Q8l-lefqpmXaLlfj707XSTiyOg03tERK7S5dkP4FbCUbB2IIJ-lHXSNjAv88LX2gTHBUI8BaqOAUXFH9J7mrSmuRCOSiVbOkdZG_SZpwjl3IQBpDaj7NfhJ4UTNIslzSJm15tx0QQP7R_b7B0zotrLOq3bk2YUDteAHM6c698_ddd15o1C4PQl06kmQTgqZ6750AA8rWFZkuni4YaxqGJ9TJeW3Joi89RlS3cNtvhA_r3Il13VkaXc1uueAkwraWiFEzpcWHd5ZIGeAYNh5MYfuLL11d66Ys_UHwDG1Plzy4pa6e7eCjE9GC0PmSaFvdPXTnGE4iRMtfAnmFSMCOC1d1mdjJ3Kg8OU43JAP2ea9i314EHsZgjSLmkIKkaH1b2r3i3XAiUWyYeTfBgHByCD0dvEBGpyya7GaDJhwfU0w56ATqp6g0692ixs0rB9ovE5G2Xw6K8hQSutLQ1d47Ezg_m87_W7YYE57X_dqAR-flgpADVgvQzirfbvRrHqvT0h9RQj5F_J_IuIPopyB6zF120TFZTL5oSf52swRAGppcAqB85xzeXmT9VSWQAMNwCOjVBgpE82id-jgokEK5HeLyKSEmF13UfmeDPQgRXTSOx5uSzI_EZhUXGz_KzvYVoQ8QMW62i2eiydj9JD7iDR9zumC7u1VSJEpi8sPDI1TmOGQFsba6nLHZqJ6Iz61QWziIIuhbCSZQQysaosOmPtCqG8D898sjoPQRE8-Wa9rnG7LhkrDkh9j1hlBsnzWii8BByydYwQJH2Ma4xzu4LXnRr2dfwKCefCwJOaLhIwnK5jWx0kZyNlJCQXvaMfzWaCJaZW8TRuYAeo7gGymuCfGgxzxUUeR1zPDgztwuTXk_xU3pCCSudkNtlFX5tDgcDxjulzvT6StJIdYcu72mdafbeW5NXZjn6U4GGfKmR8JJVO9N9u0DUFsILzVPm0LswOqRR5VFBGdhiwSWf2KU2f4LbJKFnaUqJgn76gPhY6R37KEAdBPSjwsqfUTRGkyoRHNrvN2MBcwG6XZpsO5AHZ6r0uDhENu6wnd1gq2V9ETNM7vs-xicQkBDMBpMoFBglkR16TXcKLDnfo_AvnTV5Z1i78dpTeClpApByJX_T_catcLZp1POMlPTWEgj3zymIGWUYq_GpRqmGKu5iTi48oCi44mOKNggv9rRBgH0vmbx6BZHPHCfi0s9xbcGZulm1m0GcddjUE10PCg5Fl6qCfOpcHg8ntGSKFOszafTeoXsyNzDb6b67qsdk1FWYV2eC59wlZLp_rYvOkqvJBbl_37wK5qGnkMx8_PDG_F950Q2GWs3lRy2DqX7es7jIT8Bhx2Om0Oa_1rwCTjpPrWLC2x0Xg4SPzaI8n3mxWWfd3jszw-P_Yh4WGrZpafDbpVIfTk94-5UsTiV8jTBohnxGJjitNRotl0yQKSjgUyc0_lFSXeBzVhhQdAZw7Ef-ccongg60gbWN8H6WPivJdlvFIi-2MfbyaGTPdPGMvSG_N8_iaDxLPr2sP8KnLphhFUYA3R9uYkvmYRn2L6z6a10aGz-uXsSx442ksQgA3_d2N02chRljutoqBJ69iqKRXS8qNw2dp44aWNeKtezAcz_1O1ZtxHm8T9B5AxjCRL10KS6gqdiLi84fDnmqo9Jkx7J5xqAF2Gp8vZF-Kw6UeVLvXVfYgWbzVBe_v8rbMmPb-AFB4w9fiaCaO-9itFsAvse8gv6CVtrIlLFfj7pB7nZuFznrMj8JTZlcM-1YFkEaMjcM8PUv2uWX1DdXJruR3A0Lr6AWxCjutGnzLTHvACGBLbUWOKKKmmtzJ-ItVAOri0We9B5Qc8kk8tuAIdNhogBg_uMMvD923cqv8JuBvfOHbxWWBAnlQ28bO8vCR16q11AuvsWrv59KIktPNDl6SHYxH2odNFf85kzNAal5bcwgtCmT3VkDsTMR60ecGRVBVgk7bX-1Tz09-AGDY0hmQPAnyrCqLchK1sOFdK6HorLUfC6WR61vbbzbjIL1cLWXjWmnoLn_be2IhALcAu-RFsW3kSUIaf94wyvkZnzS5jki1IHrP8qUESI78pBF2_TWWk-VeRsr6FAv9Sdl7nkm9TOhwQhiXwRPi2lbpO9HIkZYTL4z_OjUwI7cbSWpesvqzLDImE_L5DKHGtOb63kdqBy41qpQ6mPe7Zftmb52pXY=",
+          "status": null
+        },
+        {
+          "id": "rs_055ce27962338f5f016a5aee43492c81979218a4232a153a85",
+          "summary": [],
+          "type": "reasoning",
+          "content": [],
+          "encrypted_content": "gAAAAABqWu5MA5tXOVBXDpp-vKiNYYd3HAXeqQgsl6-EnVt5cOPZGII18Sf2tZtml0JHmTtPMHL16EMmJUWyO4la5V8r5XXOYNmlNOISn_mkJiBdk1zo4zw4BtXuE48URDWlLzf5ngfPCudne2N4r0p2uL3aoDiEe6JJ7m9SKiwwT4zVna7CGmaINEts5nh-oHlvI3O1T-J0p9f3HfADpibCR1BoGRT5hacUevyRFjlNKdH9sHkGv_5jQOa6E0vPB_m-8WL_VDL-NjxDBl1xcJvkDNI-I_Pb-BjhiZxq5TxMiq8gip5JKn6kHTw8IzdJdrI5xiG5uHQseyOz70qNN1cFfJVCA7OTFpougd7vhAp88VqzcdSmg_YfCFJQkAkZ_xjuVRfhKPHd0rSV9eHlAuMfwSA-muHXWY8Cz8I7beJyc_paXBVO-t_wz-kAl3onfRDMiJztdqNb1B07MJ9jJaoKq_q2ELR7lEfg6QqzJdeWBioWGnZuMdpvo-RcyhxwoNSuU8988-Z8FwvrTfM5u9Qtkeu_04eV0XcZPkOnX_now0S_c65MftoqxzJ0QTIwVpfUiuzPNjtmSauOnWBFHN6AtS56Gp947KHoeOgvdtllx4ekXjqWssXdVW-KFl3U-9DgznJhKMtOoSw51UnUE6x-zu-WwsC-6m2pFpm0pPUFbm8HvcXmD1olBqSE4pn9_Cmz-wGM5hib8Pz2SvfD2_fbSsrnoXtgkw-H6qFnY4GE9iKaStIjt8EoPy27iK_DfCp0ksl2yg4dVOs7TypB0NcuiAPi1gL4lZJNwnJPG-TWyo4e70qZvoZgT1UFHy1Mqt9FusHOEpH6TGeOaMQd1DgFGS1MIICx-bgWna2vD7VOGRnaZmlEu--acb6p-a3ztqjMMj-TQeY2zt983G9mh-qlZCdKIv7g6ksEAQvdMxK_AX1EFmRDbimKcRLFOpe4tH0F4eky7djrORhZLXarwSwj3BfnppHeBeDp3_nj48_QPrw38_WRwZyIJhO0PBHX7LoOZZf83j_HxFDzed9W8nlmYphyfCqn8zffIn48-5EDMfrahWXb-P8XQpFFC7qKDfSydW84UvVwOu05e-8dwR-5YGkn2dd1w9j1jqEaAbOv21IX8dyadfe6netgzLR0yIqAZ5sFzL44Myf3Jzy3e4c8AOQPkfljzP0IdI2vJPYy1tMZYbVAUqh0VbdF7QO-Ady6mIzs9cXaD3pOwlrpHAJOahXiq7O3NAHyB-wqigLy_MRXzITiGkDlV5SvGXsPPMrVx5xo7YgDNufy5LUHRGaBxi4SXwOdE8dq0jFM5-u1P6PGUmX1UyH0gQ2KlGtrVdGdNGoL7TlyEuXa5hgCj-Z-GKu_SxrUe1LpbmzLmf7LFCtdKPRH_OKkYg0QH_qFQ2_JQoIY38597_kYg83_mwoI8mIQDWAxhrNAX-WVN5UX9N2ugO-oWiAnD1TN0G7EZuZSCgBi5rIHxHEaabbAW6iDOfpR_ZLbWpS6jRPaX4nFcxmuFaczUP-kZCnXFlwRdZLOgWA3PtQ7ySMqOEjRaMYKeA__jxs-rA-QNrjWFiL4nMvqYwTLuUvq1FhcJj94su7p4LPK7IivRohtILH_47vAFdHt3HP4p2-b3TqSGnLNbs-aZjLSeB09hOMtDnftuBr0CMZI6EdCspELnkuoOM61YkIGObgwt1IicLdw2pMQmqa7Lg-Y2wL3TMuY0zh9kiUGX_bM1c8YE0G3w47fGdSZbr15wyfew0_15MyixYxWXoy4WTzEKD14KwWkpEfdxUv93vq1JDIO50qU2rsVDO8KQcL_bniJdCdEPaS6QCEeBX-t8mWB0J5Fk38WcL4h4zoGl5EAte6O6ad8UrRlql1nnFaSEwY-gavxUg_CAmDIx4vZ5gHG7dsppxKhpYz10sbFV2fCZA6uDb7Cji_omcMfMzh3WenYjnFc0KGhjlSY3kRTmmxoP-0a5lbUdmSbaUp4bTNkuwIL-CVRX8NnbrVBEyd4m5twGsbrWIZzGavlSoZxE81mCsADtlN_m_NkgNtvkFKkFUzKOj4lbmkZLq3nUmJmI7a1OqOjCrPaoN4n07tOk_ZsLCOOE-3jMeZyV1rEoRPE6VTPBxQwvD4VfJ97mj0sb_23OoaFFIGhIcrngt_QDvmeNYmfvfnlMMAKr6nW0HvjtvdG6gR3uXRnmCS1WsM8wyqF_h2icm3Zad9Jra2gE2mFY_Ar-hpy0rObkwlVkxvBqPqkj5JNUNSV4xb04fwLqii-tUk1l2BGAW_uXj-wAbDMFhjgGFZlklfZeXGsKwSNDW0C",
+          "status": null
+        },
+        {
+          "id": "msg_055ce27962338f5f016a5aee464d808197a11878c05ad769b3",
+          "content": [
+            {
+              "annotations": [],
+              "text": "{\"reviewer_model\":\"gpt-5.6-sol\",\"candidate_author\":\"claude-fable-5\",\"reviews\":[{\"canary_id\":\"kidde_mcp_isolation_parasitics\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 15 indica 1,5 mA para el consumo con aislamiento activo y limita estas especificaciones a los modelos KE-DM3110 con aislador de cortocircuito integrado.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La continuación de la tabla en la página 16 indica una corriente de dispersión máxima de 1 mA.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 16 indica una impedancia en serie máxima de 0,06 Ω.\"}]},{\"canary_id\":\"kidde_outdoor_isolator_nominal_currents\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La tabla «Isolation» de la página 10 especifica 1,05 A para servicio continuo con el aislador cerrado.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La misma tabla especifica 1,4 A con el aislador activo durante un cortocircuito.\"}]},{\"canary_id\":\"kidde_2xa_lcd_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página 37 declara que la comprobación sirve para confirmar que la pantalla LCD funciona correctamente.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El primer paso visible es seleccionar «Prueba» en el Menú principal.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El segundo paso visible indica «Prueba de IU» y después «Test LCD».\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"La página indica que se muestran secuencias de test para ayudar a identificar la ubicación de los píxeles defectuosos.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"El tercer paso indica pulsar F2 (Salir).\"}]}]}",
+              "type": "output_text",
+              "logprobs": []
+            }
+          ],
+          "role": "assistant",
+          "status": "completed",
+          "type": "message",
+          "phase": "final_answer"
+        }
+      ],
+      "parallel_tool_calls": true,
+      "temperature": 1.0,
+      "tool_choice": "auto",
+      "tools": [],
+      "top_p": 0.98,
+      "background": false,
+      "completed_at": 1784344140.0,
+      "conversation": null,
+      "max_output_tokens": 12000,
+      "max_tool_calls": null,
+      "previous_response_id": null,
+      "prompt": null,
+      "prompt_cache_key": null,
+      "prompt_cache_retention": "24h",
+      "reasoning": {
+        "effort": "xhigh",
+        "generate_summary": null,
+        "summary": null,
+        "context": "all_turns",
+        "mode": "standard"
+      },
+      "safety_identifier": null,
+      "service_tier": "default",
+      "status": "completed",
+      "text": {
+        "format": {
+          "type": "text"
+        },
+        "verbosity": "medium"
+      },
+      "top_logprobs": 0,
+      "truncation": "disabled",
+      "usage": {
+        "input_tokens": 75819,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 75816
+        },
+        "output_tokens": 1474,
+        "output_tokens_details": {
+          "reasoning_tokens": 738
+        },
+        "total_tokens": 77293
+      },
+      "user": null,
+      "billing": {
+        "payer": "developer"
+      },
+      "frequency_penalty": 0.0,
+      "moderation": null,
+      "presence_penalty": 0.0,
+      "store": false,
+      "tool_usage": {
+        "image_gen": {
+          "input_tokens": 0,
+          "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 0
+          },
+          "output_tokens": 0,
+          "output_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 0
+          },
+          "total_tokens": 0
+        },
+        "web_search": {
+          "num_requests": 0
+        }
+      }
+    }
+  },
+  "result_sha256": "0020b27b913106dfd77aa732dde2c88acc61daab2f2dfff6763ed56b6986091f"
+}

@@ -1,0 +1,177 @@
+{
+  "schema": "s207_kidde_visual_gold_v1",
+  "status": "PIXEL_GOLD_PASS_UNINTEGRATED",
+  "questions": [
+    {
+      "qid": "s207k01",
+      "canary_id": "kidde_mcp_isolation_parasitics",
+      "adequacy": "SUFFICIENT",
+      "question": "¿Cuáles son los tres parámetros eléctricos del aislador de cortocircuito integrado en el KE-DM3110: consumo con el aislamiento activo, corriente de dispersión máxima e impedancia serie máxima?",
+      "expected_behavior": "answer",
+      "gold_answer": "Para el aislador integrado del KE-DM3110, el consumo con el aislamiento activo es de 1,5 mA, la corriente de dispersión máxima es de 1 mA y la impedancia serie máxima es de 0,06 Ω.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "El consumo del KE-DM3110 con el aislamiento activo es de 1,5 mA.",
+          "type": "core",
+          "state": "present",
+          "value": "1,5 mA",
+          "citation": {
+            "pdf": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf",
+            "page": 15
+          },
+          "visual_evidence": "Tabla «Isolamento», fila «Assorbimento di corrente (isolamento attivo)»: 1,5 mA."
+        },
+        {
+          "fact_id": "F02",
+          "text": "La corriente de dispersión del aislador integrado es como máximo de 1 mA.",
+          "type": "core",
+          "state": "present",
+          "value": "≤ 1 mA",
+          "citation": {
+            "pdf": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf",
+            "page": 16
+          },
+          "visual_evidence": "Fila «Corrente di dispersione»: 1 mA max."
+        },
+        {
+          "fact_id": "F03",
+          "text": "La impedancia serie del aislador integrado es como máximo de 0,06 Ω.",
+          "type": "core",
+          "state": "present",
+          "value": "≤ 0,06 Ω",
+          "citation": {
+            "pdf": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml.pdf",
+            "page": 16
+          },
+          "visual_evidence": "Fila «Impedenza in serie»: 0,06 Ω max."
+        }
+      ],
+      "notes": "",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "2bbe5cfd6915552bd1679407f4145fded3294478272ae40a188cdec89b8d6bac",
+      "pixel_sha256": [
+        "99a5ea6f2d490491856107501b45ff27c70672b3a5a15391ced64d4f56097b96",
+        "49d5a79d8225d0ff0a3195769cb628cf89b40e9b7c246022a4d084b2b3c60a6d"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s207k02",
+      "canary_id": "kidde_outdoor_isolator_nominal_currents",
+      "adequacy": "SUFFICIENT",
+      "question": "En el dispositivo direccionable de notificación exterior Kidde Excellence, ¿cuáles son las corrientes nominales del aislador integrado cuando está cerrado en servicio continuo y cuando está activo durante un cortocircuito?",
+      "expected_behavior": "answer",
+      "gold_answer": "La corriente nominal continua con el aislador cerrado es de 1,05 A. Con el aislador activo durante un cortocircuito, la corriente nominal es de 1,4 A.",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La corriente nominal continua con el aislador cerrado es de 1,05 A.",
+          "type": "core",
+          "state": "present",
+          "value": "1,05 A",
+          "citation": {
+            "pdf": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Tabla «Isolation», fila «Nennstrom – Kontinuierlich (Isolator geschlossen)»: 1,05 A."
+        },
+        {
+          "fact_id": "F02",
+          "text": "La corriente nominal con el aislador activo durante un cortocircuito es de 1,4 A.",
+          "type": "core",
+          "state": "present",
+          "value": "1,4 A",
+          "citation": {
+            "pdf": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf",
+            "page": 10
+          },
+          "visual_evidence": "Tabla «Isolation», fila «Nennstrom – Isolator aktiv (Kurzschluss)»: 1,4 A."
+        }
+      ],
+      "notes": "",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "9625e2a91dd2779aca73da34dd56d0246ab9dd5c4c845f23637e333d2bb2ac3c",
+      "pixel_sha256": [
+        "aba8dd58951cec203802387d803e84c19d3808164e9fcd3ddd85fdee8b0f6dd9"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    },
+    {
+      "qid": "s207k03",
+      "canary_id": "kidde_2xa_lcd_test",
+      "adequacy": "SUFFICIENT",
+      "question": "Durante una revisión de una central Kidde 2X-A, ¿cómo ejecuto de principio a fin la comprobación de la pantalla LCD, qué debo observar para localizar píxeles defectuosos y cómo salgo del test?",
+      "expected_behavior": "answer",
+      "gold_answer": "La prueba sirve para confirmar que la pantalla LCD funciona correctamente. En el Menú principal, seleccione Prueba y siga la ruta Prueba de IU > Test LCD. La pantalla mostrará una secuencia de pruebas que permite identificar la ubicación de los píxeles defectuosos. Para finalizar y salir del test, pulse F2 (Salir).",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La finalidad de la comprobación es confirmar que la pantalla LCD funciona correctamente.",
+          "type": "core",
+          "state": "present",
+          "value": "Confirmar el funcionamiento correcto de la LCD",
+          "citation": {
+            "pdf": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf",
+            "page": 37
+          },
+          "visual_evidence": "Frase bajo «Realización de una prueba de LCD»: «para confirmar que la LCD funciona correctamente»."
+        },
+        {
+          "fact_id": "F02",
+          "text": "El recorrido para iniciar la prueba es Menú principal > Prueba > Prueba de IU > Test LCD.",
+          "type": "core",
+          "state": "present",
+          "value": "Menú principal > Prueba > Prueba de IU > Test LCD",
+          "citation": {
+            "pdf": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf",
+            "page": 37
+          },
+          "visual_evidence": "Pasos 1 y 2 de «Para realizar una comprobación de LCD»."
+        },
+        {
+          "fact_id": "F03",
+          "text": "Durante el test se muestra en la pantalla LCD una secuencia de pruebas destinada a ayudar a identificar la ubicación de los píxeles defectuosos.",
+          "type": "core",
+          "state": "present",
+          "value": "Secuencia visual para localizar píxeles defectuosos",
+          "citation": {
+            "pdf": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf",
+            "page": 37
+          },
+          "visual_evidence": "Texto tras el paso 2: «Una secuencias de test se muestran... para ayudar a identificar la ubicación de los píxeles defectuosos»."
+        },
+        {
+          "fact_id": "F04",
+          "text": "Para salir de la prueba de LCD se pulsa F2 (Salir).",
+          "type": "supplementary",
+          "state": "present",
+          "value": "F2 (Salir)",
+          "citation": {
+            "pdf": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf",
+            "page": 37
+          },
+          "visual_evidence": "Paso 3 de la comprobación de LCD: «Pulse F2 (Salir)»."
+        }
+      ],
+      "notes": "",
+      "split": "planner_holdout_candidate_unintegrated",
+      "source_pdf_sha256": "e372eb64d1494dc0bbac837341c739b508a79e8507cae3711e35f67c21b5c0bf",
+      "pixel_sha256": [
+        "f24e5d889b13f1868055781f6fb9bbc52969ef76114e71cd35bf1a55042b6f1c"
+      ],
+      "cross_review": {
+        "fable_of_sol_publication": "PASS",
+        "sol_of_fable_disagreement_probe": "PASS"
+      }
+    }
+  ],
+  "official_fact_credit": 0,
+  "result_sha256": "7295c9cee6f9d8b46655ae863d8c212162222d0d3717a7cede3705f412624cb4"
+}
