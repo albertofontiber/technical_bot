@@ -1,0 +1,266 @@
+{
+  "schema": "s214_agent_full_page_pixel_inspection_v1",
+  "status": "COMPLETE_BEFORE_PACKET_FREEZE",
+  "inspector": "codex_agent_direct_visual_inspection",
+  "inspected_at_utc": "2026-07-18T08:35:08Z",
+  "renderer": "Poppler_pdftoppm_26.05.0_200dpi",
+  "protocol": "full_page_original_detail_no_ocr_as_authority",
+  "receipts": [
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "source_pdf": "2x-af1-s-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/2xaf1s_p1_200dpi.png",
+      "image_sha256": "a3edf42cad5e9cd479d9c6ed0f77a144e2eb0440b1aff1a4632544db2df0da54",
+      "image_bytes": 902230,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS_WITH_CONFLICT_WARNING",
+      "visible_anchors": [
+        "title identifies 2X-AF1-S as a 1-loop small-cabinet panel",
+        "panel paragraph says standard two supervised sounder or fire-routing outputs",
+        "details list says one High Power Loop at 500 mA expandable to 800 mA"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "source_pdf": "2x-af1-s-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/2xaf1s_p2_200dpi.png",
+      "image_sha256": "03a5e4e2fc4e129ae57e3616813d5809d2b24532df44eb17395e932fb53d7575",
+      "image_bytes": 391934,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS_WITH_CONFLICT_WARNING",
+      "visible_anchors": [
+        "General table says user interface without Fire Brigade controls",
+        "Loop table says maximum loop capacity 2, conflicting with the page-1 title and details",
+        "small form factor is 409 x 285 x 154 mm"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "source_pdf": "2x-af2-scfb-s-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/2xaf2scfbs_p1_200dpi.png",
+      "image_sha256": "499519d24ea8fe7f70e4f02c2a491fd62c187b478fbd5a227b89072e7bfcfb62",
+      "image_bytes": 916147,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "title identifies integrated Scandinavian UI and small cabinet",
+        "panel paragraph says four supervised sounder or fire-routing outputs",
+        "24-zone LED board option removes the Scandinavian-key lock"
+      ]
+    },
+    {
+      "canary_id": "kidde_2xa_interface_tradeoffs",
+      "source_pdf": "2x-af2-scfb-s-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/2xaf2scfbs_p2_200dpi.png",
+      "image_sha256": "a788e9ac496134701fa60fff80ed4f6a5bdf2eafb1ae8d1ad29efba8c558f223",
+      "image_bytes": 418042,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "General table says Scandinavian interface",
+        "Loop table says maximum loop capacity 2",
+        "small form factor is 409 x 285 x 154 mm"
+      ]
+    },
+    {
+      "canary_id": "kidde_mcp_surface_kit_selection",
+      "source_pdf": "ke-dm3010r-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/dm3010r_p1_200dpi.png",
+      "image_sha256": "a54baea1d6d4e7892624e8e9bd1c8bd3a23bff9795b0fe17d28cce77f47389a1",
+      "image_bytes": 634150,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "KE-DM3010R is a red single-action indoor MCP",
+        "supplied items explicitly list resettable element, test connector and test key but not a back box",
+        "details state up to 128 devices per loop"
+      ]
+    },
+    {
+      "canary_id": "kidde_mcp_surface_kit_selection",
+      "source_pdf": "ke-dm3010r-kit-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/dm3010rkit_p1_200dpi.png",
+      "image_sha256": "5fdccc1fbf1e7fe0ad44c85690ff7b1296b47d4b14c284e58be780f5fd8a1327",
+      "image_bytes": 666920,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "title identifies KE-DM3010R-KIT with surface box",
+        "general paragraph says supplied complete with back box, resettable element, test connector and test key",
+        "details identify a reliable single-action MCP for surface mounting"
+      ]
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "source_pdf": "9-30781-kid-en-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/modulaser_standard_p1_200dpi.png",
+      "image_sha256": "ac5c0a44299d8a6ecb2858fec10ea7b2fa36f35aabb82a3ddb24b8055e8f9e06",
+      "image_bytes": 753564,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "Standard display module has TFT colour display, navigation buttons and status LEDs",
+        "configuration can be performed via the user interface, Remote software or SenseNET through a Command display",
+        "Standard display has USB master for storage or firmware and USB slave for a computer"
+      ]
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "source_pdf": "9-30781-kid-en-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/modulaser_standard_p2_200dpi.png",
+      "image_sha256": "5415fc7bef21b045cbfabe5de3f41f5c2b2f4dbeedaa0da121c5109d95676fa9",
+      "image_bytes": 446245,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "general table lists TFT and navigation buttons on Normal and Command display modules",
+        "connectivity row assigns USB x2, IP and APIC to the display module",
+        "chart recorder supports one month at 1 second or up to five years at 60 seconds"
+      ]
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "source_pdf": "9-30783-kid-en-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/modulaser_detector_p1_200dpi.png",
+      "image_sha256": "35a7fd1271a569e205c3bf5156ef3f04341680918339eedd6ad1468b667ad70b",
+      "image_bytes": 699167,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "detector module aspirates and analyses sampled air and uses ClassiFire to decide pre-alarm or alarm",
+        "alarm or fault activates the corresponding programmed local relay and reports to the connected display module",
+        "module-by-module maintenance affects only one sampling pipe or protected zone at a time"
+      ]
+    },
+    {
+      "canary_id": "kidde_modulaser_role_selection",
+      "source_pdf": "9-30783-kid-en-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/modulaser_detector_p2_200dpi.png",
+      "image_sha256": "55e359faa5535566fb6034e6e88a6096fc201d47dfc244f71ecc544897ddf724",
+      "image_bytes": 473785,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "detector sensitivity is 0.002 percent obscuration per metre to 25 percent obscuration per metre",
+        "coverage is up to 3000 square metres subject to local approvals and installation standards",
+        "sampling pipe length is up to 250 metres combined per detector module"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf2-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf2_p1_200dpi.png",
+      "image_sha256": "f85d5808acfd8927ae43a5556a1483346ffa6625a61cfd5c54fc8bd8c3189c28",
+      "image_bytes": 624824,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "NC-PF2 title and panel paragraph identify two zones and 32 devices per zone",
+        "panel paragraph identifies two supervised sounder or fire-routing outputs",
+        "network option says up to 64 zones"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf2-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf2_p2_200dpi.png",
+      "image_sha256": "b824f5601302bb0b39015266e17794c4e98693e19c2b6511f159984579505188",
+      "image_bytes": 357007,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "network nodes maximum is 32",
+        "power supply rating is 2 A",
+        "housing supports two 12 V 7.2 Ah batteries"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf4-sc-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf4sc_p1_200dpi.png",
+      "image_sha256": "a5e0273eefc973230eac426a70fa04b40e8a9d437f9a5a4320e2b7fba45178fe",
+      "image_bytes": 616642,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "NC-PF4-SC title identifies Scandinavian key and four zones",
+        "panel paragraph identifies 32 devices per zone and four supervised outputs",
+        "auxiliary boards can add up to eight outputs"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf4-sc-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf4sc_p2_200dpi.png",
+      "image_sha256": "6350bd333e875a86b6b1a9ce87969e8d8aa841e411da53900a222d077e684bd0",
+      "image_bytes": 407568,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "network nodes maximum is 16",
+        "power supply rating is 2 A",
+        "four supervised outputs are rated 250 mA each"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf8-161721-es.pdf",
+      "page": 1,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf8_p1_200dpi.png",
+      "image_sha256": "03abc26643ad3abafda7c99c8f4aa0887fbd67a080f90fff57c0b7858d49e67a",
+      "image_bytes": 650615,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "NC-PF8 title and panel paragraph identify eight zones and 32 devices per zone",
+        "panel paragraph identifies four supervised outputs",
+        "auxiliary boards can add up to sixteen outputs"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_capacity_tradeoffs",
+      "source_pdf": "nc-pf8-161721-es.pdf",
+      "page": 2,
+      "image": "evals/s214_kidde_gold_pages_v1/nc_pf8_p2_200dpi.png",
+      "image_sha256": "2f3d5743e04710f25740a9f0248d5763db68cb3a239dc11f9465bbe0ee869d8e",
+      "image_bytes": 361525,
+      "width_px": 1654,
+      "height_px": 2339,
+      "status": "PASS",
+      "visible_anchors": [
+        "network nodes maximum is 8",
+        "power supply rating is 4 A",
+        "housing supports two 12 V batteries at 7.2 Ah or 12 Ah"
+      ]
+    }
+  ]
+}

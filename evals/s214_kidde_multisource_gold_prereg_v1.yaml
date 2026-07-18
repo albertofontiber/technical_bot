@@ -1,0 +1,122 @@
+instrument: s214_kidde_multisource_gold_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: create_fresh_support_validated_multisource_population_for_generic_relevance_compression_development
+
+hash_contract: sha256_of_text_with_crlf_normalized_to_lf
+packet_sha256: f0d73f553f54b17f12b84cbdbb876e49e5eeb4476af6499303e982d6735f892c
+
+canonical_baseline:
+  facts_ok: 143
+  facts_total: 157
+  facts_ok_rate: 0.9108
+  facts_needed_for_98_percent: 11
+  residual: {synthesis_misses: 12, retrieval_misses: 2}
+  largest_residual_bucket: hp0175
+  s214_official_fact_credit: 0
+  s214_denominator_change: 0
+
+frozen_inputs:
+  design: {path: evals/s214_kidde_multisource_gold_design_v1.md, sha256: 1b3b279b49cb586d34639ba3117ae750528389cb71abcc6c1577a5156eeee0e6}
+  design_gate_brief: {path: evals/s214_frontier_design_gate_brief_v1.md, sha256: 0cc834f0b35092e3443ef894d37e7d8a40dca2e09e789f40fd4a5a6c22b994d4}
+  packet: {path: evals/s214_kidde_multisource_gold_packet_v1.json, sha256: d0c9fdb84f521384dca2e13e2af0e472522c5bdc41c664c33162201f814c541a}
+  pixel_inspection: {path: evals/s214_pixel_inspection_receipts_v1.json, sha256: fdd26167a9e150a5beba9887cd6ccc20222e982aa65f1fa18d809fea618d48e2}
+  selection_receipt: {path: evals/s214_kidde_multisource_selection_receipt_v1.json, sha256: 1180bcf9549595ed673ace2d4e2ce07103d345d864d976f89a873d06f72a9700}
+  packet_builder: {path: scripts/s214_build_kidde_multisource_gold.py, sha256: e1361cb82c4d23bd1353ec6b8b90cb6b118799e88c7cf45b3878329d9716aa23}
+  runner: {path: scripts/s214_run_kidde_multisource_gold.py, sha256: e015a405c6828c51ee7c6c8145198980b9664cb595f9f66167e355524676a548}
+  design_gate_runner: {path: scripts/s214_review_design_gate.py, sha256: dcfb8bc0c204d4f837e85b5b2fff87661fdd954704de57d0b1a6193e82835adf}
+  multisource_contract: {path: src/rag/multisource_visual_gold.py, sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime.py, sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe}
+  visual_gold_primitives: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
+  holdout_evidence: {path: src/rag/holdout_evidence.py, sha256: c5082fca84778cac3f09969d3989b27c4801294846a2928fbe4131371112f645}
+  tests: {path: tests/test_s214_kidde_multisource_gold.py, sha256: 2cbd541bae006285702a925266c711c16cb507daa4eb79265d031fcb835b6d38}
+
+cohort:
+  candidate_items: 4
+  distinct_source_pdfs: 9
+  rendered_pages: 16
+  deterministic_evidence_units: 168
+  source_identity_overlap_with_s203_s209: 0
+  source_identity_overlap_with_official_gold: 0
+  selected_source_s99_questions_disclosed: 169
+  minimum_pixel_gold_items: 3
+  minimum_support_validated_items: 3
+  model_outputs_seen_at_freeze: 0
+  bot_outputs_seen_at_freeze: 0
+  external_validation_claimed: false
+  source_independent_validation_claimed: false
+
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+
+design_gate:
+  principal_required: {id: gpt-5.6-sol, reasoning_effort: xhigh, verdict: PASS}
+  independent_required: {id: claude-fable-5, verdict: PASS}
+  artifact: evals/s214_frontier_design_gate_reviews_v1.json
+  status_at_preregistration: PENDING_ZERO_RETRY_REVIEW_FROM_MERGED_MAIN
+  execution_without_dual_pass: forbidden
+  further_review_rounds: false
+
+execution:
+  frontier_generation_calls: 8
+  frontier_reciprocal_review_calls_max: 8
+  frontier_support_calls_max: 8
+  frontier_paid_calls_max: 24
+  provider_retries: 0
+  same_item_retry: false
+  candidate_merge_or_repair: false
+  target_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+
+validation:
+  independently_valid_authors_per_item: 2
+  semantic_duplicates_max_per_published_item: 0
+  unsupported_facts_max_per_published_item: 0
+  material_disagreements_max_per_published_item: 0
+  genuine_cross_source_facts_min_per_item: 1
+  item_level_fail_closed: true
+  minimum_pixel_gold_items: 3
+  source_page_mapping_equals_citation_pairs: true
+  enumerate_all_minimal_support_equivalent_sets: true
+  minimum_support_validated_items: 3
+  invalid_citations_max_per_supported_item: 0
+  official_fact_credit: 0
+  target_opened: false
+  production: false
+
+pricing_usd_per_million_tokens:
+  sol: {input: 15, output: 120}
+  fable: {input: 30, output: 150}
+
+budget:
+  s214_execution_ceiling_usd: 100
+  user_bandwidth_usd: 200
+  provider_retries: 0
+  stop_immediately_if_ceiling_exceeded: true
+
+states:
+  go: GO_S214_FRESH_MULTISOURCE_COHORT
+  hold: HOLD_S214_EXTERNAL_OR_INCOMPLETE
+  no_go_authorship: NO_GO_S214_INSUFFICIENT_AUTHORSHIP
+  no_go_pixel_review: NO_GO_S214_PIXEL_REVIEW
+  no_go_support: NO_GO_S214_SUPPORT_MAPPING
+
+closed_lines:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  s203_s209_questions_and_sources: NO_REUSE
+  s213_same_cohort_retry_or_tuning: FORBIDDEN
+  railway_merge_gate: false
+
+forbidden:
+  - execute_without_dual_frontier_design_pass
+  - retry_repair_merge_or_replace_an_item_after_model_output
+  - reuse_s203_s209_questions_sources_mappings_or_outputs
+  - expose_extraction_text_or_evidence_units_during_authorship_or_pixel_review
+  - claim_external_or_source_independent_validation
+  - mutate_official_gold_or_canonical_fact_ledger
+  - run_or_preregister_target_from_s214
+  - retrieve_rerank_write_database_or_integrate_runtime
+  - reopen_chunks_v3_wholesale_or_patch_per_question
+  - use_railway_or_deployment_as_pr_or_merge_gate
