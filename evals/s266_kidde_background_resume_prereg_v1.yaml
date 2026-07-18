@@ -52,9 +52,9 @@ frozen_inputs:
   s264_fable: {path: evals/s264_kidde_fable_generations_v1.json, sha256: 7a25340482123e1ffabb183b905c12482054009261b07d28aab42422541b2b33}
   s264_sol: {path: evals/s264_kidde_sol_generations_v1.json, sha256: 85b28ae3300f4a076ab7de7da04e19bab78b074e72d943429c59fc0fbf8edfa9}
   gold_contract: {path: src/rag/multisource_visual_gold.py, sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1}
-  frontier_runtime: {path: src/rag/frontier_visual_runtime_v2.py, sha256: 6004497c9b0fa281a0e412833a8f8b74887d270c8b664370b8aa06ffedb589a2}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime_v3.py, sha256: fafaf475937f784bb9260a9e2ef44eff5ccf8d093580c67d6199d23271b9294c}
   schemas: {path: src/rag/frontier_visual_schemas.py, sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4}
-  runner: {path: scripts/s266_resume_kidde_background.py, sha256: 4d835f97f40eb4cc9e99493060c1bbaa3e67abc1730bcb58cfa7ad3ffc26f5d9}
+  runner: {path: scripts/s266_resume_kidde_background.py, sha256: 57611f48742a46dff5c712a7685c496e96f91ae2bf828c0975bb427037c7c5e9}
   tests: {path: tests/test_s266_resume_kidde_background.py, sha256: 0b843c19663bdfee174bb2a200aae26dc172982923d925052afa520442afc0c4}
 forbidden:
   - alter_topic_sources_pages_question_contract_prompt_or_schema
@@ -70,3 +70,9 @@ invariants:
   chunks_v2: ACTIVE_READ_ONLY
   chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
   railway_merge_gate: false
+post_execution_maintenance:
+  reason: preserve the exact historical v2 runtime frozen by S263 and S264
+  runtime_relocated_to: src/rag/frontier_visual_runtime_v3.py
+  semantic_transport_change: false
+  provider_calls: 0
+  result_or_gate_change: false

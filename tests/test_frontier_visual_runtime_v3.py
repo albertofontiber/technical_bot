@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from src.rag.frontier_visual_runtime_v2 import FrontierVisualRuntime
+from src.rag.frontier_visual_runtime_v3 import FrontierVisualRuntime
 
 
 @dataclass
@@ -61,7 +61,7 @@ def _runtime(tmp_path, monkeypatch) -> FrontierVisualRuntime:
         sol_poll_interval_seconds=0.001,
         sol_state_dir=tmp_path / "states",
     )
-    monkeypatch.setattr("src.rag.frontier_visual_runtime_v2.time.sleep", lambda _seconds: None)
+    monkeypatch.setattr("src.rag.frontier_visual_runtime_v3.time.sleep", lambda _seconds: None)
     return runtime
 
 
