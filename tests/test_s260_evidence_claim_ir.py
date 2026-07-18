@@ -92,7 +92,11 @@ def test_generation_runner_does_not_name_or_import_score_content() -> None:
     assert "frozen_conflicts" not in source
 
 
-def test_prereg_frozen_inputs_match_current_bytes() -> None:
+def _git_canonical_text_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def test_prereg_frozen_inputs_match_git_canonical_text_bytes() -> None:
     prereg = yaml.safe_load(
         (ROOT / "evals/s260_evidence_claim_ir_prereg_v1.yaml").read_text(
             encoding="utf-8"
@@ -103,5 +107,5 @@ def test_prereg_frozen_inputs_match_current_bytes() -> None:
         "frozen_scoring_inputs",
     ):
         for spec in prereg[group].values():
-            actual = hashlib.sha256((ROOT / spec["path"]).read_bytes()).hexdigest()
+            actual = _git_canonical_text_sha256(ROOT / spec["path"])
             assert actual == spec["sha256"], spec["path"]
