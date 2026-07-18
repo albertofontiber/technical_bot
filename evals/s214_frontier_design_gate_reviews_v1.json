@@ -1,0 +1,59 @@
+{
+  "schema": "s214_frontier_design_gate_reviews_v1",
+  "status": "COMPLETE",
+  "subject": "evals/s214_frontier_design_gate_brief_v1.md",
+  "subject_sha256": "1abe11428fc75b4add3680ba0a8e9c5e126b1de808aadc335ece29d06204275e",
+  "subject_normalized_sha256": "0cc834f0b35092e3443ef894d37e7d8a40dca2e09e789f40fd4a5a6c22b994d4",
+  "decisions": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "PASS",
+      "blocking_findings": []
+    },
+    "fable": {
+      "reviewer": "claude-fable-5",
+      "verdict": "PASS",
+      "blocking_findings": []
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 433,
+        "output_tokens": 377,
+        "total_tokens": 810
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 607,
+        "output_tokens": 78
+      }
+    }
+  ],
+  "raw_text": {
+    "sol": "{\"reviewer\":\"gpt-5.6-sol\",\"verdict\":\"PASS\",\"blocking_findings\":[]}",
+    "fable": "{\"reviewer\": \"claude-fable-5\", \"verdict\": \"PASS\", \"blocking_findings\": []}"
+  },
+  "conservative_cost_usd": 0.081645,
+  "provider_retries": 0,
+  "further_rerun_review_calls": false,
+  "decision_scope": "S214_FRESH_MULTISOURCE_GOLD_EXECUTION_ONLY",
+  "principal_reviewer": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh"
+  },
+  "independent_reviewer": {
+    "model": "claude-fable-5"
+  },
+  "further_design_review_calls": false,
+  "result_sha256": "26317d760801e3c30f82a650858f41e346b5d6c42bbb7ec94a7ea750cc274014"
+}

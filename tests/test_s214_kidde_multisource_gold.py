@@ -16,6 +16,7 @@ from src.rag.multisource_visual_gold import (
     validate_support_review,
 )
 from src.rag.visual_gold import SemanticNoGo, normalized_text_sha, stable_sha
+from scripts.s214_run_kidde_multisource_gold import _verify_design_gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -319,3 +320,16 @@ def test_s214_prereg_freezes_models_calls_and_inputs():
     assert prereg["states"]["go"] == "GO_S214_FRESH_MULTISOURCE_COHORT"
     for spec in prereg["frozen_inputs"].values():
         assert normalized_text_sha(ROOT / spec["path"]) == spec["sha256"]
+
+
+def test_s214_actual_design_gate_is_subject_bound_and_dual_pass():
+    gate_path = ROOT / "evals/s214_frontier_design_gate_reviews_v1.json"
+    gate = json.loads(gate_path.read_text(encoding="utf-8"))
+    body = dict(gate)
+    expected = body.pop("result_sha256")
+    assert stable_sha(body) == expected
+    assert gate["subject"] == "evals/s214_frontier_design_gate_brief_v1.md"
+    assert gate["subject_normalized_sha256"] == normalized_text_sha(
+        ROOT / gate["subject"]
+    )
+    _verify_design_gate()
