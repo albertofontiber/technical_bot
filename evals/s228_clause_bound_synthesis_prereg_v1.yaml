@@ -1,0 +1,22 @@
+schema: s228_clause_bound_synthesis_prereg_v1
+status: FROZEN_NON_TARGET_DIAGNOSTIC_FRONTIER_HOLD
+objective: test_clause_bound_source_bound_claims_without_target_or_official_credit
+frontier_design_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: FAILED_EXTERNAL_INTERNAL_SERVER_ERROR, responses: 0}
+  independent: {model: claude-fable-5, status: INVALID_REPOSITORY_EVIDENCE_HALLUCINATED}
+  dual_pass: false
+authorization_scope: non_target_local_diagnostic_only
+population: {items: 9, historical_multichunk_development: 7, kidde_guardrails: 2, target_items: 0}
+models:
+  planner: {model: gpt-5.6-terra, reasoning_effort: low}
+  writer: {model: claude-sonnet-4-6, temperature: 0}
+execution: {replicates: 2, aggregate_writer_tokens_per_item_replicate: 2400, provider_retries: 0, resume: false}
+local_gate: {provisional_matcher_gains_min: 3, protected_regressions_max: 0, kidde_regressions_max: 0, invalid_citations_max: 0}
+budget: {internal_stop_usd: 25, user_ceiling_usd: 200}
+target_calls: 0
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+forbidden: [target_probe, production_integration, same_cohort_retry, claim_frontier_pass, claim_external_validation]
