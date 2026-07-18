@@ -1,0 +1,61 @@
+instrument: s211_query_evidence_compiler_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+issued_against_main_sha: dd7d35b214f8913e89c614bf2d534327edcd926b
+preflight_sha256: 977fc32d674ca262f7623b832f920a8e5c21f8cb0e49f185858afff6dfba06d7
+
+frontier_rerun_integrity_gate:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, verdict: PASS}
+  independent: {model: claude-fable-5, verdict: PASS}
+  blockers: 0
+  artifact: evals/s211_frontier_rerun_gate_reviews_v1.json
+  artifact_sha256: 3f66dbc55519a18eb590dfab18593b4a95fcf936f7ebe42d090f2291a6f36384
+  further_rerun_review_calls: false
+
+frozen_artifacts:
+  - {path: evals/s211_query_evidence_compiler_design_v1.md, sha256: d6b5793ec01f27f0dbc39db727bdc711101804c71143e55f5ac0645a3647e14c}
+  - {path: evals/s211_query_evidence_compiler_prereg_v1.yaml, sha256: e63a25d8be7ec1dd10a98e1b75b5889d55b9317a99bb792744898e1713cc7248}
+  - {path: src/rag/query_evidence_compiler.py, sha256: a7a1b085e5463b542920c6ab81c7aa52d6ac18bc982f5baf42ff98bc5dd3b8d0}
+  - {path: src/rag/query_evidence_compiler_v2.py, sha256: 64ffbd9867ffd78febcd14cd4901c1ed9c2332a7dd607cb49f57bd66bcc813f8}
+  - {path: src/rag/query_evidence_obligations.py, sha256: 28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800}
+  - {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: e45a732f3125a32b78f121e2d207dde5fce1fef724b98f1624940556014e2f54}
+  - {path: scripts/s210_run_query_evidence_compiler.py, sha256: b6bd5e1754fb4604ea031355793955c669e26e5274e033feb96c192a7880a70e}
+  - {path: scripts/s210_score_query_evidence_compiler.py, sha256: b9a524a35223491b14f4d76afdd0848121a53a48876e6e6d0f56b693b0a2767c}
+  - {path: scripts/s211_build_query_evidence_compiler_preflight.py, sha256: 448039de34cf75ca828015387adfb071891adcfe7faa573eed32f0af3dd4c075}
+  - {path: scripts/s211_run_query_evidence_compiler.py, sha256: 9cd20ef20d32d3b73796cd1f1f3b074d21fe32da539eb8ffb558b1bf389b55b6}
+  - {path: scripts/s211_score_query_evidence_compiler.py, sha256: e27b9b6f8b904c74c8e1423f77fba34bd3cef5ae1f75782224f88820e69a8593}
+  - {path: evals/s211_query_evidence_compiler_preflight_v1.json, sha256: 977fc32d674ca262f7623b832f920a8e5c21f8cb0e49f185858afff6dfba06d7}
+  - {path: evals/s211_frontier_rerun_gate_brief_v1.md, sha256: 21513433180c8458341bdc76a27a2f0bd02e74f3e64835c8013a48dda19b5afc}
+  - {path: evals/s211_frontier_rerun_gate_reviews_v1.json, sha256: 3f66dbc55519a18eb590dfab18593b4a95fcf936f7ebe42d090f2291a6f36384}
+
+contract_delta:
+  provider_claims_max_items: 16
+  local_claim_limit: 16
+  prior_s210_outputs_reused: false
+  target_cohort_prior_partial_exposure: true
+  fresh_generalization_evidence: false
+
+call_geometry:
+  extractor_calls: 130
+  planner_calls: 36
+  verifier_calls: 36
+  total_paid_calls: 202
+  provider_retries: 0
+  resume: false
+
+budget_ceiling_usd: 75
+conservative_full_run_upper_bound_usd: 22.948314
+pricing_usd_per_million_tokens:
+  extractor: {input: 2.0, output: 10.0}
+  planner: {input: 2.5, output: 15.0}
+
+post_execution:
+  local_go_action: RUN_ONE_SEALED_SOL_XHIGH_PLUS_FABLE_ATOMIC_RESULT_REVIEW
+  no_go_action: CLOSE_S211_WITHOUT_ITERATION
+  facts_moved_to_ok_by_local_gate: 0
+  runtime_integration: false
+  production_default: off
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

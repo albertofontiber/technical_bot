@@ -1,0 +1,93 @@
+instrument: s211_query_evidence_compiler_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+main_sha: dd7d35b214f8913e89c614bf2d534327edcd926b
+
+frozen_inputs:
+  s210_incomplete_closure: {path: evals/s210_query_evidence_compiler_incomplete_closure_v1.json, sha256: 7e3f4559b4729b5c49331991402cfb41420a544f7d74fe3dd9a44bfcec64c65c}
+  target_contexts: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498}
+  residual_audit: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: 53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb}
+  independent_guardrail: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: 670c3c4243b1ab98195aab99638963b55b245b44ba527dfe211fe6b79ba981c0}
+  independent_baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: 03e4ba0d4565031b6da43916809e6b5acbc347f7bb7c38c2523679bda30cfceb}
+  independent_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 1fcca415d830c54d5aeaa3b94a52f28ca3498a4df2ca35c0a1b46f6e4290ef46}
+  design: {path: evals/s211_query_evidence_compiler_design_v1.md, sha256: d6b5793ec01f27f0dbc39db727bdc711101804c71143e55f5ac0645a3647e14c}
+  compiler_v1: {path: src/rag/query_evidence_compiler.py, sha256: a7a1b085e5463b542920c6ab81c7aa52d6ac18bc982f5baf42ff98bc5dd3b8d0}
+  compiler_v2: {path: src/rag/query_evidence_compiler_v2.py, sha256: 64ffbd9867ffd78febcd14cd4901c1ed9c2332a7dd607cb49f57bd66bcc813f8}
+  deterministic_fallback: {path: src/rag/query_evidence_obligations.py, sha256: 28d4ccbe1b87b9e6e2590c47958fddcc44a3c6bf639bc190fa0e73832646c800}
+  base_preflight_builder: {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: e45a732f3125a32b78f121e2d207dde5fce1fef724b98f1624940556014e2f54}
+  base_runner: {path: scripts/s210_run_query_evidence_compiler.py, sha256: b6bd5e1754fb4604ea031355793955c669e26e5274e033feb96c192a7880a70e}
+  base_scorer: {path: scripts/s210_score_query_evidence_compiler.py, sha256: b9a524a35223491b14f4d76afdd0848121a53a48876e6e6d0f56b693b0a2767c}
+  preflight_builder: {path: scripts/s211_build_query_evidence_compiler_preflight.py, sha256: 448039de34cf75ca828015387adfb071891adcfe7faa573eed32f0af3dd4c075}
+  runner: {path: scripts/s211_run_query_evidence_compiler.py, sha256: 9cd20ef20d32d3b73796cd1f1f3b074d21fe32da539eb8ffb558b1bf389b55b6}
+  scorer: {path: scripts/s211_score_query_evidence_compiler.py, sha256: e27b9b6f8b904c74c8e1423f77fba34bd3cef5ae1f75782224f88820e69a8593}
+  contract_tests: {path: tests/test_query_evidence_compiler_v2.py, sha256: 2db07a51d556d974d4b83057c47f993ca66f4703c8ae629aad88ed9fa004132c}
+
+population:
+  target_questions: 4
+  target_context_chunks: 51
+  residual_relations: 12
+  largest_subbucket: {qid: hp017, residual_relations: 5}
+  independent_guardrail_questions: 14
+  independent_guardrail_answer_points: 37
+  target_cohort_prior_partial_exposure: true
+  prior_partial_result_scored: false
+  fresh_generalization_evidence: false
+
+models:
+  extractor: {provider: anthropic, id: claude-haiku-4-5-20251001, role: economic_exact_claim_extractor, max_output_tokens: 2200}
+  planner: {provider: openai, id: gpt-5.6-terra, reasoning_effort: low, role: economic_id_planner_and_single_coverage_verifier, max_output_tokens: 1000}
+  principal_reviewer: {provider: openai, id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent_reviewer: {provider: anthropic, id: claude-fable-5}
+
+contract_delta:
+  only_change: provider_claims_array_maxItems_equals_local_limit
+  provider_claims_max_items: 16
+  local_claim_limit: 16
+  synthetic_boundary_tests: [16_accept, 17_reject]
+  prompts_changed: false
+  selection_changed: false
+  gates_changed: false
+  prior_outputs_reused: false
+
+execution:
+  replicates: 2
+  extractor_calls: 130
+  planner_calls: 36
+  verifier_calls: 36
+  paid_calls_max: 202
+  provider_retries: 0
+  resume: false
+  same_run_retry: false
+  retrieval_calls: 0
+  database_calls: 0
+
+validation:
+  stable_residual_relation_gains_min: 11
+  stable_hp017_relation_gains_min: 4
+  previously_covered_target_regressions_max: 0
+  new_cardinality_contradictions_max: 0
+  guardrail_point_regressions_max: 0
+  selected_evidence_precision_min: 0.70
+  baseline_prefix_failures_max: 0
+  invalid_citations_max: 0
+  mean_appendix_chars_max: 5000
+  local_go_action: ONE_SEALED_SOL_XHIGH_PLUS_FABLE_ATOMIC_RESULT_REVIEW
+  no_go_action: CLOSE_S211_WITHOUT_ITERATION
+
+budget:
+  internal_ceiling_usd: 75
+  user_authorized_total_usd: 200
+  s210_sunk_cost_usd: 0.958119
+  global_conservative_upper_bound_required_before_first_call: true
+
+credit:
+  local_go_facts_moved_to_ok: 0
+  frontier_atomic_agreement_required: true
+  diagnostic_projection_after_11_accepted_facts: {denominator: 157, ok: 154, ok_rate_percent: 98.09}
+  runtime_integration: false
+  production_default: off
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+  new_question_generation: false
