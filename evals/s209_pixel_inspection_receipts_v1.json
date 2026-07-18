@@ -1,0 +1,45 @@
+{
+  "schema": "s209_agent_full_page_pixel_inspection_v1",
+  "status": "COMPLETE_BEFORE_PACKET_FREEZE",
+  "inspector": "codex_agent_direct_visual_inspection",
+  "inspected_at_utc": "2026-07-18T04:40:00Z",
+  "renderer": "PyMuPDF_1.27.2.2_200dpi",
+  "receipts": [
+    {
+      "canary_id": "kidde_dp3020_detection_discrimination",
+      "page": 1,
+      "image": "evals/s209_kidde_planner_pages_v1/kidde_dp3020_detection_discrimination_p1_200dpi.png",
+      "image_sha256": "b4a12918ec05d9e825fd90548c851ddbbdbfa7fc40685f44d41acda35e51d816",
+      "status": "PASS",
+      "visible_anchors": [
+        "dual optical wavelengths and multiple detection angles",
+        "particle-size discrimination between real alarm sources and nuisance dust or steam",
+        "details list for noise, steam and dust discrimination"
+      ]
+    },
+    {
+      "canary_id": "kidde_dp3020_detection_discrimination",
+      "page": 2,
+      "image": "evals/s209_kidde_planner_pages_v1/kidde_dp3020_detection_discrimination_p2_200dpi.png",
+      "image_sha256": "c2b51478b893a072daa3fba30e3dc1a9198ecd72840cd76b6c33cc356c679231",
+      "status": "PASS",
+      "visible_anchors": [
+        "forward and backward optical light-scattering principle",
+        "selectable sensitivity and 0.1 to 0.25 dB/m plus or minus 20 percent particle-sensitivity range",
+        "alarm-threshold, contamination-level and fault supervision"
+      ]
+    },
+    {
+      "canary_id": "kidde_nc_maintenance_schedule",
+      "page": 36,
+      "image": "evals/s209_kidde_planner_pages_v1/kidde_nc_maintenance_schedule_p36_200dpi.png",
+      "image_sha256": "688558a1b12e941e22fc5ec01242a127086d51b924ad473274c0248f96f619e0",
+      "status": "PASS",
+      "visible_anchors": [
+        "pre-test fire-routing disable-or-notify prerequisite",
+        "quarterly one-device-per-zone, panel-event, power-supply and battery-voltage checks",
+        "annual all-device and electrical-connection checks plus cleaning restrictions"
+      ]
+    }
+  ]
+}

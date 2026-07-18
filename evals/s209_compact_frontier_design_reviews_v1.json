@@ -1,0 +1,43 @@
+{
+  "schema": "s209_compact_frontier_design_reviews_v1",
+  "status": "INCOMPLETE_NO_RETRY",
+  "subject": [
+    "evals/s209_compact_design_review_brief_v1.md",
+    "src/rag/planner_support_review.py"
+  ],
+  "reviews": {
+    "sol": {
+      "status": "INCOMPLETE"
+    },
+    "fable": {
+      "status": "INVALID",
+      "reason": "reviewer identity or verdict mismatch"
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "incomplete",
+      "usage": {
+        "input_tokens": 2329,
+        "output_tokens": 6000,
+        "total_tokens": 8329
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 3871,
+        "output_tokens": 2473
+      }
+    }
+  ],
+  "conservative_cost_usd": 1.242015,
+  "same_subject_retry": false,
+  "result_sha256": "5c7914f0e6e839ff8b3fe3a59356a15ccaf253f2f0e69884daee3d0c9c0befba"
+}

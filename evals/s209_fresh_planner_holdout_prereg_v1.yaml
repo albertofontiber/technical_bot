@@ -1,0 +1,141 @@
+instrument: s209_fresh_planner_holdout_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: validate_corrected_independent_support_review_then_measure_decomposed_planning
+
+hash_contract: sha256_of_text_with_crlf_normalized_to_lf
+packet_sha256: f41ac7717092412ac6bf2ab9c3a7cbb53c38ed509572dc696bcea54718e96fdf
+
+frozen_inputs:
+  design: {path: evals/s209_fresh_planner_holdout_design_v1.md, sha256: 216fd1ccbfd63b305559128cb44ef7fe77f10b463a7a1a8fae5f2cc30e1e67fe}
+  compact_review_brief: {path: evals/s209_compact_design_review_brief_v1.md, sha256: dd694c2e3eaede8ca70c0b9d3ce80732e519d21ddafcc79a87994dcdf3cfbbdd}
+  packet: {path: evals/s209_fresh_planner_holdout_packet_v1.json, sha256: db367f8cc671aca70f745ded0b12d4273c71318a4d34fb35d50488df979fcf45}
+  pixel_inspection: {path: evals/s209_pixel_inspection_receipts_v1.json, sha256: 845319ad1e85c26360283924dbffd9ca3d12e951c70e0950c8d00e99882950b4}
+  selection_receipt: {path: evals/s209_kidde_predicate_selection_receipt_v1.json, sha256: 8d7ca2e18a0b5030ed13a0e2770219977370ae06c6f98dce3e05715ba66d1a8b}
+  full_design_review_attempt: {path: evals/s209_fresh_planner_design_reviews_v1.json, sha256: ecac4567d680f29c4f89c8e3ab3109e25b8e1ef2b826768f6ab0e2b8098348e0}
+  compact_design_review_attempt: {path: evals/s209_compact_frontier_design_reviews_v1.json, sha256: 4537ba2776b595589b0fc38030dd9862c9f0c84c674485d960ec5b6ad7f4d643}
+  decision_card_review: {path: evals/s209_frontier_decision_card_reviews_v1.json, sha256: c2084be9815f18b0511565aa7f5503300a33f6319e7dc5c6c7557731134e9bc0}
+  design_review_adjudication: {path: evals/s209_design_review_adjudication_v1.json, sha256: aa70db82b6d9ba36c941f529dfb2d8fe41925fb694b735502ef91d5e5647e083}
+  packet_builder: {path: scripts/s209_build_fresh_planner_holdout.py, sha256: 78155ad827a2f71ff60a67d6088ee2a72fd946bdedb3f1b3522b339ce0188954}
+  runner: {path: scripts/s209_run_fresh_planner_holdout.py, sha256: eafe50cacfee4cfe0485497e398784c31ca983e9c678bdc5695925e890c14e17}
+  planner_primitives: {path: src/rag/decomposed_evidence_planner.py, sha256: 5a43dc857506f5900135ce9d7f81a4966113ca0a27782c961ee382398d7b4262}
+  planner_gold_contract: {path: src/rag/planner_holdout_gold.py, sha256: 9be0dbae400e862cb98dfa1494d36c99a344b2528a6ebebf7c1af65af147827e}
+  support_review_v4: {path: src/rag/planner_support_review.py, sha256: d83fab6a342dd15ce3ebf3064022cb3fb42111de652e51b87c239cd4757800a4}
+  holdout_evidence: {path: src/rag/holdout_evidence.py, sha256: c5082fca84778cac3f09969d3989b27c4801294846a2928fbe4131371112f645}
+  visual_gold_primitives: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime.py, sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe}
+  publication_gate: {path: src/rag/principal_visual_gold.py, sha256: 756c8bccc4c39291333c6d4cc90762fc915f665a4c05b4204aaccd1d2fdbca28}
+  support_review_tests: {path: tests/test_s209_support_review_contract.py, sha256: 92ae9b40fa3b45db021c5f7660e8f0e2603b1913c2430d8330da7c7080876862}
+  holdout_tests: {path: tests/test_s209_fresh_planner_holdout.py, sha256: df084d6c4f4b34c0a995413c929d25cb120c3bfe28a73a4217f3f09bb711dc0f}
+
+holdout_contract:
+  selected_items: 2
+  selected_documents: 2
+  rendered_pages: 3
+  evidence_units: 25
+  genuine_cross_page_items: 1
+  source_identity_overlap_with_official_gold: 2
+  source_identity_overlap_with_prior_visual_cohorts: 0
+  external_validation_claimed: false
+  source_independent_validation_claimed: false
+  candidate_predicate_novelty_before_frontier: true
+  validated_semantic_novelty_before_frontier: false
+  same_source_hyq_disclosed: true
+  model_outputs_seen_at_selection: 0
+  bot_outputs_seen_at_selection: 0
+  official_fact_credit: 0
+
+design_review:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh, status: completed_valid, verdict: PASS}
+  independent: {id: claude-fable-5, status: completed_semantic_pass_nonblocking_shape_overflow, verdict: PASS}
+  independent_execution_gate_waived: false
+  raw_independent_response_preserved: true
+  design_review_calls: 6
+  design_review_cost_usd: 4.73208
+  further_design_review_calls: false
+
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+  planner: {id: gpt-5.6-terra, reasoning_effort: low}
+
+execution:
+  frontier_generation_calls: 4
+  frontier_cross_review_calls: 2
+  frontier_support_mapping_calls: 2
+  frontier_paid_calls_max: 8
+  planner_calls: 2
+  provider_retries: 0
+  same_item_retry: false
+  candidate_merge_or_repair: false
+  target_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+
+validation:
+  sol_candidates_required: 2
+  independent_fable_candidates_required: 2
+  fable_publication_reviews_pass_required: 2
+  semantic_duplicates_max: 0
+  unsupported_facts_max: 0
+  material_disagreements_max: 0
+  genuine_cross_page_facts_min: 1
+  invalid_support_mappings_max: 0
+  mapped_page_set_equals_declared_page_set: true
+  enumerate_all_minimal_support_equivalent_sets: true
+  support_review_schema: explicit_blocking_issues_and_notes_v4
+  fable_support_reviews_pass_required: 2
+  invalid_planner_outputs_max: 0
+  obligations_per_question_min: 2
+  selected_unit_precision_min: 0.80
+  complete_questions_required: 2
+  implied_atomic_fact_support_recall: 1.0
+  exact_compilations_required: 2
+  invalid_citations_max: 0
+  target_opened: false
+  production: false
+  official_fact_credit: 0
+
+pricing_usd_per_million_tokens:
+  sol: {input: 15, output: 120}
+  fable: {input: 30, output: 150}
+  planner: {input: 2.5, output: 15}
+
+budget:
+  known_s208_frontier_spend_usd: 26.72139
+  s209_design_review_spend_usd: 4.73208
+  s209_execution_ceiling_usd: 50
+  cumulative_known_plus_s209_ceiling_usd: 81.45347
+  user_ceiling_usd: 200
+
+outputs:
+  sol_generations: evals/s209_kidde_sol_generations_v1.json
+  fable_generations: evals/s209_kidde_fable_generations_v1.json
+  sol_review: evals/s209_kidde_sol_review_of_fable_v1.json
+  fable_review: evals/s209_kidde_fable_review_of_sol_v1.json
+  final_gold: evals/s209_kidde_visual_gold_v1.json
+  support_mapping: evals/s209_sol_support_mapping_v1.json
+  support_review: evals/s209_fable_support_review_v1.json
+  planner_receipts: evals/s209_terra_planner_receipts_v1.json
+  frontier_ledger: evals/s209_frontier_call_ledger_v1.json
+  result: evals/s209_fresh_planner_holdout_result_v1.json
+
+states:
+  go: GO_S209_TARGET_PREREG
+  hold: HOLD_S209_EXTERNAL_OR_INCOMPLETE
+  no_go_gold: NO_GO_S209_GOLD
+  no_go_review: NO_GO_S209_GOLD_REVIEW
+  no_go_mapping: NO_GO_S209_SUPPORT_MAPPING
+  no_go_planner_configuration: NO_GO_S209_TERRA_LOW
+
+forbidden:
+  - retry_repair_merge_or_tune_on_this_cohort
+  - reuse_s208_questions_facts_mappings_or_outputs
+  - expose_gold_facts_answers_or_support_ids_to_planner
+  - claim_external_or_source_independent_validation
+  - run_or_preregister_target_before_upstream_go
+  - change_prompts_thresholds_models_units_or_support_equivalence_after_execution
+  - mutate_official_gold_or_canonical_fact_ledger
+  - retrieve_rerank_or_write_database
+  - chunks_v3_wholesale_reopen_or_per_question_patch
+  - deployment_or_railway_gate
+  - runtime_integration_or_official_fact_credit

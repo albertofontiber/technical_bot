@@ -1,0 +1,49 @@
+{
+  "schema": "s209_kidde_predicate_selection_receipt_v1",
+  "status": "CANDIDATES_SELECTED_BEFORE_MODEL_OUTPUT",
+  "selection_claim": "fresh_predicate_candidates_with_official_source_overlap_pending_frontier_semantic_veto",
+  "method": [
+    "exclude every source identity used by S203 through S208 visual or planner cohorts",
+    "inspect exact-page and same-source S99 retriever-augmentation questions before selection",
+    "reject the first three apparently fresh topics because S99 already asked semantic equivalents",
+    "select one natural multi-page mechanism-to-specification dependency and one bounded single-page procedure",
+    "defer semantic novelty and gold correctness to independent Sol and Fable pixel authorship plus cross-review"
+  ],
+  "selected": [
+    {
+      "canary_id": "kidde_dp3020_detection_discrimination",
+      "reason": "same-source S99 covers addressing, remote indicators, drift, bases, height and consumption but not the dual-optical nuisance-discrimination mechanism tied to its forward/backward scattering and particle-sensitivity specification",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "cross_page_dependency": true,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    },
+    {
+      "canary_id": "kidde_nc_maintenance_schedule",
+      "reason": "the selected maintenance page has no same-source S99 question and provides a bounded prerequisite plus quarterly, annual and cleaning obligations",
+      "source_identity_used_by_prior_visual_cohort": false,
+      "cross_page_dependency": false,
+      "semantic_novelty_status": "CANDIDATE_PENDING_FRONTIER"
+    }
+  ],
+  "rejected_examples": [
+    {
+      "candidate": "2X-AT alarm response across pages 1 and 2",
+      "reason": "same-source S99 already asks alarm location, source, investigation time and immediate sounder activation"
+    },
+    {
+      "candidate": "NC zone test behavior",
+      "reason": "same-source S99 page 32 already asks zone cardinality, sounder/routing behavior, timeout and other-zone alarms"
+    },
+    {
+      "candidate": "2X-A Excellence detector compatibility",
+      "reason": "same-source S99 page 1 already asks the compatible detector family, isolator, sounder and black variants"
+    }
+  ],
+  "claims_not_made": [
+    "external validation",
+    "semantic novelty before frontier review",
+    "official benchmark expansion",
+    "source-identity independence from the official gold",
+    "exhaustive proof that no other useful Kidde predicate exists"
+  ]
+}

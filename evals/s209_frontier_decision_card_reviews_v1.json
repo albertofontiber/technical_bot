@@ -1,0 +1,50 @@
+{
+  "schema": "s209_frontier_decision_card_reviews_v1",
+  "status": "INCOMPLETE_NO_FURTHER_RETRY",
+  "subject": "evals/s209_compact_design_review_brief_v1.md",
+  "decisions": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "PASS",
+      "blocking_findings": [],
+      "residual_risks": [
+        "The two-item cohort supports only the preregistered proof-of-mechanism decision to open a separate target A/B; it provides no target-effect estimate or external generalization.",
+        "Both sources overlap the official corpus, so source familiarity or memorization remains possible, although this is disclosed and does not violate the stated planner isolation.",
+        "Semantic novelty and exhaustive enumeration of alternative minimal support sets still depend on the two independent reviewers' judgment, leaving ordinary reviewer-error risk despite fail-closed handling and zero retries."
+      ]
+    },
+    "fable": {
+      "status": "INVALID",
+      "reason": "residual risks invalid",
+      "raw_sha256": "8cfcc5beeb231c49ea4df96bf4246d3044244602fdf790527d9655bcd0cc536c",
+      "raw_text": "```json\n{\n  \"reviewer\": \"claude-fable-5\",\n  \"verdict\": \"PASS\",\n  \"blocking_findings\": [],\n  \"residual_risks\": [\n    \"Two-question cohort gives a narrow, low-power signal; a lucky 2/2 GO is possible even if the planner mechanism is marginal. Acceptable only because GO merely authorizes a separate frozen target A/B with zero fact credit, so a false-positive GO is caught downstream rather than converted into runtime credit.\",\n    \"Semantic novelty of replacement questions is asserted by author/cross-review rather than any registry check; a subtle S99 semantic-equivalent slipping through would soften the novelty claim, though the duplicate-is-NO-GO rule and pixel-grounded independent authorship bound this to conservative failure, not false GO.\",\n    \"Both sources overlap the official corpus, so the experiment cannot detect memorized-source advantage; the brief correctly refrains from claiming source independence, but any interpretation of GO must not be extended to unseen-source performance.\",\n    \"Sol authors and Fable cross-reviews within the same eight-call envelope; correlated blind spots between the two Frontier models could pass an unsupported fact. Mitigated by the exact support-mapping equality requirement and deterministic v4 fail-closed validation, but not eliminated.\",\n    \"Selected-unit precision >=0.80 on a 25-unit packet with only two questions means a single extraneous-but-adjacent unit selection can still pass; precision is a weak discriminator at this n, and 100% atomic fact-support recall plus 2/2 completeness carry the real decision weight.\",\n    \"Planner at reasoning 'low' with zero retries may produce a provider-side incompleteness classified HOLD; the HOLD/NO-GO boundary depends on correctly distinguishing model incompleteness from semantic failure, which is procedurally defined but still requires honest classification at seal time.\"\n  ]\n}\n```"
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 1298,
+        "output_tokens": 5838,
+        "total_tokens": 7136
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1980,
+        "output_tokens": 978
+      }
+    }
+  ],
+  "conservative_cost_usd": 0.92613,
+  "same_subject_retry": false,
+  "further_design_review_calls": false,
+  "result_sha256": "131bb2d90aa388cbf5058ddc354c8faaf39320eb31c6675067a9ce3561121ba1"
+}

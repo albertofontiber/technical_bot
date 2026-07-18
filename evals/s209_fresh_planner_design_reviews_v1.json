@@ -1,0 +1,58 @@
+{
+  "schema": "s209_fresh_planner_design_reviews_v1",
+  "status": "BOTH_FRONTIER_REVIEWS_INCOMPLETE_NO_RETRY",
+  "reviewed_files": [
+    "evals/s209_fresh_planner_holdout_design_v1.md",
+    "evals/s209_kidde_predicate_selection_receipt_v1.json",
+    "evals/s209_pixel_inspection_receipts_v1.json",
+    "src/rag/planner_support_review.py",
+    "scripts/s209_build_fresh_planner_holdout.py",
+    "scripts/s209_run_fresh_planner_holdout.py",
+    "tests/test_s209_fresh_planner_holdout.py"
+  ],
+  "reviews": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "INCOMPLETE",
+      "findings": [],
+      "residual_risks": [
+        "No final JSON after output allowance."
+      ]
+    },
+    "fable": {
+      "reviewer": "claude-fable-5",
+      "verdict": "INCOMPLETE",
+      "findings": [],
+      "residual_risks": [
+        "No final JSON after max_tokens."
+      ]
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "incomplete",
+      "usage": {
+        "input_tokens": 16577,
+        "output_tokens": 6000,
+        "total_tokens": 22577
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "max_tokens",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 28176,
+        "output_tokens": 5000
+      }
+    }
+  ],
+  "conservative_cost_usd": 2.563935,
+  "same_subject_retry": false,
+  "interpretation": "Both exact model pins were reached; neither emitted a final review. This is incomplete, not unavailable.",
+  "result_sha256": "2343b81dfcc0336bf8017686d404590d49298682f7cc7bf14c01d1198a3fcc4e"
+}
