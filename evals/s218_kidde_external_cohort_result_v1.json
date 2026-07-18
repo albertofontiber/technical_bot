@@ -1,0 +1,21 @@
+{
+  "schema": "s218_kidde_external_cohort_result_v1",
+  "status": "HOLD_S218_EXTERNAL_HTTP_520",
+  "continuation_of": "S217_ZERO_CALL_HTTP_520",
+  "external_error": {
+    "status": 520,
+    "instance": "a1d1566d7ad91529",
+    "timestamp": "2026-07-18T12:04:17Z",
+    "retryable": true,
+    "model_response_returned": false
+  },
+  "frontier_calls": 0,
+  "provider_retries": 0,
+  "same_item_semantic_retry": false,
+  "official_fact_credit": 0,
+  "target_calls": 0,
+  "chunks_v2_status": "ACTIVE",
+  "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_merge_gate": false,
+  "result_sha256": "6389ae7394ff68f752471559a3c886b08f019e41a360c12af0ef78fc125280ac"
+}

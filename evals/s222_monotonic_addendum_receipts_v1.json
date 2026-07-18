@@ -1,0 +1,196 @@
+{
+  "schema": "s222_monotonic_addendum_receipts_v1",
+  "status": "COMPLETE",
+  "receipts": [
+    {
+      "item_id": "cat016",
+      "response_id": "msg_011Cd9XFnVnt8F8mNy1C2FGi",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2052,
+        "output_tokens": 207,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009261,
+      "stop_reason": "end_turn",
+      "addendum": "**Precisión adicional sobre el modo PRUEBA:** El modo prueba se activa desde el menú **CONECTAR ZONA** (no desde un menú ZONA → PRUEBA independiente); dentro de ese menú, el campo **MODO** permite seleccionar el estado de la zona (conectada, desconectada o prueba), y es al seleccionar «prueba» cuando aparece el campo **ACTIVAR** para indicar si se desean activar las sirenas [F4]. La navegación entre campos se realiza con las teclas **↑/↓** para editar y **→/←** para pasar al campo siguiente; los cambios se confirman con **ACEPTAR** y se anulan con **CANCELAR** [F4]. Para salir del menú se usa la tecla **SALIR** [F4].",
+      "addendum_sha256": "3ccb82fcd14c03dca9563ab828820c32abcd9556b1fcfcdc7dc86943dfe0844d"
+    },
+    {
+      "item_id": "cat008",
+      "response_id": "msg_011Cd9XFgnzs66ZVVEMYpodW",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1755,
+        "output_tokens": 281,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.00948,
+      "stop_reason": "end_turn",
+      "addendum": "Precisiones adicionales basadas en las fuentes marcadas como omitidas:\n\n1. **Precaución ESD**: El módulo es sensible a la electricidad estática; deben tomarse las precauciones necesarias al manejarlo y realizar las conexiones [F4].\n\n2. **Terminales del MI-DMMI**: Los terminales sin conexión en el MI-DMMI son el **6 y el 8** (no el 8 y el 9 como indica el borrador). Los terminales 6 y 8 son exclusivos del MI-DMM2I [F6].\n\n3. **Resistencia para modo 3 estados (supervisión de cortocircuito)**: El componente citado en la fuente para esta función es el paquete de resistencias **M200-EOL4**, que se cablea en serie con cada conmutador de dispositivo supervisado, siempre que la central de control sea compatible [F6]. El borrador menciona la referencia M200E-EOL-R18, pero la fuente disponible indica M200-EOL4 para esta aplicación.",
+      "addendum_sha256": "cd0108449e2f71b63d6690044f0f21102f683c5fdeb7d1c1ea6d0b2c3d5a5eef"
+    },
+    {
+      "item_id": "hp001",
+      "response_id": "msg_011Cd9XFgk2MuFfPsGNz7gSW",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2732,
+        "output_tokens": 333,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.013191,
+      "stop_reason": "end_turn",
+      "addendum": "**Precisiones adicionales:**\n\n- La clave de usuario por defecto es **`1111`** (distinta de la clave de administrador `2222`) [F4].\n- La advertencia completa sobre el uso indebido del nivel de administrador especifica que puede provocar **la pérdida de vidas humanas**, no solo un mal funcionamiento de la instalación [F2].\n- La pestaña **OTROS** dispone de **3 interruptores** (no 5) orientados a facilitar tareas de puesta en marcha y mantenimiento [F5].\n- En la pestaña **SISTEMA**, el campo **PANELES** admite valores del **1 al 4**; el campo **LEDes** solo admite los valores **0 ó 1** [F5].\n- El número de lazos disponibles depende del número de cabinas configurado: 2, 4, 6 u 8 lazos con 1 cabina; hasta 16 con 2 cabinas; hasta 24 con 3 cabinas; hasta 32 con 4 cabinas [F5].\n- Tras modificar los parámetros de la pestaña **SISTEMA**, es obligatorio pulsar el botón **Guardar y Reiniciar** para validar los cambios [F5].",
+      "addendum_sha256": "06a3626c3596a6b929aa5b37cf96139b0ac159326911cd682de07d8318d20153"
+    },
+    {
+      "item_id": "cat017",
+      "response_id": "msg_011Cd9XFgjmrWewrPM1bJQaW",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 4140,
+        "output_tokens": 505,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.019995,
+      "stop_reason": "end_turn",
+      "addendum": "**Precisiones adicionales sobre el cableado y la configuración del lazo:**\n\n1. **Localización de dispositivos con polaridad invertida**: Si la prueba de diodo en polaridad normal indica conducción directa, los dispositivos con polaridad invertida pueden localizarse mediante una **sectorización sucesiva del lazo**. Si el diseño de la instalación lo dificulta, la sección afectada puede identificarse a partir de los **mensajes de avería de la central**, una vez eliminados los dispositivos con aisladores y encendido el sistema [F7].\n\n2. **Comprobación adicional de la pantalla**: Si la pantalla del cable de lazo **no** está conectada a la barra de tierra en la central, debe verificarse que dicha pantalla **no tenga ninguna otra conexión con tierra** en ningún punto del recorrido del lazo [F7].\n\n3. **Dispositivos CLIP con aisladores instalados**: Cuando se utilizan dispositivos CLIP con aisladores, el conductor positivo del lazo será un **circuito abierto**. Para realizar las comprobaciones de continuidad con multímetro, es necesario **puentear temporalmente los terminales 2 y 4 de cada aislador** [F8].\n\n4. **Continuidad en bases OPAL (B501 AP)**: Al retirar el detector OPAL de su base, la continuidad del lazo **se mantiene** gracias a los terminales +2 y +4 de la base, que se conectan automáticamente. En módulos de lazo y pulsadores con aisladores, los terminales equivalentes son +2 y +4 (módulos) y +3 y +4 (pulsadores) [F8].\n\n5. **Referencia para compatibilidad de aisladores internos**: Para conocer qué tipos de dispositivos son compatibles con aisladores internos, debe consultarse el **manual de instalación INSPIRE (HOP-138-9ES)** [F8].",
+      "addendum_sha256": "54f19df16dbd6b4f4ec13f90305db902447023e6f0aa2aab14b46edbdb35cb78"
+    },
+    {
+      "item_id": "hp003",
+      "response_id": "msg_011Cd9XGBiYhn9uuPu7vBgZu",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1501,
+        "output_tokens": 193,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.007398,
+      "stop_reason": "end_turn",
+      "addendum": "Precisiones adicionales sobre la conexión de baterías:\n\n- Las centrales analógicas requieren **dos baterías de 12 V 7 A/h** conectadas **en serie** para su correcto funcionamiento [F12].\n- El cable puente suministrado con la central debe unir el **polo positivo de una batería con el polo negativo de la otra** [F12].\n- Las baterías se colocan en la **parte inferior de la caja**, en el espacio reservado para ello, de forma **vertical** [F12].\n- Tras conectar ambas fuentes de alimentación (red y baterías), todos los indicadores del panel deben apagarse excepto el **indicador verde de alimentación** [F7].",
+      "addendum_sha256": "fe87c37948c4ff816e89e2eab93fb1f59faf58f7172f0ec4e1fc04eec54b273a"
+    },
+    {
+      "item_id": "hp015",
+      "response_id": "msg_011Cd9XGGEfCPFpe2db8crwA",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1595,
+        "output_tokens": 130,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.006735,
+      "stop_reason": "end_turn",
+      "addendum": "Precisión adicional sobre el modo desconexión: el sistema también permite desconectar **sirenas** de forma independiente a las zonas, no solo zonas [F1][F2]. El indicador correspondiente es el **«Indicador de sirenas anuladas»**, que se enciende de forma continua cuando las sirenas están desconectadas [F1]. Esta capacidad de desconexión de sirenas es una función distinta y separada de la desconexión de zona descrita en el borrador.",
+      "addendum_sha256": "dc305a8fc78402541435057fe5d4e8f6fcf8dc381afa2787352cc8a22eb7ac5f"
+    },
+    {
+      "item_id": "hp010",
+      "response_id": "msg_011Cd9XGEf9vTGExtrXK6wiC",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 3715,
+        "output_tokens": 418,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.017415,
+      "stop_reason": "end_turn",
+      "addendum": "Las siguientes precisiones complementan el borrador sin reemplazarlo:\n\n**Cancelación durante la autobúsqueda:** Para cancelar el proceso de autobúsqueda una vez iniciado, se debe pulsar la tecla **⊞** (no la tecla de retroceso) [F1].\n\n**Aisladores en puntos estratégicos:** Se recomienda instalar los aisladores de cortocircuito específicamente en los **límites entre zonas** del lazo, no en cualquier punto arbitrario. Los módulos de control del lazo ya incorporan aisladores internos, por lo que no es necesario colocar aisladores adicionales en las salidas de la central. El lazo puede funcionar sin aisladores externos, aunque no se recomienda [F4].\n\n**Lazos no utilizados:** Si algún lazo de la central queda sin usar tras la ampliación, sus salidas deben conectarse a las entradas del bloque de terminales; de lo contrario, la central indicará una avería de circuito abierto aunque no haya equipos conectados [F4].\n\n**Modelos y número de lazos disponibles:** El modelo DXc1 dispone únicamente del lazo 1; los modelos DXc2 y DXc4 disponen de cuatro conectores de lazo, aunque en la DXc2 solo se utilizan los lazos 1 y 2 [F3].\n\n**Consulta de especificaciones del fabricante:** Tras conectar el nuevo detector, se deben consultar las especificaciones del fabricante del detector suministradas con los equipos de señalización [F3].",
+      "addendum_sha256": "fd1a5a82df5c43679dcbecf6eff36ebbc9f103b554ce6ac4a0b6030d85e059e3"
+    },
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "response_id": "msg_011Cd9XGb7iMaRTCS8saapKE",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2593,
+        "output_tokens": 146,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.009969,
+      "stop_reason": "end_turn",
+      "addendum": "Precisión adicional sobre el 2X-AF2-SCFB-S: el panel incluye también **2 salidas de relé convencionales** (conventional relay outputs), además de las 4 supervisadas de sirena/enrutado y las 2 supervisadas dedicadas a incendio/avería comunes [F3]. Asimismo, dispone de **2 entradas configurables por el usuario** para monitorización y control [F3]. Estos elementos no figuran en el borrador y completan el cuadro de E/S del modelo escandinavo.",
+      "addendum_sha256": "40dd89f96857cd516b9abb915af95db9754a23f91cd2c82fa52a810223f4d331"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "response_id": "msg_011Cd9XGW7q4JNDReJMifvWY",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 2500,
+        "output_tokens": 497,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.014955,
+      "stop_reason": "end_turn",
+      "addendum": "Precisiones adicionales sobre los datos fuente:\n\n**Sobre el Standard Display Module (9-30781-KID-EN):**\n- Además del Standard (con pantalla TFT a color, LEDs de estado y botones de navegación) y el Minimum (solo LEDs de estado), existe una tercera configuración: el **Command Display Module**, que añade la funcionalidad de controlar varios módulos a través de SenseNET [F3]. El borrador no menciona esta variante.\n- El Command Display Module puede soportar hasta **127 módulos** a través de la red SenseNET, mientras que el Standard y el Minimum soportan hasta 8 módulos detector cada uno [F3].\n\n**Sobre el Detector Module (9-30783-KID-EN) y la actuación local por relé:**\n- La información de alarma de zona específica puede transmitirse al panel principal de alarma de incendios bien mediante una tarjeta de dirección APIC común ubicada en el **Display Module**, o bien mediante **relés de alarma dedicados dentro de cada módulo detector** [F3]. Ambas vías coexisten y son complementarias.\n\n**Sobre el dimensionamiento de redes de muestreo:**\n- La entrada de tubería de muestreo es **1 por módulo detector**, confirmado explícitamente en las especificaciones de tubería de muestreo [F2].\n- Las entradas de tubería de aspiración (pipework) pueden realizarse tanto por la parte **superior como por la inferior** de la unidad [F3].\n- Las entradas de cable tienen un tamaño de **20 mm** y también pueden realizarse por la parte superior o inferior [F2].\n\n**Sobre el diseño modular:**\n- El diseño de estación de acoplamiento (docking station) permite conectar los detectores fácilmente en grupo, y la electrónica sensible puede extraerse para protegerla durante la instalación en primera fase [F3].",
+      "addendum_sha256": "ffd209c2aa6b8c7a42dc92b697fe1e4fdcd2d6d8dc7ee363a5c548a73ebfd49b"
+    }
+  ],
+  "result_sha256": "77b170484c9d1b5db4cc4165293614f49a2782cd148f8d6aeaeb69bb84440448"
+}

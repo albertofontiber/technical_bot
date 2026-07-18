@@ -1,0 +1,117 @@
+{
+  "schema": "s223_full_context_addendum_result_v1",
+  "status": "GO_S223_TO_DUAL_SEMANTIC_REVIEW",
+  "metrics": {
+    "canonical_candidate_synthesis_hits": [
+      "cat016#1:menu ZONA + ELEMENTO",
+      "cat017#2:licencia CLIP por lazo",
+      "hp003#1:cable puente",
+      "hp010#1:Nivel 3"
+    ],
+    "stable_local_regressions": [],
+    "kidde_baseline_covered": 7,
+    "kidde_candidate_covered": 7,
+    "kidde_regressions": [],
+    "invalid_citations": {},
+    "auditor_calls": 9,
+    "invalid_selector_outputs": 0,
+    "token_limit_stops": 0,
+    "actual_cost_usd": 0.27663
+  },
+  "checks": {
+    "canonical_candidate_synthesis_hits_gte_3": true,
+    "stable_local_regressions_zero": true,
+    "kidde_regressions_zero": true,
+    "kidde_candidate_not_worse": true,
+    "invalid_citations_zero": true,
+    "token_limit_stops_zero": true,
+    "monotonic_prefix": true
+  },
+  "development_rows": [
+    {
+      "item_id": "cat008",
+      "candidate_synthesis_hits": [],
+      "stable_baseline_fact_ids": [
+        "cat008#0:2 estados / 3 estados",
+        "cat008#1:47 kΩ",
+        "cat008#2:18 kΩ"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "cat016",
+      "candidate_synthesis_hits": [
+        "cat016#1:menu ZONA + ELEMENTO"
+      ],
+      "stable_baseline_fact_ids": [
+        "cat016#0:autobusqueda",
+        "cat016#2:modo prueba",
+        "cat016#3:20 minutos"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "cat017",
+      "candidate_synthesis_hits": [
+        "cat017#2:licencia CLIP por lazo"
+      ],
+      "stable_baseline_fact_ids": [
+        "cat017#0:modulo OPAL HOP-433-100",
+        "cat017#3:Auto Configuracion"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "hp001",
+      "candidate_synthesis_hits": [],
+      "stable_baseline_fact_ids": [
+        "hp001#0:candado",
+        "hp001#1:2222"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "hp003",
+      "candidate_synthesis_hits": [
+        "hp003#1:cable puente"
+      ],
+      "stable_baseline_fact_ids": [
+        "hp003#2:rojo y negro",
+        "hp003#3:primero la red"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "hp010",
+      "candidate_synthesis_hits": [
+        "hp010#1:Nivel 3"
+      ],
+      "stable_baseline_fact_ids": [
+        "hp010#0:Autobusqueda"
+      ],
+      "stable_regression_ids": []
+    },
+    {
+      "item_id": "hp015",
+      "candidate_synthesis_hits": [],
+      "stable_baseline_fact_ids": [
+        "hp015#0:convencional",
+        "hp015#1:2 veces la tecla de zona"
+      ],
+      "stable_regression_ids": []
+    }
+  ],
+  "decision": {
+    "dual_frontier_semantic_review": true,
+    "full_non_target_guardrail": false,
+    "target_probe": false,
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "d8e50b2256e9fbb878f97f20a8818bcfc31f8c464a464b3af9e24e6bb421381f"
+}

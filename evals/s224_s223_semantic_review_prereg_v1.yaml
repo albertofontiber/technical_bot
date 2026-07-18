@@ -1,0 +1,42 @@
+schema: s224_s223_semantic_review_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+objective: dual_independent_semantic_review_of_s223_before_any_broader_execution
+frozen_inputs:
+  runner: {path: scripts/s224_review_s223_semantics.py, sha256: f8c27bed0838ddb07548c15faf3589c3829324f31f8c025ea02db2acbd7d879a}
+  generation: {path: evals/s223_full_context_addendum_generation_v1.json, sha256: d348d661bb8e287e9342ddf9300ad5457970ae4dd3ddc5756611c8bcdfcbe441}
+  local_result: {path: evals/s223_full_context_addendum_result_v1.json, sha256: 5e015fab9a31d6937c44c45a47922769268c431256be1a208e6e1b13a0fb71bb}
+  score_packet: {path: evals/s219_omission_score_packet_v1.json, sha256: e7e8b845d855821a44438bbf30a83cfa685a2bfcb60525fbbc30ea697faa2524}
+  generation_packet: {path: evals/s219_omission_generation_packet_v1.json, sha256: 1e396659bc234651b430f2e0e1855b98ac452e55bfbaf9c1de0d09cf986de55f}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime.py, sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe}
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+execution:
+  fable_review_calls: 1
+  sol_review_calls: 1
+  frontier_calls_max: 2
+  provider_retries: 0
+  review_rounds: 1
+  repair_or_convergence: false
+  target_calls: 0
+validation:
+  confirmed_development_gains_min_per_reviewer: 3
+  unsupported_addendum_claims_max: 0
+  material_contradictions_max: 0
+  scope_broadening_max: 0
+  kidde_regressions_max: 0
+  dual_pass_required: true
+  go_only_authorizes_full_non_target_guardrail: true
+pricing_usd_per_million_tokens:
+  sol: {input: 15, output: 120}
+  fable: {input: 30, output: 150}
+budget: {internal_stop_usd: 50, user_ceiling_usd: 200}
+credit: {official_fact_credit: 0, official_denominator_change: 0}
+closed_lines:
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+forbidden:
+  - second_review_round_or_prompt_repair
+  - expose_canonical_targets
+  - integrate_production_or_deploy

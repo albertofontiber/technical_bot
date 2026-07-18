@@ -1,0 +1,443 @@
+{
+  "schema": "s219_omission_score_packet_v1",
+  "status": "SEALED_SCORE_ONLY",
+  "population": {
+    "development_synthesis_facts": 7,
+    "development_historical_ok_facts": 17,
+    "kidde_atomic_facts": 9,
+    "canonical_targets": 0
+  },
+  "items": [
+    {
+      "item_id": "cat008",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "cat008#3:1/2/3/4 lazo; 6-7 entrada A",
+          "valor": "1/2/3/4 lazo; 6-7 entrada A",
+          "texto": "Terminales del lazo: 1=−Lazo in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out; Entrada A = terminales 6-7",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "cat008#0:2 estados / 3 estados",
+          "valor": "2 estados / 3 estados",
+          "texto": "Hay 2 formas de conexionado: 2 estados (el corto se señaliza como alarma) y 3 estados",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat008#1:47 kΩ",
+          "valor": "47 kΩ",
+          "texto": "La resistencia de fin de línea (RFL) del lazo es 47 kΩ",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat008#2:18 kΩ",
+          "valor": "18 kΩ",
+          "texto": "El modo 3 estados requiere una resistencia de 18 kΩ en serie con el contacto (part M200E-EOL-R18)",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "cat016",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "cat016#1:menu ZONA + ELEMENTO",
+          "valor": "menu ZONA + ELEMENTO",
+          "texto": "Tras la autobusqueda, el detector se asigna a una ZONA (menu ZONA) y se le da nombre + zona de ubicacion en el menu ELEMENTO",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "cat016#0:autobusqueda",
+          "valor": "autobusqueda",
+          "texto": "ALTA: se da de alta un detector nuevo ejecutando una AUTOBUSQUEDA del lazo desde el menu BUCLE -> el sistema escanea y muestra los elementos encontrados (deben coincidir con los instalados segun los planos)",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat016#2:modo prueba",
+          "valor": "modo prueba",
+          "texto": "PRUEBA: se pone la ZONA en MODO DE PRUEBA (menu ZONA > PRUEBA) -> permite probar los detectores SIN rearmar la central tras cada disparo",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat016#3:20 minutos",
+          "valor": "20 minutos",
+          "texto": "En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "cat017",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "cat017#2:licencia CLIP por lazo",
+          "valor": "licencia CLIP por lazo",
+          "texto": "Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "cat017#0:modulo OPAL HOP-433-100",
+          "valor": "modulo OPAL HOP-433-100",
+          "texto": "El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la pantalla a tierra en la central",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat017#1:159 + 159",
+          "valor": "159 + 159",
+          "texto": "Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "cat017#3:Auto Configuracion",
+          "valor": "Auto Configuracion",
+          "texto": "El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "hp001",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "hp001#2:1111",
+          "valor": "1111",
+          "texto": "La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada completa (solo el nivel de usuario)",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "hp001#0:candado",
+          "valor": "candado",
+          "texto": "Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "hp001#1:2222",
+          "valor": "2222",
+          "texto": "Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de configuracion/administrador (donde se configuran todos los parametros)",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "hp003",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "hp003#1:cable puente",
+          "valor": "cable puente",
+          "texto": "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "hp003#2:rojo y negro",
+          "valor": "rojo y negro",
+          "texto": "Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de las baterias (conectar antes el puente entre baterias)",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "hp003#3:primero la red",
+          "valor": "primero la red",
+          "texto": "Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "hp010",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "hp010#1:Nivel 3",
+          "valor": "Nivel 3",
+          "texto": "Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el menu de Lazos pulsar la tecla '2' para 'Autobusqueda', seleccionar el numero de lazo y confirmar la autobusqueda de todos los equipos del lazo",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "hp010#0:Autobusqueda",
+          "valor": "Autobusqueda",
+          "texto": "Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta una AUTOBUSQUEDA de equipos (la central detecta automaticamente los equipos del lazo; no se anaden de uno en uno manualmente)",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "hp010#2:nuevos, eliminados y modificados",
+          "valor": "nuevos, eliminados y modificados",
+          "texto": "Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados y modificados, y el total por tipo; comprobar que coincide con los equipos instalados",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "hp015",
+      "role": "historical_multichunk_development",
+      "synthesis_miss_facts": [
+        {
+          "key": "hp015#2:32",
+          "valor": "32",
+          "texto": "Cada zona admite como maximo 32 detectores/pulsadores; al desconectar la zona se desactivan TODOS sus detectores (no se puede aislar uno solo desde la central)",
+          "baseline_class": "synthesis-miss"
+        }
+      ],
+      "historical_ok_facts": [
+        {
+          "key": "hp015#0:convencional",
+          "valor": "convencional",
+          "texto": "La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no direcciona equipos individualmente, por lo que NO existe desactivar un detector concreto desde la central",
+          "baseline_class": "OK"
+        },
+        {
+          "key": "hp015#1:2 veces la tecla de zona",
+          "valor": "2 veces la tecla de zona",
+          "texto": "La desconexion se hace por ZONA completa: con la llave en posicion ON, pulsar 2 veces la tecla de la zona -> 'Zona desconectada' (se enciende el indicador Anular y el LED de fallo/anular/prueba de esa zona)",
+          "baseline_class": "OK"
+        }
+      ]
+    },
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "role": "kidde_multisource_guardrail",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La 2X-AF1-S tiene una interfaz sin controles de bomberos, mientras que la 2X-AF2-SCFB-S integra una interfaz escandinava con controles de bomberos escandinavos y cerradura de llave escandinava.",
+          "type": "core",
+          "state": "present",
+          "value": "2X-AF1-S: sin controles de bomberos; 2X-AF2-SCFB-S: interfaz escandinava integrada con controles y cerradura de llave escandinavos",
+          "citations": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 2
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 2,
+              "evidence": "En la tabla «General» se ve «Interfaz usuario — Sin controles de Bomberos»."
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "El encabezado indica «integrated Scandinavian UI» y «Detalles» menciona controles de bomberos y cerradura de llave escandinavos."
+            }
+          ]
+        },
+        {
+          "fact_id": "F02",
+          "text": "En la 2X-AF2-SCFB-S, instalar la placa indicadora LED de incendio/avería de 24 zonas elimina la cerradura de llave escandinava.",
+          "type": "core",
+          "state": "present",
+          "value": "Indicador LED de 24 zonas instalado: se elimina la cerradura de llave escandinava",
+          "citations": [
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "En «Options» se indica que la placa LED de 24 zonas puede montarse, «however this will remove the Scandinavian-key lock»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F03",
+          "text": "De serie, la 2X-AF1-S tiene 2 salidas supervisadas de sirena/enrutado de incendio y la 2X-AF2-SCFB-S tiene 4; en ambos casos pueden utilizarse también como salidas libremente programables.",
+          "type": "core",
+          "state": "present",
+          "value": "2X-AF1-S: 2; 2X-AF2-SCFB-S: 4; libremente programables en ambos modelos",
+          "citations": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 1
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "En «The Panel» aparece «standard 2 supervised sounder/fire-routing outputs» y se permite usarlas como salidas libremente programables."
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "En «The Panel» aparece «standard 4 supervised sounder/fire-routing outputs» y se permite usarlas como salidas libremente programables."
+            }
+          ]
+        },
+        {
+          "fact_id": "F04",
+          "text": "Además de las salidas estándar anteriores, cada modelo dispone de 2 salidas supervisadas adicionales que, junto con 2 salidas de relé convencionales, trabajan en parejas dedicadas a las condiciones comunes de incendio y avería.",
+          "type": "supplementary",
+          "state": "present",
+          "value": "Ambos modelos: 2 salidas supervisadas adicionales y 2 relés convencionales, emparejados para incendio y avería comunes",
+          "citations": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 1
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "2x-af1-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "El apartado «The Panel» añade «2 conventional relay outputs and 2 supervised outputs», en pareja para incendio y avería comunes."
+            },
+            {
+              "pdf": "2x-af2-scfb-s-161721-es.pdf",
+              "page": 1,
+              "evidence": "El apartado «The Panel» añade igualmente 2 relés convencionales y 2 salidas supervisadas para incendio y avería comunes."
+            }
+          ]
+        }
+      ],
+      "gold_answer_sha256": "3e0e60913d9d074b9c73d1948ceffdf07271f5cea25b29e8b0c15ef1c72ad276"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "role": "kidde_multisource_guardrail",
+      "atomic_facts": [
+        {
+          "fact_id": "F01",
+          "text": "La arquitectura separa las referencias por función: 9-30781-KID-EN es el módulo de display estándar y 9-30783-KID-EN es el módulo detector.",
+          "type": "core",
+          "state": "present",
+          "value": "9-30781-KID-EN = display estándar; 9-30783-KID-EN = detector",
+          "citations": [
+            {
+              "pdf": "9-30781-kid-en-161721-es.pdf",
+              "page": 1
+            },
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "9-30781-kid-en-161721-es.pdf",
+              "page": 1,
+              "evidence": "El encabezado visible identifica «9-30781-KID-EN — Kidde ModuLaser, Standard display module»."
+            },
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1,
+              "evidence": "El encabezado visible identifica «9-30783-KID-EN — Kidde ModuLaser, Detector module»."
+            }
+          ]
+        },
+        {
+          "fact_id": "F02",
+          "text": "El display estándar ofrece una interfaz con TFT en color, botones de navegación y LED de estado, y permite configurar el display y los detectores asociados desde la propia interfaz, un ordenador con Remote o SenseNET mediante un display de comandos.",
+          "type": "core",
+          "state": "present",
+          "value": "TFT en color, navegación y LED; configuración local, por Remote o por SenseNET",
+          "citations": [
+            {
+              "pdf": "9-30781-kid-en-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "9-30781-kid-en-161721-es.pdf",
+              "page": 1,
+              "evidence": "La sección «Standard display module» enumera TFT, botones y LED, y señala configuración por interfaz, ordenador con Remote o SenseNET."
+            }
+          ]
+        },
+        {
+          "fact_id": "F03",
+          "text": "El módulo detector es autónomo: aspira el aire muestreado del área protegida, lo analiza y utiliza ClassiFire para decidir si debe generarse una prealarma o una alarma.",
+          "type": "core",
+          "state": "present",
+          "value": "Aspiración, análisis y decisión de prealarma/alarma mediante ClassiFire",
+          "citations": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1,
+              "evidence": "La sección «Detector module» lo describe como «fully self-contained» y dice que aspira, analiza y usa ClassiFire."
+            }
+          ]
+        },
+        {
+          "fact_id": "F04",
+          "text": "Ante una condición de alarma o avería, el módulo detector activa la salida de relé local correspondiente, sujeta a la programación de los relés, y comunica simultáneamente la condición al módulo de display conectado.",
+          "type": "core",
+          "state": "present",
+          "value": "Actuación en relé local programado y reporte simultáneo al display",
+          "citations": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 1,
+              "evidence": "El texto visible indica activación del «corresponding local relay output» y reporte simultáneo al display."
+            }
+          ]
+        },
+        {
+          "fact_id": "F05",
+          "text": "La entrada de la red de muestreo se asigna al módulo detector: la especificación establece 1 entrada de tubería de muestreo por módulo detector.",
+          "type": "supplementary",
+          "state": "present",
+          "value": "1 entrada de tubería de muestreo por módulo detector",
+          "citations": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 2
+            }
+          ],
+          "visual_evidence": [
+            {
+              "pdf": "9-30783-kid-en-161721-es.pdf",
+              "page": 2,
+              "evidence": "La tabla «Sampling pipe» muestra «Inlet quantity — 1 per detector module»."
+            }
+          ]
+        }
+      ],
+      "gold_answer_sha256": "420866289b3772e8eda975e81b274ac791e1d272dacac2a89f4d791b1a39ef93"
+    }
+  ],
+  "result_sha256": "21b62688bb449a327def91dfdf57eca1517adb1403a992071b0ffe3c8041fbe4"
+}

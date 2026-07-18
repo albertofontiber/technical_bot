@@ -1,0 +1,102 @@
+schema: s226_structural_synthesis_closeout_v1
+status: CLOSED_NO_SAFE_CANONICAL_GAIN
+
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+  facts_needed_for_98_percent: 11
+  facts_moved_to_ok: 0
+
+question_answered: >-
+  Structural mechanisms can expose omitted evidence, but the tested monolithic
+  correction stages do not safely convert that evidence into complete answers.
+
+causal_findings:
+  evidence_reaches_generator: true
+  late_context_bias_supported: false
+  best_of_five_missing_facts_present_in_any_candidate: false
+  s220_full_rewrite:
+    local_candidate_hits_reported: 7
+    stable_local_regressions_reported: 3
+    token_limit_stops: 1
+    interpretation: rewrite_can_add_relations_but_can_delete_or_contradict_correct_content
+  s222_selected_unit_monotonic_addendum:
+    baseline_byte_prefix: true
+    local_candidate_hits_reported: 6
+    semantic_manual_gains: [hp001, hp003]
+    interpretation: monotonic_composition_prevents_deletion_but_inherits_selector_false_negatives_and_noise
+  s223_full_context_monotonic_addendum:
+    local_gate: GO_S223_TO_DUAL_SEMANTIC_REVIEW
+    local_candidate_hits_reported: 4
+    stable_local_regressions: 0
+    kidde_guardrail: 7_of_7_to_7_of_7
+    fable_review:
+      formal_status: INCOMPLETE_MAX_TOKENS_NOT_A_PASS
+      raw_prefix_verdict: FAIL
+      raw_prefix_confirmed_dev_gain_ids: [hp003]
+      raw_prefix_blockers:
+        - fewer_than_three_semantic_development_gains
+        - cat008_material_contradiction
+        - cat016_scope_broadening_and_safety_conflict
+        - hp001_unverifiable_claim
+        - kidde_2xa_unsupported_scope_and_regression
+    sol_principal_review:
+      status: HOLD_EXTERNAL_HTTP_520
+      model_responses_returned: 0
+      retries: 0
+
+external_cohort:
+  s217_packet:
+    sources: 9
+    rendered_pages: 18
+    candidate_items: 4
+    source_identity_overlap_with_prior_packets: 0
+    source_identity_overlap_with_official_gold: 0
+  authorship:
+    sol_attempts: 2
+    model_responses_returned: 0
+    failure: HTTP_520_API_OPENAI
+    frontier_calls_recorded: 0
+  decision: HOLD_NO_GOLDS_AUTHORED
+
+cost_usd:
+  s219_s220_combined: 1.279012
+  s222: 0.108399
+  s223: 0.276630
+  s224_fable_incomplete: 3.240360
+  s217_s218_and_s225_zero_response_attempts: 0
+  total: 4.904401
+  user_ceiling: 200
+
+closed_exact_lines:
+  - post_answer_full_response_rewrite
+  - selected_unit_only_monotonic_addendum
+  - full_context_monotonic_addendum
+  - retry_or_converge_fable_semantic_review
+  - retry_openai_520_attempts_in_this_sequence
+
+next_structural_line:
+  mechanism: clause_bound_source_bound_answer_blocks_with_deterministic_assembly
+  rationale: >-
+    Change the unit of synthesis so each explicit question clause must yield a
+    separately supported block; do not ask one monolithic writer to rediscover
+    or rewrite all relations.
+  constraints:
+    - not_the_closed_s216_design
+    - fresh_multichunk_efficacy_population_independent_of_canonical_targets
+    - generation_and_score_content_isolation
+    - semantic_completeness_is_a_blocking_gate
+    - reviewer_inputs_do_not_reveal_arm_by_format
+    - end_to_end_freeze_validation
+    - zero_canonical_target_calls_during_design
+  blocked_by: fresh_frontier_pixel_gold_authorship_unavailable_due_external_openai_520
+
+invariants:
+  chunks_v2: ACTIVE
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+  production_default_changed: false
+  deployment_performed: false

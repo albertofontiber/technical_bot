@@ -1,0 +1,262 @@
+{
+  "schema": "s220_revision_answer_receipts_v1",
+  "status": "COMPLETE",
+  "receipts": [
+    {
+      "item_id": "cat008",
+      "response_id": "msg_011Cd9WmZxCrPoEvhdFZzjx3",
+      "selected_unit_ids": [
+        "E001_633326b36d",
+        "E002_f3e5bd6908",
+        "E008_76595fdcf1"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 13645,
+        "output_tokens": 1133,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.05793,
+      "stop_reason": "end_turn",
+      "answer": "# Conexionado del módulo M710 / MI-DMMI en el lazo\n\n---\n\n## Asignación de terminales (lazo)\n\nLos terminales de lazo son los mismos en ambos modelos [F1][F8]:\n\n- **Terminal 1** → Lazo entrada (–)\n- **Terminal 2** → Lazo entrada (+) — con aislador interno activo\n- **Terminal 3** → Lazo salida (–)\n- **Terminal 4** → Lazo salida (+)\n- **Terminal 5** → Lazo salida (+) alternativo — sin aislador interno\n\n---\n\n## Aislador interno de cortocircuito\n\n- **Con aislador activo**: conectar el positivo de salida del lazo al **terminal 2** [F1][F8]\n- **Sin aislador** (bypass): conectar el positivo de salida del lazo al **terminal 5** en vez del 2. El terminal 5 está conectado internamente con el terminal 4 [F8][F7]\n\n> ⚠️ **Equipo sensible a la electricidad estática. Tome las precauciones necesarias al manejar el equipo y hacer las conexiones** [F4].\n\n> ⚠️ En el **MI-DMMI**, **no hay conexiones en los terminales 6 y 8**. Estos terminales son exclusivos del **MI-DMM2I** [F6]. El circuito de aislador externo adicional (terminales 8 y 9) tampoco está disponible en el MI-DMMI [F7].\n\n---\n\n## Resistencia de fin de línea (EOL)\n\n- Valor: **47 kΩ** [F1][F10]\n- Referencia de componente citada en los manuales: **M200-EOL-R** [F5][F10]\n\n---\n\n## Modo 2 estados vs. 3 estados\n\n### Conexionado 2 estados\n- El **cortocircuito se señaliza como alarma** [F1]\n- No se requiere resistencia adicional en serie con el contacto\n\n### Conexionado 3 estados\n- Permite distinguir cortocircuito como **avería** en lugar de alarma, siempre que el panel de control lo permita [F1][F8]\n- **Requisito**: conectar una resistencia de **18 kΩ en serie** con cada contacto/conmutador que se desee supervisar [F1][F8]\n- Referencia de componente para el M710: **M200E-EOL-R18** [F8]\n- Para el MI-DMMI, el manual I56-2006-004 cita el uso del paquete de resistencias **M200-EOL4** en serie con cada conmutador supervisado [F6]\n\n---\n\n## Resumen rápido de resistencias\n\n- **EOL (fin de línea):** 47 kΩ — ref. M200-EOL-R [F5][F10]\n- **Serie para modo 3 estados (M710):** 18 kΩ por contacto — ref. M200E-EOL-R18 [F8]\n- **Serie para modo 3 estados (MI-DMMI):** paquete M200-EOL4 en serie con cada conmutador [F6]\n\n---\n\n> **Nota:** Para la programación del módulo en la central ID3000, consulta el artículo específico de programación de módulos de entrada [F1]. Para soporte técnico: `soporteHLSI@honeywell.com` [F1]\n\n---\n\n**Fuentes:**\n- Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)\n- I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)\n- I56-2006-004 MI-DMMI\\_DMM2I\\_D2ICMO (sin revisión registrada)\n- I56-4404-001 M710E M720E M721E (sin revisión registrada)\n- I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **programación del módulo M710/MI-DMMI en la central ID3000**, **conexionado del módulo de doble entrada M720/MI-DMM2I** o **configuración del aislador de cortocircuito en lazo**.",
+      "answer_sha256": "ba2fe7a94c44ab691ae7ced651005e23c8eb2253c4f89a0ca4621d3a8ff8fb5d"
+    },
+    {
+      "item_id": "cat016",
+      "response_id": "msg_011Cd9Wmc5Cbnm6SCK8qDhvd",
+      "selected_unit_ids": [
+        "E002_9b5964e41c",
+        "E006_dc90ccdb81",
+        "E007_f758b06277"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 15441,
+        "output_tokens": 1075,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.062448,
+      "stop_reason": "end_turn",
+      "answer": "# CAD-150-8: Alta de detector nuevo y prueba funcional\n\n## PARTE 1 — Dar de alta un detector nuevo en el lazo\n\nEl procedimiento para incorporar un nuevo elemento al lazo es mediante la **autobúsqueda** [F1]:\n\n1. Instala físicamente el detector en el lazo (con el sistema sin alimentación, según las indicaciones de seguridad) [F9].\n2. Alimenta la central.\n3. Accede al **menú BUCLE** desde el teclado de la central [F1].\n4. Ejecuta la **autobúsqueda del lazo** correspondiente. El sistema escaneará el lazo y mostrará todos los elementos detectados [F1].\n5. Verifica que los elementos encontrados coinciden con los planos de la instalación [F1].\n6. Accede al **menú ELEMENTOS** para asignar al nuevo detector:\n   - **Nombre/texto** identificativo [F1][F2]\n   - **Zona** de ubicación [F1][F2]\n\n> Puedes verificar que el detector ha quedado correctamente registrado desde el **menú ELEMENTO → VER**, donde podrás consultar los campos: BUCLE, DIR, ZONA, TIPO, MODO y VA (valor analógico) [F2].\n\n---\n\n## PARTE 2 — Probar que el detector funciona\n\nEl método recomendado es el **modo PRUEBA de zona**, que permite verificar los detectores **sin necesidad de rearmar la central** tras cada disparo [F3][F4]:\n\n1. Accede al **menú ZONA → PRUEBA** [F3].\n2. Introduce el **rango de zonas** a poner en prueba (campo RANGO) [F3].\n3. Selecciona si deseas activar las sirenas durante la prueba (campo **ACTIVAR SIRENAS: [SI/NO]**) [F3][F4]:\n   - Si seleccionas **SÍ**: las sirenas se activarán unos segundos tras el disparo del detector y se silenciarán automáticamente. Los retardos de sirena quedan **anulados** en modo prueba para agilizar el proceso [F3][F4].\n   - La edición del campo MODO se realiza con las teclas **↑** y **↓**; para pasar al campo siguiente usa **→** y **←** [F4].\n4. Pulsa **Aceptar** para guardar los cambios [F3][F4].\n5. Activa el detector (con aerosol de prueba u otro método).\n6. Verifica que la central registra la alarma.\n\n> Nota: también puedes acceder al modo prueba desde el **menú CONECTAR ZONA**, seleccionando el campo MODO = prueba, y asignando el rango de zonas con los campos INICIO y END [F4].\n\n### Consideraciones importantes del modo prueba:\n- Si transcurren **20 minutos** desde la activación del modo prueba sin que se produzca ningún disparo, el sistema **vuelve automáticamente al estado normal** [F3][F4].\n- Para **salir manualmente** del modo prueba, conecta la zona desde el **menú ZONA → CONECTAR** [F3]. Con la tecla CANCELAR se anulan los cambios no aceptados; con SALIR se sale del menú [F4].\n\n---\n\n> ⚠️ El mantenimiento anual exige poner el equipo en estado de prueba y verificar que **todos los detectores y pulsadores** funcionan de acuerdo con las especificaciones del fabricante [F10]. Las comprobaciones deben respetar las recomendaciones de la norma **EN54 parte 14** [F10].\n\n---\n\n**Fuentes:** Manual de Usuario `55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT` (sin revisión registrada); Manual de Instalación `55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT` (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **configuración de maniobras tras el alta del detector**, **desconexión temporal de un elemento para trabajos**, o **interpretación del valor analógico (VA) del detector**.",
+      "answer_sha256": "f3268b2221a96e43507d67df45615055e4b4e1434e77154dc817018bb1fe7b80"
+    },
+    {
+      "item_id": "hp001",
+      "response_id": "msg_011Cd9Wma1vorsEt7Yz87MCU",
+      "selected_unit_ids": [
+        "E023_ce2f0931c0",
+        "E025_669a42a878",
+        "E027_83b806c04b",
+        "E002_af099fe9bc",
+        "E008_e68d4f6f88",
+        "E018_7b82d88c5d"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 16323,
+        "output_tokens": 1000,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.063969,
+      "stop_reason": "end_turn",
+      "answer": "## Acceso al menú de programación avanzada — CAD-250\n\nEl acceso se realiza en dos fases: primero entrar como administrador, luego navegar hasta el submenú **AVANZADO**.\n\n---\n\n### Paso 1 — Acceder como administrador\n\n1. Desde la **PANTALLA DE REPOSO**, toca el icono del candado (🔒) en el centro de la pantalla [F1][F2].\n2. Se abrirá la **PANTALLA DE ACCESO** solicitando el código de acceso [F1][F2].\n3. Introduce la **clave de administrador por defecto: `2222`** [F1][F2].\n\n> ⚠️ Asegúrate de tener la autorización y los conocimientos necesarios. El uso indebido o negligente del nivel de acceso con **PRIVILEGIOS DE ADMINISTRADOR** puede provocar un mal funcionamiento de la instalación **que puede provocar la pérdida de vidas humanas** [F2].\n\n**Nota sobre niveles de acceso:** La clave de administrador (`2222`) da acceso al nivel de configuración completo. Existe también una **clave de usuario por defecto: `1111`** [F4], que ofrece un nivel de acceso más restringido. Dependiendo de la clave introducida, ciertos parámetros de configuración no estarán disponibles [F1][F2].\n\n---\n\n### Paso 2 — Navegar hasta Configuración Avanzada\n\nUna vez en la pantalla de administrador, sigue esta ruta:\n\n**AJUSTES** (Menú principal) **→ AVANZADO** (Submenú) [F5]\n\n---\n\n### Paso 3 — Pestañas disponibles en AVANZADO\n\nDentro de **AVANZADO** encontrarás 3 pestañas [F5][F8]:\n\n- **SISTEMA:** Configura características esenciales como el número de cabinas (paneles, valor del 1 al 4), número de lazos y si hay cabina con LEDs de zona (valor 0 ó 1). Para validar los cambios debes pulsar el botón **Guardar y Reiniciar** [F5].\n- **OTROS:** 5 interruptores para facilitar puesta en marcha y mantenimiento: tiempo de inactividad, salto a scroll si incidentes, saltar a último incidente prioritario si timeout, recordar estado de módulos virtuales en pantalla de incidentes, y salida automática del modo test (configurable entre 1 y 24 horas) [F8].\n- **REINICIAR:** Devuelve los valores de configuración del panel a valores por defecto. No afecta a la configuración de entidades, lazos, maniobras, grupos, módulos virtuales, modos especiales, filtros de red ni registros de eventos [F8].\n\n> ⚠️ Por razones de seguridad y cumplimiento normativo, por defecto todos los interruptores de inactividad, timeout y scroll deben estar activados (en verde) [F8][F9].\n\n---\n\n**Nota:** El nivel de administrador (Nivel 2) también da acceso a todos los demás submenús de configuración: Lazo, Sectorización, Maniobras, Logs, Red, Instalación, etc. [F3].\n\n---\n\nFuentes: CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23); Manual de Instalación CAD-250 MI\\_372\\_es\\_2024 e; Manual de Usuario CAD-250 MU 376 es 2024 f; CAD-250 Manual Software Configuración MS-416-es-2026-b (rev. b)\n\n---\n\nTambién puedo ayudarte con: **configuración del número de lazos en AVANZADO > SISTEMA**, **opciones del submenú MANIOBRAS** o **gestión de usuarios y contraseñas** en la CAD-250.",
+      "answer_sha256": "74fd0550f493da6d9fa32c8561dee7c06da25c7f86527cd0147625b3ba5b20a4"
+    },
+    {
+      "item_id": "hp003",
+      "response_id": "msg_011Cd9WnnKNnhwxJN784PYAN",
+      "selected_unit_ids": [
+        "E002_a217fb3fdf",
+        "E023_c1314256d8",
+        "E024_82df48f461"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 14491,
+        "output_tokens": 756,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.054813,
+      "stop_reason": "end_turn",
+      "answer": "## Conexión de baterías en la CAD-150-8\n\n### ⚠️ Orden de conexión obligatorio\n\n**Primero red, después baterías.** Si no se respeta este orden, el equipo podría sufrir daños [F8].\n\n1. Conectar primero la alimentación de red (**230 VAC**) activando el magnetotérmico bipolar [F6].\n2. Conectar las baterías a continuación [F6].\n\n---\n\n### Tipo de baterías requeridas\n\nLa central requiere **dos baterías de 12V 7A/h** conectadas **en serie** para obtener los 24V de funcionamiento [F12].\n\n---\n\n### Procedimiento de conexión de baterías\n\n1. **Coloca las baterías** en la parte inferior de la caja, en el espacio reservado para ello, de forma vertical [F12].\n2. **Conecta las baterías entre sí en serie** mediante el cable puente suministrado con la central, uniendo el polo positivo de una batería con el polo negativo de la otra [F12].\n3. **Conecta los cables del circuito** (rojo y negro) al positivo y negativo de las baterías respectivamente [F1].\n4. El conector de batería en la PCB Base está identificado como **conector 11** (etiquetado **BA1** / **BA7** en el diagrama de la placa) [F2][F3].\n5. La placa también dispone de un **fusible de baterías** (componente **10**) [F2][F3].\n\n---\n\n### Arranque solo con baterías (si fuera necesario)\n\nSi se necesita encender el equipo únicamente con baterías, es **imprescindible pulsar el pulsador BAT** (componente **9** — Tecla arranque por batería) para arrancar el equipo [F6][F2].\n\n---\n\n### Verificación previa\n\nAntes de conectar, comprueba con voltímetro que las baterías tienen una tensión **superior a 24 V** [F6].\n\n---\n\n### Capacidades de batería según modelo\n\nLa gama CAD-150-8 incluye modelos con distintas capacidades [F8]:\n- Modelos de 1, 2 y 4 lazos no ampliables → baterías de **7 A/h**\n- Modelos de 4 lazos ampliable a 8 lazos → baterías de **18 A/h** o **24 A/h**\n\n---\n\n**Fuentes:** 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT (sin revisión registrada); 55315008 Manual Centrales Analógicas CAD-150-8 Usuario ES FR GB IT (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **conexión del bucle analógico**, **puesta en marcha completa** o **verificación de fusibles** de la CAD-150-8.",
+      "answer_sha256": "49e18b343c8938da8f7f8e9a36ccc40c7d43668fc6a242d629b1732d81cd65e7"
+    },
+    {
+      "item_id": "hp015",
+      "response_id": "msg_011Cd9WoBQCQdoukQhqdhZEh",
+      "selected_unit_ids": [
+        "E002_79003bb7de",
+        "E003_26f35253ba",
+        "E002_8b319b175c",
+        "E003_4af54650ab"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 15132,
+        "output_tokens": 615,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.054621,
+      "stop_reason": "end_turn",
+      "answer": "## Desactivación individual de detector en la CCD-103\n\nEl manual no describe ningún procedimiento para desactivar un detector de forma individual sin afectar al resto del lazo. La unidad mínima de desconexión en la CCD-103 es la **zona completa**.\n\n---\n\n### Lo que sí permite el sistema: desconexión de zona completa\n\nEl procedimiento para desconectar una zona es el siguiente [F1][F3]:\n\n1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta** (desbloqueada) [F3].\n2. Pulsa la **tecla de zona** correspondiente **dos veces** → la zona queda desconectada [F1].\n3. Para reconectar la zona: pulsa la **tecla de zona una vez** → zona conectada de nuevo [F1].\n\n**Indicaciones visuales al desconectar una zona** [F1]:\n- **Indicador de anular:** activo de forma continua.\n- **Indicador de anular en zona:** encendido fijo en la zona desconectada.\n- **Indicador de sirenas anuladas:** encendido de forma continua si las sirenas también están anuladas.\n\n> ⚠️ **Advertencia importante:** Cuando una zona está desconectada, la central **no refleja ninguna incidencia ni evento** en esa zona. El manual indica expresamente que es importante **limitar el uso de esta maniobra** [F1].\n\n---\n\n### Limitación de capacidad: máximo 32 detectores por zona\n\nRecuerda que el número máximo de detectores o pulsadores por zona es **32** [F5]. Esto es relevante si estás valorando reorganizar zonas como alternativa para aislar un detector concreto.\n\n---\n\n### Alternativa a nivel de cableado\n\nSi necesitas aislar físicamente un detector concreto sin desconectar toda la zona, el manual no describe ningún procedimiento específico para ello. Consulta directamente al soporte técnico de Detnov para verificar si existe algún accesorio o método aprobado para aislar detectores individuales en esta central.\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)\n\nTambién puedo ayudarte con: **procedimiento de prueba de zona**, **resolución de avería en zona** o **conexionado de detectores en la CCD-103**.",
+      "answer_sha256": "099f263257988b3aeebe81d242ba04e6e66286c899b1fe215be61adec19dfd82"
+    },
+    {
+      "item_id": "cat017",
+      "response_id": "msg_011Cd9Wma1S3TmU98Rxoy9fr",
+      "selected_unit_ids": [
+        "E001_cf355ea3e5",
+        "E002_a9f3c7a3a7",
+        "E007_91cb3640e9",
+        "E008_937f68ec1b",
+        "E012_902018fa62",
+        "E002_65ed3487cb",
+        "E007_ebfceddf51",
+        "E019_39be8d77c9",
+        "E021_1736298218"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 19054,
+        "output_tokens": 2200,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.090162,
+      "stop_reason": "max_tokens",
+      "answer": "# Cableado y configuración de lazo — Notifier INSPIRE E10/E15\n\n---\n\n## 1. CABLEADO FÍSICO DEL LAZO\n\n### Terminales del módulo LAZO OPAL X2 (HOP-433-100)\n\nEl módulo de doble lazo tiene 10 terminales [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1**: Lazo 1 Salida +VE (OUT +VE)\n- Terminal **2**: Lazo 1 Salida -VE (OUT -VE)\n- Terminal **3**: ⊕ — **NO conectar pantalla aquí**\n- Terminal **4**: Lazo 1 Entrada +VE (IN +VE)\n- Terminal **5**: Lazo 1 Entrada -VE (IN -VE)\n\n**Lazo 2:**\n- Terminal **6**: Lazo 2 Salida +VE (OUT +VE)\n- Terminal **7**: Lazo 2 Salida -VE (OUT -VE)\n- Terminal **8**: ⊕ — **NO conectar pantalla aquí**\n- Terminal **9**: Lazo 2 Entrada +VE (IN +VE)\n- Terminal **10**: Lazo 2 Entrada -VE (IN -VE)\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3]. Se recomienda poner a tierra un solo extremo de la pantalla [F5].\n\n> ⚠️ **No mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n---\n\n### Topología del lazo\n\nEl lazo es un circuito cerrado (bucle): la central tiene **Salida** (terminales 1/2) y **Entrada** (terminales 4/5). Los dispositivos se encadenan desde la Salida hasta la Entrada [F1]. Se recomienda conectar solo con **cable de 2 hilos** [F6].\n\n---\n\n### Capacidad por lazo [F2][F4]\n\n**Modo OPAL:**\n- Hasta **159 detectores** OPAL\n- Hasta **159 módulos** OPAL (sirenas, pulsadores, módulos E/S)\n- Corriente máxima por lazo: **750 mA**\n\n**Modo CLIP** (requiere licencia):\n- Hasta **99 detectores** CLIP\n- Hasta **99 módulos** CLIP\n\n> ⚠️ **Restricción EN54-2, apartado 13.7**: máximo **512 detectores y/o pulsadores** por módulo de lazo (los 2 circuitos en conjunto) [F2].\n\n---\n\n### Numeración de lazos [F2]\n\nLos circuitos se numeran secuencialmente de **izquierda a derecha** del portamódulos. En la E15 (dos filas), la segunda fila continúa la numeración desde la primera.\n\n---\n\n## 2. COMPROBACIONES PREVIAS A LA CONEXIÓN\n\nAntes de conectar el lazo a la central, realiza estas pruebas con multímetro [F6][F7][F8]:\n\n### Preparación de aisladores [F8]\n\n- En dispositivos **OPAL**: al retirar el detector de la base **B501 AP**, se mantiene la continuidad — las bases tienen terminales **+2 y +4** que se conectan automáticamente al retirar el sensor. En módulos de lazo y pulsadores con aisladores: terminales **+2 y +4** en módulos, terminales **+3 y +4** en pulsadores.\n- En dispositivos **CLIP con aisladores**: el conductor positivo del lazo será un circuito abierto. Puentea temporalmente los terminales **2 y 4** de cada aislador para realizar las comprobaciones.\n- Consulta el manual de instalación **HOP-138-9ES** para los tipos de dispositivos compatibles con aisladores internos [F8].\n\n### Comprobaciones con multímetro\n\n1. **Continuidad del lazo**: comprueba continuidad de cada tramo y mide resistencia extremo a extremo [F6][F8].\n\n2. **Resistencia máxima admisible** [F8]:\n   - Protocolo **OPAL**: resistencia < **40 Ω**\n   - Protocolo **CLIP** (con detección de dirección duplicada): < **40 Ω**\n   - Protocolo **CLIP** (sin detección de dirección duplicada): < **71 Ω**\n   - Capacidad del cable: inferior a **0,5 µF**\n   - Resistencia por aislador: entre **0,1 y 0,13 Ω**\n\n   > Para medir: desconecta el lazo de los terminales de la central, mide entre Lazo X Entrada -VE y Lazo X Salida -VE, multiplica el resultado por 2 y suma la resistencia de cada aislador. Verifica que los valores estén alineados con el **Calculador Global de Baterías de Bucle en CLSS Suite** [F8].\n\n3. **Pantalla del cable** [F6][F7]:\n   - Comprueba continuidad de la pantalla (resistencia muy baja).\n   - Verifica que NO hay continuidad entre la pantalla y el cable +VE.\n   - Verifica que NO hay continuidad entre la pantalla y el cable -VE.\n   - Si la pantalla **no** está conectada a la barra de tierra de la central, comprueba que no tenga ninguna otra conexión con tierra en ningún punto del recorrido del lazo [F7].\n\n4. **Prueba de diodo** (con función diodo del multímetro) [F7]:\n   - En **polaridad inversa** (+VE del multímetro al -VE del lazo, -VE del multímetro al +VE del lazo): debe indicar diodo en conducción directa.\n   - En **polaridad normal** (+VE al +VE del lazo, -VE al -VE del lazo): la resistencia debe empezar baja y aumentar progresivamente (carga de condensadores de los dispositivos).\n   - Si en polaridad normal aparece diodo en conducción directa → hay dispositivos con polaridad invertida o cortocircuito.\n   - Si se detectan dispositivos con polaridad invertida (paso anterior), localízalos mediante **sectorización sucesiva del lazo**. Si el diseño lo dificulta, la sección afectada puede identificarse desde los mensajes de avería de la central una vez eliminados los dispositivos con aisladores y encendido el sistema [F7].\n\n5. **Herramienta recomendada**: usa la **POL-200-TS** para diagnósticos más detallados antes de conectar a la central; funciona con protocolos OPAL y CLIP [F5].\n\n> ⚠️ **NUNCA uses un comprobador de alta tensión (megóhmetro) en el circuito de lazo** [F6].\n\n---\n\n## 3. PRIMER ENCENDIDO Y CONFIGURACIÓN INICIAL\n\n### Secuencia de encendido [F1]\n\n1. Conecta el cableado del lazo a los terminales correspondientes.\n2. Conecta el cable HMI de la puerta a la CPU (punto \"a\" → toma \"b\").\n3. Conecta la corriente principal y las baterías (**2 × 12 V 24 Ah** para E10/E15).\n\n> ⚠️ El primer encendido debe hacerse **sin cableado externo** (módulos de salida, etc.), pero **con el lazo conectado y probado** [F1].\n\n> ⚠️ Toma las precauciones adecuadas para evitar la activación inadvertida de la alimentación a los equipos del sistema conectados durante el encendido, como los equipos conectados a módulos que envían señales a un centro de control [F1].\n\n---\n\n### Configuración del lazo con CLSS [F9]\n\nAntes de realizar la Auto Configuración en lazos CLIP o TC800, la central debe configurarse previamente con el **programa de configuración CLSS** [F9]:\n\n1. Conecta la herramienta de configuración CLSS a la central.\n2. Ve a **Ajustes → Ajustes HMI** y en **Tipo de marca** selecciona **Notifier EN** [F9].\n3. Ve a **Ajustes de lazo** [F1][F9]:\n   - Si el lazo **no se",
+      "answer_sha256": "29244235c12ba3f95c267542730f02b63b55cd1c156208c99c1e8c5a9b05a790"
+    },
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "response_id": "msg_011Cd9WoZppgy97jqYJcuJbf",
+      "selected_unit_ids": [
+        "E006_d258502fbc",
+        "E009_023c11fb75",
+        "E010_7b5c3dfc2f",
+        "E012_7ba3e36661"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 14380,
+        "output_tokens": 1219,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.061425,
+      "stop_reason": "end_turn",
+      "answer": "## Comparativa Kidde 2X-AF1-S vs 2X-AF2-SCFB-S\n\n---\n\n### 1. Interfaz de usuario (frontal)\n\n- **2X-AF1-S** → Interfaz usuario: **Sin controles de Bomberos** [F2]\n- **2X-AF2-SCFB-S** → Interfaz usuario: **Interfaz escandinava** (Scandinavian Fire Brigade user interface con Scandinavian-key lock) [F3][F4]\n\n---\n\n### 2. Efecto de instalar el indicador LED de incendio/avería en la variante escandinava\n\nEn el **2X-AF2-SCFB-S**, si se monta el indicador LED de incendio/avería de **24 zonas** (con espacio para número de 4 dígitos), esto **elimina el bloqueo de llave escandinava** (*this will remove the Scandinavian-key lock*) [F3].\n\n> ⚠️ Nota importante: el indicador disponible para este modelo es de **24 zonas** [F3], no de 20 o 40 zonas como en el AF1-S [F1].\n\n---\n\n### 3. Salidas supervisadas: estándar de sirena/enrutado vs. dedicadas a incendio/avería comunes\n\n#### 2X-AF1-S\n\n- **Salidas supervisadas estándar de sirena/enrutado de incendio:**\n  - **2** salidas supervisadas sounder/fire-routing (también usables como salidas libremente programables) [F1]\n  - Voltaje de supervisión: **Supervised, 4, 750 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n\n- **Salidas supervisadas dedicadas a incendio y avería comunes:**\n  - **2** salidas supervisadas trabajando en par, dedicadas a condiciones comunes de incendio y avería [F1]\n  - Señalización de alarma de incendios: **350 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n  - Señalización de averías: **350 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n\n---\n\n#### 2X-AF2-SCFB-S\n\n- **Salidas supervisadas estándar de sirena/enrutado de incendio:**\n  - **4** salidas supervisadas sounder/fire-routing (también usables como salidas libremente programables) [F3]\n  - Voltaje de supervisión: **Supervised, 4, 750 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n\n- **Salidas supervisadas dedicadas a incendio y avería comunes:**\n  - **2** salidas supervisadas trabajando en par, dedicadas a condiciones comunes de incendio y avería [F3]\n  - Señalización de alarma de incendios: **350 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n  - Señalización de averías: **350 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n  - Especificación adicional en tabla Output: **General Fire + Fault supervised: 2, 350 mA, 19.5 to 28 VDC (24 VDC nominal)** [F4]\n\n---\n\n### Resumen de diferencias clave en salidas\n\n- **Salidas sounder/fire-routing estándar:** AF1-S tiene **2**; AF2-SCFB-S tiene **4** [F1][F3]\n- **Salidas dedicadas incendio/avería comunes:** ambos modelos tienen **2** [F1][F3]\n- El AF2-SCFB-S incluye además la fila \"General Fire + Fault supervised\" con rango mínimo de **19.5 VDC** (frente a **21 VDC** del AF1-S) [F2][F4]\n- El AF2-SCFB-S dispone de **2 relés de salida convencionales** adicionales a las salidas supervisadas [F3]\n\n---\n\nFuentes: 2x-af1-s-161721-es (sin revisión registrada, last updated 19 January 2026); 2x-af2-scfb-s-161721-es (sin revisión registrada, last updated 19 January 2026)\n\n---\n\nTambién puedo ayudarte con: **capacidad de lazos y dispositivos por modelo**, **opciones de red y nodos**, o **especificaciones de batería y alimentación** de ambos paneles.",
+      "answer_sha256": "9587c33563729130b1474c26dd6ffc83d7cd28a814981b2951a56c0830f64327"
+    },
+    {
+      "item_id": "hp010",
+      "response_id": "msg_011Cd9Wo5JqJT1M1X8TUDZNg",
+      "selected_unit_ids": [
+        "E002_82cd7f6fa9",
+        "E002_0392ca9424",
+        "E004_a809c43734",
+        "E008_ec2ef8b627",
+        "E014_1a7c662d5d",
+        "E002_e9bbd09758",
+        "E004_7c1dd7aeaf",
+        "E001_80b29e0e4b",
+        "E002_e58721bfaf",
+        "E003_f9e3ca2582"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 19377,
+        "output_tokens": 1305,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.077706,
+      "stop_reason": "end_turn",
+      "answer": "## Añadir un nuevo detector al lazo en la DXc tras la puesta en marcha\n\nEl proceso se basa en la función **Autobúsqueda de equipos**. Cuando se conecta un nuevo detector al lazo, la central genera el evento **\"EQUIPO NUEVO\"** [F2], indicando que ha detectado un equipo no registrado. La solución es realizar una autobúsqueda para aceptarlo [F2].\n\n---\n\n### Pasos para realizar la Autobúsqueda\n\n1. **Accede al Nivel 2** introduciendo la clave (por defecto **1234**) desde el menú de estado [F10].\n\n2. **Navega al menú de Lazos** y **pulsa la tecla `2`** para seleccionar la función **'Autobúsqueda'** [F1]:\n   ```\n   [Lazo]                 Mie 13/04/2011 17:33:50\n   1:Confg.Equipos        2:Autobusqueda\n   ```\n\n3. **Si la central tiene más de un lazo**, introduce el número de lazo correspondiente y pulsa **⊙** para confirmar [F1]:\n   ```\n   [Autobusqueda]\n   Sel.Num.Lazo (1-2) :1\n   OK:Confirm  1-2:↕:Edit   ←:Cancel\n   ```\n\n4. La central pedirá confirmación. **Pulsa ⊙** para iniciar el proceso. Para cancelar, pulsa **⊞** [F1]:\n   ```\n   [Autobusqueda]\n   Lazo: 1  Autobusqueda?\n   OK:Confirm   ←:Cancel\n   ```\n\n5. **Espera** a que finalice el reconocimiento (se muestra una barra de progreso en pantalla) [F1].\n\n6. Al terminar, **verifica el resumen** mostrado en pantalla. Comprueba que el campo **\"Nuevos\"** refleja el número de detectores añadidos y que el total de equipos y tipos coincide con la instalación real [F1]:\n   ```\n   [Lazo]\n   Lazo: 1           Total: 13\n   Nuevos:0          Elimin.:0  Cambiad:0\n   ION: 0 OPT: 1 TMP: 1 MLT: 2\n   PUL: 4 MON: 0 SIR: 2 REL: 1 OTROS: 2\n   ```\n   La mitad inferior de la pantalla muestra un subtotal de cada tipo de equipo: sensores en la línea superior y módulos en la inferior [F1].\n\n7. **Pulsa ⊞** para salir de la pantalla de resultados y regresar al menú de Lazo [F1].\n\n---\n\n### ⚠️ Aviso importante\n\n> Si en tu instalación el protocolo es seleccionable y has realizado un cambio de protocolo, **espera dos minutos** antes de lanzar la autobúsqueda. La central intenta rearmar los equipos del lazo y requiere tiempo para completar este proceso [F1].\n\n---\n\n### Consideraciones de cableado al añadir el detector\n\n- El lazo debe mantenerse en **bucle cerrado** tras la incorporación del nuevo equipo [F3].\n- **No puentees los terminales**: corta el cable en cada conexión para mantener la supervisión de las conexiones [F4].\n- Se recomienda instalar aisladores de cortocircuito en puntos estratégicos del lazo (límites entre zonas) para evitar que un cortocircuito externo provoque la pérdida de más de **32 puntos direccionables** del sistema [F4].\n- Si el nuevo detector queda entre aisladores, verifica que no superas el límite de **32 sensores/pulsadores entre aisladores** exigido por **EN54-2: 12.5.2** [F3].\n- Conecta el inicio del cableado desde los terminales positivo y negativo de un lado del conector de la placa base, y la vuelta a los terminales positivo y negativo del otro lado [F3].\n- Asegúrate de que el equipo está correctamente **polarizado** (positivo y negativo) [F3].\n- Consulta las especificaciones del fabricante del detector suministradas con los equipos [F3].\n\n**Nota:** Los módulos de control del lazo incorporan aisladores, por lo que no es necesario colocar aisladores en las salidas de la central [F4].\n\n---\n\n**Fuente:** DXc Manual de configuración (sin revisión registrada); Eventos/Averías de Equipos en DXc (sin revisión registrada); DXc Manual de usuario (sin revisión registrada)\n\nTambién puedo ayudarte con: **verificación de tipos de equipo tras autobúsqueda (Tabla 4 de abreviaturas)**, **anulación temporal de un equipo durante trabajos en el lazo** o **compatibilidad de versiones MK-DXC Configuration Tools** para programación posterior.\n\nDIAGRAMAS_RELEVANTES: [3, 5]",
+      "answer_sha256": "4b275fdc3bcc95bd4f460337695e3b51b7c182eeeddc970430f19a3237539643"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "response_id": "msg_011Cd9WoxqRa8HsSYwQqT5P4",
+      "selected_unit_ids": [
+        "E006_180d6d9302",
+        "E014_a736924936",
+        "E017_9d3ba7aba2",
+        "E018_b191957649",
+        "E019_4cad6fb03b",
+        "E022_3001b5a8dc"
+      ],
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 14219,
+        "output_tokens": 1175,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.060282,
+      "stop_reason": "end_turn",
+      "answer": "## Kidde ModuLaser — Función de cada referencia\n\n---\n\n### 9-30781-KID-EN → **Standard Display Module** (módulo de visualización estándar)\n\nEste es el módulo accesible para operación y configuración. Sus funciones son [F1][F2]:\n\n- **Interfaz de usuario**: pantalla TFT a color, botones de navegación y LEDs de estado [F1]\n- **Configuración**: del propio módulo y de los módulos detector asociados, mediante interfaz local, software Remote por ordenador (USB slave) o SenseNET [F1]\n- **Conectividad**: 2 puertos USB (master para pen drive, slave para PC), IP y APIC [F2]\n- **Registro de eventos**: 20 000 eventos por módulo [F2]\n- **Capacidad de red**: soporta hasta **8 módulos detector** (configuraciones Standard y Minimum); la variante Command soporta hasta **127 módulos** en la red SenseNET [F1]\n- **Consumo a 24 VDC**: **232 mA** [F2]\n\n> ⚠️ El Display Module **no aspira ni analiza el aire**. No tiene entrada de tubería de muestreo propia para redes de detección.\n\n---\n\n### 9-30783-KID-EN → **Detector Module** (módulo detector)\n\nEste es el módulo que se instala en cada zona de muestreo. Sus funciones son [F3][F4]:\n\n- **Aspiración**: extrae el aire del área protegida a través de la red de tuberías [F3]\n- **Análisis**: analiza el aire mediante dispersión láser y ClassiFire, y determina si hay pre-alarma o alarma [F3]\n- **Actuación local por relé**: ante condición de alarma o fallo, **activa la salida de relé local correspondiente** según la programación de los relés [F3]\n- **Reporte al Display Module**: simultáneamente comunica la condición al módulo de visualización al que está conectado [F3]\n- **Transmisión a la central de incendios**: la información de alarma de zona puede transmitirse a la central mediante la tarjeta APIC común del Display Module o a través de los **relés de alarma dedicados dentro de cada módulo detector** [F3]\n- **Salidas**: **3 salidas por módulo**, libres de tensión, contacto **2 A a 30 VDC**, NO/NC/C, programables [F4]\n- **Consumo a 24 VDC**: **260 mA** (velocidad de ventilador 1), **380 mA** (velocidad 6, por defecto), **940 mA** (velocidad 16) [F4]\n\n---\n\n### Dimensionamiento de redes de muestreo — sobre qué módulo contabilizar\n\nLa entrada de tubería se contabiliza **sobre el Detector Module (9-30783-KID-EN)**. Los parámetros de dimensionamiento por módulo detector son [F4]:\n\n- **Longitud máxima combinada de tubería**: hasta **250 m** por módulo detector\n- **Puntos de muestreo máximos**:\n  - Clase A: hasta **20** por módulo detector\n  - Clase B: hasta **40** por módulo detector\n  - Clase C: hasta **50** por módulo detector\n- **Tamaño de entrada de tubería**: **27 o 25 mm** de diámetro exterior\n- **Ubicación de entrada**: parte superior o inferior del módulo\n- **Cantidad de entradas de tubería**: **1 por módulo detector** [F4]\n\n> Cada red de muestreo (zona) se conecta a un único módulo detector. El Display Module no tiene entrada de tubería de muestreo.\n\n---\n\n### Resumen funcional\n\n- **9-30781-KID-EN** → Interfaz, operación, configuración y comunicación. Sin tubería de muestreo.\n- **9-30783-KID-EN** → Aspiración, análisis, actuación local por relé y conexión de red de tuberías. **1 entrada de tubería por módulo**, hasta **250 m** combinados.\n\n---\n\n**Fuentes:**\n- 9-30781-kid-en-161721-es (sin revisión registrada)\n- 9-30783-kid-en-161721-es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **consumos para el cálculo de la fuente de alimentación**, **capacidad máxima de módulos por Display Module** o **especificaciones de las salidas de relé del Detector Module**.",
+      "answer_sha256": "7fa97bf0e723dddd215f091c2df2e23e86a43cccc574b7935bc5da47012a60a2"
+    }
+  ],
+  "result_sha256": "d4483d6fb926ff97ff4252648e812e5738cb963ad28fbb3980115256d5d2ef3f"
+}

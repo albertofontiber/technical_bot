@@ -1,0 +1,51 @@
+{
+  "schema": "s219_baseline_answer_receipts_v1",
+  "status": "COMPLETE",
+  "historical_reused": 7,
+  "contemporary_generated": 2,
+  "receipts": [
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "response_id": "msg_011Cd9WPJVfgtAdH7ZhqQfqk",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 12144,
+        "output_tokens": 1212,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.054612,
+      "stop_reason": "end_turn",
+      "answer": "## Comparativa Kidde 2X-AF1-S vs 2X-AF2-SCFB-S\n\n---\n\n### 1. Interfaz de usuario (frontal)\n\n- **2X-AF1-S** → Interfaz usuario: **Sin controles de Bomberos** [F2]\n- **2X-AF2-SCFB-S** → Interfaz usuario: **Interfaz escandinava** (Scandinavian Fire Brigade user interface con Scandinavian-key lock) [F3][F4]\n\n---\n\n### 2. Efecto de instalar el indicador LED de incendio/avería en la variante escandinava\n\nEn el **2X-AF2-SCFB-S**, si se monta el indicador LED de incendio/avería de **24 zonas**, esto **elimina el bloqueo de llave escandinava** (*this will remove the Scandinavian-key lock*) [F3].\n\n> ⚠️ Nota importante: el indicador disponible para este modelo es de **24 zonas** (con espacio para número de 4 dígitos) [F3], no de 20 o 40 zonas como en el AF1-S [F1].\n\n---\n\n### 3. Salidas supervisadas: estándar de sirena/enrutado vs. dedicadas a incendio/avería comunes\n\n#### 2X-AF1-S [F1][F2]\n\n- **Salidas supervisadas estándar de sirena/enrutado de incendio:**\n  - **2** salidas supervisadas sounder/fire-routing (también usables como salidas libremente programables) [F1]\n  - Especificación eléctrica: **Voltaje de supervisión: Supervised, 4, 750 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n\n- **Salidas supervisadas dedicadas a incendio y avería comunes:**\n  - **2** salidas supervisadas trabajando en par, dedicadas a condiciones comunes de incendio y avería [F1]\n  - Señalización de alarma de incendios: **350 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n  - Señalización de averías: **350 mA / 21 to 28 VDC (24 VDC nominal)** [F2]\n\n---\n\n#### 2X-AF2-SCFB-S [F3][F4]\n\n- **Salidas supervisadas estándar de sirena/enrutado de incendio:**\n  - **4** salidas supervisadas sounder/fire-routing (también usables como salidas libremente programables) [F3]\n  - Especificación eléctrica: **Voltaje de supervisión: Supervised, 4, 750 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n\n- **Salidas supervisadas dedicadas a incendio y avería comunes:**\n  - **2** salidas supervisadas trabajando en par, dedicadas a condiciones comunes de incendio y avería [F3]\n  - Señalización de alarma de incendios: **350 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n  - Señalización de averías: **350 mA, 21 to 28 VDC (24 VDC nominal)** [F4]\n  - Especificación adicional en tabla Output: **General Fire + Fault supervised: 2, 350 mA, 19.5 to 28 VDC (24 VDC nominal)** [F4]\n\n---\n\n### Resumen de diferencias clave en salidas\n\n- **Salidas sounder/fire-routing estándar:** AF1-S tiene **2**; AF2-SCFB-S tiene **4** [F1][F3]\n- **Salidas dedicadas incendio/avería comunes:** ambos modelos tienen **2** [F1][F3]\n- El AF2-SCFB-S incluye además la fila \"General Fire + Fault supervised\" con rango mínimo de **19.5 VDC** (frente a **21 VDC** del AF1-S) [F2][F4]\n\n---\n\nFuentes: 2x-af1-s-161721-es (sin revisión registrada, last updated 19 January 2026); 2x-af2-scfb-s-161721-es (sin revisión registrada, last updated 19 January 2026)\n\n---\n\nTambién puedo ayudarte con: **capacidad de lazos y dispositivos por modelo**, **opciones de red y nodos**, o **especificaciones de batería y alimentación** de ambos paneles.",
+      "answer_sha256": "16c21d6602dd977be614554888dde2a37c46168176be1bd904636bc80b6e73b1"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "response_id": "msg_011Cd9WPJdMCucZAJUfWpDMH",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 12029,
+        "output_tokens": 1081,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.052302,
+      "stop_reason": "end_turn",
+      "answer": "## Kidde ModuLaser — Función de cada referencia\n\n---\n\n### 9-30781-KID-EN → **Standard Display Module** (módulo de visualización estándar)\n\nEste es el módulo accesible para operación y configuración. Sus funciones son [F1][F2]:\n\n- **Interfaz de usuario**: pantalla TFT a color, botones de navegación y LEDs de estado [F1]\n- **Configuración**: del propio módulo y de los módulos detector asociados, mediante interfaz local, software Remote por ordenador (USB slave) o SenseNET [F1]\n- **Conectividad**: 2 puertos USB (master para pen drive, slave para PC), IP y APIC [F2]\n- **Registro de eventos**: 20 000 eventos por módulo [F2]\n- **Capacidad de red**: soporta hasta **8 módulos detector** [F1]\n- **Consumo a 24 VDC**: **232 mA** [F2]\n\n> ⚠️ El Display Module **no aspira ni analiza el aire**. No tiene entrada de tubería de muestreo propia para redes de detección.\n\n---\n\n### 9-30783-KID-EN → **Detector Module** (módulo detector)\n\nEste es el módulo que se instala en cada zona de muestreo. Sus funciones son [F3][F4]:\n\n- **Aspiración**: extrae el aire del área protegida a través de la red de tuberías [F3]\n- **Análisis**: analiza el aire mediante dispersión láser (ClassiFire) y determina si hay pre-alarma o alarma [F3]\n- **Actuación local por relé**: ante condición de alarma o fallo, **activa la salida de relé local correspondiente** según la programación de los relés [F3]\n- **Reporte al Display Module**: simultáneamente comunica la condición al módulo de visualización al que está conectado [F3]\n- **Salidas**: **3 salidas por módulo**, libres de tensión, contacto **2 A a 30 VDC**, NO/NC/C, programables [F4]\n- **Consumo a 24 VDC**: **260 mA** (velocidad de ventilador 1), **380 mA** (velocidad 6, por defecto), **940 mA** (velocidad 16) [F4]\n\n---\n\n### Dimensionamiento de redes de muestreo — sobre qué módulo contabilizar\n\nLa entrada de tubería se contabiliza **sobre el Detector Module (9-30783-KID-EN)**. Los parámetros de dimensionamiento por módulo detector son [F4]:\n\n- **Longitud máxima combinada de tubería**: hasta **250 m** por módulo detector\n- **Puntos de muestreo máximos**:\n  - Clase A: hasta **20** por módulo detector\n  - Clase B: hasta **40** por módulo detector\n  - Clase C: hasta **50** por módulo detector\n- **Tamaño de entrada de tubería**: **27 o 25 mm** de diámetro exterior\n- **Ubicación de entrada**: parte superior o inferior del módulo\n- **Cantidad de entradas de tubería**: **1 por módulo detector** [F4]\n\n> Cada red de muestreo (zona) se conecta a un único módulo detector. El Display Module no tiene entrada de tubería de muestreo.\n\n---\n\n### Resumen funcional\n\n- **9-30781-KID-EN** → Interfaz, operación, configuración y comunicación. Sin tubería de muestreo.\n- **9-30783-KID-EN** → Aspiración, análisis, actuación local por relé y conexión de red de tuberías. **1 entrada de tubería por módulo**, hasta **250 m** combinados.\n\n---\n\n**Fuentes:**\n- 9-30781-kid-en-161721-es (sin revisión registrada)\n- 9-30783-kid-en-161721-es (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **consumos para el cálculo de la fuente de alimentación**, **capacidad máxima de módulos por Display Module** o **especificaciones de las salidas de relé del Detector Module**.",
+      "answer_sha256": "646f79386ab305f7f3192669702dddbe818553dca203cf558d8a05eca8eac5bf"
+    }
+  ],
+  "result_sha256": "a2c9acb1370b338eb5b1c3a0191b955c1c15741d7738eb47c960f2774ccd2baa"
+}

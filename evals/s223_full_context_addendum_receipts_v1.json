@@ -1,0 +1,196 @@
+{
+  "schema": "s223_full_context_addendum_receipts_v1",
+  "status": "COMPLETE",
+  "receipts": [
+    {
+      "item_id": "hp001",
+      "response_id": "msg_011Cd9XgRZeytwr7t1uad44N",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7573,
+        "output_tokens": 115,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.024444,
+      "stop_reason": "end_turn",
+      "addendum": "El borrador indica que la pestaña OTROS tiene '5 interruptores' [F8], lo cual es correcto. Sin embargo, el fragmento F5 describe solo '3 interruptores' en la pestaña OTROS. Esta discrepancia entre fuentes no requiere corrección del borrador ya que F8 es la fuente más detallada y completa. No se detectan omisiones materiales adicionales respecto a lo preguntado.",
+      "addendum_sha256": "1808125a6413ee788beb40f42ccc2b6d439c7746a51ca518f7513fd49b0bcfca"
+    },
+    {
+      "item_id": "cat016",
+      "response_id": "msg_011Cd9XgRXfvej7Hg2ynCY4X",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7322,
+        "output_tokens": 276,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.026106,
+      "stop_reason": "end_turn",
+      "addendum": "Una precisión material no incluida en el borrador:\n\n**Prerrequisito de instalación física antes de alimentar:** El fragmento [F9] indica que es recomendable alimentar y probar la central **antes** de conectar dispositivos como detectores y pulsadores ('Es recomendable que el equipo se alimente y se pruebe antes de conectar dispositivos como detectores, pulsadores etc.'). Esto invierte parcialmente el orden descrito en el borrador (paso 1: instalar detector sin alimentación → paso 2: alimentar central). El procedimiento correcto según [F9] implica que la central ya debería estar operativa antes de conectar nuevos dispositivos al lazo, no que se instale el detector con el sistema sin alimentación como paso previo obligatorio.\n\nAdemás, el borrador no menciona que el mantenimiento **mensual de usuario** también exige probar la instalación mediante el disparo de un detector o pulsador, recomendando probar cada mes una zona diferente, y que cualquier anomalía debe anotarse en el libro de registro de incidencias [F10].",
+      "addendum_sha256": "9ccc1fc27ce7651c702f1a948cc05bfbdd58bfd915652df3ac13fa4ed6f84677"
+    },
+    {
+      "item_id": "hp003",
+      "response_id": "msg_011Cd9Xgm6epVo49y8pRg8Pc",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 8149,
+        "output_tokens": 496,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.031887,
+      "stop_reason": "end_turn",
+      "addendum": "Precisiones materialmente necesarias que faltan en el borrador:\n\n1. **Especificación de las baterías**: La central analógica requiere exactamente **dos baterías de 12V 7A/h** conectadas **en serie** para obtener los 24V de funcionamiento [F12]. El borrador no menciona que son dos baterías de 12V conectadas en serie, ni la capacidad de 7A/h para los modelos base.\n\n2. **Cómo se conecta el cable puente**: El cable puente debe conectarse del **polo positivo (+) de una batería al polo negativo (-) de la otra** [F12][F11]. El borrador solo menciona «conectar las baterías entre sí con el cable puente» sin especificar la polaridad del puente.\n\n3. **Ubicación física de las baterías**: Las baterías se colocan en la **parte inferior de la caja, en el espacio reservado para ello, de forma vertical** [F12]. El borrador no indica dónde se ubican físicamente.\n\n4. **Verificación post-conexión**: Tras realizar la conexión, todos los indicadores de la central deberían estar **apagados excepto el LED verde de servicio**; si se hubiese programado algún retardo de sirena, también debería encenderse el **LED de modo retardado**. Cualquier indicación diferente debe investigarse y repararse antes de continuar [F6].\n\n5. **Restricción durante la instalación**: No se debe realizar la instalación de la central con la alimentación conectada; siempre hay que **desconectar el magnetotérmico bipolar exterior antes de manipular la central** [F12].\n\n6. **Prohibición de uso del fusible de red**: No se debe usar nunca el **fusible de la regleta de red** para conectar/desconectar la central; debe usarse el **magnetotérmico** [F12].",
+      "addendum_sha256": "986eacd2e683bd85afdb6041f174c36b3dfc12b6bd888b6752a66307c9866503"
+    },
+    {
+      "item_id": "cat008",
+      "response_id": "msg_011Cd9XgRtkQvqotVGCpV9mN",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 6034,
+        "output_tokens": 714,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.028812,
+      "stop_reason": "end_turn",
+      "addendum": "Una precisión material falta en el borrador:\n\n**Terminales de lazo del M710 (y variantes):** Según [F3], [F9] y [F11], en el M710/M710E la asignación es la inversa a la indicada en el borrador para los terminales 1-4: T1 = Salida del lazo (–), T2 = Salida del lazo (+), T3 = Entrada del lazo (–), T4 = Entrada del lazo (+). El borrador los etiqueta como 'Lazo entrada (–)' en T1 y 'Lazo entrada (+)' en T2, lo cual corresponde a la nomenclatura del MI-DMMI [F1] pero no coincide con la del M710 según [F11] y [F3], donde T1/T2 son salida y T3/T4 son entrada. Ambas nomenclaturas coexisten en los fragmentos, pero el borrador las unifica sin advertir la diferencia.\n\n**Referencia de resistencia EOL para MI-DMMIE:** [F5] indica que la referencia es **MO-EOL-R** (no M200-EOL-R) en la figura del MI-DMMIE, aunque [F10] y otros fragmentos usan M200-EOL-R para el M710E. El borrador no distingue esta posible diferencia de referencia entre modelos.\n\n**Modo 3 estados — resistencia en serie con contacto ABIERTO:** [F1] especifica que la resistencia de 18 kΩ se conecta en serie con el **contacto abierto** ('resistencia de 18K en serie con el contacto abierto'), detalle que el borrador omite al decir genéricamente 'en serie con cada contacto/conmutador'.\n\n**Referencia alternativa para modo 3 estados en MI-DMMI:** [F6] menciona el componente **M200-EOL4** (resistor pack) como alternativa para el modo 3 estados en el MI-DMMI, referencia que el borrador no recoge junto a la M200E-EOL-R18 [F8].\n\n**Terminal 5 conectado internamente con terminal 4 (no con terminal 2):** El borrador afirma en la sección de aislador que 'El terminal 5 está conectado internamente con el terminal 4' [F8][F7], pero en la nota del MI-DMMI [F7] se indica que está conectado con el terminal 2. Ambos fragmentos difieren: [F7] dice 'conectado internamente con el terminal 2' y [F8]/[F3]/[F11] dicen 'conectado internamente con el terminal 4'. El borrador recoge ambas versiones sin señalar la discrepancia entre fuentes.",
+      "addendum_sha256": "672812eb7b07e5406013bb33c623945c84cde08371b742f6b2234af4ec1d9a60"
+    },
+    {
+      "item_id": "hp010",
+      "response_id": "msg_011Cd9Xh1UMD4Vk6iZxEnxaR",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 9937,
+        "output_tokens": 370,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.035361,
+      "stop_reason": "end_turn",
+      "addendum": "Una precisión material falta en el borrador respecto a los fragmentos servidos:\n\n**Acceso al menú de Lazos requiere Nivel 3 / Programación, no solo Nivel 2.** El fragmento [F1] muestra que la función 'Autobúsqueda' se encuentra dentro del menú **[Lazo]**, que a su vez está bajo **'7:Programacion/Niv3'** del menú de Nivel 2 [F10]. El borrador indica en el paso 1 que basta con «Acceder al Nivel 2» y en el paso 2 menciona entre paréntesis «Programación/Nivel 3» de forma ambigua, pero no especifica que la ruta concreta desde el menú de Nivel 2 es pulsar **'7' (Programacion/Niv3)** y, dentro de ese submenú, navegar hasta la opción de **Lazos** para llegar al menú donde se pulsa '2' para Autobúsqueda. El acceso a Nivel 3 puede requerir una clave distinta a la de Nivel 2 (la pantalla de acceso muestra «Introd.Clave Niv. 2/3» [F10]), por lo que el instalador debe tener la clave de Nivel 3 si la autobúsqueda está bajo ese nivel. El borrador no advierte de este requisito de clave/nivel adicional.",
+      "addendum_sha256": "b090562b0ea1188941d0686c64a93c536878583cb3bedf09801fca4c34e89290"
+    },
+    {
+      "item_id": "cat017",
+      "response_id": "msg_011Cd9XgS5fBE3SUKeQvJFt2",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 12220,
+        "output_tokens": 957,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.051015,
+      "stop_reason": "end_turn",
+      "addendum": "Las siguientes precisiones materialmente necesarias faltan en el borrador:\n\n1. **Longitud máxima del lazo calculada con CLSS**: El borrador menciona que la longitud se calcula con CLSS pero no indica el valor máximo orientativo. [F2] especifica que la longitud puede ser de **hasta 3,5 km dependiendo del tipo de carga y de cable**.\n\n2. **Aprobación VdS 2540 y sus límites específicos**: [F4] indica que la aprobación VdS 2540 aplica con **99 detectores + 99 módulos por lazo de Ø 0,8 mm**. El borrador menciona la opción 'Limitar a VdS 2540' en CLSS pero no detalla estos límites ni el tipo de cable asociado.\n\n3. **Dispositivos OPAL con aisladores internos — comportamiento del conductor positivo**: [F6] y [F8] advierten que con aisladores en cada dispositivo, **el conductor positivo del lazo será un circuito abierto**. Esto es relevante para interpretar correctamente las mediciones de continuidad. El borrador no menciona esta condición al describir las comprobaciones previas.\n\n4. **Procedimiento específico para lazos CLIP antes de medir continuidad**: [F8] indica que para dispositivos CLIP con aisladores instalados se deben **puentear temporalmente los terminales 2 y 4 de cada aislador** antes de realizar las comprobaciones de continuidad. El borrador omite este paso previo obligatorio para lazos CLIP.\n\n5. **Bases B501 AP — continuidad automática al retirar el detector**: [F8] especifica que al retirar el detector OPAL de la base B501 AP, **los terminales +2 y +4 se conectan automáticamente manteniendo la continuidad del lazo**. En módulos y pulsadores con aisladores los terminales son +2/+4 y +3/+4 respectivamente. El borrador no menciona este comportamiento relevante para las pruebas.\n\n6. **Localización de dispositivos con dirección duplicada tras Auto Configuración**: [F11] añade que los dispositivos con dirección duplicada pueden localizarse buscando aquellos con **LED amarillos intermitentes**, y que los dispositivos configurados con dirección 00 deben verificarse en la pantalla 'NO ASIGNADO'. El borrador lista las causas de avería pero no estos métodos de localización.\n\n7. **Dispositivos de alta potencia identificados incorrectamente**: [F11] indica que los dispositivos OPAL de alta alimentación serán identificados como dispositivos antiguos de no alta potencia durante la Auto Configuración, y la solución es **eliminarlos manualmente y agregarlos con el programa de configuración CLSS**. El borrador no menciona esta casuística.\n\n8. **Avería de circuito abierto enclavada**: [F11] especifica que si tras corregir una avería de circuito abierto la central sigue mostrando la avería, **pulsar el botón REARMAR** puede limpiar la avería de tipo enclavado. El borrador no menciona este paso de verificación post-corrección.\n\n9. **Estado de lazo — diagnóstico desde la central**: [F14] describe que desde la pantalla 'Estado de lazo' se puede capturar información de diagnóstico como **revisión de hardware del módulo, resistencia del lazo por línea negativa y positiva, voltajes de entrada y salida del lazo y estado VOpto**, habilitando el botón 'Capturar detalles de diagnóstico'. El borrador no menciona esta herramienta de verificación post-configuración disponible en la propia central.",
+      "addendum_sha256": "d3e2836acce73987c632c3bd34bca6e343ebecf3625b96c531c913d302865cb0"
+    },
+    {
+      "item_id": "hp015",
+      "response_id": "msg_011Cd9XhbAtF94FHAjBURhHU",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 7147,
+        "output_tokens": 240,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.025041,
+      "stop_reason": "end_turn",
+      "addendum": "Precisión adicional relevante de los fragmentos: el procedimiento de desconexión de zona requiere una **primera pulsación** que pone la zona en **modo de prueba** (no la desconecta directamente), y solo la **segunda pulsación** la pone en modo desconexión [F3]. El borrador indica simplemente 'pulsa la tecla de zona dos veces', omitiendo que la primera pulsación activa el modo prueba como estado intermedio. Además, el borrador omite que también es posible desconectar **sirenas** (no solo zonas) mediante el modo desconexión [F1], aunque esto no afecta directamente a la pregunta. No existe en ningún fragmento ningún mecanismo, accesorio ni procedimiento para aislar un detector individual dentro de una zona, lo cual confirma la respuesta del borrador, pero el estado intermedio de prueba es una precisión material para ejecutar correctamente el procedimiento descrito.",
+      "addendum_sha256": "53d8faf24588ca35443e6bae2eb3f3e7c034ef5698869878d3fe1150b933c3a6"
+    },
+    {
+      "item_id": "kidde_modulaser_role_selection",
+      "response_id": "msg_011Cd9XhkoaEMye7bZzuPL2a",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 6576,
+        "output_tokens": 381,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.025443,
+      "stop_reason": "end_turn",
+      "addendum": "El borrador contiene una imprecisión material en la sección de dimensionamiento: la tabla de especificaciones de tubería de muestreo (\"Sampling pipe / Inlet quantity: 1 per detector module\") aparece en el datasheet 9-30781-KID-EN [F2], no exclusivamente en el 9-30783-KID-EN [F4]. Ambos documentos recogen los mismos parámetros de tubería porque comparten la misma tabla de especificaciones técnicas. Esto no cambia la conclusión práctica —la entrada de tubería se contabiliza sobre el Detector Module (9-30783-KID-EN)— pero conviene saber que la fuente de esa especificación está presente en ambos fragmentos [F2][F4].\n\nAdemás, el borrador no menciona que el Detector Module también dispone de **salida de escape de tubería** (además de la entrada): tamaño 27 o 25 mm de diámetro exterior, ubicable en la parte superior o inferior [F4]. Este dato es relevante al trazar el esquema funcional de la red de muestreo, ya que permite configurar redes en retorno o con escape independiente.\n\nFinalmente, el borrador no recoge que el Detector Module tiene **2 entradas supervisadas por módulo** (terminación 15 KΩ 5% 1/4 W, programables) [F4], dato que puede ser necesario al dimensionar conexiones de dispositivos externos en el esquema funcional.",
+      "addendum_sha256": "ae63907b875469063b20846a92cae5e86f139135df4d60adfbcdd7d029334b00"
+    },
+    {
+      "item_id": "kidde_2xa_interface_tradeoffs",
+      "response_id": "msg_011Cd9Xhe5kXrMDfcLzeEZYW",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 6797,
+        "output_tokens": 542,
+        "server_tool_use": null,
+        "service_tier": "standard"
+      },
+      "cost_usd": 0.028521,
+      "stop_reason": "end_turn",
+      "addendum": "El borrador afirma que el 2X-AF1-S tiene '2 salidas supervisadas sounder/fire-routing' y que el 2X-AF2-SCFB-S tiene '4 salidas supervisadas sounder/fire-routing', pero la tabla de especificaciones de ambos modelos muestra en la fila 'Voltaje de supervisión': 'Supervised, 4, 750 mA / 21 to 28 VDC' [F2][F4], es decir, 4 salidas supervisadas en ambos modelos según esa fila. Sin embargo, el texto descriptivo del panel del AF1-S indica explícitamente 'standard 2 supervised sounder/fire-routing outputs' [F1] y el del AF2-SCFB-S indica 'standard 4 supervised sounder/fire-routing outputs' [F3]. El borrador no aclara esta aparente discrepancia entre el texto descriptivo (2 para AF1-S) y la tabla de especificaciones (4 supervisadas en ambos); el lector debe saber que la fila 'Voltaje de supervisión: Supervised, 4' en el AF1-S [F2] podría referirse a un total de 4 salidas supervisadas (incluyendo las 2 de incendio/avería comunes), no solo a las sounder/fire-routing. Adicionalmente, el borrador no menciona que el AF2-SCFB-S incluye una fila adicional 'Loop / Outputs: 250 mA, 29 VDC (29 to 36 VDC)' en su tabla de especificaciones [F4], dato presente en los fragmentos pero omitido. Por último, el borrador indica que el AF1-S soporta indicadores de '20 o 40 zonas' [F1] y el AF2-SCFB-S solo de '24 zonas' [F3], lo cual es correcto, pero no señala que en el AF2-SCFB-S el indicador de 24 zonas incluye 'space for a 4 digit number' [F3], detalle relevante para la comparativa de frontales.",
+      "addendum_sha256": "b9d2042cec540b94d6e57a97f52bc342ba47edeeedc0943c0735bb29fe2f2a7b"
+    }
+  ],
+  "result_sha256": "2372b3416db7fcd3ef75ada54c5cea6ae8e0a994fd1d974b6731103bfe13704f"
+}
