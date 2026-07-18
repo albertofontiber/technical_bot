@@ -1,0 +1,1244 @@
+{
+  "schema": "s266_kidde_background_ledger_v1",
+  "status": "COMPLETE",
+  "calls": [
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_2xaf2_variant_relational_matrix",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "background": true,
+      "transport_retries_configured": 2,
+      "background_create_retries_configured": 0,
+      "background_poll_retries_configured": 2,
+      "status": "completed",
+      "raw_output": "{\"canary_id\":\"kidde_2xaf2_variant_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Tengo que preparar una matriz técnica de las centrales Kidde 2X-AF2-FB, 2X-AF2-FB-S y 2X-AF2-SCFB. Compáralas, sin recomendar cuál instalar, en interfaz y controles de bomberos, formato de caja y dimensiones, máximo de lazos, salidas programables, baterías admitidas y efecto del PAK sobre la corriente y tensión del lazo. Si un modelo presenta afirmaciones distintas sobre controles o batería, conserva ambas con su alcance en vez de escoger una.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Matriz técnica:\\n\\n| Campo | 2X-AF2-FB | 2X-AF2-FB-S | 2X-AF2-SCFB |\\n|---|---|---|---|\\n| Interfaz, fila técnica | Con controles de Bomberos | Con controles de Bomberos | Sin controles de Bomberos |\\n| Caja | Grande; 446 × 536 × 164 mm (W × H × D); 7,4 kg netos sin batería | Pequeña; 409 × 285 × 154 mm; 5,2 kg netos sin batería | Grande; 446 × 536 × 164 mm; 7,4 kg netos sin batería |\\n| Montaje/material | Superficie; acero pintado | Superficie; acero pintado | Superficie; acero pintado |\\n| Máximo de lazos | 4 | 2 | 4 |\\n| Salida programable | Hasta 8 (2 por placa de lazo), 21–28 VDC, 24 VDC nominal | Igual | Igual |\\n| Batería: capacidad general / soportada en la caja | Máx. 2 × 12 V / 18 Ah en ambas filas | Máx. 2 × 12 V / 18 Ah en «Capacidad», pero máx. 2 × 12 V / 7,2 Ah en «Baterías soportadas en el alojamiento» | Máx. 2 × 12 V / 18 Ah en ambas filas |\\n| Lazo con PAK | 500 mA ampliables a 800 mA a 37 VDC (28–37 VDC) | Igual | 500 mA a 37 VDC (28–37 VDC) / 800 mA a 20 VDC (19,95–20,05 VDC) |\\n\\nEn la SCFB, la fila técnica «Sin controles de Bomberos» coexiste con la descripción de interfaz escandinava integrada, controles de interfaz de bomberos escandinavos y cerradura con llave escandinava; ambas afirmaciones deben conservarse sin reconciliarlas. En la FB-S también deben mantenerse separadas las dos filas de batería, pues 18 Ah es la capacidad general indicada y 7,2 Ah lo declarado como soportado dentro del alojamiento. Para las baterías se especifica usar los cables suministrados.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La fila técnica de interfaz distingue a las variantes: 2X-AF2-FB y 2X-AF2-FB-S figuran «Con controles de Bomberos», mientras que 2X-AF2-SCFB figura «Sin controles de Bomberos».\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=con controles; FB-S=con controles; SCFB=sin controles\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Con controles de Bomberos».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Con controles de Bomberos».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Sin controles de Bomberos».\"}]},{\"fact_id\":\"F02\",\"text\":\"En la 2X-AF2-SCFB, la declaración «Sin controles de Bomberos» coexiste con su descripción como interfaz escandinava integrada, con controles de interfaz de bomberos escandinavos y cerradura con llave escandinava; la discrepancia debe exponerse sin elegir una versión.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"SCFB: «Sin controles de Bomberos» y, simultáneamente, interfaz/controles escandinavos con cerradura escandinava\",\"citations\":[{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":1,\"evidence\":\"Título «integrated scandinavian UI» y detalle «Scandinavian Fire Brigade user interface controls and Scandinavian-key lock».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla General indica «Sin controles de Bomberos».\"}]},{\"fact_id\":\"F03\",\"text\":\"2X-AF2-FB y 2X-AF2-SCFB comparten caja grande de 446 × 536 × 164 mm y 7,4 kg netos sin batería; 2X-AF2-FB-S usa caja pequeña de 409 × 285 × 154 mm y 5,2 kg. Las tres son de montaje superficial y acero pintado.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=SCFB: grande, 446×536×164 mm, 7,4 kg; FB-S: pequeña, 409×285×154 mm, 5,2 kg; todas superficie/acero pintado\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Grande; 446 × 536 × 164 mm; 7.4 kg sin batería; superficie; acero pintado.\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Pequeño; 409 × 285 × 154 mm; 5.2 kg sin batería; superficie; acero pintado.\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Grande; 446 × 536 × 164 mm; 7.4 kg sin batería; superficie; acero pintado.\"}]},{\"fact_id\":\"F04\",\"text\":\"El máximo de lazos es 4 para 2X-AF2-FB, 2 para 2X-AF2-FB-S y 4 para 2X-AF2-SCFB.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=4; FB-S=2; SCFB=4\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 4».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 2».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 4».\"}]},{\"fact_id\":\"F05\",\"text\":\"La fila de salida programable es idéntica en los tres modelos: hasta 8 salidas, 2 por placa de lazo, entre 21 y 28 VDC, con 24 VDC nominales.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Hasta 8 (2 por placa de lazo), 21–28 VDC (24 VDC nominal)\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"}]},{\"fact_id\":\"F06\",\"text\":\"En 2X-AF2-FB y 2X-AF2-SCFB, tanto la capacidad general como las baterías soportadas en el alojamiento son como máximo 2 × 12 V / 18 Ah. En 2X-AF2-FB-S existe un conflicto: «Capacidad» indica máximo 2 × 12 V / 18 Ah, pero «Baterías soportadas en el alojamiento» indica máximo 2 × 12 V / 7,2 Ah; no debe elegirse una cifra ni fusionarse el alcance de ambas filas. Se prescriben los cables suministrados.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=18 Ah/18 Ah; FB-S=18 Ah general frente a 7,2 Ah en alojamiento; SCFB=18 Ah/18 Ah; 2×12 V y cables suministrados\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería en reposo: capacidad y baterías en alojamiento, máx. 2 × 12 V / 18 Ah, usando cables suministrados.\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Capacidad: máx. 2 × 12 V, 18 Ah; alojamiento: máx. 2 × 12 V, 7.2 Ah; usar cables suministrados.\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería en reposo: capacidad y baterías en alojamiento, máx. 2 × 12 V, 18 Ah, usando cables suministrados.\"}]},{\"fact_id\":\"F07\",\"text\":\"El PAK aumenta la corriente de lazo de 500 a 800 mA en los tres modelos. Para 2X-AF2-FB y 2X-AF2-FB-S, la fila técnica dice «500 mA ampliable a 800 mA a 37 VDC (28 a 37 VDC)»; para 2X-AF2-SCFB separa los estados: 500 mA a 37 VDC (28 a 37 VDC) y 800 mA a 20 VDC (19,95 a 20,05 VDC).\",\"type\":\"core\",\"state\":\"present\",\"value\":\"PAK: 500→800 mA; FB/FB-S a 37 VDC (28–37); SCFB 500 mA a 37 VDC y 800 mA a 20 VDC (19,95–20,05)\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":1,\"evidence\":\"«High loop power PAK available to increase the loop power from 500 mA to 800 mA».\"},{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «500 mA expandable to 800 mA at 37 VDC (28 to 37 VDC)».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":1,\"evidence\":\"«High loop power PAK to increase the loop power from 500 mA to 800 mA».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «500 mA expandable to 800 mA at 37 VDC (28 to 37 VDC)».\"}]}],\"notes\":\"La comparación usa las tres variantes y no deriva recomendaciones. Se conservan explícitamente la discrepancia de interfaz de la SCFB y el conflicto de capacidad/alojamiento de batería de la FB-S.\"}",
+      "usage": {
+        "input_tokens": 51940,
+        "output_tokens": 73002,
+        "total_tokens": 124942
+      },
+      "provider_trace": {
+        "id": "resp_0aed7ce40dfbfb19006a5bd730fb408190be5ef11aab83d139",
+        "created_at": 1784403761.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7364b5c819095bed0d848082f0e",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd74036308190a721c3319511439b",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7491ed48190aff44478d13bc871",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd751a2f881909b0c49f285e874a2",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd75a81a8819093011280363565b6",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd762e1348190ba66d7b4a0c1dbed",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd76bb2888190ad3e645eba7d8650",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd77393508190b43baf825471f14f",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd77bd8548190bd7fdd38c187d5cb",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7858f9c8190adbb8bdde516ac44",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd78fc4cc8190b5869775b6a0322d",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd799554c81909ac6fac3580d474e",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7a2d04c8190a6a4b69013d631d5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7ad7a348190a58c5a98639ccab4",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_0aed7ce40dfbfb19006a5bd7b8841881908ea45fa6f4a411c5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "msg_0aed7ce40dfbfb19006a5bd7c373ec8190bd61d7239d57f371",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"canary_id\":\"kidde_2xaf2_variant_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Tengo que preparar una matriz técnica de las centrales Kidde 2X-AF2-FB, 2X-AF2-FB-S y 2X-AF2-SCFB. Compáralas, sin recomendar cuál instalar, en interfaz y controles de bomberos, formato de caja y dimensiones, máximo de lazos, salidas programables, baterías admitidas y efecto del PAK sobre la corriente y tensión del lazo. Si un modelo presenta afirmaciones distintas sobre controles o batería, conserva ambas con su alcance en vez de escoger una.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Matriz técnica:\\n\\n| Campo | 2X-AF2-FB | 2X-AF2-FB-S | 2X-AF2-SCFB |\\n|---|---|---|---|\\n| Interfaz, fila técnica | Con controles de Bomberos | Con controles de Bomberos | Sin controles de Bomberos |\\n| Caja | Grande; 446 × 536 × 164 mm (W × H × D); 7,4 kg netos sin batería | Pequeña; 409 × 285 × 154 mm; 5,2 kg netos sin batería | Grande; 446 × 536 × 164 mm; 7,4 kg netos sin batería |\\n| Montaje/material | Superficie; acero pintado | Superficie; acero pintado | Superficie; acero pintado |\\n| Máximo de lazos | 4 | 2 | 4 |\\n| Salida programable | Hasta 8 (2 por placa de lazo), 21–28 VDC, 24 VDC nominal | Igual | Igual |\\n| Batería: capacidad general / soportada en la caja | Máx. 2 × 12 V / 18 Ah en ambas filas | Máx. 2 × 12 V / 18 Ah en «Capacidad», pero máx. 2 × 12 V / 7,2 Ah en «Baterías soportadas en el alojamiento» | Máx. 2 × 12 V / 18 Ah en ambas filas |\\n| Lazo con PAK | 500 mA ampliables a 800 mA a 37 VDC (28–37 VDC) | Igual | 500 mA a 37 VDC (28–37 VDC) / 800 mA a 20 VDC (19,95–20,05 VDC) |\\n\\nEn la SCFB, la fila técnica «Sin controles de Bomberos» coexiste con la descripción de interfaz escandinava integrada, controles de interfaz de bomberos escandinavos y cerradura con llave escandinava; ambas afirmaciones deben conservarse sin reconciliarlas. En la FB-S también deben mantenerse separadas las dos filas de batería, pues 18 Ah es la capacidad general indicada y 7,2 Ah lo declarado como soportado dentro del alojamiento. Para las baterías se especifica usar los cables suministrados.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La fila técnica de interfaz distingue a las variantes: 2X-AF2-FB y 2X-AF2-FB-S figuran «Con controles de Bomberos», mientras que 2X-AF2-SCFB figura «Sin controles de Bomberos».\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=con controles; FB-S=con controles; SCFB=sin controles\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Con controles de Bomberos».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Con controles de Bomberos».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «Interfaz usuario — Sin controles de Bomberos».\"}]},{\"fact_id\":\"F02\",\"text\":\"En la 2X-AF2-SCFB, la declaración «Sin controles de Bomberos» coexiste con su descripción como interfaz escandinava integrada, con controles de interfaz de bomberos escandinavos y cerradura con llave escandinava; la discrepancia debe exponerse sin elegir una versión.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"SCFB: «Sin controles de Bomberos» y, simultáneamente, interfaz/controles escandinavos con cerradura escandinava\",\"citations\":[{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":1,\"evidence\":\"Título «integrated scandinavian UI» y detalle «Scandinavian Fire Brigade user interface controls and Scandinavian-key lock».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla General indica «Sin controles de Bomberos».\"}]},{\"fact_id\":\"F03\",\"text\":\"2X-AF2-FB y 2X-AF2-SCFB comparten caja grande de 446 × 536 × 164 mm y 7,4 kg netos sin batería; 2X-AF2-FB-S usa caja pequeña de 409 × 285 × 154 mm y 5,2 kg. Las tres son de montaje superficial y acero pintado.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=SCFB: grande, 446×536×164 mm, 7,4 kg; FB-S: pequeña, 409×285×154 mm, 5,2 kg; todas superficie/acero pintado\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Grande; 446 × 536 × 164 mm; 7.4 kg sin batería; superficie; acero pintado.\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Pequeño; 409 × 285 × 154 mm; 5.2 kg sin batería; superficie; acero pintado.\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Físico: Grande; 446 × 536 × 164 mm; 7.4 kg sin batería; superficie; acero pintado.\"}]},{\"fact_id\":\"F04\",\"text\":\"El máximo de lazos es 4 para 2X-AF2-FB, 2 para 2X-AF2-FB-S y 4 para 2X-AF2-SCFB.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=4; FB-S=2; SCFB=4\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 4».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 2».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «Capacidad máxima del lazo — 4».\"}]},{\"fact_id\":\"F05\",\"text\":\"La fila de salida programable es idéntica en los tres modelos: hasta 8 salidas, 2 por placa de lazo, entre 21 y 28 VDC, con 24 VDC nominales.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Hasta 8 (2 por placa de lazo), 21–28 VDC (24 VDC nominal)\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Salida, Programable: «Up to 8 (2 per loop board) / 21 to 28 VDC (24 VDC nominal)».\"}]},{\"fact_id\":\"F06\",\"text\":\"En 2X-AF2-FB y 2X-AF2-SCFB, tanto la capacidad general como las baterías soportadas en el alojamiento son como máximo 2 × 12 V / 18 Ah. En 2X-AF2-FB-S existe un conflicto: «Capacidad» indica máximo 2 × 12 V / 18 Ah, pero «Baterías soportadas en el alojamiento» indica máximo 2 × 12 V / 7,2 Ah; no debe elegirse una cifra ni fusionarse el alcance de ambas filas. Se prescriben los cables suministrados.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"FB=18 Ah/18 Ah; FB-S=18 Ah general frente a 7,2 Ah en alojamiento; SCFB=18 Ah/18 Ah; 2×12 V y cables suministrados\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería en reposo: capacidad y baterías en alojamiento, máx. 2 × 12 V / 18 Ah, usando cables suministrados.\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Capacidad: máx. 2 × 12 V, 18 Ah; alojamiento: máx. 2 × 12 V, 7.2 Ah; usar cables suministrados.\"},{\"pdf\":\"2x-af2-scfb-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería en reposo: capacidad y baterías en alojamiento, máx. 2 × 12 V, 18 Ah, usando cables suministrados.\"}]},{\"fact_id\":\"F07\",\"text\":\"El PAK aumenta la corriente de lazo de 500 a 800 mA en los tres modelos. Para 2X-AF2-FB y 2X-AF2-FB-S, la fila técnica dice «500 mA ampliable a 800 mA a 37 VDC (28 a 37 VDC)»; para 2X-AF2-SCFB separa los estados: 500 mA a 37 VDC (28 a 37 VDC) y 800 mA a 20 VDC (19,95 a 20,05 VDC).\",\"type\":\"core\",\"state\":\"present\",\"value\":\"PAK: 500→800 mA; FB/FB-S a 37 VDC (28–37); SCFB 500 mA a 37 VDC y 800 mA a 20 VDC (19,95–20,05)\",\"citations\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":1},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":1,\"evidence\":\"«High loop power PAK available to increase the loop power from 500 mA to 800 mA».\"},{\"pdf\":\"2x-af2-fb-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «500 mA expandable to 800 mA at 37 VDC (28 to 37 VDC)».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":1,\"evidence\":\"«High loop power PAK to increase the loop power from 500 mA to 800 mA».\"},{\"pdf\":\"2x-af2-fb-s-161721-es.pdf\",\"page\":2,\"evidence\":\"Lazo: «500 mA expandable to 800 mA at 37 VDC (28 to 37 VDC)».\"}]}],\"notes\":\"La comparación usa las tres variantes y no deriva recomendaciones. Se conservan explícitamente la discrepancia de interfaz de la SCFB y el conflicto de capacidad/alojamiento de batería de la FB-S.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": true,
+        "completed_at": 1784403944.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "name": "generate_kidde_2xaf2_variant_relational_matrix",
+            "schema_": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "canary_id",
+                "adequacy",
+                "question",
+                "expected_behavior",
+                "gold_answer",
+                "atomic_facts",
+                "notes"
+              ],
+              "properties": {
+                "canary_id": {
+                  "type": "string",
+                  "enum": [
+                    "kidde_2xaf2_variant_relational_matrix"
+                  ]
+                },
+                "adequacy": {
+                  "type": "string",
+                  "enum": [
+                    "SUFFICIENT",
+                    "INSUFFICIENT"
+                  ]
+                },
+                "question": {
+                  "type": "string"
+                },
+                "expected_behavior": {
+                  "type": "string",
+                  "enum": [
+                    "answer"
+                  ]
+                },
+                "gold_answer": {
+                  "type": "string"
+                },
+                "atomic_facts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "fact_id",
+                      "text",
+                      "type",
+                      "state",
+                      "value",
+                      "citations",
+                      "visual_evidence"
+                    ],
+                    "properties": {
+                      "fact_id": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "core",
+                          "supplementary"
+                        ]
+                      },
+                      "state": {
+                        "type": "string",
+                        "enum": [
+                          "present"
+                        ]
+                      },
+                      "value": {
+                        "type": "string"
+                      },
+                      "citations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      },
+                      "visual_evidence": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page",
+                            "evidence"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "evidence": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      }
+                    }
+                  },
+                  "minItems": 0,
+                  "maxItems": 8
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            "type": "json_schema",
+            "description": null,
+            "strict": true
+          },
+          "verbosity": "low"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 51940,
+          "input_tokens_details": {
+            "cached_tokens": 47323,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 73002,
+          "output_tokens_details": {
+            "reasoning_tokens": 7768
+          },
+          "total_tokens": 124942
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "call_label": "generate:kidde_excellence_loop_device_roles",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "{\"canary_id\": \"kidde_excellence_loop_device_roles\", \"adequacy\": \"SUFFICIENT\", \"question\": \"En una instalación Excellence de Kidde voy a combinar en el mismo lazo el detector KE-DP3120W y la sirena con flash KE-AS3115R-WMIP. Para preparar la puesta en marcha necesito saber: ¿qué parámetros eléctricos y de aislamiento de cortocircuito comparten exactamente ambos dispositivos?, ¿qué magnitudes supervisa cada uno de cara a la central según su función (detección frente a notificación)?, ¿cómo se pone la dirección en cada uno?, y ¿cuáles son los valores propios de cada función: principio y sensibilidad de detección del detector, y categorías W y frecuencia de destello del VAD de la sirena?\", \"expected_behavior\": \"answer\", \"gold_answer\": \"Ambos dispositivos comparten la misma plataforma eléctrica del lazo Excellence: son alimentados por bucle, con voltaje de funcionamiento de 17 a 29 VDC y voltaje de comunicación de 4 a 11 V pulsada (el KE-AS3115R-WMIP admite además baterías como fuente). El bloque aislador de cortocircuito integrado es idéntico en los dos: tipo salto de línea negativo, corriente de lazo 5 mA (aislado), resistencia en serie < 0,08 Ω, corriente de conmutación 1,05 A continuo / 1,4 A pulsado, corriente de fuga < 1 mA, y voltajes de aislamiento y de reconexión de 14 a 15,5 VDC. La diferenciación de rol se ve en la supervisión hacia la central: el KE-DP3120W (detector de humo óptico dual, función de detección) supervisa Alarm threshold, Contamination level y Fault; el KE-AS3115R-WMIP (sirena/VAD, función de notificación) supervisa Activated, Battery level, Continuously self-checking, Fault, Open circuit y Short circuit. El direccionamiento también difiere: el detector se direcciona con Rotary switch (interruptores giratorios) y la sirena/VAD con DIL switch. Valores propios de cada función: el KE-DP3120W detecta por dispersión de luz óptica hacia adelante y hacia atrás, con sensibilidad seleccionable y rango de sensibilidad de partículas de 0,1 a 0,25 dB/m ±20%; el VAD del KE-AS3115R-WMIP ofrece tres calificaciones W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High), con frecuencia de destello de 0,5 Hz (1 destello cada 2 s).\", \"atomic_facts\": [{\"fact_id\": \"F01\", \"text\": \"La supervisión refleja el rol de cada dispositivo: el detector KE-DP3120W supervisa Alarm threshold, Contamination level y Fault (función de detección), mientras que la sirena/VAD KE-AS3115R-WMIP supervisa Activated, Battery level, Continuously self-checking, Fault, Open circuit y Short circuit (función de notificación).\", \"type\": \"core\", \"state\": \"present\", \"value\": \"DP3120W: Alarm threshold, Contamination level, Fault | AS3115R-WMIP: Activated, Battery level, Continuously self-checking, Fault, Open circuit, Short circuit\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Detección, fila 'Supervisión: Alarm threshold, Contamination level, Fault'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Supervisión: Activated, Battery level, Continuously self-checking, Fault, Open circuit, Short circuit'\"}]}, {\"fact_id\": \"F02\", \"text\": \"Ambos dispositivos comparten la misma plataforma eléctrica de lazo: alimentados por bucle, voltaje de funcionamiento 17 a 29 VDC y voltaje de comunicación 4 a 11 V pulsada (el KE-AS3115R-WMIP lista además 'Baterías' como tipo de fuente).\", \"type\": \"core\", \"state\": \"present\", \"value\": \"Ambos: alimentado por bucle; 17 a 29 VDC; comunicación 4 a 11 V pulsada\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Eléctrico: 'Alimentado por bucle', 'Voltaje de funcionamiento 17 a 29 VDC', 'Voltaje de comunicación 4 a 11 V pulsada'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla Eléctrico: 'Baterías, Alimentado por bucle', '17 to 29 VDC', '4 to 11 V pulsed'\"}]}, {\"fact_id\": \"F03\", \"text\": \"El bloque aislador de cortocircuito integrado es idéntico en ambos: tipo salto de línea negativo, corriente de lazo 5 mA (aislado), resistencia en serie < 0,08 Ω, corriente de conmutación 1,05 A continuo / 1,4 A pulsado, corriente de fuga < 1 mA, y voltajes de aislamiento y de reconexión de 14 a 15,5 VDC.\", \"type\": \"core\", \"state\": \"present\", \"value\": \"Ambos: salto de línea negativo; 5 mA aislado; <0,08 Ω; 1,05 A cont / 1,4 A pulsado; <1 mA fuga; 14–15,5 VDC aislamiento y reconexión\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Aislamiento: 'Salto de línea negativo', '5 mA (aislado)', '< 0.08 Ω', '1.05 A (continuo) / 1.4 A (pulsado)', '< 1 mA', '14 a 15.5 VDC'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla Aislamiento: 'Salto de línea negativo', '5 mA (isolated)', '<0.08 Ω', '1.05 A (continuous) / 1.4 A (pulsed)', '<1 mA', '14 to 15.5 VDC'\"}]}, {\"fact_id\": \"F04\", \"text\": \"El método de direccionamiento difiere entre los dos dispositivos: el KE-DP3120W usa Rotary switch (interruptores giratorios), mientras que el KE-AS3115R-WMIP usa DIL switch.\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"DP3120W: Rotary switch | AS3115R-WMIP: DIL switch\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla General, fila 'Método de direccionamiento: Rotary switch'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Método de direccionamiento: DIL switch'\"}]}, {\"fact_id\": \"F05\", \"text\": \"El VAD del KE-AS3115R-WMIP tiene tres calificaciones: W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High), con frecuencia de destello de 0,5 Hz (1 destello cada 2 s).\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"W-2-6 (Low) / W-2.4-6.5 (Mid) / W-2.4-8 (High); 0,5 Hz (1 flash cada 2 s)\", \"citations\": [{\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla VAD: 'Calificación W-2-6 (Low) / W-2.4-6.5 (Mid) / W-2.4-8 (High)' y 'Frecuencia de destello 0.5 Hz (1 flash every 2 s)'\"}]}, {\"fact_id\": \"F06\", \"text\": \"El KE-DP3120W detecta por dispersión de luz óptica hacia adelante y hacia atrás, con sensibilidad seleccionable y un rango de sensibilidad de partículas de 0,1 a 0,25 dB/m ±20%.\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"Dispersión de luz óptica hacia adelante y hacia atrás; sensibilidad seleccionable; 0,1 a 0,25 dB/m ±20%\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Detección: 'Dispersión de luz óptica, hacia adelante y hacia atrás', 'Sensitivity: Seleccionable', 'Rango de sensibilidad de particulas 0.1 a 0.25 dB/m ±20%'\"}]}], \"notes\": \"Se evitó deliberadamente el material contaminado por la cobertura existente: base compartida KE-DB3010W, presencia del aislador (sí/no), consumos en reposo/alarma, temperaturas, IP/entorno, humedad, dimensiones/peso/color, baterías CR123 (propósito/cantidad), tonos/volúmenes, alturas de montaje/cobertura del detector, certificaciones EN54 por dispositivo y distancia del indicador remoto. Los tres hechos core (F01–F03) y F04 son genuinamente cross-source: la coincidencia exacta de la plataforma eléctrica y del bloque aislador, y los contrastes de supervisión y direccionamiento, no se derivan de ninguna ficha por sí sola. F05 y F06 aportan los 'valores propios' de cada rol (VAD y detección) no cubiertos por las preguntas de aumento. Solo se usan las páginas de especificaciones (dp3120w p3 y as3115r p2), ambas dentro de la lista permitida; la pregunta exige los dos PDFs.\"}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 53444,
+        "output_tokens": 11025
+      },
+      "provider_trace": {
+        "id": "msg_011CdA6eTG8xVPHrz2TJi5to",
+        "container": null,
+        "content": [
+          {
+            "signature": "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",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\"canary_id\": \"kidde_excellence_loop_device_roles\", \"adequacy\": \"SUFFICIENT\", \"question\": \"En una instalación Excellence de Kidde voy a combinar en el mismo lazo el detector KE-DP3120W y la sirena con flash KE-AS3115R-WMIP. Para preparar la puesta en marcha necesito saber: ¿qué parámetros eléctricos y de aislamiento de cortocircuito comparten exactamente ambos dispositivos?, ¿qué magnitudes supervisa cada uno de cara a la central según su función (detección frente a notificación)?, ¿cómo se pone la dirección en cada uno?, y ¿cuáles son los valores propios de cada función: principio y sensibilidad de detección del detector, y categorías W y frecuencia de destello del VAD de la sirena?\", \"expected_behavior\": \"answer\", \"gold_answer\": \"Ambos dispositivos comparten la misma plataforma eléctrica del lazo Excellence: son alimentados por bucle, con voltaje de funcionamiento de 17 a 29 VDC y voltaje de comunicación de 4 a 11 V pulsada (el KE-AS3115R-WMIP admite además baterías como fuente). El bloque aislador de cortocircuito integrado es idéntico en los dos: tipo salto de línea negativo, corriente de lazo 5 mA (aislado), resistencia en serie < 0,08 Ω, corriente de conmutación 1,05 A continuo / 1,4 A pulsado, corriente de fuga < 1 mA, y voltajes de aislamiento y de reconexión de 14 a 15,5 VDC. La diferenciación de rol se ve en la supervisión hacia la central: el KE-DP3120W (detector de humo óptico dual, función de detección) supervisa Alarm threshold, Contamination level y Fault; el KE-AS3115R-WMIP (sirena/VAD, función de notificación) supervisa Activated, Battery level, Continuously self-checking, Fault, Open circuit y Short circuit. El direccionamiento también difiere: el detector se direcciona con Rotary switch (interruptores giratorios) y la sirena/VAD con DIL switch. Valores propios de cada función: el KE-DP3120W detecta por dispersión de luz óptica hacia adelante y hacia atrás, con sensibilidad seleccionable y rango de sensibilidad de partículas de 0,1 a 0,25 dB/m ±20%; el VAD del KE-AS3115R-WMIP ofrece tres calificaciones W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High), con frecuencia de destello de 0,5 Hz (1 destello cada 2 s).\", \"atomic_facts\": [{\"fact_id\": \"F01\", \"text\": \"La supervisión refleja el rol de cada dispositivo: el detector KE-DP3120W supervisa Alarm threshold, Contamination level y Fault (función de detección), mientras que la sirena/VAD KE-AS3115R-WMIP supervisa Activated, Battery level, Continuously self-checking, Fault, Open circuit y Short circuit (función de notificación).\", \"type\": \"core\", \"state\": \"present\", \"value\": \"DP3120W: Alarm threshold, Contamination level, Fault | AS3115R-WMIP: Activated, Battery level, Continuously self-checking, Fault, Open circuit, Short circuit\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Detección, fila 'Supervisión: Alarm threshold, Contamination level, Fault'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Supervisión: Activated, Battery level, Continuously self-checking, Fault, Open circuit, Short circuit'\"}]}, {\"fact_id\": \"F02\", \"text\": \"Ambos dispositivos comparten la misma plataforma eléctrica de lazo: alimentados por bucle, voltaje de funcionamiento 17 a 29 VDC y voltaje de comunicación 4 a 11 V pulsada (el KE-AS3115R-WMIP lista además 'Baterías' como tipo de fuente).\", \"type\": \"core\", \"state\": \"present\", \"value\": \"Ambos: alimentado por bucle; 17 a 29 VDC; comunicación 4 a 11 V pulsada\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Eléctrico: 'Alimentado por bucle', 'Voltaje de funcionamiento 17 a 29 VDC', 'Voltaje de comunicación 4 a 11 V pulsada'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla Eléctrico: 'Baterías, Alimentado por bucle', '17 to 29 VDC', '4 to 11 V pulsed'\"}]}, {\"fact_id\": \"F03\", \"text\": \"El bloque aislador de cortocircuito integrado es idéntico en ambos: tipo salto de línea negativo, corriente de lazo 5 mA (aislado), resistencia en serie < 0,08 Ω, corriente de conmutación 1,05 A continuo / 1,4 A pulsado, corriente de fuga < 1 mA, y voltajes de aislamiento y de reconexión de 14 a 15,5 VDC.\", \"type\": \"core\", \"state\": \"present\", \"value\": \"Ambos: salto de línea negativo; 5 mA aislado; <0,08 Ω; 1,05 A cont / 1,4 A pulsado; <1 mA fuga; 14–15,5 VDC aislamiento y reconexión\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Aislamiento: 'Salto de línea negativo', '5 mA (aislado)', '< 0.08 Ω', '1.05 A (continuo) / 1.4 A (pulsado)', '< 1 mA', '14 a 15.5 VDC'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla Aislamiento: 'Salto de línea negativo', '5 mA (isolated)', '<0.08 Ω', '1.05 A (continuous) / 1.4 A (pulsed)', '<1 mA', '14 to 15.5 VDC'\"}]}, {\"fact_id\": \"F04\", \"text\": \"El método de direccionamiento difiere entre los dos dispositivos: el KE-DP3120W usa Rotary switch (interruptores giratorios), mientras que el KE-AS3115R-WMIP usa DIL switch.\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"DP3120W: Rotary switch | AS3115R-WMIP: DIL switch\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla General, fila 'Método de direccionamiento: Rotary switch'\"}, {\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla General, fila 'Método de direccionamiento: DIL switch'\"}]}, {\"fact_id\": \"F05\", \"text\": \"El VAD del KE-AS3115R-WMIP tiene tres calificaciones: W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High), con frecuencia de destello de 0,5 Hz (1 destello cada 2 s).\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"W-2-6 (Low) / W-2.4-6.5 (Mid) / W-2.4-8 (High); 0,5 Hz (1 flash cada 2 s)\", \"citations\": [{\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2}], \"visual_evidence\": [{\"pdf\": \"ke-as3115r-wmip-161721-es.pdf\", \"page\": 2, \"evidence\": \"Tabla VAD: 'Calificación W-2-6 (Low) / W-2.4-6.5 (Mid) / W-2.4-8 (High)' y 'Frecuencia de destello 0.5 Hz (1 flash every 2 s)'\"}]}, {\"fact_id\": \"F06\", \"text\": \"El KE-DP3120W detecta por dispersión de luz óptica hacia adelante y hacia atrás, con sensibilidad seleccionable y un rango de sensibilidad de partículas de 0,1 a 0,25 dB/m ±20%.\", \"type\": \"supplementary\", \"state\": \"present\", \"value\": \"Dispersión de luz óptica hacia adelante y hacia atrás; sensibilidad seleccionable; 0,1 a 0,25 dB/m ±20%\", \"citations\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3}], \"visual_evidence\": [{\"pdf\": \"ke-dp3120w-161721-es.pdf\", \"page\": 3, \"evidence\": \"Tabla Detección: 'Dispersión de luz óptica, hacia adelante y hacia atrás', 'Sensitivity: Seleccionable', 'Rango de sensibilidad de particulas 0.1 a 0.25 dB/m ±20%'\"}]}], \"notes\": \"Se evitó deliberadamente el material contaminado por la cobertura existente: base compartida KE-DB3010W, presencia del aislador (sí/no), consumos en reposo/alarma, temperaturas, IP/entorno, humedad, dimensiones/peso/color, baterías CR123 (propósito/cantidad), tonos/volúmenes, alturas de montaje/cobertura del detector, certificaciones EN54 por dispositivo y distancia del indicador remoto. Los tres hechos core (F01–F03) y F04 son genuinamente cross-source: la coincidencia exacta de la plataforma eléctrica y del bloque aislador, y los contrastes de supervisión y direccionamiento, no se derivan de ninguna ficha por sí sola. F05 y F06 aportan los 'valores propios' de cada rol (VAD y detección) no cubiertos por las preguntas de aumento. Solo se usan las páginas de especificaciones (dp3120w p3 y as3115r p2), ambas dentro de la lista permitida; la pregunta exige los dos PDFs.\"}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 53444,
+          "output_tokens": 11025,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 7037
+          }
+        }
+      }
+    },
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_excellence_loop_device_roles",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "background": true,
+      "transport_retries_configured": 2,
+      "background_create_retries_configured": 0,
+      "background_poll_retries_configured": 2,
+      "status": "completed",
+      "raw_output": "{\"canary_id\":\"kidde_excellence_loop_device_roles\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Estoy preparando la ficha de arquitectura de un lazo Excellence que incorpora un KE-DP3120W y un KE-AS3115R-WMIP. ¿Cómo debo diferenciar el elemento de detección del de notificación y qué comparten en alimentación, comunicación, aislamiento y base? Incluye también los límites ambientales y los valores funcionales propios de cada equipo.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"El KE-DP3120W es el elemento de detección: un detector óptico dual direccionable que trabaja por dispersión de luz hacia delante y hacia atrás. El KE-AS3115R-WMIP es el elemento de notificación: una sirena direccionable de pared con VAD rojo.\\n\\nAmbos se alimentan desde el lazo a 17–29 VDC y se comunican mediante 4–11 V pulsados. El KE-AS3115R-WMIP añade 3 baterías CR123 opcionales para activación asistida.\\n\\nLos dos integran aislamiento por salto de línea negativo, con 5 mA en estado aislado, resistencia en serie <0.08 Ω, fuga <1 mA, conmutación de 1.05 A continua/1.4 A pulsada y aislamiento/reconexión entre 14 y 15.5 VDC.\\n\\nComparten la arquitectura de primera fijación y ambos listan la base estándar KE-DB3010W como compatible. El detector figura como montaje sobre base; el avisador es de pared y su tabla física indica base de montaje profunda.\\n\\nEn ambiente, ambos admiten 10–93 % de humedad relativa sin condensación. El detector está especificado para interior, IP20, funcionamiento de −10 a +55 °C y almacenamiento de −30 a +75 °C. El avisador declara interior/exterior, IP33C y −25 a +70 °C tanto en funcionamiento como en almacenamiento; además, se suministra con un accesorio de base superficial que asegura IP65 para aplicaciones exteriores.\\n\\nValores propios: el detector tiene 3 niveles de alarma y sensibilidad seleccionable de 0.1 a 0.25 dB/m ±20 %. La sirena entrega 55–102 dB(A), según el tono, y admite 3 etapas; el VAD rojo destella a 0.5 Hz y ofrece W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High).\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"Arquitectónicamente, el KE-DP3120W realiza la detección mediante un detector óptico dual direccionable con dispersión de luz hacia delante y hacia atrás, mientras que el KE-AS3115R-WMIP realiza la notificación mediante una sirena de pared y un VAD.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"KE-DP3120W: detección óptica dual; KE-AS3115R-WMIP: notificación sonora y visual de pared\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"El encabezado lo identifica como detector de humo óptico dual y la tabla indica dispersión de luz óptica hacia adelante y hacia atrás.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"El encabezado y la descripción lo identifican como sounder/visual alarm device (VAD) direccionable de montaje en pared.\"}]},{\"fact_id\":\"F02\",\"text\":\"Ambos equipos se alimentan por el lazo a 17–29 VDC y emplean comunicación de 4–11 V pulsados; el KE-AS3115R-WMIP admite además 3 baterías CR123 opcionales para activación asistida.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"17–29 VDC; comunicación 4–11 V pulsados; AS: 3 × CR123 opcionales para activación asistida\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Eléctrico muestra «Alimentado por bucle», 17 a 29 VDC y comunicación de 4 a 11 V pulsada.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"La sección Configuration & Operation describe «Battery assisted activation» mediante 3 baterías CR123 opcionales.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Eléctrico indica alimentación por bucle, 3 × CR123 opcionales, 17 to 29 VDC y 4 to 11 V pulsed.\"}]},{\"fact_id\":\"F03\",\"text\":\"Los dos integran aislamiento por salto de línea negativo con los mismos valores publicados: 5 mA aislado, resistencia en serie <0.08 Ω, corriente de fuga <1 mA, conmutación de 1.05 A continua/1.4 A pulsada y aislamiento y reconexión de 14 a 15.5 VDC.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Salto de línea negativo; 5 mA; <0.08 Ω; <1 mA; 1.05 A/1.4 A; 14–15.5 VDC\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Aislamiento enumera salto de línea negativo, 5 mA, <0.08 Ω, <1 mA, 1.05/1.4 A y 14 a 15.5 VDC.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Aislamiento muestra los mismos valores de tipo, corriente, resistencia, fuga, conmutación y tensiones.\"}]},{\"fact_id\":\"F04\",\"text\":\"Comparten la arquitectura de primera fijación y ambos listan la referencia KE-DB3010W como base estándar compatible; el detector figura como montaje sobre base, mientras que el avisador es de pared y su tabla física especifica base de montaje profunda.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Base compatible compartida KE-DB3010W; DP: sobre base; AS: pared con base profunda\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"Indica «base estándar», montaje sobre base y el producto compatible KE-DB3010W.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"La sección Installation afirma que los dispositivos de notificación comparten una first fix base con los detectores puntuales Excellence.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"Lista KE-DB3010W como producto compatible y especifica montaje en pared con base «Profundo».\"}]},{\"fact_id\":\"F05\",\"text\":\"Ambos admiten 10–93 % de humedad relativa sin condensación. El KE-DP3120W es de interior, IP20, funciona de −10 a +55 °C y se almacena de −30 a +75 °C. El KE-AS3115R-WMIP declara interior/exterior, IP33C y −25 a +70 °C tanto en funcionamiento como en almacenamiento; el accesorio de base superficial suministrado asegura IP65 para aplicaciones exteriores.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"DP: interior, IP20, −10/+55 °C, almacenamiento −30/+75 °C; AS: interior/exterior, IP33C, −25/+70 °C, accesorio suministrado IP65; ambos 10–93 % HR sin condensación\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Medioambiental muestra −10 a +55 °C, −30 a +75 °C, 10 a 93 % sin condensación, interior e IP20.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalles indica que se suministra con un accesorio de base superficial IP65 que asegura IP65 para aplicaciones exteriores.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Medioambiental muestra −25 to +70 °C, 10 to 93 % noncondensing, interior/exterior e IP33C.\"}]},{\"fact_id\":\"F06\",\"text\":\"Como valores propios de detección, el KE-DP3120W ofrece 3 niveles de alarma, sensibilidad seleccionable y un rango de sensibilidad de partículas de 0.1 a 0.25 dB/m ±20 %.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"3 niveles; sensibilidad seleccionable; 0.1–0.25 dB/m ±20 %\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"Las tablas General y Detección indican 3 niveles, sensibilidad seleccionable y 0.1 a 0.25 dB/m ±20 %.\"}]},{\"fact_id\":\"F07\",\"text\":\"Como valores propios de notificación, el KE-AS3115R-WMIP proporciona 55–102 dB(A), según el tono, y 3 etapas; su VAD rojo destella a 0.5 Hz y ofrece W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"55–102 dB(A); 3 etapas; VAD rojo 0.5 Hz; W-2-6/W-2.4-6.5/W-2.4-8\",\"citations\":[{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"Las tablas Sirena y VAD muestran 55 to 102 dB(A), 3 etapas, color red, las tres calificaciones W y 0.5 Hz.\"}]}],\"notes\":\"\"}",
+      "usage": {
+        "input_tokens": 39769,
+        "output_tokens": 81006,
+        "total_tokens": 120775
+      },
+      "provider_trace": {
+        "id": "resp_018eacb22de348e1006a5bd872bd9481948a5b12d5f98e578c",
+        "created_at": 1784404082.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_018eacb22de348e1006a5bd87743048194986b54866ca74e15",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd882b8a0819498d364490df3daa8",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd88d864c8194a9b74461e1b890e0",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd898a0e88194a6b1c5e7298d87d4",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8a2661c8194860cc0e1d1167936",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8aeaf1c819492716a430e19492b",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8b9df488194bbcae5605816fd5e",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8c6c674819484b4eb07a441ca79",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8d0fd708194bc5c1319664859cf",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8dc13708194a4924443c5553bb3",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8e94bf48194872a71f7d7e98da1",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8f4cb5c8194be74952f0e5f01d1",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd8fe1f948194be5bd3e03590e3ed",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd9092d9881949f700e347d9e8e6b",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd91544d88194a4922354a2a746db",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_018eacb22de348e1006a5bd91f9ccc8194aef61874d4e36610",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "msg_018eacb22de348e1006a5bd92812b481948d63101145616f6f",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"canary_id\":\"kidde_excellence_loop_device_roles\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Estoy preparando la ficha de arquitectura de un lazo Excellence que incorpora un KE-DP3120W y un KE-AS3115R-WMIP. ¿Cómo debo diferenciar el elemento de detección del de notificación y qué comparten en alimentación, comunicación, aislamiento y base? Incluye también los límites ambientales y los valores funcionales propios de cada equipo.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"El KE-DP3120W es el elemento de detección: un detector óptico dual direccionable que trabaja por dispersión de luz hacia delante y hacia atrás. El KE-AS3115R-WMIP es el elemento de notificación: una sirena direccionable de pared con VAD rojo.\\n\\nAmbos se alimentan desde el lazo a 17–29 VDC y se comunican mediante 4–11 V pulsados. El KE-AS3115R-WMIP añade 3 baterías CR123 opcionales para activación asistida.\\n\\nLos dos integran aislamiento por salto de línea negativo, con 5 mA en estado aislado, resistencia en serie <0.08 Ω, fuga <1 mA, conmutación de 1.05 A continua/1.4 A pulsada y aislamiento/reconexión entre 14 y 15.5 VDC.\\n\\nComparten la arquitectura de primera fijación y ambos listan la base estándar KE-DB3010W como compatible. El detector figura como montaje sobre base; el avisador es de pared y su tabla física indica base de montaje profunda.\\n\\nEn ambiente, ambos admiten 10–93 % de humedad relativa sin condensación. El detector está especificado para interior, IP20, funcionamiento de −10 a +55 °C y almacenamiento de −30 a +75 °C. El avisador declara interior/exterior, IP33C y −25 a +70 °C tanto en funcionamiento como en almacenamiento; además, se suministra con un accesorio de base superficial que asegura IP65 para aplicaciones exteriores.\\n\\nValores propios: el detector tiene 3 niveles de alarma y sensibilidad seleccionable de 0.1 a 0.25 dB/m ±20 %. La sirena entrega 55–102 dB(A), según el tono, y admite 3 etapas; el VAD rojo destella a 0.5 Hz y ofrece W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High).\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"Arquitectónicamente, el KE-DP3120W realiza la detección mediante un detector óptico dual direccionable con dispersión de luz hacia delante y hacia atrás, mientras que el KE-AS3115R-WMIP realiza la notificación mediante una sirena de pared y un VAD.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"KE-DP3120W: detección óptica dual; KE-AS3115R-WMIP: notificación sonora y visual de pared\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"El encabezado lo identifica como detector de humo óptico dual y la tabla indica dispersión de luz óptica hacia adelante y hacia atrás.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"El encabezado y la descripción lo identifican como sounder/visual alarm device (VAD) direccionable de montaje en pared.\"}]},{\"fact_id\":\"F02\",\"text\":\"Ambos equipos se alimentan por el lazo a 17–29 VDC y emplean comunicación de 4–11 V pulsados; el KE-AS3115R-WMIP admite además 3 baterías CR123 opcionales para activación asistida.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"17–29 VDC; comunicación 4–11 V pulsados; AS: 3 × CR123 opcionales para activación asistida\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Eléctrico muestra «Alimentado por bucle», 17 a 29 VDC y comunicación de 4 a 11 V pulsada.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"La sección Configuration & Operation describe «Battery assisted activation» mediante 3 baterías CR123 opcionales.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Eléctrico indica alimentación por bucle, 3 × CR123 opcionales, 17 to 29 VDC y 4 to 11 V pulsed.\"}]},{\"fact_id\":\"F03\",\"text\":\"Los dos integran aislamiento por salto de línea negativo con los mismos valores publicados: 5 mA aislado, resistencia en serie <0.08 Ω, corriente de fuga <1 mA, conmutación de 1.05 A continua/1.4 A pulsada y aislamiento y reconexión de 14 a 15.5 VDC.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Salto de línea negativo; 5 mA; <0.08 Ω; <1 mA; 1.05 A/1.4 A; 14–15.5 VDC\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Aislamiento enumera salto de línea negativo, 5 mA, <0.08 Ω, <1 mA, 1.05/1.4 A y 14 a 15.5 VDC.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Aislamiento muestra los mismos valores de tipo, corriente, resistencia, fuga, conmutación y tensiones.\"}]},{\"fact_id\":\"F04\",\"text\":\"Comparten la arquitectura de primera fijación y ambos listan la referencia KE-DB3010W como base estándar compatible; el detector figura como montaje sobre base, mientras que el avisador es de pared y su tabla física especifica base de montaje profunda.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Base compatible compartida KE-DB3010W; DP: sobre base; AS: pared con base profunda\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"Indica «base estándar», montaje sobre base y el producto compatible KE-DB3010W.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"La sección Installation afirma que los dispositivos de notificación comparten una first fix base con los detectores puntuales Excellence.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"Lista KE-DB3010W como producto compatible y especifica montaje en pared con base «Profundo».\"}]},{\"fact_id\":\"F05\",\"text\":\"Ambos admiten 10–93 % de humedad relativa sin condensación. El KE-DP3120W es de interior, IP20, funciona de −10 a +55 °C y se almacena de −30 a +75 °C. El KE-AS3115R-WMIP declara interior/exterior, IP33C y −25 a +70 °C tanto en funcionamiento como en almacenamiento; el accesorio de base superficial suministrado asegura IP65 para aplicaciones exteriores.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"DP: interior, IP20, −10/+55 °C, almacenamiento −30/+75 °C; AS: interior/exterior, IP33C, −25/+70 °C, accesorio suministrado IP65; ambos 10–93 % HR sin condensación\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"La tabla Medioambiental muestra −10 a +55 °C, −30 a +75 °C, 10 a 93 % sin condensación, interior e IP20.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalles indica que se suministra con un accesorio de base superficial IP65 que asegura IP65 para aplicaciones exteriores.\"},{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"La tabla Medioambiental muestra −25 to +70 °C, 10 to 93 % noncondensing, interior/exterior e IP33C.\"}]},{\"fact_id\":\"F06\",\"text\":\"Como valores propios de detección, el KE-DP3120W ofrece 3 niveles de alarma, sensibilidad seleccionable y un rango de sensibilidad de partículas de 0.1 a 0.25 dB/m ±20 %.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"3 niveles; sensibilidad seleccionable; 0.1–0.25 dB/m ±20 %\",\"citations\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3}],\"visual_evidence\":[{\"pdf\":\"ke-dp3120w-161721-es.pdf\",\"page\":3,\"evidence\":\"Las tablas General y Detección indican 3 niveles, sensibilidad seleccionable y 0.1 a 0.25 dB/m ±20 %.\"}]},{\"fact_id\":\"F07\",\"text\":\"Como valores propios de notificación, el KE-AS3115R-WMIP proporciona 55–102 dB(A), según el tono, y 3 etapas; su VAD rojo destella a 0.5 Hz y ofrece W-2-6 (Low), W-2.4-6.5 (Mid) y W-2.4-8 (High).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"55–102 dB(A); 3 etapas; VAD rojo 0.5 Hz; W-2-6/W-2.4-6.5/W-2.4-8\",\"citations\":[{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"ke-as3115r-wmip-161721-es.pdf\",\"page\":2,\"evidence\":\"Las tablas Sirena y VAD muestran 55 to 102 dB(A), 3 etapas, color red, las tres calificaciones W y 0.5 Hz.\"}]}],\"notes\":\"\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": true,
+        "completed_at": 1784404299.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "name": "generate_kidde_excellence_loop_device_roles",
+            "schema_": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "canary_id",
+                "adequacy",
+                "question",
+                "expected_behavior",
+                "gold_answer",
+                "atomic_facts",
+                "notes"
+              ],
+              "properties": {
+                "canary_id": {
+                  "type": "string",
+                  "enum": [
+                    "kidde_excellence_loop_device_roles"
+                  ]
+                },
+                "adequacy": {
+                  "type": "string",
+                  "enum": [
+                    "SUFFICIENT",
+                    "INSUFFICIENT"
+                  ]
+                },
+                "question": {
+                  "type": "string"
+                },
+                "expected_behavior": {
+                  "type": "string",
+                  "enum": [
+                    "answer"
+                  ]
+                },
+                "gold_answer": {
+                  "type": "string"
+                },
+                "atomic_facts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "fact_id",
+                      "text",
+                      "type",
+                      "state",
+                      "value",
+                      "citations",
+                      "visual_evidence"
+                    ],
+                    "properties": {
+                      "fact_id": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "core",
+                          "supplementary"
+                        ]
+                      },
+                      "state": {
+                        "type": "string",
+                        "enum": [
+                          "present"
+                        ]
+                      },
+                      "value": {
+                        "type": "string"
+                      },
+                      "citations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      },
+                      "visual_evidence": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page",
+                            "evidence"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "evidence": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      }
+                    }
+                  },
+                  "minItems": 0,
+                  "maxItems": 8
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            "type": "json_schema",
+            "description": null,
+            "strict": true
+          },
+          "verbosity": "low"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 39769,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 81006,
+          "output_tokens_details": {
+            "reasoning_tokens": 8151
+          },
+          "total_tokens": 120775
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    },
+    {
+      "provider": "fable",
+      "call_label": "generate:kidde_nc_panel_relational_matrix",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "raw_output": "{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Tengo que repartir dos centrales convencionales de Kidde entre dos edificios y necesito tener clara la diferencia entre la NC-PF4 y la NC-PF8-SC antes de pedirlas. ¿Me puedes hacer una comparativa punto a punto, dejando claro qué valor corresponde a cada modelo: número de zonas y dispositivos por zona, cuál de las dos lleva la llave escandinava, cuántos nodos admite cada una en red y hasta cuántas zonas se puede llegar en red, la carga máxima de las salidas supervisadas, hasta cuántas salidas adicionales se amplía cada panel con las placas de relés auxiliares, qué baterías admite cada caja y las dimensiones y peso de cada una?\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Comparativa NC-PF4 vs NC-PF8-SC (Kidde Commercial):\\n\\n1) Zonas y dispositivos: la NC-PF4 se suministra con 4 zonas y la NC-PF8-SC con 8 zonas; en ambas cada zona admite hasta 32 dispositivos.\\n\\n2) Llave escandinava: solo la NC-PF8-SC es el panel convencional con llave escandinava (Conventional Fire Panel with Scandinavian Key); la NC-PF4 se presenta como central convencional de 4 zonas sin soporte de llave escandinava en su ficha (su frontal no incluye la cerradura que sí muestra la NC-PF8-SC).\\n\\n3) Red: la NC-PF4 admite un tamaño de red de hasta 16 nodos, mientras que la NC-PF8-SC admite hasta 8 nodos. Ambas son conectables en red hasta 64 zonas.\\n\\n4) Salidas: ambas tienen 4 salidas supervisadas, pero la carga máxima por salida supervisada es de 250 mA en la NC-PF4 frente a 500 mA en la NC-PF8-SC. Con las placas de relés auxiliares (4 relés estándar o 4 supervisados), las salidas de la NC-PF4 se amplían con hasta 8 salidas adicionales y las de la NC-PF8-SC con hasta 16 salidas adicionales.\\n\\n5) Baterías: la NC-PF4 aloja 2 x 12 V de 7,2 Ah (SLA); la NC-PF8-SC admite 2 x 12 V de 7,2 o de 12 Ah (SLA).\\n\\n6) Caja: la NC-PF4 es de factor de forma pequeño, 320 x 435 x 134 mm (W x H x D) y 2,8 kg netos sin baterías (4,5 kg de envío); la NC-PF8-SC es de factor de forma medio, 440 x 480 x 140 mm y 3,9 kg netos sin batería (6 kg de envío). Ambas son grises (RAL 7035) y de montaje en superficie.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La NC-PF4 se suministra con 4 zonas y la NC-PF8-SC con 8 zonas; en ambos modelos cada zona admite hasta 32 dispositivos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4 = 4 zonas; NC-PF8-SC = 8 zonas; ambas 32 dispositivos/zona\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'El panel': 'Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'The Panel': 'supplied with 8 zones that support up to 32 devices per zone'\"}]},{\"fact_id\":\"F02\",\"text\":\"Solo la NC-PF8-SC incorpora la llave escandinava: su ficha la define como 'Conventional Fire Panel with Scandinavian Key - 8 Zone' (con cerradura visible en el frontal), mientras que la NC-PF4 se presenta como 'Central de incendios convencional, 4 zonas' sin mención de llave escandinava.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Llave escandinava: NC-PF8-SC sí; NC-PF4 no documentada\",\"citations\":[{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Título 'Conventional Fire Panel with Scandinavian Key - 8 Zone'; foto del panel con cerradura de llave bajo la botonera\"},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Título 'Central de incendios convencional, 4 zonas'; foto del panel sin cerradura y sin mención de llave escandinava\"}]},{\"fact_id\":\"F03\",\"text\":\"El tamaño de red en nodos difiere: la NC-PF4 admite hasta 16 nodos y la NC-PF8-SC hasta 8 nodos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Nodos de red: NC-PF4 hasta 16; NC-PF8-SC hasta 8\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla General: 'Tamaño de la red (nodos): hasta 16'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla General: 'Tamaño de la red (nodos): hasta 8'\"}]},{\"fact_id\":\"F04\",\"text\":\"Ambos modelos son conectables en red hasta 64 zonas (valor idéntico en NC-PF4 y NC-PF8-SC).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Red hasta 64 zonas en ambas\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Viñeta de 'Detalles': 'Conectable en red hasta 64 zonas'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Viñeta de 'Detalles': 'Networkable up to 64 zones'\"}]},{\"fact_id\":\"F05\",\"text\":\"Ambas centrales tienen 4 salidas supervisadas, pero la carga máxima por salida supervisada es 250 mA en la NC-PF4 frente a 500 mA en la NC-PF8-SC.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Carga máx. salida supervisada: NC-PF4 250 mA; NC-PF8-SC 500 mA (4 salidas en ambas)\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Salidas': 'Salidas supervisadas 4' / 'Carga (máx.) 250 mA'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Output': 'Supervised Outputs 4' / 'Load (max.) 500 mA'\"}]},{\"fact_id\":\"F06\",\"text\":\"Con las placas de relés auxiliares (una con 4 relés estándar y otra con 4 relés supervisados), las salidas de la NC-PF4 pueden ampliarse con hasta 8 salidas adicionales, mientras que las de la NC-PF8-SC pueden ampliarse con hasta 16 salidas adicionales.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Ampliación de salidas: NC-PF4 hasta +8; NC-PF8-SC hasta +16\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'Opciones': 'las salidas del panel se pueden ampliar con hasta 8 salidas adicionales'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'Options': 'the panel outputs may be expanded with up to 16 additional outputs'\"}]},{\"fact_id\":\"F07\",\"text\":\"Batería en reposo: la NC-PF4 admite una capacidad de 2 x 12 V, 7,2 Ah (SLA); la NC-PF8-SC admite 2 x 12 V, de 7,2 o de 12 Ah (SLA).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Batería: NC-PF4 2x12V 7,2 Ah; NC-PF8-SC 2x12V 7,2 o 12 Ah (SLA)\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Batería en reposo': 'Capacidad 2 x 12 V, 7.2 Ah (SLA)'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Batería en reposo': 'Capacidad 2 x 12 V, 7.2 or 12 Ah (SLA)'\"}]},{\"fact_id\":\"F08\",\"text\":\"Caja: la NC-PF4 es de factor de forma pequeño, mide 320 x 435 x 134 mm (W x H x D) y pesa 2,8 kg netos sin baterías; la NC-PF8-SC es de factor de forma medio, mide 440 x 480 x 140 mm y pesa 3,9 kg netos sin batería.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"NC-PF4: pequeño, 320x435x134 mm, 2,8 kg; NC-PF8-SC: medio, 440x480x140 mm, 3,9 kg\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Físico': 'Factor de forma Pequeño', 'Dimensiones físicas 320 x 435 x 134 mm (W x H x D)', 'Peso neto 2.8 kg (sin baterias)'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Físico': 'Factor de forma Medio', 'Dimensiones físicas 440 x 480 x 140 mm (W x H x D)', 'Peso neto 3.9 kg (without battery)'\"}]}],\"notes\":\"Todos los hechos son comparaciones modelo-a-modelo que requieren ambos PDFs (ningún datasheet por sí solo entaila la diferencia), a diferencia de las hyq de aumento de recuperación, que son mono-fuente por modelo. Se evitaron deliberadamente: (a) los consumos en reposo/alarma (cubiertos por hyq para NC-PF8-SC y con valores atípicos en NC-PF4: 60 mA alarma < 140 mA reposo); (b) la segunda tabla de la NC-PF4 titulada 'Salidas no supervisadas' con 250 mA @ 25°C / 195 mA @ 40°C, que en la NC-PF8-SC aparece como 'Auxilliary Supply Output' (posible inconsistencia de rótulos entre fichas); y (c) la certificación/IP/temperaturas, cubiertas por hyq. El cuerpo del datasheet NC-PF8-SC contiene la errata 'The 1X-F8-SC is...'; no se cita ese fragmento. La afirmación negativa de F02 (NC-PF4 sin llave escandinava) se apoya en los píxeles visibles: título, texto y fotografía frontal sin cerradura en la página 1 de nc-pf4, frente al título con 'Scandinavian Key' y la cerradura visible en nc-pf8-sc.\"}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 51743,
+        "output_tokens": 11184
+      },
+      "provider_trace": {
+        "id": "msg_011CdA76VtNWaYkYR3U1Dbi1",
+        "container": null,
+        "content": [
+          {
+            "signature": "CAIS8W8KiAEIDxgCKkBMfeUkb0lXT5pacPSk/o/XumiT9g3rfVfgiy6UiIYf3+ef7S386u+hBY5/GkW5naV4Hh16pzwfNB79DvN/Kc/tMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okMDVlMGEwZDctYjU3OC00MDk2LThjMzktZTJiMWU4MzU0ZmRkEgyeDuS7BwI+qi8vqHwaDCi9OVtU75NQXz44kCIwuAwbbCTepWPxSXkTJ5FYgwvsA4HvgJtWrc7eDO7qpOLDMpH6ZEXEr6SJCjoeLGvjKpVugtRIXBax7xrdZ1To3caYc6725VO3ZONlkuKV+5IsdyjakaK2Cs/NnhYNmZNPH5sF+GHR2B4bWn1IfmFYsxGDXH3IE+VoJqzw3LFq/kwkvWLz3R3wXMGxeA1JV62dcekMajhu/qwJFxXiCMRJ9tjBqj0pyg7bmyi37ED3n8dWj8YO/FhDFcWr7CXI91trDnKGBWSbuiSr8OqhZEzPMFafSO5jR3O2v5yinKTbzxxuYFAl2md6b/39VTspr0Qi3JCvPeEVo+MeXoAwBrKCTQQuIBfsLabduIjvA5UINRBiuhaNB8/brtSoekJ176Ss4SxCbaxSHaRlrl/TPt1hHBZFqjjch8to/D2JiaRz4s/GWiR1DlheMJULzRDSM2YT07KHnjEgR3s1O68C3387u2CisD/kPR0sshLg/YAXKjtg1jwjcV6uRnk/A3hG7Kp3mFd63AzTuZujpyvz5L6fxbDGN2xH1VSpoJJkf4xssfpZYD29j59D+JhwW9/CgtKBe7yjMYBUTNdBVT7OTSU+OMr5ujv/fjuaSwpd6OwJWtu6tK0wvJlLAk9fIUncfrioUhhQwVhBahcN0XxIVa7BiYCngsj34PDArNzvtnp1PtrSEwFQIPYWtRYAo7SzcZXHWGcc0Yo24wcvN+yn80BjJDgp8K1lkQiJkAKInLxoVi4FeAm9Mpd050b3wjpkFgYCsFDVasBEPHEhl6TvyMxF1/RFZS70y+QU5cFwZXsJCjHBtwKjtWA6DCBt3tNzEUniIZXOU+AmB1svZc53t2c/5W7lNrU/qH6JtDlJewFZ/Gowk/SbNOV74yewwHqtoRLlQlbTOeKi7Lpxiw9DY2jEVhXMh4m5RFURCtOYdMODqTuKORQZ3bjngRyHxf2KQ2Dp6WKz8/57q87X7Ecm3jNMdckrP3hklZLViPDBYBzT2elvtqnnr+QhhZkCPIFmFuXtV8IYEOKcASQcuEyCI/41nLjtEXwuaWr5PgBV6LhiJq8xz/BBR7h1lcPHURKRe9GOwQvJ0UHckv2SuZCD8PwRhqivv00uCGEWeNAvr3tT6ex1xTsJR9MU3R5cCrykI5HD8VLSeXwYmE5ghQlxd5aLkHLr+UW/b3XXktQnnqJI5siZltHP7VphIK+fh9e4KLvESOe7VHdLxOKUt3jvitOYoGnYAyB6UM/WdRJ1pnlnP0NKVYn0s0aWUuTjTicGC/idc0JeH1CjS6OXRb71VW5R9Ywu2WbLoZe4bp3imRLv4QZQgk4FNAntHAcj/V4jCUzZUMiJpWVT21aen3fZAXU7SMBBfSrc6o/dd6WfZ1BrvU3s0O2+f7FsPEhSCwbSHLUfl72SHx/rcOXBn1RYg0srLmloCDtM4Db+iiCSQUIWmxBCwHtR+4eco1VsFHOZPGjIoAi37Q62mH3xaausurPmzttGfs7kr4dzQdfMjYFmP4w2/xoIXQyBanhQG7cCpNZjlvPxcQ1ETEz5tmbzoHyTynTMS66q0F4VcKgc3aeEduqU6okm+gl4Sbj6ArcSOlo7D3iA+HPVv+MKQJ6TCUEX1a1n0E7g2Obnq3RPv17PahL+tbD01bqZ2UuyeGcfc19Y+5QZ2Vn9QUOVlieT4GjWLkk9/ehdJmj6IsdAhoCVk/hoHN6aEgt7CzpvG5CVYvr5tLgiIzhM7hNopDUV4oPRT+YN1GOrg9ZdP7De3R8ul00UE/+/VwNwMlovjmOu8DDSp/Ah7YK/dgQ8W1h6ayqGlxkB16Mxw8/91hzdRWkBKcNniZn6SAbKElT/EdHd45S31lnm8oAAg43aB/EKqF3JnlhLfEXBn/HZ+HOZo5tf3XqXv2sxL6IqQW7LIE+IvSW5fXEFj2ry1JIigWm0uWVVpd85a7eMmTY8+DqPxQRLUukxFXZLuIXj4jZFIMdnUeejf9vdatPmhwGNsLklJ+ov0LL/twud35TYEILOVhsQshdn8bRrTs7fD1E5ikvG8l13biTo1iCHTKSHj7MNjE7M6numegXLWLoiIZNUZ3cMvkj9MzjeI+Ndd2cMOC6Mj6scolJTrcQ8MOSXH9rFFkKIrtArQubuj5rorC5jIYslEtNtTdUMvvN15uPSJgPsPPDK77c0CnxNDI0YLQqLibxclDDhh6I7fRMDyzr6QTVP/6bfF/Pu1YRIc+2QbJzyQ410Sac+WK/LwGuktNI9JhX028CrcAzYzWMd1CqqpMalzjWYBqMJ8/45I5kJxtkkuK6NvpM3RF+AkSBNOt945F8/c1FbGYwez4igUbqWo7bDYlNMw8B5dI9G0hq6SxsfazGhQAgGcLGYcr/SkG7vgdQ7neHpHAekm/x+EBoc4fEVsz+I5gyN2PrzpI9MLLlNhq9BsY9fTzEwc+YSiMk/dWM7jJWu3pzOFjxRJuVeQ42H7Odgs6UdepnJomt9jREqcVxdNFEPihIwQwdInXNmxTmXElcIQw8vvj6rvim8Dx/wtkRuSrF47W4+2jOnHMdSGlxtD9jRB7m1IE3pCUs+4rGXT/nQH0P7JvJWeib8x4ozVC/oGw8dudv4wNLu/DfeEXMc3YtemIwyj/Yp1wg4+v1bA1TttZ/D4PMYRcYS0Jt0shBRjSU7d+LRzuqB2c9LHHi2VkdTDFS9XHd/nMKelOayiGlpxbp0UnZJlG6lq+PNQ1oLPIcGmO7euW99lHO9aEv8KCQZRqmXt76sj3onMs2szeaXBgXnmSgS55AL1drdi5xMJ6h8fJmpK/GJqKwQIBcMyvUrHFIwf4JfbwdPrZi7Cxa/8DO8hKGgD0xLQAEobXiOFZFoqWe1fHxjx1RaJoTiqGQNfTOQ9YA4SIU/yHIaLCEQ/asIlJOVyUPBdutNwXrUVHWO2RTsWx1NRE/QQ59qdRekFzLhSqG4vlQYEb32wAs6yHuFbOgT3WKB3nJambcHQwj6HOW/RBdtyKUWxDm7LazGhVgnsLMp68nYZwXk0Upinkz7QTIOlrw9f7Sy8+4QeBYUEV2r7dKbWvqR8lfChJ2oqyiOzaZI10IPzAOS8LuS4IKzByIrtcUBK6OiMdHYKKDaIJ9Hx61hxdU3OIUub6ChFMGWhbwDrM6vKLBpVnUYcFgwslRypaAIZaDn/NmZh6eUyBdZVlr697pRMMdNT9c4n/I4f57Pdvjn8JTYmOyNH35ktQ/h4h+KReNKSGE9I19kouSdRXydbLhdPtQNh5eIZPg1mvLpO9kQrFKaOa2+HWearDECv7qhnz3nXU6N2Fp6QELHYA629PNTsUSgaB4iP3HFTI3CeKHeSkE7DfEpLIekKoPQbRWm7Jait0Xc4d2E0ACJe24aMlXKPwtmTG8AIwJAi29+tmo1DiA1dT15w6Gl0g1ER0LgJGOmYhOm/B7s5twhbY3ojDUikjY6OpslO4j7oBd9P4QquXz4cACLtOo5IWf+nce6bMNkPaC6LBPdorUpRXOgU1lNPxCJ3b2d8dWZhxycx7q5LPjZ3CXRS5gwNPJdj2QxKsARb3h2+lBDxXGVHoOOu/FZ3sBNz51wdY+sDHvERoaRLqnOca6f7N1WFErSv24CJdhhS1J8KKaUksXL4KRE8EaNfuXiLirV9BshEbkUcFD8MPVLhrEDq22A5j/omVtxyUPa2FcOEVfGEgqTyLbhF3b7GjMsvj0qcb5hiDj4NwCbL76COSVhzpBCzUHFNpc47qHWH7PK07j7Dnjc0vHzTB+EKL1DB4IrgWMYdBPnvhoTj3wdnYX67BPLHycn+EWAi0D1DtJGIZE8N2glt8dbKDTSxJCgjfG69qI3cCR5FK56ERAHwQaZd2QWVrs85xlmdBeatp46Vl3bBzeVLjbF9sVJYYMOtuezjiRwt1N8Kb+VZSGQXMCK3BvauLV2sljI3SVOZzHYYg3FtRu77klZVDQFTCbhGJq65bGf7ExhOzQyWu1Lp2N/95FlDhMqSQj7+hQceap8XOt4V+B42/vRgD/rGnejYb5/+k6v+waxz3coa9+PY6RwCFfSAcA/Mw/QOBfPUz/sRv7H4oQmvvE5/Nyg3JWfEpNz4EqOUXYBzN8AmsGhzKAol68hqFihVDVogdkL2XQmBygMFAdGgZVKCSA0vIcA7rqguO6PuoIUkEJNXDv2CsZOUf4OFpJMSfLXx+lPdtJtNzF8k8v1rN2qlxuofd/X27rm7zfi7rMnlZ7zhSc2vcTZ+HewH2xzHG/20K3oPmh+CinfYYU5DXVA5HunyrQI/2Zj9Br6GCegs1Z7hMwJBcSzoHaGq9kqoMngOrYd8UOov/nVx9DPx1mQXzdH2ShRj4uwaOqHz7Uje2NpfJLwbBdmFosgSstboWEHuMLstpNW9zWrzw3xIOeQwh2ppoN3KuXoiRh6wOwehJhSq9h9bW3k89SfCWdCDPEutCoVWY/ErHgZ6Oc/IfuyAT06J7d+qO+sGBdzurorqKImEHb0VtFqRvtGMM3O+r73f9NEmNakUo0SEchBfxJWpHLr77r0lyREfM2yQyTFpiYZnofaZU5xIJvw/xprHL3rkLC+0smeU0O9n35tfd+/EklV2BCRjKCZUZHreqLGH8ey2BpDiE7PqSX6dXm9tBOSRgvHr3byCl2qvXS38vxX65pkVHXHOv84eOGnXLS/q6oMGOiNt46FgrC80JwaUfRBDYY3m7FsM82wMKxAZ1JKiaNpPUj5FqaTNPPbZYg8qgh9ZODIVFrGwx8oZd1g9qJfUmHzfN6CmWGIN0O0UG8HQNYkierAKmDdWIf6UtWSdAHtAMv3hNntE+PmUokLMH1ZQ3DunHLttWTahKPKQ5QpEu5mZf15uK7KhPQpvdcg8GWdShX1JMQifQsBnQjCU/bx8qfcagIwE/LgaGB51Kk4wFiywKfvcKjeTtDlCXsVIS4H/+FBSvsq+u9uTNTv/7ER7g3qhpjIHvznUfAUAfyvX1eYwBdRnGEPC83WoZTU/JUZYSf7SSb4wW2OdtADlANNToZCX+00ByK7OzY7GbE7g4qtv+T7OQuL5SGk7YzJ9finrZFDaiC+0YGzxLRa23o6N163mLH6uqd1zU9D2/06bBxXu16mqjuA9gyaQ76VLIHFrpPQ0KjIe/WeaLtcn/xO9nLa1i5dXWfA1oNae7PRSBFa6vnYgG/wCzXIE6WgSreKEETXwTSMdUfLXgZeKiubXaVa1qHvUMEL8XLgb1KBFocJisCBoeSramkPkE0eA00xdv+oqnvu4uLDD4k6ZA5GI4UkpuIMlTfX/glyfciZ/HRrNbS1wBG09VZ79ivevL/rPrbI60KX4YTXhGcHk5027oT/LTuJcbb7FKfUAjIWHp6CAMUlj3c1FEb7w7+7iZKqYZdyviSofQ2kZUXFZUegNQaKTzpAZCFBX/N3u+3w8Bi6piud84JGt8v9QlmBw9yCLik+FSsmXUbj+Nm6m9W0C1IeTzWmeiBuiNjMH98s9t9YYEAq0GFBljV77FEajAJJlxvsNAymCb5xSnC4HqXp0aWbKdA6oMghbPwi2aaJsHUd7phZ8pvzb5JaP61h4PZJKhu1wEWYR7tBCJxhXiakTROdASZj6VrqeW5IEF9dKa6VoD8groJZxy89zlPYlhl/LcjsaKLuVU5Zn4+APLDM1Pec5Fip2Od9q61INAurIHEX8IeXM0MrtzAV+i9DOxBz7PuuhMvjPXdvWrE6AWejjr+F4ju1y7bsBNT5oaxqcoKrVSfkKrBhuLYkTYfO6q4yC3ny2CpljXKJWyqYQ2y2fv9bI/DCVirBImV9vvE0J1fTXfvyfEqIaHbikEO85vrfsKyEbcpp300F63WMyOBk0wXxFeaZCDEy9z4yejJbjoaP5Ussrqs62/fSFKw3abLOTMTHSD0YIE/+JjO1gjGfpmfd5+fQI/K7KhIcP1RTpvLQmaj5gdRBA0aAq73Gvjw9neb612n6ikquI3bqjdj7YanaWUi/eHhznvpcBw5+c1dSipD6ixKsfkqJWHD1CYxwkdw8vjzhEsfvuzBOpF1ViZbcKceXWjfPbVyhEFixbsnK88AEXUgcmmNpNSXYP5uWb5aJqCZg8ZzjxwAX6VQUFC5/7zk3IrfoLil/gS1GrOdgssLeNqRiKHvkmMAtC6bNByucgddjymJhvTcKKtzOcHYWKVXGjFBj/SVaSBRnNcgykh9WYXWx20uc3Tmi4YJ6EgX4WUMUb9MMfqziVtXS7PdJkDDW0YZSzP8r6KiIHESaAJPV64mqYueumtWIE+1nVjVkOqwnyhpN09GF+uejrKBpCiBcEESaxH+Be//9XC0nos4zwGVEbofdN0Lfj2Jpru73slGa0LkZ4ZpuAB+DKN2lowg6GhMTXPSTT94fGg/nrtebO7HAU5wFyTgQ/P/vAUONvxLxfW0WHOIzv7kIuwFTXvY0SHQMER+Qd7SdipZbG0KxTFLtEviVOFZlrHb/Nv+q1S6Hw0SjSZr5fo/iJCVZfeq1CfT7MC4Z+4l8CAO4SQSiGWWh9ucsycCfMEA38Lv6z0oC7jMi9HbYTDGqe1t3AI3a4p8IJxRKHeMS/djHlqjAqn697rrWxeLAlO5UXGaLhuZe5nGI7G0F8Lx4WtYyJwLH2v5BugXPdXG231CbCsNUfb+DANMpKYgU/PLkru3GApC1BnwF06ajqoA3SN2zXz063S2ZSlABenbOkE5wkBaJt0eRcsWl43auXac/omC6DyxJGS5qiTbcjdxFc0NqVCsGtScXZ5FZeGQX+/tYrswa/t1pqnZwT+fuKld84qlJT5ubRjaY0FSpKbBAFi41Ld2tLWH49oN62qqD36dfh+7xLSPWzKb/7dcjoYAF8bTZdNqNZ+GCEFqtntFo8HicinG7tixcU6HfTQQG+swIj9ABJkNTY4FX4lKL6cxSjOMIZ4o4y1go2JcOsgDD1guaj9q0yZx67oSeQzTv2JVmFC/WOI1KzRv/mpTCen20VjtOF/cJW2uhEtpB9BRsEz1Pan3sAUMETqClyYkZWLby0VnhmeKvCpBe7ezVTqKUM1ovIe/qgckjWBYfltFlZyvF67j8BAljdHNqdOg+/cju2JYGuKCRIHW6uQt0wlTzuOOcblZHGCbXsDq446LQ9EKdC6PzwxciQ6jNz4mkgZkqEF1ffjFZ7yaacg82lMAaxIJUcN2q35rf86i/KOuo5PVs2TcWy626b0rv47c+0KdLVgv1Uxa1gbhtnYVtV4zrcKty46mJXP8YiLpP2t0YxLRU9LHDbcpF25Lfqs3g7rXmLK5Y2v4ZlU1mWgEYCIMz9lrawoh1kWavtDgxn3wmifjkwZHPpI9+/FT8sqwuJ7+qk2N9f8ZcPyj5nY7LOPtdRwFEwHn957IzTtW6LRcnALoYHv0egG8caiEeuBc+eZR4ry91aDmyVYePGNJ9owBAkpnZiErNMuPyYU95G9ApE+jlj7oimb3MKUIsfkY/h4+KHj3zoYDKpjCba6C5QwAIoWcwd9TmqS8fvanOcoHWfIqqFBkDEYasHFZIxLviTJEPfXaOPDKGT8BlbXil5YQZr93hgKOyBfG+tddQJisZVXgc61iRz6SaGI8rGYdxNr8i0DAMAqC2oammFdJHjp7LWXEDWWlA5FzdVDrgXHYR99JszQcq7p7gFw02oDHB2h/2zivBGUz9kGKpMrqgFYl0Fe3ybTzfovFYiZFIz/kZGuZ/L/tntMxPTUQ+05VtoirBjA3FYdfZGLO5/h7iPzw4W4TYkSoRVSQ09jAjacAKuefofOGHDvwDRwI5t2OiHj5tDL56riOq+lFbnUbVouoOzDvTzZuiYOtidjJ0kSzj1P9CcIJAhlE6t9/MhBeRutfz6F944V4j4pgQqtcqK6b+vm3OZPDiVaAcU9MN6bPcPy/MIccTkln3IevGHMN4b9M7Ei3xlhpWXfDbAg19xzy/6UzLC4N6mfa4Vm/W/gbVzVqPKCgAHVpkKM0cj6rJS2+0RQRRyniLeJHS7ZtqZLBT3iU15JjlyMQm7KQgwoV0uM537kbG7mSqJ8lFVnEyzfU+5uQfw/mFwboGrSvl/Ay1LuzwRN5dDSd0xmAcLiu1T6Nj8Fi5h9FmMdcowRqcLURPPVhr2vHBFR4eT9oQEIxGOQoC1SWC9AFs1lGimT0Dvs6Hh4HT/PNcnmGNKhxvA+g/fYBwYp9HAhOk05fMcbu0rDdbc0e453/a6RILwVfvAQ0qovV0pKeJPfTwY8rDAgGEjENhN4E+JIfUI4PcelgQT1nPTWYqjv0lJxWpOe/fW9pU8TdcLWzZWfz63by0k/fcZwtKZF0JYOOBu9MWx9vU7WpSgTKN5ILYm10mBK70tfSv8CM96FT0fW2ELQKvKiBn4oTsERhOZajNiaJd5vEhexqO49eLxhdmMNC3BxvxO/4IvErvbVIIPVGCYm/V/5KSXc9yu5nzcqqK+ha839lxxh9eJmXCdsRpiRzNPlFjspmAxpDaQPksWauW5L3CmfMtmZ9lBy4+7XhXzfuoV2VxVy/ymJ/+pSWi+Nncr2qsQ8+18RxdYt1aidaekdGhrVxC9Rqxtab5TmtcEbosFJTlTX1XDYt3fPkwut1K/bX6CSi8YyHutYXQz2mfkew1kKtRMMS4gnoZaYw+SASERfMTjFmXSOk+qLhuGGx5ehc1+ugrYkWEP1ig5oUxChEAMPfTtnuyBQwhMQAjf0gbtVEDbZ6pypYTsFGR/jEgsWzsnqKHWY/z2glYNYzpJr+BYpg+/Zia+JzCcGpWpSSyjIczuyZ/NtBTIb+XQs9+QQ6sN8766Wnij1BrvYZb1izXmXs630vKAS+NoUBKpTvlbkyhKJ8DXZZHv7a0Jr4a+oxJH3/FyPcqH9EH9WCmALDABsWam2unxqwvNOgkDgzRBSjLkJ0UCVho2OENKmQcgzh861653o0JANjLBgaCtlx10rubviVMOVdVYgoBF2q0xQ07dV20PHbssgglIrg/+W0PjbAF7KmlWyGWXLQD4odDzUja7LgrszFSmROGlqsP+8Ce2U+yfHyq2Ij/RjBA6r0UcE0psgg3QMdkyzAhw6nXnQ84PDjVFdI7IxcVe1RvVIqAae+cytfEs3jRtLUGYNEKJs+0Nc5Bq/XEx3bC9S9soHWkUM7AjFSHDGLD9wnv3Qk5tZs+HH6Crzbd672K+tNZfCcFqamn6AVayK2eZaGqfLxLqGgDUTNkkhlcGIHoY8nwIAXr/7JRxuHtAXgySqjb0nkGb7WBdxvYWWM5hnGc12qcy3ME5eOnZKfrYzn5kIKGrvBzDn/7qAicN2tqjDEs1GTUmEgUeC2XKyk/jXu+Wt+PiUB//AFmZWUqPba2F6txIBhyCNWv2prvZdXGa3S+vb3lmBx/qAd7XGIlfBa4XNhSJ4wNdysMZRM70M3KORo89aOtpUl4BmhJJB3SdHGIqcr0NY10BF+xyE8XktBISzZmeV1MhlnXR3/u3bl38l8W7SQqCrZeh1MAeHKAsLOCa6IRwCulbj8PzZ5mwGbteS8TCUmvw3HKEwekoZtv/EDf15UcqP0EVyD80WqH/Iuguib7LwO/OWz76fF29JDSFZa4QEnOWqdbm/nyaiKKep0OqumxA+UHjeX2hIDF0c2ky+LdWagvd+imEzmMSFGXr7SsSChaaQGsSN2cjdp8NxGfMqPbG4Z6IIaPPqqxVLsf5B9FWsGxm5wDoGQVSbjr7VOSZbPkc2xrkl9GYAxduj/AqndOH00v/YjtXVxnT5DruSB3eE0VcMxHVUMeUibVFuqNQ5hDEOmroeLxEw8LDFl7wGKTeANSjHlcgHiu5Fjz6NUh/q1kwyAdNcI7tji8fVP131BvibdXHH4hBYxhHNgnXJu214Fs9o+Ucoyj7vIfS+ntMiIEvROOwAqmKhw8poHeOLo1Y/Qb4Y/Pd8IuKYXas8yU+01xJfV8D8TXUGsCQAR4XyW7pe4op9MNz3iD3Z05qwK7QGbgMw1aFMdB/p4ssWbN807K+r7dGOww00JnEGKJXyHbv9ZYflW4mF+01AA+EYXMFMP3wmUOo4Xqe8golqot9GrI3wf2Wi7iEWIc94Xwg0iDg8pNyGct9aX5II4H+2BNh0VWK+1+4aExYOjsOUp96EkoSpewua+pW8Hb+O9plMt97uZoZaSDab234Vb03503nb/3k/dnzwZYMuL9Z3ztMfnzr638+oFZQW0iblljOM9zqLcdbtax34mn32OEOlgLPJblBFuTFx9aO+6Byz9RnwPALuCuF1HVMmjz1+cNriYJUQwtX1rsxeuaKZt7tj5/YBKr48oE4qwMjgLYyhxZsMmKskzZcY4s+YZDgHt5/OumS/bXYZ8f0K6hZK+VZ91ZPmlrhLsr4HoDH7FJIKmwFW6+2RsJJz6Y9GQ67ZjzgeD9BnGOfdccamBbbyij58GMEcD/7WzIZ+9jD0tog58H7CAZSGwfex2dand1HBnVCac0OUNq2KkWnVBcGDhV6GjRNhqZunWf7Oj9HoBOr/tzcea8detqLPQe7JLzSaWKOjVjiafOXnYYlxD/C1K4TkWgc1ewvb6niUmdQqJp7A8bARH9nuzG9a1svp5DL2tjhvm/4bqTp6sOgkUYWNxZhSeLET76eBxllK5CRKlfUgNbPMgMLlr5vjmdjclvpflPsTB16O2FWOcgzzmnMRgbdaVN8FNI1oVcUgEzKDzu2AVmVI/sSpx0ON1YXGoVPRz0/cBr4DVnq0IpqedbIrTl9XwAPOkPT8PFNYnyLaw/NZ674t1MVPjZmwOKmXSVotYPNuwZjMYE7GFUoFhIBjA12eNoUsS0KQJUM0RyEp/rY9WwyO+QOLUSbby7fJAmFgO7KB84LydMrdpsSsXDFBMB4v2lY1EIy8J3RksqOYsHwzNs5WUyVeMl4F5GPgb8gJoP5ZbWNpxhhXp4Dvc3EQjmhiFeMli97fwrIXuTB5LspbpfLl7lE4BtIg8oQdd9Deo95wbNA6Pmojugo1+9xYu2uyBGV1N1LiyXnQn5C0NMKhpkFYe7K+hxjEuGVaHGoExP7HTeZtBdGr09UhOI60YzBgLWjBz7G+l4+YXEX60zfGzRmJMJj+fK1dLR26MV5WCuhVewQNo1l7heYeTDFAI95LJdTmK6+hT0jLhvLdhBrLfCiykqeMqgdCjFPr/S8J5xcNNBRUSDFjK8hw5d29KgmtjFQDdtQVQ0G2VYqT3MUfzJ9wm0Z9VBbL7jkoCoylzcYQBAR7jqdtC/Ej4zfI700pEAtBuJexrDDLfor4lOngL9k2W59miN5kd03zN30h9rwTLdNn3sKHItjc2qgPZGfVMomhOGd60yXjKhnDWQkjxzRW/2llAWREcy+RKkEV0s9xwqYR1Ahtdf6cmPrTUa2k7nB+6Wx96OFT7xNt7WFKtKwcwiSoWEhv3yEcYdaUzAXSo3PcUq81AI/m210GPZ9r7/a7p1drbYhdZDjmW1l5OohtLlzTMN4u6SUccxxg8dPqMA2Jrflpcok/RV6vchgdzPQH5mw4LbIRAl/RtPFL/AfJbnijlrf2jfCVF3f6c6T0n+41QfT3xldAXpTCvKIDWCnaok0YVImgu4/huCtuf47+eBXbclWF6mR1pSMHOioYo6XOAN66qRkQrW3SIyQtseUC3raZKQBaaqdKvQ42qP4YRvnogErpPsSlUhNjm/gzDnjCO3YGsd4qnqMOGfmlTqyt8mX6JgZYhltq+3WQSz5FrWx1whhrH8FUZmARXL182JiCg5v8fHxdE+Pr8IdfXdPGbyLGTY7nVQMNIQi2C9HVwkFB0lXt9TgS1zX8DFTCJvTN/GBE1uttRoBA7DBUUwTKFY0zYNA/U34JAlnBWlmNGdHJ4m2bd5fBLDTxXiul1ylVwUiIFKWHi1DX839F17yJUvIIOcEVDX4LiY/n/59CNIrmCv8pM4VXtBTR947RySZ6BhFWiX93X+z3oYkbTB18TnZIM7RE9Uop0YTkJRvtGYegbAaiv54ua5ZZ+aLo1y2cNdS1c+RzHbEFZavYe5nmN0u2p0LXwp2OnWCYhVlcUtjUweym1F1Q+rIUY8eA96uXnJ6l2spnuGnnF4oHx+ZMsJhAHD8RQbvz4AqrzJ/luU+uCcSOYPuEQj6kOx6ILaDsyuTQ+bZwc2Cbp+wP8H81stOlS2sHdIFUb4oERE3PjG1hxGQ1t4QYM7sAMG2yEksW8mvlZY7dch/pL0vBFFmPeZIiMb9pEdJYt8dRUv6uFObJVH4at1OdgE8YOqkE5FqtKya1zb3cULRsvJd4YosjHX36m/WVOGunMTpYGh345xnP1cZvmIeOyN9IhEpeCzBYGNfB9cbKLu/k8cMwvT0XnkftepDL0yoYaL8em1Cf9hG5UP5prpzqYfVVE6HJL338N4MGAScoyotZpgEu0OqgXHnAKtk/8CylO2sotZqe56hHtRWRvzTRCFDuGJJKajvgTw6OP9MJADDT0uD8ILFs5D+gUvWWdQQdoSsUDZF9vnBhdA/fGHLbgntCWODPv8CzysU2qETxlxlmuaBYtt7jLg+l3uQTVKZzsyKzSB9USrWVlBJZqR7b1ppczY8kklTfDRqxmthEYelncl0b13nF5//Q4FqOQKZzyffvx1+eiGFPhgUl/0/f6feQAcR9n/BYya0HAFl6O5653Vsb5CueU3atTY8hOORdAd8Q7Bo6HwEu/LYD+fru0fHr3s2EMyVCn6/OrrIWuwl9YISyFCSHC0bdya3fqCOnciP4h2hsnobOCDS+73ll5Q/btiJSySwZukkBxKC8Tr2DHqW2hIkI98878pgnzPp9nLQi+hgX3HwTFzcbiXv5YbkVLHRz+78rM9bxMOTDA9e7YBAWql52LfxdByVLbDqNPWdxjzk44HiDX6gmflVWvrDj/fLdpu2739IgzFtv/0DcK1nVFMo/DXipAgBWbnfiOFeIYTzEbRo+02LNtMG20SvUkbwe83QBZCRYCh4qc/7+MkDeX2ZF+8s9URppnbt6GTdiI56xqJUZoTnWW2ILcHRcqXGCnDezu9HP6XGHaHu12fHa74aCUktBLB5UmIO1TTUG+aNHZ4IRwx5cbZP2+lof44N9/Nz+AR6NZmLbs03Qf8KFue/5gYssqdTi0+1r3Dgz0lKAG0NFl83KXtoB0r89ysCJZXEyAODde4QKsvY+kySGpf3NVWXs3qoBlJc7vJfkZcywweCHmqaeltvGJPwQ1NtCQ/FJNn6ee5ORKTQ2BFfVV9o0kJGmUWsxqYPmhhGm4Ckx7ZdC4g9gaiVkqY8weASxIWIgva/vjh3YjuonXrw6JXT0EzYZni7STxOeHl+Q3ch1UUddgKhyiLG/tStYttY94OxgoAQndTPm8vZ5ETK2iUVfNgjLtypo26f1h/86dfmluGg1/Miue/E+Tt5Mbhz25ifjY85pYf4sT0QZr4CKoamK2BiGXm9QoO0iG2KlTdQ7COTNgH3gu530vEc8VN5oGVgpGHubEf/SvfS82GkW+Dn7Tm65jKdWOv0pIYCoHZX7aGlWIAAh27im2cKp5EJr40mWklHLrmURuyEXwegDy0XdmLN6OC7KY380ex1+FxCKgjc/UuUKtyL49iAoQKpI1VSsqbp/dzYiaROgsPXJawtTuLfG2xVU8Qc3FrhLKfvbdbRXB6qjtqb4fo8jpJCPvu9KM+LYDx+2ka6UoYRdfD/wAp5m8AbwirGt7oFwLHhs1d2JqGfYI9AUf+K29VPOu6GgR/DOIxst0g1B0VqO/0GwN7SOHk8PkkQWocSl9MgerIX+1KEDRIoBj6VnXmIohHKL/Xhd6bUs96pIldmxAjndJhTf7eJWOueiPf6VdhK58orrPcC3HKuIZv+6O+xnU7Unx/5UM5oAEfMNEZ5n7lhiRXx2Uafchha0qT6rMSCgEAZx0bR03v+toSBT7WhZVkujP9yUl3cJCxovS+dZL/9KkwFajbJNOVSepUgW3cjT1wqcBo8ap9jIY8s4FMw9X/4Bk7K9NKmFH1oOpbtlKAiHufiTjNhjLMX/NmSo+l7hEuBSF/Nqd1m/o4IZ1Jd2QCPdecnxDHiLmIaVzlRfI+az+U4WsQU6pXDmH2f/qxLI4SqBBDi5X/Ks45v8RcEpLhQSqD44utHkndewBazub5iL9VEPZ1kig7JtgZBmdebIHXGWpvwYSWtFwLYglAx/tCayXhQb1j6757FyAe7atClQ3OVlEd20eE90xDUaD/d2eYrpPegF2VygV4Sb2Xa85J/Lp6XdagamdQcstQfZBbqWOJU/M4TvoDKXSA09KA58DXqXkzOth3yTOU6gAaqJ6Bjjes65qHwOA0XCxZ0Y6TkDG8p135eUbh4XDLmhC7BeZFAkcEARJera5HOCd7dWBZDJiNDXVzcEA9GvX7eXQj0JyfJvEhb1y6+2Vm3ObGi4B7gJjTf7c/2nXYaL6lxsso8vG/xe691nkVY5RwLBZFOr488GuaWiXmWj790wg7HjLHyytPm4qEmyLRgBEEJtL5se5lfFMe1aWGRuSPFNcFZPBmu2oy4e+tcWe4TBf9ZOaigv7iMsvCk13QlH7eEiUNs2WgLCJA/BAtg/Hb5FENR/DqtfNQBtkXP4KBvBeYY6uVHBUmF2RQCYFfvEDQg2daYRA+63DYzwEJYqO1XVjRIhWH/3xLP654ZZ4xEFSVsh6z4le7xBpdg8YbK6hLtIAjdqKFehlhLUZPGpK/36TocAaSv/fXdIrUAexG4PmTcOWGaK9r8YXR82qxqzWm+1VEwTOxV9iuybqqui6kFJafPbUWq2kaj3N4uvrHRMP012dpwOlweq2w5GyOpnkgj5/i798e+HIbFMO+i5XwRfCzuGVo2mHu8GJatEYKEuAVsg/XyMo/hmdRLlIiPF2U2E5Q8rSTmCu1DsyNupL15g1KrPx7z5PbtjzSiczmmi95Qav7V9e1tAlTEIwozkvVok+29y+4gkWWqZvPvlUVqUGMvMjb7izi3bDPu9gu3TF0T0s4+HvQqHHtsmdUOFwH/55esOOkzc4AgBQu5xuYztBmPbr8NgLPjKMdRfDh4vW8p4lO3TCa1jTJyVpju8nxBaLQTvCO81Zb/Ks03tn87fyUB68kcggh6nyR4bMD7OlpoWGDFiq+LOm5+p6mi/yny4XoBntI+seVkf/9Ofg+80SyEm5NU0sAYx3jW3AUdk7vZ5rafecWPJvk7AtQQzmmHSRXuKrMpGSNcZprunUB5mA+XU1Qq5NmcruvO+c3DlJbGGapWzL7cxOU+Dpk6+FUTrayJ2AjkMCrWq4JmNV7YqmNqOygurY6aFCyOGHxk7hGZZic14Ng3VRIh+QUGdcFqsK5WesydILvU5vRfa4pyvC8Xhj7jIHfJ0QPcDvarT+w7wYfUVRCLrJ101CUVtTpwtAlpAWEESZEbMulm4ioP5BOXvo0u5fXbnM/yUMiX9oCmna1ti40Mr4EU3yuTva3vpwedQ2QyDgkNkiUZapd6/rGcdJ4jzI/3vIm119WdlLszgv1s0RXbLQYc/9LNpfQg6Tmm8X0oP90iFasbGDnZ/erHdUFK4gaeSjw/xSxZoyS9O4YOiXyUVLUJG7+TiYo2yjtaO2mm2qcMHDs/hnADb/AskzcYvleXadtXSMTTXqDogfE2tMMSgzw4JtLjQrNJUd+18iT4TTGkdgk835BIJljn/vMmP+DSR+D4o19UTs3eTa0PCyqBNBPNNEXXguI5NBzEhPfGFFApV8W2tr7fxbiJ10WD0c2p5DjRsrVvnW/U7UVJJjsx0uf+wFFWN/tsEHogpjinoJGwLpql3XCuosTi4AYaTFAAtJmAnteL1el8RhVwDx1Mzzsae7zCAoafntxE+zg5pJoEAd/aDpSo5mBFyK54Nh1KGfQFZll1SinR+z/8Nt5XvNf4phcWXueqbSoFEhbpy1V23XrGcwXhlmmIJ7g/5v88aNhx0URwukUM3uQhPjDFG9hp8YxqgMEQw735oMhC5k2BQeukwTmiumTsVLRogappi2BIgXanSIgeMq+NiwCFsMNpRsNHDegbz4r72a5T7P637TTT0Yz7vZEh2JH5ucVAR+4Sp9PHT9zX3bPtT2764ShPmMvzg/qWu0kIQ45RCC1EPjZFr5fNs5RqQrxL0MgFi+UjuDt/j/nASO0BuU6loE8+ZW6CJ5BrBbk8cjQosyk6ZQABnMxK4bECCaU7JV3gd14EdEiPdJcaNL0aZ3Rhi/zQPGYyMIn96vZBJs+2oXvKaXXP8YPJlanwGteuA805LFeZMXgPPe7+6Z8pB1bHC7dk/uzTy6q4OxO+CMtj4gBCs20kK4iQDlKnv3sNjnrrQDYui8HaAA2PVc7VvuNV8hbyw75CK8t6BWFmC2hN/QckeBIfn452N3GkapAAc+9LoVkGiFa0XzbgESD0sja66qDuAOlNE0pXfHiabRhWg84tL3z5LWQ1dGq+ChAQupR9f4hByyeHIo0AFNO75YRBL/WPj4UzgYn2pgDB7JRa1I2uvctoPxOS6H+6GtD3UdMGDiExjl6QXogUPLuzxGuSUJ5ExJsNQl7xxV4q2NhLDchte6Rax29zzeQ1o941Y4lEJ/bjremgvn/ooGbiR5J7HFL0F5Uoh906emsaJb+f3MXZ4NL0KGg/a57U80nerH/4JS90i/HB0HDsm3pXOqk3ZxRj9RVhnT67scBrEIdcMTjnO2WCk28ujdEtACSnqzAVtTQe8OsX7dqQYSO5C5jUbahpDpylOxH7EUOOqWXMDgEO8L48C1Jyy8aJDeKi+r9HQIShJvQ4sSf1XLiyKLU6HBFBji9bAnMalBLTMH3fdlUOc1HwbNAL5TRM13n5ZNAfwme1L+VtRIgGg5jyukTq58uC0a9ZmS/ecw1uADyL2sGklL2d2wV/tU+8s1WIB7nGFW6+vp9s+DW4+RPD6ktLD33QPI6M37hCu42v5MMh9pgoe2noxjX2yKD5zL8qgRkwGi+mdXMq+M7MgGCkGSIs6oDDfPZ24SIf+h7PZSMRklhU9zGYBEMPLS237A+Pfkwtbg8KOb7Ih4rX21mUg/708pzkMJe1RD9gm2s1qYPVxmVNKIaS/2JFgGzCdPW344WRMaBYoQ/iRfDOwDbIphaMut9L6HBZ8j6i00YihhnPt9Gz52waxupjmIZuZEkyjnlWfHO7kFzr/uCcA5+lURO2SCTrIdkqDaqJ5/YLTKY2BaTGengJxNm+7TyH0RoVe3RZO3CISlMqzwuZVunq2HaCJQlfgmn6o8ozI8gvukiwlreyDMjJhoaqPNney8q8hiiVruM1w3j5mEb617U8YsQbocHVM0zs2Yq46hla9LdtvXpsRLFfMwCA3HAmHYIROojG8j5bqGaxDi6uT0cec4EK7zwy4qSqag0PZF6kkdUd+T7z1EG3PrpFwh9CTUYVFQ052dQHvpiTd6g13lFfogz0UjQk3I4URzhabwTlZXNYLn0NJCdYJxN7/entiYM/vkMu+yNDJ45NJJflOypZxezOXXl2LmcJoibWedP2Ly3cN9egR/AWX6wJpKwf0b3wYD2FkPfx8tDkueX3TCCsM1x2awu8U/vZl5sQzy51Yos3sTbytiNkLIaHxXEhW3z13YEFfAcACTdfTHIGGtku1qF+Bh2gd9y1D+mv1QfHHItatXgO5N9W9Uc1c1J5JgasUHOnqcA74Td4GK59aHMwo1G4P72LQiacoMDg+cTX/ASjwGLOkDHjoRadnGziGSd7llDqrGB9IrSFbGbpj4lCj/1u9b2SP3PIae61wE1fWJGXkb3IeXI8dTPPrwIma7MZvlsz2AqiPz2Lm0sR0sqiRtL9V4Rwx8IpVIFLyXkT2tKnb2EzSi8mJMkYJHrQzUZoIpJI9SBtLskZPPkgZ+5d7MJcbI9z7gGr/3nrYXLchTFughGAmPI/2nVjy4bc2wrOlbzs0zRBLpCKHsCHWPDBMJpkCS+v3nOn0PWM65V/lpQBU7sDyqeSoqAolLk0szRW1al+zLFOhT96XWd/UGZZwHmmCBxKSYzYiyZGgsLAZ3hGuGSOzp9cKlT/Zm/fPGu+OD+fG22uemaqfQ1TppRuWmsw7fa69+VStOsKZVJlova0dWQrV+U/v102cFHzSI4gVjb/FxmeB5ojFEC0q3dOFotU3Vrts0TlQ5o9SL24ZY20ZS7CTJuXVemGHU9jT2mshPpZkX3vwWcGZ/Ftw7N2dMDuKjuue3YgHZ4oVSvHOr1UKekuEF4e8K7hR0BCf1iUR2efHWMnnaYBSLM3248Gix4ySB+IR3He2Zr9f7/yAooMnXhqUHRcP6Vzoi2B/SRUcKDG9dsxrXSxHnxjPVi9M14CYKOHG3I4PuEzh0vg2kAeSQdxFQKdGUxgw0zUFhFhRAdlYoHvrz9G7qTSvUpVNtEpiquWJc/MHcWp43yypo2BveiMzWGggwR2ahM/wrMpK/RjUMkglOzP86ic+szQ3LsfMd9NsJf+abvFTG5bei0j18JXLLZo2RVsFIl+Mp8Ha5lsauU/qs2jFdLULzdosP9r1T6EyXz9mefvxmBpRyr7uHAbx+RRFghdeD6NOxJTkZj6ZioEK2AFfVFovbpFMdsschQ2vrUi1cNtye0MIXmHyCr68Z9AN7LL3g2jv4ivxdbILRqMVKm4erFEt1uS4pjcHgFOVDmswWE3m68CRc/SMd1aJx/02eAm97zuPLj6Snfyz1ViLLgv+XYpZ3ENaWvBkq9/mhxgGiarjrxIzQ9qMttH2mpoNb8ZjIVlv3uOvwgCsM7h8+zKXjybJDRIJWFao+wAg/w+hEzZYN2zzba+La2rHQK3N953n7enRvHzHniqzdmckEY1UPRMOe+oTKWU0xUV72RIXjpwF4FrIuptYDoXxgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "citations": null,
+            "text": "{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Tengo que repartir dos centrales convencionales de Kidde entre dos edificios y necesito tener clara la diferencia entre la NC-PF4 y la NC-PF8-SC antes de pedirlas. ¿Me puedes hacer una comparativa punto a punto, dejando claro qué valor corresponde a cada modelo: número de zonas y dispositivos por zona, cuál de las dos lleva la llave escandinava, cuántos nodos admite cada una en red y hasta cuántas zonas se puede llegar en red, la carga máxima de las salidas supervisadas, hasta cuántas salidas adicionales se amplía cada panel con las placas de relés auxiliares, qué baterías admite cada caja y las dimensiones y peso de cada una?\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Comparativa NC-PF4 vs NC-PF8-SC (Kidde Commercial):\\n\\n1) Zonas y dispositivos: la NC-PF4 se suministra con 4 zonas y la NC-PF8-SC con 8 zonas; en ambas cada zona admite hasta 32 dispositivos.\\n\\n2) Llave escandinava: solo la NC-PF8-SC es el panel convencional con llave escandinava (Conventional Fire Panel with Scandinavian Key); la NC-PF4 se presenta como central convencional de 4 zonas sin soporte de llave escandinava en su ficha (su frontal no incluye la cerradura que sí muestra la NC-PF8-SC).\\n\\n3) Red: la NC-PF4 admite un tamaño de red de hasta 16 nodos, mientras que la NC-PF8-SC admite hasta 8 nodos. Ambas son conectables en red hasta 64 zonas.\\n\\n4) Salidas: ambas tienen 4 salidas supervisadas, pero la carga máxima por salida supervisada es de 250 mA en la NC-PF4 frente a 500 mA en la NC-PF8-SC. Con las placas de relés auxiliares (4 relés estándar o 4 supervisados), las salidas de la NC-PF4 se amplían con hasta 8 salidas adicionales y las de la NC-PF8-SC con hasta 16 salidas adicionales.\\n\\n5) Baterías: la NC-PF4 aloja 2 x 12 V de 7,2 Ah (SLA); la NC-PF8-SC admite 2 x 12 V de 7,2 o de 12 Ah (SLA).\\n\\n6) Caja: la NC-PF4 es de factor de forma pequeño, 320 x 435 x 134 mm (W x H x D) y 2,8 kg netos sin baterías (4,5 kg de envío); la NC-PF8-SC es de factor de forma medio, 440 x 480 x 140 mm y 3,9 kg netos sin batería (6 kg de envío). Ambas son grises (RAL 7035) y de montaje en superficie.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La NC-PF4 se suministra con 4 zonas y la NC-PF8-SC con 8 zonas; en ambos modelos cada zona admite hasta 32 dispositivos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4 = 4 zonas; NC-PF8-SC = 8 zonas; ambas 32 dispositivos/zona\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'El panel': 'Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'The Panel': 'supplied with 8 zones that support up to 32 devices per zone'\"}]},{\"fact_id\":\"F02\",\"text\":\"Solo la NC-PF8-SC incorpora la llave escandinava: su ficha la define como 'Conventional Fire Panel with Scandinavian Key - 8 Zone' (con cerradura visible en el frontal), mientras que la NC-PF4 se presenta como 'Central de incendios convencional, 4 zonas' sin mención de llave escandinava.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Llave escandinava: NC-PF8-SC sí; NC-PF4 no documentada\",\"citations\":[{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Título 'Conventional Fire Panel with Scandinavian Key - 8 Zone'; foto del panel con cerradura de llave bajo la botonera\"},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Título 'Central de incendios convencional, 4 zonas'; foto del panel sin cerradura y sin mención de llave escandinava\"}]},{\"fact_id\":\"F03\",\"text\":\"El tamaño de red en nodos difiere: la NC-PF4 admite hasta 16 nodos y la NC-PF8-SC hasta 8 nodos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Nodos de red: NC-PF4 hasta 16; NC-PF8-SC hasta 8\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla General: 'Tamaño de la red (nodos): hasta 16'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla General: 'Tamaño de la red (nodos): hasta 8'\"}]},{\"fact_id\":\"F04\",\"text\":\"Ambos modelos son conectables en red hasta 64 zonas (valor idéntico en NC-PF4 y NC-PF8-SC).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Red hasta 64 zonas en ambas\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Viñeta de 'Detalles': 'Conectable en red hasta 64 zonas'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Viñeta de 'Detalles': 'Networkable up to 64 zones'\"}]},{\"fact_id\":\"F05\",\"text\":\"Ambas centrales tienen 4 salidas supervisadas, pero la carga máxima por salida supervisada es 250 mA en la NC-PF4 frente a 500 mA en la NC-PF8-SC.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Carga máx. salida supervisada: NC-PF4 250 mA; NC-PF8-SC 500 mA (4 salidas en ambas)\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Salidas': 'Salidas supervisadas 4' / 'Carga (máx.) 250 mA'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Output': 'Supervised Outputs 4' / 'Load (max.) 500 mA'\"}]},{\"fact_id\":\"F06\",\"text\":\"Con las placas de relés auxiliares (una con 4 relés estándar y otra con 4 relés supervisados), las salidas de la NC-PF4 pueden ampliarse con hasta 8 salidas adicionales, mientras que las de la NC-PF8-SC pueden ampliarse con hasta 16 salidas adicionales.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Ampliación de salidas: NC-PF4 hasta +8; NC-PF8-SC hasta +16\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'Opciones': 'las salidas del panel se pueden ampliar con hasta 8 salidas adicionales'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Sección 'Options': 'the panel outputs may be expanded with up to 16 additional outputs'\"}]},{\"fact_id\":\"F07\",\"text\":\"Batería en reposo: la NC-PF4 admite una capacidad de 2 x 12 V, 7,2 Ah (SLA); la NC-PF8-SC admite 2 x 12 V, de 7,2 o de 12 Ah (SLA).\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"Batería: NC-PF4 2x12V 7,2 Ah; NC-PF8-SC 2x12V 7,2 o 12 Ah (SLA)\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Batería en reposo': 'Capacidad 2 x 12 V, 7.2 Ah (SLA)'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Batería en reposo': 'Capacidad 2 x 12 V, 7.2 or 12 Ah (SLA)'\"}]},{\"fact_id\":\"F08\",\"text\":\"Caja: la NC-PF4 es de factor de forma pequeño, mide 320 x 435 x 134 mm (W x H x D) y pesa 2,8 kg netos sin baterías; la NC-PF8-SC es de factor de forma medio, mide 440 x 480 x 140 mm y pesa 3,9 kg netos sin batería.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"NC-PF4: pequeño, 320x435x134 mm, 2,8 kg; NC-PF8-SC: medio, 440x480x140 mm, 3,9 kg\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Físico': 'Factor de forma Pequeño', 'Dimensiones físicas 320 x 435 x 134 mm (W x H x D)', 'Peso neto 2.8 kg (sin baterias)'\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla 'Físico': 'Factor de forma Medio', 'Dimensiones físicas 440 x 480 x 140 mm (W x H x D)', 'Peso neto 3.9 kg (without battery)'\"}]}],\"notes\":\"Todos los hechos son comparaciones modelo-a-modelo que requieren ambos PDFs (ningún datasheet por sí solo entaila la diferencia), a diferencia de las hyq de aumento de recuperación, que son mono-fuente por modelo. Se evitaron deliberadamente: (a) los consumos en reposo/alarma (cubiertos por hyq para NC-PF8-SC y con valores atípicos en NC-PF4: 60 mA alarma < 140 mA reposo); (b) la segunda tabla de la NC-PF4 titulada 'Salidas no supervisadas' con 250 mA @ 25°C / 195 mA @ 40°C, que en la NC-PF8-SC aparece como 'Auxilliary Supply Output' (posible inconsistencia de rótulos entre fichas); y (c) la certificación/IP/temperaturas, cubiertas por hyq. El cuerpo del datasheet NC-PF8-SC contiene la errata 'The 1X-F8-SC is...'; no se cita ese fragmento. La afirmación negativa de F02 (NC-PF4 sin llave escandinava) se apoya en los píxeles visibles: título, texto y fotografía frontal sin cerradura en la página 1 de nc-pf4, frente al título con 'Scandinavian Key' y la cerradura visible en nc-pf8-sc.\"}",
+            "type": "text"
+          }
+        ],
+        "model": "claude-fable-5",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 51743,
+          "output_tokens": 11184,
+          "server_tool_use": null,
+          "service_tier": "standard",
+          "output_tokens_details": {
+            "thinking_tokens": 6538
+          }
+        }
+      }
+    },
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_nc_panel_relational_matrix",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "background": true,
+      "transport_retries_configured": 2,
+      "background_create_retries_configured": 0,
+      "background_poll_retries_configured": 2,
+      "status": "completed",
+      "raw_output": "{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Estoy cerrando una tabla de ingeniería para dos centrales Kidde. Compárame la NC-PF4 y la NC-PF8-SC sin mezclar valores: zonas y dispositivos por zona; cuál se identifica con llave escandinava; límites de red; salidas de base, cargas y ampliación opcional; baterías admitidas; y dimensiones en ancho × alto × fondo. No necesito una recomendación, solo las diferencias y coincidencias exactas.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Comparación exacta:\\n• Zonas: NC-PF4, 4; NC-PF8-SC, 8. Ambas admiten hasta 32 dispositivos por zona.\\n• Interfaz: la NC-PF8-SC se identifica expresamente con llave escandinava. Para la NC-PF4 se declara una interfaz básica e intuitiva por iconos, pero no se especifica esa llave.\\n• Red: NC-PF4, hasta 16 nodos; NC-PF8-SC, hasta 8 nodos. Ambas indican hasta 1280 dispositivos por sistema y conexión en red de hasta 64 zonas.\\n• Salidas de base: ambas tienen 4 supervisadas y 2 no supervisadas.\\n• Cargas: para las supervisadas se indican 250 mA en la NC-PF4 y 500 mA en la NC-PF8-SC; para las no supervisadas, ambas indican 2 A @ 30 VDC. Ambas muestran además 250 mA @ 25°C / 195 mA @ 40°C, pero la NC-PF4 lo rotula bajo un segundo bloque «Salidas no supervisadas» y la NC-PF8-SC bajo «Auxilliary Supply Output».\\n• Ampliación opcional: mediante placas de 4 relés estándar o 4 supervisados, la NC-PF4 admite hasta 8 salidas adicionales y la NC-PF8-SC hasta 16.\\n• Baterías: NC-PF4, 2 × 12 V y 7,2 Ah (SLA); NC-PF8-SC, 2 × 12 V y 7,2 o 12 Ah (SLA).\\n• Dimensiones: NC-PF4, 320 × 435 × 134 mm; NC-PF8-SC, 440 × 480 × 140 mm, en ambos casos ancho × alto × fondo.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La NC-PF8-SC duplica las zonas de la NC-PF4 —8 frente a 4—, mientras que ambas admiten hasta 32 dispositivos por zona.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: 4 zonas; NC-PF8-SC: 8 zonas; ambas: hasta 32 dispositivos/zona.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"«8 zones that support up to 32 devices per zone».\"}]},{\"fact_id\":\"F02\",\"text\":\"La NC-PF8-SC se identifica expresamente como panel con llave escandinava; la NC-PF4 se describe con una interfaz básica e intuitiva por iconos, sin atribuirle expresamente esa llave.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF8-SC: llave escandinava explícita; NC-PF4: interfaz por iconos, llave escandinava no especificada.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«La interfaz de usuario básica e intuitiva con iconos».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Encabezado: «Conventional Fire Panel with Scandinavian Key - 8 Zone».\"}]},{\"fact_id\":\"F03\",\"text\":\"La NC-PF4 admite hasta 16 nodos y la NC-PF8-SC hasta 8; ambas indican hasta 1280 dispositivos por sistema y conexión en red de hasta 64 zonas.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: hasta 16 nodos; NC-PF8-SC: hasta 8; ambas: hasta 1280 dispositivos y 64 zonas en red.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalle: «Conectable en red hasta 64 zonas».\"},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «hasta 1280» dispositivos y tamaño de red «hasta 16» nodos.\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalle: «Networkable up to 64 zones».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «hasta 1280» dispositivos y tamaño de red «hasta 8» nodos.\"}]},{\"fact_id\":\"F04\",\"text\":\"Ambos modelos incorporan de base 4 salidas supervisadas y 2 salidas no supervisadas.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Ambas: 4 supervisadas + 2 no supervisadas.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla «Salidas»: 4 supervisadas y 2 no supervisadas.\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla «Output»: 4 «Supervised Outputs» y 2 «Non Supervised Outputs».\"}]},{\"fact_id\":\"F05\",\"text\":\"La carga máxima indicada para las salidas supervisadas es 250 mA en la NC-PF4 y 500 mA en la NC-PF8-SC; las no supervisadas figuran como 2 A @ 30 VDC en ambas. Las dos muestran además 250 mA @ 25°C / 195 mA @ 40°C, aunque bajo rótulos distintos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Supervisadas: PF4 250 mA, PF8-SC 500 mA; no supervisadas: ambas 2 A @ 30 VDC; bloque térmico: ambas 250 mA @ 25°C / 195 mA @ 40°C.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"«Carga (máx.) 250 mA»; «Carga 2 A @ 30 VDC»; segundo bloque: «250 mA @ 25°C / 195 mA @ 40°C».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"«Load (max.) 500 mA»; «Load 2 A @ 30 VDC»; «Auxilliary Supply Output… 250 mA @ 25°C / 195 mA @ 40°C».\"}]},{\"fact_id\":\"F06\",\"text\":\"Con placas auxiliares de 4 relés estándar o 4 supervisados, la NC-PF4 puede añadir hasta 8 salidas y la NC-PF8-SC hasta 16.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Ampliación opcional: NC-PF4 hasta 8 salidas adicionales; NC-PF8-SC hasta 16.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«Una con cuatro relés estándar y otra con cuatro relés supervisados… hasta 8 salidas adicionales».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"«4 standard relays… 4 supervised relays… up to 16 additional outputs».\"}]},{\"fact_id\":\"F07\",\"text\":\"La NC-PF4 especifica 2 × 12 V y 7,2 Ah (SLA), mientras que la NC-PF8-SC admite 2 × 12 V con 7,2 o 12 Ah (SLA).\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: 2 × 12 V, 7,2 Ah; NC-PF8-SC: 2 × 12 V, 7,2 o 12 Ah; SLA.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería: «2 x 12 V, 7.2 Ah (SLA)».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería: «2 x 12 V, 7.2 or 12 Ah (SLA)».\"}]},{\"fact_id\":\"F08\",\"text\":\"Las dimensiones de la NC-PF4 son 320 × 435 × 134 mm y las de la NC-PF8-SC 440 × 480 × 140 mm, en ancho × alto × fondo.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"NC-PF4: 320 × 435 × 134 mm; NC-PF8-SC: 440 × 480 × 140 mm (W × H × D).\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"«Dimensiones físicas 320 x 435 x 134 mm (W x H x D)».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"«Dimensiones físicas 440 x 480 x 140 mm (W x H x D)».\"}]}],\"notes\":\"Se conserva literalmente la diferencia de rótulos del bloque de carga dependiente de temperatura y no se infiere que la NC-PF4 carezca de llave escandinava; únicamente no está especificada para ese modelo.\"}",
+      "usage": {
+        "input_tokens": 38485,
+        "output_tokens": 90198,
+        "total_tokens": 128683
+      },
+      "provider_trace": {
+        "id": "resp_033cf29fffb69d18006a5bd9ccafe48194b5278f07ef56d24f",
+        "created_at": 1784404428.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9d08bc081948824c75a1639e136",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9d995e4819486a95bb8434c38f2",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9e3a6ac8194babfc40b66a33ac3",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9ed36f481948790a009cfc0d3e2",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9f4bc38819486410ecc1a7ed1c5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bd9fe01c48194afe282065f7d542d",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda07f6848194a8da14f13acd2390",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda10ffbc819480d5102fe6cb059b",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda19b4c48194bf7ed133b1f8723d",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda22566c8194ba593259af5c95d7",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda2bc25881948050f7e104798564",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda33ca1c8194a77e2977c47067db",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda3c7c708194a6b81b4a50a058d4",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda46ea9481948beabe6e9dcfa0d5",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda4fae648194ab027c479e93b080",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda59ed5481949fb4c9e950dc4783",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "rs_033cf29fffb69d18006a5bda631f248194b7bc6bf99577da81",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": null,
+            "status": null
+          },
+          {
+            "id": "msg_033cf29fffb69d18006a5bda69f48481948b348d97bc958400",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\"canary_id\":\"kidde_nc_panel_relational_matrix\",\"adequacy\":\"SUFFICIENT\",\"question\":\"Estoy cerrando una tabla de ingeniería para dos centrales Kidde. Compárame la NC-PF4 y la NC-PF8-SC sin mezclar valores: zonas y dispositivos por zona; cuál se identifica con llave escandinava; límites de red; salidas de base, cargas y ampliación opcional; baterías admitidas; y dimensiones en ancho × alto × fondo. No necesito una recomendación, solo las diferencias y coincidencias exactas.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Comparación exacta:\\n• Zonas: NC-PF4, 4; NC-PF8-SC, 8. Ambas admiten hasta 32 dispositivos por zona.\\n• Interfaz: la NC-PF8-SC se identifica expresamente con llave escandinava. Para la NC-PF4 se declara una interfaz básica e intuitiva por iconos, pero no se especifica esa llave.\\n• Red: NC-PF4, hasta 16 nodos; NC-PF8-SC, hasta 8 nodos. Ambas indican hasta 1280 dispositivos por sistema y conexión en red de hasta 64 zonas.\\n• Salidas de base: ambas tienen 4 supervisadas y 2 no supervisadas.\\n• Cargas: para las supervisadas se indican 250 mA en la NC-PF4 y 500 mA en la NC-PF8-SC; para las no supervisadas, ambas indican 2 A @ 30 VDC. Ambas muestran además 250 mA @ 25°C / 195 mA @ 40°C, pero la NC-PF4 lo rotula bajo un segundo bloque «Salidas no supervisadas» y la NC-PF8-SC bajo «Auxilliary Supply Output».\\n• Ampliación opcional: mediante placas de 4 relés estándar o 4 supervisados, la NC-PF4 admite hasta 8 salidas adicionales y la NC-PF8-SC hasta 16.\\n• Baterías: NC-PF4, 2 × 12 V y 7,2 Ah (SLA); NC-PF8-SC, 2 × 12 V y 7,2 o 12 Ah (SLA).\\n• Dimensiones: NC-PF4, 320 × 435 × 134 mm; NC-PF8-SC, 440 × 480 × 140 mm, en ambos casos ancho × alto × fondo.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"La NC-PF8-SC duplica las zonas de la NC-PF4 —8 frente a 4—, mientras que ambas admiten hasta 32 dispositivos por zona.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: 4 zonas; NC-PF8-SC: 8 zonas; ambas: hasta 32 dispositivos/zona.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"«8 zones that support up to 32 devices per zone».\"}]},{\"fact_id\":\"F02\",\"text\":\"La NC-PF8-SC se identifica expresamente como panel con llave escandinava; la NC-PF4 se describe con una interfaz básica e intuitiva por iconos, sin atribuirle expresamente esa llave.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF8-SC: llave escandinava explícita; NC-PF4: interfaz por iconos, llave escandinava no especificada.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«La interfaz de usuario básica e intuitiva con iconos».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Encabezado: «Conventional Fire Panel with Scandinavian Key - 8 Zone».\"}]},{\"fact_id\":\"F03\",\"text\":\"La NC-PF4 admite hasta 16 nodos y la NC-PF8-SC hasta 8; ambas indican hasta 1280 dispositivos por sistema y conexión en red de hasta 64 zonas.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: hasta 16 nodos; NC-PF8-SC: hasta 8; ambas: hasta 1280 dispositivos y 64 zonas en red.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalle: «Conectable en red hasta 64 zonas».\"},{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «hasta 1280» dispositivos y tamaño de red «hasta 16» nodos.\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"Detalle: «Networkable up to 64 zones».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"General: «hasta 1280» dispositivos y tamaño de red «hasta 8» nodos.\"}]},{\"fact_id\":\"F04\",\"text\":\"Ambos modelos incorporan de base 4 salidas supervisadas y 2 salidas no supervisadas.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Ambas: 4 supervisadas + 2 no supervisadas.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla «Salidas»: 4 supervisadas y 2 no supervisadas.\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Tabla «Output»: 4 «Supervised Outputs» y 2 «Non Supervised Outputs».\"}]},{\"fact_id\":\"F05\",\"text\":\"La carga máxima indicada para las salidas supervisadas es 250 mA en la NC-PF4 y 500 mA en la NC-PF8-SC; las no supervisadas figuran como 2 A @ 30 VDC en ambas. Las dos muestran además 250 mA @ 25°C / 195 mA @ 40°C, aunque bajo rótulos distintos.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Supervisadas: PF4 250 mA, PF8-SC 500 mA; no supervisadas: ambas 2 A @ 30 VDC; bloque térmico: ambas 250 mA @ 25°C / 195 mA @ 40°C.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"«Carga (máx.) 250 mA»; «Carga 2 A @ 30 VDC»; segundo bloque: «250 mA @ 25°C / 195 mA @ 40°C».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"«Load (max.) 500 mA»; «Load 2 A @ 30 VDC»; «Auxilliary Supply Output… 250 mA @ 25°C / 195 mA @ 40°C».\"}]},{\"fact_id\":\"F06\",\"text\":\"Con placas auxiliares de 4 relés estándar o 4 supervisados, la NC-PF4 puede añadir hasta 8 salidas y la NC-PF8-SC hasta 16.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Ampliación opcional: NC-PF4 hasta 8 salidas adicionales; NC-PF8-SC hasta 16.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":1,\"evidence\":\"«Una con cuatro relés estándar y otra con cuatro relés supervisados… hasta 8 salidas adicionales».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":1,\"evidence\":\"«4 standard relays… 4 supervised relays… up to 16 additional outputs».\"}]},{\"fact_id\":\"F07\",\"text\":\"La NC-PF4 especifica 2 × 12 V y 7,2 Ah (SLA), mientras que la NC-PF8-SC admite 2 × 12 V con 7,2 o 12 Ah (SLA).\",\"type\":\"core\",\"state\":\"present\",\"value\":\"NC-PF4: 2 × 12 V, 7,2 Ah; NC-PF8-SC: 2 × 12 V, 7,2 o 12 Ah; SLA.\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería: «2 x 12 V, 7.2 Ah (SLA)».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"Batería: «2 x 12 V, 7.2 or 12 Ah (SLA)».\"}]},{\"fact_id\":\"F08\",\"text\":\"Las dimensiones de la NC-PF4 son 320 × 435 × 134 mm y las de la NC-PF8-SC 440 × 480 × 140 mm, en ancho × alto × fondo.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"NC-PF4: 320 × 435 × 134 mm; NC-PF8-SC: 440 × 480 × 140 mm (W × H × D).\",\"citations\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"nc-pf4-161721-es.pdf\",\"page\":2,\"evidence\":\"«Dimensiones físicas 320 x 435 x 134 mm (W x H x D)».\"},{\"pdf\":\"nc-pf8-sc-161721-es.pdf\",\"page\":2,\"evidence\":\"«Dimensiones físicas 440 x 480 x 140 mm (W x H x D)».\"}]}],\"notes\":\"Se conserva literalmente la diferencia de rótulos del bloque de carga dependiente de temperatura y no se infiere que la NC-PF4 carezca de llave escandinava; únicamente no está especificada para ese modelo.\"}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": true,
+        "completed_at": 1784404616.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "name": "generate_kidde_nc_panel_relational_matrix",
+            "schema_": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "canary_id",
+                "adequacy",
+                "question",
+                "expected_behavior",
+                "gold_answer",
+                "atomic_facts",
+                "notes"
+              ],
+              "properties": {
+                "canary_id": {
+                  "type": "string",
+                  "enum": [
+                    "kidde_nc_panel_relational_matrix"
+                  ]
+                },
+                "adequacy": {
+                  "type": "string",
+                  "enum": [
+                    "SUFFICIENT",
+                    "INSUFFICIENT"
+                  ]
+                },
+                "question": {
+                  "type": "string"
+                },
+                "expected_behavior": {
+                  "type": "string",
+                  "enum": [
+                    "answer"
+                  ]
+                },
+                "gold_answer": {
+                  "type": "string"
+                },
+                "atomic_facts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "fact_id",
+                      "text",
+                      "type",
+                      "state",
+                      "value",
+                      "citations",
+                      "visual_evidence"
+                    ],
+                    "properties": {
+                      "fact_id": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "core",
+                          "supplementary"
+                        ]
+                      },
+                      "state": {
+                        "type": "string",
+                        "enum": [
+                          "present"
+                        ]
+                      },
+                      "value": {
+                        "type": "string"
+                      },
+                      "citations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      },
+                      "visual_evidence": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "pdf",
+                            "page",
+                            "evidence"
+                          ],
+                          "properties": {
+                            "pdf": {
+                              "type": "string"
+                            },
+                            "page": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "evidence": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "minItems": 0,
+                        "maxItems": 4
+                      }
+                    }
+                  },
+                  "minItems": 0,
+                  "maxItems": 8
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            "type": "json_schema",
+            "description": null,
+            "strict": true
+          },
+          "verbosity": "low"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 38485,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 90198,
+          "output_tokens_details": {
+            "reasoning_tokens": 8618
+          },
+          "total_tokens": 128683
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    }
+  ],
+  "conservative_cost_usd": 14.46411,
+  "result_sha256": "4d2d7f8430a070cecd0b5dd44accd8fd93847678fa73de808d8b1717eedaecab"
+}
