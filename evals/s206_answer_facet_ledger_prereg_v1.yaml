@@ -1,0 +1,101 @@
+schema: s206_answer_facet_ledger_prereg_v2
+status: PREREGISTERED_PENDING_CORRECTED_DUO_REVIEW
+objective: improve source-faithful transmission of already-served relations
+
+runtime:
+  flag: ANSWER_FACET_LEDGER
+  default: off
+  control: off
+  treatment: on
+  enabled_archetypes: [fault_reset_recovery, program_delay_cause_effect]
+  identity_guard: explicit_recognized_product_required
+  classifier: config/retrieval_facets_v4.yaml
+  ledger: config/answer_facets_v1.yaml
+  generator_model: claude-sonnet-4-6
+  temperature: 0
+  max_output_tokens: 3500
+  retries: 0
+
+frozen_inputs:
+  contexts: evals/s113_full_contexts_freeze_v1.json
+  residual_audit: evals/s163_synthesis_residual_audit_v1.json
+  obligation_audit: evals/s141_source_bound_technical_obligations_v1.json
+  golds: evals/gold_answers_v1.yaml
+  independent_source_cohort: evals/s173_single_source_omission_cohort_v1.json
+
+cohort:
+  targets: [cat018, hp002, hp011, hp017]
+  protected_gold_guardrails: [cat019, hp005]
+  protected_fault_canary: [s147_src_05]
+  zero_call_ambiguity_negatives: [generic_ambiguous_reset, ho006]
+  replicates_per_arm: 2
+  order_per_question: [control_1, treatment_1, treatment_2, control_2]
+  total_paid_calls: 28
+  organic_logs_role: advisory_shape_only_not_external_validation
+
+flags:
+  CHUNKS_TABLE: chunks_v2
+  LLM_MAX_TOKENS: '3500'
+  GENERATOR_PROMPT_VARIANT: fidelity
+  GENERATOR_SELECTION_BLOCK: 'on'
+  GENERATOR_INCLUDE_CONTEXT: '0'
+  ANSWER_OBLIGATION_PLANNER: guided
+  POST_RERANK_COVERAGE: 'on'
+  STRUCTURAL_NEIGHBOR_COVERAGE: 'on'
+  CANONICAL_HYQ_COVERAGE: 'on'
+  RERANK_POOL_COVERAGE: 'on'
+  STRUCTURAL_CASCADE_COVERAGE: 'on'
+  LOGICAL_RECORD_COVERAGE: 'on'
+
+hard_stops_before_spend:
+  - target_literal_in_runtime_ledger
+  - runtime_scope_not_exactly_two_measured_archetypes
+  - ambiguous_query_receives_ledger
+  - default_off_prompt_not_byte_identical
+  - local_feasibility_gate_not_go
+  - request_envelope_or_source_hash_missing
+  - principal_review_not_gpt_5_6_sol_xhigh
+  - independent_review_not_fable_5
+  - unresolved_critical_frontier_finding
+  - execution_permit_missing_or_drifted
+
+measurement:
+  target_validator: scripts/s206_score_answer_facet_ab.py
+  guardrail_matcher: scripts/atomic_scorer.py
+  semantic_veto_contract: evals/s206_semantic_result_review_contract_v1.yaml
+  causal_gain: both_treatments_cover_and_neither_control_covers
+  mixed_result: inconclusive_no_credit
+  forbidden:
+    - retrieval_calls
+    - reranker_calls
+    - database_writes
+    - prompt_iteration_after_target_outputs
+    - per_qid_or_per_product_runtime_rules
+    - target_postselection
+    - retries
+
+integration_gate:
+  stable_residual_relation_gain_min: 4
+  stable_target_questions_complete_gain_min: 2
+  previously_covered_relation_regressions_max: 0
+  protected_core_regressions_max: 0
+  new_contradictions_max: 0
+  invalid_citations_max: 0
+  max_token_stops: 0
+  production_default_after_merge: off
+  claim_98_percent_requires_additional_facts_ok_min: 11
+  final_semantic_duo_veto: true
+  canonical_fact_credit_requires_separate_atomic_adjudication: true
+
+frontier_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {model: claude-fable-5}
+  corrected_design_review_rounds_max: 1
+  sealed_result_review_rounds_max: 1
+
+budget:
+  total_user_authorized_usd: 200
+  s206_internal_ceiling_usd: 45
+
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway: demo_non_blocking

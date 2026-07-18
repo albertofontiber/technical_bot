@@ -1,0 +1,387 @@
+diff --git a/.env.example b/.env.example
+index 2960842..c81548a 100644
+--- a/.env.example
++++ b/.env.example
+@@ -32,6 +32,7 @@ STRUCTURAL_CASCADE_COVERAGE=off
+ LOGICAL_RECORD_COVERAGE=off
+ # off|observe|guided|enforced; supplement is local-development only. Default stays off.
+ ANSWER_OBLIGATION_PLANNER=off
++ANSWER_FACET_LEDGER=off
+ DEDUP_REFERENCE_NAVIGATION=off
+ R2_REPAIR_NAVIGATION=off
+ STRUCTURAL_NEIGHBOR_SHADOW=off
+diff --git a/config/answer_facets_v1.yaml b/config/answer_facets_v1.yaml
+new file mode 100644
+index 0000000..22e45b5
+--- /dev/null
++++ b/config/answer_facets_v1.yaml
+@@ -0,0 +1,42 @@
++schema: answer_facets_v1
++classifier: config/retrieval_facets_v4.yaml
++policy:
++  include_only_source_supported: true
++  material_to_query_only: true
++  preserve_relations_and_qualifiers: true
++  internal_ledger_not_user_visible: true
++  require_explicit_recognized_product: true
++enabled_archetypes:
++  - fault_reset_recovery
++  - program_delay_cause_effect
++archetypes:
++  fault_reset_recovery:
++    label: diagnostico y recuperacion
++    checks:
++      - id: state_blockers
++        text: sintoma, estado actual y condiciones que mantienen activa la averia
++      - id: cause_discrimination
++        text: causas probables y comprobaciones que permiten discriminarlas
++      - id: reference_calibration
++        text: referencia inicial, calibracion o valores nominales necesarios
++      - id: thresholds_timing
++        text: umbrales, ventanas, tiempos, intervalos, unidades y condiciones limite
++      - id: safety_prerequisites
++        text: requisitos previos de seguridad, aislamiento o bloqueo antes de intervenir
++      - id: recovery_verification
++        text: secuencia de recuperacion, estados especiales tras el evento y verificacion final
++  program_delay_cause_effect:
++    label: programacion y causa-efecto
++    checks:
++      - id: navigation_fields
++        text: ruta de menu y campos exactos que se editan
++      - id: input_condition
++        text: condicion o instruccion de entrada que dispara la regla
++      - id: output_action
++        text: accion de salida, equipos asignados y efecto resultante
++      - id: values_ranges_states
++        text: valores permitidos, valores por defecto, rangos, incrementos y estados especiales
++      - id: warnings_conflicts
++        text: requisitos previos, advertencias y reglas contradictorias que deben evitarse
++      - id: commissioning_verification
++        text: guardado, aplicacion, prueba y verificacion durante la puesta en marcha
+diff --git a/src/rag/answer_facets.py b/src/rag/answer_facets.py
+new file mode 100644
+index 0000000..4758477
+--- /dev/null
++++ b/src/rag/answer_facets.py
+@@ -0,0 +1,137 @@
++"""Query-archetype answer ledger for source-faithful generation.
++
++The ledger reuses the existing versioned retrieval archetype classifier. It
++does not select evidence, extract target values, inspect evaluation IDs or add
++facts to an answer. It only asks the writer to check generic answer facets
++against the chunks that are already served.
++"""
++from __future__ import annotations
++
++import os
++import re
++from functools import lru_cache
++from pathlib import Path
++from typing import Any
++
++import yaml
++
++from .query_facets import expand_query_facets
++from .retriever import extract_product_models
++
++ROOT = Path(__file__).resolve().parents[2]
++DEFAULT_CONFIG = ROOT / "config/answer_facets_v1.yaml"
++
++
++def answer_facet_ledger_mode() -> str:
++    """Return the strict runtime mode; the default is byte-inert."""
++    raw = os.getenv("ANSWER_FACET_LEDGER", "off").strip().lower()
++    aliases = {"": "off", "0": "off", "false": "off", "no": "off"}
++    mode = aliases.get(raw, raw)
++    if mode not in {"off", "on"}:
++        raise RuntimeError(
++            f"ANSWER_FACET_LEDGER={raw!r} no reconocido (off|on)"
++        )
++    return mode
++
++
++@lru_cache(maxsize=4)
++def _load(path_string: str) -> dict[str, Any]:
++    path = Path(path_string)
++    payload = yaml.safe_load(path.read_text(encoding="utf-8"))
++    if payload.get("schema") != "answer_facets_v1":
++        raise RuntimeError("unsupported answer facet schema")
++    classifier = payload.get("classifier")
++    if not isinstance(classifier, str) or not (ROOT / classifier).is_file():
++        raise RuntimeError("answer facet classifier is missing")
++    policy = payload.get("policy")
++    if not isinstance(policy, dict) or not all(
++        policy.get(key) is True
++        for key in (
++            "include_only_source_supported",
++            "material_to_query_only",
++            "preserve_relations_and_qualifiers",
++            "internal_ledger_not_user_visible",
++            "require_explicit_recognized_product",
++        )
++    ):
++        raise RuntimeError("answer facet policy must fail closed")
++    archetypes = payload.get("archetypes")
++    if not isinstance(archetypes, dict) or not archetypes:
++        raise RuntimeError("answer facet archetypes are missing")
++    enabled = payload.get("enabled_archetypes")
++    if (
++        not isinstance(enabled, list)
++        or not enabled
++        or any(not isinstance(item, str) for item in enabled)
++        or len(set(enabled)) != len(enabled)
++        or set(enabled) != set(archetypes)
++    ):
++        raise RuntimeError("enabled answer facet archetypes must match configured subset")
++    for archetype, spec in archetypes.items():
++        checks = spec.get("checks") if isinstance(spec, dict) else None
++        label = spec.get("label") if isinstance(spec, dict) else None
++        if not isinstance(archetype, str) or not isinstance(label, str) or not label:
++            raise RuntimeError("invalid answer facet archetype")
++        if (
++            not isinstance(checks, list)
++            or not 2 <= len(checks) <= 6
++            or any(
++                not isinstance(item, dict)
++                or not isinstance(item.get("id"), str)
++                or not re.fullmatch(r"[a-z][a-z0-9_]*", item["id"])
++                or not isinstance(item.get("text"), str)
++                or not item["text"].strip()
++                for item in checks
++            )
++            or len({item["id"] for item in checks}) != len(checks)
++        ):
++            raise RuntimeError(f"invalid checks for answer archetype {archetype}")
++        configured_text = " ".join([label, *(item["text"] for item in checks)])
++        if re.search(r"\d", configured_text):
++            raise RuntimeError("answer facets cannot inject numeric target values")
++        if re.search(r"\b[A-Z]{2,}[- ]?\d+[A-Z0-9-]*\b", configured_text):
++            raise RuntimeError("answer facets cannot inject product codes")
++    classifier_payload = yaml.safe_load(
++        (ROOT / classifier).read_text(encoding="utf-8")
++    )
++    classifier_ids = {
++        row.get("id") for row in classifier_payload.get("archetypes") or []
++    }
++    if not set(archetypes) < classifier_ids:
++        raise RuntimeError("answer facets must be a strict classifier subset")
++    return payload
++
++
++def classify_answer_archetype(
++    query: str, config_path: Path = DEFAULT_CONFIG
++) -> str | None:
++    """Classify with the existing retrieval ontology, without a second router."""
++    payload = _load(str(config_path.resolve()))
++    classifier = ROOT / payload["classifier"]
++    return expand_query_facets(query, config_path=classifier)["archetype"]
++
++
++def render_answer_facet_ledger(
++    query: str | None, config_path: Path = DEFAULT_CONFIG
++) -> str:
++    """Render generic internal checks for one routed query, or an empty string."""
++    if answer_facet_ledger_mode() == "off" or not query:
++        return ""
++    payload = _load(str(config_path.resolve()))
++    if not extract_product_models(query):
++        return ""
++    archetype = classify_answer_archetype(query, config_path=config_path)
++    spec = payload["archetypes"].get(archetype or "")
++    if not spec:
++        return ""
++    checks = "\n".join(f"- {item['text']}." for item in spec["checks"])
++    return f"""
++
++LEDGER INTERNO DE COBERTURA ({spec['label']}):
++Antes de redactar, recorre TODOS los fragmentos servidos y comprueba estas facetas:
++{checks}
++Incluye solo facetas materialmente relacionadas con la pregunta y respaldadas por los
++fragmentos. Conserva siempre la relacion exacta entre campo, valor, condicion, efecto,
++unidad, limite y excepcion; no conviertas palabras cercanas en una relacion que la fuente
++no afirma. Si una faceta no esta respaldada, omitela sin rellenarla ni mencionarla. No
++muestres este ledger ni lo conviertas en una seccion de la respuesta."""
+diff --git a/src/rag/generator.py b/src/rag/generator.py
+index 5219a01..2b12f06 100644
+--- a/src/rag/generator.py
++++ b/src/rag/generator.py
+@@ -17,6 +17,7 @@ from ..config import (
+     LLM_MAX_TOKENS,
+ )
+ from .answer_obligation_contract import build_enforced_answer_cache_identity
++from .answer_facets import render_answer_facet_ledger
+ from .answer_planner import (
+     ANSWER_PLANNER_CONTRACT_S122,
+     answer_planner_mode,
+@@ -456,6 +457,7 @@ def _assemble_system(
+     base = SYSTEM_PROMPT
+     if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
+         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
++    base = base + render_answer_facet_ledger(query)
+     if _selection_block_on() and query is not None and _is_selection_query(query):
+         base = base + _SELECTION_BLOCK
+     if enforced_policy:
+diff --git a/tests/test_answer_facets.py b/tests/test_answer_facets.py
+new file mode 100644
+index 0000000..72794f9
+--- /dev/null
++++ b/tests/test_answer_facets.py
+@@ -0,0 +1,110 @@
++import re
++from pathlib import Path
++
++import pytest
++import yaml
++
++from src.rag.answer_facets import (
++    DEFAULT_CONFIG,
++    answer_facet_ledger_mode,
++    classify_answer_archetype,
++    render_answer_facet_ledger,
++)
++from src.rag.generator import SYSTEM_PROMPT, _assemble_system
++
++
++def test_default_off_is_byte_inert(monkeypatch):
++    monkeypatch.delenv("ANSWER_FACET_LEDGER", raising=False)
++    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
++    assert render_answer_facet_ledger("¿Cómo se diagnostica una avería?") == ""
++    assert _assemble_system("¿Cómo se diagnostica una avería?") == SYSTEM_PROMPT
++
++
++def test_invalid_mode_fails_fast(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "enabled")
++    with pytest.raises(RuntimeError, match="off\\|on"):
++        answer_facet_ledger_mode()
++
++
++@pytest.mark.parametrize(
++    ("query", "expected"),
++    [
++        ("¿Qué barrera se usa en una instalación intrínsecamente segura?", "intrinsic_safety"),
++        ("¿Qué resistencia de fin de línea usa este lazo?", "loop_eol_topology"),
++        ("¿Cuántos detectores admite cada lazo?", "capacity_quantity"),
++        ("¿Es compatible este detector con la central?", "compatibility"),
++        ("¿Cómo cambio la batería sin perder la configuración?", "replace_without_loss"),
++        ("¿Cómo se conecta el módulo al lazo?", "connect_install_wire"),
++        ("¿Qué autonomía deben cubrir las baterías?", "battery_sizing"),
++        ("El equipo muestra un fallo; ¿cómo lo diagnostico?", "fault_reset_recovery"),
++        ("¿Cómo programo una salida con retardo?", "program_delay_cause_effect"),
++    ],
++)
++def test_reuses_existing_classifier_for_all_archetypes(query, expected):
++    assert classify_answer_archetype(query) == expected
++
++
++def test_neutral_specification_query_remains_inert(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "on")
++    query = "¿Cuáles son las características técnicas del equipo?"
++    assert classify_answer_archetype(query) is None
++    assert render_answer_facet_ledger(query) == ""
++
++
++def test_fault_ledger_is_generic_source_bound_and_internal(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "on")
++    rendered = render_answer_facet_ledger(
++        "Después de resetear el ASD535 no vuelve a normal; ¿qué compruebo?"
++    )
++    assert "diagnostico y recuperacion" in rendered
++    assert "valores nominales" in rendered
++    assert "requisitos previos de seguridad" in rendered
++    assert "No\nmuestres este ledger" in rendered
++    assert "incluye solo" in rendered.casefold()
++    assert not re.search(r"\b(?:AM-8200|ASD535|RP1r|PEARL|cat018|hp002)\b", rendered)
++
++
++def test_programming_ledger_preserves_relation_shaped_checks(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "on")
++    rendered = render_answer_facet_ledger(
++        "¿Cómo se programa una regla causa-efecto en la ID3000 para activar una salida?"
++    )
++    for expected in (
++        "campos exactos",
++        "instruccion de entrada",
++        "accion de salida",
++        "valores por defecto",
++        "reglas contradictorias",
++        "puesta en marcha",
++    ):
++        assert expected in rendered
++
++
++def test_ambiguous_fault_query_is_inert(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "on")
++    assert render_answer_facet_ledger("Después de resetear el panel no vuelve a normal") == ""
++
++
++def test_unmeasured_archetype_is_inert_even_with_product(monkeypatch):
++    monkeypatch.setenv("ANSWER_FACET_LEDGER", "on")
++    assert render_answer_facet_ledger("¿Cuántos detectores admite cada lazo de la ID3000?") == ""
++
++
++def test_config_is_measured_classifier_subset_and_has_no_target_literals():
++    payload = yaml.safe_load(DEFAULT_CONFIG.read_text(encoding="utf-8"))
++    classifier_path = Path(__file__).resolve().parents[1] / payload["classifier"]
++    classifier = yaml.safe_load(classifier_path.read_text(encoding="utf-8"))
++    classifier_ids = {row["id"] for row in classifier["archetypes"]}
++    assert set(payload["enabled_archetypes"]) == set(payload["archetypes"])
++    assert set(payload["archetypes"]) == {
++        "fault_reset_recovery",
++        "program_delay_cause_effect",
++    }
++    assert set(payload["archetypes"]) < classifier_ids
++    configured = " ".join(
++        text
++        for spec in payload["archetypes"].values()
++        for text in [spec["label"], *(item["text"] for item in spec["checks"])]
++    )
++    assert not re.search(r"\d", configured)
++    assert not re.search(r"AM-8200|ASD535|RP1r|PEARL|cat018|hp002|hp011|hp017", configured)
+diff --git a/tests/test_s206_answer_facet_ab.py b/tests/test_s206_answer_facet_ab.py
+new file mode 100644
+index 0000000..0fdc418
+--- /dev/null
++++ b/tests/test_s206_answer_facet_ab.py
+@@ -0,0 +1,42 @@
++from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, answer_map
++from scripts.s206_answer_facet_ab_preflight import _source_canary, build_cohort
++from scripts.s206_score_answer_facet_ab import (
++    _relation_scores,
++    hp017_cardinality_contradiction,
++    invalid_citations,
++)
++from src.rag.retriever import extract_product_models
++
++
++def test_source_canary_binding_rule_adds_recognized_identity():
++    row = _source_canary()
++    assert row["qid"] == "s147_src_05"
++    assert extract_product_models(row["question"]) == ["SGD-151"]
++    assert row["question_transform"] == "prefix_en_el_product_model_lowercase_original_initial"
++
++
++def test_invalid_citations_are_range_checked():
++    assert invalid_citations("Correcto [F1][F3]", 3) == []
++    assert invalid_citations("Mal [F0][F4][F4]", 3) == [0, 4]
++
++
++def test_hp017_cardinality_requires_explicit_disclosure():
++    contradictory = (
++        "Hay seis tipos: Fijo, Estándar, No Silenc., Est. Ext., RetExtStd, "
++        "No Sil. Ext y SinRetExt."
++    )
++    disclosed = contradictory + " El manual dice seis, pero la tabla enumera siete opciones."
++    assert hp017_cardinality_contradiction(contradictory)
++    assert not hp017_cardinality_contradiction(disclosed)
++
++
++def test_hp017_short_answer_does_not_false_trigger():
++    assert not hp017_cardinality_contradiction("Seleccione el tipo Fijo [F1].")
++
++
++def test_relation_scorer_accepts_every_frozen_target_row():
++    answers = answer_map()
++    targets = {row["qid"]: row for row in build_cohort() if row["role"] == "target"}
++    for qid, row in targets.items():
++        scored = _relation_scores(row, answers[qid])
++        assert set(scored) == TARGET_KINDS[qid]

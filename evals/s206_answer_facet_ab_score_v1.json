@@ -1,0 +1,557 @@
+{
+  "schema": "s206_answer_facet_ab_score_v1",
+  "status": "NO_GO",
+  "inputs": {
+    "preflight_sha256": "ae005440058f2484b41134636e0d9cc5d35bcfb55f099770d74931a177b9ec8e",
+    "receipts_sha256": "f7fc7f394197627db9167cd5fbab5b47a7e624dea2c10646f06d416b7b46f17b",
+    "residual_sha256": "caaf08fbe9fdfc49550a2d3b7c8da6cbf6c012048d178def041ca02026541ab7"
+  },
+  "metrics": {
+    "stable_residual_relation_gains": 0,
+    "stable_target_questions_complete_gains": 0,
+    "relation_regressions": 1,
+    "guardrail_regressions": 0,
+    "unstable_guardrail_controls": 1,
+    "local_contradictions": 4,
+    "invalid_citation_calls": 0,
+    "max_token_stops": 0
+  },
+  "relation_rows": [
+    {
+      "qid": "cat018",
+      "kind": "point_programming_fields",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "cat018",
+      "kind": "software_type_cbe_activation",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp002",
+      "kind": "bounded_fault_window",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp002",
+      "kind": "initial_reference_calibration",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp002",
+      "kind": "maintenance_isolation_prerequisite",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp011",
+      "kind": "default_latched_faults",
+      "control_qualified": [
+        true,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": true,
+      "regression": true
+    },
+    {
+      "qid": "hp011",
+      "kind": "extinction_duration_range",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp011",
+      "kind": "reset_inhibit_special_state",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp017",
+      "kind": "commissioning_rule_verification",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp017",
+      "kind": "input_condition_definition",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp017",
+      "kind": "logic_contradiction_warning",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp017",
+      "kind": "option_family_cardinality",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    },
+    {
+      "qid": "hp017",
+      "kind": "output_condition_action",
+      "control_qualified": [
+        false,
+        false
+      ],
+      "treatment_qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false
+    }
+  ],
+  "target_complete_rows": [
+    {
+      "qid": "cat018",
+      "control_complete": [
+        false,
+        false
+      ],
+      "treatment_complete": [
+        false,
+        false
+      ],
+      "stable_complete_gain": false
+    },
+    {
+      "qid": "hp002",
+      "control_complete": [
+        false,
+        false
+      ],
+      "treatment_complete": [
+        false,
+        false
+      ],
+      "stable_complete_gain": false
+    },
+    {
+      "qid": "hp011",
+      "control_complete": [
+        false,
+        false
+      ],
+      "treatment_complete": [
+        false,
+        false
+      ],
+      "stable_complete_gain": false
+    },
+    {
+      "qid": "hp017",
+      "control_complete": [
+        false,
+        false
+      ],
+      "treatment_complete": [
+        false,
+        false
+      ],
+      "stable_complete_gain": false
+    }
+  ],
+  "guardrail_rows": [
+    {
+      "qid": "cat019",
+      "fact_key": "cat019#0:coincidencias",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='coincidencias'",
+          "prose:overlap=100% valor='coincidencias'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='coincidencias'",
+          "prose:overlap=100% valor='coincidencias'"
+        ]
+      }
+    },
+    {
+      "qid": "cat019",
+      "fact_key": "cat019#1:EVENTO / ACCION",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='EVENTO / ACCION'",
+          "prose:overlap=100% valor='EVENTO / ACCION'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='EVENTO / ACCION'",
+          "prose:overlap=100% valor='EVENTO / ACCION'"
+        ]
+      }
+    },
+    {
+      "qid": "cat019",
+      "fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='ENTIDAD / CONDICION TEMPORAL'",
+          "prose:overlap=100% valor='ENTIDAD / CONDICION TEMPORAL'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='ENTIDAD / CONDICION TEMPORAL'",
+          "prose:overlap=100% valor='ENTIDAD / CONDICION TEMPORAL'"
+        ]
+      }
+    },
+    {
+      "qid": "cat019",
+      "fact_key": "cat019#3:salidas",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='salidas'",
+          "prose:overlap=100% valor='salidas'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='salidas'",
+          "prose:overlap=100% valor='salidas'"
+        ]
+      }
+    },
+    {
+      "qid": "hp005",
+      "fact_key": "hp005#0:Matriz de control",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='Matriz de control'",
+          "prose:overlap=100% valor='Matriz de control'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='Matriz de control'",
+          "prose:overlap=100% valor='Matriz de control'"
+        ]
+      }
+    },
+    {
+      "qid": "hp005",
+      "fact_key": "hp005#1:COINCIDENCIA 2 EQUIPOS",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='COINCIDENCIA 2 EQUIPOS'",
+          "prose:overlap=100% valor='COINCIDENCIA 2 EQUIPOS'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='COINCIDENCIA 2 EQUIPOS'",
+          "prose:overlap=100% valor='COINCIDENCIA 2 EQUIPOS'"
+        ]
+      }
+    },
+    {
+      "qid": "hp005",
+      "fact_key": "hp005#2:misma zona o subzona",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='misma zona o subzona'",
+          "prose:overlap=100% valor='misma zona o subzona'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='misma zona o subzona'",
+          "prose:overlap=100% valor='misma zona o subzona'"
+        ]
+      }
+    },
+    {
+      "qid": "s147_src_05",
+      "fact_key": "s147_src_05#columns",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='Fecha Hora Evento Panel Zona Dispositivo Detalles'",
+          "prose:overlap=100% valor='Fecha Hora Evento Panel Zona Dispositivo Detalles'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='Fecha Hora Evento Panel Zona Dispositivo Detalles'",
+          "prose:overlap=100% valor='Fecha Hora Evento Panel Zona Dispositivo Detalles'"
+        ]
+      }
+    },
+    {
+      "qid": "s147_src_05",
+      "fact_key": "s147_src_05#device",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "anchor:anchors=['003', '01'] missing=[]",
+          "anchor:anchors=['003', '01'] missing=[]"
+        ],
+        "treatment": [
+          "anchor:anchors=['003', '01'] missing=[]",
+          "anchor:anchors=['003', '01'] missing=[]"
+        ]
+      }
+    },
+    {
+      "qid": "s147_src_05",
+      "fact_key": "s147_src_05#panel_marker",
+      "control_present": [
+        true,
+        true
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": true,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=100% valor='marcador panel intermitente averia'",
+          "prose:overlap=100% valor='marcador panel intermitente averia'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='marcador panel intermitente averia'",
+          "prose:overlap=100% valor='marcador panel intermitente averia'"
+        ]
+      }
+    },
+    {
+      "qid": "s147_src_05",
+      "fact_key": "s147_src_05#fault_filter",
+      "control_present": [
+        false,
+        false
+      ],
+      "treatment_present": [
+        true,
+        true
+      ],
+      "stable_control": false,
+      "regression": false,
+      "details": {
+        "control": [
+          "prose:overlap=75% valor='filtro fallos elementos averia'",
+          "prose:overlap=75% valor='filtro fallos elementos averia'"
+        ],
+        "treatment": [
+          "prose:overlap=100% valor='filtro fallos elementos averia'",
+          "prose:overlap=100% valor='filtro fallos elementos averia'"
+        ]
+      }
+    }
+  ],
+  "invalid_citations": [],
+  "checks": {
+    "stable_residual_relation_gain_min_4": false,
+    "stable_target_questions_complete_gain_min_2": false,
+    "previously_covered_relation_regressions_zero": false,
+    "protected_core_regressions_zero": true,
+    "all_guardrail_controls_mechanically_stable": false,
+    "local_new_contradictions_zero": false,
+    "invalid_citations_zero": true,
+    "max_token_stops_zero": true
+  },
+  "relation_proxy_projection": {
+    "stable_s141_relations_gained": 0,
+    "canonical_facts_ok_before": 143,
+    "canonical_facts_ok_after": null,
+    "claim_98_percent_allowed": false,
+    "reason": "S141 relation coverage is a diagnostic proxy. Canonical fact credit requires a separate atomic fact adjudication after the semantic duo."
+  },
+  "decision": {
+    "production": false,
+    "production_default": "off",
+    "facts_moved_to_ok": 0,
+    "next": "CLOSE_S206_NO_GO_WITHOUT_PROMPT_ITERATION"
+  },
+  "result_sha256": "1d67774504f3c64dd69606d4b161dd0f7a920c47c9fe942285359e11eae288ff"
+}

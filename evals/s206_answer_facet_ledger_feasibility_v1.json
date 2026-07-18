@@ -1,0 +1,179 @@
+{
+  "schema": "s206_answer_facet_ledger_feasibility_v1",
+  "status": "GO_LOCAL_FEASIBILITY",
+  "population": {
+    "frozen_questions": 39,
+    "target_questions": 4,
+    "genuine_residual_relations": 12,
+    "protected_guardrail_questions": 2
+  },
+  "target_routes": {
+    "cat018": "program_delay_cause_effect",
+    "hp002": "fault_reset_recovery",
+    "hp011": "fault_reset_recovery",
+    "hp017": "program_delay_cause_effect"
+  },
+  "target_identity_bound": {
+    "cat018": true,
+    "hp002": true,
+    "hp011": true,
+    "hp017": true
+  },
+  "target_ledgers_enabled": {
+    "cat018": true,
+    "hp002": true,
+    "hp011": true,
+    "hp017": true
+  },
+  "frozen_route_distribution": {
+    "(unrouted)": 18,
+    "capacity_quantity": 3,
+    "compatibility": 2,
+    "connect_install_wire": 4,
+    "fault_reset_recovery": 2,
+    "intrinsic_safety": 1,
+    "loop_eol_topology": 4,
+    "program_delay_cause_effect": 4,
+    "replace_without_loss": 1
+  },
+  "protected_guardrail_qids": [
+    "cat019",
+    "hp005"
+  ],
+  "residual_facet_rows": [
+    {
+      "qid": "cat018",
+      "kind": "software_type_cbe_activation",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "input_condition",
+        "output_action"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "cat018",
+      "kind": "point_programming_fields",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "navigation_fields"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "initial_reference_calibration",
+      "archetype": "fault_reset_recovery",
+      "required_facet_ids": [
+        "reference_calibration"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "bounded_fault_window",
+      "archetype": "fault_reset_recovery",
+      "required_facet_ids": [
+        "thresholds_timing"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp002",
+      "kind": "maintenance_isolation_prerequisite",
+      "archetype": "fault_reset_recovery",
+      "required_facet_ids": [
+        "safety_prerequisites"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp011",
+      "kind": "extinction_duration_range",
+      "archetype": "fault_reset_recovery",
+      "required_facet_ids": [
+        "thresholds_timing"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp011",
+      "kind": "reset_inhibit_special_state",
+      "archetype": "fault_reset_recovery",
+      "required_facet_ids": [
+        "recovery_verification"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "option_family_cardinality",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "values_ranges_states"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "input_condition_definition",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "input_condition"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "output_condition_action",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "output_action"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "logic_contradiction_warning",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "warnings_conflicts"
+      ],
+      "covered_by_generic_ontology": true
+    },
+    {
+      "qid": "hp017",
+      "kind": "commissioning_rule_verification",
+      "archetype": "program_delay_cause_effect",
+      "required_facet_ids": [
+        "commissioning_verification"
+      ],
+      "covered_by_generic_ontology": true
+    }
+  ],
+  "checks": {
+    "runtime_scope_exactly_measured_archetypes": true,
+    "all_four_targets_routed": true,
+    "all_four_targets_identity_bound": true,
+    "all_four_targets_receive_ledger": true,
+    "ambiguous_query_is_inert": true,
+    "targets_use_existing_archetypes_only": true,
+    "all_residual_kinds_mapped": true,
+    "non_target_same_archetype_guardrails_exist": true,
+    "runtime_ledger_has_no_numeric_values": true,
+    "runtime_ledger_has_no_target_literals": true
+  },
+  "decision": {
+    "paid_treatment_authorized": false,
+    "next": "BUILD_EXECUTABLE_PREFLIGHT_THEN_RERUN_DUO_REVIEW_ONCE",
+    "production": false,
+    "facts_moved_to_ok": 0
+  },
+  "cost": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "usd": 0
+  },
+  "result_sha256": "7b2fee5e37d0db00e605c16dff89589154881a160beb883ac9d7f9bd28f17777"
+}
