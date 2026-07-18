@@ -1,0 +1,462 @@
+{
+  "schema": "s264_kidde_sol_generations_v1",
+  "status": "IN_PROGRESS",
+  "items": [
+    {
+      "canary_id": "kidde_2xa_installation_operation_boundaries",
+      "provider": "sol",
+      "candidate": {
+        "canary_id": "kidde_2xa_installation_operation_boundaries",
+        "adequacy": "SUFFICIENT",
+        "question": "En una central Kidde 2X-A de una instalación que no exige EN 54-13, voy a conectar un interruptor externo a INPUT1/INPUT2 y a preparar el procedimiento ante una avería. ¿Qué rango resistivo debe presentar la entrada cuando esté activa, qué precaución se aplica al cablear salidas y en qué orden debe actuar el usuario hasta escalar la avería a mantenimiento? Separa instalación de operación.",
+        "expected_behavior": "answer",
+        "gold_answer": "Instalación: el interruptor de INPUT1 o INPUT2 debe presentar un valor activo de 62 Ω a 8 kΩ, ambos límites incluidos. Al conectar salidas, hay que comprobar la polaridad o instalar un diodo 1N4007 o equivalente para evitar problemas de activación invertida. Estas indicaciones de conexión no son aplicables cuando se exige conformidad con EN 54-13.\n\nOperación ante avería: primero debe confirmarse la causa de la señal de aviso antes de desactivar el zumbador; después debe contactarse inmediatamente con el contratista de mantenimiento para que investigue y repare la avería. Los valores resistivos y la protección de las salidas son condiciones de instalación, mientras que la comprobación y el aviso a mantenimiento son acciones operativas.",
+        "atomic_facts": [
+          {
+            "fact_id": "F01",
+            "text": "Para los interruptores conectados a INPUT1 o INPUT2, el valor activo debe cumplir 62 Ω ≤ valor activo ≤ 8 kΩ.",
+            "type": "core",
+            "state": "present",
+            "value": "62 Ω ≤ valor activo ≤ 8 kΩ",
+            "citations": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2,
+                "evidence": "«Conectar interruptores de entrada a INPUT1 y INPUT2 (62 Ω ≤ valor activo ≤ 8 kΩ)»."
+              }
+            ]
+          },
+          {
+            "fact_id": "F02",
+            "text": "Al cablear salidas debe comprobarse la polaridad correcta o instalarse un diodo 1N4007 o equivalente para evitar problemas de activación invertida.",
+            "type": "core",
+            "state": "present",
+            "value": "Polaridad correcta o diodo 1N4007/equivalente",
+            "citations": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2,
+                "evidence": "«Compruebe que la polaridad es correcta o instale un diodo 1N4007 o equivalente»."
+              }
+            ]
+          },
+          {
+            "fact_id": "F03",
+            "text": "La información indicada para conectar entradas y salidas no se aplica a instalaciones que requieran conformidad con EN 54-13.",
+            "type": "supplementary",
+            "state": "present",
+            "value": "No aplicable si se exige EN 54-13",
+            "citations": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2,
+                "evidence": "«Esta información de conexión no se aplica a las instalaciones que requieren conformidad con la norma EN 54-13»."
+              }
+            ]
+          },
+          {
+            "fact_id": "F04",
+            "text": "Ante una avería debe confirmarse siempre la causa de la señal de aviso antes de desactivar el zumbador.",
+            "type": "core",
+            "state": "present",
+            "value": "Confirmar la causa antes de desactivar el zumbador",
+            "citations": [
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2,
+                "evidence": "«Antes de desactivar el zumbador, debe confirmar siempre la causa de la señal de aviso»."
+              }
+            ]
+          },
+          {
+            "fact_id": "F05",
+            "text": "La avería debe escalarse inmediatamente al contratista de mantenimiento para que la investigue y repare.",
+            "type": "core",
+            "state": "present",
+            "value": "Contacto inmediato para investigar y reparar",
+            "citations": [
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2,
+                "evidence": "«Póngase en contacto de inmediato con el contratista encargado del mantenimiento para investigar y reparar la avería»."
+              }
+            ]
+          },
+          {
+            "fact_id": "F06",
+            "text": "Las resistencias y la protección de polaridad son condiciones de instalación; confirmar la causa y escalar la avería son acciones operativas posteriores.",
+            "type": "core",
+            "state": "present",
+            "value": "Separación entre instalación y operación",
+            "citations": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2
+              },
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2
+              }
+            ],
+            "visual_evidence": [
+              {
+                "pdf": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf",
+                "page": 2,
+                "evidence": "La sección «Conexión de entradas y salidas» especifica el rango activo y la protección de polaridad."
+              },
+              {
+                "pdf": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+                "page": 2,
+                "evidence": "La sección «En caso de avería» ordena confirmar la causa y contactar con mantenimiento."
+              }
+            ]
+          }
+        ],
+        "notes": "F06 establece la distinción genuinamente cruzada entre requisitos de cableado y actuación operativa."
+      },
+      "validation_status": "VALID",
+      "validation_error": null,
+      "receipt": {
+        "provider": "sol",
+        "call_label": "generate:kidde_2xa_installation_operation_boundaries",
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "xhigh",
+        "status": "completed",
+        "raw_output": "{\"canary_id\":\"kidde_2xa_installation_operation_boundaries\",\"adequacy\":\"SUFFICIENT\",\"question\":\"En una central Kidde 2X-A de una instalación que no exige EN 54-13, voy a conectar un interruptor externo a INPUT1/INPUT2 y a preparar el procedimiento ante una avería. ¿Qué rango resistivo debe presentar la entrada cuando esté activa, qué precaución se aplica al cablear salidas y en qué orden debe actuar el usuario hasta escalar la avería a mantenimiento? Separa instalación de operación.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Instalación: el interruptor de INPUT1 o INPUT2 debe presentar un valor activo de 62 Ω a 8 kΩ, ambos límites incluidos. Al conectar salidas, hay que comprobar la polaridad o instalar un diodo 1N4007 o equivalente para evitar problemas de activación invertida. Estas indicaciones de conexión no son aplicables cuando se exige conformidad con EN 54-13.\\n\\nOperación ante avería: primero debe confirmarse la causa de la señal de aviso antes de desactivar el zumbador; después debe contactarse inmediatamente con el contratista de mantenimiento para que investigue y repare la avería. Los valores resistivos y la protección de las salidas son condiciones de instalación, mientras que la comprobación y el aviso a mantenimiento son acciones operativas.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"Para los interruptores conectados a INPUT1 o INPUT2, el valor activo debe cumplir 62 Ω ≤ valor activo ≤ 8 kΩ.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"62 Ω ≤ valor activo ≤ 8 kΩ\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Conectar interruptores de entrada a INPUT1 y INPUT2 (62 Ω ≤ valor activo ≤ 8 kΩ)».\"}]},{\"fact_id\":\"F02\",\"text\":\"Al cablear salidas debe comprobarse la polaridad correcta o instalarse un diodo 1N4007 o equivalente para evitar problemas de activación invertida.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Polaridad correcta o diodo 1N4007/equivalente\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Compruebe que la polaridad es correcta o instale un diodo 1N4007 o equivalente».\"}]},{\"fact_id\":\"F03\",\"text\":\"La información indicada para conectar entradas y salidas no se aplica a instalaciones que requieran conformidad con EN 54-13.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"No aplicable si se exige EN 54-13\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Esta información de conexión no se aplica a las instalaciones que requieren conformidad con la norma EN 54-13».\"}]},{\"fact_id\":\"F04\",\"text\":\"Ante una avería debe confirmarse siempre la causa de la señal de aviso antes de desactivar el zumbador.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Confirmar la causa antes de desactivar el zumbador\",\"citations\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Antes de desactivar el zumbador, debe confirmar siempre la causa de la señal de aviso».\"}]},{\"fact_id\":\"F05\",\"text\":\"La avería debe escalarse inmediatamente al contratista de mantenimiento para que la investigue y repare.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Contacto inmediato para investigar y reparar\",\"citations\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Póngase en contacto de inmediato con el contratista encargado del mantenimiento para investigar y reparar la avería».\"}]},{\"fact_id\":\"F06\",\"text\":\"Las resistencias y la protección de polaridad son condiciones de instalación; confirmar la causa y escalar la avería son acciones operativas posteriores.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Separación entre instalación y operación\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2},{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"La sección «Conexión de entradas y salidas» especifica el rango activo y la protección de polaridad.\"},{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"La sección «En caso de avería» ordena confirmar la causa y contactar con mantenimiento.\"}]}],\"notes\":\"F06 establece la distinción genuinamente cruzada entre requisitos de cableado y actuación operativa.\"}",
+        "usage": {
+          "input_tokens": 38109,
+          "output_tokens": 5538,
+          "total_tokens": 43647
+        },
+        "provider_trace": {
+          "id": "resp_047d73ce577d8e1e016a5bcf6d23c481909db0bc80b15be428",
+          "created_at": 1784401773.0,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": "Follow the user contract exactly. Return only JSON.",
+          "metadata": {},
+          "model": "gpt-5.6-sol",
+          "object": "response",
+          "output": [
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcf6fb0b08190bd0dffa5fd0348af",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fN56qTsAadBLj5Z7MxGfPxcocvCg42xYz58WNByWNnVRY1rRpLvITb8CbmdL3X-77fYNKxCjvjSgzd80R7MTObI9zVqamTqLKY864LZxLwIIIHUHlzQC7vGxmrFJ4V7H-IKTnJS4WY0b9ppBqOUjp5c0s-hIxwtG_myGp9FHCha2JMmq2gH-0-yRrSo8jdb4G4kL9ngowgR6kOaIA8OWKcSyiQSXi-7N9p21J_gXgQNwk5FbcoAc1nf_uyWBd6PDPmnrtHdjy9VBZGMtDWO4I1QSJwr7RbdKX_zFB0Bqq6T79vRG0CSeqoe-DBz3RsN__z-0X6R_zFzIoUWKJFGQ4rgGHCs2tiHkU5kL24OEe4jtQWpav3Tb0sYbcGSALyaKX2X6grxNAIdkhV3Elbi1JXazTyWQ46jd-nwV9176Dr28BtTLGFFs_M8nJsDL0eOIEGoVf2lSQtG6qzzb71SprcsyQ7fjU3Yhdm0OrAMC4gyKBxyA9u-z7aNhc-IdLxlcFWaY3z07airmdPg97XbSG9fwFPjeSz9i-NbxR8gLRf2LAK5VlHUcXX_1hHrlvwWpa0cF-0n5qr6BAFrT8jPrA02W9pWeM7hIYb-kx0rwQ7twSXU5dwOC9IPLJae-inJ0TlgAGjEarSdT-hvAthCTSw_cZMK5UET550k1HfjWUmQI67kKiWQWCmjW68orHauoMCHP3XWF1AOdjK9DGxHFdszneUKndx199JV98FZ82H86BtTt-1yWtQcTLKuy2abpZQZnZoKiV_wyXzrBhzyR-F6F2RHJMkl4qvON1ItUJ2WwE1QTPZWZSw2A1XOJyqj_y62VLo5dyeZNLtLruLrjBsjafLPz3vKxtsZvURPyzDzghg3-7fvfOdSonOPvgvDTRjycEMvyvi-1ri6ZMjiS4URUBq0iWBApBeOPZ8PmmS12PGJpE5uHdwMhIQelEH6VT4LjMD9mmd72by4NiG3OzrjLWYRcPM2UfzYu6ak-ZZfBbVTE_REXB0HVbt6brrJpHdjK1yTE4Xnq7gvChGILSGSOTw5IhnLbq71a4wh10_r_R3cnGwqgtn5AkApS2VqIPeMcxDbNhD2Vj-LLHApRR48zcHE1dWk-l9UsBQuL9GZEQwvV3a8BqG-FQIS_CF9zisXdEdilM3-HpWwPamNBMi8PCOB29K_a2pekubeBxAOr3CUj2JM5rH9WDRTN01qUx-o4xEYXo0kNg3bMvhaHtL6OU6th0AikXBZXopCcIwekRZweus-5eABrpAxm1fKcv6i9Nw7b68H7I69_8DFDwoMBNOyGqBMmxVyIqni4MyvJWufrhgDIpr3wVbivKd3kt4MgUZwUs_dfZx7F1Ayx67rUff3jifMeDoJxDRKa1scBoBLc05v0fuq9fYgi2iBMu-lpjD7eG7vwjBIljzW9In6nx6c-8r5nVFuSIAby80Afld40dcYtLPsksF8ugHVncE040UXRFRmAWWcj_2nN0G7-YeoA6aNNp0LWyhHgyuFdiBH3CgcvE5SWQ1v1Fk2nWGmfv8BULiMH8HBzKvjF0TmofufpqT2EWr_mvWCuMhXXozt9dtWqaJMgj4_Fqh5eVVBnzMmvd2AI-t4Q-nOElBUhMQb1plsyD3lvgnZtIZjVz1YatAeTy8Th382XuJpO7YAlrZ67Yb3iCL1GXCAsBOd0Bqd8VmO_GeutoyJ3qtQnk65g2S93cAQoBrOrOtn7aoMxd_1UkgnRPMwYBeomPMspzSOIG9i8D9B9j9z6aXq50Owc4oP1hoNzO7K3MVgy_3RwPXNWrRoqp0v8alwpK4hQ7qcIbBSyocDhuzakrRc4Te4ArogBYXIOOZQH8LMcpNVJQX7scvOYs8o2iX9-HuzQTXcYLG9ddGSgjagk-STzjDADBl01_ZCi_HqEHxI83am4FYFHdQhWMnvdCC-nI-aA6ytX1mKxf5fWkgeDgKFuw5zuPLd-mAPOz7EXcS5T5br8lsuwG8zfEvdAb3Ur7JnY9vA9ppUjNVTQaInoffmPylw241nL8eMvuNbRImAdM-3GAi_QwvGzL5ikdv1WVQUquQjXVbx0obVQXNqCeqLLOGWa6MkmYax2UZos_5Bk2JmYF7Pj-Y0a9eYHtco8-o986xpLVe7UkWKV8e-upYaG8rDkSGzp6QDBj4EyR7649fNLJwZOIwI3F4NS0VNNMyX1jFf_U9Lvc3nw790DbCKTMG0OdJQrqR7yei8pb_iyAYIdYOd3ApNQljULtUT5WsamwJH8j1UNipooID-X8by3ibiOvU343CnwkGw-nnaSaiJy9WJaG8TX2UpCJEy5OaUpkxjwJtdFKtOBtlmiNQJDDHSkrWOWK3xmKY2Z0mjrZDWmLtAxXPC0ZRfqPR2ByeohpVWnCu2-rr43hpIYGWqfEPrsb9--HxFk2QN5aKQ5501KX4yoUsPPOw8787rKD0klK9RxaZ_NvzPpUSoBUtEWCpVvEpxkcZXlMMrh2EsD1tN0oexhfeyB-TeQAOHnZ23AW2obwbAOB6o5kb9e1eXRf5yCNsOorj6PJe91f_fWR_eeNFbvd408BgSVQH4BLVom4sqzLZhdXi95_KRGNomSpkbLEx_0_jQ0Obu0p5VJF4avNIjF8pSV-KuQgSErEuOd37h8o7COL7G5j9rAjNBFZXsmEFeyyUH7Ng6IifybCQXvnGxgSN69UM2egWRFPgRSwYS-__vQatfwjPLIWCO4kzzz2o5zzVaj47UrB51lb8v1hbCdBPqydAGeK8_X6kHhIGaLxyXE3UiwJKLV7aIqfJ7fiAeAfCME9jkC-OuOIqRbEzsecQ-Ofa0igo4qq4EBIzWhYOiOaTxVWLFabhXzs-hqpSBsvkFqb14Tv_W16B9qulisvgmUlGq9hiYqNqOccJQqkscgLtsIIRsK9VKIklljpFGXH-KCT9gVjjb-T3zLcQ7u2J_UZHQ3jHwZJ1W31dV6RiG5PeBv-XdCHM8OPehQMJ9iKVhoax6JFJsSbz2kXfexFge7R_BU4oiQoxxeEYYN4bGmiXT3fGt-Impuq5WfndvBp6UZnbGqPsGe7Pyk0VEPFds5za9Ow3IyzJH1etrJMbu_JL080qZ5Vqbj68kxFBaG0ISCoB1c46RoTGNh74buYT1_5IVnEdLRItqsN5G-9WpIMb_0Uzq1WuQkXwiuaArOQJUagZcOybWCipP0QJs5hOruvokTv1lTRU-7UDRNq8pVS_IHw5daNd6HHvMytjjr3D9eu3OFzr99WWIEapCdkKhrzxBDH-45fQ1o_Zcm9JYHFfhp8PweHrx3_aVAePLBIen8DTaKjj2pBTe2InL2zydelr0QX_JAz-O0yisfz0CipNRYQ5B9LJV-6983Zcig_V-MKdZmQYchNSAcn_bQwsUpfU8MhAoAdN_CUORBsX0iOA79MYhccm8bSt0_zpCBgh9-4ZG5UynntxSVsncWhYpR6fPu-oieT3qhcuZ0bn37rwnsR_i4oUp09EGor3j13fGcyKcVMNflYDMozXwAK3JHT_XiSkTHtidtS7JJQFs0T21zIBupRxF28VMx9BCLAkOJiXTS6AeHhYdasi1JOkPliiLrMmjz44mFOSNreKsBV0ncOKxaZfq3laUJ3kF-sTj_oGJAsT03tPYKeVODcnIh07qbO2wXAtBguv6fRee3yrrdH4I-XzAvmRF0PjOiviTQcJwaBpTLkHIwsgaraKAjoCvoKIGARIuoOxkA17m0-xaeIaMY5DaykS1qSk5j-fWpEyFhlb0JY3cH8iMzsIyTcPHYb0jLMz78o3QUmlmmWNs0n1OtnATdrHuO1hDwhPVh_zzlbSUb0xBQu3FdmnFWP-2Jn8Z2wpgKrmBZAA-1OZ-gCjnMxndtCRnbMg2_OuYhhmQNB8g83_wbdnAhLwGV-K18zlKtvidhdJkqzmYIdjdLkytuoxy8BP1Q1gfv9hnsK-HeS9xrt0tTIM3gWxsGT2QoWYpC2NzQnvMUA7Cym0kAseE0lGtdW05aqJN-gYAlhmoHHVckgcQHwaxkvSCkQpFLd51fE3xEOStd1k7kxPsDqmo0r7sL_ZFCA5zcw423G4vXutXoqB68Ss65zH26hlK26t0eJy9bBnSSz5nNq1MmvSwP9ZkNer3ydkc3LjgMyX_wrBAl6uGQpt0sub09BORaksBerSXrNFwa7pIyOF_pFEqd98CiOtFwiyemNzZcOkTVyzbA2lTi3TiWOXnaYZJp_KyzNn9Y1RisddtkCyLAP7g_FY8-KHxSHL0NZsBP111WE8LivjkHH9QvQQWbcX6B-B3DVnUH33fRgJiYKO7S7hymi1vM1ORwnhGzDGQnczRD_cBzEYRqOcueFg2dkiICZeY3lvb2vwbzHS5y8UCf1w6JwQ2Ha0RqZQKNG7yggjeVPQFpNj0rHXnCNuAFu8Z3XWuk3Zw==",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcf7c5e5c819091dc5d5fd180d940",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fkNILVrNEqJbzHf05DktdlH-2FZYsH0A1XeqayOQ5V3pZoyRtLGZIw8pPyRGZxYfaLAIhdziU9Dlo7AGegRXuosULhnlCh6oyLGwrmQNZcdU3lUyuynGhb-ibawDcJJhtJB2dzpE9WpesYE8A2iMaBty9qlL4U4ZlmJ2b4Eg8ZrCSB3ADyT62bKP3ppxgEx4LdrFjI6QMrmLaBZ0qVWWDYQu6mTRZI0Q2ASC5CePXKrjQBhtwICh-xd8Od6eO14FCJJ_N9ZL_s5ggVKmiz5rpRZGlVa5UD6eD4NhZmTGi8HLbpgOivuytH6MiA9mmSmB9AVq9Mz4GgR1_GopsAM1vuMCk0EwQb-seF3klmYMKUgPpDNfSqWX5uzL6c_lL6hBIgdeFTJmFi5Py4bo81rQaSmQElrv3xJCJ7Mgw3tsmkbmfluoq6rH5pEp82ukN73fbAhVwYnJtPDg4ibGv6CNB1dHWrj6501MlhbSeDgh6-EasX4hIgtHQUQpWD1fdDluB3k9fpCnDzSDFKYdmJo2YlX5sEPXFVUJbrqsWkuexWI3TLvdg162o2d6fmVP7KV4bZPcQWm_gnMql6lzneTayTzVRogRqwU9-aFa-CunmC_A5mSt8ctjX0Ey6LY9wMRzzzyrWMhbJNdaHDZ_dXXfS3JyZQv8QAc5FTkwxsgNmRKcFCqloyIJoKwgDfa9TyjOkx9pFOacfxeasWkfmtG5ngbFUcUapGuVTrBVwccbM6Z7KPXDyAQvNHcptGyHU8xgiRwuQgOjmxEDAC0K_6Cx9PSIcP9z9GkMlHGVyVYFp4iQrbk58-wXe2brAfF91McPvK3--Mjl1xfVFViOJQHglC9aC89giGOWJaYSm4y7OspPhJVa8rcFZvjdesE6BNgWlnmRRV8CpSxqRiHJldRUKPergZBqwGYUAWbtCh4T7H9u-H3ak1JkG8FPlSZWNTXUjUwhcNuXelcJz7VTXaa3dQgIOHqbl7yzg7ql6TZ8N1E7ELz9FXdPhC6ri8suJdl3ifgr1tGtjbHoTjLoannPmk7Jaq_zP7kGU6ODlZ4d8XPD4ANNJWOMyeI8EoHZ-wqEGvi6LqizSKmD4lSMbrMy4w_DfsdGnhV9lcOKFmYMTSpVX6oBe-GbmbAfbzRVwxU6Yy-mSoEMWuRF-jxFK25M8WUH0-G0CQyd4Zk3Y6TKjqvY5JUZrabL3rp4uAaNAenOaymWb60ov78iM_IqqLnaEv694Xjkek-b5yLLFnyvP486ExNUGBIyQrrPKDR_jw9tGaskgMlbASq3hgzr7pmEXS4onF_DoRIwgkUPOq-MnGaYYx6rSB8uszwa_tpRxRIBW7GudoAbNDVlUEA-8En4Hr1My0n7fTjbwCcZ-Pdfn9Uqqfbqn2CO-H0fwbDrr4Ltf2X9kLUUCNi49atmzJweNo9XrBmIYrSJvxV1g816FxzvhCj1boM2bhZJq-qVd8Ph2lHYONNEa_kL02_8mijn_mpXf1ZBkvscDCYiHc1bJ2ohRYmucFuCSxzzfMxPeBXfzGx-OKSkA52rr9N9g8w7N3mMP6OGd1qz4TviROOx9W2NztFAQwW7DXL9LoNOQgDiVhVe8rbvygd6d2rAKRlBtmT9y7xFaxf3rQ32U6Fz5adpWuUxZ9HvogBPbv0jgLqGJAXdIuIueKelcSevghaedkugOH40qXM7tiXxnSajsvylslpU5YUs5DERjdUSYx6gvTGEfpAj2lMKmJhAJnu5aABaqK1HJs6CQh_7aMH9MZ_Q_MhRL3a3JMuah0cd_mF7ZYx6unUDsG9GBuPs-ou7nEnhv8GXWxfNdC0QKaHcLzmDQUz2gQ6v3uAOOuYUZpkJyXDr4WFlb1ZKodgU6x_EuposvUpPko2TY_UOsJk_tZluyekXjsXiENa-nLco7ln1nrxUNn3--h-G8DfZFcYkmYbMGs1tRL_5tLTRmPQPk0IO67E-CWSS5sqmK2RAz4ZxX4QCMFkI2pOlyu4DcwTGz-sK_FC9YtcjOotxKDbBz-PK5BsEVpXQUXB-tJAQ38uPDyvgyv5etY0YouXvfBg9CN9dgaLQkm81CmFv9K4PIZJDHH6aKcV2DCabxS57r8x0kGuVIRCvu2OqIJwiJec4BXMa3YC43WewIACLPPdr-tDJbzouSwpSi3oSGRfhULXnIXHQ3D1Vhzpxw0vIBICfvg0b_ZJdfqz8O2eqb7-US_9ySTeQDwe7mNza8suMBTdTY65IZzzT60PehzQ3TxzKNkDHacel1bkPGV7CyMKrn4R9ZXRn01H-vqxkWYhOS15GfxhZdlgkq_ldY3nYv2djq72aoyFFg49xTWYbAZU-DTKas5V26NCzJbs0ait1D6uRO3AsNsgfsSN-z72K0YAFTWWtrcjyUrmv-LKjDrbmOdESbPB-IzENXqucoeoAT89sjoIkz2kDg80RxVD6fnWspDNnY2cdVE4IrSt91cvrwO4u1m209ShvwSSB8qurf6AqGrkTl2jCyVXnKbGZOKBfDKabodNljGS4AWtKi4L90VNXFPNQAE3SPHOW694Tdx7rF_OjV2binpDvDGEq9PWkQ8OAUwkiiBxonZHQ_vdsq4OnGWFMP0aOuHGQYQ97brrXllZhn3JZcxh2Urls5K6dzEj5ypulBF08IaDjkicVc-X8L_TY11EqPm0ETWvZiWoHPZ2qLO1QnOqbe385DH-qh_F4NxO4OjCivIsb6yVZnyUzWY8cP91D8KmQbpg47WCNXbRY8W75UB6_tAESXRCJA2vFLwqVg18psOzAbiNW8OhMv8osqUZGeRRyy49QvdErgHb9DP0UDRAyXs8-7StRcApIu1UqjWy3A0Di5HBB77BoHO3fjLP1pTYfL8MSSAiv24biZ1Ja5EvnBENhyrDnuEAvTCHS0uWpNF9Q6waRa1LgKv6dI28JzUxTkpawPVWo8UoiXhgT1h-LjxBGanEPuN_IbH3Ioq6eOY6UDpVBTd8TtRi-oVC0qvAFCyAJ0xs1ZW88bWDqjuSwFMiqW-JIrPAAXKyPKFDGVLoyYqU7mmQa2jRwh8voQ1ugJfXoGmn_0Z-yTpID95LOUYRnP9VhQWbX0_uOHbSS0udpBFafK70fAYPDCJPF4yV8flDyw2rgVxC-zcdr6aPP7WMa4NtCOgGMwUixFPRyZYIm4pCOXMsZXzv20yL8Oc4-zkdDRLG52euq95UK1Oxl0_f1MIyD-OSdSkBaM2IZzcLqXbwUOxxONx0oazFtcS9g5Pd4lremZPJguGu982xXW6phxglSUjTaLMfMkEbAxWjusy5J3F9HM0UzDNN98jaRWaVBusEdvE6jm1trzFa76JUHv7OyE3FO4sk5LYm_0PgnXj2TmjRaSzEruTp0ouk55P_nzkSwTAEpeHNdR2s3giFNmxuUcKOj_ksgIRXVWPXfhNUa-vlwGyhWHJUTrc3FPne7L_fwrHh663LHFr1hIOAYKs5nPUyFMm3bAGqBdFO7Hphut6l4Mo99WSJcEwHYkkCIo2Y3KLcu0O9ascBkSLaiBjqjkjk3aSogmY93zcPQtODIJP91ivlDhojzZ6iMj0JY1ZihG5NzdlQrOXvBb3i9BN2dV7u706VvDzFeQP5ZpGkWBN8ySYTryPT-c-pPdNwEKBX4s3ZUo-beuDVkmkuDwaQXEftOZaBnYfz7JPLGNnN4KWnrZZeL2Be30LKfSZIKMQ5hF-RcBW7SvxXzJGuU0fHPQ1m_Tos7cWu9NbARCVQAnudgRaIbHrp8MG3AR_uWxR_cqg9JrbfZjF34QUkmMn47M93Xzcb5pWYfl3Fau-bAbv09Mp10Jdfhvk5HS41daC8P2ZI3lqYPqChSDzBesbHKFxlnUmpZau-PrTd25cbX6x15hui0dBRHH5Lz7loPdkgo6EAtFdQIXeQmx18v0htZddZFMb7jeL0oV1DRnK1ktKknCgIhX7AS01p861kUw81tmhVbRhU-bOn6HEddSc_fMw0vBcZsdcM8FfftaJODznlSHMR0dO1N8oupDie_wavnv749Z9CMFcseBrWD6flXWP1dCMQLvIatUWS4S1CJTH57nBhgG644ObGOIuEw_kHS5O-lwCX-g1zF6Tpvaxz8qBL3zgzNkmtEQZwPPdP_HryeSsAt1MFz4b3RztOr_bi7eKrYxzb7M-FWh_2NhYN7vpfQ2XBzxXhrKS6hPO-ItTcRHTFFKMjzhvvd9v-ifyKTtiPdhugOu-Ti6yFdEHI7ogMoLPl4lGF_FqW0cxqroDBm2n5MlUymYIH12AgHLy-D2VFi_daJxhoXe0jkrBeLJMM9qbj4mMv_ZXbnBW7S4EXZQcIiKddk0iCsoU3VKJEDJWlY-njBAYEbEhXMHt1AAFsRNqGSMJ_hLKf7xXTd2pO8=",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcf89365c8190ab3018b8249991b3",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fv0eZ31GRqsXChWlctnH8GcJCgxAKggfO00BQt5c1BF2gseGUJid_dMBAIHQxm0gEUQZYLkrzX1dLdtqsekENIPgvha6_h81M8-R3jb_Al-yg-TLnDt6C5582Tw_dy0_xM55wQQuK2zXM695SJ83tw-Q4SddaltygjSGwHcT3mwQny2FmsAky1bGULYoC8lCoPPHtofc2TE2KuSVlIkbUqImC2v9VNBdndEnWkAhokW3chtSEDrK0m-7QGllE_blggjUKJM5DdQNjLZyJ888D8EYZRW1KKvmSj0_jb04MqjtNVhD7sv5r2UrMfUCcVuKkqq213oXySvV4aLk-UN9IiPfKMTsEFPV85iF236A51jOnwmWzOaPjhgUtd6PUnSy6qxlmGDvr5Ais879YAg4T4Doyb0QtUYryxkbRJkSU9Uksl-03916J0xB2qyzgIZUVmgqhOILsBR8m3UJ1mxCB4uMgz8dX5znNfaYnANv0z2Jfl9Gy1YQpMMnbabYPiUEBz0qJaHDhGZ2iq6qdyCWLI76DDszQ10RjazOSyi2_0ggkIZtBud3KiJcnwAJC84Y0I6FkgkZTJRqjsfKR_xzJVkD8I4Qxw_0hFNauwxQgyikGapm-t6rWbIvu-zrPhzf-g3bbmh5STY-PadnY7U7SBw-5GAGGaTkxiH45DhPBAInWZGqwul9KhB2joi2058r2ECj9MvfuOEKmzPEUGa0KVRaj-ro4GLLYKqiHCDRZ7t52s0b5toeQiqbYlhebLNSwSnJTC075b134H8PQqCGAlIdEEZnAziPs0w2o9k8WVk_wM3OoecCWRYRPfZ0AGgFS2ADPYrRIBBZJop17jvV3RfC7qSBBGS-RvN7XWTn81DSA5CTSy2CP4U5nFcfS7TX9vu3K_oE3KvFafh0JYdaiCifEXI4d1y1GLeV-RnyjTl9YEDmvNb0g87Sn135eyxNtEKk6w3TqgZSbrpvaGrjbtwqjdVGGHk7yiPJHQqazg6xMh3lcSZ89W7Lx9tlsU-vb7m8qNW0IMYdvQ3Gs_gL41dkVRz29blTpYx4fRGaP3uCUHtkMWA9i8uOzFTkQT1f0AD5VvyEI6kJEhemz4bTkP5PiPiLz1q_fuYBSNYuVw-yNlRyeUqlJFzvnTuZV3j4uvuXpswj6VGBSSTGl_PkJ34XPkxFvs5TqgrNc_Dx0VIbBGrOf6J98uIymhtRhydhbpFZz3QGCMHYfJuQbL8cSYAbQttN48ZIw3O8NEB0dv909_9dlGpGf8Cq31zAL9IrbaPgiazNbmT4epKDKYtCdmxnRktc_SavBiirEMWgzH9o-zikH8K139v8nwyzBLmei1jQxJkCmj2p1mfSwnrEBJ0DjHbDc7AkIa40BmQC8aWMjy00dNBAFy2-bFLJ5Qw3pngoGmRJyPa00gjR60OmQZSWPMWi2MuoclPTIJt4S4-17ZhgFK48QOU0Ph3SrEcQ-YVGY4CjXw6kbpUsBVFlBuhd8H9Az7Rgh-Hnl1YXB4wZc6vhgIyP9mKRAt7TApiSyuPeyzk1HeNa-gd-TqPDIEzkGG5ELCef48EoE5yoN-_UNE-_UNKO4gROi0fCeMw3sEE33KOaRF-ZgKm1FOeGmyYF18ZK9qfONXnyQftkAPZ5l2_lszUsHPYqQZy-KX84mI0rHY6KwMB6GxqkzIvMaESMu3deJngHWxsGVPvS2e_NeGdUbyl_CkXqZuMDUE-sylRfcJWyVL9gRMxJ93QCsAjutG3K5Gu5qBJW4f3sqDsNSZV4wItTO4huNI3PeEitCJTscSklageUI71RLDCx3jDEgpYH11chkog-qu_1B8vp0XjINwt2DhIeXTTNMrSP-SjsNKexgn7BwC8c5e8rB9Aq5G9bs12-FA7PHwclSrYgCRE_vg6gMuqgbShN6CGm3d3M8EEVYtvlj6BlN9ePuD6TOa08wetoD5roGj2uBWE7m3RZvdxezT4KDkGcgd1Lr3UMbQL93SP4E-3wcjaEvI1_9k2hYs_H2sL5y1Q7AsvepFnBxJwI1P8BblXq9waoW-ffUFrRM7ou11Je0w7-dtnRE7eWB4YqH1CLFQ9ZLXTQsTIhc8dcLZcxPyNsxD913AVms6onloloRDoPhjSRwt0e14fz0I_bhYj7sCWSWKLJbJMa4m778IRivhjQTbjTvlIlXpSueQ3geIBA-HKkm3yMOp8iQ7SO91O83CGHz9HUfwBU6hibIZ7kkTIhGWgLp9-oQB-Fs1Ma0BmwldIhJVqu4LHvhmbRGn-JeB2yELQveQ_kuNkTJB9xEQE2Q_Myy-iV3mlOBiQQXShX07iOWgQQVBea2W39iSe33rQdSTys025yZSbD7q0PlK5By_ZaypSjkorv65Tg9r6hvSwYXGOXFp8_JsFMyfhAAcbg_YOyMXoN35MRIWWCP1Z2SAwpRyxqwlKgQ6-wMCvwjOmpvSkh91KInyUaZXisF6R-BmwVF9Z2QSYMay43Qyl1uBIYddqL8kBUWHYD8k6YGacKmDzJS8lwediJKgPpYu6ZBlounIVLmOuQBu-45mYoO-X0oyvzTrKhPkgWQWIWAuPuXPfYCYfrjXBkxZrb8FnOTh09Rzd-Ljho32z36x2ZhzwLGv7GcFhRNZQP3PqY4jVzpeHjnc_QUtYqRwToelupM5r2ip6KloPmcEvbVki00FPdGQ8Z3eEle7T7PaId8EmLCyfxx1fD2eRtP9VHkSojGFYpVAIkopHhSHFfchWFtmvh1ONqaO7XN-LpNUdrVZrNx77a4YMNFNDzQQhdOUH9Q0p9iffSRH7scgUBU4VlwPQqWef-7Uvc6juDWSHvovG7ZEhn1dLPIV2sFLKNRmbpSQRd1wjmiw0UwelT3j94aCGnqckWb55vZh5lbdmdYFvpWBdSGJUl4FTYNP_PgJ4f7IM5t8zNTlFfuGBb3qoNqxf7oR5nvjeqR9I3d9l0hYUmA5aedsGmKVYP2rgpNiHWGcHWTuZe23qhmOCS5FW2qWROiS0_Cu0aekAkfKBQsp7KB5YVsHYM8-DbW2HEpIgbNtI-VVAZDzWgBPK0hvvMxNraKYigeHQZ_77qPo3CReLm_4FKUXRf3fg2FKuoMDvaV82b7GJBTYQU16hThopXIPmiRPtU9p6pesZTuwdE_NH8LSG8lfDNi9tSHk7gQ3JplBIWOWocI_Fy2wILDx1LJQLqyx1bM1IOTj6HbMaBzrB9i2ppYG6jsBglopwZWNUvOhQVjui_lGaBYnf6Ihh1ZInwtRnl1lmNwG8eyInbf0YOQ4jpMAfzm1UfmfheugVLWmtVOmv2OKTzp8xkw0rcEyWq4ZYAhlD3LJqs64FDEARhNdIysOmY6mEHQOWQhOBiAWs96pGD3iTQQrHMi4A7_bTLP737CHwZuR0dskGvX3DJhtUXIjbMyjp5Dh0CdhBsSAULYUbnSAR2nEiiu5UsPyLVW_QjqpP8hkLPzZGjZIgbSDiSniQUThZEDEj4Mql9u6p0bgarJYvROyA5I54JwECTe8aQ_U8RQYMbyk91wi_BMLYonWCK6gC-HTlLjQTNgxDOBfzVqczZcIYV4AprFmvvJlcAOttxj2isgGprlvQsZ4w1LZ6Qykrt2RDy0OWRueks-RozkJCssgDzR_v788Juy5zCJFe_U6PgEiSbMNYVmxSVTXy0x5h8o_Pv4DXrUsbVy8cmu1GFGwXJpppTGAyQsU8d1BDgotnr15v3xBijrIscSpnFKTMCVxT02zj47bWL905nf2qtnly6p-c0I40WubNuJwQ5TE0iFY56ff31OfImNje3JBFCYq7yoATQi6Ecbs7vOhKybMk7XE4y1YpmArbqTNHte7q1YU9KuiQk3dpG0rEAdWKK1PLRSd0dkZw9rFthKXug1ireYIr-VsE_PTRbeOqhlpIGNAgE9h4nTj3G25dFaVo0hcQFyVDOjr-jJIGEK_Kcdg4K7nNJmeozhZOfSCPP2k5SNFL8ZOCAIXGhUDRFZogpbVOPbOvWvO1X2ekSjeg6sSAfe3fHE45H3y4NCUbl76H3EPpmIz0F994W9VsNFork7VKIZKwx9RDrgJcxALHcFd4n8VduHyitF_4RSOkQzGumFpgqbOMWHOUdjzZiA69o1i3oEAmZp39-oY56aWhOS5g9dv5G0T4HVGN7QumljGbx_0kjcVbEX4UKjSRjlACzYu37EFV0Pj1EvaUN-f0V5BeIIo0imoFSb1m1jILpoWf5YBomNgJu3rK3SGKAYIUMqfOQmBMLg7562LLOWC0RFpSXTjMzTzWMFEwa1GKXBjSLKhS9tCgudXPFBVjZ8GqwlDKUEP6ikW9I=",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcf96458481909e84209e638162cc",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fIe0xteIuJ1zTvaIVSo_QvdgkD08tGSQbIfntXfYWX1VRU_WITjJD-FX4V8ydZ7W-zlpXs8UGNCxV2WrCA0TJue6jWoPrhhKG_O2WuNPe8rkmuaE5BavjfVGe-NLLI52aV5-FHAduHRV4zATYZkYQ_ixZMEfT9BKCrNpl2w9JBrYChMym7M6H8JoJ4Zpotvie32kklWpmgIKA925rxo6IwAjVph0u03NCj2fpozvDtdlrGQIIsm4Tr--4LMByRvHVtDIWZ0v9MhW7aP95ShCb9JQONCk5tXlky_LSvGimqZ2y03GPZ68irB0KSwlRrsp3uYZd4UYmzxeztbbPrOSxXqBhOOnlCJNa4meHN5ovZWFw4lz5t0i6hDysLQMguvXntE-hv8Y89EiqY3abFvYGqvZ7FSZtiDqVJ8qJZBlBFME7CfyXbSrVtJ9EiE-1cjet8I3ULFyGB6H50zvjVIHBPOVp60Q92AXk0eEh9yiK_fKzMiXExIbyrTbgYwoJDy34jPkHerBCWjt3PG0hZIwO8YoRjVFj2gbkCgLp7itqHlgC9hpdj-9sq_IHRHR5uzcf_ud22tq64rMFvVb00jOAsK7MTKcN4JbF7X_t6sEq4unjlXOYGcRpYcAyArGQ0GuSxRAdYI3XWjnQMvGVb7B4WXuhZ3xhD8Bt_j_r2VGY1ecGqKE30qCrZLMWZpWucGkyGH8w1M-uGTR8ysBNI4hHNHiN3-heShdF1mvsTTT0i3SAPrbOAZH2QnFlAH2_ePaOIju1ocXX3TW02a1DYnPvqJ3lbX5yh_VoyU8kCZUBT9vYhC0XvOd4qOEPh-3Z2C0ptrKYGBhfjxO6McZMLxM8FWYFmLKFpoodSEF87tyjM9WiNQDSV6sfPFTCjdl01iBAdSUmrWtrQQ-OTfUCh5uU5QwrO7ZXumJ4nh2MiENobSFJ5UkgP5dZqvmZY1-ixP3Hu8jnN0Ml-sagW66NGNFDteewq1BKEP-9RL0NjRvXijiYCd_5whuLg2_lMkO5KrBENfqbV_nEjELFyoelr8t8lrkzdbuU_atMe_5O-WbRbwXOT5d1vEeSAd9AuQ-dawKHgz94r7XhB2q728h2e4PHGfZzliy1-nbEgXwwLTmvldFeRMZMV4XNRsx74EufFdJ-XP1J03cyEQXgtnUhOLSM_RJttaqPLe0zFrh1C6mbmJDC0R_obLjK0PnK8bioad1eBhxpgKPgnx5e84bTak4vxFLBxBZR9PhSq58mHgXFC-7J7S6m2YZbcGOZYJKXwTPGJqNijPm9TJRholwEmcoMOQlWfkl-ex9QVi3Kk66kYnp8B4cLqy5XDeAUuPkkhrwmcvYZXHH9rzAiQQq93vty2jSbiu1GtKWMzCsurfDaEe6M00Y0m7YCTx0jhNDaeYCJQzRcJY0H7tOqYo7XfJYp6vBhxi-Wk1GLkmK9w3SMO-NiNLtfG3GidLsbquGpRiadFCbhhBKc2d8ipiVOoLqbIODr3PY36uV0zN_vk5TeQNdooYt0Dson8Hyi2ra9BRmUXh7Q2kNhw6btFo7SbUIEn8OK-HPNFuCXNY3061Dm7Kge4_YirAXMTJIgLt-v-b9_jjVfTD2kM_M05uv0WAlrBRhb-t_5kDdH9Zk8J2IiUHsV-T2X3Y_OWSM5whlqTxOM3powVZtyIxm7rFONvXW0EmwcZdSy36FonC-hIYMWyR7aPiX-TBG5M2qIiNVPknRFO5ZVq6OdBUAfT_geGss_mK_XKs4xPwEPYWbt7tuQjumL8PjdWyBo3qVPZCRAwp4PGAHgqn4O5zyG_9k65WQ4hJUq3mIDMUp7Sf89XDPsFghguVmgTKiENj2HRr3lMj3M4uXDvAJamcRqfktoGtka2QspiAlbFjs1_N0BzajJbMvPk01_LB9LtdYNivjXIIE7WTLEm95ed0e3ZyoR65BwA-G2Z9kOarQiquPLWz5srY78WsbVwEkdRxMkMHBcEJ8eAuafu3CQ3r7Qlt0LuVwrcClEH70s5Tg7No_1cHVaXvO32NU14Wl5CnsIkRL_JtSHt6aP_L3fYsJ9vxv8vSzC_dkECZyYInSTvJNNI76RShnyDFC0CPwovV6c60AoYPJWKoEmWCBUkwLfUQaf9J6FlyLvuMhX4cj3rUBtzDB_thGGlhWeNVaPNSQg4Jh8fCq2M0RyEJLZpEDRYk6HE9os5Z9r7CcuT-o3O6NAOEgNMSqRto_q_Nd3G_ydGgDH9cMRgfjsbLObioGMoOL_yeoBs6bGb494KfP6HaCQWCEDL0BybaQtPTQFa60o2fLbiHEsWj8vfC1ZF6IwCQ14NM_OT7bk8tjihL07JULcXXqdcLNXpUZhE9onCkrbLa_Tv5lyta3a5uetjOm55jp5wJPWoMDyPG7l452kPcpGNgQeQN8iiWuucnAXEzxakfeij-JBE-6lU8DuzEA-j3vXy7SiMx-asIxvtjU58QOaVIIVT41DZv8SAmAucQK36jE4xWLnIhJZDsycvm86JvKJvYCzImQogFo997tH9lkVUmHhBxNCy5QhcLdDevRp_M4mLXtLai_d-BVcdS-hUL2JT3W1AUS6npRQaBQNYGDaTYgPH5FxKpEE1gnjNf1aTRbJGJz5-c9ePT0yRwCRknra216diX9xOv4mtrFcXVmcjFNaRIfNpVT_vSV5WU9PLJL4QcCuHv2zrSWMDFUAwnpOjjIBW2ejD1nWVUWdnBNuj2HxFuufAx8kOx0pT_VX_Hb-EjpH1VpKDIMxAYVQJlVGUOkuIXgUmMNByofHXLhWHBpR1SXaaw-7kSUQfHxGsv_FKwd6ukyjuWiZtoe8yG1fBj8uSA8Wf1CneGvMdzOt9Q9MmrMt8NFvutUZwhRuCgscSlbE98aBRlRnXybOnc0ol_cQl45cUUWJEWzGg_P16ht269iWRwr-DFrSKIRCaT0MSVQaMKaTpijX5YGkzRDGomIfu32NlbLQXkPAwR7lYWEY7vISRMIR2kGBC5VBzVFpchv2wlLa-x26h8y_jaqgIyg2J5wFTmOjXVcD5o5Gx_4EA1JyAy9YwnMYfnrOPeEZRqZczIE6kketSUn1GSQR92OgV_evW9oxhaS_ilI7yu9qmpsRiMUmkiJYYqUbLkazXLXr3HAs2oHodap9Xv6kJV24AKLripZWqknXRCiJBSLjw7lIbUPFlMs_ejQVMIW-InBMQaOjFNDEl5fidn2qXa00JQEDVXUum2IZSknyFpEufAws_TO7wfh2aYGrC26q0JpfS5Yzc-hZ5UCapZrC9bMkc1r9gXWcO_5hVkOkaGiovLe7Z5sFtAN4uab8LcLCgnOG3Y7CqyM9yXbnEWOM4Juwo5qjMenVjcjMO1tFxWPOfmGBVkAVwv4VMCM9xoMl4CMvkswxLHMlUQNSqOGM9oOpyU80SL2A8DtcvcYfvTUyNgfK96_B8aLLWyP9P4FNGAJMjmEdjHkMonDD28OOqTnk5Y4ChJ5XueZvKvfUUtSfkyGRGaBS8wrzedTE9OxeNkCQNZ0TW1wAbcYV0rV8KWSUbGfl5DOl8xMC5z6TALWSSkUNqa6_Q08QZ8woznpufUsakkaIJEW-hzzsTcWAIGaUMjotZiqPb9KacbICW4byQb7klY2PV4M989B17gjgdRy8YBjvll9nXztk2lfOFBV7HGPUI5siWbrsXFMPKtT3Uz9DWvnGlaQJSARo9K_fzeXhJdDJkKsn58qmh2WKQtBjAUJsQJYqhHKOaSn79DYt5BxiTsxyNOshp-lbcs7qqw-eejno0JENq_PDRXLmYJ0jD4LdNmrXuBSPx3UCO-RfNomBPQF9ha8-022qobmzUCdoz9BgviR2VMQiw6lqVK5Kj2nWQ0YWyFkP9EAUBlNfF89xLaMkUbOKxN0ED8kPeraWefOyMaqHFomz5qtKN1QlROS4ddYKkktvOV0VKxYEOqvG9RnoJUAxsO6-WSenCnPGXq1KTma3rHKG1CE2W_UdeGiBgV9ZFEuGhbzrXjiLv1qdZJREHk7nFzfLVuTasRRONibmN3qEql_9vCtU_uV4rVocQl7xvoITAS23wY0xDeyUjNMica8jJwXUTC9-38hR",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcfa2439c81908d8983a8a3264078",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fj3-GRMI6SU5W9SvScQQxbntujKvkBGazCvkuqCYSvlrioYnsuuIToZZ1H3DO5S4a7VzT_3gb5uL9NuHQkOUfXwbYTo9LmpdA97_opFacl5AeYuNmqjfwRqGSvJXn4kb91CiPXQrz3E9m8YcCyDv2T6_Mh6SsO0BA4CCKfkfuu3Hswahv2qllrft-MBY5fwiynx8boMvhpuo5b-B-J2o7AuFV7x1bkgVGlzYvziMjLwcaodYT3DZsycqBffbbAWfEOLJF16MjjtOvFrXoCQTb88hamck1_oA9ktVHJ7YZ7ppkwqZJcRFYGcWrfSZVZECeRWW7CxmoKzSQgi7idgSJvoVZB-ozy72dUlvvzyEMg_1n8teBN20F-Eo-Jtgz9ujxBxskUZvmSKTuTWAYhavwvFZxXRUT3oZgB1YBVM1d62T6Eqny-A_64WTteV-ZHC9shzZs7wTO9bMX_F2hwW_B0q6sGOV0qPidALUajvET1mp_BZMfDL1AVjhEQz_Lrdls5pMMMMXksKBW6ndEyP2L1Fi8Pjk7bek-49JgLu2MzfXvQyRiWWH-kmhHeJCtct1MoWvg8C-gTfyjgAxTMWmlxFrliuUsFubXoBLDbwzBorsN5S7g0UvsluIOU4WJhui9V7vEUEe5X4f89Iv-gk5R57zksQ9qZhFAVk3_ISYBbx5_JZOH38VuC-vQqOWYJfPIdaUQhOY5wEA9oeKiRaBygxqHi5UjiDN_cE9uV6ipBTJWb5Y6ujQSn8Pjr01m4TLgUhVT5wK8BDBxtZE9bA50RYUoMIY8d_yLqRUAWRvrGk0feismJ7Nw1x1pTlZxxenWxsP3S7e6Svu50x83qcjA6DiOegQE8sCjTzmmJ8Ya5yNMDnqLYMPWMfxYBdoQTxueIxcKrmY1QjsOFNHiXAk3XX6OXWiwmPc2sN6Iym7FtVQjJGIBxnPPgsE_q5bCx_usEbrB5f2n929nsWAukAGuUUhmWfEyWE0ObH_TnhQ7RTYF7OH-NjXVskCSD8BPoY3qijezbQrutGmq8VRC43grEWGbXRv3YVNqeYP_nUwdV6GPCx4Gd2CoOrQyJNTZc9zEFKzIFBqKBg2aO0TfKoAJ2tHzyF8EReXyXOS-oq1AptkYdLalWr7-SlaIIcRACMwyDNp9BtiErWDv_gjFZ8g28-rgZRGjJRCfjaaHlQJmZZddmIkAnkU7WUYggQDjY8chf618-BT3gVntfYw8Zq_148M17w4Ee910esxvOzZ1z7Y-UkWnFMOzsV-HDOdJnxctM29CPIjOwcyR6X5dQuWvtaoSSiIH9YWVdnkm7Q--n9AtJs3MBV8oziarJ6rAS54-e2RivRbH3q4Sk0bAM1Ub-sdzRr_0dLFYt3roKkUj-GBHHuLDzXiCl0JJT9H-LIF5LaxZ8QDqRWK6M_O1JnA8hMdJWaNema-AbD8Y3KlUVAV42ovBTpcclXhWFztdaUG-w3LVtj_kqlFOWplBoDT_jbceVmKEp9JzJozAOUpBc0erfN67xR-JNKWM5nQXglWy0jIuiyIFxs-JGOZKHIGciphsW9SK-c2wIunvfslo-bT1PhJK5TVephHhzYr2sD_D3KVPc_rQZctFyGeU2LQznGKA4Md0RgIaMYsGwP6RupdcPuG2Dyk2ZY59jDX7sxbkkXdIPMggmKUaq8k3Sj89glsfiZu_xTJ_rH5ysOfDKY_0DRSC-c0N9y3EehWdX1nsqTyMi8Ua_fSPNPgSKZSw1B-XE257aBAT9Eah9oiKW-Zgw-wq59rwaBlBD6oYNCoSGemkzmfa2FybzHzh98jZh61hWtRFLWE8mlmorjJIQ7Ei8MLjX5hPAQu3xwm9RXPWs24cATqNkG_kSkdgMTrgZNbVcAnV9Hm_ySRjeQ2RI1QWJk1ZvCB58Hd3P1izgOshXG6Ve74l3vTSxMHq6DNdmqbissSoIoSLbSEXfF8p2DsUE_CjYyVvbCjRNYYqJtJ8m2mLNN1efJjpvj9Qf7QuAWILBPtdohhuQDxRb0kJgWCsrv81STdR2l_ynRSlKl9vQ-TKG1nK6apIqU7BaVVd4EPPB1ejWFTgyXGmVLH9sMleunmXwq7SpyCcnEu-Ai9rw0gBdw2UKrOB7jJ75mvH7p1n3a7APpzKu97f2I09-2d_Zf2SmZHkg0moOzZt1Zk-lgGgLENI3ZKFbZPjMv4Cm9PqfdW6TAp5seiL5A7C8DXccNtDtoUMOTO591qVWD_tIUWnE_vDINRRzDzuYYlaTa_U76_cy7brK6dvzbjiBSgEsWf6kvhxQClphDTao-HXOKAR-CXflySbGkukcJFETPLvXu751Fk3CGoZHIfC86vG0zl5kWonTnlwnFD1w_TQf9fjz86Gziv0LIhzuJdQWhzWP_qI-WjY6gpNek2pQDq5VVYqKua-g1z3eX--Tylza1DM5Duw5ucB_VYRv0KXM4axtQ0fXfmMkq4FtWL--g6IT75woi5yYjQHfcgjcjdGLP2zemKOxtvU0U9rQooZK9-iU3usD27czy6N2fHMrfRGnpqZMxwVHBz98_j4qxflgAEaWwW_i4J3r0xGo0fNz3wZyFqkAwCi453Sl9vn5pjjq6IfnrHTnd41m5tKx0-uQ12rTgheTliDjWkdBV-9os7sMJSYEO1by436FreRhQLqNqInsSx0M03q-VYATLJc92qKNVuIW5nH2tTjsoRu0nc7OCWS0u1PSuS_fSUSLM5hEhRDfbNoSmeBLzLzP9S8Zlu5SSAvCBDCI9V04NElL6bRwjTpTCKd80ak0NB0RNYs9kOiwot8Qq72pDUV9CHk-UGilT7X00AqBc7UUGwjIsGbmOamYNVPyWzsVaSj00-OUY_5FF2UFVDFWfIJ9MFx1DiTgctpvRK1uUUeegBr7XlHog-PAa1AP32-eLxIjBokWwmJAE9QZn-b3vz-4HL1e1Q0sKhYAkcbYuKHtm98azfXd2NR7umIqW2tLWS4zmj04QAtOpr3nGdUTMpNvTHsamY0JfzjCu3jZQ3GGQL5yyqUMjdKu8f68bp1ZtLdvED08PatRoAb1X4DZaiJuE3_BlMj3w0xju9kDaS_f8cL5ywMheYHgW0iQjFHz2ZNvN27q0EDPmvmhm7e_w77YNN8OD5JkCuUbQ-5nmmUHoPyrAeq3xXzfccVy1Jj0QJqlk5f3xgdwyEkJpDJvjmatptu-p0gS40-uOPFVRVUSq5aVhw11bISr5d5CPnQqWjhVLMDBsrIgkXuD1AmJwokISZwcYyYPKlSOhYdrU63pNP6sZNA1egaz-8C8QXLu5-iLBJVV1b8xH_OtfV-byhIyinYCJfSZvUemW8tdqv09_LjG11YXW2rEJygEP3pNUF1XD5k-4F2nGXhL6ekMaPOsTkZm_Vw8lKTJcSQrRedJiH7OAeiRBlXCB4QXD2hQnLBhf60k180B5fcO6bDHCrIJZiCGOKe-GCa60_zWlK_JmeN5hDFZeco3kHowJk8tz8X-92RbM9SXcwpzwm7JrXpMi0fMqGjqzqStCw3F3rsjtkEjXBsDzoY50hqgp1VIsNyD1RiYJ30vLcRRwNbcLRlygzPPHiuF7Y5MX98ewgXiGM3cKjuBvkw5bDqr7Y_jAHph5kHUtYhhhbT5nryeKU-vKv6383Hhjf4NAW9fKccYbbnxGvFGGkwVEvhVLgy8uDKjQj8OHW8GwG271sPtl_N34o_gQhlad6RiWiluDiQPTA_OB6wiBvtRcloE49-Hlq8VuREZq2MgN-6exWCA8ni5le0p9Z3KKmFcD8mcsuQpbgWGxIdKvoo9LPRmLWLGr97Hp6B2JYI3HzidFT5S7l2BPGtT5Wt10typ2lB5qp92DcFvBrcvu51iNeeNlTdxcCZhbnigX3U6GUSF4Esvcgm74pltjzO3NihoJFRFa-kVZptPXXuWpD0Ss0bGM9WCHMij36O3dhnrNkIAhfoQfKm7C5mWEeUue--T76HvKbYMwzqP48VZ1rVJW_ciyVlVcM2sOiWcVpNFK4YVVx9Ij8W1LAxwrud4dnZALErcnU7gKDnLX7UTdNOVBXV48HqZjZm5x-19vQfjZkNnkZRFL9Vy6uagcnVUk4nEBt71-D5EakIOY_9v7SHRUU_OprbdelyJqRjs04MnuJtU5ZJaDSxtIGzzLgdNkrrg5muvTNWp19YrfAQGMvT1RmH4ckOQDhT1KYJ1kOdYaDNpQ8vfn1Qh333xy05phWZhk8w_MfW1dgy6Q==",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcfac87cc8190a8b17e6605648129",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fT1ryPxFNZHPRKF8XTbkYVBtXM1hL08ckfd8_EXyU942kIjelddYJEawKieUtMIbtfsXKiHJjS-y_tmBnO0S8yUdfYjXlAVpAZFDKLavAFbdbjLaS96L-9a2yZbRwB-5xKTQp6HcgSsaL4aT0dwX_72fPdtbwH41xpI2JN8BeBGpE6Z9Ct_0CkU5NLsgflcxmQo9oZzWZn1J0ZBYpf_3QwB3W09wwJHhRyQQh95ig6ioOpQ0C0VoyiRGG_cbI6r5WWy4Egq3iHoPtSKRFm_Mlyjn1u7_7Pee4krWYIJxKdRJQMkTmXqGi7elvyTVKKXqTKs0MPdAlZts9q6_evCFKs_3l1_bwo7GPpwR7NxKPBJb92N5PN4XdG_Q16dhEtg22nCx_pXiEh_hPxczgAxAK7s-be2EUpvnwxasO-XXUeOxciF-SQ4BPHi5dBNIWmjskTKI0pMkVin5UDumJQTmpQhVMVJnRREcz7sns5tsM4SWcZikgCscNRtvByHHTq7cXFAsDRYhyM0pMvVuQV7UOBk7mj-CRb1HN10QJMSPycRmNGWzpxghtPtoJZLxvxV8w1AsCbFPsp-g6cj7JAA3eDcFFcq54XbpgLULV2NH956wm89BwHBY0qxJ9_eWAqD9Yp6d1bV01AbSS6LGW9d8qMo7tyu01OuDND16MJapvVBFtChVRL8jcrF5wrnCjVwQgHfpUEQCFEj1kKWh5H5yuRl41sIHYfLodbwaBbKonYj20Ak4c02K64k9ejxChLptpAPSISqs2ESgSNZhI1rF4nOe3J7ShlOJr2wccLsU3P8KHqKYVxejL2lMx2rs1mtUkOjiRJOGS6j78w1XJWv_GYDc_XQ580ExfphN6Jl3qMmbasqgvdc8EDPOWPeoAqD-gXD7RcQTVLAFk8hwVFsk9qTUUk91SHwEZpkG2ow3Ad9rGBPfeU5gHG4zMmlwTkNpEuhuDf6FjNUsFX9bC7kq18OmaTEhbxninhgKLnnVwzekDyMRfTpDtIjKnZeZah8z1OkhSDsuzMZYEce37H3m0TgMu-3ajGGSVfOjL0Gn_FncjG8VyNQK6l9cwWHR4M6ASvKi7b8Ry0fLFXNo1SwnkNF-9Gp0QmUMS65pt3MtqHN0xRuW_QAUmaPnRZ8UVRyHuIDj15OnqRw8Dmxw-08vM26RsJoAmhuU9o0FlaIk5zlinARCFzl6f_QjmmFv3wPTlNajKYG3-WycEjAt9OMzmrwtMty6nQaJEUVmG1L9x9kdTk9S2DWLTfCih31LlipkZ6aNSBzPO3KYPDepux9NxKCGavtfC1maLu4Yqjqz4_b1acaUO1BcpmEzofO0IDXzBSAiG4aBuvIOZuaIdpOK7v1O769KJCntu8s3WhBNZAaowPe2kC5GLSLgObuVaIMbzY9N3JC_ty7q8c2iEfQf7HyOWVCzYjtfkhZprEmXnf9oQg9SHfx4yVQeWf3MLsBpgdihdNykPPMP7s67YjvX5u8sC_1TzgdhTjnwxYYj_-FeLLdUctpnXN4tWfHxgYgg6Egs6IxXk1qShVJ-F5QpJMQglmprnhNUqa8UD7ETZ4cYT2qazxPPjCACdXlO6ETldAze4L1Y15teER37OL3hv9PbcI3fL_FB3760aGJYmALQzajkiPOar0pRl0uR2GShQB83e1rLls9IVfdcNwsRc7DqNmtw6hiRGB9vEKNAXpeJVVHZfxqSArW4V8QHUbm_QiDYP6EGmE2Q2u11X0ZsOxor882Zc0BC6Ncr5OeCNK4ua8mN51F2byRxbujPd72gEdde-SAY5iDQCSU14hW9d6NSiCptzrhSYMTNEvoqGnTHqNjUvQSVenhiPkJ5nUb_h339MWDQMHhIynpfHleX3AN_lwRgcGSE2WewnKAo-lH76yA4T79SgN10URygEsQKbEPzfBrTaJxADFwrze0frlVHTxg34VS4m-Wqz0wiPa9i0cVo7APYb1b_6_qNIEVu_5qmXxZaf54L-UHLomnWd7_oPEwu9dF06uBYwNMueMveMpchKuDwm-Buj4eDiEoR7biaEYzPnV8nwS6niu8D1NHtazacusNg5Jf9lW_Znnbl5p8kY40TgEnsWkaVHch6v31GJHbWSZH_8d1IDSl1yG3gDrS0SzXWcOWhPOJo5cJmoyuDysnzk2T1UvimA3Wp3AdDoqHgL989U9mpfvwUouXWsnV_LAQI9aan9kZ4AFibvIBhw7pxnKdjIOctEwDMZ06aTLRf9aJ9FdzdfUfrJtqDqKYWl2wT5ZJMrtFa3jjS-bEtf-G_Ts-FQcHxYPYuuYKEvH3ua9kt_VcK86pVCQamv06fYaU-itfM2VvoWSqjHa1IDQ8rdN9Er9hD6czJlM941Ul81ZFHuznbTJffS0fvL_iNMp2dk-hu2GSGPtMJWlbLwOYk32C75w5kpm7qTWq7e0Ij0EoHvw_0UuekLMdiFwKBbD1hc917tFNU4pWfFjmdOStiP_hkp4pH7eOVtiL86qfPvgOtlGKfYLg-kLix9bJiam-lH9vbcmTW8rOOnV37vDZys2Wf4EjdEhiOOGBL283dhbrIZOSyiJ5yLcCtHmWR-XaSelLEcF0Z2b3Pe05RS_uD1lCVi_wPi4eNbMfnT6gGydjbSPpwQ81cSzEET7OFFxl5iYnkUkxzbD7cRZc3Fb7Mu9Scl0H7AxQkGez9iioP4iZdP6Csv9az0T-xoMMPoLzbfSEkhUfgnzkM8k9u2ogNoSDbMWpzNmtGgAVMO3klNyjHwFhygP6tftMlG1JePaUBEpUe5JF6pSmHvogaRauCdMRWBMm07ICwA3uO_5TY_SvT6WS02e2ZBnNsh2QiBVGUUCdoVyPzvWf0ztfoEJ6uJxWhJwcDn7_VzGoZsOCyZ4Y7CauSyItt6vWVNi0trguCBIdsulOYV96ibZSR9fnbD2x8TA5HzU00IIZ44SKfORxmVibdyaXvZGGKlB4R55Mota62zcU-3YSqSfUMWJhiREHEs_tj1s9D7jBIZ2g6oOaO1QQOslwddq8aus3TdRLzCIzzWcEojJYOtoj7_n0nBrW_Wyq08zxxaqMVA0FNTNArCD2V8cn0aJTNTow8vDQ4KrKkYyzaXO2wXFNe2wUVmwWM6_8iSkBQla-uhgAYBSafAaqzELaGtBlEPyLOo_yJYxRlsyVswrwuCCmKvnZgxBZNMRHKR_HqFyPkpgibXgUShE-1rAY7s_g0aTIpb-qVf4DOikSpoDB1HU-hBVyUggH6TFQSdp7b9x4W734ZxOFd8xTj7K1esFKaGUePAlZTqsKjlNy-u4r6CSXwNnm1ZP_zrJfZJ-FQr_e4oMhnE3sSrN3agQb7qN-O3pXGh4wcIzssqJNQcsf9usPkP9eQXukJX1lgEJlzFfWpYHjUqSmqVgUHYzeUrzaVa-XOqPM67Ycd1XkGlwUcvMnR2RKWTZjMt0U49CQmiojF9lAuqNrczjeVaxjgLaR7RK5F-GwbRd_LGiH3SysiIRGGhNxTMc4Yde0me6kSeg-dRbKpLBKNH_4DhennUZw0sPTOmqWmlV3JGhqhjJPfgbGHnSImcAkyo0ohXJYAIXko-Q1s4bV_fAwdulqXJyrMtaEG4wJPZILBTHG-nYwlWoTQ__dETYsVuUDaOV-36N66kKrnHXwSm9TmSVn9z2mdyjxXaQ9CyRXrNbHKvnAxe7JQMaC5mtgz6hDR1kIColY4kQYvJCLx2tphiXd_7gkdQZMum_4br8LL6QIfG3cLOURmbGAy6XX4rRiTEzeaMXQGYv-avqvXyPMOhZisQR4eCCqoZZa7fOByR2bwEcbQ3FUET5TAEwrsOjECj7Xj7CfjJqjuJXnk_quuwP6_3GGTTdEa1BwG9jViEPJXUVJkAuGuE1xvl8kxSCiqU7AAr2SZJ7wryjVWzMxAXOyZjXznRLsmNjENYLzMcT7DpWjQH5y6ByVMi5BRioz75SxDuNvoxQzT7DJqu_HQLkcJ6BMnQDmkeXn8wetrfbNkL3Hyee5kwqJOvJvpjkV9v6Q95JMho6nN38awY1s9-G9JGwnc-Nmtva61yJzz_ywj4ttiXK0U34TQ2E0s0KoN8rrPcWOc5DTlLt3vTEyAX7W88M8AydqSx7hA-E-PSs8NIefuKo1BkLOqLX8u_Eo20bD1mkDL-FgeVwddQn_AkFax7Zg==",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcfb7aba48190b21009fb389a2bef",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fVDxv5flsuQatrRshxw-Ogu5fXISnLg4IO20FbktyJNXmTzgC_WnlffKg80b4Z1nET1HcDrFDleEdyrYQ6IR7o5j_cXiUZMbi_G1EkJAQr3cPY6E9TUnuwZPfkv-QEnRw3SeM5wFr_1nsZhnUkZRa_9yneUafE9VEt2VsYU3SWgqtjhXzi9HNJv5sfA6vqxUQItBumK6obeeLciqUJDJrTY5X56r4vAbmXlNTX7zJowIkmwPlAvVo2IJbBtDunEJhreKoLL2XBDv_TXJuhkzrStENkcDZMoAxMTDvBelizoGrPQeGBYURmb4j7k43BqaZRF4_hScjxJY_1wSQVjbXd_nbd7piAee8GCAfWtbrGSTVkafUT4iFHobn_3kO0OGiKjqpFz-wpHmSZk4m4lCZaFzV-yAgrY8whqRHhFY8uoN8Zo7YIj3pCozkVVbbDVzh60UbL1_y0wC76h_lOMsCLDIw8WF-l1XeIgJ5VDbHLVHSZhzvrWajCNSrp2eteQFu9GJ53lesf_iPa5aFT8KwZyzkeb5HC4c6JXecX2fykRFS9BxCGEd8VuYCCSIUR0blLHt23v6B5M6Ka-kqdIzlsG7X_ma4TJ32oOdlq9f-9_ck8pSnOokfjTTzO8eY49aXFvtwZ_qwfujvG2cT7O7nB_gBqnzz4K9ZNZQjH3kVMG1hDrXaNo8S43Y6fSuAGFaH-y9bPmh4EZjRuEgso3V1EqBdtHtHgQbWjryN6Iel68Gjlv8SgysxHXjNYbUDZqKcmWezuQFd13fRkE4Dn_RorLMvyf8U-fJVEPJAMxO38H5yulhUckDFAASmNxnjR7xmKAs238nFKkAzIkAhmD64MThqEQ4RDmkULJ23RK6x0LYFTIpYpzE8J_KfxVxUBeF6HOFmWKyX9AJJm04R0IgZM8cF-5lokEzm2oVVyePz7zKW0cmbzx2cChD8eTQVbOX6sIzuiYRS7YWeYFBzQCxWUcmYmBM9aqqawMpV6RaHFCc9lGkgVt7p00fqZBDCrLBRekI80fI0MoM-FbRCH_LQn-Xx6w0CZSdpvQ7tAA4P8nvByQZ4kAlxRD3WbRgcgavcqVvhwZo6hnzuXHpqVPeZTDspoayVjzXEdRvb_ZKtc2dRNGwXAQG_TeqPLV_0mSF1mFMwLJ1oZaJ242jtut443BxKUeCMjq6WS1dV_Fv4YnMsco6gp4z58CdCP1devS17la-mvxdXGgI7ANNKnZshBsw4nQx-VHgdslzkzZdRf_49JD6G89XxoZyifwEHzYQIBBUpFMEpaAppu2k8Uh0SuasU4jr4B4luEoRuykfTCitr5H-6jA3b7yb9BzZWQ1PcT5J6zObkPmjNMtSGm1UP8iqv6NbotVrza-mJ_EWrjVP3D4yLABZ7LwsfX7fbofUY9i5gT_yC6BM9nqvMDsGpN7i5wlCikVnYm2KtP3fi6fgfYN046xIQD4fl5ZMrqCnVLew6raQEtMeScPaM2kvvAjG8JD86jcckTM1-IIVy9p_iRAi7uc9NyJOO-6Gz-T4vG-yaYgp8dlFnyGKgsT6xnySro3BgYvsuzWCwCsbVtXlH-UyDqFq-rycz1zGT69MoTL7a2AYMigCRgN1qU7NLfHZN2IkueXiQVTPdY9DZco-1o9uSIGVfLonhDNXpdoOgsQQRAcUUYXsZpIBEjo9rEQB_tWCySFxTJndtE0ftZo9r7HoWjFyvQoUFPJUxJoMZrRimr6Qxa_vyotdmB7dzjU6jAmpjCJo2VJ8paxGEIULsL54xe4U9mqmlOxDjt4RB1Vu5BBrmX24yc2PqfBIi4cKKMMN2VfGw68yF25TZUf89Mkx1AA2Acv78I06a9rCgdiF38AX_RR_8oWqHvWlF3uOlBU-zgu5LTxvMUezLeqFXJ21JNaUKLLoRVATtLWlqTqbsL0LWv2AyD0b354fjNYAemSEU64GJmbA0rqKkFKIO7twN4tzR3CaOxHnwNj2qZQ9viPXa1vSzSBZ7uTPvat-e4IjTU0J2PvrDfiGr1GfzbJHjphkdGZ-fBdXk0jm-Lvl_aqQkVbeZ0ikyJNwh1R1v4mzZaiA-9pqCZA7tLxFN_oBt_nB6WEDy0HsawFxLUmzD1A9_UnhxRZICNU8UWfRDYK9isgBjbnVT9NPdulPbOv3Lpk3K5so38a5t9QrxdzeDJ4Cf9emj0DW0MvsvHv7jQnexjecunHqJEeK84CQNI_QTIQ1U0a5ptPTwwzhynC8xzqZZL4pPlBoOh8Wtu2eWnQOUCwm61MB8g-hBcdTa2v0-LzBGnHlONSdLv5gP_ndJfziT_efYvvqojo6ReTjOn46D8qEVvuFr-XgsUQDtWxxRIJ_12dhmMvMmUp-ixf95VqxwvE2Mk0-fYkj4Mw_00U_lBjP_tbBX4WQdLrk_pc_W4z4fimargWgtrcRqC08J8lQPWlgBaf9pjkx51UCua7Pt0qT-Q6gVf1r2LzK9qJj0CheEuatlwDmSWk71ad-Jb1VeyPRA8dWqNZBKSPZxIYBJXnTNQFFQsdReZBYQRpxMwVaXzftyqbo399vYUU0h2NTvJUNTjyOybFHq4rmNfnka8nESckNNX6MTRHv74LD6LQvXQdY9iGF3BXLhAL_p0gOUiuqLK9yVC7OImy80dhd7pGEHxJjx66U8vpqW8Ix-USXSr_Z7G10eQ9KViwcBltsOo4RyuHMsUm5zb6l9T40gl4SjuHj76RuZpBEL9ihGo8ltWwJjBppic8L4gMewB_qFnsbdF0LoGNT5opZnxxK5IYfqrrw_BZ_mpzrcBm1oZ7TDNTQdngFMghibNDfohY6t3Z7_xj5TyZ9_Qb1P5gM7NnRwUG3syENnjnDbfKEKmS-hwH2dKZpAaz4rYfB1eYQifz52LTyQ495MqT9fYqGwvLkBkyr0e7bgJCfJxORoLDunICBnEreT7wezPE313vaerxjd9TlXY1UMqt-3VnrPE6LooslZHhUwBC7fZLAAEkeoC40j8Ergfsoy5q2mWRmBhluf_y3qiHhtnvnNGf_PQRuu897shAZVp9UbCobHh4JVTZFfbImmfO4cwWsgPA_zhho4jELrdWU0WebhHRQxcdmaEOXwoSzHDeo3Eh5AUwgb9UQL_wx-MYG_TuQ4XeHPVE74fQepFiY1VK7rtttwMjoeXTwz4vIiWroeNYUXWdSq2ih9yHyg2pVeJMQX4Il0xGbsOr795lTNQdmx6HWgQHeR70PNae0zGScKenvHtS4NexcqKzyBXqB7NOMc5PNFw0tEkX5UPuqQstu8SGeA01uurXs3BWHMEUNjQy5VT9MXB3atni6LmTYdgQd_WFyZIf3xAIrsou5Ivxha1Q0EOnhyb5mDqeKvZ_S923lCQj4S48itdfuDP5NvwXFLNPC4wi6Esu_o62biwezHLPK3sxwgaIEpddhon_5UgbtIdnoIONVplIDzspINTEKCrxjNhYdXLGZD_FPu4JAUK2nZIxVnhvZmb1ZSkx_BbFt63siO0yqd0Qs_HqAfDO-L_3wWh3AphaP9mDNf4_2vPsoxqqYQhiahFypmgylfJaWEPDmgGo3sEtz9JM4LhwCj10aSJkJdJbtzPYG2jt9V0V8KwwTutxDzBJC5ALsKnoo6jR-vX7d8f-PNk109JRBTwX1UBEyzZ0Aipdf4vVhKQ9YK26SOu92GXAZ4NNZwwWEx3TWCSUcX0r7EEmcLtALN013S_QabDD3g5XW_C0YOFBDNEc5D4Cc90N_SaVz6MWSvhelFU7bd7zFPuBAUDkHQT1nOwkVhryz-YPgdawnEVabSEC8sJeHfYMeVM_I=",
+              "status": null
+            },
+            {
+              "id": "rs_047d73ce577d8e1e016a5bcfbfb98081908f42e586ba08ddbe",
+              "summary": [],
+              "type": "reasoning",
+              "content": [],
+              "encrypted_content": "gAAAAABqW8_fJr5wWthRuWDk_N51hN3EdzYb96HC5J9pgIUF2ng2niOa4MrKaKas_kCODhY66olkPeDMjf6JDvWiGbdGgL55pkoYBsvMX3skOAwPaFn8dE2JobW7KYDwITdG4_slUgY-2SY3-d_80_ZNyyNjmpASvu48j4Tug2AkvGX4VT_121y9plpfzWeJNblY7JXIewnpzcfEErouo8WJUd-sl67w9Wd0HmFdV5mxcNqKy69-rNpNUzZuELjvX0_XrQnWnB_SzCCq5PCI03lScfKkLSSEQxFG_gEZDCtO5pWDx5RwuHVK6OBTckn8Z06HW5Gf3TFSbfsFbVdUdwZF4VrG3TuJVs112xVA4ZQmoQKpbkBt5pW5KXlX4m1XIu_qur0YWAtKRpwajC_8b8ym36yeaP2YavHjb4LoH5cshoURDuym902hXiG5B3EOsVnZ-LhzBmm8Kqq_XdNMbPQje0jOLNu3thtN1DN2Tgt3akpj5BeBQscNjNQprnPMxuDdihWSBFyAYFnVfXKn3euKnvFAWYIh9XKIPOdjQhL2iW94NGEonFx20ccxs_koDUiyWu1-BUZKgTU3-zm3olEnRqRRYfNf7ybwfaKuuRoMYaL40DtHJTsYaVAF7qln_0KWWI4QskxW4L981oOFG5uJGa6EBS4PciGq9q1V7aOkVVQSvZzE1KuDqVbVkX6FRZkpESbB7kt8WWjbIfu-EbOchHgf0a36DPRyF9z2LlMz17fvOi5oNekLZfRH9GEshZRlgk1r9Fz8YD6ofWHzHOAKSyqK1o_cVVdL5d8yUZuYZKrNUKk52__uJzwW5K4nEWwToSyCVsp-Q3wwSGFzipRE-qq_fAUf12abUQfYMRRgNG-N_0UhTjHTC1l92x5f0ySHfneM_H7tYrbJbQ8i3PFpCwo8JXabRpABUFIqkZiKlmZGRNm2Mir2jntIe2z6ZPYI_IQZkHMWIPmnwFRNfZwr809hviv4Akn90jIf-2V4PUFZNBM2pzwJ-Rftn0RfHO1KyvHjou4QKCXqYngH36KgW5Mtdf9FymIt1M_2yQVD8WDaL0qwyMQkZvZkU3W3yd73Kw2WNxnTS0fGhX0m9MXEgFA-3FQlTIqYFyOB7gSXLqEXJnZ8vn5euifMYbjguOERYwWe9kVWpbNiJWCc2jFwD-D_bV6tNo9qtR2ukL8gDLpdxc8I09Ans5pZy83_2PewmAkgkTUrNcNp7UiT79uQlNashQvPZhDw8a5hFK61tIZjwjVM6qrwHvHuWHu6yf1BhZM9SYvuGj6IYsvDZzHDSErO1Tkv6yMONIUaWKFdimNm-EwlWDCY_HKu6pgWuf3-S2f-Pt-UOf71tNtMhhLKznLyVX-RBxiG99DRjQW7BW8pSLtH-D54syr_ubavPeldnMNSTnPMzvWZr3mAY-Pjoiw597lzkHhbfISH8N50egoj-G9PVfo8V-XFyGuoENHrOzsgpZ7uj_5H9C5JrkT2_FSnAxrmIFoikbVs_kZYlXJC_s5ruUucrVVlC_wNO1ND2alNE0M9G_7YvwFhcIaUbWhN0CzA7S4ZtKk5azEBRc9F7lnLCXQCJ53uA6vC4pb7IGCmEACrVW1OH_IXSTGOLckp23gLqbOlZGfJHgST5SSYG2JOZBLSXN7JwvgSiYvcNKCJNnJ1mTnvZLL82RKMoq4q7DG5VplcqasAuHbaQ3bGEJrFtt0m8kUNVcT5Esh7Gs46vMuP4145KvI155z4ybT3YR_Fe4ugPdYGOWs6JggKOIHGgM1zQXuP5ag-V5d4_WHyt-TOugWdP8wVSLojhB-0t1Ux4QkWlQa3l_41LI2MoyOSlPwJuI9au3QiZnEKZqIH-o_dJuxVMTPsHQkGT5utlMwLLEUKx3HGyHsK2y2Bk12J7h7FaxErJsHPM0HU76FSOK5jPFw71JtcTlvd1WX9i1mFTfNlPRd5H3qooPLGW7HPxGoCL9OcEiLFrkVScoxvpqsV-cLLPkgaoIeTpT6phShiBFpSXXunGBZLvFR1vEjl6taPRFt_yme0-vmebJEIhlx7UMQ1oC_Lhd33apX8amr0RTmIFi8rS1CIKdcvNZWYokJHythGQC6zhnoXVlkwJmhr4JDBp614IMZmbo9laea-9PTOj80lTllbRPsMo3vjWbLamK0TICOTXeeqnR6aLz2cF2r83MMmKAzVku4vmf9eTBCBnUFCzbv3e7K8LKyucYcuBPZAC0dBNxbvGmC6uVhtzKwDRHR7fA3Cw6uvsHvpCwz1gV5ACqJNGOlCt5xsJJIU7lI1ai2rlml0qNrVkmcuv5Z-DnrHmgEw4sADsfFb8TvF_iJAT3a5h0nUG-TgPyf9kjp_0wDYy1RQ88RceSlp-A4HUZcgDWh_8UGJ8oQVvBwNPs7lT6T2E9Wppjfn5wKohXOoczRQNV496AfqnyF7IYeE-RU5hrhOfx0W-k5C2ugPexz1hsZMvf_bs-8pP1FDr4wDx8uwsWbrf3aAXP4a2m73FGxeLZgG8x6AHhgJ04FUyKPm5rGAXCcf1bldgHWkK8rb0VabSALCzs_MiJFeaREohF-tuq6AMq8GhmiHErz1TbHZLrtJ-f2J_jHEvrrSiKvN1IhhGQQOs-3M0IIw1I-5V4qxK8iqwsj2JYRoJkyr-qYjMJ5Z3T-CxZzkdDsYp_rnPAqFpIgYo7tHxUGEgpme7wkW-1y7iuM8zaBDP2euJWrmHiY6DPmGzb6CjsNZH6EZB2D9YPDmQbsLIiFTfQE8grzGvIqfL7r32dOYMZr7LsVx3coZnl8dQeTZR3MA1xUsOsiWonLuYr_OYMnppkQ5ziMO5FzC751Kx6CLyyl10gZ-IJQyE8hxVJv16BwX9Iltru4-VTvAcLudlVdP_IkC_zbX-iYvxPSbed4YGmKjQ2_zEj4p4x9HI3Q1b5-ai4bInHihlgK0EOqODakDzJkUqlDV3liC_pZxDykD5IG5OABE-kWcktp0_JXYzaK5uxhyI5-3awXIkiHVzBuUa2CPSrA_72Z2lPRjNJ3IDWLx1MeWQEp47TiQn-D1g52MvJNOWmOCzVYRznKuwurqyP2_6C6XJgs8OKLstOKlxQyEL2x-BZJ6Aq7053m1LKaiHl4TI5i4XNA020NYZEbzAQlIWTcvCqQlSK6Z-f_a5QhcbVa_NfDAxmz1cb9td6sbLVRPxQ-EWP4PoxlUrETFQjqQ927c7U-VDvJHwwFkMdR_xSfbkAjGKZrw1v5OKJghly1EGl3EHNkV2YvVl2mnXZ7hFjULEvTA2M5jiwzwi2Uv9BIiD6qo5FA7RSN_hUoMbtxFwZ3ZdaSp32mVkBu3WUgfDe6xfeipZkw0iLB-jWw3P3mJ-r_UF5O9lWfu6QIOME5-8abW2hVNL6-b5H1MH-uMxpdcF_sd0gzB9PTsBCaKz_tTBlwGOKUxm_l58DLoZGCQk9zCJT8LNIxoln_NszzDcFOTTGBa_TPGQIfvZhOukexq7-jA84ISso-z9PMLIsTFZbz0Wvzzc5G_lzZ_81fih5xIuO1P3watyGwcXg0sOX0Pex1WRiBhyfgw-7WpZobv3u63brGjNHsFVidEPtF03tmdC1ubhHLkD4vponottwxU-SoKfCjmEpvuo9YNK-YJwknnLg2JIjmfIRgYQXI4FU_Kcv5Cqu3uo5ZHMKCOelGQoQZAJDALG9-rf93o5QhakG1yCucgEQ7xWue-719Rxjs83LltDZ5XV3fPNHeWDuUOqcSiOEVf14mYAGJjDbJjNxkiuinDdrUNY9HTOP38l76L7d-GQXmkNh8VOp03h8HPcAXfNzdWyp8lXlTHtp_tW6lc0jM3bPOEWoEuukS9QVDdQIV_atIy6Qfpqk3rjOKFcZIeNyd60wPaSgIOXwW_vSPThwuj8tUY-TXmMHFMWjKlzYtLlyrLrWd3REB361kKJiQsCgbKcxLwwTrps0NXwptHRsqxHBlxq45aiLX-7PGG7JBIR3HToTdeGyRF4v7R14znsWK4UCXlwP8TT2S_TPqVyf-VWpzE24hWz3nKPh600RNV4yeaURqeFC_F6WSA_6X5aMkhoNgVxB4=",
+              "status": null
+            },
+            {
+              "id": "msg_047d73ce577d8e1e016a5bcfcc6d0881909ddeb88a2a08c7ee",
+              "content": [
+                {
+                  "annotations": [],
+                  "text": "{\"canary_id\":\"kidde_2xa_installation_operation_boundaries\",\"adequacy\":\"SUFFICIENT\",\"question\":\"En una central Kidde 2X-A de una instalación que no exige EN 54-13, voy a conectar un interruptor externo a INPUT1/INPUT2 y a preparar el procedimiento ante una avería. ¿Qué rango resistivo debe presentar la entrada cuando esté activa, qué precaución se aplica al cablear salidas y en qué orden debe actuar el usuario hasta escalar la avería a mantenimiento? Separa instalación de operación.\",\"expected_behavior\":\"answer\",\"gold_answer\":\"Instalación: el interruptor de INPUT1 o INPUT2 debe presentar un valor activo de 62 Ω a 8 kΩ, ambos límites incluidos. Al conectar salidas, hay que comprobar la polaridad o instalar un diodo 1N4007 o equivalente para evitar problemas de activación invertida. Estas indicaciones de conexión no son aplicables cuando se exige conformidad con EN 54-13.\\n\\nOperación ante avería: primero debe confirmarse la causa de la señal de aviso antes de desactivar el zumbador; después debe contactarse inmediatamente con el contratista de mantenimiento para que investigue y repare la avería. Los valores resistivos y la protección de las salidas son condiciones de instalación, mientras que la comprobación y el aviso a mantenimiento son acciones operativas.\",\"atomic_facts\":[{\"fact_id\":\"F01\",\"text\":\"Para los interruptores conectados a INPUT1 o INPUT2, el valor activo debe cumplir 62 Ω ≤ valor activo ≤ 8 kΩ.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"62 Ω ≤ valor activo ≤ 8 kΩ\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Conectar interruptores de entrada a INPUT1 y INPUT2 (62 Ω ≤ valor activo ≤ 8 kΩ)».\"}]},{\"fact_id\":\"F02\",\"text\":\"Al cablear salidas debe comprobarse la polaridad correcta o instalarse un diodo 1N4007 o equivalente para evitar problemas de activación invertida.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Polaridad correcta o diodo 1N4007/equivalente\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Compruebe que la polaridad es correcta o instale un diodo 1N4007 o equivalente».\"}]},{\"fact_id\":\"F03\",\"text\":\"La información indicada para conectar entradas y salidas no se aplica a instalaciones que requieran conformidad con EN 54-13.\",\"type\":\"supplementary\",\"state\":\"present\",\"value\":\"No aplicable si se exige EN 54-13\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Esta información de conexión no se aplica a las instalaciones que requieren conformidad con la norma EN 54-13».\"}]},{\"fact_id\":\"F04\",\"text\":\"Ante una avería debe confirmarse siempre la causa de la señal de aviso antes de desactivar el zumbador.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Confirmar la causa antes de desactivar el zumbador\",\"citations\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Antes de desactivar el zumbador, debe confirmar siempre la causa de la señal de aviso».\"}]},{\"fact_id\":\"F05\",\"text\":\"La avería debe escalarse inmediatamente al contratista de mantenimiento para que la investigue y repare.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Contacto inmediato para investigar y reparar\",\"citations\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"«Póngase en contacto de inmediato con el contratista encargado del mantenimiento para investigar y reparar la avería».\"}]},{\"fact_id\":\"F06\",\"text\":\"Las resistencias y la protección de polaridad son condiciones de instalación; confirmar la causa y escalar la avería son acciones operativas posteriores.\",\"type\":\"core\",\"state\":\"present\",\"value\":\"Separación entre instalación y operación\",\"citations\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2},{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2}],\"visual_evidence\":[{\"pdf\":\"00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es.pdf\",\"page\":2,\"evidence\":\"La sección «Conexión de entradas y salidas» especifica el rango activo y la protección de polaridad.\"},{\"pdf\":\"00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf\",\"page\":2,\"evidence\":\"La sección «En caso de avería» ordena confirmar la causa y contactar con mantenimiento.\"}]}],\"notes\":\"F06 establece la distinción genuinamente cruzada entre requisitos de cableado y actuación operativa.\"}",
+                  "type": "output_text",
+                  "logprobs": []
+                }
+              ],
+              "role": "assistant",
+              "status": "completed",
+              "type": "message",
+              "phase": "final_answer"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "temperature": 1.0,
+          "tool_choice": "auto",
+          "tools": [],
+          "top_p": 0.98,
+          "background": false,
+          "completed_at": 1784401886.0,
+          "conversation": null,
+          "max_output_tokens": 12000,
+          "max_tool_calls": null,
+          "previous_response_id": null,
+          "prompt": null,
+          "prompt_cache_key": null,
+          "prompt_cache_retention": "24h",
+          "reasoning": {
+            "effort": "xhigh",
+            "generate_summary": null,
+            "summary": null,
+            "context": "all_turns",
+            "mode": "standard"
+          },
+          "safety_identifier": null,
+          "service_tier": "default",
+          "status": "completed",
+          "text": {
+            "format": {
+              "name": "generate_kidde_2xa_installation_operation_boundaries",
+              "schema_": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "canary_id",
+                  "adequacy",
+                  "question",
+                  "expected_behavior",
+                  "gold_answer",
+                  "atomic_facts",
+                  "notes"
+                ],
+                "properties": {
+                  "canary_id": {
+                    "type": "string",
+                    "enum": [
+                      "kidde_2xa_installation_operation_boundaries"
+                    ]
+                  },
+                  "adequacy": {
+                    "type": "string",
+                    "enum": [
+                      "SUFFICIENT",
+                      "INSUFFICIENT"
+                    ]
+                  },
+                  "question": {
+                    "type": "string"
+                  },
+                  "expected_behavior": {
+                    "type": "string",
+                    "enum": [
+                      "answer"
+                    ]
+                  },
+                  "gold_answer": {
+                    "type": "string"
+                  },
+                  "atomic_facts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "fact_id",
+                        "text",
+                        "type",
+                        "state",
+                        "value",
+                        "citations",
+                        "visual_evidence"
+                      ],
+                      "properties": {
+                        "fact_id": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "core",
+                            "supplementary"
+                          ]
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": [
+                            "present"
+                          ]
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "citations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "pdf",
+                              "page"
+                            ],
+                            "properties": {
+                              "pdf": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": "integer",
+                                "minimum": 1
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 4
+                        },
+                        "visual_evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "pdf",
+                              "page",
+                              "evidence"
+                            ],
+                            "properties": {
+                              "pdf": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "evidence": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "minItems": 0,
+                          "maxItems": 4
+                        }
+                      }
+                    },
+                    "minItems": 0,
+                    "maxItems": 8
+                  },
+                  "notes": {
+                    "type": "string"
+                  }
+                }
+              },
+              "type": "json_schema",
+              "description": null,
+              "strict": true
+            },
+            "verbosity": "low"
+          },
+          "top_logprobs": 0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 38109,
+            "input_tokens_details": {
+              "cached_tokens": 35030,
+              "cache_write_tokens": 0
+            },
+            "output_tokens": 5538,
+            "output_tokens_details": {
+              "reasoning_tokens": 4142
+            },
+            "total_tokens": 43647
+          },
+          "user": null,
+          "billing": {
+            "payer": "developer"
+          },
+          "frequency_penalty": 0.0,
+          "moderation": null,
+          "presence_penalty": 0.0,
+          "store": false,
+          "tool_usage": {
+            "image_gen": {
+              "input_tokens": 0,
+              "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "output_tokens": 0,
+              "output_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+              },
+              "total_tokens": 0
+            },
+            "web_search": {
+              "num_requests": 0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "result_sha256": "b3fb37d3f054fc6a5f8e53837ede2299af0c3fb1e9c3f640c0030eeecedf3696"
+}

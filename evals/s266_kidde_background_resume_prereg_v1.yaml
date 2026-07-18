@@ -1,0 +1,78 @@
+schema: s266_kidde_background_resume_prereg_v1
+status: FROZEN_BEFORE_BACKGROUND_RESUME
+objective: >-
+  Complete the unchanged S217 dual-authorship holdout through the official
+  Responses API background mode after two synchronous Sol calls returned HTTP
+  520, preserving every completed S263/S264 response and all semantic inputs.
+lineage:
+  packet: evals/s217_kidde_external_cohort_packet_v1.json
+  packet_sha256: 8c8cd8e1410ae31f9961b0da83f5c6bb3ed759291623ae0bd3f8408ca917d234
+  valid_fable_candidates_carried: 2
+  valid_sol_candidates_carried: 1
+  valid_pairs_carried: 1
+  synchronous_sol_http_520_without_response: 2
+transport:
+  sol_background: true
+  store: false
+  response_id_checkpointed: true
+  polling_resumable: true
+  x_client_request_id: true
+  initial_post_retries: 0
+  poll_get_retries_max: 2
+  semantic_retries: 0
+  stage_restart_reconstructs_from_sealed_ledger: true
+  ambiguous_nonresumable_post_fails_closed: true
+  poll_interval_seconds: 2
+  poll_timeout_seconds: 1800
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5, adaptive_effort: xhigh, max_tokens: 16000}
+execution:
+  order: [sol_item_2, fable_item_3, sol_item_3, fable_item_4, sol_item_4]
+  new_calls_max: 5
+  new_calls_fable: 2
+  new_calls_sol: 3
+  reciprocal_review_calls: 0
+  support_mapping_calls: 0
+  synthesis_calls: 0
+  target_calls: 0
+gate:
+  independently_valid_pairs_min: 3
+  pass: GO_S266_TO_SEPARATE_RECIPROCAL_PIXEL_REVIEW
+  fail: NO_GO_S266_DUAL_AUTHORSHIP
+  hold: HOLD_S266_EXTERNAL_OR_INCOMPLETE
+budget:
+  internal_stop_new_calls_usd: 35
+  user_ceiling_usd: 200
+frozen_inputs:
+  packet: {path: evals/s217_kidde_external_cohort_packet_v1.json, sha256: 494f8718ee6d067d14f8a779396ea783d0c22cf72f05922b8c63878bacfb4a87}
+  s263_ledger: {path: evals/s263_kidde_dual_authorship_ledger_v1.json, sha256: eaf4843f85ed0971d2b567409c822a652ee0381fb838ff1850e0aba287da0332}
+  s264_result: {path: evals/s264_kidde_transport_resume_result_v1.json, sha256: 01b640a45e7b18cc856b0431bbd42284688c76a74fd421ac7a0a96eb96f733d3}
+  s264_ledger: {path: evals/s264_kidde_transport_resume_ledger_v1.json, sha256: 5594c908f98bf39b9797488e6815936b06446fd179d9d97b094f570195491216}
+  s264_fable: {path: evals/s264_kidde_fable_generations_v1.json, sha256: 7a25340482123e1ffabb183b905c12482054009261b07d28aab42422541b2b33}
+  s264_sol: {path: evals/s264_kidde_sol_generations_v1.json, sha256: 85b28ae3300f4a076ab7de7da04e19bab78b074e72d943429c59fc0fbf8edfa9}
+  gold_contract: {path: src/rag/multisource_visual_gold.py, sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1}
+  frontier_runtime: {path: src/rag/frontier_visual_runtime_v3.py, sha256: fafaf475937f784bb9260a9e2ef44eff5ccf8d093580c67d6199d23271b9294c}
+  schemas: {path: src/rag/frontier_visual_schemas.py, sha256: 49e99893f4b838ec2a78f04f4a374172843edb8e1fcef8ee46b589e6a912ebb4}
+  runner: {path: scripts/s266_resume_kidde_background.py, sha256: 57611f48742a46dff5c712a7685c496e96f91ae2bf828c0975bb427037c7c5e9}
+  tests: {path: tests/test_s266_resume_kidde_background.py, sha256: 0b843c19663bdfee174bb2a200aae26dc172982923d925052afa520442afc0c4}
+forbidden:
+  - alter_topic_sources_pages_question_contract_prompt_or_schema
+  - regenerate_or_review_any_carried_candidate
+  - use_partial_or_failed_provider_output
+  - semantic_retry_or_prompt_repair
+  - open_reciprocal_review_or_support_mapping_before_authorship_gate
+  - open_canonical_targets
+  - production_integration_or_deployment
+invariants:
+  official_fact_credit: 0
+  production_default_changed: false
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+post_execution_maintenance:
+  reason: preserve the exact historical v2 runtime frozen by S263 and S264
+  runtime_relocated_to: src/rag/frontier_visual_runtime_v3.py
+  semantic_transport_change: false
+  provider_calls: 0
+  result_or_gate_change: false
