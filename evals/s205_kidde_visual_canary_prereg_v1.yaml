@@ -1,0 +1,103 @@
+instrument: s205_kidde_visual_canary_v1
+status: FROZEN_BEFORE_FRONTIER_EXECUTION
+hash_contract: sha256_of_utf8_text_with_crlf_normalized_to_lf
+geometry_frozen_in_prior_commit: af6de65
+
+frozen_inputs:
+  design: {path: evals/s205_kidde_visual_canary_design_v1.md, sha256: a9dfa8dab3587ef7f67e83f248e40b7ebdb04b3552dd461982f39049632a287f}
+  packet: {path: evals/s205_kidde_visual_canary_packet_v1.json, sha256: 143c5a021db382f4a90cd3e6ac6c119537ea969b7c5fa74a315636cd13aa2fa8}
+  reusable_contract: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
+  publication_gate: {path: src/rag/principal_visual_gold.py, sha256: 756c8bccc4c39291333c6d4cc90762fc915f665a4c05b4204aaccd1d2fdbca28}
+  provider_runtime: {path: src/rag/frontier_visual_runtime.py, sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe}
+  packet_builder: {path: scripts/s205_build_kidde_visual_canary.py, sha256: 2cf7eff3b40287329ca5f3a2dd5a1da7c5770b6d45826822c662c9f6ebb629a0}
+  runner: {path: scripts/s205_run_kidde_visual_canary.py, sha256: 4d509c3d0955b96b76376e4f8a6c50954a65306b280a457606d685c96479e0b0}
+  gate_tests: {path: tests/test_visual_gold.py, sha256: d9c2e16644bfffa774ebeb642b5d8e48704cc710d2635b9056c5a64401d8714c}
+  cohort_tests: {path: tests/test_s205_kidde_visual_canary.py, sha256: f95ba2b65be531d23f57d4523a77ed4fea8d756a19c2e0f1e30f50b87643a66a}
+  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2}
+  retriever_hyq_ledger: {path: evals/s99_hyq_generated.jsonl, sha256: 74ea2a346c9fb135a0e3f527d00d4098e42dc15037661294ce112991befdc4e9}
+
+packet_sha256: bb7b0ec24bbb0a25b4125b63c6b9607ec30ed001bbaf85bdd1a424a065b1b4de
+
+population:
+  kidde_pdf_universe: 55
+  discovered_product_documents: 11
+  existing_gold_questions: 51
+  selected_source_hyq_questions_screened: 116
+  canary_items: 3
+  committed_pixel_pages: 3
+  selected_basename_overlap_with_existing_gold: 0
+  selected_sha256_overlap_with_resolved_existing_gold_sources: 0
+  excluded_closed_cohorts: [s203, s204]
+  bot_outputs_seen_during_selection: 0
+  model_outputs_seen_during_selection: 0
+
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+
+execution:
+  generation_calls_per_model: 3
+  cross_review_calls_per_model: 1
+  paid_calls_max: 8
+  provider_retries: 0
+  same_item_retry: false
+  candidate_merge: false
+  frontier_input: pixel_only
+
+publication_geometry:
+  final_gold_author: gpt-5.6-sol
+  principal_review: fable_must_pass_every_sol_candidate
+  counterpart_author: claude-fable-5
+  counterpart_role: blind_material_disagreement_probe_not_publication_candidate
+  counterpart_own_publication_defect_is_veto: false
+  counterpart_topic_drift_is_veto: true
+  material_disagreement_is_veto: true
+
+validation:
+  sol_candidates_valid: 3
+  fable_candidates_valid: 3
+  fable_review_of_sol_pass: 3
+  counterpart_topic_aligned: 3
+  semantic_duplicates_with_gold_or_selected_source_hyq_max: 0
+  unsupported_sol_facts_max: 0
+  wrong_focus_page_sol_citations_max: 0
+  material_disagreements_max: 0
+  blocking_sol_issues_max: 0
+  nonblocking_notes_may_be_nonzero: true
+
+budget:
+  conservative_internal_execution_ceiling_usd: 40
+  user_total_authorization_usd: 200
+  conservative_accounting_usd_per_million_tokens:
+    sol: {input: 15, output: 120}
+    fable: {input: 30, output: 150}
+  known_s203_s204_spend_before_s205_usd: 33.058935
+
+states:
+  go: GO_KIDDE_GOLD_CANARY
+  hold: HOLD_FRONTIER_INCOMPLETE
+  no_go: NO_GO_VISUAL_GOLD
+
+downstream_after_go:
+  official_fact_credit: 0
+  bot_evaluation_requires_new_preregistration: true
+  required_freeze:
+    - corpus_and_chunks_v2_snapshot
+    - index_and_embeddings
+    - retrieval_rerank_generation_configuration
+    - judge_and_seeds
+    - baseline_outputs_and_zero_regression_thresholds
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+
+forbidden:
+  - supply_extracted_text_to_frontier_models
+  - retry_or_tune_on_the_same_canary_items
+  - merge_repair_salvage_or_postselect_frontier_candidates
+  - publish_the_fable_counterpart
+  - duplicate_gold_or_selected_source_hyq_questions
+  - infer_application_or_suitability_from_numeric_limits
+  - add_candidates_to_official_gold_before_bot_evaluation
+  - change_chunks_table_or_write_database
+  - reopen_chunks_v3_wholesale
+  - gate_pr_or_merge_on_railway
