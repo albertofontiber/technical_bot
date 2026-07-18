@@ -1,0 +1,76 @@
+instrument: s269_visual_utility_cohort_v3_prereg
+status: FROZEN_BEFORE_LABELING
+
+supersedes: s191_visual_utility_classifier_prereg_v2
+reason: >-
+  S191 closed CLOSED_NO_GO_TRIGGER_OUT_OF_RANGE with quality NOT_MEASURED: the
+  preregistered positive range [10, 30] was misaligned with a 48/60 technical
+  cohort. The v3 trigger is derived from a control-balanced composition BEFORE
+  any labeling, honoring the frozen S191 mandate
+  (freeze_an_independent_control_balanced_cohort_before_any_new_labels).
+design: evals/s269_visual_utility_cohort_v3_design.md
+
+frozen_inputs:
+  bridge_dump:
+    path: evals/s269_visual_assets_bridge_dump_v1.jsonl
+    sha256: 5bdb0734eb136b343b45fec666c10484e72993a455e1c3ed01d5fd6910d710e2
+    rows: 5096
+    verified_against: evals/s190_visual_asset_bridge_audit_v1.json
+    stable_receipt_sha256: c7787474626ca74c6c7ce3e7e46ae9cd0a2cd579babacee7e8433f6bb9547ecb
+  cohort:
+    path: evals/s269_visual_utility_cohort_v3.json
+    # Autoridad semantica: sha sobre las filas canonicas (estable ante re-run;
+    # el sha de fichero varia solo por created_at).
+    cohort_sha256: bfa829c8d4e2b81816c449c85048be1d9a435fcf0f1ed4a0f8e65b62cb1907e7
+    file_sha256_at_freeze: 7958eebdad822b751612b30adeeedfdcb34ac67ce248cde3200646ccf7449896
+    builder: scripts/build_visual_utility_cohort_v3.py
+    seed: s269_visual_utility_v3
+  excluded_cohort:
+    path: evals/s191_visual_utility_cohort_v1.json
+    sha256: 3e4295f140ad19bd9599d2733d8ae0b17c6597253c5e1b92897bb4048f99e2e9
+    excluded_pages: 60
+
+composition:
+  items: 80
+  expected_control: {n: 40, rule: page_index_lte_2}
+  expected_technical: {n: 40, rule: page_index_gte_5}
+  buffer_excluded: page_index_3_to_4
+  distinct_manufacturers: 25
+  note: expected_* is a composition expectation for trigger alignment, not gold
+
+trigger:
+  preregistered_positive_range: [28, 44]
+  rationale: 35_to_55_percent_of_80_derived_from_50_50_composition_before_labels
+  positive_policy_unchanged_from_s191_v2:
+    technical_utility: useful
+    confidence: high
+    has_legible_technical_visual: true
+    visual_role: [wiring, table, procedure, ui]
+
+gates:
+  - zero_invalid_labels
+  - positives_within_preregistered_band
+  - manual_spot_check: 10_items_5_predicted_useful_5_predicted_not_useful_zero_cover_or_marketing_served
+  precision_vs_human_gold: NOT_REQUIRED_YET_next_gate_per_s190_contract
+
+executor_contract_inherited_from_s191_v2:
+  provider: openai
+  model: gpt-5.6-luna
+  reasoning_effort: none
+  mandate: keep_reasoning_none_unless_a_new_preregistered_disagreement_test_justifies_more
+  binary_receipts: refreeze_asset_sha256_and_semantic_payload_sha_before_labeling
+  estimated_cost_usd: 0.06
+  budget_max_usd: 2
+
+anti_overfit:
+  - do_not_move_the_28_to_44_band_after_observing_labels
+  - do_not_tune_prompt_or_reasoning_on_the_s191_60_assets
+  - do_not_reuse_these_80_for_any_retune_iterate_with_a_fresh_v4_cohort
+  - treat_expected_group_membership_as_selection_metadata_never_as_gold
+
+authorization:
+  model_calls_at_freeze: 0
+  storage_gets_at_freeze: 0
+  database_writes: false
+  production_changes: false
+  facts_moved_to_ok: 0

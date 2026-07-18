@@ -15,6 +15,7 @@ from ..config import (
     COMPATIBILITY_BUNDLE_COVERAGE,
     LLM_MODEL,
     LLM_MAX_TOKENS,
+    VISUAL_ASSETS_REGISTRY,
 )
 from .answer_obligation_contract import build_enforced_answer_cache_identity
 from .answer_planner import (
@@ -40,6 +41,7 @@ from .post_rerank_coverage import (
     is_validated_coverage_chunk,
 )
 from .evidence_derivation import apply_evidence_derivations_with_trace
+from .visual_assets import append_cited_visual_assets
 
 logger = logging.getLogger(__name__)
 
@@ -769,4 +771,17 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         if enforced_cache_identity is not None:
             answer_planner["cache_identity"] = enforced_cache_identity
         result["answer_planner"] = answer_planner
+
+    # S269 (flag default off — con off este bloque no ejecuta NADA): adjunta
+    # hasta 2 activos 'useful' del registro document_visual_assets para las
+    # páginas de los fragmentos CITADOS en la respuesta. Falla abierta doble
+    # (aquí y dentro del helper): una excepción jamás toca la respuesta.
+    if VISUAL_ASSETS_REGISTRY:
+        try:
+            append_cited_visual_assets(result, relevant_chunks)
+        except Exception:
+            logger.warning(
+                "VISUAL_ASSETS_REGISTRY fail-open: respuesta sin adjuntos",
+                exc_info=True,
+            )
     return result
