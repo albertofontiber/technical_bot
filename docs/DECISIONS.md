@@ -2099,3 +2099,32 @@ publication-gate se aplique al candidato Sol: Fable debe revisarlo y dar PASS, y
 deben declarar cero desacuerdo material. Los defectos propios del counterpart que no contradigan
 el principal se diagnostican pero no lo vetan. Esto no autoriza rescatar S204. `chunks_v3` sigue
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway no es gate.
+
+## DEC-118 — S205: la geometría principal pasa, pero el leakage del mismo source invalida el GO
+
+**Geometría y ejecución.** La función de publicación se congeló en `af6de65` antes de seleccionar
+fuentes: Sol 5.6 `xhigh` es el único autor final; Fable 5 genera a ciegas, revisa todos los Sol y
+su propio borrador sólo sirve como probe independiente de desacuerdo. Un defecto exclusivo del
+borrador no publicado no veta; topic drift o discrepancia material sí. Sobre tres predicados
+Kidde frescos respecto a S203/S204, la PR #142 pasó CI y se mezcló antes de ejecutar. Completaron
+8/8 llamadas exactas, cero retries, seis candidatos válidos y dos reviews por **$11,81598**.
+Fable dio PASS 3/3 a Sol; Sol dio PASS 2/3 a Fable; no se declaró desacuerdo material. El runner
+emitió `GO_KIDDE_GOLD_CANARY` conforme al gate mecánico.
+
+**Adjudicación local bloqueante.** `s205k03` pide los tres modelos y funciones de
+`Conventional IS Barriers`. El ledger S99 ya contiene
+`hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:2`, que pregunta qué barreras galvánicas/aislamiento
+se usan con dispositivos convencionales. Su `source_file` coincide exactamente con el stem del
+PDF seleccionado y ambos apuntan a la misma tabla; el desfase 4/5 es numeración de página del
+pipeline, no otro documento. Sol detectó el duplicado al revisar el counterpart y lo marcó FAIL;
+Fable lo negó al revisar el final, infiriendo erróneamente otro documento/producto porque las
+filas de cobertura del packet omitían identidad de source. La novedad no puede delegarse sólo a
+juicio semántico si el builder conoce una identidad exacta. Un benchmark downstream premiaría
+la HyQ ya embebida y contaminaría retrieval.
+
+**Cierre sin salvage.** El estado autoritativo es `CLOSED_NO_GO_VISUAL_GOLD`, aunque se conserva
+el GO bruto para auditar la contradicción. No se postseleccionan los dos candidatos limpios, no se
+repara, no se reintenta, no se integra gold y se mueven 0 facts. La línea de canarios visuales se
+cierra para evitar otra convergencia y el trabajo vuelve al bucket dominante de 12 synthesis-miss
+preexistentes, upstream→downstream. `chunks_v2` permanece activo,
+`chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge con CI verde.

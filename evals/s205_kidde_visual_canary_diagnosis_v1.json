@@ -1,0 +1,49 @@
+{
+  "schema": "s205_kidde_visual_canary_diagnosis_v1",
+  "status": "CLOSED_NO_GO_VISUAL_GOLD",
+  "raw_runner_status": "GO_KIDDE_GOLD_CANARY",
+  "execution": {
+    "calls": 8,
+    "sol_candidates_valid": 3,
+    "fable_candidates_valid": 3,
+    "fable_review_of_sol_pass": 3,
+    "sol_review_of_fable_pass": 2,
+    "conservative_cost_usd": 11.81598
+  },
+  "blocking_case": {
+    "canary_id": "kidde_900_is_barriers",
+    "candidate_qid": "s205k03",
+    "selected_source_pdf": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+    "selected_focus_page": 5,
+    "existing_retriever_question_qid": "hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:2",
+    "existing_retriever_source_file": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol",
+    "existing_retriever_page_number": 4,
+    "existing_retriever_question": "¿Qué barreras galvánicas o de aislamiento se pueden usar con dispositivos convencionales en la 2X-A Táctil?",
+    "candidate_question": "Estoy cotejando una lista de materiales del protocolo 900 Series para centrales Kidde 2X-A/ZP2-A: ¿qué tres modelos exactos aparecen en la categoría «Conventional IS Barriers» y qué función se indica para cada uno?",
+    "deterministic_source_identity": "EXACT_SOURCE_STEM_MATCH",
+    "semantic_relation": "SAME_TABLE_AND_SAME_BARRIER_MODEL_PREDICATE",
+    "blocking_reason": "The candidate asks for the exact models/functions that answer an existing retrieval-augmentation question embedded for the same source table. Evaluating it downstream would measure retriever prompt leakage rather than clean generalization."
+  },
+  "review_contradiction": {
+    "fable_review_of_sol": "PASS_AND_FALSE_NEGATIVE_ON_DUPLICATE",
+    "sol_review_of_fable": "FAIL_DUPLICATE_WITH_EXACT_HYQ_ID",
+    "counterpart_materially_agrees": true,
+    "material_disagreements": [],
+    "why_raw_gate_passed": "The frozen principal gate intentionally ignores defects belonging only to the unpublished counterpart when topic alignment and material agreement remain true. Source identity was omitted from the coverage rows supplied to reviewers, so the final-candidate reviewer incorrectly inferred a different document/product."
+  },
+  "decision": {
+    "authoritative_status": "CLOSED_NO_GO_VISUAL_GOLD",
+    "same_cohort_retry": false,
+    "repair_or_salvage": false,
+    "postselect_two_clean_candidates": false,
+    "official_gold_added": 0,
+    "official_fact_credit": 0,
+    "bot_evaluation_opened": false,
+    "further_visual_canary": false,
+    "next_work": "RETURN_TO_EXISTING_12_SYNTHESIS_MISSES"
+  },
+  "causal_interpretation": "The principal-author geometry worked as designed, but the novelty screen did not. Semantic novelty cannot rely only on a frontier judgement over question text when the deterministic packet builder already knows exact source identity. This cohort is closed whole and the visual-gold line stops to avoid another analysis loop.",
+  "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+  "railway_merge_gate": false,
+  "result_sha256": "8a0ef23fdfbf5de7a748dddcc85ffa85f1d1a7cb09fb5178e34b64f051a025ae"
+}

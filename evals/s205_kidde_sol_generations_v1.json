@@ -1,0 +1,395 @@
+{
+  "schema": "s205_sol_generation_receipts_v1",
+  "status": "COMPLETE",
+  "provider": "sol",
+  "receipts": [
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_kuwait_pcb_callouts",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "status": "completed",
+      "raw_output": "{\n  \"canary_id\": \"kidde_kuwait_pcb_callouts\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Al revisar la PCB de una Kidde 2X-A Kuwait de armario grande con fuente de 6 A, ¿qué números de llamada identifican Ethernet, USB tipo B y tipo A, COM2, COM0, COM1, el conector de batería, el conector de la fuente de alimentación y el conector de la interfaz de usuario?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Las llamadas son: Ethernet, 6; USB tipo B, 7; conectores USB tipo A, 8; puerto serie COM2, 2; puerto serie y conector de interfaz COM0, 9; puerto serie y conector de interfaz COM1, 10; conector de batería, 11; conector de la fuente de alimentación, 12; y conector de la interfaz de usuario, 17.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El conector Ethernet corresponde a la llamada 6.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"6\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: «6. Ethernet connector».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El conector USB tipo B corresponde a la llamada 7 y los conectores USB tipo A a la llamada 8.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"USB B = 7; USB A = 8\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: filas «7. USB type B connector» y «8. USB type A connectors».\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El puerto serie COM2 corresponde a la llamada 2.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: «2. COM2 serial port».\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"El puerto serie y conector de interfaz COM0 corresponde a la llamada 9.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"9\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «9. COM0 serial port and interface connector».\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"El puerto serie y conector de interfaz COM1 corresponde a la llamada 10.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"10\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «10. COM1 serial port and interface connector».\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"El conector de batería corresponde a la llamada 11.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"11\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «11. Battery connector».\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"El conector de la fuente de alimentación corresponde a la llamada 12.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"12\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «12. Power supply connector».\"\n    },\n    {\n      \"fact_id\": \"F08\",\n      \"text\": \"El conector de la interfaz de usuario corresponde a la llamada 17.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"17\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «17. User interface connector».\"\n    }\n  ],\n  \"notes\": \"\"\n}",
+      "usage": {
+        "input_tokens": 30653,
+        "output_tokens": 2703,
+        "total_tokens": 33356
+      },
+      "provider_trace": {
+        "id": "resp_06095cb6af095d3b016a5ac4d1f5488190a9bbfa04a8c77fb1",
+        "created_at": 1784333521.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_06095cb6af095d3b016a5ac4d38a2c81908534144fc5b856a9",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsT-SRWhH-Hehpdbccyptk8RNz207h8OH_O_CriW9tiUwUMj6K3qaE-sulRJFXjZgTl40AeT0sji96R1iRkr-PJ6zGhzbc704xKN4-5lCeNgavDREqoO7ILEoYEwLxgValDMXByWN9Vh7k6ql8xBIZDuw1T_4_a4FEG55ZlwD2tEL5EtjHcu7tyISqlVBv4-WZ_t_H1Vc_-N61_sxhS9RP-8TvDqGU9ZKNpwl9quyTL1zFo_qjTKJ6BmKFUVxxUQE6RZkVhwehPSpTmGJCupO_Qwa8LazgH8zLfyRTRQvlB1NsX5oB3ouYAxxmeDlBNIG4c6kcdZcAUxnnsZFAsqjadn65l5xHwUGRQwC8jpgOyxrK0lSzfcP5qK2hqkliDNm6gczhcTIbvceOUXc9qmdrP9CASZKtnTYOQJBCiNaFeI6MKp-N2lV3D-isvG51BSbTKaT05SpIWCZTUzsYrrP8WFVws7d7G0md34APDHZ-zW-uCJ33JD4EhTCQZkQ_Z1ADwt4NVuGoKZBuoffv9LNOAPId2R56EZLCtA9HMpQs3vRdknG6ucCJDQKFeZYTJWSZo98FZ2uytyvWxf2p3i512lxL7A3Gwk3xOVNgEsYd8JTfVEY7AnY3M-C5RMmhUEJwoYr58SCAYCz4zTDcqQXibVzO8whnMMuyiF_cLSy5lcjVgRymzuLJEeSpE6YZISW_ylheEFcV3dOBASOMw3uWeQv5nGBeZSIeIW7GVXdl_ct3eUtTVyeqiK12TzwmtERX5uMxKYbcF9cERHxUcTbgp4JAqw5ZwtapQ0cvcc6pPwsnJUu7k8LEc4PKjRmH4YBbHFoGDYQlu8NSrTgUcasStR3mPmfYDVwS3zBrj4Bjx5abc249myvCRkgOkJ9PJkT4W9gJwJwhwbyDMj6ktn8sLM3OPm5WlmoLNkhQv4FqgRzTEPVCmoqdzt5aEAz-B7xWDd9VFTQa-Upg0rk9cn1oMZC0ySP1ViNhEN_mRHdCmVR55KXETHxAZyxk3EPShWQW60OHPLUMG3_vW1oBg-0QnVn7BYMg8pqCMablc1Mwhfe1_I7WhYb8oxFlvT76ME_btPWdhcBw6VXWyZRTrrySCbszQXMEWSgwLbT_oCXotFyl85xUs1R0Q17O_1IvHSDukUOznhr4Cu-mW7eJiRDXLIJcak8Im8Z9glVe4eCkL-mWsDxnAefm5HjHKkShz21vbqxKpPoeGUcWYOb3EwmLsX_3za8FOOZNe7M_OEMCCWG47iL2UKpzXE301me942SOwFPiuO8pubPEwyEH5XPhDSXt-1gc3-LceUeEYt-whfdta7F0dAvkO0cSvsmT95GNvty4_W8cP9kvlNC9J6HJ3jZ-veyIi5HOcGGEuvL-CpksrBps-ZdaaBoovySaogmiMtXht_lBkzWrwcxQdO3_RBV5eaO_b_tx-sgIpgzUf69jLsnUPnxwZT0RknrL-vq4erybjS2dhnNm8wWmhhEJ5q3saLIDHn5wbRm6yD-N3ZfY9okwC3K39UnFv02ed8TT2Zr2S9HImmjnnbf7mTJna0oEsnMmZIXB17psC6YIyS8OuAIixlNxDExaFwP1Kv1i4rl924kj6fDnuk4ECueBAkDGQQSYUAlo55IBszwFf8aF6IAcs3dVVBEjdAsKM2xw3EvdivpzFXzFn0hDBurSEJvgkfPNB6zpieghw9n8gDU86RYNA0UjAXxfwlfqvQc3A9BGx71AB9szmvWGqFw3bAOplXAq46NP422OWuLCzBVyHdVVe0Q8vVtMuCN7UzLlC8ZA-zpmLIdv2IcL-9LOp9iRYO8NmBMbjoceOuNTv0XAHFea8hHNh_C2QvLkNNwHxgkNbVZ7zeREPdIYMpGuCpCxhqS7tmG2CcJ8VcqDMEJNS0UCSOzJP7MAB2lPe9IkEH-STwhSqiHK6KsxWj2Tv0Hxy7MdAulYj5twxOjowGg_gQdWOVgONKW0TdizRXgtFlNzl060CAnCIcdUYNZ7pyRL--W05LhmAJHAhQ-xfKMNKHrlsk08Up_gVvbkttZirhl6D2MIgT-zX7kY0MDhd3xkWRUn3GHPgkuyeaF5bvChv8ENkQRqsukW-sB_QhmJkhN9lnVz7ZgeU0sraNnVmDYTintHT_gpEggilTAidQYPub0qZUVUAVuO8h1x5_QBeQKAXCib9TDuA1PAZTey46v9xMWwBdXdq9mfzmU28EDzunggsUqO6PhYa7eQk7Azw0wvlWqsENr7bYAH1W6CC1Xy04vv0cECqLGZFmDoPkhSue5QYmdmg1LwyUFle-NC0IjeMPLGPTu5DC2AG9f_Ne-hYmSNJkbxjw_AsAIzGGxoQ7kJbED7zNCGU0Rcwjb4StBYhY5nmyGrAUv5DmVL3CzURD8p1pAi_wpVpP5pX17rs9RvZtKW8v-3OIDscSKC6gHyrZS6d49B_Q-J6XwVj7y6yepzqFvbM285s3xwthGvA3cJ5x1_DESZoraBho5ycz-Gk-8ms7uVoLaRa4glcHnQWYtcpAxjmADkCtG_Glcdf9AAm7zBTxUS_UPXIJAM9uosTjkd7NW4QdhzU-cf77VeONqfxupeZEy1EDmBMWGbtSSgud1faOQA9RTFMr_8QYon4EepA54LLbggmzA5M6EufYRnsmEDVFeXPYVp4_un8sDMp31F1KfzVjIwpVaE9s_VAuzCj7R7lqiUNhC5obUId3OWmkWTgbN8V9ZGehS4ZwNitmmt7abWxWa4Lsj-ZFTZS3umdIXxqB-xwIWoQVQyPjZWrRFy0hRD2vt9u7wAcgK401EZDN9ajGMQ0HMwJA3f2fyWjgRF8oJJyhlyPFVeZXqyqovgcoUgYJPS9ofXzLQd51bXs9DHYlmsOnmQrCi_sMfWhR3sbQZBZ07YmdslOPbt5wi8FEE6_9uMb1vP8TXqF5NP1JU45GDWMLT2mGS6dpP_IayTjI6H-_OqWkBJwzyoROdFgay47txD3znm7POYxE4HBoy5ivb_3ZU2_xb2fKwrYmoF1rCXYLZPeAso5sxrIkbMqCeWh3St8VkPY7ytzXVHHDcuB-fw0Kr-QHS9-4X7JSrzri4fjH10qUwNS3LKS9vFQ1v-zfPKIjFH5C3SM1Cri5Q_twRbDTXnvi3GnVeojmgT8zHJKxS9N1aPzVBzqrJscJSYFp9xX1Xz96ximrtkTpeeU0UxPzSyhhKmq9f6cU6l3ZQ_DHG0QYv2_Tn4uFzIg8EvNGiFNo35I1atM2q_TwEBHhjhQQK5EUUkGMTLCZMDZbvBURdxOG0Y_gjR0Kdw8YC_ZjeIN1eSVIdurXb8MnRq6vIcQJwT2IfAsuQ120PALTFUbfs8hWNvvz6b_gurnbqryqY_48W71XItXO25wZ7IfjtZ9NE8CrKMx95_MC-PHJP6AEMOM6oyvt_1N2Dh35M-uqwqB-hQ3Lvb2Xi_NyqE0LD0n0-oq8IUKXJqFN2_HMbZrJU4ABEG7yHg3fiDfa80poSZDZvo4Gi680-o5Ct1Z31UoY38GbceaFuxIqpMPSR6UQddTLREk2B-tJEkGLIxmLs0pKt5fn1C_1JycHLhpLVVvkIgJ3b4YUsTO5hIj5wfBFqEMZuWT3REcNU7pLd1R2kIh8KL0CVRjE6c5ZoOAeE9AuR7FSZNSBUao65FrcPlOjKgWFg-8P_KeMTAaV0euJDBHfv6KKT9EWQGKDaXwH3Bpvt1My",
+            "status": null
+          },
+          {
+            "id": "rs_06095cb6af095d3b016a5ac4de89608190a557fa3759549ec2",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsT-o3UADfkygnScSLSbAksowAhvVfiFoZ_hhGIKTe9J5xMU4vhn2qGsoAO1mYPWzmpk978krleCKU00AEcXs2qUMTMYvhJBPmu2URqeTTKWTt-tpRWfvc13-iwCpnpyL87EAcB9cVRlULXoOVVCCGSvxw0RL9JXVcsmLe7-nv3x4hvCdWLU2v5ZgbXsHvOuunxzorERdDh-Nkcy6wvlEPE4Omk7-j3csZ9cLTT-ZTZ0zCZRXfXM_8dnwdb_LhrKIEubMGSS3OCZkoujMHly2YNbb5XVit1NO4W5DlnFfiL5h2XmWrx7GdbmveAksDCmiFJvedDL6vyyycqjwwRaMJp5G_NXqjzHjl1UAyozeie7shq1YaSVWr2oK_YggskkL2BYEzS40bHAVy1CffSmbF8YUnCtMEdY77agrMr4EhAYKuZwOPbI_C9ZB2iVgOq5O73y63tJ40LA7UkB5cjM4TkLd6mMxDFyqexC7572hdyWAFFZHQJTfwOQmH1dndMoDRhEdXjjP9D7NK8IEcOiNAI7ygPDbXE-l3C129zZF0bjzx4akkidLnqQa3S86gMxTaDoqczP3VU5JGSCLaA2t_FwxpIPvRypKSpI7MEYOBVC0eTGi4lk183IY7tbc4JlZ6BiHt4vbvdumGzsvqmYqD9FBLzOeOzej-QMSIoeiLoegcdz5PbTDEJ5ZCfe5i5LIN6BFS2o_iue5TYZu2jri6KRuCvF7t8FCLYIooapFFvgvJzJV2rwXrjBaMoIP0aG0nlp_PdIhhrJtqRosiqg8bU2byAxth7D3Si0Ywrz1o1LkqhIKYzUxd9OGBONB9DllaPz6sN16mH8Rncqh5152coY5zumP1Rq9Bd4IVYhPBz3sLhmjBVIxn3yfatgW3d-zTv5yx0yMakSo_vdItVzmbFLb1lpeS2V99IKMhRnBOuBo2ubeDozRYfJ_QMf0ruLgphK9o7I_oaMaqqOSeVeLUenGwEuL-dw7105BkNWThTFFT0jrZ5p48I9Oii89XbCE_Em7gIUUZi_iqIkXsF5BWae2pB4ModZKe2a0ORz5dT9Jra4QY0a7_repZwked6_DhEIA4ai4w57duiaLa7dld4b4XOjRr_Ue_bjhl3FDP_uLkVyaE_xkI3Mz-xbWyfYoMwsgZEVs_EwBmhK11ooBb_ADoyD9WO-eE2vMV3NVCT6b4RUTjeNwjB5CWvswIagr7MP71_wL4ckhrPGExxUwhUKHQjI449FcKhCA8C71ZHZbuQrwcKHft4I4zqMd0taV80nBgFTouwBjY7kCfpSzonZ2GT4lyUwE7A0D2KuhJzVSVCt121SlOKiXALbqUmXpKglJUnc9Q07wqI1TgqmAuqwKO6tXWtUyUu5030W0fQ89BJQTeCjMRJ0ewRzjKIYC91_oNPj1aRjdtNigvyvdG75pFiABtq3W_EIPeFDc6Zb3GfiPaEExWwJozSaJFa_P3oEIjvGSOIuhcL6zdKJDPAkmDgBZHPj5zv7q2YUO6Tr1t0LOuykbInvp7HHicji5MxGJs7bKqQt4BanFL2Ku4GKbRappvrkhCslvaHVHufqspfXRh7Fx-xzBiEq4du47DLTQtAfscJq1MArEZ-kKQhxGPDvQpCG6DYuOKZ8vNPdIcP-foDQg8NFWZermUmRhUzrwNBsKMfclwCNhsB1k42Uhj4HOAg9Mkf4JKLt2yFLeqhAq7NKTtRyACRnQlzJTAMqcheeTOh-_gNJFXIZ-4vnl9eGR2JYt5Id_XYGsIrFRfgl7DaeNfCJsSJsiwrTKnTRnYAhJE9ZKh-0gPK6X7gJTYjkHGPgNR-JLrv_A0M-XjA2BOdHT-b8-yYfItqmyeIF6YhI-DazXPY064R0vabpPB6ZGzAjGwCLchBmmgUlcrjnAiGS3wO1T3MJWYLHM5eodldtpUxaJw0QR3W3WScsXHqUWwZPTdOJ8b_GrXq9mcgeCPYr7Ajf4e7MNGvmc06yITrWuBKk16hJLmfqe9BuyqP8QnG7DOZdDOLSHB7k254kR0Hcp2W-q9qYavwoQEmVS69kmW1IGZXSPwiYqBo619iVglyObOr0KG7i470d54Un8k6EpBJ3qpZX_RaCjopEMgo1TDP8hcm6ZYKT39XlrJ3Qao-InSKS_bjPS9ow_TCu94ekEFO5fYflaCYUg8GWyWSzDpE6nWtScSrZt0cMh4Tr9jWTVhxS6YKxVFWLSHj8AAkw0E-4ZEYdGb104iyMut-Z5HZk731mRKsKI75vSCstrnxf52gvU9oI9U4_MVFSaLQm5Mk7CIJ6IW2oDBOdeon0xLgdEtlNcdkfim97F_URXOce6Eldqfr7MsfruRe7N8nutB-pB3BIZHIAOUNiKC1OI5EMluAJZAdInkp6p1dzwy3Tx_4xcocVbPyBgUnbsMriA4YLPPSQ0YN0wSZ_wo9ZNlxvyRP86mNbujVSsP4usun4_lj43lb_9nAeGYPw1nebYy337qkfWOcWJGkowvlZKuC12lvap2ARIE5onruVmImPY615gYAB8fGC6iN6yn0NR7Unu10thngyZyqZoLxzq6HeVJfAXxKVrXyHTKEMHE89dSKYb5Ei9aXCXkSf1ER-2lV8olIGEc-592oPfaiKEM3cwuN2ChHWFTmty-cEG4UXjtjLZPEuuqocbgqS5DfbhIRRgHxVb0WUcGpxl78i3e81MelJz-U_uU8ukxv4mX4vSI_lsMIcF4Of1rNAJN20xz13EgsrUtAuWSTjUUxD3em-ME9Qh6_YhfuDzZ7qddIorJZJ6Q96zKVBPyxwHBB6ipCyHZM_sNWYi1E2Kh0ux_GKnXT46co5XR5tK2PntuA5lR8ZbVBtDzxvL4GCu4M4jKV6ji_ZNcxorPU2eTjD9NTuiQ7j0mjji33Zs_YbOwHm1IpBuxiU-OYbIIxJfr9GxHJx1y09XvqkEKzttL4HH8YwNwV6B3jygllyFZzLVUB635t6TQDFZc5HrDDxCht2Rsy1sp130U8F7A8Mlh3xQTz2A1NWC7BnGGLW1EnUNCQ3MXGCNyhdyJx0LUk0Bc4MvHsmnnSRuqEH-p94GQ7wPJv3er5FNR5tt50hDYeSzus2MD1-i9j8T9oiWZvTgYVnDGg9GhNDswTESzwmZzjy4vWpi5EPqR472eK-cYp9Oqiu4zX81HyJndI8dBRrB-MZpqiMgeoBxLtE_HaAr-qxIr3DngAvmCoa9oi0JrP8iAR5ebo4VugdtmbnMfmfkaTkB3ueeDC4rKmvHwa8HiLwhT10zeyg2aRhFZzFaKQGITzCMK4Ze0_CowWHRbk1RmiFwsECeFYkwzguWwdbklV52tq6KCZGQhAd6KzPEJbGl-ONQDih8NQBhGa8W14H33GJsDSsTkVvF8cC7qVWPpyS22lozsXJYTYqrBCbrUqiVqqSpElAECTsUq_wNaTSBeSRAFV4XV1YrpaKB12gig7tMb8knu3_gn8aF_0J5E4t87oGJZvsImM3WGyl7pzW8ZaM7zeXHvH6vPvddPbb6_6G2p8Olcz4VhXxoWgJsZQ6Td5faX2arE6VU6J9AORUDMbe8N7SHNQuO9sxwpWX7DAjBSLHLEC0ILi9VrFwgK_dAzrTiO53vzw-86y-E6eM3iWSR6J3m6FU7s4cDn-1dw5XM9ckZrcah9CFP0cDU4yL8mQvX8Og59mWNWlpqElE_6oGkxA9YE-uHpdGfxfttzzkrfytSMNz3utAecz9EQ==",
+            "status": null
+          },
+          {
+            "id": "rs_06095cb6af095d3b016a5ac4e8a48881909fa27324d2638f65",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsT-FXUzXp3kGYT0md4d3Of8W9t_QGNEdG93DM11HTmO0lxZnUyYv8VfLtcyv6kUm8jyjguW0o0Vil_kGRQmo_389Y5RXMz58HfP7UFb73m72J_vFKrIWoOSo9zdC2iV3HAfA49Hdg4c8llvPN-HNfFLjCkJaHWxDJEFrP3bvOXFlbXAiFLXCT9R4KEgO9JF_C1ndFxvj4ZwvKQFJoW9AUxcQ9WL3H-jJhJX36TCRP2YbiIHUJGahAaDRC2N9p9OGd-8PT6CNugxsFPK9oJBt0SI0rqJ4Yw3zz8cUlW-QLrxDrFhjF8qpElzJhNNHsj8zKFlgurtTx5ZWKrn7on4eOsXLAUYxKzUp7vehuz5GOFP-c4BgIqHYkJYbmhnAJAff-t6kiajOKE-yhfVwNRQvewpfDCxfYA_s1CVvplueAKx0zqLkGuWzZwg8bU_1GAlJzVCRgHzzK49uHNBEowf3mxRL5mEbEhc75UhzHmSUNvkAiHx2IHQMHg9BcO5IdZYlm4tn9DgSQSbjDaszXODJ9f8HwmjIpz609LTE9ZmWwHUldS6dHF61NKI4GFmczQ4Aizy1Vp3sE-779KFMDgNIseesWsLxLjNXcvH-YACEePpO2pq4L6M2s-S2RC8Bso0l92IMx2neXLNgho6wp-ifYLbE5E3v2iYCwA3h5WJk6w8yJBAD0a_iTxoBZBjUI0_FEy_PaSIkW9jxQ20ISRwNSVMonzWZdHbBPYhkJCbgM-dsRWv7X6Q-N2DtmJaB7CgEkrUYP3DamdktbzUyQS_hOkqPIIx52xXOBTskOBC8lOO7pywI7TLYSxazUf5yJTW63RfOAzudfSMJCyrqoXCZADAs7D6p4mDpKP2800RivEtpxujiSuRMNif56unmX1m0FwqzmCjWrAgSJ4b2UZYALu5WMxLtonpxc3OCJ9EhQa01BpK-5ZM5FqKPJlKjqBSZTnQqFQ4TK7MFotDp2UU1KacoMx0JOrfQiEZPw-6-1vFsNati8kzBCIHfqk8wyDSKuyjeL6mnLZu92VkUO17AU2VuHjkA_ohmLHKDjvIvH6btB8Od9akfEbIN8QZM8KYOZSJNNLsBhXsBAqS7kimZVMy2m6BlwgHpd3p0qxV9QWGf74OUwnSjjYDrconW9fTAYL9l_7-e5LE5A5MEaOH4pgxaCAy3IxIQmFRlIuEUl5NDtw8dEkUlsUxtEBu77Rci5c3HtSwhZoON82-HrWSvyQ7u1UNJrz5CI44nphp0YM3BpjXC7lb_qXfPKLTVXnJ155n58m6eu2aljXox0uoKBJe69QITfMaPz87AYumXtnTwR__sdhnWVsE3nFdb5eFkUzAM7VPtnEz9nf4yak3LEPpMCkCxfUr5-s1Y0uJAwbgUqwh8fEZkwvgspbA0IHltmeWT8gQtAGehExeyQ-tueWG9RAbkV0w9aKlPLHEzhPv6RunjHnbjH_rCcX4EILMRBBWe0tKnY12JMRVmi4Nl3mo2zfu627Wk_HmWCE8wgwlrGDmSHllTD8HvxUDL-xDfjggnrzgrWORMQ0ONbp7F9km9yoh62aGFNFY0BU8Ivtv8QEI2wp5HgYUgB47TAPOL0eR9gT5n3mIV1sO9cpRqm22j1UIzsGn_zuR2EOSh59ApO4xHCMiWNtAmDQxBrK539A_85t91EJUbiZHJDaGSPAy8xfdc07EHmekFD5SsKc5SsL_GDdk2Ux8QSEuHEUEjgJ3Nm3lPBjnhi3uF_xwkcUDWuxj_Vv6ZaX2A3AxHVGJk224h0dqcC133dFZ5hYDT8urgqmcvwUzlGD6oPh5R0W-NKsIG--jmzyPRRAxS1Jr2w9IjmgfUHYQGPe46t-YQJsH32ccfpKQj3ZMVbvmFDnujcfdcz5E23XN0Z1XkpiEDEvaev5KAvteY6AC4G0ULrnvaStp-VJTrZty4pzYn-J4GwfsgrULM-FYwZxQE1y_jvUxY8THuOhkctOYlkjUujwwdqA9vgR40OVOy1SkwDqgN_8XZFckH4zPz3POJcKyGi-c8EKljJzOE1jmNBXiB7LaX4kkPqbwKBFPFs7Q8__OtUb9lNGrwhTZv8ZnQc-tURh1JIiJGHkFB_tyG1-eOYmBjnu1v3LvkumoMkwAjcPvkuWNqpchZHnBlsKEYKXcoqIuoUkfjZZcVHq0imCofJrJvlr2ARJYJ8arrSSMBULFNuG8Byl9_YfM5nR6eiKNPj7uUfMwH5ZDdnRwDT-FDlms99Jdo7Py78PkVpx5NKHDf4yOJvzlPzQIiCnBDqVaNQMOESLCrorlUGG6RNf6FE4zWsrzxZXkyH4zacDQu_3uPDA6dcfeNoo2jfOUg8EcVz3EHBh8DjWIdneY0UNKnWPyG4o20ruwyyLHe_igDqSyGxv5qSogUVMjHTerqqrTX3TMvvUvs5sbMFvFFSdxs0uai2fsEkyITaxBEd76Cbj8BkV2Apy9lXfLMwpzhjo4kkT7hSrpazkNRxGgDBvBxa9yX9JPg5yiQhHJ4fj3GQwK9ShYDZKCw2jFi1luoeIJnX5MwHGCVPofwMWBqfYj79HK81ahfpHjruDm7dNyf4sWIzZh2aVYyAPGf2mIStUcfxn4CVwNsL9zo-3KVRSlPRzVx5g21ow62B82h5rGJWODdkC7uOVH7scVMVcow55itq5TLuKfsWMf5FnGSv4P3Q3kTxX_a0r0Pm34VHpIMkdsMaLLRioBJjlveJxvHjcuQ6bL59RdYevBQVZfqr1D8jtp9HGl_WRMPwQ0tFPxgR3pk6h0SqHfFgRHT_Zos-ZceEqiRebPJ0cbAUIq62TilyGyo6dMq8iM1x8PASgUqT_2CqHWErUANaAGnbFJwicA-4xlqJXqWXCsrij2spZfMABv569vmjgFyiD511Enxud9ph7vqAIMP3O_9chsB6nA9lkIXG4XBAwsiV45rVOclGh8nUtlp8lDDL9r9C6imBnX7eWFBWhWZAbPl3OHWJBZMcJh_nJiqcPgY3AdqkyU6XpOK816S01CE0NHhrKavgvg5xJMZcb0wXT5HKke9zCuTyo-5zN447N68BdQKnl_nziICPIrQRNRc6QJd5eokfQernxfVDtpe_TSADvEB8PJ85wi2ze4rNVFXjody-4caB9kgUqF-kg8X3mk8inlHAxQd9Azezp72FqGB5LhgT9JzFdBF6AqgYdO3-VTF0vwuVHbSzQEmiy3B5a9Fyc83xEp1n-FwfmU0cRlbK4rZ0zELFXzgRgIGIMWZ0RQ75-HR9ND1SJfXUF30z8hFr2OoVeRr_UHUbRweqCROibMD8Y-eFiH9ULBbSbc9S6NQoTBRMioxU8HUVwmGGVpm8SGLKvUb14lujtLfBb8c0gUvASyQbLKq6ESZroWKyXwKkcbPWmt7wRc5MNik60FjFHv1YT4j8HNdc2u42HgnWI3KeAx98LJhFh0_XIF5Ya9iU-UZ7SmlN8yVuNFP011n3wbP8-TKKjkWnPXOd3Wl6u2v6MCJWn0-hV0iaqqAVGOHzxt7ZLR0Shjo0O-0_JxJMoPlzFSCeHX-QZVEjt-IoxaJfEXMv3XuiuD897lpCJ-sRzc32Li9AkSOvqGLJHUXUKk72lVXVXpnvTPUKsr7aMnxNt2Dt4UEP01Ju4bXh3-W-Yk6nkS-W8gpmWxm1LUDsF-b1BIER7qT5QIBLBsjin4KHxs7G05w3S_jaPUBxEc2c0ftfMs3VpDCcZTMxJD5SI8YPkpubi4lCwMs8POxscAqvoJigili0ya_cz1rXjA6xys5NJhFAqITERLAthv5ZAX3EIBKmW0AMYDU8C2KGq52KpdjmWCbx6OFEWgJTl90xW6WjY4jAohBRgHR-1jwnN9iWTu96GkT6G3z5jmhwppHIzlMF1y5C7BxGWgdH0OYfZgJF11kNOykI3lE3qTIMUhK49d29OLcShGJlRv4SPeMJP_bko=",
+            "status": null
+          },
+          {
+            "id": "msg_06095cb6af095d3b016a5ac4f185d08190b1b90364946499ef",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\n  \"canary_id\": \"kidde_kuwait_pcb_callouts\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Al revisar la PCB de una Kidde 2X-A Kuwait de armario grande con fuente de 6 A, ¿qué números de llamada identifican Ethernet, USB tipo B y tipo A, COM2, COM0, COM1, el conector de batería, el conector de la fuente de alimentación y el conector de la interfaz de usuario?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Las llamadas son: Ethernet, 6; USB tipo B, 7; conectores USB tipo A, 8; puerto serie COM2, 2; puerto serie y conector de interfaz COM0, 9; puerto serie y conector de interfaz COM1, 10; conector de batería, 11; conector de la fuente de alimentación, 12; y conector de la interfaz de usuario, 17.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El conector Ethernet corresponde a la llamada 6.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"6\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: «6. Ethernet connector».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El conector USB tipo B corresponde a la llamada 7 y los conectores USB tipo A a la llamada 8.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"USB B = 7; USB A = 8\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: filas «7. USB type B connector» y «8. USB type A connectors».\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El puerto serie COM2 corresponde a la llamada 2.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior izquierda: «2. COM2 serial port».\"\n    },\n    {\n      \"fact_id\": \"F04\",\n      \"text\": \"El puerto serie y conector de interfaz COM0 corresponde a la llamada 9.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"9\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «9. COM0 serial port and interface connector».\"\n    },\n    {\n      \"fact_id\": \"F05\",\n      \"text\": \"El puerto serie y conector de interfaz COM1 corresponde a la llamada 10.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"10\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «10. COM1 serial port and interface connector».\"\n    },\n    {\n      \"fact_id\": \"F06\",\n      \"text\": \"El conector de batería corresponde a la llamada 11.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"11\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «11. Battery connector».\"\n    },\n    {\n      \"fact_id\": \"F07\",\n      \"text\": \"El conector de la fuente de alimentación corresponde a la llamada 12.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"12\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «12. Power supply connector».\"\n    },\n    {\n      \"fact_id\": \"F08\",\n      \"text\": \"El conector de la interfaz de usuario corresponde a la llamada 17.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"17\",\n      \"citation\": {\n        \"pdf\": \"3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf\",\n        \"page\": 10\n      },\n      \"visual_evidence\": \"Lista inferior derecha: «17. User interface connector».\"\n    }\n  ],\n  \"notes\": \"\"\n}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1784333566.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 30653,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 30650
+          },
+          "output_tokens": 2703,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 33356
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    },
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_touchscreen_regions",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "status": "completed",
+      "raw_output": "{\n  \"canary_id\": \"kidde_touchscreen_regions\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En el esquema de la pantalla táctil en reposo de la Kidde 2X-AT, ¿qué función corresponde a cada una de las regiones numeradas 1, 2 y 3?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La región 1 es el panel de control, destinado a los controles de acceso, navegación y configuración. La región 2 es el panel de configuración de estado y pantalla, que muestra información de estado del sistema y de la central y permite configurar la pantalla táctil. La región 3 corresponde al menú principal y al área de visualización de mensajes.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La región 1 es el panel de control, con los controles de acceso, navegación y configuración.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1 = panel de control: acceso, navegación y configuración\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 1 bajo la figura: «Panel de control (controles de acceso, navegación y configuración)».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La región 2 es el panel de configuración de estado y pantalla; proporciona información de estado del sistema y de la central y permite configurar la pantalla táctil.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2 = estado del sistema y la central, y configuración de la pantalla táctil\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 2 bajo la figura: «Panel de configuración de estado y pantalla» y su descripción entre paréntesis.\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La región 3 corresponde al menú principal y al área de visualización de mensajes.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"3 = menú principal y visualización de mensajes\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 3 bajo la figura: «Menú principal y área de visualización de mensajes».\"\n    }\n  ],\n  \"notes\": \"La correspondencia se limita a las tres regiones numeradas de la pantalla táctil en reposo.\"\n}",
+      "usage": {
+        "input_tokens": 30649,
+        "output_tokens": 895,
+        "total_tokens": 31544
+      },
+      "provider_trace": {
+        "id": "resp_0db926f092a96f83016a5ac4ff560c81938b5e54ffcb4f0e96",
+        "created_at": 1784333567.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_0db926f092a96f83016a5ac500b70081938318c36c88edd618",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsUMBbECDcE7LKMlSa6MSFJVEOMZPwixBJ0p8VP1QWoPsuZfWw6BYvMpxSueIR37KZsrB308UGX8Hli6dcd6_JhUwmV41O3AcEvaW4ZbNlPBKqRKWqINJd3iHil9SJnCFZT_I61o5g_1X5WIpJX6UOUbytPseuaL6c8ojfaEE6avV14fAsEKf8Z7nGweftb10UWP6t0hYyJqHgMZ4Yzys4p3mt9BUDSVe57ctOywMCEBG-28ijNDL0Hov3lAwkQvHn0dTZotKCMKNtLa8C58Ag11G59LoX2CMFLO8AUlX_9pMEtGLrnRG10g-YPPbJxjtYquyu_NIyNuEWFTmKSpucQezKo37w-7nD4vHNLDus7wD0poYYFDgYBqW2lwhIWoAKOyY32VxP7pWu1MKC6-7gDSm-ylcMDcbv0JEzVL9UtKdHnjBRqKwAjmxkG-Cv-HgW9Mno4f-9b2Ycbex6q6lTxki_eL93UHTJRe4BsfAus8GAnQoKS5GoXl0Ns_LH4o-zJ3aAYLJpuAoaekMtN9WCzsErEws9c-BWKnHchI-zUimokDBeEPzVSDwB0LB7ReipXrzbrxzzLLclHIOxcYe9QNqX1J8apyQmi_b_jFOwPuaHeBML57QJgxnsn3YPGntqYDEfB3Vaeri4U099q24WcVOjKwCCSBIwZ8xiQkPjIefkQ62VIJHPb3muTA99Tuox5qpwqqSVBaxI9ERYr2BXxzKf0sRCBrYgbqhmWYdgQTw2zjtXT6SLy0L2HSvCTzqGpXVGKwBdyF7wqB8tBMwW3VpEAOnODN-6z3hRphHZN6zALai1qyWODxOtLl7VBfwUIZKqWZdzk2cWgrUsRMVQQVcAUHgSW9AxTGpWIShL3bzihAv5GewCYniU_IAy99V5FhS6Od3MvOmhCjb4qdeJI_Jyk13zwdiLaATaqzqhbiTAzq1RiM56rThwjszm3LwPIj-YYDEnGWPKe06A1t99DvpS2XDh-vy1amVTvpVS9dSDD8ishMSVHGssS1yLZB8ijhQlym8cC9C4JlraxkXXa_Dcf_Mqss0StVyB16U6mwuWrV7S9UnGDoG8U2cNMw6j_FuqJDgeViqavDNStKzX9x3X2XbYkE-yDTtVhnLUzFqDt-zUojOTL9NTTapWnZksJ5nzqezO5Bk3DbGdFj1A_EUt5Kx0V0kgDoqkz3QP0pCIHkz1ZNg5vJINujbRYmEc2qqf04_Ew8tjZ4d8e7BzxBFLXeRVxVVWBrmeE4dbQb6WQdZGJdXp69L2WZbeR2J2Lo3435omwfrfEasZ7G0vnfXGjJJTODm3bjKG90lyI9jpM3ZGAxrpNoiyTHV7lwsqvweJDDLL_k8sRRsWT6vAoDmhcySHMf4Do6AtMCt3CeRvdnbyZVN6QgROcsXbke9SjvUpMJZohoreEz65e_f97W4yTx2asajbZOHGAqp_VzBB482_w2DdlA70MwsxzD97tk0SzgDfxps9gQo0C4VOa-FbbqcIrxuyCeOtH5pVy_Rx5vB2lficuXyoWSi5tfz27TS3G4AsVjengIHsTRuQv3DJCEsemmKGW7ln1Ng-5N6L73QmDlfn-0KWjQg1H-lh0VeMmBTUnLpQdpSdTb4TuAJcd_7fvHRtr6f4tmcXXE6qxwyZ1WOXupdo8E9rZp0FH0CrTCJaOa7-zQrZvFrAmgGR-JlvZy75x7leb_9BRBvHtHaQd4U-J9aEGlhXNdBtJrZxdkibMAQNwxzkb51wtyGN0wSG3Dlch-ahBtGxHAVHJt475wj-o8ReQfDLjrr04QKy5xMtA2oTjDy-BaI4ipQ9RL0CfJAfEzLC9vp6rRR5TD3ZyLSnfaxMPzcUO7pnoKhPEQBwyiUOQtis2T3pb19qcsGBABe4VEUGRLTGjOV406-DkzLh7rjm1TX8G-bgLWS37__FIM-NUFpwYoJaHtOWvuLavulhBgNd9xCvp51nZXalQUAZQq3KSIDINOLFtSfm2XFzUbVJBbMJPixL0b6Nt5VxMe7RaAJr6PMZvcw-ZePxEJCG8tWFAyAIf6Wf73GquISQbOK9nNq55AHumtJ3JP95sACmAQnY3DJgCC366tPvu__dJhp3_3WC9YKXKHA1woPuYb0t_vWl0aFTQnc96JtMSlh7XmmP93UOq58ISoOH5MLPG7MHNQay85qtzhirZN4z1cVfPYl_341t2gJ54opfyEvbnmWiyjdbQa1tea2Ajontzzi0mWZZUHflArGnkcu5FxT9EiuOP3L8CdXEZXrAdOKswMOvb1NxVZGs_-oIFnUsBPMh9jWZqPj1EONwygcjaHaEnHz-F1mf7gsMJt-3BrgrrKwvEwjbhw1gr5zZlu0n8JOQxQkBJSPNKwENJJ25_21BddhcUNrDa7vHO_O8r88Ro8MDlHpThZ2eSsZMTfWcdDsAuO639KDRsis3GVYK2Ki3pwZ6q3l95tCW-Wvp1wg5JW_A_gzCu8p7ibSicS9fXAJvQ32z4HqZrzx2z9xSMKGOVoxq1bHP7zZbbhkorS6neWGrsEubT_HRqFU7Q3jQnLf0rite6bOw9Z",
+            "status": null
+          },
+          {
+            "id": "msg_0db926f092a96f83016a5ac505255881938b9884bb716013db",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\n  \"canary_id\": \"kidde_touchscreen_regions\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"En el esquema de la pantalla táctil en reposo de la Kidde 2X-AT, ¿qué función corresponde a cada una de las regiones numeradas 1, 2 y 3?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"La región 1 es el panel de control, destinado a los controles de acceso, navegación y configuración. La región 2 es el panel de configuración de estado y pantalla, que muestra información de estado del sistema y de la central y permite configurar la pantalla táctil. La región 3 corresponde al menú principal y al área de visualización de mensajes.\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"La región 1 es el panel de control, con los controles de acceso, navegación y configuración.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"1 = panel de control: acceso, navegación y configuración\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 1 bajo la figura: «Panel de control (controles de acceso, navegación y configuración)».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"La región 2 es el panel de configuración de estado y pantalla; proporciona información de estado del sistema y de la central y permite configurar la pantalla táctil.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"2 = estado del sistema y la central, y configuración de la pantalla táctil\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 2 bajo la figura: «Panel de configuración de estado y pantalla» y su descripción entre paréntesis.\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"La región 3 corresponde al menú principal y al área de visualización de mensajes.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"3 = menú principal y visualización de mensajes\",\n      \"citation\": {\n        \"pdf\": \"00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf\",\n        \"page\": 11\n      },\n      \"visual_evidence\": \"Fila numerada 3 bajo la figura: «Menú principal y área de visualización de mensajes».\"\n    }\n  ],\n  \"notes\": \"La correspondencia se limita a las tres regiones numeradas de la pantalla táctil en reposo.\"\n}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1784333580.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 30649,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 30646
+          },
+          "output_tokens": 895,
+          "output_tokens_details": {
+            "reasoning_tokens": 250
+          },
+          "total_tokens": 31544
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    },
+    {
+      "provider": "sol",
+      "call_label": "generate:kidde_900_is_barriers",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "status": "completed",
+      "raw_output": "{\n  \"canary_id\": \"kidde_900_is_barriers\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy cotejando una lista de materiales del protocolo 900 Series para centrales Kidde 2X-A/ZP2-A: ¿qué tres modelos exactos aparecen en la categoría «Conventional IS Barriers» y qué función se indica para cada uno?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Las tres entradas, tal como aparecen con asterisco, son: GBX370*, aislador galvánico para dispositivos de notificación; TCA-0066*, aislador galvánico doble; y TCC-0012*, barrera de diodo en derivación (shunt).\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El modelo GBX370* se describe como un aislador galvánico para dispositivos de notificación.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"GBX370* — aislador galvánico para dispositivos de notificación\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo GBX370* y descripción «Galvanic isolator for notification devices».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El modelo TCA-0066* se describe como un aislador galvánico doble.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"TCA-0066* — aislador galvánico doble\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo TCA-0066* y descripción «Dual galvanic isolator».\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El modelo TCC-0012* se describe como una barrera de diodo en derivación (shunt).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"TCC-0012* — barrera de diodo shunt\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo TCC-0012* y descripción «Shunt diode barrier».\"\n    }\n  ],\n  \"notes\": \"Se conservan los asteriscos porque son visibles junto a las tres referencias; no se atribuye aquí ningún significado adicional al marcador.\"\n}",
+      "usage": {
+        "input_tokens": 30685,
+        "output_tokens": 1967,
+        "total_tokens": 32652
+      },
+      "provider_trace": {
+        "id": "resp_004cc3fb20e5168a016a5ac50c7d148194858c144728a72ac5",
+        "created_at": 1784333580.0,
+        "error": null,
+        "incomplete_details": null,
+        "instructions": "Follow the user contract exactly. Return only JSON.",
+        "metadata": {},
+        "model": "gpt-5.6-sol",
+        "object": "response",
+        "output": [
+          {
+            "id": "rs_004cc3fb20e5168a016a5ac50e64408194be48b9c5ead87100",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsUxdMbe0Udu2oRPtN8h6XNTa304uthlgwB1CVM7kU5WRrcBmot4Fw-_24Mk5r_5PFRdHmBDIzqxYPKtsz9pK5ADMi9tSsIRff96z2f0w-ox5V__m3Jck8IOeT6V6zd3Lh4vAS8OvdgAeFTg2_Sra45aAi3PaL5vy3S0Dd4u7wmTCg9PnBwG0PJqwbuJF0l2R2qU_sHBOOC6b93pN-FOGfdZ7YGflHebnl2R4zVd_uYJx4VOnT2ITpNksLrwlsosZ-D6fRoit6rA18soM7lgQ4g1OQn87hMQP8bMQeh2QPcGBsw4S0FvszBwuR5Nx2P6FQciDL0EndKCEWJuHB3G6KaCnnaw8NbRHGoF0Lg_4sK3POIP7aYW-KTxMpPiqnUxeye3WcqVwVNQG8-dzKr295tvdKanMurVbLD7syeRIJ0pTYqhUMOrzLVT0qQzPn5hXd-e9OTTqWz3YC4rb87pM8MtBQbajAHScAmz7IlxND-xwKcyD4Q4BaEVikcG6cvhdx1Mx2LrGj9c1pLTdMlDO2N88f4n3QE8jP6JYl0ADCyRGdsdtF72Ss4vRGEYsdrXgeNEpoacRzVfxsOL36h2REmCQ5JeHg3x47JrzZAstkSZh6Td3kSgiB716vuu-t859yuEOdmLF7ZdKAk_BzEaGXnEogXh4F7CPchvM-D9Ili8-KTBGssYimd_guyJzmKThrnZFw7BwPEPjrXEAbn0ikwd2E_lcrpG-HmNgn5cstJkGVkT_yu87ybFDLOjIY9Tb9c3GH_lWqwHjCKScx0LT0_LFMsb6cRoZBFJ2FlhAcR1nwgtjx7yQS4KN3Zr5Rqr_XiNv0eGYq2IeZwIqvqAx0YwAGj2AfOjVRgRtiUNxbZneImbd9BxMvLNZld5Hl_soU2ixAgCfBZFIJg9ZqulnHXX2l7vPYaFU7U6VbvBDFCf7_CYE60EvooJFNZeB_SXU4xGox4K35px3PW0AYrK3DEaqv9YqN8t_mLkTqxxAGWxJ2q6qfA5gt4Syg-iS40V7rr-Pmc0Wd-SiBRd_rYe1EFB_AeV9kyQyu5GtNORv63VjSgpBPbe_A0r-yesHHR7-ytOfziKtKRzVLn70YLLYTqvBRs_UPeFhLk83bJOcLkMcN9T1C9S8Ia-n51KZbPARaAZ3IYrjdbtkxnrZrBEu-quu4oB7Cl1h5-vwLPGam5zPu8h1M0RFxNDChYLQo8RKNjyLoTWMe5Vj2XOn3ZC1o_Dgh7kJW05zg7gPQd9zwGSO2hNoEpA3DtfVS04qKpv4Y7Jf-4j8hXeUKq_FiM6He8deFF8bB93GIDNEldNXd6VPGAd5Y2hSiMt4_miMJrVc63_wKMpMNistfwpexFw5kDqAZo8FEoFNmSMf4UdZ1WYGAtT2rBX8883sAIMzsLIju2EkDgLxX5q6XNJFZ1ZYWM7JhnPxHeNmgxLMZEehxPJreC7upbqJUDxok8VGmq7a1kKXh2e3RX4NkLxDprURjUyScSbiaZ2dNpz2duP-l0QpQ6tMyv-wtyJdo54eLSYrsQtbiwxtzR_BGo2ga4uf7iuawGLR_9T1eSU0iHdjytMLjmHuwwkR0hg29P3-6xB-UYLWtQE85oEDb4Tjg_rVOk7tPK3rCu9FH4zmIXkVvHHx9-kdJdn8xzhrU0tqNNrb50KJUJLjQAi3mIEdifFFO0C9Nmh0Xh3MgBqV9MmaKl5bhaEybe7hDHL5WQwhXLveXhmT_KHk3KA7VbKTyC2fMpuxYWSQZGCxJILzDMZVjy07I3khtJnk1WbtMqsp4QUFucWU7_93_FQFDRVnzJ5iGCRZs0MHkMn-Qvw6_OBl0yNvNbrB2wP6kyruHra57KjR9EzxXg3zgY-6FlAlXo_F7ZxhmfFsYdW65DtYseImVE_8jkcLyL5caYXN5pgf9er1SDoRd_SXeImfKlju9VBqrPDHSQW96jDDV2uG3SwdQliOFuYIQgxDGDVkFJYLq5ByI6RAHSZussT8gVsnYArQFNW2L-xPfAHgyRUyzzN6jLqMO8ChwCnQdC9rwajTu3CCz2ePA2VBU9eiCOtA0s5rrHEqMfMx0BoaMus7wIbDtePFRJSuvU-8qw2Gf3OxWBpD5puqk7caetyW8RCHaqcFKcQ6Q76wm71ubVAGxuFqE_BRF1cmW-QdP3VI7OpuAKI_PCFrIXaLC-2fMLZBIZOQRej_G49upcY2NxpX-tnwlBuvzadtgrgjatSF0fqfhygfDQYGk00luTSptq2p0PbKwNUfWvIYblFPGlpae5JCXyVXwNhImyhLze_6_5tg6fvGlgD8dZ2pHUd6F19vlpzAo9x_1SPWuaOtyiQUjJUB8mAWh3xlvlQfcmo0jEcHHAiQxx1VGYu3v_7dDVq8YOc5gwQ79AP1mSYI3Dd7DtfjYnNoNeGqTZ3QfzqPx_28eZvC8mw7AmB0NPMK_fwClh6ie3_1rY7a4dR697q0QP62JcacfmLNPN-gml4F05xXqPho8l6xqiQR16ZulEpVI5xCz9exl2_mOwu9KC67nbzqLxETn8If12B6cOQLoIZ_9NPyZWJOszH6kYAhKj3tmiCvqY8vpi9qsMbQqduMbN9deyvNXmRksZOV4dei1fvRzc7JLAnR3mZsDQByhzb1KnWKx2CndAsTFeI89IK53d1W3avIXDMckhJbdMFVsLHP9VuWH1GYHPHbnpU4cjcBoCif0ryKlwAbjFfgPGNtVjkkuQorR54afLFL2_8H_pYsykQWYkotNt4rKSs0GPqPuamCPyomdIkrxSs02A8rTmI6sukSLiU3KOqsfY92iz4O2hjSsizc1D1OTKZidTWoXoqoKL_HVfRV_2LBy8MLv0p3tE58TpfbmvxZ4LZun1mAxJsSO9R9TXfDCJJ8dtrASpL2PlF3qAvawz9HOdRLGuBZ2bl7cr5qPHqu71g6nlxTv47TPCNBtg9wCQYkHsp7hROzYyTSxGEChDE2aZhVlZpSYQSaeUIRNWv7YsfF1aYfm1fHotLqOwjF3f-BTT28bacGXrNNyV_PFkuJBbX3fSZNTBmAiUIbn0qHXFYvsDa27bn5DalGm73I0fyaV1HqYuYa7MjYz_hNZ1Fmct1Pk2AwKdB-Z2DdhYvo5nflZ3p1SIQt1H4FSwkiy_si2tlTgDADVl_2LgBgHg6EGHVhli5FWLLYYnFmXA6YXpqT9zi1Dd0YLQLhTxDz3JQeY1TRt9k5SdwwcUITdfFDytiV-Qbcvncw-vsFlxxXRr3mTZrGWnAqK-B7oDDhYg7-B-D59Z-M-C7VuyuQOp7zdR7sopCbmdHy-JXe5CV1N0DeoZFhxy3dw5u6PSoHcd7gu4mUQC2Z1WZZkGTHdgz3r9KsV7vAs5A_EQwfEEKA269o-tDAo-Tzngy63H8rPEQseNRh7Bapw4NH89IS4LyPq-zS3DuuV5NTHSgxc3uryZqD2xXezlg19mFGFXLM6Xkmq0g44NffZRAoxlnb8ravx8MllvhGhBOM3Hk6jZXiHDBzhifkyyQs1n3_UUvUqT5CMo7dpM8XDwedkXhRVVedhafSc_pRnVg9LJwqUWaxJxsBikaCwhmcgF7UGdr-bDkb8j1RUZUV8KVkRDei-VnBCxQtzzTIDLTJ1ccbn-mC97GLt0bq_Us22E_SC7ATRimR-UZ7J8CGJQKRp_2uEGTnlCT1wB-3qKtybqJMQDxW5oA4AeZ-16xzk1ofyUqH5akerjI2sAUGPJoqr2rhusTjCkS8tkMRaBKtg7nQrBAP9tgSpFAOGu-Aq3RyP08ofsPoS22Pbk1STPWRR3UmzYkP2CfjvWxldiHIYXWI6sTryIpumF4XdJOhpjlbVGuAY_X7Hx8VFE_GbCNt03z-_ssoC1T1E1L8wXu-7dAgfvjadYmDYqDx4zLLAvGvI4pam_Gl407vuxYRJUdb6fc8VZctFKKP3BHjXI6Fqby2-et2C49YpU5y8AfOkApMWyNe11M9Mp72RlZGB8HEEQ0PPeEXLHgfmkjYfPO3Yfhs-5LD2fZzAoZa1fhRxLVm_TalOTN0GC8uYu5-eXby4GSH-zM5ba2B-rvamyDdUjCF_Jtp4l19krKCEkMD7ybCY7EmVx2dvQ0FOFvWkHpvkIV2Y-4vOTtI7Vf0KwdGAbYZFyvIu_UBCaHU-x1JZ0em5vmQKe5E_OfNDdPniqjoy04Fo_Zy6oLtAkIm5lp61GvbN692riP6MfrQZl4yd7bEckMDr5MoYS9rFl-HcdVKjfGDHGrcjObu5cH53YVX5Olc5zDKzx7IUA3OoVLZiejtdPmYDVgIkuydPPCk-1AFKqoGAJ-CRZ8ZFHI4C-__EE=",
+            "status": null
+          },
+          {
+            "id": "rs_004cc3fb20e5168a016a5ac51a271c819488f4aceec95fcf97",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsUxoCL2ZelHRtS3jKYVQ5y4nuzXRmwE6vH4b7ngyIBbzHf21EJlD_B9SPbT_Re7szwPYdCpz01TFrIyD1k5D8DITHt4HrkoUD3xjmzdpZuu_umH2bj6ixIsUNiTXIl6ecwY9Dg8rVJYejCP3av2aN4E7l4xyS88r9sj6YsET7-GgT4jYKuT8gdWGumpgVIj9z18jG-sL4Rz0yi5NrvkixmuMWK4QTE1AWgxvHMEbZrUdGQ5A1opV8B9i480LgCkbpBQoFz1arIf7OT9bbLTmLLsZE9oNitFuhGVipf8KeFUW3ZcYl22K8680vfrHy7vjUaDcLQO-Y9vPhNyLV3qMZy6GM4XbJeZvWJ-WFKToVGTZChxP9UzeZAQ4GSxitS4kuw5DU7EYQjWkz5vrTUjD4UTMBkufyrTrSi0iR9LHGL9u6RXyCgVI-uXWnaDGaU8Qvx7uWsmSnoD09EWDR25Fok9QuNPI_e0-ZkqLlcY-633hSGRGwHIrHXMlhY96QqTYKMkjmzT0j-QNpHwQRbOkuwpuApmo5f5Og2y47MmAB9qipdbVpSMGmV8ATG39LfGJ_qDmCxH2I1bCXegqiq2lWwSl1rKu2tDT9Uyg3OtxYgBn3ST-vPutorzu69ReiT93JRjB-svNeL9tsEGZY3Z9rNiB17G76ei5Th_IySfV4ciBd9_bPnN_N9kfe3rgJNZgW3tlWRVummMR3XfGKZ4pQ8Er6kHVIeItDRILTTzSd-vmse_Z8hgR2XIxaKy9KCYsmzbj1IGb9i7zMCpSBlIi68KXfX8q1fumktw494jiDoL_4L18EtR6-ycRiqqpDnWg8lYWem8i0vPcp2XmU1-2ZBFwFbaShM81zoOomWZ4AWjBZG8xrcG_YOy16X2j6oh88JEmerPzKaPRDrEXOlpUTcyPWvpgr34FWnbzKN2t2gJFpPNPokIkjVBcjy2yCY4p4DC-oqw-Xk9wOGWPTV35pPDwcQGuV276E16PpPkLsx6yPusjsrEchPy_h3r3P68l81lwAmLyJ4Skm88kQaeJvnhBCZdmt-0d5BoCybITuNTokdpPRFHXKdruP6Ba5fAFRi6DVfJnjYjFh7_Ve_4fbfQyINtRwrwmVmA2bhh1POX0x7kzgLX7r3_9-tSNMqeFog4Ogu5YgalqHoPGVUkPrTxw_H_R3ysiJ7aSJz_ecemkBiv1jqemFWbAi5XZGE4HyD3l9W4YoUO5jOo0Q5hSaXG8u0WqZalQYbwb9_5B5_i20BEuOGcNi6IjUMoaHjXQrrVPBavx-8gp473sYa9KmRvBcSvk1Kw9lwcu8ezBGk86jFp6E97Id1cnhQTUgEWdkg5VAtx69CxqjZSqeINQ2vBP9WdL64_wLFwV9MWfLsYt2Gphejl5iLN3sIuUPXgp1IMHoGL_BsAyUZ8CUJvSHIa-5NcaKLo5U_bHRp6uGER8j6qw5mx19HDydTeIwJygNO-R2A7rYRChT5L46zCzhDQNNifRugJble1aN2dcmXS8eOY74LNe1X2OcW1OjwzvdLKOU4Gadt_MHXk-L25qa0MXh39ugfPZAQRKfF8imaiG8eVbDnC06KoHKDR5alvkEISfYL1iYf3sTU9VvMLZ7iqKwSBH9m_pcHdtr1aYJqs0-m0J5sUGZ8P6wlZZSBmnMW9VPdjarzdTnVFmH8yGhwye3ABJlGwVkZV3VI8obmO-VGfCwr5YwSFnQtrlw1yRiEzRo9tnCjodutlertAuOd5nKCCrLjmfLsuLQY59LmMPlnei3T0VYe3olgUBfxB9edi36EvjwXxxaGcgRrG62QeNCmBI0MwOPZsccfLc0rhPyMkJsvemV15sC9KBcajzVnevQPOcn8YyEm7R6yhgbx-Z-rSpue6cVs9jiSgiRe8FxsMVwK71X3_95TQQfQ0NPpH1YEzXZGD1FZH2ZFccT5TYVHAcdQJXp_C2k0-f85-1JoY13XdsH7QNx05puo_FE5SI0zvrDfpi0r_NK_rRrtHK25lT8Ru8uLielClIdIpYezVrKUFGjFIfTMJuqpJPsBVoRgvdzKyoCMDgK7NIIxdtzdmBk5MCk1K3tYFAe1vMaEaPBMRqrg0mawZDDWWIuh8vfwXDIHKh-Ghy0eJdVAHLCb37xentx4j-PLLeUE32JBr6mijGjFs9bHQX5G7nc4NeqpZHQrzEnLDveZBep6wOeH2KTV2JqjRrAmHBETBFbabgLZVKS3OIFzlj8B8j_5wZrGBk3TnjODsL2Z_C2D6OnhqJnHW70jCZeNuziYIPve_rw1aKvakLa5OPGDRznzsatgPGkZyEhZC7PM9KvWX1hT26_54iYcBwp0ylQOMP_x5r7P3oB7MuAIG4j_sVDJ9mNF_WlqBUBITSepiU1PSHwKQmxybC6pJu7-zNDbm3v4eaP8QqgmrYXCouplh7CkZEygaUnGKqlbsRyilKDPy21--Xm5wUDIhQkth6NpQEnyAFBGqUWZqA-u1N2EqFaaiSwxBKLBbCzAr3xjnfOdqM17zADRezWytUC-Z0GxcGzcQFyezCZq3Eb5uFIBIQauh4rucny2jx8WP_UDdeHj3j2g7Z1A5lh5vyvMCJQN46S3Sv3UwG4v72s-o_QU8m1TdjomDQIiXZjyd9FPZnOlRvcIiCjzpsQ6FiBjQTTOjMGTEcsbYuCe3adZD-VVcYQ1IoL-BSWzdKfopKhBZt4fgnCUW1vaNqbMtpKWBTwfgySdZvH_keSyypNmn3svXhCkcvPTREfcLCC7crhRhYbAE15XLrCJfw9YkyMapFR3xT1ttW4t61HMsn2CXSsHG18GFZYq4xULa6vlq-dheGjF-0fMIL6-YCqQ7RJNfr4cSojjJIrFlQeNW4z3CkdptrtqPMDY4prstmzzO6F7ZIdRKQ50SjscDEtCzkssxjEDOFIi7lXX50F2HD5hF6NfT5Fy1Fl7FTooxPZVK3A1N5OAHvuh6viy9ywK8T8YC9V7TM6R7vnugYN23A_VDgYnJVQOp5666Afp2pngf6Vlbt6fqw-C5zx3aLc_s8mwi0CZqAOWtpsX2rydtCgt7UONBSn5M7zjS6Bip3hys1q14EU1ir17LtGK0pVjimMCc2auyxTgZWMSO99a5QpGtzkXXIVMNfxyzUWsixTNgCY2EobRuVezdhgMedjPE6YoK9Z0MGKzqiq4JoPCT_FnSnal2ByRHH1Q_oNOzQN8_k8O-JZVqxkagO8uWVftSqEr-z7JzXgYljEYi3AoDstxW-aWl2nqLJF-nicfFQdVFH2OIY_yw5OU_rrZEFh8n9AsuVhGfSVivt90GGjzwS7vnJJAwZ6xQc4ie94MOyo29CizwkO-x_Utt5mHEwmKtylDjFP5P6V9V3YRorUgF4K0XnL4_0QNpOFhN_ARRPFrZ8IEBbyz4tG_lYUIFvtM-UwZTUp11aJSl_Q-4Vh0SjIwaaNokgvGKYmlVv3RQV1234c1jiCtZ0gynXtwINBh1xVd7VS7dIMF7SLBa3Pg2EkfSQ3yMDtCabwhRI5j354I8L5Nd3aGIkEUefegYv7zt7xgubJjrRCzJHqWr-BoHcWfQQzCjmRTDj4J4AaseTqZM2Dq69HuTKPZDe2eJh8H0MqmTiHIPjy3Vu0hs1H9VlBHS_6bkFK96HWTLDGxTp8i2jTZQ_xjLIc8XkE1XdGtqhAmTpEHxPlYuaNyDTGHxCaxNp99HaYjN1q0DLJqmsaM718uxgOeI7v9GWykywtHGsVC5I7AHQtsjqxc_T8ibzzo4raZV8hVjX5bykEHMsh3188AJ-I8P4YZRn4GxtMlb1doH8-GutGUqn8pcI-kWbM0xnaUYJZ9s7ifAuxaA3TdY9CkK5-NvHGXE9KMkW4hogJjgeqI4dO8b794x5UGYjq_fKvX6wYzbNj6cCsqbq7f8lTuLjJAErVota6m043cWLqkxP3LNM5CSZx4jw5lBwVl-RGyYFE1bPGFa0iu5owoI3GzWO1zZhA4JPnu2Gxpiu-DcqH9BYEQnpgWVhLNbiwrlUNvUto6Y73gCgzIjO6hH4MuyDpkcUcX1hOXa0UseJr5aXSQwsd6cVRBxkr6A0FY6t4-ElOCNE5Qo7G_wNduZE34QZkmWKhugev3lNwBPXm2smBIpDz8=",
+            "status": null
+          },
+          {
+            "id": "rs_004cc3fb20e5168a016a5ac5241ba081949b0f5ca6c8885556",
+            "summary": [],
+            "type": "reasoning",
+            "content": [],
+            "encrypted_content": "gAAAAABqWsUx-MBQRlqruld6Y4SNjP9Oq8dB_xNpsf2Ldb_m2mD2e_B3EtGiRu0F0jsZbojRtFBPPOIrHaSxHHw18jwOaxn4wXvxxMMKfvx4lWzWbo9ouiSpkk5kfFDx0JHYJvND87SXo20-YE_nd0R4nIOEZMPcg9fmaEUTyo2pOfqoTQbcvSrr5It01qt-u12g94hjvJJEpDP98n6M22LOeYJ1PRQBGxE-aPNd4at5xF-P2ckgIrOPM8TyjxYApo4Mu-EungIc2mMO4YZhFvxW98RWPC3L4-9-OZbrQ03uAq8BmjeucVFJs7uQbY27Ew4RAcmsdnta6WDz6bakQW6CNcU5X5uDmmK61PnarZ3LUWwHcBybWwHyxn3se7ZcWkWqsJtr5pYrQnCvLcaFSJo2N7LD2woDl67_rbP_xKLvuJSsstNLBNYvmg29nSEtUtp086eMlClRfg9gksDjlBJN7hhaFUc2GmsrOFY9wQLxzaH-o4ek1ECLDfolOqQQ3pXe-i1LjSy2kSPnFYZAand7InlOkN22SZ81XK-ns_a_gLYtOkUFfE3L2OERrKsJo0V8M_99f0NY5kgTyCyRi510DYGn2vSoiqmwGwZT1XfUAW8iJMrIxWx0PHLUMA1a4qyqhkKU4D-DZJ7BRtq-C-9PxFGpNn6O1eqviwEwvi7Rsx1H9zwccB-PTJk3lg3PwzuDqvzVAirpxNvlXOXIPbCHQJgtvI1pSJ0LCSVobI6R6-MYKaEEkNrVJGWv-WvNFFi5yzVgKlH45EPqW8Nqz1WttQ4gXxpJVxN6B2vPOKHveRkPqdDI481LsaaMTYMYcvFQ_GU6sxzK2z8RSEpEBfY705bFgnUtr3eo_RhmnBU5dLnZ5_YyF7kJkyhtisagBAF0QLcwEukRgF0aHZ-a3_l8AU-KaXNk8y__ACXcs_kwfNitNVRjL1ESZ_tt562ioPAF5Cx0Cd2ySs56UbRLjP4wReEkDSBhVJ2f5g1EOlqEhV_BtII1kQYrcsPsZWWMNE2XvUxw7asI9PUqitO9YQC0cwI7abVnrtt3TW9InkGbEm-CtZez081Zj1p6NJaf3VClLfxBlAudKG5ngzzwd3hqEyG_ld5ONw9BP_2Djz1v5FVGB7WnTqxF1yOxH__m9Q_z2fiK_VcRImwTpTza2HEAIoNJI_oj8TJ-coZa-ctE_98X80ga9ywN6sbTY2-L3erSvHE8fM3zzvYPZPOpRYio8XiGh81fNHOd9vuf9icTaEJ_-AiwbY27GvulOh95_ft_83QCa9noeQ_1g-CaHQZZSVuIsanWvaPlliL5uXeZr9AOFbD2mTCH4_j0d5d4enz5mlSZFIegyn8unQR6j7GDBee8sndCzvtkPRG6otpbLvfU-2xKEf7ZYqBUecPDPmwhoeDFQyX893RdGi6Fs6vlCJ1QU0OA1IAaANcyh9CBns_gpLbGjQTHA6dw4DEG13KEjqwuCMWFF_2TGSlfMOhPAb08-yz_Jfly0aElNocgdDVvtDyLbYjIo0Kgde_vVTQBIEmHdpgLJlgNl1xWpWa_lZP5edUY3Q4qVLwqtklKHxm1IPnvd6zocjuNZjF-lY4nHCqB8y7fAxOJsitDPBcr_6qD7axo7ROskmFXDODj4mindMLeAdvykEYu9NWyJaF3fA5_KkdcX0_QgZMkIxuCwCXJ1Gz89_gkhmx7PodsYi3NMdKx-wojL2wUEDBpgZUCs7tOBCX1MMLITTZ8OJXuwgf21b1P6A63Y2WQMh0p445AMhOGkx5N1fFT3otc5Elcq3fqhJesaAs3IYBXtisBrp5l9TNlEEG2CUHFw2dgVYO8VdbCc2rZXN7Lp1ywsxb1tRL2WgpY0pSFfx83b1H_NP2in3oH1zdOMluOARe3WiPhQE7GljhH8n-gTm43nQz_-n4oVKNBdVGSV84UDKfb9WnACnY0vQub4Rqhm_7DPul8a6ZK6WkN9foj6fwE6l3Fo7w3dHcNV55MEaxT9o73X-jeZTIXuYPy7qlVNgytOMFrUMy7uKDie2FLvFuN1YiEf0zknx7U1u9YHiU4s-hj162-nktqh7ALenQHGNKfQ-8p7dUQ-6WruYhPXAFY2S7Dx9_1HY5cTccnmgc9Nk-SbdZNAsKyLXXgbbw8fXS_Q2EeJmn3a3jEVM8a_NEMK7XxWjAbAZUJ1JNzYx4hthAdhTcsnQyI--0azwrwx-BLgd1atC0eBInjIlkl9to1LF4rlorn_O57ft8ssOOve6pTxUELUzlI0qjimBH5t_ULCYhaXNh2hGPLUrRvJBbE6GZ-bSa5eC6fYmhf4ysT7CZQwab7MFjJ33yoMLVGh-5TKTIpxvk50f4=",
+            "status": null
+          },
+          {
+            "id": "msg_004cc3fb20e5168a016a5ac528fa048194af422791e6f6a927",
+            "content": [
+              {
+                "annotations": [],
+                "text": "{\n  \"canary_id\": \"kidde_900_is_barriers\",\n  \"adequacy\": \"SUFFICIENT\",\n  \"question\": \"Estoy cotejando una lista de materiales del protocolo 900 Series para centrales Kidde 2X-A/ZP2-A: ¿qué tres modelos exactos aparecen en la categoría «Conventional IS Barriers» y qué función se indica para cada uno?\",\n  \"expected_behavior\": \"answer\",\n  \"gold_answer\": \"Las tres entradas, tal como aparecen con asterisco, son: GBX370*, aislador galvánico para dispositivos de notificación; TCA-0066*, aislador galvánico doble; y TCC-0012*, barrera de diodo en derivación (shunt).\",\n  \"atomic_facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"text\": \"El modelo GBX370* se describe como un aislador galvánico para dispositivos de notificación.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"GBX370* — aislador galvánico para dispositivos de notificación\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo GBX370* y descripción «Galvanic isolator for notification devices».\"\n    },\n    {\n      \"fact_id\": \"F02\",\n      \"text\": \"El modelo TCA-0066* se describe como un aislador galvánico doble.\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"TCA-0066* — aislador galvánico doble\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo TCA-0066* y descripción «Dual galvanic isolator».\"\n    },\n    {\n      \"fact_id\": \"F03\",\n      \"text\": \"El modelo TCC-0012* se describe como una barrera de diodo en derivación (shunt).\",\n      \"type\": \"core\",\n      \"state\": \"present\",\n      \"value\": \"TCC-0012* — barrera de diodo shunt\",\n      \"citation\": {\n        \"pdf\": \"bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf\",\n        \"page\": 5\n      },\n      \"visual_evidence\": \"Fila «Conventional IS Barriers»: modelo TCC-0012* y descripción «Shunt diode barrier».\"\n    }\n  ],\n  \"notes\": \"Se conservan los asteriscos porque son visibles junto a las tres referencias; no se atribuye aquí ningún significado adicional al marcador.\"\n}",
+                "type": "output_text",
+                "logprobs": []
+              }
+            ],
+            "role": "assistant",
+            "status": "completed",
+            "type": "message",
+            "phase": "final_answer"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "temperature": 1.0,
+        "tool_choice": "auto",
+        "tools": [],
+        "top_p": 0.98,
+        "background": false,
+        "completed_at": 1784333617.0,
+        "conversation": null,
+        "max_output_tokens": 12000,
+        "max_tool_calls": null,
+        "previous_response_id": null,
+        "prompt": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "effort": "xhigh",
+          "generate_summary": null,
+          "summary": null,
+          "context": "all_turns",
+          "mode": "standard"
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "status": "completed",
+        "text": {
+          "format": {
+            "type": "text"
+          },
+          "verbosity": "medium"
+        },
+        "top_logprobs": 0,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 30685,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 30682
+          },
+          "output_tokens": 1967,
+          "output_tokens_details": {
+            "reasoning_tokens": 1287
+          },
+          "total_tokens": 32652
+        },
+        "user": null,
+        "billing": {
+          "payer": "developer"
+        },
+        "frequency_penalty": 0.0,
+        "moderation": null,
+        "presence_penalty": 0.0,
+        "store": false,
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        }
+      }
+    }
+  ],
+  "conservative_cost_usd": 2.047605,
+  "result_sha256": "d61b6bb879891e8a53a2aae1d57a8f80fdf14576721945b622dcbd72de7cb7ac"
+}

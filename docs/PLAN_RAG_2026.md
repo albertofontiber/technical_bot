@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 17 jul 2026 (S204 cerrado — contrato visual generaliza, gate dual simétrico NO-GO).
+> 18 jul 2026 (S205 cerrado — GO mecánico invalidado por leakage HyQ del mismo source).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,11 +22,11 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s204--17-jul-2026"></a>
-## Estado actual (S204 cerrado — 17 jul 2026)
+<a id="estado-actual-s205--18-jul-2026"></a>
+## Estado actual (S205 cerrado — 18 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
-2 retrieval-miss = 91,08% OK, gap 7 facts hasta 95%.** No es todavía un KPI atómico oficial ni
+2 retrieval-miss = 91,08% OK, gap 11 facts hasta el objetivo ≥98% (154/157).** No es todavía un KPI atómico oficial ni
 un resultado desplegado: parte del puente híbrido S133, conserva 77 legacy carries pendientes y
 presupone dos candidatos locales/default-off. El bridge exacto es: S172 lleva la extracción
 `10^5` de hold→OK y deja 141/157; S188 añade dos facts de compatibilidad/topología de
@@ -236,6 +236,20 @@ independiente sólo como probe ciego de desacuerdo: debe seguir generándose ant
 direcciones deben declarar cero desacuerdo material y Fable debe dar PASS a cada candidato Sol.
 Debe congelarse antes de elegir páginas nuevas y nunca rescatar S204.
 
+**S205 validó la geometría principal, pero la auditoría determinista cerró la cohorte por
+contaminación.** La regla se congeló en un commit anterior a la selección: Sol 5.6 `xhigh` era el
+único autor publicable, Fable 5 generaba a ciegas y debía aprobar todos los Sol, y el borrador
+Fable sólo actuaba como probe de desacuerdo. Tras PR #142 y CI verde se completaron 8/8 llamadas
+por **$11,81598**: seis candidatos válidos, Fable PASS 3/3 a Sol, Sol PASS 2/3 a Fable y cero
+desacuerdos materiales; el runner produjo un GO mecánico. La revisión local obligatoria detectó
+que `s205k03` pregunta por los modelos/funciones de barreras de la misma tabla y el mismo PDF ya
+embebidos por `hyq:54c2275f…:2`. Sol sí marcó ese duplicado al revisar el counterpart; Fable lo
+negó suponiendo erróneamente otro documento porque el packet no exponía identidad de source en
+las filas de cobertura. Medirlo downstream premiaría leakage del retriever. El estado autoritativo
+es por ello `CLOSED_NO_GO_VISUAL_GOLD`: no se salvan los otros dos candidatos, no se integra gold,
+no se abre bot y se mueven 0 facts. La línea de canarios visuales se cierra aquí para evitar otra
+convergencia; se vuelve directamente a las 12 synthesis-miss existentes.
+
 **`chunks_v3` no se migra al completo.** S140 cerró el shadow representativo como
 `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`: empata recall funcional@10 (16/24 vs 16/24) pero empeora el
 primer rango útil/MRR (0,4021→0,3694). `chunks_v2` sigue siendo el baseline activo. V3 preserva
@@ -256,16 +270,14 @@ sigue siendo un registro ligado a documento+revisión+página+hash, independient
 
 **Producción no ha cambiado en este bloque.** No se ha hecho deploy, migración ni escritura
 remota. Railway sigue siendo una demo y no es condición para merge con CI verde. Próximos pasos,
-por orden: (1) merge CI-verde del resultado S204; (2) congelar una última cohorte visual fresca con
-la geometría principal-candidate/independent-disagreement-probe, sin reutilizar páginas S204; (3)
-sólo ante GO, congelar en otra PR el benchmark económico con corpus/chunks_v2, índice,
-configuración, juez, seeds y baseline inmutables; (4) abrir
-planner/targets únicamente si ese benchmark generaliza con cero regresiones; (5) reconciliar el
-bridge diagnóstico/productivo sin sumar de nuevo S172/S188; (6) al alcanzar 98%, pasar a
-diagramas/formato/Wispr Flow; (7) recoger 30 audios reales antes de comparar ASR. El funnel conserva
-sus etapas: S193 mantiene señal de renderer; S194, S195, S197, S198, S199, S200, S202, S203 y S204 son
-NO-GO upstream, S196 y los canarios de transporte son GO instrumentales, S201 es HOLD cerrado y
-todos siguen con crédito de facts cero.
+por orden: (1) merge CI-verde del resultado S205; (2) volver a las 12 synthesis-miss y reconstruir
+su evidencia upstream con los artefactos ya versionados, sin otra autoría de preguntas; (3)
+congelar un cambio estructural sobre el mayor sub-bucket y medirlo primero en población no usada
+para diseñarlo; (4) reconciliar el bridge diagnóstico/productivo sin sumar de nuevo S172/S188;
+(5) al alcanzar ≥98%, pasar a diagramas/formato/Wispr Flow; (6) recoger 30 audios reales antes de
+comparar ASR. El funnel conserva sus etapas: S193 mantiene señal de renderer; S194, S195, S197,
+S198, S199, S200, S202, S203, S204 y S205 son NO-GO upstream, S196 y los canarios de transporte
+son GO instrumentales, S201 es HOLD cerrado y todos siguen con crédito de facts cero.
 
 ## Estado anterior (s129 — 15 jul 2026)
 
