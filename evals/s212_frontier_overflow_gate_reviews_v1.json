@@ -1,0 +1,52 @@
+{
+  "schema": "s212_frontier_overflow_gate_reviews_v1",
+  "status": "COMPLETE",
+  "subject": "evals/s212_frontier_overflow_gate_brief_v1.md",
+  "subject_sha256": "71d127f92b33820bb6d98668fbc4ef7ce8f16041995d302f16ff6f0e0295df4b",
+  "decisions": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "FAIL",
+      "blocking_findings": [
+        "Truncating before span binding and contradiction/regression checks can suppress disqualifying evidence: a 17th claim could be exactly bindable and introduce a cardinality contradiction or regression while the retained 16 satisfy coverage, allowing diagnostic GO. Raw journaling and overflow receipts do not prevent that false-GO path."
+      ]
+    },
+    "fable": {
+      "reviewer": "claude-fable-5",
+      "verdict": "PASS",
+      "blocking_findings": []
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 729,
+        "output_tokens": 1209,
+        "total_tokens": 1938
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1096,
+        "output_tokens": 95
+      }
+    }
+  ],
+  "raw_text": {
+    "sol": "{\"reviewer\":\"gpt-5.6-sol\",\"verdict\":\"FAIL\",\"blocking_findings\":[\"Truncating before span binding and contradiction/regression checks can suppress disqualifying evidence: a 17th claim could be exactly bindable and introduce a cardinality contradiction or regression while the retained 16 satisfy coverage, allowing diagnostic GO. Raw journaling and overflow receipts do not prevent that false-GO path.\"]}",
+    "fable": "{\"reviewer\": \"claude-fable-5\", \"verdict\": \"PASS\", \"blocking_findings\": []}"
+  },
+  "conservative_cost_usd": 0.203145,
+  "provider_retries": 0,
+  "further_rerun_review_calls": false,
+  "decision_scope": "DETERMINISTIC_FIRST_16_CAN_LOSE_RECALL_NOT_FALSE_GO",
+  "result_sha256": "93d84b14b7b1d5d33f5227e25884d5186a45f0960c16af816074e14fa7a7dc33"
+}

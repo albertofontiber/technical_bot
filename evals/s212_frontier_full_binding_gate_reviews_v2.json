@@ -1,0 +1,55 @@
+{
+  "schema": "s212_frontier_full_binding_gate_reviews_v2",
+  "status": "COMPLETE",
+  "subject": "evals/s212_frontier_full_binding_gate_brief_v2.md",
+  "subject_sha256": "1d7d64747b4431c528c127775f6df238a976965208460cfa190066bab82e0db1",
+  "decisions": {
+    "sol": {
+      "reviewer": "gpt-5.6-sol",
+      "verdict": "PASS",
+      "blocking_findings": []
+    },
+    "fable": {
+      "reviewer": "claude-fable-5",
+      "verdict": "PASS",
+      "blocking_findings": []
+    }
+  },
+  "receipts": [
+    {
+      "provider": "sol",
+      "model": "gpt-5.6-sol",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 744,
+        "output_tokens": 230,
+        "total_tokens": 974
+      }
+    },
+    {
+      "provider": "fable",
+      "model": "claude-fable-5",
+      "status": "end_turn",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1135,
+        "output_tokens": 82
+      }
+    }
+  ],
+  "raw_text": {
+    "sol": "{\"reviewer\":\"gpt-5.6-sol\",\"verdict\":\"PASS\",\"blocking_findings\":[]}",
+    "fable": "{\"reviewer\": \"claude-fable-5\", \"verdict\": \"PASS\", \"blocking_findings\": []}"
+  },
+  "conservative_cost_usd": 0.08511,
+  "provider_retries": 0,
+  "further_rerun_review_calls": false,
+  "supersedes": {
+    "artifact": "evals/s212_frontier_overflow_gate_reviews_v1.json",
+    "sol_verdict": "FAIL",
+    "blocked_policy": "DROP_AFTER_FIRST_16"
+  },
+  "decision_scope": "BIND_ALL_CLAIMS_IN_BOUNDED_BATCHES",
+  "result_sha256": "8e458cc7eed7a5a2f67d0d5ecdea5314a8f6174f277dfcafee9c2a2efe47d1a4"
+}
