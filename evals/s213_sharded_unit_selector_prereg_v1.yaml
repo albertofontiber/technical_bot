@@ -1,0 +1,88 @@
+instrument: s213_sharded_unit_selector_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+main_sha: b28d09252da32c4c1ddc7b25847f6e584f70fb91
+
+frozen_inputs:
+  s212_score: {path: evals/s212_query_evidence_compiler_score_v1.json, sha256: 568d117091b67bcc7b491d080ba3df5d2cd4862697e598dcb6248ec3b6237f4b}
+  s212_relation_funnel: {path: evals/s212_query_evidence_compiler_relation_funnel_v1.json, sha256: 241c2726ec711a900a9ce5a3cd2806e23a205647ec9ffdd3ad1bafb87af548be}
+  target_contexts: {path: evals/s113_full_contexts_freeze_v1.json, sha256: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498}
+  residual_audit: {path: evals/s163_synthesis_residual_audit_v1.json, sha256: 53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb}
+  independent_guardrail: {path: evals/s173_single_source_omission_cohort_v1.json, sha256: 670c3c4243b1ab98195aab99638963b55b245b44ba527dfe211fe6b79ba981c0}
+  independent_baseline: {path: evals/s173_baseline_answer_receipts_v1.json, sha256: 03e4ba0d4565031b6da43916809e6b5acbc347f7bb7c38c2523679bda30cfceb}
+  independent_gold: {path: evals/s171_s147_source_unit_gold_v1.json, sha256: 1fcca415d830c54d5aeaa3b94a52f28ca3498a4df2ca35c0a1b46f6e4290ef46}
+
+population:
+  target_questions: 4
+  target_context_chunks: 51
+  residual_relations: 12
+  largest_subbucket: {qid: hp017, residual_relations: 5}
+  independent_guardrail_questions: 14
+  independent_guardrail_answer_points: 37
+  target_cohort_prior_partial_exposure: true
+  fresh_generalization_evidence: false
+
+models:
+  selector_and_verifier:
+    provider: openai
+    id: gpt-5.6-terra
+    reasoning_effort: low
+    role: economic_per_chunk_id_selector_and_verifier
+    max_output_tokens: 700
+  principal_reviewer: {provider: openai, id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent_reviewer: {provider: anthropic, id: claude-fable-5}
+
+mechanism:
+  upstream_pool: deterministic_header_aware_source_units
+  upstream_expected_residual_span_coverage: 12_of_12
+  model_authored_claims: false
+  parallel_fallback_lane: false
+  selection_scope: one_question_one_chunk
+  global_selector: false
+  selector_additions_per_chunk_max: 4
+  verifier_additions_per_chunk_max: 2
+  compiled_ids_max: 32
+  compiled_chars_max: 12000
+  same_cohort_tuning_after_no_go: false
+
+execution:
+  replicates: 2
+  shards_per_replicate: 65
+  selector_calls: 130
+  verifier_calls: 130
+  paid_calls_max: 260
+  provider_retries: 0
+  resume: false
+  same_run_retry: false
+  retrieval_calls: 0
+  database_calls: 0
+
+validation:
+  stable_residual_relation_gains_min: 11
+  stable_hp017_relation_gains_min: 4
+  previously_covered_target_regressions_max: 0
+  new_cardinality_contradictions_max: 0
+  guardrail_point_regressions_max: 0
+  selected_evidence_precision_min: 0.70
+  baseline_prefix_failures_max: 0
+  invalid_citations_max: 0
+  mean_appendix_chars_max: 5000
+  local_go_action: ONE_SEALED_SOL_XHIGH_PLUS_FABLE_ATOMIC_RESULT_REVIEW
+  no_go_action: CLOSE_S213_WITHOUT_SAME_COHORT_TUNING
+
+budget:
+  internal_ceiling_usd: 75
+  user_authorized_total_usd: 200
+  global_conservative_upper_bound_required_before_first_call: true
+
+credit:
+  local_go_facts_moved_to_ok: 0
+  frontier_atomic_agreement_required: true
+  diagnostic_projection_after_11_accepted_facts: {denominator: 157, ok: 154, ok_rate_percent: 98.09}
+  runtime_integration: false
+  production_default: off
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
+  new_question_generation: false
