@@ -131,6 +131,10 @@ def invalid_citations(answer: str, fragment_count: int) -> list[int]:
     )
 
 
+def has_source_citation(answer: str) -> bool:
+    return bool(cited_fragments(answer))
+
+
 def assemble_blocks(
     original_question: str,
     focuses: list[dict[str, str]],
@@ -144,12 +148,14 @@ def assemble_blocks(
         raise ValueError("answer blocks do not match the ordered focus plan")
     rendered: list[str] = []
     receipts: list[dict[str, str]] = []
-    for focus, row in zip(focuses, answer_rows):
+    for index, (focus, row) in enumerate(zip(focuses, answer_rows), 1):
         answer = row.get("answer")
         if not isinstance(answer, str) or not answer.strip():
             raise ValueError("empty answer block")
         answer = answer.strip()
-        rendered.append(f"## {focus['question']}\n\n{answer}")
+        # Focus text is control data, never candidate answer text.  Publishing
+        # it would let a decomposer-authored phrase influence lexical scoring.
+        rendered.append(f"## Parte {index}\n\n{answer}")
         receipts.append(
             {
                 "focus_id": focus["focus_id"],

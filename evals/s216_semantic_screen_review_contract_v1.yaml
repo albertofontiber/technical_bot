@@ -1,0 +1,72 @@
+instrument: s216_semantic_screen_review_contract_v1
+status: FROZEN_BEFORE_ANY_S216_OUTPUT
+
+trigger:
+  local_result_status: GO_TO_DUAL_SEMANTIC_REVIEW
+  otherwise_calls: 0
+
+reviewers:
+  principal: {provider: openai, model: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {provider: anthropic, model: claude-fable-5, effort: xhigh}
+
+population:
+  questions: 49
+  answers_per_question: 4
+  control_replicates: 2
+  treatment_replicates: 2
+  batches_per_reviewer: 7
+  batch_size_max: 7
+  target_questions: 0
+
+blinding:
+  labels: [A, B]
+  mapping: deterministic_sha256_parity_not_sent_to_reviewers
+  focus_plan_visible_as_untrusted_planning_data: true
+  local_scores_visible: false
+  golds_or_expected_facts_visible: false
+
+per_item_review:
+  decomposition:
+    - covers_every_explicit_question_part
+    - adds_no_unrequested_fact_or_scope
+    - preserves_product_conditions_and_requested_cardinality
+  each_arm_both_replicates:
+    - source_supported
+    - question_complete
+    - citation_faithful
+    - internally_consistent
+  comparison:
+    - preferred_arm_or_tie
+    - materially_worse_arm_or_neither
+  material_issues_required: true
+
+gate:
+  both_reviewers_complete_all_49: true
+  candidate_source_supported_all: true
+  candidate_citation_faithful_all: true
+  candidate_internally_consistent_all: true
+  decomposition_valid_all: true
+  candidate_materially_worse_max: 0
+  candidate_material_issues_max: 0
+  reviewer_disagreement_on_any_blocker_max: 0
+  passing_action: GO_TO_SEPARATE_TARGET_PREREGISTRATION
+
+execution:
+  calls_max: 14
+  retries: 0
+  resume: false
+  provider_tools: false
+  target_probe: false
+  production: false
+  facts_moved_to_ok: 0
+
+budget:
+  internal_ceiling_usd: 75
+  user_total_ceiling_usd: 200
+
+forbidden:
+  - reviewer_repairs_or_rewrites
+  - reviewer_access_to_arm_mapping
+  - posthoc_subset_review
+  - reviewer_rescue_of_failed_local_gate
+  - target_or_production_credit

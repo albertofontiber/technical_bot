@@ -1,48 +1,58 @@
-# S216 Frontier design gate
+# S216 corrected Frontier design gate
 
 ## Objective and metric
 
-Reduce the canonical 12 `synthesis-miss` facts without target tuning. The first
-measured metric is a non-target development screen: improve at least 4 of 37
-frozen answer points and 2 of 14 complete questions, with zero point regression,
-invalid citation, invalid decomposition, or incomplete call. This screen moves
-zero canonical facts and is not external validation.
+Reduce the canonical 12 `synthesis-miss` facts without target tuning. S216 is a
+development mechanism screen, not external validation and not fact credit.
 
-## Proposed architectural lever
+## Lever and causal isolation
 
-The current generator answers a compound question in one call over the full
-served context. S216 decomposes only the question with economical Terra, then
-runs the unchanged Sonnet 4.6 generator independently for every validated focus
-over the same complete served context. A deterministic assembler includes every
-block exactly once; no final model may compress the blocks.
+Terra sees only each question and emits 1–6 focus questions. The unchanged
+Sonnet 4.6 generator answers every focus independently over the complete served
+context. A deterministic assembler publishes only neutral `Parte N` headings
+and writer outputs; focus text never enters the candidate or scorer.
 
-The decomposer sees no source, gold, answer, QID, target, or previous failure.
-It cannot select evidence or write claims. The four canonical target questions
-remain unopened until a local pass and an independent Sol/Fable semantic result
-pass. A target pass would still require protected regression and later external
-validation before production.
+Every question runs a contemporary symmetric 2x2 A/B under one commit, context,
+model, system and flags. Control has one 1,600-token call per replicate;
+treatment splits the same aggregate 1,600 maximum over its focuses. Thus the
+lever cannot win from historical generator drift or multiplied output capacity.
 
-## Authorities to review
+## Populations and gates
 
-- `evals/s216_decomposed_synthesis_design_v1.md`
-- `evals/s216_decomposed_synthesis_prereg_v1.yaml`
-- `src/rag/decomposed_synthesis.py`
-- `scripts/s216_run_decomposed_synthesis_screen.py`
-- `tests/test_decomposed_synthesis.py`
-- `evals/s153_research_branch_closeout_v1.yaml`
-- `evals/s155_question_conditioned_claim_map_gate_v1.yaml`
-- `evals/s156_frontier_synthesis_ceiling_attribution_and_gate_v1.yaml`
-- `evals/s173_single_source_omission_correction_gate_v1.yaml`
-- `evals/s206_answer_facet_ledger_closure_v1.yaml`
+The score-free packet contains 49 non-target questions:
+
+- 14 reused S173 single-source development questions / 37 points;
+- all 35 S113 non-target multi-chunk questions / 376 served chunks; after all
+  generations, a separate scorer protects 87 historically OK facts.
+
+Local GO requires 4 stable point gains, 2 stable complete-question gains, zero
+development regressions and zero protected multi-chunk regressions. Reusing
+S173 is explicitly non-independent; S216 may not receive a successor on those
+37 points.
+
+Only a local GO triggers a frozen blinded semantic review of all 49 questions
+by Sol 5.6 xhigh and Fable 5. Each sees question, untrusted plan, sources and
+two replicas per blind arm, but no gold, metric or mapping. It checks plan
+coverage/scope, source support, completeness, citation faithfulness, internal
+and cross-block consistency, and material loss. Any blocker is NO-GO.
+
+## Corrections to the first duo review
+
+- historical baseline replaced by contemporary 2x2 controls;
+- aggregate output capacity equalized at 1,600 tokens per arm/replicate;
+- decomposer text removed from candidate/scoring;
+- missing citations now fail locally; faithfulness is claimed only after review;
+- permit artifact list must exactly equal the complete preregistered set;
+- multi-chunk guardrail and executable semantic review contract added;
+- precall envelope drift now writes a failure receipt before stopping.
 
 ## Required reviewer decision
 
-Review implementation and experiment contract, not hypothetical target outputs.
-Return PASS only if the mechanism is materially distinct from closed lines,
-question-only decomposition is actually enforced, assembly cannot silently drop
-a focus, score isolation and no-retry/cost bounds fail closed, and the result
-cannot be framed as generalization, external validation, production readiness,
-or canonical fact credit. Flag any unsupported claim, target leakage, hidden
-retry path, prompt-injection privilege escalation, metric mismatch, or unsafe
-multi-block contradiction path. Railway and deployment are out of scope;
-`chunks_v3` remains wholesale NO-GO.
+Verify the corrected implementation and experiment contract. PASS only if the
+lever is isolated, score packets remain unavailable during generation, every
+focus is assembled once without its text, output budgets are truly equal,
+multi-chunk regressions and contradictions are gated, permit/freezes fail
+closed, provider calls have no retry/resume, and no screen result can be framed
+as external validation, production readiness or canonical fact credit.
+
+`chunks_v3` remains `FINAL_NO_GO_CHUNKS_V3_WHOLESALE`; Railway is out of scope.
