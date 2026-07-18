@@ -1,0 +1,120 @@
+{
+  "schema": "s207_decomposed_planner_design_review_adjudication_v1",
+  "status": "ADJUDICATED_AND_CORRECTED_ONCE",
+  "adjudicated_at_utc": "2026-07-18T05:20:00Z",
+  "review_contract": {
+    "principal": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "review_path": "evals/adversarial_reviews/2026-07-18T04-29-02_gpt-5.6-sol_7eb3f81d2b06.md",
+      "review_sha256": "7eb3f81d2b06f28614dfa093f96f74ccb08e32c80f0cd8ffdadb9f581664a50b"
+    },
+    "independent": {
+      "model": "claude-fable-5",
+      "review_path": "evals/adversarial_reviews/2026-07-18T04-33-02_claude-fable-5_76b49dbf5cb0.md",
+      "review_sha256": "76b49dbf5cb0500554c1e724ef84eba8dc273285b059d82d126be8472a79d5da"
+    }
+  },
+  "principal_findings": [
+    {
+      "id": "SOL-01",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "Evidence units now use a 450-character zero-overlap build, remove dominated contiguous units, atomize multirow table fragments, and reject units over 600 characters."
+    },
+    {
+      "id": "SOL-02",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "The page-95 language-file item was removed; no gold may depend on the absent USB-removal page."
+    },
+    {
+      "id": "SOL-03",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "The semantically overlapping language-file item was removed."
+    },
+    {
+      "id": "SOL-04",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "All design and execution cardinalities now state three items and three planner calls."
+    },
+    {
+      "id": "SOL-05",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "A clean v2 visual authorship contract binds the example citation to the first allowed focus page without mutating historical frozen cohorts."
+    },
+    {
+      "id": "SOL-06",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "planner_payload now rejects non-whitelisted question and source identity fields and bounds identity values."
+    },
+    {
+      "id": "SOL-07",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "S207 can authorize only a separately frozen target preregistration; it no longer claims stable target gains from a one-shot shadow."
+    },
+    {
+      "id": "SOL-08",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "Every rendered page now carries a receipt bound to its pixel hash plus visible anchors; aggregate inspection is derived from four page receipts."
+    }
+  ],
+  "independent_findings": [
+    {
+      "id": "FABLE-01",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "The residual four-versus-three count was removed."
+    },
+    {
+      "id": "FABLE-02",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "The EN 2X-A installation manual that mirrors official Spanish gold content was removed from the cohort."
+    },
+    {
+      "id": "FABLE-03",
+      "outcome": "CONFIRMED_PROCESS_RISK_FIXED",
+      "correction": "The mirror-contaminated item and cross-item LCD leakage were removed. The remaining exact MCP predicates are distinct from its existing HyQs, while every same-source question is still disclosed and semantic duplication remains a frontier publication veto."
+    },
+    {
+      "id": "FABLE-04",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "A NO-GO is explicitly scoped to the exact terra-low execution; there is no retry or tuning loop in S207."
+    },
+    {
+      "id": "FABLE-05",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "Dominated and multirow units were removed or atomized so precision no longer rewards an arbitrary whole-page granularity choice."
+    },
+    {
+      "id": "FABLE-06",
+      "outcome": "CONFIRMED_FIXED",
+      "correction": "The upstream compiler uses an empty diagnostic base; foreign-language source text is selection evidence and is never represented as customer-facing answer prose."
+    }
+  ],
+  "corrected_subject": [
+    {
+      "path": "evals/s207_decomposed_planner_holdout_design_v1.md",
+      "sha256": "ae4c8254924ea895ad8fe933daccfb584d0790524790b6c5adbbec7b137eeace"
+    },
+    {
+      "path": "evals/s207_decomposed_planner_holdout_packet_v1.json",
+      "sha256": "af4b062189856d016bcb800b939bb5b5182da41d1181c416a39eff82b35c46cf"
+    },
+    {
+      "path": "scripts/s207_build_decomposed_planner_holdout.py",
+      "sha256": "2fd09b2a3b1e7f7029e13cb10e90703ee8f3e5656d9cced1af3972edc22acc3d"
+    },
+    {
+      "path": "src/rag/decomposed_evidence_planner.py",
+      "sha256": "136888a847e0d47bd28976d12c3f557f6ceeb52545a1c0f3eb8197ddfb0501ff"
+    },
+    {
+      "path": "src/rag/planner_holdout_gold.py",
+      "sha256": "53a01d11b422d3be96401dece696460ed62ce90d1c57b81edff2574b997e8c2d"
+    },
+    {
+      "path": "tests/test_s207_decomposed_planner_holdout.py",
+      "sha256": "c858ca777958bceba77df09ffcc954f47fa947f2b4ebb797b9968ddb7995a6c4"
+    }
+  ],
+  "second_frontier_design_review": false,
+  "reason_no_second_review": "All material findings were independently reproduced and fixed once. Repeating design convergence would add cost and delay the measured upstream gate; execution remains fail-closed with no retries."
+}
