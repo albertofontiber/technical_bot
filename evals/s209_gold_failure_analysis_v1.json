@@ -1,0 +1,66 @@
+{
+  "schema": "s209_gold_failure_analysis_v1",
+  "status": "RECORDED_NO_GO_NO_RETRY",
+  "decision": "NO_GO_S209_GOLD",
+  "measured_from_main": "1340433d79aab2c7a2e552ba0fc8bec75c96b92c",
+  "execution": {
+    "frontier_calls": 2,
+    "sol_calls": 2,
+    "fable_calls": 0,
+    "planner_calls": 0,
+    "target_calls": 0,
+    "conservative_frontier_cost_usd": 1.54833,
+    "provider_retries": 0,
+    "official_fact_credit": 0
+  },
+  "completed_gates": {
+    "dp3020_candidate": {
+      "canary_id": "kidde_dp3020_detection_discrimination",
+      "adequacy": "SUFFICIENT",
+      "atomic_facts": 5,
+      "checkpointed": true
+    },
+    "nc_maintenance_candidate": {
+      "canary_id": "kidde_nc_maintenance_schedule",
+      "adequacy": "INSUFFICIENT",
+      "atomic_facts": 0,
+      "checkpointed": false
+    }
+  },
+  "failure": {
+    "phase": "principal_pixel_gold_generation",
+    "provider": "gpt-5.6-sol",
+    "blocking_canary_id": "kidde_nc_maintenance_schedule",
+    "validator_error": "candidate marked source insufficient",
+    "root_cause": "The pre-frozen maintenance topic was already covered semantically by two existing NC questions: one covers maintenance periodicity and checks, and the other covers the prerequisite that prevents notifying the fire service. A new question could not satisfy the preregistered no-overlap contract.",
+    "early_stop": "The failure occurred before Fable authorship, cross-review, support mapping, planner, or target execution."
+  },
+  "interpretation": {
+    "planner_hypothesis": "UNMEASURED",
+    "failure_is_planner_metric": false,
+    "failure_is_runtime_regression": false,
+    "fresh_visual_holdout_exhaustion": "CONFIRMED_FOR_CURRENT_KIDDE_SOURCE_SWEEP",
+    "same_cohort_retry": false,
+    "replacement_cohort": false,
+    "target_prereg_authorized": false,
+    "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "next_independent_line": {
+    "planner_holdout_line": "ABANDON_AFTER_PREREGISTERED_FINAL_FRESH_COHORT",
+    "new_kidde_question_generation": false,
+    "reuse_s209_candidate": false,
+    "next_priority": "Return to the canonical 12-fact synthesis residual and test a distinct upstream mechanism on the largest residual sub-bucket.",
+    "frontier_roles": {
+      "principal_reviewer": "gpt-5.6-sol xhigh",
+      "independent_reviewer": "claude-fable-5",
+      "execution": "local deterministic or gpt-5.6-terra when a model is necessary"
+    }
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false,
+    "runtime_integration": false
+  }
+}
