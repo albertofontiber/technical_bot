@@ -1,0 +1,64 @@
+schema: s206_semantic_result_review_contract_v1
+status: FROZEN_BEFORE_S206_GENERATION
+purpose: veto unsupported, contradictory, mis-cited, or guardrail-regressive treatment answers
+
+scope:
+  arms_reviewed: [treatment]
+  replicates_per_question: 2
+  expected_calls: 14
+  sources: exact_frozen_served_context
+  tools_or_repo_access: false
+  outside_knowledge: forbidden
+
+rubric:
+  unsupported_material_claim: >-
+    A concrete product-specific value, cause, action, prerequisite, warning,
+    compatibility statement, default, or procedure that is not entailed by any
+    served fragment. Generic writing advice and explicitly conditional caveats
+    are not material claims.
+  contradiction: >-
+    A technical assertion that conflicts with a served fragment or another
+    assertion in the same answer, including an undisclosed cardinality conflict.
+  misbound_citation: >-
+    A technical claim carrying an F citation whose referenced fragment does not
+    support that claim, even if another fragment would have supported it.
+  guardrail_regression: >-
+    A frozen protected fact is omitted, materially weakened, or changed in a
+    treatment answer. This field applies only when protected_facts is non-empty.
+  pass_rule: all four issue lists empty
+  disagreement_rule: any FAIL from either reviewer is a final veto
+  local_no_go_rule: semantic review cannot rescue a local scorer NO_GO
+
+models:
+  principal:
+    provider: openai
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    max_output_tokens: 8000
+    max_counted_input_tokens: 250000
+  independent:
+    provider: anthropic
+    model: claude-fable-5
+    thinking: adaptive
+    effort: xhigh
+    max_output_tokens: 8000
+    max_counted_input_tokens: 250000
+
+pricing_usd_per_million_tokens:
+  openai: {input: 6.25, output: 30}
+  anthropic: {input: 10, output: 50}
+
+budget:
+  internal_ceiling_usd: 12
+  calls: 2
+  retries: 0
+
+output:
+  structured_json_schema: enforced
+  exact_call_population_required: true
+  per_call_verdict: [PASS, FAIL]
+  final_go: both_reviewers_pass_every_call
+
+credit:
+  can_move_facts_to_ok: false
+  can_only_veto: true

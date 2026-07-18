@@ -1,0 +1,42 @@
+schema: s206_answer_facet_ab_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED
+issued_after:
+  local_tests: 49_passed
+  local_feasibility: GO_LOCAL_FEASIBILITY
+  zero_call_preflight: GO_ZERO_CALL_PREFLIGHT
+  principal_review: gpt-5.6-sol_xhigh
+  independent_review: claude-fable-5
+  adjudication: RULE_C_COMPLETE_ALL_MATERIAL_FINDINGS_RESOLVED
+preflight_sha256: ae005440058f2484b41134636e0d9cc5d35bcfb55f099770d74931a177b9ec8e
+budget_ceiling_usd: 45
+calls: 28
+retries: 0
+resume: forbidden
+frozen_artifacts:
+  - {path: evals/s113_full_contexts_freeze_v1.json, sha256: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d}
+  - {path: evals/s163_synthesis_residual_audit_v1.json, sha256: caaf08fbe9fdfc49550a2d3b7c8da6cbf6c012048d178def041ca02026541ab7}
+  - {path: evals/s141_source_bound_technical_obligations_v1.json, sha256: 3bd96e427c0df15037a298fea7d6ae6089cf64b413219d60a07e58a552715606}
+  - {path: evals/s173_single_source_omission_cohort_v1.json, sha256: b8df8cce6bced1fdd95d3f70bb0787c2a63769fcacafde317bc8a9149c1b053f}
+  - {path: config/answer_facets_v1.yaml, sha256: 653c9c8d45987b0db154809ba184d54f5c9f75048a9d2cc2f5db00e4c6ad4c21}
+  - {path: config/retrieval_facets_v4.yaml, sha256: 05c91e49a7c539b71c1e17c98ffb36007f815aa701347e421384b2aecfb01371}
+  - {path: src/rag/answer_facets.py, sha256: 6002f91f5a680c810b1c7cb6a64ede8a17eba00370011766c67f15bbd1d89d47}
+  - {path: src/rag/generator.py, sha256: e137194d53df18ca007babfe9f9263079ab003a27c8b5695a8ba497fa698149e}
+  - {path: src/rag/query_facets.py, sha256: cdc4dfe8de20b141fb6da958dc58be4f1d8a537e08e649df8c14be328ddec61f}
+  - {path: src/rag/answer_planner.py, sha256: c9feb1fc86db6929be900f9a4e2446f597fc06dd513fb870eaa37a168c5305a8}
+  - {path: src/rag/technical_obligations.py, sha256: 10dbc4a2deeff5cb764f541f2f09a6af0d34cde86fb02fa173738d31e866ccb5}
+  - {path: scripts/atomic_scorer.py, sha256: c4c2b71cc38acb120fffa5448a8480f442bdc1c3c0331af710486a9d1c2e16e3}
+  - {path: scripts/s141_source_bound_technical_obligations.py, sha256: 3564d8b5a39e0e59b71364ccaaee2a269828c13b9e2a250b139f0a35bfb0e18a}
+  - {path: scripts/s206_answer_facet_ledger_gate.py, sha256: 56d568ad34adb001453c8acc6441a836eca12f62af65ddef02cdb88299328231}
+  - {path: scripts/s206_answer_facet_ab_preflight.py, sha256: 032649575feff390f6d4e0e75b8312431fdd60659120f621dbd975a438d038d5}
+  - {path: scripts/s206_run_answer_facet_ab.py, sha256: 8df2a7e5859c3753e07e06320d8ed6067d2361c0a000aa6c6c031036eb9bc79a}
+  - {path: scripts/s206_score_answer_facet_ab.py, sha256: 0d3a2da329039cbd15079e6d6e7368385aed3f52afb807e642049f0f6b251312}
+  - {path: scripts/s206_semantic_result_review.py, sha256: 76de75628ca3b1f8e4177e35799b3007777735fd89e8403346cdadd4b063ddf6}
+  - {path: evals/s206_answer_facet_ledger_design_v1.md, sha256: 577e6450ad086e7621d63ff90a7a598c267c82f5887c0586acf07258391f7d00}
+  - {path: evals/s206_answer_facet_ledger_prereg_v1.yaml, sha256: dd12e6545e5e442ed7851d11bbc3e5de9184b83d4e317703191f2293344b1ea7}
+  - {path: evals/s206_corrected_duo_adjudication_v1.yaml, sha256: d9653ab2885a60f67dba9b8400e029226520709936aef5a18f3cb391fdf1ced5}
+  - {path: evals/s206_semantic_result_review_contract_v1.yaml, sha256: e5a6db719212ba617c9b93cda75b593f9807e1bdcd90691f5b87c7df8d19085f}
+authorization:
+  target_outputs_seen: false
+  prompt_iteration_after_outputs: forbidden
+  semantic_duo_required_if_local_go: true
+  canonical_fact_credit_after_semantic_duo_only: true

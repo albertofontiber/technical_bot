@@ -1,0 +1,48 @@
+schema: s206_answer_facet_ledger_closure_v1
+status: CLOSED_NO_GO
+
+hypothesis: generic_answer_archetype_facets_improve_source_faithful_relation_transmission
+population:
+  targets: [cat018, hp002, hp011, hp017]
+  protected_gold_guardrails: [cat019, hp005]
+  independent_non_target_canary: [s147_src_05]
+  replicates_per_arm: 2
+  paid_calls: 28
+
+frontier_design_review:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, status: completed}
+  independent: {model: claude-fable-5, status: completed_after_one_transport_retry}
+  adjudication: RULE_C_COMPLETE_ALL_MATERIAL_FINDINGS_RESOLVED
+  further_convergence_rounds: 0
+
+result:
+  stable_residual_relation_gains: 0
+  stable_target_questions_complete_gains: 0
+  relation_regressions: 1
+  guardrail_regressions: 0
+  unstable_guardrail_controls: 1
+  invalid_citation_calls: 0
+  max_token_stops: 0
+  facts_moved_to_ok: 0
+  estimated_ab_cost_usd: 1.733967
+
+decision:
+  runtime_integration: rejected
+  semantic_duo_result_review: skipped_by_frozen_local_hard_stop
+  prompt_iteration_or_retry: forbidden
+  candidate_preservation: evals/s206_answer_facet_seam.patch
+  production_source_and_tests: restored_to_head
+  patch_apply_check: passed
+  successor_constraint: broad_completeness_ledgers_are_not_a_valid_reopening
+
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  synthesis_miss: 12
+  retrieval_miss: 2
+  facts_ok_percent: 91.08
+  facts_needed_for_98_percent: 11
+
+chunks_v2: active
+chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway: demo_non_blocking

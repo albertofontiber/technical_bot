@@ -2128,3 +2128,28 @@ repara, no se reintenta, no se integra gold y se mueven 0 facts. La línea de ca
 cierra para evitar otra convergencia y el trabajo vuelve al bucket dominante de 12 synthesis-miss
 preexistentes, upstream→downstream. `chunks_v2` permanece activo,
 `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge con CI verde.
+
+## DEC-119 — S206: el ledger genérico de facetas no transmite relaciones fuente y queda cerrado sin código muerto
+
+**Diseño y revisión.** S206 probó una hipótesis estructural distinta: reutilizar el clasificador de
+arquetipos ya versionado para pedir al generador que comprobara facetas genéricas de diagnóstico o
+programación sobre los chunks servidos. El tratamiento exigía producto reconocido, era byte-inerte
+por defecto y no contenía IDs, modelos, números ni facts objetivo. Sol 5.6 `xhigh` fue revisor
+principal y Fable 5 el independiente. Sus hallazgos materiales se corrigieron una sola vez antes de
+mirar outputs: veto por claims no soportados, freeze completo, citas ligadas localmente a la
+obligación, runner sin resume/retry y separación explícita entre proxy de relación y KPI canónico.
+No se abrió otra ronda de convergencia.
+
+**Resultado causal.** Las 28 llamadas Sonnet 4.6 congeladas (cuatro targets, dos guardrails y un
+canary independiente; dos réplicas por brazo) costaron **$1,733967**. El tratamiento obtuvo **0**
+relaciones residuales estables, **0** preguntas target completas y una regresión protegida en
+`hp011/default_latched_faults`; no hubo citas inválidas ni truncados. El scorer local emitió
+`NO_GO`, por lo que el veto semántico Frontier de resultados no podía rescatarlo y se omitió conforme
+al contrato, ahorrando gasto. No se itera el wording ni se reintenta esta población.
+
+**Cierre limpio.** El hook, flag, configuración, módulo y tests del candidato no viajan a producción.
+Se conservan como `evals/s206_answer_facet_seam.patch`, verificado con `git apply --check`, junto con
+preregistro, envelopes, receipts, scorer y reviews. Esto evita otro puente híbrido default-off: la
+línea “recordar al modelo que cubra más facetas” queda cerrada como mecanismo. El scoreboard no
+cambia: **143/157 OK (91,08%)**, 12 synthesis-miss y 2 retrieval-miss; faltan 11 facts para 98%.
+`chunks_v2` permanece activo, `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no es gate.

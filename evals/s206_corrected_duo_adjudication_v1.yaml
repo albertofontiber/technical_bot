@@ -1,0 +1,66 @@
+schema: s206_corrected_duo_adjudication_v1
+status: RULE_C_COMPLETE_ALL_MATERIAL_FINDINGS_RESOLVED
+review:
+  sol_ts: '2026-07-18T03:11:36'
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    output: evals/adversarial_reviews/2026-07-18T03-11-36_gpt-5.6-sol_27f2570d92cd.md
+  independent:
+    model: claude-fable-5
+    output: evals/adversarial_reviews/2026-07-18T03-16-29_claude-fable-5_d6c3977f49d7.md
+    first_attempt: empty_final_recorded_no_design_change
+    retry_policy: one_same_snapshot_transport_retry_only
+
+tally:
+  sol_findings: 5
+  fable_findings: 6
+  confirmed_material: 10
+  false_positives: 0
+  speculative_risks_closed_by_test: 1
+  severity_max: critical
+
+adjudications:
+  - id: sol_critical_unsupported_claims
+    verdict: confirmed_resolved
+    correction:
+      - evals/s206_semantic_result_review_contract_v1.yaml
+      - scripts/s206_semantic_result_review.py
+    rule: any unsupported claim, contradiction, misbound citation, regression, or reviewer disagreement vetoes
+  - id: sol_critical_missing_s141_freeze
+    verdict: confirmed_resolved
+    correction: scripts/s141_source_bound_technical_obligations.py added to preflight implementation receipts
+  - id: sol_medium_citation_binding
+    verdict: confirmed_resolved
+    correction: obligation and exact source citation must satisfy obligation_covered in one bounded window
+  - id: sol_medium_resume_retry
+    verdict: confirmed_resolved
+    correction: any pre-existing checkpoint blocks the entire run; resume and retry are forbidden
+  - id: sol_medium_discretionary_semantic_veto
+    verdict: confirmed_resolved
+    correction: pre-output versioned rubric, JSON Schema, exact population, unanimity veto, no rescue
+  - id: fable_medium_relation_proxy_as_kpi
+    verdict: confirmed_resolved
+    correction: scorer exposes relation_proxy_projection only and forbids a 98-percent claim without separate atomic adjudication
+  - id: fable_medium_hp017_detector_overclaim
+    verdict: confirmed_resolved
+    correction: detector is labelled heuristic; semantic duo is the exhaustive safety boundary
+  - id: fable_minor_duplicate_metrics
+    verdict: confirmed_resolved
+    correction: stop and citation metrics are counted once per guardrail answer, outside the fact loop
+  - id: fable_minor_budget_after_call
+    verdict: confirmed_resolved
+    correction: conservative all-call worst case is checked before the first provider call
+  - id: fable_minor_canary_authoring_and_decorative_baseline
+    verdict: confirmed_resolved
+    correction: design labels checks manually authored; unused baseline receipt removed
+  - id: fable_speculative_plan_for_shape
+    verdict: risk_closed_not_a_bug
+    correction: tests/test_s206_answer_facet_ab.py executes relation scoring for every frozen target row
+
+gate:
+  unresolved_critical_findings: 0
+  unresolved_material_findings: 0
+  corrected_design_review_rounds_consumed: 1
+  further_design_review_required: false
+  next: issue_hash_bound_execution_permit
