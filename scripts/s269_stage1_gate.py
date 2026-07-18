@@ -53,7 +53,10 @@ FP_NEGATIVES_MAX = 0
 
 
 def sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Normalización CRLF->LF: el freeze debe sobrevivir a un checkout Windows con
+    # autocrlf (misma clase que los 4 fails CRLF pre-existentes de test_s117/s131/s133;
+    # precedente s198 post_execution_lf_normalization).
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def load_jsonl(path: Path) -> list[dict]:
