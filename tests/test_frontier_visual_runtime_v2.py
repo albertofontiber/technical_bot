@@ -74,6 +74,7 @@ def test_sol_background_create_polls_and_checkpoints(tmp_path, monkeypatch) -> N
             _Response("resp_1", "completed", '{"ok":true}'),
         ],
     )
+    runtime.sol_create = _Client(responses)
     runtime.sol = _Client(responses)
 
     value, receipt = runtime.call_sol(
@@ -83,6 +84,8 @@ def test_sol_background_create_polls_and_checkpoints(tmp_path, monkeypatch) -> N
     assert value == {"ok": True}
     assert receipt["background"] is True
     assert receipt["transport_retries_configured"] == 2
+    assert receipt["background_create_retries_configured"] == 0
+    assert receipt["background_poll_retries_configured"] == 2
     assert responses.create_calls[0]["background"] is True
     header = responses.create_calls[0]["extra_headers"]["X-Client-Request-Id"]
     assert header.startswith("fv-") and header.isascii()
@@ -118,6 +121,7 @@ def test_sol_background_resumes_existing_response_without_new_post(tmp_path, mon
     responses = _Responses(
         [], [_Response("resp_existing", "completed", '{"resumed":true}')]
     )
+    runtime.sol_create = _Client(responses)
     runtime.sol = _Client(responses)
 
     value, _receipt = runtime.call_sol(
@@ -127,3 +131,5 @@ def test_sol_background_resumes_existing_response_without_new_post(tmp_path, mon
     assert value == {"resumed": True}
     assert responses.create_calls == []
     assert responses.retrieve_calls[0][0] == "resp_existing"
+    states = list((tmp_path / "states").glob("*.json"))
+    assert '"status": "completed"' in states[0].read_text(encoding="utf-8")

@@ -33,6 +33,7 @@ from src.rag.visual_gold import (  # noqa: E402
     SemanticNoGo,
     conservative_cost,
     normalized_text_sha,
+    parse_json,
     sealed_artifact,
     stable_sha,
     write_json,
@@ -80,15 +81,26 @@ def _checkpoint(path: Path, schema: str, body: dict[str, Any]) -> None:
 
 
 def _record_attempt(provider: str, label: str) -> None:
-    body = {"schema": "s266_kidde_background_attempts_v1", "attempts": []}
+    attempts: list[dict[str, Any]] = []
     if ATTEMPTS.exists():
-        body = json.loads(ATTEMPTS.read_text(encoding="utf-8"))
-    body["attempts"].append({
+        value = _sealed(ATTEMPTS)
+        if value.get("schema") != "s266_kidde_background_attempts_v1":
+            raise ValueError("S266 attempt schema drift")
+        attempts = list(value.get("attempts") or [])
+    identity = (provider, label)
+    identities = [(row.get("provider"), row.get("call_label")) for row in attempts]
+    if identity in identities:
+        if identities[-1] != identity:
+            raise RuntimeError("S266 attempt identity is duplicated out of order")
+        return
+    attempts.append({
         "provider": provider,
         "call_label": label,
         "semantic_attempt": 1,
     })
-    write_json(ATTEMPTS, body)
+    _checkpoint(ATTEMPTS, "s266_kidde_background_attempts_v1", {
+        "attempts": attempts,
+    })
 
 
 class S266Runtime(FrontierVisualRuntime):
@@ -187,7 +199,7 @@ def verify_prereg(packet: dict[str, Any]) -> tuple[dict[str, Any], ...]:
     return s263_ledger, s264_ledger, fable, sol
 
 
-def preflight(packet: dict[str, Any]) -> int:
+def preflight(packet: dict[str, Any], *, allow_resume: bool = False) -> int:
     verify_prereg(packet)
     images = 0
     for item in packet["items"]:
@@ -195,7 +207,7 @@ def preflight(packet: dict[str, Any]) -> int:
         page_content_fable(ROOT, item, "verify")
         images += len(item["rendered_pages"])
     existing = [path.relative_to(ROOT).as_posix() for path in OUTPUTS if path.exists()]
-    if existing or BACKGROUND_STATES.exists():
+    if not allow_resume and (existing or BACKGROUND_STATES.exists()):
         raise FileExistsError(
             f"S266 outputs already exist: {existing + ([BACKGROUND_STATES.relative_to(ROOT).as_posix()] if BACKGROUND_STATES.exists() else [])}"
         )
@@ -209,6 +221,120 @@ def preflight(packet: dict[str, Any]) -> int:
         "paid_calls": 0,
     }))
     return 0
+
+
+def _call_plan(packet: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+    items = packet["items"]
+    if len(items) != 4:
+        raise ValueError("S266 packet item count drift")
+    return [
+        ("sol", items[1]),
+        ("fable", items[2]),
+        ("sol", items[2]),
+        ("fable", items[3]),
+        ("sol", items[3]),
+    ]
+
+
+def _call_identity(provider: str, item: dict[str, Any]) -> tuple[str, str]:
+    return provider, f"generate:{item['canary_id']}"
+
+
+def _carried_rows(prior_fable, prior_sol) -> dict[str, list[dict[str, Any]]]:
+    rows = {
+        "fable": [deepcopy(row) for row in prior_fable["items"]],
+        "sol": [deepcopy(row) for row in prior_sol["items"]],
+    }
+    for provider in rows:
+        for row in rows[provider]:
+            row["carried_from"] = f"s264_kidde_{provider}_generations_v1"
+    return rows
+
+
+def _validate_generation_checkpoint(
+    path: Path,
+    schema: str,
+    reconstructed: list[dict[str, Any]],
+) -> None:
+    if not path.exists():
+        return
+    value = _sealed(path)
+    if value.get("schema") != schema:
+        raise ValueError(f"S266 generation schema drift: {path.name}")
+    if value.get("status") not in {"IN_PROGRESS", "COMPLETE"}:
+        raise ValueError(f"S266 generation status drift: {path.name}")
+    checkpointed = value.get("items") or []
+    if checkpointed != reconstructed[:len(checkpointed)]:
+        raise ValueError(f"S266 generation checkpoint is not a valid prefix: {path.name}")
+    if len(checkpointed) > len(reconstructed):
+        raise ValueError(f"S266 generation checkpoint is ahead of ledger: {path.name}")
+
+
+def _reconstruct_resume_state(
+    packet: dict[str, Any],
+    runtime: S266Runtime,
+    prior_fable: dict[str, Any],
+    prior_sol: dict[str, Any],
+) -> tuple[dict[str, list[dict[str, Any]]], dict[str, set[str]], int]:
+    plan = _call_plan(packet)
+    expected = [_call_identity(provider, item) for provider, item in plan]
+    calls = list(runtime.load_ledger().get("calls") or [])
+    actual = [(row.get("provider"), row.get("call_label")) for row in calls]
+    if actual != expected[:len(actual)] or len(actual) > MAX_NEW_CALLS:
+        raise ValueError("S266 ledger is not an exact call-plan prefix")
+
+    rows = _carried_rows(prior_fable, prior_sol)
+    items_by_id = {item["canary_id"]: item for item in packet["items"]}
+    for receipt in calls:
+        provider = str(receipt["provider"])
+        required_status = "completed" if provider == "sol" else "end_turn"
+        required_model = SOL if provider == "sol" else FABLE
+        if receipt.get("status") != required_status or receipt.get("model") != required_model:
+            raise RuntimeError("S266 cannot resume past an incomplete frontier receipt")
+        item_id = str(receipt["call_label"]).removeprefix("generate:")
+        value = parse_json(str(receipt.get("raw_output") or ""))
+        row, _accepted = _candidate_row(
+            provider, items_by_id[item_id], value, receipt
+        )
+        rows[provider].append(row)
+
+    _validate_generation_checkpoint(
+        FABLE_GENERATIONS, "s266_kidde_fable_generations_v1", rows["fable"]
+    )
+    _validate_generation_checkpoint(
+        SOL_GENERATIONS, "s266_kidde_sol_generations_v1", rows["sol"]
+    )
+
+    attempts: list[dict[str, Any]] = []
+    if ATTEMPTS.exists():
+        attempt_artifact = _sealed(ATTEMPTS)
+        if attempt_artifact.get("schema") != "s266_kidde_background_attempts_v1":
+            raise ValueError("S266 attempt schema drift")
+        attempts = list(attempt_artifact.get("attempts") or [])
+    attempt_ids = [
+        (row.get("provider"), row.get("call_label")) for row in attempts
+    ]
+    if attempt_ids[:len(actual)] != actual or len(attempt_ids) > len(actual) + 1:
+        raise ValueError("S266 attempts are not an exact ledger prefix")
+    if len(attempt_ids) == len(actual) + 1:
+        if len(actual) == len(expected):
+            raise ValueError("S266 has a dangling attempt after the complete call plan")
+        if attempt_ids[-1] != expected[len(actual)]:
+            raise ValueError("S266 dangling attempt is not the next planned call")
+        if attempt_ids[-1][0] != "sol" or not BACKGROUND_STATES.exists():
+            raise RuntimeError(
+                "S266 cannot safely repeat an ambiguous non-resumable frontier POST"
+            )
+
+    valid = {
+        provider: {
+            row["canary_id"]
+            for row in provider_rows
+            if row.get("validation_status") == "VALID"
+        }
+        for provider, provider_rows in rows.items()
+    }
+    return rows, valid, len(calls)
 
 
 def _candidate_row(provider, item, value, receipt):
@@ -260,21 +386,22 @@ def _write_result(runtime, prior_calls, status, **extra):
 
 
 def execute(packet: dict[str, Any], env_file: Path) -> int:
-    preflight(packet)
+    preflight(packet, allow_resume=True)
     s263_ledger, s264_ledger, prior_fable, prior_sol = verify_prereg(packet)
     prior_calls = _all_prior_calls(s263_ledger, s264_ledger)
     runtime = _runtime(env_file)
-    rows = {
-        "fable": [deepcopy(row) for row in prior_fable["items"]],
-        "sol": [deepcopy(row) for row in prior_sol["items"]],
-    }
-    for provider in rows:
-        for row in rows[provider]:
-            row["carried_from"] = f"s264_kidde_{provider}_generations_v1"
-    valid = {
-        provider: {row["canary_id"] for row in provider_rows}
-        for provider, provider_rows in rows.items()
-    }
+    if RESULT.exists():
+        prior_result = _sealed(RESULT)
+        terminal = prior_result.get("status")
+        if terminal == "GO_S266_TO_SEPARATE_RECIPROCAL_PIXEL_REVIEW":
+            return 0
+        if terminal == "NO_GO_S266_DUAL_AUTHORSHIP":
+            return 2
+        if terminal != "HOLD_S266_EXTERNAL_OR_INCOMPLETE":
+            raise ValueError("S266 result status drift")
+    rows, valid, completed_calls = _reconstruct_resume_state(
+        packet, runtime, prior_fable, prior_sol
+    )
     _checkpoint(FABLE_GENERATIONS, "s266_kidde_fable_generations_v1", {
         "status": "IN_PROGRESS", "items": rows["fable"]
     })
@@ -282,10 +409,12 @@ def execute(packet: dict[str, Any], env_file: Path) -> int:
         "status": "IN_PROGRESS", "items": rows["sol"]
     })
     try:
-        for index, item in enumerate(packet["items"][1:], start=1):
+        for call_index, (provider, item) in enumerate(_call_plan(packet)):
+            if call_index < completed_calls:
+                continue
             item_id = item["canary_id"]
             prompt = author_prompt(packet, item)
-            if index > 1:
+            if provider == "fable":
                 fable_value, fable_receipt = runtime.call_fable(
                     page_content_fable(ROOT, item, prompt),
                     FABLE_MAX_TOKENS,
@@ -297,16 +426,16 @@ def execute(packet: dict[str, Any], env_file: Path) -> int:
                 _checkpoint(FABLE_GENERATIONS, "s266_kidde_fable_generations_v1", {
                     "status": "IN_PROGRESS", "items": rows["fable"]
                 })
-
-            sol_value, sol_receipt = runtime.call_sol(
-                page_content_openai(ROOT, item, prompt), f"generate:{item_id}"
-            )
-            row, accepted = _candidate_row("sol", item, sol_value, sol_receipt)
-            rows["sol"].append(row)
-            valid["sol"].update([item_id] if accepted else [])
-            _checkpoint(SOL_GENERATIONS, "s266_kidde_sol_generations_v1", {
-                "status": "IN_PROGRESS", "items": rows["sol"]
-            })
+            else:
+                sol_value, sol_receipt = runtime.call_sol(
+                    page_content_openai(ROOT, item, prompt), f"generate:{item_id}"
+                )
+                row, accepted = _candidate_row("sol", item, sol_value, sol_receipt)
+                rows["sol"].append(row)
+                valid["sol"].update([item_id] if accepted else [])
+                _checkpoint(SOL_GENERATIONS, "s266_kidde_sol_generations_v1", {
+                    "status": "IN_PROGRESS", "items": rows["sol"]
+                })
             if conservative_cost(runtime.load_ledger()["calls"], PRICES) > INTERNAL_BUDGET_USD:
                 raise RuntimeError("S266 internal budget exceeded")
     except Exception as exc:

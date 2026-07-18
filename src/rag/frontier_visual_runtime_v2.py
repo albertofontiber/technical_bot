@@ -60,6 +60,13 @@ class FrontierVisualRuntime:
         self.sol_state_dir = sol_state_dir or ledger_path.with_name(
             f"{ledger_path.stem}_sol_background"
         )
+        # A background create is a semantic POST: retrying it after an
+        # ambiguous transport failure could create a second response.  Polls
+        # are idempotent GETs and may use the configured bounded retries.
+        self.sol_create = OpenAI(
+            api_key=openai_api_key,
+            max_retries=0,
+        )
         self.sol = OpenAI(
             api_key=openai_api_key,
             max_retries=sol_transport_retries,
@@ -156,7 +163,7 @@ class FrontierVisualRuntime:
         client_request_id = f"fv-{request_sha256[:24]}-{stable_sha(call_label)[:16]}"
         state = self._load_background_state(call_label, request_sha256)
         if state is None:
-            response = self.sol.responses.create(
+            response = self.sol_create.responses.create(
                 **request,
                 extra_headers={"X-Client-Request-Id": client_request_id},
             )
@@ -181,6 +188,14 @@ class FrontierVisualRuntime:
                 extra_headers={"X-Client-Request-Id": client_request_id},
             )
             status = str(getattr(response, "status", "") or "")
+            self._write_background_state(
+                call_label=call_label,
+                request_sha256=request_sha256,
+                response_id=response_id,
+                status=status,
+                polls=polls,
+                client_request_id=client_request_id,
+            )
 
         started = time.monotonic()
         while status in {"queued", "in_progress"}:
@@ -249,6 +264,8 @@ class FrontierVisualRuntime:
             "reasoning_effort": self.sol_reasoning,
             "background": self.sol_background,
             "transport_retries_configured": self.sol_transport_retries,
+            "background_create_retries_configured": 0,
+            "background_poll_retries_configured": self.sol_transport_retries,
             "status": getattr(response, "status", None),
             "raw_output": raw,
             "usage": usage_dict(response),
