@@ -1,0 +1,67 @@
+instrument: s213_sharded_unit_selector_execution_permit_v1
+status: EXECUTION_GO_PAID_BOUNDED_NO_RETRY
+issued_against_main_sha: b28d09252da32c4c1ddc7b25847f6e584f70fb91
+preflight_sha256: 7776d5a42a31a12e735b9d0b151b2a19c3e1bd9a10565ab7365c088fd05332d1
+
+frontier_design_gate:
+  principal: {model: gpt-5.6-sol, reasoning_effort: xhigh, verdict: PASS}
+  independent: {model: claude-fable-5, verdict: PASS}
+  blockers: 0
+  artifact: evals/s213_frontier_scorer_isolation_gate_reviews_v2.json
+  artifact_sha256: 57aae491522f4c1598d8f7f6f6ac24363a2f738f040479dfde3d5e29ab53e9db
+  prior_design_gate: {artifact: evals/s213_frontier_design_gate_reviews_v1.json, principal: PASS, independent: PASS}
+  corrected_delta: S213_ONLY_SCORER_ADAPTER_PRESERVES_HISTORICAL_S210_BYTES
+  further_design_review_calls: false
+
+frozen_artifacts:
+  - {path: evals/s213_sharded_unit_selector_design_v1.md, sha256: 2e9d88ffd225a552622f57df72b40d268572467810b2540fbc5f68c87d07d424}
+  - {path: evals/s213_sharded_unit_selector_prereg_v1.yaml, sha256: 844958d3f1eb856381bb5eb8f68c770b32c4887b2321a8b83f3cc1f9b8d3277d}
+  - {path: evals/s213_sharded_unit_selector_preflight_v1.json, sha256: 7776d5a42a31a12e735b9d0b151b2a19c3e1bd9a10565ab7365c088fd05332d1}
+  - {path: src/rag/evidence_units.py, sha256: cb4fd3a89cacb758cbbf257561caacfa12608711177d0de2d44c18c2559e9e64}
+  - {path: src/rag/evidence_units_v2.py, sha256: c80498f59452280f7630411b1740664c8ec946a5e3a6511441d6140f88727eab}
+  - {path: src/rag/sharded_unit_selector.py, sha256: 27f25ba5d9bd81abad9a98fe2246655f87e0613b605159b50de2af8a33ae993e}
+  - {path: src/rag/query_evidence_compiler.py, sha256: a7a1b085e5463b542920c6ab81c7aa52d6ac18bc982f5baf42ff98bc5dd3b8d0}
+  - {path: scripts/s210_build_query_evidence_compiler_preflight.py, sha256: e45a732f3125a32b78f121e2d207dde5fce1fef724b98f1624940556014e2f54}
+  - {path: scripts/s210_score_query_evidence_compiler.py, sha256: b9a524a35223491b14f4d76afdd0848121a53a48876e6e6d0f56b693b0a2767c}
+  - {path: scripts/s213_build_sharded_unit_preflight.py, sha256: 76ef2cb293ed6dc048f0ed0495ff2c973a484e0562b916fdadc6634702cb0bf9}
+  - {path: scripts/s213_run_sharded_unit_selector.py, sha256: d049340bc4c71a71ac41b918ce7fc7fa534c7b28da7b17434038aa63886775f1}
+  - {path: scripts/s213_score_sharded_unit_selector.py, sha256: a1fe374bce484b20e6becd3ea25ac8d09ad878a2a4b5df69dca9f557f0802c03}
+  - {path: tests/test_sharded_unit_selector.py, sha256: 4767968c696132b08307759c916626f69741fb4763f6f8a5501eee8fdd4d336c}
+  - {path: evals/s213_frontier_design_gate_brief_v1.md, sha256: b1094ca45bfdea5f6ff424d8466ea2e61d88b8d37a5b4b7619c59d7bf442132e}
+  - {path: evals/s213_frontier_design_gate_reviews_v1.json, sha256: 88dbfe069821d2a8f3ce77b16832b4565bb72004ed98eb434bf79ee682c2b5c6}
+  - {path: scripts/s213_review_design_gate.py, sha256: 2d545354563157dbd8ee646887ef8d190e8304aaac4d984bcefb5c87b804d684}
+  - {path: evals/s213_frontier_scorer_isolation_gate_brief_v2.md, sha256: f8bb56ab2346a646848fd5352dd2fddbab002ac0ca2f212f08694168e1170ce1}
+  - {path: evals/s213_frontier_scorer_isolation_gate_reviews_v2.json, sha256: 57aae491522f4c1598d8f7f6f6ac24363a2f738f040479dfde3d5e29ab53e9db}
+  - {path: scripts/s213_review_scorer_isolation_gate_v2.py, sha256: 593e2ddaf4e231cc7c78a92435862c3eebc0428a7e19d1813475f1172bbd44aa}
+
+mechanism:
+  upstream_pool: DETERMINISTIC_HEADER_AWARE_SOURCE_UNITS
+  upstream_residual_span_coverage: 12_OF_12
+  model_authored_evidence: false
+  parallel_fallback_lane: false
+  downstream_selection: PER_CHUNK_NO_GLOBAL_SELECTOR
+  prior_outputs_reused: false
+  fresh_generalization_evidence: false
+
+call_geometry:
+  selector_calls: 130
+  verifier_calls: 130
+  total_paid_calls: 260
+  provider_retries: 0
+  resume: false
+
+budget_ceiling_usd: 75
+conservative_full_run_upper_bound_usd: 35.646975
+pricing_usd_per_million_tokens: {input: 2.5, output: 15.0}
+
+post_execution:
+  local_go_action: RUN_ONE_SEALED_SOL_XHIGH_PLUS_FABLE_ATOMIC_RESULT_REVIEW
+  no_go_action: CLOSE_S213_WITHOUT_SAME_COHORT_TUNING
+  facts_moved_to_ok_by_local_gate: 0
+  runtime_integration: false
+  production_default: off
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
