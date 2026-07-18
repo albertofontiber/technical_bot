@@ -1,0 +1,178 @@
+{
+  "schema": "s207_fable_review_of_sol_v1",
+  "review": {
+    "reviewer_model": "claude-fable-5",
+    "candidate_author": "gpt-5.6-sol",
+    "reviews": [
+      {
+        "canary_id": "kidde_mcp_isolation_parasitics",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The gold answer could explicitly note that the isolation specifications apply only to KE-DM3110 models with the integrated short-circuit isolator, as stated on page 15; however, the question itself already scopes to 'el aislador de cortocircuito integrado en el KE-DM3110', so the scoping is preserved.",
+          "Existing retriever-augmentation questions cover isolator engagement/reconnection voltages and devices-between-isolators, but none covers these three parameters (active-isolation consumption, leakage current, series impedance), so there is no duplication."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 15, table 'Isolamento': 'Assorbimento di corrente (isolamento attivo) 1,5 mA', explicitly valid for KE-DM3110 models with integrated isolator."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 16, continuation of isolation table: 'Corrente di dispersione 1 mA max.'"
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 16: 'Impedenza in serie 0,06 Ω max.'"
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_outdoor_isolator_nominal_currents",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The question identifies the product by family description ('dispositivo direccionable de notificación exterior Kidde Excellence') rather than exact model number (KE-AS3115R-WMIP as in the counterpart); the installation sheet's Technische Daten apply to the covered outdoor notification device series, so the question remains answerable, but naming the model would be crisper.",
+          "Retriever-augmentation questions on this document cover the isolator's actuated consumption (5 mA), max isolators per loop, devices between isolators and max cable impedance — none asks for the two nominal current ratings, so no duplication."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 10, 'Isolation' table: 'Nennstrom – Kontinuierlich (Isolator geschlossen): 1,05 A'."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 10, 'Isolation' table: 'Nennstrom – Isolator aktiv (Kurzschluss): 1,4 A'."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_2xa_lcd_test",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "Existing retriever-augmentation questions cover the LED/buzzer test and the keyboard test (hyq:049082aa..., hyq:29411a3c...), but not the LCD test, so no semantic duplication.",
+          "Counterpart marks F04 (exit via F2) as core while this candidate marks it supplementary; classification difference only, no factual disagreement."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 37: 'Realice una comprobación de LCD para confirmar que la LCD funciona correctamente.'"
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 37, steps 1-2: 'En el Menú principal, seleccione Prueba' → 'Seleccione Prueba de IU y, a continuación, Test LCD.'"
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 37: 'Una secuencias de test se muestran en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.'"
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 37, step 3: 'Pulse F2 (Salir).'"
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "fable",
+    "call_label": "review:sol_candidates",
+    "model": "claude-fable-5",
+    "status": "end_turn",
+    "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_mcp_isolation_parasitics\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The gold answer could explicitly note that the isolation specifications apply only to KE-DM3110 models with the integrated short-circuit isolator, as stated on page 15; however, the question itself already scopes to 'el aislador de cortocircuito integrado en el KE-DM3110', so the scoping is preserved.\",\"Existing retriever-augmentation questions cover isolator engagement/reconnection voltages and devices-between-isolators, but none covers these three parameters (active-isolation consumption, leakage current, series impedance), so there is no duplication.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 15, table 'Isolamento': 'Assorbimento di corrente (isolamento attivo) 1,5 mA', explicitly valid for KE-DM3110 models with integrated isolator.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 16, continuation of isolation table: 'Corrente di dispersione 1 mA max.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 16: 'Impedenza in serie 0,06 Ω max.'\"}]},{\"canary_id\":\"kidde_outdoor_isolator_nominal_currents\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The question identifies the product by family description ('dispositivo direccionable de notificación exterior Kidde Excellence') rather than exact model number (KE-AS3115R-WMIP as in the counterpart); the installation sheet's Technische Daten apply to the covered outdoor notification device series, so the question remains answerable, but naming the model would be crisper.\",\"Retriever-augmentation questions on this document cover the isolator's actuated consumption (5 mA), max isolators per loop, devices between isolators and max cable impedance — none asks for the two nominal current ratings, so no duplication.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 10, 'Isolation' table: 'Nennstrom – Kontinuierlich (Isolator geschlossen): 1,05 A'.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 10, 'Isolation' table: 'Nennstrom – Isolator aktiv (Kurzschluss): 1,4 A'.\"}]},{\"canary_id\":\"kidde_2xa_lcd_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Existing retriever-augmentation questions cover the LED/buzzer test and the keyboard test (hyq:049082aa..., hyq:29411a3c...), but not the LCD test, so no semantic duplication.\",\"Counterpart marks F04 (exit via F2) as core while this candidate marks it supplementary; classification difference only, no factual disagreement.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37: 'Realice una comprobación de LCD para confirmar que la LCD funciona correctamente.'\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37, steps 1-2: 'En el Menú principal, seleccione Prueba' → 'Seleccione Prueba de IU y, a continuación, Test LCD.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37: 'Una secuencias de test se muestran en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.'\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37, step 3: 'Pulse F2 (Salir).'\"}]}]}",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 107322,
+      "output_tokens": 2584
+    },
+    "provider_trace": {
+      "id": "msg_011Cd8ndUFJCu5197fdVJ81S",
+      "container": null,
+      "content": [
+        {
+          "signature": "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",
+          "thinking": "",
+          "type": "thinking"
+        },
+        {
+          "citations": null,
+          "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_mcp_isolation_parasitics\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The gold answer could explicitly note that the isolation specifications apply only to KE-DM3110 models with the integrated short-circuit isolator, as stated on page 15; however, the question itself already scopes to 'el aislador de cortocircuito integrado en el KE-DM3110', so the scoping is preserved.\",\"Existing retriever-augmentation questions cover isolator engagement/reconnection voltages and devices-between-isolators, but none covers these three parameters (active-isolation consumption, leakage current, series impedance), so there is no duplication.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 15, table 'Isolamento': 'Assorbimento di corrente (isolamento attivo) 1,5 mA', explicitly valid for KE-DM3110 models with integrated isolator.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 16, continuation of isolation table: 'Corrente di dispersione 1 mA max.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 16: 'Impedenza in serie 0,06 Ω max.'\"}]},{\"canary_id\":\"kidde_outdoor_isolator_nominal_currents\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The question identifies the product by family description ('dispositivo direccionable de notificación exterior Kidde Excellence') rather than exact model number (KE-AS3115R-WMIP as in the counterpart); the installation sheet's Technische Daten apply to the covered outdoor notification device series, so the question remains answerable, but naming the model would be crisper.\",\"Retriever-augmentation questions on this document cover the isolator's actuated consumption (5 mA), max isolators per loop, devices between isolators and max cable impedance — none asks for the two nominal current ratings, so no duplication.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 10, 'Isolation' table: 'Nennstrom – Kontinuierlich (Isolator geschlossen): 1,05 A'.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 10, 'Isolation' table: 'Nennstrom – Isolator aktiv (Kurzschluss): 1,4 A'.\"}]},{\"canary_id\":\"kidde_2xa_lcd_test\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Existing retriever-augmentation questions cover the LED/buzzer test and the keyboard test (hyq:049082aa..., hyq:29411a3c...), but not the LCD test, so no semantic duplication.\",\"Counterpart marks F04 (exit via F2) as core while this candidate marks it supplementary; classification difference only, no factual disagreement.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37: 'Realice una comprobación de LCD para confirmar que la LCD funciona correctamente.'\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37, steps 1-2: 'En el Menú principal, seleccione Prueba' → 'Seleccione Prueba de IU y, a continuación, Test LCD.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37: 'Una secuencias de test se muestran en la pantalla LCD para ayudar a identificar la ubicación de los píxeles defectuosos.'\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 37, step 3: 'Pulse F2 (Salir).'\"}]}]}",
+          "type": "text"
+        }
+      ],
+      "model": "claude-fable-5",
+      "role": "assistant",
+      "stop_details": null,
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "type": "message",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 107322,
+        "output_tokens": 2584,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 855
+        }
+      }
+    }
+  },
+  "result_sha256": "c482a130dff516d46e5c33e846b7bc40651002d4de7628292aa20a0b7f7c43ce"
+}

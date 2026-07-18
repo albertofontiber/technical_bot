@@ -1,0 +1,78 @@
+{
+  "schema": "s207_support_mapping_failure_analysis_v1",
+  "status": "RECORDED_NO_GO_NO_RETRY",
+  "result_status": "NO_GO_S207_SUPPORT_MAPPING",
+  "result_path": "evals/s207_decomposed_planner_holdout_result_v1.json",
+  "frontier_ledger": {
+    "path": "evals/s207_frontier_call_ledger_v1.json",
+    "result_sha256": "7c188ac86ac30419f359803736a9c6b6083aea7b374db292163f329821001eab",
+    "calls": 9,
+    "sol_calls": 5,
+    "fable_calls": 4,
+    "conservative_cost_usd": 13.08288
+  },
+  "completed_gates": {
+    "sol_pixel_golds_valid": 3,
+    "fable_pixel_golds_valid": 3,
+    "fable_reviews_of_sol": ["PASS", "PASS", "PASS"],
+    "sol_reviews_of_fable": ["PASS", "PASS", "PASS"],
+    "published_candidate_gold_path": "evals/s207_kidde_visual_gold_v1.json",
+    "published_candidate_gold_sha256": "7295c9cee6f9d8b46655ae863d8c212162222d0d3717a7cede3705f412624cb4",
+    "candidate_gold_questions": 3,
+    "official_fact_credit": 0
+  },
+  "mapping_audit": {
+    "atomic_facts": 9,
+    "same_page_mappings": 7,
+    "cross_page_mappings": 2,
+    "blocking_rows": [
+      {
+        "canary_id": "kidde_mcp_isolation_parasitics",
+        "fact_id": "F02",
+        "fact_citation_page": 16,
+        "value_unit_id": "EAT_b811388aa0",
+        "value_unit_page": 16,
+        "scope_unit_id": "E047_f1e67c801f",
+        "scope_unit_page": 15
+      },
+      {
+        "canary_id": "kidde_mcp_isolation_parasitics",
+        "fact_id": "F03",
+        "fact_citation_page": 16,
+        "value_unit_id": "EAT_30bc1d943d",
+        "value_unit_page": 16,
+        "scope_unit_id": "E047_f1e67c801f",
+        "scope_unit_page": 15
+      }
+    ],
+    "shared_scope_unit_text": "Le seguenti specifiche di isolamento sono valide per i modelli KE-DM3110 con isolatore di cortocircuito integrato.",
+    "adjudication": "The principal mapping correctly required page-15 model scope to bind page-16 numeric rows to KE-DM3110. The frozen single-page citation validator cannot represent that cross-page entailment and therefore rejected the mapping as preregistered."
+  },
+  "what_s207_does_not_measure": {
+    "support_review_calls": 0,
+    "terra_planner_calls": 0,
+    "target_calls": 0,
+    "planner_hypothesis_status": "UNMEASURED",
+    "canonical_fact_delta": 0
+  },
+  "next_independent_line": {
+    "stage": "S208",
+    "mechanism": "multi_page_atomic_support_contract",
+    "general_rule": "Each atomic fact may bind one or more focus pages when value evidence and product/model scope are separated across a manual continuation. The gold and mapping schemas must represent every required page explicitly; no implicit cross-page support is allowed.",
+    "fresh_holdout_required": true,
+    "reuse_s207_cohort_for_gate": false,
+    "reuse_s207_outputs_for_tuning": false,
+    "same_cohort_retry": false,
+    "frontier_roles": {
+      "principal": "gpt-5.6-sol xhigh",
+      "independent": "claude-fable-5"
+    },
+    "target_remains_closed": true
+  },
+  "invariants": {
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false,
+    "runtime_integration": false
+  }
+}
