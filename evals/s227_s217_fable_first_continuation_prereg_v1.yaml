@@ -1,0 +1,50 @@
+schema: s227_s217_fable_first_continuation_prereg_v1
+status: FROZEN_BEFORE_PAID_CONTINUATION
+objective: >-
+  Complete the transport-held S217 external cohort without changing sources,
+  topics, pixel evidence, gold contracts, or model roles.
+continuation_of:
+  - {stage: S217, status: HOLD_S217_EXTERNAL_OR_INCOMPLETE, frontier_calls: 0}
+  - {stage: S218, status: HOLD_S218_EXTERNAL_HTTP_520, frontier_calls: 0}
+packet_sha256: 8c8cd8e1410ae31f9961b0da83f5c6bb3ed759291623ae0bd3f8408ca917d234
+models:
+  principal: {id: gpt-5.6-sol, reasoning_effort: xhigh}
+  independent: {id: claude-fable-5}
+operational_delta:
+  prior_order: all_sol_authorship_then_all_fable_authorship
+  continuation_order: per_item_fable_authorship_then_sol_authorship
+  rationale: >-
+    Bound sunk independent-model spend if the OpenAI transport still returns
+    zero model responses; the principal remains final gold author and reviewer.
+execution:
+  candidate_items: 4
+  minimum_supported_items: 3
+  frontier_calls_max: 24
+  provider_retries: 0
+  same_item_retry: false
+  resume_after_failure: false
+  candidate_merge_or_repair: false
+  target_calls: 0
+  retrieval_calls: 0
+  database_calls: 0
+budget:
+  internal_stop_usd: 90
+  user_ceiling_usd: 200
+gates:
+  - independent_and_principal_pixel_authorship
+  - reciprocal_pixel_review
+  - principal_exact_support_mapping
+  - independent_support_review
+  - minimum_three_supported_questions
+next_on_go: clause_bound_source_bound_synthesis_screen
+official_fact_credit: 0
+production_default_changed: false
+chunks_v2_status: ACTIVE_READ_ONLY
+chunks_v3_status: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+railway_merge_gate: false
+forbidden:
+  - retry_or_resume_after_any_provider_failure
+  - change_s217_source_packet_or_topic_contracts
+  - use_one_model_as_both_author_and_independent_reviewer
+  - expose_canonical_targets
+  - claim_external_validation_or_official_fact_credit

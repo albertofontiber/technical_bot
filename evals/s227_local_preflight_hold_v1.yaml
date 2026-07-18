@@ -1,0 +1,21 @@
+schema: s227_local_preflight_hold_v1
+status: CLOSED_ZERO_CALL_LOCAL_PREFLIGHT_DEFECT
+failure:
+  stage: credential_discovery
+  cause: temporary_worktree_does_not_contain_dotenv
+  provider_calls: 0
+  model_responses: 0
+  cost_usd: 0
+correction:
+  dotenv_path: explicit_primary_workspace_path
+  credential_check_moved_to_zero_call_preflight: true
+  paid_continuation_started: false
+decision:
+  same_provider_attempt_retried: false
+  s227_paid_execution_remains_unopened: true
+  official_fact_credit: 0
+  target_calls: 0
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false

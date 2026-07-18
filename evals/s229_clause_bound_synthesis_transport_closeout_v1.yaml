@@ -1,0 +1,78 @@
+schema: s229_clause_bound_synthesis_transport_closeout_v1
+status: CLOSED_INSTRUMENT_FAILURE_NO_RETRY
+
+canonical_scoreboard:
+  denominator: 157
+  facts_ok: 143
+  facts_ok_percent: 91.08
+  synthesis_miss: 12
+  retrieval_miss: 2
+  facts_moved_to_ok: 0
+
+s227_external_cohort:
+  status: HOLD_S227_EXTERNAL_OR_INCOMPLETE
+  completed_frontier_calls: 1
+  first_call: {model: claude-fable-5, stop_reason: max_tokens, max_tokens: 8000}
+  conservative_cost_usd: 2.70291
+  retries: 0
+  target_calls: 0
+
+s228_design_review:
+  principal:
+    model: gpt-5.6-sol
+    reasoning_effort: xhigh
+    status: FAILED_EXTERNAL_INTERNAL_SERVER_ERROR
+    model_responses: 0
+    retries: 0
+    provider_trace: evals/adversarial_reviews/2026-07-18T15-20-28_gpt-5.6-sol_responses_51e8a4f908f9.json
+    provider_trace_sha256: 51e8a4f908f908f9cec01e018f4490737febff595e17fb282cc4f55886bfd9fc
+  independent:
+    model: claude-fable-5
+    status: INVALID_NOT_A_PASS
+    reason: reviewer fabricated repository tool reads while tool_calls_was_zero and cited non-existent file contents
+    output: evals/adversarial_reviews/2026-07-18T15-23-07_claude-fable-5_d6395d427a79.md
+    output_sha256: d6395d427a79b7144f1437400958d1d49e3eb69022f0fef1e26c01546679cb7f
+    provider_trace: evals/adversarial_reviews/2026-07-18T15-23-07_claude-fable-5_responses_37614057d404.json
+    provider_trace_sha256: 37614057d40407f3b9c6351887b013c468361aff8a541b9e47d1ffa58887f67c
+    conservative_cost_usd: 1.33812
+  dual_pass: false
+
+s228_non_target_diagnostic:
+  deterministic_primitive_tests: {passed: 4, failed: 0}
+  preflight: PASS
+  authorized_population: {items: 9, replicates: 2, target_items: 0}
+  execution_status: INCOMPLETE_NO_SCORE
+  stopped_at: first_item_first_replicate_first_writer
+  completed_provider_calls_at_least: 2
+  failure: writer_output_not_exact_json
+  checkpoint_debt: first item was not complete, so call receipts were not persisted
+  cost_usd: UNMEASURED_SMALL
+  score_packet_opened: false
+  target_calls: 0
+  official_fact_credit: 0
+
+interpretation:
+  mechanism_verdict: UNMEASURED
+  transport_verdict: NO_GO_CURRENT_INSTRUMENT
+  safe_claim: deterministic source binding and assembly primitives work locally
+  forbidden_claim: clause_bound_synthesis_reduces_the_12_misses
+  legitimate_successor_requires:
+    - fresh_independent_multichunk_population
+    - strict_provider_structured_output_for_each_writer_block
+    - per_call_checkpoint_before_semantic_validation
+    - valid_sol_xhigh_principal_review
+    - valid_independent_fable_review_without_fabricated_evidence
+    - no_reuse_or_tuning_on_the_s219_nine_item_population
+
+decision:
+  retry_s227: false
+  retry_s228: false
+  target_probe: false
+  production_integration: false
+  production_default_changed: false
+  deployment_performed: false
+
+invariants:
+  chunks_v2: ACTIVE_READ_ONLY
+  chunks_v3: FINAL_NO_GO_CHUNKS_V3_WHOLESALE
+  railway_merge_gate: false
