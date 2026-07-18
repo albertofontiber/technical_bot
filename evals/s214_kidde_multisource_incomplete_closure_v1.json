@@ -1,0 +1,71 @@
+{
+  "schema": "s214_kidde_multisource_incomplete_closure_v1",
+  "status": "NO_GO_INCOMPLETE_FAIL_CLOSED",
+  "failure": {
+    "stage": "FABLE_BLIND_AUTHORSHIP",
+    "classification": "PROVIDER_COMPLETION_LIMIT",
+    "error": "RuntimeError: Fable incomplete or model mismatch: max_tokens / claude-fable-5",
+    "attempted_item": "kidde_nc_capacity_tradeoffs",
+    "provider": "fable",
+    "model": "claude-fable-5",
+    "provider_status": "max_tokens",
+    "input_tokens": 62668,
+    "output_tokens": 8000,
+    "raw_output_chars": 8723
+  },
+  "execution": {
+    "completed_transport_calls": 5,
+    "planned_frontier_calls_max": 24,
+    "completed_sol_authorship_calls": 4,
+    "valid_sol_candidates": 4,
+    "completed_fable_authorship_calls": 0,
+    "incomplete_fable_authorship_calls": 1,
+    "provider_retries": 0,
+    "same_item_retry": false,
+    "resume": false,
+    "reciprocal_review_calls": 0,
+    "support_calls": 0,
+    "downstream_artifacts_written": false
+  },
+  "unattempted_items": [
+    "kidde_2xa_interface_tradeoffs",
+    "kidde_mcp_surface_kit_selection",
+    "kidde_modulaser_role_selection"
+  ],
+  "inputs": {
+    "packet_sha256": "d0c9fdb84f521384dca2e13e2af0e472522c5bdc41c664c33162201f814c541a",
+    "prereg_sha256": "fd62a13875d69e0e54b774ad3efecc2f8a4eba898785e6bc78ef141a789837d4",
+    "design_gate_sha256": "5bc3af5410357ee25871c5555a0bc65c3991c0b8d4cb68dcea3fc0b1394fe9e3",
+    "closed_call_ledger_sha256": "66bfeb2fd12735bb33296ac1615a0a88e94cdef36113082879bf5eb2809f9942",
+    "sol_generations_sha256": "ee017c40ceab4bea85eff17a61a855d98dee33713c1ec203c70b5e0040a3173c",
+    "hold_result_sha256": "ff736219fffd0188d38bad23fc4c5c629dde3df0df80af9dddace17c67aefdf0"
+  },
+  "cost": {
+    "actual_sunk_usd": 8.73762,
+    "budget_ceiling_usd": 100.0,
+    "within_budget": true
+  },
+  "credit": {
+    "facts_ok_before": 143,
+    "facts_ok_after": 143,
+    "denominator": 157,
+    "facts_moved_to_ok": 0,
+    "canonical_ok_rate_percent": 91.08
+  },
+  "decision": {
+    "same_run_retry": false,
+    "resume": false,
+    "retry_or_repair_failed_item": false,
+    "runtime_integration": false,
+    "production_default": "off",
+    "next": "DESIGN_S215_ONLY_ON_THREE_PRE_FROZEN_UNATTEMPTED_ITEMS",
+    "reason": "Preserve the four valid Sol candidates and exclude the attempted NC item without semantic selection; evaluate only the three never attempted by Fable."
+  },
+  "invariants": {
+    "source_independent_validation": false,
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "5fa004c97eab3d81edda074588bdc6be60b4b7baa8c5bf33a42c5f502beed5b9"
+}
