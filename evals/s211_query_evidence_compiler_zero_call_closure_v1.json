@@ -1,0 +1,50 @@
+{
+  "schema": "s211_query_evidence_compiler_zero_call_closure_v1",
+  "status": "NO_GO_ZERO_MODEL_CALL_PROVIDER_SCHEMA_UNSUPPORTED",
+  "executed_against_main_sha": "22eda34249f0109b67e817e1209b23654617f435",
+  "inputs": {
+    "preflight_sha256": "977fc32d674ca262f7623b832f920a8e5c21f8cb0e49f185858afff6dfba06d7",
+    "permit_sha256": "d675c13b96bf748ba3612c16118188165ac42851dbbdff299c258597d38757ee"
+  },
+  "execution": {
+    "network_requests": 1,
+    "model_calls": 0,
+    "tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "provider_retries": 0,
+    "resume_attempts": 0
+  },
+  "first_failure": {
+    "provider": "anthropic",
+    "model_requested": "claude-haiku-4-5-20251001",
+    "http_status": 400,
+    "error_type": "invalid_request_error",
+    "request_id": "req_011Cd959XAcMbb96r4izgo3r",
+    "message": "output_config.format.schema: For 'array' type, property 'maxItems' is not supported"
+  },
+  "causal_analysis": {
+    "category": "PROVIDER_STRUCTURED_SCHEMA_CAPABILITY_MISMATCH",
+    "semantic_prompt_failure": false,
+    "target_specific": false,
+    "target_output_observed": false,
+    "result_quality_observed": false,
+    "safe_general_correction": "Use the provider-supported schema and deterministically retain at most the first 16 claims locally; source binding and all result gates remain fail-closed."
+  },
+  "credit": {
+    "facts_moved_to_ok": 0,
+    "canonical_facts_ok": 143,
+    "denominator": 157,
+    "ok_rate_percent": 91.08
+  },
+  "decision": {
+    "same_run_retry": false,
+    "runtime_integration": false,
+    "production_default": "off",
+    "next": "S212_DETERMINISTIC_OVERFLOW_DROP_FRESH_PREREG"
+  },
+  "invariants": {
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "71fb634fd5bfd2c8214edbcc8c1a6eafa6e3999569943572e1b669f0e1e4a7c4"
+}
