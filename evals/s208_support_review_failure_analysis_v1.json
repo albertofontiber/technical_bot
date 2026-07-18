@@ -1,0 +1,75 @@
+{
+  "schema": "s208_support_review_failure_analysis_v1",
+  "status": "RECORDED_NO_GO_NO_RETRY",
+  "decision": "NO_GO_S208_SUPPORT_MAPPING",
+  "measured_from_main": "6c4ad665d8dbfd9d9db366ab63c9031b95f6353d",
+  "execution": {
+    "frontier_calls": 10,
+    "sol_calls": 5,
+    "fable_calls": 5,
+    "planner_calls": 0,
+    "target_calls": 0,
+    "conservative_frontier_cost_usd": 26.72139,
+    "provider_retries": 0,
+    "official_fact_credit": 0
+  },
+  "completed_gates": {
+    "sol_pixel_candidates_valid": 3,
+    "fable_pixel_candidates_valid": 3,
+    "sol_material_disagreement_reviews_valid": 3,
+    "fable_publication_reviews_pass": 3,
+    "pixel_gold_questions_frozen": 3,
+    "pixel_gold_atomic_facts": 20,
+    "sol_support_mapping_contract_valid": true,
+    "support_mappings": 20,
+    "support_alternative_sets_declared": 0,
+    "genuine_cross_page_mapping": {
+      "canary_id": "kidde_dual_optical_isolator_geometry",
+      "fact_id": "F03",
+      "mapped_pages": [2, 3],
+      "declared_citation_pages": [2, 3],
+      "page_set_exact": true
+    }
+  },
+  "failure": {
+    "phase": "independent_support_review_schema_validation",
+    "provider": "claude-fable-5",
+    "review_items": 3,
+    "review_fact_rows": 20,
+    "item_verdicts": ["PASS", "PASS", "PASS"],
+    "item_blocking_issues": 0,
+    "all_fact_boolean_checks_true": true,
+    "fact_issue_lists_nonempty": 20,
+    "issue_list_content": "positive explanatory audit notes, not blocking defects",
+    "validator_error": "support review verdict contradicts its fields",
+    "root_cause": "The v3 schema reused the field name issues for both blocking conditions and explanatory audit prose. The prompt required an issues list but did not provide a separate notes field, so Fable populated every issues list with positive explanations while returning PASS and all booleans true. The validator correctly treated nonempty issues as blocking and failed closed."
+  },
+  "interpretation": {
+    "clean_multipage_representation": "SUPPORTED_BY_VALID_SOL_MAPPING",
+    "independent_mapping_review": "INVALID_SERIALIZATION_NO_CREDIT",
+    "planner_hypothesis": "UNMEASURED",
+    "terra_low_configuration": "NOT_CALLED",
+    "target_prereg_authorized": false,
+    "same_cohort_retry": false,
+    "favorable_reinterpretation_forbidden": true,
+    "chunks_v3_status": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "next_independent_line": {
+    "stage": "S209",
+    "fresh_holdout_required": true,
+    "reuse_s208_questions_facts_or_mappings": false,
+    "general_contract_correction": [
+      "replace each fact-level issues list with blocking_issues plus a separate notes string",
+      "derive PASS only from booleans and empty blocking_issues",
+      "retain exact multipage citation-page equality and support-equivalent set enumeration",
+      "test that positive notes are allowed on PASS and nonempty blocking_issues are not",
+      "run no more than one fresh small cohort before deciding whether to abandon this planner line"
+    ],
+    "frontier_roles": {
+      "principal": "gpt-5.6-sol xhigh",
+      "independent": "claude-fable-5",
+      "economic_planner": "gpt-5.6-terra low only after every frontier gate"
+    }
+  }
+}

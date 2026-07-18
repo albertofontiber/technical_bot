@@ -1,0 +1,256 @@
+{
+  "schema": "s208_fable_review_of_sol_v1",
+  "review": {
+    "reviewer_model": "claude-fable-5",
+    "candidate_author": "gpt-5.6-sol",
+    "reviews": [
+      {
+        "canary_id": "kidde_dual_optical_isolator_geometry",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The candidate does not explicitly restate the page-2 caveat that isolation specifications apply only to KE-DP3120W models with the integrated isolator; however, the question itself is scoped to KE-DP3120W, so this is not a material omission.",
+          "The counterpart additionally reports the 0.08 Ω max series impedance per isolator (supplementary); its absence here does not affect completeness for the question as asked."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 2 Isolation table: 'Between the first isolator and the control panel: 13 Ω' under 'Maximum impedance [1]'."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 2 Isolation table: 'Between each isolator: 13 Ω'."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Genuine cross-page fact: note marker '[1]' on page 2, note text '[1] Equivalent to 500 m of 1.5 mm² (16 AWG) cable' on page 3."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 3: 'Number of isolators per loop — 128 max.'"
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 3: 'Number of devices between isolators — 32 max.'"
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_2xa_self_test_schedule",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "Step 7 on the page offers four options (F1 Guardar, F3 Aplicar, F4 Descartar, F2 Salir); the candidate's answer surfaces only the save-and-apply path, which is the relevant one for the question ('guardar y aplicar la configuración') and matches the page's reminder to apply saved settings in the Main Menu — acceptable phrasing, not a correctness issue.",
+          "No existing gold or retriever-augmentation question covers Self-test; day/night and delay questions are semantically distinct."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 91: 'De forma predeterminada, la autoprueba no está activada.'"
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Intro paragraph: autoprueba funcional para cada dispositivo de lazo e informe diario en dispositivos compatibles."
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Steps 1-2: Ajustes del panel → Otros ajustes → Self-test."
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Step 3: 'Seleccione y marque la casilla de verificación Habili.'"
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Step 4: TestH, hora de inicio, de 00:00 a 23:59."
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Step 5: ReportH, hora de generación del informe, de 00:00 a 23:59."
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Step 6: F4 (Enter) then F1 (Atrás)."
+          },
+          {
+            "fact_id": "F08",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Step 7 lists F1 (Guardar) and F3 (Aplicar) among options plus reminder to apply saved settings in Menú principal."
+          }
+        ]
+      },
+      {
+        "canary_id": "kidde_nc_internal_fault_startup",
+        "verdict": "PASS",
+        "question_fully_answerable": true,
+        "question_duplicate": false,
+        "topic_aligned": true,
+        "gold_complete": true,
+        "counterpart_materially_agrees": true,
+        "material_disagreements": [],
+        "unsupported_answer_claims": [],
+        "blocking_issues": [],
+        "nonblocking_notes": [
+          "The brand 'Kidde' in the question is not verifiable from the focus page pixels (retriever-augmentation questions for this same manual call it 'Serie NC de Notifier'); however, the counterpart independently used the same branding, the device family 'Serie NC' unambiguously identifies the manual, and all technical claims are brand-independent and fully pixel-supported — noted as a wording observation only.",
+          "The candidate omits the page's attribution of the special startup sequence to EN 54-2; this is contextual framing rather than a safety- or correctness-relevant omission.",
+          "Not a duplicate of ho006, which covers post-alarm reset and zone disable rather than the internal-fault startup sequence."
+        ],
+        "fact_verdicts": [
+          {
+            "fact_id": "F01",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Page 89 'Inicio de avería': secuencia de inicio especial tras detectar una avería interna."
+          },
+          {
+            "fact_id": "F02",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'El LED \"Avería\" general parpadea de forma rápida.'"
+          },
+          {
+            "fact_id": "F03",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'El LED \"Avería sistema\" parpadea de forma lenta.'"
+          },
+          {
+            "fact_id": "F04",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Steps 1-2: contraseña del nivel de usuario operador, luego botón 'Rearme'."
+          },
+          {
+            "fact_id": "F05",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'Si este estado de avería continúa después del rearme, la central cancelará la secuencia de inicio…'"
+          },
+          {
+            "fact_id": "F06",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "'…y encenderá el LED \"Avería sistema\".'"
+          },
+          {
+            "fact_id": "F07",
+            "supported": true,
+            "page_correct": true,
+            "answer_entails": true,
+            "notes": "Último párrafo: comprobar todas las conexiones y la configuración de la central."
+          }
+        ]
+      }
+    ]
+  },
+  "receipt": {
+    "provider": "fable",
+    "call_label": "review:sol_candidates",
+    "model": "claude-fable-5",
+    "status": "end_turn",
+    "raw_output": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_dual_optical_isolator_geometry\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The candidate does not explicitly restate the page-2 caveat that isolation specifications apply only to KE-DP3120W models with the integrated isolator; however, the question itself is scoped to KE-DP3120W, so this is not a material omission.\",\"The counterpart additionally reports the 0.08 Ω max series impedance per isolator (supplementary); its absence here does not affect completeness for the question as asked.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 2 Isolation table: 'Between the first isolator and the control panel: 13 Ω' under 'Maximum impedance [1]'.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 2 Isolation table: 'Between each isolator: 13 Ω'.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Genuine cross-page fact: note marker '[1]' on page 2, note text '[1] Equivalent to 500 m of 1.5 mm² (16 AWG) cable' on page 3.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3: 'Number of isolators per loop — 128 max.'\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3: 'Number of devices between isolators — 32 max.'\"}]},{\"canary_id\":\"kidde_2xa_self_test_schedule\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Step 7 on the page offers four options (F1 Guardar, F3 Aplicar, F4 Descartar, F2 Salir); the candidate's answer surfaces only the save-and-apply path, which is the relevant one for the question ('guardar y aplicar la configuración') and matches the page's reminder to apply saved settings in the Main Menu — acceptable phrasing, not a correctness issue.\",\"No existing gold or retriever-augmentation question covers Self-test; day/night and delay questions are semantically distinct.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 91: 'De forma predeterminada, la autoprueba no está activada.'\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Intro paragraph: autoprueba funcional para cada dispositivo de lazo e informe diario en dispositivos compatibles.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Steps 1-2: Ajustes del panel → Otros ajustes → Self-test.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 3: 'Seleccione y marque la casilla de verificación Habili.'\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 4: TestH, hora de inicio, de 00:00 a 23:59.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 5: ReportH, hora de generación del informe, de 00:00 a 23:59.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 6: F4 (Enter) then F1 (Atrás).\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 7 lists F1 (Guardar) and F3 (Aplicar) among options plus reminder to apply saved settings in Menú principal.\"}]},{\"canary_id\":\"kidde_nc_internal_fault_startup\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The brand 'Kidde' in the question is not verifiable from the focus page pixels (retriever-augmentation questions for this same manual call it 'Serie NC de Notifier'); however, the counterpart independently used the same branding, the device family 'Serie NC' unambiguously identifies the manual, and all technical claims are brand-independent and fully pixel-supported — noted as a wording observation only.\",\"The candidate omits the page's attribution of the special startup sequence to EN 54-2; this is contextual framing rather than a safety- or correctness-relevant omission.\",\"Not a duplicate of ho006, which covers post-alarm reset and zone disable rather than the internal-fault startup sequence.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 89 'Inicio de avería': secuencia de inicio especial tras detectar una avería interna.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'El LED \\\"Avería\\\" general parpadea de forma rápida.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'El LED \\\"Avería sistema\\\" parpadea de forma lenta.'\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Steps 1-2: contraseña del nivel de usuario operador, luego botón 'Rearme'.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Si este estado de avería continúa después del rearme, la central cancelará la secuencia de inicio…'\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'…y encenderá el LED \\\"Avería sistema\\\".'\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Último párrafo: comprobar todas las conexiones y la configuración de la central.\"}]}]}",
+    "usage": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 234719,
+      "output_tokens": 4215
+    },
+    "provider_trace": {
+      "id": "msg_011Cd8shXwF8bBqAkH6oW8i5",
+      "container": null,
+      "content": [
+        {
+          "signature": "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",
+          "thinking": "",
+          "type": "thinking"
+        },
+        {
+          "citations": null,
+          "text": "{\"reviewer_model\":\"claude-fable-5\",\"candidate_author\":\"gpt-5.6-sol\",\"reviews\":[{\"canary_id\":\"kidde_dual_optical_isolator_geometry\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The candidate does not explicitly restate the page-2 caveat that isolation specifications apply only to KE-DP3120W models with the integrated isolator; however, the question itself is scoped to KE-DP3120W, so this is not a material omission.\",\"The counterpart additionally reports the 0.08 Ω max series impedance per isolator (supplementary); its absence here does not affect completeness for the question as asked.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 2 Isolation table: 'Between the first isolator and the control panel: 13 Ω' under 'Maximum impedance [1]'.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 2 Isolation table: 'Between each isolator: 13 Ω'.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Genuine cross-page fact: note marker '[1]' on page 2, note text '[1] Equivalent to 500 m of 1.5 mm² (16 AWG) cable' on page 3.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3: 'Number of isolators per loop — 128 max.'\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 3: 'Number of devices between isolators — 32 max.'\"}]},{\"canary_id\":\"kidde_2xa_self_test_schedule\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"Step 7 on the page offers four options (F1 Guardar, F3 Aplicar, F4 Descartar, F2 Salir); the candidate's answer surfaces only the save-and-apply path, which is the relevant one for the question ('guardar y aplicar la configuración') and matches the page's reminder to apply saved settings in the Main Menu — acceptable phrasing, not a correctness issue.\",\"No existing gold or retriever-augmentation question covers Self-test; day/night and delay questions are semantically distinct.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 91: 'De forma predeterminada, la autoprueba no está activada.'\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Intro paragraph: autoprueba funcional para cada dispositivo de lazo e informe diario en dispositivos compatibles.\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Steps 1-2: Ajustes del panel → Otros ajustes → Self-test.\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 3: 'Seleccione y marque la casilla de verificación Habili.'\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 4: TestH, hora de inicio, de 00:00 a 23:59.\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 5: ReportH, hora de generación del informe, de 00:00 a 23:59.\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 6: F4 (Enter) then F1 (Atrás).\"},{\"fact_id\":\"F08\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Step 7 lists F1 (Guardar) and F3 (Aplicar) among options plus reminder to apply saved settings in Menú principal.\"}]},{\"canary_id\":\"kidde_nc_internal_fault_startup\",\"verdict\":\"PASS\",\"question_fully_answerable\":true,\"question_duplicate\":false,\"topic_aligned\":true,\"gold_complete\":true,\"counterpart_materially_agrees\":true,\"material_disagreements\":[],\"unsupported_answer_claims\":[],\"blocking_issues\":[],\"nonblocking_notes\":[\"The brand 'Kidde' in the question is not verifiable from the focus page pixels (retriever-augmentation questions for this same manual call it 'Serie NC de Notifier'); however, the counterpart independently used the same branding, the device family 'Serie NC' unambiguously identifies the manual, and all technical claims are brand-independent and fully pixel-supported — noted as a wording observation only.\",\"The candidate omits the page's attribution of the special startup sequence to EN 54-2; this is contextual framing rather than a safety- or correctness-relevant omission.\",\"Not a duplicate of ho006, which covers post-alarm reset and zone disable rather than the internal-fault startup sequence.\"],\"fact_verdicts\":[{\"fact_id\":\"F01\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Page 89 'Inicio de avería': secuencia de inicio especial tras detectar una avería interna.\"},{\"fact_id\":\"F02\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'El LED \\\"Avería\\\" general parpadea de forma rápida.'\"},{\"fact_id\":\"F03\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'El LED \\\"Avería sistema\\\" parpadea de forma lenta.'\"},{\"fact_id\":\"F04\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Steps 1-2: contraseña del nivel de usuario operador, luego botón 'Rearme'.\"},{\"fact_id\":\"F05\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'Si este estado de avería continúa después del rearme, la central cancelará la secuencia de inicio…'\"},{\"fact_id\":\"F06\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"'…y encenderá el LED \\\"Avería sistema\\\".'\"},{\"fact_id\":\"F07\",\"supported\":true,\"page_correct\":true,\"answer_entails\":true,\"notes\":\"Último párrafo: comprobar todas las conexiones y la configuración de la central.\"}]}]}",
+          "type": "text"
+        }
+      ],
+      "model": "claude-fable-5",
+      "role": "assistant",
+      "stop_details": null,
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "type": "message",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 234719,
+        "output_tokens": 4215,
+        "server_tool_use": null,
+        "service_tier": "standard",
+        "output_tokens_details": {
+          "thinking_tokens": 1764
+        }
+      }
+    }
+  },
+  "result_sha256": "834a5fbf38285ee3ca39737b5fb165d9f7fd20a233aaf83cc8293d4023a070f0"
+}
