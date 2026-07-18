@@ -1,0 +1,1591 @@
+{
+  "schema": "s205_kidde_visual_canary_packet_v1",
+  "status": "FROZEN_BEFORE_FRONTIER_CALLS",
+  "selection": {
+    "method": "principal_gate_fresh_visual_source_units",
+    "geometry_frozen_in_prior_commit": "af6de65",
+    "model_outputs_seen": 0,
+    "bot_outputs_seen": 0,
+    "selected_items": 3,
+    "selected_source_overlap_with_existing_gold": [],
+    "selected_source_sha_overlap_with_resolved_existing_gold": [],
+    "excluded_closed_cohorts": [
+      "s203",
+      "s204"
+    ],
+    "selection_axes": [
+      "dense_numbered_hardware_diagram",
+      "annotated_user_interface_diagram",
+      "dense_compatibility_table"
+    ]
+  },
+  "existing_gold_coverage": [
+    {
+      "qid": "hp001",
+      "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?",
+      "atomic_fact_texts": [
+        "Desde la PANTALLA DE REPOSO, tocar con el dedo el icono del candado en la pantalla tactil -> accede a la PANTALLA DE ACCESO, que pide el codigo/password",
+        "Introducir la clave de ADMINISTRADOR por defecto 2222 -> da acceso al nivel de configuracion/administrador (donde se configuran todos los parametros)",
+        "La clave de USUARIO por defecto es 1111, que NO da acceso a la configuracion avanzada completa (solo el nivel de usuario)",
+        "Con la clave correcta se accede a la PANTALLA DE ADMINISTRADOR, dividida en 6 secciones: Menu Principal (izq), Submenu (der), Barra de Navegacion, Vista Principal, Barra de Estado y Barra de Mensajes",
+        "Desde el MENU PRINCIPAL se accede a: Lazos, Sectorizacion, Maniobras, Logs, Red, Ajustes e Instalacion",
+        "AVISO de seguridad: el uso indebido del nivel de administrador puede provocar mal funcionamiento; se recomienda cambiar la clave por defecto desde Ajustes > Usuarios"
+      ]
+    },
+    {
+      "qid": "hp002",
+      "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "atomic_fact_texts": [
+        "El ASD 535 no da una \"alarma de flujo bajo\" como tal, sino un aviso \"fallo flujo de aire\" cuando el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana de monitorizacion (por defecto +-20 %, EN 54-20)",
+        "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas",
+        "El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü (retardo ajustable que descarta turbulencias)",
+        "Diagnostico: leer el valor actual del flujo de aire (cap 7.6.1) -> posicion de conmutador V, V01 (conducto I) y V02 (conducto II); interpretacion: valor < 100 % apunta a obstruccion, > 100 % apunta a rotura de tubo",
+        "Por defecto todos los eventos del ASD 535 entran en parada automatica y requieren un RESET DE ESTADO para reinicializar (cap 2.2.17). El RESET INICIAL (cap 7.3.5) NO es necesario tras una simple limpieza de orificios; SI procede cuando, tras las medidas de limpieza del conducto (puntos 9-10), una nueva lectura de los valores de flujo (p122 punto 13) sigue FUERA DE TOLERANCIA, y SOLO con el conducto limpio e intacto (si no, la toma de muestras puede ser insuficiente y la alarma podria no dispararse)",
+        "En entornos con grandes turbulencias de aire u oscilaciones termicas puede ser necesario aumentar el tiempo de retardo o el tamano de la ventana; pero por encima de +-20 % deja de cumplir EN 54-20 (consultar con el fabricante)"
+      ]
+    },
+    {
+      "qid": "hp003",
+      "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+      "atomic_fact_texts": [
+        "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h",
+        "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra",
+        "Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de las baterias (conectar antes el puente entre baterias)",
+        "Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)",
+        "Antes de alimentar, comprobar con voltimetro que las baterias tienen una tension superior a 24V",
+        "Las baterias se colocan en la parte inferior de la caja, en vertical",
+        "Desconectar el magnetotermico bipolar exterior antes de manipular la central"
+      ]
+    },
+    {
+      "qid": "hp004",
+      "question": "¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector DGD-600 de Detnov?",
+      "atomic_fact_texts": [
+        "El DGD-600 existe en DOS versiones de alimentacion (24V y 220V) con especificaciones electricas distintas; la pregunta no indica cual -> ofrecer ambas y pedir aclaracion",
+        "Version 24V: tension de funcionamiento de 22V a 38V; consumo en reposo 45 mA (consumo en alarma 65 mA)",
+        "Version 220V: tension de funcionamiento de 180V a 240V; consumo en reposo 70 mA (consumo en alarma 70 mA)"
+      ]
+    },
+    {
+      "qid": "hp005",
+      "question": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+      "atomic_fact_texts": [
+        "La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la definicion de ENTRADA = ALARMA, sobre la zona deseada",
+        "En el menu \"Indique tipo de coincidencia\" seleccionar la opcion 2: COINCIDENCIA 2 EQUIPOS",
+        "Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma zona o subzona",
+        "Definir la SALIDA: \"Salidas activadas\" -> \"CIRCUITO SIRENA/RELE\" (un circuito de sirena concreto) o \"TODAS SALIDAS: Subzona/Zona/Central\" limitando por tipo a los modulos de sirena",
+        "Requisito EN54-2 7.1.4: NO incluir pulsadores manuales (PUL) en el grupo de coincidencia; si se quieren incluir, usar dos instrucciones separadas (PUL como UN UNICO EQUIPO sin coincidencia + sensores con coincidencia)",
+        "Niveles de coincidencia para EQUIPOS: Nivel 1 = 1 y Nivel 2 = 2 son FIJOS (no se configuran); otros niveles (3-99) se definen en Coincidencia de alarma de la Configuracion de la central",
+        "Con el programa PK-ID3000 (Windows), el equivalente se hace en la ventana 'Editar Matriz de Control' marcando la casilla de coincidencia y seleccionando 2 equipos"
+      ]
+    },
+    {
+      "qid": "hp006",
+      "question": "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa y cómo se localiza?",
+      "atomic_fact_texts": [
+        "La fuente MPS-400 de la AFP-400 dispone de deteccion de fallo de tierra: LED dedicado 'Fallo de Tierra' (MIDT170) + terminal TB1-1 'Falla de Tierra' / TB1-3 toma de tierra; el puente JP2 'Corte para inhabilitar la deteccion de la Falla de Tierra' (50253SP 2-44)",
+        "En el lazo de comunicaciones (SLC) 'Tierra' es una de las condiciones de averia que la central reconoce y senaliza (tabla 'Funcionamiento del Lazo', Estilos 4/6/7)",
+        "Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama en averia del resto del lazo (requeridos para Estilo 7 segun NFPA)",
+        "Es imprescindible conectar el terminal de toma de tierra (MPS-400 TB1-3) a una toma de tierra solida para mantener la inmunidad del panel",
+        "En red, la deteccion de fallo de tierra por canal A/B se habilita o inhabilita con los conmutadores SW2/SW3 del modulo NAM-232W",
+        "Los manuales de funcionamiento/configuracion consultados por el bot (MFDT170, MIDT170, MPDT170, MADT232) NO incluyen un procedimiento paso a paso de LOCALIZACION del punto exacto del fallo de tierra"
+      ]
+    },
+    {
+      "qid": "hp007",
+      "question": "¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual del fabricante?",
+      "atomic_fact_texts": [
+        "Fuente de alimentación y batería: revisión cada 3 meses (trimestral)",
+        "Comprobar la red de tubería: cada 6 meses (semestral)",
+        "Prueba de humos para integridad de tuberías: anual",
+        "Comprobar el flujo de las tuberías: anual",
+        "Limpiar los puntos de muestreo: anual",
+        "Limpiar con agua la red de tubería: anual",
+        "Sustitución del filtro: cada 2 años (bianual)",
+        "Antes del mantenimiento: detector deshabilitado/en espera NO emite avisos de fuego; informar a la autoridad supervisora; aislar los dispositivos auxiliares"
+      ]
+    },
+    {
+      "qid": "hp008",
+      "question": "¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?",
+      "atomic_fact_texts": [
+        "Sensores ionicos de humo compatibles: CPX-551E (ION) y CPX-751E (ION, bajo perfil)",
+        "Sensores opticos de humo compatibles: SDX551E, SDX-751 y SDX-751EM (OPT)",
+        "Sensores multicriterio compatibles: IRX-751CTEM (SMART 4) e IRX-751TEM (SMART 3)",
+        "Sensor multicriterio optico-termico SDX-751-TEM (OptiPlex)",
+        "Sensor de humo para ambientes hostiles HPX-751E (HARSH)",
+        "Sensor de humo para atmosferas peligrosas IDX-751 (HAZARD, seguridad intrinseca con barrera Y72221)",
+        "Sensores de humo por aspiracion/laser (VIEW): LPX-751 y FSL-751E",
+        "Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) y LPB-700/-700T",
+        "La comunicacion con los equipos del lazo usa el protocolo CLIP de Notifier",
+        "Capacidad por lazo analogico: hasta 198 equipos = 99 sensores + 99 modulos"
+      ]
+    },
+    {
+      "qid": "hp009",
+      "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+      "atomic_fact_texts": [
+        "El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales de Retorno (+/-) del mismo conector de lazo; NO se cierra con una resistencia de fin de linea",
+        "Cada lazo dispone de aisladores de cortocircuito INTERNOS en el panel; el cableado del lazo debe realizarse en bucle cerrado con los aisladores necesarios (EN54-14 / EN54-2)",
+        "Maximo 32 sensores/pulsadores entre aisladores (EN54-2 12.5.2); se recomienda un aislador cada 32 equipos o por zona fisica (EN54-14) para acotar corto/abierto, no una RFL",
+        "Ningun manual de la ZXe especifica un valor de resistencia de fin de linea para el LAZO direccionable, porque el lazo es un bucle cerrado y no la usa (la RFL pertenece a los circuitos convencionales supervisados, p.ej. las salidas de sirena con 6K8)"
+      ]
+    },
+    {
+      "qid": "hp010",
+      "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+      "atomic_fact_texts": [
+        "Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta una AUTOBUSQUEDA de equipos (la central detecta automaticamente los equipos del lazo; no se anaden de uno en uno manualmente)",
+        "Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el menu de Lazos pulsar la tecla '2' para 'Autobusqueda', seleccionar el numero de lazo y confirmar la autobusqueda de todos los equipos del lazo",
+        "Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados y modificados, y el total por tipo; comprobar que coincide con los equipos instalados",
+        "Si se ha realizado un cambio de protocolo, ESPERAR dos minutos antes de la autobusqueda (la central necesita tiempo para rearmar los equipos del lazo)",
+        "Si la central indica el evento \"EQUIPO NUEVO\" (equipo detectado en el lazo pero no aceptado), la solucion es ejecutar la autobusqueda para aceptarlo",
+        "Tras la autobusqueda se pueden editar las propiedades del nuevo equipo (texto descriptivo, zona asignada, grupo de anulacion, accion) mediante 'Editar Equipos'"
+      ]
+    },
+    {
+      "qid": "hp011",
+      "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "atomic_fact_texts": [
+        "Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una vez activada requiere rearme manual de la central para rehabilitar el proceso de extincion",
+        "Parametro r.I \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos",
+        "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg en pasos de 5 s; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+        "Averias enclavadas: por defecto todas las averias son enclavadas y requieren rearme manual de la central para su restablecimiento",
+        "Entrada Flow Press (senal de flujo): su activacion implica un rearme manual de la central",
+        "Procedimiento de rearme: desde nivel de acceso 2 (llave de desbloqueo), pulsar la tecla \"Rearme\""
+      ]
+    },
+    {
+      "qid": "hp012",
+      "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+      "atomic_fact_texts": [
+        "La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)",
+        "Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control = 198 dispositivos por lazo (consistente en ambos mercados)",
+        "AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 = 2 lazos / 396 dispositivos en el sistema",
+        "AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 LIB-400) = 4 lazos / 792 dispositivos -> EN CONFLICTO con la doc de Espana",
+        "El AM2020 alcanza un total de 10 x 198 = 1980 dispositivos direccionables en el sistema",
+        "El cableado del lazo SLC sigue los requisitos NFPA Estilo 4 o Estilo 6 (la doc US anade Estilo 7)"
+      ]
+    },
+    {
+      "qid": "hp013",
+      "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+      "atomic_fact_texts": [
+        "La configuracion especifica del sistema se almacena en una EEPROM (memoria NO volatil); el firmware en Flash PROM -> la configuracion se CONSERVA aunque se cambie la bateria",
+        "El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante, NO una bateria tampon a bordo. La unica bateria es de LITIO, en la placa LMB 35, para el reloj RTC",
+        "El manual NO documenta un procedimiento de sustitucion de la bateria de litio del reloj; el cap. 9.4 solo cubre la sustitucion de PLACAS (LSU/LMB/LEB). Para una sustitucion aislada de la bateria, consultar al fabricante (Securiton)",
+        "Solo el reloj RTC (fecha/hora) depende de la bateria de litio ('Fallo bateria de litio / reloj'); tras el cambio habria que reajustar el reloj, no la configuracion",
+        "Tras sustituir el LMB 35 es obligatorio un nuevo reset inicial (cap. 7.3.5) y una verificacion de la transmision de alarmas (cap. 7.7.1)"
+      ]
+    },
+    {
+      "qid": "hp014",
+      "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+      "atomic_fact_texts": [
+        "Los aisladores se instalan en CADA lazo analogico para separar sensores y pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la ID2000 no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET, p.ej. B524IEFT)",
+        "Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aisladores (usar multimetro de baja tension, nunca de alta tension tipo 'Megger')",
+        "Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad, RETIRAR las conexiones temporales antes de conectar el lazo al panel (extremos A y B)",
+        "La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)",
+        "Para asegurar que los aisladores se cierran al alimentar, maximo 25 unidades de inicio (SU) entre aisladores estandar (20 entre aisladores FET)",
+        "Resistencia anadida al lazo por cada aislador: FET B524IEFT = 0,29 ohm (Rf = Nf x 0,29); otros aisladores B524IE / ISO-X = 0,1 ohm (Ri = Ni x 0,1)",
+        "El manual NO incluye el esquema de conexion terminal-a-terminal del modulo aislador: remite a las instrucciones que acompanan a cada equipo para las interconexiones"
+      ]
+    },
+    {
+      "qid": "hp015",
+      "question": "En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin afectar al resto del lazo?",
+      "atomic_fact_texts": [
+        "La CCD-103 es una central CONVENCIONAL (3 zonas de deteccion + 1 de extincion); no direcciona equipos individualmente, por lo que NO existe desactivar un detector concreto desde la central",
+        "La desconexion se hace por ZONA completa: con la llave en posicion ON, pulsar 2 veces la tecla de la zona -> 'Zona desconectada' (se enciende el indicador Anular y el LED de fallo/anular/prueba de esa zona)",
+        "Cada zona admite como maximo 32 detectores/pulsadores; al desconectar la zona se desactivan TODOS sus detectores (no se puede aislar uno solo desde la central)",
+        "El manual no contempla desactivar un detector individual desde la central; cualquier actuacion sobre un detector concreto se hace en la instalacion (via instalador) y afecta a la supervision de la zona, que usa una resistencia de fin de linea de 4K7",
+        "En modo desconexion la central no refleja eventos de la zona anulada -> conviene limitar el uso de esta maniobra"
+      ]
+    },
+    {
+      "qid": "hp017",
+      "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "atomic_fact_texts": [
+        "El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de \"retardo de salida\"",
+        "Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)",
+        "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+        "Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 \"Tipos de retardo\"), que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO ALARMAS)",
+        "A nivel de equipo/zona existe el parametro \"Retardo de alarma\" en la programacion del lazo; el retardo de confirmacion de coincidencia puede ajustarse hasta 240 s (4 min)",
+        "Maximo 512 reglas; en la columna \"Lazo\" un \"0\" significa TODOS"
+      ]
+    },
+    {
+      "qid": "hp018",
+      "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+      "atomic_fact_texts": [
+        "La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados en corriente",
+        "Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada circuito de sirena (en la ultima sirena) para la supervision",
+        "Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en reposo (supervision) y cambia a polarizacion normal al dispararse; los dispositivos no polarizados requieren anadir un diodo en cada uno",
+        "La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de cada salida (A/B/C/D)",
+        "Carga maxima 1 A por circuito/salida de sirena",
+        "Las resistencias de fin de linea de 6k8 (1/4 W) se suministran con el panel (2 con la ZX2e, 4 con la ZX5e)",
+        "Para el calibre de cable recomendado de los circuitos de sirena, ver la seccion 3.4.13 del manual"
+      ]
+    },
+    {
+      "qid": "hp019",
+      "question": "¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración ASD535 (Securiton, distribuido por Detnov)?",
+      "atomic_fact_texts": [
+        "Rango de temperatura de funcionamiento (caja del detector y conducto de aspiracion): -30 a +60 °C",
+        "Limite segun UL/FM para la caja del detector: maximo +40 °C",
+        "Limite segun estandar australiano AS 1603.8 (caja y conducto): -30 a +55 °C",
+        "Fluctuacion de temperatura maxima permitida durante el funcionamiento (caja y conducto): 20 °C",
+        "Temperatura de almacenamiento permitida (sin condensacion): -30 a +70 °C",
+        "Uso en almacenes de ultracongelacion: rango restringido a -30 a 0 °C; respetar la directriz T 131 390"
+      ]
+    },
+    {
+      "qid": "hp020",
+      "question": "En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2 y nivel 3?",
+      "atomic_fact_texts": [
+        "Regla por nivel: en nivel de acceso 2 solo se puede cambiar el codigo de NA2; en nivel de acceso 3 se puede cambiar el codigo de NA2 o de NA3",
+        "Ruta: icono de menu > \"Ajustes\", iniciar sesion como usuario de nivel de acceso 3, y seleccionar la opcion \"Cambio del codigo de acceso\"",
+        "El nuevo codigo de acceso debe tener entre 4 y 8 caracteres/digitos",
+        "Tras introducir el nuevo codigo hay que re-introducirlo para confirmar (repetir los pasos 03 a 06); aparece el mensaje \"Cambio de codigo de acceso satisfactorio\"",
+        "Tras el cambio: sincronizar el programa de configuracion CLSS con la central y hacer una copia de seguridad del cambio en la nube",
+        "El portal CLSS Cloud, la app CLSS y el programa de configuracion CLSS comparten el mismo usuario, codigo de acceso y contrasena"
+      ]
+    },
+    {
+      "qid": "cat001",
+      "question": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?",
+      "atomic_fact_texts": [
+        "La central PEARL admite 1 o 2 lazos de deteccion analogicos",
+        "Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores + 99 modulos (protocolo CLIP), combinables",
+        "La carga maxima del lazo es 0,75 A",
+        "En un lazo MIXTO Opal/CLIP la autoconfiguracion limita los equipos CLIP a 40; si se superan continua pero senala fallos y hay que elegir 'Solo con protocolo CLIP'. Un lazo solo-CLIP admite los 99+99 completos",
+        "Aisladores: EN54-2 exige como maximo 32 equipos entre aisladores; en Pearl no mas de 25 (20 con equipos sin aislador interno / aisladores FET); los equipos con aislador interno requieren base tipo B501 AP",
+        "El alta de equipos se hace por AUTOCONFIGURACION (detecta los tipos en una pasada; opciones 'Permite Anadir/Borrar/Cambiar' vs 'Solo Anadir Nuevos Equipos')",
+        "La edicion individual de SENSORES permite ajustar el numero de zona (255 locales / 8192 de red), el tipo de equipo y los niveles de alarma/prealarma",
+        "Tope de sistema: maximo 512 sensores y/o pulsadores por sistema a traves de ambos lazos (EN54-2)",
+        "Los equipos OPAL pueden reinicializarse desde la central con la opcion de menu '4: Inicializar equipo prot.OPAL'"
+      ]
+    },
+    {
+      "qid": "cat005",
+      "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+      "atomic_fact_texts": [
+        "Alimentacion de la CS4: 110-230 Vac, 50-60 Hz",
+        "Potencia de la CS4: 30 W",
+        "La CS4 admite hasta 4 conexiones de sensores, en modo analogico (4-20 mA) o digital",
+        "La CS4 dispone de 2 salidas conmutadas LP, con rele apto para 230 Vac y contactos NA-C-NC",
+        "Corriente maxima de la CS4: 250 mA",
+        "Las dos versiones se distinguen por el codigo de producto: version DIGITAL = 3244; version ANALOGICA = 3270 (difieren en el modo de conexion de sensores)",
+        "Dimensiones de la CS4: 90 x 106 x 58 mm; peso 300 g",
+        "Rearme de la CS4: seleccionable manual o automatico",
+        "El Nº de serie codifica CCCC = codigo de producto, AAMM = ano y mes de fabricacion, XXXX = numero de fabricacion"
+      ]
+    },
+    {
+      "qid": "cat007",
+      "question": "En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo o un corte de alimentación, qué resistencia de fin de línea llevan las salidas de sirena y cuál es la especificación eléctrica de los contactos de relé?",
+      "atomic_fact_texts": [
+        "El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos de 2 canales, canal 2), con contactos NC-C-NA",
+        "El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia se indica ante condicion de averia en canal 1/2 o averia comun, en Modo Servicio y al quedar la unidad SIN alimentacion; el estado de averia NO esta enclavado",
+        "Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y resistencia de fin de linea de 47 kohm; no son contactos de rele",
+        "Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva 30 V CC) / maximo 0,5 A (carga resistiva 30 V CA)",
+        "Vida util minima de los contactos de rele: 10^5 operaciones (en el texto extraido aparece como '105' por perdida del superindice; leido como 10^5 en el render)",
+        "Mapa de bornes: alarma C1 en T2 (5 NC / 6 C / 7 NA), alarma C2 en T3 (8/9/10), averia C1 en T4 (11/12/13), averia AUX C2 en T5 (14/15/16); sirena 1 en T6 (17- / 18+), sirena 2 en T7 (19- / 20+)"
+      ]
+    },
+    {
+      "qid": "cat008",
+      "question": "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué resistencias necesita (fin de línea y modo 3 estados)?",
+      "atomic_fact_texts": [
+        "Hay 2 formas de conexionado: 2 estados (el corto se señaliza como alarma) y 3 estados",
+        "La resistencia de fin de línea (RFL) del lazo es 47 kΩ",
+        "El modo 3 estados requiere una resistencia de 18 kΩ en serie con el contacto (part M200E-EOL-R18)",
+        "Terminales del lazo: 1=−Lazo in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out; Entrada A = terminales 6-7",
+        "Para eliminar el aislador interno, los positivos in/out del lazo se conectan a los terminales 4 y 5",
+        "Part number de la resistencia EOL estándar: M200E-EOL-R",
+        "Existe una opción EOL polarizada alternativa (M200E-EOL-RD) para requisitos VdS 2489"
+      ]
+    },
+    {
+      "qid": "cat009",
+      "question": "¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas de zona de la central convencional NFS Supra?",
+      "atomic_fact_texts": [
+        "La resistencia de fin de línea (EOL) de las líneas de zona de la NFS Supra es 6K8 Ω (alternativamente, el condensador de 47 µF suministrado por defecto) — valor de la edición vigente v.05",
+        "La resistencia EOL mantiene la zona estable a 24 V en estado de reposo/normal (quiescent)",
+        "La resistencia EOL debe instalarse en cada zona, incluidas las zonas no utilizadas"
+      ]
+    },
+    {
+      "qid": "cat010",
+      "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+      "atomic_fact_texts": [
+        "El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera Zener / aislador galvánico certificado ATEX/IECEx de 28V / 93mA resistivo (en zona segura sin barrera, no operar de forma continua por encima de 16V por el límite de corriente interno)",
+        "Parámetros de seguridad intrínseca de entrada de los terminales + y −: Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0",
+        "Marcado de seguridad intrínseca: II 1G Ex ia IIC T4 Ga, rango de temperatura ambiente −40°C ≤ Ta ≤ +60°C"
+      ]
+    },
+    {
+      "qid": "cat011",
+      "question": "Necesito un detector de humos analógico direccionable «751» para una instalación Notifier; ¿cuál es el modelo correcto?",
+      "atomic_fact_texts": [
+        "«751» es un near-name AMBIGUO: corresponde a varios detectores analógicos direccionables distintos y NO intercambiables (al menos CPX-751E, IDX-751 y FSL-751E del catálogo); la pregunta no especifica cuál → conducta clarify, ofreciendo los candidatos acotados del catálogo y pidiendo aclaración (modelo o aplicación)",
+        "IDX-751 (AE) = detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas (15-24 Vdc; clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca)",
+        "CPX-751E = detector IÓNICO estándar (analógico direccionable; zonas normales)",
+        "FSL-751E = detector de humos por aspiración/láser (gama VIEW)"
+      ]
+    },
+    {
+      "qid": "cat012",
+      "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?",
+      "atomic_fact_texts": [
+        "La capacidad de batería se calcula con la fórmula del apéndice §11 (Tabla 1): Ah = (A + B) × 1,2, siendo 1,2 el factor de seguridad",
+        "A = consumo total en REPOSO × 24 h (o 72 h); B = consumo total en ALARMA × 0,5 h (30 min)",
+        "Los consumos por tarjeta se toman de §3.12/§3.13 y la Tabla 1 (p. ej. CPU AM8200-KLCD = 179 mA reposo / 345 mA alarma de alimentación; 113/255 mA de baterías) + corriente de lazos (Tabla 3) + salida de usuario (máx. 2 A)",
+        "La capacidad máxima estándar instalable es 17-18 Ah (2 × 12 V; Yuasa NP18-12B 17,2 Ah / Fiamm FG21803 18 Ah); la alimentación interna es de 24 Vcc con un total de 4 A"
+      ]
+    },
+    {
+      "qid": "cat013",
+      "question": "Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?",
+      "atomic_fact_texts": [
+        "La central Detnov CAD-150 es analogica con lazo (bucle) CERRADO de 2 hilos apantallados (max 2 km, < 44 Ohm, < 500 nF); los elementos se dan de alta por autobusqueda/escaneo del lazo Detnov. El manual no nombra un protocolo abierto ni documenta compatibilidad con detectores de otras marcas",
+        "El detector optico Notifier SDX-751 es un sensor analogico direccionable de la gama Notifier que usa el protocolo CLIP de Notifier",
+        "Ningun manual (ni Detnov CAD-150 ni Notifier) documenta la compatibilidad de un detector Notifier SDX-751 con el lazo de la central Detnov CAD-150; la combinacion cross-marca no esta avalada NI descartada por la documentacion -> no se puede inferir compatibilidad (ni incompatibilidad)"
+      ]
+    },
+    {
+      "qid": "cat014",
+      "question": "¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?",
+      "atomic_fact_texts": [
+        "La vida util del DGD-600 es de 10 anos desde su fecha de fabricacion; debe sustituirse 10 anos despues (la fecha de fabricacion esta impresa en la pegatina del lateral)",
+        "El datasheet del DGD-600 NO especifica un MTBF (tiempo medio entre fallos, en horas); el unico dato de durabilidad documentado es la vida util de 10 anos -> no se debe fabricar una cifra de MTBF"
+      ]
+    },
+    {
+      "qid": "cat015",
+      "question": "¿Como se actualiza el firmware de la central Detnov CAD-150?",
+      "atomic_fact_texts": [
+        "Ningun manual disponible del CAD-150 (instalacion 55315013, usuario 55315008, CAD150R 55315501) documenta un procedimiento de ACTUALIZACION DE FIRMWARE de la central -> el corpus no lo cubre; el bot debe admitir el gap y NO inventar pasos",
+        "El CAD-150 dispone de conector USB y software de configuracion (para configurar zonas y elementos del lazo); el manual cubre la CONFIGURACION del sistema, que es DISTINTA de la actualizacion de firmware"
+      ]
+    },
+    {
+      "qid": "cat016",
+      "question": "En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo y como se prueba que funciona?",
+      "atomic_fact_texts": [
+        "ALTA: se da de alta un detector nuevo ejecutando una AUTOBUSQUEDA del lazo desde el menu BUCLE -> el sistema escanea y muestra los elementos encontrados (deben coincidir con los instalados segun los planos)",
+        "Tras la autobusqueda, el detector se asigna a una ZONA (menu ZONA) y se le da nombre + zona de ubicacion en el menu ELEMENTO",
+        "PRUEBA: se pone la ZONA en MODO DE PRUEBA (menu ZONA > PRUEBA) -> permite probar los detectores SIN rearmar la central tras cada disparo",
+        "En modo prueba el retardo de sirenas queda ANULADO (agiliza la prueba); si pasan 20 minutos sin disparo el equipo vuelve solo a estado normal; para salir manualmente se CONECTA la zona",
+        "El estado de cada elemento (conectado/desconectado/en prueba) y su tipo (optico, termico, etc.) se consulta en el menu ELEMENTO > Ver"
+      ]
+    },
+    {
+      "qid": "cat017",
+      "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+      "atomic_fact_texts": [
+        "El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la pantalla a tierra en la central",
+        "Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)",
+        "Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)",
+        "El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'",
+        "La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de licencia de la central",
+        "Para comprobar el cableado del lazo se puede usar la herramienta de diagnostico POL-200-TS"
+      ]
+    },
+    {
+      "qid": "cat018",
+      "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+      "atomic_fact_texts": [
+        "Una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO: es el mecanismo causa-efecto de la AM-8200",
+        "Se programa desde el menu Programacion AM8200 > Puntos (Sensores/Modulos); en la pestana 'Programacion' de cada punto se asigna la ZONA y se configura su ecuacion CBE",
+        "Los modulos de SALIDA llevan un Tipo SW (p. ej. SND = sirena); un modulo de salida se dispara cuando se cumple su ecuacion CBE (se activa 'por asociacion CBE')",
+        "La sintaxis de las ecuaciones CBE (operandos y operadores) esta en el Apendice A 'Control By Event' al final del manual de programacion",
+        "Antes de programar conviene registrar en las hojas de programacion la info de TODOS los sensores, modulos, zonas software, ecuaciones CBE y grupos"
+      ]
+    },
+    {
+      "qid": "cat019",
+      "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "atomic_fact_texts": [
+        "Una maniobra se crea desde el menu Maniobras con el boton ANADIR (abre la pantalla de edicion); el campo COINCIDENCIAS indica cuantos eventos de entrada deben concurrir (1 = cualquiera; 2 = dos; 4 = cuatro...) para que la salida sea verdadera y se ejecute la maniobra",
+        "Los componentes se anaden con ANADIR eligiendo EVENTO (las entradas que disparan) o ACCION (las salidas que se activan); maximo 100.000 maniobras entre eventos y acciones",
+        "Un EVENTO (entrada) se define sobre una ENTIDAD -elemento de la jerarquia: instalacion, panel, lazo, area, dispositivo, grupo o modo virtual (central local o de red)- o sobre una CONDICION TEMPORAL (periodo de tiempo para que la ecuacion de entrada sea verdadera)",
+        "Las ACCIONES/salidas de la maniobra actuan sobre los elementos de salida (sirenas o modulos de control); las salidas para las maniobras se configuran en §8.2.3",
+        "Paso previo: definir la SECTORIZACION fisica del edificio (seccion 7), que estructura las entidades/zonas sobre las que operan las maniobras (jerarquia y herencia de modos)"
+      ]
+    },
+    {
+      "qid": "cat020",
+      "question": "En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma y de prealarma por defecto de los detectores, y el maximo configurable?",
+      "atomic_fact_texts": [
+        "En la DXc version Espana (protocolo Morley-IAS) los niveles por defecto de los detectores son: PREALARMA 80 %, ALARMA 100 %; el ajuste MAXIMO del nivel de alarma es 108 %",
+        "El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 % (escala comun; algunos tipos OTM/LSR se configuran en campo por Niveles 0-9 que mapean a esa escala)",
+        "Estos valores por defecto son especificos de la VERSION ESPANA: figuran en el Manual de variaciones para Espana, que COMPLEMENTA el manual de configuracion base (996-203-005-X) donde esta la configuracion general del nivel de alarma (seccion Modos Horarios)",
+        "Los niveles se editan por detector (campos Fuego y Prealarma), p.ej. en pantalla 'S001 OTM Fuego:Niv4 Prealarma:Niv3'"
+      ]
+    },
+    {
+      "qid": "cat021",
+      "question": "Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para una instalación; ¿qué modelo pido?",
+      "atomic_fact_texts": [
+        "«40/40» (SharpEye, Spectrex) es un near-name AMBIGUO: la serie tiene varias variantes con tecnología de detección distinta y NO intercambiables (40/40I, 40/40L, 40/40U, 40/40R, 40/40M, todas en el catálogo); la pregunta no especifica cuál → conducta clarify, ofreciendo los candidatos del catálogo y pidiendo el combustible/tipo de llama o el modelo exacto",
+        "40/40I (S40/40I) = detector de llama de TRIPLE espectro infrarrojo (IR3)",
+        "40/40M (S40/40M) = detector de llama de MÚLTIPLE infrarrojo (Multi IR), para llamas de HIDRÓGENO e hidrocarburo (la variante específica para hidrógeno)",
+        "40/40U (S40/40U) = detector de llama ULTRAVIOLETA (UV)",
+        "40/40L (S40/40L) = detector de llama combinado UV/IR",
+        "40/40R (S40/40R) = detector de llama infrarrojo IR SIMPLE (single IR)"
+      ]
+    },
+    {
+      "qid": "cat022",
+      "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?",
+      "atomic_fact_texts": [
+        "El modelo 40/40L (y LB) es un detector de llama UV/IR cuyo sensor IR trabaja en una longitud de onda entre 2,5 y 3,0 μm",
+        "El modelo 40/40L4 (y L4B) es UV/IR pero su sensor IR trabaja en 4,5 μm, adecuado para fuegos de hidrocarburos",
+        "El sufijo «B» (40/40LB, 40/40L4B) = modelos con función BIT (prueba incorporada); el BIT solo se incluye en los modelos LB y L4B"
+      ]
+    },
+    {
+      "qid": "cat023",
+      "question": "En el detector de humos por aspiración Securiton ASD532, ¿qué clases de sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo de aire?",
+      "atomic_fact_texts": [
+        "El ASD532 ofrece 3 clases de sensibilidad de disparo de alarma según EN 54-20: A (muy alta), B (alta), C (normal)",
+        "La monitorización del flujo de aire se configura por posición de conmutador W01–W44; cada posición fija el tiempo de retardo (10 o 60 min) y la desviación admisible (±20 % o ±50 %)"
+      ]
+    },
+    {
+      "qid": "cat024",
+      "question": "¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov MAD-472?",
+      "atomic_fact_texts": [
+        "El consumo en alarma de la sirena Detnov MAD-472 es 17 mA a 80 dB(A) — valor de la edición vigente (revisión V2)",
+        "La tensión de funcionamiento de la MAD-472 es 22-38 VDC",
+        "El consumo en reposo de la MAD-472 es inferior a 350 µA",
+        "Las tablas de calculo del sistema CAD-250 listan 7 mA en alarma para la MAD-472 — discrepancia documental REAL con el manual del dispositivo (17 mA @ 80 dB(A) V2); surfacear ambos, prevalece el manual del dispositivo vigente, verificar en campo"
+      ]
+    },
+    {
+      "qid": "ho004",
+      "question": "¿Cómo se alinea el detector de barrera FD2705R (reflector)?",
+      "atomic_fact_texts": [
+        "Prism Targeting Mode se selecciona con el Mode Switch trasero en la posición SUPERIOR (upper), sin desmontar el detector de la pared",
+        "En Prism Targeting se ajustan las ruletas (thumbwheels) horizontal y vertical hasta que el LED ámbar queda encendido CONTINUO; el parpadeo se acelera al acercarse al prisma",
+        "Verificación del blanco: cubrir el prisma con material NO reflectante y confirmar que el LED ámbar se APAGA (descarta que refleje otra superficie)",
+        "Alignment Mode se selecciona con el Mode Switch en la posición MEDIA (middle); el detector auto-ajusta la potencia del haz IR y la sensibilidad del receptor",
+        "En Alignment Mode, ROJO parpadeante = demasiada señal: esperar a que el LED se apague, hasta 20 segundos (cuanto MENOR la distancia detector-prisma, MAYOR la espera); ámbar continuo = sin señal: volver a Prism Targeting",
+        "Ajuste fino por ruleta: girar despacio; si parpadea ÁMBAR, invertir el sentido; si parpadea ROJO, parar y esperar a que pare; si ninguno parpadea, parar de girar; repetir con la otra ruleta",
+        "Alineación óptima: la deflexión del haz en los CUATRO planos debe hacer parpadear PRIMERO el LED ámbar; después bloquear las ruletas por ambos lados con las tuercas de fijación (securing nuts)",
+        "Operating Mode = Mode Switch en posición INFERIOR (lower); al salir de alineación hay una calibración interna de hasta 60 segundos (ámbar 1 parpadeo/s) durante la cual NO se debe bloquear el haz; si falla, condición de avería y repetir la alineación",
+        "Al alimentar el detector, tras 5 segundos el LED rojo parpadea 1 vez si es el modelo de 50 m (FD2705R) o 2 veces si es de 100 m (FD2710R)",
+        "Espera inicial al entrar en Alignment Mode: el ámbar se ilumina 5 segundos y hay que esperar hasta 30 segundos a que ambos LEDs dejen de parpadear",
+        "Durante el proceso el panel ve el valor analógico del detector: 2 = Prism Targeting Mode, 3 = Alignment Mode, 4 = error de alineación"
+      ]
+    },
+    {
+      "qid": "ho003",
+      "question": "¿El detector KE-DP3020W vale para la central 2X-A? La instalación exige EN 54-13",
+      "atomic_fact_texts": [
+        "El KE-DP3020W aparece en la lista oficial de compatibilidad de la central 2X-A, en la gama Excellence Series Detectors, descrito como 'Intelligent addressable dual optical detector'",
+        "En la lista, el KE-DP3020W NO lleva asterisco; el documento define que los modelos marcados con asterisco (*) no son aptos para sistemas que requieran EN 54-13 — por tanto el KE-DP3020W es apto para EN 54-13",
+        "Los detectores de la serie Excellence son compatibles con las centrales 2X-A con versión de firmware 5.0 o posterior",
+        "La lista de compatibilidad es cerrada: solo los dispositivos incluidos en la publicación están probados y confirmados compatibles; instalar un dispositivo no incluido es riesgo del instalador y puede afectar al rendimiento del sistema",
+        "Los productos compatibles pueden cambiar sin previo aviso; hay que confirmar disponibilidad y compatibilidad con el proveedor local",
+        "La lista de compatibilidad vigente es BCN-3100035-EN REV 006 (ISS 27MAY26) y solo existe en inglés"
+      ]
+    },
+    {
+      "qid": "ho001",
+      "question": "En la central Kidde 2X-AF2, ¿cómo se configuran las zonas (agrupar detectores y pulsadores) y cuántas zonas admite?",
+      "atomic_fact_texts": [
+        "El máximo número de zonas disponibles en la serie 2X-A es 512 (para todas las centrales); el intervalo del número de zona va de 01 a 9.999",
+        "Por compatibilidad con 2010-2GUI los números de zona asignados deben estar entre 1 y 4095 (las zonas con números superiores se desechan)",
+        "Las zonas se crean asignando números de zona a los dispositivos de lazo: Menú principal → Config de lazo → Config. de lazo → seleccionar lazo y dispositivo → asignar el número de zona",
+        "Una zona puede contener una combinación de dispositivos de alarma automática y manual (detectores + pulsadores) si su modo de funcionamiento es Mixta; de forma predeterminada todas las zonas son mixtas",
+        "Los modos de funcionamiento de zona son Mixta, Manual, Auto, MSP o MHA (Manual = solo pulsadores/entradas MCP; Auto = solo detectores)",
+        "La central no permitirá la configuración de dispositivos de zona o entradas que no cumplan los criterios del modo de funcionamiento configurado",
+        "Si el número de zona está fuera del intervalo válido (determinado por la zona inicial y el número de lazos), la operación no finaliza y NO se muestra un error de número de zona no válido en la pantalla LCD",
+        "Tras asignar: F4 (Enter) + F1 (Atrás); F1 (Guardar)/F3 (Aplicar)/F4 (Descartar)/F2 (Salir); repetir por dispositivo y aplicar los ajustes guardados en el Menú principal",
+        "La configuración Mod.Op de la zona inicial debe ser Mixta",
+        "Las zonas de las centrales en red son globales (dos centrales con la zona 5 se agrupan en una sola zona 5 de red); el número de zonas globales se configura (default 512)"
+      ]
+    },
+    {
+      "qid": "ho005",
+      "question": "¿Cómo amplío una central 2X-AF2 con un lazo adicional (tarjeta 2X-A-LB)?",
+      "atomic_fact_texts": [
+        "La tarjeta de lazo 2X-A-LB proporciona dos lazos adicionales (LOOP3 y LOOP4) y cuatro salidas supervisadas adicionales (OUT5-OUT8); su instalación solo es compatible en centrales 2X-A",
+        "Antes de instalar: desconectar la central de la fuente de alimentación y las baterías (peligro de electrocución)",
+        "La tarjeta se instala en la ranura 2 del chasis de la central, presionando con firmeza y fijándola con los tornillos proporcionados",
+        "Conexión a tierra del lazo: un lado a los espárragos de toma de tierra de la CAJA de la central (NO al terminal de tierra del lazo de la tarjeta); el otro lado puede dejarse suelto",
+        "En las salidas configurables que no se usen hay que instalar una resistencia final de línea para evitar un fallo de circuito abierto",
+        "El alta en la central: Menú principal → Ajustes del panel → Tarjeta expansión → seleccionar LB (Tarjeta de lazo) → SÍ → F4 (Enter) + Guardar/Aplicar en el Menú principal",
+        "Usar SOLO tarjetas de lazo 2X-A-LB: las tarjetas de lazo más antiguas no son compatibles con las centrales 2X-A",
+        "Tras añadirla hay que configurar lazos, salidas y dispositivos, y comprobar los lazos calculando su carga",
+        "Si la central no detecta un módulo de expansión instalado, se indica un fallo del sistema; si el firmware de la tarjeta no es compatible, aparece un mensaje de advertencia",
+        "Cable recomendado: par trenzado apantallado o sin apantallar de 0,13 a 3,31 mm² (26 a 12 AWG)",
+        "Resistencias de supervisión de salida: Clase A = 4,7 kΩ 1% 1/4 W; Clase B = 15 kΩ 1% 1/4 W; corriente máx de salida 750 mA a 25°C (800 mA con el kit 2010-2A-PAK-HPL)"
+      ]
+    },
+    {
+      "qid": "ho002",
+      "question": "En el detector de aspiración Edwards FHSD8310 (ModuLaser), ¿cuántos módulos admite un clúster y cómo se interconectan?",
+      "atomic_fact_texts": [
+        "Un clúster comprende un módulo de visualización mínima o estándar y de uno (mínimo) a ocho (máximo) módulos detectores",
+        "La comunicación entre los módulos de un clúster se realiza utilizando SenseNET+ (interfaz RS-485)",
+        "Clúster no distribuido: display estándar/mínima + hasta cuatro módulos de detector instalados en la misma ubicación (unos al lado de otros)",
+        "Clúster distribuido e híbrido: display estándar/mínima + hasta ocho módulos de detector",
+        "El clúster no distribuido se conecta con el cable de cinta suministrado y los conectores J3 y J5 de la PCB del panel posterior; el cable de cinta también distribuye la fuente de alimentación por el clúster; la terminación de final de línea no es necesaria en los J3/J5 sin usar",
+        "El clúster distribuido se conecta con los conectores SNET+ de la PCB del panel posterior; la longitud de cable máxima entre módulos es de 1.200 m (4.000 pies)",
+        "En el clúster distribuido cada módulo requiere una fuente de alimentación y es necesaria la terminación de final de línea en los conectores J3 y J5 que no se utilicen",
+        "El clúster híbrido usa cables de cinta para los módulos adyacentes y conectores SNET+ para los distribuidos; cada grupo de módulos adyacentes utiliza una fuente de alimentación compartida (conectada a un solo módulo) y cada módulo distribuido necesita una fuente independiente",
+        "Un módulo de visualización de comandos no puede sustituir ni reemplazar un módulo de visualización estándar o mínima en la configuración de un clúster",
+        "Cada dispositivo del clúster se identifica mediante una dirección única de 7 bits en el intervalo 1 a 127; se pueden conectar varios clústeres para crear una red SenseNET",
+        "FHSD8310 es el módulo con display estándar de ModuLaser; los displays mínimo y estándar admiten hasta 8 módulos detectores y el display de comandos hasta 127 módulos en toda la red SenseNET"
+      ]
+    },
+    {
+      "qid": "ho006",
+      "question": "Tras una alarma en la central NC, ¿cómo se rearma y cómo se anula una zona en avería?",
+      "atomic_fact_texts": [
+        "Rearmar la central y desactivar/activar zonas son operaciones del nivel de usuario operador, protegido por contraseña; la contraseña predeterminada del operador es 2222",
+        "Antes de restablecer la central hay que comprobar todas las alarmas y las averías del sistema",
+        "Para restablecer la central y eliminar todos los eventos actuales del sistema se pulsa el botón de rearme",
+        "Los eventos del sistema no resueltos siguen apareciendo resaltados cuando finaliza el proceso de rearme",
+        "Para desactivar una zona: pulsar el botón 'Desconexión' general y, a continuación, el botón de la zona correspondiente",
+        "Una zona desconectada se indica con el LED 'Desconexión' general fijo y el LED de zona fijo en amarillo",
+        "Para activar de nuevo la zona: pulsar el botón 'Desconexión' general y volver a pulsar el botón de zona",
+        "Si una zona desactivada contiene un dispositivo en modo de alarma, no se activará hasta que se rearme la central",
+        "Para la zona desactivada no se indica ninguna alarma de incendio o avería; si es la única zona en estado de alarma, se detiene cualquier salida de incendio vinculada",
+        "Si una o más zonas están en estado de alarma cuando se reactiva la zona, esta entra en estado de alarma y reactiva las salidas de incendio detenidas",
+        "Desactivar o activar una zona (y otras operaciones marcadas [1]) se puede realizar cuando la central se encuentra en estado de alarma",
+        "El nivel de usuario público (sin contraseña) no incluye rearmar ni desactivar zonas; solo reconocer eventos/silenciar zumbador, cancelar retardos activos y test de LED"
+      ]
+    },
+    {
+      "qid": "ho007",
+      "question": "¿Cómo configuro el modo día/noche y los retardos de sirena en la 2X-A?",
+      "atomic_fact_texts": [
+        "En modo día una alarma automática (de detector) activa sirenas y enrutado de fuego con el retardo establecido y los detectores pueden usar sensibilidad reducida; en modo noche la activación es inmediata, anula el retardo establecido y la sensibilidad puede ser aumentada",
+        "El modo día/noche se configura en Menú principal → Ajustes del panel → Modo Día/Noche; la opción no está disponible en los repetidores",
+        "Programa Día/Noche (semanal): seleccionar día → hora de inicio del modo día hh:mm → hora de inicio del modo noche hh:mm → F4 (Enter) → F1 (Atrás) → Guardar/Aplicar, aplicando en el Menú principal",
+        "Para evitar cambiar al modo día se establece la hora de inicio del modo día en 24:00 (ídem noche)",
+        "Calend. Festivos configura el modo día o noche por intervalo de fechas DD/MM; la configuración predeterminada del período de vacaciones es el modo noche",
+        "Día / Noche setup (Tabla 23) ofrece: Manual (procesar o anular los cambios del programa/festivos; predeterminado NO), Modo (modo por defecto si Manual=SÍ) y Deshab retardos Modo Noche (procesar o anular los retardos de protección contra incendios, enrutado de fuego y sirenas en modo noche)",
+        "Los retardos de sirena se configuran en Menú principal → Config de lazo → Config Activación → tipo de grupo (Sirenas) → Grupo_n (Todos o uno) → Activo SÍ/NO → Retardo en minutos y segundos",
+        "El retardo máximo para los grupos de salidas de sirenas, enrutado de fuego y protección contra incendios es de 10 minutos (programas: 16 minutos y 40 segundos)",
+        "Wrn_Ret (retardo de aviso) existe solo para los grupos de salidas de sirenas (segunda fase); máximo 10 minutos y solo cuenta si el Tiempo de aviso está configurado",
+        "Una vez configurado un retardo debe habilitarse; los retardos solo se activan para alarmas de detector y las alarmas de pulsador manual los omiten",
+        "De forma predeterminada la central NO procesa los retardos cuando funciona en modo noche; el modo noche puede activarse por el programa día/noche, el calendario de festivos o el equipo remoto; para tener retardo en modo noche se usa 'Opciones adicionales del modo Día/Noche'",
+        "Los retardos pueden habilitarse/deshabilitarse mediante el modo de sensibilidad (día/noche), equipo remoto con entrada programada o los botones de retardo de la interfaz de usuario"
+      ]
+    },
+    {
+      "qid": "ho008",
+      "question": "¿Cuántos puntos/zonas soporta la central compacta Detnov CAD-171 y cómo se amplía?",
+      "atomic_fact_texts": [
+        "La configuración base de la CAD-171 es de 2 lazos y hasta 500 dispositivos (250 por lazo); los LAZOS 1 y 2 están en la Power Board",
+        "La CAD-171 dispone de 2.000 zonas programables por panel, 250 áreas y 1.000 grupos",
+        "Cada lazo puede soportar hasta 250 dispositivos analógicos DETNOV (sirenas, módulos de entrada/salida, aisladores, detectores o barreras), alimentados del propio lazo",
+        "Cada lazo es subdivisible en múltiples zonas sin superar el número de zonas absoluto de 2.000",
+        "La placa principal tiene capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG",
+        "La CAD-171 soporta hasta 8 lazos",
+        "Interfaz incorporada para conexión de centrales en red (T-Network, RS485 con conectores ENTRADA RED / SALIDA RED) hasta 64 nodos",
+        "La red T-Network de centrales serie VESTA puede llegar a controlar más de 512.000 dispositivos según la composición y tipo de central en red",
+        "Según la norma de diseño UNE 23007-14, el número máximo de elementos de iniciación de alarma de incendio por zona es de 32; topología en anillo exigida (ramales tolerados pero desaconsejados)",
+        "La central dispone de puerto Ethernet nativo multipropósito (programación remota, Modbus IP) y puerto USB tipo A"
+      ]
+    },
+    {
+      "qid": "ho009",
+      "question": "Quiero pedir la central táctil 2X-AT de Kidde, ¿qué referencia exacta pido?",
+      "atomic_fact_texts": [
+        "«2X-AT» no es una entrada exacta del catálogo de modelos: la familia táctil son 6 referencias 2X-AT-F2* (2X-AT-F2, -P, -S, -FB, -FB-P, -FB-S) → conducta clarify ofreciendo los candidatos y pidiendo el criterio (caja/PSU/bomberos)",
+        "2X-AT-F2 = panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande; 2 lazos de alta potencia ampliables a 4 con 500 mA por lazo",
+        "El sufijo -P = fuente de alimentación grande (2X-AT-F2-P: 'Fuente de alimentación grande, 2 lazos, caja grande')",
+        "El sufijo -S = caja pequeña (2X-AT-F2-S: '2 lazos, caja pequeña'); las fichas de caja pequeña indican 2 lazos de alta potencia con 500 mA por lazo SIN la mención 'ampliables a 4'",
+        "El sufijo -FB = controles de bomberos (2X-AT-F2-FB: 'pantalla táctil y controles de bomberos, 2 lazos, caja grande')",
+        "Las combinaciones existen: 2X-AT-F2-FB-P (bomberos + PSU grande, 10 A) y 2X-AT-F2-FB-S (bomberos + caja pequeña)",
+        "Rasgos comunes de la familia: pantalla táctil de 7\", 2 lazos de alta potencia 500 mA/lazo (PAK opcional a 800 mA), hasta 256 dispositivos, 512 zonas y 300 grupos de salida; con la placa adicional de 2 lazos (cajas grandes) el panel llega a hasta 512 dispositivos"
+      ]
+    },
+    {
+      "qid": "ho010",
+      "question": "¿Las centrales convencionales de la serie NC se pueden conectar en red entre sí?",
+      "atomic_fact_texts": [
+        "Las centrales NC pueden formar una red de incendios de centrales convencionales (zonas adicionales), conectar repetidores o integrarse en una red con centrales direccionables compatibles",
+        "La conexión de red usa la tarjeta de red 2010-1-NB: dos puertos por tarjeta, cada puerto conectado punto a punto al de la tarjeta de otra central",
+        "Dos opciones de cableado: configuración en anillo y configuración en bus",
+        "La configuración en anillo (clase A) es la recomendada porque proporciona redundancia en la ruta de transmisión; usa los dos puertos para formar el anillo",
+        "La configuración en bus (clase B) no se recomienda en general (sin redundancia) y por normativa UE solo debe usarse si las áreas de detección y las salidas EN 54-2 obligatorias (enrutado de incendio y sirena) no son remotas entre centrales",
+        "Cualquier central convencional NC puede configurarse para que actúe como repetidor",
+        "Identificador de red (número de nodo): de 00 a 32, donde 00 = independiente (sin red), valor predeterminado; número de nodos de la red: de 02 a 32 (predeterminado 02)",
+        "Ejemplo del manual: una red de incendios básica puede estar formada por una central o un repetidor, o una central virtual de 16 zonas compuesta por dos centrales de 8 zonas",
+        "Una red con centrales direccionables compatibles añade registro de eventos, activación compleja de salidas controlada por el sistema direccionable y supervisión remota",
+        "Una central convencional conectada a la red muestra el estado de una o varias centrales; manteniendo pulsada la tecla Intro 3 segundos se visualizan 30 segundos las indicaciones de estado local"
+      ]
+    },
+    {
+      "qid": "ho011",
+      "question": "¿Puedo montar el FD2705R en exterior, o a más distancia de la documentada?",
+      "atomic_fact_texts": [
+        "El entorno de uso documentado del FD2705R es Interior, con clasificación IP50",
+        "El rango operativo documentado del detector de 50 m es de 5 a 50 metros (rango lineal 5-50 m), con 1 reflector",
+        "Para rangos entre 50 y 100 m la guía documenta usar un detector de 100 m con 4 reflectores (no el de 50 m); no hay configuración documentada por encima de 100 m",
+        "La humedad relativa admitida es 93% sin condensación y la guía advierte no instalar detector/reflector donde sea probable condensación o hielo",
+        "Temperatura de funcionamiento documentada (EN): -10 a 55 °C",
+        "Altura de instalación documentada < 25 m; haz lo más alto posible con mínimo 0,5 m del detector al techo; UL268/NFPA72: detector y reflector a máximo 10% de la distancia suelo-techo",
+        "El FD2705R es una barrera reflectiva alimentada del lazo (protocolo Aritech 2000, compatible FP1200/2000 y series 2X), con cobertura < 750 m² y detección lateral 7,5 m"
+      ]
+    },
+    {
+      "qid": "ho014",
+      "question": "Tengo que cambiar el cartucho del filtro de polvo de un detector ModuLaser, ¿cuál es la referencia del repuesto que tengo que pedir?",
+      "atomic_fact_texts": [
+        "Ningún documento del ModuLaser en el corpus (manual de instalación ES Edwards 04-4001 126pp y espejo Kidde 3103092 134pp, datasheets FHSD8310/FHSD8330 ES y 9-30781/9-30783 EN, hoja APIC ML, tarjeta 9-30441) publica la referencia/SKU del cartucho del filtro de polvo de repuesto → el bot debe admitir el gap y NO inventar una referencia",
+        "El detector señala un fallo de filtro cuando el valor Filtro (pantalla de estado del detector) llega al 20%; se recomienda cambiar el filtro en ese punto (20% = bloqueo del filtro del 80%)",
+        "Los cartuchos de filtro de polvo no se han diseñado para su reutilización y se deben desechar",
+        "El detector debe estar ENCENDIDO al sustituir el filtro de polvo para garantizar que se reinicie el estado del filtro",
+        "Procedimiento de sustitución (5 pasos): retirar la tapa del detector → extraer el tornillo y sacar el conjunto del filtro → retirar la tapa de plástico y desechar el cartucho → colocar el filtro nuevo con la cara 'IN' hacia la parte superior y deslizar el conjunto → asegurar con el tornillo (Figura 26: detector / filtro de polvo / tapa de plástico)",
+        "Puede configurarse una fecha de vencimiento del filtro opcional ('Expirac. Filtro', MM/AA); el fallo de filtro se indica a las 10:00 del primer día del mes configurado",
+        "Precaución de salud: el polvo del filtro expone al personal de mantenimiento a peligros según el entorno protegido — ropa protectora y mascarilla recomendadas; mantenimiento conforme a requisitos nacionales/regionales",
+        "En áreas con altos niveles de suciedad o polvo se recomienda usar un filtro EXTERNO adecuado para proteger el módulo de detector (objeto distinto del cartucho interno, también sin referencia en el corpus)",
+        "El espejo Kidde del manual contiene el mismo procedimiento de sustitución sin referencia del cartucho (sección 'Sustitución del cartucho del filtro de polvo')"
+      ]
+    },
+    {
+      "qid": "hyq:6e014e8b-c0eb-451a-85e4-b42a2a46dbd2:1",
+      "question": "¿Desde qué versión de firmware es válida esta guía de inicio rápido de la 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6e014e8b-c0eb-451a-85e4-b42a2a46dbd2:2",
+      "question": "¿Cómo compruebo qué versión de firmware tiene instalada la central 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6e014e8b-c0eb-451a-85e4-b42a2a46dbd2:3",
+      "question": "¿Qué protocolo usa la central 2X-AT y con qué documentación completa la guía de inicio rápido?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:06cb3ad5-6e0a-4d15-8942-d753b7168012:1",
+      "question": "¿Se puede instalar la tarjeta DACT 2010-2-DACT en una central 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:06cb3ad5-6e0a-4d15-8942-d753b7168012:2",
+      "question": "¿Qué centrales 2X-A son compatibles con el comunicador UltraSync UC240 para cumplir la norma EN 54-21?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:06cb3ad5-6e0a-4d15-8942-d753b7168012:3",
+      "question": "¿Cómo hay que conectar el UC240 a una central 2X-AT si necesito cumplir EN 54-21 con las opciones de retardo y deshabilitado del enrutamiento?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a627e9fa-3a25-49d8-9373-9e4abd51bcfc:1",
+      "question": "¿Qué modelos hay disponibles en la serie 2X-AT Táctil y cuál es la diferencia entre los de módulo pequeño y los de módulo grande?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a627e9fa-3a25-49d8-9373-9e4abd51bcfc:2",
+      "question": "¿Cuál es la corriente de salida máxima de la 2X-AT-F2-S frente a la 2X-AT-F2?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a627e9fa-3a25-49d8-9373-9e4abd51bcfc:3",
+      "question": "¿Qué modelo de la serie 2X-AT Táctil tengo que pedir si necesito una central de dos lazos con controles de protección contra incendios y enrutado de fuego pero en formato pequeño?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a627e9fa-3a25-49d8-9373-9e4abd51bcfc:4",
+      "question": "¿Los repetidores de la serie 2X-AT Táctil también están disponibles con la opción FB de enrutado de fuego?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:97998d13-8a23-434d-a9cc-5535ba991702:1",
+      "question": "¿Qué LEDs y botones tiene en el frontal la central 2X-AT y para qué sirve cada uno?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:97998d13-8a23-434d-a9cc-5535ba991702:2",
+      "question": "¿Dónde está el botón de rearme y el de enterado en la 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:97998d13-8a23-434d-a9cc-5535ba991702:3",
+      "question": "¿La central 2X-AT tiene botón de disparo manual de sirenas en el propio panel?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:97998d13-8a23-434d-a9cc-5535ba991702:4",
+      "question": "¿Qué indicadores de avería tiene en el frontal la 2X-AT, los de batería baja y fallo de tierra están separados o es un LED único?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6f86e5cd-ff0a-4d06-a628-07221636eba8:1",
+      "question": "¿Qué controles e indicadores tiene el panel frontal de la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6f86e5cd-ff0a-4d06-a628-07221636eba8:2",
+      "question": "¿Todos los usuarios pueden acceder a todas las funciones del panel frontal de la 2X-A Táctil o hay restricciones según el nivel de usuario?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c9c45a3c-f413-47bb-aa6b-f8a8852e7d71:1",
+      "question": "¿Qué indica el LED verde de alimentación en la 2X-A Táctil, ese que tiene el icono del rayo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c09d287f-b3c2-47ee-a714-d02170cb8282:1",
+      "question": "¿Qué significa el LED amarillo parpadeando en el botón de test/desconexión del 2X-AT7, y en qué se diferencia de cuando está fijo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c09d287f-b3c2-47ee-a714-d02170cb8282:2",
+      "question": "¿Para qué sirve el botón de \"Protección incendio ON\" del panel táctil 2X-AT7 y qué indica su LED rojo parpadeando?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:169f742b-388e-4dd9-b01c-d8dbf0f1d044:1",
+      "question": "¿Cómo se cambia el idioma en la central táctil 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:169f742b-388e-4dd9-b01c-d8dbf0f1d044:2",
+      "question": "¿Desde dónde se ven las alarmas y averías activas en la 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:169f742b-388e-4dd9-b01c-d8dbf0f1d044:3",
+      "question": "¿Cómo se accede al menú de instalador en la central 2X-AT táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:169f742b-388e-4dd9-b01c-d8dbf0f1d044:4",
+      "question": "¿En la 2X-AT, si hago cambios en la configuración, cuándo se guardan realmente, al momento o hay que confirmarlos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c8b27d44-26b0-4668-81ce-dd60874968ad:1",
+      "question": "¿Cómo se actualiza el firmware de la pantalla táctil de la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c8b27d44-26b0-4668-81ce-dd60874968ad:2",
+      "question": "¿Cómo se pone un logotipo personalizado en la pantalla de reposo de la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c8b27d44-26b0-4668-81ce-dd60874968ad:3",
+      "question": "¿Desde dónde se cargan o actualizan los mapas de zonas en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6312cef2-e3ab-482a-bfe6-bbd2aac85e34:1",
+      "question": "¿Para qué sirven los iconos que aparecen en la pantalla táctil de la 2X-A Táctil y puedo pulsar alguno para cambiar algo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6312cef2-e3ab-482a-bfe6-bbd2aac85e34:2",
+      "question": "¿Qué diferencia hay en la 2X-A Táctil entre el icono de modo día de red y el de modo día de central, por qué aparecen dos iconos distintos para lo mismo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6312cef2-e3ab-482a-bfe6-bbd2aac85e34:3",
+      "question": "¿Cómo sé si la 2X-A Táctil está en modo noche solo en esa central o en toda la red de incendios?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7628f63f-28bd-4d12-847f-995e18e08338:1",
+      "question": "¿Qué diferencia hay entre la alarma de \"hausalarm\" y una alarma de pulsador normal en el panel táctil 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7628f63f-28bd-4d12-847f-995e18e08338:2",
+      "question": "¿El 2X-AT puede mostrar mapas de planta para localizar una alarma o fallo, o eso depende de la central a la que está conectado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5db0aba6-39ab-404d-b3c6-4d8910e16f63:1",
+      "question": "¿Cómo se entra al nivel de instalador en la 2X-A Táctil, paso a paso?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5db0aba6-39ab-404d-b3c6-4d8910e16f63:2",
+      "question": "¿Qué niveles de usuario tiene la central 2X-A Táctil y cómo se accede a cada uno desde la pantalla?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5db0aba6-39ab-404d-b3c6-4d8910e16f63:3",
+      "question": "¿La pantalla táctil de la 2X-A funciona con guantes?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:5db0aba6-39ab-404d-b3c6-4d8910e16f63:4",
+      "question": "¿Cómo se cierra sesión o se sale del nivel de usuario en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c954d01-ad5c-44c2-920a-ba2169180f6b:1",
+      "question": "¿Cómo se consultan las alarmas o averías activas en la 2X-AT15 y desde qué nivel de usuario se puede hacer?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c954d01-ad5c-44c2-920a-ba2169180f6b:2",
+      "question": "¿Cómo se filtran las condiciones en la 2X-AT15 para ver solo los puntos deshabilitados o los que están en test?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c954d01-ad5c-44c2-920a-ba2169180f6b:3",
+      "question": "Si tengo mapas instalados en la 2X-AT15, ¿cómo veo en qué zona del plano está el punto que ha fallado o entrado en alarma?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b157ee6f-7fda-4a93-91e0-a47d22890209:1",
+      "question": "¿Cómo se cambia la fecha y la hora en la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b157ee6f-7fda-4a93-91e0-a47d22890209:2",
+      "question": "¿Desde qué nivel de acceso se puede modificar la fecha y hora en la 2X-A Táctil, vale con el nivel de usuario normal?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b157ee6f-7fda-4a93-91e0-a47d22890209:3",
+      "question": "Si tengo varias centrales en red, ¿al cambiar la hora en una 2X-A Táctil se actualiza automáticamente en todas o hay que hacerlo central por central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:40221a9b-09cb-497b-98e8-c8f8e70f395b:1",
+      "question": "¿Cómo se desactiva una zona en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:40221a9b-09cb-497b-98e8-c8f8e70f395b:2",
+      "question": "¿Desde qué nivel de acceso se puede desactivar una zona en la 2X-A Táctil, vale con el nivel de usuario normal?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:40221a9b-09cb-497b-98e8-c8f8e70f395b:3",
+      "question": "¿Cómo se vuelve a activar una zona que estaba desactivada en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8fa6dbb3-03aa-43a0-b08c-87bf3781b03f:1",
+      "question": "¿Cómo se pone una zona en modo test en la central 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8fa6dbb3-03aa-43a0-b08c-87bf3781b03f:2",
+      "question": "¿Desde qué nivel de acceso se puede hacer la prueba de zona en la 2X-AT, vale con el nivel de usuario normal?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8fa6dbb3-03aa-43a0-b08c-87bf3781b03f:3",
+      "question": "¿Cuáles son los pasos para probar una zona en la serie 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0767aa3-7a20-4814-8e9b-f428e1640da3:1",
+      "question": "¿Cómo se añade una tarjeta de expansión en la central 2X-AT táctil, desde qué menú se hace?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0767aa3-7a20-4814-8e9b-f428e1640da3:2",
+      "question": "¿La tarjeta DACT 2010-2-DACT es compatible con la central 2X-AT?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0767aa3-7a20-4814-8e9b-f428e1640da3:3",
+      "question": "¿Qué pasa en la 2X-AT si configuro una tarjeta de expansión pero no está físicamente instalada?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c0767aa3-7a20-4814-8e9b-f428e1640da3:4",
+      "question": "¿Cómo se pone un logotipo personalizado en la pantalla de reposo de la 2X-AT, con qué nombre hay que guardar el archivo y dónde va en el USB?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d9e071b8-d355-41ad-8bad-d59f37e96613:1",
+      "question": "¿Cómo se actualiza el firmware de la central 2X-AT y qué pasos hay que seguir?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d9e071b8-d355-41ad-8bad-d59f37e96613:2",
+      "question": "¿Qué tipo de USB hay que usar para actualizar el firmware de la 2X-AT, vale cualquiera?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d9e071b8-d355-41ad-8bad-d59f37e96613:3",
+      "question": "¿Al actualizar el firmware de la 2X-AT se pierden los datos de programación de la instalación?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:d9e071b8-d355-41ad-8bad-d59f37e96613:4",
+      "question": "¿En qué nivel de acceso se puede hacer la actualización de firmware de la 2X-AT, se puede hacer como operador o hay que estar como instalador?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7d166450-4493-41a3-a194-b1964e99db16:1",
+      "question": "¿Dónde está el conector USB en la placa de la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7d166450-4493-41a3-a194-b1964e99db16:2",
+      "question": "¿Dónde localizo el JP4 en la PCB de la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6d727e7d-d0d9-4f24-9c42-847cefbe4dc5:1",
+      "question": "¿Cómo se actualiza el firmware de la pantalla táctil de la 2X-A Táctil, cuáles son los pasos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6d727e7d-d0d9-4f24-9c42-847cefbe4dc5:2",
+      "question": "¿Por dónde se mete el USB para actualizar el firmware en la 2X-A Táctil, en la pantalla o en la placa madre?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:6d727e7d-d0d9-4f24-9c42-847cefbe4dc5:3",
+      "question": "Después de actualizar el firmware de la 2X-A Táctil, ¿hay que reiniciar la central manualmente o se reinicia sola?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c9dc772-5349-4e33-bb60-7da253678a75:1",
+      "question": "¿Cómo se cargan los mapas de zonas en la central 2X-AT táctil, qué hay que meter en el USB y dónde se mete?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c9dc772-5349-4e33-bb60-7da253678a75:2",
+      "question": "¿Qué versión de firmware mínima necesita la 2X-AT para poder usar la función de mapas?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7c9dc772-5349-4e33-bb60-7da253678a75:3",
+      "question": "¿Hay algún límite de tamaño para el paquete de mapas de la 2X-AT y qué archivos tiene que tener exactamente dentro del USB?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f6fcbca-284d-482a-9a72-740486033e7d:1",
+      "question": "¿Cómo se ve una alarma en la pantalla táctil del 2X-A, qué información aparece cuando salta?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f6fcbca-284d-482a-9a72-740486033e7d:2",
+      "question": "¿El panel 2X-A muestra el plano del edificio cuando hay una alarma, y marca la zona afectada?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:7f6fcbca-284d-482a-9a72-740486033e7d:3",
+      "question": "¿Desde la pantalla del 2X-A se puede ver en qué zona y entrada exacta se ha disparado la alarma?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4a7c2b82-6da7-4a85-92a6-4b67c591e9c0:1",
+      "question": "¿Cómo se ve en pantalla un fallo en la central 2X-AT, aparece indicado en qué zona es?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:4a7c2b82-6da7-4a85-92a6-4b67c591e9c0:2",
+      "question": "¿La central 2X-AT tiene plano o mapa del edificio para localizar visualmente dónde está el fallo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b4fb2bf1-3662-41d7-8e3f-648a87cd4131:1",
+      "question": "¿Con qué normas europeas está certificada la central 2X-A Táctil, la EN 54-2 y la EN 54-4?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b4fb2bf1-3662-41d7-8e3f-648a87cd4131:2",
+      "question": "¿Qué requisitos opcionales de la EN 54-2 cumple la 2X-A Táctil, por ejemplo tiene la doble dependencia de alarma o los retardos a salidas?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:b4fb2bf1-3662-41d7-8e3f-648a87cd4131:3",
+      "question": "¿Cuánto mide la pantalla táctil de la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8800f7f2-fa1d-4d2a-bb05-a663fcf696ed:1",
+      "question": "¿Quién fabrica la 2X-A Táctil y dónde está la fábrica?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8800f7f2-fa1d-4d2a-bb05-a663fcf696ed:2",
+      "question": "¿Cuál es el representante europeo de la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:8800f7f2-fa1d-4d2a-bb05-a663fcf696ed:3",
+      "question": "¿Desde qué año tiene el marcado CE la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:32faa3ee-14ce-4f1a-bea7-14eb5a982e31:1",
+      "question": "¿La central 2X-AT29 cumple con la EN 54-13 de compatibilidad de sistema, o solo con la EN 54-13 de componentes individuales?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:32faa3ee-14ce-4f1a-bea7-14eb5a982e31:2",
+      "question": "¿Qué necesito para que la 2X-AT29 sea compatible con EN 54-21, qué comunicador y qué tarjeta hacen falta?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:32faa3ee-14ce-4f1a-bea7-14eb5a982e31:3",
+      "question": "¿Con qué normas eléctricas y de compatibilidad electromagnética (EMC) está certificada la serie 2X-AT29?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e47d9559-bebf-47f0-84fc-e9a0fecdf8a2:1",
+      "question": "¿Cómo compruebo la versión de firmware que tiene instalada la central 2X-A Series?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e47d9559-bebf-47f0-84fc-e9a0fecdf8a2:2",
+      "question": "¿La central 2X-A Series con firmware 5.0 puede trabajar en red con otras centrales que tengan una versión de firmware anterior?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:e47d9559-bebf-47f0-84fc-e9a0fecdf8a2:3",
+      "question": "¿Se puede actualizar una central 2X-A Series con firmware antiguo a la versión 5.0?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a9ab4a99-9413-4c8f-9344-0769f0cf5a95:1",
+      "question": "¿Qué modelos de la serie 2X-A Táctil existen y cuál es la diferencia entre ellos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a9ab4a99-9413-4c8f-9344-0769f0cf5a95:2",
+      "question": "¿Cuál es el modelo de la 2X-A Táctil que incluye llave de bomberos?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a9ab4a99-9413-4c8f-9344-0769f0cf5a95:3",
+      "question": "¿Qué modelo de la 2X-A Táctil tengo que poner si el cliente necesita una central con dos lazos y con control de extinción y transmisión a CRA?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a5e5ee7f-a25c-4042-bd94-2effaad16d36:1",
+      "question": "¿Qué baterías son compatibles con la central 2X-A Táctil y de qué capacidades?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a5e5ee7f-a25c-4042-bd94-2effaad16d36:2",
+      "question": "¿Dónde se colocan las baterías dentro del armario de la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a5e5ee7f-a25c-4042-bd94-2effaad16d36:3",
+      "question": "¿Puedo usar baterías de 17 Ah en la 2X-A Táctil o solo admite las de 7 Ah y 12 Ah?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9f9ab065-6716-406e-ab49-2ef4baf71a1d:1",
+      "question": "¿Cuánto consume en reposo y en alarma la central 2X-A Táctil a 24V?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9f9ab065-6716-406e-ab49-2ef4baf71a1d:2",
+      "question": "¿Cuánta corriente puedo sacar de la salida configurable de la 2X-A Táctil si la tengo instalada en un sitio que llega a 50°C?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9f9ab065-6716-406e-ab49-2ef4baf71a1d:3",
+      "question": "¿Cuál es la corriente máxima de la salida auxiliar de la 2X-A Táctil, cambia con la temperatura?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:9f9ab065-6716-406e-ab49-2ef4baf71a1d:4",
+      "question": "¿A qué temperatura máxima puedo instalar la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:84aed595-e447-4717-9249-ee9832f58265:1",
+      "question": "¿Con qué versión de firmware es compatible la lista de dispositivos de la central 2X-A Táctil de Kidde para el protocolo 900 Series?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:84aed595-e447-4717-9249-ee9832f58265:2",
+      "question": "¿Puedo instalar cualquier detector o módulo en la 2X-A Táctil de Kidde aunque no esté en la lista de compatibilidad oficial?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:84aed595-e447-4717-9249-ee9832f58265:3",
+      "question": "Los dispositivos marcados con asterisco en la lista de compatibilidad de la 2X-A Táctil de Kidde, ¿se pueden usar en instalaciones que requieran cumplir la EN 54-13?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2befbc22-a672-42ef-8c66-b24c938712c1:1",
+      "question": "¿Qué dispositivos Apollo son compatibles con la 2X-A Táctil y cuáles son sus referencias de Apollo equivalentes?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2befbc22-a672-42ef-8c66-b24c938712c1:2",
+      "question": "¿El detector óptico Apollo Xplorer (referencia Apollo 59000-605) es compatible con la 2X-A Táctil, y con qué modelo hay que programarlo en la central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2befbc22-a672-42ef-8c66-b24c938712c1:3",
+      "question": "¿Qué modelo hay que usar en la 2X-A Táctil para conectar un pulsador de alarma Apollo Series 90 estanco (referencia 55000-951)?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:2befbc22-a672-42ef-8c66-b24c938712c1:4",
+      "question": "¿La 2X-A Táctil soporta el aislador Apollo Xplorer (59000-700), y con qué referencia se da de alta en la central?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a250012c-7e5b-49e5-8f9d-ba797a734443:1",
+      "question": "¿Qué detectores de temperatura de la serie XP95 de Apollo son compatibles con la central 2X-A Táctil, y cuáles son sus referencias?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a250012c-7e5b-49e5-8f9d-ba797a734443:2",
+      "question": "¿Qué módulos de entrada/salida Apollo XP95 puedo conectar a la 2X-A Táctil, y cuáles llevan aislador incorporado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:a250012c-7e5b-49e5-8f9d-ba797a734443:3",
+      "question": "¿Qué detectores de haz Apollo XP95 son compatibles con la 2X-A Táctil y para qué distancias están pensados cada uno?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c806054a-fb15-494f-b85c-c3bce7618a6e:1",
+      "question": "¿Qué módulos de entrada/salida de la serie XP95 de Apollo son compatibles con la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c806054a-fb15-494f-b85c-c3bce7618a6e:2",
+      "question": "¿El controlador de circuito de sirenas XP95 IO956 tiene versión con aislador para la 2X-A Táctil, y cuál es el modelo exacto?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:c806054a-fb15-494f-b85c-c3bce7618a6e:3",
+      "question": "¿Qué accesorios de barrera y traductores de protocolo de la serie XP95 IS (zonas intrínsecamente seguras) están soportados en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:09d327ef-8f96-4133-978e-843dcf907eb6:1",
+      "question": "¿Qué modelos de sirenas y avisadores de la serie XP95 de Apollo son compatibles con la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:09d327ef-8f96-4133-978e-843dcf907eb6:2",
+      "question": "¿Hay alguna base de detector XP95 que lleve incorporada sirena y VAD (dispositivo de alerta visual) con aislador para usar en el lazo de la 2X-A Táctil, y cuál es el modelo exacto?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:09d327ef-8f96-4133-978e-843dcf907eb6:3",
+      "question": "¿El avisador de zona abierta AS967WRCI de Apollo XP95 es compatible con la 2X-A Táctil y tiene aislador integrado?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:09d327ef-8f96-4133-978e-843dcf907eb6:4",
+      "question": "¿Qué modelo de base XP95 con sirena e isolador existe en versión con tono DIN o slow whoop para la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:1",
+      "question": "¿Qué retenedores de puerta convencionales son compatibles con la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:2",
+      "question": "¿Qué barreras galvánicas o de aislamiento se pueden usar con dispositivos convencionales en la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:3",
+      "question": "¿El retenedor de puerta FE581 tiene protección IP65 y es compatible con la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:54c2275f-f08f-4cc8-bb33-df5c81dbcd02:4",
+      "question": "¿Hay algún retenedor o imán de puerta antiexplosión compatible con la 2X-A Táctil, y cuál es el modelo?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f05afb45-dcff-44eb-9f47-8c90da2a159e:1",
+      "question": "¿Qué dispositivos de notificación convencionales son compatibles con la central 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f05afb45-dcff-44eb-9f47-8c90da2a159e:2",
+      "question": "¿Hay alguna sirena con VAD para exterior que sea compatible con la 2X-A Táctil, y cuál es el modelo exacto?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:f05afb45-dcff-44eb-9f47-8c90da2a159e:3",
+      "question": "¿La 2X-A Táctil admite campanas de incendio convencionales, y si es así qué modelo es?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0de5bd18-5a37-406b-a6e7-8c783300cb30:1",
+      "question": "¿Qué dispositivos de notificación convencionales son compatibles con la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    },
+    {
+      "qid": "hyq:0de5bd18-5a37-406b-a6e7-8c783300cb30:2",
+      "question": "¿Cuál es el modelo del VID de exterior compatible con la 2X-A Táctil?",
+      "atomic_fact_texts": [],
+      "kind": "retriever_augmentation_not_test_gold"
+    }
+  ],
+  "existing_gold_question_count": 51,
+  "selected_source_hyq_question_count": 116,
+  "existing_gold_resolved_source_hash_count": 78,
+  "existing_gold_unresolved_source_refs": [],
+  "kidde_pdf_universe_count": 55,
+  "manual_inventory": {
+    "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf": {
+      "path": "Manuales_Kidde/3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+      "sha256": "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+      "bytes": 363237,
+      "page_count": 12
+    },
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf": {
+      "path": "Manuales_Kidde/00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+      "sha256": "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+      "bytes": 974988,
+      "page_count": 37
+    },
+    "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf": {
+      "path": "Manuales_Kidde/00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf",
+      "sha256": "0afafe6d15e4d3fc1746f343b4d5b4cd5b5f4824fb6f23515dbf701c63ca0493",
+      "bytes": 250796,
+      "page_count": 3
+    },
+    "2x-at-f2-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-161721-es.pdf",
+      "sha256": "1b1ffdf7a9c6d7a2b2a52688643d614b58d3ba7cc65d190c7c08660abf3ed68c",
+      "bytes": 508618,
+      "page_count": 3
+    },
+    "2x-at-f2-fb-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-fb-161721-es.pdf",
+      "sha256": "e30ff98036837f3652ecca697bb74dc3352a762a9b764081ca7a148edf42bd84",
+      "bytes": 484358,
+      "page_count": 3
+    },
+    "2x-at-f2-fb-p-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-fb-p-161721-es.pdf",
+      "sha256": "e3721c61ad9156da3d9ed382299a7f0075e8e000dd7f3a03e24c87eb98f30b7d",
+      "bytes": 483412,
+      "page_count": 2
+    },
+    "2x-at-f2-fb-s-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-fb-s-161721-es.pdf",
+      "sha256": "76a3d70a2ce6d7942209b72c7ff7544259b8d3753cafc5e0d9bbcb144c87d04d",
+      "bytes": 346886,
+      "page_count": 3
+    },
+    "2x-at-f2-p-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-p-161721-es.pdf",
+      "sha256": "f430fba84fa07f97349643cdce100f6e541726411a806fb445ae228454a506d9",
+      "bytes": 484407,
+      "page_count": 3
+    },
+    "2x-at-f2-s-161721-es.pdf": {
+      "path": "Manuales_Kidde/2x-at-f2-s-161721-es.pdf",
+      "sha256": "a47e1d46b29eede4e9b907a50ecc8b544699a1d7db00bcc97be6c5e61d58c941",
+      "bytes": 535115,
+      "page_count": 3
+    },
+    "bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf": {
+      "path": "Manuales_Kidde/bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf",
+      "sha256": "6ad22328e34d3e7e397da198b2f0c92cdbceb3c761d93296585b2398cba602df",
+      "bytes": 220427,
+      "page_count": 10
+    },
+    "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf": {
+      "path": "Manuales_Kidde/bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+      "sha256": "575ded0ceac828a4b91047cb28133356dd9cefe3ba91513b70f24c3e8ba186f4",
+      "bytes": 197125,
+      "page_count": 7
+    }
+  },
+  "items": [
+    {
+      "canary_id": "kidde_kuwait_pcb_callouts",
+      "product": "Kidde 2X-A Kuwait large cabinet with 6 A power supply",
+      "stratum": "dense_numbered_hardware_diagram",
+      "topic": "identificación visual de los conectores Ethernet, USB A/B, COM0/1/2, batería, fuente y usuario mediante las llamadas numeradas de la PCB",
+      "source_pdf": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+      "pages": [
+        10
+      ],
+      "focus_pages": [
+        10
+      ],
+      "product_manuals": [
+        "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf"
+      ],
+      "discovery_tokens": [
+        "3103267"
+      ],
+      "prior_artifact_history": [
+        "S99 has no question for page 10",
+        "no S194-S204 authored or reviewed this source/page/predicate"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf",
+        "sha256": "520b945faadeb733e832730b01e770f969e6680d96f522a53a438cb91eaa98d1",
+        "bytes": 363237,
+        "page_count": 12
+      },
+      "discovered_product_manuals": [
+        "3103267-en_r001_2x-a_series_kuwait_marketplace_manual.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 10,
+          "image": "evals/s205_kidde_visual_pages_v1/kidde_kuwait_pcb_callouts_p10_200dpi.png",
+          "image_sha256": "39f6572b03d9a51e56af09aa6a46a5346bc385e60663d06eee6c7dd156b94a15",
+          "image_bytes": 370408,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    },
+    {
+      "canary_id": "kidde_touchscreen_regions",
+      "product": "Kidde 2X-AT touchscreen control panel",
+      "stratum": "annotated_user_interface_diagram",
+      "topic": "correspondencia visual de las tres regiones numeradas de la pantalla táctil en reposo con sus funciones",
+      "source_pdf": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+      "pages": [
+        11
+      ],
+      "focus_pages": [
+        11
+      ],
+      "product_manuals": [
+        "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+        "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf",
+        "2x-at-f2-161721-es.pdf",
+        "2x-at-f2-fb-161721-es.pdf",
+        "2x-at-f2-fb-p-161721-es.pdf",
+        "2x-at-f2-fb-s-161721-es.pdf",
+        "2x-at-f2-p-161721-es.pdf",
+        "2x-at-f2-s-161721-es.pdf"
+      ],
+      "discovery_tokens": [
+        "2x-at"
+      ],
+      "prior_artifact_history": [
+        "S99 has no question for page 11",
+        "no S194-S204 authored or reviewed this source/page/predicate"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+        "sha256": "5341cbee479122cccf2ad5902b828e4846fdc4de89ef9afbd819bbf888ac0c2f",
+        "bytes": 974988,
+        "page_count": 37
+      },
+      "discovered_product_manuals": [
+        "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es.pdf",
+        "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es.pdf",
+        "2x-at-f2-161721-es.pdf",
+        "2x-at-f2-fb-161721-es.pdf",
+        "2x-at-f2-fb-p-161721-es.pdf",
+        "2x-at-f2-fb-s-161721-es.pdf",
+        "2x-at-f2-p-161721-es.pdf",
+        "2x-at-f2-s-161721-es.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 11,
+          "image": "evals/s205_kidde_visual_pages_v1/kidde_touchscreen_regions_p11_200dpi.png",
+          "image_sha256": "70c53b9b608ec671a1fdef7b1eebac09bd2d01f93846c59913773eaa2dd3ed43",
+          "image_bytes": 189540,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    },
+    {
+      "canary_id": "kidde_900_is_barriers",
+      "product": "Kidde 2X-A / ZP2-A 900 Series protocol compatibility list",
+      "stratum": "dense_compatibility_table",
+      "topic": "modelos exactos y función de las tres barreras convencionales intrínsecamente seguras listadas en la tabla de compatibilidad",
+      "source_pdf": "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+      "pages": [
+        5
+      ],
+      "focus_pages": [
+        5
+      ],
+      "product_manuals": [
+        "bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf",
+        "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf"
+      ],
+      "discovery_tokens": [
+        "bcn-3100035",
+        "bcn-3100036"
+      ],
+      "prior_artifact_history": [
+        "S99 has no question for page 5",
+        "existing ho003 covers Excellence detector compatibility, not these 900-protocol IS barriers"
+      ],
+      "source": {
+        "path": "Manuales_Kidde/bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf",
+        "sha256": "575ded0ceac828a4b91047cb28133356dd9cefe3ba91513b70f24c3e8ba186f4",
+        "bytes": 197125,
+        "page_count": 7
+      },
+      "discovered_product_manuals": [
+        "bcn-3100035-en_r006_2x-a_series_addressable_control_panel_compatibility_list_0.pdf",
+        "bcn-3100036-en_r002_2x-a_and_zp2-a_series_addressable_control_panel_compatibility_list_900_series_protocol.pdf"
+      ],
+      "rendered_pages": [
+        {
+          "page": 5,
+          "image": "evals/s205_kidde_visual_pages_v1/kidde_900_is_barriers_p5_200dpi.png",
+          "image_sha256": "85dee51e5b7f0354f9b5bd81815ced2768d91d77eff35a0523e1db2a879322b6",
+          "image_bytes": 375160,
+          "width_px": 1654,
+          "height_px": 2338,
+          "dpi": 200
+        }
+      ]
+    }
+  ],
+  "generation_contract": {
+    "principal": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "independent": {
+      "model": "claude-fable-5"
+    },
+    "pixel_only_frontier_input": true,
+    "independent_generation_before_cross_review": true,
+    "final_gold_author": "gpt-5.6-sol",
+    "principal_publication_review": "fable_must_pass_every_sol_candidate",
+    "counterpart_role": "blind_material_disagreement_probe_not_publication_candidate",
+    "counterpart_gate": "topic_aligned_and_zero_material_disagreement",
+    "merge_candidates": false,
+    "same_item_retry": false,
+    "application_inference_without_explicit_pixel_support": "forbidden"
+  },
+  "packet_sha256": "bb7b0ec24bbb0a25b4125b63c6b9607ec30ed001bbaf85bdd1a424a065b1b4de"
+}
