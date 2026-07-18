@@ -99,6 +99,17 @@ def _verify_design_gate() -> None:
     gate = _verify_seal(DESIGN_GATE_PATH)
     if gate.get("status") != "COMPLETE":
         raise ValueError("S214 Frontier design gate is incomplete")
+    expected_subject = "evals/s214_frontier_design_gate_brief_v1.md"
+    prereg = yaml.safe_load(PREREG_PATH.read_text(encoding="utf-8"))
+    expected_normalized_sha = prereg["frozen_inputs"]["design_gate_brief"][
+        "sha256"
+    ]
+    if gate.get("subject") != expected_subject:
+        raise ValueError("S214 Frontier design gate subject mismatch")
+    if gate.get("subject_normalized_sha256") != expected_normalized_sha:
+        raise ValueError("S214 Frontier design gate normalized subject mismatch")
+    if normalized_text_sha(ROOT / expected_subject) != expected_normalized_sha:
+        raise ValueError("S214 current design brief drift")
     decisions = gate.get("decisions") or {}
     if decisions.get("sol") != {
         "reviewer": SOL_MODEL,

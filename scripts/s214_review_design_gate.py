@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import s211_review_rerun_gate as engine  # noqa: E402
-from src.rag.visual_gold import stable_sha  # noqa: E402
+from src.rag.visual_gold import normalized_text_sha, stable_sha  # noqa: E402
 
 
 BRIEF = ROOT / "evals/s214_frontier_design_gate_brief_v1.md"
@@ -27,6 +27,7 @@ def main() -> int:
     payload.pop("result_sha256")
     payload["schema"] = "s214_frontier_design_gate_reviews_v1"
     payload["decision_scope"] = "S214_FRESH_MULTISOURCE_GOLD_EXECUTION_ONLY"
+    payload["subject_normalized_sha256"] = normalized_text_sha(BRIEF)
     payload["principal_reviewer"] = {
         "model": "gpt-5.6-sol",
         "reasoning_effort": "xhigh",

@@ -22,13 +22,13 @@ frozen_inputs:
   pixel_inspection: {path: evals/s214_pixel_inspection_receipts_v1.json, sha256: fdd26167a9e150a5beba9887cd6ccc20222e982aa65f1fa18d809fea618d48e2}
   selection_receipt: {path: evals/s214_kidde_multisource_selection_receipt_v1.json, sha256: 1180bcf9549595ed673ace2d4e2ce07103d345d864d976f89a873d06f72a9700}
   packet_builder: {path: scripts/s214_build_kidde_multisource_gold.py, sha256: e1361cb82c4d23bd1353ec6b8b90cb6b118799e88c7cf45b3878329d9716aa23}
-  runner: {path: scripts/s214_run_kidde_multisource_gold.py, sha256: e015a405c6828c51ee7c6c8145198980b9664cb595f9f66167e355524676a548}
-  design_gate_runner: {path: scripts/s214_review_design_gate.py, sha256: dcfb8bc0c204d4f837e85b5b2fff87661fdd954704de57d0b1a6193e82835adf}
+  runner: {path: scripts/s214_run_kidde_multisource_gold.py, sha256: 26137e23baff2ea7893ea08b0e27109b52c18d54a3c7036bb83eb1ffefe0d173}
+  design_gate_runner: {path: scripts/s214_review_design_gate.py, sha256: d7582e7d8a0fbdfc4c880ed69799299d798c82c5b1ccd707985ea12cb82b6b17}
   multisource_contract: {path: src/rag/multisource_visual_gold.py, sha256: 0032e2bbcbd3204059589f1e00fad2a1ac11b9c77b51979c7934aaf26f4281e1}
   frontier_runtime: {path: src/rag/frontier_visual_runtime.py, sha256: 5d75380921ed8a9ed0a52ba90a741ae138cf67ae54e74d1ba5643788df94b9fe}
   visual_gold_primitives: {path: src/rag/visual_gold.py, sha256: 669125dc1e7cc7e175f2f9fefbf5018d84f3cc0e1d19827030853af2f81259a7}
   holdout_evidence: {path: src/rag/holdout_evidence.py, sha256: c5082fca84778cac3f09969d3989b27c4801294846a2928fbe4131371112f645}
-  tests: {path: tests/test_s214_kidde_multisource_gold.py, sha256: 2cbd541bae006285702a925266c711c16cb507daa4eb79265d031fcb835b6d38}
+  tests: {path: tests/test_s214_kidde_multisource_gold.py, sha256: c86437551f63a7c9e1d280c390e85786b6e45f64e49e9d07a7eebcf6f727d148}
 
 cohort:
   candidate_items: 4
@@ -54,6 +54,9 @@ design_gate:
   independent_required: {id: claude-fable-5, verdict: PASS}
   artifact: evals/s214_frontier_design_gate_reviews_v1.json
   status_at_preregistration: PENDING_ZERO_RETRY_REVIEW_FROM_MERGED_MAIN
+  resolved_after_merge: DUAL_PASS
+  conservative_cost_usd: 0.081645
+  normalized_subject_binding_added_without_provider_call: true
   execution_without_dual_pass: forbidden
   further_review_rounds: false
 
