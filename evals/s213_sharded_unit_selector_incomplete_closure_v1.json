@@ -1,0 +1,171 @@
+{
+  "schema": "s213_sharded_unit_selector_incomplete_closure_v1",
+  "status": "NO_GO_INCOMPLETE_FAIL_CLOSED",
+  "failure": {
+    "stage": "DETERMINISTIC_EXACT_COMPILER",
+    "classification": "DOWNSTREAM_SHARD_UNION_LENGTH_BOUND",
+    "error": "compiled evidence exceeds the character bound",
+    "qid": "cat018",
+    "replicate": 1,
+    "completed_shards": 13,
+    "selected_unique_ids": 24,
+    "would_be_appendix_chars": 18956,
+    "compiled_char_bound": 12000,
+    "overflow_chars": 6956,
+    "shards": [
+      {
+        "fragment_number": 1,
+        "primary_ids": 3,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 3
+      },
+      {
+        "fragment_number": 2,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 3,
+        "primary_ids": 3,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 3
+      },
+      {
+        "fragment_number": 4,
+        "primary_ids": 3,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 3
+      },
+      {
+        "fragment_number": 5,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 6,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 7,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 8,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 9,
+        "primary_ids": 1,
+        "verifier_status": "INCOMPLETE",
+        "missing_facets": [
+          "Condición de uso del LED repetidor único para alarmas de varios sensores en una zona común"
+        ],
+        "additional_ids": 1,
+        "selected_ids": 2
+      },
+      {
+        "fragment_number": 10,
+        "primary_ids": 1,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 1
+      },
+      {
+        "fragment_number": 11,
+        "primary_ids": 0,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 0
+      },
+      {
+        "fragment_number": 12,
+        "primary_ids": 3,
+        "verifier_status": "INCOMPLETE",
+        "missing_facets": [
+          "Activación inversa y su relación con salidas/grupos inversores"
+        ],
+        "additional_ids": 1,
+        "selected_ids": 4
+      },
+      {
+        "fragment_number": 13,
+        "primary_ids": 3,
+        "verifier_status": "COMPLETE",
+        "missing_facets": [],
+        "additional_ids": 0,
+        "selected_ids": 3
+      }
+    ]
+  },
+  "execution": {
+    "completed_calls": 26,
+    "planned_calls": 260,
+    "selector_calls": 13,
+    "verifier_calls": 13,
+    "provider_retries": 0,
+    "resume": false,
+    "final_receipts_written": false,
+    "score_written": false,
+    "candidate_answer_written": false,
+    "gold_or_scorer_opened_before_stop": false
+  },
+  "inputs": {
+    "preflight_sha256": "7776d5a42a31a12e735b9d0b151b2a19c3e1bd9a10565ab7365c088fd05332d1",
+    "permit_sha256": "98d1ee76ab9ee96240b23ec7f9ce2f330e3928381974a8dc92d8208a8c6c85fc",
+    "partial_journal_sha256": "44b04ba66b0e27b44f179e66ac94537c2135fa40e0d3f89296cde63934d6f7da"
+  },
+  "cost": {
+    "actual_sunk_usd": 0.150125,
+    "budget_ceiling_usd": 75,
+    "within_budget": true
+  },
+  "credit": {
+    "facts_ok_before": 143,
+    "facts_ok_after": 143,
+    "denominator": 157,
+    "facts_moved_to_ok": 0,
+    "canonical_ok_rate_percent": 91.08
+  },
+  "decision": {
+    "same_run_retry": false,
+    "resume": false,
+    "same_cohort_prompt_threshold_or_cap_tuning": false,
+    "runtime_integration": false,
+    "production_default": "off",
+    "next": "DESIGN_ON_FRESH_INDEPENDENT_KIDDE_QUESTION_GOLD_COHORT",
+    "reason": "Per-chunk selection removed global competition but accumulated source dumping; learn the next generic relevance/compression contract on fresh population."
+  },
+  "invariants": {
+    "upstream_deterministic_residual_span_coverage": "12_OF_12_PREFLIGHT_ONLY",
+    "chunks_v2": "ACTIVE_READ_ONLY",
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "dfa4e13bb1b43404ca78c9110e38fc9d5e5e1fd6afcf4f5f98d6c4b1d61c8b1c"
+}
