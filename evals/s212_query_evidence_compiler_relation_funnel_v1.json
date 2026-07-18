@@ -1,0 +1,427 @@
+{
+  "schema": "s212_query_evidence_compiler_relation_funnel_v1",
+  "status": "COMPLETE_CAUSAL_NO_GO_ANALYSIS",
+  "residual_relations": 12,
+  "stable_stage_counts": {
+    "answer_covered": 1,
+    "candidate_pool_span": 7,
+    "deterministic_fallback_span": 4,
+    "model_exact_claim_span": 3,
+    "qualified": 1,
+    "selected_span": 1
+  },
+  "classifications": {
+    "DOWNSTREAM_SELECTION_MISS": 6,
+    "STABLE_QUALIFIED_GAIN": 1,
+    "UPSTREAM_CANDIDATE_COVERAGE_MISS": 5
+  },
+  "rows": [
+    {
+      "qid": "cat018",
+      "kind": "point_programming_fields",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": true,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    },
+    {
+      "qid": "cat018",
+      "kind": "software_type_cbe_activation",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": false,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "UPSTREAM_CANDIDATE_COVERAGE_MISS"
+    },
+    {
+      "qid": "hp002",
+      "kind": "bounded_fault_window",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": true,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": true,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    },
+    {
+      "qid": "hp002",
+      "kind": "initial_reference_calibration",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": true,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    },
+    {
+      "qid": "hp002",
+      "kind": "maintenance_isolation_prerequisite",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": true,
+          "answer_covered": true,
+          "qualified": true
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": true,
+          "answer_covered": true,
+          "qualified": true
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": true,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": true,
+        "selected_span": true,
+        "answer_covered": true,
+        "qualified": true
+      },
+      "classification": "STABLE_QUALIFIED_GAIN"
+    },
+    {
+      "qid": "hp011",
+      "kind": "extinction_duration_range",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": false,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "UPSTREAM_CANDIDATE_COVERAGE_MISS"
+    },
+    {
+      "qid": "hp011",
+      "kind": "reset_inhibit_special_state",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": true,
+          "answer_covered": true,
+          "qualified": true
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": true,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    },
+    {
+      "qid": "hp017",
+      "kind": "commissioning_rule_verification",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": false,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "UPSTREAM_CANDIDATE_COVERAGE_MISS"
+    },
+    {
+      "qid": "hp017",
+      "kind": "input_condition_definition",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": true,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    },
+    {
+      "qid": "hp017",
+      "kind": "logic_contradiction_warning",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": false,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "UPSTREAM_CANDIDATE_COVERAGE_MISS"
+    },
+    {
+      "qid": "hp017",
+      "kind": "option_family_cardinality",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": false,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": true,
+          "deterministic_fallback_span": false,
+          "candidate_pool_span": true,
+          "selected_span": true,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": false,
+        "candidate_pool_span": false,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "UPSTREAM_CANDIDATE_COVERAGE_MISS"
+    },
+    {
+      "qid": "hp017",
+      "kind": "output_condition_action",
+      "replicas": [
+        {
+          "replicate": 1,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        },
+        {
+          "replicate": 2,
+          "model_exact_claim_span": false,
+          "deterministic_fallback_span": true,
+          "candidate_pool_span": true,
+          "selected_span": false,
+          "answer_covered": false,
+          "qualified": false
+        }
+      ],
+      "stable": {
+        "model_exact_claim_span": false,
+        "deterministic_fallback_span": true,
+        "candidate_pool_span": true,
+        "selected_span": false,
+        "answer_covered": false,
+        "qualified": false
+      },
+      "classification": "DOWNSTREAM_SELECTION_MISS"
+    }
+  ],
+  "decision": {
+    "s212_closed": true,
+    "same_cohort_iteration": false,
+    "facts_moved_to_ok": 0,
+    "next": "TARGET_UPSTREAM_CANDIDATE_COVERAGE_BEFORE_SELECTION"
+  },
+  "invariants": {
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "result_sha256": "3d402968552e7e03a42b673e1025985b073f81143f08191cf78d0e76672e80c4"
+}

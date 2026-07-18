@@ -1,0 +1,880 @@
+{
+  "schema": "s212_query_evidence_compiler_score_v1",
+  "status": "NO_GO",
+  "inputs": {
+    "preflight_sha256": "ba53a7a4c10c1f00f127e2e59960285cbebb93ec9348e8ec474d37402ca97ce3",
+    "receipts_sha256": "59df0afb56f6531fbe7c88a2448a6220081aa2c7c0453ea5acb3dc0b74521a86",
+    "residual_sha256": "53eda7213874e3aae6ea8b03b03a6fd2c3ee29358d1f1efb14ae79e0709fd1fb",
+    "guardrail_gold_sha256": "1fcca415d830c54d5aeaa3b94a52f28ca3498a4df2ca35c0a1b46f6e4290ef46"
+  },
+  "metrics": {
+    "stable_residual_relation_gains": 1,
+    "stable_hp017_relation_gains": 0,
+    "previously_covered_target_regressions": 0,
+    "baseline_cardinality_contradiction": true,
+    "candidate_cardinality_contradictions": [
+      true,
+      true
+    ],
+    "new_cardinality_contradictions": 0,
+    "guardrail_point_gains": 4,
+    "guardrail_point_regressions": 0,
+    "selected_evidence": 64,
+    "useful_selected_evidence": 61,
+    "selected_evidence_precision": 0.953125,
+    "mean_appendix_chars": 923.67,
+    "max_appendix_chars": 2725,
+    "invalid_citation_calls": 0,
+    "baseline_prefix_failures": 0
+  },
+  "relation_rows": [
+    {
+      "qid": "cat018",
+      "kind": "point_programming_fields",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_7bba8d03d496",
+          "fragment_number": 3
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_7bba8d03d496",
+          "fragment_number": 3
+        }
+      ]
+    },
+    {
+      "qid": "cat018",
+      "kind": "software_type_cbe_activation",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_015f9b9aaa3a",
+          "fragment_number": 8
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_015f9b9aaa3a",
+          "fragment_number": 8
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "kind": "bounded_fault_window",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": true,
+          "qualified": false,
+          "obligation_id": "obl_07eee3300535",
+          "fragment_number": 2
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_07eee3300535",
+          "fragment_number": 2
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "kind": "initial_reference_calibration",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_a5d9fa1f9253",
+          "fragment_number": 2
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_a5d9fa1f9253",
+          "fragment_number": 2
+        }
+      ]
+    },
+    {
+      "qid": "hp002",
+      "kind": "maintenance_isolation_prerequisite",
+      "qualified": [
+        true,
+        true
+      ],
+      "stable_gain": true,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": true,
+          "source_span_receipt": true,
+          "qualified": true,
+          "obligation_id": "obl_b6f6211be439",
+          "fragment_number": 9
+        },
+        {
+          "covered": true,
+          "source_span_receipt": true,
+          "qualified": true,
+          "obligation_id": "obl_b6f6211be439",
+          "fragment_number": 9
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "kind": "default_latched_faults",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": true,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": true,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_05482a6b3f0e",
+          "fragment_number": 9
+        },
+        {
+          "covered": true,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_05482a6b3f0e",
+          "fragment_number": 9
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "kind": "extinction_duration_range",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_161564ff41bf",
+          "fragment_number": 11
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_161564ff41bf",
+          "fragment_number": 11
+        }
+      ]
+    },
+    {
+      "qid": "hp011",
+      "kind": "reset_inhibit_special_state",
+      "qualified": [
+        true,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": true,
+          "source_span_receipt": true,
+          "qualified": true,
+          "obligation_id": "obl_2f5d79e354b9",
+          "fragment_number": 13
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_2f5d79e354b9",
+          "fragment_number": 13
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "kind": "commissioning_rule_verification",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_0d6a30948dfd",
+          "fragment_number": 12
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_0d6a30948dfd",
+          "fragment_number": 12
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "kind": "input_condition_definition",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_b2043cd4379b",
+          "fragment_number": 12
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_b2043cd4379b",
+          "fragment_number": 12
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "kind": "logic_contradiction_warning",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_16637b935bd4",
+          "fragment_number": 12
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_16637b935bd4",
+          "fragment_number": 12
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "kind": "option_family_cardinality",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_872c35fb41d7",
+          "fragment_number": 1
+        },
+        {
+          "covered": false,
+          "source_span_receipt": true,
+          "qualified": false,
+          "obligation_id": "obl_872c35fb41d7",
+          "fragment_number": 1
+        }
+      ]
+    },
+    {
+      "qid": "hp017",
+      "kind": "output_condition_action",
+      "qualified": [
+        false,
+        false
+      ],
+      "stable_gain": false,
+      "protected_relation": false,
+      "regression": false,
+      "receipts": [
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_7aa723717412",
+          "fragment_number": 12
+        },
+        {
+          "covered": false,
+          "source_span_receipt": false,
+          "qualified": false,
+          "obligation_id": "obl_7aa723717412",
+          "fragment_number": 12
+        }
+      ]
+    }
+  ],
+  "guardrail_rows": [
+    {
+      "qid": "s147_src_01",
+      "points": [
+        {
+          "claim": "La configuración de coincidencia requiere SW4 en posición ON, SW5 en OFF y SW6 en OFF",
+          "baseline": false,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": true,
+          "regression": false
+        },
+        {
+          "claim": "Esta configuración se representa en la tabla como fila de COINCIDENCIA con valores 1, 0, 0",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_02",
+      "points": [
+        {
+          "claim": "El módulo Monitor requiere una resistencia de final de línea de 47KΩ en estado normal",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Se debe colocar una resistencia de 18KΩ en serie con el contacto N.A. de alarma para señalizar la alarma",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El módulo Monitor de 3 estados indica un cortocircuito como avería",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_03",
+      "points": [
+        {
+          "claim": "En estado de prealarma (aviso) la salida de corriente 0-20mA es de 16 mA con tolerancia del ±5%",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "La máxima resistencia de carga permitida para la salida 0-20mA es de 600Ω",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_04",
+      "points": [
+        {
+          "claim": "El Nivel 3 tiene una sensibilidad de 0.05 % obs/ft",
+          "baseline": false,
+          "candidate": [
+            false,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El detector tiene 9 niveles de sensibilidad disponibles en total",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Solo los Niveles 1 a 5 están disponibles para usar en PipeIQ",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_05",
+      "points": [
+        {
+          "claim": "La tabla de avisos contiene columnas para Fecha/Hora, Evento, Panel, Zona, Dispositivo y Detalles del aviso.",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Un aviso de avería de alimentación muestra el tipo de evento, el panel afectado y detalles del fallo en la columna correspondiente.",
+          "baseline": false,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": true,
+          "regression": false
+        },
+        {
+          "claim": "Un aviso de dispositivo en avería registra la zona afectada y la descripción específica del estado del dispositivo.",
+          "baseline": false,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": true,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_06",
+      "points": [
+        {
+          "claim": "La dirección mínima requerida es 80 cuando se usa como sounder y beacon",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Direcciones inferiores a 80 hacen que el dispositivo funcione solo como sounder sin la baliza parpadeante",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_07",
+      "points": [
+        {
+          "claim": "A 12 V-CC (10,5 V-CC) el consumo máximo es 340 mA",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "A 24 V-CC (18 V-CC) el consumo máximo es 210 mA",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_08",
+      "points": [
+        {
+          "claim": "El cable líder debe estar conectado al LocatorPlus y cortocircuitado en el extremo donde se conecta al INICIO del cable LHD",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Después de cortocircuitar, se debe presionar el botón Set y el LocatorPlus mostrará la caída de voltaje a través del cable líder",
+          "baseline": false,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": true,
+          "regression": false
+        },
+        {
+          "claim": "Se debe quitar el cortocircuito del cable líder y conectarlo al INICIO del cable LHD normalmente",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_09",
+      "points": [
+        {
+          "claim": "La obstrucción o desalineación del haz hace que el LED amarillo de falta se encienda de manera continua, y se resuelve eliminando la obstrucción o realineando para mantener el camino del haz despejado hacia el reflector.",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El arranque incorrecto o falla del detector provoca que el LED amarillo de falta se ilumine continuamente inmediatamente después de salir del modo de instalación, requiriendo repetir el procedimiento de instalación y verificar todos los parámetros.",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "La contaminación excesiva de las partes ópticas se identifica porque el LED amarillo de falta parpadea, y se resuelve limpiando cuidadosamente la ventana del haz y la superficie del reflector con un paño húmedo.",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_10",
+      "points": [
+        {
+          "claim": "El LED de alarma general parpadea cuando un detector activó la alarma",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El LED de alarma general está fijo cuando la activó un pulsador",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_11",
+      "points": [
+        {
+          "claim": "Se deben instalar conectores de cable con protección tipo IP 66 en las aberturas proporcionadas para este propósito.",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El pezón de diafragma suministrado puede reemplazarse con un conector de cable o una conexión de enchufe M12 con medida de brida M20.",
+          "baseline": false,
+          "candidate": [
+            false,
+            false
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "La protección IP 66 solo se garantiza cuando el embudo de la membrana apunta hacia afuera, y los restos del diafragma deben retirarse después de instalar el cable.",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_12",
+      "points": [
+        {
+          "claim": "Colocar el conector Sel6 en posición ON y cerrar el puente JP3",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Pulsar el botón P1 de la placa base y mantenerlo pulsado durante toda la grabación del mensaje",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "El tiempo máximo de grabación permitido para cada mensaje es de 12 segundos",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_13",
+      "points": [
+        {
+          "claim": "Se debe medir con un polímetro en escala kΩ entre los terminales de los cables del bus",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Si la medición resulta en 0, la línea está en cortocircuito",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Si la medición resulta en 1, la línea es correcta",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    },
+    {
+      "qid": "s147_src_14",
+      "points": [
+        {
+          "claim": "Debe cumplir con los estándares específicos aplicables",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "Debe recibir una señal inalámbrica fuerte del módulo traductor o expansor vinculado",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        },
+        {
+          "claim": "No debe estar interferido por factores ambientales",
+          "baseline": true,
+          "candidate": [
+            true,
+            true
+          ],
+          "stable_gain": false,
+          "regression": false
+        }
+      ]
+    }
+  ],
+  "invalid_citations": [],
+  "prefix_failures": [],
+  "checks": {
+    "stable_residual_relation_gains_gte_11": false,
+    "stable_hp017_relation_gains_gte_4": false,
+    "previously_covered_target_regressions_zero": true,
+    "new_cardinality_contradictions_zero": true,
+    "guardrail_point_regressions_zero": true,
+    "selected_evidence_precision_gte_0_70": true,
+    "baseline_prefix_failures_zero": true,
+    "invalid_citations_zero": true,
+    "mean_appendix_chars_lte_5000": true,
+    "actual_cost_below_ceiling": true
+  },
+  "relation_proxy_projection": {
+    "canonical_facts_ok_before": 143,
+    "stable_relation_gains": 1,
+    "canonical_facts_ok_after": null,
+    "claim_98_percent_allowed": false,
+    "reason": "Fact credit requires the sealed Sol xhigh and Fable atomic result review."
+  },
+  "cost": {
+    "estimated_usd": 1.4833295,
+    "conservative_full_run_upper_bound_usd": 22.948314,
+    "budget_ceiling_usd": 75.0,
+    "pricing_usd_per_million_tokens": {
+      "extractor": {
+        "input": 2.0,
+        "output": 10.0
+      },
+      "planner": {
+        "input": 2.5,
+        "output": 15.0
+      }
+    }
+  },
+  "decision": {
+    "frontier_atomic_review": false,
+    "same_cohort_retry": false,
+    "prompt_or_threshold_tuning": false,
+    "runtime_integration": false,
+    "production_default": "off",
+    "facts_moved_to_ok": 0,
+    "next": "CLOSE_S210_WITHOUT_ITERATION"
+  },
+  "invariants": {
+    "chunks_v3": "FINAL_NO_GO_CHUNKS_V3_WHOLESALE",
+    "railway_merge_gate": false
+  },
+  "lineage": {
+    "scorer": "S210_FROZEN_GATE",
+    "prior_partial_result_scored": false,
+    "fresh_generalization_evidence": false
+  },
+  "result_sha256": "2debd42e340ff3a3572032ea45c8f1b9438fb4c5e18604e83986971cbdc08363"
+}

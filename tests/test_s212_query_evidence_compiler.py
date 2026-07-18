@@ -67,13 +67,13 @@ def test_s212_zero_call_preflight_is_complete_bounded_and_not_fresh():
     assert conservative_execution_upper_bound_usd(value, prices) == 22.948314
 
 
-def test_s212_has_no_execution_artifacts_before_frontier_gate():
-    for path in (
-        "evals/s212_query_evidence_compiler_calls_v1.partial.jsonl",
-        "evals/s212_query_evidence_compiler_receipts_v1.json",
-        "evals/s212_query_evidence_compiler_score_v1.json",
-    ):
-        assert not (ROOT / path).exists()
+def test_s212_remains_unwired_after_result_gate():
+    assert "query_evidence_compiler_v3" not in (
+        ROOT / "src/rag/generator.py"
+    ).read_text(encoding="utf-8")
+    assert "query_evidence_compiler_v3" not in (
+        ROOT / "src/bot/telegram_bot.py"
+    ).read_text(encoding="utf-8")
 
 
 def test_s212_permit_rejects_first16_and_requires_dual_pass_full_binding():
