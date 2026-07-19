@@ -933,6 +933,47 @@ def test_apply_cross_fragment_anexa_con_cita_doble(monkeypatch):
     assert "Nota: el manual también indica:" in out
 
 
+# ─── v3 (funnel probe-2): grounding fold-tolerante + disclosure de dos lados ───
+
+
+def test_ground_hybrid_span_fold_tolerante_devuelve_substring_exacto():
+    frag = "La tensión del lazo va\nde 10 a 30 V según\nla configuración."
+    altered = "la tension del lazo va  de 10 a 30 v"
+    grounded = mp.ground_hybrid_span(frag, altered)
+    assert grounded is not None
+    assert grounded in frag                      # substring EXACTO del fragmento
+    assert "tensión" in grounded and "\n" in grounded
+    assert mp.ground_hybrid_span(frag, "lazo del la tension va") is None  # parafraseo
+
+
+def test_hybrid_stats_cuenta_grounding_fold():
+    client = _FakeAnthropic(_hybrid_payload(
+        atom_1_family="F-RANGE",
+        atom_1_span="La tension de lazo va  DE 10 A 30 V",  # sin acento + re-espaciado
+    ))
+    stats = {}
+    atoms = mp.detect_atoms_hybrid(_RANGE_TEXT, client=client, stats=stats)
+    assert stats.get("proposals") == 1
+    # el span foldeado ancla; puede quedar como fold_relocated+accepted o
+    # descartarse por solape con el determinista — nunca rejected_grounding
+    assert "rejected_grounding" not in stats
+    assert atoms  # el determinista sigue presente
+
+
+def test_render_count_conflict_dos_lados_con_citas():
+    text = "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+    atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
+    assert len(atoms) == 1
+    meta = atoms[0]["meta"]
+    assert meta["enum_span_text"].startswith("- A")
+    atoms[0]["meta"]["fragment_number"] = 3
+    appendix = mp.render_appendix(atoms, "Hay seis opciones [F3]")
+    assert "Nota: el manual también indica:" in appendix
+    assert '"La central ofrece seis opciones' in appendix   # lado del conteo
+    assert "- G" in appendix                                # lado de la enumeración
+    assert appendix.count("[F3]") == 2                      # cita en ambos lados
+
+
 def test_apply_detect_fn_inyectable(monkeypatch):
     _wire(monkeypatch, {"detnov:cad-150"})
     chunks = [{"document_id": "doc-1", "content": _RANGE_TEXT}]

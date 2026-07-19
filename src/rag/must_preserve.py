@@ -769,7 +769,13 @@ def _detect_count(text: str) -> list[Atom]:
         s_start = next(
             (s for s, e in sentences if s <= m.start() < e), m.start()
         )
-        span_start, span_end = s_start, b_end
+        s_end_sentence = next(
+            (e for s, e in sentences if s <= m.start() < e), m.end()
+        )
+        # v3 (funnel probe-2): span = ORACIÓN del conteo; la enumeración viaja
+        # explícita en meta.enum_span_text para el disclosure de DOS LADOS (el span
+        # conteo→bloque cortaba el run cuando el bloque se partía).
+        span_start, span_end = s_start, s_end_sentence
         anchors = _content_tokens(text[s_start:m.end()])
         anchors.extend([str(declared), str(enumerated), _fold(m.group(2))])
         atoms.append({
@@ -784,9 +790,10 @@ def _detect_count(text: str) -> list[Atom]:
                 "enumeration_kind": kind,
                 "tie": tie,
                 "noun": m.group(2),
+                "enum_span_text": text[b_start:b_end],
                 "seven_segment_risk": has_seven_segment_pattern(
                     text[span_start:span_end]
-                ),
+                ) or has_seven_segment_pattern(text[b_start:b_end]),
             },
         })
     return atoms
@@ -1064,11 +1071,64 @@ def _overlaps_same_family(atom: Atom, existing: list[Atom]) -> bool:
     )
 
 
+def _fold_ws(text: str) -> tuple[str, list[int]]:
+    """Fold char-a-char con mapa de índices: minúsculas, sin acentos combinantes,
+    espacios/saltos colapsados a UN espacio. Devuelve (texto_foldeado, idx_map)."""
+    import unicodedata
+
+    out: list[str] = []
+    idx: list[int] = []
+    prev_space = False
+    for i, ch in enumerate(text or ""):
+        if ch.isspace():
+            if prev_space or not out:
+                continue
+            out.append(" ")
+            idx.append(i)
+            prev_space = True
+            continue
+        decomposed = unicodedata.normalize("NFKD", ch)
+        base = "".join(c for c in decomposed if not unicodedata.combining(c)).lower()
+        if not base:
+            base = ch.lower()
+        for c in base:
+            out.append(c)
+            idx.append(i)
+        prev_space = False
+    while out and out[-1] == " ":
+        out.pop()
+        idx.pop()
+    return "".join(out), idx
+
+
+def ground_hybrid_span(fragment_text: str, span: str) -> str | None:
+    """Grounding FOLD-TOLERANTE (v3, funnel probe-2: Haiku re-espacia/parafrasea
+    levemente y el match exacto descartaba todo): localiza el span en el fragmento
+    tras fold (minúsculas + sin acentos + espacios colapsados) y devuelve el
+    SUBSTRING EXACTO del fragmento (jamás el texto de Haiku). None si no ancla."""
+    span = (span or "").strip()
+    if not span:
+        return None
+    if span in (fragment_text or ""):
+        return span
+    folded_span, _ = _fold_ws(span)
+    if not folded_span:
+        return None
+    folded_frag, idx = _fold_ws(fragment_text or "")
+    pos = folded_frag.find(folded_span)
+    if pos < 0:
+        return None
+    start = idx[pos]
+    end = idx[pos + len(folded_span) - 1] + 1
+    return fragment_text[start:end]
+
+
 def detect_atoms_hybrid(
     fragment_text: str,
     client=None,
     model: str = HYBRID_DETECTOR_MODEL,
     usage: dict | None = None,
+    stats: dict | None = None,
 ) -> list[Atom]:
     """Detector híbrido: determinista + propuesta Haiku validada por código.
 
@@ -1109,18 +1169,36 @@ def detect_atoms_hybrid(
     tool_use = next(b for b in response.content if b.type == "tool_use")
     payload = dict(tool_use.input)
     atoms = list(det)
+
+    def _count(key: str) -> None:
+        if stats is not None:
+            stats[key] = stats.get(key, 0) + 1
+
     for i in range(1, _HYBRID_SLOTS + 1):
         family = str(payload.get(f"atom_{i}_family") or "").strip().upper()
         span = str(payload.get(f"atom_{i}_span") or "").strip()
-        if family not in FAMILIES or not span:
+        if not family and not span:
             continue
-        if span not in fragment_text:
-            continue  # grounding verbatim obligatorio: span no-verbatim → descarte
-        atom = _atom_from_verbatim_span(family, span, fragment_text)
+        _count("proposals")
+        if family not in FAMILIES or not span:
+            _count("rejected_family_or_empty")
+            continue
+        # v3: grounding FOLD-TOLERANTE — el texto anexable sigue siendo el substring
+        # EXACTO del fragmento (ground_hybrid_span), jamás el texto de Haiku.
+        grounded = ground_hybrid_span(fragment_text, span)
+        if grounded is None:
+            _count("rejected_grounding")
+            continue
+        if grounded != span:
+            _count("accepted_fold_relocated")
+        atom = _atom_from_verbatim_span(family, grounded, fragment_text)
         if atom is None:
+            _count("rejected_shape")
             continue  # sin shape de su familia → descarte
         if _overlaps_same_family(atom, atoms):
+            _count("rejected_overlap")
             continue
+        _count("accepted")
         atoms.append(atom)
     atoms.sort(key=lambda a: (a["span_start"], a["family"]))
     return atoms
@@ -1497,9 +1575,12 @@ def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
         fragment_number = meta.get("fragment_number")
         cite = f" [F{fragment_number}]" if fragment_number else ""
         span = (atom.get("span_text") or "").strip()
-        if meta.get("cross_fragment"):
-            count_cite = f" [F{meta.get('count_fragment_number')}]"
-            enum_cite = f" [F{meta.get('enum_fragment_number')}]"
+        if meta.get("conflict") and meta.get("enum_span_text"):
+            # v3: disclosure de DOS LADOS SIEMPRE — conteo declarado + enumeración
+            # verbatim (sopa OCR incluida), cada lado con su cita ([Fi]·[Fj] si es
+            # cross; misma cita dos veces si es intra).
+            count_cite = f" [F{meta.get('count_fragment_number') or fragment_number}]"
+            enum_cite = f" [F{meta.get('enum_fragment_number') or fragment_number}]"
             enum_span = str(meta.get("enum_span_text") or "").strip()
             lines.append(
                 f'- Nota: el manual también indica: "{span}"{count_cite} · '

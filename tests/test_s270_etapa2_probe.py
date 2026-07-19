@@ -287,7 +287,31 @@ def test_probe_v2_wrapper_rebinds_y_prereg_coherente() -> None:
         prereg = yaml.safe_load(probe.PREREG.read_text(encoding="utf-8"))
         assert prereg["probe_number"] == 2
         assert prereg["status"] == "FROZEN_BEFORE_PAID_EXECUTION"
-        # el pin del mecanismo v2 en el prereg coincide con el fichero vivo
+        # el pin registrado es un sha valido (snapshot HISTORICO del mecanismo v2;
+        # el fichero vivo ya evoluciono a v3 — el pin vivo lo verifica el prereg v3)
+        pin = prereg["frozen_inputs_sha256_lf_normalized"]["src/rag/must_preserve.py"]
+        assert len(pin) == 64
+        assert probe.runner_pin_status(prereg) == "MATCH"
+    finally:
+        for k, v in saved.items():
+            setattr(probe, k, v)
+
+
+def test_probe_v3_wrapper_rebinds_y_prereg_coherente() -> None:
+    saved = {
+        k: getattr(probe, k)
+        for k in ("PREREG", "REPLICAS", "OUT", "RESULT_SCHEMA", "RUNNER_KEY",
+                  "RUNNER_FILE", "run_replicate", "preflight")
+    }
+    try:
+        import scripts.s270_etapa2_probe_v3 as v3  # noqa: F401
+
+        assert probe.PREREG.name == "s270_etapa2_probe_v3_prereg_v1.yaml"
+        assert probe.RESULT_SCHEMA == "s270_etapa2_probe_v3_result_v1"
+        assert probe.run_replicate is v3.run_replicate_v3
+        prereg = yaml.safe_load(probe.PREREG.read_text(encoding="utf-8"))
+        assert prereg["probe_number"] == 3
+        # el pin del mecanismo v3 SI coincide con el fichero vivo
         assert (
             prereg["frozen_inputs_sha256_lf_normalized"]["src/rag/must_preserve.py"]
             == probe.normalized_sha(probe.ROOT / "src/rag/must_preserve.py")

@@ -62,14 +62,18 @@ def _load_s269():
 H = _load_s269()
 
 EVALS = ROOT / "evals"
-COHORT_PATH = EVALS / "s270_mutation_cohort_v5.jsonl"
-BUILD_REPORT_PATH = EVALS / "s270_mutation_cohort_v5_build.json"
-PREREG_PATH = EVALS / "s270_stage1_v5_prereg_v1.yaml"
-RESULTS_DET_PATH = EVALS / "s270_stage1_v5_results_det_c273.jsonl"
-RESULTS_HYBRID_PATH = EVALS / "s270_stage1_v5_results_hybrid_c273.jsonl"
-GATE_OUT_PATH = EVALS / "s270_stage1_v5_gate_v1.yaml"
+# v6 (mecanismo v3, seed-274): el fichero EVOLUCIONA en el sitio (patrón s269: los
+# preregs pinean snapshots; las corridas previas quedan congeladas en git y sus
+# freeze-checks abortan sobre el fichero nuevo, por diseño).
+COHORT_SEED273_PATH = EVALS / "s270_mutation_cohort_v5.jsonl"
+COHORT_PATH = EVALS / "s270_mutation_cohort_v6.jsonl"
+BUILD_REPORT_PATH = EVALS / "s270_mutation_cohort_v6_build.json"
+PREREG_PATH = EVALS / "s270_stage1_v6_prereg_v1.yaml"
+RESULTS_DET_PATH = EVALS / "s270_stage1_v6_results_det_c274.jsonl"
+RESULTS_HYBRID_PATH = EVALS / "s270_stage1_v6_results_hybrid_c274.jsonl"
+GATE_OUT_PATH = EVALS / "s270_stage1_v6_gate_v1.yaml"
 
-SEED = 273
+SEED = 274
 # gates heredados del prereg v3 (s269_stage1_v3_prereg_v3.yaml) + tipos nuevos
 GATES = {
     "mutation_recall_min_per_family": 0.80,
@@ -80,6 +84,10 @@ GATES = {
     "cross_binding_fp_max": 0,
     "attestation_block_appends_max": 0,
     "coverage_min": 0.90,
+    # v6 (mecanismo v3): grounding fold-tolerante + disclosure de dos lados
+    "grounding_fold_recall_min": 0.80,
+    "grounding_paraphrase_fp_max": 0,
+    "disclosure_two_sides_min": 0.80,
 }
 
 TEMPLATES_V5_EXTRA = {
@@ -105,7 +113,7 @@ def run_mechanism_v2(atoms, draft, cited, fragment_number):
 H.run_mechanism = run_mechanism_v2  # el harness s269 usa la selección v2
 
 
-# ─────────────────────────── build cohorte v5 (seed 273) ───────────────────────────
+# ─────────────────────────── build cohorte v6 (seed 274) ───────────────────────────
 
 def build_cohort() -> int:
     import os
@@ -122,6 +130,7 @@ def build_cohort() -> int:
         ("seed270_cohort_docs_exclusion", H.COHORT_SEED270_PATH),
         ("seed271_cohort_docs_exclusion", H.COHORT_SEED271_PATH),
         ("seed272_cohort_docs_exclusion", H.COHORT_PATH),  # cohorte v4 (seed-272)
+        ("seed273_cohort_docs_exclusion", COHORT_SEED273_PATH),  # Cohorte v6
     ):
         docs = sorted({r["document_id"] for r in H.load_jsonl(path)})
         if not docs:
@@ -204,7 +213,7 @@ def build_cohort() -> int:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
     report = {
-        "schema": "s270_mutation_cohort_v5_build_v1",
+        "schema": "s270_mutation_cohort_v6_build_v1",
         "created_utc": H._now(),
         "seed": SEED,
         "chunks_table": table,
@@ -222,7 +231,7 @@ def build_cohort() -> int:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
-    print(f"Cohorte v5: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
+    print(f"Cohorte v6: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
     print(f"Composición: {composition}")
     return 0
 
@@ -289,13 +298,10 @@ def evaluate_cross_count_rows(row: dict) -> list[dict]:
     if meta.get("cross_fragment"):
         return results
     text = row["texto"]
-    blocks = mp._enumeration_blocks(text)
-    block = next(
-        (b for b in blocks if atom["span_start"] < b[0] <= atom["span_end"]), None
-    )
-    if block is None:
+    enum_span = str(meta.get("enum_span_text") or "")
+    b_start = text.find(enum_span) if enum_span else -1
+    if b_start <= 0:
         return results
-    b_start = block[0]
     frag_a = text[:b_start]
     frag_b = text[b_start:]
     if not frag_a.strip() or not frag_b.strip():
@@ -343,6 +349,87 @@ def evaluate_cross_count_rows(row: dict) -> list[dict]:
     return results
 
 
+def evaluate_grounding_rows(row: dict) -> list[dict]:
+    """grounding_fold (v3): una propuesta híbrida con espacios/saltos/acentos
+    alterados debe anclar y devolver el SUBSTRING EXACTO; una parafraseada, None."""
+    import re as _re
+    import unicodedata
+
+    span = (row["atom"].get("span_text") or "").strip()
+    if len(span) < 20:
+        return []
+    base = {
+        "fragment_id": row["fragment_id"],
+        "familia": row["familia"],
+        "document_id": row["document_id"],
+    }
+    results: list[dict] = []
+    ws_altered = _re.sub(r"\s+", "  ", span.replace("\n", " "))
+    accents = "".join(
+        c for c in unicodedata.normalize("NFKD", span)
+        if not unicodedata.combining(c)
+    ).upper()
+    for label, altered, expect in (
+        ("ws", ws_altered, True),
+        ("accents", accents, True),
+        ("paraphrase", " ".join(reversed(span.split())), False),
+    ):
+        grounded = mp.ground_hybrid_span(row["texto"], altered)
+        if expect:
+            detected = grounded is not None and grounded in row["texto"] and (
+                mp._fold_ws(grounded)[0] == mp._fold_ws(span)[0]
+            )
+            results.append(base | {
+                "key": f"{row['fragment_id']}|grounding|{label}",
+                "measure": "grounding", "variant_label": label,
+                "puntuable": True, "detected": detected,
+            })
+        else:
+            results.append(base | {
+                "key": f"{row['fragment_id']}|grounding|{label}",
+                "measure": "grounding", "variant_label": label,
+                "puntuable": True, "fp_paraphrase": grounded is not None,
+            })
+    return results
+
+
+def evaluate_disclosure_rows(row: dict, atoms: list[dict]) -> list[dict]:
+    """disclosure_two_sides (v3): el anexo de un F-COUNT en conflicto debe incluir
+    AMBOS lados (oración del conteo + enumeración verbatim)."""
+    if row["familia"] != mp.FAMILY_COUNT:
+        return []
+    target = H._locate_target(atoms, row["atom"])
+    if target is None:
+        return []
+    meta = target.get("meta") or {}
+    enum_span = str(meta.get("enum_span_text") or "").strip()
+    if not enum_span or not meta.get("conflict"):
+        return []
+    mutations = H.generate_mutations(row)
+    if not mutations:
+        return []
+    draft = H.render_draft(mutations[0]["claim_mut"], 0)
+    if not mp.atom_exigible_in(target, draft):
+        return [{
+            "fragment_id": row["fragment_id"], "familia": row["familia"],
+            "document_id": row["document_id"],
+            "key": f"{row['fragment_id']}|disclosure2",
+            "measure": "disclosure2", "puntuable": False,
+            "skip_reason": "binding_guard",
+        }]
+    appendix, _ = run_mechanism_v2(atoms, draft, {1}, 1)
+    count_side = (target.get("span_text") or "").strip() in appendix
+    enum_side = enum_span in appendix
+    return [{
+        "fragment_id": row["fragment_id"], "familia": row["familia"],
+        "document_id": row["document_id"],
+        "key": f"{row['fragment_id']}|disclosure2",
+        "measure": "disclosure2", "puntuable": True,
+        "detected": count_side and enum_side,
+        "count_side": count_side, "enum_side": enum_side,
+    }]
+
+
 def _clean_quality_fp(appended: list[dict], texto: str, draft: str) -> list[str]:
     """Re-spec opción-a (DEC-126): FP de CALIDAD del anexo — span no-verbatim del
     fragmento, cap global/por-familia violado, o MANDATORY duplicado. El anexo
@@ -374,11 +461,11 @@ def run_arm(hybrid: bool, execute: bool) -> int:
     prereg = yaml.safe_load(PREREG_PATH.read_text(encoding="utf-8"))
     frozen = prereg["freeze"]
     if H.sha256_file(COHORT_PATH) != frozen["cohort_sha256"]:
-        raise RuntimeError("freeze roto: cohorte v5 ≠ prereg")
+        raise RuntimeError("freeze roto: Cohorte v6 ≠ prereg")
     if H.sha256_file(ROOT / "src/rag/must_preserve.py") != frozen["must_preserve_sha256"]:
         raise RuntimeError("freeze roto: must_preserve.py ≠ prereg")
     rows = H.load_jsonl(COHORT_PATH)
-    print(f"Cohorte v5 verificada (freeze OK): {len(rows)} filas")
+    print(f"Cohorte v6 verificada (freeze OK): {len(rows)} filas")
 
     if hybrid:
         estimate = H._hybrid_cost_estimate(rows)
@@ -428,6 +515,10 @@ def run_arm(hybrid: bool, execute: bool) -> int:
                 emit(result)
             for result in evaluate_cross_count_rows(row):
                 emit(result)
+            for result in evaluate_grounding_rows(row):
+                emit(result)
+            for result in evaluate_disclosure_rows(row, atoms):
+                emit(result)
         for result in H.evaluate_cross_rows(rows, atoms_by_fragment):
             emit(result)
         for result in H.evaluate_attestation_rows(rows, atoms_by_fragment):
@@ -452,7 +543,7 @@ def gate() -> int:
         den = [r for r in rows if pred_den(r)]
         return (len(num) / len(den)) if den else None, len(num), len(den)
 
-    verdict: dict = {"schema": "s270_stage1_v5_gate_v1", "created_utc": H._now(),
+    verdict: dict = {"schema": "s270_stage1_v6_gate_v1", "created_utc": H._now(),
                      "arm": "det", "families": {}, "checks": {}}
     ok = True
     for fam in H.FAMILIES:
@@ -507,6 +598,29 @@ def gate() -> int:
         "cross_count_recall": {"value": cross_r, "n": cross_n, "d": cross_d,
                                "pass": cross_d == 0 or (cross_r or 0) >= gates["cross_count_recall_min"]},
         "cross_count_far_page_fp": {"value": cross_far_fp, "pass": cross_far_fp == 0},
+        "grounding_fold_recall": (lambda rr: {
+            "value": rr[0], "n": rr[1], "d": rr[2],
+            "pass": rr[2] == 0 or (rr[0] or 0) >= gates["grounding_fold_recall_min"],
+        })(rate(
+            lambda x: x.get("measure") == "grounding" and x.get("puntuable")
+            and x.get("variant_label") in ("ws", "accents") and x.get("detected"),
+            lambda x: x.get("measure") == "grounding" and x.get("puntuable")
+            and x.get("variant_label") in ("ws", "accents"),
+        )),
+        "grounding_paraphrase_fp": (lambda n: {
+            "value": n, "pass": n <= gates["grounding_paraphrase_fp_max"],
+        })(len([
+            r for r in rows if r.get("measure") == "grounding"
+            and r.get("variant_label") == "paraphrase" and r.get("fp_paraphrase")
+        ])),
+        "disclosure_two_sides": (lambda rr: {
+            "value": rr[0], "n": rr[1], "d": rr[2],
+            "pass": rr[2] == 0 or (rr[0] or 0) >= gates["disclosure_two_sides_min"],
+        })(rate(
+            lambda x: x.get("measure") == "disclosure2" and x.get("puntuable")
+            and x.get("detected"),
+            lambda x: x.get("measure") == "disclosure2" and x.get("puntuable"),
+        )),
         "clean_annex_quality_fp": {"value": clean_fp,
                                    "pass": clean_fp <= gates["clean_annex_quality_fp_max"]},
         "enrichment_appends_reported": {"value": enrichment, "pass": True},
@@ -537,11 +651,11 @@ def gate() -> int:
 
 def freeze() -> int:
     if not COHORT_PATH.exists():
-        raise RuntimeError("cohorte v5 no construida: --build-cohort primero")
+        raise RuntimeError("Cohorte v6 no construida: --build-cohort primero")
     rows = H.load_jsonl(COHORT_PATH)
     build = json.loads(BUILD_REPORT_PATH.read_text(encoding="utf-8"))
     prereg = {
-        "schema": "s270_stage1_v5_prereg_v1",
+        "schema": "s270_stage1_v6_prereg_v1",
         "status": "FROZEN_BEFORE_RUN",
         "created_utc": H._now(),
         "predecessor": "evals/s269_stage1_v3_prereg_v3.yaml (seed-272, 4/4 GO)",
@@ -620,7 +734,7 @@ def freeze() -> int:
         yaml.safe_dump(prereg, allow_unicode=True, sort_keys=False, width=100),
         encoding="utf-8", newline="\n",
     )
-    print(f"Prereg v5 congelado: {PREREG_PATH.relative_to(ROOT)}")
+    print(f"Prereg v6 congelado: {PREREG_PATH.relative_to(ROOT)}")
     return 0
 
 
