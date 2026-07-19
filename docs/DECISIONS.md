@@ -2407,3 +2407,15 @@ quiere el híbrido en prod, es FORK explícito con su propia medición). **(4) A
 del resultado (M4):** la conversión obl_b6f6 es estabilidad LOCAL en los 4 targets
 con contextos congelados s113 — NO generalización a demo/producción; esa medición
 es el assessment estandarizado (DEC-094), no estos probes.
+
+**DEC-127b (S270, cierre) — Etapa 3 CORREGIDA ejecutada (la v1 era OFF-vs-OFF, cazado por
+dúo-Sol): monotonía 5/5 ✓, apéndices en ruta viva 2/5, y 3 DEFECTOS DE CALIDAD del apéndice =
+BLOQUEADORES DE ACTIVACIÓN (no de merge):** (1) nota duplicada (hp001 — bug de dedup del
+render); (2) span de enumeración VACÍO anexado verbatim (cat007 — tabla OCR T1-T10 en blanco;
+falta guard de contenido-no-vacío); (3) emparejamiento conteo↔menú-de-navegación incoherente
+(hp001 "2,4,6 u 8 lazos" · "Sistema | Otros | Reiniciar" — la precisión del F-COUNT cross en
+pools vivos necesita el tie de sección más estricto). **El flag `MUST_PRESERVE_CONTRACT`
+permanece OFF; la activación en demo queda gateada a los 3 fixes + re-smoke limpio.** El merge
+default-off es seguro (byte-idéntico off + certificación det-only GO). Certificación det-only:
+b6f6 3/3 en el path exacto de prod ($0, borradores almacenados) — el híbrido NO es necesario
+para este ship.
