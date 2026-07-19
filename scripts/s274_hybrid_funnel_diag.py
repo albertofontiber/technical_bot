@@ -24,6 +24,11 @@ Diseño (1 réplica, r1 de cada qid, determinista donde no hay red):
 Uso:  python scripts/s274_hybrid_funnel_diag.py            → preflight ($0, sin red)
       python scripts/s274_hybrid_funnel_diag.py --execute  → paga Haiku (techo $0.10)
 Salida: evals/s274_hybrid_funnel_diag_v1.json
+
+v2 (Fable-M3 del dúo s274): ``--replicates 1,2,3 --out evals/s274_hybrid_funnel_diag_v2.json``
+re-corre el funnel con N=3 réplicas de propuestas (una por borrador OFF almacenado r1/r2/r3,
+propuestas Haiku frescas por réplica; techo $0.25 autorizado) para no fijar causas en N=1.
+El artefacto v1 committeado NO se toca.
 """
 from __future__ import annotations
 
@@ -89,19 +94,19 @@ def _target_hits(qid: str, span: str) -> list[str]:
     ]
 
 
-def _load_r1_drafts() -> dict[str, dict]:
+def _load_drafts(replicate: int) -> dict[str, dict]:
     out: dict[str, dict] = {}
     with REPLICAS.open(encoding="utf-8") as fh:
         for line in fh:
             rep = json.loads(line)
-            if rep.get("replicate") == 1:
+            if rep.get("replicate") == replicate:
                 out[str(rep["qid"])] = rep
     return out
 
 
 def _instrumented_hybrid(
     mp, fragment_text: str, client, usage: dict, proposals_log: list[dict], qid: str,
-    fragment_number: int,
+    fragment_number: int, replicate: int = 1,
 ) -> list[dict]:
     """Réplica del loop de detect_atoms_hybrid con registro POR-PROPUESTA."""
     det = mp.detect_atoms(fragment_text)
@@ -141,6 +146,7 @@ def _instrumented_hybrid(
             continue
         entry: dict[str, Any] = {
             "qid": qid,
+            "replicate": replicate,
             "fragment_number": fragment_number,
             "slot": i,
             "family": family,
@@ -172,10 +178,14 @@ def _instrumented_hybrid(
     return atoms
 
 
-def run(execute: bool) -> dict:
+def run(
+    execute: bool,
+    replicates: tuple[int, ...] = (1,),
+    ceiling: float = COST_CEILING_USD,
+    schema: str = "s274_hybrid_funnel_diag_v1",
+) -> dict:
     from src.rag import must_preserve as mp
 
-    drafts = _load_r1_drafts()
     freeze = json.loads(FREEZE.read_text(encoding="utf-8"))
     rows = {r["qid"]: r for r in freeze["rows"]}
 
@@ -188,7 +198,7 @@ def run(execute: bool) -> dict:
         )
 
     report: dict[str, Any] = {
-        "schema": "s274_hybrid_funnel_diag_v1",
+        "schema": schema,
         "mode": "execute" if execute else "preflight",
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "inputs_sha256_lf": {
@@ -196,12 +206,13 @@ def run(execute: bool) -> dict:
             "replicas_v3": _sha256_lf(REPLICAS),
         },
         "design": {
-            "replicas": 1,
-            "drafts": "off_answer r1 almacenados (0 generaciones)",
+            "replicas": len(replicates),
+            "replicate_ids": list(replicates),
+            "drafts": "off_answer almacenados por réplica (0 generaciones)",
             "fragment_restriction": {
                 k: sorted(v) if v else None for k, v in FRAGMENT_RESTRICTION.items()
             },
-            "cost_ceiling_usd": COST_CEILING_USD,
+            "cost_ceiling_usd": ceiling,
         },
         "per_qid": {},
         "proposals": [],
@@ -211,7 +222,9 @@ def run(execute: bool) -> dict:
     }
 
     usage: dict[str, Any] = {}
-    for qid in QIDS:
+    for replicate in replicates:
+      drafts = _load_drafts(replicate)
+      for qid in QIDS:
         rep = drafts[qid]
         draft = str(rep["off_answer"])
         row = rows[qid]
@@ -235,7 +248,7 @@ def run(execute: bool) -> dict:
             "eligible_fragments": sorted(eligible),
             "served_view_chars_by_fragment": {},
         }
-        report["per_qid"][qid] = qinfo
+        report["per_qid"][f"{qid}:r{replicate}"] = qinfo
         if not execute:
             for idx, chunk in eligible.items():
                 text = mp._chunk_text(chunk)
@@ -247,12 +260,13 @@ def run(execute: bool) -> dict:
             text = mp._chunk_text(chunk)
             qinfo["served_view_chars_by_fragment"][str(idx)] = len(text)
             atoms = _instrumented_hybrid(
-                mp, text, client, usage, report["proposals"], qid, idx
+                mp, text, client, usage, report["proposals"], qid, idx, replicate
             )
             window = mp.citation_window(draft, idx)
             for atom in atoms:
                 fate: dict[str, Any] = {
                     "qid": qid,
+                    "replicate": replicate,
                     "fragment_number": idx,
                     "origin": atom["meta"].get("origin"),
                     "family": atom["family"],
@@ -276,7 +290,9 @@ def run(execute: bool) -> dict:
             for a in selected
         }
         for fate, atom in zip(
-            [f for f in report["atom_funnel"] if f["qid"] == qid and f.get("stage") == "missing"],
+            [f for f in report["atom_funnel"]
+             if f["qid"] == qid and f.get("replicate") == replicate
+             and f.get("stage") == "missing"],
             missing,
         ):
             in_appendix = (
@@ -303,10 +319,10 @@ def run(execute: bool) -> dict:
     ) / 1_000_000
     report["hybrid_usage"] = dict(usage)
     report["actual_cost_usd"] = round(cost, 6)
-    if execute and cost > COST_CEILING_USD:
+    if execute and cost > ceiling:
         report["cost_ceiling_exceeded"] = True
 
-    # resumen del funnel por target
+    # resumen del funnel por target (agregado + por réplica)
     summary: dict[str, Any] = {}
     for qid, obls in TARGETS.items():
         for obl in obls:
@@ -318,6 +334,18 @@ def run(execute: bool) -> dict:
                 "proposal_fates": sorted({p.get("fate") for p in hits_p}),
                 "atoms_target_relevant": len(hits_a),
                 "atom_stages": sorted({str(a.get("stage")) for a in hits_a}),
+                "by_replicate": {
+                    f"r{r}": {
+                        "proposals": sum(
+                            1 for p in hits_p if p.get("replicate") == r
+                        ),
+                        "fates": sorted({
+                            str(p.get("fate")) for p in hits_p
+                            if p.get("replicate") == r
+                        }),
+                    }
+                    for r in replicates
+                },
             }
     report["target_summary"] = summary
     return report
@@ -327,7 +355,18 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--env-file", default=str(DEFAULT_ENV))
+    parser.add_argument("--replicates", default="1",
+                        help="lista CSV de réplicas de borrador (p.ej. 1,2,3)")
+    parser.add_argument("--out", default=str(OUT))
     args = parser.parse_args()
+    replicates = tuple(int(x) for x in args.replicates.split(","))
+    out_path = Path(args.out)
+    # techo por autorización: $0.10 la corrida N=1; $0.25 la v2 N=3 (Fable-M3)
+    ceiling = COST_CEILING_USD if len(replicates) == 1 else 0.25
+    schema = (
+        "s274_hybrid_funnel_diag_v1"
+        if len(replicates) == 1 else "s274_hybrid_funnel_diag_v2"
+    )
     if args.execute:
         env_path = Path(args.env_file)
         for line in env_path.read_text(encoding="utf-8").splitlines():
@@ -335,8 +374,10 @@ def main() -> int:
             if line and not line.startswith("#") and "=" in line:
                 key, _, value = line.partition("=")
                 os.environ.setdefault(key.strip(), value.strip())
-    report = run(execute=args.execute)
-    OUT.write_text(
+    report = run(
+        execute=args.execute, replicates=replicates, ceiling=ceiling, schema=schema
+    )
+    out_path.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(json.dumps(
@@ -349,7 +390,7 @@ def main() -> int:
         ensure_ascii=False,
         indent=2,
     ))
-    print(f"OK -> {OUT}")
+    print(f"OK -> {out_path}")
     return 0
 
 
