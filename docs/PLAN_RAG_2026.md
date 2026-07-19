@@ -66,14 +66,17 @@ Etapa 3 viva limpia (5/5 monotónicos, 0 apéndices espurios). Disclosure 872c e
 6-vs-7?). Residual por-clase: serving-view (0d6a) · alcance-no-citado (2f5d, hp011) ·
 binding-tension (7bba) · gap-instrumento híbrido (composites) · retrieval-2. Iteración de
 mecanismo DETENIDA (anti-overfit); el +8 no se alcanza esta sesión — camino por-clase declarado.
-Visual: DATA-READY (migración 014 aplicada por Alberto, 4.489 servibles verificados; falta solo
-`VISUAL_ASSETS_REGISTRY=on` en Railway).
+Visual: **COMPLETO data-ready (S271, DEC-133)** — expansión al corpus entero: **13.257 páginas
+servibles** (~81% de las 16.380 de chunks_v2; antes 4.489), cap 2→4 con orden de relevancia +
+álbum Telegram, pipeline por tramos con gates piloto 60/60 y resto 57/60 (NO-PASS intermedio
+corregido con filtro determinista de contenido), colisión de naming docid8 arreglada, 3 docs
+ambiguos excluidos fail-closed; falta solo `VISUAL_ASSETS_REGISTRY=on` en Railway (PR S271).
 
 **Qué sigue, por orden:** (1) adjudicaciones de Alberto restantes (residual y reapertura
 DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de los golds vía
 `gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
 assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
-causal del probe; (4) runbook visual de Alberto → `VISUAL_ASSETS_REGISTRY=on` en demo;
+causal del probe; (4) activar `VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
 (5) los 2 retrieval-miss (cat017#2 CLIP-licencia, hp010#1 Nivel-3) como margen, lever
 retrieval aparte; (6) recoger 30 audios reales antes de comparar ASR.
 

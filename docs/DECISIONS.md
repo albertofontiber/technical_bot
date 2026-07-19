@@ -2419,3 +2419,37 @@ permanece OFF; la activación en demo queda gateada a los 3 fixes + re-smoke lim
 default-off es seguro (byte-idéntico off + certificación det-only GO). Certificación det-only:
 b6f6 3/3 en el path exacto de prod ($0, borradores almacenados) — el híbrido NO es necesario
 para este ship.
+
+**DEC-133 (S271) — Track visual COMPLETO: expansión del registro `document_visual_assets` al
+corpus entero de chunks_v2 → 13.257 páginas servibles (antes 4.489), cap 2→4 + álbum; falta
+solo `VISUAL_ASSETS_REGISTRY=on`.** Decisión de Alberto (S271): (a) cap 2→4 con orden de
+relevancia PRE-DECLARADO (páginas de fragmentos más citados por refs `[Fn]` agregadas por
+página; empate → orden de cita; >2 imágenes → UN media-group en Telegram, caption en la
+primera, fail-open a fotos sueltas) y (b) backfill del 69% de páginas sin asset legacy.
+**Cadena medida:** probe de cobertura $0 con BIND criptográfico sha256(PDF)==extraction_sha256
+→ 813/816 docs verificados, 11.249/11.284 páginas renderizables, 0 not-found
+(`evals/s271_pdf_coverage_v1.json`); pipeline por tramos (render local 170dpi JPEG q80 →
+upload sha-verificado post-subida con x-upsert=false → INSERT idempotente `uncertain` →
+clasificador HEREDADO v4 gpt-5.6-luna → apply-labels → gate); **piloto 509 págs GATE PASS
+60/60** (1 flag adjudicado por el orquestador leyendo el render, clase DEC-092b;
+`evals/s271_pilot_gate_v1.yaml`); **bug de colisión de naming cazado fail-closed** (mismo
+source_file bajo 2 document_ids — revisiones s107 —, 50 pares en t11-notifier) → esquema
+docid8 + saneador `--fix-collisions` (100 saneados, 0 en tramos ya subidos, 11.249 paths
+únicos); clasificación completa 11.219 labels / 30 uncertain fail-closed, coste REAL $11,81
+(recibos; techo $12, estimado $7,76 — desviación por re-runs de batches con fallo de
+validación); **gate resto v1 NO-PASS 56/60** (plantillas-en-blanco ×2, frontmatter, prosa
+sin figura; `evals/s271_resto_gate_v1.yaml`) → **filtro determinista de contenido**
+(`scripts/s271_content_filter.py`: rejilla de celdas vacías ≥6 sobre texto de chunks_v2 +
+low-density SOLO con corroboración de imagen bytes/píxel<0.05; umbrales a priori, anti-overfit
+— los 2 FP que endurecieron señales salieron del propio dry-run verify-first, no de los 60
+observados; 41 degradados, 2 de ellos coincidentes con los observados sin tunear) → **re-gate
+v2 en muestra fresca (seed 271b, excluye observados+degradados) PASS 57/60 = 0.950, 0
+covers** (`evals/s271_resto_gate_v2.yaml`). **Serving final verificado por GET: 13.257 =
+4.484 bridge-v4 + 8.773 s271.** Alternativas descartadas: backfill ciego legacy→chunks
+(NO-GO S190); contrato de clasificador nuevo (el heredado v4 ya está gateado — comparabilidad);
+servir sin filtro tras el NO-PASS (violaría el gate); tunear filtro/plantillas sobre los
+observados (anti-overfit — follow-ups DECLARADOS sin aplicar: TOC vía `is_toc_page` DEC-096 y
+plantilla-con-leyenda EFS/EM, ambos gateados a muestra fresca futura). Residual: 3 docs con
+extraction_sha ambiguo excluidos fail-closed (35 págs; dos revisiones bajo un document_id —
+inverso del caso docid8; task chip abierto para separarlos patrón s107); 30 uncertain jamás
+se sirven. Activación = solo `VISUAL_ASSETS_REGISTRY=on` en Railway (runbook en el PR S271).

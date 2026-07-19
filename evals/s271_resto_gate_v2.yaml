@@ -1,0 +1,106 @@
+# Re-gate del RESTO (S271, v2) — PASS 57/60 sobre muestra fresca
+# post-filtro (seed 271b). Filtro aplicado por el orquestador y verificado
+# por GET en este cierre; 3 fallos con join criptografico a la muestra
+# congelada; follow-ups declarados SIN aplicar (anti-overfit).
+instrument: s271_resto_gate_v2
+status: PASS
+created_at: '2026-07-19T21:42:35.199093+00:00'
+preregistration: evals/s271_render_backfill_prereg_v1.yaml
+previous_gate: evals/s271_resto_gate_v1.yaml (NO-PASS 56/60 -> filtro de contenido)
+gate_sample:
+  file: evals/s271_visual_utility_gate_sample_resto_v2.json
+  sample_sha256: 382f1cf07dffeacc1035ad9a7ff037b344be3267fe42a9cbc217391e5e0fc648
+  sample_sha256_recomputed_ok: true
+  seed: 271b
+  n: 60
+  excluded_pages: 99
+  exclusions: piloto + 60 observados del gate v1 + 41 degradados por el content-filter (muestra
+    fresca post-filtro)
+  join: 'fail.file -> sample_id -> fila congelada; sha256 del binario descargado verificado contra
+    asset_sha256 congelado en 3/3 (los 57 utiles no traen verdict por-item del panel: el output
+    del panel es agregado 57/60 + fails detallados — declarado)'
+content_filter_execute_verified:
+  verified_by: Fable, este cierre, por GET (0 escrituras)
+  applied_by: orquestador (scripts/s271_content_filter.py --execute)
+  degraded: 41
+  rows_s271_content_filter_v1_in_db: 41
+  servible_before: 13298
+  servible_after: 13257
+  breakdown_after:
+    bridge_s269_v4: 4484
+    s271_v1: 8773
+result:
+  source: tasks/wyzw5gfaf (panel de vision; spot-check ejecutado por el orquestador)
+  judged: 60
+  useful: 57
+  covers_or_marketing: 0
+  failures: 3
+  failure_classes:
+    toc_indice_de_contenidos: 2
+    plantilla_en_blanco_que_esquivo_el_filtro: 1
+  precision: 57/60 = 0.950
+  criteria:
+    precision_gte: 0.95
+    zero_cover_or_marketing: true
+  verdict: PASS por la letra (0.950 >= 0.95; 0 covers/marketing)
+fails_detail:
+- sample_id: s271_gate_21
+  item_id: s271_be82b2e7ffa8
+  document_id: 17d4b914-fa21-4b41-a928-bafe1846528a
+  page_index: 2
+  source_file: 997-671-005-3_Configuration_ES
+  manufacturer: Notifier
+  asset_sha256: c29e14c2796d4896d14fb77f67b517f28aca0adb51f0290a83d8d345297c5ac6
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+  panel:
+    is_useful_technical: false
+    is_cover_or_marketing: false
+    note: Índice/tabla de contenidos del manual Notifier PEARL — solo títulos de sección y números
+      de página, sin specs, valores, ni procedimiento. No aporta contenido técnico citable, pero
+      tampoco es portada/marketing.
+- sample_id: s271_gate_27
+  item_id: s271_dcd5f1d442bc
+  document_id: cbc9c21c-4369-4316-905f-40cdce16af53
+  page_index: 43
+  source_file: MS8
+  manufacturer: Morley
+  asset_sha256: e632ef9de8e0cfeab1f7e2687d0a9d438b563c42f1daeb489846db09db1b7b84
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+  panel:
+    is_useful_technical: false
+    is_cover_or_marketing: false
+    note: Tabla de Configuración de las Sirenas (EFS/EM) — plantilla de registro EN BLANCO para
+      que el instalador rellene zona/sirena/modo; no contiene valores ni datos técnicos, solo
+      casillas vacías y leyenda de abreviaturas. Plantilla de log en blanco = NO útil (regla explícita),
+      y tampoco es portada.
+- sample_id: s271_gate_50
+  item_id: s271_11b99edbbc37
+  document_id: 9982bb96-8ee8-44f0-9f1c-304d6d90167b
+  page_index: 3
+  source_file: HLSI-MN-103I_RP1r-Supra_lr
+  manufacturer: Notifier
+  asset_sha256: baa990235778b2065e05ab3c4ca83d757a2293f83971102e3ec97e2130d79a34
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+  panel:
+    is_useful_technical: false
+    is_cover_or_marketing: false
+    note: 'Indice de contenidos (Contents) del manual RP1r-Supra: solo titulos de seccion y numeros
+      de pagina, sin specs/procedimiento/diagrama/codigos. No util tecnicamente, pero tampoco
+      es portada/marketing (es un TOC plano).'
+follow_up_declared_not_applied:
+  anti_overfit: NINGUN cambio se aplica sobre estos 3 observados; el gate ya pasa sin ellos. Cualquier
+    endurecimiento futuro requiere validacion en muestra fresca FUTURA
+  candidates:
+  - 'clase TOC: filtrar reutilizando la heuristica is_toc_page que ya existe en scripts/toc_heuristic.py
+    (DEC-096) sobre el texto de la pagina'
+  - 'clase plantilla-con-leyenda (caso EFS/EM): endurecer S1 del content-filter para plantillas
+    cuya leyenda de abreviaturas aporta la prosa que hoy la salva del umbral'
