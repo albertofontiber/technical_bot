@@ -1,0 +1,71 @@
+{
+ "schema": "s273_v3c_ship_gate_v1",
+ "stamp": {
+  "ts": "2026-07-19T23:56:44",
+  "git_sha": "cf7dc9ed5b40a2fe6f6abe0533ec9b1b63863fb0",
+  "git_dirty_src": "",
+  "prereg": "evals/s273_quota_prereg_v3.yaml",
+  "k": 3,
+  "majority": 2
+ },
+ "matcher_groups": {
+  "nivel_3": [
+   "nivel 3"
+  ],
+  "desbloquear_memoria": [
+   "desbloquear la memoria",
+   "desbloquear memoria",
+   "desbloquee la memoria",
+   "memoria bloqueada",
+   "desbloquear de la memoria"
+  ],
+  "menu_lazos_tecla_2": [
+   "autobusqueda",
+   "auto-busqueda",
+   "tecla '2'",
+   "tecla \"2\"",
+   "tecla 2",
+   "pulse la tecla '2'",
+   "pulse '2'",
+   "2:lazo",
+   "opcion 2:lazo",
+   "menu de lazos"
+  ]
+ },
+ "replicas_detail": [
+  {
+   "k": 1,
+   "groups": {
+    "nivel_3": true,
+    "desbloquear_memoria": true,
+    "menu_lazos_tecla_2": true
+   },
+   "converted": true
+  },
+  {
+   "k": 2,
+   "groups": {
+    "nivel_3": true,
+    "desbloquear_memoria": false,
+    "menu_lazos_tecla_2": true
+   },
+   "converted": false
+  },
+  {
+   "k": 3,
+   "groups": {
+    "nivel_3": true,
+    "desbloquear_memoria": true,
+    "menu_lazos_tecla_2": true
+   },
+   "converted": true
+  }
+ ],
+ "replicas": "s273_v3c_replies_v1.jsonl",
+ "conversions": "2/3",
+ "conversion_stable": true,
+ "v3a": "PASS",
+ "v3b": "STOP",
+ "verdict": "NO_GO",
+ "note": "SHIP_CANDIDATE no es ship: el merge/flag en Railway es decision de Alberto"
+}

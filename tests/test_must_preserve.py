@@ -473,11 +473,15 @@ def test_attest_identity_doc_desconocido():
 # ─── render_appendix ───
 
 def _mandatory_atom(n):
+    # v5 whitelist: la cláusula obligatoria completa (trigger + su oración con verbo)
     return {
         "family": mp.FAMILY_MANDATORY,
         "span_start": 0,
         "span_end": 10,
-        "span_text": f"Advertencia sintética número {n}.",
+        "span_text": (
+            f"Advertencia sintética {n}: desconecte la alimentación general antes "
+            "de manipular el equipo."
+        ),
         "anchor_tokens": ["advertencia"],
         "meta": {"triggers": ["advertencia"], "fragment_number": 1},
     }
@@ -500,16 +504,21 @@ def test_render_cap_global_4_con_familias_mezcladas():
         + [_range_atom_n(i) for i in range(3)]
         + [{
             "family": mp.FAMILY_BUNDLE, "span_start": 0, "span_end": 10,
-            "span_text": f"## Sección {i}\n- Campo{i}: def",
+            "span_text": (
+                f"## Sección {i}\n- Campo{i}: definición del primer campo\n"
+                f"- Extra{i}: descripción del segundo campo"
+            ),
             "anchor_tokens": [], "meta": {"header": f"Sección {i}",
-                                          "members": [f"Campo{i}"],
+                                          "members": [f"Campo{i}", f"Extra{i}"],
                                           "fragment_number": 1},
         } for i in range(2)]
     )
     appendix = mp.render_appendix(atoms, "draft")
     lines = appendix.split("\n")
-    assert lines[0] == mp.APPENDIX_HEADER
-    assert len(lines) == 1 + mp.APPENDIX_CAP
+    # v6 (s272): separador + cabecera negrita con emoji estructural, luego el cap
+    assert lines[0] == mp.APPENDIX_SEPARATOR
+    assert lines[1] == f"{mp.APPENDIX_EMOJI_MANDATORY} **{mp.APPENDIX_HEADER}**"
+    assert len(lines) == 2 + mp.APPENDIX_CAP
 
 
 def test_render_cap_por_familia_2_anti_monopolio():
@@ -526,7 +535,9 @@ def test_seleccion_prioriza_mandatory_y_count_conflict():
     # orden pre-declarado: MANDATORY primero, COUNT-conflicto después, resto por binding
     count_atom = {
         "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
-        "span_text": "hay seis opciones",
+        "span_text": (
+            "La central ofrece seis opciones de programación configurables."
+        ),
         "anchor_tokens": ["opciones"],
         "meta": {"declared_n": 6, "enumerated_n": 7, "conflict": True,
                  "fragment_number": 1},
@@ -561,13 +572,75 @@ def test_render_sin_contradiccion_sin_nota():
     assert '"El rango de tensión es de 10 a 30 V."' in appendix
 
 
+# enumeración de FORMA BUENA (v5 whitelist): miembros con descripción y verbos
+_ENUM_GOOD = (
+    "- Retardo: define el tiempo de espera de las salidas\n"
+    "- Sensibilidad: define el umbral con que se activa el detector\n"
+    "- Zona: define la zona asignada al punto\n"
+    "- Sirena: configura el patrón de la salida acústica\n"
+    "- Reloj: define la fecha con que se registran los eventos\n"
+    "- Acceso: define el nivel con que se entra al menú\n"
+    "- Volcado: permite exportar el registro de eventos"
+)
+
+
 def test_render_count_conflict_siempre_disclosure():
     atoms = mp.detect_atoms(
-        "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+        "La central ofrece seis opciones de programación al instalador:\n"
+        + _ENUM_GOOD
     )
     atoms[0]["meta"]["fragment_number"] = 1
     appendix = mp.render_appendix(atoms, "Hay seis opciones [F1]")
     assert "Nota: el manual también indica:" in appendix
+
+
+# ─── v6 (s272): presentación del anexo — separador, emoji estructural, blockquote ───
+
+
+def test_render_v6_emoji_generico_y_cabecera_negrita():
+    appendix = mp.render_appendix([_range_atom_n(1)], "draft")
+    lines = appendix.split("\n")
+    assert lines[0] == mp.APPENDIX_SEPARATOR
+    assert lines[1] == f"{mp.APPENDIX_EMOJI_GENERIC} **{mp.APPENDIX_HEADER}**"
+    assert mp.APPENDIX_HEADER in appendix  # los checks por substring siguen vivos
+
+
+def test_render_v6_emoji_disclosure_para_nota_numerica():
+    atoms = mp.detect_atoms("El rango de tensión es de 10 a 30 V.")
+    atoms[0]["meta"]["fragment_number"] = 2
+    appendix = mp.render_appendix(atoms, "El rango de tensión es de 10 a 25 V [F2]")
+    assert appendix.split("\n")[1].startswith(mp.APPENDIX_EMOJI_DISCLOSURE)
+
+
+def test_render_v6_mandatory_gana_el_emoji():
+    atoms = mp.detect_atoms("El rango de tensión es de 10 a 30 V.")
+    atoms[0]["meta"]["fragment_number"] = 2
+    appendix = mp.render_appendix(
+        atoms + [_mandatory_atom(1)], "El rango de tensión es de 10 a 25 V [F2]"
+    )
+    assert appendix.split("\n")[1].startswith(mp.APPENDIX_EMOJI_MANDATORY)
+
+
+def test_render_v6_blockquote_marker_no_llega_crudo():
+    # respuesta viva ASD535 (query_logs 2026-07-19T16:26Z): el span citado
+    # arrastraba el "> " de la fuente hasta Telegram
+    atom = _mandatory_atom(1)
+    atom["span_text"] = "> Es **imprescindible** " + atom["span_text"][0].lower() + (
+        atom["span_text"][1:]
+    )
+    appendix = mp.render_appendix([atom], "draft")
+    assert '"> ' not in appendix
+    assert '"Es **imprescindible**' in appendix
+
+
+def test_strip_blockquote_conserva_comparaciones_numericas():
+    assert mp._strip_blockquote_markers("> Para evitar riesgos") == "Para evitar riesgos"
+    assert mp._strip_blockquote_markers("> 100 mA de consumo") == "> 100 mA de consumo"
+    assert mp._strip_blockquote_markers(">= 10 V") == ">= 10 V"
+    assert (
+        mp._strip_blockquote_markers("> > **Advertencia**: alta tensión")
+        == "**Advertencia**: alta tensión"
+    )
 
 
 # ─── apply end-to-end (con seams monkeypatcheados, $0) ───
@@ -920,7 +993,15 @@ def test_apply_cross_fragment_anexa_con_cita_doble(monkeypatch):
         {
             "document_id": "doc-1",
             "page_number": 10,
-            "content": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G",
+            "content": (
+                "- Modo A: activa las salidas de forma manual\n"
+                "- Modo B: activa las salidas de forma temporizada\n"
+                "- Modo C: activa las salidas al confirmar la alarma\n"
+                "- Modo D: activa las salidas en modo nocturno\n"
+                "- Modo E: activa las salidas con doble detección\n"
+                "- Modo F: activa las salidas por zona cruzada\n"
+                "- Modo G: activa las salidas de forma remota"
+            ),
         },
     ]
     draft = "El panel dispone de seis modos de disparo [F1]"
@@ -961,17 +1042,471 @@ def test_hybrid_stats_cuenta_grounding_fold():
 
 
 def test_render_count_conflict_dos_lados_con_citas():
-    text = "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+    text = (
+        "La central ofrece seis opciones de programación al instalador:\n"
+        + _ENUM_GOOD
+    )
     atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
     assert len(atoms) == 1
     meta = atoms[0]["meta"]
-    assert meta["enum_span_text"].startswith("- A")
+    assert meta["enum_span_text"].startswith("- Retardo")
     atoms[0]["meta"]["fragment_number"] = 3
     appendix = mp.render_appendix(atoms, "Hay seis opciones [F3]")
     assert "Nota: el manual también indica:" in appendix
     assert '"La central ofrece seis opciones' in appendix   # lado del conteo
-    assert "- G" in appendix                                # lado de la enumeración
+    assert "- Volcado" in appendix                          # lado de la enumeración
     assert appendix.count("[F3]") == 2                      # cita en ambos lados
+
+
+# ─── v4 (s271): guards de ACTIVACIÓN — bloqueadores 1/2/3 de DEC-127b ───
+
+# Caso REAL hp001 (chunk CAD-250_Manual-Configuracion-MC-380-es-2026-c p29, extracto
+# verbatim): el conteo «2, 4, 6 u 8 lazos …» NO debe ligar con el crumb de menú
+# «Sistema | Otros | Reiniciar» del screenshot.
+_HP001_AVANZADO_FRAG = (
+    "## 5.4. AVANZADO\n"
+    "\n"
+    "En esta sección podrá establecer los parámetros básicos de configuración de la "
+    "central, así como ajustes de ingeniero para facilitar trabajos de puesta en "
+    "marcha y configuración. Para acceder a estos ajustes pulse:\n"
+    "\n"
+    "**AJUSTES** (Menú principal) **> AVANZADO** (Submenú)\n"
+    "\n"
+    "Al tocar el campo **LAZOS**, se desplegarán las combinaciones posibles según el "
+    "número de cabinas que haya indicado en el punto anterior. 2, 4, 6 u 8 lazos si "
+    "ha definido una sola central, hasta 16 lazos, si ha definido 2 cabinas,. hasta "
+    "24 con 3 cabinas y 32 lazos con 4 cabinas. Si el número de lazos que debe "
+    "configurar no se muestra, revise el número de paneles configurado o pruebe a "
+    "realizar scroll del desplegable.\n"
+    "\n"
+    "[Screenshot showing:\n"
+    "Avanzado interface with dropdown menu:\n"
+    "\n"
+    "Sistema | Otros | Reiniciar\n"
+    "\n"
+    "Paneles | 1\n"
+    "\n"
+    "Lazos   | 2\n"
+)
+
+_HP001_COUNT_SPAN = (
+    "2, 4, 6 u 8 lazos si ha definido una sola central, hasta 16 lazos, si ha "
+    "definido 2 cabinas,."
+)
+
+# Caso REAL cat007 (chunk I56-3947-202_FAAST LT_MULTI p25, extracto verbatim): tabla
+# OCR T1..T10 con celdas EN BLANCO — el lado-enumeración de un disclosure jamás.
+_CAT007_BLANK_TABLE = (
+    "| T1  |   |\n"
+    "| --- | - |\n"
+    "| T2  |   |\n"
+    "| T3  |   |\n"
+    "| T4  |   |\n"
+    "| T5  |   |\n"
+    "| T6  |   |\n"
+    "| T7  |   |\n"
+    "| T8  |   |\n"
+    "| T9  |   |\n"
+    "| T10 |   |"
+)
+
+_CAT007_RELAY_FRAG = (
+    "## ADVERTENCIA: Conmutación de cargas inductivas\n"
+    "\n"
+    "Las cargas inductivas pueden provocar sobretensionesç de desconexión que pueden "
+    "dañar los contactos de los relés del módulo (ver arriba).\n"
+    "\n"
+    "Para proteger los contactos de los relés, conecte un supresor de voltaje "
+    "transitorio (por ejemplo, 1N6284CA) para toda la carga según se indica.\n"
+    "\n"
+    "Como alternativa, para aplicaciones de CC sin supervisión, instale un diodo con "
+    "tensión de ruptura inverso superior a diez veces la tensión del circuito.\n"
+    "\n"
+    + _CAT007_BLANK_TABLE + "\n"
+)
+
+# Tira de etiquetas OCR REAL de hp017 (freeze s113 F1): etiquetas CON texto — el
+# guard de contenido informativo NO debe matarla (≠ celdas en blanco).
+_HP017_LABEL_STRIP = (
+    "TECLU\ntardoRet.Tipo\nEstándar\nFijo\nEst.Ext.\nNo Silenc.\nNo Sil.Ext\n"
+    "Estándar 0\nEstándar 0"
+)
+
+
+def _count_atoms(text):
+    return [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
+
+
+def test_count_navcrumb_real_hp001_no_liga():
+    """Bloqueador 3 (caso real): ningún F-COUNT puede ligar el conteo de lazos con el
+    crumb de navegación «Sistema | Otros | Reiniciar»."""
+    atoms = _count_atoms(_HP001_AVANZADO_FRAG)
+    assert atoms == []
+
+
+def test_count_navcrumb_sintetico_positivo_sigue_ligando():
+    """Control positivo: el mismo conteo con una enumeración LEGÍTIMA de su dominio
+    (heading compartiendo tokens con la oración) sigue formando átomo."""
+    text = (
+        "## Modos de disparo\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Elemento A\n- Elemento B\n- Elemento C\n- Elemento D\n- Elemento E\n"
+        "- Elemento F\n- Elemento G\n"
+    )
+    atoms = _count_atoms(text)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["tie"] == "section"
+    assert (atoms[0]["meta"]["declared_n"], atoms[0]["meta"]["enumerated_n"]) == (6, 7)
+
+
+def test_count_tie_seccion_sin_relevancia_no_liga():
+    """Tie estricto: heading sin tokens de la oración del conteo + enumeración sin el
+    sustantivo contado → el par NO liga (mejor silencio)."""
+    text = (
+        "## Historial de revisiones\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Elemento A\n- Elemento B\n- Elemento C\n- Elemento D\n- Elemento E\n"
+        "- Elemento F\n- Elemento G\n"
+    )
+    assert _count_atoms(text) == []
+
+
+def test_count_tie_seccion_sustantivo_del_dominio_liga():
+    """Tie estricto vía sustantivo: la enumeración contiene el sustantivo contado
+    (modos↔Modo) aunque el heading no comparta tokens."""
+    text = (
+        "## Historial de revisiones\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G\n"
+    )
+    atoms = _count_atoms(text)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["tie"] == "section"
+
+
+def test_count_enum_vacia_real_cat007_no_forma_atomo():
+    """Bloqueador 2 (caso real): la tabla T1..T10 de celdas en blanco no es una
+    enumeración de miembros — el conteo «diez veces …» no forma átomo con ella."""
+    assert _count_atoms(_CAT007_RELAY_FRAG) == []
+
+
+def test_select_disclosure_con_enum_vacia_no_dispara():
+    """Defensa en profundidad en la SELECCIÓN: un disclosure cuyo lado-enumeración es
+    la tabla en blanco no dispara ENTERO (mejor silencio que basura)."""
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": (
+            "Como alternativa, para aplicaciones de CC sin supervisión, instale un "
+            "diodo con tensión de ruptura inverso superior a diez veces la tensión "
+            "del circuito."
+        ),
+        "anchor_tokens": ["diodo"],
+        "meta": {"declared_n": 10, "enumerated_n": 9, "conflict": True,
+                 "enum_span_text": _CAT007_BLANK_TABLE, "fragment_number": 29},
+    }
+    assert mp._select_for_appendix([atom], "el diodo soporta diez veces [F29]") == []
+    assert mp.render_appendix([atom], "el diodo soporta diez veces [F29]") == ""
+
+
+def test_informative_span_basico():
+    assert mp.informative_span("") is False
+    assert mp.informative_span("—: | |  ·") is False
+    assert mp.informative_span(_CAT007_BLANK_TABLE) is False
+    assert mp.informative_span(_HP017_LABEL_STRIP) is True   # etiquetas CON texto
+    assert mp.informative_span(
+        "| RELÉ | ACCIÓN |\n| --- | --- |\n| ALARMA 1 | Controlada por el panel |"
+    ) is True  # tabla real con valores
+
+
+def test_select_no_anexa_span_no_informativo():
+    atom = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 5,
+        "span_text": "| |  —", "anchor_tokens": [],
+        "meta": {"lower": 10.0, "upper": 30.0, "unit": "v", "fragment_number": 1},
+    }
+    assert mp._select_for_appendix([atom], "el rango llega a 30 V [F1]") == []
+
+
+def test_render_dedup_nota_duplicada_hp001():
+    """Bloqueador 1 (caso real): dos átomos F-COUNT con el MISMO span (la oración de
+    lazos de hp001, matches «8 lazos» y «2 cabinas») anexan UNA sola nota. (v5: el
+    lado-enumeración crumb del caso original ya muere ANTES por la whitelist; el
+    dedup se pinea sobre el lado del conteo, que es cláusula de forma buena.)"""
+    import copy as _copy
+
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": _HP001_COUNT_SPAN,
+        "anchor_tokens": ["lazos"],
+        "meta": {"declared_n": 8, "enumerated_n": 3, "conflict": True,
+                 "fragment_number": 3},
+    }
+    dup = _copy.deepcopy(atom)
+    dup["meta"]["declared_n"] = 2
+    draft = "El campo LAZOS admite 8 lazos según la central [F3]"
+    appendix = mp.render_appendix([atom, dup], draft)
+    assert appendix.count(_HP001_COUNT_SPAN) == 1
+    assert appendix.count("Nota: el manual también indica:") == 1
+
+
+def test_render_dedup_solape_90_mismos_numeros():
+    base = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["salida"],
+        "meta": {"lower": 10.0, "upper": 30.0, "unit": "v", "fragment_number": 1},
+    }
+    a1 = dict(base, span_text="La salida admite de 10 a 30 V en la placa de bornes.")
+    a2 = dict(base, span_text="La salida admite de 10 a 30 V en la placa de bornes")
+    selected = mp._select_for_appendix([a1, a2], "la salida llega a 30 [F1]")
+    assert len(selected) == 1
+
+
+def test_render_dedup_no_colapsa_hechos_distintos():
+    base = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["retardo"],
+    }
+    a1 = dict(base, span_text="El tiempo de retardo T1 va de 10 a 30 s.",
+              meta={"lower": 10.0, "upper": 30.0, "unit": "s", "fragment_number": 1})
+    a2 = dict(base, span_text="El tiempo de retardo T1 va de 10 a 35 s.",
+              meta={"lower": 10.0, "upper": 35.0, "unit": "s", "fragment_number": 1})
+    selected = mp._select_for_appendix([a1, a2], "el retardo llega a 30 s [F1]")
+    assert len(selected) == 2
+
+
+def test_render_dedup_no_colapsa_advertencias_hermanas_sin_numeros():
+    """Apriete del review adversarial s271: ratio ≥0.90 con CERO números en ambos
+    lados no basta — un token de contenido distinto (sirena vs fuente) = hecho
+    distinto, se conservan ambos."""
+    base = {
+        "family": mp.FAMILY_MANDATORY, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["desconecte"],
+        "meta": {"triggers": ["advertencia"], "fragment_number": 1},
+    }
+    a1 = dict(base, span_text=(
+        "Advertencia: desconecte el cable de la sirena antes de manipular el equipo."
+    ))
+    a2 = dict(base, span_text=(
+        "Advertencia: desconecte el cable de la fuente antes de manipular el equipo."
+    ))
+    selected = mp._select_for_appendix([a1, a2], "draft")
+    assert len(selected) == 2
+
+
+def test_count_tie_rechaza_fila_clave_valor():
+    """Residual del review adversarial s271: una fila clave-valor de screenshot con
+    el sustantivo contado como etiqueta («Lazos | 2 | 4») escapaba al crumb por el
+    dígito y el sustantivo la endosaba — no es una enumeración de miembros."""
+    text = (
+        "## Lazos del sistema\n"
+        "La central admite ocho lazos de detección configurables en total.\n"
+        "El comportamiento depende del número de cabinas configurado previamente.\n"
+        "Lazos | 2 | 4\n"
+    )
+    assert _count_atoms(text) == []
+
+
+def test_cross_fragment_count_rechaza_fila_clave_valor():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite ocho lazos de detección configurables.",
+            "document_id": "doc-1",
+            "page_number": 29,
+        },
+        {
+            "fragment_number": 2,
+            "text": "Lazos | 2 | 4",
+            "document_id": "doc-1",
+            "page_number": 29,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_rechaza_crumb_de_navegacion():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis modos de disparo configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": "Sistema | Otros | Reiniciar",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_rechaza_nueva_seccion_sin_sustantivo():
+    """El bloque par vive bajo un heading PROPIO del fragmento j (no es continuación)
+    y no contiene el sustantivo contado → no liga."""
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis niveles de acceso configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": (
+                "## Otro apartado\n- Elemento A\n- Elemento B\n- Elemento C\n"
+                "- Elemento D\n- Elemento E\n- Elemento F\n- Elemento G"
+            ),
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_sustantivo_liga_aunque_haya_heading():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis niveles de acceso configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": (
+                "## Niveles de acceso\n- Nivel A\n- Nivel B\n- Nivel C\n"
+                "- Nivel D\n- Nivel E\n- Nivel F\n- Nivel G"
+            ),
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    atoms = mp.detect_cross_fragment_count_atoms(fragments)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["cross_fragment"] is True
+
+
+# ─── v5 (s271 iteración final): WHITELIST fail-closed de forma-buena ───
+
+# Caso REAL Etapa 3 v2 (cat007 [F42]): cabecera-sola anexada como MANDATORY.
+_CAT007_HEADING_ONLY = "### <ins>ADVERTENCIA</ins>"
+
+# Caso REAL Etapa 3 v2 (hp001 [F3]): volcado de descripción de UI multi-línea que el
+# navcrumb-guard (solo líneas únicas) no cubría.
+_HP001_UI_DUMP = (
+    "- Right sidebar with options: GENERAL, VERSIONES, USUARIOS, AVANZADO "
+    "(highlighted), CONECTIVIDAD, IMPRESORA, LOGS, TEST\n"
+    '- Bottom buttons: "Guardar y reiniciar" and "INICIO"\n'
+    '- Header: "detnov Panel_template 20:17 - martes, 31 de marzo de 2020"]'
+)
+
+
+def test_whitelist_span_good_form_casos():
+    # cláusula completa (verbo conjugado + ≥40 chars)
+    assert mp.span_good_form(
+        "La central ofrece seis opciones de programación al instalador."
+    ) is True
+    # fila etiqueta+valor (número CON unidad + etiqueta en la misma línea)
+    assert mp.span_good_form("| Potencia nominal | 2 | A | carga resistiva |") is True
+    # número pelado sin unidad NO es valor (caso real hp001: «Lazos   | 2»)
+    assert mp.span_good_form("Lazos   | 2") is False
+    # heading/markers jamás cuentan como contenido (caso real cat007)
+    assert mp.span_good_form(_CAT007_HEADING_ONLY) is False
+    # volcado de UI: infinitivos/gerundios y timestamps no son cláusula ni valor
+    assert mp.span_good_form(_HP001_UI_DUMP) is False
+    # corto sin verbo
+    assert mp.span_good_form("hay seis opciones") is False
+
+
+def test_whitelist_heading_solo_advertencia_real_cat007_no_se_anexa():
+    atom = {
+        "family": mp.FAMILY_MANDATORY, "span_start": 0, "span_end": 10,
+        "span_text": _CAT007_HEADING_ONLY,
+        "anchor_tokens": ["advertencia"],
+        "meta": {"triggers": ["advertencia"], "fragment_number": 42},
+    }
+    assert mp.atom_good_form(atom) is False
+    assert mp._select_for_appendix(
+        [atom], "Siga el procedimiento del módulo de relés [F42]"
+    ) == []
+
+
+def test_whitelist_mandatory_exige_trigger_y_su_oracion():
+    good = _mandatory_atom(1)
+    assert mp.atom_good_form(good) is True
+    # trigger presente pero SIN verbo (título largo) → no es cláusula
+    title_only = dict(good, span_text="ADVERTENCIA GENERAL DE SEGURIDAD DEL SISTEMA "
+                                      "DE DETECCIÓN Y EXTINCIÓN")
+    assert mp.atom_good_form(title_only) is False
+
+
+def test_whitelist_ui_dump_como_lado_de_disclosure_no_dispara():
+    """Caso real hp001 (Etapa 3 v2): «Lazos   | 2» · volcado de UI. El lado del
+    conteo ya falla (número sin unidad); y aunque el conteo fuera cláusula buena,
+    el volcado de UI mata el disclosure ENTERO."""
+    real = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": "Lazos   | 2",
+        "anchor_tokens": ["ledes"],
+        "meta": {"declared_n": 2, "enumerated_n": 3, "conflict": True,
+                 "enum_span_text": _HP001_UI_DUMP, "fragment_number": 3},
+    }
+    assert mp.atom_good_form(real) is False
+    good_count_bad_enum = dict(real, span_text=(
+        "La central dispone de dos ledes configurables en el panel frontal."
+    ))
+    assert mp.atom_good_form(good_count_bad_enum) is False
+    draft = "El panel dispone de dos ledes [F3]"
+    assert mp.render_appendix([real, good_count_bad_enum], draft) == ""
+
+
+def test_whitelist_bundle_exige_descripcion_de_miembros():
+    base = {
+        "family": mp.FAMILY_BUNDLE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": [],
+        "meta": {"header": "Opciones", "members": ["Zona", "CBE"],
+                 "fragment_number": 1},
+    }
+    con_desc = dict(base, span_text=(
+        "## Opciones\n- Zona: define la zona del punto\n"
+        "- CBE: ecuación de control por evento"
+    ))
+    solo_nombres = dict(base, span_text="## Opciones\n- Zona\n- CBE")
+    assert mp.atom_good_form(con_desc) is True
+    assert mp.atom_good_form(solo_nombres) is False
+
+
+def test_whitelist_disclosure_strip_de_etiquetas_queda_en_silencio():
+    """Calibración DOCUMENTADA (v5): la tira OCR de etiquetas de hp017 (solo
+    nombres, sin cláusula ni valores-con-unidad) NO pasa la whitelist como lado de
+    disclosure — ese disclosure calla; obl_872c sobrevive vía el disclosure cuyo
+    lado-enumeración es la TABLA de la F2 (filas con cláusulas), verificado en la
+    certificación det-only v2."""
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": (
+            "Se puede asignar uno de seis tipos de retardo de salida a una regla, "
+            "como se explica a continuación."
+        ),
+        "anchor_tokens": ["tipos"],
+        "meta": {"declared_n": 6, "enumerated_n": 8, "conflict": True,
+                 "enum_span_text": _HP017_LABEL_STRIP, "fragment_number": 1},
+    }
+    assert mp.span_good_form(atom["span_text"]) is True    # el conteo es cláusula
+    assert mp.atom_good_form(atom) is False                # la tira no pasa
+    # la tabla F2 (filas con cláusula) SÍ pasa como lado de enumeración
+    tabla_f2 = (
+        "| Acción de usuario | Fijo | Estándar |\n"
+        "| --- | --- | --- |\n"
+        "| La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo. "
+        "| × | ✓ |"
+    )
+    assert mp.span_good_form(tabla_f2) is True
 
 
 def test_apply_detect_fn_inyectable(monkeypatch):

@@ -1,0 +1,85 @@
+schema: s273_quota_prereg_v3
+supersedes: evals/s273_quota_prereg_v2.yaml     # v2 CERRADO con STOP-as-preregistered (evals/s273_f3_closeout_v1.yaml)
+status: preregistered_not_executed              # NADA ejecutado bajo v3; requiere GO explicito de Alberto
+created_at: "2026-07-19"
+design_doc: evals/s273_quota_design_v1.md
+f3_closeout_input: evals/s273_f3_closeout_v1.yaml
+
+# ---------------------------------------------------------------------------
+# NATURALEZA: correccion de MEDICION, no de mecanismo. El flag/codigo NO se toca:
+# ENUNCIADOS_QUOTA_FUSION sigue default-off, Q=6 y barra 0.40 CONGELADOS (herencia
+# s105 "no subir N ni tunear contra hp006" intacta). Lo unico que cambia es COMO se
+# mide el dano/beneficio: el gate v2 midio containment contra la referencia v2.2
+# congelada en s102, que el pipeline actual ya no reproduce (OFF-hoy = 16 missing
+# contra ella, MAS que el ON = 14; hallazgo de instrumento reproducido en el closeout).
+# ---------------------------------------------------------------------------
+measurement_correction:
+  retired_reference:
+    what: "containment contra served_ids v2.2 (foto congelada s102, evals/s100_factlevel_full.yaml per_gold.served_ids)"
+    reason: "no describe el pipeline actual (post v3.1/DEC-101 + ancho DEC-092b + s271): el brazo OFF de HOY ya da 16 missing contra ella sin tocar nada — un gate que falla en el control no adjudica el tratamiento"
+  replaced_by:
+    - "containment pareado CONTEMPORANEO OFF-vs-ON con K-mayoria 2/3: pool-membership perdida ESTABLE bajo ON respecto del OFF del MISMO dia/misma DB (sin foto congelada de otra era)"
+    - "arbitro a nivel RESPUESTA para los watch-golds afectados (el pool no adjudica hechos)"
+
+mechanism_frozen:
+  flag: ENUNCIADOS_QUOTA_FUSION            # default off; solo flip call-time en harness
+  code_untouched: true                     # cualquier cambio de codigo del canal = prereg nuevo, no v3
+  hyperparams: {ENUNCIADOS_QUOTA: 6, ENUNCIADOS_MIN_SIM: 0.40, frozen: true}
+  inherited_constraints: [q_frozen, q_leq_n_s105, no_tuning_against_hp006_or_gold, no_raising_n_dianas, no_retry]
+
+phases:
+  - id: V3-A
+    name: containment_pareado_contemporaneo
+    db_writes: 0
+    cost_ceiling_usd: 0.20
+    procedure: >-
+      python scripts/s273_quota_gates.py probe off/on --k 3 (mismo dia, misma DB) y
+      diff pareado K-mayoria 2/3 de pool-ids por gold (sin referencia v2.2). Reporta
+      perdidas ESTABLES bajo ON y ganancias ESTABLES; la adjudicacion de dano pasa a V3-B.
+    gates:
+      anclas: "matriz per-fact pareada +0/-0 con STOP duro en la union s104+s105 (hp005#2:misma zona o subzona · hp006#2:ISO-X · hp006#0:Fallo de Tierra) — mismos umbrales que v2"
+      negcontrol: "<=7 EXCESS-HIGH (OFF_a/OFF_b/ON) — mismo umbral que v2"
+  - id: V3-B
+    name: arbitro_nivel_respuesta_watch_golds
+    db_writes: 0
+    cost_ceiling_usd: 2.50
+    scope_qids: [hp005, hp006, hp017, cat020]   # los tocados por el delta -6 + la ancla perdida hp017#1
+    procedure: >-
+      Por gold: K=3 generaciones brazo OFF y K=3 brazo ON (flip call-time, misma DB,
+      temp=0) -> matcher DETERMINISTA de anclas lexicas per-fact sobre la respuesta
+      (NFKD-fold + casefold + colapso de espacios, patron s163 — 0 llamadas a juez).
+      Hecho ESTABLE en un brazo = presente en >=2/3.
+    gate: >-
+      PASS ⇔ ningun hecho estable-en-OFF deja de ser estable-en-ON (la perdida de pool
+      -6 seria re-barajado benigno clase DEC-092b); STOP ⇔ >=1 hecho estable-en-OFF
+      cae en ON (dano real a nivel respuesta).
+  - id: V3-C
+    name: conversion_hp010_gate_de_ship        # la F4 del v2, fusionada aqui
+    db_writes: 0
+    cost_ceiling_usd: 1.00
+    procedure: "hp010: K=3 generaciones brazo ON -> matcher determinista sobre hp010#1 (nivel 3 / desbloquear memoria / menu Lazos tecla 2)"
+    gate: "SHIP-candidate ⇔ hp010#1 convertido en >=2/3 Y V3-A/V3-B en PASS; si no, NO-GO"
+
+budget:
+  total_ceiling_usd: 4.00
+  no_retry: true
+  stop_on_ceiling: true
+
+anti_gate_shopping:                            # declaracion EXPLICITA
+  single_remeasure: true
+  statement: >-
+    Esta es LA UNICA re-medicion del lever cuota-enunciados: nace de un hallazgo de
+    instrumento documentado y reproducido (referencia v2.2 caduca), no del deseo de
+    otro resultado. Si V3 da STOP a nivel respuesta (V3-B) o hp010 no convierte
+    estable (V3-C) -> el lever queda CERRADO sin mas intentos, el flag se queda
+    default-off permanente, y cualquier futura reapertura exige evidencia NUEVA de
+    la clase del diagnostico s272 + permiso explicito de Alberto (patron DEC-126).
+    Prohibido: tocar Q/barra/mecanismo antes o durante la medicion; re-correr brazos
+    "para confirmar"; cambiar el matcher tras ver resultados; excluir golds del scope.
+
+execution_requires: alberto_go
+outputs_expected:
+  - evals/s273_v3a_paired_containment.json
+  - evals/s273_v3b_answer_arbiter.json
+  - evals/s273_v3c_hp010_conversion.json
+  - evals/s273_v3_closeout.yaml

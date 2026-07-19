@@ -934,16 +934,41 @@ def vector_search(
                           "filter_manufacturer": None},
                 )
                 e_resp.raise_for_status()
+                e_rows = e_resp.json()
+                # (s273 Sol-C2b, prod-neutral) Con la cuota OFF, las filas del batch acotado
+                # T2Q1 (recarga F2 del prereg s273) se EXCLUYEN post-fetch por id — el RPC 012
+                # no acepta filtro de batch y no devuelve ingest_batch; los ids del dump son
+                # deterministas, así que la exclusión viaja como manifest VERSIONADO
+                # (evals/s273_t2q1_exclusion_ids.json, generado por el dry-run del loader).
+                # Pre-F2 (manifest vacío/ausente) esto es un NO-OP byte-exacto. Over-fetch
+                # compensatorio NO aplica: el techo real del scan es ef_search=120 <
+                # FETCH_K=200 (medido s272: match_count 500 → 113 filas); el residual
+                # (filas nuevas consumiendo slots del scan) se MIDE con el probe
+                # pre/post-OFF del gate F3 — declarado en el prereg, no se promete
+                # byte-igualdad del scan.
+                if not ENUNCIADOS_QUOTA_ON:
+                    _excl = _t2q1_exclusion_ids()
+                    if _excl:
+                        e_rows = [s for s in e_rows if str(s.get("id")) not in _excl]
                 by_parent: dict = {}
-                for s in e_resp.json():
+                for s in e_rows:
                     pid = s.get("parent_id")
                     if pid and (pid not in by_parent
                                 or (s.get("similarity") or 0)
                                 > (by_parent[pid].get("similarity") or 0)):
                         by_parent[pid] = s
-                merged = results + list(by_parent.values())
-                merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
-                results = merged[:top_k]
+                if ENUNCIADOS_QUOTA_ON:
+                    # (s273, prereg v2) Fusión POR CUOTA con slots reservados (espejo del
+                    # carve-out hyq DEC-099) + dedup-at-fusion del prior art s105
+                    # (33977c1). Atomicidad S4 heredada: _fuse_enunciados_quota trabaja
+                    # sobre copias y `results` solo se reasigna aquí — cualquier
+                    # excepción cae al except con `results` intacto.
+                    results = _fuse_enunciados_quota(results, by_parent, top_k)
+                else:
+                    # sort-mixto HISTÓRICO (mecánica viva pre-s273) — byte-intacto.
+                    merged = results + list(by_parent.values())
+                    merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+                    results = merged[:top_k]
             except Exception:
                 logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
 
@@ -1007,7 +1032,20 @@ def vector_search(
                 # la cola del canal real — competencia de slots explícita, el control negativo la mide.
                 hyq_rows.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
                 quota = hyq_rows[:HYQ_PILOT_QUOTA]
-                results = (results[:max(0, top_k - len(quota))] + quota) if quota else results
+                # (s273 §1.1c) Protección de los DOS carve-outs: el trim hyq recorta SOLO el
+                # prefijo no-cuota — sin esto, las filas _enun_quota (apendizadas al final por
+                # _fuse_enunciados_quota) serían exactamente lo que el trim corta. Composición
+                # final: reales[:top_k−|E|−|H|] + E + H (E≤ENUNCIADOS_QUOTA, H≤HYQ_PILOT_QUOTA).
+                # Sin filas _enun_quota (flag off, o cuota vacía) el camino es byte-idéntico
+                # al histórico.
+                if quota:
+                    protected = [c for c in results if c.get("_enun_quota")]
+                    if protected:
+                        base = [c for c in results if not c.get("_enun_quota")]
+                        results = (base[:max(0, top_k - len(quota) - len(protected))]
+                                   + protected + quota)
+                    else:
+                        results = results[:max(0, top_k - len(quota))] + quota
             except Exception:
                 logger.warning("canal hyq-pilot fail-open: sirviendo sin surrogates-pregunta")
 
@@ -1146,6 +1184,102 @@ _HYDRATE_SELECT = ("id,content,context,extraction_sha256,chunk_index,product_mod
 # (s95-A3) Cuántos enunciados se piden ANTES del colapso por padre (Dense X: se
 # recuperan más unidades de las que se devuelven porque colapsan a padres únicos).
 ENUNCIADOS_FETCH_K = 200
+
+
+# ============================================================================
+# (s273, prereg evals/s273_quota_prereg_v2.yaml — Bloque B) Fusión POR CUOTA del
+# canal enunciados: carve-out con slots reservados (espejo del patrón hyq DEC-099),
+# sustituyendo el sort-mixto SOLO bajo flag. Hiperparámetros CONGELADOS por el
+# prereg (no son env-tunables: herencia del cierre s105 «no subir N ni tunear»):
+#   · Q=6 — TARGET-DERIVADO del rank-6-de-nuevos de hp010#1 (diagnóstico s272),
+#     congelado sin retry; la generalidad la acreditan los gates F3/negcontrol,
+#     no la derivación. 6 < N=10 de s105 (cumple «no subir N»).
+#   · barra 0.40 = RELEVANCE_THRESHOLD (generator.py): un parent bajo 0.40 jamás
+#     puede ser servido → slot de cuota desperdiciado.
+# ============================================================================
+ENUNCIADOS_QUOTA = 6
+ENUNCIADOS_MIN_SIM = 0.40
+
+
+def _enunciados_quota_on() -> bool:
+    """(s273) Flag de la fusión por cuota. off (default) = sort-mixto histórico, prod
+    inerte. Parser estricto a nivel de módulo (lección s96-H3, espejo _hyq_table_on):
+    un typo en Railway revienta el arranque RUIDOSO, no medio-apaga el canal."""
+    raw = os.getenv("ENUNCIADOS_QUOTA_FUSION", "off").strip().lower()
+    if raw in ("1", "true", "yes", "on"):
+        return True
+    if raw in ("", "0", "false", "no", "off"):
+        return False
+    raise RuntimeError(f"ENUNCIADOS_QUOTA_FUSION={raw!r} no reconocido (on|off) — fail-fast")
+
+
+# Evaluado EN EL IMPORT (patrón HYQ_TABLE_ON, fix cross-model s102): dentro de
+# vector_search el RuntimeError lo tragaría el fail-open del caller. Los harnesses
+# flipean el global a call-time (patrón s102_hyq_negcontrol_table).
+ENUNCIADOS_QUOTA_ON = _enunciados_quota_on()
+
+# (s273 Sol-C2b) Manifest de exclusión del batch acotado T2Q1: ids DETERMINISTAS del
+# dump (uuid5), generado por el dry-run del loader (s104_a3_load --ids-out). Con la
+# cuota OFF, el canal enunciados excluye estas filas post-fetch → prod (flag off)
+# queda neutral a la recarga F2 sin depender de un GET extra por proceso. Ausente o
+# vacío = NO-OP (estado pre-F2). Cache de módulo (se lee UNA vez por proceso).
+_T2Q1_EXCLUSION_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "evals", "s273_t2q1_exclusion_ids.json")
+_T2Q1_CACHE: frozenset | None = None
+
+
+def _t2q1_exclusion_ids() -> frozenset:
+    global _T2Q1_CACHE
+    if _T2Q1_CACHE is None:
+        try:
+            with open(_T2Q1_EXCLUSION_PATH, encoding="utf-8") as f:
+                data = json.load(f)
+            _T2Q1_CACHE = frozenset(str(x) for x in (data.get("ids") or []))
+        except FileNotFoundError:
+            _T2Q1_CACHE = frozenset()
+        except Exception:
+            logger.warning("manifest de exclusión T2Q1 ilegible — exclusión vacía (declarado)")
+            _T2Q1_CACHE = frozenset()
+    return _T2Q1_CACHE
+
+
+def _fuse_enunciados_quota(results: list[dict], by_parent: dict, top_k: int) -> list[dict]:
+    """(s273) Fusión por cuota del canal enunciados — carve-out con slots reservados.
+
+    Espejo del patrón hyq (DEC-099) + prior art s105 (33977c1) heredado:
+      (a) dedup-at-fusion: padre YA en `results` → boost keep-max SIN comprar slot
+          (telemetría s105: 43% de los slots del canal eran pérdida pura sin esto);
+      (b) cuota: solo los top-Q padres NUEVOS con sim ≥ barra entran, con slot
+          RESERVADO (no compiten contra el floor real — la diferencia medida con la
+          mecánica s105: hp010 0.4268 < floor 0.4556 moría en la entrada-al-sort);
+      (c) atomicidad S4 (dúo s105 r1+r2): boosts sobre COPIAS, el caller reasigna
+          `results` como última operación — sin boosts parciales ante excepción.
+    Las filas de cuota van marcadas `_enun_quota` (el trim hyq las respeta — §1.1c
+    del diseño) y `_enun_question`-equivalente no aplica (content-side).
+    """
+    have_real = {c.get("id") for c in results}
+    new_cands = [s for pid, s in by_parent.items()
+                 if pid not in have_real and (s.get("similarity") or 0) >= ENUNCIADOS_MIN_SIM]
+    new_cands.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
+    quota = []
+    for s in new_cands[:ENUNCIADOS_QUOTA]:
+        q = dict(s)
+        q["_enun_quota"] = True
+        quota.append(q)
+    fused = []
+    for c in results:
+        hit = by_parent.get(c.get("id"))
+        if hit and (c.get("similarity") or 0) < (hit.get("similarity") or 0):
+            c2 = dict(c)
+            c2["similarity"] = hit["similarity"]
+            c2["_enunciado_boosted"] = True   # traceability (espejo _hyq_boosted)
+            fused.append(c2)
+        else:
+            fused.append(c)
+    if not quota:
+        return fused[:top_k]
+    return fused[:max(0, top_k - len(quota))] + quota
 
 # (s101 piloto hyq) Path al .npz de embeddings de preguntas-hipotéticas (scripts/s101_hyq_embed.py).
 # "" (default) = canal APAGADO, prod inerte. Solo para la MEDICIÓN del piloto (prereg s99).
@@ -1329,6 +1463,8 @@ def _enunciados_swap(chunks: list[dict]) -> list[dict]:
         rec["similarity"] = sim
         rec["_swapped_from_surrogate"] = cid
         rec["_channel"] = c.get("_channel")
+        if c.get("_enun_quota"):
+            rec["_enun_quota"] = True    # (s273) traceability del carve-out en el pool final
         best[p["id"]] = rec
         out.append(rec)
     return out

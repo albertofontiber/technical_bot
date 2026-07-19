@@ -1,0 +1,91 @@
+{
+ "schema": "s273_v3b_arbiter_v1",
+ "stamp": {
+  "ts": "2026-07-19T23:53:33",
+  "git_sha": "cf7dc9ed5b40a2fe6f6abe0533ec9b1b63863fb0",
+  "git_dirty_src": "",
+  "prereg": "evals/s273_quota_prereg_v3.yaml",
+  "k": 3,
+  "majority": 2
+ },
+ "scope": [
+  "hp005",
+  "hp006",
+  "hp017",
+  "cat020"
+ ],
+ "matcher": "anclas lexicas per-fact deterministas (NFKD-fold s163; evals/s100_factlevel_full.yaml lexically_anchorable)",
+ "replicas": "s273_v3b_replies_v1.jsonl",
+ "per_gold": {
+  "hp005": {
+   "off_stable": {
+    "hp005#0:Matriz de control": true,
+    "hp005#2:misma zona o subzona": true,
+    "hp005#3:CIRCUITO SIRENA": false
+   },
+   "on_stable": {
+    "hp005#0:Matriz de control": true,
+    "hp005#2:misma zona o subzona": false,
+    "hp005#3:CIRCUITO SIRENA": false
+   },
+   "lost_stable_facts": [
+    "hp005#2:misma zona o subzona"
+   ],
+   "gained_stable_facts": [],
+   "verdict": "STOP"
+  },
+  "hp006": {
+   "off_stable": {
+    "hp006#0:Fallo de Tierra": true,
+    "hp006#1:Tierra": true,
+    "hp006#2:ISO-X": false
+   },
+   "on_stable": {
+    "hp006#0:Fallo de Tierra": true,
+    "hp006#1:Tierra": true,
+    "hp006#2:ISO-X": false
+   },
+   "lost_stable_facts": [],
+   "gained_stable_facts": [],
+   "verdict": "PASS"
+  },
+  "hp017": {
+   "off_stable": {
+    "hp017#0:causa-efecto": true,
+    "hp017#1:instruccion de entrada": false,
+    "hp017#2:Editar Configuracion": true,
+    "hp017#3:seis tipos de retardo": true
+   },
+   "on_stable": {
+    "hp017#0:causa-efecto": true,
+    "hp017#1:instruccion de entrada": false,
+    "hp017#2:Editar Configuracion": false,
+    "hp017#3:seis tipos de retardo": true
+   },
+   "lost_stable_facts": [
+    "hp017#2:Editar Configuracion"
+   ],
+   "gained_stable_facts": [],
+   "verdict": "STOP"
+  },
+  "cat020": {
+   "off_stable": {
+    "cat020#0:80 % / 100 % / 108 %": false,
+    "cat020#1:0-100 % normalizado": false
+   },
+   "on_stable": {
+    "cat020#0:80 % / 100 % / 108 %": false,
+    "cat020#1:0-100 % normalizado": false
+   },
+   "lost_stable_facts": [],
+   "gained_stable_facts": [],
+   "verdict": "PASS"
+  }
+ },
+ "lost_stable_facts": [
+  "hp005#2:misma zona o subzona",
+  "hp017#2:Editar Configuracion"
+ ],
+ "verdict": "STOP",
+ "stop_consequence": "dano real a nivel respuesta -> lever CERRADO (anti-gate-shopping v3)"
+}

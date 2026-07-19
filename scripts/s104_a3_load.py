@@ -82,6 +82,20 @@ def main() -> int:
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--skip-chaff", action="store_true",
                     help="no cargar filas marcadas chaff en el dump (decisión post-G0)")
+    # (s273 Sol-C1) recarga ACOTADA: filtro por doc + batch-tag propio + validación ledger
+    # + manifest de ids (la exclusión prod-neutral de Sol-C2b). Sin estos flags el loader
+    # es byte-idéntico al histórico.
+    ap.add_argument("--only-source-files", nargs="+", default=None,
+                    help="(s273) cargar SOLO filas cuyo source_file esté en esta lista")
+    ap.add_argument("--rewrite-batch-tag", default=None,
+                    help="(s273) reescribir ingest_batch de TODAS las filas cargadas "
+                         "(p.ej. enunciados-v1:T2Q1:h1) — rollback selectivo por tag exacto")
+    ap.add_argument("--ledger-check", action="store_true",
+                    help="(s273) validar extraction_sha256 de cada doc filtrado contra "
+                         "evals/enunciados_ledger.json (aborta si no casa)")
+    ap.add_argument("--ids-out", default=None,
+                    help="(s273) escribir manifest JSON {batch, ids} con los ids a cargar "
+                         "(consumido por la exclusión flag-off del retriever)")
     a = ap.parse_args()
     rows: list = []
     for d in a.dumps:
@@ -89,9 +103,40 @@ def main() -> int:
             row = json.loads(line)
             if a.skip_chaff and row.get("chaff"):
                 continue
+            if a.only_source_files and row.get("source_file") not in a.only_source_files:
+                continue
             rows.append(row)
+    if a.only_source_files:
+        missing = set(a.only_source_files) - {r.get("source_file") for r in rows}
+        if missing:
+            print(f"ABORT: --only-source-files sin filas en los dumps: {sorted(missing)}")
+            return 1
+    if a.ledger_check:
+        ledger = json.load(open(ROOT / "evals" / "enunciados_ledger.json", encoding="utf-8"))
+        by_doc: dict = {}
+        for r in rows:
+            by_doc.setdefault(r.get("source_file"), set()).add(r.get("extraction_sha256"))
+        for doc, shas in sorted(by_doc.items()):
+            entry = (ledger.get("docs") or {}).get(doc)
+            if not entry or shas != {entry.get("sha")}:
+                print(f"ABORT ledger-check: {doc} → dump {sorted(shas)} vs ledger "
+                      f"{entry.get('sha') if entry else 'AUSENTE'}")
+                return 1
+        print(f"ledger-check OK: {len(by_doc)} docs, sha exacto")
+    if a.rewrite_batch_tag:
+        for r in rows:
+            r["ingest_batch"] = a.rewrite_batch_tag
     batches = Counter(r.get("ingest_batch") for r in rows)
     print(f"dumps: {len(a.dumps)} · filas: {len(rows)} · batches: {dict(batches)}")
+    if a.replace:
+        print(f"delete-scope (--replace): ingest_batch eq {sorted(batches)} "
+              f"{'(DRY: no se borra)' if a.dry else ''}")
+    if a.ids_out:
+        manifest = {"batch": a.rewrite_batch_tag or sorted(batches),
+                    "n": len(rows), "ids": sorted(r["id"] for r in rows)}
+        Path(a.ids_out).write_text(json.dumps(manifest, ensure_ascii=False, indent=1),
+                                   encoding="utf-8")
+        print(f"ids-out: {a.ids_out} ({len(rows)} ids)")
     with httpx.Client(timeout=120.0) as client:
         if a.replace and not a.dry:
             for b in batches:

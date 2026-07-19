@@ -59,26 +59,57 @@ def test_served_chunks_rejects_compatibility_lane_rows() -> None:
         )
 
 
-# ─────────────────────────── disclosure obl_872c (spec DEC-125 fila 8) ───────────────────────────
+# ── disclosure obl_872c — spec OPCIÓN 1 «evidencia servida» (DEC-125 fila 8; DEC-128) ──
 
-def test_disclosure_covered_requires_both_values_and_formula() -> None:
+_LABEL_STRIP = "Estándar\nFijo\nEst.Ext.\nNo Silenc.\nNo Sil.Ext"
+
+
+def test_disclosure_covered_opcion1_conteo_etiquetas_y_marcador() -> None:
+    """(a) seis junto al sustantivo + (b) etiquetas servidas (tira F1) + (c) marcador
+    de discrepancia — SIN el literal «siete» (DEC-128: el 7 solo es conocible al
+    píxel; exigirlo sería pedir una invención)."""
     positive = (
-        "La prosa del manual declara seis tipos de retardo, pero la tabla recoge "
-        "siete tipos de retardo distintos."
+        "Se puede asignar uno de seis tipos de retardo. Nota: el manual también "
+        f"indica:\n{_LABEL_STRIP}"
     )
     assert probe.disclosure_covered(positive) is True
 
 
-def test_disclosure_not_covered_without_formula() -> None:
+def test_disclosure_covered_acepta_lado_tabla_f2() -> None:
+    positive = (
+        "La prosa declara seis tipos de retardo, pero la tabla no coincide: "
+        "Fijo, Estándar, No Silenc, Est. Ext., RetExtStd, No Sil. Ext y SinRetExt."
+    )
+    assert probe.disclosure_covered(positive) is True
+
+
+def test_disclosure_not_covered_sin_marcador() -> None:
     answer = (
-        "Hay seis tipos de retardo. Más adelante se enumeran siete tipos de retardo."
+        f"Hay seis tipos de retardo disponibles en la central:\n{_LABEL_STRIP}"
     )
     assert probe.disclosure_covered(answer) is False
 
 
-def test_disclosure_not_covered_with_single_value() -> None:
+def test_disclosure_not_covered_sin_etiquetas_servidas() -> None:
     answer = "El manual también indica: se puede asignar uno de seis tipos de retardo."
     assert probe.disclosure_covered(answer) is False
+
+
+def test_disclosure_not_covered_sin_conteo_declarado() -> None:
+    answer = (
+        "El manual también indica los tipos de retardo siguientes:\n"
+        f"{_LABEL_STRIP}"
+    )
+    assert probe.disclosure_covered(answer) is False
+
+
+def test_disclosure_etiquetas_tolerantes_a_puntuacion() -> None:
+    # «Est.Ext.» de la tira F1 ≈ «Est. Ext.» redactado por el writer
+    positive = (
+        "La prosa dice seis tipos de retardo. Los tipos difieren: Estándar, Fijo, "
+        "Est. Ext., No Silenc. y No Sil. Ext."
+    )
+    assert probe.disclosure_covered(positive) is True
 
 
 # ─────────────────────────── merge-carrier obl_0d6a (DEC-125 filas 11/12) ───────────────────────────
@@ -311,11 +342,12 @@ def test_probe_v3_wrapper_rebinds_y_prereg_coherente() -> None:
         assert probe.run_replicate is v3.run_replicate_v3
         prereg = yaml.safe_load(probe.PREREG.read_text(encoding="utf-8"))
         assert prereg["probe_number"] == 3
-        # el pin del mecanismo v3 SI coincide con el fichero vivo
-        assert (
-            prereg["frozen_inputs_sha256_lf_normalized"]["src/rag/must_preserve.py"]
-            == probe.normalized_sha(probe.ROOT / "src/rag/must_preserve.py")
-        )
+        # el pin registrado es un sha válido (snapshot HISTÓRICO del mecanismo v3;
+        # el fichero vivo evolucionó a v4 en s271 — guards de activación DEC-127b,
+        # drift INTENCIONAL declarado y verificado por la certificación det-only v2:
+        # evals/s271_probe_det_certification_v2.json)
+        pin = prereg["frozen_inputs_sha256_lf_normalized"]["src/rag/must_preserve.py"]
+        assert len(pin) == 64
         assert probe.runner_pin_status(prereg) == "MATCH"
     finally:
         for k, v in saved.items():

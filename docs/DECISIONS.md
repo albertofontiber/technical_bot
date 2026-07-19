@@ -2420,6 +2420,264 @@ default-off es seguro (byte-idéntico off + certificación det-only GO). Certifi
 b6f6 3/3 en el path exacto de prod ($0, borradores almacenados) — el híbrido NO es necesario
 para este ship.
 
+**DEC-128 (S271) — obl_872c: disclosure re-especificado a OPCIÓN 1 «evidencia servida»
+(adjudicación de Alberto).** El check `disclosure_covered` del instrumento
+(`scripts/s270_etapa2_probe.py`, el runner v1 que importan los probes) acredita si la
+respuesta (o su apéndice must-preserve) contiene: (a) el conteo DECLARADO («seis»/6
+co-localizado con el sustantivo tipos-de-retardo); (b) las etiquetas enumeradas VISIBLES en
+la evidencia servida — presencia sustancial: TODAS las no-basura de al menos un lado servido
+(tira OCR de F1 o cabeceras de la tabla de F2); y (c) un marcador EXPLÍCITO de discrepancia
+(«también indica» / «no coincide» / «difiere» / «discrepan» ...) — **SIN exigir el literal
+«siete»**. Alternativa 2 (exigir el 7) DESCARTADA: el 7 solo es conocible al píxel → exigirlo
+es pedirle al bot una INVENCIÓN; la curación de esa tabla queda como lever de INGESTA futuro.
+Re-score $0 de las réplicas ON almacenadas del probe v3 con la spec re-specced →
+**872c acredita 3/3 ON, 0/3 OFF = SEGUNDA conversión estable**
+(`evals/s271_872c_respec_rescore_v1.json`; es re-score de SPEC sobre respuestas ya
+generadas, NO un probe nuevo — bajo la spec vieja puntuaba 0/3 ON, 0/3 OFF). En la
+certificación det-only v2 (con los guards s271) 872c también convierte det-only 3/3 y el
+guard de contenido-informativo NO mata su disclosure (la tira de etiquetas OCR tiene texto
+real, no celdas en blanco — verificado por-réplica en
+`evals/s271_probe_det_certification_v2.json`).
+
+Adjudicación adicional de Alberto (S271): el claim cat017#2 "licencia CLIP (una por circuito
+de lazo CLIP)" se CONFIRMA CORE — clase muro-duro-condicional (la pregunta cubre "dar de
+alta" un lazo genérico y la INSPIRE soporta OPAL y CLIP; sin el .bin el alta CLIP no
+funciona), misma clase que obl_b6f6. Recomendación del orquestador aceptada verbatim por
+Alberto ("OK a tu recomendación de mantenerla CORE"). El denominador 154 NO cambia. El
+diagnóstico retrieval del Bloque B lo trata como CORE.
+
+**DEC-129 (S271, Bloque A) — los 3 BLOQUEADORES DE ACTIVACIÓN de DEC-127b cerrados con
+guards mecánicos y genéricos en `src/rag/must_preserve.py` (v4), sin tocar el contrato de
+binding:** (1) **dedup del render** — dos átomos con span idéntico tras fold (o solapado
+≥90% con el MISMO contenido numérico; números distintos = hecho distinto, se conservan)
+anexan una sola vez; (2) **guard de contenido informativo** — ningún lado del anexo puede
+ser vacío/solo-puntuación ni tabla de etiquetas-SIN-valores (celdas en blanco); si el
+lado-enumeración de un disclosure no es informativo, el disclosure ENTERO no dispara (mejor
+silencio que basura); distingue celdas-en-blanco de etiquetas-CON-texto (la tira OCR de
+hp017 sigue viva); (3) **tie ESTRICTO del F-COUNT a distancia** — la enumeración de un tie
+de sección/cross no puede ser un crumb de navegación/menú (línea única con `|`, ≤4
+tokens/celda, sin números) y debe compartir dominio con el conteo (sustantivo contado en la
+enumeración, o heading de sección compartiendo ≥1 token con la oración del conteo; en cross:
+sustantivo o continuación de la misma sección); el candidato rechazado NO se sustituye por
+el siguiente (conservador). Casos reales pineados en tests (hp001 «2,4,6 u 8 lazos»·crumb NO
+liga; cat007 tabla T1..T10 no dispara). **Validación fresca seed=275** (población nueva,
+exclusiones acumuladas v1+s270..274, brazo det $0):
+`evals/s271_stage1_v7_gate_v1.yaml` → **GO** — gates v6 íntegros verdes (los fixes no se
+compran con recall: F-RANGE 1.0 / F-BUNDLE 0.826 / F-MANDATORY 1.0 / F-COUNT 0.952) + 3
+checks nuevos (dup_span 0 FP/83 + control 0/30; empty_enum 0 FP/21 + positivo 0.90;
+navcrumb 0 FP/19 + no-relevance 0 FP/21 + positivo 1.0). Iteración de instrumento declarada
+en el prereg (display binding-guard sobre la VENTANA, clase seed-272). **Certificación
+det-only v2** ($0, borradores almacenados del probe v3, drift de sha DECLARADO):
+`evals/s271_probe_det_certification_v2.json` → **GO, b6f6 3/3 estable + 872c 3/3** (2
+conversiones det-only, 0 regresiones, 0 conflictos). **Etapa 3 re-preparada**: mismo
+`scripts/s270_etapa3_smoke_pareado.py` con `--fresh` (borra result+apéndices previos); la
+re-ejecución la paga el orquestador. El flag `MUST_PRESERVE_CONTRACT` sigue OFF: la
+activación queda gateada al re-smoke LIMPIO (DEC-127b).
+
+**DEC-129b (S271) — revisión adversarial del Bloque A (sub-agente Fable, ronda fresca):
+SÓLIDA con 2 hallazgos medios → AMBOS cableados antes del commit + residuales declarados.**
+(1) El dedup por ratio≥0.90+mismos-números colapsaba hechos distintos SIN números
+("cable de la sirena" vs "de la fuente", ratio 0.946) → apriete: el dedup exige además el
+MISMO set de tokens de contenido (test pineado; mitiga también la circularidad del control
+del harness — el control excluye pares por el mismo predicado, así que la clase queda
+cubierta por test unitario, no por el gate). (2) Bypass del tie estricto: una fila
+clave-valor de screenshot con el sustantivo como etiqueta («Lazos | 2 | 4») escapaba al
+crumb por el dígito y el sustantivo la endosaba → screen nuevo `_block_is_value_row`
+(celda puramente numérica = valores, no miembros) aplicado a los 3 ties (tests sección y
+cross). Ambos apretes re-medidos EN FRÍO: cohorte v7 re-construida con el detector final
+(misma seed 275) + re-run + gate → **GO idéntico** (familias 1.0/0.826/1.0/0.952; 19
+checks verdes) y certificación det-only v2 re-corrida → **GO (b6f6 3/3 + 872c 3/3)**.
+**Residuales DECLARADOS (no cableados):** (a) `informative_span` no caza la variante
+etiquetas-en-cabecera + filas en blanco (indistinguible mecánicamente de una enumeración
+legítima de una línea; falla hacia anexar etiquetas CON texto, no celdas vacías); (b) la
+limitación REAL del mecanismo con etiquetas punteadas que truncan la ventana de cita →
+TECH_DEBT #54 (el fix del display en el harness v7 era de INSTRUMENTO y queda declarado en
+el prereg). (c) La spec opción-1 de 872c mide ACTIVACIÓN del disclosure (satisfacible
+íntegramente por el apéndice determinista), no calidad de generación — no leer el 3/3 como
+calidad. **Pendiente del orquestador:** el lado cross-model del dúo (GPT-5.6 Sol, pagado)
+ANTES del merge — zona de dolor, el dúo es innegociable (Protocolo 3).
+
+**DEC-130 (S271, iteración FINAL del Bloque A) — Etapa 3 v2 (monotonía 5/5, guards v4
+funcionan: 0 duplicados / 0 span-vacío / 0 navcrumb) sacó 2 clases nuevas en cola larga →
+INVERSIÓN DE CONTRATO en el render: de blacklist a WHITELIST fail-closed de forma-buena
+(`must_preserve` v5, `atom_good_form`).** Clases observadas: (a) cat007 anexó un MANDATORY
+que era SOLO la cabecera «### <ins>ADVERTENCIA</ins>»; (b) hp001 emparejó el conteo
+«Lazos | 2» (match de RX_COUNT cruzando líneas) con un volcado de descripción de UI
+multi-línea (el navcrumb-guard solo cubría líneas únicas). Whitelist por span: (1) cláusula
+textual completa — ≥1 oración con verbo CONJUGADO (léxico cerrado ES/EN; infinitivos y
+gerundios de volcados de UI NO cuentan) y ≥40 chars tras quitar markup/headers; O (2) fila
+etiqueta+valor — número CON UNIDAD + etiqueta textual en la misma línea (número pelado NO
+es valor: «Lazos | 2» y timestamps de headers quedan fuera — calibrado con los casos
+observados). Headers/markers jamás cuentan; MANDATORY exige el trigger + SU oración;
+BUNDLE exige ≥2 miembros con descripción; en un disclosure AMBOS lados individualmente o
+no dispara. Silencio > ruido; los spans siguen VERBATIM (la whitelist decide inclusión, no
+reescribe). **Validación fresca seed=276** (`evals/s271_stage1_v8_gate_v1.yaml`) → **GO**:
+gates previos íntegros (F-RANGE 0.976 / F-BUNDLE 0.923 / F-MANDATORY 1.0 / F-COUNT 0.905;
+cross_count 0.909; disclosure2 0.909) + clases nuevas (heading_only 0 FP/30 + control 1.0;
+ui_dump 0 FP/16). **Coste de la whitelist VISIBLE, no escondido:** 208 filas re-etiquetadas
+como silencio-por-diseño (`whitelist_skips_reported`: mutation 108 — F-COUNT 60 / MANDATORY
+26 / BUNDLE 22 — sobre todo disclosures cuyo lado-enumeración es lista de nombres pelados;
+share total 0.153 en `whitelist_silence_share_reported`); 2 iteraciones de instrumento
+DECLARADAS en el prereg (cross_count sin filtro puntuable heredado de v5: 10/27→10/11;
+coverage re-specced a salud-de-instrumento, 1ª pasada 0.807 en git). **Certificación
+det-only v2 re-corrida → GO: b6f6 3/3 estable; 872c 2/3 ON / 0/3 OFF = conversión ESTABLE
+se mantiene (≥2/3), con matiz declarado: era 3/3 pre-whitelist — la réplica 3 dependía SOLO
+del disclosure de la tira-de-etiquetas (forma-pobre por definición) y ahora calla; r1/r2
+convierten vía la tabla F2 (filas con cláusulas).** No se tuneó la whitelist contra los
+targets. Si la Etapa 3 v3 aún muestra ruido, NO se itera más: la recomendación pasa a
+activación restringida por familia (criterio del coordinador). Flag sigue OFF.
+
+**DEC-130b (S271, adjudicación del ship-review Sol — 3 medios + 1 menor, 4/4 confirmados, 0 FP):**
+(M1/M2) los claims quedan ACOTADOS: "2 conversiones estables" = certificadas en replays
+congelados det-only (b6f6 3/3; 872c 2/3 ≥ regla); "0 ruido" = smoke vivo sin apéndices espurios
+(el camino positivo vivo NO disparó en el smoke — 2 identity_unresolved + 1 sin citas — y se
+ejercitará en la primera ventana con flag ON leyendo query_logs). El requires_human_read de la
+cert quedó RESUELTO EN POSITIVO: el orquestador regeneró determinísticamente y LEYÓ el apéndice
+872c post-whitelist — disclosure con la tabla real de 7 tipos de retardo, verbatim y citada,
+calidad alta. (M3) el coste de la whitelist (15.3% skips) queda con TRIPWIRE declarado: si en
+cohortes futuras el share supera 0.25, se re-examina la definición (no se gatea retroactivo).
+(menor) TECH_DEBT #54 (etiquetas con puntos truncan citation_window): frecuencia real sin medir,
+declarado como gap vivo del ON. Fable-side = SÓLIDA del build (2 medios cableados). El merge
+default-off queda autorizado por el dúo; la activación en demo sigue el plan DEC-127b/130.
+
+## DEC-131 (S272, 19 jul 2026) — BANKING de la foto 145/154 (94,16%) con recibo VIVO de producción + formato Telegram de la respuesta (feedback directo de Alberto)
+
+**Decisión 1 — Banking.** Se cobran oficialmente las 2 conversiones certificadas del contrato
+must-preserve sobre el funnel adjudicado (DEC-125: 143/9/2/154):
+`scripts/s272_bank_conversions.py` (patrón S270: aritmética determinista, $0, insumos
+SHA-pineados LF-normalizados, fail-closed ante drift) → **145 OK / 7 synth / 2 retr / 154
+(94,16%) — quedan +6 para 151 (98%)**; artefacto `evals/s272_banked_funnel_v1.json` con
+`production_flag: MUST_PRESERVE_CONTRACT=on (Railway, confirmado por Alberto)` y
+`mecanismo verificado en producción: sí (query_logs 16:26Z)`.
+
+**Estado vivo POR CONVERSIÓN (Alberto disparó las 3 preguntas en vivo; recibos GET-only de
+query_logs 2026-07-19 persistidos con sha256 del response en
+`evals/s272_live_receipts_v1.json` y dentro del artefacto — sin datos personales):**
+- **obl_b6f6211be439 — FIRE EN VIVO ✓** (16:26Z, ASD535): apéndice con el aviso de
+  seguridad + checklist servido en producción. Certificación: det-only v2 3/3
+  (`evals/s271_probe_det_certification_v2.json`).
+- **Control sano CAD-250 SIN apéndice ✓** (16:34Z): silencio correcto en vivo.
+- **obl_872c35fb41d7 — NO disparó en vivo** (16:29Z, PEARL); DIAGNOSTICADO reproduciendo la
+  ruta viva: los chunks del 997-671 p43-45 con la tabla de tipos quedan en posiciones 22-33
+  del pool, FUERA del top-10 servido — el mecanismo no puede anexar átomos de fragmentos no
+  servidos. **Clase: composición-de-serving (retrieval-side), NO fallo del contrato**; la
+  conversión queda **harness-only** (la foto oficial usa la ruta harness congelada donde
+  esos fragmentos SÍ se sirven; certificación `evals/s271_872c_respec_rescore_v1.json`,
+  spec opción-1 DEC-128 3/3 ON / 0/3 OFF). Convergencia viva = lever retrieval de la misma
+  familia que Bloque B/C — sin acción ahora. El banking se sostiene con esta declaración de
+  alcance explícita, sin sobre-claim.
+
+**Los 7 synth restantes por clase (mapa causal DEC-127):** serving-view `obl_0d6a` ·
+uncited `obl_2f5d` · binding-tension `obl_7bba` · composites `obl_a5d9`/`obl_015f`/
+`obl_b2043`/`obl_7aa7`. Sigue sin KPI atómico oficial (77 legacy carries, S205).
+Alternativa descartada: esperar un re-score completo vía gold_store/assessment para cobrar —
+el patrón de proyección determinista S133/S270 con certificaciones congeladas + recibo vivo
+es exactamente la traza auditable que el re-score usaría; no se duplica el instrumento.
+
+**Decisión 2 — Formato Telegram (v6 del anexo + formatter), del feedback directo de Alberto
+sobre la respuesta viva ASD535 ("faltan saltos de línea incluso de sección, y podría ser más
+visual"):** (a) `render_appendix` v6 (`src/rag/must_preserve.py`): separador `---` +
+cabecera en negrita con UN emoji estructural por bloque (⚠️ si contiene átomo MANDATORY /
+📋 disclosures-tablas / 📖 genérico) y strip del marcador blockquote `> ` de los spans con
+guard conservador (nunca ante dígito/operador: `> 100 mA` se conserva) — la selección y el
+binding NO cambian; los spans siguen byte-preservados en contenido técnico. (b)
+`response_formatter.py`: fix del `**Fuente:**` del generador (el `**` de cierre tras los dos
+puntos quedaba LITERAL en Telegram — el `**` visible que reportó Alberto), 📄 en fuentes,
+🔧 en cabeceras de paso (`**1. …**` y headings numerados), negrita + línea en blanco para
+secciones `##`/MAYÚSCULAS:, no-doble-emoji en avisos que ya traen ⚠️ (léxico ampliado con
+importante/aviso/caution), y strip del `"> ` heredado en bullets de apéndices YA almacenados
+(mismo guard numérico). Vara verificada con fixture del recibo vivo
+(`tests/fixtures/s272_asd535_live_response.json`): 0 tokens numéricos/modelo perdidos, tags
+balanceados, sin `**` ni `> ` crudos; gate local del renderer re-corrido
+(`scripts/s124_renderer_presentation_replay.py` → GO). Alternativas descartadas: parse_mode
+Markdown de Telegram (frágil con notación eléctrica, ya descartado en el diseño del
+formatter); emojis por frase (decorativo — el criterio es sobrio/estructural); strip
+incondicional de `> ` (riesgo de borrar un operador de comparación).
+
+## DEC-132 (S273, 19 jul 2026) — Bloque B cerrado en esta sesión: cuota-enunciados F3 STOP as-preregistered + hallazgo de instrumento cuantificado + negcontrol PASS + prereg v3 (única re-medición) — flag default-off, restricción s105 intacta
+
+**Contexto.** El diagnóstico s272 (`evals/s273_retrieval2_diagnosis_v1.md`) identificó los 2
+retrieval-miss CORE residuales (cat017#2, hp010#1) muriendo en la fusión del canal enunciados.
+Diseño + prereg v1 → dúo COMPLETO adjudicado (Sol xhigh 7/7 con 3 críticos, Fable 5/5
+«SÓLIDO-con-condiciones», 0 FP; tally + reviews crudas en el log) → prereg v2 con los 11 fixes
+→ build flag-off (`ENUNCIADOS_QUOTA_FUSION`, carve-out slots-reservados espejo hyq DEC-099 +
+dedup-at-fusion/atomicidad S4 del prior art s105 @33977c1) → fases sin-DB.
+
+**Resultados medidos (artefactos committeados).**
+- **F0 (vía B, cat017#2): NO-GO → RESIDUAL FORMAL.** El activo h1 no contiene el hecho-licencia
+  con señal: dump T2 de HOP-138-9ES no cubre el chunk carrier (0 filas pp.5-7, 0 «licencia» en
+  925); brazo condicional 4188-1125-ES generado acotado ($0.10) → carrier rank-99-de-108 vs
+  floor de cuota 0.614. F2 (recarga) deshabilitada; jamás corrió (rollback vacuo, DB en T1).
+- **F1 (vía A, hp010#1): GO.** Consistencia s272 OK; rank-6-de-nuevos exacto → entra por cuota
+  Q=6; e2e: rerank top-2 → SERVIDO (1 muestra, informativo).
+- **F3 (Alberto): STOP TAL CUAL PRE-REGISTRADO** (`evals/s273_f3_closeout_v1.yaml`): anclas
+  pareadas +3 (hp015#0, hp018#2, hp018#3) / −1 (hp017#1), stop-hits de la unión dura s104+s105
+  = 0; containment 14-missing contra la referencia v2.2 → dispara; **negcontrol PASS** (4 ≤ 7);
+  diana hp010 en pool 3/3. El gate NO se re-litiga; lever = NO-GO-as-preregistered bajo v2;
+  el flag queda default-off (byte-inerte) y NO se shippea.
+- **Hallazgo de INSTRUMENTO (cuantificado y reproducido desde los probes):** la referencia de
+  containment v2.2 (foto s102) no describe el pipeline actual — OFF-hoy = 16 missing contra
+  ella vs ON = 14; delta pareado atribuible a la cuota = −6 (hp005×2, hp006×1, hp011×1,
+  cat020×2 — watch-golds tocados) / +8 recuperados. El pool no adjudica hechos: puede ser daño
+  real o re-barajado benigno clase DEC-092b.
+
+**Decisión.** (1) El STOP se acata sin re-litigio. (2) La corrección es de MEDICIÓN, no de
+mecanismo → **prereg v3** (`evals/s273_quota_prereg_v3.yaml`, NO ejecutado, requiere GO):
+containment pareado CONTEMPORÁNEO OFF-vs-ON K-mayoría (la referencia v2.2 se RETIRA con su
+razón declarada), árbitro a nivel RESPUESTA para los watch-golds (hp005/hp006/hp017/cat020,
+K=3, matcher determinista) + conversión hp010 como gate de ship; mismos umbrales de
+anclas/negcontrol; techo $4; **anti-gate-shopping explícito: UNA sola re-medición — STOP a
+nivel respuesta ⇒ lever CERRADO sin más intentos**. (3) Restricción heredada s105 INTACTA
+(«no subir N ni tunear contra hp006»; Q=6 congelado; autoridad versionada en
+`evals/s273_s105_authority_excerpt_v1.md`, colisión de numeración DEC-103..105 documentada en
+el diseño §7). (4) cat017#2 residual formal: su única vía viva declarada = re-scope s174
+per-facet, decisión explícita aparte (riesgo gate-shopping ya declarado en s269).
+
+**Alternativas descartadas.** Re-litigar el STOP leyendo el neto +3/−1 como PASS (el gate era
++0/−0: se acata); «arreglar» el gate tras verlo fallar sin retirar la referencia con causa
+documentada (eso sí sería gate-shopping — aquí la causa es reproducible: el control OFF falla
+más que el tratamiento); recargar F2 pese al F0 NO-GO (el hecho no está en el espacio
+enunciados-generable barato); tocar Q/barra/mecánica (cerrado por herencia s105 y por el
+contrato v3).
+
+**Traza.** Rama `claude/s273-bloqueB-quota` (PR contra main); artefactos
+`evals/s273_*`; instrumento `scripts/s273_quota_gates.py`; gasto sesión fases ≈ $0.22 de $3
+(v2) — v3 presupuestado $4, sin ejecutar.
+
+## DEC-132b (S273, 19 jul 2026) — Veredicto FINAL del Bloque B: v3 ejecutado completo → v3b STOP a nivel respuesta → **lever cuota-enunciados CERRADO PERMANENTE** (anti-gate-shopping cumplido); 2 residuales documentados con precisión
+
+**Cadena v3 (la única re-medición permitida, `evals/s273_v3_closeout_v1.yaml`):**
+**v3a PASS** (containment pareado contemporáneo, reuse probes F3 mismo-día/K=3; stop_hits=0
+sobre la unión dura; hp017#1 enrutada al árbitro; negcontrol PASS 4≤7) → **v3b STOP** (daño
+REAL a nivel respuesta, 24 réplicas pareadas: hp005#2 «misma zona o subzona» 3/3-OFF→0/3-ON
+y hp017#2 «Editar Configuración» 2/3→1/3, matcher determinista NFKD) → **v3c NO_GO**
+(hp010#1 convierte ESTABLE 2/3 y pool 3/3 — el mecanismo funciona para su diana — pero el
+gate compuesto exige v3b PASS).
+
+**Decisión (por el anti-gate-shopping pre-registrado en el prereg v3):** lever
+cuota-enunciados **CERRADO PERMANENTE**; flag `ENUNCIADOS_QUOTA_FUSION` default-off
+(byte-inerte) sin ship; **sin más intentos** bajo ninguna variante de esta mecánica;
+reapertura futura = evidencia NUEVA clase-s272 + permiso explícito de Alberto (patrón
+DEC-126). Q=6/barra 0.40 jamás tuneados (herencia s105 cumplida de prereg a cierre).
+
+**Residuales (con clase, para el PLAN):**
+- **hp010#1**: el mecanismo CONVIERTE (pool 3/3, respuesta 2/3) — se cierra por su COSTE
+  medido en terceros (hp005#2, hp017#2), no por fallar en su diana. Lever futuro para
+  hp010#1 = OTRA familia mecánica, o demostrar 0-daño en el mismo árbitro pareado.
+- **cat017#2**: fuera del espacio de enunciados generable barato (MEDIDO en F0: activo T2
+  sin el carrier; h1 fresco del 2º carrier rank-99-de-108). Vía si se reabre: re-scope s174
+  per-facet (decisión explícita aparte; riesgo gate-shopping declarado s269).
+
+**Nota honesta.** La re-medición v3 CONFIRMÓ la esencia del veredicto s105 con instrumento
+corregido: el desplazamiento de la cuota cuesta hechos reales incluso a T1 con Q=6 —
+esta vez a nivel RESPUESTA y pareado mismo-día, no contra una referencia caduca. Corregir
+el instrumento (hallazgo F3) cambió la CALIDAD de la evidencia, no el signo. «No subir N
+ni tunear contra hp006» queda vigente y reforzado. Bloque B: 0 conversiones bancables; la
+foto oficial 145/154 no cambia; el camino a 151 pasa por los Bloques C/D (síntesis).
+
+**Traza.** Artefactos `evals/s273_v3*`; réplicas persistidas; runner
+`scripts/s273_v3_arbiter.py`; fila nueva del lever en `docs/LEVER_DIGEST.md`.
+
 **DEC-133 (S271) — Track visual COMPLETO: expansión del registro `document_visual_assets` al
 corpus entero de chunks_v2 → 13.257 páginas servibles (antes 4.489), cap 2→4 + álbum; falta
 solo `VISUAL_ASSETS_REGISTRY=on`.** Decisión de Alberto (S271): (a) cap 2→4 con orden de

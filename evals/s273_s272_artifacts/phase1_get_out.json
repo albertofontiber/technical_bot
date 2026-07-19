@@ -1,0 +1,196 @@
+{
+  "cat017_target": [
+    {
+      "id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+      "page_number": 5,
+      "product_model": "INSPIRE E10",
+      "manufacturer": "Notifier",
+      "language": "es",
+      "content": "# EQUIPO DEL SISTEMA\n\nLa central Notifier INSPIRE E10/E15 está diseñada para usarse con la gama Notifier by Honeywell de detectores direccionables, sirenas, módulos de control y supervisión y pulsadores direccionables.\n\nAdmite protocolos de Lazo OPAL y CLIP. Los dispositivos CLIP son compatibles con una licencia y se requiere una licencia para cada circuito de lazo CLIP .\n\nEl diseño de cada central Notifier INSPIRE E10/E15 se basa en un concepto de creación modular que ofrece al usuario soluciones de sistema completamente flexibles. Cada central consta de conjuntos de construcción independientes para simplificar el proceso de instalación. Los componentes electrónicos se incluyen en la caja de los módulos diseñada específicamente para simplificar la instalación de la central; hay varias opciones de módulos disponibles para satisfacer diferentes requisitos del mercado. Existe espacio disponible para dos baterías de plomo-ácido selladas en sus respectivas estructuras de la central.\n\nDentro de la caja hay espacio para alojar portadores de módulos y módulos adicionales para crear un sistema y futuras ampliaciones del sistema. La instalación de módulos adicionales es sencilla, siempre y cuando se sigan los procedimientos recomendados descritos en este manual.\n\nPara evitar que se ensucien accidentalmente los componentes electrónicos de la central, el fabricante recomienda que la instalación de la caja que contiene los componentes electrónicos y los módulos solo se lleve a cabo una vez que el resto de los proveedores hayan finalizado sus tareas."
+    }
+  ],
+  "hp010_target_p37": [
+    {
+      "id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+      "page_number": 37,
+      "product_model": "DXc",
+      "manufacturer": "Morley",
+      "language": "es",
+      "content": "## 5.3 Programación manual\n\n• Debe acceder al nivel de acceso 3 antes de poder realizar cualquier función de configuración. Para ello debe acceder primero al Nivel 2, tal y como se indica a continuación.\n\n### 5.3.1 Selección de la programación\n\n• En primer lugar, seleccione el menú de Nivel 2, opción '5: Menú' (consulte el manual de usuario si desea más información). En pantalla se mostrará el menú de Nivel 2. Este menú, aunque se haya accedido mediante clave de acceso o utilizando la llave opcional, presenta siempre las mismas opciones. La cabecera del menú indica entre corchetes cómo se ha accedido al menú: mediante clave de acceso (U0) o con la llave (U9). La siguiente pantalla muestra que se ha accedido con la clave de acceso.\n\n```\n[U0 Menu]              Mar 12/04/2011 18:28:08\n1:Prueba                      2:Ajust.Reloj\n3:Anular/Habilit.             4:Ver\n5:Modo Horario                6:Retardos Programa\n7:Programacion/Niv3\n```\n\n• Si introduce la clave de acceso de Nivel 3, aparece el menú de usuario, el acceso de instalador (S1):\n\n```\n[S1 Menu]              Mar 12/04/2011 18:29:01\n1:Prueba                      2:Ajust.Reloj\n3:Anular/Habilit.             4:Ver\n5:Modo Horario                6:Retardos Programa\n7:Programacion/Niv3\n```\n\n• Para seleccionar las funciones del modo de programación, pulse '7'. Si realiza esto en el Nivel 2, la pantalla le pedirá que introduzca la clave de acceso de Nivel 3:\n\n```\n[Nivel Acceso]    Mar 12/04/2011 18:45:55\nIntrod. Clave Niv.3    :\n```\n\nNota: Si la clave de acceso de Nivel 3 se utiliza para confirmar la entrada a las opciones de menú de Nivel 2, la central se encuentra entonces en el Nivel 3 por lo que no solicitará la clave de Nivel 3 al seleccionar la opción de programación.\n\n• Introduzca la clave de acceso de Nivel 3 y pulse ⊙ para confirmar. En la pantalla aparecerá un mensaje solicitando que se desbloquee la memoria.\n\n– PÁGINA 38 –\n\n```\n[Nivel Acceso]  Mar 12/04/2011 18:46:26\n            Memoria Bloqueada\n      Presione OK para desbloquear\n```\n\n• Pulse ⊙ de nuevo para desbloquear la memoria (el puente J5 sobre el conector de PC debe estar puesto). En pantalla aparecerán las opciones del menú de programación:\n\n```\n[Programar]           Mar 12/04/2011 18:46:45\n1:0p. Generales       2:Lazo\n3:Entradas Placa      4:Salidas Placa\n5:Texto Zona          6:Programas\n7:Modos Dia           8:Horarios\n9:Panel               0:Salir\n```\n\n• Pulse la tecla '0' para abandonar el menú de programación y regresar al Nivel 2. Pulse la tecla ⬛ para regresar al menú de Nivel 1.\n\n#### 5.3.2 Guía de programación recomendada paso a paso\n\n• A continuación, se indica la secuencia básica recomendada para realizar la programación manual de la central\n\n**Paso 1:** Seleccionar el idioma y el protocolo (si la opción está disponible) y demás opciones de configuración generales.\n\n**Paso 2:** Configurar los lazos y programar los parámetros para los equipos de lazo.\n\n**Paso 3:** Introducir los textos descriptivos de las zonas."
+    }
+  ],
+  "hp010_served_p48": [
+    {
+      "id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+      "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+      "page_number": 48,
+      "product_model": "DXc",
+      "manufacturer": "Morley",
+      "language": "es",
+      "content": "## 5.3.5.2 Autobúsqueda de equipos\n\n> **!** En los mercados donde el protocolo es seleccionable, tras realizar un cambio de protocolo (consulte el Manual de variaciones de la versión del país), ESPERE dos minutos antes de realizar un autobúsqueda de equipos. La central intenta rearmar los equipos del lazo y requiere tiempo para completar este proceso.\n\n• Pulse la tecla '2' en el menú de Lazos para seleccionar la función 'Autobúsqueda'.\n\n```\n[Lazo]                 Mie 13/04/2011 17:33:50\n1:Confg.Equipos        2:Autobusqueda\n\n```\n\n• Si la central dispone de más de un lazo, el usuario debe introducir el número del lazo:\n\n– PÁGINA 48 –\n\n– PÁGINA 49 –\n\n```\n[Autobusqueda]  Mie 13/04/2011 17:35:57\nSel.Num.Lazo (1-2) :1\n\nOK:Confirm  1-2:↕:Edit        ←:Cancel\n```\n\n• Introduzca el número adecuado de lazo y pulse ⊙. Deberá confirmar que desea realizar la autobúsqueda de todos los equipos del lazo.\n\n```\n[Autobusqueda]  Mie 13/04/2011 17:35:57\nLazo: 1  Autobusqueda?\n\nOK:Confirm                 ←:Cancel\n```\n\n• Pulse una vez la tecla ⊙ para el proceso de autobúsqueda. Para cancelar, pulse la tecla ⊞.\n\n```\n[Autobusqueda]           Mie 13/04/2011 17:37:11\nLazo: 1 Reconocimiento en progreso...\n█████████████████\n```\n\n• Al finalizar, se mostrará en pantalla un resumen de las diferencias encontradas y el total de equipos. En el siguiente ejemplo, se han encontrado 13 equipos, no hay ninguno nuevo, no hay ninguno eliminado y ninguno modificado. Compruebe que los números mostrados en pantalla corresponden con los equipos y tipos instalados.\n\n```\n[Lazo]                     Mie 13/04/2011 17:37:31\nLazo: 1           Total: 13\nNuevos:0          Elimin.:0  Cambiad:0\nION: 0 OPT: 1 TMP: 1 MLT: 2\nPUL: 4 MON: 0 SIR: 2 REL: 1 OTROS : 2\n↕:Selec. otro lazo para ver\n```\n\n• La mitad inferior de la pantalla muestra un resumen del número de detectores y módulos encontrados tras realizar la autobúsqueda; un subtotal de cada tipo de equipo se muestra en dos líneas: los sensores en la línea superior y los módulos en la inferior.\n\n• Los tipos principales de equipos tienen sus campos propios, el resto de equipos están incluidos en el campo 'Otros'. El tipo de equipo se muestra en el Nivel 2 'Ver Equipos'.\n\n• Si la central dispone de más de un lazo, utilice las teclas ▲ / ▼ para ver otros lazos.\n\n• Consulte la Tabla 4 si desea información sobre el significado de las abreviaturas de tipos de equipos.\n\n• Pulse la tecla ⊞ para abandonar la pantalla de los resultados y regresar al menú de 'Lazo'.\n\n– PÁGINA 50 –\n\n### 5.3.6 Entradas de placa\n\n* Las entradas locales son la llave opcional, las entradas supervisadas y las teclas de función. Es posible programar la acción de la entrada, el grupo de anulación y la zona para cada una de ellas.\n\n```\n[Entradas Panel]   13/04/11 17:38:11\n1:Llave            2:Tecla Func. 1\n3:Tecla Func. 2    4:Entrada 1\n5:Entrada 2\n```\n\n* Con la 'llave' seleccionada, pulse la tecla ◉ si requiere cambiar la acción de entrada, la zona o el grupo (acción de anulación)."
+    }
+  ],
+  "licencia_clip_sweep": [
+    {
+      "id": "76864386-9e44-4b85-b930-abfe73d27c99",
+      "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+      "page_number": 65,
+      "product_model": "INSPIRE E10/E15",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "7a09deff-43dc-407a-8e82-d861eba56c6f",
+      "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+      "page_number": 2,
+      "product_model": "INSPIRE E10/E15",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+      "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+      "page_number": 7,
+      "product_model": "INSPIRE E10/E15",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+      "page_number": 15,
+      "product_model": "INSPIRE E10/E15",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "70740be8-b865-47ad-a1f4-27f923dab946",
+      "document_id": "956ad37c-e062-4ef8-8f53-da2fd706ffc8",
+      "page_number": 67,
+      "product_model": "FLX-010",
+      "manufacturer": "Xtralis"
+    },
+    {
+      "id": "07e74144-b118-47ce-9463-cebc7daa874c",
+      "document_id": "b1778f78-ec6e-4b86-9485-d7353887df33",
+      "page_number": 23,
+      "product_model": "CLSS",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "b0273b01-279d-4151-849c-4bcf2cf5c612",
+      "document_id": "484dd402-3e32-4792-b81f-9f1419114154",
+      "page_number": 16,
+      "product_model": "INSPIRE Panel",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "a9345bf1-7393-4b21-aa30-6a4556ed0c85",
+      "document_id": "b1778f78-ec6e-4b86-9485-d7353887df33",
+      "page_number": 97,
+      "product_model": "CLSS",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "809cd704-27ba-4478-9d03-fd926cab278a",
+      "document_id": "484dd402-3e32-4792-b81f-9f1419114154",
+      "page_number": 5,
+      "product_model": "INSPIRE Panel",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "4c186fb2-aa4b-4ca0-b316-c12ebab59712",
+      "document_id": "484dd402-3e32-4792-b81f-9f1419114154",
+      "page_number": 17,
+      "product_model": "INSPIRE Panel",
+      "manufacturer": "Notifier"
+    },
+    {
+      "id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "document_id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+      "page_number": 5,
+      "product_model": "INSPIRE E10",
+      "manufacturer": "Notifier"
+    }
+  ],
+  "hyq_cat017_target": [
+    {
+      "id": "823d86ec-0205-4399-b888-62e825d7ed4e",
+      "chunk_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "question": "¿Qué dispositivos o equipos son compatibles con la central Notifier INSPIRE E10?"
+    },
+    {
+      "id": "eb6fff5a-3dda-4c1d-a380-2876881bf159",
+      "chunk_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "question": "¿Qué protocolos de lazo soporta la Notifier INSPIRE E10 y necesito alguna licencia para usarlos?"
+    },
+    {
+      "id": "278455f9-65a2-4eac-a66b-406bfc578d8b",
+      "chunk_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "question": "¿Cuántas baterías caben en la Notifier INSPIRE E10 y de qué tipo son?"
+    },
+    {
+      "id": "c5e6b4a1-91e6-4817-909f-a3a7d8b1d417",
+      "chunk_id": "5bb83899-9d94-4fdd-8d42-24a670a036c5",
+      "question": "¿Cuándo es recomendable instalar la caja con los módulos electrónicos de la INSPIRE E10, antes o después de que terminen los demás gremios?"
+    }
+  ],
+  "hyq_hp010_target_p37": [
+    {
+      "id": "5fdc3e30-f8c3-4ec1-a825-8cb24b72c7de",
+      "chunk_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "question": "¿Cómo se accede al nivel 3 de programación en la central DXc, hay que meter la clave dos veces o con meterla una vez en el nivel 2 ya te queda en nivel 3?"
+    },
+    {
+      "id": "ade72322-7f8c-4ecc-af4f-6fe928b84953",
+      "chunk_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "question": "¿Qué diferencia hay en el menú de la DXc entre entrar con clave y entrar con llave, cambian las opciones disponibles?"
+    },
+    {
+      "id": "69c02c4b-ede8-4cdb-b1df-a4f3c72acf7e",
+      "chunk_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "question": "¿Cómo se entra al menú de programación de la DXc, qué opción hay que seleccionar y desde qué nivel?"
+    }
+  ],
+  "hyq_hp010_served_p48": [
+    {
+      "id": "7d6e8455-1086-488a-8846-9fef689cb0e2",
+      "chunk_id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+      "question": "¿Cómo se hace una autobúsqueda de equipos en la DXc y qué me muestra la pantalla al terminar?"
+    },
+    {
+      "id": "9c699eb6-2555-4fad-86d7-67208c845ed2",
+      "chunk_id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+      "question": "¿Cuánto tiempo tengo que esperar antes de lanzar la autobúsqueda en la DXc si acabo de cambiar el protocolo del lazo?"
+    },
+    {
+      "id": "96fb747e-3575-49bd-ba35-e54a8c087eab",
+      "chunk_id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+      "question": "¿Cómo sé si la autobúsqueda de la DXc ha encontrado detectores o módulos nuevos, eliminados o cambiados respecto a lo que había configurado?"
+    }
+  ],
+  "enun_cat017_target": [],
+  "enun_hp010_target_p37": [
+    {
+      "id": "5d1d662c-0c52-5cad-83a7-2c98e0a9b4a3",
+      "parent_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "content": "El menú principal del DXc presenta la opción 1:0p. Generales para acceder a la configuración general del sistema."
+    },
+    {
+      "id": "715ed152-ebb3-59fb-94fb-3d9b7e2e0bcc",
+      "parent_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "content": "El menú principal del DXc presenta la opción 2:Lazo para acceder a la configuración del lazo de detección."
+    },
+    {
+      "id": "ba4c45a1-eeaf-5181-8b68-ba1d2c538aa4",
+      "parent_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "content": "El DXc requiere presionar OK para desbloquear la Memoria Bloqueada en el Nivel Acceso."
+    },
+    {
+      "id": "bfc4d68a-fe25-5132-bc6f-8937a28d033d",
+      "parent_id": "155a90fe-8c3f-484e-a617-7637fe29b547",
+      "content": "El menú principal del DXc presenta la opción 3:Entradas Placa para acceder a la configuración de las entradas de la placa base."
+    }
+  ],
+  "enun_hp010_served_p48": [],
+  "count_chunks_v2_hyq": "0-0/70134",
+  "count_chunks_v2_enunciados": "0-0/22842"
+}

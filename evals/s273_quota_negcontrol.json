@@ -1,0 +1,265 @@
+{
+ "stamp": {
+  "git_sha": "a5e099d3a806e6d0959cb1caa5629eabbe6cb720",
+  "git_dirty_src": "",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on",
+   "ENUNCIADOS_QUOTA_FUSION": "off"
+  },
+  "quota": 6,
+  "min_sim": 0.4,
+  "top_k": 50,
+  "mode": "negcontrol"
+ },
+ "rows": [
+  {
+   "qid": "hp001",
+   "null_high": 23,
+   "treat_high": 24,
+   "excess": true
+  },
+  {
+   "qid": "hp002",
+   "null_high": 7,
+   "treat_high": 3,
+   "excess": false
+  },
+  {
+   "qid": "hp003",
+   "null_high": 4,
+   "treat_high": 3,
+   "excess": false
+  },
+  {
+   "qid": "hp004",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "hp005",
+   "null_high": 1,
+   "treat_high": 19,
+   "excess": true
+  },
+  {
+   "qid": "hp006",
+   "null_high": 17,
+   "treat_high": 15,
+   "excess": false
+  },
+  {
+   "qid": "hp007",
+   "null_high": 6,
+   "treat_high": 3,
+   "excess": false
+  },
+  {
+   "qid": "hp008",
+   "null_high": 7,
+   "treat_high": 7,
+   "excess": false
+  },
+  {
+   "qid": "hp009",
+   "null_high": 6,
+   "treat_high": 7,
+   "excess": true
+  },
+  {
+   "qid": "hp010",
+   "null_high": 21,
+   "treat_high": 13,
+   "excess": false
+  },
+  {
+   "qid": "hp011",
+   "null_high": 3,
+   "treat_high": 3,
+   "excess": false
+  },
+  {
+   "qid": "hp012",
+   "null_high": 5,
+   "treat_high": 5,
+   "excess": false
+  },
+  {
+   "qid": "hp013",
+   "null_high": 6,
+   "treat_high": 6,
+   "excess": false
+  },
+  {
+   "qid": "hp014",
+   "null_high": 17,
+   "treat_high": 17,
+   "excess": false
+  },
+  {
+   "qid": "hp015",
+   "null_high": 5,
+   "treat_high": 5,
+   "excess": false
+  },
+  {
+   "qid": "hp017",
+   "null_high": 16,
+   "treat_high": 2,
+   "excess": false
+  },
+  {
+   "qid": "hp018",
+   "null_high": 15,
+   "treat_high": 15,
+   "excess": false
+  },
+  {
+   "qid": "hp019",
+   "null_high": 1,
+   "treat_high": 1,
+   "excess": false
+  },
+  {
+   "qid": "hp020",
+   "null_high": 15,
+   "treat_high": 15,
+   "excess": false
+  },
+  {
+   "qid": "cat001",
+   "null_high": 15,
+   "treat_high": 12,
+   "excess": false
+  },
+  {
+   "qid": "cat005",
+   "null_high": 9,
+   "treat_high": 11,
+   "excess": true
+  },
+  {
+   "qid": "cat007",
+   "null_high": 9,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat008",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat009",
+   "null_high": 5,
+   "treat_high": 5,
+   "excess": false
+  },
+  {
+   "qid": "cat010",
+   "null_high": 1,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat011",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat012",
+   "null_high": 12,
+   "treat_high": 9,
+   "excess": false
+  },
+  {
+   "qid": "cat013",
+   "null_high": 7,
+   "treat_high": 7,
+   "excess": false
+  },
+  {
+   "qid": "cat014",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat015",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat016",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  },
+  {
+   "qid": "cat017",
+   "null_high": 18,
+   "treat_high": 13,
+   "excess": false
+  },
+  {
+   "qid": "cat018",
+   "null_high": 7,
+   "treat_high": 2,
+   "excess": false
+  },
+  {
+   "qid": "cat019",
+   "null_high": 11,
+   "treat_high": 11,
+   "excess": false
+  },
+  {
+   "qid": "cat020",
+   "null_high": 9,
+   "treat_high": 7,
+   "excess": false
+  },
+  {
+   "qid": "cat021",
+   "null_high": 14,
+   "treat_high": 13,
+   "excess": false
+  },
+  {
+   "qid": "cat022",
+   "null_high": 5,
+   "treat_high": 4,
+   "excess": false
+  },
+  {
+   "qid": "cat023",
+   "null_high": 12,
+   "treat_high": 8,
+   "excess": false
+  },
+  {
+   "qid": "cat024",
+   "null_high": 0,
+   "treat_high": 0,
+   "excess": false
+  }
+ ],
+ "excess_golds": 4,
+ "threshold": 7,
+ "verdict": "PASS"
+}

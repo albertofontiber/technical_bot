@@ -1,0 +1,61 @@
+schema: s273_f3_closeout_v1
+prereg: evals/s273_quota_prereg_v2.yaml
+executed_by: alberto
+date: "2026-07-19"
+instrument: scripts/s273_quota_gates.py
+artifacts:
+  - evals/s273_quota_probe_off.json     # K=3, flag off
+  - evals/s273_quota_probe_on.json      # K=3, flag on (call-time flip)
+  - evals/s273_f3_inherited_gates.json  # compare
+  - evals/s273_quota_negcontrol.json    # OFF_a/OFF_b/ON
+
+# ---------------------------------------------------------------------------
+# VEREDICTO: STOP TAL CUAL PRE-REGISTRADO. El gate no se re-litiga.
+# ---------------------------------------------------------------------------
+verdict: STOP_AS_PREREGISTERED
+gates:
+  anclas_pareadas:
+    gained: ["hp015#0:convencional", "hp018#2:diodo", "hp018#3:Sirenas A,B,C,D"]
+    lost: ["hp017#1:instruccion de entrada"]
+    stop_anchor_hits: []                # ninguna de la union dura s104+s105
+    threshold: "lost == 0"
+    pass: false                         # 1 lost -> dispara (aunque neto +3/-1)
+  containment_v22:
+    n_missing: 14
+    threshold: "<= 0"
+    pass: false
+    watch_hit: {cat021: 3, hp005: 2, hp006: 2}
+  negcontrol:
+    excess_high: 4
+    threshold: "<= 7"
+    pass: true
+  diana:
+    hp010_155a90fe_in_pool: "3/3 (K-mayoria)"
+
+consequences_applied:
+  rollback: "VACUO — F2 jamas corrio; DB intacta en T1 (21.995); nada que revertir"
+  lever_status: "NO-GO-as-preregistered bajo prereg v2; el flag ENUNCIADOS_QUOTA_FUSION queda default-off (byte-inerte) y NO se shippea"
+  no_relitigation: "el STOP se acata tal cual; toda re-medicion va por prereg NUEVO (v3), no por re-lectura de este gate"
+
+# ---------------------------------------------------------------------------
+# HALLAZGO DE INSTRUMENTO (declarado, cuantificado y REPRODUCIDO en esta sesion
+# desde los probes committeados — no cambia el veredicto de arriba):
+# la referencia de containment v2.2 (served_ids congelados en s102) NO describe el
+# pipeline actual (post v3.1/DEC-101, ancho DEC-092b, activation-fixes s271): el
+# brazo OFF DE HOY ya falla MAS que el ON contra ella.
+# ---------------------------------------------------------------------------
+instrument_finding:
+  paired_analysis_reproduced: true      # recomputado desde los probes (K-mayoria 2/3), $0
+  off_today_vs_v22_missing: 16          # {hp001:4, hp002:1, hp006:3, hp011:1, hp015:1, cat020:3, cat021:3}
+  on_vs_v22_missing: 14                 # {hp001:3, hp002:1, hp005:2, hp006:2, hp011:1, cat020:2, cat021:3}
+  delta_attributable_to_quota:
+    new_missing_under_on: 6             # hp005 x2 (3c93aac0, aee3add6) · hp006 x1 (1c7e97f9) · hp011 x1 (c8924d59) · cat020 x2 (1a021bd5, 9051e732)
+    recovered_under_on: 8               # cat020 x3 · hp001 x1 · hp006 x2 · hp011 x1 · hp015 x1
+  watch_golds_touched: [hp005, hp006, cat020]     # + hp017 por la ancla perdida
+  reading: >-
+    El gate de containment midio contra una foto congelada de s102 que el pipeline actual
+    (flag OFF) ya no reproduce (16 missing sin tocar nada). El delta pareado real de la
+    cuota es -6/+8 en pool-membership — no adjudicable a nivel HECHO con este instrumento
+    (puede ser dano real o re-barajado benigno clase DEC-092b). La correccion es de
+    MEDICION, no de mecanismo -> prereg v3 (evals/s273_quota_prereg_v3.yaml), sin tocar
+    flag/codigo, con arbitro a nivel RESPUESTA y una UNICA re-medicion (anti-gate-shopping).

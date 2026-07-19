@@ -85,15 +85,35 @@ EXPECTED_PROTECTED = frozenset(
     {"obl_05482a6b3f0e", "obl_0db2b9f2842a", "obl_5784f16b1a11"}
 )
 
-# ── check de disclosure (obl_872c; prereg §disclosure_respec, pre-declarado) ──
+# ── check de disclosure (obl_872c) — spec OPCIÓN 1 «evidencia servida» ──
+# DEC-125 fila 8 + DEC-128 (decisión de Alberto, S271). Acredita si la respuesta (o su
+# apéndice must-preserve) contiene:
+#   (a) el conteo DECLARADO del manual («seis»/6, co-localizado con el sustantivo
+#       tipos-de-retardo);
+#   (b) las etiquetas enumeradas VISIBLES en la evidencia servida — presencia
+#       sustancial: TODAS las etiquetas no-basura de al menos UNO de los dos lados
+#       servidos (la tira OCR de F1 o las cabeceras de la tabla de F2; se excluye la
+#       basura OCR «TECLU»/«tardoRet.Tipo»/«Estándar 0»);
+#   (c) un marcador EXPLÍCITO de discrepancia («también indica» / «no coincide» /
+#       «difiere» / «discrepan» ...).
+# SIN exigir el literal «siete»: el 7 solo es conocible al píxel — exigirlo sería pedir
+# una invención al bot (alternativa 2 DESCARTADA en DEC-128; la curación de esa tabla
+# queda como lever de ingesta futuro).
 _DELAY_NOUN_RX = re.compile(r"tipos?\s+de\s+retardo|delay\s+types?")
 _SIX_RX = re.compile(r"\b(?:seis|six|6)\b")
-_SEVEN_RX = re.compile(r"\b(?:siete|seven|7)\b")
 _DISCLOSURE_FORMULA_RX = re.compile(
     r"la prosa dice|la tabla (?:recoge|enumera|lista|indica)|discrepan\w*|"
-    r"inconsistencia|inconsistente|no coincide"
+    r"inconsistencia|inconsistente|no coincide|difier\w*"
 )
 _DISCLOSURE_WINDOW = 600
+# Etiquetas no-basura por lado servido (freeze s113, hp017 F1/F2 — doc
+# 997-671-005-3_Configuration_ES p44):
+_DELAY_LABELS_F1_STRIP = ("Estándar", "Fijo", "Est.Ext.", "No Silenc.", "No Sil.Ext")
+_DELAY_LABELS_F2_TABLE = (
+    "Fijo", "Estándar", "No Silenc", "Est. Ext.", "RetExtStd", "No Sil. Ext",
+    "SinRetExt",
+)
+_ALNUM_FOLD_RX = re.compile(r"[^a-z0-9]+")
 
 
 def export_generation_env() -> None:
@@ -261,19 +281,36 @@ def _value_near_noun(folded: str, value_rx: re.Pattern) -> bool:
     return False
 
 
+def _alnum_fold(text: str) -> str:
+    return _ALNUM_FOLD_RX.sub("", _fold(text or ""))
+
+
+def _labels_substantially_present(answer: str) -> bool:
+    """(b) de la spec opción-1: TODAS las etiquetas no-basura de al menos UN lado
+    servido presentes en la respuesta (match alnum-foldeado, tolerante a puntuación:
+    ``Est.Ext.`` ≈ ``Est. Ext.``)."""
+    haystack = _alnum_fold(answer)
+    for labels in (_DELAY_LABELS_F1_STRIP, _DELAY_LABELS_F2_TABLE):
+        if all(_alnum_fold(label) in haystack for label in labels):
+            return True
+    return False
+
+
 def disclosure_covered(answer: str) -> bool:
-    """Spec DEC-125 fila 8 (prereg §disclosure_respec): AMBOS valores del conflicto
-    seis/7 co-localizados con el sustantivo de tipos-de-retardo + fórmula de disclosure."""
+    """Spec OPCIÓN 1 «evidencia servida» (DEC-125 fila 8; DEC-128 S271, adjudicación
+    de Alberto): conteo declarado (seis/6 junto al sustantivo) + etiquetas enumeradas
+    de la evidencia servida (presencia sustancial, ver _labels_substantially_present)
+    + marcador explícito de discrepancia. NO se exige el literal «siete» (solo
+    conocible al píxel — sería invención)."""
     from src.rag.must_preserve import _disclosure_present
 
     folded = _fold(answer or "")
-    both_values = _value_near_noun(folded, _SIX_RX) and _value_near_noun(
-        folded, _SEVEN_RX
-    )
+    declared = _value_near_noun(folded, _SIX_RX)
+    labels = _labels_substantially_present(answer)
     formula = _disclosure_present(folded) or bool(
         _DISCLOSURE_FORMULA_RX.search(folded)
     )
-    return both_values and formula
+    return declared and labels and formula
 
 
 def merged_carrier_covered(answer: str, item: dict[str, Any]) -> bool:

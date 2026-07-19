@@ -34,9 +34,52 @@ v2 (DEC-126; fixes GENÉRICOS derivados del funnel del probe-1, no de los golds)
     OCR) + tie de conteo por SECCIÓN (forward-reference bajo un heading);
   - F-BUNDLE acepta líneas de definición con separador guion (``**Campo** - descripción``);
   - ``apply_must_preserve_contract(..., detect_fn=...)`` inyecta el detector (brazo híbrido).
+
+v4 (s271; GUARDS DE ACTIVACIÓN — los 3 bloqueadores de DEC-127b observados en la Etapa 3
+viva, mecánicos y genéricos, SIN tocar el contrato de binding):
+  1. dedup del render (hp001): dos átomos con span_text idéntico tras fold — o solapado
+     ≥90% con el MISMO contenido numérico — anexan UNA sola vez.
+  2. guard de contenido informativo (cat007): un span (o cualquier lado de un disclosure)
+     cuyo contenido foldeado sin puntuación/pipes/whitespace quede vacío, o que sea una
+     tabla de etiquetas-SIN-valores (celdas en blanco), NO se anexa; si era el
+     lado-enumeración de un disclosure, el disclosure entero no dispara (mejor silencio
+     que basura). Una tira de etiquetas CON texto (label_run OCR) SÍ es informativa.
+  3. tie ESTRICTO del F-COUNT a distancia (hp001): la enumeración de un tie de sección o
+     cross-fragmento no puede ser un crumb de navegación/menú (línea única con ``|`` y
+     ≤4 tokens por celda sin valores numéricos) y debe compartir dominio con el conteo
+     (sustantivo contado en la enumeración, o heading de la sección compartiendo ≥1 token
+     con la oración del conteo; en cross: sustantivo o continuación de la MISMA sección a
+     través del corte). El tie adyacente aplica también los guards de crumb/informativo.
+
+v5 (s271 iteración FINAL del Bloque A; Etapa 3 v2 sacó 2 clases nuevas en cola larga —
+cabecera-sola «### <ins>ADVERTENCIA</ins>» anexada como MANDATORY y conteo emparejado con
+un volcado de descripción de UI multi-línea): INVERSIÓN DE CONTRATO en el render — de
+blacklist a WHITELIST fail-closed de forma-buena por span (``atom_good_form``):
+  (1) cláusula textual completa — ≥1 oración con verbo CONJUGADO (léxico cerrado ES/EN;
+      los infinitivos/gerundios de los volcados de UI NO cuentan) y ≥40 chars de contenido
+      tras quitar markup/headers; O
+  (2) fila(s) etiqueta+valor — ≥1 token numérico CON UNIDAD y su etiqueta textual en la
+      misma línea (un número pelado sin unidad NO es valor: «Lazos | 2» y los timestamps
+      de headers de UI quedan fuera — calibrado con los casos observados).
+  Los headers/markers (``###``, ``<ins>``, énfasis) JAMÁS cuentan como contenido. Por
+  familia: MANDATORY exige el trigger léxico + SU oración con verbo (jamás solo el
+  título); BUNDLE exige ≥2 miembros CON descripción (no solo nombres); en un disclosure
+  AMBOS lados deben pasar individualmente o el disclosure entero no dispara. Lo que no
+  pasa NO se anexa: silencio > ruido (uncertain jamás se sirve). Los spans anexados
+  siguen siendo VERBATIM — la whitelist decide inclusión, nunca reescribe.
+
+v6 (s272; PRESENTACIÓN del anexo — feedback directo de Alberto sobre la respuesta viva
+ASD535, query_logs 2026-07-19T16:26Z): separador ``---`` + cabecera en negrita con UN
+emoji estructural por bloque (⚠️ si contiene un átomo MANDATORY / 📋 disclosures o
+tablas / 📖 genérico) y el marcador markdown de blockquote (``> `` inicial de línea) se
+retira de los spans en el render — es markup de la fuente, no contenido técnico. Guard
+conservador: si tras el marcador viene un dígito (``> 100 mA`` puede ser un operador de
+comparación) NO se toca. La vara sigue: 0 tokens numéricos/modelo perdidos; la selección
+y el binding NO cambian.
 """
 from __future__ import annotations
 
+import difflib
 import logging
 import re
 from typing import Any
@@ -54,6 +97,12 @@ FAMILY_COUNT = "F-COUNT"
 FAMILIES = (FAMILY_RANGE, FAMILY_BUNDLE, FAMILY_MANDATORY, FAMILY_COUNT)
 
 APPENDIX_HEADER = "Información adicional del manual:"
+# v6 (s272): presentación del anexo — separador de sección + emoji estructural único
+# por bloque en la cabecera (sobrio: jamás por-entrada, jamás decorativo).
+APPENDIX_SEPARATOR = "---"
+APPENDIX_EMOJI_MANDATORY = "⚠️"
+APPENDIX_EMOJI_DISCLOSURE = "📋"
+APPENDIX_EMOJI_GENERIC = "📖"
 APPENDIX_CAP = 4
 # v2 (funnel probe-1 hp002: 13-14 átomos bound para 4 slots, RANGE monopolizaba y el
 # callout MANDATORY core entraba 1/3): cap POR FAMILIA dentro del cap global.
@@ -725,6 +774,146 @@ def _heading_positions(text: str) -> list[int]:
     ]
 
 
+# ─────────── guards de activación v4 (s271; bloqueadores 2 y 3 de DEC-127b) ───────────
+
+_ALNUM_RX = re.compile(r"[a-z0-9]")
+
+
+def _blank_celled_row(line: str) -> bool:
+    """Fila de tabla con celdas EN BLANCO: ≥2 celdas y ≤1 no vacía (``| T1 |   |``)."""
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    return len(cells) >= 2 and sum(1 for c in cells if c) <= 1
+
+
+def informative_span(text: str) -> bool:
+    """Guard de contenido informativo (bloqueador 2, cat007): False si el contenido
+    foldeado sin puntuación/pipes/whitespace queda vacío, o si el span es una tabla de
+    etiquetas-SIN-valores (todas las filas de datos con celdas en blanco). Una tira de
+    etiquetas CON texto (label_run OCR, p.ej. tipos de retardo) SÍ es informativa — el
+    guard distingue etiquetas-con-texto de celdas-en-blanco."""
+    if not _ALNUM_RX.search(_fold(text or "")):
+        return False
+    lines = [line for line in (text or "").splitlines() if line.strip()]
+    data_rows = [
+        line for line in lines if _is_pipe_row(line) and not _PIPE_SEP.match(line)
+    ]
+    if (
+        data_rows
+        and all(_is_pipe_row(line) or _PIPE_SEP.match(line) for line in lines)
+        and all(_blank_celled_row(line) for line in data_rows)
+    ):
+        return False
+    return True
+
+
+def _nav_crumb_line(line: str) -> bool:
+    """Heurística GENÉRICA de crumb de navegación/menú (bloqueador 3, hp001
+    ``Sistema | Otros | Reiniciar``): línea única con separadores ``|`` y ≤4 tokens
+    por celda, sin valores numéricos en ninguna celda."""
+    if not _is_pipe_row(line) or _PIPE_SEP.match(line):
+        return False
+    cells = [c.strip() for c in line.strip().strip("|").split("|") if c.strip()]
+    if len(cells) < 2:
+        return False
+    for cell in cells:
+        tokens = cell.split()
+        if len(tokens) > 4 or any(ch.isdigit() for ch in cell):
+            return False
+    return True
+
+
+def _block_is_nav_crumb(text: str, block: tuple[int, int, int, str]) -> bool:
+    start, end, _n, kind = block
+    if kind != "pipe_columns":
+        return False  # crumb = UNA línea de columnas; tablas/listas/label_run no
+    data = [
+        line for _s, _e, line in _line_spans(text[start:end])
+        if line.strip() and _is_pipe_row(line) and not _PIPE_SEP.match(line)
+    ]
+    return len(data) == 1 and _nav_crumb_line(data[0])
+
+
+def _pipe_data_rows(text: str, block: tuple[int, int, int, str]) -> list[str]:
+    return [
+        line for _s, _e, line in _line_spans(text[block[0]:block[1]])
+        if line.strip() and _is_pipe_row(line) and not _PIPE_SEP.match(line)
+    ]
+
+
+def _block_is_value_row(text: str, block: tuple[int, int, int, str]) -> bool:
+    """Fila CLAVE-VALOR de screenshot/tabla (residual del review adversarial s271:
+    ``Lazos | 2 | 4`` escapaba al crumb por el dígito y el sustantivo la endosaba):
+    línea única de columnas con ≥1 celda PURAMENTE numérica — son valores de un
+    campo, no una enumeración de MIEMBROS."""
+    if block[3] != "pipe_columns":
+        return False
+    data = _pipe_data_rows(text, block)
+    if len(data) != 1:
+        return False
+    cells = [c.strip() for c in data[0].strip().strip("|").split("|") if c.strip()]
+    return any(re.fullmatch(r"[\d.,\s]+", c) for c in cells)
+
+
+def _count_block_disqualified(text: str, block: tuple[int, int, int, str]) -> bool:
+    """Screen común de la enumeración candidata de un tie F-COUNT (cualquier tie):
+    crumb de navegación/menú, contenido no informativo (celdas en blanco), o fila
+    clave-valor — ninguna es una enumeración de miembros."""
+    return (
+        _block_is_nav_crumb(text, block)
+        or not informative_span(text[block[0]:block[1]])
+        or _block_is_value_row(text, block)
+    )
+
+
+def _noun_stem(noun: str) -> str:
+    folded = _fold(noun or "").strip()
+    if folded.endswith("es") and len(folded) > 4:
+        return folded[:-2]
+    if folded.endswith("s") and len(folded) > 3:
+        return folded[:-1]
+    return folded
+
+
+def _noun_tie(noun: str, block_text: str) -> bool:
+    """El sustantivo del conteo (plural-tolerante: ``lazos``≈``lazo``) aparece en la
+    enumeración — dominio compartido conteo↔enumeración."""
+    stem = _noun_stem(noun)
+    if len(stem) < 3:
+        return False
+    return any(
+        tok == stem or (tok.startswith(stem) and len(tok) <= len(stem) + 2)
+        for tok in _content_tokens(block_text, min_len=2)
+    )
+
+
+def _heading_text_above(text: str, pos: int) -> str | None:
+    best: str | None = None
+    for start, _end, line in _line_spans(text):
+        if start > pos:
+            break
+        if line.lstrip().startswith("#"):
+            best = line.lstrip().lstrip("#").strip()
+    return best
+
+
+def _distant_tie_ok(text: str, m: re.Match, sentence: str,
+                    block: tuple[int, int, int, str]) -> bool:
+    """Tie ESTRICTO de un par conteo↔enumeración NO adyacente (bloqueador 3): la
+    enumeración (a) no es un crumb de navegación/menú, (b) es informativa, y (c)
+    comparte dominio con el conteo — sustantivo contado presente en la enumeración, o
+    heading gobernante de la sección compartiendo ≥1 token de contenido con la oración
+    del conteo. Si el candidato falla, NO se escanea más lejos (conservador)."""
+    block_text = text[block[0]:block[1]]
+    if _count_block_disqualified(text, block):
+        return False
+    if _noun_tie(m.group(2), block_text):
+        return True
+    heading = _heading_text_above(text, m.start())
+    if not heading:
+        return False
+    return bool(set(_content_tokens(heading)) & set(_content_tokens(sentence)))
+
+
 def _detect_count(text: str) -> list[Atom]:
     atoms: list[Atom] = []
     blocks = _enumeration_blocks(text)
@@ -737,6 +926,13 @@ def _detect_count(text: str) -> list[Atom]:
             continue
         if _count_match_excluded(text, m):
             continue
+        s_start = next(
+            (s for s, e in sentences if s <= m.start() < e), m.start()
+        )
+        s_end_sentence = next(
+            (e for s, e in sentences if s <= m.start() < e), m.end()
+        )
+        sentence_text = text[s_start:s_end_sentence]
         tie = "adjacent"
         block = next(
             (b for b in blocks if m.end() <= b[0] <= m.end() + _COUNT_WINDOW), None
@@ -748,17 +944,27 @@ def _detect_count(text: str) -> list[Atom]:
             gap_lines = text[m.end():block[0]].split("\n")[1:]
             if any(len(_ALPHA_RX.findall(g)) >= 3 for g in gap_lines):
                 block = None
-        if block is None:
+        if block is not None and _count_block_disqualified(text, block):
+            # v4 (bloqueadores 2/3 + residual del review): un crumb de navegación,
+            # una tabla de celdas en blanco o una fila clave-valor no es una
+            # enumeración de miembros — tampoco adyacente.
+            block = None
+            candidate_rejected = True
+        else:
+            candidate_rejected = False
+        if block is None and not candidate_rejected:
             # Tie por SECCIÓN (v2, funnel probe-1: "seis tipos ... como se explica a
             # continuación" + enumeración tras párrafos explicativos): el conteo vive
             # bajo un heading y la PRIMERA enumeración posterior de la misma sección
-            # (sin heading intermedio) es la suya, a cualquier distancia.
+            # (sin heading intermedio) es la suya, a cualquier distancia. v4: el
+            # candidato debe pasar el tie ESTRICTO (_distant_tie_ok); si falla NO se
+            # escanea más lejos (conservador — mejor silencio que un par incoherente).
             has_heading_above = any(h <= m.start() for h in headings)
             if has_heading_above:
                 candidate = next((b for b in blocks if b[0] > m.end()), None)
                 if candidate is not None and not any(
                     m.end() < h < candidate[0] for h in headings
-                ):
+                ) and _distant_tie_ok(text, m, sentence_text, candidate):
                     block = candidate
                     tie = "section"
         if block is None:
@@ -766,12 +972,6 @@ def _detect_count(text: str) -> list[Atom]:
         b_start, b_end, enumerated, kind = block
         if enumerated == declared:
             continue  # conteo consistente: no hay átomo (conducta DISCLOSE solo ante conflicto)
-        s_start = next(
-            (s for s, e in sentences if s <= m.start() < e), m.start()
-        )
-        s_end_sentence = next(
-            (e for s, e in sentences if s <= m.start() < e), m.end()
-        )
         # v3 (funnel probe-2): span = ORACIÓN del conteo; la enumeración viaja
         # explícita en meta.enum_span_text para el disclosure de DOS LADOS (el span
         # conteo→bloque cortaba el run cuando el bloque se partía).
@@ -867,6 +1067,20 @@ def detect_cross_fragment_count_atoms(fragments: list[dict]) -> list[Atom]:
                 )
                 if block is None:
                     continue
+                # v4 (bloqueador 3, tie estricto cross): la enumeración par no puede
+                # ser crumb de navegación, celdas-en-blanco ni fila clave-valor, y
+                # debe compartir dominio con el conteo — sustantivo contado en la
+                # enumeración, o continuación de la MISMA sección a través del corte
+                # de chunking (sin heading tras el conteo en el fragmento i NI antes
+                # de la enumeración en el fragmento j).
+                block_text = text_j[block[0]:block[1]]
+                if _count_block_disqualified(text_j, block):
+                    continue
+                if not _noun_tie(m.group(2), block_text):
+                    if any(h > m.end() for h in _heading_positions(text)) or any(
+                        h < block[0] for h in _heading_positions(text_j)
+                    ):
+                        continue
                 partner = (j, text_j, block)
                 break
             if partner is None:
@@ -1458,6 +1672,171 @@ def attest_identity(fragment_doc_id, resolved_models, catalog=None) -> bool:
         return False
 
 
+# ────────────── whitelist de forma-buena (v5, s271 iteración final) ──────────────
+# INVERSIÓN DE CONTRATO (coordinador, Etapa 3 v2): el render deja de descartar formas
+# malas conocidas (blacklist) y pasa a admitir SOLO formas buenas (fail-closed).
+
+_HTML_TAG_RX = re.compile(r"</?[A-Za-z][^>\n]*>")
+_EMPHASIS_RX = re.compile(r"(\*\*|__|~~|`+)")
+_BULLET_MARK_RX = re.compile(r"^\s*(?:[-•*·◦]|\d{1,2}[.)])\s+")
+_MIN_CLAUSE_CONTENT = 40
+
+# Verbos CONJUGADOS de alta frecuencia en manuales (léxico cerrado ES/EN, foldeado).
+# Los infinitivos ("guardar", "reiniciar") y gerundios ("showing") NO cuentan — son
+# la superficie típica de los volcados de UI/botones que motivaron la whitelist.
+_FINITE_VERB_FORMS = {
+    # es — copulativos/auxiliares/modales
+    "es", "son", "esta", "estan", "era", "eran", "sera", "seran", "hay", "habra",
+    "ha", "han", "va", "van", "debe", "deben", "debera", "deberan", "puede",
+    "pueden", "podra", "podran", "tiene", "tienen", "tendra", "tendran",
+    # es — verbos de manual (presente/futuro 3ª)
+    "permite", "permiten", "dispone", "disponen", "incluye", "incluyen",
+    "requiere", "requieren", "necesita", "necesitan", "admite", "admiten",
+    "soporta", "soportan", "ofrece", "ofrecen", "proporciona", "proporcionan",
+    "contiene", "contienen", "define", "definen", "indica", "indican", "muestra",
+    "muestran", "mostrara", "aparece", "aparecen", "activa", "activan",
+    "activara", "desactiva", "desactivan", "funciona", "funcionan",
+    "corresponde", "corresponden", "utiliza", "utilizan", "realiza", "realizan",
+    "provoca", "provocan", "provocara", "evita", "evitan", "supera", "superan",
+    "garantiza", "garantizan", "configura", "configuran", "detiene", "detienen",
+    "enciende", "encienden", "apaga", "apagan", "parpadea", "parpadean", "emite",
+    "emiten", "recibe", "reciben", "conecta", "conectan", "aplica", "aplican",
+    "cumple", "cumplen", "excede", "exceden", "alcanza", "alcanzan", "queda",
+    "quedan", "lleva", "llevan", "forma", "forman", "usa", "usan", "vuelve",
+    "vuelven", "regresa", "regresan", "sirve", "sirven", "consta", "constan",
+    # en
+    "is", "are", "was", "were", "has", "have", "had", "must", "can", "may",
+    "shall", "will", "should", "would", "does", "do", "provides", "includes",
+    "requires", "needs", "shows", "indicates", "displays", "contains",
+    "supports", "allows", "enables", "activates", "deactivates", "appears",
+    "ensures", "exceeds", "corresponds", "applies", "uses", "operates",
+    "connects", "remains", "becomes", "means", "defines", "describes",
+    "specifies", "starts", "stops", "returns",
+}
+# imperativos del léxico procedimental (formas CONJUGADAS: "pulse", "conecte",
+# "press"...); se excluyen los infinitivos del propio léxico ("pulsar", "conectar")
+_FINITE_VERB_SET = _FINITE_VERB_FORMS | {
+    v for v in _PROCEDURAL_VERBS if not v.endswith(("ar", "er", "ir"))
+}
+# pasiva/impersonal refleja: "se activa", "se muestran", "se detiene"
+_SE_VERB_RX = re.compile(r"\bse\s+[a-z]{3,}(?:a|e|an|en)\b")
+
+
+def _strip_markup(text: str) -> str:
+    """Contenido sin markup: fuera líneas de heading (``#``...) y separadores de
+    tabla; fuera tags HTML, énfasis y marcadores de viñeta. Los headers/markers
+    JAMÁS cuentan como contenido (bloqueador cabecera-sola de la Etapa 3 v2)."""
+    kept: list[str] = []
+    for _start, _end, line in _line_spans(text or ""):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            continue  # heading: nunca es contenido
+        if _PIPE_SEP.match(line):
+            continue  # separador de tabla markdown
+        line = _HTML_TAG_RX.sub(" ", line)
+        line = _EMPHASIS_RX.sub("", line)
+        line = _BULLET_MARK_RX.sub("", line)
+        if line.strip():
+            kept.append(line)
+    return "\n".join(kept)
+
+
+def _sentence_has_finite_verb(sentence: str) -> bool:
+    folded = _fold(sentence)
+    tokens = set(_WORD_RX.findall(folded))
+    if tokens & _FINITE_VERB_SET:
+        return True
+    return bool(_SE_VERB_RX.search(folded))
+
+
+def _clause_form(content: str) -> bool:
+    """Arm 1 de la whitelist: cláusula textual completa — ≥40 chars de contenido y
+    ≥1 oración con verbo conjugado (heurística cerrada ES/EN)."""
+    if len(" ".join(content.split())) < _MIN_CLAUSE_CONTENT:
+        return False
+    return any(
+        _sentence_has_finite_verb(content[s:e]) for s, e in _sentence_spans(content)
+    )
+
+
+# valor = número CON UNIDAD y frontera izquierda (el "1" de "T1" o un timestamp
+# "20:17" no son valores; "Lazos | 2" tampoco — número pelado sin unidad)
+_RX_NUM_UNIT_BOUND = re.compile(
+    rf"(?<![A-Za-z0-9.,:]){_NUM}\s*(?:{_UNIT_ALT})(?![a-z0-9])", re.IGNORECASE
+)
+_LABEL_TOKEN_RX = re.compile(r"[A-Za-zÁÉÍÓÚÑÜáéíóúñü]{3,}")
+
+
+def _label_value_form(content: str) -> bool:
+    """Arm 2 de la whitelist: fila(s) etiqueta+valor — ≥1 línea con un token
+    numérico CON unidad y una etiqueta textual (≥3 letras) en la misma línea."""
+    for _start, _end, line in _line_spans(content):
+        flat = line.replace("|", " ")
+        if _RX_NUM_UNIT_BOUND.search(flat) and _LABEL_TOKEN_RX.search(flat):
+            return True
+    return False
+
+
+def span_good_form(text: str) -> bool:
+    """Whitelist genérica de un span/lado: cláusula completa O fila etiqueta+valor,
+    siempre sobre el contenido SIN markup/headers. Fail-closed: vacío → False."""
+    content = _strip_markup(text or "")
+    if not content.strip():
+        return False
+    return _clause_form(content) or _label_value_form(content)
+
+
+def _mandatory_clause_form(span: str) -> bool:
+    """MANDATORY: el span debe incluir la CLÁUSULA obligatoria — el trigger léxico
+    y SU oración con verbo conjugado, jamás solo el título («### ADVERTENCIA»)."""
+    content = _strip_markup(span or "")
+    if len(" ".join(content.split())) < _MIN_CLAUSE_CONTENT:
+        return False
+    for s, e in _sentence_spans(content):
+        sentence = content[s:e]
+        if _mandatory_triggers(sentence) and _sentence_has_finite_verb(sentence):
+            return True
+    return False
+
+
+def _bundle_member_form(span: str) -> bool:
+    """BUNDLE: los miembros deben llevar su DESCRIPCIÓN (≥2 líneas de definición
+    con descripción textual), no solo el nombre; o filas etiqueta+valor."""
+    content = _strip_markup(span or "")
+    described = 0
+    for _start, _end, line in _line_spans(content):
+        d = _DEFLINE.match(line)
+        if d and _LABEL_TOKEN_RX.search(d.group(2) or ""):
+            described += 1
+            if described >= 2:
+                return True
+    return _label_value_form(content)
+
+
+def atom_good_form(atom: Atom) -> bool:
+    """Whitelist fail-closed POR ÁTOMO (v5): la forma-buena de su familia sobre el
+    span y, si es un disclosure, sobre AMBOS lados individualmente. Lo que no pasa
+    NO se anexa — silencio > ruido."""
+    span = atom.get("span_text") or ""
+    meta = atom.get("meta") or {}
+    family = atom.get("family")
+    if family == FAMILY_MANDATORY:
+        if not _mandatory_clause_form(span):
+            return False
+    elif family == FAMILY_BUNDLE:
+        if not _bundle_member_form(span):
+            return False
+    else:
+        if not span_good_form(span):
+            return False
+    if meta.get("conflict") and meta.get("enum_span_text") is not None:
+        if not span_good_form(str(meta.get("enum_span_text"))):
+            return False
+    return True
+
+
 # ─────────────────────────────── render ───────────────────────────────
 
 _RX_NUM_UNIT = re.compile(rf"({_NUM})\s*({_UNIT_ALT})(?![a-z0-9])", re.IGNORECASE)
@@ -1494,6 +1873,24 @@ def _contradicts(atom: Atom, draft_answer: str) -> bool:
         if draft_values and value not in draft_values:
             return True
     return False
+
+
+def _near_duplicate_span(a: str, b: str) -> bool:
+    """Dedup del render (v4, bloqueador 1 de DEC-127b — hp001: la misma nota dos
+    veces): dos spans YA FOLDEADOS son duplicados si son idénticos, o si solapan
+    ≥90% (SequenceMatcher) con el MISMO contenido numérico Y el MISMO set de tokens
+    de contenido — un token distinto ("sirena" vs "fuente") o un número distinto =
+    hecho técnico distinto, se conservan ambos (apriete del review adversarial s271:
+    el ratio solo, sin igualdad de contenido, colapsaba advertencias hermanas)."""
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    if _numbers_in(a) != _numbers_in(b):
+        return False
+    if set(_content_tokens(a, min_len=2)) != set(_content_tokens(b, min_len=2)):
+        return False
+    return difflib.SequenceMatcher(None, a, b).ratio() >= 0.90
 
 
 def _selection_priority(atom: Atom) -> int:
@@ -1533,12 +1930,28 @@ def _select_for_appendix(
       cap global 4 + cap POR FAMILIA 2 (anti-monopolio RANGE).
 
     Exclusión 7-seg v2 por PARIDAD de display: el átomo con riesgo entra SOLO si el
-    borrador ya contiene sus tokens display (``display_parity_ok``)."""
-    eligible = [
-        a for a in missing_atoms
-        if not (a.get("meta") or {}).get("seven_segment_risk")
-        or display_parity_ok(a, draft_answer)
-    ]
+    borrador ya contiene sus tokens display (``display_parity_ok``).
+
+    v4 (s271, bloqueadores 1/2 de DEC-127b): (a) guard de contenido informativo —
+    ningún lado del anexo puede ser vacío/celdas-en-blanco; si el lado-enumeración de
+    un disclosure no es informativo, el disclosure ENTERO no dispara; (b) dedup del
+    render — dos átomos con span idéntico tras fold (o solapado ≥90% con el mismo
+    contenido numérico) anexan una sola vez.
+
+    v5 (s271 iteración final, INVERSIÓN DE CONTRATO): whitelist fail-closed de
+    forma-buena por átomo (``atom_good_form`` — cláusula con verbo conjugado o fila
+    etiqueta+valor; headers jamás; MANDATORY = trigger + su oración; BUNDLE =
+    miembros con descripción; disclosure = ambos lados). Lo que no pasa NO se anexa
+    (silencio > ruido); el guard informativo v4 queda subsumido y se mantiene como
+    cinturón en detección (ties F-COUNT)."""
+    eligible = []
+    for a in missing_atoms:
+        meta = a.get("meta") or {}
+        if meta.get("seven_segment_risk") and not display_parity_ok(a, draft_answer):
+            continue
+        if not atom_good_form(a):
+            continue  # v5 whitelist fail-closed: sin forma-buena no se anexa
+        eligible.append(a)
     ordered = sorted(
         enumerate(eligible),
         key=lambda pair: (
@@ -1548,16 +1961,44 @@ def _select_for_appendix(
         ),
     )
     selected: list[Atom] = []
+    selected_keys: list[str] = []
     per_family: dict[str, int] = {}
     for _idx, atom in ordered:
         if len(selected) >= APPENDIX_CAP:
             break
+        key = _fold_ws(atom.get("span_text") or "")[0]
+        if any(_near_duplicate_span(key, prev) for prev in selected_keys):
+            continue  # v4 dedup (bloqueador 1, hp001): mismo span → una sola vez
         family = str(atom.get("family"))
         if per_family.get(family, 0) >= APPENDIX_FAMILY_CAP:
             continue
         per_family[family] = per_family.get(family, 0) + 1
+        selected_keys.append(key)
         selected.append(atom)
     return selected
+
+
+# ``> `` (repetible) al inicio de línea es blockquote markdown de la fuente. Solo se
+# retira si lo que sigue es una letra o apertura de énfasis/cita — nunca ante un dígito
+# u operador (``> 100 mA`` / ``>= 10 V`` son contenido técnico, no markup).
+_BLOCKQUOTE_MARKER_RX = re.compile(r"^(\s*)(?:>\s*)+(?=[^\W\d_]|[\"'*¡¿(])")
+
+
+def _strip_blockquote_markers(text: str) -> str:
+    """v6 (s272, respuesta viva ASD535): el marcador de blockquote NO debe llegar crudo
+    a Telegram. Presentación pura por línea; ningún otro carácter del span cambia."""
+    return "\n".join(
+        _BLOCKQUOTE_MARKER_RX.sub(r"\1", line)
+        for line in (text or "").split("\n")
+    )
+
+
+def _appendix_emoji(has_mandatory: bool, has_disclosure: bool, has_table: bool) -> str:
+    if has_mandatory:
+        return APPENDIX_EMOJI_MANDATORY
+    if has_disclosure or has_table:
+        return APPENDIX_EMOJI_DISCLOSURE
+    return APPENDIX_EMOJI_GENERIC
 
 
 def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
@@ -1565,32 +2006,50 @@ def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
     hereda la EXTRACCIÓN, no el píxel; dúo M5). Spans VERBATIM con cita [Fn]; selección
     v2 priorizada (ver ``_select_for_appendix``): MANDATORY → COUNT-conflicto → resto
     por fuerza de binding, cap global 4 + cap por familia 2. Los átomos cross-fragmento
-    citan AMBOS fragmentos (conteo y enumeración). Puro código, cero LLM."""
+    citan AMBOS fragmentos (conteo y enumeración). Puro código, cero LLM.
+
+    v6 (s272): separador ``---`` + cabecera en negrita con emoji estructural único
+    (⚠️ MANDATORY / 📋 disclosure-tabla / 📖 genérico) y strip del marcador blockquote
+    de los spans (presentación; el contenido técnico queda byte-preservado)."""
     selected = _select_for_appendix(missing_atoms, draft_answer)
     if not selected:
         return ""
-    lines = [APPENDIX_HEADER]
+    entries: list[str] = []
+    has_mandatory = has_disclosure = has_table = False
     for atom in selected:
         meta = atom.get("meta") or {}
+        if atom.get("family") == FAMILY_MANDATORY:
+            has_mandatory = True
         fragment_number = meta.get("fragment_number")
         cite = f" [F{fragment_number}]" if fragment_number else ""
-        span = (atom.get("span_text") or "").strip()
+        span = _strip_blockquote_markers(atom.get("span_text") or "").strip()
+        if any(_is_pipe_row(line) for line in span.splitlines()):
+            has_table = True
         if meta.get("conflict") and meta.get("enum_span_text"):
             # v3: disclosure de DOS LADOS SIEMPRE — conteo declarado + enumeración
             # verbatim (sopa OCR incluida), cada lado con su cita ([Fi]·[Fj] si es
             # cross; misma cita dos veces si es intra).
+            has_disclosure = True
             count_cite = f" [F{meta.get('count_fragment_number') or fragment_number}]"
             enum_cite = f" [F{meta.get('enum_fragment_number') or fragment_number}]"
-            enum_span = str(meta.get("enum_span_text") or "").strip()
-            lines.append(
+            enum_span = _strip_blockquote_markers(
+                str(meta.get("enum_span_text") or "")
+            ).strip()
+            if any(_is_pipe_row(line) for line in enum_span.splitlines()):
+                has_table = True
+            entries.append(
                 f'- Nota: el manual también indica: "{span}"{count_cite} · '
                 f'"{enum_span}"{enum_cite}'
             )
         elif _contradicts(atom, draft_answer):
-            lines.append(f'- Nota: el manual también indica: "{span}"{cite}')
+            has_disclosure = True
+            entries.append(f'- Nota: el manual también indica: "{span}"{cite}')
         else:
-            lines.append(f'- "{span}"{cite}')
-    return "\n".join(lines)
+            entries.append(f'- "{span}"{cite}')
+    emoji = _appendix_emoji(has_mandatory, has_disclosure, has_table)
+    return "\n".join(
+        [APPENDIX_SEPARATOR, f"{emoji} **{APPENDIX_HEADER}**", *entries]
+    )
 
 
 # ─────────────────────────────── orquestación ───────────────────────────────

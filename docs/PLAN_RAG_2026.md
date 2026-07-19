@@ -25,10 +25,13 @@
 <a id="estado-actual-s269--19-jul-2026"></a>
 ## Estado actual (S269 — 19 jul 2026)
 
-**Foto sin movimiento oficial, tras la adjudicación S270 (DEC-125): 154 facts = 143 OK ·
-9 synthesis-miss (8 CORE + 1 disclosure re-specced) · 2 retrieval-miss (92,86%); objetivo
-≥98% = 151 → +8.** S269 atacó los 12 por las dos vías que pidió Alberto; adjudicado el packet
-(punto 1), queda DEC-122 como única decisión suya pendiente:
+**Foto oficial tras el banking S272 (DEC-131): 154 facts = 145 OK · 7 synthesis-miss ·
+2 retrieval-miss — 145/154 (94,2%) cobradas, quedan +6 para 151 (≥98%).** Banking de las 2
+conversiones certificadas del contrato must-preserve (b6f6 · 872c re-spec DEC-128) sobre el
+funnel adjudicado DEC-125, con `MUST_PRESERVE_CONTRACT=on` en Railway y recibo vivo en
+producción (query_logs 16:26Z; 872c harness-only — clase composición-de-serving):
+`evals/s272_banked_funnel_v1.json`. S269 atacó los 12 por las dos vías que pidió Alberto;
+adjudicado el packet (punto 1), queda DEC-122 como única decisión suya pendiente:
 
 1. **Triage de golds (DEC-121) — ADJUDICADO por Alberto (S270, DEC-125).** Marcas sobre el
 packet al píxel (`evals/s269_goldreview_packet_v1_ADJUDICADO.md`): **9 core tras adjudicación
@@ -77,8 +80,14 @@ DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de
 `gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
 assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
 causal del probe; (4) activar `VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
-(5) los 2 retrieval-miss (cat017#2 CLIP-licencia, hp010#1 Nivel-3) como margen, lever
-retrieval aparte; (6) recoger 30 audios reales antes de comparar ASR.
+(5) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
+conversiones**: el lever cuota-enunciados (el fix pendiente de DEC-102/s105) se midió con
+prereg dúo-adjudicado v1→v3 y cerró **PERMANENTE por v3b STOP a nivel respuesta** (hp005#2
+3/3→0/3 y hp017#2 bajo ON, pareado mismo-día; hp010#1 convertía 2/3 — funciona para su diana,
+cuesta hechos de terceros). Los 2 retrieval-miss quedan **residuales CON CLASE**
+(`evals/s273_v3_closeout_v1.yaml`): hp010#1 = solo otra-familia-mecánica o 0-daño demostrado;
+cat017#2 = fuera del espacio enunciados-generable (medido F0); **el camino a 151 pasa por los
+Bloques C/D (síntesis), no por retrieval**; (6) recoger 30 audios reales antes de comparar ASR.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>
