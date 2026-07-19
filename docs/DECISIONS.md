@@ -2643,3 +2643,37 @@ contrato v3).
 **Traza.** Rama `claude/s273-bloqueB-quota` (PR contra main); artefactos
 `evals/s273_*`; instrumento `scripts/s273_quota_gates.py`; gasto sesión fases ≈ $0.22 de $3
 (v2) — v3 presupuestado $4, sin ejecutar.
+
+## DEC-132b (S273, 19 jul 2026) — Veredicto FINAL del Bloque B: v3 ejecutado completo → v3b STOP a nivel respuesta → **lever cuota-enunciados CERRADO PERMANENTE** (anti-gate-shopping cumplido); 2 residuales documentados con precisión
+
+**Cadena v3 (la única re-medición permitida, `evals/s273_v3_closeout_v1.yaml`):**
+**v3a PASS** (containment pareado contemporáneo, reuse probes F3 mismo-día/K=3; stop_hits=0
+sobre la unión dura; hp017#1 enrutada al árbitro; negcontrol PASS 4≤7) → **v3b STOP** (daño
+REAL a nivel respuesta, 24 réplicas pareadas: hp005#2 «misma zona o subzona» 3/3-OFF→0/3-ON
+y hp017#2 «Editar Configuración» 2/3→1/3, matcher determinista NFKD) → **v3c NO_GO**
+(hp010#1 convierte ESTABLE 2/3 y pool 3/3 — el mecanismo funciona para su diana — pero el
+gate compuesto exige v3b PASS).
+
+**Decisión (por el anti-gate-shopping pre-registrado en el prereg v3):** lever
+cuota-enunciados **CERRADO PERMANENTE**; flag `ENUNCIADOS_QUOTA_FUSION` default-off
+(byte-inerte) sin ship; **sin más intentos** bajo ninguna variante de esta mecánica;
+reapertura futura = evidencia NUEVA clase-s272 + permiso explícito de Alberto (patrón
+DEC-126). Q=6/barra 0.40 jamás tuneados (herencia s105 cumplida de prereg a cierre).
+
+**Residuales (con clase, para el PLAN):**
+- **hp010#1**: el mecanismo CONVIERTE (pool 3/3, respuesta 2/3) — se cierra por su COSTE
+  medido en terceros (hp005#2, hp017#2), no por fallar en su diana. Lever futuro para
+  hp010#1 = OTRA familia mecánica, o demostrar 0-daño en el mismo árbitro pareado.
+- **cat017#2**: fuera del espacio de enunciados generable barato (MEDIDO en F0: activo T2
+  sin el carrier; h1 fresco del 2º carrier rank-99-de-108). Vía si se reabre: re-scope s174
+  per-facet (decisión explícita aparte; riesgo gate-shopping declarado s269).
+
+**Nota honesta.** La re-medición v3 CONFIRMÓ la esencia del veredicto s105 con instrumento
+corregido: el desplazamiento de la cuota cuesta hechos reales incluso a T1 con Q=6 —
+esta vez a nivel RESPUESTA y pareado mismo-día, no contra una referencia caduca. Corregir
+el instrumento (hallazgo F3) cambió la CALIDAD de la evidencia, no el signo. «No subir N
+ni tunear contra hp006» queda vigente y reforzado. Bloque B: 0 conversiones bancables; la
+foto oficial 145/154 no cambia; el camino a 151 pasa por los Bloques C/D (síntesis).
+
+**Traza.** Artefactos `evals/s273_v3*`; réplicas persistidas; runner
+`scripts/s273_v3_arbiter.py`; fila nueva del lever en `docs/LEVER_DIGEST.md`.
