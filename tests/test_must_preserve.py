@@ -515,8 +515,10 @@ def test_render_cap_global_4_con_familias_mezcladas():
     )
     appendix = mp.render_appendix(atoms, "draft")
     lines = appendix.split("\n")
-    assert lines[0] == mp.APPENDIX_HEADER
-    assert len(lines) == 1 + mp.APPENDIX_CAP
+    # v6 (s272): separador + cabecera negrita con emoji estructural, luego el cap
+    assert lines[0] == mp.APPENDIX_SEPARATOR
+    assert lines[1] == f"{mp.APPENDIX_EMOJI_MANDATORY} **{mp.APPENDIX_HEADER}**"
+    assert len(lines) == 2 + mp.APPENDIX_CAP
 
 
 def test_render_cap_por_familia_2_anti_monopolio():
@@ -590,6 +592,55 @@ def test_render_count_conflict_siempre_disclosure():
     atoms[0]["meta"]["fragment_number"] = 1
     appendix = mp.render_appendix(atoms, "Hay seis opciones [F1]")
     assert "Nota: el manual también indica:" in appendix
+
+
+# ─── v6 (s272): presentación del anexo — separador, emoji estructural, blockquote ───
+
+
+def test_render_v6_emoji_generico_y_cabecera_negrita():
+    appendix = mp.render_appendix([_range_atom_n(1)], "draft")
+    lines = appendix.split("\n")
+    assert lines[0] == mp.APPENDIX_SEPARATOR
+    assert lines[1] == f"{mp.APPENDIX_EMOJI_GENERIC} **{mp.APPENDIX_HEADER}**"
+    assert mp.APPENDIX_HEADER in appendix  # los checks por substring siguen vivos
+
+
+def test_render_v6_emoji_disclosure_para_nota_numerica():
+    atoms = mp.detect_atoms("El rango de tensión es de 10 a 30 V.")
+    atoms[0]["meta"]["fragment_number"] = 2
+    appendix = mp.render_appendix(atoms, "El rango de tensión es de 10 a 25 V [F2]")
+    assert appendix.split("\n")[1].startswith(mp.APPENDIX_EMOJI_DISCLOSURE)
+
+
+def test_render_v6_mandatory_gana_el_emoji():
+    atoms = mp.detect_atoms("El rango de tensión es de 10 a 30 V.")
+    atoms[0]["meta"]["fragment_number"] = 2
+    appendix = mp.render_appendix(
+        atoms + [_mandatory_atom(1)], "El rango de tensión es de 10 a 25 V [F2]"
+    )
+    assert appendix.split("\n")[1].startswith(mp.APPENDIX_EMOJI_MANDATORY)
+
+
+def test_render_v6_blockquote_marker_no_llega_crudo():
+    # respuesta viva ASD535 (query_logs 2026-07-19T16:26Z): el span citado
+    # arrastraba el "> " de la fuente hasta Telegram
+    atom = _mandatory_atom(1)
+    atom["span_text"] = "> Es **imprescindible** " + atom["span_text"][0].lower() + (
+        atom["span_text"][1:]
+    )
+    appendix = mp.render_appendix([atom], "draft")
+    assert '"> ' not in appendix
+    assert '"Es **imprescindible**' in appendix
+
+
+def test_strip_blockquote_conserva_comparaciones_numericas():
+    assert mp._strip_blockquote_markers("> Para evitar riesgos") == "Para evitar riesgos"
+    assert mp._strip_blockquote_markers("> 100 mA de consumo") == "> 100 mA de consumo"
+    assert mp._strip_blockquote_markers(">= 10 V") == ">= 10 V"
+    assert (
+        mp._strip_blockquote_markers("> > **Advertencia**: alta tensión")
+        == "**Advertencia**: alta tensión"
+    )
 
 
 # ─── apply end-to-end (con seams monkeypatcheados, $0) ───

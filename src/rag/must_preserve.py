@@ -67,6 +67,15 @@ blacklist a WHITELIST fail-closed de forma-buena por span (``atom_good_form``):
   AMBOS lados deben pasar individualmente o el disclosure entero no dispara. Lo que no
   pasa NO se anexa: silencio > ruido (uncertain jamás se sirve). Los spans anexados
   siguen siendo VERBATIM — la whitelist decide inclusión, nunca reescribe.
+
+v6 (s272; PRESENTACIÓN del anexo — feedback directo de Alberto sobre la respuesta viva
+ASD535, query_logs 2026-07-19T16:26Z): separador ``---`` + cabecera en negrita con UN
+emoji estructural por bloque (⚠️ si contiene un átomo MANDATORY / 📋 disclosures o
+tablas / 📖 genérico) y el marcador markdown de blockquote (``> `` inicial de línea) se
+retira de los spans en el render — es markup de la fuente, no contenido técnico. Guard
+conservador: si tras el marcador viene un dígito (``> 100 mA`` puede ser un operador de
+comparación) NO se toca. La vara sigue: 0 tokens numéricos/modelo perdidos; la selección
+y el binding NO cambian.
 """
 from __future__ import annotations
 
@@ -88,6 +97,12 @@ FAMILY_COUNT = "F-COUNT"
 FAMILIES = (FAMILY_RANGE, FAMILY_BUNDLE, FAMILY_MANDATORY, FAMILY_COUNT)
 
 APPENDIX_HEADER = "Información adicional del manual:"
+# v6 (s272): presentación del anexo — separador de sección + emoji estructural único
+# por bloque en la cabecera (sobrio: jamás por-entrada, jamás decorativo).
+APPENDIX_SEPARATOR = "---"
+APPENDIX_EMOJI_MANDATORY = "⚠️"
+APPENDIX_EMOJI_DISCLOSURE = "📋"
+APPENDIX_EMOJI_GENERIC = "📖"
 APPENDIX_CAP = 4
 # v2 (funnel probe-1 hp002: 13-14 átomos bound para 4 slots, RANGE monopolizaba y el
 # callout MANDATORY core entraba 1/3): cap POR FAMILIA dentro del cap global.
@@ -1963,37 +1978,78 @@ def _select_for_appendix(
     return selected
 
 
+# ``> `` (repetible) al inicio de línea es blockquote markdown de la fuente. Solo se
+# retira si lo que sigue es una letra o apertura de énfasis/cita — nunca ante un dígito
+# u operador (``> 100 mA`` / ``>= 10 V`` son contenido técnico, no markup).
+_BLOCKQUOTE_MARKER_RX = re.compile(r"^(\s*)(?:>\s*)+(?=[^\W\d_]|[\"'*¡¿(])")
+
+
+def _strip_blockquote_markers(text: str) -> str:
+    """v6 (s272, respuesta viva ASD535): el marcador de blockquote NO debe llegar crudo
+    a Telegram. Presentación pura por línea; ningún otro carácter del span cambia."""
+    return "\n".join(
+        _BLOCKQUOTE_MARKER_RX.sub(r"\1", line)
+        for line in (text or "").split("\n")
+    )
+
+
+def _appendix_emoji(has_mandatory: bool, has_disclosure: bool, has_table: bool) -> str:
+    if has_mandatory:
+        return APPENDIX_EMOJI_MANDATORY
+    if has_disclosure or has_table:
+        return APPENDIX_EMOJI_DISCLOSURE
+    return APPENDIX_EMOJI_GENERIC
+
+
 def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
     """Sección "Información adicional del manual:" (SIN "verificada" — el span verbatim
     hereda la EXTRACCIÓN, no el píxel; dúo M5). Spans VERBATIM con cita [Fn]; selección
     v2 priorizada (ver ``_select_for_appendix``): MANDATORY → COUNT-conflicto → resto
     por fuerza de binding, cap global 4 + cap por familia 2. Los átomos cross-fragmento
-    citan AMBOS fragmentos (conteo y enumeración). Puro código, cero LLM."""
+    citan AMBOS fragmentos (conteo y enumeración). Puro código, cero LLM.
+
+    v6 (s272): separador ``---`` + cabecera en negrita con emoji estructural único
+    (⚠️ MANDATORY / 📋 disclosure-tabla / 📖 genérico) y strip del marcador blockquote
+    de los spans (presentación; el contenido técnico queda byte-preservado)."""
     selected = _select_for_appendix(missing_atoms, draft_answer)
     if not selected:
         return ""
-    lines = [APPENDIX_HEADER]
+    entries: list[str] = []
+    has_mandatory = has_disclosure = has_table = False
     for atom in selected:
         meta = atom.get("meta") or {}
+        if atom.get("family") == FAMILY_MANDATORY:
+            has_mandatory = True
         fragment_number = meta.get("fragment_number")
         cite = f" [F{fragment_number}]" if fragment_number else ""
-        span = (atom.get("span_text") or "").strip()
+        span = _strip_blockquote_markers(atom.get("span_text") or "").strip()
+        if any(_is_pipe_row(line) for line in span.splitlines()):
+            has_table = True
         if meta.get("conflict") and meta.get("enum_span_text"):
             # v3: disclosure de DOS LADOS SIEMPRE — conteo declarado + enumeración
             # verbatim (sopa OCR incluida), cada lado con su cita ([Fi]·[Fj] si es
             # cross; misma cita dos veces si es intra).
+            has_disclosure = True
             count_cite = f" [F{meta.get('count_fragment_number') or fragment_number}]"
             enum_cite = f" [F{meta.get('enum_fragment_number') or fragment_number}]"
-            enum_span = str(meta.get("enum_span_text") or "").strip()
-            lines.append(
+            enum_span = _strip_blockquote_markers(
+                str(meta.get("enum_span_text") or "")
+            ).strip()
+            if any(_is_pipe_row(line) for line in enum_span.splitlines()):
+                has_table = True
+            entries.append(
                 f'- Nota: el manual también indica: "{span}"{count_cite} · '
                 f'"{enum_span}"{enum_cite}'
             )
         elif _contradicts(atom, draft_answer):
-            lines.append(f'- Nota: el manual también indica: "{span}"{cite}')
+            has_disclosure = True
+            entries.append(f'- Nota: el manual también indica: "{span}"{cite}')
         else:
-            lines.append(f'- "{span}"{cite}')
-    return "\n".join(lines)
+            entries.append(f'- "{span}"{cite}')
+    emoji = _appendix_emoji(has_mandatory, has_disclosure, has_table)
+    return "\n".join(
+        [APPENDIX_SEPARATOR, f"{emoji} **{APPENDIX_HEADER}**", *entries]
+    )
 
 
 # ─────────────────────────────── orquestación ───────────────────────────────
