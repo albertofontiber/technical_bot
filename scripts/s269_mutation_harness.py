@@ -7,15 +7,17 @@ mutador determinista redacta un borrador sintético que restata el claim del át
 CON una omisión conocida (receipt exacto de lo eliminado) + cita [Fn] real; el
 mecanismo must-preserve debe restaurar EXACTAMENTE el span mutado (match verbatim).
 
-Cohorte v2: fragmentos frescos de la reserva, seed=270, MISMA mecánica de
-exclusiones v1 (import del builder v1) + exclusión de los docs de la cohorte v1.
+Cohorte FRESCA seed=271 (binding v2 adjudicado post-seed-270), MISMA mecánica de
+exclusiones v1 (import del builder v1) + exclusión de los docs de las cohortes
+v1 y seed-270.
 Pre-screen declarado: detector DETERMINISTA (subset del híbrido, $0) — el sesgo de
 selección se controla porque el gold es mecánico y el gate mide sobre mutaciones,
 no sobre prevalencia.
 
 Medidas (spec §B):
   mutation_recall   por familia: átomo detectado + appendix restaura el span verbatim
-  clean_noise       borrador SIN mutar (átomo presente) → 0 anexos (FP=0)
+  clean_noise       borrador SIN mutar → FP por FAMILIA del átomo anexado
+                    (RBC: FP=0; MANDATORY: FP = duplicado o no-procedimental)
   cross_binding     borrador cita A pero habla de B → 0 anexos de A (control C2)
   attestation_block fragmento fuera del doc_map de la identidad → 0 anexos
 
@@ -25,7 +27,7 @@ resumible por clave de fila.
 
 Uso:
   python scripts/s269_mutation_harness.py --build-cohort      # GET-only, $0
-  python scripts/s269_mutation_harness.py --freeze            # escribe el prereg v3
+  python scripts/s269_mutation_harness.py --freeze            # escribe el prereg v2 (binding v2)
   python scripts/s269_mutation_harness.py --run               # brazo det ($0)
   python scripts/s269_mutation_harness.py --run --hybrid              # preflight
   python scripts/s269_mutation_harness.py --run --hybrid --execute    # Haiku
@@ -56,15 +58,19 @@ from src.rag import must_preserve as mp  # noqa: E402
 
 EVALS = ROOT / "evals"
 COHORT_V1_PATH = EVALS / "s269_structural_cohort_v1.jsonl"
-COHORT_PATH = EVALS / "s269_mutation_cohort_v2.jsonl"
-BUILD_REPORT_PATH = EVALS / "s269_mutation_cohort_v2_build.json"
-PREREG_PATH = EVALS / "s269_stage1_v3_prereg.yaml"
-RESULTS_DET_PATH = EVALS / "s269_stage1_v3_results_det.jsonl"
-RESULTS_HYBRID_PATH = EVALS / "s269_stage1_v3_results_hybrid.jsonl"
-HYBRID_CACHE_PATH = EVALS / "s269_stage1_v3_hybrid_proposals.jsonl"
-HYBRID_RECEIPTS_PATH = EVALS / "s269_stage1_v3_hybrid_receipts.json"
+# cohorte seed-270 (1ª medida, binding v1): queda como EVIDENCIA; sus docs se
+# EXCLUYEN de la cohorte fresca (el refinamiento de contrato post-seed-270 se
+# valida en población nueva, adjudicación del coordinador)
+COHORT_SEED270_PATH = EVALS / "s269_mutation_cohort_v2.jsonl"
+COHORT_PATH = EVALS / "s269_mutation_cohort_v3.jsonl"
+BUILD_REPORT_PATH = EVALS / "s269_mutation_cohort_v3_build.json"
+PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v2.yaml"
+RESULTS_DET_PATH = EVALS / "s269_stage1_v3_results_det_c271.jsonl"
+RESULTS_HYBRID_PATH = EVALS / "s269_stage1_v3_results_hybrid_c271.jsonl"
+HYBRID_CACHE_PATH = EVALS / "s269_stage1_v3_hybrid_proposals_c271.jsonl"
+HYBRID_RECEIPTS_PATH = EVALS / "s269_stage1_v3_hybrid_receipts_c271.json"
 
-SEED = 270
+SEED = 271
 TARGET_PER_FAMILY = 30
 TARGET_DOCS = 40
 MAX_DOCS = 80
@@ -85,7 +91,7 @@ FAMILIES = list(mp.FAMILIES)
 # sha se pinea entero); las 2 variantes de fraseo por mutación salen de estos
 # wrappers. templates_sha256 = sha del JSON canónico de este registro.
 
-TEMPLATES_VERSION = "s269_v3_templates_v2"
+TEMPLATES_VERSION = "s269_v3_templates_v3"
 TEMPLATES = {
     "wrappers": [
         "Según el manual, {claim} [F{n}].",
@@ -104,8 +110,15 @@ TEMPLATES = {
     "bundle_full": "la sección {header} define los campos: {members}",
     "bundle_no_header": "los campos {members} se definen juntos en la misma sección",
     "bundle_schema": "los campos {members} forman el esquema de la regla",
-    "mandatory_full": 'la fuente recoge esta indicación literal: "{span}"',
-    "mandatory_dropped": "sobre {a1} y {a2}, siga el procedimiento descrito en la fuente",
+    # binding v2: los borradores mandatory emulan una respuesta que DA el
+    # procedimiento del fragmento (s243: el callout es adyacente a ese procedimiento)
+    "mandatory_full": (
+        'siga el procedimiento sobre {p1} y {p2}; la fuente recoge además esta '
+        'indicación literal: "{span}"'
+    ),
+    "mandatory_dropped": (
+        "para {p1} y {p2}, siga los pasos del procedimiento descritos en la fuente"
+    ),
     "count_clean": (
         "se declaran {declared} {noun}, pero el manual también indica {enumerated} "
         "elementos en la enumeración"
@@ -174,6 +187,12 @@ def build_cohort() -> int:
     v1_docs = sorted({r["document_id"] for r in v1_rows})
     if not v1_docs:
         raise RuntimeError("cohorte v1 no encontrada: la exclusión de sus docs es obligatoria")
+    seed270_rows = load_jsonl(COHORT_SEED270_PATH)
+    seed270_docs = sorted({r["document_id"] for r in seed270_rows})
+    if not seed270_docs:
+        raise RuntimeError(
+            "cohorte seed-270 no encontrada: sus docs deben excluirse (población fresca)"
+        )
 
     with httpx.Client(timeout=30.0) as client:
         print("Inventario del corpus (GET paginado)...")
@@ -181,15 +200,19 @@ def build_cohort() -> int:
         print(f"  docs servibles: {len(corpus)}")
         print("Exclusiones (mecánica v1 + docs de la cohorte v1)...")
         excluded, manifest = v1.build_exclusions(corpus)
-        excluded_v1_extra = {d for d in v1_docs if d in corpus and d not in excluded}
-        excluded |= set(v1_docs)
-        manifest.append({
-            "path": str(COHORT_V1_PATH.relative_to(ROOT)).replace("\\", "/"),
-            "method": "v1_cohort_docs_exclusion",
-            "sha256": sha256_file(COHORT_V1_PATH),
-            "corpus_docs_matched": len([d for d in v1_docs if d in corpus]),
-            "docs_not_already_excluded": len(excluded_v1_extra),
-        })
+        for label, path, docs in (
+            ("v1_cohort_docs_exclusion", COHORT_V1_PATH, v1_docs),
+            ("seed270_cohort_docs_exclusion", COHORT_SEED270_PATH, seed270_docs),
+        ):
+            extra = {d for d in docs if d in corpus and d not in excluded}
+            excluded |= set(docs)
+            manifest.append({
+                "path": str(path.relative_to(ROOT)).replace("\\", "/"),
+                "method": label,
+                "sha256": sha256_file(path),
+                "corpus_docs_matched": len([d for d in docs if d in corpus]),
+                "docs_not_already_excluded": len(extra),
+            })
         eligible = {d: r for d, r in corpus.items() if d not in excluded}
         print(f"  excluidos: {len(excluded & set(corpus))} | elegibles: {len(eligible)}")
 
@@ -250,7 +273,7 @@ def build_cohort() -> int:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
     report = {
-        "schema": "s269_mutation_cohort_v2_build_v1",
+        "schema": "s269_mutation_cohort_v3_build_v1",
         "created_utc": _now(),
         "seed": SEED,
         "chunks_table": table,
@@ -272,7 +295,7 @@ def build_cohort() -> int:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
-    print(f"\nCohorte v2: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
+    print(f"\nCohorte v3: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
     print(f"Composición: {composition}")
     print(f"Build report: {BUILD_REPORT_PATH.relative_to(ROOT)}")
     return 0
@@ -348,18 +371,21 @@ def _bundle_claim(meta: dict, mutation: str | None, dropped_member: str | None) 
     return TEMPLATES["bundle_full"].format(header=header, members=members)
 
 
-def _mandatory_anchor_pair(atom: dict) -> tuple[str, str] | None:
-    triggers = set((atom.get("meta") or {}).get("triggers") or [])
-    trigger_words = set()
-    for t in triggers:
+def _mandatory_proc_pair(atom: dict) -> tuple[str, str] | None:
+    """2 tokens PROCEDIMENTALES del fragmento (binding v2): el borrador emula una
+    respuesta que da el procedimiento. Se excluyen los términos del léxico
+    obligatorio (el mutado no debe re-introducir fuerza obligatoria)."""
+    meta = atom.get("meta") or {}
+    trigger_words: set[str] = set(mp._MANDATORY_TERMS)
+    for t in meta.get("triggers") or []:
         trigger_words.update(t.replace("(n)", "").replace("+", " ").split())
-    anchors = [
-        t for t in (atom.get("anchor_tokens") or [])
-        if not t.isdigit() and len(t) >= 4 and t not in trigger_words
+    picks = [
+        t for t in (meta.get("procedural_context_tokens") or [])
+        if t.isalpha() and len(t) >= 4 and t not in trigger_words
     ]
-    if len(anchors) < 2:
+    if len(picks) < 2:
         return None
-    return anchors[0], anchors[1]
+    return picks[0], picks[1]
 
 
 def generate_mutations(row: dict) -> list[dict]:
@@ -419,11 +445,11 @@ def generate_mutations(row: dict) -> list[dict]:
             add("drop_header", clean, _bundle_claim(meta, "drop_header", None),
                 header, mp._content_tokens(header))
     elif fam == mp.FAMILY_MANDATORY:
-        pair = _mandatory_anchor_pair(atom)
+        pair = _mandatory_proc_pair(atom)
         if pair is not None:
             span = (atom.get("span_text") or "").strip()
-            clean = TEMPLATES["mandatory_full"].format(span=span)
-            mut = TEMPLATES["mandatory_dropped"].format(a1=pair[0], a2=pair[1])
+            clean = TEMPLATES["mandatory_full"].format(p1=pair[0], p2=pair[1], span=span)
+            mut = TEMPLATES["mandatory_dropped"].format(p1=pair[0], p2=pair[1])
             trigger_tokens = sorted({
                 w for t in (meta.get("triggers") or [])
                 for w in t.replace("(n)", "").replace("+", " ").split()
@@ -477,27 +503,19 @@ def _collision_guard(mutation: dict, draft_mut: str) -> str | None:
 
 def _has_binding_hook(atom: dict, draft: str) -> bool:
     """Guard de generación (harness-side, declarado): el borrador mutado debe
-    conservar ALGÚN gancho de binding del átomo (número compartido ≠0/1, ≥2
-    anchors, o la cabecera). Un template sin gancho mediría un artefacto del
+    conservar presencia PARCIAL del átomo según el contrato de binding v2
+    (mp.atom_exigible_in). Un template sin gancho mediría un artefacto del
     template, no al mecanismo — la vía binding se mide en clean/cross."""
-    clean = mp._FRAG_CITE.sub(" ", draft)
-    tokens = set(mp._content_tokens(clean))
-    numbers = {v for v in mp._numbers_in(clean) if v not in (0.0, 1.0)}
-    a_numbers, a_anchors = _atom_bind_hooks(atom)
-    if a_numbers & numbers:
-        return True
-    if len(a_anchors & tokens) >= 2:
-        return True
-    header_tokens = mp._content_tokens((atom.get("meta") or {}).get("header") or "")
-    return bool(header_tokens) and set(header_tokens) <= tokens
+    return mp.atom_exigible_in(atom, draft)
 
 
 # ─────────────────────────── mecanismo bajo test ───────────────────────────
 
 def run_mechanism(atoms: list[dict], draft: str, cited: set[int],
-                  fragment_number: int) -> str:
+                  fragment_number: int) -> tuple[str, list[dict]]:
     """detect→bind→satisfied→render con la MISMA API pública que usa el generador
-    (attestation se mide en su medida propia)."""
+    (attestation se mide en su medida propia). Devuelve (appendix, átomos
+    efectivamente ANEXADOS post-cap) para el scoring por-átomo del gate."""
     atoms = [copy.deepcopy(a) for a in atoms]
     bound = mp.bind_atoms(atoms, draft, cited, fragment_number)
     missing = []
@@ -505,7 +523,9 @@ def run_mechanism(atoms: list[dict], draft: str, cited: set[int],
         if not mp.atom_satisfied(atom, draft):
             atom.setdefault("meta", {})["fragment_number"] = fragment_number
             missing.append(atom)
-    return mp.render_appendix(missing, draft)
+    appendix = mp.render_appendix(missing, draft)
+    appended = mp._select_for_appendix(missing) if appendix else []
+    return appendix, appended
 
 
 def _locate_target(atoms: list[dict], target: dict) -> dict | None:
@@ -561,7 +581,7 @@ def evaluate_fragment_rows(row: dict, atoms: list[dict]) -> list[dict]:
                     "puntuable": False, "skip_reason": skip,
                 })
                 continue
-            appendix = run_mechanism(atoms, draft, {1}, 1)
+            appendix, _appended = run_mechanism(atoms, draft, {1}, 1)
             # receipt: el span verbatim manda; lo eliminado se exige en el anexo
             # (fold-insensible) SOLO si vive literalmente en el span — valores
             # derivados (conteo enumerado, cabecera no-adyacente) no son literales
@@ -590,41 +610,71 @@ def evaluate_fragment_rows(row: dict, atoms: list[dict]) -> list[dict]:
             continue
         key = f"{row['fragment_id']}|clean|v{variant}"
         draft = render_draft(claim_clean, variant)
-        appendix = run_mechanism(atoms, draft, {1}, 1)
+        appendix, appended = run_mechanism(atoms, draft, {1}, 1)
+        # detalle POR ÁTOMO anexado (gate v2, clean por-familia): para MANDATORY
+        # se registra el solape procedimental en la VENTANA y si es duplicado —
+        # FP mandatory = duplicado o no-procedimental (conducta objetivo si no)
+        window = mp.citation_window(draft, 1)
+        window_tokens = set(mp._content_tokens(mp._FRAG_CITE.sub(" ", window)))
+        appended_detail = []
+        for a in appended:
+            d = {"family": a["family"]}
+            if a["family"] == mp.FAMILY_MANDATORY:
+                proc = set((a.get("meta") or {}).get("procedural_context_tokens") or [])
+                d["proc_overlap"] = len(proc & window_tokens)
+                d["duplicate"] = bool(mp.atom_satisfied(a, draft))
+            appended_detail.append(d)
         results.append(base | {
             "key": key, "measure": "clean", "variant": variant,
             "puntuable": True,
             "fp": bool(appendix),
+            "appended": appended_detail,
             "appendix_len": len(appendix),
         })
     return results
 
 
-def _atom_bind_hooks(atom: dict) -> tuple[set[float], set[str]]:
-    numbers = {v for v in mp._atom_numbers(atom) if v not in (0.0, 1.0)}
-    anchors = {
-        t for t in (atom.get("anchor_tokens") or [])
-        if not t.isdigit() and t not in mp._STOPWORDS and len(t) >= 3
-    }
-    return numbers, anchors
+def _cross_hook(atom: dict) -> str | None:
+    """Oración-hook con material PROPIO del átomo A (binding v2) para colocarla
+    junto a [F2]: bajo C2 no debe hacer exigible a A vía la ventana de [F1]."""
+    fam = atom["family"]
+    meta = atom.get("meta") or {}
+    if fam in (mp.FAMILY_RANGE, mp.FAMILY_COUNT):
+        keys = (("lower", "upper", "step", "tolerance") if fam == mp.FAMILY_RANGE
+                else ("declared_n", "enumerated_n"))
+        own = sorted({
+            float(meta[k]) for k in keys if meta.get(k) is not None
+        } - {0.0, 1.0})
+        if own:
+            return TEMPLATES["cross_number_hook"].format(value=_fmt(own[0]), n=2)
+        scope = meta.get("scope") or []
+        if len(scope) >= 2:
+            return TEMPLATES["cross_anchor_hook"].format(a1=scope[0], a2=scope[-1], n=2)
+        return None
+    if fam == mp.FAMILY_BUNDLE:
+        pool = list(mp._content_tokens(meta.get("header") or ""))
+        for label in meta.get("members") or []:
+            toks = mp._content_tokens(label, min_len=2)
+            if toks:
+                pool.append(toks[0])
+        if len(pool) >= 2:
+            return TEMPLATES["cross_anchor_hook"].format(a1=pool[0], a2=pool[1], n=2)
+        return None
+    if fam == mp.FAMILY_MANDATORY:
+        proc = [
+            t for t in (meta.get("procedural_context_tokens") or [])
+            if t.isalpha() and len(t) >= 4
+        ]
+        if len(proc) >= 2:
+            return TEMPLATES["cross_anchor_hook"].format(a1=proc[0], a2=proc[1], n=2)
+        return None
+    return None
 
 
 def _pair_is_safe(atoms_a: list[dict], b_sentence: str) -> bool:
-    """Ningún átomo de A puede ligar contra la oración-claim de B (los hooks de A
-    van SOLO junto a [F2]): sin esto el par no aísla el control C2."""
-    clean = mp._FRAG_CITE.sub(" ", b_sentence)
-    b_tokens = set(mp._content_tokens(clean))
-    b_numbers = {v for v in mp._numbers_in(clean) if v not in (0.0, 1.0)}
-    for atom in atoms_a:
-        numbers, anchors = _atom_bind_hooks(atom)
-        if numbers & b_numbers:
-            return False
-        if len(anchors & b_tokens) >= 2:
-            return False
-        header_tokens = mp._content_tokens((atom.get("meta") or {}).get("header") or "")
-        if header_tokens and set(header_tokens) <= b_tokens:
-            return False
-    return True
+    """Ningún átomo de A puede ser exigible (binding v2) contra la oración-claim
+    de B (los hooks de A van SOLO junto a [F2]): sin esto el par no aísla C2."""
+    return all(not mp.atom_exigible_in(a, b_sentence) for a in atoms_a)
 
 
 def _clean_claim_for(row: dict) -> str | None:
@@ -645,17 +695,8 @@ def evaluate_cross_rows(rows: list[dict], atoms_by_fragment: dict) -> list[dict]
         target_a = _locate_target(atoms_a, row_a["atom"])
         if target_a is None:
             continue
-        numbers_a, anchors_a = _atom_bind_hooks(target_a)
-        if numbers_a:
-            hook = TEMPLATES["cross_number_hook"].format(
-                value=_fmt(sorted(numbers_a)[0]), n=2
-            )
-        elif len(anchors_a) >= 2:
-            ordered_anchors = sorted(anchors_a)
-            hook = TEMPLATES["cross_anchor_hook"].format(
-                a1=ordered_anchors[0], a2=ordered_anchors[1], n=2
-            )
-        else:
+        hook = _cross_hook(target_a)
+        if hook is None:
             continue
         pair = None
         for j in range(1, len(ordered)):
@@ -679,7 +720,7 @@ def evaluate_cross_rows(rows: list[dict], atoms_by_fragment: dict) -> list[dict]
             continue
         row_b, b_sentence = pair
         draft = f"{b_sentence} {hook}"
-        appendix = run_mechanism(atoms_a, draft, {1, 2}, 1)
+        appendix, _appended = run_mechanism(atoms_a, draft, {1, 2}, 1)
         results.append({
             "key": f"{row_a['fragment_id']}|cross|{row_b['fragment_id']}",
             "measure": "cross", "familia": row_a["familia"],
@@ -717,7 +758,7 @@ def evaluate_attestation_rows(rows: list[dict], atoms_by_fragment: dict) -> list
         blocked = mp.attest_identity(
             row["document_id"], {"s269:v3:identity-b"}, catalog
         )
-        appendix = "" if not blocked else run_mechanism(atoms, draft, {1}, 1)
+        appendix = "" if not blocked else run_mechanism(atoms, draft, {1}, 1)[0]
         results.append({
             "key": f"{row['fragment_id']}|attestation",
             "measure": "attestation", "familia": row["familia"],
@@ -807,13 +848,13 @@ def run_arm(hybrid: bool, execute: bool) -> int:
     prereg = yaml.safe_load(PREREG_PATH.read_text(encoding="utf-8"))
     frozen = prereg["freeze"]
     if sha256_file(COHORT_PATH) != frozen["cohort_sha256"]:
-        raise RuntimeError("freeze roto: cohorte v2 ≠ prereg")
+        raise RuntimeError("freeze roto: cohorte v3 ≠ prereg")
     if sha256_file(ROOT / "src/rag/must_preserve.py") != frozen["must_preserve_sha256"]:
         raise RuntimeError("freeze roto: must_preserve.py ≠ prereg")
     if templates_sha256() != frozen["templates_sha256"]:
         raise RuntimeError("freeze roto: templates ≠ prereg")
     rows = load_jsonl(COHORT_PATH)
-    print(f"Cohorte v2 verificada (freeze OK): {len(rows)} filas")
+    print(f"Cohorte v3 verificada (freeze OK): {len(rows)} filas")
 
     if hybrid:
         budget = float(prereg["hybrid"]["budget_usd_max"])
@@ -875,18 +916,32 @@ def run_arm(hybrid: bool, execute: bool) -> int:
 
 def freeze() -> int:
     if not COHORT_PATH.exists():
-        raise RuntimeError("cohorte v2 no construida: corre --build-cohort primero")
+        raise RuntimeError("cohorte v3 no construida: corre --build-cohort primero")
     rows = load_jsonl(COHORT_PATH)
     build = json.loads(BUILD_REPORT_PATH.read_text(encoding="utf-8"))
     prereg = {
-        "schema": "s269_stage1_v3_prereg_v1",
+        "schema": "s269_stage1_v3_prereg_v2",
         "status": "FROZEN_BEFORE_RUN",
         "created_utc": _now(),
         "spec_ref": "evals/s269_stage1_v3_mutation_spec_v1.md",
         "design_ref": "evals/s269_synthesis_portfolio_design_v1.md §1 (v2 dúo-adjudicado)",
         "predecessor": (
             "evals/s269_stage1_gate_v1.yaml (NO_GO v1, gold de modelo no fiable) + "
-            "evals/s269_stage1_nogo_diagnosis_v1.md"
+            "evals/s269_stage1_nogo_diagnosis_v1.md; MEDIDA seed-270 (binding v1): "
+            "evals/s269_stage1_v3_prereg.yaml + evals/s269_stage1_v3_gate_v1.yaml + "
+            "evals/s269_stage1_v3_results_det.jsonl — queda como EVIDENCIA, no se "
+            "re-usa para el veredicto"
+        ),
+        "binding_contract": (
+            "v2 (adjudicación del coordinador post-seed-270): presencia PARCIAL por "
+            "familia para F-RANGE/F-BUNDLE/F-COUNT (≥1 token/número PROPIO del átomo "
+            "en la ventana de cita; el solape genérico de anchors ya no liga) y "
+            "contrato propio para F-MANDATORY (exigible con ≥2 tokens de contexto "
+            "PROCEDIMENTAL del fragmento en la ventana; supresión de duplicados vía "
+            "atom_satisfied; cap 4 intacto). Motivación taxonomy-derived s243: 11/12 "
+            "misses = pérdida parcial dentro de estructura TOCADA + callouts "
+            "obligatorios adyacentes a procedimientos que la respuesta da. Ver "
+            "docstring de src/rag/must_preserve.py::atom_exigible_in"
         ),
         "gold": (
             "MECÁNICO POR CONSTRUCCIÓN (patrón S249, precedente in-repo precisión "
@@ -896,10 +951,22 @@ def freeze() -> int:
         "seed": SEED,
         "gates": {
             "mutation_recall_min_per_family": 0.80,
-            "clean_noise_fp_max": 0,
+            "clean_noise_fp_max_rbc": 0,
+            "clean_noise_mandatory_fp_max": 0,
             "cross_binding_fp_max": 0,
             "attestation_block_appends_max": 0,
             "coverage_min": 0.90,
+            "clean_noise_definition": (
+                "POR FAMILIA del átomo anexado: para F-RANGE/F-BUNDLE/F-COUNT todo "
+                "anexo sobre borrador limpio es FP (=0). Para F-MANDATORY el FP se "
+                "define como anexo DUPLICADO o NO-PROCEDIMENTAL (proc_overlap<2 en "
+                "la ventana): anexar un callout obligatorio genuino no-duplicado "
+                "junto a un procedimiento del fragmento citado NO es ruido — es la "
+                "CONDUCTA OBJETIVO del contrato (s243 mandatory_safety_omission: el "
+                "miss canónico es exactamente la respuesta que da el procedimiento "
+                "y omite el callout adyacente); esos anexos se reportan aparte como "
+                "mandatory_conduct_appends"
+            ),
             "scoring": (
                 "por MUTACIÓN individual (átomo), no booleano de familia (C1); "
                 "cobertura = filas puntuables / filas generadas; las filas no "
@@ -944,46 +1011,53 @@ def freeze() -> int:
                       "default; --execute gasta)",
         },
         "honest_declarations": [
+            "REFINAMIENTO DE CONTRATO DECLARADO (adjudicación del coordinador): los "
+            "36 clean-FP de seed-270 (todos anexos de átomos hermanos ligados por "
+            "solape genérico de anchors) motivaron RE-EXAMINAR el contrato de "
+            "binding. El refinamiento (presencia parcial / contexto procedimental) "
+            "es TAXONOMY-DERIVED (s243), NO un ajuste contra los 36 ejemplos, y se "
+            "valida en esta población FRESCA seed-271 (docs v1 + seed-270 "
+            "excluidos). seed-270 queda como evidencia; no se re-usa para el "
+            "veredicto.",
             "TUNING DESDE V1 DECLARADO: el léxico/patrones del detector se ajustaron "
-            "con los misses de la cohorte v1 (diagnóstico) — por eso la v2 es "
-            "población FRESCA con los docs v1 excluidos además de la mecánica v1.",
+            "con los misses de la cohorte v1 (diagnóstico) — población fresca en "
+            "cada medida desde entonces.",
             "PREVALENCIA NO MEDIDA: el harness condiciona a mutación; no estima la "
             "prevalencia/ubicuidad de las familias en el corpus.",
             "SALUD DE FAMILIAS s243 = SUPUESTO de diseño, no hecho medido por este "
             "instrumento.",
-            "PRE-SCREEN DETERMINISTA: la cohorte v2 se pre-filtra con el detector "
+            "PRE-SCREEN DETERMINISTA: la cohorte se pre-filtra con el detector "
             "determinista (subset del híbrido, $0); sesgo de selección controlado "
             "porque el gold es mecánico y el gate mide sobre mutaciones.",
             "COLISIONES: mutaciones cuyo valor eliminado re-aparece en el borrador "
             "por otro campo se excluyen con un guard independiente del mecanismo y "
             "se listan (no entran en el denominador de recall).",
-            "clean_noise es ESTRICTO: corre con TODOS los átomos del fragmento; un "
-            "anexo de un átomo hermano sobre un borrador de un solo claim cuenta "
-            "como FP (mide el binding conservador de verdad).",
-            "ITERACIÓN DE INSTRUMENTO DECLARADA: la primera pasada det-solo sobre "
-            "esta cohorte destapó bugs de INSTRUMENTO (receipt case-sensitive; "
-            "cabecera no-adyacente fuera del span; templates sin gancho de binding) "
-            "y UN fix de clase en el mecanismo (asimetría min_len en la "
-            "satisfacción F-BUNDLE, miembros de 2 chars insatisfacibles por "
-            "construcción). Se corrigieron y se RE-CONGELÓ este prereg antes de la "
-            "medida final; los números post-fix se miden sobre la MISMA cohorte "
-            "(tuning-de-clase declarado, no por-fila). El resto de misses/FP se "
-            "reporta tal cual.",
-            "BINDING GUARD: mutaciones cuyo borrador template pierde todo gancho "
-            "de binding del átomo se listan como no-puntuables (artefacto del "
-            "template, no del mecanismo); la vía binding se mide en clean/cross.",
+            "clean_noise corre con TODOS los átomos del fragmento; el scoring es "
+            "POR FAMILIA del átomo anexado (ver gates.clean_noise_definition).",
+            "BINDING GUARD: mutaciones cuyo borrador template pierde la presencia "
+            "parcial del átomo (contrato v2) se listan como no-puntuables "
+            "(artefacto del template, no del mecanismo); la vía binding se mide en "
+            "clean/cross.",
+            "ITERACIÓN DE IMPLEMENTACIÓN DECLARADA (post 1ª pasada seed-271): la "
+            "primera medida del contrato v2 dio 42 clean-FP RBC, TODOS bundles "
+            "ligados por palabras FUNCIÓN de 2-3 letras ('de'/'el'/'the') — "
+            "_STOPWORDS solo cubría palabras ≥4 letras porque asumía min_len=3. "
+            "Fix de LÉXICO raíz (función cortas añadidas a _STOPWORDS): es "
+            "implementación del contrato ('token PROPIO' no incluye preposiciones), "
+            "no ajuste del contrato ni por-fila. Se re-congeló y re-midió sobre la "
+            "misma cohorte seed-271; la 1ª pasada queda en el historial git.",
         ],
         "gate_runner": (
             "scripts/s269_stage1_v3_gate.py — umbrales LEÍDOS del prereg (única "
             "fuente) + constante espejo anti-tamper (M7); veredicto POR BRAZO"
         ),
-        "gate_output": "evals/s269_stage1_v3_gate_v1.yaml",
+        "gate_output": "evals/s269_stage1_v3_gate_v2.yaml",
     }
     PREREG_PATH.write_text(
         yaml.safe_dump(prereg, allow_unicode=True, sort_keys=False, width=100),
         encoding="utf-8", newline="\n",
     )
-    print(f"Prereg v3 congelado: {PREREG_PATH.relative_to(ROOT)}")
+    print(f"Prereg v2 (binding v2) congelado: {PREREG_PATH.relative_to(ROOT)}")
     for k, v in prereg["freeze"].items():
         if k.endswith("sha256"):
             print(f"  {k}: {v[:16]}…")

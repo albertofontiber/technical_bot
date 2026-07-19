@@ -31,19 +31,21 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 EVALS = ROOT / "evals"
-PREREG_PATH = EVALS / "s269_stage1_v3_prereg.yaml"
-COHORT_PATH = EVALS / "s269_mutation_cohort_v2.jsonl"
+PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v2.yaml"
+COHORT_PATH = EVALS / "s269_mutation_cohort_v3.jsonl"
 RESULTS = {
-    "det_only": EVALS / "s269_stage1_v3_results_det.jsonl",
-    "hybrid": EVALS / "s269_stage1_v3_results_hybrid.jsonl",
+    "det_only": EVALS / "s269_stage1_v3_results_det_c271.jsonl",
+    "hybrid": EVALS / "s269_stage1_v3_results_hybrid_c271.jsonl",
 }
-GATE_PATH = EVALS / "s269_stage1_v3_gate_v1.yaml"
+GATE_PATH = EVALS / "s269_stage1_v3_gate_v2.yaml"
 
 # Espejo anti-tamper (M7): NO es la fuente de los umbrales — el gate usa el prereg;
-# si difieren, se aborta.
+# si difieren, se aborta. (v2: clean_noise por-familia — RBC estricto; MANDATORY
+# FP = duplicado o no-procedimental, adjudicación del coordinador.)
 MIRROR_GATES = {
     "mutation_recall_min_per_family": 0.80,
-    "clean_noise_fp_max": 0,
+    "clean_noise_fp_max_rbc": 0,
+    "clean_noise_mandatory_fp_max": 0,
     "cross_binding_fp_max": 0,
     "attestation_block_appends_max": 0,
     "coverage_min": 0.90,
@@ -132,7 +134,23 @@ def score_arm(rows: list[dict], gates: dict) -> dict:
             ),
         }
 
-    clean_fp = [r for r in clean_rows if r.get("puntuable") and r.get("fp")]
+    # clean_noise v2: POR FAMILIA del átomo anexado. RBC (RANGE/BUNDLE/COUNT):
+    # todo anexo es FP. MANDATORY: FP solo si duplicado o no-procedimental
+    # (proc_overlap<2); el resto = conducta objetivo (s243), reportada aparte.
+    rbc_fp: list[dict] = []
+    mandatory_fp: list[dict] = []
+    mandatory_conduct = 0
+    for r in clean_rows:
+        if not r.get("puntuable"):
+            continue
+        for a in r.get("appended") or []:
+            if a["family"] == "F-MANDATORY":
+                if a.get("duplicate") or a.get("proc_overlap", 0) < 2:
+                    mandatory_fp.append({"key": r["key"], **a})
+                else:
+                    mandatory_conduct += 1
+            else:
+                rbc_fp.append({"key": r["key"], "family": a["family"]})
     cross_fp = [r for r in cross_rows if r.get("puntuable") and r.get("fp")]
     attest_appends = sum(r.get("appends", 0) for r in attest_rows)
     attest_controls_ok = all(
@@ -140,7 +158,10 @@ def score_arm(rows: list[dict], gates: dict) -> dict:
         for r in attest_rows
     ) if attest_rows else False
 
-    clean_pass = len(clean_fp) <= int(gates["clean_noise_fp_max"])
+    clean_pass = (
+        len(rbc_fp) <= int(gates["clean_noise_fp_max_rbc"])
+        and len(mandatory_fp) <= int(gates["clean_noise_mandatory_fp_max"])
+    )
     cross_pass = len(cross_fp) <= int(gates["cross_binding_fp_max"])
     attest_pass = (
         attest_appends <= int(gates["attestation_block_appends_max"])
@@ -175,9 +196,22 @@ def score_arm(rows: list[dict], gates: dict) -> dict:
         "per_family": per_family,
         "clean_noise": {
             "rows": len([r for r in clean_rows if r.get("puntuable")]),
-            "fp_count": len(clean_fp),
-            "gate": f"<= {gates['clean_noise_fp_max']}",
-            "fp_keys": [r["key"] for r in clean_fp],
+            "rbc_fp_count": len(rbc_fp),
+            "rbc_gate": f"<= {gates['clean_noise_fp_max_rbc']}",
+            "rbc_fp": rbc_fp,
+            "mandatory_fp_count": len(mandatory_fp),
+            "mandatory_gate": (
+                f"<= {gates['clean_noise_mandatory_fp_max']} "
+                "(FP = duplicado o no-procedimental)"
+            ),
+            "mandatory_fp": mandatory_fp,
+            "mandatory_conduct_appends": mandatory_conduct,
+            "mandatory_conduct_note": (
+                "anexo de callout obligatorio genuino no-duplicado junto a "
+                "procedimiento del fragmento citado = CONDUCTA OBJETIVO (s243 "
+                "mandatory_safety_omission), no ruido — ver prereg "
+                "gates.clean_noise_definition"
+            ),
             "verdict": "GO" if clean_pass else "NO_GO",
         },
         "cross_binding": {
@@ -221,7 +255,8 @@ def main() -> int:
         arms[arm]["results_sha256"] = sha256_file(path)
 
     gate = {
-        "schema": "s269_stage1_v3_gate_v1",
+        "schema": "s269_stage1_v3_gate_v2",
+        "binding_contract": "v2 (presencia parcial + contexto procedimental; prereg v2)",
         "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "spec_ref": "evals/s269_stage1_v3_mutation_spec_v1.md",
         "prereg_sha256": sha256_file(PREREG_PATH),
@@ -247,8 +282,10 @@ def main() -> int:
         for fam, fr in res["per_family"].items():
             print(f"  {fam}: recall={fr['mutation_recall']} "
                   f"({fr['detected']}/{fr['mutation_rows_puntuables']}) → {fr['verdict']}")
+        cn = res["clean_noise"]
         print(f"  coverage={res['coverage']['value']} → {res['coverage']['verdict']} | "
-              f"clean FP={res['clean_noise']['fp_count']} → {res['clean_noise']['verdict']} | "
+              f"clean RBC FP={cn['rbc_fp_count']} / MAND FP={cn['mandatory_fp_count']} "
+              f"(conduct={cn['mandatory_conduct_appends']}) → {cn['verdict']} | "
               f"cross FP={res['cross_binding']['fp_count']} → {res['cross_binding']['verdict']} | "
               f"attest appends={res['attestation_block']['appends']} → "
               f"{res['attestation_block']['verdict']}")
