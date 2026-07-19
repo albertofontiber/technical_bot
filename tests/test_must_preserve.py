@@ -242,6 +242,47 @@ def test_bind_por_entidad_del_heading():
     assert [a["family"] for a in bound] == [mp.FAMILY_BUNDLE]
 
 
+# ─── binding C2: claim-proximity por ventana de cita (spec v3 §A.1) ───
+
+def test_bind_cross_binding_numero_junto_a_otra_cita():
+    """CRÍTICO C2 (Sol): la respuesta cita F1 pero el número compartido está en el
+    contexto de F2 → el átomo de F1 NO es exigible (antes ligaba por escaneo de toda
+    la respuesta y anexaba evidencia ajena)."""
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    draft = (
+        "La central dispone de un teclado retroiluminado [F1]. "
+        "La tensión máxima del lazo es 30 V [F2]"
+    )
+    assert mp.bind_atoms(atoms, draft, {1, 2}, 1) == []
+
+
+def test_bind_ventana_de_su_propia_cita_si_liga():
+    """El mismo borrador SÍ liga cuando el átomo pertenece al fragmento 2 (el número
+    está en la ventana de SU cita)."""
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    draft = (
+        "La central dispone de un teclado retroiluminado [F1]. "
+        "La tensión máxima del lazo es 30 V [F2]"
+    )
+    bound = mp.bind_atoms(atoms, draft, {1, 2}, 2)
+    assert [a["family"] for a in bound] == [mp.FAMILY_RANGE]
+
+
+def test_bind_sin_cita_localizable_no_exigible():
+    """cited_fragment_ids dice que F1 está citado pero el literal [F1] no aparece en
+    el borrador → sin ventana localizable → conservador: nada exigible."""
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    assert mp.bind_atoms(atoms, "La tensión máxima del lazo es 30 V", {1}, 1) == []
+
+
+def test_citation_window_une_oraciones_de_la_misma_cita():
+    draft = "El rango va de 10 a 30 V [F1]. Otro dato [F2]. El paso es de 5 V [F1]."
+    window = mp.citation_window(draft, 1)
+    assert "10 a 30 V" in window and "paso es de 5 V" in window
+    assert "Otro dato" not in window
+    assert mp.citation_window(draft, 3) == ""
+
+
 # ─── atom_satisfied ───
 
 def test_range_satisfecho_no_va_al_anexo():
@@ -262,6 +303,60 @@ def test_bundle_miembro_perdido_es_missing():
     )
     draft = "En la pestaña Programa se define la Zona del punto [F1]"
     assert mp.atom_satisfied(atoms[0], draft) is False  # falta CBE
+
+
+# ─── atom_satisfied C3: completitud real (spec v3 §A.2) ───
+
+def test_range_sin_unidad_es_missing():
+    """CRÍTICO C3 (Sol): los números pelados sin la unidad pareada NO satisfacen el
+    F-RANGE (antes la unidad se ignoraba)."""
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    draft = "El lazo admite de 10 a 30 en pasos de 5 [F1]"
+    assert mp.atom_satisfied(atoms[0], draft) is False
+
+
+def test_range_sin_scope_es_missing():
+    atoms = mp.detect_atoms(
+        "En las posiciones A11 a C32 el umbral admite de 20 a 120 %."
+    )
+    atom = next(a for a in atoms if a["family"] == mp.FAMILY_RANGE)
+    assert atom["meta"]["scope"] == ["A11", "C32"]
+    sin_scope = "El umbral admite de 20 a 120 % [F1]"
+    assert mp.atom_satisfied(atom, sin_scope) is False
+    con_scope = "En las posiciones A11 a C32 el umbral admite de 20 a 120 % [F1]"
+    assert mp.atom_satisfied(atom, con_scope) is True
+
+
+_COUNT_CONFLICT_TEXT = (
+    "La central ofrece seis opciones de programación:\n"
+    "- Retardo\n- Sensibilidad\n- Zona\n- Sirena\n- Reloj\n- Acceso\n- Volcado"
+)
+
+
+def test_count_conflict_numeros_presentes_no_satisface():
+    """CRÍTICO C3 (Sol): un F-COUNT en conflicto JAMÁS se satisface por presencia de
+    ambos números — eso evitaba justo el disclosure obligatorio (guard s243)."""
+    atoms = mp.detect_atoms(_COUNT_CONFLICT_TEXT)
+    draft = "Se citan seis opciones y se enumeran siete en total [F1]"
+    assert mp.atom_satisfied(atoms[0], draft) is False
+
+
+def test_count_conflict_solo_disclosure_satisface():
+    atoms = mp.detect_atoms(_COUNT_CONFLICT_TEXT)
+    draft = (
+        "Se declaran seis opciones, pero el manual también indica siete "
+        "entradas enumeradas [F1]"
+    )
+    assert mp.atom_satisfied(atoms[0], draft) is True
+
+
+def test_bundle_sin_cabecera_es_missing():
+    """C3: el bundle exige la cabecera padre, no solo los miembros sueltos."""
+    atoms = mp.detect_atoms(
+        "## Pestaña Programa\n- Zona: define la zona\n- CBE: ecuación de control"
+    )
+    draft = "Los campos Zona y CBE definen los puntos del lazo [F1]"
+    assert mp.atom_satisfied(atoms[0], draft) is False
 
 
 # ─── attestation (fail-closed del anexo) ───
@@ -404,3 +499,147 @@ def test_apply_satisfecho_no_anexa(monkeypatch):
     assert out is draft
     assert trace["atoms_bound"] >= 1
     assert trace["atoms_missing"] == 0
+
+
+# ─── M9: exclusión 7-segmentos CONTEXTUAL (spec v3 §A.6) ───
+
+def test_seven_seg_r_i_minuscula_con_contexto_display():
+    # hallazgo 9 de Sol: la versión previa no reconocía el caso canónico minúsculo r.i
+    assert mp.has_seven_segment_pattern(
+        "El display muestra r.i al finalizar el rearme."
+    ) is True
+
+
+def test_seven_seg_codigo_corto_dr_con_contexto_display():
+    assert mp.has_seven_segment_pattern(
+        "El display muestra dr durante el retardo de disparo."
+    ) is True
+
+
+def test_seven_seg_sin_contexto_display_no_excluye():
+    # A.1 como identificador de sección en prosa: sin contexto display no hay riesgo
+    assert mp.has_seven_segment_pattern(
+        "La sección A.1 describe el rango de 2 a 8 V."
+    ) is False
+
+
+def test_seven_seg_a1_en_heading_no_excluido():
+    # "A.1" es numeración de sección aunque haya vocabulario de display en el bloque
+    text = (
+        "## A.1 Opciones de display\n"
+        "- Zona: muestra la zona activa\n"
+        "- CBE: código de la ecuación de control"
+    )
+    assert mp.has_seven_segment_pattern(text) is False
+    atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_BUNDLE]
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["seven_segment_risk"] is False
+    assert atoms[0]["meta"]["header"] == "A.1 Opciones de display"
+
+
+def test_seven_seg_rango_en_contexto_display_sigue_excluido():
+    # el caso original (r.I + rango en la misma oración) sigue fuera del anexo
+    assert _atoms(
+        "El display muestra r.I durante el rearme de 0 a 9 segundos.",
+        mp.FAMILY_RANGE,
+    ) == []
+
+
+# ─── detector híbrido (spec v3 §B: fast-path det + Haiku con grounding verbatim) ───
+
+_CHAIN_TEXT = (
+    "Temperatura de funcionamiento: –10 °C ≤ Ta ≤ +55 °C.\n"
+    "El equipo se instala en interior."
+)
+
+
+def _hybrid_payload(**slots):
+    payload = {}
+    for i in range(1, 9):
+        payload[f"atom_{i}_family"] = ""
+        payload[f"atom_{i}_span"] = ""
+    payload.update(slots)
+    return payload
+
+
+class _FakeAnthropic:
+    def __init__(self, payload):
+        self.calls = 0
+        outer = self
+
+        class _Messages:
+            def create(self, **kwargs):
+                outer.calls += 1
+                outer.kwargs = kwargs
+                return SimpleNamespace(
+                    content=[SimpleNamespace(type="tool_use", input=payload)],
+                    usage=SimpleNamespace(input_tokens=111, output_tokens=42),
+                )
+
+        self.messages = _Messages()
+
+
+def test_hybrid_sin_cliente_solo_determinista():
+    # sin cliente NO se toca la red y el resultado es el determinista puro
+    assert mp.detect_atoms_hybrid(_RANGE_TEXT) == mp.detect_atoms(_RANGE_TEXT)
+
+
+def test_hybrid_acepta_span_verbatim_con_shape():
+    # cadena de desigualdad: el regex determinista NO la cubre (diagnóstico v1);
+    # el brazo Haiku la propone con span verbatim y el validador código la acepta
+    assert [a for a in mp.detect_atoms(_CHAIN_TEXT)
+            if a["family"] == mp.FAMILY_RANGE] == []
+    client = _FakeAnthropic(_hybrid_payload(
+        atom_1_family="F-RANGE", atom_1_span="–10 °C ≤ Ta ≤ +55 °C",
+    ))
+    usage = {}
+    atoms = mp.detect_atoms_hybrid(_CHAIN_TEXT, client=client, usage=usage)
+    hybrid = [a for a in atoms if a["meta"].get("origin") == "hybrid"]
+    assert len(hybrid) == 1
+    assert hybrid[0]["family"] == mp.FAMILY_RANGE
+    assert hybrid[0]["span_text"] == "–10 °C ≤ Ta ≤ +55 °C"
+    assert hybrid[0]["meta"]["lower"] == 10.0
+    assert hybrid[0]["meta"]["upper"] == 55.0
+    assert hybrid[0]["meta"]["unit"] == "°c"
+    assert usage == {"input_tokens": 111, "output_tokens": 42, "calls": 1}
+    # tool-use FORZADO con schema plano (patrón source_unit_gold)
+    assert client.kwargs["tool_choice"] == {"type": "tool", "name": "proponer_atomos"}
+
+
+def test_hybrid_descarta_span_no_verbatim():
+    client = _FakeAnthropic(_hybrid_payload(
+        atom_1_family="F-RANGE",
+        atom_1_span="-10 °C hasta +55 °C",  # reescrito, NO substring del fragmento
+    ))
+    atoms = mp.detect_atoms_hybrid(_CHAIN_TEXT, client=client)
+    assert [a for a in atoms if a["meta"].get("origin") == "hybrid"] == []
+
+
+def test_hybrid_descarta_span_sin_shape_de_familia():
+    client = _FakeAnthropic(_hybrid_payload(
+        # verbatim pero sin números/unidad: no tiene shape F-RANGE
+        atom_1_family="F-RANGE", atom_1_span="Temperatura de funcionamiento",
+        # verbatim pero sin gatillo del léxico: no tiene shape F-MANDATORY
+        atom_2_family="F-MANDATORY", atom_2_span="El equipo se instala en interior.",
+        # familia inventada
+        atom_3_family="F-INVENTADA", atom_3_span="Temperatura de funcionamiento",
+    ))
+    atoms = mp.detect_atoms_hybrid(_CHAIN_TEXT, client=client)
+    assert [a for a in atoms if a["meta"].get("origin") == "hybrid"] == []
+
+
+def test_hybrid_no_duplica_atomos_deterministas():
+    client = _FakeAnthropic(_hybrid_payload(
+        atom_1_family="F-RANGE", atom_1_span="de 10 a 30 V",  # ya cubierto por det
+    ))
+    atoms = mp.detect_atoms_hybrid(_RANGE_TEXT, client=client)
+    assert atoms == mp.detect_atoms(_RANGE_TEXT)
+
+
+def test_hybrid_schema_es_plano():
+    # sin arrays/enums/refs (restricción de dialecto: source_unit_gold)
+    schema = mp.hybrid_proposal_schema()
+    blob = str(schema)
+    assert "'type': 'array'" not in blob
+    assert "enum" not in blob and "$ref" not in blob
+    assert schema["additionalProperties"] is False

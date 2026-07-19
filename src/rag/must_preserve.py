@@ -132,23 +132,59 @@ def _sentence_spans(text: str) -> list[tuple[int, int]]:
     return spans
 
 
-# Riesgo OCR 7-segmentos (feedback_7segment): tokens cortos con puntos tipo ``r.I`` /
-# ``t.A`` / ``F.1``. Exige mayúscula o mezcla dígito+letra para NO cazar abreviaturas
-# minúsculas ("p.ej") ni decimales puros ("1.5").
+# Riesgo OCR 7-segmentos (feedback_7segment · spec v3 §A M9): formas de display tipo
+# ``r.I`` / ``r.i`` / ``t.Fi`` / ``dr`` — códigos de 1-3 chars con punto interior o
+# códigos cortos sueltos. La exclusión es CONTEXTUAL: solo aplica si el token aparece
+# en contexto de display/parámetro ("el display muestra ..."), y NUNCA al inicio de
+# línea/heading (``A.1 CARACTERÍSTICAS`` es numeración de sección, no un display —
+# hallazgo 9 de Sol: la versión previa excluía ``A.1`` y no reconocía ``r.i``).
 _SEVEN_SEG_TOKEN = re.compile(
     r"(?<![\w.])(?:[0-9A-Za-z]{1,2}\.){1,2}[0-9A-Za-z]{1,2}(?![\w.])"
 )
+# códigos cortos sin punto (``dr``): solo letras, 2 chars, y SOLO en contexto display
+_SEVEN_SEG_BARE = re.compile(r"(?<![\w.])[A-Za-z]{2}(?![\w.])")
+_SEVEN_SEG_BARE_STOP = {
+    # palabras reales de 2 letras (es/en) que jamás son códigos de display
+    "al", "de", "el", "en", "es", "ha", "he", "la", "le", "lo", "me", "mi", "ni",
+    "no", "os", "se", "si", "su", "te", "tu", "un", "va", "ve", "ya", "yo",
+    "am", "an", "as", "at", "be", "by", "do", "go", "if", "in", "is", "it", "my",
+    "of", "on", "or", "so", "to", "up", "us", "we",
+}
+_DISPLAY_CONTEXT = re.compile(
+    r"\b(display|pantalla|visor|visualiza(?:ra|n)?|muestra(?:n)?|mostrara(?:n)?|"
+    r"indicador(?:es)?|parpadea(?:n)?|segmentos?|digitos?|codigo|codigos|"
+    r"shows?|reads?|blinks?|blinking|flashes|flashing|code|codes|digits?)\b"
+)
+
+
+def _token_is_heading_numbering(text: str, start: int) -> bool:
+    """El token abre la línea (o va tras ``#``/viñeta) ⇒ numeración de sección."""
+    line_start = text.rfind("\n", 0, start) + 1
+    prefix = text[line_start:start]
+    return re.fullmatch(r"\s*(?:#{1,6}\s+|[-•*·◦]\s+)?", prefix) is not None
 
 
 def has_seven_segment_pattern(text: str) -> bool:
-    for m in _SEVEN_SEG_TOKEN.finditer(text or ""):
+    """True si el texto contiene una forma de display 7-segmentos EN CONTEXTO de
+    display/parámetro. Sin contexto de display (o en posición de heading/numeración
+    de sección) NO hay riesgo — el token es identificador técnico normal."""
+    text = text or ""
+    if not _DISPLAY_CONTEXT.search(_fold(text)):
+        return False
+    for m in _SEVEN_SEG_TOKEN.finditer(text):
         tok = m.group()
         if all(c.isdigit() or c == "." for c in tok):
-            continue  # decimal puro
-        if any(c.isupper() for c in tok) or (
-            any(c.isdigit() for c in tok) and any(c.isalpha() for c in tok)
-        ):
-            return True
+            continue  # decimal puro ("1.5")
+        if _token_is_heading_numbering(text, m.start()):
+            continue  # "A.1 JUMPERS": numeración de sección, no display
+        return True
+    for m in _SEVEN_SEG_BARE.finditer(text):
+        tok = m.group()
+        if _fold(tok) in _SEVEN_SEG_BARE_STOP:
+            continue
+        if _token_is_heading_numbering(text, m.start()):
+            continue
+        return True
     return False
 
 
@@ -592,6 +628,212 @@ def detect_atoms(fragment_text: str) -> list[Atom]:
     return atoms
 
 
+# ───────────────────────── detector híbrido (spec v3 §B) ─────────────────────────
+# Fast-path determinista (detect_atoms, se conserva) + brazo Haiku que PROPONE átomos
+# con span VERBATIM obligatorio. El validador es CÓDIGO: cualquier span no-verbatim
+# (span ∉ fragmento) o sin el shape de su familia se DESCARTA. El render/binding/
+# attestation no cambian (la postcondición sigue siendo código). Sin cliente →
+# solo determinista (los tests no tocan red).
+
+HYBRID_DETECTOR_MODEL = "claude-haiku-4-5-20251001"
+_HYBRID_SLOTS = 8
+_HYBRID_MAX_TOKENS = 1500
+
+_HYBRID_PROMPT = """Eres un extractor de átomos estructurales de manuales técnicos PCI. Te doy UN \
+fragmento (español o inglés). Propón hasta 8 átomos, cada uno con su familia y un span \
+COPIADO VERBATIM del fragmento (carácter a carácter, sin reescribir nada — un span que no \
+sea substring exacto del fragmento se descarta).
+
+Familias válidas (usa exactamente estas etiquetas):
+- F-RANGE: restricción numérica acotada — ambos extremos con su unidad (p. ej. "de 05 a \
+295 segundos", "–10 °C a +55 °C", "470Ω a 1K"), opcionalmente paso o ámbito (posiciones \
+de switch). Un número suelto NO es un átomo.
+- F-BUNDLE: cabecera/pestaña/regla con sus campos miembro definidos juntos (heading + \
+líneas "Etiqueta: definición", lista de miembros o filas de tabla). El span debe incluir \
+cabecera Y miembros.
+- F-MANDATORY: oración con fuerza de obligación/prohibición/peligro (imprescindible, \
+obligatorio, nunca, advertencia, atención, peligro, evite, deberá, asegúrese; mandatory, \
+must, never, warning, caution, danger). "antes de"/"before" solo NO cuenta.
+- F-COUNT: conteo declarado de opciones/miembros que NO cuadra con lo enumerado al lado. \
+El span debe incluir el conteo declarado Y la enumeración. Conteo consistente NO es átomo.
+
+Usa la herramienta proponer_atomos: atom_N_family + atom_N_span ("" en los huecos sin usar).
+
+FRAGMENTO:
+<<<FRAGMENT>>>"""
+
+
+def hybrid_proposal_schema() -> dict:
+    """Transporte PLANO (patrón rectangular src/rag/source_unit_gold.py): solo strings,
+    sin arrays/enums/refs — compatible con el dialecto de tool-use de Anthropic. La
+    validación de identidad/shape vive en código, no en el schema."""
+    props: dict = {}
+    required: list[str] = []
+    for i in range(1, _HYBRID_SLOTS + 1):
+        props[f"atom_{i}_family"] = {"type": "string"}
+        props[f"atom_{i}_span"] = {"type": "string"}
+        required.extend([f"atom_{i}_family", f"atom_{i}_span"])
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "required": required,
+        "properties": props,
+    }
+
+
+def _hybrid_range_atom(span: str, start: int) -> Atom | None:
+    """Shape F-RANGE para un span verbatim que el regex determinista NO cubre
+    (cadenas de desigualdad, notación compacta — diagnóstico v1): ≥2 números con
+    ≥1 unidad, o una tolerancia ±. Sin unidad → descarte."""
+    nums = sorted({_num_val(m) for m in _NUM_TOKEN.findall(span)})
+    pm = _RX_PM.search(span)
+    if len(nums) < 2 and not pm:
+        return None
+    unit_m = _RX_NUM_UNIT.search(span)
+    if unit_m is None:
+        return None
+    if has_seven_segment_pattern(span):
+        return None  # riesgo display: fuera del anexo automático
+    step_m = _RX_STEP.search(span)
+    scope_ids = _RX_SCOPE_ID.findall(span)
+    scope = scope_ids if (_RX_SCOPE_WORD.search(span) or len(scope_ids) >= 2) else []
+    meta = {
+        "lower": nums[0] if len(nums) >= 2 else None,
+        "upper": nums[-1] if len(nums) >= 2 else None,
+        "unit": unit_m.group(2).lower(),
+        "tolerance": _num_val(pm.group(1)) if pm else None,
+        "step": _num_val(step_m.group(1)) if step_m else None,
+        "step_unit": (step_m.group(2) or "").lower() or None if step_m else None,
+        "scope": scope,
+    }
+    anchors = _content_tokens(span)
+    for key in ("lower", "upper", "step", "tolerance"):
+        if meta.get(key) is not None:
+            anchors.append(_format_num(meta[key]))
+    return {
+        "family": FAMILY_RANGE,
+        "span_start": start, "span_end": start + len(span),
+        "span_text": span,
+        "anchor_tokens": _dedup(anchors),
+        "meta": meta,
+    }
+
+
+def _shift_atom(atom: Atom, offset: int) -> Atom:
+    atom = dict(atom)
+    atom["span_start"] += offset
+    atom["span_end"] += offset
+    return atom
+
+
+def _atom_from_verbatim_span(family: str, span: str, fragment_text: str) -> Atom | None:
+    """Valida el SHAPE de familia de un span verbatim propuesto por el modelo y lo
+    convierte en Atom con meta consistente (los sub-detectores deterministas corren
+    SOBRE el span). Sin shape → None (descarte)."""
+    start = fragment_text.find(span)
+    if start < 0:
+        return None
+    if family == FAMILY_RANGE:
+        sub = _detect_range(span)
+        atom = _shift_atom(sub[0], start) if sub else _hybrid_range_atom(span, start)
+    elif family == FAMILY_BUNDLE:
+        sub = _detect_bundle(span)
+        atom = _shift_atom(sub[0], start) if sub else None
+    elif family == FAMILY_MANDATORY:
+        triggers = _mandatory_triggers(span)
+        if not triggers:
+            return None
+        atom = {
+            "family": FAMILY_MANDATORY,
+            "span_start": start, "span_end": start + len(span),
+            "span_text": span,
+            "anchor_tokens": _dedup(_content_tokens(span)),
+            "meta": {
+                "triggers": triggers,
+                "seven_segment_risk": has_seven_segment_pattern(span),
+            },
+        }
+    elif family == FAMILY_COUNT:
+        sub = _detect_count(span)
+        atom = _shift_atom(sub[0], start) if sub else None
+    else:
+        return None
+    if atom is not None:
+        atom.setdefault("meta", {})["origin"] = "hybrid"
+    return atom
+
+
+def _overlaps_same_family(atom: Atom, existing: list[Atom]) -> bool:
+    return any(
+        a["family"] == atom["family"]
+        and a["span_start"] < atom["span_end"]
+        and atom["span_start"] < a["span_end"]
+        for a in existing
+    )
+
+
+def detect_atoms_hybrid(
+    fragment_text: str,
+    client=None,
+    model: str = HYBRID_DETECTOR_MODEL,
+    usage: dict | None = None,
+) -> list[Atom]:
+    """Detector híbrido: determinista + propuesta Haiku validada por código.
+
+    - ``client=None`` → SOLO determinista (idéntico a detect_atoms; los tests no
+      tocan red). El caller construye el cliente con ``max_retries=0`` (no-retry).
+    - Con cliente: 1 llamada tool-use forzado (structured output PLANO). Cada átomo
+      propuesto debe citar un span VERBATIM del fragmento y pasar el shape-check de
+      su familia; lo demás se descarta. Los átomos híbridos NUNCA reemplazan a los
+      deterministas (dedup por solape misma-familia).
+    - ``usage``: dict opcional donde se acumulan input_tokens/output_tokens/calls.
+    """
+    det = detect_atoms(fragment_text)
+    if client is None or not fragment_text or not fragment_text.strip():
+        return det
+    response = client.messages.create(
+        model=model,
+        max_tokens=_HYBRID_MAX_TOKENS,
+        temperature=0,
+        tools=[{
+            "name": "proponer_atomos",
+            "description": "Registra los átomos estructurales propuestos (span verbatim).",
+            "input_schema": hybrid_proposal_schema(),
+        }],
+        tool_choice={"type": "tool", "name": "proponer_atomos"},
+        messages=[{
+            "role": "user",
+            "content": _HYBRID_PROMPT.replace("<<<FRAGMENT>>>", fragment_text),
+        }],
+    )
+    if usage is not None:
+        usage["input_tokens"] = usage.get("input_tokens", 0) + (
+            getattr(response.usage, "input_tokens", 0) or 0
+        )
+        usage["output_tokens"] = usage.get("output_tokens", 0) + (
+            getattr(response.usage, "output_tokens", 0) or 0
+        )
+        usage["calls"] = usage.get("calls", 0) + 1
+    tool_use = next(b for b in response.content if b.type == "tool_use")
+    payload = dict(tool_use.input)
+    atoms = list(det)
+    for i in range(1, _HYBRID_SLOTS + 1):
+        family = str(payload.get(f"atom_{i}_family") or "").strip().upper()
+        span = str(payload.get(f"atom_{i}_span") or "").strip()
+        if family not in FAMILIES or not span:
+            continue
+        if span not in fragment_text:
+            continue  # grounding verbatim obligatorio: span no-verbatim → descarte
+        atom = _atom_from_verbatim_span(family, span, fragment_text)
+        if atom is None:
+            continue  # sin shape de su familia → descarte
+        if _overlaps_same_family(atom, atoms):
+            continue
+        atoms.append(atom)
+    atoms.sort(key=lambda a: (a["span_start"], a["family"]))
+    return atoms
+
+
 def _atom_numbers(atom: Atom) -> set[float]:
     meta = atom.get("meta") or {}
     vals: set[float] = set()
@@ -603,45 +845,103 @@ def _atom_numbers(atom: Atom) -> set[float]:
     return vals
 
 
+def citation_window(draft_answer: str, fragment_id) -> str:
+    """Texto ADYACENTE a la(s) cita(s) [Fn] de ESE fragmento (C2, dúo-Sol crítico 2):
+    la unión de las oraciones/líneas del borrador que llevan la cita literal
+    ``[F{fragment_id}]``. Cadena vacía si la cita no es localizable."""
+    draft = draft_answer or ""
+    token = f"[F{int(fragment_id)}]"
+    if token not in draft:
+        return ""
+    parts: list[str] = []
+    for s_start, s_end in _sentence_spans(draft):
+        if token in draft[s_start:s_end]:
+            parts.append(draft[s_start:s_end])
+    return " ".join(parts)
+
+
 def bind_atoms(
     atoms: list[Atom],
     draft_answer: str,
     cited_fragment_ids: set,
     fragment_id,
 ) -> list[Atom]:
-    """Exigibilidad (diseño §1.2, conservador: en duda NO exigible): el fragmento está
-    CITADO en el borrador Y el borrador toca el claim ancla del átomo — comparte un número
-    exacto (se excluyen 0/1 por ubicuidad), o ≥2 anchor_tokens no-stopword, o la entidad
-    completa del heading."""
+    """Exigibilidad (diseño §1.2 + C2 claim-proximity, conservador: en duda NO
+    exigible): el fragmento está CITADO en el borrador Y el texto ADYACENTE a la cita
+    [Fn] de ESE fragmento (no toda la respuesta) toca el claim ancla del átomo —
+    comparte un número exacto (se excluyen 0/1 por ubicuidad), o ≥2 anchor_tokens
+    no-stopword, o la entidad completa del heading. Un número compartido que solo
+    aparece junto a la cita de OTRO fragmento NO liga (crítico C2 del dúo: el binding
+    sobre toda la respuesta anexaba evidencia ajena por coincidencia). Sin cita
+    localizable → no exigible."""
     if fragment_id not in set(cited_fragment_ids or set()):
         return []
-    clean = _FRAG_CITE.sub(" ", draft_answer or "")
-    draft_tokens = set(_content_tokens(clean))
-    draft_numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
+    window = citation_window(draft_answer, fragment_id)
+    if not window.strip():
+        return []  # cita no localizable → conservador: nada exigible
+    clean = _FRAG_CITE.sub(" ", window)
+    window_tokens = set(_content_tokens(clean))
+    window_numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
     bound: list[Atom] = []
     for atom in atoms:
         atom_numbers = {v for v in _atom_numbers(atom) if v not in (0.0, 1.0)}
-        if atom_numbers & draft_numbers:
+        if atom_numbers & window_numbers:
             bound.append(atom)
             continue
         anchors = {
             t for t in (atom.get("anchor_tokens") or [])
             if not t.isdigit() and t not in _STOPWORDS and len(t) >= 3
         }
-        if len(anchors & draft_tokens) >= 2:
+        if len(anchors & window_tokens) >= 2:
             bound.append(atom)
             continue
         header_tokens = _content_tokens((atom.get("meta") or {}).get("header") or "")
-        if header_tokens and set(header_tokens) <= draft_tokens:
+        if header_tokens and set(header_tokens) <= window_tokens:
             bound.append(atom)
     return bound
 
 
+# Disclosure explícito de fuente inconsistente (guard s243 / C3): la ÚNICA forma de
+# satisfacer un F-COUNT en conflicto es reconocer el conflicto, nunca la mera presencia
+# de los números (crítico 3 de Sol: los números presentes evitaban justo el disclosure).
+_DISCLOSURE_PATTERNS = (
+    "el manual tambien indica", "el manual tambien senala", "el manual tambien recoge",
+    "la fuente tambien indica", "tambien indica el manual", "el manual declara",
+    "aunque el manual", "la fuente es inconsistente", "conteo inconsistente",
+    "the manual also states", "the manual also indicates", "the source also states",
+    "the manual is inconsistent",
+)
+
+
+def _disclosure_present(folded_text: str) -> bool:
+    return any(pat in folded_text for pat in _DISCLOSURE_PATTERNS)
+
+
+def _range_unit_satisfied(meta: dict, needed: set[float], clean_draft: str) -> bool:
+    """La unidad del átomo debe aparecer PAREADA con alguno de sus números en el
+    borrador (``30 V``), no basta el número pelado (C3: "quitar unidad" es mutación
+    detectable). Sin unidad en el átomo no se exige."""
+    unit = (meta.get("unit") or "").lower()
+    if not unit:
+        return True
+    canon = _UNIT_SYNONYMS.get(unit, unit)
+    pairs = _num_unit_pairs(clean_draft)
+    return any(u == canon and v in needed for v, u in pairs)
+
+
 def atom_satisfied(atom: Atom, draft_answer: str) -> bool:
-    """¿El borrador ya conserva el átomo? Determina qué átomos exigibles van al anexo."""
+    """¿El borrador ya conserva el átomo COMPLETO? (C3, crítico 3 de Sol)
+
+    F-RANGE     extremos+paso+tolerancia Y unidad pareada Y tokens de scope presentes.
+    F-COUNT     con ``conflict=True`` JAMÁS se satisface por presencia de números —
+                solo por disclosure explícito ("el manual también indica ...").
+    F-BUNDLE    todos los miembros Y la cabecera padre presentes.
+    F-MANDATORY sin cambio (ya exigía trigger + anchors).
+    """
     clean = _FRAG_CITE.sub(" ", draft_answer or "")
     draft_tokens = set(_content_tokens(clean))
     draft_numbers = _numbers_in(clean)
+    dfold = _fold(clean)
     family = atom.get("family")
     meta = atom.get("meta") or {}
     if family == FAMILY_RANGE:
@@ -649,23 +949,37 @@ def atom_satisfied(atom: Atom, draft_answer: str) -> bool:
             float(meta[k]) for k in ("lower", "upper", "step", "tolerance")
             if meta.get(k) is not None
         }
-        return bool(needed) and needed <= draft_numbers
+        if not needed or not needed <= draft_numbers:
+            return False
+        if not _range_unit_satisfied(meta, needed, clean):
+            return False
+        for scope_id in meta.get("scope") or []:
+            if _fold(scope_id) not in dfold:
+                return False
+        return True
     if family == FAMILY_COUNT:
+        if meta.get("conflict"):
+            return _disclosure_present(dfold)
         return {float(meta["declared_n"]), float(meta["enumerated_n"])} <= draft_numbers
     if family == FAMILY_BUNDLE:
+        header_tokens = _content_tokens(meta.get("header") or "")
+        if header_tokens and not set(header_tokens) <= draft_tokens:
+            return False  # el bundle exige la cabecera padre, no solo los miembros
         members = meta.get("members") or []
         if not members:
             return True
+        # min_len=2 en AMBOS lados (v3): con draft_tokens a min_len=3 un miembro
+        # cuyo único token es de 2 chars ("PC") era insatisfacible por construcción
+        draft_tokens_short = set(_content_tokens(clean, min_len=2))
         for label in members:
             toks = _content_tokens(label, min_len=2)
             if not toks:
                 continue
-            if not any(t in draft_tokens for t in toks):
+            if not any(t in draft_tokens_short for t in toks):
                 return False
         return True
     if family == FAMILY_MANDATORY:
         triggers = meta.get("triggers") or []
-        dfold = _fold(clean)
         trigger_present = any(_trigger_present(trg, dfold) for trg in triggers)
         anchors = {
             t for t in (atom.get("anchor_tokens") or [])
