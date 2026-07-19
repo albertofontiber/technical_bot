@@ -33,6 +33,17 @@ logger = logging.getLogger(__name__)
 VISUAL_ASSETS_TABLE = "document_visual_assets"
 MAX_ASSETS_PER_ANSWER = 2
 _LOOKUP_TIMEOUT_S = 3.0
+# Regla de vocabulario del contrato S190 (§visual_role, gate v4): solo los
+# roles TÉCNICOS se sirven. cover/marketing/product_photo/other jamás llegan
+# al técnico aunque estén etiquetados useful.
+SERVABLE_VISUAL_ROLES = ("wiring", "table", "procedure", "ui")
+
+
+def _is_servable(row: dict) -> bool:
+    return (
+        row.get("technical_utility") == "useful"
+        and row.get("visual_role") in SERVABLE_VISUAL_ROLES
+    )
 
 # Refs de fragmento del mecanismo de citas del planner ("... [F3]").
 _FRAGMENT_REF = re.compile(r"\[F(\d+)\]")
@@ -42,9 +53,9 @@ def lookup_visual_assets(document_id: str, page_number: int) -> list[dict]:
     """Activos ``useful`` de una página documental exacta, vía REST GET.
 
     Devuelve las filas de ``document_visual_assets`` para
-    ``(document_id, page_index=page_number)`` con ``technical_utility=useful``,
-    en orden determinista. Lanza la excepción HTTP al caller (el caller decide
-    fallar abierto).
+    ``(document_id, page_index=page_number)`` con ``technical_utility=useful``
+    Y ``visual_role`` técnico-servible, en orden determinista. Lanza la
+    excepción HTTP al caller (el caller decide fallar abierto).
     """
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
@@ -58,6 +69,7 @@ def lookup_visual_assets(document_id: str, page_number: int) -> list[dict]:
         "document_id": f"eq.{document_id}",
         "page_index": f"eq.{page_number}",
         "technical_utility": "eq.useful",
+        "visual_role": f"in.({','.join(SERVABLE_VISUAL_ROLES)})",
         "order": "asset_scope.asc,asset_sha256.asc",
     }
     with httpx.Client(timeout=_LOOKUP_TIMEOUT_S) as client:
@@ -68,9 +80,10 @@ def lookup_visual_assets(document_id: str, page_number: int) -> list[dict]:
         )
         response.raise_for_status()
     rows = response.json()
-    # Re-verificación en cliente: 'uncertain'/'not_useful' no se sirven NUNCA,
+    # Re-verificación en cliente: 'uncertain'/'not_useful' y los roles no
+    # técnicos (cover/marketing/product_photo/other) no se sirven NUNCA,
     # aunque la API (o un mock/misconfig) devolviera otra cosa.
-    return [row for row in rows if row.get("technical_utility") == "useful"]
+    return [row for row in rows if _is_servable(row)]
 
 
 def cited_fragment_numbers(answer: str, chunks: list[dict]) -> list[int]:
@@ -134,9 +147,10 @@ def append_cited_visual_assets(result: dict, chunks: list[dict]) -> None:
             )
             page_label = None
             for asset in lookup_visual_assets(document_id, page_number):
-                # Re-verificación final del contrato: solo 'useful' se sirve,
-                # aunque el lookup (o un reemplazo suyo) devolviera otra cosa.
-                if asset.get("technical_utility") != "useful":
+                # Re-verificación final del contrato: solo 'useful' con rol
+                # técnico-servible se sirve, aunque el lookup (o un reemplazo
+                # suyo) devolviera otra cosa.
+                if not _is_servable(asset):
                     continue
                 url = asset.get("storage_url")
                 if not url or url in existing_urls:

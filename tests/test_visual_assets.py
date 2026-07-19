@@ -188,12 +188,14 @@ def test_lookup_filtra_useful_en_query_y_en_cliente(monkeypatch):
             return None
 
         def json(self):
-            # La API devuelve (indebidamente) mezcla de utilidades: el cliente
-            # debe re-filtrar y servir SOLO useful.
+            # La API devuelve (indebidamente) mezcla de utilidades Y roles: el
+            # cliente debe re-filtrar y servir SOLO useful ∧ rol técnico.
             return [
-                {"storage_url": "https://a/useful.jpg", "technical_utility": "useful"},
-                {"storage_url": "https://a/uncertain.jpg", "technical_utility": "uncertain"},
-                {"storage_url": "https://a/notuseful.jpg", "technical_utility": "not_useful"},
+                {"storage_url": "https://a/useful.jpg", "technical_utility": "useful", "visual_role": "wiring"},
+                {"storage_url": "https://a/uncertain.jpg", "technical_utility": "uncertain", "visual_role": "wiring"},
+                {"storage_url": "https://a/notuseful.jpg", "technical_utility": "not_useful", "visual_role": "table"},
+                {"storage_url": "https://a/cover-useful.jpg", "technical_utility": "useful", "visual_role": "cover"},
+                {"storage_url": "https://a/photo-useful.jpg", "technical_utility": "useful", "visual_role": "product_photo"},
                 {"storage_url": "https://a/sinlabel.jpg"},
             ]
 
@@ -214,11 +216,14 @@ def test_lookup_filtra_useful_en_query_y_en_cliente(monkeypatch):
 
     monkeypatch.setattr(va.httpx, "Client", _FakeClient)
     rows = va.lookup_visual_assets("doc-1", 7)
-    # El filtro duro va en la QUERY (la DB solo devuelve useful en producción)...
+    # El filtro duro va en la QUERY (la DB solo devuelve useful ∧ rol técnico
+    # en producción — regla de vocab del contrato S190)...
     assert captured["params"]["technical_utility"] == "eq.useful"
+    assert captured["params"]["visual_role"] == "in.(wiring,table,procedure,ui)"
     assert captured["params"]["document_id"] == "eq.doc-1"
     assert captured["params"]["page_index"] == "eq.7"
-    # ...y el cliente re-verifica (cinturón y tirantes).
+    # ...y el cliente re-verifica (cinturón y tirantes): fuera uncertain,
+    # not_useful, cover-useful, product_photo-useful y sin-label.
     assert [row["storage_url"] for row in rows] == ["https://a/useful.jpg"]
 
 
@@ -230,8 +235,29 @@ def test_uncertain_not_useful_jamas_llegan_a_diagrams(monkeypatch):
     # debe descartarlas igualmente (re-verificación final del contrato).
     def bad_lookup(document_id, page_number):
         return [
-            {"storage_url": "https://a/uncertain.jpg", "technical_utility": "uncertain"},
-            {"storage_url": "https://a/notuseful.jpg", "technical_utility": "not_useful"},
+            {"storage_url": "https://a/uncertain.jpg", "technical_utility": "uncertain", "visual_role": "wiring"},
+            {"storage_url": "https://a/notuseful.jpg", "technical_utility": "not_useful", "visual_role": "table"},
+        ]
+
+    monkeypatch.setattr(va, "lookup_visual_assets", bad_lookup)
+    res = gen.generate_answer(
+        "¿Tensión?", [_chunk("d1", 4, "manual_cad250.pdf")]
+    )
+    assert res["diagrams"] == []
+
+
+def test_roles_no_tecnicos_jamas_llegan_a_diagrams(monkeypatch):
+    monkeypatch.setattr(gen, "VISUAL_ASSETS_REGISTRY", True)
+    _fake_anthropic(monkeypatch, "Dato [F1].\nFuentes: manual_cad250")
+
+    # Lookup roto que devuelve useful con rol NO servible (cover/marketing/
+    # product_photo/other): append debe descartarlos (regla S190 §visual_role).
+    def bad_lookup(document_id, page_number):
+        return [
+            {"storage_url": "https://a/cover.jpg", "technical_utility": "useful", "visual_role": "cover"},
+            {"storage_url": "https://a/mkt.jpg", "technical_utility": "useful", "visual_role": "marketing"},
+            {"storage_url": "https://a/photo.jpg", "technical_utility": "useful", "visual_role": "product_photo"},
+            {"storage_url": "https://a/other.jpg", "technical_utility": "useful", "visual_role": "other"},
         ]
 
     monkeypatch.setattr(va, "lookup_visual_assets", bad_lookup)

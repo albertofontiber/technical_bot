@@ -54,6 +54,11 @@ AUDIT_PATH = ROOT / "evals" / "s190_visual_asset_bridge_audit_v1.json"
 DEFAULT_DUMP = ROOT / "evals" / "s269_visual_assets_bridge_dump_v1.jsonl"
 TARGET_TABLE = "document_visual_assets"
 LOAD_BATCH = 500
+# Contrato del clasificador que puebla visual_role/technical_utility (gate v4).
+CLASSIFIER_CONTRACT = "s269_visual_utility_v4"
+CLASSIFIER_GATE = "evals/s269_visual_utility_gate_v4.yaml"
+# Regla de vocab del contrato S190: lo servible es useful ∧ rol técnico.
+SERVABLE_VISUAL_ROLES = ("wiring", "table", "procedure", "ui")
 
 # Claves del audit S190 verificadas con tolerancia 0. El digest
 # stable_receipt_sha256 cubre las 5.096 filas (doc, página, source_hash,
@@ -430,6 +435,126 @@ def load_dump(env_path: Path, dump_path: Path) -> int:
     return 0
 
 
+def apply_labels(env_path: Path, dump_path: Path, labels_path: Path) -> int:
+    """Upsert idempotente de los labels del clasificador v4 sobre la tabla.
+
+    Para cada item etiquetado: visual_role + technical_utility +
+    classifier_contract + classifier_receipt (JSONB con response_id, confianza,
+    razón, sha256 del binario y referencia al gate v4). Las claves de conflicto
+    son las mismas del --load (document_id, page_index, asset_sha256=sha-de-URL
+    del dump), así que re-correr es no-op y correrlo antes de --load insertaría
+    la fila completa igualmente (merge-duplicates con la fila entera del dump).
+    ABORTA sin escribir si la tabla no existe (migración 014 sin aplicar), si
+    algún label no casa con el dump o si el recibo de URL no cuadra.
+    """
+    base_url, headers = _headers(env_path)
+    if not _table_exists(base_url, headers):
+        print(
+            f"ABORT: la tabla {TARGET_TABLE} no existe. --apply-labels requiere "
+            "aplicar migrations/014_document_visual_assets.sql + autorización "
+            "del orquestador. Este script NO aplica migraciones.",
+            file=sys.stderr,
+        )
+        return 2
+
+    dump_by_page: dict[tuple[str, int], dict[str, Any]] = {}
+    for line in dump_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        record = json.loads(line)
+        dump_by_page[(str(record["document_id"]), int(record["page_index"]))] = record
+
+    labels = [
+        json.loads(line)
+        for line in labels_path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    seen_items: set[str] = set()
+    payloads: list[dict[str, Any]] = []
+    expected_servable = 0
+    for label in labels:
+        item_id = label["item_id"]
+        if item_id in seen_items:
+            print(f"ABORT: item duplicado en labels: {item_id}", file=sys.stderr)
+            return 2
+        seen_items.add(item_id)
+        key = (str(label["document_id"]), int(label["page_index"]))
+        record = dump_by_page.get(key)
+        if record is None:
+            print(f"ABORT: label sin fila del dump: {key}", file=sys.stderr)
+            return 2
+        if label.get("storage_url_sha256") != record["asset_sha256"]:
+            print(
+                f"ABORT: recibo de URL no cuadra para {item_id} {key}",
+                file=sys.stderr,
+            )
+            return 2
+        row = {column: record[column] for column in TABLE_COLUMNS}
+        row["visual_role"] = label["visual_role"]
+        row["technical_utility"] = label["technical_utility"]
+        row["classifier_contract"] = CLASSIFIER_CONTRACT
+        row["classifier_receipt"] = {
+            "instrument": "s269_visual_utility_labels_v4_full",
+            "labels_file": "evals/s269_visual_utility_labels_v4_full.jsonl",
+            "gate": CLASSIFIER_GATE,
+            "model": "gpt-5.6-luna",
+            "item_id": item_id,
+            "response_id": label.get("response_id"),
+            "confidence": label.get("confidence"),
+            "has_legible_technical_visual": label.get(
+                "has_legible_technical_visual"
+            ),
+            "reason": label.get("reason"),
+            "binary_asset_sha256": label.get("asset_sha256"),
+        }
+        if (
+            row["technical_utility"] == "useful"
+            and row["visual_role"] in SERVABLE_VISUAL_ROLES
+        ):
+            expected_servable += 1
+        payloads.append(row)
+
+    post_headers = {
+        **headers,
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=minimal",
+    }
+    applied = 0
+    with httpx.Client(timeout=60) as client:
+        for start in range(0, len(payloads), LOAD_BATCH):
+            batch = payloads[start : start + LOAD_BATCH]
+            response = client.post(
+                f"{base_url}/rest/v1/{TARGET_TABLE}",
+                headers=post_headers,
+                params={"on_conflict": "document_id,page_index,asset_sha256"},
+                json=batch,
+            )
+            response.raise_for_status()
+            applied += len(batch)
+            print(f"apply-labels: {applied}/{len(payloads)}", flush=True)
+
+    # Verificación post-aplicación: count servible en tabla vs esperado.
+    count_response = httpx.head(
+        f"{base_url}/rest/v1/{TARGET_TABLE}",
+        headers={**headers, "Prefer": "count=exact"},
+        params={
+            "technical_utility": "eq.useful",
+            "visual_role": f"in.({','.join(SERVABLE_VISUAL_ROLES)})",
+            "limit": "1",
+        },
+        timeout=60,
+    )
+    count_response.raise_for_status()
+    servable = int(count_response.headers["content-range"].rsplit("/", 1)[1])
+    print(
+        f"apply-labels: servibles en tabla={servable} / esperados={expected_servable}"
+    )
+    if servable != expected_servable:
+        print("ABORT: el count servible no cuadra con los labels.", file=sys.stderr)
+        return 1
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--env", type=Path, default=DEFAULT_ENV)
@@ -444,7 +569,27 @@ def main() -> int:
         action="store_true",
         help="INSERT del dump a document_visual_assets (requiere migración 014 aplicada).",
     )
+    parser.add_argument(
+        "--apply-labels",
+        type=Path,
+        default=None,
+        metavar="LABELS_JSONL",
+        help="Upsert de visual_role/technical_utility/classifier_* desde los "
+        "labels v4 (requiere migración 014 aplicada).",
+    )
     args = parser.parse_args()
+
+    if args.apply_labels is not None:
+        if args.load or args.verify:
+            print("ABORT: --apply-labels es un modo exclusivo.", file=sys.stderr)
+            return 2
+        if not args.apply_labels.exists():
+            print(f"ABORT: no existen los labels {args.apply_labels}", file=sys.stderr)
+            return 2
+        if not args.dump_path.exists():
+            print(f"ABORT: no existe el dump {args.dump_path}", file=sys.stderr)
+            return 2
+        return apply_labels(args.env, args.dump_path, args.apply_labels)
 
     if args.load:
         if not args.dump_path.exists():
