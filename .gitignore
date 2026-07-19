@@ -94,8 +94,13 @@ evals/t1_surrogates_dump.jsonl
 #   python scripts/s269_visual_utility_executor_v4.py --gate-sample --download-dir spotcheck_v4
 spotcheck_v4/
 
-# Renders de los gate-samples s271 (piloto + resto): re-derivables byte-idénticos
-# con verificación sha256 contra evals/s271_visual_utility_gate_sample*.json (que
-# SÍ se versionan): scripts/s271_render_backfill.py --gate-sample --download-dir ...
+# Renders de los gate-samples s271 (piloto + resto + re-gates): re-derivables
+# byte-idénticos con verificación sha256 contra evals/s271_visual_utility_gate_sample*.json
+# (que SÍ se versionan): scripts/s271_render_backfill.py --gate-sample --download-dir ...
 spotcheck_s271/
 spotcheck_s271_resto/
+spotcheck_s271_resto_v2/
+
+# Backup local del saneo de una línea corrupta del checkpoint de labels
+# (solape de dos appends durante un corte; el canónico es el .jsonl saneado).
+evals/*.bak_corrupt

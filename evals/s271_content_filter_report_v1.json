@@ -1,0 +1,371 @@
+{
+  "instrument": "s271_content_filter_report_v1",
+  "created_at": "2026-07-19T21:31:30.370379+00:00",
+  "mode": "dry_run",
+  "config": {
+    "signals": [
+      "blank_table_template",
+      "low_density"
+    ],
+    "min_total_alnum": 120,
+    "max_non_table_alnum_s1": 200,
+    "min_blank_data_cells_s1": 6,
+    "max_bytes_per_pixel_s2": 0.05,
+    "density_exempt_roles": [
+      "wiring"
+    ],
+    "declared_not_covered": "prosa genérica sin figura (residual del re-gate)",
+    "anti_overfit": "umbrales fijados a priori; el filtro corre sobre TODO el serving-set; cero excepciones por item; los 60 items del gate resto v1 no se consultaron para fijar umbrales (los 2 FPs que endurecieron S1/S2 salieron del propio dry-run, verify-first)",
+    "text_source": "chunks_v2 (document_id, page_number) — GET-only",
+    "render_stats_source": "data/s271_renders/*/manifest.jsonl (local)"
+  },
+  "serving_total": 13298,
+  "pages_without_text_fail_open": 0,
+  "text_low_bpp_distribution": {
+    "n": 23,
+    "below_threshold": 8,
+    "min": 0.0206,
+    "median": 0.085,
+    "max": 0.1459
+  },
+  "counts": {
+    "degraded_role_procedure": 1,
+    "degraded_role_table": 40,
+    "degraded_s269_visual_utility_v4": 5,
+    "degraded_s271_visual_utility_v1": 36,
+    "degraded_total": 41,
+    "s2_skipped_no_render_stats": 17,
+    "serving_s269_visual_utility_v4": 4489,
+    "serving_s271_visual_utility_v1": 8809,
+    "signal_blank_table_template": 40,
+    "signal_low_density": 7,
+    "text_low_pages": 40
+  },
+  "degrade_payload": "evals/s271_content_filter_degrade_v1.jsonl",
+  "sample_degraded": [
+    {
+      "document_id": "ee4a01b8-4eef-41a4-8146-75f8b35d1c34",
+      "page_index": 76,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 240,
+        "non_table_alnum": 102,
+        "has_table": true,
+        "data_cells": 99,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT250_p076.jpg"
+    },
+    {
+      "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+      "page_index": 8,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template",
+        "low_density"
+      ],
+      "metrics": {
+        "total_alnum": 92,
+        "non_table_alnum": 56,
+        "has_table": true,
+        "data_cells": 85,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p008.jpg"
+    },
+    {
+      "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
+      "page_index": 12,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 259,
+        "non_table_alnum": 195,
+        "has_table": true,
+        "data_cells": 95,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/pfannenberg/pfannenberg_I56-2166-02R_DH500ACDC-E_p012.jpg"
+    },
+    {
+      "document_id": "ae18e58f-c155-4dd7-a268-fe652adc6863",
+      "page_index": 53,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 132,
+        "non_table_alnum": 85,
+        "has_table": true,
+        "data_cells": 210,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MFDT156_p053.jpg"
+    },
+    {
+      "document_id": "fcf37548-02d0-41d1-bd5b-d5d9dc00cdbd",
+      "page_index": 12,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 85,
+        "non_table_alnum": 43,
+        "has_table": true,
+        "data_cells": 70,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Serie 800/Serie_800_MNDT020_p012.jpg"
+    },
+    {
+      "document_id": "fcf37548-02d0-41d1-bd5b-d5d9dc00cdbd",
+      "page_index": 13,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 60,
+        "non_table_alnum": 18,
+        "has_table": true,
+        "data_cells": 80,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Serie 800/Serie_800_MNDT020_p013.jpg"
+    },
+    {
+      "document_id": "fcf37548-02d0-41d1-bd5b-d5d9dc00cdbd",
+      "page_index": 14,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 85,
+        "non_table_alnum": 43,
+        "has_table": true,
+        "data_cells": 75,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Serie 800/Serie_800_MNDT020_p014.jpg"
+    },
+    {
+      "document_id": "39a17062-7c8a-4bc2-ad43-6757043022d8",
+      "page_index": 35,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 146,
+        "non_table_alnum": 17,
+        "has_table": true,
+        "data_cells": 100,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MI-110_p035.jpg"
+    },
+    {
+      "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+      "page_index": 35,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 146,
+        "non_table_alnum": 17,
+        "has_table": true,
+        "data_cells": 100,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT105_A_p035.jpg"
+    },
+    {
+      "document_id": "fcf37548-02d0-41d1-bd5b-d5d9dc00cdbd",
+      "page_index": 16,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 85,
+        "non_table_alnum": 43,
+        "has_table": true,
+        "data_cells": 75,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/Serie 800/Serie_800_MNDT020_p016.jpg"
+    },
+    {
+      "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+      "page_index": 36,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 146,
+        "non_table_alnum": 17,
+        "has_table": true,
+        "data_cells": 104,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT105_A_p036.jpg"
+    },
+    {
+      "document_id": "de8c0345-2b30-4cfa-a73c-968038acde1f",
+      "page_index": 9,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template",
+        "low_density"
+      ],
+      "metrics": {
+        "total_alnum": 86,
+        "non_table_alnum": 50,
+        "has_table": true,
+        "data_cells": 115,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_ms1-2-4_p009.jpg"
+    },
+    {
+      "document_id": "4b0352b5-32b8-4d38-907d-db2acc12521b",
+      "page_index": 48,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 151,
+        "non_table_alnum": 104,
+        "has_table": true,
+        "data_cells": 210,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MU-300_p048.jpg"
+    },
+    {
+      "document_id": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
+      "page_index": 47,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 161,
+        "non_table_alnum": 114,
+        "has_table": true,
+        "data_cells": 210,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MFDT155_p047.jpg"
+    },
+    {
+      "document_id": "5800c4c0-df50-46c0-b37b-a756417e7131",
+      "page_index": 8,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 165,
+        "non_table_alnum": 118,
+        "has_table": true,
+        "data_cells": 190,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS8_p008.jpg"
+    },
+    {
+      "document_id": "446da5f5-a037-4827-8a52-b12d44afe4ce",
+      "page_index": 81,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template",
+        "low_density"
+      ],
+      "metrics": {
+        "total_alnum": 112,
+        "non_table_alnum": 92,
+        "has_table": true,
+        "data_cells": 117,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT260_p081.jpg"
+    },
+    {
+      "document_id": "de8c0345-2b30-4cfa-a73c-968038acde1f",
+      "page_index": 7,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template",
+        "low_density"
+      ],
+      "metrics": {
+        "total_alnum": 92,
+        "non_table_alnum": 56,
+        "has_table": true,
+        "data_cells": 80,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_ms1-2-4_p007.jpg"
+    },
+    {
+      "document_id": "446da5f5-a037-4827-8a52-b12d44afe4ce",
+      "page_index": 78,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 370,
+        "non_table_alnum": 166,
+        "has_table": true,
+        "data_cells": 184,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT260_p078.jpg"
+    },
+    {
+      "document_id": "cbc9c21c-4369-4316-905f-40cdce16af53",
+      "page_index": 8,
+      "visual_role": "table",
+      "signals": [
+        "blank_table_template"
+      ],
+      "metrics": {
+        "total_alnum": 165,
+        "non_table_alnum": 118,
+        "has_table": true,
+        "data_cells": 180,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MS8_p008.jpg"
+    },
+    {
+      "document_id": "aa1bc380-4c99-41d0-aea3-3f0567bb7347",
+      "page_index": 46,
+      "visual_role": "procedure",
+      "signals": [
+        "low_density"
+      ],
+      "metrics": {
+        "total_alnum": 69,
+        "non_table_alnum": 69,
+        "has_table": false,
+        "data_cells": 0,
+        "informative_data_cells": 0
+      },
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MFDT180_p046.jpg"
+    }
+  ]
+}

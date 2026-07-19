@@ -475,3 +475,41 @@ def test_gate_sample_excluye_tramos_para_el_gate_del_resto(tmp_path, monkeypatch
     assert payload["serving_set_total"] == 5  # solo el serving-set no-piloto
     assert len(payload["rows"]) == 5
     assert all(row["tramo"] == "t02-detnov" for row in payload["rows"])
+
+
+def test_gate_sample_seed_distinta_y_exclusion_de_paginas_observadas(
+    tmp_path, monkeypatch
+):
+    labels_path = tmp_path / "labels.jsonl"
+    monkeypatch.setattr(backfill, "LABELS_PATH", labels_path)
+    for n in range(80):
+        backfill.append_jsonl(labels_path, {**_label(n), "tramo": "t02-detnov"})
+    # Primer gate (seed default) congelado.
+    first = tmp_path / "gate_v1.json"
+    assert backfill.gate_sample(None, render_dir=tmp_path, out_path=first) == 0
+    v1 = json.loads(first.read_text(encoding="utf-8"))
+    observed = {(r["document_id"], r["page_index"]) for r in v1["rows"]}
+    # Payload de degradación (formato content-filter): excluye 2 páginas más.
+    degrade = tmp_path / "degrade.jsonl"
+    for n in (70, 71):
+        backfill.append_jsonl(degrade, {"document_id": f"d{n}", "page_index": n})
+    # Re-gate: seed distinta + exclusión de observados y degradados.
+    second = tmp_path / "gate_v2.json"
+    assert (
+        backfill.gate_sample(
+            None,
+            render_dir=tmp_path,
+            out_path=second,
+            seed="271b",
+            exclude_files=(first, degrade),
+        )
+        == 0
+    )
+    v2 = json.loads(second.read_text(encoding="utf-8"))
+    assert v2["seed"] == "271b"
+    expected_excluded = observed | {("d70", 70), ("d71", 71)}
+    assert v2["excluded_pages"] == len(expected_excluded)
+    fresh = {(r["document_id"], r["page_index"]) for r in v2["rows"]}
+    assert fresh & expected_excluded == set()  # ni observados ni degradados
+    # La muestra es exactamente lo que queda del universo tras excluir.
+    assert len(v2["rows"]) == 80 - len(expected_excluded)

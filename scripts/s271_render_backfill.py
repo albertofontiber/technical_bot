@@ -1102,7 +1102,9 @@ def apply_labels(
 # GATE SAMPLE (patrón v4: muestra fresca congelada para spot-check humano)
 # ---------------------------------------------------------------------------
 
-def gate_sample_rows(labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def gate_sample_rows(
+    labels: list[dict[str, Any]], seed: str = GATE_SAMPLE_SEED
+) -> list[dict[str, Any]]:
     serving = [
         label
         for label in labels
@@ -1111,10 +1113,30 @@ def gate_sample_rows(labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
     ]
 
     def score(label: dict[str, Any]) -> str:
-        value = f"{GATE_SAMPLE_SEED}|{label['document_id']}|{label['page_index']}"
+        value = f"{seed}|{label['document_id']}|{label['page_index']}"
         return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
     return sorted(serving, key=score)[:GATE_SAMPLE_N]
+
+
+def _pages_from_exclude_file(path: Path) -> set[tuple[str, int]]:
+    """Páginas (document_id, page_index) a excluir del gate, desde:
+    * un gate-sample congelado (.json con rows[]) — items YA observados;
+    * un payload JSONL (p.ej. el degrade del content-filter) — items filtrados.
+    """
+    pages: set[tuple[str, int]] = set()
+    if path.suffix == ".json":
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        rows = payload.get("rows", [])
+    else:
+        rows = [
+            json.loads(line)
+            for line in path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    for row in rows:
+        pages.add((str(row["document_id"]), int(row["page_index"])))
+    return pages
 
 
 def gate_sample(
@@ -1122,13 +1144,21 @@ def gate_sample(
     render_dir: Path = RENDER_DIR,
     exclude_tramos: tuple[str, ...] = (),
     out_path: Path = GATE_SAMPLE_PATH,
+    seed: str = GATE_SAMPLE_SEED,
+    exclude_files: tuple[Path, ...] = (),
 ) -> int:
     """Congela la muestra del gate. ``exclude_tramos`` sirve para el gate del
-    'resto': muestra FRESCA solo del serving-set no-piloto (prereg S271)."""
+    'resto' (muestra fresca no-piloto); ``exclude_files`` excluye páginas ya
+    observadas en gates previos y/o degradadas por el content-filter (re-gate
+    FRESCO post-filtro, seed distinta vía ``seed``)."""
+    excluded_pages: set[tuple[str, int]] = set()
+    for path in exclude_files:
+        excluded_pages |= _pages_from_exclude_file(path)
     labels = [
         row
         for row in read_jsonl(LABELS_PATH)
         if row.get("tramo") not in set(exclude_tramos)
+        and (str(row["document_id"]), int(row["page_index"])) not in excluded_pages
     ]
     if not labels:
         print("ABORT: no hay labels s271 aún (corre --classify primero).", file=sys.stderr)
@@ -1138,7 +1168,7 @@ def gate_sample(
         for tramo in sorted(p for p in render_dir.iterdir() if p.is_dir()):
             for row in read_jsonl(tramo / "upload_receipts.jsonl"):
                 receipts[row["item_id"]] = row
-    sample = gate_sample_rows(labels)
+    sample = gate_sample_rows(labels, seed=seed)
     rows = []
     for index, label in enumerate(sample, 1):
         receipt = receipts.get(label["item_id"], {})
@@ -1168,9 +1198,11 @@ def gate_sample(
         "status": "FROZEN_FOR_HUMAN_SPOT_CHECK",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "preregistration": str(PREREG_PATH.relative_to(ROOT)).replace("\\", "/"),
-        "seed": GATE_SAMPLE_SEED,
+        "seed": seed,
         "n": len(rows),
         "excluded_tramos": sorted(exclude_tramos),
+        "excluded_pages": len(excluded_pages),
+        "exclude_files": [str(p) for p in exclude_files],
         "labels_total": len(labels),
         "serving_set_total": sum(
             1
@@ -1345,6 +1377,22 @@ def main() -> int:
         default=GATE_SAMPLE_PATH,
         help="--gate-sample: ruta de salida (para no pisar el gate del piloto).",
     )
+    parser.add_argument(
+        "--gate-seed",
+        type=str,
+        default=GATE_SAMPLE_SEED,
+        help="--gate-sample: seed del muestreo (re-gate = seed DISTINTA).",
+    )
+    parser.add_argument(
+        "--gate-exclude-file",
+        type=Path,
+        action="append",
+        default=None,
+        metavar="RUTA",
+        help="--gate-sample: excluye páginas de un gate-sample congelado "
+        "(.json) o un payload JSONL (p.ej. el degrade del content-filter). "
+        "Repetible.",
+    )
     args = parser.parse_args()
 
     phases = [
@@ -1368,6 +1416,8 @@ def main() -> int:
             args.download_dir,
             exclude_tramos=tuple(args.gate_exclude_tramo or ()),
             out_path=args.gate_out,
+            seed=args.gate_seed,
+            exclude_files=tuple(args.gate_exclude_file or ()),
         )
     if args.apply_labels:
         return apply_labels(execute=args.execute, env_path=args.env)
