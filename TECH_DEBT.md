@@ -2018,3 +2018,22 @@ inválidos/incompletos/unsupported/facet-error. Solo si ese upstream pasa se abr
 de que el planificador descompuesto supere recall 90%/precisión 80%/completas 75%, ni mueve facts.
 Eso solo lo decide una ejecución fresca posterior. Ref: DEC-103/104/105, `evals/s194_*`,
 `evals/s195_*`, `evals/s196_*`.
+
+## 54. must-preserve: la ventana de cita se trunca con etiquetas con puntos embebidos → binding BUNDLE muere (s271, review adversarial)
+
+**Qué es:** `_sentence_spans` parte en `[.!?;]\s+`; un miembro de F-BUNDLE con puntos embebidos
+en la etiqueta («Est.Ext. », «Pulse **Aceptar**. ») parte la oración que lleva la cita `[Fn]` y
+`citation_window` devuelve solo el último tramo → `bind_atoms` no liga aunque la respuesta SÍ
+toque el átomo. Observado en la 1ª pasada del harness v7 c275 (fragmento fdd153ee, F-BUNDLE con
+display-risk): el guard del instrumento evaluaba el borrador completo y enmascaraba que el
+MECANISMO tampoco ligaría en vivo. El fix s271 corrigió el INSTRUMENTO (binding-guard sobre
+`citation_window`, `evaluate_display_rows_v7`); la limitación del mecanismo queda viva.
+
+**Impacto:** falso negativo del anexo (fail-open de la respuesta, nunca corrupción): respuestas
+que citan fragmentos con bundles de etiquetas punteadas pueden perder el anexo que les tocaba.
+Frecuencia real no medida.
+
+**Fix candidato:** hacer el splitter tolerante a puntos INTRA-etiqueta (p.ej. no partir si el
+punto va pegado a la siguiente palabra sin mayúscula inicial, o unir tramos de la misma línea al
+construir la ventana de cita). Medirlo como delta en cohorte fresca antes de darlo por bueno
+(Protocolo 4 fila eval).

@@ -12,6 +12,9 @@ Mismo patrón pareado que los probes: UNA generación (OFF) por gold; ON = aplic
 contrato determinista sobre el MISMO borrador con los MISMOS chunks servidos.
 Salida: evals/s270_etapa3_smoke_result_v1.json + apéndices en jsonl.
 Uso: python scripts/s270_etapa3_smoke_pareado.py --execute  (sin flag: preflight $0)
+     --fresh  borra los artefactos previos (result + apéndices) antes de correr —
+              re-ejecución s271 tras los guards de activación (DEC-127b): el gate de
+              activación exige re-smoke LIMPIO, no apilado sobre el smoke previo.
 """
 from __future__ import annotations
 import json, os, sys, time
@@ -38,6 +41,14 @@ APPX = os.path.join("evals", "s270_etapa3_smoke_appendices_v1.jsonl")
 
 def main() -> int:
     execute = "--execute" in sys.argv
+    fresh = "--fresh" in sys.argv
+    if fresh:
+        removed = []
+        for path in (OUT, APPX):
+            if os.path.exists(path):
+                os.remove(path)
+                removed.append(path)
+        print(json.dumps({"fresh": True, "removed": removed}, indent=1))
     import yaml
     golds = yaml.safe_load(open(os.path.join("evals", "gold_answers_v1.yaml"), encoding="utf-8"))
     by_id = {g["qid"]: g for g in golds}
