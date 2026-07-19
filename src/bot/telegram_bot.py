@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 
 import httpx
-from telegram import Update
+from telegram import InputMediaPhoto, Update
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -458,6 +458,43 @@ async def _handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE, q
     )
 
 
+def _diagram_caption(diagram: dict) -> str:
+    """Descriptive caption for one diagram: 📐 product — section/type."""
+    product = diagram.get("product", "")
+    section = diagram.get("section", "")
+    content_type = diagram.get("content_type", "")
+
+    caption_parts = ["📐"]
+    if product:
+        caption_parts.append(product)
+    if section:
+        # Clean up section title (remove long text)
+        short_section = section.strip().split("\n")[0][:80]
+        caption_parts.append(f"— {short_section}")
+    elif content_type:
+        type_labels = {
+            "wiring": "Esquema de conexionado",
+            "procedure": "Procedimiento",
+            "specification": "Especificaciones",
+            "troubleshooting": "Resolución de problemas",
+            "general": "Información general",
+        }
+        caption_parts.append(f"— {type_labels.get(content_type, content_type)}")
+    return " ".join(caption_parts)
+
+
+async def _send_diagrams_individually(update: Update, diagrams: list[dict]):
+    """Original per-photo transport; each failure is logged and skipped."""
+    for diagram in diagrams:
+        try:
+            await update.message.reply_photo(
+                photo=diagram["url"],
+                caption=_diagram_caption(diagram),
+            )
+        except Exception as e:
+            logger.warning(f"Failed to send diagram: {e}")
+
+
 async def _process_query(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -579,39 +616,31 @@ async def _process_query(
                 # fallback preserves all technical text and evidence locators.
                 await update.message.reply_text(telegram_html_to_plain(answer_part))
 
-        # Step 5: Send diagrams if available (with descriptive captions)
-        for i, diagram in enumerate(diagrams):
+        # Step 5: Send diagrams if available (with descriptive captions).
+        # 1-2 imágenes → fotos sueltas (comportamiento original); >2 → un solo
+        # MEDIA GROUP (álbum, S271) para no spamear mensajes: caption solo en
+        # la primera (Telegram la muestra bajo el álbum cuando solo un medio
+        # lleva caption) listando todas las páginas adjuntas.
+        if len(diagrams) > 2:
             try:
-                product = diagram.get("product", "")
-                section = diagram.get("section", "")
-                content_type = diagram.get("content_type", "")
-
-                # Build descriptive caption
-                caption_parts = ["📐"]
-                if product:
-                    caption_parts.append(product)
-                if section:
-                    # Clean up section title (remove long text)
-                    short_section = section.strip().split("\n")[0][:80]
-                    caption_parts.append(f"— {short_section}")
-                elif content_type:
-                    type_labels = {
-                        "wiring": "Esquema de conexionado",
-                        "procedure": "Procedimiento",
-                        "specification": "Especificaciones",
-                        "troubleshooting": "Resolución de problemas",
-                        "general": "Información general",
-                    }
-                    caption_parts.append(f"— {type_labels.get(content_type, content_type)}")
-
-                caption = " ".join(caption_parts)
-
-                await update.message.reply_photo(
-                    photo=diagram["url"],
-                    caption=caption,
-                )
+                album_caption = "\n".join(
+                    _diagram_caption(diagram) for diagram in diagrams
+                )[:1024]
+                media = [
+                    InputMediaPhoto(
+                        media=diagram["url"],
+                        caption=album_caption if index == 0 else None,
+                    )
+                    for index, diagram in enumerate(diagrams)
+                ]
+                await update.message.reply_media_group(media=media)
             except Exception as e:
-                logger.warning(f"Failed to send diagram: {e}")
+                # Fail open del transporte: si el álbum falla (una URL mala
+                # tumba el media group entero), degradar a fotos sueltas.
+                logger.warning(f"Failed to send media group, fallback: {e}")
+                await _send_diagrams_individually(update, diagrams)
+        else:
+            await _send_diagrams_individually(update, diagrams)
 
     except Exception as e:
         logger.error(f"Error processing query '{query}': {e}")

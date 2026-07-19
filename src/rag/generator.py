@@ -794,7 +794,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         result["must_preserve"] = must_preserve_trace
 
     # S269 (flag default off — con off este bloque no ejecuta NADA): adjunta
-    # hasta 2 activos 'useful' del registro document_visual_assets para las
+    # hasta 4 activos 'useful' del registro document_visual_assets para las
     # páginas de los fragmentos CITADOS en la respuesta. Corre DESPUÉS del
     # contrato must-preserve para ver las citas ya enriquecidas. Falla abierta
     # doble (aquí y dentro del helper): una excepción jamás toca la respuesta.
