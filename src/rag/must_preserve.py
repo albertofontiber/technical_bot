@@ -81,10 +81,20 @@ from __future__ import annotations
 
 import difflib
 import logging
+import os
 import re
 from typing import Any
 
 from .catalog import _fold
+from .mp_lexicon import (
+    MANDATORY_PHRASES as _MANDATORY_PHRASES,
+    MANDATORY_TERMS as _MANDATORY_TERMS,
+    MANDATORY_VERB_TRIGGERS as _MANDATORY_VERB_TRIGGERS,
+    line_spans as _line_spans,
+    mandatory_triggers as _mandatory_triggers,
+    sentence_spans as _sentence_spans,
+    trigger_present as _trigger_present,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -95,6 +105,14 @@ FAMILY_BUNDLE = "F-BUNDLE"
 FAMILY_MANDATORY = "F-MANDATORY"
 FAMILY_COUNT = "F-COUNT"
 FAMILIES = (FAMILY_RANGE, FAMILY_BUNDLE, FAMILY_MANDATORY, FAMILY_COUNT)
+# D1b (s274, flag MP_HYBRID_DETECT) — familia SOLO-HÍBRIDA, contrato NUEVO (Sol-M6:
+# no es continuidad del TODO §1.1, que solo declaraba la clase): cláusula
+# RELACIONAL/DEFINICIONAL completa (qualifier semántico / anatomía de definición) que
+# ninguna de las 4 familias estructurales cubre — medido en el funnel N=3
+# (evals/s274_hybrid_funnel_diag_v2.json: obl_a5d9 ni se propone 0/3; obl_7aa7
+# propuesto 3/3 y muerto en shape 3/3). El validador es CÓDIGO (shape + grounding
+# verbatim); no existe brazo determinista de esta familia.
+FAMILY_RELATION = "F-RELATION"
 
 APPENDIX_HEADER = "Información adicional del manual:"
 # v6 (s272): presentación del anexo — separador de sección + emoji estructural único
@@ -116,6 +134,24 @@ def contract_enabled() -> bool:
     from ..config import _strict_on_off
 
     return _strict_on_off("MUST_PRESERVE_CONTRACT")
+
+
+def _mp_flag(name: str) -> bool:
+    """Flags por-fix del bloque C/D s274 (dúo Sol-C2: kill-switch y banking selectivos).
+    Todos estrictos default-off, releídos en runtime (mismo patrón que contract_enabled):
+
+      MP_SERVED_BINDING        C2  binding a fragmentos servidos-no-citados (umbral reforzado)
+      MP_DEFLINE_EQ            D1a separador '=' en líneas de definición (det+híbrido)
+      MP_HYBRID_DETECT         D1b detector híbrido REAL en runtime + familia F-RELATION
+      MP_STEM_BINDING          D1c tolerancia de plural es/en en el match de binding
+      MP_DISTINCTIVE_TOKEN     D2  bind con 1 solo token propio si es DISTINTIVO
+      MP_MANDATORY_VERB_TRIGGER    Fable-M1: un gatillo-VERBO del léxico (evite/eviten)
+                                   cuenta como verbo conjugado de SU cláusula en la
+                                   whitelist (los gatillos-sustantivo jamás)
+    """
+    from ..config import _strict_on_off
+
+    return _strict_on_off(name)
 
 
 # ─────────────────────────── utilidades de texto ───────────────────────────
@@ -182,32 +218,8 @@ def _numbers_in(text: str) -> set[float]:
     return vals
 
 
-def _line_spans(text: str) -> list[tuple[int, int, str]]:
-    out: list[tuple[int, int, str]] = []
-    pos = 0
-    for line in (text or "").split("\n"):
-        out.append((pos, pos + len(line), line))
-        pos += len(line) + 1
-    return out
-
-
-_SENT_BOUNDARY = re.compile(r"(?<=[.!?;])\s+")
-
-
-def _sentence_spans(text: str) -> list[tuple[int, int]]:
-    """Spans (start, end) de oraciones: por línea y, dentro de línea, por puntuación
-    final + espacio (los decimales "1,5"/"1.5" no parten porque no llevan espacio)."""
-    spans: list[tuple[int, int]] = []
-    for start, _end, line in _line_spans(text):
-        offset = 0
-        for m in _SENT_BOUNDARY.finditer(line):
-            if line[offset:m.start()].strip():
-                spans.append((start + offset, start + m.start()))
-            offset = m.end()
-        if line[offset:].strip():
-            spans.append((start + offset, start + len(line.rstrip())))
-    return spans
-
+# (_line_spans / _sentence_spans viven en mp_lexicon desde s274 — punto 10 del dúo:
+# el léxico y la segmentación son NEUTROS y los consume también la lane de coverage.)
 
 # Riesgo OCR 7-segmentos (feedback_7segment · spec v3 §A M9): formas de display tipo
 # ``r.I`` / ``r.i`` / ``t.Fi`` / ``dr`` — códigos de 1-3 chars con punto interior o
@@ -442,7 +454,26 @@ _DEFLINE = re.compile(
     r"^\s*(?:[-•*·◦]\s*)?\**([A-Za-zÁÉÍÓÚÑÜáéíóúñü0-9][^:\n]{0,60}?)\**\s*"
     r"(?::\s+|[-–—]\s+)(\S.*)$"
 )
+# D1a (s274, `MP_DEFLINE_EQ` — funnel N=3: el bundle TONE ``Tono = tipo de sonido``
+# muere en shape 6/6 porque ``=`` no es separador de definición): variante con ``=``
+# RODEADO de espacios — mismo patrón genérico markdown/OCR; sin espacios alrededor la
+# asignación compacta (``x=1``) NO separa. La etiqueta tampoco puede contener ``=``.
+_DEFLINE_EQ = re.compile(
+    r"^\s*(?:[-•*·◦]\s*)?\**([A-Za-zÁÉÍÓÚÑÜáéíóúñü0-9][^:=\n]{0,60}?)\**\s*"
+    r"=\s+(\S.*)$"
+)
 _BULLET = re.compile(r"^\s*(?:[-•*·◦]|\d{1,2}[.)])\s+(\S.*)$")
+
+
+def _defline_match(line: str) -> "re.Match | None":
+    """Línea de definición: ``:``/guion espaciado siempre; ``=`` espaciado solo con
+    el flag ``MP_DEFLINE_EQ`` (D1a, default off — byte-idéntico off)."""
+    m = _DEFLINE.match(line)
+    if m is not None:
+        return m
+    if _mp_flag("MP_DEFLINE_EQ"):
+        return _DEFLINE_EQ.match(line)
+    return None
 
 
 def _detect_bundle(text: str) -> list[Atom]:
@@ -500,7 +531,7 @@ def _detect_bundle(text: str) -> list[Atom]:
                     flush()
                     blanks_in_run = 0
             continue
-        d = _DEFLINE.match(line)
+        d = _defline_match(line)
         b = _BULLET.match(line)
         if d:
             run.append({"start": start, "end": end,
@@ -565,42 +596,8 @@ def procedural_context_tokens(fragment_text: str) -> list[str]:
 # (hallazgo F8 del dúo: frecuencia altísima → FP masivo): solo cuentan colocados con un
 # término obligatorio ("debe(n)"/"must") en la MISMA oración.
 
-_MANDATORY_TERMS = (
-    # es (formas foldeadas: sin acentos)
-    "imprescindible", "obligatorio", "obligatoria", "obligatorios", "obligatorias",
-    "nunca", "jamas", "advertencia", "atencion", "peligro", "evite", "eviten",
-    # en
-    "mandatory", "never", "warning", "caution", "danger",
-)
-_MANDATORY_PHRASES = (
-    "de vital importancia", "es vital", "en ningun caso", "must not", "it is essential",
-)
-
-
-def _trigger_present(trigger: str, folded: str) -> bool:
-    """Un gatillo del léxico está presente en un texto YA foldeado."""
-    if trigger == "debe(n)+antes de":
-        return bool(re.search(r"\bdebe(n)?\b", folded)) and "antes de" in folded
-    if trigger == "must+before":
-        return bool(
-            re.search(r"\bmust\b", folded) and re.search(r"\bbefore\b", folded)
-        )
-    if " " in trigger:
-        return trigger in folded
-    return bool(re.search(rf"\b{trigger}\b", folded))
-
-
-def _mandatory_triggers(sentence: str) -> list[str]:
-    folded = _fold(sentence)
-    triggers = [
-        term for term in (*_MANDATORY_TERMS, *_MANDATORY_PHRASES)
-        if _trigger_present(term, folded)
-    ]
-    # co-ocurrencias: "debe(n) ... antes de" / "before ... must"
-    for compound in ("debe(n)+antes de", "must+before"):
-        if _trigger_present(compound, folded):
-            triggers.append(compound)
-    return triggers
+# (_MANDATORY_TERMS/_MANDATORY_PHRASES/_trigger_present/_mandatory_triggers viven en
+# mp_lexicon desde s274 — mismos nombres re-exportados arriba, cero cambio de conducta.)
 
 
 def _detect_mandatory(text: str) -> list[Atom]:
@@ -1173,6 +1170,34 @@ Usa la herramienta proponer_atomos: atom_N_family + atom_N_span ("" en los hueco
 FRAGMENTO:
 <<<FRAGMENT>>>"""
 
+# D1b (MP_HYBRID_DETECT): definición de la familia F-RELATION que se INSERTA en el
+# prompt SOLO con el flag activo — con flag off el prompt es byte-idéntico al v3.
+_HYBRID_RELATION_BLOCK = """- F-RELATION: cláusula RELACIONAL o DEFINICIONAL completa que da el significado o el \
+rol de un valor/campo (p. ej. "los valores medidos se guardan como valores nominales \
+(100 %)", "Instrucción de salida: esta parte de la regla solo puede procesarse cuando se \
+cumplen todas las condiciones de entrada"). Debe ser una oración completa con verbo; un \
+título o un número suelto NO cuentan.
+"""
+_HYBRID_PROMPT_INSERT_BEFORE = "- F-COUNT:"
+
+
+def _hybrid_prompt() -> str:
+    """Prompt del brazo híbrido. Con ``MP_HYBRID_DETECT`` off (default) es el prompt
+    v3 byte-idéntico; con el flag, añade la familia F-RELATION (D1b)."""
+    if not _mp_flag("MP_HYBRID_DETECT"):
+        return _HYBRID_PROMPT
+    return _HYBRID_PROMPT.replace(
+        _HYBRID_PROMPT_INSERT_BEFORE,
+        _HYBRID_RELATION_BLOCK + _HYBRID_PROMPT_INSERT_BEFORE,
+        1,
+    )
+
+
+def _hybrid_families() -> tuple[str, ...]:
+    if _mp_flag("MP_HYBRID_DETECT"):
+        return (*FAMILIES, FAMILY_RELATION)
+    return FAMILIES
+
 
 def hybrid_proposal_schema() -> dict:
     """Transporte PLANO (patrón rectangular src/rag/source_unit_gold.py): solo strings,
@@ -1237,6 +1262,56 @@ def _shift_atom(atom: Atom, offset: int) -> Atom:
     return atom
 
 
+def _relation_defhead(span: str) -> bool:
+    """Cabeza de definición del span F-RELATION: la primera línea no vacía es una
+    línea de definición (``_defline_match`` — ``:``/guion; ``=`` solo con D1a) cuya
+    ETIQUETA tiene ≥2 tokens de contenido («Instrucción de salida»); una etiqueta
+    de 1 token genérico no ancla."""
+    for line in (span or "").splitlines():
+        if not line.strip():
+            continue
+        m = _defline_match(line)
+        return bool(m) and len(_content_tokens(m.group(1), min_len=2)) >= 2
+    return False
+
+
+def _hybrid_relation_atom(span: str, start: int) -> Atom | None:
+    """Shape F-RELATION (D1b, contrato NUEVO — solo brazo híbrido): el span verbatim
+    debe ser (a) cláusula textual completa — verbo conjugado + ≥40 chars de contenido
+    sin markup (la MISMA vara que la whitelist v5, ``_clause_form``) — y (b) portar
+    un ANCLA: ≥1 número CON unidad; o ≥2 tokens DISTINTIVOS propios
+    (``_distinctive_token``: dígito/acrónimo/identificador de catálogo); o CABEZA DE
+    DEFINICIÓN — la primera línea del span es una línea ``Etiqueta: definición``
+    (``_DEFLINE``) con ≥2 tokens de contenido en la etiqueta («Instrucción de
+    salida: …» — anatomía definicional genérica; medido en el funnel N=3: las
+    cláusulas de obl_7aa7/obl_b2043 no llevan números ni acrónimos). Un título, un
+    número pelado o prosa genérica sin anclas NO pasan (silencio > ruido)."""
+    content = _strip_markup(span or "")
+    if not _clause_form(content):
+        return None
+    if not _RX_NUM_UNIT.search(span):
+        distinctive = [
+            t for t in set(_content_tokens(span, min_len=2))
+            if _distinctive_token(t, span)
+        ]
+        if len(distinctive) < 2 and not _relation_defhead(span):
+            return None
+    anchors = _content_tokens(span)
+    anchors.extend(
+        _format_num(v) for v in sorted(_numbers_in(span)) if v not in (0.0, 1.0)
+    )
+    return {
+        "family": FAMILY_RELATION,
+        "span_start": start, "span_end": start + len(span),
+        "span_text": span,
+        "anchor_tokens": _dedup(anchors),
+        "meta": {
+            "relation": True,
+            "seven_segment_risk": has_seven_segment_pattern(span),
+        },
+    }
+
+
 def _atom_from_verbatim_span(family: str, span: str, fragment_text: str) -> Atom | None:
     """Valida el SHAPE de familia de un span verbatim propuesto por el modelo y lo
     convierte en Atom con meta consistente (los sub-detectores deterministas corren
@@ -1269,6 +1344,10 @@ def _atom_from_verbatim_span(family: str, span: str, fragment_text: str) -> Atom
     elif family == FAMILY_COUNT:
         sub = _detect_count(span)
         atom = _shift_atom(sub[0], start) if sub else None
+    elif family == FAMILY_RELATION:
+        # defensa en profundidad: la familia entera vive tras MP_HYBRID_DETECT —
+        # también en el validador, no solo en el filtro de familias del detector.
+        atom = _hybrid_relation_atom(span, start) if _mp_flag("MP_HYBRID_DETECT") else None
     else:
         return None
     if atom is not None:
@@ -1369,7 +1448,7 @@ def detect_atoms_hybrid(
         tool_choice={"type": "tool", "name": "proponer_atomos"},
         messages=[{
             "role": "user",
-            "content": _HYBRID_PROMPT.replace("<<<FRAGMENT>>>", fragment_text),
+            "content": _hybrid_prompt().replace("<<<FRAGMENT>>>", fragment_text),
         }],
     )
     if usage is not None:
@@ -1394,7 +1473,7 @@ def detect_atoms_hybrid(
         if not family and not span:
             continue
         _count("proposals")
-        if family not in FAMILIES or not span:
+        if family not in _hybrid_families() or not span:
             _count("rejected_family_or_empty")
             continue
         # v3: grounding FOLD-TOLERANTE — el texto anexable sigue siendo el substring
@@ -1444,6 +1523,79 @@ def citation_window(draft_answer: str, fragment_id) -> str:
     return " ".join(parts)
 
 
+# ─────────── helpers de binding s274 (D1c stem · D2 token distintivo) ───────────
+
+_ACRONYM_RX = re.compile(r"\b[A-Z]{2,6}\b")
+_HAS_DIGIT_RX = re.compile(r"\d")
+_CATALOG_ID_TOKENS: set[str] | None = None
+
+
+def _stem_match(own: str, window_tokens: set[str]) -> bool:
+    """Match token-propio ↔ token-ventana. Exacto siempre; con ``MP_STEM_BINDING``
+    (D1c) además tolerancia de plural es/en vía ``_noun_stem`` (ya viva en el tie
+    F-COUNT desde v4): ``nominales`` ≈ ``nominal``. Genérico, no por-target."""
+    if own in window_tokens:
+        return True
+    if not _mp_flag("MP_STEM_BINDING"):
+        return False
+    stem = _noun_stem(own)
+    if len(stem) < 3:
+        return False
+    return any(tok == stem or _noun_stem(tok) == stem for tok in window_tokens)
+
+
+def _matched_own_tokens(own_tokens, window_tokens: set[str]) -> set[str]:
+    return {t for t in own_tokens if _stem_match(t, window_tokens)}
+
+
+def _catalog_identifier_tokens() -> set[str]:
+    """D2 — identificadores del catálogo gobernado YA cargado en memoria: claves de
+    los índices ``_by_canonical``/``_by_alias`` de ``scripts/catalog_store.py``
+    (campos l.79-81, construidos en ``load()`` ~l.94: ``norm_token(canonical_model)``
+    y alias), re-normalizadas al fold alfanumérico del binding. Fail-open a vacío
+    (sin catálogo el criterio-catálogo simplemente no aporta). Cache de proceso."""
+    global _CATALOG_ID_TOKENS
+    if _CATALOG_ID_TOKENS is not None:
+        return _CATALOG_ID_TOKENS
+    tokens: set[str] = set()
+    try:
+        cat = _load_catalog()
+        for key in (*getattr(cat, "_by_canonical", {}), *getattr(cat, "_by_alias", {})):
+            folded = re.sub(r"[^a-z0-9]", "", _fold(str(key)))
+            if len(folded) >= 2:
+                tokens.add(folded)
+    except Exception:
+        tokens = set()
+    _CATALOG_ID_TOKENS = tokens
+    return tokens
+
+
+def _distinctive_token(token: str, surface_text: str) -> bool:
+    """D2 — token DISTINTIVO, definición CERRADA y determinista (sin DB ni idf de
+    corpus en runtime — descartados en el diseño §1 por dependencia/drift):
+    (a) contiene dígito (``c1l1m2``, ``w01``); (b) aparece en la superficie ORIGINAL
+    del span como acrónimo ``[A-Z]{2,6}`` (``CBE``); o (c) es identificador del
+    catálogo gobernado en memoria. Las palabras técnicas ubicuas de la clase
+    seed-271 (``sistema``/``ajuste``) NO califican por ninguna vía."""
+    if _HAS_DIGIT_RX.search(token):
+        return True
+    for m in _ACRONYM_RX.finditer(surface_text or ""):
+        if _fold(m.group()) == token:
+            return True
+    return token in _catalog_identifier_tokens()
+
+
+def _token_threshold_met(matched: set[str], surface_text: str) -> bool:
+    """Umbral de binding por tokens: ≥2 propios (contrato v2, seed-271); con
+    ``MP_DISTINCTIVE_TOKEN`` (D2) 1 solo token basta SI es distintivo — la tensión
+    obl_7bba de DEC-122/127 resuelta con gate de ruido en P1, no con opinión."""
+    if len(matched) >= 2:
+        return True
+    if len(matched) == 1 and _mp_flag("MP_DISTINCTIVE_TOKEN"):
+        return _distinctive_token(next(iter(matched)), surface_text)
+    return False
+
+
 def atom_exigible_in(atom: Atom, text: str) -> bool:
     """Binding v2 — PRESENCIA PARCIAL por familia (motivación s243: 11/12
     synthesis-miss son pérdida parcial DENTRO de una estructura que la respuesta ya
@@ -1489,7 +1641,8 @@ def atom_exigible_in(atom: Atom, text: str) -> bool:
         propio = set(_content_tokens(meta.get("header") or "", min_len=2))
         for label in meta.get("members") or []:
             propio.update(_content_tokens(label, min_len=2))
-        return len({t for t in propio if t in tokens_short}) >= 2
+        matched = _matched_own_tokens(propio, tokens_short)
+        return _token_threshold_met(matched, atom.get("span_text") or "")
     if family == FAMILY_COUNT:
         own = {
             float(n) for n in (meta.get("declared_n"), meta.get("enumerated_n"))
@@ -1498,10 +1651,23 @@ def atom_exigible_in(atom: Atom, text: str) -> bool:
         if own & numbers:
             return True
         noun_tokens = _content_tokens(str(meta.get("noun") or ""), min_len=2)
-        return any(t in tokens_short for t in noun_tokens)
+        # el sustantivo contado es específico por construcción: umbral 1 (v2, sin
+        # cambio); D1c solo añade tolerancia de plural al match.
+        return bool(_matched_own_tokens(noun_tokens, tokens_short))
     if family == FAMILY_MANDATORY:
         proc = set(meta.get("procedural_context_tokens") or [])
-        return len(proc & tokens) >= 2
+        matched = _matched_own_tokens(proc, tokens)
+        return _token_threshold_met(matched, atom.get("span_text") or "")
+    if family == FAMILY_RELATION:
+        own_numbers = {
+            v for v in _numbers_in(atom.get("span_text") or "")
+            if v not in (0.0, 1.0)
+        }
+        if own_numbers & numbers:
+            return True
+        propio = set(_content_tokens(atom.get("span_text") or "", min_len=2))
+        matched = _matched_own_tokens(propio, tokens_short)
+        return _token_threshold_met(matched, atom.get("span_text") or "")
     return False
 
 
@@ -1610,6 +1776,22 @@ def atom_satisfied(atom: Atom, draft_answer: str) -> bool:
         }
         overlap = len(anchors & draft_tokens)
         return trigger_present and overlap >= min(2, len(anchors))
+    if family == FAMILY_RELATION:
+        # D1b: la relación está conservada si TODOS sus números propios (excl. 0/1)
+        # están en el borrador Y ≥80% de sus tokens de contenido también — el
+        # qualifier podado (número presente, rol perdido: clase s243
+        # compound_relation_qualifier_loss) NO satisface.
+        own_numbers = {
+            v for v in _numbers_in(atom.get("span_text") or "")
+            if v not in (0.0, 1.0)
+        }
+        if not own_numbers <= draft_numbers:
+            return False
+        own_tokens = set(_content_tokens(atom.get("span_text") or ""))
+        if not own_tokens:
+            return True
+        present = sum(1 for t in own_tokens if t in draft_tokens)
+        return present / len(own_tokens) >= 0.8
     return True
 
 
@@ -1790,13 +1972,27 @@ def span_good_form(text: str) -> bool:
 
 def _mandatory_clause_form(span: str) -> bool:
     """MANDATORY: el span debe incluir la CLÁUSULA obligatoria — el trigger léxico
-    y SU oración con verbo conjugado, jamás solo el título («### ADVERTENCIA»)."""
+    y SU oración con verbo conjugado, jamás solo el título («### ADVERTENCIA»).
+
+    Fable-M1 (s274, flag ``MP_MANDATORY_VERB_TRIGGER`` default off): un gatillo-VERBO
+    del propio léxico cerrado (``evite``/``eviten`` — imperativo/subjuntivo) ES el
+    verbo conjugado de su cláusula («Al programar reglas de causa-efecto evite las
+    lógicas contradictorias.» fallaba solo porque el léxico de verbos finitos no
+    incluye la forma imperativa). Los gatillos-SUSTANTIVO (advertencia/atención/
+    peligro) jamás cuentan: una cabecera sola sigue sin pasar (clase heading_only
+    de Etapa-1 intacta — se re-gatea en P1)."""
     content = _strip_markup(span or "")
     if len(" ".join(content.split())) < _MIN_CLAUSE_CONTENT:
         return False
+    verb_trigger_ok = _mp_flag("MP_MANDATORY_VERB_TRIGGER")
     for s, e in _sentence_spans(content):
         sentence = content[s:e]
-        if _mandatory_triggers(sentence) and _sentence_has_finite_verb(sentence):
+        triggers = _mandatory_triggers(sentence)
+        if not triggers:
+            continue
+        if _sentence_has_finite_verb(sentence):
+            return True
+        if verb_trigger_ok and any(t in _MANDATORY_VERB_TRIGGERS for t in triggers):
             return True
     return False
 
@@ -1807,7 +2003,7 @@ def _bundle_member_form(span: str) -> bool:
     content = _strip_markup(span or "")
     described = 0
     for _start, _end, line in _line_spans(content):
-        d = _DEFLINE.match(line)
+        d = _defline_match(line)
         if d and _LABEL_TOKEN_RX.search(d.group(2) or ""):
             described += 1
             if described >= 2:
@@ -2068,6 +2264,58 @@ def _chunk_text(chunk: dict) -> str:
         return str(chunk.get("content") or "")
 
 
+# ── D1b (MP_HYBRID_DETECT): detector híbrido REAL en runtime (Sol-C1) ──
+# Presupuesto declarado: ≤2 llamadas Haiku por respuesta (los 2 fragmentos
+# attested∩citados con vista servida MÁS LARGA — más texto = más átomos potenciales;
+# empate → número de fragmento ascendente, determinista), timeout de cliente y
+# fail-open TOTAL: sin SDK, sin API key, timeout o error → determinista puro.
+HYBRID_RUNTIME_MAX_CALLS = 2
+HYBRID_RUNTIME_TIMEOUT_S = 10.0
+
+
+def _runtime_hybrid_client():
+    """Cliente Haiku para el detect híbrido de runtime. Fail-open a None."""
+    try:
+        import anthropic
+
+        api_key = os.environ.get("ANTHROPIC_API_KEY") or ""
+        if not api_key:
+            return None
+        return anthropic.Anthropic(
+            api_key=api_key,
+            max_retries=0,
+            timeout=HYBRID_RUNTIME_TIMEOUT_S,
+        )
+    except Exception as exc:
+        logger.warning(f"must_preserve: cliente híbrido no disponible ({exc})")
+        return None
+
+
+def _served_uncited_exigible(atom: Atom, draft_answer: str) -> bool:
+    """C2 (MP_SERVED_BINDING) — binding para átomos de fragmentos SERVIDOS y
+    ATTESTADOS que el borrador NO cita: sin ventana de cita, el contrato se evalúa
+    sobre la RESPUESTA COMPLETA con umbral REFORZADO (la superficie de match crece ⇒
+    sube el listón; conservador): ≥3 tokens propios matcheados, o número propio
+    (excl. 0/1) + ≥1 token propio; F-MANDATORY: contexto procedimental ≥3."""
+    clean = _FRAG_CITE.sub(" ", draft_answer or "")
+    tokens = set(_content_tokens(clean))
+    tokens_short = set(_content_tokens(clean, min_len=2))
+    numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
+    family = atom.get("family")
+    meta = atom.get("meta") or {}
+    if family == FAMILY_MANDATORY:
+        proc = set(meta.get("procedural_context_tokens") or [])
+        return len(_matched_own_tokens(proc, tokens)) >= 3
+    own_tokens = set(_content_tokens(atom.get("span_text") or "", min_len=2))
+    own_numbers = {
+        v for v in _atom_numbers(atom) if v not in (0.0, 1.0)
+    }
+    matched = _matched_own_tokens(own_tokens, tokens_short)
+    if len(matched) >= 3:
+        return True
+    return bool(own_numbers & numbers) and len(matched) >= 1
+
+
 def apply_must_preserve_contract(
     query: str,
     chunks: list[dict],
@@ -2084,7 +2332,17 @@ def apply_must_preserve_contract(
     ``detect_fn`` (v2): detector inyectable por fragmento (default ``detect_atoms``;
     el brazo híbrido del probe inyecta ``detect_atoms_hybrid`` con cliente). La etapa
     F-COUNT cross-fragmento (v2) corre sobre los fragmentos SERVIDOS y ATTESTADOS y
-    exige que el fragmento del conteo o el de la enumeración esté CITADO."""
+    exige que el fragmento del conteo o el de la enumeración esté CITADO.
+
+    s274 (flags por-fix, todos default-off — dúo Sol-C1/C2):
+      - ``MP_HYBRID_DETECT`` (D1b): sin ``detect_fn`` inyectado, cablea el detector
+        híbrido REAL con presupuesto ≤2 llamadas Haiku/respuesta, timeout y fail-open
+        (trace["hybrid"] registra fragmentos elegidos, uso y errores).
+      - ``MP_SERVED_BINDING`` (C2): tras el paso de citados, los fragmentos
+        attested SIN cita se detectan (determinista SOLO — el presupuesto híbrido no
+        se gasta en no-citados) y bindean contra la respuesta completa con umbral
+        reforzado (``_served_uncited_exigible``); el anexo cita [Fn] del fragmento
+        fuente (obl_2f5d, selection-loss s243)."""
     if not contract_enabled():
         return draft_answer, None
     detect = detect_fn if detect_fn is not None else detect_atoms
@@ -2114,11 +2372,40 @@ def apply_must_preserve_contract(
     for idx, chunk in enumerate(chunks or [], start=1):
         if attest_identity(chunk.get("document_id"), resolved, catalog):
             attested[idx] = chunk
+    # D1b (MP_HYBRID_DETECT): sin detect_fn inyectado, presupuesto ≤2 llamadas para
+    # los fragmentos attested∩citados con vista servida más larga (determinista).
+    hybrid_idxs: set[int] = set()
+    hybrid_client = None
+    hybrid_usage: dict[str, Any] = {}
+    hybrid_errors: list[str] = []
+    if detect_fn is None and _mp_flag("MP_HYBRID_DETECT"):
+        hybrid_client = _runtime_hybrid_client()
+        if hybrid_client is not None:
+            ranked = sorted(
+                (idx for idx in attested if idx in cited),
+                key=lambda i: (-len(_chunk_text(attested[i])), i),
+            )
+            hybrid_idxs = set(ranked[:HYBRID_RUNTIME_MAX_CALLS])
+        trace["hybrid"] = {
+            "enabled": True,
+            "client_available": hybrid_client is not None,
+            "fragments": sorted(hybrid_idxs),
+        }
     missing: list[Atom] = []
     for idx, chunk in attested.items():
         if idx not in cited:
             continue
-        atoms = detect(_chunk_text(chunk))
+        text = _chunk_text(chunk)
+        if idx in hybrid_idxs:
+            try:
+                atoms = detect_atoms_hybrid(
+                    text, client=hybrid_client, usage=hybrid_usage
+                )
+            except Exception as exc:  # fail-open al determinista
+                hybrid_errors.append(f"F{idx}: {type(exc).__name__}")
+                atoms = detect(text)
+        else:
+            atoms = detect(text)
         trace["atoms_detected"] += len(atoms)
         bound = bind_atoms(atoms, draft_answer, cited, idx)
         trace["atoms_bound"] += len(bound)
@@ -2126,6 +2413,27 @@ def apply_must_preserve_contract(
             if not atom_satisfied(atom, draft_answer):
                 atom.setdefault("meta", {})["fragment_number"] = idx
                 missing.append(atom)
+    if "hybrid" in trace:
+        trace["hybrid"]["usage"] = dict(hybrid_usage)
+        trace["hybrid"]["errors"] = hybrid_errors
+    # C2 (MP_SERVED_BINDING): fragmentos attested SERVIDOS que el borrador no cita —
+    # detección determinista + binding reforzado sobre la respuesta completa.
+    if _mp_flag("MP_SERVED_BINDING"):
+        served_uncited_bound = 0
+        for idx, chunk in attested.items():
+            if idx in cited:
+                continue
+            for atom in detect(_chunk_text(chunk)):
+                trace["atoms_detected"] += 1
+                if not _served_uncited_exigible(atom, draft_answer):
+                    continue
+                trace["atoms_bound"] += 1
+                served_uncited_bound += 1
+                if not atom_satisfied(atom, draft_answer):
+                    atom.setdefault("meta", {})["fragment_number"] = idx
+                    atom["meta"]["served_uncited"] = True
+                    missing.append(atom)
+        trace["served_uncited_bound"] = served_uncited_bound
     # v2: F-COUNT cross-fragmento sobre los fragmentos SERVIDOS y ATTESTADOS
     cross_atoms = detect_cross_fragment_count_atoms([
         {
