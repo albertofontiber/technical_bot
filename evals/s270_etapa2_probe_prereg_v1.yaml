@@ -10,17 +10,19 @@ proposito: >-
   (permiso explicito de Alberto; el gate de esta etapa operacionaliza su condicion
   "si tiene sentido para mejorar el bot").
 
-# ── SHA-256 pins (bytes crudos; el runner los verifica en preflight Y en execute) ──
-frozen_inputs_sha256:
-  src/rag/must_preserve.py: 07ffbce2049d02b7763110dbe6f541efc89d1efcb3aeb28c0a228b0ea75e56ec
-  src/rag/answer_planner.py: c9feb1fc86db6929be900f9a4e2446f597fc06dd513fb870eaa37a168c5305a8
-  src/rag/generator.py: 4a128bb85006a66a14c3a33d0f3705b4f75539e5b3e5e36e155d765c5ced8b25
-  evals/s113_full_contexts_freeze_v1.json: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+# ── SHA-256 pins LF-normalizados (\r\n→\n antes de hashear — patron
+# s270_adjudicated_funnel: estable ante core.autocrlf; el runner los verifica en
+# preflight Y en execute) ──
+frozen_inputs_sha256_lf_normalized:
+  src/rag/must_preserve.py: c30b9fb42182c10d8f2106bc8d9f4a682401677cc624070e924b73ed2fb60e25
+  src/rag/answer_planner.py: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3
+  src/rag/generator.py: d20c29fbf31396f28d60f72ffe1467599fee6b494fe452d292e6530e9bac0f08
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
   evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
-  evals/s235_direct_clause_bound_score_packet_v1.json: e3062b10a32200b15b737e2c36e98febe6e04a637d828a82fe4f1ca6541cff01
+  evals/s235_direct_clause_bound_score_packet_v1.json: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48
 # El pin del runner se estampa al finalizar su build EN ESTA MISMA SESION, antes de todo
 # --execute (un fichero no puede contener su propio sha; el prereg es la autoridad externa).
-runner_sha256:
+runner_sha256_lf_normalized:
   scripts/s270_etapa2_probe.py: PENDING_STAMP_BEFORE_EXECUTE
 
 # ── Diseño experimental ──
