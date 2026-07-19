@@ -1,10 +1,17 @@
 # s273 — Diseño + prereg: CUOTA del canal enunciados (Bloque B) — v1, para ronda de dúo
 
-**Estado: DISEÑO + PRE-REGISTRO. Nada construido, nada medido, 0 escrituras DB, 0 pagos en esta
-sesión.** El dúo (sub-agente Fable + cross-model Sol xhigh — retrieval = zona de dolor, dúo
-INNEGOCIABLE) revisa ESTE doc + `evals/s273_quota_prereg_v1.yaml` ANTES de cablear una línea.
+**Estado v1: DISEÑO + PRE-REGISTRO. Nada construido, nada medido, 0 escrituras DB, 0 pagos en esa
+fase.** El dúo (sub-agente Fable + cross-model Sol xhigh — retrieval = zona de dolor, dúo
+INNEGOCIABLE) revisó ESTE doc + `evals/s273_quota_prereg_v1.yaml` ANTES de cablear una línea.
 Insumo canónico: `evals/s273_retrieval2_diagnosis_v1.md` (diagnóstico s272, ranks/sims medidos
 en vivo contra `origin/main@5774a6c`).
+
+> **v2 (misma sesión, post-dúo):** dúo adjudicado por Alberto — Sol 7/7 (3 críticos + 4 medios)
+> + Fable 5/5 «SÓLIDO-con-condiciones» (3 medios + 2 menores), 0 FP. Contrato VIGENTE =
+> **`evals/s273_quota_prereg_v2.yaml`**; los 11 fixes y los resultados de las fases sin-DB ya
+> ejecutadas (F0 NO-GO → cat017#2 residual formal; F1/vía-A GO con servido; F2 dry-run
+> verificado sin escritura) están en **§8**. Las secciones 1-6 se conservan como registro v1;
+> donde difieran, manda §8 + el prereg v2.
 
 ---
 
@@ -148,10 +155,13 @@ por batch = rollback documentado y barato). Escala resultante ≈ 21.995 + ≤1.
   reranker, no re-litiga diversify. Y es la ÚNICA vía que desbloquea el activo pagado: 54.849
   enunciados Haiku QA-passed en dumps + tail ~$95 no gastado quedan inertes mientras la fusión
   sea sort-mixto.
-- **Escalable:** a 30+ fabricantes el canal enunciados crecerá siempre más rápido que el pool
-  (docs enteros → enunciados); una cuota con barra es invariante a la escala del canal (el
-  crowding de 71K era la ausencia de cap; la cuota ES el cap y el floor a la vez). El patrón ya
-  demostró esa propiedad en hyq (70.134 filas servidas con cuota 10 sin crowding).
+- **Escalable — HIPÓTESIS NO MEDIDA (re-encuadre v2, Sol-M7 + Fable-M3):** la cuota con barra
+  *debería* ser invariante a la escala del canal (cap + floor a la vez), y el patrón mostró esa
+  propiedad en hyq (70.134 filas con cuota 10 sin crowding) — pero para ENUNCIADOS no está
+  medido y tiene un límite declarado: `FETCH_K=200` con `ef_search=120` = techo de recall del
+  canal (a 71K el top-120 del scan puede no contener la fila puente aunque exista viva; además
+  el NO-GO s105 a 71K perdió anclas CON cuota). El tail 71K es un GATE FUTURO propio, fuera del
+  alcance de este prereg — aquí solo se acredita el régimen T1 + recarga acotada.
 
 ---
 
@@ -251,3 +261,71 @@ correcta pero incompleta: la traza s105–s107 está en ese backup, no en `evals
 formal, toda referencia futura a las DEC pre-Codex del rango 103–105 cita
 «PLAN §estado-sXXX» (con el pin del backup) en lugar del número DEC, para que el gatillo de
 Protocolo 4 («grep DECISIONS antes de opinar») no vuelva a resolver al DEC equivocado.
+(v2/Fable-M1: la sección s105 queda además VERSIONADA verbatim con pins en
+`evals/s273_s105_authority_excerpt_v1.md` — la autoridad ya no depende de la rama de backup.)
+
+---
+
+## 8. Enmiendas v2 (dúo adjudicado: Sol 7/7 + Fable 5/5, 0 FP) + build + fases sin-DB ejecutadas
+
+**Los 11 fixes aplicados** (contrato ejecutable completo en `evals/s273_quota_prereg_v2.yaml`):
+
+1. **Sol-C2b (crítico, prod-neutral):** con la cuota OFF, las filas del batch F2 se excluyen
+   post-fetch por id contra un manifest VERSIONADO (`--ids-out` del loader; ids deterministas
+   del dump). El RPC 012 NO acepta filtro de batch ni devuelve `ingest_batch` (verificado) →
+   exclusión cliente. **Over-fetch compensatorio declarado NO-OP** (techo real del scan =
+   `ef_search=120` < FETCH_K=200, medido s272) → la byte-igualdad del scan NO se promete; la
+   neutralidad se verifica con el brazo OFF-pre/OFF-post del A/B (residual DEC-088 declarado).
+2. **Sol-C1 (crítico, loader real):** `scripts/s104_a3_load.py` extendido con
+   `--only-source-files` + `--rewrite-batch-tag` + `--ledger-check` (sha exacto contra el
+   ledger) + `--ids-out`. Dry-run ejecutado y VERIFICADO: 2 docs sha-OK, 1326 filas al batch
+   `enunciados-v1:T2Q1:h1`, delete-scope exacto impreso, 0 de los 1326 ids vivos en DB (GET).
+   Caveat declarado: `_existing_ids` pagina a 1000 (cap PostgREST) → la carga real va con
+   `--replace`.
+3. **Sol-C2a (crítico, A/B completo):** F3 = dos brazos — (i) OFF-pre vs OFF-post (efecto de
+   la recarga sola, el modo s104; solo aplica si F2 corre) y (ii) OFF vs ON (efecto de la
+   cuota); ambos con la unión de anclas heredadas s104+s105.
+4. **Sol-C3 (grafo):** hp010 = **vía A** (quota-only sobre filas VIVAS; F1→F3→F4, sin F0/F2);
+   cat017 = **vía B** (F0→F2→F3→F4). El NO-GO de F0 NO bloquea la vía A — así ocurrió.
+5. **Sol-M4 (outcome):** F4 pasa de informativa a **GATE de ship**: ≥1 conversión ESTABLE a
+   nivel respuesta (K=3 generaciones, convertido en ≥2/3, juez congelado).
+6. **Sol-M5 (instrumento ejecutable):** `scripts/s273_quota_gates.py` implementa DE VERDAD
+   probe K=3 / compare / negcontrol con umbrales numéricos heredados: anclas **+0/−0** (STOP
+   duro en `hp005#2:misma zona o subzona` · `hp006#2:ISO-X` · `hp006#0:Fallo de Tierra`),
+   containment **0-missing** (vigilancia cat021/hp005/hp006), negcontrol **≤7 EXCESS-HIGH**
+   (clon del patrón s102), K-mayoría 2/3 pre-declarada.
+7. **Sol-M6 + Fable-menor (framing honesto):** Q=6 es **TARGET-DERIVADO** del rank de hp010,
+   congelado sin retry; la generalidad la acreditan F3/negcontrol, no la derivación.
+8. **Sol-M7 + Fable-M3:** «escalable» re-encuadrado como HIPÓTESIS no medida (§2 enmendada);
+   FETCH_K/ef_search declarados como límite de recall a escala; tail 71K = gate futuro.
+9. **Fable-M1:** autoridad s105 VERSIONADA (`evals/s273_s105_authority_excerpt_v1.md`).
+10. **Fable-M2:** F1 re-etiquetada «verificación de consistencia» (solo falla por drift); el
+    gate load-bearing del lever es F3.
+11. **Fable-menor-2:** test explícito de los DOS carve-outs simultáneos (E+H) con pool<50 —
+    `tests/test_s273_quota_fusion.py`.
+
+**Build ejecutado (esta sesión):** flag `ENUNCIADOS_QUOTA_FUSION` default-off (parser estricto
+import-time) + `_fuse_enunciados_quota` (carve-out slots reservados + dedup-at-fusion +
+atomicidad S4 del prior art s105) + protección del trim hyq + exclusión T2Q1 flag-off +
+propagación del tag `_enun_quota` en el swap. 12 tests unitarios verdes.
+
+**Fases sin-DB ejecutadas (~$0.22 de $3):**
+
+| fase | resultado | evidencia |
+|---|---|---|
+| **F0 (vía B, cat017)** | **NO-GO** → **cat017#2 RESIDUAL FORMAL**; F2 deshabilitada | Run 1: el dump h1 de HOP-138-9ES NO cubre el chunk carrier (0 filas parent `5bb83899`; 61/100 parents; pp. 5-7 ausentes; 0 filas «licencia» en 925) — gap del ACTIVO de generación, no del instrumento. Brazo condicional pre-registrado ejecutado: 4188-1125-ES generado h1 acotado ($0.10; 408 filas; 29 «licencia»; 2 filas del carrier `4c186fb2` — resumen-tabla sin el cuantificador): best_sim 0.4782 → **rank-99-de-108** nuevos vs floor de cuota 0.614. Ni con cuota. `evals/s273_f0_offline_gate.json` |
+| **F1 (vía A, hp010)** | **GO** | Consistencia s272 OK (drift ≤0.005); replay con la mecánica REAL: rank-6-de-nuevos exacto → entra por cuota Q=6; e2e: p37 en pool (16/28) → **rerank top-2 → SERVIDO** (1 muestra, informativo, no-retry). `evals/s273_f1_viaA_replay.json` |
+| **F2** | NO ejecutada (contrato) | Dry-run VERIFICADO (fix 2). Deshabilitada por F0 NO-GO; la vía A no la necesita. |
+| **F3/F4** | pendientes — las corre Alberto | Comandos exactos en el prereg v2 §F3/§F4. Con F0 NO-GO, el A/B queda OFF vs ON sobre T1 vivo (sin recarga). |
+
+**Lectura del resultado:** el Bloque B queda en su forma final de decisión — hp010#1 tiene
+mecanismo construido + rescate medido end-to-end (pool → top-2 → servido, 1 muestra); cat017#2
+es residual formal CON evidencia fina (el hecho-licencia no existe en el espacio-enunciados
+generable barato: ni el activo T2 lo cubre ni el h1 fresco lo produce con señal — su vía viva
+seguiría siendo re-scope s174 per-facet, decisión explícita aparte por riesgo gate-shopping).
+Ship del flag = decisión de Alberto tras F3+F4.
+
+**Lección de coste anotada (feedback_cost_discipline):** `enunciados_pass.py --dry` GENERA
+(paga el modelo; solo omite dump/ledger) — el «dry» costó $0.05 no previstos. Los techos
+absorbieron el desvío (F0 cerró en ~$0.12 de $0.30), pero el flag merece renombrarse en una
+sesión futura (no aquí — fuera de scope).

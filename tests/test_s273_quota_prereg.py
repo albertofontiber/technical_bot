@@ -175,7 +175,7 @@ def test_forbidden_list_covers_the_overfit_and_spend_vectors():
 
 def test_design_doc_declares_fork_visibly_in_header():
     text = DESIGN_PATH.read_text(encoding="utf-8")
-    header = text[:7000]  # el fork debe estar en cabecera, no enterrado
+    header = text[:9000]  # el fork debe estar en cabecera, no enterrado (v2 añade el aviso post-dúo)
     assert "fork de Protocolo 4" in header
     # autoridad del settled: PLAN §estado-s105 en el backup pre-Codex, con cierre verbatim
     assert "Estado anterior (s105" in header

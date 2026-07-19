@@ -1,0 +1,197 @@
+schema: s273_quota_prereg_v2
+supersedes: evals/s273_quota_prereg_v1.yaml     # v1 = registro histórico pre-dúo, no se edita
+status: active_built_f0_f1_executed             # mecanismo construido; F0/F1 corridas; F2 dry-run (sin DB write); F3/F4 pendientes (Alberto)
+created_at: "2026-07-19"
+design_doc: evals/s273_quota_design_v1.md
+diagnosis_input: evals/s273_retrieval2_diagnosis_v1.md
+duo_adjudicated: "Sol 7/7 (3 críticos + 4 medios) + Fable 5/5 (3 medios + 2 menores), 0 FP — los 11 fixes de este v2 (ver evals/adversarial_review_log.jsonl, entrada de adjudicación s273)"
+
+# ---------------------------------------------------------------------------
+# Fork de Protocolo 4 (sin cambios de fondo vs v1 §protocol4_fork; autoridad ahora
+# VERSIONADA — Fable-M1): la cuota fue MEDIDA en s105 (DEC-103 pre-Codex) con mecánica
+# entrada-al-sort N=10 → T1 PASS +0/-0, 71.202 NO-GO, cierre "bajo esta mecánica; no
+# subir N ni tunear contra hp006". La mecánica de HOY = carve-out hyq (slots
+# reservados), fuera del alcance de aquel cierre.
+# ---------------------------------------------------------------------------
+protocol4_fork:
+  settled_authority: "PLAN_RAG_2026.md seccion 'Estado anterior (s105 — 10 jul 2026)' @ codex/s107-wip-backup"
+  settled_authority_commit: 33977c15f64705670ce377a9bfeee4cba47a9de2
+  settled_authority_versioned: evals/s273_s105_authority_excerpt_v1.md   # Fable-M1: verbatim + pins + sha256
+  settled_closure_verbatim: "R2 queda cerrado bajo esta mecanica; no subir N ni tunear contra hp006"
+  companion_episode: "DEC-102 (s104, DECISIONS.md:1682): carga 71K SIN cuota, anclas perdidas hp005#2 + hp006#2/ISO-X (evals/s104_t2_gate_anchors.json)"
+  numbering_collision_note: "DECISIONS.md:1719 DEC-103 = s194/planner (renumeracion Codex); DEC pre-Codex 103-105 se citan via PLAN seccion estado-sXXX (design_doc seccion 7)"
+  inherited_constraints: [q_frozen_before_f1, q_leq_n_s105, no_tuning_against_hp006_or_gold, no_raising_n_dianas, no_retry]
+
+targets:
+  - qid: hp010
+    via: A                                       # Sol-C3: quota-only sobre filas VIVAS; SIN F0/F2
+    fact: "hp010#1 nivel 3 + desbloquear memoria; menu Lazos"
+    carrier_chunks:
+      - {chunk_id: 155a90fe-8c3f-484e-a617-7637fe29b547, document_id: d1299a40, doc: "DXc_Manual de configuracion", page: 37}
+    live_enunciado_row: {id: 715ed152-ebb3-59fb-94fb-3d9b7e2e0bcc, sim_s272: 0.4268, rank_among_new_parents: 6}
+    phases: [F1, F3, F4]
+  - qid: cat017
+    via: B                                       # Sol-C3: F0 offline -> F2 -> F3 -> F4
+    fact: "cat017#2 licencia CLIP una por cada circuito de lazo"
+    carrier_chunks:
+      - {chunk_id: 5bb83899-9d94-4fdd-8d42-24a670a036c5, document_id: 79a3471a, doc: "HOP-138-9ES issue 5_11-2025_In", page: 5}
+      - {chunk_id: 4c186fb2-aa4b-4ca0-b316-c12ebab59712, document_id: 484dd402, doc: "4188-1125-ES issue 5_11-2025_Li", page: 17}
+    phases: [F0, F2, F3, F4]
+    f0_no_go_does_not_block_via_A: true          # Sol-C3
+
+mechanics:
+  flag: ENUNCIADOS_QUOTA_FUSION                  # default off = sort-mixto historico byte-intacto; parser estricto import-time
+  implemented_in: "src/rag/retriever.py (_fuse_enunciados_quota + integracion en vector_search + proteccion del trim hyq)"
+  replaces_under_flag: "sort-mixto (merged = reales + parents; sort; [:top_k])"
+  mirror_of: "fusion por cuota hyq DEC-099"
+  prior_art_s105:
+    where: "codex/s107-wip-backup 33977c1:src/rag/retriever.py:938-978"
+    inherited: [dedup_at_fusion_boost_keepmax_sin_comprar_slot, atomicidad_S4_boosts_sobre_copias_reasignacion_final, tag_enunciado_boosted]
+    replaced: "fused += quota; sort; [:top_k] (entrada-al-sort, mecanica CERRADA s105) -> results[:top_k-|quota|] + quota (slots reservados)"
+  hyperparams:
+    ENUNCIADOS_QUOTA: 6
+    # Sol-M6 + Fable-menor (framing honesto): Q=6 es TARGET-DERIVADO del rank-6-de-nuevos
+    # de hp010 (diagnostico s272), congelado sin retry; la GENERALIDAD la acreditan
+    # F3/negcontrol, NO la derivacion. 6 < N=10 de s105 (cumple "no subir N").
+    ENUNCIADOS_MIN_SIM: 0.40                     # = RELEVANCE_THRESHOLD (generator.py), constante existente
+    frozen: true                                 # no env-tunables; cambiarlos = prereg nuevo
+  dual_carveout_protection: "el trim hyq respeta filas _enun_quota: reales[:top_k-|E|-|H|] + E + H (test explicito Fable-menor-2 en tests/test_s273_quota_fusion.py)"
+  unchanged: [ENUNCIADOS_FETCH_K=200, channel_threshold=0.3, filter_product_parity_012,
+              _enunciados_swap, diversify_interleave_s59, hyq_channel_DEC099, reranker_DEC092]
+
+prod_neutrality:                                 # Sol-C2b ("el gordo")
+  mechanism: >-
+    Las filas de la recarga F2 llevan ingest_batch='enunciados-v1:T2Q1:h1' y sus ids son
+    DETERMINISTAS (vienen del dump). El RPC 012 NO acepta filtro de batch ni devuelve
+    ingest_batch (verificado en migrations/012) -> la exclusion es CLIENTE post-fetch por
+    id contra el manifest versionado evals/s273_t2q1_exclusion_ids.json (generado por el
+    loader --ids-out), cacheado una vez por proceso. Con ENUNCIADOS_QUOTA_FUSION=off y
+    manifest presente: las filas nuevas NO entran a la fusion. Manifest ausente/vacio
+    (estado actual, pre-F2) = NO-OP byte-exacto.
+  overfetch_declared: >-
+    Over-fetch compensatorio NO aplica: el techo real del scan HNSW es ef_search=120 <
+    FETCH_K=200 (medido s272: match_count 500 -> 113 filas), asi que pedir mas filas no
+    devuelve mas. RESIDUAL DECLARADO: las filas nuevas consumen slots del scan dentro del
+    top-ef_search y pueden desplazar candidatas viejas ANTES del filtro cliente (leccion
+    DEC-088) -> la byte-igualdad del scan NO se promete; la neutralidad se VERIFICA
+    empiricamente con el brazo OFF-pre vs OFF-post del A/B (F3, gate anclas +0/-0).
+  verification: "test unitario (exclusion por ids) + probe pre/post OFF (F3 brazo 1) si F2 corre"
+
+reload:                                          # Sol-C1 — loader acotado REAL
+  scope: max_2_documents
+  batch: "enunciados-v1:T2Q1:h1"
+  loader: "scripts/s104_a3_load.py --only-source-files ... --rewrite-batch-tag enunciados-v1:T2Q1:h1 --ledger-check --ids-out ... --replace --skip-chaff"
+  inputs_versioned:
+    - {file: evals/s273_t2_hop138_rows_v1.jsonl, rows: 925, source: "dump T2 @33977c1 (git)", extraction_sha: 2964cab735832cb228163bd33708dd51caa70af7caf1e1e82a658bb6e09f035a}
+    - {file: evals/s273_t2q_4188_rows_v1.jsonl, rows: 408, source: "pase T2Q h1 acotado (esta sesion, $0.10)", ledger: "T2Q:h1 en evals/enunciados_ledger.json"}
+  rollback: "python scripts/enunciados_pass.py --rollback 'enunciados-v1:T2Q1' (DELETE por prefijo exacto) + VACUUM + probe"
+  dryrun_executed:
+    verdict: VERIFIED
+    evidence: "ledger-check OK (2 docs, sha exacto) · 1326 filas re-tagueadas al batch T2Q1 · delete-scope impreso · manifest evals/s273_f2_dryrun_ids_manifest.json (1326 ids) · 0 de esos ids vivos en DB (GET verificado)"
+    caveat: "_existing_ids del loader pagina a 1000 (cap PostgREST) -> la carga real debe ir con --replace (patron s104), no confiar en el resume por ids"
+
+phases:
+  - id: F0
+    name: gate_offline_precarga_cat017_via_B
+    db_writes: 0
+    executed: true
+    script: scripts/s273_f0_offline_gate.py
+    result:
+      verdict: NO_GO
+      evidence_run1: "dump HOP-138-9ES NO cubre el chunk carrier: 0 filas con parent 5bb83899, 61/100 parents, paginas 5-7 ausentes, 0 filas 'licencia' en 925 (gap del ACTIVO h1, no del instrumento)"
+      conditional_arm: "4188-1125-ES generado h1 acotado (pre-registrado en v1): 408 filas, 29 'licencia', 2 filas del carrier 4c186fb2 (resumen-tabla, sin el cuantificador)"
+      evidence_run2: "carrier 4c186fb2 best_sim 0.4782 -> rank-99-de-108 nuevos vs floor de cuota 0.614 -> NO entra con Q=6"
+      artifact: evals/s273_f0_offline_gate.json
+    consequence_applied: "cat017#2 = RESIDUAL FORMAL (s188 release_boundary.next / PLAN); F2 queda DESHABILITADA para la via B; la via A no se bloquea (Sol-C3)"
+  - id: F1
+    name: consistencia_y_replay_via_A            # Fable-M2: verificacion de consistencia; el gate load-bearing es F3
+    db_writes: 0
+    executed: true
+    script: scripts/s273_f1_viaA_replay.py
+    result:
+      verdict: GO
+      consistency: "fila viva 715ed152 sim fresca dentro de ±0.005 de s272"
+      replay: "rank-6-de-nuevos exacto al diagnostico -> entra por cuota Q=6 (mecanica real _fuse_enunciados_quota, no espejo)"
+      e2e: "p37 en pool final (rank 16/28) -> rerank top-2 -> SERVIDO (sim>=0.4) — 1 muestra, informativo, no-retry (DEC-096)"
+      artifact: evals/s273_f1_viaA_replay.json
+  - id: F2
+    name: recarga_acotada
+    db_writes: "INSERT batch enunciados-v1:T2Q1:h1 (reversible)"
+    executed: false
+    gated_by: [F0_go, duo_go, alberto_go]
+    state: "DESHABILITADA por F0 NO-GO (via B muerta); via A NO la necesita (fila viva). Dry-run VERIFICADO (seccion reload). Si Alberto decidiera forzarla, copiar el manifest a evals/s273_t2q1_exclusion_ids.json ANTES de cargar (neutralidad flag-off)"
+  - id: F3
+    name: ab_completo_gates_heredados            # Sol-C2a + Sol-M5: instrumento REAL con umbrales numericos
+    db_writes: 0
+    executed: false
+    owner: alberto_post_review
+    instrument: scripts/s273_quota_gates.py
+    arms:
+      - "(solo si F2 corre) OFF-pre vs OFF-post: efecto de la recarga sola (el modo s104) -> anclas +0/-0"
+      - "OFF vs ON (estado actual: sobre T1 vivo, sin recarga): efecto de la cuota"
+    commands:
+      - "python scripts/s273_quota_gates.py probe off --flag off --k 3"
+      - "python scripts/s273_quota_gates.py probe on --flag on --k 3"
+      - "python scripts/s273_quota_gates.py compare evals/s273_quota_probe_off.json evals/s273_quota_probe_on.json"
+      - "python scripts/s273_quota_gates.py negcontrol"
+    thresholds:                                  # hereda DEC-102 + s105; K-mayoria 2/3 pre-declarada
+      anclas: "+0/-0 (STOP si CUALQUIER perdida; STOP duro explicito en la union s104+s105: 'hp005#2:misma zona o subzona' · 'hp006#2:ISO-X' · 'hp006#0:Fallo de Tierra')"
+      containment: "0-missing (served v2.2 de golds ganados; vigilancia explicita cat021/hp005/hp006 = el containment del NO-GO s105)"
+      negcontrol: "<=7 golds EXCESS-HIGH (OFF_a/OFF_b/ON, rank<25 — clon patron s102; herencia DEC-101)"
+      famtie_escalation: "scripts/retrieval_miss_famtie.py SOLO si anclas/negcontrol disparan raro"
+    cost_ceiling_usd: 0.20
+  - id: F4
+    name: conversion_nivel_respuesta_GATE        # Sol-M4: pasa de informativa a GATE de ship
+    db_writes: 0
+    executed: false
+    owner: alberto_post_review
+    procedure: "python scripts/factlevel_assessment.py smoke --qids hp010 (via A; cat017 solo si F2 se reabriera) x K=3 generaciones"
+    ship_threshold: ">=1 conversion ESTABLE a nivel respuesta: hp010#1 convertido en >=2/3 generaciones (juez congelado GPT-5.5 K-mayoria DEC-023/095)"
+    no_go_consequence: "flag NO se shippea; lever documentado con pool-rescue sin conversion estable"
+    cost_ceiling_usd: 0.90
+
+budget:
+  total_ceiling_usd: 3.00
+  spent_so_far_usd: 0.22                         # F1 rerank+embeds ~0.06 · F0 embeds ~0.02 · brazo 4188: 0.05 ('--dry' del pipeline GENERA — leccion anotada) + 0.05 real · varios GET $0
+  no_retry: true
+  stop_on_ceiling: true
+
+inputs:
+  code_pin:
+    branch_base: 5774a6c37a85fd635d8bdcef5c0c69aeb90cc387
+    note: "el mecanismo vive en esta rama (claude/s273-bloqueB-quota); sha final = commit del build"
+  frozen_artifacts_versioned: evals/s273_s272_artifacts/   # sha256 identicos a los pins de v1 (verificado al copiar)
+  embedding_model: voyage-4-large-1024
+  sim_tolerance: 0.005
+  seeds: {sampling_seed: 0, llm_temperature: 0}
+  config_stamp_required: true
+
+scalability_hypothesis:                          # Sol-M7 + Fable-M3: HIPOTESIS, no claim
+  statement: "la cuota con barra deberia ser invariante a la escala del canal (es cap + floor a la vez)"
+  status: NO_MEDIDA
+  declared_limits:
+    - "FETCH_K=200 con ef_search=120 = techo de recall del canal a escala (a 71K el top-120 del scan puede no contener la fila puente aunque exista)"
+    - "el tail 71K (activo ~$95) es un GATE FUTURO propio, fuera del alcance de este prereg"
+
+forbidden:
+  - tune_Q_or_bar
+  - raise_N_dianas_to_search_gains
+  - author_enunciados_looking_at_golds
+  - touch_diversify_or_interleave_s59
+  - touch_hyq_channel_knobs
+  - retry_any_no_go
+  - db_writes_in_this_session
+  - execute_F2_without_alberto
+  - ship_flag_without_alberto_go
+
+outputs:
+  executed:
+    - evals/s273_f0_offline_gate.json
+    - evals/s273_f1_viaA_replay.json
+    - evals/s273_f2_dryrun_ids_manifest.json
+  pending_alberto:
+    - evals/s273_quota_probe_off.json
+    - evals/s273_quota_probe_on.json
+    - evals/s273_f3_inherited_gates.json
+    - evals/s273_quota_negcontrol.json
+    - "F4: fila del assessment"

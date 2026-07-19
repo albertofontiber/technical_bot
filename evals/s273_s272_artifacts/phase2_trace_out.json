@@ -1,0 +1,1673 @@
+{
+  "demo_flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "ADD",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "DIVERSIFY_TIEBREAK": "off",
+    "HYQ_PILOT_FILE": "",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "HYQ_TABLE": "on",
+    "GENERATOR_SELECTION_BLOCK": "on"
+  },
+  "retrieval_top_k": 50,
+  "rerank_top_k": 10,
+  "cat017": {
+    "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+    "models_extracted": [
+      "INSPIRE"
+    ],
+    "models_post_resolver": [
+      "INSPIRE"
+    ],
+    "identity_res": null,
+    "raw_vector_n": 113,
+    "raw_vector_sim_rank50": 0.6412,
+    "raw_vector_targets": {
+      "cat017#2_HOP-138-9_p5": null
+    },
+    "cos_query_chunk": {
+      "cat017#2_HOP-138-9_p5": 0.5751
+    },
+    "enun_n": 200,
+    "enun_targets": {},
+    "hyq_n_rows": 200,
+    "hyq_target_rows_prefilter": [],
+    "hyq_rows_postfamily_n": 35,
+    "hyq_family_fallback_global": false,
+    "hyq_parents_postfamily_top15": [
+      {
+        "parent_rank": 1,
+        "chunk_id": "c2564c21-16d2-477e-ba50-e4a02f240900",
+        "sim": 0.6248,
+        "q": "En la INSPIRE E10/E15, ¿qué pasos hay que seguir para conectar un lazo CLIP a la central u",
+        "is_target": false
+      },
+      {
+        "parent_rank": 2,
+        "chunk_id": "68d812f5-c2ac-40be-8634-a420f082ab81",
+        "sim": 0.5902,
+        "q": "¿Cómo hay que cablear el lazo en la INSPIRE E10/E15, cuántas entradas y salidas tiene y a ",
+        "is_target": false
+      },
+      {
+        "parent_rank": 3,
+        "chunk_id": "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+        "sim": 0.5839,
+        "q": "¿A qué terminales se conecta el lazo 1 (salida y entrada) en el módulo LAZO OPAL X2 de la ",
+        "is_target": false
+      },
+      {
+        "parent_rank": 4,
+        "chunk_id": "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+        "sim": 0.5734,
+        "q": "Con el módulo de lazo dual HOP-433-100, ¿cuántos detectores y módulos puedo conectar por l",
+        "is_target": false
+      },
+      {
+        "parent_rank": 5,
+        "chunk_id": "8db55998-3225-4f65-a2d7-4846f670165f",
+        "sim": 0.5729,
+        "q": "¿Cómo se añaden, cambian o eliminan dispositivos del lazo en la central Notifier INSPIRE E",
+        "is_target": false
+      },
+      {
+        "parent_rank": 6,
+        "chunk_id": "f702a4ac-9f60-4c93-b3c4-3d991a120751",
+        "sim": 0.5676,
+        "q": "¿Qué tipo y sección de cable hay que usar para el lazo de comunicación dual FAT/FBF en la ",
+        "is_target": false
+      },
+      {
+        "parent_rank": 7,
+        "chunk_id": "a6cda534-0328-4570-9a1a-a99aada72bbf",
+        "sim": 0.5614,
+        "q": "¿Cómo se conectan físicamente los circuitos de lazo en la INSPIRE E10, en qué terminales v",
+        "is_target": false
+      },
+      {
+        "parent_rank": 8,
+        "chunk_id": "c0b2dce8-bdef-47ec-a0b5-a47736b78ff8",
+        "sim": 0.5603,
+        "q": "¿Qué módulo uso en la INSPIRE E10 para conectar una zona de detectores convencionales al l",
+        "is_target": false
+      },
+      {
+        "parent_rank": 9,
+        "chunk_id": "7ac0f6af-7cf7-4b11-9e7d-c2fdb0696cb0",
+        "sim": 0.5559,
+        "q": "¿Cómo se cablea el FAT4000 a la central Notifier INSPIRE E10, qué terminales se usan y qué",
+        "is_target": false
+      },
+      {
+        "parent_rank": 10,
+        "chunk_id": "87df9d33-77c1-4f01-a639-9e1e3ac2e452",
+        "sim": 0.5471,
+        "q": "¿Qué resistencias hay que poner en las entradas del módulo E/S 4 canales de la Notifier IN",
+        "is_target": false
+      },
+      {
+        "parent_rank": 11,
+        "chunk_id": "0c7b5006-3421-4134-835a-307059203b08",
+        "sim": 0.5455,
+        "q": "¿Qué cables se recomiendan para el lazo de la INSPIRE E10 y qué referencias tienen?",
+        "is_target": false
+      },
+      {
+        "parent_rank": 12,
+        "chunk_id": "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+        "sim": 0.5431,
+        "q": "¿Cómo se conecta el apantallamiento del cable de lazo en el módulo OPAL X2 de la INSPIRE E",
+        "is_target": false
+      },
+      {
+        "parent_rank": 13,
+        "chunk_id": "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+        "sim": 0.5392,
+        "q": "¿Cuántos detectores y/o pulsadores puedo conectar como máximo en cada módulo de lazo de la",
+        "is_target": false
+      },
+      {
+        "parent_rank": 14,
+        "chunk_id": "6c3ba6ff-746f-4abf-9069-12c8873a6b8d",
+        "sim": 0.5389,
+        "q": "¿Cómo añado un dispositivo nuevo a un lazo de la Notifier INSPIRE E10/E15 que ya está en m",
+        "is_target": false
+      },
+      {
+        "parent_rank": 15,
+        "chunk_id": "dd6f0c5e-8ea2-49fb-888c-e5b7883ca553",
+        "sim": 0.5304,
+        "q": "¿Cómo están numerados y asignados los terminales del módulo de lazo OPAL X2 de la INSPIRE ",
+        "is_target": false
+      }
+    ],
+    "hyq_target_parent_rank": {
+      "cat017#2_HOP-138-9_p5": null
+    },
+    "pool_n": 50,
+    "pool": [
+      {
+        "rank": 1,
+        "id": "b7633e98-b011-4035-9548-a564c71e70ac",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 5,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 2,
+        "id": "0b09e945-52d1-4ce4-abb1-89a6de9d7f51",
+        "doc": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+        "page": 6,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 3,
+        "id": "ae86bacb-6368-4c6e-bc86-a5e402ce9d9c",
+        "doc": "484dd402-3e32-4792-b81f-9f1419114154",
+        "page": 21,
+        "pm": "INSPIRE Panel",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 4,
+        "id": "0d7152f8-7b15-4cdf-964d-0e3dc5a02b3f",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 50,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 5,
+        "id": "63b307b1-0f71-4c4f-86ee-558ed6470b80",
+        "doc": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+        "page": 8,
+        "pm": "INSPIRE",
+        "sim": 0.72,
+        "channel": null,
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 6,
+        "id": "facf6c65-e0cd-4003-a190-e838d78cd614",
+        "doc": "49f79dcf-5963-41af-8fe6-fdacf53cbd65",
+        "page": 1,
+        "pm": "INSPIRE",
+        "sim": 0.72,
+        "channel": null,
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 7,
+        "id": "becff2fa-d6f0-441f-8591-b2b28b28b242",
+        "doc": "68b7230c-15d3-4632-8c6b-d486bd6617bc",
+        "page": 1,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 8,
+        "id": "7a09deff-43dc-407a-8e82-d861eba56c6f",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 2,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 9,
+        "id": "a141be4a-48ee-4311-9820-fc765b323ebd",
+        "doc": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+        "page": 53,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 10,
+        "id": "b0273b01-279d-4151-849c-4bcf2cf5c612",
+        "doc": "484dd402-3e32-4792-b81f-9f1419114154",
+        "page": 16,
+        "pm": "INSPIRE Panel",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 11,
+        "id": "bd632a2e-cef2-4adf-b589-c1a75bbb826f",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 2,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 12,
+        "id": "2d4037e8-bfc3-4347-9d92-f8fb92725523",
+        "doc": "68b7230c-15d3-4632-8c6b-d486bd6617bc",
+        "page": 40,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 13,
+        "id": "68d812f5-c2ac-40be-8634-a420f082ab81",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 12,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 14,
+        "id": "a33f109b-04e5-47f1-a458-c109eb2ba36e",
+        "doc": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+        "page": 55,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 15,
+        "id": "2b8c3beb-419e-4309-8bf7-0d773f9e5fd8",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 15,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 16,
+        "id": "1452c904-cf11-4803-9b2b-4b977bfa3d5f",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 4,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 17,
+        "id": "5382d3e9-76a1-4e06-8141-8526808ff193",
+        "doc": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+        "page": 56,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 18,
+        "id": "b9eeed54-97e7-4efb-83a2-5b0f5e6cee61",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 16,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 19,
+        "id": "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 7,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 20,
+        "id": "c825814b-541a-4878-bb7e-d1290315f41f",
+        "doc": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+        "page": 52,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 21,
+        "id": "d8d482ea-3156-4b1b-bcd1-02be0761496a",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 25,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 22,
+        "id": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 8,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 23,
+        "id": "4a2f2507-3877-456b-a357-1f9ab47f67ad",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 49,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 24,
+        "id": "ad81ba70-980c-4146-993d-e26fc08eb16f",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 10,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 25,
+        "id": "154ef871-e7ed-4152-abff-16c3608a8067",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 59,
+        "pm": "INSPIRE E10",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 26,
+        "id": "c2564c21-16d2-477e-ba50-e4a02f240900",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 10,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 27,
+        "id": "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 47,
+        "pm": "INSPIRE E10",
+        "sim": 0.6814,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 28,
+        "id": "dade6242-545b-42bb-9f7c-2a5ffb616dc3",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 41,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 29,
+        "id": "a6cda534-0328-4570-9a1a-a99aada72bbf",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 48,
+        "pm": "INSPIRE E10",
+        "sim": 0.6718,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 30,
+        "id": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 50,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 31,
+        "id": "dd6f0c5e-8ea2-49fb-888c-e5b7883ca553",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 46,
+        "pm": "INSPIRE E10",
+        "sim": 0.6672,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 32,
+        "id": "7a33265b-09a7-4628-8110-980a83d28152",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 69,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 33,
+        "id": "f88b6b26-362d-4a10-83e6-bbe84592dd32",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 78,
+        "pm": "INSPIRE E10",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 34,
+        "id": "35636da3-323b-4121-bc14-49eb1eebc6f8",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 71,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 35,
+        "id": "435d05de-29de-43e2-895b-3ae8487549fd",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 71,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 36,
+        "id": "b1a670a8-ecfa-4ca9-bf27-328021e48446",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 75,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 37,
+        "id": "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 51,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 38,
+        "id": "6fbcc48b-4944-4e7a-9b34-bed3af771e7b",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 60,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 39,
+        "id": "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 15,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.6817,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 40,
+        "id": "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 9,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.6592,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 41,
+        "id": "0cf36fa1-7eb2-4a58-be36-56a28fcaa40a",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 64,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 42,
+        "id": "76864386-9e44-4b85-b930-abfe73d27c99",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 65,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 43,
+        "id": "c0b2dce8-bdef-47ec-a0b5-a47736b78ff8",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 52,
+        "pm": "INSPIRE E10",
+        "sim": 0.5603,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Qué módulo uso en la INSPIRE E10 para conectar una zona de detectores convencionales al lazo analógico?"
+      },
+      {
+        "rank": 44,
+        "id": "7ac0f6af-7cf7-4b11-9e7d-c2fdb0696cb0",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 72,
+        "pm": "INSPIRE E10",
+        "sim": 0.5559,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Cómo se cablea el FAT4000 a la central Notifier INSPIRE E10, qué terminales se usan y qué tipo de cable hay q"
+      },
+      {
+        "rank": 45,
+        "id": "87df9d33-77c1-4f01-a639-9e1e3ac2e452",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 67,
+        "pm": "INSPIRE E10",
+        "sim": 0.5471,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Qué resistencias hay que poner en las entradas del módulo E/S 4 canales de la Notifier INSPIRE E10 para las e"
+      },
+      {
+        "rank": 46,
+        "id": "0c7b5006-3421-4134-835a-307059203b08",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 12,
+        "pm": "INSPIRE E10",
+        "sim": 0.5455,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Qué cables se recomiendan para el lazo de la INSPIRE E10 y qué referencias tienen?"
+      },
+      {
+        "rank": 47,
+        "id": "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 85,
+        "pm": "INSPIRE E10",
+        "sim": 0.5392,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Cuántos detectores y/o pulsadores puedo conectar como máximo en cada módulo de lazo de la INSPIRE E10?"
+      },
+      {
+        "rank": 48,
+        "id": "810371ad-8935-40ff-ae89-f59defd24487",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 74,
+        "pm": "INSPIRE E10",
+        "sim": 0.5291,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Cómo se cablea el repetidor ABT4000 a la central Notifier INSPIRE E10 usando FAT/FBF, y a qué terminales va c"
+      },
+      {
+        "rank": 49,
+        "id": "85d84699-4d7c-4950-b75b-ec9f4262190c",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 51,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.5287,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Cómo se cablea el módulo de 4 canales de E/S de la INSPIRE E10/E15, qué terminal va a qué canal?"
+      },
+      {
+        "rank": 50,
+        "id": "f36f0e2f-15bc-4adc-8965-712a3557de91",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 76,
+        "pm": "INSPIRE E10",
+        "sim": 0.528,
+        "channel": "VECTOR",
+        "hyq_surrogate": true,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": "¿Cómo se cablea el módulo FAT4000 con FBA al panel GLSS EN de la INSPIRE E10 mediante RS485, a qué terminales "
+      }
+    ],
+    "trace_stage_sizes": {
+      "channels": 78,
+      "post_merge": 78,
+      "post_neighbor": 78,
+      "post_superseded": 78,
+      "post_model_filter": 48,
+      "post_diversify": 42,
+      "post_lang": 42,
+      "post_hyq_aside": 50,
+      "final": 50
+    },
+    "trace_target_membership": {
+      "cat017#2_HOP-138-9_p5": {
+        "channels": false,
+        "post_merge": false,
+        "post_neighbor": false,
+        "post_superseded": false,
+        "post_model_filter": false,
+        "post_diversify": false,
+        "post_lang": false,
+        "post_hyq_aside": false,
+        "final": false
+      }
+    },
+    "pool_target_ranks": {
+      "cat017#2_HOP-138-9_p5": null
+    },
+    "topk": [
+      {
+        "rank": 1,
+        "id": "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+        "doc": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+        "page": 47,
+        "pm": "INSPIRE E10",
+        "sim": 0.6814,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 2,
+        "id": "68d812f5-c2ac-40be-8634-a420f082ab81",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 12,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 3,
+        "id": "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 51,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 4,
+        "id": "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 7,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 5,
+        "id": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 8,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 6,
+        "id": "ad81ba70-980c-4146-993d-e26fc08eb16f",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 10,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 7,
+        "id": "c2564c21-16d2-477e-ba50-e4a02f240900",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 10,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 8,
+        "id": "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 9,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.6592,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 9,
+        "id": "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 15,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.6817,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 10,
+        "id": "7a09deff-43dc-407a-8e82-d861eba56c6f",
+        "doc": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "page": 2,
+        "pm": "INSPIRE E10/E15",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      }
+    ],
+    "rerank_backend": "llm",
+    "served_ids": [
+      "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+      "68d812f5-c2ac-40be-8634-a420f082ab81",
+      "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+      "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+      "79faef35-68cf-4631-8e18-7d6d8ef09790",
+      "ad81ba70-980c-4146-993d-e26fc08eb16f",
+      "c2564c21-16d2-477e-ba50-e4a02f240900",
+      "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+      "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "7a09deff-43dc-407a-8e82-d861eba56c6f"
+    ],
+    "topk_target_ranks": {
+      "cat017#2_HOP-138-9_p5": null
+    },
+    "served_targets": {
+      "cat017#2_HOP-138-9_p5": false
+    }
+  },
+  "hp010": {
+    "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+    "models_extracted": [
+      "DXc"
+    ],
+    "models_post_resolver": [
+      "DXc",
+      "DXc1",
+      "DXc2",
+      "DXc4"
+    ],
+    "identity_res": {
+      "detected": [
+        "dxc"
+      ],
+      "records": [
+        {
+          "token": "dxc",
+          "via": "paraguas",
+          "politica": null,
+          "expand": true,
+          "ids": [
+            "morley:dxc1",
+            "morley:dxc2",
+            "morley:dxc4"
+          ]
+        }
+      ],
+      "add_models": [
+        "DXc1",
+        "DXc2",
+        "DXc4"
+      ],
+      "drop_tokens": [
+        "dxc"
+      ],
+      "allowed_sources": [
+        "DXc_Guia de instalacion_multiling",
+        "DXc_Manual de configuracion",
+        "DXc_Manual de usuario",
+        "DXc_Manual variaciones de mercado"
+      ],
+      "source_groups": [
+        {
+          "token": "dxc",
+          "ids": [
+            "morley:dxc1",
+            "morley:dxc2",
+            "morley:dxc4"
+          ],
+          "sources": [
+            "DXc_Guia de instalacion_multiling",
+            "DXc_Manual de configuracion",
+            "DXc_Manual de usuario",
+            "DXc_Manual variaciones de mercado"
+          ]
+        }
+      ]
+    },
+    "raw_vector_n": 115,
+    "raw_vector_sim_rank50": 0.4556,
+    "raw_vector_targets": {
+      "hp010#1_DXc_p37_acceso": null,
+      "hp010_p48_autobusqueda_servida": 32
+    },
+    "cos_query_chunk": {
+      "hp010#1_DXc_p37_acceso": 0.3379,
+      "hp010_p48_autobusqueda_servida": 0.4672
+    },
+    "enun_n": 200,
+    "enun_targets": {
+      "155a90fe-8c3f-484e-a617-7637fe29b547": [
+        {
+          "rank": 14,
+          "sim": 0.4268
+        }
+      ]
+    },
+    "hyq_n_rows": 6,
+    "hyq_target_rows_prefilter": [],
+    "hyq_rows_postfamily_n": 6,
+    "hyq_family_fallback_global": true,
+    "hyq_parents_postfamily_top15": [
+      {
+        "parent_rank": 1,
+        "chunk_id": "269377d8-1ed8-48d4-ae9a-da8637e4f7f4",
+        "sim": 0.4945,
+        "q": "¿Cómo se añade un detector u otro dispositivo a una dirección concreta del lazo en el soft",
+        "is_target": false
+      },
+      {
+        "parent_rank": 2,
+        "chunk_id": "10819a31-3117-4ac5-a691-0dae1fd80578",
+        "sim": 0.4836,
+        "q": "¿Cómo se añade un detector o módulo a un lazo en el software de configuración PK-ID3000?",
+        "is_target": false
+      },
+      {
+        "parent_rank": 3,
+        "chunk_id": "24e4be51-4839-4242-a194-1eeb45b2b3b6",
+        "sim": 0.4735,
+        "q": "¿Cómo se añade o se quita un detector o módulo del lazo en la ID2000?",
+        "is_target": false
+      },
+      {
+        "parent_rank": 4,
+        "chunk_id": "c961a2ad-8591-4d83-973d-5dfeda307315",
+        "sim": 0.473,
+        "q": "¿Cómo se añaden detectores o módulos al lazo en el software de configuración offline de la",
+        "is_target": false
+      },
+      {
+        "parent_rank": 5,
+        "chunk_id": "dade6242-545b-42bb-9f7c-2a5ffb616dc3",
+        "sim": 0.4636,
+        "q": "¿Cómo añado o cambio un detector en un lazo de la INSPIRE E10/E15 que ya está en marcha, s",
+        "is_target": false
+      },
+      {
+        "parent_rank": 6,
+        "chunk_id": "f7c870e3-cd22-4de3-b53c-e5c669f64233",
+        "sim": 0.4604,
+        "q": "¿Cómo se añade, borra o cambia un detector o módulo en el lazo de la ID1000?",
+        "is_target": false
+      }
+    ],
+    "hyq_target_parent_rank": {
+      "hp010#1_DXc_p37_acceso": null,
+      "hp010_p48_autobusqueda_servida": null
+    },
+    "pool_n": 28,
+    "pool": [
+      {
+        "rank": 1,
+        "id": "d4ea4891-9d97-4698-a388-25c66fbc4756",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 4,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 2,
+        "id": "3b3236e6-ee45-428a-8c5e-023ab14609a0",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 3,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 3,
+        "id": "9469b2ae-8463-413a-90f8-7f904ad4a5f3",
+        "doc": "567038c2-2e10-4765-9f0e-1b4386877d27",
+        "page": 1,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 4,
+        "id": "b0d7b838-90c0-4f70-9de0-123f74a478b4",
+        "doc": "142cdd92-548a-4f07-9659-3028c3e225b7",
+        "page": 1,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 5,
+        "id": "e8527da2-c31c-4bb0-a315-b026bb67bb1a",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 17,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 6,
+        "id": "69d17074-4136-4163-b6d9-083c29e52d85",
+        "doc": "accbda3e-465f-4f0a-ad17-5c62c24835e7",
+        "page": 1,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 7,
+        "id": "b69d1c64-eb58-4b1d-ae6c-45dc085d5b9d",
+        "doc": "56c8d6f1-a7c4-431b-89a7-58e7e9d373fe",
+        "page": 1,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 8,
+        "id": "ef03d328-0f06-48a2-b797-83f164a650e2",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 36,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 9,
+        "id": "9344225b-096b-4a03-b6f5-93486735723e",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 4,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 10,
+        "id": "cdbc2c16-8049-4e3a-a2e6-c4311b8a9745",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 22,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 11,
+        "id": "f3c784ba-d02a-4e85-b2b7-94473142cafe",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 67,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 12,
+        "id": "7013eb5f-d290-4c49-b34d-3506c4dc1fdd",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 4,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 13,
+        "id": "f92dd4b2-b02b-40a9-98be-ca063a5ede3e",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 22,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 14,
+        "id": "0fefa8ea-be2b-4a8b-afd7-e1dbca6e627f",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 87,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 15,
+        "id": "827d36e5-6890-4245-beef-43359d021cff",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 5,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 16,
+        "id": "7671ec98-59ec-42cc-bd10-f64540f68c35",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 21,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 17,
+        "id": "359e688c-85fe-477c-8de7-9e0d6ee6ef6b",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 92,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 18,
+        "id": "0a35b5c3-0063-4a8c-b49c-2b8eabe6da31",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 6,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 19,
+        "id": "de89eaeb-8cea-474d-a6cb-af8bc45d0962",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 24,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 20,
+        "id": "e7ed5727-f971-4f59-8def-58d9ffbc11af",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 85,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 21,
+        "id": "749584a2-c764-4c20-a548-d4c8ff978203",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 35,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 22,
+        "id": "10235e4d-92a2-4edd-86a7-5a7c88f09d01",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 43,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 23,
+        "id": "1a021bd5-8dfd-4333-a015-855c307b3219",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 27,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 24,
+        "id": "0b544170-848c-4cf4-af24-54d702a6e736",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 18,
+        "pm": "DXc",
+        "sim": 0.4809,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 25,
+        "id": "af8bd638-c4f6-4c74-a154-b64496057280",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 28,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 26,
+        "id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 48,
+        "pm": "DXc",
+        "sim": 0.4672,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 27,
+        "id": "9e0daf73-6a45-41d6-8f5c-e949d798d686",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 23,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 28,
+        "id": "0ce665d6-e5cf-4211-a8d5-8ef2716e5eb8",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 82,
+        "pm": "DXc",
+        "sim": 0.4662,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      }
+    ],
+    "trace_stage_sizes": {
+      "channels": 74,
+      "post_merge": 74,
+      "post_neighbor": 74,
+      "post_superseded": 74,
+      "post_model_filter": 28,
+      "post_diversify": 28,
+      "post_lang": 28,
+      "final": 28
+    },
+    "trace_target_membership": {
+      "hp010#1_DXc_p37_acceso": {
+        "channels": false,
+        "post_merge": false,
+        "post_neighbor": false,
+        "post_superseded": false,
+        "post_model_filter": false,
+        "post_diversify": false,
+        "post_lang": false,
+        "final": false
+      },
+      "hp010_p48_autobusqueda_servida": {
+        "channels": true,
+        "post_merge": true,
+        "post_neighbor": true,
+        "post_superseded": true,
+        "post_model_filter": true,
+        "post_diversify": true,
+        "post_lang": true,
+        "final": true
+      }
+    },
+    "pool_target_ranks": {
+      "hp010#1_DXc_p37_acceso": null,
+      "hp010_p48_autobusqueda_servida": 26
+    },
+    "topk": [
+      {
+        "rank": 1,
+        "id": "64cecd3f-204f-456e-91cc-e563280b1b99",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 48,
+        "pm": "DXc",
+        "sim": 0.4672,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 2,
+        "id": "69d17074-4136-4163-b6d9-083c29e52d85",
+        "doc": "accbda3e-465f-4f0a-ad17-5c62c24835e7",
+        "page": 1,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 3,
+        "id": "ef03d328-0f06-48a2-b797-83f164a650e2",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 36,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 4,
+        "id": "9344225b-096b-4a03-b6f5-93486735723e",
+        "doc": "ce44f1a5-7cfa-4ba7-a5ce-0a0fc18dcc36",
+        "page": 4,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 5,
+        "id": "10235e4d-92a2-4edd-86a7-5a7c88f09d01",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 43,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 6,
+        "id": "de89eaeb-8cea-474d-a6cb-af8bc45d0962",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 24,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 7,
+        "id": "1a021bd5-8dfd-4333-a015-855c307b3219",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 27,
+        "pm": "DXc",
+        "sim": 0.8,
+        "channel": "CONTENT",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 8,
+        "id": "af8bd638-c4f6-4c74-a154-b64496057280",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 28,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 9,
+        "id": "9e0daf73-6a45-41d6-8f5c-e949d798d686",
+        "doc": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+        "page": 23,
+        "pm": "DXc",
+        "sim": 0.65,
+        "channel": "MODEL",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      },
+      {
+        "rank": 10,
+        "id": "0b544170-848c-4cf4-af24-54d702a6e736",
+        "doc": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+        "page": 18,
+        "pm": "DXc",
+        "sim": 0.4809,
+        "channel": "VECTOR",
+        "hyq_surrogate": false,
+        "hyq_boosted": false,
+        "swapped_from_enunciado": false,
+        "hyq_q": ""
+      }
+    ],
+    "rerank_backend": "llm",
+    "served_ids": [
+      "64cecd3f-204f-456e-91cc-e563280b1b99",
+      "69d17074-4136-4163-b6d9-083c29e52d85",
+      "ef03d328-0f06-48a2-b797-83f164a650e2",
+      "9344225b-096b-4a03-b6f5-93486735723e",
+      "10235e4d-92a2-4edd-86a7-5a7c88f09d01",
+      "de89eaeb-8cea-474d-a6cb-af8bc45d0962",
+      "1a021bd5-8dfd-4333-a015-855c307b3219",
+      "af8bd638-c4f6-4c74-a154-b64496057280",
+      "9e0daf73-6a45-41d6-8f5c-e949d798d686",
+      "0b544170-848c-4cf4-af24-54d702a6e736"
+    ],
+    "topk_target_ranks": {
+      "hp010#1_DXc_p37_acceso": null,
+      "hp010_p48_autobusqueda_servida": 1
+    },
+    "served_targets": {
+      "hp010#1_DXc_p37_acceso": false,
+      "hp010_p48_autobusqueda_servida": true
+    }
+  }
+}

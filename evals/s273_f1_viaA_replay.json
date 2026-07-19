@@ -1,0 +1,54 @@
+{
+ "phase": "F1_viaA",
+ "prereg": "evals/s273_quota_prereg_v2.yaml",
+ "qid": "hp010",
+ "stamp": {
+  "git_sha": "783b9a4372f77119f60b0a55880418db2843c3d7",
+  "git_dirty_src": "M src/rag/retriever.py",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "HYQ_TABLE": "on",
+   "GENERATOR_SELECTION_BLOCK": "on",
+   "ENUNCIADOS_QUOTA_FUSION": "on (call-time flip)"
+  },
+  "quota": 6,
+  "min_sim": 0.4,
+  "sim_tolerance": 0.005
+ },
+ "consistency_s272": {
+  "status": "OK",
+  "live_row": "715ed152-ebb3-59fb-94fb-3d9b7e2e0bcc",
+  "sim_fresh": 0.426804087149736,
+  "sim_s272": 0.4268,
+  "drift": 4.087149735987339e-06
+ },
+ "replay": {
+  "target_parent": "155a90fe-8c3f-484e-a617-7637fe29b547",
+  "rank_among_new_parents": 6,
+  "n_new_parents": 38,
+  "enters_pool_via_quota": true
+ },
+ "e2e": {
+  "in_final_pool": true,
+  "pool_rank": 16,
+  "n_pool": 19,
+  "n_enun_quota_in_pool": 0,
+  "rerank_topk_rank": 2,
+  "served": true,
+  "served_note": "informativo, 1 muestra, no-retry (DEC-096)"
+ },
+ "verdict": "GO",
+ "gate_note": "F1 es verificación de consistencia + entrada-al-pool; el gate load-bearing del lever es F3 (Fable-M2)"
+}
