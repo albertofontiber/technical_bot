@@ -1,0 +1,74 @@
+schema: s269_stage1_v3_prereg_v1
+status: FROZEN_BEFORE_RUN
+created_utc: '2026-07-19T00:07:53+00:00'
+spec_ref: evals/s269_stage1_v3_mutation_spec_v1.md
+design_ref: evals/s269_synthesis_portfolio_design_v1.md §1 (v2 dúo-adjudicado)
+predecessor: evals/s269_stage1_gate_v1.yaml (NO_GO v1, gold de modelo no fiable) + evals/s269_stage1_nogo_diagnosis_v1.md
+gold: 'MECÁNICO POR CONSTRUCCIÓN (patrón S249, precedente in-repo precisión 1.0/FP 0): mutación determinista
+  con receipt exacto; sin etiquetadores modelo en el path del gold'
+seed: 270
+gates:
+  mutation_recall_min_per_family: 0.8
+  clean_noise_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  scoring: por MUTACIÓN individual (átomo), no booleano de familia (C1); cobertura = filas puntuables
+    / filas generadas; las filas no puntuables se listan en el gate
+freeze:
+  must_preserve_sha256: 2b158abf4ff4b801725962a32b30f9c0460886482e4b7e847fcb98fc7f25fc28
+  harness_sha256: 5e93ee6d77f10533a1ca50a6dc4c90232c21158943c619ea297fead3021e7876
+  templates_sha256: cf241fdf722c18bcc8622e2ebe05d81aa8059695b04f800260a489ded2f8523e
+  templates_version: s269_v3_templates_v2
+  cohort_path: evals/s269_mutation_cohort_v2.jsonl
+  cohort_rows: 99
+  cohort_sha256: babd30053ddcfcb35d3c63107e810f731f936496870bcd527aee8ded1db1167c
+  build_report_sha256: dba0d2e46fccfeaffc5ca45d74091650fc722f7f98544296085ee3b5faf87a7a
+  note: 'C4: el gate ABORTA si cualquiera de estos sha difiere (sha con normalización CRLF->LF, precedente
+    s198)'
+cohort_composition:
+  F-RANGE: 30
+  F-BUNDLE: 30
+  F-MANDATORY: 30
+  F-COUNT: 9
+population:
+  corpus_docs_servibles: 1007
+  excluded_docs: 292
+  eligible_docs: 715
+  docs_sampled: 80
+  fragments_screened: 1391
+arms:
+  det_only: detector determinista puro ($0)
+  hybrid: det + Haiku structured-output plano con grounding verbatim (validador código; --hybrid --execute)
+hybrid:
+  model: claude-haiku-4-5-20251001
+  budget_usd_max: 4.0
+  prices_usd_per_mtok:
+    input: 1.0
+    output: 5.0
+  no_retry: true
+  runner: scripts/s269_mutation_harness.py --run --hybrid (preflight default; --execute gasta)
+honest_declarations:
+- 'TUNING DESDE V1 DECLARADO: el léxico/patrones del detector se ajustaron con los misses de la cohorte
+  v1 (diagnóstico) — por eso la v2 es población FRESCA con los docs v1 excluidos además de la mecánica
+  v1.'
+- 'PREVALENCIA NO MEDIDA: el harness condiciona a mutación; no estima la prevalencia/ubicuidad de las
+  familias en el corpus.'
+- SALUD DE FAMILIAS s243 = SUPUESTO de diseño, no hecho medido por este instrumento.
+- 'PRE-SCREEN DETERMINISTA: la cohorte v2 se pre-filtra con el detector determinista (subset del híbrido,
+  $0); sesgo de selección controlado porque el gold es mecánico y el gate mide sobre mutaciones.'
+- 'COLISIONES: mutaciones cuyo valor eliminado re-aparece en el borrador por otro campo se excluyen con
+  un guard independiente del mecanismo y se listan (no entran en el denominador de recall).'
+- 'clean_noise es ESTRICTO: corre con TODOS los átomos del fragmento; un anexo de un átomo hermano sobre
+  un borrador de un solo claim cuenta como FP (mide el binding conservador de verdad).'
+- 'ITERACIÓN DE INSTRUMENTO DECLARADA: la primera pasada det-solo sobre esta cohorte destapó bugs de INSTRUMENTO
+  (receipt case-sensitive; cabecera no-adyacente fuera del span; templates sin gancho de binding) y UN
+  fix de clase en el mecanismo (asimetría min_len en la satisfacción F-BUNDLE, miembros de 2 chars insatisfacibles
+  por construcción). Se corrigieron y se RE-CONGELÓ este prereg antes de la medida final; los números
+  post-fix se miden sobre la MISMA cohorte (tuning-de-clase declarado, no por-fila). El resto de misses/FP
+  se reporta tal cual.'
+- 'BINDING GUARD: mutaciones cuyo borrador template pierde todo gancho de binding del átomo se listan
+  como no-puntuables (artefacto del template, no del mecanismo); la vía binding se mide en clean/cross.'
+gate_runner: scripts/s269_stage1_v3_gate.py — umbrales LEÍDOS del prereg (única fuente) + constante espejo
+  anti-tamper (M7); veredicto POR BRAZO
+gate_output: evals/s269_stage1_v3_gate_v1.yaml

@@ -1,0 +1,30 @@
+{
+  "instrument": "s269_label_structural_cohort",
+  "created_utc": "2026-07-18T23:10:59+00:00",
+  "cohort_sha256": "a866afa1ac03c8ac1d0268902eaf5d6f17bdb5d5ad424be8ae830d230a40f4e3",
+  "models": {
+    "labeler_a": "gpt-5.6-luna",
+    "labeler_b": "claude-haiku-4-5-20251001",
+    "arbiter": "claude-sonnet-4-6"
+  },
+  "usage": {
+    "gpt-5.6-luna": {
+      "input_tokens": 99106,
+      "output_tokens": 59787,
+      "calls": 108
+    },
+    "claude-haiku-4-5-20251001": {
+      "input_tokens": 234047,
+      "output_tokens": 51628,
+      "calls": 108
+    },
+    "claude-sonnet-4-6": {
+      "input_tokens": 101770,
+      "output_tokens": 25114,
+      "calls": 49
+    }
+  },
+  "total_cost_usd": 1.632,
+  "budget_usd": 6.0,
+  "no_retry": true
+}

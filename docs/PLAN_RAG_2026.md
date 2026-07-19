@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 18 jul 2026 (S205 cerrado — GO mecánico invalidado por leakage HyQ del mismo source).
+> 19 jul 2026 (S269 — triage de los 12 + contrato must-preserve medido + visual/voz cerrados).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,8 +22,51 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s205--18-jul-2026"></a>
-## Estado actual (S205 cerrado — 18 jul 2026)
+<a id="estado-actual-s269--19-jul-2026"></a>
+## Estado actual (S269 — 19 jul 2026)
+
+**Foto sin movimiento oficial: 157 facts = 143 OK · 12 synthesis-miss · 2 retrieval-miss
+(91,08%); objetivo ≥98% = 154.** S269 atacó los 12 por las dos vías que pidió Alberto y deja
+DOS decisiones suyas como único bloqueo:
+
+1. **Triage de golds (DEC-121).** Los 12 adjudicados por triage verificado: **8 CORE reales ·
+3 SUPPLEMENTARY (demote propuesto) · 1 SOURCE-CONFLICT** (el manual dice "seis" y enumera 7 →
+re-spec a disclosure). Instrumento auditado justo (0 FN). Packet al píxel con renders:
+`evals/s269_goldreview_packet_v1.md` → **adjudicación ✅/✏️/❌ de Alberto (~20 min)**. Si
+acepta: denominador 154, hacen falta **+8** de los 9 core + 2 retrieval.
+
+2. **Mecanismo (DEC-122).** Contrato de átomos must-preserve (detectores por familia s243 +
+binding con attestation de identidad + anexo verbatim por postcondición, flag
+`MUST_PRESERVE_CONTRACT` off): Etapa 1 MEDIDA con harness de mutaciones gold-mecánico en 3
+poblaciones frescas — **recall 4/4 GO (1.0/0.93/1.0/0.83), cross-binding 0, attestation 0,
+MANDATORY limpio**; residual abierto clean-noise R/B FP=40 (átomos hermanos, tensión
+presencia-parcial vs FP=0) con 3 opciones para Alberto. **Etapa 2 = probe único a los 4
+targets (gate DEC-112, K=3, control same-model)**, gateada por: (a) residual adjudicado,
+(b) **reapertura formal de la familia s222/s223** (el cierre S223 fue con review semántica
+incompleta + directiva de Alberto de no descartar por condiciones distintas + 4 diferencias
+de diseño: detector determinista/attestation/verbatim-disclosure/gates-S249). Tras Etapa 2:
+regresión amplia (smoke→full) antes de cualquier default-on.
+
+**Ortogonales CERRADOS por el lado de sesión:** diagramas (DEC-123) — registro
+`document_visual_assets` completo con gate de activación PASS (59/60, 0 portadas; serving-set
+4.489), pendiente SOLO el runbook DB de Alberto (aplicar migración 014 → `--load` →
+`--apply-labels` → verificación → flag); la aplicación DDL quedó bloqueada por permisos del
+entorno. Voz (DEC-124) — catálogo regenerado (+6 modelos), whisper-1 se queda, Wispr Flow no
+aplica server-side; ASR-swap gateado a 30 audios reales.
+
+**Ramas para PR:** `claude/s269-synthesis-portfolio` (triage + contrato + harness + docs) y
+`claude/s269-visual-assets` (registro visual). Coste sesión ≈ $27/$300. Suite 1.933 verdes.
+
+**Qué sigue, por orden:** (1) adjudicaciones de Alberto (packet DEC-121 + residual y
+reapertura DEC-122); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
+assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
+causal del probe; (4) runbook visual de Alberto → `VISUAL_ASSETS_REGISTRY=on` en demo;
+(5) los 2 retrieval-miss (cat017#2 CLIP-licencia, hp010#1 Nivel-3) como margen, lever
+retrieval aparte; (6) recoger 30 audios reales antes de comparar ASR.
+
+
+<a id="estado-anterior-s205--18-jul-2026"></a>
+## Estado anterior (S205 cerrado — 18 jul 2026)
 
 **La foto diagnóstica comparable más reciente es 157 facts: 143 OK · 12 synthesis-miss ·
 2 retrieval-miss = 91,08% OK, gap 11 facts hasta el objetivo ≥98% (154/157).** No es todavía un KPI atómico oficial ni

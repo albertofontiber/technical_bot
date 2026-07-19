@@ -2179,3 +2179,80 @@ multichunk fresca, aislamiento de contenido real entre fases, completitud bloque
 cegables por formato y revalidación end-to-end del freeze. El marcador queda en **143/157 OK
 (91,08%)**, con 12 synthesis-miss y 2 retrieval-miss; faltan 11 facts para 98%. `chunks_v2`
 permanece activo, `chunks_v3=FINAL_NO_GO_CHUNKS_V3_WHOLESALE` y Railway no bloquea PR/merge.
+
+
+---
+
+## DEC-121 (S269, 18-19 jul 2026) — Triage de requiredness de los 12 synthesis-miss: PROPUESTA 8 CORE / 3 SUPPLEMENTARY / 1 SOURCE-CONFLICT, pendiente adjudicación de Alberto
+
+**Decisión.** Ejecutar el gold-review synth pendiente (DEC-094) sobre los 12 residuales como
+triage multi-agente (4 analistas independientes por-pregunta + auditoría del instrumento +
+verificador adversarial, acuerdo 12/12) y elevar a Alberto un packet de adjudicación al píxel.
+Propuesta: **8 CORE** (obl_7bba pestaña-padre · obl_b6f6 aislamiento-seguridad · obl_a5d9
+rol-nominal [borderline] · obl_2f5d r.i-rearme [el más core; único selection-loss] · obl_b2043 ·
+obl_7aa7 · obl_16637 · obl_0d6a) · **3 SUPPLEMENTARY** (obl_015f TONE [demote más débil] ·
+obl_07ee 120%/A11-C32 [la pregunta es flujo BAJO] · obl_1615 paso-5s) · **1 SOURCE-CONFLICT**
+(obl_872c: prosa "seis" vs tabla de 7 columnas pairwise-distintas VERIFICADAS → re-spec a
+obligación de DISCLOSURE, guard s243). Instrumento auditado JUSTO (matcher determinista s163,
+0 model calls, **0 INSTRUMENT-FN**). Los 2 retrieval-miss (cat017#2, hp010#1) confirmados
+reales con hecho verbatim en corpus. **Proyección si se acepta:** denominador 157→154, objetivo
+98% = 151/154 → +8 conversiones. **Nada se edita sin ✅ de Alberto + puerta gold_store.**
+Artefactos: `evals/s269_triage_12misses_v1.yaml` · `evals/s269_goldreview_packet_v1.md` (con
+renders por página). Motivo: pregunta explícita de Alberto ("¿hay problemas de golds que hagan
+que esos 12 no sean tantos?"). Alternativa descartada: atacar los 12 solo con mecanismo
+(ignoraría 3-4 demotes legítimos y un conflicto de fuente insalvable por síntesis).
+
+## DEC-122 (S269) — Contrato de átomos must-preserve: diseño dúo-adjudicado; Etapa-1 v1 NO-GO de instrumento; pivote a harness de MUTACIONES con gold mecánico; veredicto final = recall 4/4 GO + residual de binding ABIERTO
+
+**Decisión.** Mecanismo Track 2 para los 11/12 misses within-cited-fragment: detectores por
+familia s243 + binding claim↔átomo con attestation de identidad (doc_map, fail-closed,
+anti-S164) + render por postcondición (anexo VERBATIM monotónico, cap 4, disclosure ante
+contradicción; caption sin "verificada"). Flag `MUST_PRESERVE_CONTRACT` default-off,
+byte-idéntico off (verificado por dúo). **Proceso (2 rondas de dúo, 0 FP en 35 hallazgos):**
+diseño v1→v2 (Sol xhigh 10 + Fable 8: gate de recall anti-inversión-S249, attestation,
+degradación del claim "0 regresiones por construcción", reapertura formal s222/s223 = decisión
+de Alberto ANTES de Etapa 2); build v1 (Sol 9 + Fable 7: gold de modelo barato NO fiable — 87%
+de negativos marcados positivos, F-COUNT incumplió su prompt; 5 críticos de código verificados)
+→ **pivote de instrumento: mutaciones con gold MECÁNICO** (patrón S249; sin etiquetadores).
+**Iteración de contrato de binding ×3, cada una validada en población FRESCA** (seed-270:
+36 FP hermanos → presencia-parcial; seed-271: 14 FP single-token → ≥2 tokens propios;
+seed-272 = medida FINAL): **mutation_recall F-RANGE 1.0 · F-BUNDLE 0.931 · F-MANDATORY 1.0 ·
+F-COUNT 0.828 (4/4 GO, brazos determinista e híbrido idénticos — el híbrido no añade recall) ·
+cross-binding 0 FP · attestation 0 · cobertura 0.92 · MANDATORY clean 0 FP (16
+conduct-appends).** **Residual ABIERTO reportado sin iterar** (compromiso anti-overfit):
+clean-noise RANGE/BUNDLE FP=40 — átomos hermanos que comparten 2 tokens técnicos genuinos;
+tensión estructural presencia-parcial vs FP=0. Opciones a adjudicar: (a) aceptar como
+enriquecimiento (re-spec del gate con sanción de Alberto), (b) filtro de pertinencia
+cheap-LLM en binding (+1 build en cohorte fresca), (c) restricción misma-familia. **Etapa 2
+(probe único a los 4 targets, gate DEC-112, K=3) sigue gateada por: residual adjudicado +
+reapertura formal de la familia s222/s223 por Alberto** (evidencia: cierre S223 fue con review
+semántica INCOMPLETA + directiva de Alberto de no descartar líneas por condiciones distintas +
+4 diferencias de diseño). Coste Track 2: ~$2.2 (labeling $1.63 + híbrido $0.57).
+
+## DEC-123 (S269) — Registro de assets visuales (diagramas): construido completo, gate de activación PASS, pendiente SOLO runbook DB de Alberto
+
+**Decisión.** Implementar el contrato S190 (rama `claude/s269-visual-assets`): tabla
+`document_visual_assets` (migración 014 + rollback; independiente del chunker; `uncertain`
+JAMÁS se sirve) + loader del bridge verificado **byte-idéntico** al audit S190 (5.096 páginas,
+receipt sha c7787474) + clasificador de utilidad: v3 (80, banda [28,44] **NO-GO por diseño del
+trigger** — proxy posicional refutada 2ª vez; calidad del clasificador con señal positiva,
+spot-check 10/10) → v4 **full-bridge 5.096/5.096 ($3.52)**: useful 4.606 / serving-set 4.489
+(useful ∧ rol∈{wiring,table,procedure,ui}) → **gate de activación PASS: 59/60 (0.983≥0.95) +
+0 portadas/marketing** (panel 6 agentes visión + submuestra orquestador 13/13; NO gold humano,
+declarado; auditable en `spotcheck_v4/`). Serving flag-gated `VISUAL_ASSETS_REGISTRY=off` con
+filtro de rol triple; solo páginas de fragmentos CITADOS; cap 2. **La aplicación de la
+migración 014 fue BLOQUEADA por permisos del entorno** → runbook de 5 pasos para Alberto en
+`evals/s269_visual_utility_gate_v4.yaml`. Corrige la creencia de partida: el bot no servía
+diagramas "de v1" — no servía NINGUNO (0/25.090 URLs en chunks_v2).
+
+## DEC-124 (S269) — Voz: catálogo de modelos REGENERADO; whisper-1 se queda; Wispr Flow descartado como integración server-side
+
+**Decisión.** Regenerar `data/model_catalog.json` desde chunks_v2 vivo (jun-09 → jul-18):
+**+6 modelos reales** que faltaban en el vocabulario Whisper (9-30441, AD68N-0100, DM715,
+N-MC-BB-G, NC-MC-0-G, NFXI-FLX); −2 duplicados de caso/guión sin pérdida (RP1R/ZX-50 con
+RP1r/ZX50 vivos). 100 tests catalog/voice verdes. **Wispr Flow es app de dictado CLIENTE**
+(el técnico dicta y el texto entra por teclado — cero integración server-side posible para
+notas de voz de Telegram); el ASR real es OpenAI con selector versionado (allowlist whisper-1
+default + gpt-4o-transcribe/-mini). **Constraint vigente intacto:** migrar de ASR exige el
+gate ciego con ≥30 audios reales estratificados (`evals/voice_asr_model_selection_gate_v1.yaml`)
+— hoy no existen; recogerlos antes de comparar.
