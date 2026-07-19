@@ -153,6 +153,13 @@ STRUCTURAL_CASCADE_COVERAGE = _strict_on_off("STRUCTURAL_CASCADE_COVERAGE")
 # code cannot alter an already-enabled lane unless this flag is also enabled.
 LOGICAL_RECORD_COVERAGE = _strict_on_off("LOGICAL_RECORD_COVERAGE")
 
+# S269 visual-asset registry, default inert.  When enabled, the generator may
+# attach up to two technical_utility='useful' page assets from the
+# document_visual_assets table (migration 014) for pages cited as evidence in
+# the answer.  'uncertain' (the load default) and 'not_useful' are never
+# served; the lookup is GET-only and fails open (exception -> no diagrams).
+VISUAL_ASSETS_REGISTRY = _strict_on_off("VISUAL_ASSETS_REGISTRY")
+
 # S107 upstream candidate, default inert. Follows explicit numeric section
 # references inside governed documents to recover information hidden by unsafe
 # historical semantic-dedup marks; candidates still compete in the reranker.

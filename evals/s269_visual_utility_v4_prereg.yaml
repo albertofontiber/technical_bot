@@ -1,0 +1,92 @@
+instrument: s269_visual_utility_v4_prereg
+status: FROZEN_BEFORE_PAID_EXECUTION
+
+supersedes: evals/s269_visual_utility_cohort_v3_prereg.yaml
+closed_by_gate: evals/s269_visual_utility_gate_v3.yaml
+reason: >-
+  Dos triggers de banda sobre proxies de composicion fallaron por diseno
+  (S191: rango [10,30] desalineado; v3: proxy posicional "pagina 1-2 =
+  control" REFUTADA con verificacion humana — SG350 p.1 y PAN AVD2 p.1 son
+  useful legitimos). El gate v4 abandona las bandas-proxy y pre-registra lo
+  que el contrato S190 exige de verdad para SERVIR: precision de adjunto
+  medida por humano sobre una muestra fresca de predicted-useful, con cero
+  cover/marketing. No es un gate de banda; es un gate de SERVICIO.
+
+frozen_inputs:
+  bridge_dump:
+    path: evals/s269_visual_assets_bridge_dump_v1.jsonl
+    rows: 5096
+    stable_receipt_sha256: c7787474626ca74c6c7ce3e7e46ae9cd0a2cd579babacee7e8433f6bb9547ecb
+    verified_against: evals/s190_visual_asset_bridge_audit_v1.json
+  development_evidence_v3:
+    labels: evals/s269_visual_utility_labels_v3.json
+    labels_file_sha256: e24345fe6f7671621bfab95fdde97004895ec21c82b21def35ead0744dcf018d
+    spot_check: 10_of_10_correct_danger_class_0_fp
+    role: cost_estimation_and_development_evidence_only_never_gate_input
+  runner: scripts/s269_visual_utility_executor_v4.py
+
+executor_contract_inherited_from_v3_v1:
+  provider: openai
+  model: gpt-5.6-luna
+  reasoning_effort: none
+  max_retries_per_batch: 0
+  on_batch_failure: record_to_failures_jsonl_and_continue_to_next_batch
+  resume: labels_jsonl_is_the_checkpoint_rerun_skips_already_labeled_items
+  batch_size: 10
+  batches_total: 510
+  max_output_tokens_per_batch: 1800
+  pricing_usd_per_million_tokens: {input: 1, output: 6}
+  binary_receipts: sha256_of_each_fetched_binary_recorded_per_label_row
+  url_receipts: sha256_of_storage_url_must_match_bridge_dump_before_fetch
+
+scope:
+  items: 5096  # TODO el bridge, incluidos los 80 de v3 (son parte del universo)
+  labels_output: evals/s269_visual_utility_labels_v4_full.jsonl
+  receipts_output: evals/s269_visual_utility_labels_v4_full.receipts.jsonl
+  failures_output: evals/s269_visual_utility_labels_v4_full.failures.jsonl
+
+budget_usd:
+  estimated: 3.47  # por-item MEDIDO en v3 ($0.05445/80) x 5096
+  stop_line: 5     # el ejecutor ABORTA si el coste acumulado del run lo supera
+
+activation_gate:
+  source: s190_contract_gate_section_not_derived_from_the_80_v3_labels
+  serving_set_definition: >-
+    technical_utility=useful AND visual_role in [wiring, table, procedure, ui].
+    El filtro por rol es la regla del vocabulario del contrato S190 (registrada
+    alli desde el diseno), no una regla post-hoc de este gate; el serving de
+    src/rag/visual_assets.py la aplicara ademas del filtro useful.
+  sample:
+    n: 60
+    population: serving_set_predicted_by_v4
+    seed: "269"
+    method: sort_by_sha256_of_269_pipe_document_id_pipe_page_index_take_lowest_60
+    exclusions: the_80_v3_cohort_pages_by_document_id_page_number
+    frozen_by: scripts/s269_visual_utility_executor_v4.py --gate-sample
+  criteria:
+    - human_spot_check_precision_gte_0.95  # >=57/60 correctos (orquestador)
+    - zero_cover_or_marketing_in_the_sample
+    - global_role_counts_reported_for_the_full_bridge
+  on_pass: >-
+    Autoriza SOLO el paso de datos: poblar technical_utility/visual_role/
+    classifier_contract/classifier_receipt en document_visual_assets (cuando la
+    migracion 014 este aplicada) via el loader, con autorizacion explicita del
+    orquestador. El flag VISUAL_ASSETS_REGISTRY sigue OFF hasta decision
+    separada (shadow primero).
+  on_fail: >-
+    NO servir nada; no re-etiquetar la muestra; no re-muestrear con otra seed.
+    Diagnostico sobre los fallos concretos y, si se itera el clasificador,
+    prereg v5 con ejecucion fresca.
+
+anti_overfit:
+  - the_v3_band_28_44_stays_retired_as_recorded_never_reused_or_moved
+  - the_80_v3_items_are_excluded_from_the_gate_sample
+  - no_prompt_or_reasoning_changes_between_this_prereg_and_execution
+  - the_gate_sample_is_drawn_once_with_the_frozen_seed_no_redraws
+  - failed_sample_items_are_never_relabeled_or_excluded_post_hoc
+
+authorization:
+  model_calls_at_freeze: 0
+  database_writes: false
+  production_changes: false
+  facts_moved_to_ok: 0

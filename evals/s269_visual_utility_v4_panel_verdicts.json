@@ -1,0 +1,503 @@
+{
+  "summary": "Spot-check visual de 60 renders predicted-useful del gate v4",
+  "agentCount": 6,
+  "logs": [
+    "60 juzgados: 59 utiles, 0 covers/marketing"
+  ],
+  "result": {
+    "total": 60,
+    "useful": 59,
+    "covers": 0,
+    "verdicts": [
+      {
+        "file": "s269v4_gate_01_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier MI-DT-750: diagrama de conexionado Estación de Prueba Remota + procedimiento de instalación numerado en 8 pasos"
+      },
+      {
+        "file": "s269v4_gate_02_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "LDA ZES-22: diagrama de panel trasero con callouts numerados + tabla de pines/LEDs por conector"
+      },
+      {
+        "file": "s269v4_gate_03_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Morley IAS MIW (Honeywell): tabla de referencias de producto + tabla de especificaciones técnicas (rango, frecuencia, alimentación, dimensiones); tiene logo pero el contenido es dato técnico consultable, no marketing puro"
+      },
+      {
+        "file": "s269v4_gate_04_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier MN-DT-060: dos diagramas de conexionado (Estilo D/B) de detectores 4 hilos + fórmula Rmax con definición de variables"
+      },
+      {
+        "file": "s269v4_gate_05_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier INSPIRE E10/E15: procedimiento del botón EVACUAR + captura de pantalla táctil con callouts numerados"
+      },
+      {
+        "file": "s269v4_gate_06_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier MI-DT-340: diagrama del módulo FFT-7 con conectores etiquetados + diagrama de ubicación en chasis CHS-4L"
+      },
+      {
+        "file": "s269v4_gate_07_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell RP1r-Supra Quick Guide: diagrama de montaje (5 pasos) + diagrama de cableado completo del panel con terminales etiquetados + tabla de cables recomendados"
+      },
+      {
+        "file": "s269v4_gate_08_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "ID3000 PK-ID3000: capturas de árbol de menús de configuración (Prealarma/Avería/Anulado) con explicación de opciones"
+      },
+      {
+        "file": "s269v4_gate_09_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "TI-DT-109 ClassiFire: capturas de software de configuración remota + visor en tiempo real + ejemplo numérico de cálculo"
+      },
+      {
+        "file": "s269v4_gate_10_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell MN-DT-951: captura de ventana gráfica de valores analógicos de detector con explicación de controles de UI"
+      },
+      {
+        "file": "s269v4_gate_11_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell UCIP-MODBUS: tabla de registros Modbus (direcciones/RW/descripcion/valores) + tabla de bits de estado de zona con ejemplo binario decodificado"
+      },
+      {
+        "file": "s269v4_gate_12_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "POL-200-TS: procedimiento de multimetro ilustrado con capturas de pantalla del dispositivo mostrando lecturas reales (resistencia, tension, corriente)"
+      },
+      {
+        "file": "s269v4_gate_13_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier SMART2: diagrama de la placa/PCB del sensor con puntos de ajuste etiquetados (potenciometro, V1, J10) + procedimiento de calibracion de cero/span"
+      },
+      {
+        "file": "s269v4_gate_14_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier: procedimiento de mantenimiento de elementos con capturas de dialogo software (seleccion de central, barra de progreso) y explicacion del fichero EQUIPn.TXT generado"
+      },
+      {
+        "file": "s269v4_gate_15_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "MULTISCAN++: captura de pantalla de ajustes de alarma por canal (perfil de gas, barras de niveles A1/A2/A3, valores %LEL) con texto explicativo tecnico"
+      },
+      {
+        "file": "s269v4_gate_16_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "VESDA-E VEA-040-A00: diagrama de conexion de fuente de alimentacion (leyenda A-D) + diagrama de cableado del sistema (Stax de reles / detector VEA, DATA/PWR/24V)"
+      },
+      {
+        "file": "s269v4_gate_17_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell NFS Supra/Vision Plus2/ESS 2Plus: guia rapida de ensamblaje y cableado completa, diagrama de central con zonas, sirenas, detectores, pulsadores y reles de estado"
+      },
+      {
+        "file": "s269v4_gate_18_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Programa de Centrales (Inspire E10/E15): procedimiento ilustrado de reconfiguracion de lazos, diagrama de conexion RJ45/USB portatil-CPU con numeracion de pasos"
+      },
+      {
+        "file": "s269v4_gate_19_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Modelo FS24X: foto del interruptor DIP SW1 de 10 posiciones + tabla completa de codigos de direccion (000-127) ENCENDIDO/APAGADO por posicion"
+      },
+      {
+        "file": "s269v4_gate_20_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Morley IAS VSN-CRA: procedimiento paso a paso de configuracion via Hyperterminal de Windows con capturas de los dialogos de conexion y puerto serie (9600-8-N-1)"
+      },
+      {
+        "file": "s269v4_gate_21_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "AM8200 (Notifier): diagramas de conexionado de rele supervisado, dispositivos polarizados/no polarizados, y jumpers de salidas USR1/USR2 con tabla de contactos"
+      },
+      {
+        "file": "s269v4_gate_22_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "AFP-200 (Notifier): diagrama de bucle de activacion Estilo D NFPA con detector 4 hilos, pulsador manual y modulo MMX-1, bornero completo"
+      },
+      {
+        "file": "s269v4_gate_23_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Software Honeywell: captura de pantalla Configuracion de Matrices (zonas/sirenas/reles) con texto explicativo de botones"
+      },
+      {
+        "file": "s269v4_gate_24_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Modulo IIG1 (Notifier): diagrama de conexionado a detectores de gas SMART-2/GD-520, specs y tabla de direccionamiento DIP-switch"
+      },
+      {
+        "file": "s269v4_gate_25_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Panel ID50: captura de pantalla Opciones Configuracion con explicacion detallada de las 5 secciones (a-e)"
+      },
+      {
+        "file": "s269v4_gate_26_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "AutoSAT 10 (Honeywell): tabla de clases de sensibilidad EN54-20 (orificios por clase) + figura de colocacion de etiqueta"
+      },
+      {
+        "file": "s269v4_gate_27_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "ZXCE (Morley-IAS): captura de pantalla software de modificar textos de equipos/zonas con anotaciones explicativas de cada control"
+      },
+      {
+        "file": "s269v4_gate_28_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "PRO4G: procedimiento de configuracion GSM/SMS con captura de pantalla de parametros 408/456/457 (telefonos y opciones de envio)"
+      },
+      {
+        "file": "s269v4_gate_29_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "SharpEye 40/40 Air Shield: procedimiento ilustrado de instalacion (preparacion de superficie) con figuras despiece numeradas"
+      },
+      {
+        "file": "s269v4_gate_30_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Detector LISA 2 (Notifier): esquema de conexion completo (cable apantallado, segunda caja, prensaestopas, puesta a tierra) pese al logo de cabecera"
+      },
+      {
+        "file": "s269v4_gate_31_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "UCIP/UCIP-GPRS: procedimiento de configuracion de red con capturas de pantalla reales de Windows (IPs, mascara, gateway) - procedimiento ilustrado, util"
+      },
+      {
+        "file": "s269v4_gate_32_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier Pearl: pantallas de la central (matriz causa-efecto, tabla de programacion horaria) - UI/tabla de configuracion, util"
+      },
+      {
+        "file": "s269v4_gate_33_procedure.jpg",
+        "is_useful_technical": false,
+        "is_cover_or_marketing": false,
+        "note": "Central de extincion, apartado 1.7 Cableado: solo prosa tecnica (requisitos de cable, EMC, pantallas) sin tabla ni diagrama ni figura - no cumple el criterio de util (tampoco es cover)"
+      },
+      {
+        "file": "s269v4_gate_34_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "NAS20: diagramas tecnicos de configuraciones de tubo (red simple, red en T) con cotas y limites (100m, 200m, orificios) - util"
+      },
+      {
+        "file": "s269v4_gate_35_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Sirenas ExitPoint: plano de planta con leyenda de simbolos mostrando ubicacion de sirenas direccionales - layout ilustrado, util"
+      },
+      {
+        "file": "s269v4_gate_36_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Repetidor Notifier: diagrama detallado de la PCB (Figura 7) con etiquetas de componentes/conectores (R51, J2, S1, W1/W2, J1) - diagrama de conexionado, util"
+      },
+      {
+        "file": "s269v4_gate_37_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "AM-8200: layout del panel frontal con cada LED etiquetado y su significado (ALARMA, RETARDO ACTIVO, AVERIAS, etc.) - layout de display, util"
+      },
+      {
+        "file": "s269v4_gate_38_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Tarjeta interface de red NIB: diagrama de la placa con bloque de terminales numerado (SLC/EIA-485, pines 1-8) y descripcion de cada senal - diagrama de conexionado, muy util"
+      },
+      {
+        "file": "s269v4_gate_39_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "TG HLSI v7: captura del editor de planos del software mostrando como colocar elementos sobre un plano real - procedimiento ilustrado con software, util"
+      },
+      {
+        "file": "s269v4_gate_40_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "PL4+: foto del panel frontal bilingue con LEDs/botones etiquetados (AL1-3, FLT, AUX, BATT, AC, ACK, RST) y modos ON/OFF/PGM - layout de display, util"
+      },
+      {
+        "file": "s269v4_gate_41_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "LDA MPS-8Z: diagrama selector ID de teclado + zonas 9-64 + procedimiento de acceso a configuración"
+      },
+      {
+        "file": "s269v4_gate_42_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "LCD-80: diagrama de conexión en cadena (AM2020 -> teclados -> monitor CRT), notas EIA-485"
+      },
+      {
+        "file": "s269v4_gate_43_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "VESDA-E: capturas del asistente de conexión Ethernet/WiFi con campos IP/puerto, paso a paso"
+      },
+      {
+        "file": "s269v4_gate_44_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell S40: Figura 8, diagrama de terminales de conexionado (relés, RS-485, 24Vcc)"
+      },
+      {
+        "file": "s269v4_gate_45_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Detector lineal: diagrama de alcances por distancia (7-70/70-140/140-160m) con kits requeridos"
+      },
+      {
+        "file": "s269v4_gate_46_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "SCD250: capturas de software 'Filtros de red' con pasos numerados anotados"
+      },
+      {
+        "file": "s269v4_gate_47_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Sirenas ExitPoint: planos de planta con rutas de evacuación y ubicación de sirenas"
+      },
+      {
+        "file": "s269v4_gate_48_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "iBox Modbus: tabla 'Points list' de registros/direcciones/señales con explicación numerada"
+      },
+      {
+        "file": "s269v4_gate_49_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "UDS-2N/ID-50: tablas de programación de detectores y matriz de control por zona"
+      },
+      {
+        "file": "s269v4_gate_50_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Panel control 4/8 lazos: foto de panel con leyenda numerada de teclas/LEDs/display"
+      },
+      {
+        "file": "s269v4_gate_51_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Morley VSN2/VSN4: especificaciones mecánicas/ambientales, plano acotado de caja, tabla de fusibles"
+      },
+      {
+        "file": "s269v4_gate_52_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Detnov CAD-250: pantalla de conectividad TCP-IP + tabla de definición de campos (DHCP/IP/Gateway/MAC)"
+      },
+      {
+        "file": "s269v4_gate_53_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "VESDA-E VES-A10-P: capturas de software 'Opciones de relé' con matriz de checkboxes por sector/relé"
+      },
+      {
+        "file": "s269v4_gate_54_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Detnov CAD250: procedimiento ilustrado de fijación a pared en 5 pasos con diagrama acotado"
+      },
+      {
+        "file": "s269v4_gate_55_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Securiton ASD 533: tablas de códigos de fallo G70-G80 + diagrama XLM35/SLM35 con tabla de estados LED"
+      },
+      {
+        "file": "s269v4_gate_56_wiring.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier DT-520: diagramas de conexionado interno de central con conectores CN1-CN11 etiquetados"
+      },
+      {
+        "file": "s269v4_gate_57_table.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier TG-Id/Am/Afp: procedimiento de mantenimiento con captura de fichero de salida de lecturas por detector"
+      },
+      {
+        "file": "s269v4_gate_58_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Notifier ID5x/6x: captura de pantalla 'Opciones de periféricos' con explicación de cada campo"
+      },
+      {
+        "file": "s269v4_gate_59_ui.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Morley ZXHE: diagrama etiquetado del panel frontal/teclado con todas las funciones señaladas"
+      },
+      {
+        "file": "s269v4_gate_60_procedure.jpg",
+        "is_useful_technical": true,
+        "is_cover_or_marketing": false,
+        "note": "Honeywell S40/40I: tabla de especificaciones técnicas completas + figura del soporte giratorio"
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Spotcheck"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "spotcheck:b1",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "a9b11b97b252470e8",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420041844,
+      "queuedAt": 1784420038639,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420103668,
+      "tokens": 78899,
+      "toolCalls": 12,
+      "durationMs": 61824,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_01_procedure.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"Notifier MI-DT-750: diagrama de conexionado Estación de Prueba Remota + procedimiento de instalación numerado en 8 pasos\"},{\"file\":\"s269v4_gate_02_wiring.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"LDA ZES-22: diagrama de panel trasero con callouts numerado…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "spotcheck:b2",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "a2c7e0d7022f9df95",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420043849,
+      "queuedAt": 1784420038640,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420087970,
+      "tokens": 72485,
+      "toolCalls": 12,
+      "durationMs": 44120,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_11_table.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"Honeywell UCIP-MODBUS: tabla de registros Modbus (direcciones/RW/descripcion/valores) + tabla de bits de estado de zona con ejemplo binario decodificado\"},{\"file\":\"s269v4_gate_12_ui.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"POL-200-TS: procedimiento de multim…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "spotcheck:b3",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "a15a1cb59baf03aac",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420041550,
+      "queuedAt": 1784420038640,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420079967,
+      "tokens": 75504,
+      "toolCalls": 12,
+      "durationMs": 38416,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_21_wiring.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"AM8200 (Notifier): diagramas de conexionado de rele supervisado, dispositivos polarizados/no polarizados, y jumpers de salidas USR1/USR2 con tabla de contactos\"},{\"file\":\"s269v4_gate_22_wiring.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"AFP-200 (Notifier): dia…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "spotcheck:b4",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "ab27f7950834dfd18",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420042416,
+      "queuedAt": 1784420038641,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420110099,
+      "tokens": 76061,
+      "toolCalls": 13,
+      "durationMs": 67683,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_31_ui.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"UCIP/UCIP-GPRS: procedimiento de configuracion de red con capturas de pantalla reales de Windows (IPs, mascara, gateway) - procedimiento ilustrado, util\"},{\"file\":\"s269v4_gate_32_procedure.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"Notifier Pearl: pantallas de la…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "spotcheck:b5",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "a2d230d6c6599fdae",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420042334,
+      "queuedAt": 1784420038641,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420092759,
+      "tokens": 74151,
+      "toolCalls": 12,
+      "durationMs": 50425,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_41_table.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"LDA MPS-8Z: diagrama selector ID de teclado + zonas 9-64 + procedimiento de acceso a configuración\"},{\"file\":\"s269v4_gate_42_wiring.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"LCD-80: diagrama de conexión en cadena (AM2020 -> teclados -> monitor CRT), notas EIA…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "spotcheck:b6",
+      "phaseIndex": 1,
+      "phaseTitle": "Spotcheck",
+      "agentId": "a5bf0cb5a1c3a75ef",
+      "model": "claude-sonnet-5",
+      "state": "done",
+      "startedAt": 1784420042721,
+      "queuedAt": 1784420038641,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "Eres un verificador de calidad para un bot de tecnicos de proteccion contra incendios (PCI). En el directorio C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/visual-wt/spotcheck_v4 hay renders JPEG de paginas de manuales tecnicos que un clasificador marco como \"utiles para adjuntar a una …",
+      "lastProgressAt": 1784420087333,
+      "tokens": 73036,
+      "toolCalls": 12,
+      "durationMs": 44612,
+      "resultPreview": "{\"verdicts\":[{\"file\":\"s269v4_gate_51_table.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"Morley VSN2/VSN4: especificaciones mecánicas/ambientales, plano acotado de caja, tabla de fusibles\"},{\"file\":\"s269v4_gate_52_table.jpg\",\"is_useful_technical\":true,\"is_cover_or_marketing\":false,\"note\":\"Detnov CAD-250: pantalla de conectividad TCP-IP + tabla de definición de campos (DHCP/…"
+    }
+  ],
+  "totalTokens": 450136,
+  "totalToolCalls": 73
+}

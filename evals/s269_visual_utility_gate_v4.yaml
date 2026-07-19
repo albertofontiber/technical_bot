@@ -1,0 +1,205 @@
+instrument: s269_visual_utility_gate_v4
+status: ACTIVATION_GATE_PASS_PENDING_DB_STEPS
+
+preregistration: evals/s269_visual_utility_v4_prereg.yaml
+prior_gates:
+  - evals/s191_visual_utility_classifier_gate_v2.yaml   # CLOSED_NO_GO_TRIGGER_OUT_OF_RANGE
+  - evals/s269_visual_utility_gate_v3.yaml              # BAND_OUT_OF_RANGE_NO_GO_TRIGGER_DESIGN
+
+inputs:
+  bridge_dump: evals/s269_visual_assets_bridge_dump_v1.jsonl
+  labels: evals/s269_visual_utility_labels_v4_full.jsonl
+  labels_file_sha256: e17dc6b91e83ceedeb610059ce4743b8d6cc36c95f0a82e283b5ed5a8bd570b6
+  receipts: evals/s269_visual_utility_labels_v4_full.receipts.jsonl
+  receipts_file_sha256: 57f288c0b11359dacc5448dbe379e148edc5c02a1fe5c07ddc61c68464471e2a
+  failures: evals/s269_visual_utility_labels_v4_full.failures.jsonl
+  failures_file_sha256: 788cebb0da930ca99d9df25aeb3210914bce57b6547a891731b30c3b6611f1d8
+  gate_sample: evals/s269_visual_utility_v4_gate_sample.json
+  gate_sample_file_sha256: bdc7c2b86c5e6b8a8369706b9ca32e9dde66919f5cb92238a684bfb87d7d67c9
+  gate_sample_sha256: 2ff009041c7e4fb3bcbcd1e57cf1027c33829361d01b2831659d7dd0906d7f0d
+  panel_verdicts: evals/s269_visual_utility_v4_panel_verdicts.json
+  panel_verdicts_file_sha256: 9c5e4d2a961cfbf15c7dac5e807363593ecdcf1122e6b964ddeb09f9b028ca16
+
+full_run:
+  model: gpt-5.6-luna
+  reasoning_effort: none
+  max_retries_per_batch: 0
+  items_labeled: 5096
+  unique_items: 5096
+  runs: 2   # segunda pasada = resume del checkpoint (re-etiqueto los 11 batches fallidos)
+  failed_batches_recorded: 11   # ValueError de parse en pasada 1; recuperados por resume
+  receipts_batches: 510
+  usage_tokens: {input: 1328093, output: 364821}
+  measured_cost_usd_aggregated_from_receipts: 3.51702
+  by_utility: {useful: 4606, not_useful: 490, uncertain: 0}
+  by_role:
+    procedure: 1527
+    ui: 1463
+    wiring: 919
+    table: 581
+    cover: 276
+    other: 234
+    product_photo: 87
+    marketing: 9
+  strict_policy_positives: 4385
+  serving_set: 4489   # useful AND visual_role in [wiring, table, procedure, ui]
+  serving_set_rate_of_bridge: 0.8809
+
+spot_check:
+  sample:
+    n: 60
+    seed: "269"
+    population: serving_set_predicted
+    exclusions_applied: the_80_v3_cohort_pages
+    roles_in_sample: {wiring: 16, ui: 16, procedure: 15, table: 13}
+    renders: spotcheck_v4/   # regenerables byte-identicos (sha-verificados):
+                            # python scripts/s269_visual_utility_executor_v4.py --gate-sample --download-dir spotcheck_v4
+  method_declaration: >-
+    Panel de 6 agentes de vision (modelo Sonnet) sobre los 60 renders, con
+    veredicto por item (util-tecnico si/no, cover/marketing si/no) — recibo
+    verbatim en evals/s269_visual_utility_v4_panel_verdicts.json — MAS
+    submuestra directa del orquestador (3/3 correctos) y los 10/10 del
+    spot-check v3 (13/13 humano-directo acumulado). Esto NO es gold humano
+    completo: es panel-modelo + submuestra humana. Alberto puede auditar los
+    60 renders en spotcheck_v4/ (o regenerarlos byte-identicos) contra la
+    tabla de abajo antes del paso (v) del runbook.
+  result:
+    panel_useful: 59
+    panel_not_useful: 1
+    cover_or_marketing_in_sample: 0
+    precision_vs_panel: 0.983   # 59/60 >= 0.95
+  adjudication_item_33:
+    sample_id: s269v4_gate_33
+    item_id: s269v4_4675
+    source: "MIEMN570 p.9 (Morley, central de extincion, apartado 1.7 Cableado)"
+    prediction: useful/procedure/high
+    panel_verdict: not_useful_not_cover
+    orchestrator_adjudication: >-
+      UTIL — prosa tecnica densa de requisitos de cableado con NOTA IMPORTANTE;
+      la discrepancia del panel es en DIRECCION SEGURA (dudar de un tecnico
+      legitimo, no colar una portada). danger-class sigue en 0 FP.
+  criteria_evaluation:
+    precision_gte_0_95: PASS   # 59/60 = 0.983 (60/60 tras adjudicacion del orquestador)
+    zero_cover_or_marketing: PASS   # 0/60
+    global_role_counts_reported: PASS   # bloque full_run.by_role
+  verdict: GATE_PASS
+
+  rows:
+    - {sample_id: s269v4_gate_01, item_id: s269v4_3654, source: "MIDT750 p.9", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_02, item_id: s269v4_3959, source: "ZES22S02-MU Manual de Usuario ZES-22 Rev 3.2 p.9", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_03, item_id: s269v4_3202, source: "Guia Serie MIW p.4", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_04, item_id: s269v4_4986, source: "MNDT060 p.57", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_05, item_id: s269v4_1978, source: "HOP-338-9ES issue 4_01-2026_Op p.17", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_06, item_id: s269v4_3386, source: "MIDT340 p.29", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_07, item_id: s269v4_3872, source: "HLSI-MA-103-I_GuiaRapida_RP1r-Supra_EN_lr p.1", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_08, item_id: s269v4_1567, source: "MCDT191 p.83", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_09, item_id: s269v4_4587, source: "TIDT109 p.3", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_10, item_id: s269v4_2178, source: "TG-Honeywell_Usuario p.36", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_11, item_id: s269v4_2112, source: "UCIP MODBUS AM8200 V5.1 p.22", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_12, item_id: s269v4_0085, source: "HLSI-MN-963_POL-200-TS p.6", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_13, item_id: s269v4_2644, source: "MNDT619 p.5", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_14, item_id: s269v4_0135, source: "MP-DT-951_v7.2 p.88", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_15, item_id: s269v4_2806, source: "MNDT521_Multiscann++ p.69", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_16, item_id: s269v4_0225, source: "33036_05_VESDA-E_VEA-040-A00_Product_Guide_A4_Spanish_lores p.43", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_17, item_id: s269v4_2658, source: "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c p.1", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_18, item_id: s269v4_3409, source: "4188-1124-ES issue 6_01-2026_To p.24", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_19, item_id: s269v4_1288, source: "1998M0901_FS24X_ES-AR54-10_ES-AR_RevB_17July2015 p.18", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_20, item_id: s269v4_4052, source: "MIE-MI-160rv03 p.8", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_21, item_id: s269v4_3832, source: "AM-8200 Manual Instalacion p.23", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_22, item_id: s269v4_0513, source: "MNDT120 p.31", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_23, item_id: s269v4_4334, source: "Tg-Honeywell_Tecnico p.71", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_24, item_id: s269v4_2823, source: "MIDT250_A p.15", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_25, item_id: s269v4_3560, source: "MCDT155 p.24", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_26, item_id: s269v4_4263, source: "MNDT1310 p.20", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_27, item_id: s269v4_0286, source: "MIE-MP-210 p.64", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_28, item_id: s269v4_0777, source: "TCD-100 Tarjeta comunicadora a CRA ES GB p.13", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_29, item_id: s269v4_3602, source: "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942 p.8", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_30, item_id: s269v4_3358, source: "MADT635_01 p.1", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_31, item_id: s269v4_4845, source: "HLSI-MN-192_UCIP p.4", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_32, item_id: s269v4_0558, source: "997-671-005-3_Configuration_ES p.36", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_33, item_id: s269v4_4675, source: "MIEMN570 p.9", predicted_role: procedure, panel_useful: false, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_34, item_id: s269v4_1750, source: "MNDT748 p.12", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_35, item_id: s269v4_3129, source: "MNDT1160 p.22", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_36, item_id: s269v4_4076, source: "MNDT021 p.15", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_37, item_id: s269v4_3237, source: "AM-8200-manu-prog-spa p.7", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_38, item_id: s269v4_2425, source: "MNDT440 p.14", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_39, item_id: s269v4_4871, source: "MIE-MI-505rv01 p.16", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_40, item_id: s269v4_0151, source: "MNDT516 p.18", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_41, item_id: s269v4_1902, source: "MPS8ZS02 - MU-MANUAL DE USUARIO SERIE MPS rev2 p.14", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_42, item_id: s269v4_3166, source: "15037SP p.32", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_43, item_id: s269v4_4200, source: "33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores p.49", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_44, item_id: s269v4_1417, source: "MNDT722_40-40L p.56", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_45, item_id: s269v4_4097, source: "Manual DBD_70A (55310016 MI 471 m 2021 d) p.5", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_46, item_id: s269v4_0042, source: "CAD-250-MS-416-es p.30", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_47, item_id: s269v4_3127, source: "MNDT1160 p.11", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_48, item_id: s269v4_4027, source: "MN-DT-958I_iBox-MBS-NID3000 p.14", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_49, item_id: s269v4_2629, source: "MNDT112 p.34", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_50, item_id: s269v4_2376, source: "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT p.9", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_51, item_id: s269v4_3049, source: "MIEMI120rev05 p.36", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_52, item_id: s269v4_3680, source: "CAD-250-MC-380-es p.33", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_53, item_id: s269v4_3484, source: "35006_03_VESDA-E_VES-A10-P_Product_Guide_A4_Spanish_lores p.82", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_54, item_id: s269v4_4125, source: "Manual instalacion CAD-250 (MI_372_es_2024 e) p.13", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_55, item_id: s269v4_0693, source: "ASD533_TD_T140287es_e p.98", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_56, item_id: s269v4_1021, source: "MNDT520 p.54", predicted_role: wiring, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_57, item_id: s269v4_0218, source: "MPDT951_v5-87 p.92", predicted_role: table, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_58, item_id: s269v4_1621, source: "MCDT156_A p.33", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_59, item_id: s269v4_3518, source: "MIE-MP-230 p.4", predicted_role: ui, panel_useful: true, panel_cover_or_marketing: false}
+    - {sample_id: s269v4_gate_60, item_id: s269v4_1497, source: "MNDT721_40-40I p.67", predicted_role: procedure, panel_useful: true, panel_cover_or_marketing: false}
+danger_class:
+  definition: cover_or_marketing_predicted_useful_and_served
+  false_positives_in_sample: 0
+  cumulative_human_direct_checks: 13_of_13_correct   # 10 v3 + 3 v4
+
+anti_overfit:
+  - the_sample_was_drawn_once_with_the_frozen_seed_269_no_redraws
+  - item_33_stays_recorded_with_both_verdicts_panel_and_adjudication
+  - no_relabeling_of_any_of_the_5096_labels_after_the_gate
+  - the_panel_is_not_reused_to_relabel_disagreements_only_to_audit
+
+authorization_scope_of_this_pass: >-
+  Este PASS autoriza SOLO los pasos de datos del runbook (aplicar migracion +
+  load + apply-labels + verificacion), todos gateados por la autorizacion
+  explicita de Alberto/orquestador en cada paso. NO enciende el flag
+  VISUAL_ASSETS_REGISTRY: el encendido en demo es el paso (v), decision
+  separada de Alberto. Cero escrituras DB se han hecho en este track.
+
+runbook:
+  i_apply_migration:
+    where: Supabase SQL Editor (bloqueada por permisos para el orquestador — la aplica Alberto)
+    apply: migrations/014_document_visual_assets.sql
+    rollback: migrations/014_rollback.sql
+  ii_load_bridge:
+    command: python scripts/visual_assets_bridge_load.py --load
+    effect: inserta las 5096 filas del dump (technical_utility=uncertain, NO servible)
+    idempotent: on_conflict (document_id, page_index, asset_sha256) ignore-duplicates
+    aborts_if: la tabla document_visual_assets no existe
+  iii_apply_labels:
+    command: python scripts/visual_assets_bridge_load.py --apply-labels evals/s269_visual_utility_labels_v4_full.jsonl
+    effect: >-
+      upsert idempotente de visual_role + technical_utility + classifier_contract
+      (s269_visual_utility_v4) + classifier_receipt (JSONB con response_id,
+      confidence, reason, sha256 del binario y referencia a este gate) sobre las
+      mismas claves; imprime el count servible esperado vs el de la tabla.
+    aborts_if: tabla inexistente / labels sin fila del dump / recibo de URL no cuadra
+  iv_verification:
+    servable_count: >-
+      GET count technical_utility=eq.useful & visual_role=in.(wiring,table,procedure,ui)
+      debe dar 4489 (lo imprime --apply-labels; verificable a mano con el mismo GET).
+    sample_lookups: >-
+      3 lookups de muestra con src/rag/visual_assets.py::lookup_visual_assets
+      sobre paginas del gate-sample (p.ej. las de s269v4_gate_01/02/03) — deben
+      devolver exactamente 1 asset useful-servible cada una; y 1 lookup de una
+      pagina cover del dump (technical_utility=not_useful) — debe devolver [].
+  v_enable_flag_demo:
+    when: cuando Alberto quiera (decision separada; auditoria opcional de spotcheck_v4/ antes)
+    action: VISUAL_ASSETS_REGISTRY=on en Railway (demo); rollback = quitar la variable
+    serving_guarantees: >-
+      useful-only + rol en [wiring, table, procedure, ui] (filtro en query, en
+      cliente y en append — test_visual_assets.py), solo paginas citadas, cap 2,
+      fail-open doble; flag off = byte-identico a hoy.
+
+authorization:
+  model_calls_in_this_closure: 0
+  database_writes: 0
+  production_changes: false
+  facts_moved_to_ok: 0

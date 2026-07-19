@@ -88,3 +88,8 @@ evals/_*
 # El baseline canónico evals/bot_vs_gold_results.yaml SÍ se versiona.
 evals/bot_vs_gold_results_k*.yaml
 evals/t1_surrogates_dump.jsonl
+
+# Renders del gate-sample v4 (11MB, re-derivables byte-idénticos con verificación
+# sha256 contra evals/s269_visual_utility_v4_gate_sample.json — que SÍ se versiona):
+#   python scripts/s269_visual_utility_executor_v4.py --gate-sample --download-dir spotcheck_v4
+spotcheck_v4/
