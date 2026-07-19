@@ -2539,3 +2539,57 @@ cohortes futuras el share supera 0.25, se re-examina la definición (no se gatea
 (menor) TECH_DEBT #54 (etiquetas con puntos truncan citation_window): frecuencia real sin medir,
 declarado como gap vivo del ON. Fable-side = SÓLIDA del build (2 medios cableados). El merge
 default-off queda autorizado por el dúo; la activación en demo sigue el plan DEC-127b/130.
+
+## DEC-131 (S272, 19 jul 2026) — BANKING de la foto 145/154 (94,16%) con recibo VIVO de producción + formato Telegram de la respuesta (feedback directo de Alberto)
+
+**Decisión 1 — Banking.** Se cobran oficialmente las 2 conversiones certificadas del contrato
+must-preserve sobre el funnel adjudicado (DEC-125: 143/9/2/154):
+`scripts/s272_bank_conversions.py` (patrón S270: aritmética determinista, $0, insumos
+SHA-pineados LF-normalizados, fail-closed ante drift) → **145 OK / 7 synth / 2 retr / 154
+(94,16%) — quedan +6 para 151 (98%)**; artefacto `evals/s272_banked_funnel_v1.json` con
+`production_flag: MUST_PRESERVE_CONTRACT=on (Railway, confirmado por Alberto)` y
+`mecanismo verificado en producción: sí (query_logs 16:26Z)`.
+
+**Estado vivo POR CONVERSIÓN (Alberto disparó las 3 preguntas en vivo; recibos GET-only de
+query_logs 2026-07-19 persistidos con sha256 del response en
+`evals/s272_live_receipts_v1.json` y dentro del artefacto — sin datos personales):**
+- **obl_b6f6211be439 — FIRE EN VIVO ✓** (16:26Z, ASD535): apéndice con el aviso de
+  seguridad + checklist servido en producción. Certificación: det-only v2 3/3
+  (`evals/s271_probe_det_certification_v2.json`).
+- **Control sano CAD-250 SIN apéndice ✓** (16:34Z): silencio correcto en vivo.
+- **obl_872c35fb41d7 — NO disparó en vivo** (16:29Z, PEARL); DIAGNOSTICADO reproduciendo la
+  ruta viva: los chunks del 997-671 p43-45 con la tabla de tipos quedan en posiciones 22-33
+  del pool, FUERA del top-10 servido — el mecanismo no puede anexar átomos de fragmentos no
+  servidos. **Clase: composición-de-serving (retrieval-side), NO fallo del contrato**; la
+  conversión queda **harness-only** (la foto oficial usa la ruta harness congelada donde
+  esos fragmentos SÍ se sirven; certificación `evals/s271_872c_respec_rescore_v1.json`,
+  spec opción-1 DEC-128 3/3 ON / 0/3 OFF). Convergencia viva = lever retrieval de la misma
+  familia que Bloque B/C — sin acción ahora. El banking se sostiene con esta declaración de
+  alcance explícita, sin sobre-claim.
+
+**Los 7 synth restantes por clase (mapa causal DEC-127):** serving-view `obl_0d6a` ·
+uncited `obl_2f5d` · binding-tension `obl_7bba` · composites `obl_a5d9`/`obl_015f`/
+`obl_b2043`/`obl_7aa7`. Sigue sin KPI atómico oficial (77 legacy carries, S205).
+Alternativa descartada: esperar un re-score completo vía gold_store/assessment para cobrar —
+el patrón de proyección determinista S133/S270 con certificaciones congeladas + recibo vivo
+es exactamente la traza auditable que el re-score usaría; no se duplica el instrumento.
+
+**Decisión 2 — Formato Telegram (v6 del anexo + formatter), del feedback directo de Alberto
+sobre la respuesta viva ASD535 ("faltan saltos de línea incluso de sección, y podría ser más
+visual"):** (a) `render_appendix` v6 (`src/rag/must_preserve.py`): separador `---` +
+cabecera en negrita con UN emoji estructural por bloque (⚠️ si contiene átomo MANDATORY /
+📋 disclosures-tablas / 📖 genérico) y strip del marcador blockquote `> ` de los spans con
+guard conservador (nunca ante dígito/operador: `> 100 mA` se conserva) — la selección y el
+binding NO cambian; los spans siguen byte-preservados en contenido técnico. (b)
+`response_formatter.py`: fix del `**Fuente:**` del generador (el `**` de cierre tras los dos
+puntos quedaba LITERAL en Telegram — el `**` visible que reportó Alberto), 📄 en fuentes,
+🔧 en cabeceras de paso (`**1. …**` y headings numerados), negrita + línea en blanco para
+secciones `##`/MAYÚSCULAS:, no-doble-emoji en avisos que ya traen ⚠️ (léxico ampliado con
+importante/aviso/caution), y strip del `"> ` heredado en bullets de apéndices YA almacenados
+(mismo guard numérico). Vara verificada con fixture del recibo vivo
+(`tests/fixtures/s272_asd535_live_response.json`): 0 tokens numéricos/modelo perdidos, tags
+balanceados, sin `**` ni `> ` crudos; gate local del renderer re-corrido
+(`scripts/s124_renderer_presentation_replay.py` → GO). Alternativas descartadas: parse_mode
+Markdown de Telegram (frágil con notación eléctrica, ya descartado en el diseño del
+formatter); emojis por frase (decorativo — el criterio es sobrio/estructural); strip
+incondicional de `> ` (riesgo de borrar un operador de comparación).

@@ -25,10 +25,13 @@
 <a id="estado-actual-s269--19-jul-2026"></a>
 ## Estado actual (S269 — 19 jul 2026)
 
-**Foto sin movimiento oficial, tras la adjudicación S270 (DEC-125): 154 facts = 143 OK ·
-9 synthesis-miss (8 CORE + 1 disclosure re-specced) · 2 retrieval-miss (92,86%); objetivo
-≥98% = 151 → +8.** S269 atacó los 12 por las dos vías que pidió Alberto; adjudicado el packet
-(punto 1), queda DEC-122 como única decisión suya pendiente:
+**Foto oficial tras el banking S272 (DEC-131): 154 facts = 145 OK · 7 synthesis-miss ·
+2 retrieval-miss — 145/154 (94,2%) cobradas, quedan +6 para 151 (≥98%).** Banking de las 2
+conversiones certificadas del contrato must-preserve (b6f6 · 872c re-spec DEC-128) sobre el
+funnel adjudicado DEC-125, con `MUST_PRESERVE_CONTRACT=on` en Railway y recibo vivo en
+producción (query_logs 16:26Z; 872c harness-only — clase composición-de-serving):
+`evals/s272_banked_funnel_v1.json`. S269 atacó los 12 por las dos vías que pidió Alberto;
+adjudicado el packet (punto 1), queda DEC-122 como única decisión suya pendiente:
 
 1. **Triage de golds (DEC-121) — ADJUDICADO por Alberto (S270, DEC-125).** Marcas sobre el
 packet al píxel (`evals/s269_goldreview_packet_v1_ADJUDICADO.md`): **9 core tras adjudicación
