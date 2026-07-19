@@ -1,0 +1,123 @@
+schema: s271_stage1_v8_gate_v1
+created_utc: '2026-07-19T15:57:35+00:00'
+arm: det
+families:
+  F-RANGE:
+    recall: 0.975609756097561
+    detected: 80
+    scored: 82
+    pass: true
+  F-BUNDLE:
+    recall: 0.9230769230769231
+    detected: 24
+    scored: 26
+    pass: true
+  F-MANDATORY:
+    recall: 1.0
+    detected: 32
+    scored: 32
+    pass: true
+  F-COUNT:
+    recall: 0.9047619047619048
+    detected: 38
+    scored: 42
+    pass: true
+checks:
+  display_recall:
+    value: null
+    n: 0
+    d: 0
+    pass: true
+  display_no_new_surface_fp:
+    value: 0
+    pass: true
+  cross_count_recall:
+    value: 0.9090909090909091
+    n: 10
+    d: 11
+    pass: true
+  cross_count_far_page_fp:
+    value: 0
+    pass: true
+  grounding_fold_recall:
+    value: 1.0
+    n: 226
+    d: 226
+    pass: true
+  grounding_paraphrase_fp:
+    value: 0
+    pass: true
+  disclosure_two_sides:
+    value: 0.9090909090909091
+    n: 10
+    d: 11
+    pass: true
+  clean_annex_quality_fp:
+    value: 0
+    pass: true
+  enrichment_appends_reported:
+    value: 36
+    pass: true
+  cross_binding_fp:
+    value: 0
+    pass: true
+  attestation_block_appends:
+    value: 0
+    pass: true
+  dup_span_fp:
+    value: 0
+    pass: true
+  dup_span_control_loss:
+    value: 0
+    pass: true
+  empty_enum_fp:
+    value: 0
+    pass: true
+  empty_enum_positive_recall:
+    value: 0.9090909090909091
+    n: 10
+    d: 11
+    pass: true
+  navcrumb_fp:
+    value: 0
+    pass: true
+  navcrumb_no_relevance_fp:
+    value: 0
+    pass: true
+  navcrumb_positive_recall:
+    value: 1.0
+    n: 27
+    d: 27
+    pass: true
+  heading_only_fp:
+    value: 0
+    pass: true
+  heading_only_control_recall:
+    value: 1.0
+    n: 17
+    d: 17
+    pass: true
+  ui_dump_fp:
+    value: 0
+    pass: true
+  whitelist_skips_reported:
+    value:
+      mutation: 108
+      dup_span: 39
+      cross_count: 16
+      disclosure2: 16
+      empty_enum: 16
+      heading_only: 13
+    mutation_by_family:
+      F-BUNDLE: 22
+      F-COUNT: 60
+      F-MANDATORY: 26
+    pass: true
+  whitelist_silence_share_reported:
+    value: 0.15249266862170088
+    total_skips: 208
+    pass: true
+  coverage:
+    value: 0.9524221453287197
+    pass: true
+verdict: GO

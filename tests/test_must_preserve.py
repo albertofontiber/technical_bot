@@ -473,11 +473,15 @@ def test_attest_identity_doc_desconocido():
 # ─── render_appendix ───
 
 def _mandatory_atom(n):
+    # v5 whitelist: la cláusula obligatoria completa (trigger + su oración con verbo)
     return {
         "family": mp.FAMILY_MANDATORY,
         "span_start": 0,
         "span_end": 10,
-        "span_text": f"Advertencia sintética número {n}.",
+        "span_text": (
+            f"Advertencia sintética {n}: desconecte la alimentación general antes "
+            "de manipular el equipo."
+        ),
         "anchor_tokens": ["advertencia"],
         "meta": {"triggers": ["advertencia"], "fragment_number": 1},
     }
@@ -500,9 +504,12 @@ def test_render_cap_global_4_con_familias_mezcladas():
         + [_range_atom_n(i) for i in range(3)]
         + [{
             "family": mp.FAMILY_BUNDLE, "span_start": 0, "span_end": 10,
-            "span_text": f"## Sección {i}\n- Campo{i}: def",
+            "span_text": (
+                f"## Sección {i}\n- Campo{i}: definición del primer campo\n"
+                f"- Extra{i}: descripción del segundo campo"
+            ),
             "anchor_tokens": [], "meta": {"header": f"Sección {i}",
-                                          "members": [f"Campo{i}"],
+                                          "members": [f"Campo{i}", f"Extra{i}"],
                                           "fragment_number": 1},
         } for i in range(2)]
     )
@@ -526,7 +533,9 @@ def test_seleccion_prioriza_mandatory_y_count_conflict():
     # orden pre-declarado: MANDATORY primero, COUNT-conflicto después, resto por binding
     count_atom = {
         "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
-        "span_text": "hay seis opciones",
+        "span_text": (
+            "La central ofrece seis opciones de programación configurables."
+        ),
         "anchor_tokens": ["opciones"],
         "meta": {"declared_n": 6, "enumerated_n": 7, "conflict": True,
                  "fragment_number": 1},
@@ -561,9 +570,22 @@ def test_render_sin_contradiccion_sin_nota():
     assert '"El rango de tensión es de 10 a 30 V."' in appendix
 
 
+# enumeración de FORMA BUENA (v5 whitelist): miembros con descripción y verbos
+_ENUM_GOOD = (
+    "- Retardo: define el tiempo de espera de las salidas\n"
+    "- Sensibilidad: define el umbral con que se activa el detector\n"
+    "- Zona: define la zona asignada al punto\n"
+    "- Sirena: configura el patrón de la salida acústica\n"
+    "- Reloj: define la fecha con que se registran los eventos\n"
+    "- Acceso: define el nivel con que se entra al menú\n"
+    "- Volcado: permite exportar el registro de eventos"
+)
+
+
 def test_render_count_conflict_siempre_disclosure():
     atoms = mp.detect_atoms(
-        "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+        "La central ofrece seis opciones de programación al instalador:\n"
+        + _ENUM_GOOD
     )
     atoms[0]["meta"]["fragment_number"] = 1
     appendix = mp.render_appendix(atoms, "Hay seis opciones [F1]")
@@ -920,7 +942,15 @@ def test_apply_cross_fragment_anexa_con_cita_doble(monkeypatch):
         {
             "document_id": "doc-1",
             "page_number": 10,
-            "content": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G",
+            "content": (
+                "- Modo A: activa las salidas de forma manual\n"
+                "- Modo B: activa las salidas de forma temporizada\n"
+                "- Modo C: activa las salidas al confirmar la alarma\n"
+                "- Modo D: activa las salidas en modo nocturno\n"
+                "- Modo E: activa las salidas con doble detección\n"
+                "- Modo F: activa las salidas por zona cruzada\n"
+                "- Modo G: activa las salidas de forma remota"
+            ),
         },
     ]
     draft = "El panel dispone de seis modos de disparo [F1]"
@@ -961,16 +991,19 @@ def test_hybrid_stats_cuenta_grounding_fold():
 
 
 def test_render_count_conflict_dos_lados_con_citas():
-    text = "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+    text = (
+        "La central ofrece seis opciones de programación al instalador:\n"
+        + _ENUM_GOOD
+    )
     atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
     assert len(atoms) == 1
     meta = atoms[0]["meta"]
-    assert meta["enum_span_text"].startswith("- A")
+    assert meta["enum_span_text"].startswith("- Retardo")
     atoms[0]["meta"]["fragment_number"] = 3
     appendix = mp.render_appendix(atoms, "Hay seis opciones [F3]")
     assert "Nota: el manual también indica:" in appendix
     assert '"La central ofrece seis opciones' in appendix   # lado del conteo
-    assert "- G" in appendix                                # lado de la enumeración
+    assert "- Volcado" in appendix                          # lado de la enumeración
     assert appendix.count("[F3]") == 2                      # cita en ambos lados
 
 
@@ -1148,7 +1181,9 @@ def test_select_no_anexa_span_no_informativo():
 
 def test_render_dedup_nota_duplicada_hp001():
     """Bloqueador 1 (caso real): dos átomos F-COUNT con el MISMO span (la oración de
-    lazos de hp001, matches «8 lazos» y «2 cabinas») anexan UNA sola nota."""
+    lazos de hp001, matches «8 lazos» y «2 cabinas») anexan UNA sola nota. (v5: el
+    lado-enumeración crumb del caso original ya muere ANTES por la whitelist; el
+    dedup se pinea sobre el lado del conteo, que es cláusula de forma buena.)"""
     import copy as _copy
 
     atom = {
@@ -1156,7 +1191,6 @@ def test_render_dedup_nota_duplicada_hp001():
         "span_text": _HP001_COUNT_SPAN,
         "anchor_tokens": ["lazos"],
         "meta": {"declared_n": 8, "enumerated_n": 3, "conflict": True,
-                 "enum_span_text": "Sistema | Otros | Reiniciar",
                  "fragment_number": 3},
     }
     dup = _copy.deepcopy(atom)
@@ -1304,6 +1338,124 @@ def test_cross_fragment_count_sustantivo_liga_aunque_haya_heading():
     atoms = mp.detect_cross_fragment_count_atoms(fragments)
     assert len(atoms) == 1
     assert atoms[0]["meta"]["cross_fragment"] is True
+
+
+# ─── v5 (s271 iteración final): WHITELIST fail-closed de forma-buena ───
+
+# Caso REAL Etapa 3 v2 (cat007 [F42]): cabecera-sola anexada como MANDATORY.
+_CAT007_HEADING_ONLY = "### <ins>ADVERTENCIA</ins>"
+
+# Caso REAL Etapa 3 v2 (hp001 [F3]): volcado de descripción de UI multi-línea que el
+# navcrumb-guard (solo líneas únicas) no cubría.
+_HP001_UI_DUMP = (
+    "- Right sidebar with options: GENERAL, VERSIONES, USUARIOS, AVANZADO "
+    "(highlighted), CONECTIVIDAD, IMPRESORA, LOGS, TEST\n"
+    '- Bottom buttons: "Guardar y reiniciar" and "INICIO"\n'
+    '- Header: "detnov Panel_template 20:17 - martes, 31 de marzo de 2020"]'
+)
+
+
+def test_whitelist_span_good_form_casos():
+    # cláusula completa (verbo conjugado + ≥40 chars)
+    assert mp.span_good_form(
+        "La central ofrece seis opciones de programación al instalador."
+    ) is True
+    # fila etiqueta+valor (número CON unidad + etiqueta en la misma línea)
+    assert mp.span_good_form("| Potencia nominal | 2 | A | carga resistiva |") is True
+    # número pelado sin unidad NO es valor (caso real hp001: «Lazos   | 2»)
+    assert mp.span_good_form("Lazos   | 2") is False
+    # heading/markers jamás cuentan como contenido (caso real cat007)
+    assert mp.span_good_form(_CAT007_HEADING_ONLY) is False
+    # volcado de UI: infinitivos/gerundios y timestamps no son cláusula ni valor
+    assert mp.span_good_form(_HP001_UI_DUMP) is False
+    # corto sin verbo
+    assert mp.span_good_form("hay seis opciones") is False
+
+
+def test_whitelist_heading_solo_advertencia_real_cat007_no_se_anexa():
+    atom = {
+        "family": mp.FAMILY_MANDATORY, "span_start": 0, "span_end": 10,
+        "span_text": _CAT007_HEADING_ONLY,
+        "anchor_tokens": ["advertencia"],
+        "meta": {"triggers": ["advertencia"], "fragment_number": 42},
+    }
+    assert mp.atom_good_form(atom) is False
+    assert mp._select_for_appendix(
+        [atom], "Siga el procedimiento del módulo de relés [F42]"
+    ) == []
+
+
+def test_whitelist_mandatory_exige_trigger_y_su_oracion():
+    good = _mandatory_atom(1)
+    assert mp.atom_good_form(good) is True
+    # trigger presente pero SIN verbo (título largo) → no es cláusula
+    title_only = dict(good, span_text="ADVERTENCIA GENERAL DE SEGURIDAD DEL SISTEMA "
+                                      "DE DETECCIÓN Y EXTINCIÓN")
+    assert mp.atom_good_form(title_only) is False
+
+
+def test_whitelist_ui_dump_como_lado_de_disclosure_no_dispara():
+    """Caso real hp001 (Etapa 3 v2): «Lazos   | 2» · volcado de UI. El lado del
+    conteo ya falla (número sin unidad); y aunque el conteo fuera cláusula buena,
+    el volcado de UI mata el disclosure ENTERO."""
+    real = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": "Lazos   | 2",
+        "anchor_tokens": ["ledes"],
+        "meta": {"declared_n": 2, "enumerated_n": 3, "conflict": True,
+                 "enum_span_text": _HP001_UI_DUMP, "fragment_number": 3},
+    }
+    assert mp.atom_good_form(real) is False
+    good_count_bad_enum = dict(real, span_text=(
+        "La central dispone de dos ledes configurables en el panel frontal."
+    ))
+    assert mp.atom_good_form(good_count_bad_enum) is False
+    draft = "El panel dispone de dos ledes [F3]"
+    assert mp.render_appendix([real, good_count_bad_enum], draft) == ""
+
+
+def test_whitelist_bundle_exige_descripcion_de_miembros():
+    base = {
+        "family": mp.FAMILY_BUNDLE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": [],
+        "meta": {"header": "Opciones", "members": ["Zona", "CBE"],
+                 "fragment_number": 1},
+    }
+    con_desc = dict(base, span_text=(
+        "## Opciones\n- Zona: define la zona del punto\n"
+        "- CBE: ecuación de control por evento"
+    ))
+    solo_nombres = dict(base, span_text="## Opciones\n- Zona\n- CBE")
+    assert mp.atom_good_form(con_desc) is True
+    assert mp.atom_good_form(solo_nombres) is False
+
+
+def test_whitelist_disclosure_strip_de_etiquetas_queda_en_silencio():
+    """Calibración DOCUMENTADA (v5): la tira OCR de etiquetas de hp017 (solo
+    nombres, sin cláusula ni valores-con-unidad) NO pasa la whitelist como lado de
+    disclosure — ese disclosure calla; obl_872c sobrevive vía el disclosure cuyo
+    lado-enumeración es la TABLA de la F2 (filas con cláusulas), verificado en la
+    certificación det-only v2."""
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": (
+            "Se puede asignar uno de seis tipos de retardo de salida a una regla, "
+            "como se explica a continuación."
+        ),
+        "anchor_tokens": ["tipos"],
+        "meta": {"declared_n": 6, "enumerated_n": 8, "conflict": True,
+                 "enum_span_text": _HP017_LABEL_STRIP, "fragment_number": 1},
+    }
+    assert mp.span_good_form(atom["span_text"]) is True    # el conteo es cláusula
+    assert mp.atom_good_form(atom) is False                # la tira no pasa
+    # la tabla F2 (filas con cláusula) SÍ pasa como lado de enumeración
+    tabla_f2 = (
+        "| Acción de usuario | Fijo | Estándar |\n"
+        "| --- | --- | --- |\n"
+        "| La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo. "
+        "| × | ✓ |"
+    )
+    assert mp.span_good_form(tabla_f2) is True
 
 
 def test_apply_detect_fn_inyectable(monkeypatch):

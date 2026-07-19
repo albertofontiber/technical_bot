@@ -2496,3 +2496,33 @@ el prereg). (c) La spec opción-1 de 872c mide ACTIVACIÓN del disclosure (satis
 íntegramente por el apéndice determinista), no calidad de generación — no leer el 3/3 como
 calidad. **Pendiente del orquestador:** el lado cross-model del dúo (GPT-5.6 Sol, pagado)
 ANTES del merge — zona de dolor, el dúo es innegociable (Protocolo 3).
+
+**DEC-130 (S271, iteración FINAL del Bloque A) — Etapa 3 v2 (monotonía 5/5, guards v4
+funcionan: 0 duplicados / 0 span-vacío / 0 navcrumb) sacó 2 clases nuevas en cola larga →
+INVERSIÓN DE CONTRATO en el render: de blacklist a WHITELIST fail-closed de forma-buena
+(`must_preserve` v5, `atom_good_form`).** Clases observadas: (a) cat007 anexó un MANDATORY
+que era SOLO la cabecera «### <ins>ADVERTENCIA</ins>»; (b) hp001 emparejó el conteo
+«Lazos | 2» (match de RX_COUNT cruzando líneas) con un volcado de descripción de UI
+multi-línea (el navcrumb-guard solo cubría líneas únicas). Whitelist por span: (1) cláusula
+textual completa — ≥1 oración con verbo CONJUGADO (léxico cerrado ES/EN; infinitivos y
+gerundios de volcados de UI NO cuentan) y ≥40 chars tras quitar markup/headers; O (2) fila
+etiqueta+valor — número CON UNIDAD + etiqueta textual en la misma línea (número pelado NO
+es valor: «Lazos | 2» y timestamps de headers quedan fuera — calibrado con los casos
+observados). Headers/markers jamás cuentan; MANDATORY exige el trigger + SU oración;
+BUNDLE exige ≥2 miembros con descripción; en un disclosure AMBOS lados individualmente o
+no dispara. Silencio > ruido; los spans siguen VERBATIM (la whitelist decide inclusión, no
+reescribe). **Validación fresca seed=276** (`evals/s271_stage1_v8_gate_v1.yaml`) → **GO**:
+gates previos íntegros (F-RANGE 0.976 / F-BUNDLE 0.923 / F-MANDATORY 1.0 / F-COUNT 0.905;
+cross_count 0.909; disclosure2 0.909) + clases nuevas (heading_only 0 FP/30 + control 1.0;
+ui_dump 0 FP/16). **Coste de la whitelist VISIBLE, no escondido:** 208 filas re-etiquetadas
+como silencio-por-diseño (`whitelist_skips_reported`: mutation 108 — F-COUNT 60 / MANDATORY
+26 / BUNDLE 22 — sobre todo disclosures cuyo lado-enumeración es lista de nombres pelados;
+share total 0.153 en `whitelist_silence_share_reported`); 2 iteraciones de instrumento
+DECLARADAS en el prereg (cross_count sin filtro puntuable heredado de v5: 10/27→10/11;
+coverage re-specced a salud-de-instrumento, 1ª pasada 0.807 en git). **Certificación
+det-only v2 re-corrida → GO: b6f6 3/3 estable; 872c 2/3 ON / 0/3 OFF = conversión ESTABLE
+se mantiene (≥2/3), con matiz declarado: era 3/3 pre-whitelist — la réplica 3 dependía SOLO
+del disclosure de la tira-de-etiquetas (forma-pobre por definición) y ahora calla; r1/r2
+convierten vía la tabla F2 (filas con cláusulas).** No se tuneó la whitelist contra los
+targets. Si la Etapa 3 v3 aún muestra ruido, NO se itera más: la recomendación pasa a
+activación restringida por familia (criterio del coordinador). Flag sigue OFF.

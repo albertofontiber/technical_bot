@@ -8,7 +8,7 @@
   "declared_drift": {
     "src/rag/must_preserve.py": {
       "prereg_v3_pinned_sha256_lf": "4f292b2039947bef08716c10d0c8956d05eefd2b5372ec0593a534b2f0f77264",
-      "actual_sha256_lf": "1b8f76acc88048c7a87741c04338a162356b30b68ee8dd08ef4a23098c260bce",
+      "actual_sha256_lf": "08b7cb9c025065fb1bb22dcb435bdbbad895d685042651bbdf5cc36b099be0f2",
       "intentional": true,
       "delta": "s271 guards de activación DEC-127b (dedup render + contenido informativo + tie estricto F-COUNT) — validados en Etapa 1 v7 seed-275; ver evals/s271_stage1_v7_gate_v1.yaml"
     },
@@ -36,33 +36,33 @@
   "obl_872c_detail": {
     "qid": "hp017",
     "check": "disclosure_respec",
-    "on_covered": 3,
+    "on_covered": 2,
     "off_covered": 0,
     "stable_conversion": true
   },
   "obl_872c_informative_survival": [
     {
       "replicate": 1,
-      "appendix_len": 4271,
+      "appendix_len": 3045,
       "disclosure_marker": true,
-      "f1_strip_labels_in_appendix": true,
+      "f1_strip_labels_in_appendix": false,
       "disclosure_covered_on": true,
       "disclosure_covered_off": false
     },
     {
       "replicate": 2,
-      "appendix_len": 4271,
+      "appendix_len": 3045,
       "disclosure_marker": true,
-      "f1_strip_labels_in_appendix": true,
+      "f1_strip_labels_in_appendix": false,
       "disclosure_covered_on": true,
       "disclosure_covered_off": false
     },
     {
       "replicate": 3,
-      "appendix_len": 1845,
-      "disclosure_marker": true,
-      "f1_strip_labels_in_appendix": true,
-      "disclosure_covered_on": true,
+      "appendix_len": 0,
+      "disclosure_marker": false,
+      "f1_strip_labels_in_appendix": false,
+      "disclosure_covered_on": false,
       "disclosure_covered_off": false
     }
   ],
@@ -120,7 +120,7 @@
       "obl_872c35fb41d7": {
         "qid": "hp017",
         "check": "disclosure_respec",
-        "on_covered": 3,
+        "on_covered": 2,
         "off_covered": 0,
         "stable_conversion": true
       }
@@ -165,7 +165,7 @@
     "demoted_reporting_only": {
       "obl_07eee3300535": {
         "off_covered": 0,
-        "on_covered": 0
+        "on_covered": 1
       },
       "obl_161564ff41bf": {
         "off_covered": 0,
@@ -213,7 +213,7 @@
         "atoms_detected": 5,
         "atoms_bound": 3,
         "atoms_missing": 3,
-        "atoms_appended": 3,
+        "atoms_appended": 2,
         "cross_atoms_detected": 0,
         "appendix_appended": true,
         "resolved_ids": [
@@ -249,7 +249,7 @@
         "atoms_detected": 5,
         "atoms_bound": 3,
         "atoms_missing": 3,
-        "atoms_appended": 3,
+        "atoms_appended": 2,
         "cross_atoms_detected": 0,
         "appendix_appended": true,
         "resolved_ids": [
@@ -286,7 +286,7 @@
         "atoms_detected": 5,
         "atoms_bound": 3,
         "atoms_missing": 3,
-        "atoms_appended": 3,
+        "atoms_appended": 2,
         "cross_atoms_detected": 0,
         "appendix_appended": true,
         "resolved_ids": [
@@ -344,6 +344,7 @@
       },
       "on_score": {
         "covered_obligation_ids": [
+          "obl_07eee3300535",
           "obl_b6f6211be439"
         ],
         "unsafe_conflict_ids": [],
@@ -554,7 +555,7 @@
         "atoms_detected": 8,
         "atoms_bound": 7,
         "atoms_missing": 7,
-        "atoms_appended": 4,
+        "atoms_appended": 1,
         "cross_atoms_detected": 2,
         "appendix_appended": true,
         "resolved_ids": [
@@ -607,7 +608,7 @@
         "atoms_detected": 8,
         "atoms_bound": 6,
         "atoms_missing": 6,
-        "atoms_appended": 4,
+        "atoms_appended": 1,
         "cross_atoms_detected": 2,
         "appendix_appended": true,
         "resolved_ids": [
@@ -635,7 +636,7 @@
         ],
         "invalid_citations": [],
         "merged_warning_block_covered": false,
-        "disclosure_covered": true,
+        "disclosure_covered": false,
         "cardinality_consistent_6": false
       },
       "must_preserve_trace": {
@@ -656,9 +657,9 @@
         "atoms_detected": 8,
         "atoms_bound": 5,
         "atoms_missing": 5,
-        "atoms_appended": 4,
+        "atoms_appended": 0,
         "cross_atoms_detected": 2,
-        "appendix_appended": true,
+        "appendix_appended": false,
         "resolved_ids": [
           "notifier:pearl"
         ]
@@ -668,5 +669,5 @@
   "paid_calls": 0,
   "database_reads": 0,
   "database_writes": 0,
-  "result_sha256": "3098bc777674b84584c5a8b8b7ded7b7fe8a4bccb12ac0e999c67e6a5c065ff7"
+  "result_sha256": "16a5b4c4438efb8878c97d9c335d0d41e765af507c742ea3c94e0120a662bedf"
 }

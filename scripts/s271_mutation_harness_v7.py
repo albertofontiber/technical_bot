@@ -22,9 +22,18 @@ Gates heredados del prereg v6 ÍNTEGROS (los fixes no se compran con recall) + l
 checks nuevos. Brazo determinista $0; el híbrido queda en preflight (paga el
 orquestador).
 
+v8 (seed=276, el fichero EVOLUCIONA en el sitio — patrón v5→v6; la corrida v7 queda
+congelada en git): valida la WHITELIST fail-closed de forma-buena (must_preserve v5,
+INVERSIÓN DE CONTRATO tras la Etapa 3 v2) con 2 tipos nuevos derivados de las clases
+OBSERVADAS en ruta viva: heading_only (cabecera-sola «### <ins>ADVERTENCIA</ins>»
+jamás se anexa) y ui_dump (volcado de descripción de UI multi-línea como
+lado-enumeración de un disclosure jamás dispara). Las filas cuyo átomo target no pasa
+la whitelist se RE-ETIQUETAN como skip DECLARADO (whitelist_bad_form: silencio por
+diseño, no miss del mecanismo) y su volumen se REPORTA en el gate.
+
 Uso:
   python scripts/s271_mutation_harness_v7.py --build-cohort   # GET-only, $0
-  python scripts/s271_mutation_harness_v7.py --freeze         # prereg v7
+  python scripts/s271_mutation_harness_v7.py --freeze         # prereg v8
   python scripts/s271_mutation_harness_v7.py --run            # brazo det ($0)
   python scripts/s271_mutation_harness_v7.py --gate           # veredicto
 """
@@ -61,14 +70,15 @@ H5 = _load("s270_mutation_harness_v5", "scripts/s270_mutation_harness_v5.py")
 H = H5.H  # harness s269 base (con run_mechanism ya rebindado a la selección v2)
 
 EVALS = ROOT / "evals"
-COHORT_PATH = EVALS / "s271_mutation_cohort_v7.jsonl"
-BUILD_REPORT_PATH = EVALS / "s271_mutation_cohort_v7_build.json"
-PREREG_PATH = EVALS / "s271_stage1_v7_prereg_v1.yaml"
-RESULTS_DET_PATH = EVALS / "s271_stage1_v7_results_det_c275.jsonl"
-GATE_OUT_PATH = EVALS / "s271_stage1_v7_gate_v1.yaml"
+COHORT_V7_PATH = EVALS / "s271_mutation_cohort_v7.jsonl"  # seed-275 (excluida en v8)
+COHORT_PATH = EVALS / "s271_mutation_cohort_v8.jsonl"
+BUILD_REPORT_PATH = EVALS / "s271_mutation_cohort_v8_build.json"
+PREREG_PATH = EVALS / "s271_stage1_v8_prereg_v1.yaml"
+RESULTS_DET_PATH = EVALS / "s271_stage1_v8_results_det_c276.jsonl"
+GATE_OUT_PATH = EVALS / "s271_stage1_v8_gate_v1.yaml"
 
-SEED = 275
-# gates heredados ÍNTEGROS del prereg v6 + los 3 checks de activación s271
+SEED = 276
+# gates heredados ÍNTEGROS del prereg v6 + checks de activación s271 (v7) + whitelist (v8)
 GATES = dict(H5.GATES) | {
     "dup_span_fp_max": 0,             # span duplicado en el anexo = FP
     "dup_span_control_loss_max": 0,   # dos hechos distintos colapsados = FP
@@ -77,6 +87,10 @@ GATES = dict(H5.GATES) | {
     "navcrumb_fp_max": 0,             # conteo ligado a crumb de navegación = FP
     "navcrumb_no_relevance_fp_max": 0,
     "navcrumb_positive_recall_min": 0.80,
+    # v8 — clases nuevas de la Etapa 3 v2 (whitelist fail-closed)
+    "heading_only_fp_max": 0,         # cabecera-sola anexada = FP
+    "heading_only_control_recall_min": 0.80,
+    "ui_dump_fp_max": 0,              # ui-dump como lado de disclosure disparado = FP
 }
 
 TEMPLATES_V7_EXTRA = {
@@ -90,6 +104,14 @@ TEMPLATES_V7_EXTRA = {
     "enum_item_words": ("Elemento", "Registro", "Componente"),
     "blank_row": "| E{i} |   |",
     "blank_sep": "| --- | - |",
+    # v8 — clases observadas en la Etapa 3 v2 (forma genérica, no gold-derived)
+    "heading_only": "### <ins>{trigger}</ins>",
+    "ui_dump": (
+        "- Right sidebar with options: GENERAL, OPCIONES, REGISTROS, AJUSTES "
+        "(highlighted), CONFIG, SALIDA\n"
+        '- Bottom buttons: "Guardar y reiniciar" and "INICIO"\n'
+        '- Header: "Panel_template 20:17 - martes, 31 de marzo de 2020"]'
+    ),
 }
 
 
@@ -112,6 +134,7 @@ def build_cohort() -> int:
         ("seed272_cohort_docs_exclusion", H.COHORT_PATH),        # cohorte v4
         ("seed273_cohort_docs_exclusion", H5.COHORT_SEED273_PATH),  # cohorte v5
         ("seed274_cohort_docs_exclusion", H5.COHORT_PATH),       # cohorte v6
+        ("seed275_cohort_docs_exclusion", COHORT_V7_PATH),       # cohorte v7
     ):
         docs = sorted({r["document_id"] for r in H.load_jsonl(path)})
         if not docs:
@@ -193,7 +216,7 @@ def build_cohort() -> int:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
     report = {
-        "schema": "s271_mutation_cohort_v7_build_v1",
+        "schema": "s271_mutation_cohort_v8_build_v1",
         "created_utc": H._now(),
         "seed": SEED,
         "chunks_table": table,
@@ -211,7 +234,7 @@ def build_cohort() -> int:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
-    print(f"Cohorte v7: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
+    print(f"Cohorte v8: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
     print(f"Composición: {composition}")
     return 0
 
@@ -289,6 +312,8 @@ def evaluate_dup_span_rows(row: dict, atoms: list[dict]) -> list[dict]:
         "key": f"{row['fragment_id']}|dup_span",
         "measure": "dup_span",
     }
+    if not mp.atom_good_form(target):
+        return [base | {"puntuable": False, "skip_reason": "whitelist_bad_form"}]
     if not mp.atom_exigible_in(target, draft):
         return [base | {"puntuable": False, "skip_reason": "binding_guard"}]
     atoms_dup = atoms + [copy.deepcopy(target)]
@@ -324,8 +349,8 @@ def evaluate_dup_control_rows(rows: list[dict], atoms_by_fragment: dict,
         if target_a is None or (target_a.get("meta") or {}).get("seven_segment_risk"):
             continue
         span_a = (target_a.get("span_text") or "").strip()
-        if not mp.informative_span(span_a):
-            continue
+        if not mp.atom_good_form(target_a):
+            continue  # v8: el control usa solo átomos que la whitelist admite
         pair = None
         for j in range(1, len(ordered)):
             row_b = ordered[(i + j) % len(ordered)]
@@ -338,7 +363,7 @@ def evaluate_dup_control_rows(rows: list[dict], atoms_by_fragment: dict,
             ):
                 continue
             span_b = (target_b.get("span_text") or "").strip()
-            if not mp.informative_span(span_b):
+            if not mp.atom_good_form(target_b):
                 continue
             fold_a = mp._fold_ws(span_a)[0]
             fold_b = mp._fold_ws(span_b)[0]
@@ -378,9 +403,12 @@ def _blank_table(n: int) -> str:
 
 
 def evaluate_empty_enum_rows(row: dict, atoms: list[dict]) -> list[dict]:
-    """empty_enum (bloqueador 2): el MISMO átomo F-COUNT en conflicto con su
-    enum_span_text sustituido por una tabla de celdas-EN-BLANCO no dispara el
-    disclosure; con la enumeración real (control) sigue disparando con ambos lados."""
+    """empty_enum (bloqueador 2) + ui_dump (v8, Etapa 3 v2): el MISMO átomo F-COUNT
+    en conflicto con su enum_span_text sustituido por (a) una tabla de celdas
+    EN-BLANCO o (b) un volcado de descripción de UI multi-línea no dispara el
+    disclosure; con la enumeración real (control) sigue disparando con ambos lados
+    — control condicionado a que el átomo real pase la whitelist (si no, skip
+    declarado: su silencio es DISEÑO, medido por los FP de blank/ui_dump)."""
     if row["familia"] != mp.FAMILY_COUNT:
         return []
     target = H._locate_target(atoms, row["atom"])
@@ -400,23 +428,78 @@ def evaluate_empty_enum_rows(row: dict, atoms: list[dict]) -> list[dict]:
         "document_id": row["document_id"],
     }
     results: list[dict] = []
-    for label, enum_text, expect_fire in (
-        ("blank", _blank_table(max(2, int(meta.get("enumerated_n") or 3))), False),
-        ("real", enum_span, True),
+    for label, measure, enum_text, expect_fire in (
+        ("blank", "empty_enum",
+         _blank_table(max(2, int(meta.get("enumerated_n") or 3))), False),
+        ("ui_dump", "ui_dump", TEMPLATES_V7_EXTRA["ui_dump"], False),
+        ("real", "empty_enum", enum_span, True),
     ):
         catom = copy.deepcopy(target)
         catom["meta"]["enum_span_text"] = enum_text
         catom["meta"]["fragment_number"] = 1
+        if expect_fire and not mp.atom_good_form(catom):
+            results.append(base | {
+                "key": f"{row['fragment_id']}|empty_enum|{label}",
+                "measure": measure, "variant_label": label,
+                "puntuable": False, "skip_reason": "whitelist_bad_form",
+            })
+            continue
         appendix = mp.render_appendix([catom], draft)
         fired = bool(appendix) and span in appendix
         results.append(base | {
             "key": f"{row['fragment_id']}|empty_enum|{label}",
-            "measure": "empty_enum", "variant_label": label,
+            "measure": measure, "variant_label": label,
             "puntuable": True,
             "fp_blank": (fired if not expect_fire else None),
             "detected": (
                 (fired and enum_text in appendix) if expect_fire else None
             ),
+        })
+    return results
+
+
+def evaluate_heading_only_rows(row: dict, atoms: list[dict]) -> list[dict]:
+    """heading_only (v8, Etapa 3 v2 cat007): un átomo MANDATORY cuyo span es SOLO la
+    cabecera («### <ins>ADVERTENCIA</ins>») jamás se anexa; control: la cláusula
+    MANDATORY real del fragmento (si pasa la whitelist) sigue anexándose."""
+    if row["familia"] != mp.FAMILY_MANDATORY:
+        return []
+    target = H._locate_target(atoms, row["atom"])
+    if target is None:
+        return []
+    meta = target.get("meta") or {}
+    triggers = [t for t in (meta.get("triggers") or []) if "+" not in t]
+    trigger = (triggers[0] if triggers else "advertencia").upper()
+    draft = "Siga el procedimiento de instalación descrito en la fuente [F1]"
+    base = {
+        "fragment_id": row["fragment_id"], "familia": row["familia"],
+        "document_id": row["document_id"],
+    }
+    heading_atom = copy.deepcopy(target)
+    heading_atom["span_text"] = TEMPLATES_V7_EXTRA["heading_only"].format(
+        trigger=trigger
+    )
+    heading_atom["meta"]["fragment_number"] = 1
+    fp = bool(mp._select_for_appendix([heading_atom], draft))
+    results = [base | {
+        "key": f"{row['fragment_id']}|heading_only|heading",
+        "measure": "heading_only", "variant_label": "heading",
+        "puntuable": True, "fp_heading": fp,
+    }]
+    control = copy.deepcopy(target)
+    control["meta"]["fragment_number"] = 1
+    if not mp.atom_good_form(control):
+        results.append(base | {
+            "key": f"{row['fragment_id']}|heading_only|control",
+            "measure": "heading_only", "variant_label": "control",
+            "puntuable": False, "skip_reason": "whitelist_bad_form",
+        })
+    else:
+        results.append(base | {
+            "key": f"{row['fragment_id']}|heading_only|control",
+            "measure": "heading_only", "variant_label": "control",
+            "puntuable": True,
+            "detected": bool(mp._select_for_appendix([control], draft)),
         })
     return results
 
@@ -532,11 +615,11 @@ def run_arm(hybrid: bool, execute: bool) -> int:
     prereg = yaml.safe_load(PREREG_PATH.read_text(encoding="utf-8"))
     frozen = prereg["freeze"]
     if H.sha256_file(COHORT_PATH) != frozen["cohort_sha256"]:
-        raise RuntimeError("freeze roto: cohorte v7 ≠ prereg")
+        raise RuntimeError("freeze roto: cohorte v8 ≠ prereg")
     if H.sha256_file(ROOT / "src/rag/must_preserve.py") != frozen["must_preserve_sha256"]:
         raise RuntimeError("freeze roto: must_preserve.py ≠ prereg")
     rows = H.load_jsonl(COHORT_PATH)
-    print(f"Cohorte v7 verificada (freeze OK): {len(rows)} filas")
+    print(f"Cohorte v8 verificada (freeze OK): {len(rows)} filas")
 
     if hybrid:
         estimate = H._hybrid_cost_estimate(rows)
@@ -563,9 +646,23 @@ def run_arm(hybrid: bool, execute: bool) -> int:
             out.flush()
             written += 1
 
+        def relabel_whitelist_skip(result: dict) -> dict:
+            """v8: fila cuyo átomo target no pasa la whitelist → skip DECLARADO
+            (silencio por DISEÑO del mecanismo v5, no miss); el volumen se reporta
+            en el gate (whitelist_skips_reported)."""
+            return {
+                **result, "puntuable": False, "detected": None,
+                "skip_reason": "whitelist_bad_form_target",
+            }
+
         for row in rows:
             atoms = atoms_by_fragment[row["fragment_id"]]
+            target = H._locate_target(atoms, row["atom"])
+            target_good = target is not None and mp.atom_good_form(target)
             for result in H.evaluate_fragment_rows(row, atoms):
+                if (result.get("measure") == "mutation" and result.get("puntuable")
+                        and not target_good):
+                    result = relabel_whitelist_skip(result)
                 # re-spec opción-a (heredado v5/v6): clean con FP de CALIDAD
                 if result.get("measure") == "clean" and result.get("puntuable"):
                     mutations = H.generate_mutations(row)
@@ -583,18 +680,28 @@ def run_arm(hybrid: bool, execute: bool) -> int:
                         )
                 emit(result)
             for result in evaluate_display_rows_v7(row, atoms):
+                if result.get("puntuable") and not target_good:
+                    result = relabel_whitelist_skip(result)
                 emit(result)
             for result in H5.evaluate_cross_count_rows(row):
+                # el control far_page es de DETECCIÓN (no render): no se re-etiqueta
+                if (result.get("variant_label") == "adjacent"
+                        and result.get("puntuable") and not target_good):
+                    result = relabel_whitelist_skip(result)
                 emit(result)
             for result in H5.evaluate_grounding_rows(row):
                 emit(result)
             for result in H5.evaluate_disclosure_rows(row, atoms):
+                if result.get("puntuable") and not target_good:
+                    result = relabel_whitelist_skip(result)
                 emit(result)
             for result in evaluate_dup_span_rows(row, atoms):
                 emit(result)
             for result in evaluate_empty_enum_rows(row, atoms):
                 emit(result)
             for result in evaluate_navcrumb_rows(row):
+                emit(result)
+            for result in evaluate_heading_only_rows(row, atoms):
                 emit(result)
         for result in H.evaluate_cross_rows(rows, atoms_by_fragment):
             emit(result)
@@ -622,7 +729,7 @@ def gate() -> int:
         den = [r for r in rows if pred_den(r)]
         return (len(num) / len(den)) if den else None, len(num), len(den)
 
-    verdict: dict = {"schema": "s271_stage1_v7_gate_v1", "created_utc": H._now(),
+    verdict: dict = {"schema": "s271_stage1_v8_gate_v1", "created_utc": H._now(),
                      "arm": "det", "families": {}, "checks": {}}
     ok = True
     for fam in H.FAMILIES:
@@ -646,11 +753,14 @@ def gate() -> int:
         r for r in rows if r.get("measure") == "display"
         and r.get("variant_label") == "without_token" and r.get("fp_new_surface")
     ])
+    # v8 (fix de gate declarado, 1ª pasada c276): el predicado heredado de v5 no
+    # filtraba puntuable (en v5 todas las filas adjacent lo eran); con el relabel
+    # de whitelist el denominador debe ser el mismo que en el resto de recalls.
     cross_r, cross_n, cross_d = rate(
-        lambda x: x.get("measure") == "cross_count"
+        lambda x: x.get("measure") == "cross_count" and x.get("puntuable")
         and x.get("variant_label") == "adjacent" and x.get("detected")
         and x.get("dual_cite"),
-        lambda x: x.get("measure") == "cross_count"
+        lambda x: x.get("measure") == "cross_count" and x.get("puntuable")
         and x.get("variant_label") == "adjacent",
     )
     cross_far_fp = len([
@@ -688,10 +798,45 @@ def gate() -> int:
         lambda x: x.get("measure") == "navcrumb" and x.get("puntuable")
         and x.get("variant_label") == "positive",
     )
+    heading_fp = len([
+        r for r in rows if r.get("measure") == "heading_only"
+        and r.get("variant_label") == "heading" and r.get("fp_heading")
+    ])
+    heading_r, heading_n, heading_d = rate(
+        lambda x: x.get("measure") == "heading_only" and x.get("puntuable")
+        and x.get("variant_label") == "control" and x.get("detected"),
+        lambda x: x.get("measure") == "heading_only" and x.get("puntuable")
+        and x.get("variant_label") == "control",
+    )
+    uidump_fp = len([
+        r for r in rows if r.get("measure") == "ui_dump" and r.get("fp_blank")
+    ])
+    whitelist_skips: dict[str, int] = {}
+    wl_by_family: dict[str, int] = {}
+    for r in rows:
+        if str(r.get("skip_reason") or "").startswith("whitelist_bad_form"):
+            m = str(r.get("measure"))
+            whitelist_skips[m] = whitelist_skips.get(m, 0) + 1
+            if m == "mutation":
+                fam = str(r.get("familia"))
+                wl_by_family[fam] = wl_by_family.get(fam, 0) + 1
     scored = [r for r in rows if r.get("puntuable")]
+    # v8 (re-spec de gate DECLARADO, 1ª pasada c276: coverage 0.807): coverage mide
+    # la salud del INSTRUMENTO (filas que el harness no pudo puntuar); el silencio
+    # por DISEÑO de la whitelist (skip whitelist_bad_form*) NO es incapacidad del
+    # instrumento — se separa en su propia métrica VISIBLE (whitelist_silence_share,
+    # reportada) para que el coste real de la whitelist no se esconda en coverage.
+    all_rows = [r for r in rows if "puntuable" in r]
+    instrument_rows = [
+        r for r in all_rows
+        if not str(r.get("skip_reason") or "").startswith("whitelist_bad_form")
+    ]
     coverage = (
-        len(scored) / len([r for r in rows if "puntuable" in r])
-        if rows else None
+        len(scored) / len(instrument_rows) if instrument_rows else None
+    )
+    wl_total = sum(whitelist_skips.values())
+    whitelist_silence_share = (
+        wl_total / len(all_rows) if all_rows else None
     )
     checks = {
         "display_recall": {"value": disp_r, "n": disp_n, "d": disp_d,
@@ -743,6 +888,25 @@ def gate() -> int:
                                      "pass": nav_norel_fp <= gates["navcrumb_no_relevance_fp_max"]},
         "navcrumb_positive_recall": {"value": nav_r, "n": nav_n, "d": nav_d,
                                      "pass": nav_d == 0 or (nav_r or 0) >= gates["navcrumb_positive_recall_min"]},
+        # ── checks whitelist v8 (clases de la Etapa 3 v2) ──
+        "heading_only_fp": {"value": heading_fp,
+                            "pass": heading_fp <= gates["heading_only_fp_max"]},
+        "heading_only_control_recall": {
+            "value": heading_r, "n": heading_n, "d": heading_d,
+            "pass": heading_d == 0
+            or (heading_r or 0) >= gates["heading_only_control_recall_min"],
+        },
+        "ui_dump_fp": {"value": uidump_fp,
+                       "pass": uidump_fp <= gates["ui_dump_fp_max"]},
+        "whitelist_skips_reported": {
+            "value": whitelist_skips,
+            "mutation_by_family": wl_by_family,
+            "pass": True,
+        },
+        "whitelist_silence_share_reported": {
+            "value": whitelist_silence_share, "total_skips": wl_total,
+            "pass": True,
+        },
         "coverage": {"value": coverage,
                      "pass": coverage is not None and coverage >= gates["coverage_min"]},
     }
@@ -766,18 +930,18 @@ def gate() -> int:
 
 def freeze() -> int:
     if not COHORT_PATH.exists():
-        raise RuntimeError("cohorte v7 no construida: --build-cohort primero")
+        raise RuntimeError("cohorte v8 no construida: --build-cohort primero")
     rows = H.load_jsonl(COHORT_PATH)
     build = json.loads(BUILD_REPORT_PATH.read_text(encoding="utf-8"))
     prereg = {
-        "schema": "s271_stage1_v7_prereg_v1",
+        "schema": "s271_stage1_v8_prereg_v1",
         "status": "FROZEN_BEFORE_RUN",
         "created_utc": H._now(),
-        "predecessor": "evals/s270_stage1_v6_gate_v1.yaml (seed-274, GO)",
+        "predecessor": "evals/s271_stage1_v7_gate_v1.yaml (seed-275, GO) + evals/s270_stage1_v6_gate_v1.yaml (seed-274, GO)",
         "mechanism": (
-            "must_preserve v4 (s271): guards de ACTIVACIÓN de los 3 bloqueadores de "
-            "DEC-127b — dedup del render, contenido informativo, tie estricto del "
-            "F-COUNT a distancia"
+            "must_preserve v5 (s271 iteración final): WHITELIST fail-closed de "
+            "forma-buena en el render (INVERSIÓN DE CONTRATO tras la Etapa 3 v2) "
+            "sobre los guards v4 (dedup + contenido informativo + tie estricto)"
         ),
         "seed": SEED,
         "gates": dict(GATES),
@@ -831,8 +995,31 @@ def freeze() -> int:
             "status": "PREFLIGHT_ONLY_THIS_SESSION",
         },
         "honest_declarations": [
-            "SEXTA población fresca (seed-275); exclusiones ACUMULADAS: cohorte v1 + "
-            "seed-270..274. Las medidas previas quedan como evidencia versionada.",
+            "SÉPTIMA población fresca (seed-276); exclusiones ACUMULADAS: cohorte "
+            "v1 + seed-270..275. Las medidas previas quedan como evidencia "
+            "versionada.",
+            "WHITELIST v5 (v8 de este harness): las filas cuyo átomo target NO pasa "
+            "la whitelist se re-etiquetan como skip DECLARADO "
+            "(whitelist_bad_form*): su silencio es DISEÑO del mecanismo (silencio > "
+            "ruido), no miss — las clases silenciadas se miden como FP en "
+            "heading_only/ui_dump/empty_enum. El volumen de skips se REPORTA en el "
+            "gate (whitelist_skips_reported) y penaliza coverage: si el recorte "
+            "real de recall fuera material, coverage/recalls lo hacen visible — "
+            "los fixes no se compran con recall en silencio.",
+            "heading_only/ui_dump usan TEMPLATES genéricos que reproducen la FORMA "
+            "de las clases observadas en la Etapa 3 v2 (cabecera-sola; volcado de "
+            "UI), no los textos gold.",
+            "ITERACIÓN DE GATE DECLARADA (post 1ª pasada c276, results INTACTOS — "
+            "solo cambia el gate): (1) cross_count_recall heredaba de v5 un "
+            "denominador sin filtro puntuable (en v5 todas las filas lo eran); con "
+            "el relabel de whitelist daba 10/27=0.37 cuando el recall real sobre "
+            "filas puntuables es 10/11=0.909 — fix de predicado, consistente con "
+            "el resto de recalls. (2) coverage (1ª pasada 0.807) mezclaba skips de "
+            "INSTRUMENTO con el silencio-por-DISEÑO de la whitelist (208 filas); "
+            "se re-especifica coverage a salud-de-instrumento y el coste de la "
+            "whitelist queda VISIBLE en whitelist_silence_share_reported + "
+            "whitelist_skips_reported (por medida y por familia) — el recorte no "
+            "se esconde, se reporta como métrica propia.",
             "Los guards v4 derivan de los 3 bloqueadores OBSERVADOS en la Etapa 3 "
             "viva (evals/s270_etapa3_smoke_appendices_v1.jsonl, DEC-127b), no de los "
             "textos gold; este harness los valida en población fresca ANTES del "
@@ -864,7 +1051,7 @@ def freeze() -> int:
         yaml.safe_dump(prereg, allow_unicode=True, sort_keys=False, width=100),
         encoding="utf-8", newline="\n",
     )
-    print(f"Prereg v7 congelado: {PREREG_PATH.relative_to(ROOT)}")
+    print(f"Prereg v8 congelado: {PREREG_PATH.relative_to(ROOT)}")
     return 0
 
 

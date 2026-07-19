@@ -50,6 +50,23 @@ viva, mecánicos y genéricos, SIN tocar el contrato de binding):
      (sustantivo contado en la enumeración, o heading de la sección compartiendo ≥1 token
      con la oración del conteo; en cross: sustantivo o continuación de la MISMA sección a
      través del corte). El tie adyacente aplica también los guards de crumb/informativo.
+
+v5 (s271 iteración FINAL del Bloque A; Etapa 3 v2 sacó 2 clases nuevas en cola larga —
+cabecera-sola «### <ins>ADVERTENCIA</ins>» anexada como MANDATORY y conteo emparejado con
+un volcado de descripción de UI multi-línea): INVERSIÓN DE CONTRATO en el render — de
+blacklist a WHITELIST fail-closed de forma-buena por span (``atom_good_form``):
+  (1) cláusula textual completa — ≥1 oración con verbo CONJUGADO (léxico cerrado ES/EN;
+      los infinitivos/gerundios de los volcados de UI NO cuentan) y ≥40 chars de contenido
+      tras quitar markup/headers; O
+  (2) fila(s) etiqueta+valor — ≥1 token numérico CON UNIDAD y su etiqueta textual en la
+      misma línea (un número pelado sin unidad NO es valor: «Lazos | 2» y los timestamps
+      de headers de UI quedan fuera — calibrado con los casos observados).
+  Los headers/markers (``###``, ``<ins>``, énfasis) JAMÁS cuentan como contenido. Por
+  familia: MANDATORY exige el trigger léxico + SU oración con verbo (jamás solo el
+  título); BUNDLE exige ≥2 miembros CON descripción (no solo nombres); en un disclosure
+  AMBOS lados deben pasar individualmente o el disclosure entero no dispara. Lo que no
+  pasa NO se anexa: silencio > ruido (uncertain jamás se sirve). Los spans anexados
+  siguen siendo VERBATIM — la whitelist decide inclusión, nunca reescribe.
 """
 from __future__ import annotations
 
@@ -1640,6 +1657,171 @@ def attest_identity(fragment_doc_id, resolved_models, catalog=None) -> bool:
         return False
 
 
+# ────────────── whitelist de forma-buena (v5, s271 iteración final) ──────────────
+# INVERSIÓN DE CONTRATO (coordinador, Etapa 3 v2): el render deja de descartar formas
+# malas conocidas (blacklist) y pasa a admitir SOLO formas buenas (fail-closed).
+
+_HTML_TAG_RX = re.compile(r"</?[A-Za-z][^>\n]*>")
+_EMPHASIS_RX = re.compile(r"(\*\*|__|~~|`+)")
+_BULLET_MARK_RX = re.compile(r"^\s*(?:[-•*·◦]|\d{1,2}[.)])\s+")
+_MIN_CLAUSE_CONTENT = 40
+
+# Verbos CONJUGADOS de alta frecuencia en manuales (léxico cerrado ES/EN, foldeado).
+# Los infinitivos ("guardar", "reiniciar") y gerundios ("showing") NO cuentan — son
+# la superficie típica de los volcados de UI/botones que motivaron la whitelist.
+_FINITE_VERB_FORMS = {
+    # es — copulativos/auxiliares/modales
+    "es", "son", "esta", "estan", "era", "eran", "sera", "seran", "hay", "habra",
+    "ha", "han", "va", "van", "debe", "deben", "debera", "deberan", "puede",
+    "pueden", "podra", "podran", "tiene", "tienen", "tendra", "tendran",
+    # es — verbos de manual (presente/futuro 3ª)
+    "permite", "permiten", "dispone", "disponen", "incluye", "incluyen",
+    "requiere", "requieren", "necesita", "necesitan", "admite", "admiten",
+    "soporta", "soportan", "ofrece", "ofrecen", "proporciona", "proporcionan",
+    "contiene", "contienen", "define", "definen", "indica", "indican", "muestra",
+    "muestran", "mostrara", "aparece", "aparecen", "activa", "activan",
+    "activara", "desactiva", "desactivan", "funciona", "funcionan",
+    "corresponde", "corresponden", "utiliza", "utilizan", "realiza", "realizan",
+    "provoca", "provocan", "provocara", "evita", "evitan", "supera", "superan",
+    "garantiza", "garantizan", "configura", "configuran", "detiene", "detienen",
+    "enciende", "encienden", "apaga", "apagan", "parpadea", "parpadean", "emite",
+    "emiten", "recibe", "reciben", "conecta", "conectan", "aplica", "aplican",
+    "cumple", "cumplen", "excede", "exceden", "alcanza", "alcanzan", "queda",
+    "quedan", "lleva", "llevan", "forma", "forman", "usa", "usan", "vuelve",
+    "vuelven", "regresa", "regresan", "sirve", "sirven", "consta", "constan",
+    # en
+    "is", "are", "was", "were", "has", "have", "had", "must", "can", "may",
+    "shall", "will", "should", "would", "does", "do", "provides", "includes",
+    "requires", "needs", "shows", "indicates", "displays", "contains",
+    "supports", "allows", "enables", "activates", "deactivates", "appears",
+    "ensures", "exceeds", "corresponds", "applies", "uses", "operates",
+    "connects", "remains", "becomes", "means", "defines", "describes",
+    "specifies", "starts", "stops", "returns",
+}
+# imperativos del léxico procedimental (formas CONJUGADAS: "pulse", "conecte",
+# "press"...); se excluyen los infinitivos del propio léxico ("pulsar", "conectar")
+_FINITE_VERB_SET = _FINITE_VERB_FORMS | {
+    v for v in _PROCEDURAL_VERBS if not v.endswith(("ar", "er", "ir"))
+}
+# pasiva/impersonal refleja: "se activa", "se muestran", "se detiene"
+_SE_VERB_RX = re.compile(r"\bse\s+[a-z]{3,}(?:a|e|an|en)\b")
+
+
+def _strip_markup(text: str) -> str:
+    """Contenido sin markup: fuera líneas de heading (``#``...) y separadores de
+    tabla; fuera tags HTML, énfasis y marcadores de viñeta. Los headers/markers
+    JAMÁS cuentan como contenido (bloqueador cabecera-sola de la Etapa 3 v2)."""
+    kept: list[str] = []
+    for _start, _end, line in _line_spans(text or ""):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            continue  # heading: nunca es contenido
+        if _PIPE_SEP.match(line):
+            continue  # separador de tabla markdown
+        line = _HTML_TAG_RX.sub(" ", line)
+        line = _EMPHASIS_RX.sub("", line)
+        line = _BULLET_MARK_RX.sub("", line)
+        if line.strip():
+            kept.append(line)
+    return "\n".join(kept)
+
+
+def _sentence_has_finite_verb(sentence: str) -> bool:
+    folded = _fold(sentence)
+    tokens = set(_WORD_RX.findall(folded))
+    if tokens & _FINITE_VERB_SET:
+        return True
+    return bool(_SE_VERB_RX.search(folded))
+
+
+def _clause_form(content: str) -> bool:
+    """Arm 1 de la whitelist: cláusula textual completa — ≥40 chars de contenido y
+    ≥1 oración con verbo conjugado (heurística cerrada ES/EN)."""
+    if len(" ".join(content.split())) < _MIN_CLAUSE_CONTENT:
+        return False
+    return any(
+        _sentence_has_finite_verb(content[s:e]) for s, e in _sentence_spans(content)
+    )
+
+
+# valor = número CON UNIDAD y frontera izquierda (el "1" de "T1" o un timestamp
+# "20:17" no son valores; "Lazos | 2" tampoco — número pelado sin unidad)
+_RX_NUM_UNIT_BOUND = re.compile(
+    rf"(?<![A-Za-z0-9.,:]){_NUM}\s*(?:{_UNIT_ALT})(?![a-z0-9])", re.IGNORECASE
+)
+_LABEL_TOKEN_RX = re.compile(r"[A-Za-zÁÉÍÓÚÑÜáéíóúñü]{3,}")
+
+
+def _label_value_form(content: str) -> bool:
+    """Arm 2 de la whitelist: fila(s) etiqueta+valor — ≥1 línea con un token
+    numérico CON unidad y una etiqueta textual (≥3 letras) en la misma línea."""
+    for _start, _end, line in _line_spans(content):
+        flat = line.replace("|", " ")
+        if _RX_NUM_UNIT_BOUND.search(flat) and _LABEL_TOKEN_RX.search(flat):
+            return True
+    return False
+
+
+def span_good_form(text: str) -> bool:
+    """Whitelist genérica de un span/lado: cláusula completa O fila etiqueta+valor,
+    siempre sobre el contenido SIN markup/headers. Fail-closed: vacío → False."""
+    content = _strip_markup(text or "")
+    if not content.strip():
+        return False
+    return _clause_form(content) or _label_value_form(content)
+
+
+def _mandatory_clause_form(span: str) -> bool:
+    """MANDATORY: el span debe incluir la CLÁUSULA obligatoria — el trigger léxico
+    y SU oración con verbo conjugado, jamás solo el título («### ADVERTENCIA»)."""
+    content = _strip_markup(span or "")
+    if len(" ".join(content.split())) < _MIN_CLAUSE_CONTENT:
+        return False
+    for s, e in _sentence_spans(content):
+        sentence = content[s:e]
+        if _mandatory_triggers(sentence) and _sentence_has_finite_verb(sentence):
+            return True
+    return False
+
+
+def _bundle_member_form(span: str) -> bool:
+    """BUNDLE: los miembros deben llevar su DESCRIPCIÓN (≥2 líneas de definición
+    con descripción textual), no solo el nombre; o filas etiqueta+valor."""
+    content = _strip_markup(span or "")
+    described = 0
+    for _start, _end, line in _line_spans(content):
+        d = _DEFLINE.match(line)
+        if d and _LABEL_TOKEN_RX.search(d.group(2) or ""):
+            described += 1
+            if described >= 2:
+                return True
+    return _label_value_form(content)
+
+
+def atom_good_form(atom: Atom) -> bool:
+    """Whitelist fail-closed POR ÁTOMO (v5): la forma-buena de su familia sobre el
+    span y, si es un disclosure, sobre AMBOS lados individualmente. Lo que no pasa
+    NO se anexa — silencio > ruido."""
+    span = atom.get("span_text") or ""
+    meta = atom.get("meta") or {}
+    family = atom.get("family")
+    if family == FAMILY_MANDATORY:
+        if not _mandatory_clause_form(span):
+            return False
+    elif family == FAMILY_BUNDLE:
+        if not _bundle_member_form(span):
+            return False
+    else:
+        if not span_good_form(span):
+            return False
+    if meta.get("conflict") and meta.get("enum_span_text") is not None:
+        if not span_good_form(str(meta.get("enum_span_text"))):
+            return False
+    return True
+
+
 # ─────────────────────────────── render ───────────────────────────────
 
 _RX_NUM_UNIT = re.compile(rf"({_NUM})\s*({_UNIT_ALT})(?![a-z0-9])", re.IGNORECASE)
@@ -1739,18 +1921,21 @@ def _select_for_appendix(
     ningún lado del anexo puede ser vacío/celdas-en-blanco; si el lado-enumeración de
     un disclosure no es informativo, el disclosure ENTERO no dispara; (b) dedup del
     render — dos átomos con span idéntico tras fold (o solapado ≥90% con el mismo
-    contenido numérico) anexan una sola vez."""
+    contenido numérico) anexan una sola vez.
+
+    v5 (s271 iteración final, INVERSIÓN DE CONTRATO): whitelist fail-closed de
+    forma-buena por átomo (``atom_good_form`` — cláusula con verbo conjugado o fila
+    etiqueta+valor; headers jamás; MANDATORY = trigger + su oración; BUNDLE =
+    miembros con descripción; disclosure = ambos lados). Lo que no pasa NO se anexa
+    (silencio > ruido); el guard informativo v4 queda subsumido y se mantiene como
+    cinturón en detección (ties F-COUNT)."""
     eligible = []
     for a in missing_atoms:
         meta = a.get("meta") or {}
         if meta.get("seven_segment_risk") and not display_parity_ok(a, draft_answer):
             continue
-        if not informative_span(a.get("span_text") or ""):
-            continue
-        if meta.get("conflict") and meta.get("enum_span_text") is not None and (
-            not informative_span(str(meta.get("enum_span_text")))
-        ):
-            continue  # disclosure con lado-enumeración no informativo: no dispara
+        if not atom_good_form(a):
+            continue  # v5 whitelist fail-closed: sin forma-buena no se anexa
         eligible.append(a)
     ordered = sorted(
         enumerate(eligible),
