@@ -1,5 +1,14 @@
 # s272 — Diagnóstico por-fact de los 2 retrieval-miss del funnel (Bloque B)
 
+> **[ERRATA s273 — adjudicación de Alberto; el cuerpo medido de abajo NO se toca.]** La frase
+> «la cuota nunca se midió» (§1d) es INCORRECTA: la cuota del canal enunciados SÍ fue construida
+> y medida en s105 (DEC-103 pre-Codex) — mecánica de entrada-al-sort, N=10: gate barato a T1
+> +0/−0 PASS, NO-GO a 71.202 filas, cierre «bajo esta mecánica; no subir N ni tunear contra
+> hp006». Autoridad: `docs/PLAN_RAG_2026.md` §«Estado anterior (s105 — 10 jul 2026)» en la rama
+> `codex/s107-wip-backup` (`33977c15f6…`; colisión de numeración DEC-103..105 — ver
+> `evals/s273_quota_design_v1.md` §0 y §7). Los ranks/sims/floors medidos de este diagnóstico
+> quedan intactos y vigentes.
+
 **Targets:** `cat017#2` y `hp010#1` — los 2 retrieval-miss residuales del funnel candidato 143 OK / 12 synth / 2 retrieval
 (adjudicados CORE-REQUIRED en `evals/s269_triage_12misses_v1.yaml`).
 **Contrato:** SOLO-diagnóstico. DB solo GET/RPC read-only; pagado únicamente el retrieval real (2× embedding Voyage

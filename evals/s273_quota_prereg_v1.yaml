@@ -5,19 +5,31 @@ design_doc: evals/s273_quota_design_v1.md
 diagnosis_input: evals/s273_retrieval2_diagnosis_v1.md
 
 # ---------------------------------------------------------------------------
-# Fork de Protocolo 4 (declarado completo en design_doc seccion 0; resumen operativo):
-# la cita del brief atribuye el NO-GO 71.202 a "DEC-103 (s105)"; el repo lo registra en
-# DEC-102 (s104) con anclas perdidas hp005#2 + hp006#2/ISO-X y la cuota como FIX PENDIENTE.
-# Discrepancia declarada para adjudicacion del duo/Alberto. Restricciones heredadas del
-# cierre citado, vigentes bajo AMBAS lecturas: Q congelado antes de F1 (no se tunea contra
-# el gold), N de dianas no se sube para buscar gains, no-retry.
+# Fork de Protocolo 4 (declarado completo en design_doc seccion 0; adjudicado por Alberto s273):
+# la cuota del canal enunciados SI fue MEDIDA en s105 (DEC-103 pre-Codex; colision de numeracion:
+# las sesiones Codex renumeraron DEC-103+ para S194+ — design_doc seccion 7). Autoridad del
+# settled = PLAN seccion "Estado anterior (s105 — 10 jul 2026)", preservada en la rama
+# codex/s107-wip-backup. UNA lectura: mecanica entrada-al-sort con N=10, T1-gate PASS +0/-0,
+# NO-GO a 71.202 (0 gains <2 STOP; -2 anclas hp006 Fallo de Tierra + ISO-X; containment
+# cat021/hp005/hp006); cierre verbatim "R2 queda cerrado bajo esta mecanica; no subir N ni
+# tunear contra hp006". La reapertura es legitima porque la metrica de HOY (T1-escala +
+# recarga acotada 2-docs + 2 gains pre-identificadas + mecanica carve-out hyq, NO la cerrada)
+# no es la del NO-GO (71K corpus-wide buscando gains bajo entrada-al-sort).
 # ---------------------------------------------------------------------------
 protocol4_fork:
-  settled_cited_by_brief: "DEC-103 (s105): cuota F1+F2/N=10 -> T1 +0/-0; NO-GO a 71.202 filas; cierre 'no subir N ni tunear contra el gold'"
-  settled_in_repo: "DEC-102 (s104, DECISIONS.md:1682): NO-GO 71.202 sin cuota, gate +0/-2 (hp005#2, hp006#2/ISO-X), cuota = fix pendiente; DEC-103 (DECISIONS.md:1719) es s194/planner"
-  discrepancy_declared_for_adjudication: true
-  todays_metric: "conversion de 2 retrieval-miss CORE pre-identificados (cat017#2, hp010#1) medida por fases con gates heredados; escala T1 21.995 + recarga acotada <=2 docs"
-  inherited_constraints: [q_frozen_before_f1, no_tuning_q_against_gold, no_raising_n_dianas, no_retry]
+  settled_authority: "PLAN_RAG_2026.md seccion 'Estado anterior (s105 — 10 jul 2026)' @ codex/s107-wip-backup"
+  settled_authority_commit: 33977c15f64705670ce377a9bfeee4cba47a9de2
+  settled_verdict: "s105 (DEC-103 pre-Codex): cuota construida, revisada y MEDIDA -> mecanica entrada-al-sort N=10: T1 gate barato PASS +0/-0 (109 facts; diana 4/4; suite 481); NO-GO a 71.202 filas (0 gains <2 STOP; anclas perdidas hp006 Fallo de Tierra + ISO-X; served-containment nuevo cat021/hp005/hp006); rollback contractual a 21.995 T1"
+  settled_closure_verbatim: "R2 queda cerrado bajo esta mecanica; no subir N ni tunear contra hp006"
+  numbering_collision_note: "DECISIONS.md:1719 DEC-103 = s194/planner (renumeracion Codex); las DEC pre-Codex 103-105 se citan via PLAN seccion estado-sXXX hasta re-numeracion formal (design_doc seccion 7)"
+  companion_episode: "DEC-102 (s104, DECISIONS.md:1682): carga 71K SIN cuota, anclas perdidas hp005#2 + hp006#2/ISO-X (evals/s104_t2_gate_anchors.json)"
+  todays_metric: "conversion de 2 retrieval-miss CORE pre-identificados (cat017#2, hp010#1) por fases gateadas; escala T1 21.995 + recarga acotada <=2 docs; mecanica carve-out hyq (slots reservados), NO la entrada-al-sort cerrada"
+  why_reopening_is_legitimate:
+    - "escala: NO-GO fue a 71.202 corpus-wide; hoy T1 (donde la cuota s105 midio +0/-0 = inocua) + <=2 docs (~23.9K)"
+    - "diana: aquel gate buscaba gains sin diana; hoy 2 gains pre-identificadas por diagnostico independiente s272"
+    - "mecanica: el cierre es 'bajo ESTA mecanica' = entrada-al-sort (33977c1 retriever.py: fused += quota; sort; [:top_k]) que NO rescataria a hp010 (0.4268 < floor 0.4556); la de hoy = carve-out con slots reservados (patron hyq DEC-099)"
+    - "guardas: las de AMBOS gates (s104+s105) se heredan en F3"
+  inherited_constraints: [q_frozen_before_f1, q_leq_n_s105, no_tuning_against_hp006_or_gold, no_raising_n_dianas, no_retry]
 
 targets:
   - qid: cat017
@@ -39,13 +51,17 @@ mechanics:
   flag: ENUNCIADOS_QUOTA_FUSION          # default off = sort-mixto actual (prod inerte); parser estricto a nivel de modulo (leccion s96-H3)
   replaces: "sort-mixto src/rag/retriever.py:944-946 (merged = reales + parents; sort; [:top_k])"
   mirror_of: "fusion por cuota hyq DEC-099, src/rag/retriever.py:996-1010"
+  prior_art_s105:
+    where: "codex/s107-wip-backup 33977c1:src/rag/retriever.py:938-978"
+    inherit: [dedup_at_fusion_boost_keepmax_sin_comprar_slot, atomicidad_S4_boosts_sobre_copias_reasignacion_final, tag_enunciado_boosted]
+    replace: "fused += quota; sort; [:top_k] (entrada-al-sort, mecanica CERRADA por s105) -> results[:top_k-|quota|] + quota (slots reservados)"
   steps:
     - "keep-max boost de padres YA en pool (espejo hyq 996-1001), marca _enun_boosted"
     - "padres NUEVOS con sim >= ENUNCIADOS_MIN_SIM, sort desc, top ENUNCIADOS_QUOTA, marca _enun_quota"
     - "carve-out: results[:max(0, top_k - len(quota))] + quota"
     - "proteccion frente al carve-out hyq posterior: composicion final reales[:top_k-|E|-|H|] + E + H (E<=6, H<=10, reales>=34); el trim hyq NO evicta filas _enun_quota"
   hyperparams:
-    ENUNCIADOS_QUOTA: 6                  # minimo que admite el rank-6-de-nuevos de hp010 (diagnostico s272); NO se tunea
+    ENUNCIADOS_QUOTA: 6                  # minimo que admite el rank-6-de-nuevos de hp010 (diagnostico s272); 6 < N=10 de s105 (cumple "no subir N"); NO se tunea
     ENUNCIADOS_MIN_SIM: 0.40             # = RELEVANCE_THRESHOLD (src/rag/generator.py:375), constante existente del sistema
     frozen_before_phase: F1
   unchanged:
@@ -110,14 +126,14 @@ phases:
     authorization_required: [duo_go, alberto_go]   # unica fase con escritura DB; no corre sin ambos
     cost_ceiling_usd: 0.10
   - id: F3
-    name: gates_heredados_dec102_103
+    name: gates_heredados_s104_y_s105
     db_writes: 0
     depends_on: [F2]
     instrument: "scripts/s103_displacement_probe.py + s103_displacement_compare.py reutilizados (los que produjeron evals/s104_t2_gate_anchors.json)"
     runs: "39 pools x K=3 repeticiones x 2 brazos (old=flag off / fix=flag on post-F2), mismo dia misma DB"
     gates:
-      anclas: "matriz de transicion 109 facts; ancla presente = >=2/3 de K; STOP si hp005#2 o hp006#2/ISO-X se pierde, o si lost > gained"
-      containment: "served-ids v2.2 de golds ganados contenidos en el pool del brazo fix: 0 perdidas nuevas"
+      anclas: "matriz de transicion 109 facts; ancla presente = >=2/3 de K; STOP si se pierde CUALQUIERA de la union de ambos sets: hp005#2 (s104), hp006#2/ISO-X (s104+s105), hp006 Fallo de Tierra (s105); o si lost > gained"
+      containment: "served-ids v2.2 de golds ganados contenidos en el pool del brazo fix: 0 perdidas nuevas; vigilancia explicita de cat021/hp005/hp006 (el served-containment del NO-GO s105)"
       negcontrol: "pool-level en golds sin diana (patron s102 negcontrol): sin desplazamiento anomalo de chunks load-bearing"
       famtie: "diana famtie 39 SOLO si anclas/negcontrol disparan raro (escalada declarada, no default)"
     no_go_consequence: "rollback F2 por batch + lever NO-GO documentado con artefactos"

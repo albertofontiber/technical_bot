@@ -33,14 +33,26 @@ def test_files_exist_and_prereg_parses():
     assert p["diagnosis_input"] == "evals/s273_retrieval2_diagnosis_v1.md"
 
 
-def test_protocol4_fork_is_declared_with_discrepancy():
+def test_protocol4_fork_cites_plan_s105_authority_single_reading():
     fork = _prereg()["protocol4_fork"]
-    # la visibilidad ES el control: cita del brief + registro del repo + adjudicación
-    assert "DEC-103" in fork["settled_cited_by_brief"]
-    assert "DEC-102" in fork["settled_in_repo"]
-    assert fork["discrepancy_declared_for_adjudication"] is True
+    # la visibilidad ES el control: autoridad del settled = PLAN §estado-s105 en el backup
+    # pre-Codex (colisión de numeración DEC-103..105 declarada), UNA lectura: cuota MEDIDA.
+    assert "Estado anterior (s105" in fork["settled_authority"]
+    assert "codex/s107-wip-backup" in fork["settled_authority"]
+    assert fork["settled_authority_commit"] == "33977c15f64705670ce377a9bfeee4cba47a9de2"
+    assert "MEDIDA" in fork["settled_verdict"] and "71.202" in fork["settled_verdict"]
+    assert "Fallo de Tierra" in fork["settled_verdict"]
+    # cierre verbatim REAL ("contra hp006", no "contra el gold")
+    assert fork["settled_closure_verbatim"] == (
+        "R2 queda cerrado bajo esta mecanica; no subir N ni tunear contra hp006")
+    assert "s194" in fork["numbering_collision_note"]
+    assert "DEC-102" in fork["companion_episode"]
+    # la reapertura declara los 4 diferenciadores (escala, diana, mecánica, guardas)
+    reasons = " | ".join(fork["why_reopening_is_legitimate"])
+    for needle in ("escala", "diana", "mecanica", "guardas", "carve-out", "entrada-al-sort"):
+        assert needle in reasons, f"diferenciador ausente en la reapertura: {needle}"
     constraints = set(fork["inherited_constraints"])
-    assert {"q_frozen_before_f1", "no_tuning_q_against_gold",
+    assert {"q_frozen_before_f1", "q_leq_n_s105", "no_tuning_against_hp006_or_gold",
             "no_raising_n_dianas", "no_retry"} <= constraints
 
 
@@ -97,11 +109,15 @@ def test_phases_are_gated_in_order_with_db_write_only_in_f2():
     assert "Q NO se sube" in by_id["F1"]["no_go_consequence"]
 
 
-def test_inherited_gates_from_dec102_are_present():
+def test_inherited_gates_cover_both_s104_and_s105_anchor_sets():
     f3 = next(ph for ph in _prereg()["phases"] if ph["id"] == "F3")
     gates = f3["gates"]
     assert set(gates) == {"anclas", "containment", "negcontrol", "famtie"}
+    # unión de AMBOS sets: s104 (hp005#2 + hp006#2/ISO-X) Y s105 (hp006 Fallo de Tierra + ISO-X)
     assert "hp005#2" in gates["anclas"] and "hp006#2" in gates["anclas"]
+    assert "Fallo de Tierra" in gates["anclas"]
+    # el containment del NO-GO s105 se vigila explícitamente
+    assert "cat021/hp005/hp006" in gates["containment"]
     assert "K=3" in f3["runs"] or "x K=3" in f3["runs"]
     assert "rollback" in f3["no_go_consequence"].lower()
 
@@ -159,13 +175,32 @@ def test_forbidden_list_covers_the_overfit_and_spend_vectors():
 
 def test_design_doc_declares_fork_visibly_in_header():
     text = DESIGN_PATH.read_text(encoding="utf-8")
-    header = text[:6000]  # el fork debe estar en cabecera, no enterrado
+    header = text[:7000]  # el fork debe estar en cabecera, no enterrado
     assert "fork de Protocolo 4" in header
-    assert "DEC-103 (s105)" in header            # la cita del brief, visible
-    assert "DEC-102" in header                    # el registro del repo, visible
+    # autoridad del settled: PLAN §estado-s105 en el backup pre-Codex, con cierre verbatim
+    assert "Estado anterior (s105" in header
+    assert "codex/s107-wip-backup" in header
+    assert "no subir N ni tunear contra\n> hp006" in header or \
+        "no subir N ni tunear contra hp006" in header.replace("\n> ", " ")
+    assert "DEC-102" in header                    # el episodio compañero s104, visible
     assert "71.202" in header
     assert "21.995" in header
+    # los 4 diferenciadores de la reapertura, visibles en cabecera
+    for needle in ("Escala:", "Diana:", "Mecánica:", "Guardas:"):
+        assert needle in header, f"diferenciador ausente en cabecera: {needle}"
     # contrato de Protocolo 2 completo en el doc
     for section in ("Recomendación", "Alternativas", "Gaps / riesgos",
                     "estructural", "escalable"):
         assert section in text, f"sección de Protocolo 2 ausente: {section}"
+    # nota de integridad documental (colisión de numeración) al final del diseño
+    assert "colisión de numeración DEC-103..105" in text
+    assert "no renumera nada" in text
+
+
+def test_diagnosis_carries_errata_without_touching_measured_body():
+    text = DIAGNOSIS_PATH.read_text(encoding="utf-8")
+    assert "[ERRATA s273" in text                 # la premisa incorrecta no se re-propaga
+    assert "codex/s107-wip-backup" in text
+    # el cuerpo medido sigue intacto (sims/floors clave del diagnóstico)
+    for measured in ("0.4268", "0.4556", "0.5751", "rank corpus-wide 335"):
+        assert measured in text, f"dato medido ausente tras la errata: {measured}"
