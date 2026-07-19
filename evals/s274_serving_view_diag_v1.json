@@ -1,0 +1,146 @@
+{
+  "schema": "s274_serving_view_diag_v1",
+  "inputs_sha256_lf": {
+    "freeze": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498",
+    "replicas_v3": "728ef776d7cdd33fe1237c3cf9c1b54f1ffe1ff52d6dc2a22b91bf1f301b6cc7"
+  },
+  "fragment": {
+    "qid": "hp017",
+    "fragment_number": 12,
+    "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+    "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+    "page_number": 41,
+    "raw_chars": 2864,
+    "served_chars": 1037,
+    "validated_coverage_chunk": true,
+    "served_receipt_ok": true,
+    "coverage_cards_spans": [
+      [
+        675,
+        1032
+      ],
+      [
+        419,
+        673
+      ],
+      [
+        1694,
+        2052
+      ]
+    ]
+  },
+  "probes": {
+    "warn_evite_contradictorias": {
+      "raw_offset": 2519,
+      "in_raw": true,
+      "in_served": false
+    },
+    "warn_vital_importancia": {
+      "raw_offset": 2562,
+      "in_raw": true,
+      "in_served": false
+    },
+    "b2043_instruccion_entrada": {
+      "raw_offset": 1427,
+      "in_raw": true,
+      "in_served": false
+    },
+    "7aa7_instruccion_salida": {
+      "raw_offset": 1696,
+      "in_raw": true,
+      "in_served": true
+    },
+    "7aa7_equipos_asignados": {
+      "raw_offset": 1879,
+      "in_raw": true,
+      "in_served": true
+    }
+  },
+  "mandatory_atoms_full_view": [
+    {
+      "span": [
+        2479,
+        2555
+      ],
+      "triggers": [
+        "evite"
+      ],
+      "good_form": false,
+      "text_head": "> **Al programar reglas de causa-efecto evite las lógicas contradictorias.**"
+    },
+    {
+      "span": [
+        2558,
+        2724
+      ],
+      "triggers": [
+        "de vital importancia"
+      ],
+      "good_form": true,
+      "text_head": "> **Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar"
+    }
+  ],
+  "mandatory_atoms_served_view": 0,
+  "replica_binding": [
+    {
+      "replicate": 1,
+      "f12_cited": true,
+      "citation_window_chars": 73,
+      "atoms": [
+        {
+          "span_start": 2479,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        },
+        {
+          "span_start": 2558,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        }
+      ]
+    },
+    {
+      "replicate": 2,
+      "f12_cited": true,
+      "citation_window_chars": 73,
+      "atoms": [
+        {
+          "span_start": 2479,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        },
+        {
+          "span_start": 2558,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        }
+      ]
+    },
+    {
+      "replicate": 3,
+      "f12_cited": true,
+      "citation_window_chars": 73,
+      "atoms": [
+        {
+          "span_start": 2479,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        },
+        {
+          "span_start": 2558,
+          "exigible_in_window": true,
+          "procedural_overlap": 4
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "serving_view_truncation_confirmed": true,
+    "full_view_would_detect_warning_block": true,
+    "served_view_blind": true,
+    "f12_cited_all_replicas": true,
+    "binding_would_hold_all_replicas": true,
+    "b2043_shares_serving_view_cause": true,
+    "all_pass": true
+  }
+}
