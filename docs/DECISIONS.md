@@ -2593,3 +2593,53 @@ balanceados, sin `**` ni `> ` crudos; gate local del renderer re-corrido
 Markdown de Telegram (frágil con notación eléctrica, ya descartado en el diseño del
 formatter); emojis por frase (decorativo — el criterio es sobrio/estructural); strip
 incondicional de `> ` (riesgo de borrar un operador de comparación).
+
+## DEC-132 (S273, 19 jul 2026) — Bloque B cerrado en esta sesión: cuota-enunciados F3 STOP as-preregistered + hallazgo de instrumento cuantificado + negcontrol PASS + prereg v3 (única re-medición) — flag default-off, restricción s105 intacta
+
+**Contexto.** El diagnóstico s272 (`evals/s273_retrieval2_diagnosis_v1.md`) identificó los 2
+retrieval-miss CORE residuales (cat017#2, hp010#1) muriendo en la fusión del canal enunciados.
+Diseño + prereg v1 → dúo COMPLETO adjudicado (Sol xhigh 7/7 con 3 críticos, Fable 5/5
+«SÓLIDO-con-condiciones», 0 FP; tally + reviews crudas en el log) → prereg v2 con los 11 fixes
+→ build flag-off (`ENUNCIADOS_QUOTA_FUSION`, carve-out slots-reservados espejo hyq DEC-099 +
+dedup-at-fusion/atomicidad S4 del prior art s105 @33977c1) → fases sin-DB.
+
+**Resultados medidos (artefactos committeados).**
+- **F0 (vía B, cat017#2): NO-GO → RESIDUAL FORMAL.** El activo h1 no contiene el hecho-licencia
+  con señal: dump T2 de HOP-138-9ES no cubre el chunk carrier (0 filas pp.5-7, 0 «licencia» en
+  925); brazo condicional 4188-1125-ES generado acotado ($0.10) → carrier rank-99-de-108 vs
+  floor de cuota 0.614. F2 (recarga) deshabilitada; jamás corrió (rollback vacuo, DB en T1).
+- **F1 (vía A, hp010#1): GO.** Consistencia s272 OK; rank-6-de-nuevos exacto → entra por cuota
+  Q=6; e2e: rerank top-2 → SERVIDO (1 muestra, informativo).
+- **F3 (Alberto): STOP TAL CUAL PRE-REGISTRADO** (`evals/s273_f3_closeout_v1.yaml`): anclas
+  pareadas +3 (hp015#0, hp018#2, hp018#3) / −1 (hp017#1), stop-hits de la unión dura s104+s105
+  = 0; containment 14-missing contra la referencia v2.2 → dispara; **negcontrol PASS** (4 ≤ 7);
+  diana hp010 en pool 3/3. El gate NO se re-litiga; lever = NO-GO-as-preregistered bajo v2;
+  el flag queda default-off (byte-inerte) y NO se shippea.
+- **Hallazgo de INSTRUMENTO (cuantificado y reproducido desde los probes):** la referencia de
+  containment v2.2 (foto s102) no describe el pipeline actual — OFF-hoy = 16 missing contra
+  ella vs ON = 14; delta pareado atribuible a la cuota = −6 (hp005×2, hp006×1, hp011×1,
+  cat020×2 — watch-golds tocados) / +8 recuperados. El pool no adjudica hechos: puede ser daño
+  real o re-barajado benigno clase DEC-092b.
+
+**Decisión.** (1) El STOP se acata sin re-litigio. (2) La corrección es de MEDICIÓN, no de
+mecanismo → **prereg v3** (`evals/s273_quota_prereg_v3.yaml`, NO ejecutado, requiere GO):
+containment pareado CONTEMPORÁNEO OFF-vs-ON K-mayoría (la referencia v2.2 se RETIRA con su
+razón declarada), árbitro a nivel RESPUESTA para los watch-golds (hp005/hp006/hp017/cat020,
+K=3, matcher determinista) + conversión hp010 como gate de ship; mismos umbrales de
+anclas/negcontrol; techo $4; **anti-gate-shopping explícito: UNA sola re-medición — STOP a
+nivel respuesta ⇒ lever CERRADO sin más intentos**. (3) Restricción heredada s105 INTACTA
+(«no subir N ni tunear contra hp006»; Q=6 congelado; autoridad versionada en
+`evals/s273_s105_authority_excerpt_v1.md`, colisión de numeración DEC-103..105 documentada en
+el diseño §7). (4) cat017#2 residual formal: su única vía viva declarada = re-scope s174
+per-facet, decisión explícita aparte (riesgo gate-shopping ya declarado en s269).
+
+**Alternativas descartadas.** Re-litigar el STOP leyendo el neto +3/−1 como PASS (el gate era
++0/−0: se acata); «arreglar» el gate tras verlo fallar sin retirar la referencia con causa
+documentada (eso sí sería gate-shopping — aquí la causa es reproducible: el control OFF falla
+más que el tratamiento); recargar F2 pese al F0 NO-GO (el hecho no está en el espacio
+enunciados-generable barato); tocar Q/barra/mecánica (cerrado por herencia s105 y por el
+contrato v3).
+
+**Traza.** Rama `claude/s273-bloqueB-quota` (PR contra main); artefactos
+`evals/s273_*`; instrumento `scripts/s273_quota_gates.py`; gasto sesión fases ≈ $0.22 de $3
+(v2) — v3 presupuestado $4, sin ejecutar.
