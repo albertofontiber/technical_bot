@@ -1,0 +1,57 @@
+schema: s270_stage1_v5_gate_v1
+created_utc: '2026-07-19T13:07:52+00:00'
+arm: det
+families:
+  F-RANGE:
+    recall: 1.0
+    detected: 96
+    scored: 96
+    pass: true
+  F-BUNDLE:
+    recall: 0.84
+    detected: 42
+    scored: 50
+    pass: true
+  F-MANDATORY:
+    recall: 1.0
+    detected: 46
+    scored: 46
+    pass: true
+  F-COUNT:
+    recall: 0.9111111111111111
+    detected: 82
+    scored: 90
+    pass: true
+checks:
+  display_recall:
+    value: 0.75
+    n: 3
+    d: 4
+    pass: false
+  display_no_new_surface_fp:
+    value: 0
+    pass: true
+  cross_count_recall:
+    value: 1.0
+    n: 23
+    d: 23
+    pass: true
+  cross_count_far_page_fp:
+    value: 0
+    pass: true
+  clean_annex_quality_fp:
+    value: 0
+    pass: true
+  enrichment_appends_reported:
+    value: 54
+    pass: true
+  cross_binding_fp:
+    value: 0
+    pass: true
+  attestation_block_appends:
+    value: 0
+    pass: true
+  coverage:
+    value: 0.9469320066334992
+    pass: true
+verdict: NO_GO
