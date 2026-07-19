@@ -1,6 +1,8 @@
 import asyncio
+import json
 import re
 import types
+from pathlib import Path
 
 import pytest
 
@@ -12,6 +14,8 @@ from src.bot.response_formatter import (
     format_telegram_messages,
     telegram_html_to_plain,
 )
+
+_FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def test_renderer_preserves_technical_content_and_builds_field_hierarchy():
@@ -162,3 +166,117 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
     assert kwargs == {"parse_mode": "HTML"}
     assert "<b>Estado ID_3000__CPU</b>" in rendered
     assert "<b>Fuente:</b> Manual &lt;ID_3000&gt; (rev. 2)" in rendered
+
+
+# ─── s272: feedback vivo de Alberto (respuesta ASD535, query_logs 16:26Z) ───
+
+
+def test_source_line_with_trailing_bold_marker_renders_clean():
+    # El generador vivo emitió "**Fuente:** X" → el patrón viejo dejaba "** X"
+    # literal en Telegram (el ** visible que reportó Alberto).
+    rendered = format_for_telegram(
+        "**Fuente:** ASD535, Descripción técnica, T 131 192 h es"
+    )
+    assert rendered == (
+        "📄 <b>Fuente:</b> ASD535, Descripción técnica, T 131 192 h es"
+    )
+    assert "**" not in rendered
+
+
+def test_blockquote_with_own_emoji_is_not_double_prefixed():
+    rendered = format_for_telegram(
+        "> ⚠️ **Importante**: bloquea la alerta remota antes de intervenir [F10]."
+    )
+    assert rendered.startswith("⚠️ <b>Importante</b>:")
+    assert "ℹ️" not in rendered
+
+
+def test_blockquote_importante_counts_as_warning():
+    rendered = format_for_telegram("> **Importante**: no cortes la alimentación.")
+    assert rendered.startswith("⚠️ ")
+
+
+def test_caps_section_header_gets_bold_and_blank_line():
+    rendered = format_for_telegram("Texto previo.\nCABLEADO:\n- Usa par trenzado.")
+    assert rendered == "Texto previo.\n\n<b>CABLEADO:</b>\n• Usa par trenzado."
+
+
+def test_step_bold_line_gets_wrench_and_blank_line():
+    rendered = format_for_telegram(
+        "Sigue el orden.\n**1. Leer el valor de flujo actual**\nColoca el conmutador."
+    )
+    assert (
+        rendered
+        == "Sigue el orden.\n\n🔧 <b>1. Leer el valor de flujo actual</b>\nColoca el conmutador."
+    )
+
+
+def test_heading_inside_block_gets_blank_line_before():
+    rendered = format_for_telegram("Párrafo pegado.\n### Diagnóstico\nSiguiente línea.")
+    assert rendered == "Párrafo pegado.\n\n<b>Diagnóstico</b>\nSiguiente línea."
+
+
+def test_appendix_quoted_blockquote_marker_is_stripped_in_bullets():
+    # Respuestas históricas ya almacenadas arrastran el marcador dentro de la cita.
+    rendered = format_for_telegram(
+        '- "> Para evitar disparos, es **imprescindible** bloquearlos." [F10]'
+    )
+    assert "&gt;" not in rendered
+    assert '• "Para evitar disparos, es <b>imprescindible</b> bloquearlos." [F10]' == rendered
+
+
+def test_appendix_bullet_comparison_operator_survives():
+    rendered = format_for_telegram('- "> 100 mA de consumo máximo" [F2]')
+    assert '• "&gt; 100 mA de consumo máximo" [F2]' == rendered
+
+
+def _live_fixture() -> dict:
+    return json.loads(
+        (_FIXTURES / "s272_asd535_live_response.json").read_text(encoding="utf-8")
+    )
+
+
+def test_live_asd535_response_renders_without_raw_markdown():
+    """Caso real (recibo vivo s272): ni ** ni > crudos; negrita y apéndice legibles."""
+    fixture = _live_fixture()
+    parts = format_telegram_messages(fixture["response"])
+    assert parts, "la respuesta viva debe producir mensajes"
+    combined = "\n\n".join(parts)
+    assert "**" not in combined
+    assert "&gt; Para evitar" not in combined  # blockquote crudo del apéndice
+    assert "<b>imprescindible</b>" in combined
+    assert "📄 <b>Fuente:</b>" in combined
+    assert "ℹ️ ⚠️" not in combined  # doble emoji del aviso vivo
+    assert "🔧 <b>1. Leer el valor de flujo actual</b>" in combined
+    # el apéndice sigue identificable como sección
+    assert "Información adicional del manual:" in telegram_html_to_plain(combined)
+    for part in parts:
+        assert len(part) <= 4000
+        assert part.count("<b>") == part.count("</b>")
+
+
+def test_live_asd535_response_preserves_every_numeric_and_model_token():
+    """La vara del formatter: 0 tokens numéricos/modelo perdidos (byte-preservación
+    del contenido técnico; solo cambia presentación)."""
+    fixture = _live_fixture()
+    raw = fixture["response"]
+    parts = format_telegram_messages(raw)
+    plain = "\n".join(telegram_html_to_plain(part) for part in parts)
+
+    numeric_tokens = re.findall(r"\d+(?:[.,]\d+)?", raw)
+    for token in set(numeric_tokens):
+        assert plain.count(token) >= raw.count(token), f"token numérico perdido: {token}"
+
+    for model_token in (
+        "ASD535",
+        "AMB 35",
+        "LS-Ü",
+        "12,3 a 13,8 V-CC",
+        "21,6 a 27,6 V-CC",
+        "10,4 V-CC",
+        "T 131 192 h es",
+        "[F1]",
+        "[F10]",
+        "bornes 1 (+) y 2 (-)",
+    ):
+        assert model_token in plain, f"token de modelo perdido: {model_token}"

@@ -26,14 +26,41 @@ _SEPARATOR = "─" * 20
 _TABLE_SEPARATOR_CELL_RE = re.compile(r"^:?-{3,}:?$")
 _HEADING_RE = re.compile(r"^\s*#{1,6}\s+(.+?)\s*$")
 _HORIZONTAL_RULE_RE = re.compile(r"^\s*(?:-{3,}|\*{3,}|_{3,})\s*$")
+# s272 (feedback vivo ASD535): el generador emite ``**Fuente:** X`` — el ``**`` de
+# cierre quedaba DESPUÉS de los dos puntos y el patrón viejo lo dejaba como ``**``
+# literal en Telegram. Se aceptan las tres colocaciones del énfasis.
 _SOURCE_RE = re.compile(
-    r"^\s*(?:\*\*)?(Fuentes?|Sources?)(?:\*\*)?\s*:\s*(.*)$",
+    r"^\s*(?:\*\*)?(Fuentes?|Sources?)(?::\s*\*\*|\*\*\s*:|\s*:)\s*(.*)$",
     re.IGNORECASE,
 )
 _INLINE_RE = re.compile(
     r"`([^`\n]+)`|\*\*(.+?)\*\*",
     re.DOTALL,
 )
+# Emojis ESTRUCTURALES, sobrios (s272): ⚠️ avisos, 🔧 pasos de procedimiento,
+# 📄 fuentes, ℹ️ notas — nada decorativo por frase.
+_SOURCE_EMOJI = "📄"
+_STEP_EMOJI = "🔧"
+_WARNING_WORD_RE = re.compile(
+    r"\b(?:advertencia|atenci[oó]n|peligro|precauci[oó]n|importante|aviso|"
+    r"warning|caution|danger|important)\b",
+    re.IGNORECASE,
+)
+# Cabecera de sección en MAYÚSCULAS con dos puntos finales ("CABLEADO:") — el
+# generador la emite a veces en vez de ``##``; se renderiza en negrita con línea
+# en blanco antes (mismo tratamiento que un heading).
+_CAPS_SECTION_RE = re.compile(
+    r"^\s*([A-ZÁÉÍÓÚÑÜ0-9][A-ZÁÉÍÓÚÑÜ0-9 /()\-.]{2,58}):\s*$"
+)
+_UPPER_LETTER_RE = re.compile(r"[A-ZÁÉÍÓÚÑÜ]")
+# Cabecera de paso: línea COMPLETA en negrita que empieza por número ("**1. Leer
+# el valor de flujo actual**") — señal estructural de procedimiento.
+_STEP_BOLD_RE = re.compile(r"^\s*\*\*\s*(\d{1,2}[.)]\s+[^*\n]+?)\s*\*\*\s*$")
+_STEP_NUMBER_RE = re.compile(r"^\d{1,2}[.)]\s")
+# Span citado del anexo must-preserve que arrastra el marcador blockquote de la
+# fuente (respuestas históricas ya almacenadas): `"> Para evitar..."` → `"Para...`.
+# Mismo guard conservador que en el render: nunca ante dígito/operador.
+_QUOTED_BLOCKQUOTE_RE = re.compile(r"^(\"?)(?:>\s*)+(?=[^\W\d_]|[\"'*¡¿(])")
 
 
 def _split_markdown_row(row: str) -> list[str]:
@@ -148,6 +175,13 @@ def format_for_telegram(text: str) -> str:
     code_lines: list[str] = []
     in_code = False
 
+    def append_section(rendered_line: str) -> None:
+        """Section boundaries always get a preceding blank line (s272: los saltos
+        de sección deben sobrevivir al render, feedback vivo ASD535)."""
+        if output and output[-1].strip():
+            output.append("")
+        output.append(rendered_line)
+
     for line in normalized.split("\n"):
         if line.strip().startswith("```"):
             if in_code:
@@ -165,34 +199,46 @@ def format_for_telegram(text: str) -> str:
 
         heading = _HEADING_RE.match(line)
         if heading:
-            output.append(f"<b>{html.escape(heading.group(1), quote=False)}</b>")
+            title = heading.group(1)
+            step = _STEP_EMOJI + " " if _STEP_NUMBER_RE.match(title) else ""
+            append_section(f"{step}<b>{html.escape(title, quote=False)}</b>")
             continue
         if _HORIZONTAL_RULE_RE.match(line):
-            output.append(_SEPARATOR)
+            append_section(_SEPARATOR)
             continue
         if line.lstrip().startswith(">"):
-            note = line.lstrip()[1:].lstrip()
-            warning = re.search(
-                r"\b(?:advertencia|atenci[oó]n|peligro|precauci[oó]n|warning|danger)\b",
-                note,
-                re.IGNORECASE,
-            )
-            prefix = "⚠️" if warning else "ℹ️"
+            note = re.sub(r"^(?:>\s*)+", "", line.lstrip())
+            if note.startswith(("⚠️", "ℹ️", "⚠", "🔧", "📄")):
+                # La nota ya trae su propio emoji estructural — no duplicar.
+                output.append(_render_inline(note))
+                continue
+            prefix = "⚠️" if _WARNING_WORD_RE.search(note) else "ℹ️"
             output.append(f"{prefix} {_render_inline(note)}")
             continue
         source = _SOURCE_RE.match(line)
         if source:
             output.append(
-                f"<b>{html.escape(source.group(1), quote=False)}:</b> "
+                f"{_SOURCE_EMOJI} <b>{html.escape(source.group(1), quote=False)}:</b> "
                 f"{_render_inline(source.group(2))}"
             )
+            continue
+        step_bold = _STEP_BOLD_RE.match(line)
+        if step_bold:
+            append_section(
+                f"{_STEP_EMOJI} <b>{html.escape(step_bold.group(1), quote=False)}</b>"
+            )
+            continue
+        caps = _CAPS_SECTION_RE.match(line)
+        if caps and len(_UPPER_LETTER_RE.findall(caps.group(1))) >= 3:
+            append_section(f"<b>{html.escape(caps.group(1), quote=False)}:</b>")
             continue
 
         # Markdown list markers are presentation syntax, so replace them with
         # a narrow-screen bullet while keeping the complete item text.
         bullet = re.match(r"^(\s*)[-*]\s+(.+)$", line)
         if bullet:
-            output.append(f"{bullet.group(1)}• {_render_inline(bullet.group(2))}")
+            item = _QUOTED_BLOCKQUOTE_RE.sub(r"\1", bullet.group(2))
+            output.append(f"{bullet.group(1)}• {_render_inline(item)}")
         else:
             output.append(_render_inline(line))
 
