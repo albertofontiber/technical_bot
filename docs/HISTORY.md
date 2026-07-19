@@ -1810,3 +1810,50 @@ causa dominante pasa de compilación a scope closure: el mismo autor formula una
 luego sólo puede emitir cuatro puntos. Próximo mecanismo generalizable: puntos support-bound y
 facetados primero; pregunta acotada después; cohorte nueva excluyendo también S197. No se repara ni
 reintenta esta población. `chunks_v3` y Railway no cambian.
+
+
+## S269 (18-19 jul 2026, ultracode nocturno autónomo, mandato ≥98% OK) — triage de los 12 + contrato must-preserve medido + diagramas y voz cerrados
+
+Encargo de Alberto: familiarizarse con el avance Codex (143/157 OK, 12 synthesis-miss),
+re-revisar el análisis de causas, y atacar los 12 con mecanismos BP/robustos/escalables —
+o entender si los golds los inflan. Dúo Fable+Sol xhigh en validación de diseño; ejecución en
+modelos baratos; smoke antes de gasto; tope $300.
+
+**Mapa (7 lectores).** El "análisis de Sol de los 12" no existía per-fact (S169 quedó
+incompleto); lo que hay: taxonomía causal s243 (11/12 within-cited-fragment; familias
+qualifier 5 / bundle 3 / mandatory 3 / count 1) + S156 (frontier one-shot con contexto completo
+solo cubre 2-4/13 → el problema es el contrato de completitud, no capacidad). Positivos
+enterrados: S193 (+5/0 regresiones, cerrado por umbral de selector), S249 (precisión 1.0),
+S223 (cerrado con review incompleta). Restricción vigente s261/s260: cohorte estructural
+independiente ANTES de tocar los 12.
+
+**Track 1 — triage (DEC-121).** 4 analistas + audit del instrumento + verificador adversarial
+= 12/12 verificados: 8 CORE / 3 SUPPLEMENTARY / 1 SOURCE-CONFLICT ("seis" vs 7 columnas
+verificadas al vector). Instrumento JUSTO (0 FN). Si Alberto acepta: denominador 154, objetivo
++8. Packet al píxel con renders por página → adjudicación de Alberto.
+
+**Track 2 — contrato must-preserve (DEC-122).** Diseño v2 dúo-adjudicado (18/18, 0 FP) →
+build → el dúo del build (16 hallazgos, 0 FP) tumbó el INSTRUMENTO v1: gold de modelo barato
+no fiable (87% de negativos mal etiquetados; Fable cazó además 2 errores del propio diagnóstico
+del orquestador — el anti-bias funcionando). Pivote: harness de MUTACIONES con gold mecánico
+(patrón S249). 3 iteraciones de contrato de binding, cada una en población fresca
+(seed-270/271/272): **final recall 4/4 GO (1.0/0.93/1.0/0.83) + cross-binding 0 + attestation
+0 + MANDATORY limpio**; residual abierto: clean-noise R/B FP=40 (hermanos con 2 tokens
+genuinos) — decisión de diseño para Alberto, sin iterar más (compromiso anti-overfit). El
+brazo híbrido Haiku ($0.57) resultó idéntico: el residual es del binding, no de la detección.
+Etapa 2 (probe a los 4 targets) queda gateada por la adjudicación del residual + la reapertura
+formal s222/s223 (decisión de Alberto, con la evidencia del cierre-incompleto de S223).
+
+**Ortogonales.** (A) Diagramas (DEC-123): el bot no servía NINGUNO (0/25.090 URLs en v2);
+registro document_visual_assets construido completo en rama propia — bridge 5.096 páginas
+byte-idéntico al audit S190, clasificador full-bridge $3.52 (serving-set 4.489), gate de
+activación PASS 59/60 + 0 portadas; migración 014 BLOQUEADA por permisos → runbook de 5 pasos
+para Alberto; flag off. (B) Voz (DEC-124): catálogo regenerado (+6 modelos al vocabulario
+Whisper), whisper-1 se queda, Wispr Flow descartado (app cliente, no ASR server-side);
+migración de ASR sigue gateada a 30 audios reales.
+
+**Método/coste.** 2 workflows (7+7 agentes) + panel visual (6) + 3 builders + 2 rondas de dúo
+completas (Sol 695K+504K tokens, Fable 106K+202K; 1 intento vacío de Fable re-lanzado per
+DEC-106). Gasto externo total ≈ $27 de $300. Las claims fuertes verificadas por regla-C en
+código/datos antes de adjudicar. Sin tocar prod; sin targets expuestos; held-out intacto;
+suite 1.933 verdes (4 CRLF pre-existentes del checkout Windows).
