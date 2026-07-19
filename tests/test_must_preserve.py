@@ -301,13 +301,25 @@ def test_bind_v2_numero_propio_si_liga():
     assert [a["family"] for a in bound] == [mp.FAMILY_RANGE]
 
 
-def test_bind_v2_bundle_un_miembro_toca_el_schema():
+def test_bind_v3_bundle_dos_tokens_propios_ligan():
+    """Apriete adjudicado post-seed-271: ≥2 tokens propios (aquí: 1 de miembro +
+    1 de la cabecera)."""
     atoms = mp.detect_atoms(
         "## Pestaña Programa\n- Zona: define la zona\n- CBE: ecuación de control"
     )
-    draft = "El campo CBE controla la activación [F1]"  # 1 miembro, sin cabecera
+    draft = "El campo CBE de la pestaña se configura primero [F1]"
     bound = mp.bind_atoms(atoms, draft, {1}, 1)
     assert [a["family"] for a in bound] == [mp.FAMILY_BUNDLE]
+
+
+def test_bind_v3_bundle_un_solo_token_propio_ya_no_liga():
+    """La clase de los 14 FP residuales de seed-271: UNA palabra técnica ubicua
+    de un miembro no basta para hacer exigible el bundle."""
+    atoms = mp.detect_atoms(
+        "## Pestaña Programa\n- Zona: define la zona\n- CBE: ecuación de control"
+    )
+    draft = "El campo CBE controla la activación [F1]"  # 1 token propio (cbe)
+    assert mp.bind_atoms(atoms, draft, {1}, 1) == []
 
 
 _MANDATORY_FRAG = (

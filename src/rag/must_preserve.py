@@ -931,8 +931,13 @@ def atom_exigible_in(atom: Atom, text: str) -> bool:
 
     F-RANGE   el texto contiene ≥1 número PROPIO del átomo (extremos/paso/tolerancia,
               excl. 0/1) o un id de scope — tocó ese rango y lo dejó incompleto.
-    F-BUNDLE  el texto contiene la cabecera completa o ≥1 token de un miembro —
-              tocó el schema (bundle_member_loss = cubrió unos miembros, perdió otros).
+    F-BUNDLE  el texto contiene ≥2 tokens PROPIOS del átomo (miembros∪cabecera; p.ej.
+              1 token de miembro + 1 de la cabecera) — apriete adjudicado tras
+              seed-271: con ≥1 token, UNA palabra técnica ubicua de un miembro
+              ("sistema", "ajuste") ligaba bundles ajenos al claim (14/14 FP
+              residuales); ≥2 tokens es el paralelo del criterio número-o-2-tokens
+              del resto de familias y sigue cubriendo bundle_member_loss (la
+              respuesta que cubre unos miembros nombra ≥2 tokens del schema).
     F-COUNT   el texto contiene el conteo declarado/enumerado (excl. 0/1) o el
               sustantivo contado.
     F-MANDATORY contrato propio (mandatory_safety_omission = callout obligatorio
@@ -957,13 +962,10 @@ def atom_exigible_in(atom: Atom, text: str) -> bool:
             return True
         return any(_fold(s) in folded for s in meta.get("scope") or [])
     if family == FAMILY_BUNDLE:
-        header_tokens = _content_tokens(meta.get("header") or "")
-        if header_tokens and set(header_tokens) <= tokens:
-            return True
+        propio = set(_content_tokens(meta.get("header") or "", min_len=2))
         for label in meta.get("members") or []:
-            if any(t in tokens_short for t in _content_tokens(label, min_len=2)):
-                return True
-        return False
+            propio.update(_content_tokens(label, min_len=2))
+        return len({t for t in propio if t in tokens_short}) >= 2
     if family == FAMILY_COUNT:
         own = {
             float(n) for n in (meta.get("declared_n"), meta.get("enumerated_n"))
