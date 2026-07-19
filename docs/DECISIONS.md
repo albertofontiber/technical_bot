@@ -2383,3 +2383,27 @@ productivo = decisión de release separada.
 descartadas en cada paso: relajar el binding ≥2 (compra conversiones con ruido — rechazado
 2×); re-probe sin validación fresca previa (overfit — jamás se hizo); tunear el check de 872c
 en caliente (prohibido por prereg — se elevó a spec).
+
+**Enmienda DEC-127 (ship-review del dúo, 19 jul — Sol 4/4 confirmados, 0 FP; Fable
+failed_api ×2 por presupuesto, DEC-106 sin tercer intento; tally
+ts=2026-07-19T16:05:35).** **(1) Claim de no-regresión ACOTADO (M3):** los "0
+regresiones en 36 réplicas" cubren las 3 obligaciones PROTEGIDAS
+(obl_05482a6b3f0e/obl_0db2b9f2842a/obl_5784f16b1a11, las cubiertas por el baseline
+s235) — la cláusula de fact-anchors es VACÍA por ausencia en el packet (declarado en
+el prereg v1); no es un claim de no-regresión general. **(2) Etapa 3 v1 INVALIDADA
+(C1):** el smoke pareado comparó OFF-vs-OFF (el apply corría con el flag off →
+passthrough byte-idéntico, trace None — tautología). Script corregido
+(`scripts/s270_etapa3_smoke_pareado.py`: flag EFECTIVO alrededor del apply + assert
+trace≠None con citas); la corrida corregida queda PENDIENTE de ejecución del
+orquestador. **(3) ON-medido ≠ ON-shippeado (C2), RESUELTO con certificación
+det-only:** los probes v2/v3 midieron el brazo ON con el detector HÍBRIDO inyectado
+mientras el generador de prod aplica el contrato DETERMINISTA puro;
+`scripts/s270_probe_det_certification.py` re-aplicó el contrato SIN detect_fn (path
+exacto de prod) sobre los borradores OFF almacenados del probe v3, $0 y 0 exposición
+nueva → **GO: obl_b6f6 3/3 det-only, 0 regresiones, 0 conflictos**
+(`evals/s270_probe_det_certification_v1.json`) — el path mergeado queda certificado
+y la decisión híbrido-en-prod NO es necesaria para este ship (si algún día se
+quiere el híbrido en prod, es FORK explícito con su propia medición). **(4) Alcance
+del resultado (M4):** la conversión obl_b6f6 es estabilidad LOCAL en los 4 targets
+con contextos congelados s113 — NO generalización a demo/producción; esa medición
+es el assessment estandarizado (DEC-094), no estos probes.

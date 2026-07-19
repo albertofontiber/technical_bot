@@ -61,7 +61,16 @@ def main() -> int:
         off_answer = r["answer"]
         cost = ((r.get("input_tokens") or 0) * 3 + (r.get("output_tokens") or 0) * 15) / 1e6
         total += cost
-        on_answer, trace = mp.apply_must_preserve_contract(q, chunks, off_answer)
+        # FIX C1 (ship-review Sol 16:05): la 1ª versión aplicaba con el flag OFF →
+        # passthrough byte-idéntico (OFF-vs-OFF, trace None). El brazo ON exige el
+        # flag EFECTIVO alrededor del apply (la generación base sigue con off).
+        os.environ["MUST_PRESERVE_CONTRACT"] = "on"
+        try:
+            on_answer, trace = mp.apply_must_preserve_contract(q, chunks, off_answer)
+        finally:
+            os.environ["MUST_PRESERVE_CONTRACT"] = "off"
+        if mp.cited_fragment_numbers(off_answer) and trace is None:
+            raise RuntimeError(f"{qid}: trace None con fragmentos citados — brazo ON inerte")
         monotonic = on_answer.startswith(off_answer)
         appendix = on_answer[len(off_answer):] if monotonic else "(VIOLACIÓN DE MONOTONÍA)"
         rows.append({"qid": qid, "monotonic": monotonic,
