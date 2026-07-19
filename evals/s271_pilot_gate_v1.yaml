@@ -115,7 +115,7 @@ spot_check:
       zero_cover_or_marketing: true
     verdict: PASS
 authorization:
-  scope: los 23 tramos restantes (t01-aritech .. t23-xtralis; selector 'resto')
+  scope: los 23 tramos restantes (t01-aritech .. t23-zellweger_analytics; selector 'resto')
   phases_in_order:
   - --render --tramo resto
   - --upload --tramo resto --execute

@@ -31,9 +31,12 @@ _spec.loader.exec_module(backfill)
 # Patrón de storage + ids
 # ---------------------------------------------------------------------------
 
-def test_storage_path_patron_legacy():
-    path = backfill.storage_path("Argus Security", "Manual SG100 ENG.pdf", 2)
-    assert path == "argus_security/argus_security_Manual_SG100_ENG_p002.jpg"
+def test_storage_path_patron_legacy_con_docid8():
+    path = backfill.storage_path(
+        "Argus Security", "Manual SG100 ENG.pdf", 2,
+        "494e71be-aaaa-bbbb-cccc-ddddeeeeffff",
+    )
+    assert path == "argus_security/argus_security_Manual_SG100_ENG_494e71be_p002.jpg"
     # URL-safe sin encoding: quote() no cambia nada.
     from urllib.parse import quote
 
@@ -42,9 +45,24 @@ def test_storage_path_patron_legacy():
 
 def test_storage_path_conserva_guiones_y_puntos():
     assert (
-        backfill.storage_path("Detnov", "CAD-150-MS.416_es", 30)
-        == "detnov/detnov_CAD-150-MS.416_es_p030.jpg"
+        backfill.storage_path("Detnov", "CAD-150-MS.416_es", 30, "0037a1f2-x")
+        == "detnov/detnov_CAD-150-MS.416_es_0037a1f2_p030.jpg"
     )
+
+
+def test_storage_path_docid8_discrimina_revisiones_mismo_source():
+    # Caso real S271b: HLSI-MN-103_RP1r-Supra_lr bajo DOS document_ids
+    # (revisiones v04/v07 separadas en s107) — sin docid8 colisionaban.
+    a = backfill.storage_path(
+        "Notifier", "HLSI-MN-103_RP1r-Supra_lr", 1,
+        "494e71be-0000-0000-0000-000000000000",
+    )
+    b = backfill.storage_path(
+        "Notifier", "HLSI-MN-103_RP1r-Supra_lr", 1,
+        "e98e05ff-0000-0000-0000-000000000000",
+    )
+    assert a != b
+    assert "494e71be" in a and "e98e05ff" in b
 
 
 def test_item_id_estable_y_unico_por_pagina():
@@ -100,13 +118,13 @@ def test_select_tramos_resto_excluye_piloto():
 # Render: BIND sha del PDF + checkpoint resumible
 # ---------------------------------------------------------------------------
 
-def _make_pdf(path: Path, pages: int = 2) -> str:
+def _make_pdf(path: Path, pages: int = 2, text: str = "página") -> str:
     import fitz
 
     doc = fitz.open()
     for number in range(pages):
         page = doc.new_page()
-        page.insert_text((72, 72), f"página {number + 1}")
+        page.insert_text((72, 72), f"{text} {number + 1}")
     doc.save(path)
     doc.close()
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -129,7 +147,7 @@ def test_render_tramo_manifest_y_resume(tmp_path):
     rows = backfill.read_jsonl(backfill.manifest_path("t99-test", render_dir))
     assert len(rows) == 2
     row = rows[0]
-    assert row["storage_path"] == "detnov/detnov_mini_p001.jpg"
+    assert row["storage_path"] == "detnov/detnov_mini_doc-rend_p001.jpg"
     local = backfill.tramo_dir("t99-test", render_dir) / row["local_file"]
     assert hashlib.sha256(local.read_bytes()).hexdigest() == row["asset_sha256"]
     assert row["media_type"] == "image/jpeg"
@@ -155,6 +173,151 @@ def test_render_tramo_aborta_doc_si_el_sha_del_pdf_cambio(tmp_path):
     assert stats["failed_docs"] == 1
     assert stats["rendered"] == 0
     assert not backfill.manifest_path("t99-sha", tmp_path / "renders").exists()
+
+
+# ---------------------------------------------------------------------------
+# Fix-collisions: saneador global (S271b)
+# ---------------------------------------------------------------------------
+
+def _coverage_json(tmp_path, docs):
+    coverage = tmp_path / "coverage.json"
+    coverage.write_text(
+        json.dumps({"documents": docs}), encoding="utf-8"
+    )
+    return coverage
+
+
+def test_fix_collisions_sanea_colision_dedupe_y_preserva_no_colisionados(tmp_path):
+    render_dir = tmp_path / "renders"
+    out_dir = render_dir / "t99-fix"
+    out_dir.mkdir(parents=True)
+    pdf_a = tmp_path / "rev_a.pdf"
+    pdf_b = tmp_path / "rev_b.pdf"
+    sha_a = _make_pdf(pdf_a, pages=1, text="revision v04")
+    sha_b = _make_pdf(pdf_b, pages=1, text="revision v07")  # contenido distinto
+    docs = [
+        {
+            "document_id": "494e71be-aaaa", "source_file": "supra",
+            "manufacturer": "Notifier", "status": "located_sha_verified",
+            "pdf_path": str(pdf_a), "pdf_sha256": sha_a, "renderable_pages": [1],
+        },
+        {
+            "document_id": "e98e05ff-bbbb", "source_file": "supra",
+            "manufacturer": "Notifier", "status": "located_sha_verified",
+            "pdf_path": str(pdf_b), "pdf_sha256": sha_b, "renderable_pages": [1],
+        },
+    ]
+    base = {
+        "tramo": "t99-fix", "source_file": "supra", "manufacturer": "Notifier",
+        "storage_bucket": backfill.STORAGE_BUCKET, "bytes": 3,
+        "width": 1, "height": 1, "media_type": "image/jpeg", "page_index": 1,
+    }
+    # Colisión con el esquema VIEJO: mismo nombre para dos document_ids.
+    row_a = {**base, "item_id": backfill.item_id_for("494e71be-aaaa", 1),
+             "document_id": "494e71be-aaaa", "pdf_sha256": sha_a,
+             "storage_path": "notifier/notifier_supra_p001.jpg",
+             "local_file": "notifier_supra_p001.jpg", "asset_sha256": "a" * 64}
+    row_b = {**base, "item_id": backfill.item_id_for("e98e05ff-bbbb", 1),
+             "document_id": "e98e05ff-bbbb", "pdf_sha256": sha_b,
+             "storage_path": "notifier/notifier_supra_p001.jpg",
+             "local_file": "notifier_supra_p001.jpg", "asset_sha256": "b" * 64}
+    # Item sano no colisionado: conserva su nombre viejo.
+    content_c = b"C-RENDER"
+    row_c = {**base, "item_id": backfill.item_id_for("cccccccc-cccc", 1),
+             "document_id": "cccccccc-cccc", "pdf_sha256": "c" * 64,
+             "storage_path": "notifier/notifier_otro_p001.jpg",
+             "local_file": "notifier_otro_p001.jpg",
+             "asset_sha256": hashlib.sha256(content_c).hexdigest()}
+    (out_dir / "notifier_supra_p001.jpg").write_bytes(b"PISADO")
+    (out_dir / "notifier_otro_p001.jpg").write_bytes(content_c)
+    manifest = backfill.manifest_path("t99-fix", render_dir)
+    for row in (row_a, row_a, row_b, row_c):  # row_a duplicada (línea repetida)
+        backfill.append_jsonl(manifest, row)
+
+    status = backfill.fix_collisions(
+        render_dir, _coverage_json(tmp_path, docs), tmp_path / "report.json"
+    )
+    assert status == 0
+    rows = backfill.read_jsonl(manifest)
+    assert len(rows) == 3  # dedupe: 1 fila por item
+    by_id = {r["item_id"]: r for r in rows}
+    fixed_a = by_id[row_a["item_id"]]
+    fixed_b = by_id[row_b["item_id"]]
+    # Esquema nuevo SOLO en los colisionados, con docid8 discriminando.
+    assert fixed_a["storage_path"] == "notifier/notifier_supra_494e71be_p001.jpg"
+    assert fixed_b["storage_path"] == "notifier/notifier_supra_e98e05ff_p001.jpg"
+    assert fixed_a["asset_sha256"] != fixed_b["asset_sha256"]
+    # sha por fila verificado contra el fichero en disco.
+    for row in rows:
+        local = out_dir / row["local_file"]
+        assert hashlib.sha256(local.read_bytes()).hexdigest() == row["asset_sha256"]
+    # El no colisionado queda intacto (nombre viejo, sin re-render).
+    assert by_id[row_c["item_id"]]["storage_path"] == "notifier/notifier_otro_p001.jpg"
+    assert "fixed_by" not in by_id[row_c["item_id"]]
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert report["collided_paths"] == 1
+    assert report["tramos"]["t99-fix"]["items_fixed"] == 2
+    assert report["tramos"]["t99-fix"]["duplicate_lines_removed"] == 1
+    # Re-run = no-op (idempotente).
+    status = backfill.fix_collisions(
+        render_dir, _coverage_json(tmp_path, docs), tmp_path / "report2.json"
+    )
+    assert status == 0
+    report2 = json.loads((tmp_path / "report2.json").read_text(encoding="utf-8"))
+    assert report2["collided_paths"] == 0
+    assert report2["tramos"] == {}
+
+
+def test_fix_collisions_marca_reupload_solo_si_misma_ruta_con_sha_obsoleto(tmp_path):
+    render_dir = tmp_path / "renders"
+    out_dir = render_dir / "t99-mark"
+    out_dir.mkdir(parents=True)
+    pdf = tmp_path / "doc.pdf"
+    sha_pdf = _make_pdf(pdf, pages=1)
+    doc = {
+        "document_id": "dddddddd-1111", "source_file": "doc",
+        "manufacturer": "Detnov", "status": "located_sha_verified",
+        "pdf_path": str(pdf), "pdf_sha256": sha_pdf, "renderable_pages": [1],
+    }
+    # Fila YA en esquema nuevo pero con fichero corrupto en disco y un receipt
+    # verificado de esa MISMA ruta con el sha viejo → el objeto remoto es un
+    # binario equivocado en la ruta que se conserva → marcar (x-upsert=true).
+    new_path = backfill.storage_path("Detnov", "doc", 1, "dddddddd-1111")
+    row = {
+        "tramo": "t99-mark", "item_id": backfill.item_id_for("dddddddd-1111", 1),
+        "document_id": "dddddddd-1111", "page_index": 1, "source_file": "doc",
+        "manufacturer": "Detnov", "pdf_sha256": sha_pdf,
+        "storage_bucket": backfill.STORAGE_BUCKET,
+        "storage_path": new_path, "local_file": new_path.split("/")[1],
+        "asset_sha256": "0" * 64, "bytes": 5, "width": 1, "height": 1,
+        "media_type": "image/jpeg",
+    }
+    (out_dir / row["local_file"]).write_bytes(b"CORRUPTO")
+    backfill.append_jsonl(backfill.manifest_path("t99-mark", render_dir), row)
+    backfill.append_jsonl(
+        backfill.upload_receipts_path("t99-mark", render_dir),
+        {"item_id": row["item_id"], "storage_path": new_path,
+         "asset_sha256": "0" * 64, "verified": True},
+    )
+    status = backfill.fix_collisions(
+        render_dir, _coverage_json(tmp_path, [doc]), tmp_path / "report.json"
+    )
+    assert status == 0
+    marked = backfill.read_jsonl(out_dir / "reupload_marked.jsonl")
+    assert [m["item_id"] for m in marked] == [row["item_id"]]
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert len(report["reupload_marked"]) == 1
+    assert report["orphaned_storage_objects"] == []
+
+
+def test_receipt_is_current_exige_sha_y_ruta_vigentes():
+    row = {"asset_sha256": "a" * 64, "storage_path": "x/y.jpg"}
+    good = {"verified": True, "asset_sha256": "a" * 64, "storage_path": "x/y.jpg"}
+    assert backfill.receipt_is_current(good, row)
+    assert not backfill.receipt_is_current({**good, "asset_sha256": "b" * 64}, row)
+    assert not backfill.receipt_is_current({**good, "storage_path": "x/z.jpg"}, row)
+    assert not backfill.receipt_is_current({**good, "verified": False}, row)
+    assert not backfill.receipt_is_current(good, None)
 
 
 # ---------------------------------------------------------------------------

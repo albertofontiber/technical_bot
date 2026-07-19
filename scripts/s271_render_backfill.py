@@ -110,18 +110,29 @@ def slugify(value: str) -> str:
     return cleaned.strip("_") or "unknown"
 
 
-def storage_path(manufacturer: str, source_file: str, page_index: int) -> str:
-    """Patrón legacy: ``{prefix}/{prefix}_{stem}_pNNN.jpg`` en manual-images.
+def storage_path(
+    manufacturer: str, source_file: str, page_index: int, document_id: str
+) -> str:
+    """Patrón legacy + discriminador de revisión (S271b):
+    ``{prefix}/{prefix}_{stem}_{docid8}_pNNN.jpg`` en manual-images.
 
     Legacy: ``unknown/unknown_HLSI-MI-580I_p001.jpg`` (prefix = carpeta de
-    producto o 'unknown'). S271: prefix = slug del fabricante (los docs del
-    backfill no tienen carpeta legacy) y pNNN = page_number de chunks_v2.
+    producto o 'unknown'). S271: prefix = slug del fabricante y pNNN =
+    page_number de chunks_v2. ``docid8`` (primeros 8 del document_id) es
+    OBLIGATORIO desde S271b: el mismo source_file puede existir bajo DOS
+    document_ids (revisiones v04/v07 que s107 separó — caso real
+    HLSI-MN-103_RP1r-Supra_lr) y sin discriminador los nombres COLISIONAN
+    (50 pares en t11-notifier; cada render pisaba al otro → sha mismatch →
+    fail-closed en upload). El esquema nuevo aplica a renders NUEVOS y a los
+    colisionados saneados; los items viejos no colisionados conservan su
+    nombre (el manifest es la fuente, no esta función).
     """
     prefix = slugify(manufacturer).lower()
     stem = source_file.strip()
     if stem.casefold().endswith(".pdf"):
         stem = stem[:-4]
-    return f"{prefix}/{prefix}_{slugify(stem)}_p{page_index:03d}.jpg"
+    docid8 = slugify(str(document_id))[:8].lower()
+    return f"{prefix}/{prefix}_{slugify(stem)}_{docid8}_p{page_index:03d}.jpg"
 
 
 def item_id_for(document_id: str, page_index: int) -> str:
@@ -202,6 +213,28 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
                 continue  # append truncado por crash: el resume lo repite
             raise
     return rows
+
+
+def latest_by_item(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Dedupe de un checkpoint append-only: la ÚLTIMA fila por item_id manda."""
+    result: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        result[row["item_id"]] = row
+    return result
+
+
+def receipt_is_current(
+    receipt: dict[str, Any], row: dict[str, Any] | None
+) -> bool:
+    """Un receipt de upload solo vale si es EXACTAMENTE el binario y la ruta
+    de la fila vigente del manifest (resume sha-aware, S271b): un receipt
+    obsoleto tras un re-render/saneo no cuenta como subido."""
+    return (
+        row is not None
+        and bool(receipt.get("verified"))
+        and receipt.get("asset_sha256") == row["asset_sha256"]
+        and receipt.get("storage_path") == row["storage_path"]
+    )
 
 
 def append_jsonl(path: Path, row: dict[str, Any]) -> None:
@@ -287,7 +320,12 @@ def render_tramo(
             for page_index in pending:
                 pix = pdf.load_page(page_index - 1).get_pixmap(dpi=RENDER_DPI)
                 binary = pix.tobytes("jpeg", jpg_quality=JPEG_QUALITY)
-                path = storage_path(doc["manufacturer"], doc["source_file"], page_index)
+                path = storage_path(
+                    doc["manufacturer"],
+                    doc["source_file"],
+                    page_index,
+                    doc["document_id"],
+                )
                 local_file = out_dir / Path(path).name
                 local_file.write_bytes(binary)
                 row = {
@@ -326,6 +364,198 @@ def _render_done(row: dict[str, Any] | None, out_dir: Path) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Fase FIX-COLLISIONS (saneador local; NO toca DB/Storage)
+# ---------------------------------------------------------------------------
+
+COLLISION_REPORT_PATH = ROOT / "evals" / "s271_collision_fix_report_v1.json"
+
+
+def fix_collisions(
+    render_dir: Path = RENDER_DIR,
+    coverage_path: Path = COVERAGE_PATH,
+    report_path: Path = COLLISION_REPORT_PATH,
+) -> int:
+    """Sanea GLOBALMENTE (todos los tramos) las colisiones de nombre S271b.
+
+    Causa: el esquema viejo ``{slug}_{stem}_pNNN.jpg`` colisiona cuando el
+    mismo source_file existe bajo DOS document_ids (revisiones separadas en
+    s107) — cada render pisa al otro → sha mismatch → fail-closed en upload.
+
+    Acciones (solo disco local; 0 escrituras a DB/Storage):
+      1. dedupe de cada manifest (última fila por item_id manda);
+      2. detección global: storage_path reclamado por >1 item_id, o fila cuyo
+         fichero local falta o no cuadra con su sha;
+      3. borra los ficheros afectados y RE-RENDERIZA esos items con el esquema
+         nuevo (docid8); los items no afectados conservan su nombre viejo;
+      4. reescribe cada manifest (1 fila válida por item; sha verificado por
+         fila contra el fichero en disco);
+      5. si un item afectado ya estaba SUBIDO con la MISMA ruta que conserva,
+         lo marca en ``reupload_marked.jsonl`` (el upload usará x-upsert=true
+         SOLO para ellos); si su ruta cambió, el re-upload es normal y el
+         objeto viejo queda listado como huérfano (limpiarlo es decisión del
+         orquestador — este saneador no borra nada remoto).
+    """
+    import fitz
+
+    fitz.TOOLS.mupdf_display_errors(False)
+    docs_by_id = {doc["document_id"]: doc for doc in load_worklist(coverage_path)}
+
+    # 1-2. dedupe + detección global de colisiones / filas corruptas.
+    tramo_rows: dict[str, dict[str, dict[str, Any]]] = {}
+    owners_by_path: dict[str, set[str]] = {}
+    for tdir in sorted(p for p in render_dir.iterdir() if p.is_dir()):
+        rows = latest_by_item(read_jsonl(tdir / "manifest.jsonl"))
+        if not rows:
+            continue
+        tramo_rows[tdir.name] = rows
+        for row in rows.values():
+            owners_by_path.setdefault(row["storage_path"], set()).add(row["item_id"])
+    collided_paths = {p for p, owners in owners_by_path.items() if len(owners) > 1}
+
+    report: dict[str, Any] = {
+        "instrument": "s271_collision_fix_report_v1",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "cause": "esquema de nombres sin document_id: mismo source_file bajo "
+        "dos document_ids (revisiones s107) colisiona; fix = docid8 en el "
+        "nombre (storage_path S271b)",
+        "collided_paths": len(collided_paths),
+        "tramos": {},
+        "reupload_marked": [],
+        "orphaned_storage_objects": [],
+        "unfixable": [],
+    }
+
+    for tramo_id, rows in tramo_rows.items():
+        out_dir = render_dir / tramo_id
+        duplicate_lines = len(read_jsonl(out_dir / "manifest.jsonl")) - len(rows)
+        receipts = read_jsonl(out_dir / "upload_receipts.jsonl")
+        receipt_by_item = {r["item_id"]: r for r in receipts if r.get("verified")}
+
+        fix_items = []
+        for row in rows.values():
+            local = out_dir / row["local_file"]
+            broken = (
+                row["storage_path"] in collided_paths
+                or not local.is_file()
+                or sha256_file(local) != row["asset_sha256"]
+            )
+            if broken:
+                fix_items.append(row)
+        if not fix_items and not duplicate_lines:
+            continue
+
+        # 3. borrar ficheros afectados y re-renderizar con el esquema nuevo.
+        for row in fix_items:
+            (out_dir / row["local_file"]).unlink(missing_ok=True)
+        fixed, unfixable = 0, []
+        by_doc: dict[str, list[dict[str, Any]]] = {}
+        for row in fix_items:
+            by_doc.setdefault(row["document_id"], []).append(row)
+        for document_id, doc_rows in sorted(by_doc.items()):
+            doc = docs_by_id.get(document_id)
+            pdf_path = Path(doc["pdf_path"]) if doc else None
+            if (
+                doc is None
+                or not pdf_path.is_file()
+                or sha256_file(pdf_path) != doc["pdf_sha256"]
+            ):
+                for row in doc_rows:
+                    unfixable.append(row["item_id"])
+                    rows.pop(row["item_id"], None)  # --render lo re-creará
+                continue
+            with fitz.open(pdf_path) as pdf:
+                for row in sorted(doc_rows, key=lambda r: r["page_index"]):
+                    page_index = row["page_index"]
+                    pix = pdf.load_page(page_index - 1).get_pixmap(dpi=RENDER_DPI)
+                    binary = pix.tobytes("jpeg", jpg_quality=JPEG_QUALITY)
+                    path = storage_path(
+                        doc["manufacturer"],
+                        doc["source_file"],
+                        page_index,
+                        document_id,
+                    )
+                    local_file = out_dir / Path(path).name
+                    local_file.write_bytes(binary)
+                    new_row = {
+                        **row,
+                        "storage_path": path,
+                        "local_file": local_file.name,
+                        "asset_sha256": sha256_bytes(binary),
+                        "bytes": len(binary),
+                        "width": pix.width,
+                        "height": pix.height,
+                        "rendered_at": datetime.now(timezone.utc).isoformat(),
+                        "fixed_by": "s271_fix_collisions",
+                    }
+                    rows[row["item_id"]] = new_row
+                    fixed += 1
+
+                    # 5. estado de upload del item saneado.
+                    receipt = receipt_by_item.get(row["item_id"])
+                    if receipt is not None and not receipt_is_current(
+                        receipt, new_row
+                    ):
+                        entry = {
+                            "tramo": tramo_id,
+                            "item_id": row["item_id"],
+                            "old_storage_path": receipt["storage_path"],
+                            "new_storage_path": path,
+                        }
+                        if receipt["storage_path"] == path:
+                            append_jsonl(
+                                out_dir / "reupload_marked.jsonl",
+                                {
+                                    "item_id": row["item_id"],
+                                    "reason": "objeto subido con binario "
+                                    "obsoleto en la MISMA ruta",
+                                    "at": datetime.now(timezone.utc).isoformat(),
+                                },
+                            )
+                            report["reupload_marked"].append(entry)
+                        else:
+                            report["orphaned_storage_objects"].append(entry)
+
+        # 4. reescritura atómica del manifest deduplicado, sha por fila.
+        ordered = sorted(
+            rows.values(), key=lambda r: (r["document_id"], r["page_index"])
+        )
+        for row in ordered:
+            local = out_dir / row["local_file"]
+            if sha256_file(local) != row["asset_sha256"]:
+                raise RuntimeError(
+                    f"post-fix: sha no cuadra para {row['item_id']} en {tramo_id}"
+                )
+        tmp = out_dir / "manifest.jsonl.tmp"
+        with tmp.open("w", encoding="utf-8") as handle:
+            for row in ordered:
+                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        tmp.replace(out_dir / "manifest.jsonl")
+
+        report["unfixable"].extend(unfixable)
+        report["tramos"][tramo_id] = {
+            "duplicate_lines_removed": duplicate_lines,
+            "items_fixed": fixed,
+            "items_unfixable": len(unfixable),
+            "rows_after": len(ordered),
+        }
+        print(
+            f"fix-collisions {tramo_id}: {fixed} saneados, {duplicate_lines} "
+            f"líneas duplicadas fuera, {len(unfixable)} imposibles, "
+            f"{len(ordered)} filas finales"
+        )
+
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    print(
+        f"fix-collisions: {report['collided_paths']} paths colisionados; "
+        f"{len(report['reupload_marked'])} marcados para re-upload con upsert; "
+        f"reporte -> {report_path}"
+    )
+    return 0 if not report["unfixable"] else 1
+
+
+# ---------------------------------------------------------------------------
 # Fase UPLOAD (Supabase Storage; escrituras SOLO con --execute)
 # ---------------------------------------------------------------------------
 
@@ -351,14 +581,29 @@ def upload_tramo(
 ) -> int:
     import httpx
 
-    manifest = read_jsonl(manifest_path(tramo_id, render_dir))
+    manifest = latest_by_item(read_jsonl(manifest_path(tramo_id, render_dir)))
     receipts_file = upload_receipts_path(tramo_id, render_dir)
-    uploaded = {r["item_id"] for r in read_jsonl(receipts_file) if r.get("verified")}
-    pending = [row for row in manifest if row["item_id"] not in uploaded]
+    # Resume sha-aware: solo cuenta como subido un receipt del binario y la
+    # ruta VIGENTES (un re-render/saneo invalida el receipt viejo solo).
+    uploaded = {
+        r["item_id"]
+        for r in read_jsonl(receipts_file)
+        if receipt_is_current(r, manifest.get(r["item_id"]))
+    }
+    # Items marcados por --fix-collisions para RE-SUBIR pisando el objeto
+    # existente (x-upsert=true SOLO para ellos, declarado en el receipt).
+    marked = {
+        m["item_id"]
+        for m in read_jsonl(tramo_dir(tramo_id, render_dir) / "reupload_marked.jsonl")
+    }
+    pending = [
+        row for row in manifest.values() if row["item_id"] not in uploaded
+    ]
     total_bytes = sum(row["bytes"] for row in pending)
     print(
         f"upload {tramo_id}: {len(manifest)} en manifest, {len(uploaded)} ya "
-        f"subidas, {len(pending)} pendientes (~{total_bytes / 1e6:.1f} MB)"
+        f"subidas, {len(pending)} pendientes (~{total_bytes / 1e6:.1f} MB, "
+        f"{len(marked & {r['item_id'] for r in pending})} marcadas para re-upload con upsert)"
     )
     if not execute:
         print("preflight (sin --execute): 0 escrituras a Storage.")
@@ -375,12 +620,16 @@ def upload_tramo(
             if sha256_bytes(binary) != row["asset_sha256"]:
                 raise RuntimeError(f"render corrupto en disco: {row['item_id']}")
             quoted = quote(row["storage_path"])
+            use_upsert = row["item_id"] in marked
             response = client.post(
                 f"{base_url}/storage/v1/object/{STORAGE_BUCKET}/{quoted}",
                 headers={
                     **headers,
                     "Content-Type": "image/jpeg",
-                    "x-upsert": "false",  # JAMÁS pisar un objeto existente
+                    # JAMÁS pisar un objeto existente — salvo los items
+                    # explícitamente marcados por --fix-collisions (su objeto
+                    # viejo es un binario equivocado que hay que reemplazar).
+                    "x-upsert": "true" if use_upsert else "false",
                 },
                 content=binary,
             )
@@ -431,6 +680,7 @@ def upload_tramo(
                     "asset_sha256": row["asset_sha256"],
                     "bytes": row["bytes"],
                     "reused_existing": reused,
+                    "reuploaded_with_upsert": use_upsert,
                     "verified": True,
                     "uploaded_at": datetime.now(timezone.utc).isoformat(),
                 },
@@ -448,14 +698,16 @@ def upload_tramo(
 def _load_payloads(
     tramo_id: str, render_dir: Path = RENDER_DIR
 ) -> list[dict[str, Any]]:
-    manifest = {row["item_id"]: row for row in read_jsonl(manifest_path(tramo_id, render_dir))}
+    manifest = latest_by_item(read_jsonl(manifest_path(tramo_id, render_dir)))
     payloads = []
+    seen: set[str] = set()
     for receipt in read_jsonl(upload_receipts_path(tramo_id, render_dir)):
-        if not receipt.get("verified"):
-            continue
         row = manifest.get(receipt["item_id"])
-        if row is None:
+        # Solo receipts del binario/ruta VIGENTES (un receipt obsoleto tras un
+        # saneo emparejaría el sha nuevo con la URL vieja — jamás).
+        if not receipt_is_current(receipt, row) or receipt["item_id"] in seen:
             continue
+        seen.add(receipt["item_id"])
         payloads.append(
             {
                 "document_id": row["document_id"],
@@ -565,14 +817,13 @@ def classify_items(
     """Items clasificables = subidas verificadas de los tramos pedidos."""
     items: list[dict[str, Any]] = []
     for tramo_id in tramo_ids:
-        manifest = {
-            row["item_id"]: row
-            for row in read_jsonl(manifest_path(tramo_id, render_dir))
-        }
+        manifest = latest_by_item(read_jsonl(manifest_path(tramo_id, render_dir)))
+        seen: set[str] = set()
         for receipt in read_jsonl(upload_receipts_path(tramo_id, render_dir)):
             row = manifest.get(receipt["item_id"])
-            if row is None or not receipt.get("verified"):
+            if not receipt_is_current(receipt, row) or receipt["item_id"] in seen:
                 continue
+            seen.add(receipt["item_id"])
             items.append(
                 {
                     "item_id": row["item_id"],
@@ -1067,6 +1318,13 @@ def main() -> int:
     parser.add_argument("--apply-labels", action="store_true")
     parser.add_argument("--gate-sample", action="store_true")
     parser.add_argument("--write-prereg", action="store_true")
+    parser.add_argument(
+        "--fix-collisions",
+        action="store_true",
+        help="Saneador global S271b (solo disco local): dedupe de manifests, "
+        "re-render de items colisionados/corruptos con el esquema docid8, "
+        "marcado de re-uploads.",
+    )
     parser.add_argument("--tramo", type=str, default=None)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--env", type=Path, default=DEFAULT_ENV)
@@ -1092,11 +1350,14 @@ def main() -> int:
     phases = [
         args.render, args.upload, args.load, args.classify,
         args.apply_labels, args.gate_sample, args.write_prereg,
+        args.fix_collisions,
     ]
     if sum(phases) > 1:
         print("ABORT: una fase por invocación.", file=sys.stderr)
         return 2
 
+    if args.fix_collisions:
+        return fix_collisions()
     if args.write_prereg:
         plan = build_plan()
         print(json.dumps(plan, indent=2, ensure_ascii=False))
