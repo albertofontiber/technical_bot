@@ -1,0 +1,183 @@
+schema: s270_etapa2_probe_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+date: 2026-07-19
+dec: [DEC-122, DEC-125, DEC-126]
+proposito: >-
+  Etapa 2 del contrato must-preserve: PROBE UNICO a los 4 targets synthesis-miss (cat018,
+  hp002, hp011, hp017) con el mecanismo MUST_PRESERVE_CONTRACT sobre los contextos CONGELADOS
+  s113 (sin retrieval). El gate y el instrumento quedan congelados AQUI, antes de construir el
+  runner y antes de cualquier llamada pagada. Reapertura s222/s223 autorizada en DEC-126
+  (permiso explicito de Alberto; el gate de esta etapa operacionaliza su condicion
+  "si tiene sentido para mejorar el bot").
+
+# ── SHA-256 pins (bytes crudos; el runner los verifica en preflight Y en execute) ──
+frozen_inputs_sha256:
+  src/rag/must_preserve.py: 07ffbce2049d02b7763110dbe6f541efc89d1efcb3aeb28c0a228b0ea75e56ec
+  src/rag/answer_planner.py: c9feb1fc86db6929be900f9a4e2446f597fc06dd513fb870eaa37a168c5305a8
+  src/rag/generator.py: 4a128bb85006a66a14c3a33d0f3705b4f75539e5b3e5e36e155d765c5ced8b25
+  evals/s113_full_contexts_freeze_v1.json: 22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  evals/s235_direct_clause_bound_score_packet_v1.json: e3062b10a32200b15b737e2c36e98febe6e04a637d828a82fe4f1ca6541cff01
+# El pin del runner se estampa al finalizar su build EN ESTA MISMA SESION, antes de todo
+# --execute (un fichero no puede contener su propio sha; el prereg es la autoridad externa).
+runner_sha256:
+  scripts/s270_etapa2_probe.py: PENDING_STAMP_BEFORE_EXECUTE
+
+# ── Diseño experimental ──
+design:
+  qids: [cat018, hp002, hp011, hp017]
+  contexts: >-
+    evals/s113_full_contexts_freeze_v1.json rows[].context — los chunk-dicts EXACTOS que el
+    generador sirvio (13/11/13/14 = 51 filas). SIN retrieval, SIN DB (catalogo repo-first
+    data/catalog/*.jsonl; resolve_query NO shadow-loguea). database_reads esperados: 0;
+    database_writes: 0.
+  replicates: 3
+  arms:
+    control: MUST_PRESERVE_CONTRACT=off (passthrough byte-identico del borrador)
+    treatment: MUST_PRESERVE_CONTRACT=on (apply_must_preserve_contract sobre el MISMO borrador)
+  paired: true
+  paired_rationale: >-
+    El mecanismo es 100% post-generacion y determinista dado el borrador: con flag on el
+    pipeline genera EL MISMO draft y luego anexa. Por eso cada replica hace UNA llamada de
+    generacion (flag off) y los dos brazos se derivan del mismo borrador: OFF = draft,
+    ON = apply(draft). Esto elimina la inestabilidad de replica del generador de la
+    atribucion causal (leccion S242: baseline inestable con n=2 contamino el A/B) y es
+    byte-fiel a lo que produciria un run con flag on. 12 llamadas de generacion en total.
+  generation:
+    route: harness (src.rag.generator.generate_answer, available_models=None — paridad factlevel/DEC-094)
+    model: claude-sonnet-4-6           # LLM_MODEL de prod (src/config.py) — mismo generador que la foto
+    temperature: 0
+    max_tokens: 3500                   # DEMO_FLAGS del harness (DEC-092)
+    max_retries: 0                     # no-retry; sin retry semantico
+    env_flags:
+      GENERATOR_PROMPT_VARIANT: fidelity   # DEC-098 (demo/prod)
+      GENERATOR_SELECTION_BLOCK: "on"      # DEC-101 (code-gated por query)
+      ANSWER_OBLIGATION_PLANNER: "off"
+      GENERATOR_INCLUDE_CONTEXT: ""        # off (paridad bvg/DEC-075)
+      MUST_PRESERVE_CONTRACT: "off"        # durante la generacion; on SOLO en el apply del brazo ON
+    stop_reason_contract: end_turn        # cualquier otra cosa = fallo de la replica (no cuenta, no se re-llama)
+  checkpoint: >-
+    evals/s270_etapa2_probe_replicas_v1.jsonl — una linea por replica completada
+    {qid, replicate, ts, model, stop_reason, off_answer, on_answer, must_preserve_trace,
+    attestation, usage, cost_usd}. Resumible: un re-run de --execute SALTA las replicas ya
+    persistidas (resumir NO es retry: jamas se repite una llamada completada).
+
+# ── Instrumento (el MISMO de la foto diagnostica 143/157) ──
+instrument:
+  matcher: src.rag.answer_planner.obligation_covered via validate_answer_plan (anchors s163, determinista, 0 model calls)
+  obligations_source: evals/s235_direct_clause_bound_score_packet_v1.json (items[].obligations, 20 filas)
+  conflicts: validate_answer_conflicts (conf_26f63590494f, hp017)
+  invalid_citations: src.rag.omission_correction.invalid_citations (reporting, no gate)
+
+# ── Poblacion adjudicada (DEC-125) y como se puntua cada una ──
+gate_eligible:                # 8 obligaciones; conversion = cubierta >=2/3 ON y NO cubierta >=2/3 OFF
+- {obligation_id: obl_7bba8d03d496, qid: cat018, check: matcher}
+- {obligation_id: obl_015f9b9aaa3a, qid: cat018, check: matcher}
+- {obligation_id: obl_b6f6211be439, qid: hp002, check: matcher}
+- {obligation_id: obl_a5d9fa1f9253, qid: hp002, check: matcher}
+- {obligation_id: obl_b2043cd4379b, qid: hp017, check: matcher}
+- {obligation_id: obl_7aa723717412, qid: hp017, check: matcher}
+- {obligation_id: obl_0d6a30948dfd, qid: hp017, check: merged_warning_block}
+- {obligation_id: obl_872c35fb41d7, qid: hp017, check: disclosure_respec}
+stretch:                      # declarado; se REPORTA y JAMAS cuenta a favor ni en contra del gate
+  obligation_id: obl_2f5d79e354b9
+  qid: hp011
+  motivo: >-
+    selection-loss (F13 servido-no-citado, s243): el binding del mecanismo solo actua sobre
+    fragmentos CITADOS — si el borrador no cita F13, el mecanismo no lo alcanza y se reporta
+    binding_not_reached; si la attestation lo bloquea, attestation_blocked. No se puentea.
+demoted_reporting_only: [obl_07eee3300535, obl_161564ff41bf]   # SUPPLEMENTARY (DEC-125); pueden aparecer como anexo etiquetado (DEC-126 opcion a); nunca gate
+merged_warning_block:
+  carrier: obl_0d6a30948dfd
+  absorbe: [obl_16637b935bd4, obl_0d6a30948dfd]
+  check: >-
+    cubierta ssi obligation_covered pasa para AMBAS filas s235 del bloque
+    (logic_contradiction_warning Y commissioning_rule_verification) — la spec resultante
+    DEC-125 exige diseno (evitar logicas contradictorias) + verificacion (probar
+    rigurosamente en puesta en marcha) UNA vez.
+disclosure_respec:            # obl_872c re-specced a DISCLOSURE (DEC-125 fila 8); check NUEVO pre-declarado
+  covered_iff: ambos_valores AND formula_disclosure
+  ambos_valores: >-
+    "seis|six|6" Y "siete|seven|7" presentes, cada uno dentro de una ventana de <=600
+    caracteres (texto foldeado) que contenga r"tipos?\s+de\s+retardo|delay\s+types?"
+    (la respuesta o su anexo presentan AMBOS valores del conflicto seis/7).
+  formula_disclosure: >-
+    cualquiera de must_preserve._DISCLOSURE_PATTERNS (substring foldeado) O el regex
+    r"la prosa dice|la tabla (?:recoge|enumera|lista|indica)|discrepan\w*|inconsistencia|
+    inconsistente|no coincide" sobre el texto foldeado.
+  riesgo_declarado: >-
+    (nota de riesgo DEC-125 fila 8) se REPORTA ademas si la frase de disclosure flipea el
+    detector declarado-vs-enumerado del matcher legacy (_declared_cardinality_consistent) —
+    diagnostico, no gate.
+
+# ── Set protegido (regresiones) ──
+protected:
+  definition: >-
+    TODAS las obligaciones de los 4 targets CUBIERTAS por las canonical_answer del packet
+    s235 bajo el matcher pineado (el baseline de la foto). Se COMPUTA en runtime y debe
+    coincidir con el set esperado; si difiere → fail-fast (drift de instrumento).
+  expected: [obl_05482a6b3f0e, obl_0db2b9f2842a, obl_5784f16b1a11]
+  facts_clause: >-
+    "anchors de facts OK de esas preguntas si el packet los lista": el packet s235 NO lista
+    fact-anchors (solo obligaciones + conflicts) → clausula VACUA por ausencia, declarada
+    visible aqui. Los facts del freeze s113 no forman parte del gate (su instrumento es el
+    juez del assessment, no el matcher de este probe).
+  regression_stable: >-
+    p ∈ protected cubierta en >=2/3 replicas OFF y NO cubierta en >=2/3 replicas ON.
+    (Con diseno pareado y anexo monotono, una regresion solo puede venir de un detector
+    global del matcher — exactamente lo que el gate debe cazar.)
+
+# ── Conflictos ──
+conflicts:
+  new_conflict: >-
+    conflict_id marcado unsafe en el brazo ON y NO en el OFF pareado de la misma replica,
+    en >=2/3 replicas.
+  human_read: >-
+    DEC-092b: TODO caso flag (conflicto unsafe en cualquier brazo, o regresion estable) se
+    LISTA en el result con referencia a su replica para lectura humana del orquestador —
+    no se declara regresion/conflicto REAL sin leer las respuestas. El veredicto mecanico
+    lo marca con requires_human_read: true.
+
+# ── Gate (pre-declarado; PASS mecanico) ──
+gate:
+  conversions_stable_min: 1        # sobre gate_eligible (8); stretch NO cuenta
+  protected_regressions_stable_max: 0
+  new_conflicts_stable_max: 0
+  cost_ceiling_usd: 6.0
+  verdict_states: [GO, NO_GO]
+  nota: >-
+    El gate de SHIP (>=1 conversion limpia) y el objetivo 98% (154→151, +8) son DISTINTOS y
+    se reportan por separado (dúo-Sol M8, diseño §encabezado): un GO con <8 conversiones NO
+    declara el objetivo cumplido. Si hay flags (regresion/conflicto), el veredicto mecanico
+    va acompañado de requires_human_read y el cierre lo adjudica el orquestador tras leer.
+
+# ── Attestation (real, sin puentes) ──
+attestation:
+  real: >-
+    resolucion de identidad desde la PREGUNTA via catalogo gobernado (catalog_resolver.
+    resolve_query, solo expand=true) + attest_identity por fragmento citado (doc_map,
+    fail-closed) — exactamente el codigo del mecanismo, sin bypass. Si bloquea el anexo en
+    algun target (p.ej. hp011 "Morley RP1r" → notifier:rp1r-supra y fragmentos de manuales
+    no mapeados) se REPORTA como attestation_blocked por fragmento; no se puentea.
+  trace: el trace must_preserve del apply + attest por-fragmento-citado se persisten por replica.
+
+# ── Coste ──
+cost:
+  pricing_usd_per_mtok: {input: 3.0, output: 15.0}    # claude-sonnet-4-6 (skill claude-api, cache 2026-06)
+  calls: 12                                            # 4 qids x 3 replicas x 1 generacion (pareado)
+  estimate_method: >-
+    input tokens ≈ chars(system+user reconstruible)/3.0 (conservador para ES) por llamada;
+    output al tope 3500. El preflight imprime la estimacion y falla si supera el techo.
+  ceiling_usd: 6.0
+  no_retry: max_retries=0; transporte fallido → la replica NO se persiste y el re-run la
+    reintenta desde el checkpoint (resumir, no retry de llamadas completadas).
+
+outputs:
+  replicas_jsonl: evals/s270_etapa2_probe_replicas_v1.jsonl
+  result: evals/s270_etapa2_probe_result_v1.json
+  result_contents: >-
+    por-obligacion x por-replica coverage (20 obligaciones + merged + disclosure + stretch +
+    demoted), conversiones estables, regresiones estables (protegidas y no protegidas),
+    conflictos (nuevos y preexistentes) + lista human_read, attestation/binding traces,
+    coste real, veredicto contra el gate, sha-pins verificados. Sellado con result_sha256
+    (patron sealed_artifact).
