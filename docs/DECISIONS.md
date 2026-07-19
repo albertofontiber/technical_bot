@@ -2526,3 +2526,16 @@ del disclosure de la tira-de-etiquetas (forma-pobre por definición) y ahora cal
 convierten vía la tabla F2 (filas con cláusulas).** No se tuneó la whitelist contra los
 targets. Si la Etapa 3 v3 aún muestra ruido, NO se itera más: la recomendación pasa a
 activación restringida por familia (criterio del coordinador). Flag sigue OFF.
+
+**DEC-130b (S271, adjudicación del ship-review Sol — 3 medios + 1 menor, 4/4 confirmados, 0 FP):**
+(M1/M2) los claims quedan ACOTADOS: "2 conversiones estables" = certificadas en replays
+congelados det-only (b6f6 3/3; 872c 2/3 ≥ regla); "0 ruido" = smoke vivo sin apéndices espurios
+(el camino positivo vivo NO disparó en el smoke — 2 identity_unresolved + 1 sin citas — y se
+ejercitará en la primera ventana con flag ON leyendo query_logs). El requires_human_read de la
+cert quedó RESUELTO EN POSITIVO: el orquestador regeneró determinísticamente y LEYÓ el apéndice
+872c post-whitelist — disclosure con la tabla real de 7 tipos de retardo, verbatim y citada,
+calidad alta. (M3) el coste de la whitelist (15.3% skips) queda con TRIPWIRE declarado: si en
+cohortes futuras el share supera 0.25, se re-examina la definición (no se gatea retroactivo).
+(menor) TECH_DEBT #54 (etiquetas con puntos truncan citation_window): frecuencia real sin medir,
+declarado como gap vivo del ON. Fable-side = SÓLIDA del build (2 medios cableados). El merge
+default-off queda autorizado por el dúo; la activación en demo sigue el plan DEC-127b/130.
