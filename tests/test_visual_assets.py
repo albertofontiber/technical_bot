@@ -3,7 +3,9 @@
 Contrato verificado aquí:
     * flag off  → no-op EXACTO: cero llamadas al registro, `diagrams` intacto;
     * flag on   → lookup SOLO de las páginas de fragmentos citados en la respuesta;
-    * cap 2 activos por respuesta;
+    * cap 4 activos por respuesta (S271; antes 2), con orden de relevancia
+      pre-declarado: páginas de los fragmentos MÁS citados primero; empate →
+      orden de cita en la respuesta;
     * 'uncertain'/'not_useful' JAMÁS se sirven (ni aunque la API los devuelva);
     * falla abierta: excepción en el lookup → respuesta intacta, sin diagramas.
 """
@@ -93,7 +95,7 @@ def test_flag_off_por_default_y_cero_llamadas(monkeypatch):
 
 
 # ---------------------------------------------------------------------------
-# Flag ON: solo páginas citadas, formato telegram, cap 2
+# Flag ON: solo páginas citadas, formato telegram, cap 4 + orden de relevancia
 # ---------------------------------------------------------------------------
 
 def test_flag_on_lookup_solo_de_paginas_citadas(monkeypatch):
@@ -144,7 +146,7 @@ def test_flag_on_sin_citas_no_hay_lookup(monkeypatch):
     assert res["diagrams"] == []
 
 
-def test_cap_maximo_dos_activos(monkeypatch):
+def test_cap_maximo_cuatro_activos(monkeypatch):
     monkeypatch.setattr(gen, "VISUAL_ASSETS_REGISTRY", True)
     _fake_anthropic(
         monkeypatch, "Dato [F1] y [F2] y [F3].\nFuentes: a; b; c"
@@ -153,7 +155,7 @@ def test_cap_maximo_dos_activos(monkeypatch):
         monkeypatch,
         {
             ("d1", 1): [_useful("https://assets/a1.jpg"), _useful("https://assets/a2.jpg")],
-            ("d2", 2): [_useful("https://assets/b1.jpg")],
+            ("d2", 2): [_useful("https://assets/b1.jpg"), _useful("https://assets/b2.jpg")],
             ("d3", 3): [_useful("https://assets/c1.jpg")],
         },
     )
@@ -165,13 +167,90 @@ def test_cap_maximo_dos_activos(monkeypatch):
             _chunk("d3", 3, "manual_c.pdf"),
         ],
     )
-    assert len(res["diagrams"]) == 2  # cap del contrato S190
+    assert len(res["diagrams"]) == 4  # cap S271 (antes 2, contrato S190)
     assert [d["url"] for d in res["diagrams"]] == [
         "https://assets/a1.jpg",
         "https://assets/a2.jpg",
+        "https://assets/b1.jpg",
+        "https://assets/b2.jpg",
     ]
-    # Tras llenar el cap con la primera página citada no se siguen consultando páginas.
-    assert calls == [("d1", 1)]
+    # Tras llenar el cap con las dos primeras páginas citadas no se siguen
+    # consultando páginas (la 3ª ni se mira).
+    assert calls == [("d1", 1), ("d2", 2)]
+
+
+def test_orden_relevancia_mas_citado_primero(monkeypatch):
+    monkeypatch.setattr(gen, "VISUAL_ASSETS_REGISTRY", True)
+    # F2 se cita DOS veces; F1 una → la página de F2 va primero aunque F1
+    # aparezca antes en la respuesta.
+    _fake_anthropic(
+        monkeypatch, "Dato A [F1]. Dato B [F2]. Más detalle [F2].\nFuentes: a; b"
+    )
+    calls = _spy_lookup(
+        monkeypatch,
+        {
+            ("d1", 1): [_useful("https://assets/a1.jpg")],
+            ("d2", 2): [_useful("https://assets/b1.jpg")],
+        },
+    )
+    res = gen.generate_answer(
+        "¿Especificaciones?",
+        [_chunk("d1", 1, "manual_a.pdf"), _chunk("d2", 2, "manual_b.pdf")],
+    )
+    assert calls == [("d2", 2), ("d1", 1)]
+    assert [d["url"] for d in res["diagrams"]] == [
+        "https://assets/b1.jpg",
+        "https://assets/a1.jpg",
+    ]
+
+
+def test_orden_relevancia_empate_por_orden_de_cita(monkeypatch):
+    monkeypatch.setattr(gen, "VISUAL_ASSETS_REGISTRY", True)
+    # Empate (una cita cada uno) → orden de cita en la respuesta: F2 antes que F1.
+    _fake_anthropic(monkeypatch, "Dato B [F2]. Dato A [F1].\nFuentes: a; b")
+    calls = _spy_lookup(
+        monkeypatch,
+        {
+            ("d1", 1): [_useful("https://assets/a1.jpg")],
+            ("d2", 2): [_useful("https://assets/b1.jpg")],
+        },
+    )
+    res = gen.generate_answer(
+        "¿Especificaciones?",
+        [_chunk("d1", 1, "manual_a.pdf"), _chunk("d2", 2, "manual_b.pdf")],
+    )
+    assert calls == [("d2", 2), ("d1", 1)]
+    assert [d["url"] for d in res["diagrams"]] == [
+        "https://assets/b1.jpg",
+        "https://assets/a1.jpg",
+    ]
+
+
+def test_orden_relevancia_agrega_citas_por_pagina(monkeypatch):
+    monkeypatch.setattr(gen, "VISUAL_ASSETS_REGISTRY", True)
+    # F1 y F3 comparten página (d1, 1): 1+1 citas > 1 cita de F2 → la página
+    # compartida gana aunque F2 esté citado antes que F3.
+    _fake_anthropic(monkeypatch, "A [F2]. B [F1]. C [F3].\nFuentes: a; b")
+    calls = _spy_lookup(
+        monkeypatch,
+        {
+            ("d1", 1): [_useful("https://assets/a1.jpg")],
+            ("d2", 2): [_useful("https://assets/b1.jpg")],
+        },
+    )
+    res = gen.generate_answer(
+        "¿Especificaciones?",
+        [
+            _chunk("d1", 1, "manual_a.pdf"),
+            _chunk("d2", 2, "manual_b.pdf"),
+            _chunk("d1", 1, "manual_a.pdf"),
+        ],
+    )
+    assert calls == [("d1", 1), ("d2", 2)]
+    assert [d["url"] for d in res["diagrams"]] == [
+        "https://assets/a1.jpg",
+        "https://assets/b1.jpg",
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -304,3 +383,18 @@ def test_cited_fragment_numbers_refs_y_fallback():
     ) == [2]
     # Sin cita → vacío (no se adjunta nada).
     assert va.cited_fragment_numbers("Sin fuentes aquí.", chunks) == []
+
+
+def test_cited_fragments_ranked_citas_y_posiciones():
+    chunks = [
+        _chunk("d1", 1, "manual_alpha.pdf"),
+        _chunk("d2", 2, "manual_beta.pdf"),
+    ]
+    # F2 citado 2 veces (posición primera=2), F1 una (posición=10).
+    ranked = va.cited_fragments_ranked("x [F2] y [F1] z [F2]", chunks)
+    assert [(n, c) for n, c, _ in ranked] == [(2, 2), (1, 1)]
+    # Fallback fuentes: cada manual cuenta 1; orden por aparición en el texto.
+    ranked = va.cited_fragments_ranked(
+        "Dato.\nFuentes: manual_beta; manual_alpha", chunks
+    )
+    assert [(n, c) for n, c, _ in ranked] == [(2, 1), (1, 1)]

@@ -1,0 +1,94 @@
+# Gate del RESTO v1 (S271) — NO-PASS registrado + filtro de contenido
+# (dry-run) + re-gate pendiente en muestra fresca post-filtro.
+# Numeros de serving verificados por GET en el mismo turno (Protocolo 1).
+instrument: s271_resto_gate_v1
+status: NO_PASS_FILTRO_APLICADO_REGATE_PENDIENTE
+created_at: '2026-07-19T21:35:58.328533+00:00'
+preregistration: evals/s271_render_backfill_prereg_v1.yaml
+gate_sample:
+  file: evals/s271_visual_utility_gate_sample_resto.json
+  sample_sha256: e927edcb2ce7e4b597aebfc3296f0760e42a93412da0a953e5ee721300529431
+  seed: '271'
+  n: 60
+  excluded_tramos:
+  - t00-piloto
+result:
+  source: spot-check del orquestador (mensaje de cierre; los verdicts por item NO fueron entregados
+    a este cierre — los números se registran tal cual los reporta el orquestador)
+  judged: 60
+  useful: 56
+  covers_or_marketing: 0
+  failures: 4
+  failure_classes:
+    plantilla_de_log_en_blanco: 2
+    convenciones_frontmatter: 1
+    prosa_generica_sin_figura: 1
+  precision: 56/60 = 0.9333
+  criteria:
+    precision_gte: 0.95
+    zero_cover_or_marketing: true
+  verdict: NO-PASS (precision 0.933 < 0.95; 0 covers OK)
+serving_state_verified:
+  verified_by: Fable, este cierre, por GET (0 escrituras)
+  serving_total: 13298
+  breakdown:
+    bridge_s269_v4: 4489
+    s271_v1_total: 8809
+    s271_piloto: 442
+    s271_resto: 8367
+  uncertain_fail_closed: 30
+  labels_total: 11219
+  note_discrepancia: el desglose del mensaje del orquestador (bridge 4.489 + piloto 429 + resto
+    8.809) mezcla la cifra pre-resume del piloto (429->442 tras reanudar los 2 batches fallidos)
+    con el total s271 (8.809 = 442 piloto + 8.367 resto); el total real verificado es 13.298,
+    no 13.727
+action_content_filter:
+  instrument: scripts/s271_content_filter.py (dry-run ejecutado; 0 escrituras a DB)
+  report: evals/s271_content_filter_report_v1.json
+  degrade_payload: evals/s271_content_filter_degrade_v1.jsonl
+  signals:
+    blank_table_template: rejilla real de celdas de datos vacías (>=6, cero informativas) + prosa
+      mínima (<200 alnum fuera de tabla), sobre el TEXTO de la página en chunks_v2
+    low_density: <120 alnum de texto + corroboración de IMAGEN (bytes/píxel del render < 0.05);
+      sin stats del render (legacy bridge) NO se evalúa; 'wiring' exenta (gráfico-primero)
+  anti_overfit: umbrales a priori; corre sobre TODO el serving-set (13.298); cero excepciones
+    por item; los 60 observados del gate v1 NO se usaron para fijar umbrales. Los 2 FPs que endurecieron
+    las señales (celdas sueltas de árboles UI; falso-vacío de extracción en página densa) salieron
+    del PROPIO dry-run, verificados a ojo
+  dry_run_counts:
+    degraded_total: 41
+    signal_blank_table_template: 40
+    signal_low_density: 7
+    degraded_bridge_v4: 5
+    degraded_s271: 36
+    s2_skipped_no_render_stats: 17
+    pages_without_text_fail_open: 0
+  cross_check_no_tuneado: 2 de los 41 degradados caen entre los 60 observados del gate v1 (s271_gate_28
+    MFDT156 p52; s271_gate_34 MNDT105_A p35, ambos blank_table_template) — consistente con las
+    2 plantillas de log en blanco que señaló el panel, sin haberse tuneado sobre ellas
+  declared_residual: prosa genérica sin figura y frontmatter con texto denso NO son separables
+    desde el texto sin mirar la imagen; residual que mide el re-gate. El único degradado solo-S2
+    (MFDT180 p46) es marginal a ojo (procedimiento con pantallas UI en el tercio superior, resto
+    en blanco) — visible en el payload para la decisión del orquestador
+  serving_after_execute_expected:
+    total: 13257
+    bridge_s269_v4: 4484
+    s271_v1: 8773
+  execute_command: 'python scripts/s271_content_filter.py --execute --env .env   # UPDATE real:
+    SOLO el orquestador'
+regate:
+  status: PENDIENTE (spot-check del orquestador)
+  sample: evals/s271_visual_utility_gate_sample_resto_v2.json
+  sample_sha256: 382f1cf07dffeacc1035ad9a7ff037b344be3267fe42a9cbc217391e5e0fc648
+  seed: 271b
+  n: 60
+  excluded_pages: 99
+  exclusions: 'piloto + los 60 ya observados del gate v1 + los 41 degradados por el filtro (solape
+    verificado: 0 con v1, 0 con degradados, 0 piloto)'
+  renders: spotcheck_s271_resto_v2/ (60 descargados, sha256 verificado contra la muestra congelada)
+  criteria:
+    precision_gte: 0.95
+    zero_cover_or_marketing: true
+  nota: 'la muestra v2 se congela PRE-execute del filtro: excluye por lista explícita los degradados,
+    así que el veredicto del re-gate es el del serving-set post-filtro aunque el UPDATE se aplique
+    después'

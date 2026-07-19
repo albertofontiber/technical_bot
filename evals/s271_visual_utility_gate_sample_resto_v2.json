@@ -1,0 +1,1105 @@
+{
+  "instrument": "s271_visual_utility_gate_sample",
+  "status": "FROZEN_FOR_HUMAN_SPOT_CHECK",
+  "created_at": "2026-07-19T21:34:30.462631+00:00",
+  "preregistration": "evals/s271_render_backfill_prereg_v1.yaml",
+  "seed": "271b",
+  "n": 60,
+  "excluded_tramos": [
+    "t00-piloto"
+  ],
+  "excluded_pages": 99,
+  "exclude_files": [
+    "evals\\s271_visual_utility_gate_sample_resto.json",
+    "evals\\s271_content_filter_degrade_v1.jsonl"
+  ],
+  "labels_total": 10616,
+  "serving_set_total": 8273,
+  "criteria": {
+    "precision_gte": 0.95,
+    "zero_cover_or_marketing": true
+  },
+  "sample_sha256": "382f1cf07dffeacc1035ad9a7ff037b344be3267fe42a9cbc217391e5e0fc648",
+  "rows": [
+    {
+      "sample_id": "s271_gate_01",
+      "item_id": "s271_606e9dacb740",
+      "tramo": "t10-morley",
+      "document_id": "9b9a2119-61a7-4977-80c4-dba64c652f9b",
+      "page_index": 30,
+      "source_file": "MIE-MU-520rv02",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MU-520rv02_p030.jpg",
+      "asset_sha256": "c42e8113b01137ee63cb7cb32341683f59f8c76b80132ce2be13defd23dc75bd",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Operational configuration procedures show readable controller prompts and safety-related steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_02",
+      "item_id": "s271_d4403c742816",
+      "tramo": "t22-xtralis",
+      "document_id": "749f11a0-329a-4eb9-94d4-ef275088cd35",
+      "page_index": 13,
+      "source_file": "33978_12_VESDA-E_VEU-A00_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_33978_12_VESDA-E_VEU-A00_Product_Guide_A4_Spanish_lores_p013.jpg",
+      "asset_sha256": "219fbdf51e15a0bfd92da97506e7a0e0ddbef7537c2d2a4cab0346c00d037f08",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "medium",
+        "reason": "Operational button instructions are legible, with a labeled control illustration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_03",
+      "item_id": "s271_17cf2090a8e1",
+      "tramo": "t14-securiton",
+      "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+      "page_index": 113,
+      "source_file": "ASD535_TD_T131192es_h",
+      "manufacturer": "Securiton",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/securiton/securiton_ASD535_TD_T131192es_h_p113.jpg",
+      "asset_sha256": "fe4d957467e231e4ba84a57d942bd090a0e5d85460f16ba20dfa618ee08ae397",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible fault-code and sensor-status tables support troubleshooting and verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_04",
+      "item_id": "s271_eab496e6cc03",
+      "tramo": "t14-securiton",
+      "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+      "page_index": 107,
+      "source_file": "ADW535_TD_T140358es_e",
+      "manufacturer": "Securiton",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/securiton/securiton_ADW535_TD_T140358es_e_p107.jpg",
+      "asset_sha256": "1297faa7a929aa4063f28117f2e10a095ef3dddf6c6911ced4747455ce2c87de",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible fault-diagnosis table lists symptoms, causes, and corrective actions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_05",
+      "item_id": "s271_6ae05a33e94f",
+      "tramo": "t11-notifier",
+      "document_id": "13f1f06c-6405-4ca6-8223-6abda577f7c4",
+      "page_index": 119,
+      "source_file": "MIDT156",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MIDT156_p119.jpg",
+      "asset_sha256": "4e0b2167ac373cecf91cfcb682d73ac54760a257d8051ba7b19f0c8df298ccf4",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible requirements table materially supports configuration verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_06",
+      "item_id": "s271_8dae479d5cee",
+      "tramo": "t11-notifier",
+      "document_id": "2412b20c-ae6b-4ffd-be75-7aa3991e7df0",
+      "page_index": 33,
+      "source_file": "A05-7030-000_B_ES_Notifier FAAST FLEX Addressable",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_A05-7030-000_B_ES_Notifier_FAAST_FLEX_Addressable_p033.jpg",
+      "asset_sha256": "538356546411fbe6830a60aec9bf5b6948f7f44ed0269f05f7a65ae0bea2c4b3",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible operational LED/button table for standby-mode troubleshooting."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_07",
+      "item_id": "s271_138d94a44e95",
+      "tramo": "t19-system_sensor",
+      "document_id": "8edeedac-12d9-4c9e-a1a2-9b7030eba719",
+      "page_index": 2,
+      "source_file": "I56-3536-003R D2E",
+      "manufacturer": "System Sensor",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/system_sensor/system_sensor_I56-3536-003R_D2E_p002.jpg",
+      "asset_sha256": "6bde5a345c0d34f2c98c6e64997869b5516351a48b951c838917fb96f9d3553e",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Contains an exploded component diagram and clear detector installation procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_08",
+      "item_id": "s271_72a5cf6a8d4d",
+      "tramo": "t22-xtralis",
+      "document_id": "e2c7c875-aa95-4b3c-9ce2-3a2988f94ca8",
+      "page_index": 45,
+      "source_file": "11370_17_VESDA_VLF-500_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_11370_17_VESDA_VLF-500_Product_Guide_A4_Spanish_lores_p045.jpg",
+      "asset_sha256": "ebf032b50a97a32d388672648a3d482aca6b15897e4d747d38f67d09f445aff7",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible factory-values table provides configuration and verification parameters."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_09",
+      "item_id": "s271_95bee695a8e8",
+      "tramo": "t14-securiton",
+      "document_id": "6d394c63-fd4c-4e82-9f96-82431127995b",
+      "page_index": 47,
+      "source_file": "ASD531_OM_T811168es_b",
+      "manufacturer": "Securiton",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/securiton/securiton_ASD531_OM_T811168es_b_p047.jpg",
+      "asset_sha256": "0ac2530f5a6bfca9bcb959dc0b0406219e3ab29fb79a223a5ea54ac564ffa379",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible output and SecuriFire bus connection diagrams support installation."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_10",
+      "item_id": "s271_480396ffb566",
+      "tramo": "t10-morley",
+      "document_id": "cbca3abb-7355-4cb3-a661-bc67336ea2a9",
+      "page_index": 9,
+      "source_file": "MIE-MI-591",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MI-591_p009.jpg",
+      "asset_sha256": "06a1624590ac618b81f1e0818c827f447f3ee261e05956ad23db6127f867c98f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Detector installation guidance includes a clear positioning illustration and measurements."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_11",
+      "item_id": "s271_c5edc0da7742",
+      "tramo": "t10-morley",
+      "document_id": "f16fb3ba-c26d-4c3e-b093-ef5291ca4e4d",
+      "page_index": 22,
+      "source_file": "MIEMI550",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIEMI550_p022.jpg",
+      "asset_sha256": "ad5a2178f030a9e41733f7514a1074572a56380c78e76683c46b531f1b4c7ae7",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Explains fault and alarm indications using display examples and relay contacts."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_12",
+      "item_id": "s271_b94c982c99f6",
+      "tramo": "t11-notifier",
+      "document_id": "ef245515-0c5a-41c0-8454-52bf70c8e4ab",
+      "page_index": 27,
+      "source_file": "MPDT212",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MPDT212_p027.jpg",
+      "asset_sha256": "4766b6908497ef8f644806c8db45464bb1f077b268854fcb629dca60741ddd41",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Provides legible alarm and pre-alarm sensitivity programming procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_13",
+      "item_id": "s271_490ea144ea6a",
+      "tramo": "t11-notifier",
+      "document_id": "24e196e9-2c26-4d0b-bd54-bd83053db178",
+      "page_index": 41,
+      "source_file": "15888SP",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_15888SP_p041.jpg",
+      "asset_sha256": "1269a754a823212f829b44cf73d0067a9d45a43c09f07cdf534edbf86a868cef",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Shows module circuitry and multiple notification-device wiring arrangements."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_14",
+      "item_id": "s271_0940e07e4c35",
+      "tramo": "t22-xtralis",
+      "document_id": "b22fdb7f-f9e9-49d0-9e40-e840c24d25e9",
+      "page_index": 22,
+      "source_file": "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores_p022.jpg",
+      "asset_sha256": "c6fa2fa39c3afb0a7049dded25d8fd88c48998dc09885bf59fcc0f9086164fc1",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains a legible tubing-port table and labeled port diagram for installation."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_15",
+      "item_id": "s271_5a10ed327be8",
+      "tramo": "t11-notifier",
+      "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+      "page_index": 18,
+      "source_file": "FS2-1",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_FS2-1_p018.jpg",
+      "asset_sha256": "0e44151d39ecea271cd3e589f1ddec3fbca91f8d3fe3ee9fd7403bad2608bf18",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Troubleshooting table clearly maps indications, causes, and actions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_16",
+      "item_id": "s271_cc78f41249aa",
+      "tramo": "t11-notifier",
+      "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+      "page_index": 81,
+      "source_file": "50253SP",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_50253SP_p081.jpg",
+      "asset_sha256": "a972439c16e48457714005f35b1de794601a73bddeebdd4d89e5140d913f4330",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Terminal output and AC/battery connection diagrams support installation work."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_17",
+      "item_id": "s271_98a2486f7fbe",
+      "tramo": "t11-notifier",
+      "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+      "page_index": 76,
+      "source_file": "MPDT190",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MPDT190_p076.jpg",
+      "asset_sha256": "be4212ff8e87eb54561d39c972b7a73ab5021c8e4d905a16245e400fb357c599",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible menu screenshots and arrows show programming procedure steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_18",
+      "item_id": "s271_a86375f2b151",
+      "tramo": "t11-notifier",
+      "document_id": "d57e015a-db8f-4d7d-a065-067aeb47b023",
+      "page_index": 17,
+      "source_file": "MCDT190",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MCDT190_p017.jpg",
+      "asset_sha256": "f147a6d2eb2d35ce3ddf290920901747caef49c0c0638657a883f39f38eba46c",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible software menu screenshot accompanies operational instructions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_19",
+      "item_id": "s271_0bb4cf7f8c9a",
+      "tramo": "t11-notifier",
+      "document_id": "8ddcac3f-7884-4345-bf1b-f2bbb3a31ca3",
+      "page_index": 5,
+      "source_file": "MIDT250_A",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MIDT250_A_p005.jpg",
+      "asset_sha256": "97fc5888f943a4b9bbe875d8f8206f3da5fe86cc18b71e690fd853c2a2b3d3e2",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Annotated cabinet installation illustration identifies components and connection locations."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_20",
+      "item_id": "s271_c1b3d9305339",
+      "tramo": "t10-morley",
+      "document_id": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+      "page_index": 27,
+      "source_file": "DXc_Manual de usuario",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_DXc_Manual_de_usuario_p027.jpg",
+      "asset_sha256": "75831c3a526e3d30171d94084aa43d3dc6378d6b48367ccd46e57e0f83262192",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Screens show system menus and equipment selection needed for operation."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_21",
+      "item_id": "s271_be82b2e7ffa8",
+      "tramo": "t11-notifier",
+      "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+      "page_index": 2,
+      "source_file": "997-671-005-3_Configuration_ES",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_997-671-005-3_Configuration_ES_p002.jpg",
+      "asset_sha256": "c29e14c2796d4896d14fb77f67b517f28aca0adb51f0290a83d8d345297c5ac6",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible contents table helps locate operational and configuration procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_22",
+      "item_id": "s271_646dbf4012ed",
+      "tramo": "t10-morley",
+      "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+      "page_index": 41,
+      "source_file": "MIE-MI-530rv001",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MI-530rv001_p041.jpg",
+      "asset_sha256": "bb58b99ce49d96724fb0ac693bfad88f47e8807e848d61e91f917214651da9c8",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Readable protection-system inspection procedures specify required checks and intervals."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_23",
+      "item_id": "s271_1955f1c3db6a",
+      "tramo": "t22-xtralis",
+      "document_id": "d886bc8d-6eb3-40a9-833b-53ee36a5b993",
+      "page_index": 34,
+      "source_file": "33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores_p034.jpg",
+      "asset_sha256": "55655a2fa63ac34fd3c5c5b8af77f408c9210665373bd5e6b020245110a263ad",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible detector wiring and mounting illustrations support installation."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_24",
+      "item_id": "s271_ea4768431cbd",
+      "tramo": "t11-notifier",
+      "document_id": "f1d3db52-c955-472e-9237-9019a007ba83",
+      "page_index": 48,
+      "source_file": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_AM-8100_manual_de_usuario_y_programacion_rev_4_30-10-2024_p048.jpg",
+      "asset_sha256": "2e12107dadd05c3b261987700034b49f329043b9f3f6562533d15c400a521ed8",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Multiple legible interface screens show parameter, device, and diagnostic operations."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_25",
+      "item_id": "s271_e838190209cc",
+      "tramo": "t10-morley",
+      "document_id": "4b0352b5-32b8-4d38-907d-db2acc12521b",
+      "page_index": 32,
+      "source_file": "MIE-MU-300",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MU-300_p032.jpg",
+      "asset_sha256": "6f2b1a63efa5b88bf2f60c93c446507f5f440240eaf718c88e94684dc1ad81a8",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Clearly illustrates enabling or disabling operating mode through menu screens."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_26",
+      "item_id": "s271_65ed0c254411",
+      "tramo": "t02-detnov",
+      "document_id": "78696368-c146-4765-9967-5bdf85a174fa",
+      "page_index": 45,
+      "source_file": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+      "manufacturer": "Detnov",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT_p045.jpg",
+      "asset_sha256": "ef5de219eea09e8e18f26e5971db29cf321765817b962ce73457935b0487af85",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible control-panel image and labeled key and LED reference table."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_27",
+      "item_id": "s271_dcd5f1d442bc",
+      "tramo": "t10-morley",
+      "document_id": "cbc9c21c-4369-4316-905f-40cdce16af53",
+      "page_index": 43,
+      "source_file": "MS8",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MS8_p043.jpg",
+      "asset_sha256": "e632ef9de8e0cfeab1f7e2687d0a9d438b563c42f1daeb489846db09db1b7b84",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible siren configuration table provides structured field settings."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_28",
+      "item_id": "s271_60a8096c264f",
+      "tramo": "t11-notifier",
+      "document_id": "bd38c035-08b2-4d9a-8eaa-4287cea8ff01",
+      "page_index": 75,
+      "source_file": "MNDT080",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT080_p075.jpg",
+      "asset_sha256": "7b2543521136a98e4e61336b95075f9d6e3e02afa66a1a90d858d3a1c1095e5e",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Maintenance and equipment test procedure contains actionable diagnostic instructions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_29",
+      "item_id": "s271_dc667501ec81",
+      "tramo": "t11-notifier",
+      "document_id": "5d934f8a-ab47-40a8-8be3-964571692821",
+      "page_index": 5,
+      "source_file": "HLSI-MN-627",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_HLSI-MN-627_p005.jpg",
+      "asset_sha256": "c9fd15fd055284528b58393873f6ab89e7aaa669819862fcb160b0e7c57844c1",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Calibration-mode access flowchart visibly provides executable operating steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_30",
+      "item_id": "s271_f17ddbdef3ab",
+      "tramo": "t11-notifier",
+      "document_id": "3730fc00-eee8-4031-b581-b948cf065450",
+      "page_index": 153,
+      "source_file": "50253SP",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_50253SP_p153.jpg",
+      "asset_sha256": "d2a7e7baa0d66729603059d07e570f417df1b7a932a611818440feb354729a57",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible diagram details configuration and wiring for eight speaker circuits."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_31",
+      "item_id": "s271_baa26af6ab48",
+      "tramo": "t11-notifier",
+      "document_id": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
+      "page_index": 7,
+      "source_file": "MNDT1071",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT1071_p007.jpg",
+      "asset_sha256": "feeb29f693398be3d7c62e4648bff831d5a21ac2357445fb50fcc1a78cd8a013",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "medium",
+        "reason": "Legible laser specification table and safety symbol support verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_32",
+      "item_id": "s271_1e5565f13ae4",
+      "tramo": "t07-kidde",
+      "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "page_index": 80,
+      "source_file": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "manufacturer": "Kidde",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0_p080.jpg",
+      "asset_sha256": "82c634812a18cc4968220fc24b0e5fc74ee8123179621aaf0a99694e974809b7",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible output-functionality table defining alarm and fault behavior."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_33",
+      "item_id": "s271_fbb77388f614",
+      "tramo": "t11-notifier",
+      "document_id": "9982bb96-8ee8-44f0-9f1c-304d6d90167b",
+      "page_index": 27,
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_HLSI-MN-103I_RP1r-Supra_lr_p027.jpg",
+      "asset_sha256": "d3524a3d6fd3134f22cbdf0f2bd75488dcdaac03ea7a3253f395ad9d89e6ae0d",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Clear terminal layout identifies general fault relay contacts and indicator wiring."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_34",
+      "item_id": "s271_af692ef41184",
+      "tramo": "t10-morley",
+      "document_id": "7470235c-2358-4000-bb15-48c0cce7c8e3",
+      "page_index": 2,
+      "source_file": "MIE-MP-535rv001",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MP-535rv001_p002.jpg",
+      "asset_sha256": "0fd04319a1b1b143b6b4417a315fbc96a430a2e2efd7533d0631c099b3b0bd2f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Detailed, legible screen-navigation procedure for reconfiguring the system."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_35",
+      "item_id": "s271_2cb3681a027b",
+      "tramo": "t02-detnov",
+      "document_id": "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+      "page_index": 29,
+      "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+      "manufacturer": "Detnov",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_CAD-250_Manual-software-configuracion-MS-416-es-2026-b_p029.jpg",
+      "asset_sha256": "6ef0f0464e1a931dd370778900e838db182a0f69a28d2024df4810afe56cab60",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "medium",
+        "reason": "Legible Modbus configuration screen supports communication setup."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_36",
+      "item_id": "s271_1ac4697ce617",
+      "tramo": "t22-xtralis",
+      "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+      "page_index": 22,
+      "source_file": "35007_03_VESDA-E_VES-A00-P_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_35007_03_VESDA-E_VES-A00-P_Product_Guide_A4_Spanish_lores_p022.jpg",
+      "asset_sha256": "5689a09abfbf987cdd2ff8213d04e05a610497378f3f43d5edadbec0a0ab3a53",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Tube-entry connection table and labeled port illustration support wiring."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_37",
+      "item_id": "s271_f5715d7aea29",
+      "tramo": "t22-xtralis",
+      "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+      "page_index": 80,
+      "source_file": "35006_03_VESDA-E_VES-A10-P_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_35006_03_VESDA-E_VES-A10-P_Product_Guide_A4_Spanish_lores_p080.jpg",
+      "asset_sha256": "2f4cc79c3fc80d4ea97516baf4a4e75150dc77fb68a5a6e217e0b62ffe0fea33",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible function table includes operational timing diagrams."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_38",
+      "item_id": "s271_bc28fca33783",
+      "tramo": "t11-notifier",
+      "document_id": "e9683a61-3e19-4e9f-838c-84f1f2dd6710",
+      "page_index": 25,
+      "source_file": "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_SMART_3_EXPLOSIVOS_MTEX_4446_SP_REV_3_p025.jpg",
+      "asset_sha256": "338d84f37600246ab00044a098ab372f65365f0d4bb884e5ae9d2153fe711e29",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible maintenance instructions and IP-rating operational guidance."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_39",
+      "item_id": "s271_c670fcbe5039",
+      "tramo": "t04-european_safety_systems",
+      "document_id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+      "page_index": 2,
+      "source_file": "IS5001-F_IS-mA1_EN",
+      "manufacturer": "European Safety Systems",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/european_safety_systems/european_safety_systems_IS5001-F_IS-mA1_EN_p002.jpg",
+      "asset_sha256": "0ed05b5435c35d63651719b9d1ce2a9acee6727360abbc34a4edb0e05d02b1ea",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible technical instructions describe equipment connections, terminals, groups, and setup."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_40",
+      "item_id": "s271_811f22aec5db",
+      "tramo": "t11-notifier",
+      "document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
+      "page_index": 17,
+      "source_file": "MNDT1070",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT1070_p017.jpg",
+      "asset_sha256": "0982648ac87dacfa95f4c6aea082c227b3770529480e4588c83e2dc95510e083",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible register tables documenting values and diagnostic information."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_41",
+      "item_id": "s271_c7c354a29434",
+      "tramo": "t11-notifier",
+      "document_id": "49a08cd1-e2b6-45dc-913f-f30e28b57ffe",
+      "page_index": 55,
+      "source_file": "MNDT390",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT390_p055.jpg",
+      "asset_sha256": "31d4f0ff1547cd0d2d580d0038a1bfc7c990679fa93b5fe209f93a299ea15e6c",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible contact-ID structure and example message tables aid verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_42",
+      "item_id": "s271_d07148074c70",
+      "tramo": "t11-notifier",
+      "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+      "page_index": 96,
+      "source_file": "15088SP",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_15088SP_p096.jpg",
+      "asset_sha256": "8b6a87af675beb4114cd81129f7f72840ce62bcdcf4ac88997d2ea19f6c9f48b",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Printer electronic connection diagram shows power, signal, and terminal wiring."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_43",
+      "item_id": "s271_7371213c9f65",
+      "tramo": "t11-notifier",
+      "document_id": "80b23534-b090-41ff-b01a-f7916e665fbd",
+      "page_index": 28,
+      "source_file": "MPDT170",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MPDT170_p028.jpg",
+      "asset_sha256": "c648490871d61cab0e1153ceb0760439ef24389f661860e5e1c1b4eb06fd2537",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Includes zone programming instructions and legible equipment association table."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_44",
+      "item_id": "s271_adf0d2369868",
+      "tramo": "t09-lgm_products",
+      "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+      "page_index": 15,
+      "source_file": "LocatorPlus-Installation-Manual-1.3",
+      "manufacturer": "LGM Products",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/lgm_products/lgm_products_LocatorPlus-Installation-Manual-1.3_p015.jpg",
+      "asset_sha256": "c6105c421592b12214438ed48e6870876f3222b4ef0a582a111baf641182625e",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "RS-485 register table lists addresses, descriptions, and values."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_45",
+      "item_id": "s271_0931901a13cb",
+      "tramo": "t11-notifier",
+      "document_id": "a00b0102-bdfa-4c02-959a-928e146fb8b7",
+      "page_index": 149,
+      "source_file": "MIDT170",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MIDT170_p149.jpg",
+      "asset_sha256": "e1b46e83fa80718012c42f24999ae0751b7676893ae8f4403be598c9e4b7fba8",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains a legible standards table and equipment connection guidance."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_46",
+      "item_id": "s271_fce61a692dec",
+      "tramo": "t11-notifier",
+      "document_id": "f2d51a5a-5fdb-455c-99ab-d394653e0c91",
+      "page_index": 10,
+      "source_file": "MNDT744_B",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT744_B_p010.jpg",
+      "asset_sha256": "b3d83f833a46f9d66dd5b8d89a259ec5b64a1a004a6de47c77fa1fa54fa6ffd9",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Equipment dimensions and wall-mounting installation guidance are visibly illustrated."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_47",
+      "item_id": "s271_2c5a24433d68",
+      "tramo": "t11-notifier",
+      "document_id": "ee4a01b8-4eef-41a4-8146-75f8b35d1c34",
+      "page_index": 35,
+      "source_file": "MNDT250",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT250_p035.jpg",
+      "asset_sha256": "0266c1df9bd9b57130cd610ff316c01e2e55dd84e576d89077b76751aa3e8e2b",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible point programming prompts and configuration table support field procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_48",
+      "item_id": "s271_3d6ac3011691",
+      "tramo": "t10-morley",
+      "document_id": "1544459a-c3f4-4343-8ba0-4a49f36465d9",
+      "page_index": 33,
+      "source_file": "DXc_Manual de usuario",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_DXc_Manual_de_usuario_p033.jpg",
+      "asset_sha256": "08adce1cbfa005aaf802072a5853bdaac3250e8ce83c034a9cb93d4494a24596",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Operational screen and instructions explain delayed-mode functionality."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_49",
+      "item_id": "s271_b4be5d31ef7b",
+      "tramo": "t11-notifier",
+      "document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
+      "page_index": 21,
+      "source_file": "MN-DT-951_v7.2",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MN-DT-951_v7.2_p021.jpg",
+      "asset_sha256": "c12edc3b8ef04fc8afc46d5b1b9e7a58a76647c40cb907a97a2e497410265623",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible equipment-status interface illustrates detector and module states."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_50",
+      "item_id": "s271_11b99edbbc37",
+      "tramo": "t11-notifier",
+      "document_id": "9982bb96-8ee8-44f0-9f1c-304d6d90167b",
+      "page_index": 3,
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_HLSI-MN-103I_RP1r-Supra_lr_p003.jpg",
+      "asset_sha256": "baa990235778b2065e05ab3c4ca83d757a2293f83971102e3ec97e2130d79a34",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible contents index locates installation, wiring, operation, and configuration sections."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_51",
+      "item_id": "s271_666c938ac811",
+      "tramo": "t07-kidde",
+      "document_id": "6586b837-6544-468e-936a-26cbd2e37f37",
+      "page_index": 35,
+      "source_file": "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+      "manufacturer": "Kidde",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual_p035.jpg",
+      "asset_sha256": "bb2eee59dfc768c8e3b43a1844ee93dff1cd3109ab71951ab448f42ba23f00c1",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible operating procedures for alarm activation, silencing, reset, and fault conditions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_52",
+      "item_id": "s271_ad5dd9a6bbfb",
+      "tramo": "t22-xtralis",
+      "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+      "page_index": 117,
+      "source_file": "33036_05_VESDA-E_VEA-040-A00_Product_Guide_A4_Spanish_lores",
+      "manufacturer": "Xtralis",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/xtralis/xtralis_33036_05_VESDA-E_VEA-040-A00_Product_Guide_A4_Spanish_lores_p117.jpg",
+      "asset_sha256": "2d1e2225eedf39e91ffc8fd96b3eac30ba2315b5bc8ce460d609c251f499c7e5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Installation requirements and mounting procedure include a clear technical illustration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_53",
+      "item_id": "s271_ed8505d17451",
+      "tramo": "t07-kidde",
+      "document_id": "c3c99085-f3f4-4975-a142-634fd72a3ec9",
+      "page_index": 23,
+      "source_file": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "manufacturer": "Kidde",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en_p023.jpg",
+      "asset_sha256": "fede57cb17afe117aca362d788778faa31e14d11ec84b6972b1638ed1c221c07",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible hazardous-area installation guidance supports compliant field work."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_54",
+      "item_id": "s271_a3b3fdbbc605",
+      "tramo": "t11-notifier",
+      "document_id": "2d7f3a79-bda9-400c-9629-a830110d52e7",
+      "page_index": 53,
+      "source_file": "MNDT350",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MNDT350_p053.jpg",
+      "asset_sha256": "bea1e15fff85fd2529d61055a653a40597506c0d22fd67f22500c4718f9f8407",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible secondary power requirement tables support battery calculations."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_55",
+      "item_id": "s271_2d45429d2abe",
+      "tramo": "t07-kidde",
+      "document_id": "3fbd5950-24fb-4ccc-9511-07c2a0df0786",
+      "page_index": 16,
+      "source_file": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "manufacturer": "Kidde",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/kidde/kidde_3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0_p016.jpg",
+      "asset_sha256": "507205c91debd4f131a6bf9494b9c79ca6c488fe21fd1d87f64022dffa8cc1dd",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible TFT screen and control layout with numbered explanations."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_56",
+      "item_id": "s271_757ef4a342d4",
+      "tramo": "t11-notifier",
+      "document_id": "288e3202-3f8c-4168-8c8a-33842a8def77",
+      "page_index": 22,
+      "source_file": "TG-1020-TEC",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_TG-1020-TEC_p022.jpg",
+      "asset_sha256": "17482ecd563848980bc62981c83b7cd1881ca639ba9db46436e0e61d44a18778",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible voice-message edit confirmation dialog supports configuration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_57",
+      "item_id": "s271_fb118727794a",
+      "tramo": "t10-morley",
+      "document_id": "f16d3ecd-347b-4933-b146-9b9b4b9ae2d8",
+      "page_index": 10,
+      "source_file": "MIE-MU-310",
+      "manufacturer": "Morley",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/morley/morley_MIE-MU-310_p010.jpg",
+      "asset_sha256": "73a2cef6547303bc3b6c603bacc4e4e45ce6f217a00677cb7b1ac5e4ffa752aa",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible display examples and access-level flowchart guide operational procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_58",
+      "item_id": "s271_10aad7728fc7",
+      "tramo": "t02-detnov",
+      "document_id": "2595d577-4eb6-4d97-a6c5-74329fb2128d",
+      "page_index": 24,
+      "source_file": "TCD-100 Tarjeta comunicadora a CRA ES GB",
+      "manufacturer": "Detnov",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/detnov/detnov_TCD-100_Tarjeta_comunicadora_a_CRA_ES_GB_p024.jpg",
+      "asset_sha256": "f8139736f0f40d9f15b70d872d150f06cdeac16c98fedd4e10b197268afc55f0",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Provides detailed power and configuration procedures for field setup."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_59",
+      "item_id": "s271_fdec3219f723",
+      "tramo": "t11-notifier",
+      "document_id": "5357c5d4-6e50-416c-864c-0f3df34e7b5c",
+      "page_index": 48,
+      "source_file": "MCDT156_A",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_MCDT156_A_p048.jpg",
+      "asset_sha256": "da566f3c6e7248a3cd8857b7ae95eaccfa3cde518b53aed0dc6c19b8bdcb9bd5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible matrix-selection screen and option descriptions support configuration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_60",
+      "item_id": "s271_2ab55ecd703b",
+      "tramo": "t11-notifier",
+      "document_id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+      "page_index": 15,
+      "source_file": "4188-1132-ES issue 3_04_2025_Qref",
+      "manufacturer": "Notifier",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/notifier/notifier_4188-1132-ES_issue_3_04_2025_Qref_p015.jpg",
+      "asset_sha256": "c4a6d63211cc4dc8e32f8d2262bb60d31054a8d1591e71aeab9c87254290e966",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "medium",
+        "reason": "Shows a software configuration screen supporting matrix setup instructions."
+      },
+      "orchestrator_verdict": null
+    }
+  ]
+}
