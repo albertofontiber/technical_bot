@@ -66,6 +66,19 @@ _STOPWORDS = {
     "that", "this", "with", "from", "into", "have", "been", "than", "then", "when",
     "where", "which", "while", "must", "shall", "should", "will", "before", "after",
     "also", "each", "other", "only", "more", "less", "very", "same", "following",
+    # palabras función de 2-3 letras (v3, fix post-seed-271): la lista original
+    # asumía min_len=3 y las función cortas se colaban en los checks min_len=2
+    # (binding v2 por miembro-token) y en el contexto procedimental — "de"/"el"/
+    # "the" NO son tokens PROPIOS de ningún átomo. Solo función puras; los códigos
+    # técnicos cortos ("PC", "LED", "bus") NO se tocan.
+    "de", "el", "la", "en", "es", "al", "un", "se", "no", "si", "su", "lo", "le",
+    "ya", "ha", "he", "va", "mi", "tu", "te", "me", "ni",
+    "del", "los", "las", "una", "uno", "que", "con", "por", "son", "sus", "mas",
+    "sin", "asi", "aun", "les", "nos",
+    "of", "to", "in", "on", "at", "or", "as", "by", "is", "it", "an", "be", "do",
+    "if", "so", "we", "us", "my", "up",
+    "the", "and", "are", "for", "not", "its", "was", "has", "had", "but", "you",
+    "per", "any", "all", "can", "may",
 }
 
 _FRAG_CITE = re.compile(r"\[F\d{1,2}\]")
@@ -392,6 +405,44 @@ def _detect_bundle(text: str) -> list[Atom]:
     return atoms
 
 
+# ────────────────────────────── contexto procedimental ──────────────────────────────
+# Binding v2 (s243): los mandatory_safety_omission de la taxonomía son callouts
+# obligatorios ADYACENTES A PROCEDIMIENTOS que la respuesta da. La exigibilidad de un
+# F-MANDATORY se ancla al contexto PROCEDIMENTAL de su fragmento (pasos numerados /
+# líneas imperativas), extraído determinista con léxico cerrado bilingüe.
+
+_PROCEDURAL_VERBS = (
+    # es (formas foldeadas)
+    "pulse", "pulsar", "presione", "presionar", "seleccione", "seleccionar",
+    "conecte", "conectar", "desconecte", "desconectar", "retire", "retirar",
+    "coloque", "colocar", "gire", "girar", "ajuste", "ajustar", "verifique",
+    "verificar", "compruebe", "comprobar", "instale", "instalar", "alimente",
+    "mantenga", "mantener", "introduzca", "introducir", "abra", "abrir", "cierre",
+    "cerrar", "monte", "montar", "utilice", "utilizar", "use", "usar", "aisle",
+    "aislar", "rearme", "rearmar", "corte", "cortar", "espere", "esperar",
+    # en
+    "press", "select", "connect", "disconnect", "remove", "insert", "turn",
+    "adjust", "verify", "check", "install", "hold", "open", "close", "mount",
+    "set", "ensure", "wait", "isolate", "reset", "apply", "replace",
+)
+_PROCEDURAL_VERB_RX = re.compile(
+    r"\b(" + "|".join(_PROCEDURAL_VERBS) + r")\b"
+)
+_STEP_LINE_RX = re.compile(r"^\s*(?:\d{1,2}[.)]|[-•*·◦])\s+\S")
+
+
+def procedural_context_tokens(fragment_text: str) -> list[str]:
+    """Tokens de contenido de las líneas PROCEDIMENTALES del fragmento (pasos
+    numerados/viñetas o líneas con verbo imperativo del léxico). Determinista."""
+    tokens: list[str] = []
+    for _start, _end, line in _line_spans(fragment_text or ""):
+        if not line.strip():
+            continue
+        if _STEP_LINE_RX.match(line) or _PROCEDURAL_VERB_RX.search(_fold(line)):
+            tokens.extend(_content_tokens(line))
+    return _dedup(tokens)
+
+
 # ────────────────────────────── F-MANDATORY ──────────────────────────────
 # Léxico CERRADO bilingüe (diseño §1.1). "antes de"/"before" NUNCA como gatillo solo
 # (hallazgo F8 del dúo: frecuencia altísima → FP masivo): solo cuentan colocados con un
@@ -437,11 +488,14 @@ def _mandatory_triggers(sentence: str) -> list[str]:
 
 def _detect_mandatory(text: str) -> list[Atom]:
     atoms: list[Atom] = []
+    proc_tokens: list[str] | None = None  # lazy: solo si hay algún átomo
     for s_start, s_end in _sentence_spans(text):
         sentence = text[s_start:s_end]
         triggers = _mandatory_triggers(sentence)
         if not triggers:
             continue
+        if proc_tokens is None:
+            proc_tokens = procedural_context_tokens(text)
         atoms.append({
             "family": FAMILY_MANDATORY,
             "span_start": s_start, "span_end": s_end,
@@ -449,6 +503,10 @@ def _detect_mandatory(text: str) -> list[Atom]:
             "anchor_tokens": _dedup(_content_tokens(sentence)),
             "meta": {
                 "triggers": triggers,
+                # binding v2: la exigibilidad del callout se ancla al contexto
+                # PROCEDIMENTAL de su fragmento (s243: callouts adyacentes a
+                # procedimientos que la respuesta da)
+                "procedural_context_tokens": proc_tokens,
                 "seven_segment_risk": has_seven_segment_pattern(sentence),
             },
         })
@@ -750,6 +808,8 @@ def _atom_from_verbatim_span(family: str, span: str, fragment_text: str) -> Atom
             "anchor_tokens": _dedup(_content_tokens(span)),
             "meta": {
                 "triggers": triggers,
+                # binding v2: contexto procedimental del FRAGMENTO completo
+                "procedural_context_tokens": procedural_context_tokens(fragment_text),
                 "seven_segment_risk": has_seven_segment_pattern(span),
             },
         }
@@ -860,45 +920,82 @@ def citation_window(draft_answer: str, fragment_id) -> str:
     return " ".join(parts)
 
 
+def atom_exigible_in(atom: Atom, text: str) -> bool:
+    """Binding v2 — PRESENCIA PARCIAL por familia (motivación s243: 11/12
+    synthesis-miss son pérdida parcial DENTRO de una estructura que la respuesta ya
+    tocó — qualifier/miembro/cardinalidad podados al redactar; el 12º es
+    selection-loss, fuera de este contrato). El solape genérico de anchors del
+    fragmento YA NO liga (seed-270: 36/158 clean-FP eran átomos hermanos ligados por
+    ≥2 anchors compartidos — evidencia, no set de tuning; este contrato se valida en
+    cohorte fresca).
+
+    F-RANGE   el texto contiene ≥1 número PROPIO del átomo (extremos/paso/tolerancia,
+              excl. 0/1) o un id de scope — tocó ese rango y lo dejó incompleto.
+    F-BUNDLE  el texto contiene la cabecera completa o ≥1 token de un miembro —
+              tocó el schema (bundle_member_loss = cubrió unos miembros, perdió otros).
+    F-COUNT   el texto contiene el conteo declarado/enumerado (excl. 0/1) o el
+              sustantivo contado.
+    F-MANDATORY contrato propio (mandatory_safety_omission = callout obligatorio
+              adyacente a un PROCEDIMIENTO que la respuesta da): exigible si el texto
+              comparte ≥2 tokens con el contexto procedimental del fragmento
+              (meta.procedural_context_tokens, extraído al detectar). La supresión de
+              duplicados la da atom_satisfied (cláusula ya presente → jamás anexar).
+    """
+    clean = _FRAG_CITE.sub(" ", text or "")
+    tokens = set(_content_tokens(clean))
+    tokens_short = set(_content_tokens(clean, min_len=2))
+    numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
+    folded = _fold(clean)
+    family = atom.get("family")
+    meta = atom.get("meta") or {}
+    if family == FAMILY_RANGE:
+        own = {
+            float(meta[k]) for k in ("lower", "upper", "step", "tolerance")
+            if meta.get(k) is not None
+        } - {0.0, 1.0}
+        if own & numbers:
+            return True
+        return any(_fold(s) in folded for s in meta.get("scope") or [])
+    if family == FAMILY_BUNDLE:
+        header_tokens = _content_tokens(meta.get("header") or "")
+        if header_tokens and set(header_tokens) <= tokens:
+            return True
+        for label in meta.get("members") or []:
+            if any(t in tokens_short for t in _content_tokens(label, min_len=2)):
+                return True
+        return False
+    if family == FAMILY_COUNT:
+        own = {
+            float(n) for n in (meta.get("declared_n"), meta.get("enumerated_n"))
+            if n is not None
+        } - {0.0, 1.0}
+        if own & numbers:
+            return True
+        noun_tokens = _content_tokens(str(meta.get("noun") or ""), min_len=2)
+        return any(t in tokens_short for t in noun_tokens)
+    if family == FAMILY_MANDATORY:
+        proc = set(meta.get("procedural_context_tokens") or [])
+        return len(proc & tokens) >= 2
+    return False
+
+
 def bind_atoms(
     atoms: list[Atom],
     draft_answer: str,
     cited_fragment_ids: set,
     fragment_id,
 ) -> list[Atom]:
-    """Exigibilidad (diseño §1.2 + C2 claim-proximity, conservador: en duda NO
-    exigible): el fragmento está CITADO en el borrador Y el texto ADYACENTE a la cita
-    [Fn] de ESE fragmento (no toda la respuesta) toca el claim ancla del átomo —
-    comparte un número exacto (se excluyen 0/1 por ubicuidad), o ≥2 anchor_tokens
-    no-stopword, o la entidad completa del heading. Un número compartido que solo
-    aparece junto a la cita de OTRO fragmento NO liga (crítico C2 del dúo: el binding
-    sobre toda la respuesta anexaba evidencia ajena por coincidencia). Sin cita
-    localizable → no exigible."""
+    """Exigibilidad (diseño §1.2 + C2 claim-proximity + binding v2, conservador: en
+    duda NO exigible): el fragmento está CITADO en el borrador Y el texto ADYACENTE a
+    la cita [Fn] de ESE fragmento (no toda la respuesta — crítico C2 del dúo) muestra
+    PRESENCIA PARCIAL del átomo según su contrato de familia (atom_exigible_in;
+    motivación s243 en su docstring). Sin cita localizable → no exigible."""
     if fragment_id not in set(cited_fragment_ids or set()):
         return []
     window = citation_window(draft_answer, fragment_id)
     if not window.strip():
         return []  # cita no localizable → conservador: nada exigible
-    clean = _FRAG_CITE.sub(" ", window)
-    window_tokens = set(_content_tokens(clean))
-    window_numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
-    bound: list[Atom] = []
-    for atom in atoms:
-        atom_numbers = {v for v in _atom_numbers(atom) if v not in (0.0, 1.0)}
-        if atom_numbers & window_numbers:
-            bound.append(atom)
-            continue
-        anchors = {
-            t for t in (atom.get("anchor_tokens") or [])
-            if not t.isdigit() and t not in _STOPWORDS and len(t) >= 3
-        }
-        if len(anchors & window_tokens) >= 2:
-            bound.append(atom)
-            continue
-        header_tokens = _content_tokens((atom.get("meta") or {}).get("header") or "")
-        if header_tokens and set(header_tokens) <= window_tokens:
-            bound.append(atom)
-    return bound
+    return [atom for atom in atoms if atom_exigible_in(atom, window)]
 
 
 # Disclosure explícito de fuente inconsistente (guard s243 / C3): la ÚNICA forma de

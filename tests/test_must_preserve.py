@@ -283,6 +283,71 @@ def test_citation_window_une_oraciones_de_la_misma_cita():
     assert mp.citation_window(draft, 3) == ""
 
 
+# ─── binding v2: presencia PARCIAL por familia (adjudicación post-seed-270, s243) ───
+
+def test_bind_v2_solape_generico_de_anchors_ya_no_liga():
+    """La clase de los 36 clean-FP de seed-270: un borrador que comparte ≥2 anchors
+    GENÉRICOS de la oración del átomo pero ningún material PROPIO (números/scope)
+    ya NO es exigible."""
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    draft = "La tensión del lazo se mide en la placa de bornes [F1]"
+    assert mp.bind_atoms(atoms, draft, {1}, 1) == []
+
+
+def test_bind_v2_numero_propio_si_liga():
+    atoms = mp.detect_atoms(_RANGE_TEXT)
+    draft = "El valor máximo admitido es 30 en esa posición [F1]"
+    bound = mp.bind_atoms(atoms, draft, {1}, 1)
+    assert [a["family"] for a in bound] == [mp.FAMILY_RANGE]
+
+
+def test_bind_v2_bundle_un_miembro_toca_el_schema():
+    atoms = mp.detect_atoms(
+        "## Pestaña Programa\n- Zona: define la zona\n- CBE: ecuación de control"
+    )
+    draft = "El campo CBE controla la activación [F1]"  # 1 miembro, sin cabecera
+    bound = mp.bind_atoms(atoms, draft, {1}, 1)
+    assert [a["family"] for a in bound] == [mp.FAMILY_BUNDLE]
+
+
+_MANDATORY_FRAG = (
+    "1. Pulse la tecla MENU para entrar en programación.\n"
+    "2. Seleccione la zona de extinción con las flechas.\n"
+    "Advertencia: desconecte la alimentación general antes de manipular el lazo."
+)
+
+
+def test_bind_v2_mandatory_exigible_con_contexto_procedimental():
+    """s243 mandatory_safety_omission: la respuesta DA el procedimiento del
+    fragmento → el callout adyacente es exigible."""
+    atoms = [a for a in mp.detect_atoms(_MANDATORY_FRAG)
+             if a["family"] == mp.FAMILY_MANDATORY]
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["procedural_context_tokens"]
+    draft = "Para programar, pulse la tecla MENU y seleccione la zona [F1]"
+    assert mp.bind_atoms(atoms, draft, {1}, 1) == atoms
+
+
+def test_bind_v2_mandatory_no_exigible_sin_contexto_procedimental():
+    atoms = [a for a in mp.detect_atoms(_MANDATORY_FRAG)
+             if a["family"] == mp.FAMILY_MANDATORY]
+    draft = "El panel dispone de cuatro salidas supervisadas [F1]"
+    assert mp.bind_atoms(atoms, draft, {1}, 1) == []
+
+
+def test_bind_v2_mandatory_duplicado_jamas_se_anexa():
+    """Supresión de duplicados: cláusula ya presente → satisfied → nunca al anexo."""
+    atoms = [a for a in mp.detect_atoms(_MANDATORY_FRAG)
+             if a["family"] == mp.FAMILY_MANDATORY]
+    draft = (
+        "Pulse la tecla MENU y seleccione la zona. Advertencia: desconecte la "
+        "alimentación general antes de manipular el lazo [F1]"
+    )
+    bound = mp.bind_atoms(atoms, draft, {1}, 1)
+    assert bound == atoms  # exigible (contexto procedimental presente)
+    assert mp.atom_satisfied(bound[0], draft) is True  # …pero duplicado → no anexo
+
+
 # ─── atom_satisfied ───
 
 def test_range_satisfecho_no_va_al_anexo():
