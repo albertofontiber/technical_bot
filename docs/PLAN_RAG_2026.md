@@ -25,15 +25,17 @@
 <a id="estado-actual-s269--19-jul-2026"></a>
 ## Estado actual (S269 — 19 jul 2026)
 
-**Foto sin movimiento oficial: 157 facts = 143 OK · 12 synthesis-miss · 2 retrieval-miss
-(91,08%); objetivo ≥98% = 154.** S269 atacó los 12 por las dos vías que pidió Alberto y deja
-DOS decisiones suyas como único bloqueo:
+**Foto sin movimiento oficial, tras la adjudicación S270 (DEC-125): 154 facts = 143 OK ·
+9 synthesis-miss (8 CORE + 1 disclosure re-specced) · 2 retrieval-miss (92,86%); objetivo
+≥98% = 151 → +8.** S269 atacó los 12 por las dos vías que pidió Alberto; adjudicado el packet
+(punto 1), queda DEC-122 como única decisión suya pendiente:
 
-1. **Triage de golds (DEC-121).** Los 12 adjudicados por triage verificado: **8 CORE reales ·
-3 SUPPLEMENTARY (demote propuesto) · 1 SOURCE-CONFLICT** (el manual dice "seis" y enumera 7 →
-re-spec a disclosure). Instrumento auditado justo (0 FN). Packet al píxel con renders:
-`evals/s269_goldreview_packet_v1.md` → **adjudicación ✅/✏️/❌ de Alberto (~20 min)**. Si
-acepta: denominador 154, hacen falta **+8** de los 9 core + 2 retrieval.
+1. **Triage de golds (DEC-121) — ADJUDICADO por Alberto (S270, DEC-125).** Marcas sobre el
+packet al píxel (`evals/s269_goldreview_packet_v1_ADJUDICADO.md`): **9 core tras adjudicación
+(8 CORE — incl. obl_015f con demote ❌-rechazado y el merge de los 2 warnings — + 1 disclosure
+re-specced, obl_872c); 2 SUPP demoted; warnings merged**. Denominador 154, hacen falta **+8**.
+Registro + proyección: `evals/s270_gold_adjudication_v1.yaml` /
+`evals/s270_adjudicated_funnel_v1.json` (corrección píxel t.Fi→**t.A** incluida).
 
 2. **Mecanismo (DEC-122).** Contrato de átomos must-preserve (detectores por familia s243 +
 binding con attestation de identidad + anexo verbatim por postcondición, flag
@@ -57,8 +59,19 @@ aplica server-side; ASR-swap gateado a 30 audios reales.
 **Ramas para PR:** `claude/s269-synthesis-portfolio` (triage + contrato + harness + docs) y
 `claude/s269-visual-assets` (registro visual). Coste sesión ≈ $27/$300. Suite 1.933 verdes.
 
-**Qué sigue, por orden:** (1) adjudicaciones de Alberto (packet DEC-121 + residual y
-reapertura DEC-122); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
+**S270 (19 jul, tarde): probes ejecutados — DEC-127.** Mecanismo must-preserve: 1 conversión
+ESTABLE (obl_b6f6, 3/3 en probes 2 y 3), 0 regresiones/0 conflictos en 36 réplicas pareadas,
+Etapa 3 viva limpia (5/5 monotónicos, 0 apéndices espurios). Disclosure 872c entregado completo
+— pendiente decisión de spec de Alberto (¿disclosure de la evidencia servida 6-vs-8 o del PDF
+6-vs-7?). Residual por-clase: serving-view (0d6a) · alcance-no-citado (2f5d, hp011) ·
+binding-tension (7bba) · gap-instrumento híbrido (composites) · retrieval-2. Iteración de
+mecanismo DETENIDA (anti-overfit); el +8 no se alcanza esta sesión — camino por-clase declarado.
+Visual: DATA-READY (migración 014 aplicada por Alberto, 4.489 servibles verificados; falta solo
+`VISUAL_ASSETS_REGISTRY=on` en Railway).
+
+**Qué sigue, por orden:** (1) adjudicaciones de Alberto restantes (residual y reapertura
+DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de los golds vía
+`gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
 assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
 causal del probe; (4) runbook visual de Alberto → `VISUAL_ASSETS_REGISTRY=on` en demo;
 (5) los 2 retrieval-miss (cat017#2 CLIP-licencia, hp010#1 Nivel-3) como margen, lever

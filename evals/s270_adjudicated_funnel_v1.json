@@ -1,0 +1,71 @@
+{
+  "schema": "s270_adjudicated_funnel_v1",
+  "date": "2026-07-19",
+  "dec": "DEC-125",
+  "generated_by": "scripts/s270_project_adjudicated_funnel.py",
+  "authority": "evals/s269_goldreview_packet_v1_ADJUDICADO.md — marcas de Alberto (DEC-025: el gold es suyo)",
+  "inputs_sha256_lf_normalized": {
+    "evals/s269_goldreview_packet_v1_ADJUDICADO.md": "b28255a64fe91ea76c727f1a6c8e942e1e0a7aed01a835b3a740ec40ad7f6dd9",
+    "evals/s269_goldreview_packet_v1.md": "cb623313ec8855431302b785162016b6ec2d001d0c0c29732e7a7ca6f1469815",
+    "evals/s269_triage_12misses_v1.yaml": "f2ab94cab976d3f18b592b0fc74fa71c0b427da9d6674a58a51312b5d971d217",
+    "evals/s270_gold_adjudication_v1.yaml": "51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436"
+  },
+  "baseline_funnel": {
+    "denominator": 157,
+    "ok": 143,
+    "synthesis_miss": 12,
+    "retrieval_miss": 2,
+    "provenance": "DEC-121 / PLAN S269 (foto diagnóstica, bridge S133/S172/S188)"
+  },
+  "adjudication_effects": {
+    "core_required_confirmed": [
+      "obl_015f9b9aaa3a",
+      "obl_2f5d79e354b9",
+      "obl_7aa723717412",
+      "obl_7bba8d03d496",
+      "obl_a5d9fa1f9253",
+      "obl_b2043cd4379b",
+      "obl_b6f6211be439"
+    ],
+    "demote_rejected_stays_core": [
+      "obl_015f9b9aaa3a"
+    ],
+    "supplementary_demoted": [
+      "obl_07eee3300535",
+      "obl_161564ff41bf"
+    ],
+    "disclosure_respec": [
+      "obl_872c35fb41d7"
+    ],
+    "warning_block_merge": {
+      "absorbe": [
+        "obl_0d6a30948dfd",
+        "obl_16637b935bd4"
+      ],
+      "carrier": "obl_0d6a30948dfd",
+      "resultado": "1 obligación CORE de bloque-warning"
+    }
+  },
+  "adjudicated_funnel": {
+    "denominator": 154,
+    "ok": 143,
+    "synthesis_miss": 9,
+    "synthesis_miss_composition": {
+      "core_required": 8,
+      "disclosure_respec": 1
+    },
+    "retrieval_miss": 2,
+    "ok_pct": 92.86
+  },
+  "facts_moved_to_ok": 0,
+  "facts_moved_note": "Reconciliación de DENOMINADOR (demotes + merge), NO movimiento de OKs: ningún hecho cambia de estado por esta proyección.",
+  "official_atomic_kpi": null,
+  "official_atomic_kpi_note": "Los 77 legacy carries siguen (S205); sin KPI atómico oficial hasta cerrarlos.",
+  "target": {
+    "declared": "98% de 154 = 151 → +8",
+    "target_pct": 0.98,
+    "required_ok": 151,
+    "conversions_needed": 8
+  },
+  "pixel_correction": "t.Fi → t.A (hallazgo píxel s269 §Verificación de renders; zoom 500 dpi). Specs vivos limpios; congelados NO mutados — ver evals/s270_gold_adjudication_v1.yaml:live_anchor_audit"
+}

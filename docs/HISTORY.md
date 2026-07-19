@@ -1857,3 +1857,16 @@ completas (Sol 695K+504K tokens, Fable 106K+202K; 1 intento vacío de Fable re-l
 DEC-106). Gasto externo total ≈ $27 de $300. Las claims fuertes verificadas por regla-C en
 código/datos antes de adjudicar. Sin tocar prod; sin targets expuestos; held-out intacto;
 suite 1.933 verdes (4 CRLF pre-existentes del checkout Windows).
+
+## S270 (19 jul 2026, continuación autónoma) — adjudicación de Alberto aplicada + campaña de probes del mecanismo + visual data-ready
+
+Alberto adjudicó el packet (DEC-125: 8 CORE incl. TONE restaurada, 2 SUPP, disclosure-respec,
+merge warnings → denominador 154, objetivo +8) y dio permiso explícito a la reapertura s222/s223
+(DEC-126). Migración 014 aplicada por Alberto; carga visual completada y verificada (5.096 filas,
+4.489 servibles) — diagramas data-ready, flag pendiente. Campaña de probes del contrato
+must-preserve (DEC-127): 3 probes pareados con validación fresca previa a cada versión →
+1 conversión ESTABLE (obl_b6f6, seguridad, 3/3 en v2 y v3), disclosure de dos lados ENTREGADO
+(spec 872c a decisión), 0 regresiones/0 conflictos en 36 réplicas, Etapa 3 viva limpia (5/5
+monotónicos, 0 apéndices en preguntas sanas). Iteración detenida por disciplina; residual
+mapeado por-clase con dueño (serving-view, alcance-no-citado, binding-tension, gap-instrumento
+híbrido, retrieval-2). Coste sesión completa ≈ $36.

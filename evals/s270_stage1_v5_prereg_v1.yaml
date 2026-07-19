@@ -1,0 +1,67 @@
+schema: s270_stage1_v5_prereg_v1
+status: FROZEN_BEFORE_RUN
+created_utc: '2026-07-19T13:09:15+00:00'
+predecessor: evals/s269_stage1_v3_prereg_v3.yaml (seed-272, 4/4 GO)
+mechanism: must_preserve v2 (DEC-126; fixes derivados del funnel del probe-1 s270)
+seed: 273
+gates:
+  mutation_recall_min_per_family: 0.8
+  display_recall_min: 0.8
+  display_no_new_surface_fp_max: 0
+  cross_count_recall_min: 0.8
+  clean_annex_quality_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+gates_provenance: 'heredados del prereg v3 + tipos nuevos v2 (display/cross_count) + clean-noise re-specced
+  a opción-a DEC-126: FP = violación de CALIDAD del anexo (no-verbatim / cap global o por-familia / MANDATORY
+  duplicado); el anexo hermano verbatim dentro de cap es enriquecimiento etiquetado y se REPORTA (enrichment_appends),
+  no penaliza'
+new_measures:
+  display: token display en borrador → anexa; sin token → 0 anexos
+  cross_count: split mecánico conteo|enumeración en 2 pseudo-fragmentos mismo doc/página → átomo cross
+    con cita doble; control far_page = 0 átomos
+  composite_hybrid: SOLO brazo --hybrid (preflight en esta sesión; ejecución pagada la decide el orquestador)
+freeze:
+  must_preserve_sha256: 2daa33df68a99ddb4335a555a01dd67d7922f1a0ade71e47798b1a51e5e99e51
+  harness_v5_sha256: 45af82a46b0e2cf7b373b31045cfc4600b1e2b1bf448fd0cc04675f7e1f23dde
+  s269_harness_sha256: 058fb75aa7b412b7ea65cbf875a510272a7c70accc41429b007ec24feb59a874
+  templates_sha256: af27a45f4682077fcfef67dbdd0676d6159402e36a5bf98b96035617e10c5afa
+  cohort_path: evals/s270_mutation_cohort_v5.jsonl
+  cohort_rows: 113
+  cohort_sha256: 7354ea9b742cf7dc1fcb5989ffa14c549547d6f16dd453c4856c58b5c4ebfd3b
+  build_report_sha256: 5555bd0b95df19035538035b39dda31df2a577592b18f5c629d01bec6fe50171
+cohort_composition:
+  F-RANGE: 30
+  F-BUNDLE: 30
+  F-MANDATORY: 30
+  F-COUNT: 23
+population:
+  corpus_docs_servibles: 1007
+  excluded_docs: 421
+  eligible_docs: 586
+  docs_sampled: 44
+  fragments_screened: 555
+hybrid:
+  model: claude-haiku-4-5-20251001
+  budget_usd_max: 4.0
+  prices_usd_per_mtok:
+    input: 1.0
+    output: 5.0
+  no_retry: true
+  status: PREFLIGHT_ONLY_THIS_SESSION
+honest_declarations:
+- 'CUARTA población fresca (seed-273); exclusiones ACUMULADAS: cohorte v1 + seed-270 + seed-271 + seed-272.
+  Las medidas previas quedan como evidencia versionada.'
+- Los fixes v2 derivan del FUNNEL del probe-1 (trazas/fragmentos SERVIDOS), no de los textos gold; este
+  harness los valida en población fresca ANTES del probe v2.
+- cross_count usa SPLITS SINTÉTICOS de fragmentos reales (el split mecánico emula el corte de chunking);
+  la prevalencia real de pares cross no se mide.
+- 'El brazo híbrido (composites) queda en PREFLIGHT: el determinista es $0 y es el que gatea; la ejecución
+  pagada del híbrido la decide el orquestador.'
+- 'ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada c273, commit 9cfc422): el hook de display inyectaba
+  SOLO el primer token y la paridad exige TODOS los tokens del span (rs/tx/rx) → 1 miss de instrumento
+  (3/4). Fix del TEMPLATE (todos los tokens), SIN tocar el mecanismo; re-medido sobre la MISMA cohorte
+  seed-273; la 1ª pasada queda en el historial git.'
+gate_runner: scripts/s270_mutation_harness_v5.py --gate
+gate_output: evals/s270_stage1_v5_gate_v1.yaml

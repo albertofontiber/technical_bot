@@ -1,0 +1,81 @@
+schema: s270_etapa2_probe_v2_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+date: 2026-07-19
+dec: [DEC-122, DEC-125, DEC-126]
+probe_number: 2
+probe_count_declaration: >-
+  SEGUNDO probe a los MISMOS 4 targets (cat018, hp002, hp011, hp017) — cuenta de probes
+  VISIBLE como control anti-overfit. El probe-1 (evals/s270_etapa2_probe_result_v1.json,
+  NO_GO mecanico: 0 conversiones estables, 0 regresiones, 0 conflictos nuevos, $0.75) queda
+  como evidencia versionada. TODOS los cambios v1→v2 del mecanismo derivan del FUNNEL del
+  probe-1 (trazas + fragmentos SERVIDOS del freeze), JAMAS de los textos gold, y fueron
+  validados ANTES de este probe en poblacion fresca seed-273
+  (evals/s270_stage1_v5_gate_v1.yaml: GO — familias 1.0/0.84/1.0/0.91, display 4/4,
+  cross_count GO, clean-quality 0 FP bajo la re-spec opcion-a de DEC-126).
+
+funnel_v1_to_v2: >-
+  (a) hp002 cap-competition (13-14 atomos bound, 4 slots, RANGE monopolizaba, el MANDATORY
+  core entraba 1/3) → seleccion priorizada pre-declarada + cap por familia 2;
+  (b) hp011 deteccion 0-1 (la exclusion 7-seg mataba los atomos r.i/t.A que el borrador ya
+  nombraba como rI) → paridad de token display (marca en deteccion + exclusion en seleccion
+  solo sin paridad); (c) hp017/obl_872c: el "seis" (F1) y su enumeracion viven en texto
+  servido NO parseable por v1 (sopa OCR de etiquetas; la tabla de F2 cuenta 6 filas
+  consistentes) → F-COUNT v2: cross-fragmento (mismo doc, pagina igual/adyacente, cita
+  doble) + enumeracion label_run + tie de seccion; (d) cat018/obl_7bba era DETECCION (los
+  def-lines de F3 usan separador guion, no dos-puntos; ni binding ni crowding — el cap ni se
+  lleno) → _DEFLINE acepta guion rodeado de espacios; (e) cat018 TONE = composite
+  no-determinista → brazo HIBRIDO ON en el apply del tratamiento (Haiku, grounding
+  verbatim, validador codigo, no-retry, fallback det-solo por fragmento declarado).
+
+diagnosticos_declarados:
+  obl_0d6a_serving_view: >-
+    HALLAZGO del funnel: el bloque-warning de obl_0d6a/obl_16637 existe en el chunk RAW de
+    F12 (2.864 chars) pero NO en la vista SERVIDA por la lane de coverage (receipt de 1.037
+    chars) — bajo este freeze es INALCANZABLE para cualquier mecanismo post-generacion
+    (el anexo solo puede citar texto servido). Se mantiene en el gate (composicion
+    intacta) con expectativa declarada de no-conversion; su palanca real es de
+    SERVING/retrieval, no de sintesis.
+  obl_872c_siete_literal: >-
+    RIESGO declarado: el texto SERVIDO no contiene la palabra "siete" (la enumeracion OCR
+    de F1 cuenta 8 etiquetas distintas, incluidas 2 lineas basura de cabecera). El check de
+    disclosure se mantiene IDENTICO al probe-1 (seis Y siete cerca del sustantivo +
+    formula); si la conversion no llega por ausencia del literal "siete" en el anexo, se
+    reporta el disclosure-parcial sin contar conversion (sin re-spec del check en caliente).
+
+# ── SHA-256 pins LF-normalizados (el runner los verifica en preflight Y execute) ──
+frozen_inputs_sha256_lf_normalized:
+  src/rag/must_preserve.py: 2daa33df68a99ddb4335a555a01dd67d7922f1a0ade71e47798b1a51e5e99e51
+  src/rag/answer_planner.py: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3
+  src/rag/generator.py: d20c29fbf31396f28d60f72ffe1467599fee6b494fe452d292e6530e9bac0f08
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  evals/s235_direct_clause_bound_score_packet_v1.json: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48
+  scripts/s270_etapa2_probe.py: 194a250e97a3e794b756cd343e09ae363acc8b3ac76d0bad4335c45716f51389
+runner_sha256_lf_normalized:
+  scripts/s270_etapa2_probe_v2.py: a6fa07fba12374a8c24d86626d4dbbe1ba10c3b0b32d060affaa1e79390e47a1
+
+design_inherited: >-
+  IDENTICO al prereg del probe-1 (evals/s270_etapa2_probe_prereg_v1.yaml): contextos
+  congelados s113 sin retrieval, generador prod claude-sonnet-4-6 temp 0 max_tokens 3500
+  flags demo, K=3 replicas PAREADAS (una generacion flag-off por replica; ON =
+  apply(borrador) determinista+hibrido), instrumento matcher answer_planner, checkpoint
+  jsonl resumible, no-retry, 0 DB. Diferencias v2: (1) mecanismo must_preserve v2;
+  (2) brazo ON con detect_fn hibrido (Haiku, coste contabilizado por replica);
+  (3) salidas *_v2_*.
+gate_inherited: >-
+  MISMA composicion que el probe-1: 8 gate-eligible (obl_7bba, obl_015f, obl_b6f6,
+  obl_a5d9, obl_b2043, obl_7aa7, obl_0d6a merged-carrier, obl_872c disclosure-respec) ·
+  stretch obl_2f5d declarado fuera del gate · demoted obl_07ee/obl_1615 solo reporting ·
+  >=1 conversion estable (>=2/3 ON y no-cubierta >=2/3 OFF) · 0 regresiones protegidas
+  estables (set esperado obl_05482/obl_0db2/obl_5784, computado del baseline s235) ·
+  0 conflictos nuevos (flags a lectura humana, DEC-092b) · techo 6 USD. Los umbrales,
+  checks y definiciones se LEEN del prereg v1 via el runner compartido.
+cost:
+  pricing_generation_usd_per_mtok: {input: 3.0, output: 15.0}   # claude-sonnet-4-6
+  pricing_hybrid_usd_per_mtok: {input: 1.0, output: 5.0}        # claude-haiku-4-5
+  hybrid_upper_bound: deteccion en los 51 fragmentos servidos x 3 replicas (cota; solo
+    los citados∩attestados se detectan en la practica)
+  ceiling_usd: 6.0
+outputs:
+  replicas_jsonl: evals/s270_etapa2_probe_v2_replicas_v1.jsonl
+  result: evals/s270_etapa2_probe_v2_result_v1.json

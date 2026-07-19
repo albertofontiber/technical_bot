@@ -20,8 +20,20 @@ Garantía real (dúo C3/F4): la monotonía garantiza no-borrado bajo el matcher;
 ausencia de contradicción — por eso el chequeo de contradicción degrada a disclosure
 ("Nota: el manual también indica ...") y el gate de Etapa 2 cuenta conflictos nuevos.
 
-Riesgo OCR declarado (§3.4, feedback_7segment): los patrones de display 7-segmentos
-(tokens tipo ``r.I`` / ``t.A``) quedan FUERA del anexo automático.
+Riesgo OCR (v2, funnel del probe-1 s270): los patrones de display 7-segmentos (``r.I`` /
+``t.A``) ya NO se excluyen en detección — se MARCAN (``seven_segment_risk``) y la exclusión
+vive en la SELECCIÓN con paridad de superficie: el átomo con riesgo solo es anexable si el
+borrador YA contiene sus tokens display (``r.i`` ≈ ``rI``); el anexo jamás introduce
+superficie OCR que el borrador no sirva.
+
+v2 (DEC-126; fixes GENÉRICOS derivados del funnel del probe-1, no de los golds):
+  - selección priorizada del cap (seguridad primero) + cap por familia (anti-monopolio);
+  - paridad de token display (arriba);
+  - F-COUNT cross-fragmento (conteo↔enumeración partidos por el chunking, mismo documento,
+    página igual/adyacente, cita doble) + enumeración ``label_run`` (pilas de etiquetas
+    OCR) + tie de conteo por SECCIÓN (forward-reference bajo un heading);
+  - F-BUNDLE acepta líneas de definición con separador guion (``**Campo** - descripción``);
+  - ``apply_must_preserve_contract(..., detect_fn=...)`` inyecta el detector (brazo híbrido).
 """
 from __future__ import annotations
 
@@ -43,6 +55,9 @@ FAMILIES = (FAMILY_RANGE, FAMILY_BUNDLE, FAMILY_MANDATORY, FAMILY_COUNT)
 
 APPENDIX_HEADER = "Información adicional del manual:"
 APPENDIX_CAP = 4
+# v2 (funnel probe-1 hp002: 13-14 átomos bound para 4 slots, RANGE monopolizaba y el
+# callout MANDATORY core entraba 1/3): cap POR FAMILIA dentro del cap global.
+APPENDIX_FAMILY_CAP = 2
 
 
 def contract_enabled() -> bool:
@@ -147,7 +162,9 @@ def _sentence_spans(text: str) -> list[tuple[int, int]]:
 
 # Riesgo OCR 7-segmentos (feedback_7segment · spec v3 §A M9): formas de display tipo
 # ``r.I`` / ``r.i`` / ``t.Fi`` / ``dr`` — códigos de 1-3 chars con punto interior o
-# códigos cortos sueltos. La exclusión es CONTEXTUAL: solo aplica si el token aparece
+# códigos cortos sueltos. (``t.Fi`` es ejemplo REAL del riesgo, no un display existente:
+# al píxel es ``t.A`` — transliteración 7-seg confirmada en s269/DEC-125; el patrón debe
+# seguir cazando la forma extraída.) La exclusión es CONTEXTUAL: solo aplica si el token aparece
 # en contexto de display/parámetro ("el display muestra ..."), y NUNCA al inicio de
 # línea/heading (``A.1 CARACTERÍSTICAS`` es numeración de sección, no un display —
 # hallazgo 9 de Sol: la versión previa excluía ``A.1`` y no reconocía ``r.i``).
@@ -199,6 +216,51 @@ def has_seven_segment_pattern(text: str) -> bool:
             continue
         return True
     return False
+
+
+def seven_segment_tokens(text: str) -> set[str]:
+    """Tokens display 7-seg del texto EN CONTEXTO de display (mismas reglas que
+    ``has_seven_segment_pattern``), normalizados: foldeados y SIN puntos
+    (``r.i`` → ``ri``). Vacío si no hay contexto de display."""
+    text = text or ""
+    out: set[str] = set()
+    if not _DISPLAY_CONTEXT.search(_fold(text)):
+        return out
+    for m in _SEVEN_SEG_TOKEN.finditer(text):
+        tok = m.group()
+        if all(c.isdigit() or c == "." for c in tok):
+            continue
+        if _token_is_heading_numbering(text, m.start()):
+            continue
+        out.add(_fold(tok).replace(".", ""))
+    for m in _SEVEN_SEG_BARE.finditer(text):
+        tok = m.group()
+        if _fold(tok) in _SEVEN_SEG_BARE_STOP:
+            continue
+        if _token_is_heading_numbering(text, m.start()):
+            continue
+        out.add(_fold(tok))
+    return out
+
+
+def _display_token_in_draft(token: str, folded_draft: str) -> bool:
+    """``r.i`` ≈ ``rI`` ≈ ``r.I``: el token normalizado presente en el borrador con
+    puntos OPCIONALES entre caracteres y límites no alfanuméricos."""
+    pattern = r"\.?".join(re.escape(ch) for ch in token)
+    return re.search(rf"(?<![a-z0-9]){pattern}(?![a-z0-9])", folded_draft) is not None
+
+
+def display_parity_ok(atom: Atom, draft_answer: str) -> bool:
+    """Paridad de superficie OCR (v2, funnel probe-1 hp011: la exclusión total
+    mataba los átomos r.i/t.A que el propio borrador ya nombraba como ``rI``): un
+    átomo con riesgo 7-seg es anexable SOLO si TODOS sus tokens display ya
+    aparecen en el borrador — el anexo no añade superficie OCR nueva. Sin tokens
+    extraíbles → conservador: no anexable."""
+    tokens = seven_segment_tokens(atom.get("span_text") or "")
+    if not tokens:
+        return False
+    folded = _fold(draft_answer or "")
+    return all(_display_token_in_draft(tok, folded) for tok in tokens)
 
 
 # ─────────────────────────────── F-RANGE ───────────────────────────────
@@ -272,9 +334,9 @@ def _detect_range(text: str) -> list[Atom]:
             })
         if not matches:
             continue
-        if has_seven_segment_pattern(sentence):
-            # Exclusión del anexo automático (riesgo OCR/display declarado §3.4).
-            continue
+        # v2: el riesgo 7-seg ya no excluye en detección — se MARCA y la exclusión
+        # (con paridad de display) vive en la selección del anexo.
+        risk = has_seven_segment_pattern(sentence)
         step_m = _RX_STEP.search(sentence)
         scope_ids = _RX_SCOPE_ID.findall(sentence)
         scope_word = _RX_SCOPE_WORD.search(sentence)
@@ -287,6 +349,7 @@ def _detect_range(text: str) -> list[Atom]:
                 "step": _num_val(step_m.group(1)) if step_m else None,
                 "step_unit": (step_m.group(2) or "").lower() or None if step_m else None,
                 "scope": scope,
+                "seven_segment_risk": risk,
             }
             anchors = _content_tokens(sentence)
             for key in ("lower", "upper", "step", "tolerance"):
@@ -322,8 +385,13 @@ def _dedup(items: list[str]) -> list[str]:
 # pestañas/listas/schemas (hallazgo M6 del dúo, diseño §1.1).
 
 _HEADING = re.compile(r"^(#{2,4})\s+(.+?)\s*$")
+# v2 (funnel probe-1 cat018 F3: ``**Zona** - número de zona asignada`` → 0 átomos): el
+# separador de definición acepta ``:`` O guion RODEADO de espacios (`` - ``/`` – ``/`` — ``)
+# — patrón markdown genérico de listas de definición; sin espacios alrededor el guion
+# de palabras compuestas (``auto-reset``) NO separa.
 _DEFLINE = re.compile(
-    r"^\s*(?:[-•*·◦]\s*)?\**([A-Za-zÁÉÍÓÚÑÜáéíóúñü0-9][^:\n]{0,60}?)\**\s*:\s+(\S.*)$"
+    r"^\s*(?:[-•*·◦]\s*)?\**([A-Za-zÁÉÍÓÚÑÜáéíóúñü0-9][^:\n]{0,60}?)\**\s*"
+    r"(?::\s+|[-–—]\s+)(\S.*)$"
 )
 _BULLET = re.compile(r"^\s*(?:[-•*·◦]|\d{1,2}[.)])\s+(\S.*)$")
 
@@ -530,9 +598,27 @@ def _is_pipe_row(line: str) -> bool:
     return line.count("|") >= 2 and bool(line.strip())
 
 
+def _is_bare_label_line(line: str) -> bool:
+    """Línea de PILA DE ETIQUETAS (v2, funnel probe-1: enumeraciones OCR sin viñetas
+    ni pipes — cabeceras de columna aplanadas): corta (≤40 chars), ≤4 tokens, con
+    letra, sin viñeta/pipe/heading y sin ``:`` final."""
+    stripped = line.strip()
+    if not stripped or len(stripped) > 40:
+        return False
+    if stripped.endswith(":") or stripped.startswith("#"):
+        return False
+    if _is_pipe_row(line) or _ITEM_LINE.match(line) or _PIPE_SEP.match(line):
+        return False
+    if len(stripped.split()) > 4:
+        return False
+    return bool(_ALPHA_RX.search(stripped))
+
+
 def _enumeration_blocks(text: str) -> list[tuple[int, int, int, str]]:
     """Bloques (start, end, n_miembros, kind): listas con viñetas/numeradas, filas de
-    tabla, o UNA línea de columnas separadas por ``|``."""
+    tabla, UNA línea de columnas separadas por ``|``, o pilas de etiquetas OCR
+    (``label_run``, v2: ≥3 líneas-etiqueta consecutivas; miembros = etiquetas
+    DISTINTAS foldeadas)."""
     lines = _line_spans(text)
     blocks: list[tuple[int, int, int, str]] = []
     i = 0
@@ -580,6 +666,18 @@ def _enumeration_blocks(text: str) -> list[tuple[int, int, int, str]]:
                 blocks.append((start, lines[last][1], items, "list_items"))
             i = j
             continue
+        if _is_bare_label_line(line):
+            j = i
+            labels: list[str] = []
+            while j < len(lines) and _is_bare_label_line(lines[j][2]):
+                labels.append(_fold(lines[j][2].strip()))
+                j += 1
+            if len(labels) >= 3:
+                blocks.append((start, lines[j - 1][1], len(set(labels)), "label_run"))
+                i = j
+                continue
+            i = j if j > i else i + 1
+            continue
         i += 1
     return blocks
 
@@ -620,10 +718,18 @@ def _count_match_excluded(text: str, m: re.Match) -> bool:
     return False
 
 
+def _heading_positions(text: str) -> list[int]:
+    return [
+        start for start, _end, line in _line_spans(text)
+        if line.lstrip().startswith("#")
+    ]
+
+
 def _detect_count(text: str) -> list[Atom]:
     atoms: list[Atom] = []
     blocks = _enumeration_blocks(text)
     sentences = _sentence_spans(text)
+    headings = _heading_positions(text)
     for m in _RX_COUNT.finditer(text):
         raw = m.group(1).lower()
         declared = _COUNT_WORDS.get(_fold(raw)) or (int(raw) if raw.isdigit() else None)
@@ -631,24 +737,45 @@ def _detect_count(text: str) -> list[Atom]:
             continue
         if _count_match_excluded(text, m):
             continue
+        tie = "adjacent"
         block = next(
             (b for b in blocks if m.end() <= b[0] <= m.end() + _COUNT_WINDOW), None
         )
+        if block is not None:
+            # ADYACENCIA: el conteo declarado debe INTRODUCIR la enumeración — sin líneas
+            # de prosa intermedias entre la línea del conteo y el bloque (un conteo y una
+            # enumeración no relacionados a <300 chars no forman átomo).
+            gap_lines = text[m.end():block[0]].split("\n")[1:]
+            if any(len(_ALPHA_RX.findall(g)) >= 3 for g in gap_lines):
+                block = None
+        if block is None:
+            # Tie por SECCIÓN (v2, funnel probe-1: "seis tipos ... como se explica a
+            # continuación" + enumeración tras párrafos explicativos): el conteo vive
+            # bajo un heading y la PRIMERA enumeración posterior de la misma sección
+            # (sin heading intermedio) es la suya, a cualquier distancia.
+            has_heading_above = any(h <= m.start() for h in headings)
+            if has_heading_above:
+                candidate = next((b for b in blocks if b[0] > m.end()), None)
+                if candidate is not None and not any(
+                    m.end() < h < candidate[0] for h in headings
+                ):
+                    block = candidate
+                    tie = "section"
         if block is None:
             continue
         b_start, b_end, enumerated, kind = block
-        # ADYACENCIA: el conteo declarado debe INTRODUCIR la enumeración — sin líneas de
-        # prosa intermedias entre la línea del conteo y el bloque (un conteo y una
-        # enumeración no relacionados a <300 chars no forman átomo).
-        gap_lines = text[m.end():b_start].split("\n")[1:]
-        if any(len(_ALPHA_RX.findall(g)) >= 3 for g in gap_lines):
-            continue
         if enumerated == declared:
             continue  # conteo consistente: no hay átomo (conducta DISCLOSE solo ante conflicto)
         s_start = next(
             (s for s, e in sentences if s <= m.start() < e), m.start()
         )
-        span_start, span_end = s_start, b_end
+        s_end_sentence = next(
+            (e for s, e in sentences if s <= m.start() < e), m.end()
+        )
+        # v3 (funnel probe-2): span = ORACIÓN del conteo; la enumeración viaja
+        # explícita en meta.enum_span_text para el disclosure de DOS LADOS (el span
+        # conteo→bloque cortaba el run cuando el bloque se partía).
+        span_start, span_end = s_start, s_end_sentence
         anchors = _content_tokens(text[s_start:m.end()])
         anchors.extend([str(declared), str(enumerated), _fold(m.group(2))])
         atoms.append({
@@ -661,12 +788,124 @@ def _detect_count(text: str) -> list[Atom]:
                 "enumerated_n": enumerated,
                 "conflict": True,
                 "enumeration_kind": kind,
+                "tie": tie,
                 "noun": m.group(2),
+                "enum_span_text": text[b_start:b_end],
                 "seven_segment_risk": has_seven_segment_pattern(
                     text[span_start:span_end]
-                ),
+                ) or has_seven_segment_pattern(text[b_start:b_end]),
             },
         })
+    return atoms
+
+
+# ────────────────────── F-COUNT cross-fragmento (v2) ──────────────────────
+
+_CROSS_HEAD_WINDOW = 600  # la enumeración debe EMPEZAR en la cabeza del fragmento par
+
+
+def detect_cross_fragment_count_atoms(fragments: list[dict]) -> list[Atom]:
+    """v2 (funnel probe-1 hp017/obl_872c: el par conteo↔enumeración quedó partido por
+    el chunking). Contrato conservador: conteo declarado en el fragmento i SIN
+    enumeración propia (ni adyacente ni de sección) + fragmento j del MISMO
+    ``document_id`` con página igual o adyacente cuya PRIMERA enumeración empieza en
+    los primeros 600 chars (semántica de continuación) → si ``enumerated != declared``,
+    átomo F-COUNT con spans de AMBOS fragmentos y cita doble.
+
+    ``fragments``: dicts {fragment_number, text, document_id, page_number}. Puro y
+    determinista; la attestation/binding los aplica el caller (apply)."""
+    by_number = {int(f["fragment_number"]): f for f in fragments}
+    atoms: list[Atom] = []
+    for i in sorted(by_number):
+        frag = by_number[i]
+        text = str(frag.get("text") or "")
+        if not text.strip():
+            continue
+        doc = str(frag.get("document_id") or "")
+        if not doc:
+            continue
+        intra = _detect_count(text)
+        intra_spans = [(a["span_start"], a["span_end"]) for a in intra]
+        blocks_i = _enumeration_blocks(text)
+        sentences = _sentence_spans(text)
+        for m in _RX_COUNT.finditer(text):
+            raw = m.group(1).lower()
+            declared = _COUNT_WORDS.get(_fold(raw)) or (
+                int(raw) if raw.isdigit() else None
+            )
+            if declared is None or _count_match_excluded(text, m):
+                continue
+            if any(s <= m.start() < e for s, e in intra_spans):
+                continue  # ya ligado intra (adyacente o sección): no cross
+            if any(
+                m.end() <= b[0] <= m.end() + _COUNT_WINDOW for b in blocks_i
+            ) or any(b[0] > m.end() for b in blocks_i):
+                continue  # hay enumeración posterior en el PROPIO fragmento
+            page_i = frag.get("page_number")
+            partner = None
+            for j in sorted(by_number):
+                if j == i:
+                    continue
+                cand = by_number[j]
+                if str(cand.get("document_id") or "") != doc:
+                    continue
+                page_j = cand.get("page_number")
+                if page_i is None or page_j is None:
+                    continue
+                try:
+                    if abs(int(page_i) - int(page_j)) > 1:
+                        continue
+                except (TypeError, ValueError):
+                    continue
+                text_j = str(cand.get("text") or "")
+                block = next(
+                    (
+                        b for b in _enumeration_blocks(text_j)
+                        if b[0] <= _CROSS_HEAD_WINDOW
+                    ),
+                    None,
+                )
+                if block is None:
+                    continue
+                partner = (j, text_j, block)
+                break
+            if partner is None:
+                continue
+            j, text_j, (b_start, b_end, enumerated, kind) = partner
+            if enumerated == declared:
+                continue  # consistente entre fragmentos: sin átomo (DISCLOSE solo ante conflicto)
+            s_start = next(
+                (s for s, e in sentences if s <= m.start() < e), m.start()
+            )
+            s_end = next(
+                (e for s, e in sentences if s <= m.start() < e), m.end()
+            )
+            count_span = text[s_start:s_end]
+            enum_span = text_j[b_start:b_end]
+            anchors = _content_tokens(count_span)
+            anchors.extend([str(declared), str(enumerated), _fold(m.group(2))])
+            atoms.append({
+                "family": FAMILY_COUNT,
+                "span_start": s_start, "span_end": s_end,
+                "span_text": count_span,
+                "anchor_tokens": _dedup(anchors),
+                "meta": {
+                    "declared_n": declared,
+                    "enumerated_n": enumerated,
+                    "conflict": True,
+                    "enumeration_kind": kind,
+                    "tie": "cross_fragment",
+                    "cross_fragment": True,
+                    "count_fragment_number": i,
+                    "enum_fragment_number": j,
+                    "enum_span_text": enum_span,
+                    "noun": m.group(2),
+                    "seven_segment_risk": (
+                        has_seven_segment_pattern(count_span)
+                        or has_seven_segment_pattern(enum_span)
+                    ),
+                },
+            })
     return atoms
 
 
@@ -750,8 +989,6 @@ def _hybrid_range_atom(span: str, start: int) -> Atom | None:
     unit_m = _RX_NUM_UNIT.search(span)
     if unit_m is None:
         return None
-    if has_seven_segment_pattern(span):
-        return None  # riesgo display: fuera del anexo automático
     step_m = _RX_STEP.search(span)
     scope_ids = _RX_SCOPE_ID.findall(span)
     scope = scope_ids if (_RX_SCOPE_WORD.search(span) or len(scope_ids) >= 2) else []
@@ -763,6 +1000,8 @@ def _hybrid_range_atom(span: str, start: int) -> Atom | None:
         "step": _num_val(step_m.group(1)) if step_m else None,
         "step_unit": (step_m.group(2) or "").lower() or None if step_m else None,
         "scope": scope,
+        # v2: riesgo display MARCADO (la exclusión con paridad vive en la selección)
+        "seven_segment_risk": has_seven_segment_pattern(span),
     }
     anchors = _content_tokens(span)
     for key in ("lower", "upper", "step", "tolerance"):
@@ -832,11 +1071,64 @@ def _overlaps_same_family(atom: Atom, existing: list[Atom]) -> bool:
     )
 
 
+def _fold_ws(text: str) -> tuple[str, list[int]]:
+    """Fold char-a-char con mapa de índices: minúsculas, sin acentos combinantes,
+    espacios/saltos colapsados a UN espacio. Devuelve (texto_foldeado, idx_map)."""
+    import unicodedata
+
+    out: list[str] = []
+    idx: list[int] = []
+    prev_space = False
+    for i, ch in enumerate(text or ""):
+        if ch.isspace():
+            if prev_space or not out:
+                continue
+            out.append(" ")
+            idx.append(i)
+            prev_space = True
+            continue
+        decomposed = unicodedata.normalize("NFKD", ch)
+        base = "".join(c for c in decomposed if not unicodedata.combining(c)).lower()
+        if not base:
+            base = ch.lower()
+        for c in base:
+            out.append(c)
+            idx.append(i)
+        prev_space = False
+    while out and out[-1] == " ":
+        out.pop()
+        idx.pop()
+    return "".join(out), idx
+
+
+def ground_hybrid_span(fragment_text: str, span: str) -> str | None:
+    """Grounding FOLD-TOLERANTE (v3, funnel probe-2: Haiku re-espacia/parafrasea
+    levemente y el match exacto descartaba todo): localiza el span en el fragmento
+    tras fold (minúsculas + sin acentos + espacios colapsados) y devuelve el
+    SUBSTRING EXACTO del fragmento (jamás el texto de Haiku). None si no ancla."""
+    span = (span or "").strip()
+    if not span:
+        return None
+    if span in (fragment_text or ""):
+        return span
+    folded_span, _ = _fold_ws(span)
+    if not folded_span:
+        return None
+    folded_frag, idx = _fold_ws(fragment_text or "")
+    pos = folded_frag.find(folded_span)
+    if pos < 0:
+        return None
+    start = idx[pos]
+    end = idx[pos + len(folded_span) - 1] + 1
+    return fragment_text[start:end]
+
+
 def detect_atoms_hybrid(
     fragment_text: str,
     client=None,
     model: str = HYBRID_DETECTOR_MODEL,
     usage: dict | None = None,
+    stats: dict | None = None,
 ) -> list[Atom]:
     """Detector híbrido: determinista + propuesta Haiku validada por código.
 
@@ -877,18 +1169,36 @@ def detect_atoms_hybrid(
     tool_use = next(b for b in response.content if b.type == "tool_use")
     payload = dict(tool_use.input)
     atoms = list(det)
+
+    def _count(key: str) -> None:
+        if stats is not None:
+            stats[key] = stats.get(key, 0) + 1
+
     for i in range(1, _HYBRID_SLOTS + 1):
         family = str(payload.get(f"atom_{i}_family") or "").strip().upper()
         span = str(payload.get(f"atom_{i}_span") or "").strip()
-        if family not in FAMILIES or not span:
+        if not family and not span:
             continue
-        if span not in fragment_text:
-            continue  # grounding verbatim obligatorio: span no-verbatim → descarte
-        atom = _atom_from_verbatim_span(family, span, fragment_text)
+        _count("proposals")
+        if family not in FAMILIES or not span:
+            _count("rejected_family_or_empty")
+            continue
+        # v3: grounding FOLD-TOLERANTE — el texto anexable sigue siendo el substring
+        # EXACTO del fragmento (ground_hybrid_span), jamás el texto de Haiku.
+        grounded = ground_hybrid_span(fragment_text, span)
+        if grounded is None:
+            _count("rejected_grounding")
+            continue
+        if grounded != span:
+            _count("accepted_fold_relocated")
+        atom = _atom_from_verbatim_span(family, grounded, fragment_text)
         if atom is None:
+            _count("rejected_shape")
             continue  # sin shape de su familia → descarte
         if _overlaps_same_family(atom, atoms):
+            _count("rejected_overlap")
             continue
+        _count("accepted")
         atoms.append(atom)
     atoms.sort(key=lambda a: (a["span_start"], a["family"]))
     return atoms
@@ -1186,28 +1496,97 @@ def _contradicts(atom: Atom, draft_answer: str) -> bool:
     return False
 
 
-def _select_for_appendix(missing_atoms: list[Atom]) -> list[Atom]:
-    """Cap 4 + exclusión de spans con riesgo 7-segmentos del anexo automático."""
-    selected = [
+def _selection_priority(atom: Atom) -> int:
+    """Orden pre-declarado del cap (v2, funnel probe-1 hp002): (0) F-MANDATORY —
+    seguridad primero, el rationale original de la familia s243; (1) F-COUNT en
+    conflicto — disclosure de fuente inconsistente; (2) resto."""
+    family = atom.get("family")
+    if family == FAMILY_MANDATORY:
+        return 0
+    if family == FAMILY_COUNT and (atom.get("meta") or {}).get("conflict"):
+        return 1
+    return 2
+
+
+def _binding_strength(atom: Atom, draft_answer: str) -> int:
+    """Fuerza de binding para el desempate del cap: nº de tokens PROPIOS del átomo
+    (min_len=2) + números propios (excl. 0/1) compartidos con el borrador."""
+    clean = _FRAG_CITE.sub(" ", draft_answer or "")
+    draft_tokens = set(_content_tokens(clean, min_len=2))
+    draft_numbers = {v for v in _numbers_in(clean) if v not in (0.0, 1.0)}
+    own_tokens = set(_content_tokens(atom.get("span_text") or "", min_len=2))
+    own_numbers = {v for v in _atom_numbers(atom) if v not in (0.0, 1.0)}
+    return len(own_tokens & draft_tokens) + len(own_numbers & draft_numbers)
+
+
+def _select_for_appendix(
+    missing_atoms: list[Atom], draft_answer: str
+) -> list[Atom]:
+    """Selección v2 del cap (orden PRE-DECLARADO, funnel probe-1 hp002
+    cap-competition — los RANGE monopolizaban los 4 slots y el callout MANDATORY
+    core entraba 1/3):
+
+      1º  F-MANDATORY (seguridad primero — rationale original de la familia);
+      2º  F-COUNT en conflicto (disclosure de fuente inconsistente);
+      3º  resto por FUERZA DE BINDING (tokens+números del átomo compartidos con el
+          borrador, desc; empate → orden de llegada);
+      cap global 4 + cap POR FAMILIA 2 (anti-monopolio RANGE).
+
+    Exclusión 7-seg v2 por PARIDAD de display: el átomo con riesgo entra SOLO si el
+    borrador ya contiene sus tokens display (``display_parity_ok``)."""
+    eligible = [
         a for a in missing_atoms
         if not (a.get("meta") or {}).get("seven_segment_risk")
+        or display_parity_ok(a, draft_answer)
     ]
-    return selected[:APPENDIX_CAP]
+    ordered = sorted(
+        enumerate(eligible),
+        key=lambda pair: (
+            _selection_priority(pair[1]),
+            -_binding_strength(pair[1], draft_answer),
+            pair[0],
+        ),
+    )
+    selected: list[Atom] = []
+    per_family: dict[str, int] = {}
+    for _idx, atom in ordered:
+        if len(selected) >= APPENDIX_CAP:
+            break
+        family = str(atom.get("family"))
+        if per_family.get(family, 0) >= APPENDIX_FAMILY_CAP:
+            continue
+        per_family[family] = per_family.get(family, 0) + 1
+        selected.append(atom)
+    return selected
 
 
 def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
     """Sección "Información adicional del manual:" (SIN "verificada" — el span verbatim
-    hereda la EXTRACCIÓN, no el píxel; dúo M5). Spans VERBATIM con cita [Fn], cap 4.
-    Puro código, cero LLM."""
-    selected = _select_for_appendix(missing_atoms)
+    hereda la EXTRACCIÓN, no el píxel; dúo M5). Spans VERBATIM con cita [Fn]; selección
+    v2 priorizada (ver ``_select_for_appendix``): MANDATORY → COUNT-conflicto → resto
+    por fuerza de binding, cap global 4 + cap por familia 2. Los átomos cross-fragmento
+    citan AMBOS fragmentos (conteo y enumeración). Puro código, cero LLM."""
+    selected = _select_for_appendix(missing_atoms, draft_answer)
     if not selected:
         return ""
     lines = [APPENDIX_HEADER]
     for atom in selected:
-        fragment_number = (atom.get("meta") or {}).get("fragment_number")
+        meta = atom.get("meta") or {}
+        fragment_number = meta.get("fragment_number")
         cite = f" [F{fragment_number}]" if fragment_number else ""
         span = (atom.get("span_text") or "").strip()
-        if _contradicts(atom, draft_answer):
+        if meta.get("conflict") and meta.get("enum_span_text"):
+            # v3: disclosure de DOS LADOS SIEMPRE — conteo declarado + enumeración
+            # verbatim (sopa OCR incluida), cada lado con su cita ([Fi]·[Fj] si es
+            # cross; misma cita dos veces si es intra).
+            count_cite = f" [F{meta.get('count_fragment_number') or fragment_number}]"
+            enum_cite = f" [F{meta.get('enum_fragment_number') or fragment_number}]"
+            enum_span = str(meta.get("enum_span_text") or "").strip()
+            lines.append(
+                f'- Nota: el manual también indica: "{span}"{count_cite} · '
+                f'"{enum_span}"{enum_cite}'
+            )
+        elif _contradicts(atom, draft_answer):
             lines.append(f'- Nota: el manual también indica: "{span}"{cite}')
         else:
             lines.append(f'- "{span}"{cite}')
@@ -1231,23 +1610,34 @@ def _chunk_text(chunk: dict) -> str:
 
 
 def apply_must_preserve_contract(
-    query: str, chunks: list[dict], draft_answer: str
+    query: str,
+    chunks: list[dict],
+    draft_answer: str,
+    *,
+    detect_fn=None,
 ) -> tuple[str, dict | None]:
     """Punto de entrada único del generador (post-generación, pre-return).
 
     off → devuelve el MISMO objeto respuesta y trace None (byte-idéntico).
     on  → detecta+binde+attesta sobre los fragmentos SERVIDOS y anexa si procede.
-    El caller envuelve en try/except (fail-open total)."""
+    El caller envuelve en try/except (fail-open total).
+
+    ``detect_fn`` (v2): detector inyectable por fragmento (default ``detect_atoms``;
+    el brazo híbrido del probe inyecta ``detect_atoms_hybrid`` con cliente). La etapa
+    F-COUNT cross-fragmento (v2) corre sobre los fragmentos SERVIDOS y ATTESTADOS y
+    exige que el fragmento del conteo o el de la enumeración esté CITADO."""
     if not contract_enabled():
         return draft_answer, None
+    detect = detect_fn if detect_fn is not None else detect_atoms
     trace: dict[str, Any] = {
-        "schema": "must_preserve_contract_v1",
+        "schema": "must_preserve_contract_v2",
         "identity_resolved": False,
         "cited_fragments": [],
         "atoms_detected": 0,
         "atoms_bound": 0,
         "atoms_missing": 0,
         "atoms_appended": 0,
+        "cross_atoms_detected": 0,
         "appendix_appended": False,
     }
     resolved = _query_resolved_ids(query)
@@ -1261,13 +1651,15 @@ def apply_must_preserve_contract(
     cited = cited_fragment_numbers(draft_answer)
     trace["cited_fragments"] = sorted(cited)
     catalog = _load_catalog()
-    missing: list[Atom] = []
+    attested: dict[int, dict] = {}
     for idx, chunk in enumerate(chunks or [], start=1):
+        if attest_identity(chunk.get("document_id"), resolved, catalog):
+            attested[idx] = chunk
+    missing: list[Atom] = []
+    for idx, chunk in attested.items():
         if idx not in cited:
             continue
-        if not attest_identity(chunk.get("document_id"), resolved, catalog):
-            continue
-        atoms = detect_atoms(_chunk_text(chunk))
+        atoms = detect(_chunk_text(chunk))
         trace["atoms_detected"] += len(atoms)
         bound = bind_atoms(atoms, draft_answer, cited, idx)
         trace["atoms_bound"] += len(bound)
@@ -1275,10 +1667,37 @@ def apply_must_preserve_contract(
             if not atom_satisfied(atom, draft_answer):
                 atom.setdefault("meta", {})["fragment_number"] = idx
                 missing.append(atom)
+    # v2: F-COUNT cross-fragmento sobre los fragmentos SERVIDOS y ATTESTADOS
+    cross_atoms = detect_cross_fragment_count_atoms([
+        {
+            "fragment_number": idx,
+            "text": _chunk_text(chunk),
+            "document_id": chunk.get("document_id"),
+            "page_number": chunk.get("page_number"),
+        }
+        for idx, chunk in attested.items()
+    ])
+    trace["cross_atoms_detected"] = len(cross_atoms)
+    for atom in cross_atoms:
+        meta = atom.get("meta") or {}
+        count_idx = meta.get("count_fragment_number")
+        enum_idx = meta.get("enum_fragment_number")
+        primary = next(
+            (idx for idx in (count_idx, enum_idx) if idx in cited), None
+        )
+        if primary is None:
+            continue  # ninguno de los dos citado → no exigible (conservador)
+        window = citation_window(draft_answer, primary)
+        if not window.strip() or not atom_exigible_in(atom, window):
+            continue
+        trace["atoms_bound"] += 1
+        if not atom_satisfied(atom, draft_answer):
+            atom.setdefault("meta", {})["fragment_number"] = count_idx
+            missing.append(atom)
     trace["atoms_missing"] = len(missing)
     appendix = render_appendix(missing, draft_answer)
     if not appendix:
         return draft_answer, trace
-    trace["atoms_appended"] = len(_select_for_appendix(missing))
+    trace["atoms_appended"] = len(_select_for_appendix(missing, draft_answer))
     trace["appendix_appended"] = True
     return draft_answer.rstrip() + "\n\n" + appendix, trace

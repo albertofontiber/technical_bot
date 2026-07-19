@@ -1,0 +1,66 @@
+schema: s270_etapa2_probe_v3_prereg_v1
+status: FROZEN_BEFORE_PAID_EXECUTION
+date: 2026-07-19
+dec: [DEC-122, DEC-125, DEC-126]
+probe_number: 3
+probe_count_declaration: >-
+  TERCER y ULTIMO probe de la sesion a los MISMOS 4 targets (adjudicacion del orquestador:
+  tras este probe NO hay mas iteraciones de mecanismo — lo que de, se consolida y reporta).
+  Cadena visible: probe-1 NO_GO 0/8 ($0.75) → mecanismo v2 (Etapa 1 v5 seed-273 GO) →
+  probe-2 GO 1/8 (obl_b6f6 3/3 estable, 0 regresiones, 0 conflictos, $1.09) → mecanismo v3
+  (Etapa 1 v6 seed-274 GO: familias 1.0/0.913/1.0/0.953 + grounding-fold GO + paraphrase 0
+  FP + disclosure-dos-lados GO) → este probe. Cambios v2→v3 derivados del funnel del
+  probe-2, jamas de los golds.
+
+funnel_v2_to_v3: >-
+  (i) el disclosure de obl_872c se anexaba con la formula y el lado "seis" pero el span
+  conteo→bloque CORTABA el label_run partido → v3: span del atomo = ORACION del conteo y la
+  enumeracion viaja EXPLICITA en meta.enum_span_text; la nota incluye SIEMPRE ambos lados
+  verbatim con sus citas (sopa OCR incluida); (ii) el hibrido disparo (7-8 calls/replica,
+  0 errores) pero CERO atomos llegaron al anexo — el grounding exacto descartaba spans
+  re-espaciados/re-acentuados de Haiku → v3: grounding FOLD-TOLERANTE (lower + sin acentos
+  + espacios colapsados) que devuelve el SUBSTRING EXACTO del fragmento (jamas el texto de
+  Haiku) + contadores por causa en el trace de replica; (iii) obl_7bba: VERIFICADO en
+  trazas = BINDING (la ventana de cita de F3 comparte 1 solo token propio, "cbe", y el
+  contrato exige ≥2) — TENSION DECLARADA, el contrato NO se relaja (adjudicacion del
+  orquestador); expectativa de no-conversion salvo que el borrador nombre ≥2 tokens del
+  schema; (iv) hp011 sin atomos = esperado (F11/F13 no citados; selection-loss stretch).
+
+diagnosticos_declarados:
+  obl_7bba_binding_tension: ver funnel (iii) — reportar, no relajar.
+  obl_0d6a_serving_view: >-
+    sigue inalcanzable bajo este freeze (bloque-warning fuera de la vista servida de F12;
+    palanca de serving, no de sintesis).
+  obl_872c_check: >-
+    el check de disclosure queda IDENTICO (seis Y siete cerca del sustantivo + formula);
+    riesgo vigente: el literal "siete" no existe en el texto servido (la enumeracion OCR
+    cuenta 8 etiquetas); si el disclosure de dos lados no acredita por ausencia del
+    literal, se reporta disclosure-parcial sin contar conversion.
+
+frozen_inputs_sha256_lf_normalized:
+  src/rag/must_preserve.py: 4f292b2039947bef08716c10d0c8956d05eefd2b5372ec0593a534b2f0f77264
+  src/rag/answer_planner.py: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3
+  src/rag/generator.py: d20c29fbf31396f28d60f72ffe1467599fee6b494fe452d292e6530e9bac0f08
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  evals/s235_direct_clause_bound_score_packet_v1.json: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48
+  scripts/s270_etapa2_probe.py: 194a250e97a3e794b756cd343e09ae363acc8b3ac76d0bad4335c45716f51389
+runner_sha256_lf_normalized:
+  scripts/s270_etapa2_probe_v3.py: b02993d9e406d6371e9d5bf954f555128e7471572c801adff79c17e27478560c
+
+design_inherited: >-
+  IDENTICO a los preregs v1/v2: contextos congelados s113 sin retrieval, generador prod
+  claude-sonnet-4-6 temp 0 max_tokens 3500 flags demo, K=3 pareado, matcher answer_planner,
+  checkpoint resumible, no-retry, 0 DB. Hibrido ON en el apply del tratamiento con
+  contadores de grounding.
+gate_inherited: >-
+  MISMA composicion: 8 gate-eligible + stretch obl_2f5d fuera + demoted solo-reporting ·
+  >=1 conversion estable · 0 regresiones protegidas estables · 0 conflictos nuevos (flags
+  a lectura humana DEC-092b) · techo 6 USD.
+cost:
+  pricing_generation_usd_per_mtok: {input: 3.0, output: 15.0}
+  pricing_hybrid_usd_per_mtok: {input: 1.0, output: 5.0}
+  ceiling_usd: 6.0
+outputs:
+  replicas_jsonl: evals/s270_etapa2_probe_v3_replicas_v1.jsonl
+  result: evals/s270_etapa2_probe_v3_result_v1.json

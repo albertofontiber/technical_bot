@@ -96,13 +96,15 @@ def test_range_tolerancia_simetrica():
     assert atoms[0]["meta"]["tolerance"] == 10.0
 
 
-def test_range_siete_segmentos_excluido():
-    # riesgo OCR de display (r.I): la oración con rango queda FUERA del anexo automático
+def test_range_siete_segmentos_marcado_no_excluido():
+    # v2 (funnel probe-1 hp011): el riesgo OCR ya no excluye en detección — se MARCA
+    # y la exclusión con paridad de display vive en la selección del anexo
     atoms = _atoms(
         "El display muestra r.I durante el rearme de 0 a 9 segundos.",
         mp.FAMILY_RANGE,
     )
-    assert atoms == []
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["seven_segment_risk"] is True
 
 
 # ─── F-BUNDLE ───
@@ -481,11 +483,59 @@ def _mandatory_atom(n):
     }
 
 
-def test_render_cap_4():
-    appendix = mp.render_appendix([_mandatory_atom(i) for i in range(6)], "draft")
+def _range_atom_n(n, strength_tokens=""):
+    return {
+        "family": mp.FAMILY_RANGE,
+        "span_start": 0,
+        "span_end": 10,
+        "span_text": f"rango sintético {n} de 10 a {20 + n} V {strength_tokens}",
+        "anchor_tokens": ["rango"],
+        "meta": {"lower": 10.0, "upper": 20.0 + n, "unit": "v", "fragment_number": 1},
+    }
+
+
+def test_render_cap_global_4_con_familias_mezcladas():
+    atoms = (
+        [_mandatory_atom(i) for i in range(2)]
+        + [_range_atom_n(i) for i in range(3)]
+        + [{
+            "family": mp.FAMILY_BUNDLE, "span_start": 0, "span_end": 10,
+            "span_text": f"## Sección {i}\n- Campo{i}: def",
+            "anchor_tokens": [], "meta": {"header": f"Sección {i}",
+                                          "members": [f"Campo{i}"],
+                                          "fragment_number": 1},
+        } for i in range(2)]
+    )
+    appendix = mp.render_appendix(atoms, "draft")
     lines = appendix.split("\n")
     assert lines[0] == mp.APPENDIX_HEADER
     assert len(lines) == 1 + mp.APPENDIX_CAP
+
+
+def test_render_cap_por_familia_2_anti_monopolio():
+    # v2 (funnel probe-1 hp002): 6 RANGE missing → solo 2 entran; los slots restantes
+    # quedan para otras familias
+    atoms = [_range_atom_n(i) for i in range(6)] + [_mandatory_atom(9)]
+    selected = mp._select_for_appendix(atoms, "draft")
+    families = [a["family"] for a in selected]
+    assert families.count(mp.FAMILY_RANGE) == mp.APPENDIX_FAMILY_CAP
+    assert mp.FAMILY_MANDATORY in families
+
+
+def test_seleccion_prioriza_mandatory_y_count_conflict():
+    # orden pre-declarado: MANDATORY primero, COUNT-conflicto después, resto por binding
+    count_atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": "hay seis opciones",
+        "anchor_tokens": ["opciones"],
+        "meta": {"declared_n": 6, "enumerated_n": 7, "conflict": True,
+                 "fragment_number": 1},
+    }
+    atoms = [_range_atom_n(i) for i in range(4)] + [count_atom, _mandatory_atom(1)]
+    selected = mp._select_for_appendix(atoms, "draft")
+    assert selected[0]["family"] == mp.FAMILY_MANDATORY
+    assert selected[1]["family"] == mp.FAMILY_COUNT
+    assert len(selected) == mp.APPENDIX_CAP
 
 
 def test_render_sin_la_palabra_verificada():
@@ -614,12 +664,31 @@ def test_seven_seg_a1_en_heading_no_excluido():
     assert atoms[0]["meta"]["header"] == "A.1 Opciones de display"
 
 
-def test_seven_seg_rango_en_contexto_display_sigue_excluido():
-    # el caso original (r.I + rango en la misma oración) sigue fuera del anexo
-    assert _atoms(
+def test_seven_seg_paridad_display_selecciona_solo_con_token_en_borrador():
+    # v2 (funnel probe-1 hp011): el átomo con riesgo entra al anexo SOLO si el
+    # borrador ya contiene su token display (r.i ≈ rI); sin él, excluido
+    atoms = _atoms(
         "El display muestra r.I durante el rearme de 0 a 9 segundos.",
         mp.FAMILY_RANGE,
-    ) == []
+    )
+    assert len(atoms) == 1
+    atoms[0]["meta"]["fragment_number"] = 1
+    sin_token = mp._select_for_appendix(atoms, "El rearme dura 9 segundos [F1]")
+    assert sin_token == []
+    con_token = mp._select_for_appendix(
+        atoms, "El parámetro rI controla el rearme [F1]"
+    )
+    assert len(con_token) == 1
+
+
+def test_display_parity_normaliza_puntos_y_mayusculas():
+    assert mp._display_token_in_draft("ri", mp._fold("el parámetro rI"))
+    assert mp._display_token_in_draft("ri", mp._fold("el display muestra r.i"))
+    assert not mp._display_token_in_draft("ri", mp._fold("la brida del equipo"))
+    assert mp.seven_segment_tokens(
+        "El display muestra r.I durante el rearme."
+    ) == {"ri"}
+    assert mp.seven_segment_tokens("sin contexto alguno r.I") == set()
 
 
 # ─── detector híbrido (spec v3 §B: fast-path det + Haiku con grounding verbatim) ───
@@ -720,3 +789,203 @@ def test_hybrid_schema_es_plano():
     assert "'type': 'array'" not in blob
     assert "enum" not in blob and "$ref" not in blob
     assert schema["additionalProperties"] is False
+
+
+# ─── v2 (DEC-126, funnel probe-1): defline guion · label_run/sección · cross-fragmento ───
+
+
+def test_bundle_defline_con_separador_guion():
+    # funnel probe-1 cat018 F3: "**Zona** - número de zona asignada" (guion, no ':')
+    atoms = _atoms(
+        "## Pestaña Programa (Programación ecuaciones CBE)\n"
+        "**Zona** - número de zona asignada\n"
+        "**CBE** - ecuación CBE del punto.",
+        mp.FAMILY_BUNDLE,
+    )
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["members"] == ["Zona", "CBE"]
+
+
+def test_count_label_run_y_tie_de_seccion():
+    # v2: conteo bajo heading + pila de etiquetas OCR tras párrafos explicativos
+    text = (
+        "## Tipos de retardo\n"
+        "Se puede asignar uno de seis tipos de retardo a una regla, como se explica "
+        "a continuación.\n"
+        "El comportamiento depende de la configuración del sitio y de las teclas "
+        "disponibles para el usuario durante el retardo activo en la central.\n"
+        "Estándar\n"
+        "Fijo\n"
+        "Est.Ext.\n"
+        "No Silenc.\n"
+        "No Sil.Ext\n"
+        "RetExtStd\n"
+        "SinRetExt\n"
+    )
+    atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
+    assert len(atoms) == 1
+    meta = atoms[0]["meta"]
+    assert meta["tie"] == "section"
+    assert meta["enumeration_kind"] == "label_run"
+    assert meta["declared_n"] == 6
+    assert meta["enumerated_n"] == 7
+    assert meta["conflict"] is True
+
+
+def test_count_sin_heading_no_usa_tie_de_seccion():
+    text = (
+        "Se puede asignar uno de seis tipos de retardo a una regla.\n"
+        "El comportamiento depende de la configuración del sitio y de la central "
+        "durante todo el retardo activo hasta su finalización completa.\n"
+        "Estándar\n"
+        "Fijo\n"
+        "Est.Ext.\n"
+        "No Silenc.\n"
+        "RetExtStd\n"
+        "SinRetExt\n"
+        "Otro\n"
+    )
+    assert [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT] == []
+
+
+def test_cross_fragment_count_detecta_conflicto_pagina_adyacente():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis modos de disparo configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    atoms = mp.detect_cross_fragment_count_atoms(fragments)
+    assert len(atoms) == 1
+    meta = atoms[0]["meta"]
+    assert meta["cross_fragment"] is True
+    assert (meta["declared_n"], meta["enumerated_n"]) == (6, 7)
+    assert meta["count_fragment_number"] == 1
+    assert meta["enum_fragment_number"] == 2
+    assert "Modo A" in meta["enum_span_text"]
+
+
+def test_cross_fragment_count_respeta_documento_y_pagina():
+    base = {
+        "fragment_number": 1,
+        "text": "La central admite seis modos de disparo configurables.",
+        "document_id": "doc-1",
+        "page_number": 44,
+    }
+    enum = {
+        "fragment_number": 2,
+        "text": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G",
+        "document_id": "doc-2",   # otro documento
+        "page_number": 44,
+    }
+    assert mp.detect_cross_fragment_count_atoms([base, enum]) == []
+    enum2 = dict(enum, document_id="doc-1", page_number=48)  # página no adyacente
+    assert mp.detect_cross_fragment_count_atoms([base, enum2]) == []
+
+
+def test_cross_fragment_count_consistente_no_forma_atomo():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis modos de disparo configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_apply_cross_fragment_anexa_con_cita_doble(monkeypatch):
+    _wire(monkeypatch, {"detnov:cad-150"})
+    chunks = [
+        {
+            "document_id": "doc-1",
+            "page_number": 10,
+            "content": "El panel ofrece seis modos de disparo seleccionables.",
+        },
+        {
+            "document_id": "doc-1",
+            "page_number": 10,
+            "content": "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G",
+        },
+    ]
+    draft = "El panel dispone de seis modos de disparo [F1]"
+    out, trace = mp.apply_must_preserve_contract("cad-150", chunks, draft)
+    assert trace["cross_atoms_detected"] == 1
+    assert trace["appendix_appended"] is True
+    appendix = out.split(mp.APPENDIX_HEADER)[1]
+    assert "[F1]" in appendix
+    assert "[F2]" in appendix
+    assert "Nota: el manual también indica:" in out
+
+
+# ─── v3 (funnel probe-2): grounding fold-tolerante + disclosure de dos lados ───
+
+
+def test_ground_hybrid_span_fold_tolerante_devuelve_substring_exacto():
+    frag = "La tensión del lazo va\nde 10 a 30 V según\nla configuración."
+    altered = "la tension del lazo va  de 10 a 30 v"
+    grounded = mp.ground_hybrid_span(frag, altered)
+    assert grounded is not None
+    assert grounded in frag                      # substring EXACTO del fragmento
+    assert "tensión" in grounded and "\n" in grounded
+    assert mp.ground_hybrid_span(frag, "lazo del la tension va") is None  # parafraseo
+
+
+def test_hybrid_stats_cuenta_grounding_fold():
+    client = _FakeAnthropic(_hybrid_payload(
+        atom_1_family="F-RANGE",
+        atom_1_span="La tension de lazo va  DE 10 A 30 V",  # sin acento + re-espaciado
+    ))
+    stats = {}
+    atoms = mp.detect_atoms_hybrid(_RANGE_TEXT, client=client, stats=stats)
+    assert stats.get("proposals") == 1
+    # el span foldeado ancla; puede quedar como fold_relocated+accepted o
+    # descartarse por solape con el determinista — nunca rejected_grounding
+    assert "rejected_grounding" not in stats
+    assert atoms  # el determinista sigue presente
+
+
+def test_render_count_conflict_dos_lados_con_citas():
+    text = "La central ofrece seis opciones:\n- A\n- B\n- C\n- D\n- E\n- F\n- G"
+    atoms = [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
+    assert len(atoms) == 1
+    meta = atoms[0]["meta"]
+    assert meta["enum_span_text"].startswith("- A")
+    atoms[0]["meta"]["fragment_number"] = 3
+    appendix = mp.render_appendix(atoms, "Hay seis opciones [F3]")
+    assert "Nota: el manual también indica:" in appendix
+    assert '"La central ofrece seis opciones' in appendix   # lado del conteo
+    assert "- G" in appendix                                # lado de la enumeración
+    assert appendix.count("[F3]") == 2                      # cita en ambos lados
+
+
+def test_apply_detect_fn_inyectable(monkeypatch):
+    _wire(monkeypatch, {"detnov:cad-150"})
+    chunks = [{"document_id": "doc-1", "content": _RANGE_TEXT}]
+    draft = "La tensión máxima del lazo es 30 V [F1]"
+    llamadas = []
+
+    def detector(texto):
+        llamadas.append(texto)
+        return mp.detect_atoms(texto)
+
+    out, trace = mp.apply_must_preserve_contract(
+        "cad-150", chunks, draft, detect_fn=detector
+    )
+    assert llamadas, "el detector inyectado debe usarse"
+    assert trace["appendix_appended"] is True

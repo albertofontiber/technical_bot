@@ -2256,3 +2256,166 @@ notas de voz de Telegram); el ASR real es OpenAI con selector versionado (allowl
 default + gpt-4o-transcribe/-mini). **Constraint vigente intacto:** migrar de ASR exige el
 gate ciego con ≥30 audios reales estratificados (`evals/voice_asr_model_selection_gate_v1.yaml`)
 — hoy no existen; recogerlos antes de comparar.
+
+## DEC-125 (S270, 19 jul 2026) — Adjudicación de Alberto del packet gold-review (DEC-121) APLICADA: 8 CORE (incl. demote rechazado + merge de warnings) + 1 disclosure + 2 SUPPLEMENTARY; denominador 157→154; corrección píxel t.Fi→t.A
+
+**Decisión.** Registrar y proyectar las marcas de Alberto sobre
+`evals/s269_goldreview_packet_v1_ADJUDICADO.md` (autoridad; DEC-025: el gold es suyo). Las 12
+marcas: **(1)** obl_7bba ✏️→CORE — su nota es una PREGUNTA ("por qué estamos utilizando texto
+en italiano… ¿un cambio de GPT 5.6 Sol?"), no un cambio ("estoy de acuerdo con el veredicto
+que propones"); respuesta registrada: el italiano es el MOCK de pantalla del propio manual
+(la UI del panel AM-8200 está en italiano; la prosa del manual -spa es español) — no lo
+introdujo ningún modelo; al editar el gold, reflejar Programa/Programmazione. **(2)** obl_015f
+❌ AL DEMOTE → QUEDA CORE ("Tiendo a ser más coservador, por lo que creo que sí lo
+incluiría"). **(3)** obl_b6f6 ✅ CORE. **(4)** obl_a5d9 ✅ CORE. **(5)** obl_07ee ✅
+SUPPLEMENTARY (demote parcial de los anchors 120 %/A11-C32). **(6)** obl_1615 ✅
+SUPPLEMENTARY. **(7)** obl_2f5d ✅ CORE ("…pero seguro que no es t.Fi"). **(8)** obl_872c ✅
+re-spec a DISCLOSURE (`document_value_conflict` "seis" vs 7; "muy bien identificada esta
+inconsistencia"). **(9)** obl_b2043 ✅ CORE. **(10)** obl_7aa7 ✅ CORE. **(11)** obl_16637 ✏️
+MERGE con obl_0d6a en UNA obligación de bloque-warning ("con que lo exijamos una vez es
+suficiente"). **(12)** obl_0d6a ✅ (absorbida; carrier del merge = obl_0d6a, la formulación
+más fuerte del par). **Aritmética resultante** (proyección determinista
+`scripts/s270_project_adjudicated_funnel.py`, $0, SHA-pins LF-normalizados, falla en drift):
+denominador 157 → **154** (−2 SUPP, −1 merge); funnel **143 OK / 9 synth (8 CORE + 1
+disclosure re-specced) / 2 retrieval (92,86 %)**; `facts_moved_to_ok: 0` (reconciliación de
+DENOMINADOR, no mueve OKs); `official_atomic_kpi: null` (los 77 legacy carries siguen);
+objetivo declarado **98 % de 154 = 151 → +8**. Artefactos:
+`evals/s270_gold_adjudication_v1.yaml` (marcas VERBATIM + provenance + tratamiento) ·
+`evals/s270_adjudicated_funnel_v1.json` · test `tests/test_s270_project_adjudicated_funnel.py`.
+**Corrección píxel t.Fi→t.A** (hallazgo §Verificación-de-renders del packet, zoom 500 dpi):
+NINGÚN spec vivo ancla t.Fi (grep src/+scripts/; `answer_planner.py` kinds s141 limpio) — la
+única mención viva era el comentario-ejemplo OCR de `src/rag/must_preserve.py` (anotado: t.Fi
+= transliteración de t.A, el patrón sigue cazando la forma extraída; 0 cambio de
+comportamiento). Los artefactos congelados (s113/s163/s235/triage) NO se mutan (patrón
+S133/S153/S163): la corrección queda registrada como aplicable en la próxima regeneración del
+spec y en toda edición de gold vía `gold_store` (ancla = t.A o ambigüedad 7-seg declarada;
+`feedback_7segment_reading`). **Candidata de producto registrada** (nota de Alberto, fila 6):
+¿servir los átomos SUPPLEMENTARY marcados como tales para visión más completa del técnico? —
+ligada al mecanismo must-preserve (DEC-122: el render por postcondición podría anexar
+supplementary etiquetado); decidir con la Etapa 2, no aquí. **Método:** aplicación mecánica de
+la autoridad del gold — sin dúo (no hay decisión de diseño propia que revisar; el Protocolo 3
+no aplica a registrar la adjudicación del dueño). **Alternativas descartadas:** (a) editar ya
+los golds vía `gold_store` en la misma sesión — se separa para que la edición parta del
+registro adjudicado commiteado + re-score dirigido (paso 3 del packet); (b) mutar los
+congelados con t.A — violaría el freeze; (c) mantener la proyección solo en prosa de docs —
+sin script pineado la aritmética no sería verificable ni estable ante drift.
+
+## DEC-126 (S270, 19 jul 2026) — Reapertura FORMAL de la familia s222/s223 (permiso explícito de Alberto) + re-spec del residual clean-noise a opción (a) «enriquecimiento etiquetado» — desbloquea la Etapa 2 del contrato must-preserve (DEC-122)
+
+**Decisión (registrada ANTES del build de la Etapa 2).** **(a) Reapertura formal de la familia
+s222/s223.** Provenance = permiso explícito VERBATIM de Alberto (S270, 19 jul): *«reapertura de
+S222/223: si tiene sentido para mejorar el bot, tienes permiso explícito para retomarlo»*, más su
+OK a la re-spec del residual (opción a). La condición «si tiene sentido para mejorar el bot» queda
+OPERACIONALIZADA por el gate de la propia Etapa 2 (≥1 conversión estable + 0 regresiones
+protegidas estables + 0 conflictos nuevos): si el gate falla, la reapertura NO produce ship —
+el permiso habilita el probe, no el default-on. Justificación técnica de por qué tiene sentido
+(el contexto con el que Alberto fue informado 2×, DEC-122): el cierre S223 fue con review
+semántica INCOMPLETA (Fable cortó por max_tokens; Sol revisó 520) + la directiva de Alberto de
+no descartar líneas por condiciones de ejecución distintas + las 4 diferencias de diseño del
+contrato vs la familia addendum: detector DETERMINISTA por familia (no LLM semántico),
+attestation de identidad por catálogo fail-closed (anti-S164), spans VERBATIM con cita [Fn] +
+disclosure ante contradicción numérica, y gates S249-preservados (recall por familia MEDIDO en
+la Etapa 1: 4/4 GO, DEC-122). **(b) Re-spec del residual clean-noise a la opción (a) de
+DEC-122:** los 40 FP RANGE/BUNDLE de átomos HERMANOS (comparten ≥2 tokens técnicos genuinos con
+el claim) se re-especifican como ENRIQUECIMIENTO ETIQUETADO — anexos bajo el encabezado
+«Información adicional del manual:», marcados como material adicional, no como corrección — y
+dejan de contar como FP del gate de Etapa 1. Alineado con la preferencia de diseño de Alberto
+(nota manuscrita de la fila 6 del packet adjudicado, registrada en DEC-125 como candidata de
+producto: servir los átomos supplementary MARCADOS como tales «para que el técnico tenga una
+visión más completa»). **Los gates de Etapa 2/3 NO se relajan:** regresiones protegidas y
+conflictos nuevos se miden igual — un anexo hermano que rompa un matcher protegido o dispare el
+detector de conflictos cuenta contra el gate exactamente como antes. **Alternativas
+descartadas:** (a′) mantener la familia cerrada y no probar el mecanismo — dejaría el lever
+synthesis sin su probe con la Etapa 1 en GO y contradiría el permiso explícito recibido;
+(b′) opción (b) del residual (filtro de pertinencia cheap-LLM en el binding) — +1 build y
++coste en cohorte fresca ANTES de saber si el mecanismo convierte algo (prematuro; queda
+disponible si la Etapa 2 muestra que el ruido daña); (c′) opción (c) restricción misma-familia —
+recorta cobertura de `bundle_member_loss` sin evidencia de daño (y el daño, si existe, lo
+cazan los gates de Etapa 2). **Método:** el diseño del mecanismo ya fue dúo-adjudicado en
+DEC-122 (2 rondas, 0 FP en 35 hallazgos); esta DEC registra la AUTORIZACIÓN del dueño + la
+re-spec del residual; el gate del probe se congela en
+`evals/s270_etapa2_probe_prereg_v1.yaml` ANTES de construir el runner. Refs: DEC-122 ·
+DEC-125 (candidata fila 6) · `evals/s269_synthesis_portfolio_design_v1.md` §1 Etapa 2 ·
+`evals/s270_gold_adjudication_v1.yaml`.
+
+
+## DEC-127 (S270) — Campaña de probes del contrato must-preserve CERRADA: GO del gate con 1 conversión estable; mapa causal completo del residual; Etapa 3 limpia; iteración de mecanismo DETENIDA por disciplina anti-overfit
+
+**Decisión.** Tras 3 probes pareados a los 4 targets (v1 $0.75 / v2 $1.09 / v3 $1.14; cuenta de
+probes VISIBLE en cada prereg; cambios entre probes justificados por FUNNEL, jamás por los
+textos gold; cada versión validada antes en población fresca — seeds 273/274 GO), el veredicto:
+
+- **CONVERTIDA ESTABLE: obl_b6f6211be439** (hp002, callout de seguridad "bloquear controles/
+  alertas/extinción antes de mantenimiento) — 3/3 réplicas en v2 Y v3 (tras la priorización
+  seguridad-primero del cap). **0 regresiones protegidas y 0 conflictos nuevos en 36 réplicas
+  pareadas acumuladas.**
+- **ENTREGADA pero no acreditable: obl_872c35fb41d7** — el mecanismo v3 anexa el disclosure
+  COMPLETO de dos lados ("seis" declarado + las 8 etiquetas de la enumeración servida, citas
+  dobles). El check pre-registrado exige el literal "siete", que NO existe en el texto servido
+  (OCR = 8 etiquetas). **Pregunta de spec para Alberto:** ¿el disclosure exigible es el de la
+  evidencia SERVIDA (6 vs 8 etiquetas — lo que el bot honesto puede afirmar) o el de la tabla
+  real del PDF (6 vs 7)? Si lo primero, la conducta actual ES correcta y acreditable con check
+  re-specced (2ª conversión).
+- **Residual con palanca DISTINTA del mecanismo** (mapa causal verificado en trazas):
+  obl_0d6a (merged warnings) = SERVING-VIEW — el bloque existe en el fragmento crudo pero la
+  vista servida por la lane lo trunca (palanca retrieval/serving) · obl_2f5d (stretch) + átomos
+  hp011 = fragmentos NO citados por el borrador (palanca de alcance/serving) · obl_7bba =
+  tensión de binding declarada (la ventana de cita comparte 1 solo token propio "cbe"; NO se
+  relajó el contrato ≥2 para no comprar conversiones con ruido) · obl_a5d9/obl_015f(TONE)/
+  obl_b2043/obl_7aa7 = composites que dependen del brazo híbrido — el híbrido DISPARÓ (7-8
+  calls/réplica, 0 errores) pero sus propuestas no llegan al anexo y los contadores por-causa
+  no se persistieron en el trace → **gap de instrumento declarado**, diagnóstico pendiente.
+- **Etapa 3 (regresión judge-free, ruta VIVA):** 5/5 smoke golds monotónicos (ON = OFF +
+  apéndice opcional; texto base inmutable por construcción) y **0 apéndices disparados** en
+  preguntas sanas — el mecanismo es silencioso donde no hace falta. $0.61.
+
+**Iteración DETENIDA** (compromiso pre-declarado en el prereg v3): el siguiente paso NO es un
+probe #4 — es (1) la decisión de spec de 872c (Alberto), (2) el diagnóstico del gap híbrido con
+contadores persistidos (instrumento, sesión futura), (3) las palancas de serving-view/alcance
+para 0d6a/2f5d/hp011 (workstream retrieval), (4) los 2 retrieval-miss (cat017#2, hp010#1).
+**Aritmética honesta vs objetivo:** 143 OK + 1 conversión mecanismo (pendiente de re-score
+oficial vía gold_store/instrumento) + 1 posible por spec-872c → el +8 para 151/154 NO se
+alcanza esta sesión; el gap restante tiene dueño por-clase. Ship del mecanismo: flag
+`MUST_PRESERVE_CONTRACT` default-off, merge tras dúo del código (Protocolo 3); crédito
+productivo = decisión de release separada.
+
+**Costes de la campaña:** probes $2.99 + Etapa-1 v5/v6 $0 + Etapa 3 $0.61. Alternativas
+descartadas en cada paso: relajar el binding ≥2 (compra conversiones con ruido — rechazado
+2×); re-probe sin validación fresca previa (overfit — jamás se hizo); tunear el check de 872c
+en caliente (prohibido por prereg — se elevó a spec).
+
+**Enmienda DEC-127 (ship-review del dúo, 19 jul — Sol 4/4 confirmados, 0 FP; Fable
+failed_api ×2 por presupuesto, DEC-106 sin tercer intento; tally
+ts=2026-07-19T16:05:35).** **(1) Claim de no-regresión ACOTADO (M3):** los "0
+regresiones en 36 réplicas" cubren las 3 obligaciones PROTEGIDAS
+(obl_05482a6b3f0e/obl_0db2b9f2842a/obl_5784f16b1a11, las cubiertas por el baseline
+s235) — la cláusula de fact-anchors es VACÍA por ausencia en el packet (declarado en
+el prereg v1); no es un claim de no-regresión general. **(2) Etapa 3 v1 INVALIDADA
+(C1):** el smoke pareado comparó OFF-vs-OFF (el apply corría con el flag off →
+passthrough byte-idéntico, trace None — tautología). Script corregido
+(`scripts/s270_etapa3_smoke_pareado.py`: flag EFECTIVO alrededor del apply + assert
+trace≠None con citas); la corrida corregida queda PENDIENTE de ejecución del
+orquestador. **(3) ON-medido ≠ ON-shippeado (C2), RESUELTO con certificación
+det-only:** los probes v2/v3 midieron el brazo ON con el detector HÍBRIDO inyectado
+mientras el generador de prod aplica el contrato DETERMINISTA puro;
+`scripts/s270_probe_det_certification.py` re-aplicó el contrato SIN detect_fn (path
+exacto de prod) sobre los borradores OFF almacenados del probe v3, $0 y 0 exposición
+nueva → **GO: obl_b6f6 3/3 det-only, 0 regresiones, 0 conflictos**
+(`evals/s270_probe_det_certification_v1.json`) — el path mergeado queda certificado
+y la decisión híbrido-en-prod NO es necesaria para este ship (si algún día se
+quiere el híbrido en prod, es FORK explícito con su propia medición). **(4) Alcance
+del resultado (M4):** la conversión obl_b6f6 es estabilidad LOCAL en los 4 targets
+con contextos congelados s113 — NO generalización a demo/producción; esa medición
+es el assessment estandarizado (DEC-094), no estos probes.
+
+**DEC-127b (S270, cierre) — Etapa 3 CORREGIDA ejecutada (la v1 era OFF-vs-OFF, cazado por
+dúo-Sol): monotonía 5/5 ✓, apéndices en ruta viva 2/5, y 3 DEFECTOS DE CALIDAD del apéndice =
+BLOQUEADORES DE ACTIVACIÓN (no de merge):** (1) nota duplicada (hp001 — bug de dedup del
+render); (2) span de enumeración VACÍO anexado verbatim (cat007 — tabla OCR T1-T10 en blanco;
+falta guard de contenido-no-vacío); (3) emparejamiento conteo↔menú-de-navegación incoherente
+(hp001 "2,4,6 u 8 lazos" · "Sistema | Otros | Reiniciar" — la precisión del F-COUNT cross en
+pools vivos necesita el tie de sección más estricto). **El flag `MUST_PRESERVE_CONTRACT`
+permanece OFF; la activación en demo queda gateada a los 3 fixes + re-smoke limpio.** El merge
+default-off es seguro (byte-idéntico off + certificación det-only GO). Certificación det-only:
+b6f6 3/3 en el path exacto de prod ($0, borradores almacenados) — el híbrido NO es necesario
+para este ship.
