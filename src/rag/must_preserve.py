@@ -147,7 +147,9 @@ def _sentence_spans(text: str) -> list[tuple[int, int]]:
 
 # Riesgo OCR 7-segmentos (feedback_7segment · spec v3 §A M9): formas de display tipo
 # ``r.I`` / ``r.i`` / ``t.Fi`` / ``dr`` — códigos de 1-3 chars con punto interior o
-# códigos cortos sueltos. La exclusión es CONTEXTUAL: solo aplica si el token aparece
+# códigos cortos sueltos. (``t.Fi`` es ejemplo REAL del riesgo, no un display existente:
+# al píxel es ``t.A`` — transliteración 7-seg confirmada en s269/DEC-125; el patrón debe
+# seguir cazando la forma extraída.) La exclusión es CONTEXTUAL: solo aplica si el token aparece
 # en contexto de display/parámetro ("el display muestra ..."), y NUNCA al inicio de
 # línea/heading (``A.1 CARACTERÍSTICAS`` es numeración de sección, no un display —
 # hallazgo 9 de Sol: la versión previa excluía ``A.1`` y no reconocía ``r.i``).

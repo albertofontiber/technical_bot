@@ -1,0 +1,210 @@
+schema: s270_gold_adjudication_v1
+status: ADJUDICATED_BY_ALBERTO
+date: 2026-07-19
+dec: DEC-125
+authority: >-
+  evals/s269_goldreview_packet_v1_ADJUDICADO.md — el packet s269 con las marcas manuscritas
+  de Alberto (DEC-025: el gold es suyo; NADA se edita sin su marca). Las marcas se copian
+  aqui VERBATIM (unico ajuste: espacios finales de linea eliminados).
+provenance:
+  packet_original: evals/s269_goldreview_packet_v1.md
+  triage: evals/s269_triage_12misses_v1.yaml (DEC-121, propuesta 8 CORE / 3 SUPP / 1 SOURCE-CONFLICT)
+  renders: evals/s269_goldreview_renders/ (evidencia al pixel por fila)
+  metodo: >-
+    Registro mecanico de la adjudicacion del dueno del gold; sin re-litigio de veredictos.
+    La proyeccion aritmetica es determinista ($0, SHA-pins):
+    scripts/s270_project_adjudicated_funnel.py -> evals/s270_adjudicated_funnel_v1.json.
+    La EDICION de golds via gold_store (la puerta valida) es paso POSTERIOR y parte de este
+    registro; los artefactos congelados (s113/s163/s235/triage) NO se mutan (patron
+    S133/S153/S163).
+
+adjudications:
+- row: 1
+  obligation_id: obl_7bba8d03d496
+  qid: cat018
+  veredicto_propuesto: CORE-REQUIRED (conf media)
+  marca_verbatim: |-
+    **TU MARCA: [ ] ✅ [X] ✏️ [ ] ❌** — notas: Lo que no entiendo es por qué estamos utilizando texto en italiano, cuando creía que solo utilizábamos texto en inglés y español. no se si esto ha sido un cambio de GPT 5.6 Sol o que, pero me gustaría entenderlo. Si está en italiano, seguro que está en español también. estoy de acuerdo con el veredicto que propones.
+  efecto: core_required
+  tratamiento: >-
+    El ✏️ ACEPTA el veredicto ("estoy de acuerdo con el veredicto que propones"); la nota es
+    una PREGUNTA sobre el texto italiano, no un cambio de spec. Respuesta registrada: el
+    italiano proviene del MOCK DE PANTALLA del propio manual fuente (AM-8200-manu-prog-spa:
+    la UI del panel Notifier AM-8200 esta en italiano — "MENU PROGRAMMAZIONE", pestanas
+    "Principale | Programmazione | Opzioni | Edit" — mientras la prosa del manual es
+    espanol). NO es un cambio de GPT-5.6 Sol ni de ningun modelo: esta al pixel en el render
+    cat018_obl_7bba8d03_p21.jpg. Al editar el gold, reflejar AMBAS denominaciones
+    (Pestana Programa / Programmazione) — nota de riesgo del packet, fila 1.
+- row: 2
+  obligation_id: obl_015f9b9aaa3a
+  qid: cat018
+  veredicto_propuesto: SUPPLEMENTARY (demote) (conf media) — declarado "el demote MAS DEBIL"
+  marca_verbatim: |-
+    **TU MARCA: [ ] ✅ [ ] ✏️ [X] ❌** — notas: Tiendo a ser más coservador, por lo que creo que sí lo incluiría.
+  efecto: core_required
+  tratamiento: >-
+    ❌ AL DEMOTE -> la obligacion QUEDA CORE-REQUIRED. Coherente con la "Nota de riesgo" de
+    la propia fila 2 del packet (si la vara de dominio incluye sirenas con patron
+    tono/volumen como salida PCI canonica, el demote era discutible — "es tu llamada").
+- row: 3
+  obligation_id: obl_b6f6211be439
+  qid: hp002
+  veredicto_propuesto: CORE-REQUIRED (conf alta)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: core_required
+- row: 4
+  obligation_id: obl_a5d9fa1f9253
+  qid: hp002
+  veredicto_propuesto: CORE-REQUIRED (conf media) — declarado "el CORE MAS BORDERLINE"
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: core_required
+- row: 5
+  obligation_id: obl_07eee3300535
+  qid: hp002
+  veredicto_propuesto: SUPPLEMENTARY (demote PARCIAL) (conf media)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: supplementary_demoted
+  tratamiento: >-
+    Demote de los ANCHORS "120 %" y "A11 a C32" (o split de la obligacion), NO de la
+    obligacion entera: 80 % / ±20 % / 300 s siguen required y estan presentes. Guard s243
+    intacto — demote POR-PREGUNTA (flujo BAJO), no licencia general para podar extremos de
+    rangos.
+- row: 6
+  obligation_id: obl_161564ff41bf
+  qid: hp011
+  veredicto_propuesto: SUPPLEMENTARY (demote) (conf alta) — declarado "el demote MAS LIMPIO"
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [] ✏️ [ ] ❌** — notas: Como decisión de diseño, ¿tiene sentido que seamos más conservadores y que también sirvamos estos puntos "supplementary" para que el técnico tenga una visión más completa, siendo consciente de que es supplementary?
+  efecto: supplementary_demoted
+  tratamiento: >-
+    ✅ al demote. La nota es una CANDIDATA DE PRODUCTO (no cambia esta adjudicacion):
+    ¿servir los atomos supplementary MARCADOS como tales para vision mas completa? Queda
+    registrada en DEC-125 ligada al mecanismo must-preserve (DEC-122: el render por
+    postcondicion podria anexar supplementary etiquetado). Decidir con la Etapa 2, no aqui.
+  design_candidate: servir_supplementary_marcado (ver DEC-125 / DEC-122)
+- row: 7
+  obligation_id: obl_2f5d79e354b9
+  qid: hp011
+  veredicto_propuesto: CORE-REQUIRED (conf alta)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ya tuvimos una conversación sobre si era r.i o r.1 (no me acuerdo qué concluimos), pero seguro que no es t.Fi
+  efecto: core_required
+  tratamiento: >-
+    ✅ CORE. La nota confirma la correccion de pixel (seccion pixel_corrections): "seguro
+    que no es t.Fi". Sobre r.i vs r.1: la conversacion previa es feedback_7segment_reading
+    (s31) — los codigos de display 7-seg son ambiguos (1↔i); el packet ya declara la
+    restriccion de dominio aplicada ("r.1" ≈ "r.i"). Al editar el gold: ancla r.i con
+    ambiguedad 7-seg declarada, y t.A (JAMAS t.Fi).
+- row: 8
+  obligation_id: obl_872c35fb41d7
+  qid: hp017
+  veredicto_propuesto: SOURCE-CONFLICT -> re-spec a DISCLOSURE (conf alta)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: muy bien identificada esta inconsistencia.
+  efecto: disclosure_respec
+  tratamiento: >-
+    Re-spec de la obligacion a DISCLOSURE: conducta objetivo = DECLARAR la discrepancia
+    ("la prosa dice seis; la tabla recoge siete") + registrar document_value_conflict
+    (misma clase que conf_26f6 "7:Causa y Efecto" vs "8:Causa y Efecto"). Sigue contando en
+    el denominador required (1 disclosure re-specced). Nota de riesgo vigente: al re-spec,
+    verificar que la frase de disclosure no dispare el detector declarado-vs-enumerado del
+    scorer (inestable entre replicas s242).
+- row: 9
+  obligation_id: obl_b2043cd4379b
+  qid: hp017
+  veredicto_propuesto: CORE-REQUIRED (conf media)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: core_required
+- row: 10
+  obligation_id: obl_7aa723717412
+  qid: hp017
+  veredicto_propuesto: CORE-REQUIRED (conf media)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: core_required
+- row: 11
+  obligation_id: obl_16637b935bd4
+  qid: hp017
+  veredicto_propuesto: CORE-REQUIRED (conf media) — merge-candidate declarado con la fila 12
+  marca_verbatim: |-
+    **TU MARCA: [] ✅ [x] ✏️ [ ] ❌** — notas: creo que estoy de acuerdo con el merge, ya que con que lo exijamos una vez es suficiente.
+  efecto: merged_into_warning_block
+- row: 12
+  obligation_id: obl_0d6a30948dfd
+  qid: hp017
+  veredicto_propuesto: CORE-REQUIRED (conf alta)
+  marca_verbatim: |-
+    **TU MARCA: [X] ✅ [ ] ✏️ [ ] ❌** — notas: ______________________
+  efecto: merged_into_warning_block
+  tratamiento: >-
+    Absorbida por el merge de la fila 11 (✏️ de Alberto: "con que lo exijamos una vez es
+    suficiente"). Ver bloque merge.
+
+merge:
+  absorbe: [obl_16637b935bd4, obl_0d6a30948dfd]
+  carrier: obl_0d6a30948dfd
+  carrier_motivo: la fila 12 es la formulacion mas fuerte del par (packet, nota de cardinalidad fila 11)
+  spec_resultante: >-
+    UNA obligacion CORE de bloque-warning (recuadro "!" al pie de A5.1,
+    997-671-005-3_Configuration_ES PDF p42): "Al programar reglas de causa-efecto evite las
+    logicas contradictorias" + "Es de vital importancia probar rigurosamente todas las
+    reglas durante la puesta en marcha del sistema para verificar que no haya conflictos
+    logicos entre ellas". El contenido es exigible UNA vez (diseno + verificacion);
+    contarlo como 2 misses inflaba el residual.
+  efecto_aritmetico: '-1 en el denominador (12 obligaciones -> 11 tras merge)'
+
+pixel_corrections:
+- id: tfi_to_ta
+  finding: >-
+    "t.Fi" NO EXISTE (hp011, obl_2f5d, HLSI-MN-103_RP1r-Supra_lr PDF p63, fila r.i §5.3.5):
+    los DOS iconos 7-seg del parentesis leen t.A — mismo glifo que el t.A "Duracion de la
+    descarga" de §5.3.1 p56. El "parametro t.Fi (t.A -> 0 seg.)" de los artefactos de la
+    cadena (s113 freeze / s163 / s235 / triage s269) es transliteracion erronea de
+    extraccion (clase 7-seg, feedback_7segment_reading).
+  evidence:
+  - evals/s269_goldreview_renders/hp011_obl_2f5d79e3_p63_zoom_ri_500dpi.jpg (zoom 500 dpi, hallazgo 1 del packet §Verificacion de renders)
+  - evals/s269_goldreview_renders/hp011_obl_161564ff_p56.jpg (glifo t.A de §5.3.1 como referencia)
+  - 'marca de Alberto, fila 7: "seguro que no es t.Fi"'
+  aplicacion: >-
+    Al editar el gold hp011 via gold_store: ancla t.A (o declarar la ambiguedad 7-seg);
+    anclar "t.Fi" reproduciria el error de extraccion.
+- id: subrayado_no_tachado
+  finding: >-
+    Menor (hp002, obl_a5d9, ASD535_TD PDF p28): el texto extraido marca "y con el conducto
+    de aspiracion intacto" como TACHADO; al pixel esta SUBRAYADO (enfasis, no supresion).
+    No cambia el veredicto; confirma la regla D4 (render > texto extraido).
+  evidence:
+  - evals/s269_goldreview_renders/hp002_obl_a5d9fa1f_p28.jpg
+
+live_anchor_audit:
+  date: 2026-07-19
+  greps: 't.Fi / t\.Fi sobre src/ y scripts/ (NO evals/ congelados)'
+  result: >-
+    NINGUN spec vivo ancla t.Fi. src/rag/answer_planner.py (kinds relacionales s141): 0
+    hits. scripts/: 0 hits. Unica mencion viva = comentario-ejemplo de la clase de riesgo
+    OCR 7-seg en src/rag/must_preserve.py (l.148-149), ANOTADO en esta sesion: t.Fi se
+    conserva como ejemplo REAL del riesgo (forma que el patron debe seguir cazando en texto
+    extraido) con la aclaracion de que al pixel es t.A. Sin cambio de comportamiento
+    (el regex casa t.Fi y t.A por igual).
+  frozen_artifacts_untouched:
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s269_triage_12misses_v1.yaml
+  - evals/s100_hp011_ocr_snapshot.json (y demas s10x/s11x congelados)
+  frozen_policy: >-
+    NO se mutan (patron S133/S153/S163). La correccion t.Fi->t.A queda registrada aqui como
+    APLICABLE EN LA PROXIMA REGENERACION DEL SPEC (y en toda edicion de gold via gold_store).
+
+projection:
+  script: scripts/s270_project_adjudicated_funnel.py
+  output: evals/s270_adjudicated_funnel_v1.json
+  resumen: >-
+    Funnel vigente 143 OK / 12 synth / 2 retr / 157 -> adjudicado 143 OK / 9 synth
+    (8 CORE + 1 disclosure re-specced) / 2 retr / denominador 154 (-2 supplementary,
+    -1 merge). facts_moved_to_ok: 0 (reconciliacion de denominador, NO mueve OKs).
+    official_atomic_kpi: null (77 legacy carries siguen). Objetivo declarado: 98% de 154 =
+    151 -> +8 conversiones.

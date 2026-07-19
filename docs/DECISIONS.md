@@ -2256,3 +2256,46 @@ notas de voz de Telegram); el ASR real es OpenAI con selector versionado (allowl
 default + gpt-4o-transcribe/-mini). **Constraint vigente intacto:** migrar de ASR exige el
 gate ciego con ≥30 audios reales estratificados (`evals/voice_asr_model_selection_gate_v1.yaml`)
 — hoy no existen; recogerlos antes de comparar.
+
+## DEC-125 (S270, 19 jul 2026) — Adjudicación de Alberto del packet gold-review (DEC-121) APLICADA: 8 CORE (incl. demote rechazado + merge de warnings) + 1 disclosure + 2 SUPPLEMENTARY; denominador 157→154; corrección píxel t.Fi→t.A
+
+**Decisión.** Registrar y proyectar las marcas de Alberto sobre
+`evals/s269_goldreview_packet_v1_ADJUDICADO.md` (autoridad; DEC-025: el gold es suyo). Las 12
+marcas: **(1)** obl_7bba ✏️→CORE — su nota es una PREGUNTA ("por qué estamos utilizando texto
+en italiano… ¿un cambio de GPT 5.6 Sol?"), no un cambio ("estoy de acuerdo con el veredicto
+que propones"); respuesta registrada: el italiano es el MOCK de pantalla del propio manual
+(la UI del panel AM-8200 está en italiano; la prosa del manual -spa es español) — no lo
+introdujo ningún modelo; al editar el gold, reflejar Programa/Programmazione. **(2)** obl_015f
+❌ AL DEMOTE → QUEDA CORE ("Tiendo a ser más coservador, por lo que creo que sí lo
+incluiría"). **(3)** obl_b6f6 ✅ CORE. **(4)** obl_a5d9 ✅ CORE. **(5)** obl_07ee ✅
+SUPPLEMENTARY (demote parcial de los anchors 120 %/A11-C32). **(6)** obl_1615 ✅
+SUPPLEMENTARY. **(7)** obl_2f5d ✅ CORE ("…pero seguro que no es t.Fi"). **(8)** obl_872c ✅
+re-spec a DISCLOSURE (`document_value_conflict` "seis" vs 7; "muy bien identificada esta
+inconsistencia"). **(9)** obl_b2043 ✅ CORE. **(10)** obl_7aa7 ✅ CORE. **(11)** obl_16637 ✏️
+MERGE con obl_0d6a en UNA obligación de bloque-warning ("con que lo exijamos una vez es
+suficiente"). **(12)** obl_0d6a ✅ (absorbida; carrier del merge = obl_0d6a, la formulación
+más fuerte del par). **Aritmética resultante** (proyección determinista
+`scripts/s270_project_adjudicated_funnel.py`, $0, SHA-pins LF-normalizados, falla en drift):
+denominador 157 → **154** (−2 SUPP, −1 merge); funnel **143 OK / 9 synth (8 CORE + 1
+disclosure re-specced) / 2 retrieval (92,86 %)**; `facts_moved_to_ok: 0` (reconciliación de
+DENOMINADOR, no mueve OKs); `official_atomic_kpi: null` (los 77 legacy carries siguen);
+objetivo declarado **98 % de 154 = 151 → +8**. Artefactos:
+`evals/s270_gold_adjudication_v1.yaml` (marcas VERBATIM + provenance + tratamiento) ·
+`evals/s270_adjudicated_funnel_v1.json` · test `tests/test_s270_project_adjudicated_funnel.py`.
+**Corrección píxel t.Fi→t.A** (hallazgo §Verificación-de-renders del packet, zoom 500 dpi):
+NINGÚN spec vivo ancla t.Fi (grep src/+scripts/; `answer_planner.py` kinds s141 limpio) — la
+única mención viva era el comentario-ejemplo OCR de `src/rag/must_preserve.py` (anotado: t.Fi
+= transliteración de t.A, el patrón sigue cazando la forma extraída; 0 cambio de
+comportamiento). Los artefactos congelados (s113/s163/s235/triage) NO se mutan (patrón
+S133/S153/S163): la corrección queda registrada como aplicable en la próxima regeneración del
+spec y en toda edición de gold vía `gold_store` (ancla = t.A o ambigüedad 7-seg declarada;
+`feedback_7segment_reading`). **Candidata de producto registrada** (nota de Alberto, fila 6):
+¿servir los átomos SUPPLEMENTARY marcados como tales para visión más completa del técnico? —
+ligada al mecanismo must-preserve (DEC-122: el render por postcondición podría anexar
+supplementary etiquetado); decidir con la Etapa 2, no aquí. **Método:** aplicación mecánica de
+la autoridad del gold — sin dúo (no hay decisión de diseño propia que revisar; el Protocolo 3
+no aplica a registrar la adjudicación del dueño). **Alternativas descartadas:** (a) editar ya
+los golds vía `gold_store` en la misma sesión — se separa para que la edición parta del
+registro adjudicado commiteado + re-score dirigido (paso 3 del packet); (b) mutar los
+congelados con t.A — violaría el freeze; (c) mantener la proyección solo en prosa de docs —
+sin script pineado la aritmética no sería verificable ni estable ante drift.
