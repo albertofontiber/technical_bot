@@ -1,0 +1,46 @@
+{
+  "schema": "s271_872c_respec_rescore_v1",
+  "status": "SECOND_CONVERSION",
+  "que_es": "RE-SCORE DE SPEC sobre respuestas YA GENERADAS del probe v3 (brazo ON híbrido tal como se ejecutó en s270) — NO es un probe nuevo: 0 generaciones, 0 llamadas pagadas, 0 DB. Solo cambia el instrumento: disclosure_covered re-specced a opción-1 «evidencia servida» (DEC-128, adjudicación de Alberto S271; DEC-125 fila 8).",
+  "obligation_id": "obl_872c35fb41d7",
+  "spec": {
+    "opcion_1": "(a) conteo declarado «seis»/6 junto al sustantivo tipos-de-retardo + (b) etiquetas enumeradas visibles en la evidencia servida (presencia sustancial: todas las no-basura de al menos un lado servido — tira OCR F1 o cabeceras tabla F2) + (c) marcador explícito de discrepancia; SIN exigir el literal «siete»",
+    "opcion_2_descartada": "exigir el 7: solo es conocible al píxel — sería pedirle al bot una invención; la curación de esa tabla queda como lever de ingesta futuro (DEC-128)"
+  },
+  "source_replicas": "evals/s270_etapa2_probe_v3_replicas_v1.jsonl",
+  "old_spec_baseline": {
+    "detail": {
+      "qid": "hp017",
+      "check": "disclosure_respec",
+      "on_covered": 0,
+      "off_covered": 0,
+      "stable_conversion": false
+    },
+    "nota": "bajo la spec vieja (seis Y siete) 872c puntuaba 0/3 ON, 0/3 OFF"
+  },
+  "per_replica": [
+    {
+      "replicate": 1,
+      "disclosure_covered_on": true,
+      "disclosure_covered_off": false
+    },
+    {
+      "replicate": 2,
+      "disclosure_covered_on": true,
+      "disclosure_covered_off": false
+    },
+    {
+      "replicate": 3,
+      "disclosure_covered_on": true,
+      "disclosure_covered_off": false
+    }
+  ],
+  "on_covered": 3,
+  "off_covered": 0,
+  "stable_rule": ">=2/3 ON y OFF <= 1",
+  "stable_conversion": true,
+  "paid_calls": 0,
+  "database_reads": 0,
+  "database_writes": 0,
+  "result_sha256": "4743e7392969cf92a2579c87d577630f988a4c1ef7423ca1be74632821851f33"
+}
