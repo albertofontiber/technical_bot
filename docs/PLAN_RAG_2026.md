@@ -59,6 +59,16 @@ aplica server-side; ASR-swap gateado a 30 audios reales.
 **Ramas para PR:** `claude/s269-synthesis-portfolio` (triage + contrato + harness + docs) y
 `claude/s269-visual-assets` (registro visual). Coste sesión ≈ $27/$300. Suite 1.933 verdes.
 
+**S270 (19 jul, tarde): probes ejecutados — DEC-127.** Mecanismo must-preserve: 1 conversión
+ESTABLE (obl_b6f6, 3/3 en probes 2 y 3), 0 regresiones/0 conflictos en 36 réplicas pareadas,
+Etapa 3 viva limpia (5/5 monotónicos, 0 apéndices espurios). Disclosure 872c entregado completo
+— pendiente decisión de spec de Alberto (¿disclosure de la evidencia servida 6-vs-8 o del PDF
+6-vs-7?). Residual por-clase: serving-view (0d6a) · alcance-no-citado (2f5d, hp011) ·
+binding-tension (7bba) · gap-instrumento híbrido (composites) · retrieval-2. Iteración de
+mecanismo DETENIDA (anti-overfit); el +8 no se alcanza esta sesión — camino por-clase declarado.
+Visual: DATA-READY (migración 014 aplicada por Alberto, 4.489 servibles verificados; falta solo
+`VISUAL_ASSETS_REGISTRY=on` en Railway).
+
 **Qué sigue, por orden:** (1) adjudicaciones de Alberto restantes (residual y reapertura
 DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de los golds vía
 `gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del

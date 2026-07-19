@@ -2337,3 +2337,49 @@ re-spec del residual; el gate del probe se congela en
 `evals/s270_etapa2_probe_prereg_v1.yaml` ANTES de construir el runner. Refs: DEC-122 ·
 DEC-125 (candidata fila 6) · `evals/s269_synthesis_portfolio_design_v1.md` §1 Etapa 2 ·
 `evals/s270_gold_adjudication_v1.yaml`.
+
+
+## DEC-127 (S270) — Campaña de probes del contrato must-preserve CERRADA: GO del gate con 1 conversión estable; mapa causal completo del residual; Etapa 3 limpia; iteración de mecanismo DETENIDA por disciplina anti-overfit
+
+**Decisión.** Tras 3 probes pareados a los 4 targets (v1 $0.75 / v2 $1.09 / v3 $1.14; cuenta de
+probes VISIBLE en cada prereg; cambios entre probes justificados por FUNNEL, jamás por los
+textos gold; cada versión validada antes en población fresca — seeds 273/274 GO), el veredicto:
+
+- **CONVERTIDA ESTABLE: obl_b6f6211be439** (hp002, callout de seguridad "bloquear controles/
+  alertas/extinción antes de mantenimiento) — 3/3 réplicas en v2 Y v3 (tras la priorización
+  seguridad-primero del cap). **0 regresiones protegidas y 0 conflictos nuevos en 36 réplicas
+  pareadas acumuladas.**
+- **ENTREGADA pero no acreditable: obl_872c35fb41d7** — el mecanismo v3 anexa el disclosure
+  COMPLETO de dos lados ("seis" declarado + las 8 etiquetas de la enumeración servida, citas
+  dobles). El check pre-registrado exige el literal "siete", que NO existe en el texto servido
+  (OCR = 8 etiquetas). **Pregunta de spec para Alberto:** ¿el disclosure exigible es el de la
+  evidencia SERVIDA (6 vs 8 etiquetas — lo que el bot honesto puede afirmar) o el de la tabla
+  real del PDF (6 vs 7)? Si lo primero, la conducta actual ES correcta y acreditable con check
+  re-specced (2ª conversión).
+- **Residual con palanca DISTINTA del mecanismo** (mapa causal verificado en trazas):
+  obl_0d6a (merged warnings) = SERVING-VIEW — el bloque existe en el fragmento crudo pero la
+  vista servida por la lane lo trunca (palanca retrieval/serving) · obl_2f5d (stretch) + átomos
+  hp011 = fragmentos NO citados por el borrador (palanca de alcance/serving) · obl_7bba =
+  tensión de binding declarada (la ventana de cita comparte 1 solo token propio "cbe"; NO se
+  relajó el contrato ≥2 para no comprar conversiones con ruido) · obl_a5d9/obl_015f(TONE)/
+  obl_b2043/obl_7aa7 = composites que dependen del brazo híbrido — el híbrido DISPARÓ (7-8
+  calls/réplica, 0 errores) pero sus propuestas no llegan al anexo y los contadores por-causa
+  no se persistieron en el trace → **gap de instrumento declarado**, diagnóstico pendiente.
+- **Etapa 3 (regresión judge-free, ruta VIVA):** 5/5 smoke golds monotónicos (ON = OFF +
+  apéndice opcional; texto base inmutable por construcción) y **0 apéndices disparados** en
+  preguntas sanas — el mecanismo es silencioso donde no hace falta. $0.61.
+
+**Iteración DETENIDA** (compromiso pre-declarado en el prereg v3): el siguiente paso NO es un
+probe #4 — es (1) la decisión de spec de 872c (Alberto), (2) el diagnóstico del gap híbrido con
+contadores persistidos (instrumento, sesión futura), (3) las palancas de serving-view/alcance
+para 0d6a/2f5d/hp011 (workstream retrieval), (4) los 2 retrieval-miss (cat017#2, hp010#1).
+**Aritmética honesta vs objetivo:** 143 OK + 1 conversión mecanismo (pendiente de re-score
+oficial vía gold_store/instrumento) + 1 posible por spec-872c → el +8 para 151/154 NO se
+alcanza esta sesión; el gap restante tiene dueño por-clase. Ship del mecanismo: flag
+`MUST_PRESERVE_CONTRACT` default-off, merge tras dúo del código (Protocolo 3); crédito
+productivo = decisión de release separada.
+
+**Costes de la campaña:** probes $2.99 + Etapa-1 v5/v6 $0 + Etapa 3 $0.61. Alternativas
+descartadas en cada paso: relajar el binding ≥2 (compra conversiones con ruido — rechazado
+2×); re-probe sin validación fresca previa (overfit — jamás se hizo); tunear el check de 872c
+en caliente (prohibido por prereg — se elevó a spec).

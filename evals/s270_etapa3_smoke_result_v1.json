@@ -1,0 +1,49 @@
+{
+ "schema": "s270_etapa3_smoke_v1",
+ "monotonicity_violations": [],
+ "appendix_fired": [],
+ "rows": [
+  {
+   "qid": "hp007",
+   "monotonic": true,
+   "appendix_len": 0,
+   "trace": null,
+   "latency_s": 53.6,
+   "cost_usd": 0.0752
+  },
+  {
+   "qid": "cat007",
+   "monotonic": true,
+   "appendix_len": 0,
+   "trace": null,
+   "latency_s": 279.7,
+   "cost_usd": 0.16311
+  },
+  {
+   "qid": "hp018",
+   "monotonic": true,
+   "appendix_len": 0,
+   "trace": null,
+   "latency_s": 59.1,
+   "cost_usd": 0.17195
+  },
+  {
+   "qid": "hp001",
+   "monotonic": true,
+   "appendix_len": 0,
+   "trace": null,
+   "latency_s": 32.3,
+   "cost_usd": 0.07252
+  },
+  {
+   "qid": "cat005",
+   "monotonic": true,
+   "appendix_len": 0,
+   "trace": null,
+   "latency_s": 35.5,
+   "cost_usd": 0.13044
+  }
+ ],
+ "total_cost_usd": 0.6132,
+ "requires_human_read": false
+}
