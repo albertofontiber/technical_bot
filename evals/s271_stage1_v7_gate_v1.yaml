@@ -1,0 +1,95 @@
+schema: s271_stage1_v7_gate_v1
+created_utc: '2026-07-19T15:28:03+00:00'
+arm: det
+families:
+  F-RANGE:
+    recall: 1.0
+    detected: 68
+    scored: 68
+    pass: true
+  F-BUNDLE:
+    recall: 0.8260869565217391
+    detected: 38
+    scored: 46
+    pass: true
+  F-MANDATORY:
+    recall: 1.0
+    detected: 50
+    scored: 50
+    pass: true
+  F-COUNT:
+    recall: 0.9523809523809523
+    detected: 80
+    scored: 84
+    pass: true
+checks:
+  display_recall:
+    value: 1.0
+    n: 2
+    d: 2
+    pass: true
+  display_no_new_surface_fp:
+    value: 0
+    pass: true
+  cross_count_recall:
+    value: 0.8095238095238095
+    n: 17
+    d: 21
+    pass: true
+  cross_count_far_page_fp:
+    value: 0
+    pass: true
+  grounding_fold_recall:
+    value: 1.0
+    n: 210
+    d: 210
+    pass: true
+  grounding_paraphrase_fp:
+    value: 0
+    pass: true
+  disclosure_two_sides:
+    value: 0.9047619047619048
+    n: 19
+    d: 21
+    pass: true
+  clean_annex_quality_fp:
+    value: 0
+    pass: true
+  enrichment_appends_reported:
+    value: 68
+    pass: true
+  cross_binding_fp:
+    value: 0
+    pass: true
+  attestation_block_appends:
+    value: 0
+    pass: true
+  dup_span_fp:
+    value: 0
+    pass: true
+  dup_span_control_loss:
+    value: 0
+    pass: true
+  empty_enum_fp:
+    value: 0
+    pass: true
+  empty_enum_positive_recall:
+    value: 0.9047619047619048
+    n: 19
+    d: 21
+    pass: true
+  navcrumb_fp:
+    value: 0
+    pass: true
+  navcrumb_no_relevance_fp:
+    value: 0
+    pass: true
+  navcrumb_positive_recall:
+    value: 1.0
+    n: 21
+    d: 21
+    pass: true
+  coverage:
+    value: 0.954225352112676
+    pass: true
+verdict: GO

@@ -1,0 +1,85 @@
+schema: s271_stage1_v7_prereg_v1
+status: FROZEN_BEFORE_RUN
+created_utc: '2026-07-19T15:28:00+00:00'
+predecessor: evals/s270_stage1_v6_gate_v1.yaml (seed-274, GO)
+mechanism: 'must_preserve v4 (s271): guards de ACTIVACIÓN de los 3 bloqueadores de DEC-127b — dedup del
+  render, contenido informativo, tie estricto del F-COUNT a distancia'
+seed: 275
+gates:
+  mutation_recall_min_per_family: 0.8
+  display_recall_min: 0.8
+  display_no_new_surface_fp_max: 0
+  cross_count_recall_min: 0.8
+  clean_annex_quality_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  grounding_fold_recall_min: 0.8
+  grounding_paraphrase_fp_max: 0
+  disclosure_two_sides_min: 0.8
+  dup_span_fp_max: 0
+  dup_span_control_loss_max: 0
+  empty_enum_fp_max: 0
+  empty_enum_positive_recall_min: 0.8
+  navcrumb_fp_max: 0
+  navcrumb_no_relevance_fp_max: 0
+  navcrumb_positive_recall_min: 0.8
+gates_provenance: 'heredados ÍNTEGROS del prereg v6 (los fixes de activación no se compran con recall)
+  + 3 checks nuevos derivados de los bloqueadores de la Etapa 3 viva (DEC-127b): dup_span (nota duplicada
+  hp001), empty_enum (tabla de celdas en blanco cat007), count_navcrumb (conteo↔crumb de navegación hp001)'
+new_measures:
+  dup_span: 'átomo target duplicado → span UNA vez en el anexo; control: dos hechos distintos no se colapsan'
+  empty_enum: disclosure con lado-enumeración de celdas-en-blanco no dispara; con enumeración real sigue
+    disparando dos lados
+  count_navcrumb: conteo + crumb de navegación no liga; heading sin relevancia + enum sin sustantivo no
+    liga; heading del dominio + enum legítima liga (tie section)
+freeze:
+  must_preserve_sha256: 1b8f76acc88048c7a87741c04338a162356b30b68ee8dd08ef4a23098c260bce
+  harness_v7_sha256: bf4191c185dbb2f1660fefd78b640b92d048c149838fa43fde7c81c4bb3dd7c6
+  harness_v5_sha256: 1a16c933c86a93c79e365f6992cfa45395d6720a72e928de089e813d427a986c
+  s269_harness_sha256: 058fb75aa7b412b7ea65cbf875a510272a7c70accc41429b007ec24feb59a874
+  templates_sha256: af27a45f4682077fcfef67dbdd0676d6159402e36a5bf98b96035617e10c5afa
+  cohort_path: evals/s271_mutation_cohort_v7.jsonl
+  cohort_rows: 111
+  cohort_sha256: 686750dca3935227dae297e0b525ec6f13a7d29b03572ce2ff8729c6936cd14a
+  build_report_sha256: bc955e71e35a34549e1ed01a5c09025a0f90d0e92d31c6527fc992c2d95d3fb4
+cohort_composition:
+  F-RANGE: 30
+  F-BUNDLE: 30
+  F-MANDATORY: 30
+  F-COUNT: 21
+population:
+  corpus_docs_servibles: 1007
+  excluded_docs: 480
+  eligible_docs: 527
+  docs_sampled: 61
+  fragments_screened: 582
+hybrid:
+  model: claude-haiku-4-5-20251001
+  budget_usd_max: 4.0
+  prices_usd_per_mtok:
+    input: 1.0
+    output: 5.0
+  no_retry: true
+  status: PREFLIGHT_ONLY_THIS_SESSION
+honest_declarations:
+- 'SEXTA población fresca (seed-275); exclusiones ACUMULADAS: cohorte v1 + seed-270..274. Las medidas
+  previas quedan como evidencia versionada.'
+- Los guards v4 derivan de los 3 bloqueadores OBSERVADOS en la Etapa 3 viva (evals/s270_etapa3_smoke_appendices_v1.jsonl,
+  DEC-127b), no de los textos gold; este harness los valida en población fresca ANTES del re-smoke.
+- 'El detector v4 es MÁS estricto en F-COUNT (crumb/informativo/relevancia en ties a distancia): la composición
+  de la cohorte F-COUNT refleja la población que el mecanismo vivo puede formar — el pre-screen usa el
+  detector vigente (mismo patrón que v5/v6).'
+- dup_span/empty_enum se miden a nivel RENDER con el átomo real del fragmento (gold mecánico por construcción);
+  count_navcrumb usa fragmentos SINTÉTICOS con la oración de conteo REAL (los templates son material del
+  harness, no del corpus).
+- 'El brazo híbrido queda en PREFLIGHT: el determinista es $0 y es el que gatea; la ejecución pagada la
+  decide el orquestador.'
+- 'ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada c275): display recall 2/3 — el miss (fdd153ee, F-BUNDLE)
+  era la MISMA clase del artefacto seed-272 («el guard evaluaba el borrador completo y no la ventana»):
+  un claim BUNDLE con puntos embebidos en los miembros parte la VENTANA de cita y bind_atoms no liga aunque
+  el guard sobre el borrador pase. Fix del INSTRUMENTO (evaluate_display_rows_v7: binding-guard contra
+  citation_window, lo que el mecanismo usa), SIN tocar el mecanismo; re-medido sobre la MISMA cohorte
+  seed-275; la 1ª pasada queda declarada aquí.'
+gate_runner: scripts/s271_mutation_harness_v7.py --gate
+gate_output: evals/s271_stage1_v7_gate_v1.yaml
