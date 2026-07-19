@@ -31,13 +31,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 EVALS = ROOT / "evals"
-PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v2.yaml"
-COHORT_PATH = EVALS / "s269_mutation_cohort_v3.jsonl"
+PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v3.yaml"
+COHORT_PATH = EVALS / "s269_mutation_cohort_v4.jsonl"
 RESULTS = {
-    "det_only": EVALS / "s269_stage1_v3_results_det_c271.jsonl",
-    "hybrid": EVALS / "s269_stage1_v3_results_hybrid_c271.jsonl",
+    "det_only": EVALS / "s269_stage1_v3_results_det_c272.jsonl",
+    "hybrid": EVALS / "s269_stage1_v3_results_hybrid_c272.jsonl",
 }
-GATE_PATH = EVALS / "s269_stage1_v3_gate_v2.yaml"
+GATE_PATH = EVALS / "s269_stage1_v3_gate_v3.yaml"
 
 # Espejo anti-tamper (M7): NO es la fuente de los umbrales — el gate usa el prereg;
 # si difieren, se aborta. (v2: clean_noise por-familia — RBC estricto; MANDATORY
@@ -255,8 +255,8 @@ def main() -> int:
         arms[arm]["results_sha256"] = sha256_file(path)
 
     gate = {
-        "schema": "s269_stage1_v3_gate_v2",
-        "binding_contract": "v2 (presencia parcial + contexto procedimental; prereg v2)",
+        "schema": "s269_stage1_v3_gate_v3",
+        "binding_contract": "v2 + apriete F-BUNDLE >=2 tokens propios (prereg v3)",
         "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "spec_ref": "evals/s269_stage1_v3_mutation_spec_v1.md",
         "prereg_sha256": sha256_file(PREREG_PATH),

@@ -7,9 +7,9 @@ mutador determinista redacta un borrador sintético que restata el claim del át
 CON una omisión conocida (receipt exacto de lo eliminado) + cita [Fn] real; el
 mecanismo must-preserve debe restaurar EXACTAMENTE el span mutado (match verbatim).
 
-Cohorte FRESCA seed=271 (binding v2 adjudicado post-seed-270), MISMA mecánica de
-exclusiones v1 (import del builder v1) + exclusión de los docs de las cohortes
-v1 y seed-270.
+Cohorte FRESCA seed=272 (contrato v2 + apriete F-BUNDLE post-seed-271), MISMA
+mecánica de exclusiones v1 (import del builder v1) + exclusión de los docs de
+las cohortes v1, seed-270 y seed-271.
 Pre-screen declarado: detector DETERMINISTA (subset del híbrido, $0) — el sesgo de
 selección se controla porque el gold es mecánico y el gate mide sobre mutaciones,
 no sobre prevalencia.
@@ -27,7 +27,7 @@ resumible por clave de fila.
 
 Uso:
   python scripts/s269_mutation_harness.py --build-cohort      # GET-only, $0
-  python scripts/s269_mutation_harness.py --freeze            # escribe el prereg v2 (binding v2)
+  python scripts/s269_mutation_harness.py --freeze            # escribe el prereg v3
   python scripts/s269_mutation_harness.py --run               # brazo det ($0)
   python scripts/s269_mutation_harness.py --run --hybrid              # preflight
   python scripts/s269_mutation_harness.py --run --hybrid --execute    # Haiku
@@ -58,19 +58,21 @@ from src.rag import must_preserve as mp  # noqa: E402
 
 EVALS = ROOT / "evals"
 COHORT_V1_PATH = EVALS / "s269_structural_cohort_v1.jsonl"
-# cohorte seed-270 (1ª medida, binding v1): queda como EVIDENCIA; sus docs se
-# EXCLUYEN de la cohorte fresca (el refinamiento de contrato post-seed-270 se
-# valida en población nueva, adjudicación del coordinador)
+# cohortes previas: quedan como EVIDENCIA VERSIONADA; sus docs se EXCLUYEN de
+# cada población fresca (cada iteración de contrato se valida en población
+# nueva, adjudicación del coordinador). seed-270 = binding v1 (36 FP);
+# seed-271 = binding v2 con bundle-1-token (14 FP).
 COHORT_SEED270_PATH = EVALS / "s269_mutation_cohort_v2.jsonl"
-COHORT_PATH = EVALS / "s269_mutation_cohort_v3.jsonl"
-BUILD_REPORT_PATH = EVALS / "s269_mutation_cohort_v3_build.json"
-PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v2.yaml"
-RESULTS_DET_PATH = EVALS / "s269_stage1_v3_results_det_c271.jsonl"
-RESULTS_HYBRID_PATH = EVALS / "s269_stage1_v3_results_hybrid_c271.jsonl"
-HYBRID_CACHE_PATH = EVALS / "s269_stage1_v3_hybrid_proposals_c271.jsonl"
-HYBRID_RECEIPTS_PATH = EVALS / "s269_stage1_v3_hybrid_receipts_c271.json"
+COHORT_SEED271_PATH = EVALS / "s269_mutation_cohort_v3.jsonl"
+COHORT_PATH = EVALS / "s269_mutation_cohort_v4.jsonl"
+BUILD_REPORT_PATH = EVALS / "s269_mutation_cohort_v4_build.json"
+PREREG_PATH = EVALS / "s269_stage1_v3_prereg_v3.yaml"
+RESULTS_DET_PATH = EVALS / "s269_stage1_v3_results_det_c272.jsonl"
+RESULTS_HYBRID_PATH = EVALS / "s269_stage1_v3_results_hybrid_c272.jsonl"
+HYBRID_CACHE_PATH = EVALS / "s269_stage1_v3_hybrid_proposals_c272.jsonl"
+HYBRID_RECEIPTS_PATH = EVALS / "s269_stage1_v3_hybrid_receipts_c272.json"
 
-SEED = 271
+SEED = 272
 TARGET_PER_FAMILY = 30
 TARGET_DOCS = 40
 MAX_DOCS = 80
@@ -91,7 +93,7 @@ FAMILIES = list(mp.FAMILIES)
 # sha se pinea entero); las 2 variantes de fraseo por mutación salen de estos
 # wrappers. templates_sha256 = sha del JSON canónico de este registro.
 
-TEMPLATES_VERSION = "s269_v3_templates_v3"
+TEMPLATES_VERSION = "s269_v3_templates_v4"
 TEMPLATES = {
     "wrappers": [
         "Según el manual, {claim} [F{n}].",
@@ -112,8 +114,11 @@ TEMPLATES = {
     "bundle_schema": "los campos {members} forman el esquema de la regla",
     # binding v2: los borradores mandatory emulan una respuesta que DA el
     # procedimiento del fragmento (s243: el callout es adyacente a ese procedimiento)
+    # v4: separadores SIN ';' — el splitter de oraciones parte en ';' y dejaba
+    # la ventana de cita con solo el último miembro (artefacto de instrumento
+    # cazado en seed-272: 16/16 misses BUNDLE eran NOT_BOUND por esto)
     "mandatory_full": (
-        'siga el procedimiento sobre {p1} y {p2}; la fuente recoge además esta '
+        'siga el procedimiento sobre {p1} y {p2}, y la fuente recoge además esta '
         'indicación literal: "{span}"'
     ),
     "mandatory_dropped": (
@@ -193,6 +198,12 @@ def build_cohort() -> int:
         raise RuntimeError(
             "cohorte seed-270 no encontrada: sus docs deben excluirse (población fresca)"
         )
+    seed271_rows = load_jsonl(COHORT_SEED271_PATH)
+    seed271_docs = sorted({r["document_id"] for r in seed271_rows})
+    if not seed271_docs:
+        raise RuntimeError(
+            "cohorte seed-271 no encontrada: sus docs deben excluirse (población fresca)"
+        )
 
     with httpx.Client(timeout=30.0) as client:
         print("Inventario del corpus (GET paginado)...")
@@ -203,6 +214,7 @@ def build_cohort() -> int:
         for label, path, docs in (
             ("v1_cohort_docs_exclusion", COHORT_V1_PATH, v1_docs),
             ("seed270_cohort_docs_exclusion", COHORT_SEED270_PATH, seed270_docs),
+            ("seed271_cohort_docs_exclusion", COHORT_SEED271_PATH, seed271_docs),
         ):
             extra = {d for d in docs if d in corpus and d not in excluded}
             excluded |= set(docs)
@@ -273,7 +285,7 @@ def build_cohort() -> int:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
     report = {
-        "schema": "s269_mutation_cohort_v3_build_v1",
+        "schema": "s269_mutation_cohort_v4_build_v1",
         "created_utc": _now(),
         "seed": SEED,
         "chunks_table": table,
@@ -295,7 +307,7 @@ def build_cohort() -> int:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8", newline="\n",
     )
-    print(f"\nCohorte v3: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
+    print(f"\nCohorte v4: {COHORT_PATH.relative_to(ROOT)} ({len(rows)} filas)")
     print(f"Composición: {composition}")
     print(f"Build report: {BUILD_REPORT_PATH.relative_to(ROOT)}")
     return 0
@@ -359,7 +371,7 @@ def _range_claim(meta: dict, mutation: str | None) -> str:
 
 def _bundle_members_text(members: list[str], drop: str | None) -> str:
     kept = [m for m in members if m != drop]
-    return "; ".join(kept)
+    return ", ".join(kept)
 
 
 def _bundle_claim(meta: dict, mutation: str | None, dropped_member: str | None) -> str:
@@ -848,13 +860,13 @@ def run_arm(hybrid: bool, execute: bool) -> int:
     prereg = yaml.safe_load(PREREG_PATH.read_text(encoding="utf-8"))
     frozen = prereg["freeze"]
     if sha256_file(COHORT_PATH) != frozen["cohort_sha256"]:
-        raise RuntimeError("freeze roto: cohorte v3 ≠ prereg")
+        raise RuntimeError("freeze roto: cohorte v4 ≠ prereg")
     if sha256_file(ROOT / "src/rag/must_preserve.py") != frozen["must_preserve_sha256"]:
         raise RuntimeError("freeze roto: must_preserve.py ≠ prereg")
     if templates_sha256() != frozen["templates_sha256"]:
         raise RuntimeError("freeze roto: templates ≠ prereg")
     rows = load_jsonl(COHORT_PATH)
-    print(f"Cohorte v3 verificada (freeze OK): {len(rows)} filas")
+    print(f"Cohorte v4 verificada (freeze OK): {len(rows)} filas")
 
     if hybrid:
         budget = float(prereg["hybrid"]["budget_usd_max"])
@@ -916,32 +928,37 @@ def run_arm(hybrid: bool, execute: bool) -> int:
 
 def freeze() -> int:
     if not COHORT_PATH.exists():
-        raise RuntimeError("cohorte v3 no construida: corre --build-cohort primero")
+        raise RuntimeError("cohorte v4 no construida: corre --build-cohort primero")
     rows = load_jsonl(COHORT_PATH)
     build = json.loads(BUILD_REPORT_PATH.read_text(encoding="utf-8"))
     prereg = {
-        "schema": "s269_stage1_v3_prereg_v2",
+        "schema": "s269_stage1_v3_prereg_v3",
         "status": "FROZEN_BEFORE_RUN",
         "created_utc": _now(),
         "spec_ref": "evals/s269_stage1_v3_mutation_spec_v1.md",
         "design_ref": "evals/s269_synthesis_portfolio_design_v1.md §1 (v2 dúo-adjudicado)",
         "predecessor": (
             "evals/s269_stage1_gate_v1.yaml (NO_GO v1, gold de modelo no fiable) + "
-            "evals/s269_stage1_nogo_diagnosis_v1.md; MEDIDA seed-270 (binding v1): "
-            "evals/s269_stage1_v3_prereg.yaml + evals/s269_stage1_v3_gate_v1.yaml + "
-            "evals/s269_stage1_v3_results_det.jsonl — queda como EVIDENCIA, no se "
-            "re-usa para el veredicto"
+            "evals/s269_stage1_nogo_diagnosis_v1.md; MEDIDA seed-270 (binding v1, "
+            "36 clean-FP): prereg.yaml + gate_v1.yaml + results_det.jsonl; MEDIDA "
+            "seed-271 (binding v2 con bundle-1-token, 14 clean-FP RBC): "
+            "prereg_v2.yaml + gate_v2.yaml + results_det_c271.jsonl — ambas quedan "
+            "como EVIDENCIA VERSIONADA, no se re-usan para el veredicto"
         ),
         "binding_contract": (
-            "v2 (adjudicación del coordinador post-seed-270): presencia PARCIAL por "
-            "familia para F-RANGE/F-BUNDLE/F-COUNT (≥1 token/número PROPIO del átomo "
-            "en la ventana de cita; el solape genérico de anchors ya no liga) y "
-            "contrato propio para F-MANDATORY (exigible con ≥2 tokens de contexto "
-            "PROCEDIMENTAL del fragmento en la ventana; supresión de duplicados vía "
-            "atom_satisfied; cap 4 intacto). Motivación taxonomy-derived s243: 11/12 "
-            "misses = pérdida parcial dentro de estructura TOCADA + callouts "
-            "obligatorios adyacentes a procedimientos que la respuesta da. Ver "
-            "docstring de src/rag/must_preserve.py::atom_exigible_in"
+            "v2 + apriete F-BUNDLE (adjudicaciones del coordinador post-seed-270 y "
+            "post-seed-271): presencia PARCIAL por familia — F-RANGE ≥1 número "
+            "PROPIO (extremos/paso/tolerancia, excl. 0/1) o scope-id; F-BUNDLE ≥2 "
+            "tokens PROPIOS (miembros∪cabecera; p.ej. 1 de miembro + 1 de "
+            "cabecera — paralelo del criterio número-o-2-tokens del resto); "
+            "F-COUNT conteo declarado/enumerado o sustantivo; el solape genérico "
+            "de anchors ya no liga. F-MANDATORY contrato propio: exigible con ≥2 "
+            "tokens de contexto PROCEDIMENTAL del fragmento en la ventana; "
+            "supresión de duplicados vía atom_satisfied; cap 4 intacto. Motivación "
+            "taxonomy-derived s243: 11/12 misses = pérdida parcial dentro de "
+            "estructura TOCADA + callouts obligatorios adyacentes a procedimientos "
+            "que la respuesta da. Ver docstring de "
+            "src/rag/must_preserve.py::atom_exigible_in"
         ),
         "gold": (
             "MECÁNICO POR CONSTRUCCIÓN (patrón S249, precedente in-repo precisión "
@@ -1011,14 +1028,16 @@ def freeze() -> int:
                       "default; --execute gasta)",
         },
         "honest_declarations": [
-            "REFINAMIENTO DE CONTRATO DECLARADO (adjudicación del coordinador): los "
-            "36 clean-FP de seed-270 (todos anexos de átomos hermanos ligados por "
-            "solape genérico de anchors) motivaron RE-EXAMINAR el contrato de "
-            "binding. El refinamiento (presencia parcial / contexto procedimental) "
-            "es TAXONOMY-DERIVED (s243), NO un ajuste contra los 36 ejemplos, y se "
-            "valida en esta población FRESCA seed-271 (docs v1 + seed-270 "
-            "excluidos). seed-270 queda como evidencia; no se re-usa para el "
-            "veredicto.",
+            "TERCERA ITERACIÓN DE CONTRATO DECLARADA (última de la sesión por "
+            "adjudicación del coordinador): (1) seed-270, binding v1 → 36 clean-FP "
+            "por solape genérico de anchors → contrato v2 (presencia parcial / "
+            "contexto procedimental, taxonomy-derived s243); (2) seed-271, binding "
+            "v2 con bundle-≥1-token → 14 clean-FP RBC, todos bundles ligados por "
+            "UNA palabra técnica ubicua de un miembro → apriete F-BUNDLE a ≥2 "
+            "tokens propios. CADA iteración se valida en POBLACIÓN FRESCA (docs de "
+            "todas las cohortes previas excluidos); las medidas previas quedan como "
+            "evidencia versionada y no se re-usan para el veredicto. Si esta "
+            "medida queda roja, se reporta tal cual SIN iterar más.",
             "TUNING DESDE V1 DECLARADO: el léxico/patrones del detector se ajustaron "
             "con los misses de la cohorte v1 (diagnóstico) — población fresca en "
             "cada medida desde entonces.",
@@ -1038,6 +1057,14 @@ def freeze() -> int:
             "parcial del átomo (contrato v2) se listan como no-puntuables "
             "(artefacto del template, no del mecanismo); la vía binding se mide en "
             "clean/cross.",
+            "ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada seed-272): los "
+            "miembros de bundle se unían con '; ' en los templates y el splitter "
+            "de oraciones parte en ';' → la ventana de cita [F1] contenía SOLO el "
+            "último miembro, que bajo el contrato ≥2-tokens ya no liga — 16/16 "
+            "misses BUNDLE eran NOT_BOUND por este artefacto (el guard evaluaba el "
+            "borrador completo y no la ventana). Fix de separador (TEMPLATES v4, "
+            "sin ';'), SIN tocar el contrato; re-medido sobre la MISMA cohorte "
+            "seed-272; la 1ª pasada queda en el historial git.",
             "ITERACIÓN DE IMPLEMENTACIÓN DECLARADA (post 1ª pasada seed-271): la "
             "primera medida del contrato v2 dio 42 clean-FP RBC, TODOS bundles "
             "ligados por palabras FUNCIÓN de 2-3 letras ('de'/'el'/'the') — "
@@ -1051,13 +1078,13 @@ def freeze() -> int:
             "scripts/s269_stage1_v3_gate.py — umbrales LEÍDOS del prereg (única "
             "fuente) + constante espejo anti-tamper (M7); veredicto POR BRAZO"
         ),
-        "gate_output": "evals/s269_stage1_v3_gate_v2.yaml",
+        "gate_output": "evals/s269_stage1_v3_gate_v3.yaml",
     }
     PREREG_PATH.write_text(
         yaml.safe_dump(prereg, allow_unicode=True, sort_keys=False, width=100),
         encoding="utf-8", newline="\n",
     )
-    print(f"Prereg v2 (binding v2) congelado: {PREREG_PATH.relative_to(ROOT)}")
+    print(f"Prereg v3 (binding v2+apriete bundle) congelado: {PREREG_PATH.relative_to(ROOT)}")
     for k, v in prereg["freeze"].items():
         if k.endswith("sha256"):
             print(f"  {k}: {v[:16]}…")
