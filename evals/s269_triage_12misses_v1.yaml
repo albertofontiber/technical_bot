@@ -1,0 +1,710 @@
+schema: s269_triage_12misses_v1
+status: TRIAGE_PROPOSAL_PENDING_ALBERTO_ADJUDICATION
+date: 2026-07-18/19
+method: '4 analistas modelo independientes (uno por pregunta, Claude Fable 5 via workflow multi-agente,
+  lectura de pregunta + respuesta congelada s235/s133 + fragmento fuente s113 freeze + s243/s156) con
+  vara de exigibilidad POR-PREGUNTA de tecnico PCI; + auditoria del instrumento (matcher determinista
+  s163/answer_planner, 0 model calls) que no hallo ningun INSTRUMENT-FN; + verificador adversarial independiente
+  que re-leyo los primarios e intento refutar cada veredicto (acuerdo 12/12). NOTA (hallazgo Fable en
+  review dúo 2026-07-19T00:08:29): los veredictos son PROPUESTA de sesion, no gold-review canonico al
+  pixel; el packet para Alberto con render de pagina + citas literales por fila es paso previo obligatorio
+  a editar golds.'
+projection_if_accepted:
+  denominator: 157 -> 154 (3 demotes)
+  remaining_core_synth: 9
+  retrieval_misses: 2
+  target_98pct: 151/154 -> requiere +8 conversiones
+verdicts:
+- obligation_id: obl_015f9b9aaa3a
+  verdict: SUPPLEMENTARY
+  confidence: media
+  rationale: 'El miss es REAL, no FN del instrumento: la relacion TONOS no aparece en la respuesta congelada
+    en ninguna forma. La obligacion (F8, pag. 69, seccion TONE) es: ''TONOS (10 2 Z2:Z4 (Z10 G20)) — En
+    la activacion de la Zona 10 o del Grupo 20 se configura el tono 10 y el volumen 2 para las sirenas
+    (con tipo software SND) de las zonas Z2, Z3 y Z4''. Verifique token a token la respuesta congelada
+    (canonical_answer de s235): NO contiene ''TONE'', ''tono'', ''volumen'', ''activacion'', ''sirenas''
+    ni ''tipo software SND''. Lo mas cercano es la ''Nota sobre anulacion de salidas'' [F11]: ''afecta
+    a todos los modulos de salida programados con tipo-SW SND'' — pero esa es OTRA proposicion (retardo
+    por anulacion de sirena), que corresponde a la tercera obligacion de cat018 (obl_5784f16b1a11, output_software_type)
+    que SI esta cubierta. La relacion compuesta activacion-de-zona/grupo → tono+volumen → sirenas-SND
+    → rango-de-zonas esta ausente por completo. Por que SUPPLEMENTARY y no CORE: (a) la pregunta es generica
+    (''que un evento active una salida'') y la respuesta ya transmite el mecanismo completo con el ejemplo
+    CANONICO del propio manual — la tabla OPCIONES A/B/C de F8, que el manual introduce literalmente como
+    ''la activacion del modulo de salida en respuesta a una alarma'' (la pregunta exacta); (b) TONE es,
+    segun F8, ''el operador que permite introducir tono y volumen'' — configura el PATRON acustico de
+    sirenas, no es el mecanismo de activacion (eso lo hacen la CBE + el tipo-SW SND, y el dato SND ya
+    viaja en la respuesta via la obligacion cubierta); (c) s156: el arm fable con contexto completo y
+    generacion completa (end_turn, 34 citas) tambien lo omitio (0/2 en cat018) — senal de expert-omission,
+    aunque debil porque s156 no conserva el texto generado y su coverage usa los mismos anchors lexicos;
+    el arm sol quedo ''incomplete'' y no cuenta. Caveat honesto en direccion CORE: es la unica mencion
+    en el contexto de como dar tono/volumen a sirenas (la salida PCI arquetipica) y el qualifier SND tiene
+    valor de diagnostico diferencial — si el gold-review decide que ''activar una salida'' en PCI incluye
+    canonicamente sirenas con patron, el demote seria discutible. Para la pregunta LITERAL, no es exigible.'
+  would_technician_need_it: depende — solo si la salida concreta es una sirena a la que quiere imponer
+    tono/volumen especificos por zona; para la tarea literal de la pregunta (programar una CBE para que
+    un evento active una salida) el procedimiento + opciones A/B/C + operadores OR/AND/NOT/XGRP/PRE/FLT
+    que la respuesta ya da son suficientes y accionables, y el qualifier SND (por que una sirena no obedece)
+    ya esta transmitido via la obligacion F11 cubierta
+  evidence_files:
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s235_direct_clause_bound_score_packet_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s113_full_contexts_freeze_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s163_synthesis_residual_audit_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s156_frontier_synthesis_ceiling_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+- obligation_id: obl_7bba8d03d496
+  verdict: CORE-REQUIRED
+  confidence: media
+  rationale: 'La hipotesis ''ruta alternativa igualmente valida'' queda REFUTADA por el propio texto fuente:
+    ''MENU PROGRAMMAZIONE\Punti\Sensori'' NO es una ruta alternativa de otra seccion del manual — es la
+    fila-cabecera del mock de pantalla DENTRO del mismo fragmento F3 (seccion ''Pestana Programa (Programacion
+    ecuaciones CBE, asociacion zona)'', pag. 21 de AM-8200-manu-prog-spa). El mock muestra la jerarquia:
+    cabecera MENU PROGRAMMAZIONE\Punti\Sensori → fila de pestanas ''Principale | Programmazione | Opzioni
+    | Edit'' → campos Zona=2 y CBE=(G1). Es decir, la pestana Programa/Programmazione es un SUB-PASO de
+    la misma ruta (los campos Zona y CBE viven en esa pestana del punto, no en Principale/Opzioni/Edit),
+    y F3 lo dice explicito: ''Para modificar el campo CBE EN ESTA PESTANA se debe seleccionar el parametro
+    con las teclas flecha''. La respuesta congelada tomo de F3 la cabecera de menu + la instruccion de
+    flechas + los 64 caracteres + Enter, pero descarto el miembro padre del bundle (la pestana) — exactamente
+    structured_bundle_member_loss como clasifica s243. NO es INSTRUMENT-FN: verifique que ''pestana''
+    no aparece en la respuesta en ninguna forma (busqueda normalizada sin acentos: False); ademas el ''MENU
+    PROGRAMMAZIONE'' de la respuesta es el menu de primer nivel, cosa distinta de la pestana Programmazione
+    del punto aunque compartan palabra. De hecho el instrumento fue GENEROSO, no estricto: acredito el
+    anchor ''Zona'' presente, pero el campo Zona del punto (numero de zona asignada, la asociacion punto-zona
+    del bundle) tampoco esta en la respuesta — ''zona'' solo aparece en proposiciones ajenas (p.ej. ''dispositivo
+    o zona esta en averia'' [F6]). Por que CORE: la pregunta es procedimental (''como se programa...'')
+    y la localizacion del campo a editar ES el payload del procedimiento; sin el sub-paso de pestana,
+    el paso 2 de la respuesta (''usa las teclas para seleccionar el parametro CBE'') no es ejecutable
+    tal cual si el panel abre el punto en otra pestana. Agravante contextual: el paso 1 de la respuesta
+    etiqueta ''Punti \ Sensori'' (sensores) como ''programacion del MODULO DE SALIDA'', imprecision que
+    aumenta el valor del locator correcto del gold. Caveat honesto anti-CORE: severidad practica moderada
+    — con 4 pestanas visibles en pantalla un tecnico lo encuentra en segundos, y no hay componente de
+    seguridad; si el gold-review aplica una vara puramente de exito-de-tarea podria degradarse, pero para
+    la vara declarada (respuesta completa de tecnico en campo sobre una pregunta de navegacion) el dato
+    es exigible.'
+  would_technician_need_it: si — la pregunta pide el procedimiento y el dato perdido es DONDE viven los
+    campos Zona/CBE del punto (pestana Programa); el sustituto que da la respuesta (cabecera de menu +
+    flechas) proviene de la MISMA pantalla y omite el sub-paso de pestana, dejando el procedimiento potencialmente
+    no ejecutable tal cual esta escrito en un panel desconocido; severidad moderada (recuperable en pantalla),
+    sin componente de seguridad
+  evidence_files:
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s113_full_contexts_freeze_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s235_direct_clause_bound_score_packet_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s163_synthesis_residual_audit_v1.json
+  - C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro/evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+- obligation_id: obl_b6f6211be439
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'Fuente (F9, s113 freeze, chunk 5b6a3a19, p121 ''9.3 Comprobaciones de mantenimiento y funcionamiento''):
+    ''...es **imprescindible** bloquearlos o desconectarlos previamente'' (controles de incendios, alertas
+    remotas, zonas de extinción) — es el gate del MISMO checklist del que la respuesta congelada saca
+    su paso 5 (tensión en bornes 1(+)/2(-), citado [F9]) y su lectura de flujo en posición V. La respuesta
+    instruye intervención física (abrir caja, limpiar conducto, sustituir filtro, medir) sobre un ASD
+    conectado a una CDI que puede disparar extinción y alerta remota, y omite POR COMPLETO la aislación
+    previa (relation_omitted, s163:111-129; cero anchors presentes — verificado contra el texto congelado:
+    no aparece bloquear/desconectar/inhibir). No es INSTRUMENT-FN. Es exactamente la clase ''lo omite
+    un QA genérico pero un técnico lo necesita'': disparo espurio de zona de extinción o llamada a bomberos
+    durante el diagnóstico es un incidente real de seguridad/coste. s156: Sol CON contexto completo SÍ
+    lo incluyó (s156:104-117, covered_kinds incluye maintenance_isolation_prerequisite) → no es un dato
+    que ''ningún experto incluiría''. Contraste con el precedente de demote s100 (gold_answers_v1.yaml:196-207,
+    reset-inicial procedural demotado ''fuera de scope de la PREGUNTA''): aquel era procedimiento posterior
+    opcional; este es prerrequisito de seguridad de acciones que la propia respuesta ordena. Familia s243:
+    mandatory_safety_or_verification_omission (s243:70-78) — el miss es real y de mecanismo (podó el callout
+    de cabecera del fragmento que sí citó).'
+  would_technician_need_it: SÍ. La respuesta le manda abrir la caja, limpiar y medir en un detector vivo;
+    sin bloquear controles/alertas/extinción primero puede provocar descarga de extinción o alerta remota
+    falsa. En la vara 'técnico en campo, seguridad importa', es lo primero que hace antes de tocar el
+    equipo.
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json:117-133
+  - evals/s163_synthesis_residual_audit_v1.json:111-129
+  - evals/s113_full_contexts_freeze_v1.json (hp002 fragment 9, chunk 5b6a3a19-a924-4cf4-9513-bd50786ee3d9,
+    p121)
+  - evals/s156_frontier_synthesis_ceiling_v1.json:103-117
+  - evals/s243_synthesis_miss_causal_taxonomy_v1.yaml:69-78
+- obligation_id: obl_a5d9fa1f9253
+  verdict: CORE-REQUIRED
+  confidence: media
+  rationale: 'Fuente (F2, chunk 414ce99c, p28 §2.2.10): ''Al realizar un reset inicial... se registrarán
+    los valores de la medición del flujo de aire y se guardarán como valores nominales (100 %)''. Anchors
+    presentes en la respuesta: ''reset inicial'', ''100 %''; ausente: ''valores nominales'' (s163:71-89).
+    Verificado contra el texto congelado: la respuesta usa <100%/80% como números pelados y menciona el
+    reset inicial solo en la advertencia de limpieza [F7]; NUNCA enlaza ''el 100% = valores nominales
+    registrados en el reset inicial''. No es INSTRUMENT-FN: el rol semántico no está transmitido explícitamente
+    (sí hay un sustituto operativo parcial: ''compara el valor leído con el registrado en el protocolo
+    de puesta en funcionamiento [F9]''). Por qué CORE y no SUPPLEMENTARY: (1) es el marco que da significado
+    a TODA la escala del diagnóstico (<100%, 80%, 90%) para una alarma INTERMITENTE donde el técnico interpreta
+    lecturas fluctuantes contra una referencia; (2) el gold v1 lo tiene dentro de un fact CORE (gold_answers_v1.yaml:169-175:
+    ''variación... respecto al nominal (reset inicial con conducto limpio = 100 %)''), mientras que lo
+    que s100 demotó fue el PROCEDIMIENTO de reset, no el rol de referencia; (3) la propia advertencia
+    de reset de la respuesta es ininteligible sin este hecho; (4) mecanismo puro s243 (compound_relation_qualifier_loss:
+    número conservado, rol perdido — s243:49-58). s156: Fable CON contexto completo lo incluyó (único
+    covered de hp002 en su arm, s156:33-46). Declaro el borde honesto: de los 3, es el más cercano a SUPPLEMENTARY
+    porque existe el sustituto operativo del protocolo de puesta en funcionamiento; si el criterio fuese
+    accionabilidad estricta pura, bajaría a SUPPLEMENTARY. El balance (gold-precedente + pregunta ''intermitente''
+    + rol interpretativo) lo deja en CORE con confianza media.'
+  would_technician_need_it: 'DEPENDE→sí: para ejecutar ''lee V, <100% = obstrucción, limpia'' no; pero
+    para interpretar una alarma INTERMITENTE (lecturas oscilando ~80-95%) y entender qué re-referencia
+    un reset inicial (y por qué no debe hacerse con conducto sucio), necesita saber que 100% = nominal
+    registrado en el reset inicial.'
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json:83-98
+  - evals/s163_synthesis_residual_audit_v1.json:71-89
+  - evals/s113_full_contexts_freeze_v1.json (hp002 fragment 2, chunk 414ce99c-0dec-478c-b504-009f14631804,
+    p28)
+  - evals/gold_answers_v1.yaml:169-175
+  - evals/s156_frontier_synthesis_ceiling_v1.json:32-46
+- obligation_id: obl_07eee3300535
+  verdict: SUPPLEMENTARY
+  confidence: media
+  rationale: 'Fuente (F2, mismo chunk 414ce99c, p28): ''En las posiciones de conmutador A11 a C32, cualquier
+    variación... que supere el ±20 % – por debajo del 80 % (suciedad/obstrucción) o por encima del 120
+    % (rotura de tubo) – disparará... 300 s''. Anchors presentes: 20%, 80%, 300 s; ausentes: ''A11 a C32'',
+    ''120 %'' (s163:90-110). Lo EXIGIBLE para ESTA pregunta (flujo BAJO) ya está en la respuesta: umbral
+    bajo 80%, ventana ±20%, retardo 300 s, Y el diagnóstico diferencial cualitativo (''Valor >100% → rotura
+    de tubo [F1][F9]'' + código 002 rotura en la tabla de eventos) — el extremo alto NO está scope-out
+    (la respuesta misma lo trae como diferencial, correctamente), pero el NÚMERO 120% es el umbral de
+    disparo del fallo del lado contrario: un técnico actuando sobre flujo bajo nunca lo ejercita, y el
+    diferencial que sí necesita (>100% ⇒ sospecha rotura, F9 usa exactamente esa regla de inspección)
+    ya está transmitido. El scope ''A11 a C32'' tiene sustituto cualitativo en la respuesta: condiciona
+    los umbrales a ''sensibilidad LS-Ü configurada ±20% (estándar)'' [F9] y transmite el contenido operativo
+    de la advertencia W01-W48 (''modificación por encima de ±20%... incumple EN 54-20 y requiere consulta
+    con el fabricante'' [F6]) sin el literal de posiciones. Contra-evidencia declarada (por qué no es
+    demote gratis): gold v1 fact CORE 2 (gold_answers_v1.yaml:176-182) incluye ''por encima del 120 %
+    (> 100 %) apunta a rotura de tubo'' dentro de un core, y Sol con contexto completo cubrió esta obligación
+    (s156:104-117). Recomendación precisa: demote de los ANCHORS ''120 %'' y ''A11 a C32'' de esta obligación
+    (o split), NO de la obligación entera — 80%/±20%/300 s deben seguir required (y ya están presentes).
+    No es SCOPE-OUT (el diferencial alto pertenece legítimamente al diagnóstico de la lectura); no es
+    INSTRUMENT-FN (los literales realmente faltan y ''>100%'' no equivale al umbral de disparo 120%: son
+    dos reglas distintas — inspección a media-sensibilidad 90/110 vs disparo 80/120 — y la respuesta cubre
+    la primera y el lado bajo de la segunda).'
+  would_technician_need_it: 'DEPENDE→no para esta pregunta: con 80%/300 s + ''>100% = rotura'' el técnico
+    diagnostica el flujo bajo completo; 120% y A11-C32 le harían falta configurando la ventana LS-Ü o
+    diagnosticando flujo ALTO — otra pregunta (la respuesta ya lo ofrece como follow-up).'
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json:99-116
+  - evals/s163_synthesis_residual_audit_v1.json:90-110
+  - evals/s113_full_contexts_freeze_v1.json (hp002 fragment 2, chunk 414ce99c-0dec-478c-b504-009f14631804,
+    p28)
+  - evals/gold_answers_v1.yaml:176-182
+  - evals/s156_frontier_synthesis_ceiling_v1.json:104-117
+- obligation_id: obl_161564ff41bf
+  verdict: SUPPLEMENTARY
+  confidence: alta
+  rationale: 'Obligacion (s235 linea 221): ''Valor variable de 05 a 295 seg. | Tiempo de activacion del
+    circuito de extincion... Variable en intervalos de 5 seg.'' Anchors presentes en la respuesta congelada:
+    ''05 a 295 seg'' y ''circuito de extincion''; el UNICO atomo perdido es ''intervalos de 5 seg'' (s163
+    lineas 140-147). La respuesta congelada SI transmite lo que esta pregunta necesita de F11: seccion
+    4 dice literal ''Si el parametro... esta configurado como "- -" (guiones), el circuito de extincion
+    permanece activado hasta que se rearme la central [F11]. Verifica que este parametro este configurado
+    con un tiempo en segundos (05 a 295 seg.)''. La pregunta es DIAGNOSTICA (por que no vuelve a normal
+    tras reset), no de programacion: el paso de 5 seg solo importa al reprogramar el valor, y la UI del
+    panel lo impone de todos modos — no hay decision de diagnostico ni de seguridad que cambie por conocer
+    la granularidad. Dato s156 concordante: ambos frontier con contexto completo omiten extinction_duration_range
+    (Fable hp011 1/3, Sol 0/3). Contraargumento declarado (por que no es demote gratis): la propia respuesta
+    invita a reprogramar (''verifica que este configurado con un tiempo''), lo que acerca el contexto
+    de programacion; aun asi, programar 122s y que el panel ajuste a 120s no tiene consecuencia tecnica.
+    Candidato a demote DEL GOLD DE ESTA PREGUNTA (el bundle rango+unidad+paso sigue siendo exigible en
+    una pregunta de programacion del parametro t.A/dr).'
+  would_technician_need_it: no — para responder 'por que no vuelve a normal tras resetear' el tecnico
+    necesita la semantica de '- -' (circuito activo hasta rearme) y el rango valido como referencia de
+    fix, ambos YA presentes; la granularidad de 5 seg solo se usa al teclear un valor nuevo y el panel
+    la impone. Ningun diferencial de diagnostico ni de seguridad depende de ella.
+  evidence_files:
+  - 'evals/s235_direct_clause_bound_score_packet_v1.json (lineas 216-230: obligacion; linea 161: respuesta
+    congelada, seccion 4)'
+  - evals/s163_synthesis_residual_audit_v1.json (lineas 130-148)
+  - evals/s243_synthesis_miss_causal_taxonomy_v1.yaml (lineas 79-88)
+  - 'evals/s113_full_contexts_freeze_v1.json (lineas ~14500-14655: F11 = HLSI-MN-103_RP1r-Supra_lr p.56,
+    seccion 5.3.1 Opciones extincion)'
+  - evals/s156_frontier_synthesis_ceiling_v1.json (lineas 48-61 y 118-131)
+- obligation_id: obl_2f5d79e354b9
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'Fuente F13 (s113 lineas ~14762-14763; HLSI-MN-103_RP1r-Supra_lr p.63, seccion 5.3.5 ''Otras
+    opciones''): fila LCD ''r.i'' = ''Rearme inhibido tras extincion... - - Rearme inhibido hasta finalizar
+    extincion o cuando agotado tiempo configurado en parametro t.Fi (t.A -> 0 seg.) / 00 Rearme permitido
+    en cualquier momento (por defecto) / De 01 a 30 Rearme inhibido durante intervalo definido''. Es el
+    UNICO hecho servido que explica exactamente el sintoma literal (''descarga la extincion, pulsa reset,
+    no vuelve a normal''): con r.i=''- -'' el panel RECHAZA el rearme por diseno hasta finalizar la extincion
+    o agotar t.Fi — no es averia. La respuesta congelada NO lo transmite: su seccion 1 cubre rI solo como
+    00/01-30 min [F3][F12] (con lo que un tecnico que lea r.i=''- -'' en el panel no sabe interpretarlo,
+    e incluso puede descartar rI como causa al no ver 01-30), y su unico ''- -'' esta en la seccion 4
+    hablando de OTRO parametro (duracion de extincion, F11). Verificado por busqueda literal: ''finalizar
+    extincion'', ''t.Fi'', ''t.A'' y ''0 seg'' NO aparecen en toda la respuesta; las citas de la respuesta
+    son F3,F4,F6,F7,F9,F10,F11,F12 — F13 jamas citado => mecanismo confirmado: source_fragment_selection_loss
+    real (el writer tenia F13 servido y no lo uso), NO instrument-FN (los anchors presentes ''--'' y ''rearme
+    inhibido'' provienen de secciones NO relacionadas). NO source-conflict: F12 (VSN-RP1r, rI 0-30 min
+    sin opcion ''- -'') vs F13 (RP1r-Supra, r.i con ''- -'') son manuales de VARIANTES distintas de la
+    familia, no valores contradictorios del mismo documento. Caveat declarado honesto: la pregunta dice
+    ''Morley RP1r'' y F13 es del manual RP1r-Supra (=Notifier segun ground-truth s78) — bajo lectura estricta
+    de identidad de producto seria material de variante y la conducta ideal seria incluirlo ESCOPADO (''en
+    RP1r-Supra, r.i...''); pero el gold congelado ya responde familia-completa usando ese mismo manual
+    (la seccion 4 cita F11 del mismo doc Supra sin escopar), asi que dentro del marco del propio gold
+    la obligacion es exigible. El dato s156 (frontier tambien lo omiten) pesa poco aqui: en hp011 Sol
+    cubrio 0/3 y Fable 1/3 — fallaron casi todo, no discrimina materialidad; domina el test de necesidad
+    del tecnico.'
+  would_technician_need_it: 'si — es el diferencial de diagnostico central de ESTA pregunta: distingue
+    ''panel averiado / entrada enclavada'' de ''rearme inhibido por diseno (EN 12094-1 4.12.2) hasta fin
+    de extincion o t.Fi''. Sin este dato el tecnico puede esperar 30 min (tope que SI da la respuesta),
+    concluir averia y sustituir hardware, cuando la accion correcta es esperar el fin de extincion/t.Fi
+    o revisar r.i. Es exactamente el caso ''lo omitiria un QA generico pero un tecnico lo necesita''.'
+  evidence_files:
+  - 'evals/s235_direct_clause_bound_score_packet_v1.json (lineas 232-248: obligacion con statement y anchors;
+    linea 161: respuesta congelada)'
+  - 'evals/s163_synthesis_residual_audit_v1.json (lineas 149-169: unico miss con source_fragment_cited=false)'
+  - evals/s243_synthesis_miss_causal_taxonomy_v1.yaml (lineas 89-98)
+  - 'evals/s113_full_contexts_freeze_v1.json (lineas ~14224, ~14762-14763: F13 = HLSI-MN-103_RP1r-Supra_lr
+    p.63; lineas ~14807-14873: coverage cards de F13; fragmento 12 = MIEMN570 VSN-RP1r p.30 rI sin opcion
+    ''- -'')'
+  - evals/s156_frontier_synthesis_ceiling_v1.json (lineas 48-61, 118-131)
+- obligation_id: obl_872c35fb41d7
+  verdict: SOURCE-CONFLICT
+  confidence: alta
+  rationale: 'La FUENTE es internamente inconsistente en la misma página 44 del 997-671-005-3_Configuration_ES:
+    el fragmento 1 (prosa A5.3) dice literalmente ''Se puede asignar uno de seis tipos de retardo de salida
+    a una regla'' (s235:279-293) mientras el fragmento 2 (tabla A5.3, mismo doc/página) enumera SIETE
+    columnas de tipos con vectores de comportamiento distintos: Fijo, Estándar, No Silenc, Est. Ext.,
+    RetExtStd, No Sil. Ext, SinRetExt (s113 freeze, hp017 fragmento 2 — verifiqué que las 7 columnas son
+    distintas entre sí, no hay duplicado OCR). La respuesta congelada reproduce AMBOS fielmente (''Hay
+    6 tipos disponibles [F1]'' + 7 bullets + 7 bloques de comportamiento) sin disclose; s163:192-208 marca
+    los 3 anchors presentes y covered=false por internal_cardinality_contradiction. El defecto real de
+    la respuesta no es el número: es resolver/reproducir en silencio un conflicto documental. Resolver
+    a 6 (soltar un tipo) sería peligroso; resolver a 7 en la frase citada tergiversaría la prosa citada.
+    La conducta correcta es disclose — que es exactamente lo que el propio packet exige para conflictos
+    (''disclose rather than resolve conflicting source values'', s243:172). Este caso es de la MISMA clase
+    que el conflicto ya registrado conf_26f63590494f (menú ''7: Causa y Efecto'' en p45 vs ''8:Causa y
+    Efecto'' en p15, mismo PDF, s235:391-424): debería registrarse como document_value_conflict, no puntuarse
+    como synthesis-miss del mecanismo. Caveat de instrumento: el scorer detecta count-vs-members; hay
+    que verificar que una frase de disclosure (''la prosa dice seis, la tabla recoge siete'') no dispare
+    igualmente el detector de contradicción.'
+  would_technician_need_it: depende — lo que el técnico necesita es la lista completa de tipos + comportamientos
+    (la respuesta YA da los 7) y el disclose de que la prosa del manual dice 'seis' mientras su tabla
+    lista siete, para no sospechar que falta un tipo; el conteo desnudo no es operativo.
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s163_synthesis_residual_audit_v1.json
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+- obligation_id: obl_b2043cd4379b
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'La pregunta es literalmente ''¿Cómo se programa...?'' y el retardo es un CAMPO de una regla
+    causa-efecto: el paso de construir la regla es la espina del procedimiento. La fuente F12 (p41, A5.1)
+    define verbatim ''Instrucción de entrada: esta parte de la regla es una condición de entrada, como
+    una alarma, una avería...'' (s235:295-308). La respuesta congelada salta de ''accede al menú'' a ''selecciona
+    el tipo de retardo dentro de cada regla'' sin explicar jamás qué compone una regla — probe léxico:
+    ''instruccion de entrada''/''condicion de entrada''/''regla consta'' ausentes, y en lectura completa
+    no hay paráfrasis (miss real, NO instrument-FN; s163:210-225 missing_required_anchors = los 2). El
+    gold v1 marca EXACTAMENTE este hecho como tipo:core (gold_answers_v1.yaml:1922-1926, cita p42). El
+    dato s156 (fable y sol one-shot también lo omiten) indica que un QA genérico lo suelta — pero un técnico
+    de campo que nunca ha programado una regla en la Pearl no puede completar el procedimiento sin saber
+    que una regla = condición de entrada + acción de salida: es el hueco entre abrir el editor y elegir
+    el tipo de retardo.'
+  would_technician_need_it: 'sí — sin el esquema de la regla el procedimiento tiene un agujero: el retardo
+    solo existe dentro de una regla que el técnico tiene que construir, y la mitad de entrada define CUÁNDO
+    se dispara lo retardado.'
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s163_synthesis_residual_audit_v1.json
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/gold_answers_v1.yaml
+  - evals/s156_frontier_synthesis_ceiling_v1.json
+- obligation_id: obl_7aa723717412
+  verdict: CORE-REQUIRED
+  confidence: media
+  rationale: 'La instrucción de salida es donde vive la ''salida de alarma'' por la que pregunta hp017:
+    ''La salida se refiere al accionamiento de uno o más equipos asignados, como sirenas o relés'' + ''solo
+    puede procesarse cuando se cumplen todas las condiciones de entrada'' (F12, s235:310-324). La respuesta
+    nunca conecta ''regla'' con ''sirenas/relés'' — ni siquiera describe qué hace la Regla 1 por defecto
+    — así que el técnico no sabe que el equipo retardado se ASIGNA en la instrucción de salida (miss real:
+    ''instruccion de salida''/''equipos asignados''/''todas las condiciones'' ausentes, s163:227-243;
+    no es instrument-FN). El mismo hecho core del gold v1 (gold_answers_v1.yaml:1922: regla = instrucción
+    de entrada + instrucción de SALIDA con ''equipo a accionar: sirenas o relés'') lo respalda. Confianza
+    media y no alta porque la obligación empaqueta además el cualificador AND (''todas las condiciones
+    de entrada'', anchor requerido) y la acción de fase secundaria por flag lógico: el kernel (salida
+    = equipos asignados) es core para ESTA pregunta; el cualificador AND es exigible sobre todo en reglas
+    multi-entrada/coincidencia — una respuesta técnicamente suficiente podría fallar ese anchor. Demote
+    parcial del cualificador (no del kernel) sería defendible si se re-atomiza.'
+  would_technician_need_it: sí para el kernel (a qué equipos actúa la regla = dónde vive la salida retardada);
+    depende para el cualificador AND (necesario en reglas de coincidencia/multi-entrada, que son justo
+    el caso de retardo de confirmación).
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s163_synthesis_residual_audit_v1.json
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/gold_answers_v1.yaml
+- obligation_id: obl_16637b935bd4
+  verdict: CORE-REQUIRED
+  confidence: media
+  rationale: 'Warning explícito en negrita del bloque citado (F12, p41): ''Al programar reglas de causa-efecto
+    evite las lógicas contradictorias'' (s235:326-339). En una central de incendios, la lógica contradictoria
+    entre reglas puede anular en silencio el retardo programado o el comportamiento de alarma — la propia
+    respuesta ordena borrar las reglas por defecto (una Regla 1 residual ''cualquier alarma → todas las
+    sirenas'' pisa una regla retardada) pero nunca generaliza el peligro. Ausente por completo de la respuesta
+    (''contradictor'' 0 hits; s163:245-260). Es la clase mandatory_safety del propio taxonomy (s243:130-138)
+    y el caso exacto de la rúbrica: un QA genérico lo omite (s156: fable y sol lo omitieron), un técnico
+    PCI lo necesita porque el modo de fallo es silencioso y de seguridad. Confianza media, no alta, por
+    un caveat honesto de cardinalidad: es merge-candidate con obl_0d6a30948dfd — ambos salen del MISMO
+    bloque de warning y el statement de 0d6a ya incluye ''verificar que no haya conflictos lógicos entre
+    ellas''; el contenido es exigible UNA vez (diseño + verificación), pero contarlo como 2 misses infla
+    el residual. Nota: en el gold v1 los warnings viven en la prosa (paso 5) y NO como atomic_fact propio
+    — su estatus de obligación viene del claim-set derivado de fragmentos (facet served_technical), no
+    del gold.'
+  would_technician_need_it: 'sí — hazard real en diseño: reglas en conflicto anulan el retardo o la alarma
+    sin síntoma visible hasta un incendio real; es la advertencia que evita construir el conflicto.'
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s163_synthesis_residual_audit_v1.json
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/s243_synthesis_miss_causal_taxonomy_v1.yaml
+  - evals/gold_answers_v1.yaml
+- obligation_id: obl_0d6a30948dfd
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'Fuente F12 (p41): ''Es de vital importancia probar rigurosamente todas las reglas durante
+    la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas'' (s235:341-354)
+    — el fabricante lo marca ''de vital importancia'' DENTRO del propio procedimiento de programación
+    por el que pregunta hp017, así que no es SCOPE-OUT: el manual acopla la verificación al programar.
+    Ausente por completo de la respuesta (''probar''/''puesta en marcha''/''todas las reglas'' 0 hits;
+    s163:262-278; no instrument-FN). El gold lo incluye en su procedimiento (paso 5, gold_answers_v1.yaml:1901).
+    Para un técnico PCI el test de reglas C&E en puesta en marcha es obligación de oficio, y aquí el retardo
+    cuelga de la salida de alarma PRINCIPAL: un retardo no probado en la sirena principal es riesgo operativo
+    directo (vida). s156 muestra que ambos frontier lo omiten con contexto completo — exactamente el patrón
+    ''QA genérico lo omite / técnico lo necesita'' que la rúbrica define como CORE. Único caveat: comparte
+    bloque con obl_16637b935bd4 (ver esa fila) — el par debería consolidarse en 1 obligación de bloque-warning,
+    pero el contenido de ESTA (verificación en commissioning) es el más fuerte de los dos.'
+  would_technician_need_it: sí — la verificación en puesta en marcha es paso obligado del oficio y el
+    único momento donde se caza el conflicto lógico antes de servicio; omitirla en una respuesta sobre
+    retardo de la alarma principal deja el procedimiento peligrosamente incompleto.
+  evidence_files:
+  - evals/s235_direct_clause_bound_score_packet_v1.json
+  - evals/s163_synthesis_residual_audit_v1.json
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/gold_answers_v1.yaml
+  - evals/s156_frontier_synthesis_ceiling_v1.json
+verification:
+  summary: 'Verificacion adversarial completada leyendo los primarios (s235 score packet, s163 audit,
+    s243 taxonomia, s156 ceiling, s113 full-contexts freeze — fragmentos fuente leidos directamente: cat018
+    F3/F8, hp002 F2/F9, hp011 F13, hp017 F1/F2) + probes lexicos programaticos sobre las 4 respuestas
+    congeladas. RESULTADO: los 12 veredictos SOBREVIVEN la refutacion — acuerdo 12/12, con dos matices
+    sustantivos. (1) Los 3 demotes a SUPPLEMENTARY NO son inflado de KPI: cada uno esta anclado en exigibilidad
+    por-pregunta con anchors verificados (obl_07ee: la pregunta es flujo BAJO y 80%/±20%/300s+direccion
+    >100% estan servidos; obl_1615: el unico atomo perdido es la granularidad de 5 s, irrelevante para
+    el sintoma; obl_015f: TONE es un ejemplo-operador de la misma clase que DEL/SDEL/TIM ya omitidos,
+    con la relacion SND servida aparte via obl_5784) — pero el rationale del analista de obl_015f solo
+    demuestra que el miss es real y nunca argumenta el demote; el argumento lo aporto yo y es el demote
+    mas debil (mantener conf media, decision de Alberto). (2) obl_872c SOURCE-CONFLICT esta VERIFICADO
+    en fuente (prosa ''seis'' p.44 vs tabla con 7 columnas pairwise-distintas, mismo doc/pagina — comprobe
+    los 7 vectores) pero NO esta registrado en el array de conflicts del packet sellado (solo existe el
+    conflicto menu 7-vs-8): es una propuesta de re-spec de la obligacion hacia disclosure (alineada con
+    s243 ''disclose rather than resolve''), que requiere al dueno del gold porque la obligacion autorada
+    ancla ''seis'' y es insatisfacible consistentemente con la enumeracion. El CORE mas borderline es
+    obl_a5d9 (''valores nominales'': todos los umbrales accionables SI estan en la respuesta; lo sostengo
+    como CORE porque define el referente del 100% y el efecto re-baseline del reset, pero un SUPP no seria
+    indefendible). Consistencia entre analistas: buena — marco uniforme de exigibilidad por-pregunta;
+    los 5 veredictos de hp017 son coherentes entre si. Proyeccion si Alberto acepta: 12 residuals → 8
+    CORE-REQUIRED + 3 SUPPLEMENTARY + 1 SOURCE-CONFLICT. Nota corroborante: s156 confirma que estos targets
+    son duros tambien one-shot con contexto completo (Fable 3/13, Sol 2/13 cubiertos).'
+  assessments:
+  - obligation_id: obl_015f9b9aaa3a
+    agree: true
+    final_verdict: SUPPLEMENTARY (conf media)
+    challenge: 'Miss REAL verificado: probes sobre canonical_answer cat018 (s235_direct_clause_bound_score_packet_v1.json:19)
+      dan tono=0, tonos=0, volumen=0, TONE=0; fuente F8 verificada en s113 freeze (chunk 0c6cc5e0, AM-8200-manu-prog-spa
+      p.69, seccion TONE: ''TONOS (10 2 Z2:Z4 (Z10 G20))...sirenas (con tipo software SND)''). MATIZ:
+      el rationale del analista solo demuestra que el miss es real; NO argumenta el demote. El argumento
+      que yo defenderia: la pregunta pide el mecanismo generico evento→salida y la respuesta ya sirve
+      las 3 opciones A/B/C del MISMO F8 + 6 familias de operadores con ejemplos; TONE es un operador mas
+      de la misma clase que DEL/SDEL/TIM/DIS (tambien omitidos y ofrecidos como follow-up), y la relacion
+      SND esta servida por separado via obl_5784f16b1a11 [F11] (cubierta, no residual). Contra-argumento
+      a declarar a Alberto: TONOS es el UNICO atomo servido que liga condicion-de-activacion + alcance-de-zonas
+      + tipo SND (s243 family compound_relation_qualifier_loss, s243:39-48... rows 29-38). Demote defendible
+      pero es el mas debil de los tres.'
+  - obligation_id: obl_7bba8d03d496
+    agree: true
+    final_verdict: CORE-REQUIRED (conf media)
+    challenge: 'Claim estructural del analista VERIFICADA leyendo F3 completo en s113 freeze (chunk 8514e83a,
+      AM-8200-manu-prog-spa p.21): la cabecera ''MENU PROGRAMMAZIONE\Punti\Sensori'' es la primera fila
+      del mock DENTRO de F3, seguida de la fila de pestanas ''Principale | Programmazione | Opzioni |
+      Edit'' y las filas Zona/CBE — el paso 1 de la respuesta y el atomo perdido salen del mismo mock;
+      NO hay ruta alternativa. Probe ''pestana''=0 en la respuesta congelada. Sin el binding a la pestana
+      Programa, un tecnico que aterrice en Principale no encuentra el campo CBE: es la espina de navegacion
+      de un ''como se programa''. Coherente con s243 (structured_bundle_member_loss, rows 39-48) y s163:52-70
+      (missing anchor ''Pestana Programa'').'
+  - obligation_id: obl_b6f6211be439
+    agree: true
+    final_verdict: CORE-REQUIRED (conf alta)
+    challenge: 'Verificado en fuente: s113 freeze chunk 5b6a3a19 (ASD535_TD_T131192es_h p.121, §9.3) —
+      la Indicacion ''es imprescindible bloquearlos o desconectarlos previamente'' encabeza EXACTAMENTE
+      el checklist del que la respuesta saca su paso 5 (bornes 1(+)/2(-) 12,3-13,8/21,6-27,6 V-CC y lectura
+      en posicion V, item 6 del mismo checklist). Probes en canonical_answer hp002 (s235:80): bloquear=0,
+      desconect=0, ''alerta remota''=0, extincion=0, imprescindible=0. La respuesta ordena intervencion
+      fisica (abrir caja, limpiar, sustituir filtro, medir) sin el prerequisito de aislamiento — riesgo
+      real de disparo de zonas de extincion durante mantenimiento. En la vara del tecnico PCI esto es
+      CORE sin discusion (s243 family mandatory_safety_or_verification_omission).'
+  - obligation_id: obl_a5d9fa1f9253
+    agree: true
+    final_verdict: CORE-REQUIRED (conf media) — el CORE mas borderline del set
+    challenge: 'Verificado: ''valores nominales''=0 en la respuesta; los 2 hits de ''nominal'' son tension
+      (12,3-13,8 V-CC), NO flujo — la respuesta usa 100%/80% como numeros pelados (s163:71-89 exacto).
+      Lo defiendo como CORE porque la relacion define QUE es el 100% (valores medidos registrados en el
+      reset inicial, F2 chunk 414ce99c p.28), que es lo que hace coherentes (a) la comparacion con el
+      protocolo de puesta en funcionamiento que la propia respuesta ordena [F9] y (b) la advertencia de
+      reset [F7] — sin el mecanismo, el tecnico no sabe que el reset re-baseliniza el 100% tras la limpieza.
+      MATIZ honesto para Alberto: todos los umbrales accionables SI estan presentes; una propuesta SUPPLEMENTARY
+      no seria indefendible. Es la frontera del criterio ''dato operativo vs glosa''.'
+  - obligation_id: obl_07eee3300535
+    agree: true
+    final_verdict: SUPPLEMENTARY (conf media)
+    challenge: 'Verificado: atomos perdidos ''A11 a C32''=0 y ''120''=0 (probes); presentes 80%, ±20%,
+      300 s (s163:90-110). Para ESTA pregunta (alarma de flujo BAJO) lo exigible esta servido: umbral
+      80%, ventana, retardo, y el diagnostico direccional >100%→rotura esta cubierto cualitativamente
+      via [F9] (verificado en chunk 5b6a3a19: ''aumento superior al 100% implica rotura''). El scope A11-C32
+      queda funcionalmente cubierto por el hedge de configurabilidad de la respuesta (''si la sensibilidad
+      LS-U configurada es ±20% (estandar)'') y el ejemplo ±50% de F9. CAVEAT: el demote es por-pregunta;
+      el guard general de s243 (''preserve configuration scope and both ends of every bounded range'',
+      s243:68) sigue valido como target del mecanismo — no generalizar este demote a que los limites superiores
+      no importan.'
+  - obligation_id: obl_161564ff41bf
+    agree: true
+    final_verdict: SUPPLEMENTARY (conf alta)
+    challenge: 'Verificado: el unico atomo perdido es ''intervalos de 5 seg'' (s163:130-148, probe=0);
+      presentes ''05 a 295 seg'' y ''circuito de extincion'' en el §4 de la respuesta hp011 (s235:161).
+      La respuesta SI transmite lo que el sintoma necesita de F11: el comportamiento ''--'' (guiones)
+      = circuito activo hasta rearme, verbatim. La granularidad de programacion de 5 s no cambia ninguna
+      accion para ''el sistema no vuelve a normal tras resetear''. Demote limpio; sin objecion.'
+  - obligation_id: obl_2f5d79e354b9
+    agree: true
+    final_verdict: CORE-REQUIRED (conf alta)
+    challenge: 'Verificado en fuente: s113 freeze chunk 475a8f18 (HLSI-MN-103_RP1r-Supra_lr p.63, §5.3.5)
+      fila r.i: ''- - Rearme inhibido hasta finalizar extincion o cuando agotado tiempo configurado en
+      parametro t.Fi (t.A → 0 seg.) / 00 permitido (por defecto) / 01-30 inhibido''. La respuesta cubre
+      rI solo como 00/01-30 (probes ''t.fi''=0, ''t.a''=0, ''finalizar extincion''=0); su §4 ''--'' es
+      OTRO parametro (duracion de extincion dr), no r.i. Es el unico hecho servido que explica el sintoma
+      literal: un tecnico siguiendo el §1 de la respuesta encontraria ''--'' en r.i y no sabria interpretarlo.
+      Ademas es el unico selection-stage loss de los 12 (s243:89-98 stage source_fragment_selection_loss;
+      s163:149-169 source_fragment_cited=false) — doblemente no-descartable.'
+  - obligation_id: obl_872c35fb41d7
+    agree: true
+    final_verdict: SOURCE-CONFLICT (conf alta) — proponer a Alberto re-spec como obligacion de DISCLOSURE
+    challenge: 'Claim central VERIFICADA leyendo ambos fragmentos en s113 freeze: F1 (chunk 570d9951,
+      997-671-005-3_Configuration_ES p.44, A5.3) dice ''uno de seis tipos de retardo de salida a una regla'';
+      F2 (chunk 7e34cb72, mismo doc p.44) enumera SIETE columnas — Fijo, Estandar, No Silenc, Est. Ext.,
+      RetExtStd, No Sil. Ext, SinRetExt — y comprobe los 7 vectores de comportamiento fila-a-fila: los
+      7 son pairwise distintos (ninguna colapsa en otra), asi que ''seis'' no es reconciliable con la
+      tabla. La respuesta reproduce la contradiccion (''Hay 6 tipos disponibles [F1]'' + 7 bullets; s163:189-206
+      internal_cardinality_contradiction). MATIZ CRITICO: el packet sellado NO registra este conflicto
+      (s235:389-423 solo tiene conf_26f63590494f, menu 7-vs-8), y la obligacion como esta autorada ancla
+      ''seis'' — es insatisfacible de forma consistente con la enumeracion. El verdict correcto es reclasificar,
+      alineado con s243:172 (''disclose rather than resolve conflicting source values''): la conducta
+      objetivo es DECLARAR la discrepancia 6-declarado vs 7-enumerado, no afirmar seis. Requiere a Alberto
+      (dueno del gold) porque cambia la spec de la obligacion, no solo su peso.'
+  - obligation_id: obl_b2043cd4379b
+    agree: true
+    final_verdict: CORE-REQUIRED (conf media)
+    challenge: 'Verificado: statement F12 en s235:295-307 (''Instruccion de entrada: esta parte de la
+      regla es una condicion de entrada, como una alarma, una averia...''); probes en la respuesta hp017:
+      instruccion=0, ''condicion de entrada''=0 (s163:207-223 relation_omitted, ambos anchors ausentes).
+      La respuesta salta de ''accede al menu'' + ''eliminalas [las reglas por defecto]'' a ''selecciona
+      el tipo de retardo dentro de cada regla'' sin explicar jamas que compone una regla. El contra-argumento
+      (el fabricante recomienda el PC-tool como metodo principal, y la respuesta lo dice [F12]) no salva
+      el demote: la anatomia entrada→salida de la regla aplica igual en el PC-tool, y el retardo ES un
+      campo de esa regla — sin la espina, el procedimiento preguntado (''¿como se programa...?'') es inejecutable.
+      CORE.'
+  - obligation_id: obl_7aa723717412
+    agree: true
+    final_verdict: CORE-REQUIRED (conf media)
+    challenge: 'Verificado: statement F12 en s235:310-324 (''La salida se refiere al accionamiento de
+      uno o mas equipos asignados, como sirenas o reles'' + ''solo puede procesarse cuando se cumplen
+      todas las condiciones de entrada''); probes: ''equipos asignados''=0, ''sirenas o rel''=0, ''regla
+      1''=0, ''condiciones de entrada''=0 (s163:224-241). La pregunta es sobre el retardo de la SALIDA
+      de alarma y la instruccion de salida es donde se asigna el equipo retardado — la respuesta nunca
+      conecta regla↔sirenas/reles ni describe la Regla 1 por defecto que ella misma ordena borrar. Mismo
+      bundle estructural que obl_b2043c (s243 structured_bundle_member_loss); veredicto consistente entre
+      analistas. CORE.'
+  - obligation_id: obl_16637b935bd4
+    agree: true
+    final_verdict: CORE-REQUIRED (conf media)
+    challenge: 'Verificado: warning verbatim en F12 (''Al programar reglas de causa-efecto evite las logicas
+      contradictorias'', s235:326-338); probes: evite=0, contradictor=0 (s163:242-258). El agravante que
+      lo hace CORE y no boilerplate: la propia respuesta ordena eliminar las reglas por defecto y crear
+      reglas personalizadas — exactamente el escenario donde una logica contradictoria entre reglas puede
+      anular en silencio el retardo o el comportamiento de alarma en una central de incendios. Encaja
+      en el guard de s243:137-138 (''never prune explicit warning clauses from an otherwise cited rule
+      block''). En la vara PCI (seguridad importa), warning explicito del fabricante dentro del bloque
+      citado = no-podable.'
+  - obligation_id: obl_0d6a30948dfd
+    agree: true
+    final_verdict: CORE-REQUIRED (conf alta)
+    challenge: 'Verificado: ''Es de vital importancia probar rigurosamente todas las reglas durante la
+      puesta en marcha del sistema para verificar que no haya conflictos logicos entre ellas'' (s235:341-354,
+      F12 p.41); probes: probar=0, ''puesta en marcha''=0, ''todas las reglas''=0 (s163:259-276). El intento
+      de refutacion via SCOPE-OUT no prospera: el fabricante acopla la verificacion AL procedimiento de
+      programacion (mismo bloque del apendice A5 por el que pregunta hp017), con lenguaje de maxima obligatoriedad.
+      s243 family mandatory_safety_or_verification_omission, guard ''preserve explicit verification or
+      commissioning requirements'' (s243:148). CORE.'
+retrieval_misses:
+- obligation_id: cat017#2
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'DEFINICION: claim atomico core ''benchmark_carry.cat017.caed61ef9840cb67e8012577'' — texto:
+    ''Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)'', cita ''HOP-138-9
+    p5 + HOP-138-8 p5 (.bin de licencia)'', tipo=core, stage=retrieval-miss (evals/s118_atomic_benchmark_bridge_v1.json:895).
+    EXISTE VERBATIM EN CORPUS (NO es corpus-gap ni instrument-FN): chunk 5bb83899-9d94-4fdd-8d42-24a670a036c5,
+    doc HOP-138-9ES issue 5_11-2025_In p5, product_model INSPIRE E10, quote inmutable con sha256: ''Admite
+    protocolos de Lazo OPAL y CLIP. Los dispositivos CLIP son compatibles con una licencia y se requiere
+    una licencia para cada circuito de lazo CLIP'' (evals/s114_procedure_bundle_replay_v1.json:301; evals/s126_upstream_residual_audit_v1.json:19-38,
+    served_in_frozen_context=false). El miss es GENUINO: pool_position=null (ni entra al pool-50); la
+    respuesta congelada dice 2x ''CLIP requiere licencia (adicional antes de la Auto Configuracion)''
+    pero OMITE el cuantificador por-circuito-de-lazo, que es exactamente el valor del fact (''licencia
+    CLIP por lazo''). YA INTENTADO: (1) s114 adjudicacion evidence-partial-hold→retrieval-miss con receipt
+    decisivo (evals/s114_partial_evidence_adjudication_v1.yaml:15-31); (2) s114 lane determinista procedure_bundle_coverage_v2
+    (src/rag/procedure_bundle_coverage.py) lo recupera en local — GO_LOCAL_KNOWN_COHORT_SHADOW, 2 rondas
+    adversariales de hardening, pero release=no_go_serving_integration (evals/s114_procedure_bundle_adjudication_v1.yaml);
+    (3) heldout 24 preguntas/12 fabricantes: 0 selecciones = contaminacion PASS pero aplicabilidad INCONCLUSIVE
+    — las reglas solo disparan en los targets conocidos (evals/s114_procedure_bundle_heldout_replay_v1.json:44);
+    (4) s126 replay upstream lo recupera (facet quantified_licensed_loop_prerequisite, expected_recovered=true,
+    evals/s126_structural_upstream_local_replay_v1.json:20-28) pero el gate de independencia = INCONCLUSIVE_NOT_GO
+    con 0 oportunidades quantified-entitlement fuera de target (evals/s126_prerequisite_independent_gate_v1.yaml:2);
+    (5) s174 censo corpus-wide (24.757 chunks no-target): 18 candidatos quantified_entitlement solo Morley/Notifier
+    (evals/s174_prerequisite_corpus_census_v1.json) y la adjudicacion ciega = NO_GO — 3 true-positives
+    TODOS Notifier, falla el umbral >=2 fabricantes: ''quantified entitlement language did not generalize
+    across the required manufacturer count'' (evals/s174_prerequisite_blind_adjudication_v1.json, gate.checks.quantified_entitlement_manufacturers=false);
+    (6) s188 convirtio el par hermano cat013 via bundle de compatibilidad y DEPRIORIZO explicitamente
+    estos 2 como residual (evals/s188_compatibility_topology_completion_gate_v1.yaml release_boundary.next).
+    CONVERSION (mecanismo candidato + riesgo): (a) lane prerequisite ya construida, determinista, $0 modelo,
+    ~145ms — pero su facet es Notifier-only en el corpus → autorizarla seria facet manufacturer-scoped
+    = exactamente la clase de riesgo ''named-protocol/vendor hard-coding'' que la review s114 rechazo;
+    overfit per-fact confirmado por heldout 0/24; (b) hyq YA GENERADA para este chunk exacto: ''¿Que protocolos
+    de lazo soporta la Notifier INSPIRE E10 y necesito alguna licencia para usarlos?'' (evals/s99_hyq_generated.jsonl)
+    → canal hyq/DEC-099 es el puente de vocabulario estructural, pero su carga a escala quedo en rollback
+    pendiente de cuota (DEC-102) y el pairing con ESTA query no esta medido; (c) statu quo: PLAN_RAG_2026.md:37
+    y s161_reconciled_funnel_projection_v1.yaml:39 mantienen sintesis (12) antes que retrieval (2). Cualquier
+    conversion da credito diagnostico, no oficial (official_fact_delta=0 con flags off).'
+  would_technician_need_it: 'SI. La pregunta es cablear + dar de alta un lazo en INSPIRE E10/E15 (centrales
+    con modulo de DOBLE lazo HOP-433-100). La respuesta congelada ya dice ''CLIP requiere licencia adicional'',
+    pero sin el cuantificador POR CIRCUITO DE LAZO un tecnico que comisiona CLIP en el segundo lazo asume
+    que la licencia de panel cubre ambos y la puesta en marcha falla / se queda corto en el pedido. El
+    gold y la fuente cuantifican explicitamente (''una por cada circuito de lazo CLIP'') y el claim esta
+    marcado tipo=core en el bridge atomico. Matiz honesto: el bloqueador operativo principal (''necesitas
+    licencia CLIP'') SI esta servido; lo no-servido es la cardinalidad — core para multi-lazo, marginal
+    si el tecnico solo toca 1 lazo.'
+  evidence_files:
+  - evals/s118_atomic_benchmark_bridge_v1.json
+  - evals/s114_partial_evidence_adjudication_v1.yaml
+  - evals/s114_procedure_bundle_adjudication_v1.yaml
+  - evals/s114_procedure_bundle_replay_v1.json
+  - evals/s114_procedure_bundle_heldout_replay_v1.json
+  - evals/s126_upstream_residual_audit_v1.json
+  - evals/s126_structural_upstream_local_replay_v1.json
+  - evals/s126_prerequisite_independent_gate_v1.yaml
+  - evals/s174_prerequisite_corpus_census_v1.json
+  - evals/s174_prerequisite_blind_adjudication_v1.json
+  - evals/s188_compatibility_topology_completion_gate_v1.yaml
+  - evals/s129_current_state_reconciliation_v1.yaml
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/s99_hyq_generated.jsonl
+  - evals/gold_answers_v1.yaml
+- obligation_id: hp010#1
+  verdict: CORE-REQUIRED
+  confidence: alta
+  rationale: 'DEFINICION: claim atomico core ''benchmark_carry.hp010.3b4d6e04130f4e6616d87725'' — texto:
+    ''Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria; en el menu de Lazos
+    pulsar la tecla 2 para Autobusqueda...'', cita ''DXc-config p48 + p29/p37'', tipo=core, stage=retrieval-miss
+    (evals/s118_atomic_benchmark_bridge_v1.json:1983). Es un MISS PARCIAL multi-span dentro del MISMO
+    manual: el span de autobusqueda SI se sirve (chunk 64cecd3f-204f-456e-91cc-e563280b1b99, DXc_Manual
+    de configuracion p48, final_context_position=1) pero el prerequisito de acceso NO (chunk 155a90fe-8c3f-484e-a617-7637fe29b547,
+    p37, pool_position=null): ''The procedure is split inside the same manual. Retrieval serves the autobusqueda
+    span but misses the access/unlock prerequisite'' (evals/s114_partial_evidence_adjudication_v1.yaml:53-71).
+    EXISTE VERBATIM EN CORPUS (NO corpus-gap, NO instrument-FN): quote inmutable ''introduzca la clave
+    de acceso de Nivel 3... Memoria Bloqueada / Presione OK para desbloquear... Pulse de nuevo para desbloquear
+    la memoria'' (evals/s114_procedure_bundle_replay_v1.json:726; evals/s126_upstream_residual_audit_v1.json:40-59,
+    served_in_frozen_context=false). La respuesta congelada da instruccion de acceso INSUFICIENTE/desviada:
+    ''Accede al Nivel 2 introduciendo la clave (por defecto 1234)'' y solo menciona Nivel 3 de pasada
+    — sin clave Nivel 3 ni desbloqueo de memoria (evals/s113_full_contexts_freeze_v1.json, baseline_answer
+    hp010). YA INTENTADO: misma cadena que cat017#2 (s114 lane shadow GO-local/NO-GO-integracion; heldout
+    0 selecciones = aplicabilidad inconclusa; s126 replay lo recupera con facet procedural_access_prerequisite,
+    evals/s126_structural_upstream_local_replay_v1.json:32-40; gate s126 INCONCLUSIVE_NOT_GO). DIFERENCIA
+    CLAVE vs cat017#2: en la adjudicacion ciega s174 el facet access_prerequisite SI PASO sus propios
+    umbrales de independencia — 8 true-positives en 7 fabricantes (Aritech, Detnov, Kidde, LDA audioTech,
+    Morley, Notifier, Spectrex; umbral >=3 TPs / >=3 fabricantes) — el NO_GO global vino del facet hermano
+    quantified_entitlement (evals/s174_prerequisite_blind_adjudication_v1.json summary+gate). CONVERSION
+    (mecanismo + riesgo): es el mas barato-creible de los dos — re-scope del gate s174 POR FACET (access_prerequisite
+    paso solo) → validacion runtime frontier → cascada default-off estilo s188; determinista, $0 modelo/query,
+    receipts inmutables. Riesgos: (1) reabrir un gate conjunto por-facet debe ser decision explicita (si
+    no, es gate-shopping); (2) mantener la exclusion de la clase FP ''administrative RMA/commercial authorization''
+    (1 FP de scanner cazado en s126/s174); (3) credito solo diagnostico mientras flag off. Alternativa:
+    hyq YA GENERADA para el chunk exacto: ''¿Como se accede al nivel 3 de programacion en la central DXc...?''
+    (evals/s99_hyq_generated.jsonl) — canal DEC-099, misma dependencia de la cuota/re-carga (DEC-102).'
+  would_technician_need_it: 'SI, sin ambiguedad. La pregunta es como añadir un detector al lazo tras la
+    puesta en marcha; sin clave de Nivel 3 + desbloqueo de memoria el tecnico NO PUEDE ejecutar la autobusqueda
+    — es el prerequisito gating de todo el procedimiento. Peor: la respuesta congelada le dice ''Nivel
+    2, clave por defecto 1234'', que en campo se traduce en quedarse bloqueado delante de la central (o
+    en confusion de niveles de acceso). Dato operativo y de acceso critico, marcado tipo=core.'
+  evidence_files:
+  - evals/s118_atomic_benchmark_bridge_v1.json
+  - evals/s114_partial_evidence_adjudication_v1.yaml
+  - evals/s114_procedure_bundle_adjudication_v1.yaml
+  - evals/s114_procedure_bundle_replay_v1.json
+  - evals/s114_procedure_bundle_heldout_replay_v1.json
+  - evals/s126_upstream_residual_audit_v1.json
+  - evals/s126_structural_upstream_local_replay_v1.json
+  - evals/s126_prerequisite_independent_gate_v1.yaml
+  - evals/s174_prerequisite_blind_adjudication_v1.json
+  - evals/s188_compatibility_topology_completion_gate_v1.yaml
+  - evals/s129_current_state_reconciliation_v1.yaml
+  - evals/s113_full_contexts_freeze_v1.json
+  - evals/s99_hyq_generated.jsonl
+  - evals/gold_answers_v1.yaml
+retrieval_notes: 'Trabajo SOLO-LECTURA sobre C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-OneDrive---fontiber-com-Documents-Claude-Technical-Bot/c0392aba-028b-45f2-9a7e-f57789ce111d/scratchpad/main-ro
+  (origin/main@705fa5a); rutas de evidencia relativas a esa raiz. CADENA DEL BUCKET: los 4 retrieval-miss
+  de s133/s153/s161/s163 eran cat013#0, cat013#1, cat017#2, hp010#1 (evals/s129_current_state_reconciliation_v1.yaml:99-103).
+  S188 convirtio el par cat013 via bundle de compatibilidad governed (flag COMPATIBILITY_BUNDLE_COVERAGE
+  default-off) → funnel candidato 143 OK / 12 synth / 2 retrieval (evals/s188_compatibility_answer_cascade_v1.json:85-93;
+  docs/PLAN_RAG_2026.md:28-35 lo confirma como la foto vigente). El residual 2 = exactamente cat017#2
+  + hp010#1 (s129:125-127). AMBOS hechos estan pixel-verificados VERBATIM en corpus con chunk_id + document_id
+  + sha256 + quote inmutable → feedback_corpus_gap se confirma otra vez: cero corpus-gap real; y tampoco
+  son instrument-FN (el instrumento s114 ya corrigio el falso ''evidence-partial''). MECANISMO YA CONSTRUIDO
+  Y APARCADO: src/rag/procedure_bundle_coverage.py (lane determinista shadow, $0 modelo, ~145ms, receipts
+  inmutables) recupera AMBOS chunks decisivos en local; bloqueado en release por generalizacion: heldout
+  0 selecciones (overfit a los targets) + s174 blind adjudication NO_GO — pero OJO: el NO_GO de s174 es
+  ASIMETRICO: el facet de hp010 (access_prerequisite) PASO sus umbrales (8 TPs / 7 fabricantes) y el de
+  cat017 (quantified_entitlement) fallo (3 TPs, todos Notifier — lenguaje de licenciamiento probablemente
+  especifico de Notifier en este corpus). Implicacion de coste: hp010#1 es convertible con re-scope per-facet
+  del gate s174 + validacion runtime + cascada default-off estilo s188 (~$0 API, riesgo gate-shopping/FPs
+  administrativos); cat017#2 no tiene camino de mecanismo generalizable con la evidencia actual (facet
+  single-manufacturer) — sus vias son hyq (fila ya generada para el chunk exacto en evals/s99_hyq_generated.jsonl;
+  canal DEC-099 pendiente de cuota/re-carga DEC-102, pairing query-hyq no medido) o aceptarlo como residual.
+  SECUENCIA VIGENTE: s161:34-39, s188 release_boundary.next y PLAN_RAG_2026.md:37 dicen explicitamente
+  tratar estos 2 como residual y atacar los 12 synthesis-miss primero. Todo credito de conversion seria
+  diagnostico (official_fact_delta=0 con flags off). Nota de trazabilidad: DECISIONS.md salta DEC-102(s104)→DEC-103(s194);
+  las sesiones s105-s193 solo tienen traza en artefactos evals/s1xx_* (no hay DEC por sesion), por eso
+  los veredictos citan artefactos, no DECs.'
+instrument_audit_notes: 'INSTRUMENTO (tarea 1): 100% determinista, 0 llamadas a modelo (s163 cost.model_calls=0).
+  Dos capas: (a) anchors de reporting via substring tras NFKD-fold+casefold+compactar espacios (scripts/s163_audit_synthesis_residuals.py:52-73;
+  único alias seis/six/6); (b) el verdict ''covered'' via validate_answer_plan -> obligation_covered ->
+  _s141_relational_obligation_covered (src/rag/answer_planner.py:2410-2420, 2350-2407, 2062-2148): conjunción
+  de regexes por-kind dentro de ventanas de 900 chars, con alternantes es/en y stems morfológicos (activ\w*,
+  bloqu\w*|isolat\w*, etc.); option_family_cardinality añade un check declarado-vs-enumerado (2037-2059)
+  que cuenta bullets solo en los 1200 chars tras la declaración — sensible a formato. TAREA 4: NO hay
+  juez LLM en estos verdicts; la parafrasis se acepta solo dentro de las variantes enumeradas en el regex
+  (p.ej. ''tipo-SW SND'' NO matchearía el patrón ''tipo software snd''), pero en los 12 rows verificados
+  contra el texto completo de las respuestas ese gap NO flipea ningún verdict: los 11 hechos ausentes
+  lo están en CUALQUIER formulación (verificado a mano fact por fact), y el 12º (872c) falla por consistencia,
+  no por presencia. TAREA 3 (estabilidad): respuestas congeladas = 1 generación (S113/S133, guided). Réplicas:
+  s235/s240/s241 murieron pre-score (closeouts NO_GO_PLANNER_CONTRACT_NOT_SCORE / NO_GO_WRITER_CONTRACT_NOT_SCORE
+  / HOLD_ONE_LOCAL_LENGTH_REJECTION_NOT_SCORE); la única replicación completa es s242 (2 réplicas baseline
+  + 2 treatment por qid, mismo scorer). Inestabilidad baseline cuantificada (evals/s242_direct_clause_bound_ab_result_v1.json):
+  3/4 qids cambian el covered-set vs canónico — cat018 canónico cubre obl_5784f16b1a11 pero AMBAS réplicas
+  baseline cubren 0; hp011 canónico cubre obl_05482a6b3f0e (el hecho reclasificado a OK en s163) pero
+  ambas réplicas cubren 0; hp017 canónico cubre 0 (+conflicto unsafe conf_26f63590494f en las 4 generaciones)
+  pero las réplicas cubren {e265a4c97a31} y {872c35fb41d7,e265a4c97a31}; hp002 estable. Sobre los 12 residuales:
+  12x2=24 oportunidades en réplicas baseline frescas, 1 hit (872c, 1/2) => 11/12 misses son estables entre
+  canónico + 2 réplicas; PERO la cobertura de los hechos OK no es estable (3 protected_regression_ids
+  en s242) => la foto 143/12 es propiedad de UNA muestra congelada con swing documentado de ±1-2 hechos
+  por qid. SATISFABILIDAD de anchors (contra ''contrato imposible''): 4 de los 12 kinds fueron cubiertos
+  por ALGUNA generación bajo el MISMO instrumento — initial_reference_calibration (Fable s156 + treatment
+  réplica 2 s242), bounded_fault_window y maintenance_isolation_prerequisite (Sol s156), option_family_cardinality
+  (Fable s156 + baseline réplica 2 s242) — evals/s156_frontier_synthesis_ceiling_v1.json. Resumen: 11
+  CORE-REQUIRED (anchor justo; verificado que la respuesta NO transmite el hecho con otras palabras) +
+  1 SOURCE-CONFLICT (872c: fuente F1 ''seis'' vs tabla F2 con 7 columnas ''Tipos de retardo''; check de
+  formato inestable entre réplicas). 0 INSTRUMENT-FN.'

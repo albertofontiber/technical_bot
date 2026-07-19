@@ -41,6 +41,7 @@ from .post_rerank_coverage import (
     is_validated_coverage_chunk,
 )
 from .evidence_derivation import apply_evidence_derivations_with_trace
+from .must_preserve import apply_must_preserve_contract
 from .visual_assets import append_cited_visual_assets
 
 logger = logging.getLogger(__name__)
@@ -755,6 +756,24 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         plan=enforced_plan if planner_mode == "enforced" else guided_plan,
         conflicts=enforced_conflicts,
     )
+
+    # S269 Track 2 (MUST_PRESERVE_CONTRACT, default-off): contrato de átomos
+    # must-preserve con render por postcondición sobre los fragmentos SERVIDOS
+    # (detect → bind [fragmento citado + claim ancla tocado] → attest identidad
+    # por catálogo → anexo verbatim con cita). Fail-open TOTAL: cualquier
+    # excepción deja la respuesta intacta; con flag off es un passthrough
+    # byte-idéntico (diseño evals/s269_synthesis_portfolio_design_v1.md §1).
+    must_preserve_trace = None
+    try:
+        answer, must_preserve_trace = apply_must_preserve_contract(
+            query, relevant_chunks, answer
+        )
+    except Exception as exc:
+        logger.warning(
+            f"must_preserve fail-open ({exc}) — respuesta intacta"
+        )
+        must_preserve_trace = None
+
     result = {
         "answer": answer,
         "diagrams": diagrams[:3],
@@ -771,11 +790,14 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         if enforced_cache_identity is not None:
             answer_planner["cache_identity"] = enforced_cache_identity
         result["answer_planner"] = answer_planner
+    if must_preserve_trace is not None:
+        result["must_preserve"] = must_preserve_trace
 
     # S269 (flag default off — con off este bloque no ejecuta NADA): adjunta
     # hasta 2 activos 'useful' del registro document_visual_assets para las
-    # páginas de los fragmentos CITADOS en la respuesta. Falla abierta doble
-    # (aquí y dentro del helper): una excepción jamás toca la respuesta.
+    # páginas de los fragmentos CITADOS en la respuesta. Corre DESPUÉS del
+    # contrato must-preserve para ver las citas ya enriquecidas. Falla abierta
+    # doble (aquí y dentro del helper): una excepción jamás toca la respuesta.
     if VISUAL_ASSETS_REGISTRY:
         try:
             append_cited_visual_assets(result, relevant_chunks)

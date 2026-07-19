@@ -1,0 +1,224 @@
+schema: s269_stage1_v3_gate_v1
+created_utc: '2026-07-19T00:07:55+00:00'
+spec_ref: evals/s269_stage1_v3_mutation_spec_v1.md
+prereg_sha256: 5c99859534d91e097997830c473d38da95e4fafde5dc9a4fb2bccac0707611d8
+freeze_verified:
+  must_preserve_sha256: 2b158abf4ff4b801725962a32b30f9c0460886482e4b7e847fcb98fc7f25fc28
+  harness_sha256: 5e93ee6d77f10533a1ca50a6dc4c90232c21158943c619ea297fead3021e7876
+  templates_sha256: cf241fdf722c18bcc8622e2ebe05d81aa8059695b04f800260a489ded2f8523e
+  cohort_sha256: babd30053ddcfcb35d3c63107e810f731f936496870bcd527aee8ded1db1167c
+gates_source: prereg (única fuente; espejo anti-tamper verificado)
+gates:
+  mutation_recall_min_per_family: 0.8
+  clean_noise_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  scoring: por MUTACIÓN individual (átomo), no booleano de familia (C1); cobertura = filas puntuables
+    / filas generadas; las filas no puntuables se listan en el gate
+arms:
+  det_only:
+    rows_total: 434
+    coverage:
+      value: 0.9217
+      gate: '>= 0.9'
+      unpuntuable_rows:
+      - key: 032679ce-7a94-477a-88fd-8d6542903bff|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 07bd55fe-6432-4d60-becb-f770cc95d427|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 168bd113-cc2a-438d-8311-e6cb0c4cce4f|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 1a4acc77-59d4-4dd0-8d6b-c848364b57ed|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 1b426eff-57ea-458b-9963-6d950c526df8|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 1f8a62f7-1943-4ba9-a265-bd46c0348d06|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 2084d88f-8f01-4866-8143-96bd103446de|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 2a551152-31f4-4df1-bc75-42d27d49489e|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 443dbe03-4c71-464e-922b-911ad859ceb9|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 53194e67-dfaa-4ae6-b2b9-072c7c7bed32|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 5486d986-0a4c-4772-bad0-143f9b3e5f93|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 57c436ee-c18b-4bea-94f4-19c922ddb84f|mutation|drop_header|v0
+        reason: collision_guard:alimentacion
+      - key: 57c436ee-c18b-4bea-94f4-19c922ddb84f|mutation|drop_header|v1
+        reason: collision_guard:alimentacion
+      - key: 63c42d64-b96c-44bd-b99c-e89e1fc1a3dd|mutation|drop_header|v0
+        reason: collision_guard:prueba
+      - key: 63c42d64-b96c-44bd-b99c-e89e1fc1a3dd|mutation|drop_header|v1
+        reason: collision_guard:prueba
+      - key: 9c6fc7f5-5357-41fe-aa97-d6e4a7dfde19|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 9fe23a6a-d6c5-4ef4-81c5-91e83a1b511e|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: a96714c3-93a3-4549-b4dd-77aae3ef5256|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: e246d999-3be4-49d3-bf3b-bb95d4031a51|mutation|drop_member|v0
+        reason: collision_guard:en54
+      - key: e246d999-3be4-49d3-bf3b-bb95d4031a51|mutation|drop_member|v1
+        reason: collision_guard:en54
+      - key: 2813670b-98a7-4b94-a251-176ad80cd2b8|mutation|drop_enumeration|v0
+        reason: collision_guard:1
+      - key: 2813670b-98a7-4b94-a251-176ad80cd2b8|mutation|drop_enumeration|v1
+        reason: collision_guard:1
+      - key: 6cb0e77a-8bef-4be9-ac87-4153371cfca3|mutation|drop_enumeration|v0
+        reason: collision_guard:1
+      - key: 6cb0e77a-8bef-4be9-ac87-4153371cfca3|mutation|drop_enumeration|v1
+        reason: collision_guard:1
+      - key: 1bd28b33-4f8e-4f51-a1d2-f8cb5691b89f|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 1f377a98-7ac0-4c2c-af16-5400e05f0035|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 28e74443-437a-4fde-9286-951944b72776|mutation|drop_clause|v0
+        reason: collision_guard:en
+      - key: 28e74443-437a-4fde-9286-951944b72776|mutation|drop_clause|v1
+        reason: collision_guard:en
+      - key: 6fde200c-e105-4ee3-bda1-a929e4d55dd1|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: dc1969dd-dfd2-496b-9348-c7510f5380bd|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: ec7e2109-d2b5-4785-8e4a-e567b56127d9|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: ed4a9f02-a8cd-470d-9c68-de11bd30f0be|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 7f080048-debc-4239-861d-eb2a9506b966|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 7f080048-debc-4239-861d-eb2a9506b966|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      verdict: GO
+    per_family:
+      F-RANGE:
+        mutation_rows_puntuables: 90
+        detected: 90
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_upper:
+            puntuable: 46
+            detected: 46
+          drop_unit:
+            puntuable: 44
+            detected: 44
+        missed_keys: []
+        verdict: GO
+      F-BUNDLE:
+        mutation_rows_puntuables: 36
+        detected: 30
+        mutation_recall: 0.8333
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_member:
+            puntuable: 28
+            detected: 22
+          drop_header:
+            puntuable: 8
+            detected: 8
+        missed_keys:
+        - 0865cdf3-3837-4867-b8ac-4cfb6e990104|mutation|drop_member|v0
+        - 0865cdf3-3837-4867-b8ac-4cfb6e990104|mutation|drop_member|v1
+        - 0c7f1f1d-cf78-4a4f-abce-ebf22c1e790f|mutation|drop_member|v0
+        - 0c7f1f1d-cf78-4a4f-abce-ebf22c1e790f|mutation|drop_member|v1
+        - 5c58a029-be6f-4c3b-b65c-00db0df18e1e|mutation|drop_member|v0
+        - 5c58a029-be6f-4c3b-b65c-00db0df18e1e|mutation|drop_member|v1
+        verdict: GO
+      F-MANDATORY:
+        mutation_rows_puntuables: 46
+        detected: 38
+        mutation_recall: 0.8261
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_clause:
+            puntuable: 46
+            detected: 38
+        missed_keys:
+        - 04e5a43c-0a0f-4fa1-82ee-a02ef98671eb|mutation|drop_clause|v0
+        - 04e5a43c-0a0f-4fa1-82ee-a02ef98671eb|mutation|drop_clause|v1
+        - 3b3375a8-1fee-451e-9a53-11fd3f67343c|mutation|drop_clause|v0
+        - 3b3375a8-1fee-451e-9a53-11fd3f67343c|mutation|drop_clause|v1
+        - ce6403bc-5eab-47da-9234-e720dd7633ab|mutation|drop_clause|v0
+        - ce6403bc-5eab-47da-9234-e720dd7633ab|mutation|drop_clause|v1
+        - d9ef2a40-8e90-4155-8d69-45c792bed101|mutation|drop_clause|v0
+        - d9ef2a40-8e90-4155-8d69-45c792bed101|mutation|drop_clause|v1
+        verdict: GO
+      F-COUNT:
+        mutation_rows_puntuables: 32
+        detected: 32
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          alter_count:
+            puntuable: 18
+            detected: 18
+          drop_enumeration:
+            puntuable: 14
+            detected: 14
+        missed_keys: []
+        verdict: GO
+    clean_noise:
+      rows: 158
+      fp_count: 36
+      gate: <= 0
+      fp_keys:
+      - 15ffc8bf-4368-47a0-b9ff-17415f73a56e|clean|v0
+      - 15ffc8bf-4368-47a0-b9ff-17415f73a56e|clean|v1
+      - 4713176a-f554-4820-a642-fa00991c5842|clean|v0
+      - 4713176a-f554-4820-a642-fa00991c5842|clean|v1
+      - 56e1373a-7b19-463d-89ef-c70e2d95c255|clean|v0
+      - 56e1373a-7b19-463d-89ef-c70e2d95c255|clean|v1
+      - 5808624d-1eb7-413c-a853-aa098ccc2ab4|clean|v0
+      - 5808624d-1eb7-413c-a853-aa098ccc2ab4|clean|v1
+      - 65943e0e-1e12-41bf-8f50-bfd2e41f423f|clean|v0
+      - 65943e0e-1e12-41bf-8f50-bfd2e41f423f|clean|v1
+      - a071d0d9-05f6-402d-af66-c633991fd3b4|clean|v0
+      - a071d0d9-05f6-402d-af66-c633991fd3b4|clean|v1
+      - 00c4f1b6-2124-4b6e-b28d-a2f8135ef45f|clean|v0
+      - 00c4f1b6-2124-4b6e-b28d-a2f8135ef45f|clean|v1
+      - 1c7a269a-ab59-4916-b824-d1ac1dacbe51|clean|v0
+      - 1c7a269a-ab59-4916-b824-d1ac1dacbe51|clean|v1
+      - 268fcdd5-4280-4ad3-a244-a9541262417a|clean|v0
+      - 268fcdd5-4280-4ad3-a244-a9541262417a|clean|v1
+      - 27438711-b6b5-4876-88a0-a17fb588f73b|clean|v0
+      - 27438711-b6b5-4876-88a0-a17fb588f73b|clean|v1
+      - 4526463f-7441-4ce6-a611-c12a41b553be|clean|v0
+      - 4526463f-7441-4ce6-a611-c12a41b553be|clean|v1
+      - 6f1e7e20-8066-458a-80f6-d0cc535308df|clean|v0
+      - 6f1e7e20-8066-458a-80f6-d0cc535308df|clean|v1
+      - 76b78553-3737-494f-8b9a-aa35ff8ec08a|clean|v0
+      - 76b78553-3737-494f-8b9a-aa35ff8ec08a|clean|v1
+      - 923fcf4f-5582-4009-afbc-43d711f6dc82|clean|v0
+      - 923fcf4f-5582-4009-afbc-43d711f6dc82|clean|v1
+      - aeace8a2-cee5-44ea-a8a2-5666794e57ea|clean|v0
+      - aeace8a2-cee5-44ea-a8a2-5666794e57ea|clean|v1
+      - d6592069-3632-4553-9c81-7dbe533f8ab2|clean|v0
+      - d6592069-3632-4553-9c81-7dbe533f8ab2|clean|v1
+      - e7cbf0ef-b986-47b5-9e68-0daada1175d8|clean|v0
+      - e7cbf0ef-b986-47b5-9e68-0daada1175d8|clean|v1
+      - fa04c635-d7f2-4ed8-8256-5df55405504c|clean|v0
+      - fa04c635-d7f2-4ed8-8256-5df55405504c|clean|v1
+      verdict: NO_GO
+    cross_binding:
+      rows: 30
+      fp_count: 0
+      gate: <= 0
+      fp_keys: []
+      verdict: GO
+    attestation_block:
+      rows: 8
+      appends: 0
+      positive_and_block_controls_ok: true
+      gate: <= 0 (y controles OK)
+      verdict: GO
+    overall_verdict: NO_GO
+    results_path: evals/s269_stage1_v3_results_det.jsonl
+    results_sha256: 400d90caca57dacb37695a8a761560bdd22bc65b4c17504ad3b43c1b1d91a830
+  hybrid:
+    overall_verdict: NOT_RUN
+    rows_total: 0
+next_step_if_go: Etapa 2 SOLO tras adjudicación formal de Alberto de la reapertura s222/s223 (diseño §1
+  Etapa 2, dúo C1/F2) — probe único a los 4 targets, gate tipo DEC-112, K=3, control same-model

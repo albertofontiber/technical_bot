@@ -1,0 +1,122 @@
+schema: s269_stage1_gate_v1
+created_utc: '2026-07-18T23:11:14+00:00'
+detector_module: src/rag/must_preserve.py
+cohort_sha256: a866afa1ac03c8ac1d0268902eaf5d6f17bdb5d5ad424be8ae830d230a40f4e3
+labels_sha256: 87f7de6c43339ddbd7d7378918daa9ae219c6985c2c0e7ddffc43bf2f70b1874
+prereg_sha256: 3addaec23066f3d72c0dfd058c46052e0e93864854daa5d990bba979f23c4cd5
+population:
+  cohort_rows: 108
+  gold_rows: 108
+  discarded_rows: 0
+  unlabeled_rows: 0
+per_family:
+  F-RANGE:
+    tp: 28
+    fp: 3
+    fn: 27
+    tn: 50
+    gold_positives: 55
+    recall: 0.5091
+    precision: 0.9032
+    recall_gate: '>= 0.8'
+    precision_gate: '>= 0.95'
+    verdict: NO_GO
+  F-BUNDLE:
+    tp: 30
+    fp: 19
+    fn: 40
+    tn: 19
+    gold_positives: 70
+    recall: 0.4286
+    precision: 0.6122
+    recall_gate: '>= 0.8'
+    precision_gate: '>= 0.95'
+    verdict: NO_GO
+  F-MANDATORY:
+    tp: 28
+    fp: 2
+    fn: 46
+    tn: 32
+    gold_positives: 74
+    recall: 0.3784
+    precision: 0.9333
+    recall_gate: '>= 0.8'
+    precision_gate: '>= 0.95'
+    verdict: NO_GO
+  F-COUNT:
+    tp: 1
+    fp: 9
+    fn: 6
+    tn: 92
+    gold_positives: 7
+    recall: 0.1429
+    precision: 0.1
+    recall_gate: '>= 0.8'
+    precision_gate: '>= 0.95'
+    verdict: NO_GO
+fp_on_gold_negatives:
+  gate: == 0
+  negatives_gold_confirmed: 5
+  fp_count: 1
+  fp_rows:
+  - fragment_id: 8f9fff8e-84ac-43b0-9960-6d6780d67fd0
+    bucket: random_pure
+    fired:
+    - F-BUNDLE
+  verdict: NO_GO
+prescreen_fn_estimate:
+  definition: gold-positivos del bucket random_pure (azar puro) donde el detector no disparó esa familia
+    — estima lo que el pre-screen habría perdido
+  random_pure_gold_rows: 20
+  fn_rows:
+  - fragment_id: 0995582c-a35f-4daf-b9ce-c7ad6b2fcace
+    family: F-BUNDLE
+  - fragment_id: 0995582c-a35f-4daf-b9ce-c7ad6b2fcace
+    family: F-MANDATORY
+  - fragment_id: 0b08f03f-23fd-4b06-aac8-72853a79dea0
+    family: F-RANGE
+  - fragment_id: 0b08f03f-23fd-4b06-aac8-72853a79dea0
+    family: F-BUNDLE
+  - fragment_id: 0b08f03f-23fd-4b06-aac8-72853a79dea0
+    family: F-MANDATORY
+  - fragment_id: 18fa7525-5768-4180-8baf-a33d92351d86
+    family: F-MANDATORY
+  - fragment_id: 1f06ca22-f1b9-4847-9156-aded64ff2006
+    family: F-BUNDLE
+  - fragment_id: 1f06ca22-f1b9-4847-9156-aded64ff2006
+    family: F-MANDATORY
+  - fragment_id: 352b2b8d-e33c-456a-88a8-dd66a75164dd
+    family: F-RANGE
+  - fragment_id: 352b2b8d-e33c-456a-88a8-dd66a75164dd
+    family: F-MANDATORY
+  - fragment_id: 36876c3f-ab8d-426f-a8bc-041e21dbb835
+    family: F-MANDATORY
+  - fragment_id: 3962b130-9463-49b2-8731-61f6a6cb7fac
+    family: F-RANGE
+  - fragment_id: 3962b130-9463-49b2-8731-61f6a6cb7fac
+    family: F-MANDATORY
+  - fragment_id: 46bbeda2-e482-463b-a2fc-60a3c2c8cf5c
+    family: F-RANGE
+  - fragment_id: 46bbeda2-e482-463b-a2fc-60a3c2c8cf5c
+    family: F-BUNDLE
+  - fragment_id: 5cc7dfde-988f-4b20-9ba2-d99ea6becf4f
+    family: F-RANGE
+  - fragment_id: 5cc7dfde-988f-4b20-9ba2-d99ea6becf4f
+    family: F-BUNDLE
+  - fragment_id: 6ece7c57-e967-4f0d-8232-e1c08e791231
+    family: F-RANGE
+  - fragment_id: 88e55129-c191-4a1b-a469-51d1da8a2d74
+    family: F-MANDATORY
+  - fragment_id: d26148bf-8fb3-4d5e-99b1-456d5e5e687e
+    family: F-BUNDLE
+  - fragment_id: d26148bf-8fb3-4d5e-99b1-456d5e5e687e
+    family: F-MANDATORY
+  - fragment_id: db316e2b-997b-482e-b7cf-edc3f959cbe2
+    family: F-MANDATORY
+  - fragment_id: fc35f5b1-6c68-4cec-a27d-621125467c25
+    family: F-BUNDLE
+  - fragment_id: fdfdbff5-ef3c-4de1-bbb8-3a30af3d7f73
+    family: F-MANDATORY
+overall_verdict: NO_GO
+next_step_if_go: Etapa 2 SOLO tras adjudicación formal de Alberto de la reapertura de la familia s222/s223
+  (diseño §1 Etapa 2, dúo C1/F2) — probe único a los 4 targets, gate tipo DEC-112, K=3, control same-model

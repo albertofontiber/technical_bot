@@ -1,0 +1,555 @@
+schema: s269_stage1_v3_gate_v3
+binding_contract: v2 + apriete F-BUNDLE >=2 tokens propios (prereg v3)
+created_utc: '2026-07-19T00:43:52+00:00'
+spec_ref: evals/s269_stage1_v3_mutation_spec_v1.md
+prereg_sha256: ed8750c533c6f2dbbb3ba5012916f6971e7df5a7fc8366866dbc68d9b345a205
+freeze_verified:
+  must_preserve_sha256: 1de0d30f5307b5aa9e36b11d01a4994be47fd9060dc6b68c6c8214236836b972
+  harness_sha256: 058fb75aa7b412b7ea65cbf875a510272a7c70accc41429b007ec24feb59a874
+  templates_sha256: af27a45f4682077fcfef67dbdd0676d6159402e36a5bf98b96035617e10c5afa
+  cohort_sha256: 9c9e64545b2da3d901fba66995471c8481fd8ccf1a7bf53c0b6a2ca1ddf2bc61
+gates_source: prereg (única fuente; espejo anti-tamper verificado)
+gates:
+  mutation_recall_min_per_family: 0.8
+  clean_noise_fp_max_rbc: 0
+  clean_noise_mandatory_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  clean_noise_definition: 'POR FAMILIA del átomo anexado: para F-RANGE/F-BUNDLE/F-COUNT todo anexo sobre
+    borrador limpio es FP (=0). Para F-MANDATORY el FP se define como anexo DUPLICADO o NO-PROCEDIMENTAL
+    (proc_overlap<2 en la ventana): anexar un callout obligatorio genuino no-duplicado junto a un procedimiento
+    del fragmento citado NO es ruido — es la CONDUCTA OBJETIVO del contrato (s243 mandatory_safety_omission:
+    el miss canónico es exactamente la respuesta que da el procedimiento y omite el callout adyacente);
+    esos anexos se reportan aparte como mandatory_conduct_appends'
+  scoring: por MUTACIÓN individual (átomo), no booleano de familia (C1); cobertura = filas puntuables
+    / filas generadas; las filas no puntuables se listan en el gate
+arms:
+  det_only:
+    rows_total: 518
+    coverage:
+      value: 0.9228
+      gate: '>= 0.9'
+      unpuntuable_rows:
+      - key: 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_header|v0
+        reason: collision_guard:variable
+      - key: 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_header|v1
+        reason: collision_guard:variable
+      - key: 182a4d7f-0fad-443e-ae63-a1417a716685|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 390a1a8d-99e4-48a2-a3cc-c0f641ae1936|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 487f705b-63b4-472f-baed-f925eee68086|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 4fb82af6-a4ce-4e73-a4f0-938ad3802cd8|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 656ea020-5464-4c37-a10a-5b3e65c35234|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 8699c7d1-6beb-4b6d-b4a1-982989af9fac|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: c4ff7d3b-b49a-4f9e-b5ab-ed40f6f88479|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|drop_enumeration|v0
+        reason: collision_guard:1
+      - key: 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|drop_enumeration|v1
+        reason: collision_guard:1
+      - key: 5c72b0d3-cd0c-4714-aca6-3b99c07eab27|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: a835a29b-5409-4328-864f-12495f461f1d|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: e02aa7a4-b1a8-4db4-8b41-41f30721339b|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_upper|v0
+        reason: collision_guard:1
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_upper|v1
+        reason: collision_guard:1
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_unit|v0
+        reason: collision_guard:a
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_unit|v1
+        reason: collision_guard:a
+      - key: 4b28f92c-972b-47af-8033-01ec4e5a53f3|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 4b28f92c-972b-47af-8033-01ec4e5a53f3|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 4fcfdef6-b2f5-42c1-b579-bacf37ee8a04|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 4fcfdef6-b2f5-42c1-b579-bacf37ee8a04|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 7bba4728-78f5-4681-9257-355f517731fc|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 7bba4728-78f5-4681-9257-355f517731fc|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 8b8b7559-dce9-40bc-b856-2729ee9248d9|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 8b8b7559-dce9-40bc-b856-2729ee9248d9|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 8be66226-fc62-456b-9cf4-1ebbeaa1dca5|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 8be66226-fc62-456b-9cf4-1ebbeaa1dca5|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 914d5c1d-1f8f-4dd4-b2dd-a2435fb54b03|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 914d5c1d-1f8f-4dd4-b2dd-a2435fb54b03|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: a19542dc-90c6-4319-bdc5-e89041cb4a48|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: a19542dc-90c6-4319-bdc5-e89041cb4a48|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: ab86330f-190e-4543-81bd-f5645ac318c1|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: ab86330f-190e-4543-81bd-f5645ac318c1|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: b46dde81-cf25-4aa2-8f81-27965b77d02f|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: b46dde81-cf25-4aa2-8f81-27965b77d02f|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: bb72c2e0-9536-45fb-8abd-530d29321884|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: bb72c2e0-9536-45fb-8abd-530d29321884|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: e641f1e2-a74b-46bb-bdc4-fe007ab82a81|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: e641f1e2-a74b-46bb-bdc4-fe007ab82a81|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      verdict: GO
+    per_family:
+      F-RANGE:
+        mutation_rows_puntuables: 78
+        detected: 78
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_upper:
+            puntuable: 32
+            detected: 32
+          drop_unit:
+            puntuable: 46
+            detected: 46
+        missed_keys: []
+        verdict: GO
+      F-BUNDLE:
+        mutation_rows_puntuables: 58
+        detected: 54
+        mutation_recall: 0.931
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_member:
+            puntuable: 46
+            detected: 42
+          drop_header:
+            puntuable: 12
+            detected: 12
+        missed_keys:
+        - 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_member|v0
+        - 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_member|v1
+        - d455eacc-cdae-49eb-85b9-1d86ded8c8ea|mutation|drop_member|v0
+        - d455eacc-cdae-49eb-85b9-1d86ded8c8ea|mutation|drop_member|v1
+        verdict: GO
+      F-MANDATORY:
+        mutation_rows_puntuables: 54
+        detected: 54
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_clause:
+            puntuable: 54
+            detected: 54
+        missed_keys: []
+        verdict: GO
+      F-COUNT:
+        mutation_rows_puntuables: 58
+        detected: 48
+        mutation_recall: 0.8276
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          alter_count:
+            puntuable: 30
+            detected: 24
+          drop_enumeration:
+            puntuable: 28
+            detected: 24
+        missed_keys:
+        - 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|alter_count|v0
+        - 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|alter_count|v1
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|alter_count|v0
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|alter_count|v1
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|drop_enumeration|v0
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|drop_enumeration|v1
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|alter_count|v0
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|alter_count|v1
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|drop_enumeration|v0
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|drop_enumeration|v1
+        verdict: GO
+    clean_noise:
+      rows: 190
+      rbc_fp_count: 40
+      rbc_gate: <= 0
+      rbc_fp:
+      - key: 02f0d4f2-9dcf-48b6-b552-c062f5c021db|clean|v0
+        family: F-BUNDLE
+      - key: 02f0d4f2-9dcf-48b6-b552-c062f5c021db|clean|v1
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v0
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v0
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v1
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v1
+        family: F-BUNDLE
+      - key: 306717f0-b9a0-408a-aa9a-76626bc33b20|clean|v0
+        family: F-BUNDLE
+      - key: 306717f0-b9a0-408a-aa9a-76626bc33b20|clean|v1
+        family: F-BUNDLE
+      - key: 3e24ec52-2571-4d16-b6e3-dddd5aa35a0d|clean|v0
+        family: F-BUNDLE
+      - key: 3e24ec52-2571-4d16-b6e3-dddd5aa35a0d|clean|v1
+        family: F-BUNDLE
+      - key: 5a9fd027-154a-4150-a969-393c6b3b239e|clean|v0
+        family: F-BUNDLE
+      - key: 5a9fd027-154a-4150-a969-393c6b3b239e|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 01fc48d7-ba33-49e1-84b5-4cdc1c0a4186|clean|v0
+        family: F-RANGE
+      - key: 01fc48d7-ba33-49e1-84b5-4cdc1c0a4186|clean|v1
+        family: F-RANGE
+      - key: 96345217-e041-46e6-a082-16e21c5a355e|clean|v0
+        family: F-RANGE
+      - key: 96345217-e041-46e6-a082-16e21c5a355e|clean|v1
+        family: F-RANGE
+      - key: 2f006998-9315-4985-b788-f277b1dc8e12|clean|v0
+        family: F-BUNDLE
+      - key: 2f006998-9315-4985-b788-f277b1dc8e12|clean|v1
+        family: F-BUNDLE
+      - key: 75fe5815-9c39-4ef6-8750-34f18d2e0215|clean|v0
+        family: F-BUNDLE
+      - key: 75fe5815-9c39-4ef6-8750-34f18d2e0215|clean|v1
+        family: F-BUNDLE
+      - key: 994d389c-550d-44c6-96fe-260bce0331a3|clean|v0
+        family: F-BUNDLE
+      - key: 994d389c-550d-44c6-96fe-260bce0331a3|clean|v1
+        family: F-BUNDLE
+      - key: f0c31783-3777-4bb8-9144-b9ff6e4f4afa|clean|v0
+        family: F-BUNDLE
+      - key: f0c31783-3777-4bb8-9144-b9ff6e4f4afa|clean|v1
+        family: F-BUNDLE
+      - key: 24d011a5-6339-4882-8861-f1f756283b8e|clean|v0
+        family: F-BUNDLE
+      - key: 24d011a5-6339-4882-8861-f1f756283b8e|clean|v1
+        family: F-BUNDLE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v0
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v0
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v1
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v1
+        family: F-RANGE
+      - key: cde3f33d-a557-4689-8b9e-150c6d131823|clean|v0
+        family: F-BUNDLE
+      - key: cde3f33d-a557-4689-8b9e-150c6d131823|clean|v1
+        family: F-BUNDLE
+      mandatory_fp_count: 0
+      mandatory_gate: <= 0 (FP = duplicado o no-procedimental)
+      mandatory_fp: []
+      mandatory_conduct_appends: 16
+      mandatory_conduct_note: anexo de callout obligatorio genuino no-duplicado junto a procedimiento
+        del fragmento citado = CONDUCTA OBJETIVO (s243 mandatory_safety_omission), no ruido — ver prereg
+        gates.clean_noise_definition
+      verdict: NO_GO
+    cross_binding:
+      rows: 30
+      fp_count: 0
+      gate: <= 0
+      fp_keys: []
+      verdict: GO
+    attestation_block:
+      rows: 10
+      appends: 0
+      positive_and_block_controls_ok: true
+      gate: <= 0 (y controles OK)
+      verdict: GO
+    overall_verdict: NO_GO
+    results_path: evals/s269_stage1_v3_results_det_c272.jsonl
+    results_sha256: 72e97443c6c120aa4dd39d23a9f3ee56ad9fb332a2dce5e8c3cb56390aab2d26
+  hybrid:
+    rows_total: 518
+    coverage:
+      value: 0.9228
+      gate: '>= 0.9'
+      unpuntuable_rows:
+      - key: 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_header|v0
+        reason: collision_guard:variable
+      - key: 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_header|v1
+        reason: collision_guard:variable
+      - key: 182a4d7f-0fad-443e-ae63-a1417a716685|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 390a1a8d-99e4-48a2-a3cc-c0f641ae1936|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 487f705b-63b4-472f-baed-f925eee68086|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 4fb82af6-a4ce-4e73-a4f0-938ad3802cd8|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 656ea020-5464-4c37-a10a-5b3e65c35234|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 8699c7d1-6beb-4b6d-b4a1-982989af9fac|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: c4ff7d3b-b49a-4f9e-b5ab-ed40f6f88479|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|drop_enumeration|v0
+        reason: collision_guard:1
+      - key: 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|drop_enumeration|v1
+        reason: collision_guard:1
+      - key: 5c72b0d3-cd0c-4714-aca6-3b99c07eab27|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: a835a29b-5409-4328-864f-12495f461f1d|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: e02aa7a4-b1a8-4db4-8b41-41f30721339b|no_mutation_applicable
+        reason: no_mutation_applicable
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_upper|v0
+        reason: collision_guard:1
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_upper|v1
+        reason: collision_guard:1
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_unit|v0
+        reason: collision_guard:a
+      - key: 48c0750d-efec-4391-862d-63ab71fc379c|mutation|drop_unit|v1
+        reason: collision_guard:a
+      - key: 4b28f92c-972b-47af-8033-01ec4e5a53f3|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 4b28f92c-972b-47af-8033-01ec4e5a53f3|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 4fcfdef6-b2f5-42c1-b579-bacf37ee8a04|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 4fcfdef6-b2f5-42c1-b579-bacf37ee8a04|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 7bba4728-78f5-4681-9257-355f517731fc|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 7bba4728-78f5-4681-9257-355f517731fc|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 8b8b7559-dce9-40bc-b856-2729ee9248d9|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 8b8b7559-dce9-40bc-b856-2729ee9248d9|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 8be66226-fc62-456b-9cf4-1ebbeaa1dca5|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 8be66226-fc62-456b-9cf4-1ebbeaa1dca5|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: 914d5c1d-1f8f-4dd4-b2dd-a2435fb54b03|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: 914d5c1d-1f8f-4dd4-b2dd-a2435fb54b03|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: a19542dc-90c6-4319-bdc5-e89041cb4a48|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: a19542dc-90c6-4319-bdc5-e89041cb4a48|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: ab86330f-190e-4543-81bd-f5645ac318c1|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: ab86330f-190e-4543-81bd-f5645ac318c1|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: b46dde81-cf25-4aa2-8f81-27965b77d02f|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: b46dde81-cf25-4aa2-8f81-27965b77d02f|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: bb72c2e0-9536-45fb-8abd-530d29321884|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: bb72c2e0-9536-45fb-8abd-530d29321884|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      - key: e641f1e2-a74b-46bb-bdc4-fe007ab82a81|mutation|drop_upper|v0
+        reason: binding_guard:template_sin_gancho
+      - key: e641f1e2-a74b-46bb-bdc4-fe007ab82a81|mutation|drop_upper|v1
+        reason: binding_guard:template_sin_gancho
+      verdict: GO
+    per_family:
+      F-RANGE:
+        mutation_rows_puntuables: 78
+        detected: 78
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_upper:
+            puntuable: 32
+            detected: 32
+          drop_unit:
+            puntuable: 46
+            detected: 46
+        missed_keys: []
+        verdict: GO
+      F-BUNDLE:
+        mutation_rows_puntuables: 58
+        detected: 54
+        mutation_recall: 0.931
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_member:
+            puntuable: 46
+            detected: 42
+          drop_header:
+            puntuable: 12
+            detected: 12
+        missed_keys:
+        - 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_member|v0
+        - 11018c73-5df7-4175-aa6b-0e5b83fc0cc9|mutation|drop_member|v1
+        - d455eacc-cdae-49eb-85b9-1d86ded8c8ea|mutation|drop_member|v0
+        - d455eacc-cdae-49eb-85b9-1d86ded8c8ea|mutation|drop_member|v1
+        verdict: GO
+      F-MANDATORY:
+        mutation_rows_puntuables: 54
+        detected: 54
+        mutation_recall: 1.0
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          drop_clause:
+            puntuable: 54
+            detected: 54
+        missed_keys: []
+        verdict: GO
+      F-COUNT:
+        mutation_rows_puntuables: 58
+        detected: 48
+        mutation_recall: 0.8276
+        recall_gate: '>= 0.8'
+        by_mutation_kind:
+          alter_count:
+            puntuable: 30
+            detected: 24
+          drop_enumeration:
+            puntuable: 28
+            detected: 24
+        missed_keys:
+        - 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|alter_count|v0
+        - 2bc6d382-8882-4108-96c9-2ab5a77c9ae5|mutation|alter_count|v1
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|alter_count|v0
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|alter_count|v1
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|drop_enumeration|v0
+        - 3d91af35-175c-401f-8453-e9292f4df459|mutation|drop_enumeration|v1
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|alter_count|v0
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|alter_count|v1
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|drop_enumeration|v0
+        - 96345217-e041-46e6-a082-16e21c5a355e|mutation|drop_enumeration|v1
+        verdict: GO
+    clean_noise:
+      rows: 190
+      rbc_fp_count: 40
+      rbc_gate: <= 0
+      rbc_fp:
+      - key: 02f0d4f2-9dcf-48b6-b552-c062f5c021db|clean|v0
+        family: F-BUNDLE
+      - key: 02f0d4f2-9dcf-48b6-b552-c062f5c021db|clean|v1
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v0
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v0
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v1
+        family: F-BUNDLE
+      - key: 0f5c2228-4299-4c2d-9f5a-d2d4c2ea7218|clean|v1
+        family: F-BUNDLE
+      - key: 306717f0-b9a0-408a-aa9a-76626bc33b20|clean|v0
+        family: F-BUNDLE
+      - key: 306717f0-b9a0-408a-aa9a-76626bc33b20|clean|v1
+        family: F-BUNDLE
+      - key: 3e24ec52-2571-4d16-b6e3-dddd5aa35a0d|clean|v0
+        family: F-BUNDLE
+      - key: 3e24ec52-2571-4d16-b6e3-dddd5aa35a0d|clean|v1
+        family: F-BUNDLE
+      - key: 5a9fd027-154a-4150-a969-393c6b3b239e|clean|v0
+        family: F-BUNDLE
+      - key: 5a9fd027-154a-4150-a969-393c6b3b239e|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v0
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 5d3162c1-bd94-475d-8666-9732e92b8962|clean|v1
+        family: F-BUNDLE
+      - key: 01fc48d7-ba33-49e1-84b5-4cdc1c0a4186|clean|v0
+        family: F-RANGE
+      - key: 01fc48d7-ba33-49e1-84b5-4cdc1c0a4186|clean|v1
+        family: F-RANGE
+      - key: 96345217-e041-46e6-a082-16e21c5a355e|clean|v0
+        family: F-RANGE
+      - key: 96345217-e041-46e6-a082-16e21c5a355e|clean|v1
+        family: F-RANGE
+      - key: 2f006998-9315-4985-b788-f277b1dc8e12|clean|v0
+        family: F-BUNDLE
+      - key: 2f006998-9315-4985-b788-f277b1dc8e12|clean|v1
+        family: F-BUNDLE
+      - key: 75fe5815-9c39-4ef6-8750-34f18d2e0215|clean|v0
+        family: F-BUNDLE
+      - key: 75fe5815-9c39-4ef6-8750-34f18d2e0215|clean|v1
+        family: F-BUNDLE
+      - key: 994d389c-550d-44c6-96fe-260bce0331a3|clean|v0
+        family: F-BUNDLE
+      - key: 994d389c-550d-44c6-96fe-260bce0331a3|clean|v1
+        family: F-BUNDLE
+      - key: f0c31783-3777-4bb8-9144-b9ff6e4f4afa|clean|v0
+        family: F-BUNDLE
+      - key: f0c31783-3777-4bb8-9144-b9ff6e4f4afa|clean|v1
+        family: F-BUNDLE
+      - key: 24d011a5-6339-4882-8861-f1f756283b8e|clean|v0
+        family: F-BUNDLE
+      - key: 24d011a5-6339-4882-8861-f1f756283b8e|clean|v1
+        family: F-BUNDLE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v0
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v0
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v1
+        family: F-RANGE
+      - key: 6acf3d8c-5318-444a-bc44-7d86ee036022|clean|v1
+        family: F-RANGE
+      - key: cde3f33d-a557-4689-8b9e-150c6d131823|clean|v0
+        family: F-BUNDLE
+      - key: cde3f33d-a557-4689-8b9e-150c6d131823|clean|v1
+        family: F-BUNDLE
+      mandatory_fp_count: 0
+      mandatory_gate: <= 0 (FP = duplicado o no-procedimental)
+      mandatory_fp: []
+      mandatory_conduct_appends: 16
+      mandatory_conduct_note: anexo de callout obligatorio genuino no-duplicado junto a procedimiento
+        del fragmento citado = CONDUCTA OBJETIVO (s243 mandatory_safety_omission), no ruido — ver prereg
+        gates.clean_noise_definition
+      verdict: NO_GO
+    cross_binding:
+      rows: 30
+      fp_count: 0
+      gate: <= 0
+      fp_keys: []
+      verdict: GO
+    attestation_block:
+      rows: 10
+      appends: 0
+      positive_and_block_controls_ok: true
+      gate: <= 0 (y controles OK)
+      verdict: GO
+    overall_verdict: NO_GO
+    results_path: evals/s269_stage1_v3_results_hybrid_c272.jsonl
+    results_sha256: 8c081c2f0eee86578fdfe85b17e62de0f2fd1a6d5ee4a31b2e66c96c75322afd
+next_step_if_go: Etapa 2 SOLO tras adjudicación formal de Alberto de la reapertura s222/s223 (diseño §1
+  Etapa 2, dúo C1/F2) — probe único a los 4 targets, gate tipo DEC-112, K=3, control same-model

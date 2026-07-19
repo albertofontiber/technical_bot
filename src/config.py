@@ -170,6 +170,14 @@ DEDUP_REFERENCE_NAVIGATION = _strict_on_off("DEDUP_REFERENCE_NAVIGATION")
 # substring of the hydrated source parent.
 R2_REPAIR_NAVIGATION = _strict_on_off("R2_REPAIR_NAVIGATION")
 
+# S269 Track 2 must-preserve atom contract (default inert). When enabled, the
+# generator appends verbatim missing must-preserve atoms from cited, identity-
+# attested fragments (src/rag/must_preserve.py). The serving-path helper
+# re-reads this same strict switch at call time (house pattern
+# GENERATOR_PROMPT_VARIANT) so in-process A/B toggling works; this import-time
+# constant keeps the flag inventoried and fail-fast on typos at boot.
+MUST_PRESERVE_CONTRACT = _strict_on_off("MUST_PRESERVE_CONTRACT")
+
 # S107 same-blob neighbor observer. This hook is post-rerank and has no return
 # path into the generator. Enabling it requires a keyed telemetry HMAC secret;
 # defaults remain fully inert.

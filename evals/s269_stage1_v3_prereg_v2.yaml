@@ -1,0 +1,93 @@
+schema: s269_stage1_v3_prereg_v2
+status: FROZEN_BEFORE_RUN
+created_utc: '2026-07-19T00:26:06+00:00'
+spec_ref: evals/s269_stage1_v3_mutation_spec_v1.md
+design_ref: evals/s269_synthesis_portfolio_design_v1.md §1 (v2 dúo-adjudicado)
+predecessor: 'evals/s269_stage1_gate_v1.yaml (NO_GO v1, gold de modelo no fiable) + evals/s269_stage1_nogo_diagnosis_v1.md;
+  MEDIDA seed-270 (binding v1): evals/s269_stage1_v3_prereg.yaml + evals/s269_stage1_v3_gate_v1.yaml +
+  evals/s269_stage1_v3_results_det.jsonl — queda como EVIDENCIA, no se re-usa para el veredicto'
+binding_contract: 'v2 (adjudicación del coordinador post-seed-270): presencia PARCIAL por familia para
+  F-RANGE/F-BUNDLE/F-COUNT (≥1 token/número PROPIO del átomo en la ventana de cita; el solape genérico
+  de anchors ya no liga) y contrato propio para F-MANDATORY (exigible con ≥2 tokens de contexto PROCEDIMENTAL
+  del fragmento en la ventana; supresión de duplicados vía atom_satisfied; cap 4 intacto). Motivación
+  taxonomy-derived s243: 11/12 misses = pérdida parcial dentro de estructura TOCADA + callouts obligatorios
+  adyacentes a procedimientos que la respuesta da. Ver docstring de src/rag/must_preserve.py::atom_exigible_in'
+gold: 'MECÁNICO POR CONSTRUCCIÓN (patrón S249, precedente in-repo precisión 1.0/FP 0): mutación determinista
+  con receipt exacto; sin etiquetadores modelo en el path del gold'
+seed: 271
+gates:
+  mutation_recall_min_per_family: 0.8
+  clean_noise_fp_max_rbc: 0
+  clean_noise_mandatory_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  clean_noise_definition: 'POR FAMILIA del átomo anexado: para F-RANGE/F-BUNDLE/F-COUNT todo anexo sobre
+    borrador limpio es FP (=0). Para F-MANDATORY el FP se define como anexo DUPLICADO o NO-PROCEDIMENTAL
+    (proc_overlap<2 en la ventana): anexar un callout obligatorio genuino no-duplicado junto a un procedimiento
+    del fragmento citado NO es ruido — es la CONDUCTA OBJETIVO del contrato (s243 mandatory_safety_omission:
+    el miss canónico es exactamente la respuesta que da el procedimiento y omite el callout adyacente);
+    esos anexos se reportan aparte como mandatory_conduct_appends'
+  scoring: por MUTACIÓN individual (átomo), no booleano de familia (C1); cobertura = filas puntuables
+    / filas generadas; las filas no puntuables se listan en el gate
+freeze:
+  must_preserve_sha256: 41e03c25d6ea167eec09f4cbab256c831c6b305a3b6b065348c97aaa3a8b0a70
+  harness_sha256: a01d0daa4668bd3612f745c9515e4f662865551642fb3b8a8215b2fa79cf2d69
+  templates_sha256: 65e0516df57d4a6be4564f2907b655e2cc0046d23dab4e1f8b6e8b2bce3b4611
+  templates_version: s269_v3_templates_v3
+  cohort_path: evals/s269_mutation_cohort_v2.jsonl
+  cohort_rows: 105
+  cohort_sha256: 412d96315e21e8fdbd3cdac7653e037a003146f6fb9c27a349b977ce4cafcd5b
+  build_report_sha256: cc548492b8542b99ddf661b4c77ec33bfa6755c8881efd9e7060c0d5693b3675
+  note: 'C4: el gate ABORTA si cualquiera de estos sha difiere (sha con normalización CRLF->LF, precedente
+    s198)'
+cohort_composition:
+  F-RANGE: 30
+  F-BUNDLE: 30
+  F-MANDATORY: 30
+  F-COUNT: 15
+population:
+  corpus_docs_servibles: 1007
+  excluded_docs: 339
+  eligible_docs: 668
+  docs_sampled: 80
+  fragments_screened: 1209
+arms:
+  det_only: detector determinista puro ($0)
+  hybrid: det + Haiku structured-output plano con grounding verbatim (validador código; --hybrid --execute)
+hybrid:
+  model: claude-haiku-4-5-20251001
+  budget_usd_max: 4.0
+  prices_usd_per_mtok:
+    input: 1.0
+    output: 5.0
+  no_retry: true
+  runner: scripts/s269_mutation_harness.py --run --hybrid (preflight default; --execute gasta)
+honest_declarations:
+- 'REFINAMIENTO DE CONTRATO DECLARADO (adjudicación del coordinador): los 36 clean-FP de seed-270 (todos
+  anexos de átomos hermanos ligados por solape genérico de anchors) motivaron RE-EXAMINAR el contrato
+  de binding. El refinamiento (presencia parcial / contexto procedimental) es TAXONOMY-DERIVED (s243),
+  NO un ajuste contra los 36 ejemplos, y se valida en esta población FRESCA seed-271 (docs v1 + seed-270
+  excluidos). seed-270 queda como evidencia; no se re-usa para el veredicto.'
+- 'TUNING DESDE V1 DECLARADO: el léxico/patrones del detector se ajustaron con los misses de la cohorte
+  v1 (diagnóstico) — población fresca en cada medida desde entonces.'
+- 'PREVALENCIA NO MEDIDA: el harness condiciona a mutación; no estima la prevalencia/ubicuidad de las
+  familias en el corpus.'
+- SALUD DE FAMILIAS s243 = SUPUESTO de diseño, no hecho medido por este instrumento.
+- 'PRE-SCREEN DETERMINISTA: la cohorte se pre-filtra con el detector determinista (subset del híbrido,
+  $0); sesgo de selección controlado porque el gold es mecánico y el gate mide sobre mutaciones.'
+- 'COLISIONES: mutaciones cuyo valor eliminado re-aparece en el borrador por otro campo se excluyen con
+  un guard independiente del mecanismo y se listan (no entran en el denominador de recall).'
+- clean_noise corre con TODOS los átomos del fragmento; el scoring es POR FAMILIA del átomo anexado (ver
+  gates.clean_noise_definition).
+- 'BINDING GUARD: mutaciones cuyo borrador template pierde la presencia parcial del átomo (contrato v2)
+  se listan como no-puntuables (artefacto del template, no del mecanismo); la vía binding se mide en clean/cross.'
+- 'ITERACIÓN DE IMPLEMENTACIÓN DECLARADA (post 1ª pasada seed-271): la primera medida del contrato v2
+  dio 42 clean-FP RBC, TODOS bundles ligados por palabras FUNCIÓN de 2-3 letras (''de''/''el''/''the'')
+  — _STOPWORDS solo cubría palabras ≥4 letras porque asumía min_len=3. Fix de LÉXICO raíz (función cortas
+  añadidas a _STOPWORDS): es implementación del contrato (''token PROPIO'' no incluye preposiciones),
+  no ajuste del contrato ni por-fila. Se re-congeló y re-midió sobre la misma cohorte seed-271; la 1ª
+  pasada queda en el historial git.'
+gate_runner: scripts/s269_stage1_v3_gate.py — umbrales LEÍDOS del prereg (única fuente) + constante espejo
+  anti-tamper (M7); veredicto POR BRAZO
+gate_output: evals/s269_stage1_v3_gate_v2.yaml
