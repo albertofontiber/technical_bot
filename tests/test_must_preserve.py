@@ -974,6 +974,338 @@ def test_render_count_conflict_dos_lados_con_citas():
     assert appendix.count("[F3]") == 2                      # cita en ambos lados
 
 
+# ─── v4 (s271): guards de ACTIVACIÓN — bloqueadores 1/2/3 de DEC-127b ───
+
+# Caso REAL hp001 (chunk CAD-250_Manual-Configuracion-MC-380-es-2026-c p29, extracto
+# verbatim): el conteo «2, 4, 6 u 8 lazos …» NO debe ligar con el crumb de menú
+# «Sistema | Otros | Reiniciar» del screenshot.
+_HP001_AVANZADO_FRAG = (
+    "## 5.4. AVANZADO\n"
+    "\n"
+    "En esta sección podrá establecer los parámetros básicos de configuración de la "
+    "central, así como ajustes de ingeniero para facilitar trabajos de puesta en "
+    "marcha y configuración. Para acceder a estos ajustes pulse:\n"
+    "\n"
+    "**AJUSTES** (Menú principal) **> AVANZADO** (Submenú)\n"
+    "\n"
+    "Al tocar el campo **LAZOS**, se desplegarán las combinaciones posibles según el "
+    "número de cabinas que haya indicado en el punto anterior. 2, 4, 6 u 8 lazos si "
+    "ha definido una sola central, hasta 16 lazos, si ha definido 2 cabinas,. hasta "
+    "24 con 3 cabinas y 32 lazos con 4 cabinas. Si el número de lazos que debe "
+    "configurar no se muestra, revise el número de paneles configurado o pruebe a "
+    "realizar scroll del desplegable.\n"
+    "\n"
+    "[Screenshot showing:\n"
+    "Avanzado interface with dropdown menu:\n"
+    "\n"
+    "Sistema | Otros | Reiniciar\n"
+    "\n"
+    "Paneles | 1\n"
+    "\n"
+    "Lazos   | 2\n"
+)
+
+_HP001_COUNT_SPAN = (
+    "2, 4, 6 u 8 lazos si ha definido una sola central, hasta 16 lazos, si ha "
+    "definido 2 cabinas,."
+)
+
+# Caso REAL cat007 (chunk I56-3947-202_FAAST LT_MULTI p25, extracto verbatim): tabla
+# OCR T1..T10 con celdas EN BLANCO — el lado-enumeración de un disclosure jamás.
+_CAT007_BLANK_TABLE = (
+    "| T1  |   |\n"
+    "| --- | - |\n"
+    "| T2  |   |\n"
+    "| T3  |   |\n"
+    "| T4  |   |\n"
+    "| T5  |   |\n"
+    "| T6  |   |\n"
+    "| T7  |   |\n"
+    "| T8  |   |\n"
+    "| T9  |   |\n"
+    "| T10 |   |"
+)
+
+_CAT007_RELAY_FRAG = (
+    "## ADVERTENCIA: Conmutación de cargas inductivas\n"
+    "\n"
+    "Las cargas inductivas pueden provocar sobretensionesç de desconexión que pueden "
+    "dañar los contactos de los relés del módulo (ver arriba).\n"
+    "\n"
+    "Para proteger los contactos de los relés, conecte un supresor de voltaje "
+    "transitorio (por ejemplo, 1N6284CA) para toda la carga según se indica.\n"
+    "\n"
+    "Como alternativa, para aplicaciones de CC sin supervisión, instale un diodo con "
+    "tensión de ruptura inverso superior a diez veces la tensión del circuito.\n"
+    "\n"
+    + _CAT007_BLANK_TABLE + "\n"
+)
+
+# Tira de etiquetas OCR REAL de hp017 (freeze s113 F1): etiquetas CON texto — el
+# guard de contenido informativo NO debe matarla (≠ celdas en blanco).
+_HP017_LABEL_STRIP = (
+    "TECLU\ntardoRet.Tipo\nEstándar\nFijo\nEst.Ext.\nNo Silenc.\nNo Sil.Ext\n"
+    "Estándar 0\nEstándar 0"
+)
+
+
+def _count_atoms(text):
+    return [a for a in mp.detect_atoms(text) if a["family"] == mp.FAMILY_COUNT]
+
+
+def test_count_navcrumb_real_hp001_no_liga():
+    """Bloqueador 3 (caso real): ningún F-COUNT puede ligar el conteo de lazos con el
+    crumb de navegación «Sistema | Otros | Reiniciar»."""
+    atoms = _count_atoms(_HP001_AVANZADO_FRAG)
+    assert atoms == []
+
+
+def test_count_navcrumb_sintetico_positivo_sigue_ligando():
+    """Control positivo: el mismo conteo con una enumeración LEGÍTIMA de su dominio
+    (heading compartiendo tokens con la oración) sigue formando átomo."""
+    text = (
+        "## Modos de disparo\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Elemento A\n- Elemento B\n- Elemento C\n- Elemento D\n- Elemento E\n"
+        "- Elemento F\n- Elemento G\n"
+    )
+    atoms = _count_atoms(text)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["tie"] == "section"
+    assert (atoms[0]["meta"]["declared_n"], atoms[0]["meta"]["enumerated_n"]) == (6, 7)
+
+
+def test_count_tie_seccion_sin_relevancia_no_liga():
+    """Tie estricto: heading sin tokens de la oración del conteo + enumeración sin el
+    sustantivo contado → el par NO liga (mejor silencio)."""
+    text = (
+        "## Historial de revisiones\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Elemento A\n- Elemento B\n- Elemento C\n- Elemento D\n- Elemento E\n"
+        "- Elemento F\n- Elemento G\n"
+    )
+    assert _count_atoms(text) == []
+
+
+def test_count_tie_seccion_sustantivo_del_dominio_liga():
+    """Tie estricto vía sustantivo: la enumeración contiene el sustantivo contado
+    (modos↔Modo) aunque el heading no comparta tokens."""
+    text = (
+        "## Historial de revisiones\n"
+        "La central admite seis modos de disparo configurables para la instalación.\n"
+        "El comportamiento depende del cableado del panel y del firmware cargado.\n"
+        "- Modo A\n- Modo B\n- Modo C\n- Modo D\n- Modo E\n- Modo F\n- Modo G\n"
+    )
+    atoms = _count_atoms(text)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["tie"] == "section"
+
+
+def test_count_enum_vacia_real_cat007_no_forma_atomo():
+    """Bloqueador 2 (caso real): la tabla T1..T10 de celdas en blanco no es una
+    enumeración de miembros — el conteo «diez veces …» no forma átomo con ella."""
+    assert _count_atoms(_CAT007_RELAY_FRAG) == []
+
+
+def test_select_disclosure_con_enum_vacia_no_dispara():
+    """Defensa en profundidad en la SELECCIÓN: un disclosure cuyo lado-enumeración es
+    la tabla en blanco no dispara ENTERO (mejor silencio que basura)."""
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": (
+            "Como alternativa, para aplicaciones de CC sin supervisión, instale un "
+            "diodo con tensión de ruptura inverso superior a diez veces la tensión "
+            "del circuito."
+        ),
+        "anchor_tokens": ["diodo"],
+        "meta": {"declared_n": 10, "enumerated_n": 9, "conflict": True,
+                 "enum_span_text": _CAT007_BLANK_TABLE, "fragment_number": 29},
+    }
+    assert mp._select_for_appendix([atom], "el diodo soporta diez veces [F29]") == []
+    assert mp.render_appendix([atom], "el diodo soporta diez veces [F29]") == ""
+
+
+def test_informative_span_basico():
+    assert mp.informative_span("") is False
+    assert mp.informative_span("—: | |  ·") is False
+    assert mp.informative_span(_CAT007_BLANK_TABLE) is False
+    assert mp.informative_span(_HP017_LABEL_STRIP) is True   # etiquetas CON texto
+    assert mp.informative_span(
+        "| RELÉ | ACCIÓN |\n| --- | --- |\n| ALARMA 1 | Controlada por el panel |"
+    ) is True  # tabla real con valores
+
+
+def test_select_no_anexa_span_no_informativo():
+    atom = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 5,
+        "span_text": "| |  —", "anchor_tokens": [],
+        "meta": {"lower": 10.0, "upper": 30.0, "unit": "v", "fragment_number": 1},
+    }
+    assert mp._select_for_appendix([atom], "el rango llega a 30 V [F1]") == []
+
+
+def test_render_dedup_nota_duplicada_hp001():
+    """Bloqueador 1 (caso real): dos átomos F-COUNT con el MISMO span (la oración de
+    lazos de hp001, matches «8 lazos» y «2 cabinas») anexan UNA sola nota."""
+    import copy as _copy
+
+    atom = {
+        "family": mp.FAMILY_COUNT, "span_start": 0, "span_end": 10,
+        "span_text": _HP001_COUNT_SPAN,
+        "anchor_tokens": ["lazos"],
+        "meta": {"declared_n": 8, "enumerated_n": 3, "conflict": True,
+                 "enum_span_text": "Sistema | Otros | Reiniciar",
+                 "fragment_number": 3},
+    }
+    dup = _copy.deepcopy(atom)
+    dup["meta"]["declared_n"] = 2
+    draft = "El campo LAZOS admite 8 lazos según la central [F3]"
+    appendix = mp.render_appendix([atom, dup], draft)
+    assert appendix.count(_HP001_COUNT_SPAN) == 1
+    assert appendix.count("Nota: el manual también indica:") == 1
+
+
+def test_render_dedup_solape_90_mismos_numeros():
+    base = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["salida"],
+        "meta": {"lower": 10.0, "upper": 30.0, "unit": "v", "fragment_number": 1},
+    }
+    a1 = dict(base, span_text="La salida admite de 10 a 30 V en la placa de bornes.")
+    a2 = dict(base, span_text="La salida admite de 10 a 30 V en la placa de bornes")
+    selected = mp._select_for_appendix([a1, a2], "la salida llega a 30 [F1]")
+    assert len(selected) == 1
+
+
+def test_render_dedup_no_colapsa_hechos_distintos():
+    base = {
+        "family": mp.FAMILY_RANGE, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["retardo"],
+    }
+    a1 = dict(base, span_text="El tiempo de retardo T1 va de 10 a 30 s.",
+              meta={"lower": 10.0, "upper": 30.0, "unit": "s", "fragment_number": 1})
+    a2 = dict(base, span_text="El tiempo de retardo T1 va de 10 a 35 s.",
+              meta={"lower": 10.0, "upper": 35.0, "unit": "s", "fragment_number": 1})
+    selected = mp._select_for_appendix([a1, a2], "el retardo llega a 30 s [F1]")
+    assert len(selected) == 2
+
+
+def test_render_dedup_no_colapsa_advertencias_hermanas_sin_numeros():
+    """Apriete del review adversarial s271: ratio ≥0.90 con CERO números en ambos
+    lados no basta — un token de contenido distinto (sirena vs fuente) = hecho
+    distinto, se conservan ambos."""
+    base = {
+        "family": mp.FAMILY_MANDATORY, "span_start": 0, "span_end": 10,
+        "anchor_tokens": ["desconecte"],
+        "meta": {"triggers": ["advertencia"], "fragment_number": 1},
+    }
+    a1 = dict(base, span_text=(
+        "Advertencia: desconecte el cable de la sirena antes de manipular el equipo."
+    ))
+    a2 = dict(base, span_text=(
+        "Advertencia: desconecte el cable de la fuente antes de manipular el equipo."
+    ))
+    selected = mp._select_for_appendix([a1, a2], "draft")
+    assert len(selected) == 2
+
+
+def test_count_tie_rechaza_fila_clave_valor():
+    """Residual del review adversarial s271: una fila clave-valor de screenshot con
+    el sustantivo contado como etiqueta («Lazos | 2 | 4») escapaba al crumb por el
+    dígito y el sustantivo la endosaba — no es una enumeración de miembros."""
+    text = (
+        "## Lazos del sistema\n"
+        "La central admite ocho lazos de detección configurables en total.\n"
+        "El comportamiento depende del número de cabinas configurado previamente.\n"
+        "Lazos | 2 | 4\n"
+    )
+    assert _count_atoms(text) == []
+
+
+def test_cross_fragment_count_rechaza_fila_clave_valor():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite ocho lazos de detección configurables.",
+            "document_id": "doc-1",
+            "page_number": 29,
+        },
+        {
+            "fragment_number": 2,
+            "text": "Lazos | 2 | 4",
+            "document_id": "doc-1",
+            "page_number": 29,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_rechaza_crumb_de_navegacion():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis modos de disparo configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": "Sistema | Otros | Reiniciar",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_rechaza_nueva_seccion_sin_sustantivo():
+    """El bloque par vive bajo un heading PROPIO del fragmento j (no es continuación)
+    y no contiene el sustantivo contado → no liga."""
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis niveles de acceso configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": (
+                "## Otro apartado\n- Elemento A\n- Elemento B\n- Elemento C\n"
+                "- Elemento D\n- Elemento E\n- Elemento F\n- Elemento G"
+            ),
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    assert mp.detect_cross_fragment_count_atoms(fragments) == []
+
+
+def test_cross_fragment_count_sustantivo_liga_aunque_haya_heading():
+    fragments = [
+        {
+            "fragment_number": 1,
+            "text": "La central admite seis niveles de acceso configurables.",
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+        {
+            "fragment_number": 2,
+            "text": (
+                "## Niveles de acceso\n- Nivel A\n- Nivel B\n- Nivel C\n"
+                "- Nivel D\n- Nivel E\n- Nivel F\n- Nivel G"
+            ),
+            "document_id": "doc-1",
+            "page_number": 44,
+        },
+    ]
+    atoms = mp.detect_cross_fragment_count_atoms(fragments)
+    assert len(atoms) == 1
+    assert atoms[0]["meta"]["cross_fragment"] is True
+
+
 def test_apply_detect_fn_inyectable(monkeypatch):
     _wire(monkeypatch, {"detnov:cad-150"})
     chunks = [{"document_id": "doc-1", "content": _RANGE_TEXT}]
