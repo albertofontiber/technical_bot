@@ -1,0 +1,272 @@
+schema: s274_bloquesCD_prereg_v2
+supersedes: evals/s274_bloquesCD_prereg_v1.yaml   # v1 se conserva como registro pre-duo
+status: preregistered_p0_built_flagoff            # P0 CONSTRUIDO flag-off; P1+ NO ejecutado (los corre el coordinador)
+created_at: "2026-07-20"
+design_doc: evals/s274_bloquesCD_design_v1.md      # PARTE 2 = v2 tras el duo (override declarado)
+objective: "foto oficial 145/154 -> 151/154 (98%) = +6 conversiones synth (DEC-125/131)"
+
+duo_adjudicated:
+  by: coordinador (s274)
+  sol: "GPT-5.6 Sol xhigh: 7 hallazgos (2 criticos + 4 medios + 1 menor), 7/7 confirmados, 0 FP"
+  fable: "Fable 5 sub-agente: 5 hallazgos (3 medios + 2 menores), 5/5 confirmados, 0 FP"
+  severity_max: critical
+  log: evals/adversarial_review_log.jsonl (run 2026-07-20T00:37:53 + fila de adjudicacion s274)
+
+# ---------------------------------------------------------------------------
+# INSUMOS PINEADOS (sha256 LF-normalizado; el runner FALLA en drift)
+# ---------------------------------------------------------------------------
+frozen_inputs_sha256_lf:
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
+  evals/s270_etapa2_probe_v3_replicas_v1.jsonl: 728ef776d7cdd33fe1237c3cf9c1b54f1ffe1ff52d6dc2a22b91bf1f301b6cc7
+  evals/s274_serving_view_diag_v1.json: e43c0eaec9352f586b36ce35af9f04d78faf8bb6a9065b8b182bb64d45679a08
+  evals/s274_hybrid_funnel_diag_v1.json: 129c06e2b384b5cfe68a2f68dd7d591bdff94727b31fd24f85b7d6a4734e289c
+  evals/s274_hybrid_funnel_diag_v2.json: 0f78eb28f7d4569e51c300ef02de387566608b1f61b85611cd43002ee9be9685
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  scripts/s270_etapa2_probe.py: 4b416f5a8ae6adbf6862a068149c6bc4d3de05683f3f734a4e85399d0d1821f5
+  src/rag/must_preserve.py: 2191ed9147bbdc5c7f0ee1e8566dbf0dd01706395736ffbcb04dc2fde98672db
+  src/rag/post_rerank_coverage.py: 9da0ae163c346143bb177413bab7a57ba36bd5eece422bba556006205f682f8d
+  src/rag/mp_lexicon.py: 4eacf814c192fcd3a9553a0bbe89df6fafb145ee1ae957982eceaaed7c6953c4
+  src/rag/answer_planner.py: c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3   # INTACTO (pin s201/s260 respetado)
+
+diagnostics_basis:
+  c1_serving_view:
+    artifact: evals/s274_serving_view_diag_v1.json
+    verdict_required: all_pass_true
+    finding: >-
+      coverage_context_content sirve SOLO los spans de coverage_cards (seleccion de
+      spans, NO cap de chars; diseno s110/s111). El bloque-warning de hp017 F12
+      (2479-2724) queda fuera de toda card; con vista completa los 2 F-MANDATORY se
+      detectan, F12 esta citado 3/3 y el binding aguanta 3/3.
+  d1_hybrid_funnel_n3:
+    artifact: evals/s274_hybrid_funnel_diag_v2.json   # Fable-M3: N=3, no N=1
+    replicas: 3
+    haiku_calls: 50
+    cost_usd: 0.2650
+    cost_overage_declared: >-
+      autorizacion $0.25, real $0.2650 (+$0.015, 6%): r3 cita mas fragmentos que la
+      estimacion por-r1 y el output por llamada crecio. Declarado, no repetido
+      (feedback_cost_discipline).
+    stability: >-
+      Causas ESTABLES 3/3 (temp=0, propuestas identicas entre replicas):
+      rejected_shape domina 64/63/68 por replica (195/248 = 78.6%); obl_015f
+      propuesto 2x/replica y muerto en shape 6/6 (separador '=' + sin trigger);
+      obl_a5d9 ni se propone 0/3 (sin familia en el prompt); obl_b2043 invisible 3/3
+      (serving-view: su span 1427-1694 NO esta en las cards NI lo cubre la card de
+      callout — no lleva gatillo MANDATORY); obl_7aa7 propuesto 3/3 como F-MANDATORY
+      y muerto en shape 3/3 (clausula definicional sin trigger). Crowding no
+      dominante; grounding 8/248.
+  fable_m1_merged_check:
+    verified: >-
+      merged_carrier_covered (scripts/s270_etapa2_probe.py:316-325) exige AMBAS
+      componentes (obl_16637 + obl_0d6a). Verificado $0 con replay estatico sobre el
+      borrador r1 almacenado: draft OFF False -> draft+anexo (card callout + verb-
+      trigger) True. La card cubre el bloque completo 2479-2724 (245 chars <= 600) y
+      good_form acepta el PRIMER warning solo con MP_MANDATORY_VERB_TRIGGER (la
+      causa NO era clausula corta: 72 chars >= 40; era que 'evite' — imperativo del
+      propio lexico — no esta en el lexico de verbos finitos).
+
+# ---------------------------------------------------------------------------
+# P0 CONSTRUIDO (esta sesion, flag-off; tests tests/test_s274_bloquesCD_fixes.py)
+# ---------------------------------------------------------------------------
+flags:                                      # Sol-C2: por-fix, todos default-off estrictos
+  COVERAGE_MANDATORY_CALLOUT: "C1 — card de callout-MANDATORY en la lane (post_rerank_coverage)"
+  MP_SERVED_BINDING: "C2 — binding servidos-no-citados, umbral reforzado (>=3 tokens o numero+1; MANDATORY proc >=3)"
+  MP_DEFLINE_EQ: "D1a — separador '=' espaciado en lineas de definicion (det+hibrido)"
+  MP_HYBRID_DETECT: "D1b — detector hibrido REAL en runtime (<=2 llamadas Haiku/respuesta, timeout 10s, fail-open) + familia F-RELATION"
+  MP_STEM_BINDING: "D1c — tolerancia de plural es/en en el match de binding (_noun_stem)"
+  MP_DISTINCTIVE_TOKEN: "D2 — bind con 1 token propio SI es distintivo (digito | acronimo [A-Z]{2,6} en superficie | identificador de catalogo)"
+  MP_MANDATORY_VERB_TRIGGER: "Fable-M1 — gatillo-VERBO del lexico (evite/eviten) cuenta como verbo conjugado de SU clausula en la whitelist; gatillos-sustantivo jamas (7o flag derivado del duo, kill-switch propio)"
+build_notes:
+  c1_card_contract: >-
+    Clase propia card_class=mandatory_callout en CAMPO PROPIO
+    mandatory_callout_cards (0-1 card), SIN heredar la validacion semantica del
+    selector (local_semantic_validated: False explicito — Sol-M4); receipt PROPIO
+    (has_exact_mandatory_callout_receipt: spans exactos + igualdad con la
+    re-derivacion determinista; tampering -> no se sirve, test pineado); <=600
+    chars, merge de oraciones-gatillo con hueco sin alfanumericos; grupo mayor se
+    omite ENTERO. Se sirve con SU flag, independiente de LOGICAL_RECORD_COVERAGE.
+    served_coverage_cards y su receipt v3 quedan BYTE-INTACTOS. Contrato de la
+    lane actualizado en el docstring del modulo.
+  consumers_audit: >-
+    Lectores de cards auditados (grep src/): coverage_context_content (serving —
+    actualizado para anexar el campo propio con su receipt), receipts v3
+    (byte-intactos), answer_planner.py build_answer_plan l.1399 (deriva
+    OBLIGACIONES de served_coverage_cards — al vivir la card en campo propio NO la
+    ve POR CONSTRUCCION; answer_planner.py queda INTACTO, pin de bytes s201/s260
+    respetado; test funcional con flag ON), _has_substantive_coverage_card y
+    table_preamble (leen coverage_cards del selector — no afectados), must_preserve
+    _chunk_text (beneficiario intencional).
+  d1b_deployable: >-
+    Sol-C1 (ON-medido != ON-shippeado, 3a aparicion): el hibrido queda CABLEADO de
+    verdad tras MP_HYBRID_DETECT — cliente runtime fail-open (sin SDK/key/timeout ->
+    determinista puro), presupuesto <=2 llamadas Haiku/respuesta (los 2 fragmentos
+    attested-citados de vista mas larga, orden determinista), timeout 10 s,
+    trace["hybrid"] con fragmentos/uso/errores. F-RELATION (contrato NUEVO, Sol-M6:
+    no continuidad del TODO §1.1) solo existe tras el flag — prompt y validador
+    byte-identicos v3 con flag off; defensa en profundidad en el validador.
+  d1b_relation_shape: >-
+    Clausula completa (verbo conjugado, >=40 chars sin markup — vara whitelist v5) +
+    ANCLA: numero-con-unidad | >=2 tokens distintivos | cabeza de definicion
+    (_DEFLINE con etiqueta de >=2 tokens de contenido — anadida tras el funnel N=3:
+    las clausulas 7aa7/b2043 no llevan numeros ni acronimos). Prosa generica y
+    titulos NO pasan (verificado en tests).
+  d2_catalog_anchor: >-
+    Ancla fichero:linea (Fable-m2): scripts/catalog_store.py — indices _by_canonical
+    /_by_alias (campos l.79-81, construidos en load() l.94: norm_token de
+    canonical_model y alias), consumidos via src/rag/catalog_resolver.py (import
+    por-path l.45, _ensure/_cat l.141-148). El helper _catalog_identifier_tokens
+    re-normaliza las claves al fold alfanumerico del binding, cache de proceso,
+    fail-open a vacio. idf-de-corpus en runtime DESCARTADO (dependencia DB + drift).
+  tests: tests/test_s274_bloquesCD_fixes.py (24 tests por-fix; byte-identico con todo off)
+
+settled_levers_touched:
+  binding_relaxation:
+    settled: "DEC-127: relajacion incondicional rechazada 2x (seed-270: 36 clean-FP; seed-271: 14 FP single-token)"
+    today: "D2 = subclase 1-token-DISTINTIVO gateada FP=0 en fresco ANTES del probe; si el gate falla, D2 muere y DEC-127 queda reforzado"
+    metrics_match: "NO es el mismo lever: settled = relajar >=2 sin condicion en caliente; hoy = subclase cerrada pre-registrada"
+  served_binding_c2_vs_seed270:                  # Fable-M2: mapeo explicito
+    settled: "seed-270 (DEC-122): binding por anchors genericos DEL FRAGMENTO rechazado — 36/158 clean-FP de atomos hermanos con >=2 tokens compartidos"
+    today: >-
+      C2 NO reintroduce esa clase: (a) el match sigue siendo tokens PROPIOS del
+      atomo (span/miembros/proc), jamas anchors del fragmento; (b) el umbral sube a
+      >=3 tokens (o numero propio + >=1) PORQUE la superficie de match crece de
+      ventana-de-cita a respuesta completa; (c) P1 incluye la clase de mutacion
+      served_not_cited con FP=0 exigido en poblacion fresca ANTES del probe.
+    metrics_match: "la metrica que zanjo seed-270 (clean-FP por hermanos >=2 tokens) se RE-MIDE como gate de C2 en P1 (misma clase de control, poblacion nueva)"
+  bounded_serving_s110_s111:
+    settled: "decision de diseno (commits 75720fc/23cfa27), sin gate medido propio"
+    today: "C1 conserva el contrato (spans exactos receipted, vista acotada); anade una clase de card con su propio flag"
+  quota_enunciados_bloqueB:
+    settled: "DEC-132b CERRADO PERMANENTE (metrica v3b: hp005#2 3/3->0/3 a nivel respuesta)"
+    today: "fuera de scope; ni cat017#2 ni hp010#1 se tocan"
+  must_preserve_stage1:
+    settled: "Etapa-1 v8 GO (0.976/0.923/1.0/0.905, DEC-130)"
+    today: "P1 v9 exige los gates v8 INTEGROS ademas de las clases nuevas"
+
+probe_accounting:
+  probe_number: 4
+  prior_probes: {v1: 0.75, v2: 1.09, v3: 1.14}
+  anti_overfit: >-
+    Riesgo creciente DECLARADO (4o probe a los mismos targets). Mitigaciones: (1)
+    cambios exclusivamente GENERICOS justificados por diagnosticos N=3; (2)
+    validacion fresca P1 (seed nueva, exclusiones acumuladas) SIEMPRE antes del
+    probe; (3) UN solo probe consolidado C+D (P2) con brazos de ablacion, sin
+    re-runs ni retry; (4) gates de dano heredados pareados CONTEMPORANEOS (leccion
+    v3 Bloque B: jamas referencia congelada); (5) sin probe #5: lo no convertido
+    queda residual por-clase; reapertura = evidencia nueva + permiso explicito
+    (patron DEC-126/132b).
+
+phases:
+  - id: P0
+    name: build_flagoff_tests_duo
+    status: DONE_THIS_SESSION
+    db_writes: 0
+    cost_usd_actual: 0.2650                   # funnel N=3 (unico gasto pagado)
+    notes: "build de los 7 flags + guard del planner + mp_lexicon + 24 tests por fix + replay estatico merged-check (False->True)"
+  - id: P1
+    name: etapa1_v9_validacion_fresca
+    db_writes: 0
+    cost_ceiling_usd: 2.50
+    procedure: >-
+      Cohorte de mutaciones FRESCA (seed nueva; exclusiones acumuladas v1+s270-274):
+      gates v8 INTEGROS + clases nuevas: defline_equals (recall mutados + FP=0
+      clean), f_relation_recall (mutacion qualifier_loss/definition_loss),
+      served_not_cited (FP=0 clean — re-mide la clase seed-270), single_distinctive
+      token (FP=0 clean + re-clase seed-271 = 0), stem_binding (FP=0 clean),
+      mandatory_verb_trigger (heading_only 0 FP + clean MANDATORY integro),
+      callout-card (0 cards espurias en chunks de coverage limpios de la cohorte).
+    gate: >-
+      GO por-fix independiente: un NO-GO mata SOLO su fix; los gates v8 heredados en
+      NO-GO matan el bloque D entero.
+  - id: P2
+    name: probe_consolidado_CD_ablacion
+    db_writes: 0
+    cost_ceiling_usd: 6.00
+    cost_estimate_usd: "2.5-4 (recalculado con brazos de ablacion)"
+    arms:                                      # Sol-M3: atribucion por brazo
+      A0: "OFF-base: 7 flags off, MUST_PRESERVE_CONTRACT=on (estado prod DEC-131). hp017 K=3 generacion fresca (base pareada de C1); cat018/hp002/hp011 sobre borradores OFF almacenados v3"
+      A-C1: "COVERAGE_MANDATORY_CALLOUT + MP_MANDATORY_VERB_TRIGGER (PAR DECLARADO: la conversion 0d6a exige ambos; atribucion interna via good_form por-atomo en el trace). hp017 K=3 generacion fresca pareada mismo-dia con A0 + protegidas"
+      A-C2: "MP_SERVED_BINDING. hp011 (obl_2f5d) apply-side sobre almacenados + golds con protegidas"
+      A-D1a: "MP_DEFLINE_EQ. cat018 apply-side"
+      A-D1b-det: "= A0 (la familia F-RELATION no tiene brazo det; se declara para la resta)"
+      A-D1b-hyb: "MP_HYBRID_DETECT. cat018/hp002/hp017 apply-side con Haiku (<=2 calls/respuesta, el presupuesto de PROD — lo desplegable)"
+      A-D1c: "MP_STEM_BINDING. hp002 apply-side"
+      A-D2: "MP_DISTINCTIVE_TOKEN. cat018 (obl_7bba) apply-side"
+      A-ALL-det: "todos los flags menos MP_HYBRID_DETECT (lo shippeable sin Haiku)"
+      A-ALL: "todos los flags (incluye hibrido runtime)"
+    banking_rule: >-
+      Sol-C1 (ON-medido != ON-shippeado): solo se bankea lo DESPLEGABLE con el flag
+      de prod correspondiente — conversiones det-only bancables con A-ALL-det;
+      conversiones que exijan el hibrido solo si MP_HYBRID_DETECT se decide
+      shippear (decision de release separada, con su coste/latencia declarados).
+    scoring: "matcher determinista NFKD s163 (0 juez); checks identicos al probe v3 + merged_warning_block + disclosure opcion-1 (DEC-128), sin cambios"
+    gates:
+      conversion: "estable >=2/3 por candidato y por brazo; se reporta TODO (tambien 015f/b2043/7aa7, sin gatear)"
+      protegidas: "obl_05482a6b3f0e / obl_0db2b9f2842a / obl_5784f16b1a11 estables-en-OFF no caen en ningun brazo ON"
+      conflictos: "0 conflictos nuevos en todos los brazos"
+      anclas: "matriz per-fact pareada +0/-0 con STOP duro en la union s104+s105"
+      retrieval_invariante: "en A-C1: appended_ids/pool identicos OFF/ON (la card cambia la VISTA, no el pool)"
+      diagrams: >-
+        Sol-M5 (eleccion declarada: etiquetar y gatear en el probe, SIN cambio de
+        prod — el orden visual-assets-tras-must_preserve es decision S271
+        deliberada, src/rag/generator.py:797-807): el probe corre con
+        VISUAL_ASSETS_REGISTRY=off pineado => el anexo NO puede introducir
+        diagramas (estructural, se asserta); result["diagrams"] se versiona
+        POR BRAZO y cualquier delta OFF/ON en DIAGRAMAS_RELEVANTES del modelo se
+        reporta etiquetado como informativo (la vista C1 cambia el contexto
+        legitimamente).
+    stop_rule: >-
+      STOP en cualquier gate de dano => el fix causante queda cerrado sin re-run (no
+      hay probe #5); las conversiones de fixes limpios se conservan.
+  - id: P3
+    name: negcontrol_vivo_smoke
+    db_writes: 0
+    cost_ceiling_usd: 1.50
+    procedure: >-
+      5 golds sanos del smoke Etapa-3 con la config candidata a ship (pareado):
+      0 apendices espurios nuevos, 0 anclas perdidas, monotonia ON = OFF + apendice
+      opcional; caso hp001/cat007 pineados de DEC-127b re-verificados.
+    gate: "0 espurios / 0 anclas perdidas"
+  - id: P4
+    name: cierre_banking
+    db_writes: 0
+    cost_ceiling_usd: 0.00
+    procedure: >-
+      Banking SOLO de conversiones certificadas segun el path del flag de prod
+      (patron DEC-131: certificacion + recibo vivo); DECs; closeout; LEVER_DIGEST.
+    gate: "aritmetica determinista SHA-pineada (patron s270/s272)"
+
+budget:
+  total_ceiling_usd: 15.00
+  spent_p0_usd: 0.2650
+  phase_ceilings_sum_usd: 10.00               # P1 2.50 + P2 6.00 + P3 1.50
+  margin_rule: >-
+    Solo re-run de P1 por fallo de INSTRUMENTO declarado (jamas de resultado); P2
+    jamas se re-corre.
+  no_retry: true
+  stop_on_ceiling: true
+
+honest_arithmetic:
+  needed: 6
+  candidates_confidence:                       # ACTUALIZADA con el build + N=3
+    obl_0d6a30948dfd: "alta-CONDICIONADA al par C1+verb-trigger (Fable-M1); replay estatico sobre r1: merged check False->True verificado"
+    obl_7bba8d03d496: "media (D2; 'cbe' acredita como acronimo — verificado en test)"
+    obl_2f5d79e354b9: "media (C2; el atomo r.i de F13 bindea reforzado sobre el draft r1 — verificado $0)"
+    obl_a5d9fa1f9253: "media (D1b shape via num-unidad + D1c stem: bind verificado en tests; falta que Haiku la proponga bajo el prompt con F-RELATION — no medible sin probe)"
+    obl_b2043cd4379b: "BAJA (correccion al v1: la card C1 NO cubre su span — 'Instruccion de entrada' no lleva gatillo MANDATORY y sigue fuera de la vista servida; solo convertible via generacion si el writer la cita de otro fragmento — residual probable)"
+    obl_7aa723717412: "baja-media (F-RELATION shape OK via defhead, pero su ventana [F12] r1-r3 no comparte tokens propios => bind falla; depende de que la generacion fresca cambie la ventana)"
+    obl_015f9b9aaa3a: "baja (D1a da el shape pero la ventana [F8] no comparte tokens del bundle TONE => bind falla; binding a nivel fragmento rechazado con metrica seed-270 y NO se propone)"
+  statement: >-
+    Expectativa honesta: ~4 conversiones probables (0d6a, 7bba, 2f5d, a5d9) + 3
+    baja/baja-media => el +6 probablemente NO se alcanza solo con C/D; el gap
+    restante vuelve por-clase sin iteracion en caliente (herencia anti-overfit
+    DEC-127). La correccion b2043 (v1 decia 'co-beneficiado por C1') sale del
+    analisis del build: la card es de lexico MANDATORY y su span es definicional.
+
+execution_requires: alberto_or_coordinator_go   # P1+ los corre el coordinador
+outputs_expected:
+  - evals/s274_stage1_v9_gate_v1.yaml
+  - evals/s274_probeCD_replicas_v1.jsonl
+  - evals/s274_probeCD_result_v1.json
+  - evals/s274_negcontrol_smoke_v1.json
+  - evals/s274_bloquesCD_closeout_v1.yaml

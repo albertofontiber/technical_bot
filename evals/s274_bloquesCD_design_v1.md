@@ -290,3 +290,101 @@ escrituras); los 77 legacy carries siguen fuera del KPI (S205).
 **Decisión de ship (fuera de este prereg):** flags default-off; merge tras dúo; la
 activación en demo/prod de `COVERAGE_MANDATORY_CALLOUT` sigue el patrón DEC-127b/130
 (re-smoke limpio); el banking sigue el patrón DEC-131 (certificación + recibo vivo).
+
+---
+
+# PARTE 2 — v2 tras el dúo (adjudicado por el coordinador: Sol 7/7 — 2 críticos + 4 medios + 1 menor · Fable 5/5 — 3 medios + 2 menores · 0 FP)
+
+**Esta parte OVERRIDE a la Parte 1 donde difieran.** Prereg vigente:
+`evals/s274_bloquesCD_prereg_v2.yaml` (supersede v1). P0 CONSTRUIDO flag-off en esta
+sesión; P1+ los ejecuta el coordinador.
+
+## v2.1 Los 12 puntos del dúo y su resolución
+
+1. **(Sol-C1) D1b desdoblado y desplegable:** el híbrido queda CABLEADO tras
+   `MP_HYBRID_DETECT` — cliente runtime fail-open, **≤2 llamadas Haiku/respuesta**
+   (los 2 fragmentos attested∩citados de vista más larga, orden determinista),
+   timeout 10 s, `trace["hybrid"]`. El probe mide brazo det-only y brazo híbrido POR
+   SEPARADO (`A-ALL-det` vs `A-ALL`); **solo lo desplegable se bankea**.
+2. **(Sol-C2) Flags por-fix** — 7 (los 6 pedidos + `MP_MANDATORY_VERB_TRIGGER`
+   derivado de Fable-M1, kill-switch propio): `COVERAGE_MANDATORY_CALLOUT` ·
+   `MP_SERVED_BINDING` · `MP_DEFLINE_EQ` · `MP_HYBRID_DETECT` · `MP_STEM_BINDING` ·
+   `MP_DISTINCTIVE_TOKEN` · `MP_MANDATORY_VERB_TRIGGER`. Todos estrictos
+   default-off; byte-idéntico con todo off (test dedicado).
+3. **(Sol-M3) Probe con brazos de ablación** (prereg v2 §P2.arms): OFF-base + un
+   brazo por fix sobre SUS golds + protegidas + `A-ALL-det` + `A-ALL`. Estimación
+   recalculada $2.5-4, techo $6.
+4. **(Sol-M4) Card C1 = clase propia EN CAMPO PROPIO** `mandatory_callout_cards`
+   (`card_class="mandatory_callout"`, `local_semantic_validated: False` EXPLÍCITO,
+   receipt propio `has_exact_mandatory_callout_receipt` con test de tampering);
+   contrato de la lane actualizado en el docstring del módulo; **consumidores
+   auditados** (grep): serving (actualizado para anexar el campo propio),
+   receipts v3 (byte-intactos), `answer_planner.py:1399` (deriva obligaciones de
+   `served_coverage_cards` — al vivir la card en campo propio NO la ve POR
+   CONSTRUCCIÓN; el módulo queda INTACTO y los pins de bytes s201/s260 se
+   respetan; test funcional con flag ON), `_has_substantive_coverage_card`/
+   table-preamble (leen selector cards — no afectados), `must_preserve._chunk_text`
+   (beneficiario).
+5. **(Sol-M5) Diagramas — elección declarada (la más simple):** sin cambio de prod
+   (el orden visual-assets-tras-must_preserve es decisión S271 deliberada,
+   `src/rag/generator.py:797-807`); el probe corre con `VISUAL_ASSETS_REGISTRY=off`
+   pineado ⇒ el anexo NO puede introducir diagramas (se asserta); los brazos
+   versionan `result["diagrams"]` y el delta OFF/ON del modelo se reporta etiquetado.
+6. **(Sol-M6 + Fable-m2) F-RELATION = contrato NUEVO** (declarado en el código, no
+   continuidad del TODO §1.1). **D2 anclado**: `scripts/catalog_store.py`
+   `_by_canonical`/`_by_alias` (campos l.79-81, build en `load()` l.94), consumidos
+   vía `src/rag/catalog_resolver.py` (l.45, l.141-148); helper con cache fail-open.
+7. **(Fable-M1, decisivo) 0d6a:** `merged_carrier_covered` exige AMBAS componentes
+   (verificado `scripts/s270_etapa2_probe.py:316-325`). La card cubre el bloque
+   COMPLETO 2479-2724 (245 chars, merge por hueco-sin-alfanuméricos). El primer
+   warning fallaba `good_form` — diagnóstico: NO era cláusula corta (72 chars ≥40);
+   es que «evite» (imperativo del propio léxico MANDATORY) no está en el léxico de
+   verbos finitos → fix family-scoped `MP_MANDATORY_VERB_TRIGGER` (solo
+   gatillos-VERBO `evite`/`eviten`; los gatillos-sustantivo jamás — heading-only
+   sigue fuera, se re-gatea en P1). **Replay estático $0 sobre el borrador r1:
+   merged check False→True.** Confianza de 0d6a = alta-CONDICIONADA al PAR
+   card+verb-trigger (declarado; brazo A-C1 = par declarado con atribución interna
+   por good_form en el trace).
+8. **(Fable-M2) C2 vs seed-270 mapeado** (prereg v2 §settled_levers_touched):
+   seed-270 rechazó binding por anchors genéricos DEL FRAGMENTO (36/158 clean-FP);
+   C2 usa tokens PROPIOS del átomo, umbral SUBIDO a ≥3 (superficie mayor ⇒ listón
+   mayor) y re-mide exactamente esa clase de control (mutación `served_not_cited`,
+   FP=0) en P1 antes del probe.
+9. **(Fable-M3) Funnel re-corrido N=3** (`evals/s274_hybrid_funnel_diag_v2.json`,
+   $0.2650 — sobrecoste +$0.015 sobre la autorización $0.25, declarado): causas
+   ESTABLES 3/3 e idénticas por réplica (temp=0) — el framing del diseño se sostiene
+   sin ajuste de dirección, con UNA corrección material (v2.2).
+10. **Higiene:** léxico MANDATORY + segmentación a `src/rag/mp_lexicon.py` (módulo
+    neutro; la lane lo importa sin bidireccionalidad; must_preserve re-exporta los
+    nombres — 0 cambio de conducta, 112 tests previos verdes).
+11. **Tally del dúo adjudicado** apendizado a `evals/adversarial_review_log.jsonl`.
+12. **Build P0 completo** flag-off: 7 flags + guard del planner + 24 tests por fix
+    (`tests/test_s274_bloquesCD_fixes.py`) + suite verde (fallos pre-existentes de
+    base declarados aparte).
+
+## v2.2 Corrección material al v1 (sale del build, no del gold)
+
+**b2043 NO queda co-beneficiado por C1** (el v1 lo afirmaba): la card de callout es
+de léxico MANDATORY y el span de b2043 («Instrucción de entrada», offset 1427-1694)
+es DEFINICIONAL — sigue fuera de la vista servida incluso con C1 on. Confianza
+b2043 → BAJA (residual probable). Con ello la aritmética honesta queda: ~4
+conversiones probables (0d6a condicionada, 7bba, 2f5d, a5d9) + 7aa7 baja-media +
+b2043/015f baja ⇒ **el +6 probablemente NO se alcanza solo con C/D** — declarado en
+el prereg v2 con el gap por-clase; sin iteración en caliente.
+
+## v2.3 Qué mide cada brazo (resumen de atribución)
+
+| Brazo | Flags | Golds | Cambia generación | Coste |
+|---|---|---|---|---|
+| A0 | — (MPC=on) | hp017 fresh K=3; resto almacenados | sí (hp017) | ~$0.28 |
+| A-C1 | callout+verb-trigger | hp017 fresh K=3 pareado | sí | ~$0.28 |
+| A-C2 | served-binding | hp011 apply-side | no | $0 |
+| A-D1a | defline-eq | cat018 apply-side | no | $0 |
+| A-D1b-hyb | hybrid-detect | cat018/hp002/hp017 apply-side | no | ~$0.5 |
+| A-D1c | stem-binding | hp002 apply-side | no | $0 |
+| A-D2 | distinctive-token | cat018 apply-side | no | $0 |
+| A-ALL-det | todos − hybrid | 4 qids | reusa A-C1 | $0 |
+| A-ALL | todos | 4 qids | reusa A-C1 | ~$0.5 |
+
+Gates transversales por brazo: protegidas estables · 0 conflictos nuevos · anclas
+unión s104+s105 · retrieval-invariante (A-C1) · diagramas versionados (v2.1 §5).
