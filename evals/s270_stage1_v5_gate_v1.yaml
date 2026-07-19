@@ -1,5 +1,5 @@
 schema: s270_stage1_v5_gate_v1
-created_utc: '2026-07-19T13:07:52+00:00'
+created_utc: '2026-07-19T13:09:17+00:00'
 arm: det
 families:
   F-RANGE:
@@ -24,10 +24,10 @@ families:
     pass: true
 checks:
   display_recall:
-    value: 0.75
-    n: 3
+    value: 1.0
+    n: 4
     d: 4
-    pass: false
+    pass: true
   display_no_new_surface_fp:
     value: 0
     pass: true
@@ -54,4 +54,4 @@ checks:
   coverage:
     value: 0.9469320066334992
     pass: true
-verdict: NO_GO
+verdict: GO

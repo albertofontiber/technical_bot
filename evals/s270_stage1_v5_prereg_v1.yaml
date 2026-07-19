@@ -1,6 +1,6 @@
 schema: s270_stage1_v5_prereg_v1
 status: FROZEN_BEFORE_RUN
-created_utc: '2026-07-19T13:07:50+00:00'
+created_utc: '2026-07-19T13:09:15+00:00'
 predecessor: evals/s269_stage1_v3_prereg_v3.yaml (seed-272, 4/4 GO)
 mechanism: must_preserve v2 (DEC-126; fixes derivados del funnel del probe-1 s270)
 seed: 273
@@ -24,7 +24,7 @@ new_measures:
   composite_hybrid: SOLO brazo --hybrid (preflight en esta sesión; ejecución pagada la decide el orquestador)
 freeze:
   must_preserve_sha256: 2daa33df68a99ddb4335a555a01dd67d7922f1a0ade71e47798b1a51e5e99e51
-  harness_v5_sha256: 7220e290f2128820d33d0929689d42daca97dfc4d403746eb5bb7e99fa147a76
+  harness_v5_sha256: 45af82a46b0e2cf7b373b31045cfc4600b1e2b1bf448fd0cc04675f7e1f23dde
   s269_harness_sha256: 058fb75aa7b412b7ea65cbf875a510272a7c70accc41429b007ec24feb59a874
   templates_sha256: af27a45f4682077fcfef67dbdd0676d6159402e36a5bf98b96035617e10c5afa
   cohort_path: evals/s270_mutation_cohort_v5.jsonl
@@ -59,5 +59,9 @@ honest_declarations:
   la prevalencia real de pares cross no se mide.
 - 'El brazo híbrido (composites) queda en PREFLIGHT: el determinista es $0 y es el que gatea; la ejecución
   pagada del híbrido la decide el orquestador.'
+- 'ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada c273, commit 9cfc422): el hook de display inyectaba
+  SOLO el primer token y la paridad exige TODOS los tokens del span (rs/tx/rx) → 1 miss de instrumento
+  (3/4). Fix del TEMPLATE (todos los tokens), SIN tocar el mecanismo; re-medido sobre la MISMA cohorte
+  seed-273; la 1ª pasada queda en el historial git.'
 gate_runner: scripts/s270_mutation_harness_v5.py --gate
 gate_output: evals/s270_stage1_v5_gate_v1.yaml

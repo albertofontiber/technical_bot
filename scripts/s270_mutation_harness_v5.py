@@ -249,7 +249,10 @@ def evaluate_display_rows(row: dict, atoms: list[dict]) -> list[dict]:
     }
     span = (row["atom"].get("span_text") or "").strip()
     claim = mutations[0]["claim_mut"]
-    hook = TEMPLATES_V5_EXTRA["display_hook"].format(token=tokens[0])
+    # ITERACIÓN DE INSTRUMENTO DECLARADA (1ª pasada c273, en git): el hook inyectaba
+    # SOLO tokens[0] y la paridad exige TODOS los tokens display del span (span con
+    # rs/tx/rx → miss de instrumento, no del mecanismo). El hook lleva TODOS.
+    hook = TEMPLATES_V5_EXTRA["display_hook"].format(token=", ".join(tokens))
     for with_token, label in ((True, "with_token"), (False, "without_token")):
         draft = H.render_draft(claim, 0)
         if with_token:
@@ -603,6 +606,12 @@ def freeze() -> int:
             "El brazo híbrido (composites) queda en PREFLIGHT: el determinista es "
             "$0 y es el que gatea; la ejecución pagada del híbrido la decide el "
             "orquestador.",
+            "ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada c273, commit "
+            "9cfc422): el hook de display inyectaba SOLO el primer token y la "
+            "paridad exige TODOS los tokens del span (rs/tx/rx) → 1 miss de "
+            "instrumento (3/4). Fix del TEMPLATE (todos los tokens), SIN tocar el "
+            "mecanismo; re-medido sobre la MISMA cohorte seed-273; la 1ª pasada "
+            "queda en el historial git.",
         ],
         "gate_runner": "scripts/s270_mutation_harness_v5.py --gate",
         "gate_output": str(GATE_OUT_PATH.relative_to(ROOT)).replace("\\", "/"),
