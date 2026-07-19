@@ -23,7 +23,7 @@ frozen_inputs_sha256_lf_normalized:
 # El pin del runner se estampa al finalizar su build EN ESTA MISMA SESION, antes de todo
 # --execute (un fichero no puede contener su propio sha; el prereg es la autoridad externa).
 runner_sha256_lf_normalized:
-  scripts/s270_etapa2_probe.py: PENDING_STAMP_BEFORE_EXECUTE
+  scripts/s270_etapa2_probe.py: d766224f7780312afa3bd4bef0d664e9f4df94ba675475839811109bea4d70cf
 
 # ── Diseño experimental ──
 design:
