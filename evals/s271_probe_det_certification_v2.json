@@ -1,0 +1,673 @@
+{
+  "schema": "s271_probe_det_certification_v2",
+  "status": "GO",
+  "proposito": "Certificación DET-ONLY v2 del path de prod con los guards de ACTIVACIÓN s271 (DEC-127b) y el disclosure opción-1 (DEC-128): re-aplica el contrato sin detect_fn sobre los borradores OFF almacenados del probe v3 — 0 llamadas, 0 exposición nueva. Verifica que obl_b6f6 sigue 3/3 y que el guard de contenido informativo NO mata el disclosure de obl_872c (etiquetas CON texto ≠ celdas en blanco).",
+  "predecessor": "evals/s270_probe_det_certification_v1.json",
+  "det_only": true,
+  "source_replicas": "evals/s270_etapa2_probe_v3_replicas_v1.jsonl",
+  "declared_drift": {
+    "src/rag/must_preserve.py": {
+      "prereg_v3_pinned_sha256_lf": "4f292b2039947bef08716c10d0c8956d05eefd2b5372ec0593a534b2f0f77264",
+      "actual_sha256_lf": "08b7cb9c025065fb1bb22dcb435bdbbad895d685042651bbdf5cc36b099be0f2",
+      "intentional": true,
+      "delta": "s271 guards de activación DEC-127b (dedup render + contenido informativo + tie estricto F-COUNT) — validados en Etapa 1 v7 seed-275; ver evals/s271_stage1_v7_gate_v1.yaml"
+    },
+    "scripts/s270_etapa2_probe.py": {
+      "delta": "disclosure_covered re-specced a OPCIÓN 1 «evidencia servida» (DEC-128, adjudicación de Alberto S271)"
+    }
+  },
+  "protected_set": {
+    "obl_05482a6b3f0e": "hp011",
+    "obl_0db2b9f2842a": "hp002",
+    "obl_5784f16b1a11": "cat018"
+  },
+  "b6f6_check": {
+    "obligation_id": "obl_b6f6211be439",
+    "required": "3/3 estable",
+    "detail": {
+      "qid": "hp002",
+      "check": "matcher",
+      "on_covered": 3,
+      "off_covered": 0,
+      "stable_conversion": true
+    },
+    "pass": true
+  },
+  "obl_872c_detail": {
+    "qid": "hp017",
+    "check": "disclosure_respec",
+    "on_covered": 2,
+    "off_covered": 0,
+    "stable_conversion": true
+  },
+  "obl_872c_informative_survival": [
+    {
+      "replicate": 1,
+      "appendix_len": 3045,
+      "disclosure_marker": true,
+      "f1_strip_labels_in_appendix": false,
+      "disclosure_covered_on": true,
+      "disclosure_covered_off": false
+    },
+    {
+      "replicate": 2,
+      "appendix_len": 3045,
+      "disclosure_marker": true,
+      "f1_strip_labels_in_appendix": false,
+      "disclosure_covered_on": true,
+      "disclosure_covered_off": false
+    },
+    {
+      "replicate": 3,
+      "appendix_len": 0,
+      "disclosure_marker": false,
+      "f1_strip_labels_in_appendix": false,
+      "disclosure_covered_on": false,
+      "disclosure_covered_off": false
+    }
+  ],
+  "aggregate": {
+    "eligible_detail": {
+      "obl_7bba8d03d496": {
+        "qid": "cat018",
+        "check": "matcher",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_015f9b9aaa3a": {
+        "qid": "cat018",
+        "check": "matcher",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_b6f6211be439": {
+        "qid": "hp002",
+        "check": "matcher",
+        "on_covered": 3,
+        "off_covered": 0,
+        "stable_conversion": true
+      },
+      "obl_a5d9fa1f9253": {
+        "qid": "hp002",
+        "check": "matcher",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_b2043cd4379b": {
+        "qid": "hp017",
+        "check": "matcher",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_7aa723717412": {
+        "qid": "hp017",
+        "check": "matcher",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_0d6a30948dfd": {
+        "qid": "hp017",
+        "check": "merged_warning_block",
+        "on_covered": 0,
+        "off_covered": 0,
+        "stable_conversion": false
+      },
+      "obl_872c35fb41d7": {
+        "qid": "hp017",
+        "check": "disclosure_respec",
+        "on_covered": 2,
+        "off_covered": 0,
+        "stable_conversion": true
+      }
+    },
+    "stable_conversions": [
+      "obl_872c35fb41d7",
+      "obl_b6f6211be439"
+    ],
+    "stable_protected_regressions": [],
+    "regression_detail": {},
+    "nonprotected_stable_losses": [],
+    "new_stable_conflicts": [],
+    "conflict_flags_for_human_read": [
+      {
+        "conflict_id": "conf_26f63590494f",
+        "qid": "hp017",
+        "replicate": 1,
+        "arm_off_unsafe": true,
+        "arm_on_unsafe": true
+      },
+      {
+        "conflict_id": "conf_26f63590494f",
+        "qid": "hp017",
+        "replicate": 2,
+        "arm_off_unsafe": true,
+        "arm_on_unsafe": true
+      },
+      {
+        "conflict_id": "conf_26f63590494f",
+        "qid": "hp017",
+        "replicate": 3,
+        "arm_off_unsafe": true,
+        "arm_on_unsafe": true
+      }
+    ],
+    "stretch": {
+      "obligation_id": "obl_2f5d79e354b9",
+      "on_covered": 0,
+      "off_covered": 0,
+      "counts_toward_gate": false
+    },
+    "demoted_reporting_only": {
+      "obl_07eee3300535": {
+        "off_covered": 0,
+        "on_covered": 1
+      },
+      "obl_161564ff41bf": {
+        "off_covered": 0,
+        "on_covered": 0
+      }
+    },
+    "checks": {
+      "stable_conversions_at_least_1": true,
+      "protected_regressions_zero": true,
+      "new_conflicts_zero": true,
+      "cost_below_ceiling": true
+    },
+    "gate_verdict": "GO",
+    "requires_human_read": true,
+    "human_read_note": "DEC-092b: regresiones/conflictos flagged NO se declaran reales sin leer las respuestas (evals/s270_etapa2_probe_replicas_v1.jsonl)."
+  },
+  "per_replica": [
+    {
+      "qid": "cat018",
+      "replicate": 1,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      }
+    },
+    {
+      "qid": "cat018",
+      "replicate": 2,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      }
+    },
+    {
+      "qid": "cat018",
+      "replicate": 3,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      }
+    },
+    {
+      "qid": "hp002",
+      "replicate": 1,
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      }
+    },
+    {
+      "qid": "hp002",
+      "replicate": 2,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      }
+    },
+    {
+      "qid": "hp002",
+      "replicate": 3,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      }
+    },
+    {
+      "qid": "hp011",
+      "replicate": 1,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      }
+    },
+    {
+      "qid": "hp011",
+      "replicate": 2,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      }
+    },
+    {
+      "qid": "hp011",
+      "replicate": 3,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      }
+    },
+    {
+      "qid": "hp017",
+      "replicate": 1,
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      }
+    },
+    {
+      "qid": "hp017",
+      "replicate": 2,
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      }
+    },
+    {
+      "qid": "hp017",
+      "replicate": 3,
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          12,
+          13,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 2,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      }
+    }
+  ],
+  "paid_calls": 0,
+  "database_reads": 0,
+  "database_writes": 0,
+  "result_sha256": "16a5b4c4438efb8878c97d9c335d0d41e765af507c742ea3c94e0120a662bedf"
+}

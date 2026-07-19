@@ -2419,3 +2419,123 @@ permanece OFF; la activación en demo queda gateada a los 3 fixes + re-smoke lim
 default-off es seguro (byte-idéntico off + certificación det-only GO). Certificación det-only:
 b6f6 3/3 en el path exacto de prod ($0, borradores almacenados) — el híbrido NO es necesario
 para este ship.
+
+**DEC-128 (S271) — obl_872c: disclosure re-especificado a OPCIÓN 1 «evidencia servida»
+(adjudicación de Alberto).** El check `disclosure_covered` del instrumento
+(`scripts/s270_etapa2_probe.py`, el runner v1 que importan los probes) acredita si la
+respuesta (o su apéndice must-preserve) contiene: (a) el conteo DECLARADO («seis»/6
+co-localizado con el sustantivo tipos-de-retardo); (b) las etiquetas enumeradas VISIBLES en
+la evidencia servida — presencia sustancial: TODAS las no-basura de al menos un lado servido
+(tira OCR de F1 o cabeceras de la tabla de F2); y (c) un marcador EXPLÍCITO de discrepancia
+(«también indica» / «no coincide» / «difiere» / «discrepan» ...) — **SIN exigir el literal
+«siete»**. Alternativa 2 (exigir el 7) DESCARTADA: el 7 solo es conocible al píxel → exigirlo
+es pedirle al bot una INVENCIÓN; la curación de esa tabla queda como lever de INGESTA futuro.
+Re-score $0 de las réplicas ON almacenadas del probe v3 con la spec re-specced →
+**872c acredita 3/3 ON, 0/3 OFF = SEGUNDA conversión estable**
+(`evals/s271_872c_respec_rescore_v1.json`; es re-score de SPEC sobre respuestas ya
+generadas, NO un probe nuevo — bajo la spec vieja puntuaba 0/3 ON, 0/3 OFF). En la
+certificación det-only v2 (con los guards s271) 872c también convierte det-only 3/3 y el
+guard de contenido-informativo NO mata su disclosure (la tira de etiquetas OCR tiene texto
+real, no celdas en blanco — verificado por-réplica en
+`evals/s271_probe_det_certification_v2.json`).
+
+Adjudicación adicional de Alberto (S271): el claim cat017#2 "licencia CLIP (una por circuito
+de lazo CLIP)" se CONFIRMA CORE — clase muro-duro-condicional (la pregunta cubre "dar de
+alta" un lazo genérico y la INSPIRE soporta OPAL y CLIP; sin el .bin el alta CLIP no
+funciona), misma clase que obl_b6f6. Recomendación del orquestador aceptada verbatim por
+Alberto ("OK a tu recomendación de mantenerla CORE"). El denominador 154 NO cambia. El
+diagnóstico retrieval del Bloque B lo trata como CORE.
+
+**DEC-129 (S271, Bloque A) — los 3 BLOQUEADORES DE ACTIVACIÓN de DEC-127b cerrados con
+guards mecánicos y genéricos en `src/rag/must_preserve.py` (v4), sin tocar el contrato de
+binding:** (1) **dedup del render** — dos átomos con span idéntico tras fold (o solapado
+≥90% con el MISMO contenido numérico; números distintos = hecho distinto, se conservan)
+anexan una sola vez; (2) **guard de contenido informativo** — ningún lado del anexo puede
+ser vacío/solo-puntuación ni tabla de etiquetas-SIN-valores (celdas en blanco); si el
+lado-enumeración de un disclosure no es informativo, el disclosure ENTERO no dispara (mejor
+silencio que basura); distingue celdas-en-blanco de etiquetas-CON-texto (la tira OCR de
+hp017 sigue viva); (3) **tie ESTRICTO del F-COUNT a distancia** — la enumeración de un tie
+de sección/cross no puede ser un crumb de navegación/menú (línea única con `|`, ≤4
+tokens/celda, sin números) y debe compartir dominio con el conteo (sustantivo contado en la
+enumeración, o heading de sección compartiendo ≥1 token con la oración del conteo; en cross:
+sustantivo o continuación de la misma sección); el candidato rechazado NO se sustituye por
+el siguiente (conservador). Casos reales pineados en tests (hp001 «2,4,6 u 8 lazos»·crumb NO
+liga; cat007 tabla T1..T10 no dispara). **Validación fresca seed=275** (población nueva,
+exclusiones acumuladas v1+s270..274, brazo det $0):
+`evals/s271_stage1_v7_gate_v1.yaml` → **GO** — gates v6 íntegros verdes (los fixes no se
+compran con recall: F-RANGE 1.0 / F-BUNDLE 0.826 / F-MANDATORY 1.0 / F-COUNT 0.952) + 3
+checks nuevos (dup_span 0 FP/83 + control 0/30; empty_enum 0 FP/21 + positivo 0.90;
+navcrumb 0 FP/19 + no-relevance 0 FP/21 + positivo 1.0). Iteración de instrumento declarada
+en el prereg (display binding-guard sobre la VENTANA, clase seed-272). **Certificación
+det-only v2** ($0, borradores almacenados del probe v3, drift de sha DECLARADO):
+`evals/s271_probe_det_certification_v2.json` → **GO, b6f6 3/3 estable + 872c 3/3** (2
+conversiones det-only, 0 regresiones, 0 conflictos). **Etapa 3 re-preparada**: mismo
+`scripts/s270_etapa3_smoke_pareado.py` con `--fresh` (borra result+apéndices previos); la
+re-ejecución la paga el orquestador. El flag `MUST_PRESERVE_CONTRACT` sigue OFF: la
+activación queda gateada al re-smoke LIMPIO (DEC-127b).
+
+**DEC-129b (S271) — revisión adversarial del Bloque A (sub-agente Fable, ronda fresca):
+SÓLIDA con 2 hallazgos medios → AMBOS cableados antes del commit + residuales declarados.**
+(1) El dedup por ratio≥0.90+mismos-números colapsaba hechos distintos SIN números
+("cable de la sirena" vs "de la fuente", ratio 0.946) → apriete: el dedup exige además el
+MISMO set de tokens de contenido (test pineado; mitiga también la circularidad del control
+del harness — el control excluye pares por el mismo predicado, así que la clase queda
+cubierta por test unitario, no por el gate). (2) Bypass del tie estricto: una fila
+clave-valor de screenshot con el sustantivo como etiqueta («Lazos | 2 | 4») escapaba al
+crumb por el dígito y el sustantivo la endosaba → screen nuevo `_block_is_value_row`
+(celda puramente numérica = valores, no miembros) aplicado a los 3 ties (tests sección y
+cross). Ambos apretes re-medidos EN FRÍO: cohorte v7 re-construida con el detector final
+(misma seed 275) + re-run + gate → **GO idéntico** (familias 1.0/0.826/1.0/0.952; 19
+checks verdes) y certificación det-only v2 re-corrida → **GO (b6f6 3/3 + 872c 3/3)**.
+**Residuales DECLARADOS (no cableados):** (a) `informative_span` no caza la variante
+etiquetas-en-cabecera + filas en blanco (indistinguible mecánicamente de una enumeración
+legítima de una línea; falla hacia anexar etiquetas CON texto, no celdas vacías); (b) la
+limitación REAL del mecanismo con etiquetas punteadas que truncan la ventana de cita →
+TECH_DEBT #54 (el fix del display en el harness v7 era de INSTRUMENTO y queda declarado en
+el prereg). (c) La spec opción-1 de 872c mide ACTIVACIÓN del disclosure (satisfacible
+íntegramente por el apéndice determinista), no calidad de generación — no leer el 3/3 como
+calidad. **Pendiente del orquestador:** el lado cross-model del dúo (GPT-5.6 Sol, pagado)
+ANTES del merge — zona de dolor, el dúo es innegociable (Protocolo 3).
+
+**DEC-130 (S271, iteración FINAL del Bloque A) — Etapa 3 v2 (monotonía 5/5, guards v4
+funcionan: 0 duplicados / 0 span-vacío / 0 navcrumb) sacó 2 clases nuevas en cola larga →
+INVERSIÓN DE CONTRATO en el render: de blacklist a WHITELIST fail-closed de forma-buena
+(`must_preserve` v5, `atom_good_form`).** Clases observadas: (a) cat007 anexó un MANDATORY
+que era SOLO la cabecera «### <ins>ADVERTENCIA</ins>»; (b) hp001 emparejó el conteo
+«Lazos | 2» (match de RX_COUNT cruzando líneas) con un volcado de descripción de UI
+multi-línea (el navcrumb-guard solo cubría líneas únicas). Whitelist por span: (1) cláusula
+textual completa — ≥1 oración con verbo CONJUGADO (léxico cerrado ES/EN; infinitivos y
+gerundios de volcados de UI NO cuentan) y ≥40 chars tras quitar markup/headers; O (2) fila
+etiqueta+valor — número CON UNIDAD + etiqueta textual en la misma línea (número pelado NO
+es valor: «Lazos | 2» y timestamps de headers quedan fuera — calibrado con los casos
+observados). Headers/markers jamás cuentan; MANDATORY exige el trigger + SU oración;
+BUNDLE exige ≥2 miembros con descripción; en un disclosure AMBOS lados individualmente o
+no dispara. Silencio > ruido; los spans siguen VERBATIM (la whitelist decide inclusión, no
+reescribe). **Validación fresca seed=276** (`evals/s271_stage1_v8_gate_v1.yaml`) → **GO**:
+gates previos íntegros (F-RANGE 0.976 / F-BUNDLE 0.923 / F-MANDATORY 1.0 / F-COUNT 0.905;
+cross_count 0.909; disclosure2 0.909) + clases nuevas (heading_only 0 FP/30 + control 1.0;
+ui_dump 0 FP/16). **Coste de la whitelist VISIBLE, no escondido:** 208 filas re-etiquetadas
+como silencio-por-diseño (`whitelist_skips_reported`: mutation 108 — F-COUNT 60 / MANDATORY
+26 / BUNDLE 22 — sobre todo disclosures cuyo lado-enumeración es lista de nombres pelados;
+share total 0.153 en `whitelist_silence_share_reported`); 2 iteraciones de instrumento
+DECLARADAS en el prereg (cross_count sin filtro puntuable heredado de v5: 10/27→10/11;
+coverage re-specced a salud-de-instrumento, 1ª pasada 0.807 en git). **Certificación
+det-only v2 re-corrida → GO: b6f6 3/3 estable; 872c 2/3 ON / 0/3 OFF = conversión ESTABLE
+se mantiene (≥2/3), con matiz declarado: era 3/3 pre-whitelist — la réplica 3 dependía SOLO
+del disclosure de la tira-de-etiquetas (forma-pobre por definición) y ahora calla; r1/r2
+convierten vía la tabla F2 (filas con cláusulas).** No se tuneó la whitelist contra los
+targets. Si la Etapa 3 v3 aún muestra ruido, NO se itera más: la recomendación pasa a
+activación restringida por familia (criterio del coordinador). Flag sigue OFF.
+
+**DEC-130b (S271, adjudicación del ship-review Sol — 3 medios + 1 menor, 4/4 confirmados, 0 FP):**
+(M1/M2) los claims quedan ACOTADOS: "2 conversiones estables" = certificadas en replays
+congelados det-only (b6f6 3/3; 872c 2/3 ≥ regla); "0 ruido" = smoke vivo sin apéndices espurios
+(el camino positivo vivo NO disparó en el smoke — 2 identity_unresolved + 1 sin citas — y se
+ejercitará en la primera ventana con flag ON leyendo query_logs). El requires_human_read de la
+cert quedó RESUELTO EN POSITIVO: el orquestador regeneró determinísticamente y LEYÓ el apéndice
+872c post-whitelist — disclosure con la tabla real de 7 tipos de retardo, verbatim y citada,
+calidad alta. (M3) el coste de la whitelist (15.3% skips) queda con TRIPWIRE declarado: si en
+cohortes futuras el share supera 0.25, se re-examina la definición (no se gatea retroactivo).
+(menor) TECH_DEBT #54 (etiquetas con puntos truncan citation_window): frecuencia real sin medir,
+declarado como gap vivo del ON. Fable-side = SÓLIDA del build (2 medios cableados). El merge
+default-off queda autorizado por el dúo; la activación en demo sigue el plan DEC-127b/130.
