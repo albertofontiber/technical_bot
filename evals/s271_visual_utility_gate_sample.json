@@ -1,0 +1,1097 @@
+{
+  "instrument": "s271_visual_utility_gate_sample",
+  "status": "FROZEN_FOR_HUMAN_SPOT_CHECK",
+  "created_at": "2026-07-19T15:23:53.676389+00:00",
+  "preregistration": "evals/s271_render_backfill_prereg_v1.yaml",
+  "seed": "271",
+  "n": 60,
+  "labels_total": 489,
+  "serving_set_total": 429,
+  "criteria": {
+    "precision_gte": 0.95,
+    "zero_cover_or_marketing": true
+  },
+  "sample_sha256": "f5fb3060be71e9974d0e9a743d98a0087f9c1e64bc1d5f16459850cd06376c21",
+  "rows": [
+    {
+      "sample_id": "s271_gate_01",
+      "item_id": "s271_b3fb57688966",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 94,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p094.jpg",
+      "asset_sha256": "4345c4ea7d092e8152db85e10caa48a10fc6ca10588a65076e4b14b8775fd7e3",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Clear procedures configure detector pollution warnings and event notifications."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_02",
+      "item_id": "s271_4521493c8cdd",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 130,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p130.jpg",
+      "asset_sha256": "2f7126858c7f9b523c09015134cbd692a27d2f54cad65a019c151a60297fe7d5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Detailed, legible procedures for adding and activating output groups."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_03",
+      "item_id": "s271_0b6425d2c103",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 147,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p147.jpg",
+      "asset_sha256": "7411820b4d02d17d2e2c31dff64e40afbe028e09bbf288fc1dbad35dc6bf5491",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible diagnostic tables provide actionable device troubleshooting information."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_04",
+      "item_id": "s271_5ccd5a8e9c59",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 118,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p118.jpg",
+      "asset_sha256": "dd086d5fb9609a26558bd3de6c1410dbf95dfae7bc8b9aff1062e0441c8ceb67",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible panel input configuration table and setup steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_05",
+      "item_id": "s271_ca30e8d81069",
+      "tramo": "t00-piloto",
+      "document_id": "b788bbda-6045-46f5-b645-b54a23bdae5c",
+      "page_index": 4,
+      "source_file": "Instruction Manual SG100-IS ENG",
+      "manufacturer": "Argus Security",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/argus_security/argus_security_Instruction_Manual_SG100-IS_ENG_p004.jpg",
+      "asset_sha256": "d375b33a677d4bcb1cb792e9a6287d5c9045f77baa036dda8a0a730b4bbc763a",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible battery maintenance instructions and technical specifications table."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_06",
+      "item_id": "s271_eb1974254305",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 82,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p082.jpg",
+      "asset_sha256": "ac8de1831eb85291f0c2f245ce9ea1ff083a5bfaf077d9ea587deb1bf6a5221d",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible TCP/IP settings table and configuration procedure."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_07",
+      "item_id": "s271_62fef7bb82fb",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 74,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p074.jpg",
+      "asset_sha256": "7c9e32310ecc6bc689f656aafb4c91c071a701e775a21fcb1ac3c0bb6b132730",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains legible installer menu screen and control-panel configuration table."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_08",
+      "item_id": "s271_d3aaebe7292a",
+      "tramo": "t00-piloto",
+      "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "page_index": 13,
+      "source_file": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml_p013.jpg",
+      "asset_sha256": "1e47097aa28df7e9bfdecd4b915f1e5a654c237cf54a0440ead91c94bdc867f0",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Clear electrical specifications, compatibility guidance, and certification data."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_09",
+      "item_id": "s271_c8cd287bad20",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 161,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p161.jpg",
+      "asset_sha256": "e7cdd9ccbdcee53b197d098d26e4754a6b090524a817cbe15073647cc37b5420",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible battery, LCD, and communication-port specification tables are actionable."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_10",
+      "item_id": "s271_6a7c829fabeb",
+      "tramo": "t00-piloto",
+      "document_id": "ea014fc5-d50e-462c-a716-08a32f297916",
+      "page_index": 16,
+      "source_file": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es_p016.jpg",
+      "asset_sha256": "ac9d97a1a15c9db3d37881bafd62905cb0143829f20a2a9d9d2aca06a91dcb22",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible configuration-settings table with icons, controls, and operational descriptions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_11",
+      "item_id": "s271_9c5562b14aa5",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 15,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p015.jpg",
+      "asset_sha256": "7518cc03f9b486a58548ce26dde64ccc7ed9c2be6faf146b94cc4d17338fd51f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible control and LED descriptions provide fault interpretation procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_12",
+      "item_id": "s271_7d98d0bdb445",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 97,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p097.jpg",
+      "asset_sha256": "d4a4e9491b47ea78a870075d71ddfedfd176e8aba4a6c8f4dbc1ca26cac6aed4",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible numbered procedures explain configuration file storage and factory restoration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_13",
+      "item_id": "s271_575d9b0aa504",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 50,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p050.jpg",
+      "asset_sha256": "bf4796ee51de208193aacfd9457802547fbb2aff786c9734126c2f0c31559b4a",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible power-selection illustrations and battery connection table."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_14",
+      "item_id": "s271_34f3d5cabd7a",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 163,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p163.jpg",
+      "asset_sha256": "0b433e66edb3c85128e19b4c12e1bfef06303100db185d786673f59f500a65d1",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Installer menu map clearly documents configuration navigation."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_15",
+      "item_id": "s271_def2c584fc53",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 11,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p011.jpg",
+      "asset_sha256": "9abb021da1a30b6a528281c3dc4408cc07b5fe411f2340a527b6b13b03b319ce",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "ui",
+        "confidence": "high",
+        "reason": "Legible evacuation-panel interface diagram labels controls, indicators, and functions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_16",
+      "item_id": "s271_71d053c8db26",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 141,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p141.jpg",
+      "asset_sha256": "45e8d5cafdbf1db2dd2cf534cc3eae162430e29e27260ccf2a3ca57a7049c3fd",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible timing table and alarm sequence diagram for verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_17",
+      "item_id": "s271_7ebafb1e0da2",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 70,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p070.jpg",
+      "asset_sha256": "c58a5efba004b103c58fccc232830550dcfd5e5b0f67e28134fca0a50e078397",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible procedures verify alarm zones and activate central inputs."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_18",
+      "item_id": "s271_3989116ddb71",
+      "tramo": "t00-piloto",
+      "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "page_index": 12,
+      "source_file": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml_p012.jpg",
+      "asset_sha256": "fbb210224bdb07a502bd0c9e85cadd96399034a5347f0c6b9ffdf1fda4d194d5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible module figures, jumper configuration table, and cabling instructions."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_19",
+      "item_id": "s271_c76ff4a9ff46",
+      "tramo": "t00-piloto",
+      "document_id": "dfe48ee4-e370-42ec-8c6b-e9778cdce543",
+      "page_index": 8,
+      "source_file": "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml_p008.jpg",
+      "asset_sha256": "67238af5ae81c2da351eafd4cf526f9f9475233a2718b3d0c2570a6fea277ca7",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible Portuguese specifications and installation procedure."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_20",
+      "item_id": "s271_4647edd60a5a",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 148,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p148.jpg",
+      "asset_sha256": "db5f3e26fdf9c07087a3e312fe2ab5032b058879096e47e34f5dd0394782c46b",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible loop specifications table provides concrete installation and verification values."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_21",
+      "item_id": "s271_ed3deebfb3ff",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 109,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p109.jpg",
+      "asset_sha256": "f942b83e38ce99a38f0f24380d41eeb7f3485210b6aaa2cd72a61ace534e5161",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible BMS options table and configuration procedure provide operational guidance."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_22",
+      "item_id": "s271_f9022097599f",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 92,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p092.jpg",
+      "asset_sha256": "b3da1d6f356da682034eecd3948874b5225f7cd5421d8aa0d79ea4d09f4fd93f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Detailed, legible procedures configure pulse activation and alarm display formats."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_23",
+      "item_id": "s271_bb2a6d1889ed",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 104,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p104.jpg",
+      "asset_sha256": "1a4b0a47eeff047c5008b17c4b2e02bf0acebffca7a83ba7cc41dd4e59ea2b01",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible BMS configuration table with protocol settings and procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_24",
+      "item_id": "s271_5c589a8b4a81",
+      "tramo": "t00-piloto",
+      "document_id": "ea014fc5-d50e-462c-a716-08a32f297916",
+      "page_index": 23,
+      "source_file": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es_p023.jpg",
+      "asset_sha256": "4610875a563395b4862194d33bbed5450ed5ca09e678da328c2227fbac4ec40d",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Clear numbered procedure for testing a system zone."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_25",
+      "item_id": "s271_a84e8f09c361",
+      "tramo": "t00-piloto",
+      "document_id": "49748810-b5d2-40f6-acee-2aa8f6e8126b",
+      "page_index": 2,
+      "source_file": "Instruction Manual SGCP100-IS ENG",
+      "manufacturer": "Argus Security",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/argus_security/argus_security_Instruction_Manual_SGCP100-IS_ENG_p002.jpg",
+      "asset_sha256": "12a2c81b46afdffac18039f475bebaebbc60267b588ff6aba4f3827794818bec",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Contains installation, calibration, testing, and maintenance procedures with photos."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_26",
+      "item_id": "s271_8a5a28d0cd61",
+      "tramo": "t00-piloto",
+      "document_id": "f5224079-3c15-421a-83fe-5506edbc3100",
+      "page_index": 3,
+      "source_file": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0_p003.jpg",
+      "asset_sha256": "230908ebbab22c0d3b13999cc38be015101555ac3319aff7a270238537f76167",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains legible interface details and electrical specification tables."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_27",
+      "item_id": "s271_1c8e7fa68e32",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 108,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p108.jpg",
+      "asset_sha256": "d6797de9e6c1048befa46cdb6bc744755f515383552257c22f6591cd2afc0380",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible settings table and numbered procedure configure date and time."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_28",
+      "item_id": "s271_17223b95109f",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 101,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p101.jpg",
+      "asset_sha256": "81f7856bd1f370a0d869333b15e351b0364e9fa6db87c162953c137ea3db563f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Firmware-update procedure includes a legible central-board connector illustration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_29",
+      "item_id": "s271_2a3dae3a09b6",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 139,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p139.jpg",
+      "asset_sha256": "63208f4e1ba736c9ef7835826d02f89f8061c167d0a7bea42152ef2824d45b6c",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible wireless diagnostic option, test, and value tables provide verification data."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_30",
+      "item_id": "s271_bfc666c7b893",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 181,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p181.jpg",
+      "asset_sha256": "442bc7c5876d6efecb82454172b2cac715bc635dacadaa67af132739eaad65c8",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible menu table covers tests, diagnostics, reports, passwords, and system status."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_31",
+      "item_id": "s271_823f63334152",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 155,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p155.jpg",
+      "asset_sha256": "174402fbab7f5ba3cc6a415b8aaf62b1cea45e53acfaf17c5a3915b98827ff87",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible fault table provides battery troubleshooting guidance."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_32",
+      "item_id": "s271_de505e55b41f",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 39,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p039.jpg",
+      "asset_sha256": "07a96f2f27e8e363097fafcb9358ec24133e990e81a6d9a58edce4d52c7f79c6",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible recommended-cables technical table with cable types and maximum lengths."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_33",
+      "item_id": "s271_e75897354232",
+      "tramo": "t00-piloto",
+      "document_id": "ea014fc5-d50e-462c-a716-08a32f297916",
+      "page_index": 13,
+      "source_file": "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es_p013.jpg",
+      "asset_sha256": "a340ceca57df30905207f91d62f7083cc367fd851f4696fb67ac4da655f06822",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible table explains alarm, fault, reset, and test indications."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_34",
+      "item_id": "s271_1f9e95c7ca35",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 65,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p065.jpg",
+      "asset_sha256": "5c13f0db6c120a2b7cd9c5fc4bf4f9d44c55c48f729a114a8823df45508354ac",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible test-menu procedures for zones, outputs, and devices."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_35",
+      "item_id": "s271_e97b72a80171",
+      "tramo": "t00-piloto",
+      "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "page_index": 4,
+      "source_file": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml_p004.jpg",
+      "asset_sha256": "6e25ee7b53a8a68506f7d671a24efa0c917b15478fbdd56327ce7e8042024918",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible specifications and regulatory tables materially support verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_36",
+      "item_id": "s271_0d434a36043c",
+      "tramo": "t00-piloto",
+      "document_id": "97cef65c-605a-4731-9113-6e1fdbfb3cba",
+      "page_index": 1,
+      "source_file": "0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de_p001.jpg",
+      "asset_sha256": "63e57eb6c7309fd67ac709065e4d41db2dc10f689abcb9e6c7d403053e833d80",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible analogue-value table and technical data support verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_37",
+      "item_id": "s271_09fa07da1786",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 78,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p078.jpg",
+      "asset_sha256": "562bbd0e3dec54cabd39836fa6fa58ec3cc8698665363b097ce642ede96fd976",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible network operation modes table and operational configuration steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_38",
+      "item_id": "s271_f57434a30351",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 83,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p083.jpg",
+      "asset_sha256": "4d49b7875afe9bbd8a0b96c9a0a6f8c63e527e2641ccbec147d260135e7ea953",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible email account and email server setup procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_39",
+      "item_id": "s271_5a4e84b959cf",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 89,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p089.jpg",
+      "asset_sha256": "18baa8167fe336b1e90955a085d95acc36b1e6af298efaf2fe9e3594104f58ea",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Includes legible fault-notification configuration table and setup steps."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_40",
+      "item_id": "s271_90154dde32aa",
+      "tramo": "t00-piloto",
+      "document_id": "9b163430-4b2b-4614-b6aa-4fb59affdfb5",
+      "page_index": 22,
+      "source_file": "00-3218-501-0000-07_r007_2x-lb_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3218-501-0000-07_r007_2x-lb_installation_sheet_ml_p022.jpg",
+      "asset_sha256": "2e5545cbbae288612653f65fe6e3d625ab7b26ce9269f7f1ccf2d78bca72e2dc",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible technical specifications and regulatory information table are visible."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_41",
+      "item_id": "s271_071eac7651c3",
+      "tramo": "t00-piloto",
+      "document_id": "cced2735-a3f6-4b7a-8bd7-cce6ce7482c2",
+      "page_index": 2,
+      "source_file": "Instruction Manual SGMI200",
+      "manufacturer": "Argus Security",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/argus_security/argus_security_Instruction_Manual_SGMI200_p002.jpg",
+      "asset_sha256": "4cb327e4ed0a5af9f2e105940b741dc275cab0377f1c2933c141d82f6abba6be",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Includes legible electrical schematic, connection diagram, and installation figures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_42",
+      "item_id": "s271_7d1a47e21485",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 92,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p092.jpg",
+      "asset_sha256": "91e6d9e3150d8222af8463e137580aa5ea53b6c68c99638ebadd2650f7d7a135",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible procedures explain saving and restoring default system configurations."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_43",
+      "item_id": "s271_3dbe2ebbb0ef",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 100,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p100.jpg",
+      "asset_sha256": "a51cdb6755aa2d023c0ef60937347e19cda3e1672592907cb7b2d870d365c561",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains legible event-type, CMS, and PSTN configuration tables."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_44",
+      "item_id": "s271_32b6c54e6a30",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 123,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p123.jpg",
+      "asset_sha256": "b0d0a394710002080986c1c63f7cf138f5dfc9e1db49281108eb0e6eabb37fa0",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Clear numbered procedure explains configuring confirmation areas."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_45",
+      "item_id": "s271_03299723e232",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 42,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p042.jpg",
+      "asset_sha256": "e40380f9c0601ccd897ad26d2a2d8a2ed7e23521e6713414ac52b84c1adcdda2",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible Class A fire-loop wiring diagram with terminals and connections."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_46",
+      "item_id": "s271_faa15aaf1a76",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 39,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p039.jpg",
+      "asset_sha256": "6d627293173ab0b8f6173789585745442a92b40e09fec7c97f8c75d807ca4543",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible EN 54-13 fire-system wiring diagram includes terminal details."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_47",
+      "item_id": "s271_82dd66b02bae",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 159,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p159.jpg",
+      "asset_sha256": "c2ad0e7a8911244654ac15d393c83e7e624d00737de37bb722ec7562bce066b3",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible power-supply specifications table provides operational electrical ratings."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_48",
+      "item_id": "s271_6c75ca395a62",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 156,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p156.jpg",
+      "asset_sha256": "977ae9d0a326dbb8c68fd3b17c1bbffabe1eeda60a1e991b28da7cf1f452b0a3",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Battery replacement procedure includes a legible board location illustration."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_49",
+      "item_id": "s271_b8ee4887ba5e",
+      "tramo": "t00-piloto",
+      "document_id": "aac0d826-9830-4f6e-a9a8-dc0159bffee7",
+      "page_index": 11,
+      "source_file": "10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml_p011.jpg",
+      "asset_sha256": "f1df1869c6d8f7a97045581f442a6c49795587b734b33e4637d9ba1f814aa552",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Contains clear specifications and regulatory information tables."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_50",
+      "item_id": "s271_9278bc57e655",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 179,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p179.jpg",
+      "asset_sha256": "e350ec91a75644249e0d8d4d357288bf199ac69fee342ce5c0acc23d0154f9e5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible menu hierarchy includes event reports, status, passwords, and installer settings."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_51",
+      "item_id": "s271_56b530e0aac8",
+      "tramo": "t00-piloto",
+      "document_id": "af5d5d01-d5a9-48df-9acb-ae4994d19251",
+      "page_index": 160,
+      "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4009-05_r005_2x-a_series_installation_manual_es_p160.jpg",
+      "asset_sha256": "3cd4c27e23dd1d76edaaccc1dbda422256653faa951c9c6af5635256c34680cc",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible continuation table specifies alarm and current consumption values."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_52",
+      "item_id": "s271_1d1a153f145e",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 138,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p138.jpg",
+      "asset_sha256": "0300914c4ccc7bd676fd0147d80f00d7547b2ce566164f29962dd64bc3e2ce13",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible channel and diagnostic tables support troubleshooting and testing."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_53",
+      "item_id": "s271_961970a67d8c",
+      "tramo": "t00-piloto",
+      "document_id": "d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae",
+      "page_index": 11,
+      "source_file": "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml_p011.jpg",
+      "asset_sha256": "05e14ee2c7757c1cefc05b5f75689b80a46cbdc3bcea5fca229e647e58101332",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible technical ratings table and operational instructions across multiple languages."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_54",
+      "item_id": "s271_96e069ef4de1",
+      "tramo": "t00-piloto",
+      "document_id": "29c145dc-f036-4e24-b16f-66ba61f480b6",
+      "page_index": 2,
+      "source_file": "Instruction Manual SG350 ENG",
+      "manufacturer": "Argus Security",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/argus_security/argus_security_Instruction_Manual_SG350_ENG_p002.jpg",
+      "asset_sha256": "561b480faf8e9556a9a605b140d9a64b1051a63485e550073431d535655998c5",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Includes link-quality evaluation table and detector installation photographs."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_55",
+      "item_id": "s271_285f4d501a85",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 67,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p067.jpg",
+      "asset_sha256": "5b73cfab2faefdb2af7b7aac2cd8946e94367d31cea7c64d538e57eaa1900005",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible device locating, remote testing, and battery testing procedures."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_56",
+      "item_id": "s271_041a5868f7fc",
+      "tramo": "t00-piloto",
+      "document_id": "5ad516ee-c475-47ad-8221-72ca5d2a0307",
+      "page_index": 2,
+      "source_file": "00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml_p002.jpg",
+      "asset_sha256": "94b4582e4198224353842e75a42e8e3f8492ed5714fdfeee09d1f2d9a07e98fd",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible numbered registration instructions provide an operational procedure."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_57",
+      "item_id": "s271_a79f5a0dd3f0",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 38,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p038.jpg",
+      "asset_sha256": "40683df26b3451a1318b65b8233d6c11da829636b4e67e72772ce0c7f365e250",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "wiring",
+        "confidence": "high",
+        "reason": "Legible Class A fire-system connection wiring diagram supports verification."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_58",
+      "item_id": "s271_b1dc322566be",
+      "tramo": "t00-piloto",
+      "document_id": "5ad516ee-c475-47ad-8221-72ca5d2a0307",
+      "page_index": 10,
+      "source_file": "00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml_p010.jpg",
+      "asset_sha256": "151b4f0159957fb0e1769b73554a456c72d82ba700da1c8e3972cf4061ca62a0",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "procedure",
+        "confidence": "high",
+        "reason": "Legible numbered registration instructions provide an operational procedure."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_59",
+      "item_id": "s271_33be028b58b8",
+      "tramo": "t00-piloto",
+      "document_id": "d1b5d5be-d4f3-45d6-abc1-7448c224d2d1",
+      "page_index": 121,
+      "source_file": "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+      "manufacturer": "Aritech",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/aritech/aritech_00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0_p121.jpg",
+      "asset_sha256": "79e162f2fe215e5ec7e5483491601af3a0b4fafbaaefb9c3d19615948ee8b0b7",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible configurable output types table and enablement procedure."
+      },
+      "orchestrator_verdict": null
+    },
+    {
+      "sample_id": "s271_gate_60",
+      "item_id": "s271_695ee85a67ab",
+      "tramo": "t00-piloto",
+      "document_id": "2e0ee11a-e42e-4c25-a5d6-d77924cbdb11",
+      "page_index": 4,
+      "source_file": "Instruction Manual SG100 ENG",
+      "manufacturer": "Argus Security",
+      "storage_url": "https://izooestgffgscdirkfia.supabase.co/storage/v1/object/public/manual-images/argus_security/argus_security_Instruction_Manual_SG100_ENG_p004.jpg",
+      "asset_sha256": "6c602598c061f194d459d4be6f869cee54f62264d19b7f9ea661a088d712160f",
+      "prediction": {
+        "technical_utility": "useful",
+        "visual_role": "table",
+        "confidence": "high",
+        "reason": "Legible battery replacement procedure and technical specifications table."
+      },
+      "orchestrator_verdict": null
+    }
+  ]
+}

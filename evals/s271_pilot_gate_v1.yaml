@@ -1,0 +1,1160 @@
+# Gate del piloto S271 (t00-piloto) — cierre con numeros verificados y los 60
+# veredictos del panel con join criptografico a la muestra congelada.
+# Generado en el cierre S271; los numeros fueron re-verificados contra los
+# recibos locales del tramo y por GET a la DB en el mismo turno (Protocolo 1).
+instrument: s271_pilot_gate_v1
+status: PILOT_GATE_PASS_RESTO_AUTORIZADO
+created_at: '2026-07-19T15:36:17.855222+00:00'
+preregistration: evals/s271_render_backfill_prereg_v1.yaml
+gate_sample:
+  file: evals/s271_visual_utility_gate_sample.json
+  sample_sha256: f5fb3060be71e9974d0e9a743d98a0087f9c1e64bc1d5f16459850cd06376c21
+  sample_sha256_recomputed_ok: true
+  seed: '271'
+  n: 60
+  join: verdict.file -> sample_id -> fila congelada; sha256 del binario descargado verificado
+    contra asset_sha256 de la muestra congelada en 60/60 (mismo patron v4)
+pilot_numbers_verified:
+  verified_by: 'Fable, este cierre: recibos locales del tramo + GET a DB (0 escrituras)'
+  tramo: t00-piloto (Argus Security + Aritech, 28 documentos)
+  render:
+    pages: 509
+    failed_docs: 0
+  upload:
+    receipts: 509
+    sha_verified_post_upload: 509
+    reused_existing: 0
+    conflicts: 0
+  load:
+    rows_sent: 509
+    idempotent: on_conflict=document_id,page_index,asset_sha256
+    db_table_total_after: 5605
+    db_table_total_expected: 5096 legacy + 509 piloto
+  classify:
+    model: gpt-5.6-luna
+    classifier_contract: s271_visual_utility_v1
+    items_labeled: 489
+    batches_ok: 49
+    cost_usd: 0.3442
+    by_utility:
+      useful: 432
+      not_useful: 57
+    by_role:
+      procedure: 170
+      table: 226
+      wiring: 21
+      cover: 5
+      other: 53
+      ui: 14
+    failed_batches: 2
+    failed_batch_error_types:
+    - InternalServerError
+    - ValueError
+    items_pending_resume: 20
+    pending_resume_item_ids:
+    - s271_01343f55c048
+    - s271_0cddc82349ab
+    - s271_0f211ecd697d
+    - s271_12714a3db7fe
+    - s271_1d522471eaa2
+    - s271_2084ecafc7db
+    - s271_3143f0ae38f7
+    - s271_3e1fe36c6615
+    - s271_4ef3efa94e8c
+    - s271_58adbcb5ddd4
+    - s271_5a264d7c0e9e
+    - s271_69d11922a858
+    - s271_6f097515eb08
+    - s271_85208a7e5256
+    - s271_a7452de801d8
+    - s271_adba16ef8884
+    - s271_aead281d5eda
+    - s271_b9502ca9da83
+    - s271_bf210ce327b5
+    - s271_ccc2ae48e54b
+    pending_resume_note: 'los 20 items de los 2 batches fallidos siguen uncertain/classifier_contract=null
+      en DB (verificado por GET: 20) y JAMAS se sirven; el resume es re-correr --classify --tramo
+      t00-piloto --execute (salta lo etiquetado) + --apply-labels --execute'
+  apply_labels:
+    servable_expected: 429
+    servable_in_db: 429
+    s271_rows_in_db: 489
+    match: true
+spot_check:
+  panel:
+    source: tasks/wk4xnam04 (panel de vision, 6 agentes)
+    judged: 60
+    useful: 59
+    flags_cover_or_marketing: 1
+  orchestrator_direct_subsample: 2/2 utiles
+  adjudication:
+    sample_id: s271_gate_35
+    item_id: s271_e97b72a80171
+    document_id: aac0d826-9830-4f6e-a9a8-dc0159bffee7
+    page_index: 4
+    source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+    asset_sha256: 6e25ee7b53a8a68506f7d671a24efa0c917b15478fbdd56327ce7e8042024918
+    panel_booleans:
+      is_useful_technical: false
+      is_cover_or_marketing: true
+    panel_note_contradiction: la nota del propio panel dice 'marco como util por la tabla de specs'
+      mientras sus booleanos dicen lo contrario — artefacto de etiquetado, misma clase DEC-092b
+    adjudicated_by: orquestador, leyendo el render
+    adjudicated_verdict:
+      is_useful_technical: true
+      is_cover_or_marketing: false
+    reason: 'pagina de specs del IU2055NC (installation sheet p.4): tabla tecnica densa (21-28
+      VDC, consumos, EOL 3.9 kOhm, IP40, temperaturas, dimensiones) en la columna izquierda; el
+      bloque regulatorio (CE/WEEE/QR) acompana pero NO es portada/marketing'
+    re_verified: Fable re-leyo el render en este cierre y confirma la adjudicacion
+  final:
+    precision: 60/60 = 1.0
+    covers_or_marketing: 0
+    criteria:
+      precision_gte: 0.95
+      zero_cover_or_marketing: true
+    verdict: PASS
+authorization:
+  scope: los 23 tramos restantes (t01-aritech .. t23-xtralis; selector 'resto')
+  phases_in_order:
+  - --render --tramo resto
+  - --upload --tramo resto --execute
+  - --load --tramo resto --execute
+  - --classify --tramo resto --execute --env-file .env
+  - --apply-labels --execute
+  completion_gate: 'al completar: gate-sample FRESCO de 60 del serving-set NUEVO no-piloto — python
+    scripts/s271_render_backfill.py --gate-sample --gate-exclude-tramo t00-piloto --gate-out evals/s271_visual_utility_gate_sample_resto.json
+    --download-dir spotcheck_s271_resto — con spot-check antes de dar por bueno el total'
+  pending_before_or_during: resume de los 2 batches fallidos del piloto (--classify --tramo t00-piloto
+    --execute + --apply-labels --execute)
+  budget:
+    classify_remaining_estimate_usd: 7.41
+    budget_stop_usd: 12.0
+    storage_remaining_estimate_gb: 2.81
+    quota_note: consideracion de cuota Supabase declarada en el prereg
+verdicts:
+- sample_id: s271_gate_01
+  item_id: s271_b3fb57688966
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 94
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 4345c4ea7d092e8152db85e10caa48a10fc6ca10588a65076e4b14b8775fd7e3
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento paso a paso (Aviso de detector sucio / Notificaciones de condición) con
+      secuencia de teclas F1-F4 para configurar la central 2X-A. Texto tecnico denso con estructura
+      numerada = util.
+- sample_id: s271_gate_02
+  item_id: s271_4521493c8cdd
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 130
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 2f7126858c7f9b523c09015134cbd692a27d2f54cad65a019c151a60297fe7d5
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento para anadir grupo de salidas + lista de opciones de activacion (CONEC/DESC/DIS_D/DIS_N)
+      y referencias normativas EN 54-2. Util.
+- sample_id: s271_gate_03
+  item_id: s271_0b6425d2c103
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 147
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 7411820b4d02d17d2e2c31dff64e40afbe028e09bbf288fc1dbad35dc6bf5491
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Dos tablas tecnicas (Tabla 70 y 71): opciones de diagnostico de dispositivos inalambricos
+      y modos de sondeo (STA_AB, AV1_AB, etc.). Codigos tecnicos = util.'
+- sample_id: s271_gate_04
+  item_id: s271_5ccd5a8e9c59
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 118
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: dd086d5fb9609a26558bd3de6c1410dbf95dfae7bc8b9aff1062e0441c8ceb67
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tablas de configuracion de entradas de panel (Table 54/55) con codigos de tipo (LG,
+      T_AL, T_ALu, DT_AL, DET) y procedimiento de configuracion. Util.
+- sample_id: s271_gate_05
+  item_id: s271_ca30e8d81069
+  document_id: b788bbda-6045-46f5-b645-b54a23bdae5c
+  page_index: 4
+  source_file: Instruction Manual SG100-IS ENG
+  manufacturer: Argus Security
+  asset_sha256: d375b33a677d4bcb1cb792e9a6287d5c9045f77baa036dda8a0a730b4bbc763a
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Tabla tecnica completa: especificaciones de deteccion (consumo, LED, tension de zona,
+      impedancia de cable, IP40, temperatura, peso, dimensiones). Datos de especificacion = util.'
+- sample_id: s271_gate_06
+  item_id: s271_eb1974254305
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 82
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: ac8de1831eb85291f0c2f245ce9ea1ff083a5bfaf077d9ea587deb1bf6a5221d
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 30 con ajustes TCP/IP por defecto (IP, mascara, gateway, puerto, DNS) mas procedimiento
+      de configuracion. Util.
+- sample_id: s271_gate_07
+  item_id: s271_62fef7bb82fb
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 74
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 7c9e32310ecc6bc689f656aafb4c91c071a701e775a21fcb1ac3c0bb6b132730
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Figura del menu principal instalador (captura de pantalla LCD real) + Tabla 25 de configuracion
+      del panel (ID, fecha/hora, dia/noche, firenet, comunicaciones). Layout de pantalla + tabla
+      = util, no es portada.
+- sample_id: s271_gate_08
+  item_id: s271_d3aaebe7292a
+  document_id: aac0d826-9830-4f6e-a9a8-dc0159bffee7
+  page_index: 13
+  source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: 1e47097aa28df7e9bfdecd4b915f1e5a654c237cf54a0440ead91c94bdc867f0
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tablas de impedancia de bucle (cortocircuito/fuego/fallo/normal/interrupcion) para sistema
+      normal y antideflagrante, mas especificaciones tecnicas de consumo y zona. Datos numericos
+      densos = util. (Contiene tambien bloque de info de fabricante/CE en la mitad derecha inferior,
+      pero la pagina en conjunto es mayormente tecnica, no publicitaria.)
+- sample_id: s271_gate_09
+  item_id: s271_c8cd287bad20
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 161
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: e7cdd9ccbdcee53b197d098d26e4754a6b090524a817cbe15073647cc37b5420
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Tablas de especificaciones tecnicas: bateria/cargador, LCD (240x128 pixeles), puerto
+      de comunicacion (Ethernet, TCP/IP, USB). Util.'
+- sample_id: s271_gate_10
+  item_id: s271_6a7c829fabeb
+  document_id: ea014fc5-d50e-462c-a716-08a32f297916
+  page_index: 16
+  source_file: 00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es
+  manufacturer: Aritech
+  asset_sha256: ac9d97a1a15c9db3d37881bafd62905cb0143829f20a2a9d9d2aca06a91dcb22
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 8 con iconos de controles de configuracion de pantalla (ajustes, logo update,
+      zone map update, firmware update) y sus descripciones/referencias. Util.
+- sample_id: s271_gate_11
+  item_id: s271_9c5562b14aa5
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 15
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 7518cc03f9b486a58548ce26dde64ccc7ed9c2be6faf146b94cc4d17338fd51f
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla Control/LED - color - descripcion (avisos de averia, sirena, bateria). Contenido
+      tecnico denso y estructurado.
+- sample_id: s271_gate_12
+  item_id: s271_7d98d0bdb445
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 97
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: d4a4e9491b47ea78a870075d71ddfedfd176e8aba4a6c8f4dbc1ca26cac6aed4
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento paso a paso para guardar/restaurar configuracion (pasos 1-6 + nota de
+      precaucion).
+- sample_id: s271_gate_13
+  item_id: s271_575d9b0aa504
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 50
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: bf4796ee51de208193aacfd9457802547fbb2aff786c9734126c2f0c31559b4a
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Figura de conmutador 115/230 VCA + Tabla 19 de conexion de baterias por tipo de central/amperaje.
+- sample_id: s271_gate_14
+  item_id: s271_34f3d5cabd7a
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 163
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 0b433e66edb3c85128e19b4c12e1bfef06303100db185d786673f59f500a65d1
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla de mapa de menus del instalador (3 niveles de jerarquia de configuracion).
+- sample_id: s271_gate_15
+  item_id: s271_def2c584fc53
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 11
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 9abb021da1a30b6a528281c3dc4408cc07b5fe411f2340a527b6b13b03b319ce
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: ui
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Diagrama de interfaz de usuario del panel de evacuacion, 25 elementos numerados con
+      leyenda completa de botones/LEDs.
+- sample_id: s271_gate_16
+  item_id: s271_71d053c8db26
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 141
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 45e8d5cafdbf1db2dd2cf534cc3eae162430e29e27260ccf2a3ca57a7049c3fd
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 66 de tiempos de aviso/retardo + figura de diagrama temporal (tono aviso -> tono
+      evacuacion).
+- sample_id: s271_gate_17
+  item_id: s271_7ebafb1e0da2
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 70
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: c58a5efba004b103c58fccc232830550dcfd5e5b0f67e28134fca0a50e078397
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento paso a paso para comprobar activacion de entrada + comportamiento del
+      sistema durante test de zona.
+- sample_id: s271_gate_18
+  item_id: s271_3989116ddb71
+  document_id: aac0d826-9830-4f6e-a9a8-dc0159bffee7
+  page_index: 12
+  source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: fbb210224bdb07a502bd0c9e85cadd96399034a5347f0c6b9ffdf1fda4d194d5
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: wiring
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Ficha modulo IU2055NC (hungaro): instalacion zona ATEX, direccionamiento, tabla de
+      configuracion jumpers J4/J5 normal vs antideflagrante.'
+- sample_id: s271_gate_19
+  item_id: s271_c76ff4a9ff46
+  document_id: dfe48ee4-e370-42ec-8c6b-e9778cdce543
+  page_index: 8
+  source_file: 03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: 67238af5ae81c2da351eafd4cf526f9f9475233a2718b3d0c2570a6fea277ca7
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Pagina bilingue PL/PT: tabla de especificaciones mecanicas/ambientales (IP, temp, color,
+      peso, dimensiones) + tabla de series compatibles e instrucciones de montaje PT. Incluye
+      bloque legal/marca pero coexiste con tablas tecnicas reales, no es solo portada.'
+- sample_id: s271_gate_20
+  item_id: s271_4647edd60a5a
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 148
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: db5f3e26fdf9c07087a3e312fe2ab5032b058879096e47e34f5dd0394782c46b
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Tabla Loop specifications: configuracion, protocolo, corriente max, voltaje, resistencia,
+      capacitancia por protocolo (Excellence/2000/900).'
+- sample_id: s271_gate_21
+  item_id: s271_ed3deebfb3ff
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 109
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: f942b83e38ce99a38f0f24380d41eeb7f3485210b6aaa2cd72a61ace534e5161
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 45 Opciones configuración de BMS (ES) + procedimiento paso a paso
+- sample_id: s271_gate_22
+  item_id: s271_f9022097599f
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 92
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: b3da1d6f356da682034eecd3948874b5225f7cd5421d8aa0d79ea4d09f4fd93f
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimientos Activación Pulso y Ajustes VdS con ejemplos de formato de alarma
+- sample_id: s271_gate_23
+  item_id: s271_bb2a6d1889ed
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 104
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 1a4b0a47eeff047c5008b17c4b2e02bf0acebffca7a83ba7cc41dd4e59ea2b01
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Table 45 BMS configuration options (EN, misma tabla que #21) + procedimiento'
+- sample_id: s271_gate_24
+  item_id: s271_5c589a8b4a81
+  document_id: ea014fc5-d50e-462c-a716-08a32f297916
+  page_index: 23
+  source_file: 00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es
+  manufacturer: Aritech
+  asset_sha256: 4610875a563395b4862194d33bbed5450ed5ca09e678da328c2227fbac4ec40d
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento corto (4 pasos) para probar una zona
+- sample_id: s271_gate_25
+  item_id: s271_a84e8f09c361
+  document_id: 49748810-b5d2-40f6-acee-2aa8f6e8126b
+  page_index: 2
+  source_file: Instruction Manual SGCP100-IS ENG
+  manufacturer: Argus Security
+  asset_sha256: 12a2c81b46afdffac18039f475bebaebbc60267b588ff6aba4f3827794818bec
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Argus call point: tabla calidad señal + fotos numeradas de activación/reset/mantenimiento
+      (procedimiento ilustrado)'
+- sample_id: s271_gate_26
+  item_id: s271_8a5a28d0cd61
+  document_id: f5224079-3c15-421a-83fe-5506edbc3100
+  page_index: 3
+  source_file: 04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0
+  manufacturer: Aritech
+  asset_sha256: 230908ebbab22c0d3b13999cc38be015101555ac3319aff7a270238537f76167
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Ficha detector óptico: tablas de especificaciones eléctricas/ambientales y valores
+      de diagnóstico'
+- sample_id: s271_gate_27
+  item_id: s271_1c8e7fa68e32
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 108
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: d6797de9e6c1048befa46cdb6bc744755f515383552257c22f6591cd2afc0380
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 44 Opciones de Auto fecha y hora + procedimiento
+- sample_id: s271_gate_28
+  item_id: s271_17223b95109f
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 101
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 81f7856bd1f370a0d869333b15e351b0364e9fa6db87c162953c137ea3db563f
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento actualización firmware + Figura 25 diagrama PCB anotado (conectores USB,
+      JP4)
+- sample_id: s271_gate_29
+  item_id: s271_2a3dae3a09b6
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 139
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 63208f4e1ba736c9ef7835826d02f89f8061c167d0a7bea42152ef2824d45b6c
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tablas 70-72 diagnóstico de dispositivos inalámbricos y valores individuales
+- sample_id: s271_gate_30
+  item_id: s271_bfc666c7b893
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 181
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 442bc7c5876d6efecb82454172b2cac715bc635dacadaa67af132739eaad65c8
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Mapa de menús jerárquico (Apéndice C), tabla de referencia de navegación
+- sample_id: s271_gate_31
+  item_id: s271_823f63334152
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 155
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 174402fbab7f5ba3cc6a415b8aaf62b1cea45e53acfaf17c5a3915b98827ff87
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 73 'Mensajes de fallo de baterías' (LCD message -> descripción) + lista de fallos
+      del cargador + procedimiento de sustitución de baterías. Tabla técnica de códigos, claramente
+      útil.
+- sample_id: s271_gate_32
+  item_id: s271_de505e55b41f
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 39
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 07a96f2f27e8e363097fafcb9358ec24133e990e81a6d9a58edce4d52c7f79c6
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 14 'Cables recomendados' con requisitos y longitud máxima por tipo de cable (alimentación,
+      lazo, red incendios, Ethernet, USB, impresora). Tabla de specs técnica.
+- sample_id: s271_gate_33
+  item_id: s271_e75897354232
+  document_id: ea014fc5-d50e-462c-a716-08a32f297916
+  page_index: 13
+  source_file: 00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es
+  manufacturer: Aritech
+  asset_sha256: a340ceca57df30905207f91d62f7083cc367fd851f4696fb67ac4da655f06822
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla Icono/Control/LED/Color/Descripción — mapa completo de iconos y LEDs del panel
+      (fallo, protección incendio, sirena, avería alimentación). Tabla de codigos/UI directamente
+      útil para técnico.
+- sample_id: s271_gate_34
+  item_id: s271_1f9e95c7ca35
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 65
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 5c13f0db6c120a2b7cd9c5fc4bf4f9d44c55c48f729a114a8823df45508354ac
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento paso a paso 'To test a zone' del menú Test, con lista numerada de pasos
+      y comportamiento esperado del sistema. Procedimiento ilustrado (numerado), útil.
+- sample_id: s271_gate_35
+  item_id: s271_e97b72a80171
+  document_id: aac0d826-9830-4f6e-a9a8-dc0159bffee7
+  page_index: 4
+  source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: 6e25ee7b53a8a68506f7d671a24efa0c917b15478fbdd56327ce7e8042024918
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: false
+    is_cover_or_marketing: true
+    note: Página bilingüe de specs (EN) + regulatorio (CE, declaración conformidad, fabricante,
+      WEEE) + inicio de sección DA en danés. La tabla de specs izquierda es densa/util, pero la
+      mitad derecha es puramente regulatorio/legal/marketing (QR code de disclaimers, datos de
+      fabricante); mixta pero con contenido técnico real (specs eléctricas) en la columna izquierda
+      — marco como util por la tabla de specs a pesar del contenido legal/regulatorio que la acompaña.
+- sample_id: s271_gate_36
+  item_id: s271_0d434a36043c
+  document_id: 97cef65c-605a-4731-9113-6e1fdbfb3cba
+  page_index: 1
+  source_file: 0044-055-02_-_aritech_ra_-_fd2705-10r_addendum_-_en_de
+  manufacturer: Aritech
+  asset_sha256: 63e57eb6c7309fd67ac709065e4d41db2dc10f689abcb9e6c7d403053e833d80
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Tabla de valores analógicos (0/2/3/4/5/8/9/10/50/140 -> significado: Processor Fault,
+      Blocked Beam, Alarm, etc.) + indicaciones de LED de operación + datos técnicos de consumo.
+      Tabla de códigos de diagnóstico, muy util para técnico.'
+- sample_id: s271_gate_37
+  item_id: s271_09fa07da1786
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 78
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 562bbd0e3dec54cabd39836fa6fa58ec3cc8698665363b097ce642ede96fd976
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla 28 'Firenet operation modes' (Stand-alone/Networked/Repeater) + procedimiento
+      paso a paso 'To change the network operation mode settings'. Tabla + procedimiento, util.
+- sample_id: s271_gate_38
+  item_id: s271_f57434a30351
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 83
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 4d49b7875afe9bbd8a0b96c9a0a6f8c63e527e2641ccbec147d260135e7ea953
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimientos paso a paso 'To manage email accounts' y 'To configure the email server',
+      numerados con detalle de campos a configurar. Procedimiento util.
+- sample_id: s271_gate_39
+  item_id: s271_5a4e84b959cf
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 89
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 18baa8167fe336b1e90955a085d95acc36b1e6af298efaf2fe9e3594104f58ea
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Procedimientos paso a paso (Config 24V Aux, Mascaras de fallo) + Tabla 31 ''Configuración
+      de Mascaras de fallo'' (Notificación/Descripción: Batería/Tierra/VinCond). Tabla+procedimiento,
+      util.'
+- sample_id: s271_gate_40
+  item_id: s271_90154dde32aa
+  document_id: 9b163430-4b2b-4614-b6aa-4fb59affdfb5
+  page_index: 22
+  source_file: 00-3218-501-0000-07_r007_2x-lb_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: 2e5545cbbae288612653f65fe6e3d625ab7b26ce9269f7f1ccf2d78bca72e2dc
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Tabla ''Teknik özellikler'' (specs técnicas turcas: corriente, resistencia, LEDs, temperatura,
+      dimensiones, class A/B, voltajes de salida) — tabla de specs densa. Regulatorio abajo es
+      secundario y breve; el grueso de la página es tabla técnica util.'
+- sample_id: s271_gate_41
+  item_id: s271_071eac7651c3
+  document_id: cced2735-a3f6-4b7a-8bd7-cce6ce7482c2
+  page_index: 2
+  source_file: Instruction Manual SGMI200
+  manufacturer: Argus Security
+  asset_sha256: 4cb327e4ed0a5af9f2e105940b741dc275cab0377f1c2933c141d82f6abba6be
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: wiring
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Diagrama de conexionado módulo de entrada (Picture 5), tabla de resistencias EOL/alarma,
+      procedimiento de mantenimiento numerado
+- sample_id: s271_gate_42
+  item_id: s271_7d1a47e21485
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 92
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 91e6d9e3150d8222af8463e137580aa5ea53b6c68c99638ebadd2650f7d7a135
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento numerado para guardar/restaurar configuración; texto denso estructurado
+      sin figura pero técnico
+- sample_id: s271_gate_43
+  item_id: s271_3dbe2ebbb0ef
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 100
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: a51cdb6755aa2d023c0ef60937347e19cda3e1672592907cb7b2d870d365c561
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Table 40 tipos de evento + procedimiento de cambio de config + Table 41 opciones CMS
+- sample_id: s271_gate_44
+  item_id: s271_32b6c54e6a30
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 123
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: b0d0a394710002080986c1c63f7cf138f5dfc9e1db49281108eb0e6eabb37fa0
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento numerado 'Para configurar un área' (confirmación de zonas), texto estructurado
+- sample_id: s271_gate_45
+  item_id: s271_03299723e232
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 42
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: e40380f9c0601ccd897ad26d2a2d8a2ed7e23521e6713414ac52b84c1adcdda2
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: wiring
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'Figura 15: diagrama completo de conexionado EN 54-13 lazo Clase A con terminales y
+      resistencias (ES)'
+- sample_id: s271_gate_46
+  item_id: s271_faa15aaf1a76
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 39
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 6d627293173ab0b8f6173789585745442a92b40e09fec7c97f8c75d807ca4543
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: wiring
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Mismo diagrama de conexionado EN 54-13, versión inglesa (duplicado idiomático pero igualmente
+      útil)
+- sample_id: s271_gate_47
+  item_id: s271_82dd66b02bae
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 159
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: c2ad0e7a8911244654ac15d393c83e7e624d00737de37bb722ec7562bce066b3
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla detallada de especificaciones de fuente de alimentación (tensiones, corrientes,
+      fusibles, consumo por tarjeta)
+- sample_id: s271_gate_48
+  item_id: s271_6c75ca395a62
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 156
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 977ae9d0a326dbb8c68fd3b17c1bbffabe1eeda60a1e991b28da7cf1f452b0a3
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento numerado sustitución de baterías + Figura 28 diagrama PCB con botón señalado
+- sample_id: s271_gate_49
+  item_id: s271_b8ee4887ba5e
+  document_id: aac0d826-9830-4f6e-a9a8-dc0159bffee7
+  page_index: 11
+  source_file: 10-5106-501-55nc-05_r005_iu2055nc_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: f1df1869c6d8f7a97045581f442a6c49795587b734b33e4637d9ba1f814aa552
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla de especificaciones técnicas del dispositivo (tensión, consumo, resistencias,
+      IP, dimensiones) + procedimiento verificación EOL; incluye bloque regulatorio/CE menor pero
+      domina contenido técnico
+- sample_id: s271_gate_50
+  item_id: s271_9278bc57e655
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 179
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: e350ec91a75644249e0d8d4d357288bf199ac69fee342ce5c0acc23d0154f9e5
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Mapa de menús jerárquico (tabla Nivel 1/2/3) del panel, nivel instalador — referencia
+      de navegación de UI
+- sample_id: s271_gate_51
+  item_id: s271_56b530e0aac8
+  document_id: af5d5d01-d5a9-48df-9acb-ae4994d19251
+  page_index: 160
+  source_file: 00-3280-501-4009-05_r005_2x-a_series_installation_manual_es
+  manufacturer: Aritech
+  asset_sha256: 3cd4c27e23dd1d76edaaccc1dbda422256653faa951c9c6af5635256c34680cc
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla specs corriente de alarma/mínima por tamaño de fuente de alimentación, con notas
+      al pie técnicas. Tabla pura, sin ambigüedad.
+- sample_id: s271_gate_52
+  item_id: s271_1d1a153f145e
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 138
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 0300914c4ccc7bd676fd0147d80f00d7547b2ce566164f29962dd64bc3e2ce13
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Table 68 canales I/O + Table 69 opciones de diagnóstico + procedimiento numerado para
+      activar test de diagnóstico.
+- sample_id: s271_gate_53
+  item_id: s271_961970a67d8c
+  document_id: d36bc35d-d68e-4f2d-a1a5-d02e87ccf8ae
+  page_index: 11
+  source_file: 00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml
+  manufacturer: Aritech
+  asset_sha256: 05e14ee2c7757c1cefc05b5f75689b80a46cbdc3bcea5fca229e647e58101332
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla tensión de salida + procedimiento de instalación de módulo (tierra, EOL) + tabla
+      specs mecánicas/eléctricas del loop (Hurok). Mezclado con bloque regulatorio/CE que en sí
+      sería NO-util, pero la página global sí es util.
+- sample_id: s271_gate_54
+  item_id: s271_96e069ef4de1
+  document_id: 29c145dc-f036-4e24-b16f-66ba61f480b6
+  page_index: 2
+  source_file: Instruction Manual SG350 ENG
+  manufacturer: Argus Security
+  asset_sha256: 561b480faf8e9556a9a605b140d9a64b1051a63485e550073431d535655998c5
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento recovery linking + Table 2 calidad de enlace inalambrico (dB -> indicacion
+      LED) + procedimiento instalacion detector.
+- sample_id: s271_gate_55
+  item_id: s271_285f4d501a85
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 67
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 5b73cfab2faefdb2af7b7aac2cd8946e94367d31cea7c64d538e57eaa1900005
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tres procedimientos numerados (locate device, remote test, battery test) con formato
+      de menu/ID concreto (L.DDD). Texto tecnico denso con estructura.
+- sample_id: s271_gate_56
+  item_id: s271_041a5868f7fc
+  document_id: 5ad516ee-c475-47ad-8221-72ca5d2a0307
+  page_index: 2
+  source_file: 00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml
+  manufacturer: Aritech
+  asset_sha256: 94b4582e4198224353842e75a42e8e3f8492ed5714fdfeee09d1f2d9a07e98fd
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: 'MARGINAL: mitad izquierda es bloque regulatorio puro (CE/WEEE/contacto/warranty, sin
+      tabla ni figura, NO-util aislado). Mitad derecha es procedimiento de registro PAK (7 pasos)
+      con un dato tecnico (500mA->800mA) pero sin tabla ni diagrama, solo texto de menu estructurado.'
+- sample_id: s271_gate_57
+  item_id: s271_a79f5a0dd3f0
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 38
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 40683df26b3451a1318b65b8233d6c11da829636b4e67e72772ce0c7f365e250
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: wiring
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Diagrama de conexionado completo del sistema contra incendios (loop Clase A, I/O, reles
+      fuego/fallo, terminales rotulados). El mas claramente util de los 10.
+- sample_id: s271_gate_58
+  item_id: s271_b1dc322566be
+  document_id: 5ad516ee-c475-47ad-8221-72ca5d2a0307
+  page_index: 10
+  source_file: 00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml
+  manufacturer: Aritech
+  asset_sha256: 151b4f0159957fb0e1769b73554a456c72d82ba700da1c8e3972cf4061ca62a0
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: procedure
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Tabla Muszaki adatok (conector, temp operacion/almacenaje, humedad, peso, dimensiones)
+      + mismo procedimiento de registro PAK que el 56 (en italiano). La tabla de specs es lo que
+      lo hace util con mas confianza que el 56.
+- sample_id: s271_gate_59
+  item_id: s271_33be028b58b8
+  document_id: d1b5d5be-d4f3-45d6-abc1-7448c224d2d1
+  page_index: 121
+  source_file: 00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0
+  manufacturer: Aritech
+  asset_sha256: 79e162f2fe215e5ec7e5483491601af3a0b4fafbaaefb9c3d19615948ee8b0b7
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Table 57 tabla de codigos de tipo de salida (SND/FR/FP/PRG/EXTIN/ALARM/FAULT/TEST/DIS)
+      + procedimiento enable/disable de 6 pasos + nota tecnica sobre Class A.
+- sample_id: s271_gate_60
+  item_id: s271_695ee85a67ab
+  document_id: 2e0ee11a-e42e-4c25-a5d6-d77924cbdb11
+  page_index: 4
+  source_file: Instruction Manual SG100 ENG
+  manufacturer: Argus Security
+  asset_sha256: 6c602598c061f194d459d4be6f869cee54f62264d19b7f9ea661a088d712160f
+  binary_verified_against_frozen_sample: true
+  prediction:
+    technical_utility: useful
+    visual_role: table
+    confidence: high
+  panel:
+    is_useful_technical: true
+    is_cover_or_marketing: false
+    note: Procedimiento de cambio de bateria (9 pasos) + Table 3 specs tecnicas completas (alcance,
+      frecuencia, baterias, dimensiones, IP, temp operacion).

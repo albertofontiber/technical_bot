@@ -290,3 +290,25 @@ def test_gate_sample_rows_solo_servibles_y_determinista():
         for l in sample
     )
     assert sample == backfill.gate_sample_rows(labels)  # seed 271 determinista
+
+
+def test_gate_sample_excluye_tramos_para_el_gate_del_resto(tmp_path, monkeypatch):
+    labels_path = tmp_path / "labels.jsonl"
+    monkeypatch.setattr(backfill, "LABELS_PATH", labels_path)
+    for n in range(5):
+        backfill.append_jsonl(labels_path, {**_label(n), "tramo": "t00-piloto"})
+    for n in range(5, 10):
+        backfill.append_jsonl(labels_path, {**_label(n), "tramo": "t02-detnov"})
+    out = tmp_path / "gate_resto.json"
+    status = backfill.gate_sample(
+        None,
+        render_dir=tmp_path,
+        exclude_tramos=("t00-piloto",),
+        out_path=out,
+    )
+    assert status == 0
+    payload = json.loads(out.read_text(encoding="utf-8"))
+    assert payload["excluded_tramos"] == ["t00-piloto"]
+    assert payload["serving_set_total"] == 5  # solo el serving-set no-piloto
+    assert len(payload["rows"]) == 5
+    assert all(row["tramo"] == "t02-detnov" for row in payload["rows"])

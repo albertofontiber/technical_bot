@@ -866,8 +866,19 @@ def gate_sample_rows(labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(serving, key=score)[:GATE_SAMPLE_N]
 
 
-def gate_sample(download_dir: Path | None, render_dir: Path = RENDER_DIR) -> int:
-    labels = read_jsonl(LABELS_PATH)
+def gate_sample(
+    download_dir: Path | None,
+    render_dir: Path = RENDER_DIR,
+    exclude_tramos: tuple[str, ...] = (),
+    out_path: Path = GATE_SAMPLE_PATH,
+) -> int:
+    """Congela la muestra del gate. ``exclude_tramos`` sirve para el gate del
+    'resto': muestra FRESCA solo del serving-set no-piloto (prereg S271)."""
+    labels = [
+        row
+        for row in read_jsonl(LABELS_PATH)
+        if row.get("tramo") not in set(exclude_tramos)
+    ]
     if not labels:
         print("ABORT: no hay labels s271 aún (corre --classify primero).", file=sys.stderr)
         return 2
@@ -908,20 +919,21 @@ def gate_sample(download_dir: Path | None, render_dir: Path = RENDER_DIR) -> int
         "preregistration": str(PREREG_PATH.relative_to(ROOT)).replace("\\", "/"),
         "seed": GATE_SAMPLE_SEED,
         "n": len(rows),
+        "excluded_tramos": sorted(exclude_tramos),
         "labels_total": len(labels),
         "serving_set_total": sum(
             1
-            for l in read_jsonl(LABELS_PATH)
+            for l in labels
             if l["technical_utility"] == "useful" and l["visual_role"] in SERVABLE_ROLES
         ),
         "criteria": {"precision_gte": 0.95, "zero_cover_or_marketing": True},
         "sample_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
         "rows": rows,
     }
-    GATE_SAMPLE_PATH.write_text(
+    out_path.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
-    print(f"gate sample: {len(rows)} items -> {GATE_SAMPLE_PATH}")
+    print(f"gate sample: {len(rows)} items -> {out_path}")
     if download_dir is not None:
         import httpx
 
@@ -1061,6 +1073,20 @@ def main() -> int:
     parser.add_argument("--env-file", type=Path, default=None,
                         help="Env con OPENAI_API_KEY para --classify --execute")
     parser.add_argument("--download-dir", type=Path, default=None)
+    parser.add_argument(
+        "--gate-exclude-tramo",
+        action="append",
+        default=None,
+        metavar="TRAMO",
+        help="--gate-sample: excluye labels de estos tramos (gate FRESCO del "
+        "resto sin re-muestrear el piloto).",
+    )
+    parser.add_argument(
+        "--gate-out",
+        type=Path,
+        default=GATE_SAMPLE_PATH,
+        help="--gate-sample: ruta de salida (para no pisar el gate del piloto).",
+    )
     args = parser.parse_args()
 
     phases = [
@@ -1077,7 +1103,11 @@ def main() -> int:
         write_prereg(plan)
         return 0
     if args.gate_sample:
-        return gate_sample(args.download_dir)
+        return gate_sample(
+            args.download_dir,
+            exclude_tramos=tuple(args.gate_exclude_tramo or ()),
+            out_path=args.gate_out,
+        )
     if args.apply_labels:
         return apply_labels(execute=args.execute, env_path=args.env)
 
