@@ -267,3 +267,32 @@ def test_aggregate_cost_ceiling_check() -> None:
 def test_cost_usd_uses_pinned_pricing() -> None:
     assert probe.cost_usd(1_000_000, 1_000_000) == pytest.approx(18.0)
     assert probe.cost_usd(10_000, 3_500) == pytest.approx(0.0825)
+
+
+# ─────────────────────────── probe v2 (wrapper, DEC-126) ───────────────────────────
+
+def test_probe_v2_wrapper_rebinds_y_prereg_coherente() -> None:
+    saved = {
+        k: getattr(probe, k)
+        for k in ("PREREG", "REPLICAS", "OUT", "RESULT_SCHEMA", "RUNNER_KEY",
+                  "RUNNER_FILE", "run_replicate", "preflight")
+    }
+    try:
+        import scripts.s270_etapa2_probe_v2 as v2  # noqa: F401
+
+        assert probe.PREREG.name == "s270_etapa2_probe_v2_prereg_v1.yaml"
+        assert probe.RESULT_SCHEMA == "s270_etapa2_probe_v2_result_v1"
+        assert probe.RUNNER_KEY == "scripts/s270_etapa2_probe_v2.py"
+        assert probe.run_replicate is v2.run_replicate_v2
+        prereg = yaml.safe_load(probe.PREREG.read_text(encoding="utf-8"))
+        assert prereg["probe_number"] == 2
+        assert prereg["status"] == "FROZEN_BEFORE_PAID_EXECUTION"
+        # el pin del mecanismo v2 en el prereg coincide con el fichero vivo
+        assert (
+            prereg["frozen_inputs_sha256_lf_normalized"]["src/rag/must_preserve.py"]
+            == probe.normalized_sha(probe.ROOT / "src/rag/must_preserve.py")
+        )
+        assert probe.runner_pin_status(prereg) == "MATCH"
+    finally:
+        for k, v in saved.items():
+            setattr(probe, k, v)

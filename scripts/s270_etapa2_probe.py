@@ -35,6 +35,11 @@ FREEZE = ROOT / "evals/s113_full_contexts_freeze_v1.json"
 SCORE_PACKET = ROOT / "evals/s235_direct_clause_bound_score_packet_v1.json"
 REPLICAS = ROOT / "evals/s270_etapa2_probe_replicas_v1.jsonl"
 OUT = ROOT / "evals/s270_etapa2_probe_result_v1.json"
+# Parametrización para wrappers (probe v2, patrón s241): el wrapper rebinda estos
+# globals; el pin del runner se verifica contra RUNNER_FILE bajo RUNNER_KEY.
+RESULT_SCHEMA = "s270_etapa2_probe_result_v1"
+RUNNER_KEY = "scripts/s270_etapa2_probe.py"
+RUNNER_FILE = Path(__file__)
 DEFAULT_ENV = Path(
     r"C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\.env"
 )
@@ -124,10 +129,10 @@ def verify_pins(prereg: dict[str, Any]) -> dict[str, str]:
 
 
 def runner_pin_status(prereg: dict[str, Any]) -> str:
-    expected = prereg["runner_sha256_lf_normalized"]["scripts/s270_etapa2_probe.py"]
+    expected = prereg["runner_sha256_lf_normalized"][RUNNER_KEY]
     if expected == "PENDING_STAMP_BEFORE_EXECUTE":
         return "PENDING"
-    return "MATCH" if normalized_sha(Path(__file__)) == expected else "DRIFT"
+    return "MATCH" if normalized_sha(RUNNER_FILE) == expected else "DRIFT"
 
 
 def _sealed(path: Path) -> dict[str, Any]:
@@ -796,7 +801,7 @@ def write_result(
         "database_reads": 0,
         "database_writes": 0,
     }
-    write_json(OUT, sealed_artifact("s270_etapa2_probe_result_v1", body))
+    write_json(OUT, sealed_artifact(RESULT_SCHEMA, body))
 
 
 # ─────────────────────────── preflight / main ───────────────────────────
