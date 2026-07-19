@@ -1,0 +1,176 @@
+schema: s273_quota_prereg_v1
+status: preregistered_not_built   # el duo revisa ANTES del build; esta sesion no construye ni mide
+created_at: "2026-07-19"
+design_doc: evals/s273_quota_design_v1.md
+diagnosis_input: evals/s273_retrieval2_diagnosis_v1.md
+
+# ---------------------------------------------------------------------------
+# Fork de Protocolo 4 (declarado completo en design_doc seccion 0; resumen operativo):
+# la cita del brief atribuye el NO-GO 71.202 a "DEC-103 (s105)"; el repo lo registra en
+# DEC-102 (s104) con anclas perdidas hp005#2 + hp006#2/ISO-X y la cuota como FIX PENDIENTE.
+# Discrepancia declarada para adjudicacion del duo/Alberto. Restricciones heredadas del
+# cierre citado, vigentes bajo AMBAS lecturas: Q congelado antes de F1 (no se tunea contra
+# el gold), N de dianas no se sube para buscar gains, no-retry.
+# ---------------------------------------------------------------------------
+protocol4_fork:
+  settled_cited_by_brief: "DEC-103 (s105): cuota F1+F2/N=10 -> T1 +0/-0; NO-GO a 71.202 filas; cierre 'no subir N ni tunear contra el gold'"
+  settled_in_repo: "DEC-102 (s104, DECISIONS.md:1682): NO-GO 71.202 sin cuota, gate +0/-2 (hp005#2, hp006#2/ISO-X), cuota = fix pendiente; DEC-103 (DECISIONS.md:1719) es s194/planner"
+  discrepancy_declared_for_adjudication: true
+  todays_metric: "conversion de 2 retrieval-miss CORE pre-identificados (cat017#2, hp010#1) medida por fases con gates heredados; escala T1 21.995 + recarga acotada <=2 docs"
+  inherited_constraints: [q_frozen_before_f1, no_tuning_q_against_gold, no_raising_n_dianas, no_retry]
+
+targets:
+  - qid: cat017
+    fact: "cat017#2 licencia CLIP una por circuito de lazo"
+    carrier_chunks:
+      - {chunk_id: 5bb83899-9d94-4fdd-8d42-24a670a036c5, document_id: 79a3471a, doc: "HOP-138-9ES issue 5_11-2025_In", page: 5}
+      - {chunk_id: 4c186fb2-aa4b-4ca0-b316-c12ebab59712, document_id: 484dd402, doc: "4188-1125-ES issue 5_11-2025_Li", page: 17}
+    class: not_in_pool_distancia_pregunta_tarea
+    depends_on_reload: true
+  - qid: hp010
+    fact: "hp010#1 nivel 3 + desbloquear memoria; menu Lazos"
+    carrier_chunks:
+      - {chunk_id: 155a90fe-8c3f-484e-a617-7637fe29b547, document_id: d1299a40, doc: "DXc_Manual de configuracion", page: 37}
+    live_enunciado_row: {id: 715ed152-ebb3-59fb-94fb-3d9b7e2e0bcc, sim_measured: 0.4268, rank_among_new_parents: 6}
+    class: not_in_pool_surrogate_cortado_en_fusion
+    depends_on_reload: false
+
+mechanics:
+  flag: ENUNCIADOS_QUOTA_FUSION          # default off = sort-mixto actual (prod inerte); parser estricto a nivel de modulo (leccion s96-H3)
+  replaces: "sort-mixto src/rag/retriever.py:944-946 (merged = reales + parents; sort; [:top_k])"
+  mirror_of: "fusion por cuota hyq DEC-099, src/rag/retriever.py:996-1010"
+  steps:
+    - "keep-max boost de padres YA en pool (espejo hyq 996-1001), marca _enun_boosted"
+    - "padres NUEVOS con sim >= ENUNCIADOS_MIN_SIM, sort desc, top ENUNCIADOS_QUOTA, marca _enun_quota"
+    - "carve-out: results[:max(0, top_k - len(quota))] + quota"
+    - "proteccion frente al carve-out hyq posterior: composicion final reales[:top_k-|E|-|H|] + E + H (E<=6, H<=10, reales>=34); el trim hyq NO evicta filas _enun_quota"
+  hyperparams:
+    ENUNCIADOS_QUOTA: 6                  # minimo que admite el rank-6-de-nuevos de hp010 (diagnostico s272); NO se tunea
+    ENUNCIADOS_MIN_SIM: 0.40             # = RELEVANCE_THRESHOLD (src/rag/generator.py:375), constante existente del sistema
+    frozen_before_phase: F1
+  unchanged:
+    - ENUNCIADOS_FETCH_K=200
+    - channel_threshold=0.3
+    - filter_product_parity_012
+    - _enunciados_swap (retriever.py:1288)
+    - diversify_interleave_s59            # INTACTOS — fuera de alcance por contrato
+    - hyq_channel_mechanics_DEC099        # cuota 10 / barra 0.45 / family-parity sin cambio
+    - reranker_DEC092
+  downstream_cap_pressure_measured: "hp010 pool 28<50; cat017 post_diversify 42<50 (s272) — sin presion de cap en diversify para los targets"
+
+reload:
+  scope: max_2_documents
+  batch: "enunciados-v1:T2Q1:h1"
+  loader: scripts/enunciados_pass.py      # A3: dump -> loader, jamas insert directo a chunks_v2 (DEC-088)
+  rollback: "DELETE por ingest_batch=enunciados-v1:T2Q1:h1 + verificacion probe (patron s104 0/0)"
+  docs:
+    - key: "HOP-138-9ES issue 5_11-2025_In"
+      ledger_sha: 2964cab735832cb228163bd33708dd51caa70af7caf1e1e82a658bb6e09f035a
+      tranche: T2
+      vintage: h1
+      insertables: 925
+      dump_path: evals/enunciados_dump_T2.jsonl   # local gitignored; fallback: regen SOLO este doc, prompt h1 congelado, ~$0.26
+    - key: "4188-1125-ES issue 5_11-2025_Li"
+      in_ledger: false                            # nunca generado; SOLO se genera si F0 con HOP-138-9ES sale NO-GO (~$0.26 + QA h1)
+      conditional_on: f0_hop_no_go
+  resulting_scale_rows_approx: 23900              # 21995 T1 + <=1.9K acotado << 71202 (regimen sano DEC-089)
+
+phases:
+  - id: F0
+    name: gate_offline_precarga_cat017
+    db_writes: 0
+    model_calls: "embeddings Voyage de los enunciados del dump (~925 textos cortos); 1 embedding de query cat017 si no reutilizable"
+    procedure: >-
+      Embedir offline los enunciados h1 QA-passed del dump del doc carrier; probe read-only del RPC
+      match_chunks_v2_enunciados con el embedding de la query cat017 (top-200 vivas); simular la union
+      dump+vivas, colapso keep-max por parent, ranking de parents NUEVOS vs el pool real persistido.
+    go_criterion: >-
+      Algun enunciado cuyo parent es un carrier de cat017 entra al top-6 (ENUNCIADOS_QUOTA) de parents
+      nuevos con sim >= 0.40 para la query cat017.
+    no_go_consequence: "cat017#2 se declara RESIDUAL formal (s188 release_boundary.next / PLAN); F2 no corre para ese doc; el lever sigue solo para hp010"
+    anti_overfit: "SOLO enunciados chunk-side ya generados y QA-passed (h1, no query-aware); nada redactado mirando el gold"
+    cost_ceiling_usd: 0.30               # 0.01 base + 0.26 regen condicional 4188-1125-ES
+  - id: F1
+    name: cuota_only_sobre_T1_vivo
+    db_writes: 0
+    depends_on: []                        # F1 corre aunque F0 sea NO-GO (hp010 no depende de recarga)
+    procedure: >-
+      (i) Replay determinista de la fusion por cuota (mechanics.steps) para hp010: probe read-only del
+      RPC de enunciados con embedding fresco de la query + pool vectorial persistido s272 (pineado en
+      inputs.frozen_artifacts); verificar primero floors/sims del diagnostico con tolerancia
+      sim_tolerance; aplicar cuota Q=6. (ii) 1 rerank e2e de hp010 con el seam ON en harness.
+    go_criterion: "parent 155a90fe (p37) ENTRA al pool-50 de hp010 bajo la mecanica exacta con Q=6"
+    served_check: "1 muestra e2e, informativa, no-retry (DEC-096: rerank no determinista); NO es criterio de gate"
+    no_go_consequence: "STOP del lever; Q NO se sube (restriccion heredada); hp010#1 residual con traza"
+    cost_ceiling_usd: 0.06
+  - id: F2
+    name: recarga_acotada_2docs
+    db_writes: "INSERT chunks_v2_enunciados batch enunciados-v1:T2Q1:h1 (reversible)"
+    depends_on: [F0_go, F1_go]
+    authorization_required: [duo_go, alberto_go]   # unica fase con escritura DB; no corre sin ambos
+    cost_ceiling_usd: 0.10
+  - id: F3
+    name: gates_heredados_dec102_103
+    db_writes: 0
+    depends_on: [F2]
+    instrument: "scripts/s103_displacement_probe.py + s103_displacement_compare.py reutilizados (los que produjeron evals/s104_t2_gate_anchors.json)"
+    runs: "39 pools x K=3 repeticiones x 2 brazos (old=flag off / fix=flag on post-F2), mismo dia misma DB"
+    gates:
+      anclas: "matriz de transicion 109 facts; ancla presente = >=2/3 de K; STOP si hp005#2 o hp006#2/ISO-X se pierde, o si lost > gained"
+      containment: "served-ids v2.2 de golds ganados contenidos en el pool del brazo fix: 0 perdidas nuevas"
+      negcontrol: "pool-level en golds sin diana (patron s102 negcontrol): sin desplazamiento anomalo de chunks load-bearing"
+      famtie: "diana famtie 39 SOLO si anclas/negcontrol disparan raro (escalada declarada, no default)"
+    no_go_consequence: "rollback F2 por batch + lever NO-GO documentado con artefactos"
+    cost_ceiling_usd: 0.10
+  - id: F4
+    name: conversion_nivel_respuesta
+    db_writes: 0
+    depends_on: [F3]
+    procedure: "python scripts/factlevel_assessment.py smoke --qids cat017,hp010 (2 generaciones + matcher)"
+    judge: "GPT-5.5 K-mayoria congelado (DEC-023/DEC-095 dual-judge); temp=0"
+    role: "REPORTA la conversion de cat017#2 y hp010#1; no gatea el ship del flag (decision de Alberto con el paquete completo)"
+    cost_ceiling_usd: 0.30
+
+budget:
+  total_ceiling_usd: 3.00
+  no_retry: true                          # ningun NO-GO se re-corre para mejorar el resultado; K=3 de F3 es repeticion PRE-declarada, no retry
+  stop_on_ceiling: true
+
+inputs:
+  code_pin:
+    origin_main_sha: 5774a6c37a85fd635d8bdcef5c0c69aeb90cc387
+    diagnosis_commit_sha: 723fd38460f3f6134fe16206836865f647aeb762
+  frozen_artifacts:                       # scratchpad s272; el build los copia a la rama y verifica sha256 ANTES de F1
+    phase1_get_out.json: b277588e34686757869471a23b1073ec00b69d92ab160b01981a30090a3a8baf
+    phase2_trace_out.json: 1a470d25cbf68f3e8564b8e622d4742e2dbfad214a356d882f83e049ac04ac78
+    phase3_probe_out.json: e3b62fdfddc12929d58715a8d012a36a81a77e51387dca158532989a843675ff
+    phase4_probe_out.json: 2b1824683cc65162eed1329e42af8b4c73d03ceba76f59746a3c1a575c76881c
+    phase4b_out.json: ad740934829ebfe17e790dc02054269792771f0318b34851de5e22f64ad4bf62
+  demo_flags: "DEMO_FLAGS del assessment (paridad s272): CHUNKS_TABLE=chunks_v2, ENUNCIADOS_MULTIVECTOR=on, HYQ_TABLE=on, IDENTITY_RESOLVE=on/ADD, RERANK_TOP_K=10, GENERATOR_SELECTION_BLOCK=on, HYDE off, DIVERSIFY_TIEBREAK off"
+  embedding_model: voyage-4-large-1024
+  sim_tolerance: 0.005                    # drift de re-embedding de query vs sims citadas s272; se re-verifica en F1 antes de aplicar cuota
+  seeds: {sampling_seed: 0, llm_temperature: 0}
+  config_stamp_required: true             # patron s103: flags + git sha + dirty + CHUNKS_TABLE estampados en cada output
+
+freeze_contract:
+  corpus: "chunks_v2 (25.090) + chunks_v2_enunciados T1 (21.995 vivas, seeded_t1 del ledger) pre-F2; F2 es el UNICO cambio de estado y esta gateado"
+  index: "HNSW propios por tabla (011/013), ef_search 120; sin migraciones nuevas"
+  judge: "GPT-5.5 K-mayoria (DEC-023) — solo F4 lo usa"
+  golds: "sin ediciones de golds; sin held-out (cat017/hp010 son dev; los 12 held-out siguen embargados)"
+
+forbidden:
+  - tune_Q_or_bar_after_F1_starts
+  - raise_N_dianas_to_search_gains
+  - author_enunciados_looking_at_golds
+  - touch_diversify_or_interleave_s59
+  - touch_hyq_channel_knobs
+  - retry_any_no_go
+  - db_writes_outside_F2
+  - ship_flag_without_alberto_go
+
+outputs_expected:
+  - evals/s273_f0_offline_gate.json
+  - evals/s273_f1_quota_replay.json
+  - evals/s273_f2_reload_manifest.json
+  - evals/s273_f3_inherited_gates.json
+  - evals/s273_f4_conversion.json

@@ -1,0 +1,213 @@
+# s273 — Diseño + prereg: CUOTA del canal enunciados (Bloque B) — v1, para ronda de dúo
+
+**Estado: DISEÑO + PRE-REGISTRO. Nada construido, nada medido, 0 escrituras DB, 0 pagos en esta
+sesión.** El dúo (sub-agente Fable + cross-model Sol xhigh — retrieval = zona de dolor, dúo
+INNEGOCIABLE) revisa ESTE doc + `evals/s273_quota_prereg_v1.yaml` ANTES de cablear una línea.
+Insumo canónico: `evals/s273_retrieval2_diagnosis_v1.md` (diagnóstico s272, ranks/sims medidos
+en vivo contra `origin/main@5774a6c`).
+
+---
+
+## 0. Cabecera — fork de Protocolo 4, DECLARADO VISIBLE
+
+**Declaración del brief (s273, la métrica del settled vs la métrica de HOY):**
+
+> DEC-103 (s105) midió cuota F1+F2/N=10 → T1 gate +0/−0 PERO NO-GO a 71.202 filas (0 gains <2
+> STOP, −2 anclas hp006, containment) y cerró R2 «bajo esta mecánica; no subir N ni tunear
+> contra el gold». MÉTRICA DE HOY ≠ MÉTRICA DE AQUEL NO-GO: (a) escala T1 actual (21.995
+> vivas), no 71K; (b) recarga acotada A 2 DOCUMENTOS desde dumps QA-passed (HOP-138-9ES + el
+> doc de cat017 si difiere), no el tail corpus-wide; (c) 2 ganancias CONOCIDAS pre-identificadas
+> por diagnóstico independiente (no búsqueda de gains); (d) las guardas de DEC-102/103 se
+> HEREDAN como gates (anclas hp006 intactas, containment 0-nuevo, negcontrol, diana famtie).
+
+**Verificación Protocolo 1/4 de la cita contra el repo (hecha en esta sesión, discrepancia
+DECLARADA — no adoptada en silencio ni "corregida" en silencio):**
+
+- Lo que el repo versionado registra: el NO-GO a **71.202 filas** (21.995 T1 + 49.207 T2+G0H)
+  es **DEC-102 (s104)** — `docs/DECISIONS.md:1682`; su gate midió **+0 ganadas / −2 perdidas**
+  y las 2 anclas perdidas fueron **hp005#2 y hp006#2/ISO-X** (`evals/s104_t2_gate_anchors.json`,
+  `gate2a_anchor_transition`), con STOP pre-declarado «<2 ganancias». DEC-102, el LEVER_DIGEST
+  (fila Fine-grained) y el propio diagnóstico s272 dicen que la **mecánica de cuota quedó como
+  FIX PENDIENTE** («la cuota nunca se midió», diagnóstico §1d).
+- **DEC-103 en `docs/DECISIONS.md:1719` es otra cosa** (s194, planificador descompuesto).
+  `evals/s269_triage_12misses_v1.yaml:679-681` documenta que DECISIONS.md salta
+  DEC-102(s104)→DEC-103(s194) y que s105–s193 solo tienen traza en artefactos `evals/s1xx_*`;
+  **no existe ningún artefacto s105 de medición de cuota en el repo** (grep exhaustivo:
+  cuota/quota/F1+F2/N=10 → 0 hits fuera de s10x-diseño e hyq).
+- **Adjudicación pedida al dúo/Alberto:** si la medición «cuota F1+F2/N=10 → +0/−0 en T1»
+  existió fuera del repo, este prereg la trata como vigente y hereda su cierre («no subir N ni
+  tunear contra el gold») como restricción dura. Si NO existió, el settled aplicable es solo
+  DEC-102 (cuota = pendiente) y la restricción se auto-impone igualmente (es más conservadora).
+- **El caso de reapertura se sostiene bajo AMBAS lecturas:** aun aceptando que una cuota ya
+  midió +0/−0 sobre T1 con N=10 golds, aquella métrica fue un barrido de gains sin diana; la de
+  HOY es un **replay dirigido a 2 filas/carriers CONOCIDOS-VIVOS** identificados por un
+  diagnóstico independiente (s272): hp010#1 tiene su enunciado VIVO en tabla a sim 0.4268
+  muriendo EXACTAMENTE en el floor 0.4556 del sort-mixto — el mecanismo que DEC-102 nombró como
+  fix pendiente, visto matar un CORE adjudicado. Eso es evidencia nueva, no re-litigio:
+  settled-en-«+0/−0 sin diana» ≠ lever medido en «not-in-pool con carrier vivo identificado».
+
+**Restricciones heredadas del cierre citado (vigentes en este prereg, ambas lecturas):**
+Q se fija ANTES de F1 y NO se tunea contra el gold; N (nº de golds diana) no se sube para
+buscar gains; el NO-GO de cualquier fase se declara y para (no-retry).
+
+---
+
+## 1. Recomendación
+
+**Fusión POR CUOTA del canal enunciados (espejo literal del patrón hyq DEC-099, shippeado y
+vivo en `src/rag/retriever.py:1002-1010`), sustituyendo el sort-mixto de
+`src/rag/retriever.py:944-946`, tras un flag nuevo default-off; + recarga ACOTADA a ≤2
+documentos desde dumps h1 QA-passed, gateada por un gate offline PRE-carga (~$0.01).**
+
+### 1.1 Mecánica exacta (lo que el dúo revisa; pseudocódigo contra el código real)
+
+Hoy (`vector_search`, retriever.py:944-946 — el punto de muerte medido de hp010#1):
+
+```python
+merged = results + list(by_parent.values())   # reales top-50 + parents keep-max del RPC enunciados
+merged.sort(key=sim, reverse=True)
+results = merged[:top_k]                      # floor real 0.4556 > 0.4268 → parent p37 FUERA
+```
+
+Propuesto (bajo `ENUNCIADOS_QUOTA_FUSION=on`, default `off` = sort-mixto actual, prod inerte;
+parser estricto a nivel de módulo, lección s96-H3/s102):
+
+```python
+# (a) keep-max boost de padres YA en pool (espejo exacto de hyq retriever.py:996-1001):
+#     si el chunk real c está en results y by_parent[c.id].sim > c.sim → c.sim sube,
+#     c["_enun_boosted"]=True (conserva la semántica de boost que hoy da el swap keep-max).
+# (b) cuota de padres NUEVOS (espejo de hyq retriever.py:1008-1010):
+new = [s for pid, s in by_parent.items()
+       if pid not in {c["id"] for c in results} and s["sim"] >= ENUNCIADOS_MIN_SIM]  # barra 0.40
+new.sort(key=sim, reverse=True)
+quota = new[:ENUNCIADOS_QUOTA]                # Q = 6, marcadas _enun_quota=True
+results = results[:max(0, top_k - len(quota))] + quota   # carve-out de la cola del canal real
+# (c) INTERACCIÓN con el carve-out hyq posterior (retriever.py:1010): el recorte hyq debe
+#     respetar las filas _enun_quota — composición final explícita:
+#     reales[:top_k − |E| − |H|] + E + H   (E ≤ 6, H ≤ 10 ⇒ reales ≥ 34 slots garantizados).
+#     Sin esta protección, el trim hyq evicta la cuota enunciados recién insertada (bug
+#     conocido-por-diseño; test unitario específico en el build).
+```
+
+Aguas abajo NADA cambia: `_enunciados_swap` (retriever.py:1288) sigue haciendo el
+surrogate→padre 1:1 con la sim del surrogate; `_merge_channels` (stamps), model-filter,
+**diversify/interleave s59 INTACTOS** (las filas cuota-swapped compiten como chunks normales;
+en los 2 targets medidos no hay presión de cap: hp010 pool 28<50, cat017 post_diversify 42<50).
+
+### 1.2 Hiperparámetros — fijados AHORA, congelados antes de F1, con su justificación
+
+| knob | valor | por qué ESTE valor (no tuneado contra el gold) |
+|---|---|---|
+| `ENUNCIADOS_QUOTA` (Q) | **6** | El diagnóstico s272 midió el puente de hp010#1 en **rank-6 entre parents nuevos** — Q=6 es el MÍNIMO que lo admite, minimizando el desplazamiento de cola real (la guarda hp006). Derivado del diagnóstico, no barrido: si F1 con Q=6 no mete el parent al pool → **NO-GO, Q no se sube** (herencia del cierre «no subir N ni tunear»). |
+| `ENUNCIADOS_MIN_SIM` (barra) | **0.40** | = `RELEVANCE_THRESHOLD` (`src/rag/generator.py:375`), constante YA existente del sistema: un parent bajo 0.40 no puede ser servido nunca → slot de cuota desperdiciado. No es un knob nuevo ni elegido mirando el gold (hp010 0.4268 la cruza por mérito; cat017 lo decide F0). Distinta de la barra hyq 0.45 (aquella corrige el espacio-pregunta deflactado; aquí la escala es comensurable). |
+| fetch-K, threshold canal, filtros | sin cambio | `ENUNCIADOS_FETCH_K=200`, threshold 0.3, paridad `filter_product` (012) — no se tocan. |
+
+### 1.3 Recarga acotada (solo si F0 da GO)
+
+≤2 documentos, desde dumps h1 QA-passed (activo YA pagado, mandato no-gastar-dos-veces):
+- `HOP-138-9ES issue 5_11-2025_In` (doc `79a3471a`, carrier adjudicado p5): ledger
+  `evals/enunciados_ledger.json` → sha `2964cab7…`, tranche T2, vintage h1, **925 insertables**;
+  dump local `evals/enunciados_dump_T2.jsonl` (gitignored); si OneDrive lo desmaterializó →
+  regenerar SOLO este doc con el prompt h1 congelado (≈$0.26, coste ledger 0.2572).
+- `4188-1125-ES issue 5_11-2025_Li` (doc `484dd402`, 2º carrier verbatim p17): **NO está en el
+  ledger** (nunca generado) → solo se genera (≈$0.26 + QA) si F0 con HOP-138-9ES sale NO-GO.
+
+Batch nuevo `enunciados-v1:T2Q1:h1` (loader A3 `scripts/enunciados_pass.py`; DELETE selectivo
+por batch = rollback documentado y barato). Escala resultante ≈ 21.995 + ≤1.9K ≈ **23.9K « 71K**
+— dentro del régimen donde el canal está medido sano (DEC-089: «bien a 22K»).
+
+---
+
+## 2. Por qué es BP + estructural + escalable
+
+- **BP:** Dense-X/HyPE canónico — un índice auxiliar tiene su PROPIO presupuesto de fusión
+  («the question index has its own top-k»), exactamente el argumento con el que la fusión-por-
+  cuota hyq se diseñó, gateó y shippeó (DEC-099, en producción desde s102). El sort-mixto entre
+  un canal de 22K filas dirigidas y un canal real de 25K chunks es estructuralmente injusto con
+  el canal chico cuando su valor está bajo el floor del grande — medido dos veces (hyq s101;
+  enunciados s272/hp010).
+- **Estructural (raíz, no parche):** arregla la FUSIÓN — el mecanismo exacto donde DEC-102
+  diagnosticó el NO-GO de escala y donde s272 midió morir un CORE. No toca golds, no toca el
+  reranker, no re-litiga diversify. Y es la ÚNICA vía que desbloquea el activo pagado: 54.849
+  enunciados Haiku QA-passed en dumps + tail ~$95 no gastado quedan inertes mientras la fusión
+  sea sort-mixto.
+- **Escalable:** a 30+ fabricantes el canal enunciados crecerá siempre más rápido que el pool
+  (docs enteros → enunciados); una cuota con barra es invariante a la escala del canal (el
+  crowding de 71K era la ausencia de cap; la cuota ES el cap y el floor a la vez). El patrón ya
+  demostró esa propiedad en hyq (70.134 filas servidas con cuota 10 sin crowding).
+
+---
+
+## 3. Alternativas consideradas y por qué se descartan
+
+| alternativa | por qué NO (con su DEC/medición) |
+|---|---|
+| Subir knobs hyq (fetch-K 200→500, cuota 10→N, barra) | El diagnóstico s272 lo midió NO-lever para AMBOS: cat017 parent rank-36-de-43 post-family vs cuota-10 (ni con fetch-500 entra), hp010 cos hyq 0.156-0.276 « barra 0.45. Subirlos re-litiga DEC-099 sin diana. |
+| Re-scope s174 per-facet (`access_prerequisite` pasó umbrales; lane s114 recupera p37 en local) | Riesgo **gate-shopping declarado** (packet s269): reabrir un gate conjunto por-facet tras verlo fallar en agregado es la definición del sesgo. La cuota lo subsume por mecanismo GENERAL (no per-fact). Queda declarada como SEGUNDA vía si la cuota falla su gate — decisión explícita de Alberto, no default. |
+| Consumo aditivo del pool (pool 50+Q sin desplazar) | DEC-069/084: el pool aditivo está descartado; la cuota NO es aditiva — desplaza cola del canal real con competencia explícita de slots, el mecanismo ya shippeado en hyq (DEC-099). |
+| FTS/BM25-sobre-pregunta | DEC-085 NO-GO; y los tokens aguja no están en la query («licencia» no aparece en cat017; «nivel 3» no aparece en hp010). |
+| Tie-break coseno del diversify | DEC-091/s101 NO-GO definitivo (centinela hp001 regresa con ambos anchos). |
+| Afinar reranker / ancho | DEC-092 (6 métodos NO-GO) / DEC-092b (top-10 ya shippeado): irrelevantes — ambos misses son PRE-reranker (not-in-pool). |
+| neighbor-window / ef_search / más contexto | s86 medidos NO-GO; p37↔p48 no son vecinos. |
+| Re-carga corpus-wide sin cuota (repetir s104) | DEC-102 NO-GO con STOP disparado — precisamente lo que NO se repite; la recarga aquí es acotada a ≤2 docs y gateada por F0. |
+| Variante «top-up» (cuota-garantía SIN cap: sort-mixto actual + relleno hasta Q parents) | Preserva anclas por construcción PERO no resuelve el crowding a escala (el modo de fallo DEC-102) → dos mecánicas conviviendo y el activo de 54.849 seguiría bloqueado. El espejo hyq completo (boost keep-max + carve-out) es el que ya está validado en producción para el canal chico; la preservación de anclas se MIDE (F3), no se asume. |
+| Redactar enunciados nuevos mirando los golds | Prohibido (overfit al eval): SOLO se usan enunciados h1 chunk-side YA generados y QA-passed, no query-aware. |
+
+---
+
+## 4. Gaps / riesgos conocidos (declarados de entrada)
+
+1. **Dilución hp006 (LA guarda):** la cuota desplaza hasta 6 filas de la cola del canal real en
+   TODAS las queries; el modo de fallo s104 perdió exactamente hp005#2 y hp006#2/ISO-X por
+   desplazamiento de cola. Guarda = matriz de transición de anclas completa (109 facts, 39
+   pools, K=3) con STOP en cualquier pérdida de hp005#2/hp006#2 y en lost>gained (F3).
+2. **Cambio de comportamiento corpus-wide:** bajo cuota, los parents que HOY entran por
+   sort-mixto ganándose el floor quedan capados a 6 por query (además del boost keep-max, que
+   se conserva). En golds famtie ganados por el canal (A3 12→7) podría regresar → diana famtie
+   39 en F3 si el gate de anclas dispara raro.
+3. **Q fijo puede no bastar:** si F1 con Q=6 no mete el parent p37 al pool → NO-GO declarado;
+   Q NO se sube (restricción heredada §0). hp010#1 pasaría a residual con el diagnóstico como
+   traza.
+4. **cat017 puede no cruzar NI con cuota:** el rank de sus enunciados de dump contra la query
+   es DESCONOCIDO (el doc tiene 0 filas vivas del chunk). Por eso F0 (offline, ~$0.01, sin
+   tocar DB) decide ANTES de recargar; F0 NO-GO en ambos carriers ⇒ **cat017#2 residual
+   formal** (lo que s188 release_boundary.next y PLAN ya prescriben) y F2 no se ejecuta para
+   ese doc.
+5. **Interacción de los DOS carve-outs (enun + hyq):** sin la protección §1.1(c), el trim hyq
+   evicta la cuota enunciados. Es el punto más delicado del build → test unitario específico +
+   revisión del dúo sobre esa línea.
+6. **Rerank no determinista (DEC-096):** «servido» en F1/F4 es 1 muestra, no-retry; el criterio
+   PRIMARIO de F1 es entrada-al-pool (determinista). La conversión a nivel respuesta (F4) se
+   reporta como medida, no como promesa.
+7. **Dumps locales no versionados (OneDrive):** si el dump T2 no está → regen del doc ($0.26,
+   prompt h1 congelado del ledger). Declarado en presupuesto.
+8. **Artefactos s272 del replay** viven en scratchpad (no versionados): el prereg los pinea por
+   sha256 (§YAML `inputs.frozen_artifacts`) y el build los copia a la rama antes de F1.
+9. **Embeddings de query re-computados** (no persistidos en s272): drift Voyage ±ε — tolerancia
+   declarada ±0.005 sobre las sims citadas; los floors/ranks del diagnóstico son la referencia,
+   el replay F1 los re-verifica con el embedding fresco antes de aplicar la cuota.
+10. **Ruta harness ≠ ruta Telegram** (nota §e del diagnóstico): el gate del handler puede pedir
+    aclaración antes del retrieval en vivo; la conversión F4 es de la ruta harness (la misma del
+    funnel 143/157). No se reclama nada sobre la ruta viva.
+
+---
+
+## 5. Fases gateadas (contrato completo y ejecutable en `evals/s273_quota_prereg_v1.yaml`)
+
+| fase | qué | gate → NO-GO significa | coste techo |
+|---|---|---|---|
+| **F0** | Gate offline PRE-carga cat017: embedir enunciados h1 del dump HOP-138-9ES (y 4188-1125-ES solo si HOP NO-GO, generándolo), simular la unión con las filas vivas del RPC → ¿algún enunciado de los carriers entra al top-6 de parents nuevos con sim ≥0.40 para la query cat017? | NO-GO ⇒ cat017#2 **residual formal**; F2 no corre para ese doc; el lever sigue para hp010 solo | $0.01 (+$0.26+QA si hay que generar 4188) |
+| **F1** | Cuota-only sobre T1 VIVO, sin recarga: (i) replay determinista de la fusión §1.1 con probe RPC read-only + pools s272 pineados → ¿parent p37 entra al pool-50 de hp010? (ii) 1 rerank e2e → ¿se sirve? (informativo, 1 muestra) | NO-GO (no entra al pool con Q=6) ⇒ STOP del lever; Q no se sube; hp010#1 residual con traza | ~$0.06 |
+| **F2** | Recarga acotada ≤2 docs (batch `enunciados-v1:T2Q1:h1`, reversible), SOLO si F0 GO **y** F1 GO **y** dúo GO **y** GO de Alberto (única fase con escritura DB) | — | ~$0.10 (+regen condicional) |
+| **F3** | Gates heredados DEC-102/103: probe 39 pools × K=3 × 2 brazos (`s103_displacement_probe` reutilizado) → anclas (STOP: hp005#2/hp006#2 perdidas, o lost>gained), containment served-ids 0-nuevo-perdido, negcontrol pool-level (patrón s102), diana famtie 39 SOLO si algo dispara raro | NO-GO ⇒ rollback F2 por batch + lever NO-GO documentado | ~$0.10 |
+| **F4** | Conversión a nivel respuesta: `factlevel_assessment.py smoke --qids cat017,hp010` (2 generaciones + matcher juez GPT-5.5 K-mayoría congelado DEC-023/095) → ¿cat017#2 y hp010#1 convierten? | Se REPORTA (no gatea el ship del flag: eso es decisión de Alberto con todo el paquete) | ~$0.30 |
+
+**Techo total $3** (incluye el brazo condicional de regen). SHAs pineados, no-retry, seeds y
+tolerancias en el YAML. Todo NO-GO se estampa; nada se re-corre para «mejorar» el resultado.
+
+## 6. Qué NO hace esta sesión / qué queda para después del dúo
+
+- NO se construye el flag ni la fusión (ni una línea en `src/`); NO se escribe en DB; NO se
+  paga nada. Este doc + el YAML + sus tests de esquema son el único output.
+- Tras el dúo: build del seam flag-off + tests unitarios (incl. §1.1(c)) + ejecución F0→F4 por
+  fases con sus STOPs + decisión de ship/residual de Alberto con las cifras en la mano.
