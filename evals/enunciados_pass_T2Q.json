@@ -1,0 +1,51 @@
+{
+ "tranche": "T2Q",
+ "batch": "enunciados-v1:T2Q:h1",
+ "dry": false,
+ "prompt_vintage": "h1",
+ "model": "claude-haiku-4-5-20251001",
+ "budget_usd": 180.0,
+ "spent_after": 14.23,
+ "results": [
+  {
+   "doc": "4188-1125-ES issue 5_11-2025_Li",
+   "marca": "Notifier",
+   "insertables": 210,
+   "cobertura": 0.312,
+   "sample": [
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El INSPIRE Panel ha recibido exitosamente la solicitud del usuario."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "El usuario recibirá un correo electrónico de Honeywell con instrucciones adicionales relacionadas con el INSPIRE Panel."
+    },
+    {
+     "marca": "Notifier",
+     "isPerfect": false,
+     "text": "Honeywell agradece el interés mostrado en el producto INSPIRE Panel."
+    }
+   ],
+   "items": 39,
+   "gen": 306,
+   "qa_fail": 94,
+   "sin_padre": 8,
+   "chaff": 3,
+   "uncovered_pages": [
+    8,
+    9,
+    18,
+    22,
+    24,
+    25
+   ],
+   "meta_drop": 2,
+   "cost_usd": 0.0502,
+   "tokens_in": 10607,
+   "tokens_out": 7915
+  }
+ ]
+}

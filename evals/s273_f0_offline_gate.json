@@ -1,0 +1,163 @@
+{
+ "phase": "F0",
+ "prereg": "evals/s273_quota_prereg_v2.yaml",
+ "qid": "cat017",
+ "stamp": {
+  "git_sha": "783b9a4372f77119f60b0a55880418db2843c3d7",
+  "git_dirty_src": "M src/rag/retriever.py",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "HYQ_TABLE": "on",
+   "HYDE_ENABLED": "false",
+   "HYQ_PILOT_FILE": ""
+  },
+  "quota": 6,
+  "min_sim": 0.4,
+  "fetch_k": 200
+ },
+ "inputs": {
+  "slices": [
+   "s273_t2_hop138_rows_v1.jsonl",
+   "s273_t2q_4188_rows_v1.jsonl"
+  ],
+  "n_dump_rows": 1326,
+  "n_live_rows": 200,
+  "n_real_top50": 50
+ },
+ "simulation": {
+  "n_parents_union": 118,
+  "n_new_cands_over_bar": 108,
+  "quota_top": [
+   {
+    "parent_id": "1bd28b33-4f8e-4f51-a1d2-f8cb5691b89f",
+    "sim": 0.6404,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "0b544170-848c-4cf4-af24-54d702a6e736",
+    "sim": 0.627,
+    "origin": "live"
+   },
+   {
+    "parent_id": "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+    "sim": 0.6202,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "810371ad-8935-40ff-ae89-f59defd24487",
+    "sim": 0.6192,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "a67dedc6-9dff-440d-b276-10b1e5fd58ee",
+    "sim": 0.6153,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "127f77e4-644f-45ae-8f99-e0924fd0ef14",
+    "sim": 0.614,
+    "origin": "live"
+   }
+  ],
+  "new_cands_top15": [
+   {
+    "parent_id": "1bd28b33-4f8e-4f51-a1d2-f8cb5691b89f",
+    "sim": 0.6404,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "0b544170-848c-4cf4-af24-54d702a6e736",
+    "sim": 0.627,
+    "origin": "live"
+   },
+   {
+    "parent_id": "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+    "sim": 0.6202,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "810371ad-8935-40ff-ae89-f59defd24487",
+    "sim": 0.6192,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "a67dedc6-9dff-440d-b276-10b1e5fd58ee",
+    "sim": 0.6153,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "127f77e4-644f-45ae-8f99-e0924fd0ef14",
+    "sim": 0.614,
+    "origin": "live"
+   },
+   {
+    "parent_id": "359ed5a5-e2c9-450e-b9a9-ec08d217309c",
+    "sim": 0.6132,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "a223976c-be70-41eb-a345-cf9b3f412078",
+    "sim": 0.613,
+    "origin": "live"
+   },
+   {
+    "parent_id": "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+    "sim": 0.6117,
+    "origin": "live"
+   },
+   {
+    "parent_id": "8fe01699-f011-4d2a-8b4a-0110abdef30c",
+    "sim": 0.6108,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "f27ca08e-56fa-41d1-97b3-f0f7be3a4cff",
+    "sim": 0.6092,
+    "origin": "live"
+   },
+   {
+    "parent_id": "f36f0e2f-15bc-4adc-8965-712a3557de91",
+    "sim": 0.6082,
+    "origin": "dump"
+   },
+   {
+    "parent_id": "cd9fb19d-125c-42ef-89ec-26561880f013",
+    "sim": 0.6077,
+    "origin": "live"
+   },
+   {
+    "parent_id": "3f58a01c-da04-4d51-8d3c-cf9747c3432d",
+    "sim": 0.6076,
+    "origin": "live"
+   },
+   {
+    "parent_id": "6fbebb84-9122-421d-b7fd-d839a7baa71c",
+    "sim": 0.6071,
+    "origin": "dump"
+   }
+  ]
+ },
+ "carriers": {
+  "5bb83899-9d94-4fdd-8d42-24a670a036c5": {
+   "label": "HOP-138-9ES p5 (adjudicado)",
+   "best_sim": null,
+   "origin": null,
+   "rank_among_new": null,
+   "in_quota": false,
+   "in_real_top50": false
+  },
+  "4c186fb2-aa4b-4ca0-b316-c12ebab59712": {
+   "label": "4188-1125-ES p17 (2º carrier)",
+   "best_sim": 0.47821436383188454,
+   "origin": "dump",
+   "rank_among_new": 99,
+   "in_quota": false,
+   "in_real_top50": false
+  }
+ },
+ "verdict": "NO_GO",
+ "no_go_consequence": "cat017#2 RESIDUAL formal (prereg v2 F0); la vía A sigue"
+}

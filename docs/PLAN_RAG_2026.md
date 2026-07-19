@@ -77,8 +77,14 @@ DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de
 `gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
 assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
 causal del probe; (4) runbook visual de Alberto → `VISUAL_ASSETS_REGISTRY=on` en demo;
-(5) los 2 retrieval-miss (cat017#2 CLIP-licencia, hp010#1 Nivel-3) como margen, lever
-retrieval aparte; (6) recoger 30 audios reales antes de comparar ASR.
+(5) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
+conversiones**: el lever cuota-enunciados (el fix pendiente de DEC-102/s105) se midió con
+prereg dúo-adjudicado v1→v3 y cerró **PERMANENTE por v3b STOP a nivel respuesta** (hp005#2
+3/3→0/3 y hp017#2 bajo ON, pareado mismo-día; hp010#1 convertía 2/3 — funciona para su diana,
+cuesta hechos de terceros). Los 2 retrieval-miss quedan **residuales CON CLASE**
+(`evals/s273_v3_closeout_v1.yaml`): hp010#1 = solo otra-familia-mecánica o 0-daño demostrado;
+cat017#2 = fuera del espacio enunciados-generable (medido F0); **el camino a 151 pasa por los
+Bloques C/D (síntesis), no por retrieval**; (6) recoger 30 audios reales antes de comparar ASR.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

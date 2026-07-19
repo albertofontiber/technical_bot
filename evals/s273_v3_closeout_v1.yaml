@@ -1,0 +1,65 @@
+schema: s273_v3_closeout_v1
+prereg: evals/s273_quota_prereg_v3.yaml
+date: "2026-07-19"
+executed_by: "alberto (v3b/v3c --execute) + sesion (v3a, $0)"
+runner: scripts/s273_v3_arbiter.py
+
+# ---------------------------------------------------------------------------
+# CADENA COMPLETA v3 (la única re-medición permitida por el anti-gate-shopping):
+# ---------------------------------------------------------------------------
+chain:
+  v3a:
+    verdict: PASS
+    detail: "containment pareado contemporáneo (reuse probes F3, mismo día/DB/K=3): stop_hits=[] sobre la unión dura s104+s105; anclas pareadas +3/−1 (hp017#1 enrutada a V3-B); negcontrol reusado PASS (4≤7); referencia v2.2 RETIRADA"
+    artifact: evals/s273_v3a_containment_v1.json
+  v3b:
+    verdict: STOP
+    detail: "DAÑO REAL a nivel respuesta: 2 hechos estables-en-OFF caen en ON — hp005#2 'misma zona o subzona' (3/3 OFF → 0/3 ON, verificado por réplica) y hp017#2 'Editar Configuración' (2/3 → 1/3); hp006/cat020 limpios; 24 réplicas pareadas persistidas"
+    artifact: evals/s273_v3b_arbiter_v1.json
+    replicas: evals/s273_v3b_replies_v1.jsonl
+  v3c:
+    verdict: NO_GO
+    detail: "hp010#1 CONVIERTE estable (2/3 ≥ mayoría; pool 3/3) — el mecanismo funciona para su diana — pero el gate compuesto exige v3b PASS"
+    artifact: evals/s273_v3c_ship_gate_v1.json
+    replicas: evals/s273_v3c_replies_v1.jsonl
+
+# ---------------------------------------------------------------------------
+# VEREDICTO FINAL — por el anti-gate-shopping pre-registrado (prereg v3):
+# ---------------------------------------------------------------------------
+final_verdict: LEVER_CERRADO_PERMANENTE
+consequences:
+  - "flag ENUNCIADOS_QUOTA_FUSION queda default-off permanente (código byte-inerte en prod); NO se shippea"
+  - "sin más intentos bajo ninguna variante de esta mecánica (cuota/carve-out del canal enunciados)"
+  - "reapertura futura = evidencia NUEVA de la clase del diagnóstico s272 + permiso explícito de Alberto (patrón DEC-126)"
+  - "hiperparámetros jamás tuneados: Q=6 y barra 0.40 congelados de prereg a cierre (herencia s105 cumplida)"
+
+residuals:
+  hp010_1:
+    fact: "hp010#1 nivel 3 + desbloquear memoria; menú Lazos tecla 2 (CORE, DXc p37)"
+    status: RESIDUAL
+    precision: >-
+      El MECANISMO CONVIERTE para su diana: entrada-al-pool 3/3 (K-mayoría) y conversión a
+      nivel respuesta 2/3 estable. El lever se cierra por su COSTE MEDIDO en terceros
+      (hp005#2 y hp017#2 caen establemente bajo ON), no porque no funcione para hp010.
+      Cualquier lever futuro para hp010#1 debe ser de OTRA familia mecánica o demostrar
+      0-daño en el mismo árbitro pareado a nivel respuesta.
+  cat017_2:
+    fact: "cat017#2 licencia CLIP una por cada circuito de lazo (CORE, HOP-138-9ES p5 / 4188-1125-ES p17)"
+    status: RESIDUAL
+    precision: >-
+      Fuera del espacio de enunciados generable barato — MEDIDO (F0): el activo T2 no cubre
+      el chunk carrier (0 filas pp.5-7, 0 'licencia' en 925) y la generación h1 fresca del
+      2º carrier produce resúmenes-tabla sin señal (rank-99-de-108, sim 0.478 vs floor
+      0.614). Vía declarada si se reabre: re-scope s174 per-facet (decisión explícita
+      aparte, riesgo gate-shopping declarado en s269).
+
+honest_note: >-
+  La re-medición v3 CONFIRMÓ LA ESENCIA del veredicto s105 con el instrumento corregido:
+  el desplazamiento de la cuota cuesta hechos reales incluso a escala T1 con Q=6 — y esta
+  vez medido a nivel RESPUESTA (no pool-membership contra una referencia caduca), con
+  hp005#2 cayendo 3/3→0/3 entre brazos pareados del mismo día. El hallazgo de instrumento
+  de F3 (referencia v2.2 caduca) era real, pero corregirlo no cambió el signo: cambió la
+  CALIDAD de la evidencia. El cierre s105 «no subir N ni tunear contra hp006» queda
+  vigente y reforzado.
+
+score_impact: "0 conversiones bancables del Bloque B; la foto oficial 145/154 no cambia"

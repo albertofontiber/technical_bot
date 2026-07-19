@@ -1,0 +1,132 @@
+{
+ "stamp_old": {
+  "git_sha": "a5e099d3a806e6d0959cb1caa5629eabbe6cb720",
+  "git_dirty_src": "",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on",
+   "ENUNCIADOS_QUOTA_FUSION": "off"
+  },
+  "quota": 6,
+  "min_sim": 0.4,
+  "top_k": 50,
+  "arm": "off",
+  "flag_on": false,
+  "k": 3,
+  "n_golds": 39
+ },
+ "stamp_fix": {
+  "git_sha": "a5e099d3a806e6d0959cb1caa5629eabbe6cb720",
+  "git_dirty_src": "",
+  "flags": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "ADD",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "HYQ_TABLE": "on",
+   "ENUNCIADOS_QUOTA_FUSION": "off"
+  },
+  "quota": 6,
+  "min_sim": 0.4,
+  "top_k": 50,
+  "arm": "on",
+  "flag_on": true,
+  "k": 3,
+  "n_golds": 39
+ },
+ "majority": "2/3",
+ "gates": {
+  "anclas": {
+   "gained": [
+    "hp015#0:convencional",
+    "hp018#2:diodo",
+    "hp018#3:Sirenas A,B,C,D"
+   ],
+   "lost": [
+    "hp017#1:instruccion de entrada"
+   ],
+   "stop_anchor_hits": [],
+   "threshold": "lost == 0 (herencia +0/−0)",
+   "pass": false
+  },
+  "containment": {
+   "missing": {
+    "cat020": [
+     "1a021bd5-8dfd-4333-a015-855c307b3219",
+     "9051e732-a413-4711-86d9-93a10211dbaf"
+    ],
+    "cat021": [
+     "8d984c8e-ae11-4f7c-934c-7327c0d03a4b",
+     "b594ceb6-730e-4b1e-b6cf-38635a45e7b9",
+     "f3396730-24e1-4049-b2c3-955c2e95f3b2"
+    ],
+    "hp001": [
+     "5e04c75b-aa86-419a-a62a-18624ed38861",
+     "8ff8b580-456c-4aa1-9b62-031611f8ce6f",
+     "edeb58a7-58c6-4865-8819-c70b57fe1135"
+    ],
+    "hp002": [
+     "7b95d320-ba51-4729-87d2-1858625d4b79"
+    ],
+    "hp005": [
+     "3c93aac0-2fdb-4335-badb-85fdab9fe0de",
+     "aee3add6-bc50-4a2d-a5eb-c753112bb699"
+    ],
+    "hp006": [
+     "1c7e97f9-825d-4ef9-85e9-76b5d7d7a9c4",
+     "e3dd8dc0-58e3-4eb2-a8d1-8818a061d982"
+    ],
+    "hp011": [
+     "c8924d59-a9ce-4379-a3b7-57058ff86a82"
+    ]
+   },
+   "n_missing": 14,
+   "watch_cat021_hp005_hp006": {
+    "cat021": [
+     "8d984c8e-ae11-4f7c-934c-7327c0d03a4b",
+     "b594ceb6-730e-4b1e-b6cf-38635a45e7b9",
+     "f3396730-24e1-4049-b2c3-955c2e95f3b2"
+    ],
+    "hp005": [
+     "3c93aac0-2fdb-4335-badb-85fdab9fe0de",
+     "aee3add6-bc50-4a2d-a5eb-c753112bb699"
+    ],
+    "hp006": [
+     "1c7e97f9-825d-4ef9-85e9-76b5d7d7a9c4",
+     "e3dd8dc0-58e3-4eb2-a8d1-8818a061d982"
+    ]
+   },
+   "threshold": "missing <= 0",
+   "pass": false
+  },
+  "diana": {
+   "hp010·155a90fe-8c3f-484e-a617-7637fe29b547": true,
+   "hp018·MIEMI530:p21": true,
+   "cat017·5bb83899-9d94-4fdd-8d42-24a670a036c5": false,
+   "cat022·MNDT722:p14": false,
+   "cat022·MNDT723:p10": false,
+   "cat022·MNDT723:p58": false
+  }
+ },
+ "verdict": "STOP",
+ "stop_consequence": "rollback F2 por batch exacto + lever NO-GO documentado"
+}
