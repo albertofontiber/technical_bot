@@ -2299,3 +2299,41 @@ los golds vía `gold_store` en la misma sesión — se separa para que la edici�
 registro adjudicado commiteado + re-score dirigido (paso 3 del packet); (b) mutar los
 congelados con t.A — violaría el freeze; (c) mantener la proyección solo en prosa de docs —
 sin script pineado la aritmética no sería verificable ni estable ante drift.
+
+## DEC-126 (S270, 19 jul 2026) — Reapertura FORMAL de la familia s222/s223 (permiso explícito de Alberto) + re-spec del residual clean-noise a opción (a) «enriquecimiento etiquetado» — desbloquea la Etapa 2 del contrato must-preserve (DEC-122)
+
+**Decisión (registrada ANTES del build de la Etapa 2).** **(a) Reapertura formal de la familia
+s222/s223.** Provenance = permiso explícito VERBATIM de Alberto (S270, 19 jul): *«reapertura de
+S222/223: si tiene sentido para mejorar el bot, tienes permiso explícito para retomarlo»*, más su
+OK a la re-spec del residual (opción a). La condición «si tiene sentido para mejorar el bot» queda
+OPERACIONALIZADA por el gate de la propia Etapa 2 (≥1 conversión estable + 0 regresiones
+protegidas estables + 0 conflictos nuevos): si el gate falla, la reapertura NO produce ship —
+el permiso habilita el probe, no el default-on. Justificación técnica de por qué tiene sentido
+(el contexto con el que Alberto fue informado 2×, DEC-122): el cierre S223 fue con review
+semántica INCOMPLETA (Fable cortó por max_tokens; Sol revisó 520) + la directiva de Alberto de
+no descartar líneas por condiciones de ejecución distintas + las 4 diferencias de diseño del
+contrato vs la familia addendum: detector DETERMINISTA por familia (no LLM semántico),
+attestation de identidad por catálogo fail-closed (anti-S164), spans VERBATIM con cita [Fn] +
+disclosure ante contradicción numérica, y gates S249-preservados (recall por familia MEDIDO en
+la Etapa 1: 4/4 GO, DEC-122). **(b) Re-spec del residual clean-noise a la opción (a) de
+DEC-122:** los 40 FP RANGE/BUNDLE de átomos HERMANOS (comparten ≥2 tokens técnicos genuinos con
+el claim) se re-especifican como ENRIQUECIMIENTO ETIQUETADO — anexos bajo el encabezado
+«Información adicional del manual:», marcados como material adicional, no como corrección — y
+dejan de contar como FP del gate de Etapa 1. Alineado con la preferencia de diseño de Alberto
+(nota manuscrita de la fila 6 del packet adjudicado, registrada en DEC-125 como candidata de
+producto: servir los átomos supplementary MARCADOS como tales «para que el técnico tenga una
+visión más completa»). **Los gates de Etapa 2/3 NO se relajan:** regresiones protegidas y
+conflictos nuevos se miden igual — un anexo hermano que rompa un matcher protegido o dispare el
+detector de conflictos cuenta contra el gate exactamente como antes. **Alternativas
+descartadas:** (a′) mantener la familia cerrada y no probar el mecanismo — dejaría el lever
+synthesis sin su probe con la Etapa 1 en GO y contradiría el permiso explícito recibido;
+(b′) opción (b) del residual (filtro de pertinencia cheap-LLM en el binding) — +1 build y
++coste en cohorte fresca ANTES de saber si el mecanismo convierte algo (prematuro; queda
+disponible si la Etapa 2 muestra que el ruido daña); (c′) opción (c) restricción misma-familia —
+recorta cobertura de `bundle_member_loss` sin evidencia de daño (y el daño, si existe, lo
+cazan los gates de Etapa 2). **Método:** el diseño del mecanismo ya fue dúo-adjudicado en
+DEC-122 (2 rondas, 0 FP en 35 hallazgos); esta DEC registra la AUTORIZACIÓN del dueño + la
+re-spec del residual; el gate del probe se congela en
+`evals/s270_etapa2_probe_prereg_v1.yaml` ANTES de construir el runner. Refs: DEC-122 ·
+DEC-125 (candidata fila 6) · `evals/s269_synthesis_portfolio_design_v1.md` §1 Etapa 2 ·
+`evals/s270_gold_adjudication_v1.yaml`.
