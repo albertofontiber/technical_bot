@@ -4,6 +4,28 @@ The main reranker's output is a protected prefix.  Independently validated
 real source chunks may only be appended; they can never reorder or mutate that
 prefix.  This makes retrieval-stage movement observable without silently
 changing the established ranking contract.
+
+Contrato de la VISTA SERVIDA (s110/s111 + s274 C1, explícito — dúo Sol-M4): para un
+chunk de lane validada, ``coverage_context_content`` sirve SOLO spans exactos
+receipted del padre inmutable — las ``coverage_cards`` del selector (alineadas a
+facetas de la query, con validación semántica de la lane) y, opcionalmente:
+
+  * expansión de fila lógica de tabla (``served_coverage_cards``, flag
+    ``LOGICAL_RECORD_COVERAGE``) — completa la fila intersecada, jamás añade spans;
+  * **card de callout-MANDATORY** (s274 C1, flag ``COVERAGE_MANDATORY_CALLOUT``
+    default-off): clase PROPIA ``card_class="mandatory_callout"`` en CAMPO PROPIO
+    ``mandatory_callout_cards`` (jamás dentro de ``served_coverage_cards``) —
+    oraciones con gatillo del léxico cerrado F-MANDATORY (mp_lexicon) FUERA de los
+    spans ya servidos, 1 card máx por chunk, ≤600 chars, receipt exacto propio
+    (``has_exact_mandatory_callout_receipt``). NO hereda la validación semántica
+    del selector (``local_semantic_validated`` explícito a False): su justificación
+    es la CLASE de seguridad (mandatory_safety_omission s243), sistemáticamente
+    fuera de las facetas de query — punto ciego medido en
+    evals/s274_serving_view_diag_v1.json (el bloque warning de hp017 F12 quedaba
+    fuera de toda card y ni generador ni detector lo veían). Al vivir en campo
+    propio, los consumidores que derivan OBLIGACIONES de ``served_coverage_cards``
+    (answer_planner) NO la ven por construcción (fail-closed estructural, sin
+    tocar el módulo pineado por s201/s260).
 """
 from __future__ import annotations
 
@@ -49,6 +71,7 @@ from .table_preamble_closure import (
     LANE as TABLE_PREAMBLE_LANE,
     select_table_preambles,
 )
+from .mp_lexicon import mandatory_triggers, sentence_spans
 from .rerank_pool_coverage import (
     LANE as POOL_LANE,
     select_rerank_pool_coverage,
@@ -73,6 +96,10 @@ STRUCTURAL_SERVING_TIMEOUT_SECONDS = 2.0
 TABLE_PREAMBLE_CONFIG = ROOT / "config/table_preamble_closure_v3.yaml"
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
+# s274 C1: card de callout-MANDATORY (1 máx por chunk, acotada)
+MAX_MANDATORY_CALLOUT_CHARS = 600
+MANDATORY_CALLOUT_CARD_CLASS = "mandatory_callout"
+_CALLOUT_GAP_ALNUM = re.compile(r"[A-Za-z0-9]")
 _NON_SUBSTANTIVE_DIAGRAM_CARD = re.compile(
     r"^\[(?:(?:technical|t[eé]cnico)\s+)?(?:wiring\s+)?(?:diagram|diagrama|image|imagen)\b.*:\]$",
     re.IGNORECASE,
@@ -180,6 +207,10 @@ def coverage_context_content(
         if expand and has_exact_served_coverage_receipt(chunk)
         else chunk.get("coverage_cards")
     ) or []
+    if _mandatory_callout_enabled() and has_exact_mandatory_callout_receipt(chunk):
+        # s274 C1: la card de callout vive en campo PROPIO y se sirve con SU flag,
+        # independiente de la expansión de fila lógica (fixes desacoplados).
+        cards = [*cards, *(chunk.get("mandatory_callout_cards") or [])]
     ranges = sorted((int(card["start"]), int(card["end"])) for card in cards)
     merged: list[list[int]] = []
     for start, end in ranges:
@@ -231,6 +262,63 @@ def _expand_logical_table_boundaries(
     return expanded_start, expanded_end
 
 
+def _mandatory_callout_enabled() -> bool:
+    """Flag estricto default-off, releído en runtime (patrón contract_enabled)."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("COVERAGE_MANDATORY_CALLOUT")
+
+
+def _mandatory_callout_card(
+    candidate: dict[str, Any], served_cards: list[dict[str, Any]]
+) -> dict[str, Any] | None:
+    """s274 C1: UNA card acotada para el bloque de callout-MANDATORY que quedó FUERA
+    de los spans servidos. Oraciones con gatillo del léxico cerrado (mp_lexicon) que
+    no solapan ningún span servido; contiguas se mergean cuando el hueco no contiene
+    alfanuméricos (``\\n>\\n`` de blockquote); se sirve el PRIMER grupo que quepa en
+    ≤600 chars (un grupo mayor se omite entero — conservador, jamás se recorta a
+    media oración). La card NO hereda la validación semántica del selector
+    (``local_semantic_validated: False`` explícito — dúo Sol-M4)."""
+    content = str(candidate.get("content") or "")
+    candidate_id = str(candidate.get("id") or "")
+    if not content or not candidate_id:
+        return None
+    covered = sorted(
+        (int(card["start"]), int(card["end"])) for card in served_cards
+    )
+
+    def overlaps(start: int, end: int) -> bool:
+        return any(start < c_end and c_start < end for c_start, c_end in covered)
+
+    groups: list[list[int]] = []
+    for s_start, s_end in sentence_spans(content):
+        if overlaps(s_start, s_end):
+            continue
+        if not mandatory_triggers(content[s_start:s_end]):
+            continue
+        if groups and not _CALLOUT_GAP_ALNUM.search(content[groups[-1][1]:s_start]):
+            groups[-1][1] = s_end
+        else:
+            groups.append([s_start, s_end])
+    for start, end in groups:
+        if end - start > MAX_MANDATORY_CALLOUT_CHARS:
+            continue
+        return {
+            "candidate_id": candidate_id,
+            "card_class": MANDATORY_CALLOUT_CARD_CLASS,
+            "mandatory_callout": True,
+            "start": start,
+            "end": end,
+            "quote": content[start:end],
+            "selector_start": start,
+            "selector_end": end,
+            "logical_record_expanded": False,
+            "local_semantic_validated": False,
+            "exact_source_span_validated": True,
+        }
+    return None
+
+
 def _build_served_coverage_cards(candidate: dict[str, Any]) -> list[dict[str, Any]]:
     """Derive separately receipted serving spans from validated selector cards."""
     content = str(candidate.get("content") or "")
@@ -257,6 +345,31 @@ def _build_served_coverage_cards(candidate: dict[str, Any]) -> list[dict[str, An
         )
         served_cards.append(served)
     return served_cards
+
+
+def _build_mandatory_callout_cards(candidate: dict[str, Any]) -> list[dict[str, Any]]:
+    """s274 C1: derivación determinista del campo PROPIO ``mandatory_callout_cards``
+    (0 o 1 card) a partir de los spans servidos — separada de
+    ``_build_served_coverage_cards`` para que la revalidación v3 y los consumidores
+    de ``served_coverage_cards`` queden byte-intactos."""
+    served_cards = _build_served_coverage_cards(candidate)
+    if not served_cards:
+        return []
+    callout = _mandatory_callout_card(candidate, served_cards)
+    return [callout] if callout is not None else []
+
+
+def has_exact_mandatory_callout_receipt(chunk: dict[str, Any]) -> bool:
+    """Receipt propio de la card de callout: spans exactos contra el padre inmutable
+    + igualdad con la re-derivación determinista (mismo patrón que
+    ``has_exact_served_coverage_receipt``)."""
+    if not _has_exact_card_receipts(chunk, "mandatory_callout_cards"):
+        return False
+    try:
+        expected = _build_mandatory_callout_cards(chunk)
+    except (KeyError, TypeError, ValueError):
+        return False
+    return chunk.get("mandatory_callout_cards") == expected
 
 
 def _has_substantive_coverage_card(candidate: dict[str, Any]) -> bool:
@@ -303,6 +416,14 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
     attested["served_coverage_cards"] = _build_served_coverage_cards(candidate)
     if not has_exact_served_coverage_receipt(attested):
         return None
+    if _mandatory_callout_enabled():
+        # s274 C1: campo propio, 0-1 card, receipt propio; en fallo → sin card
+        # (fail-open conservador, la vista queda como v3).
+        callouts = _build_mandatory_callout_cards(attested)
+        if callouts:
+            attested["mandatory_callout_cards"] = callouts
+            if not has_exact_mandatory_callout_receipt(attested):
+                attested.pop("mandatory_callout_cards", None)
     attested.update(
         {
             "coverage_validated": True,

@@ -1,0 +1,169 @@
+schema: s274_stage1_v9_prereg_v1
+status: FROZEN_BEFORE_RUN
+created_utc: '2026-07-20T05:27:22+00:00'
+predecessor: evals/s271_stage1_v8_gate_v1.yaml (seed-276, GO) — este v9 valida los fixes Bloques C/D de
+  evals/s274_bloquesCD_prereg_v2.yaml §P1
+mechanism: must_preserve v5 + fixes s274 flag-gated (7 flags por-fix, default off). Heredados v8 ÍNTEGROS
+  medidos con la config det candidata (MP_DEFLINE_EQ+MP_STEM_BINDING+MP_DISTINCTIVE_TOKEN+MP_MANDATORY_VERB_TRIGGER
+  ON); clases nuevas POR-FIX con su flag aislado + controles flag-off
+seed: 277
+gates:
+  mutation_recall_min_per_family: 0.8
+  display_recall_min: 0.8
+  display_no_new_surface_fp_max: 0
+  cross_count_recall_min: 0.8
+  clean_annex_quality_fp_max: 0
+  cross_binding_fp_max: 0
+  attestation_block_appends_max: 0
+  coverage_min: 0.9
+  grounding_fold_recall_min: 0.8
+  grounding_paraphrase_fp_max: 0
+  disclosure_two_sides_min: 0.8
+  dup_span_fp_max: 0
+  dup_span_control_loss_max: 0
+  empty_enum_fp_max: 0
+  empty_enum_positive_recall_min: 0.8
+  navcrumb_fp_max: 0
+  navcrumb_no_relevance_fp_max: 0
+  navcrumb_positive_recall_min: 0.8
+  heading_only_fp_max: 0
+  heading_only_control_recall_min: 0.8
+  ui_dump_fp_max: 0
+  defline_eq_recall_min: 0.8
+  defline_eq_off_detect_fp_max: 0
+  defline_eq_assignment_fp_max: 0
+  f_relation_shape_recall_min: 0.8
+  f_relation_mechanism_recall_min: 0.8
+  f_relation_defhead_recall_min: 0.8
+  f_relation_title_fp_max: 0
+  f_relation_prose_fp_max: 0
+  f_relation_off_fp_max: 0
+  served_uncited_clean_fp_max: 0
+  distinctive_generic_fp_max: 0
+  distinctive_positive_recall_min: 0.8
+  distinctive_off_fp_max: 0
+  stem_positive_recall_min: 0.8
+  stem_single_token_fp_max: 0
+  stem_off_fp_max: 0
+  verb_trigger_recall_min: 0.8
+  verb_trigger_noun_fp_max: 0
+  verb_trigger_off_fp_max: 0
+  callout_spurious_fp_max: 0
+  callout_invalid_card_fp_max: 0
+  callout_positive_recall_min: 0.8
+  callout_off_fp_max: 0
+gates_provenance: 'heredados ÍNTEGROS del prereg v8 (un fix no se compra con recall; NO-GO heredado mata
+  el bloque D entero) + clases nuevas por-fix del prereg s274 v2 §P1: defline_eq (D1a) · f_relation det-side
+  (D1b) · served_uncited=re-clase seed-270 (C2) · distinctive=re-clase seed-271 (D2) · stem (D1c) · verb_trigger
+  (Fable-M1) · callout (C1)'
+fix_checks:
+  MP_DEFLINE_EQ:
+  - defline_eq_recall
+  - defline_eq_off_detect_fp
+  - defline_eq_assignment_fp
+  MP_HYBRID_DETECT:
+  - f_relation_shape_recall
+  - f_relation_mechanism_recall
+  - f_relation_defhead_recall
+  - f_relation_title_fp
+  - f_relation_prose_fp
+  - f_relation_off_fp
+  MP_SERVED_BINDING:
+  - served_uncited_clean_fp
+  MP_DISTINCTIVE_TOKEN:
+  - distinctive_generic_fp
+  - distinctive_positive_recall
+  - distinctive_off_fp
+  MP_STEM_BINDING:
+  - stem_positive_recall
+  - stem_single_token_fp
+  - stem_off_fp
+  MP_MANDATORY_VERB_TRIGGER:
+  - verb_trigger_recall
+  - verb_trigger_noun_fp
+  - verb_trigger_off_fp
+  COVERAGE_MANDATORY_CALLOUT:
+  - callout_spurious_fp
+  - callout_invalid_card_fp
+  - callout_positive_recall
+  - callout_off_fp
+block_d_fixes:
+- MP_DEFLINE_EQ
+- MP_HYBRID_DETECT
+- MP_STEM_BINDING
+- MP_DISTINCTIVE_TOKEN
+freeze:
+  must_preserve_sha256: 2191ed9147bbdc5c7f0ee1e8566dbf0dd01706395736ffbcb04dc2fde98672db
+  post_rerank_coverage_sha256: 9da0ae163c346143bb177413bab7a57ba36bd5eece422bba556006205f682f8d
+  mp_lexicon_sha256: 4eacf814c192fcd3a9553a0bbe89df6fafb145ee1ae957982eceaaed7c6953c4
+  harness_v9_sha256: 53630ea61534221c7abe00b0e019b560e9df4d8eec7e701d99c34ac60f37a689
+  harness_v7_sha256: 2a973e6f3511c905e815931199001612e4de46ff0d1eb4abf5bb7d3bea95118c
+  harness_v5_sha256: 1a16c933c86a93c79e365f6992cfa45395d6720a72e928de089e813d427a986c
+  s269_harness_sha256: 058fb75aa7b412b7ea65cbf875a510272a7c70accc41429b007ec24feb59a874
+  templates_sha256: af27a45f4682077fcfef67dbdd0676d6159402e36a5bf98b96035617e10c5afa
+  templates_v9_sha256: 161a77e27dd0f434b0598bfb0e16f81b41af2c298f73e1464d217878e442aed1
+  cohort_path: evals/s274_mutation_cohort_v9.jsonl
+  cohort_rows: 112
+  cohort_sha256: 455052c0bb5b77fa651e49c268af140cb2b00d775628f551b8b72388945fedc8
+  build_report_sha256: 8fbe559f4ba5d82c70d7dcc8a9df9447c90e19dbd3819a95ae7202d8191a8d96
+cohort_composition:
+  F-RANGE: 30
+  F-BUNDLE: 30
+  F-MANDATORY: 30
+  F-COUNT: 22
+population:
+  corpus_docs_servibles: 1007
+  excluded_docs: 530
+  eligible_docs: 477
+  docs_sampled: 59
+  fragments_screened: 774
+hybrid:
+  model: claude-haiku-4-5-20251001
+  budget_usd_max: 2.5
+  prices_usd_per_mtok:
+    input: 1.0
+    output: 5.0
+  no_retry: true
+  status: PREFLIGHT_ONLY_THIS_RUNNER
+honest_declarations:
+- 'NOVENA población fresca (seed-277); exclusiones ACUMULADAS de TODAS las cohortes previas: v1 + seed-270..276
+  (8 cohortes). Las medidas previas quedan como evidencia versionada.'
+- 'Los heredados v8 corren con los 4 flags DETERMINISTAS del bloque C/D activos (la config candidata en
+  la ruta del harness): el clean-FP heredado re-mide el ruido de TODOS los fixes de binding a la vez —
+  un fallo heredado mata el bloque D entero, sin atribución fina (prereg v2 §P1.gate).'
+- 'El pre-screen de la cohorte usa el detector de PROD (flags s274 OFF): los átomos-target son los del
+  mecanismo vigente; los átomos NUEVOS que MP_DEFLINE_EQ detecte de más se miden en su clase propia, no
+  inflan el denominador heredado. Deriva de target flag-on↔flag-off se reporta como target_atom_drift
+  (no puntuable).'
+- Las clases nuevas usan TEMPLATES genéricos + material del átomo REAL del fragmento fresco (re-render
+  '='-schema, ventanas de 1 token, cláusulas imperativas sintéticas) — jamás los textos gold; los casos
+  pineados de los tests salen de los diagnósticos s274.
+- served_uncited re-mide EXACTAMENTE la clase de control seed-270 (clean-FP de hermanos) bajo el umbral
+  reforzado ≥3 de C2 (Fable-M2); el recall del positivo se REPORTA sin gatear — el umbral reforzado compra
+  precisión a costa de recall, por diseño.
+- distinctive re-mide EXACTAMENTE la clase seed-271 (1 token genérico ubicuo) → FP=0 exigido; el criterio
+  catálogo de D2 NO se usa en las ventanas del harness (solo dígito/acrónimo) para que el veredicto no
+  dependa de la disponibilidad del catálogo en el runner.
+- callout usa chunks de coverage SINTÉTICOS (card = 1ª oración del fragmento real); el recall positivo
+  se acota a gatillos AISLADOS ≤600 (cota inferior independiente del algoritmo de merge — evita circularidad
+  instrumento↔mecanismo); los grupos >600 omitidos son DISEÑO, no miss.
+- f_relation valida el LADO DETERMINISTA del contrato D1b (shape en código + binding + render); la tasa
+  de PROPUESTA de Haiku bajo el prompt con F-RELATION no es medible sin brazo pagado — queda en PREFLIGHT
+  y la paga el orquestador (prereg v2 §P1).
+- 'ITERACIÓN DE INSTRUMENTO DECLARADA (post 1ª pasada c277, re-medida sobre la MISMA cohorte seed-277;
+  el mecanismo NO se toca): (1) cross_count 9/12 — las 3 causas diagnosticadas y flag-INDEPENDIENTES (idénticas
+  con los flags C/D off): el evaluador v5 puntuaba SOLO cross[0] y la población fresca produce >1 átomo
+  cross por split (misma clase que el artefacto seed-272), y 2 pares con riesgo 7-seg no pueden anexar
+  sin paridad de display en el borrador (exclusión POR DISEÑO v2 → skip declarado display_parity_by_design,
+  patrón dup_span v7) — fix del EVALUADOR (evaluate_cross_count_rows_v9: éxito de CUALQUIER átomo cross
+  del target declared_n+noun); (2) defline_eq 1 fp_off — una etiqueta con marcador de lista numerada re-formaba
+  un run _BULLET con flag off: la línea re-renderizada ahora se testea DIRECTAMENTE contra los parsers
+  flag-off (off-inercia por construcción). La 1ª pasada queda declarada aquí (results re-generados: el
+  fichero c277 contiene solo la pasada re-medida).'
+- 'RESULTADO NO tocado por la iteración de instrumento: served_uncited_clean_fp=24 en la 1ª pasada son
+  anexos de HERMANOS genuinos bajo el umbral reforzado ≥3 de C2 (verificado por-fila: 26 hermanos / 1
+  target) — la clase seed-270 re-medida FALLA su gate FP=0 y C2 (MP_SERVED_BINDING) queda NO-GO por su
+  propia clase, no por artefacto.'
+- El brazo determinista es $0 y es el que gatea.
+gate_runner: scripts/s274_mutation_harness_v9.py --gate
+gate_output: evals/s274_stage1_v9_gate_v1.yaml

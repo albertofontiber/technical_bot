@@ -23,15 +23,18 @@
 > gap honesto.
 
 <a id="estado-actual-s269--19-jul-2026"></a>
-## Estado actual (S269 — 19 jul 2026)
+## Estado actual (S274 — 20 jul 2026)
 
-**Foto oficial tras el banking S272 (DEC-131): 154 facts = 145 OK · 7 synthesis-miss ·
-2 retrieval-miss — 145/154 (94,2%) cobradas, quedan +6 para 151 (≥98%).** Banking de las 2
-conversiones certificadas del contrato must-preserve (b6f6 · 872c re-spec DEC-128) sobre el
-funnel adjudicado DEC-125, con `MUST_PRESERVE_CONTRACT=on` en Railway y recibo vivo en
-producción (query_logs 16:26Z; 872c harness-only — clase composición-de-serving):
-`evals/s272_banked_funnel_v1.json`. S269 atacó los 12 por las dos vías que pidió Alberto;
-adjudicado el packet (punto 1), queda DEC-122 como única decisión suya pendiente:
+**Foto oficial tras el banking S274 (DEC-134): 154 facts = 146 OK · 6 synthesis-miss ·
+2 retrieval-miss — 146/154 (94,81%), quedan +5 para 151 (≥98%).** Bloques C/D CERRADOS:
+el PAR `COVERAGE_MANDATORY_CALLOUT`+`MP_MANDATORY_VERB_TRIGGER` convierte obl_0d6a 3/3
+pareado (probe #4, 0 daño; smoke candidato 5/5) → SHIP candidato = solo ese par en Railway
+(runbook en DEC-134); C2 NO-GO en población fresca (clase seed-270 reconfirmada, DEC-127
+reforzado); **los 6 synth restantes EXHAUSTOS en la familia mecanismo-de-anexo — el camino
+a 151 exige OTRA familia** (gold round-2 source-contract · serving-view generalizada
+clase-C1 · eval orgánico como árbitro): `evals/s274_banked_funnel_v1.json` +
+`evals/s274_bloquesCD_closeout_v1.yaml`. [Histórico S272 (DEC-131): banking 145/154 con
+recibo vivo — `evals/s272_banked_funnel_v1.json`.] Contexto S269 (packet adjudicado):
 
 1. **Triage de golds (DEC-121) — ADJUDICADO por Alberto (S270, DEC-125).** Marcas sobre el
 packet al píxel (`evals/s269_goldreview_packet_v1_ADJUDICADO.md`): **9 core tras adjudicación
@@ -75,19 +78,28 @@ servibles** (~81% de las 16.380 de chunks_v2; antes 4.489), cap 2→4 con orden 
 corregido con filtro determinista de contenido), colisión de naming docid8 arreglada, 3 docs
 ambiguos excluidos fail-closed; falta solo `VISUAL_ASSETS_REGISTRY=on` en Railway (PR S271).
 
-**Qué sigue, por orden:** (1) adjudicaciones de Alberto restantes (residual y reapertura
-DEC-122; el packet DEC-121 ya quedó adjudicado — DEC-125 — y la edición de los golds vía
-`gold_store` + re-score dirigido parte de ese registro); (2) Etapa 2 con su gate; (3) si convierte ≥8 → fila fresca del
-assessment y decisión de crédito productivo (flags); si <8 → iterar por-familia con el mapa
-causal del probe; (4) activar `VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
-(5) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
+**S274 (20 jul): Bloques C/D ejecutados COMPLETOS y cerrados — DEC-134.** Diagnósticos $0
+(serving-view + funnel híbrido N=3) → dúo (Sol 7/7 + Fable 5/5, 0 FP) → build P0 de 7 fixes
+flag-gated por-fix → Etapa-1 v9 fresca seed-277 (heredados v8 GO; 6/7 fixes GO; C2 NO-GO:
+24/105 clean-FP de hermanos = seed-270 reconfirmada) → probe #4 con brazos de ablación
+($0,60): **solo el par C1 convierte (obl_0d6a 3/3 vs 0/3), 0 daño; el resto de dianas 0/3**
+→ smoke candidato 5/5 → banking +1 (146/154). Familia de anexo EXHAUSTA para los 6
+residuales (por-id en `evals/s274_bloquesCD_closeout_v1.yaml`); sin probe #5. Coste total
+del bloque $1,51/$15.
+
+**Qué sigue, por orden:** (1) **decisiones de Alberto**: (a) SHIP del par C1 en Railway
+(runbook 1 línea, DEC-134) + recibo vivo patrón DEC-131; (b) elegir la SIGUIENTE familia
+para los +5 → gold round-2 con lente source-contract · serving-view generalizada (clase C1
+para spans no-MANDATORY) · eval orgánico como árbitro de los 6 residuales; (2) activar
+`VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
+(3) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
 conversiones**: el lever cuota-enunciados (el fix pendiente de DEC-102/s105) se midió con
 prereg dúo-adjudicado v1→v3 y cerró **PERMANENTE por v3b STOP a nivel respuesta** (hp005#2
 3/3→0/3 y hp017#2 bajo ON, pareado mismo-día; hp010#1 convertía 2/3 — funciona para su diana,
 cuesta hechos de terceros). Los 2 retrieval-miss quedan **residuales CON CLASE**
 (`evals/s273_v3_closeout_v1.yaml`): hp010#1 = solo otra-familia-mecánica o 0-daño demostrado;
-cat017#2 = fuera del espacio enunciados-generable (medido F0); **el camino a 151 pasa por los
-Bloques C/D (síntesis), no por retrieval**; (6) recoger 30 audios reales antes de comparar ASR.
+cat017#2 = fuera del espacio enunciados-generable (medido F0); (4) recoger 30 audios reales
+antes de comparar ASR.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

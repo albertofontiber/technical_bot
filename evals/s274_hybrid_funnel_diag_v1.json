@@ -1,0 +1,1315 @@
+{
+  "schema": "s274_hybrid_funnel_diag_v1",
+  "mode": "execute",
+  "ts": "2026-07-20T00:21:24",
+  "inputs_sha256_lf": {
+    "freeze": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498",
+    "replicas_v3": "728ef776d7cdd33fe1237c3cf9c1b54f1ffe1ff52d6dc2a22b91bf1f301b6cc7"
+  },
+  "design": {
+    "replicas": 1,
+    "drafts": "off_answer r1 almacenados (0 generaciones)",
+    "fragment_restriction": {
+      "cat018": [
+        8
+      ],
+      "hp002": null,
+      "hp017": null
+    },
+    "cost_ceiling_usd": 0.1
+  },
+  "per_qid": {
+    "hp002": {
+      "identity_resolved": true,
+      "cited_fragments": [
+        1,
+        2,
+        3,
+        7,
+        9,
+        10
+      ],
+      "eligible_fragments": [
+        1,
+        2,
+        3,
+        7,
+        9,
+        10
+      ],
+      "served_view_chars_by_fragment": {
+        "1": 723,
+        "2": 2910,
+        "3": 1264,
+        "7": 3019,
+        "9": 3320,
+        "10": 2452
+      },
+      "appendix_size": 4
+    },
+    "cat018": {
+      "identity_resolved": true,
+      "cited_fragments": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        13
+      ],
+      "eligible_fragments": [
+        8
+      ],
+      "served_view_chars_by_fragment": {
+        "8": 2844
+      },
+      "appendix_size": 0
+    },
+    "hp017": {
+      "identity_resolved": true,
+      "cited_fragments": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        10,
+        11,
+        12,
+        14
+      ],
+      "eligible_fragments": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        10,
+        11,
+        12,
+        14
+      ],
+      "served_view_chars_by_fragment": {
+        "1": 1572,
+        "2": 2938,
+        "3": 2514,
+        "4": 2798,
+        "8": 2998,
+        "10": 717,
+        "11": 673,
+        "12": 1037,
+        "14": 708
+      },
+      "appendix_size": 0
+    }
+  },
+  "proposals": [
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "slot": 1,
+      "family": "F-RANGE",
+      "span_head": "±20 %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "slot": 2,
+      "family": "F-RANGE",
+      "span_head": "80 % o por encima del 120 %",
+      "span_chars": 27,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "slot": 3,
+      "family": "F-RANGE",
+      "span_head": "A11 a C32",
+      "span_chars": 9,
+      "target_hits": [],
+      "fate": "rejected_grounding"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "una variación del flujo de aire superior al ±20 % debe notificarse como fallo",
+      "span_chars": 77,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "disparará un aviso de fallo una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü",
+      "span_chars": 89,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 1,
+      "family": "F-RANGE",
+      "span_head": "±20 %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 2,
+      "family": "F-RANGE",
+      "span_head": "±xx %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 3,
+      "family": "F-RANGE",
+      "span_head": "por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo)",
+      "span_chars": 82,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "Para el correcto funcionamiento de la monitorización del flujo de aire es necesario registrar el flujo de aire",
+      "span_chars": 170,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "En las posiciones de conmutador W01 a W48, los valores establecidos para la monitorización del flujo de aire n",
+      "span_chars": 220,
+      "target_hits": [],
+      "fate": "rejected_grounding"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "slot": 6,
+      "family": "F-RANGE",
+      "span_head": "300 s",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 3,
+      "slot": 1,
+      "family": "F-RANGE",
+      "span_head": "10,4 V-CC, +0 / –0,3 V",
+      "span_chars": 22,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 3,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "el relé «fallo» quedará sin corriente y activará la indicación «Fault»",
+      "span_chars": 70,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 3,
+      "slot": 3,
+      "family": "F-BUNDLE",
+      "span_head": "El relé «Fallo» está activado en modo en espera 🡺 Contacto bornes 12/10 cerrado, 12/11 abierto (ASD 535 con te",
+      "span_chars": 141,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "este **sólo** podrá llevarse a cabo cuando se tenga la seguridad de que se han adoptado previamente todas las ",
+      "span_chars": 165,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "Si se realiza un reset inicial con los orificios de aspiración obstruidos, existe el riesgo de que la toma de ",
+      "span_chars": 212,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 3,
+      "family": "F-MANDATORY",
+      "span_head": "Todas las mediciones y pruebas efectuadas deben quedar anotadas y firmadas en el protocolo de puesta en funcio",
+      "span_chars": 119,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "deberá volver a cerrarse la caja del detector.",
+      "span_chars": 46,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "el elemento de filtro debe sustituirse en la caja de filtro o en la unidad de filtrado de polvo.",
+      "span_chars": 96,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 6,
+      "family": "F-MANDATORY",
+      "span_head": "De este modo se impide que las partículas de polvo que pudieran caer del elemento de filtro durante los trabaj",
+      "span_chars": 155,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 7,
+      "family": "F-MANDATORY",
+      "span_head": "La sustitución de componentes defectuosos, como en el caso del 35, sensores de humo, sensores de flujo de aire",
+      "span_chars": 226,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "slot": 8,
+      "family": "F-MANDATORY",
+      "span_head": "Una vez sustituido el filtro, el proceso «Sustitución del filtro» debe finalizarse pulsando el botón «Reset» d",
+      "span_chars": 117,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "es **imprescindible** bloquearlos o desconectarlos previamente",
+      "span_chars": 62,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 2,
+      "family": "F-RANGE",
+      "span_head": "12,3 a 13,8 V-CC",
+      "span_chars": 16,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 3,
+      "family": "F-RANGE",
+      "span_head": "21,6 a 27,6 V-CC",
+      "span_chars": 16,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 4,
+      "family": "F-RANGE",
+      "span_head": "±20 %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 5,
+      "family": "F-RANGE",
+      "span_head": "±10 %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 6,
+      "family": "F-RANGE",
+      "span_head": "90 % o suba por encima del 110 %",
+      "span_chars": 32,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 7,
+      "family": "F-RANGE",
+      "span_head": "±50 %",
+      "span_chars": 5,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "slot": 8,
+      "family": "F-RANGE",
+      "span_head": "75 % o suba por encima del 125 %",
+      "span_chars": 32,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "Comprobar si el conducto de aspiración está obstruido (orificios de aspiración y salida de aire)",
+      "span_chars": 96,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "Inspeccionar y limpiar caja de filtro/unidad de filtrado",
+      "span_chars": 56,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 3,
+      "family": "F-MANDATORY",
+      "span_head": "Inspeccionar y limpiar sensor flujo de aire",
+      "span_chars": 43,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "Comprobar si hay rotura de tubo en conducto de aspiración",
+      "span_chars": 57,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "Sensor flujo de aire defectuoso 🡺 Sustituir",
+      "span_chars": 43,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 6,
+      "family": "F-MANDATORY",
+      "span_head": "Cable de conexión defectuoso",
+      "span_chars": 28,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 10,
+      "slot": 7,
+      "family": "F-MANDATORY",
+      "span_head": "Sensor flujo de aire defectuoso 🡺 Sustituir",
+      "span_chars": 43,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 1,
+      "family": "F-RANGE",
+      "span_head": "en el rango 1÷33",
+      "span_chars": 16,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 2,
+      "family": "F-RANGE",
+      "span_head": "en el rango 1÷4",
+      "span_chars": 15,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 3,
+      "family": "F-BUNDLE",
+      "span_head": "**Donde:**\n\n**Tono = tipo de sonido en el rango 1÷33\nVolumen = volumen en el rango 1÷4\nRangos_de_Zonas = lista",
+      "span_chars": 196,
+      "target_hits": [
+        "obl_015f9b9aaa3a"
+      ],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "**Es el operador el que permite introducir tono y volumen para grupos de zonas a través de la CBE de los difer",
+      "span_chars": 125,
+      "target_hits": [
+        "obl_015f9b9aaa3a"
+      ],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 5,
+      "family": "F-BUNDLE",
+      "span_head": "* **OPCIONES**\n\nEl ejemplo siguiente ilustra tres modos de realización de una programación simple, es decir, l",
+      "span_chars": 1135,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "slot": 6,
+      "family": "F-BUNDLE",
+      "span_head": "* **ALARMA GENERAL**\n\nEl ejemplo siguiente ilustra un método de programación de la central para la alarma gene",
+      "span_chars": 114,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 1,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "La última regla no puede borrarse",
+      "span_chars": 33,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 1,
+      "slot": 2,
+      "family": "F-BUNDLE",
+      "span_head": "## A5.3 Tipos de retardo\n\nLas reglas de causa-efecto pueden especificar diferentes condiciones para retardos d",
+      "span_chars": 240,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 1,
+      "slot": 3,
+      "family": "F-COUNT",
+      "span_head": "Se puede asignar uno de seis tipos de retardo de salida a una regla",
+      "span_chars": 67,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 1,
+      "slot": 4,
+      "family": "F-BUNDLE",
+      "span_head": "En la siguiente tabla se muestra el efecto sobre los retardos de salida al pulsar las teclas SILENCIAR SIRENAS",
+      "span_chars": 304,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 1,
+      "family": "F-BUNDLE",
+      "span_head": "| Acción de usuario/indicación de estado                                                                      ",
+      "span_chars": 2823,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "El retardo puede anularse en el nivel de acceso 2 con la opción «Anular retardos»",
+      "span_chars": 81,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 3,
+      "family": "F-MANDATORY",
+      "span_head": "El retardo activo puede detenerse en el nivel de acceso 2 pulsando FIN RETARDO.",
+      "span_chars": 79,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo.",
+      "span_chars": 70,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "Si pulsa SONIDO ALARMAS, se activarán las sirenas.",
+      "span_chars": 50,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 2,
+      "slot": 6,
+      "family": "F-MANDATORY",
+      "span_head": "La salida se detiene si se pulsa AMPLIAR RETARDO",
+      "span_chars": 48,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 3,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "Seleccione **«5: Retardo Activación Salidas»** para anular/habilitar el retardo de activación de las salidas d",
+      "span_chars": 119,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 3,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "Para anular/habilitar los retardos configurados, pulse ✓.",
+      "span_chars": 57,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 3,
+      "slot": 3,
+      "family": "F-MANDATORY",
+      "span_head": "Para salir en cualquier momento, pulse ✕.",
+      "span_chars": 41,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 3,
+      "slot": 4,
+      "family": "F-BUNDLE",
+      "span_head": "**Navegación por los menús del panel:**\n\n| Menú Anular/Habilitar<br/>1:Zonas y Equipos<br/>2:Zonas y Equipos (",
+      "span_chars": 1920,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "Para ello debe utilizarse la tecla AMPLIAR RETARDO (solo disponible en el nivel de acceso 2).",
+      "span_chars": 93,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "Pulse la tecla FIN RETARDO (disponible para el nivel de acceso de usuario 1) para poner fin a cualquier retard",
+      "span_chars": 163,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "slot": 3,
+      "family": "F-BUNDLE",
+      "span_head": "- SILENCIAR ZUMBADOR\n  - AMPLIAR RETARDO\n  - FIN RETARDO\n  - SILENCIAR SIRENAS\n  - ACTIVAR SIRENAS\n  - REARME\n",
+      "span_chars": 203,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "slot": 4,
+      "family": "F-BUNDLE",
+      "span_head": "- Status indicators showing:\n  - ALARMA, PREALARMA, SISTEMA DE ALARMA ACTIVADO, ALIMENTACIÓN\n  - FALLO, FALLO ",
+      "span_chars": 320,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "el uso de esta función puede contravenir las disposiciones de EN54-2",
+      "span_chars": 68,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "slot": 2,
+      "family": "F-BUNDLE",
+      "span_head": "## 3.1 Menú «Editar Configuración»\n\nDesde este menú pueden editarse gran parte de los parámetros básicos de la",
+      "span_chars": 741,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "slot": 3,
+      "family": "F-BUNDLE",
+      "span_head": "### 3.1.1 Menú de configuración de la central\n\nDesde el menú «Editar Configuración» y con la opción «Menú de C",
+      "span_chars": 486,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_overlap"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "Cuando haya terminado la edición, la central le preguntará si quiere guardar los cambios antes de salir del mo",
+      "span_chars": 133,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "slot": 5,
+      "family": "F-MANDATORY",
+      "span_head": "Para confirmar los cambios y actualizar los datos específicos de las instalaciones, seleccione la opción 1.",
+      "span_chars": 107,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 10,
+      "slot": 1,
+      "family": "F-BUNDLE",
+      "span_head": "Editar Parámetros de la Central\n01:Modo Zona             : CENTRAL\n02:Funcionamiento LED    : Parp.Verde\n03:Nú",
+      "span_chars": 374,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 10,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "Esta opción de configuración de la central permite desactivar el pulsador EXTENDER RETARDO, puesto que esta fu",
+      "span_chars": 151,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 11,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.",
+      "span_chars": 73,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 11,
+      "slot": 2,
+      "family": "F-BUNDLE",
+      "span_head": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición.",
+      "span_chars": 99,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 12,
+      "slot": 1,
+      "family": "F-MANDATORY",
+      "span_head": "Se recomienda utilizar el programa de configuración por ordenador como principal método de programación.",
+      "span_chars": 104,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 12,
+      "slot": 2,
+      "family": "F-MANDATORY",
+      "span_head": "El menú de la central debería emplearse solo para realizar modificaciones menores en las reglas",
+      "span_chars": 95,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 12,
+      "slot": 3,
+      "family": "F-MANDATORY",
+      "span_head": "el uso del programa de configuración siempre será el método más",
+      "span_chars": 63,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 12,
+      "slot": 4,
+      "family": "F-MANDATORY",
+      "span_head": "esta parte de la regla solo puede procesarse cuando se cumplen todas las condiciones de entrada programadas",
+      "span_chars": 107,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 1,
+      "family": "F-RANGE",
+      "span_head": "hasta 240 s (4 min)",
+      "span_chars": 19,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "accepted"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 2,
+      "family": "F-BUNDLE",
+      "span_head": "Ajuste de la función LED remota (solo equipos Opal): las opciones son: Seguir el equipo (predeterminada) o Con",
+      "span_chars": 149,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 3,
+      "family": "F-BUNDLE",
+      "span_head": "Ajuste no silenciable para la función de LED remoto (solo equipos Opal); respuesta a la orden SILENCIAR SIRENA",
+      "span_chars": 112,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 4,
+      "family": "F-BUNDLE",
+      "span_head": "Operación solo modo térmico (L6) (solo SMART y Optiplex)",
+      "span_chars": 56,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 5,
+      "family": "F-BUNDLE",
+      "span_head": "Número de aplicación (solo equipos SMART 4)",
+      "span_chars": 43,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "slot": 6,
+      "family": "F-BUNDLE",
+      "span_head": "Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240 s (4 min). Puede usarse con dep",
+      "span_chars": 126,
+      "target_hits": [],
+      "fold_relocated": false,
+      "fate": "rejected_shape"
+    }
+  ],
+  "atom_funnel": [
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "> Conforme a EN 54-20, una variación del flujo de aire superior al ±20 % debe notificarse como fallo.",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 1,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "En las posiciones de conmutador **A11** a **C32**, cualquier variación de este valor que supere el ±20 % (es d",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "cap_or_dedup"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %.",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, p",
+      "target_hits": [],
+      "stage": "appended"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 2,
+      "origin": "det",
+      "family": "F-MANDATORY",
+      "span_head": "> **Advertencia**",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 3,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "* Fallo flujo de aire (transcurrido el tiempo de retardo del LS)\n* Fallo ventilador (por debajo o por encima d",
+      "target_hits": [],
+      "stage": "appended"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 3,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "10,4 V-CC, +0 / –0,3 V",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "origin": "det",
+      "family": "F-MANDATORY",
+      "span_head": "> ## Peligro",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 7,
+      "origin": "det",
+      "family": "F-MANDATORY",
+      "span_head": "> **Advertencia**",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-MANDATORY",
+      "span_head": "> Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llev",
+      "target_hits": [],
+      "stage": "appended"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensió",
+      "target_hits": [],
+      "stage": "appended"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-MANDATORY",
+      "span_head": "**Atención**: conexión de cable plano (véanse también los cap.",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "12,3 a 13,8 V-CC",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "21,6 a 27,6 V-CC",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar);",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "la mitad = ±10 %.",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "90 % o suba por encima del 110 %",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "cap_or_dedup"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20);",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "det",
+      "family": "F-RANGE",
+      "span_head": "la mitad = ±25 %.",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp002",
+      "fragment_number": 9,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "75 % o suba por encima del 125 %",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "cat018",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-COUNT",
+      "span_head": "El ejemplo siguiente ilustra tres modos de realización de una programación simple, es decir, la activación del",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 1,
+      "origin": "det",
+      "family": "F-COUNT",
+      "span_head": "Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación.",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "- Display screen showing \"Jueves 10 Abr11 2014 08:15:56\"\n- Keypad with numbers 0-9 and letters\n- Right side bu",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 4,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "- Tecla AMPLIAR RETARDO (pointing to button labeled \"AMPLIAR RETARDO\")\n- Tecla FIN RETARDO (pointing to button",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "- «Configuración de la Central»: **3.1.1 Menú de configuración de la central**\n- «Equipos de Lazo»: **4 Equipo",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-COUNT",
+      "span_head": "- «Equipos de Lazo»: **4 Equipos de lazo**",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-COUNT",
+      "span_head": "- «Salidas virtuales»: **Apéndice 9 Salidas virtuales**",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-BUNDLE",
+      "span_head": "- «Configuración de la Central»: **Apéndice 1.**\n- «Opciones Placa Base»: **Apéndice 7.**\n- «Opciones Tarjeta ",
+      "target_hits": [],
+      "stage": "missing_not_selected",
+      "excluded_by": "good_form_or_parity"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 8,
+      "origin": "det",
+      "family": "F-COUNT",
+      "span_head": "- «Licencias»: Apéndice 11 Licencias.",
+      "target_hits": [],
+      "stage": "not_bound"
+    },
+    {
+      "qid": "hp017",
+      "fragment_number": 14,
+      "origin": "hybrid",
+      "family": "F-RANGE",
+      "span_head": "hasta 240 s (4 min)",
+      "target_hits": [],
+      "stage": "satisfied_in_draft"
+    }
+  ],
+  "database_reads": 0,
+  "database_writes": 0,
+  "hybrid_usage": {
+    "input_tokens": 33030,
+    "output_tokens": 9694,
+    "calls": 16
+  },
+  "actual_cost_usd": 0.0815,
+  "target_summary": {
+    "obl_a5d9fa1f9253": {
+      "qid": "hp002",
+      "proposals_target_relevant": 0,
+      "proposal_fates": [],
+      "atoms_target_relevant": 0,
+      "atom_stages": []
+    },
+    "obl_015f9b9aaa3a": {
+      "qid": "cat018",
+      "proposals_target_relevant": 2,
+      "proposal_fates": [
+        "rejected_shape"
+      ],
+      "atoms_target_relevant": 0,
+      "atom_stages": []
+    },
+    "obl_b2043cd4379b": {
+      "qid": "hp017",
+      "proposals_target_relevant": 0,
+      "proposal_fates": [],
+      "atoms_target_relevant": 0,
+      "atom_stages": []
+    },
+    "obl_7aa723717412": {
+      "qid": "hp017",
+      "proposals_target_relevant": 0,
+      "proposal_fates": [],
+      "atoms_target_relevant": 0,
+      "atom_stages": []
+    }
+  }
+}

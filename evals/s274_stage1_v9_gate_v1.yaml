@@ -1,0 +1,291 @@
+schema: s274_stage1_v9_gate_v1
+created_utc: '2026-07-20T05:27:27+00:00'
+arm: det
+seed: 277
+inherited:
+  measured_with_flags_on:
+  - MP_DEFLINE_EQ
+  - MP_STEM_BINDING
+  - MP_DISTINCTIVE_TOKEN
+  - MP_MANDATORY_VERB_TRIGGER
+  families:
+    F-RANGE:
+      recall: 0.96875
+      detected: 62
+      scored: 64
+      pass: true
+    F-BUNDLE:
+      recall: 1.0
+      detected: 38
+      scored: 38
+      pass: true
+    F-MANDATORY:
+      recall: 1.0
+      detected: 28
+      scored: 28
+      pass: true
+    F-COUNT:
+      recall: 0.8571428571428571
+      detected: 36
+      scored: 42
+      pass: true
+  checks:
+    display_recall:
+      value: null
+      n: 0
+      d: 0
+      pass: true
+    display_no_new_surface_fp:
+      value: 0
+      pass: true
+    cross_count_recall:
+      value: 1.0
+      n: 10
+      d: 10
+      pass: true
+    cross_count_far_page_fp:
+      value: 0
+      pass: true
+    grounding_fold_recall:
+      value: 1.0
+      n: 208
+      d: 208
+      pass: true
+    grounding_paraphrase_fp:
+      value: 0
+      pass: true
+    disclosure_two_sides:
+      value: 0.8333333333333334
+      n: 10
+      d: 12
+      pass: true
+    clean_annex_quality_fp: &id021
+      value: 0
+      pass: true
+    enrichment_appends_reported:
+      value: 48
+      pass: true
+    cross_binding_fp:
+      value: 0
+      pass: true
+    attestation_block_appends:
+      value: 0
+      pass: true
+    dup_span_fp:
+      value: 0
+      pass: true
+    dup_span_control_loss:
+      value: 0
+      pass: true
+    empty_enum_fp:
+      value: 0
+      pass: true
+    empty_enum_positive_recall:
+      value: 0.8333333333333334
+      n: 10
+      d: 12
+      pass: true
+    navcrumb_fp:
+      value: 0
+      pass: true
+    navcrumb_no_relevance_fp:
+      value: 0
+      pass: true
+    navcrumb_positive_recall:
+      value: 0.9545454545454546
+      n: 21
+      d: 22
+      pass: true
+    heading_only_fp: &id020
+      value: 0
+      pass: true
+    heading_only_control_recall:
+      value: 1.0
+      n: 15
+      d: 15
+      pass: true
+    ui_dump_fp:
+      value: 0
+      pass: true
+    whitelist_skips_reported:
+      value:
+        mutation: 90
+        dup_span: 35
+        cross_count: 10
+        disclosure2: 10
+        empty_enum: 10
+        heading_only: 15
+      mutation_by_family:
+        F-BUNDLE: 24
+        F-COUNT: 38
+        F-MANDATORY: 28
+      pass: true
+    whitelist_silence_share_reported:
+      value: 0.1347068145800317
+      total_skips: 170
+      pass: true
+    coverage:
+      value: 0.9413919413919414
+      pass: true
+  verdict: GO
+  no_go_kills_block_d:
+  - MP_DEFLINE_EQ
+  - MP_DISTINCTIVE_TOKEN
+  - MP_HYBRID_DETECT
+  - MP_STEM_BINDING
+new_checks:
+  defline_eq_recall: &id001
+    value: 1.0
+    n: 14
+    d: 14
+    pass: true
+  defline_eq_off_detect_fp: &id002
+    value: 0
+    pass: true
+  defline_eq_assignment_fp: &id003
+    value: 0
+    pass: true
+  f_relation_shape_recall: &id004
+    value: 1.0
+    n: 45
+    d: 45
+    pass: true
+  f_relation_mechanism_recall: &id005
+    value: 0.9777777777777777
+    n: 44
+    d: 45
+    pass: true
+  f_relation_defhead_recall: &id006
+    value: 0.9444444444444444
+    n: 17
+    d: 18
+    pass: true
+  f_relation_title_fp: &id007
+    value: 0
+    pass: true
+  f_relation_prose_fp: &id008
+    value: 0
+    pass: true
+  f_relation_off_fp: &id009
+    value: 0
+    pass: true
+  served_uncited_clean_fp: &id010
+    value: 24
+    pass: false
+  served_uncited_positive_recall_reported:
+    value: 0.6521739130434783
+    n: 45
+    d: 69
+    pass: true
+  distinctive_generic_fp: &id011
+    value: 0
+    pass: true
+  distinctive_positive_recall: &id012
+    value: 1.0
+    n: 26
+    d: 26
+    pass: true
+  distinctive_off_fp: &id013
+    value: 0
+    pass: true
+  stem_positive_recall: &id014
+    value: 0.8947368421052632
+    n: 51
+    d: 57
+    pass: true
+  stem_single_token_fp: &id015
+    value: 0
+    pass: true
+  stem_off_fp: &id016
+    value: 0
+    pass: true
+  verb_trigger_recall: &id017
+    value: 1.0
+    n: 95
+    d: 95
+    pass: true
+  verb_trigger_noun_fp: &id018
+    value: 0
+    pass: true
+  verb_trigger_off_fp: &id019
+    value: 0
+    pass: true
+  callout_spurious_fp: &id022
+    value: 0
+    pass: true
+  callout_invalid_card_fp: &id023
+    value: 0
+    pass: true
+  callout_positive_recall: &id024
+    value: 1.0
+    n: 27
+    d: 27
+    pass: true
+  callout_off_fp: &id025
+    value: 0
+    pass: true
+per_fix:
+  MP_DEFLINE_EQ:
+    checks:
+      defline_eq_recall: *id001
+      defline_eq_off_detect_fp: *id002
+      defline_eq_assignment_fp: *id003
+    killed_by_inherited_no_go: false
+    verdict: GO
+  MP_HYBRID_DETECT:
+    checks:
+      f_relation_shape_recall: *id004
+      f_relation_mechanism_recall: *id005
+      f_relation_defhead_recall: *id006
+      f_relation_title_fp: *id007
+      f_relation_prose_fp: *id008
+      f_relation_off_fp: *id009
+    killed_by_inherited_no_go: false
+    verdict: GO
+  MP_SERVED_BINDING:
+    checks:
+      served_uncited_clean_fp: *id010
+    killed_by_inherited_no_go: false
+    verdict: NO_GO
+  MP_DISTINCTIVE_TOKEN:
+    checks:
+      distinctive_generic_fp: *id011
+      distinctive_positive_recall: *id012
+      distinctive_off_fp: *id013
+    killed_by_inherited_no_go: false
+    verdict: GO
+  MP_STEM_BINDING:
+    checks:
+      stem_positive_recall: *id014
+      stem_single_token_fp: *id015
+      stem_off_fp: *id016
+    killed_by_inherited_no_go: false
+    verdict: GO
+  MP_MANDATORY_VERB_TRIGGER:
+    checks:
+      verb_trigger_recall: *id017
+      verb_trigger_noun_fp: *id018
+      verb_trigger_off_fp: *id019
+    inherited_refs:
+      heading_only_fp: *id020
+      clean_annex_quality_fp: *id021
+    killed_by_inherited_no_go: false
+    verdict: GO
+  COVERAGE_MANDATORY_CALLOUT:
+    checks:
+      callout_spurious_fp: *id022
+      callout_invalid_card_fp: *id023
+      callout_positive_recall: *id024
+      callout_off_fp: *id025
+    killed_by_inherited_no_go: false
+    verdict: GO
+hybrid_arm: PREFLIGHT_ONLY (scoring F-RELATION híbrido lo paga el orquestador; prereg v2 §P1)
+verdict_by_fix:
+  COVERAGE_MANDATORY_CALLOUT: GO
+  MP_DEFLINE_EQ: GO
+  MP_DISTINCTIVE_TOKEN: GO
+  MP_HYBRID_DETECT: GO
+  MP_MANDATORY_VERB_TRIGGER: GO
+  MP_SERVED_BINDING: NO_GO
+  MP_STEM_BINDING: GO
+verdict: PARTIAL_OR_NO_GO

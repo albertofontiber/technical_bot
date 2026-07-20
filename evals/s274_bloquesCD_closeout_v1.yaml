@@ -1,0 +1,170 @@
+schema: s274_bloquesCD_closeout_v1
+created_at: "2026-07-20"
+dec: DEC-134
+prereg: evals/s274_bloquesCD_prereg_v2.yaml   # contrato ejecutable del bloque (post-dúo)
+design: evals/s274_bloquesCD_design_v1.md      # PARTE 2 = override adjudicado
+
+# ---------------------------------------------------------------------------
+# CADENA P0 -> P4 (veredictos con artefacto; toda fase DB GET-only, 0 escrituras)
+# ---------------------------------------------------------------------------
+phases:
+  P0_build_flagoff:
+    verdict: DONE
+    cost_usd: 0.2650                     # funnel N=3 (único gasto de P0)
+    evidence: >-
+      7 flags por-fix default-off (dúo Sol-C1/C2) + card de callout en campo
+      propio + F-RELATION + binding stem/distintivo/served-uncited +
+      verb-trigger; 24 tests por fix (tests/test_s274_bloquesCD_fixes.py);
+      byte-idéntico con todo off. Diagnósticos: serving-view diag all_pass +
+      funnel híbrido N=3 causas estables 3/3.
+  P1_etapa1_v9:
+    verdict: "6/7 GO · MP_SERVED_BINDING NO-GO (por su propia clase)"
+    cost_usd: 0.0
+    artifact: evals/s274_stage1_v9_gate_v1.yaml
+    detail: >-
+      Cohorte FRESCA seed-277 (112 filas; exclusiones acumuladas v1+seed-270..276).
+      Heredados v8 ÍNTEGROS GO con la config det candidata (cross_count 10/10,
+      clean-FP 0, coverage 0.941). GO: C1 callout (0 espurias, 27/27),
+      verb-trigger (95/95), D1a defline '=' (14/14), D1b det-side (shape 45/45),
+      D1c stem (51/57), D2 distintivo (26/26, re-clase seed-271=0).
+      NO-GO: C2 — served_uncited_clean_fp=24/105 (26 anexos de HERMANOS
+      genuinos / 1 target, verificado por-fila): la clase seed-270 re-medida
+      FALLA bajo el umbral reforzado >=3 => C2 no entró al probe; DEC-127
+      REFORZADO. Iteración de instrumento declarada en el prereg (cross_count
+      cross[0] + display-parity + defline bullet-label; flag-independiente).
+  P2_probe_consolidado:
+    verdict: "GO — 1 conversión estable (obl_0d6a via par C1); 0 daño en todos los brazos"
+    cost_usd: 0.604029
+    artifact: evals/s274_probeCD_result_v1.json
+    replicas: evals/s274_probeCD_replicas_v1.jsonl
+    detail: >-
+      Probe #4 (el único; sin re-runs). A-C1 (par card+verb-trigger, hp017
+      fresco K=3 pareado mismo-día con A0): merged_warning_block 3/3 ON vs 0/3
+      A0 — atribución LIMPIA al par; idéntico en A-ALL-det (lo shippeable sin
+      Haiku) y A-ALL => banking desplegable det-only. Gates transversales:
+      0 protegidas caídas · 0 conflictos nuevos · anclas +0/−0 (STOP duro
+      s104+s105 sin tocar) · retrieval-invariante A-C1 PASS · 0
+      diagramas-por-anexo (VISUAL_ASSETS_REGISTRY=off pineado). Resto de
+      brazos SIN conversión en sus dianas: A-D1a/A-D1c/A-D2/A-D1b-hyb 0/3 en
+      7bba/a5d9/015f/b2043/7aa7; A-C2 SKIP (NO-GO P1). stop_rule_hits: [].
+  P3_negcontrol_vivo:
+    verdict: "PASS — 5/5 monotónicos, 0 apéndices espurios"
+    cost_usd: 0.6412
+    artifact: evals/s270_etapa3_smoke_result_v1.json   # re-corrido con la config candidata
+    detail: >-
+      Smoke vivo (hp007/cat007/hp018/hp001/cat005) con la config candidata a
+      ship (MUST_PRESERVE_CONTRACT + COVERAGE_MANDATORY_CALLOUT +
+      MP_MANDATORY_VERB_TRIGGER, declarada por el coordinador que lo ejecutó):
+      monotonicity_violations=[] · appendix_fired=[] — la card de callout no
+      introduce ruido en golds sanos.
+  P4_cierre_banking:
+    verdict: DONE
+    cost_usd: 0.0
+    artifact: evals/s274_banked_funnel_v1.json
+    runner: scripts/s274_bank_conversions.py           # aritmética SHA-pineada, $0
+    detail: >-
+      Banking +1 (obl_0d6a) sobre el funnel s272 con verificación determinista
+      de la cadena completa (pins LF de baseline + gate P1 + probe #4 + smoke).
+
+budget:
+  total_ceiling_usd: 15.00
+  spent_usd: 1.510229        # P0 0.2650 + P1 0 + P2 0.604029 + P3 0.6412 + P4 0
+  no_retry_respected: true
+  probe_reruns: 0
+
+# ---------------------------------------------------------------------------
+# FUNNEL OFICIAL tras el banking (DEC-134)
+# ---------------------------------------------------------------------------
+banked_funnel:
+  denominator: 154
+  ok: 146
+  synthesis_miss: 6
+  retrieval_miss: 2
+  ok_pct: 94.81
+  provenance: >-
+    evals/s272_banked_funnel_v1.json (145/7/2/154, DEC-131) + obl_0d6a
+    certificada en el probe #4 — proyección determinista
+    scripts/s274_bank_conversions.py -> evals/s274_banked_funnel_v1.json
+  target: "98% de 154 = 151 -> quedan +5"
+
+conversion_banked:
+  obligation_id: obl_0d6a30948dfd
+  qid: hp017
+  fix: "C1 COVERAGE_MANDATORY_CALLOUT + MP_MANDATORY_VERB_TRIGGER (PAR declarado, Fable-M1)"
+  evidence: "A-C1 3/3 vs A0 0/3 (pareado mismo-día) · A-ALL-det 3/3 · 0 daño"
+  estado_vivo: >-
+    PENDIENTE de activación del par en Railway; recibo vivo query_logs al
+    encender (patrón DEC-131). Smoke candidato ya limpio (P3).
+
+# ---------------------------------------------------------------------------
+# RESIDUALES: 6 synth EXHAUSTOS en la familia mecanismo-de-anexo
+# (qué fix se probó y cómo murió — detalle canónico también en el banked_funnel)
+# ---------------------------------------------------------------------------
+residual_synthesis_exhausted:
+  obl_2f5d79e354b9:
+    qid: hp011
+    fix: "C2 MP_SERVED_BINDING (umbral reforzado >=3)"
+    muerte: >-
+      NO-GO P1 seed-270-RECONFIRMADO: 24/105 clean-FP de hermanos genuinos en
+      población fresca — el binding a fragmentos no citados compra ruido
+      incluso reforzado; no entró al probe (DEC-127 reforzado).
+  obl_7bba8d03d496:
+    qid: cat018
+    fix: "D2 MP_DISTINCTIVE_TOKEN"
+    muerte: >-
+      P1 GO pero sin binding en la generación real (A-D2/A-ALL 0/3): la ventana
+      de cita no contiene el token distintivo ('cbe').
+  obl_a5d9fa1f9253:
+    qid: hp002
+    fix: "D1c MP_STEM_BINDING + D1b F-RELATION"
+    muerte: >-
+      P1 GO ambos; stem insuficiente solo y Haiku no propone la cláusula del
+      qualifier (0/3 también en el funnel N=3) — A-D1c/A-D1b-hyb/A-ALL 0/3.
+  obl_015f9b9aaa3a:
+    qid: cat018
+    fix: "D1a MP_DEFLINE_EQ + híbrido"
+    muerte: >-
+      P1 GO (shape 14/14) pero la ventana [F8] no comparte tokens del bundle
+      TONE — A-D1a/A-ALL 0/3 (predicho BAJA; binding a nivel fragmento
+      rechazado con métrica seed-270, no se propone).
+  obl_b2043cd4379b:
+    qid: hp017
+    fix: "C1 + D1b"
+    muerte: >-
+      Serving-view SIN gatillo: su span («Instrucción de entrada») es
+      definicional — la card C1 (léxico MANDATORY) no lo cubre (corrección
+      v2.2 confirmada en probe); A-C1/A-ALL 0/3.
+  obl_7aa723717412:
+    qid: hp017
+    fix: "D1b F-RELATION (defhead)"
+    muerte: >-
+      P1 GO (defhead 17/18) pero su ventana [F12] no comparte tokens propios —
+      el binding no llega aunque el shape exista; A-D1b-hyb/A-ALL 0/3.
+
+strategic_declaration: >-
+  La familia MECANISMO-DE-ANEXO queda EXHAUSTA para los 6 residuales: cada uno
+  tuvo su fix construido (P0), gateado en población fresca (P1) y medido en el
+  probe consolidado (P2) sin conversión — o murió en P1 con métrica propia. No
+  hay probe #5 (compromiso anti-overfit del prereg). El camino a 151 exige OTRA
+  familia; opciones para Alberto (sin dependencia entre sí):
+  (a) adjudicación gold round-2 con lente source-contract (¿los 6 exigen del
+  bot algo que la fuente servida no contrata?);
+  (b) expansión de la serving-view más allá de callouts (clase C1 generalizada
+  — misma mecánica card-en-campo-propio para otras clases de span);
+  (c) eval orgánico como árbitro de si los 6 importan en uso real (técnicos).
+
+ship_config_candidate:
+  flags_on: [COVERAGE_MANDATORY_CALLOUT, MP_MANDATORY_VERB_TRIGGER]
+  flags_off_sin_conversion: [MP_SERVED_BINDING, MP_DEFLINE_EQ, MP_HYBRID_DETECT, MP_STEM_BINDING, MP_DISTINCTIVE_TOKEN]
+  runbook: >-
+    Railway -> variables: COVERAGE_MANDATORY_CALLOUT=on y
+    MP_MANDATORY_VERB_TRIGGER=on (MUST_PRESERVE_CONTRACT ya on desde DEC-131)
+    -> 1 pregunta de smoke -> rollback = quitar las 2 variables.
+
+outputs:
+  - evals/s274_stage1_v9_gate_v1.yaml
+  - evals/s274_probeCD_replicas_v1.jsonl
+  - evals/s274_probeCD_result_v1.json
+  - evals/s270_etapa3_smoke_result_v1.json   # P3 (re-corrido in-place, patrón del runner)
+  - evals/s274_banked_funnel_v1.json
+  - evals/s274_bloquesCD_closeout_v1.yaml

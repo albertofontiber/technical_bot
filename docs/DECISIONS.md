@@ -2711,3 +2711,55 @@ plantilla-con-leyenda EFS/EM, ambos gateados a muestra fresca futura). Residual:
 extraction_sha ambiguo excluidos fail-closed (35 págs; dos revisiones bajo un document_id —
 inverso del caso docid8; task chip abierto para separarlos patrón s107); 30 uncertain jamás
 se sirven. Activación = solo `VISUAL_ASSETS_REGISTRY=on` en Railway (runbook en el PR S271).
+
+## DEC-134 (S274, 20 jul 2026) — Bloques C/D cerrados: el par callout-card+verb-trigger convierte obl_0d6a (BANKED 146/154, 94,81%); C2 NO-GO por su clase en población fresca; los 6 synth restantes EXHAUSTOS en la familia mecanismo-de-anexo — el camino a 151 exige OTRA familia
+
+**Decisión.** (a) BANKING +1: `obl_0d6a30948dfd` (hp017, bloque-warning mergeado DEC-125)
+convertida por el PAR `COVERAGE_MANDATORY_CALLOUT`+`MP_MANDATORY_VERB_TRIGGER` — funnel
+oficial **146 OK / 6 synth / 2 retr / 154 (94,81%)**, quedan +5 para 151
+(`evals/s274_banked_funnel_v1.json`, aritmética SHA-pineada `scripts/s274_bank_conversions.py`,
+patrón DEC-131). (b) Config de SHIP candidata = SOLO ese par en Railway (runbook 1 línea;
+`MUST_PRESERVE_CONTRACT` ya on); los otros 5 flags s274 quedan default-off SIN ship (ninguna
+conversión los justifica). (c) La familia MECANISMO-DE-ANEXO queda **EXHAUSTA para los 6
+residuales** — cada uno tuvo fix construido (P0, 7 flags por-fix del dúo), gateado en población
+fresca (P1 v9 seed-277) y medido en el probe consolidado #4 con brazos de ablación (P2) sin
+conversión, o murió en P1 con métrica; sin probe #5 (compromiso anti-overfit del prereg v2).
+
+**Cadena medida (techo $15, gastado $1,51; DB GET-only en todas las fases).**
+P0 build flag-off + dúo (Sol 7/7 · Fable 5/5, 0 FP) → P1 Etapa-1 v9 (cohorte fresca seed-277,
+112 filas, exclusiones acumuladas v1+seed-270..276): heredados v8 ÍNTEGROS **GO** con la config
+det candidata + 6/7 fixes **GO** en sus clases nuevas; **C2/`MP_SERVED_BINDING` NO-GO**:
+`served_uncited_clean_fp=24/105` — 26 anexos de HERMANOS genuinos / 1 target verificados
+por-fila = la clase seed-270 re-medida FALLA incluso con umbral reforzado ≥3 → **DEC-127
+REFORZADO** (el binding fuera de la ventana de cita compra ruido; 2ª reconfirmación con
+métrica). Iteración de INSTRUMENTO declarada en el prereg v9 (evaluador cross_count v5
+puntuaba solo cross[0]; paridad display 7-seg = exclusión por diseño; defline bullet-label) —
+flag-independiente, el mecanismo no se tocó. → P2 probe #4 ($0,60): **A-C1 convierte 0d6a 3/3
+vs 0/3 en A0** (pareado mismo-día, generación fresca hp017 K=3 con la vista C1) e idéntico en
+A-ALL-det → banking DESPLEGABLE det-only (regla Sol-C1); **0 daño en todos los brazos**
+(protegidas/conflictos/anclas s104+s105/retrieval-invariante/0-diagramas-por-anexo); el resto
+de brazos 0/3 en sus dianas. → P3 smoke vivo con la config candidata: **5/5 monotónicos, 0
+apéndices espurios** ($0,64).
+
+**Los 6 exhaustos (qué fix y cómo murió):** 2f5d=C2 NO-GO P1 (clase seed-270 reconfirmada) ·
+7bba=D2 GO en P1 pero sin el token distintivo en la ventana real (0/3) · a5d9=D1c+D1b GO en P1
+pero Haiku no propone el qualifier (0/3, ya 0/3 en el funnel N=3) · 015f=D1a GO pero ventana
+[F8] sin tokens del bundle (0/3, predicho BAJA) · b2043=serving-view SIN gatillo (span
+definicional — la card C1 es de léxico MANDATORY; corrección v2.2 confirmada) ·
+7aa7=F-RELATION shape OK pero ventana [F12] sin tokens propios (0/3). Detalle canónico en
+`evals/s274_bloquesCD_closeout_v1.yaml` + `evals/s274_banked_funnel_v1.json`.
+
+**Alternativas descartadas.** Probe #5 / iterar los fixes en caliente (anti-overfit
+pre-registrado; 4º probe a los mismos targets ya era el límite) · relajar el gate de C2 para
+"comprar" 2f5d (el gate FP=0 era EL control de la clase seed-270 — relajarlo re-litiga DEC-127
+sin evidencia nueva) · shippear flags sin conversión (banking solo-desplegable, Sol-C1) ·
+binding a nivel fragmento para 015f (rechazado con métrica seed-270, 36 FP). **Camino a 151
+(otra familia; opciones para Alberto):** gold round-2 lente source-contract · serving-view
+generalizada (clase C1 para spans no-MANDATORY) · eval orgánico como árbitro de si los 6
+importan en uso real.
+
+**Traza.** Prereg `evals/s274_bloquesCD_prereg_v2.yaml` (dúo adjudicado en
+`evals/adversarial_review_log.jsonl`); gate P1 `evals/s274_stage1_v9_gate_v1.yaml`; probe
+`evals/s274_probeCD_result_v1.json` (+réplicas); smoke `evals/s270_etapa3_smoke_result_v1.json`;
+cierre `evals/s274_bloquesCD_closeout_v1.yaml`; fila del lever sobrescrita in-place en
+`docs/LEVER_DIGEST.md`.

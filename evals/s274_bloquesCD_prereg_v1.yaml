@@ -1,0 +1,231 @@
+schema: s274_bloquesCD_prereg_v1
+status: preregistered_not_executed        # NADA construido ni ejecutado; requiere duo (Protocolo 3) + GO de Alberto
+created_at: "2026-07-20"
+design_doc: evals/s274_bloquesCD_design_v1.md
+objective: "foto oficial 145/154 -> 151/154 (98%) = +6 conversiones synth (DEC-125/131)"
+
+# ---------------------------------------------------------------------------
+# INSUMOS PINEADOS (sha256 LF-normalizado; el runner FALLA en drift)
+# ---------------------------------------------------------------------------
+frozen_inputs_sha256_lf:
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
+  evals/s270_etapa2_probe_v3_replicas_v1.jsonl: 728ef776d7cdd33fe1237c3cf9c1b54f1ffe1ff52d6dc2a22b91bf1f301b6cc7
+  evals/s274_serving_view_diag_v1.json: e43c0eaec9352f586b36ce35af9f04d78faf8bb6a9065b8b182bb64d45679a08
+  evals/s274_hybrid_funnel_diag_v1.json: 129c06e2b384b5cfe68a2f68dd7d591bdff94727b31fd24f85b7d6a4734e289c
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  src/rag/must_preserve.py: 73079ccdcdbf76cb48cf68ad2059f692f9c5ceca0c188395625899dcbc887cd0
+  src/rag/post_rerank_coverage.py: 53ae1e1e8bd85c34b2524df3af0fa4b33cd98699e08439571094105eb30e7dc6
+  scripts/s270_etapa2_probe.py: 4b416f5a8ae6adbf6862a068149c6bc4d3de05683f3f734a4e85399d0d1821f5
+
+diagnostics_basis:                         # esta sesion, $0.0815 total, DB 0
+  c1_serving_view:
+    artifact: evals/s274_serving_view_diag_v1.json
+    verdict_required: all_pass_true
+    finding: >-
+      coverage_context_content sirve SOLO los spans de coverage_cards (seleccion de
+      spans, NO cap de chars; diseno s110/s111 commits 75720fc/23cfa27). El bloque
+      warning de hp017 F12 (offsets 2479-2724) queda fuera de toda card; con vista
+      completa detect_atoms produce los 2 F-MANDATORY, el carrier pasa good_form, F12
+      esta citado 3/3 y el binding aguanta 3/3 (overlap procedimental 4>=2). obl_b2043
+      («Instruccion de entrada», offset 1427) TAMBIEN esta fuera de las cards.
+  d1_hybrid_funnel:
+    artifact: evals/s274_hybrid_funnel_diag_v1.json
+    replicas: 1
+    haiku_calls: 16
+    cost_usd: 0.0815
+    finding: >-
+      80 propuestas -> 62 rejected_shape (77.5%) / 10 overlap / 2 grounding / 6
+      accepted. obl_015f: propuesto 2x y muerto en shape (separador '=' no es DEFLINE;
+      sin trigger MANDATORY). obl_a5d9: ni se propone (sin familia en el prompt =
+      hueco declarado §1.1). obl_b2043: invisible (serving-view). obl_7aa7: propuesto,
+      muerto en shape (clausula definicional sin trigger). Crowding NO dominante (2
+      exclusiones cap, 0 de target). Binding tambien mataria hoy a los composites
+      (ventanas [F8]/[F12] sin tokens propios; a5d9 1 token por plural exacto).
+
+# ---------------------------------------------------------------------------
+# CAMBIOS PROPUESTOS (todos flag-off por defecto; build en P0, tras el duo)
+# ---------------------------------------------------------------------------
+mechanisms:
+  C1:
+    name: coverage_mandatory_callout_card
+    flag: COVERAGE_MANDATORY_CALLOUT       # _strict_on_off, default off, byte-identico off
+    where: src/rag/post_rerank_coverage.py::_build_served_coverage_cards
+    contract: >-
+      1 card extra maxima por chunk de lane validada: oraciones con trigger del lexico
+      CERRADO F-MANDATORY (las _mandatory_triggers de must_preserve) FUERA de los spans
+      ya servidos; contiguas mergeadas; <=600 chars; mandatory_callout: true;
+      exact_source_span_validated: true; receipted y revalidada por
+      has_exact_served_coverage_receipt igual que toda card. La vista abierta la ven
+      generador Y detector (paridad _chunk_text intacta).
+    target: obl_0d6a30948dfd
+    confidence: alta
+  C2:
+    name: served_not_cited_binding
+    where: src/rag/must_preserve.py (apply + bind)
+    contract: >-
+      Atomos de fragmentos servidos+ATTESTADOS sin cita [Fn]: attestation identica
+      (fail-closed); binding sobre la RESPUESTA COMPLETA con umbral REFORZADO (>=3
+      tokens propios, o numero propio + >=1 token propio; MANDATORY: contexto
+      procedimental >=3); anexo cita [Fn] del fragmento fuente.
+    target: obl_2f5d79e354b9
+    confidence: media
+  D1a:
+    name: defline_equals_separator
+    where: src/rag/must_preserve.py::_DEFLINE
+    contract: "separador '=' (rodeado de espacios) como separador de definicion, det+hibrido"
+    targets: [obl_015f9b9aaa3a]
+    confidence: baja                        # el binding de 015f sigue sin resolver (declarado)
+  D1b:
+    name: hybrid_family_f_relation
+    where: src/rag/must_preserve.py (prompt hibrido + shape-check en codigo)
+    contract: >-
+      Familia F-RELATION (clausula relacional/definicional, el LLM-assist declarado en
+      el diseno §1.1): span verbatim + grounding fold-tolerante sin cambios; shape =
+      clausula completa con verbo conjugado >=40 chars (reusa span_good_form) Y (>=1
+      numero-con-unidad O >=2 tokens distintivos propios); binding presencia-parcial
+      (>=2 tokens propios / numero propio); render whitelist v5 sin cambios.
+    targets: [obl_a5d9fa1f9253, obl_7aa723717412, obl_b2043cd4379b]
+    confidence: media
+  D1c:
+    name: stem_tolerant_binding
+    where: src/rag/must_preserve.py::atom_exigible_in
+    contract: >-
+      match token-propio <-> token-ventana con tolerancia de plural es/en via
+      _noun_stem (ya vivo en F-COUNT v4); generico, no por-target.
+    targets: [obl_a5d9fa1f9253]
+    confidence: media
+  D2:
+    name: single_distinctive_token_binding
+    where: src/rag/must_preserve.py::atom_exigible_in
+    contract: >-
+      bind valido con 1 solo token propio SI es DISTINTIVO (definicion CERRADA
+      determinista, sin DB runtime): no-stopword y (acronimo [A-Z]{2,6} en superficie
+      original, o alfanumerico con digito, o identificador del catalogo gobernado en
+      memoria). 'cbe' califica; 'sistema'/'ajuste' (clase seed-271) NO. idf-de-corpus
+      en runtime DESCARTADO (dependencia DB + drift).
+    target: obl_7bba8d03d496
+    confidence: media
+
+settled_levers_touched:                    # Protocolo 2 §5 / Protocolo 4 — metricas visibles
+  binding_relaxation:
+    settled: "DEC-127: relajacion incondicional rechazada 2x (seed-270: 36 clean-FP; seed-271: 14 FP single-token)"
+    today: "D2 = variante RESTRINGIDA 1-token-DISTINTIVO con gate FP=0 en fresco ANTES del probe; si el gate falla, D2 muere y DEC-127 queda reforzado"
+    metrics_match: "NO son el mismo lever: settled = relajar >=2 sin condicion en caliente; hoy = subclase gateada pre-registrada"
+  bounded_serving_s110_s111:
+    settled: "decision de diseno (commits 75720fc/23cfa27), sin gate medido propio"
+    today: "C1 conserva el contrato (spans exactos receipted, vista acotada); anade una clase de card"
+  quota_enunciados_bloqueB:
+    settled: "DEC-132b CERRADO PERMANENTE (metrica v3b: hp005#2 3/3->0/3 a nivel respuesta)"
+    today: "fuera de scope; ni cat017#2 ni hp010#1 se tocan"
+  must_preserve_stage1:
+    settled: "Etapa-1 v8 GO (0.976/0.923/1.0/0.905, DEC-130)"
+    today: "P1 v9 exige los gates v8 INTEGROS ademas de las clases nuevas"
+
+probe_accounting:
+  probe_number: 4
+  prior_probes: {v1: 0.75, v2: 1.09, v3: 1.14}
+  anti_overfit: >-
+    Riesgo creciente DECLARADO (4o probe a los mismos 4 targets). Mitigaciones: (1)
+    cambios exclusivamente GENERICOS justificados por los diagnosticos §diagnostics_basis,
+    jamas por los textos gold; (2) validacion fresca P1 (seed nueva, exclusiones
+    acumuladas) SIEMPRE antes del probe; (3) UN solo probe consolidado C+D (P2), sin
+    re-runs ni retry; (4) gates de dano heredados pareados CONTEMPORANEOS (leccion v3
+    Bloque B: jamas referencia congelada); (5) sin probe #5: lo no convertido queda
+    residual por-clase; reapertura = evidencia nueva + permiso explicito (patron
+    DEC-126/132b).
+
+phases:
+  - id: P0
+    name: build_flagoff_tests_duo
+    db_writes: 0
+    cost_ceiling_usd: 0.30                 # lado Sol del duo
+    procedure: >-
+      Build de C1/C2/D1a/D1b/D1c/D2 flag-off + tests unitarios sin red (casos pineados
+      de los DIAGNOSTICOS, no de los golds) + duo Protocolo 3 (Fable sub-agente + Sol
+      xhigh con repo) del build completo.
+    gate: "tests verdes + duo sin criticos abiertos"
+  - id: P1
+    name: etapa1_v9_validacion_fresca
+    db_writes: 0
+    cost_ceiling_usd: 2.50
+    procedure: >-
+      Cohorte de mutaciones FRESCA (seed nueva; exclusiones acumuladas v1+s270-274):
+      gates v8 INTEGROS (recall por familia + checks v4-v8) + clases nuevas:
+      defline_equals (recall en mutados, FP=0 en clean), f_relation_recall (mutacion
+      qualifier_loss), served_not_cited (FP=0 en clean), single_distinctive_token
+      (FP=0 en clean + re-clase seed-271 = 0), stem_binding (FP=0 en clean).
+      Brazo det $0 + brazo hibrido pagado.
+    gate: >-
+      GO por-fix independiente: un NO-GO mata SOLO su fix (los demas siguen); los gates
+      v8 heredados en NO-GO matan TODO el bloque D.
+  - id: P2
+    name: probe_consolidado_CD
+    db_writes: 0
+    cost_ceiling_usd: 6.00
+    procedure: >-
+      UNICO probe (el #4). hp017: generacion fresca PAREADA OFF/ON de C1 (K=3, ambos
+      brazos MUST_PRESERVE_CONTRACT=on = estado prod DEC-131; flip solo de
+      COVERAGE_MANDATORY_CALLOUT call-time; misma DB GET-only, mismo dia, temp=0).
+      cat018/hp002: apply-side C2+D sobre borradores OFF ALMACENADOS v3 (0 generacion)
+      con brazo hibrido Haiku; hp011 (2f5d): apply-side C2 sobre almacenados. Matcher
+      determinista NFKD s163 (0 juez); checks por-obligacion IDENTICOS al probe v3 +
+      merged_warning_block + disclosure opcion-1 (DEC-128) sin cambios.
+    gates:
+      conversion: "estable >=2/3 por candidato; se reporta TODO (tambien 015f, sin gatear)"
+      protegidas: "obl_05482a6b3f0e / obl_0db2b9f2842a / obl_5784f16b1a11 estables-en-OFF no caen en ON"
+      conflictos: "0 conflictos nuevos"
+      anclas: "matriz per-fact pareada +0/-0 con STOP duro en la union s104+s105"
+      retrieval_invariante: "appended_ids/pool identicos OFF/ON en C1 (la card cambia la vista, no el pool)"
+    stop_rule: >-
+      STOP en cualquier gate de dano => el fix causante queda cerrado sin re-run (no
+      hay probe #5); las conversiones de fixes limpios se conservan.
+  - id: P3
+    name: negcontrol_vivo_smoke
+    db_writes: 0
+    cost_ceiling_usd: 1.50
+    procedure: >-
+      5 golds sanos del smoke Etapa-3 con flags ON (pareado): 0 apendices espurios
+      nuevos, 0 anclas perdidas, monotonia ON = OFF + apendice opcional.
+    gate: "0 espurios / 0 anclas perdidas"
+  - id: P4
+    name: cierre_banking
+    db_writes: 0
+    cost_ceiling_usd: 0.00
+    procedure: >-
+      Banking SOLO de conversiones certificadas segun el path del flag de prod (patron
+      DEC-131: certificacion + recibo vivo); DECs; closeout; LEVER_DIGEST.
+    gate: "aritmetica determinista SHA-pineada (patron s270/s272)"
+
+budget:
+  total_ceiling_usd: 15.00
+  phase_ceilings_sum_usd: 10.30
+  margin_usd: 4.70
+  margin_rule: >-
+    Solo re-run de P1 por fallo de INSTRUMENTO declarado (jamas de resultado); P2 jamas
+    se re-corre.
+  no_retry: true
+  stop_on_ceiling: true
+
+honest_arithmetic:
+  needed: 6
+  candidates_confidence:
+    obl_0d6a30948dfd: alta
+    obl_7bba8d03d496: media
+    obl_2f5d79e354b9: media
+    obl_a5d9fa1f9253: media
+    obl_b2043cd4379b: media-baja
+    obl_7aa723717412: media-baja
+    obl_015f9b9aaa3a: baja
+  statement: >-
+    El +6 NO esta garantizado por diseno (1 alta + 3 medias + 2 medias-bajas + 1 baja).
+    Si P2 rinde <+6, el gap vuelve por-clase sin iteracion en caliente (herencia
+    anti-overfit DEC-127); 015f se declara probable-residual del mecanismo (su binding
+    a nivel fragmento fue rechazado con metrica seed-270 y no se propone).
+
+execution_requires: duo_protocolo3_then_alberto_go
+outputs_expected:
+  - evals/s274_stage1_v9_gate_v1.yaml
+  - evals/s274_probeCD_replicas_v1.jsonl
+  - evals/s274_probeCD_result_v1.json
+  - evals/s274_negcontrol_smoke_v1.json
+  - evals/s274_bloquesCD_closeout_v1.yaml
