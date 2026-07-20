@@ -84,6 +84,11 @@ BEGIN
 END;
 $$;
 
+-- Keep creation and hardening of all personal-data tables in one transaction.
+-- On a fresh bootstrap, a failed postcondition cannot leave an exposed table
+-- committed by an autocommit client.
+BEGIN;
+
 -- Query logs for analytics and improvement
 CREATE TABLE IF NOT EXISTS query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -98,8 +103,42 @@ CREATE TABLE IF NOT EXISTS query_logs (
     response_length INTEGER DEFAULT 0,
     response_time_ms INTEGER DEFAULT 0,
     bot_version TEXT,            -- git short hash or tag of code that generated this row
+    rag_trace JSONB,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE query_logs ADD COLUMN IF NOT EXISTS rag_trace JSONB;
+-- One DO statement is atomic even when this bootstrap is run with autocommit:
+-- a failed ADD rolls the DROP back instead of leaving the table unbounded.
+DO $rag_trace_constraint$
+BEGIN
+    ALTER TABLE public.query_logs
+        DROP CONSTRAINT IF EXISTS query_logs_rag_trace_object_size_v1;
+    ALTER TABLE public.query_logs
+        ADD CONSTRAINT query_logs_rag_trace_object_size_v1
+        CHECK (
+            rag_trace IS NULL
+            OR (
+                jsonb_typeof(rag_trace) = 'object'
+                AND octet_length(rag_trace::text) <= 8192
+            )
+        );
+    IF NOT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'query_logs'
+          AND column_name = 'rag_trace'
+          AND data_type = 'jsonb'
+          AND is_nullable = 'YES'
+          AND column_default IS NULL
+          AND is_identity = 'NO'
+          AND is_generated = 'NEVER'
+    ) THEN
+        RAISE EXCEPTION 'query_logs.rag_trace must be plain nullable jsonb';
+    END IF;
+END
+$rag_trace_constraint$;
 
 CREATE INDEX IF NOT EXISTS idx_query_logs_created ON query_logs (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_query_logs_user ON query_logs (telegram_user_id);
@@ -129,6 +168,124 @@ CREATE TABLE IF NOT EXISTS user_consent (
 CREATE INDEX IF NOT EXISTS idx_user_consent_active
 ON user_consent (telegram_user_id)
 WHERE revoked_at IS NULL;
+
+-- Personal-data boundary for a fresh bootstrap. Keep this in sync with
+-- 20260713164800_harden_personal_data_tables_v1.sql. One DO statement makes
+-- all RLS/grant changes and their postconditions atomic under autocommit.
+DO $personal_data_boundary$
+DECLARE
+    table_name text;
+    role_name text;
+    privilege_name text;
+    expected_service_privileges text[];
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_roles
+        WHERE rolname = 'service_role' AND rolbypassrls
+    ) THEN
+        RAISE EXCEPTION 'service_role must exist with BYPASSRLS before hardening';
+    END IF;
+
+    FOREACH table_name IN ARRAY ARRAY['query_logs', 'feedback', 'user_consent']
+    LOOP
+        EXECUTE format(
+            'ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', table_name
+        );
+        EXECUTE format(
+            'ALTER TABLE public.%I FORCE ROW LEVEL SECURITY', table_name
+        );
+        EXECUTE format(
+            'REVOKE ALL PRIVILEGES ON TABLE public.%I '
+            'FROM PUBLIC, anon, authenticated, service_role',
+            table_name
+        );
+    END LOOP;
+
+    EXECUTE 'GRANT SELECT, INSERT ON TABLE public.query_logs TO service_role';
+    EXECUTE 'GRANT SELECT, INSERT ON TABLE public.feedback TO service_role';
+    EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.user_consent TO service_role';
+
+    FOREACH table_name IN ARRAY ARRAY['query_logs', 'feedback', 'user_consent']
+    LOOP
+        IF NOT EXISTS (
+            SELECT 1
+            FROM pg_class
+            WHERE oid = to_regclass(format('public.%I', table_name))
+              AND relrowsecurity
+              AND relforcerowsecurity
+        ) THEN
+            RAISE EXCEPTION 'personal-data RLS invariant failed for %', table_name;
+        END IF;
+
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated']
+        LOOP
+            FOREACH privilege_name IN ARRAY ARRAY[
+                'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+                'REFERENCES', 'TRIGGER', 'MAINTAIN'
+            ]
+            LOOP
+                IF has_table_privilege(
+                    role_name,
+                    format('public.%I', table_name),
+                    privilege_name
+                ) THEN
+                    RAISE EXCEPTION 'unexpected % privilege for % on %',
+                        privilege_name, role_name, table_name;
+                END IF;
+            END LOOP;
+            FOREACH privilege_name IN ARRAY ARRAY[
+                'SELECT', 'INSERT', 'UPDATE', 'REFERENCES'
+            ]
+            LOOP
+                IF has_any_column_privilege(
+                    role_name,
+                    format('public.%I', table_name),
+                    privilege_name
+                ) THEN
+                    RAISE EXCEPTION 'unexpected column % privilege for % on %',
+                        privilege_name, role_name, table_name;
+                END IF;
+            END LOOP;
+        END LOOP;
+
+        IF table_name = 'user_consent' THEN
+            expected_service_privileges := ARRAY['SELECT', 'INSERT', 'UPDATE'];
+        ELSE
+            expected_service_privileges := ARRAY['SELECT', 'INSERT'];
+        END IF;
+        FOREACH privilege_name IN ARRAY ARRAY[
+            'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+            'REFERENCES', 'TRIGGER', 'MAINTAIN'
+        ]
+        LOOP
+            IF has_table_privilege(
+                'service_role',
+                format('public.%I', table_name),
+                privilege_name
+            ) IS DISTINCT FROM (privilege_name = ANY(expected_service_privileges)) THEN
+                RAISE EXCEPTION 'unexpected service_role % privilege on %',
+                    privilege_name, table_name;
+            END IF;
+        END LOOP;
+        FOREACH privilege_name IN ARRAY ARRAY[
+            'SELECT', 'INSERT', 'UPDATE', 'REFERENCES'
+        ]
+        LOOP
+            IF has_any_column_privilege(
+                'service_role',
+                format('public.%I', table_name),
+                privilege_name
+            ) IS DISTINCT FROM (privilege_name = ANY(expected_service_privileges)) THEN
+                RAISE EXCEPTION 'unexpected service_role column % privilege on %',
+                    privilege_name, table_name;
+            END IF;
+        END LOOP;
+    END LOOP;
+END
+$personal_data_boundary$;
+
+COMMIT;
 
 -- Create storage bucket for manual images
 -- Note: Run this via Supabase dashboard:

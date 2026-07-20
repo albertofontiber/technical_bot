@@ -118,12 +118,14 @@ def test_structural_neighbor_shadow_requires_key_and_version_when_enabled():
 def test_post_rerank_release_flags_are_strict_and_default_off():
     env = os.environ.copy()
     env["CHUNKS_TABLE"] = "chunks_v2"
+    env.pop("COVERAGE_RELEASE_PROFILE", None)
     for name in (
         "POST_RERANK_COVERAGE",
         "STRUCTURAL_NEIGHBOR_COVERAGE",
         "TABLE_PREAMBLE_CLOSURE",
         "EVIDENCE_DERIVATION_OVERLAY",
         "CANONICAL_HYQ_COVERAGE",
+        "COMPATIBILITY_BUNDLE_COVERAGE",
         "RERANK_POOL_COVERAGE",
         "STRUCTURAL_CASCADE_COVERAGE",
         "LOGICAL_RECORD_COVERAGE",
@@ -139,6 +141,7 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
             "assert not c.TABLE_PREAMBLE_CLOSURE; "
             "assert not c.EVIDENCE_DERIVATION_OVERLAY; "
             "assert not c.CANONICAL_HYQ_COVERAGE; "
+            "assert not c.COMPATIBILITY_BUNDLE_COVERAGE; "
             "assert not c.RERANK_POOL_COVERAGE; "
             "assert not c.STRUCTURAL_CASCADE_COVERAGE; "
             "assert not c.LOGICAL_RECORD_COVERAGE",

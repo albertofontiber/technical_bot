@@ -5,10 +5,12 @@ Consent checks are cached in-memory to avoid a Supabase round-trip per message.
 """
 
 import logging
+from typing import Any
 
 import httpx
 
 from .config import SUPABASE_URL, SUPABASE_SERVICE_KEY
+from .rag.runtime_trace import validate_rag_serving_trace
 from .version import get_bot_version
 
 logger = logging.getLogger(__name__)
@@ -30,6 +32,43 @@ _HEADERS = {
 # Populated lazily on first has_consent() check, mutated by set_consent().
 _consent_cache: set[int] = set()
 _consent_cache_misses: set[int] = set()  # users we've already checked and have no consent
+_trace_compatibility_warning_emitted = False
+
+
+def _trace_contract_rejected(response: httpx.Response) -> bool:
+    """Return true only for a definitive optional-trace schema rejection.
+
+    Timeouts and uncertain network failures are never retried because the first
+    INSERT may have committed. These explicit PostgREST/Postgres errors are
+    atomic failures, so one compatibility retry without ``rag_trace`` is safe.
+    """
+    if response.status_code not in (400, 409):
+        return False
+    try:
+        payload = response.json()
+    except Exception:
+        return False
+    if not isinstance(payload, dict):
+        return False
+    code = str(payload.get("code") or "")
+    message = " ".join(
+        str(payload.get(key) or "") for key in ("message", "details", "hint")
+    ).lower()
+    if code == "PGRST204" and "rag_trace" in message:
+        return True
+    if code == "42703" and "rag_trace" in message:
+        return True
+    return code == "23514" and "query_logs_rag_trace" in message
+
+
+def _warn_trace_compatibility_fallback_once() -> None:
+    global _trace_compatibility_warning_emitted
+    if not _trace_compatibility_warning_emitted:
+        logger.warning(
+            "query_logs accepted without rag_trace after a definitive schema "
+            "rejection; apply or inspect the telemetry migration"
+        )
+        _trace_compatibility_warning_emitted = True
 
 
 def log_query(
@@ -43,9 +82,15 @@ def log_query(
     response: str | None = None,
     response_length: int = 0,
     response_time_ms: int = 0,
+    rag_trace: dict[str, Any] | None = None,
 ):
-    """Log a query to the query_logs table. Non-blocking."""
+    """Log a query to query_logs; failures never escape into the answer path."""
     try:
+        safe_trace = None
+        if rag_trace is not None:
+            safe_trace = validate_rag_serving_trace(rag_trace)
+            if safe_trace is None:
+                logger.warning("Rejected rag_trace outside the closed storage schema")
         stored_response = response[:_RESPONSE_MAX_CHARS] if response else None
         row = {
             "telegram_user_id": telegram_user_id,
@@ -60,14 +105,31 @@ def log_query(
             "response_time_ms": response_time_ms,
             "bot_version": get_bot_version(),
         }
+        if safe_trace is not None:
+            row["rag_trace"] = safe_trace
         with httpx.Client(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/query_logs",
                 headers=_HEADERS,
                 json=row,
             )
-            if resp.status_code >= 400:
-                logger.warning(f"Failed to log query: {resp.status_code}")
+            if safe_trace is not None and _trace_contract_rejected(resp):
+                fallback_row = dict(row)
+                fallback_row.pop("rag_trace", None)
+                fallback = client.post(
+                    f"{SUPABASE_URL}/rest/v1/query_logs",
+                    headers=_HEADERS,
+                    json=fallback_row,
+                )
+                if fallback.status_code >= 400:
+                    logger.warning(
+                        "Failed to log query after trace compatibility fallback: %s",
+                        fallback.status_code,
+                    )
+                else:
+                    _warn_trace_compatibility_fallback_once()
+            elif resp.status_code >= 400:
+                logger.warning("Failed to log query: %s", resp.status_code)
     except Exception as e:
         logger.warning(f"Failed to log query: {e}")
 

@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 import src.bot.telegram_bot as telegram_bot
+from src.rag import serving_pipeline
 from src.bot.response_formatter import (
     TELEGRAM_TEXT_LIMIT,
     convert_tables,
@@ -147,9 +148,19 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
         telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
-        telegram_bot,
-        "apply_post_rerank_coverage",
-        lambda _query, served, **_kwargs: served,
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        lambda _query, served, **_kwargs: (
+            served,
+            {
+                "enabled": False,
+                "status": "disabled_or_not_applicable",
+                "protected_prefix_rows": len(served),
+                "protected_prefix_equal": True,
+                "appended_ids": [],
+                "lanes": [],
+            },
+        ),
     )
     monkeypatch.setattr(
         telegram_bot,
@@ -161,11 +172,249 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
     asyncio.run(telegram_bot._process_query(update, context, "Estado ID_3000"))
 
     assert logged["response"] == raw_answer
+    assert logged["rag_trace"]["schema"] == "rag_serving_trace_v1"
+    assert logged["rag_trace"]["transport"]["message_parts"] == 1
     assert len(update.message.replies) == 1
     rendered, kwargs = update.message.replies[0]
     assert kwargs == {"parse_mode": "HTML"}
     assert "<b>Estado ID_3000__CPU</b>" in rendered
     assert "<b>Fuente:</b> Manual &lt;ID_3000&gt; (rev. 2)" in rendered
+
+
+def test_handler_logs_and_sends_plain_text_when_formatter_fails(monkeypatch):
+    raw_answer = "Respuesta técnica [F1]"
+    logged = {}
+
+    class Message:
+        def __init__(self):
+            self.replies = []
+
+        async def reply_text(self, text, **kwargs):
+            self.replies.append((text, kwargs))
+
+    update = types.SimpleNamespace(
+        message=Message(), effective_user=types.SimpleNamespace(id=9)
+    )
+    context = types.SimpleNamespace(user_data={})
+    chunks = [{"id": "c1", "content": "evidence"}]
+    monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
+    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(
+        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+    )
+    monkeypatch.setattr(
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        lambda _query, served, **_kwargs: (
+            served,
+            {"enabled": False, "status": "disabled_or_not_applicable", "lanes": []},
+        ),
+    )
+    monkeypatch.setattr(
+        telegram_bot,
+        "generate_answer",
+        lambda *_args, **_kwargs: {"answer": raw_answer, "diagrams": []},
+    )
+    monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
+    monkeypatch.setattr(
+        telegram_bot,
+        "format_telegram_messages",
+        lambda _answer: (_ for _ in ()).throw(ValueError("formatter bug")),
+    )
+
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+
+    assert logged["response"] == raw_answer
+    assert logged["rag_trace"]["transport"] == {
+        "message_parts": 1,
+        "render_status": "plain_fallback",
+        "error_type": "ValueError",
+    }
+    assert update.message.replies == [(raw_answer, {})]
+
+
+@pytest.mark.parametrize(
+    "empty_answer",
+    [
+        "",
+        "\u200b",
+        "\ufeff",
+        "\u2060",
+        "\ufe0f",
+        "\ufe0e",
+        "\u034f",
+        "\u180b",
+        "\u2800",
+        "\u3164",
+        "\u115f",
+        "\u1160",
+        "\uffa0",
+    ],
+)
+def test_handler_never_logs_or_sends_an_empty_generation(monkeypatch, empty_answer):
+    logged = {}
+
+    class Message:
+        def __init__(self):
+            self.replies = []
+
+        async def reply_text(self, text, **kwargs):
+            self.replies.append((text, kwargs))
+
+    update = types.SimpleNamespace(
+        message=Message(), effective_user=types.SimpleNamespace(id=9)
+    )
+    context = types.SimpleNamespace(user_data={})
+    chunks = [{"id": "c1", "content": "evidence"}]
+    monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
+    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(
+        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+    )
+    monkeypatch.setattr(
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        lambda _query, served, **_kwargs: (
+            served,
+            {"enabled": False, "status": "disabled_or_not_applicable", "lanes": []},
+        ),
+    )
+    monkeypatch.setattr(
+        telegram_bot,
+        "generate_answer",
+        lambda *_args, **_kwargs: {"answer": empty_answer, "diagrams": []},
+    )
+    monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
+
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+
+    fallback = telegram_bot._EMPTY_ANSWER_FALLBACK
+    assert logged["response"] == fallback
+    assert logged["response_length"] == len(fallback)
+    assert logged["rag_trace"]["transport"] == {
+        "message_parts": 1,
+        "render_status": "empty_answer_fallback",
+        "error_type": "RuntimeError",
+    }
+    assert update.message.replies == [(fallback, {"parse_mode": "HTML"})]
+
+
+@pytest.mark.parametrize("formatted_parts", [[], ["\u200b"]])
+def test_handler_rejects_empty_formatter_parts_and_uses_plain_fallback(
+    monkeypatch, formatted_parts
+):
+    raw_answer = "Respuesta técnica [F1]"
+    logged = {}
+
+    class Message:
+        def __init__(self):
+            self.replies = []
+
+        async def reply_text(self, text, **kwargs):
+            self.replies.append((text, kwargs))
+
+    update = types.SimpleNamespace(
+        message=Message(), effective_user=types.SimpleNamespace(id=9)
+    )
+    context = types.SimpleNamespace(user_data={})
+    chunks = [{"id": "c1", "content": "evidence"}]
+    monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
+    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr(
+        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+    )
+    monkeypatch.setattr(
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        lambda _query, served, **_kwargs: (
+            served,
+            {"enabled": False, "status": "disabled_or_not_applicable", "lanes": []},
+        ),
+    )
+    monkeypatch.setattr(
+        telegram_bot,
+        "generate_answer",
+        lambda *_args, **_kwargs: {"answer": raw_answer, "diagrams": []},
+    )
+    monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
+    monkeypatch.setattr(
+        telegram_bot,
+        "format_telegram_messages",
+        lambda _answer: formatted_parts,
+    )
+
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+
+    assert logged["rag_trace"]["transport"] == {
+        "message_parts": 1,
+        "render_status": "plain_fallback",
+        "error_type": "ValueError",
+    }
+    assert update.message.replies == [(raw_answer, {})]
+
+
+def test_handler_wires_appended_coverage_through_generation_and_receipt(monkeypatch):
+    logged = {}
+    generated = {}
+
+    class Message:
+        def __init__(self):
+            self.replies = []
+
+        async def reply_text(self, text, **kwargs):
+            self.replies.append((text, kwargs))
+
+    update = types.SimpleNamespace(
+        message=Message(), effective_user=types.SimpleNamespace(id=9)
+    )
+    context = types.SimpleNamespace(user_data={})
+    prefix = [{"id": "prefix", "content": "base"}]
+    appended = {"id": "coverage", "content": "bounded evidence"}
+
+    monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
+    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: prefix)
+    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: prefix)
+    monkeypatch.setattr(
+        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+    )
+    monkeypatch.setattr(
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        lambda _query, served, **_kwargs: (
+            served + [appended],
+            {
+                "enabled": True,
+                "status": "appended",
+                "lanes": [
+                    {
+                        "lane": "same_blob_structural_neighbor_coverage_v1",
+                        "status": "selected",
+                        "selected_ids": ["coverage"],
+                    }
+                ],
+            },
+        ),
+    )
+
+    def generate(_query, chunks, **_kwargs):
+        generated["ids"] = [chunk["id"] for chunk in chunks]
+        return {"answer": "Respuesta [F2]", "diagrams": []}
+
+    monkeypatch.setattr(telegram_bot, "generate_answer", generate)
+    monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
+
+    asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))
+
+    assert generated["ids"] == ["prefix", "coverage"]
+    assert logged["chunks_used"] == 2
+    assert logged["rag_trace"]["coverage"]["appended_rows"] == 1
+    assert logged["rag_trace"]["coverage"]["executed_lanes"] == [
+        "same_blob_structural_neighbor_coverage_v1"
+    ]
+    assert len(update.message.replies) == 1
 
 
 # ─── s272: feedback vivo de Alberto (respuesta ASD535, query_logs 16:26Z) ───

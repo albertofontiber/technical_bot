@@ -764,15 +764,22 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # excepción deja la respuesta intacta; con flag off es un passthrough
     # byte-idéntico (diseño evals/s269_synthesis_portfolio_design_v1.md §1).
     must_preserve_trace = None
+    must_preserve_outcome = {"status": "disabled"}
     try:
         answer, must_preserve_trace = apply_must_preserve_contract(
             query, relevant_chunks, answer
         )
+        if must_preserve_trace is not None:
+            must_preserve_outcome = {"status": "evaluated"}
     except Exception as exc:
         logger.warning(
             f"must_preserve fail-open ({exc}) — respuesta intacta"
         )
         must_preserve_trace = None
+        must_preserve_outcome = {
+            "status": "error",
+            "error_type": type(exc).__name__,
+        }
 
     result = {
         "answer": answer,
@@ -785,6 +792,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         ),
         "output_tokens": response.usage.output_tokens if response.usage else None,
         "evidence_derivation": evidence_derivation,
+        "must_preserve_outcome": must_preserve_outcome,
     }
     if answer_planner is not None:
         if enforced_cache_identity is not None:

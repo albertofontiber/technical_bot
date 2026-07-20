@@ -3,6 +3,13 @@ import re
 from pathlib import Path
 from dotenv import load_dotenv
 
+from .release_profiles import (
+    LEGACY_PROFILE,
+    PROFILE_OWNED_FLAGS,
+    load_coverage_release_policy,
+    validate_release_contract,
+)
+
 # Base paths
 PROJECT_DIR = Path(__file__).parent.parent
 
@@ -96,6 +103,15 @@ RERANKER_BACKEND = os.getenv("RERANKER_BACKEND", "llm")
 
 
 def _strict_on_off(name: str, default: str = "off") -> bool:
+    # Once an explicit deployment profile has been resolved, all legacy leaf
+    # readers observe that immutable boot policy instead of re-reading env.
+    policy = globals().get("COVERAGE_RELEASE_POLICY")
+    if (
+        policy is not None
+        and policy.profile != LEGACY_PROFILE
+        and name in PROFILE_OWNED_FLAGS
+    ):
+        return policy.flag(name)
     raw = os.getenv(name, default).strip().lower()
     if raw == "on":
         return True
@@ -104,17 +120,22 @@ def _strict_on_off(name: str, default: str = "off") -> bool:
     raise RuntimeError(f"{name}={raw!r} no reconocido (on|off) — fail-fast")
 
 
+# The coupled C1 switches are resolved from one boot-time release policy. Legacy
+# mode preserves old offline harnesses; bot startup validates that production is
+# using an explicit, complete profile.
+COVERAGE_RELEASE_POLICY = load_coverage_release_policy()
+
 # S107 candidate, default inert.  When enabled, independently validated coverage
 # candidates bypass the mono-intent reranker only after its top-k is frozen.
-POST_RERANK_COVERAGE = _strict_on_off("POST_RERANK_COVERAGE")
+POST_RERANK_COVERAGE = COVERAGE_RELEASE_POLICY.post_rerank_coverage
 
 # S109 release lane for same-blob structural neighbours.  The master switch
 # above and this lane-specific switch must both be on before a candidate can
 # reach the generator.  It is intentionally separate from the observer: the
 # observer can be sampled without changing answers, while this flag is a
 # serving decision.
-STRUCTURAL_NEIGHBOR_COVERAGE = _strict_on_off(
-    "STRUCTURAL_NEIGHBOR_COVERAGE"
+STRUCTURAL_NEIGHBOR_COVERAGE = (
+    COVERAGE_RELEASE_POLICY.structural_neighbor_coverage
 )
 
 # S161 exact table-boundary repair.  A reranked table whose heading/preamble
@@ -229,11 +250,18 @@ MAX_IMAGE_WIDTH = 1200
 IMAGE_QUALITY = 80
 
 
-def validate_config(require_telegram: bool = False):
+def validate_config(
+    require_telegram: bool = False,
+    *,
+    production: bool = True,
+):
     """Validate that required environment variables are set.
 
     Args:
         require_telegram: If True, also require TELEGRAM_BOT_TOKEN (for bot mode).
+        production: Enforce production release-profile rules independently of
+            transport. Future web/API workers must not become "offline" merely
+            because they do not use Telegram.
     """
     required = {
         "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
@@ -250,3 +278,17 @@ def validate_config(require_telegram: bool = False):
             f"Missing required environment variables: {', '.join(missing)}. "
             f"Check your .env file."
         )
+
+    validate_release_contract(
+        COVERAGE_RELEASE_POLICY,
+        production=production,
+        must_preserve_enabled=MUST_PRESERVE_CONTRACT,
+        coverage_lanes={
+            "TABLE_PREAMBLE_CLOSURE": TABLE_PREAMBLE_CLOSURE,
+            "CANONICAL_HYQ_COVERAGE": CANONICAL_HYQ_COVERAGE,
+            "COMPATIBILITY_BUNDLE_COVERAGE": COMPATIBILITY_BUNDLE_COVERAGE,
+            "RERANK_POOL_COVERAGE": RERANK_POOL_COVERAGE,
+            "STRUCTURAL_CASCADE_COVERAGE": STRUCTURAL_CASCADE_COVERAGE,
+            "LOGICAL_RECORD_COVERAGE": LOGICAL_RECORD_COVERAGE,
+        },
+    )
