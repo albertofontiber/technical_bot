@@ -248,6 +248,10 @@ def _is_prior_review_output(rel: str) -> bool:
         or lower.startswith("evals/adversarial_reviews/")
         or (
             lower.startswith("evals/")
+            and ("duo_adjudication" in name or "duo_brief" in name)
+        )
+        or (
+            lower.startswith("evals/")
             and "review" in name
             and (
                 "sol" in name

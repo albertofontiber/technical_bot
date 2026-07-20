@@ -2797,3 +2797,72 @@ caso causal aún faltarían +4. Artefactos:
 `scripts/s275_serving_view_reach_preflight.py`,
 `evals/s275_serving_view_reach_preflight_v1.json` y
 `evals/s275_serving_view_generalization_preflight_v1.md`.
+
+## DEC-136 (S276, 20 jul 2026) — Seed-278 cierra NO-GO; norte conversacional acotado sin autorización de build; recovery fail-closed para el cierre vacío de Fable
+
+**Impacto.** Medio/alto de evaluación y arquitectura futura; impacto productivo actual nulo. No
+se modifican runtime, schema, flags, Railway, golds, denominador ni funnel.
+
+**Contexto y evidencia.** El screen GET-only seed-278 recorrió 80 documentos seleccionados y
+1.033 fragmentos, sin modelos ni escrituras DB. Encontró 67 bloques en 24 documentos y rederivó
+67/67 en full y truncado, pero el gate preregistrado falló: 2 fabricantes < mínimo 3. La revisión
+posterior mostró además 41/67 candidatos en descripciones visuales/UI y 20/67 concentrados en un
+documento. El dúo Sol `2026-07-20T09:29:35` + Fable `2026-07-20T09:44:22`, adjudicado por regla C
+en `evals/adversarial_review_log.jsonl`, confirmó 8 findings únicos/8, 0 FP, severidad máxima
+media (`evals/s276_duo_adjudication_v1.yaml`): el 67/67 es autoconsistencia del parser; los
+boundary controls son sintéticos; la cronología completa del freeze no quedó atestada; y el gate
+de docs no mide literalmente fetches no vacíos. Ninguno cambia el gate mecánico fallido.
+
+**Decisión 1 — screen.** `NO_GO_OFFLINE_SCREEN` definitivo para esta población. No se construye
+la card en runtime, no se paga A/B, no hay crédito al funnel y seed-278 queda consumido. Reabrir
+la familia exige semilla nueva, exclusión visual/UI, control de dominancia documental, labels o
+parser independiente para cualquier claim de recall, conteos selected/with-fragments/screened y
+freeze fail-closed de builder, corpus, exclusiones y hashes previos. El alcance causal conocido
+sigue siendo 1/6; no se autoriza probe #5.
+
+**Decisión 2 — dirección multi-turn/multi-hop, no build.** El norte es un orquestador
+transport-neutral y acotado: single-hop por defecto; event log/working state/snapshots versionados;
+ingress deduplicado; `turn_runs` reclaimable con lease/heartbeat y fencing token monotónico;
+orden/CAS por conversación; CAS del intento propietario al completar + outbox unique por entrega
+lógica + delivery attempts/receipts con objetivo effectively-once; rewrite sólo en
+follow-ups dependientes; multi-hop con 2 hops por defecto y 3 hard cap; una redacción final; y
+verifier condicional que inicialmente sólo `accept | clarify | disclose | abstain`. Un repair
+futuro se reconoce como segundo writer pass, vive en fase separada y exige merge determinista,
+conflictos y revalidación full-answer. Antes de DDL se exige lifecycle RGPD de retención,
+minimización y propagación de borrado/anonimización a eventos, derivados, logs, outbox, caches,
+colas, backups y proveedores, revisado con legal/DPO. Status:
+`DIRECTIONAL_BLUEPRINT_NO_BUILD_AUTHORIZATION`.
+
+**Decisión 3 — incidente Fable.** Tres ejecuciones auditadas terminaron `end_turn` sin texto
+visible después de tools: dos payloads persistidos contenían `thinking` + un bloque `text` vacío
+y el tercero `content=[]`; un run no-tools truncó por `max_tokens`. Esto descarta que el vacío
+naciera en la extracción/normalización local, pero **no identifica la causa raíz interna del
+modelo/proveedor**, que queda abierta. El runner ya fallaba cerrado y conservaba los traces, pero
+obligaba a reintentos completos y costosos. Se añade una única recuperación interna del síntoma:
+**no** reinyecta el assistant vacío, añade un segundo turno user
+(forma admitida por Messages API), fuerza tools-off, conserva la respuesta vacía en el trace y
+sólo acepta `tool_use* → como máximo un end_turn vacío inmediatamente penúltimo → end_turn final
+no vacío y sin tool_use`. La cota incluye schemas de tools; inputs no-objeto, segundo vacío y
+`max_tokens` siguen fail-closed. Contrato vivo: assistant vacío = HTTP 400; dos user consecutivos
+= request aceptado. El trace demuestra autoconsistencia byte-bound de lo persistido, no
+attestation independiente de completitud ni explicación causal del comportamiento upstream.
+Tests dirigidos previos al cierre final: 56 del runner + 14 del screen.
+
+**Alternativas descartadas.** Más contexto/top-k universal; checklist genérico S206; múltiples
+writers/descomposición S216/S235; agente abierto; GraphRAG ahora; embedding del transcript entero;
+Redis day-one; exactly-once prometido sobre Telegram; repair silencioso; relajar el gate de
+fabricantes; retocar post-hoc seed-278; y retry automático de `max_tokens`.
+
+**Revisión adversarial y estado.** El subject original queda
+`complete_adjudicated_no_pass` porque las ocho observaciones eran válidas, aunque no alteran el
+NO-GO. Outputs físicos:
+`evals/adversarial_reviews/2026-07-20T09-29-35_gpt-5.6-sol_2766ebf454d4.md` y
+`evals/adversarial_reviews/2026-07-20T09-44-22_claude-fable-5_f054af1576d1.md`; adjudicación:
+`scripts/s276_adjudicate_adversarial_review.py`. El dúo de correcciones (Sol
+`2026-07-20T10:06:50` + Fable `2026-07-20T10:09:26`) confirmó 8 findings únicos, 0 FP, máximo
+crítico; reveló el assistant vacío inoperante y los guards anteriores. Su subject incluyó por
+error la adjudicación previa, por lo que queda `complete_adjudicated_no_pass` y **no** se vende
+como PASS independiente. Trazas y fixes:
+`evals/s276_corrections_duo_adjudication_v1.yaml` y
+`scripts/s276_adjudicate_corrections_review.py`. Las correcciones no autorizan ejecución: la
+próxima decisión humana es eval orgánico/fresco y/o Fase 0 conversacional en shadow.
