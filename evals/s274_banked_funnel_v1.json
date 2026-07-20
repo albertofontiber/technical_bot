@@ -1,0 +1,103 @@
+{
+  "schema": "s274_banked_funnel_v1",
+  "date": "2026-07-20",
+  "dec": "DEC-134",
+  "generated_by": "scripts/s274_bank_conversions.py",
+  "authority": "evals/s272_banked_funnel_v1.json (DEC-131) + gate P1 v9 por-fix + probe #4 pareado con brazos de ablación + smoke vivo P3 con la config candidata",
+  "inputs_sha256_lf_normalized": {
+    "evals/s272_banked_funnel_v1.json": "4ddb6f8eba71766cf6c0c1abd0ac9fda1fa5476f2a5430c3da023f64f24502db",
+    "evals/s274_probeCD_result_v1.json": "5d15a51749e7062cea8e92610adea8593729f7b05e587d8021fc14d45028be1f",
+    "evals/s274_stage1_v9_gate_v1.yaml": "b1d0ea6088164bc8871e7733a7cf089dd9c565a548a1fa5894e6acec0eb0f6b8",
+    "evals/s270_etapa3_smoke_result_v1.json": "d212018855da4f9a9ab481cd84e1364dbb4631ac3b10b22d780f85eaf1771fdd"
+  },
+  "baseline_funnel": {
+    "denominator": 154,
+    "ok": 145,
+    "synthesis_miss": 7,
+    "retrieval_miss": 2,
+    "ok_pct": 94.16,
+    "provenance": "DEC-131 (funnel banked, s272)"
+  },
+  "conversions_banked": [
+    {
+      "obligation_id": "obl_0d6a30948dfd",
+      "qid": "hp017",
+      "certificacion": "probe #4 A-C1 (par C1: card de callout + verb-trigger): merged_warning_block 3/3 ON vs 0/3 A0, pareado mismo-día K=3; idéntico en A-ALL-det (lo shippeable sin Haiku) y A-ALL; 0 protegidas caídas / 0 conflictos nuevos / anclas +0/−0 / retrieval-invariante PASS / 0 diagramas-por-anexo — evals/s274_probeCD_result_v1.json ($0.604 ≤ $6)",
+      "estado_vivo": "PENDIENTE de activación del par en Railway (config de SHIP candidata; runbook 1 línea) — recibo vivo query_logs al encender (patrón DEC-131). El smoke P3 con la config candidata ya corrió limpio: 5/5 monotónicos, 0 apéndices espurios ($0.6412).",
+      "requires_prod_flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MUST_PRESERVE_CONTRACT (ya on, DEC-131)"
+      ]
+    }
+  ],
+  "ship_config_candidate": {
+    "flags_on": [
+      "COVERAGE_MANDATORY_CALLOUT",
+      "MP_MANDATORY_VERB_TRIGGER"
+    ],
+    "flags_off": [
+      "MP_SERVED_BINDING (NO-GO P1)",
+      "MP_DEFLINE_EQ",
+      "MP_HYBRID_DETECT",
+      "MP_STEM_BINDING",
+      "MP_DISTINCTIVE_TOKEN"
+    ],
+    "runbook": "Railway → variables: COVERAGE_MANDATORY_CALLOUT=on y MP_MANDATORY_VERB_TRIGGER=on (MUST_PRESERVE_CONTRACT ya on) → 1 pregunta de smoke → rollback = quitar las 2 variables."
+  },
+  "banked_funnel": {
+    "denominator": 154,
+    "ok": 146,
+    "synthesis_miss": 6,
+    "retrieval_miss": 2,
+    "ok_pct": 94.81
+  },
+  "remaining_synthesis_exhausted_in_annex_family": {
+    "obl_2f5d79e354b9": {
+      "qid": "hp011",
+      "clase": "uncited_scope",
+      "fix_probado": "C2 MP_SERVED_BINDING (binding servidos-no-citados, umbral reforzado >=3)",
+      "como_murio": "NO-GO en P1 v9 ANTES del probe: served_uncited_clean_fp=24/105 en población fresca seed-277 (26 anexos de HERMANOS genuinos / 1 target, verificado por-fila) — la clase seed-270 re-medida FALLA incluso con el umbral reforzado; DEC-127 reforzado, el brazo A-C2 quedó SKIP"
+    },
+    "obl_7bba8d03d496": {
+      "qid": "cat018",
+      "clase": "binding_tension",
+      "fix_probado": "D2 MP_DISTINCTIVE_TOKEN (bind con 1 token propio distintivo)",
+      "como_murio": "P1 GO (FP=0, re-clase seed-271=0, positivo 26/26) pero A-D2 y A-ALL 0/3 en el probe #4: la ventana de cita real de cat018 no contiene el token distintivo — el fix es correcto y no convierte esta diana"
+    },
+    "obl_a5d9fa1f9253": {
+      "qid": "hp002",
+      "clase": "composites_hybrid_gap",
+      "fix_probado": "D1c MP_STEM_BINDING (plural es/en) + D1b F-RELATION híbrido",
+      "como_murio": "P1 GO ambos (stem 51/57; shape F-RELATION 45/45) pero A-D1c, A-D1b-hyb y A-ALL 0/3: Haiku no propone la cláusula del qualifier bajo el prompt con F-RELATION (ya 0/3 en el funnel N=3 — sin familia que encaje el qualifier semántico) y el stem solo no alcanza"
+    },
+    "obl_015f9b9aaa3a": {
+      "qid": "cat018",
+      "clase": "composites_hybrid_gap",
+      "fix_probado": "D1a MP_DEFLINE_EQ (separador '=' en deflines) + híbrido",
+      "como_murio": "P1 GO (defline_eq 14/14, FP=0) pero A-D1a y A-ALL 0/3: el shape del bundle TONE ya existe con el flag y su ventana [F8] no comparte tokens propios (predicho BAJA en el prereg; binding a nivel fragmento rechazado con métrica seed-270 y NO propuesto)"
+    },
+    "obl_b2043cd4379b": {
+      "qid": "hp017",
+      "clase": "composites_hybrid_gap+serving_view",
+      "fix_probado": "C1 card de callout + D1b F-RELATION híbrido",
+      "como_murio": "corrección v2.2 CONFIRMADA en el probe: la card C1 es de léxico MANDATORY y el span de b2043 («Instrucción de entrada») es DEFINICIONAL sin gatillo — sigue fuera de la vista servida incluso con C1 on; A-C1/A-ALL 0/3"
+    },
+    "obl_7aa723717412": {
+      "qid": "hp017",
+      "clase": "composites_hybrid_gap",
+      "fix_probado": "D1b F-RELATION (defhead) híbrido",
+      "como_murio": "P1 GO (defhead 17/18) pero A-D1b-hyb y A-ALL 0/3: su ventana [F12] no comparte tokens propios con la cláusula definicional — el binding no llega aunque el shape exista (predicho baja-media)"
+    }
+  },
+  "strategic_declaration": "La familia mecanismo-de-anexo (detect→bind→attest→render con sus 7 fixes flag-gated) queda EXHAUSTA para los 6 residuales: cada uno tuvo su fix construido, gateado en población fresca y medido en el probe #4 sin conversión (o muerto en P1 con métrica). El camino a 151 exige OTRA familia — opciones para Alberto: (a) adjudicación gold round-2 con lente source-contract; (b) expansión de la serving-view más allá de callouts (clase C1 generalizada); (c) eval orgánico como árbitro de si los 6 importan en uso real.",
+  "facts_moved_to_ok": 1,
+  "official_atomic_kpi": null,
+  "official_atomic_kpi_note": "Los 77 legacy carries siguen (S205); sin KPI atómico oficial hasta cerrarlos.",
+  "target": {
+    "declared": "98% de 154 = 151 → +5",
+    "target_pct": 0.98,
+    "required_ok": 151,
+    "conversions_needed": 5
+  }
+}
