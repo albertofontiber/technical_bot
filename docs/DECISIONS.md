@@ -2763,3 +2763,37 @@ importan en uso real.
 `evals/s274_probeCD_result_v1.json` (+réplicas); smoke `evals/s270_etapa3_smoke_result_v1.json`;
 cierre `evals/s274_bloquesCD_closeout_v1.yaml`; fila del lever sobrescrita in-place en
 `docs/LEVER_DIGEST.md`.
+
+## DEC-135 (S275, 20 jul 2026) — Gold round-2 cerrada NO-GO sin reabrir S270; serving-view generalizada tiene un solo gap causal puro y no es vía demostrada a +5
+
+**Gold round-2.** Se construyeron dos diseños source-contract, pero no se ejecutó ninguna
+adjudicación de casos. El dúo obligatorio Sol 5.6 xhigh + Fable 5 dio NO-GO a ambos y la
+regla C confirmó 20/20 hallazgos, 0 falsos positivos. V1 rompía el cegado al permitir tools
+repo-wide, colapsaba buckets E1, dejaba crédito E3 post hoc y volvía a preguntar requiredness
+ya decidido en S270. V2 cerró esos grados de libertad, pero reveló el bloqueo de autoridad:
+la ausencia de un átomo TONE explícito en `gold_answers_v1.yaml` puede ser deuda de
+sincronización posterior a S270, no evidencia nueva para revertir el ❌ de Alberto al demote
+de `obl_015f`; la topología input+output de hp017 también era visible cuando Alberto aceptó
+por separado `b2043` y `7aa7`. Además, controles E1/E3 no estaban todos congelados sobre la
+misma respuesta/estado banked. **Decisión:** no hay v3, cero edición de gold, cero cambio de
+denominador y el funnel permanece **146/154 (94,81 %), gap +5**. Traza:
+`evals/s275_gold_round2_closeout_v1.yaml` y los dos pares design/prereg/reviews en S275.
+
+**Reach audit de serving-view.** Un instrumento local SHA-pineado comparó los spans exactos
+S235 con la vista S113: `2f5d`, `7bba`, `a5d9` y `015f` estaban servidos al 100 %; `7aa7`
+estaba al 86,68 %, pero la parte servida ya contenía los tres anchors evaluados; solo
+`b2043` estaba al 0 %, íntegramente en el hueco entre cards de F12. Esto corrige el framing
+«serving-view para los seis»: **solo `b2043` es gap puro de vista**; los demás son
+cita/binding/detección/selección ya medidos en DEC-134. Candidato permitido: field-card propio,
+default-off, exacto y rederivable, que sirva como máximo un hermano definicional omitido
+(≤600 chars) cuando otro hermano homogéneo del mismo bloque ya esté validado; planner ciego,
+paridad writer/must-preserve y jamás chunk completo.
+
+**Siguiente gate.** Solo screen offline fresco seed-278, con exclusiones acumuladas, receipt
+100 %, flag-off byte-idéntico y 0 expansiones a elementos ajenos al registro. El probe #5
+sobre los mismos targets sigue prohibido. Si el screen pasa, cualquier medición de modelos
+será A/B orgánico/disjunto con autorización separada (~USD 10); incluso convirtiendo el único
+caso causal aún faltarían +4. Artefactos:
+`scripts/s275_serving_view_reach_preflight.py`,
+`evals/s275_serving_view_reach_preflight_v1.json` y
+`evals/s275_serving_view_generalization_preflight_v1.md`.

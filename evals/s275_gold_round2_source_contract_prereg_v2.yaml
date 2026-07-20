@@ -1,0 +1,190 @@
+schema: s275_gold_round2_source_contract_prereg_v2
+status: PRE_REVIEW
+date: '2026-07-20'
+supersedes:
+  - evals/s275_gold_round2_source_contract_design_v1.md
+  - evals/s275_gold_round2_source_contract_prereg_v1.yaml
+design: evals/s275_gold_round2_source_contract_design_v2.md
+scope_claim: diagnostic_only_for_s274_six_residuals
+
+baseline:
+  denominator: 154
+  ok: 146
+  synthesis_miss: 6
+  retrieval_miss: 2
+  ok_pct: 94.81
+  target_ok_for_98pct: 151
+  visible_to_adjudicators: false
+
+inputs_sha256_lf:
+  evals/s274_banked_funnel_v1.json: 656e6f0be525bbeedb5871d90af20eaaaad9a3aa7c2df1902a38028ba7744a30
+  evals/s274_bloquesCD_closeout_v1.yaml: faa1db3207096ad22cb5b0782db68b652408548971ada34d8f4034b78ead9b6a
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  evals/s269_goldreview_packet_v1_ADJUDICADO.md: b28255a64fe91ea76c727f1a6c8e942e1e0a7aed01a835b3a740ec40ad7f6dd9
+  evals/s235_direct_clause_bound_score_packet_v1.json: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48
+  evals/s113_full_contexts_freeze_v1.json: 556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498
+  evals/s126_upstream_residual_audit_v1.json: 1bf5f8e5323239d3a83ef1d69fde6109d773edbbe3cfe1f367b4636a682895ac
+  evals/gold_answers_v1.yaml: c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2
+
+render_sha256_bytes:
+  evals/s269_goldreview_renders/hp011_obl_2f5d79e3_p63.jpg: 536cb96797bc7e0dd348dd313edbc0afdd79e06ff85ff35d8598ac4a374c9635
+  evals/s269_goldreview_renders/hp011_obl_2f5d79e3_p63_zoom_ri_500dpi.jpg: 7d7479592f5834b183e4f6bcf981c3c2feccff699111f132733a559b99398d80
+  evals/s269_goldreview_renders/cat018_obl_7bba8d03_p21.jpg: 6acc21cbefb0bd8a2d756255220297735d86d022978f1ef6d2a2151911393d1f
+  evals/s269_goldreview_renders/cat018_obl_015f9b9a_p70.jpg: 05934e2280796adaca12782fcdd48f8dfe6333bae3808b8ad2913bbc7eb8f572
+  evals/s269_goldreview_renders/hp002_obl_a5d9fa1f_p28.jpg: efc0cc2c6aa7a01921b1dca0349ac1c0393ce85a550f53555bbb0fd83dc54be1
+  evals/s269_goldreview_renders/hp017_obl_b2043cd4_p42.jpg: 73e1107bf0e45db183a1561825535fd5230890ee158634b00fc34727f78141fc
+  evals/s269_goldreview_renders/hp017_obl_7aa72371_p42.jpg: 73e1107bf0e45db183a1561825535fd5230890ee158634b00fc34727f78141fc
+
+targets:
+  - obligation_id: obl_2f5d79e354b9
+    qid: hp011
+    e2_eligibility: LOCK_ONLY
+    reason: pixel_tA_correction_already_registered_in_s270
+  - obligation_id: obl_7bba8d03d496
+    qid: cat018
+    e2_eligibility: LOCK_ONLY
+    reason: direct_bijection_to_cat018_atomic_fact_2
+  - obligation_id: obl_a5d9fa1f9253
+    qid: hp002
+    e2_eligibility: LOCK_ONLY
+    reason: direct_bijection_to_hp002_atomic_fact_1
+  - obligation_id: obl_015f9b9aaa3a
+    qid: cat018
+    e2_eligibility: REOPEN_NO_GOLD_BIJECTION
+    reason: no_TONE_or_SND_tone_volume_atom_in_current_cat018_atomic_facts
+  - obligation_id: obl_b2043cd4379b
+    qid: hp017
+    e2_eligibility: REOPEN_SPLIT_CARDINALITY
+    pair: obl_7aa723717412
+    reason: both_units_map_to_one_hp017_input_plus_output_atomic_fact
+  - obligation_id: obl_7aa723717412
+    qid: hp017
+    e2_eligibility: REOPEN_SPLIT_CARDINALITY
+    pair: obl_b2043cd4379b
+    reason: both_units_map_to_one_hp017_input_plus_output_atomic_fact
+
+controls:
+  e1:
+    - id: e1_exact_served
+      source: {obligation_id: obl_b6f6211be439, qid: hp002}
+      expected: EXACT_SERVED
+    - id: e1_not_served
+      source: {claim_id: benchmark_carry.hp010.3b4d6e04130f4e6616d87725, qid: hp010}
+      expected: NOT_SERVED
+    - id: e1_source_conflict
+      source: {claim_id: benchmark_carry.cat008.9f55e8db783fbef54f9e2e8a, qid: cat008}
+      expected: SOURCE_CONFLICT
+  e2:
+    - id: e2_lock_core
+      source: {obligation_id: obl_b6f6211be439, qid: hp002}
+      expected: LOCK_PRIOR_S270
+    - id: e2_lock_supplementary
+      source: {obligation_id: obl_161564ff41bf, qid: hp011}
+      expected: LOCK_PRIOR_S270
+    - id: e2_split_positive
+      source:
+        obligation_ids: [obl_16637b935bd4, obl_0d6a30948dfd]
+        qid: hp017
+        snapshot: pre_s270
+      expected: REOPEN_SPLIT_CARDINALITY
+    - id: e2_derived_subclause_positive
+      source:
+        obligation_id: obl_07eee3300535
+        qid: hp002
+        micro_predicate_only: ['120 %', 'A11 a C32']
+      expected: REOPEN_DERIVED_SUBCLAUSE
+  e3:
+    - id: e3_conveyed_threshold
+      source: {obligation_id: obl_0db2b9f2842a, qid: hp002}
+      expected: CONVEYED
+    - id: e3_conveyed_default_rules
+      source: {obligation_id: obl_e265a4c97a31, qid: hp017}
+      expected: CONVEYED
+    - id: e3_missing_isolation
+      source: {obligation_id: obl_b6f6211be439, qid: hp002}
+      expected: MISSING
+    - id: e3_missing_intervals
+      source: {obligation_id: obl_161564ff41bf, qid: hp011}
+      expected: MISSING
+
+review_axes:
+  e1:
+    labels: [EXACT_SERVED, NOT_SERVED, IDENTITY_UNATTESTED, SOURCE_CONFLICT, CORPUS_ABSENT, UNCERTAIN]
+    exact_control_gate: 3_of_3
+    automatic_kpi_effect: none
+  e2:
+    labels:
+      - LOCK_PRIOR_S270
+      - REOPEN_NO_GOLD_BIJECTION
+      - REOPEN_SPLIT_CARDINALITY
+      - REOPEN_DERIVED_SUBCLAUSE
+      - REOPEN_PIXEL_OR_SOURCE_CORRECTION
+      - REOPEN_GOLD_OR_QUESTION_CHANGED
+      - UNCERTAIN
+    exact_control_gate: 4_of_4
+    automatic_kpi_effect: none
+  e3:
+    labels: [CONVEYED, PARTIAL, MISSING, CONTRADICTED, UNCERTAIN]
+    exact_control_gate: 4_of_4
+    automatic_kpi_effect: none
+
+packet:
+  case_union_count: 14
+  alias_format: R2X-[A-N]
+  shuffle_seed: s275-source-contract-v2-2026-07-20
+  reviewer_receives_only: [rubric, review_packet]
+  private_mapping_never_sent: true
+  forbidden_reviewer_context:
+    - repository_access
+    - shell_or_tools
+    - web_or_database
+    - persistent_memory
+    - qid_or_obligation_ids
+    - target_or_control_status
+    - s269_or_s270_verdicts
+    - baseline_or_kpi_projection
+
+reviewers:
+  primary: {model: gpt-5.6-sol, reasoning_effort: xhigh, tools: false}
+  frontier: {model: claude-fable-5, tools: false}
+  fresh_independent_calls: true
+  required_alias_count_each: 14
+  automatic_retries: 0
+
+decision_rule:
+  reviewer_axis_valid_only_if_all_controls_exact: true
+  target_recommendation_requires_valid_axis_from_both: true
+  target_recommendation_requires_same_label: true
+  disagreement_effect: keep_current_state_and_escalate
+  uncertain_effect: keep_current_state_and_escalate
+  reveal_mapping_after_both_outputs_sealed: true
+
+budget:
+  additional_v2_model_ceiling_usd: 6.0
+  automatic_retries: 0
+  log_tokens_and_receipts: true
+
+forbidden:
+  - edit_gold_answers
+  - call_gold_store
+  - grant_e3_ok_credit_in_s275
+  - bank_or_ship
+  - run_probe_5
+  - access_heldout
+  - call_bot_or_production_services
+  - claim_generalization_beyond_frozen_population
+
+stop_rules:
+  - input_or_render_hash_mismatch
+  - missing_source_span_or_render
+  - nondeterministic_packet
+  - reviewer_context_contamination
+  - reviewer_not_14_of_14
+  - invalid_json_or_label
+  - any_axis_control_miss
+  - unregistered_source_gold_or_question_change
+
+human_gate:
+  owner: Alberto
+  required_before_any_gold_denominator_or_bucket_change: true
+  packet_marks: [accept, edit, reject]

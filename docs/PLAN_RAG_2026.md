@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 19 jul 2026 (S269 — triage de los 12 + contrato must-preserve medido + visual/voz cerrados).
+> 20 jul 2026 (S275 — gold round-2 NO-GO + reach audit de serving-view).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,9 +23,10 @@
 > gap honesto.
 
 <a id="estado-actual-s269--19-jul-2026"></a>
-## Estado actual (S274 — 20 jul 2026)
+## Estado actual (S275 — 20 jul 2026)
 
-**Foto oficial tras el banking S274 (DEC-134): 154 facts = 146 OK · 6 synthesis-miss ·
+**Foto oficial tras el banking S274 (DEC-134), sin movimiento en S275 (DEC-135):
+154 facts = 146 OK · 6 synthesis-miss ·
 2 retrieval-miss — 146/154 (94,81%), quedan +5 para 151 (≥98%).** Bloques C/D CERRADOS:
 el PAR `COVERAGE_MANDATORY_CALLOUT`+`MP_MANDATORY_VERB_TRIGGER` convierte obl_0d6a 3/3
 pareado (probe #4, 0 daño; smoke candidato 5/5) → SHIP candidato = solo ese par en Railway
@@ -87,18 +88,36 @@ flag-gated por-fix → Etapa-1 v9 fresca seed-277 (heredados v8 GO; 6/7 fixes GO
 residuales (por-id en `evals/s274_bloquesCD_closeout_v1.yaml`); sin probe #5. Coste total
 del bloque $1,51/$15.
 
-**Qué sigue, por orden:** (1) **decisiones de Alberto**: (a) SHIP del par C1 en Railway
-(runbook 1 línea, DEC-134) + recibo vivo patrón DEC-131; (b) elegir la SIGUIENTE familia
-para los +5 → gold round-2 con lente source-contract · serving-view generalizada (clase C1
-para spans no-MANDATORY) · eval orgánico como árbitro de los 6 residuales; (2) activar
-`VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
-(3) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
+**S275 (20 jul): gold round-2 CERRADA NO-GO antes de adjudicar casos; serving-view
+generalizada re-acotada — DEC-135.** Dos diseños source-contract pasaron por el dúo
+Sol 5.6 xhigh + Fable 5 y ambos quedaron NO-GO: v1 rompía el cegado y re-litigaba S270;
+v2 confundía deuda de sincronización posterior a S270 con un defecto nuevo que podía
+revertir marcas explícitas de Alberto. **Cero cambios de gold/denominador y cero
+generaciones target.** El reach audit determinista (`scripts/s275_serving_view_reach_preflight.py`)
+confirma 4 spans residuales servidos al 100 %, `7aa7` al 86,68 % pero con sus 3 anchors ya
+presentes, y solo `b2043` al 0 % por un hermano definicional fuera de las cards. Por tanto,
+serving-view no es una vía honesta a +5: el único candidato causal estrecho es una card
+receipted del hermano definicional omitido, primero con screen offline fresco seed-278 y
+sin probe #5 sobre los mismos targets. Artefactos: `evals/s275_gold_round2_closeout_v1.yaml`,
+`evals/s275_serving_view_reach_preflight_v1.json` y
+`evals/s275_serving_view_generalization_preflight_v1.md`.
+
+**Qué sigue, por orden:** (1) **recibo vivo pendiente** del par C1 ya activo en Railway:
+hacer una pregunta hp017/PEARL y verificar en `query_logs` `bot_version=fa90d9c`, encabezado
+del anexo y ambos carriers del warning (sin query posterior al deploy todavía); (2)
+**decisión de Alberto** sobre el siguiente trabajo: (a) autorizar solo el screen offline
+seed-278 de la card `missing-definition-sibling` — sin modelos; si pasa 0-FP, diseñar un A/B
+orgánico/disjunto de ~USD 10 — o (b) ir directamente a eval orgánico como árbitro. Esta
+familia tiene alcance causal conocido 1/6 y NO promete 98 %; (3) el gold round-2 queda
+cerrado salvo evidencia nueva + decisión humana, no se abre v3; (4) `VISUAL_ASSETS_REGISTRY`
+ya está activo en Railway, pendiente únicamente de observación viva si se desea;
+(5) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
 conversiones**: el lever cuota-enunciados (el fix pendiente de DEC-102/s105) se midió con
 prereg dúo-adjudicado v1→v3 y cerró **PERMANENTE por v3b STOP a nivel respuesta** (hp005#2
 3/3→0/3 y hp017#2 bajo ON, pareado mismo-día; hp010#1 convertía 2/3 — funciona para su diana,
 cuesta hechos de terceros). Los 2 retrieval-miss quedan **residuales CON CLASE**
 (`evals/s273_v3_closeout_v1.yaml`): hp010#1 = solo otra-familia-mecánica o 0-daño demostrado;
-cat017#2 = fuera del espacio enunciados-generable (medido F0); (4) recoger 30 audios reales
+cat017#2 = fuera del espacio enunciados-generable (medido F0); (6) recoger 30 audios reales
 antes de comparar ASR.
 
 
