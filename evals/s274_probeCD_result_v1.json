@@ -1,0 +1,6018 @@
+{
+  "schema": "s274_probeCD_result_v1",
+  "prereg": "evals/s274_bloquesCD_prereg_v2.yaml",
+  "probe_number": 4,
+  "runner_sha256_lf": "e7f137e681a586744bb0672009f54f5924c88eb126d8e8fbbf71cee903fa5221",
+  "design": {
+    "paired_baseline_arm": "A0",
+    "replicates": 3,
+    "arms": {
+      "A0": [],
+      "A-C1": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "A-C2": [
+        "MP_SERVED_BINDING"
+      ],
+      "A-D1a": [
+        "MP_DEFLINE_EQ"
+      ],
+      "A-D1b-det": [],
+      "A-D1b-hyb": [
+        "MP_HYBRID_DETECT"
+      ],
+      "A-D1c": [
+        "MP_STEM_BINDING"
+      ],
+      "A-D2": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "A-ALL-det": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_SERVED_BINDING",
+        "MP_STEM_BINDING"
+      ],
+      "A-ALL": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_SERVED_BINDING",
+        "MP_STEM_BINDING"
+      ]
+    },
+    "hybrid_qids": [
+      "cat018",
+      "hp002",
+      "hp017"
+    ],
+    "fresh_generation": {
+      "A0": [
+        "hp017"
+      ],
+      "A-C1": [
+        "hp017"
+      ]
+    },
+    "visual_assets_registry": "off_pinned",
+    "model": "claude-sonnet-4-6",
+    "temperature": 0
+  },
+  "frozen_inputs_sha256_lf": {
+    "evals/s113_full_contexts_freeze_v1.json": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498",
+    "evals/s270_etapa2_probe_v3_replicas_v1.jsonl": "728ef776d7cdd33fe1237c3cf9c1b54f1ffe1ff52d6dc2a22b91bf1f301b6cc7",
+    "evals/s274_serving_view_diag_v1.json": "e43c0eaec9352f586b36ce35af9f04d78faf8bb6a9065b8b182bb64d45679a08",
+    "evals/s274_hybrid_funnel_diag_v1.json": "129c06e2b384b5cfe68a2f68dd7d591bdff94727b31fd24f85b7d6a4734e289c",
+    "evals/s274_hybrid_funnel_diag_v2.json": "0f78eb28f7d4569e51c300ef02de387566608b1f61b85611cd43002ee9be9685",
+    "evals/s270_gold_adjudication_v1.yaml": "51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436",
+    "scripts/s270_etapa2_probe.py": "4b416f5a8ae6adbf6862a068149c6bc4d3de05683f3f734a4e85399d0d1821f5",
+    "src/rag/must_preserve.py": "2191ed9147bbdc5c7f0ee1e8566dbf0dd01706395736ffbcb04dc2fde98672db",
+    "src/rag/post_rerank_coverage.py": "9da0ae163c346143bb177413bab7a57ba36bd5eece422bba556006205f682f8d",
+    "src/rag/mp_lexicon.py": "4eacf814c192fcd3a9553a0bbe89df6fafb145ee1ae957982eceaaed7c6953c4",
+    "src/rag/answer_planner.py": "c27ad6c913f49167e43d289d17399ccfe2c7cb281506b51630cd2dec9650cbd3"
+  },
+  "protected_set": {
+    "obl_05482a6b3f0e": "hp011",
+    "obl_0db2b9f2842a": "hp002",
+    "obl_5784f16b1a11": "cat018"
+  },
+  "per_row": [
+    {
+      "arm": "A0",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A0",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 6,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.065244
+    },
+    {
+      "arm": "A0",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 6,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.061224
+    },
+    {
+      "arm": "A0",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 6,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.070899
+    },
+    {
+      "arm": "A-C1",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": {
+        "ids_identical": true,
+        "content_identical": true,
+        "extra_fields": [
+          "mandatory_callout_cards"
+        ],
+        "pass": true
+      },
+      "cost_usd": 0.064194
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          7,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 11,
+        "atoms_bound": 8,
+        "atoms_missing": 7,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": {
+        "ids_identical": true,
+        "content_identical": true,
+        "extra_fields": [
+          "mandatory_callout_cards"
+        ],
+        "pass": true
+      },
+      "cost_usd": 0.069204
+    },
+    {
+      "arm": "A-C1",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER"
+      ],
+      "draft_source": "fresh",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": true
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4",
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": true
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": {
+        "ids_identical": true,
+        "content_identical": true,
+        "extra_fields": [
+          "mandatory_callout_cards"
+        ],
+        "pass": true
+      },
+      "cost_usd": 0.064824
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 4,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 4,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 4,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1a",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "MP_DEFLINE_EQ"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          12,
+          13,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 2,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 9,
+        "atoms_bound": 7,
+        "atoms_missing": 5,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1240,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1240,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011297
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 9,
+        "atoms_bound": 7,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1240,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1240,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011297
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 9,
+        "atoms_bound": 7,
+        "atoms_missing": 6,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1240,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1240,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011297
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1164,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1164,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.010971
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 14,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1175,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1175,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011026
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 11,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1120,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1120,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.010751
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1563,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1563,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012657
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1547,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1547,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012577
+    },
+    {
+      "arm": "A-D1b-hyb",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "MP_HYBRID_DETECT"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          12,
+          13,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 2,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1555,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1555,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012617
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 4,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 4,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 3,
+        "atoms_missing": 3,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D1c",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          12,
+          13,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 2,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 4,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 4,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 5,
+        "atoms_bound": 4,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_e265a4c97a31"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 6,
+        "atoms_missing": 6,
+        "atoms_appended": 1,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-D2",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "MP_DISTINCTIVE_TOKEN"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          10,
+          12,
+          13,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 5,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 2,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 7,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 12,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 15,
+        "atoms_bound": 9,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          7,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 11,
+        "atoms_bound": 8,
+        "atoms_missing": 7,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL-det",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": true
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4",
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": true
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "cat018",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          13
+        ],
+        "atoms_detected": 11,
+        "atoms_bound": 9,
+        "atoms_missing": 6,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1240,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1240,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011297
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "cat018",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "atoms_detected": 10,
+        "atoms_bound": 8,
+        "atoms_missing": 4,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1213,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1213,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011162
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "cat018",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 11,
+        "atoms_bound": 9,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 0,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:am-8200"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            4,
+            8
+          ],
+          "usage": {
+            "input_tokens": 5097,
+            "output_tokens": 1240,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5097,
+        "output_tokens": 1240,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.011297
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp002",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0db2b9f2842a",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 14,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1164,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1164,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.010971
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp002",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_07eee3300535",
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 14,
+        "atoms_missing": 7,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1164,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1164,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.010971
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp002",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_b6f6211be439"
+        ],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 17,
+        "atoms_bound": 11,
+        "atoms_missing": 8,
+        "atoms_appended": 4,
+        "cross_atoms_detected": 1,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "securiton:asd-535-1"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            7,
+            9
+          ],
+          "usage": {
+            "input_tokens": 5151,
+            "output_tokens": 1106,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 5151,
+        "output_tokens": 1106,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.010681
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp011",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          9,
+          10
+        ],
+        "atoms_detected": 1,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp011",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          3,
+          6,
+          7,
+          8,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp011",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "stored_v3",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "on_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [],
+        "invalid_citations": []
+      },
+      "diagrams": null,
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          3,
+          6,
+          7,
+          10
+        ],
+        "atoms_detected": 0,
+        "atoms_bound": 0,
+        "atoms_missing": 0,
+        "atoms_appended": 0,
+        "cross_atoms_detected": 0,
+        "appendix_appended": false,
+        "resolved_ids": [
+          "notifier:rp1r-supra"
+        ]
+      },
+      "hybrid_usage": null,
+      "retrieval_invariant": null,
+      "cost_usd": 0.0
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp017",
+      "replicate": 1,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          11,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 5,
+        "atoms_missing": 4,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1514,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1514,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012412
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp017",
+      "replicate": 2,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": false
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          4,
+          7,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 11,
+        "atoms_bound": 8,
+        "atoms_missing": 7,
+        "atoms_appended": 2,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1545,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1545,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012567
+    },
+    {
+      "arm": "A-ALL",
+      "qid": "hp017",
+      "replicate": 3,
+      "flags": [
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_DEFLINE_EQ",
+        "MP_DISTINCTIVE_TOKEN",
+        "MP_HYBRID_DETECT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "MP_STEM_BINDING"
+      ],
+      "draft_source": "reused_A-C1",
+      "off_score": {
+        "covered_obligation_ids": [
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": false,
+        "disclosure_covered": false,
+        "cardinality_consistent_6": true
+      },
+      "on_score": {
+        "covered_obligation_ids": [
+          "obl_0d6a30948dfd",
+          "obl_16637b935bd4",
+          "obl_872c35fb41d7"
+        ],
+        "unsafe_conflict_ids": [
+          "conf_26f63590494f"
+        ],
+        "invalid_citations": [],
+        "merged_warning_block_covered": true,
+        "disclosure_covered": true,
+        "cardinality_consistent_6": true
+      },
+      "diagrams": [],
+      "must_preserve_trace": {
+        "schema": "must_preserve_contract_v2",
+        "identity_resolved": true,
+        "cited_fragments": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          10,
+          12,
+          14
+        ],
+        "atoms_detected": 8,
+        "atoms_bound": 7,
+        "atoms_missing": 7,
+        "atoms_appended": 3,
+        "cross_atoms_detected": 2,
+        "appendix_appended": true,
+        "resolved_ids": [
+          "notifier:pearl"
+        ],
+        "hybrid": {
+          "enabled": true,
+          "client_available": true,
+          "fragments": [
+            2,
+            8
+          ],
+          "usage": {
+            "input_tokens": 4842,
+            "output_tokens": 1550,
+            "calls": 2
+          },
+          "errors": []
+        }
+      },
+      "hybrid_usage": {
+        "input_tokens": 4842,
+        "output_tokens": 1550,
+        "calls": 2
+      },
+      "retrieval_invariant": null,
+      "cost_usd": 0.012592
+    }
+  ],
+  "aggregate": {
+    "per_arm": {
+      "A0": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": []
+      },
+      "A-C1": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 3,
+            "a0_on": 0,
+            "stable_conversion": true
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [
+          "obl_0d6a30948dfd"
+        ],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "diagrams_delta_vs_A0_informative": {
+          "hp017": {
+            "a0": [],
+            "arm": []
+          }
+        },
+        "retrieval_invariant": {
+          "rows": [
+            {
+              "ids_identical": true,
+              "content_identical": true,
+              "extra_fields": [
+                "mandatory_callout_cards"
+              ],
+              "pass": true
+            },
+            {
+              "ids_identical": true,
+              "content_identical": true,
+              "extra_fields": [
+                "mandatory_callout_cards"
+              ],
+              "pass": true
+            },
+            {
+              "ids_identical": true,
+              "content_identical": true,
+              "extra_fields": [
+                "mandatory_callout_cards"
+              ],
+              "pass": true
+            }
+          ],
+          "pass": true
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "retrieval_invariant": true,
+          "pass": true
+        }
+      },
+      "A-C2": {
+        "status": "skipped"
+      },
+      "A-D1a": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      },
+      "A-D1b-det": {
+        "status": "alias_of_A0"
+      },
+      "A-D1b-hyb": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      },
+      "A-D1c": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      },
+      "A-D2": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      },
+      "A-ALL-det": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 3,
+            "a0_on": 0,
+            "stable_conversion": true
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [
+          "obl_0d6a30948dfd"
+        ],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      },
+      "A-ALL": {
+        "status": "measured",
+        "candidates": {
+          "obl_0d6a30948dfd": {
+            "qid": "hp017",
+            "check": "merged_warning_block",
+            "arm_on": 3,
+            "a0_on": 0,
+            "stable_conversion": true
+          },
+          "obl_7bba8d03d496": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_2f5d79e354b9": {
+            "qid": "hp011",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_a5d9fa1f9253": {
+            "qid": "hp002",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_b2043cd4379b": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_7aa723717412": {
+            "qid": "hp017",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          },
+          "obl_015f9b9aaa3a": {
+            "qid": "cat018",
+            "check": "matcher",
+            "arm_on": 0,
+            "a0_on": 0,
+            "stable_conversion": false
+          }
+        },
+        "stable_conversions": [
+          "obl_0d6a30948dfd"
+        ],
+        "protected_fallen": [],
+        "new_stable_conflicts": [],
+        "anchors": {
+          "per_qid": {
+            "cat018": {
+              "lost": [],
+              "gained": []
+            },
+            "hp002": {
+              "lost": [],
+              "gained": []
+            },
+            "hp011": {
+              "lost": [],
+              "gained": []
+            },
+            "hp017": {
+              "lost": [],
+              "gained": []
+            }
+          },
+          "lost": [],
+          "gained_reported_informative": [],
+          "stop_hard_union_s104_s105": []
+        },
+        "diagrams": {
+          "cat018": [],
+          "hp002": [],
+          "hp011": [],
+          "hp017": []
+        },
+        "damage_gates": {
+          "protected": true,
+          "new_conflicts": true,
+          "anchors_lost": true,
+          "pass": true
+        }
+      }
+    },
+    "p1_verdicts": {
+      "COVERAGE_MANDATORY_CALLOUT": "GO",
+      "MP_DEFLINE_EQ": "GO",
+      "MP_DISTINCTIVE_TOKEN": "GO",
+      "MP_HYBRID_DETECT": "GO",
+      "MP_MANDATORY_VERB_TRIGGER": "GO",
+      "MP_SERVED_BINDING": "NO_GO",
+      "MP_STEM_BINDING": "GO"
+    },
+    "protected_base_a0": {
+      "obl_05482a6b3f0e": 0,
+      "obl_0db2b9f2842a": 1,
+      "obl_5784f16b1a11": 0
+    },
+    "stop_rule_hits": [],
+    "banking": {
+      "rule": "Sol-C1: solo lo DESPLEGABLE se bankea",
+      "det_only_bankable": [
+        "obl_0d6a30948dfd"
+      ],
+      "hybrid_only_requires_ship_decision": []
+    },
+    "actual_cost_usd": 0.604029,
+    "cost_below_ceiling": true
+  },
+  "actual_cost_usd": 0.604029,
+  "replicas_jsonl": "evals/s274_probeCD_replicas_v1.jsonl",
+  "database_reads": 0,
+  "database_writes": 0,
+  "result_sha256": "a4130a68dd6d7392c7dfdaffa7224d98701d5b2787876356d63784e6e6f224ca"
+}
