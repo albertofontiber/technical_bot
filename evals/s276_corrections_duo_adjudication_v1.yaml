@@ -1,0 +1,84 @@
+schema: s276_corrections_duo_adjudication_v1
+subject_sol_ts: "2026-07-20T10:06:50"
+sol_review: evals/adversarial_reviews/2026-07-20T10-06-50_gpt-5.6-sol_070dff342101.md
+fable_review: evals/adversarial_reviews/2026-07-20T10-09-26_claude-fable-5_ce3bc0fc0010.md
+status: COMPLETE_ADJUDICATED_NO_PASS
+protocol_caveat: >-
+  El subject incluyó por error s276_duo_adjudication_v1.yaml. Los findings se verificaron por
+  regla C, pero esta ronda no se presenta como independencia limpia ni como PASS.
+raw_tally:
+  sol: {findings: 5, confirmed: 5, false_pos: 0, severity_max: medium}
+  fable: {findings: 5, confirmed: 5, false_pos: 0, severity_max: critical}
+deduplicated_tally:
+  findings: 8
+  confirmed: 8
+  false_pos: 0
+  severity_max: critical
+deduplication:
+  - merged: recovery_reinjects_empty_assistant
+    sources: [sol_empty_payload_risk, sol_test_gap, fable_empty_payload_critical]
+  - merged: final_tool_use_grammar_and_test
+    sources: [sol_final_tool_use_validator, sol_test_gap]
+findings:
+  - id: recovery_reinjects_empty_assistant
+    severity: critical
+    status: confirmed
+    evidence: >-
+      Llamada real mínima devolvió HTTP 400: messages: text content blocks must be non-empty.
+      Dos user turns consecutivos fueron aceptados por la API, coherente con la referencia oficial.
+    disposition: >-
+      Se elimina la reinyección assistant; el vacío queda sólo en provider_trace y se añade un
+      user recovery prompt. Un retry máximo, tools-off, segundo vacío fail-closed.
+  - id: final_end_turn_could_contain_tool_use
+    severity: medium
+    status: confirmed
+    disposition: Validator rechaza cualquier tool_use en el cierre y hay test físico dirigido.
+  - id: tool_schemas_missing_from_budget_bound
+    severity: medium
+    status: confirmed
+    disposition: >-
+      La cota incluye bytes serializados de schemas. Si consumen final headroom, tools se retiran
+      antes de la llamada; test dedicado cubre el fallback.
+  - id: missing_fencing_and_outbox_uniqueness
+    severity: medium
+    status: confirmed
+    disposition: >-
+      Blueprint añade attempt_no/fencing token, CAS propietario al completar y crear outbox, y
+      unique por run/channel/destination/logical_delivery_key.
+  - id: prior_duo_outputs_not_denied
+    severity: medium
+    status: confirmed
+    disposition: >-
+      Deny compartido Sol/Fable cubre duo_adjudication y duo_brief; corrections_packet actual
+      sigue permitido. No volver a adjuntar tallies previos como seed.
+  - id: non_object_tool_input_normalization_diverged
+    severity: minor
+    status: confirmed
+    disposition: Runner y validator rechazan fail-closed inputs de tool que no sean objetos JSON.
+  - id: out_of_position_empty_recovery_not_tested
+    severity: minor
+    status: confirmed
+    disposition: Test físico vacío→tool_use→final exige rechazo por posición.
+  - id: provider_trace_is_not_independent_attestation
+    severity: minor
+    status: confirmed
+    disposition: >-
+      Documentación limita el claim a autoconsistencia byte-bound de lo persistido; no acredita
+      por sí sola que el proveedor no emitiera respuestas omitidas antes de persistir.
+decision_effect:
+  screen_verdict: NO_GO_OFFLINE_SCREEN_UNCHANGED
+  architecture_status: DIRECTIONAL_BLUEPRINT_NO_BUILD_AUTHORIZATION
+  product_runtime_changed: false
+  reviewer_runner_changed: true
+  clean_frontier_pass_claimed: false
+verification:
+  official_api:
+    consecutive_same_role_turns: https://platform.claude.com/docs/en/api/messages/create
+    errors_and_fable_prefill: https://platform.claude.com/docs/en/api/errors
+  live_contract_checks:
+    empty_assistant: HTTP_400_CONFIRMED
+    consecutive_user_turns: REQUEST_ACCEPTED
+  tests_before_final_suite:
+    reviewer_tests_at_adjudication_before_postreview_fix: 55_passed
+    reviewer_tests_final_directed: 56_passed
+    screen_tests: 14_passed

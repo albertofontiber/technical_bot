@@ -1,0 +1,95 @@
+schema: s276_missing_definition_sibling_screen_prereg_v1
+status: FROZEN_BEFORE_GET_RUN
+created_utc: '2026-07-20T00:00:00+00:00'
+decision_question: >-
+  Does a fresh, document-disjoint corpus population contain enough explicit
+  top-level definition-list records, and can a deterministic reference close
+  exactly one omitted sibling without crossing frozen structural boundaries?
+scope:
+  runtime_build: false
+  target_scoring: false
+  answer_generation: false
+  model_calls: 0
+  allowed_http_methods:
+    - GET
+  database_writes: 0
+seed: 278
+population:
+  sampled_docs: 80
+  sampling: seeded round-robin by manufacturer over the eligible corpus
+  min_fragment_chars: 200
+  exclusions:
+    - base S269 packet/gold/held-out/target-adjacent exclusions
+    - v1 structural cohort
+    - mutation cohorts seed-270 through seed-277 inclusive
+  no_target_probe: true
+mechanism_form:
+  unit: contiguous top-level Markdown definition list
+  item_count_min: 2
+  item_count_max: 5
+  max_cards: 1
+  max_card_chars: 600
+  required_state: exactly one wholly omitted item; every other item selected
+  selected_item_may_be_truncated: true
+  output_field: missing_definition_sibling_cards
+  inherits_local_semantic_validation: false
+  receipt: exact parent span plus deterministic rederivation
+  fail_closed_boundaries:
+    - heading
+    - table
+    - code_fence
+    - blockquote
+    - numbered_list
+    - unindented_prose
+    - indentation_mismatch
+    - multiline_continuation
+cases:
+  positives:
+    - full selected siblings with one omitted sibling
+    - one selected sibling truncated after bullet and label, with one omitted sibling
+  controls:
+    - all siblings already covered
+    - heading boundary
+    - prose boundary
+    - table boundary
+    - omitted item longer than 600 chars
+    - tampered output receipt
+    - flag off byte identity
+gates:
+  freshness_overlap_max: 0
+  sampled_docs_min: 60
+  eligible_blocks_min: 20
+  eligible_documents_min: 10
+  eligible_manufacturers_min: 3
+  full_selection_recall_min: 1.0
+  truncated_selection_recall_min: 1.0
+  clean_fp_max: 0
+  boundary_fp_max: 0
+  oversize_fp_max: 0
+  cross_record_fp_max: 0
+  receipt_tamper_accept_max: 0
+  flag_off_drift_max: 0
+freeze:
+  design_path: evals/s276_missing_definition_sibling_screen_design_v1.md
+  screen_script_path: scripts/s276_missing_definition_sibling_screen.py
+  screen_script_sha256_lf: c588f80b91b0ade2bffbad00d76d11e6ded9909bd38547fb6e9c78f8fa2345b0
+  prior_cohorts:
+    - {seed: v1, path: evals/s269_structural_cohort_v1.jsonl, sha256_lf: a866afa1ac03c8ac1d0268902eaf5d6f17bdb5d5ad424be8ae830d230a40f4e3}
+    - {seed: 270, path: evals/s269_mutation_cohort_v2.jsonl, sha256_lf: babd30053ddcfcb35d3c63107e810f731f936496870bcd527aee8ded1db1167c}
+    - {seed: 271, path: evals/s269_mutation_cohort_v3.jsonl, sha256_lf: 412d96315e21e8fdbd3cdac7653e037a003146f6fb9c27a349b977ce4cafcd5b}
+    - {seed: 272, path: evals/s269_mutation_cohort_v4.jsonl, sha256_lf: 9c9e64545b2da3d901fba66995471c8481fd8ccf1a7bf53c0b6a2ca1ddf2bc61}
+    - {seed: 273, path: evals/s270_mutation_cohort_v5.jsonl, sha256_lf: 7354ea9b742cf7dc1fcb5989ffa14c549547d6f16dd453c4856c58b5c4ebfd3b}
+    - {seed: 274, path: evals/s270_mutation_cohort_v6.jsonl, sha256_lf: 1029e6c455da4c90755bb72590022ef13af99b0c321e60fc7dc5503e886a99ba}
+    - {seed: 275, path: evals/s271_mutation_cohort_v7.jsonl, sha256_lf: 686750dca3935227dae297e0b525ec6f13a7d29b03572ce2ff8729c6936cd14a}
+    - {seed: 276, path: evals/s271_mutation_cohort_v8.jsonl, sha256_lf: 30869d93571ceece55b74541027f99183dee7f7fb32e1890106c12ae6cd4c97b}
+    - {seed: 277, path: evals/s274_mutation_cohort_v9.jsonl, sha256_lf: 455052c0bb5b77fa651e49c268af140cb2b00d775628f551b8b72388945fedc8}
+interpretation:
+  go: >-
+    Structural-form screen only. It permits adversarial review of a default-off
+    runtime design and a fresh organic/disjoint A/B; it does not permit ship,
+    banking, a fifth target probe or a claim of semantic 0 FP.
+  no_go: Stop before any paid A/B.
+known_limits:
+  - Cohort discovery uses the same explicit grammar, so out-of-grammar false negatives are not measured.
+  - Structural membership is not semantic relevance to a real user question.
+  - No generated answer is scored, so this screen carries zero conversion credit.

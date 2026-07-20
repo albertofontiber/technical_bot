@@ -61,6 +61,11 @@ MIN_CALL_OUTPUT_TOKENS = _positive_env_int(
     "FABLE_REVIEW_MIN_CALL_OUTPUT_TOKENS", 512
 )
 TOOL_OUTPUT_CHARS = _positive_env_int("FABLE_REVIEW_TOOL_OUTPUT_CHARS", 12_000)
+MAX_EMPTY_FINAL_RECOVERIES = 1
+EMPTY_FINAL_RECOVERY_PROMPT = (
+    "Tu turno anterior terminó sin texto visible. Emite AHORA únicamente la revisión "
+    "final en el formato exigido, usando sólo lo ya leído y sin pedir más tools."
+)
 
 FABLE_SYSTEM_DELTA = """
 Eres Fable 5, el segundo revisor frontera. Esta ejecución es independiente de
@@ -107,11 +112,7 @@ def _independence_deny(path: Path) -> str | None:
         return "fuera del repo (sandbox)"
     lower = rel.lower()
     name = path.name.lower()
-    if (
-        lower == shared.LOG_REL
-        or lower == "evals/adversarial_reviews"
-        or lower.startswith("evals/adversarial_reviews/")
-    ):
+    if lower == shared.LOG_REL or shared._is_prior_review_output(rel):
         return "denegado: salida previa de revisión (independencia)"
     if lower.startswith("evals/") and "review" in name and (
         "sol" in name or "gpt" in name or "fable" in name or "adversarial" in name
@@ -203,14 +204,26 @@ def _provider_response_record(response: Any) -> dict[str, Any]:
     }
 
 
-def conservative_call_token_bound(system_text: str, messages: list[dict[str, Any]]) -> int:
+def conservative_call_token_bound(
+    system_text: str,
+    messages: list[dict[str, Any]],
+    tool_schemas: list[dict[str, Any]] | None = None,
+) -> int:
     """Conservative next-call bound: one UTF-8 byte per input token plus framing."""
     payload = json.dumps(
         messages, ensure_ascii=False, default=str, separators=(",", ":")
     )
+    tools_payload = (
+        ""
+        if tool_schemas is None
+        else json.dumps(
+            tool_schemas, ensure_ascii=False, default=str, separators=(",", ":")
+        )
+    )
     return (
         len(system_text.encode("utf-8"))
         + len(payload.encode("utf-8"))
+        + len(tools_payload.encode("utf-8"))
         + INPUT_OVERHEAD_TOKENS
     )
 
@@ -245,10 +258,26 @@ def run_review(
     tool_trace: list[dict[str, Any]] = []
     provider_trace: list[dict[str, Any]] = []
     tools = anthropic_tools()
+    force_final = False
+    empty_final_recoveries = 0
 
     for _ in range(MAX_TOOL_CALLS + 8):
         remaining = MAX_TOTAL_TOKENS - usage["total_tokens"]
-        input_bound = conservative_call_token_bound(system_text, messages)
+        base_input_bound = conservative_call_token_bound(system_text, messages)
+        exhausted = (
+            force_final
+            or not use_tools
+            or n_calls >= MAX_TOOL_CALLS
+            or remaining <= base_input_bound + FINAL_HEADROOM
+        )
+        request_tools = None if exhausted else tools
+        input_bound = conservative_call_token_bound(
+            system_text, messages, request_tools
+        )
+        if request_tools is not None and remaining <= input_bound + FINAL_HEADROOM:
+            exhausted = True
+            request_tools = None
+            input_bound = base_input_bound
         available_output = remaining - input_bound
         if available_output < MIN_CALL_OUTPUT_TOKENS:
             raise FableRunError(
@@ -260,19 +289,14 @@ def run_review(
                 provider_trace,
             )
         call_output_cap = min(MAX_OUTPUT_TOKENS, available_output)
-        exhausted = (
-            not use_tools
-            or n_calls >= MAX_TOOL_CALLS
-            or remaining <= input_bound + FINAL_HEADROOM
-        )
         kwargs: dict[str, Any] = {
             "model": MODEL,
             "max_tokens": call_output_cap,
             "system": system_text,
             "messages": messages,
         }
-        if not exhausted:
-            kwargs["tools"] = tools
+        if request_tools is not None:
+            kwargs["tools"] = request_tools
         try:
             response = client.messages.create(**kwargs)
         except Exception as exc:
@@ -327,6 +351,15 @@ def run_review(
             if getattr(block, "type", "") == "tool_use"
         ]
         stop_reason = getattr(response, "stop_reason", None)
+        if any(not isinstance(call.input, dict) for call in calls):
+            raise FableRunError(
+                "Fable devolvió un tool input que no es un objeto JSON",
+                usage,
+                n_calls,
+                files_read,
+                tool_trace,
+                provider_trace,
+            )
         expected_stop = "tool_use" if calls else "end_turn"
         if stop_reason != expected_stop:
             raise FableRunError(
@@ -337,11 +370,27 @@ def run_review(
                 tool_trace,
                 provider_trace,
             )
+        if force_final and calls:
+            raise FableRunError(
+                "Fable pidió tools durante la recuperación final sin tools",
+                usage,
+                n_calls,
+                files_read,
+                tool_trace,
+                provider_trace,
+            )
         if not calls:
             final_text = _text_blocks(response.content)
             if not final_text:
+                if empty_final_recoveries < MAX_EMPTY_FINAL_RECOVERIES:
+                    empty_final_recoveries += 1
+                    force_final = True
+                    messages.append(
+                        {"role": "user", "content": EMPTY_FINAL_RECOVERY_PROMPT}
+                    )
+                    continue
                 raise FableRunError(
-                    "Fable devolvió una revisión final vacía",
+                    "Fable devolvió una revisión final vacía tras el retry de cierre",
                     usage,
                     n_calls,
                     files_read,
@@ -438,7 +487,7 @@ def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
         not isinstance(stop_reasons, list)
         or len(stop_reasons) != len(response_ids)
         or stop_reasons[-1] != "end_turn"
-        or any(item != "tool_use" for item in stop_reasons[:-1])
+        or any(item not in {"tool_use", "end_turn"} for item in stop_reasons[:-1])
     ):
         raise ValueError("la secuencia de stop reasons del proveedor es inválida")
     raw = _verified_artifact(
@@ -464,7 +513,29 @@ def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
         raise ValueError("los modelos del trace y del recibo Fable divergen")
     if [item.get("stop_reason") for item in responses] != stop_reasons:
         raise ValueError("los stop reasons del trace y del recibo Fable divergen")
+    empty_final_recovery_indices: list[int] = []
+    for index, response in enumerate(responses[:-1]):
+        blocks = response.get("content") or []
+        stop_reason = response.get("stop_reason")
+        if stop_reason == "tool_use":
+            if not any(block.get("type") == "tool_use" for block in blocks):
+                raise ValueError("un stop tool_use no contiene tool call")
+            continue
+        visible_text = "\n".join(
+            str(block.get("text", ""))
+            for block in blocks
+            if block.get("type") == "text"
+        ).strip()
+        if visible_text or any(block.get("type") == "tool_use" for block in blocks):
+            raise ValueError("el end_turn intermedio no es una recuperación final vacía")
+        empty_final_recovery_indices.append(index)
+    if len(empty_final_recovery_indices) > MAX_EMPTY_FINAL_RECOVERIES:
+        raise ValueError("el trace excede los retries de cierre vacío permitidos")
+    if empty_final_recovery_indices and empty_final_recovery_indices != [len(responses) - 2]:
+        raise ValueError("la recuperación final vacía no precede inmediatamente al cierre")
     final_blocks = responses[-1].get("content") or []
+    if any(block.get("type") == "tool_use" for block in final_blocks):
+        raise ValueError("el cierre final end_turn contiene un tool_use")
     final_text = "\n".join(
         str(block.get("text", ""))
         for block in final_blocks
@@ -491,7 +562,10 @@ def _validate_completion_receipt(receipt: dict[str, Any]) -> None:
             computed_usage[key] += int(response_usage.get(key, 0) or 0)
         for block in response.get("content") or []:
             if block.get("type") == "tool_use":
-                provider_tool_calls.append((block.get("name"), block.get("input") or {}))
+                tool_input = block.get("input")
+                if not isinstance(tool_input, dict):
+                    raise ValueError("el trace contiene un tool input no-objeto")
+                provider_tool_calls.append((block.get("name"), tool_input))
     computed_usage["total_tokens"] = sum(computed_usage.values())
     if receipt.get("usage") != computed_usage:
         raise ValueError("el uso Fable no coincide con el trace del proveedor")

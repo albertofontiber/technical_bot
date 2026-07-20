@@ -274,6 +274,13 @@ def test_sol_tools_deny_prior_reviewer_outputs() -> None:
     assert review._is_prior_review_output(
         "evals/s113_canary_adversarial_review_v1.yaml"
     ) is True
+    assert review._is_prior_review_output(
+        "evals/s276_duo_adjudication_v1.yaml"
+    ) is True
+    assert review._is_prior_review_output("evals/s276_duo_brief_v1.md") is True
+    assert review._is_prior_review_output(
+        "evals/s276_corrections_packet_v1.md"
+    ) is False
 
 
 def test_snapshot_is_single_source_for_seed_and_tools(monkeypatch, tmp_path) -> None:
