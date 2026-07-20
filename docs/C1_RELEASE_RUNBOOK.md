@@ -1,9 +1,13 @@
 # C1: contrato de release y runbook
 
 Estado a 2026-07-20: **PASS de ensamblaje offline y PASS GET-only desde el
-prefijo congelado; NO-GO de release hasta el gate pagado de síntesis**. No se ha
-cambiado Railway ni aplicado la migración. Los instrumentos S277 no han
-realizado llamadas pagadas.
+prefijo congelado; tooling P1 materializado y probado sólo offline; NO-GO de
+release**. El control histórico gratuito detecta el conflicto PEARL 7-vs-8 en
+3/3 y devuelve `HOLD_PREPAID_KNOWN_CONFLICT_RISK`. No existe `P1_PASS`, no se ha
+cambiado Railway ni aplicado la migración y los instrumentos S277 no han
+realizado llamadas pagadas. Además, los CLI operativos de fence/ejecución están
+bloqueados por `HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`: los hashes actuales
+describen una superficie declarada, no el estado live de RPC/ACL/índices/config.
 
 ## Qué corrige
 
@@ -108,29 +112,99 @@ La respuesta real aportada por Alberto tenía 4.449 caracteres y Telegram la
 dividió en dos mensajes: fue una generación, no dos respuestas. Tampoco
 incluyó los dos avisos de F12. Por tanto, reachability no basta.
 
-Antes de encender C1 hay que congelar y ejecutar un runner reproducible sobre
-los 13 QIDs cuyo contexto structural cambia:
+Antes de encender C1 hay que ejecutar un runner reproducible sobre los 13 QIDs
+cuyo contexto structural cambia:
 
 ```text
 cat001, cat017, cat018, cat019,
 hp002, hp003, hp005, hp011, hp012, hp013, hp014, hp017, hp018
 ```
 
-Contrato mínimo del runner todavía pendiente en este cambio:
+Contrato implementado por el tooling offline:
 
-- contexto structural-only producido por el seam actual, no el contexto
-  combinado S113;
+- cada réplica atraviesa retrieval, rerank, contexto servido combinado —con sólo
+  structural entre las lanes de coverage y preservando exactamente las capacidades
+  ortogonales vivas—, síntesis y renderer reales por el seam actual;
+  no usa el contexto congelado S113;
 - modelo y parámetros exactos congelados;
-- dos réplicas por QID y una tercera de hp017 (27 llamadas máximo);
-- checkpoint antes de cada nueva llamada y cero reintentos automáticos;
-- techo duro de **10 USD** y parada temprana ante cualquier regresión dura;
+- dos réplicas por QID y una tercera de hp017: 27 generaciones y,
+  normalmente, 81 llamadas pagables a modelos contando embedding y rerank;
+- WAL antes de cada llamada física, cero reintentos automáticos y receipts de
+  pool, prefijo, contexto, envelope, respuesta y render por réplica;
+- reapertura de 81 responses + 81 watches y revalidación semántica completa de
+  las 27 réplicas en resume, score y finalize; exactamente 162 eventos WAL
+  reserve/completed, con orden, modelo, usage y presupuesto recomputados;
+- ventana de corpus protegida por fence de operador separado y fingerprints
+  pre/post; el runner usa sólo identidad PostgREST read-only;
+- bound estático conservador de **6,777 USD**, techo duro de **10 USD** y parada
+  temprana ante cualquier regresión dura;
 - scorer determinista de los dos avisos y sus citas en hp017;
 - adjudicación fact-level contra los facts ya OK para los otros 12 QIDs;
 - artefacto con hashes de código, config, contextos y respuestas completas.
 
+Artefactos canónicos: `evals/s277_c1_p1_prereg_v1.yaml`,
+`evals/s277_c1_p1_fact_contract_v1.json`,
+`evals/s277_c1_p1_release_config_schema_v1.json` y
+`evals/s277_c1_p1_design_v1.md`. Los comandos seguros actualmente ejecutables
+son:
+
+```powershell
+python scripts/s277_c1_p1.py plan
+python scripts/s277_c1_p1.py score-stored-controls
+python -m pytest tests/test_s277_c1_p1_contract.py `
+  tests/test_s277_c1_p1_runner.py tests/test_s277_c1_p1_scorer.py -q
+```
+
+Última verificación local antes del dúo final: **181/181 tests P1 verdes**,
+`py_compile` verde y generación determinista byte-idéntica en dos builds.
+
+`fence-open-verify`, `fence-close-verify`, `run --execute --confirm-paid` y `finalize` fallan
+cerrado como primera operación con
+`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Antes de retirar esa stop-line
+hay que materializar y revisar bodies observados pre/watch/post de firmas RPC,
+volatility, `prosecdef`, owner/ACL, overloads, definiciones/estado de índices y
+PostgREST/config, ligados a un contrato esperado canónico. Después seguirán
+haciendo falta revisión separada del adapter y de la paridad con el path real,
+release-config vivo seguro, identidad PostgREST read-only, fence/locks externos,
+receipts físicos y autorización de gasto. El runner no puede obtener esas
+capacidades desde un fichero de credenciales.
+
+El dúo final añadió otra precondición explícita: antes de retirar esa stop-line,
+el manifest de implementación debe cubrir transitivamente todo módulo ejecutado por
+runner y scorer —hoy falta al menos `src/rag/answer_planner.py`— y probar por mutación
+que ningún drift puede re-puntuar un run antiguo. El adapter real debe además rechazar
+rerank sin terminación válida y aportar receipts externos de usage/coste. Hasta cerrar
+estas tres piezas, P1 permanece HOLD aunque los 181 tests offline estén verdes.
+
+Los adapters de los tests son sintéticos. Sus receipts coherentes validan el
+orquestador, WAL, presupuesto y mutation guards, pero no acreditan la derivación
+física del pool/prefijo/contexto, los bytes reales entregados a los SDK, un GET
+visual, la entrega Telegram ni un manifest live de RPC/índices/config. La revisión
+de paridad/input-graph del adapter productivo debe probar todo ello después de
+retirar la stop-line del manifest.
+
+La ejecución futura tampoco acepta rutas de persistencia elegidas por el adapter:
+WAL y sidecars viven bajo `artifact_root` con nombres canónicos y el ledger global se
+deriva de su directorio padre. El genesis sella ese layout. Si un claim ya existe y
+falta cualquiera de los estados durables originales, el runner devuelve
+`HOLD_AUTHORIZATION_RESUME_STATE`; no reconstruye el run ni renueva presupuesto.
+Un lease `O_EXCL` indexado por artifact root serializa el proceso antes de claim/bind;
+un competidor devuelve `HOLD_RUN_LEASE_ACTIVE` sin tocar WAL/result. Runtime exacto,
+ownership del lease y request reservado se vuelven a comprobar antes de cada send.
+El genesis añade un snapshot canónico de modelos, inputs, presupuesto e hashes de
+implementación. Toda reapertura reconstruye las 81 llamadas físicas, valida los 162
+eventos WAL alternos y exige que coste observado/acumulado y `result.budget`
+coincidan exactamente; un artefacto re-sellado pero semánticamente inválido queda
+en HOLD/NO-GO.
+
+Este lease local sólo autoriza ejecución **single-host**. OneDrive no lo convierte en
+lock distribuido. Un lease abandonado no se borra por edad ni se autoreclama: hasta
+que exista un protocolo separado de recuperación stale, su presencia es un HOLD
+manual. Un runner multi-host necesitará exclusión transaccional externa revisada.
+
 Una única réplica por pregunta no autoriza un criterio absoluto de cero
-regresiones. Tampoco basta `query_logs`: la columna `response` se trunca a
-4.096 caracteres y el recibo privacy-safe no persiste el texto de los átomos.
+regresiones. Tampoco basta `query_logs`: `src/logging_db.py` trunca la columna
+`response` a 4.096 caracteres y el recibo privacy-safe no persiste el texto de los átomos.
 `test_bot_vs_gold.py` ya cruza el seam RAG servido y registra el estado de
 coverage, pero aún no implementa las repeticiones, checkpoint de coste ni el
 artefacto preregistrado de esta fase; no se puede usar como sustituto informal.
@@ -141,9 +215,13 @@ pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellad
 ### Fase P1: autorización pagada prerelease
 
 El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
-despliegue**. Su artefacto PASS debe sellar commit, manifest de implementación,
-flags, contextos y respuestas. Si código, config o contextos cambian después,
-el PASS caduca y P1 debe repetirse bajo una preregistración nueva.
+despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
+pura preregistrada deriva `bootstrap_profile=off` y
+`p1_target_profile=coverage_c1_v1`. P1 ejecuta el target derivado, no presupone que
+Railway ya cambió. Su PASS sella tested commit/tree, manifest, planned patch, digest
+de configuración común, fingerprints, contextos, respuestas y TTL de 6 horas. Si
+árbol/código, configuración común, corpus, proveedor/runtime o TTL cambian después,
+P1 caduca y debe repetirse bajo una preregistración nueva.
 
 ## Trazabilidad y privacidad
 
@@ -186,24 +264,45 @@ red incierto, porque el primer insert podría haberse confirmado.
 3. Aplicar `20260720095702_add_query_logs_rag_trace.sql` mediante `db push` y
    ejecutar sus postcondiciones. No hacer cambios adicionales de RLS en este
    release.
-4. Durante ventana de mantenimiento y **antes del merge**, aplicar como un único
-   cambio de configuración Railway la eliminación de las cuatro variables
-   legacy y `COVERAGE_RELEASE_PROFILE=off`. Verificar el diff para no crear un
+4. Durante ventana de mantenimiento y **antes del merge**, aplicar exactamente el
+   `planned_bootstrap_patch` sellado por P1 como un único cambio Railway: eliminar
+   `POST_RERANK_COVERAGE`, `STRUCTURAL_NEIGHBOR_COVERAGE`,
+   `COVERAGE_MANDATORY_CALLOUT` y `MP_MANDATORY_VERB_TRIGGER`, junto con
+   `COVERAGE_RELEASE_PROFILE=off`. Verificar el diff para no crear un
    estado intermedio inválido. El código viejo ignora el perfil nuevo y queda
    con coverage off; el código nuevo podrá arrancar de forma explícita.
-5. Mantener `MUST_PRESERVE_CONTRACT=on` y todas las lanes no C1 en `off`.
-6. Mergear/desplegar el código y verificar arranque sano con profile `off`.
-7. Repetir A y reemitir B desde un checkout byte-idéntico al commit desplegado.
-8. Verificar que `bot_version`, manifest, flags y hashes de contexto coinciden
-   exactamente con el artefacto P1. **No repetir las 27 llamadas** si la
-   identidad es exacta; cualquier drift devuelve el proceso a P1.
+5. Mantener `MUST_PRESERVE_CONTRACT=on`. El manifest debe fijar en `off`:
+   `TABLE_PREAMBLE_CLOSURE`, `CANONICAL_HYQ_COVERAGE`,
+   `COMPATIBILITY_BUNDLE_COVERAGE`, `RERANK_POOL_COVERAGE`,
+   `STRUCTURAL_CASCADE_COVERAGE`, `LOGICAL_RECORD_COVERAGE`,
+   `EVIDENCE_DERIVATION_OVERLAY`,
+   `DEDUP_REFERENCE_NAVIGATION`, `R2_REPAIR_NAVIGATION`,
+   `STRUCTURAL_NEIGHBOR_SHADOW`, `MP_HYBRID_DETECT`, `MP_SERVED_BINDING`,
+   `MP_DEFLINE_EQ`, `MP_STEM_BINDING` y `MP_DISTINCTIVE_TOKEN`.
+   `VISUAL_ASSETS_REGISTRY` no pertenece al perfil C1: debe conservar exactamente
+   el valor vivo sellado (`on` en la foto documentada). Ausencia o drift deja el
+   proceso en HOLD; P1 no lo apaga ni lo reactiva.
+6. Mergear/desplegar el código y verificar arranque sano con profile `off`. El
+   receipt de merge debe demostrar que el commit probado es ancestro/padre y que
+   el tree SHA desplegado y el manifest son idénticos; squash/rebase o árbol distinto
+   caducan P1 aunque el cambio parezca inocuo.
+7. Repetir A y reemitir B desde un checkout del árbol exacto desplegado.
+8. Con profile `off` y antes de `p1_expires_at`, verificar `bot_version`, lineage,
+   tree, manifest, runtime, fingerprint y
+   `common_config_sha256`. El único desacuerdo permitido con P1 es el profile:
+   debe coincidir exactamente con `bootstrap_profile=off`. **No repetir las 27
+   réplicas** si esa identidad es exacta; cualquier otro drift devuelve el
+   proceso a P1.
 9. Solo con P1 vigente y verificación post-deploy exacta, cambiar una variable
    durante ventana de mantenimiento:
    `COVERAGE_RELEASE_PROFILE=coverage_c1_v1`.
-10. Ejecutar el canary post-activación: preguntar hp017 tres veces, puntuar las
+10. Tras el reinicio, verificar que la configuración completa coincide con
+    `p1_target_profile`; cualquier delta aborta y revierte.
+11. Ejecutar el canary post-activación: preguntar hp017 tres veces, puntuar las
     respuestas completas recibidas en Telegram y contrastar sus recibos en
     `query_logs.rag_trace`. Estas tres llamadas son verificación post-deploy, no
-    una repetición del gate P1 de 27 llamadas.
+    una repetición del gate P1 de 27 réplicas; añaden normalmente 9 llamadas a
+    modelos y requieren autorización/presupuesto separados.
 
 Consulta operativa sin recuperar query ni respuesta:
 
@@ -236,17 +335,22 @@ GO exige simultáneamente:
 
 - A en PASS y un recibo B vigente sobre el commit candidato;
 - gate pagado prerelease P1 en PASS, con identidad post-deploy exacta;
-- hp017 con target servido, callout exacto y ambos avisos correctamente citados
-  en 3/3 respuestas;
-- cero pérdidas de facts previamente OK en las 27 ejecuciones preregistradas;
-- cero conflictos, atribuciones incorrectas, citas inválidas, truncamientos o
-  errores de lane;
+- hp017 en P1 prerelease con target servido, callout exacto y ambos avisos
+  correctamente citados en 3/3 réplicas;
+- hp017 en el canary post-activación con el mismo contrato en 3/3 respuestas;
+- cero pérdidas de los 43 facts del packet base transformado en las 27 ejecuciones
+  preregistradas; `hp017#1` histórico es la exclusión explícita y versionada descrita
+  en el contrato, no un fact silenciosamente omitido;
+- cero conflictos o atribuciones inválidas detectadas respecto del packet,
+  guardas, conflictos registrados y target; toda cita debe tener sintaxis/rango
+  válido, sin afirmar que P1 inventarió toda prosa técnica adicional;
+- cero truncamientos o errores de lane;
 - trazas presentes, consistentes y dentro de la allowlist.
 
 Un solo daño protegido, conflicto, error de identidad, `no_append` en hp017 o
 ausencia de recibo implica NO-GO. El marcador canónico permanece en
-**146/154 (94,81%)**: S277 no banca ningún hecho adicional y su prueba de
-reachability no sustituye una nueva adjudicación de síntesis.
+**146/154 (94,81%)**: S277 no banca ningún hecho adicional; incluso un PASS P1
+es un release gate sobre cohorte dev, no una adjudicación que mueva el KPI.
 
 ## Rollback
 

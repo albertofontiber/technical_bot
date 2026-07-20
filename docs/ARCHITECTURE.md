@@ -17,6 +17,12 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado S277 (20 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
+> #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas;
+> su runner P1 es tooling prerelease offline y no es una capacidad del chatbot. La observación
+> PEARL viva omitió los dos warnings y mantiene el release en NO-GO. Marcador: 146/154
+> (94,81 %), sin movimiento S277. Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
+>
 > Resumen estable (s71 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
 > ~24.8k servibles; 25 huérfanos residuales sin fila / **1.170 docs {998 active · 3 superseded
@@ -29,7 +35,7 @@
 > TAPÓN de identidad — activación Railway env `on` reversible; medido FALLO→PARCIAL ×2 (GRIS),
 > arregla el producto-equivocado en queries e-series, NO escala a 30+ [#49/DEC-054 = la raíz: detector
 > LLM-en-ingesta, al gatillo]. s91: el REEMPLAZO estructural existe — catálogo canónico gobernado `data/catalog/*.jsonl` EN GIT (D1; adjudicado por Alberto: homónimos G1-G4 + C2 completo, DEC-081/083) + resolver query-side `catalog_resolver.py` tras `IDENTITY_RESOLVE=off|shadow|on` default off (F2-S1 PR #106; contrato §5.1 enmendado expand-only); LEVER2/series-YAML/IDENTITY_MAP se retiran en F4, fail-fast anti-doble-vía en arranque**) →
-> rerank LLM 5 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
+> rerank LLM 10 (dispatcher `RERANKER_BACKEND` default `llm`; s67: el swap al cross-encoder
 > se midió en A/B = **ROLLBACK** — lever archivado, el dispatcher queda como instrumento) →
 > generador `claude-sonnet-4-6`;
 > **s95-s96 (DEC-089/090): canal multi-vector de ENUNCIADOS — VIVO EN DEMO (5 jul)** — tabla
@@ -109,26 +115,27 @@
 > = el suelo de ruido). **Pivote (DEC-051): de exprimir el eval → a producto/deploy para
 > los técnicos de ~sept** (#45 diagramas-datos + fix `available_models` + eval orgánico).
 >
-> ⚠️ **Caveat s60→s85 (TECH_DEBT #44/#45):** las secciones que describen el filtro por categoría
-> y la entrega de **diagramas** describen el sistema sobre la tabla VIEJA. En `chunks_v2` ambos
-> contratos están rotos desde el SWAP s44. **s85 (DEC-073, PR #94 mergeado): el filtro por `category`
-> MUERTA se QUITÓ de raíz del path de retrieval** (`VECTOR_NOCAT` permanente — 4 sitios + broad-fallback
-> + 3c-i + detección inerte; la detección de categoría viva para catálogo queda en el handler). La
-> entrega de **diagramas** SIGUE rota (`has_diagram`/`diagram_url` a **0 de 25.090**, DEC-041) → el bot
-> hoy NO adjunta diagramas. **Estado retrieval s93:** retrieval-miss family-aware = **12** con
+> **Estado de category y visuales.** **s85 (DEC-073, PR #94 mergeado): el filtro por `category`
+> muerta se quitó de raíz del path de retrieval** (`VECTOR_NOCAT` permanente; la detección viva
+> para catálogo queda en el handler). El antiguo `chunks_v2.has_diagram/diagram_url` permanece
+> vacío y ya no es el contrato de serving. **S269/S271 (DEC-123/133)** lo sustituyó por el registro
+> independiente `document_visual_assets`, unido por `(document_id,page_index)`: 13.257 páginas
+> servibles, sólo `technical_utility=useful` y rol técnico, cap 4; `VISUAL_ASSETS_REGISTRY=on`
+> está vivo. Más de dos assets se envían como álbum Telegram con fallback a fotos sueltas.
+> **Estado retrieval s93:** retrieval-miss family-aware = **12** con
 > `IDENTITY_RESOLVE=on`+`add` EN DEMO (F2, DEC-084; control-mismo-día 15); el lever identidad queda
 > EXHAUSTO y el residual 12 = clase fine-grained (gap vocabulario query↔celda; el mecanismo que la
 > paga = extracción-tablas→enunciados, DEC-085, re-ingesta gateada por presupuesto). El cuello del
 > eval PASS sigue siendo SÍNTESIS/plateau (DEC-070/073/075).
 >
 > ⚠️ **Caveat s60/s61 — no-determinismo del pipeline, MEDIDO:** el mismo técnico con la misma
-> pregunta puede recibir distinto top-5 entre días por DOS vías: (1) el reranker LLM cambia su
+> pregunta puede recibir distinto top-10 entre días por DOS vías: (1) el reranker LLM cambia su
 > elección entre sesiones con input bit-idéntico (3/12 golds, DEC-041d-bis); (2) el embedding
 > de la query deriva ~0.003 entre sesiones (Voyage no bit-estable, DEC-042d) y en la frontera
 > del corte del pool (k=50) eso cambia qué candidatos entran — esta segunda vía persiste con
 > CUALQUIER reranker. Tratamiento en curso vía ciclos de eval (lever CE preservado; #43
 > capa A CERRADA en s63/DEC-044 — el registry de series eliminó la contaminación de hermanos,
-> la mayor fuente de inestabilidad del top-5 en los golds de serie).
+> la mayor fuente de inestabilidad de los chunks servidos en los golds de serie).
 
 ## 1. Visión general en 60 segundos
 
@@ -164,11 +171,11 @@ flowchart TB
     I1[📥 INGESTA<br>offline] --> I2[PDFs oficiales]
     I2 --> I3[Parser<br>PyMuPDF + pdfplumber<br>+ Claude Vision]
     I3 --> I4[Chunker<br>500-2500 chars]
-    I4 --> I5[Embedder<br>OpenAI vectores 1536d]
+    I4 --> I5[Embedder<br>Voyage-4-large · 1024d]
     I5 ==> DB
 
     %% ========== DB centro ==========
-    DB[(🗄️ Supabase Postgres + pgvector<br>168k chunks)]
+    DB[(🗄️ Supabase Postgres + pgvector<br>25.090 chunks fuente + tablas derivadas)]
 
     %% ========== CONSULTA (columna derecha) ==========
     C1[💬 CONSULTA<br>tiempo real] --> C2[👷 Técnico Telegram / voz]
@@ -178,7 +185,7 @@ flowchart TB
     DB ==>|2 - top-k chunks| C4
     C4 --> C5[Reranker<br>re-ordena por relevancia]
     C5 --> C6[Generator<br>Claude Sonnet 4.6]
-    C6 --> C7[📱 Respuesta<br>+ diagrama<br>+ cita de fuente]
+    C6 --> C7[📱 Respuesta + cita<br>+ assets de páginas citadas si aplica]
 
     %% ========== Estilos ==========
     classDef ingesta fill:#bbdefb,stroke:#0d47a1,color:#000000,stroke-width:2px
@@ -246,7 +253,8 @@ flowchart LR
 
 ## 3. El viaje de una pregunta — paso a paso
 
-> **Estado S276 (20 jul 2026).** El flujo siguiente describe el runtime actual:
+> **Estado S277 (20 jul 2026).** El flujo siguiente describe el runtime productivo actual,
+> no el candidato C1 todavía sin desplegar:
 > esencialmente **single-turn, single-hop y un writer**. Existe sólo un carry efímero de una hora
 > en `context.user_data`; no hay conversación durable, event log, hops, claims ni delivery outbox.
 > El modelo multi-turn/multi-hop de DEC-136 es un objetivo no implementado y se resume en §6a;
@@ -271,7 +279,7 @@ sequenceDiagram
     Note over Router: Detecta "CAD-150" + intent=wiring
     Router->>Retriever: modelo=CAD-150, intent=wiring
     
-    par 3 búsquedas en paralelo (simultáneas, no secuenciales)
+    par canales base y derivados activos
         Retriever->>DB: 1a. Similitud semántica (vector)
         DB-->>Retriever: ~20 chunks
     and
@@ -280,32 +288,43 @@ sequenceDiagram
     and
         Retriever->>DB: 1c. Texto "bater%" "conect%"
         DB-->>Retriever: ~15 chunks
+    and
+        Retriever->>DB: 1d. Enunciados derivados
+        DB-->>Retriever: surrogates → chunks padre
+    and
+        Retriever->>DB: 1e. HyQ / preguntas hipotéticas
+        DB-->>Retriever: surrogates → chunks padre
     end
     
-    Note over Retriever: 2. Merge + dedup<br/>3. Filtrar cross-product (drop CAD-250)<br/>4. Diversificar por source_file<br/>5. Top-5 final
+    Note over Retriever: 2. Merge + dedup<br/>3. Filtrar cross-product (drop CAD-250)<br/>4. Diversificar por source_file<br/>5. Top-10 servido
     
-    Retriever->>Gen: 6. Query + top-5 chunks
+    Retriever->>Gen: 6. Query + top-10 chunks
     Note over Gen: 7. Redactar con cita [F1] [F2]...
-    Gen-->>Bot: 8. Respuesta + diagrama + fuente
-    Bot-->>Técnico: 📱 Respuesta + imagen de conexionado
+    Gen-->>Bot: 8. Respuesta + fuente + páginas citadas
+    Bot-->>Técnico: 📱 Texto y, si aplica, assets visuales citados
 ```
 
 </div>
 
-> 💡 **El bloque negro `par`** es la notación de Mermaid para **paralelo** — las 3 búsquedas ocurren al mismo tiempo (usando `ThreadPoolExecutor` en Python), no una tras otra. Cada una devuelve chunks de la DB independientemente; luego se hace merge. El `and` entre ellas es parte de la sintaxis (no es operación lógica).
+> 💡 **El bloque negro `par`** representa concurrencia, no una secuencia. Hay tres
+> canales base y, con los flags productivos actuales, dos tablas derivadas separadas:
+> ENUNCIADOS y HyQ. Sus textos son surrogates de retrieval, se colapsan al chunk padre
+> y nunca se citan como si fueran fuente manual.
 
 **Qué pasa a nivel humano:**
 
 1. **Técnico pregunta** — texto o voz desde Telegram, en cualquier rincón de una obra.
 2. **El bot entiende qué modelo** — regex + LLM detectan *"CAD-150"* y tipo de pregunta (conexionado).
-3. **Busca en la base de datos** — tres búsquedas en paralelo:
+3. **Busca en la base de datos** — tres canales base y dos lanes derivadas activas:
    - *Vector* (entiende el significado): "baterías 24V" es semánticamente similar a "alimentación DC 24V"
    - *Keyword* (modelo exacto): CAD-150
    - *Content* (texto literal): "bater" / "conect"
+   - *Enunciados* y *HyQ*: formulaciones derivadas que recuperan el chunk fuente padre
 4. **Filtra ruido** — drop chunks de OTROS productos (CAD-250) y otras marcas.
 5. **Diversifica entre manuales** — si CAD-150 tiene 2 manuales (Usuario + Instalación), garantiza chunks de ambos.
-6. **Claude redacta la respuesta** — con los 5 chunks + la pregunta, compone una respuesta citando cada afirmación.
-7. **Adjunta diagrama** — si el chunk tenía un esquema de cableado, lo envía como imagen.
+6. **Claude redacta la respuesta** — con los 10 chunks servidos + la pregunta, compone una respuesta citando cada afirmación.
+7. **Adjunta activos relevantes** — para las páginas realmente citadas, consulta
+   `document_visual_assets` y adjunta hasta cuatro páginas útiles de rol técnico.
 
 **Tiempos típicos:** 3-6 segundos end-to-end. La parte lenta es el LLM redactando (3-4s).
 
@@ -325,11 +344,12 @@ flowchart TB
     C --> E[Chunker<br><i>parte en trozos manejables 500-2500 chars</i>]
     D --> E
     E --> F[Metadata detector<br><i>qué producto, marca, categoría es cada chunk</i>]
-    F --> G{¿Tiene<br>diagrama?}
-    G -->|Sí| H[Image extractor<br><i>diagrama a Storage, URL al chunk</i>]
-    G -->|No| I[Embedder<br><i>texto → vector de 1536 números</i>]
-    H --> I
+    F --> I[Embedder<br><i>texto → vector Voyage de 1024 números</i>]
     I --> J[(🗄️ Supabase<br>chunks table<br><i>el cerebro consultable</i>)]
+    A --> R[Render de páginas<br><i>activo ligado a revisión + página</i>]
+    R --> U{¿Utilidad técnica<br>y rol servible?}
+    U -->|Sí| V[(document_visual_assets<br><i>Storage URL + hash + clasificación</i>)]
+    U -->|No/uncertain| X[No servir]
     
     style A fill:#ffecb3,stroke:#000000,color:#000000,stroke-width:2px
     style B fill:#fff59d,stroke:#000000,color:#000000,stroke-width:2px
@@ -337,8 +357,6 @@ flowchart TB
     style D fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
     style E fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
     style F fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
-    style G fill:#fff59d,stroke:#000000,color:#000000,stroke-width:2px
-    style H fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
     style I fill:#bbdefb,stroke:#000000,color:#000000,stroke-width:2px
     style J fill:#a5d6a7,stroke:#000000,color:#000000,stroke-width:3px
 
@@ -361,21 +379,29 @@ flowchart TB
 
 > **Por qué importa:** sin metadata, el retriever no puede filtrar por "solo Detnov" o "solo wiring". Filtrar antes del LLM = mayor precisión en la respuesta.
 
-**(4) Extracción de imágenes** — si un chunk tiene un diagrama/esquema asociado, lo extraemos como imagen aparte, lo subimos a Supabase Storage, y guardamos la URL en el chunk.
+**(4) Registro visual por página** — los renders se almacenan fuera de los chunks y
+se ligan a una revisión exacta mediante `(document_id,page_index)`. El clasificador
+conserva hash, rol y utilidad; `uncertain`, portadas y marketing nunca se sirven.
 
-> **Por qué importa:** el bot adjunta diagramas de cableado / esquemas de conexión en la respuesta al técnico. Sin este paso, solo podría describir los diagramas con texto.
+> **Por qué importa:** el chunker puede cambiar sin romper la identidad visual. En
+> consulta sólo se buscan assets de páginas citadas y se adjuntan como máximo cuatro;
+> el fallo del canal visual no altera la respuesta de texto.
 
-**(5) Embedding** — convertimos cada chunk en un vector de 1536 números. Vectores que representan conceptos similares están "cerca" entre sí en un espacio multidimensional.
+**(5) Embedding** — convertimos cada chunk en un vector Voyage-4-large de 1024 números. Vectores que representan conceptos similares están "cerca" entre sí en un espacio multidimensional.
 
-> **Por qué importa:** las búsquedas "¿consumo en reposo?" deben encontrar chunks con "current draw" aunque no compartan palabras. Embedding lo resuelve. Coste: ~$0.02 por cada 1M tokens procesados.
+> **Por qué importa:** las búsquedas "¿consumo en reposo?" deben encontrar chunks con "current draw" aunque no compartan palabras. El embedding multilingüe ayuda a cruzar ese vocabulario.
 
-> **Concepto técnico: ¿por qué exactamente 1536 dimensiones?** Es la dimensión de salida estándar del modelo OpenAI `text-embedding-3-small`. Menos dimensiones (p.ej. 512) darían embeddings más baratos pero peor calidad semántica (más colisiones entre conceptos distintos). Más dimensiones (p.ej. 3072 de `text-embedding-3-large`) son ~4× más caras y ~2× más lentas de buscar sin mejora significativa en nuestro dominio PCI. **1536 es el sweet spot calidad/coste/latencia.**
+> **Concepto técnico.** La dimensión 1024 pertenece al índice activo `chunks_v2`; no es un
+> hiperparámetro intercambiable en runtime. Cambiar modelo o dimensión exige otra tabla/índice,
+> re-embedding completo y una evaluación de retrieval independiente.
 
 **(6) Storage en Supabase** — Postgres con la extensión `pgvector` almacena los embeddings y permite búsqueda por similitud coseno. Las imágenes van a Supabase Storage (bucket `manual-images`).
 
-> **Por qué importa:** Supabase consolida DB + storage + auth + vector search en un único servicio managed. Alternativa sería manejar Pinecone + S3 + Postgres por separado (3 servicios, 3 costes, 3 integraciones). Para el tamaño actual del corpus (~168k chunks), pgvector ivfflat con `lists=100` ofrece latencia sub-segundo.
+> **Por qué importa:** Supabase consolida DB + storage + auth + vector search en un único servicio managed. Alternativa sería manejar Pinecone + S3 + Postgres por separado (3 servicios, 3 costes, 3 integraciones). El índice activo usa HNSW; cualquier cambio de índice se evalúa como parte del stack de retrieval.
 
-**Corpus actual:** ~168k chunks distribuidos en ~1.064 documentos, cubriendo 3 fabricantes PCI (Detnov 18.7k, Notifier 116.9k, Morley 32.0k). Arquitectura diseñada para escalar a 30+ fabricantes (ver §6b).
+**Corpus actual:** 25.090 chunks fuente en `chunks_v2`, 1.170 documentos y 31 marcas,
+más tablas derivadas separadas de 21.995 enunciados y 70.134 HyQ. Los surrogates no
+engordan el denominador de chunks citables ni se presentan como texto de manual.
 
 ---
 
@@ -386,21 +412,25 @@ flowchart TB
 ```mermaid
 flowchart TB
     Q[💬 Query<br><i>¿Cómo conectar baterías CAD-150?</i>] --> Extract[1 - Detectar modelo + intent<br><i>extrae CAD-150 + wiring</i>]
-    Extract --> Parallel{2 - Tres búsquedas en paralelo<br><i>maximiza recall con enfoques complementarios</i>}
+    Extract --> Parallel{2 - Canales base + derivados<br><i>maximiza recall con señales complementarias</i>}
     
     Parallel --> VS[Vector Search<br><i>similitud semántica via embeddings</i>]
     Parallel --> KS[Keyword Search<br><i>match exacto product_model</i>]
     Parallel --> CS[Content Search<br><i>texto literal ilike / FTS</i>]
+    Parallel --> ES[Enunciados<br><i>surrogate → padre citable</i>]
+    Parallel --> HQ[HyQ<br><i>pregunta hipotética → padre citable</i>]
     
     VS --> Merge[3 - Merge + dedup<br><i>unifica los 3 sets, quita duplicados</i>]
     KS --> Merge
     CS --> Merge
+    ES --> Merge
+    HQ --> Merge
     
     Merge --> Filter1[4 - Filter cross-product<br><i>drop chunks de OTROS productos / marcas</i>]
     Filter1 --> Filter2[5 - Filter lifecycle<br><i>drop chunks de revisiones obsoletas</i>]
     Filter2 --> Diverse[6 - Diversify by source_file<br><i>garantiza representación de cada manual</i>]
     Diverse --> Rerank[7 - Reranker<br><i>re-ordena por relevancia fina</i>]
-    Rerank --> Out[✅ Top 5 chunks<br><i>pasan al Generator LLM</i>]
+    Rerank --> Out[✅ Top 10 chunks<br><i>pasan al Generator LLM</i>]
     
     style Q fill:#ffcc80,stroke:#000000,color:#000000,stroke-width:2px
     style Extract fill:#ffffff,stroke:#000000,color:#000000,stroke-width:2px
@@ -430,17 +460,23 @@ El LLM solo ve los fragmentos que le pasamos. Si el retrieval no trae el chunk c
 
 > **Por qué importa:** si sabemos el modelo, podemos filtrar drásticamente qué chunks son candidatos. Si sabemos el intent, podemos priorizar chunks con `content_type` correspondiente (ej. para una query wiring, priorizamos chunks de conexionado sobre chunks de specs).
 
-**(2) Tres búsquedas en paralelo** — ejecutamos 3 consultas SQL **simultáneamente** (no una tras otra) usando `ThreadPoolExecutor`. Cada una ataca la base de datos con un enfoque distinto:
+**(2) Canales base y derivados** — los tres canales base se ejecutan de forma
+concurrente y se complementan con ENUNCIADOS/HyQ cuando sus flags están activos:
 
 - **Vector search** — calcula el embedding de la query y busca chunks con embeddings cercanos en el espacio vectorial (similitud coseno). Captura equivalencia de significado: *"consumo en reposo"* encuentra chunks con *"current draw at rest"* aunque no compartan palabras.
 - **Keyword search** — busca por `product_model` literal en la BD. Captura referencias explícitas a modelos: *"CAD-150"* matchea `CAD-150-8`, `CAD-150-4`, etc.
 - **Content search** — busca texto literal en el campo `content` (SQL `ilike` o full-text search). Captura palabras clave del usuario: *"batería"*, *"conexionado"*.
+- **Enunciados / HyQ** — buscan formulaciones derivadas en tablas e índices HNSW
+  separados, aplican sus cuotas/gates y sustituyen cada surrogate por el chunk padre.
 
-> **Por qué 3 en paralelo y no solo 1:** cada enfoque tiene fortalezas y debilidades complementarias. Vector es bueno en semántica pero flojo con términos técnicos raros. Keyword es perfecto cuando el usuario nombra el modelo pero inútil si no lo hace. Content matchea texto literal pero falla con sinónimos. Los 3 combinados dan **mejor recall** que cualquiera individual. El paso siguiente (merge + dedup) los fusiona.
+> **Por qué varios canales:** vector, keyword y content tienen fortalezas distintas;
+> los canales derivados cubren vocabulario pregunta↔manual que no aparece literalmente.
+> El merge deduplica por chunk fuente y mantiene separada la provenance derivada.
 
 > **Concepto técnico: full-text search (FTS).** Para búsqueda de texto literal en español, Postgres usa un índice `tsvector` que normaliza palabras (*"menús"* → *"menu"*), elimina acentos (*"configuración"* → *"configuracion"*), y permite búsqueda sub-segundo sobre cientos de miles de chunks. Sin FTS, buscar una palabra requeriría escanear chunk por chunk.
 
-**(3) Merge + dedup** — las 3 búsquedas devuelven sets de chunks que pueden solaparse (el mismo chunk puede aparecer en las 3). Esta etapa los unifica, quita duplicados, y ordena por una score combinada.
+**(3) Merge + dedup** — los canales devuelven sets que pueden solaparse. Esta etapa
+los colapsa a chunks fuente, quita duplicados y aplica la política de fusión/landing.
 
 > **Por qué importa:** sin dedup, el siguiente paso recibiría el mismo chunk 2-3 veces, desperdiciando slots del top-k final. La score combinada pondera cada fuente según su fiabilidad (vector es más débil que keyword si el modelo se menciona explícitamente).
 
@@ -464,15 +500,19 @@ El LLM solo ve los fragmentos que le pasamos. Si el retrieval no trae el chunk c
 
 > **Concepto técnico: reranker.** Implementación actual: un LLM ligero ordena los 15-20 candidatos según relevancia. Alternativas en el mercado: Cohere Rerank, cross-encoders BERT, modelos de rankeado entrenados específicamente para RAG. Migrar a un reranker dedicado es una mejora planificada.
 
-**(8) Top-5 final** — los 5 chunks mejor ordenados pasan al Generator. Este número es un trade-off: pocos chunks (2-3) dan respuestas cortas con riesgo de miss; muchos chunks (15+) producen "lost in the middle" (los LLMs atienden peor a chunks en el medio del contexto) + mayor coste + mayor latencia.
+**(8) Top-10 servido** — los 10 chunks mejor ordenados pasan al Generator. Este ancho se midió
+en S99/DEC-092b: recuperó evidencia sin regresión real verificada y se desplegó junto con
+`LLM_MAX_TOKENS=3500`. Sigue siendo un trade-off entre recall, coste y atención del modelo.
 
-> **Concepto técnico: top-k.** El número 5 no es mágico, es una elección calibrada para nuestro dominio. Mejora planificada: separar `retrieve top_k=15` (amplio, para el reranker) de `generate top_k=5` (lo que ve el LLM). Esto maximiza recall sin sacrificar precisión.
+> **Concepto técnico: top-k.** El pipeline separa `retrieve top_k=50` (pool amplio) de
+> `rerank/generate top_k=10` (contexto servido). P1 sella ambos valores para no medir otra
+> configuración por accidente.
 
 ---
 
 **Aclaración Retriever vs Reranker (entre §2 y §4.2):**
 
-En el diagrama de vista de pájaro (§2) mostramos `Retriever` y `Reranker` como dos cajas separadas por claridad pedagógica. En realidad, el Reranker es el **paso 7 dentro del Retriever** — la pipeline completa de retrieval incluye el reranker internamente. El `Top 5 chunks` final del diagrama §4.2 es exactamente lo que va al Generator en §2.
+En el diagrama de vista de pájaro (§2) mostramos `Retriever` y `Reranker` como dos cajas separadas por claridad pedagógica. En realidad, el Reranker es el **paso 7 dentro del Retriever** — la pipeline completa de retrieval incluye el reranker internamente. El `Top 10 chunks` final del diagrama §4.2 es exactamente lo que va al Generator en §2.
 
 ---
 
@@ -487,9 +527,9 @@ En el diagrama de vista de pájaro (§2) mostramos `Retriever` y `Reranker` como
 
 ```mermaid
 flowchart LR
-    In[📥 Query del técnico<br>+ top-5 chunks] --> Build[1 - Construir prompt<br><i>SYSTEM_PROMPT con 6 capas<br>+ query + chunks</i>]
+    In[📥 Query del técnico<br>+ top-10 chunks] --> Build[1 - Construir prompt<br><i>SYSTEM_PROMPT con 6 capas<br>+ query + chunks</i>]
     Build --> LLMBox
-    LLMBox --> Out[3 - Respuesta final<br>+ diagramas<br>+ Fuente: Manual X, pág Y]
+    LLMBox --> Out[3 - Respuesta final<br>+ Fuente: Manual X, pág Y<br>+ assets de páginas citadas si aplica]
 
     subgraph LLMBox["2 - Llamada Sonnet 4.6 · temp=0"]
         direction LR
@@ -517,7 +557,7 @@ flowchart LR
 
 - **SYSTEM_PROMPT** — las reglas de comportamiento del bot (identidad, política de citación, anti-alucinación, formato de salida). Es el "manual de instrucciones" que el LLM lee antes de generar cualquier cosa.
 - **Query del técnico** — la pregunta tal como la escribió.
-- **Top-5 chunks** — los fragmentos del corpus seleccionados por el retriever, formateados como `[Fragmento 1]`, `[Fragmento 2]`, etc. para que el LLM pueda referenciarlos.
+- **Top-10 chunks** — los fragmentos del corpus seleccionados por el retriever, formateados como `[Fragmento 1]`, `[Fragmento 2]`, etc. para que el LLM pueda referenciarlos.
 
 > **Por qué importa:** el LLM no tiene "memoria" entre llamadas. TODO lo que necesita saber para esta pregunta concreta debe estar en el prompt. Si olvidamos añadir una regla crítica o un chunk relevante, el LLM no puede "consultarlo después".
 
@@ -551,7 +591,8 @@ flowchart LR
 **(3) Respuesta final** — el output estructurado que le llega al técnico. Incluye:
 
 - El texto de la respuesta con citation markers `[F1]`, `[F2]`, etc. tras cada afirmación factual.
-- Diagramas / esquemas adjuntos si el retriever identificó chunks con `has_diagram=true` relevantes.
+- Hasta cuatro assets `useful` de rol técnico pertenecientes a páginas citadas,
+  consultados en `document_visual_assets`; el canal falla abierto a sólo texto.
 - Sección de **Fuente** al final citando el manual, página, y (cuando aplicable) revisión del documento.
 
 > **Por qué el formato importa:** para un técnico en obra, la diferencia entre *"conecta a 24V"* y *"conecta a 24V [F3] · Fuente: Manual Instalación CAD-150, página 9, Rev. 001"* es auditable vs anecdótico. El segundo le permite verificar en el manual físico si tiene dudas. Sin citation markers, el bot se vuelve un oráculo opaco — peligroso para decisiones técnicas con implicaciones de seguridad.
@@ -634,7 +675,7 @@ Sin eval, cualquier cambio de código es **acto de fe**. Con ~150k chunks y 3 su
 > **Lo que el judge NO ve** (sutileza crítica):
 > - ❌ El PDF original — solo los chunks que el retriever seleccionó.
 > - ❌ Conocimiento externo (Google, su pre-training, etc.).
-> - ❌ El manual completo — solo los chunks top-5.
+> - ❌ El manual completo — solo los chunks top-10 servidos.
 > - ❌ La realidad técnica PCI — no sabe si un valor es correcto en el mundo físico.
 >
 > **Consecuencia:** el eval NO mide calidad absoluta. Mide *"calidad del bot dada la retrieval que le damos"*. Implicaciones:
@@ -718,18 +759,27 @@ erDiagram
     chunks {
         uuid id PK
         text content "500-2500 chars"
-        vector embedding "1536 dims"
+        vector embedding "1024 dims (chunks_v2)"
         text product_model "CAD-150-8"
         text manufacturer "Detnov"
         text category "Centrales de incendios"
         text content_type "wiring/procedure/..."
         text section_title "2.5 Conexión baterías"
         int page_number
-        boolean has_diagram
-        text diagram_url
         text source_file
         uuid document_id FK
         tsvector search_vector "FTS spanish_unaccent"
+    }
+    documents ||--o{ document_visual_assets : "1 revisión tiene N assets de página"
+    document_visual_assets {
+        uuid id PK
+        uuid document_id FK
+        int page_index
+        text asset_sha256
+        text storage_url
+        text visual_role
+        text technical_utility
+        text source_extraction_sha256
     }
     chunks ||--o{ query_logs : "tracks usage"
     query_logs {
@@ -756,6 +806,9 @@ erDiagram
 **Notas:**
 - `documents` es la tabla master que gestiona revisiones y supersede chains (una revisión nueva no borra la vieja, la marca como `superseded`).
 - `chunks.document_id` vincula cada fragmento a su documento padre, permitiendo filtrar chunks de revisiones obsoletas.
+- `document_visual_assets` es independiente del chunker. El serving une sólo páginas
+  citadas por `(document_id,page_index)`, exige utilidad/rol servibles y nunca usa las
+  columnas legacy `chunks_v2.has_diagram/diagram_url`.
 - `query_logs` y `feedback` están **activas en producción** desde sesión 21 — capturan cada consulta del técnico (con consent RGPD vía `/accept`) para análisis y mejora continua. Caveat: hoy solo loggean queries que pasan por la rama RAG completa; los shortcuts (greeting, catalog, etc.) no se loggean (TECH_DEBT #31).
 
 ### 5.1 Modelo objetivo conversacional — no implementado
@@ -848,7 +901,9 @@ multi-turn/orgánica fresca y métricas separadas de calidad, latencia, coste, s
 - **Generator** — el SYSTEM_PROMPT detecta dinámicamente qué fabricantes tiene disponibles vía `get_available_manufacturers()`. Añadir un nuevo fabricante no requiere tocar el prompt.
 - **Eval** — el judge es agnóstico al fabricante. Añadir preguntas de Simplex, Apollo, Esser, Bosch, etc. es solo YAML.
 - **Diversificación multi-doc** — funciona con N manuales por producto, sin límite hardcoded.
-- **Supabase + pgvector** — capacidad sobrada. Corpus actual 168k chunks; pgvector soporta millones sin degradación significativa en nuestra configuración (ivfflat lists=100).
+- **Supabase + pgvector** — el corpus fuente actual (25.090 chunks) y las dos tablas
+  derivadas separadas (21.995/70.134) usan HNSW. Escalar más exige medir latencia,
+  recall, memoria y parámetros del índice; no se presume degradación cero.
 
 **Lo que NO escala (fricción por fabricante):**
 
@@ -953,8 +1008,10 @@ Si no sabrías explicar este documento en 10 minutos con powerpoint básico, alg
 **¿Por qué Supabase y no Pinecone + AWS?**
 Simplicidad. Un servicio resuelve DB + vector search + storage + auth. Para nuestra escala (<1M chunks) no hay diferencia de performance. Si escalamos 10x, migración a Pinecone + Postgres separado es opción abierta.
 
-**¿Por qué OpenAI embeddings y no Cohere / Voyage AI?**
-Calidad / precio está bien. text-embedding-3-small cuesta $0.02 por 1M tokens y tiene buen rendimiento en español. Voyage AI es mejor específicamente para código; no aplica.
+**¿Por qué Voyage embeddings?**
+El índice activo `chunks_v2` usa Voyage-4-large de 1024 dimensiones y fue evaluado como unidad
+con el corpus y los canales derivados. Otro proveedor exige re-embedding, índice separado y gates
+de paridad/quality; no puede cambiarse sólo por configuración.
 
 **¿Por qué Claude Sonnet 4.6 y no GPT-4 / Gemini?**
 Claude tiene mejor instrucción-following en castellano técnico y temperature=0 más estable. Además, Anthropic publica prompt caching (reducción de coste) y extended thinking (para queries complejas) — ambos disponibles cuando los necesitemos.

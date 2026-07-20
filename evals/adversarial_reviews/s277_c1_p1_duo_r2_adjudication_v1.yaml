@@ -1,0 +1,26 @@
+schema: s277_c1_p1_duo_adjudication_v1
+sol_ts: "2026-07-20T17:04:06"
+verdict: NO_PASS_CORRECT_BEFORE_BUILD
+tally: {findings: 9, confirmed: 6, false_positive: 3, severity_max: critical}
+confirmed:
+  - id: railway_config_circularity
+    action: live_snapshot_plus_pure_planned_patch
+  - id: global_claim_exceeds_scorer
+    action: narrow positive claim to protected contract and global citation syntax
+  - id: provider_validity_without_ttl
+    action: six_hour_ttl_and_provider_metadata
+  - id: tested_vs_deployed_commit
+    action: tree_identity_plus_merge_lineage_receipt
+  - id: rpc_allowlist_preasserted
+    action: derive from sealed config and traced path
+  - id: long_share_lock_operational_risk
+    action: deadline_waiter_watch_and_immediate_release
+false_positives_or_resolved_by_direct_check:
+  - id: model_extraction_unmeasured
+    resolution: exact_13_of_13_offline_receipt
+  - id: audit_sql_hash_unbound
+    resolution: exact_file_hash_matches_tracked_s107_receipt_and_must_be_committed
+  - id: query_logs_4096_unanchored
+    resolution: src/logging_db.py defines and applies the limit
+effects: {paid_p1_calls: 0, railway_changes: 0, supabase_writes: 0}
+

@@ -2866,3 +2866,90 @@ como PASS independiente. Trazas y fixes:
 `evals/s276_corrections_duo_adjudication_v1.yaml` y
 `scripts/s276_adjudicate_corrections_review.py`. Las correcciones no autorizan ejecución: la
 próxima decisión humana es eval orgánico/fresco y/o Fase 0 conversacional en shadow.
+
+## DEC-137 (S277, 20 jul 2026) — La observación viva mantiene C1 NO-GO; profile atómico + P1 end-to-end quedan materializados offline, sin autorización de gasto ni deploy
+
+**Impacto y métrica visible.** Alto en release integrity y evaluación; impacto productivo de
+este cambio todavía nulo. El objetivo de hoy sigue siendo 151/154 (≥98 %) y el marcador no se
+mueve: **146/154 (94,81 %), gap +5; 6 synthesis-miss + 2 retrieval-miss**. El +1 de S274 fue
+3/3 en su probe pareado; no era evidencia de que la respuesta viva o el profile completo pasaran.
+P1 usa la misma cohorte dev para proteger el release y no convierte esa métrica en un KPI orgánico.
+
+**Evidencia que cambia el estado.** La respuesta PEARL aportada por Alberto fue una única
+generación de 4.449 caracteres, dividida por Telegram en dos mensajes. Omitió los dos avisos F12
+y presentó como instrucción plana el menú `8`, sin revelar el conflicto fuente conocido 7-vs-8.
+El log persiste como máximo 4.096 caracteres y no puede reconstruir por sí solo la respuesta
+completa. El gate A reproduce offline el ensamblaje C1 y el probe B GET-only alcanza el target en
+F12 desde el prefijo congelado, pero ninguno atraviesa síntesis; por eso el release queda NO-GO.
+
+**Decisión 1 — unidad de release estructural.** Los cuatro switches acoplados pasan a un único
+profile `coverage_c1_v1`; fuera de `legacy` no se admiten overrides parciales. Un seam de serving
+único produce la vista consumida por harness y Telegram, y una traza privacy-safe registra profile,
+pool/prefijo/contexto, coverage, must-preserve, renderer y truncamientos. El rollout arranca en
+profile `off` y sólo cambia al target tras identidad exacta. Las capacidades ortogonales ya vivas
+—incluido `VISUAL_ASSETS_REGISTRY`— se proyectan y preservan exactamente; apagarlas para aislar C1
+sería una regresión de configuración, no una simplificación permitida.
+
+**Decisión 2 — P1 prerelease, no ejecución.** Se preregistran 13 QIDs y 27 réplicas independientes
+(27 generaciones; exactamente 81 llamadas pagables: embedding + rerank + síntesis). El fact
+contract contiene 43 filas base de peso KPI 42, una guarda hp013 y el target compuesto hp017. El
+bound estático es 6,777 USD bajo los envelopes/tamaños sellados y el techo duro 10 USD. El runner
+offline implementa doble opt-in, WAL fsync sin retry, reserva/coste por llamada, identidad Git/
+runtime/config, proyección semántica, fingerprint y fence externo, receipts encadenados desde input
+preregistrado hasta respuesta/render, scorer determinista y re-score autoritativo en `finalize`.
+`P1_PASS` sólo puede significar `NO_OBSERVED_PROTECTED_LOSS_IN_P1_RUNS`, nunca `ZERO_REGRESSION`.
+
+La auditoría post-integración endureció esa reapertura: el genesis sella modelos, inputs,
+presupuesto e implementation hashes; resume/score/finalize reabren 81 responses y 81 watches,
+vuelven a validar las 27 réplicas y reconstruyen los 81 envelopes. El WAL completo debe contener
+exactamente 162 eventos reserve/completed alternos; modelo, usage, max-cost, acumulado previo,
+coste observado y `result.budget` se recomputan contra el plan de 81 llamadas. La suite P1 focal
+queda en **181/181** antes del dúo final.
+
+**Control gratuito y stop-line.** El re-score conflict-only de las tres respuestas A-C1 ya
+almacenadas confirma 3/3 el menú plano y emite `HOLD_PREPAID_KNOWN_CONFLICT_RISK`; no mide el
+candidato y no le atribuye PASS ni FAIL. La ruta recomendada es resolver/atribuir el conflicto
+antes de pagar. Medir pese al prior exigiría un permit nuevo que lo acepte expresamente.
+
+**Qué parte es BP y qué parte no generaliza todavía.** El patrón de seguridad sí es estructural:
+profile atómico, least-privilege read-only, snapshot/fence de corpus, reservas de presupuesto,
+no-double-send, receipts y fail-closed. El packet/scorer P1, en cambio, es deliberadamente
+cohort-specific y contiene QIDs, surfaces y algoritmos especiales mantenidos a mano; no se presenta
+como arquitectura multi-marca escalable. La configuración efectiva tampoco está completa hasta que
+el adapter/config externo materialice, entre otros, `ANSWER_OBLIGATION_PLANNER`,
+`GENERATOR_INCLUDE_CONTEXT` e `IDENTITY_FETCH`. Generalizar facts tipados o multi-turn/multi-hop es
+un frente posterior y no se acredita con este gate.
+
+**Alternativas descartadas.** `query_logs` como árbitro (texto truncado y sin átomos); sólo replay
+S113 (no prueba retrieval/rerank live); una réplica o mayoría permisiva (no satisface protección
+absoluta de esta cohorte); `test_bot_vs_gold.py` informal (sin WAL/coste/fence); clonar Supabase o
+restaurar un dump local ahora (infraestructura/índice no equivalente); apagar visuales u otras
+lanes ortogonales (mide otra configuración); y ejecutar primero para «ver qué pasa» (gasto con
+conflicto conocido y artefactos todavía no autorizados).
+
+**Gaps y límites declarados.** El release-config real aún no está materializado; faltan adapter
+productivo revisado, identidad PostgREST `p1_readonly`, proceso de fence/operador y receipts
+externos. Los hashes actuales de RPC/GET/relaciones son sólo un contrato de superficie sintético,
+no observan firmas/ACL/overloads, índices ni PostgREST/config live. En vez de inventar ese manifest,
+los CLI `fence-open-verify`, `fence-close-verify`, `run` y `finalize` devuelven como primera operación
+`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Retirarlo exige bodies live pre/watch/post y un
+contrato esperado canónico revisado. La ejecución pagada y el canary post-activación requieren
+autorizaciones separadas. La
+cohorte es conocida/dev, cubre sólo los 13 QIDs afectados y no demuestra 98 %, tasa global de
+regresión cero ni comportamiento orgánico. El trust boundary de los artefactos es un operador/
+workspace autorizado; no es una attestation criptográfica de un tercero.
+
+**Revisión y trazabilidad.** El diseño pasó dos dúos frescos Sol 5.6 xhigh + Fable 5
+(`2026-07-20T16:32:35` y `17:04:06`), ambos `complete_adjudicated_no_pass`: 12 findings
+confirmados y 5 falsos positivos entre rondas; las correcciones se incorporaron antes del build.
+La auditoría de integración añadió los bindings de score, payload físico, configuración, coste,
+WAL/reapertura y fence; también rebajó correctamente los hashes nominales a superficie declarada
+y añadió la stop-line machine-enforced del manifest live. El dúo final de implementación
+(`2026-07-21T00:06:50` Sol / `00:08:56` Fable) mantuvo cerrados los dos false-PASS semánticos,
+pero confirmó que el manifest de implementation hashes no es transitivamente completo: omite al
+menos `src/rag/answer_planner.py`, ejecutado por el scorer de conflicto. También dejó como
+precondiciones del adapter real el stop reason terminal de rerank y la attestation externa de
+usage/coste. Por el corte anti-parálisis no se abrió otra ronda: veredicto `SAFE_HOLD_NO_GO`, con
+0 llamadas P1 y 0 mutaciones externas. Artefactos canónicos: `evals/s277_c1_p1_design_v1.md`,
+`evals/s277_c1_p1_prereg_v1.yaml`, `evals/s277_c1_p1_fact_contract_v1.json`,
+`scripts/s277_c1_p1.py`, `scripts/s277_c1_p1_scorer.py` y `docs/C1_RELEASE_RUNBOOK.md`.

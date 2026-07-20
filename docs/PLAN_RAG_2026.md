@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 20 jul 2026 (S276 — seed-278 NO-GO + norte conversacional direccional).
+> 20 jul 2026 (S277 — C1 NO-GO vivo + gate P1 materializado offline).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,110 +22,72 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s269--19-jul-2026"></a>
-## Estado actual (S276 — 20 jul 2026)
+<a id="estado-actual-s277--20-jul-2026"></a>
+## Estado actual (S277 — 20 jul 2026)
 
-**Foto oficial tras el banking S274 (DEC-134), sin movimiento en S275-S276 (DEC-135/136):
-154 facts = 146 OK · 6 synthesis-miss ·
-2 retrieval-miss — 146/154 (94,81%), quedan +5 para 151 (≥98%).** Bloques C/D CERRADOS:
-el PAR `COVERAGE_MANDATORY_CALLOUT`+`MP_MANDATORY_VERB_TRIGGER` convierte obl_0d6a 3/3
-pareado (probe #4, 0 daño; smoke candidato 5/5) → sólo ese par ya **activo en Railway**, con
-recibo vivo todavía pendiente (runbook en DEC-134); C2 NO-GO en población fresca (clase
-seed-270 reconfirmada, DEC-127
-reforzado); **los 6 synth restantes EXHAUSTOS en la familia mecanismo-de-anexo — el camino
-a 151 exige OTRA familia** (gold round-2 source-contract · serving-view generalizada
-clase-C1 · eval orgánico como árbitro): `evals/s274_banked_funnel_v1.json` +
-`evals/s274_bloquesCD_closeout_v1.yaml`. [Histórico S272 (DEC-131): banking 145/154 con
-recibo vivo — `evals/s272_banked_funnel_v1.json`.] Contexto S269 (packet adjudicado):
+**Marcador canónico sin movimiento desde S274: 154 facts = 146 OK · 6 synthesis-miss ·
+2 retrieval-miss = 146/154 (94,81%); faltan +5 para 151 (≥98%).** Es la foto de trabajo
+adjudicada; `official_atomic_kpi` sigue sin materializarse como KPI independiente. S277 no
+banca facts, no cambia el denominador y no demuestra generalización.
 
-1. **Triage de golds (DEC-121) — ADJUDICADO por Alberto (S270, DEC-125).** Marcas sobre el
-packet al píxel (`evals/s269_goldreview_packet_v1_ADJUDICADO.md`): **9 core tras adjudicación
-(8 CORE — incl. obl_015f con demote ❌-rechazado y el merge de los 2 warnings — + 1 disclosure
-re-specced, obl_872c); 2 SUPP demoted; warnings merged**. Denominador 154, hacen falta **+8**.
-Registro + proyección: `evals/s270_gold_adjudication_v1.yaml` /
-`evals/s270_adjudicated_funnel_v1.json` (corrección píxel t.Fi→**t.A** incluida).
+**La observación viva cerró el recibo pendiente y mantuvo C1 en NO-GO.** La respuesta PEARL
+aportada por Alberto fue una sola generación de 4.449 caracteres que Telegram dividió en dos
+mensajes. No incluyó ninguno de los dos avisos F12 y afirmó un menú plano «8» sin revelar el
+conflicto conocido 7-vs-8. `query_logs.response` se trunca a 4.096 caracteres, por lo que no es
+autoridad sobre la respuesta completa. Resultado: el par legacy que convirtió el fact en el
+probe S274 no equivale a un release C1 íntegro ni a síntesis fiable en vivo.
 
-2. **Mecanismo (DEC-122).** Contrato de átomos must-preserve (detectores por familia s243 +
-binding con attestation de identidad + anexo verbatim por postcondición, flag
-`MUST_PRESERVE_CONTRACT` off): Etapa 1 MEDIDA con harness de mutaciones gold-mecánico en 3
-poblaciones frescas — **recall 4/4 GO (1.0/0.93/1.0/0.83), cross-binding 0, attestation 0,
-MANDATORY limpio**; residual abierto clean-noise R/B FP=40 (átomos hermanos, tensión
-presencia-parcial vs FP=0) con 3 opciones para Alberto. **Etapa 2 = probe único a los 4
-targets (gate DEC-112, K=3, control same-model)**, gateada por: (a) residual adjudicado,
-(b) **reapertura formal de la familia s222/s223** (el cierre S223 fue con review semántica
-incompleta + directiva de Alberto de no descartar por condiciones distintas + 4 diferencias
-de diseño: detector determinista/attestation/verbatim-disclosure/gates-S249). Tras Etapa 2:
-regresión amplia (smoke→full) antes de cualquier default-on.
+**Candidato de release C1 — PR #184, todavía no desplegado.** Se construyó un profile atómico
+`coverage_c1_v1`, un seam único de serving, trazas privacy-safe y dos gates previos: A offline
+prueba ensamblaje sin red; B GET-only prueba que, condicionado al prefijo congelado, el fetch
+live alcanza el target PEARL en F12. A y B pasan, pero ninguno genera ni puntúa una respuesta;
+por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo pin valga en
+Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
+su estado vivo; no lo apaga como efecto lateral.
 
-**Ortogonales CERRADOS por el lado de sesión:** diagramas (DEC-123) — registro
-`document_visual_assets` completo con gate de activación PASS (59/60, 0 portadas; serving-set
-4.489), pendiente SOLO el runbook DB de Alberto (aplicar migración 014 → `--load` →
-`--apply-labels` → verificación → flag); la aplicación DDL quedó bloqueada por permisos del
-entorno. Voz (DEC-124) — catálogo regenerado (+6 modelos), whisper-1 se queda, Wispr Flow no
-aplica server-side; ASR-swap gateado a 30 audios reales.
+**P1 end-to-end materializado offline, ejecución pagada todavía bloqueada.** El paquete sella
+13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
+base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
+preregistro, límite estático conservador de 6,777 USD bajo los tamaños preregistrados, techo duro
+de 10 USD, WAL fsync/no-retry, identidad de release, proyección semántica de configuración,
+fingerprint/fence y receipts internos ligados desde input preregistrado hasta respuesta/render.
+El preflight se reconstruye al ejecutar; runtime, lease y request reservado se revalidan antes
+de cada send; topología/claim/lease impiden doble runner y reinicialización de presupuesto. Estas
+garantías son del orquestador offline. Toda reapertura reconstruye las 81 llamadas y sus respuestas,
+revalida las 27 réplicas, exige 162 eventos WAL alternos y recompone el coste/presupuesto exacto.
+La derivación productiva, los bytes SDK y el manifest live de RPC/ACL/índices/config siguen
+pendientes del adapter, fence service y sus revisiones. Los CLI operativos están bloqueados por
+máquina con `HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`; los hashes sintéticos actuales sólo
+describen la superficie declarada. El control
+almacenado de 0 USD confirma el conflicto hp017 en 3/3 y emite
+`HOLD_PREPAID_KNOWN_CONFLICT_RISK`; nunca atribuye PASS/FAIL al candidato no medido.
 
-**Ramas para PR:** `claude/s269-synthesis-portfolio` (triage + contrato + harness + docs) y
-`claude/s269-visual-assets` (registro visual). Coste sesión ≈ $27/$300. Suite 1.933 verdes.
+**Stop-lines actuales:** release-config real no materializado; adapter productivo deliberadamente
+ausente; manifest live RPC/index/config no materializado; identidad PostgREST read-only y fence
+externo no provisionados; conflicto hp017 sin
+resolver; gasto P1 no autorizado; lease filesystem sólo single-host y sin recuperación stale
+automática. El dúo final Sol/Fable terminó y confirmó un blocker adicional para retirar la
+stop-line: el manifest de implementation hashes aún no cubre transitivamente todo el código
+ejecutado por scoring (al menos `src/rag/answer_planner.py`). También delega al adapter productivo
+la validación terminal de rerank y la attestation externa de usage/coste. CI de la PR sigue
+pendiente. No se han ejecutado las 27 réplicas, no existe `P1_PASS`, no se aplicó
+la migración de trazas y no hubo escritura ni cambio de Railway/Supabase.
 
-**S270 (19 jul, tarde): probes ejecutados — DEC-127.** Mecanismo must-preserve: 1 conversión
-ESTABLE (obl_b6f6, 3/3 en probes 2 y 3), 0 regresiones/0 conflictos en 36 réplicas pareadas,
-Etapa 3 viva limpia (5/5 monotónicos, 0 apéndices espurios). Disclosure 872c entregado completo
-— pendiente decisión de spec de Alberto (¿disclosure de la evidencia servida 6-vs-8 o del PDF
-6-vs-7?). Residual por-clase: serving-view (0d6a) · alcance-no-citado (2f5d, hp011) ·
-binding-tension (7bba) · gap-instrumento híbrido (composites) · retrieval-2. Iteración de
-mecanismo DETENIDA (anti-overfit); el +8 no se alcanza esta sesión — camino por-clase declarado.
-Visual: **COMPLETO data-ready (S271, DEC-133)** — expansión al corpus entero: **13.257 páginas
-servibles** (~81% de las 16.380 de chunks_v2; antes 4.489), cap 2→4 con orden de relevancia +
-álbum Telegram, pipeline por tramos con gates piloto 60/60 y resto 57/60 (NO-PASS intermedio
-corregido con filtro determinista de contenido), colisión de naming docid8 arreglada, 3 docs
-ambiguos excluidos fail-closed; falta solo `VISUAL_ASSETS_REGISTRY=on` en Railway (PR S271).
+**Multi-turn/multi-hop permanece separado y `NOT_BUILT` (DEC-136).** El norte sigue siendo
+orquestador transport-neutral, estado/event log durable, ingress idempotente, leases+fencing,
+CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para follow-ups
+dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
+ni inferencia adicional para esta línea.
 
-**S274 (20 jul): Bloques C/D ejecutados COMPLETOS y cerrados — DEC-134.** Diagnósticos $0
-(serving-view + funnel híbrido N=3) → dúo (Sol 7/7 + Fable 5/5, 0 FP) → build P0 de 7 fixes
-flag-gated por-fix → Etapa-1 v9 fresca seed-277 (heredados v8 GO; 6/7 fixes GO; C2 NO-GO:
-24/105 clean-FP de hermanos = seed-270 reconfirmada) → probe #4 con brazos de ablación
-($0,60): **solo el par C1 convierte (obl_0d6a 3/3 vs 0/3), 0 daño; el resto de dianas 0/3**
-→ smoke candidato 5/5 → banking +1 (146/154). Familia de anexo EXHAUSTA para los 6
-residuales (por-id en `evals/s274_bloquesCD_closeout_v1.yaml`); sin probe #5. Coste total
-del bloque $1,51/$15.
-
-**S275 (20 jul): gold round-2 CERRADA NO-GO antes de adjudicar casos; serving-view
-generalizada re-acotada — DEC-135.** Dos diseños source-contract pasaron por el dúo
-Sol 5.6 xhigh + Fable 5 y ambos quedaron NO-GO: v1 rompía el cegado y re-litigaba S270;
-v2 confundía deuda de sincronización posterior a S270 con un defecto nuevo que podía
-revertir marcas explícitas de Alberto. **Cero cambios de gold/denominador y cero
-generaciones target.** El reach audit determinista (`scripts/s275_serving_view_reach_preflight.py`)
-confirma 4 spans residuales servidos al 100 %, `7aa7` al 86,68 % pero con sus 3 anchors ya
-presentes, y solo `b2043` al 0 % por un hermano definicional fuera de las cards. Por tanto,
-serving-view no es una vía honesta a +5: el único candidato causal estrecho es una card
-receipted del hermano definicional omitido, primero con screen offline fresco seed-278 y
-sin probe #5 sobre los mismos targets. Artefactos: `evals/s275_gold_round2_closeout_v1.yaml`,
-`evals/s275_serving_view_reach_preflight_v1.json` y
-`evals/s275_serving_view_generalization_preflight_v1.md`.
-
-**S276 (20 jul): seed-278 ejecutado y CERRADO `NO_GO_OFFLINE_SCREEN`; arquitectura
-conversacional sólo direccional — DEC-136.** GET-only sobre 80 documentos seleccionados y
-1.033 fragmentos, 0 modelos/0 escrituras DB: 67 bloques en 24 documentos y autorrederivación
-67/67 full/truncated, pero sólo 2 fabricantes < mínimo congelado 3. Además, 41/67 candidatos
-eran descripciones visuales/UI y un documento aportaba 20/67. El dúo confirmó que 67/67 es
-autoconsistencia del parser, los boundary controls son sintéticos y la cronología completa del
-freeze no quedó atestada; nada de ello rescata el gate fallido. **No runtime, no A/B pagado,
-0 crédito al funnel, seed consumido.** El assessment multi-turn/multi-hop recomienda como norte
-un orquestador transport-neutral, estado durable versionado, ingress deduplicado, leases,
-fencing/CAS propietario, orden por conversación y transactional outbox unique; single-hop barato por defecto, rewrite
-condicional, 2 hops por defecto/3 hard cap y verifier fail-closed. Es blueprint, no permiso de
-build: `evals/s276_multiturn_multihop_architecture_assessment_v1.md`.
-
-**Qué sigue, por orden:** (1) **recibo vivo pendiente** del par C1 ya activo en Railway:
-hacer una pregunta hp017/PEARL y verificar en `query_logs` `bot_version=fa90d9c`, encabezado
-del anexo y ambos carriers del warning; (2) **siguiente decisión estratégica de Alberto**:
-usar eval orgánico/fresco como árbitro del +5 y/o autorizar por separado la Fase 0 del cimiento
-conversacional en shadow, sin cambio de respuestas ni inferencia adicional; (3) no ejecutar el
-A/B de `missing-definition-sibling`, no reutilizar seed-278, no abrir probe #5 y no reabrir gold
-round-2 sin evidencia nueva + decisión humana; (4) `VISUAL_ASSETS_REGISTRY` ya está activo en
-Railway, pendiente sólo de observación viva si se desea; (5) los 2 retrieval-miss siguen con las
-clases y cierre permanente del Bloque B de S273/DEC-132b; (6) recoger 30 audios reales antes de
-comparar ASR.
+**Qué sigue, por orden:** (1) cerrar suite amplia + CI de la PR #184 —dúo final completo y suite
+P1 focal 181/181—; (2) en una fase acotada del adapter/config, cerrar el manifest transitivo,
+stop reason de rerank y receipts externos de usage/coste; (3) resolver o revelar de forma segura
+el conflicto hp017 7-vs-8 antes de gastar; (4) materializar el contrato live de
+RPC/ACL/índices/config, configuración, identidades, adapter y receipts externos, y pedir
+autorización explícita para P1;
+(5) sólo si P1 da PASS vigente, seguir el runbook de deploy y autorizar aparte el canary; (6)
+para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro
+del 98%—; (7) la Fase 0 conversacional requiere una decisión separada de Alberto.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

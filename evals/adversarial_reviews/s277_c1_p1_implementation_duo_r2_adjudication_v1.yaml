@@ -1,0 +1,41 @@
+schema: s277_c1_p1_implementation_duo_adjudication_v1
+sol_ts: "2026-07-20T23:23:51"
+fable_ts: "2026-07-20T23:26:11"
+verdict: NO_PASS_FALSE_PASS_BLOCKER_FIXED_REVIEW_AGAIN
+tally:
+  findings: 8
+  confirmed: 5
+  accepted_non_blocking_boundary: 3
+  false_positive: 0
+  severity_max: critical
+confirmed:
+  - id: finalize_could_mint_pass_without_live_manifest
+    severity: critical
+    action: product_finalize_now_invokes_the_live_manifest_stop_line_before_reading_any_artifact
+    verification: finalize_added_to_product_cli_hold_before_reading_test
+  - id: semantic_projection_omits_release_gate_switches
+    severity: medium
+    action: declared_as_mandatory_input_to_the_separate_product_adapter_and_config_package
+  - id: manufacturer_language_not_in_frozen_input
+    severity: medium
+    action: corrected_brief_to_the_actual_frozen_fields_and_deferred_routing_proof_to_the_product_adapter_receipt
+  - id: adapter_prepare_side_effect_freedom_not_structurally_enforced
+    severity: medium
+    action: declared_as_a_mandatory_product_adapter_boundary_design_item
+  - id: instrumentation_scope_outpaced_missing_live_components
+    severity: medium
+    action: scope_frozen_no_more_offline_instrument_expansion_in_this_phase
+accepted_non_blocking_boundaries:
+  - id: intermediate_directory_symlink_or_junction_not_explicitly_walked
+    severity: minor
+    resolution: falls_inside_declared_authorized_local_writer_trust_boundary_and_does_not_mint_pass_through_the_product_cli
+  - id: stored_control_accepts_custom_diagnostic_contract
+    severity: minor
+    resolution: documented_as_non_candidate_diagnostic_only_canonical_default_is_the_recorded_3_of_3_evidence
+  - id: local_test_and_determinism_counts_are_author_reported
+    severity: minor
+    resolution: reproduced_locally_and_not_a_product_guarantee_claim
+effects:
+  paid_p1_calls: 0
+  railway_changes: 0
+  supabase_writes: 0

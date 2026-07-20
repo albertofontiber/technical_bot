@@ -1,0 +1,33 @@
+{
+  "schema": "s277_c1_p1_model_extraction_receipt_v1",
+  "status": "PASS_MODEL_EXTRACTION_OFFLINE",
+  "observed_on": "2026-07-20",
+  "source_commit": "4cace29422064ce67eae21a4575ac60c039712bf",
+  "inputs_sha256_lf": {
+    "data/model_catalog.json": "20a9b726996a3ac3037ce21c47dfdcf97a959e05182a2ab82a575dd10cc94302",
+    "evals/gold_answers_v1.yaml": "c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2",
+    "src/rag/retriever.py": "a8e04259f4055ca0874f8c2ad083e5174275add061adb85f3edc52fcee4dfb1c"
+  },
+  "environment_contract": {
+    "PYTHON_DOTENV_DISABLED": "1",
+    "LEVER2_IDENTITY": "absent",
+    "identity_resolve_note": "IDENTITY_RESOLVE is applied later inside retrieve_chunks and does not change this direct extract_product_models receipt"
+  },
+  "network_calls": 0,
+  "paid_model_calls": 0,
+  "rows": [
+    {"qid": "cat001", "question_sha256": "248215b2831c7cba45c5de42c5f8680cb170d6897f3cdc01367de41a812642f8", "models": ["Pearl"]},
+    {"qid": "cat017", "question_sha256": "23d3cd4b7d62ccca82d1ce6b34eb632a8e271ed5bd36a86a9da91c82eddb6ae7", "models": ["INSPIRE"]},
+    {"qid": "cat018", "question_sha256": "41f11419915a403f89b26a2c7abbeb5c2d2989815cfd9bb9dde85eba0c36e100", "models": ["AM-8200"]},
+    {"qid": "cat019", "question_sha256": "9a2954e5dc77e6eaafda305d46bcc276d202766d1bdf8ddff07a2d6a09adcd7d", "models": ["CAD-250"]},
+    {"qid": "hp002", "question_sha256": "6305ab8957ab451f07a735098e98d3b690622e5476e24467a73df8fb0d8e57b8", "models": ["ASD535"]},
+    {"qid": "hp003", "question_sha256": "4fbfcf1bcf4e1d558e9609d62daba5c8592118f0ded7d43a792fefbb66ae044b", "models": ["CAD-150"]},
+    {"qid": "hp005", "question_sha256": "cf111acaf762fa7dc6c3b7675831cd49128089b6b587bc78fdac3a2b2fb2d044", "models": ["ID3000"]},
+    {"qid": "hp011", "question_sha256": "2a2fafd5191e9ea55f59600c283669e4ffdf14f0ba817407731574c9fe33c990", "models": ["RP1r"]},
+    {"qid": "hp012", "question_sha256": "5177fd59e65417191a1ed063fa1ac19a2d2b4395c57207549661af51ee33dcef", "models": ["AM-2020", "AFP1010"]},
+    {"qid": "hp013", "question_sha256": "4381cd653bd6b486af1e6f8f3bce9c522db1070b30256c029c1149714f260f47", "models": ["ADW535"]},
+    {"qid": "hp014", "question_sha256": "5087719ae700aeac9b6b7501e7f1b95959b35157828f50ee3995ad64f803652e", "models": ["ID2000"]},
+    {"qid": "hp017", "question_sha256": "4302ecbcff93497db23d47db5b54ad93afc300580db8063812523bcebc76b7fc", "models": ["Pearl"]},
+    {"qid": "hp018", "question_sha256": "38de21394f40ba229e82bad28bc585dc0ad036f4faf274a7702ca7c8fae216eb", "models": ["ZXE"]}
+  ]
+}

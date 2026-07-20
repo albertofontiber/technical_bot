@@ -156,8 +156,9 @@ def test_live_read_only_receipt_is_pinned_to_the_reviewed_runtime():
     import hashlib
 
     assert authority["source_freeze_sha256"] == FREEZE_SHA256
+    freeze_bytes = (ROOT / "evals/s113_full_contexts_freeze_v1.json").read_bytes()
     assert FREEZE_SHA256 == hashlib.sha256(
-        (ROOT / "evals/s113_full_contexts_freeze_v1.json").read_bytes()
+        freeze_bytes.replace(b"\r\n", b"\n")
     ).hexdigest()
     assert authority["selector_config_sha256"] == _sha256_lf(
         ROOT / "config/structural_neighbor_coverage_v1.yaml"

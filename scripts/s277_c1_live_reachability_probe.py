@@ -26,7 +26,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 FREEZE = ROOT / "evals/s113_full_contexts_freeze_v1.json"
-FREEZE_SHA256 = "22f2026df5e5df65eb20470a56234b92bdec070ae2836304a7b9391006bf488d"
+FREEZE_SHA256 = "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498"
 TARGET_ID = "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
 PROBE_STATUS = "PASS_C1_LIVE_NEIGHBOR_FETCH_FROM_FROZEN_PREFIX_READ_ONLY"
 MANIFEST_SCHEMA = "s277_c1_live_neighbor_fetch_runtime_manifest_v1"
@@ -169,7 +169,8 @@ def run_probe(*, env_file: Path | None = None) -> dict[str, object]:
 
     raw_bytes = FREEZE.read_bytes()
     _require(
-        hashlib.sha256(raw_bytes).hexdigest() == FREEZE_SHA256,
+        hashlib.sha256(raw_bytes.replace(b"\r\n", b"\n")).hexdigest()
+        == FREEZE_SHA256,
         "sealed S113 context freeze drifted",
     )
     payload = json.loads(raw_bytes.decode("utf-8"))

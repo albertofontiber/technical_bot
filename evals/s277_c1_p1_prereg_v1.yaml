@@ -1,0 +1,840 @@
+schema_version: s277_c1_p1_prereg_v1
+prereg_id: S277-C1-P1-E2E-27-V1
+status: PREREGISTERED_OFFLINE_EXECUTION_NOT_AUTHORIZED
+date: '2026-07-20'
+decision:
+  question: Can coverage_c1_v1 proceed to the release sequence without observed protected loss in the preregistered dev cohort?
+  positive_claim: NO_OBSERVED_PROTECTED_LOSS_IN_P1_RUNS
+  forbidden_claims:
+  - ZERO_REGRESSION
+  - 98_PERCENT_VALIDATED
+  - ORGANIC_GENERALIZATION
+  official_atomic_kpi: 146/154
+  p1_can_change_kpi: false
+authorization:
+  paid_execution: false
+  railway_mutation: false
+  supabase_write: false
+  deploy: false
+  network_during_offline_commands: false
+  later_explicit_paid_permit_required: true
+  paid_permit_required_fields:
+  - authorization_id
+  - run_id
+  - artifact_identity_sha256
+  - release_config_sha256
+  - prereg_sha256
+  - replica_plan_sha256
+  artifact_identity: sha256_canonical_json(run_id,resolved_artifact_root)
+  global_atomic_claim_outside_artifact_dir: true
+  authorization_ledger_derivation: artifact_root.parent/.s277_c1_p1_authorization_claims_v1
+  authorization_ledger_root_injection_allowed: false
+  execution_lease_derivation: authorization_ledger/leases/{sha256(normcase(resolved_artifact_root))}.json
+  execution_lease_acquire: O_EXCL_before_claim_bind_and_recovery
+  execution_lease_release: only_after_result_persisted
+  execution_lease_existing: HOLD_MANUAL_RECOVERY_NO_AUTO_RECLAIM
+  execution_lease_scope: single_host_filesystem_only
+  execution_lease_multi_host: STOP_LINE_EXTERNAL_TRANSACTIONAL_LOCK_REQUIRED
+  execution_lease_recovery_command: NOT_IMPLEMENTED_FUTURE_REVIEW
+  authorization_receipt_json_safe_deep_copy_and_seal: true
+  existing_claim_requires_canonical_resume_state:
+  - calls.jsonl
+  - calls.jsonl.genesis.json
+  - calls.jsonl.claims
+  - run_genesis.json
+  claim_resume_policy: same_authorization_id_run_id_artifact_identity_and_genesis_only
+sealed_inputs:
+  fact_contract:
+    path: evals/s277_c1_p1_fact_contract_v1.json
+    sha256_lf: 3ac742b067ff8cc56332328eb5c8819ac1077e9b7efe10f838247940d0b6ca32
+    payload_sha256: e6972b24b3c71ba78e585d820c8002ed46d9424b219a1227430fc73619564ab0
+  model_extraction_receipt:
+    path: evals/s277_c1_p1_model_extraction_receipt_v1.json
+    sha256_lf: 5d7eba0130b55c13bcf51b40f4cd0bed8ce8ba80c076ff925989f5b0cd9151f5
+  release_config_schema:
+    path: evals/s277_c1_p1_release_config_schema_v1.json
+    sha256_lf: 1e9bea474620579dd703c038299293be2f8894d96b9a8708cfd9a340721bd700
+    schema_object_sha256: ee0d2029456711c3011aa826ed19e58a40da763e5979f2f03584aabdae0f2477
+  release_config:
+    required_path: evals/s277_c1_p1_release_config_v1.json
+    materialized: false
+    hold_until_materialized: HOLD_RELEASE_CONFIG_NOT_MATERIALIZED
+    reason: requires a later read-only Railway snapshot and a clean detached candidate worktree
+population:
+  qids:
+  - cat001
+  - cat017
+  - cat018
+  - cat019
+  - hp002
+  - hp003
+  - hp005
+  - hp011
+  - hp012
+  - hp013
+  - hp014
+  - hp017
+  - hp018
+  rows:
+  - qid: cat001
+    question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo
+      se dan de alta y editan esos equipos desde la central?
+    question_sha256: 248215b2831c7cba45c5de42c5f8680cb170d6897f3cdc01367de41a812642f8
+    expected_target_models:
+    - Pearl
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: cat017
+    question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?
+    question_sha256: 23d3cd4b7d62ccca82d1ce6b34eb632a8e271ed5bd36a86a9da91c82eddb6ae7
+    expected_target_models:
+    - INSPIRE
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: cat018
+    question: ¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?
+    question_sha256: 41f11419915a403f89b26a2c7abbeb5c2d2989815cfd9bb9dde85eba0c36e100
+    expected_target_models:
+    - AM-8200
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: cat019
+    question: '¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen
+      las entradas/eventos que la disparan y como se asignan las salidas?'
+    question_sha256: 9a2954e5dc77e6eaafda305d46bcc276d202766d1bdf8ddff07a2d6a09adcd7d
+    expected_target_models:
+    - CAD-250
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp002
+    question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable
+      y cómo se diagnostica?
+    question_sha256: 6305ab8957ab451f07a735098e98d3b690622e5476e24467a73df8fb0d8e57b8
+    expected_target_models:
+    - ASD535
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp003
+    question: ¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?
+    question_sha256: 4fbfcf1bcf4e1d558e9609d62daba5c8592118f0ded7d43a792fefbb66ae044b
+    expected_target_models:
+    - CAD-150
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp005
+    question: En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia
+      de dos detectores?
+    question_sha256: cf111acaf762fa7dc6c3b7675831cd49128089b6b587bc78fdac3a2b2fb2d044
+    expected_target_models:
+    - ID3000
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp011
+    question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué
+      comprobar?
+    question_sha256: 2a2fafd5191e9ea55f59600c283669e4ffdf14f0ba817407731574c9fe33c990
+    expected_target_models:
+    - RP1r
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp012
+    question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?
+    question_sha256: 5177fd59e65417191a1ed063fa1ac19a2d2b4395c57207549661af51ee33dcef
+    expected_target_models:
+    - AM-2020
+    - AFP1010
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp013
+    question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
+    question_sha256: 4381cd653bd6b486af1e6f8f3bce9c522db1070b30256c029c1149714f260f47
+    expected_target_models:
+    - ADW535
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp014
+    question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
+    question_sha256: 5087719ae700aeac9b6b7501e7f1b95959b35157828f50ee3995ad64f803652e
+    expected_target_models:
+    - ID2000
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp017
+    question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?
+    question_sha256: 4302ecbcff93497db23d47db5b54ad93afc300580db8063812523bcebc76b7fc
+    expected_target_models:
+    - Pearl
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  - qid: hp018
+    question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?
+    question_sha256: 38de21394f40ba229e82bad28bc585dc0ad036f4faf274a7702ca7c8fae216eb
+    expected_target_models:
+    - ZXE
+    query_for_retrieval: exact_question
+    available_models: null
+    fresh_single_turn: true
+  replica_order:
+  - hp017:r1
+  - hp017:r2
+  - hp017:r3
+  - cat001:r1
+  - cat001:r2
+  - cat017:r1
+  - cat017:r2
+  - cat018:r1
+  - cat018:r2
+  - cat019:r1
+  - cat019:r2
+  - hp002:r1
+  - hp002:r2
+  - hp003:r1
+  - hp003:r2
+  - hp005:r1
+  - hp005:r2
+  - hp011:r1
+  - hp011:r2
+  - hp012:r1
+  - hp012:r2
+  - hp013:r1
+  - hp013:r2
+  - hp014:r1
+  - hp014:r2
+  - hp018:r1
+  - hp018:r2
+  replica_count: 27
+  replica_plan_sha256: 450a25fb05cfb9d5a749efda318ce611e4963688b588f1d2ea6aa3dc72b66238
+  per_qid_replicas:
+    cat001: 2
+    cat017: 2
+    cat018: 2
+    cat019: 2
+    hp002: 2
+    hp003: 2
+    hp005: 2
+    hp011: 2
+    hp012: 2
+    hp013: 2
+    hp014: 2
+    hp017: 3
+    hp018: 2
+  shuffle: false
+  authoritative_replay: false
+input_preflight:
+  extract_product_models_must_equal_expected_exactly: true
+  target_models_must_be_nonempty: true
+  query_for_retrieval_must_equal_question: true
+  available_models_must_be_null: true
+  unexpected_fts_no_model_path: HOLD_INPUT_DRIFT
+  expectation_mismatch_class: HOLD_EXPECTATION_DRIFT
+  json_safe_deep_copy_exact:
+  - release_config
+  - prereg
+  - fingerprint_receipt
+  - fence_open_receipt
+  preserve_runtime_identity: true
+  execution_start_rebuild_with_fresh_runtime_identity: true
+  runtime_rechecked_immediately_before_lease_and_every_send: true
+  execution_start_exact_seals:
+  - release_config_sha256
+  - prereg_sha256
+  - fingerprint_receipt_sha256
+  - fence_open_receipt_sha256
+  - runtime_identity_sha256
+  - stored_control_score_sha256
+  - budget_sha256
+  - input_contract_sha256
+candidate_path:
+  entrypoint: execute_rag_turn
+  one_call_per_replica: true
+  required_stages:
+  - retrieve_chunks
+  - rerank_strict
+  - observer
+  - structural_fetch
+  - selector_attestation
+  - coverage
+  - generator
+  - must_preserve
+  - visual_assets_branch
+  - telegram_renderer
+  frozen_s113_context_for_authoritative_result: false
+  offline_replay_can_rescue_or_pass: false
+  reranker_fallback_allowed: false
+model_calls:
+  expected:
+    voyage_embedding: 27
+    sonnet_rerank: 27
+    sonnet_synthesis: 27
+    total: 81
+  maximum_physical_delegations: 81
+  call_plan_sha256: c0cf3957bfcd475338a0790f3063b0acf9efaf1b0b38ddf9b221fd252a11ef77
+  automatic_retries: 0
+  hyde_enabled: false
+  operations_allowlist:
+  - voyage.embed_query
+  - anthropic.rerank
+  - anthropic.synthesis
+  unregistered_call: NO_GO_PARTIAL
+wal:
+  format: append_only_jsonl_hash_chain
+  hash_algorithm: sha256_canonical_json
+  chain_fields:
+  - previous_event_sha256
+  - event_sha256
+  run_genesis_sidecar: calls.jsonl.genesis.json
+  canonical_runtime_layout:
+    call_journal: artifact_root/calls.jsonl
+    call_journal_genesis: artifact_root/calls.jsonl.genesis.json
+    call_claims: artifact_root/calls.jsonl.claims
+    artifact_genesis: artifact_root/run_genesis.json
+    authorization_ledger: artifact_root.parent/.s277_c1_p1_authorization_claims_v1
+    run_lease: authorization_ledger/leases/{sha256(normcase(resolved_artifact_root))}.json
+  runtime_layout_schema: s277_c1_p1_runtime_layout_v1
+  runtime_layout_sha256_in_run_genesis: true
+  run_genesis_sha256_on_every_event_and_atomic_call_claim: true
+  run_genesis_exact_identity:
+  - authorization_id
+  - authorization_receipt_sha256
+  - run_id
+  - artifact_identity_sha256
+  - runtime_layout
+  - runtime_layout_sha256
+  - release_config_sha256
+  - prereg_sha256
+  - tested_commit_sha
+  - tested_tree_sha
+  - target_semantic_config_sha256
+  - fingerprint_receipt_sha256
+  - fingerprint_sha256
+  - fence_open_receipt_sha256
+  - fence_identity
+  - replica_plan_sha256
+  - call_plan_sha256
+  - validation_snapshot
+  - validation_snapshot_sha256
+  event_sha256_input: canonical_event_without_event_sha256
+  genesis_previous_event_sha256: null
+  fsync_each_event: true
+  call_key: deterministic
+  states:
+  - RESERVED_FSYNCED
+  - COMPLETED
+  - FAILED_PRE_SEND_NO_RETRY
+  - UNKNOWN_BILLED_POST_SEND
+  transitions:
+    RESERVED_FSYNCED:
+    - COMPLETED
+    - FAILED_PRE_SEND_NO_RETRY
+    - UNKNOWN_BILLED_POST_SEND
+    COMPLETED: []
+    FAILED_PRE_SEND_NO_RETRY: []
+    UNKNOWN_BILLED_POST_SEND: []
+  reserve_and_fsync_before_network: true
+  post_delegation_exception: UNKNOWN_BILLED_POST_SEND
+  unterminated_reservation_on_resume: UNKNOWN_BILLED_POST_SEND_AND_BLOCK
+  opened_journal_change_before_bind_or_recovery: HOLD_WAL_STALE_OPEN
+  retry_unknown_or_failed: false
+  global_terminal_stop_before_any_new_call:
+  - FAILED_PRE_SEND_NO_RETRY
+  - UNKNOWN_BILLED_POST_SEND
+  new_call_order: exact_first_preregistered_call_key_absent_from_WAL
+  provider_boundary_invoke_serialized_in_process: true
+receipt_pipeline:
+  schema_version: s277_c1_p1_receipt_pipeline_v1
+  replica_receipt_schema: s277_c1_p1_replica_receipt_v1
+  replica_exact_top_level_keys:
+  - schema
+  - replica_key
+  - qid
+  - replica_id
+  - input
+  - run_identity
+  - effective_config
+  - retrieval
+  - rerank
+  - served_context
+  - structural_fetch
+  - coverage
+  - must_preserve
+  - provider
+  - answer
+  - answer_sha256
+  - generation_chain
+  - visual_assets
+  - render
+  - call_keys
+  - call_requests
+  lineage:
+    order:
+    - embedding_response
+    - retrieval_pool
+    - rerank_response
+    - rerank_prefix
+    - structural_fetch
+    - coverage_output
+    - served_context
+    - synthesis_physical_payload
+    - answer
+    - must_preserve
+    - telegram_renderer
+    hash_algorithm: sha256_canonical_json_or_sha256_utf8_as_typed
+    effective_config_required: coverage_c1_v1_and_must_preserve_true
+  input:
+    exact_keys:
+    - question
+    - target_models
+    - query_for_retrieval
+    - available_models
+    bind_to_population_row:
+      question: question
+      target_models: expected_target_models
+      query_for_retrieval: question
+      available_models: available_models
+    exact_match_required: true
+  generation_chain:
+    exact_keys:
+    - raw_payload_sha256
+    - raw_text
+    - raw_text_sha256
+    - stages
+    - final_answer_sha256
+    raw_payload_hash: sha256_canonical_json(provider.raw_payload)
+    raw_text_binding: provider.raw_payload.content
+    raw_text_hash: sha256_utf8(raw_text)
+    stage_order:
+    - diagram_postprocess
+    - answer_planner
+    - must_preserve
+    stage_exact_keys:
+    - name
+    - input_sha256
+    - output_text
+    - output_sha256
+    stage_linkage: first_input=raw_text_sha256; each_next_input=previous_output_sha256
+    stage_output_hash: sha256_utf8(output_text)
+    final_binding: final_answer_sha256=answer_sha256=last_stage.output_sha256
+  provider_response:
+    exact_top_level_keys:
+    - requested_model
+    - reported_model
+    - stop_reason
+    - usage
+    - response_id
+    - raw_payload
+    top_level_to_raw_payload:
+      reported_model: model
+      stop_reason: stop_reason
+      usage: usage
+      response_id: id
+    requested_model_binding: sealed_synthesis_envelope.model
+    raw_payload_persisted_and_fsynced_before_parse: true
+    raw_payload_sha256_binding: generation_chain.raw_payload_sha256
+  render:
+    parts_hash: sha256_canonical_json(parts)
+    parts_sha256_required: true
+    source_answer_sha256_binding: answer_sha256
+    complete_source_rendered: true
+    no_part_over_telegram_limit: 4096
+    recompute_exactly_with: src.bot.response_formatter.format_telegram_messages(answer)
+  visual_assets:
+    derived_from: target_semantic_config.generation.visual_assets_registry
+    off_contract: not_executed_with_empty_lookup_receipts_and_selected_assets
+    on_contract: evaluated_even_when_eligible_pages_is_empty
+    on_relation: public.document_visual_assets
+    on_rest_method: GET
+    lookup_and_selection_hash_lineage_required: true
+  physical_call_envelope:
+    exact_keys:
+    - call_key
+    - provider
+    - model
+    - request
+    - run_genesis_sha256
+    - lineage_input_sha256
+    - input_tokens_upper_bound
+    - max_output_tokens
+    - max_retries
+    - prompt_cache
+    - inference_geo
+    - service_tier
+    common_request_exact_keys:
+    - replica_key
+    - operation
+    - model
+    - run_genesis_sha256
+    - lineage_input_sha256
+    - physical_payload
+    - physical_payload_sha256
+    - input_tokens_upper_bound
+    - max_output_tokens
+    physical_payload_operation_specific: true
+    physical_payload_hash_required: true
+    max_retries: 0
+    prompt_cache: false
+    inference_geo: global
+    service_tier: standard_sync
+    input_bound_derivation: len(canonical_json_bytes(physical_payload))+512
+    provider_token_overhead_reserve: 512
+    derived_bound_must_not_exceed: cost.operations.<operation>.max_input_tokens
+    output_bound_source: cost.operations.<operation>.max_output_tokens
+    reported_usage_must_be_present_nonnegative_and_within_bounds: true
+    request_sha256_binding: wal.RESERVED_FSYNCED.request_sha256
+    post_prepare_pre_send_guards_exact:
+    - fresh_runtime_identity
+    - canonical_lease_ownership
+    - reserved_request_sha256_unchanged
+    fingerprint_and_fence_boundary_inputs_json_safe_deep_copied: true
+    offline_gate_reopens_all_wal_physical_artifacts: true
+    canonical_provider_response_path: provider_responses/{sha256(call_key)}.json
+    canonical_fence_watch_path: fence_watches/{sha256(call_key)}.json
+    physical_directories_exact_no_missing_or_extra: true
+    offline_cross_binding: replica.call_requests_and_observed_responses_to_WAL_and_physical_files
+    offline_gate_revalidates_all_27_replica_receipts: true
+    run_validation_snapshot:
+      materialization: embedded_in_canonical_run_genesis_json
+      exact_components:
+      - models
+      - input_contract
+      - budget_plan
+      - implementation_hashes
+      component_hashes_and_snapshot_hash_required: true
+      bound_in_result:
+      - validation_snapshot_sha256
+      - implementation_hashes_sha256
+    score_finalize_current_implementation_must_equal_run_snapshot: true
+  replica_manifest:
+    exact_order: population.replica_order
+    entry_exact_keys:
+    - replica_key
+    - path
+    - sha256
+    physical_file_sha256_required: true
+    missing_extra_or_reordered: HOLD_REPLICA_MANIFEST_DRIFT
+    result_body_sealed_by_result_sha256: true
+cost:
+  currency: USD
+  list_price_cap: 10.0
+  free_tier_discount: false
+  pricing_observed_on: '2026-07-20'
+  rates_per_million_tokens:
+    claude_sonnet_4_6_input: 3.0
+    claude_sonnet_4_6_output: 15.0
+    voyage_4_large: 0.12
+    voyage_rerank_2_5_if_selected: 0.05
+  official_urls:
+  - https://platform.claude.com/docs/en/about-claude/pricing
+  - https://docs.voyageai.com/docs/pricing
+  static_bound_required_before_first_call: true
+  prompt_cache_allowed: false
+  inference_geo: global
+  service_tier: standard_sync
+  canary_budget_included: false
+  adversarial_review_budget_included: false
+  operations:
+    embedding:
+      provider: voyage
+      model: voyage-4-large
+      max_input_tokens: 1000
+      max_output_tokens: 0
+      input_usd_per_mtok: '0.12'
+      output_usd_per_mtok: '0'
+      max_cost_usd: '0.001'
+    rerank:
+      provider: anthropic
+      model: claude-sonnet-4-6
+      max_input_tokens: 10000
+      max_output_tokens: 1000
+      input_usd_per_mtok: '3'
+      output_usd_per_mtok: '15'
+      max_cost_usd: '0.05'
+    synthesis:
+      provider: anthropic
+      model: claude-sonnet-4-6
+      max_input_tokens: 20000
+      max_output_tokens: 3500
+      input_usd_per_mtok: '3'
+      output_usd_per_mtok: '15'
+      max_cost_usd: '0.20'
+  calls_per_operation:
+    embedding: 27
+    rerank: 27
+    synthesis: 27
+  static_worst_case_usd: '6.777'
+  replica_plan_sha256: 450a25fb05cfb9d5a749efda318ce611e4963688b588f1d2ea6aa3dc72b66238
+  call_plan_sha256: c0cf3957bfcd475338a0790f3063b0acf9efaf1b0b38ddf9b221fd252a11ef77
+  invariant: actual_observed + unknown_reservations + worst_case_remaining <= 10.00
+corpus_fence:
+  operator_identity_separate_from_runner: true
+  runner_service_role_forbidden: true
+  declared_surface_hashes_are_live_attestation: false
+  live_rpc_signature_index_config_manifest_materialized: false
+  product_cli_stop_line: HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED
+  runner_identity: p1_readonly
+  direct_postgres_not_transaction_pooler: true
+  protocol:
+  - BEGIN
+  - SHARE_LOCKS_CANONICAL_ORDER_NOWAIT
+  - INITIAL_FINGERPRINT
+  - 27_REPLICAS
+  - FINAL_FINGERPRINT_UNDER_LOCK
+  - COMMIT
+  max_window_minutes: 45
+  heartbeat_max_age_seconds: 30
+  lock_mode: ShareLock
+  locks_granted_required: true
+  relations_and_locks_order: canonical_exact_same_open_close
+  incompatible_waiters_required: []
+  watch_immediately_inside_provider_boundary_before_prepare_and_send: true
+  watch_absolute_heartbeat_age_required: now-last_heartbeat_at<=heartbeat_max_age_seconds
+  persisted_watch_historical_validation_at_score_finalize: true
+  strong_watch_receipt_persisted_before_each_physical_send: true
+  fingerprint_expiry_rechecked_before_each_provider_prepare: true
+  base_relations_exact:
+  - public.chunks_v2
+  - public.chunks_v2_enunciados
+  - public.chunks_v2_hyq
+  - public.documents
+  base_rpc_allowlist_exact:
+  - match_chunks_v2
+  - search_chunks_text_v2
+  - match_chunks_v2_enunciados
+  - match_hyq
+  base_rest_get_allowlist_exact:
+  - public.chunks_v2
+  - public.documents
+  visual_on_surface_extension:
+    relation: public.document_visual_assets
+    rest_get: public.document_visual_assets
+  query_logs_excluded: true
+  function: public.corpus_fingerprint_v1()
+  audit_sql_sha256_lf: 285dd74a1463bb71a21ab9bfb5ea4053789d606ede9b90b640c14008c676dbda
+  pg_get_functiondef_sha256: 1f280e0852158b63501aad2843a7e946ab9fac5a4c64a17851d6d63ed0e8ebca
+  open_receipt_required_fields:
+  - schema
+  - status
+  - release_config_sha256
+  - initial_fingerprint
+  - direct_connection
+  - transaction_pooler
+  - backend_pid
+  - txid
+  - fence_owner
+  - opened_at
+  - last_heartbeat_at
+  - heartbeat_max_age_seconds
+  - deadline_at
+  - relations
+  - locks
+  - incompatible_waiters
+  - rpc_manifest_sha256
+  - physical_manifest_sha256
+  close_receipt_required_fields:
+  - schema
+  - status
+  - release_config_sha256
+  - backend_pid
+  - txid
+  - fence_owner
+  - initial_fingerprint
+  - final_fingerprint
+  - verified_under_lock
+  - last_heartbeat_at
+  - final_fingerprint_taken_at
+  - relations
+  - locks
+  - incompatible_waiters
+  - rpc_manifest_sha256
+  - physical_manifest_sha256
+  - closed_at
+  close_invariants:
+    verified_under_lock: true
+    final_fingerprint_equals_initial: true
+    final_fingerprint_taken_before_or_at_closed_at: true
+    heartbeat_fresh_at_final_fingerprint: true
+    same_backend_txid_owner_relations_locks_and_manifests_as_open: true
+    run_completed_before_close: true
+  loss_or_drift: HOLD_CORPUS_FENCE_LOST
+semantic_runtime_contract:
+  schema_version: s277_c1_semantic_runtime_contract_v1
+  semantic_projection_schema: s277_c1_semantic_effective_config_v1
+  snapshot_freshness:
+    max_age_seconds: 1800
+    future_skew_seconds: 60
+    validated_at: every_preflight_and_immediately_before_first_paid_call
+  required_raw_env:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    HYQ_TABLE: 'on'
+    HYQ_PILOT_FILE: ''
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: add
+    GENERATOR_SELECTION_BLOCK: 'on'
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYDE_ENABLED: 'false'
+    RERANK_TOP_K: '10'
+    LLM_MAX_TOKENS: '3500'
+    MUST_PRESERVE_CONTRACT: 'on'
+  required_target_off_env:
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    DEDUP_REFERENCE_NAVIGATION: 'off'
+    R2_REPAIR_NAVIGATION: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+    MP_HYBRID_DETECT: 'off'
+    MP_SERVED_BINDING: 'off'
+    MP_DEFLINE_EQ: 'off'
+    MP_STEM_BINDING: 'off'
+    MP_DISTINCTIVE_TOKEN: 'off'
+  code_bound_defaults_if_absent_from_raw_env:
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    DIVERSIFY_TIEBREAK: 'off'
+    RETRIEVAL_TOP_K: 50
+    LLM_MODEL: claude-sonnet-4-6
+    EMBEDDING_MODEL: voyage-4-large
+  preserved_dynamic_env:
+    VISUAL_ASSETS_REGISTRY:
+      allowed_raw_values:
+      - 'on'
+      - 'off'
+      semantic_type: boolean
+      bootstrap_policy: preserve_exact
+      target_policy: preserve_exact
+  semantic_projection_exact_top_level_keys:
+  - schema
+  - corpus
+  - retrieval
+  - generation
+  - embedding
+  - coverage
+  semantic_projection_exact_sections:
+    corpus:
+    - chunks_table
+    retrieval:
+    - retrieval_top_k
+    - rerank_top_k
+    - reranker_backend
+    - reranker_model
+    - rerank_preview_chars
+    - merge_strategy
+    - hyde_enabled
+    - enunciados_multivector
+    - hyq_table
+    - hyq_pilot_file
+    - identity_resolve
+    - identity_resolve_policy
+    generation:
+    - model
+    - max_tokens
+    - temperature
+    - prompt_cache
+    - prompt_variant
+    - selection_block
+    - must_preserve_contract
+    - visual_assets_registry
+    embedding:
+    - model
+    coverage:
+    - release_profile
+    - post_rerank_coverage
+    - structural_neighbor_coverage
+    - mandatory_callout
+    - mandatory_verb_trigger
+  cross_field_equalities:
+  - live_snapshot.CHUNKS_TABLE == retrieval.chunks_table == semantic.corpus.chunks_table
+  - int(live_snapshot.RERANK_TOP_K) == retrieval.rerank_top_k == semantic.retrieval.rerank_top_k
+  - int(live_snapshot.LLM_MAX_TOKENS) == models.max_tokens == cost.operations.synthesis.max_output_tokens == semantic.generation.max_tokens
+  - effective(RERANKER_BACKEND,llm) == retrieval.reranker_backend == semantic.retrieval.reranker_backend
+  - retrieval.hyde_enabled == semantic.retrieval.hyde_enabled == false == strict_false(live_snapshot.HYDE_ENABLED)
+  - models.generator == semantic.generation.model == cost.operations.synthesis.model
+  - models.reranker == semantic.retrieval.reranker_model == cost.operations.rerank.model
+  - models.embedding == semantic.embedding.model == cost.operations.embedding.model
+  - models.temperature == semantic.generation.temperature == anthropic_request.temperature
+  - models.prompt_cache == semantic.generation.prompt_cache == physical_call_envelope.prompt_cache
+  - models.inference_geo == physical_call_envelope.inference_geo == cost.inference_geo
+  - models.service_tier == physical_call_envelope.service_tier == cost.service_tier
+  raw_effective_hashes_preserved: true
+  semantic_hashes_required:
+  - bootstrap_semantic_config_sha256
+  - target_semantic_config_sha256
+release_identity:
+  bootstrap_profile: 'off'
+  p1_target_profile: coverage_c1_v1
+  only_activation_transition: COVERAGE_RELEASE_PROFILE:off->coverage_c1_v1
+  legacy_flags_to_delete:
+  - POST_RERANK_COVERAGE
+  - STRUCTURAL_NEIGHBOR_COVERAGE
+  - COVERAGE_MANDATORY_CALLOUT
+  - MP_MANDATORY_VERB_TRIGGER
+  preserved_orthogonal_flags:
+    VISUAL_ASSETS_REGISTRY:
+      allowed_values:
+      - 'on'
+      - 'off'
+      source_path: railway.live_snapshot.VISUAL_ASSETS_REGISTRY
+      bootstrap_policy: preserve_exact
+      target_policy: preserve_exact
+      profile_owned: false
+  target_invariants:
+    MUST_PRESERVE_CONTRACT: 'on'
+    HYDE_ENABLED: 'false'
+    only_structural_coverage_lane: true
+  ttl_hours: 6
+  squash_or_rebase_without_tested_lineage: EXPIRE_P1
+  different_merge_commit_allowed_only_with_same_tree_manifest_and_lineage: true
+scoring:
+  fact_contract_base_count: 43
+  hp017_target_separate: true
+  other_qids_required: 2/2 per applicable fact
+  hp017_required: 3/3 base facts + compound target + no menu conflict
+  hp013_guard_required_despite_zero_facts: true
+  all_response_citations_syntax_range_identity_valid: true
+  factual_entailment_scope: protected_packet_guards_registered_conflicts_and_hp017_target_only
+  states:
+  - PASS
+  - FAIL
+  - REVIEW
+  - INSTRUMENT_ERROR
+  review_blocks_go: true
+  finalize_review_only_with_blind_hash_bound_human_adjudication: true
+known_prepaid_hold:
+  code: HOLD_PREPAID_KNOWN_CONFLICT_RISK
+  conflict_id: conf_26f63590494f
+  zero_usd_stored_control_first: true
+  later_permit_must_explicitly_accept_prior_to_measure: true
+  recommended_resolution: fix_or_disclose_menu_source_conflict_before_paid_measurement
+go:
+  complete_generations: 27/27
+  base_facts: all applicable rows in every replica
+  hp017_target: 3/3 exact compound warnings with local citations
+  unresolved_review: 0
+  invalid_citations: 0
+  truncations: 0
+  orphan_calls: 0
+  claim: NO_OBSERVED_PROTECTED_LOSS_IN_P1_RUNS
+current_stop_lines:
+- HOLD_RELEASE_CONFIG_NOT_MATERIALIZED
+- HOLD_P1_READONLY_IDENTITY_NOT_PROVISIONED
+- HOLD_CORPUS_FENCE_OPERATOR_NOT_AUTHORIZED
+- HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED
+- HOLD_PREPAID_KNOWN_CONFLICT_RISK
+- HOLD_PAID_EXECUTION_NOT_AUTHORIZED

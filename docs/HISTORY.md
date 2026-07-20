@@ -1909,3 +1909,67 @@ error una adjudicación previa como seed, así que queda NO-PASS, no como certif
 El trace prueba autoconsistencia de lo persistido, no completitud atestada por el proveedor. Tests
 dirigidos antes de la suite final: 56 del reviewer + 14 del screen. Suite completa: 2.225 passed,
 6 skipped y los 4 fallos raw-hash/CRLF de Windows ya conocidos; ninguna regresión nueva de S276.
+
+## S277 (20 jul 2026) — el miss vivo convierte C1 en una unidad de release verificable y P1 se construye antes de gastar
+
+Alberto hizo la pregunta PEARL solicitada. El bot produjo una sola generación de 4.449 caracteres
+que Telegram partió en dos mensajes: explicó extensamente retardos, pero omitió ambos avisos F12 y
+dio «menú 8» como instrucción sin revelar el conflicto 7-vs-8. La observación corrigió dos premisas:
+dos mensajes no eran dos respuestas y el target alcanzable en retrieval no implicaba síntesis. El
+campo `query_logs.response`, truncado a 4.096 caracteres, tampoco podía ser el árbitro del texto
+completo. El marcador quedó 146/154 (94,81 %), sin crédito nuevo.
+
+Se materializó en la PR #184 un release profile atómico `coverage_c1_v1`, un seam único de serving,
+trazas privacy-safe y gates A/B. A pasa offline sin red; B repitió cinco GET read-only, leyó 120
+filas/110 candidatas y alcanzó el target en F12, con 0 writes y 0 modelos. El primer intento B
+agotó su timeout de tres segundos y falló cerrado; un único retry de la lectura completó. La
+verificación en CI descubrió que el pin S113 era raw-CRLF de Windows; se cambió a SHA-256 LF para
+que Windows/Linux validen los mismos bytes semánticos. No se desplegó el profile ni la migración.
+
+Después se diseñó y construyó P1 offline. Preregistra 13 QIDs, 27 réplicas/27 generaciones y exactamente
+81 llamadas pagables; protege 43 filas base de peso KPI 42, una guarda hp013 y el target compuesto
+hp017. El bound estático es 6,777 USD y el cap 10 USD. El paquete incluye contrato fact-specific,
+scorer determinista, doble opt-in, WAL fsync/no-retry/no-double-send, identidad Git/runtime/config,
+proyección semántica, fingerprint/fence y cadena de receipts input→provider→postprocesado→render.
+`finalize` recompone el score desde contrato/prereg/27 receipts y no confía en un PASS aportado.
+El control histórico de cero coste confirmó 3/3 el conflicto hp017 y dejó
+`HOLD_PREPAID_KNOWN_CONFLICT_RISK` sin atribuir resultado al candidato.
+
+La integración encontró antes del commit dos fallos de diseño materiales: el primer contrato
+forzaba `VISUAL_ASSETS_REGISTRY=off` aunque la capacidad era ortogonal/viva, y el primer finalizer
+aceptaba demasiado del JSON de score. Se cambió a preservación exacta `on|off` y re-score
+autoritativo. Una auditoría cross-cut posterior detectó bindings incompletos entre pregunta
+preregistrada, payload físico, stop reason y respuesta; configuración 50→10/3500 no suficientemente
+sellada; límites de tokens post-send; fence sin deadline/heartbeat final; y resume sin comparación
+directa del request hash. Se añadieron invariantes y mutaciones para todas esas clases antes del
+dúo final. Dos auditorías de congelación posteriores encontraron y cerraron además: pérdida/
+corrupción de responses y watches tras el run; heartbeat con edad absoluta vencida; continuación
+tras un terminal UNKNOWN/FAILED; gasto fuera del orden preregistrado; reapertura sin volver a
+validar las 27 réplicas; drift tardío de implementación; y ausencia de recomputación de modelo,
+usage, costes y presupuesto sobre las 81 respuestas/162 eventos WAL. La suite P1 focal final quedó
+en **181/181**.
+
+El supuesto «manifest físico» del fence también se corrigió de framing: los hashes disponibles
+sólo describen nombres RPC/GET/relaciones y locks, no firmas/ACL/overloads, índices ni
+PostgREST/config observados. No se fabricó un contrato live con datos sintéticos. Los cuatro CLI
+operativos quedan bloqueados como primera operación con
+`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED` hasta una fase externa revisada con bodies
+pre/watch/post y expected contract canónico.
+
+Fable 5 sí estuvo disponible y se usó de forma real: las rondas de diseño terminaron normalmente
+como `claude-fable-5` a las 16:37 (168.963 tokens) y 17:07 (171.732), ambas con `end_turn` final.
+Los intentos fallidos de esta sesión fueron preflights conservadores de presupuesto, distintos del
+síntoma upstream S276. La investigación S276 sigue siendo el estado correcto: tres respuestas
+físicas vacías descartaron pérdida del parser local, pero no demostraron la causa raíz interna;
+#183 sólo añade una recuperación tools-off y luego falla cerrado.
+
+El dúo final de implementación terminó con Sol a las 00:06:50 y Fable 5 a las 00:08:56.
+Confirmó que los dos false-PASS semánticos estaban cerrados —claim canónico completo + quote/hash
+fuente para auto-PASS; negación, relación alterada, paráfrasis o contenido irrelevante quedan
+REVIEW/FAIL—, pero encontró un blocker nuevo para retirar la stop-line: el manifest de
+implementation hashes no cubre transitivamente al menos `src/rag/answer_planner.py`, ejecutado por
+el scorer de conflicto. Conforme al corte anti-parálisis, no se abrió otra ronda de parche+dúo:
+el core se cierra como HOLD seguro, no como release-ready. La suite amplia local terminó
+2461 pass / 6 skip / 4 fallos raw-hash/CRLF Windows ya conocidos (s117, s131, s133×2); CI Linux
+queda como autoridad pendiente. Totales: 0 llamadas P1, 0 mutaciones Railway/Supabase y ninguna
+autorización de gasto o despliegue.
