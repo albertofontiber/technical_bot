@@ -48,8 +48,8 @@ def _openapi(*, version: str | None = "14.1.0") -> dict:
     }
     result = {
         "swagger": "2.0",
-        "host": f"{PROJECT_REF}.supabase.co",
-        "basePath": "/rest/v1/",
+        "host": f"{PROJECT_REF}.supabase.co:443",
+        "basePath": "/",
         "schemes": ["https"],
         "paths": paths,
         "info": {"title": "public schema"},
@@ -274,6 +274,19 @@ def test_wrong_project_ref_and_openapi_host_fail_before_trust() -> None:
 
     changed = _openapi()
     changed["host"] = f"{OTHER_REF}.supabase.co"
+    with pytest.raises(
+        receipts.live.ManifestHold, match="HOLD_POSTGREST_OPENAPI_PROJECT_DRIFT"
+    ):
+        _capture(FakeOpener(openapi=changed))
+
+
+@pytest.mark.parametrize("base_path", ["/rest/v1", "/rest/v1/", "/other", ""])
+def test_management_openapi_rejects_legacy_or_other_base_paths(
+    base_path: str,
+) -> None:
+    changed = _openapi()
+    changed["basePath"] = base_path
+
     with pytest.raises(
         receipts.live.ManifestHold, match="HOLD_POSTGREST_OPENAPI_PROJECT_DRIFT"
     ):

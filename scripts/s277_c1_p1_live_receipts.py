@@ -465,9 +465,9 @@ def _validate_openapi_origin(openapi: Mapping[str, Any], *, project_ref: str) ->
         )
     if "basePath" in openapi:
         _expect(
-            openapi["basePath"] in {"/rest/v1", "/rest/v1/"},
+            openapi["basePath"] == "/",
             "HOLD_POSTGREST_OPENAPI_PROJECT_DRIFT",
-            "unexpected OpenAPI basePath",
+            "Management OpenAPI basePath must be exactly project root",
         )
     servers = openapi.get("servers")
     if servers is not None:
