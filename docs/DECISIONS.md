@@ -3024,8 +3024,9 @@ las llamadas P1 pagadas y no se atribuye ningún resultado.
 
 **Prerrequisitos de seguridad.** Antes de emitir el bearer debe aplicarse y verificarse
 `20260721120000_add_p1_readonly_role.sql`. En PostgreSQL 17 la membresía exacta sobre
-`p1_readonly` es `authenticator: SET TRUE, INHERIT FALSE, ADMIN FALSE` y
-`postgres: SET TRUE, INHERIT FALSE, ADMIN TRUE`; ACL/RLS mínimos, allowlist RPC y ausencia de
+`p1_readonly` son tres filas no heredables: `authenticator <- postgres: SET TRUE/ADMIN FALSE`,
+`postgres <- postgres: SET TRUE/ADMIN FALSE` y el grant automático
+`postgres <- supabase_admin: SET FALSE/ADMIN TRUE`; ACL/RLS mínimos, allowlist RPC y ausencia de
 `SECURITY DEFINER` accesible siguen siendo condiciones conjuntas. La autenticación HTTP también
 separa credenciales: `SUPABASE_KEY` alimenta `apikey`, mientras `P1_SUPABASE_JWT` alimenta
 `Authorization: Bearer ...`; ninguna sustituye a la otra.

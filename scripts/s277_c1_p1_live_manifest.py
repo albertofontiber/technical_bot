@@ -564,10 +564,11 @@ SELECT
     COALESCE((
         SELECT jsonb_agg(jsonb_build_object(
             'member', pg_get_userbyid(m.member),
+            'grantor', pg_get_userbyid(m.grantor),
             'admin_option', m.admin_option,
             'inherit_option', m.inherit_option,
             'set_option', m.set_option
-        ) ORDER BY pg_get_userbyid(m.member))
+        ) ORDER BY pg_get_userbyid(m.member), pg_get_userbyid(m.grantor))
         FROM pg_auth_members AS m
         WHERE m.roleid = r.oid
     ), '[]'::jsonb) AS members,
@@ -811,7 +812,13 @@ def _normalize_role_rows(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any] | 
         "can_login": bool(row["can_login"]),
         "can_replicate": bool(row["can_replicate"]),
         "bypasses_rls": bool(row["bypasses_rls"]),
-        "members": sorted(members, key=lambda item: str(item.get("member"))),
+        "members": sorted(
+            members,
+            key=lambda item: (
+                str(item.get("member")),
+                str(item.get("grantor")),
+            ),
+        ),
         "member_of": sorted(member_of, key=lambda item: str(item.get("role"))),
         "role_settings": sorted(str(item) for item in role_settings),
         "schema_create": bool(row["schema_create"]),
@@ -1110,20 +1117,33 @@ def verify_intrinsic_safety(
         "p1_readonly role attributes",
     )
     members = role.get("members") or []
-    authenticator = [member for member in members if member.get("member") == "authenticator"]
-    operator = [member for member in members if member.get("member") == "postgres"]
+    expected_members = [
+        {
+            "member": "authenticator",
+            "grantor": "postgres",
+            "admin_option": False,
+            "inherit_option": False,
+            "set_option": True,
+        },
+        {
+            "member": "postgres",
+            "grantor": "postgres",
+            "admin_option": False,
+            "inherit_option": False,
+            "set_option": True,
+        },
+        {
+            "member": "postgres",
+            "grantor": "supabase_admin",
+            "admin_option": True,
+            "inherit_option": False,
+            "set_option": False,
+        },
+    ]
     _expect(
-        len(members) == 2
-        and len(authenticator) == 1
-        and authenticator[0].get("set_option") is True
-        and authenticator[0].get("inherit_option") is False
-        and authenticator[0].get("admin_option") is False
-        and len(operator) == 1
-        and operator[0].get("set_option") is True
-        and operator[0].get("inherit_option") is False
-        and operator[0].get("admin_option") is True,
+        members == expected_members,
         "HOLD_P1_ROLE_MEMBERSHIP_DRIFT",
-        "authenticator and postgres operator SET ROLE memberships",
+        "exact hosted-PG17 authenticator/operator grants",
     )
     _expect(
         role.get("member_of") == [],

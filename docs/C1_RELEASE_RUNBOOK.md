@@ -180,11 +180,13 @@ La prueba `transaction_read_only=on` del endpoint de identidad corresponde sólo
 ese GET. Los POST `/rpc/...` no se consideran seguros por el verbo HTTP ni por ese
 receipt: su seguridad efectiva procede de ACL/RLS del rol mínimo, la allowlist exacta
 del guard y la comprobación de que no haya ninguna función `SECURITY DEFINER`
-accesible. En PostgreSQL 17 la migración debe verificar además la membresía exacta:
-`authenticator` obtiene `SET TRUE`, `INHERIT FALSE`, `ADMIN FALSE`, y `postgres`
-obtiene `SET TRUE`, `INHERIT FALSE`, `ADMIN TRUE` sobre `p1_readonly`. La migración
-aplica y verifica precisamente esa frontera; no debe emitirse `P1_SUPABASE_JWT` antes
-de que todas sus postcondiciones pasen.
+accesible. En el PostgreSQL 17 alojado la migración debe verificar además tres grants
+exactos y no heredables: `authenticator <- postgres` con `SET TRUE/ADMIN FALSE`,
+`postgres <- postgres` con `SET TRUE/ADMIN FALSE`, y el grant automático de creador
+`postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. Los dos últimos se combinan
+para permitir `SET ROLE` sin herencia y conservar la administración inevitable del rol.
+La migración aplica y verifica precisamente esa frontera; no debe emitirse
+`P1_SUPABASE_JWT` antes de que todas sus postcondiciones pasen.
 
 La ejecución futura tampoco acepta rutas de persistencia elegidas por el adapter:
 WAL y sidecars viven bajo `artifact_root` con nombres canónicos y el ledger global se
@@ -229,8 +231,8 @@ P1 caduca y debe repetirse bajo una preregistración nueva.
 Secuencia operativa única para llegar a una decisión P1:
 
 1. Aplicar la migración `20260721120000_add_p1_readonly_role.sql`; verificar todas sus
-   postcondiciones sin ampliar grants, incluida la membresía PostgreSQL 17 exacta de
-   `authenticator` y `postgres` descrita arriba.
+   postcondiciones sin ampliar grants, incluidas las tres filas PostgreSQL 17 exactas
+   descritas arriba.
 2. Provisionar fuera del checkout el PAT de Supabase, `SUPABASE_KEY` para `apikey`, un
    `P1_SUPABASE_JWT` efímero con `role=p1_readonly` para el bearer y la credencial de
    sesión PostgreSQL del operador. El runner no recibe esta última; API key y bearer

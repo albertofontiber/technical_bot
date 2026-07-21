@@ -70,8 +70,9 @@ credenciales e IPC, y hash del manifest post ligado al receipt de cierre.
 identidad acredita sólo ese GET; no demuestra que los POST a RPC sean transacciones read-only.
 La seguridad efectiva de esos POST procede del rol `p1_readonly` con ACL/RLS mínimos, la allowlist
 exacta del guard y la ausencia de funciones `SECURITY DEFINER` accesibles. En PostgreSQL 17 la
-membresía debe quedar exacta: `authenticator` con `SET TRUE`, `INHERIT FALSE`, `ADMIN FALSE`, y
-`postgres` con `SET TRUE`, `INHERIT FALSE`, `ADMIN TRUE`. La migración versionada que materializa
+membresía debe quedar en tres grants no heredables exactos: `authenticator <- postgres` con
+`SET TRUE/ADMIN FALSE`, `postgres <- postgres` con `SET TRUE/ADMIN FALSE` y el grant automático
+`postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol y sus postcondiciones está revisada pero **no aplicada**.
 
 **Estado operativo: `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, no GO.** Alberto
@@ -91,7 +92,7 @@ dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permi
 ni inferencia adicional para esta línea.
 
 **Qué sigue, por orden y sin abrir otro frente:** (1) aplicar la migración revisada `p1_readonly`
-y verificar todas sus postcondiciones, incluida la membresía PostgreSQL 17 exacta; (2) provisionar
+y verificar todas sus postcondiciones, incluidas las tres filas PostgreSQL 17 exactas; (2) provisionar
 de forma efímera el PAT, `SUPABASE_KEY`, `P1_SUPABASE_JWT` y la credencial PostgreSQL del operador,
 manteniendo separados API key y bearer; (3) materializar release-config, manifest/evidencia live
 y el recibo de la autorización recibida que disponga expresamente del prior hp017 y selle

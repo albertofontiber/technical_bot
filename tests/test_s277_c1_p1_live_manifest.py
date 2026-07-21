@@ -235,15 +235,24 @@ def _capture(
             "members": [
                 {
                     "member": "authenticator",
+                    "grantor": "postgres",
                     "admin_option": False,
                     "inherit_option": False,
                     "set_option": True,
                 },
                 {
                     "member": "postgres",
-                    "admin_option": True,
+                    "grantor": "postgres",
+                    "admin_option": False,
                     "inherit_option": False,
                     "set_option": True,
+                },
+                {
+                    "member": "postgres",
+                    "grantor": "supabase_admin",
+                    "admin_option": True,
+                    "inherit_option": False,
+                    "set_option": False,
                 },
             ],
             "member_of": [],
@@ -474,6 +483,7 @@ def test_migration_is_additive_read_only_and_contains_visual_and_role_defenses()
     assert "GRANT P1_READONLY TO POSTGRES WITH SET TRUE" in upper
     assert "GRANT P1_READONLY TO POSTGRES WITH ADMIN TRUE" not in upper
     assert "MEMBERSHIP.ADMIN_OPTION" in upper
+    assert "PG_GET_USERBYID(MEMBERSHIP.GRANTOR) = 'SUPABASE_ADMIN'" in upper
     assert "REVOKE EXECUTE ON FUNCTION PUBLIC.CREATE_HNSW_INDEX() FROM PUBLIC" in upper
     assert "HAS_SCHEMA_PRIVILEGE('P1_READONLY', 'PUBLIC', 'CREATE')" in upper
     assert "PROC.PROSECDEF" in upper

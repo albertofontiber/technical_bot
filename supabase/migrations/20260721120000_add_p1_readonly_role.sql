@@ -89,14 +89,11 @@ $role$;
 ALTER ROLE p1_readonly RESET default_transaction_read_only;
 ALTER ROLE p1_readonly SET statement_timeout = '30s';
 
--- PostgreSQL 17 automatically grants a newly created role back to a
--- non-superuser CREATEROLE creator with ADMIN TRUE, SET FALSE and INHERIT
--- FALSE.  The fence connects as the hosted Supabase `postgres` operator and
--- must be able to reduce itself to p1_readonly for catalog capture.  Preserve
--- the unavoidable creator ADMIN option, disable inheritance and enable only
--- explicit SET ROLE.  Do not re-GRANT ADMIN TRUE: PostgreSQL rejects granting
--- that option back to the membership's own grantor; the postcondition below
--- verifies that the automatic creator membership retained it.
+-- PostgreSQL 17 records the non-superuser creator grant under the bootstrap
+-- grantor (`supabase_admin`: ADMIN TRUE, SET FALSE, INHERIT FALSE).  Enabling
+-- SET ROLE as hosted `postgres` necessarily creates a second grant row under
+-- grantor `postgres`; it does not modify the bootstrap row.  Keep both rows
+-- exact and non-inheriting, and verify their distinct grantors below.
 GRANT p1_readonly TO postgres WITH INHERIT FALSE;
 GRANT p1_readonly TO postgres WITH SET TRUE;
 
@@ -204,7 +201,7 @@ BEGIN
         JOIN pg_roles AS granted_role
           ON granted_role.oid = membership.roleid
         WHERE granted_role.rolname = 'p1_readonly'
-    ) <> 2 THEN
+    ) <> 3 THEN
         RAISE EXCEPTION 'p1_readonly membership set is unsafe';
     END IF;
 
@@ -217,6 +214,7 @@ BEGIN
           ON member_role.oid = membership.member
         WHERE granted_role.rolname = 'p1_readonly'
           AND member_role.rolname = 'authenticator'
+          AND pg_get_userbyid(membership.grantor) = 'postgres'
           AND membership.set_option
           AND NOT membership.inherit_option
           AND NOT membership.admin_option
@@ -233,11 +231,29 @@ BEGIN
           ON member_role.oid = membership.member
         WHERE granted_role.rolname = 'p1_readonly'
           AND member_role.rolname = 'postgres'
+          AND pg_get_userbyid(membership.grantor) = 'postgres'
           AND membership.set_option
+          AND NOT membership.inherit_option
+          AND NOT membership.admin_option
+    ) THEN
+        RAISE EXCEPTION 'postgres SET membership options are unsafe';
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_auth_members AS membership
+        JOIN pg_roles AS granted_role
+          ON granted_role.oid = membership.roleid
+        JOIN pg_roles AS member_role
+          ON member_role.oid = membership.member
+        WHERE granted_role.rolname = 'p1_readonly'
+          AND member_role.rolname = 'postgres'
+          AND pg_get_userbyid(membership.grantor) = 'supabase_admin'
+          AND NOT membership.set_option
           AND NOT membership.inherit_option
           AND membership.admin_option
     ) THEN
-        RAISE EXCEPTION 'postgres operator membership options are unsafe';
+        RAISE EXCEPTION 'postgres creator membership options are unsafe';
     END IF;
 
     FOREACH relation_name IN ARRAY ARRAY[
