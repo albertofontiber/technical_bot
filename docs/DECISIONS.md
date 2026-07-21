@@ -3170,3 +3170,36 @@ medidas y autorizadas por separado; después, recuperación intra-documento. No 
 
 **Límite de alcance.** Esta decisión no autoriza merge, deploy, canary ni construir multi-turn/
 multi-hop. Esa arquitectura continúa separada bajo DEC-136.
+
+## DEC-144 (S277, 21 jul 2026) — La autoridad HP011 queda materializada como migración reversible y fail-closed; producción permanece intacta
+
+**Decisión de autoridad y alcance.** La v.07 de `HLSI-MN-103_RP1r-Supra_lr`
+(`494e71be-873b-48c1-adb3-a21a122da111`, mayo de 2018, extracción `914ceacf…`) es la
+revisión autoritativa adjudicada para HP011 y supersede explícitamente a v.04
+(`e98e05ff-ee1d-5341-869a-65768855dae9`, noviembre de 2013, extracción `ccabe3df…`). No se
+introduce una heurística runtime de fecha máxima: la decisión queda en los campos lifecycle del
+registro. La v.07 contiene en p63 la corrección `t.A`; v.04 conserva `t.H`.
+
+**Migración preparada, no aplicada.** `20260721190847_reconcile_hp011_v04_v07_lifecycle.sql`
+opera en una sola transacción con `lock_timeout=5s`, `statement_timeout=30s` y locks ordenados
+sobre exactamente 2 documentos y 190 chunks. Exige 94/96 chunks, hashes y metadata exactos,
+estados active sin punteros, y la matriz `duplicate_of` original: v.04=43 no nulos
+(`3` internos + `40` hacia v.07), v.07=42 (`4` internos + `38` hacia v.04). Congela las 38
+parejas que va a modificar, enlaza v.04↔v.07, limpia solo esos 38 `duplicate_of`, conserva los
+4 duplicados internos v.07 y corrige las notas de procedencia que aún decían «deferred».
+Cualquier drift o cardinalidad inesperada lanza excepción y revierte todo.
+
+**Reversibilidad y prueba.** El rollback manual fuera del directorio autoaplicado recrea las 38
+parejas exactas, exige el estado post, restaura 38 chunks y 2 documentos y revalida la matriz
+original antes de commit. Seis pruebas estáticas sellan transacción, alcance DML, identidades,
+mapa y simetría migración↔rollback. Un PostgreSQL embebido desechable ejecutó además tres rutas:
+aplicación correcta, rollback byte-equivalente del estado modelado y drift previo que aborta sin
+dejar mutaciones. Una lectura GET confirmó la metadata y la topología live; no se emitió ninguna
+escritura, llamada de modelo ni gasto.
+
+**Estado y siguiente paso.** El estado es
+`HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`: este cierre offline no cambia
+producción, el marcador 146/154 ni el `NO_GO_PARTIAL` de P1. Tras autorización separada, el paso
+natural es aplicar esta única migración y verificar sus postcondiciones; solo después se construye
+y mide la lane genérica de recuperación intradocumento. Otra P1 continúa prohibida hasta que esa
+lane pase y el código sellado esté listo para un run limpio 27/27.

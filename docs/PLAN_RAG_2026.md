@@ -3,8 +3,8 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — tercera P1 cerrada `NO_GO_PARTIAL`; falso FAIL instrumental
-> corregido y miss real de fuente aislado sin repetir llamadas).
+> 21 jul 2026 (S277 — tercera P1 cerrada `NO_GO_PARTIAL`; autoridad v.04/v.07
+> aislada y migración lifecycle preparada offline, todavía no aplicada).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -67,6 +67,16 @@ marcada como duplicada de v.04, y la migración de reconciliación dejó su prec
 intencionadamente pendiente. Pool coverage e HYQ no recuperaron la autoridad; ampliar búsqueda
 antes de resolver lifecycle mezclaría revisiones y tampoco sería un camino honesto a GO.
 
+**La adjudicación lifecycle ya está preparada y verificada offline, sin cambio live.** La
+migración `20260721190847_reconcile_hp011_v04_v07_lifecycle.sql` declara explícitamente que
+v.07 supersede a v.04; bloquea solo los dos documentos y sus 190 chunks; exige identidades,
+revisiones, hashes y topología exactos; y despeja únicamente los 38 enlaces v.07→v.04 que
+ocultan parte de la revisión autoritativa. Conserva los 4 duplicados internos de v.07, los 43
+enlaces históricos de v.04 y toda cardinalidad. Un rollback manual emparejado restaura las 38
+parejas y ambos estados lifecycle. Se validaron aplicación, rollback exacto y rechazo con drift
+en PostgreSQL embebido, además de 6 pruebas de contrato. No se aplicó a Supabase, no se llamó a
+modelos y el coste fue 0 USD.
+
 El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
 base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
@@ -97,7 +107,7 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `P1_NO_GO_PARTIAL_REVISION_AUTHORITY_REQUIRED`, no GO.** El run terminal no se
+**Estado operativo: `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`, no GO.** El run terminal no se
 reanuda ni se convierte retroactivamente en PASS. Sus 18 artefactos siguen siendo válidos para
 diagnóstico y regresión; no es necesario repetirlos para corregir o revalidar el scorer. Una
 certificación final sí deberá ser un run limpio porque cambiarán el código sellado y el run actual
@@ -114,13 +124,12 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) cerrar el fix instrumental con su regresión
-offline; (2) preparar y medir offline la adjudicación lifecycle v.04→v.07 y la reparación del
-dedupe, sin mutar producción; (3) tras autorización separada para ese cambio de datos, aplicar y
-verificar la precedencia; (4) demostrar sin modelos una única recuperación intra-documento
+**Qué sigue, por orden y sin abrir otro frente:** (1) tras autorización separada para el cambio
+de datos ya preparado, aplicar la migración lifecycle y verificar sus postcondiciones live;
+(2) demostrar sin modelos una única recuperación intra-documento
 genérica que alcance la revisión autoritativa y preserve límites de contexto, latencia y
-procedencia; (5) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
-recibo nuevo y el techo ya autorizado; (6) sólo con `P1_PASS` vigente, resolver el riesgo separado de
+procedencia; (3) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
+recibo nuevo y el techo ya autorizado; (4) sólo con `P1_PASS` vigente, resolver el riesgo separado de
 `create_hnsw_index()` y pedir autorización de merge/deploy/canary. Los 18 artefactos existentes se
 reutilizan para diagnóstico, no como mitad de una certificación con código distinto. Después,
 para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro del

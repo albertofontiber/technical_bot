@@ -2013,3 +2013,18 @@ y excluye la fila v.07 usada por la adjudicación gold; la migración de reconci
 precedencia expresamente diferida. Por ello no se implementa una búsqueda por filename que mezcle
 autoridades ni un latest-wins silencioso. Primero se prepara y mide la adjudicación lifecycle y la
 reparación de dedupe; su aplicación live requiere autorización separada.
+
+### S277 — migración lifecycle HP011 preparada offline
+
+La prelectura GET-only confirmó la foto exacta: v.04=94 chunks y 43 `duplicate_of` no nulos;
+v.07=96 y 42. La matriz entre revisiones era `3/40/38/4` (v.04→v.04, v.04→v.07,
+v.07→v.04, v.07→v.07), incluido p63 v.07→p63 v.04. Se creó la migración transaccional
+`20260721190847`, que adjudica v.07 sobre v.04, congela y limpia solo las 38 parejas v.07→v.04
+y corrige las notas de lifecycle; cualquier drift aborta. El rollback manual emparejado restaura
+las 38 parejas y ambos documentos bajo guards simétricos.
+
+Seis tests de contrato pasan. Un PostgreSQL embebido desechable ejecutó aplicación, rollback
+exacto y un caso con drift que abortó sin mutar lifecycle. No se aplicó la migración live, no hubo
+llamadas de modelo ni gasto. Estado: `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`;
+el siguiente paso requiere autorización separada para aplicar/verificar antes de construir la
+lane intradocumento.

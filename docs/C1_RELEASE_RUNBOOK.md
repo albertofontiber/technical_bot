@@ -1,8 +1,8 @@
 # C1: contrato de release y runbook
 
 Estado a 2026-07-21: **tercera P1 cerrada con `NO_GO_PARTIAL`; el falso FAIL instrumental está
-corregido y queda pendiente la autoridad entre dos revisiones activas;
-`P1_NO_GO_PARTIAL_REVISION_AUTHORITY_REQUIRED`; todavía
+corregido y la autoridad entre dos revisiones ya está materializada offline como migración
+reversible, todavía sin aplicar; `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`; todavía
 no existe GO de release**. La autorización humana cubría una única P1 de 27 réplicas/27
 generaciones y exactamente 81 llamadas pagables, con techo duro de 30 USD; quedó consumida por
 el run terminal y nunca
@@ -25,6 +25,9 @@ por interpretar `---` Markdown como el valor técnico `--`; el replay corregido 
 porque la página 63 no llegó al contexto y la guía rápida servida indujo semántica incorrecta de
 `00`. La inspección posterior encontró v.04 (`t.H`) y v.07 (`t.A` corregido sobre `t.Fi`) activas,
 con dedupe cruzado y precedencia intencionadamente diferida. Aún no existe `P1_PASS`.
+La migración `20260721190847` prepara v.04→v.07 y limpia exactamente 38 enlaces cruzados bajo
+pre/postcondiciones fail-closed; su rollback exacto y el rechazo ante drift pasan en PostgreSQL
+embebido. Producción conserva por ahora el estado anterior.
 
 ## Qué corrige
 
@@ -271,10 +274,11 @@ Estado de la secuencia ejecutada:
    REVIEW sin nuevas llamadas. La revisión exacta confirma un problema productivo distinto: la
    página 63 autoritativa no estaba en pool, prefijo, structural fetch ni contexto; F9 era una
    guía rápida incompleta y la respuesta invirtió el significado de `00`.
-9. **Stop-line de autoridad:** la misma familia tiene v.04 y v.07 activas. v.04 p63 usa `t.H`;
+9. **Stop-line de autoridad preparada, aún no aplicada:** la misma familia tiene v.04 y v.07 activas. v.04 p63 usa `t.H`;
    v.07 p63 contiene la corrección `t.Fi` tachado → `t.A`, pero está marcada como duplicada de
-   v.04. La precedencia quedó explícitamente diferida por la migración de reconciliación. No se
-   puede mezclar por `source_file` ni aplicar latest-wins silencioso en runtime.
+   v.04. `20260721190847` adjudica explícitamente v.04→v.07 y repara 38 enlaces con rollback
+   exacto, pero requiere autorización separada y verificación live. Hasta entonces no se puede
+   mezclar por `source_file` ni aplicar latest-wins silencioso en runtime.
 10. **Stop-line de recuperación:** después de adjudicar lifecycle y reparar dedupe, un mecanismo
    genérico, acotado y fail-closed debe demostrar offline/GET-only que recupera la autoridad
    intra-documento. Pool coverage e HYQ ya probados no alcanzaron esa página y no se reactivan
@@ -284,8 +288,8 @@ La autorización explícita recibida cubría el tercer run y está consumida. Co
 requiere empezar de cero: los 18 artefactos se reusan para replay y regresión. En cambio, un GO
 no puede completar este run terminal con nueve respuestas nuevas bajo código distinto; después
 del fix productivo exige un run sellado nuevo y todos sus inputs operativos desde cero. No existe
-`P1_PASS` ni GO. Merge, deploy, migración de
-trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
+`P1_PASS` ni GO. Aplicar lifecycle es el prerrequisito inmediato y requiere autorización propia;
+merge, deploy y canary pertenecen a la secuencia posterior y requieren otra autorización.
 
 ## Trazabilidad y privacidad
 
