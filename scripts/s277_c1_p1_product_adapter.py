@@ -319,6 +319,49 @@ class ProductSDKPaidAdapter:
         self._anthropic_api_key = anthropic_api_key
         self._voyage_api_key = voyage_api_key
 
+        expected_versions = {
+            "anthropic": "0.97.0",
+            "voyageai": "0.2.4",
+        }
+        for distribution, expected_version in expected_versions.items():
+            try:
+                observed_version = package_version(distribution)
+            except PackageNotFoundError as exc:
+                raise p1.P1Error(
+                    "HOLD_PROVIDER_SDK_VERSION", f"{distribution} missing"
+                ) from exc
+            _require(
+                observed_version == expected_version,
+                "HOLD_PROVIDER_SDK_VERSION",
+                f"{distribution} must be exactly {expected_version}",
+            )
+
+        # Warm and attest both pinned SDK surfaces before the first live fence
+        # watch. ``prepare`` sits between that watch and the physical send, so
+        # dependency discovery or a cold import there would age the receipt.
+        try:
+            import anthropic
+            import voyageai
+            from voyageai.api_resources.api_requestor import APIRequestor
+        except ImportError as exc:
+            raise p1.P1Error(
+                "HOLD_PROVIDER_SDK_VERSION", "provider client API missing"
+            ) from exc
+        _require(
+            callable(getattr(anthropic, "Anthropic", None)),
+            "HOLD_PROVIDER_SDK_VERSION",
+            "anthropic client API missing",
+        )
+        _require(
+            callable(getattr(voyageai, "Client", None))
+            and callable(getattr(APIRequestor, "request_raw", None)),
+            "HOLD_PROVIDER_SDK_VERSION",
+            "voyageai client API missing",
+        )
+        self._anthropic = anthropic
+        self._voyageai = voyageai
+        self._voyage_api_requestor = APIRequestor
+
     def prepare(self, call: p1.ProviderCall) -> _PreparedProductCall:
         _require(
             call.provider in {"anthropic", "voyage"}
@@ -329,44 +372,6 @@ class ProductSDKPaidAdapter:
             "HOLD_PRODUCT_REQUEST_DRIFT",
             call.call_key,
         )
-        expected_version = {
-            "anthropic": "0.97.0",
-            "voyage": "0.2.4",
-        }[call.provider]
-        distribution = "voyageai" if call.provider == "voyage" else "anthropic"
-        try:
-            observed_version = package_version(distribution)
-        except PackageNotFoundError as exc:
-            raise p1.P1Error(
-                "HOLD_PROVIDER_SDK_VERSION", f"{distribution} missing"
-            ) from exc
-        _require(
-            observed_version == expected_version,
-            "HOLD_PROVIDER_SDK_VERSION",
-            f"{distribution} must be exactly {expected_version}",
-        )
-        # Distribution metadata is authoritative.  In particular, voyageai
-        # 0.2.4 publishes a stale module-level ``__version__`` of 0.2.3.
-        # Import and capability checks still belong in local-only prepare so a
-        # failure cannot be misclassified as an unknown billed send.
-        if call.provider == "anthropic":
-            import anthropic
-
-            _require(
-                callable(getattr(anthropic, "Anthropic", None)),
-                "HOLD_PROVIDER_SDK_VERSION",
-                "anthropic client API missing",
-            )
-        else:
-            import voyageai
-            from voyageai.api_resources.api_requestor import APIRequestor
-
-            _require(
-                callable(getattr(voyageai, "Client", None))
-                and callable(getattr(APIRequestor, "request_raw", None)),
-                "HOLD_PROVIDER_SDK_VERSION",
-                "voyageai client API missing",
-            )
         return _PreparedProductCall(self, call)
 
     @staticmethod
@@ -381,11 +386,10 @@ class ProductSDKPaidAdapter:
         return content
 
     def _send_anthropic(self, call: p1.ProviderCall) -> Mapping[str, Any]:
-        import anthropic
         payload = _json_copy(
             call.request["physical_payload"], field=f"{call.call_key} payload"
         )
-        client = anthropic.Anthropic(
+        client = self._anthropic.Anthropic(
             api_key=self._anthropic_api_key, max_retries=0
         )
         raw = client.messages.with_raw_response.create(**payload)
@@ -422,8 +426,8 @@ class ProductSDKPaidAdapter:
         return {**normalized, "_p1_transport_receipt": receipt}
 
     def _send_voyage(self, call: p1.ProviderCall) -> Mapping[str, Any]:
-        import voyageai
-        from voyageai.api_resources.api_requestor import APIRequestor
+        voyageai = self._voyageai
+        APIRequestor = self._voyage_api_requestor
         acquired = _VOYAGE_HTTP_LOCK.acquire(blocking=False)
         _require(
             acquired,

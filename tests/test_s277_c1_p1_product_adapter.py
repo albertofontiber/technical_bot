@@ -563,6 +563,81 @@ def test_anthropic_transport_captures_raw_http_receipt_without_retry(monkeypatch
     assert receipt["sdk_retries_taken"] == 0
 
 
+def test_paid_adapter_preflights_both_sdks_before_prepare(monkeypatch):
+    observed_distributions = []
+
+    def version(distribution):
+        observed_distributions.append(distribution)
+        return {"anthropic": "0.97.0", "voyageai": "0.2.4"}[distribution]
+
+    monkeypatch.setattr(product, "package_version", version)
+    adapter = product.ProductSDKPaidAdapter(
+        anthropic_api_key="anthropic-test", voyage_api_key="voyage-test"
+    )
+    assert observed_distributions == ["anthropic", "voyageai"]
+
+    def cold_discovery(_distribution):  # pragma: no cover - must stay unused
+        raise AssertionError("prepare must not discover SDK metadata")
+
+    monkeypatch.setattr(product, "package_version", cold_discovery)
+    voyage_intent = product.ProductProviderIntent(
+        replica_key=REPLICA.key,
+        operation="embedding",
+        call_key=f"{REPLICA.key}:embedding",
+        provider="voyage",
+        model="voyage-4-large",
+        physical_payload={
+            "model": "voyage-4-large",
+            "input_type": "query",
+            "texts": [QUESTION],
+            "truncation": True,
+        },
+        lineage_input=_input_contract()["hp017"],
+        run_genesis_sha256="2" * 64,
+        max_output_tokens=0,
+    )
+    anthropic_intent = product.ProductProviderIntent(
+        replica_key=REPLICA.key,
+        operation="rerank",
+        call_key=f"{REPLICA.key}:rerank",
+        provider="anthropic",
+        model="claude-sonnet-4-6",
+        physical_payload={
+            "model": "claude-sonnet-4-6",
+            "max_tokens": 32,
+            "temperature": 0,
+            "messages": [{"role": "user", "content": "prompt"}],
+        },
+        lineage_input=_chunks(),
+        run_genesis_sha256="2" * 64,
+        max_output_tokens=32,
+    )
+
+    assert adapter.prepare(_provider_call(voyage_intent))._call.provider == "voyage"
+    assert (
+        adapter.prepare(_provider_call(anthropic_intent))._call.provider
+        == "anthropic"
+    )
+
+
+def test_paid_adapter_fails_construction_on_any_sdk_version_drift(monkeypatch):
+    monkeypatch.setattr(
+        product,
+        "package_version",
+        lambda distribution: {
+            "anthropic": "0.97.0",
+            "voyageai": "0.2.3",
+        }[distribution],
+    )
+
+    with pytest.raises(p1.P1Error) as caught:
+        product.ProductSDKPaidAdapter(
+            anthropic_api_key="anthropic-test", voyage_api_key="voyage-test"
+        )
+
+    assert caught.value.code == "HOLD_PROVIDER_SDK_VERSION"
+
+
 def test_voyage_transport_intercepts_one_raw_request_and_restores(monkeypatch):
     import voyageai
     from voyageai.api_resources.api_requestor import APIRequestor
@@ -614,7 +689,14 @@ def test_voyage_transport_intercepts_one_raw_request_and_restores(monkeypatch):
     monkeypatch.setattr(voyageai, "__version__", "0.2.3")
     monkeypatch.setattr(voyageai, "Client", FakeVoyageClient)
     monkeypatch.setattr(APIRequestor, "request_raw", fake_request_raw)
-    monkeypatch.setattr(product, "package_version", lambda _name: "0.2.4")
+    monkeypatch.setattr(
+        product,
+        "package_version",
+        lambda distribution: {
+            "anthropic": "0.97.0",
+            "voyageai": "0.2.4",
+        }[distribution],
+    )
     adapter = product.ProductSDKPaidAdapter(
         anthropic_api_key="anthropic-test", voyage_api_key="voyage-test"
     )
