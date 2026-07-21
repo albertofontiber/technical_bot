@@ -3,7 +3,8 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — P1 `CODE_READY`; ejecución exacta autorizada, prerrequisitos pendientes).
+> 21 jul 2026 (S277 — P1 ejecutada con `NO_GO_PARTIAL`; blocker SDK corregido,
+> nueva autorización pendiente).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -45,7 +46,24 @@ por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo 
 Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
 su estado vivo; no lo apaga como efecto lateral.
 
-**P1 end-to-end está `CODE_READY`; todavía no se ha ejecutado.** El paquete sella
+**P1 end-to-end se ejecutó una vez y cerró `NO_GO_PARTIAL`.** El run
+`p1-22bfc29e520b4002b3c4b9def2b63cdb`, ligado al commit `537152a`, abrió el fence,
+pero paró en `hp017:r1:embedding` con `HOLD_PROVIDER_SDK_VERSION`: 0/27 réplicas,
+coste observado 0 USD y reserva conservadora desconocida de 0,001 USD. El WAL marcó esa
+única llamada `UNKNOWN_BILLED_POST_SEND`, por lo que no admite retry. El fence cerró
+`CLOSED_VERIFIED`; manifest y fingerprint pre/post coincidieron y hubo cero mutaciones en
+Railway/Supabase. `score` rechazó correctamente el artefacto incompleto y no existe
+`P1_PASS`.
+
+La causa fue instrumental, no del mecanismo C1: la distribución instalada es
+`voyageai==0.2.4`, pero ese paquete publica un `voyageai.__version__` obsoleto `0.2.3`.
+El adapter ya había validado correctamente la metadata de distribución en `prepare` y repetía
+después una comprobación incorrecta tras cruzar la frontera de envío. `c2079e9` deja la metadata
+de distribución como autoridad, mueve imports/capacidades al `prepare` local y elimina el check
+tardío; 39 pruebas focales pasan. Ese commit **no está medido por P1** y requiere una nueva
+autorización/run limpio, nunca reanudar la autorización consumida.
+
+El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
 base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
 preregistro, límite estático conservador de 6,777 USD bajo los tamaños preregistrados, techo duro
@@ -75,14 +93,12 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`, no GO.** Alberto
-autorizó una única P1 exacta de 27 réplicas/27 generaciones y 81 llamadas pagables, con techo duro
-de 10 USD. La autorización no cubre merge, deploy ni canary. Ya no son blockers la ausencia de
-adapter, manifest live, cierre transitivo ni migración. `SUPABASE_KEY`, el PAT efímero y la
-credencial DB existen fuera del candidato; falta el bearer efímero `P1_SUPABASE_JWT`, capturar los inputs live
-y ejecutar P1 por módulos `python -m`, seguida de `score`/`finalize`. API key y bearer son
-credenciales distintas. No se han ejecutado las 27 réplicas, no existe `P1_PASS`, no hubo deploy
-ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
+**Estado operativo: `P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`, no GO.** La única
+autorización P1 quedó consumida por el run terminal anterior; no se repite ni se reabre. El fix
+`c2079e9` está probado pero no medido. Para otra P1 hacen falta autorización humana nueva,
+checkout detached del nuevo commit, bearer/inputs/recibo nuevos y el mismo límite explícito de
+coste que se autorice. No existe `P1_PASS`, no hubo deploy ni cambio de Railway y el marcador
+permanece 146/154. El Advisor conserva dos avisos por grants
 explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
 requieren una migración y autorización separadas antes del GO final de C1.
 
@@ -92,12 +108,11 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) usar el PAT ya provisionado y crear de forma
-efímera `P1_SUPABASE_JWT`, usando la `SUPABASE_KEY` y credencial PostgreSQL existentes fuera del candidato
-y manteniendo separados API key y bearer; (2) materializar release-config, manifest/evidencia live
-y el recibo de la autorización recibida que disponga expresamente del prior hp017 y selle
-27 réplicas/81 llamadas/10 USD; (3) ejecutar una sola P1 preregistrada mediante `python -m`, cerrar
-o abortar el fence y correr `score`/`finalize`; (4) sólo si existe `P1_PASS` vigente, resolver el
+**Qué sigue, por orden y sin abrir otro frente:** (1) Alberto decide si autoriza una P1 nueva
+sobre `c2079e9`; sin esa decisión no hay más llamadas; (2) si la autoriza, materializar desde cero
+checkout detached, release-config, bearer, manifest/evidencia y recibo ligados al nuevo commit,
+sin reutilizar WAL, artefactos ni autorización del run terminal; (3) ejecutar una sola P1 nueva,
+cerrar el fence y correr `score`/`finalize`; (4) sólo si existe `P1_PASS` vigente, resolver el
 riesgo separado de `create_hnsw_index()` y solicitar autorización separada para merge/deploy y
 canary. Después, para el +5, usar eval orgánico/fresco u
 otra familia causal —P1 es gate de release, no árbitro del 98%—. La Fase 0 conversacional sigue

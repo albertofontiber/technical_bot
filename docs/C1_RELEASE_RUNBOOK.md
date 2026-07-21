@@ -1,16 +1,20 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-21: **P1 `CODE_READY`, ejecución exacta autorizada y
-`P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`; todavía no existe GO de release**. La
-autorización humana cubre una única P1 de 27 réplicas/27 generaciones y exactamente
-81 llamadas pagables, con techo duro de 10 USD; no cubre merge, deploy ni canary. Además de
+Estado a 2026-07-21: **P1 ejecutada una vez con `NO_GO_PARTIAL` y fence cerrado;
+`P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`; todavía no existe GO de release**.
+La autorización humana cubría una única P1 de 27 réplicas/27 generaciones y exactamente
+81 llamadas pagables, con techo duro de 10 USD; quedó consumida por el run terminal y nunca
+cubrió merge, deploy ni canary. Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
 el manifest live pre/watch/post, el fence PostgreSQL persistente read-only por IPC,
 el guard PostgREST acotado y el executor. El control histórico gratuito conserva el
 prior PEARL 7-vs-8 en 3/3. La migración `p1_readonly` quedó aplicada y verificada
-en producción como versión `20260721120000`; no existe `P1_PASS`, no se ejecutaron
-llamadas pagadas, no se cambió Railway y no hubo deploy.
+en producción como versión `20260721120000`. El run ligado a `537152a` paró en la primera
+embedding con `HOLD_PROVIDER_SDK_VERSION`: 0/27 réplicas, una llamada conservadoramente
+`UNKNOWN_BILLED_POST_SEND`, coste observado 0 USD y reserva máxima 0,001 USD. El fence cerró
+con corpus/manifest idénticos; no se cambió Railway y no hubo deploy. El fix `c2079e9` está
+probado pero no medido; no existe `P1_PASS`.
 
 ## Qué corrige
 
@@ -109,7 +113,7 @@ invalida el recibo. El JSON versionado actual es autoridad sólo para este
 checkout byte-idéntico; no debe repinnearse editando hashes: ante cualquier
 drift hay que reejecutar el GET-only y guardar su nueva salida.
 
-## Gate pagado prerelease: implementación lista, ejecución pendiente
+## Gate pagado prerelease: último run NO-GO; reautorización pendiente
 
 La respuesta real aportada por Alberto tenía 4.449 caracteres y Telegram la
 dividió en dos mensajes: fue una generación, no dos respuestas. Tampoco
@@ -166,11 +170,10 @@ RLS, extensiones, roles y configuración PostgREST. El fence mantiene una sesió
 PostgreSQL read-only y locks persistentes desde un operador separado; el runner sólo
 recibe su IPC sin credenciales y puede solicitar cierre o aborto explícitos.
 
-Eso deja credenciales e inputs operativos, no otro desarrollo: la migración versionada
-`20260721120000_add_p1_readonly_role.sql` está aplicada y sus postcondiciones pasaron.
-La `SUPABASE_KEY` PostgREST y la credencial PostgreSQL del operador están disponibles
-fuera del candidato; el PAT de Supabase ya está provisionado de forma efímera y falta
-el bearer efímero `P1_SUPABASE_JWT` con `role=p1_readonly`.
+La migración versionada `20260721120000_add_p1_readonly_role.sql` está aplicada y sus
+postcondiciones pasaron. Credenciales e inputs del run terminal no se reutilizan. Una ejecución
+nueva debe provisionar de nuevo fuera del checkout PAT, bearer efímero
+`P1_SUPABASE_JWT` con `role=p1_readonly` y credencial del operador.
 `SUPABASE_KEY` alimenta exclusivamente el encabezado `apikey` y no puede reutilizarse
 como bearer; `P1_SUPABASE_JWT` alimenta `Authorization: Bearer ...` y no puede
 reutilizarse como `apikey`. `run` sigue fallando cerrado sin `--execute`,
@@ -218,7 +221,7 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: ejecución autorizada, prerrequisitos pendientes
+### Fase P1: run terminal cerrado; nueva autorización pendiente
 
 El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
 despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
@@ -229,27 +232,29 @@ de configuración común, fingerprints, contextos, respuestas y TTL de 6 horas. 
 árbol/código, configuración común, corpus, proveedor/runtime o TTL cambian después,
 P1 caduca y debe repetirse bajo una preregistración nueva.
 
-Secuencia operativa única para llegar a una decisión P1:
+Estado de la secuencia ejecutada:
 
 1. **Completado:** migración `20260721120000_add_p1_readonly_role.sql` aplicada y
    verificada, incluidas las tres filas PostgreSQL 17 exactas descritas arriba.
-2. Usar el PAT de Supabase ya provisionado fuera del checkout y crear un
+2. **Completado para el run terminal:** se usaron PAT y bearer efímeros fuera del checkout;
+   no deben reutilizarse. Para un run nuevo hay que volver a crear un
    `P1_SUPABASE_JWT` efímero con `role=p1_readonly`; usar la `SUPABASE_KEY` existente sólo para `apikey` y la
    credencial PostgreSQL existente sólo en el operador. API key y bearer son
    credenciales separadas y el runner no recibe la credencial PostgreSQL.
-3. Capturar desde el checkout limpio y detached el release-config Railway read-only,
+3. **Completado para `537152a`:** se capturaron desde checkout limpio y detached el release-config Railway read-only,
    el contrato/manifest live previo y la evidencia HTTP/identidad; emitir un recibo de
    autorización que materialice la decisión humana ya recibida, acepte expresamente
    el prior hp017 y limite la ejecución a 27 réplicas/81 llamadas y 10 USD.
-4. Arrancar el operador de fence y ejecutar exactamente una vez `run --execute
-   --confirm-paid` con `artifact-dir` e `ipc-dir` fuera del checkout y disjuntos.
-5. `run` captura el manifest/snapshot posterior y cierra el fence —o lo aborta ante cualquier
-   fallo— antes de retornar. Después, ejecutar `score` y `finalize`; sólo un resultado final
-   sellado puede crear `P1_PASS`.
+4. **Ejecutado una vez:** el operador abrió el fence y `run --execute --confirm-paid` paró
+   fail-closed en la primera embedding por `HOLD_PROVIDER_SDK_VERSION`. El WAL quedó terminal;
+   no se reintenta ni se reanuda.
+5. **Cerrado:** manifest y fingerprint pre/post coincidieron, el fence emitió
+   `CLOSED_VERIFIED` y `score` devolvió `HOLD_RUN_INCOMPLETE`; `finalize` no puede crear
+   `P1_PASS`. La discrepancia `voyageai` quedó corregida en `c2079e9`, aún sin P1.
 
-La autorización explícita ya recibida cubre sólo la P1 exacta de 27 réplicas/81 llamadas
-bajo el techo de 10 USD. No constituye `P1_PASS` ni GO: siguen pendientes bearer,
-inputs live, ejecución, `score` y `finalize`. Merge, deploy, migración de
+La autorización explícita recibida cubría sólo ese run y está consumida. Una P1 nueva sobre
+`c2079e9` requiere autorización humana nueva y todos sus inputs deben materializarse desde cero.
+No existe `P1_PASS` ni GO. Merge, deploy, migración de
 trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
 
 ## Trazabilidad y privacidad

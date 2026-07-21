@@ -3063,3 +3063,37 @@ avisos por grants explícitos preexistentes de `anon` y `authenticated`. No bloq
 mínima ni la ejecución acotada de P1, pero deben inventariarse, probarse y corregirse mediante
 otra migración con autorización separada antes del GO final de C1. DEC-140 no amplía la
 autorización a ese cambio, merge, deploy o canary.
+
+## DEC-141 (S277, 21 jul 2026) — La única P1 cierra NO-GO parcial por atestación tardía del SDK; el fix requiere autorización y run nuevos
+
+**Resultado autoritativo.** La P1 autorizada se ejecutó como
+`p1-22bfc29e520b4002b3c4b9def2b63cdb` sobre el commit `537152a`. El fence abrió
+`OPEN_VERIFIED`, pero la primera llamada planificada (`hp017:r1:embedding`) terminó
+`UNKNOWN_BILLED_POST_SEND` con `HOLD_PROVIDER_SDK_VERSION`. El run quedó
+`NO_GO_PARTIAL`: 0/27 réplicas, coste observado 0 USD y reserva conservadora máxima de
+0,001 USD. No hubo retry. El manifest live conservó el mismo hash semántico pre/post
+`68fd9a89d6c57a2879ba9ec7b33b13757831faaadde75277357b49698619da65`; los
+fingerprints inicial/final fueron idénticos, el fence cerró `CLOSED_VERIFIED` y Railway y
+Supabase registraron cero mutaciones. `score` devolvió `HOLD_RUN_INCOMPLETE`, por lo que no
+se ejecuta `finalize` ni existe `P1_PASS`.
+
+**Causa raíz.** El runtime tenía la distribución correcta `voyageai==0.2.4`, pero ese
+release publica el valor interno obsoleto `voyageai.__version__ == 0.2.3`. `prepare` ya
+atestaba correctamente la metadata de distribución 0.2.4; `_send_voyage` repetía después
+una comprobación incorrecta del valor interno. Al ocurrir tras cruzar la frontera local de
+delegación, el WAL debía clasificarla de forma conservadora como posiblemente facturada,
+aunque el fallo sucede antes de crear el cliente o emitir HTTP.
+
+**Corrección estructural.** `c2079e9` convierte la metadata instalada de distribución en
+la única autoridad de versión, mueve imports y comprobaciones de capacidad al `prepare`
+local y elimina las comprobaciones tardías de `__version__` tanto en Voyage como en
+Anthropic. Así cualquier incompatibilidad estática se clasifica antes del send, y el receipt
+sigue ligando la versión exacta del paquete. Pasan 39 pruebas focales, incluida la regresión
+explícita `distribución=0.2.4 / módulo=0.2.3`.
+
+**Decisión y límites.** La autorización de DEC-139 está consumida y el WAL terminal no se
+reanuda ni se reintenta. El fix no convierte el run anterior en PASS y todavía no está medido.
+Otra P1 exige autorización humana nueva, checkout detached de `c2079e9` o descendiente exacto,
+credenciales/inputs/recibo nuevos y un artifact root vacío. Hasta entonces C1 permanece
+`P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`; merge, deploy y canary siguen fuera de
+alcance. El riesgo separado de `create_hnsw_index()` continúa pendiente antes de un GO final.
