@@ -94,10 +94,11 @@ ALTER ROLE p1_readonly SET statement_timeout = '30s';
 -- FALSE.  The fence connects as the hosted Supabase `postgres` operator and
 -- must be able to reduce itself to p1_readonly for catalog capture.  Preserve
 -- the unavoidable creator ADMIN option, disable inheritance and enable only
--- explicit SET ROLE.
+-- explicit SET ROLE.  Do not re-GRANT ADMIN TRUE: PostgreSQL rejects granting
+-- that option back to the membership's own grantor; the postcondition below
+-- verifies that the automatic creator membership retained it.
 GRANT p1_readonly TO postgres WITH INHERIT FALSE;
 GRANT p1_readonly TO postgres WITH SET TRUE;
-GRANT p1_readonly TO postgres WITH ADMIN TRUE;
 
 GRANT p1_readonly TO authenticator WITH INHERIT FALSE;
 GRANT p1_readonly TO authenticator WITH SET TRUE;

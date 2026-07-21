@@ -472,7 +472,8 @@ def test_migration_is_additive_read_only_and_contains_visual_and_role_defenses()
     assert "GRANT P1_READONLY TO AUTHENTICATOR WITH ADMIN FALSE" in upper
     assert "GRANT P1_READONLY TO POSTGRES WITH INHERIT FALSE" in upper
     assert "GRANT P1_READONLY TO POSTGRES WITH SET TRUE" in upper
-    assert "GRANT P1_READONLY TO POSTGRES WITH ADMIN TRUE" in upper
+    assert "GRANT P1_READONLY TO POSTGRES WITH ADMIN TRUE" not in upper
+    assert "MEMBERSHIP.ADMIN_OPTION" in upper
     assert "REVOKE EXECUTE ON FUNCTION PUBLIC.CREATE_HNSW_INDEX() FROM PUBLIC" in upper
     assert "HAS_SCHEMA_PRIVILEGE('P1_READONLY', 'PUBLIC', 'CREATE')" in upper
     assert "PROC.PROSECDEF" in upper
