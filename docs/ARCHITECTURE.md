@@ -17,11 +17,14 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado S277 (20 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
-> #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas;
-> su runner P1 es tooling prerelease offline y no es una capacidad del chatbot. La observación
-> PEARL viva omitió los dos warnings y mantiene el release en NO-GO. Marcador: 146/154
-> (94,81 %), sin movimiento S277. Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
+> **Estado S277 (21 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
+> #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas.
+> Su gate P1 está `CODE_READY`: adapter del path real, closure transitivo exacto, captura
+> Railway read-only, manifest live pre/watch/post, guard PostgREST y fence PostgreSQL
+> persistente mediante IPC con aborto explícito. Es tooling de release, no una capacidad del
+> chatbot. Sigue `OPERATIONAL_AUTHORIZATION_PENDING`: no se aplicó el rol `p1_readonly`, no
+> hubo ejecución pagada, deploy ni `P1_PASS`. Marcador: 146/154 (94,81 %), sin movimiento.
+> Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
 >
 > Resumen estable (s71 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
@@ -253,12 +256,20 @@ flowchart LR
 
 ## 3. El viaje de una pregunta — paso a paso
 
-> **Estado S277 (20 jul 2026).** El flujo siguiente describe el runtime productivo actual,
+> **Estado S277 (21 jul 2026).** El flujo siguiente describe el runtime productivo actual,
 > no el candidato C1 todavía sin desplegar:
 > esencialmente **single-turn, single-hop y un writer**. Existe sólo un carry efímero de una hora
 > en `context.user_data`; no hay conversación durable, event log, hops, claims ni delivery outbox.
 > El modelo multi-turn/multi-hop de DEC-136 es un objetivo no implementado y se resume en §6a;
 > no debe leerse en este diagrama como realidad productiva.
+
+P1 envuelve temporalmente este mismo camino single-turn sin convertirse en otro runtime. Un
+worker aislado intercepta las llamadas reales de embedding/rerank/síntesis para aplicar WAL,
+presupuesto y receipts; un guard limita PostgREST a las lecturas/RPC exactas; y un operador
+separado conserva una transacción PostgreSQL read-only con locks. El runner sólo controla el
+fence por IPC sin credenciales. El `transaction_read_only` del GET de identidad no se extrapola
+a los POST RPC: éstos se protegen mediante ACL/RLS mínimos, allowlist exacta y ausencia de
+`SECURITY DEFINER` accesible. Toda esta envoltura desaparece después del gate.
 
 Supongamos: el técnico pregunta *"¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?"*
 

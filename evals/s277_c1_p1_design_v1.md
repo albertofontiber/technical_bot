@@ -1,7 +1,7 @@
 # S277 C1 P1 — diseño para revisión adversarial
 
-Estado: `OFFLINE_CORE_SAFE_HOLD_RELEASE_BLOCKED_TRANSITIVE_IDENTITY_AND_EXTERNAL_PREREQUISITES`
-Fecha: 2026-07-20
+Estado: `CODE_READY_OPERATIONAL_AUTHORIZATION_PENDING`
+Fecha: 2026-07-21
 Ejecución pagada: **NO AUTORIZADA por este documento**
 
 ## 1. Decisión que debe informar
@@ -159,8 +159,10 @@ ni se presentan como snapshot global ACID: cada réplica es una observación end
 independiente. Para evitar que una ingesta contamine la cohorte durante P1, un proceso de
 operador separado mantiene el fence; el runner pagado nunca recibe esa credencial.
 
-El permit de ejecución nombra al `fence_owner`. Desde una conexión PostgreSQL directa,
-no desde el pooler transaccional, el protocolo exacto es `BEGIN -> SHARE locks en orden
+El permit de ejecución nombra al `fence_owner`. Desde una conexión PostgreSQL persistente
+directa o por el pooler de sesión (puerto 5432), nunca por el pooler transaccional 6543,
+el protocolo exacto es `BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED READ ONLY
+-> SHARE locks en orden
 canónico -> fingerprint inicial -> 27 réplicas -> fingerprint final todavía bajo locks
 -> COMMIT`. Estos locks
 permiten SELECT/PostgREST y bloquean DML y DDL de tabla hasta cerrar P1. El receipt sella
@@ -178,20 +180,19 @@ DDL o cualquier waiter incompatible, libera el fence antes de otra llamada pagad
 emite HOLD. La ventana declara ausencia de ingesta/DDL/tráfico técnico y termina con
 post-check de mantenimiento; no se mantiene el lock indefinidamente tras crash.
 
-El fence de tabla deberá acompañarse de una ventana operativa que pause cambios de RPC,
-ACL, índices, PostgREST y configuración. Los helpers implementados hoy sólo sellan la
-**superficie declarada** de nombres/relaciones y locks; no observan definiciones RPC,
-ACL, overloads, índices ni configuración live. Por ello no se presentan como manifest
-físico. Los cuatro CLI productivos de fence/ejecución/finalización devuelven por máquina
-`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED` antes de leer receipts o credenciales.
+El fence de tabla se acompaña de una ventana operativa que pausa cambios de RPC, ACL,
+índices, PostgREST y configuración. El manifest live implementado captura y compara en
+pre/watch/post `pg_get_functiondef` y hash, firma/resultado, volatility, `prosecdef`,
+owner/ACL y overloads por RPC; `pg_get_indexdef`, valid/ready, AM/opclass/dimensión/relación
+por índice; relaciones, RLS, extensiones, roles y snapshots de PostgREST/config. Sus hashes
+se recomputan localmente contra el contrato esperado sellado y se ligan a prereg,
+release-config, fence y genesis. Una mutación revertida entre controles sigue siendo riesgo
+residual explícito del permit, no aislamiento inexistente.
 
-Retirar ese HOLD exigirá un cambio separado: bodies pre/watch/post con firma/resultado,
-`pg_get_functiondef` y hash, volatility, `prosecdef`, owner/ACL y cardinalidad de overload
-por RPC; `pg_get_indexdef`, valid/ready, AM/opclass/dimensión/relación por índice; y
-snapshots de PostgREST/ACL/config. Sus hashes deberán recomputarse localmente y compararse
-con un contrato esperado canónico sellado en prereg, release-config y genesis. Una
-mutación revertida entre controles seguirá siendo riesgo residual explícito del permit,
-no aislamiento inexistente.
+El operador conserva la conexión y las credenciales PostgreSQL; expone al runner sólo IPC
+credential-free. `open`, heartbeats, watch, `close` y `abort` están ligados a la sesión. Tras
+abrir el fence, cualquier excepción exige aborto explícito; si el rollback no puede
+confirmarse el estado queda ambiguo y nunca se fabrica un receipt `ABORTED`.
 
 Para identidad de corpus se reutiliza `public.corpus_fingerprint_v1()` y el contrato
 aplicado en `evals/s107_m014_corpus_fingerprint_apply_v1.json`; no se diseña otro Merkle.
@@ -208,18 +209,21 @@ camino no es viable, se rediseña o usa un clon físico hosted autorizado: no se
 silenciosamente a row counts.
 
 El runner usa un JWT PostgREST `p1_readonly` sin DML/DDL ni `BYPASSRLS`, limitado a
-lectura y a un `rpc_allowlist` generado desde la configuración sellada y un trace
-offline del camino real. La ruta base incluye vector/FTS (`match_chunks_v2` y
-`search_chunks_text_v2`); enunciados e HyQ añaden sus RPC sólo si sus lanes están ON.
-Todas las llamadas observadas deben pertenecer a la allowlist exacta y cada lane ON
-debe ejercitarse en un control; no se hardcodea una tripleta antes de materializar el
-release-config. El boundary permite
-GET y POST `/rpc/…` allowlisted porque PostgREST invoca RPC de lectura mediante POST,
-pero bloquea POST a tablas, cualquier otra RPC y PATCH/PUT/DELETE antes de red. Cada
-firma futura deberá tener hash revisado, volatility de lectura, `prosecdef=false`, ACL
-exacta y ausencia de overload ambiguo. Esa verificación **no está materializada en
-S277** y es precisamente la stop-line anterior. El método HTTP por sí solo no demuestra
-read-only.
+SELECT y a una `rpc_allowlist` exacta derivada de la configuración sellada y del camino
+real. La ruta base incluye vector/FTS (`match_chunks_v2` y `search_chunks_text_v2`);
+enunciados e HyQ añaden sus RPC sólo si sus lanes están ON. Todas las llamadas observadas
+deben pertenecer a la allowlist y cada lane ON debe ejercitarse. El guard permite GET y
+POST `/rpc/…` allowlisted, pero bloquea POST a tablas, cualquier otra RPC,
+PATCH/PUT/DELETE, redirects y hosts ajenos antes de red.
+
+Corrección P0: el `transaction_read_only=on` que devuelve
+`p1_runtime_identity_v1()` acredita **sólo el GET de identidad**; PostgREST decide el modo
+de la transacción del POST RPC por separado. Por tanto ese campo no prueba que un POST sea
+read-only. La seguridad efectiva nace de la combinación de ACL/RLS mínimos, guard de
+superficie exacta y ausencia de funciones `SECURITY DEFINER` accesibles al rol. La
+migración `20260721120000_add_p1_readonly_role.sql` crea/verifica esa frontera y revoca el
+escape observado de `create_hnsw_index()`, pero está revisada y **no aplicada**. Antes de
+P1 deben pasar sus postcondiciones y sólo entonces emitirse el JWT efímero.
 
 Tras desplegar con `bootstrap_profile=off`, el runbook verifica árbol/lineage, runtime,
 `common_config_sha256`, fingerprint y manifest RPC/físico. El resultado sella IDs de
@@ -233,27 +237,26 @@ Cualquier otro drift caduca P1.
 
 ## 6. Fase E — 27 réplicas end-to-end
 
-La implementación versionada en este cambio es el orquestador y contrato
-**offline**, no el adapter productivo. El adapter posterior, revisado por separado,
-deberá hacer que cada celda cruce `execute_rag_turn` una sola vez con
-`retrieve_chunks`, `rerank(..., strict=True)`, observer, structural fetch,
-selector/attestation, coverage, generator, must-preserve y renderer reales. Mientras
-no se materialice y revise el manifiesto live físico, `run` falla primero con
-`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Una vez retirado ese bloqueo mediante
-una implementación revisada, la ausencia de paridad y receipts del adapter mantiene
-el siguiente cierre `HOLD_PRODUCTION_ADAPTER_NOT_INSTALLED`; P1 no es ejecutable en
-ninguno de los dos estados. No hay replay en
-un resultado autoritativo. Los replays deterministas offline pueden ayudar a
-clasificar un fallo después, pero no rescatan la celda, no forman PASS y nunca
-invocan una nueva síntesis.
+El adapter productivo versionado hace que cada celda cruce `execute_rag_turn` una sola
+vez con `retrieve_chunks`, `rerank(..., strict=True)`, observer, structural fetch,
+selector/attestation, coverage, generator, must-preserve y renderer reales. Proxies
+runner-only interceptan los kwargs físicos que el producto entrega a Voyage y Anthropic;
+los receipts de transporte se ligan al envelope y a la attestation de la réplica. El
+rerank exige terminación válida y usage/modelo/coste proceden de la respuesta física, no
+de una afirmación del orquestador.
 
-Los adapters usados por los tests son sintéticos: demuestran las transiciones,
-bindings y rechazos del orquestador, pero sus hashes coherentes no prueban que el pool,
-prefijo, fetch estructural, contexto servido o rama visual hayan sido derivados por el
-pipeline productivo. Tampoco prueban los bytes entregados al SDK ni la entrega final a
-Telegram. Esas garantías nacen únicamente de las futuras pruebas de paridad/input-graph
-y de receipts físicos del adapter productivo; hasta entonces son stop-lines, no
-capacidades implementadas.
+El manifest live, el guard PostgREST y el fence por IPC completan la ventana. El executor
+revalida Railway sin mutarlo, valida identidad/manifest/evidencia previa, abre el fence,
+ejecuta el runner bajo el guard, captura evidencia y snapshot posteriores, y cierra la
+sesión. Si algo falla después de `open`, solicita `abort` y conserva un estado ambiguo si
+el rollback no queda confirmado. No hay replay en un resultado autoritativo. Los replays
+deterministas offline sólo pueden ayudar a clasificar un fallo; no rescatan la celda, no
+forman PASS y nunca invocan una síntesis extra.
+
+El `session_id` se preasigna antes de que el operador adquiera locks, de modo que una
+respuesta de `open` perdida aún admite un aborto ligado. `artifact_dir` debe estar vacío y
+ser disjunto de credenciales e IPC; el receipt de cierre sella además el hash exacto del
+manifest post capturado bajo el fence.
 
 Por réplica se persisten completos y ordenados:
 
@@ -286,9 +289,9 @@ recovery: una segunda llamada sería una réplica 28 encubierta.
 
 ## 7. Boundary de proveedor, WAL y reanudación
 
-El boundary offline, el WAL y sus mutation tests están implementados. No se modifica
-core de producción. El adapter futuro deberá correr en un subprocess limpio e
-interceptar Anthropic y Voyage mediante proxies runner-only con estas condiciones:
+El boundary, el WAL y sus mutation tests están implementados sin modificar el core de
+producción. El adapter corre en el worker P1 aislado e intercepta Anthropic y Voyage
+mediante proxies runner-only con estas condiciones:
 
 - Anthropic siempre se instancia con `max_retries=0`;
 - Voyage conserva intacta la cadena de producción
@@ -301,7 +304,7 @@ interceptar Anthropic y Voyage mediante proxies runner-only con estas condicione
 - sólo se permiten las operaciones/modelos preregistrados;
 - la respuesta física se fsynca antes de parsear o puntuar.
 
-Los tests de paridad del adapter futuro deberán exigir el mismo texto normalizado/truncado, orden, `model`,
+Los tests de paridad del adapter exigen el mismo texto normalizado/truncado, orden, `model`,
 `input_type`, dimensión, cardinalidad y resultado que el adaptador de producción, y
 exactamente una petición tanto en éxito como en fallo. Se sellan los hashes de
 `_embed_voyage`/`_PROVIDERS`. El runtime actual no puede asumirse compatible sólo
@@ -361,13 +364,12 @@ reservado y nunca se reclasifica como fallo gratuito.
 Toda parada genera un result sellado `NO_GO_PARTIAL`; nunca deja la decisión escondida
 en una excepción.
 
-El runner actual valida el input preregistrado exacto, los envelopes y su hash WAL,
+El runner valida el input preregistrado exacto, los envelopes y su hash WAL,
 el payload canónico de intención persistido, `stop_reason`/modelo/usage contra la
 respuesta sellada del adapter, tres etapas de postproceso, respuesta, hash y render.
-La implementación del adapter deberá
-añadir y probar el binding de los bytes reales enviados en embedding, rerank y
-síntesis —incluidos pool, contexto servido y prompts— contra esos envelopes; los
-hashes por sí solos no sustituyen esa revisión de paridad.
+El adapter liga además los bytes reales enviados en embedding, rerank y síntesis
+—incluidos pool, contexto servido y prompts— contra esos envelopes y receipts físicos;
+los hashes no se aceptan sin esa revisión de paridad.
 
 ## 8. Coste
 
@@ -613,26 +615,19 @@ python scripts/s277_c1_p1.py run --help
 
 `plan` confirma 27 réplicas/81 llamadas preregistradas y cero llamadas pagadas.
 `score-stored-controls` confirma el conflicto 3/3 y devuelve HOLD sin medir el
-candidato. `fence-open-verify`, `fence-close-verify`, `run` y `finalize` no importan credenciales ni
-pueden alcanzar red en esta versión: su primera operación termina en
-`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Tras materializar y revisar ese contrato
-seguirá siendo necesaria otra PR para el adapter productivo.
-
-Verificación local reproducida tras el build: 179 tests P1 verdes y `py_compile`
-verde. Los artefactos regenerados byte-idénticos tienen SHA-256 raw:
-
-```text
-fact contract  cf61c61dfc9e7d1471d28d5db8833a8097eccdd60c1a87a43445fa4b1e17c38d
-prereg         100f29de15168a432945270f0dfcc351b52ccf4d8801aec7271077f657dc936e
-schema         1e9bea474620579dd703c038299293be2f8894d96b9a8708cfd9a340721bd700
-```
+candidato. `fence-open-verify`, `fence-close-verify`, `run`, `score` y `finalize`
+están cableados al manifest live y a los receipts físicos. `run` exige doble opt-in,
+recibo de autorización, credenciales efímeras, directorios de artefactos/IPC fuera del
+checkout y evidencia live preexistente; sin cualquiera de ellos falla antes de gastar.
+Al completar las 27 réplicas y cerrar el fence sólo devuelve
+`HOLD_PENDING_AUTHORITATIVE_SCORE_AND_FINALIZE`: el GO nace exclusivamente de
+`score` + `finalize`, nunca del retorno de `run`.
 
 Artefactos:
 
 - prereg y release-config safe;
 - fact contract packet;
-- fingerprint y contrato declarado de superficie/locks; manifest DB/RPC/index/config
-  live pendiente y bloqueado por máquina;
+- fingerprint, contrato y capturas pre/watch/post del manifest DB/RPC/index/config live;
 - pool/prefix/context/envelope seal por réplica;
 - WAL + receipts físicos por llamada;
 - generations completas;
@@ -671,29 +666,28 @@ conservan local/versionados según el contrato; `query_logs` no es autoridad por
 
 ## 14. Gaps y stop-lines declarados
 
-- El release-config seguro de Railway debe materializarse y sellarse antes de E.
-- El control almacenado hp017 tiene prior alto de conflicto; se puntúa gratis como
-  `HOLD_PREPAID_KNOWN_CONFLICT_RISK`. No adjudica el runtime no medido; arreglar primero
-  es lo recomendado y medir pese al prior exige un permit explícito posterior.
-- Deben provisionarse fuera de este runner el JWT `p1_readonly` y el proceso de fence
-  separado; P1 no usa `service_role` ni crea roles/grants como efecto lateral.
-- Debe materializarse y revisarse el manifest live de RPC signatures/ACL/overloads,
-  índices y PostgREST/config. Hasta entonces los cuatro CLI operativos devuelven
-  `HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`; los hashes de superficie sintéticos
-  no son attestation física.
-- La cohorte es conocida/dev; un PASS no autoriza claims de 98 % ni robustez orgánica.
-- E prueba sólo los 13 afectados según el census congelado, no todas las preguntas
-  futuras.
+- Estado de implementación: `CODE_READY`. Ya no son stop-lines la ausencia de adapter,
+  manifest live, receipts físicos ni cierre transitivo.
+- Estado operativo: `OPERATIONAL_AUTHORIZATION_PENDING`. La migración
+  `20260721120000_add_p1_readonly_role.sql` está revisada pero no aplicada; antes de E
+  deben pasar sus postcondiciones y provisionarse fuera del checkout
+  `SUPABASE_ACCESS_TOKEN`, `P1_SUPABASE_JWT` y la credencial del operador de fence.
+- Deben materializarse en la misma ventana el release-config Railway read-only, el
+  contrato/captura live y la evidencia HTTP/identidad. Capturas antiguas o credenciales
+  presentes por sí solas no autorizan gasto.
+- El control almacenado hp017 mantiene el prior
+  `HOLD_PREPAID_KNOWN_CONFLICT_RISK`. No adjudica el runtime no medido; el receipt de
+  autorización debe disponer expresamente ese prior antes de una ejecución.
+- La ejecución pagada exige doble opt-in y autorización explícita con techo de 10 USD.
+  Aplicar la migración, ejecutar P1 y desplegar son tres mutaciones/autorizaciones
+  distintas; este documento no concede ninguna.
+- La cohorte es conocida/dev; un PASS no autoriza claims de 98 %, robustez orgánica ni
+  tasa global cero. E prueba sólo los 13 afectados según el census congelado.
 - hp011 puntúa función y opciones; `r.I`/`r.i` son canónicas y `r.1` es un alias
   OCR/display que no pasa por sí solo. Dentro de `--`, `t.A` es obligatorio y `t.Fi`
   está prohibido.
-- La ejecución pagada requiere runner/scorer/packet commiteados, suite offline verde,
-  revisión Sol+Fable adjudicada y autorización explícita de gasto posterior.
-- El adapter productivo y sus pruebas de paridad/input-graph no existen en este cambio;
-  deben ligar los bytes físicos enviados a cada etapa y no sólo aceptar hashes del
-  orquestador. Su ausencia es un bloqueo intencional, no una capacidad implementada.
-- El lease filesystem es deliberadamente **single-host**. Un lease abandonado nunca se
-  autoreclama; la recuperación stale con evidencia y un lock distribuido multi-host
-  requieren diseño/revisión separados antes de ampliar el runner.
-- La revisión final Sol+Fable de esta implementación y la CI de la PR siguen pendientes
-  hasta que sus resultados se registren y adjudiquen.
+- El lease de artefactos es deliberadamente **single-host**. Un lease abandonado nunca
+  se autoreclama; la recuperación stale y un runner multi-host requieren diseño/revisión
+  separados. El fence PostgreSQL persistente sí reside en el operador externo y no
+  comparte credenciales con el runner.
+- Multi-turn/multi-hop permanece `NOT_BUILT` y fuera de P1.

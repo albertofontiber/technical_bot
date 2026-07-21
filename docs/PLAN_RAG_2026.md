@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 20 jul 2026 (S277 — C1 NO-GO vivo + gate P1 materializado offline).
+> 21 jul 2026 (S277 — P1 `CODE_READY`; autorización operativa pendiente).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -22,8 +22,8 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s277--20-jul-2026"></a>
-## Estado actual (S277 — 20 jul 2026)
+<a id="estado-actual-s277--21-jul-2026"></a>
+## Estado actual (S277 — 21 jul 2026)
 
 **Marcador canónico sin movimiento desde S274: 154 facts = 146 OK · 6 synthesis-miss ·
 2 retrieval-miss = 146/154 (94,81%); faltan +5 para 151 (≥98%).** Es la foto de trabajo
@@ -45,33 +45,39 @@ por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo 
 Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
 su estado vivo; no lo apaga como efecto lateral.
 
-**P1 end-to-end materializado offline, ejecución pagada todavía bloqueada.** El paquete sella
+**P1 end-to-end está `CODE_READY`; todavía no se ha ejecutado.** El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
 base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
 preregistro, límite estático conservador de 6,777 USD bajo los tamaños preregistrados, techo duro
 de 10 USD, WAL fsync/no-retry, identidad de release, proyección semántica de configuración,
 fingerprint/fence y receipts internos ligados desde input preregistrado hasta respuesta/render.
 El preflight se reconstruye al ejecutar; runtime, lease y request reservado se revalidan antes
-de cada send; topología/claim/lease impiden doble runner y reinicialización de presupuesto. Estas
-garantías son del orquestador offline. Toda reapertura reconstruye las 81 llamadas y sus respuestas,
+de cada send; topología/claim/lease impiden doble runner y reinicialización de presupuesto. Toda
+reapertura reconstruye las 81 llamadas y sus respuestas,
 revalida las 27 réplicas, exige 162 eventos WAL alternos y recompone el coste/presupuesto exacto.
-La derivación productiva, los bytes SDK y el manifest live de RPC/ACL/índices/config siguen
-pendientes del adapter, fence service y sus revisiones. Los CLI operativos están bloqueados por
-máquina con `HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`; los hashes sintéticos actuales sólo
-describen la superficie declarada. El control
-almacenado de 0 USD confirma el conflicto hp017 en 3/3 y emite
+Ya están implementados el adapter productivo y sus receipts de transporte físico, el cierre
+transitivo exacto de implementación, la captura read-only de Railway, el manifest live
+pre/watch/post de RPC/ACL/índices/config, el fence PostgreSQL persistente read-only operado por
+IPC sin credenciales —incluido aborto explícito—, el guard PostgREST de superficie exacta y el
+executor que los ensambla. El control almacenado de 0 USD confirma el conflicto hp017 en 3/3 y emite
 `HOLD_PREPAID_KNOWN_CONFLICT_RISK`; nunca atribuye PASS/FAIL al candidato no medido.
 
-**Stop-lines actuales:** release-config real no materializado; adapter productivo deliberadamente
-ausente; manifest live RPC/index/config no materializado; identidad PostgREST read-only y fence
-externo no provisionados; conflicto hp017 sin
-resolver; gasto P1 no autorizado; lease filesystem sólo single-host y sin recuperación stale
-automática. El dúo final Sol/Fable terminó y confirmó un blocker adicional para retirar la
-stop-line: el manifest de implementation hashes aún no cubre transitivamente todo el código
-ejecutado por scoring (al menos `src/rag/answer_planner.py`). También delega al adapter productivo
-la validación terminal de rerank y la attestation externa de usage/coste. CI de la PR sigue
-pendiente. No se han ejecutado las 27 réplicas, no existe `P1_PASS`, no se aplicó
-la migración de trazas y no hubo escritura ni cambio de Railway/Supabase.
+La última revisión bloqueante también sella los bordes de la ventana: identidad de sesión
+preasignada para abortar un `open` de respuesta perdida, artefactos vacíos/disjuntos de
+credenciales e IPC, y hash del manifest post ligado al receipt de cierre.
+
+**Frontera de seguridad corregida.** El `transaction_read_only=on` observado en el endpoint de
+identidad acredita sólo ese GET; no demuestra que los POST a RPC sean transacciones read-only.
+La seguridad efectiva de esos POST procede del rol `p1_readonly` con ACL/RLS mínimos, la allowlist
+exacta del guard y la ausencia de funciones `SECURITY DEFINER` accesibles. La migración versionada
+que materializa ese rol y sus postcondiciones está revisada pero **no aplicada**.
+
+**Estado operativo: `OPERATIONAL_AUTHORIZATION_PENDING`, no GO.** Ya no son blockers la ausencia
+de adapter, manifest live o cierre transitivo. Faltan aplicar la migración `p1_readonly`,
+provisionar el PAT/JWT y la credencial del operador, capturar los inputs live de esta ventana y
+autorizar/ejecutar P1 con techo de 10 USD, seguido de `score`/`finalize`. No se han ejecutado las
+27 réplicas, no existe `P1_PASS`, no se aplicó ninguna migración, no hubo deploy ni cambio de
+Railway/Supabase y el marcador permanece 146/154.
 
 **Multi-turn/multi-hop permanece separado y `NOT_BUILT` (DEC-136).** El norte sigue siendo
 orquestador transport-neutral, estado/event log durable, ingress idempotente, leases+fencing,
@@ -79,15 +85,15 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden:** (1) cerrar suite amplia + CI de la PR #184 —dúo final completo y suite
-P1 focal 181/181—; (2) en una fase acotada del adapter/config, cerrar el manifest transitivo,
-stop reason de rerank y receipts externos de usage/coste; (3) resolver o revelar de forma segura
-el conflicto hp017 7-vs-8 antes de gastar; (4) materializar el contrato live de
-RPC/ACL/índices/config, configuración, identidades, adapter y receipts externos, y pedir
-autorización explícita para P1;
-(5) sólo si P1 da PASS vigente, seguir el runbook de deploy y autorizar aparte el canary; (6)
-para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro
-del 98%—; (7) la Fase 0 conversacional requiere una decisión separada de Alberto.
+**Qué sigue, por orden y sin abrir otro frente:** (1) con autorización operativa explícita,
+aplicar la migración revisada `p1_readonly` y verificar sus postcondiciones; (2) provisionar de
+forma efímera el PAT de Supabase, el JWT `p1_readonly` y la credencial PostgreSQL del operador;
+(3) materializar release-config, manifest/evidencia live y recibo de autorización que disponga
+expresamente del prior hp017; (4) ejecutar una sola P1 preregistrada con techo duro de 10 USD,
+cerrar o abortar el fence y correr `score`/`finalize`; (5) sólo si existe `P1_PASS` vigente,
+autorizar por separado merge/deploy y canary. Después, para el +5, usar eval orgánico/fresco u
+otra familia causal —P1 es gate de release, no árbitro del 98%—. La Fase 0 conversacional sigue
+`NOT_BUILT` y requiere una decisión separada de Alberto.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

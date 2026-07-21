@@ -1,13 +1,14 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-20: **PASS de ensamblaje offline y PASS GET-only desde el
-prefijo congelado; tooling P1 materializado y probado sólo offline; NO-GO de
-release**. El control histórico gratuito detecta el conflicto PEARL 7-vs-8 en
-3/3 y devuelve `HOLD_PREPAID_KNOWN_CONFLICT_RISK`. No existe `P1_PASS`, no se ha
-cambiado Railway ni aplicado la migración y los instrumentos S277 no han
-realizado llamadas pagadas. Además, los CLI operativos de fence/ejecución están
-bloqueados por `HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`: los hashes actuales
-describen una superficie declarada, no el estado live de RPC/ACL/índices/config.
+Estado a 2026-07-21: **P1 `CODE_READY` y
+`OPERATIONAL_AUTHORIZATION_PENDING`; todavía no existe GO de release**. Además de
+los PASS previos de ensamblaje offline y reachability GET-only, están implementados
+el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
+el manifest live pre/watch/post, el fence PostgreSQL persistente read-only por IPC,
+el guard PostgREST acotado y el executor. El control histórico gratuito conserva el
+prior PEARL 7-vs-8 en 3/3. No existe `P1_PASS`: no se aplicó la migración del rol
+`p1_readonly`, no se ejecutaron llamadas pagadas, no se cambió Railway y no hubo
+deploy.
 
 ## Qué corrige
 
@@ -106,7 +107,7 @@ invalida el recibo. El JSON versionado actual es autoridad sólo para este
 checkout byte-idéntico; no debe repinnearse editando hashes: ante cualquier
 drift hay que reejecutar el GET-only y guardar su nueva salida.
 
-## Gate pagado prerelease pendiente
+## Gate pagado prerelease: implementación lista, ejecución pendiente
 
 La respuesta real aportada por Alberto tenía 4.449 caracteres y Telegram la
 dividió en dos mensajes: fue una generación, no dos respuestas. Tampoco
@@ -120,7 +121,7 @@ cat001, cat017, cat018, cat019,
 hp002, hp003, hp005, hp011, hp012, hp013, hp014, hp017, hp018
 ```
 
-Contrato implementado por el tooling offline:
+Contrato implementado por el runner end-to-end:
 
 - cada réplica atraviesa retrieval, rerank, contexto servido combinado —con sólo
   structural entre las lanes de coverage y preservando exactamente las capacidades
@@ -145,43 +146,37 @@ Contrato implementado por el tooling offline:
 Artefactos canónicos: `evals/s277_c1_p1_prereg_v1.yaml`,
 `evals/s277_c1_p1_fact_contract_v1.json`,
 `evals/s277_c1_p1_release_config_schema_v1.json` y
-`evals/s277_c1_p1_design_v1.md`. Los comandos seguros actualmente ejecutables
-son:
+`evals/s277_c1_p1_design_v1.md`. Para inspeccionar el plan y la interfaz sin
+consumir red ni presupuesto:
 
 ```powershell
 python scripts/s277_c1_p1.py plan
 python scripts/s277_c1_p1.py score-stored-controls
-python -m pytest tests/test_s277_c1_p1_contract.py `
-  tests/test_s277_c1_p1_runner.py tests/test_s277_c1_p1_scorer.py -q
+python scripts/s277_c1_p1.py run --help
 ```
 
-Última verificación local antes del dúo final: **181/181 tests P1 verdes**,
-`py_compile` verde y generación determinista byte-idéntica en dos builds.
+Las stop-lines por adapter ausente, manifest live ausente y cierre transitivo
+incompleto están retiradas. El adapter ejecuta el path productivo y liga receipts de
+embedding, rerank y síntesis a la attestation de cada réplica; el conjunto exacto de
+módulos ejecutados forma parte del closure sellado. El manifest observa y compara
+pre/watch/post firmas y definiciones RPC, ACL/owners/overloads, índices, relaciones,
+RLS, extensiones, roles y configuración PostgREST. El fence mantiene una sesión
+PostgreSQL read-only y locks persistentes desde un operador separado; el runner sólo
+recibe su IPC sin credenciales y puede solicitar cierre o aborto explícitos.
 
-`fence-open-verify`, `fence-close-verify`, `run --execute --confirm-paid` y `finalize` fallan
-cerrado como primera operación con
-`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Antes de retirar esa stop-line
-hay que materializar y revisar bodies observados pre/watch/post de firmas RPC,
-volatility, `prosecdef`, owner/ACL, overloads, definiciones/estado de índices y
-PostgREST/config, ligados a un contrato esperado canónico. Después seguirán
-haciendo falta revisión separada del adapter y de la paridad con el path real,
-release-config vivo seguro, identidad PostgREST read-only, fence/locks externos,
-receipts físicos y autorización de gasto. El runner no puede obtener esas
-capacidades desde un fichero de credenciales.
+Eso deja un único límite operativo, no otro desarrollo: la migración versionada
+`20260721120000_add_p1_readonly_role.sql` está revisada pero no aplicada; tampoco se
+han provisionado el PAT de Supabase, el JWT corto `p1_readonly` ni la credencial del
+operador. `run` sigue fallando cerrado sin `--execute`, `--confirm-paid`, un recibo de
+autorización vigente y todos los inputs live. Ninguno de esos inputs puede quedar en
+Git ni confundirse con autorización implícita.
 
-El dúo final añadió otra precondición explícita: antes de retirar esa stop-line,
-el manifest de implementación debe cubrir transitivamente todo módulo ejecutado por
-runner y scorer —hoy falta al menos `src/rag/answer_planner.py`— y probar por mutación
-que ningún drift puede re-puntuar un run antiguo. El adapter real debe además rechazar
-rerank sin terminación válida y aportar receipts externos de usage/coste. Hasta cerrar
-estas tres piezas, P1 permanece HOLD aunque los 181 tests offline estén verdes.
-
-Los adapters de los tests son sintéticos. Sus receipts coherentes validan el
-orquestador, WAL, presupuesto y mutation guards, pero no acreditan la derivación
-física del pool/prefijo/contexto, los bytes reales entregados a los SDK, un GET
-visual, la entrega Telegram ni un manifest live de RPC/índices/config. La revisión
-de paridad/input-graph del adapter productivo debe probar todo ello después de
-retirar la stop-line del manifest.
+La prueba `transaction_read_only=on` del endpoint de identidad corresponde sólo a
+ese GET. Los POST `/rpc/...` no se consideran seguros por el verbo HTTP ni por ese
+receipt: su seguridad efectiva procede de ACL/RLS del rol mínimo, la allowlist exacta
+del guard y la comprobación de que no haya ninguna función `SECURITY DEFINER`
+accesible. La migración aplica y verifica precisamente esa frontera; no debe emitirse
+el JWT antes de que sus postcondiciones pasen.
 
 La ejecución futura tampoco acepta rutas de persistencia elegidas por el adapter:
 WAL y sidecars viven bajo `artifact_root` con nombres canónicos y el ledger global se
@@ -222,6 +217,26 @@ Railway ya cambió. Su PASS sella tested commit/tree, manifest, planned patch, d
 de configuración común, fingerprints, contextos, respuestas y TTL de 6 horas. Si
 árbol/código, configuración común, corpus, proveedor/runtime o TTL cambian después,
 P1 caduca y debe repetirse bajo una preregistración nueva.
+
+Secuencia operativa única para llegar a una decisión P1:
+
+1. Autorizar y aplicar la migración `20260721120000_add_p1_readonly_role.sql`; verificar
+   todas sus postcondiciones sin ampliar grants.
+2. Provisionar fuera del checkout el PAT de Supabase, un JWT efímero con
+   `role=p1_readonly` y la credencial de sesión PostgreSQL del operador. El runner no
+   recibe esta última.
+3. Capturar desde el checkout limpio y detached el release-config Railway read-only,
+   el contrato/manifest live previo y la evidencia HTTP/identidad; emitir un recibo de
+   autorización que acepte expresamente el prior hp017 y limite P1 a 10 USD.
+4. Arrancar el operador de fence y ejecutar exactamente una vez `run --execute
+   --confirm-paid` con `artifact-dir` e `ipc-dir` fuera del checkout y disjuntos.
+5. `run` captura el manifest/snapshot posterior y cierra el fence —o lo aborta ante cualquier
+   fallo— antes de retornar. Después, ejecutar `score` y `finalize`; sólo un resultado final
+   sellado puede crear `P1_PASS`.
+
+La aplicación de esta migración y la ejecución pagada requieren autorización explícita.
+Merge, deploy, migración de trazas y canary pertenecen a la secuencia posterior y tienen
+autorización separada.
 
 ## Trazabilidad y privacidad
 
@@ -382,7 +397,9 @@ multi-hop incompleta.
 
 ## Riesgo de seguridad separado
 
-Supabase Advisor marca siete tablas públicas del corpus sin RLS y una función
-`SECURITY DEFINER` ejecutable por `anon`/`authenticated`. No se corrige aquí:
-activar RLS a ciegas podría romper retrieval. Requiere inventario de callers,
-tests y rollout de permisos independiente.
+La migración P1 revoca el `EXECUTE` público observado sobre
+`create_hnsw_index()` y falla si `p1_readonly` puede alcanzar cualquier función
+`SECURITY DEFINER`; esto es una precondición del gate, no una corrección general de
+la superficie pública. Los avisos restantes de Supabase Advisor y cualquier rollout
+amplio de RLS siguen requiriendo inventario de callers, tests y autorización propia:
+no se amplía ese alcance para ejecutar P1.

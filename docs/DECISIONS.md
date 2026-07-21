@@ -2953,3 +2953,63 @@ usage/coste. Por el corte anti-parálisis no se abrió otra ronda: veredicto `SA
 0 llamadas P1 y 0 mutaciones externas. Artefactos canónicos: `evals/s277_c1_p1_design_v1.md`,
 `evals/s277_c1_p1_prereg_v1.yaml`, `evals/s277_c1_p1_fact_contract_v1.json`,
 `scripts/s277_c1_p1.py`, `scripts/s277_c1_p1_scorer.py` y `docs/C1_RELEASE_RUNBOOK.md`.
+
+## DEC-138 (S277, 21 jul 2026) — P1 pasa de SAFE HOLD de implementación a `CODE_READY`; el GO sigue pendiente de autorización, provisioning y ejecución real
+
+**Impacto y estado visible.** Alto en integridad de release; impacto productivo todavía nulo.
+Se cierran los blockers técnicos concretos que impedían siquiera ejecutar P1, pero no se cambia
+el veredicto del candidato: **no existe `P1_PASS` ni GO operativo**. No se aplicó ninguna
+migración, no hubo llamadas pagadas, cambio de Railway ni deploy. El marcador permanece
+**146/154 (94,81 %), gap +5; 6 synthesis-miss + 2 retrieval-miss**. P1 sigue siendo un gate de
+release sobre cohorte dev, no el mecanismo ni el árbitro que mueve el objetivo ≥98 %.
+
+**Decisión 1 — closure ejecutable completo.** La implementación incorpora el adapter del path
+productivo y liga los bytes/receipts físicos de embedding, rerank y síntesis a cada réplica;
+rechaza terminaciones inválidas y revalida usage/modelo/coste. El manifest de implementación
+cubre el cierre transitivo exacto de runner, scorer y módulos productivos ejecutados. Railway se
+captura y revalida read-only contra los IDs canónicos y una proyección sin secretos. El manifest
+live observa y compara pre/watch/post las definiciones y firmas RPC, volatility, `prosecdef`,
+owner/ACL/overloads, índices/opclasses/dimensiones, relaciones/RLS, extensiones, roles y
+PostgREST/config.
+
+**Decisión 2 — ventana live y separación de deberes.** Un operador separado conserva una sesión
+PostgreSQL persistente `READ ONLY`, adquiere los locks en orden, calcula el fingerprint y mantiene
+heartbeats/watchers. El runner no recibe su DSN: usa IPC credential-free para `open`, watch,
+`close` y `abort`. Todo fallo posterior a `open` solicita aborto explícito; sólo un rollback
+confirmado produce receipt `ABORTED`, y la incertidumbre queda `AMBIGUOUS`. El guard PostgREST
+acepta únicamente host, GET/RPC y JWT exactos del contrato; bloquea escrituras de tabla, RPC fuera
+de allowlist, redirects y destinos ajenos. El executor revalida Railway, identidad y inputs live,
+abre la ventana, ejecuta las 27 réplicas, captura el estado posterior y cierra o aborta; aun con
+réplicas completas termina pendiente de `score`/`finalize`, nunca inventa un PASS.
+
+La revisión bloqueante final cerró tres bordes del mismo protocolo: el `session_id` se
+preasigna antes de adquirir locks para poder emitir un aborto ligado aunque se pierda la
+respuesta de `open`; `artifact_dir` debe empezar vacío y ser disjunto del fichero de
+credenciales y del IPC; y el receipt de `close` sella el hash del manifest post capturado bajo
+el fence. Ninguno se pospone como hardening posterior.
+
+**Corrección P0 — qué significa realmente read-only.** `transaction_read_only=on` en
+`p1_runtime_identity_v1()` demuestra sólo la transacción del GET de identidad. No acredita los
+POST `/rpc/...`: PostgREST elige su modo de transacción por separado y las funciones de retrieval
+vigentes no se reclasifican artificialmente como `STABLE`. La seguridad efectiva de P1 procede de
+la conjunción de (a) ACL/RLS mínimos del rol `p1_readonly`, (b) allowlist exacta del guard y (c)
+ninguna función `SECURITY DEFINER` accesible al rol. La migración
+`20260721120000_add_p1_readonly_role.sql` materializa y verifica ese contrato, incluida la
+revocación del `EXECUTE` público observado sobre `create_hnsw_index()`. Está revisada pero **no
+aplicada**; no se emite el JWT antes de que sus postcondiciones pasen.
+
+**Decisión 3 — único siguiente paso, acotado.** El estado canónico es
+`CODE_READY_OPERATIONAL_AUTHORIZATION_PENDING`. Con autorización explícita: (1) aplicar la
+migración del rol y verificar postcondiciones; (2) provisionar fuera del checkout el PAT de
+Supabase, un JWT efímero `p1_readonly` y la credencial PostgreSQL del operador; (3) materializar
+release-config, manifest/evidencia live y un receipt que disponga expresamente el prior hp017;
+(4) ejecutar una sola P1 preregistrada bajo el techo duro de 10 USD; y (5) cerrar/abortar el fence,
+puntuar y finalizar. Sólo un `P1_PASS` vigente abre una autorización separada de merge/deploy y
+canary. Credenciales presentes, código verde o un `run` completado sin `finalize` no equivalen a
+GO.
+
+**Límites conservados.** El lease de artefactos sigue siendo single-host y no se autoreclama;
+la cohorte sigue siendo conocida/dev; el prior hp017 7-vs-8 debe constar en el permit; no se
+promete regresión global cero. Multi-turn/multi-hop permanece `NOT_BUILT` y fuera de este release:
+su arquitectura durable/transport-neutral conserva el roadmap de DEC-136 y exige autorización
+propia.

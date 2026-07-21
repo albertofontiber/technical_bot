@@ -144,7 +144,7 @@ def _fence(release: dict, fingerprint: dict) -> dict:
         "status": "OPEN_VERIFIED",
         "release_config_sha256": p1.sha256_json(release),
         "initial_fingerprint": fingerprint["fingerprint"],
-        "direct_connection": True,
+        "persistent_session": True,
         "transaction_pooler": False,
         "backend_pid": 1234,
         "txid": "9876",
@@ -171,6 +171,7 @@ def _closed_fence(opened: dict, closed_at: datetime) -> dict:
     return {
         "schema": p1.FENCE_CLOSE_SCHEMA,
         "status": "CLOSED_VERIFIED",
+        "live_manifest_post_capture_sha256": "e" * 64,
         **{
             key: opened[key]
             for key in (
@@ -1122,6 +1123,82 @@ def test_release_config_rejects_missing_or_stale_implementation_hash():
             release, p1.RuntimeIdentity(COMMIT, TREE, detached=True, clean=True), now=NOW
         )
     assert stale.value.code == "HOLD_IMPLEMENTATION_DRIFT"
+
+
+def test_implementation_manifest_is_exactly_the_static_transitive_closure():
+    closure = p1.implementation_dependency_closure()
+    assert set(closure) == set(p1.REQUIRED_IMPLEMENTATION_HASHES)
+    assert len(closure) == len(set(closure))
+    assert p1.PRODUCT_ADAPTER_IMPLEMENTATION_PATH in closure
+    assert "scripts/s270_etapa2_probe.py" in closure
+    assert "src/rag/answer_planner.py" in closure
+    assert "src/reingest/embed.py" in closure
+
+
+def test_each_implementation_dependency_omission_is_rejected():
+    manifest = {
+        relative: p1.sha256_file(p1.ROOT / relative, lf_normalized=True)
+        for relative in p1.REQUIRED_IMPLEMENTATION_HASHES
+    }
+    for relative in p1.REQUIRED_IMPLEMENTATION_HASHES:
+        incomplete = dict(manifest)
+        incomplete.pop(relative)
+        with pytest.raises(p1.P1Error) as caught:
+            p1.verify_implementation_hashes(incomplete)
+        assert caught.value.code == "HOLD_IMPLEMENTATION_DRIFT", relative
+
+
+def test_clean_process_loaded_local_closure_is_fully_manifested():
+    child = r'''
+import importlib, json, os, sys
+from pathlib import Path
+root = Path.cwd().resolve()
+sys.path.insert(0, str(root))
+from scripts import s277_c1_p1 as p1
+for relative in p1.REQUIRED_IMPLEMENTATION_HASHES:
+    importlib.import_module(p1._implementation_module_name(relative))
+observed = p1.loaded_local_implementation_paths(root)
+p1.verify_loaded_implementation_closure(
+    {relative: "sealed" for relative in p1.REQUIRED_IMPLEMENTATION_HASHES},
+    loaded_paths=observed,
+)
+print(json.dumps(observed))
+'''
+    environment = {
+        key: os.environ[key]
+        for key in ("SystemRoot", "WINDIR", "PATH", "TEMP", "TMP")
+        if key in os.environ
+    }
+    environment.update(
+        {
+            "PYTHON_DOTENV_DISABLED": "1",
+            "PYTHONIOENCODING": "utf-8",
+            "COVERAGE_RELEASE_PROFILE": "off",
+            "CHUNKS_TABLE": "chunks_v2",
+            "HYDE_ENABLED": "false",
+            "ENUNCIADOS_MULTIVECTOR": "off",
+            "HYQ_TABLE": "off",
+        }
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", child],
+        cwd=p1.ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        timeout=60,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    observed = set(json.loads(completed.stdout.splitlines()[-1]))
+    assert observed <= set(p1.REQUIRED_IMPLEMENTATION_HASHES)
+    assert {
+        p1.PRODUCT_ADAPTER_IMPLEMENTATION_PATH,
+        "scripts/s270_etapa2_probe.py",
+        "src/rag/answer_planner.py",
+        "src/reingest/embed.py",
+    } <= observed
 
 
 def test_fingerprint_and_fence_receipts_expire_and_reject_stale_heartbeat():
@@ -3188,6 +3265,53 @@ def _assert_score_and_finalize_hold_before_scoring(
     assert finalize.value.code == expected_code
 
 
+def test_each_transitive_implementation_mutation_is_rejected(
+    tmp_path, monkeypatch
+):
+    shadow_root = tmp_path / "shadow-checkout"
+    _materialize_shadow_scoring_checkout(shadow_root)
+    manifest = {
+        relative: p1.sha256_file(shadow_root / relative, lf_normalized=True)
+        for relative in p1.REQUIRED_IMPLEMENTATION_HASHES
+    }
+    monkeypatch.setattr(p1, "ROOT", shadow_root)
+
+    for relative in p1.REQUIRED_IMPLEMENTATION_HASHES:
+        path = shadow_root / relative
+        original = path.read_bytes()
+        path.write_bytes(original + b"\n# transitive implementation mutation\n")
+        try:
+            with pytest.raises(p1.P1Error) as caught:
+                p1.verify_implementation_hashes(manifest)
+            assert caught.value.code == "HOLD_IMPLEMENTATION_DRIFT", relative
+        finally:
+            path.write_bytes(original)
+
+
+def test_static_closure_rejects_new_unsealed_local_import(
+    tmp_path, monkeypatch
+):
+    shadow_root = tmp_path / "shadow-checkout"
+    _materialize_shadow_scoring_checkout(shadow_root)
+    unsealed_relative = "src/rag/deep_lookup.py"
+    unsealed_source = p1.ROOT / unsealed_relative
+    unsealed_target = shadow_root / unsealed_relative
+    unsealed_target.parent.mkdir(parents=True, exist_ok=True)
+    unsealed_target.write_bytes(unsealed_source.read_bytes())
+    importer = shadow_root / p1.PRODUCT_ADAPTER_IMPLEMENTATION_PATH
+    importer.write_bytes(importer.read_bytes() + b"\nimport src.rag.deep_lookup\n")
+    manifest = {
+        relative: p1.sha256_file(shadow_root / relative, lf_normalized=True)
+        for relative in p1.REQUIRED_IMPLEMENTATION_HASHES
+    }
+    monkeypatch.setattr(p1, "ROOT", shadow_root)
+
+    with pytest.raises(p1.P1Error) as caught:
+        p1.verify_implementation_hashes(manifest)
+    assert caught.value.code == "HOLD_IMPLEMENTATION_DRIFT"
+    assert unsealed_relative in str(caught.value)
+
+
 def test_score_and_finalize_reject_post_run_implementation_drift(
     tmp_path, monkeypatch
 ):
@@ -3199,8 +3323,12 @@ def test_score_and_finalize_reject_post_run_implementation_drift(
 
     for relative in (
         "scripts/s277_c1_p1.py",
+        p1.PRODUCT_ADAPTER_IMPLEMENTATION_PATH,
         "scripts/s277_c1_p1_scorer.py",
+        "scripts/s270_etapa2_probe.py",
         "src/bot/response_formatter.py",
+        "src/rag/answer_planner.py",
+        "src/reingest/embed.py",
     ):
         path = shadow_root / relative
         original = path.read_bytes()
@@ -3280,11 +3408,14 @@ def test_cli_plan_is_offline_and_cli_run_refuses_before_reading_paths(tmp_path):
         "run",
         "--release-config", str(missing),
         "--prereg", str(missing),
-        "--fingerprint-receipt", str(missing),
-        "--fence-open-receipt", str(missing),
         "--authorization-receipt", str(missing),
         "--credentials", str(missing),
         "--artifact-dir", str(tmp_path / "artifacts"),
+        "--ipc-dir", str(missing),
+        "--live-manifest-contract", str(missing),
+        "--live-manifest-pre", str(missing),
+        "--live-http-evidence", str(missing),
+        "--postgrest-post-snapshot", str(missing),
     ]
     refused = subprocess.run(
         command,
@@ -3296,7 +3427,7 @@ def test_cli_plan_is_offline_and_cli_run_refuses_before_reading_paths(tmp_path):
     )
     assert refused.returncode == 2
     payload = json.loads(refused.stdout)
-    assert payload["code"] == "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
+    assert payload["code"] == "HOLD_EXECUTE_OPT_IN_REQUIRED"
     assert payload["paid_model_calls"] == 0
     assert payload["railway_mutations"] == 0
     assert payload["supabase_mutations"] == 0
@@ -3321,62 +3452,37 @@ def test_cli_plan_is_offline_and_cli_run_refuses_before_reading_paths(tmp_path):
     assert stored_payload["network_calls"] == 0
 
 
-@pytest.mark.parametrize(
-    "command_name", ["fence-open-verify", "fence-close-verify", "run", "finalize"]
-)
-def test_product_fence_clis_hold_before_reading_even_nominal_receipts(
-    tmp_path, command_name
-):
-    root = Path(__file__).resolve().parents[1]
-    nominal = tmp_path / "nominal.json"
-    p1.write_json_exclusive(nominal, {"status": "nominal"})
-    if command_name == "fence-open-verify":
-        arguments = [
-            "--operator-receipt", str(nominal),
-            "--fingerprint-receipt", str(nominal),
-            "--release-config", str(nominal),
-        ]
-    elif command_name == "fence-close-verify":
-        arguments = [
-            "--fence-open-receipt", str(nominal),
-            "--operator-receipt", str(nominal),
-        ]
-    elif command_name == "finalize":
-        arguments = [
-            "--run-dir", str(nominal),
-            "--score", str(nominal),
-            "--fence-open-receipt", str(nominal),
-            "--fence-close-receipt", str(nominal),
-        ]
-    else:
-        arguments = [
+def test_product_and_live_fence_clis_are_wired_without_implementation_stopline():
+    parser = p1.build_parser()
+    run = parser.parse_args(
+        [
+            "run",
             "--execute",
             "--confirm-paid",
-            "--release-config", str(nominal),
-            "--prereg", str(nominal),
-            "--fingerprint-receipt", str(nominal),
-            "--fence-open-receipt", str(nominal),
-            "--authorization-receipt", str(nominal),
-            "--credentials", str(nominal),
-            "--artifact-dir", str(tmp_path / "artifacts"),
+            "--release-config", "release.json",
+            "--prereg", "prereg.yaml",
+            "--authorization-receipt", "authorization.json",
+            "--credentials", ".env",
+            "--artifact-dir", "artifacts",
+            "--ipc-dir", "ipc",
+            "--live-manifest-contract", "contract.json",
+            "--live-manifest-pre", "pre.json",
+            "--live-http-evidence", "http.json",
+            "--postgrest-post-snapshot", "post.json",
         ]
-    completed = subprocess.run(
-        [
-            sys.executable,
-            str(root / "scripts/s277_c1_p1.py"),
-            command_name,
-            *arguments,
-        ],
-        cwd=root,
-        capture_output=True,
-        text=True,
-        check=False,
-        env={**os.environ, "PYTHONPATH": str(root)},
     )
-    assert completed.returncode == 2
-    payload = json.loads(completed.stdout)
-    assert payload["status"] == "HOLD"
-    assert payload["code"] == "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
-    assert payload["paid_model_calls"] == 0
-    assert payload["railway_mutations"] == 0
-    assert payload["supabase_mutations"] == 0
+    assert run.handler is p1._cli_run_product
+    assert not hasattr(p1, "_cli_run_unwired")
+    assert not hasattr(p1, "_enforce_materialized_live_fence_manifest_contract")
+
+    fence_open = parser.parse_args(
+        [
+            "fence-open-verify",
+            "--operator-receipt", "open.json",
+            "--fingerprint-receipt", "fingerprint.json",
+            "--release-config", "release.json",
+            "--live-manifest-contract", "contract.json",
+            "--live-manifest-pre", "pre.json",
+        ]
+    )
+    assert fence_open.handler is p1._cli_fence_open

@@ -580,15 +580,26 @@ corpus_fence:
   operator_identity_separate_from_runner: true
   runner_service_role_forbidden: true
   declared_surface_hashes_are_live_attestation: false
-  live_rpc_signature_index_config_manifest_materialized: false
-  product_cli_stop_line: HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED
+  live_rpc_signature_index_config_manifest_materialized: true
+  product_cli_stop_line: null
   runner_identity: p1_readonly
-  direct_postgres_not_transaction_pooler: true
+  persistent_session_postgres_not_transaction_pooler: true
+  operator_ipc_boundary: credential_free_append_only_single_use
+  abort_protocol: explicit_ipc_rollback_confirmed_or_ambiguous
+  postgrest_guard:
+    principal: p1_readonly
+    identity_rpc_bound_to_exact_jwt_sha256: true
+    exact_get_rpc_allowlist: true
+    write_methods_forbidden: true
+    redirects_forbidden: true
+    request_receipts_bound_per_replica: true
   protocol:
-  - BEGIN
+  - BEGIN_READ_COMMITTED_READ_ONLY
   - SHARE_LOCKS_CANONICAL_ORDER_NOWAIT
+  - LIVE_MANIFEST_PRE
   - INITIAL_FINGERPRINT
-  - 27_REPLICAS
+  - 27_REPLICAS_WITH_LIVE_MANIFEST_WATCH
+  - LIVE_MANIFEST_POST
   - FINAL_FINGERPRINT_UNDER_LOCK
   - COMMIT
   max_window_minutes: 45
@@ -627,7 +638,7 @@ corpus_fence:
   - status
   - release_config_sha256
   - initial_fingerprint
-  - direct_connection
+  - persistent_session
   - transaction_pooler
   - backend_pid
   - txid
@@ -641,6 +652,7 @@ corpus_fence:
   - incompatible_waiters
   - rpc_manifest_sha256
   - physical_manifest_sha256
+  - live_manifest_contract_sha256
   close_receipt_required_fields:
   - schema
   - status
@@ -658,6 +670,8 @@ corpus_fence:
   - incompatible_waiters
   - rpc_manifest_sha256
   - physical_manifest_sha256
+  - live_manifest_contract_sha256
+  - live_manifest_post_capture_sha256
   - closed_at
   close_invariants:
     verified_under_lock: true
@@ -665,6 +679,7 @@ corpus_fence:
     final_fingerprint_taken_before_or_at_closed_at: true
     heartbeat_fresh_at_final_fingerprint: true
     same_backend_txid_owner_relations_locks_and_manifests_as_open: true
+    post_manifest_capture_hash_bound_to_close_receipt: true
     run_completed_before_close: true
   loss_or_drift: HOLD_CORPUS_FENCE_LOST
 semantic_runtime_contract:
@@ -835,6 +850,6 @@ current_stop_lines:
 - HOLD_RELEASE_CONFIG_NOT_MATERIALIZED
 - HOLD_P1_READONLY_IDENTITY_NOT_PROVISIONED
 - HOLD_CORPUS_FENCE_OPERATOR_NOT_AUTHORIZED
-- HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED
+- HOLD_LIVE_MANIFEST_NOT_CAPTURED
 - HOLD_PREPAID_KNOWN_CONFLICT_RISK
 - HOLD_PAID_EXECUTION_NOT_AUTHORIZED

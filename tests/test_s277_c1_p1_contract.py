@@ -407,13 +407,36 @@ def test_prereg_rebuilds_and_seals_questions_models_and_27_replica_order():
     fence = stored["corpus_fence"]
     assert fence["heartbeat_max_age_seconds"] == 30
     assert fence["declared_surface_hashes_are_live_attestation"] is False
-    assert fence["live_rpc_signature_index_config_manifest_materialized"] is False
-    assert fence["product_cli_stop_line"] == (
-        "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
+    assert fence["live_rpc_signature_index_config_manifest_materialized"] is True
+    assert fence["product_cli_stop_line"] is None
+    assert fence["persistent_session_postgres_not_transaction_pooler"] is True
+    assert fence["operator_ipc_boundary"] == (
+        "credential_free_append_only_single_use"
     )
+    assert fence["abort_protocol"] == (
+        "explicit_ipc_rollback_confirmed_or_ambiguous"
+    )
+    assert fence["postgrest_guard"]["principal"] == "p1_readonly"
+    assert fence["postgrest_guard"]["write_methods_forbidden"] is True
+    assert fence["protocol"] == [
+        "BEGIN_READ_COMMITTED_READ_ONLY",
+        "SHARE_LOCKS_CANONICAL_ORDER_NOWAIT",
+        "LIVE_MANIFEST_PRE",
+        "INITIAL_FINGERPRINT",
+        "27_REPLICAS_WITH_LIVE_MANIFEST_WATCH",
+        "LIVE_MANIFEST_POST",
+        "FINAL_FINGERPRINT_UNDER_LOCK",
+        "COMMIT",
+    ]
     assert fence["close_invariants"]["verified_under_lock"] is True
     assert fence["close_invariants"]["heartbeat_fresh_at_final_fingerprint"] is True
     assert "final_fingerprint_taken_at" in fence["close_receipt_required_fields"]
+    assert "live_manifest_post_capture_sha256" in fence[
+        "close_receipt_required_fields"
+    ]
+    assert fence["close_invariants"][
+        "post_manifest_capture_hash_bound_to_close_receipt"
+    ] is True
 
     gold = {row["qid"]: row for row in yaml.safe_load((ROOT / "evals" / "gold_answers_v1.yaml").read_text(encoding="utf-8"))}
     for row in stored["population"]["rows"]:
@@ -460,9 +483,10 @@ def test_prereg_cannot_authorize_paid_calls_or_external_mutation():
     assert prereg["sealed_inputs"]["release_config"]["materialized"] is False
     assert prereg["sealed_inputs"]["release_config"]["hold_until_materialized"] == "HOLD_RELEASE_CONFIG_NOT_MATERIALIZED"
     assert "HOLD_PAID_EXECUTION_NOT_AUTHORIZED" in prereg["current_stop_lines"]
+    assert "HOLD_LIVE_MANIFEST_NOT_CAPTURED" in prereg["current_stop_lines"]
     assert (
         "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
-        in prereg["current_stop_lines"]
+        not in prereg["current_stop_lines"]
     )
     assert prereg["wal"]["retry_unknown_or_failed"] is False
     assert prereg["candidate_path"]["offline_replay_can_rescue_or_pass"] is False
@@ -655,7 +679,7 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
         "status": "OPEN_VERIFIED",
         "release_config_sha256": release_hash,
         "initial_fingerprint": fingerprint["fingerprint"],
-        "direct_connection": True,
+        "persistent_session": True,
         "transaction_pooler": False,
         "backend_pid": 1234,
         "txid": "9876",

@@ -1,9 +1,11 @@
-"""Fail-closed, offline-first orchestration primitives for the S277 C1 P1 gate.
+"""Fail-closed orchestration primitives for the S277 C1 P1 release gate.
 
-This module deliberately does not contain a production Anthropic, Voyage,
-Railway, or Supabase adapter.  A paid run can only be driven through injected
-adapters after two CLI opt-ins and verified release, authorization, corpus
-fingerprint, and fence receipts.  Tests use in-memory adapters.
+The core remains dependency-injected and offline-testable.  The reviewed live
+CLI composes it with the production RAG seam, scoped Anthropic/Voyage transport,
+read-only Railway capture, a least-privilege PostgREST guard, and a separate
+persistent PostgreSQL fence operator.  Paid execution still requires two CLI
+opt-ins plus sealed release, authorization, manifest, fingerprint, and fence
+evidence.
 
 The authoritative model calls are journalled before delegation.  A call key is
 never sent twice: a completed call is replayed only from its fsynced response,
@@ -14,6 +16,7 @@ is conservatively converted to UNKNOWN_BILLED_POST_SEND on reopen.
 from __future__ import annotations
 
 import argparse
+import ast
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -33,6 +36,11 @@ from typing import Any, Protocol
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+if __name__ == "__main__":
+    # Live adapters import the canonical package name lazily.  Alias this CLI
+    # module first so P1Error and every runtime singleton keep one identity
+    # instead of being loaded a second time as scripts.s277_c1_p1.
+    sys.modules["scripts.s277_c1_p1"] = sys.modules[__name__]
 
 CANONICAL_PREREG_PATH = ROOT / "evals/s277_c1_p1_prereg_v1.yaml"
 
@@ -177,24 +185,127 @@ CALL_JOURNAL_FILENAME = "calls.jsonl"
 AUTHORIZATION_LEDGER_DIRNAME = ".s277_c1_p1_authorization_claims_v1"
 RUN_LEASE_DIRNAME = "leases"
 
+PRODUCT_ADAPTER_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_product_adapter.py"
+EXECUTION_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_execute.py"
+FENCE_OPERATOR_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_fence_operator.py"
+LIVE_MANIFEST_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_live_manifest.py"
+LIVE_RECEIPTS_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_live_receipts.py"
+POSTGREST_GUARD_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_postgrest_guard.py"
+RELEASE_CONFIG_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_release_config.py"
+
+# This is the exact local Python implementation surface imported by the P1
+# runner/scorer and by the production RAG entrypoints.  Keep the list explicit:
+# it is embedded in run genesis and old runs must fail closed if any member
+# changes.  ``implementation_dependency_closure`` below independently derives
+# the transitive top-level import closure and rejects omissions.
 REQUIRED_IMPLEMENTATION_HASHES = (
+    "scripts/catalog_store.py",
+    "scripts/s270_etapa2_probe.py",
     "scripts/s277_c1_p1.py",
+    EXECUTION_IMPLEMENTATION_PATH,
+    FENCE_OPERATOR_IMPLEMENTATION_PATH,
+    LIVE_MANIFEST_IMPLEMENTATION_PATH,
+    LIVE_RECEIPTS_IMPLEMENTATION_PATH,
+    POSTGREST_GUARD_IMPLEMENTATION_PATH,
+    PRODUCT_ADAPTER_IMPLEMENTATION_PATH,
+    RELEASE_CONFIG_IMPLEMENTATION_PATH,
     "scripts/s277_c1_p1_scorer.py",
-    "src/config.py",
-    "src/release_profiles.py",
+    "src/__init__.py",
+    "src/bot/__init__.py",
     "src/bot/response_formatter.py",
-    "src/rag/retriever.py",
-    "src/rag/reranker.py",
-    "src/rag/generator.py",
-    "src/rag/must_preserve.py",
-    "src/rag/serving_pipeline.py",
+    "src/config.py",
+    "src/ingestion/__init__.py",
+    "src/ingestion/embedder.py",
+    "src/rag/__init__.py",
+    "src/rag/answer_obligation_contract.py",
+    "src/rag/answer_planner.py",
+    "src/rag/catalog.py",
+    "src/rag/catalog_resolver.py",
+    "src/rag/compatibility_bundle_coverage.py",
     "src/rag/coverage_runtime.py",
+    "src/rag/doc_scoped_hyq_coverage.py",
+    "src/rag/evidence_coverage.py",
+    "src/rag/evidence_derivation.py",
+    "src/rag/evidence_window.py",
+    "src/rag/generator.py",
+    "src/rag/hyde.py",
+    "src/rag/mp_lexicon.py",
+    "src/rag/must_preserve.py",
     "src/rag/post_rerank_coverage.py",
+    "src/rag/query_facets.py",
+    "src/rag/rerank_pool_coverage.py",
+    "src/rag/reranker.py",
+    "src/rag/retriever.py",
+    "src/rag/runtime_trace.py",
+    "src/rag/series_registry.py",
+    "src/rag/serving_pipeline.py",
+    "src/rag/source_identity_attestation.py",
     "src/rag/structural_neighbor_coverage.py",
     "src/rag/structural_neighbor_shadow.py",
-    "src/rag/runtime_trace.py",
+    "src/rag/structured_claims.py",
+    "src/rag/table_preamble_closure.py",
+    "src/rag/technical_obligations.py",
+    "src/rag/toc_detection.py",
     "src/rag/visual_assets.py",
+    "src/reingest/__init__.py",
+    "src/reingest/embed.py",
+    "src/release_profiles.py",
 )
+
+# Roots model the three executable trust domains: orchestration, scoring and
+# product behavior.  Imports inside function bodies are not executed at module
+# import, so the few P1-reachable dynamic imports are declared separately.
+IMPLEMENTATION_IMPORT_ROOTS = (
+    "scripts/s277_c1_p1.py",
+    EXECUTION_IMPLEMENTATION_PATH,
+    FENCE_OPERATOR_IMPLEMENTATION_PATH,
+    LIVE_MANIFEST_IMPLEMENTATION_PATH,
+    LIVE_RECEIPTS_IMPLEMENTATION_PATH,
+    POSTGREST_GUARD_IMPLEMENTATION_PATH,
+    PRODUCT_ADAPTER_IMPLEMENTATION_PATH,
+    RELEASE_CONFIG_IMPLEMENTATION_PATH,
+    "scripts/s277_c1_p1_scorer.py",
+    "src/bot/response_formatter.py",
+    "src/config.py",
+    "src/rag/generator.py",
+    "src/rag/reranker.py",
+    "src/rag/retriever.py",
+    "src/rag/runtime_trace.py",
+    "src/rag/serving_pipeline.py",
+)
+IMPLEMENTATION_DYNAMIC_IMPORTS = {
+    "scripts/s277_c1_p1.py": (
+        EXECUTION_IMPLEMENTATION_PATH,
+        "scripts/s277_c1_p1_scorer.py",
+        "src/bot/response_formatter.py",
+        "src/rag/retriever.py",
+    ),
+    PRODUCT_ADAPTER_IMPLEMENTATION_PATH: (
+        "src/bot/response_formatter.py",
+        "src/rag/generator.py",
+        "src/rag/reranker.py",
+        "src/rag/retriever.py",
+        "src/rag/serving_pipeline.py",
+        "src/rag/structural_neighbor_shadow.py",
+        "src/rag/visual_assets.py",
+        "src/reingest/embed.py",
+    ),
+    "scripts/s277_c1_p1_scorer.py": (
+        "scripts/s270_etapa2_probe.py",
+        "src/rag/answer_planner.py",
+        "src/rag/post_rerank_coverage.py",
+    ),
+    "scripts/s270_etapa2_probe.py": ("src/rag/must_preserve.py",),
+    "src/ingestion/embedder.py": ("src/reingest/embed.py",),
+    "src/rag/catalog_resolver.py": ("scripts/catalog_store.py",),
+    "src/rag/must_preserve.py": (
+        "src/config.py",
+        "src/rag/catalog_resolver.py",
+        "src/rag/post_rerank_coverage.py",
+    ),
+    "src/rag/retriever.py": ("src/rag/catalog_resolver.py",),
+    "src/rag/runtime_trace.py": ("src/rag/post_rerank_coverage.py",),
+}
 
 EXPECTED_FUNCTION_AUDIT_SHA256_LF = (
     "285dd74a1463bb71a21ab9bfb5ea4053789d606ede9b90b640c14008c676dbda"
@@ -823,12 +934,240 @@ def derive_rpc_allowlist(raw_env: Mapping[str, Any]) -> list[str]:
     return expected
 
 
+class _TopLevelImportVisitor(ast.NodeVisitor):
+    """Collect imports whose statements execute while a module is imported."""
+
+    def __init__(self) -> None:
+        self.imports: list[ast.Import | ast.ImportFrom] = []
+
+    def visit_Import(self, node: ast.Import) -> None:  # noqa: N802
+        self.imports.append(node)
+
+    def visit_ImportFrom(self, node: ast.ImportFrom) -> None:  # noqa: N802
+        self.imports.append(node)
+
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: N802
+        # Function bodies are covered by IMPLEMENTATION_DYNAMIC_IMPORTS only
+        # when the P1 path actually invokes them.
+        return None
+
+    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: N802
+        return None
+
+    def visit_Lambda(self, node: ast.Lambda) -> None:  # noqa: N802
+        return None
+
+
+def _implementation_module_name(relative: str) -> str:
+    parts = relative.replace("\\", "/").split("/")
+    _require(
+        len(parts) >= 2 and parts[0] in {"scripts", "src"},
+        "HOLD_IMPLEMENTATION_DRIFT",
+        f"non-local implementation path: {relative}",
+    )
+    filename = parts[-1]
+    _require(
+        filename.endswith(".py"),
+        "HOLD_IMPLEMENTATION_DRIFT",
+        f"non-Python implementation path: {relative}",
+    )
+    if filename == "__init__.py":
+        return ".".join(parts[:-1])
+    return ".".join((*parts[:-1], filename[:-3]))
+
+
+def _implementation_module_index(root: Path) -> dict[str, str]:
+    """Index local modules without importing product code or consulting git."""
+
+    index: dict[str, str] = {}
+    for dirname in ("scripts", "src"):
+        base = root / dirname
+        if not base.is_dir():
+            continue
+        for path in base.rglob("*.py"):
+            if not path.is_file():
+                continue
+            relative = path.relative_to(root).as_posix()
+            module = _implementation_module_name(relative)
+            index[module] = relative
+            # catalog_resolver deliberately imports catalog_store after adding
+            # scripts/ to sys.path, so mirror that legitimate top-level alias.
+            if dirname == "scripts" and path.parent == base:
+                index.setdefault(path.stem, relative)
+    return index
+
+
+def _implementation_package_initializers(root: Path, relative: str) -> set[str]:
+    output: set[str] = set()
+    current = (root / relative).parent
+    while current != root and root in current.parents:
+        init_path = current / "__init__.py"
+        if init_path.is_file():
+            output.add(init_path.relative_to(root).as_posix())
+        current = current.parent
+    return output
+
+
+def _resolve_static_local_imports(
+    relative: str,
+    node: ast.Import | ast.ImportFrom,
+    module_index: Mapping[str, str],
+) -> set[str]:
+    candidates: list[str] = []
+    if isinstance(node, ast.Import):
+        candidates.extend(alias.name for alias in node.names)
+    else:
+        current_module = _implementation_module_name(relative)
+        if relative.endswith("/__init__.py"):
+            current_package = current_module
+        else:
+            current_package = current_module.rpartition(".")[0]
+        if node.level:
+            package_parts = current_package.split(".") if current_package else []
+            ascend = node.level - 1
+            if ascend > len(package_parts):
+                return set()
+            if ascend:
+                package_parts = package_parts[:-ascend]
+            base = ".".join(
+                (*package_parts, *((node.module or "").split(".") if node.module else ()))
+            )
+        else:
+            base = node.module or ""
+        if base:
+            candidates.append(base)
+        candidates.extend(
+            ".".join(part for part in (base, alias.name) if part)
+            for alias in node.names
+            if alias.name != "*"
+        )
+    return {
+        module_index[candidate]
+        for candidate in candidates
+        if candidate in module_index
+    }
+
+
+def implementation_dependency_closure(root: Path | None = None) -> tuple[str, ...]:
+    """Derive the exact local import closure required by the P1 product path.
+
+    Top-level imports are read from AST without executing them.  Reachable
+    function-local imports are a short reviewed allowlist above.  Any new local
+    import therefore changes this closure and blocks an old or incomplete
+    implementation manifest.
+    """
+
+    resolved_root = (root or ROOT).resolve()
+    module_index = _implementation_module_index(resolved_root)
+    pending = list(IMPLEMENTATION_IMPORT_ROOTS)
+    closure: set[str] = set()
+    while pending:
+        relative = pending.pop()
+        if relative in closure:
+            continue
+        path = (resolved_root / relative).resolve()
+        _require(
+            resolved_root in path.parents and path.is_file(),
+            "HOLD_IMPLEMENTATION_DRIFT",
+            f"missing implementation dependency: {relative}",
+        )
+        closure.add(relative)
+        pending.extend(
+            dependency
+            for dependency in _implementation_package_initializers(
+                resolved_root, relative
+            )
+            if dependency not in closure
+        )
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8-sig"), filename=relative)
+        except (OSError, SyntaxError, UnicodeError) as exc:
+            raise P1Error(
+                "HOLD_IMPLEMENTATION_DRIFT",
+                f"cannot parse implementation dependency {relative}: {type(exc).__name__}",
+            ) from exc
+        visitor = _TopLevelImportVisitor()
+        visitor.visit(tree)
+        for import_node in visitor.imports:
+            pending.extend(
+                dependency
+                for dependency in _resolve_static_local_imports(
+                    relative, import_node, module_index
+                )
+                if dependency not in closure
+            )
+        pending.extend(
+            dependency
+            for dependency in IMPLEMENTATION_DYNAMIC_IMPORTS.get(relative, ())
+            if dependency not in closure
+        )
+    return tuple(sorted(closure))
+
+
+def loaded_local_implementation_paths(root: Path | None = None) -> tuple[str, ...]:
+    """Return local Python source files loaded in the current interpreter.
+
+    Product entrypoint tests call this from a fresh subprocess, avoiding test
+    process contamination while checking real import resolution in addition to
+    the static AST closure.
+    """
+
+    resolved_root = (root or ROOT).resolve()
+    loaded: set[str] = set()
+    for module in tuple(sys.modules.values()):
+        raw_path = getattr(module, "__file__", None)
+        if not isinstance(raw_path, str) or not raw_path:
+            continue
+        path = Path(raw_path)
+        if path.suffix in {".pyc", ".pyo"} and path.parent.name == "__pycache__":
+            stem = path.name.split(".", 1)[0]
+            path = path.parent.parent / f"{stem}.py"
+        try:
+            resolved = path.resolve()
+        except OSError:
+            continue
+        if resolved_root not in resolved.parents or resolved.suffix != ".py":
+            continue
+        relative = resolved.relative_to(resolved_root).as_posix()
+        if relative.startswith(("scripts/", "src/")):
+            loaded.add(relative)
+    return tuple(sorted(loaded))
+
+
+def verify_loaded_implementation_closure(
+    manifest: Mapping[str, Any],
+    *,
+    loaded_paths: Sequence[str] | None = None,
+) -> None:
+    """Reject a clean-process product import that escaped the sealed manifest."""
+
+    observed = set(
+        loaded_local_implementation_paths()
+        if loaded_paths is None
+        else loaded_paths
+    )
+    escaped = sorted(observed - set(manifest))
+    _require(
+        not escaped,
+        "HOLD_IMPLEMENTATION_DRIFT",
+        f"loaded local implementation outside manifest: {escaped}",
+    )
+
+
 def verify_implementation_hashes(manifest: Mapping[str, Any]) -> None:
     _require(isinstance(manifest, Mapping), "HOLD_IMPLEMENTATION_DRIFT", "manifest")
+    required = set(REQUIRED_IMPLEMENTATION_HASHES)
     _require(
-        set(manifest) == set(REQUIRED_IMPLEMENTATION_HASHES),
+        set(manifest) == required,
         "HOLD_IMPLEMENTATION_DRIFT",
         "implementation manifest path set",
+    )
+    closure = set(implementation_dependency_closure())
+    _require(
+        closure == required,
+        "HOLD_IMPLEMENTATION_DRIFT",
+        "implementation dependency closure mismatch: "
+        f"unsealed={sorted(closure - required)}, unreachable={sorted(required - closure)}",
     )
     for relative, expected in manifest.items():
         _require(isinstance(relative, str) and relative, "HOLD_IMPLEMENTATION_DRIFT", "path")
@@ -1301,11 +1640,38 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
         and fence.get(
             "live_rpc_signature_index_config_manifest_materialized"
         )
-        is False
-        and fence.get("product_cli_stop_line")
-        == "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
+        is True
+        and fence.get("product_cli_stop_line") is None
         and "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED"
+        not in prereg.get("current_stop_lines", [])
+        and "HOLD_LIVE_MANIFEST_NOT_CAPTURED"
         in prereg.get("current_stop_lines", [])
+        and fence.get("persistent_session_postgres_not_transaction_pooler")
+        is True
+        and fence.get("operator_ipc_boundary")
+        == "credential_free_append_only_single_use"
+        and fence.get("abort_protocol")
+        == "explicit_ipc_rollback_confirmed_or_ambiguous"
+        and fence.get("postgrest_guard")
+        == {
+            "principal": "p1_readonly",
+            "identity_rpc_bound_to_exact_jwt_sha256": True,
+            "exact_get_rpc_allowlist": True,
+            "write_methods_forbidden": True,
+            "redirects_forbidden": True,
+            "request_receipts_bound_per_replica": True,
+        }
+        and fence.get("protocol")
+        == [
+            "BEGIN_READ_COMMITTED_READ_ONLY",
+            "SHARE_LOCKS_CANONICAL_ORDER_NOWAIT",
+            "LIVE_MANIFEST_PRE",
+            "INITIAL_FINGERPRINT",
+            "27_REPLICAS_WITH_LIVE_MANIFEST_WATCH",
+            "LIVE_MANIFEST_POST",
+            "FINAL_FINGERPRINT_UNDER_LOCK",
+            "COMMIT",
+        ]
         and fence.get("base_relations_exact") == list(BASE_FENCE_RELATIONS)
         and fence.get("base_rpc_allowlist_exact") == list(BASE_RPC_ALLOWLIST)
         and fence.get("base_rest_get_allowlist_exact")
@@ -2590,6 +2956,111 @@ class ProviderBoundary:
         operation = call.call_key.rsplit(":", 1)[-1]
         replica_key = call.call_key.rsplit(":", 1)[0]
         _require(isinstance(call.request, Mapping), "HOLD_ENVELOPE_DRIFT", call.call_key)
+        if call.request.get("schema") == "s277_c1_p1_product_provider_intent_v1":
+            expected_product_keys = {
+                "schema",
+                "replica_key",
+                "operation",
+                "call_key",
+                "provider",
+                "model",
+                "physical_payload",
+                "physical_payload_sha256",
+                "lineage_input_sha256",
+                "run_genesis_sha256",
+                "max_output_tokens",
+            }
+            payload = call.request.get("physical_payload")
+            _require(
+                set(call.request) == expected_product_keys
+                and call.request.get("replica_key") == replica_key
+                and call.request.get("operation") == operation
+                and call.request.get("call_key") == call.call_key
+                and call.request.get("provider") == call.provider == spec.provider
+                and call.request.get("model") == call.model == spec.model
+                and call.request.get("run_genesis_sha256")
+                == call.run_genesis_sha256
+                and call.request.get("lineage_input_sha256")
+                == call.lineage_input_sha256
+                and call.request.get("max_output_tokens")
+                == call.max_output_tokens
+                and call.max_retries == 0
+                and call.prompt_cache is False
+                and isinstance(payload, Mapping)
+                and call.request.get("physical_payload_sha256")
+                == sha256_json(payload),
+                "HOLD_ENVELOPE_DRIFT",
+                f"product request identity for {call.call_key}",
+            )
+            derived_bound = physical_input_token_upper_bound(payload)
+            _require(
+                type(call.input_tokens_upper_bound) is int
+                and call.input_tokens_upper_bound == derived_bound
+                and call.input_tokens_upper_bound <= spec.max_input_tokens,
+                "HOLD_INPUT_TOKEN_BOUND",
+                call.call_key,
+            )
+            _require(
+                type(call.max_output_tokens) is int
+                and 0 <= call.max_output_tokens <= spec.max_output_tokens
+                and (operation == "embedding") == (call.max_output_tokens == 0),
+                "HOLD_OUTPUT_TOKEN_BOUND",
+                call.call_key,
+            )
+            if operation == "embedding":
+                _require(
+                    set(payload)
+                    == {"model", "input_type", "texts", "truncation"}
+                    and payload.get("model") == call.model
+                    and payload.get("input_type") == "query"
+                    and payload.get("truncation") is True
+                    and isinstance(payload.get("texts"), list)
+                    and len(payload["texts"]) == 1
+                    and isinstance(payload["texts"][0], str)
+                    and bool(payload["texts"][0]),
+                    "HOLD_ENVELOPE_DRIFT",
+                    f"product embedding payload for {call.call_key}",
+                )
+            else:
+                expected_payload_keys = {
+                    "model",
+                    "max_tokens",
+                    "temperature",
+                    "messages",
+                }
+                if operation == "synthesis":
+                    expected_payload_keys.add("system")
+                messages = payload.get("messages")
+                _require(
+                    set(payload) == expected_payload_keys
+                    and payload.get("model") == call.model
+                    and payload.get("temperature") == 0
+                    and payload.get("max_tokens") == call.max_output_tokens
+                    and (
+                        operation != "synthesis"
+                        or (
+                            isinstance(payload.get("system"), str)
+                            and bool(payload["system"])
+                        )
+                    )
+                    and isinstance(messages, list)
+                    and len(messages) == 1
+                    and isinstance(messages[0], Mapping)
+                    and set(messages[0]) == {"role", "content"}
+                    and messages[0].get("role") == "user"
+                    and isinstance(messages[0].get("content"), str)
+                    and bool(messages[0]["content"]),
+                    "HOLD_ENVELOPE_DRIFT",
+                    f"product Anthropic controls for {call.call_key}",
+                )
+            _require(
+                not ProviderBoundary._request_contains_cache_directive(call.request)
+                and call.inference_geo == "global"
+                and call.service_tier == "standard_sync",
+                "HOLD_PRICING_DRIFT",
+                call.call_key,
+            )
+            return
         common_keys = {
             "replica_key",
             "operation",
@@ -2724,6 +3195,27 @@ class ProviderBoundary:
                 f"embedding input differs from prereg for {call.call_key}",
             )
             return
+        if call.request.get("schema") == "s277_c1_p1_product_provider_intent_v1":
+            messages = payload.get("messages")
+            content = (
+                messages[0].get("content")
+                if isinstance(messages, list)
+                and len(messages) == 1
+                and isinstance(messages[0], Mapping)
+                else None
+            )
+            prefix = (
+                "Pregunta del técnico PCI: "
+                if operation == "rerank"
+                else "Pregunta del técnico: "
+            )
+            _require(
+                isinstance(content, str)
+                and content.startswith(f"{prefix}{expected_question}\n"),
+                "HOLD_INPUT_REQUEST_BINDING",
+                f"product question differs from prereg for {call.call_key}",
+            )
+            return
         try:
             messages = payload["messages"]
             prompt = json.loads(messages[0]["content"])
@@ -2752,8 +3244,8 @@ class ProviderBoundary:
     ) -> Decimal:
         usage = response.get("usage")
         _require(isinstance(usage, Mapping), "NO_GO_USAGE_MISSING", spec.call_key)
-        input_tokens = usage.get("input_tokens")
-        output_tokens = usage.get("output_tokens")
+        input_tokens = usage.get("input_tokens", usage.get("total_tokens"))
+        output_tokens = usage.get("output_tokens", 0)
         _require(
             type(input_tokens) is int
             and 0 <= input_tokens <= spec.max_input_tokens,
@@ -2792,6 +3284,41 @@ class ProviderBoundary:
     def invoke(self, call: ProviderCall) -> dict[str, Any]:
         with self._invoke_lock:
             return self._invoke_serialized(call)
+
+    def invoke_product(self, intent: Any) -> Any:
+        """Execute an exact product SDK intent through the canonical WAL/fence.
+
+        The import is intentionally lazy: the product adapter imports this
+        module, while the central boundary must also remain usable by the
+        offline synthetic tests.
+        """
+
+        envelope = getattr(intent, "request", None)
+        call_key = getattr(intent, "call_key", None)
+        _require(
+            isinstance(envelope, Mapping) and isinstance(call_key, str),
+            "HOLD_PRODUCT_INTENT_DRIFT",
+            "invalid ProductProviderIntent",
+        )
+        spec = self.budget.specs.get(call_key)
+        _require(spec is not None, "HOLD_UNREGISTERED_CALL", call_key)
+        call = provider_call_from_sealed_envelope(
+            envelope,
+            expected_call_key=call_key,
+            spec=spec,
+            run_genesis=self.run_genesis,
+        )
+        raw = dict(self.invoke(call))
+        raw.pop("_p1_resumed_from_receipt", None)
+        transport = raw.pop("_p1_transport_receipt", None)
+        _require(
+            isinstance(transport, Mapping),
+            "NO_GO_PRODUCT_TRANSPORT_RECEIPT",
+            call_key,
+        )
+        from scripts.s277_c1_p1_product_adapter import ProductProviderResult
+
+        return ProductProviderResult(payload=raw, transport_receipt=transport)
 
     def _invoke_serialized(self, call: ProviderCall) -> dict[str, Any]:
         _require(
@@ -3061,7 +3588,11 @@ def verify_fence_open_receipt(
     _require(receipt.get("status") == "OPEN_VERIFIED", "HOLD_FENCE_RECEIPT", "status")
     _require(receipt.get("release_config_sha256") == release_config_sha256, "HOLD_FENCE_RECEIPT", "config")
     _require(receipt.get("initial_fingerprint") == fingerprint, "HOLD_FENCE_RECEIPT", "fingerprint")
-    _require(receipt.get("direct_connection") is True, "HOLD_FENCE_RECEIPT", "direct connection")
+    _require(
+        receipt.get("persistent_session") is True,
+        "HOLD_FENCE_RECEIPT",
+        "persistent PostgreSQL session",
+    )
     _require(receipt.get("transaction_pooler") is False, "HOLD_FENCE_RECEIPT", "pooler")
     _require(isinstance(receipt.get("backend_pid"), int), "HOLD_FENCE_RECEIPT", "backend pid")
     _require(bool(receipt.get("txid")) and bool(receipt.get("fence_owner")), "HOLD_FENCE_RECEIPT", "owner/txid")
@@ -3282,10 +3813,26 @@ def verify_fence_close_receipt(
     close_receipt: Mapping[str, Any],
     *,
     now: datetime,
+    post_manifest_capture: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     _assert_no_secret_material(close_receipt)
     _require(close_receipt.get("schema") == FENCE_CLOSE_SCHEMA, "HOLD_FENCE_CLOSE", "schema")
     _require(close_receipt.get("status") == "CLOSED_VERIFIED", "HOLD_FENCE_CLOSE", "status")
+    post_manifest_sha256 = close_receipt.get(
+        "live_manifest_post_capture_sha256"
+    )
+    _require(
+        isinstance(post_manifest_sha256, str)
+        and _HEX64.fullmatch(post_manifest_sha256) is not None,
+        "HOLD_FENCE_CLOSE",
+        "post live-manifest hash",
+    )
+    if post_manifest_capture is not None:
+        _require(
+            post_manifest_sha256 == sha256_json(post_manifest_capture),
+            "HOLD_FENCE_CLOSE",
+            "post live-manifest binding",
+        )
     for key in ("release_config_sha256", "backend_pid", "txid", "fence_owner", "rpc_manifest_sha256", "physical_manifest_sha256"):
         _require(close_receipt.get(key) == open_receipt.get(key), "HOLD_FENCE_CLOSE", key)
     _require(close_receipt.get("initial_fingerprint") == open_receipt.get("initial_fingerprint"), "HOLD_CORPUS_DRIFT", "initial fingerprint")
@@ -3944,15 +4491,18 @@ def validate_replica_receipt(
     expected_run_genesis: Mapping[str, Any],
     expected_effective_config: Mapping[str, Any],
 ) -> None:
+    base_receipt_keys = {
+        "schema", "replica_key", "qid", "replica_id", "input",
+        "run_identity", "effective_config",
+        "retrieval", "rerank", "served_context", "structural_fetch",
+        "coverage", "must_preserve", "provider", "answer",
+        "answer_sha256", "generation_chain", "visual_assets", "render",
+        "call_keys", "call_requests",
+    }
     _require(
-        set(receipt)
-        == {
-            "schema", "replica_key", "qid", "replica_id", "input",
-            "run_identity", "effective_config",
-            "retrieval", "rerank", "served_context", "structural_fetch",
-            "coverage", "must_preserve", "provider", "answer",
-            "answer_sha256", "generation_chain", "visual_assets", "render", "call_keys",
-            "call_requests",
+        frozenset(receipt) in {
+            frozenset(base_receipt_keys),
+            frozenset(base_receipt_keys | {"product_adapter_attestation"}),
         },
         "NO_GO_REPLICA_RECEIPT",
         f"top-level shape {replica.key}",
@@ -4352,11 +4902,73 @@ def validate_replica_receipt(
         "rerank": pool,
         "synthesis": served_context,
     }
+    product_mode = all(
+        isinstance(requests[operation], Mapping)
+        and isinstance(requests[operation].get("request"), Mapping)
+        and requests[operation]["request"].get("schema")
+        == "s277_c1_p1_product_provider_intent_v1"
+        for operation in CALL_OPERATIONS
+    )
     for operation in CALL_OPERATIONS:
         envelope = requests[operation]
         _require(isinstance(envelope, Mapping), "NO_GO_CALL_RECEIPT", operation)
         request = envelope.get("request")
         _require(isinstance(request, Mapping), "NO_GO_CALL_RECEIPT", operation)
+        if product_mode:
+            physical = request.get("physical_payload")
+            expected_model = models[
+                {
+                    "embedding": "embedding",
+                    "rerank": "reranker",
+                    "synthesis": "generator",
+                }[operation]
+            ]
+            _require(
+                set(envelope) == _PROVIDER_CALL_ENVELOPE_KEYS
+                and envelope.get("call_key") == f"{replica.key}:{operation}"
+                and envelope.get("model") == expected_model
+                and envelope.get("run_genesis_sha256")
+                == genesis["run_genesis_sha256"]
+                and envelope.get("lineage_input_sha256")
+                == expected_lineages[operation]
+                and request.get("run_genesis_sha256")
+                == genesis["run_genesis_sha256"]
+                and request.get("lineage_input_sha256")
+                == expected_lineages[operation]
+                and isinstance(physical, Mapping)
+                and request.get("physical_payload_sha256")
+                == sha256_json(physical)
+                and envelope.get("input_tokens_upper_bound")
+                == physical_input_token_upper_bound(physical)
+                and request.get("max_output_tokens")
+                == envelope.get("max_output_tokens")
+                and envelope.get("max_retries") == 0
+                and envelope.get("prompt_cache") is False,
+                "NO_GO_INPUT_REQUEST_BINDING",
+                f"product envelope {replica.key}:{operation}",
+            )
+            if operation == "embedding":
+                _require(
+                    physical.get("texts") == [expected_input["question"]],
+                    "NO_GO_INPUT_REQUEST_BINDING",
+                    f"product embedding {replica.key}",
+                )
+            else:
+                content = physical.get("messages", [{}])[0].get("content")
+                question_prefix = (
+                    "Pregunta del técnico PCI: "
+                    if operation == "rerank"
+                    else "Pregunta del técnico: "
+                )
+                _require(
+                    isinstance(content, str)
+                    and content.startswith(
+                        f"{question_prefix}{expected_input['question']}\n"
+                    ),
+                    "NO_GO_INPUT_REQUEST_BINDING",
+                    f"product prompt {replica.key}:{operation}",
+                )
+            continue
         expected_payload = build_operation_payload(
             operation=operation,
             model=str(envelope.get("model")),
@@ -4382,6 +4994,47 @@ def validate_replica_receipt(
             == envelope.get("input_tokens_upper_bound"),
             "NO_GO_INPUT_REQUEST_BINDING",
             f"{replica.key}:{operation}",
+        )
+    attestation = receipt.get("product_adapter_attestation")
+    if product_mode:
+        _require(
+            isinstance(attestation, Mapping)
+            and attestation.get("schema")
+            == "s277_c1_p1_product_adapter_attestation_v1"
+            and attestation.get("replica_key") == replica.key
+            and attestation.get("entrypoint")
+            == "src.rag.serving_pipeline.execute_rag_turn"
+            and attestation.get("entrypoint_calls") == 1
+            and attestation.get("provider_operations") == list(CALL_OPERATIONS)
+            and attestation.get("provider_transport_attestation")
+            == "RAW_HTTP_RECEIPTS_PERSISTED"
+            and attestation.get("postgrest_transport_attestation")
+            == "GUARDED_HTTP_RECEIPTS_PERSISTED"
+            and isinstance(attestation.get("postgrest_manifest_sha256"), str)
+            and bool(
+                _HEX64.fullmatch(attestation["postgrest_manifest_sha256"])
+            )
+            and isinstance(attestation.get("postgrest_request_receipts"), list)
+            and bool(attestation["postgrest_request_receipts"])
+            and attestation.get("postgrest_request_receipts_sha256")
+            == sha256_json(attestation["postgrest_request_receipts"])
+            and isinstance(attestation.get("attestation_sha256"), str)
+            and attestation.get("attestation_sha256")
+            == sha256_json(
+                {
+                    key: value
+                    for key, value in attestation.items()
+                    if key != "attestation_sha256"
+                }
+            ),
+            "NO_GO_PRODUCT_ATTESTATION",
+            replica.key,
+        )
+    else:
+        _require(
+            attestation is None,
+            "NO_GO_PRODUCT_ATTESTATION",
+            f"unexpected attestation {replica.key}",
         )
     _require(
         retrieval.get("embedding_request_sha256")
@@ -4692,8 +5345,22 @@ class P1Runner:
             physical, fence_watch = self.artifacts.load_completed_call_artifacts(
                 call_key, record
             )
+            physical = dict(physical)
+            transport = physical.pop("_p1_transport_receipt", None)
             observed = dict(observed_responses[operation])
             observed.pop("_p1_resumed_from_receipt", None)
+            attestation = receipt.get("product_adapter_attestation")
+            if attestation is not None:
+                _require(
+                    isinstance(transport, Mapping)
+                    and isinstance(attestation, Mapping)
+                    and attestation.get("transport_receipt_sha256s", {}).get(
+                        operation
+                    )
+                    == sha256_json(transport),
+                    "NO_GO_PRODUCT_TRANSPORT_RECEIPT",
+                    call_key,
+                )
             _require(
                 sha256_json(observed) == sha256_json(physical),
                 "NO_GO_PROVIDER_RECEIPT_DRIFT",
@@ -4932,8 +5599,23 @@ class P1Runner:
                     _require(self.boundary is not None, "HOLD_RUN_IDENTITY", "boundary")
                     call_start = len(self.boundary.touched_call_keys)
                     raw_receipt = self.replica_adapter.execute_replica(replica, self.boundary)
-                    _require(isinstance(raw_receipt, Mapping), "NO_GO_REPLICA_RECEIPT", replica.key)
-                    receipt = dict(raw_receipt)
+                    if isinstance(raw_receipt, Mapping):
+                        receipt = dict(raw_receipt)
+                    else:
+                        product_receipt = getattr(raw_receipt, "receipt", None)
+                        product_attestation = getattr(
+                            raw_receipt, "adapter_attestation", None
+                        )
+                        _require(
+                            isinstance(product_receipt, Mapping)
+                            and isinstance(product_attestation, Mapping),
+                            "NO_GO_REPLICA_RECEIPT",
+                            replica.key,
+                        )
+                        receipt = dict(product_receipt)
+                        receipt["product_adapter_attestation"] = dict(
+                            product_attestation
+                        )
                     expected_keys = [f"{replica.key}:{op}" for op in CALL_OPERATIONS]
                     touched = self.boundary.touched_call_keys[call_start:]
                     _require(touched == expected_keys, "NO_GO_CALL_PLAN_DRIFT", replica.key)
@@ -4990,14 +5672,6 @@ class P1Runner:
         self.artifacts.persist_result(result)
         lease.release_after_result_persisted()
         return result
-
-
-class _UnwiredPaidAdapter:
-    def prepare(self, _call: ProviderCall) -> PreparedCall:
-        raise P1Error(
-            "HOLD_PRODUCTION_ADAPTER_NOT_INSTALLED",
-            "this reviewed change intentionally contains no paid network adapter",
-        )
 
 
 def _json_output(value: Mapping[str, Any]) -> None:
@@ -5322,9 +5996,23 @@ def load_run_replicas(run_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any
             )
             clean_observed = dict(observed)
             clean_observed.pop("_p1_resumed_from_receipt", None)
+            clean_physical = dict(physical_responses[call_key])
+            transport = clean_physical.pop("_p1_transport_receipt", None)
+            product_attestation = replica.get("product_adapter_attestation")
+            if product_attestation is not None:
+                _require(
+                    isinstance(transport, Mapping)
+                    and isinstance(product_attestation, Mapping)
+                    and product_attestation.get(
+                        "transport_receipt_sha256s", {}
+                    ).get(operation)
+                    == sha256_json(transport),
+                    "HOLD_RUN_ARTIFACT_DRIFT",
+                    f"product transport binding {call_key}",
+                )
             _require(
                 sha256_json(clean_observed)
-                == sha256_json(physical_responses[call_key]),
+                == sha256_json(clean_physical),
                 "HOLD_RUN_ARTIFACT_DRIFT",
                 f"provider response binding {call_key}",
             )
@@ -5539,7 +6227,13 @@ def _finalize_after_verified_live_manifest(args: argparse.Namespace) -> dict[str
 
 
 def _cli_finalize(args: argparse.Namespace) -> dict[str, Any]:
-    _enforce_materialized_live_fence_manifest_contract()
+    _verify_materialized_live_manifest_window(
+        contract_path=Path(args.live_manifest_contract),
+        pre_path=Path(args.live_manifest_pre),
+        post_path=Path(args.live_manifest_post),
+        fence_open_path=Path(args.fence_open_receipt),
+        fence_close_path=Path(args.fence_close_receipt),
+    )
     return _finalize_after_verified_live_manifest(args)
 
 
@@ -5556,12 +6250,13 @@ def build_parser() -> argparse.ArgumentParser:
         "paid_model_calls": 0,
     })
 
-    common = argparse.ArgumentParser(add_help=False)
-    common.add_argument("--release-config", required=True)
-    common.add_argument("--prereg", required=True)
-    common.add_argument("--fingerprint-receipt", required=True)
-    common.add_argument("--fence-open-receipt", required=True)
-    preflight = subparsers.add_parser("preflight", parents=[common])
+    sealed = argparse.ArgumentParser(add_help=False)
+    sealed.add_argument("--release-config", required=True)
+    sealed.add_argument("--prereg", required=True)
+    offline_common = argparse.ArgumentParser(add_help=False, parents=[sealed])
+    offline_common.add_argument("--fingerprint-receipt", required=True)
+    offline_common.add_argument("--fence-open-receipt", required=True)
+    preflight = subparsers.add_parser("preflight", parents=[offline_common])
     preflight.set_defaults(handler=_offline_cli_preflight)
 
     fingerprint = subparsers.add_parser("fingerprint-calibrate")
@@ -5573,11 +6268,16 @@ def build_parser() -> argparse.ArgumentParser:
     fence_open.add_argument("--operator-receipt", required=True)
     fence_open.add_argument("--fingerprint-receipt", required=True)
     fence_open.add_argument("--release-config", required=True)
+    fence_open.add_argument("--live-manifest-contract", required=True)
+    fence_open.add_argument("--live-manifest-pre", required=True)
     fence_open.set_defaults(handler=_cli_fence_open)
 
     fence_close = subparsers.add_parser("fence-close-verify")
     fence_close.add_argument("--fence-open-receipt", required=True)
     fence_close.add_argument("--operator-receipt", required=True)
+    fence_close.add_argument("--live-manifest-contract", required=True)
+    fence_close.add_argument("--live-manifest-pre", required=True)
+    fence_close.add_argument("--live-manifest-post", required=True)
     fence_close.set_defaults(handler=_cli_fence_close)
 
     score = subparsers.add_parser("score")
@@ -5600,17 +6300,25 @@ def build_parser() -> argparse.ArgumentParser:
     finalize.add_argument("--prereg", default=str(CANONICAL_PREREG_PATH))
     finalize.add_argument("--fence-open-receipt", required=True)
     finalize.add_argument("--fence-close-receipt", required=True)
+    finalize.add_argument("--live-manifest-contract", required=True)
+    finalize.add_argument("--live-manifest-pre", required=True)
+    finalize.add_argument("--live-manifest-post", required=True)
     finalize.add_argument("--adjudication")
     finalize.add_argument("--output")
     finalize.set_defaults(handler=_cli_finalize)
 
-    run = subparsers.add_parser("run", parents=[common])
+    run = subparsers.add_parser("run", parents=[sealed])
     run.add_argument("--execute", action="store_true")
     run.add_argument("--confirm-paid", action="store_true")
     run.add_argument("--authorization-receipt", required=True)
     run.add_argument("--credentials", required=True)
     run.add_argument("--artifact-dir", required=True)
-    run.set_defaults(handler=_cli_run_unwired)
+    run.add_argument("--ipc-dir", required=True)
+    run.add_argument("--live-manifest-contract", required=True)
+    run.add_argument("--live-manifest-pre", required=True)
+    run.add_argument("--live-http-evidence", required=True)
+    run.add_argument("--postgrest-post-snapshot", required=True)
+    run.set_defaults(handler=_cli_run_product)
     return parser
 
 
@@ -5625,18 +6333,73 @@ def _cli_fingerprint(args: argparse.Namespace) -> dict[str, Any]:
     return {"status": "PASS_FINGERPRINT_CALIBRATION_RECEIPT_OFFLINE", "receipt_sha256": sha256_json(verified), "external_calls": 0}
 
 
-def _enforce_materialized_live_fence_manifest_contract() -> None:
-    raise P1Error(
-        "HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED",
-        "live RPC-signature/index/config manifests are not materialized",
+def _verify_materialized_live_manifest_window(
+    *,
+    contract_path: Path,
+    pre_path: Path,
+    post_path: Path | None = None,
+    fence_open_path: Path | None = None,
+    fence_close_path: Path | None = None,
+) -> dict[str, Any]:
+    """Verify safe materialized manifest evidence and its fence bindings."""
+
+    from scripts.s277_c1_p1_live_manifest import (
+        verify_manifest_capture,
+        verify_manifest_window,
     )
+
+    contract = load_json_object(contract_path)
+    pre = load_json_object(pre_path)
+    try:
+        verify_manifest_capture(contract, pre)
+        captures = [pre]
+        post = None
+        if post_path is not None:
+            post = load_json_object(post_path)
+            captures.append(post)
+            verify_manifest_window(contract, captures)
+    except Exception as exc:
+        code = getattr(exc, "code", "HOLD_FENCE_MANIFEST_DRIFT")
+        raise P1Error(str(code), "live manifest verification failed") from exc
+    contract_sha256 = sha256_json(contract)
+    if fence_open_path is not None:
+        opened = load_json_object(fence_open_path)
+        _require(
+            opened.get("live_manifest_contract_sha256") == contract_sha256,
+            "HOLD_FENCE_MANIFEST_DRIFT",
+            "open receipt is not bound to the supplied live manifest contract",
+        )
+    if fence_close_path is not None:
+        closed = load_json_object(fence_close_path)
+        _require(
+            closed.get("live_manifest_contract_sha256") == contract_sha256,
+            "HOLD_FENCE_MANIFEST_DRIFT",
+            "close receipt is not bound to the supplied live manifest contract",
+        )
+        _require(
+            post is not None
+            and closed.get("live_manifest_post_capture_sha256")
+            == sha256_json(post),
+            "HOLD_FENCE_MANIFEST_DRIFT",
+            "close receipt is not bound to the supplied post manifest",
+        )
+    return {
+        "contract": contract,
+        "pre": pre,
+        "post": post,
+        "live_manifest_contract_sha256": contract_sha256,
+    }
 
 
 def _cli_fence_open(args: argparse.Namespace) -> dict[str, Any]:
-    _enforce_materialized_live_fence_manifest_contract()
     release = load_json_object(Path(args.release_config))
     fingerprint = load_json_object(Path(args.fingerprint_receipt))
     receipt = load_json_object(Path(args.operator_receipt))
+    live_window = _verify_materialized_live_manifest_window(
+        contract_path=Path(args.live_manifest_contract),
+        pre_path=Path(args.live_manifest_pre),
+        fence_open_path=Path(args.operator_receipt),
+    )
     verified = verify_fence_open_receipt(
         receipt,
         release_config_sha256=sha256_json(release),
@@ -5644,59 +6407,33 @@ def _cli_fence_open(args: argparse.Namespace) -> dict[str, Any]:
         target_semantic_config=release["derived_config"]["target_semantic_config"],
         now=datetime.now(timezone.utc),
     )
-    return {"status": "PASS_FENCE_OPEN_RECEIPT_OFFLINE", "receipt_sha256": sha256_json(verified), "external_calls": 0}
+    return {
+        "status": "PASS_FENCE_OPEN_RECEIPT_OFFLINE",
+        "receipt_sha256": sha256_json(verified),
+        "live_manifest_contract_sha256": live_window[
+            "live_manifest_contract_sha256"
+        ],
+        "external_calls": 0,
+    }
 
 
 def _cli_fence_close(args: argparse.Namespace) -> dict[str, Any]:
-    _enforce_materialized_live_fence_manifest_contract()
     opened = load_json_object(Path(args.fence_open_receipt))
     closed = load_json_object(Path(args.operator_receipt))
+    _verify_materialized_live_manifest_window(
+        contract_path=Path(args.live_manifest_contract),
+        pre_path=Path(args.live_manifest_pre),
+        post_path=Path(args.live_manifest_post),
+        fence_open_path=Path(args.fence_open_receipt),
+        fence_close_path=Path(args.operator_receipt),
+    )
     return verify_fence_close_receipt(opened, closed, now=datetime.now(timezone.utc))
 
 
-def _cli_run_unwired(args: argparse.Namespace) -> dict[str, Any]:
-    # Refuse before loading secrets.  This change supplies only the reviewed
-    # boundary/orchestrator; a separately reviewed production adapter is required.
-    _enforce_materialized_live_fence_manifest_contract()
-    _require(args.execute, "HOLD_EXECUTE_OPT_IN_REQUIRED", "--execute missing")
-    _require(args.confirm_paid, "HOLD_PAID_OPT_IN_REQUIRED", "--confirm-paid missing")
-    _offline_cli_preflight(args)
-    authorization = load_json_object(Path(args.authorization_receipt))
-    release = load_json_object(Path(args.release_config))
-    prereg = load_data_object(Path(args.prereg))
-    from scripts.s277_c1_p1_scorer import load_fact_contract, score_stored_controls
+def _cli_run_product(args: argparse.Namespace) -> dict[str, Any]:
+    from scripts.s277_c1_p1_execute import run_live
 
-    stored_control = score_stored_controls(
-        contract=load_fact_contract(
-            _sealed_path(prereg["sealed_inputs"]["fact_contract"]["path"])
-        )
-    )
-    verify_execution_permit(
-        ExecutionPermit(
-            execute=True,
-            confirm_paid=True,
-            credentials_present=Path(args.credentials).is_file(),
-            authorization=authorization,
-        ),
-        release_config_sha256=sha256_json(release),
-        prereg_sha256=sha256_json(prereg),
-        stored_control_score_sha256=sha256_json(stored_control),
-        now=datetime.now(timezone.utc),
-    )
-    # Never read or import the credentials in this offline-only implementation.
-    _UnwiredPaidAdapter().prepare(
-        ProviderCall(
-            call_key="unwired",
-            provider="none",
-            model="none",
-            request={"artifact_dir": str(args.artifact_dir)},
-            run_genesis_sha256="0" * 64,
-            lineage_input_sha256="0" * 64,
-            input_tokens_upper_bound=0,
-            max_output_tokens=0,
-        )
-    )
-    raise AssertionError("unreachable")
+    return dict(run_live(args))
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -5706,12 +6443,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         _json_output(result)
         return 0
     except P1Error as exc:
+        paid_model_calls: int | None = 0
+        paid_model_calls_evidence = "NO_NONEMPTY_WAL_OBSERVED"
+        artifact_dir = getattr(args, "artifact_dir", None)
+        if args.command == "run" and artifact_dir:
+            wal_path = Path(artifact_dir).resolve() / CALL_JOURNAL_FILENAME
+            try:
+                if wal_path.is_file() and wal_path.stat().st_size > 0:
+                    paid_model_calls = None
+                    paid_model_calls_evidence = (
+                        "NONEMPTY_WAL_REQUIRES_ARTIFACT_RECONCILIATION"
+                    )
+            except OSError:
+                paid_model_calls = None
+                paid_model_calls_evidence = "WAL_STATE_UNREADABLE"
         _json_output(
             {
                 "status": "HOLD",
                 "code": exc.code,
                 "message": str(exc),
-                "paid_model_calls": 0,
+                "paid_model_calls": paid_model_calls,
+                "paid_model_calls_evidence": paid_model_calls_evidence,
                 "railway_mutations": 0,
                 "supabase_mutations": 0,
             }
