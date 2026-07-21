@@ -372,8 +372,9 @@ GO exige simultáneamente:
 
 - A en PASS y un recibo B vigente sobre el commit candidato;
 - gate pagado prerelease P1 en PASS, con identidad post-deploy exacta;
-- hp017 en P1 prerelease con target servido, callout exacto y ambos avisos
-  correctamente citados en 3/3 réplicas;
+- hp017 en P1 prerelease con el target servido por una de dos rutas acreditadas:
+  fuente completa byte-intacta dentro del prefijo protegido, o append de coverage
+  con callout exacto; y ambos avisos correctamente citados en 3/3 réplicas;
 - hp017 en el canary post-activación con el mismo contrato en 3/3 respuestas;
 - cero pérdidas de los 43 facts del packet base transformado en las 27 ejecuciones
   preregistradas; `hp017#1` histórico es la exclusión explícita y versionada descrita
@@ -384,8 +385,9 @@ GO exige simultáneamente:
 - cero truncamientos o errores de lane;
 - trazas presentes, consistentes y dentro de la allowlist.
 
-Un solo daño protegido, conflicto, error de identidad, `no_append` en hp017 o
-ausencia de recibo implica NO-GO. El marcador canónico permanece en
+Un solo daño protegido, conflicto, error de identidad, target ausente de ambas
+rutas o ausencia de recibo cuando la ruta sea append implica NO-GO. El marcador
+canónico permanece en
 **146/154 (94,81%)**: S277 no banca ningún hecho adicional; incluso un PASS P1
 es un release gate sobre cohorte dev, no una adjudicación que mueva el KPI.
 

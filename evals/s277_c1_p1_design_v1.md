@@ -269,9 +269,11 @@ Por réplica se persisten completos y ordenados:
 - respuesta y render de Telegram.
 
 Fallback del reranker, contexto vacío, prefijo mutado, coverage `error`, identidad
-duplicada, modelo/provider inesperado o ausencia del append esperado producen NO-GO.
-En hp017, cada una de r1/r2/r3 debe alcanzar y receiptear el target de forma
-independiente; no puede reutilizar el rerank favorable de otra réplica.
+duplicada, modelo/provider inesperado o target ausente de ambas rutas acreditadas
+producen NO-GO. En hp017, cada una de r1/r2/r3 debe alcanzar el target de forma
+independiente, ya sea como fuente completa dentro de su propio prefijo rerankeado o
+como append con receipt exacto; no puede reutilizar el resultado favorable de otra
+réplica.
 
 Cada respuesta persiste antes de validarse:
 
@@ -522,8 +524,13 @@ bloquea GO hasta adjudicación ciega; las violaciones explícitas siguen siendo 
 El scorer especial es **aditivo** a los tres facts base hp017.
 
 1. Resuelve el target por ID sellado dentro del contexto servido; exige exactamente uno.
-2. Revalida `has_exact_mandatory_callout_receipt` y deriva los dos spans desde las cards,
-   no desde literales hardcodeados.
+2. Acredita una de dos rutas cerradas. Para `protected_prefix_full_source`, exige
+   igualdad byte a byte entre `rerank.prefix`, `structural_fetch.output` y el prefijo
+   de `coverage.output_context`, y revalida identidad, hash del contenido y los dos
+   spans exactos contra la fuente completa. Para `coverage_append`, revalida además
+   `has_exact_mandatory_callout_receipt` y que ambos spans estén dentro de la card.
+   En ambos casos deriva texto y posiciones desde el contrato y la fuente, no desde
+   literales hardcodeados.
 3. Deriva dinámicamente `F<n>` de la posición actual; no asume F12.
 4. Trata `obl_16637b935bd4 + obl_0d6a30948dfd` como una obligación KPI compuesta
    por decisión de Alberto, pero exige sus dos cláusulas por separado. Para cada warning
@@ -549,9 +556,10 @@ permit posterior que cite expresamente ese prior y autorice medirlo; arreglar pr
 es la ruta recomendada. En las respuestas candidatas, para pasar, el bot debe omitir el
 número o revelar/atribuir la discrepancia entre fuentes/revisiones.
 
-GO exige 3/3 con target appended/receipted, ambos warnings, citas locales exactas, los
-tres facts base hp017, respuesta técnica no reducida a sólo-warning, cero citas inválidas,
-cero conflicto y `end_turn`.
+GO exige 3/3 con target acreditado por `protected_prefix_full_source` o por
+`coverage_append` receipted, ambos warnings, citas locales exactas, los tres facts base
+hp017, respuesta técnica no reducida a sólo-warning, cero citas inválidas, cero
+conflicto y `end_turn`.
 
 Para los otros QIDs, cada fact base debe estar presente en las dos ejecuciones
 observadas (2/2). No hay mayoría. Esto no estima una tasa global de regresión ni

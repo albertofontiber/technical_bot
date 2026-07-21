@@ -381,6 +381,169 @@ def test_hp017_context_binding_is_dynamic_and_receipt_bound(
     )
 
 
+def test_hp017_context_binding_accepts_only_byte_intact_full_source_prefix(
+    contract: dict,
+) -> None:
+    target = _frozen_chunk(scorer.TARGET_ID)
+    context = [
+        _chunk(f"dummy-{index}", source_file=f"dummy-{index}.pdf")
+        for index in range(1, 6)
+    ]
+    context.append(target)
+
+    result = scorer._bind_hp017_context(
+        context,
+        contract["c1_target"],
+        protected_prefix_rows=len(context),
+    )
+
+    assert result.status == scorer.PASS
+    assert result.evidence["target_fragment"] == 6
+    assert result.evidence["delivery_route"] == "protected_prefix_full_source"
+    assert result.evidence["callout_start"] == 0
+    assert result.evidence["callout_end"] == len(target["content"])
+
+    # The same row outside the declared prefix remains append-strict: no exact
+    # callout receipt means no lawful coverage delivery route.
+    assert (
+        scorer._bind_hp017_context(
+            context,
+            contract["c1_target"],
+            protected_prefix_rows=len(context) - 1,
+        ).status
+        == scorer.INSTRUMENT_ERROR
+    )
+
+    tampered = deepcopy(context)
+    tampered[-1]["content"] += " alterado"
+    assert (
+        scorer._bind_hp017_context(
+            tampered,
+            contract["c1_target"],
+            protected_prefix_rows=len(tampered),
+        ).status
+        == scorer.INSTRUMENT_ERROR
+    )
+
+
+@pytest.mark.parametrize("invalid_rows", [True, -1, 7])
+def test_hp017_context_binding_rejects_invalid_prefix_bounds(
+    contract: dict, invalid_rows: object
+) -> None:
+    context = [_frozen_chunk(scorer.TARGET_ID)]
+
+    assert (
+        scorer._bind_hp017_context(
+            context,
+            contract["c1_target"],
+            protected_prefix_rows=invalid_rows,  # type: ignore[arg-type]
+        ).status
+        == scorer.INSTRUMENT_ERROR
+    )
+
+
+def test_hp017_case_accepts_prefix_route_without_weakening_append_receipts(
+    contract: dict,
+) -> None:
+    target = _frozen_chunk(scorer.TARGET_ID)
+    prefix = [
+        *[
+            _chunk(f"prefix-{index}", source_file=f"prefix-{index}.pdf")
+            for index in range(1, 6)
+        ],
+        target,
+        *[
+            _chunk(f"prefix-{index}", source_file=f"prefix-{index}.pdf")
+            for index in range(7, 11)
+        ],
+    ]
+    served = [*deepcopy(prefix), _chunk("coverage-extra")]
+    replica = {
+        "answer": _warning_answer(6),
+        "served_context": served,
+        "rerank": {"prefix": deepcopy(prefix)},
+        "structural_fetch": {"output": deepcopy(prefix)},
+        "coverage": {"status": "evaluated", "output_context": deepcopy(served)},
+        "must_preserve": {"status": "evaluated"},
+    }
+
+    result = scorer.score_hp017_case(replica, contract)
+    checks = {row["check_id"]: row for row in result.evidence["checks"]}
+
+    assert checks["hp017_coverage"]["status"] == scorer.PASS
+    assert (
+        checks["hp017_coverage"]["evidence"]["delivery_route"]
+        == "protected_prefix_full_source"
+    )
+    assert checks["hp017_warning_block"]["status"] == scorer.PASS
+
+    # Moving an unreceipted target outside the protected prefix must still fail.
+    appended_target = deepcopy(replica)
+    appended_target["rerank"]["prefix"] = deepcopy(prefix[:5])
+    appended_target["structural_fetch"]["output"] = deepcopy(prefix[:5])
+    appended_target["coverage"]["output_context"] = deepcopy(served)
+    assert (
+        scorer.score_hp017_case(appended_target, contract).status
+        == scorer.INSTRUMENT_ERROR
+    )
+
+
+def test_hp017_case_keeps_receipted_coverage_append_route(
+    contract: dict, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    served = _hp017_context(monkeypatch, target_fragment=6)
+    prefix = deepcopy(served[:5])
+    replica = {
+        "answer": _warning_answer(6),
+        "served_context": deepcopy(served),
+        "rerank": {"prefix": deepcopy(prefix)},
+        "structural_fetch": {"output": deepcopy(prefix)},
+        "coverage": {"status": "evaluated", "output_context": deepcopy(served)},
+        "must_preserve": {"status": "evaluated"},
+    }
+
+    result = scorer.score_hp017_case(replica, contract)
+    checks = {row["check_id"]: row for row in result.evidence["checks"]}
+
+    assert checks["hp017_coverage"]["status"] == scorer.PASS
+    assert (
+        checks["hp017_coverage"]["evidence"]["delivery_route"]
+        == "coverage_append"
+    )
+    assert checks["hp017_warning_block"]["status"] == scorer.PASS
+
+
+def test_hp017_prefix_route_requires_canonical_byte_equal_lineage(
+    contract: dict,
+) -> None:
+    target = _frozen_chunk(scorer.TARGET_ID)
+    prefix = [target, _chunk("prefix-2")]
+    replica = {
+        "answer": _warning_answer(1),
+        "served_context": deepcopy(prefix),
+        "rerank": {"prefix": deepcopy(prefix)},
+        "structural_fetch": {"output": deepcopy(prefix)},
+        "coverage": {"status": "evaluated", "output_context": deepcopy(prefix)},
+        "must_preserve": {"status": "evaluated"},
+    }
+
+    tampered = deepcopy(replica)
+    tampered["structural_fetch"]["output"][1]["content"] = "mutated"
+    tampered["coverage"]["output_context"][1]["content"] = "mutated"
+    result = scorer.score_hp017_case(tampered, contract)
+    checks = {row["check_id"]: row for row in result.evidence["checks"]}
+    assert checks["hp017_coverage"]["status"] == scorer.FAIL
+    assert "canonical rerank prefix" in checks["hp017_coverage"]["reasons"][0]
+
+    duplicated = deepcopy(replica)
+    duplicated["served_context"].append(deepcopy(target))
+    duplicated["coverage"]["output_context"].append(deepcopy(target))
+    result = scorer.score_hp017_case(duplicated, contract)
+    checks = {row["check_id"]: row for row in result.evidence["checks"]}
+    assert checks["hp017_coverage"]["status"] == scorer.FAIL
+    assert "duplicate identity" in checks["hp017_coverage"]["reasons"][0]
+
+
 def test_hp017_warning_requires_both_exact_clauses_and_dynamic_local_cites(
     contract: dict, monkeypatch: pytest.MonkeyPatch
 ) -> None:

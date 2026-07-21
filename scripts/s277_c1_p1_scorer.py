@@ -1164,10 +1164,20 @@ def score_stored_controls(
     }
 
 
-def bind_hp017_context(
-    served_context: Sequence[Mapping[str, Any]], target: Mapping[str, Any]
+def _bind_hp017_context(
+    served_context: Sequence[Mapping[str, Any]],
+    target: Mapping[str, Any],
+    *,
+    protected_prefix_rows: int | None = None,
 ) -> CheckResult:
-    """Resolve and re-attest the target dynamically; never assume ``F12``."""
+    """Resolve and re-attest the target dynamically; never assume ``F12``.
+
+    A target already selected by the reranker is served as the complete,
+    immutable source chunk. A target recovered after rerank is instead a
+    bounded coverage view and therefore still requires its exact callout
+    receipt. Both routes share the identity, content-hash, source-span,
+    answer, and citation checks below.
+    """
     check_id = "hp017_context_binding"
     if target.get("algorithm") != "hp017_compound_warning_exact_v1":
         return _result(check_id, INSTRUMENT_ERROR, "unknown hp017 target algorithm")
@@ -1190,6 +1200,21 @@ def bind_hp017_context(
             f"expected exactly one target chunk, observed {len(matches)}",
         )
     fragment, chunk = matches[0]
+    if protected_prefix_rows is not None and (
+        isinstance(protected_prefix_rows, bool)
+        or not isinstance(protected_prefix_rows, int)
+        or not 0 <= protected_prefix_rows <= len(served_context)
+    ):
+        return _result(
+            check_id,
+            INSTRUMENT_ERROR,
+            "protected prefix row count is invalid",
+        )
+    delivery_route = (
+        "protected_prefix_full_source"
+        if protected_prefix_rows is not None and fragment <= protected_prefix_rows
+        else "coverage_append"
+    )
 
     identity = target.get("target_identity")
     if not isinstance(identity, dict):
@@ -1223,33 +1248,46 @@ def bind_hp017_context(
     if expected_content_hash and _sha256_lf_text(str(chunk.get("content") or "")) != expected_content_hash:
         return _result(check_id, INSTRUMENT_ERROR, "target content hash drifted")
 
-    try:
-        from src.rag.post_rerank_coverage import has_exact_mandatory_callout_receipt
+    content = str(chunk.get("content") or "")
+    if delivery_route == "coverage_append":
+        try:
+            from src.rag.post_rerank_coverage import has_exact_mandatory_callout_receipt
 
-        receipt_ok = has_exact_mandatory_callout_receipt(dict(chunk))
-    except Exception as exc:
-        return _result(
-            check_id,
-            INSTRUMENT_ERROR,
-            f"mandatory callout revalidation failed: {type(exc).__name__}",
-        )
-    cards = chunk.get("mandatory_callout_cards")
-    if not receipt_ok or not isinstance(cards, list) or len(cards) != 1:
-        return _result(
-            check_id,
-            INSTRUMENT_ERROR,
-            "target mandatory callout card/receipt drifted",
-        )
-    card = cards[0]
-    if not isinstance(card, dict) or card.get("exact_source_span_validated") is not True:
-        return _result(check_id, INSTRUMENT_ERROR, "target callout lacks exact span receipt")
+            receipt_ok = has_exact_mandatory_callout_receipt(dict(chunk))
+        except Exception as exc:
+            return _result(
+                check_id,
+                INSTRUMENT_ERROR,
+                f"mandatory callout revalidation failed: {type(exc).__name__}",
+            )
+        cards = chunk.get("mandatory_callout_cards")
+        if not receipt_ok or not isinstance(cards, list) or len(cards) != 1:
+            return _result(
+                check_id,
+                INSTRUMENT_ERROR,
+                "appended target mandatory callout card/receipt drifted",
+            )
+        card = cards[0]
+        if (
+            not isinstance(card, dict)
+            or card.get("exact_source_span_validated") is not True
+        ):
+            return _result(
+                check_id,
+                INSTRUMENT_ERROR,
+                "appended target callout lacks exact span receipt",
+            )
+        card_start, card_end = card.get("start"), card.get("end")
+    else:
+        # The surrounding coverage-lineage check proves this row is byte-equal
+        # to the protected rerank prefix. Its entire immutable content is the
+        # serving boundary, so an append-only coverage receipt is inapplicable.
+        card_start, card_end = 0, len(content)
 
     clauses = target.get("clauses")
     if not isinstance(clauses, list) or len(clauses) != 2:
         return _result(check_id, INSTRUMENT_ERROR, "target must contain exactly two clauses")
     derived: list[dict[str, Any]] = []
-    content = str(chunk.get("content") or "")
-    card_start, card_end = card.get("start"), card.get("end")
     for clause in clauses:
         if not isinstance(clause, dict):
             return _result(check_id, INSTRUMENT_ERROR, "target clause is not an object")
@@ -1281,11 +1319,23 @@ def bind_hp017_context(
         evidence={
             "target_fragment": fragment,
             "target_chunk_id": TARGET_ID,
+            "delivery_route": delivery_route,
             "derived_clauses": derived,
             "callout_start": card_start,
             "callout_end": card_end,
         },
     )
+
+
+def bind_hp017_context(
+    served_context: Sequence[Mapping[str, Any]], target: Mapping[str, Any]
+) -> CheckResult:
+    """Strict public binding for the append route.
+
+    The prefix exception is private to ``score_hp017_case`` and is activated
+    only after that scorer proves the three-stage byte-equal lineage.
+    """
+    return _bind_hp017_context(served_context, target)
 
 
 def _exact_warning_unit_citations(
@@ -1318,12 +1368,18 @@ def _exact_warning_unit_citations(
     return citations
 
 
-def score_hp017_warning_block(
+def _score_hp017_warning_block(
     answer: str,
     served_context: Sequence[Mapping[str, Any]],
     target: Mapping[str, Any],
+    *,
+    protected_prefix_rows: int | None = None,
 ) -> CheckResult:
-    binding = bind_hp017_context(served_context, target)
+    binding = _bind_hp017_context(
+        served_context,
+        target,
+        protected_prefix_rows=protected_prefix_rows,
+    )
     if binding.status != PASS:
         return binding
     evidence = dict(binding.evidence or {})
@@ -1414,6 +1470,15 @@ def score_hp017_warning_block(
     )
 
 
+def score_hp017_warning_block(
+    answer: str,
+    served_context: Sequence[Mapping[str, Any]],
+    target: Mapping[str, Any],
+) -> CheckResult:
+    """Strict public warning score for a receipted coverage append."""
+    return _score_hp017_warning_block(answer, served_context, target)
+
+
 def score_hp017_base_facts(
     answer: str,
     served_context: Sequence[Mapping[str, Any]],
@@ -1451,10 +1516,14 @@ def score_hp017_case(
     target = contract.get("c1_target")
     if not isinstance(target, dict):
         return _result("hp017_case", INSTRUMENT_ERROR, "c1_target is absent")
+    structural_output: Any = None
+    full_source_prefix_rows: int | None = None
     coverage = replica.get("coverage")
     if not isinstance(coverage, dict):
         coverage_check = _result("hp017_coverage", INSTRUMENT_ERROR, "coverage trace absent")
     else:
+        rerank = replica.get("rerank")
+        rerank_prefix = rerank.get("prefix") if isinstance(rerank, dict) else None
         structural = replica.get("structural_fetch")
         structural_output = (
             structural.get("output") if isinstance(structural, dict) else None
@@ -1462,6 +1531,7 @@ def score_hp017_case(
         output_context = coverage.get("output_context")
         if (
             coverage.get("status") != "evaluated"
+            or not isinstance(rerank_prefix, list)
             or not isinstance(structural_output, list)
             or not isinstance(output_context, list)
         ):
@@ -1470,6 +1540,12 @@ def score_hp017_case(
                 INSTRUMENT_ERROR,
                 "coverage lineage is absent or not evaluated",
             )
+        elif structural_output != rerank_prefix:
+            coverage_check = _result(
+                "hp017_coverage",
+                FAIL,
+                "structural prefix differs from the canonical rerank prefix",
+            )
         elif output_context[: len(structural_output)] != structural_output:
             coverage_check = _result(
                 "hp017_coverage",
@@ -1477,26 +1553,49 @@ def score_hp017_case(
                 "coverage changed the protected structural prefix",
             )
         else:
+            prefix_ids = [
+                str(row.get("id") or "") if isinstance(row, dict) else ""
+                for row in structural_output
+            ]
             appended_ids = [
                 str(row.get("id") or "") if isinstance(row, dict) else ""
                 for row in output_context[len(structural_output) :]
             ]
-            if (
-                not appended_ids
-                or any(not value for value in appended_ids)
-                or len(set(appended_ids)) != len(appended_ids)
-                or TARGET_ID not in appended_ids
-            ):
+            all_ids = [*prefix_ids, *appended_ids]
+            if any(not value for value in all_ids) or len(set(all_ids)) != len(all_ids):
                 coverage_check = _result(
                     "hp017_coverage",
                     FAIL,
-                    "target was not independently appended with an intact prefix",
+                    "coverage lineage contains a missing or duplicate identity",
+                )
+            elif TARGET_ID in prefix_ids:
+                full_source_prefix_rows = len(structural_output)
+                coverage_check = _result(
+                    "hp017_coverage",
+                    PASS,
+                    evidence={
+                        "delivery_route": "protected_prefix_full_source",
+                        "target_fragment": prefix_ids.index(TARGET_ID) + 1,
+                        "derived_appended_ids": appended_ids,
+                    },
+                )
+            elif TARGET_ID in appended_ids:
+                coverage_check = _result(
+                    "hp017_coverage",
+                    PASS,
+                    evidence={
+                        "delivery_route": "coverage_append",
+                        "target_fragment": len(prefix_ids)
+                        + appended_ids.index(TARGET_ID)
+                        + 1,
+                        "derived_appended_ids": appended_ids,
+                    },
                 )
             else:
                 coverage_check = _result(
                     "hp017_coverage",
-                    PASS,
-                    evidence={"derived_appended_ids": appended_ids},
+                    FAIL,
+                    "target is absent from both lawful delivery routes",
                 )
 
     must_preserve = replica.get("must_preserve")
@@ -1513,7 +1612,12 @@ def score_hp017_case(
             coverage_check,
             mp_check,
             score_hp017_base_facts(answer, context, facts),
-            score_hp017_warning_block(answer, context, target),
+            _score_hp017_warning_block(
+                answer,
+                context,
+                target,
+                protected_prefix_rows=full_source_prefix_rows,
+            ),
             score_known_hp017_menu_conflict(answer, conflicts[0]),
         ),
     )
