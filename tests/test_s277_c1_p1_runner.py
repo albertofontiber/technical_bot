@@ -508,6 +508,7 @@ class _ReplicaAdapter:
                         "diagram_postprocess",
                         "answer_planner",
                         "must_preserve",
+                        "conflict_guard",
                     )
                 ],
                 "final_answer_sha256": answer_sha,

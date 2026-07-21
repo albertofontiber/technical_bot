@@ -21,6 +21,7 @@ from .answer_obligation_contract import build_enforced_answer_cache_identity
 from .answer_planner import (
     ANSWER_PLANNER_CONTRACT_S122,
     answer_planner_mode,
+    apply_answer_conflict_guard,
     apply_answer_planner,
     build_answer_conflicts,
     build_answer_plan,
@@ -781,6 +782,14 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
             "error_type": type(exc).__name__,
         }
 
+    # Always-on, deterministic final factual boundary.  It runs after optional
+    # answer-planner and must-preserve mutations, makes no provider call, and
+    # fails closed if served sources disagree on an operational value that the
+    # draft selected unilaterally.
+    answer, answer_conflict_guard = apply_answer_conflict_guard(
+        query, relevant_chunks, answer
+    )
+
     result = {
         "answer": answer,
         "diagrams": diagrams[:3],
@@ -793,6 +802,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         "output_tokens": response.usage.output_tokens if response.usage else None,
         "evidence_derivation": evidence_derivation,
         "must_preserve_outcome": must_preserve_outcome,
+        "answer_conflict_guard": answer_conflict_guard,
     }
     if answer_planner is not None:
         if enforced_cache_identity is not None:

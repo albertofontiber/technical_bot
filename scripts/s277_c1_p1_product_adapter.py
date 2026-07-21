@@ -987,6 +987,7 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
     original_embed_provider = embed_module._PROVIDERS.get("voyage")
     original_planner = generator_module.apply_answer_planner
     original_mp = generator_module.apply_must_preserve_contract
+    original_conflict_guard = generator_module.apply_answer_conflict_guard
     original_visual_append = generator_module.append_cited_visual_assets
     original_visual_lookup = visual_module.lookup_visual_assets
 
@@ -1016,6 +1017,22 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
             "trace": _json_copy(trace, field="must_preserve trace")
             if trace is not None
             else None,
+        }
+        return output, trace
+
+    def conflict_guard_probe(query, chunks, answer, *args, **kwargs):
+        _require(
+            "conflict_guard" not in capture,
+            "NO_GO_PRODUCT_STAGE_COUNT",
+            router.replica.key,
+        )
+        output, trace = original_conflict_guard(
+            query, chunks, answer, *args, **kwargs
+        )
+        capture["conflict_guard"] = {
+            "input": answer,
+            "output": output,
+            "trace": _json_copy(trace, field="answer conflict guard trace"),
         }
         return output, trace
 
@@ -1071,6 +1088,7 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
         embed_module._PROVIDERS["voyage"] = router.voyage_embed
         generator_module.apply_answer_planner = planner_probe
         generator_module.apply_must_preserve_contract = mp_probe
+        generator_module.apply_answer_conflict_guard = conflict_guard_probe
         generator_module.append_cited_visual_assets = visual_append_probe
         visual_module.lookup_visual_assets = visual_lookup_probe
         yield
@@ -1083,6 +1101,7 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
             embed_module._PROVIDERS["voyage"] = original_embed_provider
         generator_module.apply_answer_planner = original_planner
         generator_module.apply_must_preserve_contract = original_mp
+        generator_module.apply_answer_conflict_guard = original_conflict_guard
         generator_module.append_cited_visual_assets = original_visual_append
         visual_module.lookup_visual_assets = original_visual_lookup
         _INSTALL_LOCK.release()
@@ -1092,6 +1111,7 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
             and embed_module._PROVIDERS.get("voyage") is original_embed_provider
             and generator_module.apply_answer_planner is original_planner
             and generator_module.apply_must_preserve_contract is original_mp
+            and generator_module.apply_answer_conflict_guard is original_conflict_guard
             and generator_module.append_cited_visual_assets is original_visual_append
             and visual_module.lookup_visual_assets is original_visual_lookup,
             "HOLD_PRODUCT_PROXY_RESTORE_FAILED",
@@ -1374,9 +1394,14 @@ class ProductReplicaAdapter:
             == "evaluated"
             and "planner" in capture
             and "must_preserve" in capture
+            and "conflict_guard" in capture
             and capture["planner"]["output"]
             == capture["must_preserve"]["input"]
-            and capture["must_preserve"]["output"] == answer,
+            and capture["must_preserve"]["output"]
+            == capture["conflict_guard"]["input"]
+            and capture["conflict_guard"]["output"] == answer
+            and generation.get("answer_conflict_guard")
+            == capture["conflict_guard"]["trace"],
             "NO_GO_PRODUCT_GENERATION_CHAIN",
             replica.key,
         )
@@ -1478,10 +1503,12 @@ class ProductReplicaAdapter:
         diagram_output = capture["planner"]["input"]
         planner_output = capture["planner"]["output"]
         mp_output = capture["must_preserve"]["output"]
+        conflict_guard_output = capture["conflict_guard"]["output"]
         stage_values = (
             ("diagram_postprocess", raw, diagram_output),
             ("answer_planner", diagram_output, planner_output),
             ("must_preserve", planner_output, mp_output),
+            ("conflict_guard", mp_output, conflict_guard_output),
         )
         stages = [
             {
@@ -1573,7 +1600,7 @@ class ProductReplicaAdapter:
                 "profile": p1.PROFILE,
                 "effective_config_sha256": effective_sha,
                 "input_answer_sha256": _text_sha256(planner_output),
-                "output_answer_sha256": answer_sha,
+                "output_answer_sha256": _text_sha256(mp_output),
             },
             "provider": {
                 "requested_model": intents["synthesis"]["model"],

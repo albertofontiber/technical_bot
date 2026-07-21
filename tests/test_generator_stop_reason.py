@@ -92,6 +92,47 @@ def test_stop_reason_max_tokens_visible(monkeypatch):
     assert res["stop_reason"] == "max_tokens"  # truncamiento DETECTABLE (antes invisible)
 
 
+def test_conflict_guard_runs_after_must_preserve(monkeypatch):
+    _fake_anthropic(
+        monkeypatch,
+        text="Respuesta base sobre el retardo [F1].",
+    )
+    chunks = [
+        {
+            **_chunk(),
+            "id": "pearl-menu-7",
+            "product_model": "PEARL",
+            "content": "En Editar Configuración seleccione 7: Causa y Efecto.",
+            "document_revision": "997-671-005-3",
+        },
+        {
+            **_chunk(),
+            "id": "pearl-menu-8",
+            "product_model": "PEARL",
+            "content": "Menú Editar Configuración\n8: Causa y Efecto",
+            "document_revision": "997-671-005-3",
+        },
+    ]
+
+    def reintroduce_unsafe_choice(_query, _chunks, _answer):
+        return (
+            "Respuesta base sobre el retardo [F1].\n\n"
+            "Seleccione 8: Causa y Efecto [F2].",
+            {"status": "evaluated"},
+        )
+
+    monkeypatch.setattr(
+        gen, "apply_must_preserve_contract", reintroduce_unsafe_choice
+    )
+    result = gen.generate_answer(
+        "¿Cómo programo el retardo de salida en la central PEARL?", chunks
+    )
+
+    assert "Seleccione 8: Causa y Efecto" not in result["answer"]
+    assert "Los fragmentos discrepan" in result["answer"]
+    assert result["answer_conflict_guard"]["action"] == "surgical_repair"
+
+
 def test_early_return_sin_llm_stop_reason_none(monkeypatch):
     fake = _fake_anthropic(monkeypatch)
     # Todos los chunks bajo RELEVANCE_THRESHOLD (0.4) → early-return sin llamada API.

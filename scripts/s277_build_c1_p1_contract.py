@@ -1274,6 +1274,7 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
             "required_stages": [
                 "retrieve_chunks", "rerank_strict", "observer", "structural_fetch",
                 "selector_attestation", "coverage", "generator", "must_preserve",
+                "conflict_guard",
                 "visual_assets_branch", "telegram_renderer",
             ],
             "frozen_s113_context_for_authoritative_result": False,
@@ -1352,7 +1353,7 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
                     "embedding_response", "retrieval_pool", "rerank_response",
                     "rerank_prefix", "structural_fetch", "coverage_output",
                     "served_context", "synthesis_physical_payload", "answer",
-                    "must_preserve", "telegram_renderer",
+                    "must_preserve", "conflict_guard", "telegram_renderer",
                 ],
                 "hash_algorithm": "sha256_canonical_json_or_sha256_utf8_as_typed",
                 "effective_config_required": "coverage_c1_v1_and_must_preserve_true",
@@ -1380,6 +1381,7 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
                 "raw_text_hash": "sha256_utf8(raw_text)",
                 "stage_order": [
                     "diagram_postprocess", "answer_planner", "must_preserve",
+                    "conflict_guard",
                 ],
                 "stage_exact_keys": [
                     "name", "input_sha256", "output_text", "output_sha256",

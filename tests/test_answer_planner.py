@@ -8,6 +8,7 @@ from src.rag.answer_planner import (
     AnswerConflictEvidence,
     AnswerObligation,
     answer_planner_mode,
+    apply_answer_conflict_guard,
     apply_answer_planner,
     enforce_answer_contract,
     build_answer_plan,
@@ -1146,6 +1147,128 @@ def test_s122_conflict_requires_both_values_and_explicit_disclosure():
     ):
         result = validate_answer_conflicts(coreferential_denial, [conflict])
         assert len(result["unsafe"]) == 1
+
+
+def test_s122_conflict_ignores_unrelated_operational_directives():
+    conflict = _menu_conflict()
+    answer = (
+        "Los fragmentos discrepan para el número de menú de Causa y Efecto: "
+        "[F1] indica 7: Causa y Efecto; [F2] indica 8: Causa y Efecto. "
+        "No seleccione ningún número de menú hasta confirmar la revisión.\n\n"
+        "Seleccione 5: Retardo Activación Salidas.\n\n"
+        "Seleccionar el tipo de retardo."
+    )
+    result = validate_answer_conflicts(answer, [conflict])
+    assert result["unsafe"] == []
+    assert result["rows"][0]["directive_values"] == []
+
+
+def test_s122_conflict_scopes_relative_directives_to_the_conflict_window():
+    conflict = _menu_conflict()
+    disclosure = (
+        "Los fragmentos discrepan para el número de menú de Causa y Efecto: "
+        "[F1] indica 7: Causa y Efecto; [F2] indica 8: Causa y Efecto. "
+        "No seleccione ningún número hasta confirmar la revisión."
+    )
+    unrelated = validate_answer_conflicts(
+        disclosure
+        + "\n\nPara el tipo de retardo, seleccione la primera opción.",
+        [conflict],
+    )
+    assert unrelated["unsafe"] == []
+
+    for coreferential_choice in (
+        disclosure + " Use la segunda.",
+        disclosure + " Seleccione esa opción.",
+        disclosure + " Choose that option.",
+    ):
+        result = validate_answer_conflicts(coreferential_choice, [conflict])
+        assert len(result["unsafe"]) == 1
+
+
+def _pearl_menu_conflict_chunks():
+    return [
+        {
+            **_served_base_chunk(
+                "En Editar Configuración seleccione 7: Causa y Efecto.",
+                chunk_id="pearl-menu-7",
+                product_model="PEARL",
+            ),
+            "source_file": "Pearl-config.pdf",
+            "document_revision": "997-671-005-3",
+        },
+        {
+            **_served_base_chunk(
+                "Menú Editar Configuración\n8: Causa y Efecto",
+                chunk_id="pearl-menu-8",
+                product_model="PEARL",
+            ),
+            "source_file": "Pearl-config.pdf",
+            "document_revision": "997-671-005-3",
+        },
+    ]
+
+
+def test_conflict_guard_repairs_only_unsafe_paragraph_and_revalidates():
+    answer = (
+        "Programación del retardo de salida en PEARL.\n\n"
+        "Desde Editar Configuración, seleccione 8: Causa y Efecto [F2].\n\n"
+        "Seleccione 5: Retardo Activación Salidas para operar el panel [F1].\n\n"
+        "Fuente: manual PEARL."
+    )
+    revised, trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        _pearl_menu_conflict_chunks(),
+        answer,
+    )
+    assert trace["action"] == "surgical_repair"
+    assert trace["repaired_blocks"] == 1
+    assert "seleccione 8: Causa y Efecto" not in revised
+    assert "[F1] indica 7: Causa y Efecto" in revised
+    assert "[F2] indica 8: Causa y Efecto" in revised
+    assert "Seleccione 5: Retardo Activación Salidas" in revised
+    assert revised.startswith("Programación del retardo de salida en PEARL.")
+    assert revised.endswith("Fuente: manual PEARL.")
+
+
+def test_conflict_guard_safe_and_not_applicable_paths_are_byte_identical():
+    safe = (
+        "Los fragmentos discrepan para el número de menú de Causa y Efecto: "
+        "[F1] indica 7: Causa y Efecto; [F2] indica 8: Causa y Efecto. "
+        "No seleccione ningún número de menú hasta confirmar la revisión.\n\n"
+        "Seleccione 5: Retardo Activación Salidas."
+    )
+    passed, pass_trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        _pearl_menu_conflict_chunks(),
+        safe,
+    )
+    untouched, na_trace = apply_answer_conflict_guard(
+        "¿Qué tensión tiene la central PEARL?",
+        _pearl_menu_conflict_chunks(),
+        "Respuesta sin conflicto.\n",
+    )
+    assert passed == safe
+    assert pass_trace["action"] == "pass"
+    assert untouched == "Respuesta sin conflicto.\n"
+    assert na_trace["action"] == "not_applicable"
+
+
+def test_conflict_guard_removes_repeated_unsafe_choices_once():
+    answer = (
+        "Seleccione 8: Causa y Efecto.\n\n"
+        "Como recordatorio, use 7: Causa y Efecto."
+    )
+    revised, trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        _pearl_menu_conflict_chunks(),
+        answer,
+    )
+    assert trace["action"] == "surgical_repair"
+    assert trace["repaired_blocks"] == 2
+    assert revised.count("Los fragmentos discrepan") == 1
+    assert "Seleccione 8" not in revised
+    assert "use 7" not in revised
 
 
 def test_s122_reconstructs_core_failure_without_retaining_unsafe_draft():

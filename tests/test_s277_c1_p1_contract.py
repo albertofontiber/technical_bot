@@ -385,7 +385,7 @@ def test_prereg_rebuilds_and_seals_questions_models_and_27_replica_order():
         "question", "target_models", "query_for_retrieval", "available_models"
     ]
     assert pipeline["generation_chain"]["stage_order"] == [
-        "diagram_postprocess", "answer_planner", "must_preserve"
+        "diagram_postprocess", "answer_planner", "must_preserve", "conflict_guard"
     ]
     assert pipeline["physical_call_envelope"]["max_retries"] == 0
     assert pipeline["physical_call_envelope"]["prompt_cache"] is False

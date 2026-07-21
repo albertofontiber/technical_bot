@@ -159,9 +159,18 @@ def _runtime(monkeypatch) -> product.ProductRuntime:
     def must_preserve(_query, _chunks_arg, answer, *args, **kwargs):
         return answer + "\nContrato conservado.", {"status": "evaluated"}
 
+    def conflict_guard(_query, _chunks_arg, answer, *args, **kwargs):
+        return answer + "\nConflictos verificados.", {
+            "schema": "answer_conflict_guard_v1",
+            "action": "not_applicable",
+        }
+
     monkeypatch.setattr(serving_pipeline, "apply_profiled_post_rerank_coverage", coverage)
     monkeypatch.setattr(generator_module, "apply_answer_planner", planner)
     monkeypatch.setattr(generator_module, "apply_must_preserve_contract", must_preserve)
+    monkeypatch.setattr(
+        generator_module, "apply_answer_conflict_guard", conflict_guard
+    )
 
     base = product.load_product_runtime()
     return replace(

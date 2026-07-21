@@ -1965,7 +1965,12 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
         is True
         and isinstance(generation, Mapping)
         and generation.get("stage_order")
-        == ["diagram_postprocess", "answer_planner", "must_preserve"],
+        == [
+            "diagram_postprocess",
+            "answer_planner",
+            "must_preserve",
+            "conflict_guard",
+        ],
         "HOLD_PREREG_DRIFT",
         "physical receipt/envelope contract",
     )
@@ -5227,14 +5232,19 @@ def validate_replica_receipt(
     )
     stages = chain.get("stages")
     _require(
-        isinstance(stages, list) and len(stages) == 3,
+        isinstance(stages, list) and len(stages) == 4,
         "NO_GO_GENERATION_CHAIN",
         f"stage count {replica.key}",
     )
     previous_sha = raw_text_sha
     previous_text = raw_text
     for expected_name, stage in zip(
-        ("diagram_postprocess", "answer_planner", "must_preserve"),
+        (
+            "diagram_postprocess",
+            "answer_planner",
+            "must_preserve",
+            "conflict_guard",
+        ),
         stages,
         strict=True,
     ):
@@ -5262,7 +5272,8 @@ def validate_replica_receipt(
         == stages[1].get("output_sha256")
         and must_preserve.get("output_answer_sha256")
         == stages[2].get("output_sha256")
-        == receipt.get("answer_sha256"),
+        and stages[3].get("input_sha256")
+        == stages[2].get("output_sha256"),
         "NO_GO_MUST_PRESERVE",
         f"answer lineage {replica.key}",
     )
