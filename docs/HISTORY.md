@@ -1989,3 +1989,27 @@ payload de 40.220 bytes y bound total 40.732 frente al límite 10.000. Reprodujo
 techo duro en 30 USD y el prereg se alineó con bounds 95.000/249.000 y worst-case 29,727 USD,
 sin alterar la lógica productiva RAG. El fix queda offline-green y requiere una autorización/run
 nuevos; no existe `P1_PASS` ni GO.
+
+### S277 — tercera P1: falso FAIL de Markdown corregido y miss de fuente aislado
+
+La P1 sobre `b06f05c` persistió 18/27 réplicas y completó 54/81 llamadas antes de parar en
+`hp011:r1` con `NO_GO_PROTECTED_CONTRACT`. Coste observado: 1,82090244 USD; cero reserva
+desconocida, cero mutaciones Railway/Supabase y fence `CLOSED_VERIFIED` con corpus/manifest
+idénticos pre/post. No se creó `P1_PASS`.
+
+La parada fue inicialmente un FAIL falso: el scorer interpretaba los separadores Markdown `---`
+como el valor técnico `--` y exigía `t.A`. Se estrechó el detector a usos técnicos inequívocos y
+el mismo artefacto pasa a REVIEW offline, sin repetir inferencias. La inspección de ese REVIEW
+aisló el defecto productivo: la página 63 autoritativa del manual RP1r-Supra no estaba en el pool,
+prefijo, structural fetch ni contexto, mientras F9 procedía de una guía rápida incompleta. La
+respuesta invirtió el significado de `00`. Pool coverage e HYQ tampoco recuperaron la página en
+probes GET-only, por lo que no habrá otro run pagado hasta demostrar una recuperación
+intra-documento genérica y acotada. Los 18 artefactos se reutilizan para diagnóstico; no pueden
+mezclarse con nueve respuestas nuevas para certificar un código distinto.
+
+La inspección posterior del corpus añadió una stop-line más temprana: p63 existe en v.04 (2013,
+`t.H`) y v.07 (2018, corrección visual `t.Fi`→`t.A`), ambas activas. El dedupe cruza las revisiones
+y excluye la fila v.07 usada por la adjudicación gold; la migración de reconciliación dejó la
+precedencia expresamente diferida. Por ello no se implementa una búsqueda por filename que mezcle
+autoridades ni un latest-wins silencioso. Primero se prepara y mide la adjudicación lifecycle y la
+reparación de dedupe; su aplicación live requiere autorización separada.

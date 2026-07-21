@@ -373,7 +373,10 @@ class _ReplicaAdapter:
         pool = [{"id": "pool-1", "content": "evidence"}]
         rerank_response = invoke("rerank", pool)
         prefix = [{"id": "prefix-1", "content": "evidence"}]
-        structural_output = [{"id": "context-1", "content": "manual"}]
+        # Structural hydration is identity-preserving: coverage may append
+        # source evidence later, but the protected rerank prefix itself cannot
+        # be replaced by an unrelated synthetic row.
+        structural_output = [dict(row) for row in prefix]
         served_context = list(structural_output)
         if replica.qid == "hp017":
             from scripts import s277_c1_p1_scorer as scorer

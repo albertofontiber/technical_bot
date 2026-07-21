@@ -3,8 +3,8 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — segunda P1 cerrada `NO_GO_PARTIAL`; bound de rerank corregido,
-> nueva autorización pendiente).
+> 21 jul 2026 (S277 — tercera P1 cerrada `NO_GO_PARTIAL`; falso FAIL instrumental
+> corregido y miss real de fuente aislado sin repetir llamadas).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -46,18 +46,26 @@ por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo 
 Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
 su estado vivo; no lo apaga como efecto lateral.
 
-**La segunda P1 end-to-end también cerró `NO_GO_PARTIAL`, ahora con causa exacta y pre-send.**
-El run `p1-33d94efd57d84328aafbbdb4f052831d`, ligado a `e49cb73`, completó únicamente
-`hp017:r1:embedding` y paró antes de reservar o enviar el rerank: 0/27 réplicas, una llamada
-Voyage completada, coste observado **0,0000024 USD**, cero coste desconocido y cero mutaciones.
-El fence cerró `CLOSED_VERIFIED`; manifest y fingerprint pre/post coincidieron. La autorización
-quedó consumida y `score` devolvió `HOLD_RUN_INCOMPLETE`; no existe `P1_PASS`.
+**La tercera P1 alcanzó síntesis real y cerró `NO_GO_PARTIAL`, sin mutaciones.** El run
+`p1-8c7818cce1174f1ea0538028693ee515`, ligado a `b06f05c`, persistió 18/27 réplicas y
+completó 54/81 llamadas antes de la parada temprana en `hp011:r1`. Coste observado:
+**1,82090244 USD**, reserva desconocida cero; Railway y Supabase registraron cero mutaciones.
+El fence cerró `CLOSED_VERIFIED` y el manifest/fingerprint pre/post permanecieron idénticos.
+El resultado terminal es `NO_GO_PARTIAL / NO_GO_PROTECTED_CONTRACT`; no existe `P1_PASS`.
 
-El replay exacto read-only reutilizó el embedding ya cobrado y reprodujo la causa sin Anthropic:
-pool de 43 filas, 34.192 caracteres de preview y bound físico de **40.732** frente al máximo
-preregistrado de **10.000**, por lo que el código real era `HOLD_INPUT_TOKEN_BOUND`. El wrapper
-strict ocultaba además ese `P1Error` como `RerankStrictError`. La corrección conserva cualquier
-clasificación P1 pre-WAL y amplía los bounds sin cambiar retrieval, rerank ni síntesis productivos.
+La causa de la parada mezclaba un defecto instrumental y otro real. El scorer interpretaba
+cualquier substring `--` como el valor técnico especial de `r.I`; por ello confundió los
+separadores Markdown `---` de la respuesta con ese estado y emitió un FAIL falso por ausencia de
+`t.A`. La detección se acotó al token técnico inequívoco y el replay offline de la misma respuesta
+pasa de FAIL a **REVIEW**, sin repetir ni pagar llamadas. El REVIEW sí es material: la página 63
+no estaba en el pool, prefijo, fetch structural ni contexto servido. F9 procedía de una guía
+rápida incompleta y la respuesta afirmó erróneamente que `00` inhibe el rearme. La inspección
+GET-only descubrió además una frontera anterior a retrieval: `HLSI-MN-103_RP1r-Supra_lr` tiene
+dos revisiones activas. La v.04 (2013) expresa `t.H`; la v.07 (2018), fuente de la adjudicación
+gold experta, corrige el texto mediante `t.Fi` tachado y `t.A` insertado. La v.07 está parcialmente
+marcada como duplicada de v.04, y la migración de reconciliación dejó su precedencia
+intencionadamente pendiente. Pool coverage e HYQ no recuperaron la autoridad; ampliar búsqueda
+antes de resolver lifecycle mezclaría revisiones y tampoco sería un camino honesto a GO.
 
 El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
@@ -89,13 +97,14 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`, no GO.** La segunda
-autorización P1 quedó consumida por el run terminal; no se repite ni se reabre. El fix amplía
-rerank a 95.000 y síntesis a 249.000 unidades de bound, conserva el error P1 específico y fija
-un worst-case de 29,727 USD bajo el techo autorizado de 30 USD. Está probado offline pero todavía
-no medido por una P1 completa. Para otra P1 hacen falta autorización humana nueva, checkout
-detached del commit que contenga el fix, bearer/inputs/recibo nuevos y artifact root vacío. No
-existe `P1_PASS`, no hubo deploy ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
+**Estado operativo: `P1_NO_GO_PARTIAL_REVISION_AUTHORITY_REQUIRED`, no GO.** El run terminal no se
+reanuda ni se convierte retroactivamente en PASS. Sus 18 artefactos siguen siendo válidos para
+diagnóstico y regresión; no es necesario repetirlos para corregir o revalidar el scorer. Una
+certificación final sí deberá ser un run limpio porque cambiarán el código sellado y el run actual
+carece de 9 réplicas. Antes de ampliar retrieval se exige adjudicar explícitamente la autoridad
+v.04/v.07 y reparar el dedupe cruzado; después, una prueba offline/GET-only de recuperación
+intra-documento genérica, acotada y fail-closed, sin reglas por QID ni manual. No existe `P1_PASS`,
+no hubo deploy ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
 explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
 requieren una migración y autorización separadas antes del GO final de C1.
 
@@ -105,15 +114,17 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) Alberto decide si autoriza una P1 nueva
-sobre el commit del fix de bound; sin esa decisión no hay más llamadas; (2) si la autoriza, materializar desde cero
-checkout detached, release-config, bearer, manifest/evidencia y recibo ligados al nuevo commit,
-sin reutilizar WAL, artefactos ni autorización del run terminal; (3) ejecutar una sola P1 nueva,
-cerrar el fence y correr `score`/`finalize`; (4) sólo si existe `P1_PASS` vigente, resolver el
-riesgo separado de `create_hnsw_index()` y solicitar autorización separada para merge/deploy y
-canary. Después, para el +5, usar eval orgánico/fresco u
-otra familia causal —P1 es gate de release, no árbitro del 98%—. La Fase 0 conversacional sigue
-`NOT_BUILT` y requiere una decisión separada de Alberto.
+**Qué sigue, por orden y sin abrir otro frente:** (1) cerrar el fix instrumental con su regresión
+offline; (2) preparar y medir offline la adjudicación lifecycle v.04→v.07 y la reparación del
+dedupe, sin mutar producción; (3) tras autorización separada para ese cambio de datos, aplicar y
+verificar la precedencia; (4) demostrar sin modelos una única recuperación intra-documento
+genérica que alcance la revisión autoritativa y preserve límites de contexto, latencia y
+procedencia; (5) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
+recibo nuevo y el techo ya autorizado; (6) sólo con `P1_PASS` vigente, resolver el riesgo separado de
+`create_hnsw_index()` y pedir autorización de merge/deploy/canary. Los 18 artefactos existentes se
+reutilizan para diagnóstico, no como mitad de una certificación con código distinto. Después,
+para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro del
+98%—. La Fase 0 conversacional sigue `NOT_BUILT` y requiere una decisión separada de Alberto.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

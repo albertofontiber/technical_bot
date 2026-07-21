@@ -256,9 +256,12 @@ def test_hp011_canonical_statement_passes_and_requires_ta(contract: dict) -> Non
     result = scorer.score_protected_fact(answer, context, fact)
     assert result.status == scorer.PASS
     assert result.evidence["canonical_identifier_present"] is True
+    assert result.evidence["special_state_present"] is True
 
-    no_ta = answer.replace("t.A", "el tiempo de extincion")
-    assert scorer.score_protected_fact(no_ta, context, fact).status == scorer.FAIL
+    no_ta = answer.replace("t.A", "duracion de la descarga")
+    no_ta_result = scorer.score_protected_fact(no_ta, context, fact)
+    assert no_ta_result.status == scorer.FAIL
+    assert no_ta_result.reasons == ("the -- state omits mandatory t.A",)
 
 
 def test_hp011_rejects_tfi_and_reviews_r1_alias_alone(contract: dict) -> None:
@@ -275,6 +278,76 @@ def test_hp011_rejects_tfi_and_reviews_r1_alias_alone(contract: dict) -> None:
         scorer.score_protected_fact(base.replace("t.A", "t.A y t.Fi"), context, fact).status
         == scorer.FAIL
     )
+
+
+@pytest.mark.parametrize(
+    "answer",
+    [
+        "Introduccion\n\n---\n\nConclusion",
+        "Introduccion\n\n----\n\nConclusion",
+        "Introduccion ----- conclusion",
+        "Introduccion -- conclusion",
+        "Use la opcion --help",
+    ],
+)
+def test_hp011_markdown_rules_and_nonisolated_runs_do_not_activate_special_state(
+    answer: str,
+    contract: dict,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fact = _fact(contract, "hp011#1:r.I")
+    monkeypatch.setattr(
+        scorer,
+        "_generic_fact_score",
+        lambda *_args: scorer._result("fact:hp011#1:r.I", scorer.PASS),
+    )
+
+    result = scorer._score_hp011(answer, [], fact)
+
+    assert result.status == scorer.PASS
+    assert result.evidence["special_state_present"] is False
+
+
+@pytest.mark.parametrize(
+    "answer",
+    [
+        '"--"',
+        "`--`",
+        "r.1: -- usa t.A",
+        "Estado: -- hasta agotar t.A",
+        "| Rearme | -- |",
+        "reset_mode = --",
+    ],
+)
+def test_hp011_recognizes_only_unambiguous_technical_special_state(answer: str) -> None:
+    assert scorer._hp011_has_special_state(answer) is True
+
+
+def test_hp011_isolated_special_state_enforces_ta_and_tfi(
+    contract: dict,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fact = _fact(contract, "hp011#1:r.I")
+    monkeypatch.setattr(
+        scorer,
+        "_generic_fact_score",
+        lambda *_args: scorer._result("fact:hp011#1:r.I", scorer.PASS),
+    )
+
+    passed = scorer._score_hp011('El valor tecnico es "--" y se agota t.A.', [], fact)
+    assert passed.status == scorer.PASS
+    assert passed.evidence["special_state_present"] is True
+    assert passed.evidence["t.A_present"] is True
+
+    missing_ta = scorer._score_hp011('El valor tecnico es "--".', [], fact)
+    assert missing_ta.status == scorer.FAIL
+    assert missing_ta.reasons == ("the -- state omits mandatory t.A",)
+
+    forbidden_tfi = scorer._score_hp011(
+        'El valor tecnico es "--" y se agotan t.A y t.Fi.', [], fact
+    )
+    assert forbidden_tfi.status == scorer.FAIL
+    assert forbidden_tfi.reasons == ("t.Fi is forbidden inside the -- state",)
 
 
 def test_hp013_guard_is_safety_scored_even_with_zero_facts(contract: dict) -> None:

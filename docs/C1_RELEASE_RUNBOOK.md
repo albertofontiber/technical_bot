@@ -1,9 +1,11 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-21: **segunda P1 cerrada con `NO_GO_PARTIAL` y causa pre-WAL confirmada;
-`P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`; todavía no existe GO de release**.
-La autorización humana cubría una única P1 de 27 réplicas/27 generaciones y exactamente
-81 llamadas pagables, con techo duro de 30 USD; quedó consumida por el run terminal y nunca
+Estado a 2026-07-21: **tercera P1 cerrada con `NO_GO_PARTIAL`; el falso FAIL instrumental está
+corregido y queda pendiente la autoridad entre dos revisiones activas;
+`P1_NO_GO_PARTIAL_REVISION_AUTHORITY_REQUIRED`; todavía
+no existe GO de release**. La autorización humana cubría una única P1 de 27 réplicas/27
+generaciones y exactamente 81 llamadas pagables, con techo duro de 30 USD; quedó consumida por
+el run terminal y nunca
 cubrió merge, deploy ni canary. Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
@@ -16,7 +18,13 @@ embedding con `HOLD_PROVIDER_SDK_VERSION`: 0/27 réplicas, una llamada conservad
 retiró ese blocker. Una segunda P1 sobre `e49cb73` completó una embedding y paró pre-WAL de
 rerank con el bound real 40.732 > 10.000; coste observado 0,0000024 USD. El fence cerró con
 corpus/manifest idénticos; no se cambió Railway y no hubo deploy. El contrato corregido conserva
-el `P1Error`, eleva los bounds y queda en 29,727 USD < 30 USD; aún no existe `P1_PASS`.
+el `P1Error`, eleva los bounds y queda en 29,727 USD < 30 USD. La tercera P1 sobre `b06f05c`
+persistió 18/27 réplicas y completó 54/81 llamadas por 1,82090244 USD antes de parar en
+`hp011:r1`; fence, corpus y manifest cerraron estables, con cero mutaciones. El FAIL fue provocado
+por interpretar `---` Markdown como el valor técnico `--`; el replay corregido queda en REVIEW
+porque la página 63 no llegó al contexto y la guía rápida servida indujo semántica incorrecta de
+`00`. La inspección posterior encontró v.04 (`t.H`) y v.07 (`t.A` corregido sobre `t.Fi`) activas,
+con dedupe cruzado y precedencia intencionadamente diferida. Aún no existe `P1_PASS`.
 
 ## Qué corrige
 
@@ -223,7 +231,7 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: segundo run terminal cerrado; fix de bound listo y nueva autorización pendiente
+### Fase P1: tercer run terminal cerrado; recuperación de fuente requerida antes de repetir
 
 El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
 despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
@@ -254,10 +262,29 @@ Estado de la secuencia ejecutada:
    `P1_PASS`. El replay read-only reprodujo `HOLD_INPUT_TOKEN_BOUND` sin llamar a Anthropic.
 6. **Fix offline:** el contrato conserva el `P1Error`, amplía los bounds a 95.000/249.000 y
    queda en 29,727 USD bajo el techo duro de 30 USD, sin cambiar la semántica productiva.
+7. **Tercer run terminal (`b06f05c`):** persistió 18/27 réplicas y completó 54/81 llamadas.
+   Paró en `hp011:r1` con `NO_GO_PROTECTED_CONTRACT`; coste observado 1,82090244 USD, cero
+   reserva desconocida y cero mutaciones. El fence cerró `CLOSED_VERIFIED` con
+   manifest/fingerprint idénticos.
+8. **Separación instrumento/producto:** `"--" in answer` confundía reglas Markdown `---` con el
+   estado técnico. El detector corregido y sus regresiones re-puntúan el mismo artefacto como
+   REVIEW sin nuevas llamadas. La revisión exacta confirma un problema productivo distinto: la
+   página 63 autoritativa no estaba en pool, prefijo, structural fetch ni contexto; F9 era una
+   guía rápida incompleta y la respuesta invirtió el significado de `00`.
+9. **Stop-line de autoridad:** la misma familia tiene v.04 y v.07 activas. v.04 p63 usa `t.H`;
+   v.07 p63 contiene la corrección `t.Fi` tachado → `t.A`, pero está marcada como duplicada de
+   v.04. La precedencia quedó explícitamente diferida por la migración de reconciliación. No se
+   puede mezclar por `source_file` ni aplicar latest-wins silencioso en runtime.
+10. **Stop-line de recuperación:** después de adjudicar lifecycle y reparar dedupe, un mecanismo
+   genérico, acotado y fail-closed debe demostrar offline/GET-only que recupera la autoridad
+   intra-documento. Pool coverage e HYQ ya probados no alcanzaron esa página y no se reactivan
+   por intuición.
 
-La autorización explícita recibida cubría sólo el segundo run y está consumida. Una P1 nueva
-sobre el commit del fix requiere autorización humana nueva y todos sus inputs desde cero.
-No existe `P1_PASS` ni GO. Merge, deploy, migración de
+La autorización explícita recibida cubría el tercer run y está consumida. Corregir el scorer no
+requiere empezar de cero: los 18 artefactos se reusan para replay y regresión. En cambio, un GO
+no puede completar este run terminal con nueve respuestas nuevas bajo código distinto; después
+del fix productivo exige un run sellado nuevo y todos sus inputs operativos desde cero. No existe
+`P1_PASS` ni GO. Merge, deploy, migración de
 trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
 
 ## Trazabilidad y privacidad

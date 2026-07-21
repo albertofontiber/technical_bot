@@ -760,10 +760,44 @@ _HP011_CANONICAL_RE = re.compile(r"(?<![a-z0-9])r\s*[.]\s*i(?![a-z0-9])", re.IGN
 _HP011_OCR_ALIAS_RE = re.compile(r"(?<![a-z0-9])r\s*[.]\s*1(?![a-z0-9])", re.IGNORECASE)
 _HP011_TA_RE = re.compile(r"(?<![a-z0-9])t\s*[.]\s*a(?![a-z0-9])", re.IGNORECASE)
 _HP011_TFI_RE = re.compile(r"(?<![a-z0-9])t\s*[.]\s*fi(?![a-z0-9])", re.IGNORECASE)
+_HP011_SPECIAL_STATE_RE = re.compile(r"(?<![\w-])--(?![\w-])")
+_HP011_SPECIAL_CONTEXT_RE = re.compile(
+    r"(?<![a-z0-9])(?:r\s*[.]?\s*(?:i|1)|rearme|estado|valor|par[aá]metro)(?![a-z0-9])",
+    re.IGNORECASE,
+)
 _HP011_ALIAS_DISCLOSURE_RE = re.compile(
     r"\b(?:alias|ocr|ambig\w*|represent\w*|se\s+muestra|se\s+lee|pantalla|display)\b",
     re.IGNORECASE,
 )
+
+
+def _hp011_has_special_state(answer: str) -> bool:
+    """Recognize the technical ``--`` value, not prose dashes or Markdown rules."""
+    for match in _HP011_SPECIAL_STATE_RE.finditer(answer):
+        left = answer[match.start() - 1] if match.start() else ""
+        right = answer[match.end()] if match.end() < len(answer) else ""
+        if left in {'"', "'", "`"} and right == left:
+            return True
+
+        line_start = answer.rfind("\n", 0, match.start()) + 1
+        line_end = answer.find("\n", match.end())
+        if line_end < 0:
+            line_end = len(answer)
+        line = answer[line_start:line_end]
+        local_start = max(line_start, match.start() - 96)
+        local_end = min(line_end, match.end() + 96)
+        if _HP011_SPECIAL_CONTEXT_RE.search(answer[local_start:local_end]):
+            return True
+
+        relative_start = match.start() - line_start
+        relative_end = match.end() - line_start
+        before = line[:relative_start].rstrip()
+        after = line[relative_end:].lstrip()
+        if before.endswith("|") and after.startswith("|"):
+            return True
+        if before.endswith("=") or after.startswith("="):
+            return True
+    return False
 
 
 def _score_hp011(
@@ -772,7 +806,7 @@ def _score_hp011(
     fact: Mapping[str, Any],
 ) -> CheckResult:
     check_id = f"fact:{fact.get('fact_id') or 'hp011'}"
-    has_special = "--" in answer
+    has_special = _hp011_has_special_state(answer)
     if has_special and _HP011_TFI_RE.search(answer):
         return _result(check_id, FAIL, "t.Fi is forbidden inside the -- state")
     if has_special and not _HP011_TA_RE.search(answer):

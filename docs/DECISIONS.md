@@ -3131,3 +3131,42 @@ PASS. Otra P1 requiere autorización humana nueva y explícita, checkout detache
 fix, credenciales/inputs/recibo nuevos y artifact root vacío. Hasta entonces C1 permanece
 `P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`; el marcador sigue 146/154 y merge,
 deploy, canary y la arquitectura multi-turn/multi-hop permanecen fuera de este permiso.
+
+## DEC-143 (S277, 21 jul 2026) — La tercera P1 separa un falso FAIL del miss real de autoridad y no se repite sin source recovery
+
+**Resultado autoritativo.** La P1 sobre `b06f05c`, run
+`p1-8c7818cce1174f1ea0538028693ee515`, terminó `NO_GO_PARTIAL /
+NO_GO_PROTECTED_CONTRACT` tras persistir 18/27 réplicas y completar 54/81 llamadas. El coste
+observado fue 1,82090244 USD, con cero reserva desconocida y cero mutaciones Railway/Supabase.
+El fence cerró `CLOSED_VERIFIED`; manifest y fingerprint pre/post fueron idénticos. El run es
+terminal y no existe `P1_PASS`.
+
+**Defecto instrumental corregido sin repetir inferencia.** El scorer de hp011 consideraba
+cualquier substring `--` como el estado técnico de `r.I`. Los separadores Markdown `---` de la
+respuesta activaron por error la exigencia de `t.A` y produjeron un FAIL falso. La detección queda
+limitada a un token técnico inequívoco —citado, tabular, asignado o en contexto local de estado—
+y excluye reglas Markdown, runs más largos, `--help` y guiones de prosa. El replay del artefacto
+inmutable cambia el FAIL a REVIEW; no exige ni justifica volver a pagar las 18 réplicas existentes.
+
+**Bloqueo real y decisión.** El REVIEW reveló que la página 63 del manual autoritativo
+`HLSI-MN-103_RP1r-Supra_lr`, que liga `-- ↔ t.A`, `00 = rearme permitido/default` y
+`01–30 = inhibición`, no estaba en retrieval pool, prefijo de rerank, structural fetch ni contexto
+servido. F9 era una guía rápida incompleta y la respuesta generada afirmó erróneamente que `00`
+inhibe el rearme. Los probes GET-only de pool coverage e HYQ existentes tampoco recuperaron la
+autoridad. Por tanto se prohíbe otra P1 por variación: antes debe pasar una prueba offline/GET-only
+de recuperación intra-documento genérica, limitada y fail-closed, sin reglas por QID/manual ni
+resucitar pilotos previamente NO-GO. Los 18 artefactos se conservan para diagnóstico; un GO
+posterior requiere un run limpio porque el código sellado cambiará y faltan nueve réplicas.
+
+**Descubrimiento de autoridad posterior, que precede al source recovery.** El corpus contiene dos
+revisiones activas de esa familia. La v.04 (2013, `e98e05ff…`) conserva `t.H`; la v.07 (2018,
+`494e71be…`), sobre la que se realizó la adjudicación gold experta, muestra `t.Fi` tachado y `t.A`
+insertado. Hay enlaces `duplicate_of` cruzados entre ambas y el chunk v.07 p63 queda excluido por
+ellos. La migración `20260713141223` declaró que la precedencia quedaba diferida. Por tanto una
+búsqueda strict-document devolvería v.04 pero no la autoridad gold; una búsqueda por filename
+mezclaría revisiones. La nueva stop-line es: primero adjudicación lifecycle y reparación de dedupe
+medidas y autorizadas por separado; después, recuperación intra-documento. No se codifica
+`latest-wins` como heurística runtime ni se cambia producción dentro de DEC-143.
+
+**Límite de alcance.** Esta decisión no autoriza merge, deploy, canary ni construir multi-turn/
+multi-hop. Esa arquitectura continúa separada bajo DEC-136.
