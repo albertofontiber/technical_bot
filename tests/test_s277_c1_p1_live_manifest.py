@@ -232,12 +232,20 @@ def _capture(
             "can_login": False,
             "can_replicate": False,
             "bypasses_rls": False,
-            "members": [{
-                "member": "authenticator",
-                "admin_option": False,
-                "inherit_option": False,
-                "set_option": True,
-            }],
+            "members": [
+                {
+                    "member": "authenticator",
+                    "admin_option": False,
+                    "inherit_option": False,
+                    "set_option": True,
+                },
+                {
+                    "member": "postgres",
+                    "admin_option": True,
+                    "inherit_option": False,
+                    "set_option": True,
+                },
+            ],
             "member_of": [],
             "role_settings": ["statement_timeout=30s"],
             "schema_create": False,
@@ -293,6 +301,28 @@ def test_safe_capture_seals_and_pre_watch_post_window_verifies() -> None:
     assert "public.document_visual_assets" in {
         row["name"] for row in pre["manifest"]["relations"]
     }
+
+
+def test_postgrest_snapshot_normalization_is_closed_under_revalidation() -> None:
+    function_rows, _ = _function_rows()
+    identity_sha256 = live.sha256_text_lf(
+        next(
+            row["definition"]
+            for row in function_rows
+            if row["function_name"] == "p1_runtime_identity_v1"
+        )
+    )
+    normalized = live._normalize_postgrest_snapshot(  # noqa: SLF001
+        _postgrest(identity_sha256), project_ref=PROJECT_REF
+    )
+
+    assert normalized["schema"] == live.POSTGREST_SCHEMA
+    assert (
+        live._normalize_postgrest_snapshot(  # noqa: SLF001
+            normalized, project_ref=PROJECT_REF
+        )
+        == normalized
+    )
 
 
 def test_definition_and_index_drift_fail_closed() -> None:
@@ -440,6 +470,9 @@ def test_migration_is_additive_read_only_and_contains_visual_and_role_defenses()
     assert "GRANT P1_READONLY TO AUTHENTICATOR WITH INHERIT FALSE" in upper
     assert "GRANT P1_READONLY TO AUTHENTICATOR WITH SET TRUE" in upper
     assert "GRANT P1_READONLY TO AUTHENTICATOR WITH ADMIN FALSE" in upper
+    assert "GRANT P1_READONLY TO POSTGRES WITH INHERIT FALSE" in upper
+    assert "GRANT P1_READONLY TO POSTGRES WITH SET TRUE" in upper
+    assert "GRANT P1_READONLY TO POSTGRES WITH ADMIN TRUE" in upper
     assert "REVOKE EXECUTE ON FUNCTION PUBLIC.CREATE_HNSW_INDEX() FROM PUBLIC" in upper
     assert "HAS_SCHEMA_PRIVILEGE('P1_READONLY', 'PUBLIC', 'CREATE')" in upper
     assert "PROC.PROSECDEF" in upper

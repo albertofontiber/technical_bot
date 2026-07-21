@@ -379,6 +379,7 @@ def _normalize_postgrest_snapshot(
         "PostgREST version missing",
     )
     return {
+        "schema": POSTGREST_SCHEMA,
         "project_ref": project_ref,
         "source": snapshot["source"],
         "openapi_status": 200,
@@ -1110,14 +1111,19 @@ def verify_intrinsic_safety(
     )
     members = role.get("members") or []
     authenticator = [member for member in members if member.get("member") == "authenticator"]
+    operator = [member for member in members if member.get("member") == "postgres"]
     _expect(
-        len(members) == 1
+        len(members) == 2
         and len(authenticator) == 1
         and authenticator[0].get("set_option") is True
         and authenticator[0].get("inherit_option") is False
-        and authenticator[0].get("admin_option") is False,
+        and authenticator[0].get("admin_option") is False
+        and len(operator) == 1
+        and operator[0].get("set_option") is True
+        and operator[0].get("inherit_option") is False
+        and operator[0].get("admin_option") is True,
         "HOLD_P1_ROLE_MEMBERSHIP_DRIFT",
-        "authenticator SET ROLE membership",
+        "authenticator and postgres operator SET ROLE memberships",
     )
     _expect(
         role.get("member_of") == [],

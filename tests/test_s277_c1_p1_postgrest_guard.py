@@ -16,6 +16,7 @@ PROJECT_REF = "abcdefghijklmnopqrst"
 SUPABASE_URL = f"https://{PROJECT_REF}.supabase.co"
 NOW_EPOCH = 2_000_000_000.0
 CAPTURED_AT = datetime(2026, 7, 21, 12, 0, tzinfo=timezone.utc)
+SUPABASE_KEY = "sb_publishable_test_project_key_never_serialize"
 
 
 def _b64(value: dict) -> str:
@@ -32,6 +33,12 @@ def _jwt(**claim_overrides) -> str:
         "ref": PROJECT_REF,
         "role": "p1_readonly",
     }
+    claims.update(claim_overrides)
+    return f"{_b64({'alg': 'HS256', 'typ': 'JWT'})}.{_b64(claims)}.c2lnbmF0dXJl"
+
+
+def _anon_key(**claim_overrides) -> str:
+    claims = {"iss": "supabase", "ref": PROJECT_REF, "role": "anon"}
     claims.update(claim_overrides)
     return f"{_b64({'alg': 'HS256', 'typ': 'JWT'})}.{_b64(claims)}.c2lnbmF0dXJl"
 
@@ -61,7 +68,9 @@ def _manifest(*, visual: str = "on") -> tuple[dict, dict]:
     return contract, capture
 
 
-def _identity_receipt(token: str, capture: dict) -> dict:
+def _identity_receipt(
+    token: str, capture: dict, api_key: str = SUPABASE_KEY
+) -> dict:
     payload = {
         "current_user": "p1_readonly",
         "transaction_read_only": "on",
@@ -87,11 +96,14 @@ def _identity_receipt(token: str, capture: dict) -> dict:
         "body_sha256": hashlib.sha256(payload_raw).hexdigest(),
         "payload_sha256": hashlib.sha256(payload_raw).hexdigest(),
         "principal_sha256": hashlib.sha256(token.encode()).hexdigest(),
+        "api_key_sha256": hashlib.sha256(api_key.encode()).hexdigest(),
         "payload": payload,
     }
 
 
-def _capability(monkeypatch, token: str, *, visual: str = "on"):
+def _capability(
+    monkeypatch, token: str, *, visual: str = "on", api_key: str = SUPABASE_KEY
+):
     contract, capture = _manifest(visual=visual)
     calls = []
 
@@ -102,8 +114,9 @@ def _capability(monkeypatch, token: str, *, visual: str = "on"):
     capability = guard.verify_and_bind_identity_receipt(
         manifest_contract=contract,
         manifest_capture=capture,
-        identity_http_receipt=_identity_receipt(token, capture),
+        identity_http_receipt=_identity_receipt(token, capture, api_key),
         p1_jwt=token,
+        supabase_key=api_key,
     )
     assert calls == [(contract, capture)]
     return capability
@@ -159,13 +172,16 @@ class _FakeClient:
         return _Response()
 
 
-def _new_guard(monkeypatch, *, token=None, visual="on", factory=None):
+def _new_guard(
+    monkeypatch, *, token=None, api_key=SUPABASE_KEY, visual="on", factory=None
+):
     token = token or _jwt()
     factory = factory or _FakeFactory()
-    capability = _capability(monkeypatch, token, visual=visual)
+    capability = _capability(monkeypatch, token, visual=visual, api_key=api_key)
     instance = guard.P1PostgrestGuard(
         supabase_url=SUPABASE_URL,
         p1_jwt=token,
+        supabase_key=api_key,
         project_ref=PROJECT_REF,
         visual_assets_registry=visual,
         verified_identity=capability,
@@ -234,10 +250,16 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
         assert receipts[2]["request_id"] is None
         encoded = json.dumps(receipts, sort_keys=True)
         assert token not in encoded
+        assert SUPABASE_KEY not in encoded
         assert "secret-query" not in encoded
         assert "private-value" not in encoded
         assert "headers" not in encoded.lower()
         assert all(len(row["body_sha256"]) == 64 for row in receipts)
+
+        for call in factory.calls:
+            sent_headers = dict(call["kwargs"]["headers"])
+            assert sent_headers["authorization"] == f"Bearer {token}"
+            assert sent_headers["apikey"] == SUPABASE_KEY
 
     assert retriever.httpx is originals["retriever_httpx"]
     assert retriever.SUPABASE_URL == originals["retriever_url"]
@@ -277,6 +299,7 @@ def test_method_path_host_scheme_and_visual_off_block_before_transport(
 
 def test_service_role_wrong_audience_project_and_expiry_are_rejected(monkeypatch) -> None:
     cases = [
+        ("e30.!.signature", "HOLD_P1_JWT_INVALID"),
         (_jwt(role="service_role"), "HOLD_P1_JWT_ROLE_INVALID"),
         (_jwt(aud="anon"), "HOLD_P1_JWT_AUDIENCE_INVALID"),
         (_jwt(iss="https://other.supabase.co/auth/v1"), "HOLD_P1_JWT_PROJECT_INVALID"),
@@ -289,6 +312,7 @@ def test_service_role_wrong_audience_project_and_expiry_are_rejected(monkeypatch
             guard.P1PostgrestGuard(
                 supabase_url=SUPABASE_URL,
                 p1_jwt=token,
+                supabase_key=SUPABASE_KEY,
                 project_ref=PROJECT_REF,
                 visual_assets_registry="on",
                 verified_identity=capability,
@@ -298,6 +322,51 @@ def test_service_role_wrong_audience_project_and_expiry_are_rejected(monkeypatch
         assert caught.value.code == expected_code
         assert factory.calls == []
         assert token not in str(caught.value)
+
+
+@pytest.mark.parametrize("api_key", [SUPABASE_KEY, _anon_key()])
+def test_publishable_and_legacy_anon_api_keys_are_bound_separately(
+    monkeypatch, api_key
+) -> None:
+    instance, factory, token = _new_guard(monkeypatch, api_key=api_key)
+    from src.rag import retriever
+
+    with instance:
+        with retriever.httpx.Client(timeout=1.0) as client:
+            client.get(
+                f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                headers=_headers(token),
+            )
+    sent = dict(factory.calls[0]["kwargs"]["headers"])
+    assert sent == {
+        "apikey": api_key,
+        "authorization": f"Bearer {token}",
+    }
+
+
+@pytest.mark.parametrize(
+    "api_key",
+    [
+        "sb_secret_never-accepted",
+        "e30.!.signature",
+        _anon_key(role="service_role"),
+        _anon_key(ref="tsrqponmlkjihgfedcba"),
+    ],
+)
+def test_elevated_or_cross_project_api_keys_are_rejected(monkeypatch, api_key) -> None:
+    token = _jwt()
+    contract, capture = _manifest()
+    monkeypatch.setattr(guard._live_manifest, "verify_manifest_capture", lambda *_: None)
+    with pytest.raises(guard.PostgrestGuardHold) as caught:
+        guard.verify_and_bind_identity_receipt(
+            manifest_contract=contract,
+            manifest_capture=capture,
+            identity_http_receipt=_identity_receipt(token, capture, api_key),
+            p1_jwt=token,
+            supabase_key=api_key,
+        )
+    assert caught.value.code == "HOLD_P1_SUPABASE_API_KEY_INVALID"
+    assert api_key not in str(caught.value)
 
 
 def test_header_override_and_redirect_option_block_before_transport(monkeypatch) -> None:
@@ -380,8 +449,21 @@ def test_identity_receipt_forgery_principal_and_manifest_probe_drift_fail_closed
             manifest_capture=capture,
             identity_http_receipt=forged,
             p1_jwt=token,
+            supabase_key=SUPABASE_KEY,
         )
     assert principal.value.code == "HOLD_P1_IDENTITY_PRINCIPAL_DRIFT"
+
+    forged_api_key = _identity_receipt(token, capture)
+    forged_api_key["api_key_sha256"] = "0" * 64
+    with pytest.raises(guard.PostgrestGuardHold) as api_key:
+        guard.verify_and_bind_identity_receipt(
+            manifest_contract=contract,
+            manifest_capture=capture,
+            identity_http_receipt=forged_api_key,
+            p1_jwt=token,
+            supabase_key=SUPABASE_KEY,
+        )
+    assert api_key.value.code == "HOLD_P1_IDENTITY_API_KEY_DRIFT"
 
     drifted = _identity_receipt(token, capture)
     drifted["payload"]["current_user"] = "service_role"
@@ -396,6 +478,7 @@ def test_identity_receipt_forgery_principal_and_manifest_probe_drift_fail_closed
             manifest_capture=capture,
             identity_http_receipt=drifted,
             p1_jwt=token,
+            supabase_key=SUPABASE_KEY,
         )
     assert identity.value.code == "HOLD_P1_IDENTITY_DRIFT"
 
@@ -409,6 +492,7 @@ def test_identity_receipt_forgery_principal_and_manifest_probe_drift_fail_closed
             manifest_capture=capture,
             identity_http_receipt=_identity_receipt(token, capture),
             p1_jwt=token,
+            supabase_key=SUPABASE_KEY,
         )
 
 
@@ -419,6 +503,7 @@ def test_capability_cannot_be_constructed_directly() -> None:
             visual_assets_registry="on",
             manifest_sha256="a" * 64,
             principal_sha256="b" * 64,
+            api_key_sha256="d" * 64,
             function_definition_sha256_lf="c" * 64,
             identity_captured_at="2026-07-21T12:00:00Z",
             _proof=object(),

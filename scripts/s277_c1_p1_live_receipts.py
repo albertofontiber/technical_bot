@@ -98,6 +98,12 @@ def _guard_principal_sha256(p1_jwt: str) -> str:
     return _sha256_bytes(p1_jwt.encode("utf-8"))
 
 
+def _guard_api_key_sha256(supabase_key: str) -> str:
+    """Use the guard's deliberately unprefixed API-key fingerprint."""
+
+    return _sha256_bytes(supabase_key.encode("utf-8"))
+
+
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -301,18 +307,39 @@ def _safe_get_json(
     headers: Mapping[str, str],
     credential_kind: str,
     credential: str,
+    expected_origin: str,
+    expected_path: str,
+    api_key: str | None = None,
+    expected_query: Mapping[str, Sequence[str]] | None = None,
     endpoint: str,
     opener: Any,
 ) -> tuple[Any, bytes, dict[str, str], dict[str, Any]]:
     parsed = urlparse.urlsplit(url)
+    try:
+        parsed_query = urlparse.parse_qs(
+            parsed.query,
+            keep_blank_values=True,
+            strict_parsing=True,
+        )
+    except ValueError as exc:
+        raise live.ManifestHold(
+            "HOLD_HTTP_TARGET_INVALID", f"{endpoint} query is malformed"
+        ) from exc
+    wanted_query = {
+        str(key): [str(item) for item in values]
+        for key, values in (expected_query or {}).items()
+    }
+    origin = f"{parsed.scheme}://{parsed.netloc}"
     _expect(
         parsed.scheme == "https"
         and parsed.username is None
         and parsed.password is None
-        and not parsed.query
+        and origin == expected_origin
+        and parsed.path == expected_path
+        and parsed_query == wanted_query
         and not parsed.fragment,
         "HOLD_HTTP_TARGET_INVALID",
-        f"{endpoint} target must be exact HTTPS without query",
+        f"{endpoint} target/query contract differs",
     )
     request = urlrequest.Request(url, headers=dict(headers), method="GET")
     response = _invoke_opener(opener, request)
@@ -342,12 +369,17 @@ def _safe_get_json(
             close()
     receipt = {
         "method": "GET",
-        "origin": f"{parsed.scheme}://{parsed.netloc}",
+        "origin": origin,
         "path": parsed.path,
         "status": 200,
         "request_id": request_id,
         "body_sha256": _sha256_bytes(body),
         "principal_sha256": _principal_sha256(credential_kind, credential),
+        "api_key_sha256": (
+            _principal_sha256("supabase-project-api-key", api_key)
+            if api_key is not None
+            else None
+        ),
     }
     return payload, body, response_headers, receipt
 
@@ -519,6 +551,7 @@ def capture_postgrest_evidence(
     supabase_url: str,
     access_token: str,
     p1_jwt: str,
+    supabase_key: str,
     expected_identity_function_sha256: str,
     expected_project_ref: str | None = None,
     opener: Any = None,
@@ -537,6 +570,11 @@ def capture_postgrest_evidence(
     project_ref = project_ref_from_supabase_url(
         supabase_url, expected_project_ref=expected_project_ref
     )
+    postgrest_guard._validate_supabase_api_key(  # noqa: SLF001
+        supabase_key,
+        project_ref=project_ref,
+        p1_jwt=p1_jwt,
+    )
     project_origin = f"https://{project_ref}.supabase.co"
 
     management_url = f"{MANAGEMENT_ORIGIN}/v1/projects/{project_ref}/postgrest"
@@ -549,6 +587,8 @@ def capture_postgrest_evidence(
         },
         credential_kind="supabase-management-pat",
         credential=access_token,
+        expected_origin=MANAGEMENT_ORIGIN,
+        expected_path=f"/v1/projects/{project_ref}/postgrest",
         endpoint="management-postgrest",
         opener=opener,
     )
@@ -561,19 +601,32 @@ def capture_postgrest_evidence(
     )
 
     data_headers = {
-        "Accept": "application/openapi+json, application/json",
-        "Accept-Profile": OPENAPI_PROFILE,
+        "Accept": "application/json",
         "Authorization": f"Bearer {p1_jwt}",
-        "apikey": p1_jwt,
+        "apikey": supabase_key,
         "User-Agent": "technical-bot-s277-c1-p1/1",
     }
-    openapi_url = f"{project_origin}/rest/v1/"
+    # Supabase removed low-privilege access to the Data API root in 2026.
+    # Its official read-only replacement is this PAT-authenticated Management
+    # endpoint.  The exact query contract prevents silently capturing a schema
+    # other than the preregistered public surface.
+    openapi_url = (
+        f"{MANAGEMENT_ORIGIN}/v1/projects/{project_ref}/database/openapi"
+        f"?schema={OPENAPI_PROFILE}"
+    )
     openapi, openapi_body, openapi_headers, openapi_receipt = _safe_get_json(
         url=openapi_url,
-        headers=data_headers,
-        credential_kind="supabase-p1-jwt",
-        credential=p1_jwt,
-        endpoint="postgrest-openapi",
+        headers={
+            "Accept": "application/openapi+json, application/json",
+            "Authorization": f"Bearer {access_token}",
+            "User-Agent": "technical-bot-s277-c1-p1/1",
+        },
+        credential_kind="supabase-management-pat",
+        credential=access_token,
+        expected_origin=MANAGEMENT_ORIGIN,
+        expected_path=f"/v1/projects/{project_ref}/database/openapi",
+        expected_query={"schema": [OPENAPI_PROFILE]},
+        endpoint="management-postgrest-openapi",
         opener=opener,
     )
     _expect(
@@ -591,6 +644,9 @@ def capture_postgrest_evidence(
         headers={**data_headers, "Accept": "application/json"},
         credential_kind="supabase-p1-jwt",
         credential=p1_jwt,
+        expected_origin=project_origin,
+        expected_path="/rest/v1/rpc/p1_runtime_identity_v1",
+        api_key=supabase_key,
         endpoint="postgrest-identity",
         opener=opener,
     )
@@ -632,7 +688,7 @@ def capture_postgrest_evidence(
         },
     }
     serialized = _canonical_json_bytes(evidence)
-    for forbidden in (access_token, p1_jwt):
+    for forbidden in (access_token, p1_jwt, supabase_key):
         _expect(
             forbidden.encode("utf-8") not in serialized,
             "HOLD_SECRET_SERIALIZATION",
@@ -646,6 +702,7 @@ def build_identity_guard_receipt(
     evidence: Mapping[str, Any],
     manifest_capture: Mapping[str, Any],
     p1_jwt: str,
+    supabase_key: str,
 ) -> dict[str, Any]:
     """Bind the identity GET to a manifest using the guard's exact contract."""
 
@@ -739,6 +796,7 @@ def build_identity_guard_receipt(
         "body_sha256": http_receipt["body_sha256"],
         "payload_sha256": _sha256_bytes(_canonical_json_bytes(payload)),
         "principal_sha256": _guard_principal_sha256(p1_jwt),
+        "api_key_sha256": _guard_api_key_sha256(supabase_key),
         "payload": payload,
     }
 
@@ -861,6 +919,7 @@ def capture_live_phase(
     supabase_url: str,
     access_token: str,
     p1_jwt: str,
+    supabase_key: str,
     database_url: str,
     expected_identity_function_sha256: str,
     expected_project_ref: str | None = None,
@@ -878,6 +937,7 @@ def capture_live_phase(
         supabase_url=supabase_url,
         access_token=access_token,
         p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
         expected_identity_function_sha256=expected_identity_function_sha256,
         expected_project_ref=expected_project_ref,
         opener=opener,
@@ -899,6 +959,7 @@ def capture_live_phase(
         evidence=evidence,
         manifest_capture=capture,
         p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
     )
     return capture, evidence
 
@@ -938,7 +999,7 @@ def _write_exclusive(
 
 
 def _forbidden_runtime_values(
-    *, access_token: str, p1_jwt: str, database_url: str
+    *, access_token: str, p1_jwt: str, supabase_key: str, database_url: str
 ) -> tuple[str, ...]:
     try:
         database_password = urlparse.unquote(
@@ -946,7 +1007,7 @@ def _forbidden_runtime_values(
         )
     except (TypeError, ValueError):
         database_password = ""
-    return access_token, p1_jwt, database_url, database_password
+    return access_token, p1_jwt, supabase_key, database_url, database_password
 
 
 def _preflight_output_paths(paths: Sequence[str | Path]) -> None:
@@ -978,6 +1039,7 @@ def materialize_pre_contract(
     supabase_url: str,
     access_token: str,
     p1_jwt: str,
+    supabase_key: str,
     database_url: str,
     expected_identity_function_sha256: str,
     expected_project_ref: str | None = None,
@@ -995,6 +1057,7 @@ def materialize_pre_contract(
         supabase_url=supabase_url,
         access_token=access_token,
         p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
         database_url=database_url,
         expected_identity_function_sha256=expected_identity_function_sha256,
         expected_project_ref=expected_project_ref,
@@ -1004,7 +1067,10 @@ def materialize_pre_contract(
     )
     contract = live.build_manifest_contract(pre)
     forbidden = _forbidden_runtime_values(
-        access_token=access_token, p1_jwt=p1_jwt, database_url=database_url
+        access_token=access_token,
+        p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
+        database_url=database_url,
     )
     _write_exclusive(pre_path, pre, forbidden_values=forbidden)
     _write_exclusive(contract_path, contract, forbidden_values=forbidden)
@@ -1050,6 +1116,7 @@ def materialize_verified_phase(
     supabase_url: str,
     access_token: str,
     p1_jwt: str,
+    supabase_key: str,
     database_url: str,
     expected_project_ref: str | None = None,
     opener: Any = None,
@@ -1066,6 +1133,7 @@ def materialize_verified_phase(
         supabase_url=supabase_url,
         access_token=access_token,
         p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
         database_url=database_url,
         expected_identity_function_sha256=_identity_hash_from_contract(contract),
         expected_project_ref=expected_project_ref,
@@ -1075,7 +1143,10 @@ def materialize_verified_phase(
     )
     live.verify_manifest_capture(contract, capture)
     forbidden = _forbidden_runtime_values(
-        access_token=access_token, p1_jwt=p1_jwt, database_url=database_url
+        access_token=access_token,
+        p1_jwt=p1_jwt,
+        supabase_key=supabase_key,
+        database_url=database_url,
     )
     _write_exclusive(capture_path, capture, forbidden_values=forbidden)
     _write_exclusive(http_evidence_path, evidence, forbidden_values=forbidden)
@@ -1112,6 +1183,7 @@ def _required_environment() -> dict[str, str]:
         "SUPABASE_ACCESS_TOKEN",
         "SUPABASE_URL",
         "P1_SUPABASE_JWT",
+        "SUPABASE_KEY",
         "DATABASE_URL",
     )
     result: dict[str, str] = {}
@@ -1184,6 +1256,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 supabase_url=env["SUPABASE_URL"],
                 access_token=env["SUPABASE_ACCESS_TOKEN"],
                 p1_jwt=env["P1_SUPABASE_JWT"],
+                supabase_key=env["SUPABASE_KEY"],
                 database_url=env["DATABASE_URL"],
                 expected_identity_function_sha256=identity_hash,
                 expected_project_ref=args.project_ref,
@@ -1201,6 +1274,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             supabase_url=env["SUPABASE_URL"],
             access_token=env["SUPABASE_ACCESS_TOKEN"],
             p1_jwt=env["P1_SUPABASE_JWT"],
+            supabase_key=env["SUPABASE_KEY"],
             database_url=env["DATABASE_URL"],
             expected_project_ref=args.project_ref,
         )

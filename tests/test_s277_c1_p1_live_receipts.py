@@ -31,6 +31,7 @@ def _jwt(payload: dict | None = None) -> str:
 
 
 P1_JWT = _jwt()
+SUPABASE_KEY = "sb_publishable_test_project_key_never_serialize"
 
 
 def _json_bytes(value: object) -> bytes:
@@ -124,7 +125,9 @@ class FakeOpener:
         url = request.full_url
         if url.endswith(f"/v1/projects/{PROJECT_REF}/postgrest"):
             endpoint, body, content_type = "management", self.management, "application/json"
-        elif url.endswith("/rest/v1/"):
+        elif url.endswith(
+            f"/v1/projects/{PROJECT_REF}/database/openapi?schema=public"
+        ):
             endpoint, body, content_type = "openapi", self.openapi, "application/openapi+json"
         elif url.endswith("/rest/v1/rpc/p1_runtime_identity_v1"):
             endpoint, body, content_type = "identity", self.identity, "application/json"
@@ -150,6 +153,7 @@ def _capture(opener: FakeOpener, **kwargs: object) -> dict:
         supabase_url=SUPABASE_URL,
         access_token=PAT,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
         expected_identity_function_sha256=IDENTITY_SHA,
         opener=opener,
         captured_at="2026-07-21T12:00:00Z",
@@ -190,6 +194,7 @@ def test_happy_capture_builds_exact_snapshot_and_safe_http_receipts() -> None:
     serialized = json.dumps(evidence, sort_keys=True)
     assert PAT not in serialized
     assert P1_JWT not in serialized
+    assert SUPABASE_KEY not in serialized
     assert MANAGEMENT_SECRET not in serialized
     assert "another-secret" not in serialized
     assert "headers" not in serialized.lower()
@@ -210,10 +215,15 @@ def test_happy_capture_builds_exact_snapshot_and_safe_http_receipts() -> None:
             "request_id",
             "body_sha256",
             "principal_sha256",
+            "api_key_sha256",
         }
         assert "?" not in receipt["path"]
         assert len(receipt["body_sha256"]) == 64
         assert len(receipt["principal_sha256"]) == 64
+        if name in {"management_postgrest", "postgrest_openapi"}:
+            assert receipt["api_key_sha256"] is None
+        else:
+            assert len(receipt["api_key_sha256"]) == 64
 
     assert len(opener.requests) == 3
     assert all(timeout == receipts.HTTP_TIMEOUT_SECONDS for _, timeout in opener.requests)
@@ -224,9 +234,19 @@ def test_happy_capture_builds_exact_snapshot_and_safe_http_receipts() -> None:
     openapi_headers = {
         key.lower(): value for key, value in opener.requests[1][0].header_items()
     }
-    assert openapi_headers["accept-profile"] == "public"
-    assert openapi_headers["authorization"] == f"Bearer {P1_JWT}"
-    assert openapi_headers["apikey"] == P1_JWT
+    assert opener.requests[1][0].full_url == (
+        f"https://api.supabase.com/v1/projects/{PROJECT_REF}/database/openapi"
+        "?schema=public"
+    )
+    assert openapi_headers["authorization"] == f"Bearer {PAT}"
+    assert "accept-profile" not in openapi_headers
+    assert "apikey" not in openapi_headers
+    assert P1_JWT not in openapi_headers.values()
+    identity_headers = {
+        key.lower(): value for key, value in opener.requests[2][0].header_items()
+    }
+    assert identity_headers["authorization"] == f"Bearer {P1_JWT}"
+    assert identity_headers["apikey"] == SUPABASE_KEY
 
 
 def test_management_secret_is_discarded_before_validation_errors() -> None:
@@ -258,6 +278,58 @@ def test_wrong_project_ref_and_openapi_host_fail_before_trust() -> None:
         receipts.live.ManifestHold, match="HOLD_POSTGREST_OPENAPI_PROJECT_DRIFT"
     ):
         _capture(FakeOpener(openapi=changed))
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        (
+            f"https://example.invalid/v1/projects/{PROJECT_REF}/database/openapi"
+            "?schema=public"
+        ),
+        (
+            f"https://api.supabase.com/v1/projects/{OTHER_REF}/database/openapi"
+            "?schema=public"
+        ),
+        f"https://api.supabase.com/v1/projects/{PROJECT_REF}/database/openapi",
+        f"https://api.supabase.com/v1/projects/{PROJECT_REF}/database/openapi?schema=private",
+        (
+            f"https://api.supabase.com/v1/projects/{PROJECT_REF}/database/openapi"
+            "?schema=public&schema=private"
+        ),
+        (
+            f"https://api.supabase.com/v1/projects/{PROJECT_REF}/database/openapi"
+            "?schema=public&extra=1"
+        ),
+    ],
+)
+def test_management_openapi_schema_query_is_exact_and_fails_before_transport(
+    url: str,
+) -> None:
+    class NeverOpener:
+        calls = 0
+
+        def open(self, request: object, *, timeout: float) -> object:
+            self.calls += 1
+            raise AssertionError("transport must not run for a target-contract violation")
+
+    opener = NeverOpener()
+    with pytest.raises(receipts.live.ManifestHold) as caught:
+        receipts._safe_get_json(  # noqa: SLF001
+            url=url,
+            headers={"Authorization": f"Bearer {PAT}"},
+            credential_kind="supabase-management-pat",
+            credential=PAT,
+            expected_origin=receipts.MANAGEMENT_ORIGIN,
+            expected_path=f"/v1/projects/{PROJECT_REF}/database/openapi",
+            expected_query={"schema": ["public"]},
+            endpoint="management-postgrest-openapi",
+            opener=opener,  # type: ignore[arg-type]
+        )
+
+    assert caught.value.code == "HOLD_HTTP_TARGET_INVALID"
+    assert PAT not in str(caught.value)
+    assert opener.calls == 0
 
 
 def test_rpc_methods_are_exact_and_fail_closed() -> None:
@@ -449,6 +521,7 @@ def test_capture_phase_calls_manifest_only_after_read_only_setup(monkeypatch: py
         supabase_url=SUPABASE_URL,
         access_token=PAT,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
         database_url=_database_url(),
         expected_identity_function_sha256=IDENTITY_SHA,
         connector=lambda *args, **kwargs: connection,
@@ -481,6 +554,7 @@ def test_identity_receipt_interoperates_with_real_postgrest_guard() -> None:
         supabase_url=SUPABASE_URL,
         access_token=PAT,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
         expected_identity_function_sha256=identity_function_sha,
         opener=FakeOpener(),
         captured_at=manifest_capture["captured_at"],
@@ -489,6 +563,7 @@ def test_identity_receipt_interoperates_with_real_postgrest_guard() -> None:
         evidence=evidence,
         manifest_capture=manifest_capture,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
     )
 
     capability = guard.verify_and_bind_identity_receipt(
@@ -496,15 +571,21 @@ def test_identity_receipt_interoperates_with_real_postgrest_guard() -> None:
         manifest_capture=manifest_capture,
         identity_http_receipt=identity_receipt,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
     )
     assert identity_receipt["schema"] == guard.IDENTITY_RECEIPT_SCHEMA
     assert identity_receipt["principal_sha256"] == hashlib.sha256(
         P1_JWT.encode("utf-8")
     ).hexdigest()
     assert capability.principal_sha256 == identity_receipt["principal_sha256"]
+    assert identity_receipt["api_key_sha256"] == hashlib.sha256(
+        SUPABASE_KEY.encode("utf-8")
+    ).hexdigest()
+    assert capability.api_key_sha256 == identity_receipt["api_key_sha256"]
     serialized = json.dumps(identity_receipt, sort_keys=True)
     assert P1_JWT not in serialized
     assert PAT not in serialized
+    assert SUPABASE_KEY not in serialized
 
 
 def test_pre_materialization_is_exclusive_and_never_serializes_inputs(
@@ -534,12 +615,14 @@ def test_pre_materialization_is_exclusive_and_never_serializes_inputs(
         supabase_url=SUPABASE_URL,
         access_token=PAT,
         p1_jwt=P1_JWT,
+        supabase_key=SUPABASE_KEY,
         database_url=_database_url(),
         expected_identity_function_sha256=IDENTITY_SHA,
     )
     combined = "".join(path.read_text(encoding="utf-8") for path in paths.values())
     assert PAT not in combined
     assert P1_JWT not in combined
+    assert SUPABASE_KEY not in combined
     assert "database-password" not in combined
     with pytest.raises(receipts.live.ManifestHold, match="HOLD_RECEIPT_PATH_EXISTS"):
         receipts.materialize_pre_contract(
@@ -548,6 +631,7 @@ def test_pre_materialization_is_exclusive_and_never_serializes_inputs(
             supabase_url=SUPABASE_URL,
             access_token=PAT,
             p1_jwt=P1_JWT,
+            supabase_key=SUPABASE_KEY,
             database_url=_database_url(),
             expected_identity_function_sha256=IDENTITY_SHA,
         )

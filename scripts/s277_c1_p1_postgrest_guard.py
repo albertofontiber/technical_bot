@@ -10,8 +10,9 @@ JWT claims are decoded locally only as an early shape/expiry check.  They are
 not treated as proof of authenticity.  Authenticity and database-role identity
 are bound to an HTTP receipt for ``p1_runtime_identity_v1`` which must match a
 capture accepted by :func:`scripts.s277_c1_p1_live_manifest.verify_manifest_capture`.
-Only a SHA-256 fingerprint of the credential is retained in that capability;
-tokens, headers and query values never enter receipts or exception details.
+Only SHA-256 fingerprints of the JWT and project API key are retained in that
+capability; credentials, headers and query values never enter receipts or
+exception details.
 """
 
 from __future__ import annotations
@@ -41,6 +42,7 @@ IDENTITY_PATH = "/rest/v1/rpc/p1_runtime_identity_v1"
 
 _PROJECT_REF_RE = re.compile(r"^[a-z0-9]{20}$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_PUBLISHABLE_KEY_RE = re.compile(r"^sb_publishable_[A-Za-z0-9._-]+$")
 _FORBIDDEN_ROLES = frozenset({"anon", "authenticated", "service_role"})
 _ALLOWED_GET_PATHS_BASE = frozenset(
     {
@@ -127,6 +129,7 @@ class VerifiedPostgrestIdentity:
     visual_assets_registry: str
     manifest_sha256: str
     principal_sha256: str
+    api_key_sha256: str
     function_definition_sha256_lf: str
     identity_captured_at: str
 
@@ -137,6 +140,7 @@ class VerifiedPostgrestIdentity:
         visual_assets_registry: str,
         manifest_sha256: str,
         principal_sha256: str,
+        api_key_sha256: str,
         function_definition_sha256_lf: str,
         identity_captured_at: str,
         _proof: object,
@@ -147,6 +151,7 @@ class VerifiedPostgrestIdentity:
         object.__setattr__(self, "visual_assets_registry", visual_assets_registry)
         object.__setattr__(self, "manifest_sha256", manifest_sha256)
         object.__setattr__(self, "principal_sha256", principal_sha256)
+        object.__setattr__(self, "api_key_sha256", api_key_sha256)
         object.__setattr__(
             self,
             "function_definition_sha256_lf",
@@ -161,12 +166,13 @@ def verify_and_bind_identity_receipt(
     manifest_capture: Mapping[str, Any],
     identity_http_receipt: Mapping[str, Any],
     p1_jwt: str,
+    supabase_key: str,
 ) -> VerifiedPostgrestIdentity:
-    """Verify the live manifest and bind its role probe to the exact P1 JWT.
+    """Bind the role probe to the exact P1 JWT and low-privilege API key.
 
     ``identity_http_receipt`` is the safe receipt emitted by the operator that
     performed the identity RPC.  ``principal_sha256`` proves which in-memory
-    credential was used without persisting that credential or its headers.
+    credentials were used without persisting either credential or its headers.
     """
 
     _expect(
@@ -196,6 +202,7 @@ def verify_and_bind_identity_receipt(
             "body_sha256",
             "payload_sha256",
             "principal_sha256",
+            "api_key_sha256",
             "payload",
         },
         code="HOLD_P1_IDENTITY_RECEIPT_INVALID",
@@ -238,6 +245,12 @@ def verify_and_bind_identity_receipt(
     }
     payload_sha256 = _sha256_bytes(_canonical_json_bytes(dict(payload)))
     principal_sha256 = _sha256_bytes(p1_jwt.encode("utf-8"))
+    _validate_supabase_api_key(
+        supabase_key,
+        project_ref=str(project_ref),
+        p1_jwt=p1_jwt,
+    )
+    api_key_sha256 = _sha256_bytes(supabase_key.encode("utf-8"))
     function_sha256 = identity_probe.get("function_definition_sha256_lf")
 
     _expect(
@@ -296,6 +309,11 @@ def verify_and_bind_identity_receipt(
         "credential fingerprint differs from identity probe",
     )
     _expect(
+        identity_http_receipt["api_key_sha256"] == api_key_sha256,
+        "HOLD_P1_IDENTITY_API_KEY_DRIFT",
+        "API key fingerprint differs from identity probe",
+    )
+    _expect(
         dict(payload) == expected_payload
         and expected_payload
         == {
@@ -332,22 +350,25 @@ def verify_and_bind_identity_receipt(
         visual_assets_registry=str(visual),
         manifest_sha256=str(manifest_sha256),
         principal_sha256=principal_sha256,
+        api_key_sha256=api_key_sha256,
         function_definition_sha256_lf=str(function_sha256),
         identity_captured_at=identity_time.isoformat().replace("+00:00", "Z"),
         _proof=_CAPABILITY_PROOF,
     )
 
 
-def _decode_segment(segment: str) -> Mapping[str, Any]:
-    _expect(bool(segment), "HOLD_P1_JWT_INVALID", "empty JWT segment")
+def _decode_segment(
+    segment: str, *, code: str = "HOLD_P1_JWT_INVALID"
+) -> Mapping[str, Any]:
+    _expect(bool(segment), code, "empty JWT segment")
     try:
         raw = base64.urlsafe_b64decode(segment + "=" * (-len(segment) % 4))
         value = json.loads(raw.decode("utf-8"))
     except (ValueError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise PostgrestGuardHold("HOLD_P1_JWT_INVALID", "malformed JWT") from exc
+        raise PostgrestGuardHold(code, "malformed JWT") from exc
     _expect(
         isinstance(value, Mapping),
-        "HOLD_P1_JWT_INVALID",
+        code,
         "JWT segment is not an object",
     )
     return value
@@ -438,6 +459,41 @@ def _canonical_supabase_url(project_ref: str, supplied: str) -> str:
     return expected
 
 
+def _validate_supabase_api_key(
+    supabase_key: str,
+    *,
+    project_ref: str,
+    p1_jwt: str,
+) -> None:
+    """Accept only a distinct publishable key or legacy ``anon`` JWT."""
+
+    _expect(
+        isinstance(supabase_key, str)
+        and bool(supabase_key)
+        and supabase_key == supabase_key.strip()
+        and supabase_key != p1_jwt,
+        "HOLD_P1_SUPABASE_API_KEY_INVALID",
+        "SUPABASE_KEY must be a distinct non-empty credential",
+    )
+    if _PUBLISHABLE_KEY_RE.fullmatch(supabase_key) is not None:
+        return
+    parts = supabase_key.split(".")
+    _expect(
+        len(parts) == 3 and all(parts),
+        "HOLD_P1_SUPABASE_API_KEY_INVALID",
+        "SUPABASE_KEY is neither publishable nor a legacy anon JWT",
+    )
+    claims = _decode_segment(
+        parts[1], code="HOLD_P1_SUPABASE_API_KEY_INVALID"
+    )
+    _expect(
+        claims.get("role") == "anon"
+        and ("ref" not in claims or claims.get("ref") == project_ref),
+        "HOLD_P1_SUPABASE_API_KEY_INVALID",
+        "legacy SUPABASE_KEY is not the project's anon key",
+    )
+
+
 def _header_pairs(headers: Any) -> list[tuple[str, str]]:
     _expect(headers is not None, "HOLD_P1_POSTGREST_AUTH_INVALID", "headers missing")
     if hasattr(headers, "multi_items"):
@@ -474,16 +530,35 @@ def _header_pairs(headers: Any) -> list[tuple[str, str]]:
     return pairs
 
 
-def _validate_auth_headers(headers: Any, p1_jwt: str) -> None:
+def _bind_auth_headers(
+    headers: Any, p1_jwt: str, supabase_key: str
+) -> list[tuple[str, str]]:
     pairs = _header_pairs(headers)
     api_values = [value for key, value in pairs if key == "apikey"]
     authorization_values = [value for key, value in pairs if key == "authorization"]
     _expect(
-        api_values == [p1_jwt]
-        and authorization_values == [f"Bearer {p1_jwt}"],
+        api_values in ([p1_jwt], [supabase_key])
+        and authorization_values == [f"Bearer {p1_jwt}"]
+        and all(
+            p1_jwt not in value and supabase_key not in value
+            for key, value in pairs
+            if key not in {"apikey", "authorization"}
+        ),
         "HOLD_P1_POSTGREST_AUTH_INVALID",
-        "apikey and Bearer must contain the exact verified P1 credential",
+        "Authorization/apikey credential binding",
     )
+    bound = [
+        (key, supabase_key if key == "apikey" else value)
+        for key, value in pairs
+    ]
+    _expect(
+        [value for key, value in bound if key == "apikey"] == [supabase_key]
+        and [value for key, value in bound if key == "authorization"]
+        == [f"Bearer {p1_jwt}"],
+        "HOLD_P1_POSTGREST_AUTH_INVALID",
+        "transport credential binding",
+    )
+    return bound
 
 
 def _safe_request_id(headers: Any) -> str | None:
@@ -616,6 +691,7 @@ class P1PostgrestGuard:
         *,
         supabase_url: str,
         p1_jwt: str,
+        supabase_key: str,
         project_ref: str,
         visual_assets_registry: str,
         verified_identity: VerifiedPostgrestIdentity,
@@ -641,6 +717,7 @@ class P1PostgrestGuard:
             "client_factory/clock",
         )
         self._jwt = p1_jwt
+        self._supabase_key = supabase_key
         self._project_ref = project_ref
         self._visual = visual_assets_registry
         self._identity = verified_identity
@@ -651,6 +728,11 @@ class P1PostgrestGuard:
         self._saved: list[tuple[ModuleType, str, Any]] = []
         self._receipts: list[dict[str, Any]] = []
         self._receipt_lock = threading.Lock()
+        _validate_supabase_api_key(
+            self._supabase_key,
+            project_ref=self._project_ref,
+            p1_jwt=self._jwt,
+        )
         self._validate_live_credential()
 
     @property
@@ -668,6 +750,12 @@ class P1PostgrestGuard:
             project_ref=self._project_ref,
             principal_sha256=self._identity.principal_sha256,
             now_epoch=float(self._now_epoch()),
+        )
+        _expect(
+            _sha256_bytes(self._supabase_key.encode("utf-8"))
+            == self._identity.api_key_sha256,
+            "HOLD_P1_IDENTITY_API_KEY_DRIFT",
+            "API key fingerprint differs from verified identity",
         )
 
     def __enter__(self) -> "P1PostgrestGuard":
@@ -795,7 +883,9 @@ class P1PostgrestGuard:
             "follow_redirects",
         )
         request_kwargs.pop("follow_redirects", None)
-        _validate_auth_headers(request_kwargs.get("headers"), self._jwt)
+        request_kwargs["headers"] = _bind_auth_headers(
+            request_kwargs.get("headers"), self._jwt, self._supabase_key
+        )
 
         try:
             response = transport_client.request(

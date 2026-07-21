@@ -1,7 +1,9 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-21: **P1 `CODE_READY` y
-`OPERATIONAL_AUTHORIZATION_PENDING`; todavía no existe GO de release**. Además de
+Estado a 2026-07-21: **P1 `CODE_READY`, ejecución exacta autorizada y
+`OPERATIONAL_PREREQUISITES_PENDING`; todavía no existe GO de release**. La
+autorización humana cubre una única P1 de 27 réplicas/27 generaciones y exactamente
+81 llamadas pagables, con techo duro de 10 USD; no cubre merge, deploy ni canary. Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
 el manifest live pre/watch/post, el fence PostgreSQL persistente read-only por IPC,
@@ -40,7 +42,7 @@ original y registra `status=error`.
 ### A. Ensamblaje offline, sin red
 
 ```powershell
-python scripts/s277_c1_release_gate.py
+python -m scripts.s277_c1_release_gate
 ```
 
 Resultado requerido: `PASS_C1_ASSEMBLY_OFFLINE`. El instrumento:
@@ -66,7 +68,7 @@ determinista del synthesis miss.
 ### B. Neighbor-fetch live desde prefijo congelado, GET-only y sin modelo
 
 ```powershell
-python scripts/s277_c1_live_reachability_probe.py `
+python -m scripts.s277_c1_live_reachability_probe `
   --confirm-live-read-only `
   --env-file <ruta-segura-al-env>
 ```
@@ -128,8 +130,8 @@ Contrato implementado por el runner end-to-end:
   ortogonales vivas—, síntesis y renderer reales por el seam actual;
   no usa el contexto congelado S113;
 - modelo y parámetros exactos congelados;
-- dos réplicas por QID y una tercera de hp017: 27 generaciones y,
-  normalmente, 81 llamadas pagables a modelos contando embedding y rerank;
+- dos réplicas por QID y una tercera de hp017: 27 generaciones y exactamente
+  81 llamadas pagables a modelos contando embedding, rerank y síntesis;
 - WAL antes de cada llamada física, cero reintentos automáticos y receipts de
   pool, prefijo, contexto, envelope, respuesta y render por réplica;
 - reapertura de 81 responses + 81 watches y revalidación semántica completa de
@@ -150,9 +152,9 @@ Artefactos canónicos: `evals/s277_c1_p1_prereg_v1.yaml`,
 consumir red ni presupuesto:
 
 ```powershell
-python scripts/s277_c1_p1.py plan
-python scripts/s277_c1_p1.py score-stored-controls
-python scripts/s277_c1_p1.py run --help
+python -m scripts.s277_c1_p1 plan
+python -m scripts.s277_c1_p1 score-stored-controls
+python -m scripts.s277_c1_p1 run --help
 ```
 
 Las stop-lines por adapter ausente, manifest live ausente y cierre transitivo
@@ -164,19 +166,25 @@ RLS, extensiones, roles y configuración PostgREST. El fence mantiene una sesió
 PostgreSQL read-only y locks persistentes desde un operador separado; el runner sólo
 recibe su IPC sin credenciales y puede solicitar cierre o aborto explícitos.
 
-Eso deja un único límite operativo, no otro desarrollo: la migración versionada
+Eso deja prerrequisitos operativos, no otro desarrollo: la migración versionada
 `20260721120000_add_p1_readonly_role.sql` está revisada pero no aplicada; tampoco se
-han provisionado el PAT de Supabase, el JWT corto `p1_readonly` ni la credencial del
-operador. `run` sigue fallando cerrado sin `--execute`, `--confirm-paid`, un recibo de
-autorización vigente y todos los inputs live. Ninguno de esos inputs puede quedar en
-Git ni confundirse con autorización implícita.
+han provisionado el PAT de Supabase, la API key PostgREST `SUPABASE_KEY`, el bearer
+efímero `P1_SUPABASE_JWT` con `role=p1_readonly` ni la credencial del operador.
+`SUPABASE_KEY` alimenta exclusivamente el encabezado `apikey` y no puede reutilizarse
+como bearer; `P1_SUPABASE_JWT` alimenta `Authorization: Bearer ...` y no puede
+reutilizarse como `apikey`. `run` sigue fallando cerrado sin `--execute`,
+`--confirm-paid`, el recibo materializado de la autorización ya otorgada y todos los
+inputs live. Ninguno de esos inputs puede quedar en Git.
 
 La prueba `transaction_read_only=on` del endpoint de identidad corresponde sólo a
 ese GET. Los POST `/rpc/...` no se consideran seguros por el verbo HTTP ni por ese
 receipt: su seguridad efectiva procede de ACL/RLS del rol mínimo, la allowlist exacta
 del guard y la comprobación de que no haya ninguna función `SECURITY DEFINER`
-accesible. La migración aplica y verifica precisamente esa frontera; no debe emitirse
-el JWT antes de que sus postcondiciones pasen.
+accesible. En PostgreSQL 17 la migración debe verificar además la membresía exacta:
+`authenticator` obtiene `SET TRUE`, `INHERIT FALSE`, `ADMIN FALSE`, y `postgres`
+obtiene `SET TRUE`, `INHERIT FALSE`, `ADMIN TRUE` sobre `p1_readonly`. La migración
+aplica y verifica precisamente esa frontera; no debe emitirse `P1_SUPABASE_JWT` antes
+de que todas sus postcondiciones pasen.
 
 La ejecución futura tampoco acepta rutas de persistencia elegidas por el adapter:
 WAL y sidecars viven bajo `artifact_root` con nombres canónicos y el ledger global se
@@ -207,7 +215,7 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: autorización pagada prerelease
+### Fase P1: ejecución autorizada, prerrequisitos pendientes
 
 El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
 despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
@@ -220,23 +228,27 @@ P1 caduca y debe repetirse bajo una preregistración nueva.
 
 Secuencia operativa única para llegar a una decisión P1:
 
-1. Autorizar y aplicar la migración `20260721120000_add_p1_readonly_role.sql`; verificar
-   todas sus postcondiciones sin ampliar grants.
-2. Provisionar fuera del checkout el PAT de Supabase, un JWT efímero con
-   `role=p1_readonly` y la credencial de sesión PostgreSQL del operador. El runner no
-   recibe esta última.
+1. Aplicar la migración `20260721120000_add_p1_readonly_role.sql`; verificar todas sus
+   postcondiciones sin ampliar grants, incluida la membresía PostgreSQL 17 exacta de
+   `authenticator` y `postgres` descrita arriba.
+2. Provisionar fuera del checkout el PAT de Supabase, `SUPABASE_KEY` para `apikey`, un
+   `P1_SUPABASE_JWT` efímero con `role=p1_readonly` para el bearer y la credencial de
+   sesión PostgreSQL del operador. El runner no recibe esta última; API key y bearer
+   son credenciales separadas.
 3. Capturar desde el checkout limpio y detached el release-config Railway read-only,
    el contrato/manifest live previo y la evidencia HTTP/identidad; emitir un recibo de
-   autorización que acepte expresamente el prior hp017 y limite P1 a 10 USD.
+   autorización que materialice la decisión humana ya recibida, acepte expresamente
+   el prior hp017 y limite la ejecución a 27 réplicas/81 llamadas y 10 USD.
 4. Arrancar el operador de fence y ejecutar exactamente una vez `run --execute
    --confirm-paid` con `artifact-dir` e `ipc-dir` fuera del checkout y disjuntos.
 5. `run` captura el manifest/snapshot posterior y cierra el fence —o lo aborta ante cualquier
    fallo— antes de retornar. Después, ejecutar `score` y `finalize`; sólo un resultado final
    sellado puede crear `P1_PASS`.
 
-La aplicación de esta migración y la ejecución pagada requieren autorización explícita.
-Merge, deploy, migración de trazas y canary pertenecen a la secuencia posterior y tienen
-autorización separada.
+La autorización explícita ya recibida cubre sólo la P1 exacta de 27 réplicas/81 llamadas
+bajo el techo de 10 USD. No constituye `P1_PASS` ni GO: siguen pendientes migración,
+credenciales, inputs live, ejecución, `score` y `finalize`. Merge, deploy, migración de
+trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
 
 ## Trazabilidad y privacidad
 

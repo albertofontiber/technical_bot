@@ -3013,3 +3013,26 @@ la cohorte sigue siendo conocida/dev; el prior hp017 7-vs-8 debe constar en el p
 promete regresión global cero. Multi-turn/multi-hop permanece `NOT_BUILT` y fuera de este release:
 su arquitectura durable/transport-neutral conserva el roadmap de DEC-136 y exige autorización
 propia.
+
+## DEC-139 (S277, 21 jul 2026) — Se autoriza una única P1 exacta; el release continúa NO-GO hasta completar sus prerrequisitos y obtener `P1_PASS`
+
+**Decisión humana y alcance.** Alberto autoriza una única ejecución preregistrada P1 de
+27 réplicas/27 generaciones y exactamente 81 llamadas pagables —embedding, rerank y síntesis—,
+con techo duro de 10 USD y aceptación expresa del prior hp017 documentado. Esta decisión no
+autoriza merge, deploy, cambios de Railway ni canary. En el momento de registrarla siguen en cero
+las llamadas P1 pagadas y no se atribuye ningún resultado.
+
+**Prerrequisitos de seguridad.** Antes de emitir el bearer debe aplicarse y verificarse
+`20260721120000_add_p1_readonly_role.sql`. En PostgreSQL 17 la membresía exacta sobre
+`p1_readonly` es `authenticator: SET TRUE, INHERIT FALSE, ADMIN FALSE` y
+`postgres: SET TRUE, INHERIT FALSE, ADMIN TRUE`; ACL/RLS mínimos, allowlist RPC y ausencia de
+`SECURITY DEFINER` accesible siguen siendo condiciones conjuntas. La autenticación HTTP también
+separa credenciales: `SUPABASE_KEY` alimenta `apikey`, mientras `P1_SUPABASE_JWT` alimenta
+`Authorization: Bearer ...`; ninguna sustituye a la otra.
+
+**Operación y estado.** Las herramientas Python se invocan desde la raíz como módulos
+(`python -m scripts...`). Aún faltan aplicar/verificar la migración, provisionar fuera del checkout
+PAT, API key, bearer y credencial del operador, capturar los inputs live, materializar el receipt
+de autorización y ejecutar `run`, `score` y `finalize`. Por tanto el estado pasa de autorización
+pendiente a `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, pero permanece **NO-GO**:
+sólo un `P1_PASS` sellado y vigente puede abrir una decisión posterior y separada de release.

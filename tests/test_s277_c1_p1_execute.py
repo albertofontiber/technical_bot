@@ -229,12 +229,14 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         "SUPABASE_URL": f"https://{PROJECT_REF}.supabase.co",
         "SUPABASE_ACCESS_TOKEN": "supabase-pat-secret-value",
         "P1_SUPABASE_JWT": "p1-jwt-secret-value",
+        "SUPABASE_KEY": "sb_publishable_project-key-secret-value",
     }
 
     def capture_post(**kwargs):
         assert state.get("guard_active") is False
         assert kwargs["access_token"] == secrets["SUPABASE_ACCESS_TOKEN"]
         assert kwargs["p1_jwt"] == secrets["P1_SUPABASE_JWT"]
+        assert kwargs["supabase_key"] == secrets["SUPABASE_KEY"]
         state["post_capture_calls"] = int(
             state.get("post_capture_calls", 0)
         ) + 1
@@ -258,6 +260,18 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         state["railway_token"] = kwargs["token"]
         return copy.deepcopy(fresh_release)
 
+    def verify_identity(**kwargs):
+        assert kwargs["p1_jwt"] == secrets["P1_SUPABASE_JWT"]
+        assert kwargs["supabase_key"] == secrets["SUPABASE_KEY"]
+        state["identity_credentials_bound"] = True
+        return SimpleNamespace(verified=True)
+
+    def make_guard(**kwargs):
+        assert kwargs["p1_jwt"] == secrets["P1_SUPABASE_JWT"]
+        assert kwargs["supabase_key"] == secrets["SUPABASE_KEY"]
+        state["guard_credentials_bound"] = True
+        return guard
+
     deps = execute.ExecutionDependencies(
         clock=lambda: NOW,
         dotenv_loader=load_credentials,
@@ -274,7 +288,7 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         manifest_window_verifier=lambda *args, **kwargs: state.setdefault(
             "manifest_window_verified", True
         ),
-        identity_verifier=lambda **kwargs: SimpleNamespace(verified=True),
+        identity_verifier=verify_identity,
         postgrest_snapshot_normalizer=lambda value, project_ref: copy.deepcopy(
             value
         ),
@@ -282,7 +296,7 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         fence_watcher_factory=lambda value: ("watcher", value),
         paid_adapter_factory=lambda **kwargs: ("paid", sorted(kwargs)),
         replica_adapter_factory=lambda **kwargs: ("replica", kwargs),
-        guard_factory=lambda **kwargs: guard,
+        guard_factory=make_guard,
         preflight_builder=lambda **kwargs: SimpleNamespace(preflight=True),
         artifact_store_factory=lambda path: ("artifacts", path),
         journal_factory=lambda path, **kwargs: ("journal", path),
@@ -346,6 +360,8 @@ def test_live_window_closes_for_every_runner_result_and_never_finalizes(
     assert state.get("abort_calls", 0) == 0
     assert state["guard_active"] is False
     assert state["railway_token"] == secrets["RAILWAY_TOKEN"]
+    assert state["identity_credentials_bound"] is True
+    assert state["guard_credentials_bound"] is True
     assert (artifact / "live_control" / "fence_close_receipt.json").is_file()
     assert Path(args.postgrest_post_snapshot).is_file()
 

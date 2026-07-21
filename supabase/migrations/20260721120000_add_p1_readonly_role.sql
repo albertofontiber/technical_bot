@@ -21,6 +21,10 @@ BEGIN
         RAISE EXCEPTION 'S277 p1_readonly requires the Supabase authenticator role';
     END IF;
 
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'postgres') THEN
+        RAISE EXCEPTION 'S277 p1_readonly requires the Supabase postgres operator role';
+    END IF;
+
     FOREACH required_relation IN ARRAY ARRAY[
         'public.chunks_v2',
         'public.chunks_v2_enunciados',
@@ -84,6 +88,16 @@ $role$;
 -- is therefore ACL/RLS + exact RPC/HTTP allowlisting, not a misleading GUC.
 ALTER ROLE p1_readonly RESET default_transaction_read_only;
 ALTER ROLE p1_readonly SET statement_timeout = '30s';
+
+-- PostgreSQL 17 automatically grants a newly created role back to a
+-- non-superuser CREATEROLE creator with ADMIN TRUE, SET FALSE and INHERIT
+-- FALSE.  The fence connects as the hosted Supabase `postgres` operator and
+-- must be able to reduce itself to p1_readonly for catalog capture.  Preserve
+-- the unavoidable creator ADMIN option, disable inheritance and enable only
+-- explicit SET ROLE.
+GRANT p1_readonly TO postgres WITH INHERIT FALSE;
+GRANT p1_readonly TO postgres WITH SET TRUE;
+GRANT p1_readonly TO postgres WITH ADMIN TRUE;
 
 GRANT p1_readonly TO authenticator WITH INHERIT FALSE;
 GRANT p1_readonly TO authenticator WITH SET TRUE;
@@ -183,6 +197,16 @@ DO $postcondition$
 DECLARE
     relation_name TEXT;
 BEGIN
+    IF (
+        SELECT count(*)
+        FROM pg_auth_members AS membership
+        JOIN pg_roles AS granted_role
+          ON granted_role.oid = membership.roleid
+        WHERE granted_role.rolname = 'p1_readonly'
+    ) <> 2 THEN
+        RAISE EXCEPTION 'p1_readonly membership set is unsafe';
+    END IF;
+
     IF NOT EXISTS (
         SELECT 1
         FROM pg_auth_members AS membership
@@ -197,6 +221,22 @@ BEGIN
           AND NOT membership.admin_option
     ) THEN
         RAISE EXCEPTION 'authenticator membership options are unsafe';
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_auth_members AS membership
+        JOIN pg_roles AS granted_role
+          ON granted_role.oid = membership.roleid
+        JOIN pg_roles AS member_role
+          ON member_role.oid = membership.member
+        WHERE granted_role.rolname = 'p1_readonly'
+          AND member_role.rolname = 'postgres'
+          AND membership.set_option
+          AND NOT membership.inherit_option
+          AND membership.admin_option
+    ) THEN
+        RAISE EXCEPTION 'postgres operator membership options are unsafe';
     END IF;
 
     FOREACH relation_name IN ARRAY ARRAY[

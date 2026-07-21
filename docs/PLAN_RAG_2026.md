@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — P1 `CODE_READY`; autorización operativa pendiente).
+> 21 jul 2026 (S277 — P1 `CODE_READY`; ejecución exacta autorizada, prerrequisitos pendientes).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -69,15 +69,20 @@ credenciales e IPC, y hash del manifest post ligado al receipt de cierre.
 **Frontera de seguridad corregida.** El `transaction_read_only=on` observado en el endpoint de
 identidad acredita sólo ese GET; no demuestra que los POST a RPC sean transacciones read-only.
 La seguridad efectiva de esos POST procede del rol `p1_readonly` con ACL/RLS mínimos, la allowlist
-exacta del guard y la ausencia de funciones `SECURITY DEFINER` accesibles. La migración versionada
-que materializa ese rol y sus postcondiciones está revisada pero **no aplicada**.
+exacta del guard y la ausencia de funciones `SECURITY DEFINER` accesibles. En PostgreSQL 17 la
+membresía debe quedar exacta: `authenticator` con `SET TRUE`, `INHERIT FALSE`, `ADMIN FALSE`, y
+`postgres` con `SET TRUE`, `INHERIT FALSE`, `ADMIN TRUE`. La migración versionada que materializa
+ese rol y sus postcondiciones está revisada pero **no aplicada**.
 
-**Estado operativo: `OPERATIONAL_AUTHORIZATION_PENDING`, no GO.** Ya no son blockers la ausencia
-de adapter, manifest live o cierre transitivo. Faltan aplicar la migración `p1_readonly`,
-provisionar el PAT/JWT y la credencial del operador, capturar los inputs live de esta ventana y
-autorizar/ejecutar P1 con techo de 10 USD, seguido de `score`/`finalize`. No se han ejecutado las
-27 réplicas, no existe `P1_PASS`, no se aplicó ninguna migración, no hubo deploy ni cambio de
-Railway/Supabase y el marcador permanece 146/154.
+**Estado operativo: `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, no GO.** Alberto
+autorizó una única P1 exacta de 27 réplicas/27 generaciones y 81 llamadas pagables, con techo duro
+de 10 USD. La autorización no cubre merge, deploy ni canary. Ya no son blockers la ausencia de
+adapter, manifest live o cierre transitivo. Faltan aplicar la migración `p1_readonly`, provisionar
+el PAT, `SUPABASE_KEY` para el encabezado `apikey`, el bearer efímero `P1_SUPABASE_JWT` y la
+credencial del operador, capturar los inputs live y ejecutar P1 por módulos `python -m`, seguida de
+`score`/`finalize`. `SUPABASE_KEY` y `P1_SUPABASE_JWT` son credenciales distintas. No se han
+ejecutado las 27 réplicas, no existe `P1_PASS`, no se aplicó ninguna migración, no hubo deploy ni
+cambio de Railway/Supabase y el marcador permanece 146/154.
 
 **Multi-turn/multi-hop permanece separado y `NOT_BUILT` (DEC-136).** El norte sigue siendo
 orquestador transport-neutral, estado/event log durable, ingress idempotente, leases+fencing,
@@ -85,13 +90,14 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) con autorización operativa explícita,
-aplicar la migración revisada `p1_readonly` y verificar sus postcondiciones; (2) provisionar de
-forma efímera el PAT de Supabase, el JWT `p1_readonly` y la credencial PostgreSQL del operador;
-(3) materializar release-config, manifest/evidencia live y recibo de autorización que disponga
-expresamente del prior hp017; (4) ejecutar una sola P1 preregistrada con techo duro de 10 USD,
-cerrar o abortar el fence y correr `score`/`finalize`; (5) sólo si existe `P1_PASS` vigente,
-autorizar por separado merge/deploy y canary. Después, para el +5, usar eval orgánico/fresco u
+**Qué sigue, por orden y sin abrir otro frente:** (1) aplicar la migración revisada `p1_readonly`
+y verificar todas sus postcondiciones, incluida la membresía PostgreSQL 17 exacta; (2) provisionar
+de forma efímera el PAT, `SUPABASE_KEY`, `P1_SUPABASE_JWT` y la credencial PostgreSQL del operador,
+manteniendo separados API key y bearer; (3) materializar release-config, manifest/evidencia live
+y el recibo de la autorización recibida que disponga expresamente del prior hp017 y selle
+27 réplicas/81 llamadas/10 USD; (4) ejecutar una sola P1 preregistrada mediante `python -m`, cerrar
+o abortar el fence y correr `score`/`finalize`; (5) sólo si existe `P1_PASS` vigente, solicitar
+autorización separada para merge/deploy y canary. Después, para el +5, usar eval orgánico/fresco u
 otra familia causal —P1 es gate de release, no árbitro del 98%—. La Fase 0 conversacional sigue
 `NOT_BUILT` y requiere una decisión separada de Alberto.
 

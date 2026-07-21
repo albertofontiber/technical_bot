@@ -109,6 +109,7 @@ class RuntimeSecrets:
     supabase_url: str
     supabase_access_token: str
     p1_supabase_jwt: str
+    supabase_key: str
 
     def __repr__(self) -> str:
         return "RuntimeSecrets(<redacted>)"
@@ -120,6 +121,7 @@ class RuntimeSecrets:
             self.voyage_api_key,
             self.supabase_access_token,
             self.p1_supabase_jwt,
+            self.supabase_key,
         )
 
 
@@ -328,6 +330,7 @@ def _load_runtime_secrets(
         "SUPABASE_URL",
         "SUPABASE_ACCESS_TOKEN",
         "P1_SUPABASE_JWT",
+        "SUPABASE_KEY",
     )
     loaded: dict[str, str] = {}
     for name in names:
@@ -345,6 +348,7 @@ def _load_runtime_secrets(
         supabase_url=loaded["SUPABASE_URL"],
         supabase_access_token=loaded["SUPABASE_ACCESS_TOKEN"],
         p1_supabase_jwt=loaded["P1_SUPABASE_JWT"],
+        supabase_key=loaded["SUPABASE_KEY"],
     )
 
 
@@ -711,6 +715,7 @@ def _run_live_impl(
             manifest_capture=fence_pre_capture,
             identity_http_receipt=identity_receipt,
             p1_jwt=secrets.p1_supabase_jwt,
+            supabase_key=secrets.supabase_key,
         )
 
         for path, payload in (
@@ -740,6 +745,7 @@ def _run_live_impl(
         guard = deps.guard_factory(
             supabase_url=secrets.supabase_url,
             p1_jwt=secrets.p1_supabase_jwt,
+            supabase_key=secrets.supabase_key,
             project_ref=project_ref,
             visual_assets_registry=visual_mode,
             verified_identity=verified_identity,
@@ -785,6 +791,7 @@ def _run_live_impl(
             supabase_url=secrets.supabase_url,
             access_token=secrets.supabase_access_token,
             p1_jwt=secrets.p1_supabase_jwt,
+            supabase_key=secrets.supabase_key,
             expected_identity_function_sha256=_identity_function_sha256(
                 manifest_contract
             ),
