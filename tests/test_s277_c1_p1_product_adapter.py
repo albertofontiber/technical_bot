@@ -414,7 +414,9 @@ def test_voyage_transport_intercepts_one_raw_request_and_restores(monkeypatch):
             return SimpleNamespace(embeddings=[[0.1, 0.2]])
 
     original = APIRequestor.request_raw
-    monkeypatch.setattr(voyageai, "__version__", "0.2.4")
+    # voyageai 0.2.4 ships a stale module-level value; distribution metadata
+    # remains the canonical version attestation.
+    monkeypatch.setattr(voyageai, "__version__", "0.2.3")
     monkeypatch.setattr(voyageai, "Client", FakeVoyageClient)
     monkeypatch.setattr(APIRequestor, "request_raw", fake_request_raw)
     monkeypatch.setattr(product, "package_version", lambda _name: "0.2.4")

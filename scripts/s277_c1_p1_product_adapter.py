@@ -344,6 +344,28 @@ class ProductSDKPaidAdapter:
             "HOLD_PROVIDER_SDK_VERSION",
             f"{distribution} must be exactly {expected_version}",
         )
+        # Distribution metadata is authoritative.  In particular, voyageai
+        # 0.2.4 publishes a stale module-level ``__version__`` of 0.2.3.
+        # Import and capability checks still belong in local-only prepare so a
+        # failure cannot be misclassified as an unknown billed send.
+        if call.provider == "anthropic":
+            import anthropic
+
+            _require(
+                callable(getattr(anthropic, "Anthropic", None)),
+                "HOLD_PROVIDER_SDK_VERSION",
+                "anthropic client API missing",
+            )
+        else:
+            import voyageai
+            from voyageai.api_resources.api_requestor import APIRequestor
+
+            _require(
+                callable(getattr(voyageai, "Client", None))
+                and callable(getattr(APIRequestor, "request_raw", None)),
+                "HOLD_PROVIDER_SDK_VERSION",
+                "voyageai client API missing",
+            )
         return _PreparedProductCall(self, call)
 
     @staticmethod
@@ -359,12 +381,6 @@ class ProductSDKPaidAdapter:
 
     def _send_anthropic(self, call: p1.ProviderCall) -> Mapping[str, Any]:
         import anthropic
-
-        _require(
-            getattr(anthropic, "__version__", None) == "0.97.0",
-            "HOLD_PROVIDER_SDK_VERSION",
-            "anthropic must be exactly 0.97.0",
-        )
         payload = _json_copy(
             call.request["physical_payload"], field=f"{call.call_key} payload"
         )
@@ -407,12 +423,6 @@ class ProductSDKPaidAdapter:
     def _send_voyage(self, call: p1.ProviderCall) -> Mapping[str, Any]:
         import voyageai
         from voyageai.api_resources.api_requestor import APIRequestor
-
-        _require(
-            getattr(voyageai, "__version__", None) == "0.2.4",
-            "HOLD_PROVIDER_SDK_VERSION",
-            "voyageai must be exactly 0.2.4",
-        )
         acquired = _VOYAGE_HTTP_LOCK.acquire(blocking=False)
         _require(
             acquired,
