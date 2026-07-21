@@ -874,13 +874,19 @@ class PostgreSQLFenceOperator:
         state = self._assert_open(session_id)
         try:
             checked_at, locks = self._probe_open_state(state)
+            genesis = p1.verify_run_genesis(run_genesis)
             capture = _json_copy(
                 self.capture_manifest(self.connection, "watch", checked_at),
                 field="watch live manifest",
             )
             self.verify_manifest_capture(self.manifest_contract, capture)
             state.manifest_captures.append(capture)
-            genesis = p1.verify_run_genesis(run_genesis)
+            # Manifest capture can take longer than the runner's strict
+            # two-second receipt-transport allowance. Re-probe on the same
+            # transaction after the capture so the receipt proves that the
+            # backend identity, canonical locks and waiter set are still
+            # valid immediately before it is returned to the runner.
+            checked_at, locks = self._probe_open_state(state)
             receipt = {
                 "schema": p1.FENCE_WATCH_SCHEMA,
                 "status": "OPEN_VERIFIED",

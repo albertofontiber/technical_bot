@@ -598,6 +598,100 @@ def test_watch_has_exact_runner_shape_and_is_bound_through_open_hash(monkeypatch
     )
 
 
+def test_watch_reprobes_after_slow_manifest_capture_before_return(monkeypatch):
+    clock = MutableClock()
+
+    def slow_capture(connection, phase, captured_at):
+        capture = capture_manifest(connection, phase, captured_at)
+        if phase == "watch":
+            clock.advance(seconds=3)
+        return capture
+
+    operator, connection, _clock = make_operator(clock=clock, capture=slow_capture)
+    opened = operator.open()
+    genesis = {
+        "run_genesis_sha256": "1" * 64,
+        "target_semantic_config": SEMANTIC,
+    }
+    monkeypatch.setattr(p1, "verify_run_genesis", lambda value: dict(value))
+    identity_calls_before_watch = connection.identity_calls
+
+    receipt = operator.watch(
+        session_id=opened["session_id"],
+        phase="before_provider_send",
+        call_key="hp017:r1:embedding",
+        run_genesis=genesis,
+    )
+
+    assert connection.identity_calls == identity_calls_before_watch + 2
+    assert receipt["checked_at"] == fence._iso(clock())
+    assert receipt["last_heartbeat_at"] == receipt["checked_at"]
+    p1.verify_fence_watch_receipt(
+        receipt,
+        open_receipt=opened["fence_open_receipt"],
+        run_genesis=genesis,
+        call_key="hp017:r1:embedding",
+        now=clock(),
+    )
+
+
+def test_watch_reprobe_does_not_refresh_capture_past_heartbeat_limit(monkeypatch):
+    clock = MutableClock()
+
+    def stale_capture(connection, phase, captured_at):
+        capture = capture_manifest(connection, phase, captured_at)
+        if phase == "watch":
+            clock.advance(seconds=31)
+        return capture
+
+    operator, connection, _clock = make_operator(
+        clock=clock, capture=stale_capture
+    )
+    opened = operator.open()
+    genesis = {
+        "run_genesis_sha256": "1" * 64,
+        "target_semantic_config": SEMANTIC,
+    }
+    monkeypatch.setattr(p1, "verify_run_genesis", lambda value: dict(value))
+
+    with pytest.raises(fence.FenceOperatorHold) as caught:
+        operator.watch(
+            session_id=opened["session_id"],
+            phase="before_provider_send",
+            call_key="hp017:r1:embedding",
+            run_genesis=genesis,
+        )
+
+    assert caught.value.code == "HOLD_CORPUS_FENCE_LOST"
+    assert operator.terminal_status == "ABORTED"
+    assert connection.commits == 0
+    assert connection.rollbacks == 1
+
+
+def test_watch_reprobe_rejects_identity_drift_after_manifest_capture(monkeypatch):
+    operator, connection, _clock = make_operator()
+    opened = operator.open()
+    genesis = {
+        "run_genesis_sha256": "1" * 64,
+        "target_semantic_config": SEMANTIC,
+    }
+    monkeypatch.setattr(p1, "verify_run_genesis", lambda value: dict(value))
+    connection.identity_drift_call = connection.identity_calls + 2
+
+    with pytest.raises(fence.FenceOperatorHold) as caught:
+        operator.watch(
+            session_id=opened["session_id"],
+            phase="before_provider_send",
+            call_key="hp017:r1:embedding",
+            run_genesis=genesis,
+        )
+
+    assert caught.value.code == "HOLD_CORPUS_FENCE_LOST"
+    assert operator.terminal_status == "ABORTED"
+    assert connection.commits == 0
+    assert connection.rollbacks == 1
+
+
 def test_ipc_round_trip_is_ordered_exclusive_and_replay_safe(
     tmp_path: Path, monkeypatch
 ):
