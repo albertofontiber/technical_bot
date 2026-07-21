@@ -73,17 +73,18 @@ exacta del guard y la ausencia de funciones `SECURITY DEFINER` accesibles. En Po
 membresía debe quedar en tres grants no heredables exactos: `authenticator <- postgres` con
 `SET TRUE/ADMIN FALSE`, `postgres <- postgres` con `SET TRUE/ADMIN FALSE` y el grant automático
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
-ese rol y sus postcondiciones está revisada pero **no aplicada**.
+ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, no GO.** Alberto
+**Estado operativo: `P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`, no GO.** Alberto
 autorizó una única P1 exacta de 27 réplicas/27 generaciones y 81 llamadas pagables, con techo duro
 de 10 USD. La autorización no cubre merge, deploy ni canary. Ya no son blockers la ausencia de
-adapter, manifest live o cierre transitivo. Faltan aplicar la migración `p1_readonly`, provisionar
-el PAT, `SUPABASE_KEY` para el encabezado `apikey`, el bearer efímero `P1_SUPABASE_JWT` y la
-credencial del operador, capturar los inputs live y ejecutar P1 por módulos `python -m`, seguida de
-`score`/`finalize`. `SUPABASE_KEY` y `P1_SUPABASE_JWT` son credenciales distintas. No se han
-ejecutado las 27 réplicas, no existe `P1_PASS`, no se aplicó ninguna migración, no hubo deploy ni
-cambio de Railway/Supabase y el marcador permanece 146/154.
+adapter, manifest live, cierre transitivo ni migración. `SUPABASE_KEY`, el PAT efímero y la
+credencial DB existen fuera del candidato; falta el bearer efímero `P1_SUPABASE_JWT`, capturar los inputs live
+y ejecutar P1 por módulos `python -m`, seguida de `score`/`finalize`. API key y bearer son
+credenciales distintas. No se han ejecutado las 27 réplicas, no existe `P1_PASS`, no hubo deploy
+ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
+explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
+requieren una migración y autorización separadas antes del GO final de C1.
 
 **Multi-turn/multi-hop permanece separado y `NOT_BUILT` (DEC-136).** El norte sigue siendo
 orquestador transport-neutral, estado/event log durable, ingress idempotente, leases+fencing,
@@ -91,14 +92,14 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) aplicar la migración revisada `p1_readonly`
-y verificar todas sus postcondiciones, incluidas las tres filas PostgreSQL 17 exactas; (2) provisionar
-de forma efímera el PAT, `SUPABASE_KEY`, `P1_SUPABASE_JWT` y la credencial PostgreSQL del operador,
-manteniendo separados API key y bearer; (3) materializar release-config, manifest/evidencia live
+**Qué sigue, por orden y sin abrir otro frente:** (1) usar el PAT ya provisionado y crear de forma
+efímera `P1_SUPABASE_JWT`, usando la `SUPABASE_KEY` y credencial PostgreSQL existentes fuera del candidato
+y manteniendo separados API key y bearer; (2) materializar release-config, manifest/evidencia live
 y el recibo de la autorización recibida que disponga expresamente del prior hp017 y selle
-27 réplicas/81 llamadas/10 USD; (4) ejecutar una sola P1 preregistrada mediante `python -m`, cerrar
-o abortar el fence y correr `score`/`finalize`; (5) sólo si existe `P1_PASS` vigente, solicitar
-autorización separada para merge/deploy y canary. Después, para el +5, usar eval orgánico/fresco u
+27 réplicas/81 llamadas/10 USD; (3) ejecutar una sola P1 preregistrada mediante `python -m`, cerrar
+o abortar el fence y correr `score`/`finalize`; (4) sólo si existe `P1_PASS` vigente, resolver el
+riesgo separado de `create_hnsw_index()` y solicitar autorización separada para merge/deploy y
+canary. Después, para el +5, usar eval orgánico/fresco u
 otra familia causal —P1 es gate de release, no árbitro del 98%—. La Fase 0 conversacional sigue
 `NOT_BUILT` y requiere una decisión separada de Alberto.
 

@@ -3037,3 +3037,29 @@ PAT, API key, bearer y credencial del operador, capturar los inputs live, materi
 de autorización y ejecutar `run`, `score` y `finalize`. Por tanto el estado pasa de autorización
 pendiente a `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, pero permanece **NO-GO**:
 sólo un `P1_PASS` sellado y vigente puede abrir una decisión posterior y separada de release.
+
+## DEC-140 (S277, 21 jul 2026) — La migración mínima P1 queda aplicada y verificada; credenciales y ejecución siguen pendientes
+
+**Cambio externo y evidencia.** Se aplicó en producción la migración
+`20260721120000_add_p1_readonly_role.sql`, con SHA-256
+`b698a69cc6fba48b7f1e3e6f78bf80c4327d6118878e1f0f15317420501a83a4`. Sus
+postcondiciones verificaron los tres grants no heredables exactos de PostgreSQL 17
+—`authenticator <- postgres` con `SET TRUE/ADMIN FALSE`, `postgres <- postgres` con
+`SET TRUE/ADMIN FALSE` y `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`—,
+las ACL de tablas P1 `SELECT`-only, la identidad runtime aislada y un receipt live de
+`SET ROLE p1_readonly`. La aplicación no ejecutó llamadas a modelos ni implicó merge,
+deploy o cambio de Railway.
+
+**Estado operativo.** `SUPABASE_KEY` y la credencial PostgreSQL del operador existen fuera
+del candidato. El PAT de Supabase está provisionado de forma efímera fuera del checkout;
+aún faltan el bearer efímero `P1_SUPABASE_JWT`, los inputs
+live y `run`/`score`/`finalize`; siguen en cero las 27 réplicas y 81 llamadas autorizadas y no
+existe `P1_PASS`. El estado canónico es por tanto
+`P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`, todavía **NO-GO**.
+
+**Riesgo separado antes del GO final.** La migración revocó `EXECUTE` de `PUBLIC` sobre
+`create_hnsw_index()` y `p1_readonly` no alcanza esa función; el Advisor conserva, sin embargo,
+avisos por grants explícitos preexistentes de `anon` y `authenticated`. No bloquean la identidad
+mínima ni la ejecución acotada de P1, pero deben inventariarse, probarse y corregirse mediante
+otra migración con autorización separada antes del GO final de C1. DEC-140 no amplía la
+autorización a ese cambio, merge, deploy o canary.

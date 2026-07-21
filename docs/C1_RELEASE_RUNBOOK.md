@@ -1,16 +1,16 @@
 # C1: contrato de release y runbook
 
 Estado a 2026-07-21: **P1 `CODE_READY`, ejecución exacta autorizada y
-`OPERATIONAL_PREREQUISITES_PENDING`; todavía no existe GO de release**. La
+`P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`; todavía no existe GO de release**. La
 autorización humana cubre una única P1 de 27 réplicas/27 generaciones y exactamente
 81 llamadas pagables, con techo duro de 10 USD; no cubre merge, deploy ni canary. Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
 el manifest live pre/watch/post, el fence PostgreSQL persistente read-only por IPC,
 el guard PostgREST acotado y el executor. El control histórico gratuito conserva el
-prior PEARL 7-vs-8 en 3/3. No existe `P1_PASS`: no se aplicó la migración del rol
-`p1_readonly`, no se ejecutaron llamadas pagadas, no se cambió Railway y no hubo
-deploy.
+prior PEARL 7-vs-8 en 3/3. La migración `p1_readonly` quedó aplicada y verificada
+en producción como versión `20260721120000`; no existe `P1_PASS`, no se ejecutaron
+llamadas pagadas, no se cambió Railway y no hubo deploy.
 
 ## Qué corrige
 
@@ -166,10 +166,11 @@ RLS, extensiones, roles y configuración PostgREST. El fence mantiene una sesió
 PostgreSQL read-only y locks persistentes desde un operador separado; el runner sólo
 recibe su IPC sin credenciales y puede solicitar cierre o aborto explícitos.
 
-Eso deja prerrequisitos operativos, no otro desarrollo: la migración versionada
-`20260721120000_add_p1_readonly_role.sql` está revisada pero no aplicada; tampoco se
-han provisionado el PAT de Supabase, la API key PostgREST `SUPABASE_KEY`, el bearer
-efímero `P1_SUPABASE_JWT` con `role=p1_readonly` ni la credencial del operador.
+Eso deja credenciales e inputs operativos, no otro desarrollo: la migración versionada
+`20260721120000_add_p1_readonly_role.sql` está aplicada y sus postcondiciones pasaron.
+La `SUPABASE_KEY` PostgREST y la credencial PostgreSQL del operador están disponibles
+fuera del candidato; el PAT de Supabase ya está provisionado de forma efímera y falta
+el bearer efímero `P1_SUPABASE_JWT` con `role=p1_readonly`.
 `SUPABASE_KEY` alimenta exclusivamente el encabezado `apikey` y no puede reutilizarse
 como bearer; `P1_SUPABASE_JWT` alimenta `Authorization: Bearer ...` y no puede
 reutilizarse como `apikey`. `run` sigue fallando cerrado sin `--execute`,
@@ -230,13 +231,12 @@ P1 caduca y debe repetirse bajo una preregistración nueva.
 
 Secuencia operativa única para llegar a una decisión P1:
 
-1. Aplicar la migración `20260721120000_add_p1_readonly_role.sql`; verificar todas sus
-   postcondiciones sin ampliar grants, incluidas las tres filas PostgreSQL 17 exactas
-   descritas arriba.
-2. Provisionar fuera del checkout el PAT de Supabase, `SUPABASE_KEY` para `apikey`, un
-   `P1_SUPABASE_JWT` efímero con `role=p1_readonly` para el bearer y la credencial de
-   sesión PostgreSQL del operador. El runner no recibe esta última; API key y bearer
-   son credenciales separadas.
+1. **Completado:** migración `20260721120000_add_p1_readonly_role.sql` aplicada y
+   verificada, incluidas las tres filas PostgreSQL 17 exactas descritas arriba.
+2. Usar el PAT de Supabase ya provisionado fuera del checkout y crear un
+   `P1_SUPABASE_JWT` efímero con `role=p1_readonly`; usar la `SUPABASE_KEY` existente sólo para `apikey` y la
+   credencial PostgreSQL existente sólo en el operador. API key y bearer son
+   credenciales separadas y el runner no recibe la credencial PostgreSQL.
 3. Capturar desde el checkout limpio y detached el release-config Railway read-only,
    el contrato/manifest live previo y la evidencia HTTP/identidad; emitir un recibo de
    autorización que materialice la decisión humana ya recibida, acepte expresamente
@@ -248,8 +248,8 @@ Secuencia operativa única para llegar a una decisión P1:
    sellado puede crear `P1_PASS`.
 
 La autorización explícita ya recibida cubre sólo la P1 exacta de 27 réplicas/81 llamadas
-bajo el techo de 10 USD. No constituye `P1_PASS` ni GO: siguen pendientes migración,
-credenciales, inputs live, ejecución, `score` y `finalize`. Merge, deploy, migración de
+bajo el techo de 10 USD. No constituye `P1_PASS` ni GO: siguen pendientes bearer,
+inputs live, ejecución, `score` y `finalize`. Merge, deploy, migración de
 trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
 
 ## Trazabilidad y privacidad
@@ -411,9 +411,11 @@ multi-hop incompleta.
 
 ## Riesgo de seguridad separado
 
-La migración P1 revoca el `EXECUTE` público observado sobre
-`create_hnsw_index()` y falla si `p1_readonly` puede alcanzar cualquier función
-`SECURITY DEFINER`; esto es una precondición del gate, no una corrección general de
-la superficie pública. Los avisos restantes de Supabase Advisor y cualquier rollout
-amplio de RLS siguen requiriendo inventario de callers, tests y autorización propia:
-no se amplía ese alcance para ejecutar P1.
+La migración P1 revocó el `EXECUTE` de `PUBLIC` sobre `create_hnsw_index()` y verificó
+que `p1_readonly` no puede alcanzar ninguna función `SECURITY DEFINER`. El Advisor
+posterior confirmó, sin embargo, grants explícitos preexistentes para `anon` y
+`authenticated` sobre esa función. No bloquean la identidad mínima de P1, pero sí son
+un riesgo separado que debe inventariarse y corregirse mediante una migración nueva
+antes del GO final de C1. Revocarlos no formaba parte de la autorización actual y no se
+ha ampliado silenciosamente el alcance. El rollout amplio de RLS también sigue fuera
+de P1 y requiere tests y autorización propia.
