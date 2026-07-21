@@ -77,6 +77,16 @@ def test_delivered_current_capacity_binds_per_loop_without_current_noun():
     )
 
 
+def test_numeric_claim_dict_is_json_round_trip_stable():
+    claim = extract_numeric_claims(
+        "El modulo de lazo proporciona un maximo de 750 mA por lazo.",
+        entity_id="INSPIRE E10",
+    )[0]
+    payload = claim.to_dict()
+    assert payload["qualifiers"] == ["per_loop"]
+    assert json.loads(json.dumps(payload, ensure_ascii=False)) == payload
+
+
 def test_conflicting_model_mention_fails_closed():
     statement = "La resistencia maxima del lazo ID3000 es 35 ohmios."
     source = "La resistencia maxima del lazo ID2000 es 35 ohmios."

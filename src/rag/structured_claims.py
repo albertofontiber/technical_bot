@@ -54,7 +54,12 @@ class NumericClaim:
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        payload = asdict(self)
+        # ``asdict`` preserves tuples, which JSON encodes as lists.  Returning
+        # the wire shape here keeps the structured-claim DTO stable across a
+        # JSON round trip while ``NumericClaim`` itself remains immutable.
+        payload["qualifiers"] = list(self.qualifiers)
+        return payload
 
 
 def _fold(text: str) -> str:
