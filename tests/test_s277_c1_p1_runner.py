@@ -1087,6 +1087,22 @@ def test_safe_release_config_rejects_secret_fields():
     assert caught.value.code == "HOLD_SECRET_IN_SAFE_ARTIFACT"
 
 
+def test_secret_detector_accepts_only_safe_api_key_fingerprints():
+    p1._assert_no_secret_material(
+        {
+            "http_receipts": {
+                "management_postgrest": {"api_key_sha256": None},
+                "postgrest_identity": {"api_key_sha256": "a" * 64},
+            }
+        }
+    )
+
+    for unsafe in ("actual-api-key", "A" * 64, True, {}):
+        with pytest.raises(p1.P1Error) as caught:
+            p1._assert_no_secret_material({"api_key_sha256": unsafe})
+        assert caught.value.code == "HOLD_SECRET_IN_SAFE_ARTIFACT"
+
+
 def test_release_config_rejects_extra_rpc_not_derived_from_any_lane():
     release = _release_config()
     release["rpc_allowlist"].append("unreviewed_rpc")

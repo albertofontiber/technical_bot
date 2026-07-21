@@ -323,6 +323,7 @@ _SECRET_NAME = re.compile(
     re.IGNORECASE,
 )
 _SAFE_NON_SECRET_NAMES = {"MP_DISTINCTIVE_TOKEN", "LLM_MAX_TOKENS"}
+_SAFE_SECRET_HASH_NAMES = {"api_key_sha256"}
 _MODEL_EXTRACTION_CACHE: dict[str, list[dict[str, Any]]] = {}
 
 
@@ -663,6 +664,17 @@ def _assert_no_secret_material(value: Any, path: str = "$") -> None:
                     child is False,
                     "HOLD_SECRET_IN_SAFE_ARTIFACT",
                     f"{path}.{name} must be false",
+                )
+                continue
+            if name in _SAFE_SECRET_HASH_NAMES:
+                _require(
+                    child is None
+                    or (
+                        isinstance(child, str)
+                        and _HEX64.fullmatch(child) is not None
+                    ),
+                    "HOLD_SECRET_IN_SAFE_ARTIFACT",
+                    f"{path}.{name} must be null or a lowercase SHA-256",
                 )
                 continue
             _require(
