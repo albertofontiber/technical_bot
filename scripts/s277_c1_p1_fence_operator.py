@@ -39,13 +39,36 @@ from scripts import s277_c1_p1_live_manifest as live_manifest
 REQUEST_SCHEMA = "s277_c1_p1_fence_ipc_request_v1"
 RESPONSE_SCHEMA = "s277_c1_p1_fence_ipc_response_v1"
 STATE_EVENT_SCHEMA = "s277_c1_p1_fence_operator_state_event_v1"
+TERMINAL_JOURNAL_SCHEMA = "s277_c1_p1_fence_terminal_journal_v1"
 ABORT_RECEIPT_SCHEMA = "s277_c1_p1_fence_abort_receipt_v1"
 S277_SUPAVISOR_SESSION_HOST = "aws-1-eu-north-1.pooler.supabase.com"
 REQUEST_TTL = timedelta(seconds=30)
+OPEN_CLOSE_REQUEST_TTL = timedelta(minutes=30)
 ABORT_REQUEST_TTL = timedelta(minutes=45)
 DEFAULT_FENCE_WINDOW = timedelta(minutes=40)
 DEFAULT_HEARTBEAT_MAX_AGE_SECONDS = 30
 DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 5
+DEFAULT_FINGERPRINT_CEILING_MS = p1.FINGERPRINT_CEILING_MS
+BASE_STATEMENT_TIMEOUT_SECONDS = 30
+FINGERPRINT_STATEMENT_TIMEOUT_SECONDS = 130
+# Open/close are checked at every phase boundary.  The unchecked bound covers
+# the ten-statement manifest plus rollback, and the fingerprint timeout-control
+# block including a failing restore/rollback path.  A request that crosses the
+# aggregate server ceiling can therefore take at most this block plus the
+# response/fsync allowance to fail closed.
+OPEN_CLOSE_SERVER_CEILING_SECONDS = 20 * 60
+OPEN_CLOSE_MAX_UNCHECKED_BLOCK_SECONDS = 450
+OPEN_CLOSE_RESPONSE_ALLOWANCE_SECONDS = 60
+OPEN_CLOSE_IPC_TIMEOUT_SECONDS = 29 * 60.0
+_expect_timing_order = (
+    OPEN_CLOSE_SERVER_CEILING_SECONDS
+    + OPEN_CLOSE_MAX_UNCHECKED_BLOCK_SECONDS
+    + OPEN_CLOSE_RESPONSE_ALLOWANCE_SECONDS
+    < OPEN_CLOSE_IPC_TIMEOUT_SECONDS
+    < OPEN_CLOSE_REQUEST_TTL.total_seconds()
+)
+if not _expect_timing_order:  # pragma: no cover - import-time design invariant
+    raise RuntimeError("invalid P1 open/close timing bounds")
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _REQUEST_ID = re.compile(r"^[a-f0-9]{32}$")
@@ -371,7 +394,7 @@ class PostgreSQLFenceOperator:
         monotonic: Callable[[], float] | None = None,
         fence_window: timedelta = DEFAULT_FENCE_WINDOW,
         heartbeat_max_age_seconds: int = DEFAULT_HEARTBEAT_MAX_AGE_SECONDS,
-        fingerprint_ceiling_ms: int = 5_000,
+        fingerprint_ceiling_ms: int = DEFAULT_FINGERPRINT_CEILING_MS,
         approved_session_host: str = S277_SUPAVISOR_SESSION_HOST,
         verify_manifest_capture: Callable[[Mapping[str, Any], Mapping[str, Any]], None]
         | None = None,
@@ -569,8 +592,22 @@ class PostgreSQLFenceOperator:
         return normalized
 
     def _fingerprint(self) -> tuple[dict[str, Any], datetime, int]:
+        # The full physical/content hash is intentionally stronger and slower
+        # than the ordinary catalog/watch probes. Keep their 30s bound, but
+        # give this one audited statement enough room to finish. The explicit
+        # receipt ceiling remains lower than the server-side cancellation bound.
         started = self.monotonic()
+        _execute(
+            self.connection,
+            f"SET LOCAL statement_timeout = '{FINGERPRINT_STATEMENT_TIMEOUT_SECONDS}s';",
+        )
         rows = _rows(self.connection, FINGERPRINT_SQL)
+        _execute(
+            self.connection,
+            f"SET LOCAL statement_timeout = '{BASE_STATEMENT_TIMEOUT_SECONDS}s';",
+        )
+        # The exception covers the whole block, including both timeout-control
+        # round trips; no unmeasured work may age the ordinary heartbeat.
         elapsed_ms = max(0, round((self.monotonic() - started) * 1000))
         _expect(
             len(rows) == 1 and isinstance(rows[0].get("fingerprint"), Mapping),
@@ -600,12 +637,27 @@ class PostgreSQLFenceOperator:
         )
         return state
 
-    def _probe_open_state(self, state: _OpenState) -> tuple[datetime, list[dict[str, Any]]]:
+    def _assert_operation_ceiling(self, started: float, *, phase: str) -> None:
+        elapsed = max(0.0, self.monotonic() - started)
+        if elapsed > OPEN_CLOSE_SERVER_CEILING_SECONDS:
+            self._abort(
+                "HOLD_FENCE_OPERATION_CEILING",
+                f"{phase}:{round(elapsed * 1000)}ms",
+            )
+
+    def _probe_open_state(
+        self,
+        state: _OpenState,
+        *,
+        allow_stale_before_probe: bool = False,
+    ) -> tuple[datetime, list[dict[str, Any]]]:
         now = self._now()
         if now >= state.deadline_at:
             self._abort("HOLD_CORPUS_FENCE_LOST", "fence deadline reached")
-        if now - state.last_heartbeat_at > timedelta(
-            seconds=self.heartbeat_max_age_seconds
+        if (
+            not allow_stale_before_probe
+            and now - state.last_heartbeat_at
+            > timedelta(seconds=self.heartbeat_max_age_seconds)
         ):
             self._abort("HOLD_CORPUS_FENCE_LOST", "operator heartbeat stale")
         identity = self._identity()
@@ -618,8 +670,18 @@ class PostgreSQLFenceOperator:
         locks = self._lock_rows(state.backend_pid)
         self._waiters(state.backend_pid)
         checked_at = identity["checked_at"]
-        if checked_at > self._now() + timedelta(seconds=2):
+        verified_at = self._now()
+        if checked_at > verified_at + timedelta(seconds=2):
             self._abort("HOLD_CORPUS_FENCE_LOST", "database clock is in the future")
+        if (
+            verified_at >= state.deadline_at
+            or verified_at - checked_at
+            > timedelta(seconds=self.heartbeat_max_age_seconds)
+        ):
+            self._abort(
+                "HOLD_CORPUS_FENCE_LOST",
+                "post-probe heartbeat/deadline policy failed",
+            )
         state.last_heartbeat_at = checked_at
         return checked_at, locks
 
@@ -629,6 +691,7 @@ class PostgreSQLFenceOperator:
             "HOLD_FENCE_SESSION",
             "operator is single-use",
         )
+        operation_started = self.monotonic()
         try:
             requested_session_id = session_id or f"fence-{uuid4().hex}"
             _expect(
@@ -639,7 +702,10 @@ class PostgreSQLFenceOperator:
             _execute(self.connection, BEGIN_SQL)
             # ALTER ROLE settings are not loaded by SET LOCAL ROLE. Bound every
             # operator statement so a catalog probe cannot orphan the fence.
-            _execute(self.connection, "SET LOCAL statement_timeout = '30s';")
+            _execute(
+                self.connection,
+                f"SET LOCAL statement_timeout = '{BASE_STATEMENT_TIMEOUT_SECONDS}s';",
+            )
             # PostgreSQL recommends taking SHARE locks before the first SELECT
             # at stronger snapshot levels; doing it first is safe at READ COMMITTED too.
             for relation in self.relations:
@@ -651,7 +717,32 @@ class PostgreSQLFenceOperator:
             identity = self._identity()
             locks = self._lock_rows(identity["backend_pid"])
             waiters = self._waiters(identity["backend_pid"])
+            self._assert_operation_ceiling(operation_started, phase="open-pre-fingerprint")
             fingerprint, _taken_at, elapsed_ms = self._fingerprint()
+            # The fingerprint is the sole block allowed to age the ordinary
+            # heartbeat.  Re-prove the same transaction immediately after it.
+            fingerprint_identity = self._identity()
+            _expect(
+                fingerprint_identity["backend_pid"] == identity["backend_pid"]
+                and fingerprint_identity["txid"] == identity["txid"]
+                and fingerprint_identity["fence_owner"] == identity["fence_owner"],
+                "HOLD_CORPUS_FENCE_LOST",
+                "backend/transaction changed during initial fingerprint",
+            )
+            locks = self._lock_rows(identity["backend_pid"])
+            waiters = self._waiters(identity["backend_pid"])
+            identity = fingerprint_identity
+            fingerprint_verified_at = self._now()
+            _expect(
+                identity["checked_at"]
+                <= fingerprint_verified_at + timedelta(seconds=2)
+                and fingerprint_verified_at < opened_at + self.fence_window
+                and fingerprint_verified_at - identity["checked_at"]
+                <= timedelta(seconds=self.heartbeat_max_age_seconds),
+                "HOLD_CORPUS_FENCE_LOST",
+                "initial fingerprint postcheck exceeded deadline/heartbeat policy",
+            )
+            self._assert_operation_ceiling(operation_started, phase="open-fingerprint")
             pre_capture = _json_copy(
                 self.capture_manifest(
                     self.connection, "pre", identity["checked_at"]
@@ -659,6 +750,7 @@ class PostgreSQLFenceOperator:
                 field="pre live manifest",
             )
             self.verify_manifest_capture(self.manifest_contract, pre_capture)
+            self._assert_operation_ceiling(operation_started, phase="open-manifest")
             refreshed_identity = self._identity()
             _expect(
                 refreshed_identity["backend_pid"] == identity["backend_pid"]
@@ -670,10 +762,12 @@ class PostgreSQLFenceOperator:
             identity = refreshed_identity
             locks = self._lock_rows(identity["backend_pid"])
             waiters = self._waiters(identity["backend_pid"])
+            self._assert_operation_ceiling(operation_started, phase="open-postcheck")
             deadline_at = opened_at + self.fence_window
             verified_at = self._now()
             _expect(
-                identity["checked_at"] <= verified_at < deadline_at
+                identity["checked_at"] <= verified_at + timedelta(seconds=2)
+                and verified_at < deadline_at
                 and verified_at - identity["checked_at"]
                 <= timedelta(seconds=self.heartbeat_max_age_seconds),
                 "HOLD_CORPUS_FENCE_LOST",
@@ -837,23 +931,35 @@ class PostgreSQLFenceOperator:
 
     def close(self, *, session_id: str) -> dict[str, Any]:
         state = self._assert_open(session_id)
+        operation_started = self.monotonic()
+        committed = False
         try:
             checked_at, _locks = self._probe_open_state(state)
+            self._assert_operation_ceiling(operation_started, phase="close-pre-manifest")
             post_capture = _json_copy(
                 self.capture_manifest(self.connection, "post", checked_at),
                 field="post live manifest",
             )
             captures = [*state.manifest_captures, post_capture]
             self.verify_manifest_window(self.manifest_contract, captures)
+            self._assert_operation_ceiling(operation_started, phase="close-manifest")
+            # The manifest is not exempt from the 30s heartbeat policy.  If it
+            # aged the prior heartbeat, abort before entering the long hash.
+            self._probe_open_state(state)
+            self._assert_operation_ceiling(operation_started, phase="close-pre-fingerprint")
             final_fingerprint, fingerprint_at, _elapsed = self._fingerprint()
-            # Recheck physical evidence after the potentially expensive final
-            # fingerprint without moving the heartbeat past fingerprint_at.
-            locks = self._lock_rows(state.backend_pid)
-            self._waiters(state.backend_pid)
+            # A full fingerprint can legitimately outlive the ordinary 30s
+            # heartbeat age. The completed statement itself proves the same
+            # session remained alive; now re-prove backend/transaction identity
+            # and locks before committing the read-only fence.
+            final_checked_at, locks = self._probe_open_state(
+                state, allow_stale_before_probe=True
+            )
+            self._assert_operation_ceiling(operation_started, phase="close-fingerprint")
             if final_fingerprint != state.initial_fingerprint:
                 self._abort("HOLD_CORPUS_DRIFT", "final fingerprint differs")
-            closed_at = self._now()
-            if closed_at > state.deadline_at:
+            precommit_at = self._now()
+            if precommit_at >= state.deadline_at:
                 self._abort("HOLD_CORPUS_FENCE_LOST", "close after deadline")
             post_capture_sha256 = p1.sha256_json(post_capture)
             close_receipt = {
@@ -874,28 +980,51 @@ class PostgreSQLFenceOperator:
                 "initial_fingerprint": state.initial_fingerprint,
                 "final_fingerprint": final_fingerprint,
                 "verified_under_lock": True,
-                "last_heartbeat_at": _iso(checked_at),
+                "last_heartbeat_at": _iso(final_checked_at),
                 "final_fingerprint_taken_at": _iso(fingerprint_at),
                 "relations": list(self.relations),
                 "locks": locks,
                 "incompatible_waiters": [],
-                "closed_at": _iso(closed_at),
+                "closed_at": _iso(precommit_at),
             }
+            p1.verify_fence_close_receipt(
+                state.open_receipt, close_receipt, now=precommit_at
+            )
+            self._assert_operation_ceiling(operation_started, phase="close-commit")
+            self._commit_transaction()
+            committed = True
+            self.state = None
+            self.terminal_status = "CLOSED"
+            # `closed_at` means acknowledgement of COMMIT, not the last check
+            # before it.  Once COMMIT is confirmed we can no longer roll back;
+            # a late acknowledgement is a closed-but-HOLD terminal state.
+            closed_at = self._now()
+            if (
+                closed_at >= state.deadline_at
+                or closed_at - final_checked_at
+                > timedelta(seconds=self.heartbeat_max_age_seconds)
+            ):
+                _hold(
+                    "HOLD_FENCE_CLOSE_POST_COMMIT_FRESHNESS",
+                    "commit acknowledgement exceeded heartbeat/deadline policy",
+                )
+            close_receipt["closed_at"] = _iso(closed_at)
             p1.verify_fence_close_receipt(
                 state.open_receipt, close_receipt, now=closed_at
             )
-            self._commit_transaction()
-            self.state = None
-            self.terminal_status = "CLOSED"
             return {
                 "fence_close_receipt": close_receipt,
                 "live_manifest_post_capture": post_capture,
             }
         except FenceOperatorHold:
-            if self.state is not None:
+            if not committed and self.state is not None:
                 self._mark_aborted()
             raise
         except Exception as exc:
+            if committed:
+                raise FenceOperatorHold(
+                    "HOLD_FENCE_CLOSE_POST_COMMIT_FAILED", type(exc).__name__
+                ) from exc
             if self.state is not None:
                 self._mark_aborted()
             raise FenceOperatorHold(
@@ -996,6 +1125,19 @@ def load_json_object(path: Path) -> dict[str, Any]:
     return value
 
 
+def _request_ttl(action: str) -> timedelta:
+    _expect(
+        action in {"open", "watch", "close", "abort"},
+        "HOLD_FENCE_IPC_SHAPE",
+        "request action",
+    )
+    if action == "abort":
+        return ABORT_REQUEST_TTL
+    if action in {"open", "close"}:
+        return OPEN_CLOSE_REQUEST_TTL
+    return REQUEST_TTL
+
+
 def build_ipc_request(
     *,
     action: str,
@@ -1006,7 +1148,7 @@ def build_ipc_request(
     request_id: str | None = None,
 ) -> dict[str, Any]:
     created_at = _utc(now)
-    ttl = ABORT_REQUEST_TTL if action == "abort" else REQUEST_TTL
+    ttl = _request_ttl(action)
     unsigned = {
         "schema": REQUEST_SCHEMA,
         "request_id": request_id or uuid4().hex,
@@ -1020,7 +1162,12 @@ def build_ipc_request(
     return {**unsigned, "request_sha256": _sha256_json(unsigned)}
 
 
-def verify_ipc_request(request: Mapping[str, Any], *, now: datetime) -> dict[str, Any]:
+def verify_ipc_request(
+    request: Mapping[str, Any],
+    *,
+    now: datetime,
+    require_fresh: bool = True,
+) -> dict[str, Any]:
     expected = {
         "schema",
         "request_id",
@@ -1048,17 +1195,232 @@ def verify_ipc_request(request: Mapping[str, Any], *, now: datetime) -> dict[str
     created = _parse_time(request["created_at"], field="request created_at")
     expires = _parse_time(request["expires_at"], field="request expires_at")
     checked = _utc(now)
-    expected_ttl = (
-        ABORT_REQUEST_TTL if request.get("action") == "abort" else REQUEST_TTL
-    )
+    expected_ttl = _request_ttl(str(request.get("action")))
     _expect(
-        created <= checked < expires
-        and expires - created == expected_ttl
-        and checked - created <= expected_ttl,
+        expires - created == expected_ttl,
         "HOLD_FENCE_IPC_STALE",
         str(request["request_id"]),
     )
+    if require_fresh:
+        _expect(
+            created <= checked < expires and checked - created <= expected_ttl,
+            "HOLD_FENCE_IPC_STALE",
+            str(request["request_id"]),
+        )
     return dict(request)
+
+
+def _verify_ipc_response_envelope(
+    response: Mapping[str, Any], *, request: Mapping[str, Any]
+) -> dict[str, Any]:
+    expected = {
+        "schema",
+        "status",
+        "request_id",
+        "request_sha256",
+        "action",
+        "sequence",
+        "session_id",
+        "responded_at",
+        "payload",
+        "response_sha256",
+    }
+    _expect(set(response) == expected, "HOLD_FENCE_IPC_SHAPE", "response keys")
+    unsigned = {key: response[key] for key in expected - {"response_sha256"}}
+    _expect(
+        response.get("schema") == RESPONSE_SCHEMA
+        and response.get("status") in {"PASS", "HOLD"}
+        and response.get("request_id") == request.get("request_id")
+        and response.get("request_sha256") == request.get("request_sha256")
+        and response.get("action") == request.get("action")
+        and response.get("sequence") == request.get("sequence")
+        and response.get("session_id") == request.get("session_id")
+        and isinstance(response.get("payload"), Mapping)
+        and response.get("response_sha256") == _sha256_json(unsigned),
+        "HOLD_FENCE_IPC_BINDING",
+        "response request/hash binding",
+    )
+    _parse_time(response.get("responded_at"), field="response responded_at")
+    return dict(response)
+
+
+def _verify_terminal_journal(value: Mapping[str, Any]) -> dict[str, Any]:
+    expected = {
+        "schema",
+        "status",
+        "session_id",
+        "sequence",
+        "request_id",
+        "request_sha256",
+        "action",
+        "response",
+        "reason_code",
+        "transaction_end",
+        "recorded_at",
+        "journal_sha256",
+    }
+    _expect(
+        set(value) == expected,
+        "HOLD_FENCE_TERMINAL_JOURNAL",
+        "terminal journal keys",
+    )
+    unsigned = {key: value[key] for key in expected - {"journal_sha256"}}
+    status = value.get("status")
+    action = value.get("action")
+    session_id = value.get("session_id")
+    sequence = value.get("sequence")
+    _expect(
+        value.get("schema") == TERMINAL_JOURNAL_SCHEMA
+        and status in {"CLOSED", "ABORTED"}
+        and isinstance(session_id, str)
+        and _SESSION_ID.fullmatch(session_id) is not None
+        and isinstance(sequence, int)
+        and sequence >= 0
+        and value.get("journal_sha256") == _sha256_json(unsigned),
+        "HOLD_FENCE_TERMINAL_JOURNAL",
+        "terminal journal identity/hash",
+    )
+    _parse_time(value.get("recorded_at"), field="terminal journal recorded_at")
+    if action == "heartbeat":
+        _expect(
+            status == "ABORTED"
+            and value.get("request_id") is None
+            and value.get("request_sha256") is None
+            and value.get("response") is None,
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            "heartbeat terminal journal",
+        )
+    else:
+        _expect(
+            action in {"open", "watch", "close", "abort"}
+            and isinstance(value.get("request_id"), str)
+            and _REQUEST_ID.fullmatch(str(value.get("request_id"))) is not None
+            and isinstance(value.get("request_sha256"), str)
+            and _HEX64.fullmatch(str(value.get("request_sha256"))) is not None
+            and isinstance(value.get("response"), Mapping),
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            "request-bound terminal journal",
+        )
+        _verify_ipc_response_envelope(
+            value["response"],
+            request={
+                "request_id": value["request_id"],
+                "request_sha256": value["request_sha256"],
+                "action": action,
+                "sequence": sequence,
+                "session_id": session_id,
+            },
+        )
+    if status == "CLOSED":
+        response = value.get("response")
+        response_status = response.get("status") if isinstance(response, Mapping) else None
+        reason = value.get("reason_code")
+        _expect(
+            action == "close"
+            and value.get("transaction_end") == "COMMIT_CONFIRMED"
+            and (
+                (response_status == "PASS" and reason is None)
+                or (
+                    response_status == "HOLD"
+                    and isinstance(reason, str)
+                    and _SAFE_REASON_CODE.fullmatch(reason) is not None
+                    and response.get("payload", {}).get("code") == reason
+                )
+            ),
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            "closed terminal journal",
+        )
+    else:
+        reason = value.get("reason_code")
+        _expect(
+            value.get("transaction_end") == "ROLLBACK_CONFIRMED"
+            and isinstance(reason, str)
+            and _SAFE_REASON_CODE.fullmatch(reason) is not None,
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            "aborted terminal journal",
+        )
+        response = value.get("response")
+        if action == "abort" and isinstance(response, Mapping):
+            receipt = response.get("payload", {}).get("fence_abort_receipt")
+            _expect(
+                response.get("status") == "PASS"
+                and isinstance(receipt, Mapping)
+                and receipt.get("reason_code") == reason
+                and receipt.get("rollback_confirmed") is True,
+                "HOLD_FENCE_TERMINAL_JOURNAL",
+                "abort receipt binding",
+            )
+        elif isinstance(response, Mapping):
+            _expect(
+                response.get("status") == "HOLD"
+                and response.get("payload", {}).get("code") == reason,
+                "HOLD_FENCE_TERMINAL_JOURNAL",
+                "automatic abort reason binding",
+            )
+    return dict(value)
+
+
+def _terminal_matches_request(
+    terminal: Mapping[str, Any], request: Mapping[str, Any]
+) -> bool:
+    return (
+        terminal.get("request_id") == request.get("request_id")
+        and terminal.get("request_sha256") == request.get("request_sha256")
+        and terminal.get("action") == request.get("action")
+        and terminal.get("sequence") == request.get("sequence")
+        and terminal.get("session_id") == request.get("session_id")
+    )
+
+
+def _terminal_for_session(
+    events_dir: Path, session_id: str
+) -> dict[str, Any] | None:
+    records: list[dict[str, Any]] = []
+    for path in sorted(events_dir.glob("*.json")):
+        raw = load_json_object(path)
+        if raw.get("schema") != TERMINAL_JOURNAL_SCHEMA:
+            continue
+        record = _verify_terminal_journal(raw)
+        expected_name = (
+            f"{int(record['sequence']):06d}-"
+            f"{str(record['status']).lower()}-{record['session_id']}.json"
+        )
+        _expect(
+            path.name == expected_name,
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            path.name,
+        )
+        if record["session_id"] == session_id:
+            records.append(record)
+    _expect(
+        len(records) <= 1,
+        "HOLD_FENCE_TERMINAL_CONFLICT",
+        session_id,
+    )
+    return records[0] if records else None
+
+
+def _require_terminal_response_binding(
+    events_dir: Path,
+    *,
+    request: Mapping[str, Any],
+    response: Mapping[str, Any],
+) -> dict[str, Any]:
+    session_id = request.get("session_id")
+    _expect(
+        isinstance(session_id, str),
+        "HOLD_FENCE_TERMINAL_JOURNAL",
+        "terminal response session",
+    )
+    terminal = _terminal_for_session(events_dir, session_id)
+    _expect(
+        terminal is not None
+        and _terminal_matches_request(terminal, request)
+        and terminal.get("response") == response,
+        "HOLD_FENCE_TERMINAL_JOURNAL",
+        "terminal response lacks exact durable binding",
+    )
+    return terminal
 
 
 class FenceIpcServer:
@@ -1089,12 +1451,47 @@ class FenceIpcServer:
 
     def _refuse_ambiguous_recovery(self) -> None:
         events = sorted(self.events.glob("*.json"))
-        statuses: dict[str, str] = {}
+        opened: set[str] = set()
+        terminal: set[str] = set()
         for path in events:
             event = load_json_object(path)
-            if event.get("schema") == STATE_EVENT_SCHEMA:
-                statuses[str(event.get("session_id"))] = str(event.get("status"))
-        ambiguous = [session for session, status in statuses.items() if status == "OPEN"]
+            if event.get("schema") == TERMINAL_JOURNAL_SCHEMA:
+                record = _verify_terminal_journal(event)
+                session_id = str(record["session_id"])
+                _expect(
+                    session_id not in terminal,
+                    "HOLD_FENCE_TERMINAL_CONFLICT",
+                    session_id,
+                )
+                terminal.add(session_id)
+            elif event.get("schema") == STATE_EVENT_SCHEMA:
+                _expect(
+                    set(event)
+                    == {"schema", "status", "session_id", "sequence", "recorded_at"}
+                    and event.get("status") == "OPEN"
+                    and isinstance(event.get("session_id"), str)
+                    and _SESSION_ID.fullmatch(str(event.get("session_id"))) is not None
+                    and event.get("sequence") == 0,
+                    "HOLD_FENCE_IPC_REPLAY",
+                    path.name,
+                )
+                _parse_time(event.get("recorded_at"), field="open event recorded_at")
+                expected_name = f"000000-open-{event['session_id']}.json"
+                _expect(
+                    path.name == expected_name
+                    and str(event["session_id"]) not in opened,
+                    "HOLD_FENCE_IPC_REPLAY",
+                    path.name,
+                )
+                opened.add(str(event["session_id"]))
+            else:
+                _hold("HOLD_FENCE_IPC_REPLAY", path.name)
+        _expect(
+            not (terminal - opened),
+            "HOLD_FENCE_TERMINAL_CONFLICT",
+            "terminal journal lacks its OPEN marker",
+        )
+        ambiguous = sorted(opened - terminal)
         _expect(
             not ambiguous,
             "HOLD_FENCE_AMBIGUOUS_RECOVERY",
@@ -1102,6 +1499,24 @@ class FenceIpcServer:
         )
 
     def _event(self, status: str, session_id: str, sequence: int) -> None:
+        _expect(
+            status == "OPEN" and sequence == 0,
+            "HOLD_FENCE_IPC_REPLAY",
+            "only the non-terminal OPEN marker uses the state-event schema",
+        )
+        event_path = self.events / f"{sequence:06d}-{status.lower()}-{session_id}.json"
+        if event_path.exists():
+            existing = load_json_object(event_path)
+            _expect(
+                existing.get("schema") == STATE_EVENT_SCHEMA
+                and existing.get("status") == status
+                and existing.get("session_id") == session_id
+                and existing.get("sequence") == sequence,
+                "HOLD_FENCE_IPC_REPLAY",
+                event_path.name,
+            )
+            _parse_time(existing.get("recorded_at"), field="event recorded_at")
+            return
         value = {
             "schema": STATE_EVENT_SCHEMA,
             "status": status,
@@ -1109,9 +1524,57 @@ class FenceIpcServer:
             "sequence": sequence,
             "recorded_at": _iso(_utc(self.clock())),
         }
-        write_json_atomic_exclusive(
-            self.events / f"{sequence:06d}-{status.lower()}-{session_id}.json", value
+        write_json_atomic_exclusive(event_path, value)
+
+    def _terminal_journal(
+        self,
+        *,
+        status: str,
+        sequence: int,
+        action: str,
+        reason_code: str | None,
+        request: Mapping[str, Any] | None,
+        response: Mapping[str, Any] | None,
+    ) -> dict[str, Any]:
+        _expect(
+            self.session_id is not None,
+            "HOLD_FENCE_TERMINAL_JOURNAL",
+            "terminal session missing",
         )
+        existing = _terminal_for_session(self.events, self.session_id)
+        unsigned = {
+            "schema": TERMINAL_JOURNAL_SCHEMA,
+            "status": status,
+            "session_id": self.session_id,
+            "sequence": sequence,
+            "request_id": request.get("request_id") if request is not None else None,
+            "request_sha256": (
+                request.get("request_sha256") if request is not None else None
+            ),
+            "action": action,
+            "response": (
+                _json_copy(response, field="terminal response")
+                if response is not None
+                else None
+            ),
+            "reason_code": reason_code,
+            "transaction_end": (
+                "COMMIT_CONFIRMED" if status == "CLOSED" else "ROLLBACK_CONFIRMED"
+            ),
+            "recorded_at": _iso(_utc(self.clock())),
+        }
+        value = {**unsigned, "journal_sha256": _sha256_json(unsigned)}
+        verified = _verify_terminal_journal(value)
+        if existing is not None:
+            _expect(
+                existing == verified,
+                "HOLD_FENCE_TERMINAL_CONFLICT",
+                self.session_id,
+            )
+            return existing
+        path = self.events / f"{sequence:06d}-{status.lower()}-{self.session_id}.json"
+        write_json_atomic_exclusive(path, verified)
+        return verified
 
     def _response(
         self,
@@ -1206,7 +1669,6 @@ class FenceIpcServer:
                     "close open-receipt binding",
                 )
                 result = self.operator.close(session_id=self.session_id)
-                self._event("CLOSED", self.session_id, sequence)
             else:
                 payload = request["payload"]
                 _expect(
@@ -1220,12 +1682,17 @@ class FenceIpcServer:
                         reason_code=str(payload["reason_code"]),
                     )
                 }
-                self._event("ABORTED", self.session_id, sequence)
         self.next_sequence += 1
         return result
 
     def process_path(self, path: Path) -> dict[str, Any]:
-        request = verify_ipc_request(load_json_object(path), now=_utc(self.clock()))
+        raw_request = load_json_object(path)
+        # A response/journal is the durable result of an already-admitted
+        # request.  Its replay stays valid after admission TTL expiry; only a
+        # genuinely new dispatch must still be fresh.
+        request = verify_ipc_request(
+            raw_request, now=_utc(self.clock()), require_fresh=False
+        )
         _expect(
             path.name == f"{request['request_id']}.json",
             "HOLD_FENCE_IPC_PATH",
@@ -1233,27 +1700,63 @@ class FenceIpcServer:
         )
         response_path = self.responses / path.name
         if response_path.exists():
-            existing = load_json_object(response_path)
-            _expect(
-                existing.get("request_sha256") == request["request_sha256"],
-                "HOLD_FENCE_IPC_REPLAY",
-                path.name,
+            existing = _verify_ipc_response_envelope(
+                load_json_object(response_path), request=request
             )
+            if request["action"] in {"close", "abort"} and existing["status"] == "PASS":
+                _require_terminal_response_binding(
+                    self.events, request=request, response=existing
+                )
             return existing
+        request_session = request.get("session_id")
+        if isinstance(request_session, str):
+            terminal = _terminal_for_session(self.events, request_session)
+            if terminal is not None:
+                _expect(
+                    _terminal_matches_request(terminal, request)
+                    and isinstance(terminal.get("response"), Mapping),
+                    "HOLD_FENCE_TERMINAL_CONFLICT",
+                    request_session,
+                )
+                recovered = _verify_ipc_response_envelope(
+                    terminal["response"], request=request
+                )
+                write_json_atomic_exclusive(response_path, recovered)
+                return recovered
+        request = verify_ipc_request(
+            raw_request, now=_utc(self.clock()), require_fresh=True
+        )
         try:
             payload = self._dispatch(request)
             response = self._response(request, status="PASS", payload=payload)
         except FenceOperatorHold as exc:
-            if (
-                self.session_id is not None
-                and self.operator.terminal_status == "ABORTED"
-                and self.operator.rollback_confirmed
-            ):
-                self._event("ABORTED", self.session_id, int(request["sequence"]))
             response = self._response(
                 request,
                 status="HOLD",
                 payload={"code": exc.code, "detail": exc.detail},
+            )
+        if (
+            self.session_id is not None
+            and self.operator.terminal_status in {"CLOSED", "ABORTED"}
+        ):
+            terminal_status = str(self.operator.terminal_status)
+            reason_code: str | None = None
+            if terminal_status == "CLOSED" and response["status"] == "HOLD":
+                reason_code = str(response["payload"]["code"])
+            elif terminal_status == "ABORTED":
+                if request["action"] == "abort" and response["status"] == "PASS":
+                    reason_code = str(
+                        response["payload"]["fence_abort_receipt"]["reason_code"]
+                    )
+                else:
+                    reason_code = str(response["payload"]["code"])
+            self._terminal_journal(
+                status=terminal_status,
+                sequence=int(request["sequence"]),
+                action=str(request["action"]),
+                reason_code=reason_code,
+                request=request,
+                response=response,
             )
         write_json_atomic_exclusive(response_path, response)
         return response
@@ -1285,18 +1788,25 @@ class FenceIpcServer:
             "AMBIGUOUS",
         }:
             self.process_pending()
+            if self.operator.terminal_status in {"CLOSED", "ABORTED", "AMBIGUOUS"}:
+                break
             if self.session_id is not None:
                 elapsed = time.monotonic() - self._last_heartbeat_monotonic
                 if elapsed >= self.heartbeat_interval_seconds:
                     try:
                         self.operator.heartbeat(self.session_id)
-                    except FenceOperatorHold:
+                    except FenceOperatorHold as exc:
                         if (
                             self.operator.terminal_status == "ABORTED"
                             and self.operator.rollback_confirmed
                         ):
-                            self._event(
-                                "ABORTED", self.session_id, self.next_sequence
+                            self._terminal_journal(
+                                status="ABORTED",
+                                sequence=self.next_sequence,
+                                action="heartbeat",
+                                reason_code=exc.code,
+                                request=None,
+                                response=None,
                             )
                         raise
                     self._last_heartbeat_monotonic = time.monotonic()
@@ -1306,36 +1816,13 @@ class FenceIpcServer:
 def verify_ipc_response(
     response: Mapping[str, Any], *, request: Mapping[str, Any]
 ) -> dict[str, Any]:
-    expected = {
-        "schema",
-        "status",
-        "request_id",
-        "request_sha256",
-        "action",
-        "sequence",
-        "session_id",
-        "responded_at",
-        "payload",
-        "response_sha256",
-    }
-    _expect(set(response) == expected, "HOLD_FENCE_IPC_SHAPE", "response keys")
-    unsigned = {key: response[key] for key in expected - {"response_sha256"}}
+    verified = _verify_ipc_response_envelope(response, request=request)
     _expect(
-        response.get("schema") == RESPONSE_SCHEMA
-        and response.get("request_id") == request.get("request_id")
-        and response.get("request_sha256") == request.get("request_sha256")
-        and response.get("action") == request.get("action")
-        and response.get("sequence") == request.get("sequence")
-        and response.get("response_sha256") == _sha256_json(unsigned),
-        "HOLD_FENCE_IPC_BINDING",
-        "response request/hash binding",
+        verified.get("status") == "PASS",
+        str(verified.get("payload", {}).get("code", "HOLD_FENCE_OPERATOR")),
+        str(verified.get("payload", {}).get("detail", "operator hold")),
     )
-    _expect(
-        response.get("status") == "PASS",
-        str(response.get("payload", {}).get("code", "HOLD_FENCE_OPERATOR")),
-        str(response.get("payload", {}).get("detail", "operator hold")),
-    )
-    return dict(response)
+    return verified
 
 
 class FenceIpcClient:
@@ -1347,19 +1834,62 @@ class FenceIpcClient:
         ipc_dir: Path,
         clock: Callable[[], datetime] | None = None,
         timeout_seconds: float = 10.0,
+        open_close_timeout_seconds: float = OPEN_CLOSE_IPC_TIMEOUT_SECONDS,
         pump: Callable[[], Any] | None = None,
     ) -> None:
         self.root = ipc_dir.resolve()
         self.requests = self.root / "requests"
         self.responses = self.root / "responses"
-        self.requests.mkdir(parents=True, exist_ok=True)
-        self.responses.mkdir(parents=True, exist_ok=True)
+        self.events = self.root / "events"
+        for path in (self.requests, self.responses, self.events):
+            path.mkdir(parents=True, exist_ok=True)
         self.clock = clock or (lambda: datetime.now(timezone.utc))
         self.timeout_seconds = timeout_seconds
+        _expect(
+            open_close_timeout_seconds > 0,
+            "HOLD_FENCE_IPC_TIMEOUT",
+            "open_close_timeout_seconds",
+        )
+        self.open_close_timeout_seconds = open_close_timeout_seconds
         self.pump = pump
         self.sequence = 0
         self.session_id: str | None = None
         self.open_receipt: Mapping[str, Any] | None = None
+
+    def _terminal_record(self) -> dict[str, Any] | None:
+        if self.session_id is None:
+            return None
+        return _terminal_for_session(self.events, self.session_id)
+
+    def confirmed_terminal_status(self) -> str | None:
+        record = self._terminal_record()
+        return str(record["status"]) if record is not None else None
+
+    @staticmethod
+    def _recovered_abort_payload(record: Mapping[str, Any]) -> dict[str, Any]:
+        _expect(
+            record.get("status") == "ABORTED"
+            and record.get("transaction_end") == "ROLLBACK_CONFIRMED",
+            "HOLD_FENCE_ABORT_UNCONFIRMED",
+            "operator terminal journal does not prove rollback",
+        )
+        response = record.get("response")
+        if (
+            record.get("action") == "abort"
+            and isinstance(response, Mapping)
+            and response.get("status") == "PASS"
+        ):
+            return dict(response["payload"])
+        return {
+            "fence_abort_receipt": {
+                "schema": ABORT_RECEIPT_SCHEMA,
+                "status": "ABORTED_CONFIRMED",
+                "session_id": record["session_id"],
+                "reason_code": record["reason_code"],
+                "rollback_confirmed": True,
+                "recovered_from_terminal_journal_sha256": record["journal_sha256"],
+            }
+        }
 
     def _exchange(
         self,
@@ -1368,6 +1898,12 @@ class FenceIpcClient:
         *,
         timeout_seconds: float | None = None,
     ) -> dict[str, Any]:
+        terminal = self._terminal_record()
+        if terminal is not None:
+            _hold(
+                f"HOLD_FENCE_ALREADY_{terminal['status']}",
+                str(terminal["journal_sha256"]),
+            )
         request = build_ipc_request(
             action=action,
             sequence=self.sequence,
@@ -1387,12 +1923,26 @@ class FenceIpcClient:
         while not response_path.exists():
             if self.pump is not None:
                 self.pump()
+            terminal = self._terminal_record()
+            if terminal is not None:
+                _expect(
+                    _terminal_matches_request(terminal, request)
+                    and isinstance(terminal.get("response"), Mapping),
+                    "HOLD_FENCE_TERMINAL_CONFLICT",
+                    str(self.session_id),
+                )
+                return verify_ipc_response(
+                    terminal["response"], request=request
+                )
             if time.monotonic() >= deadline:
                 _hold("HOLD_FENCE_IPC_TIMEOUT", str(request["request_id"]))
             time.sleep(0.01)
-        response = verify_ipc_response(
-            load_json_object(response_path), request=request
-        )
+        raw_response = load_json_object(response_path)
+        response = verify_ipc_response(raw_response, request=request)
+        if action in {"close", "abort"}:
+            _require_terminal_response_binding(
+                self.events, request=request, response=raw_response
+            )
         if action == "open":
             session_id = response.get("session_id")
             _expect(
@@ -1421,23 +1971,11 @@ class FenceIpcClient:
                 "release_config_sha256": release_config_sha256,
                 "live_manifest_contract_sha256": live_manifest_contract_sha256,
             },
+            timeout_seconds=self.open_close_timeout_seconds,
         )
         result = dict(response["payload"])
         self.open_receipt = result["fence_open_receipt"]
         return result
-
-    def _confirmed_abort_event(self) -> Mapping[str, Any] | None:
-        if self.session_id is None:
-            return None
-        for path in sorted((self.root / "events").glob("*.json")):
-            event = load_json_object(path)
-            if (
-                event.get("schema") == STATE_EVENT_SCHEMA
-                and event.get("status") == "ABORTED"
-                and event.get("session_id") == self.session_id
-            ):
-                return event
-        return None
 
     def abort_pending_open(self, *, reason_code: str) -> dict[str, Any]:
         """Abort a preallocated session whose open response was not confirmed."""
@@ -1452,18 +1990,14 @@ class FenceIpcClient:
             "HOLD_FENCE_ABORT_REASON",
             "reason_code must be a safe stable code",
         )
-        event = self._confirmed_abort_event()
-        if event is not None:
-            return {
-                "fence_abort_receipt": {
-                    "schema": ABORT_RECEIPT_SCHEMA,
-                    "status": "ABORTED_CONFIRMED",
-                    "session_id": self.session_id,
-                    "reason_code": reason_code,
-                    "rollback_confirmed": True,
-                    "recovered_from_operator_event_sha256": p1.sha256_json(event),
-                }
-            }
+        terminal = self._terminal_record()
+        if terminal is not None:
+            _expect(
+                terminal.get("status") == "ABORTED",
+                "HOLD_FENCE_ALREADY_CLOSED",
+                str(terminal["journal_sha256"]),
+            )
+            return self._recovered_abort_payload(terminal)
         try:
             response = self._exchange(
                 "abort",
@@ -1472,19 +2006,15 @@ class FenceIpcClient:
             )
             return dict(response["payload"])
         except FenceOperatorHold:
-            event = self._confirmed_abort_event()
-            if event is None:
+            terminal = self._terminal_record()
+            if terminal is None:
                 raise
-            return {
-                "fence_abort_receipt": {
-                    "schema": ABORT_RECEIPT_SCHEMA,
-                    "status": "ABORTED_CONFIRMED",
-                    "session_id": self.session_id,
-                    "reason_code": reason_code,
-                    "rollback_confirmed": True,
-                    "recovered_from_operator_event_sha256": p1.sha256_json(event),
-                }
-            }
+            _expect(
+                terminal.get("status") == "ABORTED",
+                "HOLD_FENCE_ALREADY_CLOSED",
+                str(terminal["journal_sha256"]),
+            )
+            return self._recovered_abort_payload(terminal)
 
     def watch(
         self, *, phase: str, call_key: str, run_genesis: Mapping[str, Any]
@@ -1505,6 +2035,7 @@ class FenceIpcClient:
         response = self._exchange(
             "close",
             {"fence_open_receipt_sha256": p1.sha256_json(self.open_receipt)},
+            timeout_seconds=self.open_close_timeout_seconds,
         )
         return dict(response["payload"])
 
@@ -1514,8 +2045,32 @@ class FenceIpcClient:
             "HOLD_FENCE_SESSION",
             "not open",
         )
-        response = self._exchange("abort", {"reason_code": reason_code})
-        return dict(response["payload"])
+        _expect(
+            _SAFE_REASON_CODE.fullmatch(reason_code) is not None,
+            "HOLD_FENCE_ABORT_REASON",
+            "reason_code must be a safe stable code",
+        )
+        terminal = self._terminal_record()
+        if terminal is not None:
+            _expect(
+                terminal.get("status") == "ABORTED",
+                "HOLD_FENCE_ALREADY_CLOSED",
+                str(terminal["journal_sha256"]),
+            )
+            return self._recovered_abort_payload(terminal)
+        try:
+            response = self._exchange("abort", {"reason_code": reason_code})
+            return dict(response["payload"])
+        except FenceOperatorHold:
+            terminal = self._terminal_record()
+            if terminal is None:
+                raise
+            _expect(
+                terminal.get("status") == "ABORTED",
+                "HOLD_FENCE_ALREADY_CLOSED",
+                str(terminal["journal_sha256"]),
+            )
+            return self._recovered_abort_payload(terminal)
 
 
 @dataclass(frozen=True)

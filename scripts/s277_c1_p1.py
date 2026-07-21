@@ -92,6 +92,8 @@ BOOTSTRAP_PROFILE = "off"
 SEMANTIC_PROJECTION_SCHEMA = "s277_c1_semantic_effective_config_v1"
 P1_TTL = timedelta(hours=6)
 MAX_FENCE_WINDOW = timedelta(minutes=45)
+FINGERPRINT_CEILING_MS = 120_000
+FENCE_CLOCK_SKEW = timedelta(seconds=2)
 MAX_RAILWAY_SNAPSHOT_AGE = timedelta(minutes=30)
 MAX_RAILWAY_SNAPSHOT_FUTURE_SKEW = timedelta(seconds=60)
 HARD_CAP_USD = Decimal("10.00")
@@ -1649,9 +1651,9 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
         and fence.get("persistent_session_postgres_not_transaction_pooler")
         is True
         and fence.get("operator_ipc_boundary")
-        == "credential_free_append_only_single_use"
+        == "credential_free_append_only_single_use_with_hashed_terminal_journal"
         and fence.get("abort_protocol")
-        == "explicit_ipc_rollback_confirmed_or_ambiguous"
+        == "exact_terminal_response_recovery_or_confirmed_rollback_or_ambiguous"
         and fence.get("postgrest_guard")
         == {
             "principal": "p1_readonly",
@@ -1665,13 +1667,54 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
         == [
             "BEGIN_READ_COMMITTED_READ_ONLY",
             "SHARE_LOCKS_CANONICAL_ORDER_NOWAIT",
-            "LIVE_MANIFEST_PRE",
             "INITIAL_FINGERPRINT",
+            "POST_INITIAL_FINGERPRINT_SESSION_RECHECK",
+            "LIVE_MANIFEST_PRE",
+            "POST_PRE_MANIFEST_SESSION_RECHECK",
             "27_REPLICAS_WITH_LIVE_MANIFEST_WATCH",
             "LIVE_MANIFEST_POST",
+            "FRESH_HEARTBEAT_RECHECK_BEFORE_FINAL_FINGERPRINT",
             "FINAL_FINGERPRINT_UNDER_LOCK",
+            "POST_FINAL_FINGERPRINT_SESSION_LOCK_WAITER_RECHECK",
             "COMMIT",
         ]
+        and fence.get("clock_skew_tolerance_seconds") == 2
+        and fence.get("fingerprint_ceiling_ms") == 120000
+        and fence.get("fingerprint_statement_timeout_ms") == 130000
+        and fence.get("open_close_timing_bounds")
+        == {
+            "server_operation_ceiling_seconds": 1200,
+            "max_unchecked_block_seconds": 450,
+            "response_allowance_seconds": 60,
+            "client_timeout_seconds": 1740,
+            "request_ttl_seconds": 1800,
+            "strict_order": "server_ceiling+max_unchecked_block+response_allowance<client_timeout<request_ttl",
+        }
+        and fence.get("terminal_journal")
+        == {
+            "schema": "s277_c1_p1_fence_terminal_journal_v1",
+            "request_id_hash_action_sequence_session_bound": True,
+            "exact_response_and_hash_persisted_before_response_file": True,
+            "expired_exact_replay_allowed_without_redispatch": True,
+            "closed_aborted_conflict_rejected": True,
+            "abort_reason_preserved": True,
+            "abort_after_observed_closed_forbidden": True,
+        }
+        and isinstance(fence.get("close_invariants"), Mapping)
+        and fence["close_invariants"].get(
+            "fresh_heartbeat_required_before_final_fingerprint"
+        )
+        is True
+        and fence["close_invariants"].get(
+            "fingerprint_is_only_heartbeat_age_exemption_and_is_bounded"
+        )
+        is True
+        and fence["close_invariants"].get(
+            "fresh_session_identity_locks_and_waiters_recheck_after_final_fingerprint"
+        )
+        is True
+        and fence["close_invariants"].get("postcheck_heartbeat_fresh_at_close")
+        is True
         and fence.get("base_relations_exact") == list(BASE_FENCE_RELATIONS)
         and fence.get("base_rpc_allowlist_exact") == list(BASE_RPC_ALLOWLIST)
         and fence.get("base_rest_get_allowlist_exact")
@@ -3569,7 +3612,13 @@ def verify_fingerprint_receipt(
     _require(receipt.get("function_definition_sha256") == EXPECTED_FUNCTION_DEFINITION_SHA256, "HOLD_FINGERPRINT_RECEIPT", "function hash")
     elapsed = receipt.get("elapsed_ms")
     ceiling = receipt.get("ceiling_ms")
-    _require(isinstance(elapsed, int) and isinstance(ceiling, int) and 0 <= elapsed <= ceiling, "HOLD_FINGERPRINT_CEILING", "elapsed")
+    _require(
+        isinstance(elapsed, int)
+        and ceiling == FINGERPRINT_CEILING_MS
+        and 0 <= elapsed <= ceiling,
+        "HOLD_FINGERPRINT_CEILING",
+        "elapsed/ceiling",
+    )
     _require(bool(receipt.get("fingerprint")), "HOLD_FINGERPRINT_RECEIPT", "fingerprint")
     _require(_parse_time(receipt.get("expires_at"), field="expires_at") > now, "HOLD_FINGERPRINT_EXPIRED", "expired")
     return dict(receipt)
@@ -3599,7 +3648,13 @@ def verify_fence_open_receipt(
     opened = _parse_time(receipt.get("opened_at"), field="opened_at")
     deadline = _parse_time(receipt.get("deadline_at"), field="deadline_at")
     heartbeat = _parse_time(receipt.get("last_heartbeat_at"), field="last_heartbeat_at")
-    _require(opened <= heartbeat <= now < deadline, "HOLD_CORPUS_FENCE_LOST", "fence time")
+    _require(
+        opened <= heartbeat + FENCE_CLOCK_SKEW
+        and heartbeat <= now + FENCE_CLOCK_SKEW
+        and now < deadline,
+        "HOLD_CORPUS_FENCE_LOST",
+        "fence time",
+    )
     _require(deadline - opened <= MAX_FENCE_WINDOW, "HOLD_FENCE_RECEIPT", "deadline >45m")
     heartbeat_max_age = receipt.get("heartbeat_max_age_seconds")
     _require(
@@ -3721,7 +3776,8 @@ def verify_fence_watch_receipt(
     _require(
         isinstance(max_age, int)
         and 0 < max_age <= 300
-        and heartbeat <= checked <= now
+        and heartbeat <= checked
+        and checked <= now + FENCE_CLOCK_SKEW
         and now - checked <= timedelta(seconds=2)
         and checked - heartbeat <= timedelta(seconds=max_age)
         and now - heartbeat <= timedelta(seconds=max_age)
@@ -3906,7 +3962,10 @@ def verify_fence_close_receipt(
         "heartbeat policy missing",
     )
     _require(
-        opened_at <= heartbeat_at <= fingerprint_at <= closed_at <= deadline_at
+        opened_at <= fingerprint_at + FENCE_CLOCK_SKEW
+        and fingerprint_at <= heartbeat_at
+        and heartbeat_at <= closed_at + FENCE_CLOCK_SKEW
+        and closed_at <= deadline_at
         and closed_at <= now,
         "HOLD_FENCE_CLOSE",
         "final checks are outside the open fence window",

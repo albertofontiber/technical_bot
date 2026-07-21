@@ -584,8 +584,8 @@ corpus_fence:
   product_cli_stop_line: null
   runner_identity: p1_readonly
   persistent_session_postgres_not_transaction_pooler: true
-  operator_ipc_boundary: credential_free_append_only_single_use
-  abort_protocol: explicit_ipc_rollback_confirmed_or_ambiguous
+  operator_ipc_boundary: credential_free_append_only_single_use_with_hashed_terminal_journal
+  abort_protocol: exact_terminal_response_recovery_or_confirmed_rollback_or_ambiguous
   postgrest_guard:
     principal: p1_readonly
     identity_rpc_bound_to_exact_jwt_sha256: true
@@ -596,14 +596,36 @@ corpus_fence:
   protocol:
   - BEGIN_READ_COMMITTED_READ_ONLY
   - SHARE_LOCKS_CANONICAL_ORDER_NOWAIT
-  - LIVE_MANIFEST_PRE
   - INITIAL_FINGERPRINT
+  - POST_INITIAL_FINGERPRINT_SESSION_RECHECK
+  - LIVE_MANIFEST_PRE
+  - POST_PRE_MANIFEST_SESSION_RECHECK
   - 27_REPLICAS_WITH_LIVE_MANIFEST_WATCH
   - LIVE_MANIFEST_POST
+  - FRESH_HEARTBEAT_RECHECK_BEFORE_FINAL_FINGERPRINT
   - FINAL_FINGERPRINT_UNDER_LOCK
+  - POST_FINAL_FINGERPRINT_SESSION_LOCK_WAITER_RECHECK
   - COMMIT
   max_window_minutes: 45
   heartbeat_max_age_seconds: 30
+  clock_skew_tolerance_seconds: 2
+  fingerprint_ceiling_ms: 120000
+  fingerprint_statement_timeout_ms: 130000
+  open_close_timing_bounds:
+    server_operation_ceiling_seconds: 1200
+    max_unchecked_block_seconds: 450
+    response_allowance_seconds: 60
+    client_timeout_seconds: 1740
+    request_ttl_seconds: 1800
+    strict_order: server_ceiling+max_unchecked_block+response_allowance<client_timeout<request_ttl
+  terminal_journal:
+    schema: s277_c1_p1_fence_terminal_journal_v1
+    request_id_hash_action_sequence_session_bound: true
+    exact_response_and_hash_persisted_before_response_file: true
+    expired_exact_replay_allowed_without_redispatch: true
+    closed_aborted_conflict_rejected: true
+    abort_reason_preserved: true
+    abort_after_observed_closed_forbidden: true
   lock_mode: ShareLock
   locks_granted_required: true
   relations_and_locks_order: canonical_exact_same_open_close
@@ -677,7 +699,10 @@ corpus_fence:
     verified_under_lock: true
     final_fingerprint_equals_initial: true
     final_fingerprint_taken_before_or_at_closed_at: true
-    heartbeat_fresh_at_final_fingerprint: true
+    fresh_heartbeat_required_before_final_fingerprint: true
+    fingerprint_is_only_heartbeat_age_exemption_and_is_bounded: true
+    fresh_session_identity_locks_and_waiters_recheck_after_final_fingerprint: true
+    postcheck_heartbeat_fresh_at_close: true
     same_backend_txid_owner_relations_locks_and_manifests_as_open: true
     post_manifest_capture_hash_bound_to_close_receipt: true
     run_completed_before_close: true

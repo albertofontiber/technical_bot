@@ -130,7 +130,7 @@ def _fingerprint(release: dict) -> dict:
         "function_audit_sha256_lf": p1.EXPECTED_FUNCTION_AUDIT_SHA256_LF,
         "function_definition_sha256": p1.EXPECTED_FUNCTION_DEFINITION_SHA256,
         "elapsed_ms": 1_000,
-        "ceiling_ms": 5_000,
+        "ceiling_ms": p1.FINGERPRINT_CEILING_MS,
         "fingerprint": {"digest": "f" * 64, "row_count": 123},
         "expires_at": _iso(NOW + timedelta(hours=1)),
     }
@@ -1280,6 +1280,9 @@ def test_fence_close_rejects_after_deadline_stale_heartbeat_or_lost_lock():
 
     closed_at = NOW + timedelta(minutes=20)
     stale = _closed_fence(opened, closed_at)
+    stale["final_fingerprint_taken_at"] = _iso(
+        closed_at - timedelta(seconds=32)
+    )
     stale["last_heartbeat_at"] = _iso(closed_at - timedelta(seconds=31))
     with pytest.raises(p1.P1Error) as heartbeat:
         p1.verify_fence_close_receipt(

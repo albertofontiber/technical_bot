@@ -108,6 +108,9 @@ class FakeFenceClient:
             }
         }
 
+    def confirmed_terminal_status(self):
+        return self.state.get("terminal_status")
+
 
 class FakeRunner:
     def __init__(self, state: dict[str, object], result: dict[str, object]) -> None:
@@ -443,6 +446,26 @@ def test_post_capture_failure_after_hold_aborts_instead_of_leaving_fence_open(
     assert state["abort_calls"] == 1
     assert state.get("close_calls", 0) == 0
     assert (artifact / "live_control" / "fence_abort_receipt.json").is_file()
+
+
+def test_confirmed_closed_journal_prevents_contradictory_abort(tmp_path: Path) -> None:
+    args, deps, state, _secrets, _artifact, client, _fresh = _fixture(tmp_path)
+
+    class LostCloseReceipt(RuntimeError):
+        code = "HOLD_FENCE_CLOSED_RESPONSE_MISSING"
+
+    def close_without_response():
+        state["close_calls"] = 1
+        state["terminal_status"] = "CLOSED"
+        raise LostCloseReceipt("safe")
+
+    client.close = close_without_response
+    with pytest.raises(p1.P1Error) as caught:
+        execute.run_live(args, dependencies=deps)
+
+    assert caught.value.code == "HOLD_FENCE_CLOSED_RESPONSE_MISSING"
+    assert state["close_calls"] == 1
+    assert state.get("abort_calls", 0) == 0
 
 
 def test_runtime_output_paths_inside_checkout_are_rejected_before_secret_load(

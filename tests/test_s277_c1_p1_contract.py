@@ -411,25 +411,50 @@ def test_prereg_rebuilds_and_seals_questions_models_and_27_replica_order():
     assert fence["product_cli_stop_line"] is None
     assert fence["persistent_session_postgres_not_transaction_pooler"] is True
     assert fence["operator_ipc_boundary"] == (
-        "credential_free_append_only_single_use"
+        "credential_free_append_only_single_use_with_hashed_terminal_journal"
     )
     assert fence["abort_protocol"] == (
-        "explicit_ipc_rollback_confirmed_or_ambiguous"
+        "exact_terminal_response_recovery_or_confirmed_rollback_or_ambiguous"
     )
     assert fence["postgrest_guard"]["principal"] == "p1_readonly"
     assert fence["postgrest_guard"]["write_methods_forbidden"] is True
     assert fence["protocol"] == [
         "BEGIN_READ_COMMITTED_READ_ONLY",
         "SHARE_LOCKS_CANONICAL_ORDER_NOWAIT",
-        "LIVE_MANIFEST_PRE",
         "INITIAL_FINGERPRINT",
+        "POST_INITIAL_FINGERPRINT_SESSION_RECHECK",
+        "LIVE_MANIFEST_PRE",
+        "POST_PRE_MANIFEST_SESSION_RECHECK",
         "27_REPLICAS_WITH_LIVE_MANIFEST_WATCH",
         "LIVE_MANIFEST_POST",
+        "FRESH_HEARTBEAT_RECHECK_BEFORE_FINAL_FINGERPRINT",
         "FINAL_FINGERPRINT_UNDER_LOCK",
+        "POST_FINAL_FINGERPRINT_SESSION_LOCK_WAITER_RECHECK",
         "COMMIT",
     ]
     assert fence["close_invariants"]["verified_under_lock"] is True
-    assert fence["close_invariants"]["heartbeat_fresh_at_final_fingerprint"] is True
+    assert fence["clock_skew_tolerance_seconds"] == 2
+    assert fence["fingerprint_ceiling_ms"] == 120000
+    assert fence["fingerprint_statement_timeout_ms"] == 130000
+    timing = fence["open_close_timing_bounds"]
+    assert (
+        timing["server_operation_ceiling_seconds"]
+        + timing["max_unchecked_block_seconds"]
+        + timing["response_allowance_seconds"]
+        < timing["client_timeout_seconds"]
+        < timing["request_ttl_seconds"]
+    )
+    assert fence["close_invariants"][
+        "fresh_heartbeat_required_before_final_fingerprint"
+    ] is True
+    assert fence["close_invariants"][
+        "fingerprint_is_only_heartbeat_age_exemption_and_is_bounded"
+    ] is True
+    assert fence["close_invariants"][
+        "fresh_session_identity_locks_and_waiters_recheck_after_final_fingerprint"
+    ] is True
+    assert fence["close_invariants"]["postcheck_heartbeat_fresh_at_close"] is True
+    assert fence["terminal_journal"]["abort_after_observed_closed_forbidden"] is True
     assert "final_fingerprint_taken_at" in fence["close_receipt_required_fields"]
     assert "live_manifest_post_capture_sha256" in fence[
         "close_receipt_required_fields"
@@ -668,7 +693,7 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
         "function_audit_sha256_lf": p1.EXPECTED_FUNCTION_AUDIT_SHA256_LF,
         "function_definition_sha256": p1.EXPECTED_FUNCTION_DEFINITION_SHA256,
         "elapsed_ms": 1000,
-        "ceiling_ms": 5000,
+        "ceiling_ms": p1.FINGERPRINT_CEILING_MS,
         "fingerprint": {"digest": "f" * 64, "row_count": 123},
         "expires_at": (now + timedelta(hours=1)).isoformat(),
     }

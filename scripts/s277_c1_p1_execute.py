@@ -878,14 +878,19 @@ def _run_live_impl(
         )
     except BaseException as exc:
         if open_attempted and not terminal:
-            _abort_open_fence(
-                client=client,
-                cause=exc,
-                paths=paths,
-                secrets=secrets,
-                dependencies=deps,
-                pending_open=not open_confirmed,
+            terminal_reader = getattr(client, "confirmed_terminal_status", None)
+            already_closed = (
+                callable(terminal_reader) and terminal_reader() == "CLOSED"
             )
+            if not already_closed:
+                _abort_open_fence(
+                    client=client,
+                    cause=exc,
+                    paths=paths,
+                    secrets=secrets,
+                    dependencies=deps,
+                    pending_open=not open_confirmed,
+                )
         raise _as_p1_error(exc, default_code="HOLD_LIVE_EXECUTION_FAILED") from exc
 
 
