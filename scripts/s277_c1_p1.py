@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import ast
 from collections.abc import Callable, Mapping, Sequence
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
@@ -858,6 +859,137 @@ def derive_release_states(
         "target_semantic_config_sha256": sha256_json(target_semantic),
         "raw_allowlisted_env": bootstrap,
     }
+
+
+_TARGET_RUNTIME_MODULE_PREFIXES = (
+    "src.config",
+    "src.rag.",
+    "src.bot.response_formatter",
+    "src.reingest.embed",
+)
+
+
+def target_runtime_safe_variable_names() -> frozenset[str]:
+    """Return the canonical safe env inventory without importing product code."""
+
+    from scripts import s277_c1_p1_release_config as release_config
+
+    names = frozenset(release_config.SAFE_VARIABLE_NAMES)
+    _require(
+        "COVERAGE_RELEASE_PROFILE" in names
+        and set(PROFILE_OWNED_LEGACY_FLAGS) <= names,
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "safe target environment inventory is invalid",
+    )
+    return names
+
+
+def target_runtime_environment(
+    release_config: Mapping[str, Any],
+) -> dict[str, str]:
+    """Materialize the exact non-secret target environment sealed by release config."""
+
+    derived = release_config.get("derived_config")
+    _require(
+        isinstance(derived, Mapping),
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "release derived config is absent",
+    )
+    raw = derived.get("raw_allowlisted_env")
+    expected = derived.get("target_semantic_config")
+    safe_names = target_runtime_safe_variable_names()
+    _require(
+        isinstance(raw, Mapping)
+        and raw.get("COVERAGE_RELEASE_PROFILE") == BOOTSTRAP_PROFILE
+        and all(
+            isinstance(key, str) and isinstance(value, str)
+            for key, value in raw.items()
+        )
+        and set(raw) | set(PROFILE_OWNED_LEGACY_FLAGS) == safe_names
+        and not set(raw) & set(PROFILE_OWNED_LEGACY_FLAGS)
+        and isinstance(expected, Mapping),
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "sealed target environment is invalid",
+    )
+    target = dict(raw)
+    target["COVERAGE_RELEASE_PROFILE"] = PROFILE
+    for name in PROFILE_OWNED_LEGACY_FLAGS:
+        target.pop(name, None)
+    target_effective = dict(target)
+    target_effective.update(
+        {name: "on" for name in PROFILE_OWNED_LEGACY_FLAGS}
+    )
+    _require(
+        all(target.get(name) == "off" for name in TARGET_OFF_FLAGS)
+        and sha256_json(target_effective)
+        == derived.get("target_effective_config_sha256")
+        and derive_semantic_config(target, release_profile=PROFILE) == expected,
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "sealed target environment does not derive the target semantic config",
+    )
+    target["PYTHON_DOTENV_DISABLED"] = "1"
+    return target
+
+
+def verify_target_runtime_environment(
+    release_config: Mapping[str, Any],
+    *,
+    environ: Mapping[str, str] | None = None,
+) -> dict[str, str]:
+    """Verify the current process environment before any product import or paid call."""
+
+    expected = target_runtime_environment(release_config)
+    observed = os.environ if environ is None else environ
+    sealed_names = set(target_runtime_safe_variable_names()) | {
+        "PYTHON_DOTENV_DISABLED"
+    }
+    _require(
+        all(observed.get(name) == value for name, value in expected.items())
+        and not any(
+            name in observed
+            for name in sealed_names - set(expected)
+        ),
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "process environment differs from the sealed target",
+    )
+    return expected
+
+
+@contextmanager
+def sealed_target_runtime_environment(release_config: Mapping[str, Any]):
+    """Install and restore the target env before importing config-bearing product code."""
+
+    imported = sorted(
+        name
+        for name in sys.modules
+        if any(
+            name == prefix or (prefix.endswith(".") and name.startswith(prefix))
+            for prefix in _TARGET_RUNTIME_MODULE_PREFIXES
+        )
+    )
+    _require(
+        not imported,
+        "HOLD_PRODUCT_RUNTIME_IMPORT_ORDER",
+        "config-bearing product modules were imported before target activation",
+    )
+    target = target_runtime_environment(release_config)
+    sealed_names = set(target_runtime_safe_variable_names()) | {
+        "PYTHON_DOTENV_DISABLED"
+    }
+    missing = object()
+    previous = {name: os.environ.get(name, missing) for name in sealed_names}
+    try:
+        for name in sealed_names:
+            os.environ.pop(name, None)
+        os.environ.update(target)
+        verify_target_runtime_environment(release_config)
+        yield target
+    finally:
+        for name, value in previous.items():
+            if value is missing:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = str(value)
 
 
 @dataclass(frozen=True)
@@ -6530,9 +6662,21 @@ def _cli_fence_close(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _cli_run_product(args: argparse.Namespace) -> dict[str, Any]:
-    from scripts.s277_c1_p1_execute import run_live
+    _require(
+        bool(args.execute),
+        "HOLD_EXECUTE_OPT_IN_REQUIRED",
+        "--execute is required before reading credentials or sealed inputs",
+    )
+    _require(
+        bool(args.confirm_paid),
+        "HOLD_PAID_OPT_IN_REQUIRED",
+        "--confirm-paid is required before reading credentials or sealed inputs",
+    )
+    release = load_json_object(Path(args.release_config))
+    with sealed_target_runtime_environment(release):
+        from scripts.s277_c1_p1_execute import run_live
 
-    return dict(run_live(args))
+        return dict(run_live(args))
 
 
 def main(argv: Sequence[str] | None = None) -> int:

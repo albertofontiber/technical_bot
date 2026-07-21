@@ -735,6 +735,146 @@ def test_bootstrap_patch_is_pure_exact_and_derives_distinct_effective_states():
     )
 
 
+def _runtime_release_config() -> dict:
+    from scripts import s277_c1_p1_release_config as release_config
+
+    release = _release_config()
+    snapshot = release["railway"]["live_snapshot"]
+    for name, value in {
+        **release_config.REQUIRED_EXACT_VALUES,
+        **release_config.SAFE_DEFAULTS,
+    }.items():
+        snapshot.setdefault(name, value)
+    release["railway"]["railway_live_snapshot_sha256"] = p1.sha256_json(
+        snapshot
+    )
+    release["derived_config"] = p1.derive_release_states(
+        snapshot,
+        release["railway"]["planned_bootstrap_patch"],
+    )
+    return release
+
+
+def test_target_runtime_environment_is_exact_and_hash_bound():
+    release = _runtime_release_config()
+    target = p1.target_runtime_environment(release)
+
+    assert target["COVERAGE_RELEASE_PROFILE"] == p1.PROFILE
+    assert target["PYTHON_DOTENV_DISABLED"] == "1"
+    assert not set(p1.PROFILE_OWNED_LEGACY_FLAGS) & set(target)
+    effective = {
+        key: value
+        for key, value in target.items()
+        if key != "PYTHON_DOTENV_DISABLED"
+    }
+    effective.update(
+        {name: "on" for name in p1.PROFILE_OWNED_LEGACY_FLAGS}
+    )
+    assert p1.sha256_json(effective) == release["derived_config"][
+        "target_effective_config_sha256"
+    ]
+    assert p1.verify_target_runtime_environment(
+        release, environ=target
+    ) == target
+
+    contaminated = dict(target)
+    contaminated[p1.PROFILE_OWNED_LEGACY_FLAGS[0]] = "on"
+    with pytest.raises(p1.P1Error) as caught:
+        p1.verify_target_runtime_environment(release, environ=contaminated)
+    assert caught.value.code == "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT"
+
+
+def test_target_runtime_environment_rejects_incomplete_safe_inventory():
+    release = _runtime_release_config()
+    release["derived_config"]["raw_allowlisted_env"].pop(
+        "ANSWER_OBLIGATION_PLANNER"
+    )
+
+    with pytest.raises(p1.P1Error) as caught:
+        p1.target_runtime_environment(release)
+
+    assert caught.value.code == "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT"
+
+
+def test_clean_subprocess_loads_real_product_under_sealed_target_and_restores_env(
+    tmp_path: Path,
+):
+    release = _runtime_release_config()
+    release_path = tmp_path / "release.json"
+    release_path.write_text(json.dumps(release), encoding="utf-8")
+    child = r'''
+import json, os, sys
+from pathlib import Path
+sys.path.insert(0, str(Path.cwd()))
+from scripts import s277_c1_p1 as p1
+release = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+before = {
+    "ANSWER_OBLIGATION_PLANNER": os.environ.get("ANSWER_OBLIGATION_PLANNER"),
+    "POST_RERANK_COVERAGE": os.environ.get("POST_RERANK_COVERAGE"),
+}
+with p1.sealed_target_runtime_environment(release):
+    from scripts import s277_c1_p1_product_adapter as product
+    product.load_product_runtime()
+    observed = product.observe_product_effective_config()
+    inside = {
+        "profile": os.environ.get("COVERAGE_RELEASE_PROFILE"),
+        "planner": os.environ.get("ANSWER_OBLIGATION_PLANNER"),
+        "legacy_present": any(
+            name in os.environ for name in p1.PROFILE_OWNED_LEGACY_FLAGS
+        ),
+    }
+after = {
+    "ANSWER_OBLIGATION_PLANNER": os.environ.get("ANSWER_OBLIGATION_PLANNER"),
+    "POST_RERANK_COVERAGE": os.environ.get("POST_RERANK_COVERAGE"),
+}
+try:
+    with p1.sealed_target_runtime_environment(release):
+        pass
+except p1.P1Error as exc:
+    import_order_code = exc.code
+else:
+    import_order_code = None
+print(json.dumps({
+    "observed": observed,
+    "inside": inside,
+    "before": before,
+    "after": after,
+    "import_order_code": import_order_code,
+}, sort_keys=True))
+'''
+    environment = os.environ.copy()
+    environment.update(
+        {
+            "ANSWER_OBLIGATION_PLANNER": "on",
+            "POST_RERANK_COVERAGE": "on",
+            "COVERAGE_RELEASE_PROFILE": "legacy",
+            "PYTHONIOENCODING": "utf-8",
+        }
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", child, str(release_path)],
+        cwd=p1.ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        timeout=60,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    receipt = json.loads(completed.stdout.splitlines()[-1])
+    assert receipt["observed"] == release["derived_config"][
+        "target_semantic_config"
+    ]
+    assert receipt["inside"] == {
+        "profile": p1.PROFILE,
+        "planner": "off",
+        "legacy_present": False,
+    }
+    assert receipt["after"] == receipt["before"]
+    assert receipt["import_order_code"] == "HOLD_PRODUCT_RUNTIME_IMPORT_ORDER"
+
+
 def test_visual_assets_registry_on_is_preserved_and_hash_bound():
     release = _release_config()
     snapshot = release["railway"]["live_snapshot"]

@@ -137,6 +137,9 @@ class ExecutionDependencies:
     runtime_inspector: Callable[[], p1.RuntimeIdentity] = p1.inspect_runtime_identity
     release_verifier: Callable[..., None] = _verify_release
     prereg_verifier: Callable[[Mapping[str, Any]], None] = _verify_prereg
+    target_environment_verifier: Callable[..., Mapping[str, str]] = (
+        p1.verify_target_runtime_environment
+    )
     fact_contract_loader: Callable[[str | Path], Mapping[str, Any]] = (
         scorer.load_fact_contract
     )
@@ -612,6 +615,7 @@ def _run_live_impl(
     runtime = deps.runtime_inspector()
     deps.release_verifier(sealed_release, runtime, observed_now)
     deps.prereg_verifier(prereg)
+    deps.target_environment_verifier(sealed_release)
 
     fact_path = deps.fact_contract_path_resolver(prereg)
     fact_contract = deps.fact_contract_loader(fact_path)
@@ -759,6 +763,9 @@ def _run_live_impl(
             postgrest_receipt_source=lambda: guard.receipts,
             postgrest_manifest_sha256=str(fence_pre_capture["manifest_sha256"]),
             visual_assets_registry=visual_mode,
+            expected_effective_config=sealed_release["derived_config"][
+                "target_semantic_config"
+            ],
         )
         artifacts = deps.artifact_store_factory(paths.root)
         journal = deps.journal_factory(

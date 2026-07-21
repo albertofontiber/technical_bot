@@ -196,7 +196,7 @@ def _headers(token: str) -> dict[str, str]:
 
 
 def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypatch) -> None:
-    from src.rag import retriever, visual_assets
+    from src.rag import retriever, structural_neighbor_shadow, visual_assets
 
     responses = [
         _Response(body=b'[{"id":"chunk-1"}]', request_id="get-1"),
@@ -210,6 +210,9 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
         "retriever_httpx": retriever.httpx,
         "retriever_url": retriever.SUPABASE_URL,
         "retriever_key": retriever.SUPABASE_SERVICE_KEY,
+        "structural_httpx": structural_neighbor_shadow.httpx,
+        "structural_url": structural_neighbor_shadow.SUPABASE_URL,
+        "structural_key": structural_neighbor_shadow.SUPABASE_SERVICE_KEY,
         "visual_httpx": visual_assets.httpx,
         "visual_url": visual_assets.SUPABASE_URL,
         "visual_key": visual_assets.SUPABASE_SERVICE_KEY,
@@ -217,11 +220,22 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
     }
 
     with instance:
+        assert retriever.httpx is structural_neighbor_shadow.httpx
         assert retriever.httpx is visual_assets.httpx
         assert retriever.httpx is not httpx
         assert httpx.Client is originals["global_client"]
-        assert retriever.SUPABASE_URL == visual_assets.SUPABASE_URL == SUPABASE_URL
-        assert retriever.SUPABASE_SERVICE_KEY == visual_assets.SUPABASE_SERVICE_KEY == token
+        assert (
+            retriever.SUPABASE_URL
+            == structural_neighbor_shadow.SUPABASE_URL
+            == visual_assets.SUPABASE_URL
+            == SUPABASE_URL
+        )
+        assert (
+            retriever.SUPABASE_SERVICE_KEY
+            == structural_neighbor_shadow.SUPABASE_SERVICE_KEY
+            == visual_assets.SUPABASE_SERVICE_KEY
+            == token
+        )
         with retriever.httpx.Client(timeout=5.0) as client:
             client.get(
                 f"{SUPABASE_URL}/rest/v1/chunks_v2?select=id&content=eq.secret-query",
@@ -264,12 +278,70 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
     assert retriever.httpx is originals["retriever_httpx"]
     assert retriever.SUPABASE_URL == originals["retriever_url"]
     assert retriever.SUPABASE_SERVICE_KEY == originals["retriever_key"]
+    assert structural_neighbor_shadow.httpx is originals["structural_httpx"]
+    assert structural_neighbor_shadow.SUPABASE_URL == originals["structural_url"]
+    assert (
+        structural_neighbor_shadow.SUPABASE_SERVICE_KEY
+        == originals["structural_key"]
+    )
     assert visual_assets.httpx is originals["visual_httpx"]
     assert visual_assets.SUPABASE_URL == originals["visual_url"]
     assert visual_assets.SUPABASE_SERVICE_KEY == originals["visual_key"]
     assert httpx.Client is originals["global_client"]
     assert all(row["follow_redirects"] is False for row in factory.client_kwargs)
     assert all(row["trust_env"] is False for row in factory.client_kwargs)
+
+
+def test_real_structural_fetch_uses_scoped_guard_and_readonly_jwt(monkeypatch) -> None:
+    from src.rag import structural_neighbor_shadow
+
+    extraction = "e" * 64
+    hydrated = {
+        "id": "seed-1",
+        "document_id": "document-1",
+        "extraction_sha256": extraction,
+        "chunk_index": 7,
+        "content": "seed",
+    }
+    neighbor = {
+        **hydrated,
+        "id": "neighbor-1",
+        "chunk_index": 8,
+        "content": "neighbor",
+    }
+    responses = [
+        _Response(body=json.dumps([hydrated]).encode(), request_id="hydrate-1"),
+        _Response(body=json.dumps([neighbor]).encode(), request_id="neighbor-1"),
+    ]
+    instance, factory, token = _new_guard(
+        monkeypatch,
+        visual="off",
+        factory=_FakeFactory(responses),
+    )
+
+    with instance:
+        seeds, neighbors, trace = (
+            structural_neighbor_shadow.fetch_structural_neighbor_rows(
+                [{"id": "seed-1"}],
+                max_gap=1,
+                max_candidates=4,
+                max_http_requests=2,
+                timeout_seconds=5.0,
+            )
+        )
+
+    assert [row["id"] for row in seeds] == ["seed-1"]
+    assert [row["id"] for row in neighbors] == ["neighbor-1"]
+    assert trace == {"http_requests": 2, "rows_read": 2}
+    assert [(row["method"], row["path"]) for row in instance.receipts] == [
+        ("GET", "/rest/v1/chunks_v2"),
+        ("GET", "/rest/v1/chunks_v2"),
+    ]
+    assert len(factory.calls) == 2
+    for call in factory.calls:
+        sent_headers = dict(call["kwargs"]["headers"])
+        assert sent_headers["authorization"] == f"Bearer {token}"
+        assert sent_headers["apikey"] == SUPABASE_KEY
 
 
 @pytest.mark.parametrize(
@@ -416,9 +488,14 @@ def test_redirect_response_and_non_2xx_are_receipted_then_rejected(monkeypatch) 
 
 
 def test_globals_restore_on_product_exception_and_lock_is_non_reentrant(monkeypatch) -> None:
-    from src.rag import retriever, visual_assets
+    from src.rag import retriever, structural_neighbor_shadow, visual_assets
 
     original_retriever = (retriever.httpx, retriever.SUPABASE_URL, retriever.SUPABASE_SERVICE_KEY)
+    original_structural = (
+        structural_neighbor_shadow.httpx,
+        structural_neighbor_shadow.SUPABASE_URL,
+        structural_neighbor_shadow.SUPABASE_SERVICE_KEY,
+    )
     original_visual = (visual_assets.httpx, visual_assets.SUPABASE_URL, visual_assets.SUPABASE_SERVICE_KEY)
     first, _, _ = _new_guard(monkeypatch)
     second, _, _ = _new_guard(monkeypatch)
@@ -431,6 +508,11 @@ def test_globals_restore_on_product_exception_and_lock_is_non_reentrant(monkeypa
             raise RuntimeError("product failed")
 
     assert (retriever.httpx, retriever.SUPABASE_URL, retriever.SUPABASE_SERVICE_KEY) == original_retriever
+    assert (
+        structural_neighbor_shadow.httpx,
+        structural_neighbor_shadow.SUPABASE_URL,
+        structural_neighbor_shadow.SUPABASE_SERVICE_KEY,
+    ) == original_structural
     assert (visual_assets.httpx, visual_assets.SUPABASE_URL, visual_assets.SUPABASE_SERVICE_KEY) == original_visual
     with second:
         assert second.active

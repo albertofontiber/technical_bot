@@ -275,6 +275,14 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         state["guard_credentials_bound"] = True
         return guard
 
+    def verify_target_environment(value):
+        state["target_environment_verified"] = True
+        return {}
+
+    def load_fact_contract(path):
+        assert state.get("target_environment_verified") is True
+        return {"contract": "safe"}
+
     deps = execute.ExecutionDependencies(
         clock=lambda: NOW,
         dotenv_loader=load_credentials,
@@ -282,7 +290,8 @@ def _fixture(tmp_path: Path, *, run_status: str = "HOLD"):
         runtime_inspector=lambda: SimpleNamespace(runtime="safe"),
         release_verifier=lambda *args: None,
         prereg_verifier=lambda value: None,
-        fact_contract_loader=lambda path: {"contract": "safe"},
+        target_environment_verifier=verify_target_environment,
+        fact_contract_loader=load_fact_contract,
         fact_contract_path_resolver=lambda value: tmp_path / "fact.json",
         input_contract_builder=lambda value: {"hp017": {"safe": True}},
         stored_control_scorer=lambda **kwargs: {"status": "REVIEW"},
@@ -365,6 +374,7 @@ def test_live_window_closes_for_every_runner_result_and_never_finalizes(
     assert state["railway_token"] == secrets["RAILWAY_TOKEN"]
     assert state["identity_credentials_bound"] is True
     assert state["guard_credentials_bound"] is True
+    assert state["target_environment_verified"] is True
     assert (artifact / "live_control" / "fence_close_receipt.json").is_file()
     assert Path(args.postgrest_post_snapshot).is_file()
 

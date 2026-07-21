@@ -669,7 +669,7 @@ class _GuardedClient:
 
 
 class _ScopedHttpxProxy:
-    """The only httpx surface made visible to the two patched product modules."""
+    """The only httpx surface made visible to the patched product modules."""
 
     def __init__(self, guard: "P1PostgrestGuard") -> None:
         self._guard = guard
@@ -773,13 +773,16 @@ class P1PostgrestGuard:
         self._lock_owned = True
         try:
             self._validate_live_credential()
-            from src.rag import retriever, visual_assets
+            from src.rag import retriever, structural_neighbor_shadow, visual_assets
 
             proxy = _ScopedHttpxProxy(self)
             patches = (
                 (retriever, "httpx", proxy),
                 (retriever, "SUPABASE_URL", self._supabase_url),
                 (retriever, "SUPABASE_SERVICE_KEY", self._jwt),
+                (structural_neighbor_shadow, "httpx", proxy),
+                (structural_neighbor_shadow, "SUPABASE_URL", self._supabase_url),
+                (structural_neighbor_shadow, "SUPABASE_SERVICE_KEY", self._jwt),
                 (visual_assets, "httpx", proxy),
                 (visual_assets, "SUPABASE_URL", self._supabase_url),
                 (visual_assets, "SUPABASE_SERVICE_KEY", self._jwt),

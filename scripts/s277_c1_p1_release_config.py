@@ -141,6 +141,11 @@ EXPECTED_DYNAMIC_ENV_SITES = frozenset(
         ("scripts/s270_etapa2_probe.py", "_assert_pipeline_config", "key"),
         ("scripts/s277_c1_p1.py", "_offline_extract_models", "name"),
         (
+            "scripts/s277_c1_p1.py",
+            "sealed_target_runtime_environment",
+            "name",
+        ),
+        (
             "scripts/s277_c1_p1_fence_operator.py",
             "_cli_serve",
             "args.database_url_env",

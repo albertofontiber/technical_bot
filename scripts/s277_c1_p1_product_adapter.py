@@ -35,6 +35,7 @@ from datetime import datetime, timezone
 import hashlib
 from importlib.metadata import PackageNotFoundError, version as package_version
 import json
+import os
 import threading
 from types import SimpleNamespace
 from typing import Any, Protocol
@@ -536,6 +537,67 @@ class ProductRuntime:
         }
 
 
+def observe_product_effective_config(
+    *,
+    environ: Mapping[str, str] | None = None,
+    config_module: Any | None = None,
+) -> dict[str, Any]:
+    """Project the config actually loaded by the product runtime."""
+
+    if config_module is None:
+        from src import config as config_module
+
+    policy = getattr(config_module, "COVERAGE_RELEASE_POLICY", None)
+    _require(
+        policy is not None and callable(getattr(policy, "safe_snapshot", None)),
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "loaded coverage release policy is unavailable",
+    )
+    policy_snapshot = policy.safe_snapshot()
+    profile = policy_snapshot.get("profile")
+    env = os.environ if environ is None else environ
+    observed = p1.derive_semantic_config(env, release_profile=profile)
+    observed["coverage"] = {
+        "release_profile": profile,
+        "post_rerank_coverage": policy_snapshot.get("post_rerank_coverage"),
+        "structural_neighbor_coverage": policy_snapshot.get(
+            "structural_neighbor_coverage"
+        ),
+        "mandatory_callout": policy_snapshot.get(
+            "coverage_mandatory_callout"
+        ),
+        "mandatory_verb_trigger": policy_snapshot.get(
+            "mp_mandatory_verb_trigger"
+        ),
+    }
+    _require(
+        config_module.CHUNKS_TABLE == observed["corpus"]["chunks_table"]
+        and config_module.RETRIEVAL_TOP_K
+        == observed["retrieval"]["retrieval_top_k"]
+        and config_module.RERANK_TOP_K == observed["retrieval"]["rerank_top_k"]
+        and config_module.RERANKER_BACKEND
+        == observed["retrieval"]["reranker_backend"]
+        and config_module.RERANK_PREVIEW_CHARS
+        == observed["retrieval"]["rerank_preview_chars"]
+        and config_module.MERGE_STRATEGY
+        == observed["retrieval"]["merge_strategy"]
+        and config_module.LLM_MODEL == observed["generation"]["model"]
+        and config_module.LLM_MAX_TOKENS
+        == observed["generation"]["max_tokens"]
+        and config_module.MUST_PRESERVE_CONTRACT
+        is observed["generation"]["must_preserve_contract"]
+        and config_module.VISUAL_ASSETS_REGISTRY
+        is observed["generation"]["visual_assets_registry"]
+        and config_module.POST_RERANK_COVERAGE
+        is observed["coverage"]["post_rerank_coverage"]
+        and config_module.STRUCTURAL_NEIGHBOR_COVERAGE
+        is observed["coverage"]["structural_neighbor_coverage"],
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "loaded product constants differ from the sealed target environment",
+    )
+    return observed
+
+
 def load_product_runtime() -> ProductRuntime:
     """Load the real serving functions lazily, after the sealed env is active."""
 
@@ -1035,6 +1097,7 @@ class ProductReplicaAdapter:
         postgrest_receipt_source: Callable[[], Sequence[Mapping[str, Any]]],
         postgrest_manifest_sha256: str,
         visual_assets_registry: str,
+        expected_effective_config: Mapping[str, Any] | None = None,
         runtime: ProductRuntime | None = None,
     ):
         _require(
@@ -1049,7 +1112,30 @@ class ProductReplicaAdapter:
         self.postgrest_receipt_source = postgrest_receipt_source
         self.postgrest_manifest_sha256 = postgrest_manifest_sha256
         self.visual_assets_registry = visual_assets_registry
-        self.runtime = runtime or load_product_runtime()
+        if runtime is None:
+            _require(
+                isinstance(expected_effective_config, Mapping),
+                "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+                "real product runtime requires a sealed expected config",
+            )
+            self.runtime = load_product_runtime()
+            observed = observe_product_effective_config()
+            _require(
+                observed == expected_effective_config,
+                "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+                "loaded product config differs from run genesis target",
+            )
+            self.observed_effective_config: dict[str, Any] | None = observed
+        else:
+            self.runtime = runtime
+            self.observed_effective_config = (
+                _json_copy(
+                    expected_effective_config,
+                    field="expected effective config",
+                )
+                if isinstance(expected_effective_config, Mapping)
+                else None
+            )
 
     def execute_replica(
         self, replica: p1.Replica, boundary: ProductBoundary
@@ -1084,10 +1170,19 @@ class ProductReplicaAdapter:
         target_visual = boundary.run_genesis.get("target_semantic_config", {}).get(
             "generation", {}
         ).get("visual_assets_registry")
+        effective = self.observed_effective_config or boundary.run_genesis.get(
+            "target_semantic_config"
+        )
         _require(
             target_visual is (self.visual_assets_registry == "on"),
             "HOLD_POSTGREST_GUARD_NOT_BOUND",
             f"visual mode differs from run genesis for {replica.key}",
+        )
+        _require(
+            isinstance(effective, Mapping)
+            and effective == boundary.run_genesis.get("target_semantic_config"),
+            "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+            replica.key,
         )
         postgrest_before = self.postgrest_receipt_source()
         _require(
@@ -1106,6 +1201,9 @@ class ProductReplicaAdapter:
             "generation_calls": 0,
             "structural_fetch_calls": [],
             "visual_lookups": [],
+            "observed_effective_config": _json_copy(
+                effective, field="observed effective config"
+            ),
         }
 
         def retrieve(query, **kwargs):
@@ -1346,7 +1444,7 @@ class ProductReplicaAdapter:
         generation,
         render_parts,
     ) -> dict[str, Any]:
-        effective = boundary.run_genesis["target_semantic_config"]
+        effective = capture["observed_effective_config"]
         effective_sha = p1.sha256_json(effective)
         embedding = router.results["embedding"].payload
         rerank_response = router.results["rerank"].payload
