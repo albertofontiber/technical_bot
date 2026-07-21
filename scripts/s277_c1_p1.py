@@ -2012,7 +2012,10 @@ class CallCostSpec:
 
     def observed_cost(self, usage: Mapping[str, Any]) -> Decimal:
         for key, value in usage.items():
-            if "cache" in str(key).casefold() and value not in (None, 0, "0"):
+            if (
+                "cache" in str(key).casefold()
+                and not _cache_usage_value_is_explicit_zero(value)
+            ):
                 raise P1Error("NO_GO_CACHE_USAGE_DRIFT", f"cache usage in {self.call_key}")
         raw_input = usage.get("input_tokens", usage.get("total_tokens"))
         raw_output = usage.get("output_tokens", 0)
@@ -2030,6 +2033,31 @@ class CallCostSpec:
             Decimal(raw_input) * self.input_usd_per_mtok
             + Decimal(raw_output) * self.output_usd_per_mtok
         ) / Decimal(1_000_000)
+
+
+def _cache_usage_value_is_explicit_zero(value: Any) -> bool:
+    """Accept provider cache counters only when every reported leaf is zero.
+
+    Anthropic SDK 0.97 exposes both the legacy scalar counters and a nested
+    ``cache_creation`` breakdown, even when prompt caching is unused.  The
+    nested object itself is truthy, so it must be evaluated by its leaves;
+    unknown non-scalar leaf shapes remain fail-closed.
+    """
+
+    if value is None:
+        return True
+    if isinstance(value, bool):
+        return value is False
+    if isinstance(value, int):
+        return value == 0
+    if isinstance(value, str):
+        return value == "0"
+    if isinstance(value, Mapping):
+        return all(
+            _cache_usage_value_is_explicit_zero(nested)
+            for nested in value.values()
+        )
+    return False
 
 
 class BudgetPlan:

@@ -1330,6 +1330,48 @@ def _one_spec(key: str) -> p1.CallCostSpec:
     )
 
 
+def test_observed_cost_accepts_anthropic_nested_explicit_zero_cache_counters():
+    spec = _one_spec("hp017:r1:rerank")
+    usage = {
+        "input_tokens": 10,
+        "output_tokens": 2,
+        "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0,
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+    }
+
+    assert spec.observed_cost(usage) == Decimal("0.00006")
+
+
+@pytest.mark.parametrize(
+    "cache_value",
+    (
+        1,
+        -1,
+        "1",
+        {"ephemeral_1h_input_tokens": 1, "ephemeral_5m_input_tokens": 0},
+        {"unexpected": "unknown"},
+        [],
+    ),
+)
+def test_observed_cost_rejects_nonzero_or_unknown_cache_usage(cache_value):
+    spec = _one_spec("hp017:r1:rerank")
+
+    with pytest.raises(p1.P1Error) as caught:
+        spec.observed_cost(
+            {
+                "input_tokens": 10,
+                "output_tokens": 2,
+                "cache_creation": cache_value,
+            }
+        )
+
+    assert caught.value.code == "NO_GO_CACHE_USAGE_DRIFT"
+
+
 def test_static_budget_rejects_more_than_ten_dollars():
     bundle, _, _ = _bundle()
     specs = list(bundle.budget.specs.values())
