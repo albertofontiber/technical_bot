@@ -122,6 +122,19 @@ SOURCE_BOUND_RENDERER_CURRENT = SOURCE_BOUND_RENDERER_S124_V1
 SOURCE_BOUND_RENDERER_S122 = SOURCE_BOUND_RENDERER_CURRENT
 ANSWER_CONFLICT_SCHEMA_S122 = "answer_conflict_s122_v1"
 ANSWER_CONFLICT_GUARD_SCHEMA_V1 = "answer_conflict_guard_v1"
+# Unresolved source conflicts are safety state, not retrieval state.  Keeping
+# the small initial registry in reviewed code ensures a missed source side can
+# suppress an unsafe operational choice without fabricating a citation.  The
+# tuple shape is intentionally data-like so it can move to a versioned external
+# registry when the population grows.
+KNOWN_ANSWER_CONFLICTS = (
+    {
+        "registry_id": "pearl_cause_effect_menu_7_vs_8_v1",
+        "product_scopes": frozenset({"pearl"}),
+        "operation": "cause_effect_menu_path",
+        "values": ("7", "8"),
+    },
+)
 S122_ENFORCEABLE_KINDS = frozenset(
     {
         "cause_effect_output_selector",
@@ -1576,9 +1589,28 @@ def build_answer_conflicts(
                     source_end=match.end(),
                 )
             )
-    values = tuple(sorted({row.value for row in menu_rows}, key=int))
-    if len(values) < 2:
+    observed_values = tuple(sorted({row.value for row in menu_rows}, key=int))
+    aligned_product_scopes = {
+        model_normkey(row.product_scope) for row in menu_rows if row.product_scope
+    }
+    effective_product_scopes = set(target_models) or aligned_product_scopes
+    known_conflict = next(
+        (
+            row
+            for row in KNOWN_ANSWER_CONFLICTS
+            if row["operation"] == "cause_effect_menu_path"
+            and bool(effective_product_scopes & row["product_scopes"])
+        ),
+        None,
+    )
+    if len(observed_values) < 2 and known_conflict is None:
         return []
+    values = (
+        tuple(known_conflict["values"])
+        if known_conflict is not None
+        else observed_values
+    )
+    menu_rows = [row for row in menu_rows if row.value in values]
 
     # The query model is the authority for the semantic scope.  Falling back to
     # aligned product labels remains deterministic for queries whose catalog
@@ -1604,6 +1636,9 @@ def build_answer_conflicts(
         "operation": "cause_effect_menu_path",
         "values": values,
         "evidence": [row.to_dict() for row in evidence],
+        "registry_id": (
+            known_conflict["registry_id"] if known_conflict is not None else None
+        ),
     }
     conflict_id = "conf_" + hashlib.sha256(
         json.dumps(
@@ -1959,6 +1994,7 @@ def _conflict_disclosure_has_global_contradiction(answer: str) -> bool:
         r"en\s+realidad|actually|correccion|correction)\b"
     )
     coreference = r"\b(?:ambas?|ambos?|both|same|igual\w*|coincid\w*|difference)\b"
+    explicit_coreference = r"\b(?:ambas?|ambos?|both)\b"
     for record in _relation_records(answer, include_adjacent_pairs=False):
         plain = _plain_relation_record(record)
         if re.search(subject, plain) and re.search(relation_language, plain):
@@ -1974,7 +2010,7 @@ def _conflict_disclosure_has_global_contradiction(answer: str) -> bool:
             return True
         if (
             len(plain) <= 120
-            and re.search(coreference, plain)
+            and re.search(explicit_coreference, plain)
             and re.search(relation_language, plain)
         ):
             return True
@@ -2666,6 +2702,12 @@ def _render_conflict_notice(
     conflict: AnswerConflict,
     renderer_contract_version: str = SOURCE_BOUND_RENDERER_CURRENT,
 ) -> str:
+    operation_labels = {
+        "cause_effect_menu_path": "el número de menú de Causa y Efecto",
+    }
+    operation_label = operation_labels.get(
+        conflict.operation, "el dato operativo consultado"
+    )
     evidence = []
     seen = set()
     for row in conflict.evidence:
@@ -2674,18 +2716,18 @@ def _render_conflict_notice(
             continue
         seen.add(key)
         evidence.append(f"[F{row.fragment_number}] indica {row.value}: Causa y Efecto")
+    if {row.value for row in conflict.evidence} != set(conflict.values):
+        return (
+            f"No puedo confirmar de forma segura {operation_label} con los "
+            "fragmentos servidos. Confirma el manual y la revisión exactos "
+            "antes de usar un número de menú."
+        )
     joined = "; ".join(evidence)
     if renderer_contract_version == SOURCE_BOUND_RENDERER_S122_V1:
         return (
             f"Los fragmentos discrepan para {conflict.operation}: {joined}. "
             "No selecciones un numero de menu hasta confirmar el manual y la revision exactos."
         )
-    operation_labels = {
-        "cause_effect_menu_path": "el número de menú de Causa y Efecto",
-    }
-    operation_label = operation_labels.get(
-        conflict.operation, "el dato operativo consultado"
-    )
     return (
         f"Los fragmentos discrepan para {operation_label}: {joined}. "
         "No selecciones ningún número de menú hasta confirmar el manual y la revisión exactos."

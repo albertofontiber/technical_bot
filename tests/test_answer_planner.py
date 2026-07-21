@@ -11,6 +11,7 @@ from src.rag.answer_planner import (
     apply_answer_conflict_guard,
     apply_answer_planner,
     enforce_answer_contract,
+    build_answer_conflicts,
     build_answer_plan,
     obligation_covered,
     supplement_missing_obligations,
@@ -1163,6 +1164,16 @@ def test_s122_conflict_ignores_unrelated_operational_directives():
     assert result["rows"][0]["directive_values"] == []
 
 
+def test_s122_conflict_ignores_unrelated_same_as_description():
+    conflict = _menu_conflict()
+    answer = (
+        "Est. Ext.: igual que Estándar, pero permite ampliar el retardo.\n\n"
+        "No Sil. Ext.: no se detiene al silenciar sirenas."
+    )
+    result = validate_answer_conflicts(answer, [conflict])
+    assert result["unsafe"] == []
+
+
 def test_s122_conflict_scopes_relative_directives_to_the_conflict_window():
     conflict = _menu_conflict()
     disclosure = (
@@ -1269,6 +1280,54 @@ def test_conflict_guard_removes_repeated_unsafe_choices_once():
     assert revised.count("Los fragmentos discrepan") == 1
     assert "Seleccione 8" not in revised
     assert "use 7" not in revised
+
+
+def test_known_conflict_guard_does_not_depend_on_retrieving_both_sides():
+    one_sided_chunks = [_pearl_menu_conflict_chunks()[0]]
+    conflicts = build_answer_conflicts(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        one_sided_chunks,
+    )
+    assert len(conflicts) == 1
+    assert conflicts[0].values == ("7", "8")
+    assert [row.value for row in conflicts[0].evidence] == ["7"]
+
+    answer = (
+        "Introducción segura.\n\n"
+        "Desde Editar Configuración, seleccione 7: Causa y Efecto [F1].\n\n"
+        "Seleccione 5: Retardo Activación Salidas."
+    )
+    revised, trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        one_sided_chunks,
+        answer,
+    )
+    assert trace["action"] == "surgical_repair"
+    assert "seleccione 7: Causa y Efecto" not in revised
+    assert "No puedo confirmar de forma segura el número de menú" in revised
+    assert "[F2]" not in revised
+    assert "Seleccione 5: Retardo Activación Salidas" in revised
+
+
+def test_known_conflict_guard_is_product_scoped_without_menu_evidence():
+    pearl_chunk = _served_base_chunk(
+        "Programación general del retardo.",
+        product_model="PEARL",
+    )
+    revised, trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central PEARL?",
+        [pearl_chunk],
+        "Seleccione 8: Causa y Efecto.",
+    )
+    foreign, foreign_trace = apply_answer_conflict_guard(
+        "¿Cómo programo el retardo de salida en la central ID3000?",
+        [{**pearl_chunk, "product_model": "ID3000"}],
+        "Seleccione 8: Causa y Efecto.",
+    )
+    assert trace["action"] == "surgical_repair"
+    assert "Seleccione 8" not in revised
+    assert foreign == "Seleccione 8: Causa y Efecto."
+    assert foreign_trace["action"] == "not_applicable"
 
 
 def test_s122_reconstructs_core_failure_without_retaining_unsafe_draft():
