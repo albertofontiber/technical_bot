@@ -2028,3 +2028,24 @@ exacto y un caso con drift que abortó sin mutar lifecycle. No se aplicó la mig
 llamadas de modelo ni gasto. Estado: `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`;
 el siguiente paso requiere autorización separada para aplicar/verificar antes de construir la
 lane intradocumento.
+
+### S277 — migración lifecycle HP011 aplicada y verificada live
+
+Alberto autorizó explícitamente aplicar el cambio. El primer `db push --dry-run` desde el
+checkout normal falló cerrado: producción contenía siete versiones antiguas sin fichero local y
+el repo tres migraciones anteriores sin fila remota. No se usaron `--include-all` ni
+`migration repair`. Se construyó una proyección temporal exacta con las diez versiones ya
+aplicadas como stubs no ejecutables y un hardlink byte-idéntico del target; el segundo dry-run
+enumeró únicamente `20260721190847_reconcile_hp011_v04_v07_lifecycle.sql`.
+
+Supabase CLI 2.109.1 aplicó esa única migración con exit 0. La verificación posterior confirmó
+simultáneamente la fila `supabase_migrations.schema_migrations` (versión, nombre y 8 statements)
+y todas las postcondiciones: v.04 `superseded` por v.07, v.07 `active` y sucesora de v.04,
+94/96 chunks intactos, 43/4 duplicados no nulos, topología 3/40/0/4 y p63 v.07 canónica con
+`duplicate_of=NULL`. Las tres versiones local-only siguen ausentes remotamente y los diez stubs
+no alteraron history. No hubo modelos, gasto, Railway, deploy, merge ni movimiento del KPI.
+
+El receipt auditable es `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`. Estado:
+`HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`; el siguiente paso es medir
+sin modelos la lane intradocumento genérica y fail-closed. El drift permanente del historial
+queda en TECH_DEBT #55 y prohíbe `db push` normal hasta reconciliación separada.

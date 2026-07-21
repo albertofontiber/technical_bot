@@ -2037,3 +2037,23 @@ Frecuencia real no medida.
 punto va pegado a la siguiente palabra sin mayúscula inicial, o unir tramos de la misma línea al
 construir la ventana de cita). Medirlo como delta en cohorte fresca antes de darlo por bueno
 (Protocolo 4 fila eval).
+
+## 55. Historial de migraciones Supabase desalineado entre repo y producción (s277)
+
+**Estado observado al aplicar HP011:** el checkout normal contiene siete versiones remotas sin
+fichero local (`20260702165425`…`20260704113834`) y tres ficheros locales no registrados en
+producción (`20260714102428`, `20260716120000`, `20260720095702`). Por ello `supabase db push`
+desde el repo falla cerrado. La aplicación autorizada de `20260721190847` usó una proyección
+temporal exacta del historial y un dry-run que enumeró solo ese target; no reparó ni ocultó la
+deuda. El receipt completo vive en `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
+
+**Riesgo:** `--include-all` podría ejecutar las tres migraciones locales antiguas sin una
+adjudicación de si ya fueron materializadas por otra vía; `migration repair` podría declarar una
+historia que no corresponde al estado real. Ambos quedan prohibidos por defecto, igual que un
+`db push` desde el checkout normal.
+
+**Acción/trigger:** antes de la próxima migración productiva o del GO final de C1, reconciliar
+por evidencia cada una de las diez versiones y reconstruir un historial local/remoto completo,
+sin ejecutar ni marcar nada por inferencia. Las migraciones futuras aplicadas por Supabase CLI
+no deben incluir `BEGIN/COMMIT` exteriores si se exige atomicidad con
+`supabase_migrations.schema_migrations`; el rollback manual sí conserva su propia transacción.

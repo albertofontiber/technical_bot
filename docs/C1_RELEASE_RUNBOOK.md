@@ -1,9 +1,9 @@
 # C1: contrato de release y runbook
 
 Estado a 2026-07-21: **tercera P1 cerrada con `NO_GO_PARTIAL`; el falso FAIL instrumental está
-corregido y la autoridad entre dos revisiones ya está materializada offline como migración
-reversible, todavía sin aplicar; `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`; todavía
-no existe GO de release**. La autorización humana cubría una única P1 de 27 réplicas/27
+corregido y la autoridad entre dos revisiones quedó aplicada y verificada como migración
+reversible; `HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`; todavía no
+existe GO de release**. La autorización humana cubría una única P1 de 27 réplicas/27
 generaciones y exactamente 81 llamadas pagables, con techo duro de 30 USD; quedó consumida por
 el run terminal y nunca
 cubrió merge, deploy ni canary. Además de
@@ -25,9 +25,10 @@ por interpretar `---` Markdown como el valor técnico `--`; el replay corregido 
 porque la página 63 no llegó al contexto y la guía rápida servida indujo semántica incorrecta de
 `00`. La inspección posterior encontró v.04 (`t.H`) y v.07 (`t.A` corregido sobre `t.Fi`) activas,
 con dedupe cruzado y precedencia intencionadamente diferida. Aún no existe `P1_PASS`.
-La migración `20260721190847` prepara v.04→v.07 y limpia exactamente 38 enlaces cruzados bajo
+La migración `20260721190847` aplicó v.04→v.07 y limpió exactamente 38 enlaces cruzados bajo
 pre/postcondiciones fail-closed; su rollback exacto y el rechazo ante drift pasan en PostgreSQL
-embebido. Producción conserva por ahora el estado anterior.
+embebido. CLI/history y SQL read-only confirman el estado post exacto. No hubo modelos, deploy,
+Railway ni cambio del KPI.
 
 ## Qué corrige
 
@@ -274,11 +275,9 @@ Estado de la secuencia ejecutada:
    REVIEW sin nuevas llamadas. La revisión exacta confirma un problema productivo distinto: la
    página 63 autoritativa no estaba en pool, prefijo, structural fetch ni contexto; F9 era una
    guía rápida incompleta y la respuesta invirtió el significado de `00`.
-9. **Stop-line de autoridad preparada, aún no aplicada:** la misma familia tiene v.04 y v.07 activas. v.04 p63 usa `t.H`;
-   v.07 p63 contiene la corrección `t.Fi` tachado → `t.A`, pero está marcada como duplicada de
-   v.04. `20260721190847` adjudica explícitamente v.04→v.07 y repara 38 enlaces con rollback
-   exacto, pero requiere autorización separada y verificación live. Hasta entonces no se puede
-   mezclar por `source_file` ni aplicar latest-wins silencioso en runtime.
+9. **Stop-line de autoridad cerrada:** la misma familia tenía v.04 y v.07 activas. Tras
+   autorización explícita, `20260721190847` adjudicó v.04→v.07, reparó 38 enlaces y dejó p63 v.07
+   canónica. History y postcondiciones están verificadas; no se aplicó latest-wins en runtime.
 10. **Stop-line de recuperación:** después de adjudicar lifecycle y reparar dedupe, un mecanismo
    genérico, acotado y fail-closed debe demostrar offline/GET-only que recupera la autoridad
    intra-documento. Pool coverage e HYQ ya probados no alcanzaron esa página y no se reactivan
@@ -288,8 +287,14 @@ La autorización explícita recibida cubría el tercer run y está consumida. Co
 requiere empezar de cero: los 18 artefactos se reusan para replay y regresión. En cambio, un GO
 no puede completar este run terminal con nueve respuestas nuevas bajo código distinto; después
 del fix productivo exige un run sellado nuevo y todos sus inputs operativos desde cero. No existe
-`P1_PASS` ni GO. Aplicar lifecycle es el prerrequisito inmediato y requiere autorización propia;
-merge, deploy y canary pertenecen a la secuencia posterior y requieren otra autorización.
+`P1_PASS` ni GO. La autorización propia de lifecycle fue recibida, consumida y verificada; el
+prerrequisito inmediato es ahora la lane intradocumento genérica sin modelos. Merge, deploy y
+canary pertenecen a la secuencia posterior y requieren otra autorización.
+
+El checkout normal conserva siete migraciones remote-only y tres local-only. Hasta reconciliarlas
+por evidencia, quedan prohibidos `db push` desde el repo normal, `--include-all` y
+`migration repair`; ver TECH_DEBT #55 y el receipt
+`evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
 
 ## Trazabilidad y privacidad
 

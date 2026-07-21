@@ -4,7 +4,7 @@
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
 > 21 jul 2026 (S277 — tercera P1 cerrada `NO_GO_PARTIAL`; autoridad v.04/v.07
-> aislada y migración lifecycle preparada offline, todavía no aplicada).
+> adjudicada y migración lifecycle aplicada/verificada live; recovery intradocumento pendiente).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -67,15 +67,24 @@ marcada como duplicada de v.04, y la migración de reconciliación dejó su prec
 intencionadamente pendiente. Pool coverage e HYQ no recuperaron la autoridad; ampliar búsqueda
 antes de resolver lifecycle mezclaría revisiones y tampoco sería un camino honesto a GO.
 
-**La adjudicación lifecycle ya está preparada y verificada offline, sin cambio live.** La
+**La adjudicación lifecycle quedó aplicada y verificada en Supabase.** La
 migración `20260721190847_reconcile_hp011_v04_v07_lifecycle.sql` declara explícitamente que
 v.07 supersede a v.04; bloquea solo los dos documentos y sus 190 chunks; exige identidades,
 revisiones, hashes y topología exactos; y despeja únicamente los 38 enlaces v.07→v.04 que
 ocultan parte de la revisión autoritativa. Conserva los 4 duplicados internos de v.07, los 43
 enlaces históricos de v.04 y toda cardinalidad. Un rollback manual emparejado restaura las 38
 parejas y ambos estados lifecycle. Se validaron aplicación, rollback exacto y rechazo con drift
-en PostgreSQL embebido, además de 6 pruebas de contrato. No se aplicó a Supabase, no se llamó a
-modelos y el coste fue 0 USD.
+en PostgreSQL embebido, además de 6 pruebas de contrato. Tras autorización explícita, Supabase
+CLI 2.109.1 hizo un dry-run de una sola migración y la aplicó con exit 0. La lectura post confirma
+v.04 `superseded`→v.07, v.07 `active`→v.04, cardinalidad 94/96, duplicados no nulos 43/4,
+cero enlaces v.07→v.04 y p63 v.07 con `duplicate_of=NULL`; la historia registra versión/nombre y
+8 statements. No hubo llamadas de modelo, deploy, cambio Railway ni gasto. El receipt es
+`evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
+
+La aplicación usó una proyección temporal exacta porque el checkout normal conserva drift de
+historial: siete versiones remote-only y tres local-only. No se usaron `--include-all` ni
+`migration repair`; `db push` desde el repo normal sigue prohibido hasta reconciliar esas diez
+versiones por evidencia (TECH_DEBT #55).
 
 El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
@@ -107,12 +116,12 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `HP011_LIFECYCLE_MIGRATION_READY_LIVE_AUTHORIZATION_PENDING`, no GO.** El run terminal no se
+**Estado operativo: `HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`, no GO.** El run terminal no se
 reanuda ni se convierte retroactivamente en PASS. Sus 18 artefactos siguen siendo válidos para
 diagnóstico y regresión; no es necesario repetirlos para corregir o revalidar el scorer. Una
 certificación final sí deberá ser un run limpio porque cambiarán el código sellado y el run actual
-carece de 9 réplicas. Antes de ampliar retrieval se exige adjudicar explícitamente la autoridad
-v.04/v.07 y reparar el dedupe cruzado; después, una prueba offline/GET-only de recuperación
+carece de 9 réplicas. La autoridad v.04/v.07 y el dedupe cruzado ya están resueltos; el siguiente
+bloqueo es una prueba offline/GET-only de recuperación
 intra-documento genérica, acotada y fail-closed, sin reglas por QID ni manual. No existe `P1_PASS`,
 no hubo deploy ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
 explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
@@ -124,12 +133,11 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) tras autorización separada para el cambio
-de datos ya preparado, aplicar la migración lifecycle y verificar sus postcondiciones live;
-(2) demostrar sin modelos una única recuperación intra-documento
+**Qué sigue, por orden y sin abrir otro frente:** (1) demostrar sin modelos una única recuperación intra-documento
 genérica que alcance la revisión autoritativa y preserve límites de contexto, latencia y
-procedencia; (3) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
-recibo nuevo y el techo ya autorizado; (4) sólo con `P1_PASS` vigente, resolver el riesgo separado de
+procedencia; (2) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
+recibo nuevo y el techo ya autorizado; (3) reconciliar el drift de historial antes de cualquier
+otra migración productiva o del GO final; (4) sólo con `P1_PASS` vigente, resolver el riesgo separado de
 `create_hnsw_index()` y pedir autorización de merge/deploy/canary. Los 18 artefactos existentes se
 reutilizan para diagnóstico, no como mitad de una certificación con código distinto. Después,
 para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro del

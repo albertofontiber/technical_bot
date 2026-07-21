@@ -1,0 +1,127 @@
+{
+  "schema": "s277_hp011_lifecycle_live_apply_receipt_v1",
+  "observed_at": "2026-07-21T21:55:10.6328539+02:00",
+  "status": "APPLIED_AND_VERIFIED",
+  "authorization": {
+    "explicit_live_authorization_received": true,
+    "authorized_scope": "Apply and verify only migration 20260721190847",
+    "merge_authorized": false,
+    "deploy_authorized": false,
+    "p1_authorized_or_run": false
+  },
+  "migration": {
+    "version": "20260721190847",
+    "name": "reconcile_hp011_v04_v07_lifecycle",
+    "file": "supabase/migrations/20260721190847_reconcile_hp011_v04_v07_lifecycle.sql",
+    "rollback_file": "supabase/rollbacks/20260721190847_reconcile_hp011_v04_v07_lifecycle.sql",
+    "sha256": "e3d9b8bd5dfd6aac338ed61a3fb89d330728493add6916f817fe79299233f9e8",
+    "source_commit": "c426248278017e9f395fc05d6b40d88e95e60cd0",
+    "supabase_cli_version": "2.109.1",
+    "apply_exit_code": 0,
+    "history_row": {
+      "version": "20260721190847",
+      "name": "reconcile_hp011_v04_v07_lifecycle",
+      "statement_count": 8
+    }
+  },
+  "targeted_history_projection": {
+    "temporary": true,
+    "purpose": "Make db push observe the existing remote history while excluding unrelated local-only migrations",
+    "remote_applied_versions_projected_as_nonexecuted_stubs": [
+      "20260702165425",
+      "20260703102132",
+      "20260703205215",
+      "20260703212453",
+      "20260703212528",
+      "20260704105025",
+      "20260704113834",
+      "20260713141223",
+      "20260713164800",
+      "20260721120000"
+    ],
+    "target_was_byte_identical_hardlink": true,
+    "target_sha256_matched_canonical": true,
+    "dry_run_only_migration": "20260721190847_reconcile_hp011_v04_v07_lifecycle.sql",
+    "include_all_used": false,
+    "migration_repair_used": false,
+    "roles_or_seed_included": false
+  },
+  "preconditions_observed": {
+    "documents": {
+      "v04_status": "active",
+      "v07_status": "active",
+      "both_lifecycle_pointers_null": true
+    },
+    "chunk_counts": {
+      "v04": 94,
+      "v07": 96
+    },
+    "nonnull_duplicate_counts": {
+      "v04": 43,
+      "v07": 42
+    },
+    "duplicate_topology": {
+      "v04_to_v04": 3,
+      "v04_to_v07": 40,
+      "v07_to_v04": 38,
+      "v07_to_v07": 4
+    }
+  },
+  "postconditions_verified_read_only": {
+    "documents": {
+      "v04_status": "superseded",
+      "v04_superseded_by_id": "494e71be-873b-48c1-adb3-a21a122da111",
+      "v07_status": "active",
+      "v07_supersedes_id": "e98e05ff-ee1d-5341-869a-65768855dae9",
+      "resolved_note_present_on_both": true
+    },
+    "chunk_counts": {
+      "v04": 94,
+      "v07": 96
+    },
+    "nonnull_duplicate_counts": {
+      "v04": 43,
+      "v07": 4
+    },
+    "duplicate_topology": {
+      "v04_to_v04": 3,
+      "v04_to_v07": 40,
+      "v07_to_v04": 0,
+      "v07_to_v07": 4
+    },
+    "v07_page_63_duplicate_of": null,
+    "v07_intra_revision_targets_are_canonical": true
+  },
+  "unrelated_history_preserved": {
+    "local_only_versions_still_absent_remotely": [
+      "20260714102428",
+      "20260716120000",
+      "20260720095702"
+    ],
+    "remote_only_versions_still_absent_locally": [
+      "20260702165425",
+      "20260703102132",
+      "20260703205215",
+      "20260703212453",
+      "20260703212528",
+      "20260704105025",
+      "20260704113834"
+    ],
+    "ordinary_worktree_db_push_allowed": false
+  },
+  "scope": {
+    "document_rows_updated": 2,
+    "chunk_rows_updated": 38,
+    "paid_model_calls": 0,
+    "model_spend_usd": 0,
+    "railway_changed": false,
+    "deployment_performed": false,
+    "facts_kpi_changed": false
+  },
+  "limitations": [
+    "This receipt closes only the HP011 lifecycle migration; it does not reconcile the repository-wide migration history drift.",
+    "Normal db push, --include-all, and migration repair remain prohibited until the seven remote-only and three local-only versions are reconciled separately.",
+    "The terminal P1 remains NO_GO_PARTIAL; a generic document-local recovery lane and a new clean 27/27 P1 are still required.",
+    "The applied migration is immutable. Future CLI-applied migrations must not add explicit outer BEGIN/COMMIT when data-to-history atomicity is required; manual rollback files retain their own transaction."
+  ]
+}

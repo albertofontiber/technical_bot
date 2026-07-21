@@ -14,6 +14,7 @@ ROLLBACK = (
     ROOT
     / "supabase/rollbacks/20260721190847_reconcile_hp011_v04_v07_lifecycle.sql"
 )
+MIGRATION_VERSION = "20260721190847"
 
 UUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 OLD_DOCUMENT = "e98e05ff-ee1d-5341-869a-65768855dae9"
@@ -83,6 +84,21 @@ def test_migration_is_one_short_fail_closed_transaction() -> None:
         "page-63 source contract drift",
     ):
         assert lowered.index(guard) < first_update
+
+
+def test_future_cli_migrations_delegate_data_history_atomicity_to_cli() -> None:
+    """The applied HP011 file is immutable; later CLI migrations must not split history."""
+    migration_dir = MIGRATION.parent
+    future_migrations = sorted(
+        path
+        for path in migration_dir.glob("*.sql")
+        if path.name.split("_", 1)[0] > MIGRATION_VERSION
+    )
+
+    for path in future_migrations:
+        sql = _read(path)
+        assert not re.search(r"(?im)^\s*begin\s*;", sql), path.name
+        assert not re.search(r"(?im)^\s*commit\s*;", sql), path.name
 
 
 def test_migration_freezes_identity_partition_and_duplicate_topology() -> None:
