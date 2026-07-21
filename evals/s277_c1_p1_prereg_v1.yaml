@@ -526,7 +526,7 @@ receipt_pipeline:
     result_body_sealed_by_result_sha256: true
 cost:
   currency: USD
-  list_price_cap: 10.0
+  list_price_cap: 30.0
   free_tier_discount: false
   pricing_observed_on: '2026-07-20'
   rates_per_million_tokens:
@@ -555,27 +555,27 @@ cost:
     rerank:
       provider: anthropic
       model: claude-sonnet-4-6
-      max_input_tokens: 10000
+      max_input_tokens: 95000
       max_output_tokens: 1000
       input_usd_per_mtok: '3'
       output_usd_per_mtok: '15'
-      max_cost_usd: '0.05'
+      max_cost_usd: '0.30'
     synthesis:
       provider: anthropic
       model: claude-sonnet-4-6
-      max_input_tokens: 20000
+      max_input_tokens: 249000
       max_output_tokens: 3500
       input_usd_per_mtok: '3'
       output_usd_per_mtok: '15'
-      max_cost_usd: '0.20'
+      max_cost_usd: '0.80'
   calls_per_operation:
     embedding: 27
     rerank: 27
     synthesis: 27
-  static_worst_case_usd: '6.777'
+  static_worst_case_usd: '29.727'
   replica_plan_sha256: 450a25fb05cfb9d5a749efda318ce611e4963688b588f1d2ea6aa3dc72b66238
   call_plan_sha256: c0cf3957bfcd475338a0790f3063b0acf9efaf1b0b38ddf9b221fd252a11ef77
-  invariant: actual_observed + unknown_reservations + worst_case_remaining <= 10.00
+  invariant: actual_observed + unknown_reservations + worst_case_remaining <= 30.00
 corpus_fence:
   operator_identity_separate_from_runner: true
   runner_service_role_forbidden: true

@@ -3097,3 +3097,37 @@ Otra P1 exige autorización humana nueva, checkout detached de `c2079e9` o desce
 credenciales/inputs/recibo nuevos y un artifact root vacío. Hasta entonces C1 permanece
 `P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`; merge, deploy y canary siguen fuera de
 alcance. El riesgo separado de `create_hnsw_index()` continúa pendiente antes de un GO final.
+
+## DEC-142 (S277, 21 jul 2026) — La segunda P1 aísla un bound pre-WAL; el contrato se alinea al techo humano de 30 USD
+
+**Resultado autoritativo.** La segunda autorización materializada cubrió una única P1 de
+27 réplicas/81 llamadas sobre `e49cb73`, sin merge, deploy ni canary. El run
+`p1-33d94efd57d84328aafbbdb4f052831d` completó `hp017:r1:embedding` y terminó
+`NO_GO_PARTIAL` antes de reservar el rerank: 0/27 réplicas, una llamada Voyage completada,
+coste observado 0,0000024 USD, cero reserva desconocida y cero mutaciones. El fence cerró
+`CLOSED_VERIFIED`; corpus, manifest y fingerprint permanecieron idénticos. La autorización y
+el run son terminales; `score` devolvió `HOLD_RUN_INCOMPLETE` y no existe `P1_PASS`.
+
+**Causa exacta, sin nueva inferencia pagada.** Un replay read-only reutilizó el embedding ya
+cobrado, recorrió el mismo retrieval con el JWT `p1_readonly` y capturó localmente el envelope
+sin llamar a Anthropic. El pool tenía 43 filas, 41 previews completos de 800 caracteres y
+34.192 caracteres de preview. El payload canónico medía 40.220 bytes; con la reserva fija de
+512, el bound declarado era **40.732**, frente al máximo preregistrado **10.000**. El verificador
+reprodujo exactamente `HOLD_INPUT_TOKEN_BOUND`. El código genérico adicional era instrumental:
+el reranker strict envolvía el `P1Error` pre-WAL como `RerankStrictError` porque el router solo
+preservaba errores posteriores a una respuesta de proveedor.
+
+**Corrección estructural y presupuesto.** El router preserva ahora cualquier `P1Error` de
+hook, coerción o validación, de modo que un fallo local conserva su código estable. El contrato
+no cambia retrieval, rerank, síntesis ni modelos; amplía únicamente los bounds conservadores a
+95.000 para rerank y 249.000 para síntesis. Sus reservas pasan a 0,30 y 0,80 USD por operación;
+con embedding, el worst-case de las 81 llamadas es **29,727 USD**, inferior al techo duro humano
+de **30 USD** expresamente fijado por Alberto. El caso reproducido queda cubierto con margen
+2,33× y las pruebas de regresión verifican tanto el envelope completo como la propagación del
+error pre-WAL.
+
+**Decisión y siguiente paso.** El fix offline no convierte ninguno de los runs anteriores en
+PASS. Otra P1 requiere autorización humana nueva y explícita, checkout detached del commit del
+fix, credenciales/inputs/recibo nuevos y artifact root vacío. Hasta entonces C1 permanece
+`P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`; el marcador sigue 146/154 y merge,
+deploy, canary y la arquitectura multi-turn/multi-hop permanecen fuera de este permiso.

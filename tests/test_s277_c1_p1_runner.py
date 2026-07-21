@@ -222,7 +222,7 @@ def _authorization(
         "artifact_identity_sha256": p1.artifact_identity_sha256(
             run_id, artifact_root or Path("test-artifacts")
         ),
-        "max_usd": "10.00",
+        "max_usd": "30.00",
         "authorized_by": "Alberto",
         "issued_at": _iso(NOW - timedelta(minutes=1)),
         "expires_at": _iso(NOW + timedelta(hours=1)),
@@ -925,8 +925,8 @@ def test_preflight_verifies_code_config_budget_fingerprint_and_fence():
     )
     jsonschema.validate(release, schema)
     bundle, _, _ = _bundle()
-    assert bundle.budget.static_worst_case_usd == Decimal("6.777")
-    assert bundle.budget.cap_usd == Decimal("10.00")
+    assert bundle.budget.static_worst_case_usd == Decimal("29.727")
+    assert bundle.budget.cap_usd == Decimal("30.00")
     assert bundle.fence_open_receipt["transaction_pooler"] is False
 
 
@@ -2890,7 +2890,7 @@ def _reseal_complete_run_for_adversarial_test(
                 events[index + 1]["actual_cost_usd"], field="test actual"
             )
         result["budget"] = {
-            "cap_usd": "10.00",
+            "cap_usd": "30.00",
             "observed_list_price_usd": p1._money(prior),
             "unknown_reserved_usd": "0",
             "projected_total_usd": p1._money(prior),

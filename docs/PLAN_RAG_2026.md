@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — P1 ejecutada con `NO_GO_PARTIAL`; blocker SDK corregido,
+> 21 jul 2026 (S277 — segunda P1 cerrada `NO_GO_PARTIAL`; bound de rerank corregido,
 > nueva autorización pendiente).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
@@ -46,28 +46,24 @@ por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo 
 Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
 su estado vivo; no lo apaga como efecto lateral.
 
-**P1 end-to-end se ejecutó una vez y cerró `NO_GO_PARTIAL`.** El run
-`p1-22bfc29e520b4002b3c4b9def2b63cdb`, ligado al commit `537152a`, abrió el fence,
-pero paró en `hp017:r1:embedding` con `HOLD_PROVIDER_SDK_VERSION`: 0/27 réplicas,
-coste observado 0 USD y reserva conservadora desconocida de 0,001 USD. El WAL marcó esa
-única llamada `UNKNOWN_BILLED_POST_SEND`, por lo que no admite retry. El fence cerró
-`CLOSED_VERIFIED`; manifest y fingerprint pre/post coincidieron y hubo cero mutaciones en
-Railway/Supabase. `score` rechazó correctamente el artefacto incompleto y no existe
-`P1_PASS`.
+**La segunda P1 end-to-end también cerró `NO_GO_PARTIAL`, ahora con causa exacta y pre-send.**
+El run `p1-33d94efd57d84328aafbbdb4f052831d`, ligado a `e49cb73`, completó únicamente
+`hp017:r1:embedding` y paró antes de reservar o enviar el rerank: 0/27 réplicas, una llamada
+Voyage completada, coste observado **0,0000024 USD**, cero coste desconocido y cero mutaciones.
+El fence cerró `CLOSED_VERIFIED`; manifest y fingerprint pre/post coincidieron. La autorización
+quedó consumida y `score` devolvió `HOLD_RUN_INCOMPLETE`; no existe `P1_PASS`.
 
-La causa fue instrumental, no del mecanismo C1: la distribución instalada es
-`voyageai==0.2.4`, pero ese paquete publica un `voyageai.__version__` obsoleto `0.2.3`.
-El adapter ya había validado correctamente la metadata de distribución en `prepare` y repetía
-después una comprobación incorrecta tras cruzar la frontera de envío. `c2079e9` deja la metadata
-de distribución como autoridad, mueve imports/capacidades al `prepare` local y elimina el check
-tardío; 39 pruebas focales pasan. Ese commit **no está medido por P1** y requiere una nueva
-autorización/run limpio, nunca reanudar la autorización consumida.
+El replay exacto read-only reutilizó el embedding ya cobrado y reprodujo la causa sin Anthropic:
+pool de 43 filas, 34.192 caracteres de preview y bound físico de **40.732** frente al máximo
+preregistrado de **10.000**, por lo que el código real era `HOLD_INPUT_TOKEN_BOUND`. El wrapper
+strict ocultaba además ese `P1Error` como `RerankStrictError`. La corrección conserva cualquier
+clasificación P1 pre-WAL y amplía los bounds sin cambiar retrieval, rerank ni síntesis productivos.
 
 El paquete sella
 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
 base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
-preregistro, límite estático conservador de 6,777 USD bajo los tamaños preregistrados, techo duro
-de 10 USD, WAL fsync/no-retry, identidad de release, proyección semántica de configuración,
+preregistro, límite estático conservador de **29,727 USD** bajo los tamaños preregistrados, techo duro
+de **30 USD**, WAL fsync/no-retry, identidad de release, proyección semántica de configuración,
 fingerprint/fence y receipts internos ligados desde input preregistrado hasta respuesta/render.
 El preflight se reconstruye al ejecutar; runtime, lease y request reservado se revalidan antes
 de cada send; topología/claim/lease impiden doble runner y reinicialización de presupuesto. Toda
@@ -93,12 +89,13 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`, no GO.** La única
-autorización P1 quedó consumida por el run terminal anterior; no se repite ni se reabre. El fix
-`c2079e9` está probado pero no medido. Para otra P1 hacen falta autorización humana nueva,
-checkout detached del nuevo commit, bearer/inputs/recibo nuevos y el mismo límite explícito de
-coste que se autorice. No existe `P1_PASS`, no hubo deploy ni cambio de Railway y el marcador
-permanece 146/154. El Advisor conserva dos avisos por grants
+**Estado operativo: `P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`, no GO.** La segunda
+autorización P1 quedó consumida por el run terminal; no se repite ni se reabre. El fix amplía
+rerank a 95.000 y síntesis a 249.000 unidades de bound, conserva el error P1 específico y fija
+un worst-case de 29,727 USD bajo el techo autorizado de 30 USD. Está probado offline pero todavía
+no medido por una P1 completa. Para otra P1 hacen falta autorización humana nueva, checkout
+detached del commit que contenga el fix, bearer/inputs/recibo nuevos y artifact root vacío. No
+existe `P1_PASS`, no hubo deploy ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
 explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
 requieren una migración y autorización separadas antes del GO final de C1.
 
@@ -109,7 +106,7 @@ dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permi
 ni inferencia adicional para esta línea.
 
 **Qué sigue, por orden y sin abrir otro frente:** (1) Alberto decide si autoriza una P1 nueva
-sobre `c2079e9`; sin esa decisión no hay más llamadas; (2) si la autoriza, materializar desde cero
+sobre el commit del fix de bound; sin esa decisión no hay más llamadas; (2) si la autoriza, materializar desde cero
 checkout detached, release-config, bearer, manifest/evidencia y recibo ligados al nuevo commit,
 sin reutilizar WAL, artefactos ni autorización del run terminal; (3) ejecutar una sola P1 nueva,
 cerrar el fence y correr `score`/`finalize`; (4) sólo si existe `P1_PASS` vigente, resolver el

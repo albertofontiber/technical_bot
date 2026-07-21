@@ -326,7 +326,7 @@ def test_prereg_rebuilds_and_seals_questions_models_and_27_replica_order():
         "sonnet_synthesis": 27,
         "total": 81,
     }
-    assert stored["cost"]["list_price_cap"] == 10.0
+    assert stored["cost"]["list_price_cap"] == 30.0
     assert stored["cost"]["free_tier_discount"] is False
     assert stored["cost"]["inference_geo"] == "global"
     assert stored["cost"]["service_tier"] == "standard_sync"
@@ -336,7 +336,7 @@ def test_prereg_rebuilds_and_seals_questions_models_and_27_replica_order():
         for name, operation in stored["cost"]["operations"].items()
     )
     assert static_bound == Decimal(stored["cost"]["static_worst_case_usd"])
-    assert static_bound == Decimal("6.777") < Decimal("10.00")
+    assert static_bound == Decimal("29.727") < Decimal("30.00")
     assert stored["population"]["replica_plan_sha256"] == builder.object_sha256(
         stored["population"]["replica_order"]
     )
@@ -734,6 +734,6 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
         now=now,
     )
     assert bundle.release_config_sha256 == release_hash
-    assert bundle.budget.static_worst_case_usd == Decimal("6.777")
+    assert bundle.budget.static_worst_case_usd == Decimal("29.727")
     assert bundle.release_config["railway"]["live_snapshot"]["VISUAL_ASSETS_REGISTRY"] == "on"
     assert bundle.release_config["derived_config"]["raw_allowlisted_env"]["VISUAL_ASSETS_REGISTRY"] == "on"

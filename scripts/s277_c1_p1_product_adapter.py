@@ -726,10 +726,13 @@ class _ProviderRouter:
             "HOLD_PRODUCT_BOUNDARY_HOOK_NOT_INSTALLED",
             "ProviderBoundary.invoke_product(intent) is required",
         )
-        result = ProductProviderResult.coerce(hook(intent))
         try:
+            result = ProductProviderResult.coerce(hook(intent))
             self._validate_result(intent, result, spec)
         except p1.P1Error as exc:
+            # The product reranker wraps provider-facing exceptions in
+            # RerankStrictError.  Preserve every fail-closed P1 classification,
+            # including local envelope/budget failures raised before WAL/send.
             self.validation_failure = exc
             raise
         self.intents.append(intent)

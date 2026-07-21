@@ -1,9 +1,9 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-21: **P1 ejecutada una vez con `NO_GO_PARTIAL` y fence cerrado;
-`P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`; todavía no existe GO de release**.
+Estado a 2026-07-21: **segunda P1 cerrada con `NO_GO_PARTIAL` y causa pre-WAL confirmada;
+`P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`; todavía no existe GO de release**.
 La autorización humana cubría una única P1 de 27 réplicas/27 generaciones y exactamente
-81 llamadas pagables, con techo duro de 10 USD; quedó consumida por el run terminal y nunca
+81 llamadas pagables, con techo duro de 30 USD; quedó consumida por el run terminal y nunca
 cubrió merge, deploy ni canary. Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
@@ -12,9 +12,11 @@ el guard PostgREST acotado y el executor. El control histórico gratuito conserv
 prior PEARL 7-vs-8 en 3/3. La migración `p1_readonly` quedó aplicada y verificada
 en producción como versión `20260721120000`. El run ligado a `537152a` paró en la primera
 embedding con `HOLD_PROVIDER_SDK_VERSION`: 0/27 réplicas, una llamada conservadoramente
-`UNKNOWN_BILLED_POST_SEND`, coste observado 0 USD y reserva máxima 0,001 USD. El fence cerró
-con corpus/manifest idénticos; no se cambió Railway y no hubo deploy. El fix `c2079e9` está
-probado pero no medido; no existe `P1_PASS`.
+`UNKNOWN_BILLED_POST_SEND`, coste observado 0 USD y reserva máxima 0,001 USD. El fix `c2079e9`
+retiró ese blocker. Una segunda P1 sobre `e49cb73` completó una embedding y paró pre-WAL de
+rerank con el bound real 40.732 > 10.000; coste observado 0,0000024 USD. El fence cerró con
+corpus/manifest idénticos; no se cambió Railway y no hubo deploy. El contrato corregido conserva
+el `P1Error`, eleva los bounds y queda en 29,727 USD < 30 USD; aún no existe `P1_PASS`.
 
 ## Qué corrige
 
@@ -143,7 +145,7 @@ Contrato implementado por el runner end-to-end:
   reserve/completed, con orden, modelo, usage y presupuesto recomputados;
 - ventana de corpus protegida por fence de operador separado y fingerprints
   pre/post; el runner usa sólo identidad PostgREST read-only;
-- bound estático conservador de **6,777 USD**, techo duro de **10 USD** y parada
+- bound estático conservador de **29,727 USD**, techo duro de **30 USD** y parada
   temprana ante cualquier regresión dura;
 - scorer determinista de los dos avisos y sus citas en hp017;
 - adjudicación fact-level contra los facts ya OK para los otros 12 QIDs;
@@ -221,7 +223,7 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: run terminal cerrado; nueva autorización pendiente
+### Fase P1: segundo run terminal cerrado; fix de bound listo y nueva autorización pendiente
 
 El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
 despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
@@ -241,19 +243,20 @@ Estado de la secuencia ejecutada:
    `P1_SUPABASE_JWT` efímero con `role=p1_readonly`; usar la `SUPABASE_KEY` existente sólo para `apikey` y la
    credencial PostgreSQL existente sólo en el operador. API key y bearer son
    credenciales separadas y el runner no recibe la credencial PostgreSQL.
-3. **Completado para `537152a`:** se capturaron desde checkout limpio y detached el release-config Railway read-only,
-   el contrato/manifest live previo y la evidencia HTTP/identidad; emitir un recibo de
-   autorización que materialice la decisión humana ya recibida, acepte expresamente
-   el prior hp017 y limite la ejecución a 27 réplicas/81 llamadas y 10 USD.
-4. **Ejecutado una vez:** el operador abrió el fence y `run --execute --confirm-paid` paró
-   fail-closed en la primera embedding por `HOLD_PROVIDER_SDK_VERSION`. El WAL quedó terminal;
-   no se reintenta ni se reanuda.
-5. **Cerrado:** manifest y fingerprint pre/post coincidieron, el fence emitió
+3. **Primer run terminal (`537152a`):** paró en la embedding por la atestación tardía del SDK;
+   manifest/fingerprint cerraron estables y `c2079e9` corrigió ese blocker.
+4. **Segundo run terminal (`e49cb73`):** tras preflights de 0 llamadas, el operador abrió el
+   fence y `run --execute --confirm-paid` completó una embedding. El rerank paró pre-WAL porque
+   su bound real 40.732 superaba el máximo 10.000. Coste observado 0,0000024 USD, cero reserva
+   desconocida y cero mutaciones.
+5. **Cerrado y reproducido:** manifest y fingerprint pre/post coincidieron, el fence emitió
    `CLOSED_VERIFIED` y `score` devolvió `HOLD_RUN_INCOMPLETE`; `finalize` no puede crear
-   `P1_PASS`. La discrepancia `voyageai` quedó corregida en `c2079e9`, aún sin P1.
+   `P1_PASS`. El replay read-only reprodujo `HOLD_INPUT_TOKEN_BOUND` sin llamar a Anthropic.
+6. **Fix offline:** el contrato conserva el `P1Error`, amplía los bounds a 95.000/249.000 y
+   queda en 29,727 USD bajo el techo duro de 30 USD, sin cambiar la semántica productiva.
 
-La autorización explícita recibida cubría sólo ese run y está consumida. Una P1 nueva sobre
-`c2079e9` requiere autorización humana nueva y todos sus inputs deben materializarse desde cero.
+La autorización explícita recibida cubría sólo el segundo run y está consumida. Una P1 nueva
+sobre el commit del fix requiere autorización humana nueva y todos sus inputs desde cero.
 No existe `P1_PASS` ni GO. Merge, deploy, migración de
 trazas y canary pertenecen a la secuencia posterior y requieren autorización separada.
 

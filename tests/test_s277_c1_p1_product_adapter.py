@@ -258,6 +258,48 @@ def test_real_product_prompts_run_once_through_offline_boundary(monkeypatch):
         p1.ProviderBoundary._validate_request_envelope(_provider_call(intent), spec)
 
 
+def test_preregistered_rerank_bound_covers_full_product_preview_envelope(monkeypatch):
+    from src.rag import reranker
+
+    captured = {}
+
+    class FakeClient:
+        def __init__(self):
+            self.messages = SimpleNamespace(create=self.create)
+
+        @staticmethod
+        def create(**kwargs):
+            captured.update(kwargs)
+            return SimpleNamespace(
+                content=[SimpleNamespace(text=json.dumps(list(range(10))))]
+            )
+
+    monkeypatch.setattr(reranker.anthropic, "Anthropic", lambda **_kwargs: FakeClient())
+    chunks = [
+        {
+            "content": "x" * 800,
+            "product_model": "PEARL",
+            "section_title": "Causa y Efecto",
+            "content_type": "text",
+        }
+        for _index in range(43)
+    ]
+
+    reranker.rerank_chunks(
+        QUESTION,
+        chunks,
+        top_k=10,
+        target_models=["PEARL"],
+        strict=True,
+    )
+
+    bound = p1.physical_input_token_upper_bound(captured)
+    prereg = p1.load_data_object(p1.CANONICAL_PREREG_PATH)
+    configured = prereg["cost"]["operations"]["rerank"]["max_input_tokens"]
+    assert bound > 10_000
+    assert bound <= configured == 95_000
+
+
 def test_missing_boundary_hook_holds_before_network(monkeypatch):
     runtime = _runtime(monkeypatch)
     boundary = SimpleNamespace(
@@ -289,6 +331,24 @@ def test_non_terminal_rerank_is_no_go_and_blocks_synthesis(monkeypatch):
         "embedding",
         "rerank",
     ]
+
+
+def test_local_pre_wal_p1_error_survives_strict_reranker_wrapper(monkeypatch):
+    boundary = OfflineBoundary()
+    original_invoke = boundary.invoke_product
+
+    def invoke_product(intent):
+        if intent.operation == "rerank":
+            raise p1.P1Error("HOLD_INPUT_TOKEN_BOUND", intent.call_key)
+        return original_invoke(intent)
+
+    boundary.invoke_product = invoke_product
+
+    with pytest.raises(p1.P1Error) as caught:
+        _adapter(monkeypatch).execute_replica(REPLICA, boundary)
+
+    assert caught.value.code == "HOLD_INPUT_TOKEN_BOUND"
+    assert [intent.operation for intent in boundary.intents] == ["embedding"]
 
 
 def test_anthropic_transport_captures_raw_http_receipt_without_retry(monkeypatch):

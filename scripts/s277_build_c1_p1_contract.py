@@ -1161,20 +1161,20 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
         "rerank": {
             "provider": "anthropic",
             "model": "claude-sonnet-4-6",
-            "max_input_tokens": 10000,
+            "max_input_tokens": 95000,
             "max_output_tokens": 1000,
             "input_usd_per_mtok": "3",
             "output_usd_per_mtok": "15",
-            "max_cost_usd": "0.05",
+            "max_cost_usd": "0.30",
         },
         "synthesis": {
             "provider": "anthropic",
             "model": "claude-sonnet-4-6",
-            "max_input_tokens": 20000,
+            "max_input_tokens": 249000,
             "max_output_tokens": 3500,
             "input_usd_per_mtok": "3",
             "output_usd_per_mtok": "15",
-            "max_cost_usd": "0.20",
+            "max_cost_usd": "0.80",
         },
     }
     return {
@@ -1480,7 +1480,7 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
         },
         "cost": {
             "currency": "USD",
-            "list_price_cap": 10.0,
+            "list_price_cap": 30.0,
             "free_tier_discount": False,
             "pricing_observed_on": "2026-07-20",
             "rates_per_million_tokens": {
@@ -1501,10 +1501,10 @@ def build_prereg(contract: dict[str, Any], release_schema: dict[str, Any]) -> di
             "adversarial_review_budget_included": False,
             "operations": budget_operations,
             "calls_per_operation": {"embedding": 27, "rerank": 27, "synthesis": 27},
-            "static_worst_case_usd": "6.777",
+            "static_worst_case_usd": "29.727",
             "replica_plan_sha256": replica_plan_sha256,
             "call_plan_sha256": call_plan_sha256,
-            "invariant": "actual_observed + unknown_reservations + worst_case_remaining <= 10.00",
+            "invariant": "actual_observed + unknown_reservations + worst_case_remaining <= 30.00",
         },
         "corpus_fence": {
             "operator_identity_separate_from_runner": True,

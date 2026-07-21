@@ -1973,3 +1973,19 @@ el core se cierra como HOLD seguro, no como release-ready. La suite amplia local
 2461 pass / 6 skip / 4 fallos raw-hash/CRLF Windows ya conocidos (s117, s131, s133×2); CI Linux
 queda como autoridad pendiente. Totales: 0 llamadas P1, 0 mutaciones Railway/Supabase y ninguna
 autorización de gasto o despliegue.
+
+### S277 — segunda P1: bound de rerank reproducido y corregido
+
+Tras corregir la atestación del SDK, una nueva P1 sobre `e49cb73` abrió y cerró correctamente
+el fence, pero terminó `NO_GO_PARTIAL` tras una sola embedding completada. No hubo WAL ni llamada
+Anthropic para el rerank. Coste observado: 0,0000024 USD; 0/27 réplicas; cero mutaciones; manifest
+y fingerprint idénticos pre/post. La autorización quedó consumida y `score` rechazó el artefacto
+incompleto.
+
+El replay read-only exacto reutilizó ese embedding: 43 filas, 34.192 caracteres de preview,
+payload de 40.220 bytes y bound total 40.732 frente al límite 10.000. Reprodujo
+`HOLD_INPUT_TOKEN_BOUND` sin inferencia nueva. El wrapper strict había ocultado el código como
+`RerankStrictError`; se amplió su `try` para preservar también fallos P1 pre-WAL. Alberto fijó el
+techo duro en 30 USD y el prereg se alineó con bounds 95.000/249.000 y worst-case 29,727 USD,
+sin alterar la lógica productiva RAG. El fix queda offline-green y requiere una autorización/run
+nuevos; no existe `P1_PASS` ni GO.

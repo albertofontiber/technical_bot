@@ -96,7 +96,7 @@ FINGERPRINT_CEILING_MS = 120_000
 FENCE_CLOCK_SKEW = timedelta(seconds=2)
 MAX_RAILWAY_SNAPSHOT_AGE = timedelta(minutes=30)
 MAX_RAILWAY_SNAPSHOT_FUTURE_SKEW = timedelta(seconds=60)
-HARD_CAP_USD = Decimal("10.00")
+HARD_CAP_USD = Decimal("30.00")
 ZERO = Decimal("0")
 
 PROFILE_OWNED_LEGACY_FLAGS = (
@@ -2035,7 +2035,7 @@ class CallCostSpec:
 class BudgetPlan:
     def __init__(self, specs: Sequence[CallCostSpec], cap_usd: Decimal = HARD_CAP_USD):
         self.cap_usd = _decimal(cap_usd, field="cap_usd")
-        _require(self.cap_usd == HARD_CAP_USD, "HOLD_BUDGET_DRIFT", "cap must be exactly 10 USD")
+        _require(self.cap_usd == HARD_CAP_USD, "HOLD_BUDGET_DRIFT", "cap must be exactly 30 USD")
         self.specs = {spec.call_key: spec for spec in specs}
         expected = expected_call_keys()
         _require(
@@ -2049,7 +2049,7 @@ class BudgetPlan:
         _require(
             self.static_worst_case_usd <= self.cap_usd,
             "HOLD_STATIC_BUDGET_EXCEEDED",
-            "static 81-call bound exceeds 10 USD",
+            "static 81-call bound exceeds 30 USD",
         )
 
     @classmethod
@@ -3583,7 +3583,7 @@ class ProviderBoundary:
             _require(
                 observed_total <= self.budget.cap_usd,
                 "NO_GO_HARD_CAP_EXCEEDED",
-                "observed plus unknown cost exceeds the 10 USD cap",
+                "observed plus unknown cost exceeds the 30 USD cap",
             )
             return response
         except Exception as exc:

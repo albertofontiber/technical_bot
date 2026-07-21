@@ -36,7 +36,7 @@ Dentro de alcance:
 2. atravesar en cada réplica retrieval, rerank, C1, síntesis y renderer reales;
 3. probar el target hp017 y observar si se pierde alguno de 43 facts base
    protegidos en las réplicas P1;
-4. producir recibos completos, reanudables sin reintentos y con techo de 10 USD.
+4. producir recibos completos, reanudables sin reintentos y con techo de 30 USD.
 
 Fuera de alcance:
 
@@ -385,7 +385,7 @@ No hay prompt cache en el candidato. Si aparece cache usage o cualquier modifica
 preregistrado, falla por drift. Para cada llamada:
 
 ```text
-actual_observado + reservas_unknown + worst_case_restante_prereg <= 10.00
+actual_observado + reservas_unknown + worst_case_restante_prereg <= 30.00
 ```
 
 Antes de la primera llamada, un bound estático conservador de las 27 secuencias
@@ -678,7 +678,7 @@ conservan local/versionados según el contrato; `query_logs` no es autoridad por
 - El control almacenado hp017 mantiene el prior
   `HOLD_PREPAID_KNOWN_CONFLICT_RISK`. No adjudica el runtime no medido; el receipt de
   autorización debe disponer expresamente ese prior antes de una ejecución.
-- La ejecución pagada exige doble opt-in y autorización explícita con techo de 10 USD.
+- La ejecución pagada exige doble opt-in y autorización explícita con techo de 30 USD.
   Aplicar la migración, ejecutar P1 y desplegar son tres mutaciones/autorizaciones
   distintas; este documento no concede ninguna.
 - La cohorte es conocida/dev; un PASS no autoriza claims de 98 %, robustez orgánica ni
