@@ -175,6 +175,9 @@ BASE_RPC_ALLOWLIST = (
 )
 BASE_REST_GET_ALLOWLIST = ("public.chunks_v2", "public.documents")
 VISUAL_REST_GET_SURFACE = "public.document_visual_assets"
+VISUAL_REST_GET_PATH = "/rest/v1/document_visual_assets"
+VISUAL_SERVABLE_ROLES = ("wiring", "table", "procedure", "ui")
+VISUAL_MAX_ASSETS_PER_ANSWER = 4
 RERANK_INSTRUCTION = (
     "Ordena el pool por relevancia para la pregunta sin inventar evidencia; "
     "devuelve solo los identificadores en orden."
@@ -4675,27 +4678,284 @@ def _text_sha256(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
-def visual_lookup_keys(answer: str, served_context: Sequence[Any]) -> list[dict[str, Any]]:
-    """Exact cited (document,page) keys which activate the visual GET side path."""
+def _visual_lookup_plan(
+    answer: str, served_context: Sequence[Any]
+) -> list[dict[str, Any]]:
+    """Independently reproduce the product's cited-page relevance plan.
 
-    result: list[dict[str, Any]] = []
-    seen: set[tuple[str, int]] = set()
-    for raw_number in re.findall(r"\[F(\d+)\]", answer):
-        index = int(raw_number) - 1
-        if index < 0 or index >= len(served_context):
-            continue
-        row = served_context[index]
+    The runner deliberately does not import ``src.rag.visual_assets`` here:
+    this verifier must remain usable during offline preflight without loading
+    product configuration.  A differential test binds this copy to the
+    production helper.
+    """
+
+    occurrences: dict[int, list[int]] = {}
+    for match in re.finditer(r"\[F(\d+)\]", answer or ""):
+        number = int(match.group(1))
+        if 1 <= number <= len(served_context):
+            occurrences.setdefault(number, []).append(match.start())
+    if occurrences:
+        ranked = [
+            (number, len(positions), positions[0])
+            for number, positions in occurrences.items()
+        ]
+    else:
+        lowered = (answer or "").casefold()
+        ranked = []
+        for number, row in enumerate(served_context, 1):
+            if not isinstance(row, Mapping):
+                continue
+            source_file = str(row.get("source_file") or "")
+            manual_name = source_file.rsplit(".pdf", 1)[0].strip()
+            if not manual_name:
+                continue
+            position = lowered.find(manual_name.casefold())
+            if position >= 0:
+                ranked.append((number, 1, position))
+    ranked.sort(key=lambda item: (-item[1], item[2], item[0]))
+
+    pages: dict[tuple[str, int], dict[str, Any]] = {}
+    for number, citations, first_position in ranked:
+        row = served_context[number - 1]
         if not isinstance(row, Mapping):
             continue
-        document_id = row.get("document_id")
-        page_index = row.get("page_number")
-        if not isinstance(document_id, str) or not document_id or type(page_index) is not int:
+        document_id = str(row.get("document_id") or "")
+        page_number = row.get("page_number")
+        if not document_id or not isinstance(page_number, int):
             continue
-        key = (document_id, page_index)
-        if key not in seen:
-            seen.add(key)
-            result.append({"document_id": document_id, "page_index": page_index})
-    return result
+        page_key = (document_id, page_number)
+        entry = pages.setdefault(
+            page_key,
+            {
+                "citations": 0,
+                "first": first_position,
+                "source_file": str(row.get("source_file") or ""),
+            },
+        )
+        entry["citations"] += citations
+        entry["first"] = min(entry["first"], first_position)
+
+    ordered = sorted(
+        pages.items(), key=lambda item: (-item[1]["citations"], item[1]["first"])
+    )
+    return [
+        {
+            "document_id": document_id,
+            "page_index": page_index,
+            "source_file": entry["source_file"],
+        }
+        for (document_id, page_index), entry in ordered
+    ]
+
+
+def visual_lookup_keys(answer: str, served_context: Sequence[Any]) -> list[dict[str, Any]]:
+    """Exact ordered cited-page keys which activate the visual GET side path."""
+
+    return [
+        {
+            "document_id": row["document_id"],
+            "page_index": row["page_index"],
+        }
+        for row in _visual_lookup_plan(answer, served_context)
+    ]
+
+
+def _validate_visual_asset_lineage(
+    visual: Any,
+    *,
+    visual_enabled: bool,
+    answer: str,
+    served_context: Sequence[Any],
+    effective_sha: str,
+    answer_sha: str,
+    replica_key: str,
+) -> None:
+    """Validate the exact GET-prefix, dedupe, transformation and cap contract."""
+
+    plan = _visual_lookup_plan(answer, served_context)
+    eligible_pages = [
+        {
+            "document_id": row["document_id"],
+            "page_index": row["page_index"],
+        }
+        for row in plan
+    ]
+    expected_visual_keys = {
+        "enabled",
+        "status",
+        "effective_config_sha256",
+        "input_answer_sha256",
+        "input_context_sha256",
+        "rest_get_surface",
+        "eligible_pages",
+        "eligible_pages_sha256",
+        "lookup_receipts",
+        "preexisting_assets",
+        "preexisting_assets_sha256",
+        "selected_assets",
+        "selected_assets_sha256",
+    }
+    _require(
+        isinstance(visual, Mapping)
+        and set(visual) == expected_visual_keys
+        and visual.get("enabled") is visual_enabled
+        and visual.get("effective_config_sha256") == effective_sha
+        and visual.get("input_answer_sha256") == answer_sha
+        and visual.get("input_context_sha256") == sha256_json(served_context)
+        and visual.get("eligible_pages") == eligible_pages
+        and visual.get("eligible_pages_sha256") == sha256_json(eligible_pages)
+        and isinstance(visual.get("lookup_receipts"), list)
+        and isinstance(visual.get("preexisting_assets"), list)
+        and visual.get("preexisting_assets_sha256")
+        == sha256_json(visual["preexisting_assets"])
+        and isinstance(visual.get("selected_assets"), list)
+        and visual.get("selected_assets_sha256")
+        == sha256_json(visual["selected_assets"]),
+        "NO_GO_VISUAL_LINEAGE",
+        replica_key,
+    )
+    if not visual_enabled:
+        _require(
+            visual.get("status") == "not_executed"
+            and visual.get("rest_get_surface") == []
+            and visual.get("lookup_receipts") == []
+            and visual.get("selected_assets") == [],
+            "NO_GO_VISUAL_SIDE_PATH_EXECUTED",
+            replica_key,
+        )
+        return
+
+    lookups = visual["lookup_receipts"]
+    _require(
+        visual.get("status") == "evaluated"
+        and visual.get("rest_get_surface") == [VISUAL_REST_GET_SURFACE]
+        and len(lookups) <= len(plan),
+        "NO_GO_VISUAL_LINEAGE",
+        replica_key,
+    )
+    existing_urls = {
+        asset.get("url")
+        for asset in visual["preexisting_assets"]
+        if isinstance(asset, Mapping) and asset.get("url")
+    }
+    expected_selected: list[dict[str, Any]] = []
+    row_keys = {
+        "document_id",
+        "page_index",
+        "page_label",
+        "storage_url",
+        "media_type",
+        "asset_scope",
+        "visual_role",
+        "technical_utility",
+    }
+    for index, lookup in enumerate(lookups):
+        page = eligible_pages[index]
+        expected_request = {
+            "method": "GET",
+            "relation": VISUAL_REST_GET_SURFACE,
+            **page,
+            "technical_utility": "useful",
+            "visual_roles": list(VISUAL_SERVABLE_ROLES),
+        }
+        _require(
+            isinstance(lookup, Mapping)
+            and set(lookup)
+            == {"request", "request_sha256", "response", "response_sha256"}
+            and lookup.get("request") == expected_request
+            and lookup.get("request_sha256") == sha256_json(expected_request)
+            and isinstance(lookup.get("response"), list)
+            and lookup.get("response_sha256") == sha256_json(lookup["response"]),
+            "NO_GO_VISUAL_LINEAGE",
+            f"lookup {replica_key}",
+        )
+        for asset in lookup["response"]:
+            _require(
+                isinstance(asset, Mapping)
+                and set(asset) == row_keys
+                and str(asset.get("document_id") or "") == page["document_id"]
+                and asset.get("page_index") == page["page_index"]
+                and asset.get("technical_utility") == "useful"
+                and asset.get("visual_role") in VISUAL_SERVABLE_ROLES,
+                "NO_GO_VISUAL_LINEAGE",
+                f"response row {replica_key}",
+            )
+            url = asset.get("storage_url")
+            if not url or url in existing_urls:
+                continue
+            existing_urls.add(url)
+            source_file = str(plan[index]["source_file"] or "")
+            manual_name = (
+                source_file.rsplit(".pdf", 1)[0] if source_file else "manual"
+            )
+            page_label = asset.get("page_label") or str(page["page_index"])
+            expected_selected.append(
+                {
+                    "url": url,
+                    "product": manual_name,
+                    "section": f"pág. {page_label}",
+                    "content_type": asset.get("visual_role") or "",
+                }
+            )
+            if len(expected_selected) >= VISUAL_MAX_ASSETS_PER_ANSWER:
+                break
+        if len(expected_selected) >= VISUAL_MAX_ASSETS_PER_ANSWER:
+            _require(
+                index == len(lookups) - 1,
+                "NO_GO_VISUAL_LINEAGE",
+                f"lookup after cap {replica_key}",
+            )
+            break
+    _require(
+        (
+            len(expected_selected) >= VISUAL_MAX_ASSETS_PER_ANSWER
+            or len(lookups) == len(plan)
+        ),
+        "NO_GO_VISUAL_LINEAGE",
+        f"lookup prefix stopped before cap {replica_key}",
+    )
+    _require(
+        visual["selected_assets"] == expected_selected,
+        "NO_GO_VISUAL_SELECTION",
+        replica_key,
+    )
+
+
+def _validate_product_visual_transport_lineage(
+    attestation: Mapping[str, Any],
+    visual: Mapping[str, Any],
+    *,
+    replica_key: str,
+) -> None:
+    """Bind semantic visual probes one-to-one to guarded physical REST GETs."""
+
+    semantic_lookups = visual.get("lookup_receipts")
+    postgrest_receipts = attestation.get("postgrest_request_receipts")
+    _require(
+        isinstance(semantic_lookups, list)
+        and attestation.get("visual_lookup_receipts") == semantic_lookups
+        and isinstance(postgrest_receipts, list)
+        and all(isinstance(receipt, Mapping) for receipt in postgrest_receipts),
+        "NO_GO_PRODUCT_VISUAL_TRANSPORT",
+        replica_key,
+    )
+    physical_visual_gets = [
+        receipt
+        for receipt in postgrest_receipts
+        if receipt.get("method") == "GET"
+        and receipt.get("path") == VISUAL_REST_GET_PATH
+    ]
+    _require(
+        len(physical_visual_gets) == len(semantic_lookups)
+        and all(
+            isinstance(receipt.get("status"), int)
+            and not isinstance(receipt.get("status"), bool)
+            and 200 <= receipt["status"] < 300
+            for receipt in physical_visual_gets
+        ),
+        "NO_GO_PRODUCT_VISUAL_TRANSPORT",
+        replica_key,
+    )
 
 
 def _provider_raw_text(payload: Mapping[str, Any]) -> str:
@@ -5010,90 +5270,15 @@ def validate_replica_receipt(
     visual_enabled = expected_effective_config["generation"][
         "visual_assets_registry"
     ]
-    eligible_pages = visual_lookup_keys(answer, served_context)
-    expected_visual_keys = {
-        "enabled",
-        "status",
-        "effective_config_sha256",
-        "input_answer_sha256",
-        "input_context_sha256",
-        "rest_get_surface",
-        "eligible_pages",
-        "eligible_pages_sha256",
-        "lookup_receipts",
-        "selected_assets",
-        "selected_assets_sha256",
-    }
-    _require(
-        isinstance(visual, Mapping)
-        and set(visual) == expected_visual_keys
-        and visual.get("enabled") is visual_enabled
-        and visual.get("effective_config_sha256") == effective_sha
-        and visual.get("input_answer_sha256") == receipt.get("answer_sha256")
-        and visual.get("input_context_sha256") == sha256_json(served_context)
-        and visual.get("eligible_pages") == eligible_pages
-        and visual.get("eligible_pages_sha256") == sha256_json(eligible_pages)
-        and isinstance(visual.get("lookup_receipts"), list)
-        and isinstance(visual.get("selected_assets"), list)
-        and visual.get("selected_assets_sha256")
-        == sha256_json(visual["selected_assets"]),
-        "NO_GO_VISUAL_LINEAGE",
-        replica.key,
+    _validate_visual_asset_lineage(
+        visual,
+        visual_enabled=visual_enabled,
+        answer=answer,
+        served_context=served_context,
+        effective_sha=effective_sha,
+        answer_sha=str(receipt.get("answer_sha256")),
+        replica_key=replica.key,
     )
-    if not visual_enabled:
-        _require(
-            visual.get("status") == "not_executed"
-            and visual.get("rest_get_surface") == []
-            and visual.get("lookup_receipts") == []
-            and visual.get("selected_assets") == [],
-            "NO_GO_VISUAL_SIDE_PATH_EXECUTED",
-            replica.key,
-        )
-    else:
-        _require(
-            visual.get("status") == "evaluated"
-            and visual.get("rest_get_surface") == [VISUAL_REST_GET_SURFACE]
-            and len(visual["lookup_receipts"]) == len(eligible_pages),
-            "NO_GO_VISUAL_LINEAGE",
-            replica.key,
-        )
-        response_assets: list[Any] = []
-        for page, lookup in zip(
-            eligible_pages, visual["lookup_receipts"], strict=True
-        ):
-            _require(
-                isinstance(lookup, Mapping)
-                and set(lookup)
-                == {"request", "request_sha256", "response", "response_sha256"}
-                and lookup.get("request")
-                == {
-                    "method": "GET",
-                    "relation": VISUAL_REST_GET_SURFACE,
-                    **page,
-                    "technical_utility": "useful",
-                    "visual_roles": ["wiring", "table", "procedure", "ui"],
-                }
-                and lookup.get("request_sha256") == sha256_json(lookup["request"])
-                and isinstance(lookup.get("response"), list)
-                and lookup.get("response_sha256")
-                == sha256_json(lookup["response"]),
-                "NO_GO_VISUAL_LINEAGE",
-                f"lookup {replica.key}",
-            )
-            response_assets.extend(lookup["response"])
-        _require(
-            len(visual["selected_assets"]) <= 4
-            and all(asset in response_assets for asset in visual["selected_assets"])
-            and all(
-                isinstance(asset, Mapping)
-                and asset.get("technical_utility") == "useful"
-                and asset.get("visual_role")
-                in {"wiring", "table", "procedure", "ui"}
-                for asset in visual["selected_assets"]
-            ),
-            "NO_GO_VISUAL_SELECTION",
-            replica.key,
-        )
     render = receipt.get("render")
     _require(isinstance(render, Mapping) and render.get("render_status") == "ok", "NO_GO_RENDER", replica.key)
     parts = render.get("parts")
@@ -5260,6 +5445,11 @@ def validate_replica_receipt(
             ),
             "NO_GO_PRODUCT_ATTESTATION",
             replica.key,
+        )
+        _validate_product_visual_transport_lineage(
+            attestation,
+            visual,
+            replica_key=replica.key,
         )
     else:
         _require(

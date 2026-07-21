@@ -120,6 +120,7 @@ def _chunks() -> list[dict]:
             "section_title": "Causa y Efecto",
             "content_type": "text",
             "source_file": "Pearl.pdf",
+            "document_id": "doc-pearl",
             "page_number": index + 1,
         }
         for index in range(11)
@@ -172,14 +173,15 @@ def _runtime(monkeypatch) -> product.ProductRuntime:
 
 
 class _PostgrestReceiptSource:
-    def __init__(self):
+    def __init__(self, *, visual: bool = False):
         self.calls = 0
+        self.visual = visual
 
     def __call__(self):
         self.calls += 1
         if self.calls == 1:
             return ()
-        return (
+        receipts = [
             {
                 "schema": product.POSTGREST_REQUEST_RECEIPT_SCHEMA,
                 "ordinal": 1,
@@ -189,7 +191,20 @@ class _PostgrestReceiptSource:
                 "request_id": "postgrest-product-test",
                 "body_sha256": "8" * 64,
             },
-        )
+        ]
+        if self.visual:
+            receipts.append(
+                {
+                    "schema": product.POSTGREST_REQUEST_RECEIPT_SCHEMA,
+                    "ordinal": 2,
+                    "method": "GET",
+                    "path": p1.VISUAL_REST_GET_PATH,
+                    "status": 200,
+                    "request_id": "postgrest-visual-test",
+                    "body_sha256": "a" * 64,
+                }
+            )
+        return tuple(receipts)
 
 
 def _adapter(monkeypatch) -> product.ProductReplicaAdapter:
@@ -256,6 +271,117 @@ def test_real_product_prompts_run_once_through_offline_boundary(monkeypatch):
     for intent in boundary.intents:
         spec = boundary.budget.specs[intent.call_key]
         p1.ProviderBoundary._validate_request_envelope(_provider_call(intent), spec)
+
+
+def test_visual_probe_seals_lookup_preexisting_and_transport_selection(monkeypatch):
+    from src.rag import generator as generator_module
+    from src.rag import visual_assets as visual_module
+
+    runtime = _runtime(monkeypatch)
+    monkeypatch.setattr(generator_module, "VISUAL_ASSETS_REGISTRY", True)
+
+    def lookup(document_id, page_number):
+        return [
+            {
+                "document_id": document_id,
+                "page_index": page_number,
+                "page_label": "A-1",
+                "storage_url": "https://assets.test/pearl-delay.png",
+                "media_type": "image/png",
+                "asset_scope": "page",
+                "visual_role": "procedure",
+                "technical_utility": "useful",
+            }
+        ]
+
+    monkeypatch.setattr(visual_module, "lookup_visual_assets", lookup)
+    boundary = OfflineBoundary()
+    boundary.run_genesis["target_semantic_config"]["generation"][
+        "visual_assets_registry"
+    ] = True
+    adapter = product.ProductReplicaAdapter(
+        input_contract=_input_contract(),
+        postgrest_receipt_source=_PostgrestReceiptSource(visual=True),
+        postgrest_manifest_sha256="9" * 64,
+        visual_assets_registry="on",
+        runtime=runtime,
+    )
+
+    execution = adapter.execute_replica(REPLICA, boundary)
+
+    visual = execution.receipt["visual_assets"]
+    assert visual["preexisting_assets"] == []
+    assert visual["preexisting_assets_sha256"] == p1.sha256_json([])
+    assert visual["lookup_receipts"] == [
+        {
+            "request": {
+                "method": "GET",
+                "relation": p1.VISUAL_REST_GET_SURFACE,
+                "document_id": "doc-pearl",
+                "page_index": 1,
+                "technical_utility": "useful",
+                "visual_roles": list(p1.VISUAL_SERVABLE_ROLES),
+            },
+            "request_sha256": visual["lookup_receipts"][0]["request_sha256"],
+            "response": [lookup("doc-pearl", 1)[0]],
+            "response_sha256": visual["lookup_receipts"][0]["response_sha256"],
+        }
+    ]
+    assert visual["selected_assets"] == [
+        {
+            "url": "https://assets.test/pearl-delay.png",
+            "product": "Pearl",
+            "section": "pág. A-1",
+            "content_type": "procedure",
+        }
+    ]
+    p1._validate_visual_asset_lineage(
+        visual,
+        visual_enabled=True,
+        answer=execution.receipt["answer"],
+        served_context=execution.receipt["served_context"],
+        effective_sha=execution.receipt["effective_config"][
+            "semantic_config_sha256"
+        ],
+        answer_sha=execution.receipt["answer_sha256"],
+        replica_key=REPLICA.key,
+    )
+    p1._validate_product_visual_transport_lineage(
+        execution.adapter_attestation,
+        visual,
+        replica_key=REPLICA.key,
+    )
+
+    without_get = dict(execution.adapter_attestation)
+    without_get["postgrest_request_receipts"] = without_get[
+        "postgrest_request_receipts"
+    ][:1]
+    with pytest.raises(p1.P1Error) as caught:
+        p1._validate_product_visual_transport_lineage(
+            without_get,
+            visual,
+            replica_key=REPLICA.key,
+        )
+    assert caught.value.code == "NO_GO_PRODUCT_VISUAL_TRANSPORT"
+
+
+def test_visual_on_requires_the_product_append_stage(monkeypatch):
+    boundary = OfflineBoundary()
+    boundary.run_genesis["target_semantic_config"]["generation"][
+        "visual_assets_registry"
+    ] = True
+    adapter = product.ProductReplicaAdapter(
+        input_contract=_input_contract(),
+        postgrest_receipt_source=_PostgrestReceiptSource(),
+        postgrest_manifest_sha256="9" * 64,
+        visual_assets_registry="on",
+        runtime=_runtime(monkeypatch),
+    )
+
+    with pytest.raises(p1.P1Error) as caught:
+        adapter.execute_replica(REPLICA, boundary)
+
+    assert caught.value.code == "NO_GO_PRODUCT_STAGE_COUNT"
 
 
 def test_preregistered_rerank_bound_covers_full_product_preview_envelope(monkeypatch):

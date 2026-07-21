@@ -1026,24 +1026,42 @@ def _installed_product_proxies(router: _ProviderRouter, capture: dict[str, Any])
             capture.setdefault("visual_errors", []).append(type(exc).__name__)
             raise
         safe_rows = _json_copy(rows, field="visual lookup rows")
+        request = {
+            "method": "GET",
+            "relation": p1.VISUAL_REST_GET_SURFACE,
+            "document_id": document_id,
+            "page_index": page_number,
+            "technical_utility": "useful",
+            "visual_roles": list(p1.VISUAL_SERVABLE_ROLES),
+        }
         capture.setdefault("visual_lookups", []).append(
             {
-                "document_id": document_id,
-                "page_index": page_number,
-                "rows": safe_rows,
-                "rows_sha256": p1.sha256_json(safe_rows),
+                "request": request,
+                "request_sha256": p1.sha256_json(request),
+                "response": safe_rows,
+                "response_sha256": p1.sha256_json(safe_rows),
             }
         )
         return rows
 
     def visual_append_probe(result, chunks):
+        _require(
+            "visual_append" not in capture,
+            "NO_GO_PRODUCT_STAGE_COUNT",
+            f"duplicate visual append for {router.replica.key}",
+        )
         before = deepcopy(result.get("diagrams") or [])
         original_visual_append(result, chunks)
         after = deepcopy(result.get("diagrams") or [])
+        _require(
+            after[: len(before)] == before,
+            "NO_GO_VISUAL_SELECTION",
+            f"preexisting assets changed for {router.replica.key}",
+        )
         capture["visual_append"] = {
             "before": before,
             "after": after,
-            "selected": after[len(before) :] if after[: len(before)] == before else [],
+            "selected": after[len(before) :],
         }
 
     try:
@@ -1322,6 +1340,11 @@ class ProductReplicaAdapter:
             "NO_GO_PRODUCT_STRUCTURAL_FETCH_COUNT",
             replica.key,
         )
+        _require(
+            ("visual_append" in capture) is (target_visual is True),
+            "NO_GO_PRODUCT_STAGE_COUNT",
+            f"visual append count for {replica.key}",
+        )
         served = pipeline.get("chunks")
         coverage_trace = pipeline.get("coverage_trace")
         generation = pipeline.get("generation")
@@ -1470,7 +1493,18 @@ class ProductReplicaAdapter:
             for name, before, after in stage_values
         ]
         visual_enabled = effective["generation"]["visual_assets_registry"]
-        visual_selected = capture.get("visual_append", {}).get("selected", [])
+        visual_append = capture.get("visual_append")
+        visual_preexisting = (
+            visual_append["before"]
+            if isinstance(visual_append, Mapping)
+            else _json_copy(
+                generation.get("diagrams") or [],
+                field="preexisting visual assets",
+            )
+        )
+        visual_selected = (
+            visual_append["selected"] if isinstance(visual_append, Mapping) else []
+        )
         eligible = p1.visual_lookup_keys(answer, served)
         run_identity = {
             key: boundary.run_genesis[key]
@@ -1570,6 +1604,10 @@ class ProductReplicaAdapter:
                 "eligible_pages": eligible,
                 "eligible_pages_sha256": p1.sha256_json(eligible),
                 "lookup_receipts": capture["visual_lookups"],
+                "preexisting_assets": visual_preexisting,
+                "preexisting_assets_sha256": p1.sha256_json(
+                    visual_preexisting
+                ),
                 "selected_assets": visual_selected,
                 "selected_assets_sha256": p1.sha256_json(visual_selected),
             },

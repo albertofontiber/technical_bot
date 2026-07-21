@@ -407,6 +407,8 @@ class _ReplicaAdapter:
             "eligible_pages": eligible_pages,
             "eligible_pages_sha256": p1.sha256_json(eligible_pages),
             "lookup_receipts": [],
+            "preexisting_assets": [],
+            "preexisting_assets_sha256": p1.sha256_json([]),
             "selected_assets": [],
             "selected_assets_sha256": p1.sha256_json([]),
         }
@@ -934,6 +936,207 @@ def test_visual_assets_registry_snapshot_drift_is_caught_by_derived_hashes():
         )
 
     assert caught.value.code == "HOLD_CONFIG_DRIFT"
+
+
+def _visual_test_context(count: int = 6) -> list[dict]:
+    return [
+        {
+            "document_id": f"doc-{index}",
+            "page_number": index,
+            "source_file": f"Manual {index}.pdf",
+            "content": f"evidence {index}",
+        }
+        for index in range(1, count + 1)
+    ]
+
+
+def _visual_test_row(page: dict, *, url: str | None = None) -> dict:
+    page_index = page["page_index"]
+    return {
+        "document_id": page["document_id"],
+        "page_index": page_index,
+        "page_label": str(page_index),
+        "storage_url": url or f"https://assets.test/{page_index}.png",
+        "media_type": "image/png",
+        "asset_scope": "page",
+        "visual_role": "wiring",
+        "technical_utility": "useful",
+    }
+
+
+def _visual_test_lookup(page: dict, rows: list[dict]) -> dict:
+    request = {
+        "method": "GET",
+        "relation": p1.VISUAL_REST_GET_SURFACE,
+        **page,
+        "technical_utility": "useful",
+        "visual_roles": list(p1.VISUAL_SERVABLE_ROLES),
+    }
+    return {
+        "request": request,
+        "request_sha256": p1.sha256_json(request),
+        "response": rows,
+        "response_sha256": p1.sha256_json(rows),
+    }
+
+
+def _visual_test_receipt(
+    answer: str,
+    context: list[dict],
+    *,
+    lookup_count: int,
+    selected: list[dict],
+    preexisting: list[dict] | None = None,
+) -> dict:
+    eligible = p1.visual_lookup_keys(answer, context)
+    lookups = [
+        _visual_test_lookup(page, [_visual_test_row(page)])
+        for page in eligible[:lookup_count]
+    ]
+    before = preexisting or []
+    return {
+        "enabled": True,
+        "status": "evaluated",
+        "effective_config_sha256": "e" * 64,
+        "input_answer_sha256": hashlib.sha256(answer.encode()).hexdigest(),
+        "input_context_sha256": p1.sha256_json(context),
+        "rest_get_surface": [p1.VISUAL_REST_GET_SURFACE],
+        "eligible_pages": eligible,
+        "eligible_pages_sha256": p1.sha256_json(eligible),
+        "lookup_receipts": lookups,
+        "preexisting_assets": before,
+        "preexisting_assets_sha256": p1.sha256_json(before),
+        "selected_assets": selected,
+        "selected_assets_sha256": p1.sha256_json(selected),
+    }
+
+
+def _validate_visual_test(receipt: dict, answer: str, context: list[dict]) -> None:
+    p1._validate_visual_asset_lineage(
+        receipt,
+        visual_enabled=True,
+        answer=answer,
+        served_context=context,
+        effective_sha="e" * 64,
+        answer_sha=hashlib.sha256(answer.encode()).hexdigest(),
+        replica_key="hp017:r1",
+    )
+
+
+def test_visual_lookup_plan_matches_product_relevance_aggregation_and_fallback():
+    from src.rag import visual_assets as product_visual
+
+    context = _visual_test_context(4)
+    context[2]["document_id"] = context[0]["document_id"]
+    context[2]["page_number"] = context[0]["page_number"]
+    cited_answer = "[F2] luego [F1] [F3] y otra vez [F3]"
+    manual_answer = "Consulte Manual 4 y después Manual 2."
+
+    for answer in (cited_answer, manual_answer):
+        product_keys = [
+            {"document_id": key[0], "page_index": key[1]}
+            for key, _entry in product_visual._cited_pages_by_relevance(
+                answer, context
+            )
+        ]
+        assert p1.visual_lookup_keys(answer, context) == product_keys
+
+
+def test_visual_lineage_accepts_exact_prefix_when_fourth_asset_hits_cap():
+    context = _visual_test_context()
+    answer = " ".join(f"[F{index}]" for index in range(1, 7))
+    selected = [
+        {
+            "url": f"https://assets.test/{index}.png",
+            "product": f"Manual {index}",
+            "section": f"pág. {index}",
+            "content_type": "wiring",
+        }
+        for index in range(1, 5)
+    ]
+    receipt = _visual_test_receipt(
+        answer, context, lookup_count=4, selected=selected
+    )
+
+    _validate_visual_test(receipt, answer, context)
+
+
+def test_visual_lineage_reconstructs_dedupe_before_applying_cap():
+    context = _visual_test_context(5)
+    answer = " ".join(f"[F{index}]" for index in range(1, 6))
+    before = [{"url": "https://assets.test/1.png", "content_type": "legacy"}]
+    selected = [
+        {
+            "url": f"https://assets.test/{index}.png",
+            "product": f"Manual {index}",
+            "section": f"pág. {index}",
+            "content_type": "wiring",
+        }
+        for index in range(2, 6)
+    ]
+    receipt = _visual_test_receipt(
+        answer,
+        context,
+        lookup_count=5,
+        selected=selected,
+        preexisting=before,
+    )
+
+    _validate_visual_test(receipt, answer, context)
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_code"),
+    [
+        ("truncated_before_cap", "NO_GO_VISUAL_LINEAGE"),
+        ("lookup_order", "NO_GO_VISUAL_LINEAGE"),
+        ("row_tamper", "NO_GO_VISUAL_LINEAGE"),
+        ("selected_tamper", "NO_GO_VISUAL_SELECTION"),
+    ],
+)
+def test_visual_lineage_rejects_incomplete_or_tampered_prefix(
+    mutation, expected_code
+):
+    context = _visual_test_context()
+    answer = " ".join(f"[F{index}]" for index in range(1, 7))
+    selected = [
+        {
+            "url": f"https://assets.test/{index}.png",
+            "product": f"Manual {index}",
+            "section": f"pág. {index}",
+            "content_type": "wiring",
+        }
+        for index in range(1, 5)
+    ]
+    receipt = _visual_test_receipt(
+        answer, context, lookup_count=4, selected=selected
+    )
+    if mutation == "truncated_before_cap":
+        receipt["lookup_receipts"] = receipt["lookup_receipts"][:3]
+        receipt["selected_assets"] = receipt["selected_assets"][:3]
+        receipt["selected_assets_sha256"] = p1.sha256_json(
+            receipt["selected_assets"]
+        )
+    elif mutation == "lookup_order":
+        receipt["lookup_receipts"][0], receipt["lookup_receipts"][1] = (
+            receipt["lookup_receipts"][1],
+            receipt["lookup_receipts"][0],
+        )
+    elif mutation == "row_tamper":
+        receipt["lookup_receipts"][0]["response"][0]["visual_role"] = "cover"
+        receipt["lookup_receipts"][0]["response_sha256"] = p1.sha256_json(
+            receipt["lookup_receipts"][0]["response"]
+        )
+    else:
+        receipt["selected_assets"][0]["product"] = "Otro manual"
+        receipt["selected_assets_sha256"] = p1.sha256_json(
+            receipt["selected_assets"]
+        )
+
+    with pytest.raises(p1.P1Error) as caught:
+        _validate_visual_test(receipt, answer, context)
+
+    assert caught.value.code == expected_code
 
 
 def test_release_config_rejects_semantic_cross_field_and_stale_snapshot():
