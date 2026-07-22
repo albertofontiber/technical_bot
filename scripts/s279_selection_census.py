@@ -47,11 +47,15 @@ DECLARED DEVIATIONS (honest gaps — see the report §Deviations):
       Candidate reach, eligibility (terms_hit vs each group) and intra-group
       ranking are exact regardless of the served view.
 
-Usage:  python scripts/s279_selection_census.py [--smoke]
-  --smoke  runs only the 2 probes + 2 controls + hp011 (governed).  Default = full
+Usage:  python scripts/s279_selection_census.py [--smoke] [--tag v1|v2|...]
+  --smoke  runs only the 2 probes + controls + hp011 (governed).  Default = full
            (13 P1 QIDs + hp009/hp010 + controls).
-Outputs: evals/s279_selection_census_result_v1.json
-         evals/s279_selection_census_report_v1.md
+  --tag    output version tag (default ``v1``); the census is a versioned
+           artifact, so the tag suffixes the output filenames + the report title
+           WITHOUT clobbering a prior run.  The instrument ``schema`` is unchanged
+           across tags (same JSON shape); the run tag is stamped in the payload.
+Outputs: evals/s279_selection_census_result_<tag>.json
+         evals/s279_selection_census_report_<tag>.md
 """
 from __future__ import annotations
 
@@ -88,8 +92,14 @@ from src.rag.catalog_resolver import resolve_query  # noqa: E402
 
 # ── constants ────────────────────────────────────────────────────────────────
 GOLD = ROOT / "evals/gold_answers_v1.yaml"
-RESULT_PATH = ROOT / "evals/s279_selection_census_result_v1.json"
-REPORT_PATH = ROOT / "evals/s279_selection_census_report_v1.md"
+
+
+def _result_path(tag: str) -> Path:
+    return ROOT / f"evals/s279_selection_census_result_{tag}.json"
+
+
+def _report_path(tag: str) -> Path:
+    return ROOT / f"evals/s279_selection_census_report_{tag}.md"
 V4_CONFIG = ROOT / "config/retrieval_facets_v4.yaml"
 V5_CONFIG = ROOT / "config/retrieval_facets_v5_document_local.yaml"
 MIGRATION_PROPOSAL = (
@@ -154,6 +164,16 @@ CONTROLS = {
     "ctrl_ontopic_adjacent_mc380": (
         "¿Como se crea y configura una zona en la central Detnov CAD-250 (MC-380) "
         "y como se asignan los equipos y detectores a esa zona?"
+    ),
+    # s279 A5' [CONTROL-TRIM]: on-topic-adjacent VERBOSE — a long CAD-250 question
+    # whose PRE-trim tsquery exceeds MAX_TSQUERY_CHARS (~1229 chars, two
+    # archetypes) so it EXERCISES the amended trim (the A5' floor + phase-2 whole-
+    # group drop) under a REAL scope.  Pre-registered: it must NOT serve anything
+    # under the real (lane-served) view; if it serves, the design fails (§4.2).
+    "ctrl_ontopic_adjacent_verbose_mc380": (
+        "¿Como se cablea y se da de alta un lazo, se crea un sitio y edificio con "
+        "licencia, y se programa una maniobra causa-efecto con entradas y salidas "
+        "en la central Detnov CAD-250 (MC-380)?"
     ),
 }
 
@@ -879,7 +899,15 @@ def main(argv: list[str] | None = None) -> int:
         pass
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--smoke", action="store_true", help="probes + controls + hp011 only")
+    parser.add_argument(
+        "--tag",
+        default="v1",
+        help="output version tag; suffixes the result/report filenames + report title",
+    )
     args = parser.parse_args(argv)
+    tag = args.tag
+    result_path = _result_path(tag)
+    report_path = _report_path(tag)
 
     _init_http()
     gold = {r["qid"]: r for r in yaml.safe_load(GOLD.read_text(encoding="utf-8"))}
@@ -911,6 +939,7 @@ def main(argv: list[str] | None = None) -> int:
 
     payload = {
         "schema": "s279_selection_census_v1",
+        "run_tag": tag,
         "authority": "DEVELOPMENT_CENSUS_READ_ONLY_ZERO_MODEL_CALLS",
         "freeze_contract": contract,
         "declared_deviations": {
@@ -919,13 +948,13 @@ def main(argv: list[str] | None = None) -> int:
         },
         "records": records,
     }
-    RESULT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    result_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     report = build_report(payload)
-    REPORT_PATH.write_text(report, encoding="utf-8")
+    report_path.write_text(report, encoding="utf-8")
     print("\n" + "=" * 70)
     print(report[report.rfind("## Totals"):] if "## Totals" in report else report[-1500:])
-    print(f"\nresult: {RESULT_PATH}")
-    print(f"report: {REPORT_PATH}")
+    print(f"\nresult: {result_path}")
+    print(f"report: {report_path}")
     return 0
 
 
@@ -944,8 +973,9 @@ def _print_brief(rec: dict[str, Any]) -> None:
 # ── report ─────────────────────────────────────────────────────────────────────
 def build_report(payload: dict[str, Any]) -> str:
     fc = payload["freeze_contract"]
+    tag = payload.get("run_tag", "v1")
     L: list[str] = []
-    L.append("# s279 — Censo de alcance de selección (document-local) — v1")
+    L.append(f"# s279 — Censo de alcance de selección (document-local) — {tag}")
     L.append("")
     L.append("Instrumento: `scripts/s279_selection_census.py`. Read-only, **0 llamadas a "
              "modelos/embeddings de pago, 0 escrituras**. El censo ADJUDICA (no calibra): "
@@ -1011,6 +1041,25 @@ def build_report(payload: dict[str, Any]) -> str:
                      "terms_hit por grupo: " + ", ".join(
                         f"g{g['group_index']}({g['n_terms']}t,gated={g['gated_by_A7']})={g['terms_hit']}"
                         for g in td.get("per_group", [])))
+        # A5' [ADJUDICACIÓN E2E]: el veredicto headline usa la vista VACÍA (cota
+        # superior D2).  El gate bajo la vista=ganador-del-lane (subconjunto REAL
+        # de la vista servida de producción) puede reordenar la prioridad de
+        # grupos por cobertura y elegir OTRA fila — se declara junto al headline
+        # para que la (in)certeza sea visible; la adjudicación E2E la da el
+        # smoke/pasada (hecho servido Y citado), no este proxy.
+        fe = r["v5"].get("facet", {})
+        fl = r["v5"].get("facet_lane_served", {})
+        L.append(
+            f"- gate vista VACÍA (cota superior): sirvió `{fe.get('selected_id')}` "
+            f"(grupo {fe.get('group_index')}, {fe.get('terms_hit')} términos, "
+            f"is_target={fe.get('is_target')})"
+        )
+        L.append(
+            f"- gate vista=ganador-del-lane (subconjunto REAL): "
+            f"status=`{fl.get('status')}` → sirvió `{fl.get('selected_id')}` "
+            f"(grupo {fl.get('group_index')}, {fl.get('terms_hit')} términos, "
+            f"**is_target={fl.get('is_target')}**); grades {fl.get('grades')}"
+        )
         for ps in r["v5"].get("per_scope", []):
             if ps["overflow"]:
                 L.append(f"- reto tardío (v5, {ps['source_file']}): matched={ps['full_matched_count']}, "

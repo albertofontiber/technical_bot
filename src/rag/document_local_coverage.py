@@ -58,6 +58,16 @@ MAX_ANCHOR_TERMS = 10
 MAX_NEED_GROUPS = 3
 MAX_NEED_TERMS_PER_GROUP = 6
 MAX_TSQUERY_CHARS = 480
+# s279 A5' [TSQUERY-TRIM · SUELO] (cambio de diseño POST-census): el suelo por
+# need-group del trim.  Un grupo que el gate A7 puede usar (>=N_FACET términos
+# ANTES del trim) jamás se degrada por debajo de N_FACET términos por el recorte
+# — la coherencia A5<->A7 (un grupo gate-elegible no debe quedar sub-umbral por
+# el trim).  Los grupos de 1-2 términos (que A7 ya excluye) conservan el suelo
+# histórico de 1.  DEBE igualar ``post_rerank_coverage.N_FACET`` (el umbral del
+# gate); un test de sincronía lo pinea contra la deriva.  Constante LOCAL
+# deliberada: el módulo no importa post_rerank_coverage en import-time (patrón de
+# desacople existente — los imports de ese módulo son function-local).
+NEED_GROUP_GATE_FLOOR = 3
 # s279 §3 [SEAM-DELEGADO]: la vía document-local bajo DOCUMENT_LOCAL_SELECTION_V2
 # consume el fork de facetas v5 con multi-match acotado y un tope de need-groups
 # PROPIO de la vía; la constante global MAX_NEED_GROUPS=3 queda intacta (y por
@@ -456,15 +466,24 @@ def _compose_document_local_tsquery(
 def _trim_document_local_need_groups(
     anchors: list[str], need_groups: list[list[str]]
 ) -> tuple[list[list[str]] | None, dict[str, Any]]:
-    """s279 §3 / A5 [TSQUERY-TRIM]: pre-registered deterministic trim.
+    """s279 §3 / A5 + A5' [TSQUERY-TRIM · SUELO]: pre-registered deterministic trim.
 
     While the composed tsquery exceeds ``MAX_TSQUERY_CHARS``: (1) round-robin
     from the LAST need-group, dropping the last term of each group, never below
-    one term per group; (2) if it still does not fit, drop WHOLE groups from the
+    its A5' FLOOR — ``NEED_GROUP_GATE_FLOOR`` (=N_FACET) for a group that was
+    gate-eligible before the trim (>=N_FACET terms), 1 for the 1-2 term groups
+    A7 already excludes; (2) if it still does not fit, drop WHOLE groups from the
     last, keeping at least one; (3) if the minimal base (anchors ∧ a single
-    1-term group) still exceeds the bound, refuse the plan (``None``).  Removed
+    floored group) still exceeds the bound, refuse the plan (``None``).  Removed
     terms and groups are listed in removal order and group indices stay stable
     (only the tail is ever removed) — never adjusted after the RPC result.
+
+    A5' (design change POST-census, s279): the round-robin can no longer degrade a
+    group the A7 gate would use below the gate's own N_FACET threshold — the
+    coherence A5<->A7.  When flooring every gate-eligible group still overflows
+    (the floor-infeasible regime), phase 2 removes whole tail groups; it never
+    leaves a sub-N_FACET "zombie" group.  The floor is positional and computed
+    ONCE from the untrimmed groups.
     """
     groups = [list(group) for group in need_groups]
     terms_removed: list[dict[str, Any]] = []
@@ -475,13 +494,19 @@ def _trim_document_local_need_groups(
             "terms_removed": [],
             "groups_removed": [],
         }
-    # Phase 1: round-robin last-term removal, minimum one term per group.
+    # A5' per-group floor by PRE-trim size (stable positional index): a group the
+    # A7 gate can use keeps at least N_FACET terms; the 1-2 term groups keep 1.
+    floors = [
+        NEED_GROUP_GATE_FLOOR if len(group) >= NEED_GROUP_GATE_FLOOR else 1
+        for group in need_groups
+    ]
+    # Phase 1: round-robin last-term removal, never below each group's floor.
     while (
         len(_compose_document_local_tsquery(anchors, groups)) > MAX_TSQUERY_CHARS
     ):
         removed_in_round = False
         for index in range(len(groups) - 1, -1, -1):
-            if len(groups[index]) > 1:
+            if len(groups[index]) > floors[index]:
                 dropped = groups[index].pop()
                 terms_removed.append({"group_index": index, "term": dropped})
                 removed_in_round = True

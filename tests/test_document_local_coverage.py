@@ -1486,13 +1486,21 @@ def test_plan_v5_serves_cat017_with_commissioning_need_group(
     assert plan["archetype"] == "connect_install_wire"
     assert plan["archetypes"] == ["connect_install_wire", "commissioning_setup"]
     commissioning_terms = {"sitio", "edificio", "licencia", "bin", "portal"}
-    assert any(
-        commissioning_terms & set(group) for group in plan["need_groups"]
-    ), plan["need_groups"]
-    # cat017 dispara el trim A5 (688 -> <=480) por-términos, sin perder grupos.
+    commissioning_group = next(
+        group
+        for group in plan["need_groups"]
+        if commissioning_terms & set(group)
+    )
+    # cat017 dispara el trim A5 (709 -> <=480) por-términos, sin perder grupos.
     assert plan["trim"]["trimmed"] is True
     assert plan["trim"]["groups_removed"] == []
     assert len(plan["tsquery"]) <= document_local.MAX_TSQUERY_CHARS
+    # A5' [SUELO]: el grupo commissioning nace con 5 términos (>=N_FACET) y el
+    # suelo impide que el trim lo degrade por debajo de N_FACET — llega al gate
+    # A7 como grupo gate-elegible ([sitio, edificio, licencia]), no como el par
+    # sub-umbral [sitio, edificio] que producía el trim previo.
+    assert len(commissioning_group) >= document_local.NEED_GROUP_GATE_FLOOR
+    assert "licencia" in commissioning_group
 
 
 def test_plan_v5_serves_cat019_real_question(
@@ -1592,6 +1600,116 @@ def test_trim_a5_border3_base_over_bound_returns_none(
 
     assert trimmed is None
     assert receipt["blocked"] == "base_exceeds_tsquery_bound"
+
+
+# ---- A5' [SUELO]: el suelo por-grupo del trim (cambio de diseño POST-census) --
+
+
+def test_a5prime_floor_equals_gate_n_facet() -> None:
+    # El suelo de un grupo gate-elegible ES el umbral del gate A7 (coherencia
+    # A5<->A7); el test de sincronía impide que las dos constantes deriven.
+    from src.rag.post_rerank_coverage import N_FACET
+
+    assert document_local.NEED_GROUP_GATE_FLOOR == N_FACET
+
+
+def test_trim_a5prime_floor_holds_gate_eligible_group_in_phase1(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # cat017-clase (suelo sostenido en fase 1).  Cuatro grupos gate-elegibles
+    # (6,6,6,5 términos pre-trim; suelo=N_FACET=3).  El round-robin desde el
+    # ÚLTIMO grupo llevaría al grupo final por debajo de 3 SIN el suelo (a 2, como
+    # el trim previo); con el suelo se para en 3 y el exceso lo absorbe un grupo
+    # aún por encima de su suelo.  groups_removed vacío = solo fase 1.
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"t{i}{j}".ljust(9, "z")[:9] for j in range(n)]
+        for i, n in enumerate((6, 6, 6, 5))
+    ]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, need_groups))
+        > document_local.MAX_TSQUERY_CHARS
+    )
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["trimmed"] is True
+    assert receipt["groups_removed"] == []  # phase 1 only, no whole-group drop
+    # El suelo se sostiene: NINGÚN grupo gate-elegible cae por debajo de N_FACET.
+    assert all(
+        len(group) >= document_local.NEED_GROUP_GATE_FLOOR for group in trimmed
+    )
+    # El grupo final se PINEA en el suelo (3), no en 2 como haría el trim previo.
+    assert len(trimmed[-1]) == document_local.NEED_GROUP_GATE_FLOOR
+    assert [len(group) for group in trimmed] == [4, 4, 3, 3]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
+
+
+def test_trim_a5prime_floor_leaves_small_group_at_one(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Asimetría del suelo: un grupo de 1-2 términos (que A7 ya excluye) conserva
+    # el suelo histórico de 1 y puede colapsar a 1, mientras el grupo
+    # gate-elegible queda intacto por encima de N_FACET.
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"m{i}{j}".ljust(60, "z")[:60] for j in range(n)]
+        for i, n in ((0, 6), (1, 2))
+    ]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, need_groups))
+        > document_local.MAX_TSQUERY_CHARS
+    )
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"] == []
+    assert len(trimmed[1]) == 1  # small group floored at 1
+    assert len(trimmed[0]) >= document_local.NEED_GROUP_GATE_FLOOR
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
+
+
+def test_trim_a5prime_floor_infeasible_falls_to_phase2(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # cat001-clase (suelo INFACTIBLE => fase 2, testigo del régimen residual).
+    # Con términos tan largos que flooring TODO grupo gate-elegible a N_FACET=3
+    # sigue superando 480, la fase 2 elimina el grupo entero de la cola.  El
+    # invariante: jamás un grupo "zombi" sub-N_FACET; se mata la posición del
+    # arquetipo entero (residual medible, no bloqueante).
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"u{i}{j}".ljust(15, "z")[:15] for j in range(4)] for i in range(4)
+    ]
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"]  # phase 2 fired
+    assert receipt["groups_removed"][0]["group_index"] == len(need_groups) - 1
+    assert len(trimmed) < len(need_groups)
+    # Ningún zombi: los grupos que sobreviven quedan >= N_FACET (en su suelo).
+    assert all(
+        len(group) >= document_local.NEED_GROUP_GATE_FLOOR for group in trimmed
+    )
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
 
 
 def test_plan_v5_returns_none_when_base_exceeds_bound(
