@@ -1,0 +1,92 @@
+schema: s275_gold_round2_closeout_v1
+date: '2026-07-20'
+status: CLOSED_NO_GO
+baseline_unchanged:
+  denominator: 154
+  ok: 146
+  synthesis_miss: 6
+  retrieval_miss: 2
+  ok_pct: 94.81
+  required_for_98pct: 151
+  remaining_gap: 5
+
+scope:
+  attempted_route: gold_round_2_source_contract
+  target_ids:
+    - obl_2f5d79e354b9
+    - obl_7bba8d03d496
+    - obl_a5d9fa1f9253
+    - obl_015f9b9aaa3a
+    - obl_b2043cd4379b
+    - obl_7aa723717412
+  case_adjudication_executed: false
+  bot_generations_executed: 0
+  database_reads: 0
+  database_writes: 0
+  gold_edits: 0
+  denominator_changes: 0
+
+design_reviews:
+  v1:
+    decision: NO_GO
+    design: evals/s275_gold_round2_source_contract_design_v1.md
+    prereg: evals/s275_gold_round2_source_contract_prereg_v1.yaml
+    sol_review:
+      path: evals/adversarial_reviews/2026-07-20T08-21-27_gpt-5.6-sol_d7bb0ba3de7b.md
+      sha256: d7bb0ba3de7b4f5a330c6ff9e0d5374137fe151a21e604ef873b31cc6f671c37
+      tokens: 197223
+    fable_review:
+      path: evals/adversarial_reviews/2026-07-20T08-23-58_claude-fable-5_b278a9a78521.md
+      sha256: b278a9a7852127ee5c2907de5724d3a11210f19c1a8b6a9d3b390a01d8f8b798
+      tokens: 61918
+    root_causes:
+      - reviewer_blinding_broken_by_repository_tools
+      - e2_relitigated_s270_without_new_defect
+      - e1_collapsed_distinct_failure_buckets
+      - e3_posthoc_credit_not_executable
+      - control_and_gate_ambiguity
+  v2:
+    decision: NO_GO_CLOSE_ROUTE
+    design: evals/s275_gold_round2_source_contract_design_v2.md
+    prereg: evals/s275_gold_round2_source_contract_prereg_v2.yaml
+    sol_review:
+      path: evals/adversarial_reviews/2026-07-20T08-41-44_gpt-5.6-sol_3b44efc03c09.md
+      sha256: 3b44efc03c0923dbab6fe86543eb76fa49182e592f1265649469dad9d81e82ad
+      tokens: 1045221
+    fable_review:
+      path: evals/adversarial_reviews/2026-07-20T08-45-23_claude-fable-5_efb85879f392.md
+      sha256: efb85879f39222a3e1ce34809fdd395d4c08a0124e91820c0560e0f16629acc2
+      tokens: 193147
+    root_causes:
+      - s270_sync_debt_was_confused_with_a_new_gold_defect
+      - no_gold_bijection_could_reverse_explicit_user_mark_on_015f
+      - hp017_cardinality_was_already_visible_when_both_rows_were_accepted
+      - e3_mixed_pre_conversion_and_banked_answer_states
+      - controls_were_not_all_clean_frozen_or_calibrated
+
+review_usage:
+  total_reported_tokens: 1497509
+  cost_usd: null
+  cost_note: runners expose token usage but no authoritative billing receipt
+  automatic_retries: 0
+
+authority_result:
+  controlling_adjudication: evals/s270_gold_adjudication_v1.yaml
+  conclusion: >-
+    No target has a new, unequivocal structural defect that was unknown to S270.
+    The six current CORE decisions remain binding. The missing explicit TONE atom
+    in gold_answers_v1.yaml is treated as synchronization debt after S270 and may
+    justify adding/synchronizing the representation, never deleting the
+    user-adjudicated unit or shrinking the denominator.
+  hp017_note: >-
+    The input and output obligations map to one prose atomic_fact in the current
+    YAML, but both units were separately visible and explicitly accepted in S270.
+    Reatomizing them now requires a fresh human policy choice; it is not a free
+    correction in this round.
+
+decision:
+  no_v3_gold_round: true
+  reason: preserving_S270_leaves_no_preregistered_path_to_plus_5
+  next_route: serving_view_generalization_read_only_preflight
+  next_artifact: evals/s275_serving_view_reach_preflight_v1.json
+  paid_execution_authorized: false

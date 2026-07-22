@@ -1,0 +1,76 @@
+schema: s276_duo_adjudication_v1
+subject_sol_ts: "2026-07-20T09:29:35"
+sol_review: evals/adversarial_reviews/2026-07-20T09-29-35_gpt-5.6-sol_2766ebf454d4.md
+fable_review: evals/adversarial_reviews/2026-07-20T09-44-22_claude-fable-5_f054af1576d1.md
+status: COMPLETE_ADJUDICATED_NO_PASS
+raw_tally:
+  sol: {findings: 6, confirmed: 6, false_pos: 0, severity_max: medium}
+  fable: {findings: 3, confirmed: 3, false_pos: 0, severity_max: medium}
+deduplicated_tally:
+  findings: 8
+  confirmed: 8
+  false_pos: 0
+  severity_max: medium
+deduplication:
+  - fable: prior_cohort_hashes_not_enforced
+    merged_into: freeze_chain_not_fully_attested
+    reason: Fable aporta el caso concreto de la finding amplia de Sol.
+findings:
+  - id: freeze_chain_not_fully_attested
+    severity: medium
+    status: confirmed
+    kind: harness_and_provenance
+    disposition: >-
+      No se modifica post-hoc el script congelado. El closeout limita el claim a
+      consistencia posterior; una reapertura exige hashes previos fail-closed,
+      builder/exclusiones y snapshot de corpus congelados.
+  - id: parser_self_consistency_not_independent_recall
+    severity: medium
+    status: confirmed
+    kind: measurement_framing
+    disposition: 67/67 se reporta como autorrederivación, no recall semántico ni de gramática.
+  - id: sampled_docs_gate_does_not_count_nonempty_fetches
+    severity: minor
+    status: confirmed
+    kind: harness
+    disposition: Limitación documentada; una nueva semilla separará selected/with_fragments/screened.
+  - id: boundary_controls_are_synthetic
+    severity: minor
+    status: confirmed
+    kind: control_framing
+    disposition: 0/201 se etiqueta como control sintético, no precisión de límites naturales.
+  - id: repair_is_a_second_writer
+    severity: medium
+    status: confirmed
+    kind: architecture
+    disposition: >-
+      Ruta C queda verifier-only y fail-closed. Repair pasa a fase opcional separada,
+      reconoce segundo writer y exige merge, conflictos y revalidación full-answer.
+  - id: rgpd_lifecycle_incomplete
+    severity: medium
+    status: confirmed
+    kind: architecture
+    disposition: >-
+      Se añade matriz previa a DDL y propagación a eventos, derivados, logs, outbox,
+      caches, colas, backups y proveedores; plazos/base requieren validación legal/DPO.
+  - id: idempotency_key_is_not_exactly_once_delivery
+    severity: medium
+    status: confirmed
+    kind: architecture
+    disposition: >-
+      Se añaden estados reclamables, lease/heartbeat, orden por conversación, CAS,
+      transactional outbox, delivery attempts/receipts y objetivo effectively-once.
+  - id: measured_levers_heading_mixed_categories
+    severity: minor
+    status: confirmed
+    kind: documentation_framing
+    disposition: Encabezado separa outcomes medidos, cierres de diseño y NOT_MEASURED.
+decision_effect:
+  screen_verdict: NO_GO_OFFLINE_SCREEN_UNCHANGED
+  funnel_credit: 0
+  paid_ab_authorized: false
+  runtime_build_authorized: false
+  architecture_status: DIRECTIONAL_BLUEPRINT_NO_BUILD_AUTHORIZATION
+verification_notes:
+  - El test de integridad añadido sólo prueba consistencia post-run, no cronología del freeze.
+  - El fallo de cierre vacío de Fable es una incidencia separada del subject y se corrige en el runner.

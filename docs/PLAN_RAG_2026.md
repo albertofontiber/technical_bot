@@ -3,7 +3,7 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 19 jul 2026 (S269 — triage de los 12 + contrato must-preserve medido + visual/voz cerrados).
+> 20 jul 2026 (S276 — seed-278 NO-GO + norte conversacional direccional).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,13 +23,15 @@
 > gap honesto.
 
 <a id="estado-actual-s269--19-jul-2026"></a>
-## Estado actual (S274 — 20 jul 2026)
+## Estado actual (S276 — 20 jul 2026)
 
-**Foto oficial tras el banking S274 (DEC-134): 154 facts = 146 OK · 6 synthesis-miss ·
+**Foto oficial tras el banking S274 (DEC-134), sin movimiento en S275-S276 (DEC-135/136):
+154 facts = 146 OK · 6 synthesis-miss ·
 2 retrieval-miss — 146/154 (94,81%), quedan +5 para 151 (≥98%).** Bloques C/D CERRADOS:
 el PAR `COVERAGE_MANDATORY_CALLOUT`+`MP_MANDATORY_VERB_TRIGGER` convierte obl_0d6a 3/3
-pareado (probe #4, 0 daño; smoke candidato 5/5) → SHIP candidato = solo ese par en Railway
-(runbook en DEC-134); C2 NO-GO en población fresca (clase seed-270 reconfirmada, DEC-127
+pareado (probe #4, 0 daño; smoke candidato 5/5) → sólo ese par ya **activo en Railway**, con
+recibo vivo todavía pendiente (runbook en DEC-134); C2 NO-GO en población fresca (clase
+seed-270 reconfirmada, DEC-127
 reforzado); **los 6 synth restantes EXHAUSTOS en la familia mecanismo-de-anexo — el camino
 a 151 exige OTRA familia** (gold round-2 source-contract · serving-view generalizada
 clase-C1 · eval orgánico como árbitro): `evals/s274_banked_funnel_v1.json` +
@@ -87,19 +89,43 @@ flag-gated por-fix → Etapa-1 v9 fresca seed-277 (heredados v8 GO; 6/7 fixes GO
 residuales (por-id en `evals/s274_bloquesCD_closeout_v1.yaml`); sin probe #5. Coste total
 del bloque $1,51/$15.
 
-**Qué sigue, por orden:** (1) **decisiones de Alberto**: (a) SHIP del par C1 en Railway
-(runbook 1 línea, DEC-134) + recibo vivo patrón DEC-131; (b) elegir la SIGUIENTE familia
-para los +5 → gold round-2 con lente source-contract · serving-view generalizada (clase C1
-para spans no-MANDATORY) · eval orgánico como árbitro de los 6 residuales; (2) activar
-`VISUAL_ASSETS_REGISTRY=on` en Railway (visual COMPLETO data-ready, S271/DEC-133);
-(3) ~~los 2 retrieval-miss como margen~~ **Bloque B CERRADO (S273, DEC-132/132b) con 0
-conversiones**: el lever cuota-enunciados (el fix pendiente de DEC-102/s105) se midió con
-prereg dúo-adjudicado v1→v3 y cerró **PERMANENTE por v3b STOP a nivel respuesta** (hp005#2
-3/3→0/3 y hp017#2 bajo ON, pareado mismo-día; hp010#1 convertía 2/3 — funciona para su diana,
-cuesta hechos de terceros). Los 2 retrieval-miss quedan **residuales CON CLASE**
-(`evals/s273_v3_closeout_v1.yaml`): hp010#1 = solo otra-familia-mecánica o 0-daño demostrado;
-cat017#2 = fuera del espacio enunciados-generable (medido F0); (4) recoger 30 audios reales
-antes de comparar ASR.
+**S275 (20 jul): gold round-2 CERRADA NO-GO antes de adjudicar casos; serving-view
+generalizada re-acotada — DEC-135.** Dos diseños source-contract pasaron por el dúo
+Sol 5.6 xhigh + Fable 5 y ambos quedaron NO-GO: v1 rompía el cegado y re-litigaba S270;
+v2 confundía deuda de sincronización posterior a S270 con un defecto nuevo que podía
+revertir marcas explícitas de Alberto. **Cero cambios de gold/denominador y cero
+generaciones target.** El reach audit determinista (`scripts/s275_serving_view_reach_preflight.py`)
+confirma 4 spans residuales servidos al 100 %, `7aa7` al 86,68 % pero con sus 3 anchors ya
+presentes, y solo `b2043` al 0 % por un hermano definicional fuera de las cards. Por tanto,
+serving-view no es una vía honesta a +5: el único candidato causal estrecho es una card
+receipted del hermano definicional omitido, primero con screen offline fresco seed-278 y
+sin probe #5 sobre los mismos targets. Artefactos: `evals/s275_gold_round2_closeout_v1.yaml`,
+`evals/s275_serving_view_reach_preflight_v1.json` y
+`evals/s275_serving_view_generalization_preflight_v1.md`.
+
+**S276 (20 jul): seed-278 ejecutado y CERRADO `NO_GO_OFFLINE_SCREEN`; arquitectura
+conversacional sólo direccional — DEC-136.** GET-only sobre 80 documentos seleccionados y
+1.033 fragmentos, 0 modelos/0 escrituras DB: 67 bloques en 24 documentos y autorrederivación
+67/67 full/truncated, pero sólo 2 fabricantes < mínimo congelado 3. Además, 41/67 candidatos
+eran descripciones visuales/UI y un documento aportaba 20/67. El dúo confirmó que 67/67 es
+autoconsistencia del parser, los boundary controls son sintéticos y la cronología completa del
+freeze no quedó atestada; nada de ello rescata el gate fallido. **No runtime, no A/B pagado,
+0 crédito al funnel, seed consumido.** El assessment multi-turn/multi-hop recomienda como norte
+un orquestador transport-neutral, estado durable versionado, ingress deduplicado, leases,
+fencing/CAS propietario, orden por conversación y transactional outbox unique; single-hop barato por defecto, rewrite
+condicional, 2 hops por defecto/3 hard cap y verifier fail-closed. Es blueprint, no permiso de
+build: `evals/s276_multiturn_multihop_architecture_assessment_v1.md`.
+
+**Qué sigue, por orden:** (1) **recibo vivo pendiente** del par C1 ya activo en Railway:
+hacer una pregunta hp017/PEARL y verificar en `query_logs` `bot_version=fa90d9c`, encabezado
+del anexo y ambos carriers del warning; (2) **siguiente decisión estratégica de Alberto**:
+usar eval orgánico/fresco como árbitro del +5 y/o autorizar por separado la Fase 0 del cimiento
+conversacional en shadow, sin cambio de respuestas ni inferencia adicional; (3) no ejecutar el
+A/B de `missing-definition-sibling`, no reutilizar seed-278, no abrir probe #5 y no reabrir gold
+round-2 sin evidencia nueva + decisión humana; (4) `VISUAL_ASSETS_REGISTRY` ya está activo en
+Railway, pendiente sólo de observación viva si se desea; (5) los 2 retrieval-miss siguen con las
+clases y cierre permanente del Bloque B de S273/DEC-132b; (6) recoger 30 audios reales antes de
+comparar ASR.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

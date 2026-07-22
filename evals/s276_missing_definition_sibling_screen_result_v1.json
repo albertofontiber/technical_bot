@@ -1,0 +1,114 @@
+{
+  "schema": "s276_missing_definition_sibling_screen_result_v1",
+  "created_utc": "2026-07-20T07:24:23+00:00",
+  "status": "NO_GO_OFFLINE_SCREEN",
+  "seed": 278,
+  "access": {
+    "http_methods": [
+      "GET"
+    ],
+    "model_calls": 0,
+    "database_writes": 0
+  },
+  "population": {
+    "sampled_docs": 80,
+    "fragments_screened": 1033,
+    "eligible_blocks": 67,
+    "eligible_documents": 24,
+    "eligible_manufacturers": 2,
+    "sibling_count_histogram": {
+      "1": 40,
+      "2": 17,
+      "3": 7,
+      "4": 3
+    }
+  },
+  "measures": {
+    "full_cases": 67,
+    "full_hits": 67,
+    "truncated_cases": 67,
+    "truncated_hits": 67,
+    "clean_cases": 67,
+    "clean_fp": 0,
+    "boundary_controls": 201,
+    "boundary_fp": 0,
+    "oversize_controls": 67,
+    "oversize_fp": 0,
+    "cross_record_fp": 0,
+    "receipt_tamper_accept": 0,
+    "flag_off_drift": 0,
+    "full_selection_recall": 1.0,
+    "truncated_selection_recall": 1.0,
+    "added_chars_min": 13,
+    "added_chars_max": 248,
+    "added_chars_mean": 63.9
+  },
+  "checks": {
+    "freshness_overlap": {
+      "value": 0,
+      "pass": true
+    },
+    "sampled_docs": {
+      "value": 80,
+      "pass": true
+    },
+    "eligible_blocks": {
+      "value": 67,
+      "pass": true
+    },
+    "eligible_documents": {
+      "value": 24,
+      "pass": true
+    },
+    "eligible_manufacturers": {
+      "value": 2,
+      "pass": false
+    },
+    "full_selection_recall": {
+      "value": 1.0,
+      "pass": true
+    },
+    "truncated_selection_recall": {
+      "value": 1.0,
+      "pass": true
+    },
+    "clean_fp": {
+      "value": 0,
+      "pass": true
+    },
+    "boundary_fp": {
+      "value": 0,
+      "pass": true
+    },
+    "oversize_fp": {
+      "value": 0,
+      "pass": true
+    },
+    "cross_record_fp": {
+      "value": 0,
+      "pass": true
+    },
+    "receipt_tamper_accept": {
+      "value": 0,
+      "pass": true
+    },
+    "flag_off_drift": {
+      "value": 0,
+      "pass": true
+    }
+  },
+  "artifacts": {
+    "design_sha256_lf": "d2633c15e806b2248b00a6deb206a5ac752d918a8b6163e4ee8a4cd211b130f3",
+    "prereg_sha256_lf": "f11117ab7641fe63ff3744db8fc01c00e9cd27067c1b10a4ad56f9a0fc53e049",
+    "cohort_sha256_lf": "c500d1eccc1c056470a218520f45f0d703ed72eac0bbda19afd884765193be01",
+    "build_sha256_lf": "ed89cd892fb635305cda1d561965ad6bfa1c89a2d6e1ccdcd929cba6c2ea4c75",
+    "result_rows_sha256_lf": "27052508710f3d7deb96b299954283e483f0f21b7918508612695afa41535904",
+    "screen_script_sha256_lf": "c588f80b91b0ade2bffbad00d76d11e6ded9909bd38547fb6e9c78f8fa2345b0"
+  },
+  "scope_limits": [
+    "0 FP means no cross-record expansion in deterministic form controls; it is not a user-visible semantic FP estimate.",
+    "The corpus cohort is selected by the same explicit structural grammar; false negatives outside that grammar are not measured.",
+    "No answer generation, target scoring or conversion credit is part of this screen."
+  ],
+  "next_step": "Stop this mechanism or revise the preregistered design on a new population; do not run a paid A/B."
+}

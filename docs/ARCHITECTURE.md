@@ -246,6 +246,12 @@ flowchart LR
 
 ## 3. El viaje de una pregunta — paso a paso
 
+> **Estado S276 (20 jul 2026).** El flujo siguiente describe el runtime actual:
+> esencialmente **single-turn, single-hop y un writer**. Existe sólo un carry efímero de una hora
+> en `context.user_data`; no hay conversación durable, event log, hops, claims ni delivery outbox.
+> El modelo multi-turn/multi-hop de DEC-136 es un objetivo no implementado y se resume en §6a;
+> no debe leerse en este diagrama como realidad productiva.
+
 Supongamos: el técnico pregunta *"¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?"*
 
 <div style="background-color:#ffffff; padding:20px; border:1px solid #ccc; border-radius:8px;">
@@ -472,6 +478,11 @@ En el diagrama de vista de pájaro (§2) mostramos `Retriever` y `Reranker` como
 
 ### 4.3 GENERATION — "responder con fuente"
 
+> **Estado actual.** Sigue siendo una llamada y una redacción final sobre una vista single-hop.
+> El orquestador conversacional, el verifier externo y cualquier repair de DEC-136 no están
+> construidos. En particular, el repair futuro sería un segundo writer pass con gate propio; no se
+> contabiliza como «un único writer».
+
 <div style="background-color:#ffffff; padding:20px; border:1px solid #ccc; border-radius:8px;">
 
 ```mermaid
@@ -520,20 +531,22 @@ flowchart LR
 >
 > El prompt es una instrucción al modelo, **no una garantía**. Claude Sonnet 4.6 la respeta la mayoría de las veces pero queda un residuo de alucinaciones. En sesión 13 (23 abril 2026) se exploró una **validación post-generación cross-model** con Claude Opus auditando las respuestas de Sonnet, pero el experimento fue **net-neutral sobre el eval** (+1 PASS con +7/-9 churn — ruido, no señal) y reveló problemas estructurales (falsos positivos, casos edge como clarificaciones y catalog-listing). Revertido; `src/rag/validator.py` queda como dead-code preservado por si futuras iteraciones prueban otra arquitectura. Ver `TECH_DEBT.md` entrada 11i para el análisis completo.
 
-**(2) Llamada única al LLM (Claude Sonnet 4.6, temperature=0)** — el prompt completo se envía al modelo a través de la API de Anthropic. Una única llamada, una única respuesta. Dentro de esa llamada, el modelo hace dos cosas conceptuales: **genera** la respuesta candidata y **auto-verifica** cada afirmación contra los chunks ANTES de emitir el output final.
+**(2) Llamada única al LLM (Claude Sonnet 4.6, temperature=0)** — el prompt completo se envía al modelo a través de la API de Anthropic. Una única llamada, una única respuesta. El prompt **solicita** generar la respuesta y ejecutar un self-check contra los chunks antes del output; ese proceso interno no es observable ni constituye una garantía de que la revisión ocurra o sea correcta.
 
-> **Por qué la auto-verificación está DENTRO de la misma llamada y no es una segunda llamada:** el SYSTEM_PROMPT incluye explícitamente la instrucción *"antes de emitir tu respuesta, revisa que cada claim esté literalmente en los chunks"*. El LLM respeta esa regla durante su propio **chain-of-thought interno**, no hace una segunda llamada al API. Al técnico le llega UNA respuesta tras UNA petición HTTP, típicamente en 3-6 segundos. El loop punteado Sonnet ↔ Self-check en el diagrama representa ese proceso mental interno, no round-trips de red.
+> **Por qué el self-check no es una segunda llamada:** el `SYSTEM_PROMPT` incluye explícitamente la instrucción *"antes de emitir tu respuesta, revisa que cada claim esté literalmente en los chunks"*, pero no existe otro request al API ni un receipt independiente de esa revisión. Al técnico le llega UNA respuesta tras UNA petición HTTP, típicamente en 3-6 segundos. El loop punteado Sonnet ↔ Self-check en el diagrama representa una instrucción conceptual, no un proceso interno verificado ni round-trips de red.
 
 > **Concepto técnico: ¿qué es `temperature` en un LLM?** Es un parámetro de la API que controla cuánta variabilidad introduce el modelo al generar cada token:
-> - `temperature = 0` → el modelo siempre elige la opción más probable. **Determinista**: misma query → misma respuesta exacta.
+> - `temperature = 0` → reduce la variabilidad, pero **no garantiza** una respuesta byte-idéntica;
+>   el backend/modelo puede seguir siendo no determinista.
 > - `temperature = 0.7` (default en muchas APIs) → introduce randomness; dos llamadas iguales devuelven textos distintos.
 > - `temperature = 1.0` → alta variabilidad; útil para brainstorming creativo, pésimo para tareas factuales.
 >
 > Elegimos **0** por dos razones:
-> - **Reproducibilidad** — imprescindible para el eval. Si `temperature > 0`, correr el eval 10 veces daría 10 resultados distintos y no podríamos saber si un cambio de código mejora o empeora.
+> - **Reproducibilidad práctica** — reduce ruido, pero los cambios de alto impacto siguen exigiendo
+>   control contemporáneo y/o repeticiones porque temperatura 0 no elimina toda la variación.
 > - **Exactitud técnica** — un técnico no quiere que mañana la respuesta sea ligeramente distinta para la misma pregunta. Quiere el dato del manual, siempre igual.
 
-> **Concepto técnico: chain-of-thought.** Técnica donde el LLM, antes de dar el output final, "razona paso a paso" internamente. Aplicado a self-check: el modelo genera una respuesta candidata, la revisa contra los chunks, corrige afirmaciones sin soporte, y solo entonces emite el output. Todo dentro del mismo forward pass del modelo.
+> **Límite de observabilidad:** no se almacena ni se exige chain-of-thought. Sólo son auditables el input, los chunks servidos y la respuesta emitida; los synthesis-miss demuestran que la instrucción de self-check por sí sola no basta.
 
 **(3) Respuesta final** — el output estructurado que le llega al técnico. Incluye:
 
@@ -745,6 +758,31 @@ erDiagram
 - `chunks.document_id` vincula cada fragmento a su documento padre, permitiendo filtrar chunks de revisiones obsoletas.
 - `query_logs` y `feedback` están **activas en producción** desde sesión 21 — capturan cada consulta del técnico (con consent RGPD vía `/accept`) para análisis y mejora continua. Caveat: hoy solo loggean queries que pasan por la rama RAG completa; los shortcuts (greeting, catalog, etc.) no se loggean (TECH_DEBT #31).
 
+### 5.1 Modelo objetivo conversacional — no implementado
+
+DEC-136 propone, sin DDL autorizado, separar `conversations`, `conversation_events`,
+`conversation_snapshots`, `turn_runs`, `retrieval_hops`, `turn_evidence`, `answer_claims`,
+`claim_support`, `delivery_outbox` y `delivery_attempts`. El contrato incluye:
+
+- estado versionado y orden por conversación;
+- ingress único por `(channel, external_update_id)`;
+- runs reclaimable con lease/heartbeat; `turn_runs.compute_status` sigue `received → running →
+  answer_ready` (o `failed`) y `delivery_outbox.delivery_status` sigue `pending → sending →
+  delivered` (o `retryable/dead_letter`); `completed` es un agregado derivado sólo cuando las
+  entregas requeridas han terminado;
+- `attempt_no` + fencing token monotónico; marcar `answer_ready` y crear el outbox `pending` exige CAS del propietario
+  vigente, de modo que un worker obsoleto no pueda publicar tras un reclaim;
+- outbox transaccional con unique `(turn_run_id, channel, destination, logical_delivery_key)` y
+  receipts de entrega, con objetivo effectively-once — no una promesa imposible de exactly-once
+  sobre Telegram;
+- FK/columnas de policy indexadas, transacciones cortas y ninguna llamada HTTP/LLM dentro de ellas;
+- schema privado/rol backend de mínimo privilegio o auth explícita; `service_role` bypassa RLS;
+- lifecycle previo a DDL para retención y borrado/anonimización propagados a eventos, derivados,
+  logs, colas, caches, backups y proveedores.
+
+El detalle y sus gates viven en
+`evals/s276_multiturn_multihop_architecture_assessment_v1.md`.
+
 ---
 
 ## 6. Gap analysis — dónde estamos vs best practices 2026
@@ -757,9 +795,15 @@ erDiagram
 | Document lifecycle (revisiones, supersede) | ✅ Phase 1 | — | Phase 2-3 pendientes |
 | Observability (query_logs + response + bot_version + RGPD consent) | ✅ | — | Ya hecho |
 | **Logging completo de shortcuts (greeting/catalog/etc) en query_logs** | ⚠️ solo rama RAG | Bajo (gap de métricas de uso) | TECH_DEBT #31 |
-| **Query rewriting / multi-query** | ❌ | Alto (+15-25% recall) | Sesión 14-15 |
+| **Query rewriting / multi-query genérico** | ⛔ no default | ROI no medido aquí; riesgo de drift/churn | Sustituido por rewrite conversacional condicional y eval fresca |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
 | **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
+| **Estado conversacional durable/versionado** | ❌ carry efímero | Alto para multi-turn | Fase 0 DEC-136, no autorizada |
+| **Ingress idempotente + leases + outbox/receipts** | ❌ | Alto (crash/retry/duplicados) | Fase 0 DEC-136, no autorizada |
+| **Rewrite conversacional condicional** | ❌ | Alto sólo en follow-ups dependientes | Fase 1 tras eval fresca |
+| **Multi-hop acotado con receipts y stop rules** | ❌ | Alto en preguntas dependientes | Fase 2; 2 default/3 hard cap |
+| **Claim verification fail-closed** | ❌ | Potencial en respuestas fact-dense | Fase 3; gate S260 corregido |
+| **Lifecycle RGPD de conversación y derivados** | ❌ contrato pendiente | Bloqueante antes de DDL | Fase 0 + revisión legal/DPO |
 | Migrations versionadas | ⚠️ parcial | Medio (reproducibilidad) | Sesión 14+ |
 | CI gate (tests + chequeo estático de deps, bloquea merge en PR) | ✅ hecho (PR #10) | — evita regresiones de build/test | `.github/workflows/ci.yml` + branch protection (`tests` requerido, `enforce_admins`) |
 | Eval automático en CI | ❌ | Medio (necesita secrets/APIs en CI) | Post-deploy |
@@ -767,6 +811,30 @@ erDiagram
 | Semantic chunking | ❌ (regla fija) | Bajo-medio | Post-deploy |
 | Structured output (JSON) | ❌ | Bajo | Opcional |
 | Caching | ❌ | Bajo | Post-deploy |
+
+---
+
+## 6a. Dirección conversacional multi-turn/multi-hop — objetivo no implementado
+
+La secuencia aprobada como **norte**, no como build, es:
+
+1. **Fase 0, shadow y coste de inferencia +0:** extraer `_process_query` a un orquestador
+   transport-neutral que preserve byte/paridad del single-hop; persistir estado/eventos/traces;
+   añadir deduplicación, lease/reclaim con fencing, orden por conversación, CAS propietario y
+   outbox unique; sacar clientes síncronos del event loop antes de abrir concurrencia.
+2. **Fase 1, multi-turn útil:** resolver determinísticamente referencias y llamar a un rewriter
+   económico sólo si el turno depende del historial. Una respuesta previa ayuda a resolver contexto,
+   nunca se convierte en evidencia técnica.
+3. **Fase 2, multi-hop bounded:** router/sufficiency con 2 hops por defecto y 3 hard cap;
+   subqueries independientes en paralelo, secuenciales sólo si existe dependencia; una única
+   redacción final y stops por soporte, repetición, cero progreso, ambigüedad, coste o latencia.
+4. **Fase 3, verifier fail-closed:** en el slice de riesgo puede aceptar o derivar a
+   clarify/disclose/abstain. **Fase 4 opcional** reconoce repair como segundo writer y sólo se abre
+   con merge determinista, revalidación full-answer, conflictos y cohorte fresca.
+
+No se recomienda ahora agente abierto, GraphRAG, embeddings del transcript completo, Redis
+day-one ni contexto creciente por defecto. Cada fase necesita control contemporáneo, eval
+multi-turn/orgánica fresca y métricas separadas de calidad, latencia, coste, stops y daño.
 
 ---
 

@@ -52,6 +52,15 @@ def test_independence_guard_denies_model_outputs_but_not_governance() -> None:
     assert fable_review._independence_deny(
         fable_review.ROOT / "docs" / "ADVERSARIAL_REVIEWER.md"
     ) is None
+    assert fable_review._independence_deny(
+        fable_review.ROOT / "evals" / "s276_duo_adjudication_v1.yaml"
+    )
+    assert fable_review._independence_deny(
+        fable_review.ROOT / "evals" / "s276_duo_brief_v1.md"
+    )
+    assert fable_review._independence_deny(
+        fable_review.ROOT / "evals" / "s276_corrections_packet_v1.md"
+    ) is None
 
 
 def test_fable_prompt_is_versioned_and_has_no_claude_file_dependency() -> None:
@@ -70,6 +79,56 @@ def test_fable_call_preflight_counts_utf8_and_framing(monkeypatch) -> None:
         ).encode("utf-8")
     ) + 7
     assert fable_review.conservative_call_token_bound("sys", messages) == expected
+
+
+def test_fable_call_preflight_also_counts_tool_schemas(monkeypatch) -> None:
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 7)
+    messages = [{"role": "user", "content": "proposal"}]
+    tools = [{"name": "leer", "description": "descripción", "input_schema": {}}]
+    without_tools = fable_review.conservative_call_token_bound("sys", messages)
+    encoded_tools = json.dumps(
+        tools, ensure_ascii=False, default=str, separators=(",", ":")
+    ).encode("utf-8")
+
+    assert fable_review.conservative_call_token_bound(
+        "sys", messages, tools
+    ) == without_tools + len(encoded_tools)
+
+
+def test_fable_drops_tools_before_call_when_schemas_consume_final_headroom(
+    monkeypatch, tmp_path
+) -> None:
+    briefing = tmp_path / "briefing.md"
+    briefing.write_text("system", encoding="utf-8")
+    monkeypatch.setattr(sol_review, "BRIEFING", briefing)
+    monkeypatch.setattr(fable_review, "MAX_TOTAL_TOKENS", 4_000)
+    monkeypatch.setattr(fable_review, "FINAL_HEADROOM", 1_000)
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 10)
+    monkeypatch.setattr(
+        fable_review,
+        "anthropic_tools",
+        lambda: [{"name": "huge", "description": "x" * 4_000, "input_schema": {}}],
+    )
+    calls = []
+
+    def create(**kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(
+            id="msg_final",
+            model="claude-fable-5",
+            usage=_usage(3, 2),
+            content=[SimpleNamespace(type="text", text="SÓLIDO")],
+            stop_reason="end_turn",
+        )
+
+    result, *_ = fable_review.run_review(
+        SimpleNamespace(messages=SimpleNamespace(create=create)),
+        "proposal",
+        use_tools=True,
+    )
+
+    assert result == "SÓLIDO"
+    assert "tools" not in calls[0]
 
 
 def test_fable_tool_loop_returns_raw_review_and_trace(monkeypatch, tmp_path) -> None:
@@ -122,6 +181,167 @@ def test_fable_tool_loop_returns_raw_review_and_trace(monkeypatch, tmp_path) -> 
     assert all(item["model"] == "claude-fable-5" for item in provider_trace)
     assert messages.calls[0]["model"] == "claude-fable-5"
     assert "tools" in messages.calls[0]
+
+
+def test_fable_recovers_once_from_empty_end_turn_without_more_tools(
+    monkeypatch, tmp_path
+) -> None:
+    briefing = tmp_path / "briefing.md"
+    briefing.write_text("system", encoding="utf-8")
+    monkeypatch.setattr(sol_review, "BRIEFING", briefing)
+    monkeypatch.setattr(fable_review, "MAX_TOTAL_TOKENS", 10_000)
+    monkeypatch.setattr(fable_review, "FINAL_HEADROOM", 1_000)
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 10)
+    monkeypatch.setattr(fable_review, "MAX_TOOL_CALLS", 2)
+    monkeypatch.setitem(fable_review.TOOL_IMPL, "list_dir", lambda **_: "files")
+
+    tool_use = SimpleNamespace(type="tool_use", name="list_dir", input={}, id="tool_1")
+    empty = SimpleNamespace(type="text", text="")
+    final = SimpleNamespace(type="text", text="SÓLIDO")
+
+    class _Messages:
+        def __init__(self) -> None:
+            self.calls = []
+
+        def create(self, **kwargs):
+            self.calls.append(kwargs)
+            if len(self.calls) == 1:
+                content = [tool_use]
+                stop_reason = "tool_use"
+            elif len(self.calls) == 2:
+                content = [empty]
+                stop_reason = "end_turn"
+            else:
+                content = [final]
+                stop_reason = "end_turn"
+            return SimpleNamespace(
+                id=f"msg_{len(self.calls)}",
+                model="claude-fable-5",
+                usage=_usage(3, 2),
+                content=content,
+                stop_reason=stop_reason,
+            )
+
+    messages = _Messages()
+    result, usage, calls, _, _, provider_trace = fable_review.run_review(
+        SimpleNamespace(messages=messages), "proposal", use_tools=True
+    )
+
+    assert result == "SÓLIDO"
+    assert usage["total_tokens"] == 15
+    assert calls == 1
+    assert [item["id"] for item in provider_trace] == ["msg_1", "msg_2", "msg_3"]
+    assert "tools" in messages.calls[0]
+    assert "tools" in messages.calls[1]
+    assert "tools" not in messages.calls[2]
+    assert [item["role"] for item in messages.calls[2]["messages"]] == [
+        "user",
+        "assistant",
+        "user",
+        "user",
+    ]
+    assert all(
+        item["role"] != "assistant" or item["content"]
+        for item in messages.calls[2]["messages"]
+    )
+    assert messages.calls[2]["messages"][-1]["content"] == (
+        fable_review.EMPTY_FINAL_RECOVERY_PROMPT
+    )
+
+
+def test_fable_fails_closed_after_one_empty_final_recovery(monkeypatch, tmp_path) -> None:
+    briefing = tmp_path / "briefing.md"
+    briefing.write_text("system", encoding="utf-8")
+    monkeypatch.setattr(sol_review, "BRIEFING", briefing)
+    monkeypatch.setattr(fable_review, "MAX_TOTAL_TOKENS", 10_000)
+    monkeypatch.setattr(fable_review, "FINAL_HEADROOM", 1_000)
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 10)
+    response_number = 0
+
+    def create(**_):
+        nonlocal response_number
+        response_number += 1
+        return SimpleNamespace(
+            id=f"msg_empty_{response_number}",
+            model="claude-fable-5",
+            usage=_usage(3, 2),
+            content=[SimpleNamespace(type="text", text="")],
+            stop_reason="end_turn",
+        )
+
+    with pytest.raises(fable_review.FableRunError, match="tras el retry de cierre") as caught:
+        fable_review.run_review(
+            SimpleNamespace(messages=SimpleNamespace(create=create)),
+            "proposal",
+            use_tools=True,
+        )
+    assert len(caught.value.provider_trace) == 2
+
+
+def test_fable_rejects_tool_request_during_empty_final_recovery(
+    monkeypatch, tmp_path
+) -> None:
+    briefing = tmp_path / "briefing.md"
+    briefing.write_text("system", encoding="utf-8")
+    monkeypatch.setattr(sol_review, "BRIEFING", briefing)
+    monkeypatch.setattr(fable_review, "MAX_TOTAL_TOKENS", 10_000)
+    monkeypatch.setattr(fable_review, "FINAL_HEADROOM", 1_000)
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 10)
+    call_number = 0
+
+    def create(**kwargs):
+        nonlocal call_number
+        call_number += 1
+        if call_number == 1:
+            return SimpleNamespace(
+                id="msg_empty",
+                model="claude-fable-5",
+                usage=_usage(3, 2),
+                content=[SimpleNamespace(type="text", text="")],
+                stop_reason="end_turn",
+            )
+        assert "tools" not in kwargs
+        return SimpleNamespace(
+            id="msg_tool_after_empty",
+            model="claude-fable-5",
+            usage=_usage(3, 2),
+            content=[
+                SimpleNamespace(type="tool_use", name="list_dir", input={}, id="tool_1")
+            ],
+            stop_reason="tool_use",
+        )
+
+    with pytest.raises(fable_review.FableRunError, match="durante la recuperación final"):
+        fable_review.run_review(
+            SimpleNamespace(messages=SimpleNamespace(create=create)),
+            "proposal",
+            use_tools=True,
+        )
+
+
+def test_fable_rejects_non_object_tool_input(monkeypatch, tmp_path) -> None:
+    briefing = tmp_path / "briefing.md"
+    briefing.write_text("system", encoding="utf-8")
+    monkeypatch.setattr(sol_review, "BRIEFING", briefing)
+    monkeypatch.setattr(fable_review, "MAX_TOTAL_TOKENS", 10_000)
+    monkeypatch.setattr(fable_review, "FINAL_HEADROOM", 1_000)
+    monkeypatch.setattr(fable_review, "INPUT_OVERHEAD_TOKENS", 10)
+    response = SimpleNamespace(
+        id="msg_bad_input",
+        model="claude-fable-5",
+        usage=_usage(3, 2),
+        content=[
+            SimpleNamespace(type="tool_use", name="list_dir", input="bad", id="tool_1")
+        ],
+        stop_reason="tool_use",
+    )
+
+    with pytest.raises(fable_review.FableRunError, match="no es un objeto JSON"):
+        fable_review.run_review(
+            SimpleNamespace(messages=SimpleNamespace(create=lambda **_: response)),
+            "proposal",
+            use_tools=True,
+        )
 
 
 def test_fable_budget_counts_cache_tokens(monkeypatch, tmp_path) -> None:
@@ -362,6 +582,165 @@ def test_attach_fable_receipt_closes_exact_sol_row_and_preserves_other_bytes(
     closed = json.loads(log.read_bytes().splitlines()[-1])
     assert closed["duo_status"] == "complete_pending_adjudication"
     assert closed["fable_review"] == receipt
+
+
+def test_attachment_accepts_one_audited_empty_final_recovery(monkeypatch, tmp_path) -> None:
+    subject = _subject()
+    target = _pending_sol_entry(subject)
+    log = tmp_path / "log.jsonl"
+    log.write_text(json.dumps(target) + "\n", encoding="utf-8")
+    monkeypatch.setattr(fable_review, "ROOT", tmp_path)
+    receipt = _valid_receipt(tmp_path, subject)
+    raw_path = tmp_path / receipt["provider_response_path"]
+    raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
+    raw_payload["responses"].insert(
+        0,
+        {
+            "id": "msg_empty",
+            "model": "claude-fable-5",
+            "stop_reason": "end_turn",
+            "content": [{"type": "text", "text": ""}],
+            "usage": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+            },
+        },
+    )
+    raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
+    receipt["provider_response_sha256"] = fable_review.hashlib.sha256(
+        raw_path.read_bytes()
+    ).hexdigest()
+    receipt["provider_response_ids"] = ["msg_empty", "msg_1"]
+    receipt["provider_models"] = ["claude-fable-5", "claude-fable-5"]
+    receipt["provider_stop_reasons"] = ["end_turn", "end_turn"]
+
+    fable_review.attach_fable_receipt(log, target["ts"], receipt)
+
+    closed = json.loads(log.read_text(encoding="utf-8"))
+    assert closed["duo_status"] == "complete_pending_adjudication"
+
+
+def test_attachment_rejects_empty_final_recovery_out_of_position(
+    monkeypatch, tmp_path
+) -> None:
+    subject = _subject()
+    monkeypatch.setattr(fable_review, "ROOT", tmp_path)
+    receipt = _valid_receipt(tmp_path, subject)
+    raw_path = tmp_path / receipt["provider_response_path"]
+    raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
+    raw_payload["responses"] = [
+        {
+            "id": "msg_empty",
+            "model": "claude-fable-5",
+            "stop_reason": "end_turn",
+            "content": [{"type": "text", "text": ""}],
+            "usage": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+            },
+        },
+        {
+            "id": "msg_tool",
+            "model": "claude-fable-5",
+            "stop_reason": "tool_use",
+            "content": [
+                {"type": "tool_use", "id": "tool_1", "name": "list_dir", "input": {}}
+            ],
+            "usage": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+            },
+        },
+        raw_payload["responses"][-1],
+    ]
+    raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
+    receipt["provider_response_sha256"] = fable_review.hashlib.sha256(
+        raw_path.read_bytes()
+    ).hexdigest()
+    receipt["provider_response_ids"] = ["msg_empty", "msg_tool", "msg_1"]
+    receipt["provider_models"] = ["claude-fable-5"] * 3
+    receipt["provider_stop_reasons"] = ["end_turn", "tool_use", "end_turn"]
+    receipt["tool_trace"] = [{"name": "list_dir", "arguments": {}, "status": "ok"}]
+    receipt["tool_calls"] = 1
+
+    with pytest.raises(ValueError, match="no precede inmediatamente"):
+        fable_review._validate_completion_receipt(receipt)
+
+
+def test_attachment_rejects_tool_use_inside_final_end_turn(monkeypatch, tmp_path) -> None:
+    subject = _subject()
+    monkeypatch.setattr(fable_review, "ROOT", tmp_path)
+    receipt = _valid_receipt(tmp_path, subject)
+    raw_path = tmp_path / receipt["provider_response_path"]
+    raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
+    raw_payload["responses"][-1]["content"].append(
+        {"type": "tool_use", "id": "tool_final", "name": "list_dir", "input": {}}
+    )
+    raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
+    receipt["provider_response_sha256"] = fable_review.hashlib.sha256(
+        raw_path.read_bytes()
+    ).hexdigest()
+    receipt["tool_trace"] = [{"name": "list_dir", "arguments": {}, "status": "ok"}]
+    receipt["tool_calls"] = 1
+
+    with pytest.raises(ValueError, match="cierre final end_turn contiene un tool_use"):
+        fable_review._validate_completion_receipt(receipt)
+
+
+@pytest.mark.parametrize(
+    ("prior_texts", "message"),
+    [
+        (["", ""], "excede los retries"),
+        (["no es vacío"], "no es una recuperación final vacía"),
+    ],
+)
+def test_attachment_rejects_invalid_empty_final_recovery_sequences(
+    monkeypatch, tmp_path, prior_texts, message
+) -> None:
+    subject = _subject()
+    monkeypatch.setattr(fable_review, "ROOT", tmp_path)
+    receipt = _valid_receipt(tmp_path, subject)
+    raw_path = tmp_path / receipt["provider_response_path"]
+    raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
+    prior_responses = []
+    for index, prior_text in enumerate(prior_texts):
+        prior_responses.append(
+            {
+                "id": f"msg_prior_{index}",
+                "model": "claude-fable-5",
+                "stop_reason": "end_turn",
+                "content": [{"type": "text", "text": prior_text}],
+                "usage": {
+                    "input_tokens": 0,
+                    "output_tokens": 0,
+                    "cache_creation_input_tokens": 0,
+                    "cache_read_input_tokens": 0,
+                },
+            }
+        )
+    raw_payload["responses"] = prior_responses + raw_payload["responses"]
+    raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
+    receipt["provider_response_sha256"] = fable_review.hashlib.sha256(
+        raw_path.read_bytes()
+    ).hexdigest()
+    receipt["provider_response_ids"] = [
+        response["id"] for response in raw_payload["responses"]
+    ]
+    receipt["provider_models"] = [
+        "claude-fable-5" for _ in raw_payload["responses"]
+    ]
+    receipt["provider_stop_reasons"] = [
+        "end_turn" for _ in raw_payload["responses"]
+    ]
+
+    with pytest.raises(ValueError, match=message):
+        fable_review._validate_completion_receipt(receipt)
 
 
 def test_attach_fable_receipt_fails_closed_on_subject_drift(monkeypatch, tmp_path) -> None:

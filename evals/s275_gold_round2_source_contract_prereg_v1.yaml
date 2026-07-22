@@ -1,0 +1,78 @@
+schema: s275_gold_round2_source_contract_prereg_v1
+status: PRE_REVIEW
+date: '2026-07-20'
+design: evals/s275_gold_round2_source_contract_design_v1.md
+objective: >-
+  Auditar los seis synthesis-miss S274 en los ejes contrato de evidencia,
+  requiredness/atomicidad y cobertura semantica, sin editar golds ni optimizar
+  contra el objetivo 98%.
+
+baseline:
+  denominator: 154
+  ok: 146
+  synthesis_miss: 6
+  retrieval_miss: 2
+  ok_pct: 94.81
+  target_ok: 151
+
+inputs_sha256_lf:
+  evals/s274_banked_funnel_v1.json: 656e6f0be525bbeedb5871d90af20eaaaad9a3aa7c2df1902a38028ba7744a30
+  evals/s274_bloquesCD_closeout_v1.yaml: faa1db3207096ad22cb5b0782db68b652408548971ada34d8f4034b78ead9b6a
+  evals/s270_gold_adjudication_v1.yaml: 51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436
+  evals/s269_goldreview_packet_v1_ADJUDICADO.md: b28255a64fe91ea76c727f1a6c8e942e1e0a7aed01a835b3a740ec40ad7f6dd9
+  evals/s235_direct_clause_bound_score_packet_v1.json: b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48
+  evals/gold_answers_v1.yaml: c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2
+
+targets:
+  - {obligation_id: obl_2f5d79e354b9, qid: hp011}
+  - {obligation_id: obl_7bba8d03d496, qid: cat018}
+  - {obligation_id: obl_a5d9fa1f9253, qid: hp002}
+  - {obligation_id: obl_015f9b9aaa3a, qid: cat018}
+  - {obligation_id: obl_b2043cd4379b, qid: hp017}
+  - {obligation_id: obl_7aa723717412, qid: hp017}
+
+controls:
+  core:
+    - {obligation_id: obl_b6f6211be439, qid: hp002}
+    - {obligation_id: obl_0d6a30948dfd, qid: hp017}
+  supplementary:
+    - {obligation_id: obl_161564ff41bf, qid: hp011}
+    - {obligation_id: obl_07eee3300535, qid: hp002}
+
+review_axes:
+  evidence_contract: [EXACT_SERVED, SOURCE_CONTRACT_GAP, UNCERTAIN]
+  requiredness: [KEEP_CORE, SUPPLEMENTARY, MERGE_REATOMIZE, RESPEC, UNCERTAIN]
+  frozen_answer_coverage: [CONVEYED, PARTIAL, MISSING, CONTRADICTED, UNCERTAIN]
+
+reviewers:
+  primary: {model: gpt-5.6-sol, reasoning_effort: xhigh}
+  frontier: {model: claude-fable-5}
+  independent: true
+  required_case_count_each: 10
+  max_failed_controls_each: 1
+
+budget:
+  ceiling_usd: 6.0
+  expected_usd: 5.0
+  automatic_retries: 0
+
+forbidden:
+  - show_final_kpi_projection_to_reviewers
+  - use_need_plus_5_as_rationale
+  - edit_gold_answers
+  - call_gold_store
+  - bank_or_ship
+  - run_probe_5
+  - access_heldout
+
+stop_rules:
+  - input_hash_mismatch
+  - missing_source_span_or_render
+  - reviewer_not_10_of_10
+  - reviewer_fails_more_than_one_control
+  - unregistered_source_or_gold_change
+
+human_gate:
+  owner: Alberto
+  required_before_any_gold_change: true
+  packet_marks: [accept, edit, reject]

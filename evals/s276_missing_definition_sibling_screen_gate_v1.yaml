@@ -1,0 +1,45 @@
+schema: s276_missing_definition_sibling_screen_gate_v1
+status: NO_GO_OFFLINE_SCREEN
+seed: 278
+checks:
+  freshness_overlap:
+    value: 0
+    pass: true
+  sampled_docs:
+    value: 80
+    pass: true
+  eligible_blocks:
+    value: 67
+    pass: true
+  eligible_documents:
+    value: 24
+    pass: true
+  eligible_manufacturers:
+    value: 2
+    pass: false
+  full_selection_recall:
+    value: 1.0
+    pass: true
+  truncated_selection_recall:
+    value: 1.0
+    pass: true
+  clean_fp:
+    value: 0
+    pass: true
+  boundary_fp:
+    value: 0
+    pass: true
+  oversize_fp:
+    value: 0
+    pass: true
+  cross_record_fp:
+    value: 0
+    pass: true
+  receipt_tamper_accept:
+    value: 0
+    pass: true
+  flag_off_drift:
+    value: 0
+    pass: true
+result_path: evals/s276_missing_definition_sibling_screen_result_v1.json
+result_sha256_lf: 8884d5b15a95aaf571be97a9aca55c12c0c584b59805ed5e8c476695d5944a2b

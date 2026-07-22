@@ -1870,3 +1870,42 @@ must-preserve (DEC-127): 3 probes pareados con validación fresca previa a cada 
 monotónicos, 0 apéndices en preguntas sanas). Iteración detenida por disciplina; residual
 mapeado por-clase con dueño (serving-view, alcance-no-citado, binding-tension, gap-instrumento
 híbrido, retrieval-2). Coste sesión completa ≈ $36.
+
+## S276 (20 jul 2026) — seed-278 NO-GO, norte conversacional direccional y recovery del runner Fable
+
+Se ejecutó el screen offline fresco seed-278 de `missing-definition-sibling`: GET-only sobre 80
+documentos seleccionados/1.033 fragmentos, 0 modelos y 0 escrituras DB. Censó 67 bloques en 24
+documentos y rederivó 67/67 full/truncated, pero sólo observó 2 fabricantes frente al mínimo
+congelado de 3. La inspección posterior encontró 41/67 descripciones visuales/UI y dominancia
+20/67 de un documento. Veredicto: `NO_GO_OFFLINE_SCREEN`; seed consumido, sin runtime, A/B, deploy
+ni crédito al funnel. La revisión aclaró que 67/67 es autoconsistencia del parser, los 201 boundary
+controls son sintéticos y los hashes post-run no demuestran la cronología completa del freeze.
+
+En paralelo se auditó la causa de los seis synthesis-miss y el cimiento futuro multi-turn/multi-hop.
+Cinco de seis ya reciben su evidencia parcial o completa; el gap estructural dominante está en
+selección/binding/cita, no en ampliar top-k. El blueprint
+`DIRECTIONAL_BLUEPRINT_NO_BUILD_AUTHORIZATION` propone orquestador
+transport-neutral, estado durable versionado, deduplicación de ingress, lease/reclaim, orden por
+conversación y outbox; single-hop barato por defecto; rewrite condicional; 2 hops default/3 hard
+cap; verifier fail-closed. Repair queda separado como segundo writer y el lifecycle RGPD es gate
+previo a DDL. No se autorizó ningún cambio productivo ni de schema.
+
+El dúo original cerró con 8 findings únicos confirmados, 0 FP, máximo medio. Durante Fable, tres
+runs auditados terminaron `end_turn` sin texto visible tras tools (491.741 tokens): dos traces
+persistieron `thinking` + `text` vacío y uno `content=[]`; otro run no-tools
+truncó por `max_tokens` (33.435), y el primer run exitoso consumió 116.863. La revisión de la
+corrección añadió Sol 99.434 + Fable 156.993 tokens; un Sol previo falló por 500 interno tras
+68.513. Total registrado de la sesión: Fable 799.032 y Sol 271.606 tokens. El screen costó $0 en
+modelos; el runner no registra el equivalente monetario de las revisiones.
+
+El segundo dúo cazó que el primer recovery era inoperante: reinyectaba el assistant vacío y la API
+real lo rechaza con HTTP 400. También encontró `tool_use` admisible en el cierre, schemas fuera de
+la cota, falta de fencing/outbox unique, deny-list incompleta y gaps de tests/framing. Todos los
+defectos del runner/contrato se verificaron y corrigieron: recovery por segundo user turn (request
+vivo aceptado), un solo retry tools-off, fencing+CAS propietario, budget completo y validators
+fail-closed. La causa raíz interna del modelo/proveedor sigue sin estar demostrada; el cambio
+mitiga el síntoma y falla cerrado. La ronda incluyó por
+error una adjudicación previa como seed, así que queda NO-PASS, no como certificación independiente.
+El trace prueba autoconsistencia de lo persistido, no completitud atestada por el proveedor. Tests
+dirigidos antes de la suite final: 56 del reviewer + 14 del screen. Suite completa: 2.225 passed,
+6 skipped y los 4 fallos raw-hash/CRLF de Windows ya conocidos; ninguna regresión nueva de S276.

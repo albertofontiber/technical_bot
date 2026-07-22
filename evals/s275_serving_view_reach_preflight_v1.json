@@ -1,0 +1,300 @@
+{
+  "schema": "s275_serving_view_reach_preflight_v1",
+  "status": "READ_ONLY_PREFLIGHT_COMPLETE",
+  "inputs_sha256_lf": {
+    "evals/s113_full_contexts_freeze_v1.json": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498",
+    "evals/s235_direct_clause_bound_score_packet_v1.json": "b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48"
+  },
+  "population": {
+    "target_ids": [
+      "obl_2f5d79e354b9",
+      "obl_7bba8d03d496",
+      "obl_a5d9fa1f9253",
+      "obl_015f9b9aaa3a",
+      "obl_b2043cd4379b",
+      "obl_7aa723717412"
+    ],
+    "target_count": 6,
+    "source": "six S274 synthesis residuals"
+  },
+  "method": {
+    "prefix_view": "full frozen chunk",
+    "coverage_view": "union of S113 served_coverage_cards",
+    "unit": "exact S235 source_start/source_end span",
+    "answer_scoring": false,
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0
+  },
+  "targets": {
+    "obl_2f5d79e354b9": {
+      "qid": "hp011",
+      "candidate_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+      "fragment_number": 13,
+      "view_kind": "validated_coverage_cards",
+      "source_span": [
+        1120,
+        1667
+      ],
+      "source_span_chars": 547,
+      "served_ranges": [
+        [
+          560,
+          1667
+        ]
+      ],
+      "served_overlap_ranges": [
+        [
+          1120,
+          1667
+        ]
+      ],
+      "served_overlap_chars": 547,
+      "served_overlap_pct": 100.0,
+      "required_anchors": [
+        "--",
+        "rearme inhibido",
+        "finalizar extincion",
+        "t.A",
+        "0 seg"
+      ],
+      "required_anchor_hits_in_served_overlap": [
+        "rearme inhibido",
+        "finalizar extincion",
+        "t.A",
+        "0 seg"
+      ],
+      "all_required_anchors_in_served_overlap": false,
+      "status": "FULL",
+      "pure_serving_view_gap": false,
+      "definition_sibling_role": null
+    },
+    "obl_7bba8d03d496": {
+      "qid": "cat018",
+      "candidate_id": "8514e83a-e8ca-4204-bd21-af945633ff06",
+      "fragment_number": 3,
+      "view_kind": "protected_prefix_full_chunk",
+      "source_span": [
+        0,
+        1526
+      ],
+      "source_span_chars": 1526,
+      "served_ranges": [
+        [
+          0,
+          2783
+        ]
+      ],
+      "served_overlap_ranges": [
+        [
+          0,
+          1526
+        ]
+      ],
+      "served_overlap_chars": 1526,
+      "served_overlap_pct": 100.0,
+      "required_anchors": [
+        "Pestana Programa",
+        "Zona",
+        "CBE"
+      ],
+      "required_anchor_hits_in_served_overlap": [
+        "Pestana Programa",
+        "Zona",
+        "CBE"
+      ],
+      "all_required_anchors_in_served_overlap": true,
+      "status": "FULL",
+      "pure_serving_view_gap": false,
+      "definition_sibling_role": null
+    },
+    "obl_a5d9fa1f9253": {
+      "qid": "hp002",
+      "candidate_id": "414ce99c-0dec-478c-b504-009f14631804",
+      "fragment_number": 2,
+      "view_kind": "protected_prefix_full_chunk",
+      "source_span": [
+        367,
+        992
+      ],
+      "source_span_chars": 625,
+      "served_ranges": [
+        [
+          0,
+          2910
+        ]
+      ],
+      "served_overlap_ranges": [
+        [
+          367,
+          992
+        ]
+      ],
+      "served_overlap_chars": 625,
+      "served_overlap_pct": 100.0,
+      "required_anchors": [
+        "reset inicial",
+        "valores nominales",
+        "100 %"
+      ],
+      "required_anchor_hits_in_served_overlap": [
+        "reset inicial",
+        "valores nominales",
+        "100 %"
+      ],
+      "all_required_anchors_in_served_overlap": true,
+      "status": "FULL",
+      "pure_serving_view_gap": false,
+      "definition_sibling_role": null
+    },
+    "obl_015f9b9aaa3a": {
+      "qid": "cat018",
+      "candidate_id": "0c6cc5e0-0df9-428f-870f-a19fe461c3a9",
+      "fragment_number": 8,
+      "view_kind": "protected_prefix_full_chunk",
+      "source_span": [
+        633,
+        850
+      ],
+      "source_span_chars": 217,
+      "served_ranges": [
+        [
+          0,
+          2844
+        ]
+      ],
+      "served_overlap_ranges": [
+        [
+          633,
+          850
+        ]
+      ],
+      "served_overlap_chars": 217,
+      "served_overlap_pct": 100.0,
+      "required_anchors": [
+        "CBE",
+        "activacion",
+        "tipo software SND",
+        "sirenas"
+      ],
+      "required_anchor_hits_in_served_overlap": [
+        "CBE",
+        "activacion",
+        "tipo software SND",
+        "sirenas"
+      ],
+      "all_required_anchors_in_served_overlap": true,
+      "status": "FULL",
+      "pure_serving_view_gap": false,
+      "definition_sibling_role": null
+    },
+    "obl_b2043cd4379b": {
+      "qid": "hp017",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "view_kind": "validated_coverage_cards",
+      "source_span": [
+        1425,
+        1692
+      ],
+      "source_span_chars": 267,
+      "served_ranges": [
+        [
+          419,
+          673
+        ],
+        [
+          675,
+          1032
+        ],
+        [
+          1694,
+          2052
+        ]
+      ],
+      "served_overlap_ranges": [],
+      "served_overlap_chars": 0,
+      "served_overlap_pct": 0.0,
+      "required_anchors": [
+        "instruccion de entrada",
+        "condicion de entrada"
+      ],
+      "required_anchor_hits_in_served_overlap": [],
+      "all_required_anchors_in_served_overlap": false,
+      "status": "ABSENT",
+      "pure_serving_view_gap": true,
+      "definition_sibling_role": "missing_sibling"
+    },
+    "obl_7aa723717412": {
+      "qid": "hp017",
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "fragment_number": 12,
+      "view_kind": "validated_coverage_cards",
+      "source_span": [
+        1694,
+        2107
+      ],
+      "source_span_chars": 413,
+      "served_ranges": [
+        [
+          419,
+          673
+        ],
+        [
+          675,
+          1032
+        ],
+        [
+          1694,
+          2052
+        ]
+      ],
+      "served_overlap_ranges": [
+        [
+          1694,
+          2052
+        ]
+      ],
+      "served_overlap_chars": 358,
+      "served_overlap_pct": 86.68,
+      "required_anchors": [
+        "instruccion de salida",
+        "todas las condiciones de entrada",
+        "equipos asignados"
+      ],
+      "required_anchor_hits_in_served_overlap": [
+        "instruccion de salida",
+        "todas las condiciones de entrada",
+        "equipos asignados"
+      ],
+      "all_required_anchors_in_served_overlap": true,
+      "status": "PARTIAL",
+      "pure_serving_view_gap": false,
+      "definition_sibling_role": "selected_sibling"
+    }
+  },
+  "summary": {
+    "view_status_histogram": {
+      "FULL": 4,
+      "PARTIAL": 1,
+      "ABSENT": 1
+    },
+    "pure_serving_view_gaps": [
+      "obl_b2043cd4379b"
+    ],
+    "definition_sibling_card_direct_target": [
+      "obl_b2043cd4379b"
+    ],
+    "already_selected_definition_sibling": "obl_7aa723717412",
+    "direct_causal_candidate_count": 1,
+    "cannot_by_itself_supply_required_plus_5": true
+  },
+  "decision": {
+    "gold_round_2": "CLOSED_NO_GO",
+    "serving_view_candidate": "bounded missing-definition-sibling card",
+    "execution_authorized": false,
+    "probe_5_on_same_targets_forbidden": true,
+    "next_gate": "fresh disjoint offline census and mutation cohort before any paid run"
+  },
+  "result_sha256": "1582e615fdd839a0c2223d0c47a11fe662d8045e218edab227066e0c6aad91d5"
+}
