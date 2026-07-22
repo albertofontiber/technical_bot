@@ -1041,8 +1041,10 @@ def vector_search(
                     merged = results + list(by_parent.values())
                     merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
                     results = merged[:top_k]
-            except Exception:
-                logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
+            except Exception as exc:
+                logger.warning(
+                    "canal enunciados fail-open: sirviendo solo chunks reales (%r)", exc
+                )
 
         # (s101 piloto → s102 SHIP, D2/DEC-095) Canal question-side (HyPE). Dos backends con
         # mecánicas DISTINTAS (corrección framing, cross-model r2 — no vender paridad):
