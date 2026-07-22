@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 import yaml
@@ -23,6 +24,52 @@ CURRENT_RELEASE_SCHEMA_PATH = (
     ROOT / "evals" / "s277_c1_p1_release_config_schema_v2.json"
 )
 BUILDER_PATH = ROOT / "scripts" / "s277_build_c1_p1_contract.py"
+
+
+def _sealed_blob_sha256_lf(commit: str, relative: str) -> str:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{commit}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {commit}:{relative}"
+    return hashlib.sha256(completed.stdout.replace(b"\r\n", b"\n")).hexdigest()
+
+
+def _reanchor_extraction_sources_to_sealed_blobs(monkeypatch) -> None:
+    """Pin the extraction-source byte check to the receipt's sealed blobs.
+
+    The model-extraction receipt records ``inputs_sha256_lf`` for the tree at
+    its own ``source_commit``; the branch legitimately evolved
+    ``src/rag/retriever.py`` afterwards (s277 Fase 1), so hashing the working
+    tree would report development as tampering (DEC-147 mandate: version, do
+    not relax — same re-anchor as tests/test_c1_release_gate.py).  This helper
+    first proves the receipt is genuine — every recorded hash must equal the
+    blob sealed at ``source_commit`` via ``git cat-file`` — and only then
+    resolves those exact LF hashes for ``p1.sha256_file``.  Real drift keeps
+    failing closed: a tampered receipt hash no longer matches its sealed blob
+    (asserted below, so the redirect cannot whitewash a receipt edit), every
+    path outside the receipt still hashes from the working tree, and the
+    runner's untouched ``_offline_extract_models`` assert still re-runs the
+    CURRENT ``extract_product_models`` and requires identical output.
+    """
+    prereg = _yaml(CURRENT_PREREG_PATH)
+    receipt_path = prereg["sealed_inputs"]["model_extraction_receipt"]["path"]
+    receipt = _json(ROOT / receipt_path)
+    commit = receipt["source_commit"]
+    sealed: dict[Path, str] = {}
+    for relative, recorded in receipt["inputs_sha256_lf"].items():
+        assert _sealed_blob_sha256_lf(commit, relative) == recorded
+        sealed[(ROOT / relative).resolve()] = recorded
+    original = p1.sha256_file
+
+    def reanchored(path: Path, *, lf_normalized: bool = False) -> str:
+        if lf_normalized and Path(path).resolve() in sealed:
+            return sealed[Path(path).resolve()]
+        return original(path, lf_normalized=lf_normalized)
+
+    monkeypatch.setattr(p1, "sha256_file", reanchored)
 
 
 def _builder():
@@ -602,7 +649,16 @@ def test_release_config_schema_is_valid_and_secret_free_by_construction():
     assert not (ROOT / "evals" / "s277_c1_p1_release_config_v1.json").exists()
 
 
-def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
+def test_schema_valid_release_fixture_is_consumed_by_runner_preflight(monkeypatch):
+    """The preflight CONSUMES a schema-valid fixture end to end.
+
+    Extraction sources are re-anchored to the receipt's sealed blobs (see
+    ``_reanchor_extraction_sources_to_sealed_blobs``): this test asserts the
+    preflight machinery accepts one valid input, not that the working tree
+    never evolved after the receipt was sealed.  Every runner drift assert
+    still executes.
+    """
+    _reanchor_extraction_sources_to_sealed_blobs(monkeypatch)
     now = datetime(2026, 7, 20, 18, 0, tzinfo=timezone.utc)
     commit = "a" * 40
     tree = "b" * 40

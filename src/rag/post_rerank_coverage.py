@@ -26,6 +26,14 @@ facetas de la query, con validación semántica de la lane) y, opcionalmente:
     propio, los consumidores que derivan OBLIGACIONES de ``served_coverage_cards``
     (answer_planner) NO la ven por construcción (fail-closed estructural, sin
     tocar el módulo pineado por s201/s260).
+
+s278 §3 (flag ``OBLIGATION_WARNING_RESERVE``, default-off byte-inerte): reserva
+obligation-aware de A LO SUMO un chunk-warning del pool ya pagado (clase
+hp002) con presupuesto PROPIO de 1 fila FUERA del cap global ``MAX_APPENDED``,
+solo en preguntas procedimentales/diagnósticas y solo del MISMO scope canónico
+de documento que lo ya servido; el chunk exacto (id+content) se revalida
+contra el pool antes de reservar.  Selector determinista en
+``rerank_pool_coverage.select_obligation_warning_reserve``.
 """
 from __future__ import annotations
 
@@ -41,6 +49,7 @@ from ..config import (
     COMPATIBILITY_BUNDLE_COVERAGE,
     DOCUMENT_LOCAL_COVERAGE,
     LOGICAL_RECORD_COVERAGE,
+    OBLIGATION_WARNING_RESERVE,
     POST_RERANK_COVERAGE,
     RERANK_POOL_COVERAGE,
     STRUCTURAL_CASCADE_COVERAGE,
@@ -77,6 +86,8 @@ from .table_preamble_closure import (
 from .mp_lexicon import mandatory_triggers, sentence_spans
 from .rerank_pool_coverage import (
     LANE as POOL_LANE,
+    OBLIGATION_WARNING_LANE,
+    select_obligation_warning_reserve,
     select_rerank_pool_coverage,
 )
 
@@ -91,10 +102,14 @@ ALLOWED_LANES = frozenset(
         DOCUMENT_LOCAL_LANE,
         COMPATIBILITY_LANE,
         TABLE_PREAMBLE_LANE,
+        OBLIGATION_WARNING_LANE,
     }
 )
 MAX_APPENDED = 4
 MAX_APPENDED_PER_LANE = 2
+# s278 §3: presupuesto PROPIO de la reserva de warning — NO compite con los 4
+# huecos de MAX_APPENDED (el fallo hp002:r1 era exactamente ese desplazamiento).
+OBLIGATION_WARNING_RESERVE_BUDGET = 1
 MAX_APPENDED_BY_LANE = {
     COMPATIBILITY_LANE: 3,
     DOCUMENT_LOCAL_LANE: 1,
@@ -227,6 +242,9 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     ) or (
         lane == POOL_LANE
         and chunk.get("rerank_pool_coverage_validated") is True
+    ) or (
+        lane == OBLIGATION_WARNING_LANE
+        and chunk.get("obligation_warning_reserve_validated") is True
     ) or (
         lane == DOCUMENT_LOCAL_LANE
         and chunk.get("document_local_coverage_validated") is True
@@ -610,6 +628,11 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
         return None
     if lane == POOL_LANE and candidate.get("rerank_pool_coverage_validated") is not True:
         return None
+    if (
+        lane == OBLIGATION_WARNING_LANE
+        and candidate.get("obligation_warning_reserve_validated") is not True
+    ):
+        return None
     if lane == DOCUMENT_LOCAL_LANE and (
         candidate.get("document_local_coverage_validated") is not True
         or candidate.get("document_local_coverage_validation")
@@ -726,6 +749,41 @@ def append_validated_coverage(
         if len(output) - len(reranked) == MAX_APPENDED:
             break
     return output if len(output) > len(reranked) else reranked
+
+
+def _append_obligation_warning_reserve(
+    served: list[dict[str, Any]],
+    candidates: list[dict[str, Any]],
+    retrieval_pool: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """s278 §3: anexa a lo sumo UNA fila-warning con presupuesto PROPIO.
+
+    No compite con los 4 huecos de ``append_validated_coverage`` ni toca lo ya
+    servido (la vista servida completa actúa aquí de prefijo protegido).  Antes
+    de reservar revalida el chunk EXACTO — mismo ``id`` y mismo ``content``
+    presentes en el pool pagado; cualquier discrepancia => no-op (fail-open).
+    """
+    pool_by_id = {str(row.get("id") or ""): row for row in retrieval_pool}
+    served_ids = {str(row.get("id") or "") for row in served}
+    for candidate in candidates[:OBLIGATION_WARNING_RESERVE_BUDGET]:
+        if candidate.get("retrieval_lane") != OBLIGATION_WARNING_LANE:
+            continue
+        attested = _attest(candidate)
+        if not attested:
+            continue
+        candidate_id = str(attested.get("id") or "")
+        exact = pool_by_id.get(candidate_id)
+        if (
+            not candidate_id
+            or candidate_id in served_ids
+            or exact is None
+            or str(exact.get("content") or "")
+            != str(attested.get("content") or "")
+        ):
+            continue
+        attested["obligation_warning_reserve_rank"] = 1
+        return [*served, attested]
+    return served
 
 
 def collect_structural_coverage(
@@ -1102,6 +1160,7 @@ def apply_post_rerank_coverage_with_trace(
     document_local_enabled: bool | None = None,
     cascade_enabled: bool | None = None,
     compatibility_enabled: bool | None = None,
+    obligation_reserve_enabled: bool | None = None,
     structural_collector: Callable[..., tuple[list[dict], dict]] = collect_structural_coverage,
     table_preamble_collector: Callable[..., tuple[list[dict], dict]] = collect_table_preamble_closure,
     hyq_collector: Callable[..., tuple[list[dict], dict]] = collect_document_scoped_hyq,
@@ -1109,6 +1168,7 @@ def apply_post_rerank_coverage_with_trace(
     document_local_collector: Callable[..., tuple[list[dict], dict]] | None = None,
     cascade_collector: Callable[..., tuple[list[dict], dict]] = collect_cascaded_structural_coverage,
     compatibility_collector: Callable[..., tuple[list[dict], dict]] = collect_compatibility_bundle,
+    obligation_reserve_collector: Callable[..., tuple[list[dict], dict]] = select_obligation_warning_reserve,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Apply enabled lanes independently; every failure is contained."""
     active = POST_RERANK_COVERAGE if enabled is None else enabled
@@ -1139,6 +1199,16 @@ def apply_post_rerank_coverage_with_trace(
         if compatibility_enabled is None else compatibility_enabled
     )
     compatibility_applicable = compatibility and is_compatibility_bundle_query(query)
+    obligation_reserve = (
+        OBLIGATION_WARNING_RESERVE
+        if obligation_reserve_enabled is None
+        else obligation_reserve_enabled
+    )
+    # s278 §3: la reserva lee el MISMO pool ya pagado; bajo bundle de
+    # compatibilidad (atómico y excluyente) se apaga como el resto de lanes.
+    obligation_reserve_applicable = (
+        obligation_reserve and bool(retrieval_pool) and not compatibility_applicable
+    )
     cascade_requested = (
         STRUCTURAL_CASCADE_COVERAGE
         if cascade_enabled is None else cascade_enabled
@@ -1164,6 +1234,7 @@ def apply_post_rerank_coverage_with_trace(
         or pool
         or document_local
         or compatibility_applicable
+        or obligation_reserve_applicable
     ):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
@@ -1322,6 +1393,30 @@ def apply_post_rerank_coverage_with_trace(
             )
 
     output = append_validated_coverage(reranked, candidates)
+    if obligation_reserve_applicable:
+        # s278 §3: la reserva corre DESPUÉS de conocer la vista servida (de
+        # ahí toma su scope canónico de documento) pero con presupuesto PROPIO
+        # — el cap global de 4 ya no puede desplazarla (fallo hp002:r1: el
+        # warning ASD535 p121 quedó en el pool #28 sin servir).
+        try:
+            reserve_rows, reserve_trace = obligation_reserve_collector(
+                query, retrieval_pool, output
+            )
+            trace["lanes"].append(reserve_trace)
+            output = _append_obligation_warning_reserve(
+                output, reserve_rows, retrieval_pool
+            )
+        except Exception as exc:
+            logger.warning(
+                "obligation warning reserve failed open: %s", type(exc).__name__
+            )
+            trace["lanes"].append(
+                {
+                    "lane": OBLIGATION_WARNING_LANE,
+                    "status": "error",
+                    "error_type": type(exc).__name__,
+                }
+            )
     trace.update(
         {
             "status": "appended" if len(output) > len(reranked) else "no_append",
