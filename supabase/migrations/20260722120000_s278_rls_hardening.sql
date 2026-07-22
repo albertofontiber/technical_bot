@@ -24,8 +24,8 @@
 -- supabase/rollbacks/20260722120000_s278_rls_hardening.sql
 --
 -- ESTADO: PREPARADA, NO APLICADA. Runbook: evals/s278_rls_gate_plan_v1.md.
-
-BEGIN;
+-- Sin BEGIN/COMMIT explicitos: la atomicidad la aporta la transaccion del CLI
+-- (convencion post-hp011, guard test_future_cli_migrations_delegate_data_history_atomicity_to_cli).
 
 SET LOCAL lock_timeout = '5s';
 SET LOCAL statement_timeout = '60s';
@@ -163,7 +163,5 @@ END
 $postcondition$;
 
 -- PostgREST cachea esquema/ACL; el NOTIFY dentro de la transacción se entrega
--- al hacer COMMIT.
+-- al hacer COMMIT (la transacción la aporta el CLI, ver cabecera).
 NOTIFY pgrst, 'reload schema';
-
-COMMIT;

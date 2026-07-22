@@ -419,6 +419,244 @@ def test_oracle_cli_arm_is_opt_in_default_off():
     )
 
 
+# ───────────── PINs de PRECISIÓN (iter-2: léxico de dominio + frames) ─────────────
+# Fixtures sintéticos generales de clase: una obligación cuyo matching con la
+# pregunta es SOLO léxico genérico de dominio (central/lazo/cableado/equipo) o
+# cuya prosa es no-obligacional (capability/condicional/comparativa/display) NO
+# dispara. Cada negativo lleva un control positivo que aísla el gate.
+
+def test_universal_with_only_generic_domain_tokens_does_not_fire():
+    card = _card(
+        "Puesta en marcha.\n\nAntes de conectar la central o los equipos, es "
+        "recomendable comprobar la continuidad y el aislamiento del cableado "
+        "de cada lazo."
+    )
+    question = "¿Qué límites de cableado tiene un lazo de la central?"
+    result = apply_evidence_contract("El lazo admite 99 equipos [F1].", [card], question)
+    assert result["actions"] == []
+
+
+def test_universal_capability_frame_does_not_fire():
+    card = _card(
+        "Autoconfiguración.\n\nLa central puede autoconfigurar los tipos de "
+        "equipo instalados en cada dirección de lazo y dar los resultados al "
+        "finalizar el proceso."
+    )
+    question = "¿Cómo se autoconfiguran los tipos de equipo de cada dirección?"
+    result = apply_evidence_contract("Se revisan los equipos [F1].", [card], question)
+    assert result["actions"] == []
+
+
+def test_safety_callout_with_single_stem_match_does_not_fire():
+    # 'configuración'≈'configuraciones' es UN solo stem: no alcanza el umbral.
+    card = _card("Mantenimiento.\n\n" + _WARNING_SPAN)
+    question = "¿Cómo guardo la configuración y las configuraciones del panel?"
+    result = apply_evidence_contract("Se guarda desde el menú [F1].", [card], question)
+    assert result["actions"] == []
+
+
+_CONDITIONAL_COUNT_BODY = (
+    " dos modos de disparo en la maniobra:\n- Modo A\n- Modo B\n- Modo C"
+)
+
+
+def test_count_conflict_in_conditional_scenario_does_not_fire():
+    question = "¿Qué modos de disparo tiene la maniobra?"
+    answer = "Existen varios modos [F1]."
+    conditional = _card("Si concurren" + _CONDITIONAL_COUNT_BODY)
+    result = apply_evidence_contract(answer, [conditional], question)
+    assert result["actions"] == []
+    # control: la MISMA discrepancia en frame declarativo SÍ se disclosea
+    declarative = _card("El equipo ofrece" + _CONDITIONAL_COUNT_BODY)
+    control = apply_evidence_contract(answer, [declarative], question)
+    assert [a["action"] for a in control["actions"]] == ["disclose"]
+
+
+def test_count_conflict_on_display_noun_does_not_fire():
+    card = _card(
+        "En la pantalla se muestran 7 segmentos del display:\n"
+        "- Indicación rI\n- Indicación rS\n- Indicación FA"
+    )
+    question = "¿Qué significan los segmentos de la pantalla en estado normal?"
+    result = apply_evidence_contract("La pantalla muestra rI [F1].", [card], question)
+    assert not [a for a in result["actions"] if a["action"] == "disclose"]
+
+
+def test_count_conflict_comparative_two_products_does_not_fire():
+    card = _card(
+        "La ZXAE dispone de 2 salidas supervisadas para campanas y la ZXEE "
+        "dispone de 4 salidas supervisadas para sirenas:\n"
+        "- Salida A\n- Salida B\n- Salida C"
+    )
+    question = "¿Cuántas salidas de sirenas supervisadas tiene la central?"
+    result = apply_evidence_contract("Tiene salidas supervisadas [F1].", [card], question)
+    assert not [a for a in result["actions"] if a["action"] == "disclose"]
+
+
+def test_table_row_without_digit_bearing_match_does_not_fire():
+    card = _card(
+        "Tabla de averías.\n\n"
+        "| Código | Avería | Causa |\n| --- | --- | --- |\n"
+        "| *001* | Flujo de aire demasiado bajo | Conducto obstruido |\n"
+        "| *002* | Flujo de aire demasiado alto | Rotura de tubo |"
+    )
+    question = "¿Cuál es la causa más probable del flujo de aire bajo?"
+    result = apply_evidence_contract("Una obstrucción [F1].", [card], question)
+    assert not [a for a in result["actions"] if a["kind"] == "table_row"]
+
+
+def test_generic_disclosure_about_another_fact_does_not_satisfy_count_conflict():
+    # (clase del falso-satisfecho: el léxico de disclosure aparecía en una nota
+    # sobre OTRO hecho y silenciaba el conflicto real → ahora exige AMBOS
+    # valores en la misma línea del disclosure)
+    answer = (
+        _SIX_SEVEN_ANSWER
+        + '\n- Nota: el manual también indica: "otra cosa sin relación".'
+    )
+    result = apply_evidence_contract(answer, [dict(_SIX_SEVEN_CARD)], _SIX_SEVEN_QUESTION)
+    assert [a["action"] for a in result["actions"]] == ["disclose"]
+
+
+# ───────────── PINs de RECALL por clase (iter-2: kinds de completación) ─────────────
+
+_ALT_ENUM_CARD = _card(
+    'La pantalla muestra el parámetro "r.i" con estos valores:\n'
+    "~~- -~~\tRearme inhibido hasta finalizar la extinción según el parámetro "
+    "~~t.Fi~~\n"
+    "00\tRearme permitido en cualquier momento (por defecto)\n"
+    "De 01 a 30\tRearme inhibido durante el intervalo definido en minutos",
+    source_file="manual-r.pdf",
+    page=63,
+)
+_ALT_ENUM_QUESTION = "¿Por qué no rearma tras la extinción?"
+
+
+def test_enum_alternative_appends_the_single_missing_alternative_with_declared_risk():
+    answer = (
+        "Por defecto está en 00: rearme permitido en cualquier momento. Entre "
+        "01 y 30, el rearme queda inhibido durante el intervalo definido en "
+        "minutos [F1]."
+    )
+    result = apply_evidence_contract(answer, [dict(_ALT_ENUM_CARD)], _ALT_ENUM_QUESTION)
+    [action] = result["actions"]
+    assert action["kind"] == "enum_alternative"
+    assert action["seven_segment_risk"] is True
+    # display: conserva la clave «- -»; el tachado OCR con letras (t.Fi) NO se
+    # re-afirma (feedback_7segment) aunque el hash ancle el span original
+    assert "- - Rearme inhibido hasta finalizar la extinción" in result["text"]
+    assert "t.Fi" not in result["text"]
+
+
+def test_enum_alternative_needs_the_rest_of_the_unit_covered():
+    answer = "Por defecto está en 00: rearme permitido en cualquier momento [F1]."
+    result = apply_evidence_contract(answer, [dict(_ALT_ENUM_CARD)], _ALT_ENUM_QUESTION)
+    assert result["actions"] == []
+    assert result["receipt"]["skipped_answer_gate"] >= 1
+
+
+_LIMIT_PAIR_CARD = _card(
+    "Aisladores.\n\nPara cumplir los requisitos de la norma, los aisladores se "
+    "deben instalar entre un máximo de 32 equipos de lazo. En la central "
+    "ID2000, no se debe colocar más de 25 equipos de lazo entre aisladores "
+    "(20 si se utilizan aisladores tipo FET)."
+)
+_LIMIT_PAIR_QUESTION = "¿Cómo se conecta un aislador en un lazo ID2000?"
+
+
+def test_limit_pair_appends_norm_and_product_restriction_together():
+    answer = "Máximo 25 equipos entre aisladores (20 con FET) [F1]."
+    result = apply_evidence_contract(answer, [dict(_LIMIT_PAIR_CARD)], _LIMIT_PAIR_QUESTION)
+    [action] = result["actions"]
+    assert action["kind"] == "limit_pair"
+    assert "máximo de 32 equipos de lazo" in result["text"]
+    assert "no se debe colocar más de 25" in result["text"]
+
+
+def test_limit_pair_silent_when_both_limits_already_present():
+    answer = (
+        "La norma admite 32 equipos entre aisladores como máximo; en la ID2000 "
+        "no más de 25 equipos (20 con aisladores FET) [F1]."
+    )
+    result = apply_evidence_contract(answer, [dict(_LIMIT_PAIR_CARD)], _LIMIT_PAIR_QUESTION)
+    assert result["actions"] == []
+
+
+_LIMIT_METHOD_CARD = _card(
+    "Cableado.\n\nLa resistencia máxima del lazo no debe superar los 35 "
+    "ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a "
+    "través de los extremos A+ y A-."
+)
+_LIMIT_METHOD_QUESTION = "¿Cómo se conecta el módulo aislador en el lazo?"
+
+
+def test_limit_method_appends_method_when_answer_already_cites_the_limit():
+    answer = "La resistencia máxima del lazo es 35 Ω [F1]."
+    result = apply_evidence_contract(
+        answer, [dict(_LIMIT_METHOD_CARD)], _LIMIT_METHOD_QUESTION
+    )
+    [action] = result["actions"]
+    assert action["kind"] == "limit_method"
+    assert "B+ y B-" in result["text"] and "A+ y A-" in result["text"]
+
+
+def test_limit_method_silent_when_answer_never_engaged_the_limit():
+    answer = "El aislador se conecta en serie en el lazo [F1]."
+    result = apply_evidence_contract(
+        answer, [dict(_LIMIT_METHOD_CARD)], _LIMIT_METHOD_QUESTION
+    )
+    assert result["actions"] == []
+
+
+_UI_PATH_CARD = _card(
+    "Reglas.\n\nPara crear o editar reglas vaya a la pantalla «Causa y Efecto» "
+    "desde el menú «Editar Configuración»."
+)
+_UI_PATH_QUESTION = "¿Cómo se programa el retardo de las reglas?"
+
+
+def test_ui_path_completes_the_partially_named_route():
+    answer = "Se configura en la pantalla Causa y Efecto [F1]."
+    result = apply_evidence_contract(answer, [dict(_UI_PATH_CARD)], _UI_PATH_QUESTION)
+    [action] = result["actions"]
+    assert action["kind"] == "ui_path"
+    assert "«Editar Configuración»" in result["text"]
+
+
+def test_ui_path_skips_contested_menu_numbers():
+    numbered = _card(
+        "Reglas.\n\nEn el menú «Editar Configuración», seleccione la pantalla "
+        "«7: Causa y Efecto» para editar las reglas."
+    )
+    other = _card("Menú.\n\n| 8:Causa y Efecto |\n| 9:Acceso |", page=6)
+    answer = "Se configura en la pantalla Causa y Efecto [F1]."
+    result = apply_evidence_contract(answer, [numbered, other], _UI_PATH_QUESTION)
+    assert not [a for a in result["actions"] if a["kind"] == "ui_path"]
+
+
+def test_universal_subject_route_fires_without_broad_lexical_overlap():
+    # el sustantivo gobernado por «cada» es el sujeto exacto de la pregunta y la
+    # cláusula es normativa SIN payload numérico → exigible con 1 solo stem
+    card = _card(
+        "Sirenas.\n\nCada sirena deberá tener un diodo integrado, para impedir "
+        "el consumo en polarización inversa."
+    )
+    question = "¿Cómo se conecta una sirena convencional?"
+    result = apply_evidence_contract("Se conecta con polaridad [F1].", [card], question)
+    [action] = result["actions"]
+    assert action["class"] == ec.CLASS_UNIVERSAL
+    assert "diodo integrado" in result["text"]
+
+
+def test_universal_subject_route_denied_for_numeric_spec_clauses():
+    card = _card(
+        "Flujo.\n\nSegún EN 54-20, debe notificarse como fallo toda variación "
+        "del flujo de aire superior al ±20 %."
+    )
+    question = "¿Cuál es la causa del flujo bajo?"
+    result = apply_evidence_contract("Una obstrucción [F1].", [card], question)
+    assert result["actions"] == []
+
+
 # ───────────────────────── higiene: sin QID/gold en runtime ─────────────────────────
 
 def test_runtime_module_has_no_eval_identifiers():
