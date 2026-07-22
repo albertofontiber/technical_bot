@@ -104,3 +104,53 @@ positiva incluida). La vía cambia SELECCIÓN, nunca clases de serving.
 4. ES-only (límite de alcance del lane, declarado arriba).
 5. Cola post-release sin cambios (hp018 «en serie» — antes del merge —, hp011 «ri», hp012
    framing ES/US, FAAST doc I56).
+
+---
+
+## ADDENDUM r3 (adjudicación Sol 6 + Fable 5 — cierra el diseño; build autorizado)
+
+**Decisión de proceso:** r3 convergió (Fable: SÓLIDA-CON-CAMBIOS-MENORES; Sol: 2 críticos que
+son líneas de especificación completables). Una 4ª ronda completa sería ritual; estos 11 puntos
+entran como spec vinculante y el build los pinea con tests. Contradicción factual Sol↔Fable
+sobre el gate pre-fetch RECONCILIADA por regla C: ambos ciertos — el flujo ACTUAL salta antes de
+derivar anchors/plan (Sol, :1377-1387 vs :1388-1427/:466-469), Y planner+anchors son funciones
+locales puras re-ejecutables (Fable). Spec resultante en A2.
+
+- **A1 [Sol#1, census]:** freeze-contract del census AMPLIADO: fingerprint de corpus
+  (chunks_v2/documents — reutilizar el patrón s107_corpus_fingerprint) verificado ANTES y
+  DESPUÉS de cada par v4/v5 (pares back-to-back por query; si el fingerprint cambia mid-census,
+  se invalida y repite el par) + hash de la función SQL desplegada
+  (pg_get_functiondef(document_local_snapshot_v3) sha256) estampado.
+- **A2 [Sol#2 + Fable-verificación]:** plumbing del caso lane-saltado ESPECIFICADO: la vía
+  post-composición re-deriva anchors (mismas funciones locales de
+  post_rerank_coverage:1388-1427) y el plan (build_document_local_query_plan, pura) — $0, sin
+  RPC — y SOLO entonces evalúa el gate; el fetch propio ocurre después si el gate pasa. El
+  receipt estampa `facet_plan_rederived: true` en ese path.
+- **A3 [Sol#3, attest]:** el binding de no-cobertura es la VISTA COMPLETA: sha256 de
+  (ids ordenados + content-sha por fila) de la vista servida al momento de evaluación; `_attest`
+  recibe la vista compuesta real, exige igualdad EXACTA del conjunto y re-verifica contenidos.
+  Omitir una fila servida ⇒ attestation inválida.
+- **A4 [Sol#4 + Fable#N4, orden]:** «cobertura» = GRADO entero: máx términos-distintos-de-la-
+  need-group cubiertos por alguna fila servida bajo la regla de ventana (0..6). Elegible solo si
+  grado < N_FACET. Orden entre grupos: grado asc → índice asc. Candidato que satisface varios
+  grupos → se asigna al PRIMER grupo según ese orden. «Densidad» = span mínimo en chars que
+  contiene los hits de la ventana (asc). Todo determinista, cero libertad de build.
+- **A5 [Sol#5 + bordes del trim]:** trim con mínimo 1 término por grupo; si aún >480, se
+  eliminan GRUPOS enteros desde el último; si la base (anchors) ya excede 480 ⇒ `plan None` con
+  receipt (conducta existente). Test pinea los tres bordes.
+- **A6 [Fable#N1, perfil v4]:** los 4 acoplamientos enumerados y testeados: (i) ramas
+  profile-literal de validate_release_contract incluyen v4 (aislamiento de lanes +
+  MUST_PRESERVE), (ii) gate `IDENTITY_RESOLVE_POLICY=replace` aplica a v3 Y v4, (iii)
+  config.py exporta `DOCUMENT_LOCAL_SELECTION_V2`, (iv) mensaje de producción lista v4.
+- **A7 [Fable#N2, dead-fetch]:** gate del own-fetch = «≥1 need-group NO cubierta con ≥N_FACET
+  términos en el grupo»; grupos de 1-2 términos excluidos del orden y del gate.
+- **A8 [Fable#N3, orden vía↔reserve]:** la vía corre DESPUÉS de `_append_obligation_warning_
+  reserve` (ve la vista final, reserve incluida). Pre-registrado.
+- **A9 [Fable#N5, enum]:** `facet_fetch` cubre las causas del own-fetch fallido:
+  `own | reused | skipped_no_uncovered_group | skipped_no_plan | skipped_scope_overflow |
+  skipped_no_anchors`.
+- **A10 [Fable pins]:** el own-fetch reutiliza `TIMEOUT_SECONDS=2.0` y `MAX_HTTP_REQUESTS=1`
+  del lane; el waterfall «al otro scope» queda pineado a `SOURCE_LIMIT=2` (assert en código).
+- **A11 [Sol#6, wording]:** el aislamiento del §0 se afirma como EQUIVALENCIA verificada (test
+  de byte-igualdad del v4 cargado por el validador nuevo + oráculo byte-inerte), no como
+  no-alcanzabilidad del código común.
