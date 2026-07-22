@@ -34,6 +34,18 @@ solo en preguntas procedimentales/diagnósticas y solo del MISMO scope canónico
 de documento que lo ya servido; el chunk exacto (id+content) se revalida
 contra el pool antes de reservar.  Selector determinista en
 ``rerank_pool_coverage.select_obligation_warning_reserve``.
+
+s278 §4 (flag ``PROSE_SOURCE_CARD``, default-off byte-inerte, releído
+at-call-time): el lane document-local admite una SEGUNDA clase de card servida
+— ``card_class="prose_source_card"`` / ``record_kind="prose_sentence_span_v1"``
+(campo propio ``prose_source_cards``, seleccionada y atestada en
+``document_local_coverage``) — SOLO cuando la clase de fila
+``markdown_pipe_row_v1`` no es derivable del chunk (clases complementarias,
+jamás mezcladas).  El span servido es la(s) oración(es) completa(s) verbatim
+de la card; su receipt completo (document+extraction+source+chunk+
+content-hash+quote-hash+bounds, ``has_exact_prose_source_card_receipt``) se
+revalida aquí antes de servir y cualquier fallo => la fila NO se sirve
+(fail-closed).  La clase de fila queda byte-exacta con la prosa off Y on.
 """
 from __future__ import annotations
 
@@ -119,6 +131,8 @@ TABLE_PREAMBLE_CONFIG = ROOT / "config/table_preamble_closure_v3.yaml"
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
 DOCUMENT_LOCAL_RECORD_KIND = "markdown_pipe_row_v1"
+# s278 §4: contrato de la clase de PROSA del lane document-local.
+DOCUMENT_LOCAL_PROSE_CONTRACT = "exact_source_bounded_prose_sentence_span_v1"
 DOCUMENT_LOCAL_ANCHOR_LIMIT = 2
 DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR = "governed_source_contract"
 DOCUMENT_LOCAL_PREFIX_ANCHOR = "protected_rerank_prefix"
@@ -485,6 +499,69 @@ def _mandatory_callout_enabled() -> bool:
     return _strict_on_off("COVERAGE_MANDATORY_CALLOUT")
 
 
+def _prose_source_card_enabled() -> bool:
+    """Flag estricto default-off, releído en runtime (patrón contract_enabled)."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("PROSE_SOURCE_CARD")
+
+
+def _document_local_prose_served_cards(
+    candidate: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """s278 §4: serving de la clase ``prose_source_card`` — o receipt completo o nada.
+
+    Solo se llama cuando la clase de fila ``markdown_pipe_row_v1`` no es
+    derivable y el flag está on.  La attestation completa de la card (document
+    +extraction+source+chunk+content-hash+quote-hash+bounds, oración completa
+    verbatim) se revalida vía ``has_exact_prose_source_card_receipt``; si NO
+    revalida devuelve ``[]`` y la fila no se sirve (fail-closed).  Igual que la
+    fila markdown, el span servido ES el record completo
+    (``record_start``/``record_end`` = bounds exactos de la card).  Import
+    function-local por diseño (aislamiento del closure de coverage_c1_v1).
+    """
+    from .document_local_coverage import has_exact_prose_source_card_receipt
+
+    if not has_exact_prose_source_card_receipt(candidate):
+        return []
+    served_cards: list[dict[str, Any]] = []
+    for card in candidate.get("prose_source_cards") or []:
+        served = dict(card)
+        served.update(
+            {
+                "record_start": int(card["start"]),
+                "record_end": int(card["end"]),
+            }
+        )
+        served_cards.append(served)
+    return served_cards
+
+
+def _document_local_prose_class_ok(
+    candidate: dict[str, Any], served_cards: list[dict[str, Any]]
+) -> bool:
+    """s278 §4: gate de clase para cards de prosa servidas por el lane
+    document-local — flag releído at-call-time + receipt completo de la card
+    contra el padre inmutable + framing de record exacto en cada card."""
+    if not served_cards or not _prose_source_card_enabled():
+        return False
+    from .document_local_coverage import (
+        PROSE_SOURCE_CARD_CLASS,
+        PROSE_SOURCE_CARD_KIND,
+        has_exact_prose_source_card_receipt,
+    )
+
+    return has_exact_prose_source_card_receipt(candidate) and all(
+        card.get("record_kind") == PROSE_SOURCE_CARD_KIND
+        and card.get("card_class") == PROSE_SOURCE_CARD_CLASS
+        and card.get("sentence_complete_validated") is True
+        and card.get("exact_source_span_validated") is True
+        and card.get("record_start") == card.get("start")
+        and card.get("record_end") == card.get("end")
+        for card in served_cards
+    )
+
+
 def _mandatory_callout_card(
     candidate: dict[str, Any], served_cards: list[dict[str, Any]]
 ) -> dict[str, Any] | None:
@@ -538,7 +615,12 @@ def _mandatory_callout_card(
 def _build_served_coverage_cards(candidate: dict[str, Any]) -> list[dict[str, Any]]:
     """Derive separately receipted serving spans from validated selector cards."""
     if candidate.get("retrieval_lane") == DOCUMENT_LOCAL_LANE:
-        return _document_local_markdown_record_cards(candidate)
+        served = _document_local_markdown_record_cards(candidate)
+        # s278 §4: la clase de PROSA es COMPLEMENTARIA — solo cuando la fila
+        # markdown no es derivable y con el flag on (off => byte-inerte).
+        if served or not _prose_source_card_enabled():
+            return served
+        return _document_local_prose_served_cards(candidate)
     content = str(candidate.get("content") or "")
     served_cards = []
     for card in candidate.get("coverage_cards") or []:
@@ -633,39 +715,56 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
         and candidate.get("obligation_warning_reserve_validated") is not True
     ):
         return None
-    if lane == DOCUMENT_LOCAL_LANE and (
-        candidate.get("document_local_coverage_validated") is not True
-        or candidate.get("document_local_coverage_validation")
-        != DOCUMENT_LOCAL_VALIDATION
-        or candidate.get("duplicate_of") is not None
-        or str(candidate.get("document_id") or "")
-        != str(candidate.get("document_local_authority_document_id") or "")
-        or str(candidate.get("extraction_sha256") or "").casefold()
-        != str(
-            candidate.get("document_local_authority_extraction_sha256") or ""
-        ).casefold()
-        or str(candidate.get("source_file") or "")
-        != str(candidate.get("document_local_authority_source_file") or "")
-        or not _has_document_local_authority_identity(candidate)
-    ):
-        return None
+    if lane == DOCUMENT_LOCAL_LANE:
+        # s278 §4: chunk vs autoridad (documents) — la comparación de blob es
+        # la ÚNICA canónica declarada (import function-local por aislamiento).
+        from .document_local_coverage import blob_identity_match
+
+        if (
+            candidate.get("document_local_coverage_validated") is not True
+            or candidate.get("document_local_coverage_validation")
+            != DOCUMENT_LOCAL_VALIDATION
+            or candidate.get("duplicate_of") is not None
+            or str(candidate.get("document_id") or "")
+            != str(candidate.get("document_local_authority_document_id") or "")
+            or str(candidate.get("extraction_sha256") or "").casefold()
+            != str(
+                candidate.get("document_local_authority_extraction_sha256") or ""
+            ).casefold()
+            or not blob_identity_match(
+                str(candidate.get("document_local_authority_source_file") or ""),
+                str(candidate.get("source_file") or ""),
+            )
+            or not _has_document_local_authority_identity(candidate)
+        ):
+            return None
     if lane == COMPATIBILITY_LANE and candidate.get("compatibility_bundle_validated") is not True:
         return None
     attested = dict(candidate)
     attested["served_coverage_cards"] = _build_served_coverage_cards(candidate)
     if not has_exact_served_coverage_receipt(attested):
         return None
-    if lane == DOCUMENT_LOCAL_LANE and (
-        not attested["served_coverage_cards"]
-        or any(
-            card.get("record_kind") != DOCUMENT_LOCAL_RECORD_KIND
-            or card.get("complete_record_validated") is not True
-            or card.get("record_start") != card.get("start")
-            or card.get("record_end") != card.get("end")
-            for card in attested["served_coverage_cards"]
+    document_local_prose_class = False
+    if lane == DOCUMENT_LOCAL_LANE:
+        served_cards = attested["served_coverage_cards"]
+        pipe_class = bool(served_cards) and all(
+            card.get("record_kind") == DOCUMENT_LOCAL_RECORD_KIND
+            and card.get("complete_record_validated") is True
+            and card.get("record_start") == card.get("start")
+            and card.get("record_end") == card.get("end")
+            for card in served_cards
         )
-    ):
-        return None
+        # s278 §4: segunda clase admitida (prosa oración-completa), jamás
+        # mezclada con la clase de fila; sin flag o sin receipt => no-servir.
+        document_local_prose_class = not pipe_class and _document_local_prose_class_ok(
+            candidate, served_cards
+        )
+        if not pipe_class and not document_local_prose_class:
+            return None
+        if pipe_class:
+            # dúo r2 (Fable#4): una fila servida como clase markdown no debe
+            # arrastrar un campo de prosa residual (framing engañoso).
+            attested.pop("prose_source_cards", None)
     if _mandatory_callout_enabled():
         # s274 C1: campo propio, 0-1 card, receipt propio; en fallo → sin card
         # (fail-open conservador, la vista queda como v3).
@@ -679,7 +778,9 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
             "coverage_validated": True,
             "post_rerank_coverage": True,
             "post_rerank_coverage_contract": (
-                "exact_source_bounded_markdown_pipe_row_v1"
+                DOCUMENT_LOCAL_PROSE_CONTRACT
+                if document_local_prose_class
+                else "exact_source_bounded_markdown_pipe_row_v1"
                 if lane == DOCUMENT_LOCAL_LANE
                 else "exact_source_span_with_bounded_logical_record_receipt_v2"
             ),

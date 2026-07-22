@@ -1315,3 +1315,97 @@ def test_append_seam_caps_document_local_lane_at_one() -> None:
     output = append_validated_coverage(prefix, candidates)
 
     assert [row["id"] for row in output] == ["prefix", "first"]
+
+
+# ---------------------------------------------------------------------------
+# s278 §4 — identidad de blob canónica documento<->chunks/doc_map (UN sitio).
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("document_blob", "chunk_blob", "matches"),
+    [
+        ("X.pdf", "X", True),
+        ("X", "X", True),
+        ("X.pdf", "X.pdf", True),
+        ("X-v2.pdf", "X", False),
+        ("X.pdf.pdf", "X", False),
+        ("X.pdf.pdf", "X.pdf", False),
+        ("X.PDF", "X", False),
+        ("X .pdf", "X", False),
+        ("X.pdfX", "X", False),
+        (".pdf", "", False),
+        ("", "", False),
+        ("X.pdf", "Y", False),
+    ],
+)
+def test_blob_identity_match_contract(
+    document_blob: str, chunk_blob: str, matches: bool
+) -> None:
+    assert document_local.blob_identity_match(document_blob, chunk_blob) is matches
+    assert document_local.blob_identity_match(chunk_blob, document_blob) is matches
+
+
+def test_resolver_binds_pdf_document_filename_to_bare_chunk_scope() -> None:
+    rows = _document_rows()
+    for row in rows:
+        row["source_pdf_filename"] = SOURCE_FILE + ".pdf"
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert reason == "ok"
+    assert authorities == [
+        {**_authority(), "source_file": SOURCE_FILE + ".pdf"}
+    ]
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        SOURCE_FILE + "-v2.pdf",
+        SOURCE_FILE + ".pdf.pdf",
+        SOURCE_FILE + ".PDF",
+    ],
+)
+def test_resolver_rejects_adversarial_blob_identity_variants(
+    filename: str,
+) -> None:
+    rows = _document_rows()
+    for row in rows:
+        row["source_pdf_filename"] = filename
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert authorities == []
+    assert reason == "active_revision_not_bound_to_anchor_blob"
+
+
+def test_fetcher_accepts_canonical_pdf_blob_identity(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Valida el contrato PYTHON de identidad canónica en el fetch (s278 dúo
+    r2, Sol#1 — framing corregido): el payload de este test es sintético y el
+    RPC v2 REAL nunca lo produciría (su comparación de blob y su join de
+    chunks son estrictos en SQL), así que esto NO es un cierre e2e.  El path
+    SQL canónico vive como propuesta NO-aplicada en
+    supabase/migration_proposals/20260722200000_s278_document_local_snapshot_v3_canonical_blob.sql
+    (pendiente de visto junto al data-fix §4)."""
+    _configure_live_read_globals(monkeypatch)
+    pdf_name = SOURCE_FILE + ".pdf"
+    document_rows = _document_rows()
+    for row in document_rows:
+        row["source_pdf_filename"] = pdf_name
+    payload = _snapshot_payload(
+        document_rows=document_rows, candidates=[_logical_candidate()]
+    )
+    payload["authorities"][0]["source_file"] = pdf_name
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert authorities == [{**_authority(), "source_file": pdf_name}]
+    assert candidates[0]["source_file"] == SOURCE_FILE
+    assert candidates[0]["document_local_authority_source_file"] == pdf_name

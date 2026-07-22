@@ -1,0 +1,49 @@
+# s278 §4 (blob identity + prose source card) — adjudicación del dúo (ronda 2, diff pre-commit)
+# Sol: gpt-5.6-sol xhigh tools-ON, tally 2026-07-22T19:19:21 · Fable: sub-agente adversarial-reviewer
+# FRESCO in-session (no-autor). Adjudicador: autor, regla C sobre anclas; fixes re-verificados
+# (206 tests + oráculo baseline 27/27+62/62+93/93 post-fix).
+ronda: 2
+propuesta: diff sin commitear de §4 (document_local_coverage.py + post_rerank_coverage.py + tests)
+veredicto_global: SOLIDO-CON-CAMBIOS (Fable: NO-solida como cierre e2e sin el punto 1; convergencia dúo en el crítico)
+hallazgos:
+  - id: SQL-CANONICO
+    fuente: sol#1 + fable#1
+    severidad: critico
+    veredicto: CONFIRMADO  # RPC v2 compara estricto en :417-418 y :503; el code-side no alcanza el path vivo ni tras el data-fix declarado; test e2e circular
+    accion: "propuesta NO-APLICADA supabase/migration_proposals/20260722200000_s278_document_local_snapshot_v3_canonical_blob.sql (RPC v3, mismo contrato canónico en LOS DOS sitios SQL) — decisión VISIBLE de Alberto junto al data-fix; test re-encuadrado como contrato PYTHON"
+  - id: PROSA-PIPE-TRUNCADA
+    fuente: fable#2 (probe reproducido)
+    severidad: critico-funcional
+    veredicto: CONFIRMADO  # la clase prosa servía filas pipe truncadas cuando la clase pipe falla — burla el contrato anti-fila-parcial
+    accion: "_span_is_prose: prosa-idad POSITIVA (ninguna línea contenedora pipe-row/encabezado/separador) + test negativo builder y seam (card forjada con hashes consistentes ⇒ no servida)"
+  - id: SENTENCE-OVERCLAIM
+    fuente: sol#2
+    severidad: media
+    veredicto: CONFIRMADO
+    accion: "_is_complete_sentence_span: terminal [.!?] (no ';') + contexto previo terminal (rechaza mid-word y hard-wrap); si no valida ⇒ NO servir"
+  - id: MULTI-CARD-DECISIVA
+    fuente: sol#3
+    severidad: media
+    veredicto: CONFIRMADO
+    accion: "grupos con la card decisiva (facet query_alignment) primero; sin decisiva ⇒ posicional; test donde la decisiva no es la primera"
+  - id: DRIFT-MISATRIBUIDO
+    fuente: fable#3
+    severidad: media
+    veredicto: CONFIRMADO
+    accion: "blocked_blob_identity_drift_requires_rpc_v3 visible en el path autoridad-presente/cero-candidatos; residual declarado: caso parcial multi-autoridad sigue sin declarar el drift"
+  - id: CARD-EN-PIPE-DERIVABLE
+    fuente: fable#4
+    severidad: menor-media
+    veredicto: CONFIRMADO  # bytes servidos idénticos, pero receipt/framing engañoso y tests a mano
+    accion: "card SOLO en path complementario + pop higiénico en _attest + 2 tests por el SELECTOR real (layout calibrado documentado)"
+  - id: CONTRATO-HELPER
+    fuente: fable#5
+    severidad: menor
+    veredicto: CONFIRMADO
+    accion: ".strip() eliminados; docstring corregido a matching simétrico declarado con su justificación"
+solidos_confirmados:
+  - "byte-inercia off real en los 4 seams (verificada por el revisor y por oráculo baseline post-fix)"
+  - "no-desplazamiento: la prosa nunca desplaza una pipe derivable; cap/dedup heredados"
+  - "cadena de attestation fuerte (tampering 14 campos + backstop de re-derivación: sin bypass)"
+  - "sol#6 respetado: ningún path Python acepta lo que el RPC rechazó"
+  - "sin duplicación estructural con el seam EC; cero eval-IDs en runtime"

@@ -1483,3 +1483,176 @@ def test_structural_cascade_only_seeds_from_pool_rows_that_will_be_served():
         "pool-served-2",
     ]
     assert observed == ["pool-served", "pool-served-2"]
+
+
+# ---------------------------------------------------------------------------
+# s278 §4 — serving de la clase prose_source_card en el lane document-local.
+# ---------------------------------------------------------------------------
+
+
+def _prose_document_local_candidate(row_id="document-local-prose"):
+    from src.rag.document_local_coverage import build_prose_source_cards
+
+    row = _document_local_candidate(row_id)
+    content = (
+        "Parrafo previo de contexto general del panel.\n"
+        "Estas maniobras actuaran sobre las salidas programadas, "
+        "sirenas o modulos de control. Cola posterior fuera del span."
+    )
+    start = content.index("sirenas")
+    end = start + len("sirenas o modulos")
+    row.update(
+        {
+            "content": content,
+            "document_status": "active",
+            "coverage_cards": [
+                {
+                    "candidate_id": row_id,
+                    "start": start,
+                    "end": end,
+                    "quote": content[start:end],
+                    "facet": "actuacion",
+                    "exact_source_span_validated": True,
+                }
+            ],
+        }
+    )
+    row["prose_source_cards"] = build_prose_source_cards(row)
+    assert row["prose_source_cards"], "fixture must yield one attested prose card"
+    return row
+
+
+def test_prose_source_card_flag_off_is_byte_inert_at_append_seam(monkeypatch):
+    monkeypatch.delenv("PROSE_SOURCE_CARD", raising=False)
+    prefix = [{"id": "base", "content": "estable"}]
+
+    output = append_validated_coverage(prefix, [_prose_document_local_candidate()])
+
+    assert output is prefix
+
+
+def test_prose_source_card_served_with_verified_attestation(monkeypatch):
+    monkeypatch.setenv("PROSE_SOURCE_CARD", "on")
+    candidate = _prose_document_local_candidate()
+
+    output = append_validated_coverage([], [candidate])
+
+    assert len(output) == 1
+    served = output[0]
+    assert served["post_rerank_coverage_contract"] == (
+        "exact_source_bounded_prose_sentence_span_v1"
+    )
+    card = served["served_coverage_cards"][0]
+    assert card["record_kind"] == "prose_sentence_span_v1"
+    assert card["card_class"] == "prose_source_card"
+    assert card["record_start"] == card["start"]
+    assert card["record_end"] == card["end"]
+    assert has_exact_served_coverage_receipt(served) is True
+    assert is_validated_coverage_chunk(served) is True
+    # El span verbatim (oración completa) viaja al generador vía la vista
+    # servida; la cita local la construye el generador desde los campos de la
+    # fila (source_file/product/revisión), que quedan intactos.
+    view = coverage_context_content(served)
+    assert view == (
+        "Estas maniobras actuaran sobre las salidas programadas, "
+        "sirenas o modulos de control."
+    )
+    assert "Parrafo previo" not in view
+    assert "Cola posterior" not in view
+    assert served["source_file"] == "manual.pdf"
+
+
+def test_tampered_prose_quote_is_never_served(monkeypatch):
+    monkeypatch.setenv("PROSE_SOURCE_CARD", "on")
+    candidate = _prose_document_local_candidate()
+    candidate["prose_source_cards"][0]["quote"] += " inventado"
+    prefix = [{"id": "base", "content": "estable"}]
+
+    assert append_validated_coverage(prefix, [candidate]) is prefix
+
+
+def test_prose_row_without_attested_card_is_never_served(monkeypatch):
+    monkeypatch.setenv("PROSE_SOURCE_CARD", "on")
+    candidate = _prose_document_local_candidate()
+    candidate.pop("prose_source_cards")
+    prefix = [{"id": "base", "content": "estable"}]
+
+    assert append_validated_coverage(prefix, [candidate]) is prefix
+
+
+def test_pipe_row_class_byte_identical_with_prose_flag_on(monkeypatch):
+    views = {}
+    for mode in ("off", "on"):
+        monkeypatch.setenv("PROSE_SOURCE_CARD", mode)
+        served_rows = append_validated_coverage(
+            [], [deepcopy(_document_local_candidate())]
+        )
+        assert len(served_rows) == 1
+        views[mode] = (
+            json.dumps(served_rows[0], sort_keys=True, default=str),
+            coverage_context_content(served_rows[0]),
+        )
+
+    assert views["off"] == views["on"]
+    assert '"record_kind": "markdown_pipe_row_v1"' in views["on"][0]
+    assert '"post_rerank_coverage_contract": ' in views["on"][0]
+    assert "exact_source_bounded_markdown_pipe_row_v1" in views["on"][0]
+
+
+def test_pipe_table_that_fails_pipe_class_is_never_served_as_prose(monkeypatch):
+    """s278 dúo r2 (Fable#2, CRÍTICO, probe reproducido en el seam): una tabla
+    cuyo span cubre DOS data-rows falla la clase pipe y NO puede servirse como
+    prosa — ni siquiera con una card de prosa forjada con hashes consistentes
+    sobre la fila truncada (la re-derivación fail-closed la rechaza)."""
+    import hashlib
+
+    monkeypatch.setenv("PROSE_SOURCE_CARD", "on")
+    candidate = _prose_document_local_candidate("pipe-as-prose-seam")
+    content = (
+        "| Parametro | Significado |\n"
+        "| --- | --- |\n"
+        "| r.I | Rearme inhibido hasta finalizar la extincion. |\n"
+        "| t.A | Temporizador de aviso en minutos. |\n"
+    )
+    start = content.index("| r.I")
+    end = content.index("Temporizador") + len("Temporizador")
+    candidate["content"] = content
+    candidate["coverage_cards"] = [
+        {
+            "candidate_id": "pipe-as-prose-seam",
+            "candidate_rank": 1,
+            "start": start,
+            "end": end,
+            "quote": content[start:end],
+            "facet": "actuacion",
+            "exact_source_span_validated": True,
+        }
+    ]
+    # Card forjada sobre el span truncado, con hashes internamente consistentes
+    # (lo que el código PRE-fix habría producido).
+    forged_quote = content[start:end]
+    candidate["prose_source_cards"] = [
+        {
+            "candidate_id": "pipe-as-prose-seam",
+            "card_class": "prose_source_card",
+            "record_kind": "prose_sentence_span_v1",
+            "document_id": candidate["document_id"],
+            "extraction_sha256": candidate["extraction_sha256"],
+            "source_file": candidate["source_file"],
+            "content_sha256": hashlib.sha256(
+                content.encode("utf-8")
+            ).hexdigest(),
+            "start": start,
+            "end": end,
+            "quote": forged_quote,
+            "quote_sha256": hashlib.sha256(
+                forged_quote.encode("utf-8")
+            ).hexdigest(),
+            "sentence_complete_validated": True,
+            "local_semantic_validated": True,
+            "exact_source_span_validated": True,
+        }
+    ]
+    prefix = [{"id": "base", "content": "estable"}]
+
+    assert append_validated_coverage(prefix, [candidate]) is prefix

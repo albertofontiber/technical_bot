@@ -32,6 +32,7 @@ from ..release_profiles import (
     DOCUMENT_LOCAL_LANE as LANE,
     DOCUMENT_LOCAL_VALIDATION as VALIDATION,
 )
+from .mp_lexicon import line_spans, sentence_spans
 from .query_facets import expand_query_facets
 from .rerank_pool_coverage import (
     POOL_LIMIT,
@@ -79,6 +80,54 @@ _IDENTITY_FIELDS = (
     "manufacturer",
     "product_model",
 )
+
+# s278 §4 — identidad de blob canónica documento<->chunks/doc_map.
+BLOB_EXTENSION = ".pdf"
+# s278 §4 — clase de source card de PROSA (flag PROSE_SOURCE_CARD, default off).
+PROSE_SOURCE_CARD_CLASS = "prose_source_card"
+PROSE_SOURCE_CARD_KIND = "prose_sentence_span_v1"
+MAX_PROSE_SOURCE_CARD_CHARS = 600
+
+
+def canonical_blob_stem(name: str) -> str:
+    """Canonical form of a source-blob name: strip exactly ONE declared
+    ``.pdf`` suffix (case-sensitive); everything else is returned verbatim."""
+    text = str(name or "")
+    if text.endswith(BLOB_EXTENSION):
+        return text[: -len(BLOB_EXTENSION)]
+    return text
+
+
+def blob_identity_match(a: str, b: str) -> bool:
+    """THE single canonical blob-identity comparison (s278 §4) — SYMMETRIC.
+
+    Contract: each side is reduced to its canonical stem by stripping exactly
+    one DECLARED ``.pdf`` extension (case-sensitive, at most once), then the
+    stems must be STRICTLY equal and non-empty.  The matching is deliberately
+    SYMMETRIC — either side may carry the declared extension — because blob
+    identity is already bound by ``document_id`` + ``extraction_sha256`` +
+    ``revision_lineage_id`` at every seam that consults this helper; the name
+    only corroborates (s278 dúo r2, Fable#5).  Nothing else is normalized — no
+    case folding, no whitespace trimming, no other extensions, no repeated
+    strips — so the only mismatch this closes is the confirmed
+    ``documents.source_pdf_filename = '<stem>.pdf'`` vs chunks/doc_map
+    ``source_file = '<stem>'`` drift.  Every other difference (``<stem>-v2``,
+    ``<stem>.pdf.pdf``, case variants, empty names) fails closed.
+    """
+    stem_a = canonical_blob_stem(a)
+    stem_b = canonical_blob_stem(b)
+    return bool(stem_a) and stem_a == stem_b
+
+
+def _prose_source_card_enabled() -> bool:
+    """Flag estricto default-off, releído en runtime (patrón contract_enabled)."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("PROSE_SOURCE_CARD")
+
+
+def _sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def _stable_sha256(value: Any) -> str:
@@ -292,7 +341,9 @@ def resolve_authoritative_documents(
             for scope in matching_seeds
             if scope["document_id"] == active_id
             and scope["extraction_sha256"] == active_sha
-            and scope["source_file"] == source_file
+            # s278 §4: el seed viene de chunks/doc_map y el activo de
+            # documents.source_pdf_filename — única comparación canónica.
+            and blob_identity_match(source_file, scope["source_file"])
         ]
         if not exact_active_seeds:
             return [], "active_revision_not_bound_to_anchor_blob"
@@ -654,8 +705,12 @@ def fetch_document_local_candidates(
                 != authority["document_id"]
             or str(source_row.get("extraction_sha256") or "").casefold()
                 != authority["extraction_sha256"]
-            or str(source_row.get("source_file") or "")
-                != authority["source_file"]
+            # s278 §4: candidato = chunk, autoridad = documents; misma y única
+            # comparación canónica de blob (fail-closed para el resto).
+            or not blob_identity_match(
+                authority["source_file"],
+                str(source_row.get("source_file") or ""),
+            )
             or str(source_row.get("document_revision_lineage_id") or "")
                 != authority["revision_lineage_id"]
         ):
@@ -728,22 +783,334 @@ def fetch_document_local_candidates(
 def _matches_authority(
     row: dict[str, Any], authorities: list[dict[str, str]]
 ) -> bool:
-    key = (
-        str(row.get("document_id") or ""),
-        str(row.get("document_revision_lineage_id") or ""),
-        str(row.get("extraction_sha256") or "").casefold(),
-        str(row.get("source_file") or ""),
-    )
-    allowed = {
-        (
-            authority["document_id"],
-            authority["revision_lineage_id"],
-            authority["extraction_sha256"],
-            authority["source_file"],
-        )
+    if row.get("duplicate_of") is not None:
+        return False
+    document_id = str(row.get("document_id") or "")
+    lineage_id = str(row.get("document_revision_lineage_id") or "")
+    extraction_sha256 = str(row.get("extraction_sha256") or "").casefold()
+    source_file = str(row.get("source_file") or "")
+    return any(
+        document_id == authority["document_id"]
+        and lineage_id == authority["revision_lineage_id"]
+        and extraction_sha256 == authority["extraction_sha256"]
+        # s278 §4: chunk vs documents — única comparación canónica de blob.
+        and blob_identity_match(authority["source_file"], source_file)
         for authority in authorities
-    }
-    return key in allowed and row.get("duplicate_of") is None
+    )
+
+
+def _is_complete_sentence_span(content: str, start: int, end: int) -> bool:
+    """s278 dúo r2 (Sol#2): validación POSITIVA y conservadora de oración completa.
+
+    (a) el span termina en puntuación TERMINAL ``.``/``!``/``?`` — ``;`` separa
+        cláusulas, no oraciones, y el final-de-línea sin puntuación no termina
+        nada;
+    (b) el último carácter no-blanco ANTES del span (si existe) debe ser él
+        mismo terminal — rechaza cortes a mitad de palabra y continuaciones de
+        línea con hard-wrap (la línea previa quedó sin terminar).
+
+    Heurística deliberadamente conservadora y documentada: una oración partida
+    por hard-wrap NO se sirve en v1.  Si no valida, la card NO se sirve
+    (fail-closed) — el campo ``sentence_complete_validated`` jamás se rebaja.
+    """
+    if content[end - 1] not in ".!?":
+        return False
+    preceding = content[:start].rstrip()
+    return not preceding or preceding[-1] in ".!?"
+
+
+def _span_is_prose(
+    content_lines: list[tuple[int, int, str]], start: int, end: int
+) -> bool:
+    """s278 dúo r2 (Fable#2): verificación POSITIVA de prosa-idad del span.
+
+    Rechaza cualquier span cuyas líneas contenedoras sean filas pipe de tabla
+    (datos, encabezados o separadores — ``_markdown_pipe_row_kind`` distinto de
+    ``None``).  Sin esto, la clase de prosa servía filas pipe TRUNCADAS cuando
+    la clase de fila fallaba (probe reproducido: span sobre dos data-rows).
+    Import function-local para no acoplar el módulo en import-time.
+    """
+    from .post_rerank_coverage import _markdown_pipe_row_kind
+
+    return all(
+        _markdown_pipe_row_kind(line) is None
+        for line_start, line_end, line in content_lines
+        if start < line_end and line_start < end
+    )
+
+
+def build_prose_source_cards(candidate: dict[str, Any]) -> list[dict[str, Any]]:
+    """s278 §4: derive AT MOST ONE complete-sentence prose card, fully attested.
+
+    The card is an exact ``[start, end)`` span of the ACTIVE chunk, attested by
+    document_id + extraction_sha256 + source_file + chunk id + content-hash of
+    the whole chunk + quote-hash of the span.  The span is derived ONLY from
+    the selector's already-validated query-aligned ``coverage_cards`` (never an
+    eval-identifier lookup): each selector span is snapped OUTWARD to the
+    complete sentence(s) it intersects and overlapping snaps are merged.
+    Candidate spans are then tried in this order (s278 dúo r2, Sol#3): first
+    the group(s) containing the DECISIVE alignment card of the selector
+    (``facet == "query_alignment"``, the card that drove the selection), ties
+    and the remainder by position.  A span is served verbatim only if it is
+    bounded (<= ``MAX_PROSE_SOURCE_CARD_CHARS``), positively PROSE (no
+    pipe-table line, Fable#2) and a genuinely complete sentence span (Sol#2);
+    otherwise it is omitted entirely — never clipped, never downgraded.  Any
+    invalid input fails closed to ``[]``.
+    """
+    content = candidate.get("content")
+    candidate_id = str(candidate.get("id") or "")
+    document_id = str(candidate.get("document_id") or "")
+    extraction_sha256 = str(candidate.get("extraction_sha256") or "").casefold()
+    # s278 dúo r2 (Fable#5): sin .strip() — el contrato del helper canónico es
+    # matching simétrico SIN normalizaciones extra; la identidad la ligan
+    # document_id + extraction_sha256 + revision_lineage_id.
+    source_file = str(candidate.get("source_file") or "")
+    authority_source_file = str(
+        candidate.get("document_local_authority_source_file") or ""
+    )
+    lineage_id = str(candidate.get("document_revision_lineage_id") or "")
+    if (
+        not isinstance(content, str)
+        or not content
+        or not candidate_id
+        or not document_id
+        or not _valid_sha256(extraction_sha256)
+        or not source_file
+        or candidate.get("duplicate_of") is not None
+        or candidate.get("document_status") != "active"
+        or document_id
+        != str(candidate.get("document_local_authority_document_id") or "")
+        or extraction_sha256
+        != str(
+            candidate.get("document_local_authority_extraction_sha256") or ""
+        ).casefold()
+        or not lineage_id
+        or lineage_id
+        != str(
+            candidate.get("document_local_authority_revision_lineage_id") or ""
+        )
+        or not blob_identity_match(authority_source_file, source_file)
+    ):
+        return []
+    cards = candidate.get("coverage_cards")
+    if not isinstance(cards, list) or not cards:
+        return []
+    sentences = sentence_spans(content)
+    content_lines = line_spans(content)
+    snapped: list[list[int]] = []
+    decisive_spans: list[tuple[int, int]] = []
+    for card in cards:
+        if (
+            not isinstance(card, dict)
+            or card.get("exact_source_span_validated") is not True
+        ):
+            return []
+        start, end, quote = card.get("start"), card.get("end"), card.get("quote")
+        if (
+            str(card.get("candidate_id") or "") != candidate_id
+            or isinstance(start, bool)
+            or isinstance(end, bool)
+            or not isinstance(start, int)
+            or not isinstance(end, int)
+            or not isinstance(quote, str)
+            or not 0 <= start < end <= len(content)
+            or content[start:end] != quote
+        ):
+            return []
+        if str(card.get("facet") or "") == "query_alignment":
+            decisive_spans.append((start, end))
+        touched = [
+            (sentence_start, sentence_end)
+            for sentence_start, sentence_end in sentences
+            if start < sentence_end and sentence_start < end
+        ]
+        if not touched:
+            continue
+        snapped.append(
+            [
+                min(sentence_start for sentence_start, _ in touched),
+                max(sentence_end for _, sentence_end in touched),
+            ]
+        )
+    merged: list[list[int]] = []
+    for span_start, span_end in sorted(map(tuple, snapped)):
+        if merged and span_start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], span_end)
+        else:
+            merged.append([span_start, span_end])
+
+    def _contains_decisive(span_start: int, span_end: int) -> bool:
+        return any(
+            span_start < decisive_end and decisive_start < span_end
+            for decisive_start, decisive_end in decisive_spans
+        )
+
+    # s278 dúo r2 (Sol#3): la card decisiva de ALINEACIÓN manda; empate y
+    # resto por posición.  Sin card decisiva identificable => orden posicional.
+    ordered = sorted(
+        (tuple(span) for span in merged),
+        key=lambda span: (0 if _contains_decisive(*span) else 1, span[0]),
+    )
+    for span_start, span_end in ordered:
+        if span_end - span_start > MAX_PROSE_SOURCE_CARD_CHARS:
+            continue
+        if not _span_is_prose(content_lines, span_start, span_end):
+            continue
+        if not _is_complete_sentence_span(content, span_start, span_end):
+            continue
+        quote = content[span_start:span_end]
+        return [
+            {
+                "candidate_id": candidate_id,
+                "card_class": PROSE_SOURCE_CARD_CLASS,
+                "record_kind": PROSE_SOURCE_CARD_KIND,
+                "document_id": document_id,
+                "extraction_sha256": extraction_sha256,
+                "source_file": source_file,
+                "content_sha256": _sha256_text(content),
+                "start": span_start,
+                "end": span_end,
+                "quote": quote,
+                "quote_sha256": _sha256_text(quote),
+                "sentence_complete_validated": True,
+                "local_semantic_validated": True,
+                "exact_source_span_validated": True,
+            }
+        ]
+    return []
+
+
+def has_exact_prose_source_card_receipt(chunk: dict[str, Any]) -> bool:
+    """Revalidate every prose-card attestation field against the parent chunk.
+
+    Field-level checks make each attested value load-bearing (bounds, verbatim
+    quote, content/quote hashes, chunk and document identity, canonical blob
+    identity via :func:`blob_identity_match`); the deterministic re-derivation
+    equality is the backstop — any tampered card, tampered selector span or
+    tampered parent content fails closed.
+    """
+    cards = chunk.get("prose_source_cards")
+    content = chunk.get("content")
+    if (
+        not isinstance(cards, list)
+        or len(cards) != 1
+        or not isinstance(cards[0], dict)
+        or not isinstance(content, str)
+        or not content
+    ):
+        return False
+    card = cards[0]
+    start, end, quote = card.get("start"), card.get("end"), card.get("quote")
+    if (
+        isinstance(start, bool)
+        or isinstance(end, bool)
+        or not isinstance(start, int)
+        or not isinstance(end, int)
+        or not isinstance(quote, str)
+        or not 0 <= start < end <= len(content)
+        or content[start:end] != quote
+        or card.get("card_class") != PROSE_SOURCE_CARD_CLASS
+        or card.get("record_kind") != PROSE_SOURCE_CARD_KIND
+        or card.get("content_sha256") != _sha256_text(content)
+        or card.get("quote_sha256") != _sha256_text(quote)
+        or card.get("sentence_complete_validated") is not True
+        or card.get("exact_source_span_validated") is not True
+        or str(card.get("candidate_id") or "") != str(chunk.get("id") or "")
+        or str(card.get("document_id") or "")
+        != str(chunk.get("document_id") or "")
+        or str(card.get("extraction_sha256") or "").casefold()
+        != str(chunk.get("extraction_sha256") or "").casefold()
+        or not blob_identity_match(
+            str(card.get("source_file") or ""),
+            str(chunk.get("source_file") or ""),
+        )
+    ):
+        return False
+    try:
+        expected = build_prose_source_cards(chunk)
+    except (KeyError, TypeError, ValueError):
+        return False
+    return cards == expected
+
+
+def _blob_identity_drift_pairs(
+    authorities: list[dict[str, str]],
+    identity_rows: list[dict[str, Any]],
+) -> list[dict[str, str]]:
+    """s278 dúo r2 (Fable#3): pares blob canónico-pero-NO-estricto por documento.
+
+    Con autoridad presente y CERO candidatos, un par documents-blob vs
+    chunks-blob que empareja canónicamente pero no estrictamente ES la
+    explicación estructural (el join de chunks del RPC v2 es estricto en SQL)
+    y debe quedar VISIBLE, no misatribuido a not_applicable/no_fts_candidates.
+    Los identificadores chunk-side disponibles son los anchors y el contexto
+    ya servido del mismo document_id.
+    """
+    pairs: list[dict[str, str]] = []
+    for authority in authorities:
+        document_id = str(authority.get("document_id") or "")
+        document_blob = str(authority.get("source_file") or "")
+        if not document_id or not document_blob:
+            continue
+        for row in identity_rows:
+            if str(row.get("document_id") or "") != document_id:
+                continue
+            chunk_blob = str(row.get("source_file") or "")
+            if (
+                chunk_blob
+                and chunk_blob != document_blob
+                and blob_identity_match(document_blob, chunk_blob)
+            ):
+                pair = {
+                    "document_id": document_id,
+                    "documents_blob": document_blob,
+                    "chunks_blob": chunk_blob,
+                }
+                if pair not in pairs:
+                    pairs.append(pair)
+    return pairs
+
+
+def _prose_source_card_fetch_receipt(
+    read_trace: dict[str, Any],
+    *,
+    authorities: list[dict[str, str]] | tuple = (),
+    identity_rows: list[dict[str, Any]] | tuple = (),
+) -> dict[str, Any]:
+    """s278 §4 fail-closed VISIBLE: when the snapshot RPC rejects the document
+    (lineage/doc_type NULL — the known live class until the adjudicated
+    data-fix), no card is served and the receipt declares the exact RPC reason
+    (e.g. ``blocked_unverified_document_lineage``), never a silent drop.
+
+    s278 dúo r2 (Fable#3): with an AUTHORITY present and zero candidates, a
+    canonical-but-not-strict blob pair among the available identifiers is
+    declared as ``blocked_blob_identity_drift_requires_rpc_v3`` (the strict SQL
+    chunk join of the v2 RPC is the structural cause; the canonical SQL lives
+    in ``supabase/migration_proposals/`` pending sign-off) instead of being
+    misattributed to ``not_applicable``.
+    """
+    drift = _blob_identity_drift_pairs(list(authorities), list(identity_rows))
+    if drift:
+        return {
+            "status": "blocked_blob_identity_drift_requires_rpc_v3",
+            "blob_identity_drift": drift,
+            "cards": 0,
+        }
+    reasons = sorted(
+        {
+            str(reason)
+            for reason in (read_trace.get("authority_rejections") or [])
+            if str(reason)
+        }
+    )
+    if reasons:
+        status = (
+            f"blocked_{reasons[0]}"
+            if len(reasons) == 1
+            else "blocked_multiple_snapshot_rejections"
+        )
+        return {"status": status, "snapshot_rejections": reasons, "cards": 0}
+    return {"status": "not_applicable", "cards": 0}
 
 
 def select_document_local_coverage(
@@ -811,6 +1178,39 @@ def select_document_local_coverage(
             "local_semantic_validated": True,
         }
     )
+    if _prose_source_card_enabled():
+        # s278 §4: clase COMPLEMENTARIA de card de prosa sobre el MISMO ganador
+        # (mismos gates de elegibilidad/dedup/cap que la fila); byte-inerte off.
+        # dúo r2 (Fable#4): la card se construye SOLO en el path complementario
+        # — si la clase de fila markdown es derivable del ganador, adjuntar
+        # prosa daría un framing/receipt engañoso con bytes servidos idénticos.
+        from .post_rerank_coverage import _document_local_markdown_record_cards
+
+        if _document_local_markdown_record_cards(selected):
+            trace["prose_source_card"] = {
+                "status": "not_applicable_markdown_pipe_row_class",
+                "cards": 0,
+            }
+        else:
+            prose_cards = build_prose_source_cards(selected)
+            if prose_cards:
+                selected["prose_source_cards"] = prose_cards
+                trace["prose_source_card"] = {
+                    "status": "selected",
+                    "cards": len(prose_cards),
+                    "record_kind": PROSE_SOURCE_CARD_KIND,
+                    "spans": [
+                        [card["start"], card["end"]] for card in prose_cards
+                    ],
+                    "quote_sha256": [
+                        card["quote_sha256"] for card in prose_cards
+                    ],
+                }
+            else:
+                trace["prose_source_card"] = {
+                    "status": "no_complete_sentence_span",
+                    "cards": 0,
+                }
     trace.update(
         status="selected",
         selected_ids=[winner_id],
@@ -832,6 +1232,17 @@ def collect_document_local_coverage(
     """Fetch then select without exposing a selector override to production."""
     candidates, authorities, read_trace = fetcher(query, anchor_rows)
     if not candidates or not authorities:
+        if _prose_source_card_enabled():
+            # s278 §4: bloqueo del RPC visible en el receipt, nunca silencioso;
+            # dúo r2 (Fable#3): el drift de blob con autoridad presente y cero
+            # candidatos también, con su par exacto.
+            trace = dict(read_trace)
+            trace["prose_source_card"] = _prose_source_card_fetch_receipt(
+                read_trace,
+                authorities=authorities,
+                identity_rows=[*anchor_rows, *covered_context],
+            )
+            return [], trace
         return [], read_trace
     selected, selection_trace = select_document_local_coverage(
         query, candidates, covered_context, authorities
@@ -849,4 +1260,6 @@ def collect_document_local_coverage(
             "database_writes": 0,
         }
     )
+    if "prose_source_card" in selection_trace:
+        trace["prose_source_card"] = selection_trace["prose_source_card"]
     return selected[:APPEND_LIMIT], trace
