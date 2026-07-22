@@ -235,6 +235,48 @@ def test_document_local_lane_runs_only_after_a_served_structural_anchor():
     ]
 
 
+def test_document_local_already_served_winner_preserves_prefix_without_duplicate():
+    reranked = [{"id": "already-served", "content": "target"}]
+    structural = _candidate("anchor")
+
+    def structural_collector(_query, _reranked):
+        return [structural], {"lane": STRUCTURAL_LANE, "status": "selected"}
+
+    def document_local_collector(_query, _anchors, covered):
+        assert [row["id"] for row in covered] == ["already-served", "anchor"]
+        return [], {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "best_candidate_already_covered",
+            "selected_ids": [],
+            "satisfied_ids": ["already-served"],
+            "satisfaction_route": "already_served",
+            "http_requests": 1,
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "pregunta",
+        reranked,
+        enabled=True,
+        structural_enabled=True,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        structural_collector=structural_collector,
+        document_local_collector=document_local_collector,
+    )
+
+    assert output[0] is reranked[0]
+    assert [row["id"] for row in output].count("already-served") == 1
+    assert trace["protected_prefix_equal"] is True
+    assert trace["lanes"][1]["satisfied_ids"] == ["already-served"]
+    assert "already-served" not in trace["appended_ids"]
+
+
 def test_document_local_lane_skips_io_without_a_served_structural_anchor():
     reranked = [{"id": "base", "content": "base"}]
 

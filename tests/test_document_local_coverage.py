@@ -884,6 +884,9 @@ def test_selector_returns_only_first_ranked_complement(
     assert selected[0]["document_local_coverage_rank"] == 1
     assert trace["eligible_rows"] == 2
     assert trace["status"] == "selected"
+    assert trace["selected_ids"] == ["first"]
+    assert trace["satisfied_ids"] == ["first"]
+    assert trace["satisfaction_route"] == "coverage_append"
     assert trace["catalog_scope_applied"] is False
 
 
@@ -955,6 +958,9 @@ def test_selector_does_not_replace_an_already_covered_best_candidate(
 
     assert selected == []
     assert trace["status"] == "best_candidate_already_covered"
+    assert trace["selected_ids"] == []
+    assert trace["satisfied_ids"] == ["winner"]
+    assert trace["satisfaction_route"] == "already_served"
 
 
 def test_selector_rejects_duplicate_mark_before_semantic_ranking(

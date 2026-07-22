@@ -182,7 +182,7 @@ VISUAL_REST_GET_PATH = "/rest/v1/document_visual_assets"
 DOCUMENT_LOCAL_RPC = "document_local_snapshot_v2"
 DOCUMENT_LOCAL_REST_GET_PATH = f"/rest/v1/rpc/{DOCUMENT_LOCAL_RPC}"
 DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
-DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS = frozenset({"hp011:r1", "hp011:r2"})
+DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS = frozenset({"hp011:r1", "hp011:r2"})
 VISUAL_SERVABLE_ROLES = ("wiring", "table", "procedure", "ui")
 VISUAL_MAX_ASSETS_PER_ANSWER = 4
 RERANK_INSTRUCTION = (
@@ -5146,6 +5146,7 @@ def _validate_product_document_local_transport_lineage(
             "physical_get_ordinals",
             "physical_get_receipts_sha256",
             "served_selected_ids",
+            "served_satisfied_ids",
         },
         "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
         replica_key,
@@ -5169,6 +5170,8 @@ def _validate_product_document_local_transport_lineage(
     status = lane_trace.get("status")
     http_requests = lane_trace.get("http_requests")
     selected_ids = lane_trace.get("selected_ids")
+    satisfied_ids = lane_trace.get("satisfied_ids", [])
+    satisfaction_route = lane_trace.get("satisfaction_route")
     _require(
         isinstance(status, str)
         and bool(status)
@@ -5179,12 +5182,35 @@ def _validate_product_document_local_transport_lineage(
         and isinstance(selected_ids, list)
         and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in selected_ids)
         and len(selected_ids) == len(set(selected_ids))
-        and ((status == "selected") is (len(selected_ids) == 1))
+        and isinstance(satisfied_ids, list)
+        and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in satisfied_ids)
+        and len(satisfied_ids) == len(set(satisfied_ids))
+        and (
+            (
+                status == "selected"
+                and len(selected_ids) == 1
+                and satisfied_ids == selected_ids
+                and satisfaction_route == "coverage_append"
+            )
+            or (
+                status == "best_candidate_already_covered"
+                and selected_ids == []
+                and len(satisfied_ids) == 1
+                and satisfaction_route == "already_served"
+            )
+            or (
+                status not in {"selected", "best_candidate_already_covered"}
+                and selected_ids == []
+                and satisfied_ids == []
+                and satisfaction_route is None
+            )
+        )
         and evidence.get("physical_get_ordinals")
         == [row.get("ordinal") for row in physical_gets]
         and evidence.get("physical_get_receipts_sha256")
         == sha256_json(physical_gets)
-        and evidence.get("served_selected_ids") == selected_ids,
+        and evidence.get("served_selected_ids") == selected_ids
+        and evidence.get("served_satisfied_ids") == satisfied_ids,
         "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
         replica_key,
     )
@@ -5202,15 +5228,26 @@ def _validate_product_document_local_transport_lineage(
             and len(served_rows) == 1
             and served_rows[0].get("retrieval_lane") == DOCUMENT_LOCAL_LANE
             and served_rows[0].get("document_local_coverage_validated") is True,
-            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SELECTED_NOT_SERVED",
             replica_key,
         )
-    if replica_key in DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS:
+    elif satisfied_ids:
+        satisfied_rows = [
+            row
+            for row in served_context
+            if isinstance(row, Mapping)
+            and str(row.get("id") or "") == satisfied_ids[0]
+        ]
         _require(
-            status == "selected"
-            and http_requests == 1
+            len(satisfied_rows) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED",
+            replica_key,
+        )
+    if replica_key in DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS:
+        _require(
+            http_requests == 1
             and len(physical_gets) == 1
-            and len(selected_ids) == 1,
+            and len(satisfied_ids) == 1,
             "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
             replica_key,
         )

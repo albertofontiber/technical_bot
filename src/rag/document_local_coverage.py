@@ -109,6 +109,8 @@ def _base_trace(*, anchors: int = 0) -> dict[str, Any]:
         "fts_candidate_rows": 0,
         "eligible_rows": 0,
         "selected_ids": [],
+        "satisfied_ids": [],
+        "satisfaction_route": None,
         "http_requests": 0,
         "rows_read": 0,
         "model_calls": 0,
@@ -744,12 +746,16 @@ def select_document_local_coverage(
         return [], trace
     winner = ranked[0]
     winner_id = str(winner.get("id") or "")
-    covered_ids = {str(row.get("id") or "") for row in covered_context}
-    if winner_id in covered_ids:
-        trace["status"] = "best_candidate_already_covered"
-        return [], trace
     if not _matches_authority(winner, authorities):
         trace["status"] = "winner_scope_mismatch"
+        return [], trace
+    covered_ids = {str(row.get("id") or "") for row in covered_context}
+    if winner_id in covered_ids:
+        trace.update(
+            status="best_candidate_already_covered",
+            satisfied_ids=[winner_id],
+            satisfaction_route="already_served",
+        )
         return [], trace
 
     selected = dict(winner)
@@ -765,7 +771,12 @@ def select_document_local_coverage(
             "local_semantic_validated": True,
         }
     )
-    trace.update(status="selected", selected_ids=[winner_id])
+    trace.update(
+        status="selected",
+        selected_ids=[winner_id],
+        satisfied_ids=[winner_id],
+        satisfaction_route="coverage_append",
+    )
     return [selected], trace
 
 
@@ -791,6 +802,8 @@ def collect_document_local_coverage(
             "status": selection_trace["status"],
             "eligible_rows": selection_trace.get("eligible_rows", 0),
             "selected_ids": selection_trace.get("selected_ids", []),
+            "satisfied_ids": selection_trace.get("satisfied_ids", []),
+            "satisfaction_route": selection_trace.get("satisfaction_route"),
             "catalog_scope_applied": selection_trace.get("catalog_scope_applied"),
             "model_calls": 0,
             "database_writes": 0,

@@ -323,9 +323,12 @@ def _document_local_v2_runtime(monkeypatch) -> product.ProductRuntime:
                     "lane": product._DOCUMENT_LOCAL_LANE,
                     "status": "selected",
                     "selected_ids": [document_local["id"]],
+                    "satisfied_ids": [document_local["id"]],
+                    "satisfaction_route": "coverage_append",
                     "http_requests": 1,
                 },
             ],
+            "appended_ids": [candidates[0]["id"], document_local["id"]],
         }
 
     monkeypatch.setattr(serving_pipeline, "apply_profiled_post_rerank_coverage", coverage)
@@ -353,6 +356,7 @@ def test_v2_binds_one_document_local_lane_trace_to_one_physical_get(monkeypatch)
     assert evidence["lane_trace"]["selected_ids"] == ["document-local-target"]
     assert evidence["physical_get_ordinals"] == [2]
     assert evidence["served_selected_ids"] == ["document-local-target"]
+    assert evidence["served_satisfied_ids"] == ["document-local-target"]
     assert attestation["coverage_trace_sha256"] == p1.sha256_json(
         attestation["coverage_trace"]
     )
@@ -363,10 +367,21 @@ def test_v2_binds_one_document_local_lane_trace_to_one_physical_get(monkeypatch)
 
 def _document_local_contract_inputs(*, status: str = "selected"):
     selected_ids = ["document-local-target"] if status == "selected" else []
+    satisfied_ids = (
+        ["document-local-target"]
+        if status in {"selected", "best_candidate_already_covered"}
+        else []
+    )
+    satisfaction_route = {
+        "selected": "coverage_append",
+        "best_candidate_already_covered": "already_served",
+    }.get(status)
     lane = {
         "lane": product._DOCUMENT_LOCAL_LANE,
         "status": status,
         "selected_ids": selected_ids,
+        "satisfied_ids": satisfied_ids,
+        "satisfaction_route": satisfaction_route,
         "http_requests": 1,
     }
     trace = {
@@ -376,8 +391,12 @@ def _document_local_contract_inputs(*, status: str = "selected"):
     served = [
         {
             "id": "document-local-target",
-            "retrieval_lane": product._DOCUMENT_LOCAL_LANE,
-            "document_local_coverage_validated": True,
+            "retrieval_lane": (
+                product._DOCUMENT_LOCAL_LANE
+                if status == "selected"
+                else "protected_rerank_prefix"
+            ),
+            "document_local_coverage_validated": status == "selected",
         }
     ]
     physical = [
@@ -403,6 +422,26 @@ def test_hp011_v2_requires_selected_id_served_in_context(replica_key):
     )
 
     assert evidence["served_selected_ids"] == ["document-local-target"]
+    assert evidence["served_satisfied_ids"] == ["document-local-target"]
+
+
+@pytest.mark.parametrize("replica_key", ["hp011:r1", "hp011:r2"])
+def test_hp011_v2_accepts_authoritative_winner_already_served_once(replica_key):
+    trace, served, physical = _document_local_contract_inputs(
+        status="best_candidate_already_covered"
+    )
+
+    evidence = product._validated_document_local_coverage_evidence(
+        replica_key=replica_key,
+        coverage_trace=trace,
+        served=served,
+        postgrest_receipts=physical,
+        required=True,
+    )
+
+    assert evidence["served_selected_ids"] == []
+    assert evidence["served_satisfied_ids"] == ["document-local-target"]
+    assert evidence["lane_trace"]["satisfaction_route"] == "already_served"
 
 
 @pytest.mark.parametrize(
@@ -412,7 +451,15 @@ def test_hp011_v2_requires_selected_id_served_in_context(replica_key):
         ("duplicate_lane", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
         ("lane_error", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
         ("missing_get", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT"),
-        ("selected_not_served", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET"),
+        (
+            "selected_not_served",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SELECTED_NOT_SERVED",
+        ),
+        (
+            "already_satisfied_not_served",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED",
+        ),
+        ("satisfaction_route_mismatch", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
         ("hp011_not_selected", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET"),
     ],
 )
@@ -429,6 +476,13 @@ def test_v2_document_local_contract_fails_closed(mutation, expected_code):
         physical = []
     elif mutation == "selected_not_served":
         served = []
+    elif mutation == "already_satisfied_not_served":
+        trace, served, physical = _document_local_contract_inputs(
+            status="best_candidate_already_covered"
+        )
+        served = []
+    elif mutation == "satisfaction_route_mismatch":
+        trace["lanes"][0]["satisfaction_route"] = "already_served"
     elif mutation == "hp011_not_selected":
         replica_key = "hp011:r1"
         trace, served, physical = _document_local_contract_inputs(

@@ -52,7 +52,7 @@ POSTGREST_REQUEST_RECEIPT_SCHEMA = "s277_c1_p1_postgrest_request_receipt_v1"
 _DOCUMENT_LOCAL_PROFILE = "coverage_c1_v2"
 _DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
 _DOCUMENT_LOCAL_RPC_PATH = "/rest/v1/rpc/document_local_snapshot_v2"
-_DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS = frozenset(
+_DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS = frozenset(
     {"hp011:r1", "hp011:r2"}
 )
 
@@ -258,13 +258,37 @@ def _validated_document_local_coverage_evidence(
         f"document-local semantic/physical GET mismatch for {replica_key}",
     )
     selected_ids = lane_trace.get("selected_ids")
+    satisfied_ids = lane_trace.get("satisfied_ids", [])
+    satisfaction_route = lane_trace.get("satisfaction_route")
     _require(
         isinstance(selected_ids, list)
         and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in selected_ids)
         and len(selected_ids) == len(set(selected_ids))
-        and ((status == "selected") is (len(selected_ids) == 1)),
+        and isinstance(satisfied_ids, list)
+        and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in satisfied_ids)
+        and len(satisfied_ids) == len(set(satisfied_ids))
+        and (
+            (
+                status == "selected"
+                and len(selected_ids) == 1
+                and satisfied_ids == selected_ids
+                and satisfaction_route == "coverage_append"
+            )
+            or (
+                status == "best_candidate_already_covered"
+                and selected_ids == []
+                and len(satisfied_ids) == 1
+                and satisfaction_route == "already_served"
+            )
+            or (
+                status not in {"selected", "best_candidate_already_covered"}
+                and selected_ids == []
+                and satisfied_ids == []
+                and satisfaction_route is None
+            )
+        ),
         "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
-        f"invalid document-local selection trace for {replica_key}",
+        f"invalid document-local satisfaction trace for {replica_key}",
     )
 
     served_rows_by_id: dict[str, list[Mapping[str, Any]]] = {}
@@ -280,18 +304,24 @@ def _validated_document_local_coverage_evidence(
             and len(selected_rows) == 1
             and selected_rows[0].get("retrieval_lane") == _DOCUMENT_LOCAL_LANE
             and selected_rows[0].get("document_local_coverage_validated") is True,
-            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SELECTED_NOT_SERVED",
             f"selected document-local chunk was not served for {replica_key}",
         )
-
-    if replica_key in _DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS:
+    elif satisfied_ids:
+        satisfied_rows = served_rows_by_id.get(satisfied_ids[0], [])
         _require(
-            status == "selected"
-            and http_requests == 1
+            len(satisfied_rows) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED",
+            f"already-satisfied document-local winner was not served for {replica_key}",
+        )
+
+    if replica_key in _DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS:
+        _require(
+            http_requests == 1
             and len(physical_gets) == 1
-            and len(selected_ids) == 1,
+            and len(satisfied_ids) == 1,
             "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
-            f"required hp011 document-local recovery absent for {replica_key}",
+            f"required hp011 document-local satisfaction absent for {replica_key}",
         )
 
     return {
@@ -301,6 +331,7 @@ def _validated_document_local_coverage_evidence(
         "physical_get_ordinals": [row["ordinal"] for row in physical_gets],
         "physical_get_receipts_sha256": p1.sha256_json(physical_gets),
         "served_selected_ids": list(selected_ids),
+        "served_satisfied_ids": list(satisfied_ids),
     }
 
 

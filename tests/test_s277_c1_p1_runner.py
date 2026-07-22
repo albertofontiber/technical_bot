@@ -1053,6 +1053,8 @@ def _document_local_transport_fixture():
         "status": "selected",
         "http_requests": 1,
         "selected_ids": [selected_id],
+        "satisfied_ids": [selected_id],
+        "satisfaction_route": "coverage_append",
     }
     coverage_trace = {
         "lanes": [lane_trace],
@@ -1069,6 +1071,7 @@ def _document_local_transport_fixture():
             "physical_get_ordinals": [5],
             "physical_get_receipts_sha256": p1.sha256_json([physical_get]),
             "served_selected_ids": [selected_id],
+            "served_satisfied_ids": [selected_id],
         },
     }
     served = [
@@ -1101,6 +1104,50 @@ def test_document_local_transport_attestation_is_offline_revalidated():
             replica_key="hp011:r1",
         )
     assert caught.value.code == "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT"
+
+
+def test_document_local_already_served_satisfaction_is_offline_revalidated():
+    attestation, served, semantic = _document_local_transport_fixture()
+    target_id = served[0]["id"]
+    lane = attestation["coverage_trace"]["lanes"][0]
+    lane.update(
+        status="best_candidate_already_covered",
+        selected_ids=[],
+        satisfied_ids=[target_id],
+        satisfaction_route="already_served",
+    )
+    attestation["coverage_trace"]["appended_ids"] = []
+    attestation["coverage_trace_sha256"] = p1.sha256_json(
+        attestation["coverage_trace"]
+    )
+    evidence = attestation["document_local_coverage"]
+    evidence.update(
+        lane_trace=lane,
+        lane_trace_sha256=p1.sha256_json(lane),
+        served_selected_ids=[],
+        served_satisfied_ids=[target_id],
+    )
+    served[0] = {
+        "id": target_id,
+        "retrieval_lane": "protected_rerank_prefix",
+    }
+
+    p1._validate_product_document_local_transport_lineage(
+        attestation,
+        served,
+        semantic,
+        replica_key="hp011:r1",
+    )
+
+    duplicate = [*served, dict(served[0])]
+    with pytest.raises(p1.P1Error) as caught:
+        p1._validate_product_document_local_transport_lineage(
+            attestation,
+            duplicate,
+            semantic,
+            replica_key="hp011:r1",
+        )
+    assert caught.value.code == "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED"
 
 
 def test_visual_lookup_plan_matches_product_relevance_aggregation_and_fallback():

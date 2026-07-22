@@ -99,8 +99,10 @@ La superficie document-local admite como máximo un GET físico a
 `/rest/v1/rpc/document_local_snapshot_v2`. Cada réplica v2 debe producir
 exactamente una lane trace document-local; `status=error` es NO-GO y
 `http_requests` debe corresponder 1:1 con los receipts GET físicos. En
-`hp011:r1` y `hp011:r2` se exige además un GET, un único ID seleccionado y ese
-ID presente en el contexto servido.
+`hp011:r1` y `hp011:r2` se exige además un GET y un único ID autoritativo
+satisfecho presente una sola vez en el contexto servido. La ruta cerrada puede
+ser `coverage_append` (seleccionado, añadido una vez y estampado) o
+`already_served` (el mismo ganador ya estaba servido y no se duplica).
 
 Los artefactos normativos son:
 

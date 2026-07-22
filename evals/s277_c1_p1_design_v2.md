@@ -40,10 +40,13 @@ blocks direct registry access and all unexpected paths or methods.
 Under v2 every replica must contain exactly one document-local lane trace.
 `status=error` is terminal NO-GO. The trace's reported request count must match
 the physical GET receipts one-for-one. For `hp011:r1` and `hp011:r2`, the
-attestation additionally requires exactly one v2 GET, exactly one selected
-chunk ID and that ID present in the served context. IDs and source text remain
-inside the sealed private receipt; privacy-safe runtime telemetry persists only
-lane, closed status and counts.
+attestation additionally requires exactly one v2 GET and exactly one
+authoritative satisfied chunk ID present once in the served context. The
+satisfaction route is closed: either `coverage_append` (the selected ID is
+appended once with the document-local validation stamps) or `already_served`
+(the same authoritative winner was already present and is not duplicated).
+IDs and source text remain inside the sealed private receipt; privacy-safe
+runtime telemetry persists only lane, closed status, route and counts.
 
 ## Interpretation and stop lines
 
