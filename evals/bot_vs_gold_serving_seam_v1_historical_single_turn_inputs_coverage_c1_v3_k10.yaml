@@ -1,0 +1,864 @@
+- qid: hp002
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo
+    bajo. ¿Cuál es la causa más probable y cómo se diagnostica?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta la causa principal probable (obstrucción/filtro/sensor) y
+    el diagnóstico básico mediante lectura de flujo, eventos e inspección física.
+    Pero omite aspectos importantes para una alarma intermitente: turbulencias/fluctuaciones
+    ambientales, revisión de ventana/retardo LS-Ü configurados, y las precauciones
+    clave del reset inicial; además introduce algunos códigos/detalles no contrastados
+    con la referencia.'
+  bot_sources:
+  - 04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0
+  - ASD532_TD_T140421es_a
+  - ASD533_TD_T140287es_e
+  - ASD535_TD_T131192es_h
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# ASD535 — Alarma de flujo bajo: diagnóstico\n\n## Causa más probable\n\
+    \nUn valor de flujo **por debajo del 100 %** apunta a **obstrucción en el conducto\
+    \ de aspiración** [F2]. Según la norma **EN 54-20**, una variación superior al\
+    \ **±20 %** debe notificarse como fallo [F3]. El fallo se dispara cuando el flujo\
+    \ cae **por debajo del 80 %**, una vez transcurrido el tiempo de retardo de **300\
+    \ s** de la LS-Ü [F3].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\
+    \n### 1. Leer el valor de flujo actual\n\n- Coloca el conmutador en **posición\
+    \ V** para leer el valor de flujo del conducto de aspiración [F6].\n- Compara\
+    \ el valor leído con el protocolo de puesta en funcionamiento [F6].\n- **Referencia\
+    \ de interpretación:**\n  - Valor **< 100 %** → apunta a **obstrucción** [F2]\n\
+    \  - Valor **> 100 %** → apunta a **rotura de tubo** [F2]\n\n> ⚠️ Si la sensibilidad\
+    \ LS-Ü está configurada en **±20 %** (estándar), realiza inspección del conducto\
+    \ cuando el valor caiga **por debajo del 90 %** (la mitad de la sensibilidad)\
+    \ [F6].\n\n---\n\n### 2. Verificar el código de evento\n\n- Coloca el conmutador\
+    \ en **posición E** del AMB 35 para leer el código de evento [F4].\n- Para flujo\
+    \ bajo, el código relevante es:\n  - **Código 001** — Obstrucción en conducto\
+    \ de aspiración [F1]\n\n---\n\n### 3. Comprobaciones físicas del conducto (código\
+    \ 001)\n\nSegún el código **001** [F1]:\n\n1. Comprobar si los **orificios de\
+    \ aspiración** están obstruidos [F1]\n2. Comprobar la **salida de aire** del ASD\
+    \ [F1]\n3. **Inspeccionar y limpiar la caja de filtro / unidad de filtrado** [F1]\n\
+    4. **Inspeccionar y limpiar el sensor de flujo de aire** [F1]\n\n---\n\n### 4.\
+    \ Comprobaciones adicionales de mantenimiento\n\nAbre la cubierta de la caja del\
+    \ detector (**atención: conexión de cable plano**) [F6] y verifica:\n\n- **Tensión\
+    \ de servicio** en bornes **1 (+) y 2 (−)**:\n  - Valor nominal: **12,3 a 13,8\
+    \ V CC** (funcionamiento a 12 V CC)\n  - Valor nominal: **21,6 a 27,6 V CC** (funcionamiento\
+    \ a 24 V CC) [F6]\n- Comprobar que la **entrada del conducto de aspiración** y\
+    \ los tapones de tubo del orificio de entrada no utilizados están en posición\
+    \ correcta [F6]\n- Comprobar si existe **suciedad en la salida de aire** y limpiarla\
+    \ si es necesario [F6]\n- Si el ASD vigila equipos con transiciones de tubo rígido\
+    \ a flexible, verificar que **no hay fugas** en dichas transiciones [F6]\n\n---\n\
+    \n### 5. Si el sensor de flujo está implicado\n\n- **Código 004** — Parámetros\
+    \ LS-Ü no válidos: inspeccionar y limpiar el sensor de flujo; si está defectuoso,\
+    \ **sustituirlo** [F1]\n- **Código 008** — Sensor de flujo defectuoso/inexistente:\
+    \ verificar cable de conexión; si el sensor está defectuoso, **sustituirlo** [F1]\n\
+    \n---\n\n### 6. Tras la intervención\n\n- Realizar un **reset inicial** del ASD\
+    \ 535 (preferentemente desde la CDI) [F5]\n- Devolver el conducto de aspiración\
+    \ a su estado original (abrir orificios tapados, cerrar orificio de inspección)\
+    \ [F5]\n- Desbloquear el control de incendios y la alerta remota en la CDI [F6]\n\
+    \n> ⚠️ **Importante:** Antes de cualquier trabajo de mantenimiento, bloquear o\
+    \ desconectar el control de incendios y la alerta remota en la CDI para evitar\
+    \ disparos no deseados [F6].\n\n---\n\n**Fuente:** ASD535_TD_T131192es_h (sin\
+    \ revisión registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento de\
+    \ reset inicial del ASD535**, **limpieza de sensores de humo** o **prueba funcional\
+    \ de monitorización de flujo** (sección 7.7).\n\n---\n⚠️ **Información adicional\
+    \ del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas\
+    \ y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento,\
+    \ es **imprescindible** bloquearlos o desconectarlos previamente.\" [F6]\n- Nota:\
+    \ el manual también indica: \"1. Bloquear o desconectar el control de incendios\
+    \ y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación\
+    \ de la CDI debe estar configurada para la central conforme a la normativa de\
+    \ mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración\
+    \ y los tapones de tubo del orificio de entrada de la caja del detector que no\
+    \ está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe\
+    \ comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n\
+    5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan\
+    \ instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse\
+    \ que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe\
+    \ abrirse la cubierta de la caja del detector y fijarse en la posición media de\
+    \ anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse\
+    \ también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n\
+    \   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) \U0001F87A Valor\
+    \ nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento\
+    \ a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración\
+    \ en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con\
+    \ el protocolo de puesta en funcionamiento. Si existe una desviación superior\
+    \ a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse\
+    \ una inspección del conducto de aspiración de la siguiente manera:\n     - Un\
+    \ **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente\
+    \ \U0001F87A Comprobar si el conducto de aspiración tiene fugas (puntos de unión,\
+    \ racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica\
+    \ una **obstrucción** inminente \U0001F87A Comprobar si el conducto de aspiración\
+    \ está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad\
+    \ de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida =\
+    \ ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el\
+    \ bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado\
+    \ la conexión de cable plano con la unidad de control y retirar completamente\
+    \ la cubierta de la caja del detector. Una vez desconectado el cable plano de\
+    \ los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio\
+    \ interior de las cámaras de los sensores de humo y la rejilla protectora contra\
+    \ insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también\
+    \ puede emplearse nitrógeno o aire comprimido sin aceite.\" [F6]\n- Nota: el manual\
+    \ también indica: \"En las posiciones de conmutador A11 a C32, cualquier variación\
+    \ de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción)\
+    \ o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de\
+    \ aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F3]"
+- qid: hp009
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de
+    la central Morley ZXe?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acertó al indicar que el lazo analógico direccionable de detección
+    de la ZX2e/ZX5e va en bucle cerrado y no tiene RFL, citando el manual. Sin embargo,
+    añade resistencias de sirenas y RS-485 bajo la idea de 'lazos', lo que puede confundir
+    ante una pregunta que en PCI normalmente se refiere al lazo analógico de detección.
+  bot_sources:
+  - MIE-MI-530rv001
+  - MIE-MU-530rv001
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'La pregunta hace referencia a los "lazos de la central Morley ZXe",
+    que es una denominación de familia. Los fragmentos disponibles corresponden a
+    los modelos **ZX2e y ZX5e**. Asumiré que tu pregunta aplica a estos modelos, pero
+    si tienes un modelo distinto, indícamelo.
+
+
+    ---
+
+
+    Los fragmentos distinguen **dos tipos de lazo** con resistencias de fin de línea
+    diferentes:
+
+
+    ## Circuitos de Sirenas (salidas de aviso)
+
+
+    - **RFL requerida: 6.800 Ω (6,8 kΩ), 0,5 W mínimo** [F3]
+
+    - Se instala al final de cada circuito de sirenas para supervisión ante cortocircuito
+    y circuito abierto [F3]
+
+    - Aplica a los circuitos Sirena A y B (ZX2e) y Sirenas A, B, C y D (ZX5e) [F3]
+
+    - Los dispositivos conectados deben ser polarizados (con diodo integrado); si
+    no lo son, deben añadirse diodos de polarización y protección en cada uno [F7]
+
+
+    ## Lazo RS-485 (red de centrales o periféricos)
+
+
+    - **RFL requerida: 150 Ω, 0,5 W mínimo** [F9]
+
+    - Se coloca **en ambos extremos libres** de la cadena (inicio y final) [F9]
+
+    - Solo aplica a la instalación en cadena abierta; en bucle cerrado el fragmento
+    no especifica RFL [F9]
+
+
+    ## Lazo Analógico (detección)
+
+
+    - El lazo analógico **se realiza en bucle cerrado** con aisladores de cortocircuito
+    [F2][F4]
+
+    - El manual **no especifica resistencia de fin de línea para el lazo analógico**
+    en los fragmentos disponibles — la supervisión se gestiona mediante la arquitectura
+    de bucle cerrado y los aisladores, no mediante RFL
+
+
+    ---
+
+
+    Fuente: Manual de Instalación Paneles de Incendio ZX2e/ZX5e — Documento No. MIE-MI-530rv001
+    (sin revisión registrada)
+
+
+    También puedo ayudarte con: **conexionado de sirenas paso a paso**, **requisitos
+    de cableado del lazo analógico** o **instalación de aisladores de cortocircuito**
+    en los ZX2e/ZX5e.
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "**Todo cableado debe ser verificado antes de su conexionado al panel.**" [F2]
+
+    - "LAS SIGUIENTES MEDIDAS PRÁCTICAS SOBRE EL CABLEADO, DEBEN REALIZARSE ANTES
+    DE CONECTAR AL PANEL, PARA ASEGURAR EL FUNCIONAMIENTO DEL SISTEMA Y EVITAR DAÑOS:"
+    [F2]
+
+    - Nota: el manual también indica: "El panel de detección y control de incendio
+    ZX2e tiene 2 circuitos de sirenas supervisados y limitados en corriente (Sirenas
+    A y B)." [F3] · "| \[EN54 Warning Triangle Icon] | **EN54-2 12.5.2**                                                 |
+    **Para la mayor protección y los mejores resultados:**<br/><br/>El lazo analógico
+    debe realizarse en bucle cerrado con aisladores de cortocircuito necesarios. Esto
+    permite al sistema seguir funcionando según determina la norma EN54, tanto para
+    circuito abierto como para cortocircuito. Se recomienda la instalación de aisladores
+    de cortocircuito cada 32 equipos de alarma o cada zona física de equipos según
+    define la EN54-14. No obstante la mayoría de estos elementos no admiten más de
+    20/25 unidades de instalación, debiendo reducirse si hay sirenas instaladas. |
+
+    | ----------------------------- | -----------------------------------------------------------------
+    | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |
+
+    |                               | **Máximo 32<br/>Sensores /<br/>Pulsadores entre<br/>aisladores.**
+    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |"
+    [F4]
+
+    - Nota: el manual también indica: "El panel de detección y control de incendio
+    ZX5e tiene 4 circuitos de sirenas supervisados y limitados en corriente (Sirenas
+    A, B, C y D)." [F3] · "| \[EN54 Warning Triangle Icon] | **EN54-2 12.5.2**                                                 |
+    **Para la mayor protección y los mejores resultados:**<br/><br/>El lazo analógico
+    debe realizarse en bucle cerrado con aisladores de cortocircuito necesarios. Esto
+    permite al sistema seguir funcionando según determina la norma EN54, tanto para
+    circuito abierto como para cortocircuito. Se recomienda la instalación de aisladores
+    de cortocircuito cada 32 equipos de alarma o cada zona física de equipos según
+    define la EN54-14. No obstante la mayoría de estos elementos no admiten más de
+    20/25 unidades de instalación, debiendo reducirse si hay sirenas instaladas. |
+
+    | ----------------------------- | -----------------------------------------------------------------
+    | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |
+
+    |                               | **Máximo 32<br/>Sensores /<br/>Pulsadores entre<br/>aisladores.**
+    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |"
+    [F4]'
+- qid: hp010
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta
+    en marcha inicial?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en lo esencial: añadir el detector requiere ejecutar la Autobúsqueda
+    del lazo, confirmar el lazo y verificar el resumen, incluyendo la espera de 2
+    minutos si hubo cambio de protocolo. Queda incompleto frente al gold porque no
+    detalla el acceso a Nivel 3 ni el desbloqueo de memoria, no menciona la edición
+    posterior del equipo ni el evento ''EQUIPO NUEVO'', y añade notas/fragmentos de
+    evidencia algo confusos.'
+  bot_sources:
+  - DXc_Manual de configuracion
+  - MIDT155
+  - MIE-MC-520
+  - MIE-MI-300rv02
+  - MIE-MP-305
+  - MIE-MP-520rv04
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Añadir un nuevo detector al lazo en la Morley DXc\n\nEl procedimiento\
+    \ para incorporar un nuevo detector tras la puesta en marcha inicial se realiza\
+    \ mediante la función **Autobúsqueda de equipos**. A continuación los pasos según\
+    \ el manual de la DXc:\n\n---\n\n## Paso previo: conexión física\n\nConecta el\
+    \ nuevo detector al lazo en bucle cerrado, respetando la polaridad positivo/negativo\
+    \ [F2]. Asegúrate de que el equipo queda correctamente polarizado antes de proceder\
+    \ a la búsqueda [F2].\n\n---\n\n## Procedimiento de Autobúsqueda\n\n1. **Accede\
+    \ al menú de Lazos** desde el nivel de programación correspondiente [F1].\n\n\
+    2. **Pulsa la tecla `2`** para seleccionar la función **'Autobúsqueda'** [F1]:\n\
+    \n   ```\n   [Lazo]\n   1:Confg.Equipos    2:Autobusqueda\n   ```\n\n3. **Si la\
+    \ central tiene más de un lazo**, introduce el número del lazo donde has conectado\
+    \ el nuevo detector y pulsa **⊙** para confirmar [F1]:\n\n   ```\n   [Autobusqueda]\n\
+    \   Sel.Num.Lazo (1-2) :1\n   OK:Confirm  1-2:↕:Edit  ←:Cancel\n   ```\n\n4. **Confirma\
+    \ que deseas realizar la autobúsqueda** pulsando **⊙** [F1]:\n\n   ```\n   [Autobusqueda]\n\
+    \   Lazo: 1  Autobusqueda?\n   OK:Confirm    ←:Cancel\n   ```\n\n5. **Espera**\
+    \ a que finalice el proceso. La pantalla mostrará una barra de progreso [F1]:\n\
+    \n   ```\n   [Autobusqueda]\n   Lazo: 1 Reconocimiento en progreso...\n   █████████████████\n\
+    \   ```\n\n6. **Verifica el resumen de resultados**. Al finalizar, la pantalla\
+    \ muestra el total de equipos encontrados, los nuevos, los eliminados y los modificados\
+    \ [F1]. Comprueba que el número de equipos nuevos coincide con los detectores\
+    \ que has añadido:\n\n   ```\n   [Lazo]\n   Lazo: 1           Total: 13\n   Nuevos:0\
+    \          Elimin.:0  Cambiad:0\n   ION: 0 OPT: 1 TMP: 1 MLT: 2\n   PUL: 4 MON:\
+    \ 0 SIR: 2 REL: 1 OTROS: 2\n   ```\n\n7. **Pulsa ⊞** para salir de la pantalla\
+    \ de resultados y regresar al menú de 'Lazo' [F1].\n\n---\n\n## ⚠️ Aviso importante\n\
+    \n> Si en tu instalación el protocolo es seleccionable y has realizado un cambio\
+    \ de protocolo previamente, **espera dos minutos antes de ejecutar la autobúsqueda**.\
+    \ La central necesita ese tiempo para rearmar los equipos del lazo [F1].\n\n---\n\
+    \n**Fuente:** DXc_Manual de configuracion (sin revisión registrada)\n\n---\n\n\
+    También puedo ayudarte con: **configuración manual de la dirección del nuevo detector**,\
+    \ **verificación de aisladores de cortocircuito en el lazo** o **interpretación\
+    \ de las abreviaturas de tipos de equipo (Tabla 4)**.\n\n---\n\U0001F4CB **Obligaciones\
+    \ de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"PUL: 4 MON:\
+    \ 0 SIR: 2 REL: 1 OTROS : 2\" (DXc_Manual de configuracion, p. 48) [F1] declara\
+    \ 1 OTROS y la enumeración servida lista 5 (DXc_Manual de configuracion, p. 48)\
+    \ [F1]."
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acertó al señalar el parámetro r.I de inhibición de rearme, el rearme
+    en nivel 2 y las averías enclavadas, pero queda incompleto: omite comprobar Abort,
+    Flow Press, t.A/duración de descarga y zonas en alarma. Además introduce un parámetro/explicación
+    ''ri/Resumen inhibido'' confusa o alucinada y mezcla referencias de parámetros,
+    lo que puede desorientar al técnico.'
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Este comportamiento está directamente relacionado con el **parámetro de rearme
+    inhibido tras extinción**. Hay que verificar varios puntos:
+
+
+    ---
+
+
+    ### 1. Verificar el parámetro **r.i** (Rearme inhibido tras extinción)
+
+
+    De acuerdo con la norma **UNE-EN 12094-1:2004, apartado 4.12.2**, la central puede
+    tener configurado un intervalo de tiempo durante el cual el rearme queda inhibido
+    tras la extinción [F13].
+
+
+    Los valores posibles son [F13]:
+
+    - **- -** → Rearme inhibido hasta finalizar extinción o cuando se agota el tiempo
+    configurado en el parámetro **t.Fi** (t.A → 0 seg.)
+
+    - **00** → Rearme permitido en cualquier momento *(valor por defecto)*
+
+    - **01 a 30** → Rearme inhibido durante el intervalo definido en minutos
+
+
+    **Acción:** Accede al modo de programación (nivel 3) y comprueba el valor del
+    parámetro **r.i**. Si está configurado con un valor de 01 a 30, la central no
+    permitirá el rearme hasta que transcurra ese tiempo.
+
+
+    ---
+
+
+    ### 2. Verificar el parámetro **ri** (Resumen inhibido tras extinción)
+
+
+    Existe también el parámetro **ri** que controla el paso al estado de sistema inhibido
+    tras la extinción [F1]:
+
+    - **00** → Resumen inhibido desde finalizar extinción o cuando agotado tiempo
+    configurado en parámetro ri *(por defecto)*
+
+    - **01 a 30** → Resumen inhibido después de intervención o reposición, en minutos
+
+
+    **Acción:** Comprueba también este parámetro en la programación.
+
+
+    ---
+
+
+    ### 3. Verificar la inhibición temporal del rearme por norma
+
+
+    Según la sección **4.12.2 de la norma UNE-EN 12094-1:2004**, existe la posibilidad
+    de inhibir temporalmente la función de rearme una vez la central ha entrado en
+    modo **ACTIVADO** [F12]. Esta inhibición se configura mediante el parámetro **[F.1]**
+    desde el modo de programación [F7].
+
+
+    **Acción:** Comprueba si la central está aún dentro del período de inhibición
+    de rearme configurado.
+
+
+    ---
+
+
+    ### 4. Procedimiento de rearme correcto
+
+
+    Para realizar el rearme correctamente [F9]:
+
+    1. Accede a la central con **nivel 2** de acceso
+
+    2. Pulsa la tecla **"Rearme"**
+
+    3. Esta acción reinicia la central y restablece todas las entradas enclavadas
+
+
+    > ⚠️ **Importante:** Por defecto, **todas las averías son enclavadas y requieren
+    rearme manual** [F9]. Si hay alguna condición de avería activa (presión baja,
+    flujo, puerta abierta, etc.), la central no volverá a estado normal aunque se
+    rearme, hasta que se resuelva la causa.
+
+
+    ---
+
+
+    ### 5. Comprobar el estado normal esperado
+
+
+    Tras un rearme exitoso, la central debe mostrar [F6]:
+
+    - Led **"Servicio"** iluminado en verde
+
+    - Zumbador en **silencio**
+
+    - Relé avería general **(GEN.FAULT) activado** ≡ en reposo (continuidad entre
+    C y NO)
+
+
+    Si alguno de estos indicadores no se cumple, hay una condición activa que impide
+    el retorno al estado normal.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01)
+
+    - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del parámetro t-H (tiempo de inundación)**,
+    **interpretación de LEDs de avería activos tras extinción** o **acceso a niveles
+    de programación de la RP1r-Supra**.
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "Con la central en estado normal o de reposo, sin ningún tipo de avería presente,
+    ésta mantiene el siguiente comportamiento:" (HLSI-MN-103_RP1r-Supra_lr, p. 36)
+    [F6]'
+- qid: hp012
+  question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos
+    dispositivos por lazo?
+  gold_estado: verificado
+  conducta_esperada: answer-con-conflicto
+  conducta_bot: answer-con-conflicto
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en AM2020: 10 lazos y 99 detectores + 99 módulos por lazo,
+    y surfacea dos capacidades para AFP1010. Pero no presenta claramente la discrepancia
+    como conflicto documental España vs US, omite que el manual US permite 4 LIB-200
+    o 2 LIB-400 y 792 dispositivos, y formula la diferencia como si fuera solo una
+    cuestión de configuración.'
+  bot_sources:
+  - 15088SP
+  - BTDT032
+  - MFDT280
+  - MPDT280
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Lazos y dispositivos por lazo: AM2020 / AFP1010
+
+
+    ### AM2020
+
+
+    - **Número máximo de lazos:** **10** [F6]
+
+    - **Dispositivos por lazo:** hasta **99 detectores analógicos** y **99 módulos**
+    (monitores o de control) [F6]
+
+    - Las tarjetas de lazo compatibles son **LIB-200, LIB-200A y LIB-400** [F2]
+
+    - El diagrama de la Figura 12 muestra la numeración de lazos del 1 al 10 con sus
+    respectivas tarjetas LIB [F4]
+
+
+    ### AFP1010
+
+
+    - **Número máximo de lazos:** limitado a un máximo de **dos LIB-200**, con un
+    total de **396 dispositivos en el sistema** [F1]
+
+    - En configuración con **LIB-400 exclusivamente**, puede alojar un máximo de **cuatro
+    lazos** en gabinete CAB-A3 [F4][F5]
+
+    - Las tarjetas de lazo compatibles son igualmente **LIB-400, LIB-200A y LIB-200**
+    [F2]
+
+
+    ### Resumen de diferencias clave
+
+
+    - **AM2020:** hasta **10 lazos × 99 detectores + 99 módulos** por lazo [F6]
+
+    - **AFP1010:** capacidad reducida — máximo **2 tarjetas LIB-200** (396 dispositivos
+    totales) o **4 lazos** si se usan LIB-400 en CAB-A3 [F1][F4]
+
+
+    > ⚠️ El dato de 396 dispositivos totales para el AFP1010 con LIB-200 proviene
+    del manual MPDT280 [F1]. Para configuraciones mixtas (LIB-400 + LIB-200/200A),
+    consulta la Figura 14 del manual 15088SP [F5].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - Manual MFDT280 (sin revisión registrada)
+
+    - Manual 15088SP (sin revisión registrada)
+
+    - Manual MPDT280 (rev. Rev A)
+
+
+    ---
+
+
+    También puedo ayudarte con: **tipos de cableado SLC (Estilo 4 vs Estilo 6)**,
+    **funcionamiento en Modo Local de las tarjetas LIB** o **programación de direcciones
+    de dispositivos en la AM2020/AFP1010**.
+
+
+    ---
+
+    📋 **Información adicional del manual:**
+
+    - Nota: el manual también indica: "La figura 13 representa un gabinete CAB-A3
+    utilizado con los módulos del LIB-400 exclusivamente, lo que significa que puede
+    dar alojo a un máximo de cuatro lazos del sistema AFP1010." [F4] · "| Lazo 1                     |
+    SIB | CPU      | Lazo 4 |
+
+    | -------------------------- | --- | -------- | ------ |
+
+    | Lazo 3                     |     |          | Lazo 2 |
+
+    | MPS-24A<br/>o<br/>MPS-24AE |     | Baterías |        |" [F4]
+
+    - Nota: el manual también indica: "Se requieren dos chasis del ICA, pero no son
+    mostrados en esta figura." [F5] · "• No instale número duplicado de lazos.
+
+
+    • Cuando este instalado en el ICA el LIB-200 o LIB-200A siempre ocupa el número
+    de dirección menor para una posición dada de ICA.
+
+
+    • No instale tableros LIB en las posiciones posteriores derecha o izquierda de
+    la segunda fila.
+
+
+    • No instale tableros LIB en la tercera fila." [F5]
+
+    - "Durante el estado de alarma de incendio, entre 9 y 99 LEDs de equipos direccionables
+    (detectores de humo, detectores de calor, módulos MMX, etc.) puede estar permanentemente
+    activados." [F6]
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "| ![CAUTION triangle symbol](caution_triangle.png) | La AM2020 y AFP1010 puede
+    ser programado para mantener iluminados hasta 99 LEDs de equipos direccionables
+    (MMX, CMX, etc.)." (MFDT280, p. 4) [F10]
+
+    - Nota: la fuente es inconsistente: "La figura 13 representa un gabinete CAB-A3
+    utilizado con los módulos del LIB-400 exclusivamente, lo que significa que puede
+    dar alojo a un máximo de cuatro lazos del sistema AFP1010." (15088SP, p. 30) [F4]
+    declara 4 lazos y la enumeración servida lista 2 (15088SP, p. 30) [F4].
+
+    - Nota: la fuente es inconsistente: "La AM2020 puede soportar hasta 10 lazos,
+    cada uno de los cuales soporta hasta 99 detectores analógicos y 99 módulos monitores
+    o de control." (MFDT280, p. 4) [F6] declara 10 lazos y la enumeración servida
+    lista 3 (MFDT280, p. 4) [F6].'
+- qid: hp014
+  question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta acierta en los límites entre aisladores, las comprobaciones
+    previas, el puente temporal 2-4 y la nota de consultar instrucciones específicas.
+    Pero queda incompleta para la conexión: no explicita intercalar el aislador en
+    serie respetando A+/A-/B+/B-, no menciona retirar los puentes temporales antes
+    de conectar al panel, ni la continuidad/puesta a tierra de la pantalla, unidades
+    de inicio o resistencias añadidas por aislador.'
+  bot_sources:
+  - MIDT180
+  - MPDT180
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\n###\
+    \ Requisitos de instalación (EN54-2)\n\nAntes de conectar el aislador, ten en\
+    \ cuenta los límites obligatorios [F5]:\n\n- **Máximo 32 equipos de lazo** entre\
+    \ aisladores (requisito EN54-2: 12.5.2) [F5]\n- **En la ID2000: máximo 25 equipos\
+    \ entre aisladores** (o **20 si son aisladores tipo FET**) [F5]\n\n### Terminales\
+    \ del aislador\n\nEl aislador dispone de **4 terminales numerados: 1, 2, 3 y 4**\
+    \ [F1].\n\nPara las comprobaciones previas a la conexión, el manual indica que\
+    \ se cortocircuitan los **terminales 2 y 4** de cada aislador para desconectarlos\
+    \ temporalmente del lazo [F1].\n\n### Procedimiento de conexión\n\n1. **Antes\
+    \ de conectar los aisladores**, realiza las comprobaciones de continuidad y aislamiento\
+    \ del lazo con multímetro de baja tensión [F5]:\n   - ⚠️ **NUNCA uses un multímetro\
+    \ de alta tensión (tipo \"Megger\") en el lazo** [F5]\n   - Las comprobaciones\
+    \ de continuidad **deben realizarse antes de conectar los aisladores** [F5]\n\n\
+    2. **Para las pruebas previas**, desconecta temporalmente los aisladores cortocircuitando\
+    \ los **terminales 2 y 4** de cada aislador. El cableado del lazo debe estar desconectado\
+    \ del panel durante este procedimiento [F1].\n\n3. **Comprueba la resistencia\
+    \ del lazo**:\n   - La resistencia máxima del lazo no debe superar los **35 ohmios**\
+    \ [F11]\n   - La capacidad del cable debe ser inferior a **0,5 µF** [F11]\n  \
+    \ - La longitud total del par de lazo no puede exceder los **2000 metros** con\
+    \ cable de **1,5 mm² de sección o superior** [F1]\n\n4. **Comprueba la polaridad**\
+    \ con multímetro en modo prueba de diodo, en polaridad invertida (positivo al\
+    \ lazo negativo, negativo al lazo positivo). Si indica un solo diodo polarizado,\
+    \ algún equipo puede estar invertido [F1] [F12].\n\n5. **Conecta el cableado del\
+    \ lazo al panel** una vez superadas las comprobaciones [F1].\n\n### Comportamiento\
+    \ ante cortocircuito\n\nCuando se produce un cortocircuito entre dos aisladores,\
+    \ el sistema lo señaliza como **'Posible corte'** [F6]. Los equipos instalados\
+    \ entre los puntos de aislamiento aparecerán como **NO RESPONDE/PERDIDO**, o como\
+    \ **PÉRDIDA PARCIAL DEL LAZO** si faltan más de tres equipos [F6].\n\n> ⚠️ **Nota\
+    \ importante**: El manual indica que cada aislador viene acompañado de sus propias\
+    \ instrucciones con las interconexiones adecuadas para cada aplicación [F5]. Consulta\
+    \ la documentación específica del modelo de aislador que estés instalando para\
+    \ el detalle exacto de la asignación de terminales de entrada/salida del lazo.\n\
+    \n---\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha,\
+    \ MIDT180 (rev. MI-DT-180, 2003-03-31)\n\n---\n\nTambién puedo ayudarte con: **comprobaciones\
+    \ del lazo tras conectar el cableado**, **resistencias de final de línea en circuitos\
+    \ de sirena** o **mensajes de avería de lazo en el Apéndice 1**.\n\n---\n⚠️ **Información\
+    \ adicional del manual:**\n- \"Es de vital importancia que el cable utilizado\
+    \ sea de buena calidad y que se instale de forma correcta.\" [F11]\n- \"Avería\
+    \ central 5 - Reinicio de alimentación\nAvería de sistema 29 - Avería Checksum\
+    \ LIB ROM**\" [F6]\n\n---\n\U0001F4D6 **Obligaciones de evidencia del manual:**\n\
+    - \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo\
+    \ uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\"\
+    \ (MIDT180, p. 17) [F11]"
+- qid: hp017
+  question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier
+    PEARL?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en lo esencial: el retardo se programa mediante reglas de
+    causa-efecto y existen tipos de retardo asignables a cada regla. Pero omite pasos
+    críticos de programación del manual, especialmente borrar la Regla 1 por defecto,
+    definir entradas/salidas concretas, el significado de lazo 0, las advertencias
+    de prueba/EN54 y añade alguna información confusa o no alineada como tipos extra
+    y niveles de acceso contradictorios.'
+  bot_sources:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-670-005-3_Operating_ES
+  - 997-670-007-3_Operating_PT
+  - 997-671-005-3_Configuration_ES
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Programación del retardo de salida de alarma en la Notifier PEARL\n\
+    \nEl retardo de salida de alarma en la PEARL se configura a través de la **matriz\
+    \ de causa-efecto** (Apéndice 5 del Manual de configuración) [F1][F12]. A continuación\
+    \ te explico los aspectos clave:\n\n---\n\n### 1. Dónde se configura\n\nEl retardo\
+    \ se define dentro de las **reglas de causa-efecto** [F1]. Para acceder:\n\nNo\
+    \ puedo confirmar de forma segura el número de menú de Causa y Efecto con los\
+    \ fragmentos servidos. Confirma el manual y la revisión exactos antes de usar\
+    \ un número de menú.\n\n---\n\n### 2. Tipos de retardo disponibles\n\nSe puede\
+    \ asignar **uno de seis tipos de retardo de salida** a cada regla [F1]. Los tipos\
+    \ disponibles son [F1][F2]:\n\n- **Estándar**\n- **Fijo**\n- **Est. Ext.** (Estándar\
+    \ con extensión)\n- **No Silenc.** (No silenciable)\n- **No Sil. Ext** (No silenciable\
+    \ con extensión)\n- **SinRetExt** (Sin retardo extendido)\n\n---\n\n### 3. Comportamiento\
+    \ de cada tipo de retardo\n\nLas diferencias clave entre tipos son [F2]:\n\n-\
+    \ **La salida se detiene al pulsar SILENCIAR SIRENAS durante el retardo:**\n \
+    \ - Sí: Estándar, Est. Ext., RetExtStd\n  - No: Fijo, No Silenc., No Sil. Ext,\
+    \ SinRetExt\n\n- **El retardo puede anularse (nivel acceso 2, opción «Anular retardos»):**\n\
+    \  - Sí: Estándar, No Silenc., Est. Ext., RetExtStd, No Sil. Ext, SinRetExt\n\
+    \  - No: Fijo\n\n- **El tiempo restante se muestra en la pestaña ALARMA:**\n \
+    \ - Sí: Estándar, No Silenc., Est. Ext., RetExtStd, No Sil. Ext, SinRetExt\n \
+    \ - No: Fijo\n\n- **El retardo puede detenerse pulsando FIN RETARDO (nivel acceso\
+    \ 2):**\n  - Sí: Estándar, No Silenc., Est. Ext., RetExtStd, No Sil. Ext, SinRetExt\n\
+    \  - No: Fijo\n\n- **La salida se detiene al pulsar AMPLIAR RETARDO:**\n  - Sí:\
+    \ Est. Ext., No Sil. Ext\n  - No: el resto\n\n- **El temporizador comienza en\
+    \ RETARDO AMPLIADO:**\n  - Sí: RetExtStd, SinRetExt\n  - No: el resto\n\n---\n\
+    \n### 4. Funcionamiento operativo del retardo\n\nUna vez activo el retardo [F4]:\n\
+    \n1. La detección de alarma inicia el **primer temporizador** configurado.\n2.\
+    \ El personal autorizado (nivel acceso 2) puede pulsar **AMPLIAR RETARDO** para\
+    \ iniciar un segundo temporizador (normalmente más largo que el primero), que\
+    \ anula al primero [F4].\n3. Pulsar **FIN RETARDO** (disponible en nivel de acceso\
+    \ 1) pone fin a cualquier retardo y activa la condición de alarma completa [F4].\n\
+    4. Mientras el retardo está activo, el **LED de RETARDO ACTIVO** permanece encendido\
+    \ [F3].\n\n---\n\n### 5. Anular/habilitar retardos desde el panel (operación)\n\
+    \nDesde el menú **Anular/Habilitar**, opción **«5: Retardo Activación Salidas»**\
+    \ [F3]:\n\n- Pulsa **✓** para cambiar el estado entre ANULADO y HABILITADO.\n\
+    - Pulsa **✕** para salir.\n\n> ⚠️ Esta opción solo está disponible si se han configurado\
+    \ retardos en alguna regla de causa-efecto [F3].\n\n---\n\n### 6. Pulsador AMPLIAR\
+    \ RETARDO — configuración\n\nEl pulsador **AMPLIAR RETARDO** puede desactivarse\
+    \ desde los parámetros de la central (parámetro **«10: Extend Delay Button»**)\
+    \ si no se requiere en la instalación [F5].\n\n---\n\n**Fuentes:**\n- Manual de\
+    \ configuración de la central PEARL (rev. 997-671-005-3)\n- Manual de funcionamiento\
+    \ PEARL 997-670-005-3 (sin revisión registrada)\n\n---\n\nTambién puedo ayudarte\
+    \ con: **creación de reglas de causa-efecto paso a paso**, **configuración del\
+    \ segundo temporizador (retardo ampliado)** o **prueba funcional de los retardos\
+    \ en puesta en marcha**.\n\n---\n⚠️ **Información adicional del manual:**\n- \"\
+    **Es de vital importancia probar rigurosamente todas las reglas durante la puesta\
+    \ en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\"\
+    \ [F12]\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\"\
+    \ [F12]\n\n---\n\U0001F4CB **Obligaciones de evidencia del manual:**\n- Nota:\
+    \ la fuente es inconsistente: \"Se puede asignar uno de seis tipos de retardo\
+    \ de salida a una regla, como se explica a continuación.\" (997-671-005-3_Configuration_ES,\
+    \ p. 44) [F1] declara 6 tipos y la enumeración servida lista 8 (997-671-005-3_Configuration_ES,\
+    \ p. 44) [F1]."
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre los puntos esenciales: polaridad, diodo en cada
+    sirena, RFL 6k8/0,5 W al final de línea, supervisión y límite de 1 A, con referencias
+    al manual. Sin embargo, introduce una formulación potencialmente peligrosa al
+    decir que las sirenas van “en serie”; en estos circuitos deben cablearse sobre
+    la línea respetando polaridad y con la RFL al final, no como cargas en serie eléctricamente,
+    y además omite detalles menores del gold como las RFL suministradas con el panel.'
+  bot_sources:
+  - MIE-MI-530rv001
+  - MIE-MP-530rv001
+  - MIE-MP-535rv001
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# Conexionado de sirenas convencionales en salidas de sirena — Morley
+    ZXe
+
+
+    ## Terminales de conexión
+
+
+    **ZX2e:** Los circuitos de sirena se ubican en el bloque de terminales etiquetado
+    **"AUX RELAY A+ A- B+ B- SOUNDERS"** / **"B+ B- A+ A-"** [F2].
+
+
+    **ZX5e:** Los circuitos de sirena se ubican en el bloque **TB7**, con terminales
+    etiquetados **A- A+ B- B+ C- C+ D- D+** [F2].
+
+
+    ---
+
+
+    ## Requisitos previos obligatorios
+
+
+    Antes de conectar, ten en cuenta estos puntos críticos:
+
+
+    1. **Diodo integrado en cada sirena:** Cada sirena deberá tener un diodo integrado
+    para impedir el consumo en polarización inversa. El circuito se polariza en inverso
+    en reposo para supervisar la línea, y cambia a polarización normal al dispararse
+    [F2].
+
+
+    2. **Dispositivos no polarizados:** Si conectas dispositivos no polarizados a
+    la línea de sirenas, deberán usarse **diodos de polarización y protección en cada
+    uno** [F2].
+
+
+    3. **Resistencia final de línea (RFL):** Debe instalarse una resistencia de **6,8
+    kΩ, 0,5 W mínimo** al final de cada circuito para la supervisión ante cortocircuito
+    y circuito abierto [F11].
+
+
+    4. **Corriente máxima por circuito:** Cada circuito admite un consumo máximo de
+    **1 A** [F11].
+
+
+    ---
+
+
+    ## Esquema de conexión (Figura 15)
+
+
+    Según el diagrama de la **Figura 15 – Circuito de sirenas convencionales** [F1]:
+
+
+    - **SIRENA A (+)** → hilo positivo (rojo) conectando las sirenas en serie → **RFL
+    (6800 Ω)** al final
+
+    - **SIRENA A (-)** → hilo negativo (negro) en paralelo por debajo
+
+    - Igual para **SIRENA B (+) / SIRENA B (-)** [F1]
+
+
+    ---
+
+
+    ## Advertencias de instalación
+
+
+    - **No enrolles el cable en los terminales.** Corta y empalma las conexiones adecuadamente
+    para mantener la supervisión de la línea [F1].
+
+    - **Longitud máxima recomendada:** No se recomienda cable superior a **1 km**;
+    por encima de esa longitud, la capacitancia e inductancia del lazo pueden afectar
+    al funcionamiento [F1].
+
+    - Asegúrate de que la sección del cable garantiza la alimentación de las sirenas
+    a las tensiones recomendadas por el fabricante, tanto en alimentación principal
+    como en condiciones de **mínima tensión de baterías** (consulta las tablas 10
+    y 11 del manual) [F1].
+
+
+    ---
+
+
+    ## Supervisión de averías
+
+
+    Cualquier fallo en la línea de sirena (circuito abierto, cortocircuito) se mostrará
+    en pantalla con un mensaje del tipo:
+
+
+    ```
+
+    !ATENCION!  CIRCUITO ABIERTO SIRENA B
+
+    ```
+
+    [F3]
+
+
+    ---
+
+
+    Fuente: Manual de Instalación Paneles de Incendio ZX2e/ZX5e — MIE-MI-530rv001
+    (sin revisión registrada); Manual de Configuración ZX2e/ZX5e — MIE-MP-530rv001
+    (sin revisión registrada)
+
+
+    ---
+
+    📖 **Información adicional del manual:**
+
+    - "- SIRENA A (+) - red line connecting four circular siren devices in series,
+    ending with RFL (6800Ω) resistor
+
+    - SIRENA A (-) - black line running parallel below, with notation "Equipo no polarizado"
+    (non-polarized equipment) with symbol" [F1]
+
+    - "- SIRENA B (+) - red line connecting four circular siren devices in series,
+    ending with RFL (6800Ω) resistor
+
+    - SIRENA B (-) - black line running parallel below" [F1]'

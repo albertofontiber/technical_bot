@@ -1,0 +1,94 @@
+- qid: hp009
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de
+    la central Morley ZXe?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acierta al distinguir que la RFL de 6K8 aplica a sirenas y que en los
+    lazos analógicos no se especifica una RFL, pero no responde de forma directa que
+    el lazo ZX2e/ZX5e no lleva resistencia de fin de línea porque se cablea como bucle
+    cerrado con retorno al panel. Además mezcla circuitos no preguntados, lo que puede
+    confundir al técnico.
+  bot_sources:
+  - MIE-MI-310
+  - MIE-MI-530rv001
+  - MIE-MP-310
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v2
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Resistencia de Fin de Línea (RFL) — Lazos Morley ZXe
+
+
+    La pregunta menciona "ZXe" como familia. Los fragmentos disponibles cubren varios
+    modelos de esta familia con datos específicos. Te los detallo por tipo de circuito:
+
+
+    ---
+
+
+    ### Circuitos de Sirenas (salidas de placa)
+
+
+    **Para ZXAE/ZXEE:**
+
+    - RFL: **6.800 Ω (6K8), 0,5 W mínimo** [F1][F2]
+
+    - Se instala entre + y − de la última sirena del circuito [F1]
+
+    - Si no hay sirenas conectadas, la RFL se coloca directamente en los terminales
+    de la central [F1]
+
+
+    **Para ZX2e/ZX5e:**
+
+    - RFL: **6,8 KΩ, 0,5 W mínimo** [F6][F10]
+
+    - Se instala al final de cada circuito de sirenas para supervisión ante cortocircuito
+    y circuito abierto [F10]
+
+
+    > ⚠️ No realizar ramales en la línea de sirenas. La supervisión se realiza sobre
+    la línea directa hasta la RFL; los ramales paralelos no quedan supervisados [F2].
+
+
+    ---
+
+
+    ### Lazo Periférico RS-485 (ZXAE/ZXEE)
+
+
+    - RFL: **150 Ω, 0,5 W mínimo**, en **cada extremo** del lazo [F4]
+
+    - Aplica cuando el lazo periférico se configura en lazo abierto [F4]
+
+
+    ---
+
+
+    ### Lazos Analógicos
+
+
+    Los fragmentos **no especifican** una resistencia de fin de línea para los lazos
+    analógicos de la ZXAE/ZXEE ni de la ZX2e/ZX5e. El lazo analógico opera con comunicación
+    digital a dos hilos y los fragmentos describen comprobaciones de resistencia de
+    lazo (máximo **36 Ω** con extremo puenteado [F7]), pero no una RFL como tal.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)
+
+    - Manual de Instalación ZX2e/ZX5e — DOC.MIE-MI-530, Revisión 001
+
+
+    ---
+
+
+    También puedo ayudarte con: **longitudes máximas de lazo analógico**, **conexionado
+    de sirenas con campanas no polarizadas** o **instalación de aisladores de línea**
+    en la ZXe.'
