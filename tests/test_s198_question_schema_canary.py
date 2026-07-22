@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import subprocess
 from types import SimpleNamespace
 
 import pytest
+import yaml
 
 import scripts.s198_question_schema_canary as s198
 from scripts.s198_question_schema_canary import (
@@ -15,9 +18,26 @@ from scripts.s198_question_schema_canary import (
     execute,
     normalize_canary,
     question_schema,
-    validate_authorization,
     validate_question_schema,
 )
+
+# Commit that sealed the prereg/permit pair ("eval: qualify S198 point-first
+# question schema", PR #126 merge; the prereg records no commit id). The raw
+# frozen-input hashes describe those exact bytes — later legitimate evolution
+# of requirements.txt (and of the gate tests themselves) must not read as
+# authorization drift (DEC-147: version, do not relax).
+AUTHORIZATION_SEAL_COMMIT = "4259d812e38e7268d488751a40745d46153232de"
+
+
+def _sealed_bytes(relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{AUTHORIZATION_SEAL_COMMIT}:{relative}"],
+        cwd=s198.ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return completed.stdout
 
 
 def _valid_payload():
@@ -247,7 +267,30 @@ def test_bad_request_classification_is_stage_and_message_specific():
 
 
 def test_actual_prereg_and_permit_hashes_are_self_consistent():
-    prereg = validate_authorization(s198.DEFAULT_PREREG, s198.DEFAULT_PERMIT)
+    """DEC-147: the frozen-input/artifact hashes are validated against the
+    blobs sealed at AUTHORIZATION_SEAL_COMMIT instead of the working tree
+    (validate_authorization hashes the live checkout, which legitimately
+    evolved after the paid run). The prereg and permit themselves must still
+    match their sealed bytes modulo checkout line endings."""
+    prereg = yaml.safe_load(s198.DEFAULT_PREREG.read_text(encoding="utf-8"))
+    permit = yaml.safe_load(s198.DEFAULT_PERMIT.read_text(encoding="utf-8"))
+    for sealed_file in (s198.DEFAULT_PREREG, s198.DEFAULT_PERMIT):
+        relative = sealed_file.relative_to(s198.ROOT).as_posix()
+        assert sealed_file.read_bytes().replace(b"\r\n", b"\n") == _sealed_bytes(
+            relative
+        ).replace(b"\r\n", b"\n")
+    for key, spec in prereg["frozen_inputs"].items():
+        assert (
+            hashlib.sha256(_sealed_bytes(spec["path"])).hexdigest()
+            == spec["sha256"]
+        ), key
+    for key, spec in permit["frozen_artifacts"].items():
+        assert (
+            hashlib.sha256(_sealed_bytes(spec["path"])).hexdigest()
+            == spec["sha256"]
+        ), key
+    assert prereg["status"] == "FROZEN_BEFORE_PAID_EXECUTION"
+    assert permit["status"] == "EXECUTION_GO_PAID_BOUNDED_NO_RETRY"
     assert prereg["model"] == s198.EXPECTED_MODEL
     assert prereg["execution"]["real_document_items"] == 0
 

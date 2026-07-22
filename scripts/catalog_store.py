@@ -119,6 +119,15 @@ class Catalog:
                     retrieval; False = NO expandir (los ids son solo las OPCIONES de un
                     clarify o información de diagnóstico). Un consumidor que ignore
                     `expand` y expanda un clarify contaminaría el pool.
+          all_members_consumable — s278 §1a (GUARD-IMPL): True solo si la expansión NO
+                    filtró ningún miembro (paraguas: TODOS los u.ids consumibles; alias/
+                    homónimo-prefer: el id expuesto ya pasó _consumable — los demás ids de
+                    un homónimo prefer NO son miembros de la expansión, la política elige
+                    uno). Un consumidor `replace` NO debe dropear un token con False: la
+                    expansión está incompleta (clase FAAST: miembro candidate filtrado en
+                    silencio) y el drop perdería alcance. La vía exact NO lleva el campo
+                    (un solo id consumible por construcción, nunca drop-elegible; su shape
+                    está pineado en test_catalog_store.py::test_resolve_exact).
         candidate NO se consume (salvo el BLOQUEO de homónimo); divergent=='unknown'
         en paraguas → fail-open SIN expansión (la letra del contrato §5.1)."""
         t = norm_token(token)
@@ -128,38 +137,48 @@ class Catalog:
         if h is not None:
             if h.get("candidate"):
                 return {"ids": [], "via": "homonimo-candidate", "politica": "fail-open",
-                        "expand": False}
+                        "expand": False, "all_members_consumable": False}
             pol = h.get("politica", "fail-open")
             if pol.startswith("prefer:"):
                 pid = pol.split(":", 1)[1]
                 if not self._consumable(pid):   # prefer a candidate/retirado → fail-open
-                    return {"ids": [], "via": "homonimo", "politica": pol, "expand": False}
+                    return {"ids": [], "via": "homonimo", "politica": pol, "expand": False,
+                            "all_members_consumable": False}
+                # la expansión del prefer = SOLO el id preferido (adjudicado) y ya pasó
+                # _consumable — el guard no debe bloquear el drop de un prefer sano
                 return {"ids": [self.follow_redirect(pid)], "via": "homonimo",
-                        "politica": pol, "expand": True}
+                        "politica": pol, "expand": True, "all_members_consumable": True}
             # clarify/fail-open: los ids son OPCIONES (productos DISTINTOS sin familia) —
             # expandirlos al retrieval contaminaría el pool.
             return {"ids": [self.follow_redirect(i) for i in h["ids"]],
-                    "via": "homonimo", "politica": pol, "expand": False}
+                    "via": "homonimo", "politica": pol, "expand": False,
+                    "all_members_consumable": all(self._consumable(i) for i in h["ids"])}
         pid = self._by_canonical.get(t)
         if pid:
             return {"ids": [self.follow_redirect(pid)], "via": "exact", "expand": True}
         pid = self._by_alias.get(t)
         if pid:
-            return {"ids": [self.follow_redirect(pid)], "via": "alias", "expand": True}
+            return {"ids": [self.follow_redirect(pid)], "via": "alias", "expand": True,
+                    "all_members_consumable": True}
         u = self._by_umbrella.get(t)
         if u is not None:
             div = u.get("divergent", "unknown")
+            # GUARD-IMPL s278: el filtrado de abajo es SILENCIOSO — se declara aquí para
+            # que el consumidor replace sepa si la expansión está completa antes de dropear
+            amc = all(self._consumable(i) for i in u["ids"])
             if div == "unknown":
                 # contrato §5.1: unknown → fail-open (SIN expansión) hasta adjudicar
                 return {"ids": [], "via": "paraguas-unknown", "divergent": "unknown",
-                        "expand": False}
+                        "expand": False, "all_members_consumable": amc}
             # divergent True/False: el RETRIEVAL expande igual (recuperar los docs de las
             # variantes = el fix hp018); la conducta clarify-vs-answer es del consumidor F2.
             # Los miembros candidate/retirados se FILTRAN (no se consumen — fix dúo s90).
             ids = [self.follow_redirect(i) for i in u["ids"] if self._consumable(i)]
             if not ids:
-                return {"ids": [], "via": "paraguas", "divergent": div, "expand": False}
-            return {"ids": ids, "via": "paraguas", "divergent": div, "expand": True}
+                return {"ids": [], "via": "paraguas", "divergent": div, "expand": False,
+                        "all_members_consumable": amc}
+            return {"ids": ids, "via": "paraguas", "divergent": div, "expand": True,
+                    "all_members_consumable": amc}
         return None   # fail-open
 
 

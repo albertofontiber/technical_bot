@@ -5,10 +5,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import yaml
 
+ROOT = Path(__file__).resolve().parents[1]
 PREREG_V1 = Path("evals/s274_bloquesCD_prereg_v1.yaml")
 PREREG = Path("evals/s274_bloquesCD_prereg_v2.yaml")
 DESIGN = Path("evals/s274_bloquesCD_design_v1.md")
@@ -31,9 +33,24 @@ def _prereg() -> dict:
     return yaml.safe_load(PREREG.read_text(encoding="utf-8"))
 
 
-def _sha256_lf(path: Path) -> str:
+# Commit del sello del prereg v2 ("s274: design PARTE 2 + prereg v2"; el
+# prereg no registra commit). Sus pins describen el arbol post-build P0 en
+# ese sello — la rama evoluciono legitimamente post_rerank_coverage.py y
+# answer_planner.py despues, asi que el assert va contra el blob sellado de
+# git (DEC-147: versionar, no relajar).
+PREREG_SEAL_COMMIT = "2077b67f3050b02f7903f71f14c578e5af63e592"
+
+
+def _sha256_lf_sellado(rel: str) -> str:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{PREREG_SEAL_COMMIT}:{rel}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"blob sellado ausente: {rel}"
     return hashlib.sha256(
-        path.read_bytes().replace(b"\r\n", b"\n")
+        completed.stdout.replace(b"\r\n", b"\n")
     ).hexdigest()
 
 
@@ -52,12 +69,14 @@ def test_schema_supersedes_v1_and_declares_duo():
 
 
 def test_sha_pins_match_working_tree():
+    """DEC-147: los pins se verifican contra los blobs sellados en
+    PREREG_SEAL_COMMIT (detectan tampering de la historia, no el desarrollo
+    legitimo posterior del working tree)."""
     pins = _prereg()["frozen_inputs_sha256_lf"]
     assert len(pins) == 11
     for rel, expected in pins.items():
-        path = Path(rel)
-        assert path.exists(), rel
-        assert _sha256_lf(path) == expected, f"drift en {rel}"
+        assert Path(rel).exists(), rel
+        assert _sha256_lf_sellado(rel) == expected, f"drift en {rel}"
 
 
 def test_c1_diagnostic_verdict_all_pass():

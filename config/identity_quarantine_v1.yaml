@@ -1,0 +1,28 @@
+# config/identity_quarantine_v1.yaml — quarantine de identidad (s278 §1a, GUARD-3FILAS).
+#
+# Unidades del census s278 PENDIENTES de adjudicacion de Alberto: su token NUNCA entra en
+# drop_tokens bajo IDENTITY_RESOLVE_POLICY=replace (fail-open-a-add POR UNIDAD; nunca peor
+# que add). Keying por catalog_store.norm_token — 'G-100-R' == 'g100r' (el mismo keying que
+# el drop de apply_to_models). Se VACIA conforme Alberto adjudica cada fila (tokens: [] es
+# valido). Evidencia: evals/s278_identity_census_result.json + s278_identity_census_report.md.
+version: 1
+tokens:
+  - token: FAAST
+    motivo: >-
+      census umbrella:FAAST — replace pierde 3 docs (FAAST Area Coverage Planner_SP,
+      FAAST Understanding EN54-20_SP, I56-3836-006_FAAST_XM_8100E_ML); el guard
+      candidate-member TAMBIEN la cubre (notifier:faast-8100e candidate) — fila redundante
+      a proposito hasta que Alberto adjudique el 8100E.
+    fecha: "2026-07-22"
+  - token: ZXR
+    motivo: >-
+      census umbrella:ZXR — replace pierde MIE-MI-430 (doc de ZXR4B/ZXR5B, variantes NO
+      gobernadas como miembros); los miembros actuales son consumibles => el guard NO la
+      cubre; sin quarantine habria perdida real.
+    fecha: "2026-07-22"
+  - token: G-100-R
+    motivo: >-
+      census alias:G-100-R — replace pierde MNDT500/MNDT503 (alcanzables via el token, no
+      via el canonical G-100-R-12); via=alias con destino consumible => el guard NO la
+      cubre; sin quarantine habria perdida real.
+    fecha: "2026-07-22"

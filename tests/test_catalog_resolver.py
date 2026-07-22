@@ -212,6 +212,94 @@ def test_brazo_replace_retira_el_paraguas(monkeypatch):
     assert "ZXE" not in out and {"ZX1e", "ZX2e", "ZX5e"} == set(out)
 
 
+# ─── s278 §1a: guard candidate-member + quarantine (drop gobernado bajo replace) ───
+def test_resolve_expone_all_members_consumable():
+    # contrato GUARD-IMPL: la expansión que FILTRÓ miembros lo declara (FAAST filtra a
+    # notifier:faast-8100e, candidate); la limpia (ZXe) y el prefer adjudicado (RP1r —
+    # la expansión es SOLO el id preferido) devuelven True. `exact` no lleva el campo
+    # (nunca drop-elegible; shape pineado en test_catalog_store.py::test_resolve_exact).
+    R._ensure()
+    faast = R._cat.resolve("FAAST")
+    assert faast["via"] == "paraguas" and faast["expand"] is True
+    assert faast["all_members_consumable"] is False
+    assert R._cat.resolve("ZXe")["all_members_consumable"] is True
+    assert R._cat.resolve("RP1r")["all_members_consumable"] is True
+
+
+def test_faast_no_dropea_bajo_replace_por_guard_candidate_member(monkeypatch):
+    # census s278 umbrella:FAAST: la expansión filtra notifier:faast-8100e (candidate) —
+    # dropear el token perdería los docs solo alcanzables vía 'FAAST' (I56-3836-006 8100E,
+    # Area Coverage Planner_SP, Understanding EN54-20_SP). La quarantine se vacía aquí
+    # para aislar el GUARD (FAAST está en ambos mecanismos a propósito).
+    monkeypatch.setattr(R, "_quarantine", frozenset())
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de FAAST")
+    assert res["drop_tokens"] == []
+    out = R.apply_to_models(["FAAST"], res)
+    assert "FAAST" in out and len(out) > 1    # token conservado + expansión añadida (== add)
+
+
+def test_zxr_y_g100r_no_dropean_bajo_replace_por_quarantine(monkeypatch):
+    # census s278: el guard NO cubre estas unidades (ZXR: miembros consumibles pero
+    # MIE-MI-430 es de zxr4b/5b no-miembros; G-100-R: vía alias a destino consumible) —
+    # sin quarantine habría pérdida real de docs bajo replace.
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de ZXR")
+    assert res["drop_tokens"] == []
+    out = R.apply_to_models(["ZXR"], res)
+    assert "ZXR" in out and {"ZXR50A", "ZXR50P"} <= set(out)
+    res_g = R.resolve_query("manual de G-100-R")
+    assert res_g["drop_tokens"] == []
+    out_g = R.apply_to_models(["G-100-R"], res_g)
+    assert "G-100-R" in out_g and "G-100-R-12" in out_g
+
+
+def test_zxe_umbrella_limpia_si_dropea_bajo_replace(monkeypatch):
+    # el guard NO interfiere con el caso medido (hp018): TODOS los miembros de ZXe son
+    # consumibles y no está en quarantine → el drop del paraguas sigue vivo
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("central ZXe")
+    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["ZXE"], res)
+    assert "ZXE" not in out
+
+
+def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
+    # el prefer adjudicado (hp011) queda intacto: su expansión = solo el id preferido
+    # consumible → all_members_consumable=True → el guard no bloquea el drop
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("conectar el RP1r al software de gestión")
+    assert "rp1r" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["RP1r"], res)
+    assert "RP1r" not in out and "RP1r-Supra" in out
+
+
+def test_quarantine_vacia_solo_el_guard_decide(monkeypatch):
+    # con la quarantine vacía (Alberto adjudicó todo) el drop lo gobierna SOLO el guard:
+    # ZXR (miembros consumibles) vuelve a dropear; FAAST sigue protegida (miembro candidate)
+    monkeypatch.setattr(R, "_quarantine", frozenset())
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res_zxr = R.resolve_query("manual de ZXR")
+    assert "zxr" in {R.catalog_store.norm_token(t) for t in res_zxr["drop_tokens"]}
+    res_faast = R.resolve_query("manual de FAAST")
+    assert res_faast["drop_tokens"] == []
+
+
+def test_quarantine_malformada_fail_fast(monkeypatch, tmp_path):
+    # el diseño exige fail-fast: una quarantine rota que fallara en silencio desactivaría
+    # la protección justo bajo replace
+    bad = tmp_path / "identity_quarantine_v1.yaml"
+    bad.write_text("tokens:\n  - token: ''\n    motivo: x\n    fecha: '2026-07-22'\n",
+                   encoding="utf-8")
+    monkeypatch.setattr(R, "_QUARANTINE_PATH", bad)
+    monkeypatch.setattr(R, "_quarantine", None)
+    with pytest.raises(RuntimeError, match="quarantine"):
+        R._quarantine_tokens()
+    monkeypatch.setattr(R, "_QUARANTINE_PATH", tmp_path / "no-existe.yaml")
+    with pytest.raises(RuntimeError, match="AUSENTE"):
+        R._quarantine_tokens()
+
+
 # ─── entrada única del retriever ───
 def test_off_passthrough_exacto():
     models, res = R.resolve_for_retrieval("central ZXe", ["ZXE"])

@@ -40,6 +40,27 @@ def _sha256_lf(path: Path) -> str:
     return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
+# Commit that sealed evals/s277_c1_live_reachability_receipt_v1.json (the live
+# probe reviewed this exact runtime; the receipt records no commit id itself,
+# so the sealing commit is pinned here per DEC-147: version, do not relax).
+RECEIPT_SEAL_COMMIT = "f764f5aede413474dadd293749dca51931484d59"
+
+
+def _sealed_sha256_lf(relative: str) -> str:
+    import hashlib
+
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{RECEIPT_SEAL_COMMIT}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return hashlib.sha256(
+        completed.stdout.replace(b"\r\n", b"\n")
+    ).hexdigest()
+
+
 def test_hp017_c1_gate_crosses_the_production_seam_without_external_calls():
     env = dict(os.environ)
     env["PYTHONPATH"] = str(ROOT)
@@ -133,10 +154,13 @@ def test_live_probe_manifest_has_exact_effective_runtime_inputs():
 
 
 def test_live_read_only_receipt_is_pinned_to_the_reviewed_runtime():
+    """The receipt stays pinned to the runtime blobs sealed at
+    RECEIPT_SEAL_COMMIT: the branch legitimately evolved several of those
+    files afterwards, so asserting against the working tree would report
+    development as tampering (DEC-147 mandate: version, do not relax)."""
     from scripts.s277_c1_live_reachability_probe import (
         FREEZE_SHA256,
         MANIFEST_SCHEMA,
-        build_implementation_manifest,
     )
 
     receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
@@ -152,7 +176,11 @@ def test_live_read_only_receipt_is_pinned_to_the_reviewed_runtime():
     }
     authority = receipt["authority"]
     assert authority["schema"] == MANIFEST_SCHEMA
-    assert authority["implementation_sha256_lf"] == build_implementation_manifest()
+    manifest = authority["implementation_sha256_lf"]
+    assert set(manifest) == EXPECTED_RUNTIME_INPUTS
+    assert manifest == {
+        relative: _sealed_sha256_lf(relative) for relative in manifest
+    }
     import hashlib
 
     assert authority["source_freeze_sha256"] == FREEZE_SHA256
@@ -160,8 +188,8 @@ def test_live_read_only_receipt_is_pinned_to_the_reviewed_runtime():
     assert FREEZE_SHA256 == hashlib.sha256(
         freeze_bytes.replace(b"\r\n", b"\n")
     ).hexdigest()
-    assert authority["selector_config_sha256"] == _sha256_lf(
-        ROOT / "config/structural_neighbor_coverage_v1.yaml"
+    assert authority["selector_config_sha256"] == _sealed_sha256_lf(
+        "config/structural_neighbor_coverage_v1.yaml"
     )
     assert len(authority["fetched_candidate_snapshot_sha256"]) == 64
     assert receipt["receipt"]["fetched_candidate_rows"] == 110

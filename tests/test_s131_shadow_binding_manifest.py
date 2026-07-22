@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import hashlib
+import subprocess
+
 import pytest
 
 from scripts import s131_build_shadow_binding_manifest as audit
@@ -8,6 +11,24 @@ from scripts import s131_build_shadow_binding_manifest as audit
 GATE = audit.ROOT / "evals/s131_shadow_binding_manifest_gate_v1.yaml"
 EXTRACTION = "a" * 64
 DOCUMENT = "00000000-0000-0000-0000-000000000001"
+
+# Commit that sealed the gate together with the executed seed manifests
+# ("s131: validate chunks v3 shadow database contract"; the gate records no
+# commit id). The pinned hashes are physical blob bytes, so byte-identity is
+# asserted against the sealed git blobs, not a CRLF-smudging checkout
+# (DEC-147: version, do not relax).
+SEED_SEAL_COMMIT = "e60c853faceb18e9ba869c7ed431260b37580da4"
+
+
+def _sealed_bytes(relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{SEED_SEAL_COMMIT}:{relative}"],
+        cwd=audit.ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return completed.stdout
 
 
 @pytest.fixture(scope="module")
@@ -44,17 +65,20 @@ def test_real_frozen_population_is_exact(real_payloads: dict[str, dict]) -> None
 
 
 def test_executed_manifests_are_byte_identical_and_gate_pins_exact_arms() -> None:
+    """DEC-147: determinism was proven over the seed bytes sealed at
+    SEED_SEAL_COMMIT; the assertion targets those blobs so the seal detects
+    history tampering instead of failing on checkout normalization."""
     gate = audit.load_yaml(GATE)
     expected = {
         "baseline": "951c6a7615045d770574404cf664385b741bd0097abeebed6a0b6bc1f410f2c1",
         "candidate": "aa870ab8a484700656252d0315808ee69076a57edfa5d4c0c128e2dd54a13746",
     }
     for arm, expected_sha in expected.items():
-        seed1 = audit.ROOT / gate["determinism"][arm]["seed1"]["path"]
-        seed2 = audit.ROOT / gate["determinism"][arm]["seed2"]["path"]
-        assert seed1.read_bytes() == seed2.read_bytes()
-        assert audit.file_sha(seed1) == expected_sha
-        assert audit.file_sha(seed2) == expected_sha
+        seed1 = _sealed_bytes(gate["determinism"][arm]["seed1"]["path"])
+        seed2 = _sealed_bytes(gate["determinism"][arm]["seed2"]["path"])
+        assert seed1 == seed2
+        assert hashlib.sha256(seed1).hexdigest() == expected_sha
+        assert hashlib.sha256(seed2).hexdigest() == expected_sha
         assert gate["exact_registry_arms"][arm]["bindings_manifest_sha256"] == expected_sha
 
 

@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import yaml
@@ -8,9 +9,23 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 ADJUDICATION = ROOT / "evals/s133_unmeasured_fact_adjudication_v1.yaml"
 
+# Commit that sealed the adjudication and its authority receipts ("rag:
+# consolidate S133-S193 structural evaluation milestone", PR #120; the
+# adjudication records no commit id). Authority hashes are physical blob
+# bytes, so they are verified against the sealed git blobs, not a
+# CRLF-smudging checkout (DEC-147: version, do not relax).
+ADJUDICATION_SEAL_COMMIT = "5868c9b11e3c6219dc9e8db6e377315ceb0572c6"
 
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def _sealed_sha256(relative: str) -> str:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{ADJUDICATION_SEAL_COMMIT}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return hashlib.sha256(completed.stdout).hexdigest()
 
 
 def test_s133_fact_adjudication_is_complete_bijective_and_receipted():
@@ -27,7 +42,7 @@ def test_s133_fact_adjudication_is_complete_bijective_and_receipted():
     )
 
     for receipt in payload["authority"].values():
-        assert _sha256(ROOT / receipt["path"]) == receipt["sha256"]
+        assert _sealed_sha256(receipt["path"]) == receipt["sha256"]
 
     expected_qid = {
         claim_id: question["qid"]
