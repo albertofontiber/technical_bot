@@ -576,12 +576,24 @@ def test_e10_e15_bare_no_expanden_fail_open():
         assert res["allowed_sources"] == frozenset()
 
 
-def test_inspire_droppable_bajo_replace_y_docs_de_miembros_alcanzables(monkeypatch):
-    # guard GUARD-IMPL: TODOS los miembros de INSPIRE son consumibles ⇒ droppable; y no
-    # está en config/identity_quarantine_v1.yaml (quarantine actual = FAAST/ZXR/G-100-R).
-    # Census-safe: los doc_map de AMBOS miembros quedan en allowed_sources (la unión
-    # protectora seam-2 los re-incorpora), incluido el doc de cat017.
+def test_inspire_quarantine_vigente_no_dropea_bajo_replace(monkeypatch):
+    # INSPIRE está en config/identity_quarantine_v1.yaml (census post-§2a: el doc de
+    # firmware de notifier:inspire, candidate NO-miembro, se perdería bajo replace) ⇒
+    # fail-open-a-add hasta que Alberto adjudique, AUNQUE el guard permitiría el drop.
     assert R._cat.resolve("INSPIRE")["all_members_consumable"] is True
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de la central INSPIRE")
+    assert "inspire" not in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["INSPIRE"], res)
+    assert "INSPIRE" in out and {"INSPIRE E10", "INSPIRE E15"} <= set(out)
+    assert CAT017_SOURCE in res["allowed_sources"]
+
+
+def test_inspire_droppable_bajo_replace_con_quarantine_adjudicada(monkeypatch):
+    # con la fila INSPIRE adjudicada (quarantine vacía), el guard GUARD-IMPL gobierna:
+    # miembros consumibles ⇒ droppable. Census-safe: los doc_map de AMBOS miembros
+    # quedan en allowed_sources (unión protectora seam-2), incluido el doc de cat017.
+    monkeypatch.setattr(R, "_quarantine", frozenset())
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
     res = R.resolve_query("manual de la central INSPIRE")
     assert "inspire" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
