@@ -193,8 +193,14 @@ def replay_receipt(
     apply_must_preserve_contract: Callable[..., tuple[str, Any]],
     detect_atoms: Callable[..., Any],
     apply_answer_conflict_guard: Callable[..., tuple[str, Any]],
+    apply_evidence_contract: Callable[..., Mapping[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Replay the deterministic boundary and return row plus ephemeral score view."""
+    """Replay the deterministic boundary and return row plus ephemeral score view.
+
+    ``apply_evidence_contract`` is the optional s278 §5 arm: when provided it runs
+    AFTER the conflict guard (same seam order as the generator) with its built-in
+    deterministic ledger detectors; when None (default) the replay and its output
+    stay byte-identical to the historical three-stage instrument."""
 
     replica_key = str(receipt.get("replica_key") or "")
     input_row = receipt.get("input")
@@ -245,9 +251,26 @@ def replay_receipt(
         },
     ]
 
+    final_text = guarded
+    if apply_evidence_contract is not None:
+        contracted = apply_evidence_contract(guarded, context, question)
+        final_text = contracted["text"]
+        _require(
+            isinstance(final_text, str),
+            f"evidence contract returned non-text: {replica_key}",
+        )
+        candidate_stages.append(
+            {
+                "name": "evidence_contract",
+                "input_sha256": sha256_text(guarded),
+                "output_sha256": sha256_text(final_text),
+                "trace": contracted["receipt"],
+            }
+        )
+
     scoring_view = deepcopy(dict(receipt))
-    scoring_view["answer"] = guarded
-    scoring_view["answer_sha256"] = sha256_text(guarded)
+    scoring_view["answer"] = final_text
+    scoring_view["answer_sha256"] = sha256_text(final_text)
     original_mp = scoring_view.get("must_preserve")
     scoring_view["must_preserve"] = {
         **(original_mp if isinstance(original_mp, dict) else {}),
@@ -270,9 +293,9 @@ def replay_receipt(
         "context_sha256": canonical_sha256(context),
         "source_answer_sha256": sha256_text(source_answer),
         "frozen_draft_sha256": sha256_text(frozen_draft),
-        "candidate_answer": guarded,
-        "candidate_answer_sha256": sha256_text(guarded),
-        "source_answer_byte_exact": guarded == source_answer,
+        "candidate_answer": final_text,
+        "candidate_answer_sha256": sha256_text(final_text),
+        "source_answer_byte_exact": final_text == source_answer,
         "stages": candidate_stages,
     }
     return row, scoring_view
@@ -610,6 +633,7 @@ def run_preflight(
     fact_contract_path: Path,
     baseline_adjudication_paths: Sequence[Path],
     candidate_adjudication_paths: Sequence[Path] = (),
+    with_evidence_contract: bool = False,
 ) -> dict[str, Any]:
     source_run = source_run.resolve()
     release_config_path = release_config_path.resolve()
@@ -634,6 +658,13 @@ def run_preflight(
                 apply_answer_planner,
             )
             from src.rag.must_preserve import apply_must_preserve_contract, detect_atoms
+
+            # s278 §5 opt-in arm: import only when requested so the default run
+            # never touches the module; the ledger detectors are deterministic
+            # (pure code, no model/network calls — the deny_network guard applies).
+            apply_evidence_contract = None
+            if with_evidence_contract:
+                from src.rag.evidence_contract import apply_evidence_contract
 
             _require(
                 source_score.get("scorer_sha256") == scorer.scorer_sha256(),
@@ -675,6 +706,7 @@ def run_preflight(
                     apply_must_preserve_contract=apply_must_preserve_contract,
                     detect_atoms=detect_atoms,
                     apply_answer_conflict_guard=apply_answer_conflict_guard,
+                    apply_evidence_contract=apply_evidence_contract,
                 )
                 candidate_score = scorer.score_replica(scoring_view, contract)
                 materialized["score"] = candidate_score
@@ -711,7 +743,7 @@ def run_preflight(
         comparison["gate"], candidate_identity
     )
     summary["candidate_worktree_dirty"] = bool(candidate_identity["dirty"])
-    return {
+    payload: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "authority": AUTHORITY,
         "gate": gate,
@@ -790,6 +822,18 @@ def run_preflight(
             "This artifact never authorizes a release; a new authoritative P1 remains mandatory.",
         ],
     }
+    if with_evidence_contract:
+        # Declared only when the opt-in arm ran: the default output stays
+        # byte-identical to the historical schema.
+        payload["postgeneration_arm"] = {
+            "name": "with_evidence_contract",
+            "seam": "after_conflict_guard",
+            "detector": "DETERMINISTIC_LEDGER_NO_MODEL_CALLS",
+            "evidence_contract_sha256_lf": sha256_lf_file(
+                ROOT / "src/rag/evidence_contract.py"
+            ),
+        }
+    return payload
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -811,6 +855,15 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=[],
         help="Optional fresh, hash-bound blind decisions for changed candidate REVIEW rows.",
     )
+    parser.add_argument(
+        "--with-evidence-contract",
+        action="store_true",
+        help=(
+            "Opt-in s278 §5 arm: apply the deterministic evidence contract after "
+            "the conflict guard in the replay. Default OFF keeps the output "
+            "byte-identical to the historical instrument."
+        ),
+    )
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args(argv)
 
@@ -824,6 +877,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         fact_contract_path=args.fact_contract,
         baseline_adjudication_paths=args.baseline_adjudication,
         candidate_adjudication_paths=args.candidate_adjudication,
+        with_evidence_contract=args.with_evidence_contract,
     )
     write_json(args.output, payload)
     print(json.dumps({"gate": payload["gate"], **payload["summary"]}, indent=2))
