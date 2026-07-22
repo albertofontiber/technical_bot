@@ -1,0 +1,70 @@
+# s278 selection-reach design v2 — adjudicación del dúo r2 (Sol 7 + Fable 8), regla C
+# Veredicto conjunto: NO-SÓLIDA como escrita (composición), reparable por re-spec v3 sin re-arquitectura.
+ronda: 2
+propuesta: evals/s278_selection_reach_design_v2.md
+fixes_para_v3:
+  - id: PERFIL-CAPACIDAD
+    fuente: sol-r2#1
+    severidad: critico
+    veredicto: CONFIRMADO  # DOCUMENT_LOCAL_COVERAGE esta on en c1_v2 Y v3: "sin flag nuevo" alteraria v2
+    v3: "flag profile-owned nuevo DOCUMENT_LOCAL_SELECTION_V2 + perfil atomico coverage_c1_v4 (= v3 + flag); v3 queda semanticamente congelado; flip target pasa a v4"
+  - id: VIA-INALCANZABLE
+    fuente: fable-r2#H1
+    severidad: critico
+    veredicto: CONFIRMADO  # el lane se salta a 4/4 capacidad ANTES de correr; el espejo reserve se alimenta del pool ya pagado
+    v3: "la via corre POST-composicion (donde la reserve): reusa los candidatos del lane si corrio ($0); si el lane fue saltado por capacidad Y el plan tiene need-group sin cubrir, UNA llamada RPC propia GET-only (coste declarado: +1 request, ~2s worst-case) — politica y receipt (facet_fetch_own|reused|skipped_no_uncovered_group) pre-registrados; fixture re-escrito al escenario alcanzable"
+  - id: SEAM-DELEGADO-V4
+    fuente: fable-r2#H2
+    severidad: critico
+    veredicto: CONFIRMADO  # select_rerank_pool_coverage re-expande con v4 hardcodeado (rerank_pool_coverage.py:38/:316)
+    v3: "el plan (v5) viaja por la firma hasta la evaluacion de elegibilidad; la via por-faceta NO usa el delegado — evalua contra el plan que construyo el lane"
+  - id: ATTEST-NO-REDERIVABLE
+    fuente: sol-r2#3
+    severidad: critico
+    veredicto: CONFIRMADO
+    v3: "receipt re-derivable: plan_sha256 (lista de need-groups) + need_group_terms + window_bounds + quote_sha256 + served_row_ids_at_eval; _attest re-corre la regla de ventana sobre el contenido del candidato y verifica no-cobertura con los served_ids registrados; la fila por-faceta SIRVE por las clases existentes (pipe si derivable, prosa con TODOS los checks del duo r2 de §4) — la via cambia SELECCION, no clases de serving"
+  - id: TIEBREAK-ENTRE-GRUPOS
+    fuente: sol-r2#2 + fable-r2#H3
+    severidad: critico
+    veredicto: CONFIRMADO
+    v3: "pre-registro total: need-groups por cobertura asc (0-cubiertas primero) -> indice de grupo asc; dentro: terms_hit desc -> densidad desc -> chunk_index asc -> source_file asc -> id asc. Sin pesos tuneables"
+  - id: WATERFALL
+    fuente: sol-r2#4 + fable-r2#H6
+    severidad: medio
+    veredicto: CONFIRMADO  # floor fijo no work-conserving (10+65 => 42 de 64); clausula del resto muerta con n<=2
+    v3: "waterfall determinista: min(observadas, floor) por scope en orden estable + remanente al otro; clausula muerta eliminada; 'cat017 cubierto' se DEMUESTRA en census, no por construccion"
+  - id: CENSUS-OBSERVABILIDAD
+    fuente: fable-r2#H4 + sol-r2#7
+    severidad: medio
+    veredicto: CONFIRMADO  # frozen-pools no observa el cambio SQL del tsquery; any-2-de-5 es predicado mas debil => mas overflow (interaccion C3->C1)
+    v3: "census con snapshots RPC vivos read-only por query ($0 en modelos); freeze-contract completo (commit, hashes v4/v5, RPC name, lista de queries, version del selector); mide delta de volumen de candidatos v4->v5 por doc y el efecto sobre overflow/truncado"
+  - id: CONTROL-NEGATIVO-VACUO
+    fuente: fable-r2#H5
+    severidad: medio
+    veredicto: CONFIRMADO
+    v3: "DOS controles: off-topic (sanidad, 0 trivial) + ON-topic-adyacente sobre MC-380 que DEBE llegar a evaluar elegibilidad con candidatos presentes y rechazar por ventana/cobertura (punto de fallo verificado en trace) — pre-registrado; si sirve algo, el diseño falla"
+  - id: ES-ONLY
+    fuente: sol-r2#5
+    severidad: medio
+    veredicto: CONFIRMADO
+    v3: "limite declarado en gaps y en release-notes: el lane es ES-only por contrato; multi-match EN fuera de alcance; gate de language intacto"
+  - id: TSQUERY-TRIM-PREREG
+    fuente: sol-r2#6
+    severidad: medio
+    veredicto: CONFIRMADO
+    v3: "reduccion determinista pre-registrada: round-robin desde el ULTIMO grupo, retirando el ultimo termino de cada grupo hasta caber en 480; test la pinea; jamas se ajusta post-resultado"
+  - id: VALIDADOR-COMUN
+    fuente: fable-r2#H7
+    severidad: menor-medio
+    veredicto: CONFIRMADO
+    v3: "cambio del validador declarado: whitelist + policy-check condicionado por schema (first_match obligatorio <=v4; multi_match solo v5); el fork declara schema: retrieval_facets_v5_document_local; blast-radius cubierto por oraculo byte-inerte + suite"
+  - id: CONTROLES-INCONSISTENTES
+    fuente: fable-r2#H8
+    severidad: menor
+    veredicto: CONFIRMADO
+    v3: "declarado: hp002 = fixtures unitarios + test de convivencia con la reserve; hp009+hp010 = pasada pagada"
+estado_fixes_r1: "tabla de Fable r2 aceptada: 6 resueltos, 5 parciales (los parciales son exactamente los fixes de esta lista), 0 re-etiquetados"
+solidos_confirmados:
+  - "direccion de las 3 compuertas (ambas rondas); patron reserve correcto (el fallo era de composicion)"
+  - "attestation distinguida por vara; anti-gold-tuning pre-registrado; no re-litiga levers"
+  - "orden chunk_index del RPC verificado en SQL (migracion v3 ORDER BY candidate.chunk_index ASC)"
