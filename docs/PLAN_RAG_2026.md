@@ -65,13 +65,20 @@ real 15/29), seals re-anclados (suite **2907/0**), migración RLS PREPARADA sin 
 gobernado, **§4 COMPLETO dúo-hardened r2** (blob-identity canónica + prose source card; el
 crítico e2e del dúo = propuesta RPC v3 NO-aplicada `migration_proposals/20260722200000_...`),
 **pasada harness parcial ejecutada** (8 QIDs ~$2 + brazo control v2/add: ítems P1 presentes en
-vivo, controles limpios, ledger waived por Alberto). **CÓDIGO DE RELEASE COMPLETO. QUEDA (todo
-con Alberto):** (a) vistos live: aplicar RLS (gate #29, bloquea merge) + data-fix 2 docs
-(doc_type/language) + decidir blob (RPC v3 propuesto vs normalizar dato); (b) 4 adjudicaciones
-de catálogo (FAAST · ZXR · G-100-R · INSPIRE/notifier:inspire) que vacían la quarantine;
-(c) pasada final completa 13 QIDs+controles (~$3) → lectura de Alberto → merge #184 (= flip
-`COVERAGE_RELEASE_PROFILE=coverage_c1_v3` + `IDENTITY_RESOLVE_POLICY=replace` + retirar
-flags-hoja en Railway, checklist diseño §7) = release; después DEC-136 (multi-turn). Histórico:
+vivo, controles limpios, ledger waived por Alberto). **HECHO ADEMÁS (22-jul noche, DEC-150/151):** bloque LIVE aplicado por Alberto y verificado —
+**RLS #29 CERRADO** (13/13 tablas, grants anon revocados, Advisor sin clase crítica) · data-fix
+×2 (7 docs identity-complete: MC-380 par + HOP-138-8ES/9ES + 4188-1132-ES + MS-416 par) · RPC
+v3 canónico aplicado + flip Python · 4 adjudicaciones de catálogo aplicadas (quarantine VACÍA) ·
+smoke: cat017/cat019 sirven su doc por primera vez. **DECISIÓN B de Alberto: release RETENIDA**
+hasta cerrar la ronda estructural del selector (diagnóstico medido: overflow por-scope
+sistemático + elegibilidad por-faceta + ontología de facetas). **QUEDA:** (a) diseño v2 de las
+3 compuertas (v1 → dúo: C1 sólida-con-cambios, C2/C3 NO-sólidas — adjudicación
+`evals/s278_selection_reach_duo_r1_adjudication_v1.yaml`; insumos v2: cap por-vía, fork
+versionado de facetas, presupuesto propio estilo reserve, truncado combinado, prereg de regla,
+census obligatorio) → dúo r2 → build; (b) pasada final completa 13 QIDs+controles (~$3) →
+lectura de Alberto → merge #184 (= flip `COVERAGE_RELEASE_PROFILE=coverage_c1_v3` +
+`IDENTITY_RESOLVE_POLICY=replace` + retirar flags-hoja en Railway, checklist diseño §7) =
+release; después DEC-136 (multi-turn). Histórico:
 [`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md) (§9 SUPERADO).
 
 **Multi-turn/multi-hop sigue `NOT_BUILT` y separado bajo DEC-136.** El Evidence Contract debe

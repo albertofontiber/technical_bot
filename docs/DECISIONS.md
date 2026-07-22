@@ -3552,3 +3552,32 @@ pendiente (el probe sintético no reproduce el seed estructural real).
 **QUEDA para release:** (a) tuning de selección cat019-span + sitio/edificio cat017 ($0 + smoke
 barato); (b) pasada final 13 QIDs+controles (~$3); (c) lectura de Alberto → merge #184 + flip
 Railway. Ledger: waived por Alberto (histórico ignorado, decisión suya 22-jul).
+
+---
+
+## DEC-151 — s278 (22 jul 2026, noche): decisión B de Alberto (release RETENIDA) + data-fix v2 + diseño de selección v1 tumbado parcialmente por el dúo
+
+**Decisión (Alberto).** Ante el fork A (release con parciales declarados) vs B (retener hasta la
+ronda estructural del selector), **B**: el overflow por-scope es un defecto sistemático (el lane
+document-local se auto-apaga en manuales grandes de configuración) y no hay deadline real. La
+pasada final y el merge #184 esperan a la ronda.
+
+**Data-fix v2 aplicado (Alberto, SQL Editor) y verificado:** 5 filas más identity-complete —
+HOP-138-8ES sha real (era `backfill:*`), HOP-138-9ES (instalacion) y 4188-1132-ES (guia_rapida)
+completos con lineage single-rev, par MS-416 (programacion) con lineage patrón MC-380. Semántica
+del sha verificada contra el SQL v3 ANTES de escribir (source_pdf_sha256 == extraction_sha de
+chunks; patrón hp011 confirmado). Receipt: `evals/s278_live_poststate_receipt_v2.json`.
+
+**Diseño selection-reach v1 → dúo (Sol 8 + Fable 9): C1 sólida-con-cambios; C2/C3 NO-sólidas.**
+Convergencias críticas (adjudicación `evals/s278_selection_reach_duo_r1_adjudication_v1.yaml`):
+C3 era NO-OP bajo `MAX_NEED_GROUPS=3` y rompía byte-inercia por config de facetas COMPARTIDA
+(4 consumidores, first-match; el oráculo congelado no lo habría visto = falso-GO); C2 escondía
+que el cap real del lane es 1 fila total (cité el patrón hp002/reserve sin su mecanismo de
+presupuesto propio); el cap COMBINADO 64 seguiría matando cat017 (caso 2-docs) tras C1. Además:
+prereg de regla winner-por-faceta obligatorio (anti gold-tuning), census de selección OBLIGATORIO
+(C3 mueve queries por código, no "si el dúo concluye"), control negativo de composición, receipt
+honesto del truncado (RPC no expone totales), sesgo front-of-doc declarado y medible. El falso
+bloqueo RLS de Sol era drift documental (RLS aplicada en DEC-150) — PLAN corregido.
+
+**Siguiente:** diseño v2 con los 11 fixes adjudicados → dúo r2 → build → census+probes $0 →
+smoke ~$0.5 → pasada final ~$3 → lectura de Alberto → merge #184 = release.
