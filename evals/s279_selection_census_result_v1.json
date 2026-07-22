@@ -1,0 +1,5305 @@
+{
+  "schema": "s279_selection_census_v1",
+  "authority": "DEVELOPMENT_CENSUS_READ_ONLY_ZERO_MODEL_CALLS",
+  "freeze_contract": {
+    "commit_head": "1dd577db5c9373ba5acf85c0be8208758ce24f6d",
+    "worktree_dirty": true,
+    "v4_config": {
+      "path": "config\\retrieval_facets_v4.yaml",
+      "sha256_lf": "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb"
+    },
+    "v5_config": {
+      "path": "config\\retrieval_facets_v5_document_local.yaml",
+      "sha256_lf": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9"
+    },
+    "query_facets_v4_loaded_sha256": "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb",
+    "query_facets_v5_loaded_sha256": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9",
+    "rpc": {
+      "name": "document_local_snapshot_v3",
+      "deployed_functiondef_sha256": "c691d094ef81e832f65a39f6107410046152ff50d3d84548c0b9fab33bfe2275",
+      "deployed_functiondef_len": 17991,
+      "deployed_functiondef_provenance": "read-only pg_get_functiondef via Supabase SQL, project izooestgffgscdirkfia, 2026-07-23 (PostgREST cannot evaluate it; live RPC schema field re-confirmed)",
+      "live_schema_reconfirmed": "document_local_snapshot_v3",
+      "migration_proposal_sha256_lf": "aa4bf78c98798c61e09df5ac9bbf4f012371571bba877e7cea8cfacc05805290"
+    },
+    "profiles": {
+      "v4": "coverage_c1_v3",
+      "v5": "coverage_c1_v4"
+    },
+    "selector": {
+      "N_FACET": 3,
+      "FACET_COMPLEMENT_BUDGET": 1,
+      "CANDIDATE_LIMIT": 64,
+      "TOTAL_CANDIDATE_LIMIT": 64,
+      "SOURCE_LIMIT": 2
+    },
+    "queries": [
+      {
+        "qid": "cat001",
+        "question": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?"
+      },
+      {
+        "qid": "cat017",
+        "question": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?"
+      },
+      {
+        "qid": "cat018",
+        "question": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?"
+      },
+      {
+        "qid": "cat019",
+        "question": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?"
+      },
+      {
+        "qid": "hp002",
+        "question": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?"
+      },
+      {
+        "qid": "hp003",
+        "question": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?"
+      },
+      {
+        "qid": "hp005",
+        "question": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?"
+      },
+      {
+        "qid": "hp011",
+        "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?"
+      },
+      {
+        "qid": "hp012",
+        "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?"
+      },
+      {
+        "qid": "hp013",
+        "question": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?"
+      },
+      {
+        "qid": "hp014",
+        "question": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?"
+      },
+      {
+        "qid": "hp017",
+        "question": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?"
+      },
+      {
+        "qid": "hp018",
+        "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?"
+      },
+      {
+        "qid": "hp009",
+        "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
+      },
+      {
+        "qid": "hp010",
+        "question": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?"
+      },
+      {
+        "qid": "ctrl_offtopic_mc380",
+        "question": "¿Como se configura la grabacion continua y la deteccion de movimiento en la camara CCTV Hikvision DS-2CD2143?",
+        "synthetic_control": "true"
+      },
+      {
+        "qid": "ctrl_ontopic_adjacent_mc380",
+        "question": "¿Como se crea y configura una zona en la central Detnov CAD-250 (MC-380) y como se asignan los equipos y detectores a esa zona?",
+        "synthetic_control": "true"
+      }
+    ],
+    "generated_utc": "2026-07-22T22:57:08.645423+00:00"
+  },
+  "declared_deviations": {
+    "D1_anchor_provenance": "scope pinned deterministically ($0); anchor-route a proxy",
+    "D2_served_view": "empty served view = most permissive upper bound for the facet gate"
+  },
+  "records": [
+    {
+      "qid": "cat001",
+      "query": "En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde la central?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (997-669-005-3_Instal-Comm_ES, 997-671-005-3_Configuration_ES); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "extraction_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "manufacturer": "Notifier",
+          "product_model": "Pearl",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        },
+        {
+          "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+          "extraction_sha256": "a1a2a74133509b4990ca1de9f11c825eec0ae94e2e2a56fd0892257a23007521",
+          "source_file": "997-669-005-3_Instal-Comm_ES",
+          "manufacturer": "Notifier",
+          "product_model": "Pearl",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        },
+        {
+          "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "capacity_quantity",
+          "archetypes": null,
+          "anchor_terms": [
+            "equipos",
+            "admite",
+            "lazo",
+            "slc",
+            "limites",
+            "cableado",
+            "hay",
+            "aisladores",
+            "dan",
+            "alta"
+          ],
+          "need_groups": [
+            [
+              "capacidad",
+              "unidad",
+              "canal",
+              "per",
+              "unit",
+              "loop"
+            ],
+            [
+              "capacidad",
+              "total",
+              "system",
+              "capacity"
+            ],
+            [
+              "variante",
+              "revision",
+              "mercado",
+              "documento",
+              "conflicto",
+              "maximo"
+            ]
+          ],
+          "tsquery": "(equipos|admite|lazo|slc|limites|cableado|hay|aisladores|dan|alta)&(((capacidad|unidad|canal|per|unit|loop)&(capacidad|total|system|capacity))|((capacidad|unidad|canal|per|unit|loop)&(variante|revision|mercado|documento|conflicto|maximo))|((capacidad|total|system|capacity)&(variante|revision|mercado|documento|conflicto|maximo)))",
+          "tsquery_len": 330,
+          "trim": null,
+          "sha256": "0e1fe8d7661b66c26a82c6b0ea0ac7290f51c37872535d497140f4a2acf431fb"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "capacity_quantity",
+          "archetypes": [
+            "capacity_quantity",
+            "connect_install_wire"
+          ],
+          "anchor_terms": [
+            "equipos",
+            "admite",
+            "lazo",
+            "slc",
+            "limites",
+            "cableado",
+            "hay",
+            "aisladores",
+            "dan",
+            "alta"
+          ],
+          "need_groups": [
+            [
+              "capacidad",
+              "unidad",
+              "canal"
+            ],
+            [
+              "capacidad"
+            ],
+            [
+              "variante",
+              "revision"
+            ],
+            [
+              "terminales",
+              "polaridad"
+            ],
+            [
+              "pantalla",
+              "tierra"
+            ]
+          ],
+          "tsquery": "(equipos|admite|lazo|slc|limites|cableado|hay|aisladores|dan|alta)&(((capacidad|unidad|canal)&(capacidad))|((capacidad|unidad|canal)&(variante|revision))|((capacidad|unidad|canal)&(terminales|polaridad))|((capacidad|unidad|canal)&(pantalla|tierra))|((capacidad)&(variante|revision))|((capacidad)&(terminales|polaridad))|((capacidad)&(pantalla|tierra))|((variante|revision)&(terminales|polaridad))|((variante|revision)&(pantalla|tierra))|((terminales|polaridad)&(pantalla|tierra)))",
+          "tsquery_len": 480,
+          "trim": {
+            "trimmed": true,
+            "terms_removed": [
+              {
+                "group_index": 4,
+                "term": "shield"
+              },
+              {
+                "group_index": 3,
+                "term": "connection"
+              },
+              {
+                "group_index": 2,
+                "term": "maximo"
+              },
+              {
+                "group_index": 1,
+                "term": "capacity"
+              },
+              {
+                "group_index": 0,
+                "term": "loop"
+              },
+              {
+                "group_index": 4,
+                "term": "circuito"
+              },
+              {
+                "group_index": 3,
+                "term": "polarity"
+              },
+              {
+                "group_index": 2,
+                "term": "conflicto"
+              },
+              {
+                "group_index": 1,
+                "term": "system"
+              },
+              {
+                "group_index": 0,
+                "term": "unit"
+              },
+              {
+                "group_index": 4,
+                "term": "resistencia"
+              },
+              {
+                "group_index": 3,
+                "term": "terminals"
+              },
+              {
+                "group_index": 2,
+                "term": "documento"
+              },
+              {
+                "group_index": 1,
+                "term": "total"
+              },
+              {
+                "group_index": 0,
+                "term": "per"
+              },
+              {
+                "group_index": 4,
+                "term": "continuidad"
+              },
+              {
+                "group_index": 3,
+                "term": "conexion"
+              },
+              {
+                "group_index": 2,
+                "term": "mercado"
+              }
+            ],
+            "groups_removed": []
+          },
+          "sha256": "83b27894800b73b27d8e00bbb19a30194f267096215f7bc0f524b1839b8a58cb"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 3,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 1,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 2,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 3,
+            "n_terms": 2,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 4,
+            "n_terms": 2,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "cat017",
+      "query": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+      "is_control": false,
+      "is_probe": true,
+      "target_id": "b7633e98-b011-4035-9548-a564c71e70ac",
+      "scope_mode": "probe_target_document",
+      "scope_notes": [
+        "scope pinned to the target chunk b7633e98-b011-4035-9548-a564c71e70ac (chunk-derived anchor)"
+      ],
+      "scopes": [
+        {
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "extraction_sha256": "98018e3eec3efd1d9b8370232128b17e4026ac53cfbe5e52db686d67cc0dd7bc",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "manufacturer": "Notifier",
+          "product_model": "INSPIRE E10/E15",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": true,
+          "lineage_authority_status": "verified"
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "fetched",
+        "overflow": false,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 24,
+        "kept_chunk_index": [
+          1,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          14,
+          15,
+          21,
+          37,
+          40,
+          44,
+          46,
+          47,
+          49,
+          56,
+          59,
+          65,
+          67,
+          69,
+          73,
+          81
+        ],
+        "plan": {
+          "config": "v4",
+          "archetype": "connect_install_wire",
+          "archetypes": null,
+          "anchor_terms": [
+            "cablea",
+            "alta",
+            "configura",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(cablea|alta|configura|lazo)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 390,
+          "trim": null,
+          "sha256": "7cfe01000f1efd597c6c3094d3d60d29f64a643f682e2a78c03ccc6dda53b37f"
+        },
+        "waterfall": null,
+        "semantic_selected_id": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0
+          ],
+          "selected_id": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+          "selected_chunk_index": 46,
+          "group_index": 0,
+          "group_terms": [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado",
+            "terminals",
+            "polarity"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "ok",
+          "grades": [
+            1,
+            4,
+            1
+          ],
+          "selected_id": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+          "selected_chunk_index": 46,
+          "group_index": 0,
+          "group_terms": [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado",
+            "terminals",
+            "polarity"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 1,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 2,
+            "max_terms_hit_in_pool": 4
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 1
+          }
+        ],
+        "target_detail": {
+          "present": true,
+          "chunk_index": 4,
+          "candidate_rank": 1,
+          "content_len": 2205,
+          "per_group": [
+            {
+              "group_index": 0,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "cableado"
+              ]
+            },
+            {
+              "group_index": 1,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": null,
+              "hits": null
+            },
+            {
+              "group_index": 2,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "instalacion"
+              ]
+            }
+          ]
+        },
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+            "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+            "full_matched_count": 24,
+            "kept_count": 24,
+            "beyond_cut_count": 0,
+            "beyond_cut_chunk_index": [],
+            "overflow": false
+          }
+        ]
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "fetched",
+        "overflow": false,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 29,
+        "kept_chunk_index": [
+          1,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          14,
+          15,
+          17,
+          18,
+          21,
+          22,
+          24,
+          37,
+          40,
+          42,
+          44,
+          46,
+          47,
+          49,
+          50,
+          56,
+          59,
+          65,
+          67,
+          73,
+          81
+        ],
+        "plan": {
+          "config": "v5",
+          "archetype": "connect_install_wire",
+          "archetypes": [
+            "connect_install_wire",
+            "commissioning_setup"
+          ],
+          "anchor_terms": [
+            "cablea",
+            "alta",
+            "configura",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion"
+            ],
+            [
+              "sitio",
+              "edificio"
+            ]
+          ],
+          "tsquery": "(cablea|alta|configura|lazo)&(((terminales|polaridad|conexion|cableado)&(pantalla|tierra|continuidad|resistencia))|((terminales|polaridad|conexion|cableado)&(limites|seguridad|comprobacion|instalacion))|((terminales|polaridad|conexion|cableado)&(sitio|edificio))|((pantalla|tierra|continuidad|resistencia)&(limites|seguridad|comprobacion|instalacion))|((pantalla|tierra|continuidad|resistencia)&(sitio|edificio))|((limites|seguridad|comprobacion|instalacion)&(sitio|edificio)))",
+          "tsquery_len": 477,
+          "trim": {
+            "trimmed": true,
+            "terms_removed": [
+              {
+                "group_index": 3,
+                "term": "portal"
+              },
+              {
+                "group_index": 2,
+                "term": "safety"
+              },
+              {
+                "group_index": 1,
+                "term": "shield"
+              },
+              {
+                "group_index": 0,
+                "term": "polarity"
+              },
+              {
+                "group_index": 3,
+                "term": "bin"
+              },
+              {
+                "group_index": 2,
+                "term": "limits"
+              },
+              {
+                "group_index": 1,
+                "term": "circuito"
+              },
+              {
+                "group_index": 0,
+                "term": "terminals"
+              },
+              {
+                "group_index": 3,
+                "term": "licencia"
+              }
+            ],
+            "groups_removed": []
+          },
+          "sha256": "22e01daa5dd6f0b34c1c8646c2b1317f5a9525b6b4a7e7297534932bf9c20f1c"
+        },
+        "waterfall": [
+          {
+            "scope_rank": 1,
+            "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+            "observed_rows": 29,
+            "candidate_truncated": false,
+            "available_rows": 29,
+            "waterfall_quota": 64,
+            "retained": 29
+          }
+        ],
+        "semantic_selected_id": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "selected_id": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+          "selected_chunk_index": 46,
+          "group_index": 0,
+          "group_terms": [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "ok",
+          "grades": [
+            1,
+            3,
+            1,
+            0
+          ],
+          "selected_id": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+          "selected_chunk_index": 46,
+          "group_index": 0,
+          "group_terms": [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 1,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 1,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 1,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 2,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          },
+          {
+            "group_index": 3,
+            "n_terms": 2,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          }
+        ],
+        "target_detail": {
+          "present": true,
+          "chunk_index": 4,
+          "candidate_rank": 1,
+          "content_len": 2205,
+          "per_group": [
+            {
+              "group_index": 0,
+              "n_terms": 4,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "cableado"
+              ]
+            },
+            {
+              "group_index": 1,
+              "n_terms": 4,
+              "gated_by_A7": true,
+              "terms_hit": null,
+              "hits": null
+            },
+            {
+              "group_index": 2,
+              "n_terms": 4,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "instalacion"
+              ]
+            },
+            {
+              "group_index": 3,
+              "n_terms": 2,
+              "gated_by_A7": false,
+              "terms_hit": 2,
+              "hits": [
+                "edificio",
+                "sitio"
+              ]
+            }
+          ]
+        },
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+            "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+            "full_matched_count": 29,
+            "kept_count": 29,
+            "beyond_cut_count": 0,
+            "beyond_cut_chunk_index": [],
+            "overflow": false
+          }
+        ]
+      },
+      "delta": {
+        "classification": "GAIN",
+        "lane_blocked_reason": null,
+        "lane_blocked_rejections": null,
+        "candidate_volume_v4": 24,
+        "candidate_volume_v5": 29,
+        "candidate_volume_delta": 5,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "v5_semantic_selected": "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "v5_facet_selected": "a01755a8-07ee-4bfe-9ea1-2910327072ff",
+        "gained_ids": [
+          "a01755a8-07ee-4bfe-9ea1-2910327072ff"
+        ],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "probe_verdict": {
+        "verdict": "NOT_SELECTED",
+        "reason": "target is a candidate but NOT eligible: no ≥N_FACET(=3) window on any A7-gated (≥3-term) need-group (max terms_hit in target=2). Per-group: ['g0(4t,gated=True):terms_hit=1', 'g1(4t,gated=True):terms_hit=None', 'g2(4t,gated=True):terms_hit=1', 'g3(2t,gated=False):terms_hit=2']. Facet winner = a01755a8-07ee-4bfe-9ea1-2910327072ff (chunk_index 46, group 0, 3 terms)."
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "cat018",
+      "query": "¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200 para que un evento active una salida?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (AM-8200-manu-prog-spa); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+          "extraction_sha256": "f090c0b42b5266724e79a1a18a892cddc8c2530b333abd38eb83af94bf7611ee",
+          "source_file": "AM-8200-manu-prog-spa",
+          "manufacturer": "Notifier",
+          "product_model": "AM-8200",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": null,
+          "anchor_terms": [
+            "programa",
+            "ecuacion",
+            "causa",
+            "efecto",
+            "cbe",
+            "evento",
+            "active",
+            "salida"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "matriz",
+              "coincidencia",
+              "condition"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|ecuacion|causa|efecto|cbe|evento|active|salida)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|matriz|coincidencia|condition))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|matriz|coincidencia|condition)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 391,
+          "trim": null,
+          "sha256": "71f366ef27308d9329a7a0c1c17733e7f17b9dd74f8764228625caa891b65780"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": [
+            "program_delay_cause_effect"
+          ],
+          "anchor_terms": [
+            "programa",
+            "ecuacion",
+            "causa",
+            "efecto",
+            "cbe",
+            "evento",
+            "active",
+            "salida"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "matriz",
+              "coincidencia",
+              "condition"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|ecuacion|causa|efecto|cbe|evento|active|salida)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|matriz|coincidencia|condition))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|matriz|coincidencia|condition)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 391,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "2ea1c1eb6118ff4c7a813dae66108d196cb8c1fc57d5d909d990ec6583220672"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "cat019",
+      "query": "¿Como se configura una maniobra (causa-efecto) completa en la Detnov CAD-250: como se crea, como se definen las entradas/eventos que la disparan y como se asignan las salidas?",
+      "is_control": false,
+      "is_probe": true,
+      "target_id": "f68f2d40-cad2-4a0f-9045-9637928456aa",
+      "scope_mode": "probe_target_document",
+      "scope_notes": [
+        "scope pinned to the target chunk f68f2d40-cad2-4a0f-9045-9637928456aa (chunk-derived anchor)"
+      ],
+      "scopes": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "manufacturer": "Detnov",
+          "product_model": "CAD-250",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": true,
+          "lineage_authority_status": "verified"
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "candidate_cap_exceeded",
+        "overflow": true,
+        "authorities": 0,
+        "authority_rejections": null,
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": null,
+          "anchor_terms": [
+            "configura",
+            "maniobra",
+            "causa",
+            "efecto",
+            "completa",
+            "crea",
+            "definen",
+            "entradas",
+            "eventos",
+            "disparan"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "matriz",
+              "coincidencia",
+              "condition"
+            ],
+            [
+              "accion",
+              "salida",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito"
+            ]
+          ],
+          "tsquery": "(configura|maniobra|causa|efecto|completa|crea|definen|entradas|eventos|disparan)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|matriz|coincidencia|condition))|((ruta|menu|programacion|edicion|route|programming)&(accion|salida|seleccionar|aplicar|transferir|circuito))|((condicion|entrada|regla|matriz|coincidencia|condition)&(accion|salida|seleccionar|aplicar|transferir|circuito)))",
+          "tsquery_len": 415,
+          "trim": null,
+          "sha256": "7f2578cc5370a984d35c9ad344fd8956a5219cda2a8adefdecbf4fa3eef19a19"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": {
+          "present": false
+        },
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "fetched",
+        "overflow": true,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 64,
+        "kept_chunk_index": [
+          7,
+          12,
+          14,
+          15,
+          18,
+          24,
+          26,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          42,
+          44,
+          46,
+          48,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          62,
+          63,
+          64,
+          65,
+          66,
+          69,
+          70,
+          72,
+          74,
+          75,
+          78,
+          79,
+          80,
+          81,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "plan": {
+          "config": "v5",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": [
+            "program_delay_cause_effect"
+          ],
+          "anchor_terms": [
+            "configura",
+            "maniobra",
+            "causa",
+            "efecto",
+            "completa",
+            "crea",
+            "definen",
+            "entradas",
+            "eventos",
+            "disparan"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "matriz",
+              "coincidencia",
+              "condition"
+            ],
+            [
+              "accion",
+              "salida",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito"
+            ]
+          ],
+          "tsquery": "(configura|maniobra|causa|efecto|completa|crea|definen|entradas|eventos|disparan)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|matriz|coincidencia|condition))|((ruta|menu|programacion|edicion|route|programming)&(accion|salida|seleccionar|aplicar|transferir|circuito))|((condicion|entrada|regla|matriz|coincidencia|condition)&(accion|salida|seleccionar|aplicar|transferir|circuito)))",
+          "tsquery_len": 415,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "1ac6ed01499075e76a653af657ecee8d5841492e575b53aaf286d9e9deef3bcd"
+        },
+        "waterfall": [
+          {
+            "scope_rank": 1,
+            "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf",
+            "observed_rows": ">=65",
+            "candidate_truncated": true,
+            "available_rows": 64,
+            "waterfall_quota": 64,
+            "retained": 64
+          }
+        ],
+        "semantic_selected_id": "d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0
+          ],
+          "selected_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "selected_chunk_index": 88,
+          "group_index": 2,
+          "group_terms": [
+            "accion",
+            "salida",
+            "seleccionar",
+            "aplicar",
+            "transferir",
+            "circuito"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "ok",
+          "grades": [
+            2,
+            2,
+            1
+          ],
+          "selected_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "selected_chunk_index": 88,
+          "group_index": 2,
+          "group_terms": [
+            "accion",
+            "salida",
+            "seleccionar",
+            "aplicar",
+            "transferir",
+            "circuito"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 2,
+            "max_terms_hit_in_pool": 3
+          }
+        ],
+        "target_detail": {
+          "present": true,
+          "chunk_index": 14,
+          "candidate_rank": 2,
+          "content_len": 3008,
+          "per_group": [
+            {
+              "group_index": 0,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "programacion"
+              ]
+            },
+            {
+              "group_index": 1,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": null,
+              "hits": null
+            },
+            {
+              "group_index": 2,
+              "n_terms": 6,
+              "gated_by_A7": true,
+              "terms_hit": 1,
+              "hits": [
+                "salida"
+              ]
+            }
+          ]
+        },
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf",
+            "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+            "full_matched_count": 81,
+            "kept_count": 64,
+            "beyond_cut_count": 17,
+            "beyond_cut_chunk_index": [
+              103,
+              104,
+              105,
+              108,
+              110,
+              117,
+              118,
+              121,
+              123,
+              125,
+              126,
+              127,
+              128,
+              129,
+              131,
+              133,
+              134
+            ],
+            "overflow": true
+          }
+        ]
+      },
+      "delta": {
+        "classification": "GAIN",
+        "lane_blocked_reason": null,
+        "lane_blocked_rejections": null,
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 64,
+        "candidate_volume_delta": 64,
+        "overflow_v4": true,
+        "overflow_v5": true,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": "d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c",
+        "v5_facet_selected": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+        "gained_ids": [
+          "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "d27aaa9e-a6e1-4245-a3f3-2cdef3f5be4c"
+        ],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "probe_verdict": {
+        "verdict": "NOT_SELECTED",
+        "reason": "target is a candidate but NOT eligible: no ≥N_FACET(=3) window on any A7-gated (≥3-term) need-group (max terms_hit in target=1). Per-group: ['g0(6t,gated=True):terms_hit=1', 'g1(6t,gated=True):terms_hit=None', 'g2(6t,gated=True):terms_hit=1']. Facet winner = 3d0273cf-dd42-4e48-89c3-a37e588396ca (chunk_index 88, group 2, 3 terms)."
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp002",
+      "query": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (ASD535_TD_T131192es_h); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "extraction_sha256": "143d462c2cdfc4f95078cdc880e7c56f98638ac3d7c9c113c43acc2ec544c54e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "manufacturer": "Securiton",
+          "product_model": "ASD535",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "fault_reset_recovery",
+          "archetypes": null,
+          "anchor_terms": [
+            "detector",
+            "detnov",
+            "esta",
+            "dando",
+            "alarma",
+            "intermitente",
+            "flujo",
+            "bajo",
+            "causa",
+            "mas"
+          ],
+          "need_groups": [
+            [
+              "condicion",
+              "activa",
+              "enclavada",
+              "inhibicion",
+              "bloqueo",
+              "abort"
+            ],
+            [
+              "temporizador",
+              "duracion",
+              "tiempo",
+              "intervalo",
+              "evento",
+              "rearme"
+            ],
+            [
+              "diagnostico",
+              "comprobacion",
+              "recuperacion",
+              "normal",
+              "reposo",
+              "averia"
+            ]
+          ],
+          "tsquery": "(detector|detnov|esta|dando|alarma|intermitente|flujo|bajo|causa|mas)&(((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(temporizador|duracion|tiempo|intervalo|evento|rearme))|((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(diagnostico|comprobacion|recuperacion|normal|reposo|averia))|((temporizador|duracion|tiempo|intervalo|evento|rearme)&(diagnostico|comprobacion|recuperacion|normal|reposo|averia)))",
+          "tsquery_len": 417,
+          "trim": null,
+          "sha256": "ee5a398fdc454dd2cdba93361a7e291f22517f831a2d0987a184ee729dcabdba"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "fault_reset_recovery",
+          "archetypes": [
+            "fault_reset_recovery"
+          ],
+          "anchor_terms": [
+            "detector",
+            "detnov",
+            "esta",
+            "dando",
+            "alarma",
+            "intermitente",
+            "flujo",
+            "bajo",
+            "causa",
+            "mas"
+          ],
+          "need_groups": [
+            [
+              "condicion",
+              "activa",
+              "enclavada",
+              "inhibicion",
+              "bloqueo",
+              "abort"
+            ],
+            [
+              "temporizador",
+              "duracion",
+              "tiempo",
+              "intervalo",
+              "evento",
+              "rearme"
+            ],
+            [
+              "diagnostico",
+              "comprobacion",
+              "recuperacion",
+              "normal",
+              "reposo",
+              "averia"
+            ]
+          ],
+          "tsquery": "(detector|detnov|esta|dando|alarma|intermitente|flujo|bajo|causa|mas)&(((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(temporizador|duracion|tiempo|intervalo|evento|rearme))|((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(diagnostico|comprobacion|recuperacion|normal|reposo|averia))|((temporizador|duracion|tiempo|intervalo|evento|rearme)&(diagnostico|comprobacion|recuperacion|normal|reposo|averia)))",
+          "tsquery_len": 417,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "b0c81a56bbef29659d512d0ab4735500c75131ee71ecee69baf61518239bc416"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp003",
+      "query": "¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+          "extraction_sha256": "0f9729fe8e5985fd1a4c82b50a6090e561305b7df1b30c0493be7cbe4530fef6",
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+          "manufacturer": "Detnov",
+          "product_model": "CAD-150-8",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "connect_install_wire",
+          "archetypes": null,
+          "anchor_terms": [
+            "conectan",
+            "baterias",
+            "24v"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conectan|baterias|24v)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 385,
+          "trim": null,
+          "sha256": "21bda52062e576e17ea94f0ce1141e02ad8001e177fc062f46448d32a60520ec"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "connect_install_wire",
+          "archetypes": [
+            "connect_install_wire"
+          ],
+          "anchor_terms": [
+            "conectan",
+            "baterias",
+            "24v"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conectan|baterias|24v)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 385,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "75baf7dad96ee0dc7cd4d32e0fb2859e60814f8fa304244f2630e302b6f5b5d0"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp005",
+      "query": "En la Notifier ID3000, ¿cómo se programa una zona para que active una salida de sirena solo cuando haya coincidencia de dos detectores?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (MPDT190, MCDT191); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+          "extraction_sha256": "c228d8df52d1630b4fa26eb3f9731bc9e81a696b017eb31127d90ec0b4a6834a",
+          "source_file": "MPDT190",
+          "manufacturer": "Notifier",
+          "product_model": "ID3000",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        },
+        {
+          "document_id": "53004592-9a57-4c00-ba0b-f5166a6a5418",
+          "extraction_sha256": "931695e0f0a0210d741fd94bb7afa9ee4c10450968d928176926fd0f4fdb13eb",
+          "source_file": "MCDT191",
+          "manufacturer": "Notifier",
+          "product_model": "ID3000",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        },
+        {
+          "document_id": "53004592-9a57-4c00-ba0b-f5166a6a5418",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": null,
+          "anchor_terms": [
+            "programa",
+            "zona",
+            "active",
+            "salida",
+            "sirena",
+            "solo",
+            "cuando",
+            "haya",
+            "coincidencia",
+            "dos"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|zona|active|salida|sirena|solo|cuando|haya|coincidencia|dos)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 384,
+          "trim": null,
+          "sha256": "f8204bcb803a13ede7ae5b7dc074acf4191d44221bd3e922feeea3872670aaa8"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": [
+            "program_delay_cause_effect"
+          ],
+          "anchor_terms": [
+            "programa",
+            "zona",
+            "active",
+            "salida",
+            "sirena",
+            "solo",
+            "cuando",
+            "haya",
+            "coincidencia",
+            "dos"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|zona|active|salida|sirena|solo|cuando|haya|coincidencia|dos)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 384,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "29d555291198127e2c27de38c0ea4997228c0f61205a1e23496b74b0418c23d2"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp011",
+      "query": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "governed_source_contract",
+      "scope_notes": [
+        "real production governed anchor route"
+      ],
+      "scopes": [
+        {
+          "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+          "extraction_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+          "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+          "manufacturer": "Notifier",
+          "product_model": "RP1r",
+          "document_local_anchor_route": "governed_source_contract"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": true,
+          "lineage_authority_status": "verified"
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "fetched",
+        "overflow": false,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 49,
+        "kept_chunk_index": [
+          1,
+          2,
+          4,
+          15,
+          16,
+          19,
+          23,
+          25,
+          26,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          37,
+          40,
+          42,
+          43,
+          44,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          55,
+          56,
+          57,
+          58,
+          59,
+          62,
+          67,
+          68,
+          69,
+          70,
+          71,
+          74,
+          76,
+          77,
+          78,
+          80,
+          82,
+          84,
+          86,
+          87,
+          89,
+          91,
+          92
+        ],
+        "plan": {
+          "config": "v4",
+          "archetype": "fault_reset_recovery",
+          "archetypes": null,
+          "anchor_terms": [
+            "morley",
+            "despues",
+            "descargar",
+            "extincion",
+            "vuelve",
+            "estado",
+            "normal",
+            "tras",
+            "resetear"
+          ],
+          "need_groups": [
+            [
+              "condicion",
+              "activa",
+              "enclavada",
+              "inhibicion",
+              "bloqueo",
+              "abort"
+            ],
+            [
+              "temporizador",
+              "duracion",
+              "tiempo",
+              "intervalo",
+              "evento",
+              "rearme"
+            ],
+            [
+              "diagnostico",
+              "comprobacion",
+              "recuperacion",
+              "reposo",
+              "averia",
+              "diagnostic"
+            ]
+          ],
+          "tsquery": "(morley|despues|descargar|extincion|vuelve|estado|normal|tras|resetear)&(((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(temporizador|duracion|tiempo|intervalo|evento|rearme))|((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(diagnostico|comprobacion|recuperacion|reposo|averia|diagnostic))|((temporizador|duracion|tiempo|intervalo|evento|rearme)&(diagnostico|comprobacion|recuperacion|reposo|averia|diagnostic)))",
+          "tsquery_len": 427,
+          "trim": null,
+          "sha256": "aa14a5dd48891c9741d90007f6fffdf867ec1934097bb1e40a27a803d89cc2bb"
+        },
+        "waterfall": null,
+        "semantic_selected_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0
+          ],
+          "selected_id": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+          "selected_chunk_index": 57,
+          "group_index": 0,
+          "group_terms": [
+            "condicion",
+            "activa",
+            "enclavada",
+            "inhibicion",
+            "bloqueo",
+            "abort"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "ok",
+          "grades": [
+            0,
+            3,
+            0
+          ],
+          "selected_id": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+          "selected_chunk_index": 57,
+          "group_index": 0,
+          "group_terms": [
+            "condicion",
+            "activa",
+            "enclavada",
+            "inhibicion",
+            "bloqueo",
+            "abort"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 1,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 2,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          }
+        ],
+        "target_detail": null,
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+            "full_matched_count": 49,
+            "kept_count": 49,
+            "beyond_cut_count": 0,
+            "beyond_cut_chunk_index": [],
+            "overflow": false
+          }
+        ]
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "fetched",
+        "overflow": false,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 49,
+        "kept_chunk_index": [
+          1,
+          2,
+          4,
+          15,
+          16,
+          19,
+          23,
+          25,
+          26,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          37,
+          40,
+          42,
+          43,
+          44,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          55,
+          56,
+          57,
+          58,
+          59,
+          62,
+          67,
+          68,
+          69,
+          70,
+          71,
+          74,
+          76,
+          77,
+          78,
+          80,
+          82,
+          84,
+          86,
+          87,
+          89,
+          91,
+          92
+        ],
+        "plan": {
+          "config": "v5",
+          "archetype": "fault_reset_recovery",
+          "archetypes": [
+            "fault_reset_recovery"
+          ],
+          "anchor_terms": [
+            "morley",
+            "despues",
+            "descargar",
+            "extincion",
+            "vuelve",
+            "estado",
+            "normal",
+            "tras",
+            "resetear"
+          ],
+          "need_groups": [
+            [
+              "condicion",
+              "activa",
+              "enclavada",
+              "inhibicion",
+              "bloqueo",
+              "abort"
+            ],
+            [
+              "temporizador",
+              "duracion",
+              "tiempo",
+              "intervalo",
+              "evento",
+              "rearme"
+            ],
+            [
+              "diagnostico",
+              "comprobacion",
+              "recuperacion",
+              "reposo",
+              "averia",
+              "diagnostic"
+            ]
+          ],
+          "tsquery": "(morley|despues|descargar|extincion|vuelve|estado|normal|tras|resetear)&(((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(temporizador|duracion|tiempo|intervalo|evento|rearme))|((condicion|activa|enclavada|inhibicion|bloqueo|abort)&(diagnostico|comprobacion|recuperacion|reposo|averia|diagnostic))|((temporizador|duracion|tiempo|intervalo|evento|rearme)&(diagnostico|comprobacion|recuperacion|reposo|averia|diagnostic)))",
+          "tsquery_len": 427,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "21333846af9c54a9cb952a1b6798753982e5cdb829156da843676f25a17230de"
+        },
+        "waterfall": [
+          {
+            "scope_rank": 1,
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "observed_rows": 49,
+            "candidate_truncated": false,
+            "available_rows": 49,
+            "waterfall_quota": 64,
+            "retained": 49
+          }
+        ],
+        "semantic_selected_id": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0
+          ],
+          "selected_id": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+          "selected_chunk_index": 57,
+          "group_index": 0,
+          "group_terms": [
+            "condicion",
+            "activa",
+            "enclavada",
+            "inhibicion",
+            "bloqueo",
+            "abort"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "ok",
+          "grades": [
+            0,
+            3,
+            0
+          ],
+          "selected_id": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+          "selected_chunk_index": 57,
+          "group_index": 0,
+          "group_terms": [
+            "condicion",
+            "activa",
+            "enclavada",
+            "inhibicion",
+            "bloqueo",
+            "abort"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 1,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 2,
+            "max_terms_hit_in_pool": 3
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          }
+        ],
+        "target_detail": null,
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+            "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+            "full_matched_count": 49,
+            "kept_count": 49,
+            "beyond_cut_count": 0,
+            "beyond_cut_chunk_index": [],
+            "overflow": false
+          }
+        ]
+      },
+      "delta": {
+        "classification": "GAIN",
+        "lane_blocked_reason": null,
+        "lane_blocked_rejections": null,
+        "candidate_volume_v4": 49,
+        "candidate_volume_v5": 49,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+        "v5_semantic_selected": "475a8f18-7c69-4c7a-8111-45bd67334c96",
+        "v5_facet_selected": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+        "gained_ids": [
+          "18140a8a-ab2c-40d4-a81f-2532fbe1b838"
+        ],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp012",
+      "query": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (MFDT280, MPDT280, 15088SP); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "extraction_sha256": "8f7d50811fb97bd69ecef30ac4aa8706e90ee1ebf49f276a8794ded8421edee8",
+          "source_file": "15088SP",
+          "manufacturer": "Notifier",
+          "product_model": "AM-2020",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        },
+        {
+          "document_id": "cf5eadeb-a666-4f99-ad5c-3131ba4af129",
+          "extraction_sha256": "8a39ebe71dde348162e13d464ee89b81969915caef7dc1417a632be56c6e129f",
+          "source_file": "MFDT280",
+          "manufacturer": "Notifier",
+          "product_model": "AM2020 y AFP1010",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        },
+        {
+          "document_id": "cf5eadeb-a666-4f99-ad5c-3131ba4af129",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "capacity_quantity",
+          "archetypes": null,
+          "anchor_terms": [
+            "lazos",
+            "direccionables",
+            "soporta",
+            "dispositivos",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "capacidad",
+              "unidad",
+              "canal",
+              "per",
+              "unit",
+              "loop"
+            ],
+            [
+              "capacidad",
+              "total",
+              "system",
+              "capacity"
+            ],
+            [
+              "variante",
+              "revision",
+              "mercado",
+              "documento",
+              "conflicto",
+              "maximo"
+            ]
+          ],
+          "tsquery": "(lazos|direccionables|soporta|dispositivos|lazo)&(((capacidad|unidad|canal|per|unit|loop)&(capacidad|total|system|capacity))|((capacidad|unidad|canal|per|unit|loop)&(variante|revision|mercado|documento|conflicto|maximo))|((capacidad|total|system|capacity)&(variante|revision|mercado|documento|conflicto|maximo)))",
+          "tsquery_len": 312,
+          "trim": null,
+          "sha256": "f538413d4cedb52e6a5b038e1ee1650a7ee9b6c9cf59aa261fc49d7682d46734"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "capacity_quantity",
+          "archetypes": [
+            "capacity_quantity"
+          ],
+          "anchor_terms": [
+            "lazos",
+            "direccionables",
+            "soporta",
+            "dispositivos",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "capacidad",
+              "unidad",
+              "canal",
+              "per",
+              "unit",
+              "loop"
+            ],
+            [
+              "capacidad",
+              "total",
+              "system",
+              "capacity"
+            ],
+            [
+              "variante",
+              "revision",
+              "mercado",
+              "documento",
+              "conflicto",
+              "maximo"
+            ]
+          ],
+          "tsquery": "(lazos|direccionables|soporta|dispositivos|lazo)&(((capacidad|unidad|canal|per|unit|loop)&(capacidad|total|system|capacity))|((capacidad|unidad|canal|per|unit|loop)&(variante|revision|mercado|documento|conflicto|maximo))|((capacidad|total|system|capacity)&(variante|revision|mercado|documento|conflicto|maximo)))",
+          "tsquery_len": 312,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "5ec920cca543080c0583b686c0b9bc4549f7ac2db07638b21a371d00712ad5b9"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 4,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage",
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp013",
+      "query": "¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (ADW535_TD_T140358es_e); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+          "extraction_sha256": "47c9758b13ecbc1c6c7a29e1703361151e363580a56d3180a7bb8ff27af7ae1f",
+          "source_file": "ADW535_TD_T140358es_e",
+          "manufacturer": "Securiton",
+          "product_model": "ADW535",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "replace_without_loss",
+          "archetypes": null,
+          "anchor_terms": [
+            "cambia",
+            "bateria",
+            "tampon",
+            "detnov",
+            "sin",
+            "perder",
+            "configuracion"
+          ],
+          "need_groups": [
+            [
+              "componente",
+              "reloj",
+              "component",
+              "battery",
+              "rtc",
+              "clock"
+            ],
+            [
+              "alimentacion",
+              "principal",
+              "respaldo",
+              "redundancia",
+              "main",
+              "backup"
+            ],
+            [
+              "memoria",
+              "persistente",
+              "eeprom",
+              "conservar",
+              "persistent",
+              "memory"
+            ]
+          ],
+          "tsquery": "(cambia|bateria|tampon|detnov|sin|perder|configuracion)&(((componente|reloj|component|battery|rtc|clock)&(alimentacion|principal|respaldo|redundancia|main|backup))|((componente|reloj|component|battery|rtc|clock)&(memoria|persistente|eeprom|conservar|persistent|memory))|((alimentacion|principal|respaldo|redundancia|main|backup)&(memoria|persistente|eeprom|conservar|persistent|memory)))",
+          "tsquery_len": 387,
+          "trim": null,
+          "sha256": "7d88c857d9232bf65b79c1df1ea4d2062119aade7618b6ed78d1ca12f7c17f11"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "replace_without_loss",
+          "archetypes": [
+            "replace_without_loss"
+          ],
+          "anchor_terms": [
+            "cambia",
+            "bateria",
+            "tampon",
+            "detnov",
+            "sin",
+            "perder",
+            "configuracion"
+          ],
+          "need_groups": [
+            [
+              "componente",
+              "reloj",
+              "component",
+              "battery",
+              "rtc",
+              "clock"
+            ],
+            [
+              "alimentacion",
+              "principal",
+              "respaldo",
+              "redundancia",
+              "main",
+              "backup"
+            ],
+            [
+              "memoria",
+              "persistente",
+              "eeprom",
+              "conservar",
+              "persistent",
+              "memory"
+            ]
+          ],
+          "tsquery": "(cambia|bateria|tampon|detnov|sin|perder|configuracion)&(((componente|reloj|component|battery|rtc|clock)&(alimentacion|principal|respaldo|redundancia|main|backup))|((componente|reloj|component|battery|rtc|clock)&(memoria|persistente|eeprom|conservar|persistent|memory))|((alimentacion|principal|respaldo|redundancia|main|backup)&(memoria|persistente|eeprom|conservar|persistent|memory)))",
+          "tsquery_len": 387,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "b1ff3818387cf39f36342707db43cca862e8142c987f78d496d26f1f3d1a3ded"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp014",
+      "query": "¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (MIDT180); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+          "extraction_sha256": "28d55702e22a558f39771aae39782ee80f9390ed237f214cad9c76a2c75a70c6",
+          "source_file": "MIDT180",
+          "manufacturer": "Notifier",
+          "product_model": "ID2000",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "connect_install_wire",
+          "archetypes": null,
+          "anchor_terms": [
+            "conecta",
+            "modulo",
+            "aislamiento",
+            "linea",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conecta|modulo|aislamiento|linea|lazo)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 401,
+          "trim": null,
+          "sha256": "adf607d8167c2b448a2af972b0ceb622b2d8a5eee100898dd03da5ee475f3181"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "connect_install_wire",
+          "archetypes": [
+            "connect_install_wire"
+          ],
+          "anchor_terms": [
+            "conecta",
+            "modulo",
+            "aislamiento",
+            "linea",
+            "lazo"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conecta|modulo|aislamiento|linea|lazo)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 401,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "ce268629fe5255e12fb4268d74f2cca1f302162d28748b196e9711f928bc1a04"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp017",
+      "query": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (997-671-005-3_Configuration_ES); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "extraction_sha256": "bcde98794ae968ac43ed5367be231cd5d70f15bc06135c50673360ebc271296b",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "manufacturer": "Notifier",
+          "product_model": "Pearl",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": null,
+          "anchor_terms": [
+            "programa",
+            "retardo",
+            "salida",
+            "alarma",
+            "principal"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|retardo|salida|alarma|principal)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 356,
+          "trim": null,
+          "sha256": "e0b35c613427cef4143ef0cf34ff91e915a5e620d365e59f43bc8adc6aaa2140"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": [
+            "program_delay_cause_effect"
+          ],
+          "anchor_terms": [
+            "programa",
+            "retardo",
+            "salida",
+            "alarma",
+            "principal"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito",
+              "equipo"
+            ]
+          ],
+          "tsquery": "(programa|retardo|salida|alarma|principal)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|seleccionar|aplicar|transferir|circuito|equipo))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|seleccionar|aplicar|transferir|circuito|equipo)))",
+          "tsquery_len": 356,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "db553c50705a5586224b884b768132e8c9e3ca971795b0b15d166f625951f775"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp018",
+      "query": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (MIE-MI-530rv001); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "extraction_sha256": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+          "source_file": "MIE-MI-530rv001",
+          "manufacturer": "Morley",
+          "product_model": "ZX2e/ZX5e",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "connect_install_wire",
+          "archetypes": null,
+          "anchor_terms": [
+            "conecta",
+            "sirena",
+            "convencional",
+            "salidas",
+            "zxe"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conecta|sirena|convencional|salidas|zxe)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 403,
+          "trim": null,
+          "sha256": "15977c92363e6bcc286482d50fd8e01141ed717ece9a46a868e9af07cc108493"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "connect_install_wire",
+          "archetypes": [
+            "connect_install_wire"
+          ],
+          "anchor_terms": [
+            "conecta",
+            "sirena",
+            "convencional",
+            "salidas",
+            "zxe"
+          ],
+          "need_groups": [
+            [
+              "terminales",
+              "polaridad",
+              "conexion",
+              "cableado",
+              "terminals",
+              "polarity"
+            ],
+            [
+              "pantalla",
+              "tierra",
+              "continuidad",
+              "resistencia",
+              "circuito",
+              "shield"
+            ],
+            [
+              "limites",
+              "seguridad",
+              "comprobacion",
+              "instalacion",
+              "limits",
+              "safety"
+            ]
+          ],
+          "tsquery": "(conecta|sirena|convencional|salidas|zxe)&(((terminales|polaridad|conexion|cableado|terminals|polarity)&(pantalla|tierra|continuidad|resistencia|circuito|shield))|((terminales|polaridad|conexion|cableado|terminals|polarity)&(limites|seguridad|comprobacion|instalacion|limits|safety))|((pantalla|tierra|continuidad|resistencia|circuito|shield)&(limites|seguridad|comprobacion|instalacion|limits|safety)))",
+          "tsquery_len": 403,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "61d3232f97ea93cf6a7a77feeb2407caaf6afca31e7992d3a0037925d1e58aa2"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp009",
+      "query": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (MIE-MI-530rv001, e-series ZXe) — PRIMARIA; MIE-MI-310); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "extraction_sha256": "18518a293c1fdf6c18882cdaff5f3541de44a9a5c72ead0fc94daf82ea4eb97d",
+          "source_file": "MIE-MI-530rv001",
+          "manufacturer": "Morley",
+          "product_model": "ZX2e/ZX5e",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "loop_eol_topology",
+          "archetypes": null,
+          "anchor_terms": [
+            "resistencia",
+            "fin",
+            "linea",
+            "recomendada",
+            "lazos",
+            "zxe"
+          ],
+          "need_groups": [
+            [
+              "topologia",
+              "lazo",
+              "cerrado",
+              "inicio",
+              "retorno",
+              "salida"
+            ],
+            [
+              "terminacion",
+              "eol",
+              "rfl",
+              "end",
+              "line",
+              "resistor"
+            ],
+            [
+              "bornes",
+              "cableado",
+              "continuidad",
+              "terminals",
+              "wiring",
+              "continuity"
+            ]
+          ],
+          "tsquery": "(resistencia|fin|linea|recomendada|lazos|zxe)&(((topologia|lazo|cerrado|inicio|retorno|salida)&(terminacion|eol|rfl|end|line|resistor))|((topologia|lazo|cerrado|inicio|retorno|salida)&(bornes|cableado|continuidad|terminals|wiring|continuity))|((terminacion|eol|rfl|end|line|resistor)&(bornes|cableado|continuidad|terminals|wiring|continuity)))",
+          "tsquery_len": 343,
+          "trim": null,
+          "sha256": "5592a60159b3ab58e3d277b6304b4e3843bae239d8e43e788e49f231f8d544bf"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "loop_eol_topology",
+          "archetypes": [
+            "loop_eol_topology"
+          ],
+          "anchor_terms": [
+            "resistencia",
+            "fin",
+            "linea",
+            "recomendada",
+            "lazos",
+            "zxe"
+          ],
+          "need_groups": [
+            [
+              "topologia",
+              "lazo",
+              "cerrado",
+              "inicio",
+              "retorno",
+              "salida"
+            ],
+            [
+              "terminacion",
+              "eol",
+              "rfl",
+              "end",
+              "line",
+              "resistor"
+            ],
+            [
+              "bornes",
+              "cableado",
+              "continuidad",
+              "terminals",
+              "wiring",
+              "continuity"
+            ]
+          ],
+          "tsquery": "(resistencia|fin|linea|recomendada|lazos|zxe)&(((topologia|lazo|cerrado|inicio|retorno|salida)&(terminacion|eol|rfl|end|line|resistor))|((topologia|lazo|cerrado|inicio|retorno|salida)&(bornes|cableado|continuidad|terminals|wiring|continuity))|((terminacion|eol|rfl|end|line|resistor)&(bornes|cableado|continuidad|terminals|wiring|continuity)))",
+          "tsquery_len": 343,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "c6fbc97d526a9282f3c6ffc1b0a01fbaa879bd1961dd1d283fa4587819b4403a"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "hp010",
+      "query": "En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta en marcha inicial?",
+      "is_control": false,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "catalog_gold_source_pinned",
+      "scope_notes": [
+        "catalog resolved_documents ∩ gold source (DXc_Manual de configuracion, Eventos-Averias-de-Equipos-en-DXc); active/es revision; anchor-route provenance is a proxy (D1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+          "extraction_sha256": "0c39ed5a44fa2e1d6283d98e5b2cac4037bf08aa00309eb816db3277eba25515",
+          "source_file": "DXc_Manual de configuracion",
+          "manufacturer": "Morley",
+          "product_model": "DXc",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "d1299a40-5128-464d-b8d7-1c8c2b86562c",
+          "found": true,
+          "status": "active",
+          "language": null,
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": true,
+          "source_pdf_sha256_valid_64hex": false,
+          "revision_lineage_id_present": false,
+          "lineage_authority_status": null
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": null,
+          "archetypes": null,
+          "anchor_terms": [
+            "anade",
+            "nuevo",
+            "detector",
+            "lazo",
+            "tras",
+            "puesta",
+            "marcha",
+            "inicial"
+          ],
+          "need_groups": [
+            [
+              "morley",
+              "dxc"
+            ]
+          ],
+          "tsquery": "(anade|nuevo|detector|lazo|tras|puesta|marcha|inicial)&(morley|dxc)",
+          "tsquery_len": 67,
+          "trim": null,
+          "sha256": "2512fa11555e3e2db19436ca8864e947897914fd5e7097d1eff8635b554d7459"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "skipped_no_uncovered_group",
+          "grades": [
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "skipped_no_uncovered_group",
+          "grades": [
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 2,
+            "gated_by_A7": false,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "unverified_document_lineage",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v5",
+          "archetype": "commissioning_setup",
+          "archetypes": [
+            "commissioning_setup"
+          ],
+          "anchor_terms": [
+            "anade",
+            "nuevo",
+            "detector",
+            "lazo",
+            "tras",
+            "puesta",
+            "marcha",
+            "inicial"
+          ],
+          "need_groups": [
+            [
+              "sitio",
+              "edificio",
+              "licencia",
+              "bin",
+              "alta",
+              "portal"
+            ]
+          ],
+          "tsquery": "(anade|nuevo|detector|lazo|tras|puesta|marcha|inicial)&(sitio|edificio|licencia|bin|alta|portal)",
+          "tsquery_len": 96,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "eadd1e57889dc2fe00317447bb9a17ef77a81f453ae55869d801bf2fcf450956"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "unverified_document_lineage",
+        "lane_blocked_rejections": [
+          "unverified_document_lineage"
+        ],
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "ctrl_offtopic_mc380",
+      "query": "¿Como se configura la grabacion continua y la deteccion de movimiento en la camara CCTV Hikvision DS-2CD2143?",
+      "is_control": true,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "control_mc380_pinned",
+      "scope_notes": [
+        "control scoped to MC-380 (348c4ec1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "manufacturer": "Detnov",
+          "product_model": "CAD-250",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": true,
+          "lineage_authority_status": "verified"
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "no_bounded_query_plan",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": null,
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": null,
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": false,
+          "served_rows": 0
+        },
+        "facet_lane_served": {
+          "applicable": false,
+          "served_rows": 0
+        },
+        "eligibility": [],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "blocked_tsquery_unrepresentable",
+        "overflow": false,
+        "authorities": 0,
+        "authority_rejections": null,
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": null,
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": false,
+          "served_rows": 0
+        },
+        "facet_lane_served": {
+          "applicable": false,
+          "served_rows": 0
+        },
+        "eligibility": [],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "delta": {
+        "classification": "LANE_BLOCKED",
+        "lane_blocked_reason": "blocked_tsquery_unrepresentable",
+        "lane_blocked_rejections": null,
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 0,
+        "candidate_volume_delta": 0,
+        "overflow_v4": false,
+        "overflow_v5": false,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": null,
+        "v5_facet_selected": null,
+        "gained_ids": [],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": false
+      },
+      "status": "measured"
+    },
+    {
+      "qid": "ctrl_ontopic_adjacent_mc380",
+      "query": "¿Como se crea y configura una zona en la central Detnov CAD-250 (MC-380) y como se asignan los equipos y detectores a esa zona?",
+      "is_control": true,
+      "is_probe": false,
+      "target_id": null,
+      "scope_mode": "control_mc380_pinned",
+      "scope_notes": [
+        "control scoped to MC-380 (348c4ec1)"
+      ],
+      "scopes": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "extraction_sha256": "3797d14d071d618d2a6b0343dfb3d0e4bc4a8cebe75016fce5206cd9687ab68e",
+          "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+          "manufacturer": "Detnov",
+          "product_model": "CAD-250",
+          "document_local_anchor_route": "protected_rerank_prefix"
+        }
+      ],
+      "scope_identity_audit": [
+        {
+          "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+          "found": true,
+          "status": "active",
+          "language": "es",
+          "doc_type": null,
+          "source_pdf_sha256_is_backfill_placeholder": false,
+          "source_pdf_sha256_valid_64hex": true,
+          "revision_lineage_id_present": true,
+          "lineage_authority_status": "verified"
+        }
+      ],
+      "fingerprint_stable": true,
+      "fingerprint_retries": 0,
+      "fingerprint_sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d",
+      "v4": {
+        "profile": "coverage_c1_v3",
+        "status": "candidate_cap_exceeded",
+        "overflow": true,
+        "authorities": 0,
+        "authority_rejections": null,
+        "candidate_count": 0,
+        "kept_chunk_index": [],
+        "plan": {
+          "config": "v4",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": null,
+          "anchor_terms": [
+            "crea",
+            "configura",
+            "zona",
+            "380",
+            "asignan",
+            "equipos",
+            "detectores",
+            "esa"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "salida",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito"
+            ]
+          ],
+          "tsquery": "(crea|configura|zona|380|asignan|equipos|detectores|esa)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|salida|seleccionar|aplicar|transferir|circuito))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|salida|seleccionar|aplicar|transferir|circuito)))",
+          "tsquery_len": 370,
+          "trim": null,
+          "sha256": "90af0e49268ce0844885efea119bbcf298ba8052ca36c2c74995187f42ad905d"
+        },
+        "waterfall": null,
+        "semantic_selected_id": null,
+        "semantic_status": "no_candidates",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "no_eligible_candidate",
+          "grades": [
+            0,
+            0,
+            0
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 0
+          }
+        ],
+        "target_detail": null,
+        "per_scope": []
+      },
+      "v5": {
+        "profile": "coverage_c1_v4",
+        "status": "fetched",
+        "overflow": true,
+        "authorities": 1,
+        "authority_rejections": null,
+        "candidate_count": 64,
+        "kept_chunk_index": [
+          12,
+          14,
+          18,
+          24,
+          26,
+          29,
+          30,
+          31,
+          32,
+          35,
+          42,
+          44,
+          46,
+          48,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          62,
+          63,
+          65,
+          69,
+          70,
+          72,
+          74,
+          75,
+          76,
+          78,
+          79,
+          80,
+          81,
+          83,
+          84,
+          85,
+          86,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          108,
+          110,
+          114,
+          117,
+          118,
+          121
+        ],
+        "plan": {
+          "config": "v5",
+          "archetype": "program_delay_cause_effect",
+          "archetypes": [
+            "program_delay_cause_effect"
+          ],
+          "anchor_terms": [
+            "crea",
+            "configura",
+            "zona",
+            "380",
+            "asignan",
+            "equipos",
+            "detectores",
+            "esa"
+          ],
+          "need_groups": [
+            [
+              "ruta",
+              "menu",
+              "programacion",
+              "edicion",
+              "route",
+              "programming"
+            ],
+            [
+              "condicion",
+              "entrada",
+              "regla",
+              "causa",
+              "efecto",
+              "matriz"
+            ],
+            [
+              "accion",
+              "salida",
+              "seleccionar",
+              "aplicar",
+              "transferir",
+              "circuito"
+            ]
+          ],
+          "tsquery": "(crea|configura|zona|380|asignan|equipos|detectores|esa)&(((ruta|menu|programacion|edicion|route|programming)&(condicion|entrada|regla|causa|efecto|matriz))|((ruta|menu|programacion|edicion|route|programming)&(accion|salida|seleccionar|aplicar|transferir|circuito))|((condicion|entrada|regla|causa|efecto|matriz)&(accion|salida|seleccionar|aplicar|transferir|circuito)))",
+          "tsquery_len": 370,
+          "trim": {
+            "trimmed": false,
+            "terms_removed": [],
+            "groups_removed": []
+          },
+          "sha256": "f0765382d31a39a9a4daa905632920262d91aea39b2fddb771272b1af36034d6"
+        },
+        "waterfall": [
+          {
+            "scope_rank": 1,
+            "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf",
+            "observed_rows": ">=65",
+            "candidate_truncated": true,
+            "available_rows": 64,
+            "waterfall_quota": 64,
+            "retained": 64
+          }
+        ],
+        "semantic_selected_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+        "semantic_status": "selected",
+        "facet": {
+          "applicable": true,
+          "served_rows": 0,
+          "status": "ok",
+          "grades": [
+            0,
+            0,
+            0
+          ],
+          "selected_id": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+          "selected_chunk_index": 88,
+          "group_index": 2,
+          "group_terms": [
+            "accion",
+            "salida",
+            "seleccionar",
+            "aplicar",
+            "transferir",
+            "circuito"
+          ],
+          "terms_hit": 3,
+          "is_target": false
+        },
+        "facet_lane_served": {
+          "applicable": true,
+          "served_rows": 1,
+          "status": "no_eligible_candidate",
+          "grades": [
+            1,
+            2,
+            3
+          ]
+        },
+        "eligibility": [
+          {
+            "group_index": 0,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          },
+          {
+            "group_index": 1,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 0,
+            "max_terms_hit_in_pool": 2
+          },
+          {
+            "group_index": 2,
+            "n_terms": 6,
+            "gated_by_A7": true,
+            "eligible_candidates": 2,
+            "max_terms_hit_in_pool": 3
+          }
+        ],
+        "target_detail": null,
+        "per_scope": [
+          {
+            "scope_rank": 1,
+            "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf",
+            "document_id": "348c4ec1-210a-441a-9ce7-02014a51f26d",
+            "full_matched_count": 73,
+            "kept_count": 64,
+            "beyond_cut_count": 9,
+            "beyond_cut_chunk_index": [
+              123,
+              125,
+              126,
+              127,
+              128,
+              129,
+              131,
+              133,
+              134
+            ],
+            "overflow": true
+          }
+        ]
+      },
+      "delta": {
+        "classification": "GAIN",
+        "lane_blocked_reason": null,
+        "lane_blocked_rejections": null,
+        "candidate_volume_v4": 0,
+        "candidate_volume_v5": 64,
+        "candidate_volume_delta": 64,
+        "overflow_v4": true,
+        "overflow_v5": true,
+        "v4_semantic_selected": null,
+        "v5_semantic_selected": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+        "v5_facet_selected": "3d0273cf-dd42-4e48-89c3-a37e588396ca",
+        "gained_ids": [
+          "3d0273cf-dd42-4e48-89c3-a37e588396ca"
+        ],
+        "lost_ids": [],
+        "gained_includes_target": false,
+        "plan_changed": true
+      },
+      "status": "measured"
+    }
+  ]
+}
