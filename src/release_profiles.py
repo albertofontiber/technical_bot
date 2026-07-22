@@ -18,7 +18,14 @@ LEGACY_PROFILE = "legacy"
 OFF_PROFILE = "off"
 C1_PROFILE = "coverage_c1_v1"
 C1_V2_PROFILE = "coverage_c1_v2"
-SUPPORTED_PROFILES = (LEGACY_PROFILE, OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE)
+C1_V3_PROFILE = "coverage_c1_v3"
+SUPPORTED_PROFILES = (
+    LEGACY_PROFILE,
+    OFF_PROFILE,
+    C1_PROFILE,
+    C1_V2_PROFILE,
+    C1_V3_PROFILE,
+)
 
 # Stable cross-module identity for the document-local lane. Keeping these
 # strings in the release contract lets C1 v1 remain import-isolated while C1 v2
@@ -29,18 +36,24 @@ DOCUMENT_LOCAL_VALIDATION = (
 )
 
 # The original four switches are the C1 v1 unit; C1 v2 atomically adds the
-# document-local lane. Outside legacy mode every leaf variable is forbidden:
-# the selected profile is authoritative.
+# document-local lane; C1 v3 (s278 vNext) atomically adds the evidence
+# contract, the hp002 obligation-warning reserve, and the prose source card.
+# Outside legacy mode every leaf variable is forbidden: the selected profile
+# is authoritative.
 PROFILE_OWNED_FLAGS = (
     "POST_RERANK_COVERAGE",
     "STRUCTURAL_NEIGHBOR_COVERAGE",
     "COVERAGE_MANDATORY_CALLOUT",
     "MP_MANDATORY_VERB_TRIGGER",
     "DOCUMENT_LOCAL_COVERAGE",
+    "EVIDENCE_CONTRACT",
+    "OBLIGATION_WARNING_RESERVE",
+    "PROSE_SOURCE_CARD",
 )
 
 _C1_V1_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:4])
-_C1_V2_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS)
+_C1_V2_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:5])
+_C1_V3_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS)
 
 # Coverage lanes that share the post-rerank append seam.  C1 v1 intentionally
 # isolates the structural lane until the wider stack has its own release gate.
@@ -80,6 +93,9 @@ class CoverageReleasePolicy:
     coverage_mandatory_callout: bool
     mp_mandatory_verb_trigger: bool
     document_local_coverage: bool
+    evidence_contract: bool = False
+    obligation_warning_reserve: bool = False
+    prose_source_card: bool = False
     legacy_overrides: tuple[str, ...] = ()
 
     def flag(self, name: str) -> bool:
@@ -89,6 +105,9 @@ class CoverageReleasePolicy:
             "COVERAGE_MANDATORY_CALLOUT": self.coverage_mandatory_callout,
             "MP_MANDATORY_VERB_TRIGGER": self.mp_mandatory_verb_trigger,
             "DOCUMENT_LOCAL_COVERAGE": self.document_local_coverage,
+            "EVIDENCE_CONTRACT": self.evidence_contract,
+            "OBLIGATION_WARNING_RESERVE": self.obligation_warning_reserve,
+            "PROSE_SOURCE_CARD": self.prose_source_card,
         }
         try:
             return values[name]
@@ -104,6 +123,9 @@ class CoverageReleasePolicy:
             "coverage_mandatory_callout": self.coverage_mandatory_callout,
             "mp_mandatory_verb_trigger": self.mp_mandatory_verb_trigger,
             "document_local_coverage": self.document_local_coverage,
+            "evidence_contract": self.evidence_contract,
+            "obligation_warning_reserve": self.obligation_warning_reserve,
+            "prose_source_card": self.prose_source_card,
         }
 
 
@@ -129,6 +151,7 @@ def load_coverage_release_policy(
             OFF_PROFILE: frozenset(),
             C1_PROFILE: _C1_V1_ENABLED_FLAGS,
             C1_V2_PROFILE: _C1_V2_ENABLED_FLAGS,
+            C1_V3_PROFILE: _C1_V3_ENABLED_FLAGS,
         }[profile]
         values = {name: name in enabled_flags for name in PROFILE_OWNED_FLAGS}
 
@@ -139,6 +162,9 @@ def load_coverage_release_policy(
         coverage_mandatory_callout=values["COVERAGE_MANDATORY_CALLOUT"],
         mp_mandatory_verb_trigger=values["MP_MANDATORY_VERB_TRIGGER"],
         document_local_coverage=values["DOCUMENT_LOCAL_COVERAGE"],
+        evidence_contract=values["EVIDENCE_CONTRACT"],
+        obligation_warning_reserve=values["OBLIGATION_WARNING_RESERVE"],
+        prose_source_card=values["PROSE_SOURCE_CARD"],
         legacy_overrides=legacy_overrides,
     )
 
@@ -149,8 +175,22 @@ def validate_release_contract(
     production: bool,
     must_preserve_enabled: bool,
     coverage_lanes: Mapping[str, bool],
+    identity_resolve_policy: str | None = None,
 ) -> None:
-    """Fail fast on partial, ambiguous, or historically unapproved releases."""
+    """Fail fast on partial, ambiguous, or historically unapproved releases.
+
+    ``identity_resolve_policy`` is the raw ``IDENTITY_RESOLVE_POLICY``
+    environment value observed by the caller (missing/empty resolves to the
+    historical ``add`` default, exactly like the resolver itself).  The s278
+    ``coverage_c1_v3`` profile "governs the flip" to ``replace`` via this
+    fail-fast validation rather than via an env override: the identity
+    resolver (``src/rag/catalog_resolver.py``) reads the variable from the
+    environment on every call and that contract is deliberately untouched, so
+    the profile instead refuses to boot unless the environment already says
+    ``replace`` (adjudicated deviation from the literal "gobierna" wording of
+    design §7, evals/s278_vnext_design_v2.md).  ``off``/``coverage_c1_v1``/
+    ``coverage_c1_v2`` demand nothing: ``add`` remains the historical default.
+    """
     errors: list[str] = []
 
     if policy.profile != LEGACY_PROFILE and policy.legacy_overrides:
@@ -206,10 +246,16 @@ def validate_release_contract(
         )
     if policy.mp_mandatory_verb_trigger and not must_preserve_enabled:
         errors.append("MP_MANDATORY_VERB_TRIGGER requires MUST_PRESERVE_CONTRACT=on")
+    if policy.evidence_contract and not must_preserve_enabled:
+        errors.append("EVIDENCE_CONTRACT requires MUST_PRESERVE_CONTRACT=on")
+    if policy.obligation_warning_reserve and not policy.post_rerank_coverage:
+        errors.append(
+            "OBLIGATION_WARNING_RESERVE requires POST_RERANK_COVERAGE"
+        )
 
-    if policy.profile in {C1_PROFILE, C1_V2_PROFILE}:
+    if policy.profile in {C1_PROFILE, C1_V2_PROFILE, C1_V3_PROFILE}:
         expected_lanes = {"STRUCTURAL_NEIGHBOR_COVERAGE"}
-        if policy.profile == C1_V2_PROFILE:
+        if policy.profile in {C1_V2_PROFILE, C1_V3_PROFILE}:
             expected_lanes.add("DOCUMENT_LOCAL_COVERAGE")
         unrelated = sorted(
             name
@@ -224,7 +270,7 @@ def validate_release_contract(
                 )
             else:
                 errors.append(
-                    f"{C1_V2_PROFILE} permits exactly "
+                    f"{policy.profile} permits exactly "
                     + "+".join(sorted(expected_lanes))
                     + "; disable: "
                     + ", ".join(unrelated)
@@ -234,10 +280,18 @@ def validate_release_contract(
                 f"{policy.profile} requires MUST_PRESERVE_CONTRACT=on"
             )
 
+    if policy.profile == C1_V3_PROFILE:
+        resolved_identity = (identity_resolve_policy or "add").strip().lower()
+        if resolved_identity != "replace":
+            errors.append(
+                f"{C1_V3_PROFILE} requires IDENTITY_RESOLVE_POLICY=replace; "
+                f"the environment resolves to {resolved_identity!r}"
+            )
+
     if production and policy.profile == LEGACY_PROFILE:
         errors.append(
             "production requires an explicit COVERAGE_RELEASE_PROFILE "
-            "(off, coverage_c1_v1, or coverage_c1_v2)"
+            "(off, coverage_c1_v1, coverage_c1_v2, or coverage_c1_v3)"
         )
 
     if errors:

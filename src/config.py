@@ -204,6 +204,18 @@ R2_REPAIR_NAVIGATION = _strict_on_off("R2_REPAIR_NAVIGATION")
 # constant keeps the flag inventoried and fail-fast on typos at boot.
 MUST_PRESERVE_CONTRACT = _strict_on_off("MUST_PRESERVE_CONTRACT")
 
+# S278 vNext trio, owned by the release profile exactly like
+# POST_RERANK_COVERAGE/DOCUMENT_LOCAL_COVERAGE: disabled by the immutable
+# off/C1 v1/C1 v2 profiles and enabled atomically only by C1 v3; legacy mode
+# retains strict on|off leaf-flag behaviour (default off) for offline tooling.
+# EVIDENCE_CONTRACT: §5 evidence-obligation ledger (post-writer validation).
+EVIDENCE_CONTRACT = COVERAGE_RELEASE_POLICY.evidence_contract
+# OBLIGATION_WARNING_RESERVE: §3 hp002 single-warning callout reserve; it
+# rides the post-rerank append seam, so the contract requires the master.
+OBLIGATION_WARNING_RESERVE = COVERAGE_RELEASE_POLICY.obligation_warning_reserve
+# PROSE_SOURCE_CARD: §4 attested source card for prose spans.
+PROSE_SOURCE_CARD = COVERAGE_RELEASE_POLICY.prose_source_card
+
 # S107 same-blob neighbor observer. This hook is post-rerank and has no return
 # path into the generator. Enabling it requires a keyed telemetry HMAC secret;
 # defaults remain fully inert.
@@ -288,6 +300,10 @@ def validate_config(
         COVERAGE_RELEASE_POLICY,
         production=production,
         must_preserve_enabled=MUST_PRESERVE_CONTRACT,
+        # The identity resolver reads this variable live on every call
+        # (src/rag/catalog_resolver.py); the coverage_c1_v3 profile governs
+        # the replace flip by validating the environment, not overriding it.
+        identity_resolve_policy=os.getenv("IDENTITY_RESOLVE_POLICY"),
         coverage_lanes={
             "TABLE_PREAMBLE_CLOSURE": TABLE_PREAMBLE_CLOSURE,
             "CANONICAL_HYQ_COVERAGE": CANONICAL_HYQ_COVERAGE,

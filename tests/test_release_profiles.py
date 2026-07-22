@@ -5,10 +5,18 @@ from src.rag import coverage_runtime
 from src.release_profiles import (
     C1_PROFILE,
     C1_V2_PROFILE,
+    C1_V3_PROFILE,
     COVERAGE_LANE_FLAGS,
     OFF_PROFILE,
     load_coverage_release_policy,
     validate_release_contract,
+)
+
+
+V3_NEW_FLAGS = (
+    "EVIDENCE_CONTRACT",
+    "OBLIGATION_WARNING_RESERVE",
+    "PROSE_SOURCE_CARD",
 )
 
 
@@ -19,6 +27,7 @@ def _validate(env, *, production=True, must_preserve=False, lanes=None):
         production=production,
         must_preserve_enabled=must_preserve,
         coverage_lanes=lanes or {},
+        identity_resolve_policy=env.get("IDENTITY_RESOLVE_POLICY"),
     )
     return policy
 
@@ -210,6 +219,179 @@ def test_profiled_runtime_facade_has_no_per_request_switch_overrides():
             [{"id": "prefix"}],
             enabled=True,
         )
+
+
+def test_c1_v3_enables_all_eight_flags_atomically():
+    policy = _validate(
+        {
+            "COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE,
+            "IDENTITY_RESOLVE_POLICY": "replace",
+        },
+        must_preserve=True,
+    )
+    assert policy.post_rerank_coverage
+    assert policy.structural_neighbor_coverage
+    assert policy.coverage_mandatory_callout
+    assert policy.mp_mandatory_verb_trigger
+    assert policy.document_local_coverage
+    assert policy.evidence_contract
+    assert policy.obligation_warning_reserve
+    assert policy.prose_source_card
+    snapshot = policy.safe_snapshot()
+    assert snapshot["profile"] == C1_V3_PROFILE
+    assert snapshot["evidence_contract"] is True
+    assert snapshot["obligation_warning_reserve"] is True
+    assert snapshot["prose_source_card"] is True
+    for name in V3_NEW_FLAGS:
+        assert policy.flag(name) is True
+
+
+@pytest.mark.parametrize("profile", (OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE))
+def test_earlier_profiles_leave_v3_flags_off(profile):
+    policy = load_coverage_release_policy({"COVERAGE_RELEASE_PROFILE": profile})
+    assert policy.evidence_contract is False
+    assert policy.obligation_warning_reserve is False
+    assert policy.prose_source_card is False
+    snapshot = policy.safe_snapshot()
+    assert snapshot["evidence_contract"] is False
+    assert snapshot["obligation_warning_reserve"] is False
+    assert snapshot["prose_source_card"] is False
+
+
+@pytest.mark.parametrize("profile", (C1_PROFILE, C1_V2_PROFILE))
+def test_v1_and_v2_do_not_require_identity_replace(profile):
+    _validate({"COVERAGE_RELEASE_PROFILE": profile}, must_preserve=True)
+    _validate(
+        {
+            "COVERAGE_RELEASE_PROFILE": profile,
+            "IDENTITY_RESOLVE_POLICY": "add",
+        },
+        must_preserve=True,
+    )
+
+
+@pytest.mark.parametrize("identity_env", ({}, {"IDENTITY_RESOLVE_POLICY": "add"}))
+def test_c1_v3_fails_fast_unless_identity_policy_is_replace(identity_env):
+    with pytest.raises(
+        RuntimeError, match="requires IDENTITY_RESOLVE_POLICY=replace"
+    ):
+        _validate(
+            {"COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE, **identity_env},
+            must_preserve=True,
+        )
+
+
+def test_c1_v3_identity_check_mirrors_resolver_normalisation():
+    # The live resolver strips/lowercases and maps empty to the historical
+    # 'add' default; the contract must judge the same resolved value.
+    _validate(
+        {
+            "COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE,
+            "IDENTITY_RESOLVE_POLICY": " REPLACE ",
+        },
+        must_preserve=True,
+    )
+    with pytest.raises(
+        RuntimeError, match="requires IDENTITY_RESOLVE_POLICY=replace"
+    ):
+        _validate(
+            {
+                "COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE,
+                "IDENTITY_RESOLVE_POLICY": "",
+            },
+            must_preserve=True,
+        )
+
+
+def test_c1_v3_requires_must_preserve_contract():
+    with pytest.raises(RuntimeError, match="MUST_PRESERVE_CONTRACT"):
+        _validate(
+            {
+                "COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE,
+                "IDENTITY_RESOLVE_POLICY": "replace",
+            },
+            must_preserve=False,
+        )
+
+
+def test_c1_v3_rejects_every_other_coverage_lane():
+    for lane in (
+        "TABLE_PREAMBLE_CLOSURE",
+        "CANONICAL_HYQ_COVERAGE",
+        "COMPATIBILITY_BUNDLE_COVERAGE",
+        "RERANK_POOL_COVERAGE",
+        "STRUCTURAL_CASCADE_COVERAGE",
+        "LOGICAL_RECORD_COVERAGE",
+    ):
+        with pytest.raises(RuntimeError, match="permits exactly"):
+            _validate(
+                {
+                    "COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE,
+                    "IDENTITY_RESOLVE_POLICY": "replace",
+                },
+                must_preserve=True,
+                lanes={lane: True},
+            )
+
+
+@pytest.mark.parametrize(
+    "profile", (OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE, C1_V3_PROFILE)
+)
+def test_explicit_profiles_reject_v3_leaf_overrides(profile):
+    for leaf in V3_NEW_FLAGS:
+        with pytest.raises(RuntimeError, match="remove legacy overrides"):
+            _validate(
+                {
+                    "COVERAGE_RELEASE_PROFILE": profile,
+                    "IDENTITY_RESOLVE_POLICY": "replace",
+                    leaf: "off",
+                },
+                must_preserve=profile != OFF_PROFILE,
+            )
+
+
+def test_legacy_reads_v3_flags_from_env_strict_and_default_off():
+    default = load_coverage_release_policy({})
+    assert default.evidence_contract is False
+    assert default.obligation_warning_reserve is False
+    assert default.prose_source_card is False
+
+    enabled = load_coverage_release_policy(
+        {name: "on" for name in V3_NEW_FLAGS}
+    )
+    assert enabled.evidence_contract is True
+    assert enabled.obligation_warning_reserve is True
+    assert enabled.prose_source_card is True
+
+    with pytest.raises(RuntimeError, match=r"expected on\|off"):
+        load_coverage_release_policy({"EVIDENCE_CONTRACT": "enabled"})
+
+
+def test_v3_flag_couplings_hold_even_in_legacy_mode():
+    with pytest.raises(
+        RuntimeError, match="EVIDENCE_CONTRACT requires MUST_PRESERVE_CONTRACT"
+    ):
+        _validate(
+            {"EVIDENCE_CONTRACT": "on"},
+            production=False,
+            must_preserve=False,
+        )
+    with pytest.raises(
+        RuntimeError,
+        match="OBLIGATION_WARNING_RESERVE requires POST_RERANK_COVERAGE",
+    ):
+        _validate(
+            {"OBLIGATION_WARNING_RESERVE": "on"},
+            production=False,
+        )
+    _validate(
+        {
+            "POST_RERANK_COVERAGE": "on",
+            "STRUCTURAL_NEIGHBOR_COVERAGE": "on",
+            "OBLIGATION_WARNING_RESERVE": "on",
+        },
+        production=False,
+    )
 
 
 def test_production_contract_is_independent_of_telegram_transport(monkeypatch):

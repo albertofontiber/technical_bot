@@ -226,3 +226,103 @@ def test_c1_profiles_import_as_atomic_units_and_visual_registry_is_orthogonal():
             check=False,
         )
         assert result.returncode == 0, result.stderr
+
+
+def test_c1_v3_profile_governs_new_flags_and_identity_policy_via_config():
+    base_env = os.environ.copy()
+    base_env.update(
+        {
+            "CHUNKS_TABLE": "chunks_v2",
+            "ANTHROPIC_API_KEY": "test-anthropic",
+            "OPENAI_API_KEY": "test-openai",
+            "SUPABASE_URL": "https://example.invalid",
+            "SUPABASE_SERVICE_KEY": "test-service-role",
+            "MUST_PRESERVE_CONTRACT": "on",
+            "TABLE_PREAMBLE_CLOSURE": "off",
+            "CANONICAL_HYQ_COVERAGE": "off",
+            "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+            "RERANK_POOL_COVERAGE": "off",
+            "STRUCTURAL_CASCADE_COVERAGE": "off",
+            "LOGICAL_RECORD_COVERAGE": "off",
+            "COVERAGE_RELEASE_PROFILE": "coverage_c1_v3",
+        }
+    )
+    for leaf in (
+        "POST_RERANK_COVERAGE",
+        "STRUCTURAL_NEIGHBOR_COVERAGE",
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "DOCUMENT_LOCAL_COVERAGE",
+        "EVIDENCE_CONTRACT",
+        "OBLIGATION_WARNING_RESERVE",
+        "PROSE_SOURCE_CARD",
+    ):
+        base_env.pop(leaf, None)
+
+    # v3 governs the identity flip by validation: replace must already be in
+    # the environment for production boot to succeed.
+    env = base_env | {"IDENTITY_RESOLVE_POLICY": "replace"}
+    accepted = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; "
+            "c.validate_config(production=True); "
+            "assert c.POST_RERANK_COVERAGE; "
+            "assert c.STRUCTURAL_NEIGHBOR_COVERAGE; "
+            "assert c.DOCUMENT_LOCAL_COVERAGE; "
+            "assert c.EVIDENCE_CONTRACT is True; "
+            "assert c.OBLIGATION_WARNING_RESERVE is True; "
+            "assert c.PROSE_SOURCE_CARD is True; "
+            "assert c.COVERAGE_RELEASE_POLICY.safe_snapshot()"
+            "['evidence_contract'] is True",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert accepted.returncode == 0, accepted.stderr
+
+    # Explicit non-replace value (deterministic even if a developer .env
+    # exists: process env is authoritative) must fail the production boot.
+    env = base_env | {"IDENTITY_RESOLVE_POLICY": "add"}
+    rejected = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; c.validate_config(production=True)",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert rejected.returncode != 0
+    assert "requires IDENTITY_RESOLVE_POLICY=replace" in rejected.stderr
+
+    # The three new flags stay leaf-inert outside legacy: an explicit profile
+    # rejects them exactly like the historical profile-owned switches.
+    env = base_env | {
+        "IDENTITY_RESOLVE_POLICY": "replace",
+        "EVIDENCE_CONTRACT": "on",
+    }
+    override = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; c.validate_config(production=True)",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert override.returncode != 0
+    assert "remove legacy overrides" in override.stderr
