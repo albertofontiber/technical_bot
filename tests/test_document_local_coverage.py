@@ -423,8 +423,10 @@ def test_fetcher_uses_only_get_and_exact_authority_scope(
     )
 
     snapshot_url, snapshot_call = client.calls[0]
+    # s278 flip a v3 (DEC-150): el fetcher de runtime llama al RPC canónico v3;
+    # los seals históricos del P1 siguen pineando el SQL v2 (vivo en DB).
     assert snapshot_url == (
-        "https://project-ref.supabase.co/rest/v1/rpc/document_local_snapshot_v2"
+        "https://project-ref.supabase.co/rest/v1/rpc/document_local_snapshot_v3"
     )
     assert set(snapshot_call) == {"headers", "params", "timeout"}
     params = snapshot_call["params"]

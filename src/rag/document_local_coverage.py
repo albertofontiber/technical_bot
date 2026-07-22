@@ -60,8 +60,12 @@ MAX_NEED_TERMS_PER_GROUP = 6
 MAX_TSQUERY_CHARS = 480
 
 _SHA256 = re.compile(r"[0-9a-f]{64}")
-SNAPSHOT_RPC = "document_local_snapshot_v2"
-SNAPSHOT_SCHEMA = "document_local_snapshot_v2"
+# s278 (DEC-150): flip a v3 — mismo contrato que v2 con la comparación de blob
+# CANÓNICA en SQL (strip de UNA extensión .pdf, los DOS sitios; migración aplicada
+# por Alberto 22-jul desde migration_proposals/20260722200000_...). El v2 sigue
+# vivo en DB para los seals históricos del P1.
+SNAPSHOT_RPC = "document_local_snapshot_v3"
+SNAPSHOT_SCHEMA = "document_local_snapshot_v3"
 _SNAPSHOT_KEYS = {
     "schema",
     "input_status",
