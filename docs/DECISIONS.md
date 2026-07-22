@@ -3515,3 +3515,40 @@ RLS apply (visto de Alberto) · pasada harness 13 QIDs+hp009/hp010 ~$3 (cifra de
 Alberto) · 3 filas census (Alberto) · merge #184 = flip de release (Alberto).
 Ref: adjudicación dúo `evals/s278_vnext_duo_r1_adjudication_v1.yaml`; reportes de lanes en
 `Technical Bot-s277-artifacts\s278-fase3-lane-reports\` y oráculo en `...\s278-oracle-runs\`.
+
+---
+
+## DEC-150 — s278 (22 jul 2026, noche): bloque LIVE aplicado por Alberto (RLS #29 + data-fix + RPC v3) + 4 adjudicaciones de catálogo; cat017 convierte en vivo, cat019 sirve el doc con 1 residual de selección
+
+**Decisión/ejecución.** Alberto aplicó en el SQL Editor las 3 migraciones preparadas (el permiso
+de escritura de la tool estaba bloqueado por el clasificador — vía manual, receipts intactos):
+(1) **RLS hardening** (gate #29): post-estado verificado por queries read-only — **13/13 tablas
+public con RLS**, grants de `anon`/`authenticated` sobre `chunks_v2_enunciados` revocados (el
+pre-estado era PEOR que lo documentado: anon tenía TODOS los privilegios incl. DELETE/TRUNCATE),
+EXECUTE de `create_hnsw_index()` revocado; **Advisor: la clase crítica desapareció** (quedan
+INFO rls-no-policy esperados por default-deny + WARNs legacy pre-existentes search_path/extensiones).
+**TECH_DEBT #29 queda CERRABLE** (residual declarado: p1_readonly sin policies → 0 filas).
+(2) **Data-fix cat017/cat019** (patrón DEC-144): 3 docs (`80e1b7d2`, `348c4ec1`, predecessor
+`bc6bdd33`) identity-complete — doc_type='programacion', language='es', lineage `verified`
+contract `explicit_document_ids_v1`. Blast-radius declarado: doc_type NULL es la norma
+(1147/~1171); backfill por-doc, no masivo. (3) **RPC `document_local_snapshot_v3`** (comparación
+de blob CANÓNICA en los DOS sitios SQL) + flip Python `SNAPSHOT_RPC/SCHEMA` a v3 (`3383de6`;
+v2 vivo en DB para los seals P1). Receipts: `evals/s278_live_prestate_receipt_v1.json` + este DEC.
+
+**Adjudicaciones de catálogo (Alberto, 4/4) aplicadas (`fd3b95b`):** FAAST 8100E promovido
+(residual declarado: doc I56 pertenece al duplicado systemsensor no adjudicado) · ZXR += zxr4b/5b ·
+INSPIRE firmware→e10/e15 · **G-100/G-500/G-100-R reestructurado con ground-truth de Alberto**
+(MNDT503=G-100-4/8; MNDT500=G-500-S-32/64; G-100-R*=tarjetas de relé; 3 umbrellas nuevas, 4
+aliases mono-modelo retirados). **Quarantine VACIADA**. Census: 840/845 idénticas, hp018/hp009 PASS.
+
+**Smoke e2e post-bloque (~$0.5, candidato v3+replace):** **cat017 y cat019 sirven su doc objetivo
+POR PRIMERA VEZ** (HOP-138-8ES vía catálogo+data-fix; MC-380-c vía blob canónico v3). Por ítems
+P1: cat017 presenta `.bin`+licencia+CLSS+POL-200 (falta el sub-paso sitio/edificio); cat019 aún
+NO lleva el span exacto «sirenas o módulos de control» — el lane document-local anexó 3 filas pipe
+y la card de prosa es complementaria (solo dispara si la fila ganadora no es pipe-derivable):
+**residual = alcance de SELECCIÓN del span de prosa**, diagnóstico con retrieve-trace offline
+pendiente (el probe sintético no reproduce el seed estructural real).
+
+**QUEDA para release:** (a) tuning de selección cat019-span + sitio/edificio cat017 ($0 + smoke
+barato); (b) pasada final 13 QIDs+controles (~$3); (c) lectura de Alberto → merge #184 + flip
+Railway. Ledger: waived por Alberto (histórico ignorado, decisión suya 22-jul).
