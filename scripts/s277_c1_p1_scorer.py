@@ -123,10 +123,14 @@ _SCORE_BINDING_FIELDS = frozenset(
     }
 )
 
-_EXACT_CITATION_RE = re.compile(r"\[F([1-9]\d*)\]")
+_CITATION_MARKER_PATTERN = r"\[F[1-9]\d*(?:\s*[,;]\s*F[1-9]\d*)*\]"
+_CITATION_MARKER_RE = re.compile(_CITATION_MARKER_PATTERN)
+_CITATION_ID_RE = re.compile(r"F([1-9]\d*)")
 _BRACKET_RE = re.compile(r"\[[^\]\r\n]*\]")
 _CITATION_LIKE_RE = re.compile(r"^\[\s*[fF]")
-_CITATION_GROUP_RE = re.compile(r"(?:\[F[1-9]\d*\](?:\s*[,;]?\s*))+" )
+_CITATION_GROUP_RE = re.compile(
+    rf"(?:{_CITATION_MARKER_PATTERN}(?:\s*[,;]?\s*))+"
+)
 _ALNUM_RE = re.compile(r"[a-z0-9]", re.IGNORECASE)
 _HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
 _ONLY_DECORATION_RE = re.compile(r"^[\s>*_`~#|:;,.()\[\]{}\-–—]*$")
@@ -134,6 +138,12 @@ _ONLY_DECORATION_RE = re.compile(r"^[\s>*_`~#|:;,.()\[\]{}\-–—]*$")
 
 class ScorerInstrumentError(ValueError):
     """The scorer cannot attribute a result to the candidate safely."""
+
+
+def _citation_ids(value: str) -> list[int]:
+    """Return IDs from one or more closed canonical citation markers."""
+
+    return [int(raw) for raw in _CITATION_ID_RE.findall(value)]
 
 
 @dataclass(frozen=True)
@@ -322,15 +332,20 @@ def validate_global_citations(answer: Any, served_context: Any) -> CheckResult:
             *identity_errors,
         )
 
-    exact = list(_EXACT_CITATION_RE.finditer(answer))
-    exact_ranges = {(match.start(), match.end()) for match in exact}
+    markers = list(_CITATION_MARKER_RE.finditer(answer))
+    marker_ranges = {(match.start(), match.end()) for match in markers}
+    citation_ids = [
+        citation_id
+        for marker in markers
+        for citation_id in _citation_ids(marker.group())
+    ]
     malformed: list[dict[str, Any]] = []
     bracket_ranges: set[tuple[int, int]] = set()
     for token in _BRACKET_RE.finditer(answer):
         bracket_ranges.add((token.start(), token.end()))
         if _CITATION_LIKE_RE.match(token.group()) and (
             token.start(), token.end()
-        ) not in exact_ranges:
+        ) not in marker_ranges:
             malformed.append(
                 {"text": token.group(), "start": token.start(), "end": token.end()}
             )
@@ -344,9 +359,9 @@ def validate_global_citations(answer: Any, served_context: Any) -> CheckResult:
     fragment_count = len(served_context)
     out_of_range = sorted(
         {
-            int(match.group(1))
-            for match in exact
-            if not 1 <= int(match.group(1)) <= fragment_count
+            citation_id
+            for citation_id in citation_ids
+            if not 1 <= citation_id <= fragment_count
         }
     )
     if malformed or out_of_range:
@@ -357,13 +372,13 @@ def validate_global_citations(answer: Any, served_context: Any) -> CheckResult:
               + tuple(["citation outside served context"] if out_of_range else ())),
             evidence={
                 "fragment_count": fragment_count,
-                "citations": [int(match.group(1)) for match in exact],
+                "citations": citation_ids,
                 "malformed": malformed,
                 "out_of_range": out_of_range,
             },
         )
 
-    cited_fragments = sorted({int(match.group(1)) for match in exact})
+    cited_fragments = sorted(set(citation_ids))
     for fragment in cited_fragments:
         chunk = served_context[fragment - 1]
         if not _chunk_id(chunk) or not str(chunk.get("source_file") or "").strip():
@@ -377,7 +392,7 @@ def validate_global_citations(answer: Any, served_context: Any) -> CheckResult:
         PASS,
         evidence={
             "fragment_count": fragment_count,
-            "citation_count": len(exact),
+            "citation_count": len(citation_ids),
             "cited_fragments": cited_fragments,
         },
     )
@@ -414,9 +429,7 @@ def parse_local_citation_units(answer: str) -> list[dict[str, Any]]:
                 "claim_text": claim,
                 "citation_start": group.start(),
                 "citation_end": group.end(),
-                "citations": [
-                    int(value) for value in _EXACT_CITATION_RE.findall(group.group())
-                ],
+                "citations": _citation_ids(group.group()),
             }
         )
     return units
@@ -424,10 +437,13 @@ def parse_local_citation_units(answer: str) -> list[dict[str, Any]]:
 
 def _citation_group_after(answer: str, end: int, max_gap: int = 96) -> list[int]:
     tail = answer[end : end + max_gap]
-    match = re.match(r"[\s>*_`~:;,.()\-–—]*((?:\[F[1-9]\d*\](?:\s*[,;]?\s*))+)", tail)
+    match = re.match(
+        rf"[\s>*_`~:;,.()\-–—]*({_CITATION_GROUP_RE.pattern})",
+        tail,
+    )
     if not match:
         return []
-    return [int(value) for value in _EXACT_CITATION_RE.findall(match.group(1))]
+    return _citation_ids(match.group(1))
 
 
 def _forms(row: Mapping[str, Any]) -> tuple[list[list[str]], list[str]]:
@@ -1386,7 +1402,7 @@ def _exact_warning_unit_citations(
         paragraph_start = 0 if paragraph_start < 0 else paragraph_start + 2
         paragraph_claim = answer[paragraph_start : group.start()]
         if _surface_normalize(paragraph_claim) == combined:
-            bound = [int(value) for value in _EXACT_CITATION_RE.findall(group.group())]
+            bound = _citation_ids(group.group())
             if bound:
                 return [list(dict.fromkeys(bound)) for _ in exact_texts]
     for unit in parse_local_citation_units(answer):
@@ -1483,7 +1499,7 @@ def _score_hp017_warning_block(
     for clause in exact_texts:
         for start, end in reversed(_find_normalized_spans(stripped, clause)):
             stripped = stripped[:start] + stripped[end:]
-    stripped = _EXACT_CITATION_RE.sub("", stripped)
+    stripped = _CITATION_MARKER_RE.sub("", stripped)
     stripped = re.sub(r"[\s>*_`~#|:;,.()\[\]{}\-–—]+", " ", stripped).strip()
     if len(re.findall(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]", stripped)) < 40:
         return _result(

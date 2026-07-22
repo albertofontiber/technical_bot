@@ -125,7 +125,20 @@ def test_contract_statement_hash_tamper_fails_closed(contract: dict) -> None:
         scorer.validate_fact_contract(tampered)
 
 
-@pytest.mark.parametrize("answer", ["Dato [F 1]", "Dato [f1]", "Dato [F01]", "Dato [F1"])
+@pytest.mark.parametrize(
+    "answer",
+    [
+        "Dato [F 1]",
+        "Dato [f1]",
+        "Dato [F01]",
+        "Dato [F1",
+        "Dato [F1, 2]",
+        "Dato [F1-F2]",
+        "Dato [F1 F2]",
+        "Dato [F1, f2]",
+        "Dato [F1, F02]",
+    ],
+)
 def test_global_citation_syntax_is_closed(answer: str) -> None:
     result = scorer.validate_global_citations(answer, [_chunk()])
     assert result.status == scorer.FAIL
@@ -148,6 +161,23 @@ def test_global_and_local_citation_happy_path() -> None:
     assert len(units) == 1
     assert units[0]["citations"] == [1]
     assert "0,75 A" in units[0]["claim_text"]
+
+
+def test_grouped_citations_are_closed_and_bind_each_fragment() -> None:
+    answer = "Dato acreditado [F1, F3; F2]."
+    context = [_chunk("one"), _chunk("two"), _chunk("three")]
+
+    global_result = scorer.validate_global_citations(answer, context)
+    units = scorer.parse_local_citation_units(answer)
+
+    assert global_result.status == scorer.PASS
+    assert global_result.evidence == {
+        "fragment_count": 3,
+        "citation_count": 3,
+        "cited_fragments": [1, 2, 3],
+    }
+    assert len(units) == 1
+    assert units[0]["citations"] == [1, 3, 2]
 
 
 def test_generic_fact_pass_review_and_wrong_attribution(contract: dict) -> None:
