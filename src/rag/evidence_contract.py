@@ -34,6 +34,13 @@ Mecanismo:
      en runtime. Puro código, cero LLM, cero red. Idempotente: re-aplicar sobre la
      salida no produce acciones nuevas (los appends satisfacen su obligación y las
      plantillas de disclosure usan el léxico de disclosure de must_preserve).
+  5. RIESGO 7-SEGMENTOS (feedback_7segment): las obligaciones basadas en átomos de
+     must_preserve heredan SU contrato de paridad de display (``display_parity_ok``
+     — un átomo con riesgo solo actúa si el borrador ya nombra sus tokens display);
+     las clases propias del contrato (tabla/universal) NO se bloquean — el diseño
+     declara alcanzable hp011:r2 — pero el receipt DECLARA ``seven_segment_risk``
+     cuando el span citado lleva superficie de display (ambigüedad declarada,
+     residual → técnico).
 """
 from __future__ import annotations
 
@@ -67,6 +74,8 @@ from .must_preserve import (
     atom_satisfied,
     detect_atoms,
     detect_cross_fragment_count_atoms,
+    display_parity_ok,
+    has_seven_segment_pattern,
     informative_span,
     span_good_form,
 )
@@ -582,7 +591,7 @@ def _display_span(span: str) -> str:
 
 
 def _base_action(ob: dict[str, Any], action: str) -> dict[str, Any]:
-    return {
+    out = {
         "action": action,
         "class": ob["class"],
         "kind": ob["kind"],
@@ -596,6 +605,25 @@ def _base_action(ob: dict[str, Any], action: str) -> dict[str, Any]:
             "por la respuesta"
         ),
     }
+    # feedback_7segment: superficie de display en el span citado → riesgo DECLARADO
+    # en el receipt (el span viaja verbatim; jamás se reinterpreta un código 7-seg).
+    if has_seven_segment_pattern(ob.get("span_text") or ""):
+        out["seven_segment_risk"] = True
+    return out
+
+
+def _display_parity_blocked(ob: dict[str, Any], answer_text: str) -> bool:
+    """Paridad de display 7-seg para obligaciones basadas en átomos de must_preserve
+    (contrato importado, no re-derivado): un átomo con ``seven_segment_risk`` solo es
+    accionable si el borrador YA nombra sus tokens display (``display_parity_ok``) —
+    el anexo no añade superficie OCR nueva. Las clases propias del contrato no pasan
+    por aquí (declaran el riesgo en el receipt, ver ``_base_action``)."""
+    atom = (ob.get("meta") or {}).get("atom")
+    if not isinstance(atom, dict):
+        return False
+    if not (atom.get("meta") or {}).get("seven_segment_risk"):
+        return False
+    return not display_parity_ok(atom, answer_text)
 
 
 def _render_action(
@@ -654,6 +682,8 @@ def _render_action(
             return None
         cite_j = _cite_parts(card_j, j)
         if cite_j is None or not span_b or span_b not in view_j:
+            return None
+        if not informative_span(span_b):
             return None
         line = (
             f'- Nota: la fuente es inconsistente en "{meta.get("label")}": '
@@ -717,6 +747,7 @@ def apply_evidence_contract(
         "cap": APPEND_CAP,
         "cap_reached": False,
         "skipped_unanchored": 0,
+        "skipped_display_parity": 0,
     }
     if not answer_text.strip() or not served_cards:
         receipt["reason"] = "empty_answer_or_no_served_context"
@@ -737,6 +768,9 @@ def apply_evidence_contract(
         if len(entries) >= APPEND_CAP:
             receipt["cap_reached"] = True
             break
+        if _display_parity_blocked(ob, answer_text):
+            receipt["skipped_display_parity"] += 1
+            continue
         rendered = _render_action(ob, view_map, card_map)
         if rendered is None:
             receipt["skipped_unanchored"] += 1
