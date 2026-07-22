@@ -3581,3 +3581,47 @@ bloqueo RLS de Sol era drift documental (RLS aplicada en DEC-150) — PLAN corre
 
 **Siguiente:** diseño v2 con los 11 fixes adjudicados → dúo r2 → build → census+probes $0 →
 smoke ~$0.5 → pasada final ~$3 → lectura de Alberto → merge #184 = release.
+
+---
+
+## DEC-152 — s279/s280 (22-23 jul, sesión nocturna autónoma): ronda selection-reach COMPLETA (build+census+A5'+pasada final) + diseño multi-turn v2 adjudicado; release LISTA PARA LA LECTURA de Alberto
+
+**Modelo operativo estrenado (instrucción de Alberto, 22-jul noche):** Opus 4.8 ejecutó las 7
+lanes de implementación; Fable 5 orquestó/revisó cada diff y corrió los dúos. Autorización de
+$100 de crédito Fable con mandato de optimización — registrada en memoria y aplicada.
+
+**Ronda selection-reach (decisión B) cerrada:**
+- Build I-III (perfil `coverage_c1_v4` + flag `DOCUMENT_LOCAL_SELECTION_V2`, v3 congelado ·
+  facetas v5 solo-lane con validador schema-condicionado y v4 byte-pineado · waterfall
+  work-conserving + plan v5 + trim A5 · vía por-faceta post-composición con attestation portante
+  y presupuesto propio + fix del reused en coverage_runtime).
+- Census fase IV con freeze-contract A1 (fingerprint por par + hash de la función SQL):
+  **adjudicó CONTRA el build** (2 probes NOT_SELECTED) con 3 hallazgos — C1 verificado EN VIVO
+  (cat019: 0→64/81 candidatos), H1 inconsistencia trim↔gate, H0 estratégico (el lane solo alcanza
+  los 3 docs gobernados; 12 QIDs mueren aguas arriba en identidad backfill/lineage → **workstream
+  post-release: campaña de backfill de identidad**, conecta con el activo s83).
+- Enmienda A5' en DOS rondas de dúo (la primera tumbó mi framing «no es calibración» — quedó
+  registrada como CAMBIO POST-PROBE con la alternativa nombrada y el discriminador ex-ante);
+  census v2 (18 queries): cat017 diana elegible y servido bajo vista real; control verboso nuevo
+  cumple pre-registro; **cat019 residual DECLARADO (2 FAILs r1/r2 de 29)** — reglas no aflojadas
+  post-resultado.
+- Verificación: oráculo baseline byte-inerte tras TODO el build (27/27+62/62+93/93) · suite
+  completa **3079/0** · pasada final pagada 15 QIDs (~$3): juez holístico 14 PARCIAL + **1 PASS
+  (hp018 — el fallo emblemático de la P1, ahora con familia correcta + diodo + supervisión y sin
+  «en serie»)**; por ítems P1: hp002 extinción ✓ · hp011 t.A/Abort/Flow ✓ (persiste «ri»
+  alucinado — cola calidad) · hp012 792+LIB-200+España ✓ (US-lado parcial) · hp014 B+/pantalla/
+  32/25 ✓ (Megger fluctúa) · hp017 disclose ✓ · cat017 licencia/CLSS ✓ (.bin/sitio/edificio
+  fluctúan) · cat019 residual confirmado. **Frontera visible: varianza de sub-ítems entre
+  generaciones del writer único** (misma clase que la varianza r1/r2 de la P1).
+
+**Diseño multi-turn s280 v2 ADJUDICADO** (dúo r1: Sol 8 + Fable 7; los 11 fixes incorporados —
+mecanismo físico RPCs SECURITY DEFINER, verifier sin falso-equiv al EC, instrumento propio de
+paridad, RGPD sin escapatoria, YAGNI de tablas, carry-forward migrado, PTB secuencial,
+presupuesto por-lane). **El BUILD de Fases 0-1 arranca tras la lectura matinal de Alberto** —
+esta línea es la traza que supera el `NO_BUILD_AUTHORIZATION` de DEC-136 con decisión humana.
+
+**Para la lectura de Alberto (la adjudicación es suya, DEC-148):** merge #184 + flip Railway
+(checklist diseño §7: `coverage_c1_v4` + `IDENTITY_RESOLVE_POLICY=replace` + retirar flags-hoja)
+= release. Residuales declarados: cat019 ×2 · «ri» hp011 · framing US hp012 · varianza de
+sub-ítems · H0 backfill. Gasto nocturno: pasada ~$3 + 2 smokes ~$1 + ~6 rondas Sol (tokens en
+tally); lado Fable in-session.

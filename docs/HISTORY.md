@@ -2154,3 +2154,18 @@ dev-check 14/15)** sobre commit limpio; baseline byte-inerte intacto. La tabla E
 Los "4 fallos CRLF conocidos" resultaron ser una clase de 10→89 seals stale que pre-existían en
 `b92ff51` prístino — re-anclados, no relajados. Detalle → DEC-148/149. KPI sin movimiento:
 146/154 (la aguja se mide en la pasada harness pendiente de ledger).
+
+## s279-s280 (22-23 jul 2026, nocturna) — selection-reach cerrada con census adversarial + diseño multi-turn adjudicado (primer run del modelo Opus-ejecuta/Fable-orquesta)
+
+Sesión autónoma nocturna bajo instrucción de Alberto (dormía): cerrar la etapa de release y
+lanzar el diseño multi-turn. La ronda selection-reach pasó por 3 rondas de dúo de diseño + build
+en 4 fases (Opus ejecutando, Fable revisando — el nuevo modelo operativo) + census con
+freeze-contract que ADJUDICÓ CONTRA el build dos veces (los probes no convertían; la enmienda
+A5' tuvo que registrarse como cambio post-probe tras el pushback del dúo a mi framing). Resultado
+final: C1 overflow verificado en vivo, cat017 sirviendo su diana bajo vista real, cat019 residual
+declarado sin aflojar reglas, suite 3079/0, oráculo byte-inerte, pasada final con hp018 en PASS
+holístico. Hallazgo estratégico H0: el lane document-local solo alcanza docs identity-complete —
+la campaña de backfill de identidad es el desbloqueador general (workstream post-release). El
+diseño multi-turn s280 (Fases 0-1 build / 2-4 gated) quedó adjudicado en v2 con el mecanismo
+físico decidido (RPCs SECURITY DEFINER) y la autorización trazada. Detalle → DEC-152; release
+pendiente SOLO de la lectura + click de Alberto.
