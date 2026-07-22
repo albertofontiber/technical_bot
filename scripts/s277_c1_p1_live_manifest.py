@@ -597,9 +597,9 @@ SELECT
             pg_get_userbyid(x.grantor),
             x.is_grantable)
         FROM pg_attribute AS a
-        CROSS JOIN LATERAL aclexplode(
-            COALESCE(a.attacl, '{}'::aclitem[])
-        ) AS x
+        -- aclexplode(NULL) yields no rows.  Do not coalesce to '{}'::aclitem[]:
+        -- PostgreSQL represents that empty literal as 0-D and aclexplode rejects it.
+        CROSS JOIN LATERAL aclexplode(a.attacl) AS x
         WHERE a.attrelid = c.oid
           AND a.attnum > 0
           AND NOT a.attisdropped

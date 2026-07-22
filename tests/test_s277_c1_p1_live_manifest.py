@@ -389,6 +389,11 @@ def test_document_local_v2_contract_and_live_hash_are_exact() -> None:
     ] == ["GET", "POST"]
 
 
+def test_relation_acl_query_does_not_build_a_zero_dimensional_acl_array() -> None:
+    assert "aclexplode(a.attacl)" in live.RELATIONS_SQL
+    assert "COALESCE(a.attacl, '{}'::aclitem[])" not in live.RELATIONS_SQL
+
+
 @pytest.mark.parametrize(
     ("field", "value", "code"),
     [
