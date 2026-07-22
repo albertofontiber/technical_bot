@@ -1,0 +1,146 @@
+{
+  "schema_version": "s277_c1_p1_handoff_manifest_v1",
+  "authority": "HANDOFF_INVENTORY_NO_RELEASE_CREDIT",
+  "created_at": "2026-07-22",
+  "host_bound": true,
+  "portable_artifact_bundle_in_git": false,
+  "run": {
+    "run_id": "p1-v3-b92ff51-20260722a",
+    "artifact_root": "C:\\Users\\Admin\\OneDrive - fontiber com\\Documents\\Claude\\Technical Bot-s277-artifacts\\p1-v3-b92ff51",
+    "run_dir": "C:\\Users\\Admin\\OneDrive - fontiber com\\Documents\\Claude\\Technical Bot-s277-artifacts\\p1-v3-b92ff51\\run-p1-v3-b92ff51-20260722a",
+    "tested_commit_sha": "b92ff51e5af180352366158614ca83f7fdfc186d",
+    "tested_tree_sha": "de347f6add8ae1a5fe9a9514a5d077af8b55b66d",
+    "status": "P1_NO_GO",
+    "code": "NO_GO_PROTECTED_CONTRACT",
+    "release_deployed": false,
+    "replicas_persisted": 27,
+    "provider_calls": 81,
+    "observed_list_price_usd": "2.69369748",
+    "per_run_cap_usd": "30.00",
+    "unknown_reserved_usd": "0",
+    "railway_mutations": 0,
+    "supabase_mutations": 0
+  },
+  "diagnostic_predecessor_runs": [
+    {
+      "run_id": "p1-v2-511bd58-20260722a",
+      "tested_commit_sha": "511bd58ab1d88e09d77d2987e6855b04b777dc45",
+      "tested_tree_sha": "c4fb2d96f8436c2ea0cbae5409a0c66d277216d0",
+      "status": "NO_GO_PARTIAL",
+      "code": "NO_GO_PROTECTED_CONTRACT",
+      "replicas_persisted": 17,
+      "wal_events": 102,
+      "physical_calls": 51,
+      "observed_list_price_usd": "1.70976360",
+      "result_sha256": "039314317b809f35964cad65883d3e6c7de40e38156219ee4d8eaffa5659e3fb"
+    },
+    {
+      "run_id": "p1-v2-b131464-20260722d",
+      "tested_commit_sha": "b131464b659f30610eaa04725797d50062fa4e59",
+      "tested_tree_sha": "bc3a084fa9f8f3a1d1e2f77e56eb358f16592942",
+      "status": "NO_GO_PARTIAL",
+      "code": "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+      "replicas_persisted": 17,
+      "wal_events": 108,
+      "physical_calls": 54,
+      "observed_list_price_usd": "1.81440744",
+      "result_sha256": "bd76d30cc733dca02c8e5d450eff2fc450539f1a5a70c39e94e470727d19e82c"
+    },
+    {
+      "run_id": "p1-v2-eefc388-20260722a",
+      "tested_commit_sha": "eefc3885634d1eaaadb21d7a77e9e9cb0df5d8da",
+      "tested_tree_sha": "e23a2f8c22d42bc9ddb299c814fff2affbbdc1ce",
+      "status": "NO_GO_PARTIAL",
+      "code": "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+      "replicas_persisted": 17,
+      "wal_events": 108,
+      "physical_calls": 54,
+      "observed_list_price_usd": "1.82350344",
+      "result_sha256": "2090ca780781815a838d1e55d759c5842d3090eeb6f098e176e1129e52231112"
+    }
+  ],
+  "campaign_cost_ledger": {
+    "scope": "four local P1 runs under Technical Bot-s277-artifacts on 2026-07-22",
+    "observed_list_price_usd": "8.04137196",
+    "unknown_reserved_usd": "0",
+    "note": "This is not the total spend since the broader 100 USD authorization; reconcile all runs, probes, and reviews before another call."
+  },
+  "adjudication_summary": {
+    "semantic_items": 91,
+    "adjudicated_pass": 62,
+    "adjudicated_fail": 29,
+    "clean_replicas": 10,
+    "replicas_with_fail": 17
+  },
+  "artifact_files": [
+    {
+      "relative_to_run": "final.json",
+      "bytes": 43412,
+      "sha256": "cdd46a6dd1a747cfcd6c17428bfa432661c61e8849f9706960e48621e7912a35"
+    },
+    {
+      "relative_to_run": "result.json",
+      "bytes": 166317,
+      "sha256": "6298340d36ac7619247f34ca59ca093228022e3302a6cdfa18292b8bc6c4e863"
+    },
+    {
+      "relative_to_run": "score.json",
+      "bytes": 252222,
+      "sha256": "c1d1307e753671a2e80924f77b76718c581c3feb9cd686e06e22672b91a79fc2"
+    },
+    {
+      "relative_to_run": "adjudication.json",
+      "bytes": 50839,
+      "sha256": "9e6f1c784bdd9f4d9ee40a2612eb9d3ed83c73dd547bbbacbea565406f0c326e"
+    },
+    {
+      "relative_to_run": "batch_a_recommendations.json",
+      "bytes": 11189,
+      "sha256": "e500ac8d16e6bf03312e2ef19023fd19e651bc736ed0767801cce14c01387b13"
+    },
+    {
+      "relative_to_run": "batch_b_recommendations.json",
+      "bytes": 8919,
+      "sha256": "96d6e08afa45a988613dabc6d7fe020c05f37e15964ede95cf67c696a6a863fe"
+    },
+    {
+      "relative_to_run": "batch_c_recommendations.json",
+      "bytes": 13177,
+      "sha256": "f4c582653a4c3b1dbdd98f8748c9cc1bcf056e71eefdb076feb843b66926022a"
+    },
+    {
+      "relative_to_run": "calls.jsonl",
+      "bytes": 122102,
+      "sha256": "5ece09818cc03e96cf06c6088ee44f4a92f8c0d23206195dd785d0a8a9c39bc9"
+    },
+    {
+      "relative_to_run": "run_genesis.json",
+      "bytes": 32643,
+      "sha256": "f2f748224600c29458d329960bc3d63a8871d80f7149d0130b604c015df85612"
+    }
+  ],
+  "external_inputs": [
+    {
+      "relative_to_artifact_root": "s277_c1_p1_release_config_v2.json",
+      "bytes": 13141,
+      "sha256_lf": "69ff5cc8923ab41ae7e5445da190f99d485f973f638de0db8731d8412e3bf578"
+    },
+    {
+      "repo_path": "evals/s277_c1_p1_fact_contract_v1.json",
+      "bytes": 148291,
+      "sha256_lf": "3ac742b067ff8cc56332328eb5c8819ac1077e9b7efe10f838247940d0b6ca32"
+    }
+  ],
+  "terminal_chain_values": {
+    "final_result_sha256": "2e45bdc8c0288dc67485a48383a5c4ea5a3ebf7b1ff8717daa369cde4bdbf245",
+    "final_run_result_sha256": "a6fc7778ac228a159b4727f9bba9d097a6fea10a1280a19c749b3f2db148f8d0",
+    "final_score_sha256": "a0568f43a067c7228e6ae62dd51fc055f311d13295d177b0defbe6aa59337597",
+    "final_adjudication_sha256": "db4ae6adf1d738bca11870160789dc98154a5c6d4c9fbac175e1d57a37cfff80"
+  },
+  "limitations": [
+    "This manifest inventories hashes but does not contain the external artifacts.",
+    "The current frozen-context oracle does not yet consume or validate this complete terminal chain.",
+    "No secrets or credentials are included.",
+    "This manifest never authorizes model spend, release, merge, deploy, canary, or database mutation."
+  ]
+}

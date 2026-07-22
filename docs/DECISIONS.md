@@ -3308,3 +3308,106 @@ acotada, pero sí bloquea merge/release global hasta una migración forward-only
 RLS/grants/policies y smokes. Merge, deploy y canary requieren gates y autorización separados.
 Multi-turn/multi-hop permanece `NOT_BUILT`; DEC-146 no autoriza DDL conversacional, estado durable,
 hops ni inferencia adicional.
+
+## DEC-147 (S277, 22 jul 2026) — La P1 fresca completa cierra `P1_NO_GO`; se corrige la unidad de medida y el siguiente gate pasa a offline-first
+
+**Resultado autoritativo.** El run `p1-v3-b92ff51-20260722a`, sellado al commit
+`b92ff51e5af180352366158614ca83f7fdfc186d` y tree
+`de347f6add8ae1a5fe9a9514a5d077af8b55b66d`, completó 27/27 réplicas y exactamente 81 llamadas
+por 2,69369748 USD, con cap interno 30 USD y reserva desconocida cero. Railway y Supabase
+registraron cero mutaciones; fence y manifest/fingerprint cerraron estables. `final.json` queda
+como autoridad terminal: `P1_NO_GO / NO_GO_PROTECTED_CONTRACT`, adjudicación aplicada,
+`release_deployed=false`. No existe `P1_PASS`, no cambia el KPI y C1 continúa NO-GO.
+
+**Ledger de la tanda.** Antes de `b92ff51`, tres runs v2 terminaron diagnósticos a 17/27:
+`p1-v2-511bd58-20260722a` (51 llamadas, 1,70976360 USD,
+`NO_GO_PROTECTED_CONTRACT`), `p1-v2-b131464-20260722d` (54, 1,81440744 USD,
+`NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET`) y `p1-v2-eefc388-20260722a` (54, 1,82350344 USD,
+mismo código). Junto con las 81 llamadas/2,69369748 USD del run final, el subtotal local es
+**8,04137196 USD**, reserva desconocida cero. Este no es necesariamente el gasto completo desde
+la autorización de 100 USD; antes de otra llamada se reconcilian también probes, reviews y runs
+fuera de ese artifact root.
+
+**Corrección de medición.** La adjudicación ciega resolvió 91 ítems semánticos: 62 PASS y
+29 FAIL. Esos ítems no son respuestas ni llamadas. A nivel de respuesta completa hay 10/27
+limpias y 17/27 con al menos un FAIL. El “18/27” citado anteriormente pertenecía al run histórico
+abortado `p1-8c7818cce1174f1ea0538028693ee515` y significaba 18 respuestas persistidas, no 18 PASS.
+Se prohíbe volver a usar “27/27” sin el calificador `generadas` o “62/29” sin el calificador
+`ítems semánticos`.
+
+**Corrección de método.** La sesión dedicó demasiado ciclo a integridad de runner/scorer/fence y
+a iteraciones de prompt antes de ejecutar un preflight barato sobre las 27 respuestas completas.
+El fallo de método queda aceptado: no se compra otra muestra hasta agotar lo que puede decidirse
+offline. Se añade `scripts/s277_c1_p1_offline_counterfactual.py`, que reproduce sólo el borde
+determinista planner→must-preserve→conflict-guard sobre drafts/contextos congelados, deniega
+red/DB y nunca concede crédito de release. Su baseline queda
+`OFFLINE_PREFLIGHT_HOLD`: 27/27 replay byte-exacto, 62/62 PASS y 93/93 checks automáticos
+preservados, 0/29 FAIL corregidos, cero llamadas. Este v1 congela `served_context` y, por tanto,
+no puede corregir honestamente los ≥10 fallos de fuente; su eventual
+`OFFLINE_FROZEN_CONTEXT_PASS` sólo acredita postgeneración sobre un commit limpio y no autoriza
+gasto. Antes de una P1 nueva se debe construir un gate de candidate-context/source receipts
+hash-bound. Reusa provider receipts sólo con request hash idéntico; si cambia embedding/rerank,
+se permite un experimento context-only acotado, preregistrado, contabilizado y sin síntesis, o el
+gate queda HOLD. Después se combina con el oráculo hasta obtener 29/29 corregidos,
+62/62 y 93/93 preservados, sin reviews nuevas pendientes, FAILs ni errores de instrumento.
+Después seguirá siendo obligatoria una P1 autoritativa fresca.
+
+**Límite del instrumento de handoff.** El oracle v1 es WIP de desarrollo: Protocol 3 Sol+Fable
+queda pendiente; todavía no consume un manifest que valide la cadena completa
+`final→result/score→adjudication→receipts`, y `--candidate-adjudication` confía en el operador más
+allá de key/decision/binding. El manifest hash-bound
+`evals/s277_c1_p1_b92ff51_handoff_manifest_v1.json` registra tamaños/hashes de los artefactos
+externos, pero el
+gate vNext debe consumirlo y endurecer cegado/reviewer/packet/bijection. Todo PASS exige commit
+limpio; un working tree dirty queda HOLD.
+
+**Split causal.** Los 29 FAIL no son una sola clase de “synthesis miss”. Parte carece de evidencia
+correcta en el contexto: hp018:r1 mezcla ZXAE/ZXEE por identidad `add` y un `LIMIT` sin orden;
+cat017 no cruza identidades INSPIRE/E10/E15 aún candidatas; hp002 tiene el warning en pool pero no
+lo reserva; cat019 tiene el span activo, pero falla autoridad/lineage/metadata y el serving no
+admite source cards de prosa. El resto sí son omisiones de obligación compuesta, atribución,
+conflicto o cita local sobre fuente ya servida. Por ello se autoriza como dirección técnica —no
+como implementación ya validada— un **Evidence Contract** nuevo, default-off, sin QID/gold en
+runtime, que tipa obligaciones de safety, procedimiento, relación, atribución/conflicto,
+compound y aritmética trazable; reserva evidencia antes del writer y valida cobertura/cita/
+contradicción después. No puede fabricar fuente ausente ni mutar la semántica histórica de
+`coverage_c1_v1/v2`.
+
+**Cambios WIP y versionado.** La rama de handoff no cambia runtime. Contiene regresiones que
+demuestran que una futura política `replace` excluye la familia incorrecta sin romper ZX2e/ZX5e
+y el preflight offline. Tanto activar `replace` como añadir el orden estable
+`source_file,page_number,id` a `content_search` produjeron los rechazos esperados del schema/hash
+sellado y se retiraron antes del commit. Nada fue medido por la P1 `b92ff51`. El próximo
+candidato debe versionar schema/config/prereg e implementation hashes en vez de relajar guards o
+reescribir evidencia histórica. Catálogo INSPIRE, reserva hp002, autoridad/source-card cat019 y
+Evidence Contract permanecen no implementados.
+
+`replace` no queda aprobado globalmente por los controles ZXE: antes de activarlo se exige census
+de todos los umbrellas/aliases con before/after, `doc_map`, no-empty y no-wrong-family, o política
+versionada por clase. El `ORDER BY source_file,page_number,id` sólo resuelve no determinismo;
+selección de revisión activa/autoridad debe preceder al `LIMIT` o usar over-fetch + filtro
+fail-closed.
+
+**Orden decidido.** (1) preservar run/artefactos como baseline; (2) ejecutar el census de
+identidad y resolver la selección authority/lifecycle-first antes del `LIMIT` —o
+over-fetch+filter—; (3) diseñar el contrato vNext, reconciliar `spent_so_far/remaining` antes de
+cualquier llamada y, antes de build/commit de impacto, ejecutar Protocol 3 Sol+Fable y adjudicar
+sus claims; (4) versionar schema/config/prereg/hashes y cerrar fuente/autoridad de hp018, cat017,
+hp002 y cat019 con soluciones genéricas y fail-closed; (5) implementar Evidence Contract bajo
+flag; (6) construir el source/context gate y combinarlo con el oráculo postgeneración sobre un
+commit limpio; si cambia un binding, emitir packet HOLD, adjudicarlo ciegamente y repetir los
+gates —si cambia el request hash, usar antes un piloto context-only acotado y contabilizado o
+quedar HOLD—; (7) sólo con cero REVIEW pendiente y 29/29 + 62/62 + 93/93 crear inputs, receipt,
+credenciales y artifact
+root nuevos y ejecutar otra P1 27/27. La autorización de trabajo/gasto de Alberto sigue
+vigente después de superar los gates y no exige una pregunta nueva, pero antes de cualquier
+llamada hay que reconciliar `spent_so_far/remaining` contra el techo acumulado de 100 USD; cada
+P1 conserva cap 30 USD. El permiso financiero no autoriza DDL live, merge, deploy o canary.
+
+**Alternativas cerradas y alcance.** No se reabre con otro wording el checklist S206, la
+descomposición/multiwriter S216, la sustitución directa por writer frontera, las revisiones
+full-answer S219–221 con regresiones, ni todos los flags must-preserve agotados en DEC-134.
+El marcador sigue 146/154 (94,81 %, gap +5); incluso un futuro `P1_PASS` exige eval
+orgánico/fresco para bankear. Multi-turn/multi-hop continúa separado, `NOT_BUILT`, bajo DEC-136;
+Evidence Contract sólo se diseña como seam reusable del verifier futuro. Handoff reproducible:
+`docs/HANDOFF_P1_B92FF51_2026-07-22.md`.

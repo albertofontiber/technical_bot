@@ -1,12 +1,21 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-22: **tercera P1 histórica cerrada con `NO_GO_PARTIAL`; lineage v2 aplicada y
-verificada live; lane default-off en `GO_MECHANISM`; `coverage_c1_v2` materializado; P1 v2
-`PENDING` y no ejecutada; todavía no existe GO de release**. La
-autorización histórica cubría una única P1 de 27 réplicas/27
-generaciones y exactamente 81 llamadas pagables, con techo duro de 30 USD; quedó consumida por
-el run terminal y nunca
-cubrió merge, deploy ni canary. Además de
+Estado a 2026-07-22: **la P1 fresca `p1-v3-b92ff51-20260722a` completó 27/27 réplicas y
+81/81 llamadas, pero terminó `P1_NO_GO / NO_GO_PROTECTED_CONTRACT`; todavía no existe GO de
+release**. La adjudicación ciega dejó 10/27 respuestas limpias, 17/27 con al menos un fallo y
+62 PASS / 29 FAIL ítems semánticos. Costó 2,69369748 USD bajo el cap interno de 30 USD, con
+reserva desconocida cero, cero mutaciones Railway/Supabase, fence cerrado y manifest/fingerprint
+pre/post idénticos. El run exacto está ligado a commit `b92ff51e5af180352366158614ca83f7fdfc186d`
+y tree `de347f6add8ae1a5fe9a9514a5d077af8b55b66d`; no puede completarse ni reinterpretarse bajo
+código posterior. La autorización posterior elevó el techo externo acumulado a 100 USD, pero no
+autoriza saltarse el preflight offline, merge, deploy, canary ni una migración live nueva. Los
+cuatro runs locales de esta tanda (`511bd58`, `b131464`, `eefc388`, `b92ff51`) suman
+8,04137196 USD; antes de otra llamada hay que reconciliar además probes/reviews/runs fuera de ese
+artifact root. El
+estado y la continuidad reproducible viven en
+[`HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md).
+
+Además de
 los PASS previos de ensamblaje offline y reachability GET-only, están implementados
 el adapter productivo, el cierre transitivo exacto, la captura read-only de Railway,
 el manifest live pre/watch/post, el fence PostgreSQL persistente read-only por IPC,
@@ -142,7 +151,23 @@ invalida el recibo. El JSON versionado actual es autoridad sólo para este
 checkout byte-idéntico; no debe repinnearse editando hashes: ante cualquier
 drift hay que reejecutar el GET-only y guardar su nueva salida.
 
-## Gate pagado prerelease: P1 v2 fresca `PENDING`, no ejecutada
+## Gate pagado prerelease: última P1 fresca completa `NO_GO`; siguiente run bloqueado offline
+
+La P1 fresca de 27/27 ya se ejecutó. `final.json` cerró `P1_NO_GO`; la unidad correcta de
+calidad no es el antiguo 18/27 generado antes de abortar, sino 10/27 respuestas limpias y 17/27
+con fallos tras adjudicar 91 ítems. `scripts/s277_c1_p1_offline_counterfactual.py` es sólo un
+oráculo postgeneración sobre el draft y contexto congelados: debe preservar 62/62 PASS y 93/93
+checks, pero no puede reparar los ≥10 fallos cuya fuente no fue servida. No lanzar otro run
+pagado hasta construir un gate separado `CANDIDATE_CONTEXT_SOURCE_RECEIPT_PREFLIGHT`. Sólo puede
+reusar provider receipts si el request hash es idéntico; si cambia embedding/rerank, requiere un
+experimento context-only acotado, preregistrado y contabilizado —sin síntesis— o queda HOLD.
+Después combina ambos gates hasta obtener 29/29
+FAIL corregidos sin review pendiente ni regresión. Ni `OFFLINE_FROZEN_CONTEXT_PASS` ni el gate
+combinado otorgan `P1_PASS` o autorización de release.
+El replay WIP existente se ejecuta con cero modelos y sólo sirve de diagnóstico. Para el candidato
+vNext se diseña primero, se reconcilia el ledger y se ejecuta Protocol 3 Sol+Fable antes de
+construir o commitear cambios de impacto. Después se implementan los gates deterministas; si el
+request hash de embedding/rerank cambia, se añade un piloto context-only acotado antes de la P1.
 
 La respuesta real aportada por Alberto tenía 4.449 caracteres y Telegram la
 dividió en dos mensajes: fue una generación, no dos respuestas. Tampoco
@@ -250,17 +275,17 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: `coverage_c1_v2` listo; ejecución fresca 27/27 pendiente
+### Fase P1: baseline fresca `b92ff51` completa y `NO_GO`
 
 El runner anterior se ejecutó sobre el commit candidato **antes de cualquier
 despliegue**. En los tres runs históricos, una transformación pura preregistrada derivaba
 `bootstrap_profile=off` y `p1_target_profile=coverage_c1_v1`; ese target queda como evidencia
-histórica y no puede reutilizarse para el candidato document-local. La P1 nueva ya está
-preregistrada para sellar `coverage_c1_v2`. P1 ejecuta el target derivado, no presupone que
-Railway ya cambió. Su PASS sella tested commit/tree, manifest, planned patch, digest
-de configuración común, fingerprints, contextos, respuestas y TTL de 6 horas. Si
-árbol/código, configuración común, corpus, proveedor/runtime o TTL cambian después,
-P1 caduca y debe repetirse bajo una preregistración nueva.
+histórica y no puede reutilizarse para el candidato document-local. La P1 `b92ff51` fue
+preregistrada para sellar `coverage_c1_v2`, ejecutó el target derivado y terminó NO-GO; no
+autoriza reutilizar v2. El próximo candidato aún no existe
+y requiere schema/config/prereg vNext más nuevos hashes de implementación. Una futura P1 seguirá
+sellando tested commit/tree, manifest, planned patch, digest de configuración común,
+fingerprints, contextos, respuestas y TTL de 6 horas. Cualquier drift posterior la caduca.
 
 Estado de la secuencia ejecutada:
 
@@ -305,19 +330,23 @@ Estado de la secuencia ejecutada:
 13. **Completado:** `coverage_c1_v2` y su preregistro aditivo materializados;
     `coverage_c1_v1` permanece inmutable y no habilita la lane. Cuatro rondas Sol/Fable están
     adjudicadas y cerradas; no existe una quinta ronda pendiente.
-14. **Pendiente/no ejecutado:** ejecutar una P1 completamente nueva 27/27, exactamente 81
-    llamadas y cap interno de 30 USD. Los 18 artefactos previos siguen
-    siendo evidencia diagnóstica, no se reutilizan para completar la certificación.
+14. **Completado con NO-GO:** `p1-v3-b92ff51-20260722a` generó 27/27 y ejecutó exactamente
+    81 llamadas por 2,69369748 USD. La adjudicación final dejó 10 respuestas limpias, 17 con
+    fallos y 62/29 ítems PASS/FAIL. Los artefactos quedan baseline inmutable; no existe
+    certificación ni `P1_PASS`.
 
-La autorización explícita recibida cubría el tercer run y está consumida. Corregir el scorer no
-requiere empezar de cero: los 18 artefactos se reusan para replay y regresión. En cambio, un GO
-no puede completar este run terminal con nueve respuestas nuevas bajo código distinto; después
-del fix productivo exige un run sellado nuevo y todos sus inputs operativos desde cero. No existe
-`P1_PASS` ni GO. La autorización propia de lifecycle fue recibida, consumida y verificada; el
-prerrequisito inmediato es ahora materializar el receipt e inputs operativos de P1 v2 y ejecutar
-el run fresco. La autorización posterior vigente permite continuar y eleva el techo externo hasta 100 USD;
-el preregistro v2 conserva el bound interno más estrecho de 30 USD. Merge, deploy y canary
-pertenecen a la secuencia posterior y requieren autorización propia.
+Los receipts de los runs históricos quedaron consumidos. Corregir el scorer no exigió
+repetir sus llamadas: sus artefactos se reutilizaron para replay y regresión. La autorización
+explícita de Alberto para continuar y elevar el techo externo hasta 100 USD sigue vigente tras
+superar los gates; no hace falta volver a preguntar, aunque cada run materializa un receipt nuevo.
+El cap por P1 permanece en 30 USD. Ese permiso no permite gastar iterativamente contra los mismos fallos: el
+prerrequisito inmediato es corregir el candidato, superar el oráculo frozen-context y
+construir/superar el gate de candidate-context/source receipts; sólo su combinación puede
+acreditar 29/29 offline. Después, un run sellado nuevo requerirá inputs, receipt, credenciales y
+artifact root nuevos. Antes de cualquier llamada se debe reconciliar el gasto acumulado de todos
+los runs/probes desde la autorización y registrar `spent_so_far`/`remaining`; el cap de 30 USD por
+run no sustituye el techo acumulado de 100 USD. No existe `P1_PASS` ni GO. Merge, deploy, canary y
+cualquier migración cat019 pertenecen a gates/autorizaciones separados.
 
 El historial quedó reconciliado: siete migraciones remote-only se recuperaron exactamente y las
 tres local-only, confirmadas ausentes, se trasladaron a `migration_proposals`. El árbol quedó
@@ -355,8 +384,9 @@ red incierto, porque el primer insert podría haberse confirmado.
 ## Secuencia de despliegue, solo tras PASS de P1
 
 La secuencia histórica sellada para `coverage_c1_v1` no puede desplegar este candidato
-document-local. `coverage_c1_v2` ya está materializado y preregistrado; sólo una P1 nueva 27/27
-sobre ese perfil puede habilitar los pasos siguientes.
+document-local. La P1 completa sobre `coverage_c1_v2` fue NO-GO, por lo que tampoco habilita los
+pasos siguientes. El candidato corregido debe superar primero el preflight offline, versionar su
+schema/config/prereg y después obtener una P1 nueva 27/27 sobre el perfil exacto que selle.
 
 1. Revisar el PR, pero **no mergearlo todavía**: Railway autodesplegaría un
    binario que exige perfil explícito sobre las variables legacy actuales.
@@ -407,8 +437,8 @@ sobre ese perfil puede habilitar los pasos siguientes.
    proceso a P1.
 10. Solo con P1 vigente y verificación post-deploy exacta, cambiar una variable
    durante ventana de mantenimiento:
-   `COVERAGE_RELEASE_PROFILE=<sealed_target_profile>`; para este candidato deberá ser el v2
-   materializado y sellado por la nueva P1, nunca `coverage_c1_v1`.
+   `COVERAGE_RELEASE_PROFILE=<sealed_target_profile>`; deberá ser el perfil exacto materializado
+   y sellado por la futura P1, nunca inferido de `coverage_c1_v1/v2` históricos.
 11. Tras el reinicio, verificar que la configuración completa coincide con
     `p1_target_profile`; cualquier delta aborta y revierte.
 12. Ejecutar el canary post-activación: preguntar hp017 tres veces, puntuar las

@@ -2091,3 +2091,45 @@ deben seleccionar y servir un único ID. El preregistro P1 v2 conserva 27/27 ré
 y cap interno de 30 USD. **No se ejecutó P1 v2 y no existe `P1_PASS`.** El 18/27 histórico queda
 sólo como diagnóstico. KPI: 146/154 (94,81 %), sin movimiento. TECH_DEBT #29 no bloquea esta
 medición, pero sí merge/release global; multi-turn/multi-hop continúa `NOT_BUILT`.
+
+### S277 — P1 fresca completa `b92ff51`: NO-GO y cambio a método offline-first
+
+El run `p1-v3-b92ff51-20260722a` completó las 27 réplicas y las 81 llamadas previstas sobre
+commit `b92ff51`/tree `de347f6`, por 2,69369748 USD. El fence cerró, manifest y fingerprint
+pre/post coincidieron, Railway/Supabase registraron cero mutaciones y no hubo deploy. La
+adjudicación ciega de 91 ítems produjo 62 PASS y 29 FAIL; agrupados por respuesta, 10/27 quedaron
+limpias y 17/27 con al menos un fallo. `final.json` cerró
+`P1_NO_GO / NO_GO_PROTECTED_CONTRACT`. El KPI continúa 146/154.
+
+La tanda incluyó tres runs v2 diagnósticos previos a 17/27: `511bd58` (51 llamadas,
+1,70976360 USD), `b131464` (54, 1,81440744 USD) y `eefc388` (54, 1,82350344 USD). Los dos últimos
+pararon `NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET`; el primero, `NO_GO_PROTECTED_CONTRACT`. Con
+`b92ff51`, el subtotal observado de los cuatro es 8,04137196 USD y reserva desconocida cero. No
+se reanudan ni mezclan; el saldo total de la autorización requiere reconciliar también todo gasto
+fuera de este artifact root.
+
+La medición corrigió dos confusiones: el 18/27 anterior era cardinalidad generada por un run
+abortado, no calidad, y 62/29 son ítems semánticos, no respuestas. El residual también dejó de
+tratarse como una sola clase de síntesis: hp018:r1, cat017, hp002 y cat019 requieren resolver
+identidad/orden, catálogo, reserva o autoridad/source-card antes del writer; otros fallos sí son
+obligaciones compuestas, atribución/conflicto o cita sobre evidencia ya servida.
+
+Se reconoció el coste de haber iterado demasiado sobre runner/scorer/fence sin un filtro barato de
+full answers. Se añadió un counterfactual de cero llamadas que reproduce el borde determinista
+sobre los 27 drafts/contextos congelados. Su baseline preserva 62/62 PASS y 93/93 checks
+automáticos, pero deja 29/29 FAIL, por lo que emite `OFFLINE_PREFLIGHT_HOLD`. Como congela el
+contexto no puede arreglar los fallos de fuente: antes de otra P1 se debe añadir un gate separado
+de candidate-context/source receipts y combinar ambos hasta corregir los 29 sin regresiones ni
+reviews pendientes. El replay WIP existente parte de cero modelos; para el candidato vNext se
+diseña primero, se reconcilia el ledger y Protocol 3 Sol+Fable se ejecuta antes del build de
+impacto. Si cambia el request hash de embedding/rerank, se exige después un piloto context-only
+acotado. La rama conserva
+tests que demuestran la semántica de una futura política `replace` y el instrumento; no cambia
+runtime. Tanto `replace` como el orden estable de `content_search` se retiraron al comprobar que
+los rechazaban correctamente schema/hash históricos. El próximo candidato debe versionar
+schema/config/prereg e implementation hashes y no reescribir artefactos sellados.
+
+El traspaso completo para Claude Code quedó en
+`docs/HANDOFF_P1_B92FF51_2026-07-22.md`; la PR #184 permanece draft. No se implementó aún
+Evidence Contract, catálogo INSPIRE, reserva hp002 ni migración/source-card cat019, y no se
+autorizaron merge, deploy, canary ni DDL nuevo. Multi-turn/multi-hop sigue separado bajo DEC-136.

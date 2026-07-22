@@ -21,10 +21,21 @@
 > #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas.
 > El rol `p1_readonly`, el lifecycle HP011 y las cuatro versiones document-local —incluida la
 > lineage v2 gobernada— están aplicados y verificados live; su receipt pasa 7/7 y fija la función
-> por hash `19975e…a82e`. La tercera P1 histórica terminó `NO_GO_PARTIAL`; la lane default-off
-> pasó 22/22 como `GO_MECHANISM` y ya está integrada en `coverage_c1_v2`. La P1 v2 fresca
-> 27/27/81 llamadas sigue `PENDING` y no ejecutada, con cap interno de 30 USD. No hubo deploy ni
-> `P1_PASS`. Marcador: 146/154 (94,81 %), sin movimiento.
+> por hash `19975e…a82e`. La lane default-off pasó 22/22 como `GO_MECHANISM` y se integró en
+> `coverage_c1_v2`. La P1 fresca `b92ff51` completó 27/27 réplicas y 81/81 llamadas, pero cerró
+> `P1_NO_GO`: 10/27 respuestas limpias, 17/27 con fallos y 62 PASS / 29 FAIL ítems semánticos.
+> Costó 2,69369748 USD; los cuatro runs locales de la tanda suman 8,04137196 USD.
+> Fence/manifest quedaron estables y no hubo mutaciones ni deploy. El
+> counterfactual actual es sólo un oráculo postgeneración sobre contexto congelado; no puede
+> resolver los fallos de fuente. Antes de considerar otra P1 hay que hacer census/authority,
+> diseñar el contrato vNext, reconciliar el ledger y ejecutar Protocol 3 Sol+Fable antes del
+> build/commit de impacto. Sólo después se construye el gate determinista de cero modelos para
+> candidate-context/source receipts. Reutiliza provider receipts sólo con request hash idéntico;
+> si cambia rerank requiere un piloto context-only acotado y contabilizado o queda HOLD. Tras
+> adjudicar bindings nuevos, combina ambos hasta corregir 29/29 preservando 62/62 PASS y 93/93
+> checks. No existe `P1_PASS`.
+> Marcador: 146/154 (94,81 %), sin
+> movimiento. Handoff: `docs/HANDOFF_P1_B92FF51_2026-07-22.md`.
 > Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
 >
 > **Cobertura document-local candidata, post-rerank y default-off.** Parte de scopes derivados

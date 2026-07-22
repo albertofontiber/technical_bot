@@ -93,15 +93,50 @@ def test_no_detecta_dimensiones_como_paraguas_dimension():
     assert R.detect("cuáles son las dimensiones del panel") == []
 
 
-def test_hp009_premisa_add_conserva_match_family_level():
+def test_hp009_premisa_add_conserva_match_family_level(monkeypatch):
     # hp009 (family-genérico → answer): bajo el brazo ADD, los docs tagueados combinado
-    # ('ZX2e/ZX5e', la clase MIE-MI-530) deben seguir pasando el filtro de modelos
+    # ('ZX2e/ZX5e', la clase MIE-MI-530) deben seguir pasando el filtro de modelos.
     from src.rag.retriever import _filter_to_query_models
+
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "add")
     res = R.resolve_query("central ZXe")
-    models = R.apply_to_models(["ZXE"], res)          # add: ZXE + ZX1e/ZX2e/ZX5e
+    models = R.apply_to_models(["ZXE"], res)
     chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
     out = _filter_to_query_models(chunks, models)
     assert len(out) == 3, "la expansión ADD no debe expulsar los docs family-level de hp009"
+
+
+def test_hp009_replace_conserva_match_family_level(monkeypatch):
+    # hp009 (family-genérico → answer): retirar el paraguas no debe expulsar los
+    # documentos combinados ('ZX2e/ZX5e', la clase MIE-MI-530), porque las
+    # variantes canónicas siguen siendo cores válidos del tag compuesto.
+    from src.rag.retriever import _filter_to_query_models
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("central ZXe")
+    models = R.apply_to_models(["ZXE"], res)
+    assert "ZXE" not in models
+    chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
+    out = _filter_to_query_models(chunks, models)
+    assert len(out) == 3, "REPLACE no debe expulsar los docs family-level de hp009"
+
+
+def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
+    from src.rag.retriever import _filter_to_query_models
+
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("conectar una sirena convencional en Morley ZXe")
+    models = R.apply_to_models(["ZXE"], res)
+    chunks = (
+        [_chunk("ZXAE/ZXEE", "MIE-MI-310")] * 3
+        + [_chunk("ZX2e/ZX5e", "MIE-MI-530rv001")] * 3
+    )
+
+    out = _filter_to_query_models(
+        chunks, models, identity_allowed=res["allowed_sources"]
+    )
+
+    assert {c["product_model"] for c in out} == {"ZX2e/ZX5e"}
+    assert {c["source_file"] for c in out} == {"MIE-MI-530rv001"}
 
 
 # ─── resolución por la puerta (contrato expand) ───

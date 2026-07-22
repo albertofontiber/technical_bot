@@ -4,6 +4,21 @@ Bot RAG de Telegram para técnicos de PCI (protección contra incendios): Claude
 (Sonnet genera) + Supabase pgvector. Responde SOLO desde manuales oficiales, cita
 fuente, y admite cuando no sabe. Contexto M&A (Fontiber); escala a 30+ fabricantes.
 
+## START HERE — continuidad S277 (22 jul 2026)
+
+Antes de actuar en la PR #184, leer completo
+`docs/HANDOFF_P1_B92FF51_2026-07-22.md`. Estado terminal: la P1 fresca generó 27/27
+réplicas y 81/81 llamadas, pero quedó `P1_NO_GO / NO_GO_PROTECTED_CONTRACT`: 10/27
+respuestas limpias, 17/27 con fallos y 62 PASS / 29 FAIL **ítems semánticos**. El run
+`b92ff51` es baseline inmutable. No ejecutar otra P1 pagada, modificar sus artefactos ni tocar
+producción hasta superar la secuencia de gates descrita en el handoff: el replay actual sólo es
+oráculo postgeneración sobre contexto congelado. Primero se hace census/authority y se diseña el
+contrato vNext; antes de cualquier llamada se reconcilia el ledger y antes del build/commit de
+impacto se ejecuta Protocol 3 Sol+Fable. Sólo después se implementa la parte determinista del gate
+candidate-context/source receipts y, si cambia el request hash, un piloto context-only acotado.
+El combinado debe demostrar 29/29 FAIL corregidos preservando 62/62 PASS y 93/93 checks
+automáticos. No existe `P1_PASS`, C1 GO, deploy ni movimiento del KPI.
+
 - Arquitectura: `docs/ARCHITECTURE.md` (el banner del inicio = estado actual).
 - Plan / roadmap: `docs/PLAN_RAG_2026.md`.
 - Deuda técnica: `TECH_DEBT.md`.

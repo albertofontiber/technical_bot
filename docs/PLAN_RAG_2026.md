@@ -3,8 +3,9 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 22 jul 2026 (S277 — autoridad lineage v2 aplicada, mecanismo document-local en
-> `GO_MECHANISM`, `coverage_c1_v2` materializado y P1 v2 fresca 27/27 pendiente).
+> 22 jul 2026 (S277 — P1 fresca `b92ff51` completa pero `P1_NO_GO`: 10/27 respuestas
+> limpias, 17/27 fallidas; handoff offline-first en
+> [`HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md)).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -25,6 +26,58 @@
 
 <a id="estado-actual-s277--22-jul-2026"></a>
 ## Estado actual (S277 — 22 jul 2026)
+
+### Cierre operativo de la P1 fresca y handoff
+
+**C1 continúa NO-GO.** El run sellado `p1-v3-b92ff51-20260722a`, sobre commit
+`b92ff51e5af180352366158614ca83f7fdfc186d` y tree
+`de347f6add8ae1a5fe9a9514a5d077af8b55b66d`, completó **27/27 réplicas y 81/81 llamadas**
+por **2,69369748 USD**, con cero mutaciones Railway/Supabase, fence cerrado y
+manifest/fingerprint pre/post idénticos. `final.json` es autoritativo:
+`P1_NO_GO / NO_GO_PROTECTED_CONTRACT`, `release_deployed=false`.
+
+Tres runs v2 previos de la misma tanda terminaron a 17/27 (`511bd58`, `b131464`, `eefc388`) por
+1,70976360 + 1,81440744 + 1,82350344 USD. Los cuatro runs locales suman **8,04137196 USD** y
+reserva desconocida cero; este subtotal no sustituye la reconciliación completa del techo
+acumulado de 100 USD antes de otra llamada.
+
+La adjudicación ciega resolvió **91 ítems semánticos: 62 PASS / 29 FAIL**. A nivel de respuesta
+completa son **10/27 limpias y 17/27 con al menos un FAIL**. El antiguo “18/27” describía
+respuestas persistidas por una P1 abortada, no 18 respuestas PASS. No existe `P1_PASS`, no se
+bancan facts y el marcador sigue **146/154 (94,81 %), gap +5**.
+
+La causa ya no se trata como “sólo síntesis”: parte de los 29 FAIL carece de la fuente correcta
+en el contexto servido —identidad/orden en hp018, catálogo INSPIRE en cat017, reserva del warning
+en hp002 y autoridad/source-card de prosa en cat019—; el resto son omisiones compuestas,
+atribución/conflicto o cita local sobre evidencia ya servida. La rama de handoff conserva tests
+que demuestran la semántica necesaria de una futura política `replace` y un preflight offline
+exacto; no cambia runtime. El runner y `retriever.py` históricos siguen sellados en `add` y sin
+el nuevo orden hasta versionar schema/config/prereg e implementation hashes. Aún no hay un
+candidato integral ni un Evidence Contract implementado.
+
+**Único qué-sigue operativo:** conservar el run como baseline inmutable; hacer el census de
+identidad y decidir authority/lifecycle-first; diseñar —sin construir todavía— el contrato vNext,
+source gate y Evidence Contract genérico default-off. Antes de cualquier llamada se reconcilia el
+ledger; antes del build/commit de impacto se ejecuta Protocol 3 Sol+Fable y se adjudican sus claims.
+Sólo después se versionan schema/config/prereg/hashes y se implementan el gate determinista de
+cero modelos y el Evidence Contract. El counterfactual actual sólo verifica postgeneración sobre
+contexto congelado y no puede reparar los ≥10 fallos de fuente. El source gate reutiliza receipts
+sólo con request hash idéntico; si cambia embedding/rerank, exige además un experimento
+context-only acotado, preregistrado y contabilizado —no una P1 completa— o queda HOLD. Sólo tras
+adjudicar cualquier binding nuevo y demostrar **29/29 FAIL corregidos, 62/62 PASS y 93/93 checks
+automáticos preservados**, sin REVIEW pendiente ni regresiones, procede una P1 nueva,
+nunca completar el run anterior.
+El detalle reproducible, IDs de fuente, comandos, límites de autorización y secuencia exacta
+viven en [`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md).
+
+**Multi-turn/multi-hop sigue `NOT_BUILT` y separado bajo DEC-136.** El Evidence Contract debe
+ser reusable por el verifier futuro, pero este frente no autoriza estado conversacional, DDL,
+colas ni inferencias adicionales.
+
+### Contexto histórico anterior a la P1 completa
+
+Los párrafos siguientes conservan la cronología que llevó al run fresco. Sus menciones a “P1
+pendiente” son históricas y quedan sustituidas por el cierre operativo anterior y DEC-147.
 
 **Marcador canónico sin movimiento desde S274: 154 facts = 146 OK · 6 synthesis-miss ·
 2 retrieval-miss = 146/154 (94,81%); faltan +5 para 151 (≥98%).** Es la foto de trabajo
@@ -106,8 +159,9 @@ revalida las 27 réplicas, exige 162 eventos WAL alternos y recompone el coste/p
 El delta normativo vive en `evals/s277_c1_p1_design_v2.md`,
 `evals/s277_c1_p1_prereg_v2.yaml` y
 `evals/s277_c1_p1_release_config_schema_v2.json`: bootstrap `off`, target
-`coverage_c1_v2`, GET document-local atestado 1:1 y ejecución completamente nueva. Está
-preregistrado offline, pero **P1 v2 sigue PENDING y no se ha ejecutado**.
+`coverage_c1_v2`, GET document-local atestado 1:1 y ejecución completamente nueva.
+**[HISTÓRICO PRE-RUN, SUPERADO POR DEC-147]** Estaba preregistrado offline, pero P1 v2 seguía
+`PENDING` y no se había ejecutado.
 Ya están implementados el adapter productivo y sus receipts de transporte físico, el cierre
 transitivo exacto de implementación, la captura read-only de Railway, el manifest live
 pre/watch/post de RPC/ACL/índices/config, el fence PostgreSQL persistente read-only operado por
@@ -128,8 +182,9 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `coverage_c1_v2` materializado; P1 v2 `PENDING`/no ejecutada; C1 continúa
-NO-GO.** La lane intradocumento genérica pasó 22/22 checks en su probe v2 GET-only sobre los 13
+**[HISTÓRICO PRE-RUN, SUPERADO POR DEC-147] Estado entonces:** `coverage_c1_v2` materializado;
+P1 v2 `PENDING`/no ejecutada; C1 continuaba NO-GO. La lane intradocumento genérica pasó 22/22
+checks en su probe v2 GET-only sobre los 13
 QIDs congelados: preservó todos los prefijos byte a byte, sólo añadió el registro autoritativo de
 hp011 y quedó ligada a una lineage gobernada, a la revisión activa, al blob y al SHA exactos. Falla
 cerrada ante lineage NULL/no verificada, lifecycle ambiguo o ramificado, drift, overflow, metadata
