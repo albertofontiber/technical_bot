@@ -18,6 +18,10 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTRACT_PATH = ROOT / "evals" / "s277_c1_p1_fact_contract_v1.json"
 PREREG_PATH = ROOT / "evals" / "s277_c1_p1_prereg_v1.yaml"
 RELEASE_SCHEMA_PATH = ROOT / "evals" / "s277_c1_p1_release_config_schema_v1.json"
+CURRENT_PREREG_PATH = p1.CANONICAL_PREREG_PATH
+CURRENT_RELEASE_SCHEMA_PATH = (
+    ROOT / "evals" / "s277_c1_p1_release_config_schema_v2.json"
+)
 BUILDER_PATH = ROOT / "scripts" / "s277_build_c1_p1_contract.py"
 
 
@@ -608,6 +612,7 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
         "STRUCTURAL_NEIGHBOR_COVERAGE": "off",
         "COVERAGE_MANDATORY_CALLOUT": "on",
         "MP_MANDATORY_VERB_TRIGGER": "on",
+        "DOCUMENT_LOCAL_COVERAGE": "off",
         "MUST_PRESERVE_CONTRACT": "on",
         "HYDE_ENABLED": "false",
         "CHUNKS_TABLE": "chunks_v2",
@@ -682,7 +687,7 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
             "supabase_write": False,
         },
     }
-    schema = _json(RELEASE_SCHEMA_PATH)
+    schema = _json(CURRENT_RELEASE_SCHEMA_PATH)
     Draft202012Validator(schema).validate(release)
 
     release_hash = p1.sha256_json(release)
@@ -724,7 +729,7 @@ def test_schema_valid_release_fixture_is_consumed_by_runner_preflight():
             semantic
         ),
     }
-    prereg = _yaml(PREREG_PATH)
+    prereg = _yaml(CURRENT_PREREG_PATH)
     bundle = p1.build_preflight_bundle(
         release_config=release,
         prereg=prereg,

@@ -1,9 +1,9 @@
 # C1: contrato de release y runbook
 
-Estado a 2026-07-21: **tercera P1 cerrada con `NO_GO_PARTIAL`; el falso FAIL instrumental está
-corregido y la autoridad entre dos revisiones quedó aplicada y verificada como migración
-reversible; `HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`; todavía no
-existe GO de release**. La autorización humana cubría una única P1 de 27 réplicas/27
+Estado a 2026-07-22: **tercera P1 histórica cerrada con `NO_GO_PARTIAL`; lineage v2 aplicada y
+verificada live; lane default-off en `GO_MECHANISM`; `coverage_c1_v2` materializado; P1 v2
+`PENDING` y no ejecutada; todavía no existe GO de release**. La
+autorización histórica cubría una única P1 de 27 réplicas/27
 generaciones y exactamente 81 llamadas pagables, con techo duro de 30 USD; quedó consumida por
 el run terminal y nunca
 cubrió merge, deploy ni canary. Además de
@@ -28,7 +28,14 @@ con dedupe cruzado y precedencia intencionadamente diferida. Aún no existe `P1_
 La migración `20260721190847` aplicó v.04→v.07 y limpió exactamente 38 enlaces cruzados bajo
 pre/postcondiciones fail-closed; su rollback exacto y el rechazo ante drift pasan en PostgreSQL
 embebido. CLI/history y SQL read-only confirman el estado post exacto. No hubo modelos, deploy,
-Railway ni cambio del KPI.
+Railway ni cambio del KPI. Después, las cuatro versiones document-local `20260721210847`,
+`20260721220110`, `20260722013000` y `20260722014500` materializaron el snapshot, la autoridad de
+blob, la lineage gobernada y la ACL/RLS mínima de P1. El receipt live v2 pasa 7/7 y fija
+`document_local_snapshot_v2` al SHA-256 LF
+`19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e`. El probe v2 terminó
+22/22 `GO_MECHANISM` con 84 GET, cero modelos y cero writes DB. No es una respuesta generada,
+`P1_PASS` ni autorización de despliegue. Cuatro rondas Sol/Fable quedaron adjudicadas y cerradas;
+no hubo quinta ronda.
 
 ## Qué corrige
 
@@ -45,6 +52,14 @@ unidad atómica:
 - `COVERAGE_MANDATORY_CALLOUT=on` efectivo.
 - `MP_MANDATORY_VERB_TRIGGER=on` efectivo.
 
+`COVERAGE_RELEASE_PROFILE=coverage_c1_v2` conserva exactamente esas cuatro y añade como quinta
+capacidad `DOCUMENT_LOCAL_COVERAGE=on`. Sólo permite las lanes structural + document-local. La
+segunda exige anchor structural servido, un máximo de un GET físico a
+`/rest/v1/rpc/document_local_snapshot_v2`, una única lane trace por réplica y correspondencia
+1:1 entre `http_requests` y receipts GET. `status=error` es NO-GO; `hp011:r1/r2` deben registrar
+un GET, un único ID seleccionado y ese ID en el contexto servido. `coverage_c1_v1` permanece
+inmutable y document-local off.
+
 El perfil exige `MUST_PRESERVE_CONTRACT=on` y el resto de lanes de coverage en
 `off`. Los parámetros de llamada no pueden sobreescribir un perfil explícito.
 El seam valida que coverage solo añada hasta cuatro chunks con identidad: si
@@ -53,7 +68,7 @@ original y registra `status=error`.
 
 `legacy` queda solo para harnesses offline. Cualquier worker de producción
 (Telegram, web o futuro multi-turn) debe arrancar con un perfil explícito
-`off` o `coverage_c1_v1`; esta regla es independiente del transporte.
+`off`, `coverage_c1_v1` o `coverage_c1_v2`; esta regla es independiente del transporte.
 
 ## Qué prueban exactamente los dos instrumentos
 
@@ -127,7 +142,7 @@ invalida el recibo. El JSON versionado actual es autoridad sólo para este
 checkout byte-idéntico; no debe repinnearse editando hashes: ante cualquier
 drift hay que reejecutar el GET-only y guardar su nueva salida.
 
-## Gate pagado prerelease: último run NO-GO; reautorización pendiente
+## Gate pagado prerelease: P1 v2 fresca `PENDING`, no ejecutada
 
 La respuesta real aportada por Alberto tenía 4.449 caracteres y Telegram la
 dividió en dos mensajes: fue una generación, no dos respuestas. Tampoco
@@ -144,7 +159,7 @@ hp002, hp003, hp005, hp011, hp012, hp013, hp014, hp017, hp018
 Contrato implementado por el runner end-to-end:
 
 - cada réplica atraviesa retrieval, rerank, contexto servido combinado —con sólo
-  structural entre las lanes de coverage y preservando exactamente las capacidades
+  structural + document-local entre las lanes de coverage y preservando exactamente las capacidades
   ortogonales vivas—, síntesis y renderer reales por el seam actual;
   no usa el contexto congelado S113;
 - modelo y parámetros exactos congelados;
@@ -163,10 +178,10 @@ Contrato implementado por el runner end-to-end:
 - adjudicación fact-level contra los facts ya OK para los otros 12 QIDs;
 - artefacto con hashes de código, config, contextos y respuestas completas.
 
-Artefactos canónicos: `evals/s277_c1_p1_prereg_v1.yaml`,
-`evals/s277_c1_p1_fact_contract_v1.json`,
-`evals/s277_c1_p1_release_config_schema_v1.json` y
-`evals/s277_c1_p1_design_v1.md`. Para inspeccionar el plan y la interfaz sin
+Artefactos canónicos actuales: `evals/s277_c1_p1_prereg_v2.yaml`,
+`evals/s277_c1_p1_fact_contract_v1.json` —sin cambios en población/facts—,
+`evals/s277_c1_p1_release_config_schema_v2.json` y
+`evals/s277_c1_p1_design_v2.md` como delta normativo sobre v1. Para inspeccionar el plan y la interfaz sin
 consumir red ni presupuesto:
 
 ```powershell
@@ -235,12 +250,13 @@ Su salida usa un nombre nuevo que incluye el release profile. Los consumidores
 históricos de `bot_vs_gold_results_k5.yaml` no migran automáticamente: P1 debe
 pasar el artefacto nuevo de forma explícita o consumirlo desde su runner sellado.
 
-### Fase P1: tercer run terminal cerrado; recuperación de fuente requerida antes de repetir
+### Fase P1: `coverage_c1_v2` listo; ejecución fresca 27/27 pendiente
 
-El runner anterior se ejecuta sobre el commit candidato **antes de cualquier
-despliegue**. Primero lee Railway sin mutarlo y sella su snapshot; una transformación
-pura preregistrada deriva `bootstrap_profile=off` y
-`p1_target_profile=coverage_c1_v1`. P1 ejecuta el target derivado, no presupone que
+El runner anterior se ejecutó sobre el commit candidato **antes de cualquier
+despliegue**. En los tres runs históricos, una transformación pura preregistrada derivaba
+`bootstrap_profile=off` y `p1_target_profile=coverage_c1_v1`; ese target queda como evidencia
+histórica y no puede reutilizarse para el candidato document-local. La P1 nueva ya está
+preregistrada para sellar `coverage_c1_v2`. P1 ejecuta el target derivado, no presupone que
 Railway ya cambió. Su PASS sella tested commit/tree, manifest, planned patch, digest
 de configuración común, fingerprints, contextos, respuestas y TTL de 6 horas. Si
 árbol/código, configuración común, corpus, proveedor/runtime o TTL cambian después,
@@ -278,23 +294,36 @@ Estado de la secuencia ejecutada:
 9. **Stop-line de autoridad cerrada:** la misma familia tenía v.04 y v.07 activas. Tras
    autorización explícita, `20260721190847` adjudicó v.04→v.07, reparó 38 enlaces y dejó p63 v.07
    canónica. History y postcondiciones están verificadas; no se aplicó latest-wins en runtime.
-10. **Stop-line de recuperación:** después de adjudicar lifecycle y reparar dedupe, un mecanismo
-   genérico, acotado y fail-closed debe demostrar offline/GET-only que recupera la autoridad
-   intra-documento. Pool coverage e HYQ ya probados no alcanzaron esa página y no se reactivan
-   por intuición.
+10. **Stop-line de recuperación cerrada:** después de adjudicar lifecycle y reparar dedupe, la
+    lane genérica, acotada y fail-closed demostró GET-only que recupera la autoridad
+    intra-documento sin reactivar pool coverage ni HYQ.
+11. **Completado:** historial reconciliado por evidencia y apply normal de las cuatro versiones
+    document-local, incluida lineage v2 y ACL/RLS P1, sin `migration repair` ni `--include-all`;
+    receipt v2 7/7 y hash live `19975e…a82e`.
+12. **Completado:** probe v2 sobre 13 QIDs con 22/22 `GO_MECHANISM`, 84 GET, cero llamadas de
+    modelo y cero escrituras remotas.
+13. **Completado:** `coverage_c1_v2` y su preregistro aditivo materializados;
+    `coverage_c1_v1` permanece inmutable y no habilita la lane. Cuatro rondas Sol/Fable están
+    adjudicadas y cerradas; no existe una quinta ronda pendiente.
+14. **Pendiente/no ejecutado:** ejecutar una P1 completamente nueva 27/27, exactamente 81
+    llamadas y cap interno de 30 USD. Los 18 artefactos previos siguen
+    siendo evidencia diagnóstica, no se reutilizan para completar la certificación.
 
 La autorización explícita recibida cubría el tercer run y está consumida. Corregir el scorer no
 requiere empezar de cero: los 18 artefactos se reusan para replay y regresión. En cambio, un GO
 no puede completar este run terminal con nueve respuestas nuevas bajo código distinto; después
 del fix productivo exige un run sellado nuevo y todos sus inputs operativos desde cero. No existe
 `P1_PASS` ni GO. La autorización propia de lifecycle fue recibida, consumida y verificada; el
-prerrequisito inmediato es ahora la lane intradocumento genérica sin modelos. Merge, deploy y
-canary pertenecen a la secuencia posterior y requieren otra autorización.
+prerrequisito inmediato es ahora materializar el receipt e inputs operativos de P1 v2 y ejecutar
+el run fresco. La autorización posterior vigente permite continuar y eleva el techo externo hasta 100 USD;
+el preregistro v2 conserva el bound interno más estrecho de 30 USD. Merge, deploy y canary
+pertenecen a la secuencia posterior y requieren autorización propia.
 
-El checkout normal conserva siete migraciones remote-only y tres local-only. Hasta reconciliarlas
-por evidencia, quedan prohibidos `db push` desde el repo normal, `--include-all` y
-`migration repair`; ver TECH_DEBT #55 y el receipt
-`evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
+El historial quedó reconciliado: siete migraciones remote-only se recuperaron exactamente y las
+tres local-only, confirmadas ausentes, se trasladaron a `migration_proposals`. El árbol quedó
+11/11 alineado antes de los dos applies forward normales. No se usaron `--include-all` ni
+`migration repair`; ver el receipt
+`evals/s277_document_local_migration_reconciliation_receipt_v2.json` y TECH_DEBT #55.
 
 ## Trazabilidad y privacidad
 
@@ -325,6 +354,10 @@ red incierto, porque el primer insert podría haberse confirmado.
 
 ## Secuencia de despliegue, solo tras PASS de P1
 
+La secuencia histórica sellada para `coverage_c1_v1` no puede desplegar este candidato
+document-local. `coverage_c1_v2` ya está materializado y preregistrado; sólo una P1 nueva 27/27
+sobre ese perfil puede habilitar los pasos siguientes.
+
 1. Revisar el PR, pero **no mergearlo todavía**: Railway autodesplegaría un
    binario que exige perfil explícito sobre las variables legacy actuales.
 2. Con Supabase CLI `2.109.1`, comprobar historial y dry-run:
@@ -334,17 +367,23 @@ red incierto, porque el primer insert podría haberse confirmado.
    npx --yes supabase@2.109.1 db push --linked --dry-run
    ```
 
-3. Aplicar `20260720095702_add_query_logs_rag_trace.sql` mediante `db push` y
-   ejecutar sus postcondiciones. No hacer cambios adicionales de RLS en este
-   release.
-4. Durante ventana de mantenimiento y **antes del merge**, aplicar exactamente el
+3. Trasladar la propuesta
+   `supabase/migration_proposals/20260720095702_add_query_logs_rag_trace.sql`
+   a `supabase/migrations` con un timestamp nuevo, revisar de nuevo el SQL,
+   aplicarla mediante `db push` y ejecutar sus postcondiciones. No mezclar cambios RLS
+   dentro de esa migración de trazas.
+4. En un gate separado, autorizado y antes del merge, inventariar y corregir mediante una
+   migración forward-only las exposiciones legacy de TECH_DEBT #29; verificar RLS, grants,
+   policies y smokes del bot. Un resultado incompleto mantiene C1 en NO-GO aunque P1 pase.
+5. Durante ventana de mantenimiento y **antes del merge**, aplicar exactamente el
    `planned_bootstrap_patch` sellado por P1 como un único cambio Railway: eliminar
    `POST_RERANK_COVERAGE`, `STRUCTURAL_NEIGHBOR_COVERAGE`,
-   `COVERAGE_MANDATORY_CALLOUT` y `MP_MANDATORY_VERB_TRIGGER`, junto con
+   `COVERAGE_MANDATORY_CALLOUT`, `MP_MANDATORY_VERB_TRIGGER` y
+   `DOCUMENT_LOCAL_COVERAGE`, junto con
    `COVERAGE_RELEASE_PROFILE=off`. Verificar el diff para no crear un
    estado intermedio inválido. El código viejo ignora el perfil nuevo y queda
    con coverage off; el código nuevo podrá arrancar de forma explícita.
-5. Mantener `MUST_PRESERVE_CONTRACT=on`. El manifest debe fijar en `off`:
+6. Mantener `MUST_PRESERVE_CONTRACT=on`. El manifest debe fijar en `off`:
    `TABLE_PREAMBLE_CLOSURE`, `CANONICAL_HYQ_COVERAGE`,
    `COMPATIBILITY_BUNDLE_COVERAGE`, `RERANK_POOL_COVERAGE`,
    `STRUCTURAL_CASCADE_COVERAGE`, `LOGICAL_RECORD_COVERAGE`,
@@ -355,23 +394,24 @@ red incierto, porque el primer insert podría haberse confirmado.
    `VISUAL_ASSETS_REGISTRY` no pertenece al perfil C1: debe conservar exactamente
    el valor vivo sellado (`on` en la foto documentada). Ausencia o drift deja el
    proceso en HOLD; P1 no lo apaga ni lo reactiva.
-6. Mergear/desplegar el código y verificar arranque sano con profile `off`. El
+7. Mergear/desplegar el código y verificar arranque sano con profile `off`. El
    receipt de merge debe demostrar que el commit probado es ancestro/padre y que
    el tree SHA desplegado y el manifest son idénticos; squash/rebase o árbol distinto
    caducan P1 aunque el cambio parezca inocuo.
-7. Repetir A y reemitir B desde un checkout del árbol exacto desplegado.
-8. Con profile `off` y antes de `p1_expires_at`, verificar `bot_version`, lineage,
+8. Repetir A y reemitir B desde un checkout del árbol exacto desplegado.
+9. Con profile `off` y antes de `p1_expires_at`, verificar `bot_version`, lineage,
    tree, manifest, runtime, fingerprint y
    `common_config_sha256`. El único desacuerdo permitido con P1 es el profile:
    debe coincidir exactamente con `bootstrap_profile=off`. **No repetir las 27
    réplicas** si esa identidad es exacta; cualquier otro drift devuelve el
    proceso a P1.
-9. Solo con P1 vigente y verificación post-deploy exacta, cambiar una variable
+10. Solo con P1 vigente y verificación post-deploy exacta, cambiar una variable
    durante ventana de mantenimiento:
-   `COVERAGE_RELEASE_PROFILE=coverage_c1_v1`.
-10. Tras el reinicio, verificar que la configuración completa coincide con
+   `COVERAGE_RELEASE_PROFILE=<sealed_target_profile>`; para este candidato deberá ser el v2
+   materializado y sellado por la nueva P1, nunca `coverage_c1_v1`.
+11. Tras el reinicio, verificar que la configuración completa coincide con
     `p1_target_profile`; cualquier delta aborta y revierte.
-11. Ejecutar el canary post-activación: preguntar hp017 tres veces, puntuar las
+12. Ejecutar el canary post-activación: preguntar hp017 tres veces, puntuar las
     respuestas completas recibidas en Telegram y contrastar sus recibos en
     `query_logs.rag_trace`. Estas tres llamadas son verificación post-deploy, no
     una repetición del gate P1 de 27 réplicas; añaden normalmente 9 llamadas a
@@ -394,7 +434,7 @@ select
   rag_trace#>>'{transport,message_parts}' as message_parts,
   rag_trace#>>'{transport,render_status}' as render_status
 from public.query_logs
-where rag_trace->>'release_profile' = 'coverage_c1_v1'
+where rag_trace->>'release_profile' = '<sealed_target_profile>'
 order by created_at desc
 limit 10;
 ```
@@ -408,6 +448,8 @@ GO exige simultáneamente:
 
 - A en PASS y un recibo B vigente sobre el commit candidato;
 - gate pagado prerelease P1 en PASS, con identidad post-deploy exacta;
+- gate separado de seguridad legacy en PASS, con RLS/grants/policies inventariados y smokes
+  documentados según TECH_DEBT #29;
 - hp017 en P1 prerelease con el target servido por una de dos rutas acreditadas:
   fuente completa byte-intacta dentro del prefijo protegido, o append de coverage
   con callout exacto; y ambos avisos correctamente citados en 3/3 réplicas;
@@ -458,10 +500,11 @@ multi-hop incompleta.
 ## Riesgo de seguridad separado
 
 La migración P1 revocó el `EXECUTE` de `PUBLIC` sobre `create_hnsw_index()` y verificó
-que `p1_readonly` no puede alcanzar ninguna función `SECURITY DEFINER`. El Advisor
-posterior confirmó, sin embargo, grants explícitos preexistentes para `anon` y
-`authenticated` sobre esa función. No bloquean la identidad mínima de P1, pero sí son
-un riesgo separado que debe inventariarse y corregirse mediante una migración nueva
-antes del GO final de C1. Revocarlos no formaba parte de la autorización actual y no se
-ha ampliado silenciosamente el alcance. El rollout amplio de RLS también sigue fuera
-de P1 y requiere tests y autorización propia.
+que `p1_readonly` no puede alcanzar ninguna función `SECURITY DEFINER`. El Advisor posterior
+confirmó, sin embargo, grants explícitos preexistentes para `anon` y `authenticated` sobre esa
+función, además de RLS deshabilitado y grants `SELECT/INSERT` sobre
+`public.chunks_v2_enunciados` (22.842 filas en la observación). La RPC document-local v2 sí tiene
+ACL/RLS mínimos; S277 no introdujo ni amplió esas exposiciones legacy. TECH_DEBT #29 no bloquea
+`GO_MECHANISM` ni la medición P1 v2, pero **sí bloquea merge y release global** y debe resolverse
+con una migración forward-only, inventario de grants/policies y smokes antes de exponer clientes
+anon o multi-tenant.

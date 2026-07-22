@@ -172,7 +172,8 @@ def test_happy_capture_builds_exact_snapshot_and_safe_http_receipts() -> None:
         _json_bytes(opener.openapi)
     ).hexdigest()
     assert snapshot["rpc_methods"] == {
-        path: ["POST"] for path in receipts.live.REQUIRED_RPC_METHODS
+        path: list(methods)
+        for path, methods in receipts.live.REQUIRED_RPC_METHODS.items()
     }
     assert snapshot["runtime_config"] == {
         "data_api_enabled": True,

@@ -3,7 +3,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MIGRATION = ROOT / "supabase/migrations/20260720095702_add_query_logs_rag_trace.sql"
+MIGRATION = (
+    ROOT
+    / "supabase"
+    / "migration_proposals"
+    / "20260720095702_add_query_logs_rag_trace.sql"
+)
 BOOTSTRAP = ROOT / "supabase_schema.sql"
 
 

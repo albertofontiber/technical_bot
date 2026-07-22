@@ -196,11 +196,17 @@ def _headers(token: str) -> dict[str, str]:
 
 
 def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypatch) -> None:
-    from src.rag import retriever, structural_neighbor_shadow, visual_assets
+    from src.rag import (
+        document_local_coverage,
+        retriever,
+        structural_neighbor_shadow,
+        visual_assets,
+    )
 
     responses = [
         _Response(body=b'[{"id":"chunk-1"}]', request_id="get-1"),
         _Response(body=b'[{"id":"chunk-2"}]', request_id="rpc-1"),
+        _Response(body=b'{"schema":"document_local_snapshot_v2"}', request_id="snapshot-1"),
         _Response(body=b'[{"storage_url":"safe"}]', request_id=None),
     ]
     instance, factory, token = _new_guard(
@@ -216,24 +222,30 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
         "visual_httpx": visual_assets.httpx,
         "visual_url": visual_assets.SUPABASE_URL,
         "visual_key": visual_assets.SUPABASE_SERVICE_KEY,
+        "document_local_httpx": document_local_coverage.httpx,
+        "document_local_url": document_local_coverage.SUPABASE_URL,
+        "document_local_key": document_local_coverage.SUPABASE_SERVICE_KEY,
         "global_client": httpx.Client,
     }
 
     with instance:
         assert retriever.httpx is structural_neighbor_shadow.httpx
         assert retriever.httpx is visual_assets.httpx
+        assert retriever.httpx is document_local_coverage.httpx
         assert retriever.httpx is not httpx
         assert httpx.Client is originals["global_client"]
         assert (
             retriever.SUPABASE_URL
             == structural_neighbor_shadow.SUPABASE_URL
             == visual_assets.SUPABASE_URL
+            == document_local_coverage.SUPABASE_URL
             == SUPABASE_URL
         )
         assert (
             retriever.SUPABASE_SERVICE_KEY
             == structural_neighbor_shadow.SUPABASE_SERVICE_KEY
             == visual_assets.SUPABASE_SERVICE_KEY
+            == document_local_coverage.SUPABASE_SERVICE_KEY
             == token
         )
         with retriever.httpx.Client(timeout=5.0) as client:
@@ -246,6 +258,12 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
                 headers={**_headers(token), "Content-Type": "application/json"},
                 json={"query_embedding": [0.1]},
             )
+        with document_local_coverage.httpx.Client(timeout=2.0) as client:
+            client.get(
+                f"{SUPABASE_URL}{guard.DOCUMENT_LOCAL_SNAPSHOT_PATH}",
+                headers=_headers(token),
+                params={"p_source_scopes": "safe-value"},
+            )
         with visual_assets.httpx.Client(timeout=3.0) as client:
             client.get(
                 f"{SUPABASE_URL}/rest/v1/document_visual_assets",
@@ -257,11 +275,13 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
         assert [(row["method"], row["path"]) for row in receipts] == [
             ("GET", "/rest/v1/chunks_v2"),
             ("POST", "/rest/v1/rpc/match_chunks_v2"),
+            ("GET", guard.DOCUMENT_LOCAL_SNAPSHOT_PATH),
             ("GET", "/rest/v1/document_visual_assets"),
         ]
-        assert [row["ordinal"] for row in receipts] == [1, 2, 3]
+        assert [row["ordinal"] for row in receipts] == [1, 2, 3, 4]
         assert receipts[0]["request_id"] == "get-1"
-        assert receipts[2]["request_id"] is None
+        assert receipts[2]["request_id"] == "snapshot-1"
+        assert receipts[3]["request_id"] is None
         encoded = json.dumps(receipts, sort_keys=True)
         assert token not in encoded
         assert SUPABASE_KEY not in encoded
@@ -287,6 +307,12 @@ def test_happy_paths_patch_only_product_modules_and_emit_safe_receipts(monkeypat
     assert visual_assets.httpx is originals["visual_httpx"]
     assert visual_assets.SUPABASE_URL == originals["visual_url"]
     assert visual_assets.SUPABASE_SERVICE_KEY == originals["visual_key"]
+    assert document_local_coverage.httpx is originals["document_local_httpx"]
+    assert document_local_coverage.SUPABASE_URL == originals["document_local_url"]
+    assert (
+        document_local_coverage.SUPABASE_SERVICE_KEY
+        == originals["document_local_key"]
+    )
     assert httpx.Client is originals["global_client"]
     assert all(row["follow_redirects"] is False for row in factory.client_kwargs)
     assert all(row["trust_env"] is False for row in factory.client_kwargs)
@@ -350,6 +376,9 @@ def test_real_structural_fetch_uses_scoped_guard_and_readonly_jwt(monkeypatch) -
         ("PATCH", f"{SUPABASE_URL}/rest/v1/chunks_v2", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
         ("GET", f"{SUPABASE_URL}/rest/v1/chunks_v2_hyq", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
         ("POST", f"{SUPABASE_URL}/rest/v1/rpc/corpus_fingerprint_v1", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
+        ("POST", f"{SUPABASE_URL}{guard.DOCUMENT_LOCAL_SNAPSHOT_PATH}", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
+        ("PATCH", f"{SUPABASE_URL}{guard.DOCUMENT_LOCAL_SNAPSHOT_PATH}", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
+        ("GET", f"{SUPABASE_URL}/rest/v1/rpc/document_local_snapshot_v1", "on", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
         ("GET", "https://evil.example/rest/v1/chunks_v2", "on", "HOLD_P1_POSTGREST_URL_BLOCKED"),
         ("GET", f"http://{PROJECT_REF}.supabase.co/rest/v1/chunks_v2", "on", "HOLD_P1_POSTGREST_URL_BLOCKED"),
         ("GET", f"{SUPABASE_URL}/rest/v1/document_visual_assets", "off", "HOLD_P1_POSTGREST_SURFACE_BLOCKED"),
@@ -488,7 +517,12 @@ def test_redirect_response_and_non_2xx_are_receipted_then_rejected(monkeypatch) 
 
 
 def test_globals_restore_on_product_exception_and_lock_is_non_reentrant(monkeypatch) -> None:
-    from src.rag import retriever, structural_neighbor_shadow, visual_assets
+    from src.rag import (
+        document_local_coverage,
+        retriever,
+        structural_neighbor_shadow,
+        visual_assets,
+    )
 
     original_retriever = (retriever.httpx, retriever.SUPABASE_URL, retriever.SUPABASE_SERVICE_KEY)
     original_structural = (
@@ -497,6 +531,11 @@ def test_globals_restore_on_product_exception_and_lock_is_non_reentrant(monkeypa
         structural_neighbor_shadow.SUPABASE_SERVICE_KEY,
     )
     original_visual = (visual_assets.httpx, visual_assets.SUPABASE_URL, visual_assets.SUPABASE_SERVICE_KEY)
+    original_document_local = (
+        document_local_coverage.httpx,
+        document_local_coverage.SUPABASE_URL,
+        document_local_coverage.SUPABASE_SERVICE_KEY,
+    )
     first, _, _ = _new_guard(monkeypatch)
     second, _, _ = _new_guard(monkeypatch)
 
@@ -514,6 +553,11 @@ def test_globals_restore_on_product_exception_and_lock_is_non_reentrant(monkeypa
         structural_neighbor_shadow.SUPABASE_SERVICE_KEY,
     ) == original_structural
     assert (visual_assets.httpx, visual_assets.SUPABASE_URL, visual_assets.SUPABASE_SERVICE_KEY) == original_visual
+    assert (
+        document_local_coverage.httpx,
+        document_local_coverage.SUPABASE_URL,
+        document_local_coverage.SUPABASE_SERVICE_KEY,
+    ) == original_document_local
     with second:
         assert second.active
 

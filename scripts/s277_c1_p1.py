@@ -43,10 +43,10 @@ if __name__ == "__main__":
     # instead of being loaded a second time as scripts.s277_c1_p1.
     sys.modules["scripts.s277_c1_p1"] = sys.modules[__name__]
 
-CANONICAL_PREREG_PATH = ROOT / "evals/s277_c1_p1_prereg_v1.yaml"
+CANONICAL_PREREG_PATH = ROOT / "evals/s277_c1_p1_prereg_v2.yaml"
 
-RELEASE_CONFIG_SCHEMA = "s277_c1_p1_release_config_v1"
-PREREG_SCHEMA = "s277_c1_p1_prereg_v1"
+RELEASE_CONFIG_SCHEMA = "s277_c1_p1_release_config_v2"
+PREREG_SCHEMA = "s277_c1_p1_prereg_v2"
 AUTHORIZATION_SCHEMA = "s277_c1_p1_paid_authorization_v1"
 AUTHORIZATION_CLAIM_SCHEMA = "s277_c1_p1_authorization_claim_v1"
 RUN_LEASE_SCHEMA = "s277_c1_p1_run_lease_v1"
@@ -88,7 +88,7 @@ FENCE_WATCH_EXACT_KEYS = frozenset(
     }
 )
 
-PROFILE = "coverage_c1_v1"
+PROFILE = "coverage_c1_v2"
 BOOTSTRAP_PROFILE = "off"
 SEMANTIC_PROJECTION_SCHEMA = "s277_c1_semantic_effective_config_v1"
 P1_TTL = timedelta(hours=6)
@@ -105,6 +105,7 @@ PROFILE_OWNED_LEGACY_FLAGS = (
     "STRUCTURAL_NEIGHBOR_COVERAGE",
     "COVERAGE_MANDATORY_CALLOUT",
     "MP_MANDATORY_VERB_TRIGGER",
+    "DOCUMENT_LOCAL_COVERAGE",
 )
 
 TARGET_OFF_FLAGS = (
@@ -165,6 +166,7 @@ BASE_FENCE_RELATIONS = (
     "public.chunks_v2_enunciados",
     "public.chunks_v2_hyq",
     "public.documents",
+    "public.document_revision_lineages",
 )
 VISUAL_FENCE_RELATION = "public.document_visual_assets"
 BASE_RPC_ALLOWLIST = (
@@ -172,10 +174,15 @@ BASE_RPC_ALLOWLIST = (
     "search_chunks_text_v2",
     "match_chunks_v2_enunciados",
     "match_hyq",
+    "document_local_snapshot_v2",
 )
 BASE_REST_GET_ALLOWLIST = ("public.chunks_v2", "public.documents")
 VISUAL_REST_GET_SURFACE = "public.document_visual_assets"
 VISUAL_REST_GET_PATH = "/rest/v1/document_visual_assets"
+DOCUMENT_LOCAL_RPC = "document_local_snapshot_v2"
+DOCUMENT_LOCAL_REST_GET_PATH = f"/rest/v1/rpc/{DOCUMENT_LOCAL_RPC}"
+DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
+DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS = frozenset({"hp011:r1", "hp011:r2"})
 VISUAL_SERVABLE_ROLES = ("wiring", "table", "procedure", "ui")
 VISUAL_MAX_ASSETS_PER_ANSWER = 4
 RERANK_INSTRUCTION = (
@@ -199,12 +206,23 @@ LIVE_RECEIPTS_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_live_receipts.py"
 POSTGREST_GUARD_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_postgrest_guard.py"
 RELEASE_CONFIG_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_release_config.py"
 
+# Non-Python runtime inputs cannot be discovered through the AST import graph,
+# but they are behaviorally loaded by the v2 document-local lane or define its
+# exact deployed read authority. They are therefore sealed into every run just
+# like executable source.
+IMPLEMENTATION_RUNTIME_ASSETS = (
+    "config/evidence_coverage_facets_v5.yaml",
+    "config/retrieval_facets_v4.yaml",
+    "supabase/migrations/20260722013000_s277_document_revision_lineage_snapshot_v2.sql",
+    "supabase/migrations/20260722014500_s277_p1_document_local_snapshot_v2_acl.sql",
+)
+
 # This is the exact local Python implementation surface imported by the P1
 # runner/scorer and by the production RAG entrypoints.  Keep the list explicit:
 # it is embedded in run genesis and old runs must fail closed if any member
 # changes.  ``implementation_dependency_closure`` below independently derives
 # the transitive top-level import closure and rejects omissions.
-REQUIRED_IMPLEMENTATION_HASHES = (
+IMPLEMENTATION_PYTHON_SOURCES = (
     "scripts/catalog_store.py",
     "scripts/s270_etapa2_probe.py",
     "scripts/s277_c1_p1.py",
@@ -230,6 +248,7 @@ REQUIRED_IMPLEMENTATION_HASHES = (
     "src/rag/compatibility_bundle_coverage.py",
     "src/rag/coverage_runtime.py",
     "src/rag/doc_scoped_hyq_coverage.py",
+    "src/rag/document_local_coverage.py",
     "src/rag/evidence_coverage.py",
     "src/rag/evidence_derivation.py",
     "src/rag/evidence_window.py",
@@ -256,6 +275,11 @@ REQUIRED_IMPLEMENTATION_HASHES = (
     "src/reingest/__init__.py",
     "src/reingest/embed.py",
     "src/release_profiles.py",
+)
+
+REQUIRED_IMPLEMENTATION_HASHES = (
+    *IMPLEMENTATION_PYTHON_SOURCES,
+    *IMPLEMENTATION_RUNTIME_ASSETS,
 )
 
 # Roots model the three executable trust domains: orchestration, scoring and
@@ -296,6 +320,9 @@ IMPLEMENTATION_DYNAMIC_IMPORTS = {
         "src/rag/visual_assets.py",
         "src/reingest/embed.py",
     ),
+    POSTGREST_GUARD_IMPLEMENTATION_PATH: (
+        "src/rag/document_local_coverage.py",
+    ),
     "scripts/s277_c1_p1_scorer.py": (
         "scripts/s270_etapa2_probe.py",
         "src/rag/answer_planner.py",
@@ -309,6 +336,8 @@ IMPLEMENTATION_DYNAMIC_IMPORTS = {
         "src/rag/catalog_resolver.py",
         "src/rag/post_rerank_coverage.py",
     ),
+    "src/rag/coverage_runtime.py": ("src/rag/document_local_coverage.py",),
+    "src/rag/post_rerank_coverage.py": ("src/rag/document_local_coverage.py",),
     "src/rag/retriever.py": ("src/rag/catalog_resolver.py",),
     "src/rag/runtime_trace.py": ("src/rag/post_rerank_coverage.py",),
 }
@@ -708,7 +737,7 @@ def apply_planned_bootstrap_patch(
     _require(
         len(unset) == len(set(unset)) and set(unset) == set(PROFILE_OWNED_LEGACY_FLAGS),
         "HOLD_PATCH_DRIFT",
-        "patch must remove exactly the four profile-owned legacy flags",
+        "patch must remove exactly the five profile-owned legacy flags",
     )
     _require(
         set_values == {"COVERAGE_RELEASE_PROFILE": BOOTSTRAP_PROFILE},
@@ -808,6 +837,7 @@ def derive_semantic_config(
             "structural_neighbor_coverage": enabled,
             "mandatory_callout": enabled,
             "mandatory_verb_trigger": enabled,
+            "document_local_coverage": enabled,
         },
     }
 
@@ -1075,6 +1105,7 @@ def derive_rpc_allowlist(raw_env: Mapping[str, Any]) -> list[str]:
         expected.append("match_chunks_v2_enunciados")
     if _strict_on(raw_env.get("HYQ_TABLE"), field="HYQ_TABLE"):
         expected.append("match_hyq")
+    expected.append(DOCUMENT_LOCAL_RPC)
     _require(
         not bool(str(raw_env.get("HYQ_PILOT_FILE", "")).strip()),
         "HOLD_CONFIG_DRIFT",
@@ -1203,7 +1234,8 @@ def implementation_dependency_closure(root: Path | None = None) -> tuple[str, ..
     Top-level imports are read from AST without executing them.  Reachable
     function-local imports are a short reviewed allowlist above.  Any new local
     import therefore changes this closure and blocks an old or incomplete
-    implementation manifest.
+    implementation manifest. Explicit runtime assets extend that graph with
+    behavior-bearing YAML and SQL inputs that Python imports cannot discover.
     """
 
     resolved_root = (root or ROOT).resolve()
@@ -1250,6 +1282,14 @@ def implementation_dependency_closure(root: Path | None = None) -> tuple[str, ..
             for dependency in IMPLEMENTATION_DYNAMIC_IMPORTS.get(relative, ())
             if dependency not in closure
         )
+    for relative in IMPLEMENTATION_RUNTIME_ASSETS:
+        path = (resolved_root / relative).resolve()
+        _require(
+            resolved_root in path.parents and path.is_file(),
+            "HOLD_IMPLEMENTATION_DRIFT",
+            f"missing implementation runtime asset: {relative}",
+        )
+        closure.add(relative)
     return tuple(sorted(closure))
 
 
@@ -1338,7 +1378,7 @@ def verify_release_config(
 ) -> dict[str, Any]:
     _assert_no_secret_material(config)
     _require(config.get("schema_version") == RELEASE_CONFIG_SCHEMA, "HOLD_CONFIG_SCHEMA", "schema")
-    schema_path = ROOT / "evals/s277_c1_p1_release_config_schema_v1.json"
+    schema_path = ROOT / "evals/s277_c1_p1_release_config_schema_v2.json"
     _require(schema_path.is_file(), "HOLD_CONFIG_SCHEMA", "release config schema missing")
     try:
         import jsonschema
@@ -1576,7 +1616,7 @@ def verify_prereg_sealed_inputs(prereg: Mapping[str, Any]) -> None:
     release = sealed.get("release_config")
     _require(isinstance(release, Mapping), "HOLD_PREREG_DRIFT", "release config slot")
     _require(
-        release.get("required_path") == "evals/s277_c1_p1_release_config_v1.json",
+        release.get("required_path") == "evals/s277_c1_p1_release_config_v2.json",
         "HOLD_PREREG_DRIFT",
         "release config path",
     )
@@ -1598,9 +1638,21 @@ def verify_prereg_release_identity(prereg: Mapping[str, Any]) -> None:
         }
     }
     _require(
-        preserved == expected,
+        identity.get("bootstrap_profile") == BOOTSTRAP_PROFILE
+        and identity.get("p1_target_profile") == PROFILE
+        and identity.get("only_activation_transition")
+        == f"COVERAGE_RELEASE_PROFILE:{BOOTSTRAP_PROFILE}->{PROFILE}"
+        and identity.get("legacy_flags_to_delete")
+        == list(PROFILE_OWNED_LEGACY_FLAGS)
+        and identity.get("target_invariants")
+        == {
+            "MUST_PRESERVE_CONTRACT": "on",
+            "HYDE_ENABLED": "false",
+            "only_structural_and_document_local_coverage_lanes": True,
+        }
+        and preserved == expected,
         "HOLD_PREREG_DRIFT",
-        "orthogonal flag preservation contract",
+        "v2 release identity and orthogonal flag preservation contract",
     )
 
 
@@ -1609,6 +1661,27 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
 
     semantic = prereg.get("semantic_runtime_contract")
     _require(isinstance(semantic, Mapping), "HOLD_PREREG_DRIFT", "semantic runtime contract")
+    candidate_path = prereg.get("candidate_path")
+    _require(
+        isinstance(candidate_path, Mapping)
+        and candidate_path.get("required_stages")
+        == [
+            "retrieve_chunks",
+            "rerank_strict",
+            "observer",
+            "structural_fetch",
+            "selector_attestation",
+            "document_local_fetch",
+            "coverage",
+            "generator",
+            "must_preserve",
+            "conflict_guard",
+            "visual_assets_branch",
+            "telegram_renderer",
+        ],
+        "HOLD_PREREG_DRIFT",
+        "v2 product candidate path",
+    )
     expected_raw = {
         "CHUNKS_TABLE": "chunks_v2",
         "ENUNCIADOS_MULTIVECTOR": "on",
@@ -1641,6 +1714,43 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
     _require(
         semantic.get("semantic_projection_exact_top_level_keys")
         == ["schema", "corpus", "retrieval", "generation", "embedding", "coverage"]
+        and semantic.get("semantic_projection_exact_sections")
+        == {
+            "corpus": ["chunks_table"],
+            "retrieval": [
+                "retrieval_top_k",
+                "rerank_top_k",
+                "reranker_backend",
+                "reranker_model",
+                "rerank_preview_chars",
+                "merge_strategy",
+                "hyde_enabled",
+                "enunciados_multivector",
+                "hyq_table",
+                "hyq_pilot_file",
+                "identity_resolve",
+                "identity_resolve_policy",
+            ],
+            "generation": [
+                "model",
+                "max_tokens",
+                "temperature",
+                "prompt_cache",
+                "prompt_variant",
+                "selection_block",
+                "must_preserve_contract",
+                "visual_assets_registry",
+            ],
+            "embedding": ["model"],
+            "coverage": [
+                "release_profile",
+                "post_rerank_coverage",
+                "structural_neighbor_coverage",
+                "mandatory_callout",
+                "mandatory_verb_trigger",
+                "document_local_coverage",
+            ],
+        }
         and semantic.get("semantic_hashes_required")
         == ["bootstrap_semantic_config_sha256", "target_semantic_config_sha256"]
         and semantic.get("raw_effective_hashes_preserved") is True,
@@ -1809,6 +1919,8 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
             "write_methods_forbidden": True,
             "redirects_forbidden": True,
             "request_receipts_bound_per_replica": True,
+            "document_local_get_receipt_one_to_one": True,
+            "document_local_post_forbidden": True,
         }
         and fence.get("protocol")
         == [
@@ -1891,6 +2003,7 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
     _require(isinstance(pipeline, Mapping), "HOLD_PREREG_DRIFT", "receipt pipeline")
     physical = pipeline.get("physical_call_envelope")
     generation = pipeline.get("generation_chain")
+    lineage = pipeline.get("lineage")
     _require(
         pipeline.get("schema_version") == "s277_c1_p1_receipt_pipeline_v1"
         and isinstance(physical, Mapping)
@@ -1963,6 +2076,25 @@ def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
             "score_finalize_current_implementation_must_equal_run_snapshot"
         )
         is True
+        and isinstance(lineage, Mapping)
+        and lineage.get("order")
+        == [
+            "embedding_response",
+            "retrieval_pool",
+            "rerank_response",
+            "rerank_prefix",
+            "structural_fetch",
+            "document_local_fetch",
+            "coverage_output",
+            "served_context",
+            "synthesis_physical_payload",
+            "answer",
+            "must_preserve",
+            "conflict_guard",
+            "telegram_renderer",
+        ]
+        and lineage.get("effective_config_required")
+        == "coverage_c1_v2_and_must_preserve_true"
         and isinstance(generation, Mapping)
         and generation.get("stage_order")
         == [
@@ -4963,6 +5095,127 @@ def _validate_product_visual_transport_lineage(
     )
 
 
+def _validate_product_document_local_transport_lineage(
+    attestation: Mapping[str, Any],
+    served_context: Sequence[Any],
+    expected_effective_config: Mapping[str, Any],
+    *,
+    replica_key: str,
+) -> None:
+    """Revalidate the v2 semantic lane against its guarded physical GET."""
+
+    coverage_config = expected_effective_config.get("coverage")
+    required = (
+        isinstance(coverage_config, Mapping)
+        and coverage_config.get("release_profile") == PROFILE
+        and coverage_config.get("document_local_coverage") is True
+    )
+    postgrest_receipts = attestation.get("postgrest_request_receipts")
+    _require(
+        isinstance(postgrest_receipts, list)
+        and all(isinstance(row, Mapping) for row in postgrest_receipts),
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
+        replica_key,
+    )
+    physical_gets = [
+        row
+        for row in postgrest_receipts
+        if row.get("method") == "GET"
+        and row.get("path") == DOCUMENT_LOCAL_REST_GET_PATH
+    ]
+    evidence = attestation.get("document_local_coverage")
+    coverage_trace = attestation.get("coverage_trace")
+    if not required:
+        _require(
+            not physical_gets and evidence is None and coverage_trace is None,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
+            replica_key,
+        )
+        return
+
+    _require(
+        isinstance(coverage_trace, Mapping)
+        and attestation.get("coverage_trace_sha256")
+        == sha256_json(coverage_trace)
+        and isinstance(evidence, Mapping)
+        and set(evidence)
+        == {
+            "profile",
+            "lane_trace",
+            "lane_trace_sha256",
+            "physical_get_ordinals",
+            "physical_get_receipts_sha256",
+            "served_selected_ids",
+        },
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        replica_key,
+    )
+    lanes = coverage_trace.get("lanes")
+    lane_traces = (
+        [row for row in lanes if row.get("lane") == DOCUMENT_LOCAL_LANE]
+        if isinstance(lanes, list)
+        and all(isinstance(row, Mapping) for row in lanes)
+        else []
+    )
+    _require(
+        len(lane_traces) == 1
+        and evidence.get("profile") == PROFILE
+        and evidence.get("lane_trace") == lane_traces[0]
+        and evidence.get("lane_trace_sha256") == sha256_json(lane_traces[0]),
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        replica_key,
+    )
+    lane_trace = lane_traces[0]
+    status = lane_trace.get("status")
+    http_requests = lane_trace.get("http_requests")
+    selected_ids = lane_trace.get("selected_ids")
+    _require(
+        isinstance(status, str)
+        and bool(status)
+        and status != "error"
+        and type(http_requests) is int
+        and 0 <= http_requests <= 1
+        and len(physical_gets) == http_requests
+        and isinstance(selected_ids, list)
+        and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in selected_ids)
+        and len(selected_ids) == len(set(selected_ids))
+        and ((status == "selected") is (len(selected_ids) == 1))
+        and evidence.get("physical_get_ordinals")
+        == [row.get("ordinal") for row in physical_gets]
+        and evidence.get("physical_get_receipts_sha256")
+        == sha256_json(physical_gets)
+        and evidence.get("served_selected_ids") == selected_ids,
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
+        replica_key,
+    )
+    if selected_ids:
+        selected_id = selected_ids[0]
+        served_rows = [
+            row
+            for row in served_context
+            if isinstance(row, Mapping) and str(row.get("id") or "") == selected_id
+        ]
+        appended_ids = coverage_trace.get("appended_ids")
+        _require(
+            isinstance(appended_ids, list)
+            and appended_ids.count(selected_id) == 1
+            and len(served_rows) == 1
+            and served_rows[0].get("retrieval_lane") == DOCUMENT_LOCAL_LANE
+            and served_rows[0].get("document_local_coverage_validated") is True,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            replica_key,
+        )
+    if replica_key in DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS:
+        _require(
+            status == "selected"
+            and http_requests == 1
+            and len(physical_gets) == 1
+            and len(selected_ids) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            replica_key,
+        )
+
+
 def _provider_raw_text(payload: Mapping[str, Any]) -> str:
     content = payload.get("content")
     if isinstance(content, str):
@@ -5460,6 +5713,12 @@ def validate_replica_receipt(
         _validate_product_visual_transport_lineage(
             attestation,
             visual,
+            replica_key=replica.key,
+        )
+        _validate_product_document_local_transport_lineage(
+            attestation,
+            served_context,
+            expected_effective_config,
             replica_key=replica.key,
         )
     else:

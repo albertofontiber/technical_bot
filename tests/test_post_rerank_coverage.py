@@ -5,6 +5,10 @@ from src.rag.compatibility_bundle_coverage import (
     build_compatibility_bundle,
 )
 from src.rag.doc_scoped_hyq_coverage import LANE as HYQ_LANE
+from src.rag.document_local_coverage import (
+    LANE as DOCUMENT_LOCAL_LANE,
+    VALIDATION as DOCUMENT_LOCAL_VALIDATION,
+)
 from src.rag.post_rerank_coverage import (
     _has_substantive_coverage_card,
     append_validated_coverage,
@@ -102,6 +106,60 @@ def _candidate(row_id="coverage", *, lane=STRUCTURAL_LANE):
     return row
 
 
+def _document_local_candidate(row_id="document-local"):
+    row = _candidate(row_id, lane=STRUCTURAL_LANE)
+    content = (
+        "| Parametro | Valor |\n"
+        "| --- | --- |\n"
+        "| Rearme | t.A; 00 libre; 01 a 30 minutos de inhibicion. |\n"
+        "\nFuera de registro."
+    )
+    start = content.index("| Rearme")
+    end = content.index("00 libre") + len("00 libre")
+    row.update(
+        {
+            "content": content,
+            "coverage_cards": [
+                {
+                    "candidate_id": row_id,
+                    "start": start,
+                    "end": end,
+                    "quote": content[start:end],
+                    "facet": "timing_state",
+                    "exact_source_span_validated": True,
+                }
+            ],
+            "retrieval_lane": DOCUMENT_LOCAL_LANE,
+            "document_local_coverage_validated": True,
+            "document_local_coverage_validation": DOCUMENT_LOCAL_VALIDATION,
+            "document_id": "active-document",
+            "document_revision_lineage_id": (
+                "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429"
+            ),
+            "extraction_sha256": "a" * 64,
+            "duplicate_of": None,
+            "document_local_authority_document_id": "active-document",
+            "document_local_authority_extraction_sha256": "a" * 64,
+            "document_local_authority_source_file": "manual.pdf",
+            "document_local_authority_revision_lineage_id": (
+                "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429"
+            ),
+            "document_family": "manual panel",
+            "language": "es",
+            "doc_type": "usuario",
+            "manufacturer": "Fabricante",
+            "product_model": "Panel-X",
+            "document_local_authority_document_family": "manual panel",
+            "document_local_authority_language": "es",
+            "document_local_authority_doc_type": "usuario",
+            "document_local_authority_manufacturer": "Fabricante",
+            "document_local_authority_product_model": "Panel-X",
+        }
+    )
+    row.pop("structural_neighbor_validated")
+    return row
+
+
 def test_master_off_is_bit_inert_and_does_not_call_lanes():
     reranked = [{"id": "base", "content": "base"}]
 
@@ -116,15 +174,98 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
         table_preamble_enabled=True,
         hyq_enabled=True,
         pool_enabled=True,
+        document_local_enabled=True,
         compatibility_enabled=True,
         structural_collector=forbidden,
         table_preamble_collector=forbidden,
         hyq_collector=forbidden,
         pool_collector=forbidden,
+        document_local_collector=forbidden,
     )
 
     assert output is reranked
     assert trace["status"] == "disabled_or_not_applicable"
+
+
+def test_document_local_lane_runs_only_after_a_served_structural_anchor():
+    reranked = [{"id": "base", "content": "base"}]
+    structural = _candidate("anchor")
+    document_local = _document_local_candidate()
+    observed = {}
+
+    def structural_collector(_query, _reranked):
+        return [structural], {"lane": STRUCTURAL_LANE, "status": "selected"}
+
+    def document_local_collector(_query, anchors, covered):
+        observed["anchors"] = [row["id"] for row in anchors]
+        observed["covered"] = [row["id"] for row in covered]
+        return [document_local], {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "selected",
+            "selected_ids": [document_local["id"]],
+            "http_requests": 2,
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "pregunta",
+        reranked,
+        enabled=True,
+        structural_enabled=True,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        structural_collector=structural_collector,
+        document_local_collector=document_local_collector,
+    )
+
+    assert [row["id"] for row in output] == ["base", "anchor", "document-local"]
+    assert observed == {
+        "anchors": ["anchor"],
+        "covered": ["base", "anchor"],
+    }
+    assert trace["protected_prefix_equal"] is True
+    assert [lane["lane"] for lane in trace["lanes"]] == [
+        STRUCTURAL_LANE,
+        DOCUMENT_LOCAL_LANE,
+    ]
+
+
+def test_document_local_lane_skips_io_without_a_served_structural_anchor():
+    reranked = [{"id": "base", "content": "base"}]
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("document-local I/O ran without an anchor")
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "pregunta",
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=forbidden,
+    )
+
+    assert output is reranked
+    assert trace["lanes"] == [
+        {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "skipped_no_served_structural_anchor",
+            "selected_ids": [],
+            "http_requests": 0,
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+    ]
 
 
 def test_compatibility_flag_off_is_inert_and_does_not_call_bundle_lane():

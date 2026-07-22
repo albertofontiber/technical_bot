@@ -200,7 +200,7 @@ def _env_read_inventory() -> tuple[
 
     literal: set[str] = set()
     dynamic: set[tuple[str, str, str]] = set()
-    for relative in p1.REQUIRED_IMPLEMENTATION_HASHES:
+    for relative in p1.IMPLEMENTATION_PYTHON_SOURCES:
         path = ROOT / relative
         try:
             tree = ast.parse(path.read_text(encoding="utf-8-sig"), filename=relative)

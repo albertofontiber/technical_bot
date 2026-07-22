@@ -194,6 +194,8 @@ def select_rerank_pool_coverage(
     query: str,
     retrieval_pool: list[dict[str, Any]],
     reranked: list[dict[str, Any]],
+    *,
+    apply_catalog_scope: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Select at most two complementary exact-source rows from a frozen pool."""
     trace: dict[str, Any] = {
@@ -207,6 +209,7 @@ def select_rerank_pool_coverage(
         "model_calls": 0,
         "database_reads": 0,
         "database_writes": 0,
+        "catalog_scope_applied": apply_catalog_scope,
     }
     if not query.strip() or not retrieval_pool or len(retrieval_pool) > POOL_LIMIT:
         trace["status"] = "not_applicable_or_pool_overflow"
@@ -215,7 +218,11 @@ def select_rerank_pool_coverage(
     bounded = retrieval_pool[:POOL_LIMIT]
     trace["bounded_pool_rows"] = len(bounded)
     reranked_ids = {str(row.get("id") or "") for row in reranked}
-    resolution = resolve_query(query)
+    # The generic retrieval-pool lane retains its governed catalogue scope.
+    # Callers that already hold an exact document/blob authority may disable
+    # this second, redundant source filter so historical catalogue preferences
+    # cannot influence ranking inside that proven boundary.
+    resolution = resolve_query(query) if apply_catalog_scope else {}
     candidates = []
     seen = set()
     location_token_sets: dict[tuple[Any, ...], list[set[str]]] = {}

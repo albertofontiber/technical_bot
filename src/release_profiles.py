@@ -17,16 +17,30 @@ PROFILE_ENV = "COVERAGE_RELEASE_PROFILE"
 LEGACY_PROFILE = "legacy"
 OFF_PROFILE = "off"
 C1_PROFILE = "coverage_c1_v1"
-SUPPORTED_PROFILES = (LEGACY_PROFILE, OFF_PROFILE, C1_PROFILE)
+C1_V2_PROFILE = "coverage_c1_v2"
+SUPPORTED_PROFILES = (LEGACY_PROFILE, OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE)
 
-# These four switches are one release unit.  Outside legacy mode their
-# individual environment variables are forbidden: the profile is authoritative.
+# Stable cross-module identity for the document-local lane. Keeping these
+# strings in the release contract lets C1 v1 remain import-isolated while C1 v2
+# activates the already-validated implementation as one atomic unit.
+DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
+DOCUMENT_LOCAL_VALIDATION = (
+    "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1"
+)
+
+# The original four switches are the C1 v1 unit; C1 v2 atomically adds the
+# document-local lane. Outside legacy mode every leaf variable is forbidden:
+# the selected profile is authoritative.
 PROFILE_OWNED_FLAGS = (
     "POST_RERANK_COVERAGE",
     "STRUCTURAL_NEIGHBOR_COVERAGE",
     "COVERAGE_MANDATORY_CALLOUT",
     "MP_MANDATORY_VERB_TRIGGER",
+    "DOCUMENT_LOCAL_COVERAGE",
 )
+
+_C1_V1_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:4])
+_C1_V2_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS)
 
 # Coverage lanes that share the post-rerank append seam.  C1 v1 intentionally
 # isolates the structural lane until the wider stack has its own release gate.
@@ -36,6 +50,7 @@ COVERAGE_LANE_FLAGS = (
     "CANONICAL_HYQ_COVERAGE",
     "COMPATIBILITY_BUNDLE_COVERAGE",
     "RERANK_POOL_COVERAGE",
+    "DOCUMENT_LOCAL_COVERAGE",
     "STRUCTURAL_CASCADE_COVERAGE",
 )
 COVERAGE_MODIFIER_FLAGS = ("LOGICAL_RECORD_COVERAGE",)
@@ -57,13 +72,14 @@ def _strict_on_off(
 
 @dataclass(frozen=True)
 class CoverageReleasePolicy:
-    """Resolved, immutable policy for the four coupled C1 switches."""
+    """Resolved, immutable policy for the coupled C1 switches."""
 
     profile: str
     post_rerank_coverage: bool
     structural_neighbor_coverage: bool
     coverage_mandatory_callout: bool
     mp_mandatory_verb_trigger: bool
+    document_local_coverage: bool
     legacy_overrides: tuple[str, ...] = ()
 
     def flag(self, name: str) -> bool:
@@ -72,6 +88,7 @@ class CoverageReleasePolicy:
             "STRUCTURAL_NEIGHBOR_COVERAGE": self.structural_neighbor_coverage,
             "COVERAGE_MANDATORY_CALLOUT": self.coverage_mandatory_callout,
             "MP_MANDATORY_VERB_TRIGGER": self.mp_mandatory_verb_trigger,
+            "DOCUMENT_LOCAL_COVERAGE": self.document_local_coverage,
         }
         try:
             return values[name]
@@ -86,6 +103,7 @@ class CoverageReleasePolicy:
             "structural_neighbor_coverage": self.structural_neighbor_coverage,
             "coverage_mandatory_callout": self.coverage_mandatory_callout,
             "mp_mandatory_verb_trigger": self.mp_mandatory_verb_trigger,
+            "document_local_coverage": self.document_local_coverage,
         }
 
 
@@ -106,10 +124,13 @@ def load_coverage_release_policy(
     legacy_overrides = tuple(name for name in PROFILE_OWNED_FLAGS if name in env)
     if profile == LEGACY_PROFILE:
         values = {name: _strict_on_off(name, env) for name in PROFILE_OWNED_FLAGS}
-    elif profile == OFF_PROFILE:
-        values = {name: False for name in PROFILE_OWNED_FLAGS}
     else:
-        values = {name: True for name in PROFILE_OWNED_FLAGS}
+        enabled_flags = {
+            OFF_PROFILE: frozenset(),
+            C1_PROFILE: _C1_V1_ENABLED_FLAGS,
+            C1_V2_PROFILE: _C1_V2_ENABLED_FLAGS,
+        }[profile]
+        values = {name: name in enabled_flags for name in PROFILE_OWNED_FLAGS}
 
     return CoverageReleasePolicy(
         profile=profile,
@@ -117,6 +138,7 @@ def load_coverage_release_policy(
         structural_neighbor_coverage=values["STRUCTURAL_NEIGHBOR_COVERAGE"],
         coverage_mandatory_callout=values["COVERAGE_MANDATORY_CALLOUT"],
         mp_mandatory_verb_trigger=values["MP_MANDATORY_VERB_TRIGGER"],
+        document_local_coverage=values["DOCUMENT_LOCAL_COVERAGE"],
         legacy_overrides=legacy_overrides,
     )
 
@@ -141,6 +163,7 @@ def validate_release_contract(
     effective_features["STRUCTURAL_NEIGHBOR_COVERAGE"] = (
         policy.structural_neighbor_coverage
     )
+    effective_features["DOCUMENT_LOCAL_COVERAGE"] = policy.document_local_coverage
     active_lanes = sorted(
         name
         for name in COVERAGE_LANE_FLAGS
@@ -169,6 +192,12 @@ def validate_release_contract(
         "RERANK_POOL_COVERAGE"
     ):
         errors.append("STRUCTURAL_CASCADE_COVERAGE requires RERANK_POOL_COVERAGE")
+    if effective_features.get("DOCUMENT_LOCAL_COVERAGE") and not effective_features.get(
+        "STRUCTURAL_NEIGHBOR_COVERAGE"
+    ):
+        errors.append(
+            "DOCUMENT_LOCAL_COVERAGE requires STRUCTURAL_NEIGHBOR_COVERAGE"
+        )
     if policy.coverage_mandatory_callout and (
         not policy.post_rerank_coverage or not active_lanes
     ):
@@ -178,24 +207,37 @@ def validate_release_contract(
     if policy.mp_mandatory_verb_trigger and not must_preserve_enabled:
         errors.append("MP_MANDATORY_VERB_TRIGGER requires MUST_PRESERVE_CONTRACT=on")
 
-    if policy.profile == C1_PROFILE:
+    if policy.profile in {C1_PROFILE, C1_V2_PROFILE}:
+        expected_lanes = {"STRUCTURAL_NEIGHBOR_COVERAGE"}
+        if policy.profile == C1_V2_PROFILE:
+            expected_lanes.add("DOCUMENT_LOCAL_COVERAGE")
         unrelated = sorted(
             name
             for name, enabled in effective_features.items()
-            if name != "STRUCTURAL_NEIGHBOR_COVERAGE" and enabled
+            if name not in expected_lanes and enabled
         )
         if unrelated:
-            errors.append(
-                f"{C1_PROFILE} isolates structural coverage; disable: "
-                + ", ".join(unrelated)
-            )
+            if policy.profile == C1_PROFILE:
+                errors.append(
+                    f"{C1_PROFILE} isolates structural coverage; disable: "
+                    + ", ".join(unrelated)
+                )
+            else:
+                errors.append(
+                    f"{C1_V2_PROFILE} permits exactly "
+                    + "+".join(sorted(expected_lanes))
+                    + "; disable: "
+                    + ", ".join(unrelated)
+                )
         if not must_preserve_enabled:
-            errors.append(f"{C1_PROFILE} requires MUST_PRESERVE_CONTRACT=on")
+            errors.append(
+                f"{policy.profile} requires MUST_PRESERVE_CONTRACT=on"
+            )
 
     if production and policy.profile == LEGACY_PROFILE:
         errors.append(
             "production requires an explicit COVERAGE_RELEASE_PROFILE "
-            "(off or coverage_c1_v1)"
+            "(off, coverage_c1_v1, or coverage_c1_v2)"
         )
 
     if errors:

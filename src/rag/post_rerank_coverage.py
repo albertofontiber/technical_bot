@@ -39,6 +39,7 @@ import yaml
 from ..config import (
     CANONICAL_HYQ_COVERAGE,
     COMPATIBILITY_BUNDLE_COVERAGE,
+    DOCUMENT_LOCAL_COVERAGE,
     LOGICAL_RECORD_COVERAGE,
     POST_RERANK_COVERAGE,
     RERANK_POOL_COVERAGE,
@@ -56,6 +57,7 @@ from .doc_scoped_hyq_coverage import (
     LANE as HYQ_LANE,
     collect_document_scoped_hyq,
 )
+from ..release_profiles import DOCUMENT_LOCAL_LANE, DOCUMENT_LOCAL_VALIDATION
 from .structural_neighbor_coverage import (
     CASCADED_CONFIG as STRUCTURAL_CASCADE_CONFIG,
     CASCADED_EVIDENCE_CONFIG,
@@ -85,17 +87,29 @@ ALLOWED_LANES = frozenset(
         STRUCTURAL_CASCADE_LANE,
         HYQ_LANE,
         POOL_LANE,
+        DOCUMENT_LOCAL_LANE,
         COMPATIBILITY_LANE,
         TABLE_PREAMBLE_LANE,
     }
 )
 MAX_APPENDED = 4
 MAX_APPENDED_PER_LANE = 2
-MAX_APPENDED_BY_LANE = {COMPATIBILITY_LANE: 3}
+MAX_APPENDED_BY_LANE = {
+    COMPATIBILITY_LANE: 3,
+    DOCUMENT_LOCAL_LANE: 1,
+}
 STRUCTURAL_SERVING_TIMEOUT_SECONDS = 2.0
 TABLE_PREAMBLE_CONFIG = ROOT / "config/table_preamble_closure_v3.yaml"
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
+DOCUMENT_LOCAL_RECORD_KIND = "markdown_pipe_row_v1"
+_DOCUMENT_LOCAL_IDENTITY_FIELDS = (
+    "document_family",
+    "language",
+    "doc_type",
+    "manufacturer",
+    "product_model",
+)
 # s274 C1: card de callout-MANDATORY (1 máx por chunk, acotada)
 MAX_MANDATORY_CALLOUT_CHARS = 600
 MANDATORY_CALLOUT_CARD_CLASS = "mandatory_callout"
@@ -157,6 +171,23 @@ def has_exact_served_coverage_receipt(chunk: dict[str, Any]) -> bool:
     return chunk.get("served_coverage_cards") == expected
 
 
+def _has_document_local_authority_identity(chunk: dict[str, Any]) -> bool:
+    lineage_id = str(chunk.get("document_revision_lineage_id") or "")
+    return (
+        bool(lineage_id)
+        and lineage_id
+        == str(
+            chunk.get("document_local_authority_revision_lineage_id") or ""
+        )
+        and all(
+            bool(str(chunk.get(field) or "").strip())
+            and str(chunk.get(field) or "")
+            == str(chunk.get(f"document_local_authority_{field}") or "")
+            for field in _DOCUMENT_LOCAL_IDENTITY_FIELDS
+        )
+    )
+
+
 def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     lane = chunk.get("retrieval_lane")
     lane_validated = (
@@ -171,6 +202,12 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
     ) or (
         lane == POOL_LANE
         and chunk.get("rerank_pool_coverage_validated") is True
+    ) or (
+        lane == DOCUMENT_LOCAL_LANE
+        and chunk.get("document_local_coverage_validated") is True
+        and chunk.get("document_local_coverage_validation")
+        == DOCUMENT_LOCAL_VALIDATION
+        and _has_document_local_authority_identity(chunk)
     ) or (
         lane == COMPATIBILITY_LANE
         and chunk.get("compatibility_bundle_validated") is True
@@ -199,8 +236,13 @@ def coverage_context_content(
     if not is_validated_coverage_chunk(chunk):
         return content
     expand = (
-        LOGICAL_RECORD_COVERAGE
-        if logical_record_expansion is None else logical_record_expansion
+        chunk.get("retrieval_lane") == DOCUMENT_LOCAL_LANE
+        if logical_record_expansion is None
+        else logical_record_expansion
+    ) or (
+        logical_record_expansion is None
+        and chunk.get("retrieval_lane") != DOCUMENT_LOCAL_LANE
+        and LOGICAL_RECORD_COVERAGE
     )
     cards = (
         chunk.get("served_coverage_cards")
@@ -262,6 +304,137 @@ def _expand_logical_table_boundaries(
     return expanded_start, expanded_end
 
 
+def _markdown_pipe_row_cells(line: str) -> list[str] | None:
+    stripped = line.strip()
+    if (
+        not stripped.startswith("|")
+        or not stripped.endswith("|")
+        or stripped.count("|") < 3
+    ):
+        return None
+    cells = [cell.strip() for cell in stripped[1:-1].split("|")]
+    if len(cells) < 2:
+        return None
+    return cells
+
+
+def _markdown_pipe_row_kind(line: str) -> str | None:
+    cells = _markdown_pipe_row_cells(line)
+    if cells is None:
+        return None
+    if all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells):
+        return "separator"
+    return "data"
+
+
+def _document_local_markdown_record_cards(
+    candidate: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Return one bounded complete Markdown data row or fail closed.
+
+    Runtime heuristics cannot prove generic prose or multiline-record
+    boundaries.  The document-local v1 contract therefore admits only a
+    single-line Markdown pipe row.  A selector span may begin in the adjacent
+    separator row, but every card must intersect the same data row and no
+    other substantive line.
+    """
+    content = str(candidate.get("content") or "")
+    cards = candidate.get("coverage_cards") or []
+    if not content or not cards:
+        return []
+
+    line_spans: list[tuple[int, int, str]] = []
+    cursor = 0
+    for raw_line in content.splitlines(keepends=True):
+        line = raw_line.rstrip("\r\n")
+        line_spans.append((cursor, cursor + len(line), line))
+        cursor += len(raw_line)
+    if cursor < len(content) or not line_spans:
+        line_spans.append((cursor, len(content), content[cursor:]))
+
+    touched_by_card: list[set[int]] = []
+    data_rows: set[int] = set()
+    for card in cards:
+        start, end = int(card["start"]), int(card["end"])
+        touched = {
+            index
+            for index, (line_start, line_end, _line) in enumerate(line_spans)
+            if start < line_end and line_start < end
+        }
+        touched_by_card.append(touched)
+        data_rows.update(
+            index
+            for index in touched
+            if _markdown_pipe_row_kind(line_spans[index][2]) == "data"
+        )
+    if len(data_rows) != 1:
+        return []
+    record_index = next(iter(data_rows))
+    record_start, record_end, record_line = line_spans[record_index]
+    header_cells = (
+        _markdown_pipe_row_cells(line_spans[record_index - 2][2])
+        if record_index >= 2
+        else None
+    )
+    separator_cells = (
+        _markdown_pipe_row_cells(line_spans[record_index - 1][2])
+        if record_index >= 1
+        else None
+    )
+    record_cells = _markdown_pipe_row_cells(record_line)
+    if (
+        not record_line.strip()
+        or record_end - record_start > MAX_LOGICAL_TABLE_ROW_CHARS
+        or record_end - record_start > MAX_EXPANDED_EXCERPT_CHARS
+        or record_index < 2
+        or _markdown_pipe_row_kind(line_spans[record_index - 2][2]) != "data"
+        or _markdown_pipe_row_kind(line_spans[record_index - 1][2])
+        != "separator"
+        or header_cells is None
+        or separator_cells is None
+        or record_cells is None
+        or len({len(header_cells), len(separator_cells), len(record_cells)}) != 1
+    ):
+        return []
+
+    for card, touched in zip(cards, touched_by_card):
+        start, end = int(card["start"]), int(card["end"])
+        if not (start < record_end and record_start < end):
+            return []
+        for index in touched:
+            if index == record_index or not line_spans[index][2].strip():
+                continue
+            if (
+                index != record_index - 1
+                or _markdown_pipe_row_kind(line_spans[index][2]) != "separator"
+            ):
+                return []
+
+    served_cards: list[dict[str, Any]] = []
+    for card in cards:
+        served = dict(card)
+        served.update(
+            {
+                "start": record_start,
+                "end": record_end,
+                "quote": content[record_start:record_end],
+                "selector_start": int(card["start"]),
+                "selector_end": int(card["end"]),
+                "logical_record_expanded": (
+                    record_start != int(card["start"])
+                    or record_end != int(card["end"])
+                ),
+                "record_kind": DOCUMENT_LOCAL_RECORD_KIND,
+                "record_start": record_start,
+                "record_end": record_end,
+                "complete_record_validated": True,
+                "exact_source_span_validated": True,
+            }
+        )
+        served_cards.append(served)
+    return served_cards
+
+
 def _mandatory_callout_enabled() -> bool:
     """Flag estricto default-off, releído en runtime (patrón contract_enabled)."""
     from ..config import _strict_on_off
@@ -321,6 +494,8 @@ def _mandatory_callout_card(
 
 def _build_served_coverage_cards(candidate: dict[str, Any]) -> list[dict[str, Any]]:
     """Derive separately receipted serving spans from validated selector cards."""
+    if candidate.get("retrieval_lane") == DOCUMENT_LOCAL_LANE:
+        return _document_local_markdown_record_cards(candidate)
     content = str(candidate.get("content") or "")
     served_cards = []
     for card in candidate.get("coverage_cards") or []:
@@ -410,11 +585,38 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
         return None
     if lane == POOL_LANE and candidate.get("rerank_pool_coverage_validated") is not True:
         return None
+    if lane == DOCUMENT_LOCAL_LANE and (
+        candidate.get("document_local_coverage_validated") is not True
+        or candidate.get("document_local_coverage_validation")
+        != DOCUMENT_LOCAL_VALIDATION
+        or candidate.get("duplicate_of") is not None
+        or str(candidate.get("document_id") or "")
+        != str(candidate.get("document_local_authority_document_id") or "")
+        or str(candidate.get("extraction_sha256") or "").casefold()
+        != str(
+            candidate.get("document_local_authority_extraction_sha256") or ""
+        ).casefold()
+        or str(candidate.get("source_file") or "")
+        != str(candidate.get("document_local_authority_source_file") or "")
+        or not _has_document_local_authority_identity(candidate)
+    ):
+        return None
     if lane == COMPATIBILITY_LANE and candidate.get("compatibility_bundle_validated") is not True:
         return None
     attested = dict(candidate)
     attested["served_coverage_cards"] = _build_served_coverage_cards(candidate)
     if not has_exact_served_coverage_receipt(attested):
+        return None
+    if lane == DOCUMENT_LOCAL_LANE and (
+        not attested["served_coverage_cards"]
+        or any(
+            card.get("record_kind") != DOCUMENT_LOCAL_RECORD_KIND
+            or card.get("complete_record_validated") is not True
+            or card.get("record_start") != card.get("start")
+            or card.get("record_end") != card.get("end")
+            for card in attested["served_coverage_cards"]
+        )
+    ):
         return None
     if _mandatory_callout_enabled():
         # s274 C1: campo propio, 0-1 card, receipt propio; en fallo → sin card
@@ -429,7 +631,9 @@ def _attest(candidate: dict[str, Any]) -> dict[str, Any] | None:
             "coverage_validated": True,
             "post_rerank_coverage": True,
             "post_rerank_coverage_contract": (
-                "exact_source_span_with_bounded_logical_record_receipt_v2"
+                "exact_source_bounded_markdown_pipe_row_v1"
+                if lane == DOCUMENT_LOCAL_LANE
+                else "exact_source_span_with_bounded_logical_record_receipt_v2"
             ),
         }
     )
@@ -725,12 +929,14 @@ def apply_post_rerank_coverage_with_trace(
     table_preamble_enabled: bool | None = None,
     hyq_enabled: bool | None = None,
     pool_enabled: bool | None = None,
+    document_local_enabled: bool | None = None,
     cascade_enabled: bool | None = None,
     compatibility_enabled: bool | None = None,
     structural_collector: Callable[..., tuple[list[dict], dict]] = collect_structural_coverage,
     table_preamble_collector: Callable[..., tuple[list[dict], dict]] = collect_table_preamble_closure,
     hyq_collector: Callable[..., tuple[list[dict], dict]] = collect_document_scoped_hyq,
     pool_collector: Callable[..., tuple[list[dict], dict]] = select_rerank_pool_coverage,
+    document_local_collector: Callable[..., tuple[list[dict], dict]] | None = None,
     cascade_collector: Callable[..., tuple[list[dict], dict]] = collect_cascaded_structural_coverage,
     compatibility_collector: Callable[..., tuple[list[dict], dict]] = collect_compatibility_bundle,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -747,6 +953,17 @@ def apply_post_rerank_coverage_with_trace(
     )
     hyq = CANONICAL_HYQ_COVERAGE if hyq_enabled is None else hyq_enabled
     pool = RERANK_POOL_COVERAGE if pool_enabled is None else pool_enabled
+    document_local = (
+        DOCUMENT_LOCAL_COVERAGE
+        if document_local_enabled is None
+        else document_local_enabled
+    )
+    if document_local and document_local_collector is None:
+        # Function-local by design: coverage_c1_v1 keeps the new default-off
+        # implementation outside its loaded/static dependency closure.
+        from .document_local_coverage import collect_document_local_coverage
+
+        document_local_collector = collect_document_local_coverage
     compatibility = (
         COMPATIBILITY_BUNDLE_COVERAGE
         if compatibility_enabled is None else compatibility_enabled
@@ -771,7 +988,12 @@ def apply_post_rerank_coverage_with_trace(
         "database_writes": 0,
     }
     if not active or not reranked or not (
-        structural or table_preamble or hyq or pool or compatibility_applicable
+        structural
+        or table_preamble
+        or hyq
+        or pool
+        or document_local
+        or compatibility_applicable
     ):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
@@ -810,6 +1032,43 @@ def apply_post_rerank_coverage_with_trace(
             pool_seeds,
         )
 
+    def collect_document_local_if_capacity() -> tuple[list[dict], dict]:
+        already_appendable = append_validated_coverage(reranked, candidates)
+        if len(already_appendable) - len(reranked) >= MAX_APPENDED:
+            return [], {
+                "lane": DOCUMENT_LOCAL_LANE,
+                "status": "skipped_no_append_capacity",
+                "selected_ids": [],
+                "http_requests": 0,
+                "model_calls": 0,
+                "database_writes": 0,
+            }
+        served_structural_ids = {
+            str(row.get("id") or "")
+            for row in already_appendable[len(reranked) :]
+            if row.get("retrieval_lane") == STRUCTURAL_LANE
+        }
+        structural_anchors = [
+            row
+            for row in candidates
+            if row.get("retrieval_lane") == STRUCTURAL_LANE
+            and str(row.get("id") or "") in served_structural_ids
+        ]
+        if not structural_anchors:
+            return [], {
+                "lane": DOCUMENT_LOCAL_LANE,
+                "status": "skipped_no_served_structural_anchor",
+                "selected_ids": [],
+                "http_requests": 0,
+                "model_calls": 0,
+                "database_writes": 0,
+            }
+        return document_local_collector(
+            query,
+            structural_anchors,
+            already_appendable,
+        )
+
     if structural and not compatibility_applicable:
         lane_calls.append((STRUCTURAL_LANE, lambda: structural_collector(query, reranked)))
     if table_preamble and not compatibility_applicable:
@@ -837,6 +1096,13 @@ def apply_post_rerank_coverage_with_trace(
             (POOL_LANE, lambda: pool_collector(
                 query, retrieval_pool, [*reranked, *candidates]
             ))
+        )
+    if document_local and not compatibility_applicable:
+        lane_calls.append(
+            (
+                DOCUMENT_LOCAL_LANE,
+                collect_document_local_if_capacity,
+            )
         )
     if cascade:
         lane_calls.append(

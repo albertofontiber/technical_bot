@@ -49,6 +49,13 @@ TRANSPORT_RECEIPT_SCHEMA = "s277_c1_p1_provider_transport_receipt_v1"
 PRODUCT_ATTESTATION_SCHEMA = "s277_c1_p1_product_adapter_attestation_v1"
 POSTGREST_REQUEST_RECEIPT_SCHEMA = "s277_c1_p1_postgrest_request_receipt_v1"
 
+_DOCUMENT_LOCAL_PROFILE = "coverage_c1_v2"
+_DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
+_DOCUMENT_LOCAL_RPC_PATH = "/rest/v1/rpc/document_local_snapshot_v2"
+_DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS = frozenset(
+    {"hp011:r1", "hp011:r2"}
+)
+
 _POSTGREST_GET_PATHS = frozenset(
     {"/rest/v1/chunks_v2", "/rest/v1/documents"}
 )
@@ -94,6 +101,7 @@ def _validated_postgrest_receipt_delta(
     before: Sequence[Mapping[str, Any]],
     after: Sequence[Mapping[str, Any]],
     visual_assets_registry: str,
+    document_local_coverage: bool = False,
 ) -> list[dict[str, Any]]:
     """Bind one replica to the guarded PostgREST calls it actually made."""
 
@@ -115,6 +123,8 @@ def _validated_postgrest_receipt_delta(
     allowed_get = set(_POSTGREST_GET_PATHS)
     if visual_assets_registry == "on":
         allowed_get.add(_POSTGREST_VISUAL_PATH)
+    if document_local_coverage:
+        allowed_get.add(_DOCUMENT_LOCAL_RPC_PATH)
     exact_keys = {
         "schema",
         "ordinal",
@@ -132,7 +142,8 @@ def _validated_postgrest_receipt_delta(
             set(row) == exact_keys
             and row.get("schema") == POSTGREST_REQUEST_RECEIPT_SCHEMA
             and type(row.get("ordinal")) is int
-            and 200 <= row.get("status", 0) < 300
+            and type(row.get("status")) is int
+            and 200 <= row["status"] < 300
             and isinstance(row.get("body_sha256"), str)
             and bool(_HEX64.fullmatch(row["body_sha256"]))
             and (
@@ -160,6 +171,137 @@ def _validated_postgrest_receipt_delta(
         "match_chunks_v2 was not observed for the product replica",
     )
     return delta
+
+
+def _document_local_v2_required(effective: Mapping[str, Any]) -> bool:
+    """Resolve the v2 lane from the already sealed semantic configuration."""
+
+    coverage = effective.get("coverage")
+    if not isinstance(coverage, Mapping):
+        return False
+    profile = coverage.get("release_profile")
+    enabled = coverage.get("document_local_coverage")
+    if profile == _DOCUMENT_LOCAL_PROFILE:
+        _require(
+            enabled is True,
+            "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+            "coverage_c1_v2 requires document_local_coverage=true",
+        )
+        return True
+    _require(
+        enabled is not True,
+        "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
+        "document_local_coverage=true requires coverage_c1_v2",
+    )
+    return False
+
+
+def _validated_document_local_coverage_evidence(
+    *,
+    replica_key: str,
+    coverage_trace: Mapping[str, Any],
+    served: Sequence[Mapping[str, Any]],
+    postgrest_receipts: Sequence[Mapping[str, Any]],
+    required: bool,
+) -> dict[str, Any] | None:
+    """Bind the v2 semantic lane one-to-one to its guarded physical GET.
+
+    PostgREST receipts intentionally expose only transport facts, not response
+    contents.  The hash-bound coverage trace therefore supplies the semantic
+    half of the proof while the receipt stream supplies the physical half.
+    """
+
+    physical_gets = [
+        dict(row)
+        for row in postgrest_receipts
+        if row.get("method") == "GET"
+        and row.get("path") == _DOCUMENT_LOCAL_RPC_PATH
+    ]
+    if not required:
+        _require(
+            not physical_gets,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
+            f"unexpected document-local GET for {replica_key}",
+        )
+        return None
+
+    lanes = coverage_trace.get("lanes")
+    _require(
+        isinstance(lanes, list)
+        and all(isinstance(row, Mapping) for row in lanes),
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        f"coverage lanes are absent for {replica_key}",
+    )
+    lane_traces = [
+        row for row in lanes if row.get("lane") == _DOCUMENT_LOCAL_LANE
+    ]
+    _require(
+        len(lane_traces) == 1,
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        f"expected exactly one document-local lane trace for {replica_key}",
+    )
+    lane_trace = _json_copy(
+        dict(lane_traces[0]), field=f"document-local trace {replica_key}"
+    )
+    status = lane_trace.get("status")
+    _require(
+        isinstance(status, str) and bool(status) and status != "error",
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        f"document-local lane failed for {replica_key}",
+    )
+    http_requests = lane_trace.get("http_requests")
+    _require(
+        type(http_requests) is int
+        and 0 <= http_requests <= 1
+        and len(physical_gets) == http_requests,
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
+        f"document-local semantic/physical GET mismatch for {replica_key}",
+    )
+    selected_ids = lane_trace.get("selected_ids")
+    _require(
+        isinstance(selected_ids, list)
+        and all(isinstance(chunk_id, str) and bool(chunk_id) for chunk_id in selected_ids)
+        and len(selected_ids) == len(set(selected_ids))
+        and ((status == "selected") is (len(selected_ids) == 1)),
+        "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
+        f"invalid document-local selection trace for {replica_key}",
+    )
+
+    served_rows_by_id: dict[str, list[Mapping[str, Any]]] = {}
+    for row in served:
+        served_rows_by_id.setdefault(str(row.get("id") or ""), []).append(row)
+    appended_ids = coverage_trace.get("appended_ids")
+    if selected_ids:
+        selected_id = selected_ids[0]
+        selected_rows = served_rows_by_id.get(selected_id, [])
+        _require(
+            isinstance(appended_ids, list)
+            and appended_ids.count(selected_id) == 1
+            and len(selected_rows) == 1
+            and selected_rows[0].get("retrieval_lane") == _DOCUMENT_LOCAL_LANE
+            and selected_rows[0].get("document_local_coverage_validated") is True,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            f"selected document-local chunk was not served for {replica_key}",
+        )
+
+    if replica_key in _DOCUMENT_LOCAL_REQUIRED_SELECTED_REPLICAS:
+        _require(
+            status == "selected"
+            and http_requests == 1
+            and len(physical_gets) == 1
+            and len(selected_ids) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            f"required hp011 document-local recovery absent for {replica_key}",
+        )
+
+    return {
+        "profile": _DOCUMENT_LOCAL_PROFILE,
+        "lane_trace": lane_trace,
+        "lane_trace_sha256": p1.sha256_json(lane_trace),
+        "physical_get_ordinals": [row["ordinal"] for row in physical_gets],
+        "physical_get_receipts_sha256": p1.sha256_json(physical_gets),
+        "served_selected_ids": list(selected_ids),
+    }
 
 
 def _function_identity(fn: Callable[..., Any]) -> dict[str, str]:
@@ -573,6 +715,9 @@ def observe_product_effective_config(
         "mandatory_verb_trigger": policy_snapshot.get(
             "mp_mandatory_verb_trigger"
         ),
+        "document_local_coverage": policy_snapshot.get(
+            "document_local_coverage"
+        ),
     }
     _require(
         config_module.CHUNKS_TABLE == observed["corpus"]["chunks_table"]
@@ -595,7 +740,9 @@ def observe_product_effective_config(
         and config_module.POST_RERANK_COVERAGE
         is observed["coverage"]["post_rerank_coverage"]
         and config_module.STRUCTURAL_NEIGHBOR_COVERAGE
-        is observed["coverage"]["structural_neighbor_coverage"],
+        is observed["coverage"]["structural_neighbor_coverage"]
+        and getattr(config_module, "DOCUMENT_LOCAL_COVERAGE", None)
+        is observed["coverage"]["document_local_coverage"],
         "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
         "loaded product constants differ from the sealed target environment",
     )
@@ -1226,6 +1373,7 @@ class ProductReplicaAdapter:
             "HOLD_PRODUCT_EFFECTIVE_CONFIG_DRIFT",
             replica.key,
         )
+        document_local_required = _document_local_v2_required(effective)
         postgrest_before = self.postgrest_receipt_source()
         _require(
             isinstance(postgrest_before, Sequence)
@@ -1423,17 +1571,6 @@ class ProductReplicaAdapter:
             "NO_GO_PRODUCT_RENDER",
             replica.key,
         )
-        receipt = self._build_receipt(
-            replica=replica,
-            input_row=input_row,
-            boundary=boundary,
-            router=router,
-            capture=capture,
-            served=served,
-            coverage_trace=coverage_trace,
-            generation=generation,
-            render_parts=render_parts,
-        )
         postgrest_after = self.postgrest_receipt_source()
         _require(
             isinstance(postgrest_after, Sequence)
@@ -1445,6 +1582,25 @@ class ProductReplicaAdapter:
             before=postgrest_before,
             after=postgrest_after,
             visual_assets_registry=self.visual_assets_registry,
+            document_local_coverage=document_local_required,
+        )
+        document_local_evidence = _validated_document_local_coverage_evidence(
+            replica_key=replica.key,
+            coverage_trace=coverage_trace,
+            served=served,
+            postgrest_receipts=postgrest_receipts,
+            required=document_local_required,
+        )
+        receipt = self._build_receipt(
+            replica=replica,
+            input_row=input_row,
+            boundary=boundary,
+            router=router,
+            capture=capture,
+            served=served,
+            coverage_trace=coverage_trace,
+            generation=generation,
+            render_parts=render_parts,
         )
         attestation_body = {
             "schema": PRODUCT_ATTESTATION_SCHEMA,
@@ -1477,6 +1633,17 @@ class ProductReplicaAdapter:
                 postgrest_receipts
             ),
         }
+        if document_local_evidence is not None:
+            coverage_trace_copy = _json_copy(
+                dict(coverage_trace), field=f"coverage trace {replica.key}"
+            )
+            attestation_body.update(
+                {
+                    "coverage_trace": coverage_trace_copy,
+                    "coverage_trace_sha256": p1.sha256_json(coverage_trace_copy),
+                    "document_local_coverage": document_local_evidence,
+                }
+            )
         attestation = {
             **attestation_body,
             "attestation_sha256": p1.sha256_json(attestation_body),

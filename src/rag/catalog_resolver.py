@@ -16,8 +16,8 @@ Mecanismo (NADA aditivo al pool — DEC-069):
 Detección: regex GENERADA de los términos resolubles del catálogo (mismo approach probado que
 src/rag/catalog.py::_core — separador-insensible, multi-palabra, longest-first, \\b + (?!\\d)).
 Pre-exclusión SOLO normkeys digit-only ('808'/'816' — FP a priori); los alfanuméricos cortos
-('zxe') PASAN: excluir ≤3 chars mataría el caso central hp018 (bomba cazada dúo r2). NUNCA fuzzy
-(DEC-074: texto-libre = −2 hp011).
+('zxe') PASAN: excluir ≤3 chars mataría el caso central de un código corto
+(bomba cazada dúo r2). NUNCA fuzzy (DEC-074: texto-libre penaliza homónimos).
 
 Fail-fast de flags (v2.1a): IDENTITY_RESOLVE≠off + cualquier flag legacy de identidad ON ⇒
 RuntimeError al primer uso — sin precedencia silenciosa (doble expansión = medición sucia).
@@ -194,7 +194,7 @@ def resolve_query(query: str) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
      allowed_sources}. expand=False (clarify/candidate/unknown) NO aporta expansión ni
-    allowed_sources — el contrato `expand` del resolve() se respeta literal (anti-hp011)."""
+    allowed_sources — el contrato `expand` del resolve() se respeta literalmente."""
     _ensure()
     detected = detect(query)
     records, add_models, drop_tokens, source_groups = [], [], [], []

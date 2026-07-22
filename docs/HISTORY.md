@@ -2049,3 +2049,45 @@ El receipt auditable es `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
 `HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`; el siguiente paso es medir
 sin modelos la lane intradocumento genérica y fail-closed. El drift permanente del historial
 queda en TECH_DEBT #55 y prohíbe `db push` normal hasta reconciliación separada.
+
+### S277 — recuperación document-local alcanza `GO_MECHANISM`
+
+Se reconcilió el historial Supabase sin fabricar versiones: siete SQL remote-only se recuperaron
+con una comparación normalizada y tres local-only ausentes se trasladaron a propuestas. Con el
+árbol 11/11 alineado se aplicaron normalmente las migraciones del snapshot atómico y de autoridad
+exacta de blob, sin `migration repair` ni `--include-all`.
+
+La lane default-off pasó el probe GET-only de 13 QIDs: prefijos intactos, máximo un append, sólo
+hp011 seleccionado y registro p63 ligado a la revisión activa v.07 y al blob exacto. La identidad
+servida se canonicaliza desde `documents` (`Notifier / RP1r / usuario`) en vez de conservar labels
+legacy del chunk; el catálogo histórico no participa dentro del blob ya autorizado. Los fallos de
+lifecycle, identidad, caps, formato y recibo degradan cerrados, incluida una fila pipe sin
+cabecera/separador/aridad coherente. El probe hizo 84 GET, cero llamadas de modelo y cero
+escrituras de base de datos.
+
+El resultado es `GO_MECHANISM`, no `P1_PASS`: C1 sigue NO-GO y el KPI permanece 146/154.
+Siguiente paso: perfil atómico nuevo (`coverage_c1_v2`) y, después, P1 limpia 27/27 con
+artefactos nuevos.
+
+### S277 — lineage v2 aplicada, `coverage_c1_v2` listo y P1 v2 pendiente
+
+La cuarta ronda Sol/Fable cerró el último defecto de autoridad positiva: una etiqueta legacy de
+familia no podía demostrar membresía. Se introdujo `document_revision_lineages`, se vinculó HP011
+mediante `documents.revision_lineage_id`, se exigió una sola revisión activa por lineage y se
+limitó el pool combinado a 64 con estado de overflow explícito. La migración lineage v2 y la ACL
+P1 se aplicaron live. El receipt v2 quedó `RECONCILED` con 7/7 checks; la definición live de
+`document_local_snapshot_v2` quedó pineada por SHA-256 LF
+`19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e`.
+
+El probe v2 repitió el gate estrecho del mecanismo: 22/22 checks, 13 QIDs, prefijos intactos,
+sólo HP011 seleccionado, 84 GET, cero llamadas de modelo y cero escrituras DB. Reportó de forma
+explícita que 12/13 QIDs no atraviesan la puerta de lifecycle/idioma. Las cuatro rondas
+adversariales Sol/Fable terminaron adjudicadas: 35 findings, 30 confirmados/resueltos y 5 falsos
+positivos. No se ejecutó una quinta ronda; el packet v5 quedó como handoff terminal.
+
+Se materializó `coverage_c1_v2` sin mutar `coverage_c1_v1`: añade document-local al perfil
+atómico, sella el GET v2 y exige una traza por réplica ligada 1:1 al transporte físico; hp011:r1/r2
+deben seleccionar y servir un único ID. El preregistro P1 v2 conserva 27/27 réplicas, 81 llamadas
+y cap interno de 30 USD. **No se ejecutó P1 v2 y no existe `P1_PASS`.** El 18/27 histórico queda
+sólo como diagnóstico. KPI: 146/154 (94,81 %), sin movimiento. TECH_DEBT #29 no bloquea esta
+medición, pero sí merge/release global; multi-turn/multi-hop continúa `NOT_BUILT`.

@@ -14,9 +14,44 @@ from typing import Any, Mapping
 TRACE_SCHEMA = "rag_serving_trace_v1"
 TRACE_MAX_BYTES = 8192
 _MAX_LANE_OUTCOMES = 8
-_ALLOWED_PROFILES = frozenset({"legacy", "off", "coverage_c1_v1"})
+_ALLOWED_PROFILES = frozenset(
+    {"legacy", "off", "coverage_c1_v1", "coverage_c1_v2"}
+)
 _ALLOWED_COVERAGE_STATUSES = frozenset(
     {"disabled_or_not_applicable", "appended", "no_append", "error"}
+)
+_DOCUMENT_LOCAL_LANE_STATUSES = frozenset(
+    {
+        "selected",
+        "no_validated_structural_anchor",
+        "source_scope_overflow",
+        "no_bounded_query_plan",
+        "invalid_anchor_scope",
+        "document_seed_not_found",
+        "ambiguous_document_family",
+        "unsupported_document_language",
+        "active_revision_not_bound_to_anchor_blob",
+        "document_scope_overflow",
+        "invalid_revision_status",
+        "ambiguous_active_revision",
+        "branched_or_cyclic_revision_chain",
+        "nonreciprocal_revision_chain",
+        "incomplete_revision_chain",
+        "no_authoritative_source_scope",
+        "candidate_scope_mismatch",
+        "combined_candidate_cap_exceeded",
+        "candidate_cap_exceeded",
+        "no_fts_candidates",
+        "no_candidates",
+        "fetched",
+        "selector_pool_overflow",
+        "no_query_aligned_candidate",
+        "best_candidate_already_covered",
+        "winner_scope_mismatch",
+        "skipped_no_append_capacity",
+        "skipped_no_served_structural_anchor",
+        "error",
+    }
 )
 _ALLOWED_LANE_STATUSES = frozenset(
     {
@@ -34,7 +69,7 @@ _ALLOWED_LANE_STATUSES = frozenset(
         "skipped_no_served_pool_seed",
         "error",
     }
-)
+) | _DOCUMENT_LOCAL_LANE_STATUSES
 _ALLOWED_MP_STATUSES = frozenset(
     {"disabled", "evaluated", "error", "not_available", "not_applicable"}
 )
@@ -59,6 +94,7 @@ _ALLOWED_LANES = frozenset(
         "canonical_document_hyq_coverage_v1",
         "canonical_compatibility_bundle_coverage_v2",
         "retrieval_pool_coverage_v1",
+        "document_local_content_coverage_v1",
         "cascaded_structural_neighbor_coverage_v1",
     }
 )
@@ -186,6 +222,8 @@ def _coverage_section(
         and "same_blob_structural_neighbor_coverage_v1" not in configured_lanes
     ):
         configured_lanes.append("same_blob_structural_neighbor_coverage_v1")
+    if release_policy.get("document_local_coverage") is True:
+        configured_lanes.append("document_local_content_coverage_v1")
 
     appended = raw.get("appended_ids")
     section: dict[str, Any] = {

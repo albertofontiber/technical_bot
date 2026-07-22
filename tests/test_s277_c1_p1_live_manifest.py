@@ -31,23 +31,35 @@ def _function_rows() -> tuple[list[dict], dict[str, str]]:
         definition = f"CREATE FUNCTION {name} fixture {function_name}\n"
         hashes[name] = live.sha256_text_lf(definition)
         retrieval = name in live.RETRIEVAL_FUNCTIONS
+        document_local = name == live.DOCUMENT_LOCAL_FUNCTION
+        if document_local:
+            acl = [
+                _acl("p1_readonly", "EXECUTE"),
+                _acl("service_role", "EXECUTE"),
+            ]
+        elif retrieval:
+            acl = [_acl("p1_readonly", "EXECUTE")]
+        else:
+            acl = [_acl("service_role", "EXECUTE")]
         rows.append(
             {
                 "schema_name": schema,
                 "function_name": function_name,
                 "arg_types": list(args),
                 "overload_count": 1,
-                "result_type": "record",
+                "result_type": "jsonb" if document_local else "record",
                 "volatility": "v" if retrieval else "s",
-                "security_definer": not retrieval,
+                "security_definer": not retrieval and not document_local,
                 "leakproof": False,
                 "parallel_safety": "u",
                 "function_kind": "f",
-                "language": "plpgsql" if retrieval else "sql",
+                "language": "sql" if document_local else (
+                    "plpgsql" if retrieval else "sql"
+                ),
                 "owner": "postgres",
-                "function_config": [],
+                "function_config": ['search_path=""'] if document_local else [],
                 "definition": definition,
-                "acl": [_acl("p1_readonly", "EXECUTE")] if retrieval else [_acl("service_role", "EXECUTE")],
+                "acl": acl,
             }
         )
     identity_definition = (
@@ -142,24 +154,59 @@ def _relation_rows(visual: str) -> list[dict]:
     rows = []
     for qualified in live.required_relations(visual):
         name = qualified.split(".", 1)[1]
+        lineage = qualified == live.DOCUMENT_REVISION_LINEAGES_RELATION
         rows.append(
             {
                 "schema_name": "public",
                 "relation_name": name,
                 "relation_kind": "r",
                 "owner": "postgres",
-                "row_security": name == "chunks_v2",
+                "row_security": name == "chunks_v2" or lineage,
                 "force_row_security": False,
                 "reloptions": [],
-                "acl": [_acl("p1_readonly", "SELECT")],
-                "policies": ([{
-                    "name": "chunks_v2_p1_readonly_select",
-                    "permissive": "PERMISSIVE",
-                    "roles": ["p1_readonly"],
-                    "command": "SELECT",
-                    "using": "true",
-                    "check": None,
-                }] if name == "chunks_v2" else []),
+                "acl": (
+                    [_acl("service_role", "SELECT")]
+                    if lineage
+                    else [_acl("p1_readonly", "SELECT")]
+                ),
+                "column_acl": (
+                    [
+                        {
+                            "column_name": column,
+                            **_acl("p1_readonly", "SELECT"),
+                        }
+                        for column in ("id", "authority_status")
+                    ]
+                    if lineage
+                    else []
+                ),
+                "policies": (
+                    [
+                        {
+                            "name": "chunks_v2_p1_readonly_select",
+                            "permissive": "PERMISSIVE",
+                            "roles": ["p1_readonly"],
+                            "command": "SELECT",
+                            "using": "true",
+                            "check": None,
+                        }
+                    ]
+                    if name == "chunks_v2"
+                    else (
+                        [
+                            {
+                                "name": "document_revision_lineages_p1_verified_select",
+                                "permissive": "PERMISSIVE",
+                                "roles": ["p1_readonly"],
+                                "command": "SELECT",
+                                "using": "(authority_status = 'verified'::text)",
+                                "check": None,
+                            }
+                        ]
+                        if lineage
+                        else []
+                    )
+                ),
             }
         )
     return rows
@@ -306,10 +353,180 @@ def test_safe_capture_seals_and_pre_watch_post_window_verifies() -> None:
         "/rpc/search_chunks_text_v2",
         "/rpc/match_chunks_v2_enunciados",
         "/rpc/match_hyq",
+        "/rpc/document_local_snapshot_v2",
     }
     assert "public.document_visual_assets" in {
         row["name"] for row in pre["manifest"]["relations"]
     }
+
+
+def test_document_local_v2_contract_and_live_hash_are_exact() -> None:
+    pre, hashes = _capture()
+    live.build_manifest_contract(pre, expected_function_sha256=hashes)
+
+    assert live.S277_DOCUMENT_LOCAL_V2_FUNCTION_SHA256 == (
+        "19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e"
+    )
+    assert live.S277_EXPECTED_FUNCTION_SHA256[live.DOCUMENT_LOCAL_FUNCTION] == (
+        live.S277_DOCUMENT_LOCAL_V2_FUNCTION_SHA256
+    )
+    function = next(
+        row
+        for row in pre["manifest"]["functions"]
+        if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+    )
+    assert function["signature"] == (
+        "public.document_local_snapshot_v2("
+        "pg_catalog.jsonb,pg_catalog.text,pg_catalog.int4,pg_catalog.int4)"
+    )
+    assert function["result_type"] == "jsonb"
+    assert function["volatility"] == "s"
+    assert function["security_definer"] is False
+    assert function["language"] == "sql"
+    assert function["function_config"] == ['search_path=""']
+    assert pre["manifest"]["postgrest"]["rpc_methods"][
+        "/rpc/document_local_snapshot_v2"
+    ] == ["GET"]
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "code"),
+    [
+        ("signature", "public.document_local_snapshot_v2()", "HOLD_RPC_SIGNATURE_DRIFT"),
+        ("result_type", "record", "HOLD_DOCUMENT_LOCAL_RPC_DRIFT"),
+        ("volatility", "v", "HOLD_DOCUMENT_LOCAL_RPC_DRIFT"),
+        ("security_definer", True, "HOLD_DOCUMENT_LOCAL_RPC_DRIFT"),
+        ("language", "plpgsql", "HOLD_DOCUMENT_LOCAL_RPC_DRIFT"),
+        ("function_config", [], "HOLD_DOCUMENT_LOCAL_RPC_DRIFT"),
+    ],
+)
+def test_document_local_v2_execution_contract_drift_fails_closed(
+    field: str, value: object, code: str
+) -> None:
+    capture, hashes = _capture()
+    function = next(
+        row
+        for row in capture["manifest"]["functions"]
+        if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+    )
+    function[field] = value
+    _rehashed(capture)
+
+    with pytest.raises(live.ManifestHold, match=code):
+        live.verify_intrinsic_safety(capture, expected_function_sha256=hashes)
+
+
+def test_document_local_v2_hash_acl_and_postgrest_method_drift_fail_closed() -> None:
+    capture, hashes = _capture()
+    function = next(
+        row
+        for row in capture["manifest"]["functions"]
+        if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+    )
+
+    changed = copy.deepcopy(capture)
+    changed_function = next(
+        row
+        for row in changed["manifest"]["functions"]
+        if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+    )
+    changed_function["definition_sha256_lf"] = "f" * 64
+    _rehashed(changed)
+    with pytest.raises(live.ManifestHold, match="HOLD_RPC_DEFINITION_DRIFT"):
+        live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
+
+    for missing_grantee in ("p1_readonly", "service_role"):
+        changed = copy.deepcopy(capture)
+        changed_function = next(
+            row
+            for row in changed["manifest"]["functions"]
+            if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+        )
+        changed_function["acl"] = [
+            row
+            for row in changed_function["acl"]
+            if row["grantee"] != missing_grantee
+        ]
+        _rehashed(changed)
+        with pytest.raises(
+            live.ManifestHold, match="HOLD_DOCUMENT_LOCAL_RPC_ACL_DRIFT"
+        ):
+            live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
+
+    for forbidden_grantee in ("PUBLIC", "anon", "authenticated"):
+        changed = copy.deepcopy(capture)
+        changed_function = next(
+            row
+            for row in changed["manifest"]["functions"]
+            if row["name"] == live.DOCUMENT_LOCAL_FUNCTION
+        )
+        changed_function["acl"].append(_acl(forbidden_grantee, "EXECUTE"))
+        _rehashed(changed)
+        with pytest.raises(
+            live.ManifestHold, match="HOLD_DOCUMENT_LOCAL_RPC_ACL_DRIFT"
+        ):
+            live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
+
+    for methods in (["POST"], ["GET", "POST"]):
+        changed = copy.deepcopy(capture)
+        changed["manifest"]["postgrest"]["rpc_methods"][
+            "/rpc/document_local_snapshot_v2"
+        ] = methods
+        _rehashed(changed)
+        with pytest.raises(
+            live.ManifestHold, match="HOLD_POSTGREST_RPC_SURFACE_DRIFT"
+        ):
+            live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
+
+    assert {
+        (row["grantee"], row["privilege"])
+        for row in function["acl"]
+    } == {("p1_readonly", "EXECUTE"), ("service_role", "EXECUTE")}
+
+
+def test_lineage_relation_is_column_scoped_and_policy_gated() -> None:
+    capture, hashes = _capture()
+    relation = next(
+        row
+        for row in capture["manifest"]["relations"]
+        if row["name"] == live.DOCUMENT_REVISION_LINEAGES_RELATION
+    )
+    assert not [
+        row for row in relation["acl"] if row["grantee"] == "p1_readonly"
+    ]
+    assert {
+        (row["column_name"], row["privilege"])
+        for row in relation["column_acl"]
+        if row["grantee"] == "p1_readonly"
+    } == {("id", "SELECT"), ("authority_status", "SELECT")}
+
+    changed = copy.deepcopy(capture)
+    changed_relation = next(
+        row
+        for row in changed["manifest"]["relations"]
+        if row["name"] == live.DOCUMENT_REVISION_LINEAGES_RELATION
+    )
+    changed_relation["column_acl"].append(
+        {"column_name": "notes", **_acl("p1_readonly", "SELECT")}
+    )
+    _rehashed(changed)
+    with pytest.raises(
+        live.ManifestHold, match="HOLD_P1_ROLE_LINEAGE_COLUMN_PRIVILEGE_DRIFT"
+    ):
+        live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
+
+    changed = copy.deepcopy(capture)
+    changed_relation = next(
+        row
+        for row in changed["manifest"]["relations"]
+        if row["name"] == live.DOCUMENT_REVISION_LINEAGES_RELATION
+    )
+    changed_relation["policies"][0]["using"] = "true"
+    _rehashed(changed)
+    with pytest.raises(
+        live.ManifestHold, match="HOLD_P1_ROLE_LINEAGE_POLICY_DRIFT"
+    ):
+        live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
 
 
 def test_postgrest_snapshot_normalization_is_closed_under_revalidation() -> None:

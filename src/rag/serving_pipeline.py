@@ -25,6 +25,9 @@ class RagServingAdapters:
     observe_structural_shadow: Callable[[str, list[dict[str, Any]]], None]
     generate: Callable[..., dict[str, Any]]
     structural_fetcher: Callable[..., tuple[list[dict], list[dict], dict]] | None = None
+    document_local_fetcher: Callable[..., tuple[
+        list[dict], list[dict], dict
+    ]] | None = None
 
 
 def execute_rag_turn(
@@ -68,6 +71,8 @@ def execute_rag_turn(
         coverage_kwargs = {}
         if adapters.structural_fetcher is not None:
             coverage_kwargs["structural_fetcher"] = adapters.structural_fetcher
+        if adapters.document_local_fetcher is not None:
+            coverage_kwargs["document_local_fetcher"] = adapters.document_local_fetcher
         served, coverage_trace = apply_profiled_post_rerank_coverage(
             query,
             copy.deepcopy(protected_prefix),

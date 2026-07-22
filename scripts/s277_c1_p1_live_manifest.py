@@ -32,9 +32,15 @@ BASE_REQUIRED_RELATIONS = (
     "public.chunks_v2",
     "public.chunks_v2_enunciados",
     "public.chunks_v2_hyq",
+    "public.document_revision_lineages",
     "public.documents",
 )
 VISUAL_ASSETS_RELATION = "public.document_visual_assets"
+DOCUMENT_REVISION_LINEAGES_RELATION = "public.document_revision_lineages"
+DOCUMENT_LOCAL_FUNCTION = "public.document_local_snapshot_v2"
+S277_DOCUMENT_LOCAL_V2_FUNCTION_SHA256 = (
+    "19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e"
+)
 
 
 def required_relations(visual_assets_registry: str) -> tuple[str, ...]:
@@ -76,11 +82,18 @@ REQUIRED_FUNCTIONS: Mapping[str, tuple[str, ...]] = {
         "pg_catalog.float8",
         "pg_catalog.int4",
     ),
+    DOCUMENT_LOCAL_FUNCTION: (
+        "pg_catalog.jsonb",
+        "pg_catalog.text",
+        "pg_catalog.int4",
+        "pg_catalog.int4",
+    ),
     "public.corpus_fingerprint_v1": (),
 }
 
 RETRIEVAL_FUNCTIONS = frozenset(REQUIRED_FUNCTIONS) - {
-    "public.corpus_fingerprint_v1"
+    "public.corpus_fingerprint_v1",
+    DOCUMENT_LOCAL_FUNCTION,
 }
 IDENTITY_FUNCTION = "public.p1_runtime_identity_v1"
 
@@ -95,6 +108,7 @@ S277_EXPECTED_FUNCTION_SHA256: Mapping[str, str] = {
         "ed986867c931c8d3a361a5f904449d995d4acee70c815922f31f25fc997cbae7",
     "public.match_hyq":
         "d7744e62bd1f09498bbc5702d69510dc83708e77ea113e34545cc806e4353d8b",
+    DOCUMENT_LOCAL_FUNCTION: S277_DOCUMENT_LOCAL_V2_FUNCTION_SHA256,
     "public.corpus_fingerprint_v1":
         "1f280e0852158b63501aad2843a7e946ab9fac5a4c64a17851d6d63ed0e8ebca",
 }
@@ -104,6 +118,7 @@ REQUIRED_RPC_METHODS: Mapping[str, tuple[str, ...]] = {
     "/rpc/search_chunks_text_v2": ("POST",),
     "/rpc/match_chunks_v2_enunciados": ("POST",),
     "/rpc/match_hyq": ("POST",),
+    "/rpc/document_local_snapshot_v2": ("GET",),
 }
 
 _PHASES = frozenset({"pre", "watch", "post"})
@@ -235,6 +250,37 @@ def _normalize_acl(value: Any) -> list[dict[str, Any]]:
         normalized,
         key=lambda row: (
             row["grantee"], row["privilege"], row["grantor"], row["grantable"]
+        ),
+    )
+
+
+def _normalize_column_acl(value: Any) -> list[dict[str, Any]]:
+    rows = _json_value(value) or []
+    _expect(
+        isinstance(rows, list),
+        "HOLD_MANIFEST_SHAPE",
+        "column ACL must be a list",
+    )
+    normalized: list[dict[str, Any]] = []
+    for row in rows:
+        _expect(isinstance(row, Mapping), "HOLD_MANIFEST_SHAPE", "column ACL row")
+        normalized.append(
+            {
+                "column_name": str(row.get("column_name")),
+                "grantee": str(row.get("grantee")),
+                "grantor": str(row.get("grantor")),
+                "privilege": str(row.get("privilege")).upper(),
+                "grantable": bool(row.get("grantable")),
+            }
+        )
+    return sorted(
+        normalized,
+        key=lambda row: (
+            row["column_name"],
+            row["grantee"],
+            row["privilege"],
+            row["grantor"],
+            row["grantable"],
         ),
     )
 
@@ -533,6 +579,29 @@ SELECT
     ), '[]'::jsonb) AS acl,
     COALESCE((
         SELECT jsonb_agg(jsonb_build_object(
+            'column_name', a.attname,
+            'grantee', CASE WHEN x.grantee = 0 THEN 'PUBLIC'
+                            ELSE pg_get_userbyid(x.grantee) END,
+            'grantor', pg_get_userbyid(x.grantor),
+            'privilege', x.privilege_type,
+            'grantable', x.is_grantable
+        ) ORDER BY
+            a.attname,
+            CASE WHEN x.grantee = 0 THEN 'PUBLIC'
+                 ELSE pg_get_userbyid(x.grantee) END,
+            x.privilege_type,
+            pg_get_userbyid(x.grantor),
+            x.is_grantable)
+        FROM pg_attribute AS a
+        CROSS JOIN LATERAL aclexplode(
+            COALESCE(a.attacl, '{}'::aclitem[])
+        ) AS x
+        WHERE a.attrelid = c.oid
+          AND a.attnum > 0
+          AND NOT a.attisdropped
+    ), '[]'::jsonb) AS column_acl,
+    COALESCE((
+        SELECT jsonb_agg(jsonb_build_object(
             'name', pol.policyname,
             'permissive', pol.permissive,
             'roles', pol.roles,
@@ -786,6 +855,7 @@ def _normalize_relation_rows(rows: Sequence[Mapping[str, Any]]) -> list[dict[str
                 "force_row_security": bool(row["force_row_security"]),
                 "reloptions": sorted(str(item) for item in (row.get("reloptions") or [])),
                 "acl": _normalize_acl(row["acl"]),
+                "column_acl": _normalize_column_acl(row.get("column_acl")),
                 "policies": sorted(normalized_policies, key=lambda item: item["name"]),
             }
         )
@@ -1044,6 +1114,29 @@ def verify_intrinsic_safety(
             "HOLD_RPC_EXECUTION_CLASS_DRIFT",
             name,
         )
+        if name == DOCUMENT_LOCAL_FUNCTION:
+            _expect(
+                function["result_type"] == "jsonb"
+                and function["volatility"] == "s"
+                and function["security_definer"] is False
+                and function["language"] == "sql"
+                and function["function_config"] == ['search_path=""'],
+                "HOLD_DOCUMENT_LOCAL_RPC_DRIFT",
+                name,
+            )
+            document_local_acl = function["acl"]
+            _expect(
+                _acl_privileges(document_local_acl, "p1_readonly") == {"EXECUTE"}
+                and _acl_privileges(document_local_acl, "service_role")
+                == {"EXECUTE"}
+                and not any(
+                    "EXECUTE" in _acl_privileges(document_local_acl, grantee)
+                    for grantee in ("PUBLIC", "anon", "authenticated")
+                ),
+                "HOLD_DOCUMENT_LOCAL_RPC_ACL_DRIFT",
+                name,
+            )
+            continue
         if name in RETRIEVAL_FUNCTIONS:
             _expect(
                 function["volatility"] == "v" and not function["security_definer"],
@@ -1177,11 +1270,36 @@ def verify_intrinsic_safety(
     )
     for name, relation in relation_by_name.items():
         privileges = _acl_privileges(relation["acl"], "p1_readonly")
-        _expect(
-            privileges == {"SELECT"},
-            "HOLD_P1_ROLE_TABLE_PRIVILEGE_DRIFT",
-            f"{name}: {sorted(privileges)}",
-        )
+        p1_column_acl = [
+            row
+            for row in relation["column_acl"]
+            if row.get("grantee") == "p1_readonly"
+        ]
+        if name == DOCUMENT_REVISION_LINEAGES_RELATION:
+            _expect(
+                not privileges
+                and sorted(
+                    (
+                        row["column_name"],
+                        row["privilege"],
+                        row["grantable"],
+                    )
+                    for row in p1_column_acl
+                )
+                == [
+                    ("authority_status", "SELECT", False),
+                    ("id", "SELECT", False),
+                ],
+                "HOLD_P1_ROLE_LINEAGE_COLUMN_PRIVILEGE_DRIFT",
+                name,
+            )
+        else:
+            _expect(
+                privileges == {"SELECT"}
+                and all(row["privilege"] == "SELECT" for row in p1_column_acl),
+                "HOLD_P1_ROLE_TABLE_PRIVILEGE_DRIFT",
+                f"{name}: {sorted(privileges)}",
+            )
     chunks = relation_by_name["public.chunks_v2"]
     policies = chunks["policies"]
     p1_select = [
@@ -1198,6 +1316,28 @@ def verify_intrinsic_safety(
         and p1_select[0]["check"] is None,
         "HOLD_P1_ROLE_RLS_POLICY_DRIFT",
         "chunks_v2 SELECT policy",
+    )
+
+    lineages = relation_by_name[DOCUMENT_REVISION_LINEAGES_RELATION]
+    p1_lineage_policies = [
+        policy
+        for policy in lineages["policies"]
+        if "p1_readonly" in policy["roles"]
+    ]
+    _expect(
+        lineages["row_security"] is True
+        and len(p1_lineage_policies) == 1
+        and p1_lineage_policies[0]["permissive"] == "PERMISSIVE"
+        and p1_lineage_policies[0]["roles"] == ["p1_readonly"]
+        and p1_lineage_policies[0]["command"] == "SELECT"
+        and str(p1_lineage_policies[0]["using"])
+        .strip("() ")
+        .replace(" ", "")
+        .lower()
+        == "authority_status='verified'::text"
+        and p1_lineage_policies[0]["check"] is None,
+        "HOLD_P1_ROLE_LINEAGE_POLICY_DRIFT",
+        DOCUMENT_REVISION_LINEAGES_RELATION,
     )
 
     indexes = semantic.get("indexes")

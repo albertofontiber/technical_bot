@@ -4,6 +4,8 @@ from src import config
 from src.rag import coverage_runtime
 from src.release_profiles import (
     C1_PROFILE,
+    C1_V2_PROFILE,
+    COVERAGE_LANE_FLAGS,
     OFF_PROFILE,
     load_coverage_release_policy,
     validate_release_contract,
@@ -42,23 +44,98 @@ def test_c1_profile_is_one_complete_atomic_unit():
     assert policy.structural_neighbor_coverage
     assert policy.coverage_mandatory_callout
     assert policy.mp_mandatory_verb_trigger
+    assert not policy.document_local_coverage
     assert policy.safe_snapshot()["profile"] == C1_PROFILE
+    assert policy.safe_snapshot()["document_local_coverage"] is False
 
 
-def test_c1_requires_must_preserve_contract():
+def test_c1_v2_atomically_adds_only_document_local_lane():
+    policy = _validate(
+        {"COVERAGE_RELEASE_PROFILE": C1_V2_PROFILE},
+        must_preserve=True,
+    )
+    assert policy.post_rerank_coverage
+    assert policy.structural_neighbor_coverage
+    assert policy.coverage_mandatory_callout
+    assert policy.mp_mandatory_verb_trigger
+    assert policy.document_local_coverage
+    assert policy.safe_snapshot()["profile"] == C1_V2_PROFILE
+    assert policy.safe_snapshot()["document_local_coverage"] is True
+
+
+@pytest.mark.parametrize("profile", (C1_PROFILE, C1_V2_PROFILE))
+def test_c1_requires_must_preserve_contract(profile):
     with pytest.raises(RuntimeError, match="MUST_PRESERVE_CONTRACT"):
         _validate(
-            {"COVERAGE_RELEASE_PROFILE": C1_PROFILE},
+            {"COVERAGE_RELEASE_PROFILE": profile},
             must_preserve=False,
         )
 
 
-def test_c1_rejects_unreleased_lane():
-    with pytest.raises(RuntimeError, match="isolates structural coverage"):
+def test_c1_v1_rejects_document_local_leaf_override():
+    with pytest.raises(RuntimeError, match="remove legacy overrides"):
         _validate(
-            {"COVERAGE_RELEASE_PROFILE": C1_PROFILE},
+            {
+                "COVERAGE_RELEASE_PROFILE": C1_PROFILE,
+                "DOCUMENT_LOCAL_COVERAGE": "on",
+            },
             must_preserve=True,
-            lanes={"RERANK_POOL_COVERAGE": True},
+        )
+
+
+@pytest.mark.parametrize("profile", (C1_PROFILE, C1_V2_PROFILE))
+def test_c1_profiles_reject_every_other_coverage_lane(profile):
+    for lane in (
+        "TABLE_PREAMBLE_CLOSURE",
+        "CANONICAL_HYQ_COVERAGE",
+        "COMPATIBILITY_BUNDLE_COVERAGE",
+        "RERANK_POOL_COVERAGE",
+        "STRUCTURAL_CASCADE_COVERAGE",
+        "LOGICAL_RECORD_COVERAGE",
+    ):
+        expected_error = (
+            "isolates structural coverage"
+            if profile == C1_PROFILE
+            else "permits exactly"
+        )
+        with pytest.raises(RuntimeError, match=expected_error):
+            _validate(
+                {"COVERAGE_RELEASE_PROFILE": profile},
+                must_preserve=True,
+                lanes={lane: True},
+            )
+
+
+@pytest.mark.parametrize("profile", (OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE))
+def test_explicit_profiles_reject_all_profile_owned_leaf_flags(profile):
+    for leaf in (
+        "POST_RERANK_COVERAGE",
+        "STRUCTURAL_NEIGHBOR_COVERAGE",
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "DOCUMENT_LOCAL_COVERAGE",
+    ):
+        with pytest.raises(RuntimeError, match="remove legacy overrides"):
+            _validate(
+                {"COVERAGE_RELEASE_PROFILE": profile, leaf: "off"},
+                must_preserve=profile != OFF_PROFILE,
+            )
+
+
+def test_document_local_lane_is_inventoried_and_requires_master():
+    assert "DOCUMENT_LOCAL_COVERAGE" in COVERAGE_LANE_FLAGS
+    with pytest.raises(RuntimeError, match="require POST_RERANK_COVERAGE"):
+        _validate(
+            {"DOCUMENT_LOCAL_COVERAGE": "on"},
+            production=False,
+        )
+    with pytest.raises(RuntimeError, match="requires STRUCTURAL_NEIGHBOR_COVERAGE"):
+        _validate(
+            {
+                "POST_RERANK_COVERAGE": "on",
+                "DOCUMENT_LOCAL_COVERAGE": "on",
+            },
+            production=False,
         )
 
 
@@ -158,6 +235,7 @@ def test_production_contract_is_independent_of_telegram_transport(monkeypatch):
         "CANONICAL_HYQ_COVERAGE",
         "COMPATIBILITY_BUNDLE_COVERAGE",
         "RERANK_POOL_COVERAGE",
+        "DOCUMENT_LOCAL_COVERAGE",
         "STRUCTURAL_CASCADE_COVERAGE",
         "LOGICAL_RECORD_COVERAGE",
     ):

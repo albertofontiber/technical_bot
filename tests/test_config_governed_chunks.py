@@ -127,6 +127,7 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
         "CANONICAL_HYQ_COVERAGE",
         "COMPATIBILITY_BUNDLE_COVERAGE",
         "RERANK_POOL_COVERAGE",
+        "DOCUMENT_LOCAL_COVERAGE",
         "STRUCTURAL_CASCADE_COVERAGE",
         "LOGICAL_RECORD_COVERAGE",
     ):
@@ -143,6 +144,7 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
             "assert not c.CANONICAL_HYQ_COVERAGE; "
             "assert not c.COMPATIBILITY_BUNDLE_COVERAGE; "
             "assert not c.RERANK_POOL_COVERAGE; "
+            "assert not c.DOCUMENT_LOCAL_COVERAGE; "
             "assert not c.STRUCTURAL_CASCADE_COVERAGE; "
             "assert not c.LOGICAL_RECORD_COVERAGE",
         ],
@@ -155,7 +157,7 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
     )
     assert default.returncode == 0, default.stderr
 
-    env["STRUCTURAL_NEIGHBOR_COVERAGE"] = "enabled"
+    env["DOCUMENT_LOCAL_COVERAGE"] = "enabled"
     invalid = subprocess.run(
         [sys.executable, "-c", "import src.config"],
         cwd=ROOT,
@@ -167,3 +169,60 @@ def test_post_rerank_release_flags_are_strict_and_default_off():
     )
     assert invalid.returncode != 0
     assert "on|off" in invalid.stderr
+
+
+def test_c1_profiles_import_as_atomic_units_and_visual_registry_is_orthogonal():
+    base_env = os.environ.copy()
+    base_env.update(
+        {
+            "CHUNKS_TABLE": "chunks_v2",
+            "ANTHROPIC_API_KEY": "test-anthropic",
+            "OPENAI_API_KEY": "test-openai",
+            "SUPABASE_URL": "https://example.invalid",
+            "SUPABASE_SERVICE_KEY": "test-service-role",
+            "MUST_PRESERVE_CONTRACT": "on",
+            "VISUAL_ASSETS_REGISTRY": "on",
+            "TABLE_PREAMBLE_CLOSURE": "off",
+            "CANONICAL_HYQ_COVERAGE": "off",
+            "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+            "RERANK_POOL_COVERAGE": "off",
+            "STRUCTURAL_CASCADE_COVERAGE": "off",
+            "LOGICAL_RECORD_COVERAGE": "off",
+        }
+    )
+    for leaf in (
+        "POST_RERANK_COVERAGE",
+        "STRUCTURAL_NEIGHBOR_COVERAGE",
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "DOCUMENT_LOCAL_COVERAGE",
+    ):
+        base_env.pop(leaf, None)
+
+    expectations = (
+        ("coverage_c1_v1", "False"),
+        ("coverage_c1_v2", "True"),
+    )
+    for profile, document_local in expectations:
+        env = base_env | {"COVERAGE_RELEASE_PROFILE": profile}
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import src.config as c; "
+                "c.validate_config(production=True); "
+                "assert c.POST_RERANK_COVERAGE; "
+                "assert c.STRUCTURAL_NEIGHBOR_COVERAGE; "
+                "assert c.COVERAGE_RELEASE_POLICY.coverage_mandatory_callout; "
+                "assert c.COVERAGE_RELEASE_POLICY.mp_mandatory_verb_trigger; "
+                f"assert c.DOCUMENT_LOCAL_COVERAGE is {document_local}; "
+                "assert c.VISUAL_ASSETS_REGISTRY",
+            ],
+            cwd=ROOT,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+        assert result.returncode == 0, result.stderr

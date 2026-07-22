@@ -3220,3 +3220,91 @@ autoridad y el dedupe de HP011, pero no mueve el marcador 146/154 ni el `NO_GO_P
 El paso natural es construir y medir sin modelos la lane genérica de recuperación
 intradocumento. Otra P1 continúa prohibida hasta que esa lane pase y el código sellado esté listo
 para un run limpio 27/27.
+
+## DEC-145 (S277, 22 jul 2026) — La recuperación document-local alcanza `GO_MECHANISM`; perfil nuevo y P1 limpia siguen pendientes
+
+**Decisión estructural.** Se incorpora, default-off, una lane document-local que obtiene
+autoridad y candidatos mediante una única función `STABLE`, `SECURITY INVOKER`, GET-compatible
+y con `search_path` vacío. `document_local_snapshot_v1(jsonb,text,integer,integer)` sólo puede
+ejecutarla `service_role`; `PUBLIC`, `anon` y `authenticated` quedan revocados. La autoridad
+procede de `documents` y del vínculo exacto `(document_id, extraction_sha256, source_file)`, no
+de etiquetas denormalizadas legacy del chunk. La familia y los candidatos están acotados en SQL
+con lectura `limit+1`; cualquier ambigüedad, drift, overflow, revisión no activa, duplicado o
+identidad incompleta falla cerrada.
+
+**Identidad y selección.** Los cinco campos normalizados (`document_family`, `language`,
+`doc_type`, `manufacturer`, `product_model`) se toman de la fila activa ya revalidada y se
+sellan en el candidato antes del planner/generador. Esto evita que labels legacy como
+`RP1r-Supra`/`NULL` contradigan la autoridad `RP1r`/`usuario`. El selector semántico reutilizado
+opera con `apply_catalog_scope=False` sólo dentro del blob exacto: el carril genérico conserva su
+catálogo, pero sus preferencias históricas no intervienen en este segundo salto.
+
+**Contrato servido.** V1 es ES-only y sólo sirve un registro Markdown pipe completo —cabecera,
+separador inmediatamente anterior, misma aridad y una fila de datos—, con máximo un append y
+receipt exacto. No contiene QIDs, chunk IDs ni reglas por manual.
+
+**Evidencia.** El probe congelado pasó 22/22 checks sobre 13 QIDs, conservó todos los prefijos
+byte a byte, ejercitó
+la lane sólo donde era aplicable y seleccionó únicamente la fila autoritativa p63 de hp011. Los
+controles negativos cubren lifecycle, blob/SHA, duplicados, caps, identidad, tampering y formato;
+dos controles se ejecutaron además contra el RPC desplegado. El recorrido hizo 84 GET, cero
+llamadas de modelo y cero escrituras de base de datos. Receipt:
+`evals/s277_document_local_coverage_probe_v1.json`.
+
+**Historial.** Las siete migraciones remote-only se recuperaron con comparación normalizada y
+las tres local-only ausentes se adjudicaron como propuestas; después se aplicaron normalmente
+las dos migraciones forward del mecanismo. No hubo `migration repair` ni `--include-all`.
+Receipt: `evals/s277_document_local_migration_reconciliation_receipt_v1.json`.
+
+**Límite.** El veredicto es `GO_MECHANISM`, no `P1_PASS` ni GO de C1. La lane sigue fuera de
+`coverage_c1_v1` y default-off. El siguiente cambio debe crear un perfil versionado nuevo;
+después corresponde una P1 limpia 27/27. Esta decisión no banca facts, no mueve 146/154, no
+autoriza merge/deploy/canary y no construye multi-turn/multi-hop.
+
+## DEC-146 (S277, 22 jul 2026) — Lineage v2 y `coverage_c1_v2` quedan listos; P1 v2 debe empezar fresca y sigue pendiente
+
+**Decisión de autoridad live.** Se sustituye la pertenencia positiva por etiqueta legacy por una
+lineage gobernada explícita: `document_revision_lineages` y
+`documents.revision_lineage_id` son la única vía positiva para agrupar revisiones. Las etiquetas
+históricas sólo pueden provocar rechazo por drift; nunca añadir ni ocultar miembros. La migración
+lineage v2 y su ACL P1 están aplicadas live. El receipt
+`evals/s277_document_local_migration_reconciliation_receipt_v2.json` queda `RECONCILED` con
+**7/7 checks**: history de las cuatro versiones document-local, lineage HP011 exacta, binding de
+ambos documentos, RLS de `p1_readonly` y ACL mínima por columna. La definición live SQL/STABLE/
+SECURITY INVOKER/empty-search-path de `document_local_snapshot_v2` queda pineada por SHA-256 LF
+`19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e`.
+
+**Decisión de mecanismo.** El probe v2 conserva `GO_MECHANISM` con **22/22 checks** sobre 13
+QIDs, prefijos byte-idénticos, máximo un append y sólo HP011 seleccionado. Declara la
+aplicabilidad real —12/13 rechazados por lifecycle o idioma— y recorrió **84 GET, 0 llamadas de
+modelo y 0 escrituras de base de datos**. Los caps por scope y combinado, lifecycle, lineage,
+blob/SHA, identidad, duplicados, tampering y formato Markdown fallan cerrados. Receipt:
+`evals/s277_document_local_coverage_probe_v2.json`.
+
+**Cierre adversarial, sin gate-shopping.** Se completaron y adjudicaron cuatro rondas Sol/Fable:
+35 findings, 30 confirmados y resueltos, 5 falsos positivos. No se pidió ni ejecutó una quinta
+ronda. `evals/s277_document_local_coverage_review_packet_v5.md` es un handoff de evidencia, no
+una revisión nueva ni una vía para reabrir el veredicto.
+
+**Decisión de perfil e integridad P1.** `coverage_c1_v1` queda inmutable y mantiene
+document-local off. `coverage_c1_v2` activa atómicamente sus cuatro capacidades más
+`DOCUMENT_LOCAL_COVERAGE`, permite sólo structural + document-local y conserva
+`MUST_PRESERVE_CONTRACT=on`; visuales siguen siendo ortogonales. El guard admite como máximo un
+GET a `/rest/v1/rpc/document_local_snapshot_v2`. Cada réplica v2 exige exactamente una lane trace
+document-local, `status=error` es NO-GO y el recuento semántico debe casar 1:1 con receipts GET.
+`hp011:r1/r2` exigen además un GET, un único ID seleccionado y ese ID en el contexto servido.
+El delta normativo vive en `evals/s277_c1_p1_design_v2.md`,
+`evals/s277_c1_p1_prereg_v2.yaml` y
+`evals/s277_c1_p1_release_config_schema_v2.json`.
+
+**Estado y siguiente paso.** P1 v2 está `PENDING` y no se ha ejecutado. Debe comenzar en un
+artifact root nuevo, con inputs, receipt, credenciales, genesis y fence nuevos: **27/27 réplicas,
+81 llamadas y cap interno de 30 USD**. El run histórico 18/27 permanece diagnóstico y no puede
+completarse con nueve réplicas bajo el árbol nuevo. Incluso un `P1_PASS` no banca facts: el KPI
+sigue **146/154 (94,81 %), gap +5** y exige eval orgánico/fresco u otra familia causal.
+
+**Stop-lines de release y arquitectura futura.** TECH_DEBT #29 no bloquea esta medición P1
+acotada, pero sí bloquea merge/release global hasta una migración forward-only, inventario de
+RLS/grants/policies y smokes. Merge, deploy y canary requieren gates y autorización separados.
+Multi-turn/multi-hop permanece `NOT_BUILT`; DEC-146 no autoriza DDL conversacional, estado durable,
+hops ni inferencia adicional.

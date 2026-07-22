@@ -182,9 +182,10 @@ def _runtime(monkeypatch) -> product.ProductRuntime:
 
 
 class _PostgrestReceiptSource:
-    def __init__(self, *, visual: bool = False):
+    def __init__(self, *, visual: bool = False, document_local: bool = False):
         self.calls = 0
         self.visual = visual
+        self.document_local = document_local
 
     def __call__(self):
         self.calls += 1
@@ -211,6 +212,18 @@ class _PostgrestReceiptSource:
                     "status": 200,
                     "request_id": "postgrest-visual-test",
                     "body_sha256": "a" * 64,
+                }
+            )
+        if self.document_local:
+            receipts.append(
+                {
+                    "schema": product.POSTGREST_REQUEST_RECEIPT_SCHEMA,
+                    "ordinal": len(receipts) + 1,
+                    "method": "GET",
+                    "path": product._DOCUMENT_LOCAL_RPC_PATH,
+                    "status": 200,
+                    "request_id": "postgrest-document-local-test",
+                    "body_sha256": "b" * 64,
                 }
             )
         return tuple(receipts)
@@ -280,6 +293,173 @@ def test_real_product_prompts_run_once_through_offline_boundary(monkeypatch):
     for intent in boundary.intents:
         spec = boundary.budget.specs[intent.call_key]
         p1.ProviderBoundary._validate_request_envelope(_provider_call(intent), spec)
+
+
+def _document_local_v2_runtime(monkeypatch) -> product.ProductRuntime:
+    from src.rag import serving_pipeline
+
+    runtime = _runtime(monkeypatch)
+
+    def coverage(query, prefix, *, retrieval_pool, structural_fetcher):
+        del query, retrieval_pool
+        _hydrated, candidates, _trace = structural_fetcher(prefix[:1], limit=4)
+        document_local = {
+            **_chunks()[1],
+            "id": "document-local-target",
+            "retrieval_lane": product._DOCUMENT_LOCAL_LANE,
+            "document_local_coverage_validated": True,
+        }
+        return [*prefix, candidates[0], document_local], {
+            "enabled": True,
+            "status": "appended",
+            "lanes": [
+                {
+                    "lane": "structural_neighbor_coverage_v1",
+                    "status": "selected",
+                    "selected_ids": [candidates[0]["id"]],
+                    "http_requests": 0,
+                },
+                {
+                    "lane": product._DOCUMENT_LOCAL_LANE,
+                    "status": "selected",
+                    "selected_ids": [document_local["id"]],
+                    "http_requests": 1,
+                },
+            ],
+        }
+
+    monkeypatch.setattr(serving_pipeline, "apply_profiled_post_rerank_coverage", coverage)
+    return runtime
+
+
+def test_v2_binds_one_document_local_lane_trace_to_one_physical_get(monkeypatch):
+    boundary = OfflineBoundary()
+    boundary.run_genesis["target_semantic_config"]["coverage"] = {
+        "release_profile": "coverage_c1_v2",
+        "document_local_coverage": True,
+    }
+    adapter = product.ProductReplicaAdapter(
+        input_contract=_input_contract(),
+        postgrest_receipt_source=_PostgrestReceiptSource(document_local=True),
+        postgrest_manifest_sha256="9" * 64,
+        visual_assets_registry="off",
+        runtime=_document_local_v2_runtime(monkeypatch),
+    )
+
+    execution = adapter.execute_replica(REPLICA, boundary)
+
+    attestation = execution.adapter_attestation
+    evidence = attestation["document_local_coverage"]
+    assert evidence["lane_trace"]["selected_ids"] == ["document-local-target"]
+    assert evidence["physical_get_ordinals"] == [2]
+    assert evidence["served_selected_ids"] == ["document-local-target"]
+    assert attestation["coverage_trace_sha256"] == p1.sha256_json(
+        attestation["coverage_trace"]
+    )
+    assert attestation["attestation_sha256"] == p1.sha256_json(
+        {key: value for key, value in attestation.items() if key != "attestation_sha256"}
+    )
+
+
+def _document_local_contract_inputs(*, status: str = "selected"):
+    selected_ids = ["document-local-target"] if status == "selected" else []
+    lane = {
+        "lane": product._DOCUMENT_LOCAL_LANE,
+        "status": status,
+        "selected_ids": selected_ids,
+        "http_requests": 1,
+    }
+    trace = {
+        "lanes": [lane],
+        "appended_ids": list(selected_ids),
+    }
+    served = [
+        {
+            "id": "document-local-target",
+            "retrieval_lane": product._DOCUMENT_LOCAL_LANE,
+            "document_local_coverage_validated": True,
+        }
+    ]
+    physical = [
+        {
+            "ordinal": 2,
+            "method": "GET",
+            "path": product._DOCUMENT_LOCAL_RPC_PATH,
+        }
+    ]
+    return trace, served, physical
+
+
+@pytest.mark.parametrize("replica_key", ["hp011:r1", "hp011:r2"])
+def test_hp011_v2_requires_selected_id_served_in_context(replica_key):
+    trace, served, physical = _document_local_contract_inputs()
+
+    evidence = product._validated_document_local_coverage_evidence(
+        replica_key=replica_key,
+        coverage_trace=trace,
+        served=served,
+        postgrest_receipts=physical,
+        required=True,
+    )
+
+    assert evidence["served_selected_ids"] == ["document-local-target"]
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_code"),
+    [
+        ("missing_lane", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
+        ("duplicate_lane", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
+        ("lane_error", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
+        ("missing_get", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT"),
+        ("selected_not_served", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET"),
+        ("hp011_not_selected", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET"),
+    ],
+)
+def test_v2_document_local_contract_fails_closed(mutation, expected_code):
+    trace, served, physical = _document_local_contract_inputs()
+    replica_key = "hp017:r1"
+    if mutation == "missing_lane":
+        trace["lanes"] = []
+    elif mutation == "duplicate_lane":
+        trace["lanes"].append(dict(trace["lanes"][0]))
+    elif mutation == "lane_error":
+        trace["lanes"][0].update(status="error", selected_ids=[])
+    elif mutation == "missing_get":
+        physical = []
+    elif mutation == "selected_not_served":
+        served = []
+    elif mutation == "hp011_not_selected":
+        replica_key = "hp011:r1"
+        trace, served, physical = _document_local_contract_inputs(
+            status="no_query_aligned_candidate"
+        )
+
+    with pytest.raises(p1.P1Error) as caught:
+        product._validated_document_local_coverage_evidence(
+            replica_key=replica_key,
+            coverage_trace=trace,
+            served=served,
+            postgrest_receipts=physical,
+            required=True,
+        )
+
+    assert caught.value.code == expected_code
+
+
+def test_v1_rejects_an_unexpected_document_local_get():
+    trace, served, physical = _document_local_contract_inputs()
+
+    with pytest.raises(p1.P1Error) as caught:
+        product._validated_document_local_coverage_evidence(
+            replica_key=REPLICA.key,
+            coverage_trace=trace,
+            served=served,
+            postgrest_receipts=physical,
+            required=False,
+        )
+
+    assert caught.value.code == "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT"
 
 
 def test_visual_probe_seals_lookup_preexisting_and_transport_selection(monkeypatch):

@@ -17,14 +17,24 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado S277 (21 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
+> **Estado S277 (22 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
 > #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas.
-> Su gate P1 está `CODE_READY`: adapter del path real, closure transitivo exacto, captura
-> Railway read-only, manifest live pre/watch/post, guard PostgREST y fence PostgreSQL
-> persistente mediante IPC con aborto explícito. Es tooling de release, no una capacidad del
-> chatbot. Sigue `OPERATIONAL_AUTHORIZATION_PENDING`: no se aplicó el rol `p1_readonly`, no
-> hubo ejecución pagada, deploy ni `P1_PASS`. Marcador: 146/154 (94,81 %), sin movimiento.
+> El rol `p1_readonly`, el lifecycle HP011 y las cuatro versiones document-local —incluida la
+> lineage v2 gobernada— están aplicados y verificados live; su receipt pasa 7/7 y fija la función
+> por hash `19975e…a82e`. La tercera P1 histórica terminó `NO_GO_PARTIAL`; la lane default-off
+> pasó 22/22 como `GO_MECHANISM` y ya está integrada en `coverage_c1_v2`. La P1 v2 fresca
+> 27/27/81 llamadas sigue `PENDING` y no ejecutada, con cap interno de 30 USD. No hubo deploy ni
+> `P1_PASS`. Marcador: 146/154 (94,81 %), sin movimiento.
 > Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
+>
+> **Cobertura document-local candidata, post-rerank y default-off.** Parte de scopes derivados
+> del prefijo servido, obtiene en una sola snapshot la revisión activa y candidatos FTS del blob
+> exacto, revalida lifecycle/identidad/formato y puede añadir como máximo un registro completo
+> sin quitar, mutar ni reordenar el prefijo. Ambigüedad, overflow, idioma no soportado o formato
+> no demostrable degradan sin append. `coverage_c1_v1` la excluye deliberadamente y permanece
+> inmutable; `coverage_c1_v2` la activa como quinta capacidad junto a structural. Cada réplica v2
+> exige una traza document-local y correspondencia 1:1 entre `http_requests` y GET físicos;
+> `status=error` es NO-GO y hp011:r1/r2 deben seleccionar y servir un único ID.
 >
 > Resumen estable (s71 — 13 jun 2026): producción = `chunks_v2` (25.090 chunks, de los que
 > **262 quedan excluidos en runtime por lifecycle** [220 superseded s64 + 42 needs_review] →
@@ -256,7 +266,7 @@ flowchart LR
 
 ## 3. El viaje de una pregunta — paso a paso
 
-> **Estado S277 (21 jul 2026).** El flujo siguiente describe el runtime productivo actual,
+> **Estado S277 (22 jul 2026).** El flujo siguiente describe el runtime productivo actual,
 > no el candidato C1 todavía sin desplegar:
 > esencialmente **single-turn, single-hop y un writer**. Existe sólo un carry efímero de una hora
 > en `context.user_data`; no hay conversación durable, event log, hops, claims ni delivery outbox.
@@ -861,7 +871,7 @@ El detalle y sus gates viven en
 | **Logging completo de shortcuts (greeting/catalog/etc) en query_logs** | ⚠️ solo rama RAG | Bajo (gap de métricas de uso) | TECH_DEBT #31 |
 | **Query rewriting / multi-query genérico** | ⛔ no default | ROI no medido aquí; riesgo de drift/churn | Sustituido por rewrite conversacional condicional y eval fresca |
 | **RAGAS metrics (5 dimensiones)** | ❌ (solo overall_pass) | Alto (atribución) | Sesión 14-15 |
-| **RLS en todas las tablas (defensa anon key)** | ⚠️ solo `user_consent` | Medio (defensa en profundidad) | TECH_DEBT pendiente |
+| **RLS en todas las tablas (defensa anon key)** | ⚠️ exposición legacy confirmada; RPC document-local v2 protegida | Bloquea merge/release global, no la medición P1 | TECH_DEBT #29 |
 | **Estado conversacional durable/versionado** | ❌ carry efímero | Alto para multi-turn | Fase 0 DEC-136, no autorizada |
 | **Ingress idempotente + leases + outbox/receipts** | ❌ | Alto (crash/retry/duplicados) | Fase 0 DEC-136, no autorizada |
 | **Rewrite conversacional condicional** | ❌ | Alto sólo en follow-ups dependientes | Fase 1 tras eval fresca |

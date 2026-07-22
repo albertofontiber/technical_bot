@@ -3,6 +3,7 @@ import json
 import httpx
 
 from src import logging_db
+from src.release_profiles import DOCUMENT_LOCAL_LANE
 from src.rag.runtime_trace import (
     SENSITIVE_RAW_KEYS,
     TRACE_MAX_BYTES,
@@ -126,6 +127,116 @@ def test_runtime_trace_is_bounded_allowlisted_and_contains_c1_receipt_counts(mon
     assert trace["coverage"]["executed_lanes"] == [STRUCTURAL_LANE]
     assert trace["transport"] == {"message_parts": 2, "render_status": "html"}
     assert validate_rag_serving_trace(trace) == trace
+
+
+def test_v2_document_local_trace_counts_rows_without_copying_raw_evidence():
+    private = "PRIVATE-DOCUMENT-ID-AND-CONTENT"
+    trace = build_rag_serving_trace(
+        coverage_trace={
+            "enabled": True,
+            "status": "appended",
+            "protected_prefix_rows": 10,
+            "protected_prefix_equal": True,
+            "appended_ids": [private],
+            "query": private,
+            "lanes": [
+                {
+                    "lane": DOCUMENT_LOCAL_LANE,
+                    "status": "selected",
+                    "selected_ids": [private],
+                    "document_id": private,
+                    "source_file": private,
+                    "content": private,
+                    "quote": private,
+                    "query_plan_sha256": private,
+                }
+            ],
+        },
+        served_chunks=[],
+        must_preserve_trace=None,
+        must_preserve_outcome={"status": "disabled"},
+        release_policy={
+            "profile": "coverage_c1_v2",
+            "structural_neighbor_coverage": True,
+            "document_local_coverage": True,
+            "coverage_mandatory_callout": True,
+        },
+        transport_parts=1,
+    )
+
+    encoded = json.dumps(trace, ensure_ascii=False)
+    assert private not in encoded
+    assert not (set(_walk_keys(trace)) & SENSITIVE_RAW_KEYS)
+    assert trace["release_profile"] == "coverage_c1_v2"
+    assert trace["coverage"]["configured_lanes"] == [
+        STRUCTURAL_LANE,
+        DOCUMENT_LOCAL_LANE,
+    ]
+    assert trace["coverage"]["executed_lanes"] == [DOCUMENT_LOCAL_LANE]
+    assert trace["coverage"]["lane_outcomes"] == [
+        {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "selected",
+            "selected_rows": 1,
+        }
+    ]
+    assert validate_rag_serving_trace(trace) == trace
+
+
+def test_document_local_runtime_statuses_are_preserved_by_closed_schema():
+    statuses = (
+        "selected",
+        "no_validated_structural_anchor",
+        "source_scope_overflow",
+        "no_bounded_query_plan",
+        "invalid_anchor_scope",
+        "document_seed_not_found",
+        "ambiguous_document_family",
+        "unsupported_document_language",
+        "active_revision_not_bound_to_anchor_blob",
+        "document_scope_overflow",
+        "invalid_revision_status",
+        "ambiguous_active_revision",
+        "branched_or_cyclic_revision_chain",
+        "nonreciprocal_revision_chain",
+        "incomplete_revision_chain",
+        "no_authoritative_source_scope",
+        "candidate_scope_mismatch",
+        "combined_candidate_cap_exceeded",
+        "candidate_cap_exceeded",
+        "no_fts_candidates",
+        "no_candidates",
+        "fetched",
+        "selector_pool_overflow",
+        "no_query_aligned_candidate",
+        "best_candidate_already_covered",
+        "winner_scope_mismatch",
+        "skipped_no_append_capacity",
+        "skipped_no_served_structural_anchor",
+        "error",
+    )
+    for status in statuses:
+        trace = build_rag_serving_trace(
+            coverage_trace={
+                "enabled": True,
+                "status": "no_append",
+                "protected_prefix_rows": 1,
+                "protected_prefix_equal": True,
+                "appended_ids": [],
+                "lanes": [{"lane": DOCUMENT_LOCAL_LANE, "status": status}],
+            },
+            served_chunks=[],
+            must_preserve_trace=None,
+            must_preserve_outcome={"status": "disabled"},
+            release_policy={
+                "profile": "coverage_c1_v2",
+                "structural_neighbor_coverage": True,
+                "document_local_coverage": True,
+            },
+            transport_parts=1,
+        )
+        assert trace["coverage"]["lane_outcomes"][0]["status"] == status
+        assert validate_rag_serving_trace(trace) == trace
 
 
 def test_runtime_trace_rejects_private_tokens_in_every_copied_enum_field():

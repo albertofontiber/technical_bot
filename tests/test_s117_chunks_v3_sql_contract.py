@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SQL_PATH = (
     ROOT
     / "supabase"
-    / "migrations"
+    / "migration_proposals"
     / "20260714102428_chunks_v3_provenance_shadow.sql"
 )
 

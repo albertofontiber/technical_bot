@@ -39,6 +39,7 @@ REQUEST_RECEIPT_SCHEMA = "s277_c1_p1_postgrest_request_receipt_v1"
 P1_ROLE = "p1_readonly"
 EXPECTED_AUDIENCE = "authenticated"
 IDENTITY_PATH = "/rest/v1/rpc/p1_runtime_identity_v1"
+DOCUMENT_LOCAL_SNAPSHOT_PATH = "/rest/v1/rpc/document_local_snapshot_v2"
 
 _PROJECT_REF_RE = re.compile(r"^[a-z0-9]{20}$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -48,6 +49,7 @@ _ALLOWED_GET_PATHS_BASE = frozenset(
     {
         "/rest/v1/chunks_v2",
         "/rest/v1/documents",
+        DOCUMENT_LOCAL_SNAPSHOT_PATH,
     }
 )
 _VISUAL_PATH = "/rest/v1/document_visual_assets"
@@ -773,7 +775,12 @@ class P1PostgrestGuard:
         self._lock_owned = True
         try:
             self._validate_live_credential()
-            from src.rag import retriever, structural_neighbor_shadow, visual_assets
+            from src.rag import (
+                document_local_coverage,
+                retriever,
+                structural_neighbor_shadow,
+                visual_assets,
+            )
 
             proxy = _ScopedHttpxProxy(self)
             patches = (
@@ -786,6 +793,9 @@ class P1PostgrestGuard:
                 (visual_assets, "httpx", proxy),
                 (visual_assets, "SUPABASE_URL", self._supabase_url),
                 (visual_assets, "SUPABASE_SERVICE_KEY", self._jwt),
+                (document_local_coverage, "httpx", proxy),
+                (document_local_coverage, "SUPABASE_URL", self._supabase_url),
+                (document_local_coverage, "SUPABASE_SERVICE_KEY", self._jwt),
             )
             for module, name, replacement in patches:
                 self._saved.append((module, name, getattr(module, name)))

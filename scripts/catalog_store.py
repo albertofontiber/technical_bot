@@ -23,7 +23,7 @@ Reglas duras del contrato que ESTA puerta hace cumplir:
 - alias/paraguas/homónimo → ids EXISTENTES; redirects ACÍCLICOS y a ids existentes.
 - paraguas y homónimos NACEN candidate=true (blast-radius) hasta QA humano.
 - resolve(): check-HOMÓNIMO PRIMERO → exact(canonical) → alias → paraguas; candidate NO se
-  consume; fail-open (None) si no resuelve. hp011-clase: un token homónimo NUNCA cae a exact.
+  consume; fail-open (None) si no resuelve. Un token homónimo NUNCA cae a exact.
 
 Uso CLI:
   python scripts/catalog_store.py validate    # chequeo de esquema/refs (lo corre CI)
@@ -99,7 +99,7 @@ class Catalog:
                              if not u.get("candidate")}
         self._by_homonym = {norm_token(h["termino"]): h for h in self.homonyms}
         # NOTA: los homónimos se indexan AUNQUE sean candidate — un homónimo candidate
-        # BLOQUEA el exact-match del token (mejor fail-open que resolver mal la clase hp011),
+        # BLOQUEA el exact-match del token (mejor fail-open que resolver mal un homónimo),
         # pero no aplica su política hasta QA.
 
     def follow_redirect(self, pid: str, _seen: frozenset = frozenset()) -> str:
@@ -137,7 +137,7 @@ class Catalog:
                 return {"ids": [self.follow_redirect(pid)], "via": "homonimo",
                         "politica": pol, "expand": True}
             # clarify/fail-open: los ids son OPCIONES (productos DISTINTOS sin familia) —
-            # expandirlos al retrieval contaminaría el pool (la clase hp011).
+            # expandirlos al retrieval contaminaría el pool.
             return {"ids": [self.follow_redirect(i) for i in h["ids"]],
                     "via": "homonimo", "politica": pol, "expand": False}
         pid = self._by_canonical.get(t)

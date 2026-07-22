@@ -150,25 +150,54 @@ def test_serving_adapters_do_not_accept_a_coverage_or_selector_override():
         RagServingAdapters(**base, apply_coverage=lambda *_args: None)
     with pytest.raises(TypeError):
         RagServingAdapters(**base, structural_collector=lambda *_args: None)
+    with pytest.raises(TypeError):
+        RagServingAdapters(**base, document_local_collector=lambda *_args: None)
 
 
 def test_profiled_facade_keeps_the_real_selector_when_fetch_is_injected(monkeypatch):
+    from src.rag import document_local_coverage
+
     marker = object()
+    document_marker = object()
     observed = {}
 
     def fetcher(*_args, **_kwargs):
         return [], [], {"fetch": "ok"}
 
+    def document_fetcher(*_args, **_kwargs):
+        return [], [], {"fetch": "document-ok"}
+
     def selector(query, seeds, *, fetcher):
         observed.update(query=query, seeds=seeds, fetcher=fetcher)
         return marker
 
-    def coverage(_query, reranked, *, retrieval_pool, structural_collector):
+    def document_selector(query, anchors, covered, *, fetcher):
+        observed.update(
+            document_query=query,
+            document_anchors=anchors,
+            document_covered=covered,
+            document_fetcher=fetcher,
+        )
+        return document_marker
+
+    def coverage(
+        _query,
+        reranked,
+        *,
+        retrieval_pool,
+        structural_collector,
+        document_local_collector,
+    ):
         assert retrieval_pool == [{"id": "pool"}]
         assert structural_collector("q", reranked) is marker
+        assert document_local_collector("q", reranked, reranked) is document_marker
         return reranked, {"status": "no_append"}
 
     monkeypatch.setattr(coverage_runtime, "collect_structural_coverage", selector)
+    monkeypatch.setattr(coverage_runtime, "DOCUMENT_LOCAL_COVERAGE", True)
+    monkeypatch.setattr(
+        document_local_coverage, "collect_document_local_coverage", document_selector
+    )
     monkeypatch.setattr(
         coverage_runtime, "apply_post_rerank_coverage_with_trace", coverage
     )
@@ -178,11 +207,13 @@ def test_profiled_facade_keeps_the_real_selector_when_fetch_is_injected(monkeypa
         [{"id": "a"}],
         retrieval_pool=[{"id": "pool"}],
         structural_fetcher=fetcher,
+        document_local_fetcher=document_fetcher,
     )
 
     assert served == [{"id": "a"}]
     assert trace == {"status": "no_append"}
     assert observed["fetcher"] is fetcher
+    assert observed["document_fetcher"] is document_fetcher
 
 
 def test_user_facing_eval_and_smoke_harnesses_cross_the_serving_seam():

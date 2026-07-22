@@ -10,11 +10,11 @@ Si alcanzas un trigger, para y refactoriza antes de seguir añadiendo features.
 
 ---
 
-## Índice de estado (s196 — 17 jul 2026; generado, no renumera)
+## Índice de estado (S277 — 22 jul 2026; generado, no renumera)
 
 - **Abiertos (trigger-gated):** #1, #2, #3, #5b, #5, #6, #7, #10, #11b, #12, #11g, #11h, #13, #15, #17, #18, #19, #20, #21, #22, #23, #25, #26, #27, #28, #29, #30, #31, #18, #32, #33, #34, #35, #37, #39, #40, #41, #44, #45, #47, #48, #49, #50, #51, #52
 - **Parciales / elevados:** #8, #11f, #24, #53
-- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #36 (✅ s88: cross-model agéntico con tools read-only, paridad con el sub-agente), #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045)
+- **Cerrados (✅ resueltos o 🔴 revertidos):** #4, #9, #11, #11c, #11i, #11d, #14, #16, #36 (✅ s88: cross-model agéntico con tools read-only, paridad con el sub-agente), #38, #42, #43 (✅ COMPLETO: capa A s63/DEC-044 + capa B s65/DEC-046; escritor-en-ingesta → PLAN punto 2), #46 (✅ s64/DEC-045), #55 (✅ S277: history reconciliado y lineage v2 aplicada/verificada)
 
 Nota: hay dos items "## 18" (judge false positive, sesión 14; y atribución de fabricante, 28 mayo) —
 se conservan ambos números porque las referencias cruzadas en DECISIONS/memoria los citan; el índice
@@ -723,6 +723,11 @@ Archivos afectados:
 
 **Estado actual**: `scripts/run_eval.py` ejecuta cada pregunta como llamada aislada al bot. Sin historial, sin turnos posteriores. Si el bot pide clarificación en el turno 1, el eval NO verifica que dé respuesta correcta en el turno 2 tras el input del técnico.
 
+**Update S277 (22 jul 2026):** DEC-136 ya documenta el norte durable/transport-neutral, pero no
+existen schema conversacional, event log, ingress idempotente, leases/fencing, outbox, rewrite
+condicional ni hops implementados. El seam C1 sigue siendo un primitivo seguro de un turno;
+multi-turn/multi-hop permanece `NOT_BUILT` y esta deuda continúa abierta.
+
 **Impacto**: el eval aprueba "el bot clarificó" como éxito sin verificar la calidad del diálogo completo. En producción (Telegram) podría darse la cadena: bot clarifica mal → técnico responde → bot ignora contexto o alucina → falla silencioso que el eval no mediría.
 
 **Ejemplo concreto (sesión 14)**: am005 — bot respondió a *"¿cómo reseteo el panel?"* con una clarificación pidiendo modelo + tipo de reset. El eval marcó `behavior_match=True` y se quedó ahí. No sabemos si el bot, al recibir *"CCD-103, reset tras alarma"*, daría el procedimiento correcto.
@@ -1175,7 +1180,19 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 ## 29. RLS audit en tablas existentes — defensa en profundidad sobre anon key (sesión 21)
 
-**Estado actual**: en sesión 21 se creó la tabla `user_consent` con Row Level Security (RLS) habilitado siguiendo el aviso de Supabase ("New table will not have RLS enabled"). Las tablas previas (`chunks`, `query_logs`, `feedback`, `documents`) probablemente NO tienen RLS habilitado — patrón heredado de migrations antiguas cuando el aviso aún no aparecía o se ignoraba.
+**Update live S277 (22 jul 2026):** el riesgo ya no es hipotético. El Advisor confirmó RLS
+deshabilitado en `public.chunks_v2_enunciados` —22.842 filas en la observación— y grants
+`SELECT/INSERT` para `anon`/`authenticated`, además de otras exposiciones legacy de
+tablas/funciones, incluidos grants pendientes sobre `create_hnsw_index()`. S277 no introdujo ni
+amplió esas exposiciones; la RPC document-local v2 sí conserva ACL/RLS mínimos y
+`p1_readonly` sólo alcanza la superficie requerida. Por tanto esta deuda no invalida
+`GO_MECHANISM` ni bloquea la **medición P1 v2**, pero **sí bloquea merge y release global**. Debe
+resolverse mediante una migración forward-only, inventario de grants/policies y smokes antes del
+GO final de C1 o de exponer clientes anon/multi-tenant.
+
+**Estado heredado:** `user_consent` nació con RLS habilitado. El inventario completo de tablas,
+policies y grants sigue pendiente, pero `chunks_v2_enunciados` y varias exposiciones legacy ya
+están confirmadas; no debe tratarse como una posibilidad teórica.
 
 **Por qué importa**: el bot accede a Supabase con `SUPABASE_SERVICE_KEY`, que **bypassea RLS automáticamente**. Por tanto el bot funciona idéntico tenga o no tenga RLS habilitado. **Pero**: si en algún momento la `anon` key del proyecto se expone (frontend, demo público, tooling externo, leak inadvertido en repo público), las tablas sin RLS quedan en lectura/escritura libre para cualquiera con esa key. Defensa en profundidad → habilitar RLS en todas las tablas y crear policies explícitas para los pocos casos donde anon necesite acceso (hoy: ninguno).
 
@@ -1187,9 +1204,11 @@ El nuevo bloque NO menciona clarification — el efecto es indirecto, vía bias 
 
 **Coste estimado**: 30-60min (audit + ALTERs + smoke). Idempotente si se hace `ALTER TABLE ... ENABLE ROW LEVEL SECURITY` que no falla si ya está habilitado.
 
-**Trigger para hacerlo**: cualquier momento sin presión (no bloqueante para deploy DG porque service_role funciona). Idealmente antes de exponer cualquier endpoint público o el primer despliegue multi-tenant.
-
-**No urgente porque**: hoy ningún cliente usa anon key contra esta DB. El riesgo es de exposición futura, no presente.
+**Trigger para hacerlo:** P1 v2 puede medirse primero; esta deuda pasa a ser stop-line obligatoria
+antes de cualquier merge/release global de C1, mediante un gate de seguridad separado y
+autorizado. Como máximo debe cerrarse antes de exponer cualquier endpoint anon o el primer
+despliegue multi-tenant. Que hoy el backend use `service_role` reduce la ruta de impacto, pero no
+convierte la exposición confirmada en deuda no urgente.
 
 
 ---
@@ -2038,22 +2057,18 @@ punto va pegado a la siguiente palabra sin mayúscula inicial, o unir tramos de 
 construir la ventana de cita). Medirlo como delta en cohorte fresca antes de darlo por bueno
 (Protocolo 4 fila eval).
 
-## 55. Historial de migraciones Supabase desalineado entre repo y producción (s277)
+## 55. ✅ RESUELTO (S277, 22 jul 2026) — Historial de migraciones Supabase reconciliado
 
-**Estado observado al aplicar HP011:** el checkout normal contiene siete versiones remotas sin
-fichero local (`20260702165425`…`20260704113834`) y tres ficheros locales no registrados en
-producción (`20260714102428`, `20260716120000`, `20260720095702`). Por ello `supabase db push`
-desde el repo falla cerrado. La aplicación autorizada de `20260721190847` usó una proyección
-temporal exacta del historial y un dry-run que enumeró solo ese target; no reparó ni ocultó la
-deuda. El receipt completo vive en `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
+Las siete versiones remote-only se recuperaron exactamente desde
+`supabase_migrations.schema_migrations.statements`. Las tres local-only se comprobaron ausentes
+en producción y se trasladaron con su contenido intacto a `supabase/migration_proposals`; no se
+ejecutaron ni se declararon aplicadas. Tras alinear history se aplicaron por las vías normales las
+cuatro versiones document-local `20260721210847`, `20260721220110`, `20260722013000` y
+`20260722014500`. No se usaron `migration repair` ni `--include-all`. El receipt terminal v2 pasa
+7/7 checks, incluida lineage HP011, RLS/ACL de P1 y hash de función live; la evidencia vive en
+`evals/s277_document_local_migration_reconciliation_receipt_v2.json`.
 
-**Riesgo:** `--include-all` podría ejecutar las tres migraciones locales antiguas sin una
-adjudicación de si ya fueron materializadas por otra vía; `migration repair` podría declarar una
-historia que no corresponde al estado real. Ambos quedan prohibidos por defecto, igual que un
-`db push` desde el checkout normal.
-
-**Acción/trigger:** antes de la próxima migración productiva o del GO final de C1, reconciliar
-por evidencia cada una de las diez versiones y reconstruir un historial local/remoto completo,
-sin ejecutar ni marcar nada por inferencia. Las migraciones futuras aplicadas por Supabase CLI
-no deben incluir `BEGIN/COMMIT` exteriores si se exige atomicidad con
+**Regla preventiva:** una propuesta no vuelve a `supabase/migrations` sin revisión y timestamp
+nuevo; ninguna divergencia futura se repara ni ejecuta por inferencia. Las migraciones aplicadas
+por Supabase CLI no deben incluir `BEGIN/COMMIT` exteriores si se exige atomicidad con
 `supabase_migrations.schema_migrations`; el rollback manual sí conserva su propia transacción.

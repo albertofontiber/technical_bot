@@ -164,6 +164,11 @@ COMPATIBILITY_BUNDLE_COVERAGE = _strict_on_off(
 # immutable prefix and at most two query-aligned exact-source rows may append.
 RERANK_POOL_COVERAGE = _strict_on_off("RERANK_POOL_COVERAGE")
 
+# Bounded document-local content recovery.  It is disabled by the immutable C1
+# v1 profile and enabled atomically only by C1 v2; legacy mode retains the
+# historical leaf-flag behaviour for offline tooling.
+DOCUMENT_LOCAL_COVERAGE = COVERAGE_RELEASE_POLICY.document_local_coverage
+
 # S111 bounded second hop: a query-aligned pool complement may expose that its
 # decisive explanation lives in an adjacent chunk of the exact same extraction
 # blob.  The cascade is separately reversible and remains GET-only/fail-open.
@@ -288,6 +293,7 @@ def validate_config(
             "CANONICAL_HYQ_COVERAGE": CANONICAL_HYQ_COVERAGE,
             "COMPATIBILITY_BUNDLE_COVERAGE": COMPATIBILITY_BUNDLE_COVERAGE,
             "RERANK_POOL_COVERAGE": RERANK_POOL_COVERAGE,
+            "DOCUMENT_LOCAL_COVERAGE": DOCUMENT_LOCAL_COVERAGE,
             "STRUCTURAL_CASCADE_COVERAGE": STRUCTURAL_CASCADE_COVERAGE,
             "LOGICAL_RECORD_COVERAGE": LOGICAL_RECORD_COVERAGE,
         },

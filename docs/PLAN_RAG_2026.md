@@ -3,8 +3,8 @@
 > **Qué es este documento.** El doc CANÓNICO del roadmap + estado + qué sigue del Technical Bot.
 > **Audiencia:** Alberto (decisión estratégica) y cualquier sesión futura — debe poder leerse en
 > frío y saber qué hacer y por qué. **Fecha base:** 22 mayo 2026. **Última actualización:**
-> 21 jul 2026 (S277 — tercera P1 cerrada `NO_GO_PARTIAL`; autoridad v.04/v.07
-> adjudicada y migración lifecycle aplicada/verificada live; recovery intradocumento pendiente).
+> 22 jul 2026 (S277 — autoridad lineage v2 aplicada, mecanismo document-local en
+> `GO_MECHANISM`, `coverage_c1_v2` materializado y P1 v2 fresca 27/27 pendiente).
 >
 > **El historial vive en [`docs/HISTORY.md`](HISTORY.md)** (movido en s56): log de sesiones
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
@@ -23,8 +23,8 @@
 > fabricantes sin fricción por fabricante. Si una propuesta no cumple los tres, se declara como
 > gap honesto.
 
-<a id="estado-actual-s277--21-jul-2026"></a>
-## Estado actual (S277 — 21 jul 2026)
+<a id="estado-actual-s277--22-jul-2026"></a>
+## Estado actual (S277 — 22 jul 2026)
 
 **Marcador canónico sin movimiento desde S274: 154 facts = 146 OK · 6 synthesis-miss ·
 2 retrieval-miss = 146/154 (94,81%); faltan +5 para 151 (≥98%).** Es la foto de trabajo
@@ -38,13 +38,14 @@ conflicto conocido 7-vs-8. `query_logs.response` se trunca a 4.096 caracteres, p
 autoridad sobre la respuesta completa. Resultado: el par legacy que convirtió el fact en el
 probe S274 no equivale a un release C1 íntegro ni a síntesis fiable en vivo.
 
-**Candidato de release C1 — PR #184, todavía no desplegado.** Se construyó un profile atómico
-`coverage_c1_v1`, un seam único de serving, trazas privacy-safe y dos gates previos: A offline
+**Candidato de release C1 — todavía no desplegado.** La base de la PR #184 construyó el profile
+atómico `coverage_c1_v1`, un seam único de serving, trazas privacy-safe y dos gates previos: A offline
 prueba ensamblaje sin red; B GET-only prueba que, condicionado al prefijo congelado, el fetch
 live alcanza el target PEARL en F12. A y B pasan, pero ninguno genera ni puntúa una respuesta;
 por eso no autorizan release. El hash S113 se normalizó a LF para que el mismo pin valga en
-Windows y Linux. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente
-su estado vivo; no lo apaga como efecto lateral.
+Windows y Linux. S277 extendió esa base de forma aditiva a `coverage_c1_v2`, todavía sin merge ni
+deploy del código. `VISUAL_ASSETS_REGISTRY` es ortogonal y el contrato P1 conserva exactamente su estado
+vivo; no lo apaga como efecto lateral.
 
 **La tercera P1 alcanzó síntesis real y cerró `NO_GO_PARTIAL`, sin mutaciones.** El run
 `p1-8c7818cce1174f1ea0538028693ee515`, ligado a `b06f05c`, persistió 18/27 réplicas y
@@ -81,13 +82,19 @@ cero enlaces v.07→v.04 y p63 v.07 con `duplicate_of=NULL`; la historia registr
 8 statements. No hubo llamadas de modelo, deploy, cambio Railway ni gasto. El receipt es
 `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
 
-La aplicación usó una proyección temporal exacta porque el checkout normal conserva drift de
-historial: siete versiones remote-only y tres local-only. No se usaron `--include-all` ni
-`migration repair`; `db push` desde el repo normal sigue prohibido hasta reconciliar esas diez
-versiones por evidencia (TECH_DEBT #55).
+**El historial y la autoridad lineage v2 quedaron reconciliados y aplicados live por evidencia.**
+Las siete versiones remote-only se recuperaron desde `schema_migrations.statements`; las tres
+local-only, confirmadas ausentes live, se trasladaron a `supabase/migration_proposals` sin fingir
+history ni ejecutarlas. Tras alinear el árbol se aplicaron normalmente las cuatro versiones
+document-local `20260721210847`, `20260721220110`, `20260722013000` y `20260722014500`, sin
+`migration repair` ni `--include-all`. El receipt v2 pasa **7/7 checks**, fija la lineage HP011 y
+el ACL/RLS mínimo de `p1_readonly`, y liga la definición live de
+`document_local_snapshot_v2` al SHA-256 LF
+`19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e`:
+`evals/s277_document_local_migration_reconciliation_receipt_v2.json`.
 
-El paquete sella
-13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a modelos; protege 43 filas
+El paquete **P1 v2** sella 13 QIDs, 27 réplicas/27 generaciones y exactamente 81 llamadas a
+modelos; protege 43 filas
 base de peso KPI 42, la guarda hp013 y el target compuesto hp017. Incluye scorer determinista,
 preregistro, límite estático conservador de **29,727 USD** bajo los tamaños preregistrados, techo duro
 de **30 USD**, WAL fsync/no-retry, identidad de release, proyección semántica de configuración,
@@ -96,6 +103,11 @@ El preflight se reconstruye al ejecutar; runtime, lease y request reservado se r
 de cada send; topología/claim/lease impiden doble runner y reinicialización de presupuesto. Toda
 reapertura reconstruye las 81 llamadas y sus respuestas,
 revalida las 27 réplicas, exige 162 eventos WAL alternos y recompone el coste/presupuesto exacto.
+El delta normativo vive en `evals/s277_c1_p1_design_v2.md`,
+`evals/s277_c1_p1_prereg_v2.yaml` y
+`evals/s277_c1_p1_release_config_schema_v2.json`: bootstrap `off`, target
+`coverage_c1_v2`, GET document-local atestado 1:1 y ejecución completamente nueva. Está
+preregistrado offline, pero **P1 v2 sigue PENDING y no se ha ejecutado**.
 Ya están implementados el adapter productivo y sus receipts de transporte físico, el cierre
 transitivo exacto de implementación, la captura read-only de Railway, el manifest live
 pre/watch/post de RPC/ACL/índices/config, el fence PostgreSQL persistente read-only operado por
@@ -116,16 +128,36 @@ membresía debe quedar en tres grants no heredables exactos: `authenticator <- p
 `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`. La migración versionada que materializa
 ese rol quedó **aplicada y verificada** en producción como `20260721120000`.
 
-**Estado operativo: `HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`, no GO.** El run terminal no se
-reanuda ni se convierte retroactivamente en PASS. Sus 18 artefactos siguen siendo válidos para
-diagnóstico y regresión; no es necesario repetirlos para corregir o revalidar el scorer. Una
-certificación final sí deberá ser un run limpio porque cambiarán el código sellado y el run actual
-carece de 9 réplicas. La autoridad v.04/v.07 y el dedupe cruzado ya están resueltos; el siguiente
-bloqueo es una prueba offline/GET-only de recuperación
-intra-documento genérica, acotada y fail-closed, sin reglas por QID ni manual. No existe `P1_PASS`,
-no hubo deploy ni cambio de Railway y el marcador permanece 146/154. El Advisor conserva dos avisos por grants
-explícitos `anon`/`authenticated` sobre `create_hnsw_index()`; no alcanzan a `p1_readonly`, pero
-requieren una migración y autorización separadas antes del GO final de C1.
+**Estado operativo: `coverage_c1_v2` materializado; P1 v2 `PENDING`/no ejecutada; C1 continúa
+NO-GO.** La lane intradocumento genérica pasó 22/22 checks en su probe v2 GET-only sobre los 13
+QIDs congelados: preservó todos los prefijos byte a byte, sólo añadió el registro autoritativo de
+hp011 y quedó ligada a una lineage gobernada, a la revisión activa, al blob y al SHA exactos. Falla
+cerrada ante lineage NULL/no verificada, lifecycle ambiguo o ramificado, drift, overflow, metadata
+no autoritativa o un registro Markdown sin cabecera, separador inmediato y aridad coherentes. El
+selector dentro del blob exacto no consulta el catálogo histórico. La aplicabilidad se declara:
+sólo hp011 alcanza el selector; 12/13 quedan rechazados por lifecycle o idioma. El probe hizo
+**84 GET, cero llamadas de modelo y cero escrituras de base de datos**; ambos controles
+adicionales se ejecutaron contra el RPC live. Receipt:
+`evals/s277_document_local_coverage_probe_v2.json`.
+
+`coverage_c1_v1` permanece byte-semánticamente inmutable y document-local off.
+`coverage_c1_v2` añade la quinta capacidad `DOCUMENT_LOCAL_COVERAGE` y sólo permite las lanes
+structural + document-local. Cada réplica v2 exige una única lane trace document-local, un
+`status=error` produce NO-GO y `http_requests` debe casar 1:1 con los GET físicos; `hp011:r1/r2`
+exigen además un único ID seleccionado y servido. `GO_MECHANISM` y el perfil listo no acreditan
+una respuesta generada, `P1_PASS`, release ni movimiento del KPI. El run terminal 18/27 no se
+reanuda ni se completa: sólo sirve para diagnóstico; la certificación debe empezar fresca 27/27,
+con 81 llamadas y cap interno de 30 USD. No hubo deploy ni cambio de Railway y el marcador
+permanece 146/154.
+
+**Revisión adversarial cerrada.** Hubo cuatro rondas Sol/Fable, todas completas y adjudicadas:
+35 findings, 30 confirmados/resueltos y 5 falsos positivos. No se lanzó una quinta ronda; el
+packet v5 es el handoff terminal, no otra revisión:
+`evals/s277_document_local_coverage_review_packet_v5.md`.
+
+El Advisor confirma deuda legacy de RLS/grants —incluida `chunks_v2_enunciados`— separada del
+RPC mínimo. TECH_DEBT #29 **no bloquea la medición P1 v2**, pero sí bloquea merge/release global
+y exige una migración forward-only, inventario y smokes antes del GO final de seguridad/C1.
 
 **Multi-turn/multi-hop permanece separado y `NOT_BUILT` (DEC-136).** El norte sigue siendo
 orquestador transport-neutral, estado/event log durable, ingress idempotente, leases+fencing,
@@ -133,15 +165,14 @@ CAS propietario y outbox; single-hop barato por defecto, rewrite sólo para foll
 dependientes, 2 hops por defecto/3 hard cap y verifier fail-closed. No hay permiso de DDL/build
 ni inferencia adicional para esta línea.
 
-**Qué sigue, por orden y sin abrir otro frente:** (1) demostrar sin modelos una única recuperación intra-documento
-genérica que alcance la revisión autoritativa y preserve límites de contexto, latencia y
-procedencia; (2) sólo si esa prueba pasa, integrarla en C1 y ejecutar un run P1 limpio bajo un
-recibo nuevo y el techo ya autorizado; (3) reconciliar el drift de historial antes de cualquier
-otra migración productiva o del GO final; (4) sólo con `P1_PASS` vigente, resolver el riesgo separado de
-`create_hnsw_index()` y pedir autorización de merge/deploy/canary. Los 18 artefactos existentes se
-reutilizan para diagnóstico, no como mitad de una certificación con código distinto. Después,
-para el +5, usar eval orgánico/fresco u otra familia causal —P1 es gate de release, no árbitro del
-98%—. La Fase 0 conversacional sigue `NOT_BUILT` y requiere una decisión separada de Alberto.
+**Qué sigue, por orden y sin abrir otro frente:** (1) materializar inputs/recibo/credenciales y
+ejecutar una sola P1 v2 completamente nueva de 27/27 sobre el árbol y perfil ya congelados, con
+81 llamadas, cap interno de 30 USD y artifact root nuevo; los 18 artefactos anteriores sirven para
+diagnóstico, no para completar la certificación; (2) sólo con `P1_PASS`, cerrar TECH_DEBT #29 en
+un gate de seguridad separado; (3) pedir autorización separada de merge/deploy/canary; y (4)
+medir el +5 mediante eval orgánico/fresco u otra familia causal. `GO_MECHANISM` no autoriza por sí
+solo release. La Fase 0 conversacional sigue `NOT_BUILT` y requiere una decisión separada de
+Alberto.
 
 
 <a id="estado-anterior-s205--18-jul-2026"></a>

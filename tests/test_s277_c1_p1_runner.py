@@ -30,6 +30,7 @@ def _release_config() -> dict:
         "STRUCTURAL_NEIGHBOR_COVERAGE": "off",
         "COVERAGE_MANDATORY_CALLOUT": "on",
         "MP_MANDATORY_VERB_TRIGGER": "on",
+        "DOCUMENT_LOCAL_COVERAGE": "off",
         "MUST_PRESERVE_CONTRACT": "on",
         "HYDE_ENABLED": "false",
         "CHUNKS_TABLE": "chunks_v2",
@@ -107,6 +108,7 @@ def _release_config() -> dict:
             "search_chunks_text_v2",
             "match_chunks_v2_enunciados",
             "match_hyq",
+            "document_local_snapshot_v2",
         ],
         "authorizations": {
             "paid_run": False,
@@ -119,7 +121,7 @@ def _release_config() -> dict:
 def _prereg(_release: dict) -> dict:
     # One fixture exercises the same canonical prereg that a future operator
     # will use, instead of maintaining a permissive test-only dialect.
-    return p1.load_data_object(p1.ROOT / "evals/s277_c1_p1_prereg_v1.yaml")
+    return p1.load_data_object(p1.CANONICAL_PREREG_PATH)
 
 
 def _fingerprint(release: dict) -> dict:
@@ -697,6 +699,9 @@ def _test_authoritative_pass_score(replicas, contract, *, bindings=None):
 
 
 def test_plan_is_exactly_27_independent_replicas_and_81_model_calls():
+    assert p1.PROFILE == "coverage_c1_v2"
+    assert p1.HARD_CAP_USD == Decimal("30.00")
+    assert "DOCUMENT_LOCAL_COVERAGE" in p1.PROFILE_OWNED_LEGACY_FLAGS
     assert len(p1.REPLICAS) == 27
     assert [replica.key for replica in p1.REPLICAS] == list(p1.REPLICA_ORDER)
     assert p1.REPLICA_ORDER[:3] == ("hp017:r1", "hp017:r2", "hp017:r3")
@@ -732,7 +737,15 @@ def test_bootstrap_patch_is_pure_exact_and_derives_distinct_effective_states():
     assert bootstrap_semantic["generation"]["selection_block"] is True
     assert bootstrap_semantic["generation"]["max_tokens"] == 3500
     assert bootstrap_semantic["coverage"]["post_rerank_coverage"] is False
+    assert bootstrap_semantic["coverage"]["document_local_coverage"] is False
     assert target_semantic["coverage"]["post_rerank_coverage"] is True
+    assert target_semantic["coverage"]["document_local_coverage"] is True
+    assert p1.derive_rpc_allowlist(live) == list(p1.BASE_RPC_ALLOWLIST)
+    assert p1.expected_surface(target_semantic)["rpc_allowlist"] == list(
+        p1.BASE_RPC_ALLOWLIST
+    )
+    assert p1.BASE_RPC_ALLOWLIST[-1] == "document_local_snapshot_v2"
+    assert p1.BASE_FENCE_RELATIONS[-1] == "public.document_revision_lineages"
     assert derived["bootstrap_semantic_config_sha256"] == p1.sha256_json(
         bootstrap_semantic
     )
@@ -1027,6 +1040,69 @@ def _validate_visual_test(receipt: dict, answer: str, context: list[dict]) -> No
     )
 
 
+def _document_local_transport_fixture():
+    selected_id = "document-local-selected"
+    physical_get = {
+        "ordinal": 5,
+        "method": "GET",
+        "path": p1.DOCUMENT_LOCAL_REST_GET_PATH,
+        "status": 200,
+    }
+    lane_trace = {
+        "lane": p1.DOCUMENT_LOCAL_LANE,
+        "status": "selected",
+        "http_requests": 1,
+        "selected_ids": [selected_id],
+    }
+    coverage_trace = {
+        "lanes": [lane_trace],
+        "appended_ids": [selected_id],
+    }
+    attestation = {
+        "postgrest_request_receipts": [physical_get],
+        "coverage_trace": coverage_trace,
+        "coverage_trace_sha256": p1.sha256_json(coverage_trace),
+        "document_local_coverage": {
+            "profile": p1.PROFILE,
+            "lane_trace": lane_trace,
+            "lane_trace_sha256": p1.sha256_json(lane_trace),
+            "physical_get_ordinals": [5],
+            "physical_get_receipts_sha256": p1.sha256_json([physical_get]),
+            "served_selected_ids": [selected_id],
+        },
+    }
+    served = [
+        {
+            "id": selected_id,
+            "retrieval_lane": p1.DOCUMENT_LOCAL_LANE,
+            "document_local_coverage_validated": True,
+        }
+    ]
+    semantic = _release_config()["derived_config"]["target_semantic_config"]
+    return attestation, served, semantic
+
+
+def test_document_local_transport_attestation_is_offline_revalidated():
+    attestation, served, semantic = _document_local_transport_fixture()
+    p1._validate_product_document_local_transport_lineage(
+        attestation,
+        served,
+        semantic,
+        replica_key="hp011:r1",
+    )
+
+    tampered = json.loads(json.dumps(attestation))
+    tampered["document_local_coverage"]["physical_get_ordinals"] = [99]
+    with pytest.raises(p1.P1Error) as caught:
+        p1._validate_product_document_local_transport_lineage(
+            tampered,
+            served,
+            semantic,
+            replica_key="hp011:r1",
+        )
+    assert caught.value.code == "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT"
+
+
 def test_visual_lookup_plan_matches_product_relevance_aggregation_and_fallback():
     from src.rag import visual_assets as product_visual
 
@@ -1208,6 +1284,25 @@ def test_prereg_requires_exact_visual_preservation_contract():
 
 
 @pytest.mark.parametrize(
+    "field",
+    (
+        "p1_target_profile",
+        "only_activation_transition",
+        "legacy_flags_to_delete",
+        "target_invariants",
+    ),
+)
+def test_prereg_requires_exact_v2_release_identity(field):
+    prereg = _prereg(_release_config())
+    prereg["release_identity"][field] = "stale-v1"
+
+    with pytest.raises(p1.P1Error) as caught:
+        p1.verify_prereg_release_identity(prereg)
+
+    assert caught.value.code == "HOLD_PREREG_DRIFT"
+
+
+@pytest.mark.parametrize(
     "mutation",
     [
         "global_claim",
@@ -1215,6 +1310,8 @@ def test_prereg_requires_exact_visual_preservation_contract():
         "runtime_layout",
         "run_genesis",
         "fence_surface",
+        "semantic_coverage_surface",
+        "effective_profile",
         "renderer",
         "visual_side_path",
     ],
@@ -1233,6 +1330,14 @@ def test_prereg_runtime_contract_rejects_crosscut_bypass_mutations(mutation):
         ] = False
     elif mutation == "fence_surface":
         prereg["corpus_fence"]["base_relations_exact"].pop()
+    elif mutation == "semantic_coverage_surface":
+        prereg["semantic_runtime_contract"][
+            "semantic_projection_exact_sections"
+        ]["coverage"].remove("document_local_coverage")
+    elif mutation == "effective_profile":
+        prereg["receipt_pipeline"]["lineage"][
+            "effective_config_required"
+        ] = "coverage_c1_v1_and_must_preserve_true"
     elif mutation == "renderer":
         prereg["receipt_pipeline"]["render"]["recompute_exactly_with"] = "self_report"
     else:
@@ -1266,7 +1371,7 @@ def test_preflight_verifies_code_config_budget_fingerprint_and_fence():
 
     release = _release_config()
     schema = json.loads(
-        (p1.ROOT / "evals/s277_c1_p1_release_config_schema_v1.json").read_text(
+        (p1.ROOT / "evals/s277_c1_p1_release_config_schema_v2.json").read_text(
             encoding="utf-8"
         )
     )
@@ -1496,6 +1601,28 @@ def test_implementation_manifest_is_exactly_the_static_transitive_closure():
     assert "scripts/s270_etapa2_probe.py" in closure
     assert "src/rag/answer_planner.py" in closure
     assert "src/reingest/embed.py" in closure
+    assert "src/rag/document_local_coverage.py" in closure
+    assert set(p1.IMPLEMENTATION_RUNTIME_ASSETS) <= set(closure)
+    assert all(path.endswith(".py") for path in p1.IMPLEMENTATION_PYTHON_SOURCES)
+    assert set(p1.IMPLEMENTATION_PYTHON_SOURCES).isdisjoint(
+        p1.IMPLEMENTATION_RUNTIME_ASSETS
+    )
+    assert set(p1.REQUIRED_IMPLEMENTATION_HASHES) == (
+        set(p1.IMPLEMENTATION_PYTHON_SOURCES)
+        | set(p1.IMPLEMENTATION_RUNTIME_ASSETS)
+    )
+    assert {
+        "config/evidence_coverage_facets_v5.yaml",
+        "config/retrieval_facets_v4.yaml",
+        "supabase/migrations/20260722013000_s277_document_revision_lineage_snapshot_v2.sql",
+        "supabase/migrations/20260722014500_s277_p1_document_local_snapshot_v2_acl.sql",
+    } == set(p1.IMPLEMENTATION_RUNTIME_ASSETS)
+    assert "src/rag/document_local_coverage.py" in p1.IMPLEMENTATION_DYNAMIC_IMPORTS[
+        p1.POSTGREST_GUARD_IMPLEMENTATION_PATH
+    ]
+    assert "src/rag/document_local_coverage.py" in p1.IMPLEMENTATION_DYNAMIC_IMPORTS[
+        "src/rag/coverage_runtime.py"
+    ]
 
 
 def test_each_implementation_dependency_omission_is_rejected():
@@ -1519,6 +1646,8 @@ root = Path.cwd().resolve()
 sys.path.insert(0, str(root))
 from scripts import s277_c1_p1 as p1
 for relative in p1.REQUIRED_IMPLEMENTATION_HASHES:
+    if not relative.endswith(".py"):
+        continue
     importlib.import_module(p1._implementation_module_name(relative))
 observed = p1.loaded_local_implementation_paths(root)
 p1.verify_loaded_implementation_closure(
