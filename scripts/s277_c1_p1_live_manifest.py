@@ -113,12 +113,16 @@ S277_EXPECTED_FUNCTION_SHA256: Mapping[str, str] = {
         "1f280e0852158b63501aad2843a7e946ab9fac5a4c64a17851d6d63ed0e8ebca",
 }
 
+# Exact methods advertised by the live PostgREST OpenAPI document.  This is an
+# attestation surface, not the runner transport allowlist: the P1 guard still
+# permits document_local_snapshot_v2 only through GET and rejects its advertised
+# POST operation before transport.
 REQUIRED_RPC_METHODS: Mapping[str, tuple[str, ...]] = {
     "/rpc/match_chunks_v2": ("POST",),
     "/rpc/search_chunks_text_v2": ("POST",),
     "/rpc/match_chunks_v2_enunciados": ("POST",),
     "/rpc/match_hyq": ("POST",),
-    "/rpc/document_local_snapshot_v2": ("GET",),
+    "/rpc/document_local_snapshot_v2": ("GET", "POST"),
 }
 
 _PHASES = frozenset({"pre", "watch", "post"})

@@ -40,8 +40,11 @@ def _json_bytes(value: object) -> bytes:
 
 def _openapi(*, version: str | None = "14.1.0") -> dict:
     paths = {
-        path: {method.lower(): {"responses": {"200": {"description": "OK"}}}}
-        for path, (method,) in receipts.live.REQUIRED_RPC_METHODS.items()
+        path: {
+            method.lower(): {"responses": {"200": {"description": "OK"}}}
+            for method in methods
+        }
+        for path, methods in receipts.live.REQUIRED_RPC_METHODS.items()
     }
     paths["/rpc/p1_runtime_identity_v1"] = {
         "get": {"responses": {"200": {"description": "OK"}}}
@@ -175,6 +178,10 @@ def test_happy_capture_builds_exact_snapshot_and_safe_http_receipts() -> None:
         path: list(methods)
         for path, methods in receipts.live.REQUIRED_RPC_METHODS.items()
     }
+    assert snapshot["rpc_methods"]["/rpc/document_local_snapshot_v2"] == [
+        "GET",
+        "POST",
+    ]
     assert snapshot["runtime_config"] == {
         "data_api_enabled": True,
         "exposed_schemas": ["graphql_public", "public", "storage"],

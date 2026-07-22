@@ -386,7 +386,7 @@ def test_document_local_v2_contract_and_live_hash_are_exact() -> None:
     assert function["function_config"] == ['search_path=""']
     assert pre["manifest"]["postgrest"]["rpc_methods"][
         "/rpc/document_local_snapshot_v2"
-    ] == ["GET"]
+    ] == ["GET", "POST"]
 
 
 @pytest.mark.parametrize(
@@ -467,7 +467,7 @@ def test_document_local_v2_hash_acl_and_postgrest_method_drift_fail_closed() -> 
         ):
             live.verify_intrinsic_safety(changed, expected_function_sha256=hashes)
 
-    for methods in (["POST"], ["GET", "POST"]):
+    for methods in (["GET"], ["POST"], ["DELETE", "GET", "POST"]):
         changed = copy.deepcopy(capture)
         changed["manifest"]["postgrest"]["rpc_methods"][
             "/rpc/document_local_snapshot_v2"
