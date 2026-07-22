@@ -3465,3 +3465,53 @@ shippeado s274, el otro enciende master+lane nunca desplegados).
 determinismo/autoridad del LIMIT · INSPIRE + fix detectabilidad 58 aliases · reserva hp002 ·
 cat019 code-side · Evidence Contract default-off) → dúo Protocolo 3 (Sol+Fable, zona-de-dolor) →
 implementación → oráculo/tests → harness → Alberto.
+
+---
+
+## DEC-149 — s278 (22 jul 2026, tarde): vNext IMPLEMENTADO y verificado offline (fases 1-4); suite 2907/0; EC quirúrgico 10/10 réplicas objetivo
+
+**Decisión/resultado.** El diseño `evals/s278_vnext_design_v2.md` (dúo-hardened, DEC-148) queda
+implementado en la rama (`018176b..7564204`) y verificado offline:
+
+- **§1a identidad:** guard candidate-member (`all_members_consumable` en `Catalog.resolve()`) +
+  quarantine-list versionada (`config/identity_quarantine_v1.yaml`, semilla FAAST/ZXR/G-100-R).
+  Census re-run: exactamente 3 unidades ADD_BROADENS→SAME, resto idéntico. Sigue INERTE
+  (policy default `add`); el flip lo gobierna el perfil v3 por validación.
+- **§1b:** `order=source_file.asc,page_number.asc,id.asc` server-side + ventana ×4 + rank de
+  autoridad por `documents.status` (fail-open) en `content_search` Path A y fallback ilike de B.
+  Residual >ventana declarado en docstring; se mide en la pasada e2e.
+- **§7:** perfil `coverage_c1_v3` aditivo (v1/v2 byte-idénticos; `_C1_V2_ENABLED_FLAGS` re-anclado
+  a `[:5]`); 3 flags nuevos profile-owned; v3 exige `IDENTITY_RESOLVE_POLICY=replace` fail-fast.
+- **§3:** `OBLIGATION_WARNING_RESERVE` default-off (máx 1 warning mismo-scope, presupuesto propio
+  pre-cap, detector determinista, fail-open; control hp009 en negativos).
+- **§5 Evidence Contract v1** (`src/rag/evidence_contract.py`, flag `EVIDENCE_CONTRACT`
+  default-off byte-inerte, seam tras conflict_guard, brazo `--with-evidence-contract` del oráculo):
+  tras iteración de precisión/recall (léxico versionado `ec_precision_lexicon_v2`: stopstems de
+  dominio + stem distintivo + frames no-obligacionales + gates de plausibilidad; 4 kinds
+  answer-gated: enum_alternative/limit_pair/limit_method/ui_path; ruta-sujeto del universal;
+  `_apply_struck_ocr` + paridad 7-seg heredada) → **brazo EC cambia EXACTAMENTE las 10 réplicas
+  objetivo (antes 24/27), colateral 0, candidate_fails 0, automatic 93/93; dev-check 14/15 ítems**
+  (hp014:r2#1 Megger = inalcanzable sin heurística frágil, probado con su gemelo en hp003 limpia).
+  Brazo baseline byte-inerte perfecto (27/27, 62/62, 93/93, commit limpio `7564204`).
+  Los 32 REVIEW del brazo EC son inherentes (bytes cambiados ⇒ adjudicación fresca); bajo DEC-148
+  el árbitro es la pasada harness + lectura de Alberto.
+- **§8 seals:** los 89 fallos de suite = 88 drift-guards del runner P1 (fixture autouse re-ancla
+  extraction-sources al blob sellado del receipt, tamper-proof) + 1 convención de migración
+  (BEGIN/COMMIT explícitos retirados de la migración RLS; atomicidad delegada al CLI).
+  **Suite completa asentada: 2907 passed / 6 skipped / 0 failed** (incluye los 4 CRLF históricos,
+  re-anclados). Ítem EC-table: techo real postgen = **15/29** (hp017:r1#2/r3#2 reclasificados a
+  FUENTE contra receipts; corrige el split del handoff §5).
+
+**Motivo.** DEC-148: cerrar los 29 FAIL con lo decidible offline antes de gastar. Método
+offline-first de DEC-147 aplicado sin la ceremonia desmontada.
+
+**Alternativas descartadas en la iteración:** forzar Megger con heurística por-pregunta (rompería
+hp003 o la generalidad; probado empíricamente y descartado) · disparos con tokens genéricos de
+dominio (colateral 13 réplicas) · re-anclar seals relajando hashes (prohibido DEC-147).
+
+**PENDIENTE (declarado):** §2a INSPIRE catálogo (en curso al cierre de esta entrada) · §4
+code-side (identidad de blob canónica + prose source card) — próxima tanda · data-fix 2 docs +
+RLS apply (visto de Alberto) · pasada harness 13 QIDs+hp009/hp010 ~$3 (cifra de ledger de
+Alberto) · 3 filas census (Alberto) · merge #184 = flip de release (Alberto).
+Ref: adjudicación dúo `evals/s278_vnext_duo_r1_adjudication_v1.yaml`; reportes de lanes en
+`Technical Bot-s277-artifacts\s278-fase3-lane-reports\` y oráculo en `...\s278-oracle-runs\`.

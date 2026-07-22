@@ -2133,3 +2133,24 @@ El traspaso completo para Claude Code quedó en
 `docs/HANDOFF_P1_B92FF51_2026-07-22.md`; la PR #184 permanece draft. No se implementó aún
 Evidence Contract, catálogo INSPIRE, reserva hp002 ni migración/source-card cat019, y no se
 autorizaron merge, deploy, canary ni DDL nuevo. Multi-turn/multi-hop sigue separado bajo DEC-136.
+
+## s278 (22 jul 2026) — gobernanza simplificada + vNext implementado offline (Fable, sesión continua con 2 pausas)
+
+Alberto retomó el traspaso de Codex con Fable y decidió el rumbo: **conservar el aparato s277,
+desmontar la obligación procesal** (DEC-148). En una sesión: verificación íntegra del handoff en
+host (hash audit PASS, HOLD reproducido exit 2, 324 tests focales) → census de identidad
+add-vs-replace 845 unidades $0 con verificación adversarial independiente (CONFIRMADO; 3 filas a
+adjudicar; 58 aliases indetectables; ceros tautológicos declarados) → #183 MERGEADO a main
+(runtime-inert verificado) y #184 convertido en PR de trabajo (su merge = flip de release por
+construcción: el contrato de release_profiles rechaza la config legacy en producción — hallazgo
+que corrigió el plan de "mergear la pila ya") → diseño vNext v1 → dúo Protocolo 3 (Sol xhigh 8
+hallazgos, 3 críticos incl. stop-line de seguridad #29 omitida; Fable 14; 0 FP) → v2 → implementación
+en 4 fases con workflows de lanes disjuntas: guard+quarantine, ORDER BY+autoridad, seals
+re-anclados a blobs sellados, migración RLS preparada (NO aplicada), perfil coverage_c1_v3,
+reserva hp002, Evidence Contract v1 + iteración de precisión/recall contra el oráculo. Cierre
+verificado: **suite 2907/0** y **brazo EC quirúrgico (10/10 réplicas objetivo, colateral 0,
+dev-check 14/15)** sobre commit limpio; baseline byte-inerte intacto. La tabla EC por-ítem
+(verificada contra receipts) corrigió el techo postgen a 15/29 y el split causal del handoff §5.
+Los "4 fallos CRLF conocidos" resultaron ser una clase de 10→89 seals stale que pre-existían en
+`b92ff51` prístino — re-anclados, no relajados. Detalle → DEC-148/149. KPI sin movimiento:
+146/154 (la aguja se mide en la pasada harness pendiente de ledger).

@@ -55,21 +55,20 @@ exacto; no cambia runtime. El runner y `retriever.py` históricos siguen sellado
 el nuevo orden hasta versionar schema/config/prereg e implementation hashes. Aún no hay un
 candidato integral ni un Evidence Contract implementado.
 
-**Único qué-sigue operativo (DEC-148, s278 — sustituye la secuencia ceremonial del handoff):**
-gobernanza simplificada por decisión de Alberto. El run `b92ff51` queda baseline inmutable y el
-aparato s277 se conserva; la obligación procesal se desmonta: NO se construye el gate
-candidate-context/source-receipts, NO habrá otra P1 ceremonial. Camino: (1) census de identidad
-**HECHO s278** ($0, verificado adversarialmente — `evals/s278_identity_census_report.md`; replace
-seguro catálogo-side salvo miembros-candidate → guard estructural); (2) diseño vNext
-(`evals/s278_vnext_design_v1.md`: replace+guard · determinismo/autoridad del LIMIT · INSPIRE +
-58 aliases indetectables · reserva hp002 · cat019 code-side · Evidence Contract default-off) →
-dúo Protocolo 3 → implementar; (3) verificación = tests + **oráculo offline $0** (62/62 + 93/93 +
-FAILs postgeneración corregidos; los fixes de FUENTE no son acreditables en el seam congelado) +
-**una pasada de harness ~$3 sobre los 13 QIDs** como árbitro e2e; (4) lectura de Alberto → merge
-#184 (= flip de `COVERAGE_RELEASE_PROFILE` en Railway por construcción, ver DEC-148) = release.
-#183 mergeado aparte (runtime-inert). El detalle histórico, IDs de fuente y comandos siguen en
-[`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md) (su §9 «secuencia»
-queda SUPERADO por DEC-148).
+**Único qué-sigue operativo (DEC-148/149, s278):** gobernanza simplificada (Alberto); `b92ff51`
+baseline inmutable; sin gate de receipts ni P1 ceremonial. **HECHO s278 (DEC-149, rama
+`codex/s277-c1-release-integrity`):** census ($0, adversarial-CONFIRMADO) · diseño vNext v2
+dúo-hardened (`evals/s278_vnext_design_v2.md`) · implementación completa offline — guard+quarantine
+identidad, order/autoridad `content_search`, perfil `coverage_c1_v3`, reserva hp002, **Evidence
+Contract v1 quirúrgico** (10/10 réplicas objetivo, colateral 0, dev-check 14/15; techo postgen
+real 15/29), seals re-anclados (suite **2907/0**), migración RLS PREPARADA sin aplicar, INSPIRE
+§2a en cierre. **QUEDA:** (a) §4 code-side (identidad de blob + prose source card) — próxima
+tanda; (b) CON ALBERTO: cifra ledger → **pasada harness 13 QIDs + hp009/hp010 (~$3, el árbitro
+e2e)** · 3 filas census · visto data-fix 2 docs + aplicar RLS (gate #29, bloquea el merge);
+(c) lectura de Alberto → merge #184 (= flip `COVERAGE_RELEASE_PROFILE=coverage_c1_v3` +
+`IDENTITY_RESOLVE_POLICY=replace` + retirar flags-hoja en Railway, checklist en diseño §7) =
+release. Histórico: [`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md)
+(su §9 SUPERADO por DEC-148).
 
 **Multi-turn/multi-hop sigue `NOT_BUILT` y separado bajo DEC-136.** El Evidence Contract debe
 ser reusable por el verifier futuro, pero este frente no autoriza estado conversacional, DDL,

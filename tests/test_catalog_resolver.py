@@ -528,6 +528,71 @@ def test_fetch_llm_activa_deep_lookup(monkeypatch):
     assert [c["id"] for c in out] == ["x-DOC-A", "x-DOC-B"]
 
 
+# ─── s278 §2a: INSPIRE gobernado (cat017) — diseño evals/s278_vnext_design_v2.md §2 ───
+CAT017_QUERY = ("¿Cómo genero el fichero de licencia .bin para una central "
+                "INSPIRE E10 con CLSS?")
+CAT017_SOURCE = "HOP-138-8ES  issue 6_01-2026_Co"     # doble espacio REAL (handoff §8.2)
+
+
+def test_cat017_inspire_e10_detecta_y_resuelve():
+    # antes de s278 §2a: detect(...) == [] (censo: cat017 DOCUMENTED_UNGOVERNED).
+    # Gobernada: exact 'INSPIRE E10' → notifier:inspire-e10 con expand y el doc de cat017
+    # (chunk b7633e98 / document 80e1b7d2) alcanzable vía allowed_sources.
+    assert R.detect(CAT017_QUERY) != []
+    res = R.resolve_query(CAT017_QUERY)
+    rec = next(r for r in res["records"] if r["token"] == "inspire e10")
+    assert rec["via"] == "exact" and rec["expand"] is True
+    assert rec["ids"] == ["notifier:inspire-e10"]
+    assert CAT017_SOURCE in res["allowed_sources"]
+    assert "INSPIRE E10" in res["add_models"]
+
+
+def test_inspire_umbrella_expande_a_e10_y_e15():
+    res = R.resolve_query("manual de la central INSPIRE")
+    rec = next(r for r in res["records"] if r["token"] == "inspire")
+    assert rec["via"] == "paraguas" and rec["expand"] is True
+    assert set(rec["ids"]) == {"notifier:inspire-e10", "notifier:inspire-e15"}
+    assert {"INSPIRE E10", "INSPIRE E15"} <= set(res["add_models"])
+
+
+def test_formas_prefijadas_notifier_inspire_via_alias():
+    # tipo variante-tipografica ∈ DETECT_ALIAS_TIPOS ⇒ el detector las indexa
+    for m, pid in (("E10", "notifier:inspire-e10"), ("E15", "notifier:inspire-e15")):
+        res = R.resolve_query(f"consumo de la Notifier INSPIRE {m}")
+        rec = next(r for r in res["records"] if r["token"] == f"notifier inspire {m.lower()}")
+        assert rec["via"] == "alias" and rec["expand"] is True and rec["ids"] == [pid]
+
+
+def test_e10_e15_bare_no_expanden_fail_open():
+    # hallazgo E10-BARE (dúo r1): 'E10'/'E15' a pelo colisionan con códigos de error de
+    # panel → homonym-candidate fail-open: se DETECTA (bloquea el exact) pero NO expande,
+    # NO clarify, NO aporta allowed_sources — conducta actual conservada.
+    for tok in ("E10", "E15"):
+        res = R.resolve_query(f"el panel muestra el código {tok} en pantalla")
+        rec = next(r for r in res["records"] if r["token"] == tok.lower())
+        assert rec["via"] == "homonimo-candidate" and rec["expand"] is False
+        assert rec["politica"] == "fail-open" and rec["ids"] == []
+        assert res["add_models"] == [] and res["drop_tokens"] == []
+        assert res["allowed_sources"] == frozenset()
+
+
+def test_inspire_droppable_bajo_replace_y_docs_de_miembros_alcanzables(monkeypatch):
+    # guard GUARD-IMPL: TODOS los miembros de INSPIRE son consumibles ⇒ droppable; y no
+    # está en config/identity_quarantine_v1.yaml (quarantine actual = FAAST/ZXR/G-100-R).
+    # Census-safe: los doc_map de AMBOS miembros quedan en allowed_sources (la unión
+    # protectora seam-2 los re-incorpora), incluido el doc de cat017.
+    assert R._cat.resolve("INSPIRE")["all_members_consumable"] is True
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de la central INSPIRE")
+    assert "inspire" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["INSPIRE"], res)
+    assert "INSPIRE" not in out and {"INSPIRE E10", "INSPIRE E15"} <= set(out)
+    docs_miembros = (R._docs_by_id.get("notifier:inspire-e10", frozenset())
+                     | R._docs_by_id.get("notifier:inspire-e15", frozenset()))
+    assert docs_miembros and docs_miembros <= res["allowed_sources"]
+    assert CAT017_SOURCE in res["allowed_sources"]
+
+
 def test_deep_lookup_seleccion_pagina_exacta_primero(monkeypatch):
     """[D4] página exacta primero, ±1 después, orden chunk_index, cap 6, sin re-corte léxico."""
     import src.rag.deep_lookup as dl
