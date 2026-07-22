@@ -58,6 +58,12 @@ MAX_ANCHOR_TERMS = 10
 MAX_NEED_GROUPS = 3
 MAX_NEED_TERMS_PER_GROUP = 6
 MAX_TSQUERY_CHARS = 480
+# s279 §3 [SEAM-DELEGADO]: la vía document-local bajo DOCUMENT_LOCAL_SELECTION_V2
+# consume el fork de facetas v5 con multi-match acotado y un tope de need-groups
+# PROPIO de la vía; la constante global MAX_NEED_GROUPS=3 queda intacta (y por
+# tanto el plan v4 flag-off byte-inerte).  El v5 vive junto al v4 en config/.
+MAX_NEED_GROUPS_MULTI = 5
+QUERY_CONFIG_V5 = QUERY_CONFIG.parent / "retrieval_facets_v5_document_local.yaml"
 
 _SHA256 = re.compile(r"[0-9a-f]{64}")
 # s278 (DEC-150): flip a v3 — mismo contrato que v2 con la comparación de blob
@@ -128,6 +134,15 @@ def _prose_source_card_enabled() -> bool:
     from ..config import _strict_on_off
 
     return _strict_on_off("PROSE_SOURCE_CARD")
+
+
+def _document_local_selection_v2_enabled() -> bool:
+    """s279 §0 [PERFIL-CAPACIDAD]: flag profile-owned default-off, releído en
+    runtime (patrón contract_enabled).  Off ⇒ el alcance de selección v2
+    (compuertas 1 y 3) ni se alcanza; el plan/receipt queda byte-inerte."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("DOCUMENT_LOCAL_SELECTION_V2")
 
 
 def _sha256_text(text: str) -> str:
@@ -372,6 +387,11 @@ def build_document_local_query_plan(
     seed_scopes: list[dict[str, str]],
 ) -> dict[str, Any] | None:
     """Build a bounded, operator-safe tsquery from versioned query facets."""
+    if _document_local_selection_v2_enabled():
+        # s279 compuerta 3 [SEAM-DELEGADO · VALIDADOR · TRIM]: bajo el flag la
+        # función pura re-invocable (A2) sirve el plan v5 (multi-match acotado +
+        # trim A5).  El cuerpo v4 de abajo queda inalcanzable para flag-off.
+        return _build_document_local_query_plan_v5(query, seed_scopes)
     facet_plan = expand_query_facets(query, config_path=QUERY_CONFIG)
     expanded = list(facet_plan.get("needs") or [])
     needs = _incremental_needs(query, expanded)
@@ -398,17 +418,7 @@ def build_document_local_query_plan(
             need_groups.append(group[:MAX_NEED_TERMS_PER_GROUP])
     if len(anchors) < 2 or not need_groups:
         return None
-    anchor_clause = f"({'|'.join(anchors)})"
-    group_clauses = [f"({'|'.join(group)})" for group in need_groups]
-    if len(group_clauses) == 1:
-        need_clause = group_clauses[0]
-    else:
-        pair_clauses = [
-            f"({left}&{right})"
-            for left, right in combinations(group_clauses, 2)
-        ]
-        need_clause = f"({'|'.join(pair_clauses)})"
-    tsquery = f"{anchor_clause}&{need_clause}"
+    tsquery = _compose_document_local_tsquery(anchors, need_groups)
     if len(tsquery) > MAX_TSQUERY_CHARS:
         return None
     receipt = {
@@ -419,6 +429,218 @@ def build_document_local_query_plan(
         "query_facets_sha256": hashlib.sha256(QUERY_CONFIG.read_bytes()).hexdigest(),
     }
     return {**receipt, "tsquery": tsquery, "sha256": _stable_sha256(receipt)}
+
+
+def _compose_document_local_tsquery(
+    anchors: list[str], need_groups: list[list[str]]
+) -> str:
+    """THE single anchors∧need-clause tsquery composition.
+
+    Extracted verbatim from the historical v4 body so the flag-off plan stays
+    byte-identical (pinned by the golden-receipt equality test) and the v5 trim
+    reasons over the exact operator shape the RPC will receive.
+    """
+    anchor_clause = f"({'|'.join(anchors)})"
+    group_clauses = [f"({'|'.join(group)})" for group in need_groups]
+    if len(group_clauses) == 1:
+        need_clause = group_clauses[0]
+    else:
+        pair_clauses = [
+            f"({left}&{right})"
+            for left, right in combinations(group_clauses, 2)
+        ]
+        need_clause = f"({'|'.join(pair_clauses)})"
+    return f"{anchor_clause}&{need_clause}"
+
+
+def _trim_document_local_need_groups(
+    anchors: list[str], need_groups: list[list[str]]
+) -> tuple[list[list[str]] | None, dict[str, Any]]:
+    """s279 §3 / A5 [TSQUERY-TRIM]: pre-registered deterministic trim.
+
+    While the composed tsquery exceeds ``MAX_TSQUERY_CHARS``: (1) round-robin
+    from the LAST need-group, dropping the last term of each group, never below
+    one term per group; (2) if it still does not fit, drop WHOLE groups from the
+    last, keeping at least one; (3) if the minimal base (anchors ∧ a single
+    1-term group) still exceeds the bound, refuse the plan (``None``).  Removed
+    terms and groups are listed in removal order and group indices stay stable
+    (only the tail is ever removed) — never adjusted after the RPC result.
+    """
+    groups = [list(group) for group in need_groups]
+    terms_removed: list[dict[str, Any]] = []
+    groups_removed: list[dict[str, Any]] = []
+    if len(_compose_document_local_tsquery(anchors, groups)) <= MAX_TSQUERY_CHARS:
+        return groups, {
+            "trimmed": False,
+            "terms_removed": [],
+            "groups_removed": [],
+        }
+    # Phase 1: round-robin last-term removal, minimum one term per group.
+    while (
+        len(_compose_document_local_tsquery(anchors, groups)) > MAX_TSQUERY_CHARS
+    ):
+        removed_in_round = False
+        for index in range(len(groups) - 1, -1, -1):
+            if len(groups[index]) > 1:
+                dropped = groups[index].pop()
+                terms_removed.append({"group_index": index, "term": dropped})
+                removed_in_round = True
+                if (
+                    len(_compose_document_local_tsquery(anchors, groups))
+                    <= MAX_TSQUERY_CHARS
+                ):
+                    break
+        if not removed_in_round:
+            break
+    # Phase 2: drop whole groups from the last, keeping at least one.
+    if len(_compose_document_local_tsquery(anchors, groups)) > MAX_TSQUERY_CHARS:
+        while (
+            len(groups) > 1
+            and len(_compose_document_local_tsquery(anchors, groups))
+            > MAX_TSQUERY_CHARS
+        ):
+            dropped_group = groups.pop()
+            groups_removed.append(
+                {"group_index": len(groups), "terms": dropped_group}
+            )
+    trim_receipt: dict[str, Any] = {
+        "trimmed": True,
+        "terms_removed": terms_removed,
+        "groups_removed": groups_removed,
+    }
+    # Phase 3: base still over the bound -> refuse (existing plan-None conduct).
+    if len(_compose_document_local_tsquery(anchors, groups)) > MAX_TSQUERY_CHARS:
+        trim_receipt["blocked"] = "base_exceeds_tsquery_bound"
+        return None, trim_receipt
+    return groups, trim_receipt
+
+
+def _build_document_local_query_plan_v5(
+    query: str,
+    seed_scopes: list[dict[str, str]],
+) -> dict[str, Any] | None:
+    """s279 compuerta 3: document-local plan from the v5 facet fork.
+
+    LOCAL PURE re-invocable function (A2): depends only on ``(query,
+    seed_scopes)`` and the flag; it never touches fetch state.  The v5 fork is
+    loaded with bounded multi-match (the phase-I signature) and its own
+    ``MAX_NEED_GROUPS_MULTI`` cap.  need-groups travel with a stable positional
+    index (for ``plan_sha256`` and the phase-III per-group assignment) and the
+    A5 trim keeps the tsquery within ``MAX_TSQUERY_CHARS``.
+    """
+    facet_plan = expand_query_facets(
+        query, config_path=QUERY_CONFIG_V5, multi_match=True
+    )
+    expanded = list(facet_plan.get("needs") or [])
+    needs = _incremental_needs(query, expanded)
+    identity_terms = {
+        token
+        for scope in seed_scopes
+        for field in ("manufacturer", "product_model")
+        for token in _tokens(scope.get(field) or "")
+    }
+    anchors: list[str] = []
+    for token in _tokens(query):
+        if token not in identity_terms and token not in anchors:
+            anchors.append(token)
+    anchors = anchors[:MAX_ANCHOR_TERMS]
+
+    anchor_set = set(anchors)
+    need_groups: list[list[str]] = []
+    for need in needs[:MAX_NEED_GROUPS_MULTI]:
+        group: list[str] = []
+        for token in _tokens(need):
+            if token not in anchor_set and token not in group:
+                group.append(token)
+        if group:
+            need_groups.append(group[:MAX_NEED_TERMS_PER_GROUP])
+    if len(anchors) < 2 or not need_groups:
+        return None
+    trimmed_groups, trim_receipt = _trim_document_local_need_groups(
+        anchors, need_groups
+    )
+    if trimmed_groups is None:
+        return None
+    tsquery = _compose_document_local_tsquery(anchors, trimmed_groups)
+    receipt = {
+        "archetype": facet_plan.get("archetype"),
+        "archetypes": list(facet_plan.get("archetypes") or []),
+        "anchor_terms": anchors,
+        "need_groups": trimmed_groups,
+        "fts_config": "spanish_unaccent",
+        "query_facets_sha256": hashlib.sha256(
+            QUERY_CONFIG_V5.read_bytes()
+        ).hexdigest(),
+        "config": "v5",
+        "trim": trim_receipt,
+    }
+    return {**receipt, "tsquery": tsquery, "sha256": _stable_sha256(receipt)}
+
+
+def _combined_waterfall_truncation(
+    candidates_with_rank: list[tuple[int, dict[str, Any]]],
+    authority_by_rank: dict[int, dict[str, str]],
+    overflow_ranks: set[int],
+    trace: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, str]], dict[str, Any]]:
+    """s279 compuerta 1 [WATERFALL]: work-conserving combined truncation.
+
+    An overflowing scope is NO LONGER discarded whole (that total discard stays
+    on flag-off only); each scope keeps its first ``CANDIDATE_LIMIT`` rows by
+    chunk_index (the SQL-guaranteed order the RPC returns).  A deterministic
+    single-pass waterfall then caps the combined pool at
+    ``TOTAL_CANDIDATE_LIMIT``: ``floor(cap / n_scopes)`` per scope in
+    ``source_file`` asc order, each takes ``min(observed, quota)`` and its unused
+    quota spills to the next scope in one pass (10+65⇒10+54, 65+65⇒32+32,
+    n=1⇒64).  Pinned to two scopes (A10).
+    """
+    assert SOURCE_LIMIT == 2  # A10: the single-pass spill is a two-scope pin.
+    eligible_ranks = sorted(authority_by_rank)
+    per_scope: dict[int, list[dict[str, Any]]] = {
+        rank: [] for rank in eligible_ranks
+    }
+    for rank, row in candidates_with_rank:
+        per_scope[rank].append(row)
+    # Stable spill order: source_file asc (design §1), rank as the tiebreak.
+    ordered_ranks = sorted(
+        eligible_ranks,
+        key=lambda rank: (authority_by_rank[rank]["source_file"], rank),
+    )
+    base_quota = (
+        TOTAL_CANDIDATE_LIMIT // len(ordered_ranks) if ordered_ranks else 0
+    )
+    carry = 0
+    kept: list[dict[str, Any]] = []
+    truncation: list[dict[str, Any]] = []
+    for rank in ordered_ranks:
+        available = per_scope[rank]
+        quota = base_quota + carry
+        retained = min(len(available), quota)
+        carry = quota - retained
+        kept.extend(available[:retained])
+        overflowed = rank in overflow_ranks
+        truncation.append(
+            {
+                "scope_rank": rank,
+                "source_file": authority_by_rank[rank]["source_file"],
+                "observed_rows": ">=65" if overflowed else len(available),
+                "candidate_truncated": overflowed,
+                "available_rows": len(available),
+                "waterfall_quota": quota,
+                "retained": retained,
+            }
+        )
+    eligible_authorities = [authority_by_rank[rank] for rank in eligible_ranks]
+    trace["candidate_waterfall"] = truncation
+    trace["candidate_truncated"] = any(
+        entry["candidate_truncated"] for entry in truncation
+    )
+    if overflow_ranks:
+        trace["candidate_overflow_scopes"] = sorted(overflow_ranks)
+        trace["overflow"] = True
+    trace["authoritative_documents"] = len(eligible_authorities)
+    trace["status"] = "fetched" if kept else "no_fts_candidates"
+    return kept, eligible_authorities, trace
 
 
 def fetch_document_local_candidates(
@@ -465,10 +687,22 @@ def fetch_document_local_candidates(
         return [], [], trace
     plan = build_document_local_query_plan(query, scopes)
     if plan is None:
-        trace["status"] = "no_bounded_query_plan"
+        # s279 compuerta 1 (§1 / A3): plan None sigue APAGANDO el lane, pero bajo
+        # el flag el receipt lo declara VISIBLE en vez del silencioso
+        # no_bounded_query_plan.
+        trace["status"] = (
+            "blocked_tsquery_unrepresentable"
+            if _document_local_selection_v2_enabled()
+            else "no_bounded_query_plan"
+        )
         return [], [], trace
     trace["query_plan_sha256"] = plan["sha256"]
     trace["query_facets_sha256"] = plan["query_facets_sha256"]
+    if _document_local_selection_v2_enabled():
+        # s279 compuerta 3 (B4): estampa qué config sirvió el plan y el trim
+        # determinista (términos/grupos retirados).  Byte-inerte para flag-off.
+        trace["query_plan_config"] = plan["config"]
+        trace["query_plan_trim"] = plan["trim"]
     if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
         raise RuntimeError("Supabase credentials unavailable for document-local read")
     if (
@@ -760,6 +994,13 @@ def fetch_document_local_candidates(
         if ranks
     ) or observed_overflow_ranks != overflow_ranks:
         raise RuntimeError("document-local snapshot candidate rank mismatch")
+    if _document_local_selection_v2_enabled():
+        # s279 compuerta 1 [WATERFALL]: truncado combinado work-conserving.  El
+        # descarte total de un scope con overflow (bloque de abajo) queda SOLO
+        # para flag-off.
+        return _combined_waterfall_truncation(
+            candidates_with_rank, authority_by_rank, overflow_ranks, trace
+        )
     candidates = [
         row for rank, row in candidates_with_rank if rank not in overflow_ranks
     ]

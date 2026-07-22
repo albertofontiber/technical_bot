@@ -1411,3 +1411,461 @@ def test_fetcher_accepts_canonical_pdf_blob_identity(
     assert authorities == [{**_authority(), "source_file": pdf_name}]
     assert candidates[0]["source_file"] == SOURCE_FILE
     assert candidates[0]["document_local_authority_source_file"] == pdf_name
+
+
+# ---------------------------------------------------------------------------
+# s279 compuertas 1 y 3 — alcance de selección v2 (DOCUMENT_LOCAL_SELECTION_V2).
+# El código nuevo vive detrás del flag profile-owned; flag-off = byte-inerte.
+# ---------------------------------------------------------------------------
+
+# Preguntas REALES del held-out (evals/bot_vs_gold_serving_seam_v1_historical_
+# single_turn_inputs_coverage_c1_v3_k10.yaml), pineadas literalmente para el
+# gate `plan is not None` con el fork v5.
+CAT017_QUESTION = (
+    "¿Como se cablea y se da de alta (configura) un lazo en la central "
+    "Notifier INSPIRE (E10/E15)?"
+)
+CAT019_QUESTION = (
+    "¿Como se configura una maniobra (causa-efecto) completa en la Detnov "
+    "CAD-250: como se crea, como se definen las entradas/eventos que la "
+    "disparan y como se asignan las salidas?"
+)
+
+# Golden capturado con el código de HEAD (perfil ≤v3, flag off) para el fixture
+# representativo `_snapshot_payload(candidates=[_logical_candidate()])` +
+# `_anchor()` + QUESTION.  Byte-igualdad = control del §0 (A11).
+_GOLDEN_OFF_TRACE_JSON = (
+    '{"ambiguous_lineages": 0, "anchor_rows": 1, "authoritative_documents": 1,'
+    ' "database_writes": 0, "document_rows": 2, "eligible_rows": 0,'
+    ' "fts_candidate_rows": 1, "fts_queries": 1, "http_requests": 1, "lane":'
+    ' "document_local_content_coverage_v1", "model_calls": 0, "overflow":'
+    ' false, "query_facets_sha256":'
+    ' "05c91e49a7c539b71c1e17c98ffb36007f815aa701347e421384b2aecfb01371",'
+    ' "query_plan_sha256":'
+    ' "b35f5570ea76df0a430a6a984e06427143900d064b9637d285b40f2303e086a6",'
+    ' "rows_read": 3, "satisfaction_route": null, "satisfied_ids": [],'
+    ' "seed_scope_count": 1, "seed_scopes_sha256":'
+    ' "7c586b697615c9954ad30a1501ca8303471c247d41f0b16f85a104249eecf9e8",'
+    ' "seed_scopes_truncated": false, "seed_sources": {}, "selected_ids": [],'
+    ' "snapshot_authoritative_documents": 1, "snapshot_sha256":'
+    ' "2c93ac41bfca7de25afad30b60188d663a9a770db168c39c79ba3642fbb12a63",'
+    ' "source_scopes_considered": 1, "status": "fetched", "validation":'
+    ' "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1"}'
+)
+
+_V5_SCOPE = {
+    "document_id": ACTIVE_DOCUMENT,
+    "extraction_sha256": ACTIVE_SHA,
+    "source_file": SOURCE_FILE,
+    "manufacturer": "Notifier",
+    "product_model": "INSPIRE E10",
+}
+
+
+def _force_v2(monkeypatch: pytest.MonkeyPatch, enabled: bool) -> None:
+    monkeypatch.setattr(
+        document_local, "_document_local_selection_v2_enabled", lambda: enabled
+    )
+
+
+# ---- Compuerta 3: plan v5 solo-lane, sin tocar el plan v4 flag-off ----------
+
+
+def test_plan_v5_serves_cat017_with_commissioning_need_group(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+
+    assert plan is not None
+    assert plan["config"] == "v5"
+    # Multi-match acotado: el arquetipo primario (first-match) se conserva y
+    # commissioning_setup APORTA su need-group.
+    assert plan["archetype"] == "connect_install_wire"
+    assert plan["archetypes"] == ["connect_install_wire", "commissioning_setup"]
+    commissioning_terms = {"sitio", "edificio", "licencia", "bin", "portal"}
+    assert any(
+        commissioning_terms & set(group) for group in plan["need_groups"]
+    ), plan["need_groups"]
+    # cat017 dispara el trim A5 (688 -> <=480) por-términos, sin perder grupos.
+    assert plan["trim"]["trimmed"] is True
+    assert plan["trim"]["groups_removed"] == []
+    assert len(plan["tsquery"]) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_plan_v5_serves_cat019_real_question(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        CAT019_QUESTION, [_V5_SCOPE]
+    )
+
+    assert plan is not None
+    assert plan["config"] == "v5"
+    assert plan["archetype"] == "program_delay_cause_effect"
+    assert plan["trim"]["trimmed"] is False
+    assert len(plan["tsquery"]) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_plan_v5_need_groups_carry_a_stable_positional_index(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A2/B3: re-invocación local pura -> plan idéntico (mismo sha, mismos
+    # grupos en el mismo orden), lo que fase III necesita para plan_sha256 y la
+    # asignación por-grupo.
+    _force_v2(monkeypatch, True)
+    first = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+    second = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+
+    assert first == second
+    assert first["sha256"] == second["sha256"]
+    assert first["need_groups"] == second["need_groups"]
+
+
+# ---- Compuerta 3: trim A5, los TRES bordes (pineados directamente) ----------
+
+
+def test_trim_a5_border1_removes_terms_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [
+        ["x" * 20 + str(i) + chr(97 + j) for j in range(4)] for i in range(3)
+    ]
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, need_groups)
+    ) > document_local.MAX_TSQUERY_CHARS
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["trimmed"] is True
+    assert receipt["terms_removed"]  # some last-terms dropped
+    assert receipt["groups_removed"] == []  # never dropped a whole group
+    assert all(len(group) >= 1 for group in trimmed)
+    assert len(trimmed) == len(need_groups)
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, trimmed)
+    ) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_trim_a5_border2_drops_whole_groups_from_the_last(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [
+        ["y" * 40 + str(i) + chr(97 + j) for j in range(2)] for i in range(4)
+    ]
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"], receipt
+    # Phase 1 first collapsed every group to one term; phase 2 then removed the
+    # tail group(s).  Group indices removed come from the END.
+    assert receipt["groups_removed"][0]["group_index"] == len(need_groups) - 1
+    assert len(trimmed) < len(need_groups)
+    assert all(len(group) == 1 for group in trimmed)
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, trimmed)
+    ) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_trim_a5_border3_base_over_bound_returns_none(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [["z" * 500]]  # a single, irreducible, over-long term
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is None
+    assert receipt["blocked"] == "base_exceeds_tsquery_bound"
+
+
+def test_plan_v5_returns_none_when_base_exceeds_bound(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A giant single-token query yields anchors whose clause alone blows the
+    # bound: the v5 plan refuses (feeds the visible blocked receipt below).
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        "programar " + "z" * 500 + " maniobra causa efecto", [_V5_SCOPE]
+    )
+    assert plan is None
+
+
+# ---- Compuerta 1: plan None visible (A3) ------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("enabled", "expected_status"),
+    [
+        (True, "blocked_tsquery_unrepresentable"),
+        (False, "no_bounded_query_plan"),
+    ],
+)
+def test_plan_none_receipt_is_visible_only_under_v2(
+    monkeypatch: pytest.MonkeyPatch,
+    enabled: bool,
+    expected_status: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, enabled)
+    monkeypatch.setattr(
+        document_local, "build_document_local_query_plan", lambda *_a, **_k: None
+    )
+    client = _GetOnlyClient([])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == expected_status
+    assert len(client.calls) == 0  # the lane never touches the RPC
+
+
+# ---- Compuerta 1: waterfall del truncado combinado (fetch real, flag-on) ----
+
+
+def _second_scope_anchor() -> dict[str, Any]:
+    return {
+        **_anchor("anchor-second"),
+        "document_id": "doc-second",
+        "extraction_sha256": "e" * 64,
+        "source_file": "manual-second",
+        "product_model": "Panel-Y",
+    }
+
+
+def _two_scope_waterfall_payload(
+    first_count: int, second_count: int, overflow_scopes: list[int]
+) -> dict[str, Any]:
+    second_document = "doc-second"
+    second_sha = "e" * 64
+    second_file = "manual-second"
+    second_document_row = {
+        **copy.deepcopy(_document_rows()[-1]),
+        "scope_rank": 2,
+        "id": second_document,
+        "revision_lineage_id": SECOND_LINEAGE_ID,
+        "document_family": "manual second",
+        "product_model": "Panel-Y",
+        "source_pdf_filename": second_file,
+        "source_pdf_sha256": second_sha,
+        "supersedes_id": None,
+    }
+    raw_candidates: list[dict[str, Any]] = []
+    for scope_rank, count in ((1, first_count), (2, second_count)):
+        for candidate_rank in range(1, count + 1):
+            row = _logical_candidate(f"candidate-{scope_rank}-{candidate_rank}")
+            if scope_rank == 2:
+                row.update(
+                    {
+                        "document_id": second_document,
+                        "document_revision_lineage_id": SECOND_LINEAGE_ID,
+                        "document_local_authority_revision_lineage_id": (
+                            SECOND_LINEAGE_ID
+                        ),
+                        "extraction_sha256": second_sha,
+                        "source_file": second_file,
+                        "product_model": "Panel-Y",
+                    }
+                )
+            row.update(
+                {
+                    "authority_scope_rank": scope_rank,
+                    "snapshot_candidate_rank": candidate_rank,
+                }
+            )
+            raw_candidates.append(row)
+    document_rows = [
+        {**copy.deepcopy(row), "scope_rank": 1} for row in _document_rows()
+    ] + [second_document_row]
+    return {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": [
+            {"scope_rank": 1, **_authority(), "family_rows": 2},
+            {
+                "scope_rank": 2,
+                "document_id": second_document,
+                "revision_lineage_id": SECOND_LINEAGE_ID,
+                "extraction_sha256": second_sha,
+                "source_file": second_file,
+                "language": "es",
+                "revision": "v.07",
+                "family_rows": 1,
+            },
+        ],
+        "document_rows": document_rows,
+        "candidates": raw_candidates,
+        "rejections": [],
+        "family_rows_read": len(document_rows),
+        "candidate_rows": len(raw_candidates),
+        "candidate_overflow_scopes": overflow_scopes,
+    }
+
+
+@pytest.mark.parametrize(
+    ("first_count", "second_count", "overflow_scopes", "first_kept", "second_kept"),
+    [
+        # 10+65 (scope-2 overflow) => 10 + 54 (spill of scope-1's slack) = 64.
+        (10, CANDIDATE_LIMIT + 1, [2], 10, 54),
+        # 65+65 (both overflow) => 32 + 32 = 64.
+        (CANDIDATE_LIMIT + 1, CANDIDATE_LIMIT + 1, [1, 2], 32, 32),
+    ],
+)
+def test_waterfall_combined_two_scope_cases(
+    monkeypatch: pytest.MonkeyPatch,
+    first_count: int,
+    second_count: int,
+    overflow_scopes: list[int],
+    first_kept: int,
+    second_kept: int,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, True)
+    payload = _two_scope_waterfall_payload(
+        first_count, second_count, overflow_scopes
+    )
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor(), _second_scope_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert len(candidates) == first_kept + second_kept == TOTAL_CANDIDATE_LIMIT
+    # scope-1 (`manual-control-revisiones`) sorts before scope-2
+    # (`manual-second`), so its unused slack spills forward.
+    by_scope = {
+        entry["scope_rank"]: entry for entry in trace["candidate_waterfall"]
+    }
+    assert by_scope[1]["retained"] == first_kept
+    assert by_scope[2]["retained"] == second_kept
+    assert len(authorities) == 2
+    for rank in overflow_scopes:
+        assert by_scope[rank]["candidate_truncated"] is True
+        assert by_scope[rank]["observed_rows"] == ">=65"
+
+
+def test_waterfall_single_scope_keeps_full_cap_and_declares_truncation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # n=1 => floor(64/1)=64; a synthetic 65-row overflow keeps the first 64 and
+    # the receipt declares the truncation visibly (candidate_truncated:true).
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, True)
+    rows = [
+        _logical_candidate(f"candidate-{index}")
+        for index in range(CANDIDATE_LIMIT + 1)
+    ]
+    client = _GetOnlyClient(
+        [_snapshot_payload(candidates=rows, overflow=True)]
+    )
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert len(candidates) == CANDIDATE_LIMIT
+    assert [row["document_id"] for row in authorities] == [ACTIVE_DOCUMENT]
+    assert trace["overflow"] is True
+    assert trace["candidate_overflow_scopes"] == [1]
+    assert trace["candidate_truncated"] is True
+    entry = trace["candidate_waterfall"][0]
+    assert entry["candidate_truncated"] is True
+    assert entry["observed_rows"] == ">=65"
+    assert entry["retained"] == CANDIDATE_LIMIT
+    # B4: the fetch receipt also stamps which config served the plan + trim.
+    assert trace["query_plan_config"] == "v5"
+    assert trace["query_plan_trim"]["trimmed"] is False
+
+
+def test_waterfall_overflow_scope_is_no_longer_discarded_whole(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # HEAD flag-off drops an overflowing scope entirely (candidate_cap_exceeded);
+    # under v2 the same single-scope overflow now serves its first 64 rows.
+    _configure_live_read_globals(monkeypatch)
+    rows = [
+        _logical_candidate(f"candidate-{index}")
+        for index in range(CANDIDATE_LIMIT + 1)
+    ]
+    payload = _snapshot_payload(candidates=rows, overflow=True)
+
+    _force_v2(monkeypatch, False)
+    off_candidates, off_authorities, off_trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=_GetOnlyClient([copy.deepcopy(payload)])
+    )
+    assert off_candidates == off_authorities == []
+    assert off_trace["status"] == "candidate_cap_exceeded"
+
+    _force_v2(monkeypatch, True)
+    on_candidates, on_authorities, on_trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=_GetOnlyClient([copy.deepcopy(payload)])
+    )
+    assert len(on_candidates) == CANDIDATE_LIMIT
+    assert on_trace["status"] == "fetched"
+
+
+# ---- §0 [PERFIL-CAPACIDAD]: byte-igualdad flag-off (trace y receipt) ---------
+
+
+def test_v4_plan_receipt_is_byte_identical_when_v2_off(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, False)
+    plan = document_local.build_document_local_query_plan(QUESTION, [_scope()])
+
+    assert set(plan) == {
+        "archetype",
+        "anchor_terms",
+        "need_groups",
+        "fts_config",
+        "query_facets_sha256",
+        "tsquery",
+        "sha256",
+    }
+    # No v5-only key leaks into the flag-off receipt.
+    assert "config" not in plan and "trim" not in plan and "archetypes" not in plan
+    assert plan["archetype"] == "fault_reset_recovery"
+    assert plan["fts_config"] == "spanish_unaccent"
+    assert plan["sha256"] == (
+        "b35f5570ea76df0a430a6a984e06427143900d064b9637d285b40f2303e086a6"
+    )
+
+
+def test_fetch_trace_is_byte_identical_to_head_when_v2_off(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, False)
+    client = _GetOnlyClient(
+        [_snapshot_payload(candidates=[_logical_candidate()])]
+    )
+
+    _, _, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    # Byte-igualdad EXACTA con el trace de HEAD (perfil ≤v3): ni una clave nueva
+    # del alcance de selección v2 (waterfall/trim/config) aparece off.
+    assert (
+        json.dumps(trace, ensure_ascii=False, sort_keys=True)
+        == _GOLDEN_OFF_TRACE_JSON
+    )
