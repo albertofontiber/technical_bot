@@ -178,15 +178,81 @@ def test_v2_document_local_trace_counts_rows_without_copying_raw_evidence():
             "lane": DOCUMENT_LOCAL_LANE,
             "status": "selected",
             "selected_rows": 1,
+            "seed_route": "none",
+            "seed_scopes": 0,
+            "seed_scopes_truncated": False,
+            "satisfaction_route": "none",
         }
     ]
     assert validate_rag_serving_trace(trace) == trace
+
+
+def test_document_local_runtime_trace_keeps_only_privacy_safe_seed_authority():
+    private = "PRIVATE-SCOPE-HASH-AND-SOURCE"
+    trace = build_rag_serving_trace(
+        coverage_trace={
+            "enabled": True,
+            "status": "appended",
+            "protected_prefix_rows": 10,
+            "protected_prefix_equal": True,
+            "appended_ids": [private],
+            "lanes": [
+                {
+                    "lane": DOCUMENT_LOCAL_LANE,
+                    "status": "selected",
+                    "selected_ids": [private],
+                    "seed_sources": {"governed_source_contract": 1},
+                    "seed_scope_count": 1,
+                    "seed_scopes_sha256": private,
+                    "seed_scopes_truncated": False,
+                    "satisfaction_route": "coverage_append",
+                }
+            ],
+        },
+        served_chunks=[],
+        must_preserve_trace=None,
+        must_preserve_outcome={"status": "disabled"},
+        release_policy={
+            "profile": "coverage_c1_v2",
+            "structural_neighbor_coverage": True,
+            "document_local_coverage": True,
+        },
+        transport_parts=1,
+    )
+
+    encoded = json.dumps(trace, ensure_ascii=False)
+    assert private not in encoded
+    assert trace["coverage"]["lane_outcomes"] == [
+        {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "selected",
+            "selected_rows": 1,
+            "seed_route": "governed",
+            "seed_scopes": 1,
+            "seed_scopes_truncated": False,
+            "satisfaction_route": "coverage_append",
+        }
+    ]
+    assert validate_rag_serving_trace(trace) == trace
+
+    for field, value in (
+        ("seed_route", "private-route"),
+        ("seed_scopes", 3),
+        ("seed_scopes_truncated", "false"),
+        ("satisfaction_route", "private-route"),
+    ):
+        malformed = json.loads(json.dumps(trace))
+        malformed["coverage"]["lane_outcomes"][0][field] = value
+        assert validate_rag_serving_trace(malformed) is None
 
 
 def test_document_local_runtime_statuses_are_preserved_by_closed_schema():
     statuses = (
         "selected",
         "no_validated_structural_anchor",
+        "unverified_document_lineage",
+        "ambiguous_document_identity",
+        "lineage_identity_drift",
         "source_scope_overflow",
         "no_bounded_query_plan",
         "invalid_anchor_scope",
@@ -213,6 +279,7 @@ def test_document_local_runtime_statuses_are_preserved_by_closed_schema():
         "winner_scope_mismatch",
         "skipped_no_append_capacity",
         "skipped_no_served_structural_anchor",
+        "skipped_no_exact_blob_anchor",
         "error",
     )
     for status in statuses:

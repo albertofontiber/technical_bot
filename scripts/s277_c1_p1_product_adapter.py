@@ -290,6 +290,35 @@ def _validated_document_local_coverage_evidence(
         "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE",
         f"invalid document-local satisfaction trace for {replica_key}",
     )
+    if http_requests == 1:
+        seed_sources = lane_trace.get("seed_sources")
+        seed_scope_count = lane_trace.get("seed_scope_count")
+        seed_scopes_sha256 = lane_trace.get("seed_scopes_sha256")
+        seed_scopes_truncated = lane_trace.get("seed_scopes_truncated")
+        _require(
+            isinstance(seed_sources, Mapping)
+            and bool(seed_sources)
+            and set(seed_sources) <= p1.DOCUMENT_LOCAL_SEED_SOURCES
+            and all(
+                type(count) is int and count > 0
+                for count in seed_sources.values()
+            )
+            and type(seed_scope_count) is int
+            and 1 <= seed_scope_count <= 2
+            and sum(seed_sources.values()) == seed_scope_count
+            and isinstance(seed_scopes_sha256, str)
+            and bool(_HEX64.fullmatch(seed_scopes_sha256))
+            and type(seed_scopes_truncated) is bool,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+            f"invalid document-local seed authority for {replica_key}",
+        )
+        if "governed_source_contract" in seed_sources:
+            _require(
+                set(seed_sources) == {"governed_source_contract"}
+                and seed_scopes_truncated is False,
+                "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+                f"non-exclusive governed seed authority for {replica_key}",
+            )
 
     served_rows_by_id: dict[str, list[Mapping[str, Any]]] = {}
     for row in served:
@@ -317,11 +346,21 @@ def _validated_document_local_coverage_evidence(
 
     if replica_key in _DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS:
         _require(
-            http_requests == 1
-            and len(physical_gets) == 1
-            and len(satisfied_ids) == 1,
-            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            http_requests == 1 and len(physical_gets) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_GET",
+            f"required hp011 document-local GET absent for {replica_key}",
+        )
+        _require(
+            len(satisfied_ids) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SATISFACTION",
             f"required hp011 document-local satisfaction absent for {replica_key}",
+        )
+        _require(
+            lane_trace.get("seed_sources") == {"governed_source_contract": 1}
+            and lane_trace.get("seed_scope_count") == 1
+            and lane_trace.get("seed_scopes_truncated") is False,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SEED_ROUTE",
+            f"required hp011 governed seed route absent for {replica_key}",
         )
 
     return {

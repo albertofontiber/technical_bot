@@ -43,10 +43,10 @@ if __name__ == "__main__":
     # instead of being loaded a second time as scripts.s277_c1_p1.
     sys.modules["scripts.s277_c1_p1"] = sys.modules[__name__]
 
-CANONICAL_PREREG_PATH = ROOT / "evals/s277_c1_p1_prereg_v2.yaml"
+CANONICAL_PREREG_PATH = ROOT / "evals/s277_c1_p1_prereg_v3.yaml"
 
 RELEASE_CONFIG_SCHEMA = "s277_c1_p1_release_config_v2"
-PREREG_SCHEMA = "s277_c1_p1_prereg_v2"
+PREREG_SCHEMA = "s277_c1_p1_prereg_v3"
 AUTHORIZATION_SCHEMA = "s277_c1_p1_paid_authorization_v1"
 AUTHORIZATION_CLAIM_SCHEMA = "s277_c1_p1_authorization_claim_v1"
 RUN_LEASE_SCHEMA = "s277_c1_p1_run_lease_v1"
@@ -183,6 +183,65 @@ DOCUMENT_LOCAL_RPC = "document_local_snapshot_v2"
 DOCUMENT_LOCAL_REST_GET_PATH = f"/rest/v1/rpc/{DOCUMENT_LOCAL_RPC}"
 DOCUMENT_LOCAL_LANE = "document_local_content_coverage_v1"
 DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS = frozenset({"hp011:r1", "hp011:r2"})
+DOCUMENT_LOCAL_SEED_SOURCES = frozenset(
+    {
+        "governed_source_contract",
+        "protected_rerank_prefix",
+        "served_structural_append",
+    }
+)
+DOCUMENT_LOCAL_ANCHOR_CONTRACT_V1 = {
+    "schema_version": "s277_document_local_anchor_contract_v1",
+    "query_resolution": "catalog_resolver.resolve_query.resolved_documents",
+    "registry_eligibility": "catalog_doc_map_primary_doc_exact_join",
+    "allowed_seed_sources": [
+        "governed_source_contract",
+        "protected_rerank_prefix",
+        "served_structural_append",
+    ],
+    "governed_route": {
+        "may_activate_without_served_structural_anchor": True,
+        "exclusive_when_present": True,
+        "scope_count_min": 1,
+        "scope_count_max": 2,
+        "malformed_duplicate_or_orphan": "FAIL_CLOSED_BEFORE_IO",
+        "per_product_registry_overflow": "FAIL_CLOSED_BEFORE_IO",
+        "query_resolution_overflow": "FAIL_CLOSED_BEFORE_IO",
+    },
+    "fallback_route": {
+        "served_validated_structural_anchor_required": True,
+        "protected_prefix_cannot_activate_alone": True,
+    },
+    "live_authority": {
+        "rpc": "document_local_snapshot_v2",
+        "registry_is_hint_only": True,
+        "verified_lineage_active_revision_exact_blob_required": True,
+        "max_physical_gets": 1,
+        "model_calls": 0,
+        "database_writes": 0,
+    },
+    "private_receipt_fields": [
+        "seed_sources",
+        "seed_scope_count",
+        "seed_scopes_sha256",
+        "seed_scopes_truncated",
+    ],
+    "runtime_telemetry_fields": [
+        "seed_route",
+        "seed_scopes",
+        "seed_scopes_truncated",
+        "satisfaction_route",
+    ],
+    "required_target_attestation": {
+        "replicas": ["hp011:r1", "hp011:r2"],
+        "seed_sources": {"governed_source_contract": 1},
+        "seed_scope_count": 1,
+        "seed_scopes_truncated": False,
+        "physical_gets": 1,
+        "authoritative_satisfied_chunks": 1,
+    },
+    "claim_limit": "BOUNDED_RP1R_PILOT_NOT_ORGANIC_GENERALIZATION",
+}
 VISUAL_SERVABLE_ROLES = ("wiring", "table", "procedure", "ui")
 VISUAL_MAX_ASSETS_PER_ANSWER = 4
 RERANK_INSTRUCTION = (
@@ -211,8 +270,16 @@ RELEASE_CONFIG_IMPLEMENTATION_PATH = "scripts/s277_c1_p1_release_config.py"
 # exact deployed read authority. They are therefore sealed into every run just
 # like executable source.
 IMPLEMENTATION_RUNTIME_ASSETS = (
+    "config/document_local_source_contracts_v1.yaml",
     "config/evidence_coverage_facets_v5.yaml",
     "config/retrieval_facets_v4.yaml",
+    "data/catalog/products.jsonl",
+    "data/catalog/aliases.jsonl",
+    "data/catalog/umbrellas.jsonl",
+    "data/catalog/homonyms.jsonl",
+    "data/catalog/relations.jsonl",
+    "data/catalog/doc_map.jsonl",
+    "data/catalog/docrel.jsonl",
     "supabase/migrations/20260722013000_s277_document_revision_lineage_snapshot_v2.sql",
     "supabase/migrations/20260722014500_s277_p1_document_local_snapshot_v2_acl.sql",
 )
@@ -1620,6 +1687,53 @@ def verify_prereg_sealed_inputs(prereg: Mapping[str, Any]) -> None:
         "HOLD_PREREG_DRIFT",
         "release config path",
     )
+    design = sealed.get("design_contract")
+    _require(
+        isinstance(design, Mapping)
+        and design.get("path") == "evals/s277_c1_p1_design_v3.md",
+        "HOLD_PREREG_DRIFT",
+        "v3 design contract",
+    )
+    design_path = _sealed_path(design.get("path"))
+    _require(
+        design.get("sha256_lf")
+        == sha256_file(design_path, lf_normalized=True),
+        "HOLD_PREREG_DRIFT",
+        "v3 design contract LF hash",
+    )
+    registry = sealed.get("document_local_source_contract_registry")
+    _require(
+        isinstance(registry, Mapping)
+        and registry.get("path")
+        == "config/document_local_source_contracts_v1.yaml"
+        and registry.get("schema") == "document_local_source_contracts_v1"
+        and registry.get("max_scopes_per_query") == 2,
+        "HOLD_PREREG_DRIFT",
+        "document-local source-contract registry",
+    )
+    registry_path = _sealed_path(registry.get("path"))
+    registry_payload = load_data_object(registry_path)
+    _require(
+        registry.get("sha256_lf")
+        == sha256_file(registry_path, lf_normalized=True)
+        and registry.get("payload_sha256") == sha256_json(registry_payload)
+        and registry_payload.get("schema") == registry.get("schema")
+        and registry_payload.get("max_scopes_per_query")
+        == registry.get("max_scopes_per_query"),
+        "HOLD_PREREG_DRIFT",
+        "document-local source-contract registry binding",
+    )
+
+
+def verify_prereg_document_local_anchor_contract(
+    prereg: Mapping[str, Any],
+) -> None:
+    _require(
+        prereg.get("document_local_anchor_contract")
+        == DOCUMENT_LOCAL_ANCHOR_CONTRACT_V1,
+        "HOLD_PREREG_DRIFT",
+        "v3 governed document-local anchor contract",
+    )
 
 
 def verify_prereg_release_identity(prereg: Mapping[str, Any]) -> None:
@@ -1658,6 +1772,8 @@ def verify_prereg_release_identity(prereg: Mapping[str, Any]) -> None:
 
 def verify_prereg_runtime_contract(prereg: Mapping[str, Any]) -> None:
     """Reject a prereg that weakens the runtime/receipt bindings enforced here."""
+
+    verify_prereg_document_local_anchor_contract(prereg)
 
     semantic = prereg.get("semantic_runtime_contract")
     _require(isinstance(semantic, Mapping), "HOLD_PREREG_DRIFT", "semantic runtime contract")
@@ -5214,6 +5330,35 @@ def _validate_product_document_local_transport_lineage(
         "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRANSPORT",
         replica_key,
     )
+    if http_requests == 1:
+        seed_sources = lane_trace.get("seed_sources")
+        seed_scope_count = lane_trace.get("seed_scope_count")
+        seed_scopes_sha256 = lane_trace.get("seed_scopes_sha256")
+        seed_scopes_truncated = lane_trace.get("seed_scopes_truncated")
+        _require(
+            isinstance(seed_sources, Mapping)
+            and bool(seed_sources)
+            and set(seed_sources) <= DOCUMENT_LOCAL_SEED_SOURCES
+            and all(
+                type(count) is int and count > 0
+                for count in seed_sources.values()
+            )
+            and type(seed_scope_count) is int
+            and 1 <= seed_scope_count <= 2
+            and sum(seed_sources.values()) == seed_scope_count
+            and isinstance(seed_scopes_sha256, str)
+            and bool(_HEX64.fullmatch(seed_scopes_sha256))
+            and type(seed_scopes_truncated) is bool,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+            replica_key,
+        )
+        if "governed_source_contract" in seed_sources:
+            _require(
+                set(seed_sources) == {"governed_source_contract"}
+                and seed_scopes_truncated is False,
+                "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+                replica_key,
+            )
     if selected_ids:
         selected_id = selected_ids[0]
         served_rows = [
@@ -5245,10 +5390,20 @@ def _validate_product_document_local_transport_lineage(
         )
     if replica_key in DOCUMENT_LOCAL_REQUIRED_SATISFIED_REPLICAS:
         _require(
-            http_requests == 1
-            and len(physical_gets) == 1
-            and len(satisfied_ids) == 1,
-            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET",
+            http_requests == 1 and len(physical_gets) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_GET",
+            replica_key,
+        )
+        _require(
+            len(satisfied_ids) == 1,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SATISFACTION",
+            replica_key,
+        )
+        _require(
+            lane_trace.get("seed_sources") == {"governed_source_contract": 1}
+            and lane_trace.get("seed_scope_count") == 1
+            and lane_trace.get("seed_scopes_truncated") is False,
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SEED_ROUTE",
             replica_key,
         )
 

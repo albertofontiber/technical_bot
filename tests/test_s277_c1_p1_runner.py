@@ -1055,6 +1055,10 @@ def _document_local_transport_fixture():
         "selected_ids": [selected_id],
         "satisfied_ids": [selected_id],
         "satisfaction_route": "coverage_append",
+        "seed_sources": {"governed_source_contract": 1},
+        "seed_scope_count": 1,
+        "seed_scopes_sha256": "c" * 64,
+        "seed_scopes_truncated": False,
     }
     coverage_trace = {
         "lanes": [lane_trace],
@@ -1148,6 +1152,125 @@ def test_document_local_already_served_satisfaction_is_offline_revalidated():
             replica_key="hp011:r1",
         )
     assert caught.value.code == "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED"
+
+
+@pytest.mark.parametrize(
+    ("http_requests", "physical_gets", "expected_code"),
+    [
+        (0, False, "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_GET"),
+        (1, True, "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SATISFACTION"),
+    ],
+)
+def test_hp011_document_local_target_failures_are_offline_distinguished(
+    http_requests,
+    physical_gets,
+    expected_code,
+):
+    attestation, _served, semantic = _document_local_transport_fixture()
+    lane = attestation["coverage_trace"]["lanes"][0]
+    lane.update(
+        status="no_query_aligned_candidate",
+        http_requests=http_requests,
+        selected_ids=[],
+        satisfied_ids=[],
+        satisfaction_route=None,
+    )
+    attestation["coverage_trace"]["appended_ids"] = []
+    attestation["coverage_trace_sha256"] = p1.sha256_json(
+        attestation["coverage_trace"]
+    )
+    if not physical_gets:
+        attestation["postgrest_request_receipts"] = []
+    receipts = attestation["postgrest_request_receipts"]
+    evidence = attestation["document_local_coverage"]
+    evidence.update(
+        lane_trace=lane,
+        lane_trace_sha256=p1.sha256_json(lane),
+        physical_get_ordinals=[row["ordinal"] for row in receipts],
+        physical_get_receipts_sha256=p1.sha256_json(receipts),
+        served_selected_ids=[],
+        served_satisfied_ids=[],
+    )
+
+    with pytest.raises(p1.P1Error) as caught:
+        p1._validate_product_document_local_transport_lineage(
+            attestation,
+            [],
+            semantic,
+            replica_key="hp011:r1",
+        )
+
+    assert caught.value.code == expected_code
+
+
+@pytest.mark.parametrize(
+    ("mutation", "replica_key", "expected_code"),
+    [
+        (
+            "missing_sources",
+            "hp017:r1",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "count_mismatch",
+            "hp017:r1",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "invalid_hash",
+            "hp017:r1",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "mixed_governed_route",
+            "hp017:r1",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "wrong_target_route",
+            "hp011:r1",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SEED_ROUTE",
+        ),
+    ],
+)
+def test_document_local_seed_authority_fails_closed_offline(
+    mutation,
+    replica_key,
+    expected_code,
+):
+    attestation, served, semantic = _document_local_transport_fixture()
+    lane = attestation["coverage_trace"]["lanes"][0]
+    if mutation == "missing_sources":
+        lane.pop("seed_sources")
+    elif mutation == "count_mismatch":
+        lane["seed_scope_count"] = 2
+    elif mutation == "invalid_hash":
+        lane["seed_scopes_sha256"] = "not-a-sha256"
+    elif mutation == "mixed_governed_route":
+        lane.update(
+            seed_sources={
+                "governed_source_contract": 1,
+                "served_structural_append": 1,
+            },
+            seed_scope_count=2,
+        )
+    else:
+        lane["seed_sources"] = {"served_structural_append": 1}
+    attestation["coverage_trace_sha256"] = p1.sha256_json(
+        attestation["coverage_trace"]
+    )
+    evidence = attestation["document_local_coverage"]
+    evidence["lane_trace_sha256"] = p1.sha256_json(lane)
+
+    with pytest.raises(p1.P1Error) as caught:
+        p1._validate_product_document_local_transport_lineage(
+            attestation,
+            served,
+            semantic,
+            replica_key=replica_key,
+        )
+
+    assert caught.value.code == expected_code
 
 
 def test_visual_lookup_plan_matches_product_relevance_aggregation_and_fallback():
@@ -1659,8 +1782,16 @@ def test_implementation_manifest_is_exactly_the_static_transitive_closure():
         | set(p1.IMPLEMENTATION_RUNTIME_ASSETS)
     )
     assert {
+        "config/document_local_source_contracts_v1.yaml",
         "config/evidence_coverage_facets_v5.yaml",
         "config/retrieval_facets_v4.yaml",
+        "data/catalog/products.jsonl",
+        "data/catalog/aliases.jsonl",
+        "data/catalog/umbrellas.jsonl",
+        "data/catalog/homonyms.jsonl",
+        "data/catalog/relations.jsonl",
+        "data/catalog/doc_map.jsonl",
+        "data/catalog/docrel.jsonl",
         "supabase/migrations/20260722013000_s277_document_revision_lineage_snapshot_v2.sql",
         "supabase/migrations/20260722014500_s277_p1_document_local_snapshot_v2_acl.sql",
     } == set(p1.IMPLEMENTATION_RUNTIME_ASSETS)

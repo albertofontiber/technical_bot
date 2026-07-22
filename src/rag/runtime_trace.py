@@ -24,6 +24,9 @@ _DOCUMENT_LOCAL_LANE_STATUSES = frozenset(
     {
         "selected",
         "no_validated_structural_anchor",
+        "unverified_document_lineage",
+        "ambiguous_document_identity",
+        "lineage_identity_drift",
         "source_scope_overflow",
         "no_bounded_query_plan",
         "invalid_anchor_scope",
@@ -50,6 +53,7 @@ _DOCUMENT_LOCAL_LANE_STATUSES = frozenset(
         "winner_scope_mismatch",
         "skipped_no_append_capacity",
         "skipped_no_served_structural_anchor",
+        "skipped_no_exact_blob_anchor",
         "error",
     }
 )
@@ -102,6 +106,17 @@ _ALLOWED_MP_REASONS = frozenset({"identity_unresolved"})
 _ALLOWED_RENDER_STATUSES = frozenset(
     {"html", "plain_fallback", "empty_answer_fallback"}
 )
+_DOCUMENT_LOCAL_SEED_ROUTE_MAP = {
+    "governed_source_contract": "governed",
+    "protected_rerank_prefix": "prefix",
+    "served_structural_append": "structural",
+}
+_ALLOWED_DOCUMENT_LOCAL_SEED_ROUTES = frozenset(
+    {"none", "governed", "prefix", "structural", "mixed"}
+)
+_ALLOWED_DOCUMENT_LOCAL_SATISFACTION_ROUTES = frozenset(
+    {"none", "coverage_append", "already_served"}
+)
 
 # Used only by tests/audits; no value from these fields is ever copied.
 SENSITIVE_RAW_KEYS = frozenset(
@@ -149,6 +164,25 @@ def _selected_count(lane_trace: Mapping[str, Any]) -> int:
     return 0
 
 
+def _document_local_seed_route(lane_trace: Mapping[str, Any]) -> str:
+    sources = lane_trace.get("seed_sources")
+    if not isinstance(sources, Mapping):
+        return "none"
+    routes = {
+        _DOCUMENT_LOCAL_SEED_ROUTE_MAP[key]
+        for key, value in sources.items()
+        if key in _DOCUMENT_LOCAL_SEED_ROUTE_MAP
+        and isinstance(value, int)
+        and not isinstance(value, bool)
+        and value > 0
+    }
+    if not routes:
+        return "none"
+    if len(routes) > 1:
+        return "mixed"
+    return next(iter(routes))
+
+
 def _lane_outcomes(raw: Mapping[str, Any]) -> list[dict[str, Any]]:
     outcomes: list[dict[str, Any]] = []
     lanes = raw.get("lanes")
@@ -169,6 +203,23 @@ def _lane_outcomes(raw: Mapping[str, Any]) -> list[dict[str, Any]]:
         }
         if item.get("error_type"):
             outcome["error_type"] = _safe_error_type(item.get("error_type"))
+        if lane == "document_local_content_coverage_v1":
+            outcome.update(
+                {
+                    "seed_route": _document_local_seed_route(item),
+                    "seed_scopes": _bounded_int(
+                        item.get("seed_scope_count"), maximum=2
+                    ),
+                    "seed_scopes_truncated": bool(
+                        item.get("seed_scopes_truncated")
+                    ),
+                    "satisfaction_route": _safe_enum(
+                        item.get("satisfaction_route"),
+                        _ALLOWED_DOCUMENT_LOCAL_SATISFACTION_ROUTES,
+                        default="none",
+                    ),
+                }
+            )
         outcomes.append(outcome)
     return outcomes
 
@@ -395,7 +446,19 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
     if not isinstance(outcomes, list) or len(outcomes) > _MAX_LANE_OUTCOMES:
         return None
     for outcome in outcomes:
-        if not exact_keys(outcome, {"lane", "status", "selected_rows"}, {"error_type"}):
+        base_keys = {"lane", "status", "selected_rows"}
+        document_local_keys = {
+            "seed_route",
+            "seed_scopes",
+            "seed_scopes_truncated",
+            "satisfaction_route",
+        }
+        optional_keys = {"error_type"}
+        if outcome.get("lane") == "document_local_content_coverage_v1":
+            required_keys = base_keys | document_local_keys
+        else:
+            required_keys = base_keys
+        if not exact_keys(outcome, required_keys, optional_keys):
             return None
         if (
             outcome["lane"] not in (_ALLOWED_LANES | {"unknown_lane"})
@@ -405,6 +468,14 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
                 "error_type" in outcome
                 and outcome["error_type"] not in (_ALLOWED_ERROR_TYPES | {"OtherError"})
             )
+        ):
+            return None
+        if outcome["lane"] == "document_local_content_coverage_v1" and (
+            outcome["seed_route"] not in _ALLOWED_DOCUMENT_LOCAL_SEED_ROUTES
+            or not safe_int(outcome["seed_scopes"], 2)
+            or type(outcome["seed_scopes_truncated"]) is not bool
+            or outcome["satisfaction_route"]
+            not in _ALLOWED_DOCUMENT_LOCAL_SATISFACTION_ROUTES
         ):
             return None
     if "error_type" in coverage and coverage["error_type"] not in (

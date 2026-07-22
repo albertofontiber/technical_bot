@@ -53,6 +53,8 @@ _loaded = False
 _pattern = None                     # regex compilada de términos resolubles
 _cat: "catalog_store.Catalog | None" = None
 _docs_by_id: dict[str, frozenset[str]] = {}   # id canónico -> source_files (doc_map)
+_document_scopes_by_id: dict[str, tuple[dict[str, str], ...]] = {}
+_governed_scope_owners: dict[tuple[str, str], frozenset[str]] = {}
 _catalog_commit: str | None = None
 
 
@@ -138,7 +140,8 @@ def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
 
 
 def _build() -> None:
-    global _loaded, _pattern, _cat, _docs_by_id
+    global _loaded, _pattern, _cat, _docs_by_id, _document_scopes_by_id
+    global _governed_scope_owners
     _loaded = True
     try:
         cat = catalog_store.load()
@@ -147,13 +150,33 @@ def _build() -> None:
         return
     _cat = cat
     docs: dict[str, set[str]] = {}
+    document_scopes: dict[str, dict[tuple[str, str], dict[str, str]]] = {}
+    governed_scope_owners: dict[tuple[str, str], set[str]] = {}
     for dm in cat.doc_map:
         src = dm.get("source_file") or ""
-        if not src:
+        document_id = str(dm.get("document_id") or "")
+        if not src or not document_id:
             continue
         for e in dm.get("entries") or []:
-            docs.setdefault(cat.follow_redirect(e["id"]), set()).add(src)
+            product_id = cat.follow_redirect(e["id"])
+            docs.setdefault(product_id, set()).add(src)
+            document_scopes.setdefault(product_id, {})[(document_id, src)] = {
+                "document_id": document_id,
+                "source_file": src,
+            }
+            if e.get("role") == "primary" and e.get("scope") == "doc":
+                governed_scope_owners.setdefault((document_id, src), set()).add(
+                    product_id
+                )
     _docs_by_id = {k: frozenset(v) for k, v in docs.items()}
+    _document_scopes_by_id = {
+        product_id: tuple(scopes[key] for key in sorted(scopes))
+        for product_id, scopes in document_scopes.items()
+    }
+    _governed_scope_owners = {
+        scope: frozenset(owners)
+        for scope, owners in governed_scope_owners.items()
+    }
 
     import re
     cores = []
@@ -193,16 +216,19 @@ def detect(query: str) -> list[str]:
 def resolve_query(query: str) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
-     allowed_sources}. expand=False (clarify/candidate/unknown) NO aporta expansión ni
-    allowed_sources — el contrato `expand` del resolve() se respeta literalmente."""
+     allowed_sources, resolved_documents[{document_id, source_file}]}.
+    expand=False (clarify/candidate/unknown) NO aporta expansión, allowed_sources ni
+    documentos — el contrato `expand` del resolve() se respeta literalmente."""
     _ensure()
     detected = detect(query)
     records, add_models, drop_tokens, source_groups = [], [], [], []
+    resolved_documents: list[dict[str, str]] = []
+    seen_documents: set[tuple[str, str]] = set()
     allowed: set[str] = set()
     if _cat is None:
         return {"detected": detected, "records": [], "add_models": [],
                 "drop_tokens": [], "allowed_sources": frozenset(),
-                "source_groups": []}
+                "source_groups": [], "resolved_documents": []}
     for tok in detected:
         r = _cat.resolve(tok)
         if r is None:
@@ -220,6 +246,11 @@ def resolve_query(query: str) -> dict:
                 product_sources = _docs_by_id.get(pid, frozenset())
                 allowed |= product_sources
                 record_sources |= product_sources
+                for document in _document_scopes_by_id.get(pid, ()):
+                    key = (document["document_id"], document["source_file"])
+                    if key not in seen_documents:
+                        seen_documents.add(key)
+                        resolved_documents.append(dict(document))
             if record_sources:
                 source_groups.append({
                     "token": tok,
@@ -232,7 +263,20 @@ def resolve_query(query: str) -> dict:
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
             "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
-            "source_groups": source_groups}
+            "source_groups": source_groups,
+            "resolved_documents": resolved_documents}
+
+
+def governed_catalog_scope_owners() -> dict[tuple[str, str], frozenset[str]]:
+    """Return exact primary/document catalog scopes and their canonical owners.
+
+    Callers receive a copy so a runtime registry validator cannot mutate the
+    process-wide catalog index.  An unavailable catalog intentionally returns
+    an empty mapping; a non-empty governed registry must then fail closed.
+    """
+
+    _ensure()
+    return dict(_governed_scope_owners)
 
 
 def apply_to_models(models: list[str], res: dict) -> list[str]:

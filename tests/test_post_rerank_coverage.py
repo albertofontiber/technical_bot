@@ -1,5 +1,9 @@
+import json
 from copy import deepcopy
 
+import pytest
+
+from src.rag import post_rerank_coverage as post_rerank
 from src.rag.compatibility_bundle_coverage import (
     LANE as COMPATIBILITY_LANE,
     build_compatibility_bundle,
@@ -10,6 +14,11 @@ from src.rag.document_local_coverage import (
     VALIDATION as DOCUMENT_LOCAL_VALIDATION,
 )
 from src.rag.post_rerank_coverage import (
+    DOCUMENT_LOCAL_PREFIX_ANCHOR,
+    DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR,
+    DOCUMENT_LOCAL_STRUCTURAL_ANCHOR,
+    _document_local_anchor_rows,
+    _document_local_source_contract_rows,
     _has_substantive_coverage_card,
     append_validated_coverage,
     apply_post_rerank_coverage_with_trace,
@@ -29,6 +38,7 @@ _COMPATIBILITY_QUERY = (
     "Tengo una central Detnov CAD-150 y un detector Notifier SDX-751; "
     "¿es compatible / puedo montarlo en su lazo?"
 )
+_RP1R_QUERY = "conectar el RP1r al software de gestion"
 
 
 def _compatibility_bundle():
@@ -104,6 +114,87 @@ def _candidate(row_id="coverage", *, lane=STRUCTURAL_LANE):
     else:
         row["hyq_navigation_validated"] = True
     return row
+
+
+def _with_exact_blob(
+    row: dict,
+    *,
+    document_id: str = "active-document",
+    extraction_sha256: str = "a" * 64,
+    source_file: str = "manual.pdf",
+) -> dict:
+    exact = deepcopy(row)
+    exact.update(
+        {
+            "document_id": document_id,
+            "extraction_sha256": extraction_sha256,
+            "source_file": source_file,
+        }
+    )
+    return exact
+
+
+def _source_contract_row(index: int = 1) -> dict:
+    return {
+        "document_id": f"00000000-0000-4000-8000-{index:012d}",
+        "extraction_sha256": f"{index:064x}",
+        "source_file": f"manual-{index}.pdf",
+        "document_family": f"manual family {index}",
+        "language": "es",
+        "doc_type": "usuario",
+        "manufacturer": "Fabricante",
+        "product_model": f"Panel-{index}",
+    }
+
+
+def _install_source_contract_registry(
+    monkeypatch,
+    tmp_path,
+    *,
+    contracts: list[dict],
+    resolved_documents: list[dict] | None = None,
+    scope_owners: dict[tuple[str, str], frozenset[str]] | None = None,
+    schema: str = "document_local_source_contracts_v1",
+    max_scopes_per_query: int = 2,
+):
+    registry = tmp_path / "document_local_source_contracts.yaml"
+    registry.write_text(
+        json.dumps(
+            {
+                "schema": schema,
+                "max_scopes_per_query": max_scopes_per_query,
+                "contracts": contracts,
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        post_rerank,
+        "DOCUMENT_LOCAL_SOURCE_CONTRACT_CONFIG",
+        registry,
+    )
+    monkeypatch.setattr(
+        post_rerank,
+        "resolve_query",
+        lambda _query: {
+            "resolved_documents": (
+                resolved_documents if resolved_documents is not None else []
+            )
+        },
+    )
+    if scope_owners is None:
+        scope_owners = {
+            (contract["document_id"], contract["source_file"]): frozenset(
+                {"test:product"}
+            )
+            for contract in contracts
+        }
+    monkeypatch.setattr(
+        post_rerank,
+        "governed_catalog_scope_owners",
+        lambda: dict(scope_owners),
+    )
+    return registry
 
 
 def _document_local_candidate(row_id="document-local"):
@@ -187,9 +278,104 @@ def test_master_off_is_bit_inert_and_does_not_call_lanes():
     assert trace["status"] == "disabled_or_not_applicable"
 
 
+def test_document_local_flag_off_does_not_touch_resolver_or_registry(monkeypatch):
+    reranked = [{"id": "base", "content": "base"}]
+
+    class ExplodingRegistry:
+        def read_text(self, *_args, **_kwargs):
+            raise AssertionError("disabled document-local read its registry")
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("disabled document-local touched its resolver or I/O")
+
+    monkeypatch.setattr(
+        post_rerank,
+        "DOCUMENT_LOCAL_SOURCE_CONTRACT_CONFIG",
+        ExplodingRegistry(),
+    )
+    monkeypatch.setattr(post_rerank, "resolve_query", forbidden)
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "RP1r",
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=False,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=forbidden,
+    )
+
+    assert output is reranked
+    assert trace["status"] == "disabled_or_not_applicable"
+    assert trace["lanes"] == []
+
+
+def test_rp1r_governed_source_contract_generates_one_exact_blob_anchor():
+    anchors, overflow = _document_local_source_contract_rows(_RP1R_QUERY)
+
+    assert overflow is False
+    assert len(anchors) == 1
+    assert anchors[0]["document_id"] == "494e71be-873b-48c1-adb3-a21a122da111"
+    assert anchors[0]["source_file"] == "HLSI-MN-103_RP1r-Supra_lr"
+    assert anchors[0]["extraction_sha256"] == (
+        "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573"
+    )
+    assert anchors[0]["document_local_anchor_route"] == (
+        DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+    )
+
+
+def test_document_local_governed_contract_bypasses_structural_prerequisite():
+    reranked = [{"id": "base", "content": "base"}]
+    document_local = _document_local_candidate()
+    observed = {}
+
+    def document_local_collector(_query, anchors, covered):
+        observed["anchors"] = deepcopy(anchors)
+        observed["covered"] = [row["id"] for row in covered]
+        return [document_local], {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "selected",
+            "selected_ids": [document_local["id"]],
+            "http_requests": 1,
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        _RP1R_QUERY,
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=document_local_collector,
+    )
+
+    assert [row["id"] for row in output] == ["base", "document-local"]
+    assert observed["covered"] == ["base"]
+    assert len(observed["anchors"]) == 1
+    assert observed["anchors"][0]["document_local_anchor_route"] == (
+        DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+    )
+    assert observed["anchors"][0]["document_id"] == (
+        "494e71be-873b-48c1-adb3-a21a122da111"
+    )
+    assert trace["protected_prefix_equal"] is True
+    assert [lane["lane"] for lane in trace["lanes"]] == [DOCUMENT_LOCAL_LANE]
+
+
 def test_document_local_lane_runs_only_after_a_served_structural_anchor():
     reranked = [{"id": "base", "content": "base"}]
-    structural = _candidate("anchor")
+    structural = _with_exact_blob(_candidate("anchor"))
     document_local = _document_local_candidate()
     observed = {}
 
@@ -198,6 +384,9 @@ def test_document_local_lane_runs_only_after_a_served_structural_anchor():
 
     def document_local_collector(_query, anchors, covered):
         observed["anchors"] = [row["id"] for row in anchors]
+        observed["anchor_routes"] = [
+            row["document_local_anchor_route"] for row in anchors
+        ]
         observed["covered"] = [row["id"] for row in covered]
         return [document_local], {
             "lane": DOCUMENT_LOCAL_LANE,
@@ -226,6 +415,7 @@ def test_document_local_lane_runs_only_after_a_served_structural_anchor():
     assert [row["id"] for row in output] == ["base", "anchor", "document-local"]
     assert observed == {
         "anchors": ["anchor"],
+        "anchor_routes": [DOCUMENT_LOCAL_STRUCTURAL_ANCHOR],
         "covered": ["base", "anchor"],
     }
     assert trace["protected_prefix_equal"] is True
@@ -236,13 +426,19 @@ def test_document_local_lane_runs_only_after_a_served_structural_anchor():
 
 
 def test_document_local_already_served_winner_preserves_prefix_without_duplicate():
-    reranked = [{"id": "already-served", "content": "target"}]
+    reranked = [
+        _with_exact_blob({"id": "already-served", "content": "target"})
+    ]
     structural = _candidate("anchor")
 
     def structural_collector(_query, _reranked):
         return [structural], {"lane": STRUCTURAL_LANE, "status": "selected"}
 
-    def document_local_collector(_query, _anchors, covered):
+    def document_local_collector(_query, anchors, covered):
+        assert [row["id"] for row in anchors] == ["already-served"]
+        assert anchors[0]["document_local_anchor_route"] == (
+            DOCUMENT_LOCAL_PREFIX_ANCHOR
+        )
         assert [row["id"] for row in covered] == ["already-served", "anchor"]
         return [], {
             "lane": DOCUMENT_LOCAL_LANE,
@@ -277,14 +473,147 @@ def test_document_local_already_served_winner_preserves_prefix_without_duplicate
     assert "already-served" not in trace["appended_ids"]
 
 
-def test_document_local_lane_skips_io_without_a_served_structural_anchor():
+def test_document_local_anchor_fallback_keeps_prefix_order_dedupe_and_cap_two():
+    reranked = [
+        _with_exact_blob(
+            {"id": "rank-1-invalid", "content": "invalid"},
+            extraction_sha256="not-a-sha",
+        ),
+        _with_exact_blob(
+            {"id": "rank-2", "content": "first"},
+            document_id="legacy-document",
+            extraction_sha256="b" * 64,
+            source_file="legacy.pdf",
+        ),
+        _with_exact_blob(
+            {"id": "rank-3", "content": "second"},
+            document_id="governed-document",
+            extraction_sha256="c" * 64,
+            source_file="governed.pdf",
+        ),
+        _with_exact_blob(
+            {"id": "rank-10-duplicate", "content": "duplicate"},
+            document_id="governed-document",
+            extraction_sha256="c" * 64,
+            source_file="governed.pdf",
+        ),
+        _with_exact_blob(
+            {"id": "rank-11-over-cap", "content": "third"},
+            document_id="third-document",
+            extraction_sha256="d" * 64,
+            source_file="third.pdf",
+        ),
+    ]
+    original_prefix = deepcopy(reranked)
+    structural = [
+        _with_exact_blob(
+            _candidate("structural-over-cap"),
+            document_id="structural-document",
+            extraction_sha256="e" * 64,
+            source_file="structural.pdf",
+        )
+    ]
+
+    anchors = _document_local_anchor_rows(reranked, structural)
+
+    assert [row["id"] for row in anchors] == ["rank-2", "rank-3"]
+    assert [row["document_local_anchor_route"] for row in anchors] == [
+        DOCUMENT_LOCAL_PREFIX_ANCHOR,
+        DOCUMENT_LOCAL_PREFIX_ANCHOR,
+    ]
+    assert all(row["document_local_anchor_scopes_truncated"] for row in anchors)
+    assert reranked == original_prefix
+    assert all("document_local_anchor_route" not in row for row in reranked)
+
+
+def test_document_local_anchor_rows_fill_remaining_slot_from_structural_append():
+    prefix = _with_exact_blob(
+        {"id": "prefix", "content": "prefix"},
+        document_id="prefix-document",
+        extraction_sha256="f" * 64,
+        source_file="prefix.pdf",
+    )
+    duplicate = _with_exact_blob(
+        _candidate("structural-duplicate"),
+        document_id="prefix-document",
+        extraction_sha256="f" * 64,
+        source_file="prefix.pdf",
+    )
+    structural_fill = _with_exact_blob(
+        _candidate("structural-fill"),
+        document_id="structural-document",
+        extraction_sha256="1" * 64,
+        source_file="structural.pdf",
+    )
+
+    anchors = _document_local_anchor_rows(
+        [prefix],
+        [duplicate, structural_fill],
+    )
+
+    assert [row["id"] for row in anchors] == ["prefix", "structural-fill"]
+    assert [row["document_local_anchor_route"] for row in anchors] == [
+        DOCUMENT_LOCAL_PREFIX_ANCHOR,
+        DOCUMENT_LOCAL_STRUCTURAL_ANCHOR,
+    ]
+    assert not any(row["document_local_anchor_scopes_truncated"] for row in anchors)
+
+
+def test_document_local_governed_contract_is_exclusive_of_prefix_and_structural():
+    prefix = _with_exact_blob(
+        {"id": "prefix", "content": "prefix"},
+        document_id="prefix-document",
+        extraction_sha256="a" * 64,
+        source_file="prefix.pdf",
+    )
+    structural = _with_exact_blob(
+        _candidate("structural"),
+        document_id="structural-document",
+        extraction_sha256="b" * 64,
+        source_file="structural.pdf",
+    )
+    source_contract = _source_contract_row(3)
+
+    anchors = _document_local_anchor_rows(
+        [prefix],
+        [structural],
+        [source_contract],
+    )
+
+    assert [row["document_id"] for row in anchors] == [
+        source_contract["document_id"]
+    ]
+    assert [row["document_local_anchor_route"] for row in anchors] == [
+        DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+    ]
+    assert prefix["document_id"] not in {row["document_id"] for row in anchors}
+    assert structural["document_id"] not in {
+        row["document_id"] for row in anchors
+    }
+
+
+def test_non_target_query_without_governed_resolution_skips_contract_and_io(
+    monkeypatch,
+    tmp_path,
+):
     reranked = [{"id": "base", "content": "base"}]
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=[_source_contract_row()],
+        resolved_documents=[],
+    )
+    anchors, overflow = _document_local_source_contract_rows(
+        "pregunta no target"
+    )
+    assert anchors == []
+    assert overflow is False
 
     def forbidden(*_args, **_kwargs):
         raise AssertionError("document-local I/O ran without an anchor")
 
     output, trace = apply_post_rerank_coverage_with_trace(
-        "pregunta",
+        "pregunta no target",
         reranked,
         enabled=True,
         structural_enabled=False,
@@ -306,6 +635,240 @@ def test_document_local_lane_skips_io_without_a_served_structural_anchor():
             "http_requests": 0,
             "model_calls": 0,
             "database_writes": 0,
+        }
+    ]
+
+
+@pytest.mark.parametrize("registry_case", ["invalid", "ambiguous"])
+def test_document_local_invalid_or_ambiguous_registry_fails_closed(
+    monkeypatch,
+    tmp_path,
+    registry_case,
+):
+    contract = _source_contract_row()
+    contracts = [contract]
+    schema = "invalid_schema"
+    if registry_case == "ambiguous":
+        conflicting_contract = deepcopy(contract)
+        conflicting_contract["extraction_sha256"] = "f" * 64
+        contracts = [contract, conflicting_contract]
+        schema = "document_local_source_contracts_v1"
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=contracts,
+        resolved_documents=[
+            {
+                "document_id": contract["document_id"],
+                "source_file": contract["source_file"],
+            }
+        ],
+        schema=schema,
+    )
+    reranked = [{"id": "base", "content": "base"}]
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("invalid registry reached document-local I/O")
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "Panel-1",
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=forbidden,
+    )
+
+    assert output is reranked
+    assert trace["lanes"] == [
+        {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "error",
+            "error_type": "RuntimeError",
+        }
+    ]
+
+
+def test_document_local_source_contract_orphan_scope_fails_before_resolution(
+    monkeypatch,
+    tmp_path,
+):
+    contract = _source_contract_row()
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=[contract],
+        resolved_documents=[],
+        scope_owners={},
+    )
+
+    def forbidden(_query):
+        raise AssertionError("orphan registry reached query resolution")
+
+    monkeypatch.setattr(post_rerank, "resolve_query", forbidden)
+
+    with pytest.raises(
+        RuntimeError,
+        match="orphan document-local source-contract scope",
+    ):
+        _document_local_source_contract_rows("Panel-1")
+
+
+def test_document_local_registry_rejects_three_contracts_for_same_owner(
+    monkeypatch,
+    tmp_path,
+):
+    contracts = [_source_contract_row(index) for index in range(1, 4)]
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=contracts,
+        resolved_documents=[],
+    )
+
+    def forbidden(_query):
+        raise AssertionError("product-overflow registry reached query resolution")
+
+    monkeypatch.setattr(post_rerank, "resolve_query", forbidden)
+
+    with pytest.raises(
+        RuntimeError,
+        match="document-local source-contract product overflow",
+    ):
+        _document_local_source_contract_rows("Paneles")
+
+
+def test_document_local_source_contract_limit_accepts_two_before_io(
+    monkeypatch,
+    tmp_path,
+):
+    contracts = [_source_contract_row(index) for index in range(1, 3)]
+    resolved_documents = [
+        {
+            "document_id": contract["document_id"],
+            "source_file": contract["source_file"],
+        }
+        for contract in contracts
+    ]
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=contracts,
+        resolved_documents=resolved_documents,
+    )
+    anchors, overflow = _document_local_source_contract_rows("Paneles")
+    assert overflow is False
+    assert [row["document_id"] for row in anchors] == [
+        contract["document_id"] for contract in contracts
+    ]
+    assert all(
+        row["document_local_anchor_route"]
+        == DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+        for row in anchors
+    )
+    observed = {}
+
+    def document_local_collector(_query, received_anchors, covered):
+        observed["document_ids"] = [
+            row["document_id"] for row in received_anchors
+        ]
+        observed["covered"] = [row["id"] for row in covered]
+        return [], {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "no_validated_source_span",
+            "selected_ids": [],
+            "http_requests": 1,
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+
+    reranked = [{"id": "base", "content": "base"}]
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "Paneles",
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=document_local_collector,
+    )
+
+    assert output is reranked
+    assert observed == {
+        "document_ids": [contract["document_id"] for contract in contracts],
+        "covered": ["base"],
+    }
+    assert trace["lanes"][0]["http_requests"] == 1
+
+
+def test_document_local_source_contract_overflow_fails_closed_before_io(
+    monkeypatch,
+    tmp_path,
+):
+    contracts = [_source_contract_row(index) for index in range(1, 4)]
+    resolved_documents = [
+        {
+            "document_id": contract["document_id"],
+            "source_file": contract["source_file"],
+        }
+        for contract in contracts
+    ]
+    scope_owners = {
+        (contract["document_id"], contract["source_file"]): frozenset(
+            {f"test:product:{index}"}
+        )
+        for index, contract in enumerate(contracts, 1)
+    }
+    _install_source_contract_registry(
+        monkeypatch,
+        tmp_path,
+        contracts=contracts,
+        resolved_documents=resolved_documents,
+        scope_owners=scope_owners,
+    )
+    anchors, overflow = _document_local_source_contract_rows("Paneles")
+    assert anchors == []
+    assert overflow is True
+    reranked = [{"id": "base", "content": "base"}]
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("overflow reached document-local I/O")
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        "Paneles",
+        reranked,
+        enabled=True,
+        structural_enabled=False,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        document_local_enabled=True,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        document_local_collector=forbidden,
+    )
+
+    assert output is reranked
+    assert trace["lanes"] == [
+        {
+            "lane": DOCUMENT_LOCAL_LANE,
+            "status": "source_scope_overflow",
+            "selected_ids": [],
+            "satisfied_ids": [],
+            "satisfaction_route": None,
+            "http_requests": 0,
+            "model_calls": 0,
+            "database_writes": 0,
+            "overflow": True,
         }
     ]
 

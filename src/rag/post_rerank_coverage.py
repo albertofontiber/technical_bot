@@ -57,6 +57,7 @@ from .doc_scoped_hyq_coverage import (
     LANE as HYQ_LANE,
     collect_document_scoped_hyq,
 )
+from .catalog_resolver import governed_catalog_scope_owners, resolve_query
 from ..release_profiles import DOCUMENT_LOCAL_LANE, DOCUMENT_LOCAL_VALIDATION
 from .structural_neighbor_coverage import (
     CASCADED_CONFIG as STRUCTURAL_CASCADE_CONFIG,
@@ -103,6 +104,30 @@ TABLE_PREAMBLE_CONFIG = ROOT / "config/table_preamble_closure_v3.yaml"
 MAX_LOGICAL_TABLE_ROW_CHARS = 1400
 MAX_EXPANDED_EXCERPT_CHARS = 1800
 DOCUMENT_LOCAL_RECORD_KIND = "markdown_pipe_row_v1"
+DOCUMENT_LOCAL_ANCHOR_LIMIT = 2
+DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR = "governed_source_contract"
+DOCUMENT_LOCAL_PREFIX_ANCHOR = "protected_rerank_prefix"
+DOCUMENT_LOCAL_STRUCTURAL_ANCHOR = "served_structural_append"
+DOCUMENT_LOCAL_SOURCE_CONTRACT_CONFIG = (
+    ROOT / "config/document_local_source_contracts_v1.yaml"
+)
+_DOCUMENT_LOCAL_SOURCE_CONTRACT_KEYS = frozenset(
+    {
+        "document_id",
+        "extraction_sha256",
+        "source_file",
+        "document_family",
+        "language",
+        "doc_type",
+        "manufacturer",
+        "product_model",
+    }
+)
+_DOCUMENT_LOCAL_UUID = re.compile(
+    r"[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-"
+    r"[89ab][0-9a-f]{3}-[0-9a-f]{12}",
+    re.IGNORECASE,
+)
 _DOCUMENT_LOCAL_IDENTITY_FIELDS = (
     "document_family",
     "language",
@@ -919,6 +944,151 @@ def collect_cascaded_structural_coverage(
         "non_substantive_selected_rejected": non_substantive_rejected,
         "selector_reason": selection_trace.get("reason"),
     }
+
+
+def _document_local_source_contract_rows(
+    query: str,
+) -> tuple[list[dict[str, Any]], bool]:
+    """Resolve query identity to versioned exact-blob source hints.
+
+    The repository catalog supplies the governed product-to-document mapping;
+    this small registry supplies the corresponding active blob identity.  Both
+    are hints only: the atomic RPC independently revalidates the live lineage,
+    active revision and exact blob before any chunk can be selected.
+    """
+
+    payload = yaml.safe_load(
+        DOCUMENT_LOCAL_SOURCE_CONTRACT_CONFIG.read_text(encoding="utf-8")
+    )
+    if (
+        not isinstance(payload, dict)
+        or set(payload) != {"schema", "max_scopes_per_query", "contracts"}
+        or payload.get("schema") != "document_local_source_contracts_v1"
+        or payload.get("max_scopes_per_query") != DOCUMENT_LOCAL_ANCHOR_LIMIT
+        or not isinstance(payload.get("contracts"), list)
+        or len(payload["contracts"]) > 256
+    ):
+        raise RuntimeError("invalid document-local source-contract registry")
+
+    by_scope: dict[tuple[str, str], dict[str, Any]] = {}
+    for raw in payload["contracts"]:
+        if (
+            not isinstance(raw, dict)
+            or set(raw) != _DOCUMENT_LOCAL_SOURCE_CONTRACT_KEYS
+        ):
+            raise RuntimeError("invalid document-local source-contract row")
+        row = {key: str(raw.get(key) or "").strip() for key in raw}
+        document_id = row["document_id"]
+        extraction_sha256 = row["extraction_sha256"].casefold()
+        source_file = row["source_file"]
+        if (
+            _DOCUMENT_LOCAL_UUID.fullmatch(document_id) is None
+            or re.fullmatch(r"[0-9a-f]{64}", extraction_sha256) is None
+            or any(not row[key] for key in _DOCUMENT_LOCAL_SOURCE_CONTRACT_KEYS)
+            or row["language"].casefold() != "es"
+        ):
+            raise RuntimeError("invalid document-local source-contract identity")
+        scope = (document_id, source_file)
+        if scope in by_scope:
+            raise RuntimeError("duplicate document-local source-contract scope")
+        row["extraction_sha256"] = extraction_sha256
+        by_scope[scope] = row
+
+    scope_owners = governed_catalog_scope_owners()
+    if set(by_scope) - set(scope_owners):
+        raise RuntimeError("orphan document-local source-contract scope")
+    governed_scopes_by_product: dict[str, set[tuple[str, str]]] = {}
+    for scope in by_scope:
+        for product_id in scope_owners[scope]:
+            governed_scopes_by_product.setdefault(product_id, set()).add(scope)
+    if any(
+        len(scopes) > DOCUMENT_LOCAL_ANCHOR_LIMIT
+        for scopes in governed_scopes_by_product.values()
+    ):
+        raise RuntimeError("document-local source-contract product overflow")
+
+    resolution = resolve_query(query)
+    resolved_documents = resolution.get("resolved_documents") or []
+    if not isinstance(resolved_documents, list):
+        raise RuntimeError("invalid catalog document resolution")
+    selected: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for document in resolved_documents:
+        if not isinstance(document, dict):
+            raise RuntimeError("invalid catalog document scope")
+        scope = (
+            str(document.get("document_id") or ""),
+            str(document.get("source_file") or ""),
+        )
+        if scope in seen:
+            continue
+        seen.add(scope)
+        contract = by_scope.get(scope)
+        if contract is not None:
+            selected.append(
+                {
+                    **contract,
+                    "document_local_anchor_route": (
+                        DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+                    ),
+                }
+            )
+    overflow = len(selected) > DOCUMENT_LOCAL_ANCHOR_LIMIT
+    return ([] if overflow else selected), overflow
+
+
+def _document_local_anchor_rows(
+    reranked: list[dict[str, Any]],
+    structural_anchors: list[dict[str, Any]],
+    source_contract_anchors: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """Choose bounded exact-blob seeds; the RPC remains the authority.
+
+    A governed source contract, when present, is exclusive: silently mixing it
+    with a different retrieval scope would weaken the catalog decision.  With
+    no contract, protected-prefix scopes come first and served structural
+    recoveries may fill remaining slots.  Every row is only a hint; the atomic
+    RPC remains the sole lifecycle and exact-blob authority.
+    """
+
+    selected: list[dict[str, Any]] = []
+    seen_scopes: set[tuple[str, str, str]] = set()
+    truncated = False
+    source_contract_anchors = source_contract_anchors or []
+    routed_rows = (
+        ((DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR, source_contract_anchors),)
+        if source_contract_anchors
+        else (
+            (DOCUMENT_LOCAL_PREFIX_ANCHOR, reranked),
+            (DOCUMENT_LOCAL_STRUCTURAL_ANCHOR, structural_anchors),
+        )
+    )
+    for route, rows in routed_rows:
+        for row in rows:
+            document_id = str(row.get("document_id") or "")
+            extraction_sha256 = str(row.get("extraction_sha256") or "").casefold()
+            source_file = str(row.get("source_file") or "").strip()
+            if (
+                not document_id
+                or re.fullmatch(r"[0-9a-f]{64}", extraction_sha256) is None
+                or not source_file
+            ):
+                continue
+            scope = (document_id, extraction_sha256, source_file)
+            if scope in seen_scopes:
+                continue
+            seen_scopes.add(scope)
+            if len(selected) >= DOCUMENT_LOCAL_ANCHOR_LIMIT:
+                truncated = True
+                continue
+            anchor = dict(row)
+            anchor["document_local_anchor_route"] = route
+            selected.append(anchor)
+    for anchor in selected:
+        anchor["document_local_anchor_scopes_truncated"] = truncated
+    return selected
+
+
 def apply_post_rerank_coverage_with_trace(
     query: str,
     reranked: list[dict[str, Any]],
@@ -1043,6 +1213,21 @@ def apply_post_rerank_coverage_with_trace(
                 "model_calls": 0,
                 "database_writes": 0,
             }
+        source_contract_anchors, source_contract_overflow = (
+            _document_local_source_contract_rows(query)
+        )
+        if source_contract_overflow:
+            return [], {
+                "lane": DOCUMENT_LOCAL_LANE,
+                "status": "source_scope_overflow",
+                "selected_ids": [],
+                "satisfied_ids": [],
+                "satisfaction_route": None,
+                "http_requests": 0,
+                "model_calls": 0,
+                "database_writes": 0,
+                "overflow": True,
+            }
         served_structural_ids = {
             str(row.get("id") or "")
             for row in already_appendable[len(reranked) :]
@@ -1054,7 +1239,7 @@ def apply_post_rerank_coverage_with_trace(
             if row.get("retrieval_lane") == STRUCTURAL_LANE
             and str(row.get("id") or "") in served_structural_ids
         ]
-        if not structural_anchors:
+        if not source_contract_anchors and not structural_anchors:
             return [], {
                 "lane": DOCUMENT_LOCAL_LANE,
                 "status": "skipped_no_served_structural_anchor",
@@ -1063,9 +1248,23 @@ def apply_post_rerank_coverage_with_trace(
                 "model_calls": 0,
                 "database_writes": 0,
             }
+        document_local_anchors = _document_local_anchor_rows(
+            reranked,
+            structural_anchors,
+            source_contract_anchors,
+        )
+        if not document_local_anchors:
+            return [], {
+                "lane": DOCUMENT_LOCAL_LANE,
+                "status": "skipped_no_exact_blob_anchor",
+                "selected_ids": [],
+                "http_requests": 0,
+                "model_calls": 0,
+                "database_writes": 0,
+            }
         return document_local_collector(
             query,
-            structural_anchors,
+            document_local_anchors,
             already_appendable,
         )
 

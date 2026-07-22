@@ -326,6 +326,10 @@ def _document_local_v2_runtime(monkeypatch) -> product.ProductRuntime:
                     "satisfied_ids": [document_local["id"]],
                     "satisfaction_route": "coverage_append",
                     "http_requests": 1,
+                    "seed_sources": {"governed_source_contract": 1},
+                    "seed_scope_count": 1,
+                    "seed_scopes_sha256": "c" * 64,
+                    "seed_scopes_truncated": False,
                 },
             ],
             "appended_ids": [candidates[0]["id"], document_local["id"]],
@@ -383,6 +387,10 @@ def _document_local_contract_inputs(*, status: str = "selected"):
         "satisfied_ids": satisfied_ids,
         "satisfaction_route": satisfaction_route,
         "http_requests": 1,
+        "seed_sources": {"governed_source_contract": 1},
+        "seed_scope_count": 1,
+        "seed_scopes_sha256": "c" * 64,
+        "seed_scopes_truncated": False,
     }
     trace = {
         "lanes": [lane],
@@ -460,7 +468,31 @@ def test_hp011_v2_accepts_authoritative_winner_already_served_once(replica_key):
             "NO_GO_PRODUCT_DOCUMENT_LOCAL_SATISFIED_NOT_SERVED",
         ),
         ("satisfaction_route_mismatch", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TRACE"),
-        ("hp011_not_selected", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET"),
+        ("hp011_missing_get", "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_GET"),
+        (
+            "hp011_not_selected",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SATISFACTION",
+        ),
+        (
+            "missing_seed_authority",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "seed_authority_count_mismatch",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "seed_authority_invalid_hash",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "seed_authority_mixed_governed_route",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_SEED_AUTHORITY",
+        ),
+        (
+            "hp011_wrong_seed_route",
+            "NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET_SEED_ROUTE",
+        ),
     ],
 )
 def test_v2_document_local_contract_fails_closed(mutation, expected_code):
@@ -483,11 +515,35 @@ def test_v2_document_local_contract_fails_closed(mutation, expected_code):
         served = []
     elif mutation == "satisfaction_route_mismatch":
         trace["lanes"][0]["satisfaction_route"] = "already_served"
+    elif mutation == "hp011_missing_get":
+        replica_key = "hp011:r1"
+        trace, served, physical = _document_local_contract_inputs(
+            status="no_query_aligned_candidate"
+        )
+        trace["lanes"][0]["http_requests"] = 0
+        physical = []
     elif mutation == "hp011_not_selected":
         replica_key = "hp011:r1"
         trace, served, physical = _document_local_contract_inputs(
             status="no_query_aligned_candidate"
         )
+    elif mutation == "missing_seed_authority":
+        trace["lanes"][0].pop("seed_sources")
+    elif mutation == "seed_authority_count_mismatch":
+        trace["lanes"][0]["seed_scope_count"] = 2
+    elif mutation == "seed_authority_invalid_hash":
+        trace["lanes"][0]["seed_scopes_sha256"] = "not-a-sha256"
+    elif mutation == "seed_authority_mixed_governed_route":
+        trace["lanes"][0].update(
+            seed_sources={
+                "governed_source_contract": 1,
+                "served_structural_append": 1,
+            },
+            seed_scope_count=2,
+        )
+    elif mutation == "hp011_wrong_seed_route":
+        replica_key = "hp011:r1"
+        trace["lanes"][0]["seed_sources"] = {"served_structural_append": 1}
 
     with pytest.raises(p1.P1Error) as caught:
         product._validated_document_local_coverage_evidence(

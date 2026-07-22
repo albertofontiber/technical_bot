@@ -1,11 +1,12 @@
 """Bounded second-hop recovery inside one authoritative document revision.
 
-The lane starts only from source rows already selected by a validated
-structural-neighbour hop.  One read-only STABLE RPC resolves the complete
-document family, active revision and exact-blob full-text candidates in the
-same PostgreSQL statement snapshot.  The existing retrieval-pool selector
-remains the semantic authority; this module only broadens its candidate set
-inside an already-proven source boundary.
+The lane starts from an exact-blob hint selected by a governed catalog source
+contract or, as a fallback, by the protected-prefix/structural recovery path.
+One read-only STABLE RPC resolves the complete document family, active revision
+and exact-blob full-text candidates in the same PostgreSQL statement snapshot.
+The existing retrieval-pool selector remains the semantic authority; this
+module only broadens its candidate set inside a source boundary revalidated by
+the RPC.
 
 Version 1 is deliberately ES-only because ``chunks_v2.search_vector`` is
 physically built with ``spanish_unaccent``.  Unsupported source scopes are
@@ -102,6 +103,10 @@ def _base_trace(*, anchors: int = 0) -> dict[str, Any]:
         "status": "not_applicable",
         "anchor_rows": anchors,
         "source_scopes_considered": 0,
+        "seed_scope_count": 0,
+        "seed_sources": {},
+        "seed_scopes_sha256": _stable_sha256([]),
+        "seed_scopes_truncated": False,
         "document_rows": 0,
         "authoritative_documents": 0,
         "ambiguous_lineages": 0,
@@ -120,12 +125,21 @@ def _base_trace(*, anchors: int = 0) -> dict[str, Any]:
 
 
 def _anchor_scopes(anchor_rows: list[dict[str, Any]]) -> tuple[list[dict[str, str]], str]:
-    """Extract exact same-blob scopes from validated structural-hop rows."""
+    """Extract exact source hints admitted by the closed anchor-route set."""
     scopes: dict[tuple[str, str, str], dict[str, str]] = {}
     for row in anchor_rows:
-        if (
-            row.get("retrieval_lane") != STRUCTURAL_LANE
-            or row.get("structural_neighbor_validated") is not True
+        anchor_route = row.get("document_local_anchor_route")
+        structural_anchor = (
+            row.get("retrieval_lane") == STRUCTURAL_LANE
+            and row.get("structural_neighbor_validated") is True
+            and anchor_route in {None, "served_structural_append"}
+        )
+        protected_prefix_anchor = anchor_route == "protected_rerank_prefix"
+        source_contract_anchor = anchor_route == "governed_source_contract"
+        if not (
+            structural_anchor
+            or protected_prefix_anchor
+            or source_contract_anchor
         ):
             continue
         document_id = str(row.get("document_id") or "")
@@ -364,6 +378,32 @@ def fetch_document_local_candidates(
     trace = _base_trace(anchors=len(anchor_rows))
     scopes, scope_reason = _anchor_scopes(anchor_rows)
     trace["source_scopes_considered"] = len(scopes)
+    trace["seed_scope_count"] = len(scopes)
+    trace["seed_sources"] = {
+        route: sum(
+            row.get("document_local_anchor_route") == route for row in anchor_rows
+        )
+        for route in (
+            "governed_source_contract",
+            "protected_rerank_prefix",
+            "served_structural_append",
+        )
+        if any(row.get("document_local_anchor_route") == route for row in anchor_rows)
+    }
+    trace["seed_scopes_sha256"] = _stable_sha256(
+        [
+            {
+                "document_id": scope["document_id"],
+                "extraction_sha256": scope["extraction_sha256"],
+                "source_file": scope["source_file"],
+            }
+            for scope in scopes
+        ]
+    )
+    trace["seed_scopes_truncated"] = any(
+        row.get("document_local_anchor_scopes_truncated") is True
+        for row in anchor_rows
+    )
     if scope_reason != "ok":
         trace["status"] = scope_reason
         trace["overflow"] = scope_reason == "source_scope_overflow"

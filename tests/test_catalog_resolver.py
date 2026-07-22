@@ -120,6 +120,21 @@ def test_hp011_rp1r_prefer_supra():
     assert rec["ids"] == ["notifier:rp1r-supra"] and rec["expand"] is True
 
 
+def test_hp011_rp1r_resolves_governed_document_scope():
+    res = R.resolve_query("conectar el RP1r al software de gestión")
+
+    assert {
+        "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+        "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+    } in res["resolved_documents"]
+    assert all(
+        set(document) == {"document_id", "source_file"}
+        and document["document_id"]
+        and document["source_file"]
+        for document in res["resolved_documents"]
+    )
+
+
 def test_apic_clarify_no_expande():
     res = R.resolve_query("tarjeta APIC compatible")
     rec = next(r for r in res["records"] if r["token"] == "apic")

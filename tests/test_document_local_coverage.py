@@ -22,6 +22,7 @@ from src.rag.document_local_coverage import (
     select_document_local_coverage,
 )
 from src.rag.post_rerank_coverage import (
+    DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR,
     append_validated_coverage,
     apply_post_rerank_coverage_with_trace,
     coverage_context_content,
@@ -180,6 +181,16 @@ def _anchor(row_id: str = "anchor") -> dict[str, Any]:
             }
         ],
     }
+
+
+def _source_contract_anchor(
+    row_id: str = "source-contract-anchor",
+) -> dict[str, Any]:
+    row = _anchor(row_id)
+    row.pop("retrieval_lane")
+    row.pop("structural_neighbor_validated")
+    row["document_local_anchor_route"] = DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+    return row
 
 
 def _logical_candidate(
@@ -428,6 +439,69 @@ def test_fetcher_uses_only_get_and_exact_authority_scope(
     assert params["family_limit"] == str(DOCUMENT_ROWS_LIMIT)
     assert params["candidate_limit"] == str(CANDIDATE_LIMIT)
     assert source_row["id"] not in json.dumps(params, sort_keys=True)
+
+
+def test_fetcher_accepts_exact_blob_seed_from_governed_source_contract(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    source_row = _logical_candidate()
+    source_contract_anchor = _source_contract_anchor()
+    client = _GetOnlyClient([_snapshot_payload(candidates=[source_row])])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION,
+        [source_contract_anchor],
+        client=client,
+    )
+
+    assert [row["id"] for row in candidates] == [source_row["id"]]
+    assert authorities == [_authority()]
+    assert trace["status"] == "fetched"
+    assert trace["seed_scope_count"] == 1
+    assert trace["seed_sources"] == {DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR: 1}
+    assert trace["seed_scopes_truncated"] is False
+    assert trace["http_requests"] == len(client.calls) == 1
+    assert json.loads(client.calls[0][1]["params"]["anchor_scopes"]) == [
+        {
+            "document_id": ACTIVE_DOCUMENT,
+            "extraction_sha256": ACTIVE_SHA,
+            "source_file": SOURCE_FILE,
+        }
+    ]
+
+
+@pytest.mark.parametrize(
+    "reason",
+    [
+        "unverified_document_lineage",
+        "active_revision_not_bound_to_anchor_blob",
+        "ambiguous_active_revision",
+    ],
+)
+def test_governed_source_contract_seed_fails_closed_on_rpc_authority_rejection(
+    monkeypatch: pytest.MonkeyPatch,
+    reason: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    payload = _snapshot_payload(
+        document_rows=[],
+        authority=False,
+        rejections=[{"scope_rank": 1, "reason": reason}],
+    )
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION,
+        [_source_contract_anchor()],
+        client=client,
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == reason
+    assert trace["authority_rejections"] == [reason]
+    assert trace["seed_sources"] == {DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR: 1}
+    assert trace["http_requests"] == len(client.calls) == 1
 
 
 def test_fetcher_enforces_one_global_http_request_cap(
