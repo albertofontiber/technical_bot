@@ -61,14 +61,18 @@ baseline inmutable; sin gate de receipts ni P1 ceremonial. **HECHO s278 (DEC-149
 dúo-hardened (`evals/s278_vnext_design_v2.md`) · implementación completa offline — guard+quarantine
 identidad, order/autoridad `content_search`, perfil `coverage_c1_v3`, reserva hp002, **Evidence
 Contract v1 quirúrgico** (10/10 réplicas objetivo, colateral 0, dev-check 14/15; techo postgen
-real 15/29), seals re-anclados (suite **2907/0**), migración RLS PREPARADA sin aplicar, INSPIRE
-§2a en cierre. **QUEDA:** (a) §4 code-side (identidad de blob + prose source card) — próxima
-tanda; (b) CON ALBERTO: cifra ledger → **pasada harness 13 QIDs + hp009/hp010 (~$3, el árbitro
-e2e)** · 3 filas census · visto data-fix 2 docs + aplicar RLS (gate #29, bloquea el merge);
-(c) lectura de Alberto → merge #184 (= flip `COVERAGE_RELEASE_PROFILE=coverage_c1_v3` +
-`IDENTITY_RESOLVE_POLICY=replace` + retirar flags-hoja en Railway, checklist en diseño §7) =
-release. Histórico: [`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md)
-(su §9 SUPERADO por DEC-148).
+real 15/29), seals re-anclados (suite **2907/0**), migración RLS PREPARADA sin aplicar, INSPIRE §2a
+gobernado, **§4 COMPLETO dúo-hardened r2** (blob-identity canónica + prose source card; el
+crítico e2e del dúo = propuesta RPC v3 NO-aplicada `migration_proposals/20260722200000_...`),
+**pasada harness parcial ejecutada** (8 QIDs ~$2 + brazo control v2/add: ítems P1 presentes en
+vivo, controles limpios, ledger waived por Alberto). **CÓDIGO DE RELEASE COMPLETO. QUEDA (todo
+con Alberto):** (a) vistos live: aplicar RLS (gate #29, bloquea merge) + data-fix 2 docs
+(doc_type/language) + decidir blob (RPC v3 propuesto vs normalizar dato); (b) 4 adjudicaciones
+de catálogo (FAAST · ZXR · G-100-R · INSPIRE/notifier:inspire) que vacían la quarantine;
+(c) pasada final completa 13 QIDs+controles (~$3) → lectura de Alberto → merge #184 (= flip
+`COVERAGE_RELEASE_PROFILE=coverage_c1_v3` + `IDENTITY_RESOLVE_POLICY=replace` + retirar
+flags-hoja en Railway, checklist diseño §7) = release; después DEC-136 (multi-turn). Histórico:
+[`docs/HANDOFF_P1_B92FF51_2026-07-22.md`](HANDOFF_P1_B92FF51_2026-07-22.md) (§9 SUPERADO).
 
 **Multi-turn/multi-hop sigue `NOT_BUILT` y separado bajo DEC-136.** El Evidence Contract debe
 ser reusable por el verifier futuro, pero este frente no autoriza estado conversacional, DDL,
