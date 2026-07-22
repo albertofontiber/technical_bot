@@ -3411,3 +3411,57 @@ El marcador sigue 146/154 (94,81 %, gap +5); incluso un futuro `P1_PASS` exige e
 orgánico/fresco para bankear. Multi-turn/multi-hop continúa separado, `NOT_BUILT`, bajo DEC-136;
 Evidence Contract sólo se diseña como seam reusable del verifier futuro. Handoff reproducible:
 `docs/HANDOFF_P1_B92FF51_2026-07-22.md`.
+
+---
+
+## DEC-148 — s278 (22 jul 2026): gobernanza de release SIMPLIFICADA (decisión de Alberto); se conserva el trabajo s277, se desmonta la obligación procesal
+
+**Decisión (Alberto, explícita: «OK, hazlo» sobre el encuadre propuesto).** El aparato s277 (P1,
+fence, manifests, receipts, adjudicación ciega, oráculo) se CONSERVA como código+artefactos+
+diagnóstico; la OBLIGACIÓN procesal hacia delante se desmonta. Nuevo criterio de cierre de C1:
+(1) fixes de los 29 FAIL (split causal DEC-147) verificados con tests + oráculo offline $0 sobre
+commit limpio (62/62+93/93 + FAILs postgeneración corregidos); (2) UNA pasada de harness pagada
+(~$3) sobre los 13 QIDs como árbitro e2e; (3) lectura humana de Alberto + merge #184 + flip de
+`COVERAGE_RELEASE_PROFILE` en Railway = release. NO se construye el segundo gate
+`CANDIDATE_CONTEXT_SOURCE_RECEIPT_PREFLIGHT`; NO se repite una P1 ceremonial; el ledger se cierra
+de una vez con el dashboard de facturación (pendiente cifra de Alberto; documentado ≈$9,86 de 100).
+
+**Motivo.** Ritmo: el proceso s108→s277 se volvió el cuello (Alberto: «va muy lento», «no tengo
+grip»). El valor del aparato era INFORMACIÓN (17/27 respuestas con fallos reales, fuentes exactas)
+y ya está cobrado; la ceremonia marginal no cambia decisiones en un bot demo sin técnicos
+(DEC-071e: stop-line = tests verdes). Los controles estructurales anti-over-claim que SÍ pagan se
+conservan: eval congelada, verificar-antes-de-declarar (Protocolo 1), dúo Sol+Fable antes de
+cablear decisiones med/alto (Protocolo 3).
+
+**Hallazgo de la revisión de merge (corrige mi claim «#184 es inerte»):** el contrato de
+`release_profiles.py` hace la config actual de Railway (callout+verb_trigger on SIN master/lane)
+IRREPRESENTABLE en producción: default `legacy` → RuntimeError en `validate_config(production=True)`
+(release_profiles.py:119,237-244) y los flags-hoja se rechazan como legacy-overrides con perfil
+explícito (:156). → **mergear #184 ES el flip de release por construcción**. Consecuencia: #183
+(runtime-inert verificado, 0 ficheros src/) se mergea YA; **#184 queda como el PR de trabajo** y su
+merge coincide con el flip Railway al final (§0 del diseño). Railway leído por API (31 vars):
+callout=on, verb_trigger=on, MUST_PRESERVE=on, master/lane ausentes, VISUAL_ASSETS_REGISTRY=on,
+IDENTITY_RESOLVE=on/add.
+
+**Ejecutado s278 (paso 3 del handoff, $0):** census catalog-wide add-vs-replace (845 unidades,
+1.707 queries, offline, verificación adversarial independiente = CONFIRMADO):
+`replace` seguro catálogo-side SALVO umbrella con miembro candidate (FAAST/Dimension = agujero
+silencioso); drops reales = clase-hp018 (ZXe/CAD-150/B500 buenos, RP1r intencional DEC-074b);
+58 aliases gobernados-indetectables (puntuación fuera de `_SEP`); INSPIRE detect()==[] confirmado.
+Los ceros REPLACE_EMPTIES/DROPS_DOC son tautología del instrumento (NO evidencia); doc_map cubre
+861/1014 → harness final sigue siendo el árbitro e2e. Artefactos: `evals/s278_identity_census_*`
++ raíz externa `Technical Bot-s277-artifacts\s278-identity-census\`. 3 filas de DATOS esperan
+adjudicación de Alberto (FAAST candidate-member · ZXR membership MIE-MI-430 · G-100-R
+alias-vs-paraguas); el guard estructural del diseño §1a las hace no-bloqueantes.
+
+**Alternativas descartadas.** Revertir/deshacer el trabajo s277 (destruye traza de migraciones ya
+aplicadas + diagnóstico; no ahorra tiempo — la lentitud era proceso, no código) · rebajar el listón
+a «tests verdes = release» (los 29 FAIL incluyen omisiones de seguridad reales) · saltar ya a
+multi-turn (DEC-136 sigue NOT_BUILT; heredaría el single-turn defectuoso) · perfil `off` o `c1_v1`
+en Railway HOY para poder mergear #184 ya (ambos cambian comportamiento vivo: uno apaga el par
+shippeado s274, el otro enciende master+lane nunca desplegados).
+
+**Siguiente.** Diseño vNext v1 (`evals/s278_vnext_design_v1.md`: replace+guard candidate-member ·
+determinismo/autoridad del LIMIT · INSPIRE + fix detectabilidad 58 aliases · reserva hp002 ·
+cat019 code-side · Evidence Contract default-off) → dúo Protocolo 3 (Sol+Fable, zona-de-dolor) →
+implementación → oráculo/tests → harness → Alberto.
