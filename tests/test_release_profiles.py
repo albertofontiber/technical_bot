@@ -6,8 +6,10 @@ from src.release_profiles import (
     C1_PROFILE,
     C1_V2_PROFILE,
     C1_V3_PROFILE,
+    C1_V4_PROFILE,
     COVERAGE_LANE_FLAGS,
     OFF_PROFILE,
+    PROFILE_OWNED_FLAGS,
     load_coverage_release_policy,
     validate_release_contract,
 )
@@ -18,6 +20,8 @@ V3_NEW_FLAGS = (
     "OBLIGATION_WARNING_RESERVE",
     "PROSE_SOURCE_CARD",
 )
+
+V4_NEW_FLAG = "DOCUMENT_LOCAL_SELECTION_V2"
 
 
 def _validate(env, *, production=True, must_preserve=False, lanes=None):
@@ -392,6 +396,151 @@ def test_v3_flag_couplings_hold_even_in_legacy_mode():
         },
         production=False,
     )
+
+
+def test_c1_v4_enables_v3_flags_plus_selection_v2_atomically():
+    policy = _validate(
+        {
+            "COVERAGE_RELEASE_PROFILE": C1_V4_PROFILE,
+            "IDENTITY_RESOLVE_POLICY": "replace",
+        },
+        must_preserve=True,
+    )
+    assert policy.post_rerank_coverage
+    assert policy.structural_neighbor_coverage
+    assert policy.coverage_mandatory_callout
+    assert policy.mp_mandatory_verb_trigger
+    assert policy.document_local_coverage
+    assert policy.evidence_contract
+    assert policy.obligation_warning_reserve
+    assert policy.prose_source_card
+    assert policy.document_local_selection_v2
+    for name in PROFILE_OWNED_FLAGS:
+        assert policy.flag(name) is True
+    snapshot = policy.safe_snapshot()
+    assert snapshot["profile"] == C1_V4_PROFILE
+    assert snapshot["document_local_selection_v2"] is True
+
+
+@pytest.mark.parametrize(
+    "profile", (OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE, C1_V3_PROFILE)
+)
+def test_earlier_profiles_leave_selection_v2_off(profile):
+    policy = load_coverage_release_policy({"COVERAGE_RELEASE_PROFILE": profile})
+    assert policy.document_local_selection_v2 is False
+    assert policy.flag(V4_NEW_FLAG) is False
+    assert policy.safe_snapshot()["document_local_selection_v2"] is False
+
+
+def test_c1_v3_unit_stays_frozen_after_the_v4_extension():
+    # coverage_c1_v3 is semantically frozen: exactly the eight s278 flags, and
+    # never the s279 selection switch appended after them in the owned tuple.
+    policy = load_coverage_release_policy(
+        {"COVERAGE_RELEASE_PROFILE": C1_V3_PROFILE}
+    )
+    enabled = {name for name in PROFILE_OWNED_FLAGS if policy.flag(name)}
+    assert enabled == set(PROFILE_OWNED_FLAGS[:8])
+    assert PROFILE_OWNED_FLAGS[8] == V4_NEW_FLAG
+
+
+def test_c1_v4_requires_must_preserve_contract():
+    with pytest.raises(RuntimeError, match="MUST_PRESERVE_CONTRACT"):
+        _validate(
+            {
+                "COVERAGE_RELEASE_PROFILE": C1_V4_PROFILE,
+                "IDENTITY_RESOLVE_POLICY": "replace",
+            },
+            must_preserve=False,
+        )
+
+
+@pytest.mark.parametrize("identity_env", ({}, {"IDENTITY_RESOLVE_POLICY": "add"}))
+def test_c1_v4_fails_fast_unless_identity_policy_is_replace(identity_env):
+    with pytest.raises(
+        RuntimeError,
+        match="coverage_c1_v4 requires IDENTITY_RESOLVE_POLICY=replace",
+    ):
+        _validate(
+            {"COVERAGE_RELEASE_PROFILE": C1_V4_PROFILE, **identity_env},
+            must_preserve=True,
+        )
+
+
+def test_c1_v4_rejects_every_other_coverage_lane():
+    for lane in (
+        "TABLE_PREAMBLE_CLOSURE",
+        "CANONICAL_HYQ_COVERAGE",
+        "COMPATIBILITY_BUNDLE_COVERAGE",
+        "RERANK_POOL_COVERAGE",
+        "STRUCTURAL_CASCADE_COVERAGE",
+        "LOGICAL_RECORD_COVERAGE",
+    ):
+        with pytest.raises(RuntimeError, match="permits exactly"):
+            _validate(
+                {
+                    "COVERAGE_RELEASE_PROFILE": C1_V4_PROFILE,
+                    "IDENTITY_RESOLVE_POLICY": "replace",
+                },
+                must_preserve=True,
+                lanes={lane: True},
+            )
+
+
+@pytest.mark.parametrize(
+    "profile",
+    (OFF_PROFILE, C1_PROFILE, C1_V2_PROFILE, C1_V3_PROFILE, C1_V4_PROFILE),
+)
+def test_explicit_profiles_reject_selection_v2_leaf_override(profile):
+    with pytest.raises(RuntimeError, match="remove legacy overrides"):
+        _validate(
+            {
+                "COVERAGE_RELEASE_PROFILE": profile,
+                "IDENTITY_RESOLVE_POLICY": "replace",
+                V4_NEW_FLAG: "off",
+            },
+            must_preserve=profile != OFF_PROFILE,
+        )
+
+
+def test_legacy_reads_selection_v2_from_env_strict_and_default_off():
+    assert load_coverage_release_policy({}).document_local_selection_v2 is False
+    enabled = load_coverage_release_policy(
+        {
+            V4_NEW_FLAG: "on",
+            "DOCUMENT_LOCAL_COVERAGE": "on",
+        }
+    )
+    assert enabled.document_local_selection_v2 is True
+    with pytest.raises(RuntimeError, match=r"expected on\|off"):
+        load_coverage_release_policy({V4_NEW_FLAG: "enabled"})
+
+
+def test_selection_v2_coupling_holds_even_in_legacy_mode():
+    with pytest.raises(
+        RuntimeError,
+        match="DOCUMENT_LOCAL_SELECTION_V2 requires DOCUMENT_LOCAL_COVERAGE",
+    ):
+        _validate(
+            {V4_NEW_FLAG: "on"},
+            production=False,
+        )
+    _validate(
+        {
+            "POST_RERANK_COVERAGE": "on",
+            "STRUCTURAL_NEIGHBOR_COVERAGE": "on",
+            "DOCUMENT_LOCAL_COVERAGE": "on",
+            V4_NEW_FLAG: "on",
+        },
+        production=False,
+    )
+
+
+def test_production_profile_message_lists_v4():
+    with pytest.raises(
+        RuntimeError,
+        match="coverage_c1_v2, coverage_c1_v3, or coverage_c1_v4",
+    ):
+        _validate({})
 
 
 def test_production_contract_is_independent_of_telegram_transport(monkeypatch):

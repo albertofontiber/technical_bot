@@ -216,6 +216,16 @@ OBLIGATION_WARNING_RESERVE = COVERAGE_RELEASE_POLICY.obligation_warning_reserve
 # PROSE_SOURCE_CARD: §4 attested source card for prose spans.
 PROSE_SOURCE_CARD = COVERAGE_RELEASE_POLICY.prose_source_card
 
+# S279 selection-reach switch, owned by the release profile exactly like the
+# s278 trio above: disabled by the immutable off/C1 v1/C1 v2/C1 v3 profiles
+# and enabled atomically only by C1 v4; legacy mode retains strict on|off
+# leaf-flag behaviour (default off) for offline tooling.  Every gated conduct
+# of the s279 round reads THIS flag (design §0,
+# evals/s278_selection_reach_design_v3.md); off keeps that code unreachable.
+DOCUMENT_LOCAL_SELECTION_V2 = (
+    COVERAGE_RELEASE_POLICY.document_local_selection_v2
+)
+
 # S107 same-blob neighbor observer. This hook is post-rerank and has no return
 # path into the generator. Enabling it requires a keyed telemetry HMAC secret;
 # defaults remain fully inert.

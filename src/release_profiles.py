@@ -19,12 +19,14 @@ OFF_PROFILE = "off"
 C1_PROFILE = "coverage_c1_v1"
 C1_V2_PROFILE = "coverage_c1_v2"
 C1_V3_PROFILE = "coverage_c1_v3"
+C1_V4_PROFILE = "coverage_c1_v4"
 SUPPORTED_PROFILES = (
     LEGACY_PROFILE,
     OFF_PROFILE,
     C1_PROFILE,
     C1_V2_PROFILE,
     C1_V3_PROFILE,
+    C1_V4_PROFILE,
 )
 
 # Stable cross-module identity for the document-local lane. Keeping these
@@ -37,9 +39,12 @@ DOCUMENT_LOCAL_VALIDATION = (
 
 # The original four switches are the C1 v1 unit; C1 v2 atomically adds the
 # document-local lane; C1 v3 (s278 vNext) atomically adds the evidence
-# contract, the hp002 obligation-warning reserve, and the prose source card.
-# Outside legacy mode every leaf variable is forbidden: the selected profile
-# is authoritative.
+# contract, the hp002 obligation-warning reserve, and the prose source card;
+# C1 v4 (s279 selection reach, design §0 of
+# evals/s278_selection_reach_design_v3.md) atomically adds the document-local
+# selection v2 switch that gates every conduct of that round.  Outside legacy
+# mode every leaf variable is forbidden: the selected profile is
+# authoritative.
 PROFILE_OWNED_FLAGS = (
     "POST_RERANK_COVERAGE",
     "STRUCTURAL_NEIGHBOR_COVERAGE",
@@ -49,11 +54,16 @@ PROFILE_OWNED_FLAGS = (
     "EVIDENCE_CONTRACT",
     "OBLIGATION_WARNING_RESERVE",
     "PROSE_SOURCE_CARD",
+    "DOCUMENT_LOCAL_SELECTION_V2",
 )
 
 _C1_V1_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:4])
 _C1_V2_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:5])
-_C1_V3_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS)
+# Re-anchored to its slice when v4 extended the tuple, exactly like the s278
+# phase-2 re-anchor of the v2 slice: without it, appending a flag would have
+# silently changed the frozen coverage_c1_v3 unit.
+_C1_V3_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS[:8])
+_C1_V4_ENABLED_FLAGS = frozenset(PROFILE_OWNED_FLAGS)
 
 # Coverage lanes that share the post-rerank append seam.  C1 v1 intentionally
 # isolates the structural lane until the wider stack has its own release gate.
@@ -96,6 +106,7 @@ class CoverageReleasePolicy:
     evidence_contract: bool = False
     obligation_warning_reserve: bool = False
     prose_source_card: bool = False
+    document_local_selection_v2: bool = False
     legacy_overrides: tuple[str, ...] = ()
 
     def flag(self, name: str) -> bool:
@@ -108,6 +119,7 @@ class CoverageReleasePolicy:
             "EVIDENCE_CONTRACT": self.evidence_contract,
             "OBLIGATION_WARNING_RESERVE": self.obligation_warning_reserve,
             "PROSE_SOURCE_CARD": self.prose_source_card,
+            "DOCUMENT_LOCAL_SELECTION_V2": self.document_local_selection_v2,
         }
         try:
             return values[name]
@@ -126,6 +138,7 @@ class CoverageReleasePolicy:
             "evidence_contract": self.evidence_contract,
             "obligation_warning_reserve": self.obligation_warning_reserve,
             "prose_source_card": self.prose_source_card,
+            "document_local_selection_v2": self.document_local_selection_v2,
         }
 
 
@@ -152,6 +165,7 @@ def load_coverage_release_policy(
             C1_PROFILE: _C1_V1_ENABLED_FLAGS,
             C1_V2_PROFILE: _C1_V2_ENABLED_FLAGS,
             C1_V3_PROFILE: _C1_V3_ENABLED_FLAGS,
+            C1_V4_PROFILE: _C1_V4_ENABLED_FLAGS,
         }[profile]
         values = {name: name in enabled_flags for name in PROFILE_OWNED_FLAGS}
 
@@ -165,6 +179,7 @@ def load_coverage_release_policy(
         evidence_contract=values["EVIDENCE_CONTRACT"],
         obligation_warning_reserve=values["OBLIGATION_WARNING_RESERVE"],
         prose_source_card=values["PROSE_SOURCE_CARD"],
+        document_local_selection_v2=values["DOCUMENT_LOCAL_SELECTION_V2"],
         legacy_overrides=legacy_overrides,
     )
 
@@ -188,7 +203,9 @@ def validate_release_contract(
     environment on every call and that contract is deliberately untouched, so
     the profile instead refuses to boot unless the environment already says
     ``replace`` (adjudicated deviation from the literal "gobierna" wording of
-    design §7, evals/s278_vnext_design_v2.md).  ``off``/``coverage_c1_v1``/
+    design §7, evals/s278_vnext_design_v2.md).  The s279 ``coverage_c1_v4``
+    profile keeps that exact gate (A6-ii,
+    evals/s278_selection_reach_design_v3.md).  ``off``/``coverage_c1_v1``/
     ``coverage_c1_v2`` demand nothing: ``add`` remains the historical default.
     """
     errors: list[str] = []
@@ -252,10 +269,19 @@ def validate_release_contract(
         errors.append(
             "OBLIGATION_WARNING_RESERVE requires POST_RERANK_COVERAGE"
         )
+    if policy.document_local_selection_v2 and not policy.document_local_coverage:
+        errors.append(
+            "DOCUMENT_LOCAL_SELECTION_V2 requires DOCUMENT_LOCAL_COVERAGE"
+        )
 
-    if policy.profile in {C1_PROFILE, C1_V2_PROFILE, C1_V3_PROFILE}:
+    if policy.profile in {
+        C1_PROFILE,
+        C1_V2_PROFILE,
+        C1_V3_PROFILE,
+        C1_V4_PROFILE,
+    }:
         expected_lanes = {"STRUCTURAL_NEIGHBOR_COVERAGE"}
-        if policy.profile in {C1_V2_PROFILE, C1_V3_PROFILE}:
+        if policy.profile in {C1_V2_PROFILE, C1_V3_PROFILE, C1_V4_PROFILE}:
             expected_lanes.add("DOCUMENT_LOCAL_COVERAGE")
         unrelated = sorted(
             name
@@ -280,18 +306,19 @@ def validate_release_contract(
                 f"{policy.profile} requires MUST_PRESERVE_CONTRACT=on"
             )
 
-    if policy.profile == C1_V3_PROFILE:
+    if policy.profile in {C1_V3_PROFILE, C1_V4_PROFILE}:
         resolved_identity = (identity_resolve_policy or "add").strip().lower()
         if resolved_identity != "replace":
             errors.append(
-                f"{C1_V3_PROFILE} requires IDENTITY_RESOLVE_POLICY=replace; "
+                f"{policy.profile} requires IDENTITY_RESOLVE_POLICY=replace; "
                 f"the environment resolves to {resolved_identity!r}"
             )
 
     if production and policy.profile == LEGACY_PROFILE:
         errors.append(
             "production requires an explicit COVERAGE_RELEASE_PROFILE "
-            "(off, coverage_c1_v1, coverage_c1_v2, or coverage_c1_v3)"
+            "(off, coverage_c1_v1, coverage_c1_v2, coverage_c1_v3, or "
+            "coverage_c1_v4)"
         )
 
     if errors:

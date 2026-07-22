@@ -326,3 +326,152 @@ def test_c1_v3_profile_governs_new_flags_and_identity_policy_via_config():
     )
     assert override.returncode != 0
     assert "remove legacy overrides" in override.stderr
+
+
+def test_c1_v4_profile_governs_selection_v2_and_v3_stays_frozen_via_config():
+    base_env = os.environ.copy()
+    base_env.update(
+        {
+            "CHUNKS_TABLE": "chunks_v2",
+            "ANTHROPIC_API_KEY": "test-anthropic",
+            "OPENAI_API_KEY": "test-openai",
+            "SUPABASE_URL": "https://example.invalid",
+            "SUPABASE_SERVICE_KEY": "test-service-role",
+            "MUST_PRESERVE_CONTRACT": "on",
+            "TABLE_PREAMBLE_CLOSURE": "off",
+            "CANONICAL_HYQ_COVERAGE": "off",
+            "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+            "RERANK_POOL_COVERAGE": "off",
+            "STRUCTURAL_CASCADE_COVERAGE": "off",
+            "LOGICAL_RECORD_COVERAGE": "off",
+            "IDENTITY_RESOLVE_POLICY": "replace",
+        }
+    )
+    for leaf in (
+        "POST_RERANK_COVERAGE",
+        "STRUCTURAL_NEIGHBOR_COVERAGE",
+        "COVERAGE_MANDATORY_CALLOUT",
+        "MP_MANDATORY_VERB_TRIGGER",
+        "DOCUMENT_LOCAL_COVERAGE",
+        "EVIDENCE_CONTRACT",
+        "OBLIGATION_WARNING_RESERVE",
+        "PROSE_SOURCE_CARD",
+        "DOCUMENT_LOCAL_SELECTION_V2",
+    ):
+        base_env.pop(leaf, None)
+
+    # A6-iii: config exports the switch with the exact profile-owned pattern
+    # and coverage_c1_v4 resolves it True atomically with the v3 flags.
+    env = base_env | {"COVERAGE_RELEASE_PROFILE": "coverage_c1_v4"}
+    accepted = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; "
+            "c.validate_config(production=True); "
+            "assert c.POST_RERANK_COVERAGE; "
+            "assert c.STRUCTURAL_NEIGHBOR_COVERAGE; "
+            "assert c.DOCUMENT_LOCAL_COVERAGE; "
+            "assert c.EVIDENCE_CONTRACT is True; "
+            "assert c.OBLIGATION_WARNING_RESERVE is True; "
+            "assert c.PROSE_SOURCE_CARD is True; "
+            "assert c.DOCUMENT_LOCAL_SELECTION_V2 is True; "
+            "assert c.COVERAGE_RELEASE_POLICY.safe_snapshot()"
+            "['document_local_selection_v2'] is True",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert accepted.returncode == 0, accepted.stderr
+
+    # coverage_c1_v3 stays frozen at the config surface: the released profile
+    # keeps resolving the s279 switch to False, byte-inert.
+    env = base_env | {"COVERAGE_RELEASE_PROFILE": "coverage_c1_v3"}
+    frozen = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; "
+            "c.validate_config(production=True); "
+            "assert c.DOCUMENT_LOCAL_SELECTION_V2 is False; "
+            "assert c.PROSE_SOURCE_CARD is True; "
+            "assert c.COVERAGE_RELEASE_POLICY.safe_snapshot()"
+            "['document_local_selection_v2'] is False",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert frozen.returncode == 0, frozen.stderr
+
+    # A6-ii: v4 demands the identity flip exactly like v3.
+    env = base_env | {
+        "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+        "IDENTITY_RESOLVE_POLICY": "add",
+    }
+    rejected = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; c.validate_config(production=True)",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert rejected.returncode != 0
+    assert (
+        "coverage_c1_v4 requires IDENTITY_RESOLVE_POLICY=replace"
+        in rejected.stderr
+    )
+
+    # The new switch stays leaf-inert outside legacy: an explicit profile
+    # rejects it exactly like the historical profile-owned switches.
+    env = base_env | {
+        "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+        "DOCUMENT_LOCAL_SELECTION_V2": "on",
+    }
+    override = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; c.validate_config(production=True)",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert override.returncode != 0
+    assert "remove legacy overrides" in override.stderr
+
+    # Legacy default keeps the config export off (byte-inert baseline).
+    legacy = base_env.copy()
+    legacy.pop("COVERAGE_RELEASE_PROFILE", None)
+    default = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import src.config as c; "
+            "assert c.DOCUMENT_LOCAL_SELECTION_V2 is False",
+        ],
+        cwd=ROOT,
+        env=legacy,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+    assert default.returncode == 0, default.stderr
