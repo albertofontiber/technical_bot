@@ -1,0 +1,24 @@
+{
+  "schema": "s278_live_prestate_receipt_v1",
+  "ts_utc": "2026-07-22T20:40:00Z",
+  "project": "izooestgffgscdirkfia (technical-bot; verificado == SUPABASE_URL del .env)",
+  "autorizacion": "Alberto, chat 22-jul: OK al bloque live (RLS + data-fix + RPC v3 opcion A)",
+  "rls_prestate": {
+    "sin_rls": ["chunks", "chunks_v2_enunciados", "chunks_v2_hyq", "document_group_members", "document_groups", "document_visual_assets", "documents"],
+    "con_rls": ["chunks_v2", "document_revision_lineages", "feedback", "identity_resolve_shadow", "query_logs", "user_consent"]
+  },
+  "grants_prestate": {
+    "chunks_v2_enunciados": "anon y authenticated con TODOS los privilegios (DELETE/INSERT/REFERENCES/SELECT/TRIGGER/TRUNCATE/UPDATE) — PEOR que lo documentado en TECH_DEBT #29 (SELECT/INSERT)",
+    "create_hnsw_index": "EXECUTE para anon y authenticated (confirmado via has_function_privilege)"
+  },
+  "documents_prestate": {
+    "80e1b7d2-1455-454d-8545-18b858ba9a70": {"source_pdf_filename": "HOP-138-8ES  issue 6_01-2026_Co", "doc_type": null, "language": null, "status": "active", "has_lineage": false, "nota": "sin drift de blob (filename ya sin .pdf, doble espacio real)"},
+    "348c4ec1-210a-441a-9ce7-02014a51f26d": {"source_pdf_filename": "CAD-250_Manual-Configuracion-MC-380-es-2026-c.pdf", "doc_type": null, "language": "es", "status": "active", "has_lineage": false, "nota": "drift de blob confirmado (.pdf vs chunks sin extension) -> RPC v3"},
+    "bc6bdd33-72e6-4054-9ce4-60583be4b5c4": {"source_pdf_filename": "CAD-250-MC-380-es.pdf", "doc_type": null, "language": "es", "status": "superseded", "has_lineage": false, "nota": "predecessor de la cadena S64/DEC-045"}
+  },
+  "blast_radius": {
+    "doc_type_null": "1147 de ~1171 docs (la NORMA del corpus; el patron establecido DEC-144 = backfill por-doc al entrar en gobernanza document-local; este fix sigue ese patron con 2+1 docs)",
+    "taxonomia_doc_type": {"programacion": 14, "instalacion": 3, "usuario": 3, "guia_rapida": 2, "hoja_datos": 1, "mantenimiento": 1}
+  },
+  "lineage_pattern_referencia": "hp011 (DEC-146): fila unica compartida por revisiones; authority_contract=explicit_document_ids_v1; authority_status=verified; evidencia por sha256"
+}
