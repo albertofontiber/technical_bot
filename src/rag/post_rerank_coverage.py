@@ -49,6 +49,8 @@ revalida aquí antes de servir y cualquier fallo => la fila NO se sirve
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import re
 from pathlib import Path
@@ -99,6 +101,10 @@ from .mp_lexicon import mandatory_triggers, sentence_spans
 from .rerank_pool_coverage import (
     LANE as POOL_LANE,
     OBLIGATION_WARNING_LANE,
+    WINDOW_CHARS as FACET_WINDOW_CHARS,
+    _exact_windows as _facet_exact_windows,
+    _fold as _facet_fold,
+    _tokens as _facet_tokens,
     select_obligation_warning_reserve,
     select_rerank_pool_coverage,
 )
@@ -122,6 +128,14 @@ MAX_APPENDED_PER_LANE = 2
 # s278 §3: presupuesto PROPIO de la reserva de warning — NO compite con los 4
 # huecos de MAX_APPENDED (el fallo hp002:r1 era exactamente ese desplazamiento).
 OBLIGATION_WARNING_RESERVE_BUDGET = 1
+# s279 compuerta 2 [VIA-INALCANZABLE · ATTEST · TIEBREAK]: presupuesto PROPIO de la
+# vía complementaria por-faceta — espejo EXACTO de OBLIGATION_WARNING_RESERVE_BUDGET,
+# FUERA del cap global MAX_APPENDED (A8).  N_FACET = umbral de cobertura de una
+# need-group (grado>=N_FACET => cubierta) y de elegibilidad de un candidato
+# (ventana con >=N_FACET términos distintos del grupo) — pre-registrado, sin
+# calibrar (A4/A7).  La regla de ventana reusa la de 360 chars del pool selector.
+FACET_COMPLEMENT_BUDGET = 1
+N_FACET = 3
 MAX_APPENDED_BY_LANE = {
     COMPATIBILITY_LANE: 3,
     DOCUMENT_LOCAL_LANE: 1,
@@ -274,7 +288,18 @@ def is_validated_coverage_chunk(chunk: dict[str, Any]) -> bool:
         and lane_validated
         and chunk.get("post_rerank_coverage") is True
         and chunk.get("coverage_validated") is True
-        and chunk.get("local_semantic_validated") is True
+        # s279 compuerta 2: la fila por-faceta NUNCA estampa
+        # ``local_semantic_validated`` (su selección es determinista por ventana,
+        # no semántica del selector); su justificación de servido es
+        # ``facet_complement_validated`` — solo para el lane document-local.  Off
+        # ninguna fila lleva ese campo => rama muerta byte-inerte.
+        and (
+            chunk.get("local_semantic_validated") is True
+            or (
+                lane == DOCUMENT_LOCAL_LANE
+                and chunk.get("facet_complement_validated") is True
+            )
+        )
         and has_exact_coverage_receipt(chunk)
     )
 
@@ -887,6 +912,484 @@ def _append_obligation_warning_reserve(
     return served
 
 
+# ───────── s279 compuerta 2: vía complementaria por-faceta (§2 + A2..A10) ─────────
+# TODA gated por DOCUMENT_LOCAL_SELECTION_V2 (off => byte-inerte).  Corre DESPUÉS
+# de _append_obligation_warning_reserve (A8, ve la vista final, reserve incluida),
+# con presupuesto PROPIO FACET_COMPLEMENT_BUDGET fuera de MAX_APPENDED.  Cambia
+# SELECCIÓN, no clases: la fila sirve por las clases existentes (pipe-row si
+# derivable; si no, prose_source_card con todos sus checks).  NUNCA estampa
+# ``local_semantic_validated``: su justificación de servido es determinista
+# (regla de ventana, no semántica) => ``facet_complement_validated``.
+
+
+def _facet_selection_v2_enabled() -> bool:
+    """s279 §0: flag profile-owned default-off, releído at-call-time (patrón
+    contract_enabled).  Off ⇒ la vía complementaria por-faceta ni se alcanza."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("DOCUMENT_LOCAL_SELECTION_V2")
+
+
+def _facet_stable_sha256(value: Any) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        default=str,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _facet_sha256_text(text: str) -> str:
+    return hashlib.sha256(str(text).encode("utf-8")).hexdigest()
+
+
+def _facet_min_span(folded_quote: str, hit_terms: list[str]) -> int:
+    """Min char span (folded space) que contiene >=1 ocurrencia de CADA hit —
+    la clave de densidad (asc, A4).  Determinista; 0 si algún hit no aparece."""
+    from collections import Counter
+
+    hit_set = set(hit_terms)
+    if not hit_set:
+        return 0
+    occurrences: list[tuple[int, int, str]] = []
+    for term in hit_set:
+        pattern = rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])"
+        for match in re.finditer(pattern, folded_quote):
+            occurrences.append((match.start(), match.end(), term))
+    if {term for _, _, term in occurrences} != hit_set:
+        return 0
+    occurrences.sort()
+    need = len(hit_set)
+    counts: Counter[str] = Counter()
+    have = 0
+    left = 0
+    best: int | None = None
+    for right in range(len(occurrences)):
+        if counts[occurrences[right][2]] == 0:
+            have += 1
+        counts[occurrences[right][2]] += 1
+        while have == need:
+            span_start = occurrences[left][0]
+            span_end = max(end for _, end, _ in occurrences[left : right + 1])
+            span = span_end - span_start
+            if best is None or span < best:
+                best = span
+            counts[occurrences[left][2]] -= 1
+            if counts[occurrences[left][2]] == 0:
+                have -= 1
+            left += 1
+    return best if best is not None else 0
+
+
+def _facet_best_window(
+    content: Any, group_terms: list[str]
+) -> dict[str, Any] | None:
+    """Mejor ventana de 360 chars de ``content`` para una need-group (A4).
+
+    Reusa la regla de ventana del pool selector (``_exact_windows`` +
+    ``_tokens``): elige la ventana que MAXIMIZA términos-distintos del grupo
+    (``terms_hit``), desempatando por densidad mínima (span que contiene los
+    hits, asc) y luego por ``start`` más temprano (determinismo).  None si no
+    hay ningún hit.
+    """
+    group_set = set(group_terms)
+    if not group_set:
+        return None
+    text = content if isinstance(content, str) else str(content or "")
+    if not text:
+        return None
+    best: tuple[tuple[int, int, int], dict[str, Any]] | None = None
+    for start, end, quote in _facet_exact_windows(text):
+        hits = group_set & set(_facet_tokens(quote))
+        if not hits:
+            continue
+        density = _facet_min_span(_facet_fold(quote), sorted(hits))
+        key = (-len(hits), density, start)
+        if best is None or key < best[0]:
+            best = (
+                key,
+                {
+                    "terms_hit": len(hits),
+                    "density": density,
+                    "start": start,
+                    "end": end,
+                    "hits": sorted(hits),
+                },
+            )
+    return best[1] if best is not None else None
+
+
+def _facet_served_row_text(row: dict[str, Any]) -> str:
+    """Texto que la fila entrega al generador (la vista SERVIDA): excerpt
+    acotado para filas de cobertura, contenido completo para el prefijo."""
+    return coverage_context_content(row)
+
+
+def _facet_need_group_grade(
+    served: list[dict[str, Any]], group_terms: list[str]
+) -> int:
+    """GRADO entero (A4): máx términos-distintos del grupo cubiertos por ALGUNA
+    fila servida bajo la regla de ventana (0..len(group))."""
+    grade = 0
+    for row in served:
+        window = _facet_best_window(_facet_served_row_text(row), group_terms)
+        if window is not None and window["terms_hit"] > grade:
+            grade = window["terms_hit"]
+    return grade
+
+
+def _facet_served_view_sha256(served: list[dict[str, Any]]) -> str:
+    """A3: sha256 del CONJUNTO de la vista servida — ids ordenados + content-sha
+    por fila (orden-independiente).  Omitir o mutar una fila cambia el sha."""
+    rows = sorted(
+        (
+            str(row.get("id") or ""),
+            _facet_sha256_text(str(row.get("content") or "")),
+        )
+        for row in served
+    )
+    return _facet_stable_sha256(rows)
+
+
+def _facet_chunk_index(candidate: dict[str, Any]) -> int:
+    value = candidate.get("chunk_index")
+    if isinstance(value, bool) or not isinstance(value, int):
+        value = candidate.get("document_local_candidate_rank")
+    if isinstance(value, bool) or not isinstance(value, int):
+        return 1 << 30
+    return value
+
+
+def _facet_gate_and_select(
+    served: list[dict[str, Any]],
+    reranked: list[dict[str, Any]],
+    plan: dict[str, Any],
+    candidate_pool: list[dict[str, Any]],
+) -> tuple[dict[str, Any] | None, str, list[int], list[list[str]]]:
+    """A7 gate + A4 orden pre-registrado TOTAL (cero libertad).
+
+    Gate A7: >=1 need-group NO cubierta (grado < N_FACET) con >=N_FACET términos
+    EN el grupo — grupos de 1-2 términos EXCLUIDOS del gate y del orden.  Orden
+    entre grupos: grado asc -> índice asc.  Un candidato multi-grupo se asigna al
+    PRIMER grupo de ese orden para el que es elegible (ventana >=N_FACET términos
+    distintos).  Dentro del grupo: terms_hit desc -> densidad asc -> chunk_index
+    asc -> source_file asc -> id asc.
+    """
+    need_groups = [list(group) for group in plan.get("need_groups") or []]
+    grades = [_facet_need_group_grade(served, group) for group in need_groups]
+    gate_indices = [
+        index
+        for index, group in enumerate(need_groups)
+        if len(group) >= N_FACET and grades[index] < N_FACET
+    ]
+    if not gate_indices:
+        return None, "skipped_no_uncovered_group", grades, need_groups
+    ordered = sorted(gate_indices, key=lambda index: (grades[index], index))
+    served_ids = {str(row.get("id") or "") for row in served}
+    reranked_ids = {str(row.get("id") or "") for row in reranked}
+    assigned: dict[int, list[tuple[dict[str, Any], dict[str, Any]]]] = {
+        index: [] for index in ordered
+    }
+    for candidate in candidate_pool:
+        candidate_id = str(candidate.get("id") or "")
+        if not candidate_id or candidate_id in served_ids or candidate_id in reranked_ids:
+            continue
+        content = str(candidate.get("content") or "")
+        for index in ordered:
+            window = _facet_best_window(content, need_groups[index])
+            if window is not None and window["terms_hit"] >= N_FACET:
+                assigned[index].append((candidate, window))
+                break
+    for index in ordered:
+        bucket = assigned[index]
+        if not bucket:
+            continue
+        bucket.sort(
+            key=lambda pair: (
+                -pair[1]["terms_hit"],
+                pair[1]["density"],
+                _facet_chunk_index(pair[0]),
+                str(pair[0].get("source_file") or ""),
+                str(pair[0].get("id") or ""),
+            )
+        )
+        candidate, window = bucket[0]
+        return (
+            {
+                "group_index": index,
+                "group_terms": list(need_groups[index]),
+                "candidate": candidate,
+                "window": window,
+            },
+            "ok",
+            grades,
+            need_groups,
+        )
+    return None, "no_eligible_candidate", grades, need_groups
+
+
+def _facet_complement_row(
+    selection: dict[str, Any],
+    served: list[dict[str, Any]],
+    *,
+    plan_sha256: str,
+) -> dict[str, Any] | None:
+    """Construye la fila por-faceta y la atesta por las CLASES EXISTENTES (A/§2).
+
+    El candidato es una fila cruda del pool document-local (identidad de autoridad
+    ya estampada por el RPC).  La evidencia servida es la ventana ganadora; el
+    servido lo resuelve _attest (pipe-row si derivable; si no, prose_source_card
+    con su flag+receipt).  Se estampa la attestation re-derivable (A3) y NUNCA
+    ``local_semantic_validated``.
+    """
+    candidate = selection["candidate"]
+    window = selection["window"]
+    candidate_id = str(candidate.get("id") or "")
+    content = str(candidate.get("content") or "")
+    start, end = int(window["start"]), int(window["end"])
+    if not candidate_id or not content or not 0 <= start < end <= len(content):
+        return None
+    quote = content[start:end]
+    row = dict(candidate)
+    for key in list(row):
+        if key.startswith("rerank_pool_"):
+            row.pop(key)
+    row.pop("local_semantic_validated", None)
+    row.pop("prose_source_cards", None)
+    row.update(
+        {
+            "retrieval_lane": DOCUMENT_LOCAL_LANE,
+            "document_local_coverage_validated": True,
+            "document_local_coverage_validation": DOCUMENT_LOCAL_VALIDATION,
+            "facet_complement_validated": True,
+            "coverage_cards": [
+                {
+                    "candidate_id": candidate_id,
+                    "candidate_rank": 1,
+                    "start": start,
+                    "end": end,
+                    "quote": quote,
+                    "facet": "facet_complement",
+                    "exact_source_span_validated": True,
+                }
+            ],
+        }
+    )
+    # Serving por CLASES EXISTENTES: prosa SOLO si la fila markdown no es
+    # derivable y su flag+receipt lo permiten (byte-igual al path existente).
+    if not _document_local_markdown_record_cards(row) and _prose_source_card_enabled():
+        from .document_local_coverage import build_prose_source_cards
+
+        prose_cards = build_prose_source_cards(row)
+        if prose_cards:
+            row["prose_source_cards"] = prose_cards
+    attested = _attest(row)
+    if attested is None:
+        return None
+    attested.update(
+        {
+            "facet_complement_validated": True,
+            "facet_complement_plan_sha256": plan_sha256,
+            "facet_complement_need_group_index": selection["group_index"],
+            "facet_complement_need_group_terms": list(selection["group_terms"]),
+            "facet_complement_window_bounds": [start, end],
+            "facet_complement_quote_sha256": _facet_sha256_text(quote),
+            "facet_complement_served_view_sha256": _facet_served_view_sha256(served),
+        }
+    )
+    return attested
+
+
+def _attest_facet_complement(
+    row: dict[str, Any], served: list[dict[str, Any]], plan: dict[str, Any]
+) -> bool:
+    """A3: re-verifica la attestation por-faceta contra la vista compuesta REAL.
+
+    Cada campo estampado es portante: ``plan_sha256`` y (``need_group_index``,
+    ``need_group_terms``) se atan al plan real; ``served_view_sha256`` exige
+    igualdad EXACTA del conjunto de la vista (ids + contenidos); ``window_bounds``
+    + ``quote_sha256`` re-corren la regla de ventana sobre el candidato (mismos
+    bounds, >=N_FACET términos, mismo quote); y la need-group DEBE seguir sin
+    cubrir.  Cualquier mismatch => False (fail-closed).
+    """
+    if row.get("facet_complement_validated") is not True:
+        return False
+    group_index = row.get("facet_complement_need_group_index")
+    group_terms = row.get("facet_complement_need_group_terms")
+    bounds = row.get("facet_complement_window_bounds")
+    if (
+        isinstance(group_index, bool)
+        or not isinstance(group_index, int)
+        or not isinstance(group_terms, list)
+        or not group_terms
+        or any(not isinstance(term, str) or not term for term in group_terms)
+        or not isinstance(bounds, list)
+        or len(bounds) != 2
+        or any(isinstance(bound, bool) or not isinstance(bound, int) for bound in bounds)
+    ):
+        return False
+    # Plan-binding: plan_sha256 + (índice, términos) coinciden con el plan real.
+    need_groups = list(plan.get("need_groups") or [])
+    if (
+        row.get("facet_complement_plan_sha256") != str(plan.get("sha256") or "")
+        or not 0 <= group_index < len(need_groups)
+        or list(need_groups[group_index]) != list(group_terms)
+    ):
+        return False
+    if row.get("facet_complement_served_view_sha256") != _facet_served_view_sha256(
+        served
+    ):
+        return False
+    if _facet_need_group_grade(served, group_terms) >= N_FACET:
+        return False
+    content = str(row.get("content") or "")
+    start, end = int(bounds[0]), int(bounds[1])
+    if not 0 <= start < end <= len(content):
+        return False
+    window = _facet_best_window(content, group_terms)
+    if (
+        window is None
+        or window["terms_hit"] < N_FACET
+        or [window["start"], window["end"]] != [start, end]
+        or row.get("facet_complement_quote_sha256")
+        != _facet_sha256_text(content[start:end])
+    ):
+        return False
+    return True
+
+
+def _resolve_facet_complement_source(
+    query: str,
+    reranked: list[dict[str, Any]],
+    served: list[dict[str, Any]],
+    cache: dict[str, Any],
+) -> dict[str, Any]:
+    """A2/A9: origen del candidate-pool de la vía.
+
+    (a) lane CORRIÓ en esta composición -> reusa su pool cacheado ($0);
+    (b) lane SALTADO -> re-deriva anchors LOCALMENTE (mismas funciones puras) +
+        el plan (v5 pura), y SOLO si el gate A7 puede pasar hace UNA llamada RPC
+        propia GET-only.  ``facet_plan_rederived: true`` en ese path (A2).
+    Enum A9: own | reused | skipped_no_uncovered_group | skipped_no_plan |
+    skipped_scope_overflow | skipped_no_anchors.
+    """
+    if cache.get("candidates") is not None:
+        return {
+            "plan": cache.get("plan"),
+            "candidate_pool": cache["candidates"],
+            "facet_fetch": "reused",
+            "plan_rederived": False,
+        }
+    from .document_local_coverage import (
+        _anchor_scopes,
+        build_document_local_query_plan,
+        fetch_document_local_candidates,
+    )
+
+    source_contract_anchors, overflow = _document_local_source_contract_rows(query)
+    if overflow:
+        return {"facet_fetch": "skipped_scope_overflow", "plan_rederived": True}
+    structural_anchors = [
+        row
+        for row in served[len(reranked) :]
+        if row.get("retrieval_lane") == STRUCTURAL_LANE
+    ]
+    if not source_contract_anchors and not structural_anchors:
+        return {"facet_fetch": "skipped_no_anchors", "plan_rederived": True}
+    anchors = _document_local_anchor_rows(
+        reranked, structural_anchors, source_contract_anchors
+    )
+    if not anchors:
+        return {"facet_fetch": "skipped_no_anchors", "plan_rederived": True}
+    scopes, scope_reason = _anchor_scopes(anchors)
+    if scope_reason != "ok":
+        return {
+            "facet_fetch": (
+                "skipped_scope_overflow"
+                if scope_reason == "source_scope_overflow"
+                else "skipped_no_anchors"
+            ),
+            "plan_rederived": True,
+        }
+    plan = build_document_local_query_plan(query, scopes)
+    if plan is None:
+        return {"facet_fetch": "skipped_no_plan", "plan_rederived": True}
+    # Gate A7 ANTES de fetchear (anti dead-fetch): sin need-group descubierta con
+    # >=N_FACET términos EN el grupo no se gasta la llamada RPC propia.
+    need_groups = list(plan.get("need_groups") or [])
+    grades = [_facet_need_group_grade(served, group) for group in need_groups]
+    if not any(
+        len(group) >= N_FACET and grades[index] < N_FACET
+        for index, group in enumerate(need_groups)
+    ):
+        return {
+            "facet_fetch": "skipped_no_uncovered_group",
+            "plan_rederived": True,
+            "plan": plan,
+        }
+    candidates, _authorities, _read_trace = fetch_document_local_candidates(
+        query, anchors
+    )
+    return {
+        "plan": plan,
+        "candidate_pool": candidates,
+        "facet_fetch": "own",
+        "plan_rederived": True,
+    }
+
+
+def _append_facet_complement(
+    served: list[dict[str, Any]],
+    reranked: list[dict[str, Any]],
+    *,
+    plan: dict[str, Any] | None,
+    candidate_pool: list[dict[str, Any]],
+    facet_fetch: str | None,
+    plan_rederived: bool,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """A8: anexa a lo sumo UNA fila por-faceta con presupuesto PROPIO, tras la
+    reserve.  No toca lo ya servido (la vista servida completa es prefijo)."""
+    trace: dict[str, Any] = {
+        "lane": DOCUMENT_LOCAL_LANE,
+        "conduct": "facet_complement",
+        "facet_fetch": facet_fetch,
+        "facet_plan_rederived": plan_rederived,
+        "selected_ids": [],
+        "status": facet_fetch,
+    }
+    if (
+        sum(1 for row in served if row.get("facet_complement_validated") is True)
+        >= FACET_COMPLEMENT_BUDGET
+    ):
+        trace["status"] = "facet_budget_consumed"
+        return served, trace
+    if facet_fetch not in {"own", "reused"} or plan is None:
+        return served, trace
+    selection, status, grades, _need_groups = _facet_gate_and_select(
+        served, reranked, plan, candidate_pool or []
+    )
+    trace["need_group_grades"] = grades
+    if selection is None:
+        trace["status"] = status
+        return served, trace
+    attested = _facet_complement_row(
+        selection, served, plan_sha256=str(plan.get("sha256") or "")
+    )
+    if attested is None or not _attest_facet_complement(attested, served, plan):
+        trace["status"] = "facet_attestation_failed"
+        return served, trace
+    attested["facet_complement_rank"] = 1
+    trace.update(
+        status="selected",
+        selected_ids=[str(attested.get("id") or "")],
+        need_group_index=selection["group_index"],
+        need_group_terms=list(selection["group_terms"]),
+    )
+    return [*served, attested], trace
+
+
 def collect_structural_coverage(
     query: str,
     reranked: list[dict[str, Any]],
@@ -1320,6 +1823,12 @@ def apply_post_rerank_coverage_with_trace(
         and bool(retrieval_pool)
         and not compatibility_applicable
     )
+    # s279 compuerta 2: la vía por-faceta es una conducta post-composición gated
+    # por su propio flag; puede correr aunque ningún otro lane sirva (re-deriva
+    # anchors+plan y, si el gate pasa, hace su propia RPC).  Off => byte-inerte.
+    facet_complement_applicable = (
+        _facet_selection_v2_enabled() and not compatibility_applicable
+    )
     trace: dict[str, Any] = {
         "enabled": active,
         "protected_prefix_rows": len(reranked),
@@ -1336,11 +1845,17 @@ def apply_post_rerank_coverage_with_trace(
         or document_local
         or compatibility_applicable
         or obligation_reserve_applicable
+        or facet_complement_applicable
     ):
         trace["status"] = "disabled_or_not_applicable"
         return reranked, trace
 
     candidates: list[dict[str, Any]] = []
+    # s279 compuerta 2 (A2): caché del candidate-pool del lane document-local para
+    # reuso $0 por la vía por-faceta.  Se puebla SOLO bajo el flag y solo si el
+    # collector expone el seam ``fetcher`` (el default collect_document_local_
+    # coverage lo hace); en cualquier otro caso queda vacío y la vía re-deriva.
+    facet_pool_cache: dict[str, Any] = {}
     lane_calls = []
 
     def collect_cascade_if_capacity() -> tuple[list[dict], dict]:
@@ -1434,6 +1949,46 @@ def apply_post_rerank_coverage_with_trace(
                 "model_calls": 0,
                 "database_writes": 0,
             }
+        if _facet_selection_v2_enabled():
+            # s279 compuerta 2 (A2): captura el candidate-pool que el lane fetchea
+            # para reuso $0 por la vía, SIN duplicar la RPC.  Solo si el collector
+            # acepta ``fetcher`` (seam del default); si no, la vía re-deriva.
+            import inspect
+
+            try:
+                accepts_fetcher = (
+                    "fetcher"
+                    in inspect.signature(document_local_collector).parameters
+                )
+            except (TypeError, ValueError):
+                accepts_fetcher = False
+            if accepts_fetcher:
+                from .document_local_coverage import (
+                    _anchor_scopes,
+                    build_document_local_query_plan,
+                    fetch_document_local_candidates,
+                )
+
+                def _capturing_fetcher(fetch_query, fetch_anchors, **kwargs):
+                    pool, authorities, read_trace = fetch_document_local_candidates(
+                        fetch_query, fetch_anchors, **kwargs
+                    )
+                    scopes, scope_reason = _anchor_scopes(fetch_anchors)
+                    facet_pool_cache["candidates"] = list(pool)
+                    facet_pool_cache["authorities"] = list(authorities)
+                    facet_pool_cache["plan"] = (
+                        build_document_local_query_plan(fetch_query, scopes)
+                        if scope_reason == "ok"
+                        else None
+                    )
+                    return pool, authorities, read_trace
+
+                return document_local_collector(
+                    query,
+                    document_local_anchors,
+                    already_appendable,
+                    fetcher=_capturing_fetcher,
+                )
         return document_local_collector(
             query,
             document_local_anchors,
@@ -1514,6 +2069,35 @@ def apply_post_rerank_coverage_with_trace(
             trace["lanes"].append(
                 {
                     "lane": OBLIGATION_WARNING_LANE,
+                    "status": "error",
+                    "error_type": type(exc).__name__,
+                }
+            )
+    if facet_complement_applicable:
+        # s279 compuerta 2 (A8): la vía por-faceta corre DESPUÉS de la reserve
+        # (ve la vista final, reserve incluida) con presupuesto PROPIO fuera de
+        # MAX_APPENDED.  Reusa el pool cacheado del lane o re-deriva+own-fetch.
+        try:
+            source = _resolve_facet_complement_source(
+                query, reranked, output, facet_pool_cache
+            )
+            output, facet_trace = _append_facet_complement(
+                output,
+                reranked,
+                plan=source.get("plan"),
+                candidate_pool=source.get("candidate_pool") or [],
+                facet_fetch=source.get("facet_fetch"),
+                plan_rederived=source.get("plan_rederived", False),
+            )
+            trace["lanes"].append(facet_trace)
+        except Exception as exc:
+            logger.warning(
+                "facet complement failed open: %s", type(exc).__name__
+            )
+            trace["lanes"].append(
+                {
+                    "lane": DOCUMENT_LOCAL_LANE,
+                    "conduct": "facet_complement",
                     "status": "error",
                     "error_type": type(exc).__name__,
                 }

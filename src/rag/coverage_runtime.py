@@ -50,14 +50,18 @@ def apply_profiled_post_rerank_coverage(
 
         active_fetcher = document_local_fetcher or fetch_document_local_candidates
 
+        # s279 C2 (follow-up declarado de la fase III): el kwarg `fetcher` se
+        # EXPONE con default idéntico para que el capturing-fetcher de la vía
+        # por-faceta pueda envolverlo (camino `reused`, $0) también en
+        # producción; sin inyección, la conducta es byte-idéntica.
         def collect_document_local_with_runtime_selector(
-            query_text, anchors, covered_context
+            query_text, anchors, covered_context, *, fetcher=active_fetcher
         ):
             return collect_document_local_coverage(
                 query_text,
                 anchors,
                 covered_context,
-                fetcher=active_fetcher,
+                fetcher=fetcher,
             )
 
         coverage_kwargs["document_local_collector"] = (
