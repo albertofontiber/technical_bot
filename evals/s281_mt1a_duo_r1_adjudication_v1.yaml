@@ -1,0 +1,29 @@
+# s281 MT-1a — adjudicación del dúo focal r1 (zona gates S99), regla C aplicada
+ronda: 1
+objeto: "commit 14cdc51 (MT-1a: DeterministicConversationPolicy + rewriter)"
+lados:
+  fable: "sub-agente FRESCO, hallazgos EJECUTADOS con probe — SOLIDO-CON-CAMBIOS (2 crit + 4 med + 5 men)"
+  sol: "gpt-5.6-sol xhigh vista-estable (1 run abortado por worktree-cambiante, registrado) — RECHAZAR (4 crit + 5 med)"
+  orquestador: "review previa independiente: 2 hallazgos (ambos convergentes)"
+veredicto_adjudicado: "RECHAZAR-EN-ESTADO — la ARQUITECTURA es correcta (cascada+rewrite gateado+fail-closed, ambos lados lo sostienen); las heurísticas españolas y 2 semánticas de estado son el modo de fallo S99 repetido. Lote de fixes obligatorio + vara ENDURECIDA antes de re-medir."
+hallazgos_confirmados:
+  - {id: ARTICULOS-DEPENDENCIA, fuentes: [orq, sol-S3, fable-F1x5-ejecutado], sev: CRITICO, fix: "quitar le|lo|la|los|las de _DEPENDENCY_RE (quedan su|sus|dicho|dicha|mismo|misma + demostrativos + ¿y inicial); degradación segura declarada (clítico real cae a standalone)"}
+  - {id: RESURRECCION-ESTADO-CADUCADO, fuentes: [sol-S4, fable-F2-ejecutado+espejo-harness], sev: CRITICO, fix: "CLARIFY/DECLINE devuelven ws INTACTO (sin refresh de last_turn_at); mismo fix en el espejo del harness; gold NUEVO mt07c (tercer turno post-clarify-expirado => clarify otra vez, no carry_forward)"}
+  - {id: VALIDATE-REWRITE-DEBIL, fuentes: [sol-S1, fable-F5-ejecutado], sev: CRITICO, fix: "match por frontera de token (no substring) + regla anti-invención: todo token técnico del rewrite debe existir en raw∪last_query∪excerpt∪modelos; test con M7100 y AFP-2800 fabricado"}
+  - {id: FALLBACK-REWRITE-INSEGURO, fuentes: [sol-S2], sev: CRITICO, fix: "rewrite fallido => CLARIFY genérico de antecedente ('¿a qué aviso/elemento te refieres?'), NO carry_forward (la cascada ya declaró el re-attach insuficiente); $-gastado declarado en rationale"}
+  - {id: BRAND-GATE-SOBRE-DISPARA, fuentes: [fable-F3-ejecutado, sol-S7], sev: MEDIO, fix: "split determinista: marca+token-tipo-modelo => switch (standalone, drop estado); marca sola + in-window => carry_forward (pregunta de compatibilidad); marca del MISMO fabricante del estado exenta; BRAND_TOKENS derivado de config/manufacturers+catálogo (union con seed); mt05b debe seguir verde"}
+  - {id: GAS-GATE-IGNORA-ESTADO, fuentes: [fable-F4-ejecutado], sev: MEDIO, fix: "in_window se computa ANTES de C; continuación in-window nunca hard-decline; gold nuevo (maniobra corte de gas con estado)"}
+  - {id: CODIGOS-NORMATIVOS-COMO-PRODUCTO, fuentes: [sol-S6], sev: MEDIO, fix: "_NORMATIVE_CODE_RE (NFPA|EN|UNE|UL|CEA|ISO)-\d+ filtrado junto a NON_PRODUCT_CODES"}
+  - {id: ANAPHOR-RE-INCOMPLETA, fuentes: [fable-F6-ejecutado], sev: MEDIO, fix: "regex cubre ese/esa/esos/esas/este/esta/estos/estas + docstring corregido; golds nuevos este/esos"}
+  - {id: E2E-NO-IMPLEMENTADO, fuentes: [sol-S9], sev: MEDIO-bloqueante-del-cierre, fix: "implementar --e2e real en el harness (generación por el orquestador + juez GPT-5.5 K=3 + coste estampado), doble-gate de confirmación se mantiene"}
+  - {id: VARIANTES-POR-FAMILIA, fuentes: [orq, fable-F7], sev: MENOR, fix: "variants en _FamilySpec (ZXe=1/2/5; ZXSe=1/2/5/10); clarify_question la usa"}
+  - {id: CLARIFY-TEXTO-PRIMER-MENSAJE, fuentes: [fable-F8-ejecutado], sev: MENOR, fix: "texto condicional a ws.is_empty"}
+  - {id: TEST-ENV-LEAK, fuentes: [fable-F11], sev: MENOR, fix: "monkeypatch.delenv CONVERSATION_POLICY en el test de stub"}
+declarados_no_defecto:
+  - "sol-S8 (bot no consume la policy): POR DISEÑO — activación = MT-0d+Alberto, prohibido en el brief; el TODO del backfill de excerpt queda documentado para el cableo"
+  - "fable-F9 (detector sin miembros ZX*Se): gap real PERO territorio data/catalog — se acumula a la propuesta acompañante de H0-T3 (model_catalog.json)"
+  - "fable-F10 (umbrella+eje divergente mismo-turno => standalone): inconsistencia DECLARADA single-turn, fuera de scope MT-1a; anotada en la vara como caso futuro"
+solidos_confirmados:
+  - "invariantes duros del contrato (claim 1) con evidencia ejecutada; fail-closed direccional del rewriter; flag-gating sin romper consumidores (claim 4); arquitectura cascada = respuesta estructural correcta al S99 (ambos lados)"
+proceso:
+  - "convergencia x3 en el hallazgo top (artículos) y x2 en resurrección; Fable ejecutó TODOS sus hallazgos (probe reproducible); Sol único en fallback-inseguro y NFPA; 1 run Sol abortado por worktree-cambiante => vista estable dedicada (patrón nuevo para lanes paralelas)"
