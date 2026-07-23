@@ -38,3 +38,14 @@ solidos_confirmados:
 proceso:
   - "convergencia independiente x3 en el hallazgo top (janitor) con anclas idénticas; Sol aporta 1 único (S6) → el corte cross-model sigue pagando"
   - "tally completado mismo turno (6/6/0/critico, duo_complete); run Sol fallido previo registrado"
+verificacion_punto_por_punto:  # orquestador, retomada post-pausa, contra el diff d51792b..05b5ef3
+  - {id: JANITOR-RECLAIM-DANINO, verificado: "reclaim_and_repair reporta sin mutar (orphaned_runs; docstring con el porqué); tests test_janitor_reports_orphan_without_reclaiming + test_janitor_multi_sweep_keeps_budget_and_run_recoverable"}
+  - {id: HEARTBEAT-SIN-CALLER, verificado: "COMPUTE_LEASE_SECONDS=600 usado por _acquire; bloque docstring LEASE SIZING + HEARTBEAT con la dependencia MT-0d/F1 declarada"}
+  - {id: AUTH-SERVICE-ROLE, verificado: "PostgRESTConvoStore exige bearer_jwt (ValueError si falta, sin fallback); apikey separada del principal; runbook p1_readonly citado"}
+  - {id: SCAN-SIN-SUPERFICIE-REAL, verificado: "proposal 20260723120000 con list_reclaimable_runs/list_deliverable_outbox/list_stuck_sending (GRANT solo convo_rpc, NO_GO_FOR_DB); cliente implementa ConvoScanner via _call_rows"}
+  - {id: VENTANA-DECLARADA-ESTRECHA, verificado: "docstring con las 2 vias de duplicado; SENDING_LEASE_SECONDS=180 en deliver_outbox/deliver_pending"}
+  - {id: FAKE-MAX-ATTEMPTS-0, verificado: "validate-first fake_convo_store.py:450 antes de mutar; test_complete_max_attempts_zero_rolls_back"}
+  - {id: FRONTERAS-1-2-SIN-ACTOR-REAL, verificado: "docstring FRONTIER RECOVERY (PTB offset al fetch, dependencia MT-0d); pending>edad en find_reclaimable_runs (fake:667) y en la read-RPC (p_pending_age_seconds)"}
+  - {id: METRIC-KEYS-MISMATCH, verificado: "map input_tokens/output_tokens; latency_ms monotonic en el driver; cost_usd=None honesto (el generator no lo produce)"}
+  - {id: ETIQUETAS-OUTCOME, verificado: "TurnOutcome.delivery_race cableado (begin perdio la carrera != send_failed)"}
+suite_full_post_fixes: "3146 passed / 0 failed / 5 skipped (19:49; 3143 pre-fix + 3 tests netos del lote — verificada por el orquestador en el mismo turno del cierre)"
