@@ -1,0 +1,3744 @@
+{
+ "schema": "s281_h0t3_retag_packet_v1",
+ "run_tag": "v1",
+ "authority": "DEVELOPMENT_RETAG_PACKET_READ_ONLY_ZERO_MODEL_CALLS_SELECT_ONLY",
+ "freeze_contract": {
+  "commit_head": "68f96a8e07d3f86183cf460fcd40e49f92e37255",
+  "worktree_dirty": true,
+  "s83_models": {
+   "path": "evals\\s83_document_models_final.jsonl",
+   "sha256_lf": "a1291a837a7f905c3a7939cd847675a94811a47073fa12143070c0f61b177b19"
+  },
+  "s83_identity": {
+   "path": "evals\\s83_document_identity_final.jsonl",
+   "sha256_lf": "87bc0db79ead4e126a388f425049d5029dda9bc64920a0e8f8dca87b8ce6168a"
+  },
+  "catalog_products": {
+   "path": "data/catalog/products.jsonl",
+   "sha256_lf": "da14fdb7f6ea5d2b9cec6e798a9761807928eb9f50297ff9482cc69a92783a36"
+  },
+  "catalog_doc_map": {
+   "path": "data/catalog/doc_map.jsonl",
+   "sha256_lf": "67cb2b66dd2ccf9cd7bc2f84d0b2d06b8eaf84b8db77533aa07fa76cebae5161"
+  },
+  "catalog_umbrellas": {
+   "path": "data/catalog/umbrellas.jsonl",
+   "sha256_lf": "6e16d76f65d2a39362adcfa126e442360590b21eda7edf3452d85ef577b14cbe"
+  },
+  "generated_utc": "2026-07-23T21:59:15.620721+00:00"
+ },
+ "corpus_fingerprint": {
+  "chunks_v2": {
+   "count": 25090,
+   "max_created_at": "2026-06-09T19:15:25.848279+00:00"
+  },
+  "documents": {
+   "count": 1171,
+   "max_ingested_at": "2026-06-12T13:31:23.701111+00:00"
+  },
+  "sha256": "aa13e792339f7d3eb1715c9e720ead19f7c1d517258419916ddddb264c7ba56d"
+ },
+ "deterministic_2x": true,
+ "result_sha256_pass1": "54f23ca7abb4a08087625e23d1b03590bfa3c7fb41000cdfbb66160b3092cfaf",
+ "result_sha256_pass2": "54f23ca7abb4a08087625e23d1b03590bfa3c7fb41000cdfbb66160b3092cfaf",
+ "census": {
+  "n_source_files": 28,
+  "total_unknown_chunks": 318,
+  "confidence_distribution": {
+   "alta": 1,
+   "media": 22,
+   "baja": 5
+  },
+  "records": [
+   {
+    "source_file": "MIE-MI-600",
+    "chunks": {
+     "total": 88,
+     "unknown": 88,
+     "unknown_nondup": 80,
+     "unknown_values": {
+      "unknown": 88
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "4ca173e2-c1b2-40ea-8778-4148e08b8533"
+     ],
+     "product_model": "ZXSe",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "MIE-MI-600"
+     ],
+     "source_pdf_filename": [
+      "MIE-MI-600"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "ZX10Se",
+      "ZX1Se",
+      "ZX2Se",
+      "ZX5Se"
+     ],
+     "all_models": [
+      "ZX10Se",
+      "ZX1Se",
+      "ZX2Se",
+      "ZX5Se",
+      "795-068-100",
+      "795-072-100",
+      "EXP-004",
+      "EXP-004B",
+      "EXP-005"
+     ],
+     "brand_on_doc": "Morley IAS",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "Serie ZX (Paneles de Incendio de la Serie ZX) - ZXSe",
+     "doc_type": "instalacion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "morley:zx10se",
+      "morley:zx1se",
+      "morley:zx2se",
+      "morley:zx5se"
+     ],
+     "products": [
+      {
+       "id": "morley:zx10se",
+       "canonical_model": "ZX10Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx1se",
+       "canonical_model": "ZX1Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx2se",
+       "canonical_model": "ZX2Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx5se",
+       "canonical_model": "ZX5Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      }
+     ],
+     "familias": [
+      "ZXSe"
+     ],
+     "umbrella": {
+      "termino": "ZXSe",
+      "tipo": "familia",
+      "ids": [
+       "morley:zx1se",
+       "morley:zx2se",
+       "morley:zx5se",
+       "morley:zx10se"
+      ],
+      "divergent": true
+     },
+     "homonym_policy": {
+      "termino": "ZX",
+      "politica": "clarify"
+     }
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "# MORLEY IAS  # FIRE SYSTEMS  ## by Honeywell  # ZX1Se  # ZX2Se  # ZX5Se  # ZX10Se  Documento No. MIE-MI-600, rev. 02  # manual de instalación  manual para el instalador.  NO_CONTENT_HERE  Paneles de "
+     },
+     {
+      "page": 3,
+      "chunk_index": 1,
+      "section_title": "3     INSTALACIÓN...............................................................",
+      "head": "3.1     INSTALAR LA CABINA..........................................................................................................10 3.1.1            *Extraer el chasis*............................."
+     },
+     {
+      "page": 4,
+      "chunk_index": 2,
+      "section_title": "3     INSTALACIÓN...............................................................",
+      "head": "3.5.2            *Tarjetas de lazo analógico*........................................................................................34             3.5.2.1     Selección de la tensión de lazo ........"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "3     INSTALACIÓN...............................................................",
+      "head": "36       3.5.4            *Impresora interna (Solo para ZX5Se)*........................................................................37       3.5.5            *Llave opcional (Solo para ZX5Se)*....."
+     },
+     {
+      "page": 4,
+      "chunk_index": 4,
+      "section_title": "Índice",
+      "head": "Manual de instalación    Documento: MIE-MI-600    Página ii  Paneles de Incendio de la Serie ZX                                             MorleyIAS  ## Índice de figuras  FIGURA 1 – PUNTOS DE FIJACI"
+     },
+     {
+      "page": 5,
+      "chunk_index": 5,
+      "section_title": "Índice de tablas",
+      "head": "## Índice de tablas  TABLA 1 – ARTÍCULOS INCLUIDOS JUNTO CON EL PANEL DE CONTROL.................................................... 9 TABLA 2 – REFERENCIAS DE LAS PLACAS DE LAZO ....................."
+     }
+    ],
+    "candidate": {
+     "product_model": "ZXSe",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "ZX1Se/ZX2Se/ZX5Se/ZX10Se",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "ZXSe  (FAMILIA-genérica — ADJUDICADA, dir. Alberto s281)",
+     "ZX2e/ZX5e-style compuesto  (LEGACY — a migrar, NO adoptar)"
+    ],
+    "evidence": "doc-level product_model='ZXSe' (documents table, governed); catalog umbrella 'ZXSe' (familia) cubre exactamente los 4 modelos del manual → la etiqueta-familia es la correcta",
+    "notes": [
+     "ADJUDICADO (Alberto s281): etiqueta = FAMILIA 'ZXSe'. Migración simétrica con ZXe + gate de eval hp009/hp018 — ver §2."
+    ],
+    "n_manual_models": 4
+   },
+   {
+    "source_file": "FS2-1",
+    "chunks": {
+     "total": 30,
+     "unknown": 30,
+     "unknown_nondup": 28,
+     "unknown_values": {
+      "unknown": 30
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "517b87ce-500b-4e43-a32a-ad6c96b7d4eb"
+     ],
+     "product_model": "FS2-1",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "FS2-1"
+     ],
+     "source_pdf_filename": [
+      "FS2-1"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "FS-1",
+      "FS-2",
+      "FS-4"
+     ],
+     "all_models": [
+      "FS-1",
+      "FS-2",
+      "FS-4"
+     ],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "unknown",
+     "family_scope": "Centrales de Incendios Convencionales de 1, 2 y 4 Zonas",
+     "doc_type": "instalacion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:fs-1",
+      "notifier:fs-2",
+      "notifier:fs-4"
+     ],
+     "products": [
+      {
+       "id": "notifier:fs-1",
+       "canonical_model": "FS-1",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:fs-2",
+       "canonical_model": "FS-2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:fs-4",
+       "canonical_model": "FS-4",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "NOTIFIER ESPAÑA, S.L. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # CENTRALES DE INCENDIOS CONVENCIONALES DE 1, 2 Y 4 ZONAS  ## "
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "Indice",
+      "head": "Activación Sirenas ...................................................................... 23  Salida Auxiliar de 24V ................................................................. 23  Contactos Lib"
+     },
+     {
+      "page": 3,
+      "chunk_index": 2,
+      "section_title": "Limitaciones del Sistema de Alarma contra Incendios",
+      "head": "# Limitaciones del Sistema de Alarma contra Incendios  **Un sistema automático de alarma contra incendios**, que normalmente consta de detectores de incendio, detectores térmicos, pulsadores de alarma"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "",
+      "head": "# Introducción  Este manual es una guía completa para las Centrales de Incendios Convencionales de 1, 2 y 4 Zonas. En la primera sección del manual se suministran las instrucciones de funcionamiento, "
+     },
+     {
+      "page": 4,
+      "chunk_index": 4,
+      "section_title": "General",
+      "head": "# General  Hay tres paneles de control; Una Zona, Dos Zonas y Cuatro Zonas. Cada unidad utiliza el mismo tipo de cabina la cual tiene un frontal moldeado por inyección y una caja trasera negra de acer"
+     },
+     {
+      "page": 6,
+      "chunk_index": 5,
+      "section_title": "Formulario de Registro",
+      "head": "Se recomienda que este formulario de registro sea mantenido por una persona responsable, la cual debe asegurarse que todas las entradas se registran correctamente. Un evento debe incluir alarmas de in"
+     }
+    ],
+    "candidate": {
+     "product_model": "FS2-1",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": "FS-1/FS-2/FS-4",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "FS2-1  (doc-level)",
+     "FS-1  (s83 primario)",
+     "FS-2  (s83 primario)",
+     "FS-4  (s83 primario)"
+    ],
+    "evidence": "doc-level product_model='FS2-1' (documents table, governed)",
+    "notes": [
+     "doc-level pm='FS2-1' NO coincide con los primarios s83 ['FS-1', 'FS-2', 'FS-4']; posible ruido de filename o modelo real no en s83."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "ms1-2-4",
+    "chunks": {
+     "total": 29,
+     "unknown": 29,
+     "unknown_nondup": 27,
+     "unknown_values": {
+      "unknown": 29
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "de8c0345-2b30-4cfa-a73c-968038acde1f"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "ms1 2 4"
+     ],
+     "source_pdf_filename": [
+      "ms1-2-4.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "Central convencional 1 Zona",
+      "Central convencional 2 Zonas",
+      "Central convencional 4 Zonas",
+      "MS1",
+      "MS2",
+      "MS4"
+     ],
+     "all_models": [
+      "Central convencional 1 Zona",
+      "Central convencional 2 Zonas",
+      "Central convencional 4 Zonas",
+      "MS1",
+      "MS2",
+      "MS4"
+     ],
+     "brand_on_doc": "unknown",
+     "oem_manufacturer": "unknown",
+     "family_scope": "Centrales de Incendios Convencionales de 1, 2 y 4 Zonas",
+     "doc_type": "instalacion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "unresolved:ms1",
+      "unresolved:ms2",
+      "unresolved:ms4"
+     ],
+     "products": [
+      {
+       "id": "unresolved:ms1",
+       "canonical_model": "MS1",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      },
+      {
+       "id": "unresolved:ms2",
+       "canonical_model": "MS2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      },
+      {
+       "id": "unresolved:ms4",
+       "canonical_model": "MS4",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "Ref. 997-158 Versión 1.0                                                    9 Enero 2002  # CENTRALES DE INCENDIOS CONVENCIONALES DE 1, 2 Y 4 ZONAS  MANUAL DE FUNCIONAMIENTO, INSTALACION Y PUESTA EN M"
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "Indice",
+      "head": "Alimentación del Panel ............................................................... 22 Conexionado ............................................................................... 22 Conexión de Bat"
+     },
+     {
+      "page": 3,
+      "chunk_index": 2,
+      "section_title": "Limitaciones del Sistema de Alarma contra Incendios",
+      "head": "# Limitaciones del Sistema de Alarma contra Incendios  **Un sistema automático de alarma contra incendios**, que normalmente consta de detectores de incendio, detectores térmicos, pulsadores de alarma"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "Limitaciones del Sistema de Alarma contra Incendios",
+      "head": "Este manual es una guía completa para las Centrales de Incendios Convencionales de 1, 2 y 4 Zonas. En la primera sección del manual se suministran las instrucciones de funcionamiento, incluyendo un fo"
+     },
+     {
+      "page": 4,
+      "chunk_index": 4,
+      "section_title": "General",
+      "head": "## General  Hay tres paneles de control; Una Zona, Dos Zonas y Cuatro Zonas. Cada unidad utiliza el mismo tipo de cabina la cual tiene un frontal moldeado por inyección y una caja trasera negra de ace"
+     },
+     {
+      "page": 5,
+      "chunk_index": 5,
+      "section_title": "Procedimiento de la Alarma contra Incendios",
+      "head": "## Procedimiento de la Alarma contra Incendios  De acuerdo con la Norma EN 54, deben establecerse procedimientos escritos para tratar alarmas de fuego, avisos de fallo y la anulación de cualquier comp"
+     }
+    ],
+    "candidate": {
+     "product_model": null,
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "Central convencional 1 Zona/Central convencional 2 Zonas/Central convencional 4 Zonas/MS1/MS2/MS4",
+    "confidence": "baja",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "Central convencional 1 Zona",
+     "Central convencional 2 Zonas",
+     "Central convencional 4 Zonas",
+     "MS1",
+     "MS2",
+     "MS4"
+    ],
+    "evidence": "modelos candidatos: ['Central convencional 1 Zona', 'Central convencional 2 Zonas', 'Central convencional 4 Zonas', 'MS1', 'MS2', 'MS4']",
+    "notes": [
+     "manual mezcla modelos de familias distintas (o s83/catálogo discrepan) → adjudicación de familia/alcance necesaria."
+    ],
+    "n_manual_models": 6
+   },
+   {
+    "source_file": "Manual-de-Usuario-S3-T1-y-S-2-T1",
+    "chunks": {
+     "total": 28,
+     "unknown": 28,
+     "unknown_nondup": 17,
+     "unknown_values": {
+      "unknown": 28
+     },
+     "manufacturers": [
+      "Fidegas"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "5b5c0d4d-7d37-45db-a14b-9252e2c451d8"
+     ],
+     "product_model": "S3-T1",
+     "manufacturer": "Fidegas",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Manual-de-Usuario-S3-T1-y-S-2-T1"
+     ],
+     "source_pdf_filename": [
+      "Manual-de-Usuario-S3-T1-y-S-2-T1"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "S/2-T1",
+      "S/3-T1"
+     ],
+     "all_models": [
+      "S/2-T1",
+      "S/3-T1"
+     ],
+     "brand_on_doc": "FIDEGAS",
+     "oem_manufacturer": "C.A.E., S.L. (Comercial de Aplicaciones Electrónicas S.L.)",
+     "family_scope": "Sensor Remoto de Gas Tóxico S-T1",
+     "doc_type": "guia_usuario",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "# MANUAL DE USUARIO  ## SENSOR REMOTO  # S/3-T1 y S/2-T1  ## TÓXICOS  [Image shows two gas sensor devices: On the left is a yellow cylindrical sensor unit with the \"fidegas\" logo in the center. On the"
+     },
+     {
+      "page": 3,
+      "chunk_index": 1,
+      "section_title": "ÍNDICE",
+      "head": "# ÍNDICE  | **ADVERTENCIAS** | 4 |  | **LIMITACIONES** | 4 |  | **GARANTÍA** | 5 |  | **CONTROL DE CALIDAD** | 5 |  | **ACCESORIOS OPCIONALES** | 5 |  | **PRODUCTOS COMPATIBLES** | 5 |  | **DIRECTIVA "
+     },
+     {
+      "page": 4,
+      "chunk_index": 2,
+      "section_title": "ADVERTENCIAS",
+      "head": "# ADVERTENCIAS  > ⚠️ > > Leer el manual de usuario cuidadosamente antes de la puesta en funcionamiento o servicio. > > Se incluyen instrucciones sobre la utilización del Test Kit FIDEGAS® suministrado"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "LIMITACIONES",
+      "head": "# LIMITACIONES  • Recordar que si el sensor remoto ha sido desconectado, puede haber acumulación de gas y no será detectada.  • Asegurarse de que la tensión de alimentación (12 – 24) Vdc y las conexio"
+     },
+     {
+      "page": 6,
+      "chunk_index": 4,
+      "section_title": "DIRECTIVA 2014/34/UE (ATEX)",
+      "head": "# DIRECTIVA 2014/34/UE (ATEX)  ## Clasificación de zonas peligrosas  | ZONA | Definición                                                                                                                "
+     },
+     {
+      "page": 7,
+      "chunk_index": 5,
+      "section_title": "1. GENERALIDADES",
+      "head": "# 1. GENERALIDADES  Los sensores remotos de detección de gas Ref. S/3-T1 y S/2-T1 Tóxicos detectan la presencia del gas tóxico seleccionado en los rangos definidos, con un alto grado de precisión, deb"
+     }
+    ],
+    "candidate": {
+     "product_model": "S3-T1",
+     "manufacturer": "Fidegas"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "S3-T1  (primario doc-level)"
+    ],
+    "evidence": "doc-level product_model='S3-T1' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (2 modelos s83: ['s2t1', 's3t1']); doc-level nombra solo el primario 'S3-T1'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 2
+   },
+   {
+    "source_file": "Manual-de-Usuario-S3-T2-y-S2-T2",
+    "chunks": {
+     "total": 24,
+     "unknown": 24,
+     "unknown_nondup": 22,
+     "unknown_values": {
+      "unknown": 24
+     },
+     "manufacturers": [
+      "Fidegas"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72"
+     ],
+     "product_model": "S3-T2",
+     "manufacturer": "Fidegas",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Manual-de-Usuario-S3-T2-y-S2-T2"
+     ],
+     "source_pdf_filename": [
+      "Manual-de-Usuario-S3-T2-y-S2-T2"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "00051",
+      "00052",
+      "03382",
+      "03383",
+      "S/2-T2",
+      "S/3-T2"
+     ],
+     "all_models": [
+      "00051",
+      "00052",
+      "03382",
+      "03383",
+      "S/2-T2",
+      "S/3-T2"
+     ],
+     "brand_on_doc": "Fidegas",
+     "oem_manufacturer": "C.A.E., S.L. (Comercial de Aplicaciones Electrónicas S.L.)",
+     "family_scope": "Sensor Remoto de Gas FIDEGAS Serie S/-T2 (Oxígeno)",
+     "doc_type": "guia_usuario",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "fidegas:00051",
+      "fidegas:00052",
+      "fidegas:03382",
+      "fidegas:03383"
+     ],
+     "products": [
+      {
+       "id": "fidegas:00051",
+       "canonical_model": "00051",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Fidegas"
+       ]
+      },
+      {
+       "id": "fidegas:00052",
+       "canonical_model": "00052",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Fidegas"
+       ]
+      },
+      {
+       "id": "fidegas:03382",
+       "canonical_model": "03382",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Fidegas"
+       ]
+      },
+      {
+       "id": "fidegas:03383",
+       "canonical_model": "03383",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Fidegas"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "# MANUAL DE USUARIO  ## SENSOR REMOTO  # S/3-T2 y S/2-T2  ## OXÍGENO  ## Rango (0-25) ó (21-0) % v/v  [Left side shows a yellow cylindrical sensor device with \"fg fidegas\" logo on its face. Above it i"
+     },
+     {
+      "page": 3,
+      "chunk_index": 1,
+      "section_title": "ÍNDICE",
+      "head": "# ÍNDICE  | ADVERTENCIAS                                                | 4  | | ----------------------------------------------------------- | -- | | LIMITACIONES                                      "
+     },
+     {
+      "page": 4,
+      "chunk_index": 2,
+      "section_title": "ADVERTENCIAS",
+      "head": "# ADVERTENCIAS  > Leer el manual de usuario cuidadosamente antes de la puesta en funcionamiento o servicio. > Se incluyen instrucciones sobre la utilización del Test Kit FIDEGAS<sup>®</sup> suministra"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "LIMITACIONES",
+      "head": "# LIMITACIONES  * Recordar que si el sensor remoto ha sido desconectado, puede haber variaciones en la concentración de O2 y no serán detectadas.  * Asegurarse de que la tensión de alimentación (12 – "
+     },
+     {
+      "page": 6,
+      "chunk_index": 4,
+      "section_title": "DIRECTIVA 2014/34/UE (ATEX)",
+      "head": "# DIRECTIVA 2014/34/UE (ATEX)  ## Clasificación de zonas peligrosas  | ZONA | Definición                                                                                                                "
+     },
+     {
+      "page": 7,
+      "chunk_index": 5,
+      "section_title": "1. GENERALIDADES",
+      "head": "# 1. GENERALIDADES  Los sensores remotos de detección de gas Ref. S/3-T2 y S/2-T2 Oxígeno detectan la presencia de oxígeno seleccionado en los rangos definidos, con un alto grado de precisión, debido "
+     }
+    ],
+    "candidate": {
+     "product_model": "S3-T2",
+     "manufacturer": "Fidegas"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "S3-T2  (primario doc-level)"
+    ],
+    "evidence": "doc-level product_model='S3-T2' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (6 modelos s83: ['00051', '00052', '03382', '03383', 's2t2', 's3t2']); doc-level nombra solo el primario 'S3-T2'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 6
+   },
+   {
+    "source_file": "I56-2006-004 MI-DMMI_DMM2I_D2ICMO",
+    "chunks": {
+     "total": 17,
+     "unknown": 17,
+     "unknown_nondup": 15,
+     "unknown_values": {
+      "unknown": 17
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "58f3dad4-8828-41ce-ac78-3e6bc638a3db"
+     ],
+     "product_model": "MI-DMMI",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-2006-004 MI-DMMI_DMM2I_D2ICMO"
+     ],
+     "source_pdf_filename": [
+      "I56-2006-004 MI-DMMI_DMM2I_D2ICMO"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "MI-D2ICMO",
+      "MI-DMM2I",
+      "MI-DMMI"
+     ],
+     "all_models": [
+      "MI-D2ICMO",
+      "MI-DMM2I",
+      "MI-DMMI"
+     ],
+     "brand_on_doc": "Morley IAS",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "Serie M200",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "morley:mi-d2icmo",
+      "morley:mi-dmm2i",
+      "morley:mi-dmmi"
+     ],
+     "products": [
+      {
+       "id": "morley:mi-d2icmo",
+       "canonical_model": "MI-D2ICMO",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley IAS"
+       ]
+      },
+      {
+       "id": "morley:mi-dmm2i",
+       "canonical_model": "MI-DMM2I",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley IAS"
+       ]
+      },
+      {
+       "id": "morley:mi-dmmi",
+       "canonical_model": "MI-DMMI",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "# MORLEY IAS  ## by Honeywell  # INSTRUCCIONES PARA LA INSTALACIÓN DE LOS MÓDULOS DE ENTRADA MI-DMMI / MI-DMM2I, Y EL MÓDULO DE ENTRADAS / SALIDA MI-D2ICMO  Este manual le sirve preparado para que sir"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "INSTRUCCIONES PARA LA INSTALACIÓN DE LOS MÓDULOS DE ENTRADA MI-DMMI / MI-DMM2I, ",
+      "head": "Si se conectan cargas inductivas a uno o a fin de prolongar la vida útil de los contactos del relé, se debe conectar a través de la carga un diodo de supresión de picos. Para más información, consulte"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "Aisladores de cortocircuito",
+      "head": "## Aisladores de cortocircuito  En caso de que no se requiera el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectad"
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "FIGURA 1. MÉTODOS DE MONTAJE DEL MÓDULO",
+      "head": "## FIGURA 1. MÉTODOS DE MONTAJE DEL MÓDULO  **Caja para montaje en superficie M200E-SMB**  La base de la caja cara puede fijarse directamente en una superficie plana. Inserte el módulo en la base y fi"
+     },
+     {
+      "page": 1,
+      "chunk_index": 4,
+      "section_title": "INSTRUCCIONES PARA LA INSTALACIÓN DE LOS MÓDULOS DE ENTRADA MI-DMMI / MI-DMM2I, ",
+      "head": "## FIGURA 2. SELECTORES DE DIRECCIÓN DECIMALES  [Diagram showing two rotary switches labeled \"Decenas\" and \"Unidades\" with an arrow indicating rotation direction]  ## MÓDULO DE ENTRADA DE UN SOLO CANA"
+     },
+     {
+      "page": 1,
+      "chunk_index": 5,
+      "section_title": "MÓDULO DE ENTRADA DE DOS CANALES MI-DMM2I",
+      "head": "## MÓDULO DE ENTRADA DE DOS CANALES MI-DMM2I  Proporciona dos canales de control de dispositivos de supervisión y alarmas contra incendios con contactos normalmente abiertos.  Este módulo proporciona "
+     }
+    ],
+    "candidate": {
+     "product_model": "MI-DMMI",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "MI-D2ICMO/MI-DMM2I",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "MI-DMMI  (primario doc-level)",
+     "MI-D2ICMO/MI-DMM2I  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='MI-DMMI' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (3 modelos s83: ['mid2icmo', 'midmm2i', 'midmmi']); doc-level nombra solo el primario 'MI-DMMI'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "BANI-G-24_Eng",
+    "chunks": {
+     "total": 16,
+     "unknown": 16,
+     "unknown_nondup": 13,
+     "unknown_values": {
+      "unknown": 16
+     },
+     "manufacturers": [
+      "Hosiden Besson"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "d5f66882-38fc-449f-ad69-58e36e49eb4d"
+     ],
+     "product_model": "IS 28 Mk 4",
+     "manufacturer": "Hosiden Besson",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "BANI-G-24_Eng"
+     ],
+     "source_pdf_filename": [
+      "BANI-G-24_Eng"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "IS 28 Mk 4 Banshee"
+     ],
+     "all_models": [
+      "IS 28 Mk 4 Banshee",
+      "LS 28"
+     ],
+     "brand_on_doc": "Hosiden Besson",
+     "oem_manufacturer": "Hosiden Besson Ltd.",
+     "family_scope": "Banshee",
+     "doc_type": "instalacion",
+     "languages": [
+      "en"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "hosiden:is-28-mk-4-banshee",
+      "hosiden:ls-28"
+     ],
+     "products": [
+      {
+       "id": "hosiden:is-28-mk-4-banshee",
+       "canonical_model": "IS 28 Mk 4 Banshee",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Hosiden Besson"
+       ]
+      },
+      {
+       "id": "hosiden:ls-28",
+       "canonical_model": "LS 28",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Hosiden Besson"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "IS 28 Mk 4 Banshee Audible Warning Device",
+      "head": "# IS 28 Mk 4 Banshee Audible Warning Device  **Hosiden Besson Ltd.**  [Product image showing a cylindrical white/grey audible warning device with a black mounting base. The device has a distinctive ho"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "Installation.",
+      "head": "This drawing shows various combinations of options that installer's may care to use, but it is not exhaustive. The essence is the cable parameter's and the zener barrier sections. Consultation with th"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "Maintenance and Servicing.",
+      "head": "## Maintenance and Servicing.  The Banshee AWD needs no adjustment, providing the environment it operates in has not changed. Any such change may mean adjustment to the volume control.  The sounder ne"
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "Other Notes and Warnings.",
+      "head": "## Other Notes and Warnings.  This product is intended for use ONLY with a Zener barrier, or similar intrinsic safety protection power supply device. It is NOT intended for direct connection to \"24 vo"
+     },
+     {
+      "page": 2,
+      "chunk_index": 4,
+      "section_title": "HAZARDOUS AREA BARRIER 1 5 28 - SAFE AREA",
+      "head": "## HAZARDOUS AREA BARRIER 1 5 28 - SAFE AREA  ### Upper Diagram  **1528**  | MAXIMUM<br/>CABLE<br/>PARAMETERS | GROUP | CAPACITANCE<br/>μF | INDUCTANCE<br/>mH | L/R RATIO<br/>μH/Ω | | ----------------"
+     },
+     {
+      "page": 2,
+      "chunk_index": 5,
+      "section_title": "Upper Diagram",
+      "head": "| ESTIMATION DATE FOR<br/>NEXT ISSUE | A | 8/4/82  |                     | | ---------------------------------- | - | ------- | ------------------- | | B                                  | C | D      "
+     }
+    ],
+    "candidate": {
+     "product_model": "IS 28 Mk 4",
+     "manufacturer": "Hosiden Besson"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "IS 28 Mk 4  (doc-level)",
+     "IS 28 Mk 4 Banshee  (s83 primario)"
+    ],
+    "evidence": "doc-level product_model='IS 28 Mk 4' (documents table, governed)",
+    "notes": [
+     "doc-level pm='IS 28 Mk 4' NO coincide con los primarios s83 ['IS 28 Mk 4 Banshee']; posible ruido de filename o modelo real no en s83."
+    ],
+    "n_manual_models": 1
+   },
+   {
+    "source_file": "LocatorPlus-Installation-Manual-1.3",
+    "chunks": {
+     "total": 16,
+     "unknown": 16,
+     "unknown_nondup": 8,
+     "unknown_values": {
+      "unknown": 16
+     },
+     "manufacturers": [
+      "LGM Products"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "LGM Products",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "LocatorPlus-Installation-Manual-1.3"
+     ],
+     "source_pdf_filename": [
+      "LocatorPlus-Installation-Manual-1.3"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "Signaline LocatorPlus"
+     ],
+     "all_models": [
+      "Signaline LocatorPlus"
+     ],
+     "brand_on_doc": "Signaline",
+     "oem_manufacturer": "LGM Products Ltd",
+     "family_scope": "Signaline Heat",
+     "doc_type": "instalacion",
+     "languages": [
+      "en"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "signaline:signaline-locatorplus"
+     ],
+     "products": [
+      {
+       "id": "signaline:signaline-locatorplus",
+       "canonical_model": "Signaline LocatorPlus",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Signaline"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "# SignaLine Heat LocatorPlus  [Product image showing an orange electronic device with a digital display screen at the top, \"SignaLine Heat LocatorPlus\" branding, \"Zone 1\" and \"Zone 2\" labels with five"
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "Contents",
+      "head": "# Contents  **Key Points**  **Signaline LocatorPlus Functionality**  **Product Specification**  **Leader Cable**  **Static Discharge Cautionary**  **Mounting Specification**  **Installation**  **Conne"
+     },
+     {
+      "page": 3,
+      "chunk_index": 2,
+      "section_title": "SIGNALINE HEAT",
+      "head": "# SIGNALINE HEAT  ## Key Points  * Install the Signaline LocatorPlus accordingly to meet local and country installation requirements.  * The Locator Plus must be installed in accordance with NFPA 70 &"
+     },
+     {
+      "page": 4,
+      "chunk_index": 3,
+      "section_title": "Signaline LocatorPlus Functionality",
+      "head": "# Signaline LocatorPlus Functionality  The Signaline LocatorPlus is a dual zone module for monitoring up to two zones of Signaline FT or FT-R Digital Linear Heat Detection (SIGNALINE FT AND FT-R) Cabl"
+     },
+     {
+      "page": 5,
+      "chunk_index": 4,
+      "section_title": "Product Specification",
+      "head": "# Product Specification  **Model** Signaline LocatorPlus (SLP-001)  **Dimensions** 180 x 120 x 60.5mm HxWxD (7.1in x 4.72 x 2.38in)  **Rating** NEMA 4, 4X (IP65)  **Finish** Light Grey with clear lid "
+     },
+     {
+      "page": 6,
+      "chunk_index": 5,
+      "section_title": "",
+      "head": "# SIGNALINE HEAT  # Leader Cable  The LocatorPlus can be connected via leader cable to the start of the Linear Heat Detection cable. During installation the voltage drop across the leader cable is cal"
+     }
+    ],
+    "candidate": {
+     "product_model": "Signaline LocatorPlus",
+     "manufacturer": "LGM Products"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "doc-level pm vacío; s83/catálogo → único modelo 'Signaline LocatorPlus'",
+    "notes": [],
+    "n_manual_models": 1
+   },
+   {
+    "source_file": "I56-3388-002 NFX-OPT_multi",
+    "chunks": {
+     "total": 9,
+     "unknown": 9,
+     "unknown_nondup": 8,
+     "unknown_values": {
+      "unknown": 9
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "b4a0b359-2b34-4198-b6d6-5c099e21e04d"
+     ],
+     "product_model": "NFXI-OPT",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-3388-002 NFX-OPT_multi"
+     ],
+     "source_pdf_filename": [
+      "I56-3388-002 NFX-OPT_multi"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "NFX-OPT",
+      "NFXI-OPT"
+     ],
+     "all_models": [
+      "NFX-OPT",
+      "NFXI-OPT"
+     ],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "Pittway Tecnologica S.r.l.",
+     "family_scope": "NFX-OPT / NFXI-OPT",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:nfx-opt",
+      "notifier:nfxi-opt"
+     ],
+     "products": [
+      {
+       "id": "notifier:nfx-opt",
+       "canonical_model": "NFX-OPT",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:nfxi-opt",
+       "canonical_model": "NFXI-OPT",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "N200-200-00  # NOTIFIER® by Honeywell  # NFX-OPT / NFXI-OPT  [Dimensional diagram showing sensor: 102 mm width, 51 mm height, model B501AP, temperature range 70°C to -30°C, weight 95 g]  ## ENGLISH  #"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "SENSOR INSTALLATION",
+      "head": "2. Insert the sensor into the base and rotate it clockwise until it locks into place. 3. After all the sensors have been installed, apply power to the system. 4. Test the sensor as described under **T"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "MAINTENANCE",
+      "head": "## MAINTENANCE  Before cleaning, disable the system to prevent unwanted alarms:  1. Remove the sensor to be cleaned from the system. 2. Gently release each of the four cover removal tabs that hold the"
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "TESTING",
+      "head": "## TESTING  Sensors must be tested after installation and following periodic maintenance. Disable the zone or system undergoing maintenance to prevent unwanted alarms.  Test the sensors as follows:  #"
+     },
+     {
+      "page": 3,
+      "chunk_index": 4,
+      "section_title": "NFX-OPT / NFXI-OPT",
+      "head": "# NFX-OPT / NFXI-OPT  | CE | 0786-CPD-20646 09 NFX-OPT<br/>0786-CPD-20640 09 NFXI-OPT | Pittway Tecnologica S.r.l.<br/>Via Caboto 19/3,<br/>34147 Trieste, Italy | | -- | ------------------------------"
+     },
+     {
+      "page": 3,
+      "chunk_index": 5,
+      "section_title": "~~INSTALACIÓN DEL SENSOR~~",
+      "head": "**Figura 1: Selectores rotatorios de dirección**  [Two circular diagrams showing rotary selectors with numbers 0-15 arranged in a circle. Left selector labeled \"X 10\", right selector labeled \"X 1\"]  2"
+     }
+    ],
+    "candidate": {
+     "product_model": "NFXI-OPT",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NFXI-OPT  (primario doc-level)"
+    ],
+    "evidence": "doc-level product_model='NFXI-OPT' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (2 modelos s83: ['nfxiopt', 'nfxopt']); doc-level nombra solo el primario 'NFXI-OPT'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 2
+   },
+   {
+    "source_file": "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE",
+    "chunks": {
+     "total": 9,
+     "unknown": 9,
+     "unknown_nondup": 8,
+     "unknown_values": {
+      "unknown": 9
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "6126a9e6-e00a-4f9a-b544-0e5c82e2b492"
+     ],
+     "product_model": "MI-DMMIE",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE"
+     ],
+     "source_pdf_filename": [
+      "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "MI-D2ICMOE",
+      "MI-DMM2IE",
+      "MI-DMMIE"
+     ],
+     "all_models": [
+      "MI-D2ICMOE",
+      "MI-DMM2IE",
+      "MI-DMMIE"
+     ],
+     "brand_on_doc": "Morley-IAS",
+     "oem_manufacturer": "Pittway Tecnologica S.r.l",
+     "family_scope": "Morley series modules",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es",
+      "it"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "morley:mi-d2icmoe",
+      "morley:mi-dmm2ie",
+      "morley:mi-dmmie"
+     ],
+     "products": [
+      {
+       "id": "morley:mi-d2icmoe",
+       "canonical_model": "MI-D2ICMOE",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:mi-dmm2ie",
+       "canonical_model": "MI-DMM2IE",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:mi-dmmie",
+       "canonical_model": "MI-DMMIE",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "EN INSTALLATION INSTRUCTIONS - MI-DMMIE / MI-DMM2IE INPUT MODULES, MI-D2ICMOE IN",
+      "head": "**Honeywell** MI-DMMIE MI-DMM2IE MI-D2ICMOE |||||||||||||||||||||||| I56-4406-001  ## EN INSTALLATION INSTRUCTIONS - MI-DMMIE / MI-DMM2IE INPUT MODULES, MI-D2ICMOE INPUT /OUTPUT MODULE  This manual is"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "EN INSTALLATION INSTRUCTIONS - MI-DMMIE / MI-DMM2IE INPUT MODULES, MI-D2ICMOE IN",
+      "head": "| Operating Voltage Range: | 15 to 32VDC (Min 16.5VDC for LED operation)  | | ------------------------ | -------------------------------------------- | | Maximum Standby Current: | 140 µA @24 V and 25"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "~~CAUTION~~",
+      "head": "1. **Push down** / Premere / Precionar hacia abajo / Runterdrücken 2. **Rotate** / Ruotare / Girar / Drehen 3. **Lift** / Sollevare / Levantar / Anheben  **Fig./Abb. 2** - **MI-DMMIE / MI-DMM2IE** mod"
+     },
+     {
+      "page": 2,
+      "chunk_index": 3,
+      "section_title": "Short Circuit Isolators",
+      "head": "## Short Circuit Isolators  All Morley series modules are provided with short circuit monitoring and isolators on the intelligent loop. If required, the isolators may be wired out of the loop to facil"
+     },
+     {
+      "page": 2,
+      "chunk_index": 4,
+      "section_title": "MI-DMMIE / MI-DMM2IE Wiring",
+      "head": "## MI-DMMIE / MI-DMM2IE Wiring  Wire as follows (see Figure 2):  **a:** T1 Loop Output -. **b:** T2 Loop Output +. **c:** T3 Loop Input -. **d:** T4 Loop Input +  **e:** T5 Loop Output +. If short cir"
+     },
+     {
+      "page": 2,
+      "chunk_index": 5,
+      "section_title": "MI-D2ICMOE Wiring",
+      "head": "## MI-D2ICMOE Wiring  Wire as follows (see Figure 3):  **a:** T1 Loop Output -. **b:** T2 Loop Output +. **c:** T3 Loop Input -. **d:** T4 Loop Input +  **e:** T5 Loop Input +. If short circuit isolat"
+     }
+    ],
+    "candidate": {
+     "product_model": "MI-DMMIE",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "MI-D2ICMOE/MI-DMM2IE",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "MI-DMMIE  (primario doc-level)",
+     "MI-D2ICMOE/MI-DMM2IE  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='MI-DMMIE' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (3 modelos s83: ['mid2icmoe', 'midmm2ie', 'midmmie']); doc-level nombra solo el primario 'MI-DMMIE'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "I56-3389-002 NFX-SMT2_multi",
+    "chunks": {
+     "total": 7,
+     "unknown": 7,
+     "unknown_nondup": 6,
+     "unknown_values": {
+      "unknown": 7
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "816d833c-4cd0-483c-89ca-c726a3d457a1"
+     ],
+     "product_model": "NFXI-SMT2",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-3389-002 NFX-SMT2_multi"
+     ],
+     "source_pdf_filename": [
+      "I56-3389-002 NFX-SMT2_multi"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "NFX-SMT2",
+      "NFXI-SMT2"
+     ],
+     "all_models": [
+      "NFX-SMT2",
+      "NFXI-SMT2"
+     ],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "Pittway Tecnologica S.r.l",
+     "family_scope": "SMART2",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es",
+      "it"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:nfx-smt2",
+      "notifier:nfxi-smt2"
+     ],
+     "products": [
+      {
+       "id": "notifier:nfx-smt2",
+       "canonical_model": "NFX-SMT2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:nfxi-smt2",
+       "canonical_model": "NFXI-SMT2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "NFX-SMT2 / NFXI-SMT2",
+      "head": "NOTIFIER® by Honeywell  # NFX-SMT2 / NFXI-SMT2  | 102 mm<br/>60 mm<br/>B501AP | 70°C<br/>-30°C | 97 g | SMART2 | 0786-CPD-20645 09 NFX-SMT2<br/>0786-CPD-20639 09 NFXI-SMT2<br/>Pittway Tecnologica S.r."
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "SENSOR INSTALLATION",
+      "head": "1. Set the sensor address (see figure 1) by turning the two rotary switches on the underside of the sensor, selecting a number between 01 and 159. (Note: The number of addresses available will be depe"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "MAINTENANCE",
+      "head": "### MAINTENANCE  Before cleaning, disable the system to prevent unwanted alarms:  1. Remove the sensor to be cleaned from the system. 2. Gently release each of the four cover removal tabs that hold th"
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "TESTING",
+      "head": "### TESTING  Sensors must be tested after installation and following periodic maintenance. Disable the zone or system undergoing maintenance to prevent unwanted alarms.  Test the sensors as follows:  "
+     },
+     {
+      "page": 3,
+      "chunk_index": 4,
+      "section_title": "NOTIFIER® by Honeywell",
+      "head": "# NOTIFIER® by Honeywell  ## NFX-SMT2 / NFXI-SMT2  ## SMART<sup>2</sup>  102 mm  60 mm  B501AP  70°C -30°C  97 g  **ESPAÑOL** ~~INSTRUCCIONES DE INSTALACIÓN Y MANTENIMIENTO DE LOS SENSORES ÓPTICO-TÉRM"
+     },
+     {
+      "page": 3,
+      "chunk_index": 5,
+      "section_title": "SMART<sup>2</sup>",
+      "head": "2. Coloque el sensor en la base y gírelo en sentido horario hasta que encaje. 3. Una vez instalados todos los sensores, conecte la alimentación del sistema. 4. Pruebe el sensor tal y como se describe "
+     }
+    ],
+    "candidate": {
+     "product_model": "NFXI-SMT2",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": "NFX-SMT2/NFXI-SMT2",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NFXI-SMT2  (primario doc-level)",
+     "NFX-SMT2/NFXI-SMT2  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='NFXI-SMT2' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (2 modelos s83: ['nfxismt2', 'nfxsmt2']); doc-level nombra solo el primario 'NFXI-SMT2'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 2
+   },
+   {
+    "source_file": "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)",
+    "chunks": {
+     "total": 7,
+     "unknown": 7,
+     "unknown_nondup": 5,
+     "unknown_values": {
+      "unknown": 7
+     },
+     "manufacturers": [
+      "Detnov"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "42471c98-7b61-4fbd-8975-5f24cafd90a4"
+     ],
+     "product_model": "DOD-220",
+     "manufacturer": "Detnov",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)"
+     ],
+     "source_pdf_filename": [
+      "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "DOD-220",
+      "DOTD-230",
+      "DTD-210",
+      "DTD-215"
+     ],
+     "all_models": [
+      "DOD-220",
+      "DOTD-230",
+      "DTD-210",
+      "DTD-215"
+     ],
+     "brand_on_doc": "unknown",
+     "oem_manufacturer": "unknown",
+     "family_scope": "Detectores convencionales",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "unresolved:dod-220",
+      "unresolved:dotd-230",
+      "unresolved:dtd-210",
+      "unresolved:dtd-215"
+     ],
+     "products": [
+      {
+       "id": "unresolved:dod-220",
+       "canonical_model": "DOD-220",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      },
+      {
+       "id": "unresolved:dotd-230",
+       "canonical_model": "DOTD-230",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      },
+      {
+       "id": "unresolved:dtd-210",
+       "canonical_model": "DTD-210",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      },
+      {
+       "id": "unresolved:dtd-215",
+       "canonical_model": "DTD-215",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "unknown"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "DETECTORES CONVENCIONALES",
+      "head": "# DETECTORES CONVENCIONALES  | DTD-210              | DTD-215              | | -------------------- | -------------------- | | <br/><br/><br/><br/> | <br/><br/><br/><br/> | | DOD-220              | DO"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "~~Fijación del detector~~",
+      "head": "Para utilizar el mecanismo de bloqueo, corte de la pestaña, como se muestra a continuación. Los detectores con la pestaña cortada requieren el uso de una herramienta para su extracción (por ejemplo, u"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "3- Prueba y mantenimiento",
+      "head": "## 3- Prueba y mantenimiento  Una vez instalado los detectores, es preciso alimentar la instalación a través de la central, y comprobar que ningún detector se encuentra en alarma. En caso de encontrar"
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "4- Características Técnicas",
+      "head": "## 4- Características Técnicas  | Modelo Referencia                    | Termovelocimétrico | Térmico 78ºC    | Óptico          | Óptico-Térmico  | | ------------------------------------ | -----------"
+     },
+     {
+      "page": 1,
+      "chunk_index": 4,
+      "section_title": "CONVENTIONAL DETECTORS",
+      "head": "# CONVENTIONAL DETECTORS  | DTD-210              | DTD-215              | | -------------------- | -------------------- | | <br/><br/><br/><br/> | <br/><br/><br/><br/> | | DOD-220              | DOTD-"
+     },
+     {
+      "page": 1,
+      "chunk_index": 5,
+      "section_title": "3- Test and maintenance",
+      "head": "## 3- Test and maintenance  After installation, power up the system and check that no detector is reporting alarm. In the event of any detector alarm, check that there are no environmental conditions "
+     }
+    ],
+    "candidate": {
+     "product_model": "DOD-220",
+     "manufacturer": "Detnov"
+    },
+    "composite_candidate": "DOD-220/DOTD-230/DTD-210/DTD-215",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "DOD-220  (primario doc-level)",
+     "DOD-220/DOTD-230/DTD-210/DTD-215  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='DOD-220' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (4 modelos s83: ['dod220', 'dotd230', 'dtd210', 'dtd215']); doc-level nombra solo el primario 'DOD-220'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 4
+   },
+   {
+    "source_file": "I56-5005-002_D Notifier Sounder Strobe",
+    "chunks": {
+     "total": 6,
+     "unknown": 6,
+     "unknown_nondup": 2,
+     "unknown_values": {
+      "unknown": 6
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "ee4231ab-e74a-411f-b2da-b71315a93eda"
+     ],
+     "product_model": "B501AP",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-5005-002_D Notifier Sounder Strobe"
+     ],
+     "source_pdf_filename": [
+      "I56-5005-002_D Notifier Sounder Strobe"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "W*A-*C-I02"
+     ],
+     "all_models": [
+      "W*A-*C-I02",
+      "B501AP"
+     ],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "KAC (Honeywell)",
+     "family_scope": "Notifier loop powered addressable wall mounted sounder strobes (EN54-23 W category)",
+     "doc_type": "instalacion",
+     "languages": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "it"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:b501ap",
+      "notifier:wa-c-i02"
+     ],
+     "products": [
+      {
+       "id": "notifier:b501ap",
+       "canonical_model": "B501AP",
+       "familia": null,
+       "estado": "redirect",
+       "candidate": false,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      },
+      {
+       "id": "notifier:wa-c-i02",
+       "canonical_model": "W*A-*C-I02",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "GENERAL",
+      "head": "**(SPA)** El alcance se utiliza en sistemas direccionables analógicos de alarma de incendios. Estos dispositivos solo deben conectarse a paneles de control que utilicen un protocolo de comunicación di"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "INSTALLATION / PRODUCT ORIENTATION",
+      "head": "## INSTALLATION / PRODUCT ORIENTATION  Affix B501AP to a suitably flat wall. Terminate the cable to the appropriate terminals. For surface mount wiring the cable can enter the B501AP via the break out"
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "NOTIFIER by Honeywell INSTALLATION INSTRUCTIONS FOR EN54-23 W CATEGORY WALL MOUN",
+      "head": "## CONTINUITY SPRING  The B501AP incorporates a continuity spring between terminals 2 and 4. This allows the continuity of the field wiring to be checked without the need for the device to be present."
+     },
+     {
+      "page": 2,
+      "chunk_index": 3,
+      "section_title": "Table 1 (Tone selection)",
+      "head": "## Table 1 (Tone selection)  | DIP settingParamètre DIPDIP-SchaltereinstellungImpostazione DIPConfiguración DIPSW 1,2,3,4,5O=Off/1=On | No | PatternTypeMusterSchemaPatrón | Nominal FrequencyFréquence "
+     },
+     {
+      "page": 2,
+      "chunk_index": 4,
+      "section_title": "NOTIFIER by Honeywell INSTALLATION INSTRUCTIONS FOR EN54-23 W CATEGORY WALL MOUN",
+      "head": "## Dimensions  85mm  121mm  ## Volume, coverage and frequency settings  (Refer to table 1 )    (Refer to table 2 )  DIP setting 0=Off/1=On. Paramètre DIP 0=Désactivé/1=Activé DIP-Schaltereinstellung O"
+     },
+     {
+      "page": 2,
+      "chunk_index": 5,
+      "section_title": "Coverage data",
+      "head": "## Coverage data  | EN 54-23    | Led   | V      | X (Max) | Y (Max) | V (m) | | ----------- | ----- | ------ | ------- | ------- | ----- | | W-4.2-11.5  | RED   | 15-29V | 4.2m    | 11.5m   | 555   |"
+     }
+    ],
+    "candidate": {
+     "product_model": "B501AP",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "B501AP  (doc-level + catálogo)",
+     "W*A-*C-I02  (s83 primario — DISCREPA)"
+    ],
+    "evidence": "doc-level product_model='B501AP' (documents table, governed)",
+    "notes": [
+     "CONFLICTO: doc-level+catálogo dicen 'B501AP' pero s83 primario = ['W*A-*C-I02']. Adjudicar cuál documenta el manual."
+    ],
+    "n_manual_models": 1
+   },
+   {
+    "source_file": "MIE-MP-525rv1",
+    "chunks": {
+     "total": 6,
+     "unknown": 6,
+     "unknown_nondup": 6,
+     "unknown_values": {
+      "unknown": 6
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "a94d24f0-5c9d-4cb6-b2be-d0d40af416d6"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "needs_review"
+     ],
+     "document_family": [
+      "MIE MP 52"
+     ],
+     "source_pdf_filename": [
+      "MIE-MP-525rv1.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "DX1",
+      "DX2",
+      "DX4"
+     ],
+     "all_models": [
+      "DX1",
+      "DX2",
+      "DX4"
+     ],
+     "brand_on_doc": "Morley-IAS",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "Centrales analógicas DX (Dimension)",
+     "doc_type": "configuracion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "morley:dx1",
+      "morley:dx2e",
+      "morley:dx4"
+     ],
+     "products": [
+      {
+       "id": "morley:dx1",
+       "canonical_model": "DX1",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:dx2e",
+       "canonical_model": "DX2e",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:dx4",
+       "canonical_model": "DX4",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": {
+      "termino": "serie Dimension",
+      "tipo": "familia",
+      "ids": [
+       "morley:dx1e",
+       "morley:dx2e",
+       "morley:dx4e"
+      ],
+      "divergent": true
+     },
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "| MORLEY 🔥 IAS<br>FIRE SYSTEMS<br>by Honeywell | GUÍA RÁPIDA DE PROGRAMACIÓN<br>CENTRALES ANALÓGICAS DX1,DX2 y DX4 |  Esta es una guía tutorial que ilustra exclusivamente los pasos generales para prog"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "",
+      "head": "``` ┌──────────────────────────────────────────────────┐ │ DIA/MES/AÑO                    HORA/MIN          │ │ ... Todos los equipos en estado Normal ...       │ └────────────────────────────────────"
+     },
+     {
+      "page": 2,
+      "chunk_index": 2,
+      "section_title": "",
+      "head": "⎿**Formato Hora** (Modo visualiz-Hora)=>**Parpadeo Leds Equipos**(SI/NO)=>**Tlf**(Aviso Averias)=>**Nombre**(Texto Display)=>**Fecha prox. Rev.**(Aviso Mtto.)=>**Nº Repetidores**(0 a 16)=>  ⎿=>**Prueb"
+     },
+     {
+      "page": 3,
+      "chunk_index": 3,
+      "section_title": "CONFIGURACIÓN DE ELEMENTOS DE LAZO",
+      "head": "# CONFIGURACIÓN DE ELEMENTOS DE LAZO  Desde la pantalla 1 en Nivel 3, presionar 3)Lazo (Si el panel dispone de varios lazos, se preguntará cual se desea configurar):  Pantalla de Lazo  ``` [P1 Lazo]  "
+     },
+     {
+      "page": 4,
+      "chunk_index": 4,
+      "section_title": "Programación Avanzada (Programas)",
+      "head": "# Programación Avanzada (Programas)  Desde la pantalla 1 en Nivel 3, presionar 7)Avanzado:  Pantalla de config. Avanzado  ``` [P1 AVANZADO]  1:Entradas Placa 2: Programas 3:Modos Horarios    ⬆:Mas ```"
+     },
+     {
+      "page": 4,
+      "chunk_index": 5,
+      "section_title": "Programación Avanzada (Modos Horarios/Sesibilidad 2)",
+      "head": "# Programación Avanzada (Modos Horarios/Sesibilidad 2)  Desde la pantalla 1 en Nivel 3, presionar 7)Avanzado:  Conf.Modo Horario/Sensibilidad 2  Pantalla de config. Avanzado  ``` [P1 AVANZADO] 1:Entra"
+     }
+    ],
+    "candidate": {
+     "product_model": "serie Dimension",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "DX1/DX2/DX4",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "serie Dimension  (FAMILIA — adjudicada)",
+     "DX1/DX2/DX4  (compuesto — LEGACY, a migrar)"
+    ],
+    "evidence": "doc-level pm vacío; catalog umbrella 'serie Dimension' (familia GT) mapea el documento → etiqueta-FAMILIA (convención adjudicada)",
+    "notes": [],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "I56-5004-000-Notifier-Strobe",
+    "chunks": {
+     "total": 5,
+     "unknown": 5,
+     "unknown_nondup": 2,
+     "unknown_values": {
+      "unknown": 5
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "1b970ed1-b98f-46a0-acfb-41d7df036699"
+     ],
+     "product_model": "Notifier Strobe",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "I56-5004-000-Notifier-Strobe"
+     ],
+     "source_pdf_filename": [
+      "I56-5004-000-Notifier-Strobe"
+     ]
+    },
+    "s83": {
+     "primary_models": [],
+     "all_models": [
+      "B501AP"
+     ],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "KAC Alarm Company Limited",
+     "family_scope": "EN54-23 W Class Wall Mounted Loop Powered Addressable Strobes",
+     "doc_type": "instalacion",
+     "languages": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "it"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:b501ap"
+     ],
+     "products": [
+      {
+       "id": "notifier:b501ap",
+       "canonical_model": "B501AP",
+       "familia": null,
+       "estado": "redirect",
+       "candidate": false,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "GENERAL",
+      "head": "Estos dispositivos solo deben conectarse a paneles de control que utilicen un protocolo de comunicación direccionable analógico compatible y propio.  Estos dispositivos reciben su energía del lazo y p"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "INSTALLATION INSTRUCTIONS FOR EN54-23 W CLASS WALL MOUNTED LOOP POWERED ADDRESSA",
+      "head": "## CONTINUITY SPRING  [Diagram showing continuity spring mechanism with device cross-section]  The B501AP incorporates a continuity spring between terminals 2 and 4. This allows the continuity of the "
+     },
+     {
+      "page": 1,
+      "chunk_index": 2,
+      "section_title": "ANTI TAMPER RELEASE",
+      "head": "## ANTI TAMPER RELEASE  **(ENG) IMPORTANT:** Follow the instruction strictly:  1) Insert a flat screwdriver 2) Lever the screwdriver down and twist the device anticlockwise. 3) Remove the screwdriver "
+     },
+     {
+      "page": 1,
+      "chunk_index": 3,
+      "section_title": "INSTALLATION INSTRUCTIONS FOR EN54-23 W CLASS WALL MOUNTED LOOP POWERED ADDRESSA",
+      "head": "## INSTALLATION / PRODUCT ORIENTATION  Affix B501AP to a suitably flat wall. Terminate the cable to the appropriate terminals. For surface mount wiring the cable can enter the B501AP via the break out"
+     },
+     {
+      "page": 2,
+      "chunk_index": 4,
+      "section_title": "Coverage data",
+      "head": "## Coverage data  | EN 54-23   | Led   | V      | X (Max) | Y (Max) | V (m) | | ---------- | ----- | ------ | ------- | ------- | ----- | | W-3.6-10.5 | RED   | 15-29V | 3.6m    | 10.5m   | 397   | | "
+     }
+    ],
+    "candidate": {
+     "product_model": "Notifier Strobe",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "doc-level product_model='Notifier Strobe' (documents table, governed); única fuente = doc-level (sin corroboración s83/catálogo)",
+    "notes": [],
+    "n_manual_models": 1
+   },
+   {
+    "source_file": "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+    "chunks": {
+     "total": 4,
+     "unknown": 4,
+     "unknown_nondup": 3,
+     "unknown_values": {
+      "unknown": 4
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "853de016-a614-4cb8-a898-6315f7c0039d"
+     ],
+     "product_model": "NFS Supra",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c"
+     ],
+     "source_pdf_filename": [
+      "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "ESS 2Plus",
+      "NFS Supra",
+      "Vision Plus2"
+     ],
+     "all_models": [
+      "ESS 2Plus",
+      "NFS Supra",
+      "Vision Plus2"
+     ],
+     "brand_on_doc": "Honeywell",
+     "oem_manufacturer": "unknown",
+     "family_scope": "NFS Supra / Vision Plus2 / ESS 2Plus",
+     "doc_type": "instalacion",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:ess-2plus",
+      "notifier:nfs-supra",
+      "notifier:vision-plus-2"
+     ],
+     "products": [
+      {
+       "id": "notifier:ess-2plus",
+       "canonical_model": "ESS-2Plus",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      },
+      {
+       "id": "notifier:nfs-supra",
+       "canonical_model": "NFS Supra",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      },
+      {
+       "id": "notifier:vision-plus-2",
+       "canonical_model": "Vision Plus 2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "NFS Supra / Vision Plus2 / ESS 2Plus     **Honeywell**     NFS Supra / Vision Plus2 / ESS 2Plus     **Honeywell**  ## Quick guide - Assembly  ### 1  [Image shows a mounting plate with numbered compone"
+     },
+     {
+      "page": 1,
+      "chunk_index": 1,
+      "section_title": "",
+      "head": "HLSI-MA-025_01 V02_XP www.honeywelllifesafety.es  **Quick Guide.** See the user manual for more information. Latest manual versions in www.honeywelllifesafety.es  NFS Supra / Vision Plus2 / ESS 2Plus "
+     },
+     {
+      "page": 2,
+      "chunk_index": 2,
+      "section_title": "Quick guide – Set up options",
+      "head": "| Function                                        | Key button                                                                                          | Options                                       "
+     },
+     {
+      "page": 2,
+      "chunk_index": 3,
+      "section_title": "Special set up",
+      "head": "## Special set up  **Special set up Access:** With the panel switched off, place the PROG jumper and switch on the panel **Select the option:** Press the required options (The keypad led shows the cho"
+     }
+    ],
+    "candidate": {
+     "product_model": "NFS Supra",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": "ESS 2Plus/Vision Plus2",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NFS Supra  (primario doc-level)",
+     "ESS 2Plus/Vision Plus2  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='NFS Supra' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (3 modelos s83: ['ess2plus', 'nfssupra', 'visionplus2']); doc-level nombra solo el primario 'NFS Supra'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "D700-3-Sp",
+    "chunks": {
+     "total": 3,
+     "unknown": 3,
+     "unknown_nondup": 3,
+     "unknown_values": {
+      "unknown": 3
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "a32e806d-51ff-4bc6-9c0c-9531bd42efbc"
+     ],
+     "product_model": "D700",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "D700-3-Sp"
+     ],
+     "source_pdf_filename": [
+      "D700-3-Sp"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "MCP1A",
+      "MCP1B",
+      "MCP2A",
+      "MCP2B",
+      "MCP3A",
+      "MCP4A"
+     ],
+     "all_models": [
+      "MCP1A",
+      "MCP1B",
+      "MCP2A",
+      "MCP2B",
+      "MCP3A",
+      "MCP4A"
+     ],
+     "brand_on_doc": "KAC",
+     "oem_manufacturer": "KAC",
+     "family_scope": "MCP (pulsadores manuales serie MCP1.../MCP2.../MCP3.../MCP4...)",
+     "doc_type": "instalacion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "kac:mcp1a",
+      "kac:mcp1b",
+      "kac:mcp2a",
+      "kac:mcp2b",
+      "kac:mcp3a",
+      "kac:mcp4a"
+     ],
+     "products": [
+      {
+       "id": "kac:mcp1a",
+       "canonical_model": "MCP1A",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      },
+      {
+       "id": "kac:mcp1b",
+       "canonical_model": "MCP1B",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      },
+      {
+       "id": "kac:mcp2a",
+       "canonical_model": "MCP2A",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      },
+      {
+       "id": "kac:mcp2b",
+       "canonical_model": "MCP2B",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      },
+      {
+       "id": "kac:mcp3a",
+       "canonical_model": "MCP3A",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      },
+      {
+       "id": "kac:mcp4a",
+       "canonical_model": "MCP4A",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "KAC"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "KAC INSTRUCCIONES DE INSTALACIÓN DE LOS PULSADORES MANUALES MCP1..., MCP2..., MC",
+      "head": "# KAC INSTRUCCIONES DE INSTALACIÓN DE LOS PULSADORES MANUALES MCP1..., MCP2..., MCP3..., MCP4...  ## PARA PROBAR  **1**  [Illustration showing a manual call point device mounted on a wall with a hand "
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "KAC INSTRUCCIONES DE INSTALACIÓN DE LOS PULSADORES MANUALES MCP1..., MCP2..., MC",
+      "head": "# KAC INSTRUCCIONES DE INSTALACIÓN DE LOS PULSADORES MANUALES MCP1..., MCP2..., MCP3..., MCP4...  | **DETALLES DE CONEXIÓN**                                                                            "
+     },
+     {
+      "page": 2,
+      "chunk_index": 2,
+      "section_title": "KAC INSTRUCCIONES DE INSTALACIÓN DE LOS PULSADORES MANUALES MCP1..., MCP2..., MC",
+      "head": "</td> </tr> <tr> </tr> <tr> <td>[Wiring diagram showing terminals 5678 with \"O\" label and positive connections]</td> <td>[Simple vertical line symbol]</td> <td>[Wiring diagram showing 8 terminals in t"
+     }
+    ],
+    "candidate": {
+     "product_model": "D700",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": "MCP1A/MCP1B/MCP2A/MCP2B/MCP3A/MCP4A",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "D700  (doc-level)",
+     "MCP1A  (s83 primario)",
+     "MCP1B  (s83 primario)",
+     "MCP2A  (s83 primario)"
+    ],
+    "evidence": "doc-level product_model='D700' (documents table, governed)",
+    "notes": [
+     "doc-level pm='D700' NO coincide con los primarios s83 ['MCP1A', 'MCP1B', 'MCP2A']; posible ruido de filename o modelo real no en s83."
+    ],
+    "n_manual_models": 6
+   },
+   {
+    "source_file": "NSRE24",
+    "chunks": {
+     "total": 3,
+     "unknown": 3,
+     "unknown_nondup": 3,
+     "unknown_values": {
+      "unknown": 3
+     },
+     "manufacturers": [
+      "FUEGO"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "34fb6d89-7458-43bd-b493-167656b6f249"
+     ],
+     "product_model": "NSRE24",
+     "manufacturer": "FUEGO",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "NSRE24"
+     ],
+     "source_pdf_filename": [
+      "NSRE24.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "NSRE24"
+     ],
+     "all_models": [
+      "NSRE24"
+     ],
+     "brand_on_doc": "FUEGO",
+     "oem_manufacturer": "unknown",
+     "family_scope": "Sirena exterior autoalimentada",
+     "doc_type": "datasheet",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "unresolved:nsre24"
+     ],
+     "products": [
+      {
+       "id": "unresolved:nsre24",
+       "canonical_model": "NSRE24",
+       "familia": null,
+       "estado": "redirect",
+       "candidate": false,
+       "vendido_bajo": [
+        "FUEGO"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "FUEGO  TOMPSNEURTSBLECTHDNIOON, S.L.  # SIRENA EXTERIOR ROBO 12V  ## CARACTERÍSTICAS TÉCNICAS  * Sirena con altavoz piezocerámico. * Flash destellante. * Tensión de funcionamiento de 10 V a 15 V. * Co"
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "CARACTERÍSTICAS GENERALES",
+      "head": "# CARACTERÍSTICAS GENERALES  * Sirena exterior autoalimentada con sistema de autobloqueo en caso de alarma permanente o defecto de la central. * Cuando falta la señal de control se activa la sirena y "
+     },
+     {
+      "page": 2,
+      "chunk_index": 2,
+      "section_title": "PROGRAMACIÓN",
+      "head": "# PROGRAMACIÓN  ## SW1  **1' 3' 6'**  ### TIEMPO DE SONIDO  **[: :]** 1 MINUTO ó 1 CICLO  **[: ■ :]** 3 MINUTOS ó 2 CICLOS  **[: : ■]** 6 MINUTOS ó 3 CICLOS  **[: : :]** TIEMPO CENTRAL  ### CICLO  **["
+     }
+    ],
+    "candidate": {
+     "product_model": "NSRE24",
+     "manufacturer": "FUEGO"
+    },
+    "composite_candidate": null,
+    "confidence": "alta",
+    "needs_adjudication": false,
+    "adjudication_options": [],
+    "evidence": "doc-level product_model='NSRE24' (documents table, governed); corroborado por s83/catálogo; manual mono-modelo",
+    "notes": [],
+    "n_manual_models": 1
+   },
+   {
+    "source_file": "Manual Pulsador convencional IP65 PCD-100WP (1)",
+    "chunks": {
+     "total": 2,
+     "unknown": 2,
+     "unknown_nondup": 2,
+     "unknown_values": {
+      "unknown": 2
+     },
+     "manufacturers": [
+      "Detnov"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "a355129e-16fb-4721-9387-aaf2b9a053d3"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Detnov",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Manual Pulsador convencional IP65 PCD-100WP (1)"
+     ],
+     "source_pdf_filename": [
+      "Manual Pulsador convencional IP65 PCD-100WP (1)"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "Waterproof ReSet 11",
+      "Waterproof ReSet Series 01",
+      "Waterproof ReSet Series 02"
+     ],
+     "all_models": [
+      "Waterproof ReSet 11",
+      "Waterproof ReSet Series 01",
+      "Waterproof ReSet Series 02"
+     ],
+     "brand_on_doc": "STI (Safety Technology International)",
+     "oem_manufacturer": "Safety Technology International (Europe) Limited",
+     "family_scope": "Waterproof ReSet Call Point (WRP)",
+     "doc_type": "instalacion",
+     "languages": [
+      "en"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "sti:waterproof-reset-11",
+      "sti:waterproof-reset-series-01",
+      "sti:waterproof-reset-series-02"
+     ],
+     "products": [
+      {
+       "id": "sti:waterproof-reset-11",
+       "canonical_model": "Waterproof ReSet 11",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "STI (Safety Technology International)"
+       ]
+      },
+      {
+       "id": "sti:waterproof-reset-series-01",
+       "canonical_model": "Waterproof ReSet Series 01",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "STI (Safety Technology International)"
+       ]
+      },
+      {
+       "id": "sti:waterproof-reset-series-02",
+       "canonical_model": "Waterproof ReSet Series 02",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "STI (Safety Technology International)"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Waterproof ReSet Call Point Series 01, 02 & 11",
+      "head": "# Waterproof ReSet Call Point Series 01, 02 & 11  The IP 67 Waterproof ReSet (WRP) has been designed to deal with today's difficult and harsh environments. Like the ReSet Call Point it is a unique fir"
+     },
+     {
+      "page": 2,
+      "chunk_index": 1,
+      "section_title": "Technical Data for Waterproof Reset Call Point Series 01, 02 & 11",
+      "head": "# Technical Data for Waterproof Reset Call Point Series 01, 02 & 11  ## Mounting Method  ### Specifications  | Current Rating (Series 11 only)      | 3 Amps 125 - 250V AC | | -------------------------"
+     }
+    ],
+    "candidate": {
+     "product_model": null,
+     "manufacturer": "Detnov"
+    },
+    "composite_candidate": "Waterproof ReSet 11/Waterproof ReSet Series 01/Waterproof ReSet Series 02",
+    "confidence": "baja",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "Waterproof ReSet 11",
+     "Waterproof ReSet Series 01",
+     "Waterproof ReSet Series 02"
+    ],
+    "evidence": "modelos candidatos: ['Waterproof ReSet 11', 'Waterproof ReSet Series 01', 'Waterproof ReSet Series 02']",
+    "notes": [
+     "manual mezcla modelos de familias distintas (o s83/catálogo discrepan) → adjudicación de familia/alcance necesaria."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "df5fcf75-fa85-415b-9c08-cf30401c8f90"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      "de"
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Compatibilidad detectores de monoxido NCO10 NCO100 VSN CO"
+     ],
+     "source_pdf_filename": [
+      "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "NCO10",
+      "NCO100",
+      "VSN-CO"
+     ],
+     "all_models": [
+      "NCO10",
+      "NCO100",
+      "VSN-CO"
+     ],
+     "brand_on_doc": "Honeywell",
+     "oem_manufacturer": "unknown",
+     "family_scope": "Detectores de monóxido de carbono (CO)",
+     "doc_type": "boletin",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:nco-10",
+      "notifier:nco-100",
+      "notifier:vsn-co"
+     ],
+     "products": [
+      {
+       "id": "notifier:nco-10",
+       "canonical_model": "NCO-10",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:nco-100",
+       "canonical_model": "NCO-100",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Notifier"
+       ]
+      },
+      {
+       "id": "notifier:vsn-co",
+       "canonical_model": "VSN-CO",
+       "familia": null,
+       "estado": "redirect",
+       "candidate": false,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Compatibilidad detectores de monoxido NCO10 / NCO100 / VSN-CO",
+      "head": "# Compatibilidad detectores de monoxido NCO10 / NCO100 / VSN-CO  **Title** Instalación y compatibilidad detectores de monóxido NCO10 / NCO100 / VSN-CO  **Content** Los detectores de monóxido NCO10 / N"
+     }
+    ],
+    "candidate": {
+     "product_model": null,
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "NCO10/NCO100",
+    "confidence": "baja",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NCO-10",
+     "NCO-100",
+     "NCO10",
+     "NCO100",
+     "VSN-CO"
+    ],
+    "evidence": "modelos candidatos: ['NCO-10', 'NCO-100', 'NCO10', 'NCO100', 'VSN-CO']",
+    "notes": [
+     "manual mezcla modelos de familias distintas (o s83/catálogo discrepan) → adjudicación de familia/alcance necesaria."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "Compatibilidad-entre-equipos-Notifier-y-Morley",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "a04eafd1-48d0-4ed6-9de8-4ff93ca6a3da"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      "en"
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Compatibilidad entre equipos Notifier y Morley"
+     ],
+     "source_pdf_filename": [
+      "Compatibilidad-entre-equipos-Notifier-y-Morley.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [],
+     "all_models": [],
+     "brand_on_doc": "Notifier / Morley",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "",
+     "doc_type": "boletin",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Compatibilidad entre equipos Notifier y Morley",
+      "head": "# Compatibilidad entre equipos Notifier y Morley  | **Question** | ¿Puedo instalar equipos de Notifier en una central de Morley o equipos de Morley en una central de Notifier?                         "
+     }
+    ],
+    "candidate": {
+     "product_model": null,
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": null,
+    "confidence": "baja",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "ni doc-level, ni s83-primario, ni catalog-familia utilizables",
+    "notes": [
+     "sin fuente de modelo utilizable (doc genérico: FAQ/soporte/compatibilidad). El contenido no documenta UN producto; considerar dejar 'unknown' o etiquetar con la central de contexto si el contenido lo fija."
+    ],
+    "n_manual_models": 0
+   },
+   {
+    "source_file": "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "1bc55fe2-3f36-455d-9f7a-3f600200a94f"
+     ],
+     "product_model": "NFS-Supra",
+     "manufacturer": "Morley",
+     "doc_type": [
+      "programacion"
+     ],
+     "language": [
+      "en"
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Configuracion entrada digital de la central NFS Supra VSN Plus2 ESS 2Plus"
+     ],
+     "source_pdf_filename": [
+      "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "ESS-2Plus",
+      "NFS Supra",
+      "VSN-Plus2"
+     ],
+     "all_models": [
+      "ESS-2Plus",
+      "NFS Supra",
+      "VSN-Plus2"
+     ],
+     "brand_on_doc": "Honeywell",
+     "oem_manufacturer": "unknown",
+     "family_scope": "",
+     "doc_type": "configuracion",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:ess-2plus",
+      "notifier:nfs-supra",
+      "notifier:vsn-plus2"
+     ],
+     "products": [
+      {
+       "id": "notifier:ess-2plus",
+       "canonical_model": "ESS-2Plus",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      },
+      {
+       "id": "notifier:nfs-supra",
+       "canonical_model": "NFS Supra",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      },
+      {
+       "id": "notifier:vsn-plus2",
+       "canonical_model": "VSN-Plus2",
+       "familia": null,
+       "estado": "activo",
+       "candidate": true,
+       "vendido_bajo": [
+        "Honeywell"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Configuración entrada digital de la central NFS Supra / VSN-Plus2 / ESS-2Plus",
+      "head": "# Configuración entrada digital de la central NFS Supra / VSN-Plus2 / ESS-2Plus  **Title** Configuración entrada digital de la central NFS Supra / VSN-Plus2 / ESS-2Plus  **Content** La central NFS Sup"
+     }
+    ],
+    "candidate": {
+     "product_model": "NFS-Supra",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "ESS-2Plus/VSN-Plus2",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NFS-Supra  (primario doc-level)",
+     "ESS-2Plus/VSN-Plus2  (compuesto — LEGACY, a migrar a familia)"
+    ],
+    "evidence": "doc-level product_model='NFS-Supra' (documents table, governed)",
+    "notes": [
+     "manual MULTI-MODELO (3 modelos s83: ['ess2plus', 'nfssupra', 'vsnplus2']); doc-level nombra solo el primario 'NFS-Supra'. Convención adjudicada = FAMILIA-genérica (dir. Alberto s281); si no hay familia definida en catálogo, adjudicar primario/alcance."
+    ],
+    "n_manual_models": 3
+   },
+   {
+    "source_file": "Docs Morley-IAS Lite&Plus - QR",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "3912b42a-26c9-46ea-b055-b24309083608"
+     ],
+     "product_model": "Morley Lite/Plus",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Docs Morley-IAS Lite&Plus - QR"
+     ],
+     "source_pdf_filename": [
+      "Docs Morley-IAS Lite&Plus - QR"
+     ]
+    },
+    "s83": {
+     "primary_models": [],
+     "all_models": [],
+     "brand_on_doc": "Morley-IAS",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "Morley-IAS Lite & Morley-IAS Plus",
+     "doc_type": "otro",
+     "languages": [
+      "en",
+      "es"
+     ],
+     "s83_confidence": "low"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Documentación Morley-IAS Lite & Morely-IAS Plus",
+      "head": "# Documentación Morley-IAS Lite & Morely-IAS Plus  https://buildings.honeywell.com/gb/en/lp/morleytech#ias-plus  [QR code linking to the above URL with \"SCAN ME\" text]"
+     }
+    ],
+    "candidate": {
+     "product_model": "Morley Lite/Plus",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "doc-level product_model='Morley Lite/Plus' (documents table, governed); única fuente = doc-level (sin corroboración s83/catálogo)",
+    "notes": [],
+    "n_manual_models": 0
+   },
+   {
+    "source_file": "EMA24RS2R_NX2y5-R-R",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Notifier"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "9e0a8f7d-e849-4ac6-aca0-79bcc70283f7"
+     ],
+     "product_model": "NX2/R/R y NX5/R/R",
+     "manufacturer": "Notifier",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "EMA24RS2R_NX2y5-R-R"
+     ],
+     "source_pdf_filename": [
+      "EMA24RS2R_NX2y5-R-R"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "NX2/R/R",
+      "NX5/R/R"
+     ],
+     "all_models": [
+      "NX2/R/R",
+      "NX5/R/R"
+     ],
+     "brand_on_doc": "unknown",
+     "oem_manufacturer": "unknown",
+     "family_scope": "",
+     "doc_type": "otro",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "low"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "",
+      "head": "[Technical diagram showing an exploded view of a mounting assembly. The top portion shows a rectangular housing or cover with two mounting points. Below it is a mounting bracket or base plate. Four sc"
+     }
+    ],
+    "candidate": {
+     "product_model": "NX2/R/R y NX5/R/R",
+     "manufacturer": "Notifier"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "NX2/R/R y NX5/R/R  (doc-level)",
+     "NX2/R/R  (s83 primario)",
+     "NX5/R/R  (s83 primario)"
+    ],
+    "evidence": "doc-level product_model='NX2/R/R y NX5/R/R' (documents table, governed)",
+    "notes": [
+     "doc-level pm='NX2/R/R y NX5/R/R' NO coincide con los primarios s83 ['NX2/R/R', 'NX5/R/R']; posible ruido de filename o modelo real no en s83."
+    ],
+    "n_manual_models": 2
+   },
+   {
+    "source_file": "Finales-de-linea-de-las-centrales-convencionales",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "aacf3f31-49d4-4128-98f9-887189fad761"
+     ],
+     "product_model": "NFS2-8",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      "de"
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Finales de linea de las centrales convencionales"
+     ],
+     "source_pdf_filename": [
+      "Finales-de-linea-de-las-centrales-convencionales.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [],
+     "all_models": [],
+     "brand_on_doc": "Notifier",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "Centrales convencionales",
+     "doc_type": "otro",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "medium"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Finales de línea de las centrales convencionales",
+      "head": "# Finales de línea de las centrales convencionales  **Question** ¿Que final de línea debo poner en centrales convencionales?  **Answers** Los finales de línea para las centrales convencionales son;  *"
+     }
+    ],
+    "candidate": {
+     "product_model": "NFS2-8",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": null,
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "doc-level product_model='NFS2-8' (documents table, governed); única fuente = doc-level (sin corroboración s83/catálogo)",
+    "notes": [],
+    "n_manual_models": 0
+   },
+   {
+    "source_file": "No-puedo-conectarme-con-el-ordenador-a-la-central-ZX",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "1ddb4a12-e94d-4c28-b87f-87ece6ed41e9"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "No puedo conectarme con el ordenador a la central ZX"
+     ],
+     "source_pdf_filename": [
+      "No-puedo-conectarme-con-el-ordenador-a-la-central-ZX.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "ZX2Se",
+      "ZX2e",
+      "ZX5Se",
+      "ZX5e"
+     ],
+     "all_models": [
+      "ZX2Se",
+      "ZX2e",
+      "ZX5Se",
+      "ZX5e",
+      "020-891"
+     ],
+     "brand_on_doc": "Morley-IAS",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "ZX / ZXe",
+     "doc_type": "otro",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "morley:020-891",
+      "morley:zx2e",
+      "morley:zx2se",
+      "morley:zx5e",
+      "morley:zx5se"
+     ],
+     "products": [
+      {
+       "id": "morley:020-891",
+       "canonical_model": "020-891",
+       "familia": null,
+       "estado": "activo",
+       "candidate": false,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx2e",
+       "canonical_model": "ZX2e",
+       "familia": "ZXe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx2se",
+       "canonical_model": "ZX2Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx5e",
+       "canonical_model": "ZX5e",
+       "familia": "ZXe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      },
+      {
+       "id": "morley:zx5se",
+       "canonical_model": "ZX5Se",
+       "familia": "ZXSe",
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Morley-IAS"
+       ]
+      }
+     ],
+     "familias": [
+      "ZXSe",
+      "ZXe"
+     ],
+     "umbrella": {
+      "termino": "ZXe",
+      "tipo": "familia",
+      "ids": [
+       "morley:zx1e",
+       "morley:zx2e",
+       "morley:zx5e"
+      ],
+      "divergent": true
+     },
+     "homonym_policy": {
+      "termino": "ZX",
+      "politica": "clarify"
+     }
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "No puedo conectarme con el ordenador a la central ZX",
+      "head": "# No puedo conectarme con el ordenador a la central ZX  **Question** No conecta el ordenador con las central ZX2/5e - ZX2/5Se  **Answers** Este artículo es aplicable a las centrales ZX2e – ZX5e – ZX2S"
+     }
+    ],
+    "candidate": {
+     "product_model": "ZXe",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "ZX2e/ZX2Se/ZX5e/ZX5Se",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "ZXe  (FAMILIA — adjudicada)",
+     "ZX2e/ZX2Se/ZX5e/ZX5Se  (compuesto — LEGACY, a migrar)"
+    ],
+    "evidence": "doc-level pm vacío; catalog umbrella 'ZXe' (familia GT) mapea el documento → etiqueta-FAMILIA (convención adjudicada)",
+    "notes": [],
+    "n_manual_models": 4
+   },
+   {
+    "source_file": "RP1R-SUPRA-VSN-RP1R-PLUS2-Teclado-bloqueado",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "1ab8784f-616f-4215-baf9-ce41a378602a"
+     ],
+     "product_model": "RP1R",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      ""
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "RP1R SUPRA VSN RP1R PLUS2 Teclado bloqueado"
+     ],
+     "source_pdf_filename": [
+      "RP1R-SUPRA-VSN-RP1R-PLUS2-Teclado-bloqueado.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [
+      "RP1R-SUPRA",
+      "VSN-RP1R-PLUS2"
+     ],
+     "all_models": [
+      "RP1R-SUPRA",
+      "VSN-RP1R-PLUS2"
+     ],
+     "brand_on_doc": "Honeywell",
+     "oem_manufacturer": "unknown",
+     "family_scope": "",
+     "doc_type": "mantenimiento",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [
+      "notifier:rp1r-supra"
+     ],
+     "products": [
+      {
+       "id": "notifier:rp1r-supra",
+       "canonical_model": "RP1r-Supra",
+       "familia": null,
+       "estado": "activo",
+       "candidate": null,
+       "vendido_bajo": [
+        "Notifier",
+        "Morley-IAS (VSN-RP1r+)",
+        "ESS"
+       ]
+      }
+     ],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": {
+      "termino": "RP1r",
+      "politica": "prefer:notifier:rp1r-supra"
+     }
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "RP1R- SUPRA / VSN-RP1R-PLUS2 - Teclado bloqueado",
+      "head": "# RP1R- SUPRA / VSN-RP1R-PLUS2 - Teclado bloqueado  **Question** ¿Tengo el teclado bloqueado en la central RP1R-SUPRA / VSN-RP1R-PLUS2 sin motivo aparente?  **Answers**  Compruebe la tierra de la inst"
+     }
+    ],
+    "candidate": {
+     "product_model": "RP1R",
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": "RP1R-SUPRA/VSN-RP1R-PLUS2",
+    "confidence": "media",
+    "needs_adjudication": true,
+    "adjudication_options": [
+     "RP1R  (doc-level)",
+     "RP1R-SUPRA  (s83 primario)",
+     "VSN-RP1R-PLUS2  (s83 primario)"
+    ],
+    "evidence": "doc-level product_model='RP1R' (documents table, governed)",
+    "notes": [
+     "doc-level pm='RP1R' NO coincide con los primarios s83 ['RP1R-SUPRA', 'VSN-RP1R-PLUS2']; posible ruido de filename o modelo real no en s83."
+    ],
+    "n_manual_models": 2
+   },
+   {
+    "source_file": "Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica",
+    "chunks": {
+     "total": 1,
+     "unknown": 1,
+     "unknown_nondup": 1,
+     "unknown_values": {
+      "unknown": 1
+     },
+     "manufacturers": [
+      "Morley"
+     ],
+     "where_predicate": "product_model = 'unknown'"
+    },
+    "document": {
+     "document_ids": [
+      "b769abb0-6d2f-4003-be9b-e62099b5a03a"
+     ],
+     "product_model": "unknown",
+     "manufacturer": "Morley",
+     "doc_type": [
+      ""
+     ],
+     "language": [
+      "en"
+     ],
+     "status": [
+      "active"
+     ],
+     "document_family": [
+      "Solicitud asistencia curso de formacion puesta en marcha consultas tecnica"
+     ],
+     "source_pdf_filename": [
+      "Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica.pdf"
+     ]
+    },
+    "s83": {
+     "primary_models": [],
+     "all_models": [],
+     "brand_on_doc": "Honeywell Life Safety",
+     "oem_manufacturer": "Honeywell",
+     "family_scope": "",
+     "doc_type": "otro",
+     "languages": [
+      "es"
+     ],
+     "s83_confidence": "high"
+    },
+    "catalog": {
+     "doc_map_ids": [],
+     "products": [],
+     "familias": [],
+     "umbrella": null,
+     "homonym_policy": null
+    },
+    "content_sample": [
+     {
+      "page": 1,
+      "chunk_index": 0,
+      "section_title": "Solicitud asistencia, curso de formación, puesta en marcha, consultas técnica o ",
+      "head": "# Solicitud asistencia, curso de formación, puesta en marcha, consultas técnica o licenciar programas (en WEB)  **Steps** Conozca todas las novedades y noticias sobre nuestras marcas, productos y serv"
+     }
+    ],
+    "candidate": {
+     "product_model": null,
+     "manufacturer": "Morley"
+    },
+    "composite_candidate": null,
+    "confidence": "baja",
+    "needs_adjudication": true,
+    "adjudication_options": [],
+    "evidence": "ni doc-level, ni s83-primario, ni catalog-familia utilizables",
+    "notes": [
+     "sin fuente de modelo utilizable (doc genérico: FAQ/soporte/compatibilidad). El contenido no documenta UN producto; considerar dejar 'unknown' o etiquetar con la central de contexto si el contenido lo fija."
+    ],
+    "n_manual_models": 0
+   }
+  ]
+ }
+}
