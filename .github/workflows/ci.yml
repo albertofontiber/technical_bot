@@ -22,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Los drift-seals del runner verifican blobs sellados en commits
+          # HISTÓRICOS via `git cat-file` (tests/test_s277_c1_p1_runner.py):
+          # exigen historia completa; con el shallow por defecto (depth=1) el
+          # commit sellado no existe y TODO el archivo falla en setup.
+          fetch-depth: 0
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v6

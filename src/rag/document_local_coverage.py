@@ -159,6 +159,12 @@ def _sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def _config_file_sha256(path: Path) -> str:
+    # EOL-canonical (CRLF -> LF): the receipt binds the config's CONTENT, not the
+    # checkout convention (git autocrlf yields different bytes per platform).
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def _stable_sha256(value: Any) -> str:
     payload = json.dumps(
         value,
@@ -436,7 +442,7 @@ def build_document_local_query_plan(
         "anchor_terms": anchors,
         "need_groups": need_groups,
         "fts_config": "spanish_unaccent",
-        "query_facets_sha256": hashlib.sha256(QUERY_CONFIG.read_bytes()).hexdigest(),
+        "query_facets_sha256": _config_file_sha256(QUERY_CONFIG),
     }
     return {**receipt, "tsquery": tsquery, "sha256": _stable_sha256(receipt)}
 
@@ -593,9 +599,7 @@ def _build_document_local_query_plan_v5(
         "anchor_terms": anchors,
         "need_groups": trimmed_groups,
         "fts_config": "spanish_unaccent",
-        "query_facets_sha256": hashlib.sha256(
-            QUERY_CONFIG_V5.read_bytes()
-        ).hexdigest(),
+        "query_facets_sha256": _config_file_sha256(QUERY_CONFIG_V5),
         "config": "v5",
         "trim": trim_receipt,
     }

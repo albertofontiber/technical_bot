@@ -1440,9 +1440,9 @@ _GOLDEN_OFF_TRACE_JSON = (
     ' "fts_candidate_rows": 1, "fts_queries": 1, "http_requests": 1, "lane":'
     ' "document_local_content_coverage_v1", "model_calls": 0, "overflow":'
     ' false, "query_facets_sha256":'
-    ' "05c91e49a7c539b71c1e17c98ffb36007f815aa701347e421384b2aecfb01371",'
+    ' "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb",'
     ' "query_plan_sha256":'
-    ' "b35f5570ea76df0a430a6a984e06427143900d064b9637d285b40f2303e086a6",'
+    ' "ba17bd069dd90b6435604bdb438b189311dcaede53771c79542b333e4286e2e6",'
     ' "rows_read": 3, "satisfaction_route": null, "satisfied_ids": [],'
     ' "seed_scope_count": 1, "seed_scopes_sha256":'
     ' "7c586b697615c9954ad30a1501ca8303471c247d41f0b16f85a104249eecf9e8",'
@@ -1964,7 +1964,7 @@ def test_v4_plan_receipt_is_byte_identical_when_v2_off(
     assert plan["archetype"] == "fault_reset_recovery"
     assert plan["fts_config"] == "spanish_unaccent"
     assert plan["sha256"] == (
-        "b35f5570ea76df0a430a6a984e06427143900d064b9637d285b40f2303e086a6"
+        "ba17bd069dd90b6435604bdb438b189311dcaede53771c79542b333e4286e2e6"
     )
 
 
