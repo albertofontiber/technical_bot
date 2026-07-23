@@ -23,6 +23,26 @@ from .contracts import (
     TurnResult,
 )
 from .orchestrator import plan_turn, run_turn
+from .convo_store import (
+    ConvoScanner,
+    ConvoStore,
+    ConvoStoreWithScan,
+    OutboxRecord,
+    PostgRESTConvoStore,
+    ReclaimCandidate,
+    StuckSending,
+)
+from .fake_convo_store import FakeConvoStore, ManualClock
+from .lifecycle import (
+    DeliveryOutcome,
+    DeliveryPayload,
+    RepairSummary,
+    TurnOutcome,
+    deliver_outbox,
+    deliver_pending,
+    reclaim_and_repair,
+    run_conversational_turn,
+)
 
 __all__ = [
     "ClarifyPlan",
@@ -38,4 +58,22 @@ __all__ = [
     "plan_turn",
     "replay_adapters",
     "run_turn",
+    # MT-0c: effectively-once store + driver
+    "ConvoScanner",
+    "ConvoStore",
+    "ConvoStoreWithScan",
+    "OutboxRecord",
+    "PostgRESTConvoStore",
+    "ReclaimCandidate",
+    "StuckSending",
+    "FakeConvoStore",
+    "ManualClock",
+    "DeliveryOutcome",
+    "DeliveryPayload",
+    "RepairSummary",
+    "TurnOutcome",
+    "deliver_outbox",
+    "deliver_pending",
+    "reclaim_and_repair",
+    "run_conversational_turn",
 ]
