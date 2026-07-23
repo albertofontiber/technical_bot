@@ -622,9 +622,21 @@ def run_e2e() -> int:
     from src.orchestrator.rewriter import make_rewriter
 
     flows = load_flows()
+    # Subset dirigido para smoke/A-B (patrón ONLY_QIDS de test_bot_vs_gold):
+    # MT1B_ONLY_FLOWS=mt01,mt12 corre solo esos flow_ids. Plumbing, no vara.
+    only = {f.strip() for f in os.getenv("MT1B_ONLY_FLOWS", "").split(",") if f.strip()}
+    if only:
+        flows = [f for f in flows if f["flow_id"] in only]
+        print(f">> subset MT1B_ONLY_FLOWS: {sorted(only)} -> {len(flows)} flujos")
     gold_path = ROOT / "evals" / "gold_answers_v1.yaml"
     gold_rows = {r["qid"]: r for r in _yaml.safe_load(gold_path.read_text(encoding="utf-8"))}
-    rewrite = make_rewriter()  # cliente Anthropic real (lazy) — Sonnet
+    # Pin del run pagado: modelo del rewriter = tier de generación de prod salvo
+    # override; variante de prompt para el A/B autorizado (fontiber|condense_lc).
+    from src.config import LLM_MODEL as _prod_model
+    rewrite = make_rewriter(
+        model=os.getenv("MT1B_REWRITER_MODEL", _prod_model),
+        prompt_variant=os.getenv("MT1B_REWRITE_VARIANT", "fontiber"),
+    )
     adapters = from_production()
     judge_fn = _make_openai_judge()
 
