@@ -8,7 +8,9 @@ EVIDENCE = ROOT / "evals/s133_true_pgvector_runtime_gate_v1.json"
 
 
 def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Receipts are sealed over the repository's canonical LF representation,
+    # independent of a Windows checkout's core.autocrlf setting.
+    return hashlib.sha256(path.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
 
 
 def test_s133_true_pgvector_evidence_is_go_isolated_and_current():
@@ -51,8 +53,10 @@ def test_s133_true_pgvector_evidence_is_go_isolated_and_current():
         ROOT / "scripts/s131_m0b_negative_gate.py"
     )
     assert payload["authority"]["s117_migration_sha256"] == _sha256(
-        ROOT / "supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql"
+        ROOT
+        / "supabase/migration_proposals/20260714102428_chunks_v3_provenance_shadow.sql"
     )
     assert payload["authority"]["s131_migration_sha256"] == _sha256(
-        ROOT / "supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql"
+        ROOT
+        / "supabase/migration_proposals/20260716120000_chunks_v3_shadow_binding_v2.sql"
     )

@@ -1,7 +1,7 @@
 """
-Smoke test for the RAG pipeline — runs 6 representative queries (2 per
-manufacturer) end-to-end through retrieve → rerank → generate, and prints
-the answers + basic shape checks.
+Smoke test for the served RAG seam — runs 6 representative queries (2 per
+manufacturer) through retrieve → rerank → profiled coverage → generate, and
+prints the release profile, coverage receipt, answers, and basic shape checks.
 
 Use BEFORE deploying to Railway (or after major code changes) to confirm the
 pipeline still produces non-empty, on-topic answers. Costs ~$0.10-0.30 in
@@ -24,10 +24,19 @@ if hasattr(sys.stdout, "reconfigure"):
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.config import validate_config, RETRIEVAL_TOP_K, RERANK_TOP_K  # noqa: E402
+from src.config import (  # noqa: E402
+    COVERAGE_RELEASE_POLICY,
+    RETRIEVAL_TOP_K,
+    RERANK_TOP_K,
+    validate_config,
+)
 from src.rag.retriever import retrieve_chunks, extract_product_models  # noqa: E402
-from src.rag.reranker import rerank_chunks  # noqa: E402
+from src.rag.reranker import rerank  # noqa: E402
 from src.rag.generator import generate_answer  # noqa: E402
+from src.rag.serving_pipeline import RagServingAdapters, execute_rag_turn  # noqa: E402
+from src.rag.structural_neighbor_shadow import (  # noqa: E402
+    observe_structural_neighbor_shadow,
+)
 
 logging.basicConfig(format="%(asctime)s %(levelname)s %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -51,16 +60,37 @@ def run_query(qid: str, query: str) -> tuple[bool, str, float]:
     start = time.time()
     try:
         target_models = extract_product_models(query)
-        chunks = retrieve_chunks(query, top_k=RETRIEVAL_TOP_K)
-        chunks = rerank_chunks(query, chunks, top_k=RERANK_TOP_K, target_models=target_models)
-        result = generate_answer(query, chunks)
+        pipeline = execute_rag_turn(
+            query=query,
+            query_for_retrieval=query,
+            target_models=target_models,
+            available_models=None,
+            retrieval_top_k=RETRIEVAL_TOP_K,
+            rerank_top_k=RERANK_TOP_K,
+            adapters=RagServingAdapters(
+                retrieve=retrieve_chunks,
+                rerank=rerank,
+                observe_structural_shadow=observe_structural_neighbor_shadow,
+                generate=generate_answer,
+            ),
+        )
+        chunks = pipeline["chunks"]
+        result = pipeline["generation"]
+        coverage_trace = pipeline["coverage_trace"]
         answer = result.get("answer", "")
         diagrams = result.get("diagrams", [])
         elapsed = time.time() - start
 
         if not answer or len(answer.strip()) < 30:
             return False, f"answer too short: {len(answer)} chars", elapsed
-        return True, f"{len(chunks)} chunks, {len(answer)} chars, {len(diagrams)} diagrams", elapsed
+        appended = coverage_trace.get("appended_ids") or []
+        return (
+            True,
+            f"{len(chunks)} chunks, {len(answer)} chars, {len(diagrams)} diagrams, "
+            f"profile={COVERAGE_RELEASE_POLICY.profile}, "
+            f"coverage={coverage_trace.get('status')}, appended={len(appended)}",
+            elapsed,
+        )
     except Exception as e:
         elapsed = time.time() - start
         return False, f"exception: {e}", elapsed
@@ -72,7 +102,9 @@ def main():
     args = parser.parse_args()
 
     validate_config()
-    logger.info("Config validated.")
+    logger.info(
+        "Config validated; release_profile=%s.", COVERAGE_RELEASE_POLICY.profile
+    )
 
     queries = SMOKE_QUERIES
     if args.quick:

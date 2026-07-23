@@ -5,7 +5,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SQL_PATH = ROOT / "supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql"
+SQL_PATH = (
+    ROOT
+    / "supabase"
+    / "migration_proposals"
+    / "20260716120000_chunks_v3_shadow_binding_v2.sql"
+)
 SQL = SQL_PATH.read_text(encoding="utf-8")
 
 

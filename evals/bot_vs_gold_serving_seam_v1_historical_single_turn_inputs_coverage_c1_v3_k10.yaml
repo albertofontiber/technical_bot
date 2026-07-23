@@ -1,0 +1,204 @@
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acertó en gran parte del cableado del módulo HOP-433-100, límites
+    principales, pantalla, no mezclar OPAL/CLIP y licencia CLIP. Pero la parte de
+    alta/configuración queda prácticamente ausente: no menciona la autoconfiguración,
+    gestión en CLSS, generación/carga del .bin de licencia ni la herramienta POL-200-TS.'
+  bot_sources:
+  - 4188-1132-ES issue 3_04_2025_Qref
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Cableado y configuración de lazo — INSPIRE E10/E15\n\n---\n\n## PARTE\
+    \ 1: CABLEADO FÍSICO DEL LAZO\n\n### Módulo de lazo OPAL X2 (HOP-433-100)\n\n\
+    El módulo de lazo tiene **color morado** y dispone de 10 terminales [F2]:\n\n\
+    **Lazo 1:**\n- Terminal **1** → Lazo 1 Salida +VE (OUT +VE)\n- Terminal **2**\
+    \ → Lazo 1 Salida -VE (OUT -VE)\n- Terminal **3** → ⊕ (**NO USAR para pantalla\
+    \ de cable**)\n- Terminal **4** → Lazo 1 Entrada +VE (IN +VE)\n- Terminal **5**\
+    \ → Lazo 1 Entrada -VE (IN -VE)\n\n**Lazo 2:**\n- Terminal **6** → Lazo 2 Salida\
+    \ +VE (OUT +VE)\n- Terminal **7** → Lazo 2 Salida -VE (OUT -VE)\n- Terminal **8**\
+    \ → ⊕ (**NO USAR para pantalla de cable**)\n- Terminal **9** → Lazo 2 Entrada\
+    \ +VE (IN +VE)\n- Terminal **10** → Lazo 2 Entrada -VE (IN -VE)\n\n> ⚠️ **La pantalla\
+    \ del cable de lazo debe conectarse a la barra de tierra de la central, NO a los\
+    \ terminales 3 u 8** [F2]. Se recomienda poner a tierra un solo extremo de la\
+    \ pantalla [F11].\n\n> ⚠️ **No mezclar dispositivos OPAL y CLIP en el mismo lazo**\
+    \ [F2].\n\n---\n\n### Capacidad del lazo [F2][F5]\n\n**Modo OPAL:**\n- Hasta **159\
+    \ detectores OPAL** + **159 módulos OPAL** por lazo\n- Corriente máxima por lazo:\
+    \ **750 mA**\n\n**Modo CLIP** (requiere licencia):\n- Hasta **99 detectores CLIP**\
+    \ + **99 módulos CLIP** por lazo\n\n> ⚠️ **EN54-2 (13.7):** Restricción de **512\
+    \ detectores y/o pulsadores** por módulo de lazo (2 circuitos) [F2].\n\n**Longitud\
+    \ máxima del lazo:** hasta **3,5 km** dependiendo del tipo de carga y cable, calculada\
+    \ con el programa CLSS [F2].\n\n---\n\n### Numeración de lazos [F2]\n\nLos circuitos\
+    \ de lazo se numeran secuencialmente de **izquierda a derecha** del portamódulos.\
+    \ El primer módulo de lazo instalado en la ranura izquierda tiene el lazo 1. En\
+    \ la E15 (dos filas de portamódulos), la segunda fila continúa la numeración desde\
+    \ la primera.\n\n---\n\n## PARTE 2: COMPROBACIONES PREVIAS AL ENCENDIDO\n\nAntes\
+    \ de conectar el lazo a la central, realiza estas verificaciones con multímetro\
+    \ [F6][F7][F8]:\n\n> ⚠️ **NUNCA uses un comprobador de alta tensión (megóhmetro)\
+    \ en el circuito de lazo** [F6].\n\n1. Comprueba la **continuidad de cada parte\
+    \ del lazo** y mide la resistencia extremo a extremo [F6].\n\n2. Comprueba la\
+    \ **continuidad de la pantalla** del cable (debe dar resistencia muy baja) [F6].\n\
+    \n3. Verifica que **no hay continuidad entre la pantalla y los cables +VE/-VE**\
+    \ [F6].\n\n4. Con el multímetro en **función de prueba de diodo**, conecta en\
+    \ **polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo).\
+    \ Debe indicar **símbolo de diodo en polarización directa** [F7].\n\n5. Conecta\
+    \ el multímetro en **polaridad normal** (+VE al positivo del lazo). Al principio\
+    \ debe leer resistencia baja, que **aumenta progresivamente** al cargarse los\
+    \ condensadores de los dispositivos [F7].\n   - Si indica diodo en polarización\
+    \ directa en este paso → uno o varios dispositivos están conectados en **polaridad\
+    \ inversa** o hay un cortocircuito [F7].\n\n6. Verifica los **límites de resistencia**\
+    \ del lazo [F8]:\n   - Protocolo **OPAL**: resistencia < **40 Ω**\n   - Protocolo\
+    \ **CLIP** (detección de dirección duplicada): < **40 Ω**\n   - Protocolo **CLIP**\
+    \ (sin detección de dirección duplicada): < **71 Ω**\n   - Capacidad del cable:\
+    \ < **0,5 µF** [F8]\n\n   > Para medir: mide entre \"Lazo X Entrada -VE\" y \"\
+    Lazo X Salida -VE\" con el lazo desconectado de la central, multiplica el resultado\
+    \ por 2 y añade la resistencia de cada aislador (**0,1 a 0,13 Ω** por aislador)\
+    \ [F8].\n\n7. Para dispositivos OPAL con base **B501 AP**: al retirar el detector,\
+    \ la continuidad se mantiene automáticamente por los terminales +2 y +4 de la\
+    \ base [F8].\n   Para dispositivos CLIP: puentea temporalmente los terminales\
+    \ **2 y 4 de cada aislador** [F8].\n\n8. Una vez verificado el cableado, **conecta\
+    \ el circuito de lazo al bloque de terminales** del módulo correspondiente en\
+    \ la central [F11].\n\n---\n\n## PARTE 3: CONFIGURACIÓN DEL LAZO (Software CLSS)\n\
+    \n### Configuración inicial previa [F9]\n\n> ⚠️ Para lazos CLIP o TC800 OPAL/CLIP,\
+    \ la central debe configurarse previamente con CLSS **antes** de realizar la Auto\
+    \ Configuración. Por defecto, la central tiene licencia solo para **protocolo\
+    \ OPAL avanzado** [F9].\n\n1. Conecta la herramienta de configuración CLSS a la\
+    \ central [F10].\n\n2. Ve a **\"Ajustes\" → \"Ajustes HMI\"** y en **Tipo de marca**\
+    \ selecciona **Notifier EN** [F9].\n\n3. En **\"Ajustes de lazo\"** [F9]:\n  \
+    \ - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**\n   - Si el lazo se utiliza:\
+    \ selecciona **\"Limitar a VdS 2540\"** (Sí/No) — el valor de resistencia cambia\
+    \ según la selección\n   - Selecciona el **tipo de cable**\n\n4. Envía la configuración\
+    \ a la central (pasos \"Enviar configuración a la central\" del CLSS) [F9].\n\n\
+    ---\n\n### Auto Configuración (búsqueda de dispositivos) [F10]\n\n1. En la central,\
+    \ selecciona **Auto Configuración** para buscar dispositivos conectados al lazo.\
+    \ Lee la ventana emergente y confirma seleccionando **Auto Configuración** / **Learn\
+    \ Devices** [F10].\n\n   > Si no hay protocolo especificado en la configuración,\
+    \ el lazo usará por defecto el **protocolo OPAL** [F10].\n\n2. Una vez completada\
+    \ la búsqueda, selecciona la **flecha derecha (>)** junto al botón Auto Búsqueda\
+    \ para ver el estado de averías del lazo [F10].\n\n3. Lee los **mensajes de avería**\
+    \ y rectifica los problemas detectados. Las causas típicas son [F10]:\n   - Discordancia\
+    \ entre diseño e instalación\n   - Averías en el cableado\n   - Presencia de fuente\
+    \ de RFI\n   - Error de módulo o fuente de alimentación\n   - Conexionado incorrecto\
+    \ en dispositivos\n\n4. Selecciona **Hecho** al completar. Si no hay averías,\
+    \ vuelve a la página **Información del sistema** [F10].\n\n5. **Repite los pasos\
+    \ 1 a 4 para cada lazo** hasta descubrir todos los lazos del sistema [F10].\n\n\
+    ---\n\n**Fuentes:**\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta en\
+    \ marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Instrucciones de instalación\
+    \ INSPIRE E10)\n- 4188-1132-ES issue 3, 04-2025 (Guía rápida CLSS-10)\n\n---\n\
+    \nTambién puedo ayudarte con: **conexionado de módulos de E/S al lazo**, **interpretación\
+    \ de mensajes de avería tras la Auto Configuración**, o **cálculo de resistencia\
+    \ y longitud de lazo con CLSS**."
+- qid: cat019
+  question: '¿Como se configura una maniobra (causa-efecto) completa en la Detnov
+    CAD-250: como se crea, como se definen las entradas/eventos que la disparan y
+    como se asignan las salidas?'
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acerta en la creación de la maniobra, el campo Coincidencias y la
+    definición de eventos/entidades, incluyendo la idea de local/red y condición temporal.
+    Pero la respuesta queda incompleta: no llega a explicar la asignación de salidas/ACCIONES,
+    y añade detalles no presentes en la referencia que podrían ser imprecisos o no
+    suficientemente justificados.'
+  bot_sources:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v3
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Configuración de una maniobra completa en la CAD-250\n\n> ⚠️ La programación\
+    \ de maniobras es una de las funciones más críticas de la configuración del sistema.\
+    \ Requiere conocimiento específico del sistema instalado, del plan de protección\
+    \ y del producto [F5].\n\n---\n\n## Concepto general\n\nUna maniobra es un conjunto\
+    \ de acciones programadas en función de los estados del sistema, áreas, zonas\
+    \ o dispositivos. La estructura es siempre [F1]:\n\n- **Entradas** (Eventos) →\
+    \ **Lógica** (Coincidencias, Negación, Retardos) → **Salidas** (Acciones)\n\n\
+    El sistema soporta hasta **100.000 entradas y salidas** configuradas en distintas\
+    \ maniobras [F10].\n\n---\n\n## PASO 1 — Crear la maniobra\n\n**Desde el panel\
+    \ táctil (MC-380):**\n\n1. Accede a **MENÚ > MANIOBRAS** [F1]\n2. Pulsa **+AÑADIR**\
+    \ en la barra de navegación inferior [F1]\n3. Se abre la pantalla de edición de\
+    \ la maniobra. El contador muestra el número de maniobra actual [F4]\n\n**Desde\
+    \ el software de configuración (MS-416):**\n\n1. Accede a la ventana de **MANIOBRAS**\
+    \ [F10]\n2. Pulsa **NUEVO** [F10]\n\n---\n\n## PASO 2 — Definir el campo COINCIDENCIAS\n\
+    \nAntes de añadir eventos, configura el campo **Coincidencias**: indica cuántos\
+    \ eventos deben cumplirse simultáneamente para que la maniobra se ejecute [F4]:\n\
+    \n- **Coincidencias = 1** → lógica **OR**: cualquiera de los eventos activa la\
+    \ salida [F4]\n- **Coincidencias = 2** (con 2 eventos) → lógica **AND**: ambos\
+    \ eventos deben cumplirse [F4]\n- **Coincidencias = N de M** → N eventos cualesquiera\
+    \ de los M configurados deben cumplirse [F4]\n\n---\n\n## PASO 3 — Añadir EVENTOS\
+    \ (entradas)\n\n1. Pulsa **AÑADIR** en el margen inferior de la pantalla [F2]\n\
+    2. En la pantalla emergente, selecciona **EVENTO** [F2]\n3. Elige el tipo de evento\
+    \ [F2]:\n   - **ENTIDAD**: cualquier elemento de la jerarquía del sistema\n  \
+    \ - **CONDICIÓN TEMPORAL**: un periodo de tiempo como condición\n\n### Si eliges\
+    \ ENTIDAD:\n\nSelecciona el **origen** de la entidad [F5] [F7]:\n- **Local** o\
+    \ **Red** (cualquier central del sistema en red) [F2]\n- Nivel jerárquico: Instalación,\
+    \ Panel, Lazo, Área, Zona, Dispositivo, Grupo o Módulo virtual [F5]\n\nConfigura\
+    \ los parámetros del evento [F7]:\n\n- **Condición de estado** — qué estado hace\
+    \ verdadero el evento:\n  - *Alarma*: uno o más elementos en alarma [F7]\n  -\
+    \ *Avería*: uno o más elementos en avería [F7]\n  - *Técnico*: una o más entradas\
+    \ activas [F7]\n\n- **Condición de tipo** — restringe qué dispositivo activa el\
+    \ evento [F7]:\n  - *Todos*: cualquier dispositivo activo\n  - *Pulsadores*: únicamente\
+    \ pulsadores\n  - *Detectores*: únicamente detectores\n  - *Entrada*: únicamente\
+    \ entradas\n\n- **Repeticiones** — número de veces que el evento debe repetirse\
+    \ en la entidad para que la entrada sea válida. Valor entero hasta **9999** [F5]\
+    \ [F7]. Ejemplo: zona en alarma con 3 repeticiones → condición verdadera cuando\
+    \ 3 detectores estén en alarma [F7]\n\n- **Lógico** — estado lógico de la condición\
+    \ [F5] [F7]:\n  - *Normal*: la condición de estado es verdadera\n  - *No (Negado)*:\
+    \ la condición de estado es falsa (p.ej. \"no hay alarma\")\n\n> **Nota (software\
+    \ MS-416):** Desde la versión **1.1.1** es posible seleccionar un elemento de\
+    \ salida como condición de entrada. En ese caso, será el cambio a condición de\
+    \ avería el que hará verdadera la condición entrante. Para ello, desmarca la casilla\
+    \ **\"Sólo dispositivos de entrada\"** [F6].\n\n### Si eliges CONDICIÓN TEMPORAL:\n\
+    \nConfigura el periodo de tiempo bajo el cual la ecuación de entrada es válida\
+    \ [F8] [F9]:\n\n- **Desde mes / Hasta mes**: intervalo en meses\n- **Desde día\
+    \ / Hasta día**: intervalo en días de la semana\n- **Desde hora / Hasta hora**:\
+    \ franja horaria\n- **Lógico**:\n  - *Normal*: el periodo definido hace la condición\
+    \ verdadera\n  - *No*: el periodo definido hace la condición falsa\n\nPulsa **GUARDAR**\
+    \ para confirmar o **CANCELAR** para deshacer [F8].\n\nPuedes añadir tantos eventos\
+    \ como necesites. Un evento es verdadero cuando se cumplen **todas** las premisas\
+    \ establecidas para ese evento [F6].\n\n---\n\n## PASO 4 — Añadir ACCIONES (salidas)\n\
+    \n1. Pulsa **AÑADIR** en el margen inferior de la pantalla [F3]\n2. En la pantalla\
+    \ emergente, selecciona **ACCION** [F3]\n3. Configura los parámetros de la acción\
+    \ [F3] [F5] [F8]:\n\n- **Retraso**: tiempo de espera antes de ejecutar la acción,\
+    \ configurable entre **0 y 600 segundos** [F5] [F8]. El retardo se inicia a partir\
+    \ del momento en que la condición de entrada es verdadera [F5]\n\n- **Entidad\
+    \ de destino** (solo entidades locales) [F3] [F10]:\n  - Panel, Lazo, Área, Zona,\
+    \ Dispositivo, Grupo o Módulo virtual\n\n- **Tipo de acción** [F5] [F8]:\n  -\
+    \ *Activar*: activa las salidas\n  - *Desactivar*: desactiva las salidas\n  -\
+    \ *Habilitar*: habilita la entidad\n  - *Deshabilitar*: deshabilita la entidad\n\
+    \  - *Test*: pone en modo test la entidad\n  - *Reiniciar*: reinicia la entidad\n\
+    \  - *Pulso*: acción de pulso sobre la entidad\n\n- **Tipo de elemento** sobre\
+    \ el que aplica la acción [F5]:\n  - Todos, Sirenas, Relés, Sirena discontinua\n\
+    \n> ⚠️ Las acciones siempre son relativas a la entidad seleccionada. El programa\
+    \ **no permite mezclar acciones sobre entidades de paneles diferentes** [F10].\n\
+    \n---\n\n## Elementos adicionales del menú de maniobras\n\nDesde el submenú **MANIOBRAS**\
+    \ también están disponibles [F1]:\n\n- **Grupos**: asociaciones de elementos (áreas,\
+    \ zonas, dispositivos) para facilitar la creación de reglas de actuación [F1]\n\
+    - **Módulos virtuales**: permiten crear bucles interdependientes. Un conjunto\
+    \ de entradas determina el estado del módulo virtual, que a su vez puede actuar\
+    \ como entrada de otra maniobra [F1]\n- **Estado VM**: visualización y activación\
+    \ de módulos virtuales, o uso como botones de acceso rápido desde la pantalla\
+    \ principal [F1]\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c\
+    \ (rev. c, 2026-04-23)\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b\
+    \ (rev. b)\n\n---\n\nTambién puedo ayudarte con: **configuración de Grupos**,\
+    \ **programación de Módulos Virtuales** o **ejemplo práctico de maniobra doble\
+    \ knock (2 detectores en alarma activan sirena)** en la CAD-250.\n\n---\n\U0001F4D6\
+    \ **Obligaciones de evidencia del manual:**\n- \"Defina para cada salida el tipo\
+    \ de acción que debe realizarse cuando todos las condiciones de los eventos de\
+    \ entrada sean verdderas.\" (CAD-250_Manual-software-configuracion-MS-416-es-2026-b,\
+    \ p. 54) [F8]\n- \"Seleccione el elemento de cualquiera de los dos cuadrid de\
+    \ la maniobra, eventos o acciones y pulse este botón para borrarlo,\" (CAD-250_Manual-software-configuracion-MS-416-es-2026-b,\
+    \ p. 56) [F10]\n- \"**Editar.** Seleccione el elemento de cualquiera de los dos\
+    \ cuadrid de la maniobra, eventos o acciones y pulse este botón para entrar en\
+    \ el menú de edición del elemento.\" (CAD-250_Manual-software-configuracion-MS-416-es-2026-b,\
+    \ p. 56) [F10]"

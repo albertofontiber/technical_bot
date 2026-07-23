@@ -1,0 +1,59 @@
+{
+  "instrument": "s277_c1_live_neighbor_fetch_from_frozen_prefix_probe_v2",
+  "observed_at": "2026-07-20T17:28:08.7787302+02:00",
+  "status": "PASS_C1_LIVE_NEIGHBOR_FETCH_FROM_FROZEN_PREFIX_READ_ONLY",
+  "scope": {
+    "production_database_writes": 0,
+    "railway_changed": false,
+    "paid_model_calls": 0,
+    "uses_frozen_retrieval_prefix": true,
+    "proves_live_retrieval": false,
+    "proves_live_rerank": false,
+    "proves_model_synthesis": false
+  },
+  "authority": {
+    "schema": "s277_c1_live_neighbor_fetch_runtime_manifest_v1",
+    "implementation_sha256_lf": {
+      "config/evidence_coverage_facets_v2.yaml": "d9a8e9422d60bd94aac5e4e185cc7e81a8c9b5cbfb4be76509f62d86c7a0f838",
+      "config/evidence_coverage_facets_v4.yaml": "49a4aa87ed872972ed2c700db4f25393088ab697c99b5618d80957e42d8aaf95",
+      "config/retrieval_facets_v3.yaml": "1e263796ecd61d33968b61ed942e5da12da31e1ccb49b429d142b77a6e84355b",
+      "config/structural_neighbor_coverage_v1.yaml": "e698f510788a3dfc6a2d571fcb66469b6c982b9e7dd2f17426bf55f4a1bf8c96",
+      "config/structured_numeric_claims_v2.yaml": "f6bb5bfea714ad8db13851aef4e80e0ca2e0cd0546f218bff986c4ec1f17f3df",
+      "scripts/s277_c1_live_reachability_probe.py": "dc465b2b634737a95e69dc7fdc178688770e2ed5f7fed5f828675a191b3a13a9",
+      "src/config.py": "7ae9fc3fbb96e16b263c408d1a0e09280ecfe687c134b58bbfc7f4d55e9db0df",
+      "src/rag/catalog.py": "bc38a9c55e0dfd0c6576f5926fff46884795c4052741f1a6377dfb8a33b6822a",
+      "src/rag/coverage_runtime.py": "f82f0a72c8c98cefb4829bdfba84b022d8630df777396e9dfd1b1d33ecae8592",
+      "src/rag/evidence_coverage.py": "64e053b7dc427ae394dae56eb3ddec34a166c22b4c9291e8a9c9f6c074e3a00b",
+      "src/rag/evidence_window.py": "1cccc9844cb607036d29fd54004b3d4d1b44ae14c96d9d630994bb67a64d33cd",
+      "src/rag/mp_lexicon.py": "4eacf814c192fcd3a9553a0bbe89df6fafb145ee1ae957982eceaaed7c6953c4",
+      "src/rag/post_rerank_coverage.py": "9da0ae163c346143bb177413bab7a57ba36bd5eece422bba556006205f682f8d",
+      "src/rag/query_facets.py": "0674ac03b1deb6bb2a397ccc2435585b3bb037e8fe0a43518c2766227b25a2fe",
+      "src/rag/serving_pipeline.py": "cf86e37552cc5036c0784d4d667fa100299900f126ade62f257e086e3bba04f7",
+      "src/rag/structural_neighbor_coverage.py": "97d22dd9c7409969d4c803e004a2a1f663970ada73d0cba4c7fc39c4d1d28d04",
+      "src/rag/structural_neighbor_shadow.py": "a424572f75e4d89e631bc58a7637f89cfb5faf561017cd04025e321fdfdb8321",
+      "src/rag/structured_claims.py": "2160f95079d0992b1d34323ec0921a42866cd9c3e50b5676ba23d8aa373951ed",
+      "src/rag/toc_detection.py": "120ba6e6ef9873577aebc0b089d5e57f5c4c16bd305f227fe571313890ea1f3e",
+      "src/release_profiles.py": "e6896a8d50f588789432f9cc155f63f15413bd18350c2fc14f4252efff06d015"
+    },
+    "source_freeze_sha256": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498",
+    "selector_config_sha256": "e698f510788a3dfc6a2d571fcb66469b6c982b9e7dd2f17426bf55f4a1bf8c96",
+    "fetched_candidate_snapshot_sha256": "98382331294dde4f3799edba5c28a96b90690db1745518edc40f978bbe7ccdb3"
+  },
+  "receipt": {
+    "profile": "coverage_c1_v1",
+    "seed_rows": 10,
+    "fetched_candidate_rows": 110,
+    "rows_read": 120,
+    "http_get_requests": 5,
+    "served_rows": 12,
+    "target_fragment": 12,
+    "target_callout_receipted": true
+  },
+  "limitations": [
+    "The live PostgREST operation was five bounded GETs and performed no database write.",
+    "Retrieval and reranking were replaced by the sealed S113 ten-row prefix.",
+    "The 110 fetched rows are raw pre-selector rows and can include the ten seeds.",
+    "The generation boundary was a local stub; this receipt does not prove model synthesis.",
+    "The target identity is checked in memory and is not emitted in the receipt."
+  ]
+}

@@ -1,0 +1,17 @@
+schema: s277_c1_p1_duo_adjudication_v1
+sol_ts: "2026-07-20T16:32:35"
+subject_sha256: bd7b3c298352ab592b71a3778db7199a093994a4cf4add219f52b1ac3258befd
+verdict: NO_PASS_REVISE_AND_RERUN
+tally: {findings: 8, confirmed: 6, false_positive: 2, severity_max: critical}
+confirmed:
+  - end_to_end_authority
+  - two_profile_states
+  - enforceable_corpus_fence
+  - fingerprint_feasibility
+  - hp018_provenance_filename
+  - review_finalize_transition
+false_positives:
+  - hp011_new_gold_acceptance
+  - missing_offline_gate
+effects: {paid_p1_calls: 0, railway_changes: 0, supabase_writes: 0}
+

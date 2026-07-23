@@ -1,0 +1,39 @@
+schema: s277_c1_p1_implementation_duo_adjudication_v1
+sol_ts: "2026-07-20T22:55:49"
+fable_ts: "2026-07-20T22:58:07"
+verdict: NO_PASS_BLOCKER_FIXED_REVIEW_AGAIN
+tally:
+  findings: 6
+  confirmed: 4
+  false_positive: 1
+  accepted_non_blocking_boundary: 1
+  severity_max: critical
+confirmed:
+  - id: hp017_validator_scorer_contract_impossible
+    severity: critical
+    action: scorer_derives_protected_prefix_and_appended_target_from_the_validator_accepted_structural_and_output_contexts
+    verification: real_scorer_cross_boundary_test_added
+  - id: frozen_question_not_checked_before_first_paid_send
+    severity: medium
+    action: every_provider_request_now_binds_the_exact_preregistered_question_before_prepare_and_embedding_also_binds_the_complete_input_row_hash
+    verification: substituted_embedding_question_is_rejected_with_zero_prepare_and_zero_send
+  - id: historical_ok_scope_overframed
+    severity: medium
+    action: brief_and_runbook_now_name_the_versioned_hp017_1_exclusion_and_the_exact_transformed_43_row_packet
+  - id: injected_early_abort_scorer_could_be_misread_as_authority
+    severity: medium
+    action: result_field_renamed_non_authoritative_early_abort_checks_and_each_row_carries_explicit_non_authoritative_authority
+false_positives:
+  - id: physical_usage_cost_not_recomputed
+    resolution: ProviderBoundary._validate_completed_response_recomputes_cost_from_physical_usage_and_compares_it_to_WAL_actual_for_all_81_calls
+accepted_non_blocking_boundaries:
+  - id: wal_reserve_and_complete_may_share_a_timestamp
+    resolution: ordering_is_proven_by_fsynced_alternating_event_sequence_and_this_does_not_mint_PASS_inside_the_declared_authorized_workspace_trust_boundary
+direct_checks:
+  - finalize_compares_caller_score_to_fresh_canonical_score_run_before_any_PASS_branch
+  - synthetic_fixture_real_score_is_not_presented_as_PASS
+  - explicit_PASS_double_is_labeled_as_narrow_state_machine_coverage_only
+effects:
+  paid_p1_calls: 0
+  railway_changes: 0
+  supabase_writes: 0

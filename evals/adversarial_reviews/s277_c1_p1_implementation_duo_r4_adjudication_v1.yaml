@@ -1,0 +1,42 @@
+schema: s277_c1_p1_implementation_duo_adjudication_v1
+sol_ts: "2026-07-21T00:06:50"
+fable_ts: "2026-07-21T00:08:56"
+verdict: SAFE_HOLD_NO_GO_TRANSITIVE_IMPLEMENTATION_IDENTITY_BLOCKER_NO_MORE_OFFLINE_PATCH_ROUNDS
+tally:
+  findings: 8
+  confirmed: 3
+  accepted_non_blocking_boundary: 3
+  false_positive: 2
+  severity_max: critical
+confirmed:
+  - id: implementation_manifest_not_transitively_complete
+    severity: critical
+    action: release_remains_hold_answer_planner_and_full_executed_dependency_graph_must_be_sealed_and_mutation_tested_before_stopline_removal
+  - id: rerank_terminal_stop_reason_not_enforced_by_common_response_validator
+    severity: medium
+    action: delegated_as_mandatory_product_adapter_validation_before_paid_p1
+  - id: single_replica_finalize_library_mode_can_emit_non_product_pass
+    severity: medium
+    action: classified_test_only_non_authoritative_product_cli_always_requires_canonical_27_row_score_run
+accepted_non_blocking_boundaries:
+  - id: current_tree_not_rechecked_during_offline_rescore
+    severity: critical_component
+    resolution: run_and_final_artifacts_remain_bound_to_tested_commit_tree_but_future_promotion_adapter_must_compare_candidate_identity_before_use
+  - id: self_reported_usage_cannot_be_cryptographically_authenticated_offline
+    severity: medium
+    resolution: authorized_operator_is_declared_trust_boundary_external_provider_receipt_required_before_paid_p1
+  - id: blind_human_independence_is_process_authority_not_locally_provable
+    severity: medium
+    resolution: hash_binding_is_integrity_only_reviewer_role_and_permit_must_be_materialized_externally
+false_positives:
+  - id: result_sha256_not_recomputed
+    severity: medium
+    resolution: load_run_replicas_recomputes_sha256_json_body_and_rejects_seal_drift
+  - id: exact_162_wal_alternation_not_enforced
+    severity: minor
+    resolution: verifier_derives_exact_expected_call_keys_and_consumes_each_adjacent_reserve_completed_pair_in_order
+effects:
+  paid_p1_calls: 0
+  railway_changes: 0
+  supabase_writes: 0
+  release_status: HOLD

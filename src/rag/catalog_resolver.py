@@ -16,8 +16,8 @@ Mecanismo (NADA aditivo al pool — DEC-069):
 Detección: regex GENERADA de los términos resolubles del catálogo (mismo approach probado que
 src/rag/catalog.py::_core — separador-insensible, multi-palabra, longest-first, \\b + (?!\\d)).
 Pre-exclusión SOLO normkeys digit-only ('808'/'816' — FP a priori); los alfanuméricos cortos
-('zxe') PASAN: excluir ≤3 chars mataría el caso central hp018 (bomba cazada dúo r2). NUNCA fuzzy
-(DEC-074: texto-libre = −2 hp011).
+('zxe') PASAN: excluir ≤3 chars mataría el caso central de un código corto
+(bomba cazada dúo r2). NUNCA fuzzy (DEC-074: texto-libre penaliza homónimos).
 
 Fail-fast de flags (v2.1a): IDENTITY_RESOLVE≠off + cualquier flag legacy de identidad ON ⇒
 RuntimeError al primer uso — sin precedencia silenciosa (doble expansión = medición sucia).
@@ -49,10 +49,15 @@ logger = logging.getLogger(__name__)
 LEGACY_FLAGS = ("LEVER2_IDENTITY", "LEVER2_PM_RESCUE", "IDENTITY_MAP")
 _MODES = ("off", "shadow", "on")
 
+_QUARANTINE_PATH = ROOT / "config" / "identity_quarantine_v1.yaml"
+
 _loaded = False
 _pattern = None                     # regex compilada de términos resolubles
+_quarantine: "frozenset[str] | None" = None   # norm_tokens en cuarentena (cache de módulo)
 _cat: "catalog_store.Catalog | None" = None
 _docs_by_id: dict[str, frozenset[str]] = {}   # id canónico -> source_files (doc_map)
+_document_scopes_by_id: dict[str, tuple[dict[str, str], ...]] = {}
+_governed_scope_owners: dict[tuple[str, str], frozenset[str]] = {}
 _catalog_commit: str | None = None
 
 
@@ -138,7 +143,8 @@ def _resolvable_terms(cat: "catalog_store.Catalog") -> dict[str, str]:
 
 
 def _build() -> None:
-    global _loaded, _pattern, _cat, _docs_by_id
+    global _loaded, _pattern, _cat, _docs_by_id, _document_scopes_by_id
+    global _governed_scope_owners
     _loaded = True
     try:
         cat = catalog_store.load()
@@ -147,13 +153,33 @@ def _build() -> None:
         return
     _cat = cat
     docs: dict[str, set[str]] = {}
+    document_scopes: dict[str, dict[tuple[str, str], dict[str, str]]] = {}
+    governed_scope_owners: dict[tuple[str, str], set[str]] = {}
     for dm in cat.doc_map:
         src = dm.get("source_file") or ""
-        if not src:
+        document_id = str(dm.get("document_id") or "")
+        if not src or not document_id:
             continue
         for e in dm.get("entries") or []:
-            docs.setdefault(cat.follow_redirect(e["id"]), set()).add(src)
+            product_id = cat.follow_redirect(e["id"])
+            docs.setdefault(product_id, set()).add(src)
+            document_scopes.setdefault(product_id, {})[(document_id, src)] = {
+                "document_id": document_id,
+                "source_file": src,
+            }
+            if e.get("role") == "primary" and e.get("scope") == "doc":
+                governed_scope_owners.setdefault((document_id, src), set()).add(
+                    product_id
+                )
     _docs_by_id = {k: frozenset(v) for k, v in docs.items()}
+    _document_scopes_by_id = {
+        product_id: tuple(scopes[key] for key in sorted(scopes))
+        for product_id, scopes in document_scopes.items()
+    }
+    _governed_scope_owners = {
+        scope: frozenset(owners)
+        for scope, owners in governed_scope_owners.items()
+    }
 
     import re
     cores = []
@@ -190,19 +216,63 @@ def detect(query: str) -> list[str]:
     return out
 
 
+def _quarantine_tokens() -> frozenset[str]:
+    """(s278 §1a GUARD-3FILAS) norm_tokens en cuarentena: unidades del census pendientes de
+    adjudicación de Alberto → su token NUNCA entra en drop_tokens (fail-open-a-add POR
+    UNIDAD). Config versionada `config/identity_quarantine_v1.yaml`; keying por
+    catalog_store.norm_token (el mismo del drop en apply_to_models). Carga lazy con cache
+    de módulo (patrón _ensure); YAML ausente/malformado ⇒ FAIL-FAST — un fallo silencioso
+    desactivaría la protección exactamente cuando importa (bajo replace)."""
+    global _quarantine
+    if _quarantine is None:
+        import yaml
+        try:
+            raw = yaml.safe_load(_QUARANTINE_PATH.read_text(encoding="utf-8"))
+        except FileNotFoundError as e:
+            raise RuntimeError(
+                f"quarantine de identidad AUSENTE: {_QUARANTINE_PATH} (config versionada "
+                f"— sin ella el drop bajo replace queda sin gobierno)") from e
+        except yaml.YAMLError as e:
+            raise RuntimeError(
+                f"quarantine de identidad MALFORMADA ({_QUARANTINE_PATH}): {e}") from e
+        rows = raw.get("tokens") if isinstance(raw, dict) else None
+        if not isinstance(rows, list):
+            raise RuntimeError(
+                f"quarantine de identidad MALFORMADA ({_QUARANTINE_PATH}): se espera un "
+                f"dict con la lista 'tokens' (vacía es válida)")
+        toks: set[str] = set()
+        for row in rows:
+            if not isinstance(row, dict) or not all(
+                    row.get(k) for k in ("token", "motivo", "fecha")):
+                raise RuntimeError(
+                    f"quarantine de identidad MALFORMADA ({_QUARANTINE_PATH}): cada "
+                    f"entrada exige token+motivo+fecha no vacíos: {row!r}")
+            nk = catalog_store.norm_token(str(row["token"]))
+            if not nk:
+                raise RuntimeError(
+                    f"quarantine de identidad MALFORMADA ({_QUARANTINE_PATH}): token "
+                    f"vacío tras norm_token: {row!r}")
+            toks.add(nk)
+        _quarantine = frozenset(toks)
+    return _quarantine
+
+
 def resolve_query(query: str) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
-     allowed_sources}. expand=False (clarify/candidate/unknown) NO aporta expansión ni
-    allowed_sources — el contrato `expand` del resolve() se respeta literal (anti-hp011)."""
+     allowed_sources, resolved_documents[{document_id, source_file}]}.
+    expand=False (clarify/candidate/unknown) NO aporta expansión, allowed_sources ni
+    documentos — el contrato `expand` del resolve() se respeta literalmente."""
     _ensure()
     detected = detect(query)
     records, add_models, drop_tokens, source_groups = [], [], [], []
+    resolved_documents: list[dict[str, str]] = []
+    seen_documents: set[tuple[str, str]] = set()
     allowed: set[str] = set()
     if _cat is None:
         return {"detected": detected, "records": [], "add_models": [],
                 "drop_tokens": [], "allowed_sources": frozenset(),
-                "source_groups": []}
+                "source_groups": [], "resolved_documents": []}
     for tok in detected:
         r = _cat.resolve(tok)
         if r is None:
@@ -220,6 +290,11 @@ def resolve_query(query: str) -> dict:
                 product_sources = _docs_by_id.get(pid, frozenset())
                 allowed |= product_sources
                 record_sources |= product_sources
+                for document in _document_scopes_by_id.get(pid, ()):
+                    key = (document["document_id"], document["source_file"])
+                    if key not in seen_documents:
+                        seen_documents.add(key)
+                        resolved_documents.append(dict(document))
             if record_sources:
                 source_groups.append({
                     "token": tok,
@@ -227,12 +302,31 @@ def resolve_query(query: str) -> dict:
                     "sources": sorted(record_sources),
                 })
             # solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original en el brazo
-            # replace (exact ya ES el canonical — reemplazarlo sería un no-op)
-            if rec["via"] in ("paraguas", "alias", "homonimo"):
+            # replace (exact ya ES el canonical — reemplazarlo sería un no-op). s278 §1a:
+            # y SOLO si (a) la expansión original NO filtró miembros (guard candidate-member
+            # — all_members_consumable, GUARD-IMPL) y (b) la unidad no está en la quarantine
+            # de pendientes-de-adjudicación; en ambos casos fail-open-a-add (nunca peor que
+            # add: el token se conserva y la expansión se añade igual).
+            if (rec["via"] in ("paraguas", "alias", "homonimo")
+                    and r.get("all_members_consumable")
+                    and catalog_store.norm_token(tok) not in _quarantine_tokens()):
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
             "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
-            "source_groups": source_groups}
+            "source_groups": source_groups,
+            "resolved_documents": resolved_documents}
+
+
+def governed_catalog_scope_owners() -> dict[tuple[str, str], frozenset[str]]:
+    """Return exact primary/document catalog scopes and their canonical owners.
+
+    Callers receive a copy so a runtime registry validator cannot mutate the
+    process-wide catalog index.  An unavailable catalog intentionally returns
+    an empty mapping; a non-empty governed registry must then fail closed.
+    """
+
+    _ensure()
+    return dict(_governed_scope_owners)
 
 
 def apply_to_models(models: list[str], res: dict) -> list[str]:

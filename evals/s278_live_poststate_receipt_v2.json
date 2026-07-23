@@ -1,0 +1,13 @@
+{
+  "schema": "s278_live_poststate_receipt_v2",
+  "ts_utc": "2026-07-22T22:30:00Z",
+  "project": "izooestgffgscdirkfia (technical-bot)",
+  "autorizacion": "Alberto, chat 22-jul: confirma B (release retenida hasta ronda estructural) y ejecuta data-fix v2 en SQL Editor",
+  "datafix_v2_poststate": {
+    "80e1b7d2 HOP-138-8ES": {"sha": "98018e3eec3e... (real, era backfill:47cfb...)", "doc_type": "programacion", "language": "es", "lineage": "verified"},
+    "79a3471a HOP-138-9ES": {"sha": "2964cab73583... (real)", "doc_type": "instalacion", "language": "es", "lineage": "verified (single-rev)"},
+    "81c783f5 4188-1132-ES": {"sha": "29e955f14422... (real)", "doc_type": "guia_rapida", "language": "es", "lineage": "verified (single-rev)"},
+    "23f0e4d2 MS-416 active + 03b1ccf6 superseded": {"doc_type": "programacion", "language": "es", "lineage": "verified (par, patron MC-380)"}
+  },
+  "nota": "cierra la compuerta de DATOS (autoridad del RPC v3) para la familia cat017 + MS-416; las compuertas de SELECTOR (overflow por-scope, elegibilidad por-faceta, ontologia de facetas) quedan para la ronda estructural (diseño s278_selection_reach_design_v1.md, duo Protocolo 3)."
+}

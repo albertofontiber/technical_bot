@@ -1,0 +1,97 @@
+{
+  "schema": "s277_document_local_migration_reconciliation_receipt_v2",
+  "observed_at": "2026-07-21T23:29:06.180746+00:00",
+  "status": "RECONCILED",
+  "project": {
+    "ref": "izooestgffgscdirkfia",
+    "postgres_version": "17.6"
+  },
+  "checks": {
+    "migration_history_complete": true,
+    "function_sql_stable_invoker_empty_search_path": true,
+    "function_execute_acl_exact": true,
+    "lineage_registry_exact": true,
+    "hp011_documents_exactly_bound": true,
+    "p1_lineage_rls_exact": true,
+    "p1_lineage_column_acl_minimal": true
+  },
+  "terminal_state": {
+    "migration_history": {
+      "20260721210847": true,
+      "20260721220110": true,
+      "20260722013000": true,
+      "20260722014500": true
+    },
+    "function": {
+      "language": "sql",
+      "volatility": "s",
+      "security_definer": false,
+      "function_config": [
+        "search_path=\"\""
+      ],
+      "service_role_execute": true,
+      "p1_readonly_execute": true,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "public_execute": false,
+      "definition_sha256_lf": "19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e"
+    },
+    "lineage": {
+      "id": "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429",
+      "authority_status": "verified",
+      "authority_contract": "explicit_document_ids_v1",
+      "authority_evidence_sha256": "ba83f754e864caa98c7ad7dd86c434e599e13c1acc81f24eb654e0ad5bec1576"
+    },
+    "documents": [
+      {
+        "id": "494e71be-873b-48c1-adb3-a21a122da111",
+        "revision_lineage_id": "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429",
+        "status": "active",
+        "supersedes_id": "e98e05ff-ee1d-5341-869a-65768855dae9",
+        "superseded_by_id": null,
+        "source_pdf_sha256": "914ceacf8395729f73876cb9e397a8cb3154d70ba67903b6e055f2b4398be573",
+        "source_pdf_filename": "HLSI-MN-103_RP1r-Supra_lr"
+      },
+      {
+        "id": "e98e05ff-ee1d-5341-869a-65768855dae9",
+        "revision_lineage_id": "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429",
+        "status": "superseded",
+        "supersedes_id": null,
+        "superseded_by_id": "494e71be-873b-48c1-adb3-a21a122da111",
+        "source_pdf_sha256": "ccabe3df906990c9b95d0d180d811e0444278089d4ce30678d86948cb197e93e",
+        "source_pdf_filename": "HLSI-MN-103_RP1r-Supra_lr"
+      }
+    ],
+    "policy": {
+      "row_security": true,
+      "command": "r",
+      "permissive": true,
+      "using_expression": "(authority_status = 'verified'::text)",
+      "check_expression": null,
+      "roles": [
+        "p1_readonly"
+      ]
+    },
+    "p1_acl": {
+      "table_select": false,
+      "any_table_write": false,
+      "id_select": true,
+      "authority_status_select": true,
+      "authority_contract_select": false,
+      "authority_evidence_select": false,
+      "notes_select": false
+    }
+  },
+  "local_migration_sha256_lf": {
+    "20260721210847": "af1d413d41117f3d6cb970d7acb891fb5d13ccbbcbca0371eeaac1a859ef60cd",
+    "20260721220110": "a1e1194d9819ca4aca797eb27e9f15ae9f5a6e8d1391b7107c1c73e93f4a453d",
+    "20260722013000": "9f531f2d2a6b3c73f145cd5201469b040adb5711d183d7222b69a94e3cd73696",
+    "20260722014500": "50984313eae1c5bf31bc47d80873c8527a2a4a73e25acee99ca97d3243521d17"
+  },
+  "invariants": {
+    "database_writes": 0,
+    "model_calls": 0,
+    "migration_repair_used": false,
+    "include_all_used": false
+  }
+}

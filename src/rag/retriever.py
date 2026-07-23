@@ -527,6 +527,68 @@ def typed_search(
     return rows
 
 
+# (s278 §1b, LIMIT-ORDER) Ventana DETERMINISTA para content_search: PostgREST sin
+# `order` devuelve los LIMIT filas en orden físico plan-dependiente → la ventana
+# cambia entre runs/planes. El `order` server-side fija la ventana; el rank de
+# autoridad (abajo) decide DENTRO de ella. Client-side-only NO sería determinismo
+# con >LIMIT matches.
+_CONTENT_SEARCH_ORDER = "source_file.asc,page_number.asc,id.asc"
+# LIMIT interno mayor (ventana > corte final): mitiga — no elimina — el residual
+# de docs activos fuera de la ventana alfabética.
+_CONTENT_SEARCH_WINDOW_FACTOR = 4
+
+# Autoridad por status del doc padre (mismo vocabulario que _filter_by_document_status):
+# active > needs_review/draft > superseded/retired. Un status desconocido no-active va
+# al tramo medio. Sin fila /documents o document_id NULL (legacy) NO se penaliza —
+# espejo del fail-open de _filter_by_document_status, que los conserva.
+_DOC_STATUS_AUTHORITY = {
+    "active": 0,
+    "needs_review": 1,
+    "draft": 1,
+    "superseded": 2,
+    "retired": 2,
+}
+
+
+def _rank_window_by_authority(rows: list[dict], limit: int) -> list[dict]:
+    """(s278 §1b) Rank de autoridad sobre la ventana determinista de content_search.
+
+    UNA llamada GET batched a ``/documents`` (patrón de ``_filter_by_document_status``)
+    trae el status del doc padre; sort ESTABLE por autoridad → los empates conservan
+    el orden server-side (``source_file,page_number,id``). Fail-open: si la consulta
+    falla o no hay document_ids, queda solo el orden estable, cortado a ``limit``.
+    """
+    if len(rows) <= 1:
+        return rows[:limit]
+    doc_ids = {r.get("document_id") for r in rows if r.get("document_id")}
+    if not doc_ids:
+        return rows[:limit]
+    try:
+        headers = {
+            "apikey": SUPABASE_SERVICE_KEY,
+            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+        }
+        id_list = ",".join(f'"{d}"' for d in doc_ids)
+        with httpx.Client(timeout=3.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/documents",
+                headers=headers,
+                params={"id": f"in.({id_list})", "select": "id,status"},
+            )
+            resp.raise_for_status()
+        status_by_id = {r["id"]: r.get("status") for r in resp.json()}
+    except Exception:
+        return rows[:limit]
+
+    def _authority(row: dict) -> int:
+        status = status_by_id.get(row.get("document_id"))
+        if status is None:
+            return 0
+        return _DOC_STATUS_AUTHORITY.get(status, 1)
+
+    return sorted(rows, key=_authority)[:limit]
+
+
 def content_search(
     search_term: str,
     limit: int = 5,
@@ -544,6 +606,13 @@ def content_search(
     (s85, DEC-071) The ``category`` filter was removed: ``chunks_v2.category`` is
     the DEAD column (0 canonical rows since the SWAP s44) — filtering by it only
     ever returned 0 rows.
+
+    (s278 §1b) Los GET directos (Path A y el fallback ilike) piden una ventana
+    ordenada server-side (``_CONTENT_SEARCH_ORDER``, LIMIT interno mayor) y el
+    corte final a ``limit`` se hace tras ``_rank_window_by_authority``.
+    Residual declarado: con >ventana matches alfabéticamente anteriores, un doc
+    activo puede quedar fuera (``v.04`` ordena antes que ``v.07``); se mide en
+    la pasada e2e, no se promete cero.
     """
     headers_get = {
         "apikey": SUPABASE_SERVICE_KEY,
@@ -562,7 +631,8 @@ def content_search(
             "content": f"ilike.*{search_term}*",
             "product_model": f"imatch.{pattern}",
             "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
-            "limit": str(limit),
+            "order": _CONTENT_SEARCH_ORDER,
+            "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
         }
         try:
             with httpx.Client(timeout=3.0) as client:
@@ -572,7 +642,7 @@ def content_search(
                     params=_no_surrogates(params),
                 )
                 resp.raise_for_status()
-            rows = resp.json()
+            rows = _rank_window_by_authority(resp.json(), limit)
             for row in rows:
                 row["similarity"] = base_score
             return rows
@@ -607,11 +677,13 @@ def content_search(
     except Exception:
         pass
 
-    # Fallback to ilike (RPC unavailable)
+    # Fallback to ilike (RPC unavailable) — mismo defecto LIMIT-sin-order que Path A,
+    # mismo fix (s278 §1b): ventana ordenada + rank de autoridad + corte final.
     params = {
         "content": f"ilike.*{search_term}*",
         "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
-        "limit": str(limit),
+        "order": _CONTENT_SEARCH_ORDER,
+        "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
     }
     try:
         with httpx.Client(timeout=3.0) as client:
@@ -621,7 +693,7 @@ def content_search(
                 params=_no_surrogates(params),
             )
             resp.raise_for_status()
-        rows = resp.json()
+        rows = _rank_window_by_authority(resp.json(), limit)
         for row in rows:
             row["similarity"] = base_score
         return rows
@@ -969,8 +1041,10 @@ def vector_search(
                     merged = results + list(by_parent.values())
                     merged.sort(key=lambda c: c.get("similarity") or 0, reverse=True)
                     results = merged[:top_k]
-            except Exception:
-                logger.warning("canal enunciados fail-open: sirviendo solo chunks reales")
+            except Exception as exc:
+                logger.warning(
+                    "canal enunciados fail-open: sirviendo solo chunks reales (%r)", exc
+                )
 
         # (s101 piloto → s102 SHIP, D2/DEC-095) Canal question-side (HyPE). Dos backends con
         # mecánicas DISTINTAS (corrección framing, cross-model r2 — no vender paridad):

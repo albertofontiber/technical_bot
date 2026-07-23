@@ -148,10 +148,12 @@ def main() -> int:
             "positive_harness_sha256": _sha256(ROOT / "scripts/s131_m0b_disposable_gate.py"),
             "negative_harness_sha256": _sha256(ROOT / "scripts/s131_m0b_negative_gate.py"),
             "s117_migration_sha256": _sha256(
-                ROOT / "supabase/migrations/20260714102428_chunks_v3_provenance_shadow.sql"
+                ROOT
+                / "supabase/migration_proposals/20260714102428_chunks_v3_provenance_shadow.sql"
             ),
             "s131_migration_sha256": _sha256(
-                ROOT / "supabase/migrations/20260716120000_chunks_v3_shadow_binding_v2.sql"
+                ROOT
+                / "supabase/migration_proposals/20260716120000_chunks_v3_shadow_binding_v2.sql"
             ),
         },
         "cost": {"model_calls": 0, "embedding_calls": 0, "production_database_writes": 0},

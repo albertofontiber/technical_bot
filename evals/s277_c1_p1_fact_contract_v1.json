@@ -1,0 +1,3958 @@
+{
+  "schema_version": "s277_c1_p1_fact_contract_v1",
+  "contract_id": "S277-C1-P1-PROTECTED-PACKET-V1",
+  "status": "PREREGISTERED_OFFLINE_NO_PAID_EXECUTION",
+  "authority": {
+    "precedence": [
+      "Alberto marks S270 / DEC-125 / DEC-128",
+      "verified gold with provenance and citations",
+      "S113 identifies historically OK facts only",
+      "S201/S202 are frozen evidence only, never gold authority",
+      "S272 authorizes the live-banked hp002 conversion",
+      "S273 authorizes only the contemporary release watch fact",
+      "S274 authorizes only the candidate target, never an automatic pass"
+    ],
+    "source_file_receipts": [
+      {
+        "path": "evals/gold_answers_v1.yaml",
+        "sha256_lf": "c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2"
+      },
+      {
+        "path": "evals/s113_fact_ledger_v1.json",
+        "sha256_lf": "09ff9100a64ae754e91586763d9ab4f8cbb915125a24b0a66ffc78ac1e9a4fd5"
+      },
+      {
+        "path": "evals/s113_full_contexts_freeze_v1.json",
+        "sha256_lf": "556490dd74056603b6b8f8c8d885c55820957761bbd6407bb1dcf8f533434498"
+      },
+      {
+        "path": "evals/s235_direct_clause_bound_score_packet_v1.json",
+        "sha256_lf": "b9d7d4036c9aa00aeb521628da7e876cbc04ccb7ea6fa48a130960c43f2c8f48"
+      },
+      {
+        "path": "evals/s270_gold_adjudication_v1.yaml",
+        "sha256_lf": "51a64a10172557ffb8d06c9c89887d1ac6f9fb312f0b1387f6a36db6fb1ca436"
+      },
+      {
+        "path": "evals/s271_872c_respec_rescore_v1.json",
+        "sha256_lf": "541092b51624a7c28b8758072a2c82a2ff33c66596ee8d74f9a6aaf2ffe6a496"
+      },
+      {
+        "path": "evals/s272_banked_funnel_v1.json",
+        "sha256_lf": "4ddb6f8eba71766cf6c0c1abd0ac9fda1fa5476f2a5430c3da023f64f24502db"
+      },
+      {
+        "path": "evals/s273_v3b_arbiter_v1.json",
+        "sha256_lf": "a23f249cc88f73c9265cbfd971be32925c063903fec813f3680cf9d00b377d92"
+      },
+      {
+        "path": "evals/s273_v3_closeout_v1.yaml",
+        "sha256_lf": "14ccc460c7cc3d195f05dac9feb54c2f9088d32692af8475e9363cceed774033"
+      },
+      {
+        "path": "evals/s274_banked_funnel_v1.json",
+        "sha256_lf": "656e6f0be525bbeedb5871d90af20eaaaad9a3aa7c2df1902a38028ba7744a30"
+      }
+    ],
+    "hash_convention": "sha256(bytes.replace(CRLF,LF)); platform-dependent raw hashes are excluded"
+  },
+  "population": {
+    "qids": [
+      "cat001",
+      "cat017",
+      "cat018",
+      "cat019",
+      "hp002",
+      "hp003",
+      "hp005",
+      "hp011",
+      "hp012",
+      "hp013",
+      "hp014",
+      "hp017",
+      "hp018"
+    ],
+    "historical_s113_ok_count": 42,
+    "expected_base_fact_count": 43,
+    "actual_base_fact_count": 43,
+    "per_qid_base_counts": {
+      "cat001": 5,
+      "cat017": 4,
+      "cat018": 1,
+      "cat019": 4,
+      "hp002": 4,
+      "hp003": 4,
+      "hp005": 4,
+      "hp011": 1,
+      "hp012": 4,
+      "hp013": 0,
+      "hp014": 4,
+      "hp017": 3,
+      "hp018": 5
+    },
+    "kpi_weight_sum": 42,
+    "release_guard_only_count": 1,
+    "target_count_separate_from_base": 1
+  },
+  "transformation_diff": {
+    "source_contract": "scripts/s118_build_atomic_benchmark.py:_historical_core_facts",
+    "operations": [
+      {
+        "operation": "exclude_historical_fact",
+        "fact_key": "hp017#1:instruccion de entrada",
+        "parent_fact_sha256": "7258aec395b0f78dcce808ef121a9c7a708791686ed8d66c7a3d55911b288892",
+        "reason": "components obl_b2043cd4379b/obl_7aa723717412 remain S274 residuals"
+      },
+      {
+        "operation": "add_release_guard_only",
+        "fact_key": "hp017#2:Editar Configuracion",
+        "parent_fact_sha256": "bdec079cdf931c925b277224d2aaf7fc53b3999f0ec09fa022e30c72b852c0d8",
+        "kpi_weight": 0,
+        "reason": "S273 observed 2/3 OFF to 1/3 ON loss; conservative release watch, not gold adjudication"
+      },
+      {
+        "operation": "replace_fact_in_place",
+        "from_fact_key": "hp017#3:seis tipos de retardo",
+        "to_fact_key": "hp017#3:disclosure_DEC128",
+        "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+        "reason": "DEC-128 option 1 source-contract disclosure"
+      },
+      {
+        "operation": "add_live_banked_fact",
+        "fact_key": "hp002#banked:obl_b6f6211be439",
+        "authority": "evals/s272_banked_funnel_v1.json"
+      }
+    ],
+    "result_count": 43
+  },
+  "protected_facts": [
+    {
+      "fact_id": "cat001#0:159+159 / 99+99",
+      "fact_key": "cat001#0:159+159 / 99+99",
+      "qid": "cat001",
+      "statement": "Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores + 99 modulos (protocolo CLIP), combinables",
+      "statement_sha256": "fe964c93eafd754cb80a8d01075d95e9c028701bc30f3feca761a5bbe9651729",
+      "parent_fact_sha256": "dee62d4752117de632e7003fa1b6bf8a785672540321ad316634d24b7b935b59",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat001#0:159+159 / 99+99:required",
+            "text": "Cada lazo admite hasta 318 equipos: 159 sensores + 159 modulos (protocolo Opal) o 99 sensores + 99 modulos (protocolo CLIP), combinables"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "159 sensores",
+            "159 detectores"
+          ],
+          [
+            "159 modulos"
+          ],
+          [
+            "99 sensores",
+            "99 detectores"
+          ],
+          [
+            "99 modulos"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-669-005-3_Instal-Comm_ES.pdf",
+          "page": 51,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Lazos de deteccion: 1 o 2. Cada lazo admite hasta 159 sensores mas 159 modulos (protocolo Opal) o 99 sensores mas 99 modulos (protocolo CLIP)... La carga maxima es de 0,75 A por lazo.",
+          "quote_sha256": "16ca9e0d42a5bc82d7d6de8b12ea693407236ef5e4e1804fb1d89e64b82ba02b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-669 p51/p21",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-669-005-3_Instal-Comm_ES.pdf",
+          "page": 21,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "La central Pearl permite conectar un maximo de 318 equipos de lazo por lazo analogico, es decir, hasta 159 sensores y 159 modulos. ... Maximo 512 sensores y/o pulsadores manuales por sistema. ... Equipos sin aisladores internos (incluidos equipos de protocolo CLIP y algunos Opal): NO coloque mas de 20 equipos entre aisladores. ... bases ... (tipo B501 AP).",
+          "quote_sha256": "82095b3b89311e17a785e1173c6f8eed00cc9f6d11222b592f7533471a6b0cf9",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-669 p51/p21",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-669-005-3_Instal-Comm_ES.pdf"
+      ],
+      "pages": [
+        "21",
+        "51"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat001#1:0,75 A",
+      "fact_key": "cat001#1:0,75 A",
+      "qid": "cat001",
+      "statement": "La carga maxima del lazo es 0,75 A",
+      "statement_sha256": "59a35fa19c4f80c597984e144915292195d14109645e77527cc3324b689fcb70",
+      "parent_fact_sha256": "7a55d4d08f5c1d7c292353936b47617430780ae9abcde717c0e1d7864747a947",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat001#1:0,75 A:required",
+            "text": "La carga maxima del lazo es 0,75 A"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "carga maxima",
+            "corriente maxima",
+            "capacidad maxima"
+          ],
+          [
+            "lazo"
+          ],
+          [
+            "0,75 a",
+            "0.75 a"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-669-005-3_Instal-Comm_ES.pdf",
+          "page": 51,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Lazos de deteccion: 1 o 2. Cada lazo admite hasta 159 sensores mas 159 modulos (protocolo Opal) o 99 sensores mas 99 modulos (protocolo CLIP)... La carga maxima es de 0,75 A por lazo.",
+          "quote_sha256": "16ca9e0d42a5bc82d7d6de8b12ea693407236ef5e4e1804fb1d89e64b82ba02b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-669 p51",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-669-005-3_Instal-Comm_ES.pdf"
+      ],
+      "pages": [
+        "51"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat001#2:40",
+      "fact_key": "cat001#2:40",
+      "qid": "cat001",
+      "statement": "En un lazo MIXTO Opal/CLIP la autoconfiguracion limita los equipos CLIP a 40; si se superan continua pero senala fallos y hay que elegir 'Solo con protocolo CLIP'. Un lazo solo-CLIP admite los 99+99 completos",
+      "statement_sha256": "56367aaf222ec8c22bda68976163902cdcc196dfbb0cabd6515d3668fee53c3a",
+      "parent_fact_sha256": "5b06d791b976ac89088edc28d7fd16fed368c0cdff3eda016361c0ffd89768f5",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat001#2:40:required",
+            "text": "En un lazo MIXTO Opal/CLIP la autoconfiguracion limita los equipos CLIP a 40; si se superan continua pero senala fallos y hay que elegir 'Solo con protocolo CLIP'. Un lazo solo-CLIP admite los 99+99 completos"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "lazo mixto",
+            "mixto opal clip",
+            "opal clip"
+          ],
+          [
+            "40"
+          ],
+          [
+            "solo con protocolo clip",
+            "solo clip"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf",
+          "page": 18,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "997-671 p18/p19",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf",
+          "page": 19,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "[el limite de equipos CLIP en autoconfiguracion mixta] es de 40: si se supera dicho limite, la autoconfiguracion continuara pero senalara que hay fallos. En cambio, un lazo solo con equipos CLIP admite una completa gama de 99 sensores y 99 modulos. ... Si el numero de equipos CLIP supera los 40, seleccione manualmente la opcion 'Solo con protocolo CLIP'.",
+          "quote_sha256": "990d2726745d3f2c0682c440f5279000c3d3a8a16a029975b7b8cb5dedc1cd63",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671 p18/p19",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES.pdf"
+      ],
+      "pages": [
+        "18",
+        "19"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat001#4:autoconfiguracion",
+      "fact_key": "cat001#4:autoconfiguracion",
+      "qid": "cat001",
+      "statement": "El alta de equipos se hace por AUTOCONFIGURACION (detecta los tipos en una pasada; opciones 'Permite Anadir/Borrar/Cambiar' vs 'Solo Anadir Nuevos Equipos')",
+      "statement_sha256": "dcccaf2fc62b4caea898e6db99de581451e8a0b8a9b625191fad1d478191bf75",
+      "parent_fact_sha256": "cc7462a10fecc7e38c98d393e15ebdf5c59e22fe3dd01a1a58bcad0db6d68da9",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat001#4:autoconfiguracion:required",
+            "text": "El alta de equipos se hace por AUTOCONFIGURACION (detecta los tipos en una pasada; opciones 'Permite Anadir/Borrar/Cambiar' vs 'Solo Anadir Nuevos Equipos')"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "autoconfiguracion",
+            "auto configuracion"
+          ],
+          [
+            "alta de equipos",
+            "dar de alta",
+            "detecta los tipos",
+            "detecta equipos"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf",
+          "page": 18,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "997-671 p18/p19",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf",
+          "page": 19,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "[el limite de equipos CLIP en autoconfiguracion mixta] es de 40: si se supera dicho limite, la autoconfiguracion continuara pero senalara que hay fallos. En cambio, un lazo solo con equipos CLIP admite una completa gama de 99 sensores y 99 modulos. ... Si el numero de equipos CLIP supera los 40, seleccione manualmente la opcion 'Solo con protocolo CLIP'.",
+          "quote_sha256": "990d2726745d3f2c0682c440f5279000c3d3a8a16a029975b7b8cb5dedc1cd63",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671 p18/p19",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES.pdf"
+      ],
+      "pages": [
+        "18",
+        "19"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat001#5:255 / 8192",
+      "fact_key": "cat001#5:255 / 8192",
+      "qid": "cat001",
+      "statement": "La edicion individual de SENSORES permite ajustar el numero de zona (255 locales / 8192 de red), el tipo de equipo y los niveles de alarma/prealarma",
+      "statement_sha256": "533bcda39cb280b29288609b020f136eade4b72be74abc0255abd27305a2c60a",
+      "parent_fact_sha256": "4362e081af3ac0257867ee982ff0b2276020a50a87d15bd60502305bf78d56d5",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat001#5:255 / 8192:required",
+            "text": "La edicion individual de SENSORES permite ajustar el numero de zona (255 locales / 8192 de red), el tipo de equipo y los niveles de alarma/prealarma"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "255"
+          ],
+          [
+            "8192"
+          ],
+          [
+            "zona"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf",
+          "page": 20,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Para sensores: ... Numero de zonas (hasta 255 zonas locales o 8192 zonas de red) ... Ajuste del nivel de alarma ... Ajuste del nivel de prealarma.",
+          "quote_sha256": "a9290f456f765264ab31f39dd83aa0d7d06e0dfecc8b5a727af76f70b6549d90",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671 p20",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES.pdf"
+      ],
+      "pages": [
+        "20"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat017#0:modulo OPAL HOP-433-100",
+      "fact_key": "cat017#0:modulo OPAL HOP-433-100",
+      "qid": "cat017",
+      "statement": "El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la pantalla a tierra en la central",
+      "statement_sha256": "2426ebcc73532220c440552456c726fce81d07344a8176157a6c6ef372f7eaf3",
+      "parent_fact_sha256": "2f71e130dff22a373b395b5b9e768b46aef61475a58bff32fd7d963d4d123cfd",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat017#0:modulo OPAL HOP-433-100:required",
+            "text": "El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la pantalla a tierra en la central"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "hop 433 100"
+          ],
+          [
+            "lazo 1"
+          ],
+          [
+            "lazo 2"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-9ES issue 5_11-2025_In.pdf",
+          "page": 47,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "MODULO DE LAZO (OPAL X 2)... 1 Lazo 1 OUT +VE 2 Lazo 1 OUT -VE... No se permite mezclar dispositivos OPAL y CLIP en el mismo lazo. Utilice el programa de calculo de lazo y bateria de CLSS... Hasta 159 detectores OPAL / Hasta 159 modulos OPAL... maximo de 750 mA por lazo.",
+          "quote_sha256": "16082a3945f24bcc1c072a7863301c43bc93a0d1094d28666edc76bbcc12e12b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "HOP-138-9 (instalacion) p47 (render) + p10-11 (apantallado/tierra)",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-9ES issue 5_11-2025_In.pdf",
+          "page": 10,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-9 (instalacion) p47 (render) + p10-11 (apantallado/tierra)",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-9ES issue 5_11-2025_In.pdf",
+          "page": 11,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-9 (instalacion) p47 (render) + p10-11 (apantallado/tierra)",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "HOP-138-9ES issue 5_11-2025_In.pdf"
+      ],
+      "pages": [
+        "10",
+        "11",
+        "47"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat017#1:159 + 159",
+      "fact_key": "cat017#1:159 + 159",
+      "qid": "cat017",
+      "statement": "Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)",
+      "statement_sha256": "352f0125f3ea5230018722eaa930f20aaacd67115740f19771e6614458d14d0e",
+      "parent_fact_sha256": "bf27b1a84671ec607486e8dcdf8e7c46d0615c69eaf46a3c8554651ced1d30cf",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat017#1:159 + 159:required",
+            "text": "Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318 por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada con el programa de lazo/bateria de CLSS)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "159 detectores"
+          ],
+          [
+            "159 modulos"
+          ],
+          [
+            "99 detectores",
+            "99 sensores"
+          ],
+          [
+            "99 modulos"
+          ],
+          [
+            "no se permite mezclar",
+            "no mezclar"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-9ES issue 5_11-2025_In.pdf",
+          "page": 47,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "MODULO DE LAZO (OPAL X 2)... 1 Lazo 1 OUT +VE 2 Lazo 1 OUT -VE... No se permite mezclar dispositivos OPAL y CLIP en el mismo lazo. Utilice el programa de calculo de lazo y bateria de CLSS... Hasta 159 detectores OPAL / Hasta 159 modulos OPAL... maximo de 750 mA por lazo.",
+          "quote_sha256": "16082a3945f24bcc1c072a7863301c43bc93a0d1094d28666edc76bbcc12e12b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "HOP-138-9 p47 (render) + p16",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-9ES issue 5_11-2025_In.pdf",
+          "page": 16,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-9 p47 (render) + p16",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "HOP-138-9ES issue 5_11-2025_In.pdf"
+      ],
+      "pages": [
+        "16",
+        "47"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat017#3:Auto Configuracion",
+      "fact_key": "cat017#3:Auto Configuracion",
+      "qid": "cat017",
+      "statement": "El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'",
+      "statement_sha256": "82d27ad67b92c86bb3553dfb5dd51058d89f3450e98e32af35660032de2cc6a6",
+      "parent_fact_sha256": "c69a81e2b16f8fbfea3d3edd6fda352fd980d748948c5926ff75c547e8410675",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat017#3:Auto Configuracion:required",
+            "text": "El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la central detecta automaticamente los dispositivos conectados), tras la 'Configuracion inicial y primer encendido'"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "auto configuracion",
+            "autoconfiguracion"
+          ],
+          [
+            "alta",
+            "detecta automaticamente",
+            "detecta los dispositivos",
+            "deteccion automatica"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co.pdf",
+          "page": 13,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-8 (puesta en marcha) p13 + p16",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co.pdf",
+          "page": 16,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-8 (puesta en marcha) p13 + p16",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "HOP-138-8ES  issue 6_01-2026_Co.pdf"
+      ],
+      "pages": [
+        "13",
+        "16"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat017#4:CLSS",
+      "fact_key": "cat017#4:CLSS",
+      "qid": "cat017",
+      "statement": "La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de licencia de la central",
+      "statement_sha256": "32e6d298d50ca3138cde2c65136c0f85b0400f91619235061bf9bc3938e314c1",
+      "parent_fact_sha256": "ae1fc11376f1120a64128122a0a186529c3078127d02b4fc990bb3ba3bbf0fc9",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat017#4:CLSS:required",
+            "text": "La configuracion de la central se gestiona con el Programa de Configuracion de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion y se genera el archivo .bin de licencia de la central"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "clss"
+          ],
+          [
+            "sitio",
+            "site"
+          ],
+          [
+            "bin",
+            "licencia"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co.pdf",
+          "page": 5,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "En el portal en la nube de CLSS Gestion de Clientes, cree un sitio/edificio y anada una central. Cargue la configuracion de la central con el programa de configuracion de CLSS. Generar archivo .bin de licencia de la central.",
+          "quote_sha256": "1c817dc30680d4b7a493437f9546221a10a1e315c80a1e3846e723cc6aa5e487",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "HOP-138-8 p5 + p18",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co.pdf",
+          "page": 18,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "HOP-138-8 p5 + p18",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "HOP-138-8ES  issue 6_01-2026_Co.pdf"
+      ],
+      "pages": [
+        "18",
+        "5"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat018#0:Control By Events",
+      "fact_key": "cat018#0:Control By Events",
+      "qid": "cat018",
+      "statement": "Una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO: es el mecanismo causa-efecto de la AM-8200",
+      "statement_sha256": "18323d79423d1e70f6e89af49c7f6cbe8e8073fb2ceff16bd5d365ca87b7c160",
+      "parent_fact_sha256": "ff841f32275c8457ddf6b73d6a7fcf7552bd52e58a7613032f9a76e434d4ca6c",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat018#0:Control By Events:required",
+            "text": "Una CBE (Control By Events) es una ecuacion que ACTIVA UN COMANDO en funcion de un EVENTO: es el mecanismo causa-efecto de la AM-8200"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "control by events",
+            "cbe"
+          ],
+          [
+            "activa un comando",
+            "activar un comando"
+          ],
+          [
+            "evento"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "AM-8200-manu-prog-spa.pdf",
+          "page": 21,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Pestana Programa (Programacion ecuaciones CBE, asociacion zona). Zona - numero de zona asignada. CBE - ecuacion CBE del punto... CBE (Control By Events), son las ecuaciones que sirven para activar un comando en funcion de un evento. Ver el apendice «A» Control By Event al final del manual.",
+          "quote_sha256": "7beef1d6a22fa6225c34fe2da235db548388a0ab11d9527a70ca76ae7fa58a01",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "AM-8200-manu-prog p21 (render) + Apendice A",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "AM-8200-manu-prog-spa.pdf",
+          "page": 61,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "AM-8200-manu-prog p21 (render) + Apendice A",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "AM-8200-manu-prog-spa.pdf"
+      ],
+      "pages": [
+        "21",
+        "61"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat019#0:coincidencias",
+      "fact_key": "cat019#0:coincidencias",
+      "qid": "cat019",
+      "statement": "Una maniobra se crea desde el menu Maniobras con el boton ANADIR (abre la pantalla de edicion); el campo COINCIDENCIAS indica cuantos eventos de entrada deben concurrir (1 = cualquiera; 2 = dos; 4 = cuatro...) para que la salida sea verdadera y se ejecute la maniobra",
+      "statement_sha256": "d5de564d53f75f2fab3c3c131dc60db92bffb42c0ba62ea38844b837df550ab4",
+      "parent_fact_sha256": "6c2692e4d3fd39ac226f17725fb105a8bbb84e39df2dff6d027a404fdfbcc6b0",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat019#0:coincidencias:required",
+            "text": "Una maniobra se crea desde el menu Maniobras con el boton ANADIR (abre la pantalla de edicion); el campo COINCIDENCIAS indica cuantos eventos de entrada deben concurrir (1 = cualquiera; 2 = dos; 4 = cuatro...) para que la salida sea verdadera y se ejecute la maniobra"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "maniobra"
+          ],
+          [
+            "anadir",
+            "añadir"
+          ],
+          [
+            "coincidencias"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "CAD-250-MC-380-es.pdf",
+          "page": 60,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "8.2 CONFIGURANDO UNA MANIOBRA. Para crear una maniobra pulse el boton ANADIR... En el campo coincidencias indicaremos el numero de eventos que deben concurrir para que la funcion sea verdadera. Si concurren dos eventos de entrada... hemos indicado el valor 2...",
+          "quote_sha256": "9a9358e6e91e90ce451111c3173bf38e857da6e128b430281cb9fa44b31f7812",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MC-380 §8.2 p60 (render)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "CAD-250-MC-380-es.pdf"
+      ],
+      "pages": [
+        "60"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat019#1:EVENTO / ACCION",
+      "fact_key": "cat019#1:EVENTO / ACCION",
+      "qid": "cat019",
+      "statement": "Los componentes se anaden con ANADIR eligiendo EVENTO (las entradas que disparan) o ACCION (las salidas que se activan); maximo 100.000 maniobras entre eventos y acciones",
+      "statement_sha256": "0c9a5d918c2e23a30485b3a646eed4ea5eeae43b95ecb6357ea76d8e95fcc105",
+      "parent_fact_sha256": "650574c29860ac58d998e23f17a29474b7bb960051fbf13ec61d2001d3367a40",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat019#1:EVENTO / ACCION:required",
+            "text": "Los componentes se anaden con ANADIR eligiendo EVENTO (las entradas que disparan) o ACCION (las salidas que se activan); maximo 100.000 maniobras entre eventos y acciones"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "evento"
+          ],
+          [
+            "accion",
+            "acción"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "CAD-250-MC-380-es.pdf",
+          "page": 61,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "8.2.1 Entradas para las maniobras, eventos. Para anadir los eventos de entrada o salida... toque el boton ANADIR... seleccionar entre un EVENTO o una ACCION... Al pulsar la opcion EVENTO se mostrara: un ENTIDAD o una CONDICION TEMPORAL. La ENTIDAD es cualquier elemento de la jerarquia del sistema (instalacion, panel, lazo, area, dispositivo, grupo o modo virtual). El numero de maximo maniobras entre eventos y acciones salientes es de 100.000.",
+          "quote_sha256": "e6517140b99e7e4980bf26e1912e7645b37d14e518b116bdadc8bd94f2d76fd9",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MC-380 §8.2.1 p61 (render)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "CAD-250-MC-380-es.pdf"
+      ],
+      "pages": [
+        "61"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "fact_key": "cat019#2:ENTIDAD / CONDICION TEMPORAL",
+      "qid": "cat019",
+      "statement": "Un EVENTO (entrada) se define sobre una ENTIDAD -elemento de la jerarquia: instalacion, panel, lazo, area, dispositivo, grupo o modo virtual (central local o de red)- o sobre una CONDICION TEMPORAL (periodo de tiempo para que la ecuacion de entrada sea verdadera)",
+      "statement_sha256": "9e9b38509c01c9d5a35858e803306994a378634fc9dfbb05ec8501580a4af24f",
+      "parent_fact_sha256": "77fff66f289222e7ec4af6efec46f0cf6787a60309c73cb984cc00af915ac91f",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat019#2:ENTIDAD / CONDICION TEMPORAL:required",
+            "text": "Un EVENTO (entrada) se define sobre una ENTIDAD -elemento de la jerarquia: instalacion, panel, lazo, area, dispositivo, grupo o modo virtual (central local o de red)- o sobre una CONDICION TEMPORAL (periodo de tiempo para que la ecuacion de entrada sea verdadera)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "entidad"
+          ],
+          [
+            "condicion temporal",
+            "condición temporal"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "CAD-250-MC-380-es.pdf",
+          "page": 61,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "8.2.1 Entradas para las maniobras, eventos. Para anadir los eventos de entrada o salida... toque el boton ANADIR... seleccionar entre un EVENTO o una ACCION... Al pulsar la opcion EVENTO se mostrara: un ENTIDAD o una CONDICION TEMPORAL. La ENTIDAD es cualquier elemento de la jerarquia del sistema (instalacion, panel, lazo, area, dispositivo, grupo o modo virtual). El numero de maximo maniobras entre eventos y acciones salientes es de 100.000.",
+          "quote_sha256": "e6517140b99e7e4980bf26e1912e7645b37d14e518b116bdadc8bd94f2d76fd9",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MC-380 §8.2.1 p61 (render)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "CAD-250-MC-380-es.pdf"
+      ],
+      "pages": [
+        "61"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "cat019#3:salidas",
+      "fact_key": "cat019#3:salidas",
+      "qid": "cat019",
+      "statement": "Las ACCIONES/salidas de la maniobra actuan sobre los elementos de salida (sirenas o modulos de control); las salidas para las maniobras se configuran en §8.2.3",
+      "statement_sha256": "8d8d7c706c6c55add8ed00e5340a75a790bf72811c4fd173a217bdf0bf77849d",
+      "parent_fact_sha256": "1971b7e7f9d7f60e5d3ea55d3842dc4f993d8ceab4f014d6ef4301c2e3c053b7",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "cat019#3:salidas:required",
+            "text": "Las ACCIONES/salidas de la maniobra actuan sobre los elementos de salida (sirenas o modulos de control); las salidas para las maniobras se configuran en §8.2.3"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "accion",
+            "acción",
+            "salida"
+          ],
+          [
+            "sirenas"
+          ],
+          [
+            "modulos de control",
+            "módulos de control"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "CAD-250-MC-380-es.pdf",
+          "page": 12,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "2.3 SALIDAS DE ALARMA Y DE CONTROL O MANIOBRA... Estas maniobras actuaran sobre los distintos elementos de salida, sean estos sirenas o modulos de control.",
+          "quote_sha256": "5fec77e4f7565e97a6258fb0447ba4aff60d72dfff2a91a1d0478441758b0c3a",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MC-380 §2.3 p12 + §8.2.3 p64",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "CAD-250-MC-380-es.pdf",
+          "page": 64,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "MC-380 §2.3 p12 + §8.2.3 p64",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "CAD-250-MC-380-es.pdf"
+      ],
+      "pages": [
+        "12",
+        "64"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp002#0:fallo flujo de aire",
+      "fact_key": "hp002#0:fallo flujo de aire",
+      "qid": "hp002",
+      "statement": "El ASD 535 no da una \"alarma de flujo bajo\" como tal, sino un aviso \"fallo flujo de aire\" cuando el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana de monitorizacion (por defecto +-20 %, EN 54-20)",
+      "statement_sha256": "42ab3bba7f5d9313bb96d1af56af5dce61f69b7174503043ab266978ab3d3633",
+      "parent_fact_sha256": "4de86fac80358a1477d2c76264d60f015065e192740c06fe601390d2b6091a74",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp002#0:fallo flujo de aire:required",
+            "text": "El ASD 535 no da una \"alarma de flujo bajo\" como tal, sino un aviso \"fallo flujo de aire\" cuando el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana de monitorizacion (por defecto +-20 %, EN 54-20)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "fallo flujo de aire",
+            "fallo de flujo de aire"
+          ],
+          [
+            "20",
+            "80"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ASD535_TD_T131192es_h.pdf",
+          "page": 28,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %... cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+          "quote_sha256": "e91c1a0ae1d2f6e0ddd5f399bd999ed1df02988ac6b1230ff34dbab88cdc8c5b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p28 (2.2.10)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "ASD535_TD_T131192es_h.pdf"
+      ],
+      "pages": [
+        "28"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp002#1:80 %",
+      "fact_key": "hp002#1:80 %",
+      "qid": "hp002",
+      "statement": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas",
+      "statement_sha256": "d818cc8dca9d86031af593e617c7bf2d94cc37fa81a9490c8ca21d86c218ef5b",
+      "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp002#1:80 %:required",
+            "text": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "80"
+          ],
+          [
+            "obstruccion",
+            "obstrucción"
+          ],
+          [
+            "120",
+            "rotura"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ASD535_TD_T131192es_h.pdf",
+          "page": 28,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %... cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+          "quote_sha256": "e91c1a0ae1d2f6e0ddd5f399bd999ed1df02988ac6b1230ff34dbab88cdc8c5b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p28 + p101 (7.6.1)",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ASD535_TD_T131192es_h.pdf",
+          "page": 101,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Significado: Valor < 100 % = apunta a obstrucción / > 100 % = apunta a rotura de tubo",
+          "quote_sha256": "a5ceb4467c6daa42c8851e2f1458132546a89db864fdaac6f846ae1cb22a90f3",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p28 + p101 (7.6.1)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "ASD535_TD_T131192es_h.pdf"
+      ],
+      "pages": [
+        "101",
+        "28"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp002#2:300 s",
+      "fact_key": "hp002#2:300 s",
+      "qid": "hp002",
+      "statement": "El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü (retardo ajustable que descarta turbulencias)",
+      "statement_sha256": "2ce8601de4aaad177fe69c9812e2c6edaaa633bf9f3bce8a1e7012e9f1124122",
+      "parent_fact_sha256": "af5d8e5e2370271210bea63989d231fab2b2b0dafa4582c6356849082f9fded3",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp002#2:300 s:required",
+            "text": "El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü (retardo ajustable que descarta turbulencias)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "300 s",
+            "300 segundos"
+          ],
+          [
+            "retardo"
+          ],
+          [
+            "fallo flujo de aire",
+            "fallo de flujo de aire"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ASD535_TD_T131192es_h.pdf",
+          "page": 28,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Según EN 54-20, debe notificarse como fallo toda variación del flujo de aire superior al ±20 %... cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.",
+          "quote_sha256": "e91c1a0ae1d2f6e0ddd5f399bd999ed1df02988ac6b1230ff34dbab88cdc8c5b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p28 (2.2.10)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "ASD535_TD_T131192es_h.pdf"
+      ],
+      "pages": [
+        "28"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp002#banked:obl_b6f6211be439",
+      "fact_key": "hp002#banked:obl_b6f6211be439",
+      "qid": "hp002",
+      "statement": "Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen durante el mantenimiento, es imprescindible bloquearlos o desconectarlos previamente.",
+      "statement_sha256": "d4af0a6fec8e41e1e0aebda5889712cd60a254e32f7f80559b366d86110afbcf",
+      "parent_fact_sha256": null,
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp002#banked:obl_b6f6211be439:required",
+            "text": "Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen durante el mantenimiento, es imprescindible bloquearlos o desconectarlos previamente."
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "controles de incendios"
+          ],
+          [
+            "alertas remotas"
+          ],
+          [
+            "zonas de extincion",
+            "zonas de extinción"
+          ],
+          [
+            "bloquearlos o desconectarlos previamente",
+            "bloquear o desconectar previamente"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "accepted_exact_span",
+          "chunk_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "document_id": "ab258c38-30f7-4047-a421-ebb7a701a84a",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page": 121,
+          "product_model": "ASD535",
+          "manufacturer": "Securiton",
+          "content_sha256": "3400c81c1f54a336e54648efeaf73eed73189997fbf346136e5a0216f872bd42",
+          "authority": "evals/gold_answers_v1.yaml._provenance",
+          "source_start": 57,
+          "source_end": 290,
+          "source_span_sha256": "ff771070a8fda9aab8247bbfc8c5c5d1407cd5aad5a8057991e63054f541ab81"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "accepted_exact_span",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "accepted_exact_span",
+      "manual_id": [
+        "ASD535_TD_T131192es_h"
+      ],
+      "pages": [
+        "121"
+      ],
+      "source_start": 57,
+      "source_end": 290,
+      "source_span_sha256": "ff771070a8fda9aab8247bbfc8c5c5d1407cd5aad5a8057991e63054f541ab81",
+      "authority_refs": [
+        "evals/s270_gold_adjudication_v1.yaml:row_3",
+        "evals/s272_banked_funnel_v1.json",
+        "evals/s235_direct_clause_bound_score_packet_v1.json"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp003#0:12V",
+      "fact_key": "hp003#0:12V",
+      "qid": "hp003",
+      "statement": "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h",
+      "statement_sha256": "3e614100fa4c9516236a45fa6bf68b652d44d5473439e6aa7fd6cd51ecf6b27a",
+      "parent_fact_sha256": "3742107e78e2e189bde0e6bba2a4d82ce485ad6c1f13ecf70683333dc6450c9d",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp003#0:12V:required",
+            "text": "Dos baterias de 12V conectadas en SERIE (suman los 24V del sistema), capacidad 7A/h"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "dos baterias",
+            "2 baterias",
+            "dos baterías",
+            "2 baterías"
+          ],
+          [
+            "12 v",
+            "12v"
+          ],
+          [
+            "serie"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion",
+          "page": 7,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Las centrales analógicas requieren dos baterías de 12V 7A/h. Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+          "quote_sha256": "8980327091ff7b18167487a2fd2026221155a84b26fe95f10e7eaa22074d960b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p7/f9 (§2.5)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion"
+      ],
+      "pages": [
+        "7"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp003#1:cable puente",
+      "fact_key": "hp003#1:cable puente",
+      "qid": "hp003",
+      "statement": "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra",
+      "statement_sha256": "3c90f4476f62e91f10b0c0857d04649956a86c29717b501ca19807244b14807b",
+      "parent_fact_sha256": "87ab4f1ecaaa2f353c4c84f8c6e9cb6189291b448a5796370ef163b8a8447c89",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp003#1:cable puente:required",
+            "text": "Cable puente: une el polo POSITIVO de una bateria con el NEGATIVO de la otra"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "cable puente"
+          ],
+          [
+            "positivo"
+          ],
+          [
+            "negativo"
+          ],
+          [
+            "dos baterias",
+            "2 baterias",
+            "dos baterías",
+            "2 baterías"
+          ],
+          [
+            "serie"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion",
+          "page": 7,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Las centrales analógicas requieren dos baterías de 12V 7A/h. Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+          "quote_sha256": "8980327091ff7b18167487a2fd2026221155a84b26fe95f10e7eaa22074d960b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p7/f9 (§2.5)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion"
+      ],
+      "pages": [
+        "7"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp003#2:rojo y negro",
+      "fact_key": "hp003#2:rojo y negro",
+      "qid": "hp003",
+      "statement": "Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de las baterias (conectar antes el puente entre baterias)",
+      "statement_sha256": "542c60d8eca809c8fd16c9dd8b008aae79d5efd30a188cd5af0e3d6ca323ff4a",
+      "parent_fact_sha256": "146e78318e84a74323bfd0b057e10862c6b0cbec7f04cdf9d65cc730156d31f3",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp003#2:rojo y negro:required",
+            "text": "Los cables que salen del circuito (ROJO y NEGRO) se conectan al positivo y negativo de las baterias (conectar antes el puente entre baterias)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "rojo"
+          ],
+          [
+            "negro"
+          ],
+          [
+            "positivo"
+          ],
+          [
+            "negativo"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion",
+          "page": 7,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Las centrales analógicas requieren dos baterías de 12V 7A/h. Las baterías deben conectarse en serie para el correcto funcionamiento de las centrales.",
+          "quote_sha256": "8980327091ff7b18167487a2fd2026221155a84b26fe95f10e7eaa22074d960b",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p7/f9 (§2.5)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion"
+      ],
+      "pages": [
+        "7"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp003#3:primero la red",
+      "fact_key": "hp003#3:primero la red",
+      "qid": "hp003",
+      "statement": "Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)",
+      "statement_sha256": "767f06942818382c3024008624bc2efad1eb129e0f48886aa74867ee94bcd7d7",
+      "parent_fact_sha256": "4c97c892109071ae5c7a21ead64639853cdbb2399b6d295bf62bd9be054eb833",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp003#3:primero la red:required",
+            "text": "Orden de conexion por seguridad: PRIMERO la red (230VAC, magnetotermico bipolar), DESPUES las baterias (no respetarlo puede danar el equipo)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "primero"
+          ],
+          [
+            "red",
+            "230 vac",
+            "230vac"
+          ],
+          [
+            "despues las baterias",
+            "después las baterías"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion",
+          "page": 8,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "compruebe que las baterías tienen una tensión superior a 24V",
+          "quote_sha256": "d62fc717526423f59afb42623d00e0bd46aa005d424688aa0d0b082090608d62",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p8/f10 (§3.2) + Usuario p7",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "55315008 Manual Centrales Analogicas CAD-150-8 Usuario",
+          "page": 7,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "En primer lugar, conectar el equipo a la red principal (230VAC). En segundo lugar, conectar las baterías. Si no respetamos este orden, el equipo podría sufrir daños.",
+          "quote_sha256": "0631e9c10bb9a6ea717387cce7475dbc523303b773f797a51ebe73a904b6fd38",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p8/f10 (§3.2) + Usuario p7",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "55315008 Manual Centrales Analogicas CAD-150-8 Usuario",
+        "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion"
+      ],
+      "pages": [
+        "7",
+        "8"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp005#0:Matriz de control",
+      "fact_key": "hp005#0:Matriz de control",
+      "qid": "hp005",
+      "statement": "La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la definicion de ENTRADA = ALARMA, sobre la zona deseada",
+      "statement_sha256": "da307c13fba49736b42ee3b1ebcb58cad9c3d0c1978de9d85b08f75da529e79b",
+      "parent_fact_sha256": "b44ffc938e2ee9fcb151a3f113b4c1a69a0cbd9273b3c86365d38449e37e2a05",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp005#0:Matriz de control:required",
+            "text": "La coincidencia se configura creando una instruccion en la MATRIZ DE CONTROL con la definicion de ENTRADA = ALARMA, sobre la zona deseada"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "matriz de control"
+          ],
+          [
+            "instruccion",
+            "instrucción",
+            "configura"
+          ],
+          [
+            "entrada"
+          ],
+          [
+            "alarma"
+          ],
+          [
+            "zona"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MPDT190.pdf",
+          "page": 66,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Coincidencia de equipos... Seleccione la opción deseada. Las opciones 'UN ÚNICO EQUIPO' y 'COINCIDENCIA 2 EQUIPOS' siempre están disponibles",
+          "quote_sha256": "c8456d5dfebb687e2fafd0545e321932526d934e005dd030492e8b28ae5ea510",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT190 p66 (f73)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MPDT190.pdf"
+      ],
+      "pages": [
+        "66"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp005#1:COINCIDENCIA 2 EQUIPOS",
+      "fact_key": "hp005#1:COINCIDENCIA 2 EQUIPOS",
+      "qid": "hp005",
+      "statement": "En el menu \"Indique tipo de coincidencia\" seleccionar la opcion 2: COINCIDENCIA 2 EQUIPOS",
+      "statement_sha256": "7295569cb271799a14b1391b8b6c471baf11bf7d99e28f2f040ac9cb5839dddd",
+      "parent_fact_sha256": "f43660c58c1a4239590ecb3fbdccef721c7c2f6f24f9a5c1bfc52aacda938b3d",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp005#1:COINCIDENCIA 2 EQUIPOS:required",
+            "text": "En el menu \"Indique tipo de coincidencia\" seleccionar la opcion 2: COINCIDENCIA 2 EQUIPOS"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "coincidencia 2 equipos",
+            "coincidencia de 2 equipos",
+            "coincidencia dos equipos"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MPDT190.pdf",
+          "page": 66,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Coincidencia de equipos... Seleccione la opción deseada. Las opciones 'UN ÚNICO EQUIPO' y 'COINCIDENCIA 2 EQUIPOS' siempre están disponibles",
+          "quote_sha256": "c8456d5dfebb687e2fafd0545e321932526d934e005dd030492e8b28ae5ea510",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT190 p66 (f73)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MPDT190.pdf"
+      ],
+      "pages": [
+        "66"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp005#2:misma zona o subzona",
+      "fact_key": "hp005#2:misma zona o subzona",
+      "qid": "hp005",
+      "statement": "Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma zona o subzona",
+      "statement_sha256": "6ccf4519406d3082a94f267d295770ffdc395eeca5e6519fd8790313ab1e5f3c",
+      "parent_fact_sha256": "14ac65f08e6128c8a24ea6531db63e342d677a8582d3336da0af740bd9e6a821",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp005#2:misma zona o subzona:required",
+            "text": "Para que se produzca la coincidencia, los equipos en alarma deben estar en la misma zona o subzona"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "misma zona",
+            "misma subzona",
+            "zona o subzona"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MPDT190.pdf",
+          "page": 66,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Coincidencia de equipos... Seleccione la opción deseada. Las opciones 'UN ÚNICO EQUIPO' y 'COINCIDENCIA 2 EQUIPOS' siempre están disponibles",
+          "quote_sha256": "c8456d5dfebb687e2fafd0545e321932526d934e005dd030492e8b28ae5ea510",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT190 p66 (f73)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MPDT190.pdf"
+      ],
+      "pages": [
+        "66"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp005#3:CIRCUITO SIRENA",
+      "fact_key": "hp005#3:CIRCUITO SIRENA",
+      "qid": "hp005",
+      "statement": "Definir la SALIDA: \"Salidas activadas\" -> \"CIRCUITO SIRENA/RELE\" (un circuito de sirena concreto) o \"TODAS SALIDAS: Subzona/Zona/Central\" limitando por tipo a los modulos de sirena",
+      "statement_sha256": "fee7509b8bd351625100d31e3ef18a12d933b6ccf0f5b87b86da52bbe298f777",
+      "parent_fact_sha256": "0ef194443f05099ee23f88ca9d3e9f4b0da2bcc4674190b2a8a0489f0df924fe",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp005#3:CIRCUITO SIRENA:required",
+            "text": "Definir la SALIDA: \"Salidas activadas\" -> \"CIRCUITO SIRENA/RELE\" (un circuito de sirena concreto) o \"TODAS SALIDAS: Subzona/Zona/Central\" limitando por tipo a los modulos de sirena"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "circuito sirena",
+            "circuito de sirena"
+          ],
+          [
+            "salida"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MPDT190.pdf",
+          "page": 70,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Todas salidas: Subzona, zona o central... TODOS LOS MÓDULOS DE SIRENA",
+          "quote_sha256": "192c1f592ea09dcc34efe8087341a412d29ffa9212b83b4384a83d8c3c90a952",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT190 p70 (f77)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MPDT190.pdf"
+      ],
+      "pages": [
+        "70"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp011#1:r.I",
+      "fact_key": "hp011#1:r.I",
+      "qid": "hp011",
+      "statement": "Parametro r.I \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos",
+      "statement_sha256": "51ebd17cc89dcec92b928b70be4c665f072b9d835f811f329516fd50656ee8a4",
+      "parent_fact_sha256": "1c4db90ba413d08a8278eb4356bb577ea215df7bf8d13fb9a36cf2fd73861d2b",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp011#1:r.I:required",
+            "text": "Parametro r.I \"Rearme inhibido tras extincion\": \"--\"=inhibido hasta finalizar la extincion o agotar t.A; \"00\"=rearme permitido en cualquier momento (POR DEFECTO); \"01\" a \"30\"=inhibido durante ese intervalo en minutos"
+          }
+        ],
+        "forbidden": [
+          {
+            "clause_id": "hp011#1:r.I:forbidden:1",
+            "text": "t.fi"
+          }
+        ]
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "rearme inhibido",
+            "inhibicion del rearme",
+            "inhibición del rearme"
+          ],
+          [
+            "--",
+            "guiones"
+          ],
+          [
+            "00"
+          ],
+          [
+            "01",
+            "1 minuto"
+          ],
+          [
+            "30",
+            "30 minutos"
+          ],
+          [
+            "t.a",
+            "duracion de la descarga",
+            "duración de la descarga"
+          ]
+        ],
+        "forbidden_any": [
+          "t.fi"
+        ]
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "HLSI-MN-103_RP1r-Supra_lr.pdf",
+          "page": 63,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Parámetro r.1 \"Rearme inhibido tras extinción\": \"--\" rearme inhibido hasta finalizar la extinción o agotar el tiempo del parámetro t.A; \"00\" rearme permitido en cualquier momento (por defecto); \"01 a 30\" rearme inhibido durante el intervalo en minutos.",
+          "quote_sha256": "82b768ea65510441a0a98e572be6c1579171489d64ac2adecf531182721e029a",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p63",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "HLSI-MN-103_RP1r-Supra_lr.pdf"
+      ],
+      "pages": [
+        "63"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "hp011_rearme_inhibido_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp012#0:10 lazos",
+      "fact_key": "hp012#0:10 lazos",
+      "qid": "hp012",
+      "statement": "La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)",
+      "statement_sha256": "8261ff06a8629ed6edcd5ca6d27966f96a84035d815e2e1b98de43914a5b2a17",
+      "parent_fact_sha256": "3f1dcd5367768c0952051b708b7cf1e6412585cccde338c83e880e54dec6fc0e",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp012#0:10 lazos:required",
+            "text": "La AM2020 soporta hasta 10 lazos SLC (consistente en la doc de Espana y la de US)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "am2020",
+            "am 2020"
+          ],
+          [
+            "10 lazos"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MFDT280.pdf",
+          "page": 6,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Lazo SLC - Entre \"L\" seguido de 1 a 10 en la AM2020 - Entre \"L\" seguido de 1 to 2 en la AFP1010",
+          "quote_sha256": "eff1fd4b46d1ca041421f33a1b4db0983b9319dc486a829a4f0f22bdffe866f5",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MFDT280 p6 / 15088SP p112,p151",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 112,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "MFDT280 p6 / 15088SP p112,p151",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 151,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "MFDT280 p6 / 15088SP p112,p151",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "15088SP",
+        "MFDT280.pdf"
+      ],
+      "pages": [
+        "112",
+        "151",
+        "6"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp012#1:99 + 99",
+      "fact_key": "hp012#1:99 + 99",
+      "qid": "hp012",
+      "statement": "Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control = 198 dispositivos por lazo (consistente en ambos mercados)",
+      "statement_sha256": "6ad04a8d65ffd7f1698dd992d72a11e97c11d6a8bb5ae026a8513e52c7cd1de0",
+      "parent_fact_sha256": "2a71f10e12b2dcc08b7ae994447125549c216ec7af8860683bdbb50e1ed0c275",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp012#1:99 + 99:required",
+            "text": "Cada lazo SLC admite hasta 99 detectores analogicos + 99 modulos monitores/de control = 198 dispositivos por lazo (consistente en ambos mercados)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "99 detectores"
+          ],
+          [
+            "99 modulos",
+            "99 módulos"
+          ],
+          [
+            "por lazo",
+            "cada lazo"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MFDT280.pdf",
+          "page": 4,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "La AM2020 puede soportar hasta 10 lazos, cada uno de los cuales soporta hasta 99 detectores analógicos y 99 módulos monitores o de control.",
+          "quote_sha256": "b79d764c32099115e04317b8f23b026ee70528d9e988feb90021f54d3748ef55",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MFDT280 p4 / 15088SP p61",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 61,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "MFDT280 p4 / 15088SP p61",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "15088SP",
+        "MFDT280.pdf"
+      ],
+      "pages": [
+        "4",
+        "61"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp012#2:2 lazos / 396",
+      "fact_key": "hp012#2:2 lazos / 396",
+      "qid": "hp012",
+      "statement": "AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 = 2 lazos / 396 dispositivos en el sistema",
+      "statement_sha256": "dbdda23218edf2d552bd15a6e8a037e9b59d226d97ee49b79f220668a3949ba2",
+      "parent_fact_sha256": "6776f67472999d9b6cae1c19f66a1319b9a5f1ddaf3ec676e748842445c751a3",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp012#2:2 lazos / 396:required",
+            "text": "AFP1010 segun la doc de Notifier ESPANA (MFDT280/MPDT280): maximo 2 tarjetas LIB-200 = 2 lazos / 396 dispositivos en el sistema"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "afp1010",
+            "afp 1010"
+          ],
+          [
+            "espana",
+            "españa",
+            "mfdt280",
+            "mpdt280"
+          ],
+          [
+            "2 lazos",
+            "dos lazos"
+          ],
+          [
+            "396"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MPDT280.pdf",
+          "page": 3,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "El AFP1010, está limitado a un máximo de dos LIB-200 (un total de 396 dispositivos en el sistema)",
+          "quote_sha256": "1023c77cd4dca3755d34f3a9ad2a86daef99d791148407d653ea434f15190639",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT280 p3 / MFDT280 p6",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MFDT280.pdf",
+          "page": 6,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Lazo SLC - Entre \"L\" seguido de 1 a 10 en la AM2020 - Entre \"L\" seguido de 1 to 2 en la AFP1010",
+          "quote_sha256": "eff1fd4b46d1ca041421f33a1b4db0983b9319dc486a829a4f0f22bdffe866f5",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "MPDT280 p3 / MFDT280 p6",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MFDT280.pdf",
+        "MPDT280.pdf"
+      ],
+      "pages": [
+        "3",
+        "6"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp012#3:4 lazos / 792",
+      "fact_key": "hp012#3:4 lazos / 792",
+      "qid": "hp012",
+      "statement": "AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 LIB-400) = 4 lazos / 792 dispositivos -> EN CONFLICTO con la doc de Espana",
+      "statement_sha256": "188238f772ecdc77fee9f164898072e4ca3d020c608e4f8a700083e2b7c4c66f",
+      "parent_fact_sha256": "1a9a23fb0cb8590aa06b964c8c195c3ab643d75f3227313b36d581bf97d6606e",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp012#3:4 lazos / 792:required",
+            "text": "AFP1010 segun la doc de Notifier US (PN 15088SP, 1998): maximo 4 LIBs (4 LIB-200 o 2 LIB-400) = 4 lazos / 792 dispositivos -> EN CONFLICTO con la doc de Espana"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "afp1010",
+            "afp 1010"
+          ],
+          [
+            "us",
+            "ee uu",
+            "15088sp"
+          ],
+          [
+            "4 lazos",
+            "cuatro lazos"
+          ],
+          [
+            "792"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 14,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "15088SP p14,p112,p151",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 112,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "15088SP p14,p112,p151",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "15088SP",
+          "page": 151,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": null,
+          "quote_sha256": null,
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita",
+          "atomic_cita": "15088SP p14,p112,p151",
+          "identity_status": "atomic_cita_page_without_gold_quote"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "15088SP"
+      ],
+      "pages": [
+        "112",
+        "14",
+        "151"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp014#0:25",
+      "fact_key": "hp014#0:25",
+      "qid": "hp014",
+      "statement": "Los aisladores se instalan en CADA lazo analogico para separar sensores y pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la ID2000 no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET, p.ej. B524IEFT)",
+      "statement_sha256": "1cbfabcf54e80a54e6c4d6c532b096b8d483816b58f8114780ee07c34a5c00ed",
+      "parent_fact_sha256": "813165d16a1d0e0360f046a5acbf74aed43dc003df0dd9938511b0131a461ff3",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp014#0:25:required",
+            "text": "Los aisladores se instalan en CADA lazo analogico para separar sensores y pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la ID2000 no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET, p.ej. B524IEFT)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "25 equipos"
+          ],
+          [
+            "aisladores"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MIDT180.pdf",
+          "page": 16,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Los aisladores se deben utilizar en cada lazo analógico para separar los sensores y los pulsadores",
+          "quote_sha256": "2ff548d73a7f9efc04f09058064fb6ff29c2627422849b8455549f2cc57faddc",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p16 (f20) 4.1.2",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIDT180.pdf"
+      ],
+      "pages": [
+        "16"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp014#1:continuidad",
+      "fact_key": "hp014#1:continuidad",
+      "qid": "hp014",
+      "statement": "Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aisladores (usar multimetro de baja tension, nunca de alta tension tipo 'Megger')",
+      "statement_sha256": "671ce8511ea51d898e852bf2d1ae2ed19a07ccf9c7b0c2ef17ce821b2079c2ac",
+      "parent_fact_sha256": "ceb7d09ac2a814a7f3ce4213d7a2d47c266b91e10cf53905a4415886dd93a0b2",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp014#1:continuidad:required",
+            "text": "Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aisladores (usar multimetro de baja tension, nunca de alta tension tipo 'Megger')"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "continuidad"
+          ],
+          [
+            "antes"
+          ],
+          [
+            "aisladores"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MIDT180.pdf",
+          "page": 16,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Los aisladores se deben utilizar en cada lazo analógico para separar los sensores y los pulsadores",
+          "quote_sha256": "2ff548d73a7f9efc04f09058064fb6ff29c2627422849b8455549f2cc57faddc",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p16 (f20) 4.2",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIDT180.pdf"
+      ],
+      "pages": [
+        "16"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp014#2:terminales 2 y 4",
+      "fact_key": "hp014#2:terminales 2 y 4",
+      "qid": "hp014",
+      "statement": "Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad, RETIRAR las conexiones temporales antes de conectar el lazo al panel (extremos A y B)",
+      "statement_sha256": "c5f74161eced3e974b8e6a41739470a8587af0e3c314e016a22cad5976a63b36",
+      "parent_fact_sha256": "812766d4e62daaa6c8d97f5186c3ae466321aace609243b94cd25f589ebee012",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp014#2:terminales 2 y 4:required",
+            "text": "Para las pruebas, desconectar temporalmente los aisladores cortocircuitando los terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad, RETIRAR las conexiones temporales antes de conectar el lazo al panel (extremos A y B)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "terminales 2 y 4",
+            "terminal 2 y 4"
+          ],
+          [
+            "cortocircuit",
+            "puente"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MIDT180.pdf",
+          "page": 42,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Desconecte los aisladores del lazo temporalmente cortocircuitando los terminales 2 y 4 de cada aislador",
+          "quote_sha256": "3faf8dfecd71b883337739839f84f16e855e393d3dfa2f6668926f5370279148",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p42 (f46) 8.4.2/8.4.3",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIDT180.pdf"
+      ],
+      "pages": [
+        "42"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp014#3:35",
+      "fact_key": "hp014#3:35",
+      "qid": "hp014",
+      "statement": "La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)",
+      "statement_sha256": "23a13b9767398a0113a0437b52ce074056a9977a7303d101bf5f2c980cb60055",
+      "parent_fact_sha256": "e1e0eecffbc7384cc129e7407d4be9c5466436285cda789918fad64587d6d795",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp014#3:35:required",
+            "text": "La pantalla del cable debe ser continua y conectarse a tierra SOLO en el panel; la resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B- y midiendo en A+/A-)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "35 ohm",
+            "35 ω"
+          ],
+          [
+            "tierra"
+          ],
+          [
+            "panel"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "MIDT180.pdf",
+          "page": 14,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Se debe evitar una conexión múltiple de la pantalla a tierra. Los productos de campo de NOTIFIER utilizan bases y cajas aisladas para este fin",
+          "quote_sha256": "6be9091aa5923cb9c4e447cb7f4489823bfe8a0093402fe6c139a2b0bb1e472c",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "p14 (f18)",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIDT180.pdf"
+      ],
+      "pages": [
+        "14"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp017#0:causa-efecto",
+      "fact_key": "hp017#0:causa-efecto",
+      "qid": "hp017",
+      "statement": "El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de \"retardo de salida\"",
+      "statement_sha256": "9190edae93416786520cd9a6082a8193d773e0d2c56524df4ffa116499849ade",
+      "parent_fact_sha256": "f4849c19a9af72452c802a7f49b98fffbf163fa9354283e62b54dec370229618",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp017#0:causa-efecto:required",
+            "text": "El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un parametro unico de \"retardo de salida\""
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "causa efecto",
+            "causa-efecto"
+          ],
+          [
+            "retardo"
+          ],
+          [
+            "regla"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf (Apéndice 5)",
+          "page": 42,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Una regla consta de dos instrucciones de acción... Instrucción de entrada: una condición de entrada, como una alarma... Instrucción de salida: el accionamiento de uno o más equipos asignados, como sirenas o relés.",
+          "quote_sha256": "32da1865e5f9c3917fad78cb7889b7c21959ac19a34b13ea2c682b59d713c7b8",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671-005-3 Ap.5",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf (Apéndice 5)",
+          "page": 43,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Para crear o editar reglas de causa-efecto vaya a la pantalla \"Causa y Efecto\" desde el menú \"Editar Configuración\"... Regla 1: CUALQUIER entrada de alarma activa TODOS los equipos de salida... Es fundamental borrar la regla 1 si se va a realizar una programación específica.",
+          "quote_sha256": "9438708dac403772903d2e9c7b28450722be8f42ceac7c3d92d21d4019a93400",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671-005-3 Ap.5",
+          "identity_status": "gold_quote_bound"
+        },
+        {
+          "binding_level": "fact_specific_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "997-671-005-3_Configuration_ES.pdf (Apéndice 5)",
+          "page": 44,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "A5.3 Tipos de retardo. Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla.",
+          "quote_sha256": "997cc923cc874e205e6cfb77a9ea822b96ab744c172a9b0e5ece01bb8064dbd9",
+          "authority": "evals/gold_answers_v1.yaml:atomic_facts[].cita+citations[]",
+          "atomic_cita": "997-671-005-3 Ap.5",
+          "identity_status": "gold_quote_bound"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES.pdf (Apéndice 5)"
+      ],
+      "pages": [
+        "42",
+        "43",
+        "44"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp017#2:Editar Configuracion",
+      "fact_key": "hp017#2:Editar Configuracion",
+      "qid": "hp017",
+      "statement": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+      "statement_sha256": "1e635955fc1579cf37d97a961c1bd24c5c3a9c5d60ce2e981e8c1fdaac9e588e",
+      "parent_fact_sha256": "bdec079cdf931c925b277224d2aaf7fc53b3999f0ec09fa022e30c72b852c0d8",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp017#2:Editar Configuracion:required",
+            "text": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "editar configuracion",
+            "editar configuración"
+          ],
+          [
+            "causa y efecto",
+            "causa-efecto"
+          ],
+          [
+            "regla 1"
+          ],
+          [
+            "borrar",
+            "eliminar"
+          ],
+          [
+            "cualquier entrada de alarma"
+          ],
+          [
+            "todos los equipos de salida",
+            "todas las sirenas"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page": 15,
+          "product_model": "Pearl",
+          "manufacturer": "Notifier",
+          "content_sha256": "19a43b3881c80a40e3a9bfb250aea8a17ddd99948efa01f28b9d139329031d11",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        },
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page": 45,
+          "product_model": "Pearl",
+          "manufacturer": null,
+          "content_sha256": "7f68b076e19769e1b528b189d35ceb99669c7f0d7465d4fd944c6da935cb59fd",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES"
+      ],
+      "pages": [
+        "15",
+        "45"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s273_v3b_arbiter_v1.json",
+        "evals/s273_v3_closeout_v1.yaml"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 0,
+      "release_guard_only": true,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp017#3:disclosure_DEC128",
+      "fact_key": "hp017#3:disclosure_DEC128",
+      "qid": "hp017",
+      "statement": "La prosa declara seis/6 tipos de retardo; deben enumerarse todas las etiquetas no vacías de al menos una surface servida y declarar explícitamente que las surfaces discrepan, sin exigir ni inventar el literal siete.",
+      "statement_sha256": "7eb1e8486828c359c2c0996faa969e579e68c3aff27926f8231a46fd53ffd33d",
+      "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp017#3:disclosure_DEC128:required",
+            "text": "La prosa declara seis/6 tipos de retardo; deben enumerarse todas las etiquetas no vacías de al menos una surface servida y declarar explícitamente que las surfaces discrepan, sin exigir ni inventar el literal siete."
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "seis tipos de retardo",
+            "6 tipos de retardo"
+          ],
+          [
+            "fijo"
+          ],
+          [
+            "estandar",
+            "estándar"
+          ],
+          [
+            "no silenc"
+          ],
+          [
+            "est ext",
+            "est. ext"
+          ],
+          [
+            "retextstd"
+          ],
+          [
+            "no sil ext",
+            "no sil. ext"
+          ],
+          [
+            "sinretext"
+          ],
+          [
+            "discrepancia",
+            "no coincide",
+            "difiere",
+            "discrepan",
+            "tambien indica",
+            "también indica"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+          "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page": 44,
+          "product_model": "Pearl",
+          "manufacturer": "Notifier",
+          "content_sha256": "b685551111404d24bfd29fc5f680eb29c294bfe742c2503c9a1c3d7aced2b45c",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "997-671-005-3_Configuration_ES"
+      ],
+      "pages": [
+        "44"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/s270_gold_adjudication_v1.yaml:row_8",
+        "docs/DECISIONS.md:DEC-128",
+        "evals/s271_872c_respec_rescore_v1.json"
+      ],
+      "algorithm": "hp017_delay_disclosure_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp018#0:4 circuitos",
+      "fact_key": "hp018#0:4 circuitos",
+      "qid": "hp018",
+      "statement": "La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados en corriente",
+      "statement_sha256": "9b766487fefc6467c41b1050c4e8ee5ff8143940feb755dddb48a1f54f11cbce",
+      "parent_fact_sha256": "f2c759bb39826f48e1dcf372c7df8525a054195d478a17c1a634dcb08975b75f",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp018#0:4 circuitos:required",
+            "text": "La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2: Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados en corriente"
+          }
+        ],
+        "forbidden": [
+          {
+            "clause_id": "hp018#0:4 circuitos:forbidden:1",
+            "text": "zx5e dispone de 5"
+          },
+          {
+            "clause_id": "hp018#0:4 circuitos:forbidden:2",
+            "text": "zx5e tiene 5"
+          }
+        ]
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "zx2e"
+          ],
+          [
+            "2 circuitos",
+            "dos circuitos"
+          ],
+          [
+            "zx5e"
+          ],
+          [
+            "4 circuitos",
+            "cuatro circuitos"
+          ]
+        ],
+        "forbidden_any": [
+          "zx5e dispone de 5",
+          "zx5e tiene 5"
+        ]
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "source_file": "MIE-MI-530rv001",
+          "page": 20,
+          "product_model": "ZX2e/ZX5e",
+          "manufacturer": "Morley",
+          "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIE-MI-530rv001"
+      ],
+      "pages": [
+        "20"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp018#1:6K8",
+      "fact_key": "hp018#1:6K8",
+      "qid": "hp018",
+      "statement": "Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada circuito de sirena (en la ultima sirena) para la supervision",
+      "statement_sha256": "1e2784d84b5469656d1c971af27f5999c120da289dc0ec72865bd0446474c51d",
+      "parent_fact_sha256": "0a1f9516cd2a1c0158281fc7f5db2c8b47df1c7e12a85e39787271a2074e4806",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp018#1:6K8:required",
+            "text": "Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el final de cada circuito de sirena (en la ultima sirena) para la supervision"
+          }
+        ],
+        "forbidden": [
+          {
+            "clause_id": "hp018#1:6K8:forbidden:1",
+            "text": "10 kohm"
+          },
+          {
+            "clause_id": "hp018#1:6K8:forbidden:2",
+            "text": "10 kω"
+          },
+          {
+            "clause_id": "hp018#1:6K8:forbidden:3",
+            "text": "10kω"
+          }
+        ]
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "6k8",
+            "6,8 k",
+            "6.8 k"
+          ],
+          [
+            "0,5 w",
+            "0.5 w"
+          ],
+          [
+            "final de linea",
+            "fin de linea",
+            "rfl"
+          ]
+        ],
+        "forbidden_any": [
+          "10 kohm",
+          "10 kω",
+          "10kω"
+        ]
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "source_file": "MIE-MI-530rv001",
+          "page": 20,
+          "product_model": "ZX2e/ZX5e",
+          "manufacturer": "Morley",
+          "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIE-MI-530rv001"
+      ],
+      "pages": [
+        "20"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp018#2:diodo",
+      "fact_key": "hp018#2:diodo",
+      "qid": "hp018",
+      "statement": "Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en reposo (supervision) y cambia a polarizacion normal al dispararse; los dispositivos no polarizados requieren anadir un diodo en cada uno",
+      "statement_sha256": "b1ba1aff047cd3418218f9663df2de5889fd2a8c9b5ac0c9ad65bafc8ac2a746",
+      "parent_fact_sha256": "900eb05bd254c0f92dde185cccc946c96f4158281137b40aaa8ec4fadb78b8e1",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp018#2:diodo:required",
+            "text": "Cada sirena debe llevar un diodo integrado; el circuito se polariza en inverso en reposo (supervision) y cambia a polarizacion normal al dispararse; los dispositivos no polarizados requieren anadir un diodo en cada uno"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "diodo"
+          ],
+          [
+            "polarizacion inversa",
+            "polarización inversa"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "72fc4c53-f507-4e67-9192-ebc68b94be78",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "source_file": "MIE-MI-530rv001",
+          "page": 21,
+          "product_model": "ZX2e/ZX5e",
+          "manufacturer": "Morley",
+          "content_sha256": "0855b69e10f7fb429ecf9a25dcf08393947857311e442da00016fd958987ac6b",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIE-MI-530rv001"
+      ],
+      "pages": [
+        "21"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp018#3:Sirenas A,B,C,D",
+      "fact_key": "hp018#3:Sirenas A,B,C,D",
+      "qid": "hp018",
+      "statement": "La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de cada salida (A/B/C/D)",
+      "statement_sha256": "adcaddc239e3a57c058f885291cbecb5e7d2befab88222d70cb38b3c92414c30",
+      "parent_fact_sha256": "a72d2d7e41e6e3f19dd5c23c1236f6e549ef257c1c668a18c76ad32afeec3f4a",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp018#3:Sirenas A,B,C,D:required",
+            "text": "La conexion se hace en el bloque de terminales de circuitos de sirena de la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/- de cada salida (A/B/C/D)"
+          }
+        ],
+        "forbidden": []
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "sirena a",
+            "sirenas a"
+          ],
+          [
+            "sirena b",
+            "sirenas a y b"
+          ],
+          [
+            "sirena c",
+            "a b c d"
+          ],
+          [
+            "sirena d",
+            "a b c d"
+          ]
+        ],
+        "forbidden_any": []
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "72fc4c53-f507-4e67-9192-ebc68b94be78",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "source_file": "MIE-MI-530rv001",
+          "page": 21,
+          "product_model": "ZX2e/ZX5e",
+          "manufacturer": "Morley",
+          "content_sha256": "0855b69e10f7fb429ecf9a25dcf08393947857311e442da00016fd958987ac6b",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIE-MI-530rv001"
+      ],
+      "pages": [
+        "21"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    },
+    {
+      "fact_id": "hp018#4:1 A",
+      "fact_key": "hp018#4:1 A",
+      "qid": "hp018",
+      "statement": "Carga maxima 1 A por circuito/salida de sirena",
+      "statement_sha256": "e266bdb57e781ee96dbf7d0c60aa117b71b402664c64e235b28ced249fb4f2e8",
+      "parent_fact_sha256": "42d0edfd773355d2145972e1ab82ad07a3e761ea045a171c75916d2a41bc6a7a",
+      "clauses": {
+        "required": [
+          {
+            "clause_id": "hp018#4:1 A:required",
+            "text": "Carga maxima 1 A por circuito/salida de sirena"
+          }
+        ],
+        "forbidden": [
+          {
+            "clause_id": "hp018#4:1 A:forbidden:1",
+            "text": "500 ma max"
+          },
+          {
+            "clause_id": "hp018#4:1 A:forbidden:2",
+            "text": "500 ma máximo"
+          }
+        ]
+      },
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "1 a",
+            "1 amp",
+            "un amperio"
+          ],
+          [
+            "circuito",
+            "salida"
+          ]
+        ],
+        "forbidden_any": [
+          "500 ma max",
+          "500 ma máximo"
+        ]
+      },
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+          "document_id": "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+          "source_file": "MIE-MI-530rv001",
+          "page": 20,
+          "product_model": "ZX2e/ZX5e",
+          "manufacturer": "Morley",
+          "content_sha256": "50555410cdb0fd2a437a69d217e4bcf5a620468cafbf2fd3d2a7b66049f02a95",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "citation_policy": {
+        "mode": "valid_local_citation_required",
+        "binding_level": "gold_verified_page",
+        "additional_citations": "pass_only_same_span_product_revision_else_review"
+      },
+      "binding_level": "gold_verified_page",
+      "manual_id": [
+        "MIE-MI-530rv001"
+      ],
+      "pages": [
+        "20"
+      ],
+      "source_start": null,
+      "source_end": null,
+      "source_span_sha256": null,
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml",
+        "evals/s113_fact_ledger_v1.json",
+        "scripts/s118_build_atomic_benchmark.py:_historical_core_facts"
+      ],
+      "algorithm": "protected_fact_surface_v1",
+      "kpi_weight": 1,
+      "release_guard_only": false,
+      "not_a_regression_fact": false
+    }
+  ],
+  "question_guards": [
+    {
+      "guard_id": "hp013_safety_no_autonomous_battery_procedure_v1",
+      "qid": "hp013",
+      "required_clauses": [
+        "The manual does not document an autonomous battery-only replacement procedure.",
+        "Do not guarantee that configuration will be preserved by an undocumented procedure.",
+        "If EEPROM/non-volatility is mentioned, frame it as a qualified expectation, not a certified procedure."
+      ],
+      "forbidden_clauses": [
+        "Invented step-by-step battery-only replacement procedure.",
+        "Unqualified guarantee that configuration cannot be lost."
+      ],
+      "surface_forms": {
+        "normalization": "nfkd_casefold_alnum_ws",
+        "required_all_groups": [
+          [
+            "manual no documenta",
+            "no se documenta",
+            "no hay procedimiento"
+          ],
+          [
+            "bateria",
+            "batería"
+          ]
+        ],
+        "forbidden_any": [
+          "garantizado que no perdera",
+          "garantizado que no perderá"
+        ]
+      },
+      "authority_refs": [
+        "evals/gold_answers_v1.yaml:hp013",
+        "evals/s277_c1_p1_design_v1.md:section_9"
+      ],
+      "source_refs": [
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ADW535_TD_T140358es_e.pdf",
+          "page": 11,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Las baterías de plomo no deben eliminarse con la basura doméstica. Como usuario final, usted está obligado por ley a llevarlos a un punto de recogida.",
+          "quote_sha256": "4cda547351d6f4ca33b67b2e69ad6f2730d8e2e528795b5b4d0fd722bc36f052",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        },
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ADW535_TD_T140358es_e.pdf",
+          "page": 64,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Justo antes del primer encendido del ADW 535, debe retirarse la cinta aislante de la batería de litio (LMB 35).",
+          "quote_sha256": "f5680f54e8cf4512fc5ef389c3a537af4ea896b8b35ca1c76f754aca94c5b3b3",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        },
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ADW535_TD_T140358es_e.pdf",
+          "page": 14,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "El firmware está almacenado en la Flash PROM del ADW 535. Para almacenar o memorizar los parámetros específicos del sistema existe una EEPROM.",
+          "quote_sha256": "f0e6c6faf08f3018d894508e5cb2ce2a7cc6f6f2014efe27e0f69a29ccf36e8e",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        },
+        {
+          "binding_level": "gold_verified_page",
+          "chunk_id": null,
+          "document_id": null,
+          "source_file": "ADW535_TD_T140358es_e.pdf",
+          "page": 29,
+          "product_model": null,
+          "manufacturer": null,
+          "quote_text": "Batería de litio... Módulo de reloj RTC",
+          "quote_sha256": "93e8b77bd27fe7c83d6ba08b19530fcc560899b2494ef717e7d0b1345d1706b3",
+          "authority": "evals/gold_answers_v1.yaml._provenance"
+        }
+      ],
+      "algorithm": "hp013_safety_guard_v1",
+      "decision_policy": {
+        "on_machine_safe_match": "REVIEW",
+        "on_ambiguous": "REVIEW",
+        "on_violation": "FAIL",
+        "review_reason": "safety wording requires blind semantic review"
+      },
+      "manufacturer_service_recommendation": "permitted_not_required",
+      "kpi_weight": 0,
+      "safety_guard_only": true,
+      "not_a_regression_fact": true
+    }
+  ],
+  "registered_conflicts": [
+    {
+      "conflict_id": "conf_26f63590494f",
+      "qid": "hp017",
+      "kind": "document_value_conflict",
+      "product_scope": "Pearl",
+      "operation": "cause_effect_menu_path",
+      "values": [
+        "7",
+        "8"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page": 45,
+          "value": "7",
+          "source_start": 2033,
+          "source_end": 2347
+        },
+        {
+          "chunk_id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+          "source_file": "997-671-005-3_Configuration_ES",
+          "page": 15,
+          "value": "8",
+          "source_start": 1313,
+          "source_end": 1330
+        }
+      ],
+      "prohibited_surface_forms": [
+        "7: causa y efecto",
+        "8: causa y efecto"
+      ],
+      "disclosure_surface_forms": [
+        "discrepancia",
+        "no coincide",
+        "difiere",
+        "discrepan",
+        "fuente",
+        "revision",
+        "revisión"
+      ],
+      "required_resolution": "omit_flat_menu_number_or_explicitly_attribute_and_disclose_source_divergence",
+      "algorithm": "hp017_menu_conflict_v1",
+      "decision_policy": {
+        "on_match": "PASS",
+        "on_ambiguous": "REVIEW",
+        "on_violation": "FAIL"
+      },
+      "preexisting": true,
+      "candidate_failure_label": "FAIL_UNSAFE_CONFLICT_NOT_C1_REGRESSION",
+      "stored_prior_label": "HOLD_PREPAID_KNOWN_CONFLICT_RISK"
+    }
+  ],
+  "c1_target": {
+    "target_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+    "qid": "hp017",
+    "separate_from_base": true,
+    "compound_obligation_ids": [
+      "obl_16637b935bd4",
+      "obl_0d6a30948dfd"
+    ],
+    "statement": "One compound warning obligation; both source clauses are independently mandatory.",
+    "clauses": [
+      {
+        "obligation_id": "obl_16637b935bd4",
+        "exact_text": "Al programar reglas de causa-efecto evite las lógicas contradictorias.",
+        "normalized_text_sha256": "e8f7b3489af71001b76bc66e2f9705768987b1676d0d5be3d6719ba0a016f734",
+        "source_start": 2479,
+        "source_end": 2555,
+        "source_quote": "> **Al programar reglas de causa-efecto evite las lógicas contradictorias.**",
+        "source_span_sha256": "84759f9608dc8b7c74900f0f8bda29ce4bdce5ff3dbf0b465167a564e2de18dd"
+      },
+      {
+        "obligation_id": "obl_0d6a30948dfd",
+        "exact_text": "Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.",
+        "normalized_text_sha256": "c139d3c38442189ba7d27ec3adebf7e5de110c2e3d99f3cd4e13b89c894d98bb",
+        "source_start": 2558,
+        "source_end": 2724,
+        "source_quote": "> **Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**",
+        "source_span_sha256": "cea4c7bdd43ac4484361488c97d6f62551f0a5ce5f62afb12103182183d5321f"
+      }
+    ],
+    "target_identity": {
+      "candidate_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+      "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+      "source_file": "997-671-005-3_Configuration_ES",
+      "page_number": 41,
+      "product_model": "Pearl",
+      "manufacturer": null,
+      "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+      "required_identity_fields": [
+        "candidate_id",
+        "document_id",
+        "source_file",
+        "page_number",
+        "product_model",
+        "content_sha256"
+      ]
+    },
+    "source_refs": [
+      {
+        "binding_level": "accepted_exact_span",
+        "chunk_id": "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+        "document_id": "17d4b914-fa21-4b41-a928-bafe1846528a",
+        "source_file": "997-671-005-3_Configuration_ES",
+        "page": 41,
+        "product_model": "Pearl",
+        "manufacturer": null,
+        "content_sha256": "34fbd84d80883b5ade555bda6a1df2189ecd7e31eb40a2b9f20e7e51abe7b72a",
+        "authority": "evals/gold_answers_v1.yaml._provenance",
+        "source_start": 2479,
+        "source_end": 2724,
+        "source_span_sha256": "0bb3658aa1300be3cc8744e854b33d029851d8a49390d2281a965e9cc5fc03c8"
+      }
+    ],
+    "citation_policy": {
+      "mode": "valid_local_citation_required",
+      "binding_level": "accepted_exact_span",
+      "additional_citations": "pass_only_same_span_product_revision_else_review",
+      "dynamic_fragment_number": true,
+      "shared_local_citation": "allowed_only_when_local_unit_unambiguously_covers_both_clauses"
+    },
+    "algorithm": "hp017_compound_warning_exact_v1",
+    "kpi_weight": 1,
+    "official_kpi_already_banked": true,
+    "p1_does_not_move_kpi": true,
+    "required_replicas": 3,
+    "required_passes": 3
+  },
+  "exclusions": {
+    "not_protected_as_base": [
+      "cat001#3:32 / 25 / 20",
+      "cat017#2:licencia CLIP por lazo",
+      "cat018#1:pestana Programacion: Zona + CBE",
+      "cat018#2:Tipo SW / asociacion CBE",
+      "hp002#3:7.6.1",
+      "hp011#0:ABORT",
+      "hp011#2:05 a 295 seg",
+      "hp011#3:enclavadas",
+      "hp013#0:EEPROM",
+      "hp013#1:PWR-R",
+      "hp017#1:instruccion de entrada",
+      "obl_b2043cd4379b",
+      "obl_7aa723717412"
+    ],
+    "flat_hp017_menu_number": "registered_conflict_not_positive_requirement"
+  },
+  "decision_semantics": {
+    "fact_positive": "PASS only with deterministic surface contract and valid local citation; plausible paraphrase is REVIEW",
+    "review_blocks_go": true,
+    "instrument_drift": "INSTRUMENT_ERROR",
+    "positive_claim": "NO_OBSERVED_PROTECTED_LOSS_IN_P1_RUNS",
+    "forbidden_claim": "ZERO_REGRESSION",
+    "official_atomic_kpi_before_and_after_p1": "146/154"
+  },
+  "payload_sha256": "e6972b24b3c71ba78e585d820c8002ed46d9424b219a1227430fc73619564ab0"
+}

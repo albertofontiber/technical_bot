@@ -93,15 +93,50 @@ def test_no_detecta_dimensiones_como_paraguas_dimension():
     assert R.detect("cuáles son las dimensiones del panel") == []
 
 
-def test_hp009_premisa_add_conserva_match_family_level():
+def test_hp009_premisa_add_conserva_match_family_level(monkeypatch):
     # hp009 (family-genérico → answer): bajo el brazo ADD, los docs tagueados combinado
-    # ('ZX2e/ZX5e', la clase MIE-MI-530) deben seguir pasando el filtro de modelos
+    # ('ZX2e/ZX5e', la clase MIE-MI-530) deben seguir pasando el filtro de modelos.
     from src.rag.retriever import _filter_to_query_models
+
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "add")
     res = R.resolve_query("central ZXe")
-    models = R.apply_to_models(["ZXE"], res)          # add: ZXE + ZX1e/ZX2e/ZX5e
+    models = R.apply_to_models(["ZXE"], res)
     chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
     out = _filter_to_query_models(chunks, models)
     assert len(out) == 3, "la expansión ADD no debe expulsar los docs family-level de hp009"
+
+
+def test_hp009_replace_conserva_match_family_level(monkeypatch):
+    # hp009 (family-genérico → answer): retirar el paraguas no debe expulsar los
+    # documentos combinados ('ZX2e/ZX5e', la clase MIE-MI-530), porque las
+    # variantes canónicas siguen siendo cores válidos del tag compuesto.
+    from src.rag.retriever import _filter_to_query_models
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("central ZXe")
+    models = R.apply_to_models(["ZXE"], res)
+    assert "ZXE" not in models
+    chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
+    out = _filter_to_query_models(chunks, models)
+    assert len(out) == 3, "REPLACE no debe expulsar los docs family-level de hp009"
+
+
+def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
+    from src.rag.retriever import _filter_to_query_models
+
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("conectar una sirena convencional en Morley ZXe")
+    models = R.apply_to_models(["ZXE"], res)
+    chunks = (
+        [_chunk("ZXAE/ZXEE", "MIE-MI-310")] * 3
+        + [_chunk("ZX2e/ZX5e", "MIE-MI-530rv001")] * 3
+    )
+
+    out = _filter_to_query_models(
+        chunks, models, identity_allowed=res["allowed_sources"]
+    )
+
+    assert {c["product_model"] for c in out} == {"ZX2e/ZX5e"}
+    assert {c["source_file"] for c in out} == {"MIE-MI-530rv001"}
 
 
 # ─── resolución por la puerta (contrato expand) ───
@@ -118,6 +153,21 @@ def test_hp011_rp1r_prefer_supra():
     rec = next(r for r in res["records"] if r["token"] == "rp1r")
     assert rec["via"] == "homonimo" and rec["politica"] == "prefer:notifier:rp1r-supra"
     assert rec["ids"] == ["notifier:rp1r-supra"] and rec["expand"] is True
+
+
+def test_hp011_rp1r_resolves_governed_document_scope():
+    res = R.resolve_query("conectar el RP1r al software de gestión")
+
+    assert {
+        "document_id": "494e71be-873b-48c1-adb3-a21a122da111",
+        "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+    } in res["resolved_documents"]
+    assert all(
+        set(document) == {"document_id", "source_file"}
+        and document["document_id"]
+        and document["source_file"]
+        for document in res["resolved_documents"]
+    )
 
 
 def test_apic_clarify_no_expande():
@@ -160,6 +210,127 @@ def test_brazo_replace_retira_el_paraguas(monkeypatch):
     res = R.resolve_query("central ZXe")
     out = R.apply_to_models(["ZXE"], res)
     assert "ZXE" not in out and {"ZX1e", "ZX2e", "ZX5e"} == set(out)
+
+
+# ─── s278 §1a: guard candidate-member + quarantine (drop gobernado bajo replace) ───
+def test_resolve_expone_all_members_consumable():
+    # contrato GUARD-IMPL: la expansión que FILTRA miembros lo declara. Tras la adjudicación
+    # de Alberto (22-jul, s278) FAAST ya NO filtra (notifier:faast-8100e promovido a miembro
+    # pleno) — las tres devuelven True. `exact` no lleva el campo (nunca drop-elegible;
+    # shape pineado en test_catalog_store.py::test_resolve_exact).
+    R._ensure()
+    faast = R._cat.resolve("FAAST")
+    assert faast["via"] == "paraguas" and faast["expand"] is True
+    assert faast["all_members_consumable"] is True
+    assert R._cat.resolve("ZXe")["all_members_consumable"] is True
+    assert R._cat.resolve("RP1r")["all_members_consumable"] is True
+
+
+def test_faast_dropea_bajo_replace_tras_adjudicacion(monkeypatch):
+    # s278 adjudicado (Alberto 22-jul): notifier:faast-8100e candidate:false — TODOS los
+    # miembros consumibles ⇒ el guard permite el drop y los docs de doc_map de los miembros
+    # (incl. los 2 del 8100E) quedan en allowed_sources. NOTA medida: el 3er doc del census
+    # (I56-3836-006_FAAST_XM_8100E_ML) pertenece en doc_map a systemsensor:8100e-faast
+    # (duplicado candidate NO-miembro) y sigue FUERA de allowed_sources — residual declarado.
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de FAAST")
+    assert "faast" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["FAAST"], res)
+    assert "FAAST" not in out and "FAAST 8100E" in out
+    assert {"FAAST Area Coverage Planner_SP",
+            "FAAST Understanding EN54-20_SP"} <= res["allowed_sources"]
+
+
+def test_zxr_dropea_bajo_replace_y_mie_mi_430_alcanzable(monkeypatch):
+    # s278 adjudicado (Alberto 22-jul): zxr4b/zxr5b son miembros de la umbrella ZXR —
+    # el drop bajo replace es limpio y MIE-MI-430 (el doc que la quarantine protegía)
+    # queda alcanzable vía los miembros nuevos.
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de ZXR")
+    assert "zxr" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["ZXR"], res)
+    assert "ZXR" not in out
+    assert {"ZXR50A", "ZXR50P", "ZXR4B", "ZXR5B"} <= set(out)
+    assert "MIE-MI-430" in res["allowed_sources"]
+
+
+def test_g100r_resuelve_como_umbrella_y_dropea_bajo_replace(monkeypatch):
+    # s278 adjudicado (gt Alberto): G-100-R = familia de tarjetas de relé COMPARTIDAS
+    # G-100/G-500 → umbrella {r8, r16, r-12, r-24}; los aliases 'G-100-R'/'G-100-R-xx'
+    # (→ solo r-12) se RETIRARON para que el término resuelva por umbrella (orden
+    # homónimo→exact→alias→paraguas: un alias residual la taparía).
+    R._ensure()
+    rec = R._cat.resolve("G-100-R")
+    assert rec["via"] == "paraguas" and rec["expand"] is True
+    assert set(rec["ids"]) == {"notifier:g-100-r8", "notifier:g-100-r16",
+                               "notifier:g-100-r-12", "notifier:g-100-r-24"}
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de G-100-R")
+    assert "g100r" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert {"MNDT500", "MNDT503", "MNDT506"} <= res["allowed_sources"]
+
+
+def test_g100_y_g500_expanden_a_sus_paneles():
+    # s278 adjudicado (gt Alberto): MNDT503 = serie G-100 {G-100-4, G-100-8};
+    # MNDT500 = serie G-500 {G-500-S-32, G-500-S-64}. Los aliases 'G-500'/'G-500-S'
+    # (→ solo s-32, incompletos) se retiraron; 'G-500-B 32' (superficie específica) queda.
+    R._ensure()
+    g100 = R._cat.resolve("G-100")
+    assert g100["via"] == "paraguas" and g100["expand"] is True
+    assert set(g100["ids"]) == {"notifier:g-100-4", "notifier:g-100-8"}
+    g500 = R._cat.resolve("G-500")
+    assert g500["via"] == "paraguas" and g500["expand"] is True
+    assert set(g500["ids"]) == {"notifier:g-500-s-32", "notifier:g-500-s-64"}
+    res = R.resolve_query("manual de la central G-500")
+    assert {"G-500-S-32", "G-500-S-64"} <= set(res["add_models"])
+    assert "MNDT500" in res["allowed_sources"]
+
+
+def test_zxe_umbrella_limpia_si_dropea_bajo_replace(monkeypatch):
+    # el guard NO interfiere con el caso medido (hp018): TODOS los miembros de ZXe son
+    # consumibles y no está en quarantine → el drop del paraguas sigue vivo
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("central ZXe")
+    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["ZXE"], res)
+    assert "ZXE" not in out
+
+
+def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
+    # el prefer adjudicado (hp011) queda intacto: su expansión = solo el id preferido
+    # consumible → all_members_consumable=True → el guard no bloquea el drop
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("conectar el RP1r al software de gestión")
+    assert "rp1r" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["RP1r"], res)
+    assert "RP1r" not in out and "RP1r-Supra" in out
+
+
+def test_quarantine_vacia_es_el_estado_shippeado(monkeypatch):
+    # 22-jul: Alberto adjudicó las 4 filas (FAAST, ZXR, G-100-R, INSPIRE) → la quarantine
+    # REAL queda vacía (tokens: []) y el drop bajo replace lo gobierna SOLO el guard
+    # candidate-member (GUARD-IMPL).
+    monkeypatch.setattr(R, "_quarantine", None)      # fuerza re-lectura del YAML real
+    assert R._quarantine_tokens() == frozenset()
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    for q, tok in (("manual de ZXR", "zxr"), ("manual de FAAST", "faast")):
+        res = R.resolve_query(q)
+        assert tok in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}, q
+
+
+def test_quarantine_malformada_fail_fast(monkeypatch, tmp_path):
+    # el diseño exige fail-fast: una quarantine rota que fallara en silencio desactivaría
+    # la protección justo bajo replace
+    bad = tmp_path / "identity_quarantine_v1.yaml"
+    bad.write_text("tokens:\n  - token: ''\n    motivo: x\n    fecha: '2026-07-22'\n",
+                   encoding="utf-8")
+    monkeypatch.setattr(R, "_QUARANTINE_PATH", bad)
+    monkeypatch.setattr(R, "_quarantine", None)
+    with pytest.raises(RuntimeError, match="quarantine"):
+        R._quarantine_tokens()
+    monkeypatch.setattr(R, "_QUARANTINE_PATH", tmp_path / "no-existe.yaml")
+    with pytest.raises(RuntimeError, match="AUSENTE"):
+        R._quarantine_tokens()
 
 
 # ─── entrada única del retriever ───
@@ -388,6 +559,87 @@ def test_fetch_llm_activa_deep_lookup(monkeypatch):
     out = cr.fetch_missing_doc_chunks("¿spec?", res, pool=[])
     assert llamadas == ["DOC-A", "DOC-B"]
     assert [c["id"] for c in out] == ["x-DOC-A", "x-DOC-B"]
+
+
+# ─── s278 §2a: INSPIRE gobernado (cat017) — diseño evals/s278_vnext_design_v2.md §2 ───
+CAT017_QUERY = ("¿Cómo genero el fichero de licencia .bin para una central "
+                "INSPIRE E10 con CLSS?")
+CAT017_SOURCE = "HOP-138-8ES  issue 6_01-2026_Co"     # doble espacio REAL (handoff §8.2)
+
+
+def test_cat017_inspire_e10_detecta_y_resuelve():
+    # antes de s278 §2a: detect(...) == [] (censo: cat017 DOCUMENTED_UNGOVERNED).
+    # Gobernada: exact 'INSPIRE E10' → notifier:inspire-e10 con expand y el doc de cat017
+    # (chunk b7633e98 / document 80e1b7d2) alcanzable vía allowed_sources.
+    assert R.detect(CAT017_QUERY) != []
+    res = R.resolve_query(CAT017_QUERY)
+    rec = next(r for r in res["records"] if r["token"] == "inspire e10")
+    assert rec["via"] == "exact" and rec["expand"] is True
+    assert rec["ids"] == ["notifier:inspire-e10"]
+    assert CAT017_SOURCE in res["allowed_sources"]
+    assert "INSPIRE E10" in res["add_models"]
+
+
+def test_inspire_umbrella_expande_a_e10_y_e15():
+    res = R.resolve_query("manual de la central INSPIRE")
+    rec = next(r for r in res["records"] if r["token"] == "inspire")
+    assert rec["via"] == "paraguas" and rec["expand"] is True
+    assert set(rec["ids"]) == {"notifier:inspire-e10", "notifier:inspire-e15"}
+    assert {"INSPIRE E10", "INSPIRE E15"} <= set(res["add_models"])
+
+
+def test_formas_prefijadas_notifier_inspire_via_alias():
+    # tipo variante-tipografica ∈ DETECT_ALIAS_TIPOS ⇒ el detector las indexa
+    for m, pid in (("E10", "notifier:inspire-e10"), ("E15", "notifier:inspire-e15")):
+        res = R.resolve_query(f"consumo de la Notifier INSPIRE {m}")
+        rec = next(r for r in res["records"] if r["token"] == f"notifier inspire {m.lower()}")
+        assert rec["via"] == "alias" and rec["expand"] is True and rec["ids"] == [pid]
+
+
+def test_e10_e15_bare_no_expanden_fail_open():
+    # hallazgo E10-BARE (dúo r1): 'E10'/'E15' a pelo colisionan con códigos de error de
+    # panel → homonym-candidate fail-open: se DETECTA (bloquea el exact) pero NO expande,
+    # NO clarify, NO aporta allowed_sources — conducta actual conservada.
+    for tok in ("E10", "E15"):
+        res = R.resolve_query(f"el panel muestra el código {tok} en pantalla")
+        rec = next(r for r in res["records"] if r["token"] == tok.lower())
+        assert rec["via"] == "homonimo-candidate" and rec["expand"] is False
+        assert rec["politica"] == "fail-open" and rec["ids"] == []
+        assert res["add_models"] == [] and res["drop_tokens"] == []
+        assert res["allowed_sources"] == frozenset()
+
+
+INSPIRE_FIRMWARE_DOC = "Actualizacion del firmware de INSPIRE a R1.35"
+
+
+def test_inspire_dropea_bajo_replace_adjudicada(monkeypatch):
+    # s278 adjudicado (Alberto 22-jul): la fila INSPIRE salió de la quarantine — con la
+    # config REAL (vacía) el guard GUARD-IMPL gobierna: miembros consumibles ⇒ drop bajo
+    # replace, y el doc de cat017 sigue en allowed_sources.
+    R._ensure()
+    assert R._cat.resolve("INSPIRE")["all_members_consumable"] is True
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de la central INSPIRE")
+    assert "inspire" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    out = R.apply_to_models(["INSPIRE"], res)
+    assert "INSPIRE" not in out and {"INSPIRE E10", "INSPIRE E15"} <= set(out)
+    assert CAT017_SOURCE in res["allowed_sources"]
+
+
+def test_inspire_firmware_doc_alcanzable_via_e10_e15(monkeypatch):
+    # s278 adjudicado (Alberto 22-jul): el doc de firmware recibe entries secondary/doc
+    # para e10 y e15 — alcanzable bajo replace SIN fila de quarantine (era el doc que la
+    # fila protegía); notifier:inspire (candidate) queda como está (duplicado sin efecto).
+    R._ensure()
+    for pid in ("notifier:inspire-e10", "notifier:inspire-e15"):
+        assert INSPIRE_FIRMWARE_DOC in R._docs_by_id.get(pid, frozenset()), pid
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("manual de la central INSPIRE")
+    docs_miembros = (R._docs_by_id.get("notifier:inspire-e10", frozenset())
+                     | R._docs_by_id.get("notifier:inspire-e15", frozenset()))
+    assert docs_miembros and docs_miembros <= res["allowed_sources"]
+    assert INSPIRE_FIRMWARE_DOC in res["allowed_sources"]
+    assert CAT017_SOURCE in res["allowed_sources"]
 
 
 def test_deep_lookup_seleccion_pagina_exacta_primero(monkeypatch):

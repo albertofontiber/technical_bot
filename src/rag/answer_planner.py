@@ -121,6 +121,20 @@ SOURCE_BOUND_RENDERER_CURRENT = SOURCE_BOUND_RENDERER_S124_V1
 # Backward-compatible import alias; new code should use SOURCE_BOUND_RENDERER_CURRENT.
 SOURCE_BOUND_RENDERER_S122 = SOURCE_BOUND_RENDERER_CURRENT
 ANSWER_CONFLICT_SCHEMA_S122 = "answer_conflict_s122_v1"
+ANSWER_CONFLICT_GUARD_SCHEMA_V1 = "answer_conflict_guard_v1"
+# Unresolved source conflicts are safety state, not retrieval state.  Keeping
+# the small initial registry in reviewed code ensures a missed source side can
+# suppress an unsafe operational choice without fabricating a citation.  The
+# tuple shape is intentionally data-like so it can move to a versioned external
+# registry when the population grows.
+KNOWN_ANSWER_CONFLICTS = (
+    {
+        "registry_id": "pearl_cause_effect_menu_7_vs_8_v1",
+        "product_scopes": frozenset({"pearl"}),
+        "operation": "cause_effect_menu_path",
+        "values": ("7", "8"),
+    },
+)
 S122_ENFORCEABLE_KINDS = frozenset(
     {
         "cause_effect_output_selector",
@@ -1575,9 +1589,28 @@ def build_answer_conflicts(
                     source_end=match.end(),
                 )
             )
-    values = tuple(sorted({row.value for row in menu_rows}, key=int))
-    if len(values) < 2:
+    observed_values = tuple(sorted({row.value for row in menu_rows}, key=int))
+    aligned_product_scopes = {
+        model_normkey(row.product_scope) for row in menu_rows if row.product_scope
+    }
+    effective_product_scopes = set(target_models) or aligned_product_scopes
+    known_conflict = next(
+        (
+            row
+            for row in KNOWN_ANSWER_CONFLICTS
+            if row["operation"] == "cause_effect_menu_path"
+            and bool(effective_product_scopes & row["product_scopes"])
+        ),
+        None,
+    )
+    if len(observed_values) < 2 and known_conflict is None:
         return []
+    values = (
+        tuple(known_conflict["values"])
+        if known_conflict is not None
+        else observed_values
+    )
+    menu_rows = [row for row in menu_rows if row.value in values]
 
     # The query model is the authority for the semantic scope.  Falling back to
     # aligned product labels remains deterministic for queries whose catalog
@@ -1603,6 +1636,9 @@ def build_answer_conflicts(
         "operation": "cause_effect_menu_path",
         "values": values,
         "evidence": [row.to_dict() for row in evidence],
+        "registry_id": (
+            known_conflict["registry_id"] if known_conflict is not None else None
+        ),
     }
     conflict_id = "conf_" + hashlib.sha256(
         json.dumps(
@@ -1958,6 +1994,7 @@ def _conflict_disclosure_has_global_contradiction(answer: str) -> bool:
         r"en\s+realidad|actually|correccion|correction)\b"
     )
     coreference = r"\b(?:ambas?|ambos?|both|same|igual\w*|coincid\w*|difference)\b"
+    explicit_coreference = r"\b(?:ambas?|ambos?|both)\b"
     for record in _relation_records(answer, include_adjacent_pairs=False):
         plain = _plain_relation_record(record)
         if re.search(subject, plain) and re.search(relation_language, plain):
@@ -1973,7 +2010,7 @@ def _conflict_disclosure_has_global_contradiction(answer: str) -> bool:
             return True
         if (
             len(plain) <= 120
-            and re.search(coreference, plain)
+            and re.search(explicit_coreference, plain)
             and re.search(relation_language, plain)
         ):
             return True
@@ -2432,11 +2469,13 @@ def validate_answer_conflicts(
     for conflict in conflicts:
         asserted_values: set[str] = set()
         directive_values: set[str] = set()
-        directive_present = False
+        relative_directive_seen = False
+        relative_directive_context = False
         disclosure_window = False
         if conflict.operation == "cause_effect_menu_path":
             for window in windows:
                 window_values = set()
+                window_directive_values = set()
                 cause_matches = list(
                     re.finditer(
                         r"\b(?:causa\s+y\s+efecto|cause\s+and\s+effect)\b",
@@ -2486,12 +2525,26 @@ def validate_answer_conflicts(
                     )
                     if re.search(directive_pattern, window):
                         directive_values.add(value)
+                        window_directive_values.add(value)
                 positive_directive_pattern = (
                     r"\b(?:seleccion\w*|elij\w*|select\w*|choose\w*|use|"
                     r"utilic\w*)\b"
                 )
-                if _positive_matches(window, positive_directive_pattern):
-                    directive_present = True
+                relative_choice_pattern = (
+                    r"\b(?:(?:esta|esa|this|that|la|the)\s+)?(?:primera|first|"
+                    r"segunda|second|ultima|last|"
+                    r"anterior|previous|siguiente|next)\s+(?:opcion|option)\b|"
+                    r"\b(?:esta|esa|this|that)\s+(?:opcion|option)\b|"
+                    r"\b(?:esta|esa|this|that|la|the)\s+(?:ultima|last|"
+                    r"segunda|second|primera|first)\b"
+                )
+                positive_directives = _positive_matches(
+                    window, positive_directive_pattern
+                )
+                if positive_directives and re.search(relative_choice_pattern, window):
+                    relative_directive_seen = True
+                    if cause_matches or window_directive_values:
+                        relative_directive_context = True
                 disclosure_pattern = (
                     r"^\s*[-–—]?\s*(?:los?\s+fragmentos|las?\s+revisiones|"
                     r"the\s+(?:fragments|revisions))\s+"
@@ -2511,10 +2564,13 @@ def validate_answer_conflicts(
                 if (
                     window_values == set(conflict.values)
                     and window_disclosure
-                    and not directive_values
-                    and not directive_present
+                    and not window_directive_values
+                    and not relative_directive_context
                 ):
                     disclosure_window = True
+        directive_present = bool(directive_values) or (
+            relative_directive_seen and relative_directive_context
+        )
         safe = not directive_present and not _conflict_disclosure_has_global_contradiction(answer) and (
             not asserted_values
             or (disclosure_window and not directive_values)
@@ -2646,6 +2702,12 @@ def _render_conflict_notice(
     conflict: AnswerConflict,
     renderer_contract_version: str = SOURCE_BOUND_RENDERER_CURRENT,
 ) -> str:
+    operation_labels = {
+        "cause_effect_menu_path": "el número de menú de Causa y Efecto",
+    }
+    operation_label = operation_labels.get(
+        conflict.operation, "el dato operativo consultado"
+    )
     evidence = []
     seen = set()
     for row in conflict.evidence:
@@ -2654,22 +2716,153 @@ def _render_conflict_notice(
             continue
         seen.add(key)
         evidence.append(f"[F{row.fragment_number}] indica {row.value}: Causa y Efecto")
+    if {row.value for row in conflict.evidence} != set(conflict.values):
+        return (
+            f"No puedo confirmar de forma segura {operation_label} con los "
+            "fragmentos servidos. Confirma el manual y la revisión exactos "
+            "antes de usar un número de menú."
+        )
     joined = "; ".join(evidence)
     if renderer_contract_version == SOURCE_BOUND_RENDERER_S122_V1:
         return (
             f"Los fragmentos discrepan para {conflict.operation}: {joined}. "
             "No selecciones un numero de menu hasta confirmar el manual y la revision exactos."
         )
-    operation_labels = {
-        "cause_effect_menu_path": "el número de menú de Causa y Efecto",
-    }
-    operation_label = operation_labels.get(
-        conflict.operation, "el dato operativo consultado"
-    )
     return (
         f"Los fragmentos discrepan para {operation_label}: {joined}. "
         "No selecciones ningún número de menú hasta confirmar el manual y la revisión exactos."
     )
+
+
+def _unsafe_conflict_ids(validation: dict[str, Any]) -> list[str]:
+    return [
+        str(row.get("conflict_id") or "")
+        for row in validation.get("unsafe", [])
+        if row.get("conflict_id")
+    ]
+
+
+def apply_answer_conflict_guard(
+    query: str,
+    chunks: list[dict],
+    answer: str,
+    *,
+    renderer_contract_version: str = SOURCE_BOUND_RENDERER_CURRENT,
+    planner_contract_version: str = ANSWER_PLANNER_CONTRACT_S122,
+) -> tuple[str, dict[str, Any]]:
+    """Enforce cross-source conflict safety as the final factual boundary.
+
+    The guard is deliberately independent from the optional answer-planner mode.
+    It makes no model or network call, preserves a safe answer byte-for-byte, and
+    replaces only paragraphs that assert or direct an unresolved conflicting
+    value.  A final whole-answer validation is mandatory; if surgical repair is
+    insufficient, the result fails closed instead of serving a one-sided choice.
+    """
+    if not isinstance(answer, str):
+        raise TypeError("answer conflict guard requires a string answer")
+    if planner_contract_version != ANSWER_PLANNER_CONTRACT_S122:
+        raise ValueError(
+            f"unsupported conflict guard planner contract: {planner_contract_version}"
+        )
+    if renderer_contract_version not in {
+        SOURCE_BOUND_RENDERER_S122_V1,
+        SOURCE_BOUND_RENDERER_S124_V1,
+    }:
+        raise ValueError(
+            f"unsupported conflict guard renderer: {renderer_contract_version}"
+        )
+
+    conflicts = build_answer_conflicts(
+        query,
+        chunks,
+        planner_contract_version=planner_contract_version,
+    )
+    initial = validate_answer_conflicts(answer, conflicts)
+    input_sha256 = hashlib.sha256(answer.encode("utf-8")).hexdigest()
+    base_trace = {
+        "schema": ANSWER_CONFLICT_GUARD_SCHEMA_V1,
+        "planner_contract": planner_contract_version,
+        "renderer_contract": renderer_contract_version,
+        "conflict_ids": [row.conflict_id for row in conflicts],
+        "conflicts_detected": len(conflicts),
+        "initial_unsafe_conflict_ids": _unsafe_conflict_ids(initial),
+        "input_answer_sha256": input_sha256,
+    }
+    if not conflicts:
+        return answer, {
+            **base_trace,
+            "action": "not_applicable",
+            "repaired_blocks": 0,
+            "final_unsafe_conflict_ids": [],
+            "output_answer_sha256": input_sha256,
+        }
+    if not initial["unsafe"]:
+        return answer, {
+            **base_trace,
+            "action": "pass",
+            "repaired_blocks": 0,
+            "final_unsafe_conflict_ids": [],
+            "output_answer_sha256": input_sha256,
+        }
+
+    conflict_by_id = {row.conflict_id: row for row in conflicts}
+    rendered_conflicts: set[str] = set()
+    repaired_blocks = 0
+    parts = re.split(r"(\n[ \t]*\n)", answer)
+    for index in range(0, len(parts), 2):
+        block = parts[index]
+        if not block.strip():
+            continue
+        block_validation = validate_answer_conflicts(block, conflicts)
+        unsafe_ids = _unsafe_conflict_ids(block_validation)
+        if not unsafe_ids:
+            continue
+        notices = []
+        for conflict_id in unsafe_ids:
+            conflict = conflict_by_id.get(conflict_id)
+            if conflict is None or conflict_id in rendered_conflicts:
+                continue
+            notices.append(
+                _render_conflict_notice(conflict, renderer_contract_version)
+            )
+            rendered_conflicts.add(conflict_id)
+        parts[index] = "\n".join(notices)
+        repaired_blocks += 1
+
+    revised = "".join(parts)
+    final = validate_answer_conflicts(revised, conflicts)
+    action = "surgical_repair"
+    if final["unsafe"]:
+        notices = "\n\n".join(
+            _render_conflict_notice(conflict, renderer_contract_version)
+            for conflict in conflicts
+        )
+        revised = (
+            "No puedo ofrecer una instrucción segura para este punto con la "
+            "evidencia validada.\n\n"
+            f"{notices}"
+        )
+        final = validate_answer_conflicts(revised, conflicts)
+        action = "fail_closed"
+    if final["unsafe"]:
+        revised = (
+            "No puedo ofrecer una instrucción segura con la evidencia validada. "
+            "Consulta el manual y la revisión exactos antes de actuar."
+        )
+        final = validate_answer_conflicts(revised, conflicts)
+        action = "fail_closed"
+    if final["unsafe"]:  # pragma: no cover - invariant defense
+        raise RuntimeError("answer conflict guard could not establish a safe output")
+
+    return revised, {
+        **base_trace,
+        "action": action,
+        "repaired_blocks": repaired_blocks,
+        "final_unsafe_conflict_ids": _unsafe_conflict_ids(final),
+        "output_answer_sha256": hashlib.sha256(
+            revised.encode("utf-8")
+        ).hexdigest(),
+    }
 
 
 def _clean_renderer_statement(statement: str) -> str:

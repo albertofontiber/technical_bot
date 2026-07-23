@@ -2,7 +2,9 @@
 """Test del bot con chunks_v2 vs gold answers (enfoque a — diagnóstico).
 
 Para cada pregunta del eval:
-  1. Corre el bot REAL con chunks_v2 (retrieve_chunks + generate_answer).
+  1. Corre el seam RAG servido con chunks_v2 (retrieve + rerank + coverage +
+     generate). El reranker es estricto para que una avería de evaluación no se
+     confunda con el fail-open de disponibilidad de producción.
   2. Un judge cross-model (gpt-5.5, distinto del bot-Sonnet y del gold-Opus)
      compara la respuesta del bot con el gold answer (Capa A).
   3. Veredicto cualitativo (PASS/PARCIAL/FALLO) + diagnóstico accionable.
@@ -11,7 +13,7 @@ Objetivo NO es un score estadístico (SWAP ya decidido) sino encontrar DÓNDE
 falla el bot — como destapó el fix B5 — para arreglarlo antes de producción.
 
 Uso: python scripts/test_bot_vs_gold.py
-Salida: evals/bot_vs_gold_results.yaml + resumen por consola.
+Salida: evals/bot_vs_gold_serving_seam_v1_*_<profile>_k*.yaml + resumen.
 """
 from __future__ import annotations
 
@@ -28,9 +30,9 @@ from anthropic import Anthropic  # noqa: F401 (lo usa el generator vía su propi
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# .env con override (el sandbox puede tener vars vacías); NO pisa CHUNKS_TABLE
-# porque no está en .env.
-load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
+# El entorno de proceso es la autoridad del release profile y de los controles
+# del harness; .env sólo rellena credenciales/valores ausentes.
+load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 os.environ["CHUNKS_TABLE"] = "chunks_v2"  # re-asegurar tras load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -38,8 +40,13 @@ from src.rag.retriever import retrieve_chunks       # noqa: E402
 from src.rag.reranker import rerank                  # noqa: E402
 from src.config import (                              # noqa: E402
     CHUNKS_TABLE, CHUNKS_IS_V2, RETRIEVAL_TOP_K, RERANK_TOP_K, RERANKER_BACKEND,
+    COVERAGE_RELEASE_POLICY, validate_config,
 )
 from src.rag.generator import generate_answer        # noqa: E402
+from src.rag.serving_pipeline import RagServingAdapters, execute_rag_turn  # noqa: E402
+from src.rag.structural_neighbor_shadow import (      # noqa: E402
+    observe_structural_neighbor_shadow,
+)
 
 # Reranker top-k overridable por env para A/B end-to-end (prod actual = 5).
 RERANK_K = int(os.getenv("RERANK_K_OVERRIDE", str(RERANK_TOP_K)))
@@ -57,8 +64,15 @@ if _legacy is not None and _legacy != RERANKER_BACKEND:
     sys.exit(f"RERANKER={_legacy} es el flag RETIRADO (s61) — usa RERANKER_BACKEND")
 RERANKER = RERANKER_BACKEND  # naming local histórico; fuente única: config
 GOLD = "evals/gold_answers_v1.yaml"
-OUTPUT = (f"evals/bot_vs_gold_results_k{RERANK_K}.yaml" if RERANKER == "llm"
-          else f"evals/bot_vs_gold_results_k{RERANK_K}_{RERANKER}.yaml")
+HARNESS_VARIANT = "serving_seam_v1_historical_single_turn_inputs"
+OUTPUT = (
+    f"evals/bot_vs_gold_{HARNESS_VARIANT}_{COVERAGE_RELEASE_POLICY.profile}_k{RERANK_K}.yaml"
+    if RERANKER == "llm"
+    else (
+        f"evals/bot_vs_gold_{HARNESS_VARIANT}_"
+        f"{COVERAGE_RELEASE_POLICY.profile}_k{RERANK_K}_{RERANKER}.yaml"
+    )
+)
 OUTPUT = os.getenv("OUTPUT_OVERRIDE", OUTPUT)  # smoke dirigido sin pisar el artefacto del run completo
 JUDGE_MODEL = "gpt-5.5"
 
@@ -98,16 +112,45 @@ _JUDGE_USER = (
 )
 
 
+def _eval_strict_rerank(query: str, chunks: list[dict], **kwargs):
+    return rerank(query, chunks, strict=True, **kwargs)
+
+
 def run_bot(query: str) -> dict:
-    # Replica el pipeline de producción: retrieve → rerank(top-k) → generate.
-    # Dispatcher canónico (sin target_models = paridad harness); strict: en eval un
-    # fail-open del backend es dato corrupto, no disponibilidad (s61 §4).
-    chunks = retrieve_chunks(query, top_k=RETRIEVE_K)
-    chunks = rerank(query, chunks, top_k=RERANK_K, strict=True)
-    res = generate_answer(query, chunks)
+    # Cruza el seam de serving para medir el release profile sin reescribir la
+    # serie histórica de inputs: target_models/available_models siguen en None
+    # y K admite overrides. No replica shortcuts, contexto conversacional ni
+    # transporte del handler. El reranker es estricto para que una avería de
+    # eval no se confunda con disponibilidad (s61 §4).
+
+    pipeline = execute_rag_turn(
+        query=query,
+        query_for_retrieval=query,
+        target_models=None,
+        available_models=None,
+        retrieval_top_k=RETRIEVE_K,
+        rerank_top_k=RERANK_K,
+        adapters=RagServingAdapters(
+            retrieve=retrieve_chunks,
+            rerank=_eval_strict_rerank,
+            observe_structural_shadow=observe_structural_neighbor_shadow,
+            generate=generate_answer,
+        ),
+    )
+    chunks = pipeline["chunks"]
+    res = pipeline["generation"]
     answer = res.get("answer") if isinstance(res, dict) else str(res)
     sources = sorted({c.get("source_file") for c in chunks if c.get("source_file")})
-    return {"answer": answer, "n_chunks": len(chunks), "sources": sources}
+    return {
+        "answer": answer,
+        "n_chunks": len(chunks),
+        "sources": sources,
+        "coverage_status": pipeline["coverage_trace"].get("status"),
+        "coverage_appended_rows": len(
+            pipeline["coverage_trace"].get("appended_ids") or []
+        ),
+        "harness_variant": HARNESS_VARIANT,
+    }
 
 
 def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str) -> dict:
@@ -136,8 +179,13 @@ def main() -> int:
     except Exception:
         pass
 
+    validate_config(require_telegram=False, production=True)
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
-    print(f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} rerank_k={RERANK_K} | reranker={RERANKER}\n")
+    print(
+        f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} "
+        f"rerank_k={RERANK_K} | reranker={RERANKER} | "
+        f"release_profile={COVERAGE_RELEASE_POLICY.profile}\n"
+    )
 
     gold_rows = {r["qid"]: r for r in yaml.safe_load(open(GOLD, encoding="utf-8"))}
     oai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -202,6 +250,10 @@ def main() -> int:
             "veredicto": verdict.get("veredicto"),
             "diagnostico": verdict.get("diagnostico"),
             "bot_sources": bot["sources"],
+            "coverage_status": bot["coverage_status"],
+            "coverage_appended_rows": bot["coverage_appended_rows"],
+            "release_profile": COVERAGE_RELEASE_POLICY.profile,
+            "harness_variant": bot["harness_variant"],
             "bot_answer": bot["answer"],
         }
         results.append(row)

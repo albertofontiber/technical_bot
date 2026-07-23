@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import hashlib
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -12,6 +13,13 @@ from scripts.s260_run_evidence_claim_ir import render_answer, validate_claim_ir
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Commit that sealed the prereg's git-canonical frozen-input hashes
+# ("Normalize S260 frozen text hashes"; the prereg records no commit id).
+# The pins describe those blobs — src/rag/answer_planner.py legitimately
+# evolved afterwards, so the assertion targets the sealed blobs (DEC-147:
+# version, do not relax).
+PREREG_SEAL_COMMIT = "9d966b6550929e5d15c6cd3eed40c90ee62a9b61"
 
 
 def test_validate_and_render_claim_ir_derives_citations() -> None:
@@ -92,11 +100,21 @@ def test_generation_runner_does_not_name_or_import_score_content() -> None:
     assert "frozen_conflicts" not in source
 
 
-def _git_canonical_text_sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+def _sealed_git_canonical_text_sha256(relative: str) -> str:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{PREREG_SEAL_COMMIT}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return hashlib.sha256(completed.stdout.replace(b"\r\n", b"\n")).hexdigest()
 
 
 def test_prereg_frozen_inputs_match_git_canonical_text_bytes() -> None:
+    """DEC-147: the pins are matched against the blobs sealed at
+    PREREG_SEAL_COMMIT, so the seal detects history tampering instead of
+    failing on legitimate later development of the frozen inputs."""
     prereg = yaml.safe_load(
         (ROOT / "evals/s260_evidence_claim_ir_prereg_v1.yaml").read_text(
             encoding="utf-8"
@@ -107,5 +125,5 @@ def test_prereg_frozen_inputs_match_git_canonical_text_bytes() -> None:
         "frozen_scoring_inputs",
     ):
         for spec in prereg[group].values():
-            actual = _git_canonical_text_sha256(ROOT / spec["path"])
+            actual = _sealed_git_canonical_text_sha256(spec["path"])
             assert actual == spec["sha256"], spec["path"]

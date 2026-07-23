@@ -1,0 +1,229 @@
+{
+  "schema": "s277_document_local_migration_reconciliation_receipt_v1",
+  "observed_at": "2026-07-22",
+  "status": "RECONCILED",
+  "project": {
+    "ref": "izooestgffgscdirkfia",
+    "postgres_version": "17.6"
+  },
+  "scope": {
+    "objective": "Reconcile the local Supabase migration tree with the live migration history, adjudicate local-only SQL without falsifying history, and apply the two approved forward migrations in order.",
+    "model_calls": 0
+  },
+  "evidence_sources": [
+    {
+      "id": "remote_migration_statement_catalog",
+      "observed_at": "2026-07-22",
+      "source": "Live project izooestgffgscdirkfia: supabase_migrations.schema_migrations.statements[1], compared with the recovered local SQL using canonical UTF-8/LF SHA-256."
+    },
+    {
+      "id": "local_only_catalog_audit",
+      "observed_at": "2026-07-22",
+      "source": "Read-only live catalog, information_schema, and supabase_migrations queries against project izooestgffgscdirkfia, summarized by deterministic absence fingerprints."
+    },
+    {
+      "id": "cli_migration_sequence",
+      "observed_at": "2026-07-22",
+      "source": "Supabase CLI 2.109.1 migration list, db push --dry-run, and normal db push command results observed during this reconciliation."
+    },
+    {
+      "id": "terminal_function_catalog",
+      "observed_at": "2026-07-22",
+      "source": "Live pg_proc, function ACL, role privilege, and supabase_migrations catalog checks after the second normal apply."
+    },
+    {
+      "id": "security_advisor",
+      "observed_at": "2026-07-22",
+      "source": "Supabase security advisor findings observed after reconciliation; treated separately from migration-history and RPC terminal-state evidence."
+    }
+  ],
+  "hash_convention": {
+    "algorithm": "SHA-256",
+    "encoding": "UTF-8 without BOM",
+    "file_hash_line_endings": "LF",
+    "remote_statement_comparison": "LF plus terminal whitespace trimmed"
+  },
+  "remote_only_recovery": {
+    "count": 7,
+    "recovery_method": "Exact SQL body recovered from supabase_migrations.schema_migrations.statements[1].",
+    "body_match": "exact after the declared remote-statement normalization",
+    "evidence_source": "remote_migration_statement_catalog",
+    "entries": [
+      {
+        "version": "20260702165425",
+        "name": "s91_identity_resolve_shadow",
+        "path": "supabase/migrations/20260702165425_s91_identity_resolve_shadow.sql",
+        "sha256_lf": "bce68db866a13ed36722fd049b59bc59a3de8ac049cc8ed622dcb7ba2d588728",
+        "statement_sha256_normalized": "d6e7b23f02c5e6e1356f8d6c89c5db7bdd3fc95fb4af11ad3fad470eace1b6a4"
+      },
+      {
+        "version": "20260703102132",
+        "name": "enunciados_multivector_007",
+        "path": "supabase/migrations/20260703102132_enunciados_multivector_007.sql",
+        "sha256_lf": "a2621132f62c6816703547eb56ebb38efbf3e9553be9df18c29df9fdc5fbdb7b",
+        "statement_sha256_normalized": "95a3a2dea436c6c11e30d98e5b5ffa0f51f7957630419a6bb7624b179530e030"
+      },
+      {
+        "version": "20260703205215",
+        "name": "match_chunks_v2_iterative_scan_008",
+        "path": "supabase/migrations/20260703205215_match_chunks_v2_iterative_scan_008.sql",
+        "sha256_lf": "412cb1c49b7df4606d10959489b13ac6d2b4fdda5f39799297c5d1cd96a4df9e",
+        "statement_sha256_normalized": "c31044708924179baf49ee142c7093c0676320e951d40dd6fd14a41618a9f34e"
+      },
+      {
+        "version": "20260703212453",
+        "name": "idx_chunks_v2_duplicate_of_009",
+        "path": "supabase/migrations/20260703212453_idx_chunks_v2_duplicate_of_009.sql",
+        "sha256_lf": "425818bfecf404195e4b2f52fe466f6d8c73ceca890975944e79c6cd9eb0615c",
+        "statement_sha256_normalized": "63b10bcd4045d965e3969f8c798d6258d70437f080353ab36cffcc828d00a585"
+      },
+      {
+        "version": "20260703212528",
+        "name": "match_chunks_v2_revert_to_007_010",
+        "path": "supabase/migrations/20260703212528_match_chunks_v2_revert_to_007_010.sql",
+        "sha256_lf": "e12d7ef3bd365e1648986c93fdffe3f11de34310df4b6bb21cae163865f104e8",
+        "statement_sha256_normalized": "5d6e18e52330f578b199629cbfa5b8185d22f1ecfbfc66da2765943cb4b4f788"
+      },
+      {
+        "version": "20260704105025",
+        "name": "chunks_v2_enunciados_011",
+        "path": "supabase/migrations/20260704105025_chunks_v2_enunciados_011.sql",
+        "sha256_lf": "49771854af4676f783f5439836251430135b3ee9a3aeaf4f519a78a3febacd61",
+        "statement_sha256_normalized": "576db77484584e43bfa85376f4dd6c36ae2df9e79b68cdb3afd69285c3d8b0fb"
+      },
+      {
+        "version": "20260704113834",
+        "name": "enunciados_rpc_filters_012",
+        "path": "supabase/migrations/20260704113834_enunciados_rpc_filters_012.sql",
+        "sha256_lf": "fdcad26592b43499a1842f5c1b5f9735542c8ce021cdb11934a99c8eab0b7f69",
+        "statement_sha256_normalized": "29262f16d25ac137cc4448ab139c40ceb2cf53cb9342f174fa9363159a219109"
+      }
+    ]
+  },
+  "local_only_adjudication": {
+    "count": 3,
+    "evidence_source": "local_only_catalog_audit",
+    "entries": [
+      {
+        "version": "20260714102428",
+        "name": "chunks_v3_provenance_shadow",
+        "proposal_path": "supabase/migration_proposals/20260714102428_chunks_v3_provenance_shadow.sql",
+        "sql_sha256_lf": "37824e363835d5f531de9a24566d657583b886feeacc16d174ecd621c095b0e2",
+        "live_absence_fingerprint_sha256": "35054f09e2a8258b679621cf0663bc94ab616a2589d1244b0ec761103c18b9c8",
+        "history_present_before": false,
+        "sentinels_present": 0,
+        "sentinels_total": 15,
+        "global_residue_found": false,
+        "decision": "Move to migration_proposals; do not repair as applied and do not apply to production."
+      },
+      {
+        "version": "20260716120000",
+        "name": "chunks_v3_shadow_binding_v2",
+        "proposal_path": "supabase/migration_proposals/20260716120000_chunks_v3_shadow_binding_v2.sql",
+        "sql_sha256_lf": "25912e0c00b0fd7e7a1ad37fefee243d32e6abf64d37ec26c947a791587b8c83",
+        "live_absence_fingerprint_sha256": "43ee8b49cc5b63c3e9a76ad6e9eaee37820e518c8732430b5fdf811a7a40194b",
+        "history_present_before": false,
+        "sentinels_present": 0,
+        "sentinels_total": 19,
+        "required_antecedent_present": false,
+        "global_residue_found": false,
+        "decision": "Move to migration_proposals; do not repair as applied and do not apply to production."
+      },
+      {
+        "version": "20260720095702",
+        "name": "add_query_logs_rag_trace",
+        "proposal_path": "supabase/migration_proposals/20260720095702_add_query_logs_rag_trace.sql",
+        "sql_sha256_lf": "736f66635f7f19b1a80a8351bbddfcabdd0b2d001bea3374dc9b7c30118b3c2d",
+        "live_absence_fingerprint_sha256": "e314808828db00fd8b78fbbe1493824f6beadae44cfeef91e27f832f47f9e3c1",
+        "history_present_before": false,
+        "rag_trace_column_present": false,
+        "rag_trace_constraint_present": false,
+        "decision": "Move to migration_proposals as genuinely pending and gated; do not repair as applied."
+      }
+    ]
+  },
+  "historical_alignment_before_forward_applies": {
+    "evidence_source": "cli_migration_sequence",
+    "local_count": 11,
+    "remote_count": 11,
+    "aligned_count": 11,
+    "fully_aligned": true,
+    "versions": [
+      "20260702165425",
+      "20260703102132",
+      "20260703205215",
+      "20260703212453",
+      "20260703212528",
+      "20260704105025",
+      "20260704113834",
+      "20260713141223",
+      "20260713164800",
+      "20260721120000",
+      "20260721190847"
+    ]
+  },
+  "forward_migration_sequence": {
+    "evidence_source": "cli_migration_sequence",
+    "normal_apply_only": true,
+    "migration_repair_used": false,
+    "include_all_used": false,
+    "steps": [
+      {
+        "order": 1,
+        "version": "20260721210847",
+        "name": "s277_document_local_snapshot_rpc",
+        "path": "supabase/migrations/20260721210847_s277_document_local_snapshot_rpc.sql",
+        "sql_sha256_lf": "af1d413d41117f3d6cb970d7acb891fb5d13ccbbcbca0371eeaac1a859ef60cd",
+        "dry_run_pending_versions": [
+          "20260721210847"
+        ],
+        "applied_with_normal_db_push": true,
+        "history_present_after": true
+      },
+      {
+        "order": 2,
+        "version": "20260721220110",
+        "name": "s277_document_local_exact_blob_authority",
+        "path": "supabase/migrations/20260721220110_s277_document_local_exact_blob_authority.sql",
+        "sql_sha256_lf": "a1e1194d9819ca4aca797eb27e9f15ae9f5a6e8d1391b7107c1c73e93f4a453d",
+        "dry_run_pending_versions": [
+          "20260721220110"
+        ],
+        "applied_with_normal_db_push": true,
+        "history_present_after": true
+      }
+    ]
+  },
+  "terminal_state": {
+    "evidence_source": "terminal_function_catalog",
+    "function": "public.document_local_snapshot_v1",
+    "language": "sql",
+    "volatility": "STABLE",
+    "security": "INVOKER",
+    "search_path": "",
+    "execute_privileges": {
+      "service_role": true,
+      "PUBLIC": false,
+      "anon": false,
+      "authenticated": false
+    },
+    "migration_history": {
+      "20260721210847": true,
+      "20260721220110": true
+    }
+  },
+  "separate_legacy_security_risk": {
+    "evidence_source": "security_advisor",
+    "present": true,
+    "category": "legacy RLS and privilege findings",
+    "example": "RLS is disabled on public.chunks_v2_enunciados; additional legacy public-table/function grants include broad anon/auth exposure.",
+    "introduced_or_widened_by_this_reconciliation": false,
+    "effect": "Does not invalidate migration reconciliation or the terminal RPC ACL, but independently blocks a global database-security GO until remediated."
+  },
+  "invariants": {
+    "remote_history_fabricated": false,
+    "migration_repair_used": false,
+    "include_all_used": false,
+    "model_calls": 0
+  }
+}

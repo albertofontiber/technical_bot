@@ -87,6 +87,36 @@ def test_selects_distinct_programming_complement_from_fragmented_ui(monkeypatch)
     assert all(has_exact_coverage_receipt(row) for row in selected)
 
 
+def test_exact_document_call_can_skip_catalog_scope(monkeypatch):
+    def forbidden_catalog_lookup(_query):
+        raise AssertionError("catalogue lookup crossed an exact document boundary")
+
+    monkeypatch.setattr(
+        "src.rag.rerank_pool_coverage.resolve_query",
+        forbidden_catalog_lookup,
+    )
+    query = (
+        "¿Cómo programar una zona para activar una salida de sirena "
+        "cuando coinciden dos detectores?"
+    )
+    candidate = _row(
+        "exact-document-row",
+        "Editar el evento de salida\n\nAcción: activar\n\n"
+        "Aplicar sobre función especial\n\nSeleccionar circuito de sirena\n\n"
+        "Transferir a los equipos elegidos",
+    )
+
+    selected, trace = select_rerank_pool_coverage(
+        query,
+        [candidate],
+        [],
+        apply_catalog_scope=False,
+    )
+
+    assert [row["id"] for row in selected] == ["exact-document-row"]
+    assert trace["catalog_scope_applied"] is False
+
+
 def test_scope_accepts_exact_metadata_model_but_rejects_cross_family(monkeypatch):
     monkeypatch.setattr(
         "src.rag.rerank_pool_coverage.resolve_query",

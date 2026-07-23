@@ -1,0 +1,46 @@
+schema: s277_c1_p1_implementation_duo_adjudication_v1
+sol_ts: "2026-07-20T23:37:50"
+fable_ts: "2026-07-20T23:40:13"
+verdict: NO_PASS_TWO_CRITICAL_FALSE_PASS_PATHS_FIXED_REVIEW_AGAIN
+tally:
+  findings: 9
+  confirmed: 4
+  accepted_non_blocking_boundary: 4
+  false_positive: 1
+  severity_max: critical
+confirmed:
+  - id: page_identity_without_evidence_could_mint_pass
+    severity: critical
+    action: source_refs_now_materialize_hash_bound_quote_text_or_exact_content_and_ref_match_recomputes_identity_and_evidence
+    verification: irrelevant_content_on_correct_file_and_page_is_review_never_pass
+  - id: lexical_surfaces_ignored_polarity_and_relation
+    severity: critical
+    action: surfaces_are_candidate_only_and_auto_pass_requires_whole_local_claim_equal_to_the_canonical_affirmative_statement
+    verification: negation_and_relation_swap_are_review_never_pass
+  - id: packet_is_manual_and_monolithic_not_general_multi_brand_architecture
+    severity: medium
+    action: corrected_decision_framing_and_deferred_typed_claim_generalization
+  - id: adjudication_metadata_does_not_cryptographically_prove_independence
+    severity: medium
+    action: retained_as_declared_authorized_human_trust_boundary_while_product_cli_remains_manifest_blocked
+accepted_non_blocking_boundaries:
+  - id: windows_parent_directory_fsync_is_best_effort
+    severity: medium
+    resolution: declared_platform_boundary_no_product_execution_adapter_exists
+  - id: local_test_counts_are_author_reported
+    severity: minor
+    resolution: reproduced_locally_as_181_passed
+  - id: exact_call_count_framing
+    severity: minor
+    resolution: corrected_from_about_81_to_exactly_81
+  - id: release_config_claim_overstated_completeness
+    severity: minor
+    resolution: corrected_and_missing_switches_named_as_product_adapter_prerequisites
+false_positives:
+  - id: cost_not_recomputed_from_usage
+    severity: medium
+    resolution: _validate_completed_response_recomputes_expected_cost_from_usage_and_preregistered_pricing_before_complete_wal_reopen
+effects:
+  paid_p1_calls: 0
+  railway_changes: 0
+  supabase_writes: 0

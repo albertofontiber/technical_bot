@@ -2,13 +2,48 @@ from __future__ import annotations
 
 import json
 import hashlib
+import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 
 import psycopg2
 import pytest
+import yaml
 
 from scripts import s117_m2_legacy_reuse_analysis as audit
+
+# Commit that sealed the v21..v26 prereg inheritance chain (the lineage
+# retention commit "s112-s128: retain bounded RAG measurement lineage"; the
+# preregs record no commit id). Hop hashes are physical blob bytes, so the
+# chain is validated against the sealed git blobs, not a smudged checkout
+# (DEC-147: version, do not relax).
+PREREG_SEAL_COMMIT = "4883aedb24b3118ea51f858f7bfe5c177b9a29b6"
+
+
+def _sealed_bytes(relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{PREREG_SEAL_COMMIT}:{relative}"],
+        cwd=audit.ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return completed.stdout
+
+
+def _load_sealed_prereg(relative: str) -> dict:
+    child = yaml.safe_load(_sealed_bytes(relative).decode("utf-8"))
+    inheritance = child.get("inherits")
+    if not inheritance:
+        return child
+    parent_bytes = _sealed_bytes(inheritance["path"])
+    assert hashlib.sha256(parent_bytes).hexdigest() == inheritance["sha256"], (
+        f"inherited preregistration drift: {inheritance['path']}"
+    )
+    parent = _load_sealed_prereg(inheritance["path"])
+    return audit._deep_merge(
+        parent, {key: value for key, value in child.items() if key != "inherits"}
+    )
 
 
 def _metadata() -> dict[str, object]:
@@ -271,7 +306,16 @@ def test_register_only_uses_structural_layer_without_productive_rechunk_or_b1_b5
 
 
 def test_v24_prereg_inherits_frozen_contract_and_seals_sidecars() -> None:
-    prereg = audit._load_prereg(audit.DEFAULT_PREREG)
+    """DEC-147: the chain is resolved from the blobs sealed at
+    PREREG_SEAL_COMMIT because the raw hop hashes describe those exact
+    bytes; a CRLF-smudging checkout (or any later edit) of the historical
+    preregs must not read as contract drift. The working-tree copy is still
+    required to match the sealed artifact modulo checkout line endings."""
+    relative = audit.DEFAULT_PREREG.relative_to(audit.ROOT).as_posix()
+    tree_lf = audit.DEFAULT_PREREG.read_bytes().replace(b"\r\n", b"\n")
+    sealed_lf = _sealed_bytes(relative).replace(b"\r\n", b"\n")
+    assert tree_lf == sealed_lf
+    prereg = _load_sealed_prereg(relative)
     assert prereg["runtime"] == {
         "python": "3.14.3",
         "lingua-language-detector": "2.2.0",

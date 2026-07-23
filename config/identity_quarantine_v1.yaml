@@ -1,0 +1,12 @@
+# config/identity_quarantine_v1.yaml — quarantine de identidad (s278 §1a, GUARD-3FILAS).
+#
+# Unidades del census s278 PENDIENTES de adjudicacion de Alberto: su token NUNCA entra en
+# drop_tokens bajo IDENTITY_RESOLVE_POLICY=replace (fail-open-a-add POR UNIDAD; nunca peor
+# que add). Keying por catalog_store.norm_token — 'G-100-R' == 'g100r' (el mismo keying que
+# el drop de apply_to_models). Se VACIA conforme Alberto adjudica cada fila (tokens: [] es
+# valido). Evidencia: evals/s278_identity_census_result.json + s278_identity_census_report.md.
+version: 1
+# vaciada por adjudicación de Alberto 22-jul (s278): FAAST (notifier:faast-8100e promovido a
+# miembro pleno), ZXR (zxr4b/zxr5b miembros de la umbrella), G-100-R (umbrella de tarjetas de
+# relé + aliases retirados), INSPIRE (doc de firmware mapeado a e10/e15 en doc_map).
+tokens: []

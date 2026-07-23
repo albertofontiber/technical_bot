@@ -1,0 +1,79 @@
+# s278 vNext design v1 — adjudicación del dúo (ronda 1), regla C aplicada
+# Sol: gpt-5.6-sol xhigh, tools ON (60 calls), tally 2026-07-22T10:25:16 (adversarial_review_log.jsonl)
+# Fable: claude-fable-5 sub-agente in-session fresco (23 tool calls) — NO vía runner (gratis, DEC-148)
+# Adjudicador: autor (Fable 5) con verificación regla-C de anclas contra código; los puntos que
+# tocan datos vivos o gasto quedan señalados a Alberto en el reporte de sesión.
+ronda: 1
+propuesta: evals/s278_vnext_design_v1.md
+veredicto_global: SOLIDO-CON-CAMBIOS  # ambos lados; el split causal sobrevive; v2 emitida
+hallazgos:
+  - id: SEC-29
+    fuente: sol#1
+    severidad: critico
+    veredicto: CONFIRMADO  # TECH_DEBT.md:1183-1211 leido: RLS deshabilitado en chunks_v2_enunciados + grants anon; "bloquea merge y release global"
+    accion: "DEC-148 criterio de cierre gana el gate de seguridad: migracion RLS forward-only + inventario grants + smoke, ANTES del merge #184"
+  - id: GUARD-3FILAS
+    fuente: sol#2 + fable#1
+    severidad: critico/alta
+    veredicto: CONFIRMADO  # guard candidate-member solo cubre FAAST/Dimension; ZXR (miembros consumibles) y G-100-R (via alias) quedan fuera
+    accion: "quarantine-list data-side (unidades pendientes-de-adjudicacion -> fail-open-a-add por unidad); se vacia conforme Alberto adjudica"
+  - id: CAT017-LINEAGE
+    fuente: sol#3 + fable#10
+    severidad: critico/media
+    veredicto: CONFIRMADO  # handoff §8.2 + snapshot v2 SQL exige doc_type/language no-vacios EN SQL; prefijo-backfill sin criterio
+    accion: "§4 cubre TAMBIEN el doc de cat017 (80e1b7d2); data-fix versionado de 2 docs preferido sobre relajacion code-side (fable#11); visto de Alberto para el UPDATE live"
+  - id: LIMIT-ORDER
+    fuente: sol#4 + fable#3
+    severidad: media/alta
+    veredicto: CONFIRMADO  # retriever.py:561-566 Path A sin order= a PostgREST; ordenar tras LIMIT no da determinismo con >40 matches
+    accion: "order=source_file.asc,page_number.asc,id.asc SERVER-SIDE en la request + rank autoridad (documents.status ya consumido retriever.py:1703-1708) + residual declarado (v.04 alfabeticamente antes que v.07)"
+  - id: PROFILE-VNEXT
+    fuente: sol#5 + fable#14
+    severidad: media
+    veredicto: CONFIRMADO  # release_profiles.py solo posee 5 flags; lo nuevo default-off no se activa con flip a c1_v2
+    accion: "perfil atomico coverage_c1_v3 que posee los flags nuevos + gobierna IDENTITY_RESOLVE_POLICY; v1/v2 intocados (versionar)"
+  - id: VERSIONADO-SEALS
+    fuente: fable#4
+    severidad: alta
+    veredicto: CONFIRMADO-EMPIRICO  # 10 seal-tests fallan en b92ff51 PRISTINO (verificado en worktree candidate); DEC-147 manda versionar, no relajar
+    accion: "item explicito: release config v3 + implementation hashes versionados; seals historicos re-anclados a blobs sellados de git (no al working tree)"
+  - id: HP009-E2E
+    fuente: fable#2
+    severidad: alta
+    veredicto: CONFIRMADO  # 13 QIDs de la pasada no incluyen hp009; census declara no emular fail-open/nivel-2/vector/reranker; settled s93 medido en vivo
+    accion: "hp009 (+hp010 espejo) se añade a la pasada harness pagada; metrica del settled declarada en §1a"
+  - id: EC-TECHO
+    fuente: sol#7 + fable#6/#7
+    severidad: media
+    veredicto: CONFIRMADO  # hp005:r2 pide edicion inline; hp011:r1 pide retractacion; append-exacto no cubre -> techo ~17, no ~19
+    accion: "tabla por-item (append/disclose/edicion) en v2; items edicion-necesaria = residual declarado (NO se reabre S219-221); tabla de metricas de settled citados (Protocolo 2 §5)"
+  - id: ADJUDICADOR
+    fuente: fable#5
+    severidad: media
+    veredicto: CONFIRMADO
+    accion: "adjudicador pineado: Alberto (lectura de la pasada harness, DEC-148) con pre-screen dúo ciego; sin auto-adjudicacion del autor"
+  - id: RECEIPTS-LECTURA
+    fuente: fable#12
+    severidad: media
+    veredicto: CONFIRMADO  # hp002/hp005 ya mostraron varianza r1/r2 en la P1
+    accion: "la lectura de la pasada verifica CONTEXTO SERVIDO por receipts (5b6a3a19/MIE-MI-530/b7633e98/f68f2d40), no solo texto"
+  - id: ALIASES-58
+    fuente: sol#8 + fable#8
+    severidad: menor/media
+    veredicto: CONFIRMADO  # 0 de los 29 FAIL dependen; superficies basura en la lista; Dimension excluida a proposito
+    accion: "FUERA del camino critico C1: round-trip PIN de conducta actual + triage de datos; extension _SEP post-C1 con eval propio"
+  - id: E10-BARE
+    fuente: fable#9
+    severidad: media
+    veredicto: CONFIRMADO
+    accion: "gobernar umbrella INSPIRE + formas prefijadas; E10/E15 bare = homonym-candidate fail-open salvo probe de no-colision"
+  - id: GUARD-IMPL
+    fuente: fable#13
+    severidad: baja
+    veredicto: CONFIRMADO  # catalog_store.py:159 filtra candidates antes del punto del drop
+    accion: "resolve() expone all_members_consumable; test propio del contrato"
+solidos_confirmados:
+  - "direccion §1a (guard fail-open-a-add; nunca peor que add)"
+  - "señal lifecycle EXISTE (documents.status, retriever.py:1703-1708) — sin DDL"
+  - "§3 anclas verificadas (MIN_ALIGNMENT_TERMS=6, MAX_APPENDED=4)"
+  - "honestidad §5/§7; gobernanza §0/§6 alineada con DEC-148"

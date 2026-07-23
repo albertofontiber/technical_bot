@@ -1,0 +1,72 @@
+# s278 selection-reach design v1 — adjudicación del dúo (Sol 8 + Fable 9), regla C sobre anclas
+# Sol: gpt-5.6-sol xhigh tools-ON (tally 2026-07-22T~23h) · Fable: adversarial-reviewer FRESCO no-autor
+ronda: 1
+propuesta: evals/s278_selection_reach_design_v1.md
+veredicto_global: "C1 SOLIDA-CON-CAMBIOS · C2 y C3 NO-SOLIDAS como especificadas — REESCRIBIR v2 antes de build"
+convergencias_duo:
+  - id: C3-NOOP
+    fuente: sol#2 + fable#F1
+    severidad: critico
+    veredicto: CONFIRMADO  # MAX_NEED_GROUPS=3 ya consumido por la primaria; grupos del 2o arquetipo se truncan en silencio; subir el cap cambia la combinatoria del need_clause y roza MAX_TSQUERY_CHARS=480 (plan None => lane apagado)
+    fix_v2: "cap por-via (elevar MAX_NEED_GROUPS SOLO en el path flag-gated del lane) + test plan-not-None para los 13 QIDs"
+  - id: C3-CONFIG-COMPARTIDA
+    fuente: sol#3 + fable#F2
+    severidad: critico
+    veredicto: CONFIRMADO  # retrieval_facets_v4 tiene 4 consumidores (pool/document-local/structural/hyq) y first_match obligatorio; mutarlo in-place rompe off=identico y el oraculo congelado NO lo veria (falso-GO exacto)
+    fix_v2: "fork versionado retrieval_facets_v5_document_local (o seccion multi_match gateada) consumido SOLO por el path flag-gated; v4 byte-intacto"
+  - id: C2-CAPS-SIN-ARITMETICA
+    fuente: sol#6 + fable#F3
+    severidad: critico
+    veredicto: CONFIRMADO  # cap real del lane = 1 fila TOTAL (APPEND_LIMIT=1 + MAX_APPENDED_BY_LANE=1) dentro de MAX_APPENDED=4 compartido; "dentro del cap existente" era imposible; cite el patron hp002/reserve sin su mecanismo (presupuesto PROPIO fuera del cap)
+    fix_v2: "presupuesto propio estilo reserve para la fila por-faceta (constantes declaradas) + medir desplazamiento en census"
+hallazgos_adicionales:
+  - id: C1-CAP-COMBINADO
+    fuente: fable#F4
+    severidad: medio-alto
+    veredicto: CONFIRMADO  # TOTAL_CANDIDATE_LIMIT=64 combinado: 2 scopes con 1 truncado a 64 => fail-closed total; cat017 ES el caso 2-docs (HOP-138-8ES+9ES)
+    fix_v2: "truncado combinado determinista (reparto por scope / interleave) visible en receipt"
+  - id: C2-REGLA-SIN-PREREGISTRO
+    fuente: fable#F5
+    severidad: medio
+    veredicto: CONFIRMADO
+    fix_v2: "pre-registrar N_FACET y la regla de ranking (terms_hit -> densidad -> chunk_index) ANTES del probe (anti gold-tuning)"
+  - id: COMPOSICION-SIN-CONTROL
+    fuente: fable#F6
+    severidad: medio
+    veredicto: CONFIRMADO
+    fix_v2: "control negativo nuevo: query fuera-de-tema sobre MC-380 con las 3 ON => 0 servido; probes en config COMBINADA; attestation distingue la vara por-faceta"
+  - id: C3-MUEVE-QUERIES
+    fuente: fable#F7 (resuelve la pregunta central del diseño)
+    severidad: medio
+    veredicto: CONFIRMADO  # need-groups alimentan el tsquery => multi-match cambia candidatos FTS de toda query multi-tema
+    fix_v2: "census de seleccion pools-congelados $0 + pasada dirigida = paso OBLIGATORIO del build (Protocolo 4)"
+  - id: C1-SESGO-CHUNKINDEX
+    fuente: sol#7 (fable defiende C1 como espejo del patron vNext §1b)
+    severidad: medio
+    veredicto: PARCIAL  # el truncado determinista es el patron aceptado, PERO el sesgo front-of-doc es real y v1 se auto-validaba en posicion-2
+    fix_v2: "challenge de posiciones tardias en el census + declarar el sesgo como residual medible"
+  - id: RPC-SIN-TOTALES
+    fuente: sol#4 + fable#F8
+    severidad: menor-medio
+    veredicto: CONFIRMADO  # SQL LIMIT candidate_limit+1: el cliente nunca ve el total
+    fix_v2: "receipt honesto truncated=true observed>=65 (sin tocar SQL, decision explicita)"
+  - id: STEMMING-GATE
+    fuente: fable#F9
+    severidad: menor
+    veredicto: CONFIRMADO
+    fix_v2: "los 6 terminos del arquetipo elegidos contra las superficies del chunk real (token-exacto cliente vs stemming FTS declarado)"
+  - id: RLS-DOC-DRIFT
+    fuente: sol#1
+    severidad: falso-bloqueo / drift documental REAL
+    veredicto: PARCIAL  # la RLS SE APLICO hoy (DEC-150, verificada 13/13); el PLAN no lo reflejaba
+    fix_v2: "PLAN actualizado en este mismo commit"
+  - id: RECEIPT-AUDIT-GRADE
+    fuente: sol#8
+    severidad: menor
+    veredicto: CONFIRMADO
+    fix_v2: "receipts v3 con hashes completos + query de post-estado integra; retirar el wording 'reabrirlo es drift'"
+solidos:
+  - "diagnostico de las 3 compuertas = code-verdad (ambos lados lo re-verificaron)"
+  - "C1 direccion correcta (espejo del patron §1b aceptado); alternativa AND-de-3 bien descartada con medida"
+  - "no re-litiga levers (DEC-085 FTS-sobre-pregunta era re-ruteo corpus-wide; esto es lane append doc-scoped, metrica de HOY declarada)"
+  - "escalera de verificacion correcta con controles hp009/hp002"

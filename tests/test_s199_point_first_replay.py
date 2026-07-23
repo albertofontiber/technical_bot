@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import subprocess
 from pathlib import Path
+
+import yaml
 
 from scripts import s198_point_first_scope_gate as engine
 from scripts import s199_point_first_replay as replay
@@ -9,6 +13,31 @@ from scripts.s165_answer_archetype_ledger import stable_sha
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Commit that sealed the S199 prereg/permit pair ("eval: authorize S199
+# point-first replay", PR #129 merge; the prereg records no commit id). Its
+# frozen-input hashes describe those exact blobs — later legitimate evolution
+# of requirements.txt (and of these adapter tests) must not read as
+# authorization drift (DEC-147: version, do not relax).
+AUTHORIZATION_SEAL_COMMIT = "68d660175a72a21f894f828f29e3e1f3674a4049"
+
+
+def _sealed_bytes(relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "cat-file", "blob", f"{AUTHORIZATION_SEAL_COMMIT}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    assert completed.returncode == 0, f"sealed blob missing: {relative}"
+    return completed.stdout
+
+
+def _sealed_portable_sha(relative: str) -> str:
+    # Same canonicalization as replay.portable_text_sha, over the sealed blob.
+    return hashlib.sha256(
+        _sealed_bytes(relative).replace(b"\r\n", b"\n")
+    ).hexdigest()
 
 
 def test_s199_source_satisfies_replay_contract() -> None:
@@ -78,9 +107,26 @@ def test_portable_text_hash_ignores_only_checkout_line_endings(tmp_path: Path) -
 
 
 def test_frozen_authorization_when_present() -> None:
+    """DEC-147: hashes are validated against the blobs sealed at
+    AUTHORIZATION_SEAL_COMMIT instead of the working tree
+    (replay.validate_authorization hashes the live checkout, which
+    legitimately evolved after the paid run). The prereg and permit
+    themselves must still match their sealed bytes modulo checkout line
+    endings."""
     if not replay.DEFAULT_PREREG.exists() or not replay.DEFAULT_PERMIT.exists():
         return
-    prereg = replay.validate_authorization(replay.DEFAULT_PREREG, replay.DEFAULT_PERMIT)
+    prereg = yaml.safe_load(replay.DEFAULT_PREREG.read_text(encoding="utf-8"))
+    permit = yaml.safe_load(replay.DEFAULT_PERMIT.read_text(encoding="utf-8"))
+    for sealed_file in (replay.DEFAULT_PREREG, replay.DEFAULT_PERMIT):
+        relative = sealed_file.relative_to(ROOT).as_posix()
+        assert sealed_file.read_bytes().replace(b"\r\n", b"\n") == _sealed_bytes(
+            relative
+        ).replace(b"\r\n", b"\n")
+    for key, spec in prereg["frozen_inputs"].items():
+        assert _sealed_portable_sha(spec["path"]) == spec["sha256"], key
+    for key, spec in permit["frozen_artifacts"].items():
+        assert _sealed_portable_sha(spec["path"]) == spec["sha256"], key
+    assert permit["status"] == "EXECUTION_GO_PAID_BOUNDED_NO_RETRY"
     assert prereg["execution"]["paid_calls_max"] == 56
     assert prereg["execution"]["frontier_execution_calls"] == 0
     assert prereg["validation"]["eligible_questions_min"] == 12

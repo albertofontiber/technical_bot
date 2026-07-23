@@ -21,6 +21,7 @@ from .answer_obligation_contract import build_enforced_answer_cache_identity
 from .answer_planner import (
     ANSWER_PLANNER_CONTRACT_S122,
     answer_planner_mode,
+    apply_answer_conflict_guard,
     apply_answer_planner,
     build_answer_conflicts,
     build_answer_plan,
@@ -53,6 +54,15 @@ def _include_context() -> bool:
     — prod sirve solo content (el blurb vive en el embedding, no en la generación). Se lee
     en runtime (no a import-time) para poder togglear el A/B en un mismo proceso."""
     return os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"
+
+
+def _evidence_contract_enabled() -> bool:
+    """S278 §5: flag estricto default-off, perfil-owned, releído en RUNTIME (patrón
+    GENERATOR_PROMPT_VARIANT / must_preserve.contract_enabled) para togglear A/B en
+    un mismo proceso; la constante import-time de config inventaría el flag."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("EVIDENCE_CONTRACT")
 
 
 SYSTEM_PROMPT = """Eres un asistente técnico experto en sistemas de protección contra incendios (PCI), \
@@ -764,15 +774,52 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # excepción deja la respuesta intacta; con flag off es un passthrough
     # byte-idéntico (diseño evals/s269_synthesis_portfolio_design_v1.md §1).
     must_preserve_trace = None
+    must_preserve_outcome = {"status": "disabled"}
     try:
         answer, must_preserve_trace = apply_must_preserve_contract(
             query, relevant_chunks, answer
         )
+        if must_preserve_trace is not None:
+            must_preserve_outcome = {"status": "evaluated"}
     except Exception as exc:
         logger.warning(
             f"must_preserve fail-open ({exc}) — respuesta intacta"
         )
         must_preserve_trace = None
+        must_preserve_outcome = {
+            "status": "error",
+            "error_type": type(exc).__name__,
+        }
+
+    # Always-on, deterministic final factual boundary.  It runs after optional
+    # answer-planner and must-preserve mutations, makes no provider call, and
+    # fails closed if served sources disagree on an operational value that the
+    # draft selected unilaterally.
+    answer, answer_conflict_guard = apply_answer_conflict_guard(
+        query, relevant_chunks, answer
+    )
+
+    # S278 §5 (EVIDENCE_CONTRACT, default-off, perfil-owned): contrato de evidencia
+    # post-writer determinista fail-closed (src/rag/evidence_contract.py), ÚLTIMO
+    # eslabón tras el conflict_guard. Con flag off el módulo NI SE IMPORTA y la
+    # respuesta/el dict de retorno quedan byte-idénticos; con flag on una excepción
+    # jamás toca la respuesta (fail-open total del caller).
+    evidence_contract_trace = None
+    if _evidence_contract_enabled():
+        try:
+            from .evidence_contract import apply_evidence_contract
+
+            contracted = apply_evidence_contract(answer, relevant_chunks, query)
+            answer = contracted["text"]
+            evidence_contract_trace = contracted["receipt"]
+        except Exception as exc:
+            logger.warning(
+                f"evidence_contract fail-open ({exc}) — respuesta intacta"
+            )
+            evidence_contract_trace = {
+                "status": "error",
+                "error_type": type(exc).__name__,
+            }
 
     result = {
         "answer": answer,
@@ -785,6 +832,8 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         ),
         "output_tokens": response.usage.output_tokens if response.usage else None,
         "evidence_derivation": evidence_derivation,
+        "must_preserve_outcome": must_preserve_outcome,
+        "answer_conflict_guard": answer_conflict_guard,
     }
     if answer_planner is not None:
         if enforced_cache_identity is not None:
@@ -792,6 +841,8 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         result["answer_planner"] = answer_planner
     if must_preserve_trace is not None:
         result["must_preserve"] = must_preserve_trace
+    if evidence_contract_trace is not None:
+        result["evidence_contract"] = evidence_contract_trace
 
     # S269 (flag default off — con off este bloque no ejecuta NADA): adjunta
     # hasta 4 activos 'useful' del registro document_visual_assets para las

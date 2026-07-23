@@ -7,6 +7,7 @@ import asyncio
 import logging
 import re
 import tempfile
+import unicodedata
 from pathlib import Path
 
 import httpx
@@ -25,6 +26,7 @@ from ..config import (
     RETRIEVAL_TOP_K,
     RERANK_TOP_K,
     VOICE_TRANSCRIPTION_MODEL,
+    COVERAGE_RELEASE_POLICY,
     validate_config,
 )
 from ..rag.retriever import (
@@ -34,10 +36,12 @@ from ..rag.retriever import (
 )
 from ..rag.reranker import rerank
 from ..rag.generator import generate_answer
-from ..rag.post_rerank_coverage import apply_post_rerank_coverage
+from ..rag.runtime_trace import build_rag_serving_trace
+from ..rag.serving_pipeline import RagServingAdapters, execute_rag_turn
 from ..rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
 from ..logging_db import log_query, log_feedback, has_consent, set_consent
 from .response_formatter import (
+    DEFAULT_MESSAGE_LIMIT,
     format_telegram_messages,
     telegram_html_to_plain,
 )
@@ -50,6 +54,33 @@ logging.basicConfig(
     level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
+
+_EMPTY_ANSWER_FALLBACK = (
+    "No he podido generar una respuesta completa y segura. Inténtalo de nuevo."
+)
+_INVISIBLE_GRAPHIC_CODEPOINTS = frozenset("\u2800\u3164\u115f\u1160\uffa0")
+
+
+def _has_visible_text(value: object) -> bool:
+    """Require a visible letter, number, punctuation mark, or symbol."""
+    if not isinstance(value, str):
+        return False
+    return any(
+        character not in _INVISIBLE_GRAPHIC_CODEPOINTS
+        and unicodedata.category(character)[0] in {"L", "N", "P", "S"}
+        for character in value
+    )
+
+
+def _plain_transport_parts(text: str) -> list[str]:
+    """Last-resort Telegram-safe split with formatting disabled."""
+    value = str(text or "")
+    if not _has_visible_text(value):
+        value = _EMPTY_ANSWER_FALLBACK
+    return [
+        value[index : index + DEFAULT_MESSAGE_LIMIT]
+        for index in range(0, len(value), DEFAULT_MESSAGE_LIMIT)
+    ]
 
 # Silence httpx / httpcore INFO logs — they emit each HTTP request URL in
 # clear text, which leaks secrets that live in the URL itself (notably the
@@ -539,33 +570,6 @@ async def _process_query(
                 )
                 return
 
-        # Step 1d: Retrieve candidate chunks
-        chunks = retrieve_chunks(query_for_retrieval, top_k=RETRIEVAL_TOP_K)
-        retrieval_pool = list(chunks)
-
-        # Step 2: Rerank (using original query for semantic evaluation). Dispatcher
-        # RERANKER_BACKEND (s61): con target_models SIEMPRE LLM (dispatch condicional Y1
-        # — solo se enruta a voyage el path que el A/B midió).
-        chunks = rerank(query, chunks, top_k=RERANK_TOP_K, target_models=target_models)
-
-        # Default-off observer: it has no return path into ``chunks`` or the
-        # generator. Errors and telemetry failures are contained internally.
-        try:
-            observe_structural_neighbor_shadow(query, chunks)
-        except Exception as exc:
-            # Defense in depth: even a bug outside the observer's own fail-open
-            # boundary cannot interrupt the answer path.
-            logger.warning(
-                "structural-neighbor shadow failed open (%s)", type(exc).__name__
-            )
-
-        # Default-off serving seam.  The main reranker's output is preserved as
-        # an immutable prefix; only independently validated real source chunks
-        # can be appended.  Each lane contains its own fail-open boundary.
-        chunks = apply_post_rerank_coverage(
-            query, chunks, retrieval_pool=retrieval_pool
-        )
-
         # Step 2b: Get available models in detected category (for dynamic conversation)
         available_models = None
         detected_category = None
@@ -577,10 +581,36 @@ async def _process_query(
                     detected_category = cat
                     break
 
-        # Step 3: Generate answer from reranked chunks
-        result = generate_answer(query, chunks, available_models=available_models)
+        # One production seam shared with the deterministic release gate.  The
+        # adapters are built here so existing handler tests can patch only I/O.
+        pipeline = execute_rag_turn(
+            query=query,
+            query_for_retrieval=query_for_retrieval,
+            target_models=target_models,
+            available_models=available_models,
+            retrieval_top_k=RETRIEVAL_TOP_K,
+            rerank_top_k=RERANK_TOP_K,
+            adapters=RagServingAdapters(
+                retrieve=retrieve_chunks,
+                rerank=rerank,
+                observe_structural_shadow=observe_structural_neighbor_shadow,
+                generate=generate_answer,
+            ),
+        )
+        chunks = pipeline["chunks"]
+        coverage_trace = pipeline["coverage_trace"]
+
+        # Step 3: Generate answer from reranked + governed coverage chunks.
+        result = pipeline["generation"]
         answer = result["answer"]
         diagrams = result["diagrams"]
+
+        empty_answer_fallback = not _has_visible_text(answer)
+        if empty_answer_fallback:
+            # A provider can complete with no visible text after tool calls.
+            # Never turn that upstream defect into a silent Telegram turn.
+            logger.error("generator returned an empty answer")
+            answer = _EMPTY_ANSWER_FALLBACK
 
         # Store last query/response for feedback tracking + conversation context
         context.user_data["last_query"] = query
@@ -589,7 +619,47 @@ async def _process_query(
         if target_models:
             context.user_data["last_detected_models"] = target_models
 
-        # Log query
+        # Render once: telemetry records the actual transport split and the
+        # send loop consumes these exact same parts. A formatter defect must
+        # neither erase the query receipt nor suppress the technical answer.
+        transport_status = (
+            "empty_answer_fallback" if empty_answer_fallback else "html"
+        )
+        transport_error_type = "RuntimeError" if empty_answer_fallback else None
+        try:
+            answer_parts = format_telegram_messages(answer)
+            if (
+                not isinstance(answer_parts, list)
+                or not answer_parts
+                or any(
+                    not _has_visible_text(telegram_html_to_plain(part))
+                    for part in answer_parts
+                )
+            ):
+                raise ValueError("formatter returned empty transport parts")
+        except Exception as exc:
+            logger.warning(
+                "Telegram formatter failed open (%s)", type(exc).__name__
+            )
+            answer_parts = _plain_transport_parts(answer)
+            transport_status = "plain_fallback"
+            transport_error_type = type(exc).__name__
+        try:
+            rag_trace = build_rag_serving_trace(
+                coverage_trace=coverage_trace,
+                served_chunks=chunks,
+                must_preserve_trace=result.get("must_preserve"),
+                must_preserve_outcome=result.get("must_preserve_outcome"),
+                release_policy=COVERAGE_RELEASE_POLICY.safe_snapshot(),
+                transport_parts=len(answer_parts),
+                transport_status=transport_status,
+                transport_error_type=transport_error_type,
+            )
+        except Exception as exc:
+            logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)
+            rag_trace = None
+
+        # Log query. Failure is isolated inside log_query and never changes the answer.
         elapsed_ms = int((_time.time() - start_time) * 1000)
         user_id = update.effective_user.id if update.effective_user else 0
         log_query(
@@ -603,12 +673,16 @@ async def _process_query(
             response=answer,
             response_length=len(answer),
             response_time_ms=elapsed_ms,
+            rag_trace=rag_trace,
         )
 
         # Step 4: Render at the transport boundary.  The factual answer kept in
         # logs/evaluation remains untouched; every part is independently valid
         # Telegram HTML, so splitting cannot leave formatting delimiters open.
-        for answer_part in format_telegram_messages(answer):
+        for answer_part in answer_parts:
+            if transport_status == "plain_fallback":
+                await update.message.reply_text(answer_part)
+                continue
             try:
                 await update.message.reply_text(answer_part, parse_mode="HTML")
             except Exception:

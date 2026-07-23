@@ -2866,3 +2866,762 @@ como PASS independiente. Trazas y fixes:
 `evals/s276_corrections_duo_adjudication_v1.yaml` y
 `scripts/s276_adjudicate_corrections_review.py`. Las correcciones no autorizan ejecución: la
 próxima decisión humana es eval orgánico/fresco y/o Fase 0 conversacional en shadow.
+
+## DEC-137 (S277, 20 jul 2026) — La observación viva mantiene C1 NO-GO; profile atómico + P1 end-to-end quedan materializados offline, sin autorización de gasto ni deploy
+
+**Impacto y métrica visible.** Alto en release integrity y evaluación; impacto productivo de
+este cambio todavía nulo. El objetivo de hoy sigue siendo 151/154 (≥98 %) y el marcador no se
+mueve: **146/154 (94,81 %), gap +5; 6 synthesis-miss + 2 retrieval-miss**. El +1 de S274 fue
+3/3 en su probe pareado; no era evidencia de que la respuesta viva o el profile completo pasaran.
+P1 usa la misma cohorte dev para proteger el release y no convierte esa métrica en un KPI orgánico.
+
+**Evidencia que cambia el estado.** La respuesta PEARL aportada por Alberto fue una única
+generación de 4.449 caracteres, dividida por Telegram en dos mensajes. Omitió los dos avisos F12
+y presentó como instrucción plana el menú `8`, sin revelar el conflicto fuente conocido 7-vs-8.
+El log persiste como máximo 4.096 caracteres y no puede reconstruir por sí solo la respuesta
+completa. El gate A reproduce offline el ensamblaje C1 y el probe B GET-only alcanza el target en
+F12 desde el prefijo congelado, pero ninguno atraviesa síntesis; por eso el release queda NO-GO.
+
+**Decisión 1 — unidad de release estructural.** Los cuatro switches acoplados pasan a un único
+profile `coverage_c1_v1`; fuera de `legacy` no se admiten overrides parciales. Un seam de serving
+único produce la vista consumida por harness y Telegram, y una traza privacy-safe registra profile,
+pool/prefijo/contexto, coverage, must-preserve, renderer y truncamientos. El rollout arranca en
+profile `off` y sólo cambia al target tras identidad exacta. Las capacidades ortogonales ya vivas
+—incluido `VISUAL_ASSETS_REGISTRY`— se proyectan y preservan exactamente; apagarlas para aislar C1
+sería una regresión de configuración, no una simplificación permitida.
+
+**Decisión 2 — P1 prerelease, no ejecución.** Se preregistran 13 QIDs y 27 réplicas independientes
+(27 generaciones; exactamente 81 llamadas pagables: embedding + rerank + síntesis). El fact
+contract contiene 43 filas base de peso KPI 42, una guarda hp013 y el target compuesto hp017. El
+bound estático es 6,777 USD bajo los envelopes/tamaños sellados y el techo duro 10 USD. El runner
+offline implementa doble opt-in, WAL fsync sin retry, reserva/coste por llamada, identidad Git/
+runtime/config, proyección semántica, fingerprint y fence externo, receipts encadenados desde input
+preregistrado hasta respuesta/render, scorer determinista y re-score autoritativo en `finalize`.
+`P1_PASS` sólo puede significar `NO_OBSERVED_PROTECTED_LOSS_IN_P1_RUNS`, nunca `ZERO_REGRESSION`.
+
+La auditoría post-integración endureció esa reapertura: el genesis sella modelos, inputs,
+presupuesto e implementation hashes; resume/score/finalize reabren 81 responses y 81 watches,
+vuelven a validar las 27 réplicas y reconstruyen los 81 envelopes. El WAL completo debe contener
+exactamente 162 eventos reserve/completed alternos; modelo, usage, max-cost, acumulado previo,
+coste observado y `result.budget` se recomputan contra el plan de 81 llamadas. La suite P1 focal
+queda en **181/181** antes del dúo final.
+
+**Control gratuito y stop-line.** El re-score conflict-only de las tres respuestas A-C1 ya
+almacenadas confirma 3/3 el menú plano y emite `HOLD_PREPAID_KNOWN_CONFLICT_RISK`; no mide el
+candidato y no le atribuye PASS ni FAIL. La ruta recomendada es resolver/atribuir el conflicto
+antes de pagar. Medir pese al prior exigiría un permit nuevo que lo acepte expresamente.
+
+**Qué parte es BP y qué parte no generaliza todavía.** El patrón de seguridad sí es estructural:
+profile atómico, least-privilege read-only, snapshot/fence de corpus, reservas de presupuesto,
+no-double-send, receipts y fail-closed. El packet/scorer P1, en cambio, es deliberadamente
+cohort-specific y contiene QIDs, surfaces y algoritmos especiales mantenidos a mano; no se presenta
+como arquitectura multi-marca escalable. La configuración efectiva tampoco está completa hasta que
+el adapter/config externo materialice, entre otros, `ANSWER_OBLIGATION_PLANNER`,
+`GENERATOR_INCLUDE_CONTEXT` e `IDENTITY_FETCH`. Generalizar facts tipados o multi-turn/multi-hop es
+un frente posterior y no se acredita con este gate.
+
+**Alternativas descartadas.** `query_logs` como árbitro (texto truncado y sin átomos); sólo replay
+S113 (no prueba retrieval/rerank live); una réplica o mayoría permisiva (no satisface protección
+absoluta de esta cohorte); `test_bot_vs_gold.py` informal (sin WAL/coste/fence); clonar Supabase o
+restaurar un dump local ahora (infraestructura/índice no equivalente); apagar visuales u otras
+lanes ortogonales (mide otra configuración); y ejecutar primero para «ver qué pasa» (gasto con
+conflicto conocido y artefactos todavía no autorizados).
+
+**Gaps y límites declarados.** El release-config real aún no está materializado; faltan adapter
+productivo revisado, identidad PostgREST `p1_readonly`, proceso de fence/operador y receipts
+externos. Los hashes actuales de RPC/GET/relaciones son sólo un contrato de superficie sintético,
+no observan firmas/ACL/overloads, índices ni PostgREST/config live. En vez de inventar ese manifest,
+los CLI `fence-open-verify`, `fence-close-verify`, `run` y `finalize` devuelven como primera operación
+`HOLD_FENCE_MANIFEST_CONTRACT_NOT_MATERIALIZED`. Retirarlo exige bodies live pre/watch/post y un
+contrato esperado canónico revisado. La ejecución pagada y el canary post-activación requieren
+autorizaciones separadas. La
+cohorte es conocida/dev, cubre sólo los 13 QIDs afectados y no demuestra 98 %, tasa global de
+regresión cero ni comportamiento orgánico. El trust boundary de los artefactos es un operador/
+workspace autorizado; no es una attestation criptográfica de un tercero.
+
+**Revisión y trazabilidad.** El diseño pasó dos dúos frescos Sol 5.6 xhigh + Fable 5
+(`2026-07-20T16:32:35` y `17:04:06`), ambos `complete_adjudicated_no_pass`: 12 findings
+confirmados y 5 falsos positivos entre rondas; las correcciones se incorporaron antes del build.
+La auditoría de integración añadió los bindings de score, payload físico, configuración, coste,
+WAL/reapertura y fence; también rebajó correctamente los hashes nominales a superficie declarada
+y añadió la stop-line machine-enforced del manifest live. El dúo final de implementación
+(`2026-07-21T00:06:50` Sol / `00:08:56` Fable) mantuvo cerrados los dos false-PASS semánticos,
+pero confirmó que el manifest de implementation hashes no es transitivamente completo: omite al
+menos `src/rag/answer_planner.py`, ejecutado por el scorer de conflicto. También dejó como
+precondiciones del adapter real el stop reason terminal de rerank y la attestation externa de
+usage/coste. Por el corte anti-parálisis no se abrió otra ronda: veredicto `SAFE_HOLD_NO_GO`, con
+0 llamadas P1 y 0 mutaciones externas. Artefactos canónicos: `evals/s277_c1_p1_design_v1.md`,
+`evals/s277_c1_p1_prereg_v1.yaml`, `evals/s277_c1_p1_fact_contract_v1.json`,
+`scripts/s277_c1_p1.py`, `scripts/s277_c1_p1_scorer.py` y `docs/C1_RELEASE_RUNBOOK.md`.
+
+## DEC-138 (S277, 21 jul 2026) — P1 pasa de SAFE HOLD de implementación a `CODE_READY`; el GO sigue pendiente de autorización, provisioning y ejecución real
+
+**Impacto y estado visible.** Alto en integridad de release; impacto productivo todavía nulo.
+Se cierran los blockers técnicos concretos que impedían siquiera ejecutar P1, pero no se cambia
+el veredicto del candidato: **no existe `P1_PASS` ni GO operativo**. No se aplicó ninguna
+migración, no hubo llamadas pagadas, cambio de Railway ni deploy. El marcador permanece
+**146/154 (94,81 %), gap +5; 6 synthesis-miss + 2 retrieval-miss**. P1 sigue siendo un gate de
+release sobre cohorte dev, no el mecanismo ni el árbitro que mueve el objetivo ≥98 %.
+
+**Decisión 1 — closure ejecutable completo.** La implementación incorpora el adapter del path
+productivo y liga los bytes/receipts físicos de embedding, rerank y síntesis a cada réplica;
+rechaza terminaciones inválidas y revalida usage/modelo/coste. El manifest de implementación
+cubre el cierre transitivo exacto de runner, scorer y módulos productivos ejecutados. Railway se
+captura y revalida read-only contra los IDs canónicos y una proyección sin secretos. El manifest
+live observa y compara pre/watch/post las definiciones y firmas RPC, volatility, `prosecdef`,
+owner/ACL/overloads, índices/opclasses/dimensiones, relaciones/RLS, extensiones, roles y
+PostgREST/config.
+
+**Decisión 2 — ventana live y separación de deberes.** Un operador separado conserva una sesión
+PostgreSQL persistente `READ ONLY`, adquiere los locks en orden, calcula el fingerprint y mantiene
+heartbeats/watchers. El runner no recibe su DSN: usa IPC credential-free para `open`, watch,
+`close` y `abort`. Todo fallo posterior a `open` solicita aborto explícito; sólo un rollback
+confirmado produce receipt `ABORTED`, y la incertidumbre queda `AMBIGUOUS`. El guard PostgREST
+acepta únicamente host, GET/RPC y JWT exactos del contrato; bloquea escrituras de tabla, RPC fuera
+de allowlist, redirects y destinos ajenos. El executor revalida Railway, identidad y inputs live,
+abre la ventana, ejecuta las 27 réplicas, captura el estado posterior y cierra o aborta; aun con
+réplicas completas termina pendiente de `score`/`finalize`, nunca inventa un PASS.
+
+La revisión bloqueante final cerró tres bordes del mismo protocolo: el `session_id` se
+preasigna antes de adquirir locks para poder emitir un aborto ligado aunque se pierda la
+respuesta de `open`; `artifact_dir` debe empezar vacío y ser disjunto del fichero de
+credenciales y del IPC; y el receipt de `close` sella el hash del manifest post capturado bajo
+el fence. Ninguno se pospone como hardening posterior.
+
+**Corrección P0 — qué significa realmente read-only.** `transaction_read_only=on` en
+`p1_runtime_identity_v1()` demuestra sólo la transacción del GET de identidad. No acredita los
+POST `/rpc/...`: PostgREST elige su modo de transacción por separado y las funciones de retrieval
+vigentes no se reclasifican artificialmente como `STABLE`. La seguridad efectiva de P1 procede de
+la conjunción de (a) ACL/RLS mínimos del rol `p1_readonly`, (b) allowlist exacta del guard y (c)
+ninguna función `SECURITY DEFINER` accesible al rol. La migración
+`20260721120000_add_p1_readonly_role.sql` materializa y verifica ese contrato, incluida la
+revocación del `EXECUTE` público observado sobre `create_hnsw_index()`. Está revisada pero **no
+aplicada**; no se emite el JWT antes de que sus postcondiciones pasen.
+
+**Decisión 3 — único siguiente paso, acotado.** El estado canónico es
+`CODE_READY_OPERATIONAL_AUTHORIZATION_PENDING`. Con autorización explícita: (1) aplicar la
+migración del rol y verificar postcondiciones; (2) provisionar fuera del checkout el PAT de
+Supabase, un JWT efímero `p1_readonly` y la credencial PostgreSQL del operador; (3) materializar
+release-config, manifest/evidencia live y un receipt que disponga expresamente el prior hp017;
+(4) ejecutar una sola P1 preregistrada bajo el techo duro de 10 USD; y (5) cerrar/abortar el fence,
+puntuar y finalizar. Sólo un `P1_PASS` vigente abre una autorización separada de merge/deploy y
+canary. Credenciales presentes, código verde o un `run` completado sin `finalize` no equivalen a
+GO.
+
+**Límites conservados.** El lease de artefactos sigue siendo single-host y no se autoreclama;
+la cohorte sigue siendo conocida/dev; el prior hp017 7-vs-8 debe constar en el permit; no se
+promete regresión global cero. Multi-turn/multi-hop permanece `NOT_BUILT` y fuera de este release:
+su arquitectura durable/transport-neutral conserva el roadmap de DEC-136 y exige autorización
+propia.
+
+## DEC-139 (S277, 21 jul 2026) — Se autoriza una única P1 exacta; el release continúa NO-GO hasta completar sus prerrequisitos y obtener `P1_PASS`
+
+**Decisión humana y alcance.** Alberto autoriza una única ejecución preregistrada P1 de
+27 réplicas/27 generaciones y exactamente 81 llamadas pagables —embedding, rerank y síntesis—,
+con techo duro de 10 USD y aceptación expresa del prior hp017 documentado. Esta decisión no
+autoriza merge, deploy, cambios de Railway ni canary. En el momento de registrarla siguen en cero
+las llamadas P1 pagadas y no se atribuye ningún resultado.
+
+**Prerrequisitos de seguridad.** Antes de emitir el bearer debe aplicarse y verificarse
+`20260721120000_add_p1_readonly_role.sql`. En PostgreSQL 17 la membresía exacta sobre
+`p1_readonly` son tres filas no heredables: `authenticator <- postgres: SET TRUE/ADMIN FALSE`,
+`postgres <- postgres: SET TRUE/ADMIN FALSE` y el grant automático
+`postgres <- supabase_admin: SET FALSE/ADMIN TRUE`; ACL/RLS mínimos, allowlist RPC y ausencia de
+`SECURITY DEFINER` accesible siguen siendo condiciones conjuntas. La autenticación HTTP también
+separa credenciales: `SUPABASE_KEY` alimenta `apikey`, mientras `P1_SUPABASE_JWT` alimenta
+`Authorization: Bearer ...`; ninguna sustituye a la otra.
+
+**Operación y estado.** Las herramientas Python se invocan desde la raíz como módulos
+(`python -m scripts...`). Aún faltan aplicar/verificar la migración, provisionar fuera del checkout
+PAT, API key, bearer y credencial del operador, capturar los inputs live, materializar el receipt
+de autorización y ejecutar `run`, `score` y `finalize`. Por tanto el estado pasa de autorización
+pendiente a `P1_EXECUTION_AUTHORIZED_OPERATIONAL_PREREQUISITES_PENDING`, pero permanece **NO-GO**:
+sólo un `P1_PASS` sellado y vigente puede abrir una decisión posterior y separada de release.
+
+## DEC-140 (S277, 21 jul 2026) — La migración mínima P1 queda aplicada y verificada; credenciales y ejecución siguen pendientes
+
+**Cambio externo y evidencia.** Se aplicó en producción la migración
+`20260721120000_add_p1_readonly_role.sql`, con SHA-256
+`b698a69cc6fba48b7f1e3e6f78bf80c4327d6118878e1f0f15317420501a83a4`. Sus
+postcondiciones verificaron los tres grants no heredables exactos de PostgreSQL 17
+—`authenticator <- postgres` con `SET TRUE/ADMIN FALSE`, `postgres <- postgres` con
+`SET TRUE/ADMIN FALSE` y `postgres <- supabase_admin` con `SET FALSE/ADMIN TRUE`—,
+las ACL de tablas P1 `SELECT`-only, la identidad runtime aislada y un receipt live de
+`SET ROLE p1_readonly`. La aplicación no ejecutó llamadas a modelos ni implicó merge,
+deploy o cambio de Railway.
+
+**Estado operativo.** `SUPABASE_KEY` y la credencial PostgreSQL del operador existen fuera
+del candidato. El PAT de Supabase está provisionado de forma efímera fuera del checkout;
+aún faltan el bearer efímero `P1_SUPABASE_JWT`, los inputs
+live y `run`/`score`/`finalize`; siguen en cero las 27 réplicas y 81 llamadas autorizadas y no
+existe `P1_PASS`. El estado canónico es por tanto
+`P1_MIGRATION_VERIFIED_CREDENTIALS_PENDING`, todavía **NO-GO**.
+
+**Riesgo separado antes del GO final.** La migración revocó `EXECUTE` de `PUBLIC` sobre
+`create_hnsw_index()` y `p1_readonly` no alcanza esa función; el Advisor conserva, sin embargo,
+avisos por grants explícitos preexistentes de `anon` y `authenticated`. No bloquean la identidad
+mínima ni la ejecución acotada de P1, pero deben inventariarse, probarse y corregirse mediante
+otra migración con autorización separada antes del GO final de C1. DEC-140 no amplía la
+autorización a ese cambio, merge, deploy o canary.
+
+## DEC-141 (S277, 21 jul 2026) — La única P1 cierra NO-GO parcial por atestación tardía del SDK; el fix requiere autorización y run nuevos
+
+**Resultado autoritativo.** La P1 autorizada se ejecutó como
+`p1-22bfc29e520b4002b3c4b9def2b63cdb` sobre el commit `537152a`. El fence abrió
+`OPEN_VERIFIED`, pero la primera llamada planificada (`hp017:r1:embedding`) terminó
+`UNKNOWN_BILLED_POST_SEND` con `HOLD_PROVIDER_SDK_VERSION`. El run quedó
+`NO_GO_PARTIAL`: 0/27 réplicas, coste observado 0 USD y reserva conservadora máxima de
+0,001 USD. No hubo retry. El manifest live conservó el mismo hash semántico pre/post
+`68fd9a89d6c57a2879ba9ec7b33b13757831faaadde75277357b49698619da65`; los
+fingerprints inicial/final fueron idénticos, el fence cerró `CLOSED_VERIFIED` y Railway y
+Supabase registraron cero mutaciones. `score` devolvió `HOLD_RUN_INCOMPLETE`, por lo que no
+se ejecuta `finalize` ni existe `P1_PASS`.
+
+**Causa raíz.** El runtime tenía la distribución correcta `voyageai==0.2.4`, pero ese
+release publica el valor interno obsoleto `voyageai.__version__ == 0.2.3`. `prepare` ya
+atestaba correctamente la metadata de distribución 0.2.4; `_send_voyage` repetía después
+una comprobación incorrecta del valor interno. Al ocurrir tras cruzar la frontera local de
+delegación, el WAL debía clasificarla de forma conservadora como posiblemente facturada,
+aunque el fallo sucede antes de crear el cliente o emitir HTTP.
+
+**Corrección estructural.** `c2079e9` convierte la metadata instalada de distribución en
+la única autoridad de versión, mueve imports y comprobaciones de capacidad al `prepare`
+local y elimina las comprobaciones tardías de `__version__` tanto en Voyage como en
+Anthropic. Así cualquier incompatibilidad estática se clasifica antes del send, y el receipt
+sigue ligando la versión exacta del paquete. Pasan 39 pruebas focales, incluida la regresión
+explícita `distribución=0.2.4 / módulo=0.2.3`.
+
+**Decisión y límites.** La autorización de DEC-139 está consumida y el WAL terminal no se
+reanuda ni se reintenta. El fix no convierte el run anterior en PASS y todavía no está medido.
+Otra P1 exige autorización humana nueva, checkout detached de `c2079e9` o descendiente exacto,
+credenciales/inputs/recibo nuevos y un artifact root vacío. Hasta entonces C1 permanece
+`P1_NO_GO_PARTIAL_PROVIDER_SDK_FIXED_REAUTH_REQUIRED`; merge, deploy y canary siguen fuera de
+alcance. El riesgo separado de `create_hnsw_index()` continúa pendiente antes de un GO final.
+
+## DEC-142 (S277, 21 jul 2026) — La segunda P1 aísla un bound pre-WAL; el contrato se alinea al techo humano de 30 USD
+
+**Resultado autoritativo.** La segunda autorización materializada cubrió una única P1 de
+27 réplicas/81 llamadas sobre `e49cb73`, sin merge, deploy ni canary. El run
+`p1-33d94efd57d84328aafbbdb4f052831d` completó `hp017:r1:embedding` y terminó
+`NO_GO_PARTIAL` antes de reservar el rerank: 0/27 réplicas, una llamada Voyage completada,
+coste observado 0,0000024 USD, cero reserva desconocida y cero mutaciones. El fence cerró
+`CLOSED_VERIFIED`; corpus, manifest y fingerprint permanecieron idénticos. La autorización y
+el run son terminales; `score` devolvió `HOLD_RUN_INCOMPLETE` y no existe `P1_PASS`.
+
+**Causa exacta, sin nueva inferencia pagada.** Un replay read-only reutilizó el embedding ya
+cobrado, recorrió el mismo retrieval con el JWT `p1_readonly` y capturó localmente el envelope
+sin llamar a Anthropic. El pool tenía 43 filas, 41 previews completos de 800 caracteres y
+34.192 caracteres de preview. El payload canónico medía 40.220 bytes; con la reserva fija de
+512, el bound declarado era **40.732**, frente al máximo preregistrado **10.000**. El verificador
+reprodujo exactamente `HOLD_INPUT_TOKEN_BOUND`. El código genérico adicional era instrumental:
+el reranker strict envolvía el `P1Error` pre-WAL como `RerankStrictError` porque el router solo
+preservaba errores posteriores a una respuesta de proveedor.
+
+**Corrección estructural y presupuesto.** El router preserva ahora cualquier `P1Error` de
+hook, coerción o validación, de modo que un fallo local conserva su código estable. El contrato
+no cambia retrieval, rerank, síntesis ni modelos; amplía únicamente los bounds conservadores a
+95.000 para rerank y 249.000 para síntesis. Sus reservas pasan a 0,30 y 0,80 USD por operación;
+con embedding, el worst-case de las 81 llamadas es **29,727 USD**, inferior al techo duro humano
+de **30 USD** expresamente fijado por Alberto. El caso reproducido queda cubierto con margen
+2,33× y las pruebas de regresión verifican tanto el envelope completo como la propagación del
+error pre-WAL.
+
+**Decisión y siguiente paso.** El fix offline no convierte ninguno de los runs anteriores en
+PASS. Otra P1 requiere autorización humana nueva y explícita, checkout detached del commit del
+fix, credenciales/inputs/recibo nuevos y artifact root vacío. Hasta entonces C1 permanece
+`P1_NO_GO_PARTIAL_RERANK_BOUND_FIXED_REAUTH_REQUIRED`; el marcador sigue 146/154 y merge,
+deploy, canary y la arquitectura multi-turn/multi-hop permanecen fuera de este permiso.
+
+## DEC-143 (S277, 21 jul 2026) — La tercera P1 separa un falso FAIL del miss real de autoridad y no se repite sin source recovery
+
+**Resultado autoritativo.** La P1 sobre `b06f05c`, run
+`p1-8c7818cce1174f1ea0538028693ee515`, terminó `NO_GO_PARTIAL /
+NO_GO_PROTECTED_CONTRACT` tras persistir 18/27 réplicas y completar 54/81 llamadas. El coste
+observado fue 1,82090244 USD, con cero reserva desconocida y cero mutaciones Railway/Supabase.
+El fence cerró `CLOSED_VERIFIED`; manifest y fingerprint pre/post fueron idénticos. El run es
+terminal y no existe `P1_PASS`.
+
+**Defecto instrumental corregido sin repetir inferencia.** El scorer de hp011 consideraba
+cualquier substring `--` como el estado técnico de `r.I`. Los separadores Markdown `---` de la
+respuesta activaron por error la exigencia de `t.A` y produjeron un FAIL falso. La detección queda
+limitada a un token técnico inequívoco —citado, tabular, asignado o en contexto local de estado—
+y excluye reglas Markdown, runs más largos, `--help` y guiones de prosa. El replay del artefacto
+inmutable cambia el FAIL a REVIEW; no exige ni justifica volver a pagar las 18 réplicas existentes.
+
+**Bloqueo real y decisión.** El REVIEW reveló que la página 63 del manual autoritativo
+`HLSI-MN-103_RP1r-Supra_lr`, que liga `-- ↔ t.A`, `00 = rearme permitido/default` y
+`01–30 = inhibición`, no estaba en retrieval pool, prefijo de rerank, structural fetch ni contexto
+servido. F9 era una guía rápida incompleta y la respuesta generada afirmó erróneamente que `00`
+inhibe el rearme. Los probes GET-only de pool coverage e HYQ existentes tampoco recuperaron la
+autoridad. Por tanto se prohíbe otra P1 por variación: antes debe pasar una prueba offline/GET-only
+de recuperación intra-documento genérica, limitada y fail-closed, sin reglas por QID/manual ni
+resucitar pilotos previamente NO-GO. Los 18 artefactos se conservan para diagnóstico; un GO
+posterior requiere un run limpio porque el código sellado cambiará y faltan nueve réplicas.
+
+**Descubrimiento de autoridad posterior, que precede al source recovery.** El corpus contiene dos
+revisiones activas de esa familia. La v.04 (2013, `e98e05ff…`) conserva `t.H`; la v.07 (2018,
+`494e71be…`), sobre la que se realizó la adjudicación gold experta, muestra `t.Fi` tachado y `t.A`
+insertado. Hay enlaces `duplicate_of` cruzados entre ambas y el chunk v.07 p63 queda excluido por
+ellos. La migración `20260713141223` declaró que la precedencia quedaba diferida. Por tanto una
+búsqueda strict-document devolvería v.04 pero no la autoridad gold; una búsqueda por filename
+mezclaría revisiones. La nueva stop-line es: primero adjudicación lifecycle y reparación de dedupe
+medidas y autorizadas por separado; después, recuperación intra-documento. No se codifica
+`latest-wins` como heurística runtime ni se cambia producción dentro de DEC-143.
+
+**Límite de alcance.** Esta decisión no autoriza merge, deploy, canary ni construir multi-turn/
+multi-hop. Esa arquitectura continúa separada bajo DEC-136.
+
+## DEC-144 (S277, 21 jul 2026) — La autoridad HP011 queda materializada y aplicada como migración reversible y fail-closed
+
+**Decisión de autoridad y alcance.** La v.07 de `HLSI-MN-103_RP1r-Supra_lr`
+(`494e71be-873b-48c1-adb3-a21a122da111`, mayo de 2018, extracción `914ceacf…`) es la
+revisión autoritativa adjudicada para HP011 y supersede explícitamente a v.04
+(`e98e05ff-ee1d-5341-869a-65768855dae9`, noviembre de 2013, extracción `ccabe3df…`). No se
+introduce una heurística runtime de fecha máxima: la decisión queda en los campos lifecycle del
+registro. La v.07 contiene en p63 la corrección `t.A`; v.04 conserva `t.H`.
+
+**Diseño de migración.** `20260721190847_reconcile_hp011_v04_v07_lifecycle.sql` opera en una
+sola transacción con `lock_timeout=5s`, `statement_timeout=30s` y locks ordenados sobre
+exactamente 2 documentos y 190 chunks. Exige 94/96 chunks, hashes y metadata exactos, estados
+active sin punteros, y la matriz `duplicate_of` original: v.04=43 no nulos (`3` internos + `40`
+hacia v.07), v.07=42 (`4` internos + `38` hacia v.04). Congela las 38 parejas que modifica,
+enlaza v.04↔v.07, limpia solo esos 38 `duplicate_of`, conserva los 4 duplicados internos v.07 y
+corrige las notas de procedencia que aún decían «deferred». Cualquier drift o cardinalidad
+inesperada lanza excepción y revierte todo.
+
+**Reversibilidad y prueba.** El rollback manual fuera del directorio autoaplicado recrea las 38
+parejas exactas, exige el estado post, restaura 38 chunks y 2 documentos y revalida la matriz
+original antes de commit. Seis pruebas estáticas sellan transacción, alcance DML, identidades,
+mapa y simetría migración↔rollback. Un PostgreSQL embebido desechable ejecutó además tres rutas:
+aplicación correcta, rollback byte-equivalente del estado modelado y drift previo que aborta sin
+dejar mutaciones. Antes de autorizar el cambio, una lectura GET confirmó la metadata y la
+topología live sin emitir escrituras, llamadas de modelo ni gasto.
+
+**Ejecución autorizada y verificada.** Tras autorización explícita, se fijó Supabase CLI 2.109.1
+y se construyó una proyección temporal de las diez versiones ya aplicadas. El target fue un
+hardlink byte-idéntico al migration canónico (SHA-256
+`e3d9b8bd5dfd6aac338ed61a3fb89d330728493add6916f817fe79299233f9e8`); el dry-run enumeró
+únicamente `20260721190847` y `db push` terminó con exit 0. Dos lecturas post independientes
+confirman la fila de history (versión/nombre/8 statements) y el estado: v.04 superseded por v.07,
+v.07 active y sucesora de v.04, 94/96 chunks, 43/4 duplicados no nulos, topología 3/40/0/4 y
+p63 v.07 libre de `duplicate_of`. No hubo modelo, coste, Railway, deploy, merge ni cambio del KPI.
+Receipt: `evals/s277_hp011_lifecycle_live_apply_receipt_v1.json`.
+
+**Integridad de historial y regla futura.** El checkout normal conserva siete versiones
+remote-only y tres local-only; no se usaron `--include-all` ni `migration repair` y `db push`
+normal queda fail-closed hasta una reconciliación separada (TECH_DEBT #55). Como el migration ya
+está aplicado, su fichero queda inmutable. Para migraciones futuras ejecutadas por CLI se prohíbe
+un `BEGIN/COMMIT` exterior cuando se exija atomicidad entre datos y
+`supabase_migrations.schema_migrations`; los rollbacks manuales sí conservan su transacción.
+
+**Estado y siguiente paso.** El estado es
+`HP011_LIFECYCLE_APPLIED_VERIFIED_DOCUMENT_LOCAL_RECOVERY_PENDING`: el cambio resuelve la
+autoridad y el dedupe de HP011, pero no mueve el marcador 146/154 ni el `NO_GO_PARTIAL` de P1.
+El paso natural es construir y medir sin modelos la lane genérica de recuperación
+intradocumento. Otra P1 continúa prohibida hasta que esa lane pase y el código sellado esté listo
+para un run limpio 27/27.
+
+## DEC-145 (S277, 22 jul 2026) — La recuperación document-local alcanza `GO_MECHANISM`; perfil nuevo y P1 limpia siguen pendientes
+
+**Decisión estructural.** Se incorpora, default-off, una lane document-local que obtiene
+autoridad y candidatos mediante una única función `STABLE`, `SECURITY INVOKER`, GET-compatible
+y con `search_path` vacío. `document_local_snapshot_v1(jsonb,text,integer,integer)` sólo puede
+ejecutarla `service_role`; `PUBLIC`, `anon` y `authenticated` quedan revocados. La autoridad
+procede de `documents` y del vínculo exacto `(document_id, extraction_sha256, source_file)`, no
+de etiquetas denormalizadas legacy del chunk. La familia y los candidatos están acotados en SQL
+con lectura `limit+1`; cualquier ambigüedad, drift, overflow, revisión no activa, duplicado o
+identidad incompleta falla cerrada.
+
+**Identidad y selección.** Los cinco campos normalizados (`document_family`, `language`,
+`doc_type`, `manufacturer`, `product_model`) se toman de la fila activa ya revalidada y se
+sellan en el candidato antes del planner/generador. Esto evita que labels legacy como
+`RP1r-Supra`/`NULL` contradigan la autoridad `RP1r`/`usuario`. El selector semántico reutilizado
+opera con `apply_catalog_scope=False` sólo dentro del blob exacto: el carril genérico conserva su
+catálogo, pero sus preferencias históricas no intervienen en este segundo salto.
+
+**Contrato servido.** V1 es ES-only y sólo sirve un registro Markdown pipe completo —cabecera,
+separador inmediatamente anterior, misma aridad y una fila de datos—, con máximo un append y
+receipt exacto. No contiene QIDs, chunk IDs ni reglas por manual.
+
+**Evidencia.** El probe congelado pasó 22/22 checks sobre 13 QIDs, conservó todos los prefijos
+byte a byte, ejercitó
+la lane sólo donde era aplicable y seleccionó únicamente la fila autoritativa p63 de hp011. Los
+controles negativos cubren lifecycle, blob/SHA, duplicados, caps, identidad, tampering y formato;
+dos controles se ejecutaron además contra el RPC desplegado. El recorrido hizo 84 GET, cero
+llamadas de modelo y cero escrituras de base de datos. Receipt:
+`evals/s277_document_local_coverage_probe_v1.json`.
+
+**Historial.** Las siete migraciones remote-only se recuperaron con comparación normalizada y
+las tres local-only ausentes se adjudicaron como propuestas; después se aplicaron normalmente
+las dos migraciones forward del mecanismo. No hubo `migration repair` ni `--include-all`.
+Receipt: `evals/s277_document_local_migration_reconciliation_receipt_v1.json`.
+
+**Límite.** El veredicto es `GO_MECHANISM`, no `P1_PASS` ni GO de C1. La lane sigue fuera de
+`coverage_c1_v1` y default-off. El siguiente cambio debe crear un perfil versionado nuevo;
+después corresponde una P1 limpia 27/27. Esta decisión no banca facts, no mueve 146/154, no
+autoriza merge/deploy/canary y no construye multi-turn/multi-hop.
+
+## DEC-146 (S277, 22 jul 2026) — Lineage v2 y `coverage_c1_v2` quedan listos; P1 v2 debe empezar fresca y sigue pendiente
+
+**Decisión de autoridad live.** Se sustituye la pertenencia positiva por etiqueta legacy por una
+lineage gobernada explícita: `document_revision_lineages` y
+`documents.revision_lineage_id` son la única vía positiva para agrupar revisiones. Las etiquetas
+históricas sólo pueden provocar rechazo por drift; nunca añadir ni ocultar miembros. La migración
+lineage v2 y su ACL P1 están aplicadas live. El receipt
+`evals/s277_document_local_migration_reconciliation_receipt_v2.json` queda `RECONCILED` con
+**7/7 checks**: history de las cuatro versiones document-local, lineage HP011 exacta, binding de
+ambos documentos, RLS de `p1_readonly` y ACL mínima por columna. La definición live SQL/STABLE/
+SECURITY INVOKER/empty-search-path de `document_local_snapshot_v2` queda pineada por SHA-256 LF
+`19975e3784e0cd12176cbf0b246c4e0ee8a4eed008de7542d0c6d0b6c0f9a82e`.
+
+**Decisión de mecanismo.** El probe v2 conserva `GO_MECHANISM` con **22/22 checks** sobre 13
+QIDs, prefijos byte-idénticos, máximo un append y sólo HP011 seleccionado. Declara la
+aplicabilidad real —12/13 rechazados por lifecycle o idioma— y recorrió **84 GET, 0 llamadas de
+modelo y 0 escrituras de base de datos**. Los caps por scope y combinado, lifecycle, lineage,
+blob/SHA, identidad, duplicados, tampering y formato Markdown fallan cerrados. Receipt:
+`evals/s277_document_local_coverage_probe_v2.json`.
+
+**Cierre adversarial, sin gate-shopping.** Se completaron y adjudicaron cuatro rondas Sol/Fable:
+35 findings, 30 confirmados y resueltos, 5 falsos positivos. No se pidió ni ejecutó una quinta
+ronda. `evals/s277_document_local_coverage_review_packet_v5.md` es un handoff de evidencia, no
+una revisión nueva ni una vía para reabrir el veredicto.
+
+**Decisión de perfil e integridad P1.** `coverage_c1_v1` queda inmutable y mantiene
+document-local off. `coverage_c1_v2` activa atómicamente sus cuatro capacidades más
+`DOCUMENT_LOCAL_COVERAGE`, permite sólo structural + document-local y conserva
+`MUST_PRESERVE_CONTRACT=on`; visuales siguen siendo ortogonales. El guard admite como máximo un
+GET a `/rest/v1/rpc/document_local_snapshot_v2`. Cada réplica v2 exige exactamente una lane trace
+document-local, `status=error` es NO-GO y el recuento semántico debe casar 1:1 con receipts GET.
+`hp011:r1/r2` exigen además un GET, un único ID seleccionado y ese ID en el contexto servido.
+El delta normativo vive en `evals/s277_c1_p1_design_v2.md`,
+`evals/s277_c1_p1_prereg_v2.yaml` y
+`evals/s277_c1_p1_release_config_schema_v2.json`.
+
+**Estado y siguiente paso.** P1 v2 está `PENDING` y no se ha ejecutado. Debe comenzar en un
+artifact root nuevo, con inputs, receipt, credenciales, genesis y fence nuevos: **27/27 réplicas,
+81 llamadas y cap interno de 30 USD**. El run histórico 18/27 permanece diagnóstico y no puede
+completarse con nueve réplicas bajo el árbol nuevo. Incluso un `P1_PASS` no banca facts: el KPI
+sigue **146/154 (94,81 %), gap +5** y exige eval orgánico/fresco u otra familia causal.
+
+**Stop-lines de release y arquitectura futura.** TECH_DEBT #29 no bloquea esta medición P1
+acotada, pero sí bloquea merge/release global hasta una migración forward-only, inventario de
+RLS/grants/policies y smokes. Merge, deploy y canary requieren gates y autorización separados.
+Multi-turn/multi-hop permanece `NOT_BUILT`; DEC-146 no autoriza DDL conversacional, estado durable,
+hops ni inferencia adicional.
+
+## DEC-147 (S277, 22 jul 2026) — La P1 fresca completa cierra `P1_NO_GO`; se corrige la unidad de medida y el siguiente gate pasa a offline-first
+
+**Resultado autoritativo.** El run `p1-v3-b92ff51-20260722a`, sellado al commit
+`b92ff51e5af180352366158614ca83f7fdfc186d` y tree
+`de347f6add8ae1a5fe9a9514a5d077af8b55b66d`, completó 27/27 réplicas y exactamente 81 llamadas
+por 2,69369748 USD, con cap interno 30 USD y reserva desconocida cero. Railway y Supabase
+registraron cero mutaciones; fence y manifest/fingerprint cerraron estables. `final.json` queda
+como autoridad terminal: `P1_NO_GO / NO_GO_PROTECTED_CONTRACT`, adjudicación aplicada,
+`release_deployed=false`. No existe `P1_PASS`, no cambia el KPI y C1 continúa NO-GO.
+
+**Ledger de la tanda.** Antes de `b92ff51`, tres runs v2 terminaron diagnósticos a 17/27:
+`p1-v2-511bd58-20260722a` (51 llamadas, 1,70976360 USD,
+`NO_GO_PROTECTED_CONTRACT`), `p1-v2-b131464-20260722d` (54, 1,81440744 USD,
+`NO_GO_PRODUCT_DOCUMENT_LOCAL_TARGET`) y `p1-v2-eefc388-20260722a` (54, 1,82350344 USD,
+mismo código). Junto con las 81 llamadas/2,69369748 USD del run final, el subtotal local es
+**8,04137196 USD**, reserva desconocida cero. Este no es necesariamente el gasto completo desde
+la autorización de 100 USD; antes de otra llamada se reconcilian también probes, reviews y runs
+fuera de ese artifact root.
+
+**Corrección de medición.** La adjudicación ciega resolvió 91 ítems semánticos: 62 PASS y
+29 FAIL. Esos ítems no son respuestas ni llamadas. A nivel de respuesta completa hay 10/27
+limpias y 17/27 con al menos un FAIL. El “18/27” citado anteriormente pertenecía al run histórico
+abortado `p1-8c7818cce1174f1ea0538028693ee515` y significaba 18 respuestas persistidas, no 18 PASS.
+Se prohíbe volver a usar “27/27” sin el calificador `generadas` o “62/29” sin el calificador
+`ítems semánticos`.
+
+**Corrección de método.** La sesión dedicó demasiado ciclo a integridad de runner/scorer/fence y
+a iteraciones de prompt antes de ejecutar un preflight barato sobre las 27 respuestas completas.
+El fallo de método queda aceptado: no se compra otra muestra hasta agotar lo que puede decidirse
+offline. Se añade `scripts/s277_c1_p1_offline_counterfactual.py`, que reproduce sólo el borde
+determinista planner→must-preserve→conflict-guard sobre drafts/contextos congelados, deniega
+red/DB y nunca concede crédito de release. Su baseline queda
+`OFFLINE_PREFLIGHT_HOLD`: 27/27 replay byte-exacto, 62/62 PASS y 93/93 checks automáticos
+preservados, 0/29 FAIL corregidos, cero llamadas. Este v1 congela `served_context` y, por tanto,
+no puede corregir honestamente los ≥10 fallos de fuente; su eventual
+`OFFLINE_FROZEN_CONTEXT_PASS` sólo acredita postgeneración sobre un commit limpio y no autoriza
+gasto. Antes de una P1 nueva se debe construir un gate de candidate-context/source receipts
+hash-bound. Reusa provider receipts sólo con request hash idéntico; si cambia embedding/rerank,
+se permite un experimento context-only acotado, preregistrado, contabilizado y sin síntesis, o el
+gate queda HOLD. Después se combina con el oráculo hasta obtener 29/29 corregidos,
+62/62 y 93/93 preservados, sin reviews nuevas pendientes, FAILs ni errores de instrumento.
+Después seguirá siendo obligatoria una P1 autoritativa fresca.
+
+**Límite del instrumento de handoff.** El oracle v1 es WIP de desarrollo: Protocol 3 Sol+Fable
+queda pendiente; todavía no consume un manifest que valide la cadena completa
+`final→result/score→adjudication→receipts`, y `--candidate-adjudication` confía en el operador más
+allá de key/decision/binding. El manifest hash-bound
+`evals/s277_c1_p1_b92ff51_handoff_manifest_v1.json` registra tamaños/hashes de los artefactos
+externos, pero el
+gate vNext debe consumirlo y endurecer cegado/reviewer/packet/bijection. Todo PASS exige commit
+limpio; un working tree dirty queda HOLD.
+
+**Split causal.** Los 29 FAIL no son una sola clase de “synthesis miss”. Parte carece de evidencia
+correcta en el contexto: hp018:r1 mezcla ZXAE/ZXEE por identidad `add` y un `LIMIT` sin orden;
+cat017 no cruza identidades INSPIRE/E10/E15 aún candidatas; hp002 tiene el warning en pool pero no
+lo reserva; cat019 tiene el span activo, pero falla autoridad/lineage/metadata y el serving no
+admite source cards de prosa. El resto sí son omisiones de obligación compuesta, atribución,
+conflicto o cita local sobre fuente ya servida. Por ello se autoriza como dirección técnica —no
+como implementación ya validada— un **Evidence Contract** nuevo, default-off, sin QID/gold en
+runtime, que tipa obligaciones de safety, procedimiento, relación, atribución/conflicto,
+compound y aritmética trazable; reserva evidencia antes del writer y valida cobertura/cita/
+contradicción después. No puede fabricar fuente ausente ni mutar la semántica histórica de
+`coverage_c1_v1/v2`.
+
+**Cambios WIP y versionado.** La rama de handoff no cambia runtime. Contiene regresiones que
+demuestran que una futura política `replace` excluye la familia incorrecta sin romper ZX2e/ZX5e
+y el preflight offline. Tanto activar `replace` como añadir el orden estable
+`source_file,page_number,id` a `content_search` produjeron los rechazos esperados del schema/hash
+sellado y se retiraron antes del commit. Nada fue medido por la P1 `b92ff51`. El próximo
+candidato debe versionar schema/config/prereg e implementation hashes en vez de relajar guards o
+reescribir evidencia histórica. Catálogo INSPIRE, reserva hp002, autoridad/source-card cat019 y
+Evidence Contract permanecen no implementados.
+
+`replace` no queda aprobado globalmente por los controles ZXE: antes de activarlo se exige census
+de todos los umbrellas/aliases con before/after, `doc_map`, no-empty y no-wrong-family, o política
+versionada por clase. El `ORDER BY source_file,page_number,id` sólo resuelve no determinismo;
+selección de revisión activa/autoridad debe preceder al `LIMIT` o usar over-fetch + filtro
+fail-closed.
+
+**Orden decidido.** (1) preservar run/artefactos como baseline; (2) ejecutar el census de
+identidad y resolver la selección authority/lifecycle-first antes del `LIMIT` —o
+over-fetch+filter—; (3) diseñar el contrato vNext, reconciliar `spent_so_far/remaining` antes de
+cualquier llamada y, antes de build/commit de impacto, ejecutar Protocol 3 Sol+Fable y adjudicar
+sus claims; (4) versionar schema/config/prereg/hashes y cerrar fuente/autoridad de hp018, cat017,
+hp002 y cat019 con soluciones genéricas y fail-closed; (5) implementar Evidence Contract bajo
+flag; (6) construir el source/context gate y combinarlo con el oráculo postgeneración sobre un
+commit limpio; si cambia un binding, emitir packet HOLD, adjudicarlo ciegamente y repetir los
+gates —si cambia el request hash, usar antes un piloto context-only acotado y contabilizado o
+quedar HOLD—; (7) sólo con cero REVIEW pendiente y 29/29 + 62/62 + 93/93 crear inputs, receipt,
+credenciales y artifact
+root nuevos y ejecutar otra P1 27/27. La autorización de trabajo/gasto de Alberto sigue
+vigente después de superar los gates y no exige una pregunta nueva, pero antes de cualquier
+llamada hay que reconciliar `spent_so_far/remaining` contra el techo acumulado de 100 USD; cada
+P1 conserva cap 30 USD. El permiso financiero no autoriza DDL live, merge, deploy o canary.
+
+**Alternativas cerradas y alcance.** No se reabre con otro wording el checklist S206, la
+descomposición/multiwriter S216, la sustitución directa por writer frontera, las revisiones
+full-answer S219–221 con regresiones, ni todos los flags must-preserve agotados en DEC-134.
+El marcador sigue 146/154 (94,81 %, gap +5); incluso un futuro `P1_PASS` exige eval
+orgánico/fresco para bankear. Multi-turn/multi-hop continúa separado, `NOT_BUILT`, bajo DEC-136;
+Evidence Contract sólo se diseña como seam reusable del verifier futuro. Handoff reproducible:
+`docs/HANDOFF_P1_B92FF51_2026-07-22.md`.
+
+---
+
+## DEC-148 — s278 (22 jul 2026): gobernanza de release SIMPLIFICADA (decisión de Alberto); se conserva el trabajo s277, se desmonta la obligación procesal
+
+**Decisión (Alberto, explícita: «OK, hazlo» sobre el encuadre propuesto).** El aparato s277 (P1,
+fence, manifests, receipts, adjudicación ciega, oráculo) se CONSERVA como código+artefactos+
+diagnóstico; la OBLIGACIÓN procesal hacia delante se desmonta. Nuevo criterio de cierre de C1:
+(1) fixes de los 29 FAIL (split causal DEC-147) verificados con tests + oráculo offline $0 sobre
+commit limpio (62/62+93/93 + FAILs postgeneración corregidos); (2) UNA pasada de harness pagada
+(~$3) sobre los 13 QIDs como árbitro e2e; (3) lectura humana de Alberto + merge #184 + flip de
+`COVERAGE_RELEASE_PROFILE` en Railway = release. NO se construye el segundo gate
+`CANDIDATE_CONTEXT_SOURCE_RECEIPT_PREFLIGHT`; NO se repite una P1 ceremonial; el ledger se cierra
+de una vez con el dashboard de facturación (pendiente cifra de Alberto; documentado ≈$9,86 de 100).
+
+**Motivo.** Ritmo: el proceso s108→s277 se volvió el cuello (Alberto: «va muy lento», «no tengo
+grip»). El valor del aparato era INFORMACIÓN (17/27 respuestas con fallos reales, fuentes exactas)
+y ya está cobrado; la ceremonia marginal no cambia decisiones en un bot demo sin técnicos
+(DEC-071e: stop-line = tests verdes). Los controles estructurales anti-over-claim que SÍ pagan se
+conservan: eval congelada, verificar-antes-de-declarar (Protocolo 1), dúo Sol+Fable antes de
+cablear decisiones med/alto (Protocolo 3).
+
+**Hallazgo de la revisión de merge (corrige mi claim «#184 es inerte»):** el contrato de
+`release_profiles.py` hace la config actual de Railway (callout+verb_trigger on SIN master/lane)
+IRREPRESENTABLE en producción: default `legacy` → RuntimeError en `validate_config(production=True)`
+(release_profiles.py:119,237-244) y los flags-hoja se rechazan como legacy-overrides con perfil
+explícito (:156). → **mergear #184 ES el flip de release por construcción**. Consecuencia: #183
+(runtime-inert verificado, 0 ficheros src/) se mergea YA; **#184 queda como el PR de trabajo** y su
+merge coincide con el flip Railway al final (§0 del diseño). Railway leído por API (31 vars):
+callout=on, verb_trigger=on, MUST_PRESERVE=on, master/lane ausentes, VISUAL_ASSETS_REGISTRY=on,
+IDENTITY_RESOLVE=on/add.
+
+**Ejecutado s278 (paso 3 del handoff, $0):** census catalog-wide add-vs-replace (845 unidades,
+1.707 queries, offline, verificación adversarial independiente = CONFIRMADO):
+`replace` seguro catálogo-side SALVO umbrella con miembro candidate (FAAST/Dimension = agujero
+silencioso); drops reales = clase-hp018 (ZXe/CAD-150/B500 buenos, RP1r intencional DEC-074b);
+58 aliases gobernados-indetectables (puntuación fuera de `_SEP`); INSPIRE detect()==[] confirmado.
+Los ceros REPLACE_EMPTIES/DROPS_DOC son tautología del instrumento (NO evidencia); doc_map cubre
+861/1014 → harness final sigue siendo el árbitro e2e. Artefactos: `evals/s278_identity_census_*`
++ raíz externa `Technical Bot-s277-artifacts\s278-identity-census\`. 3 filas de DATOS esperan
+adjudicación de Alberto (FAAST candidate-member · ZXR membership MIE-MI-430 · G-100-R
+alias-vs-paraguas); el guard estructural del diseño §1a las hace no-bloqueantes.
+
+**Alternativas descartadas.** Revertir/deshacer el trabajo s277 (destruye traza de migraciones ya
+aplicadas + diagnóstico; no ahorra tiempo — la lentitud era proceso, no código) · rebajar el listón
+a «tests verdes = release» (los 29 FAIL incluyen omisiones de seguridad reales) · saltar ya a
+multi-turn (DEC-136 sigue NOT_BUILT; heredaría el single-turn defectuoso) · perfil `off` o `c1_v1`
+en Railway HOY para poder mergear #184 ya (ambos cambian comportamiento vivo: uno apaga el par
+shippeado s274, el otro enciende master+lane nunca desplegados).
+
+**Siguiente.** Diseño vNext v1 (`evals/s278_vnext_design_v1.md`: replace+guard candidate-member ·
+determinismo/autoridad del LIMIT · INSPIRE + fix detectabilidad 58 aliases · reserva hp002 ·
+cat019 code-side · Evidence Contract default-off) → dúo Protocolo 3 (Sol+Fable, zona-de-dolor) →
+implementación → oráculo/tests → harness → Alberto.
+
+---
+
+## DEC-149 — s278 (22 jul 2026, tarde): vNext IMPLEMENTADO y verificado offline (fases 1-4); suite 2907/0; EC quirúrgico 10/10 réplicas objetivo
+
+**Decisión/resultado.** El diseño `evals/s278_vnext_design_v2.md` (dúo-hardened, DEC-148) queda
+implementado en la rama (`018176b..7564204`) y verificado offline:
+
+- **§1a identidad:** guard candidate-member (`all_members_consumable` en `Catalog.resolve()`) +
+  quarantine-list versionada (`config/identity_quarantine_v1.yaml`, semilla FAAST/ZXR/G-100-R).
+  Census re-run: exactamente 3 unidades ADD_BROADENS→SAME, resto idéntico. Sigue INERTE
+  (policy default `add`); el flip lo gobierna el perfil v3 por validación.
+- **§1b:** `order=source_file.asc,page_number.asc,id.asc` server-side + ventana ×4 + rank de
+  autoridad por `documents.status` (fail-open) en `content_search` Path A y fallback ilike de B.
+  Residual >ventana declarado en docstring; se mide en la pasada e2e.
+- **§7:** perfil `coverage_c1_v3` aditivo (v1/v2 byte-idénticos; `_C1_V2_ENABLED_FLAGS` re-anclado
+  a `[:5]`); 3 flags nuevos profile-owned; v3 exige `IDENTITY_RESOLVE_POLICY=replace` fail-fast.
+- **§3:** `OBLIGATION_WARNING_RESERVE` default-off (máx 1 warning mismo-scope, presupuesto propio
+  pre-cap, detector determinista, fail-open; control hp009 en negativos).
+- **§5 Evidence Contract v1** (`src/rag/evidence_contract.py`, flag `EVIDENCE_CONTRACT`
+  default-off byte-inerte, seam tras conflict_guard, brazo `--with-evidence-contract` del oráculo):
+  tras iteración de precisión/recall (léxico versionado `ec_precision_lexicon_v2`: stopstems de
+  dominio + stem distintivo + frames no-obligacionales + gates de plausibilidad; 4 kinds
+  answer-gated: enum_alternative/limit_pair/limit_method/ui_path; ruta-sujeto del universal;
+  `_apply_struck_ocr` + paridad 7-seg heredada) → **brazo EC cambia EXACTAMENTE las 10 réplicas
+  objetivo (antes 24/27), colateral 0, candidate_fails 0, automatic 93/93; dev-check 14/15 ítems**
+  (hp014:r2#1 Megger = inalcanzable sin heurística frágil, probado con su gemelo en hp003 limpia).
+  Brazo baseline byte-inerte perfecto (27/27, 62/62, 93/93, commit limpio `7564204`).
+  Los 32 REVIEW del brazo EC son inherentes (bytes cambiados ⇒ adjudicación fresca); bajo DEC-148
+  el árbitro es la pasada harness + lectura de Alberto.
+- **§8 seals:** los 89 fallos de suite = 88 drift-guards del runner P1 (fixture autouse re-ancla
+  extraction-sources al blob sellado del receipt, tamper-proof) + 1 convención de migración
+  (BEGIN/COMMIT explícitos retirados de la migración RLS; atomicidad delegada al CLI).
+  **Suite completa asentada: 2907 passed / 6 skipped / 0 failed** (incluye los 4 CRLF históricos,
+  re-anclados). Ítem EC-table: techo real postgen = **15/29** (hp017:r1#2/r3#2 reclasificados a
+  FUENTE contra receipts; corrige el split del handoff §5).
+
+**Motivo.** DEC-148: cerrar los 29 FAIL con lo decidible offline antes de gastar. Método
+offline-first de DEC-147 aplicado sin la ceremonia desmontada.
+
+**Alternativas descartadas en la iteración:** forzar Megger con heurística por-pregunta (rompería
+hp003 o la generalidad; probado empíricamente y descartado) · disparos con tokens genéricos de
+dominio (colateral 13 réplicas) · re-anclar seals relajando hashes (prohibido DEC-147).
+
+**PENDIENTE (declarado):** §2a INSPIRE catálogo (en curso al cierre de esta entrada) · §4
+code-side (identidad de blob canónica + prose source card) — próxima tanda · data-fix 2 docs +
+RLS apply (visto de Alberto) · pasada harness 13 QIDs+hp009/hp010 ~$3 (cifra de ledger de
+Alberto) · 3 filas census (Alberto) · merge #184 = flip de release (Alberto).
+Ref: adjudicación dúo `evals/s278_vnext_duo_r1_adjudication_v1.yaml`; reportes de lanes en
+`Technical Bot-s277-artifacts\s278-fase3-lane-reports\` y oráculo en `...\s278-oracle-runs\`.
+
+---
+
+## DEC-150 — s278 (22 jul 2026, noche): bloque LIVE aplicado por Alberto (RLS #29 + data-fix + RPC v3) + 4 adjudicaciones de catálogo; cat017 convierte en vivo, cat019 sirve el doc con 1 residual de selección
+
+**Decisión/ejecución.** Alberto aplicó en el SQL Editor las 3 migraciones preparadas (el permiso
+de escritura de la tool estaba bloqueado por el clasificador — vía manual, receipts intactos):
+(1) **RLS hardening** (gate #29): post-estado verificado por queries read-only — **13/13 tablas
+public con RLS**, grants de `anon`/`authenticated` sobre `chunks_v2_enunciados` revocados (el
+pre-estado era PEOR que lo documentado: anon tenía TODOS los privilegios incl. DELETE/TRUNCATE),
+EXECUTE de `create_hnsw_index()` revocado; **Advisor: la clase crítica desapareció** (quedan
+INFO rls-no-policy esperados por default-deny + WARNs legacy pre-existentes search_path/extensiones).
+**TECH_DEBT #29 queda CERRABLE** (residual declarado: p1_readonly sin policies → 0 filas).
+(2) **Data-fix cat017/cat019** (patrón DEC-144): 3 docs (`80e1b7d2`, `348c4ec1`, predecessor
+`bc6bdd33`) identity-complete — doc_type='programacion', language='es', lineage `verified`
+contract `explicit_document_ids_v1`. Blast-radius declarado: doc_type NULL es la norma
+(1147/~1171); backfill por-doc, no masivo. (3) **RPC `document_local_snapshot_v3`** (comparación
+de blob CANÓNICA en los DOS sitios SQL) + flip Python `SNAPSHOT_RPC/SCHEMA` a v3 (`3383de6`;
+v2 vivo en DB para los seals P1). Receipts: `evals/s278_live_prestate_receipt_v1.json` + este DEC.
+
+**Adjudicaciones de catálogo (Alberto, 4/4) aplicadas (`fd3b95b`):** FAAST 8100E promovido
+(residual declarado: doc I56 pertenece al duplicado systemsensor no adjudicado) · ZXR += zxr4b/5b ·
+INSPIRE firmware→e10/e15 · **G-100/G-500/G-100-R reestructurado con ground-truth de Alberto**
+(MNDT503=G-100-4/8; MNDT500=G-500-S-32/64; G-100-R*=tarjetas de relé; 3 umbrellas nuevas, 4
+aliases mono-modelo retirados). **Quarantine VACIADA**. Census: 840/845 idénticas, hp018/hp009 PASS.
+
+**Smoke e2e post-bloque (~$0.5, candidato v3+replace):** **cat017 y cat019 sirven su doc objetivo
+POR PRIMERA VEZ** (HOP-138-8ES vía catálogo+data-fix; MC-380-c vía blob canónico v3). Por ítems
+P1: cat017 presenta `.bin`+licencia+CLSS+POL-200 (falta el sub-paso sitio/edificio); cat019 aún
+NO lleva el span exacto «sirenas o módulos de control» — el lane document-local anexó 3 filas pipe
+y la card de prosa es complementaria (solo dispara si la fila ganadora no es pipe-derivable):
+**residual = alcance de SELECCIÓN del span de prosa**, diagnóstico con retrieve-trace offline
+pendiente (el probe sintético no reproduce el seed estructural real).
+
+**QUEDA para release:** (a) tuning de selección cat019-span + sitio/edificio cat017 ($0 + smoke
+barato); (b) pasada final 13 QIDs+controles (~$3); (c) lectura de Alberto → merge #184 + flip
+Railway. Ledger: waived por Alberto (histórico ignorado, decisión suya 22-jul).
+
+---
+
+## DEC-151 — s278 (22 jul 2026, noche): decisión B de Alberto (release RETENIDA) + data-fix v2 + diseño de selección v1 tumbado parcialmente por el dúo
+
+**Decisión (Alberto).** Ante el fork A (release con parciales declarados) vs B (retener hasta la
+ronda estructural del selector), **B**: el overflow por-scope es un defecto sistemático (el lane
+document-local se auto-apaga en manuales grandes de configuración) y no hay deadline real. La
+pasada final y el merge #184 esperan a la ronda.
+
+**Data-fix v2 aplicado (Alberto, SQL Editor) y verificado:** 5 filas más identity-complete —
+HOP-138-8ES sha real (era `backfill:*`), HOP-138-9ES (instalacion) y 4188-1132-ES (guia_rapida)
+completos con lineage single-rev, par MS-416 (programacion) con lineage patrón MC-380. Semántica
+del sha verificada contra el SQL v3 ANTES de escribir (source_pdf_sha256 == extraction_sha de
+chunks; patrón hp011 confirmado). Receipt: `evals/s278_live_poststate_receipt_v2.json`.
+
+**Diseño selection-reach v1 → dúo (Sol 8 + Fable 9): C1 sólida-con-cambios; C2/C3 NO-sólidas.**
+Convergencias críticas (adjudicación `evals/s278_selection_reach_duo_r1_adjudication_v1.yaml`):
+C3 era NO-OP bajo `MAX_NEED_GROUPS=3` y rompía byte-inercia por config de facetas COMPARTIDA
+(4 consumidores, first-match; el oráculo congelado no lo habría visto = falso-GO); C2 escondía
+que el cap real del lane es 1 fila total (cité el patrón hp002/reserve sin su mecanismo de
+presupuesto propio); el cap COMBINADO 64 seguiría matando cat017 (caso 2-docs) tras C1. Además:
+prereg de regla winner-por-faceta obligatorio (anti gold-tuning), census de selección OBLIGATORIO
+(C3 mueve queries por código, no "si el dúo concluye"), control negativo de composición, receipt
+honesto del truncado (RPC no expone totales), sesgo front-of-doc declarado y medible. El falso
+bloqueo RLS de Sol era drift documental (RLS aplicada en DEC-150) — PLAN corregido.
+
+**Siguiente:** diseño v2 con los 11 fixes adjudicados → dúo r2 → build → census+probes $0 →
+smoke ~$0.5 → pasada final ~$3 → lectura de Alberto → merge #184 = release.
+
+---
+
+## DEC-152 — s279/s280 (22-23 jul, sesión nocturna autónoma): ronda selection-reach COMPLETA (build+census+A5'+pasada final) + diseño multi-turn v2 adjudicado; release LISTA PARA LA LECTURA de Alberto
+
+**Modelo operativo estrenado (instrucción de Alberto, 22-jul noche):** Opus 4.8 ejecutó las 7
+lanes de implementación; Fable 5 orquestó/revisó cada diff y corrió los dúos. Autorización de
+$100 de crédito Fable con mandato de optimización — registrada en memoria y aplicada.
+
+**Ronda selection-reach (decisión B) cerrada:**
+- Build I-III (perfil `coverage_c1_v4` + flag `DOCUMENT_LOCAL_SELECTION_V2`, v3 congelado ·
+  facetas v5 solo-lane con validador schema-condicionado y v4 byte-pineado · waterfall
+  work-conserving + plan v5 + trim A5 · vía por-faceta post-composición con attestation portante
+  y presupuesto propio + fix del reused en coverage_runtime).
+- Census fase IV con freeze-contract A1 (fingerprint por par + hash de la función SQL):
+  **adjudicó CONTRA el build** (2 probes NOT_SELECTED) con 3 hallazgos — C1 verificado EN VIVO
+  (cat019: 0→64/81 candidatos), H1 inconsistencia trim↔gate, H0 estratégico (el lane solo alcanza
+  los 3 docs gobernados; 12 QIDs mueren aguas arriba en identidad backfill/lineage → **workstream
+  post-release: campaña de backfill de identidad**, conecta con el activo s83).
+- Enmienda A5' en DOS rondas de dúo (la primera tumbó mi framing «no es calibración» — quedó
+  registrada como CAMBIO POST-PROBE con la alternativa nombrada y el discriminador ex-ante);
+  census v2 (18 queries): cat017 diana elegible y servido bajo vista real; control verboso nuevo
+  cumple pre-registro; **cat019 residual DECLARADO (2 FAILs r1/r2 de 29)** — reglas no aflojadas
+  post-resultado.
+- Verificación: oráculo baseline byte-inerte tras TODO el build (27/27+62/62+93/93) · suite
+  completa **3079/0** · pasada final pagada 15 QIDs (~$3): juez holístico 14 PARCIAL + **1 PASS
+  (hp018 — el fallo emblemático de la P1, ahora con familia correcta + diodo + supervisión y sin
+  «en serie»)**; por ítems P1: hp002 extinción ✓ · hp011 t.A/Abort/Flow ✓ (persiste «ri»
+  alucinado — cola calidad) · hp012 792+LIB-200+España ✓ (US-lado parcial) · hp014 B+/pantalla/
+  32/25 ✓ (Megger fluctúa) · hp017 disclose ✓ · cat017 licencia/CLSS ✓ (.bin/sitio/edificio
+  fluctúan) · cat019 residual confirmado. **Frontera visible: varianza de sub-ítems entre
+  generaciones del writer único** (misma clase que la varianza r1/r2 de la P1).
+
+**Diseño multi-turn s280 v2 ADJUDICADO** (dúo r1: Sol 8 + Fable 7; los 11 fixes incorporados —
+mecanismo físico RPCs SECURITY DEFINER, verifier sin falso-equiv al EC, instrumento propio de
+paridad, RGPD sin escapatoria, YAGNI de tablas, carry-forward migrado, PTB secuencial,
+presupuesto por-lane). **El BUILD de Fases 0-1 arranca tras la lectura matinal de Alberto** —
+esta línea es la traza que supera el `NO_BUILD_AUTHORIZATION` de DEC-136 con decisión humana.
+
+**Para la lectura de Alberto (la adjudicación es suya, DEC-148):** merge #184 + flip Railway
+(checklist diseño §7: `coverage_c1_v4` + `IDENTITY_RESOLVE_POLICY=replace` + retirar flags-hoja)
+= release. Residuales declarados: cat019 ×2 · «ri» hp011 · framing US hp012 · varianza de
+sub-ítems · H0 backfill. Gasto nocturno: pasada ~$3 + 2 smokes ~$1 + ~6 rondas Sol (tokens en
+tally); lado Fable in-session.

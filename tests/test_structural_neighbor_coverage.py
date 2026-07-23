@@ -1,3 +1,4 @@
+import json
 from copy import deepcopy
 
 from src.rag.structural_neighbor_coverage import (
@@ -42,6 +43,7 @@ def test_selects_query_aligned_same_blob_structured_limit_without_runtime_attest
 
     selected, trace = select_structural_neighbors(query, seeds, candidates)
 
+    assert json.loads(json.dumps(selected)) == selected
     assert [row["id"] for row in selected] == ["target"]
     assert selected[0]["retrieval_lane"] == LANE
     assert selected[0]["structured_priority_claims"][0]["value"] == "35"

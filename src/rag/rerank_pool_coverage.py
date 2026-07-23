@@ -5,6 +5,10 @@ at real source rows already paid for by retrieval, restricts them to canonical
 document scope when the product resolver is confident, and appends at most two
 query-aligned complements.  No gold fact, QID, expected value, model endpoint
 or database call is available to the selector.
+
+s278 §3 añade una segunda selección INDEPENDIENTE sobre el mismo pool pagado:
+la reserva obligation-aware de UN chunk-warning (clase hp002), flag
+``OBLIGATION_WARNING_RESERVE``.  Ver ``select_obligation_warning_reserve``.
 """
 from __future__ import annotations
 
@@ -21,6 +25,7 @@ from .evidence_coverage import (
     select_evidence_coverage_cards,
 )
 from .evidence_window import _candidate_windows
+from .mp_lexicon import mandatory_triggers, sentence_spans, trigger_present
 from .query_facets import ROOT as QUERY_ROOT, expand_query_facets
 from .toc_detection import is_toc_page
 
@@ -31,6 +36,44 @@ APPEND_LIMIT = 2
 WINDOW_CHARS = 360
 MIN_ALIGNMENT_TERMS = 6
 QUERY_CONFIG = QUERY_ROOT / "config/retrieval_facets_v4.yaml"
+
+# ───────── s278 §3: reserva obligation-aware de UN chunk-warning (hp002) ─────────
+# Fallo real (hp002:r1, chunk 5b6a3a19 ASD535 p121): la advertencia obligatoria
+# estaba en el pool (#28) y no se sirvió — la puerta de alineación de 6 términos
+# de `_query_card` la dejó fuera (el léxico de un bloque de ADVERTENCIA no
+# comparte términos con la pregunta) y el cap global MAX_APPENDED=4 se consumió
+# antes.  Esta selección NO compite por esos 4 huecos: `post_rerank_coverage`
+# le da un presupuesto PROPIO de 1 fila, fail-open en cualquier duda.
+OBLIGATION_WARNING_LANE = "obligation_warning_reserve_v1"
+OBLIGATION_WARNING_VALIDATION = (
+    "procedural_query_served_document_scope_mandatory_warning_exact_span_v1"
+)
+# Espejo del bound de la card de callout-MANDATORY (s274,
+# MAX_MANDATORY_CALLOUT_CHARS): un bloque de aviso mayor se omite ENTERO,
+# jamás se recorta a media oración.
+MAX_WARNING_RESERVE_CHARS = 600
+# Extensión mínima del léxico MANDATORY cerrado (mp_lexicon, DEC-122/130) para
+# bloques de aviso: "precaución" es cabecera normativa de callout y no está en
+# el léxico de Etapa-1.  Lista versionada en código (sin LLM), formas foldeadas.
+_WARNING_EXTRA_TERMS = ("precaucion", "precauciones")
+_WARNING_GAP_ALNUM = re.compile(r"[A-Za-z0-9]")
+# (s278 §3, calca el estilo de `_SELECTION_INTENT` DEC-101 en generator.py)
+# Detector code-gated DETERMINISTA de pregunta procedimental/diagnóstica sobre
+# la query FOLDEADA (minúsculas, sin acentos).  Conservador a propósito
+# (fail-open: en duda NO se reserva): una pregunta de spec/identificación
+# (hp009 «¿cuál es la resistencia de fin de línea…?») no dispara.
+_OBLIGATION_INTENT = re.compile(
+    r"(\bcomo\s+(se|debo|puedo|hago|realizo|reviso|compruebo)\b"
+    r"|\bpasos\b"
+    r"|\bprocedimiento\w*"
+    r"|\bmantenimiento\b"
+    r"|\bpuesta\s+en\s+(marcha|servicio)\b"
+    r"|\bdiagnost\w+"
+    r"|\baveria\w*"
+    r"|\btroubleshoot\w*"
+    r"|\bcausa\s+(mas\s+)?probable\b"
+    r"|\bhow\s+(do|to|can|should)\b)"
+)
 _STOP = {
     "de", "del", "la", "las", "el", "los", "un", "una", "y", "o",
     "en", "por", "para", "como", "con", "que", "se", "al", "es", "su",
@@ -194,6 +237,8 @@ def select_rerank_pool_coverage(
     query: str,
     retrieval_pool: list[dict[str, Any]],
     reranked: list[dict[str, Any]],
+    *,
+    apply_catalog_scope: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Select at most two complementary exact-source rows from a frozen pool."""
     trace: dict[str, Any] = {
@@ -207,6 +252,7 @@ def select_rerank_pool_coverage(
         "model_calls": 0,
         "database_reads": 0,
         "database_writes": 0,
+        "catalog_scope_applied": apply_catalog_scope,
     }
     if not query.strip() or not retrieval_pool or len(retrieval_pool) > POOL_LIMIT:
         trace["status"] = "not_applicable_or_pool_overflow"
@@ -215,7 +261,11 @@ def select_rerank_pool_coverage(
     bounded = retrieval_pool[:POOL_LIMIT]
     trace["bounded_pool_rows"] = len(bounded)
     reranked_ids = {str(row.get("id") or "") for row in reranked}
-    resolution = resolve_query(query)
+    # The generic retrieval-pool lane retains its governed catalogue scope.
+    # Callers that already hold an exact document/blob authority may disable
+    # this second, redundant source filter so historical catalogue preferences
+    # cannot influence ranking inside that proven boundary.
+    resolution = resolve_query(query) if apply_catalog_scope else {}
     candidates = []
     seen = set()
     location_token_sets: dict[tuple[Any, ...], list[set[str]]] = {}
@@ -401,3 +451,137 @@ def select_rerank_pool_coverage(
         }
     )
     return selected, trace
+
+
+def _is_procedural_diagnostic_query(query: str) -> bool:
+    """Trigger determinista de la reserva (el LLM no decide si aplica)."""
+    return bool(_OBLIGATION_INTENT.search(_fold(query)))
+
+
+def _warning_sentence_triggers(sentence: str) -> list[str]:
+    """Léxico MANDATORY cerrado (reusado de mp_lexicon) + extensión de aviso."""
+    triggers = mandatory_triggers(sentence)
+    folded = _fold(sentence)
+    triggers.extend(
+        term for term in _WARNING_EXTRA_TERMS if trigger_present(term, folded)
+    )
+    return triggers
+
+
+def _warning_span(content: str) -> tuple[int, int, list[str]] | None:
+    """Primer bloque de aviso acotado del chunk, o None.
+
+    Misma mecánica de agrupación que la card de callout-MANDATORY (s274,
+    ``_mandatory_callout_card``): oraciones con gatillo del léxico cerrado,
+    contiguas se mergean cuando el hueco no contiene alfanuméricos, y un grupo
+    mayor que el bound se omite entero — jamás se recorta a media oración.
+    """
+    groups: list[list[int]] = []
+    for start, end in sentence_spans(content):
+        if not _warning_sentence_triggers(content[start:end]):
+            continue
+        if groups and not _WARNING_GAP_ALNUM.search(content[groups[-1][1]:start]):
+            groups[-1][1] = end
+        else:
+            groups.append([start, end])
+    for start, end in groups:
+        if end - start > MAX_WARNING_RESERVE_CHARS:
+            continue
+        return start, end, _warning_sentence_triggers(content[start:end])
+    return None
+
+
+def select_obligation_warning_reserve(
+    query: str,
+    retrieval_pool: list[dict[str, Any]],
+    served_rows: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """s278 §3 (clase hp002): a lo sumo UN chunk-warning del pool ya pagado.
+
+    Determinista y fail-open: solo para pregunta procedimental/diagnóstica
+    (``_OBLIGATION_INTENT``), solo chunks del MISMO documento canónico
+    (``source_file``, la noción de scope de esta lane) que lo YA SERVIDO —
+    jamás cross-family — y solo si el contenido lleva un bloque acotado del
+    léxico MANDATORY.  Cualquier duda => no reservar.  El presupuesto (1 fila
+    FUERA del cap global de 4) y la revalidación exacta contra el pool los
+    aplica ``post_rerank_coverage``.
+    """
+    trace: dict[str, Any] = {
+        "lane": OBLIGATION_WARNING_LANE,
+        "validation": OBLIGATION_WARNING_VALIDATION,
+        "input_pool_rows": len(retrieval_pool),
+        "served_scope_files": 0,
+        "selected_ids": [],
+        "model_calls": 0,
+        "database_reads": 0,
+        "database_writes": 0,
+    }
+    if not query.strip() or not retrieval_pool or len(retrieval_pool) > POOL_LIMIT:
+        trace["status"] = "not_applicable_or_pool_overflow"
+        return [], trace
+    if not _is_procedural_diagnostic_query(query):
+        trace["status"] = "non_procedural_query"
+        return [], trace
+    served_scopes = {
+        str(row.get("source_file") or "")
+        for row in served_rows
+        if str(row.get("source_file") or "")
+    }
+    trace["served_scope_files"] = len(served_scopes)
+    if not served_scopes:
+        trace["status"] = "no_served_document_scope"
+        return [], trace
+    served_ids = {str(row.get("id") or "") for row in served_rows}
+    for pool_rank, source_row in enumerate(retrieval_pool[:POOL_LIMIT]):
+        row_id = str(source_row.get("id") or "")
+        source_file = str(source_row.get("source_file") or "")
+        content = str(source_row.get("content") or "")
+        if (
+            not row_id
+            or row_id in served_ids
+            or not source_file
+            or source_file not in served_scopes
+            or not content
+            or is_toc_page(
+                f"{source_row.get('section_title') or ''}\n\n{content}"
+            )
+        ):
+            continue
+        span = _warning_span(content)
+        if span is None:
+            continue
+        start, end, triggers = span
+        enriched = dict(source_row)
+        enriched.update(
+            {
+                "retrieval_lane": OBLIGATION_WARNING_LANE,
+                "obligation_warning_reserve_validated": True,
+                "obligation_warning_reserve_validation": (
+                    OBLIGATION_WARNING_VALIDATION
+                ),
+                "obligation_warning_pool_rank": pool_rank,
+                # La validación de esta lane ES determinista (intención
+                # procedimental + scope de documento servido + léxico
+                # MANDATORY): la clase de seguridad sustituye a la alineación
+                # por facetas de query (punto ciego medido en hp002:r1).
+                "local_semantic_validated": True,
+                "coverage_cards": [
+                    {
+                        "candidate_id": row_id,
+                        "candidate_rank": 1,
+                        "start": start,
+                        "end": end,
+                        "quote": content[start:end],
+                        "facet": "mandatory_warning",
+                        "mandatory_warning": True,
+                        "warning_term_hits": sorted(set(triggers)),
+                        "exact_source_span_validated": True,
+                    }
+                ],
+            }
+        )
+        trace["status"] = "selected"
+        trace["selected_ids"] = [row_id]
+        return [enriched], trace
+    trace["status"] = "no_warning_in_served_scope"
+    return [], trace

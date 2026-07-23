@@ -1,0 +1,1989 @@
+from __future__ import annotations
+
+import copy
+import inspect
+import json
+from typing import Any
+
+import httpx
+import pytest
+
+from src.rag import document_local_coverage as document_local
+from src.rag.document_local_coverage import (
+    CANDIDATE_LIMIT,
+    DOCUMENT_ROWS_LIMIT,
+    LANE,
+    MAX_HTTP_REQUESTS,
+    TIMEOUT_SECONDS,
+    TOTAL_CANDIDATE_LIMIT,
+    VALIDATION,
+    fetch_document_local_candidates,
+    resolve_authoritative_documents,
+    select_document_local_coverage,
+)
+from src.rag.post_rerank_coverage import (
+    DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR,
+    append_validated_coverage,
+    apply_post_rerank_coverage_with_trace,
+    coverage_context_content,
+    has_exact_served_coverage_receipt,
+    is_validated_coverage_chunk,
+)
+from src.rag.structural_neighbor_coverage import LANE as STRUCTURAL_LANE
+
+
+OLD_SHA = "a" * 64
+ACTIVE_SHA = "b" * 64
+OLD_DOCUMENT = "doc-v04"
+ACTIVE_DOCUMENT = "doc-v07"
+LINEAGE_ID = "8a1fafce-d9a7-51da-bd2a-c0ca9fdd0429"
+SECOND_LINEAGE_ID = "2c9cb13a-0f66-55e4-85cd-1bfa125381b4"
+SOURCE_FILE = "manual-control-revisiones"
+QUESTION = (
+    "Tras descargar la extincion el panel no vuelve al estado normal despues "
+    "de rearmar, que condicion y temporizador debo comprobar?"
+)
+
+
+def _json_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value,
+        ensure_ascii=False,
+        allow_nan=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+
+
+def _document_rows() -> list[dict[str, Any]]:
+    common = {
+        "revision_lineage_id": LINEAGE_ID,
+        "document_family": "manual control extincion",
+        "language": "es",
+        "doc_type": "usuario",
+        "manufacturer": "Fabricante Control",
+        "product_model": "Panel-X",
+    }
+    return [
+        {
+            **common,
+            "id": OLD_DOCUMENT,
+            "revision": "v.04",
+            "revision_date": "2013-11-01",
+            "source_pdf_filename": SOURCE_FILE,
+            "source_pdf_sha256": OLD_SHA,
+            "status": "superseded",
+            "supersedes_id": None,
+            "superseded_by_id": ACTIVE_DOCUMENT,
+        },
+        {
+            **common,
+            "id": ACTIVE_DOCUMENT,
+            "revision": "v.07",
+            "revision_date": "2018-05-01",
+            "source_pdf_filename": SOURCE_FILE,
+            "source_pdf_sha256": ACTIVE_SHA,
+            "status": "active",
+            "supersedes_id": OLD_DOCUMENT,
+            "superseded_by_id": None,
+        },
+    ]
+
+
+def _scope(*, extraction_sha256: str = ACTIVE_SHA) -> dict[str, str]:
+    return {
+        "document_id": ACTIVE_DOCUMENT,
+        "extraction_sha256": extraction_sha256,
+        "source_file": SOURCE_FILE,
+        "manufacturer": "Fabricante Control",
+        "product_model": "Panel-X",
+    }
+
+
+def _authority() -> dict[str, str]:
+    return {
+        "document_id": ACTIVE_DOCUMENT,
+        "revision_lineage_id": LINEAGE_ID,
+        "extraction_sha256": ACTIVE_SHA,
+        "source_file": SOURCE_FILE,
+        "language": "es",
+        "revision": "v.07",
+    }
+
+
+def _snapshot_payload(
+    *,
+    document_rows: list[dict[str, Any]] | None = None,
+    candidates: list[dict[str, Any]] | None = None,
+    rejections: list[dict[str, Any]] | None = None,
+    overflow: bool = False,
+    authority: bool = True,
+) -> dict[str, Any]:
+    family = [
+        {**copy.deepcopy(row), "scope_rank": 1}
+        for row in (document_rows if document_rows is not None else _document_rows())
+    ]
+    raw_candidates = []
+    for rank, row in enumerate(candidates or [], 1):
+        raw_candidates.append(
+            {
+                **copy.deepcopy(row),
+                "authority_scope_rank": 1,
+                "snapshot_candidate_rank": rank,
+            }
+        )
+    authorities = []
+    if authority:
+        authorities.append(
+            {
+                "scope_rank": 1,
+                **_authority(),
+                "family_rows": len(family),
+            }
+        )
+    return {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": authorities,
+        "document_rows": family,
+        "candidates": raw_candidates,
+        "rejections": copy.deepcopy(rejections or []),
+        "family_rows_read": len(family),
+        "candidate_rows": len(raw_candidates),
+        "candidate_overflow_scopes": [1] if overflow else [],
+    }
+
+
+def _anchor(row_id: str = "anchor") -> dict[str, Any]:
+    content = "Rearme y temporizador de extincion del Panel-X."
+    return {
+        "id": row_id,
+        "document_id": ACTIVE_DOCUMENT,
+        "extraction_sha256": ACTIVE_SHA,
+        "chunk_index": 76,
+        "content": content,
+        "source_file": SOURCE_FILE,
+        "manufacturer": "Fabricante Control",
+        "product_model": "Panel-X",
+        "language": "es",
+        "duplicate_of": None,
+        "retrieval_lane": STRUCTURAL_LANE,
+        "structural_neighbor_validated": True,
+        "local_semantic_validated": True,
+        "coverage_cards": [
+            {
+                "candidate_id": row_id,
+                "candidate_rank": 1,
+                "start": 0,
+                "end": len(content),
+                "quote": content,
+                "facet": "timing_state",
+                "exact_source_span_validated": True,
+            }
+        ],
+    }
+
+
+def _source_contract_anchor(
+    row_id: str = "source-contract-anchor",
+) -> dict[str, Any]:
+    row = _anchor(row_id)
+    row.pop("retrieval_lane")
+    row.pop("structural_neighbor_validated")
+    row["document_local_anchor_route"] = DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR
+    return row
+
+
+def _logical_candidate(
+    row_id: str = "document-local-target",
+    *,
+    duplicate_of: str | None = None,
+) -> dict[str, Any]:
+    content = (
+        "| Parametro | Significado |\n"
+        "| --- | --- |\n"
+        "| r.I | Rearme inhibido tras extincion: -- hasta finalizar la "
+        "extincion o agotar t.A; 00 permite rearmar en cualquier momento "
+        "(por defecto); de 01 a 30 inhibe durante ese intervalo en minutos. |\n"
+        "\nCola no relacionada que no debe entrar en la vista servida."
+    )
+    row_start = content.index("| r.I")
+    clipped_end = content.index("hasta") + len("hasta")
+    return {
+        "id": row_id,
+        "document_id": ACTIVE_DOCUMENT,
+        "extraction_sha256": ACTIVE_SHA,
+        "chunk_index": 82,
+        "content": content,
+        "context": "",
+        "section_title": "Opciones de rearme",
+        "document_family": "manual control extincion",
+        "product_model": "Panel-X",
+        "language": "es",
+        "source_file": SOURCE_FILE,
+        "page_number": 63,
+        "duplicate_of": duplicate_of,
+        "manufacturer": "Fabricante Control",
+        "doc_type": "usuario",
+        "document_status": "active",
+        "document_revision": "v.07",
+        "document_revision_lineage_id": LINEAGE_ID,
+        "document_local_candidate_rank": 0,
+        "document_local_authority_document_id": ACTIVE_DOCUMENT,
+        "document_local_authority_extraction_sha256": ACTIVE_SHA,
+        "document_local_authority_source_file": SOURCE_FILE,
+        "document_local_authority_revision_lineage_id": LINEAGE_ID,
+        "document_local_authority_document_family": "manual control extincion",
+        "document_local_authority_language": "es",
+        "document_local_authority_doc_type": "usuario",
+        "document_local_authority_manufacturer": "Fabricante Control",
+        "document_local_authority_product_model": "Panel-X",
+        "coverage_cards": [
+            {
+                "candidate_id": row_id,
+                "candidate_rank": 1,
+                "start": row_start,
+                "end": clipped_end,
+                "quote": content[row_start:clipped_end],
+                "facet": "timing_state",
+                "exact_source_span_validated": True,
+            }
+        ],
+        "coverage_card_facets": ["timing_state"],
+        "local_semantic_validated": True,
+    }
+
+
+def _stamped_document_local(
+    content: str,
+    start: int,
+    end: int,
+    *,
+    row_id: str = "document-local-record",
+) -> dict[str, Any]:
+    row = _logical_candidate(row_id)
+    row.update(
+        {
+            "content": content,
+            "coverage_cards": [
+                {
+                    "candidate_id": row_id,
+                    "candidate_rank": 1,
+                    "start": start,
+                    "end": end,
+                    "quote": content[start:end],
+                    "facet": "timing_state",
+                    "exact_source_span_validated": True,
+                }
+            ],
+            "retrieval_lane": LANE,
+            "document_local_coverage_validated": True,
+            "document_local_coverage_validation": VALIDATION,
+            "document_local_coverage_rank": 1,
+        }
+    )
+    return row
+
+
+class _Response:
+    def __init__(self, payload: Any):
+        self._payload = payload
+
+    def raise_for_status(self) -> None:
+        return None
+
+    def json(self) -> Any:
+        return copy.deepcopy(self._payload)
+
+
+class _GetOnlyClient:
+    """Deliberately exposes no POST/PATCH/PUT/DELETE methods."""
+
+    def __init__(self, payloads: list[Any]):
+        self.payloads = list(payloads)
+        self.calls: list[tuple[str, dict[str, Any]]] = []
+
+    def get(self, url: str, **kwargs: Any) -> _Response:
+        self.calls.append((url, copy.deepcopy(kwargs)))
+        if not self.payloads:
+            raise AssertionError("unexpected extra GET")
+        return _Response(self.payloads.pop(0))
+
+
+def _configure_live_read_globals(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        document_local, "SUPABASE_URL", "https://project-ref.supabase.co"
+    )
+    monkeypatch.setattr(document_local, "SUPABASE_SERVICE_KEY", "test-only-key")
+
+
+# ---------------------------------------------------------------------------
+# Lifecycle authority: status and reciprocal pointers, never latest-wins.
+# ---------------------------------------------------------------------------
+
+
+def test_resolver_accepts_reciprocal_v07_over_v04_lifecycle() -> None:
+    authorities, reason = resolve_authoritative_documents(
+        _document_rows(), [_scope()]
+    )
+
+    assert reason == "ok"
+    assert authorities == [_authority()]
+
+
+def test_resolver_rejects_two_active_revisions() -> None:
+    rows = _document_rows()
+    rows[0]["status"] = "active"
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert authorities == []
+    assert reason == "ambiguous_active_revision"
+
+
+def test_resolver_rejects_nonreciprocal_revision_pointer() -> None:
+    rows = _document_rows()
+    rows[0]["superseded_by_id"] = None
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert authorities == []
+    assert reason == "nonreciprocal_revision_chain"
+
+
+def test_resolver_rejects_anchor_extraction_sha_mismatch() -> None:
+    authorities, reason = resolve_authoritative_documents(
+        _document_rows(), [_scope(extraction_sha256="c" * 64)]
+    )
+
+    assert authorities == []
+    assert reason == "active_revision_not_bound_to_anchor_blob"
+
+
+def test_resolver_rejects_disconnected_second_active_in_same_lineage() -> None:
+    rows = _document_rows()
+    rows.append(
+        {
+            **copy.deepcopy(rows[-1]),
+            "id": "disconnected-active",
+            "revision": "v.08",
+            "source_pdf_sha256": "c" * 64,
+            "supersedes_id": None,
+        }
+    )
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert authorities == []
+    assert reason == "incomplete_revision_chain"
+
+
+def test_resolver_accepts_complete_three_revision_chain() -> None:
+    rows = _document_rows()
+    middle = {
+        **copy.deepcopy(rows[0]),
+        "id": "doc-v06",
+        "revision": "v.06",
+        "source_pdf_sha256": "c" * 64,
+        "supersedes_id": OLD_DOCUMENT,
+        "superseded_by_id": ACTIVE_DOCUMENT,
+    }
+    rows[0]["superseded_by_id"] = middle["id"]
+    rows[1]["supersedes_id"] = middle["id"]
+    rows.insert(1, middle)
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert reason == "ok"
+    assert authorities == [_authority()]
+
+
+# ---------------------------------------------------------------------------
+# GET-only fetch and global safety bounds.
+# ---------------------------------------------------------------------------
+
+
+def test_fetcher_uses_only_get_and_exact_authority_scope(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    source_row = _logical_candidate()
+    client = _GetOnlyClient([_snapshot_payload(candidates=[source_row])])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert [row["id"] for row in candidates] == [source_row["id"]]
+    assert authorities == [_authority()]
+    assert trace["status"] == "fetched"
+    assert trace["http_requests"] == len(client.calls) == 1
+    assert trace["model_calls"] == trace["database_writes"] == 0
+    assert not any(
+        hasattr(client, method) for method in ("post", "patch", "put", "delete")
+    )
+
+    snapshot_url, snapshot_call = client.calls[0]
+    # s278 flip a v3 (DEC-150): el fetcher de runtime llama al RPC canónico v3;
+    # los seals históricos del P1 siguen pineando el SQL v2 (vivo en DB).
+    assert snapshot_url == (
+        "https://project-ref.supabase.co/rest/v1/rpc/document_local_snapshot_v3"
+    )
+    assert set(snapshot_call) == {"headers", "params", "timeout"}
+    params = snapshot_call["params"]
+    assert json.loads(params["anchor_scopes"]) == [
+        {
+            "document_id": ACTIVE_DOCUMENT,
+            "extraction_sha256": ACTIVE_SHA,
+            "source_file": SOURCE_FILE,
+        }
+    ]
+    assert params["fts_query"]
+    assert params["family_limit"] == str(DOCUMENT_ROWS_LIMIT)
+    assert params["candidate_limit"] == str(CANDIDATE_LIMIT)
+    assert source_row["id"] not in json.dumps(params, sort_keys=True)
+
+
+def test_fetcher_accepts_exact_blob_seed_from_governed_source_contract(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    source_row = _logical_candidate()
+    source_contract_anchor = _source_contract_anchor()
+    client = _GetOnlyClient([_snapshot_payload(candidates=[source_row])])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION,
+        [source_contract_anchor],
+        client=client,
+    )
+
+    assert [row["id"] for row in candidates] == [source_row["id"]]
+    assert authorities == [_authority()]
+    assert trace["status"] == "fetched"
+    assert trace["seed_scope_count"] == 1
+    assert trace["seed_sources"] == {DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR: 1}
+    assert trace["seed_scopes_truncated"] is False
+    assert trace["http_requests"] == len(client.calls) == 1
+    assert json.loads(client.calls[0][1]["params"]["anchor_scopes"]) == [
+        {
+            "document_id": ACTIVE_DOCUMENT,
+            "extraction_sha256": ACTIVE_SHA,
+            "source_file": SOURCE_FILE,
+        }
+    ]
+
+
+@pytest.mark.parametrize(
+    "reason",
+    [
+        "unverified_document_lineage",
+        "active_revision_not_bound_to_anchor_blob",
+        "ambiguous_active_revision",
+    ],
+)
+def test_governed_source_contract_seed_fails_closed_on_rpc_authority_rejection(
+    monkeypatch: pytest.MonkeyPatch,
+    reason: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    payload = _snapshot_payload(
+        document_rows=[],
+        authority=False,
+        rejections=[{"scope_rank": 1, "reason": reason}],
+    )
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION,
+        [_source_contract_anchor()],
+        client=client,
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == reason
+    assert trace["authority_rejections"] == [reason]
+    assert trace["seed_sources"] == {DOCUMENT_LOCAL_SOURCE_CONTRACT_ANCHOR: 1}
+    assert trace["http_requests"] == len(client.calls) == 1
+
+
+def test_fetcher_enforces_one_global_http_request_cap(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    client = _GetOnlyClient([])
+
+    with pytest.raises(RuntimeError, match="unsafe document-local read budget"):
+        fetch_document_local_candidates(
+            QUESTION,
+            [_anchor()],
+            client=client,
+            max_http_requests=2,
+        )
+
+    assert len(client.calls) == 0
+    assert MAX_HTTP_REQUESTS == 1
+
+
+def test_fetcher_fails_closed_on_document_scope_overflow(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    rows = [
+        {**copy.deepcopy(_document_rows()[0]), "id": f"doc-{index}"}
+        for index in range(DOCUMENT_ROWS_LIMIT + 1)
+    ]
+    client = _GetOnlyClient(
+        [
+            _snapshot_payload(
+                document_rows=rows,
+                authority=False,
+                rejections=[
+                    {"scope_rank": 1, "reason": "document_scope_overflow"}
+                ],
+            )
+        ]
+    )
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == "document_scope_overflow"
+    assert trace["overflow"] is True
+    assert len(client.calls) == 1
+
+
+def test_fetcher_fails_closed_on_candidate_overflow(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    rows = [
+        _logical_candidate(f"candidate-{index}")
+        for index in range(CANDIDATE_LIMIT + 1)
+    ]
+    client = _GetOnlyClient(
+        [_snapshot_payload(candidates=rows, overflow=True)]
+    )
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == "candidate_cap_exceeded"
+    assert trace["overflow"] is True
+    assert trace["fts_candidate_rows"] == CANDIDATE_LIMIT + 1
+    assert len(client.calls) == 1
+
+
+@pytest.mark.parametrize(
+    ("field", "bad_value"),
+    [
+        ("document_id", "other-document"),
+        ("document_revision_lineage_id", SECOND_LINEAGE_ID),
+        ("extraction_sha256", "d" * 64),
+        ("source_file", "other-source"),
+        ("duplicate_of", "canonical-id"),
+    ],
+)
+def test_fetcher_revalidates_every_candidate_scope_field(
+    monkeypatch: pytest.MonkeyPatch,
+    field: str,
+    bad_value: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    row = _logical_candidate()
+    row[field] = bad_value
+    client = _GetOnlyClient([_snapshot_payload(candidates=[row])])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == "candidate_scope_mismatch"
+
+
+@pytest.mark.parametrize("legacy_language", [None, "en"])
+def test_fetcher_uses_authoritative_document_identity_for_legacy_chunk_labels(
+    monkeypatch: pytest.MonkeyPatch,
+    legacy_language: str | None,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    row = _logical_candidate()
+    row["language"] = legacy_language
+    row["doc_type"] = None
+    row["manufacturer"] = "Legacy Manufacturer Label"
+    row["product_model"] = "Panel-X-Legacy"
+    client = _GetOnlyClient([_snapshot_payload(candidates=[row])])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert authorities == [_authority()]
+    assert [candidate["id"] for candidate in candidates] == [row["id"]]
+    assert {
+        field: candidates[0][field]
+        for field in document_local._IDENTITY_FIELDS
+    } == {
+        "document_family": "manual control extincion",
+        "language": "es",
+        "doc_type": "usuario",
+        "manufacturer": "Fabricante Control",
+        "product_model": "Panel-X",
+    }
+    assert all(
+        candidates[0][field]
+        == candidates[0][f"document_local_authority_{field}"]
+        for field in document_local._IDENTITY_FIELDS
+    )
+    assert trace["status"] == "fetched"
+
+
+def test_fetcher_enforces_deadline_before_atomic_read(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    moments = iter((0.0, TIMEOUT_SECONDS + 0.01))
+    monkeypatch.setattr(document_local.time, "monotonic", lambda: next(moments))
+    client = _GetOnlyClient([])
+
+    with pytest.raises(TimeoutError, match="deadline exceeded"):
+        fetch_document_local_candidates(
+            QUESTION, [_anchor()], client=client, timeout_seconds=TIMEOUT_SECONDS
+        )
+
+    assert len(client.calls) == 0
+
+
+def test_fetcher_does_not_retry_transport_timeout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+
+    class TimeoutClient:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def get(self, *_args: Any, **_kwargs: Any) -> Any:
+            self.calls += 1
+            raise httpx.ReadTimeout("bounded read timed out")
+
+    client = TimeoutClient()
+    with pytest.raises(httpx.ReadTimeout, match="bounded read timed out"):
+        fetch_document_local_candidates(QUESTION, [_anchor()], client=client)
+
+    assert client.calls == 1
+
+
+@pytest.mark.parametrize("es_first", [True, False])
+def test_fetcher_rejects_english_scope_without_suppressing_spanish(
+    monkeypatch: pytest.MonkeyPatch,
+    es_first: bool,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    english_sha = "d" * 64
+    english_document = "doc-en"
+    english_file = "manual-en"
+    english_anchor = {
+        **_anchor("anchor-en"),
+        "document_id": english_document,
+        "extraction_sha256": english_sha,
+        "source_file": english_file,
+        "language": "en",
+    }
+    anchors = [_anchor(), english_anchor] if es_first else [english_anchor, _anchor()]
+    es_rank, en_rank = ((1, 2) if es_first else (2, 1))
+    document_rows = [
+        {**copy.deepcopy(row), "scope_rank": es_rank} for row in _document_rows()
+    ]
+    document_rows.append(
+        {
+            **copy.deepcopy(_document_rows()[-1]),
+            "scope_rank": en_rank,
+            "id": english_document,
+            "document_family": "english family",
+            "language": "en",
+            "source_pdf_filename": english_file,
+            "source_pdf_sha256": english_sha,
+            "supersedes_id": None,
+        }
+    )
+    candidate = {
+        **_logical_candidate(),
+        "authority_scope_rank": es_rank,
+        "snapshot_candidate_rank": 1,
+    }
+    payload = {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": [
+            {
+                "scope_rank": es_rank,
+                **_authority(),
+                "family_rows": 2,
+            }
+        ],
+        "document_rows": document_rows,
+        "candidates": [candidate],
+        "rejections": [
+            {"scope_rank": en_rank, "reason": "unsupported_document_language"}
+        ],
+        "family_rows_read": len(document_rows),
+        "candidate_rows": 1,
+        "candidate_overflow_scopes": [],
+    }
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, anchors, client=client
+    )
+
+    assert [row["id"] for row in candidates] == ["document-local-target"]
+    assert authorities == [_authority()]
+    assert trace["status"] == "fetched"
+    assert trace["authority_rejections"] == ["unsupported_document_language"]
+    assert len(client.calls) == 1
+
+
+def test_fetcher_english_only_scope_fails_closed_before_candidates(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    anchor = {
+        **_anchor(),
+        "language": "en",
+    }
+    english_row = {
+        **copy.deepcopy(_document_rows()[-1]),
+        "scope_rank": 1,
+        "language": "en",
+    }
+    payload = {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": [],
+        "document_rows": [english_row],
+        "candidates": [],
+        "rejections": [
+            {"scope_rank": 1, "reason": "unsupported_document_language"}
+        ],
+        "family_rows_read": 1,
+        "candidate_rows": 0,
+        "candidate_overflow_scopes": [],
+    }
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [anchor], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == "unsupported_document_language"
+    assert trace["fts_queries"] == 0
+    assert len(client.calls) == 1
+
+
+def test_fetcher_rejects_tampered_snapshot_envelope(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    payload = _snapshot_payload()
+    payload["schema"] = "document_local_snapshot_v1"
+    client = _GetOnlyClient([payload])
+
+    with pytest.raises(RuntimeError, match="snapshot contract mismatch"):
+        fetch_document_local_candidates(QUESTION, [_anchor()], client=client)
+
+
+def test_fetcher_python_revalidation_rejects_false_rpc_authority(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    rows = _document_rows()
+    rows.append(
+        {
+            **copy.deepcopy(rows[-1]),
+            "id": "disconnected-active",
+            "source_pdf_sha256": "e" * 64,
+            "supersedes_id": None,
+        }
+    )
+    client = _GetOnlyClient([_snapshot_payload(document_rows=rows)])
+
+    with pytest.raises(RuntimeError, match="lifecycle receipt mismatch"):
+        fetch_document_local_candidates(QUESTION, [_anchor()], client=client)
+
+
+@pytest.mark.parametrize(
+    (
+        "first_count",
+        "second_count",
+        "overflow_scopes",
+        "expected_count",
+        "expected_status",
+    ),
+    [
+        (32, 32, [], TOTAL_CANDIDATE_LIMIT, "fetched"),
+        (40, 40, [], 0, "combined_candidate_cap_exceeded"),
+        (CANDIDATE_LIMIT + 1, 1, [1], 1, "fetched"),
+    ],
+)
+def test_fetcher_keeps_valid_scopes_independent_under_candidate_volume(
+    monkeypatch: pytest.MonkeyPatch,
+    first_count: int,
+    second_count: int,
+    overflow_scopes: list[int],
+    expected_count: int,
+    expected_status: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    second_document = "doc-second"
+    second_sha = "e" * 64
+    second_file = "manual-second"
+    second_anchor = {
+        **_anchor("anchor-second"),
+        "document_id": second_document,
+        "extraction_sha256": second_sha,
+        "source_file": second_file,
+        "product_model": "Panel-Y",
+    }
+    second_document_row = {
+        **copy.deepcopy(_document_rows()[-1]),
+        "scope_rank": 2,
+        "id": second_document,
+        "revision_lineage_id": SECOND_LINEAGE_ID,
+        "document_family": "manual second",
+        "product_model": "Panel-Y",
+        "source_pdf_filename": second_file,
+        "source_pdf_sha256": second_sha,
+        "supersedes_id": None,
+    }
+    raw_candidates: list[dict[str, Any]] = []
+    for scope_rank, count in ((1, first_count), (2, second_count)):
+        for candidate_rank in range(1, count + 1):
+            row = _logical_candidate(f"candidate-{scope_rank}-{candidate_rank}")
+            if scope_rank == 2:
+                row.update(
+                    {
+                        "document_id": second_document,
+                        "document_revision_lineage_id": SECOND_LINEAGE_ID,
+                        "document_local_authority_revision_lineage_id": (
+                            SECOND_LINEAGE_ID
+                        ),
+                        "extraction_sha256": second_sha,
+                        "source_file": second_file,
+                        "product_model": "Panel-Y",
+                    }
+                )
+            row.update(
+                {
+                    "authority_scope_rank": scope_rank,
+                    "snapshot_candidate_rank": candidate_rank,
+                }
+            )
+            raw_candidates.append(row)
+    document_rows = [
+        {**copy.deepcopy(row), "scope_rank": 1} for row in _document_rows()
+    ] + [second_document_row]
+    payload = {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": [
+            {"scope_rank": 1, **_authority(), "family_rows": 2},
+            {
+                "scope_rank": 2,
+                "document_id": second_document,
+                "revision_lineage_id": SECOND_LINEAGE_ID,
+                "extraction_sha256": second_sha,
+                "source_file": second_file,
+                "language": "es",
+                "revision": "v.07",
+                "family_rows": 1,
+            },
+        ],
+        "document_rows": document_rows,
+        "candidates": raw_candidates,
+        "rejections": [],
+        "family_rows_read": len(document_rows),
+        "candidate_rows": len(raw_candidates),
+        "candidate_overflow_scopes": overflow_scopes,
+    }
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor(), second_anchor], client=client
+    )
+
+    assert len(candidates) == expected_count
+    assert trace["status"] == expected_status
+    if expected_status == "combined_candidate_cap_exceeded":
+        assert authorities == []
+        assert trace["overflow"] is True
+    elif overflow_scopes:
+        assert {row["document_id"] for row in candidates} == {second_document}
+        assert [row["document_id"] for row in authorities] == [second_document]
+        assert trace["candidate_overflow_scopes"] == [1]
+    else:
+        assert len(authorities) == 2
+
+
+# ---------------------------------------------------------------------------
+# Selector admission, cap-one, dedupe, receipts and generic implementation.
+# ---------------------------------------------------------------------------
+
+
+def test_selector_returns_only_first_ranked_complement(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    first = _logical_candidate("first")
+    second = _logical_candidate("second")
+    monkeypatch.setattr(
+        document_local,
+        "select_rerank_pool_coverage",
+        lambda _query, _candidates, _context, **_kwargs: (
+            [copy.deepcopy(first), copy.deepcopy(second)],
+            {"eligible_rows": 2, "catalog_scope_applied": False},
+        ),
+    )
+
+    selected, trace = select_document_local_coverage(
+        QUESTION, [first, second], [], [_authority()]
+    )
+
+    assert [row["id"] for row in selected] == ["first"]
+    assert selected[0]["retrieval_lane"] == LANE
+    assert selected[0]["document_local_coverage_validated"] is True
+    assert selected[0]["document_local_coverage_validation"] == VALIDATION
+    assert selected[0]["document_local_coverage_rank"] == 1
+    assert trace["eligible_rows"] == 2
+    assert trace["status"] == "selected"
+    assert trace["selected_ids"] == ["first"]
+    assert trace["satisfied_ids"] == ["first"]
+    assert trace["satisfaction_route"] == "coverage_append"
+    assert trace["catalog_scope_applied"] is False
+
+
+def test_selector_rejects_combined_two_scope_pool_before_delegation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    second_authority = {
+        **_authority(),
+        "document_id": "doc-second",
+        "extraction_sha256": "c" * 64,
+        "source_file": "manual-second",
+    }
+    candidates = []
+    for index in range(TOTAL_CANDIDATE_LIMIT + 1):
+        row = _logical_candidate(f"combined-{index}")
+        if index % 2:
+            row.update(
+                {
+                    "document_id": second_authority["document_id"],
+                    "extraction_sha256": second_authority["extraction_sha256"],
+                    "source_file": second_authority["source_file"],
+                    "document_local_authority_document_id": second_authority[
+                        "document_id"
+                    ],
+                    "document_local_authority_extraction_sha256": second_authority[
+                        "extraction_sha256"
+                    ],
+                    "document_local_authority_source_file": second_authority[
+                        "source_file"
+                    ],
+                }
+            )
+        candidates.append(row)
+
+    monkeypatch.setattr(
+        document_local,
+        "select_rerank_pool_coverage",
+        lambda *_args, **_kwargs: pytest.fail("overflow must stop before ranking"),
+    )
+    selected, trace = select_document_local_coverage(
+        QUESTION, candidates, [], [_authority(), second_authority]
+    )
+
+    assert selected == []
+    assert trace["status"] == "combined_candidate_cap_exceeded"
+    assert trace["overflow"] is True
+
+
+def test_selector_does_not_replace_an_already_covered_best_candidate(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    winner = _logical_candidate("winner")
+    weaker = _logical_candidate("weaker")
+    monkeypatch.setattr(
+        document_local,
+        "select_rerank_pool_coverage",
+        lambda _query, _candidates, _context, **_kwargs: (
+            [copy.deepcopy(winner), copy.deepcopy(weaker)],
+            {"eligible_rows": 2, "catalog_scope_applied": False},
+        ),
+    )
+
+    selected, trace = select_document_local_coverage(
+        QUESTION,
+        [winner, weaker],
+        [{"id": "winner"}],
+        [_authority()],
+    )
+
+    assert selected == []
+    assert trace["status"] == "best_candidate_already_covered"
+    assert trace["selected_ids"] == []
+    assert trace["satisfied_ids"] == ["winner"]
+    assert trace["satisfaction_route"] == "already_served"
+
+
+def test_selector_rejects_duplicate_mark_before_semantic_ranking(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    duplicate = _logical_candidate(duplicate_of="canonical-id")
+
+    def forbidden(*_args: Any, **_kwargs: Any) -> Any:
+        raise AssertionError("duplicate row reached semantic ranking")
+
+    monkeypatch.setattr(document_local, "select_rerank_pool_coverage", forbidden)
+
+    selected, trace = select_document_local_coverage(
+        QUESTION, [duplicate], [], [_authority()]
+    )
+
+    assert selected == []
+    assert trace["status"] == "candidate_scope_mismatch"
+
+
+def test_append_rejects_tampered_document_local_exact_span(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    candidate = _logical_candidate()
+    tampered = copy.deepcopy(candidate)
+    tampered["coverage_cards"][0]["quote"] += " inventado"
+    monkeypatch.setattr(
+        document_local,
+        "select_rerank_pool_coverage",
+        lambda _query, _candidates, _context, **_kwargs: (
+            [copy.deepcopy(tampered)],
+            {"eligible_rows": 1, "catalog_scope_applied": False},
+        ),
+    )
+    selected, trace = select_document_local_coverage(
+        QUESTION, [candidate], [], [_authority()]
+    )
+    prefix = [{"id": "prefix", "content": "prefijo"}]
+
+    output = append_validated_coverage(prefix, selected)
+
+    assert trace["status"] == "selected"
+    assert output is prefix
+
+
+def test_append_rejects_tampered_normalized_document_identity() -> None:
+    candidate = _logical_candidate()
+    candidate.update(
+        {
+            "retrieval_lane": LANE,
+            "document_local_coverage_validated": True,
+            "document_local_coverage_validation": VALIDATION,
+            "document_local_coverage_rank": 1,
+        }
+    )
+    candidate["product_model"] = "Panel-X-Legacy"
+    prefix = [{"id": "prefix", "content": "prefijo"}]
+
+    output = append_validated_coverage(prefix, [candidate])
+
+    assert output is prefix
+
+
+def test_document_local_lane_is_generic_and_has_no_model_or_write_dependency() -> None:
+    source = inspect.getsource(document_local).casefold()
+    for forbidden in (
+        "hp011",
+        "475a8f18-7c69-4c7a-8111-45bd67334c96",
+        "hlsi-mn-103",
+        "p63",
+        "anthropic",
+        "openai",
+        ".post(",
+        ".patch(",
+        ".put(",
+        ".delete(",
+    ):
+        assert forbidden not in source
+
+
+# ---------------------------------------------------------------------------
+# Production append seam and exact logical-record serving.
+# ---------------------------------------------------------------------------
+
+
+def test_apply_serves_one_complete_exact_logical_record_and_protects_prefix() -> None:
+    prefix = [{"id": "prefix", "content": "prefijo byte-identico", "score": 0.9}]
+    prefix_before = copy.deepcopy(prefix)
+    prefix_bytes = _json_bytes(prefix)
+    anchor = _anchor()
+    target = _logical_candidate()
+    observed: dict[str, Any] = {}
+
+    def structural_collector(_query: str, _prefix: list[dict]) -> tuple[list[dict], dict]:
+        return [copy.deepcopy(anchor)], {
+            "lane": STRUCTURAL_LANE,
+            "status": "selected",
+            "selected_ids": [anchor["id"]],
+        }
+
+    def document_local_collector(
+        _query: str,
+        anchors: list[dict],
+        covered_context: list[dict],
+    ) -> tuple[list[dict], dict]:
+        observed["anchors"] = [row["id"] for row in anchors]
+        observed["covered"] = [row["id"] for row in covered_context]
+        selected = copy.deepcopy(target)
+        selected.update(
+            {
+                "retrieval_lane": LANE,
+                "document_local_coverage_validated": True,
+                "document_local_coverage_validation": VALIDATION,
+                "document_local_coverage_rank": 1,
+            }
+        )
+        return [selected], {
+            "lane": LANE,
+            "status": "selected",
+            "selected_ids": [selected["id"]],
+            "model_calls": 0,
+            "database_writes": 0,
+        }
+
+    output, trace = apply_post_rerank_coverage_with_trace(
+        QUESTION,
+        prefix,
+        enabled=True,
+        structural_enabled=True,
+        document_local_enabled=True,
+        table_preamble_enabled=False,
+        hyq_enabled=False,
+        pool_enabled=False,
+        cascade_enabled=False,
+        compatibility_enabled=False,
+        structural_collector=structural_collector,
+        document_local_collector=document_local_collector,
+    )
+
+    assert prefix == prefix_before
+    assert _json_bytes(prefix) == prefix_bytes
+    assert _json_bytes(output[: len(prefix)]) == prefix_bytes
+    assert [row["id"] for row in output] == ["prefix", "anchor", target["id"]]
+    assert observed == {
+        "anchors": ["anchor"],
+        "covered": ["prefix", "anchor"],
+    }
+    assert trace["protected_prefix_equal"] is True
+    assert trace["model_calls"] == trace["database_writes"] == 0
+
+    served = output[-1]
+    assert is_validated_coverage_chunk(served) is True
+    assert has_exact_served_coverage_receipt(served) is True
+    view = coverage_context_content(served)
+    assert "Rearme inhibido tras extincion" in view
+    assert "t.A" in view
+    assert "00 permite rearmar en cualquier momento" in view
+    assert "de 01 a 30" in view
+    assert "Cola no relacionada" not in view
+    assert len(view) <= 1800
+
+
+def test_document_local_record_can_start_in_separator_but_serves_only_data_row() -> None:
+    content = (
+        "| Parametro | Significado |\n"
+        "| --- | --- |\n"
+        "| r.I | t.A; 00 libre; 01 a 30 minutos. |\n"
+        "\nCola no relacionada."
+    )
+    start = content.index("| ---")
+    end = content.index("00 libre") + len("00 libre")
+    candidate = _stamped_document_local(content, start, end)
+
+    output = append_validated_coverage([], [candidate])
+
+    assert len(output) == 1
+    served = output[0]
+    assert coverage_context_content(served) == (
+        "| r.I | t.A; 00 libre; 01 a 30 minutos. |"
+    )
+    card = served["served_coverage_cards"][0]
+    assert card["record_kind"] == "markdown_pipe_row_v1"
+    assert card["complete_record_validated"] is True
+    assert has_exact_served_coverage_receipt(served) is True
+    assert coverage_context_content(served, logical_record_expansion=False) == content[
+        start:end
+    ]
+
+
+@pytest.mark.parametrize(
+    "content,start_token,end_token",
+    [
+        (
+            "Parrafo de prosa cuyo final relevante sigue mas alla del recorte.",
+            "Parrafo",
+            "relevante",
+        ),
+        (
+            "| Parametro | Valor |\n| --- | --- |\n",
+            "| ---",
+            "--- |",
+        ),
+        (
+            "<tr><td>r.I</td><td>00 libre y 01 a 30</td></tr>",
+            "<tr>",
+            "00 libre",
+        ),
+        (
+            "| A | uno |\n| B | dos |\n",
+            "| A",
+            "dos |",
+        ),
+        (
+            "| Campo | valor aislado |",
+            "| Campo",
+            "aislado |",
+        ),
+        (
+            "Texto normal\n| --- | --- |\n| Dato | valor |",
+            "| Dato",
+            "valor |",
+        ),
+        (
+            "| A | B | C |\n| --- | --- |\n| uno | dos |",
+            "| uno",
+            "dos |",
+        ),
+    ],
+)
+def test_document_local_record_fails_closed_without_one_provable_pipe_row(
+    content: str,
+    start_token: str,
+    end_token: str,
+) -> None:
+    start = content.index(start_token)
+    end = content.index(end_token) + len(end_token)
+    candidate = _stamped_document_local(content, start, end)
+    prefix = [{"id": "prefix", "content": "estable"}]
+
+    output = append_validated_coverage(prefix, [candidate])
+
+    assert output is prefix
+
+
+def test_document_local_record_rejects_oversized_markdown_row() -> None:
+    content = f"| Campo | {'x' * 1450} |"
+    candidate = _stamped_document_local(content, 0, 20)
+    prefix = [{"id": "prefix", "content": "estable"}]
+
+    assert append_validated_coverage(prefix, [candidate]) is prefix
+
+
+def test_document_local_record_receipt_rejects_tampered_record_bounds() -> None:
+    content = "| Campo | Valor |\n| --- | --- |\n| Clave | valor completo |"
+    start = content.index("| Clave")
+    candidate = _stamped_document_local(content, start, start + 15)
+    served = append_validated_coverage([], [candidate])[0]
+    served["served_coverage_cards"][0]["record_end"] -= 1
+
+    assert has_exact_served_coverage_receipt(served) is False
+
+
+def test_append_seam_caps_document_local_lane_at_one() -> None:
+    prefix = [{"id": "prefix", "content": "prefijo"}]
+    candidates = []
+    for row_id in ("first", "second"):
+        candidate = _logical_candidate(row_id)
+        candidate.update(
+            {
+                "retrieval_lane": LANE,
+                "document_local_coverage_validated": True,
+                "document_local_coverage_validation": VALIDATION,
+                "document_local_coverage_rank": 1,
+            }
+        )
+        candidates.append(candidate)
+
+    output = append_validated_coverage(prefix, candidates)
+
+    assert [row["id"] for row in output] == ["prefix", "first"]
+
+
+# ---------------------------------------------------------------------------
+# s278 §4 — identidad de blob canónica documento<->chunks/doc_map (UN sitio).
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("document_blob", "chunk_blob", "matches"),
+    [
+        ("X.pdf", "X", True),
+        ("X", "X", True),
+        ("X.pdf", "X.pdf", True),
+        ("X-v2.pdf", "X", False),
+        ("X.pdf.pdf", "X", False),
+        ("X.pdf.pdf", "X.pdf", False),
+        ("X.PDF", "X", False),
+        ("X .pdf", "X", False),
+        ("X.pdfX", "X", False),
+        (".pdf", "", False),
+        ("", "", False),
+        ("X.pdf", "Y", False),
+    ],
+)
+def test_blob_identity_match_contract(
+    document_blob: str, chunk_blob: str, matches: bool
+) -> None:
+    assert document_local.blob_identity_match(document_blob, chunk_blob) is matches
+    assert document_local.blob_identity_match(chunk_blob, document_blob) is matches
+
+
+def test_resolver_binds_pdf_document_filename_to_bare_chunk_scope() -> None:
+    rows = _document_rows()
+    for row in rows:
+        row["source_pdf_filename"] = SOURCE_FILE + ".pdf"
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert reason == "ok"
+    assert authorities == [
+        {**_authority(), "source_file": SOURCE_FILE + ".pdf"}
+    ]
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        SOURCE_FILE + "-v2.pdf",
+        SOURCE_FILE + ".pdf.pdf",
+        SOURCE_FILE + ".PDF",
+    ],
+)
+def test_resolver_rejects_adversarial_blob_identity_variants(
+    filename: str,
+) -> None:
+    rows = _document_rows()
+    for row in rows:
+        row["source_pdf_filename"] = filename
+
+    authorities, reason = resolve_authoritative_documents(rows, [_scope()])
+
+    assert authorities == []
+    assert reason == "active_revision_not_bound_to_anchor_blob"
+
+
+def test_fetcher_accepts_canonical_pdf_blob_identity(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Valida el contrato PYTHON de identidad canónica en el fetch (s278 dúo
+    r2, Sol#1 — framing corregido): el payload de este test es sintético y el
+    RPC v2 REAL nunca lo produciría (su comparación de blob y su join de
+    chunks son estrictos en SQL), así que esto NO es un cierre e2e.  El path
+    SQL canónico vive como propuesta NO-aplicada en
+    supabase/migration_proposals/20260722200000_s278_document_local_snapshot_v3_canonical_blob.sql
+    (pendiente de visto junto al data-fix §4)."""
+    _configure_live_read_globals(monkeypatch)
+    pdf_name = SOURCE_FILE + ".pdf"
+    document_rows = _document_rows()
+    for row in document_rows:
+        row["source_pdf_filename"] = pdf_name
+    payload = _snapshot_payload(
+        document_rows=document_rows, candidates=[_logical_candidate()]
+    )
+    payload["authorities"][0]["source_file"] = pdf_name
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert authorities == [{**_authority(), "source_file": pdf_name}]
+    assert candidates[0]["source_file"] == SOURCE_FILE
+    assert candidates[0]["document_local_authority_source_file"] == pdf_name
+
+
+# ---------------------------------------------------------------------------
+# s279 compuertas 1 y 3 — alcance de selección v2 (DOCUMENT_LOCAL_SELECTION_V2).
+# El código nuevo vive detrás del flag profile-owned; flag-off = byte-inerte.
+# ---------------------------------------------------------------------------
+
+# Preguntas REALES del held-out (evals/bot_vs_gold_serving_seam_v1_historical_
+# single_turn_inputs_coverage_c1_v3_k10.yaml), pineadas literalmente para el
+# gate `plan is not None` con el fork v5.
+CAT017_QUESTION = (
+    "¿Como se cablea y se da de alta (configura) un lazo en la central "
+    "Notifier INSPIRE (E10/E15)?"
+)
+CAT019_QUESTION = (
+    "¿Como se configura una maniobra (causa-efecto) completa en la Detnov "
+    "CAD-250: como se crea, como se definen las entradas/eventos que la "
+    "disparan y como se asignan las salidas?"
+)
+
+# Golden capturado con el código de HEAD (perfil ≤v3, flag off) para el fixture
+# representativo `_snapshot_payload(candidates=[_logical_candidate()])` +
+# `_anchor()` + QUESTION.  Byte-igualdad = control del §0 (A11).
+_GOLDEN_OFF_TRACE_JSON = (
+    '{"ambiguous_lineages": 0, "anchor_rows": 1, "authoritative_documents": 1,'
+    ' "database_writes": 0, "document_rows": 2, "eligible_rows": 0,'
+    ' "fts_candidate_rows": 1, "fts_queries": 1, "http_requests": 1, "lane":'
+    ' "document_local_content_coverage_v1", "model_calls": 0, "overflow":'
+    ' false, "query_facets_sha256":'
+    ' "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb",'
+    ' "query_plan_sha256":'
+    ' "ba17bd069dd90b6435604bdb438b189311dcaede53771c79542b333e4286e2e6",'
+    ' "rows_read": 3, "satisfaction_route": null, "satisfied_ids": [],'
+    ' "seed_scope_count": 1, "seed_scopes_sha256":'
+    ' "7c586b697615c9954ad30a1501ca8303471c247d41f0b16f85a104249eecf9e8",'
+    ' "seed_scopes_truncated": false, "seed_sources": {}, "selected_ids": [],'
+    ' "snapshot_authoritative_documents": 1, "snapshot_sha256":'
+    ' "2c93ac41bfca7de25afad30b60188d663a9a770db168c39c79ba3642fbb12a63",'
+    ' "source_scopes_considered": 1, "status": "fetched", "validation":'
+    ' "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1"}'
+)
+
+_V5_SCOPE = {
+    "document_id": ACTIVE_DOCUMENT,
+    "extraction_sha256": ACTIVE_SHA,
+    "source_file": SOURCE_FILE,
+    "manufacturer": "Notifier",
+    "product_model": "INSPIRE E10",
+}
+
+
+def _force_v2(monkeypatch: pytest.MonkeyPatch, enabled: bool) -> None:
+    monkeypatch.setattr(
+        document_local, "_document_local_selection_v2_enabled", lambda: enabled
+    )
+
+
+# ---- Compuerta 3: plan v5 solo-lane, sin tocar el plan v4 flag-off ----------
+
+
+def test_plan_v5_serves_cat017_with_commissioning_need_group(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+
+    assert plan is not None
+    assert plan["config"] == "v5"
+    # Multi-match acotado: el arquetipo primario (first-match) se conserva y
+    # commissioning_setup APORTA su need-group.
+    assert plan["archetype"] == "connect_install_wire"
+    assert plan["archetypes"] == ["connect_install_wire", "commissioning_setup"]
+    commissioning_terms = {"sitio", "edificio", "licencia", "bin", "portal"}
+    commissioning_group = next(
+        group
+        for group in plan["need_groups"]
+        if commissioning_terms & set(group)
+    )
+    # cat017 dispara el trim A5 (709 -> <=480) por-términos, sin perder grupos.
+    assert plan["trim"]["trimmed"] is True
+    assert plan["trim"]["groups_removed"] == []
+    assert len(plan["tsquery"]) <= document_local.MAX_TSQUERY_CHARS
+    # A5' [SUELO]: el grupo commissioning nace con 5 términos (>=N_FACET) y el
+    # suelo impide que el trim lo degrade por debajo de N_FACET — llega al gate
+    # A7 como grupo gate-elegible ([sitio, edificio, licencia]), no como el par
+    # sub-umbral [sitio, edificio] que producía el trim previo.
+    assert len(commissioning_group) >= document_local.NEED_GROUP_GATE_FLOOR
+    assert "licencia" in commissioning_group
+
+
+def test_plan_v5_serves_cat019_real_question(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        CAT019_QUESTION, [_V5_SCOPE]
+    )
+
+    assert plan is not None
+    assert plan["config"] == "v5"
+    assert plan["archetype"] == "program_delay_cause_effect"
+    assert plan["trim"]["trimmed"] is False
+    assert len(plan["tsquery"]) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_plan_v5_need_groups_carry_a_stable_positional_index(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A2/B3: re-invocación local pura -> plan idéntico (mismo sha, mismos
+    # grupos en el mismo orden), lo que fase III necesita para plan_sha256 y la
+    # asignación por-grupo.
+    _force_v2(monkeypatch, True)
+    first = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+    second = document_local.build_document_local_query_plan(
+        CAT017_QUESTION, [_V5_SCOPE]
+    )
+
+    assert first == second
+    assert first["sha256"] == second["sha256"]
+    assert first["need_groups"] == second["need_groups"]
+
+
+# ---- Compuerta 3: trim A5, los TRES bordes (pineados directamente) ----------
+
+
+def test_trim_a5_border1_removes_terms_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [
+        ["x" * 20 + str(i) + chr(97 + j) for j in range(4)] for i in range(3)
+    ]
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, need_groups)
+    ) > document_local.MAX_TSQUERY_CHARS
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["trimmed"] is True
+    assert receipt["terms_removed"]  # some last-terms dropped
+    assert receipt["groups_removed"] == []  # never dropped a whole group
+    assert all(len(group) >= 1 for group in trimmed)
+    assert len(trimmed) == len(need_groups)
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, trimmed)
+    ) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_trim_a5_border2_drops_whole_groups_from_the_last(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [
+        ["y" * 40 + str(i) + chr(97 + j) for j in range(2)] for i in range(4)
+    ]
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"], receipt
+    # Phase 1 first collapsed every group to one term; phase 2 then removed the
+    # tail group(s).  Group indices removed come from the END.
+    assert receipt["groups_removed"][0]["group_index"] == len(need_groups) - 1
+    assert len(trimmed) < len(need_groups)
+    assert all(len(group) == 1 for group in trimmed)
+    assert len(
+        document_local._compose_document_local_tsquery(anchors, trimmed)
+    ) <= document_local.MAX_TSQUERY_CHARS
+
+
+def test_trim_a5_border3_base_over_bound_returns_none(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    anchors = ["aa", "bb"]
+    need_groups = [["z" * 500]]  # a single, irreducible, over-long term
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is None
+    assert receipt["blocked"] == "base_exceeds_tsquery_bound"
+
+
+# ---- A5' [SUELO]: el suelo por-grupo del trim (cambio de diseño POST-census) --
+
+
+def test_a5prime_floor_equals_gate_n_facet() -> None:
+    # El suelo de un grupo gate-elegible ES el umbral del gate A7 (coherencia
+    # A5<->A7); el test de sincronía impide que las dos constantes deriven.
+    from src.rag.post_rerank_coverage import N_FACET
+
+    assert document_local.NEED_GROUP_GATE_FLOOR == N_FACET
+
+
+def test_trim_a5prime_floor_holds_gate_eligible_group_in_phase1(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # cat017-clase (suelo sostenido en fase 1).  Cuatro grupos gate-elegibles
+    # (6,6,6,5 términos pre-trim; suelo=N_FACET=3).  El round-robin desde el
+    # ÚLTIMO grupo llevaría al grupo final por debajo de 3 SIN el suelo (a 2, como
+    # el trim previo); con el suelo se para en 3 y el exceso lo absorbe un grupo
+    # aún por encima de su suelo.  groups_removed vacío = solo fase 1.
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"t{i}{j}".ljust(9, "z")[:9] for j in range(n)]
+        for i, n in enumerate((6, 6, 6, 5))
+    ]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, need_groups))
+        > document_local.MAX_TSQUERY_CHARS
+    )
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["trimmed"] is True
+    assert receipt["groups_removed"] == []  # phase 1 only, no whole-group drop
+    # El suelo se sostiene: NINGÚN grupo gate-elegible cae por debajo de N_FACET.
+    assert all(
+        len(group) >= document_local.NEED_GROUP_GATE_FLOOR for group in trimmed
+    )
+    # El grupo final se PINEA en el suelo (3), no en 2 como haría el trim previo.
+    assert len(trimmed[-1]) == document_local.NEED_GROUP_GATE_FLOOR
+    assert [len(group) for group in trimmed] == [4, 4, 3, 3]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
+
+
+def test_trim_a5prime_floor_leaves_small_group_at_one(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Asimetría del suelo: un grupo de 1-2 términos (que A7 ya excluye) conserva
+    # el suelo histórico de 1 y puede colapsar a 1, mientras el grupo
+    # gate-elegible queda intacto por encima de N_FACET.
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"m{i}{j}".ljust(60, "z")[:60] for j in range(n)]
+        for i, n in ((0, 6), (1, 2))
+    ]
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, need_groups))
+        > document_local.MAX_TSQUERY_CHARS
+    )
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"] == []
+    assert len(trimmed[1]) == 1  # small group floored at 1
+    assert len(trimmed[0]) >= document_local.NEED_GROUP_GATE_FLOOR
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
+
+
+def test_trim_a5prime_floor_infeasible_falls_to_phase2(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # cat001-clase (suelo INFACTIBLE => fase 2, testigo del régimen residual).
+    # Con términos tan largos que flooring TODO grupo gate-elegible a N_FACET=3
+    # sigue superando 480, la fase 2 elimina el grupo entero de la cola.  El
+    # invariante: jamás un grupo "zombi" sub-N_FACET; se mata la posición del
+    # arquetipo entero (residual medible, no bloqueante).
+    anchors = ["aa", "bb"]
+    need_groups = [
+        [f"u{i}{j}".ljust(15, "z")[:15] for j in range(4)] for i in range(4)
+    ]
+
+    trimmed, receipt = document_local._trim_document_local_need_groups(
+        anchors, need_groups
+    )
+
+    assert trimmed is not None
+    assert receipt["groups_removed"]  # phase 2 fired
+    assert receipt["groups_removed"][0]["group_index"] == len(need_groups) - 1
+    assert len(trimmed) < len(need_groups)
+    # Ningún zombi: los grupos que sobreviven quedan >= N_FACET (en su suelo).
+    assert all(
+        len(group) >= document_local.NEED_GROUP_GATE_FLOOR for group in trimmed
+    )
+    assert (
+        len(document_local._compose_document_local_tsquery(anchors, trimmed))
+        <= document_local.MAX_TSQUERY_CHARS
+    )
+
+
+def test_plan_v5_returns_none_when_base_exceeds_bound(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A giant single-token query yields anchors whose clause alone blows the
+    # bound: the v5 plan refuses (feeds the visible blocked receipt below).
+    _force_v2(monkeypatch, True)
+    plan = document_local.build_document_local_query_plan(
+        "programar " + "z" * 500 + " maniobra causa efecto", [_V5_SCOPE]
+    )
+    assert plan is None
+
+
+# ---- Compuerta 1: plan None visible (A3) ------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("enabled", "expected_status"),
+    [
+        (True, "blocked_tsquery_unrepresentable"),
+        (False, "no_bounded_query_plan"),
+    ],
+)
+def test_plan_none_receipt_is_visible_only_under_v2(
+    monkeypatch: pytest.MonkeyPatch,
+    enabled: bool,
+    expected_status: str,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, enabled)
+    monkeypatch.setattr(
+        document_local, "build_document_local_query_plan", lambda *_a, **_k: None
+    )
+    client = _GetOnlyClient([])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert candidates == authorities == []
+    assert trace["status"] == expected_status
+    assert len(client.calls) == 0  # the lane never touches the RPC
+
+
+# ---- Compuerta 1: waterfall del truncado combinado (fetch real, flag-on) ----
+
+
+def _second_scope_anchor() -> dict[str, Any]:
+    return {
+        **_anchor("anchor-second"),
+        "document_id": "doc-second",
+        "extraction_sha256": "e" * 64,
+        "source_file": "manual-second",
+        "product_model": "Panel-Y",
+    }
+
+
+def _two_scope_waterfall_payload(
+    first_count: int, second_count: int, overflow_scopes: list[int]
+) -> dict[str, Any]:
+    second_document = "doc-second"
+    second_sha = "e" * 64
+    second_file = "manual-second"
+    second_document_row = {
+        **copy.deepcopy(_document_rows()[-1]),
+        "scope_rank": 2,
+        "id": second_document,
+        "revision_lineage_id": SECOND_LINEAGE_ID,
+        "document_family": "manual second",
+        "product_model": "Panel-Y",
+        "source_pdf_filename": second_file,
+        "source_pdf_sha256": second_sha,
+        "supersedes_id": None,
+    }
+    raw_candidates: list[dict[str, Any]] = []
+    for scope_rank, count in ((1, first_count), (2, second_count)):
+        for candidate_rank in range(1, count + 1):
+            row = _logical_candidate(f"candidate-{scope_rank}-{candidate_rank}")
+            if scope_rank == 2:
+                row.update(
+                    {
+                        "document_id": second_document,
+                        "document_revision_lineage_id": SECOND_LINEAGE_ID,
+                        "document_local_authority_revision_lineage_id": (
+                            SECOND_LINEAGE_ID
+                        ),
+                        "extraction_sha256": second_sha,
+                        "source_file": second_file,
+                        "product_model": "Panel-Y",
+                    }
+                )
+            row.update(
+                {
+                    "authority_scope_rank": scope_rank,
+                    "snapshot_candidate_rank": candidate_rank,
+                }
+            )
+            raw_candidates.append(row)
+    document_rows = [
+        {**copy.deepcopy(row), "scope_rank": 1} for row in _document_rows()
+    ] + [second_document_row]
+    return {
+        "schema": document_local.SNAPSHOT_SCHEMA,
+        "input_status": "ok",
+        "authorities": [
+            {"scope_rank": 1, **_authority(), "family_rows": 2},
+            {
+                "scope_rank": 2,
+                "document_id": second_document,
+                "revision_lineage_id": SECOND_LINEAGE_ID,
+                "extraction_sha256": second_sha,
+                "source_file": second_file,
+                "language": "es",
+                "revision": "v.07",
+                "family_rows": 1,
+            },
+        ],
+        "document_rows": document_rows,
+        "candidates": raw_candidates,
+        "rejections": [],
+        "family_rows_read": len(document_rows),
+        "candidate_rows": len(raw_candidates),
+        "candidate_overflow_scopes": overflow_scopes,
+    }
+
+
+@pytest.mark.parametrize(
+    ("first_count", "second_count", "overflow_scopes", "first_kept", "second_kept"),
+    [
+        # 10+65 (scope-2 overflow) => 10 + 54 (spill of scope-1's slack) = 64.
+        (10, CANDIDATE_LIMIT + 1, [2], 10, 54),
+        # 65+65 (both overflow) => 32 + 32 = 64.
+        (CANDIDATE_LIMIT + 1, CANDIDATE_LIMIT + 1, [1, 2], 32, 32),
+    ],
+)
+def test_waterfall_combined_two_scope_cases(
+    monkeypatch: pytest.MonkeyPatch,
+    first_count: int,
+    second_count: int,
+    overflow_scopes: list[int],
+    first_kept: int,
+    second_kept: int,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, True)
+    payload = _two_scope_waterfall_payload(
+        first_count, second_count, overflow_scopes
+    )
+    client = _GetOnlyClient([payload])
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor(), _second_scope_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert len(candidates) == first_kept + second_kept == TOTAL_CANDIDATE_LIMIT
+    # scope-1 (`manual-control-revisiones`) sorts before scope-2
+    # (`manual-second`), so its unused slack spills forward.
+    by_scope = {
+        entry["scope_rank"]: entry for entry in trace["candidate_waterfall"]
+    }
+    assert by_scope[1]["retained"] == first_kept
+    assert by_scope[2]["retained"] == second_kept
+    assert len(authorities) == 2
+    for rank in overflow_scopes:
+        assert by_scope[rank]["candidate_truncated"] is True
+        assert by_scope[rank]["observed_rows"] == ">=65"
+
+
+def test_waterfall_single_scope_keeps_full_cap_and_declares_truncation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # n=1 => floor(64/1)=64; a synthetic 65-row overflow keeps the first 64 and
+    # the receipt declares the truncation visibly (candidate_truncated:true).
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, True)
+    rows = [
+        _logical_candidate(f"candidate-{index}")
+        for index in range(CANDIDATE_LIMIT + 1)
+    ]
+    client = _GetOnlyClient(
+        [_snapshot_payload(candidates=rows, overflow=True)]
+    )
+
+    candidates, authorities, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    assert trace["status"] == "fetched"
+    assert len(candidates) == CANDIDATE_LIMIT
+    assert [row["document_id"] for row in authorities] == [ACTIVE_DOCUMENT]
+    assert trace["overflow"] is True
+    assert trace["candidate_overflow_scopes"] == [1]
+    assert trace["candidate_truncated"] is True
+    entry = trace["candidate_waterfall"][0]
+    assert entry["candidate_truncated"] is True
+    assert entry["observed_rows"] == ">=65"
+    assert entry["retained"] == CANDIDATE_LIMIT
+    # B4: the fetch receipt also stamps which config served the plan + trim.
+    assert trace["query_plan_config"] == "v5"
+    assert trace["query_plan_trim"]["trimmed"] is False
+
+
+def test_waterfall_overflow_scope_is_no_longer_discarded_whole(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # HEAD flag-off drops an overflowing scope entirely (candidate_cap_exceeded);
+    # under v2 the same single-scope overflow now serves its first 64 rows.
+    _configure_live_read_globals(monkeypatch)
+    rows = [
+        _logical_candidate(f"candidate-{index}")
+        for index in range(CANDIDATE_LIMIT + 1)
+    ]
+    payload = _snapshot_payload(candidates=rows, overflow=True)
+
+    _force_v2(monkeypatch, False)
+    off_candidates, off_authorities, off_trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=_GetOnlyClient([copy.deepcopy(payload)])
+    )
+    assert off_candidates == off_authorities == []
+    assert off_trace["status"] == "candidate_cap_exceeded"
+
+    _force_v2(monkeypatch, True)
+    on_candidates, on_authorities, on_trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=_GetOnlyClient([copy.deepcopy(payload)])
+    )
+    assert len(on_candidates) == CANDIDATE_LIMIT
+    assert on_trace["status"] == "fetched"
+
+
+# ---- §0 [PERFIL-CAPACIDAD]: byte-igualdad flag-off (trace y receipt) ---------
+
+
+def test_v4_plan_receipt_is_byte_identical_when_v2_off(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _force_v2(monkeypatch, False)
+    plan = document_local.build_document_local_query_plan(QUESTION, [_scope()])
+
+    assert set(plan) == {
+        "archetype",
+        "anchor_terms",
+        "need_groups",
+        "fts_config",
+        "query_facets_sha256",
+        "tsquery",
+        "sha256",
+    }
+    # No v5-only key leaks into the flag-off receipt.
+    assert "config" not in plan and "trim" not in plan and "archetypes" not in plan
+    assert plan["archetype"] == "fault_reset_recovery"
+    assert plan["fts_config"] == "spanish_unaccent"
+    assert plan["sha256"] == (
+        "ba17bd069dd90b6435604bdb438b189311dcaede53771c79542b333e4286e2e6"
+    )
+
+
+def test_fetch_trace_is_byte_identical_to_head_when_v2_off(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _configure_live_read_globals(monkeypatch)
+    _force_v2(monkeypatch, False)
+    client = _GetOnlyClient(
+        [_snapshot_payload(candidates=[_logical_candidate()])]
+    )
+
+    _, _, trace = fetch_document_local_candidates(
+        QUESTION, [_anchor()], client=client
+    )
+
+    # Byte-igualdad EXACTA con el trace de HEAD (perfil ≤v3): ni una clave nueva
+    # del alcance de selección v2 (waterfall/trim/config) aparece off.
+    assert (
+        json.dumps(trace, ensure_ascii=False, sort_keys=True)
+        == _GOLDEN_OFF_TRACE_JSON
+    )
