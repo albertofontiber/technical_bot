@@ -527,6 +527,7 @@ def run_e2e_flows(
             ws = update_working_state(ws, resolution, query, answer_excerpt, now, available)
 
         verdicts: list[str] = []
+        diagnosticos: list[str] = []
         for _ in range(judge_k):
             v = judge_fn(
                 question=last.get("query_for_retrieval") or last.get("query", ""),
@@ -540,10 +541,16 @@ def run_e2e_flows(
             cost["judge_input_tokens"] += int(u.get("in") or 0)
             cost["judge_output_tokens"] += int(u.get("out") or 0)
             verdicts.append(str(v.get("veredicto", "?")))
+            diagnosticos.append(str(v.get("diagnostico", ""))[:400])
         report["flow_results"].append({
             "flow": fid, "last_route": last.get("route"),
             "expected_behavior": last.get("expected_behavior"),
             "veredicto": _majority(verdicts), "verdicts": verdicts,
+            # Sin diagnóstico no hay adjudicación posible (lección smoke s281):
+            "diagnosticos": diagnosticos,
+            "rewritten_query": last.get("rewritten_query"),
+            "query_for_retrieval": (last.get("query_for_retrieval") or "")[:300],
+            "answer_excerpt": (last.get("answer") or last.get("clarify_question") or "")[:400],
         })
 
     cost["usd_estimate"] = _usd_estimate(cost)
