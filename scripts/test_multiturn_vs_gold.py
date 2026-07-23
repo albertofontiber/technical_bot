@@ -71,6 +71,10 @@ _COVERAGE_CLASSES = frozenset(
         "codigos_tecnicos",
         "dos_conversaciones_aisladas",
         "clarify_solo_si_diverge",
+        # s281 round-2 hardening (dúo blind spots — adjudicación MT-1a r1):
+        "standalone_autocontenida",       # F1: self-contained Qs with articles -> standalone
+        "compatibilidad_marca",           # F3: brand-compat follow-up (carry-forward / switch)
+        "continuacion_dominio_limitrofe", # F4: in-window continuation past the gas gate
     }
 )
 
@@ -198,17 +202,14 @@ def update_working_state(
     now: datetime,
     available: list[str] | None,
 ) -> WorkingState:
-    """Estado durable tras un turno resuelto. CLARIFY/DECLINE no fijan modelo
-    (el usuario aún no desambiguó)."""
+    """Estado durable tras un turno resuelto. CLARIFY/DECLINE no fijan modelo (el
+    usuario aún no desambiguó) y devuelven el estado previo INTACTO — sin refrescar
+    ``last_turn_at``. Refrescarlo RESUCITARÍA un producto caducado (clarify a 70 min
+    + otro turno colgante lo re-encontraría "en ventana"). Espeja el fix de
+    ``advance_working_state`` en el bot (S99 / sol-S4 + F2) para que prod y eval
+    queden en lock-step."""
     if resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
-        # Conserva el estado previo; solo refresca la marca de tiempo de actividad.
-        return WorkingState(
-            last_target_models=ws.last_target_models,
-            last_query=ws.last_query,
-            last_answer_excerpt=ws.last_answer_excerpt,
-            last_turn_at=now,
-            available_models=tuple(available) if available else ws.available_models,
-        )
+        return ws
     models = tuple(resolution.target_models or ())
     return WorkingState(
         last_target_models=models,
@@ -241,14 +242,18 @@ def _drive_turn_through_orchestrator(
     available_models: tuple[str, ...] | None,
     conversation_id: str,
     update_id: str,
+    adapters: Any | None = None,
 ) -> tuple[str, str]:
-    """Un turno RECUPERADOR por run_conversational_turn (adapters replay, $0).
-    Devuelve (served_query, answer_excerpt). Verifica que el store ENTREGA."""
+    """Un turno RECUPERADOR por run_conversational_turn. Por defecto usa adapters
+    replay ($0, --contract); en --e2e se inyectan adapters REALES (retrieve+rerank+
+    generate de producción). Devuelve (served_query, answer_excerpt). Verifica que
+    el store ENTREGA exactly-once."""
     record: dict[str, Any] = {}
-    adapters = replay_adapters(
-        retrieved=[{"id": "c0", "content": "ctx", "similarity": 0.9}],
-        generate=_recording_generate(record),
-    )
+    if adapters is None:
+        adapters = replay_adapters(
+            retrieved=[{"id": "c0", "content": "ctx", "similarity": 0.9}],
+            generate=_recording_generate(record),
+        )
     req = TurnRequest(
         query=query,
         query_for_retrieval=query_for_retrieval,
@@ -365,7 +370,7 @@ def _print_report(report: dict[str, Any]) -> int:
     print("=" * 66)
     print(f"MT-1b eval — modo {report['mode']}")
     print(f"  flujos={report['flows']}  turnos={report['turns']}  "
-          f"clases={len(report['classes_covered'])}/10")
+          f"clases={len(report['classes_covered'])}/{len(_COVERAGE_CLASSES)}")
     print(f"  clases: {', '.join(report['classes_covered'])}")
     if report["policy_stub"]:
         print("\n  POLICY = STUB (MT-1a pendiente). Aserciones de routing: PENDING.")
@@ -382,39 +387,257 @@ def _print_report(report: dict[str, Any]) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Modo --e2e (DEFINIDO, gateado — no se ejecuta en esta lane)
+# Modo --e2e (REAL, doble-gateado — no se ejecuta pagado en esta lane)
 # ---------------------------------------------------------------------------
 E2E_SPEC = """\
---e2e (DEFINIDO, NO ejecutado en la lane MT-1b — coste API):
+--e2e (REAL, doble-gateado — no se ejecuta pagado en la lane MT-1a):
   Wiring:
-    * rewrite  = rewriter económico source-bound (Sonnet, mandato Alberto 23-jul;
-                 baja de tier SOLO si la eval demuestra paridad). Se inyecta como
-                 RewriteFn en policy.resolve(...) en las rutas REWRITE.
-    * generate = src.rag.generator.generate_answer (real, chunks_v2/Voyage).
-    * juez     = GPT-5.5 K=3 mayoría (freeze DEC-023) sobre la CONDUCTA
-                 conversacional: (a) fidelidad del rewrite (0 entidades
-                 inventadas, códigos verbatim = codes_must_preserve), (b)
-                 expected_behavior (answer|admit_no_info|clarify|refuse-inference)
-                 del último turno, (c) no-fuga de producto entre turnos.
+    * rewrite  = rewriter económico source-bound (make_rewriter, Sonnet; mandato
+                 Alberto 23-jul). Se inyecta como RewriteFn en policy.resolve(...)
+                 en las rutas REWRITE. Cliente Anthropic REAL solo bajo doble gate.
+    * generate = adapters de producción (retrieve+rerank+generate, chunks_v2/Voyage)
+                 conducidos por el ORQUESTADOR (run_conversational_turn).
+    * juez     = GPT-5.5 K=3 mayoría (freeze DEC-023) sobre la CONDUCTA del último
+                 turno: (a) fidelidad del rewrite, (b) expected_behavior
+                 (answer|admit|clarify|refuse-inference), (c) no-fuga de producto.
   Control: el ROUTING ya se asevera determinista y $0 en --contract; --e2e SOLO
-  cubre lo que exige LLM. Se corre una vez, con freeze (corpus+índice+embeddings+
-  juez+seeds+config), y el gasto se estampa en el DEC de cierre de Fase 1.
-  Gate: requiere MT1B_E2E_CONFIRM=1 (no seteado). Sin él, imprime esto y sale.
+  cubre lo que exige LLM. Se corre una vez con freeze (corpus+índice+embeddings+
+  juez+seeds+config) y el coste se ESTAMPA en el YAML de salida + DEC de cierre.
+  DOBLE GATE: requiere MT1B_E2E_CONFIRM=1 Y MT1B_E2E_SPEND_ACK=1. Sin ambos,
+  imprime el spec y sale 0 (cero gasto).
 """
+
+# Coste aproximado por 1M tokens (USD). Placeholders honestos: la corrida pagada de
+# cierre estampa los ACTUALES; aquí solo dan un orden de magnitud del gasto e2e.
+_E2E_PRICES_USD_PER_MTOK = {
+    "generate": {"in": 3.0, "out": 15.0},   # Sonnet tier
+    "judge": {"in": 1.25, "out": 10.0},      # gpt-5.5 (aprox)
+}
+
+
+def _majority(labels: list[str]) -> str:
+    from collections import Counter
+
+    if not labels:
+        return "?"
+    return Counter(labels).most_common(1)[0][0]
+
+
+def _usd_estimate(cost: dict[str, Any]) -> float:
+    g = _E2E_PRICES_USD_PER_MTOK["generate"]
+    j = _E2E_PRICES_USD_PER_MTOK["judge"]
+    return round(
+        (cost["generate_input_tokens"] * g["in"] + cost["generate_output_tokens"] * g["out"]
+         + cost["judge_input_tokens"] * j["in"] + cost["judge_output_tokens"] * j["out"]) / 1e6,
+        4,
+    )
+
+
+def run_e2e_flows(
+    flows: list[dict[str, Any]],
+    *,
+    rewrite: Any,
+    adapters: Any,
+    judge_fn: Any,
+    gold_rows: dict[str, Any] | None = None,
+    judge_k: int = 3,
+    now0: datetime = BASE_TIME,
+) -> dict[str, Any]:
+    """Núcleo del --e2e, TESTEABLE con fakes ($0). Conduce cada flujo con la policy
+    REAL + ``rewrite`` inyectado; los turnos recuperadores cruzan el ORQUESTADOR con
+    ``adapters`` (reales en la corrida pagada, fakes en tests); el último turno se
+    juzga con ``judge_fn`` K veces (mayoría). Acumula y estampa el coste.
+
+    Inyectables (todos fakeables): ``rewrite`` (RewriteFn), ``adapters``
+    (RagServingAdapters), ``judge_fn(question, expected, gold, bot) -> dict`` con
+    claves ``veredicto`` y opcional ``usage={'in','out'}``."""
+    import dataclasses
+
+    policy = default_policy()
+    gold_rows = gold_rows or {}
+    cost: dict[str, Any] = {
+        "rewrite_calls": 0, "generate_calls": 0, "judge_calls": 0,
+        "generate_input_tokens": 0, "generate_output_tokens": 0,
+        "judge_input_tokens": 0, "judge_output_tokens": 0,
+    }
+
+    # Envuelve generate para acumular uso de tokens (real o fake, byte-invariante).
+    _orig_generate = adapters.generate
+
+    def _accruing_generate(*a: Any, **k: Any) -> Any:
+        r = _orig_generate(*a, **k)
+        if isinstance(r, dict):
+            cost["generate_input_tokens"] += int(r.get("input_tokens") or 0)
+            cost["generate_output_tokens"] += int(r.get("output_tokens") or 0)
+        return r
+
+    adapters = dataclasses.replace(adapters, generate=_accruing_generate)
+
+    def _counting_rewrite(q: str, w: WorkingState) -> Any:
+        cost["rewrite_calls"] += 1
+        return rewrite(q, w)
+
+    report: dict[str, Any] = {"mode": "e2e", "flows": len(flows),
+                              "turns": sum(len(f.get("turns") or []) for f in flows),
+                              "flow_results": [], "cost": cost}
+
+    for f in flows:
+        fid = f["flow_id"]
+        clock = ManualClock(start=now0)
+        store = FakeConvoStore(clock=clock)
+        ws = WorkingState()
+        gold_txt = ""
+        for qid in f.get("reuses_golds", []):
+            g = gold_rows.get(qid)
+            if g and g.get("answer"):
+                gold_txt = str(g["answer"]); break
+        last: dict[str, Any] = {}
+        for i, t in enumerate(f["turns"]):
+            clock.advance(int(t.get("advance_seconds", 0)))
+            now = clock.now()
+            query = t["query"]
+            expect = t["expect"]
+            turn_models, available = _detect(query)
+            avail_tuple = tuple(available) if available else None
+            resolution = policy.resolve(
+                query=query, turn_models=turn_models, available_models=available,
+                working_state=ws, now=now, rewrite=_counting_rewrite,
+            )
+            answer = None
+            answer_excerpt = None
+            if resolution.route in _RETRIEVING_ROUTES:
+                _served, answer = _drive_turn_through_orchestrator(
+                    store, query=query,
+                    query_for_retrieval=resolution.query_for_retrieval,
+                    target_models=resolution.target_models,
+                    available_models=resolution.available_models or avail_tuple,
+                    conversation_id=f["conversation"], update_id=f"{fid}-{i}",
+                    adapters=adapters,
+                )
+                cost["generate_calls"] += 1
+                answer_excerpt = answer
+            last = {
+                "turn": t["n"], "route": resolution.route.value, "query": query,
+                "query_for_retrieval": resolution.query_for_retrieval,
+                "rewritten_query": resolution.rewritten_query,
+                "clarify_question": resolution.clarify_question,
+                "decline_reason": resolution.decline_reason,
+                "answer": answer, "expected_behavior": expect.get("expected_behavior"),
+            }
+            ws = update_working_state(ws, resolution, query, answer_excerpt, now, available)
+
+        verdicts: list[str] = []
+        for _ in range(judge_k):
+            v = judge_fn(
+                question=last.get("query_for_retrieval") or last.get("query", ""),
+                expected=last.get("expected_behavior") or "answer",
+                gold=gold_txt,
+                bot=last.get("answer") or last.get("clarify_question")
+                    or last.get("decline_reason") or "",
+            )
+            cost["judge_calls"] += 1
+            u = v.get("usage") or {}
+            cost["judge_input_tokens"] += int(u.get("in") or 0)
+            cost["judge_output_tokens"] += int(u.get("out") or 0)
+            verdicts.append(str(v.get("veredicto", "?")))
+        report["flow_results"].append({
+            "flow": fid, "last_route": last.get("route"),
+            "expected_behavior": last.get("expected_behavior"),
+            "veredicto": _majority(verdicts), "verdicts": verdicts,
+        })
+
+    cost["usd_estimate"] = _usd_estimate(cost)
+    cost["_note"] = ("USD aproximado (placeholders); la corrida de cierre pagada "
+                     "estampa el coste real por-lane en el DEC.")
+    return report
+
+
+def _make_openai_judge() -> Any:
+    """Juez GPT-5.5 real (reusa el patrón de scripts/test_bot_vs_gold.py). Cliente
+    perezoso: no se construye hasta que se llama (solo bajo el doble gate)."""
+    import json as _json
+
+    _sys = (
+        "Eres un evaluador imparcial de un bot técnico de sistemas PCI (detección de "
+        "incendios) en conversación MULTI-TURNO. Juzgas la CONDUCTA del último turno."
+    )
+    _user = (
+        "PREGUNTA (resuelta para recuperación):\n{question}\n\n"
+        "CONDUCTA ESPERADA: {expected}\n"
+        "(answer = responde con contenido; admit = admite que el corpus no lo cubre, "
+        "sin inventar; clarify = pide la variante/modelo ante divergencia real; "
+        "refuse-inference = no infiere lo no documentado)\n\n"
+        "REFERENCIA (gold, si existe):\n{gold}\n\n"
+        "RESPUESTA DEL BOT:\n{bot}\n\n"
+        "Responde SOLO JSON: {{\"conducta_bot\": \"...\", \"veredicto\": "
+        "\"PASS | PARCIAL | FALLO\", \"diagnostico\": \"1-2 frases\"}}"
+    )
+    state: dict[str, Any] = {"client": None}
+
+    def _judge(*, question: str, expected: str, gold: str, bot: str) -> dict[str, Any]:
+        if state["client"] is None:
+            from openai import OpenAI  # local: solo en la corrida pagada
+
+            state["client"] = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        resp = state["client"].chat.completions.create(
+            model="gpt-5.5",
+            messages=[
+                {"role": "system", "content": _sys},
+                {"role": "user", "content": _user.format(
+                    question=question, expected=expected,
+                    gold=(gold or "")[:3000], bot=(bot or "")[:3000])},
+            ],
+        )
+        txt = resp.choices[0].message.content.strip()
+        if txt.startswith("```"):
+            txt = txt.split("```")[1].lstrip("json").strip()
+        usage = getattr(resp, "usage", None)
+        try:
+            out = _json.loads(txt)
+        except Exception as e:
+            out = {"veredicto": "?", "diagnostico": f"(parse error: {e}) {txt[:200]}"}
+        if usage is not None:
+            out["usage"] = {"in": getattr(usage, "prompt_tokens", 0),
+                            "out": getattr(usage, "completion_tokens", 0)}
+        return out
+
+    return _judge
 
 
 def run_e2e() -> int:
     print(E2E_SPEC)
-    if os.getenv("MT1B_E2E_CONFIRM") != "1":
-        print(">> --e2e deshabilitado (MT1B_E2E_CONFIRM!=1). No se gasta API. Salida 0.")
+    # DOBLE GATE: ambos flags deben estar puestos para tocar la API.
+    gate1 = os.getenv("MT1B_E2E_CONFIRM") == "1"
+    gate2 = os.getenv("MT1B_E2E_SPEND_ACK") == "1"
+    if not (gate1 and gate2):
+        print(f">> --e2e deshabilitado (MT1B_E2E_CONFIRM={os.getenv('MT1B_E2E_CONFIRM')!r}, "
+              f"MT1B_E2E_SPEND_ACK={os.getenv('MT1B_E2E_SPEND_ACK')!r}). "
+              "Se requieren AMBOS =1. Cero gasto. Salida 0.")
         return 0
-    # Salvaguarda dura: la lane MT-1b tiene PROHIBIDO gastar API. Aunque el flag
-    # esté puesto, este script NO ejecuta pasadas pagadas — la implementación del
-    # runner e2e (rewrite+generate+juez K=3) es trabajo de la corrida de cierre de
-    # Fase 1, fuera de esta lane.
-    print(">> Runner e2e no implementado en la lane MT-1b (por diseño: $0). "
-          "Impleméntalo en la corrida de cierre de Fase 1 con freeze + estampa de coste.")
-    return 0
+
+    # Ambos gates puestos -> corrida pagada real (fuera de la lane MT-1a).
+    import yaml as _yaml
+
+    from src.orchestrator.adapters import from_production
+    from src.orchestrator.rewriter import make_rewriter
+
+    flows = load_flows()
+    gold_path = ROOT / "evals" / "gold_answers_v1.yaml"
+    gold_rows = {r["qid"]: r for r in _yaml.safe_load(gold_path.read_text(encoding="utf-8"))}
+    rewrite = make_rewriter()  # cliente Anthropic real (lazy) — Sonnet
+    adapters = from_production()
+    judge_fn = _make_openai_judge()
+
+    report = run_e2e_flows(
+        flows, rewrite=rewrite, adapters=adapters, judge_fn=judge_fn, gold_rows=gold_rows,
+    )
+    out_path = ROOT / "evals" / "multiturn_e2e_result_v1.yaml"
+    out_path.write_text(_yaml.safe_dump(report, allow_unicode=True, sort_keys=False),
+                        encoding="utf-8")
+    print(f"\n>> --e2e completado. Coste: {report['cost']}")
+    print(f">> Resultado estampado en {out_path}")
+    fails = [r for r in report["flow_results"] if r["veredicto"] == "FALLO"]
+    return 0 if not fails else 1
 
 
 def main(argv: list[str] | None = None) -> int:

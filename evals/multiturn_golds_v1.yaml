@@ -414,3 +414,194 @@ flows:
           requires_llm_rewrite: false
           expected_behavior: answer
         note: "La RFL es INVARIANTE en la e-series -> se RESPONDE family-genérico; clarify aquí sería un falso clarify (DEC-092: clarify SOLO si diverge)."
+
+  # =========================================================================
+  # s281 round-2 HARDENING (adjudicación dúo focal MT-1a r1). Estos flujos
+  # cubren ceguera del dúo: artículos, resurrección post-clarify, brand-gate,
+  # gate de gas con estado, y demostrativos esos/este. NO tocan los flujos
+  # de arriba (vara existente intacta).
+  # =========================================================================
+
+  # ---- CLASS 7 (extra): resurrección post-clarify-expirado (sol-S4 / F2) ------
+  - flow_id: mt07c_resurreccion_post_clarify
+    clase: carry_forward_1h
+    descripcion: "Tras clarify por ventana expirada, un 2º turno colgante NO resucita el producto: clarify otra vez."
+    conversation: mt07c
+    reuses_golds: [cat014]
+    turns:
+      - n: 1
+        query: "¿Cuál es el MTBF / vida útil esperada del detector de gas DGD-600 de Detnov?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["DGD-600"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cuál es su tensión de alimentación?"
+        advance_seconds: 4200   # 70 min > 3600 -> el estado expira
+        expect:
+          route: clarify
+          must_not_target: ["DGD-600"]
+          requires_llm_rewrite: false
+          clarify_question: true
+        note: "Fuera de ventana: 'su' sin antecedente -> clarify. El estado NO refresca last_turn_at (fix RESURRECCION)."
+      - n: 3
+        query: "¿y su consumo en reposo?"
+        advance_seconds: 120    # poco después del clarify anterior
+        expect:
+          route: clarify
+          must_not_target: ["DGD-600"]
+          requires_llm_rewrite: false
+          clarify_question: true
+        note: "PIN de la RESURRECCION (sol-S4/F2): el clarify previo NO refrescó la marca de tiempo, así que el DGD-600 sigue CADUCADO -> clarify de nuevo, NO carry_forward. Sin el fix, este turno resucitaría el producto."
+
+  # ---- CLASS 11: standalone_autocontenida (artículos NO son dependencia) ------
+  - flow_id: mt11a_standalone_articulos
+    clase: standalone_autocontenida
+    descripcion: "Preguntas autocontenidas CON artículos (la/los/las) y SIN estado -> standalone, no clarify."
+    conversation: mt11a
+    entity_source: "Preguntas de técnico genéricas y autocontenidas (material del probe F1); sin producto explícito -> el detector devuelve []; no reusan spec de gold."
+    turns:
+      - n: 1
+        query: "¿Cómo se silencia la alarma acústica una vez verificada la incidencia?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+        note: "Contiene 'la' pero es autocontenida: sin estado -> standalone (el artículo NO es señal de dependencia). Antes del fix: clarify indebido (F1)."
+      - n: 2
+        query: "¿Qué sección mínima de cable exige la normativa para los lazos de detección?"
+        advance_seconds: 30
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+        note: "Contiene 'los'/'la'; autocontenida -> standalone."
+      - n: 3
+        query: "¿Cada cuánto conviene revisar las conexiones de puesta a tierra?"
+        advance_seconds: 30
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+        note: "Contiene 'las'; autocontenida -> standalone."
+
+  - flow_id: mt11b_standalone_articulos
+    clase: standalone_autocontenida
+    descripcion: "Más preguntas autocontenidas con artículos, sin estado -> standalone."
+    conversation: mt11b
+    entity_source: "Preguntas de técnico genéricas autocontenidas (probe F1); sin producto -> detector []."
+    turns:
+      - n: 1
+        query: "¿Dónde se consulta el histórico de eventos cuando la instalación arranca en fallo?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿Cómo se comprueba la tensión de reposo del sistema de respaldo?"
+        advance_seconds: 30
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+
+  # ---- CLASS 2 (extra): anáfora esos/este (demostrativos que el regex viejo perdía) --
+  - flow_id: mt12_anaphora_este_esos
+    clase: pronombre
+    descripcion: "Anáfora de contenido con 'esos'/'este' (demostrativos que el regex es[ae]s? NO cubría) -> rewrite."
+    conversation: mt12
+    reuses_golds: [hp005]
+    turns:
+      - n: 1
+        query: "En la Notifier ID3000, ¿cómo se listan los avisos de zona activos?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ID3000"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y esos avisos cómo se gestionan en bloque?"
+        advance_seconds: 60
+        expect:
+          route: rewrite
+          target_models: ["ID3000"]
+          requires_llm_rewrite: true
+        note: "'esos avisos' = demostrativo+nombre (masc. plural). El regex viejo es[ae]s? NO lo cazaba (o no está en [ae]) -> ahora rewrite (F6)."
+      - n: 3
+        query: "¿y este elemento cómo se direcciona en el lazo?"
+        advance_seconds: 30
+        expect:
+          route: rewrite
+          target_models: ["ID3000"]
+          requires_llm_rewrite: true
+        note: "'este elemento' = demostrativo est-* (tampoco cubierto por el regex viejo) -> rewrite."
+
+  # ---- CLASS 12: compatibilidad_marca (brand-gate no sobre-dispara) -----------
+  - flow_id: mt13_compat_marca
+    clase: compatibilidad_marca
+    descripcion: "Follow-up de compatibilidad nombrando marcas ajenas (carry-forward) y la propia (exenta); ninguna es switch."
+    conversation: mt13
+    reuses_golds: [hp001]
+    entity_source: "Hochiki/Apollo = marcas de detección no servidas (BRAND_TOKENS seed); consultadas por compatibilidad con la Detnov CAD-250 en contexto."
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se da de alta un detector en el lazo?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿es compatible con equipos Hochiki?"
+        advance_seconds: 60
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          expected_behavior: refuse-inference
+        note: "Marca ajena SIN token-modelo, en ventana -> follow-up de compatibilidad: carry-forward de CAD-250 (NO switch, NO drop). Conducta esperada refuse-inference (cross-marca)."
+      - n: 3
+        query: "¿y con Apollo?"
+        advance_seconds: 30
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          expected_behavior: refuse-inference
+        note: "Otra marca ajena sola -> carry-forward CAD-250."
+      - n: 4
+        query: "¿y Detnov fabrica algo con más lazos?"
+        advance_seconds: 30
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+        note: "Nombra la MISMA marca del estado (Detnov) -> exenta del brand-gate (no es switch) -> carry-forward CAD-250."
+
+  # ---- CLASS 13: continuacion_dominio_limitrofe (gate de gas ignora estado) ---
+  - flow_id: mt14_gas_maniobra_con_estado
+    clase: continuacion_dominio_limitrofe
+    descripcion: "Continuación en ventana que menciona 'caldera de gas' (léxico del gate) NO se declina: carry-forward."
+    conversation: mt14
+    reuses_golds: [hp001]
+    entity_source: "Central Detnov CAD-250 gobernando el corte de una caldera de gas (maniobra de PCI real); la mención de gas NO saca la conversación del dominio de fuego."
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se configura una zona de extinción?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cómo programo el corte del suministro a la caldera de gas cuando salta la alarma?"
+        advance_seconds: 300
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          expected_behavior: answer
+        note: "'caldera de gas' está en el léxico fuera-de-dominio, PERO hay estado en ventana -> el gate de gas NO dispara (in_window se computa antes de C): carry-forward de CAD-250 (F4). Sin el fix: DECLINE indebido."

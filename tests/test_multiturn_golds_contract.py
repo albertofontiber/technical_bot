@@ -53,8 +53,11 @@ def test_schema_is_valid():
     assert harness.validate_schema(FLOWS) == []
 
 
-def test_all_ten_classes_covered():
+def test_all_coverage_classes_covered():
+    # 13 after the s281 round-2 hardening (10 base + standalone_autocontenida,
+    # compatibilidad_marca, continuacion_dominio_limitrofe).
     assert harness.covered_classes(FLOWS) == harness._COVERAGE_CLASSES
+    assert len(harness._COVERAGE_CLASSES) == 13
 
 
 def test_reused_golds_are_real_entities():
@@ -81,7 +84,10 @@ def test_every_flow_traces_to_a_source():
 # ===========================================================================
 # 2. Interface stability + $0 invariants (conversation_policy contract surface)
 # ===========================================================================
-def test_stub_is_detected_and_raises():
+def test_stub_is_detected_and_raises(monkeypatch):
+    # TEST-ENV-LEAK (F11): a leaked CONVERSATION_POLICY=impl from another test/env
+    # must not turn the stub real under us — pin the default.
+    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
     policy = default_policy()
     assert getattr(policy, "IS_STUB", False) is True
     with pytest.raises(PolicyNotImplemented):
@@ -124,7 +130,8 @@ def test_working_state_window():
 # ===========================================================================
 # 3. Stub-mode harness: green + non-vacuous plumbing ($0)
 # ===========================================================================
-def test_contract_stub_mode_reports_pending_and_drives_orchestrator():
+def test_contract_stub_mode_reports_pending_and_drives_orchestrator(monkeypatch):
+    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)  # TEST-ENV-LEAK (F11)
     report = harness.run_contract(FLOWS)  # default_policy() = stub
     assert report["policy_stub"] is True
     assert report["fail"] == 0
@@ -138,7 +145,15 @@ def test_contract_stub_mode_reports_pending_and_drives_orchestrator():
 # ===========================================================================
 FAMILY_UMBRELLAS = frozenset({"ZXSE", "ZXE"})
 UNKNOWN_BRANDS = frozenset({"bosch"})  # served-corpus-absent brand tokens
-_ANAPHOR = re.compile(r"\bes[ae]s?\s+\w+", re.IGNORECASE)  # "ese aviso", "esa entrada"
+# Full demonstrative set (esos/este were missed by the old es[ae]s? — s281 F6).
+_DEMONSTRATIVE = r"(?:ese|esa|esos|esas|este|esta|estos|estas)"
+_ANAPHOR = re.compile(rf"\b{_DEMONSTRATIVE}\s+\w+", re.IGNORECASE)
+# Dependency signal WITHOUT articles (s281 F1): possessives + demonstratives +
+# leading "y". A no-state turn with a dependency signal clarifies; else standalone.
+_DEP = re.compile(
+    rf"^\s*¿?\s*y\b|\b(su|sus|dicho|dicha|mismo|misma)\b|\b{_DEMONSTRATIVE}\s+\w+|\bes[eo]\b",
+    re.IGNORECASE,
+)
 _VARIANT_SENSITIVE = (
     "cuántos lazos", "cuantos lazos", "lazos y zonas", "cuántas zonas",
     "cuantas zonas", "número de lazos", "numero de lazos",
@@ -173,16 +188,23 @@ class _ReferencePolicy:
                 route=PolicyRoute.STANDALONE, query_for_retrieval=query,
                 target_models=real, rationale="explicit_product",
             )
-        # (2) dependent turn, no product named.
+        # (2) no product named + no usable state -> clarify only if a real
+        #     dependency signal is present (a self-contained turn is standalone;
+        #     articles are NOT a dependency signal — s281 F1).
         in_window = (
             bool(working_state.last_target_models)
             and working_state.within_window(now, self.window_seconds)
         )
         if not in_window:
+            if _DEP.search(query):
+                return TurnResolution(
+                    route=PolicyRoute.CLARIFY, query_for_retrieval=query,
+                    clarify_question="¿De qué central o detector (modelo) hablamos?",
+                    rationale="no_antecedent",
+                )
             return TurnResolution(
-                route=PolicyRoute.CLARIFY, query_for_retrieval=query,
-                clarify_question="¿De qué central o detector (modelo) hablamos?",
-                rationale="no_antecedent",
+                route=PolicyRoute.STANDALONE, query_for_retrieval=query,
+                target_models=(), rationale="standalone_no_dependency",
             )
         models = working_state.last_target_models
         is_family = any(m in FAMILY_UMBRELLAS for m in models)

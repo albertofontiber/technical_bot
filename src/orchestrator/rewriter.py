@@ -145,6 +145,24 @@ _MAX_ABS_LEN = 400
 _MAX_LEN_FACTOR = 6  # relative to the raw turn
 
 
+def _token_present(token: str, text: str) -> bool:
+    """True when ``token`` appears in ``text`` as a BOUNDED token (delimited by
+    non-alphanumeric chars), NOT merely as a substring. This is what makes the
+    guard catch a fabricated SUPERSET code: "M710" is a substring of "M7100" but
+    not a bounded token of it, so a rewrite that mutated M710 -> M7100 is rejected
+    (the old ``tok in text`` substring check passed it — sol-S1/F5)."""
+    for m in re.finditer(re.escape(token), text):
+        before = text[m.start() - 1] if m.start() > 0 else ""
+        after = text[m.end()] if m.end() < len(text) else ""
+        if not (before.isalnum() or after.isalnum()):
+            return True
+    return False
+
+
+def _tech_tokens(text: str) -> list[str]:
+    return [m.group(0) for m in _TECH_TOKEN_RE.finditer(text)]
+
+
 def _required_tokens(raw_turn: str, ws: WorkingState) -> list[str]:
     """The verbatim tokens the rewrite MUST preserve: technical tokens of the raw
     turn + any NON_PRODUCT_CODES present + the resolved target models (the rewrite
@@ -157,8 +175,8 @@ def _required_tokens(raw_turn: str, ws: WorkingState) -> list[str]:
             seen.add(tok)
             required.append(tok)
 
-    for m in _TECH_TOKEN_RE.finditer(raw_turn):
-        _add(m.group(0))
+    for tok in _tech_tokens(raw_turn):
+        _add(tok)
     low = raw_turn.lower()
     for code in NON_PRODUCT_CODES:
         if code.lower() in low:
@@ -171,10 +189,27 @@ def _required_tokens(raw_turn: str, ws: WorkingState) -> list[str]:
     return required
 
 
+def _allowed_source(raw_turn: str, ws: WorkingState) -> str:
+    """The union of everything the rewrite may draw a technical token FROM: the
+    raw turn, the last user query, the last answer excerpt, and the resolved
+    models. A technical token in the rewrite that is NOT bounded-present here is a
+    FABRICATION (invented model/code/number) -> reject (anti-invention, sol-S1)."""
+    parts = [raw_turn, ws.last_query or "", ws.last_answer_excerpt or ""]
+    parts.extend(ws.last_target_models)
+    return " \n ".join(parts)
+
+
 def validate_rewrite(
     raw_turn: str, ws: WorkingState, rewrite_text: str | None
 ) -> tuple[bool, str]:
-    """Deterministic fail-closed check. Returns ``(ok, reason)``."""
+    """Deterministic fail-closed check. Returns ``(ok, reason)``.
+
+    Three gates: (1) shape (non-empty, not a preamble/answer leak); (2) PRESERVE —
+    every required token survives as a BOUNDED token (token-boundary, not
+    substring); (3) ANTI-INVENTION — every technical token IN the rewrite must
+    exist (bounded) in the source union (raw ∪ last_query ∪ excerpt ∪ models). The
+    rewrite may only reorganize source tokens, never mint new codes/models/numbers
+    (the S99b/DEC-092 trap + the fabricated-superset trap, M710->M7100)."""
     if rewrite_text is None:
         return False, "rewrite_is_none"
     text = rewrite_text.strip()
@@ -183,9 +218,13 @@ def validate_rewrite(
     max_len = max(_MAX_ABS_LEN, _MAX_LEN_FACTOR * len(raw_turn))
     if len(text) > max_len:
         return False, f"too_long({len(text)}>{max_len})"
-    missing = [tok for tok in _required_tokens(raw_turn, ws) if tok not in text]
+    missing = [tok for tok in _required_tokens(raw_turn, ws) if not _token_present(tok, text)]
     if missing:
         return False, f"dropped_tokens={missing}"
+    allowed = _allowed_source(raw_turn, ws)
+    fabricated = [tok for tok in _tech_tokens(text) if not _token_present(tok, allowed)]
+    if fabricated:
+        return False, f"fabricated_tokens={fabricated}"
     return True, "ok"
 
 

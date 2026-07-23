@@ -1,6 +1,7 @@
 """MT-1a tests: the deterministic router (per route), the rewriter's fail-closed
-post-validation, the carry_forward fallback, the NON_PRODUCT_CODES trap, the 1h
-window boundary — and the GATE: the real policy satisfies all 31 MT-1b turns.
+post-validation, the CLARIFY fallback, the NON_PRODUCT_CODES trap, the 1h window
+boundary — and the GATE: the real policy satisfies all MT-1b turns (48 after the
+s281 round-2 hardening).
 
 $0: no real API call (fake Anthropic client), no DB (turn_models passed directly
 where the router is exercised in isolation; the composition path uses the pure
@@ -242,6 +243,41 @@ def test_validate_fails_empty_and_too_long():
     assert not validate_rewrite("q?", ws, "x" * 5000)[0]
 
 
+def test_validate_fails_on_fabricated_superset_code_m7100():
+    # sol-S1/F5: token-boundary match. "M710" IS a substring of "M7100", so the old
+    # `tok in text` passed a rewrite that mutated M710 -> M7100. Boundary catches it.
+    ok, reason = validate_rewrite(
+        "¿y qué resistencia de fin de línea necesita esa entrada?",
+        _m710_state(),
+        "¿Qué resistencia de fin de línea necesita la entrada M7100 / MI-DMMI?",
+    )
+    assert not ok
+    assert "dropped" in reason or "fabricated" in reason  # M710 missing / M7100 invented
+
+
+def test_validate_fails_on_fabricated_unrelated_code_afp2800():
+    # Anti-invention: the source only has AFP-400; a rewrite that mints AFP-2800 is
+    # a fabricated model even though nothing was "dropped".
+    ws = _state(["AFP-400"], last_query="La AFP-400 muestra el aviso 'Tierra'.")
+    ok, reason = validate_rewrite(
+        "¿y ese aviso cómo se borra?",
+        ws,
+        # keeps the real AFP-400 (so the DROP gate passes) but MINTS AFP-2800:
+        "¿Cómo se borra el aviso de la AFP-400 (o la AFP-2800)?",
+    )
+    assert not ok and "fabricated" in reason
+
+
+def test_validate_allows_faithful_reorganization():
+    # A rewrite that only reorganizes SOURCE tokens (no new codes) passes both gates.
+    ws = _state(["AFP-400"], last_query="La AFP-400 muestra el aviso 'Tierra' (Earth Fault).")
+    ok, reason = validate_rewrite(
+        "¿y ese aviso cómo se borra?", ws,
+        "¿Cómo se borra el aviso Earth Fault en la AFP-400?",
+    )
+    assert ok, reason
+
+
 # ===========================================================================
 # 5. Rewriter wired into the policy (fake client) + fallback to carry_forward
 # ===========================================================================
@@ -255,17 +291,20 @@ def test_rewriter_valid_output_produces_rewrite_route():
     assert "M710" in r.query_for_retrieval and "MI-DMMI" in r.query_for_retrieval
 
 
-def test_rewriter_invalid_output_falls_back_to_carry_forward():
+def test_rewriter_invalid_output_falls_back_to_clarify():
+    # sol-S2 fix: a failed rewrite must NOT re-attach (carry_forward) — the cascade
+    # already judged the re-attach insufficient. Clarify the antecedent instead.
     bad = "¿Qué resistencia de fin de línea necesita esa entrada?"  # drops the codes
     rw = make_rewriter(client=FakeClient(bad), prompt_variant="fontiber")
     r = _resolve("¿y qué resistencia de fin de línea necesita esa entrada?", [],
                  ws=_m710_state(), now=BASE + timedelta(seconds=60), rewrite=rw)
-    assert r.route is PolicyRoute.CARRY_FORWARD  # $-spent but safe conduct
+    assert r.route is PolicyRoute.CLARIFY  # $-spent but safe conduct (not carry_forward)
     assert r.requires_llm_rewrite is False
-    assert "rewrite_failed" in r.rationale
+    assert r.clarify_question
+    assert "rewrite_failed" in r.rationale and "$-spent" in r.rationale
 
 
-def test_rewriter_client_exception_falls_back():
+def test_rewriter_client_exception_falls_back_to_clarify():
     class _Boom:
         class messages:
             @staticmethod
@@ -275,7 +314,8 @@ def test_rewriter_client_exception_falls_back():
     rw = make_rewriter(client=_Boom(), prompt_variant="fontiber")
     r = _resolve("¿y ese aviso cómo se borra?", [], ws=_state(["AFP-400"]),
                  now=BASE + timedelta(seconds=60), rewrite=rw)
-    assert r.route is PolicyRoute.CARRY_FORWARD
+    assert r.route is PolicyRoute.CLARIFY
+    assert r.clarify_question
 
 
 def test_condense_lc_variant_builds_and_validates():
@@ -334,14 +374,112 @@ def test_detect_turn_signals_is_pure_regex():
 
 
 # ===========================================================================
-# 7. THE GATE — the real policy satisfies all 31 MT-1b turns
+# 6b. s281 round-2 hardening — focused unit tests for the adjudicated fixes
+# ===========================================================================
+def test_articles_are_not_a_dependency_signal_standalone():
+    # ARTICULOS (orq+sol-S3/F1): a self-contained question with articles and NO
+    # state must route STANDALONE, not clarify.
+    for q in (
+        "¿Cómo se silencia la alarma acústica una vez verificada la incidencia?",
+        "¿Qué sección mínima de cable exige la normativa para los lazos?",
+        "¿Cada cuánto conviene revisar las conexiones de tierra?",
+    ):
+        r = _resolve(q, [], ws=WorkingState())
+        assert r.route is PolicyRoute.STANDALONE, q
+        assert r.target_models == ()
+
+
+def test_brand_gate_split_switch_vs_compat_vs_same_brand():
+    st = _state(["CAD-250"])  # Detnov in window
+    n = BASE + timedelta(seconds=60)
+    # brand + model-type token -> switch (drop state).
+    sw = _resolve("¿y la Bosch Avenar FPA-1200 cómo se programa?", [], ws=st, now=n)
+    assert sw.route is PolicyRoute.STANDALONE and sw.target_models == ()
+    # brand alone, in window -> compatibility follow-up -> carry_forward, keep state.
+    co = _resolve("¿es compatible con equipos Hochiki?", [], ws=st, now=n)
+    assert co.route is PolicyRoute.CARRY_FORWARD and co.target_models == ("CAD-250",)
+    # SAME manufacturer named -> exempt (not a switch) -> carry_forward, keep state.
+    sm = _resolve("¿y Detnov fabrica algo con más lazos?", [], ws=st, now=n)
+    assert sm.route is PolicyRoute.CARRY_FORWARD and sm.target_models == ("CAD-250",)
+
+
+def test_gas_gate_never_declines_an_in_window_continuation():
+    # F4: in-window state + a gas-lexicon follow-up (boiler cutoff) -> carry_forward,
+    # NOT decline. A fresh out-of-domain turn still declines.
+    st = _state(["CAD-250"])
+    r = _resolve("¿y cómo programo el corte de la caldera de gas al saltar la alarma?",
+                 [], ws=st, now=BASE + timedelta(seconds=300))
+    assert r.route is PolicyRoute.CARRY_FORWARD and r.target_models == ("CAD-250",)
+    fresh = _resolve("¿cómo enciendo la caldera de gas de casa?", [], ws=WorkingState())
+    assert fresh.route is PolicyRoute.DECLINE
+
+
+def test_clarify_does_not_resurrect_expired_product():
+    # RESURRECCION (sol-S4/F2): a clarify on an expired window must not refresh the
+    # timestamp, or a next dangling turn would carry the stale product forward.
+    ws = _state(["DGD-600"], at=BASE)
+    n2 = BASE + timedelta(seconds=4200)  # 70 min -> expired
+    r2 = _resolve("¿y cuál es su tensión?", [], ws=ws, now=n2)
+    assert r2.route is PolicyRoute.CLARIFY
+    ws2 = advance_working_state(ws, r2, "¿y cuál es su tensión?", None, n2, None)
+    assert ws2.last_turn_at == ws.last_turn_at  # NOT refreshed -> still expired
+    r3 = _resolve("¿y su consumo en reposo?", [], ws=ws2, now=BASE + timedelta(seconds=4320))
+    assert r3.route is PolicyRoute.CLARIFY  # not carry_forward
+    assert "DGD-600" not in (r3.target_models or ())
+
+
+def test_extended_demonstratives_route_to_rewrite():
+    # ANAPHOR-RE (F6): esos/este were missed by the old es[ae]s? regex.
+    st = _state(["ID3000"])
+    n = BASE + timedelta(seconds=60)
+    for q in ("¿y esos avisos cómo se gestionan?", "¿y este elemento cómo se direcciona?"):
+        r = _resolve(q, [], ws=st, now=n)
+        assert r.route is PolicyRoute.REWRITE, q
+        assert r.target_models == ("ID3000",)
+
+
+def test_neuter_eso_still_carries_forward_not_rewrite():
+    # The neuter "eso," (discourse filler) must not become a content anaphora.
+    st = _state(["ID2000"])
+    r = _resolve("eso, ¿cómo se conecta un módulo de aislamiento en su lazo?", [],
+                 ws=st, now=BASE + timedelta(seconds=20))
+    assert r.route is PolicyRoute.CARRY_FORWARD
+
+
+def test_normative_code_is_not_a_product():
+    # CODIGOS-NORMATIVOS (sol-S6): a standards code must not read as an explicit
+    # product (would wrongly STANDALONE on it). With state present it carries forward.
+    st = _state(["CAD-250"])
+    r = _resolve("¿y cumple la EN-54 en esa configuración?", ["EN-54"], ws=st,
+                 now=BASE + timedelta(seconds=60))
+    assert r.route is not PolicyRoute.STANDALONE
+    assert "EN-54" not in (r.target_models or ())
+
+
+def test_family_clarify_uses_variant_list():
+    # VARIANTES (F7): the clarify text is rendered from _FamilySpec.variants.
+    r = _resolve("¿cuántos lazos y zonas puedo configurar?", [], ws=_state(["ZXE"]),
+                 now=BASE + timedelta(seconds=60))
+    assert r.route is PolicyRoute.CLARIFY
+    assert "1/2/5" in r.clarify_question and "1/2/5/10" not in r.clarify_question
+
+
+def test_first_message_clarify_text_omits_time_passed():
+    # F8: a genuine first message (empty state) must not claim time has passed.
+    r = _resolve("¿y cuál es su tensión?", [], ws=WorkingState())
+    assert r.route is PolicyRoute.CLARIFY
+    assert "Ha pasado" not in r.clarify_question
+
+
+# ===========================================================================
+# 7. THE GATE — the real policy satisfies all MT-1b turns (48 after hardening)
 # ===========================================================================
 def test_real_policy_satisfies_all_multiturn_golds():
     flows = harness.load_flows()
     report = harness.run_contract(flows, policy=DeterministicConversationPolicy())
     assert report["policy_stub"] is False
     assert report["fail"] == 0, report["failures"]
-    assert report["pass"] == report["turns"] == 31
+    assert report["pass"] == report["turns"] == 48
 
 
 def test_default_policy_is_stub_by_default_and_real_when_activated(monkeypatch):
@@ -351,3 +489,40 @@ def test_default_policy_is_stub_by_default_and_real_when_activated(monkeypatch):
     active = default_policy()
     assert getattr(active, "IS_STUB", True) is False
     assert isinstance(active, DeterministicConversationPolicy)
+
+
+# ===========================================================================
+# 8. --e2e core (REAL wiring, exercised with FAKES — $0, no API, no DB)
+# ===========================================================================
+def test_e2e_core_runs_with_fakes_and_stamps_cost(monkeypatch):
+    monkeypatch.setenv("CONVERSATION_POLICY", "impl")  # real policy for the drive
+    from src.orchestrator import replay_adapters
+
+    flows = [f for f in harness.load_flows()
+             if f["flow_id"] in ("mt01_followup_cad250", "mt02_pron_afp400")]
+
+    def fake_rewrite(q, ws):  # valid, source-bound (policy calls it on REWRITE)
+        return "¿Cómo se borra el aviso Earth Fault en la AFP-400?"
+
+    def gen(query, chunks, *, available_models=None):
+        return {"answer": f"[ans] {query}", "diagrams": [],
+                "input_tokens": 100, "output_tokens": 20}
+
+    adapters = replay_adapters(
+        retrieved=[{"id": "c0", "content": "ctx", "similarity": 0.9}], generate=gen)
+
+    def fake_judge(*, question, expected, gold, bot):
+        return {"veredicto": "PASS", "usage": {"in": 50, "out": 10}}
+
+    report = harness.run_e2e_flows(
+        flows, rewrite=fake_rewrite, adapters=adapters, judge_fn=fake_judge, judge_k=3)
+
+    assert report["mode"] == "e2e"
+    assert len(report["flow_results"]) == 2
+    assert all(fr["veredicto"] == "PASS" for fr in report["flow_results"])
+    c = report["cost"]
+    assert c["judge_calls"] == 6            # 2 flows * K=3
+    assert c["rewrite_calls"] >= 1          # mt02 t2 is a REWRITE route
+    assert c["generate_calls"] >= 3         # standalone + carry/rewrite turns
+    assert c["generate_input_tokens"] > 0 and c["judge_input_tokens"] > 0
+    assert "usd_estimate" in c and c["usd_estimate"] >= 0
