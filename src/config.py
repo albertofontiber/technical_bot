@@ -260,6 +260,30 @@ if STRUCTURAL_NEIGHBOR_SHADOW and not re.fullmatch(
 #                      cliente-side de los léxicos); sin boosts.
 MERGE_STRATEGY = os.getenv("MERGE_STRATEGY", "stamps")
 
+# --- S281 multi-turn Phase 0 seams (MT-0d). All default OFF, strict on|off. ---
+# The suite (3146/0) is the byte-invariance guard: with all three OFF the bot
+# path is textually the historical one.
+#
+# ORCHESTRATOR_PATH: route ``_process_query``'s pipeline call through the
+# transport-neutral orchestrator (``run_turn`` in an executor, off the event
+# loop) instead of the inline ``execute_rag_turn``. Compute only — NO store
+# dependency; byte-invariant with the historical path when OFF.
+ORCHESTRATOR_PATH = _strict_on_off("ORCHESTRATOR_PATH")
+
+# CONVO_SHADOW: after answering, shadow-persist the turn into the effectively-
+# once ``convo`` store (durability of the existing retrieval/coverage traces).
+# No-op unless a store is injected (Phase 0: tests inject a FakeConvoStore only).
+# Fail-open; never alters the reply. Activating against the REAL store requires
+# (ops, not code): a signed RGPD lifecycle matrix, the applied ``convo`` DDL, a
+# minted ``role=convo_rpc`` JWT, and PGRST_DB_SCHEMAS including 'convo'.
+CONVO_SHADOW = _strict_on_off("CONVO_SHADOW")
+
+# CONVO_MAINTENANCE: register the outbox poller + recovery janitor on PTB's
+# JobQueue (``schedule_maintenance``). Phase 0: default OFF and never wired to a
+# real store. Same real-store activation dependencies as CONVO_SHADOW, plus the
+# scheduling actor and a sync delivery sender bridged to ``bot.send_message``.
+CONVO_MAINTENANCE = _strict_on_off("CONVO_MAINTENANCE")
+
 # LLM config
 LLM_MODEL = "claude-sonnet-4-6"
 # s99: tope de tokens de SALIDA del generador. SWAP reversible por entorno (patrón RERANK_TOP_K)

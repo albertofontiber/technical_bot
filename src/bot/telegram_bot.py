@@ -27,6 +27,9 @@ from ..config import (
     RERANK_TOP_K,
     VOICE_TRANSCRIPTION_MODEL,
     COVERAGE_RELEASE_POLICY,
+    ORCHESTRATOR_PATH,
+    CONVO_SHADOW,
+    CONVO_MAINTENANCE,
     validate_config,
 )
 from ..rag.retriever import (
@@ -581,29 +584,57 @@ async def _process_query(
                     detected_category = cat
                     break
 
-        # One production seam shared with the deterministic release gate.  The
-        # adapters are built here so existing handler tests can patch only I/O.
-        pipeline = execute_rag_turn(
-            query=query,
-            query_for_retrieval=query_for_retrieval,
-            target_models=target_models,
-            available_models=available_models,
-            retrieval_top_k=RETRIEVAL_TOP_K,
-            rerank_top_k=RERANK_TOP_K,
-            adapters=RagServingAdapters(
-                retrieve=retrieve_chunks,
-                rerank=rerank,
-                observe_structural_shadow=observe_structural_neighbor_shadow,
-                generate=generate_answer,
-            ),
-        )
-        chunks = pipeline["chunks"]
-        coverage_trace = pipeline["coverage_trace"]
+        # Transport-neutral orchestrator seam (MT-0d), default OFF. The request
+        # is built only when a Phase-0 seam is active; with both flags OFF this
+        # block reduces to the historical inline pipeline (the ``else`` below is
+        # textually the old path — the full suite is the byte-invariance guard).
+        if ORCHESTRATOR_PATH or CONVO_SHADOW:
+            from ..orchestrator.telegram_adapter import build_turn_request
+            request = build_turn_request(
+                query=query,
+                query_for_retrieval=query_for_retrieval,
+                target_models=target_models,
+                available_models=available_models,
+                update_id=update.update_id,
+                chat_id=update.effective_chat.id,
+                source=source,
+                transcription=transcription,
+            )
 
-        # Step 3: Generate answer from reranked + governed coverage chunks.
-        result = pipeline["generation"]
-        answer = result["answer"]
-        diagrams = result["diagrams"]
+        if ORCHESTRATOR_PATH:
+            # Drive the turn through the orchestrator; isolate the synchronous
+            # hot path in an executor so the event loop is never blocked.
+            from ..orchestrator import from_production, run_turn
+            turn = await asyncio.to_thread(run_turn, request, from_production())
+            chunks = list(turn.retrieval.chunks)
+            coverage_trace = turn.retrieval.coverage_trace
+            result = turn.generation
+            answer = result["answer"]
+            diagrams = result["diagrams"]
+        else:
+            # One production seam shared with the deterministic release gate.  The
+            # adapters are built here so existing handler tests can patch only I/O.
+            pipeline = execute_rag_turn(
+                query=query,
+                query_for_retrieval=query_for_retrieval,
+                target_models=target_models,
+                available_models=available_models,
+                retrieval_top_k=RETRIEVAL_TOP_K,
+                rerank_top_k=RERANK_TOP_K,
+                adapters=RagServingAdapters(
+                    retrieve=retrieve_chunks,
+                    rerank=rerank,
+                    observe_structural_shadow=observe_structural_neighbor_shadow,
+                    generate=generate_answer,
+                ),
+            )
+            chunks = pipeline["chunks"]
+            coverage_trace = pipeline["coverage_trace"]
+
+            # Step 3: Generate answer from reranked + governed coverage chunks.
+            result = pipeline["generation"]
+            answer = result["answer"]
+            diagrams = result["diagrams"]
 
         empty_answer_fallback = not _has_visible_text(answer)
         if empty_answer_fallback:
@@ -716,11 +747,75 @@ async def _process_query(
         else:
             await _send_diagrams_individually(update, diagrams)
 
+        # Step 6 (MT-0d, default OFF): shadow-persist the answered turn into the
+        # effectively-once convo store. Runs AFTER the reply; wholly fail-open so
+        # a shadow defect can never turn a served answer into a Telegram error.
+        # In Phase 0 only tests inject a store (no store -> no-op logged once).
+        if CONVO_SHADOW:
+            try:
+                from ..orchestrator.shadow import (
+                    maybe_shadow_persist,
+                    turn_result_from_pipeline,
+                )
+                shadow_result = (
+                    turn if ORCHESTRATOR_PATH
+                    else turn_result_from_pipeline(request, pipeline)
+                )
+                maybe_shadow_persist(request, shadow_result)
+            except Exception as exc:
+                logger.warning(
+                    "CONVO_SHADOW block failed open (%s)", type(exc).__name__
+                )
+
     except Exception as e:
         logger.error(f"Error processing query '{query}': {e}")
         await update.message.reply_text(
             "Ha ocurrido un error procesando tu pregunta. Por favor, inténtalo de nuevo."
         )
+
+
+def schedule_maintenance(app, store, interval, *, sender, worker_id="janitor-f0", first=None):
+    """Register the convo background sweeps (outbox poller + recovery janitor) on
+    PTB's JobQueue. Seam for MT-0d — gated by CONVO_MAINTENANCE (default OFF).
+
+    Returns ``[]`` and schedules NOTHING when the flag is off. When on, registers
+    two repeating jobs:
+      * ``deliver_pending`` (poller) — re-sends due pending/retryable outbox rows;
+      * ``reclaim_and_repair`` (janitor) — reports orphaned runs + seals stuck
+        ``sending`` rows so the poller can re-send.
+
+    Phase 0: default OFF and never wired to a REAL store — activation needs the
+    store dependencies (signed RGPD matrix, applied DDL, minted ``role=convo_rpc``
+    JWT, PGRST_DB_SCHEMAS=convo), the scheduling actor, AND a synchronous
+    ``sender`` bridged to ``bot.send_message`` (the outbox send is sync, PTB's
+    send is async — that bridge is the declared wiring step). Tested via a fake
+    JobQueue / by invoking the callbacks directly against a FakeConvoStore.
+    """
+    if not CONVO_MAINTENANCE:
+        return []
+
+    from datetime import datetime, timezone
+
+    from ..orchestrator.lifecycle import deliver_pending, reclaim_and_repair
+
+    async def _poll(_context):
+        await asyncio.to_thread(
+            deliver_pending, store, sender, datetime.now(timezone.utc)
+        )
+
+    async def _janitor(_context):
+        await asyncio.to_thread(
+            reclaim_and_repair, store, worker_id, datetime.now(timezone.utc)
+        )
+
+    return [
+        app.job_queue.run_repeating(
+            _poll, interval=interval, first=first, name="convo_deliver_pending"
+        ),
+        app.job_queue.run_repeating(
+            _janitor, interval=interval, first=first, name="convo_reclaim_and_repair"
+        ),
+    ]
 
 
 def run_bot():
