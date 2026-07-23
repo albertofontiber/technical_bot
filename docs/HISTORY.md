@@ -2213,3 +2213,22 @@ Merge de Alberto (`f65ec66`) + flip Railway + smoke: fila sellada `bot_version=f
 El smoke ZXSe (elección mía) cayó en el gap D1 conocido (`MIE-MI-600` 88 chunks `unknown`,
 verificado en DB): el bot admitió en vez de inventar — conducta correcta sobre agujero de
 identidad; H0 sube de prioridad. La rama s281 heredó release+fixes vía merge de main (`32a7ed1`).
+
+## s281b (23-24 jul) — autonomía plena: Fase 1 multi-turn MEDIDA + campaña H0 hasta packet
+
+Con el GO de Alberto (Fase 1 + H0 en paralelo, mandato BP-no-escatimar, herramientas externas
+eval-driven, DEC-154 acotando el NO-GO agéntico a su métrica): MT-1b construyó la eval
+conversacional (15 flujos, vara K=3, interfaz ConversationPolicy con $0-guarantee estructural);
+MT-1a implementó la cascada determinista + rewriter Sonnet dual-prompt (vara 31/31); el dúo
+focal la RECHAZÓ-EN-ESTADO con 12 hallazgos ejecutados (artículos ×3-convergente, resurrección
+de estado con el espejo del harness compartiendo el bug, validate-rewrite agujereado por
+substring/invención, fallback inseguro) → lote 12/12 + vara endurecida a 48 turnos con los
+escenarios del propio dúo. El e2e pagado (~$3.3) destapó y midió el fix estructural de que la
+query resuelta debe alimentar también la generación (6/8 FALLOs eran el writer sin antecedente)
+→ final 18/2/1 con el residual adjudicado a conducta single-turn diseñada. A/B condense-LC:
+empate direccional, fontiber default. En paralelo H0: census (solo 6 lineages en 998 docs —
+capa nueva s277, no regresión; las capas de identidad previas intactas), packet T3 de re-tag
+con la migración simétrica ZXe/ZXSe adjudicada por Alberto (etiqueta=FAMILIA) y el contrato
+batch_attested_v1 para industrializar el Tramo 2. Sol abortó 1 run por worktree-cambiante →
+patrón nuevo: vista estable dedicada para reviews con lanes paralelas. Todo en claude/s281-mt0;
+DB y prod intactas; el paquete de decisiones de Alberto quedó listo en lote.

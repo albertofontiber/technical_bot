@@ -1,0 +1,264 @@
+mode: e2e
+flows: 8
+turns: 19
+flow_results:
+- flow: mt04_correction_id
+  last_route: carry_forward
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - Responde directamente cómo se conecta el aislador en el lazo ID2000, incluyendo
+    posición en serie, terminales y comprobaciones, y añade límites relevantes. Además
+    advierte que el conexionado exacto puede depender del modelo, evitando cerrar
+    en exceso la respuesta.
+  - Responde directamente cómo se conecta el aislador en el lazo ID2000, indicando
+    conexión en serie, bornes de entrada/salida y la comprobación temporal con puente.
+    Añade límites y advertencias operativas pertinentes sin negarse ni pedir aclaraciones
+    innecesarias.
+  - Responde directamente a cómo conectar el aislador en el lazo ID2000, incluyendo
+    posición en serie, terminales y comprobaciones relevantes. Además añade una cautela
+    razonable sobre consultar la hoja específica del modelo, sin negarse ni dejar
+    la pregunta sin resolver.
+  rewritten_query: null
+  query_for_retrieval: 'eso, ¿cómo se conecta un módulo de aislamiento de línea en
+    su lazo? (contexto: ID2000)'
+  answer_excerpt: '## Conexión del módulo de aislamiento de línea en el lazo — ID2000
+
+
+    ### Posición en el lazo
+
+
+    El aislador se conecta **en serie dentro del lazo analógico**, entre grupos de
+    equipos. El diagrama de conexiones típicas del lazo [F3] muestra que el aislador
+    tiene **4 terminales** (numerados 1, 2, 3, 4), donde:
+
+
+    - **Terminales 1 y 2** → entrada del lazo (lado panel o aislador anterior)
+
+    - **Terminales 3 '
+- flow: mt05_admit_firmware
+  last_route: carry_forward
+  expected_behavior: admit_no_info
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - La respuesta reconoce explícitamente que los fragmentos recuperados no cubren
+    la actualización de firmware y no inventa un procedimiento. Además orienta a consultar
+    documentación completa o soporte técnico, lo cual es adecuado.
+  - La respuesta reconoce explícitamente que los fragmentos recuperados no cubren
+    la actualización de firmware y evita inventar un procedimiento. Además orienta
+    a consultar documentación completa o soporte técnico, lo cual es adecuado.
+  - El bot admite explícitamente que los fragmentos recuperados no contienen el procedimiento
+    de actualización de firmware y no inventa pasos. Además deriva razonablemente
+    al manual completo o soporte técnico.
+  rewritten_query: null
+  query_for_retrieval: '¿y cómo se actualiza el firmware de la central? (contexto:
+    CAD-150)'
+  answer_excerpt: 'Los fragmentos recuperados de los manuales de la **CAD-150** (tanto
+    la CAD-150-8 como la CAD-150R) no contienen ninguna información sobre el procedimiento
+    de actualización de firmware.
+
+
+    Los fragmentos disponibles cubren únicamente:
+
+    - Menú de Usuario (zonas, elementos, relés, sirenas) [F1, F4]
+
+    - Configuración rápida de instalación y prueba del sistema [F2]
+
+    - Conexionado de sirenas [F5]
+
+    - Portada de'
+- flow: mt07b_outside_window
+  last_route: clarify
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - El bot solicita aclaración sobre la central o detector/modelo antes de responder,
+    evitando inventar la tensión de alimentación sin contexto suficiente.
+  - La respuesta solicita aclarar el modelo o equipo concreto antes de dar la tensión
+    de alimentación, que es justo la conducta esperada ante una referencia ambigua.
+  - El bot pide correctamente la variante o modelo antes de responder, evitando inventar
+    una tensión de alimentación no identificada.
+  rewritten_query: null
+  query_for_retrieval: ¿y cuál es su tensión de alimentación?
+  answer_excerpt: ¿De qué central o detector (modelo) estamos hablando? Ha pasado
+    un rato y necesito el modelo para responder con precisión.
+- flow: mt09_iso_chatA
+  last_route: carry_forward
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - Responde con la información disponible, distingue entre contraseña remota y de
+    usuarios, señala la divergencia documental y evita presentar valores de capturas
+    como contraseña oficial de fábrica. Es una respuesta prudente y bien acotada al
+    corpus.
+  - Responde a la pregunta aportando los valores documentados en capturas y distingue
+    entre contraseña remota y usuarios del panel. Además admite correctamente que
+    el corpus no declara explícitamente una contraseña de fábrica oficial, evitando
+    inventarla.
+  - Responde con la información disponible sobre las contraseñas mostradas en los
+    manuales y distingue correctamente entre acceso remoto y usuarios del panel. Además
+    evita afirmar una contraseña de fábrica no documentada explícitamente, señalando
+    la divergencia entre fuentes.
+  rewritten_query: null
+  query_for_retrieval: '¿y la contraseña por defecto? (contexto: CAD-250)'
+  answer_excerpt: 'Depende de qué contraseña necesitas:
+
+
+    **Contraseña remota (acceso VNC/TCP-IP):**
+
+    El manual de configuración muestra **"detnov"** como valor en el campo *Contraseña
+    remota* de la pantalla de ejemplo [F1].
+
+
+    > ⚠️ El manual de instalación (MI_372) muestra un valor diferente (**10501**)
+    en su pantalla de ejemplo [F2]. Estos valores son los que aparecen en las capturas
+    de pantalla de los manuales, no se'
+- flow: mt07c_resurreccion_post_clarify
+  last_route: clarify
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - El bot solicita el modelo o equipo concreto antes de responder, lo cual coincide
+    con la conducta esperada de aclarar ante falta de contexto o posible divergencia.
+  - La respuesta pide aclarar el modelo o equipo concreto antes de dar el consumo
+    en reposo, lo cual coincide con la conducta esperada de aclaración ante falta
+    de contexto.
+  - La respuesta pide aclarar el modelo o equipo antes de dar el consumo en reposo,
+    que coincide con la conducta esperada ante falta de contexto o posible divergencia.
+  rewritten_query: null
+  query_for_retrieval: ¿y su consumo en reposo?
+  answer_excerpt: ¿De qué central o detector (modelo) estamos hablando? Ha pasado
+    un rato y necesito el modelo para responder con precisión.
+- flow: mt11b_standalone_articulos
+  last_route: standalone
+  expected_behavior: null
+  veredicto: FALLO
+  verdicts:
+  - FALLO
+  - FALLO
+  - FALLO
+  diagnosticos:
+  - La conducta esperada era responder con contenido sobre cómo comprobar la tensión
+    de reposo. El bot pidió modelo sin aportar el procedimiento, por lo que no satisface
+    la pregunta.
+  - La conducta esperada era responder con contenido sobre cómo comprobar la tensión
+    de reposo del sistema de respaldo. El bot evita responder y pide modelo/equipo
+    sin aportar la información solicitada.
+  - La conducta esperada era responder con contenido sobre cómo comprobar la tensión
+    de reposo del sistema de respaldo. El bot se limitó a pedir modelo/equipo sin
+    aportar el procedimiento, por lo que no cumple la conducta esperada.
+  rewritten_query: null
+  query_for_retrieval: ¿Cómo se comprueba la tensión de reposo del sistema de respaldo?
+  answer_excerpt: La pregunta es ambigua porque el procedimiento varía según el equipo.
+    Antes de responderte con precisión, ¿de qué equipo o central estás hablando? ¿Puedes
+    indicarme el modelo exacto?
+- flow: mt12_anaphora_este_esos
+  last_route: rewrite
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - Responde directamente con procedimientos concretos para asignar/direccionar la
+    zona en el lazo ID3000, incluyendo panel y software. Aunque añade información
+    secundaria y queda una frase final truncada, no impide la utilidad de la respuesta
+    principal.
+  - El bot responde con contenido operativo y ofrece procedimientos desde panel y
+    software, sin negarse ni pedir aclaración innecesaria. Aunque la respuesta es
+    algo extensa y puede mezclar asignación de zona con direccionamiento del equipo,
+    cumple la conducta esperada de responder.
+  - Responde con contenido procedimental sobre cómo asignar/direccionar la entrada
+    de zona en el lazo de la ID3000, incluyendo panel y software. Aunque es algo extenso
+    y añade información periférica, no evita la pregunta ni requiere aclaración.
+  rewritten_query: ¿Cómo se direcciona una entrada de zona en el lazo de la ID3000?
+  query_for_retrieval: ¿Cómo se direcciona una entrada de zona en el lazo de la ID3000?
+  answer_excerpt: '## Direccionamiento de una entrada de zona en el lazo de la ID3000
+
+
+    Hay dos métodos: desde el **panel frontal** (programación manual) o desde el **software
+    PK-ID3000**.
+
+
+    ---
+
+
+    ### MÉTODO 1 — Desde el panel frontal (teclado de la central)
+
+
+    El proceso se realiza en la pantalla de configuración de equipo de lazo [F2]:
+
+
+    1. Accede a la configuración del equipo: **Configuración de equipo - Lazo n Sensor '
+- flow: mt14_gas_maniobra_con_estado
+  last_route: carry_forward
+  expected_behavior: answer
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - Responde directamente con un procedimiento de programación de la maniobra en CAD-250,
+    incluyendo evento de alarma, acción de salida y guardado. Añade cautelas razonables
+    y no se aprecia una negativa ni una inferencia claramente indebida en la conducta
+    del turno.
+  - La respuesta aborda la pregunta explicando cómo configurar una maniobra de alarma
+    hacia una salida/relé, con parámetros relevantes y advertencias de validación.
+    Aunque introduce ejemplos prácticos, los condiciona al cableado y al plan de protección,
+    sin presentar una receta cerrada no justificada.
+  - Responde directamente al procedimiento de programación de la maniobra en CAD-250,
+    indicando evento de alarma, salida/relé, retardo, acción y guardado. Añade cautelas
+    razonables sin desviarse ni inventar de forma evidente más allá de recomendaciones
+    operativas.
+  rewritten_query: null
+  query_for_retrieval: '¿y cómo programo el corte del suministro a la caldera de gas
+    cuando salta la alarma? (contexto: CAD-250)'
+  answer_excerpt: '## Programar corte de suministro a caldera de gas en alarma (CAD-250)
+
+
+    El corte de la caldera de gas se implementa como una **maniobra de acción** en
+    la CAD-250. El principio es el mismo que cualquier otra maniobra: un evento de
+    entrada (alarma) dispara una acción de salida (activar/desactivar el relé o dispositivo
+    que corta el gas) [F3].
+
+
+    ---
+
+
+    ### Pasos generales para crear la maniobra
+
+
+    **1. Acce'
+cost:
+  rewrite_calls: 2
+  generate_calls: 16
+  judge_calls: 24
+  generate_input_tokens: 167624
+  generate_output_tokens: 9662
+  judge_input_tokens: 13152
+  judge_output_tokens: 6857
+  usd_estimate: 0.7328
+  _note: USD aproximado (placeholders); la corrida de cierre pagada estampa el coste
+    real por-lane en el DEC.

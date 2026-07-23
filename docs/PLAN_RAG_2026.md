@@ -59,6 +59,11 @@ modelo operativo s279+ validado: Opus ejecuta lanes, Fable revisa — caza real 
   documentadas (matriz RGPD · DDL aplicado · JWT `convo_rpc` · PGRST_DB_SCHEMAS · scheduling ·
   puente sender).
 
+**s281b (24-jul): FASE 1 MEDIDA** — policy dúo-hardened (12/12 fixes, vara 48/48 $0), e2e
+K=3 final **18 PASS / 2 PARCIAL / 1 residual-declarado** (~$3.3), fix medido resolved-query→
+generación (spec de activación), A/B prompts fontiber-default. **H0 hasta packet ejecutable**
+(census + T3 re-tag ZXe/ZXSe adjudicado + batch_attested_v1). Detalle DEC-155.
+
 **Qué sigue:** (1) **clicks de Alberto**: lectura+merge #184 + flip = release · matriz RGPD
 (plantilla `docs/RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`, decide él con validación legal) · visto al
 DDL MT-0b; (2) **Fase 1 multi-turn** (MT-1a clasificador+rewrite gateado · MT-1b eval nueva
