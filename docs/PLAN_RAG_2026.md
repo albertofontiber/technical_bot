@@ -27,7 +27,15 @@
 <a id="estado-actual-s277--22-jul-2026"></a>
 ## Estado actual (s281 — 23 jul 2026)
 
-**Release lista para el click de Alberto.** PR **#184** renombrada + des-drafteada (el título
+**RELEASE EN PRODUCCIÓN (23-jul tarde).** #184 mergeada a main (`f65ec66`) + flip Railway
+ejecutado por Alberto y **verificado vivo**: query post-deploy sellada `bot_version=f65ec66` en
+`query_logs` con el apéndice del Evidence Contract disparando en producción por primera vez.
+Antes del merge hubo que poner el CI en verde (rojo desde siempre: checkout shallow mataba los
+drift-seals a los 2 min → `fetch-depth: 0` + 3 fixes de plataforma Linux [sha EOL-canónico del
+YAML de facetas ×2 + expectativa del fence test — Linux era el comportamiento fiel]; suite en CI
+3080/0; 4 commits sobre 9cfa6f8, cero cambio de runtime). Smoke ZXSe post-deploy aterrizó en el
+gap CONOCIDO D1 (MIE-MI-600 = 88 chunks `unknown`, verificado en DB): conducta correcta (admite,
+no inventa) — refuerza la prioridad de H0 (backfill de identidad). Checklist histórica del flip: PR **#184** renombrada + des-drafteada (el título
 "NO-GO" era el handoff histórico de Codex), body = checklist de release. Merge ⇒ flip Railway:
 `COVERAGE_RELEASE_PROFILE=coverage_c1_v4` + `IDENTITY_RESOLVE_POLICY=replace` + retirar
 `COVERAGE_MANDATORY_CALLOUT`/`MP_MANDATORY_VERB_TRIGGER` + mantener `MUST_PRESERVE_CONTRACT=on`;

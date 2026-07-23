@@ -2198,3 +2198,18 @@ viejo). Suites encadenadas: 3079 → 3094 → 3143 → 3146 → **3158/0** (arit
 **Cierre:** DEC-153 + PLAN reconciliado (Estado actual s281) + este apéndice + memoria.
 Todo en `claude/s281-mt0` @ HEAD del cierre; queda el bloque de Alberto (merge #184 + flip,
 matriz RGPD, visto DDL, GO de Fase 1).
+
+### s281 (23 jul, tarde) — RELEASE DESPLEGADA: CI en verde por primera vez + merge #184 + flip verificado vivo
+
+Alberto fue a mergear y el check requerido estaba rojo. Diagnóstico en capas: el CI nunca había
+corrido la suite entera (checkout shallow vs drift-seals que exigen commits históricos →
+`fetch-depth: 0`); destapado eso, 3 fallos de plataforma latentes (el sha del YAML de facetas
+hasheaba bytes de checkout CRLF/LF → sha de contenido canónico + pins re-anclados; y el test de
+open-response-perdida esperaba un TIMEOUT que era accidente de timing de Windows — `process_path`
+escribe el hold del re-dispatch como respuesta, así que Linux mostraba el comportamiento fiel a
+producción; la invariante de recuperación quedó estricta). Primer diagnóstico del fence corregido
+sobre la marcha (la vía real era el fichero de respuesta, no el pump). Suite en CI: 3080/0.
+Merge de Alberto (`f65ec66`) + flip Railway + smoke: fila sellada `bot_version=f65ec66`, EC vivo.
+El smoke ZXSe (elección mía) cayó en el gap D1 conocido (`MIE-MI-600` 88 chunks `unknown`,
+verificado en DB): el bot admitió en vez de inventar — conducta correcta sobre agujero de
+identidad; H0 sube de prioridad. La rama s281 heredó release+fixes vía merge de main (`32a7ed1`).
