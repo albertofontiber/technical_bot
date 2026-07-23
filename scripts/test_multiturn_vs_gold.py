@@ -506,8 +506,13 @@ def run_e2e_flows(
             answer = None
             answer_excerpt = None
             if resolution.route in _RETRIEVING_ROUTES:
+                # La pregunta RESUELTA alimenta también la GENERACIÓN (patrón
+                # condense-question BP): con la cruda, el writer no ve el
+                # antecedente y pide el modelo pese al carry — 6/8 FALLOs de la
+                # 1ª pasada e2e s281 tenían exactamente ese mecanismo. Para
+                # standalone resuelta==cruda (paridad F0 intacta).
                 _served, answer = _drive_turn_through_orchestrator(
-                    store, query=query,
+                    store, query=resolution.query_for_retrieval,
                     query_for_retrieval=resolution.query_for_retrieval,
                     target_models=resolution.target_models,
                     available_models=resolution.available_models or avail_tuple,
@@ -529,9 +534,15 @@ def run_e2e_flows(
         verdicts: list[str] = []
         diagnosticos: list[str] = []
         for _ in range(judge_k):
+            # Sin expected_behavior explícito en el gold, la conducta esperada se
+            # deriva de la RUTA adjudicada del turno (una policy-clarify esperada
+            # por el gold NO es "answer" — artefacto mt07b/mt07c 1ª pasada).
+            _route_default = {
+                "clarify": "clarify", "decline": "refuse-inference",
+            }.get(str(last.get("route")), "answer")
             v = judge_fn(
                 question=last.get("query_for_retrieval") or last.get("query", ""),
-                expected=last.get("expected_behavior") or "answer",
+                expected=last.get("expected_behavior") or _route_default,
                 gold=gold_txt,
                 bot=last.get("answer") or last.get("clarify_question")
                     or last.get("decline_reason") or "",
