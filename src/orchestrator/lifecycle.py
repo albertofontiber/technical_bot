@@ -6,29 +6,57 @@ boundary. Transport-neutral: the ``sender`` (Telegram in MT-0d) is injected, and
 the LLM/network send ALWAYS happens OUTSIDE every store transaction.
 
 --------------------------------------------------------------------------------
+LEASE SIZING + HEARTBEAT (declared MT-0d/F1 dependency)
+--------------------------------------------------------------------------------
+Two leases, dimensioned to their phase (not the single 60s knob): compute uses
+``COMPUTE_LEASE_SECONDS`` (sized to the p99 of a slow turn — LLM retries), and
+delivery uses ``SENDING_LEASE_SECONDS``. ``convo.heartbeat_run`` EXISTS but the
+Phase-0 driver does not yet call it during compute; wiring a heartbeat loop is a
+declared MT-0d/F1 dependency. Until then the oversized compute lease — not a
+heartbeat — is what keeps a live-but-slow worker from being fenced mid-flight;
+fencing only ever prevents PUBLISHING a stale answer, never double COMPUTE.
+
+--------------------------------------------------------------------------------
 AT-LEAST-ONCE WINDOW (declared, not disguised)
 --------------------------------------------------------------------------------
-The one gap effectively-once cannot close in Phase 0: if the process dies AFTER
-the Telegram HTTP send returns but BEFORE ``record_delivery`` commits, the outbox
-row stays ``sending``. The janitor cannot tell a crash-before-send from a
-crash-after-send, so it seals the row ``retryable`` and the poller re-sends — the
-user receives the answer TWICE. The transactional outbox MINIMISES this window
-(it is exactly one send, and only on a crash inside that window); it does not
-eliminate it. A true exactly-once egress would need a provider-side idempotency
-key on the Telegram send, which Telegram does not offer for ``sendMessage``.
-Every other boundary recovers with no visible double compute or double delivery.
+Egress cannot be exactly-once in Phase 0. The user can receive the answer TWICE
+in two ways, both because there is NO fencing of delivery (impossible without a
+provider-side idempotency key, which Telegram ``sendMessage`` does not offer):
+  1. crash post-send: the process dies AFTER the Telegram HTTP send returns but
+     BEFORE ``record_delivery`` commits — the outbox row stays ``sending``;
+  2. sender alive-but-slow: the send outlives ``SENDING_LEASE_SECONDS``, the
+     janitor seals the row ``retryable`` and the poller re-sends while the
+     original HTTP request can still land.
+The janitor cannot tell either case from a clean crash-before-send, so it seals
+``sending`` -> ``retryable`` and the poller re-sends. The transactional outbox
+MINIMISES this window (exactly one send, only on a stall/crash inside it); it
+does not eliminate it.
+
+--------------------------------------------------------------------------------
+FRONTIER RECOVERY IN PRODUCTION (declared MT-0d dependency)
+--------------------------------------------------------------------------------
+Frontiers 3-5 (post-complete) recover autonomously via the outbox poller +
+janitor once those are SCHEDULED (MT-0d). Frontiers 1-2 (a crash after ingress /
+after claim, before an answer persists) DEPEND on a real actor re-driving the
+turn: python-telegram-bot confirms the update offset at FETCH, so after a crash
+Telegram will NOT redeliver the update — recovery needs either a manual offset
+replay or a recompute driven by the janitor/scheduler that reclaims-before-
+recomputing. The fake surfaces those orphans (``find_reclaimable_runs`` now
+includes aged ``pending`` runs); the actor that acts on them is MT-0d. No
+boundary "just recovers" without that transport wiring.
 """
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Callable
 
 from .contracts import TurnRequest, TurnResult
 from .convo_store import (
-    DEFAULT_LEASE_SECONDS,
     DEFAULT_MAX_ATTEMPTS,
+    DEFAULT_PENDING_ORPHAN_SECONDS,
     DEFAULT_RETRY_SECONDS,
     ConvoStore,
     ConvoStoreWithScan,
@@ -39,6 +67,16 @@ from .orchestrator import run_turn
 
 # One bot answer per user turn; the turn_run_id already scopes the outbox unique.
 LOGICAL_DELIVERY_KEY = "answer"
+
+# Compute lease: sized to the p99 of a slow turn (LLM retries), NOT the 60s SQL
+# default. Used by ``_acquire`` for both the clean claim and the reclaim-before-
+# recompute of compute. Heartbeat wiring that would let a shorter lease survive a
+# slow turn is a declared MT-0d/F1 dependency (see module docstring).
+COMPUTE_LEASE_SECONDS = 600
+# Delivery (sending) lease: the window ``begin_delivery`` holds the outbox before
+# ``record_delivery`` seals it. Wider than the SQL default to make the
+# alive-but-slow duplicate rare; it cannot be eliminated (no delivery fencing).
+SENDING_LEASE_SECONDS = 180
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -80,7 +118,15 @@ class TurnOutcome:
 
     ``status`` values:
       * ``delivered``          — computed this call and delivered.
-      * ``send_failed``        — computed this call; delivery failed (retryable).
+      * ``send_failed``        — computed this call; a delivery attempt ACTUALLY
+                                 RAN (``begin_delivery`` won) and the send failed
+                                 (outbox -> retryable/dead_letter).
+      * ``delivery_race``      — computed this call, but ``begin_delivery`` lost
+                                 the race: the outbox was already claimed
+                                 (``not_claimable``) by a concurrent poller, so NO
+                                 attempt ran here. Not a failure — the other actor
+                                 owns the send. (Distinct from ``send_failed``,
+                                 which means an attempt ran and failed.)
       * ``already_delivered``  — dedup: the run was already delivered (no resend).
       * ``awaiting_delivery``  — computed by a prior (crashed) call; the poller
                                  will deliver its pending outbox.
@@ -102,7 +148,11 @@ class TurnOutcome:
 
 @dataclass(frozen=True, kw_only=True)
 class RepairSummary:
-    reclaimed_runs: tuple[dict[str, Any], ...] = ()
+    """What one janitor sweep observed. ``orphaned_runs`` are REPORTED, never
+    mutated (each dict: turn_run_id / compute_status / attempt_no); only stuck
+    ``sending`` rows are sealed."""
+
+    orphaned_runs: tuple[dict[str, Any], ...] = ()
     sealed_sending: tuple[dict[str, Any], ...] = ()
 
 
@@ -163,7 +213,7 @@ def deliver_outbox(
     record: OutboxRecord,
     sender: Sender,
     *,
-    lease_seconds: int = DEFAULT_LEASE_SECONDS,
+    lease_seconds: int = SENDING_LEASE_SECONDS,
     retry_seconds: int = DEFAULT_RETRY_SECONDS,
 ) -> DeliveryOutcome:
     """One delivery attempt: begin_delivery -> send (OUTSIDE the store) -> record.
@@ -242,7 +292,8 @@ def run_conversational_turn(
     worker_id: str,
     sender: Sender,
     *,
-    lease_seconds: int = DEFAULT_LEASE_SECONDS,
+    compute_lease_seconds: int = COMPUTE_LEASE_SECONDS,
+    sending_lease_seconds: int = SENDING_LEASE_SECONDS,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     retry_seconds: int = DEFAULT_RETRY_SECONDS,
 ) -> TurnOutcome:
@@ -281,7 +332,7 @@ def run_conversational_turn(
         # role='user' always yields a run; guard keeps the type honest.
         raise RuntimeError("ingress did not create a turn_run for a user event")
 
-    acq = _acquire(store, turn_run_id, worker_id, lease_seconds, max_attempts)
+    acq = _acquire(store, turn_run_id, worker_id, compute_lease_seconds, max_attempts)
     if not acq.owned:
         return TurnOutcome(
             status=acq.terminal_status or "not_runnable",
@@ -295,6 +346,7 @@ def run_conversational_turn(
     fencing = acq.fencing
     assert fencing is not None
 
+    started = time.monotonic()
     try:
         result = run_turn(request, adapters)
     except Exception as exc:
@@ -307,6 +359,7 @@ def run_conversational_turn(
             error_detail=str(exc)[:2000],
         )
         raise
+    latency_ms = int((time.monotonic() - started) * 1000)
 
     generation = result.generation or {}
     completion = store.complete_run(
@@ -318,10 +371,15 @@ def run_conversational_turn(
         logical_delivery_key=LOGICAL_DELIVERY_KEY,
         answer_text=result.answer,
         answer_payload={"diagrams": list(result.diagrams)},
-        tokens_input=generation.get("tokens_input"),
-        tokens_output=generation.get("tokens_output"),
-        cost_usd=generation.get("cost_usd"),
-        latency_ms=generation.get("latency_ms"),
+        # The generator emits ``input_tokens``/``output_tokens`` (src/rag/
+        # generator.py ~L829); map them to the store's tokens_input/tokens_output
+        # (reading the old tokens_* keys always yielded NULL). latency is measured
+        # HERE around run_turn (monotonic); cost_usd stays None — the generator
+        # does not produce a cost figure.
+        tokens_input=generation.get("input_tokens"),
+        tokens_output=generation.get("output_tokens"),
+        cost_usd=None,
+        latency_ms=latency_ms,
         max_attempts=max_attempts,
     )
     if not completion["completed"]:
@@ -349,10 +407,20 @@ def run_conversational_turn(
         payload={"diagrams": list(result.diagrams)},
     )
     delivery = deliver_outbox(
-        store, record, sender, lease_seconds=lease_seconds, retry_seconds=retry_seconds
+        store, record, sender,
+        lease_seconds=sending_lease_seconds, retry_seconds=retry_seconds,
     )
+    # A delivery attempt only "failed" if it actually RAN. If begin_delivery lost
+    # the race (started=False, e.g. a poller already claimed the outbox), that is
+    # a delivery_race, not a send_failed (the loser recorded no attempt).
+    if delivery.delivered:
+        status = "delivered"
+    elif delivery.started:
+        status = "send_failed"
+    else:
+        status = "delivery_race"
     return TurnOutcome(
-        status="delivered" if delivery.delivered else "send_failed",
+        status=status,
         turn_run_id=turn_run_id,
         conversation_id=conversation_id,
         outbox_id=outbox_id,
@@ -369,7 +437,7 @@ def deliver_pending(
     sender: Sender,
     now: datetime,
     *,
-    lease_seconds: int = DEFAULT_LEASE_SECONDS,
+    lease_seconds: int = SENDING_LEASE_SECONDS,
     retry_seconds: int = DEFAULT_RETRY_SECONDS,
 ) -> list[DeliveryOutcome]:
     """Outbox poller: deliver every due ``pending``/``retryable`` row.
@@ -392,40 +460,39 @@ def reclaim_and_repair(
     worker_id: str,
     now: datetime,
     *,
-    lease_seconds: int = DEFAULT_LEASE_SECONDS,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     retry_seconds: int = DEFAULT_RETRY_SECONDS,
+    pending_age_seconds: int = DEFAULT_PENDING_ORPHAN_SECONDS,
 ) -> RepairSummary:
-    """Janitor: (i) reclaim orphaned runs, (ii) seal stuck ``sending`` rows.
+    """Janitor: (i) REPORT orphaned runs (no mutation), (ii) seal stuck ``sending``.
 
-    (i) Reclaims expired-lease ``running`` and ``failed`` runs (within budget),
-    bumping ``fencing_token`` so the crashed owner can neither complete nor
-    publish. Note: reclaim transitions a run to ``running`` under ``worker_id``;
-    it does NOT recompute. Compute recovery of a SPECIFIC turn is by re-invoking
-    ``run_conversational_turn`` (which self-heals via its own claim-or-reclaim);
-    this sweep is for orphan detection + the fencing guarantee.
+    (i) The janitor does NOT reclaim runs. Reclaiming here was DANGEROUS: a run
+    reclaimed but not recomputed burns its attempt budget on successive sweeps
+    until it is running-expired AND budget-exhausted — invisible to the scan and
+    irrecoverable, its live lease also blocking the only real re-invocation. The
+    reclaim-before-recompute of compute lives SOLELY in ``_acquire`` (driven by a
+    real re-invocation of ``run_conversational_turn``). This sweep only REPORTS
+    orphans — expired-lease ``running``, ``failed``, and aged ``pending`` — in
+    ``orphaned_runs`` (turn_run_id / compute_status / attempt_no), leaving
+    ``attempt_no`` and ``fencing_token`` untouched. ``worker_id`` is retained as
+    the janitor identity for the sealing below.
 
     (ii) Seals every ``sending`` row whose lease (``next_attempt_at``) has
     expired via ``record_delivery(success=false, 'sending_lease_expired')`` ->
     ``retryable``/``dead_letter``, so ``deliver_pending`` can re-send. This is the
-    load-bearing recovery for a sender that died between begin and record.
+    load-bearing recovery for a sender that died (or stalled) between begin and
+    record. Scheduling this sweep + the poller is a declared MT-0d dependency.
     """
-    reclaimed: list[dict[str, Any]] = []
-    for cand in store.find_reclaimable_runs(now=now, max_attempts=max_attempts):
-        rec = store.reclaim_run(
-            turn_run_id=cand.turn_run_id,
-            lease_owner=worker_id,
-            lease_seconds=lease_seconds,
-            max_attempts=max_attempts,
+    orphaned: list[dict[str, Any]] = [
+        {
+            "turn_run_id": cand.turn_run_id,
+            "compute_status": cand.compute_status,
+            "attempt_no": cand.attempt_no,
+        }
+        for cand in store.find_reclaimable_runs(
+            now=now, max_attempts=max_attempts, pending_age_seconds=pending_age_seconds
         )
-        if rec["reclaimed"]:
-            reclaimed.append(
-                {
-                    "turn_run_id": cand.turn_run_id,
-                    "fencing_token": rec["fencing_token"],
-                    "attempt_no": rec["attempt_no"],
-                }
-            )
+    ]
 
     sealed: list[dict[str, Any]] = []
     for stuck in store.find_stuck_sending(now=now):
@@ -446,4 +513,4 @@ def reclaim_and_repair(
             }
         )
 
-    return RepairSummary(reclaimed_runs=tuple(reclaimed), sealed_sending=tuple(sealed))
+    return RepairSummary(orphaned_runs=tuple(orphaned), sealed_sending=tuple(sealed))

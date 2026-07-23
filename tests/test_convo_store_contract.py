@@ -270,6 +270,19 @@ def test_recomplete_fails_cas_not_running(store):
     assert again["completed"] is False and again["reason"] == "stale_claim"
 
 
+def test_complete_max_attempts_zero_rolls_back(store):
+    # In PG the outbox INSERT's CHECK delivery_outbox_max_attempts_positive
+    # (max_attempts>=1) rolls back the WHOLE transaction: the run never reaches
+    # answer_ready and no outbox is created. The fake must validate-first and
+    # raise (rollback semantics), not certify a phantom answer_ready + outbox.
+    run_id, f1 = _seed_running(store)
+    with pytest.raises(ValueError):
+        _complete(store, run_id, f1, max_attempts=0)
+    # Nothing mutated: the run is still running (not answer_ready), no outbox.
+    assert store.run_status(run_id) == "running"
+    assert store.outbox_status(1) is None
+
+
 # --- fail_run ----------------------------------------------------------------
 def test_fail_run_transitions_running_to_failed(store):
     run_id, f1 = _seed_running(store)

@@ -29,6 +29,7 @@ from typing import Any
 from .convo_store import (
     DEFAULT_LEASE_SECONDS,
     DEFAULT_MAX_ATTEMPTS,
+    DEFAULT_PENDING_ORPHAN_SECONDS,
     DEFAULT_RETRY_SECONDS,
     BeginDeliveryResult,
     ClaimResult,
@@ -108,6 +109,7 @@ class _Run:
     lease_expires_at: datetime | None = None
     fencing_token: int = 0
     heartbeat_at: datetime | None = None
+    created_at: datetime | None = None
     started_at: datetime | None = None
     answered_at: datetime | None = None
     delivered_at: datetime | None = None
@@ -261,6 +263,7 @@ class FakeConvoStore:
                     id=turn_run_id,
                     conversation_id=conv.id,
                     input_event_id=event_id,
+                    created_at=now,
                 )
                 self._run_by_input_event[event_id] = turn_run_id
 
@@ -439,6 +442,16 @@ class FakeConvoStore:
         latency_ms: int | None = None,
         max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     ) -> CompleteResult:
+        # Validate-first (same pattern as ``ingress``): in PG the outbox INSERT
+        # carries CHECK ``delivery_outbox_max_attempts_positive`` (max_attempts>=1);
+        # a violation rolls back the WHOLE transaction — the run never reaches
+        # answer_ready and no outbox is created. Raising BEFORE mutating anything
+        # reproduces that rollback instead of certifying a phantom answer_ready.
+        if max_attempts < 1:
+            raise ValueError(
+                f"complete_run: max_attempts must be >= 1 (got {max_attempts}); "
+                "delivery_outbox_max_attempts_positive would roll back the txn"
+            )
         now = self.clock.now()
         run = self._runs.get(turn_run_id)
         cas_ok = (
@@ -627,8 +640,19 @@ class FakeConvoStore:
 
     # -- scanner (deferred read surface; maps to the partial indexes) ---------
     def find_reclaimable_runs(
-        self, *, now: datetime, max_attempts: int = DEFAULT_MAX_ATTEMPTS
+        self,
+        *,
+        now: datetime,
+        max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+        pending_age_seconds: int = DEFAULT_PENDING_ORPHAN_SECONDS,
     ) -> list[ReclaimCandidate]:
+        """Orphan candidates the janitor surfaces (it reports; never mutates).
+
+        Three shapes: ``failed``, expired-lease ``running`` (both from the
+        ``turn_runs_reclaimable_idx`` partial index), and ``pending`` runs older
+        than ``pending_age_seconds`` — a frontier-1 crash (worker died between
+        ingress and claim) that the running/failed index alone cannot see.
+        """
         out: list[ReclaimCandidate] = []
         for run in self._runs.values():
             if run.attempt_no >= max_attempts:
@@ -637,6 +661,14 @@ class FakeConvoStore:
             if run.compute_status == "failed" or (
                 run.compute_status == "running" and lease_expired
             ):
+                is_orphan = True
+            elif run.compute_status == "pending":
+                is_orphan = run.created_at is not None and (
+                    run.created_at + timedelta(seconds=pending_age_seconds) < now
+                )
+            else:
+                is_orphan = False
+            if is_orphan:
                 out.append(
                     ReclaimCandidate(
                         turn_run_id=run.id,

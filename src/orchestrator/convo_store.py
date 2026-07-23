@@ -17,10 +17,14 @@ Two protocols are declared:
     to discover recovery candidates: reclaimable runs, deliverable outbox rows,
     and stuck ``sending`` rows. They map to the schema's partial indexes
     (``turn_runs_reclaimable_idx``, ``delivery_outbox_pending_idx``,
-    ``delivery_outbox_sending_stale_idx``). MT-0b delivered NO read/scan RPCs for
-    these (its 8 RPCs are all mutating), so ``PostgRESTConvoStore`` cannot serve
-    them today — they are a DECLARED deferred read surface. In Phase 0 the only
-    ``ConvoScanner`` is ``FakeConvoStore`` (RGPD: synthetic-only testing).
+    ``delivery_outbox_sending_stale_idx``). MT-0b's 8 RPCs are all MUTATING; the
+    matching read surface is proposed SEPARATELY as three SECURITY DEFINER
+    read-RPCs in ``20260723120000_s281_convo_read_rpcs_f0.sql`` (still
+    NO_GO_FOR_DB until the RGPD matrix is signed). ``PostgRESTConvoStore``
+    implements ``ConvoScanner`` over those RPCs, but — like the mutating client —
+    it is NEVER exercised against the network in Phase 0: the whole suite runs on
+    ``FakeConvoStore`` (RGPD: synthetic-only testing). Scheduling the janitor/
+    poller that would call these is a declared MT-0d dependency.
 
 ``PostgRESTConvoStore`` is never exercised against the network in tests.
 """
@@ -38,6 +42,12 @@ import httpx
 DEFAULT_LEASE_SECONDS = 60
 DEFAULT_MAX_ATTEMPTS = 5
 DEFAULT_RETRY_SECONDS = 60
+# A ``pending`` run this old (never claimed) is an ORPHAN candidate: its worker
+# crashed between ``ingress`` and ``claim`` (frontier 1). Sized above the compute
+# lease so a run being actively picked up is never mislabelled an orphan.
+DEFAULT_PENDING_ORPHAN_SECONDS = 600
+# Page size the janitor/poller asks the deliverable-outbox read RPC for.
+DEFAULT_SCAN_LIMIT = 200
 
 
 # --- return shapes: EXACT keys of each RPC's jsonb_build_object ---------------
@@ -105,7 +115,14 @@ class RecordDeliveryResult(TypedDict):
 # --- scanner records (read surface for the janitor) --------------------------
 @dataclass(frozen=True, kw_only=True)
 class ReclaimCandidate:
-    """A run the janitor may reclaim: expired-lease ``running`` or ``failed``."""
+    """A run the janitor surfaces as an orphan (it REPORTS, never reclaims).
+
+    Three shapes: expired-lease ``running`` (frontier 2 crash), ``failed`` (a
+    recorded compute error), and ``pending`` older than the orphan threshold
+    (frontier 1 crash: worker died between ``ingress`` and ``claim``). Compute
+    recovery of a specific run is by re-invoking ``run_conversational_turn``,
+    which reclaims-before-recomputing in ``_acquire``; the janitor never mutates.
+    """
 
     turn_run_id: int
     compute_status: str
@@ -244,7 +261,11 @@ class ConvoScanner(Protocol):
     """
 
     def find_reclaimable_runs(
-        self, *, now: datetime, max_attempts: int = DEFAULT_MAX_ATTEMPTS
+        self,
+        *,
+        now: datetime,
+        max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+        pending_age_seconds: int = DEFAULT_PENDING_ORPHAN_SECONDS,
     ) -> list[ReclaimCandidate]: ...
 
     def find_deliverable_outbox(self, *, now: datetime) -> list[OutboxRecord]: ...
@@ -259,42 +280,64 @@ class ConvoStoreWithScan(ConvoStore, ConvoScanner, Protocol):
 class PostgRESTConvoStore:
     """Thin httpx client for the ``convo`` RPCs over PostgREST.
 
-    Same stack as ``src.rag.retriever`` (apikey + Bearer service key), adding
-    ``Accept-Profile: convo`` / ``Content-Profile: convo`` so ``/rpc/<fn>``
-    resolves the SECURITY DEFINER functions of the private schema. The PostgREST
-    role is ``convo_rpc`` (impersonated via ``authenticator``); this client only
-    needs the service key the platform already injects.
+    AUTH (fix AUTH-SERVICE-ROLE): the ``convo`` functions ``REVOKE EXECUTE`` from
+    ``service_role`` and ``GRANT`` only to ``convo_rpc``. ``Accept-Profile``
+    selects the SCHEMA, not the PRINCIPAL — so the service key as the ``Bearer``
+    token authenticates as ``service_role`` and every real call would be
+    ``permission denied``. This client therefore requires an EXPLICIT
+    ``bearer_jwt``: a JWT whose claim is ``role=convo_rpc``, minted the same way
+    the corpus lane mints ``P1_SUPABASE_JWT`` for ``p1_readonly`` (see
+    ``docs/C1_RELEASE_RUNBOOK.md:227-233`` — ``SUPABASE_KEY`` feeds ONLY the
+    ``apikey`` header and can never be reused as the bearer). ``apikey`` stays the
+    anon/service key the platform injects; the two are separated deliberately.
+    There is NO silent fallback to the service key for ``Authorization``: minting
+    and provisioning that JWT is a declared ops step for the conformance/apply
+    lane.
+
+    ``Accept-Profile: convo`` / ``Content-Profile: convo`` resolve ``/rpc/<fn>``
+    to the SECURITY DEFINER functions of the private schema.
 
     NEVER exercised against the network in tests (RGPD: no real conversational
     data; the whole suite runs on ``FakeConvoStore``). A live smoke belongs in a
     later apply/rollback lane, gated behind an env var and skipped by default.
 
-    It implements ``ConvoStore`` (the 8 RPCs) but NOT ``ConvoScanner``: MT-0b
-    shipped no read/scan RPCs, so candidate discovery against the real store is a
-    declared deferred surface (see module docstring).
+    It implements ``ConvoStore`` (the 8 mutating RPCs) AND ``ConvoScanner`` (the
+    three read-RPCs proposed in ``20260723120000_s281_convo_read_rpcs_f0.sql``).
+    The actor that would schedule the janitor/poller calling the scan surface is a
+    declared MT-0d dependency (see module docstring).
     """
 
     def __init__(
         self,
         *,
+        bearer_jwt: str,
         base_url: str | None = None,
-        service_key: str | None = None,
+        apikey: str | None = None,
         schema: str = "convo",
         timeout: float = 15.0,
     ) -> None:
-        if base_url is None or service_key is None:
+        if not bearer_jwt:
+            raise ValueError(
+                "PostgRESTConvoStore requires an explicit bearer_jwt with "
+                "role=convo_rpc (mint like p1_readonly, runbook:227-233); the "
+                "service key as bearer authenticates as service_role -> "
+                "permission denied on every convo RPC."
+            )
+        if base_url is None or apikey is None:
             # Lazy so importing this module never requires Supabase env vars
             # (tests import the Protocol/types without touching config).
             from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 
             base_url = base_url or SUPABASE_URL
-            service_key = service_key or SUPABASE_SERVICE_KEY
+            apikey = apikey or SUPABASE_SERVICE_KEY
         self._rpc_url = f"{base_url}/rest/v1/rpc"
         self._schema = schema
         self._timeout = timeout
         self._headers = {
-            "apikey": service_key,
-            "Authorization": f"Bearer {service_key}",
+            # apikey = the platform anon/service key (PostgREST gate); the PRINCIPAL
+            # comes from the bearer JWT (role=convo_rpc), never from this key.
+            "apikey": apikey,
+            "Authorization": f"Bearer {bearer_jwt}",
             "Content-Type": "application/json",
             "Accept-Profile": schema,
             "Content-Profile": schema,
@@ -302,6 +345,15 @@ class PostgRESTConvoStore:
 
     def _call(self, fn: str, body: dict[str, Any]) -> dict[str, Any]:
         """POST /rpc/<fn>; a jsonb-returning function yields the object directly."""
+        with httpx.Client(timeout=self._timeout) as client:
+            resp = client.post(
+                f"{self._rpc_url}/{fn}", headers=self._headers, json=body
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+    def _call_rows(self, fn: str, body: dict[str, Any]) -> list[dict[str, Any]]:
+        """POST /rpc/<fn> for a SETOF-jsonb read RPC; yields the row array."""
         with httpx.Client(timeout=self._timeout) as client:
             resp = client.post(
                 f"{self._rpc_url}/{fn}", headers=self._headers, json=body
@@ -477,3 +529,59 @@ class PostgRESTConvoStore:
                 "p_retry_seconds": retry_seconds,
             },
         )  # type: ignore[return-value]
+
+    # --- ConvoScanner (the three read-RPCs) ----------------------------------
+    # ``now`` is accepted for interface parity with ``FakeConvoStore`` but the
+    # real store compares against the DB ``now()`` inside each SECURITY DEFINER
+    # function, so it is not sent over the wire.
+    def find_reclaimable_runs(
+        self,
+        *,
+        now: datetime,
+        max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+        pending_age_seconds: int = DEFAULT_PENDING_ORPHAN_SECONDS,
+    ) -> list[ReclaimCandidate]:
+        rows = self._call_rows(
+            "list_reclaimable_runs",
+            {"p_max_attempts": max_attempts, "p_pending_age_seconds": pending_age_seconds},
+        )
+        return [
+            ReclaimCandidate(
+                turn_run_id=r["turn_run_id"],
+                compute_status=r["compute_status"],
+                attempt_no=r["attempt_no"],
+            )
+            for r in rows
+        ]
+
+    def find_deliverable_outbox(self, *, now: datetime) -> list[OutboxRecord]:
+        rows = self._call_rows(
+            "list_deliverable_outbox", {"p_limit": DEFAULT_SCAN_LIMIT}
+        )
+        return [
+            OutboxRecord(
+                outbox_id=r["outbox_id"],
+                turn_run_id=r["turn_run_id"],
+                conversation_id=r["conversation_id"],
+                channel=r["channel"],
+                destination=r["destination"],
+                logical_delivery_key=r["logical_delivery_key"],
+                payload_text=r["payload_text"],
+                payload=r.get("payload") or {},
+                delivery_status=r.get("delivery_status", "pending"),
+                attempt_count=r.get("attempt_count", 0),
+                next_attempt_at=(
+                    datetime.fromisoformat(r["next_attempt_at"])
+                    if r.get("next_attempt_at")
+                    else None
+                ),
+            )
+            for r in rows
+        ]
+
+    def find_stuck_sending(self, *, now: datetime) -> list[StuckSending]:
+        rows = self._call_rows("list_stuck_sending", {})
+        return [
+            StuckSending(outbox_id=r["outbox_id"], attempt_no=r["attempt_no"])
+            for r in rows
+        ]

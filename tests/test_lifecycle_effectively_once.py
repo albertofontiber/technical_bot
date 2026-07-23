@@ -91,9 +91,9 @@ def _request(*, chat="chat-1", update="u-1", query="¿tensión del lazo?"):
 
 def _drain_recovery(store, sender, *, worker="janitor"):
     """Full background sweep: expire leases, seal stuck sending, re-deliver."""
-    store.clock.advance(120)  # expire any sending lease
+    store.clock.advance(200)  # expire the sending lease (SENDING_LEASE_SECONDS=180)
     reclaim_and_repair(store, worker, store.clock.now())
-    store.clock.advance(120)  # make sealed->retryable rows due
+    store.clock.advance(200)  # make sealed->retryable rows due
     return deliver_pending(store, sender, store.clock.now())
 
 
@@ -223,6 +223,35 @@ def test_clean_send_failure_becomes_retryable_then_delivers(store):
     assert store.run_status(out.turn_run_id) == "delivered"
 
 
+# --- repeated clean failures exhaust the budget -> dead_letter ----------------
+def test_repeated_clean_failures_reach_dead_letter_and_poller_stops(store):
+    req = _request()
+    gen = []
+    rec = _Recorder()
+    # max_attempts=2: the driver's first attempt fails cleanly -> retryable.
+    out = run_conversational_turn(
+        store, req, _adapters(gen), "W1", rec.fail(), max_attempts=2
+    )
+    assert out.status == "send_failed"
+    assert store.outbox_status(out.outbox_id) == "retryable"
+
+    # The poller retries once the backoff is due; the second clean failure spends
+    # the last attempt -> dead_letter (no resend budget remains).
+    store.clock.advance(120)
+    again = deliver_pending(store, rec.fail(), store.clock.now())
+    assert len(again) == 1
+    assert again[0].ack is not None
+    assert again[0].ack["delivery_status"] == "dead_letter"
+    assert store.outbox_status(out.outbox_id) == "dead_letter"
+
+    # The run stays answer_ready (never delivered) and the poller no longer sees
+    # the row: a dead_letter outbox is out of the deliverable scan.
+    assert store.run_status(out.turn_run_id) == "answer_ready"
+    store.clock.advance(120)
+    assert deliver_pending(store, rec.ok(), store.clock.now()) == []
+    assert len(gen) == 1  # computed exactly once, never resent after dead_letter
+
+
 # --- compute error is recorded (fail_run) and re-raised, then retryable ------
 def test_compute_exception_records_failure_and_reraises(store):
     req = _request()
@@ -343,8 +372,8 @@ def test_state_version_monotonic_within_conversation(store):
     assert dup["is_new_event"] is False and dup["state_version"] == 2
 
 
-# --- janitor: reclaim bumps fencing so the crashed owner is fenced out -------
-def test_janitor_reclaims_expired_running_and_fences_old_owner(store):
+# --- janitor: REPORTS orphans WITHOUT mutating; fencing is a store property --
+def test_janitor_reports_orphan_without_reclaiming(store):
     req = _request()
     ing = store.ingress(
         channel=TELE, external_update_id="u-1", external_chat_id="chat-1",
@@ -352,13 +381,53 @@ def test_janitor_reclaims_expired_running_and_fences_old_owner(store):
     )
     run_id = ing["turn_run_id"]
     c1 = store.claim_run(turn_run_id=run_id, lease_owner="W1")
-    store.clock.advance(120)
+    store.clock.advance(120)  # W1 crashed; its lease expired
+
+    # The janitor REPORTS the orphan and does NOT reclaim it (no mutation).
     summary = reclaim_and_repair(store, "janitor", store.clock.now())
-    reclaimed_ids = {r["turn_run_id"] for r in summary.reclaimed_runs}
-    assert run_id in reclaimed_ids
-    # The old owner's fencing is now stale -> cannot complete.
+    assert not hasattr(summary, "reclaimed_runs")  # the mutant phase is gone
+    orphan = {r["turn_run_id"]: r for r in summary.orphaned_runs}
+    assert run_id in orphan
+    assert orphan[run_id]["compute_status"] == "running"
+    # Budget intact: a reclaim would have bumped attempt_no to 2.
+    assert orphan[run_id]["attempt_no"] == 1
+
+    # The fencing guarantee is a STORE-level property (reclaim_run), demonstrated
+    # DIRECTLY — not something the janitor does. A store reclaim bumps fencing so
+    # the crashed owner can neither complete nor publish.
+    r2 = store.reclaim_run(turn_run_id=run_id, lease_owner="W2")
+    assert r2["reclaimed"] is True
     stale = store.complete_run(
         turn_run_id=run_id, lease_owner="W1", fencing_token=c1["fencing_token"],
         channel=TELE, destination="chat-1", logical_delivery_key="answer", answer_text="x",
     )
     assert stale["completed"] is False and stale["reason"] == "stale_claim"
+
+
+# --- janitor: N sweeps over an orphan never burn the attempt budget ----------
+def test_janitor_multi_sweep_keeps_budget_and_run_recoverable(store):
+    req = _request()
+    ing = store.ingress(
+        channel=TELE, external_update_id="u-1", external_chat_id="chat-1",
+        role="user", content_text=req.query,
+    )
+    run_id = ing["turn_run_id"]
+    store.claim_run(turn_run_id=run_id, lease_owner="W1")  # W1 claimed then crashed
+    store.clock.advance(120)  # lease expired -> orphan
+
+    # The old bug: each sweep reclaimed + spent an attempt until the run was both
+    # budget-exhausted AND invisible to the scan (irrecoverable). Now N successive
+    # sweeps leave attempt_no INTACT (the janitor only reports).
+    for _ in range(6):
+        summary = reclaim_and_repair(store, "janitor", store.clock.now())
+        entry = next(r for r in summary.orphaned_runs if r["turn_run_id"] == run_id)
+        assert entry["attempt_no"] == 1  # never mutated across sweeps
+
+    # The run is STILL recoverable by a real re-invocation, which reclaims ONCE
+    # (attempt_no -> 2, well within budget) and delivers.
+    gen = []
+    rec = _Recorder()
+    out = run_conversational_turn(store, req, _adapters(gen), "W2", rec.ok())
+    assert out.status == "delivered"
+    assert len(gen) == 1 and len(rec.sends) == 1
+    assert store.run_status(run_id) == "delivered"

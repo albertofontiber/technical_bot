@@ -1,0 +1,40 @@
+# s281 MT-0c — adjudicación del dúo focal r1 (zona effectively-once), regla C aplicada
+ronda: 1
+objeto: "commit d51792b (MT-0c WIP: convo_store + fake + lifecycle + 2 suites)"
+lados:
+  fable: "sub-agente FRESCO — SOLIDO-CON-CAMBIOS (2 críticos, 2 medios, 3 menores)"
+  sol: "gpt-5.6-sol xhigh, 60 tool-calls — RECHAZAR (3 críticos, 3 medios); run previo InternalServerError registrado en tally"
+  orquestador: "review propia PREVIA e independiente (3 hallazgos, 2 convergentes)"
+veredicto_adjudicado: "RECHAZAR-EN-ESTADO — la lane NO se cierra sin el lote de fixes; la capa store/fake/contrato es sólida (ambos lados), los defectos viven en driver/janitor/cliente-real"
+hallazgos:
+  - {id: JANITOR-RECLAIM-DANINO, fuentes: [orq, fable-F1, sol-S3], sev: CRITICO, veredicto: CONFIRMADO-x3,
+     detalle: "reclaim_and_repair reclama runs huérfanos sin recomputar: quema attempt budget en barridos sucesivos hasta dejar el run running-expirado irrecuperable e invisible al scan; su lease vivo además bloquea (lease_still_live) la única re-invocación real. El fencing NO necesita reclaim proactivo (solo reclaim-antes-de-recomputar, ya en _acquire).",
+     fix: "el janitor deja de reclamar runs: solo sella sending atascados; huérfanos se REPORTAN (sin mutar). Test multi-barrido: presupuesto intacto + run recuperable por re-invocación posterior."}
+  - {id: HEARTBEAT-SIN-CALLER, fuentes: [fable-F2, sol-S5], sev: CRITICO, veredicto: CONFIRMADO,
+     detalle: "el driver nunca llama heartbeat_run; lease 60s < cómputo lento (retries LLM) → un worker VIVO puede ser vallado a mitad (doble cómputo; fencing solo evita publicar). El paquete lease+heartbeat+fencing del diseño no está íntegro en runtime.",
+     fix: "COMPUTE_LEASE_SECONDS=600 dimensionado al p99 de cómputo para el claim/reclaim de cómputo (F0, shadow); cableo real de heartbeat declarado dependencia MT-0d/F1 en docstring (no over-engineering en F0)."}
+  - {id: AUTH-SERVICE-ROLE, fuentes: [fable-F4, sol-S1], sev: CRITICO-al-primer-uso-vivo, veredicto: CONFIRMADO,
+     detalle: "el cliente usa la service key como bearer (role=service_role) y el SQL revoca EXECUTE a service_role → permission denied en toda llamada real. Accept-Profile elige schema, no principal. Precedente p1_readonly acuña JWT dedicado.",
+     fix: "PostgRESTConvoStore exige bearer_jwt EXPLÍCITO (sin fallback silencioso a service key para auth) + docstring honesto: JWT role=convo_rpc a acuñar como p1_readonly; paso de ops declarado en conformance."}
+  - {id: SCAN-SIN-SUPERFICIE-REAL, fuentes: [orq, sol-S2, fable-menor], sev: MEDIO(CRITICO-para-claim-2), veredicto: CONFIRMADO,
+     detalle: "poller/janitor no pueden correr contra el store real: 0 RPCs de lectura en MT-0b y el transporte no agenda janitor/poller — las recuperaciones de las fronteras 3-5 no tienen actor ni superficie en producción.",
+     fix: "enmienda al DDL: 3 read-RPCs SECURITY DEFINER (list_reclaimable_runs/list_deliverable_outbox/list_stuck_sending, GRANT solo convo_rpc) como migration_proposal nueva + PostgRESTConvoStore implementa ConvoScanner sobre ellas; scheduling del janitor/poller = dependencia MT-0d declarada."}
+  - {id: VENTANA-DECLARADA-ESTRECHA, fuentes: [fable-menor, sol-S4], sev: MEDIO, veredicto: CONFIRMADO,
+     detalle: "duplicado también SIN crash: sender vivo-pero-lento supera el lease de sending, el janitor sella, el poller reenvía y el HTTP original aún puede aterrizar. No hay fencing de delivery (imposible exactly-once egress en Telegram).",
+     fix: "docstring de la ventana ensanchado (crash post-send O sender lento) + SENDING_LEASE_SECONDS=180 para hacerla rara; sin fencing de delivery (over-engineering sin idempotency key del proveedor)."}
+  - {id: FAKE-MAX-ATTEMPTS-0, fuentes: [sol-S6], sev: MEDIO, veredicto: CONFIRMADO (único de Sol),
+     detalle: "complete_run(max_attempts=0) en el fake muta run a answer_ready y crea outbox; en PG el CHECK delivery_outbox_max_attempts_positive revierte la TRANSACCIÓN ENTERA → los tests sintéticos certifican semántica de presupuesto distinta de la real.",
+     fix: "validate-first en el fake (ValueError si max_attempts < 1, ANTES de mutar) + test de contrato."}
+  - {id: FRONTERAS-1-2-SIN-ACTOR-REAL, fuentes: [fable-F3], sev: MEDIO, veredicto: CONFIRMADO,
+     detalle: "PTB confirma offset al fetch → tras crash real Telegram no redeliverá; run pending huérfano además invisible al scan (solo running/failed). El 'every other boundary recovers' del docstring sobre-afirma.",
+     fix: "docstring honesto (dependencia dura MT-0d: offset manual o recompute) + list_reclaimable incluye pending huérfanos con edad > umbral (en fake y en read-RPC propuesta)."}
+  - {id: METRIC-KEYS-MISMATCH, fuentes: [orq], sev: MENOR, veredicto: CONFIRMADO,
+     detalle: "generator devuelve input_tokens/output_tokens; el driver lee tokens_input/tokens_output → métricas de turn_runs siempre NULL.",
+     fix: "mapear claves reales del generator; latency_ms medido en el driver."}
+  - {id: ETIQUETAS-OUTCOME, fuentes: [fable-menor], sev: MENOR, veredicto: CONFIRMADO,
+     fix: "send_failed solo si el intento corrió; carrera perdida en begin → delivery_race (o reason del begin)."}
+solidos_confirmados:
+  - "contrato SQL (CAS propietario, outbox atómico, acuse idempotente) — ambos lados; fake bit-fiel salvo S6; ventana at-least-once ASSERTADA como duplicado en test (honestidad); aislamiento de chats y state_version monotónico sin fallo (Sol claim 3/5 sin hallazgo)"
+proceso:
+  - "convergencia independiente x3 en el hallazgo top (janitor) con anclas idénticas; Sol aporta 1 único (S6) → el corte cross-model sigue pagando"
+  - "tally completado mismo turno (6/6/0/critico, duo_complete); run Sol fallido previo registrado"
