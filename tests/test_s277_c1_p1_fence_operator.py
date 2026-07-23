@@ -1254,7 +1254,17 @@ def test_lost_open_response_can_abort_preallocated_session(tmp_path: Path):
 
     def lossy_pump():
         nonlocal dropped
-        server.process_pending()
+        # In production the server is a SEPARATE process: a server-side hold
+        # (e.g. HOLD_FENCE_IPC_SEQUENCE when it re-dispatches the orphaned
+        # request after this pump deleted its response) never crosses into the
+        # client, which only ever observes its own timeout. The inline pump
+        # must reproduce that isolation or the expected HOLD_FENCE_IPC_TIMEOUT
+        # races with the server's hold (platform-timing dependent: surfaced on
+        # Linux CI, masked on Windows).
+        try:
+            server.process_pending()
+        except fence.FenceOperatorHold:
+            pass
         if not dropped:
             for path in (tmp_path / "responses").glob("*.json"):
                 response = fence.load_json_object(path)
