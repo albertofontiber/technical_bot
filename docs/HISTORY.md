@@ -2169,3 +2169,32 @@ la campaña de backfill de identidad es el desbloqueador general (workstream pos
 diseño multi-turn s280 (Fases 0-1 build / 2-4 gated) quedó adjudicado en v2 con el mecanismo
 físico decidido (RPCs SECURITY DEFINER) y la autorización trazada. Detalle → DEC-152; release
 pendiente SOLO de la lectura + click de Alberto.
+
+## s281 (23 jul 2026) — día: baseline oficial de 39 + Fase 0 multi-turn completa (con 3 pausas)
+
+Sesión diurna tras el cierre nocturno s279-280, con el mandato "adelante" de Alberto sobre el
+plan propuesto (baseline 39 como primer acto + kickoff MT-0 en el modelo Opus-ejecuta/Fable-revisa).
+Tres pausas limpias de Alberto (protocolo: agentes parados, WIP committeado etiquetado, memoria
+al día; un corte de internet a mitad de la 3ª no perdió nada — el push había entrado).
+
+**Baseline:** worktree nuevo `Technical Bot-s281` (rama off la release 9cfa6f8 → #184 congelada
+para su lectura; PR renombrada + des-drafteada de paso). Primer arranque abortado a céntimos
+(DB fría: enunciados 500 + coverage timeout fail-open → un baseline degradado de facto no se
+estampa); RPCs calentados a mano y relanzada limpia: **12 PASS / 25 PARCIAL / 2 FALLO**, cero
+fail-opens salvo hp010 (re-verificada sola: mismo veredicto). Respondidas las 3 preguntas de
+Alberto: el juez juzga bien (ruido conocido y acotado), NO se cambia a Sol (s47 vigente), y su
+intuición multi-turn es correcta con reparto honesto (resuelve incompletitud, no errores; la
+vara single-turn no se relaja).
+
+**Fase 0:** MT-0b y MT-0a en paralelo con el baseline; MT-0c tras ellas; MT-0d al final.
+El sistema de review pagó en cada lane: Fable-orquestador cazó `fail_run` inalcanzable (MT-0b)
+y el mismatch de vocabulario cross-lane (MT-0a); el dúo focal de MT-0c (obligatorio, zona
+effectively-once) convergió ×3 en el janitor-dañino y añadió heartbeat-sin-caller,
+auth-service_role y el max_attempts=0 del fake (único de Sol; 1 run InternalServerError con
+retry). 9 fixes aplicados por lane Opus y verificados punto-por-punto contra el diff. MT-0d
+dejó el bot con 3 seams default-off byte-invariantes (el camino OFF es textualmente el código
+viejo). Suites encadenadas: 3079 → 3094 → 3143 → 3146 → **3158/0** (aritmética exacta por lane).
+
+**Cierre:** DEC-153 + PLAN reconciliado (Estado actual s281) + este apéndice + memoria.
+Todo en `claude/s281-mt0` @ HEAD del cierre; queda el bloque de Alberto (merge #184 + flip,
+matriz RGPD, visto DDL, GO de Fase 1).
