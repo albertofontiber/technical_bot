@@ -229,9 +229,23 @@ class StubConversationPolicy:
 
 
 # Composition seam: the orchestrator + eval obtain the active policy here. MT-1a
-# replaces the body to return its concrete policy (keeping the signature).
+# fills in the concrete policy (``conversation_policy_impl``) WITHOUT touching the
+# dataclasses/enum/invariants above. Phase-1 activation is flag-gated / default
+# OFF (like ORCHESTRATOR_PATH / CONVO_SHADOW): the orchestrator + Alberto flip
+# ``CONVERSATION_POLICY=impl`` to activate the real classifier/rewrite. Default
+# (unset) returns the stub, so this interface reports "not yet implemented" until
+# activation — the frozen contract stays honest. The import is lazy to avoid the
+# impl<->interface import cycle.
 def default_policy() -> ConversationPolicy:
-    """Return the active conversational policy. Phase-1-pending: the stub."""
+    """Return the active conversational policy: the deterministic MT-1a policy when
+    ``CONVERSATION_POLICY=impl``, otherwise the Phase-1-pending stub."""
+    from .conversation_policy_impl import (
+        DeterministicConversationPolicy,
+        conversation_policy_active,
+    )
+
+    if conversation_policy_active():
+        return DeterministicConversationPolicy()
     return StubConversationPolicy()
 
 
