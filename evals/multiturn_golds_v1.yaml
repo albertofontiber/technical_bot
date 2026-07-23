@@ -1,0 +1,416 @@
+# Multi-turn golds v1 (S281 / MT-1b) — conversational routing + resolution.
+#
+# Each flow is a sequence of turns driven through the ORCHESTRATOR
+# (TurnRequest -> run_conversational_turn) over a FakeConvoStore, with the
+# conversational policy (src/orchestrator/conversation_policy.py) resolving each
+# turn BEFORE retrieval. Entities are REAL — reused from evals/gold_answers_v1.yaml
+# (``reuses_golds``) so no product spec is invented; a handful reuse Alberto
+# ground-truth from the project memory (``entity_source``) where the single-turn
+# eval had no case (ZXSe variants, out-of-corpus product).
+#
+# SCHEMA (validated by tests/test_multiturn_golds_contract.py)
+# flow_id            unique id
+# clase              coverage class (one of the 10 below)
+# descripcion        one line
+# conversation       chat id (external_chat_id). Flows tagged ``iso-A``/``iso-B``
+#                    are interleaved by the isolation test over ONE store.
+# reuses_golds       [qid,...] subset of gold_answers_v1.yaml (real entities)
+# entity_source      free text when an entity is NOT from a gold (memory/GT)
+# turns:
+#   - n                     1-based turn index
+#     query                 the raw user turn
+#     advance_seconds       clock advance applied BEFORE this turn (window tests)
+#     expect:
+#       route               standalone|carry_forward|rewrite|clarify|decline
+#       target_models       resolved models after the policy (normalized, as
+#                           extract_product_models emits: CAD-250, ZXE, RS-485…)
+#       must_not_target     models that must NOT leak into target_models
+#       requires_llm_rewrite $0 guarantee: true ONLY on route=rewrite
+#       query_for_retrieval_contains  substrings that must appear ($0 assertion)
+#       query_for_retrieval_preserves technical tokens that must be VERBATIM
+#       codes_must_preserve  codes that must survive verbatim in the e2e rewrite
+#       clarify_question     true => a clarify question must be present
+#       expected_behavior    answer|admit_no_info|clarify|refuse-inference
+#                            (the --e2e judge target; ignored in --contract)
+#     note                  rationale / what this pins
+#
+# COVERAGE CLASSES: followup_detalle · pronombre · cambio_producto_explicito ·
+#   correccion · no_contestable_admit · reinicio_tema · carry_forward_1h ·
+#   codigos_tecnicos · dos_conversaciones_aisladas · clarify_solo_si_diverge
+
+flows:
+
+  # ---- CLASS 1: followup_detalle (deterministic carry-forward, $0) ----------
+  - flow_id: mt01_followup_cad250
+    clase: followup_detalle
+    descripcion: "Follow-up de detalle sobre el mismo producto establecido; $0."
+    conversation: mt01
+    reuses_golds: [hp001]
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          query_for_retrieval_contains: ["CAD-250"]
+        note: "Producto explícito -> standalone, sin coste."
+      - n: 2
+        query: "¿y qué contraseña trae por defecto?"
+        advance_seconds: 120
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          query_for_retrieval_preserves: ["por defecto"]
+        note: "Sin modelo explícito, dependiente, dentro de ventana -> re-adjunta CAD-250, $0."
+
+  # ---- CLASS 2: pronombre (anaphora -> rewrite, paga en --e2e) ---------------
+  - flow_id: mt02_pron_afp400
+    clase: pronombre
+    descripcion: "Pronombre que refiere a CONTENIDO previo (el aviso), no solo al producto."
+    conversation: mt02
+    reuses_golds: [hp006]
+    turns:
+      - n: 1
+        query: "La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["AFP-400"]
+          requires_llm_rewrite: false
+        note: "Establece AFP-400 + el aviso Tierra/Earth Fault."
+      - n: 2
+        query: "¿y ese aviso cómo se borra una vez localizado?"
+        advance_seconds: 90
+        expect:
+          route: rewrite
+          target_models: ["AFP-400"]
+          requires_llm_rewrite: true
+          codes_must_preserve: ["Earth Fault"]
+        note: "'ese aviso' = el fallo de Tierra: re-adjuntar el modelo no basta; se inlina el antecedente. Rewrite source-bound; el código se preserva."
+
+  # ---- CLASS 3: cambio_producto_explicito (el explícito gana al historial) ---
+  - flow_id: mt03_switch_cad
+    clase: cambio_producto_explicito
+    descripcion: "Segundo turno nombra OTRO producto explícito; gana sobre el historial."
+    conversation: mt03
+    reuses_golds: [hp001, hp003]
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se entra al menú de programación?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y en la CAD-150 cómo se conectan las baterías de 24V?"
+        advance_seconds: 60
+        expect:
+          route: standalone
+          target_models: ["CAD-150"]
+          must_not_target: ["CAD-250"]
+          requires_llm_rewrite: false
+          query_for_retrieval_contains: ["CAD-150"]
+        note: "Gate S99: producto explícito nuevo REEMPLAZA; CAD-250 no debe filtrarse."
+
+  # ---- CLASS 4: correccion (auto-corrección reemplaza, no une) ----------------
+  - flow_id: mt04_correction_id
+    clase: correccion
+    descripcion: "El técnico se corrige de modelo; el estado cambia por completo."
+    conversation: mt04
+    reuses_golds: [hp005, hp014]
+    turns:
+      - n: 1
+        query: "En la Notifier ID3000, ¿cómo programo una zona para activar una salida de sirena?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ID3000"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "perdón, me refería a la ID2000"
+        advance_seconds: 25
+        expect:
+          route: standalone
+          target_models: ["ID2000"]
+          must_not_target: ["ID3000"]
+          requires_llm_rewrite: false
+        note: "Corrección explícita: working state pasa a ID2000, NO une {ID3000, ID2000}."
+      - n: 3
+        query: "eso, ¿cómo se conecta un módulo de aislamiento de línea en su lazo?"
+        advance_seconds: 20
+        expect:
+          route: carry_forward
+          target_models: ["ID2000"]
+          must_not_target: ["ID3000"]
+          requires_llm_rewrite: false
+        note: "El detalle posterior hereda el modelo CORREGIDO (ID2000)."
+
+  # ---- CLASS 5: no_contestable_admit -----------------------------------------
+  - flow_id: mt05_admit_firmware
+    clase: no_contestable_admit
+    descripcion: "Follow-up sobre un dato que el corpus NO cubre para el producto establecido."
+    conversation: mt05
+    reuses_golds: [cat016, cat015]
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-150, ¿cómo se da de alta un detector nuevo en el lazo?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-150"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cómo se actualiza el firmware de la central?"
+        advance_seconds: 60
+        expect:
+          route: carry_forward
+          target_models: ["CAD-150"]
+          requires_llm_rewrite: false
+          expected_behavior: admit_no_info
+        note: "cat015: el firmware de la CAD-150 no está documentado -> el turno resuelve $0 pero la CONDUCTA esperada es admit (juez --e2e)."
+
+  - flow_id: mt05b_admit_out_of_corpus
+    clase: no_contestable_admit
+    descripcion: "Cambio explícito a un producto FUERA del corpus -> admit."
+    conversation: mt05b
+    reuses_golds: [hp008]
+    entity_source: "Bosch Avenar FPA-1200 = producto sin corpus (nd001 en tests/test_classify_behavior.py)."
+    turns:
+      - n: 1
+        query: "En la Notifier ID3000, ¿qué detectores de humo analógicos son compatibles?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ID3000"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y la Bosch Avenar FPA-1200 cómo se programa?"
+        advance_seconds: 40
+        expect:
+          route: standalone
+          must_not_target: ["ID3000"]
+          requires_llm_rewrite: false
+          entity_out_of_corpus: true
+          expected_behavior: admit_no_info
+        note: "Producto explícito nuevo (fuera de corpus): no filtra ID3000; conducta esperada admit (juez --e2e). No se asevera target exacto (detector puede no reconocerlo)."
+
+  # ---- CLASS 6: reinicio_tema -------------------------------------------------
+  - flow_id: mt06_reset_topic
+    clase: reinicio_tema
+    descripcion: "Cambio de tema a otra marca/central; el estado previo se descarta."
+    conversation: mt06
+    reuses_golds: [hp001, hp020]
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se entra al menú de programación?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "cambiando de tema: en la Notifier INSPIRE, ¿cómo configuro las contraseñas de nivel 2 y nivel 3?"
+        advance_seconds: 300
+        expect:
+          route: standalone
+          target_models: ["INSPIRE"]
+          must_not_target: ["CAD-250"]
+          requires_llm_rewrite: false
+          query_for_retrieval_contains: ["INSPIRE"]
+        note: "Reinicio explícito de tema: INSPIRE gana, CAD-250 no se arrastra."
+
+  # ---- CLASS 7: carry_forward_1h ($0 pineado) + límite de ventana ------------
+  - flow_id: mt07_within_window
+    clase: carry_forward_1h
+    descripcion: "Follow-up 50 min después (dentro de 1h): re-adjunta modelo, $0."
+    conversation: mt07
+    reuses_golds: [cat014]
+    turns:
+      - n: 1
+        query: "¿Cuál es el MTBF / vida útil esperada del detector de gas DGD-600 de Detnov?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["DGD-600"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cuál es su tensión de alimentación?"
+        advance_seconds: 3000   # 50 min < 3600
+        expect:
+          route: carry_forward
+          target_models: ["DGD-600"]
+          requires_llm_rewrite: false
+        note: "Dentro de la ventana de 1h -> carry-forward determinista, coste 0 (design §8)."
+
+  - flow_id: mt07b_outside_window
+    clase: carry_forward_1h
+    descripcion: "Mismo follow-up 70 min después (fuera de 1h): estado expira -> clarify."
+    conversation: mt07b
+    reuses_golds: [cat014]
+    turns:
+      - n: 1
+        query: "¿Cuál es el MTBF / vida útil esperada del detector de gas DGD-600 de Detnov?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["DGD-600"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cuál es su tensión de alimentación?"
+        advance_seconds: 4200   # 70 min > 3600
+        expect:
+          route: clarify
+          must_not_target: ["DGD-600"]
+          requires_llm_rewrite: false
+          clarify_question: true
+        note: "Fuera de ventana: el estado NO se arrastra; el pronombre 'su' queda sin antecedente -> clarify (pide el modelo). Pinea el límite de 3600 s."
+
+  # ---- CLASS 8: codigos_tecnicos (verbatim + trampa RS-485) ------------------
+  - flow_id: mt08_codes_m710
+    clase: codigos_tecnicos
+    descripcion: "Rewrite que debe preservar códigos de módulo verbatim."
+    conversation: mt08
+    reuses_golds: [cat008]
+    turns:
+      - n: 1
+        query: "¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["M710", "MI-DMMI"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y qué resistencia de fin de línea necesita esa entrada?"
+        advance_seconds: 60
+        expect:
+          route: rewrite
+          target_models: ["M710", "MI-DMMI"]
+          requires_llm_rewrite: true
+          codes_must_preserve: ["M710", "MI-DMMI"]
+        note: "'esa entrada' = el M710/MI-DMMI: rewrite inlina el antecedente y NO altera los códigos."
+
+  - flow_id: mt08b_rs485_not_product
+    clase: codigos_tecnicos
+    descripcion: "Trampa S99b: un código de bus (RS485) NO debe forzar cambio de producto."
+    conversation: mt08b
+    reuses_golds: [hp001]
+    entity_source: "extract_product_models('RS485') -> ['RS-485'] (falso positivo verificado del detector)."
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se entra al menú de programación?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿la comunicación con los módulos va por RS485 o por el propio lazo?"
+        advance_seconds: 60
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          must_not_target: ["RS-485"]
+          requires_llm_rewrite: false
+          query_for_retrieval_preserves: ["RS485"]
+        note: "El detector emite 'RS-485' (NON_PRODUCT_CODES): el gate de cambio-de-producto DEBE ignorarlo y mantener CAD-250. El texto 'RS485' se preserva verbatim. Trampa que tumbó el rewrite v2 (DEC-092)."
+
+  # ---- CLASS 9: dos_conversaciones_aisladas (aislamiento a nivel orquestador) -
+  - flow_id: mt09_iso_chatA
+    clase: dos_conversaciones_aisladas
+    descripcion: "Chat A (CAD-250). Interleavado con mt09_iso_chatB por el test de aislamiento."
+    conversation: iso-A
+    reuses_golds: [hp001]
+    turns:
+      - n: 1
+        query: "En la Detnov CAD-250, ¿cómo se entra al menú de programación?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y la contraseña por defecto?"
+        advance_seconds: 30
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          must_not_target: ["ID3000"]
+          requires_llm_rewrite: false
+        note: "El estado de A nunca ve el modelo de B."
+
+  - flow_id: mt09_iso_chatB
+    clase: dos_conversaciones_aisladas
+    descripcion: "Chat B (ID3000). Interleavado con mt09_iso_chatA."
+    conversation: iso-B
+    reuses_golds: [hp005]
+    turns:
+      - n: 1
+        query: "En la Notifier ID3000, ¿cómo se programa una zona de sirena?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ID3000"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y cuántos detectores admite el lazo?"
+        advance_seconds: 30
+        expect:
+          route: carry_forward
+          target_models: ["ID3000"]
+          must_not_target: ["CAD-250"]
+          requires_llm_rewrite: false
+        note: "El estado de B nunca ve el modelo de A. El store crea 2 conversaciones; dedup + orden por-conversación."
+
+  # ---- CLASS 10: clarify_solo_si_diverge (s79/s80 / DEC-092) ------------------
+  - flow_id: mt10_diverge_zxse
+    clase: clarify_solo_si_diverge
+    descripcion: "Familia ambigua por nº de lazos + dato que DIVERGE entre variantes -> clarify."
+    conversation: mt10
+    reuses_golds: []
+    entity_source: "Morley ZXSe {ZX1Se/ZX2Se/ZX5Se/ZX10Se} por nº de lazos — GT Alberto s78 (memory reference_morley_zx_rp1r; MIE-MI-600)."
+    turns:
+      - n: 1
+        query: "Estoy con una central Morley ZXSe."
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ZXSE"]
+          requires_llm_rewrite: false
+        note: "ZXSe = familia (variantes por nº de lazos), aún sin desambiguar."
+      - n: 2
+        query: "¿cuántos lazos y zonas puedo configurar?"
+        advance_seconds: 60
+        expect:
+          route: clarify
+          requires_llm_rewrite: false
+          clarify_question: true
+          expected_behavior: clarify
+        note: "El nº de lazos DIVERGE por variante (ZX1Se=1 … ZX10Se=10) -> clarify pide la variante. Divergencia REAL (no clarify reflejo)."
+
+  - flow_id: mt10b_invariant_zxe
+    clase: clarify_solo_si_diverge
+    descripcion: "Familia + dato INVARIANTE entre variantes -> answer, NUNCA clarify."
+    conversation: mt10b
+    reuses_golds: [hp009]
+    entity_source: "Morley ZXe (e-series). EOL/RFL invariante entre variantes — DEC-092 (docs/DECISIONS.md:1122)."
+    turns:
+      - n: 1
+        query: "Estoy con una central Morley ZXe."
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["ZXE"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿cuál es la resistencia de fin de línea recomendada para los lazos?"
+        advance_seconds: 60
+        expect:
+          route: carry_forward
+          target_models: ["ZXE"]
+          requires_llm_rewrite: false
+          expected_behavior: answer
+        note: "La RFL es INVARIANTE en la e-series -> se RESPONDE family-genérico; clarify aquí sería un falso clarify (DEC-092: clarify SOLO si diverge)."
