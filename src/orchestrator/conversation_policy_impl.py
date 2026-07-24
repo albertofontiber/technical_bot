@@ -247,7 +247,13 @@ def detect_turn_signals(query: str) -> tuple[list[str], list[str] | None]:
         ql = query.lower()
         for term, cat in CATEGORY_TERMS.items():
             if term in ql:
-                available = get_category_models(cat)
+                try:
+                    available = get_category_models(cat)
+                except Exception:
+                    # Fail-open: un fallo del lookup de categoría (DB caída,
+                    # entorno sin credenciales) no puede tumbar el turno — la
+                    # categoría solo alimenta las opciones de CLARIFY.
+                    available = None
                 break
     return turn_models, available
 
