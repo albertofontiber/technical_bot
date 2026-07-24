@@ -1,0 +1,13 @@
+# s283 dual-EC — adjudicación del dúo r1 (pre-build), regla C
+ronda: 1
+objeto: "evals/s283_dualec_design_v1.md (kind market_attribution + span-strip contexto)"
+lados: {sol: "3 crit R1 + 2 med R2 (De-01-a-30 contradicho, collapse_ws)", fable: "NO-SÓLIDA ambas, 3 crit ejecutados (F1 no-dispara, F2 gate vacuo/falso-GO, F3 inversión ~~no~~) + census 840 chunks/184 docs"}
+veredicto_adjudicado: "RECHAZAR AMBAS pre-build — ninguna se cablea con este diseño. El sistema dijo 'no' con evidencia ejecutada ANTES de gastar build+medición."
+hallazgos_clave:
+  - "R1-MUERTA: el caso positivo jamás dispara (LIB≠lazo, ejecutado contra chunks reales); gate vacuo (cat024-V1 superseded fuera del pool; valores cat009 no-parseables => silencio vacuo); par equivocado posible (10-vs-4 cross-producto sin binding de sujeto); premisas FALSAS (document_status SÍ llega a la card; el esquema TIENE lineage/supersedes_id — poblado escaso 8/1000)"
+  - "R2-INVERSIÓN: 119 spans tachados = palabra de función (census ejecutado); span-strip AFIRMA el complemento de negaciones tachadas ('cumplirá los requisitos EN 54-20' falso y fluido, doc de hp002 incluido); blast radius real 840 chunks/184 docs con semántica de ~~ AMBIGUA por-doc (tachado editorial Securiton TDs vs OCR 7-seg) SIN adjudicar; De-01-a-30 contradicho (D/e son letras); medición §2.5 ciega por construcción a inversión de significado"
+prerequisitos_nombrados:
+  - "R1 (hp012-framing): el discriminador RAÍZ es el lineage/supersedes del esquema — POBLARLO ES LA CAMPAÑA H0 (T1/T2, lote de Alberto). Rediseñar SOLO post-lineage; hasta entonces hp012 = PARCIAL residual con mecánica documentada"
+  - "R2 (hp011): exige adjudicación de la SEMÁNTICA de ~~ por clase de doc (¿editorial-final o artefacto-OCR? — 184 docs, top Securiton TDs) => AL LOTE DE ALBERTO junto a P2 (chunk corrupto 2113ac69). El camino constructivo del reviewer (span-strip SOLO filas de tabla, cut-to-end en prosa) queda anotado para ese momento; P1 flag-off se conserva como groundwork medido"
+solidos: ["layer código-determinista correcto (DEC-097/098); seam+lazy-import respetan clausura s277; techos declarados honestos; la diana t.Fi es real y medida"]
+proceso: ["dúo ejecutado (SELECTs+maquinaria real+census), no leído; 2ª vez en s283 que el aparato mata un diseño ANTES del build (c085, dual-EC) — el coste evitado supera con mucho el gastado"]
