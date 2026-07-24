@@ -64,6 +64,10 @@ K=3 final **18 PASS / 2 PARCIAL / 1 residual-declarado** (~$3.3), fix medido res
 generación (spec de activación), A/B prompts fontiber-default. **H0 hasta packet ejecutable**
 (census + T3 re-tag ZXe/ZXSe adjudicado + batch_attested_v1). Detalle DEC-155.
 
+**s282 (24-jul): F1 VIVO verificado + H0-T2 hasta EXPEDIENTE DE FIRMA** (DEC-156): cohorte
+atestada tras 3 rondas de dúo + 4 draws LQAS; manifest 533 sellado + SQL con before-image;
+121 conflictos + packet T3 en el lote de Alberto.
+
 **Qué sigue:** (1) **clicks de Alberto**: lectura+merge #184 + flip = release · matriz RGPD
 (plantilla `docs/RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`, decide él con validación legal) · visto al
 DDL MT-0b; (2) **Fase 1 multi-turn** (MT-1a clasificador+rewrite gateado · MT-1b eval nueva
