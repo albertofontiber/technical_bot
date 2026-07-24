@@ -1,0 +1,14 @@
+# s282 T2-apply — adjudicación del dúo (gate final pre-firma), regla C
+ronda: 1
+objeto: "commit 33a8c7c (regate_v3 + attestation_v1 + draw3)"
+lados: {sol: "RECHAZAR (4 crit + 3 med)", fable: "SÓLIDO-CON-CAMBIOS (1 crit + 2 med + 1 men; datos confirmados con método ejecutado)"}
+veredicto_adjudicado: "RECHAZAR-EL-EXPEDIENTE / COHORTE-SANA — los datos resisten (Fable ejecutó: 5 no-muestreadas limpias, sin seed-shopping, SQL simulado sin overwrite); el EXPEDIENTE de firma no: ledger del draw decisivo ausente + paquete de escritura no sellado. Lote final antes de re-emitir la attestation."
+hallazgos_confirmados:
+  - {id: DRAW3-SIN-LEDGER, fuentes: [sol-C3, fable-C1], sev: CRITICO, fix: "re-verificar las 59 filas del draw 3 REGISTRANDO evidencia por fila (tabla como draws 1/2) en evals/s282_qa_s83_lqas_draw3_v1.md — verificación fresca, no reconstrucción de memoria"}
+  - {id: PAQUETE-ESCRITURA-NO-SELLADO, fuentes: [sol-C1, sol-C4, fable-M1], sev: CRITICO, fix: "script generador que emite: manifest por-fila {document_id, source_file, doc_type, language ESCALAR} con sha sellado desde result_v3 + mapeo congelado (hoy 1:1 verificado); SQL con staging VALUES + JOIN al manifest + transacción + conteos esperados + RETURNING capturado como before-image; rollback generado del RETURNING"}
+  - {id: BOUND-SOBRE-AFIRMADO, fuentes: [sol-C2, fable-M2], sev: MEDIO-ALTO, fix: "attestation re-declara el método honesto: estratificación con estratos inclusión-cero + sensibilidad del verificador <100% (falso-accept draw 1 documentado) => el claim es '0 defectos en 177 filas verificadas a lo largo de 3 draws con re-scope por defecto cazado', NO un bound limpio <5%@95%; decisión de aceptación = de Alberto con ese framing"}
+  - {id: PROVENANCE-NO-SELLADA, fuentes: [sol-M1], sev: MEDIO, fix: "regenerar result_v3 en HEAD limpio y estampar commit+shas en el manifest/attestation"}
+  - {id: WORDING, fuentes: [sol-M2, fable-menor], sev: MENOR, fix: "'guard de raíz' => 'guard de 2 taxones cortos con umbral 30ch (margen 13/21 vs 201+), límites declarados'; 'verificación manual' => 'lectura de contenido por agente'"}
+solidos_confirmados:
+  - "guard: 0 clases cortas >30ch en auto-apply (cifras exactas); recuentos 545/533/301 exactos; SQL fill-only sin overwrite por construcción (simulado vivo); sin seed-shopping; mapeo doc_id 1:1 limpio hoy (0 ambiguos/missing); 4/5 no-muestreadas limpias + 1 adyacente-aceptable"
+proceso: ["4ª instancia del patrón salvaguarda-declarada-no-implementada (draw3 'verificado a mano' sin registro) => regla afilada ya en feedback #54 aplica también a VERIFICACIONES: sin ledger no hubo verificación"]
