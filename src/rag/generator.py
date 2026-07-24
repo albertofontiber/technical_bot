@@ -65,6 +65,18 @@ def _evidence_contract_enabled() -> bool:
     return _strict_on_off("EVIDENCE_CONTRACT")
 
 
+def _struck_ocr_context_on() -> bool:
+    """S283 P1 (flag ``STRUCK_OCR_CONTEXT``, default OFF = byte-invariante): aplica
+    la política de tachado-OCR YA adjudicada del Evidence Contract
+    (``struck_ocr.apply_struck_ocr``, feedback_7segment) TAMBIÉN al contexto servido
+    al generador, por LÍNEA. Estricto on|off con fail-fast (patrón EVIDENCE_CONTRACT
+    / ``_strict_on_off``), releído en RUNTIME para togglear el A/B en un mismo
+    proceso. NO es perfil-owned (env puro): un lever en medición, no shipeado."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("STRUCK_OCR_CONTEXT")
+
+
 SYSTEM_PROMPT = """Eres un asistente técnico experto en sistemas de protección contra incendios (PCI), \
 con documentación de múltiples fabricantes (actualmente Detnov, Notifier y Morley). Tu audiencia son \
 técnicos de PCI que trabajan en instalaciones y mantenimientos de estos sistemas.
@@ -585,6 +597,16 @@ def generate_answer(
     # Build context from relevant chunks, marking which have diagrams
     context_parts = []
     diagram_map = {}  # fragment_number -> diagram info
+    # S283 P1: se resuelve UNA vez (no por-chunk) y el módulo `struck_ocr` se
+    # importa PEREZOSAMENTE sólo con el flag on — mismo patrón que EVIDENCE_CONTRACT
+    # (import en cuerpo de función): con flag off el módulo NI SE IMPORTA, así el
+    # seam queda fuera de la clausura de implementación sellada del P1 (s277) y del
+    # hot-path byte-inerte (la suite 3218/0 es el guardián).
+    struck_ocr_normalize = None
+    if _struck_ocr_context_on():
+        from .struck_ocr import apply_struck_ocr_context
+
+        struck_ocr_normalize = apply_struck_ocr_context
 
     for i, chunk in enumerate(relevant_chunks):
         product = chunk.get("product_model", "desconocido")
@@ -616,6 +638,11 @@ def generate_answer(
         )
         blurb = chunk.get("context") or ""
         source_content = coverage_context_content(chunk)
+        # S283 P1: ÚNICO seam por el que pasa TODO el contexto servido al writer
+        # (ambas ramas de abajo consumen `source_content`). Normaliza el tachado-OCR
+        # con la política adjudicada del EC, por línea, sólo con el flag on.
+        if struck_ocr_normalize is not None:
+            source_content = struck_ocr_normalize(source_content)
         if _include_context() and blurb:
             # Blurb situacional (B7) marcado como orientativo y NO citable, para que el
             # generador lo use para ubicar el fragmento sin afirmarlo como dato (el blurb

@@ -74,6 +74,12 @@ from .mp_lexicon import (
     line_spans as _line_spans,
     sentence_spans as _sentence_spans,
 )
+# s283 P1: la política de tachado-OCR (``_STRUCK_RX``/``_apply_struck_ocr``) se
+# extrajo VERBATIM al módulo LEAF ``struck_ocr`` (cero cambio de comportamiento —
+# los tests del EC la siguen ejerciendo vía ``_display_span``) para reusarla en el
+# seam de contexto servido al generador SIN importar este módulo pesado. Se
+# re-importa con el nombre histórico ``_apply_struck_ocr``.
+from .struck_ocr import _STRUCK_RX, apply_struck_ocr as _apply_struck_ocr  # noqa: F401
 # Reuso DELIBERADO de la detección/satisfacción determinista de must_preserve
 # (mandato del diseño §5: importarla, no duplicarla).
 from .must_preserve import (
@@ -1213,32 +1219,6 @@ def _answer_gate(ob: dict[str, Any], answer_text: str) -> bool:
 
 
 # ─────────────────────────────── render ───────────────────────────────
-
-_STRUCK_RX = re.compile(r"~~(.*?)~~")
-_LETTER_RX = re.compile(r"[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ]")
-
-
-def _apply_struck_ocr(text: str) -> str:
-    """Segmentos TACHADOS por la extracción (``~~…~~``): un tachado de solo
-    símbolos/dígitos conserva su contenido (el marcador es formato); el PRIMER
-    tachado CON letras corta el display — es superficie que la propia extracción
-    marcó como no fiable (feedback_7segment: jamás re-afirmar una transliteración
-    dudosa; el hash del receipt sigue anclando el span original y el riesgo viaja
-    declarado en ``seven_segment_risk``)."""
-    if "~~" not in text:
-        return text
-    parts: list[str] = []
-    pos: int | None = 0
-    for m in _STRUCK_RX.finditer(text):
-        if _LETTER_RX.search(m.group(1)):
-            parts.append(text[pos:m.start()])
-            pos = None
-            break
-        parts.append(text[pos:m.start()] + m.group(1))
-        pos = m.end()
-    if pos is not None:
-        parts.append(text[pos:])
-    return "".join(parts).strip()
 
 
 def _display_span(span: str) -> str:
