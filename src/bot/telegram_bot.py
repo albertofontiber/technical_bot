@@ -25,6 +25,7 @@ from ..config import (
     OPENAI_API_KEY,
     RETRIEVAL_TOP_K,
     RERANK_TOP_K,
+    LLM_MODEL,
     VOICE_TRANSCRIPTION_MODEL,
     COVERAGE_RELEASE_POLICY,
     ORCHESTRATOR_PATH,
@@ -60,6 +61,23 @@ logger = logging.getLogger(__name__)
 
 _EMPTY_ANSWER_FALLBACK = (
     "No he podido generar una respuesta completa y segura. Inténtalo de nuevo."
+)
+
+# S281 Phase-1 (F1) direct-route copy. A CLARIFY turn answers with the policy's
+# ``clarify_question`` verbatim (already user-facing prose); a DECLINE turn maps
+# its rationale CODE (``decline_reason`` is a trace token, never shown raw) to a
+# user-facing message. No gold exercises DECLINE (conversation_policy_impl
+# docstring) — the map keeps the single served reason honest, with a fallback.
+_F1_DECLINE_MESSAGES = {
+    "fuera_de_dominio_pci_fuego": (
+        "Esa consulta queda fuera del dominio que cubro (protección contra "
+        "incendios). ¿Puedo ayudarte con algún equipo o sistema de detección o "
+        "extinción de incendios?"
+    ),
+}
+_F1_DECLINE_DEFAULT = (
+    "Esa consulta queda fuera del dominio de PCI (protección contra incendios) "
+    "que cubro. ¿Puedo ayudarte con algún equipo de detección o extinción?"
 )
 _INVISIBLE_GRAPHIC_CODEPOINTS = frozenset("\u2800\u3164\u115f\u1160\uffa0")
 
@@ -547,42 +565,127 @@ async def _process_query(
         # Step 1a: Extract models from current query
         target_models = extract_product_models(query)
 
-        # Step 1b: Carry forward model context from previous query if within session
+        # S281 Phase-1 (F1) activation gate — default OFF, read at RUNTIME so a
+        # Railway flip / in-process A/B toggles without a restart. Requires BOTH
+        # the MT-0d ORCHESTRATOR_PATH seam (import-time constant) AND
+        # CONVERSATION_POLICY=impl (the runtime flag conversation_policy_active()
+        # already reads). When OFF everything below is the historical single-turn
+        # path; the full suite is the byte-invariance guard. The import is skipped
+        # unless ORCHESTRATOR_PATH is on, so the legacy hot path pays nothing.
+        f1_active = False
+        if ORCHESTRATOR_PATH:
+            from ..orchestrator.conversation_policy_impl import (
+                conversation_policy_active,
+            )
+            f1_active = conversation_policy_active()
+
+        # Step 1b/1c/2b: legacy single-turn resolution (in-memory carry-forward +
+        # vague-query clarify + category options). RETIRED when the Phase-1 policy
+        # is active: the deterministic policy SUBSTITUTES step 1b, so running both
+        # would be a DOUBLE resolution the CARRY-FORWARD-1H design forbids. These
+        # locals are still initialised for the non-F1 code paths; when f1_active is
+        # False the block runs byte-identically to the historical handler.
         query_for_retrieval = query
-        if not target_models:
-            last_models = context.user_data.get("last_detected_models", [])
-            last_time = context.user_data.get("last_query_time", 0)
-            if last_models and (_time.time() - last_time) < SESSION_TIMEOUT:
-                target_models = last_models
-                # Append model hint to retrieval query so retriever finds relevant chunks
-                query_for_retrieval = f"{query} (contexto: {', '.join(target_models)})"
-
-        # Step 1c: Detect vague/ultra-short queries (after carry-forward, so context helps)
-        words = query.split()
-        if len(words) <= 2 and not target_models:
-            query_clean = query.lower().strip("¿?¡!., ")
-            is_pci_term = any(term in query_clean for term in PCI_TERMS)
-            if is_pci_term:
-                await update.message.reply_text(
-                    f"Para darte información precisa sobre *{query_clean}*, "
-                    f"necesito saber el modelo de equipo.\n\n"
-                    f"Por ejemplo: _{query_clean} en la CAD-250_ o "
-                    f"_{query_clean} del MAD-461_.\n\n"
-                    f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?",
-                    parse_mode="Markdown",
-                )
-                return
-
-        # Step 2b: Get available models in detected category (for dynamic conversation)
         available_models = None
         detected_category = None
-        if not target_models:
-            query_lower = query.lower()
-            for term, cat in CATEGORY_TERMS.items():
-                if term in query_lower:
-                    available_models = get_category_models(cat)
-                    detected_category = cat
-                    break
+        if not f1_active:
+            # Step 1b: Carry forward model context from previous query if within session
+            if not target_models:
+                last_models = context.user_data.get("last_detected_models", [])
+                last_time = context.user_data.get("last_query_time", 0)
+                if last_models and (_time.time() - last_time) < SESSION_TIMEOUT:
+                    target_models = last_models
+                    # Append model hint to retrieval query so retriever finds relevant chunks
+                    query_for_retrieval = f"{query} (contexto: {', '.join(target_models)})"
+
+            # Step 1c: Detect vague/ultra-short queries (after carry-forward, so context helps)
+            words = query.split()
+            if len(words) <= 2 and not target_models:
+                query_clean = query.lower().strip("¿?¡!., ")
+                is_pci_term = any(term in query_clean for term in PCI_TERMS)
+                if is_pci_term:
+                    await update.message.reply_text(
+                        f"Para darte información precisa sobre *{query_clean}*, "
+                        f"necesito saber el modelo de equipo.\n\n"
+                        f"Por ejemplo: _{query_clean} en la CAD-250_ o "
+                        f"_{query_clean} del MAD-461_.\n\n"
+                        f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?",
+                        parse_mode="Markdown",
+                    )
+                    return
+
+            # Step 2b: Get available models in detected category (for dynamic conversation)
+            if not target_models:
+                query_lower = query.lower()
+                for term, cat in CATEGORY_TERMS.items():
+                    if term in query_lower:
+                        available_models = get_category_models(cat)
+                        detected_category = cat
+                        break
+
+        # S281 Phase-1 (F1) resolution. When active, the deterministic
+        # conversational policy OWNS turn resolution against durable per-chat
+        # working state (context.user_data['mt_working_state'] — IN MEMORY: it does
+        # NOT survive a process restart; durable persistence is DDL/RGPD-gated, out
+        # of scope). CLARIFY/DECLINE answer directly at $0 (no pipeline); the other
+        # routes feed the RESOLVED query to BOTH retrieval AND generation (the
+        # measured e2e fix, mirrored from scripts/test_multiturn_vs_gold.run_e2e_flows).
+        f1_resolution = None
+        f1_prev_state = None
+        f1_new_state = None
+        f1_now = None
+        if f1_active:
+            from datetime import datetime, timezone
+
+            from ..orchestrator.conversation_policy import PolicyRoute, WorkingState
+            from ..orchestrator.conversation_policy_impl import (
+                resolve_conversational_turn,
+            )
+
+            # Lazy source-bound rewriter: BOTH its import and construction are
+            # deferred until a REWRITE route actually calls it. $0 routes never
+            # touch it (a carry-forward turn builds no client). Model = LLM_MODEL.
+            _rewriter_cell: dict = {}
+
+            def _lazy_rewrite(anaphoric_query, ws):
+                rewriter = _rewriter_cell.get("rewriter")
+                if rewriter is None:
+                    from ..orchestrator.rewriter import make_rewriter
+
+                    rewriter = make_rewriter(model=LLM_MODEL)
+                    _rewriter_cell["rewriter"] = rewriter
+                return rewriter(anaphoric_query, ws)
+
+            stored_state = context.user_data.get("mt_working_state")
+            f1_prev_state = (
+                stored_state if isinstance(stored_state, WorkingState) else WorkingState()
+            )
+            f1_now = datetime.now(timezone.utc)
+            f1_resolution, f1_new_state = resolve_conversational_turn(
+                query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
+            )
+
+            if f1_resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
+                # $0 direct answer — NO retrieval, NO generation.
+                if f1_resolution.route is PolicyRoute.CLARIFY:
+                    direct_reply = f1_resolution.clarify_question
+                else:
+                    direct_reply = _F1_DECLINE_MESSAGES.get(
+                        f1_resolution.decline_reason, _F1_DECLINE_DEFAULT
+                    )
+                direct_reply = direct_reply or _EMPTY_ANSWER_FALLBACK
+                # Persist working state. For CLARIFY/DECLINE advance_working_state
+                # returns the prior state INTACT (no model fixed, window NOT
+                # refreshed — an expired product stays expired).
+                context.user_data["mt_working_state"] = f1_new_state
+                context.user_data["last_query"] = query
+                context.user_data["last_response"] = direct_reply[:500]
+                context.user_data["last_query_time"] = _time.time()
+                await update.message.reply_text(direct_reply)
+                return
+
+            # Retrieving route: surface the resolved models to logging + state.
+            target_models = list(f1_resolution.target_models or ())
 
         # Transport-neutral orchestrator seam (MT-0d), default OFF. The request
         # is built only when a Phase-0 seam is active; with both flags OFF this
@@ -590,16 +693,32 @@ async def _process_query(
         # textually the old path — the full suite is the byte-invariance guard).
         if ORCHESTRATOR_PATH or CONVO_SHADOW:
             from ..orchestrator.telegram_adapter import build_turn_request
-            request = build_turn_request(
-                query=query,
-                query_for_retrieval=query_for_retrieval,
-                target_models=target_models,
-                available_models=available_models,
-                update_id=update.update_id,
-                chat_id=update.effective_chat.id,
-                source=source,
-                transcription=transcription,
-            )
+            if f1_active:
+                # FIX MEDIDO: the RESOLVED query fills BOTH query (-> generation)
+                # and query_for_retrieval (-> retrieval); target/available come from
+                # the resolution. For STANDALONE the resolved query == the raw
+                # query, so this is byte-identical to the historical path.
+                request = build_turn_request(
+                    query=f1_resolution.query_for_retrieval,
+                    query_for_retrieval=f1_resolution.query_for_retrieval,
+                    target_models=f1_resolution.target_models,
+                    available_models=f1_resolution.available_models,
+                    update_id=update.update_id,
+                    chat_id=update.effective_chat.id,
+                    source=source,
+                    transcription=transcription,
+                )
+            else:
+                request = build_turn_request(
+                    query=query,
+                    query_for_retrieval=query_for_retrieval,
+                    target_models=target_models,
+                    available_models=available_models,
+                    update_id=update.update_id,
+                    chat_id=update.effective_chat.id,
+                    source=source,
+                    transcription=transcription,
+                )
 
         if ORCHESTRATOR_PATH:
             # Drive the turn through the orchestrator; isolate the synchronous
@@ -649,6 +768,23 @@ async def _process_query(
         context.user_data["last_query_time"] = _time.time()
         if target_models:
             context.user_data["last_detected_models"] = target_models
+
+        # S281 Phase-1 (F1) durable working-state backfill — the TODO closed. After
+        # generation, re-advance from the SAME prior state + resolution, now with
+        # the answer excerpt (first ~500 chars; advance_working_state truncates), so
+        # the next turn's rewriter can resolve content anaphora ("ese aviso")
+        # against the prior answer. IN MEMORY only (no restart durability).
+        if f1_active and f1_resolution is not None:
+            from ..orchestrator.conversation_policy_impl import advance_working_state
+
+            context.user_data["mt_working_state"] = advance_working_state(
+                f1_prev_state,
+                f1_resolution,
+                query,
+                answer,
+                f1_now,
+                f1_new_state.available_models,
+            )
 
         # Render once: telemetry records the actual transport split and the
         # send loop consumes these exact same parts. A formatter defect must
