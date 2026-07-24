@@ -144,7 +144,12 @@ def _detect(query: str) -> tuple[list[str], list[str] | None]:
         ql = query.lower()
         for term, cat in CATEGORY_TERMS.items():
             if term in ql:
-                available = get_category_models(cat)
+                try:
+                    available = get_category_models(cat)
+                except Exception:
+                    # Fail-open (CI sin credenciales Supabase / hiccup DB): la
+                    # categoría solo alimenta opciones de CLARIFY, nunca bloquea.
+                    available = None
                 break
     return turn_models, available
 
