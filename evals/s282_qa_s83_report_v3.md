@@ -10,7 +10,7 @@ READ-ONLY, SELECT-only (`chunks_v2.source_file` para contar chunks/documento), 0
 
 - guard 2× byte-idéntico: **IDÉNTICO** (`2c6bac681ad89001` == `2c6bac681ad89001`)
 - corpus fingerprint == v2: **True** (chunks_v2=25090 · documents=1171 · sha `aa13e792339f7d3e`)
-- commit HEAD: `667271fcdff395c0d8700889a23f2f9e64b7eff1` (dirty: True)
+- commit HEAD: `ea4313d8d1e0ca2498afbc62f07fb944d8ec80b1` (dirty: True)
 
 ## 2. Filas movidas por el guard (declaración exacta)
 
