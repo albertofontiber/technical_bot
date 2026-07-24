@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "lane": "s283 clase-085 rescue (cat022 + hp012)",
+    "authoring": "DETERMINISTA ($0-LLM) — cada enunciado ancla LITERAL al texto del chunk padre; formato R2_PROMPT_V1 (frase autónoma, modelo EXACTO, valores literales). Para el INSERT real Alberto puede regenerarlos vía scripts/enunciados_pass.py (mismo formato/QA); estos son la PROPUESTA + el vector de medición.",
+    "recipe_embed": "embed(parent.context + '\\n\\n' + content, input_type='document') — receta corpus (enunciados_pass.py)",
+    "insert_target_table": "chunks_v2_enunciados (NO chunks_v2)",
+    "rollback": "DELETE FROM chunks_v2_enunciados WHERE ingest_batch = 'enunciados-v1:s283-c085:p1' (o por lista de ids)"
+  },
+  "candidates": [
+    {
+      "qid": "cat022",
+      "name": "cat022_e1_versiones_bandas",
+      "parent_id": "c94d2270-f525-40f8-... (resolver full en probe)",
+      "parent_hint": "c94d2270",
+      "content": "El detector de llama Spectrex SharpEye 40/40L está disponible en cuatro versiones: los modelos L y LB llevan el sensor IR a 2,8 µm, mientras que los modelos L4 y L4B llevan el sensor IR a 4,5 µm."
+    },
+    {
+      "qid": "cat022",
+      "name": "cat022_e2_sufijo_B_bit",
+      "parent_hint": "c94d2270",
+      "content": "En la familia del detector de llama Spectrex SharpEye 40/40L, el sufijo «B» (modelos LB y L4B) identifica las versiones que incluyen la función BIT (prueba incorporada / Built-In Test); los modelos L y L4 base no incluyen BIT."
+    },
+    {
+      "qid": "cat022",
+      "name": "cat022_e3_diferencia_L_vs_L4",
+      "parent_hint": "c94d2270",
+      "content": "La diferencia entre el detector Spectrex SharpEye 40/40L y el 40/40L4 está en la longitud de onda del sensor IR: 2,8 µm en el 40/40L (y LB) frente a 4,5 µm en el 40/40L4 (y L4B)."
+    },
+    {
+      "qid": "cat022",
+      "name": "cat022_e4_spec_respuesta_espectral",
+      "parent_hint": "a6eae6a1",
+      "content": "Según las especificaciones técnicas del detector Spectrex SharpEye 40/40L, la respuesta espectral IR es de 2,5–3,0 µm en los modelos S40/40L-LB y de 4,4–4,6 µm en los modelos S40/40L4-L4B."
+    },
+    {
+      "qid": "hp012",
+      "name": "hp012_e1_am2020_1980",
+      "parent_hint": "b162a7eb",
+      "content": "El sistema Notifier AM2020 admite un máximo de diez LIBs (tableros interface de lazo), lo que equivale a un total de 1980 dispositivos direccionables en todo el sistema."
+    },
+    {
+      "qid": "hp012",
+      "name": "hp012_e2_afp1010_792",
+      "parent_hint": "b162a7eb",
+      "content": "El sistema Notifier AFP1010 admite un máximo de cuatro LIBs (tableros interface de lazo), lo que equivale a un total de 792 dispositivos direccionables en todo el sistema."
+    },
+    {
+      "qid": "hp012",
+      "name": "hp012_e3_afp1010_792_p14",
+      "parent_hint": "f03d3ae4",
+      "content": "En el sistema Notifier AFP1010, el número de dispositivos direccionables en todo el sistema es de 792."
+    }
+  ]
+}
