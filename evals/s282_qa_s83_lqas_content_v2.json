@@ -1,0 +1,2932 @@
+[
+ {
+  "source_file": "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+  "write_op": "fill_language_doctype",
+  "brand": "Aritech",
+  "doc_level_pm": "2X-A",
+  "s83_primaries": [
+   "2X-AE1",
+   "2X-AE2",
+   "2X-AE2-P",
+   "2X-AF1",
+   "2X-AF1-FB",
+   "2X-AF1-FB-S",
+   "2X-AF1-S",
+   "2X-AF1-SCFB",
+   "2X-AF1-SCFB-S",
+   "2X-AF2",
+   "2X-AF2-FB",
+   "2X-AF2-FB-P",
+   "2X-AF2-FB-PRT",
+   "2X-AF2-FB-PRT-P",
+   "2X-AF2-FB-S",
+   "2X-AF2-P",
+   "2X-AF2-PRT",
+   "2X-AF2-PRT-P",
+   "2X-AF2-S",
+   "2X-AF2-SCFB",
+   "2X-AF2-SCFB-P",
+   "2X-AF2-SCFB-S",
+   "2X-AFR",
+   "2X-AFR-FB",
+   "2X-AFR-FB-S",
+   "2X-AFR-S"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Manual de instalación de la serie 2X-A",
+    "head": "KIDDE COMMERCIAL  # Manual de instalación de la serie 2X-A  P/N 00-3280-501-4009-05 • REV 005 • ISS 16FEB26  **Copyright** © 2026 Kidde Commercial. Derechos reservados.  **Marcas comerciales y patentes** La serie 2X-A es"
+   },
+   {
+    "page": 3,
+    "section_title": "Contenido",
+    "head": "# Contenido  Información importante    ii  **Capítulo 1    Introducción    1** Gama de productos    2 Compatibilidad del producto    4 Descripción general del producto    5  **Capítulo 2    Instalación    19** Seguridad "
+   },
+   {
+    "page": 4,
+    "section_title": "Información importante",
+    "head": "# Información importante  ## Introducción  Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A. Antes de instalar o utilizar este producto, lea estas instruccio"
+   },
+   {
+    "page": 5,
+    "section_title": "Advertencias y declaraciones sobre el producto",
+    "head": "# Advertencias y declaraciones sobre el producto  Estos productos están destinados a la venta e instalación por un profesional de seguridad experimentado. KGS Fire & Security no puede garantizar que toda persona o entida"
+   },
+   {
+    "page": 6,
+    "section_title": "Símbolos de producto",
+    "head": "# Símbolos de producto  En el producto, se utilizan los siguientes símbolos.  [Warning triangle symbol with exclamation mark] Este símbolo indica que es necesario tener precaución durante el manejo o el mantenimiento del"
+   },
+   {
+    "page": 7,
+    "section_title": "",
+    "head": "# Capítulo 1  # Introducción  ## Resumen  Este capítulo consiste en una introducción a su central y a sus controles e indicadores principales.  ## Contenido  Gama de productos 2 Compatibilidad del producto 4 Descripción "
+   }
+  ]
+ },
+ {
+  "source_file": "156-0393-008R - OSY2_Eng",
+  "write_op": "corroborate_noop",
+  "brand": "System Sensor",
+  "doc_level_pm": "OSY2",
+  "s83_primaries": [
+   "OSY2"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "SYSTEM SENSOR",
+    "head": "INSTALLATION AND MAINTENANCE INSTRUCTIONS  # SYSTEM SENSOR  3825 Ohio Avenue, St. Charles, Illinois 60174 1-800-SENSOR2, FAX: 630-377-6495 www.systemsensor.com  ## Figure 4. Supervisory switch wiring diagram:  **Top View"
+   },
+   {
+    "page": 1,
+    "section_title": "Three-Year Limited Warranty",
+    "head": "System Sensor warrants its enclosed supervisory switch to be free from defects in materials and workmanship under normal use and service for a period of three years from date of manufacture. System Sensor makes no other "
+   },
+   {
+    "page": 1,
+    "section_title": "OSY2 Gate Valve Supervisory Switch",
+    "head": "# OSY2 Gate Valve Supervisory Switch  ## Specifications  | Contact Ratings:             | 10 A @ 125/250 VAC ∼<br/>2.5 A @ 24 VDC ⎯⎯⎯                                                                                | | ---"
+   },
+   {
+    "page": 1,
+    "section_title": "Figure 1:",
+    "head": "**ACTUATOR VERTICAL (DOWN)** [Diagram showing valve with actuator pointing downward]  **ACTUATOR HORIZONTAL** [Diagram showing valve with actuator pointing horizontally]  W0221-00  #### Narrow Yoke Valves  As Figure 2 su"
+   },
+   {
+    "page": 1,
+    "section_title": "Installation Instructions",
+    "head": "### Installation Instructions  See Figures 2 and 3, as required, while performing the procedure that follows.  **Perform step 1 on valves <sup>1</sup>/<sub>2</sub>\" in diameter and smaller only. Proceed directly to step "
+   },
+   {
+    "page": 2,
+    "section_title": "Figure 2:",
+    "head": "## Figure 2:  [Technical diagram of valve assembly showing:]  Wrench for tamper-resistant cover screws (P/N WFDW)  Cover  Tamper-resistant screws  Actuating Cam  Actuating lever screw  Spring  Mounting screws  Terminal b"
+   }
+  ]
+ },
+ {
+  "source_file": "2x-af2-fb-s-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Aritech",
+  "doc_level_pm": "2X-AF2-FB-S",
+  "s83_primaries": [
+   "2X-AF2-FB-S"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "2X-AF2-FB-S",
+    "head": "KIDDE™ COMMERCIAL  # 2X-AF2-FB-S  ### Addressable fire panel with fire brigade controls, 2 loop, small cabinet  ## Overview  The new 2X-A series life safety control systems bring the speed and functionality of high-end i"
+   },
+   {
+    "page": 1,
+    "section_title": "Details",
+    "head": "* 2 High Power Loops with 500 mA per loop and Fire Brigade & Fire Protection controls * High loop power PAK to increase the loop power from 500 mA to 800 mA * Up to 256 devices, 512 zones and 300 output groups * Up to 24"
+   },
+   {
+    "page": 2,
+    "section_title": "2X-AF2-FB-S",
+    "head": "# 2X-AF2-FB-S  Addressable fire panel with fire brigade controls, 2 loop, small cabinet  ## Especificaciones técnicas  ### General  | Interfaz usuario                                      | Con controles de Bomberos | | "
+   },
+   {
+    "page": 2,
+    "section_title": "Especificaciones técnicas",
+    "head": "| Capacidad                             | Max. 2 x 12 V, 18 Ah (use supplied cables)  | | ------------------------------------- | ------------------------------------------- | | Cargando                              | 27"
+   },
+   {
+    "page": 2,
+    "section_title": "Especificaciones técnicas",
+    "head": "### Medioambiental  | Temperatura de funcionamiento | -5 to +40°C             | | ----------------------------- | ----------------------- | | Temperatura de almacenamiento | -20 to +50°C            | | Humedad relativa  "
+   },
+   {
+    "page": 2,
+    "section_title": "Especificaciones técnicas",
+    "head": "### Output  | General Fire + Fault supervised | 2, 350 mA, 19.5 to 28 VDC (24 VDC nominal) | | ------------------------------- | ------------------------------------------ |  ### Loop  | Outputs | 250 mA, 29 VDC (29 to 3"
+   }
+  ]
+ },
+ {
+  "source_file": "2x-at-f2-fb-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Aritech",
+  "doc_level_pm": "2X-AT-F2-FB",
+  "s83_primaries": [
+   "2X-AT-F2-FB"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "2X-AT-F2-FB",
+    "head": "KIDDE COMMERCIAL  # 2X-AT-F2-FB  **Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja grande**  ## Descripción general  Los nuevos sistemas de control de seguridad humana de la se"
+   },
+   {
+    "page": 1,
+    "section_title": "2X-AT-F2-FB",
+    "head": "Compatible con dispositivos de lazo existentes y red compatible con paneles existentes, repetidores (existentes y nuevos) y paneles  ## Detalles  * 2 lazos de alta potencia ampliables a 4 con 500 mA por lazo * Pantalla t"
+   },
+   {
+    "page": 3,
+    "section_title": "2X-AT-F2-FB",
+    "head": "# 2X-AT-F2-FB  **Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja grande**  ## Especificaciones técnicas  ## General  | Interfaz usuario                                      | C"
+   },
+   {
+    "page": 3,
+    "section_title": "Batería en reposo",
+    "head": "| Capacidad                             | Max. 2 x 12 V / 18 Ah (use los cables suministrados) | | ------------------------------------- | ---------------------------------------------------- | | Cargando                "
+   },
+   {
+    "page": 3,
+    "section_title": "Físico",
+    "head": "## Físico  | Factor de forma     | Grande                                                                     | | ------------------- | -------------------------------------------------------------------------- | | Dimen"
+   },
+   {
+    "page": 3,
+    "section_title": "2X-AT-F2-FB",
+    "head": "## Medioambiental  | Temperatura de funcionamiento | -5 a +40°C                   | | ----------------------------- | ---------------------------- | | Temperatura de almacenamiento | -20 a +50°C                  | | Hume"
+   }
+  ]
+ },
+ {
+  "source_file": "3103267-en_r001_2x-a_series_kuwait_marketplace_manual",
+  "write_op": "fill_language_doctype",
+  "brand": "Aritech",
+  "doc_level_pm": "2X-A Táctil",
+  "s83_primaries": [
+   "2X-AE1",
+   "2X-AE2",
+   "2X-AF1",
+   "2X-AF1-FB",
+   "2X-AF1-SCFB",
+   "2X-AF2",
+   "2X-AF2-FB",
+   "2X-AF2-SCFB",
+   "2X-AFR",
+   "2X-AFR-FB"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "# KIDDE COMMERCIAL  # 2X-A Series Kuwait Marketplace Manual  P/N 3103267-EN • REV 001 • ISS 04JUN26  **Copyright** © 2026 Kidde Commercial. All rights reserved.  **Trademarks and patents** 2X-A Series is a trademark of K"
+   },
+   {
+    "page": 4,
+    "section_title": "Important information",
+    "head": "# Important information  ## Limitation of liability  To the maximum extent permitted by applicable law, in no event will KGS Fire & Security be liable for any lost profits or business opportunities, loss of use, business"
+   },
+   {
+    "page": 5,
+    "section_title": "Advisory messages",
+    "head": "# Advisory messages  Advisory messages alert you to conditions or practices that can cause unwanted results. The advisory messages used in this document are shown and described below.  **WARNING:** Warning messages advis"
+   },
+   {
+    "page": 7,
+    "section_title": "Introduction",
+    "head": "# Introduction  ## Intended audience and purpose  This manual is intended for those trained and certified to install, program, and maintain a 2X-A Series control panel. The purpose of this manual is to highlight the feat"
+   },
+   {
+    "page": 8,
+    "section_title": "Product range",
+    "head": "# Product range  The complete range of control panels available in Kuwait is shown in the following table.  **Table 1: 2X-A Series control panels with up to 6 A output**  | Model       | Description                      "
+   },
+   {
+    "page": 9,
+    "section_title": "Installation",
+    "head": "# Installation  ## Compatible batteries  The control panel requires two 12 V, rechargeable, sealed lead-acid batteries. Use only the compatible batteries shown below.  | Type           | Make and model | | --------------"
+   }
+  ]
+ },
+ {
+  "source_file": "55312000 SCD-120_Manual_ES",
+  "write_op": "corroborate_noop",
+  "brand": "Detnov",
+  "doc_level_pm": "SCD-120",
+  "s83_primaries": [
+   "SCD-120"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "SIRENA EXTERIOR DE INCENDIO 24V",
+    "head": "# SIRENA EXTERIOR DE INCENDIO 24V  **Manual de Instalación**  En el conjunto SW1 puede haber hasta dos puentes. El primero para la pareja de puntas marcada como \"CICLO\", y el segundo para escoger entre las parejas de pun"
+   },
+   {
+    "page": 1,
+    "section_title": "CARACTERÍSTICAS TÉCNICAS",
+    "head": "| MECÁNICAS                                                           | ELÉCTRICAS                                                               | | ------------------------------------------------------------------- | -"
+   },
+   {
+    "page": 1,
+    "section_title": "DESCRIPCIÓN DEL EQUIPO",
+    "head": "## DESCRIPCIÓN DEL EQUIPO  La sirena de alarma de incendio con rótulo luminoso ha sido diseñada para su uso en el exterior de edificios, con el fin de avisar al personal externo de la detección de un inicio de incendio p"
+   },
+   {
+    "page": 1,
+    "section_title": "SIRENA EXTERIOR DE INCENDIO 24V",
+    "head": "## ANTES DE INSTALAR  La sirena de alarma con rótulo luminoso de incendio es un componente para un sistema de detección y alarma de incendio. Para que dicho sistema cumpla lo que establece el Reglamento de Instalaciones "
+   },
+   {
+    "page": 2,
+    "section_title": "INSTALACIÓN",
+    "head": "## INSTALACIÓN  [Image: A rectangular box containing a fire siren device with \"FUEGO\" label visible on its front panel]  La sirena de incendio debe instalarse de modo que su señal cubra toda el área de vigilancia sin que"
+   },
+   {
+    "page": 2,
+    "section_title": "SIRENA EXTERIOR DE INCENDIO 24V",
+    "head": "## CONEXIONADO ELÉCTRICO  La conexión eléctrica se hace en los terminales marcados \"ALIM.\", siguiendo la polaridad indicada, (ver *figura1*). En el centro de la base hay un orificio para la entrada de los cables. El Term"
+   }
+  ]
+ },
+ {
+  "source_file": "55320002 Manual Programador PGD-200 ES FR GB IT",
+  "write_op": "corroborate_noop",
+  "brand": "Detnov",
+  "doc_level_pm": "PGD-200",
+  "s83_primaries": [
+   "PGD-200"
+  ],
+  "s83_languages": [
+   "en",
+   "es",
+   "fr",
+   "it"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es",
+    "fr",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "PROGRAMADOR",
+    "head": "# PROGRAMADOR  *Programador*  ESPAÑOL  ## 1- Introducción  El programador de direcciones es una herramienta que nos permite asignar a todos los elementos del sistema analógico una dirección lógica. Esta numeración comien"
+   },
+   {
+    "page": 1,
+    "section_title": "PROGRAMMING TOOL",
+    "head": "# PROGRAMMING TOOL  *Programming Tool*  ENGLISH  ## 1- Introduction  The addressable programmer is a tool that allows the installation engineer to assign an address to all the devices of the analogue system. The addresse"
+   }
+  ]
+ },
+ {
+  "source_file": "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+  "write_op": "corroborate_noop",
+  "brand": "Detnov",
+  "doc_level_pm": "MAD-412",
+  "s83_primaries": [
+   "MAD-412"
+  ],
+  "s83_languages": [
+   "en",
+   "es",
+   "fr",
+   "it"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es",
+    "fr",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "MÓDULO DE 1 O 2 RELÉS",
+    "head": "# MÓDULO DE 1 O 2 RELÉS  Modelo 1 Relé  Modulo de 2 Relé  ## 1- Introducción  Los módulo de 1 o 2 relés libres de tensión proporcionan al sistema de detección de incendio analógico 1 o 2 relés libres de tensión para ser "
+   },
+   {
+    "page": 1,
+    "section_title": "4- Características Técnicas",
+    "head": "| Características Módulo  | Características Módulo | Características Módulo | | ----------------------- | ---------------------- | ---------------------- | | •Tensión funcionamiento | 22-38 VDC              | 22-38 VDC  "
+   },
+   {
+    "page": 1,
+    "section_title": "1 OR 2 RELAY OUTPUT MODULE",
+    "head": "# 1 OR 2 RELAY OUTPUT MODULE  1 Relay Module  2 Relay Module  ## 1- Introduction  A module with 1 or 2 voltage-free relays for connection to the analogue fire detection system to provide 1 or 2 voltage free relays for us"
+   },
+   {
+    "page": 1,
+    "section_title": "4- Technical Features",
+    "head": "| Wiring features | Wiring features                     | Wiring features                     | | --------------- | ----------------------------------- | ----------------------------------- | | •Cable type     | 1.5 mm² "
+   }
+  ]
+ },
+ {
+  "source_file": "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+  "write_op": "corroborate_noop",
+  "brand": "Detnov",
+  "doc_level_pm": "MAD-450",
+  "s83_primaries": [
+   "MAD-450"
+  ],
+  "s83_languages": [
+   "en",
+   "es",
+   "fr",
+   "it"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es",
+    "fr",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "PULSADOR ANALÓGICO",
+    "head": "PULSADOR ANALÓGICO | ANALOGUE MANUAL CALL POINT  # PULSADOR ANALÓGICO  *Pulsador Analógico*  ### Direccionamiento.  El módulo pulsador, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su i"
+   },
+   {
+    "page": 1,
+    "section_title": "5- Rearme del pulsador",
+    "head": "El pulsador analógico después de ser activado puede rearmarse con la llave suministrada.  | 1º Introducir la llave                                          |   | | --------------------------------------------------------"
+   },
+   {
+    "page": 1,
+    "section_title": "ANALOGUE MANUAL CALL POINT",
+    "head": "# ANALOGUE MANUAL CALL POINT  *Analogue Manual Call Point*  ### Addressing.  The MCP is part of the analogue fire detection system, so it must be given an identifying address. The MCP will take 1 loop address. The MCPs c"
+   }
+  ]
+ },
+ {
+  "source_file": "9-30781-kid-en-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Kidde",
+  "doc_level_pm": "9-30781-KID-EN",
+  "s83_primaries": [
+   "9-30781-KID-EN",
+   "Standard Display Module"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "9-30781-KID-EN",
+    "head": "KIDDE COMMERCIAL  # 9-30781-KID-EN  **Kidde ModuLaser, Standard display module**  ## General  ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and takes app"
+   },
+   {
+    "page": 1,
+    "section_title": "Details",
+    "head": "* Modular Design : Separate centrally-controllable detector modules allow efficient piping and discrete zones with no overlap. * Zoned aspirating smoke detection : Individual detector modules provide detection for indivi"
+   },
+   {
+    "page": 2,
+    "section_title": "9-30781-KID-EN",
+    "head": "# 9-30781-KID-EN  **Kidde ModuLaser, Standard display module**  ## Especificaciones técnicas  ### General  | Indicación de estado | LED's                                                            | | -------------------"
+   },
+   {
+    "page": 2,
+    "section_title": "Tubo de muestreo",
+    "head": "| Longitud                       | Up to 250 m (820 ft.) combined per detector module                                                                           | | ------------------------------ | -----------------------"
+   },
+   {
+    "page": 2,
+    "section_title": "Especificaciones técnicas",
+    "head": "### Entrada  | Cantidad de entradas    | 2 per module   | | ----------------------- | -------------- | | Ratio y tipo de entrada | Supervised     | | Terminación             | 15 KΩ 5% 1/4 W | | Programable             |"
+   },
+   {
+    "page": 2,
+    "section_title": "Físico",
+    "head": "### Físico  | Dimensiones físicas | W x D x H<br/>110.5 x 133.5 x 300 mm<br/>(4.35 x 5.25 x 11.8 in)                                        | | ------------------- | ------------------------------------------------------"
+   }
+  ]
+ },
+ {
+  "source_file": "ASD532_TD_T140421es_a",
+  "write_op": "corroborate_noop",
+  "brand": "Securiton",
+  "doc_level_pm": "ASD532",
+  "s83_primaries": [
+   "ASD 532"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "ASD 532",
+    "head": "SECURITON  # ASD 532  ## Detector de humos por aspiración  ## Descripción técnica  A partir de la versión de FW 01.01.xx  [A gray rectangular control unit with black side panel. The front face features a black display pa"
+   },
+   {
+    "page": 3,
+    "section_title": "Aviso legal",
+    "head": "# Aviso legal  ## Indicación  La presente documentación con el código T 140 421 se refiere exclusivamente al producto descrito en el capítulo 1.  Esta documentación podrá modificarse o retirarse sin previo aviso. Las afi"
+   },
+   {
+    "page": 4,
+    "section_title": "Aviso legal",
+    "head": "# Aviso legal  ## Documentación adicional  | Hoja de datos ASD 532                                                    | T 140 422 | de / en / fr / it / es / pt / sv |                                  | | ----------------"
+   },
+   {
+    "page": 5,
+    "section_title": "Instrucciones de seguridad",
+    "head": "# Instrucciones de seguridad  En circunstancias normales, el producto no supone riesgo alguno para personas u objetos, siempre y cuando sea manejado correctamente por personal debidamente capacitado conforme a la present"
+   },
+   {
+    "page": 7,
+    "section_title": "Historial del documento",
+    "head": "# Historial del documento  **Primera edición** Fecha **15.10.2015**  **Índice \"a\"** Fecha **31.10.2016**  **Principales cambios en comparación con la primera edición:**  | Capítulo                                        "
+   },
+   {
+    "page": 7,
+    "section_title": "",
+    "head": "ASD 532, Descripción técnica, T 140 421 a es 7 / 129  NO_CONTENT_HERE  índice de contenidos  # Índice de contenidos  | 1        | Aspectos generales                      | 13 | | -------- | ------------------------------"
+   }
+  ]
+ },
+ {
+  "source_file": "HLSI-MN-103I_V04 FR",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "RP1r",
+  "s83_primaries": [
+   "RP1r-Supra"
+  ],
+  "s83_languages": [
+   "fr"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "fr"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 10,
+    "section_title": "2.4.4 *Installation du couvercle du boîtier*",
+    "head": "[Diagram showing the cover installation on the RP1r-Supra unit with arrows indicating screw positions]  HLSI-MN-103-I v.04                                                             Manuel d'installation et d'utilisatio"
+   },
+   {
+    "page": 18,
+    "section_title": "3.4.4 Raccordement des zones - Borniers: E, F et G",
+    "head": "HLSI-MN-103-I v.04                                                                                                                                    Manuel d'installation et d'utilisation http://www.honeywelllifesafety."
+   }
+  ]
+ },
+ {
+  "source_file": "I56-2055-000 B500 Series_Eng",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "B500",
+  "s83_primaries": [
+   "B501",
+   "B501DG",
+   "B524HTR"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "INSTALLATION INSTRUCTIONS FOR B500 SERIES DETECTOR BASES",
+    "head": "SYSTEM SENSOR  # INSTALLATION INSTRUCTIONS FOR B500 SERIES DETECTOR BASES  Before installing bases, please thoroughly read System Sensors Guide to Intelligent Fire Systems, which gives information on detector spacing, pl"
+   },
+   {
+    "page": 1,
+    "section_title": "Tamper Resist Feature",
+    "head": "To activate this feature, break off the tab on the detector base prior to installing the detector (figure 1a). To remove the detector once this tamper resist is activated, place a small bladed screwdriver into the slot o"
+   },
+   {
+    "page": 1,
+    "section_title": "REMOTE ANNUNCIATOR UNITS",
+    "head": "### REMOTE ANNUNCIATOR UNITS  The RA40oz Remote Annunciator LED is available as an optional accessory. This unit has a rectangular plate, which fits US single gang light switch boxes.  If a different remote annunciator i"
+   },
+   {
+    "page": 1,
+    "section_title": "B524HTR HEATED BASE",
+    "head": "### B524HTR HEATED BASE  Tamper Resist Tab  Terminal Strip (See Table)  HTR+ HTR- L+ L- LR+  Annunciator (-)  #### B524HTR Specifications:  | Maximum Voltage:                   | 32 V (dc or ac) | | ---------------------"
+   }
+  ]
+ },
+ {
+  "source_file": "I56-3920-001 CR-6EA_multi",
+  "write_op": "corroborate_noop",
+  "brand": "System Sensor",
+  "doc_level_pm": "CR-6EA",
+  "s83_primaries": [
+   "CR-6EA"
+  ],
+  "s83_languages": [
+   "de",
+   "en",
+   "es",
+   "it"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "de",
+    "en",
+    "es",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "I56-3920-001  # INSTALLATION AND MAINTENANCE INSTRUCTIONS  ![System Sensor Logo]  Pittway Tecnologica S.r.l. Via Caboto 19/3 34147 Trieste, Italy  # CR-6EA  # Six Relay Control Module  ## SPECIFICATIONS  Normal Operating"
+   },
+   {
+    "page": 1,
+    "section_title": "ADDRESSES",
+    "head": "In systems using CLIP (Communication Loop Intelligent Protocol) a pair of rotary code switches is used to set the address of the first module from 01 to 94. The remaining modules are automatically assigned to the next fi"
+   },
+   {
+    "page": 1,
+    "section_title": "Six Relay Control Module",
+    "head": "## CONTENTS INCLUDE:  (6) 1 x 3 Terminal Blocks  (1) 1 x 4 Terminal Blocks  (4) Screws  (2) 3.2 cm Stand offs  (2) Nuts  ## COMPATIBILITY REQUIREMENTS  To ensure proper operation, this module shall be connected to a comp"
+   },
+   {
+    "page": 2,
+    "section_title": "WIRING",
+    "head": "## WIRING  NOTE: All wiring must conform to applicable local codes, ordinances, and regulations.  1. Install module wiring in accordance with the job drawings and appropriate wiring diagrams.  2. Make electrical connecti"
+   },
+   {
+    "page": 2,
+    "section_title": "FIGURE 1: WIRING AND PROGRAMMING THE CR-6EA MODULE",
+    "head": "## FIGURE 1: WIRING AND PROGRAMMING THE CR-6EA MODULE  [Technical diagram showing:  **Left side - RELAY CONNECTIONS:**  - Three connection points labeled NC, NO, and COMMON with relay symbol  **Center - Module board (6.8"
+   },
+   {
+    "page": 4,
+    "section_title": "FIGURA 1: CABLAGGIO E PROGRAMMAZIONE DEL MODULO CR-6EA",
+    "head": "## FIGURA 1: CABLAGGIO E PROGRAMMAZIONE DEL MODULO CR-6EA  [Technical diagram showing:  **Left side - COLLEGAMENTI DEL RELÈ (Relay Connections):**  - A relay connection diagram showing three terminals labeled NC, NO, and"
+   }
+  ]
+ },
+ {
+  "source_file": "I56-3956-201_PT Morley Loop FAAST LT QIG",
+  "write_op": "corroborate_noop",
+  "brand": "Morley",
+  "doc_level_pm": "FAAST LT",
+  "s83_primaries": [
+   "FAAST LT"
+  ],
+  "s83_languages": [
+   "en",
+   "pt"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": false,
+   "language_value": null,
+   "language_contradict": false,
+   "doc_type_fill": false,
+   "doc_type_value": null,
+   "doc_type_differ": true
+  },
+  "content": [
+   {
+    "page": 3,
+    "section_title": "Instalação dos tubos",
+    "head": "## Instalação dos tubos  [Two small diagrams showing:  1. A ruler/measuring tape with markings from 1-18 2. A tube installation detail showing proper mounting technique]  **1**                                            "
+   },
+   {
+    "page": 10,
+    "section_title": "",
+    "head": "# ADDENDUM  ## to FAAST LT Quick Installation Guide  # SWITCHING INDUCTIVE LOADS  ----  **2A Max.       30 VDC** **0.5A Max.     30 VAC**  **Circuit Diagram 1:**  ``` FAAST LT ─┐           │           ├─────○  ●─────────"
+   }
+  ]
+ },
+ {
+  "source_file": "I56-3976-001 NFXI-MM10",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NFXI-MM10",
+  "s83_primaries": [
+   "NFXI-MM10"
+  ],
+  "s83_languages": [
+   "en",
+   "es",
+   "it"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "INSTALLATION AND MAINTENANCE INSTRUCTIONS  **NOTIFIER** by Honeywell  I56-3976-001  # NFXI-MM10  # Ten Input Monitor Module  Notifier by Honeywell. Charles Avenue Burgess Hill West Sussex RH15 9UF UK  ## SPECIFICATIONS  "
+   },
+   {
+    "page": 1,
+    "section_title": "ADDRESSES",
+    "head": "In systems using CLIP (Communication Loop Intelligent Protocol) a pair of rotary code switches is used to set the address of the first module from 01 to 90. The remaining modules are automatically assigned to the next ni"
+   },
+   {
+    "page": 1,
+    "section_title": "Ten Input Monitor Module",
+    "head": "## INCLUDED:  (6) 1 x 4 Terminal Blocks     (2) 3.2 cm Stand offs     (2) Nuts  [Terminal block diagram]      [Stand-off hardware]      [Nuts]  (4) Screws                    (10) 47k Ohm                               End"
+   },
+   {
+    "page": 1,
+    "section_title": "WIRING",
+    "head": "## WIRING  NOTE: All wiring must conform to applicable local codes, ordinances, and regulations.  1. Install module wiring in accordance with the job drawings and appropriate wiring diagrams.  2. All wiring to the NFXI-M"
+   },
+   {
+    "page": 2,
+    "section_title": "FIGURE 1: TYPICAL INITIATING DEVICE CIRCUIT CONFIGURATION",
+    "head": "# FIGURE 1: TYPICAL INITIATING DEVICE CIRCUIT CONFIGURATION  [Technical wiring diagram showing a fire alarm control panel with the following components:  Left side: Panel face with STATUS INDICATORS (6 square indicators "
+   },
+   {
+    "page": 5,
+    "section_title": "",
+    "head": "# INSTRUCCIONES DE INSTALACIÓN Y MANTENIMIENTO  # NOTIFIER by Honeywell  # NFXI-MM10  # Módulo de supervisión de diez entradas  Notifier by Honeywell. Charles Avenue Burgess Hill West Sussex RH15 9UF UK  ## ESPECIFICACIO"
+   }
+  ]
+ },
+ {
+  "source_file": "I56-4209-001 NRX-WCP Call Point Web",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NRX-WCP",
+  "s83_primaries": [
+   "NRX-WCP"
+  ],
+  "s83_languages": [
+   "de",
+   "en",
+   "es",
+   "it"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "de",
+    "en",
+    "es",
+    "it"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** by Honeywell  **NRX-WCP RADIO CALL POINT INSTALLATION AND MAINTENANCE INSTRUCTIONS**  **ENGLISH** I56-4209-001  |||||||||||||||||||||||||||  ## DESCRIPTION  **Figure 1: Installing the Backplate**  [Front vi"
+   },
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "Fit and tighten the screws provided into the 5 screw holes (2 on the top and 3 on the underside of the call point) to ensure the unit is fixed to the backplate (see figure 3 overleaf).  **Device Removal Warning** - An al"
+   },
+   {
+    "page": 2,
+    "section_title": "",
+    "head": "| Call Point Status                  | LED State                                                               | Meaning                                                                      | | --------------------------"
+   },
+   {
+    "page": 2,
+    "section_title": "PROGRAMMING",
+    "head": "- 5a: Arrow pointing up to call point - 5b: Two arrows pointing down from call point - 5c: Call point with downward arrow - 5d: Hand using tool on call point - 5e: Call point being lifted with upward arrow - 5f: Hand man"
+   },
+   {
+    "page": 5,
+    "section_title": "DESCRIPCIÓN",
+    "head": "## DESCRIPCIÓN  El pulsador NFX-WCP es un dispositivo vía radio para el uso con la pasarela vía radio NFXI-GATE, utilizado en un sistema antiincendios direccionable (utilizando un protocolo de comunicación compatible).  "
+   },
+   {
+    "page": 5,
+    "section_title": "DATOS TÉCNICOS",
+    "head": "## DATOS TÉCNICOS  Tensión de alimentación: 3,3 V corriente continua máx. Corriente en reposo: 120 µA@ 3V (típica en el modo de funcionamiento normal) Corriente máx. de LED rojo: 2mA Tiempo de resincronización: 35s (tiem"
+   }
+  ]
+ },
+ {
+  "source_file": "I56-512-07R DH500",
+  "write_op": "corroborate_noop",
+  "brand": "System Sensor",
+  "doc_level_pm": "DH500",
+  "s83_primaries": [
+   "DH500"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "DH500 Intelligent Air Duct Smoke Detector Housing",
+    "head": "INSTALLATION AND MAINTENANCE INSTRUCTIONS  # DH500 Intelligent Air Duct Smoke Detector Housing  **SYSTEM SENSOR®**  3825 Ohio Avenue, St. Charles, Illinois 60174 1-800-SENSOR2, FAX: 630-377-6495  ## Specifications  Lengt"
+   },
+   {
+    "page": 1,
+    "section_title": "Contents of the Duct Detector Housing Kit",
+    "head": "1. Complete housing base and cover assembly. 2. Two #10 sheet metal mounting screws. 3. Two sampling tube filters. 4. One test magnet. 5. Drilling template. 6. Two 5/16-inch O-rings. 7. Two rubber tube bushings seals. 8."
+   },
+   {
+    "page": 2,
+    "section_title": "Figure 1:",
+    "head": "## Figure 1:  [Technical exploded diagram showing a duct detector assembly with the following labeled components:  - FOAM GASKETS (shown as two circular foam rings) - TUBE END PLUG - INLET SAMPLING TUBE (SUPPLIED SEPARAT"
+   },
+   {
+    "page": 2,
+    "section_title": "Installation Sequence",
+    "head": "## Installation Sequence  | Step 1. Verify duct air flow direction and velocity         | 2 | | ----------------------------------------------------------- | - | | Step 2. Drill the mounting holes                        "
+   },
+   {
+    "page": 2,
+    "section_title": "DH500 Intelligent Air Duct Smoke Detector Housing",
+    "head": "## Step 1. Verify Duct Air Flow Direction and Velocity  The DH500 is designed to be used in air handling systems having air velocities of 500 to 4000 feet per minute. Be sure to check engineering specifications to ensure"
+   },
+   {
+    "page": 2,
+    "section_title": "Step 3. Mount Duct Housing",
+    "head": "## Step 3. Mount Duct Housing  Remove the duct housing cover. Slide the foam gaskets over the tube bushings as shown in Figure 2B. Make sure the two small holes in the gaskets line up with the two base mounting holes. Pu"
+   }
+  ]
+ },
+ {
+  "source_file": "Instruction Manual SGMI200",
+  "write_op": "corroborate_noop",
+  "brand": "Argus Security",
+  "doc_level_pm": "SGMI200",
+  "s83_primaries": [
+   "SGMI200"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "ARGUS SECURITY  # SGMI200  # WIRELESS INPUT MODULE  IMPORTANT NOTE! Programming is considered to be completed successfully only if there is an indication of programming success on the device and on the translator or on t"
+   },
+   {
+    "page": 1,
+    "section_title": "TECHNICAL SPECIFICATIONS",
+    "head": "| Open space communication range with its parent translator or expander | 200 m                 | Ideal operating range: may vary consistently according to environmental conditions                                        "
+   },
+   {
+    "page": 1,
+    "section_title": "TECHNICAL SPECIFICATIONS",
+    "head": "**Table 1**  | Device Status                       | Green LED                                                                           | Red LED                                                    | | ------------------"
+   },
+   {
+    "page": 1,
+    "section_title": "COMMUNICATION QUALITY ASSESSMENT",
+    "head": "## COMMUNICATION QUALITY ASSESSMENT  It is possible to assess the wireless communication quality of the module by using a testing feature built in the device. After a successful linking operation, by switching the link-p"
+   },
+   {
+    "page": 1,
+    "section_title": "MODULE PLACEMENT",
+    "head": "## MODULE PLACEMENT  *It is strongly advised to mount the device as far as possible from metal objects, metal doors, metal window openings, etc. as well as cable conductors, cables (especially from computers), otherwise "
+   },
+   {
+    "page": 1,
+    "section_title": "WARNINGS AND LIMITATIONS",
+    "head": "## WARNINGS AND LIMITATIONS  Our devices use high quality electronic components and plastic materials that are highly resistant to environmental deterioration. However, after 10 years of continuous operation, it is advis"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT120_01",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP-200",
+  "s83_primaries": [
+   "AFP200"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "operacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "operacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "INSTRUCCIONES DE FUNCIONAMIENTO DE LA CENTRAL AFP200",
+    "head": "NOTIFIER ESPAÑA, S.L. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # INSTRUCCIONES DE FUNCIONAMIENTO DE LA CENTRAL AFP200  **! ACTÚE AQUÍ !**  ## EN "
+   },
+   {
+    "page": 2,
+    "section_title": "",
+    "head": "# INSTRUCCIONES DE FUNCIONAMIENTO DE LA CENTRAL AFP200  [Image: A pointing hand/finger gesture]  # ! ACTÚE AQUÍ !  [Image: AFP200 fire alarm control panel - a black rectangular panel with blue front face, displaying an L"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT190_13",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "ID3000",
+  "s83_primaries": [
+   "ID3000"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "boletin",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "boletin",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "CARACTERÍSTICAS NUEVAS DE LA VERSIÓN DE *SOFTWARE 4.52* DE LA CENTRAL ID3000",
+    "head": "**NOTIFIER®** **by Honeywell**  **Honeywell Life Safety Iberia** C/Pau Vila, 15-19 08911 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35 www.honeywelllifesafety.es  # CARACTERÍSTICAS NUEVAS DE LA VERSIÓN DE *S"
+   },
+   {
+    "page": 3,
+    "section_title": "2 Sincronización de sirenas",
+    "head": "# 2 Sincronización de sirenas  Cuando se implementa esta característica en una instalación nueva o ya existente, se deben tomar las siguientes medidas de configuración:  a. Actualizar el software de todas las centrales a"
+   },
+   {
+    "page": 4,
+    "section_title": "2.1 Opción Habilitar",
+    "head": "``` Configuración de equipo - Lazo n Módulo nn Tipo SIRENA Zona nnnn/nn  Subzona  nnn Zona <(texto de zona sin definir)        > Des. <Descripción de equipo              > Prioridad=NO Silenciable  PULSO NORMAL > ◆=selec"
+   },
+   {
+    "page": 4,
+    "section_title": "2 Sincronización de sirenas",
+    "head": "## 2.2 Matriz de control  Si en la configuración de la central, hay una Matriz de control que requiera intermitencia (opción 'PULSANTE'), es **esencial** que todas las sirenas que no sean compatibles con el protocolo ava"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT230_01",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP4000",
+  "s83_primaries": [
+   "AFP4000"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "mantenimiento",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "mantenimiento",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER® by Honeywell  NOTIFIER ESPAÑA, S.A. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # CENTRAL ANALÓGICA AFP4000  # Códigos de avería de la cen"
+   },
+   {
+    "page": 2,
+    "section_title": "Códigos de eventos de la Serie 4000",
+    "head": "| Subevento                  | Tipo de Avería | Código | Evento Asociado           | Descripción                                                                                                                            "
+   },
+   {
+    "page": 3,
+    "section_title": "Códigos de eventos de la Serie 4000",
+    "head": "MA-DT-230_01 13-12-04                    NOTIFIER ESPAÑA                    3 de 5  | Subevento             | Tipo de Avería | Código | Evento Asociado | Descripción                                                       "
+   },
+   {
+    "page": 4,
+    "section_title": "Códigos de eventos de la Serie 4000",
+    "head": "MA-DT-230_01 13-12-04        NOTIFIER ESPAÑA        4 de 5  | Subevento            | Tipo de Avería | Código | Evento Asociado   | Descripción                                                                              "
+   },
+   {
+    "page": 5,
+    "section_title": "",
+    "head": "MA-DT-230_01 13-12-04     NOTIFIER ESPAÑA     5 de 5  # Tipo de equipo  La siguiente tabla muestra los códigos de tipo utilizados en el sistema  | Tipo de Equipo | Valor | Descripción                                     "
+   }
+  ]
+ },
+ {
+  "source_file": "MADT233",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP4000",
+  "s83_primaries": [
+   "AFP4000"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "operacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "operacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "FLUJOGRAMA DE ACCESO EN LA CENTRAL AFP4000",
+    "head": "MA-DT-233                    NOTIFIER ESPAÑA, S.A.                    1 de 2  # FLUJOGRAMA DE ACCESO EN LA CENTRAL AFP4000  ```mermaid flowchart TD     A[PULSE PARA VERLOS DIFERENTES MENUS]     A --> B[INFORME]     A -->"
+   },
+   {
+    "page": 2,
+    "section_title": "",
+    "head": "**Nota:** Los menús en negrita serán los únicos disponibles con la Clave de Programación (010000)  # PROGRAMACIÓN DE LA CENTRAL  ## Configuración Sensores  Temporizaciones (No Disponible)  ## Configuración Módulos  ## De"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT236",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP4000",
+  "s83_primaries": [
+   "Impresora AFP4000 (020-407)"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Instrucciones de instalación de la impresora de la AFP4000",
+    "head": "MA-DT-236                                    NOTIFIER ESPAÑA, S.A.                16/06/2000 1 de 2  # Instrucciones de instalación de la impresora de la AFP4000  **AVISO: Antes de iniciar la instalación, debe asegurarse"
+   },
+   {
+    "page": 1,
+    "section_title": "Instrucciones de instalación de la impresora de la AFP4000",
+    "head": "**3** Conecte un extremo del cable de cinta de datos al conector interface de la impresora en la placa MCB (J11), la línea roja situada a la derecha. Conduzca el cable, termine con ferrita para que el otro extremo se pue"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT380_01",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NAM-232",
+  "s83_primaries": [
+   "NAM-232"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Conexión del NAM-232 con la AFP-400. Configuración de los conmutadores y conexio",
+    "head": "NOTIFIER ESPAÑA, S.L. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # Conexión del NAM-232 con la AFP-400. Configuración de los conmutadores y conexio"
+   },
+   {
+    "page": 1,
+    "section_title": "Conexión del NAM-232 con la AFP-400. Configuración de los conmutadores y conexio",
+    "head": "| SW2<br/>(solo NAM-232W) | Canal A, Fallo de tierra habilitado: Coloque el SW2 como se indica en la la ilustración al final de la tabla para habilitar la detección de fallo de tierra a través del Canal A de la red. Desp"
+   },
+   {
+    "page": 2,
+    "section_title": "Conexión del NAM-232 a una AFP-300/400",
+    "head": "# Conexión del NAM-232 a una AFP-300/400  La interfaz de comunicaciones en serie EIA-232 de la AFP-300/AFP400 debe conectarse a un NAM-232 para comunicar con otros nodos en un sistema NOTI·FIRE·NET.  **Nota**: Cuando la "
+   }
+  ]
+ },
+ {
+  "source_file": "MADT609",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NAP-100",
+  "s83_primaries": [
+   "NAP-100"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "otro",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "otro",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "TABLA DE APROXIMACIONES A GAS PATRÓN - NAP-100 -",
+    "head": "NOTIFIER ESPAÑA Central: Avda. Conflent, 84 Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35  # TABLA DE APROXIMACIONES A GAS PATRÓN - NAP-100 -  **LEL=** LIMITE EXPLOSIVO I"
+   },
+   {
+    "page": 1,
+    "section_title": "TABLA DE APROXIMACIONES A GAS PATRÓN - NAP-100 -",
+    "head": "| GAS MUESTRA            | FÓRMULA       | LEL  | FACTOR | NUEVO | GRUPO | NOAPT. | VALORTÓXICO PPM | FS    | FAMILIA               | CLASIF | CH4 1%(20%LEL)<br/>TOL +/- | CH4 1%(20%LEL)<br/>TOL +/- | CH41,5%(30%LEL)<br/"
+   },
+   {
+    "page": 1,
+    "section_title": "TABLA DE APROXIMACIONES A GAS PATRÓN - NAP-100 -",
+    "head": "MA-DT-609   27/11/00                                                                                   NOTIFIER ESPAÑA                                                                                              1 de 2  "
+   },
+   {
+    "page": 2,
+    "section_title": "TABLA DE APROXIMACIONES A GAS PATRÓN - NAP-100 -",
+    "head": "| GAS MUESTRA          | FÓRMULA      | LEL | FACTOR | NUEVO | GRUPO | NO APT. | VALOR TÓXIC O PPM | FS    | FAMILIA             | CLASIF. | CH4 1% (20%LE L) | TOL +/- | CH4 1,5% (30%LEL ) | TOL +/- | CH4 2% (40% LEL) | "
+   },
+   {
+    "page": 2,
+    "section_title": "CLASIFICACIÓN",
+    "head": "## CLASIFICACIÓN  **1ª CIFRA**  2 GAS 3 LÍQUIDO INFLAMABLE  4 SÓLIDO INFLAMABLE 5 MATERIA COMBURENTE 6 MATERIA TÓXICA 8 CORROSIVO  **2ª Y 3ª CIFRA**  CARECE DE 0 SIGNIFICACIÓN 1 EXPLOSIÓN  2 EMANACIÓN DE GASES 3 INFLAMAB"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT765",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "FR2000EX",
+  "s83_primaries": [
+   "FR2000EX"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Guía rápida de instalación FR2000EX",
+    "head": "NOTIFIER® by Honeywell  Honeywell Life Safety Iberia Oficinas centrales: Tel.: 93 497 39 60 Fax: 93 465 86 35  # Guía rápida de instalación FR2000EX  Conexión a tierra de la caja del receptor (Rx)  • Diagrama de instalac"
+   },
+   {
+    "page": 2,
+    "section_title": "INTERIOR DEL TRANSMISOR (Tx)",
+    "head": "# INTERIOR DEL TRANSMISOR (Tx)  ## (el diagrama solo muestra los componentes relevantes para esta sección)  ### Componentes y conexiones del transmisor:  **Terminal de conexión externa a tierra en una de estas dos posici"
+   },
+   {
+    "page": 3,
+    "section_title": "INTERIOR DEL RECEPTOR (Rx)",
+    "head": "# INTERIOR DEL RECEPTOR (Rx)  (el diagrama solo muestra los componentes relevantes para esta sección)  Terminal de conexión externa a tierra en una de estas dos posiciones  No utilice este orificio para la entrada de cab"
+   }
+  ]
+ },
+ {
+  "source_file": "MADT951_03",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "ID3000",
+  "s83_primaries": [
+   "ID3000",
+   "ID3002"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Programación local de la serie ID3000 en red",
+    "head": "NOTIFIER ESPAÑA Central: Avda. Conflent, 84 Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35  # Programación local de la serie ID3000 en red  [Two software interface screens"
+   }
+  ]
+ },
+ {
+  "source_file": "MCDT156_A",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "ID50/60",
+  "s83_primaries": [
+   "ID50",
+   "ID60"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** by Honeywell  NOTIFIER ESPAÑA Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # CENTRAL ANALÓGICA CONTRA INCENDIOS  # ID50/60  # Manual de"
+   },
+   {
+    "page": 2,
+    "section_title": "Índice",
+    "head": "# Índice  | **1** | **Introducción**                            | **1**  | | ----- | ------------------------------------------- | ------ | | 1.1   | **Finalidad del manual**                    | 1      | | 1.2   | **Gen"
+   },
+   {
+    "page": 4,
+    "section_title": "",
+    "head": "| **15.2 Recibir datos de la central** |  | 54 |  | **15.3 Detener transferencia** |  | 55 |  | **16 Imprimir** |  | 56 |  | **16.1 Visualizar impresión** |  | 57 |  | **16.2 Imprimir** |  | 60 |  | **16.3 Configuración "
+   },
+   {
+    "page": 7,
+    "section_title": "1.3.1 Ordenadores",
+    "head": "| ![](consejos_icon) | **Asegúrese de que hay un ratón e elemento apuntador cuando utilice el programa de configuración fuera de línea en un portátil.** | | ------------------ | ------------------------------------------"
+   },
+   {
+    "page": 7,
+    "section_title": "1.3.2 Impresoras",
+    "head": "### 1.3.2 Impresoras  Este programa le permite imprimir los archivos de datos en cualquier impresora configurada bajo entorno Windows® y conectada al puerto serie o paralelo de su ordenador. No hay «drivers» especiales e"
+   },
+   {
+    "page": 8,
+    "section_title": "1.3.3 Cableado para la transferencia de datos",
+    "head": "### 1.3.3 Cableado para la transferencia de datos  Para conectar la central a un puerto serie estándar RS232, es necesario un cable de transferencia de datos (Ref.: 082-173) con un conector macho a uno hembra de 9 vías d"
+   }
+  ]
+ },
+ {
+  "source_file": "MFDT112P",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "UDS-2N",
+  "s83_primaries": [
+   "UDS-2N"
+  ],
+  "s83_languages": [
+   "es",
+   "pt"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "es",
+    "pt"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** by Honeywell  NOTIFIER ESPAÑA Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # Unidade de extinção Modelo *UDS-2N*  [A white wall-mounted"
+   }
+  ]
+ },
+ {
+  "source_file": "MFDT170",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP-300/AFP-400",
+  "s83_primaries": [
+   "AFP-300",
+   "AFP-400"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "operacion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "operacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER ESPAÑA, S.A. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # AFP-300/AFP-400  # Central Analógica de1/2 lazos  # Manual de Funcionamiento  MF"
+   },
+   {
+    "page": 3,
+    "section_title": "Índice",
+    "head": "**3. Modos de                Estado Normal ........................................................................................... 4      Funcionamiento**        Avería ..............................................."
+   },
+   {
+    "page": 3,
+    "section_title": "Índice",
+    "head": "*Continúa en la página siguiente...*  MF-DT-170a NOTIFIER ESPAÑA, S.A. iv  # Índice  ## 4. Sistemas de Alarma por Megafonía  Introducción .................................................................................."
+   },
+   {
+    "page": 4,
+    "section_title": "Apéndice A: Opciones de Mensaje de Voz del AMG",
+    "head": "## Apéndice A: Opciones de Mensaje de Voz del AMG  Introducción ............................................................................................. 36 Instalación ..............................................."
+   },
+   {
+    "page": 5,
+    "section_title": "Apéndice A: Opciones de Mensaje de Voz del AMG",
+    "head": "Estándares de la Interconexión en serie EIA-485 y EIA-232 Métodos de Cableado NEC Artículo 300 Sistema de Señalización de Protección Contra Incendios NEC Artículo 760 Códigos Locales y Estatales Aplicables a Edificios Re"
+   },
+   {
+    "page": 6,
+    "section_title": "Notas",
+    "head": "# Notas  _______________________________________________________________________________  _______________________________________________________________________________  _________________________________________________"
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT1041",
+  "write_op": "fill_language_doctype",
+  "brand": "Pfannenberg",
+  "doc_level_pm": "DH500AC/DC",
+  "s83_primaries": [
+   "DH500ACDC-E"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "CARCASA DEL DETECTOR ANALÓGICO DE HUMO POR CONDUCTO DE AIRE DH500AC/DC",
+    "head": "**NOTIFIER®** **by Honeywell**  Honeywell Life Safety Iberia Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # CARCASA DEL DETECTOR ANALÓGICO DE HUMO PO"
+   },
+   {
+    "page": 2,
+    "section_title": "Manual de Instalación y mantenimiento. DH500AC/DC.",
+    "head": "# Manual de Instalación y mantenimiento. DH500AC/DC.  ## Especificaciones  Largo: 36,7 cm Ancho: 12,7 cm Fondo: 10,2 cm Peso: 1,8 kg Temperatura de Funcionamiento: de 0° a 49°C Humedad de Funcionamiento: del 10% al 93% H"
+   },
+   {
+    "page": 3,
+    "section_title": "DESCRIPCIÓN GENERAL",
+    "head": "Un sistema de climatización suministra aire acondicionado a prácticamente todas las áreas de un edificio. El humo introducido en este sistema por conducto de aire se distribuirá por todo el edificio. Los detectores de hu"
+   },
+   {
+    "page": 4,
+    "section_title": "Conjunto de la Carcasa del Detector de Conducto",
+    "head": "## Conjunto de la Carcasa del Detector de Conducto  Las carcasas de los detectores de conducto de aire DH500ACDC constan de lo siguiente: (ver Figura 1):  1. Un completo montaje de tapa y base. 2. Dos tornillos de metal "
+   },
+   {
+    "page": 4,
+    "section_title": "Fase 2. Perforar los agujeros de montaje",
+    "head": "Los detectores instalados en o sobre los conductos de aire deben permanecer separados, a una distancia equivalente como mínimo a seis conductos, de cualquier abertura de conducto, inflexión aguda o conexiones de derivaci"
+   },
+   {
+    "page": 5,
+    "section_title": "Fase 3. Montaje de la Carcasa del Detector",
+    "head": "## Fase 3. Montaje de la Carcasa del Detector  Retire la tapa de la carcasa del detector. Coloque las dos juntas de espuma tal y como muestra la figura 2A. Asegúrese de que los orificios pequeños en las juntas de espuma "
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT1452_Inst_via radio",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "VW2W100",
+  "s83_primaries": [
+   "VW2W100"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Pasarela vía radio VW2W100",
+    "head": "Honeywell Life Safety Iberia                                                    Honeywell Honeywell Life Safety Iberia                                                    Honeywell  # Pasarela vía radio VW2W100  ## INSTRU"
+   },
+   {
+    "page": 1,
+    "section_title": "DESCRIPCIÓN GENERAL",
+    "head": "Esta pasarela se alimenta directamente del lazo analógico y se utiliza con centrales compatibles con el protocolo de comunicaciones CLIP de supervisión y control. De hecho, su función principal es actuar literalmente com"
+   },
+   {
+    "page": 1,
+    "section_title": "VISIÓN GENERAL",
+    "head": "## VISIÓN GENERAL  A continuación se muestra una vista general del traductor (módulo interfaz). Figura 1: vista frontal del equipo; figura 2: vista interior del equipo; figura 3: dimensiones del equipo y tabla 1: especif"
+   },
+   {
+    "page": 2,
+    "section_title": "<ins>DESCRIPCIÓN GENERAL</ins>",
+    "head": "# <ins>DESCRIPCIÓN GENERAL</ins>  El módulo interfaz VW2W100 (pasarela de cable a vía radio) es un equipo que conecta el lazo analógico al sistema vía radio WANS* (*Wireless Analog Notifier System*).  El módulo permite a"
+   },
+   {
+    "page": 2,
+    "section_title": "<ins>VISIÓN GENERAL</ins>",
+    "head": "# <ins>VISIÓN GENERAL</ins>  A continuación se muestra una vista general del traductor (módulo interfaz). Figura 1: vista frontal del equipo; figura 2: vista interior del equipo; figura 3: dimensiones del equipo y tabla "
+   },
+   {
+    "page": 3,
+    "section_title": "~~PARTE 1 - INSTALACIÓN EN SUPERFICIE~~",
+    "head": "# ~~PARTE 1 - INSTALACIÓN EN SUPERFICIE~~  ## ~~POSICIÓN DEL EQUIPO PARA UNA COMUNICACIÓN VÍA RADIO CORRECTA Y ESTABLE~~  La pasarela debe tener una buena comunicación vía radio con los equipos inalámbricos del sistema. "
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT192_ID3004-001_Instal_esp",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "ID3004",
+  "s83_primaries": [
+   "ID3004-001"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "Guía de instalación del KIT ID3004-001",
+    "head": "Notas **NOTIFIER** by Honeywell  Honeywell Life Safety Iberia C/Pau Vila 15-19, 08911 Badalona (Barcelona) 902 030545 / +34 93 24 24 236 www.honeywelllifesafety.es / infohlsiberia@honeywell.com  MI-DT-192     Honeywell L"
+   },
+   {
+    "page": 2,
+    "section_title": "KIT ID3004-001",
+    "head": "# KIT ID3004-001  ## ①  [Diagram showing CAB-IDA1 enclosure - a gray rectangular box with ventilation slots at the top and mounting points indicated by arrows]  CAB-IDA1  ## ②  [Exploded view diagram showing assembly of "
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT212",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "ID1000",
+  "s83_primaries": [
+   "ID1000",
+   "ID1002",
+   "ID1004"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "CENTRAL DE ALARMA CONTRA INCENDIOS SERIE ID1000",
+    "head": "[NOTIFIER FIRE SYSTEMS Logo - circular logo with \"N\" symbol]  NOTIFIER ESPAÑA, S.A. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # CENTRAL DE ALARMA "
+   },
+   {
+    "page": 2,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "# PRECAUCIONES PARA LA INSTALACIÓN  La práctica correcta de los siguientes requisitos, le ayudará a realizar una instalación libre de problemas y conseguir que el sistema funcione correctamente durante un largo período d"
+   },
+   {
+    "page": 2,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "**No apriete los tornillos más de lo necesario.** Este sistema contiene componentes de alta sensibilidad estática. Asegúrese siempre que ha descargado la energía estática de su cuerpo antes de manejar paneles de circuito"
+   },
+   {
+    "page": 2,
+    "section_title": "LIMITACIONES DEL SISTEMA DE ALARMAS CONTRA INCENDIOS",
+    "head": "# LIMITACIONES DEL SISTEMA DE ALARMAS CONTRA INCENDIOS  **Una alarma automática contra incendios** está compuesta típicamente de detectores de humo y temperatura, pulsadores manuales, componentes sonoros como sirenas y u"
+   },
+   {
+    "page": 3,
+    "section_title": "ÍNDICE",
+    "head": "# ÍNDICE  Página  **1.     INTRODUCCIÓN                                                                    1**  **2.     GENERAL                                                                         1**     2.1 Llave p"
+   },
+   {
+    "page": 3,
+    "section_title": "ÍNDICE",
+    "head": "5.4 Conexión de las Baterías                                                    24         5.5Alimentación se 24V supervisada                                          24     5.6 Supervisión de Fallo de Tierra            "
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT730",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "LaserStar",
+  "s83_primaries": [
+   "LASERSTAR MÁSTER",
+   "LaserStar"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER ESPAÑA, S.A. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  # LaserStar  # *Manual de Instalación*  *Versión Software 3.2* *Versión Hardware o"
+   },
+   {
+    "page": 4,
+    "section_title": "1.INDICADORES Y CONTROLES.",
+    "head": "# 1.INDICADORES Y CONTROLES.  [LaserStar Control Panel Diagram showing:  - Title \"LaserStar\" in white text on blue background - Left side controls arranged vertically:   * \"Flujo Aire\" with indicators: Correcto (white), "
+   },
+   {
+    "page": 4,
+    "section_title": "*LEDS INDICADORES DEL LASERSTAR*",
+    "head": "| LED Y                             | ESTADO / POSIBLE AVERÍA                                                                        | | --------------------------------- | -----------------------------------------------"
+   },
+   {
+    "page": 5,
+    "section_title": "*DETECTORES ESCLAVOS*",
+    "head": "## *DETECTORES ESCLAVOS*  Estos indicadores son únicos del *LASERSTAR* y es importante comprender perfectamente su misión. Se activan automáticamente cuando se conectan al bus de comunicaciones. Los esclavos deben tener "
+   },
+   {
+    "page": 6,
+    "section_title": "*DETECTORES ESCLAVOS*",
+    "head": "**TEST** Este pulsador realiza una autocomprobación del detector que se visualiza en ese momento y nos muestra los distintos niveles de alarmas, retardos y sensibilidad del detector. Para probar un detector esclavo, espe"
+   },
+   {
+    "page": 7,
+    "section_title": "TARJETA PRINCIPAL",
+    "head": "# TARJETA PRINCIPAL  Esta tarjeta está diseñada para aceptar un módulo direccionable de **NOTIFIER**. También es posible conectar tarjetas con salidas libres de tensión de los distintos estados del LASERSTAR, que conecta"
+   }
+  ]
+ },
+ {
+  "source_file": "MIDT760_C",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "F2000D",
+  "s83_primaries": [
+   "F2000D"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** **by Honeywell**  Central: Avda. Conflent, 84 Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35  # DETECTOR DE HUMO POR RAYO DIRECCIONABLE *F2000D*  [Product im"
+   },
+   {
+    "page": 2,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "# PRECAUCIONES PARA LA INSTALACIÓN  La práctica correcta de los siguientes requisitos, le ayudará a realizar una instalación sin problemas y conseguir que el sistema funcione correctamente durante un largo período de tie"
+   },
+   {
+    "page": 2,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "**No apriete los tornillos más de lo necesario** ya que podría deteriorar la rosca y, en consecuencia, reducir el contacto con el terminal.  **Este sistema contiene componentes sensibles a la corriente estática.** Utilic"
+   },
+   {
+    "page": 2,
+    "section_title": "LIMITACIONES DEL SISTEMA DE ALARMAS CONTRA INCENDIO",
+    "head": "# LIMITACIONES DEL SISTEMA DE ALARMAS CONTRA INCENDIO  Una alarma automática contra incendios que está compuesta habitualmente por detectores de humo y temperatura, pulsadores manuales, componentes sonoros y un control d"
+   },
+   {
+    "page": 3,
+    "section_title": "ÍNDICE",
+    "head": "# ÍNDICE  *DESCRIPCIÓN GENERAL* ____________________________________________________ 4  **Características del FD2000D** ________________________________________________________ 4  **Descripción del sistema** ____________"
+   },
+   {
+    "page": 4,
+    "section_title": "DESCRIPCIÓN GENERAL",
+    "head": "# DESCRIPCIÓN GENERAL  ## <ins>Características del FD2000D</ins>  * Alcance de 10 metros a 100 metros. * Funcionamiento de 12 Voltios dc a 24 Voltios dc. * Umbrales de alarma seleccionables. * Bajo consumo de corriente. "
+   }
+  ]
+ },
+ {
+  "source_file": "MIEMN570I",
+  "write_op": "fill_language_doctype",
+  "brand": "Morley",
+  "doc_level_pm": "RP1r",
+  "s83_primaries": [
+   "VSN-RP1r"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "www.morley-ias.es  MORLEY IAS FIRE SYSTEMS by Honeywell  # VSN-RP1r User Manual  **Extinguishing Control Panel** **(Software version 3.x)**  **doc. MIE-MN-570I rev.008**  Information in this document is subject to change"
+   },
+   {
+    "page": 3,
+    "section_title": "",
+    "head": "(EN54 non-compliance)............................................................................................................................ 32  22 June 2011     1  Extinguishing control panel. User manual  # 1. Int"
+   },
+   {
+    "page": 5,
+    "section_title": "*1.5. General.*",
+    "head": "This release control panel has been designed to manage correctly and according to EN12094:1/2003 and EN54-2 and EN54-4/A2:2006 the automatic release sequence of any extinguishing system. This compact control panel has 2 "
+   },
+   {
+    "page": 5,
+    "section_title": "1. Introduction",
+    "head": "22 June 2011                                                                                                                                    3  Extinguishing control panel. User manual  ## 1.6 Release control panel ma"
+   },
+   {
+    "page": 7,
+    "section_title": "ACCESSORIES",
+    "head": "## ACCESSORIES  * **VSN-LL** Keyswitch for level 2 access. * **PK-RP1r** Monitoring software. * **VSN-232** RS-232 port card. * **VSN-IP** IP Address card (VSN-232 required). * **VSN-4REL** Four relay card.  * **DIMENSIO"
+   },
+   {
+    "page": 8,
+    "section_title": "Front Panel Indications:",
+    "head": "## Front Panel Indications:  [Diagram showing two control panels side by side]  **Left Panel - Extinguishing control panel EN12094:1/2003:**  GAS [with cylinder diagram showing gas release to three cylinders labeled \"Rel"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT100",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "RP-1001",
+  "s83_primaries": [
+   "RP-1001"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "# NOTIFIER® FIRE SYSTEMS  # RP-1001  ## SISTEMA DE CONTROL DE EXTINCIÓN ROCIADORES  | AC CORRECTA               | ■                   | ■                  |                   | | ------------------------- | -------------"
+   },
+   {
+    "page": 3,
+    "section_title": "Tabla de Contenidos",
+    "head": "# Tabla de Contenidos  ___  | **I**          | **Estándars de NFPA**                                       | **4**  | | -------------- | ----------------------------------------------------------- | ------ | | **II**    "
+   },
+   {
+    "page": 4,
+    "section_title": "I Estándars NFPA",
+    "head": "# I Estándars NFPA  **La Central de Extinción RP-1001 cumple con los siguientes estándares de NFPA:**  NFPA 13 Sistema de Sprinklers. NFPA 15 Sistemas Fijos de Spray de Agua Extinción Halon 1301. NFPA 16 Extinción por Ag"
+   },
+   {
+    "page": 4,
+    "section_title": "II Información Adicional",
+    "head": "# II Información Adicional  **Antes de realizar la instalación, el instalador debería tener conocimientos de los siguientes documentos y Estándares de NFPA:**  **NFPA Estándardes:**  NFPA 13 Instalación de Sistemas de Sp"
+   },
+   {
+    "page": 5,
+    "section_title": "1.0 <ins>La RP-1001</ins>",
+    "head": "# 1.0 <ins>La RP-1001</ins>  ## 1.1 Características  * Módulo opcional para funciones de relés de 4 zonas (4XZM) * Módulo Transmisor opcional (4XTM). Cumple NFPA 72-1993 Auxiliary and Remote Station Fire Alarm systems. *"
+   },
+   {
+    "page": 6,
+    "section_title": "Módulo Transmisor (4XTM)",
+    "head": "El Módulo Transmisor proporciona una salida supervisada para la conexión al transmisor de la Caja Municipal (para aplicaciones NFPA 72-1993 Auxiliary Fire Alarm System) y circuitos de alarma y avería de polaridad inverti"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT1006",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "MMX-10M",
+  "s83_primaries": [
+   "MMX-10M"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER® FIRE SYSTEMS  Tarjeta de 10 módulos de entrada MMX-10M  ## DESCRIPCIÓN  La tarjeta MMX-10M es compatible con todas las centrales de Notifier con bus analógico de dos hilos. Se compone de 10 módulos de entrada d"
+   },
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "| DIRECCIONES<br/>de | DIRECCIONES<br/>a | MICROINTERRUPTORES SW-2<br/>1 | MICROINTERRUPTORES SW-2<br/>2 | MICROINTERRUPTORES SW-2<br/>3 | MICROINTERRUPTORES SW-2<br/>4 | | ------------------ | ----------------- | ------"
+   },
+   {
+    "page": 1,
+    "section_title": "ANULACIÓN INDIVIDUAL DE UN MÓDULO",
+    "head": "La tarjeta dispone de 10 microinterruptores en SW-1 para anular individualmente direcciones de módulos, según la siguiente tablá:  |                  | 1<br/>MÓDULO A | 2<br/>MÓDULO B | 3<br/>MÓDULO C | 4<br/>MÓDULO D | "
+   },
+   {
+    "page": 2,
+    "section_title": "CONECTOR CNLD",
+    "head": "# CONECTOR CNLD  Los leds de indicación interna pueden ser anulados mediante el puente J1 (situando este puente a la izquierda del conector CNLD), conmuntando la señalización de los LEDS a las salidas del conector CNLD, "
+   },
+   {
+    "page": 2,
+    "section_title": "CARACTERÍSTICAS ELÉCTRICAS",
+    "head": "# CARACTERÍSTICAS ELÉCTRICAS  | Descripción                   | Mínimo | Típico | Máximo | Unidad de medida   | Nota                                  | | ----------------------------- | ------ | ------ | ------ | -------"
+   },
+   {
+    "page": 2,
+    "section_title": "ESQUEMA DE CONEXIONADO",
+    "head": "# ESQUEMA DE CONEXIONADO  ```                                                                     V1                                                                     ┌─┐                                                "
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT102I_D FR",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "RP1R",
+  "s83_primaries": [
+   "RP1r"
+  ],
+  "s83_languages": [
+   "fr"
+  ],
+  "s83_doc_type": "operacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "fr"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "operacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 6,
+    "section_title": "ACCESSOIRES",
+    "head": "## ACCESSOIRES  * **VSN-LL** Clé pour accès niveau 2. * **PK-RP1r** Logiciel de surveillance * **VSN-232** Carte RS-232 * **VSN-IP** Carte Adresse IP (VSN-232 requise) * **RP-CRA** Carte modem pour connection à une stati"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT102P",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "RP1r",
+  "s83_primaries": [
+   "RP1r"
+  ],
+  "s83_languages": [
+   "es",
+   "pt"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "es",
+    "pt"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 8,
+    "section_title": "ETIQUETA RP1r:",
+    "head": "# ETIQUETA RP1r:  [Control Panel Diagram showing two main sections:]  ## Left Panel - Central de Extinção  **GAS** [Large orange label with arrow pointing to orange square]  [Flow diagram showing: Orange square → Clock s"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT213",
+  "write_op": "fill_language_doctype",
+  "brand": "Notifier",
+  "doc_level_pm": "Serie 1000",
+  "s83_primaries": [
+   "Repetidor Serie 1000"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER ESPAÑA, S.A. Avda Conflent 84, nave 23 Pol. Ind. Pomar de Dalt 08916 Badalona (Barcelona) Tel.: 93 497 39 60; Fax: 93 465 86 35  NOTIFIER FIRE SYSTEMS Logo  # Repetidor de la Serie 1000  Fire alarm control panel"
+   },
+   {
+    "page": 2,
+    "section_title": "Índice",
+    "head": "# Índice  **1. INTRODUCCIÓN ............................................................................................................................... 5**  **1.1 Documentación relacionada ..........................."
+   },
+   {
+    "page": 2,
+    "section_title": "Índice",
+    "head": "**4.1 Señalizaciones del repetidor................................................................................................ 15**  **4.2 Indicadores y teclas de función ............................................."
+   },
+   {
+    "page": 3,
+    "section_title": "Ilustraciones",
+    "head": "Figura 5 - Conexiones del repetidor de la serie 1000............................................................................. 11  Figura 6 - Ubicación de los componentes de la placa del repetidor....................."
+   },
+   {
+    "page": 4,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "## PRECAUCIONES PARA LA INSTALACIÓN  La práctica correcta de los siguientes requisitos, le ayudará a realizar una instalación sin problemas y conseguir que el sistema funcione correctamente durante un largo período de ti"
+   },
+   {
+    "page": 4,
+    "section_title": "PRECAUCIONES PARA LA INSTALACIÓN",
+    "head": "**No apriete los tornillos más de lo necesario** ya que podría deteriorar la rosca y, en consecuencia, reducir el contacto con el terminal.  **Este sistema contiene componentes sensibles a la corriente estática.** Utilic"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT617",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "S613AMFP",
+  "s83_primaries": [
+   "S613AMFP"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "mantenimiento",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "mantenimiento",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "NOTIFIER ESPAÑA Central: Avda. Conflent, 84 Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35  # PAUTA DE MANTENIMIENTO *DEL SENSOR SMART 2 PARA DETECCIÓN DE AMONIACO S613AMF"
+   },
+   {
+    "page": 2,
+    "section_title": "ÍNDICE",
+    "head": "# ÍNDICE  1. OBJETO Y CAMPO DE APLICACIÓN ....................................................... 3  2. ESTRUCTURA ............................................................................................ 3  3. DESARR"
+   },
+   {
+    "page": 3,
+    "section_title": "",
+    "head": "# 1. OBJETO Y CAMPO DE APLICACIÓN  Esta pauta se aplica a los detectores de gases o vapores de la marca SENSITRON del tipo SMART 2 y describe el modo en que deben llevarse a cabo las tareas de calibración según supuestos"
+   },
+   {
+    "page": 4,
+    "section_title": "3.1.1. Instalación",
+    "head": "Para las centrales del tipo direccionable, Galileo Multiscan, los detectores no se deben conectar a los módulos o a la central directamente. Proceda tal y como se indica a continuación:  **1º)** Al proyectar una una inst"
+   },
+   {
+    "page": 5,
+    "section_title": "3.1.2. Mantenimiento",
+    "head": "Semanalmente debe efectuarse una comprobación del ajuste del nivel del SPAN de los detectores. La corta vida de éstos y su continua \"combustión\" causa la deriva de cero que debe ser corregida. El ajuste debe mantenerse a"
+   },
+   {
+    "page": 8,
+    "section_title": "3.2 Ajuste del sensor",
+    "head": "## 3.2 Ajuste del sensor  [Figura 2: Circular circuit board diagram showing various electronic components including CN1 connector, resistors (R9, R14, R1), capacitors (C5, C7, C4, C15), diodes (D2, D3, D13, D10), and oth"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT720",
+  "write_op": "fill_language_doctype",
+  "brand": "Spectrex",
+  "doc_level_pm": "20/20L, 20/20LB",
+  "s83_primaries": [
+   "20/20L",
+   "20/20LB"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "DETECTOR DE LLAMA UV/IR",
+    "head": "----  **NOTIFIER® FIRE SYSTEMS**  ----  # DETECTOR DE LLAMA UV/IR  ## MODELOS 20/20L, 20/20LB  *Con retardo de alarma*  *Aprobado por Factory Mutual*  **COPIA PROVISIONAL**  ## Manual de Instrucciones  *SPECTRONIX* 218 L"
+   },
+   {
+    "page": 3,
+    "section_title": "ÍNDICE",
+    "head": "# ÍNDICE  **1.      INTRODUCCIÓN.........................................................................................6** 1.1     PRODUCTO..............................................................................."
+   },
+   {
+    "page": 4,
+    "section_title": "6    INSTRUCCIONES DE INSTALACIÓN...............................................",
+    "head": "6.1    INTRODUCCIÓN..........................................................................................23  6.2    CONSIDERACIONES GENERALES............................................................23  6.3    PREP"
+   },
+   {
+    "page": 4,
+    "section_title": "7    INSTRUCCIONES DE FUNCIONAMIENTO............................................",
+    "head": "## 7    INSTRUCCIONES DE FUNCIONAMIENTO................................................35  7.1    GENERAL....................................................................................................35  7.2    ARRA"
+   },
+   {
+    "page": 4,
+    "section_title": "8    INSTRUCCIONES DE MANTENIMIENTO.............................................",
+    "head": "## 8    INSTRUCCIONES DE MANTENIMIENTO...................................................38  8.1    GENERAL....................................................................................................38  8.2    IN"
+   },
+   {
+    "page": 4,
+    "section_title": "ÍNDICE",
+    "head": "## APÉNDICE A - TABLAS DE SELECCIÓN DEL CABLE.....................................40  ## APÉNDICE B - CONFIGURACIONES TÍPICAS DE CABLEADO........................42  MN-DT-720                    SPECTRONIX                "
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT724_40-40R",
+  "write_op": "fill_language_doctype",
+  "brand": "Spectrex",
+  "doc_level_pm": "40-40R",
+  "s83_primaries": [
+   "S40/40R"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** **by Honeywell**  **Honeywell Life Safety Iberia** C/Pau Vila, 15-19 08911 BADALONA (Barcelona) Tel.: 93 497 39 60 Fax: 93 465 86 35 www.honeywelllifesafety.es  # DETECTOR DE LLAMA INFRARROJO IR  # MODELO S"
+   },
+   {
+    "page": 3,
+    "section_title": "Aviso legal",
+    "head": "# Aviso legal  El detector de llama óptico SharpEye descrito en este documento es propiedad de Spectrex, Inc.  Ninguna parte del hardware, software o documentación puede ser reproducida, transmitida, transcrita, almacena"
+   },
+   {
+    "page": 3,
+    "section_title": "Garantía",
+    "head": "# Garantía  SPECTREX INC. ofrece una garantía al Comprador/Distribuidor sobre los componentes suministrados de los productos SharpEye. SPECTREX garantiza al Comprador/Distribuidor que los productos están libres de defect"
+   },
+   {
+    "page": 4,
+    "section_title": "Introducción",
+    "head": "# Introducción  Este manual describe el funcionamiento y características del detector de llama infrarrojo (IR), modelo S40/40R de SharpEye. Igualmente ofrece información sobre cómo realizar la instalación, puesta en marc"
+   },
+   {
+    "page": 5,
+    "section_title": "Abreviaturas y acrónimos",
+    "head": "# Abreviaturas y acrónimos  | Abreviatura           | Significado                                                                                                                            | | --------------------- | ---"
+   },
+   {
+    "page": 5,
+    "section_title": "",
+    "head": "MN-DT-724                    Honeywell Life Safety Iberia                    v  Manual de instrucciones S40/40R  # Índice  Aviso legal ....................................................................................."
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT741I",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NAS",
+  "s83_primaries": [
+   "NAS"
+  ],
+  "s83_languages": [
+   "en"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "en"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "[Notifier Fire Systems logo - circular orange \"N\" symbol with \"NOTIFIER FIRE SYSTEMS\" text and registered trademark symbol]  Charles Avenue, Burgess Hill, West Sussex RH15 9UF, United Kingdom T: +44 (0) 1444 230 300; f: "
+   },
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "# Installation and User Guide  | **MN-DT-741I\\_A**<br/>**01 JUNE 2004** | | -------------------------------------: |  MN-DT-741I                    Nas Installation and User Guide                    2  # CONTENTS  **1   "
+   },
+   {
+    "page": 3,
+    "section_title": "1 INTRODUCTION",
+    "head": "# 1 INTRODUCTION  ## 1.1 General description  The aspirating smoke detector draws air from the protected area using a network of sampling pipes. The sampled air is then passed through a high sensitivity detector for anal"
+   },
+   {
+    "page": 4,
+    "section_title": "2 INSTALLATION GUIDE",
+    "head": "# 2 INSTALLATION GUIDE  ## 2.1 Detection panel installation  ### 2.1.1 Detection panel layout  *Figure 1: Front and interior views of the detection panel*  | !       | \"     | | ------- | ----- | | ① ② ③ ④ | ⑤ ⑦ ⑥ |  ! F"
+   },
+   {
+    "page": 5,
+    "section_title": "2.1.4 Electrical connections",
+    "head": "The detector panel operates at 24 V supplied by an external 24VDC power supply or the fire panel corresponding to the fire detection system. The power line is connected to the power input terminal of the PCB (JP4).  ### "
+   },
+   {
+    "page": 6,
+    "section_title": "2.1.4.3 Connecting to a conventional system",
+    "head": "## 2.1.4.3 Connecting to a conventional system  A conventional installation requires an end-of-line resistor to be installed.  *Figure 3: Conventional system connections*  | ①                                             "
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT742_G",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NAS-2",
+  "s83_primaries": [
+   "NAS-2"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "instalacion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "instalacion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** **by Honeywell**  **Honeywell Life Safety Iberia** Avda. Conflent, 84 Nave 23 Pol. Ind. Pomar de Dalt 08916 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35  # EQUIPO DE MUESTREO DE AIRE  # NAS-2  "
+   },
+   {
+    "page": 3,
+    "section_title": "Índice",
+    "head": "# Índice  **1 Introducción................................................................................................................................................ 4**     1.1     Descripción general ............."
+   },
+   {
+    "page": 3,
+    "section_title": "Índice",
+    "head": "**4 Teclas de Función y Configuración del equipo .................................................................................... 22**     4.1     Funcionamiento de las teclas del NAS-2..............................."
+   },
+   {
+    "page": 4,
+    "section_title": "1 INTRODUCCIÓN",
+    "head": "# 1 INTRODUCCIÓN  ## 1.1 Descripción general  El nuevo NAS-2 se ha diseñado para proporcionar todos los beneficios de la detección de humo por aspiración, junto con un aviso muy incipiente del incendio si se instalan dos"
+   },
+   {
+    "page": 5,
+    "section_title": "1.1 Descripción general",
+    "head": "• Opción de salida inferior para que retorne el aire en la misma área (opción habitual en la mayoría de instalaciones).  • Opción de salida superior para que retorne el aire al área supervisada para evitar diferentes niv"
+   },
+   {
+    "page": 5,
+    "section_title": "1.2 Componentes del equipo de aspiración",
+    "head": "## 1.2 Componentes del equipo de aspiración  [Diagram showing a control panel unit (left) connected to a main aspiration unit (right) with numbered components 1-10. The main unit shows internal components including a gre"
+   }
+  ]
+ },
+ {
+  "source_file": "MNDT747",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "NAS-10",
+  "s83_primaries": [
+   "NAS-10"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "**NOTIFIER®** **by Honeywell**  **Honeywell Life Safety Iberia** C/Pau Vila, 15-19 08911 BADALONA (BARCELONA) Tel.: 93 497 39 60 Fax: 93 465 86 35 www.honeywelllifesafety.es  # NAS-10  Notifier Air Sampling system  # Man"
+   },
+   {
+    "page": 3,
+    "section_title": "Formalismos de la documentación",
+    "head": "# Formalismos de la documentación  En este documento se utilizan los siguientes formalismos y simbología:  | Símbolo      | Descripción                                                                                     "
+   },
+   {
+    "page": 3,
+    "section_title": "",
+    "head": "# Contacto  Honeywell Life Safety Iberia, S.L. C/Pau Vila, 15-19 08911 Badalona, Barcelona  +34 934 973 960 +34 934 658 635  **www.notifier.es**  www.notifier.es                                                           "
+   },
+   {
+    "page": 4,
+    "section_title": "Indice de contenido",
+    "head": "5.7      Filtros.................................................................................................................................7        5.8      Configuraciones de tubos estándar........................"
+   },
+   {
+    "page": 5,
+    "section_title": "1 Introducción",
+    "head": "# 1 Introducción  El sistema de aspiración de humos NAS 10 de Notifier es un sistema de detección de humos por aspiración que utiliza una red de tubos de muestreo de aire para aspirar aire y dirigirlo hacia detectores pu"
+   },
+   {
+    "page": 6,
+    "section_title": "2 Montaje del detector",
+    "head": "# 2 Montaje del detector  **Nota:** Este equipo debe ser instalado por un instalador cualificado en conformidad con todas las reglamentaciones locales y nacionales.  Retire la cubierta transparente mediante la herramient"
+   }
+  ]
+ },
+ {
+  "source_file": "MPDT230",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "AFP4000",
+  "s83_primaries": [
+   "AFP4000",
+   "AFP4016"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "----  # NOTIFIER® FIRE SYSTEMS  ----  # CENTRAL ANALÓGICA AFP4000  # Manual de Programación  **MP-DT-230** **8 AGOSTO 1997** **Documento 997-607-001 VER. 6**  MP-DT-230                    NOTIFIER ESPAÑA, S.A.           "
+   },
+   {
+    "page": 2,
+    "section_title": "**4. TEMPORIZADORES ............................................................",
+    "head": "4.1 Día de Inicio .............................................................................................. 15 4.2 Fecha de Inicio ...................................................................................."
+   },
+   {
+    "page": 2,
+    "section_title": "**5. MÓDULOS ...................................................................",
+    "head": "## **5. MÓDULOS ......................................................................................................... 17**  5.1 Dirección .............................................................................."
+   },
+   {
+    "page": 3,
+    "section_title": "6. DESCRIPCIÓN DE ZONAS.........................................................",
+    "head": "## 6. DESCRIPCIÓN DE ZONAS............................................................................. 20  6.1 Mensaje de Estado Normal ....................................................................... 20 6.2 Mens"
+   },
+   {
+    "page": 3,
+    "section_title": "ÍNDICE",
+    "head": "## 7. FILTRO DE EVENTOS DE CONTROL ......................................................... 21  7.1 Tipos de Eventos de Control ..................................................................... 21  ## 8. FILTRO DE E"
+   },
+   {
+    "page": 3,
+    "section_title": "9. MATRIZ DE CONTROL ...........................................................",
+    "head": "## 9. MATRIZ DE CONTROL .................................................................................. 26  9.1 Descripción por Defecto ........................................................................... 26 9."
+   }
+  ]
+ },
+ {
+  "source_file": "Manual_Firebeam_XTRA_ES",
+  "write_op": "corroborate_noop",
+  "brand": "Xtralis",
+  "doc_level_pm": "Firebeam XTRA",
+  "s83_primaries": [
+   "Firebeam Xtra",
+   "thefirebeam Xtra"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "guia_usuario",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "guia_usuario",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "# MANUAL DEL USUARIO  **ES**  the**fire**beam *Xtra*  *Detector de humos lineal por reflexión*  # ÍNDICE  1- Indicaciones de alcance y posición.........................................................................5 1."
+   },
+   {
+    "page": 3,
+    "section_title": "1- Indicaciones de alcance y posición",
+    "head": "# 1- Indicaciones de alcance y posición  Estas directrices se dan sólo como una guía y es importante que se remitan a la normativa apropiada en todo momento.  ## 1.1- ¿A qué distancia?  Con el reflector incluido puede in"
+   },
+   {
+    "page": 4,
+    "section_title": "1.2-¿Qué posición?",
+    "head": "Si el tejado no es plano (la diferencia de altura entre las partes más altas es mayor de 0,6 m), el emplazamiento del sistema de detectores debe situarse entre **0,3 y 0,6 m** por debajo de la cumbre hasta una altura máx"
+   },
+   {
+    "page": 4,
+    "section_title": "2- Instalación y puesta en marcha",
+    "head": "# 2- Instalación y puesta en marcha  ## 2.1- Montaje de la unidad principal  Atornille la placa posterior de la unidad principal a la pared. Siempre que sea posible use una localización robusta tal como ladrillo o estruc"
+   },
+   {
+    "page": 5,
+    "section_title": "Esquema de conexionado genérico:",
+    "head": "| Tensión de alimentación                            | 12Vdc to 24 Vdc +25% -15% | | -------------------------------------------------- | ------------------------- | | Consumo en reposo                                  |"
+   },
+   {
+    "page": 5,
+    "section_title": "2.3- Puesta en marcha",
+    "head": "## 2.3- Puesta en marcha  Para la programación del detector lineal siga los pasos que se detallan a continuación:  **1. No** monte el reflector o manténgalo **cubierto**. [Image: Crossed-out reflector]  **2.** Al encende"
+   }
+  ]
+ },
+ {
+  "source_file": "NFS-SUPRA-VISION-PLUS-2-Como-solucionar-el-Fallo-de-alimentacion",
+  "write_op": "corroborate_noop",
+  "brand": "Morley",
+  "doc_level_pm": "NFS-SUPRA",
+  "s83_primaries": [
+   "NFS Supra",
+   "Vision Plus 2"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "mantenimiento",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": false,
+   "language_value": null,
+   "language_contradict": true,
+   "doc_type_fill": true,
+   "doc_type_value": "mantenimiento",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "NFS SUPRA / VISION PLUS 2 - ¿Como solucionar el Fallo de alimentación?",
+    "head": "# NFS SUPRA / VISION PLUS 2 - ¿Como solucionar el Fallo de alimentación?  **Question** ¿Cómo solucionar avería de baterías en la central NFS SUPRA / VISION PLUS 2?  **Answers** La central NFS Supra / VSN plus 2 incluye f"
+   }
+  ]
+ },
+ {
+  "source_file": "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+  "write_op": "corroborate_noop",
+  "brand": "Morley",
+  "doc_level_pm": "TG-IP-1-SEC",
+  "s83_primaries": [
+   "TG-IP-1-SEC"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "otro",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": false,
+   "language_value": null,
+   "language_contradict": true,
+   "doc_type_fill": true,
+   "doc_type_value": "otro",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "TG-IP-1-SEC Que direccion IP tiene por defecto",
+    "head": "# TG-IP-1-SEC Que direccion IP tiene por defecto  **Question** ¿Qué dirección IP tiene por defecto el TG-IP-1-SEC por defecto?  **Answers** La IP por defecto es: 192.168.1.253  Para cualquier consulta técnica no dude en "
+   }
+  ]
+ },
+ {
+  "source_file": "UCIP MODBUS AM8200 V5.1",
+  "write_op": "corroborate_noop",
+  "brand": "Notifier",
+  "doc_level_pm": "AM8200",
+  "s83_primaries": [
+   "AM-8200",
+   "RP1r-SUPRA",
+   "UCIP-MODBUS E20M",
+   "VSNx-2Plus / NFSx"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "",
+    "head": "Honeywell  UCIP - MODBUS  # Protocolo MODBUS Aplicado a Centrales de Incendio AM-8200, RP1r-SUPRA y VSN-2Plus/NFS Módulo UCIP-MODBUS E20M  Rv.5  1  Honeywell  UCIP - MODBUS  # Índice.  **1. Introducción.................."
+   },
+   {
+    "page": 2,
+    "section_title": "Índice.",
+    "head": "Direcciones de Estado Generales RP1r-SUPRA......................................................................................20  Valores de estado en Zonas.............................................................."
+   },
+   {
+    "page": 3,
+    "section_title": "Honeywell",
+    "head": "# Honeywell  UCIP - MODBUS  a. Central AM-8200:..........................................................................................................................24  Instalación de tarjeta AM82-2S2C en central...."
+   },
+   {
+    "page": 3,
+    "section_title": "",
+    "head": "**9. ¡¡IMPORTANTE!! Comprobación número de serie y MAC. ....................................................... 53**  **10. Anexos ........................................................................................."
+   },
+   {
+    "page": 5,
+    "section_title": "2. Configuración de las comunicaciones.",
+    "head": "# 2. Configuración de las comunicaciones.  * La configuración de las comunicaciones, así como parámetros internos del UCIP, se realizará desde la Consola V3.0.11 o superior, disponible en la página web de Honeywell Life "
+   },
+   {
+    "page": 5,
+    "section_title": "3. Registros de MODBUS.",
+    "head": "# 3. Registros de MODBUS.  Direcciones de Estados de la Central: Con las direcciones de estado se traslada el valor del estado de eventos generales relacionados con la Central.  ## a. <ins>Direcciones de Estado Generales"
+   }
+  ]
+ },
+ {
+  "source_file": "UCIP-Borrar-datos-de-CRA1-o-2",
+  "write_op": "corroborate_noop",
+  "brand": "Morley",
+  "doc_level_pm": "UCIP",
+  "s83_primaries": [
+   "UCIP"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": false,
+   "language_value": null,
+   "language_contradict": true,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "UCIP - Borrar datos de CRA1 o 2.",
+    "head": "# UCIP - Borrar datos de CRA1 o 2.  **Question**  Como borrar datos de CRA1 o 2.  **Answers**  Para utilizar este articulo lea y revise previamente el artículo *\"UCIP - Conectar con equipo vía IP o SERIE\"*.  Una vez cone"
+   }
+  ]
+ },
+ {
+  "source_file": "UCIP-Cambio-de-puerto-TCP-en-GPRS",
+  "write_op": "corroborate_noop",
+  "brand": "Morley",
+  "doc_level_pm": "UCIP",
+  "s83_primaries": [
+   "UCIP"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "configuracion",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": false,
+   "language_value": null,
+   "language_contradict": true,
+   "doc_type_fill": true,
+   "doc_type_value": "configuracion",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "UCIP - Cambio de puerto TCP en GPRS.",
+    "head": "# UCIP - Cambio de puerto TCP en GPRS.  **Question** Como cambiar puerto TCP en red GPRS de UCIP.  **Answers** Para utilizar este artículo lea y revise previamente *\"UCIP - Conectar con equipo vía IP o SERIE\"*.  1. Una v"
+   }
+  ]
+ },
+ {
+  "source_file": "ke-dba-auxw-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Kidde",
+  "doc_level_pm": "KE-DBA-AUXW",
+  "s83_primaries": [
+   "KE-DBA-AUXW"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "KE-DBA-AUXW",
+    "head": "KIDDE COMMERCIAL  # KE-DBA-AUXW  Accesorio base direccionable inteligente - Base Profunda (Blanca)  ## General  La innovadora gama Excellence de dispositivos direccionables inteligentes ofrece funciones avanzadas para br"
+   },
+   {
+    "page": 2,
+    "section_title": "KE-DBA-AUXW",
+    "head": "# KE-DBA-AUXW  **Accesorio base direccionable inteligente - Base Profunda (Blanca)**  ## Especificaciones técnicas  ### General  | Compatibilidad | Bases serie Excellence | | -------------- | ---------------------- |  ##"
+   }
+  ]
+ },
+ {
+  "source_file": "ke-dm3010r-kit-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Kidde",
+  "doc_level_pm": "KE-DM3010R-KIT",
+  "s83_primaries": [
+   "KE-DM3010R-KIT"
+  ],
+  "s83_languages": [
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": true,
+   "language_fill_multi_advisory": false,
+   "language_value": [
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "KE-DM3010R-KIT",
+    "head": "KIDDE COMMERCIAL  # KE-DM3010R-KIT  **Pulsador direccionable inteligente de la serie Excellence con caja de superficie**  ## General  La serie KE-DM3000 es una gama inteligente de pulsadores manuales direccionables de la"
+   },
+   {
+    "page": 2,
+    "section_title": "KE-DM3010R-KIT",
+    "head": "# KE-DM3010R-KIT  Pulsador direccionable inteligente de la serie Excellence con caja de superficie  ## Especificaciones técnicas  ### General  | Indicación de estado           | LEDs Duales<br/>Alarma (Rojo Constante)<br"
+   },
+   {
+    "page": 2,
+    "section_title": "Medioambiental",
+    "head": "| Antivandálico                     | No                        | | --------------------------------- | ------------------------- | | Temperatura de<br/>funcionamiento | −25 a +72°C               | | Temperatura de<br/>a"
+   },
+   {
+    "page": 2,
+    "section_title": "Especificaciones técnicas",
+    "head": "### Regulador  | Cumplimiento  | CE, REACH, RoHS 3, WEEE | | ------------- | ----------------------- | | Certificación | CPR                     | | Normativas    | EN54:11                 |  ### Productos compatibles  |"
+   }
+  ]
+ },
+ {
+  "source_file": "nc-mc-0-g-161721-es",
+  "write_op": "corroborate_noop",
+  "brand": "Aritech",
+  "doc_level_pm": "NC-MC-0-G",
+  "s83_primaries": [
+   "NC-MC-0-G"
+  ],
+  "s83_languages": [
+   "en",
+   "es"
+  ],
+  "s83_doc_type": "datasheet",
+  "fill_plan": {
+   "language_fill_singleton": false,
+   "language_fill_multi_advisory": true,
+   "language_value": [
+    "en",
+    "es"
+   ],
+   "language_contradict": false,
+   "doc_type_fill": true,
+   "doc_type_value": "datasheet",
+   "doc_type_differ": false
+  },
+  "content": [
+   {
+    "page": 1,
+    "section_title": "NC-MC-0-G",
+    "head": "KIDDE COMMERCIAL  # NC-MC-0-G  Pulsador manual inteligente convencional para montaje empotrado - 0 Ω (Verde)  ## General  El NC-MC-0-G es un pulsador manual ecológico para aplicaciones de montaje empotrado en la mayoría "
+   },
+   {
+    "page": 1,
+    "section_title": "Detalles",
+    "head": "* Diseñado específicamente para la seguridad de puertas y evacuación door security and evacuation * Indicación de alarma por indicador de alarma y LED de alarma * Estética mejorada con marcado funcional serigrafiado de a"
+   },
+   {
+    "page": 2,
+    "section_title": "NC-MC-0-G",
+    "head": "# NC-MC-0-G  **Pulsador manual inteligente convencional para montaje empotrado - 0 Ω (Verde)**  ## Especificaciones técnicas  ### General  | Indicación de estado | LED y marca de alarma                | | ---------------"
+   },
+   {
+    "page": 2,
+    "section_title": "Productos compatibles",
+    "head": "## Productos compatibles  | Categoría                | Referencia | Descripción                                                            | | ------------------------ | ---------- | -------------------------------------"
+   }
+  ]
+ }
+]
