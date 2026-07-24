@@ -1,0 +1,59 @@
+- qid: hp010
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta
+    en marcha inicial?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en lo esencial: añadir el detector mediante la Autobúsqueda
+    del lazo, seleccionar lazo, confirmar, revisar resultados y esperar 2 minutos
+    si hubo cambio de protocolo. Pero omite detalles importantes del procedimiento
+    de Nivel 3/desbloqueo de memoria, no indica que luego deben editarse/aceptarse
+    las propiedades del equipo, no menciona el evento ''EQUIPO NUEVO'', y añade una
+    nota de evidencia inconsistente/irrelevante que no ayuda al técnico.'
+  bot_sources:
+  - DXc_Manual de configuracion
+  - MIDT155
+  - MIE-MC-520
+  - MIE-MI-300rv02
+  - MIE-MP-305
+  - MIE-MP-520rv04
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Añadir un nuevo detector al lazo en la Morley DXc\n\nEl procedimiento\
+    \ para incorporar un nuevo detector al lazo tras la puesta en marcha inicial se\
+    \ realiza mediante la función **Autobúsqueda de equipos** desde el menú de Lazos\
+    \ [F1].\n\n---\n\n## Pasos\n\n1. **Conecta físicamente el nuevo detector** al\
+    \ lazo, respetando la polaridad positivo/negativo y el cableado en bucle cerrado\
+    \ [F2].\n\n2. **Accede al Nivel de programación** correspondiente en la central\
+    \ DXc.\n\n3. **Entra en el menú de Lazos** y pulsa la tecla **'2'** para seleccionar\
+    \ la función **'Autobúsqueda'** [F1]:\n\n   ```\n   [Lazo]\n   1:Confg.Equipos\
+    \    2:Autobusqueda\n   ```\n\n4. **Selecciona el número de lazo** donde has conectado\
+    \ el nuevo detector (si la central tiene más de un lazo, p. ej. DXc2 o DXc4) [F1]:\n\
+    \n   ```\n   [Autobusqueda]\n   Sel.Num.Lazo (1-2) :1\n   OK:Confirm  1-2:↕:Edit\
+    \    ←:Cancel\n   ```\n\n5. **Confirma la autobúsqueda** pulsando **⊙** cuando\
+    \ aparezca la pantalla de confirmación [F1]:\n\n   ```\n   [Autobusqueda]\n  \
+    \ Lazo: 1  Autobusqueda?\n   OK:Confirm             ←:Cancel\n   ```\n\n6. **Espera**\
+    \ a que finalice el proceso. La pantalla mostrará una barra de progreso [F1]:\n\
+    \n   ```\n   [Autobusqueda]\n   Lazo: 1 Reconocimiento en progreso...\n   █████████████████\n\
+    \   ```\n\n7. **Verifica el resumen de resultados**. Al finalizar, la pantalla\
+    \ mostrará el total de equipos y los cambios detectados. Comprueba que el campo\
+    \ **Nuevos** refleja el detector recién añadido [F1]:\n\n   ```\n   [Lazo]\n \
+    \  Lazo: 1           Total: 13\n   Nuevos:1          Elimin.:0  Cambiad:0\n  \
+    \ ION: 0 OPT: 1 TMP: 1 MLT: 2\n   PUL: 4 MON: 0 SIR: 2 REL: 1 OTROS : 2\n   ```\n\
+    \n8. **Pulsa ⊞** para salir de la pantalla de resultados y regresar al menú de\
+    \ Lazo [F1].\n\n---\n\n## ⚠️ Aviso importante\n\nSi en tu instalación el protocolo\
+    \ es seleccionable y has realizado algún cambio de protocolo, **espera dos minutos**\
+    \ antes de ejecutar la autobúsqueda. La central necesita ese tiempo para rearmar\
+    \ los equipos del lazo [F1].\n\n---\n\n## Nota sobre modelos DXc\n\n- **DXc1**:\
+    \ solo dispone del lazo 1 [F2].\n- **DXc2**: dispone de los lazos 1 y 2 [F2].\n\
+    - **DXc4**: dispone de cuatro lazos (lazos 1 a 4) [F2].\n\n---\n\nFuente: DXc\\\
+    _Manual de configuracion (sin revisión registrada)\n\nTambién puedo ayudarte con:\
+    \ **configuración manual del detector recién añadido** (zona, sensibilidad, descripción),\
+    \ **cableado del lazo con aisladores de cortocircuito** o **consulta de abreviaturas\
+    \ de tipos de equipo (Tabla 4)**.\n\n---\n\U0001F4CB **Obligaciones de evidencia\
+    \ del manual:**\n- Nota: la fuente es inconsistente: \"PUL: 4 MON: 0 SIR: 2 REL:\
+    \ 1 OTROS : 2\" (DXc_Manual de configuracion, p. 48) [F1] declara 1 OTROS y la\
+    \ enumeración servida lista 5 (DXc_Manual de configuracion, p. 48) [F1]."

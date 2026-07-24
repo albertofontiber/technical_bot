@@ -2169,3 +2169,66 @@ la campaña de backfill de identidad es el desbloqueador general (workstream pos
 diseño multi-turn s280 (Fases 0-1 build / 2-4 gated) quedó adjudicado en v2 con el mecanismo
 físico decidido (RPCs SECURITY DEFINER) y la autorización trazada. Detalle → DEC-152; release
 pendiente SOLO de la lectura + click de Alberto.
+
+## s281 (23 jul 2026) — día: baseline oficial de 39 + Fase 0 multi-turn completa (con 3 pausas)
+
+Sesión diurna tras el cierre nocturno s279-280, con el mandato "adelante" de Alberto sobre el
+plan propuesto (baseline 39 como primer acto + kickoff MT-0 en el modelo Opus-ejecuta/Fable-revisa).
+Tres pausas limpias de Alberto (protocolo: agentes parados, WIP committeado etiquetado, memoria
+al día; un corte de internet a mitad de la 3ª no perdió nada — el push había entrado).
+
+**Baseline:** worktree nuevo `Technical Bot-s281` (rama off la release 9cfa6f8 → #184 congelada
+para su lectura; PR renombrada + des-drafteada de paso). Primer arranque abortado a céntimos
+(DB fría: enunciados 500 + coverage timeout fail-open → un baseline degradado de facto no se
+estampa); RPCs calentados a mano y relanzada limpia: **12 PASS / 25 PARCIAL / 2 FALLO**, cero
+fail-opens salvo hp010 (re-verificada sola: mismo veredicto). Respondidas las 3 preguntas de
+Alberto: el juez juzga bien (ruido conocido y acotado), NO se cambia a Sol (s47 vigente), y su
+intuición multi-turn es correcta con reparto honesto (resuelve incompletitud, no errores; la
+vara single-turn no se relaja).
+
+**Fase 0:** MT-0b y MT-0a en paralelo con el baseline; MT-0c tras ellas; MT-0d al final.
+El sistema de review pagó en cada lane: Fable-orquestador cazó `fail_run` inalcanzable (MT-0b)
+y el mismatch de vocabulario cross-lane (MT-0a); el dúo focal de MT-0c (obligatorio, zona
+effectively-once) convergió ×3 en el janitor-dañino y añadió heartbeat-sin-caller,
+auth-service_role y el max_attempts=0 del fake (único de Sol; 1 run InternalServerError con
+retry). 9 fixes aplicados por lane Opus y verificados punto-por-punto contra el diff. MT-0d
+dejó el bot con 3 seams default-off byte-invariantes (el camino OFF es textualmente el código
+viejo). Suites encadenadas: 3079 → 3094 → 3143 → 3146 → **3158/0** (aritmética exacta por lane).
+
+**Cierre:** DEC-153 + PLAN reconciliado (Estado actual s281) + este apéndice + memoria.
+Todo en `claude/s281-mt0` @ HEAD del cierre; queda el bloque de Alberto (merge #184 + flip,
+matriz RGPD, visto DDL, GO de Fase 1).
+
+### s281 (23 jul, tarde) — RELEASE DESPLEGADA: CI en verde por primera vez + merge #184 + flip verificado vivo
+
+Alberto fue a mergear y el check requerido estaba rojo. Diagnóstico en capas: el CI nunca había
+corrido la suite entera (checkout shallow vs drift-seals que exigen commits históricos →
+`fetch-depth: 0`); destapado eso, 3 fallos de plataforma latentes (el sha del YAML de facetas
+hasheaba bytes de checkout CRLF/LF → sha de contenido canónico + pins re-anclados; y el test de
+open-response-perdida esperaba un TIMEOUT que era accidente de timing de Windows — `process_path`
+escribe el hold del re-dispatch como respuesta, así que Linux mostraba el comportamiento fiel a
+producción; la invariante de recuperación quedó estricta). Primer diagnóstico del fence corregido
+sobre la marcha (la vía real era el fichero de respuesta, no el pump). Suite en CI: 3080/0.
+Merge de Alberto (`f65ec66`) + flip Railway + smoke: fila sellada `bot_version=f65ec66`, EC vivo.
+El smoke ZXSe (elección mía) cayó en el gap D1 conocido (`MIE-MI-600` 88 chunks `unknown`,
+verificado en DB): el bot admitió en vez de inventar — conducta correcta sobre agujero de
+identidad; H0 sube de prioridad. La rama s281 heredó release+fixes vía merge de main (`32a7ed1`).
+
+## s281b (23-24 jul) — autonomía plena: Fase 1 multi-turn MEDIDA + campaña H0 hasta packet
+
+Con el GO de Alberto (Fase 1 + H0 en paralelo, mandato BP-no-escatimar, herramientas externas
+eval-driven, DEC-154 acotando el NO-GO agéntico a su métrica): MT-1b construyó la eval
+conversacional (15 flujos, vara K=3, interfaz ConversationPolicy con $0-guarantee estructural);
+MT-1a implementó la cascada determinista + rewriter Sonnet dual-prompt (vara 31/31); el dúo
+focal la RECHAZÓ-EN-ESTADO con 12 hallazgos ejecutados (artículos ×3-convergente, resurrección
+de estado con el espejo del harness compartiendo el bug, validate-rewrite agujereado por
+substring/invención, fallback inseguro) → lote 12/12 + vara endurecida a 48 turnos con los
+escenarios del propio dúo. El e2e pagado (~$3.3) destapó y midió el fix estructural de que la
+query resuelta debe alimentar también la generación (6/8 FALLOs eran el writer sin antecedente)
+→ final 18/2/1 con el residual adjudicado a conducta single-turn diseñada. A/B condense-LC:
+empate direccional, fontiber default. En paralelo H0: census (solo 6 lineages en 998 docs —
+capa nueva s277, no regresión; las capas de identidad previas intactas), packet T3 de re-tag
+con la migración simétrica ZXe/ZXSe adjudicada por Alberto (etiqueta=FAMILIA) y el contrato
+batch_attested_v1 para industrializar el Tramo 2. Sol abortó 1 run por worktree-cambiante →
+patrón nuevo: vista estable dedicada para reviews con lanes paralelas. Todo en claude/s281-mt0;
+DB y prod intactas; el paquete de decisiones de Alberto quedó listo en lote.

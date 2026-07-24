@@ -17,26 +17,18 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado S277 (22 jul 2026).** Producción/main sigue en el stack demo anterior a C1. La PR
-> #184 contiene un **candidato no desplegado** con profile atómico, seam de serving y trazas.
-> El rol `p1_readonly`, el lifecycle HP011 y las cuatro versiones document-local —incluida la
-> lineage v2 gobernada— están aplicados y verificados live; su receipt pasa 7/7 y fija la función
-> por hash `19975e…a82e`. La lane default-off pasó 22/22 como `GO_MECHANISM` y se integró en
-> `coverage_c1_v2`. La P1 fresca `b92ff51` completó 27/27 réplicas y 81/81 llamadas, pero cerró
-> `P1_NO_GO`: 10/27 respuestas limpias, 17/27 con fallos y 62 PASS / 29 FAIL ítems semánticos.
-> Costó 2,69369748 USD; los cuatro runs locales de la tanda suman 8,04137196 USD.
-> Fence/manifest quedaron estables y no hubo mutaciones ni deploy. El
-> counterfactual actual es sólo un oráculo postgeneración sobre contexto congelado; no puede
-> resolver los fallos de fuente. Antes de considerar otra P1 hay que hacer census/authority,
-> diseñar el contrato vNext, reconciliar el ledger y ejecutar Protocol 3 Sol+Fable antes del
-> build/commit de impacto. Sólo después se construye el gate determinista de cero modelos para
-> candidate-context/source receipts. Reutiliza provider receipts sólo con request hash idéntico;
-> si cambia rerank requiere un piloto context-only acotado y contabilizado o queda HOLD. Tras
-> adjudicar bindings nuevos, combina ambos hasta corregir 29/29 preservando 62/62 PASS y 93/93
-> checks. No existe `P1_PASS`.
-> Marcador: 146/154 (94,81 %), sin
-> movimiento. Handoff: `docs/HANDOFF_P1_B92FF51_2026-07-22.md`.
-> Multi-turn/multi-hop continúa `NOT_BUILT` (DEC-136).
+> **Estado s281 (23 jul 2026).** La **release C1 está a un click**: PR #184 (renombrada,
+> des-drafteada) = perfil `coverage_c1_v4` + identidad `replace` + Evidence Contract + selección
+> document-local v2; merge ⇒ flip Railway (checklist en el body de la PR; rollback = la variable).
+> **Baseline oficial 39 golds bajo esa config: 12 PASS / 25 PARCIAL / 2 FALLO** (vara single-pass;
+> también gate de no-regresión de la Fase 1). Los 29 FAIL de la P1 histórica `b92ff51` tienen sus
+> causas corregidas en la rama; el run queda como baseline inmutable (no existe `P1_PASS`).
+> Marcador fact-level: 146/154 (94,81 %), sin movimiento esta sesión.
+> **Multi-turn: Fase 0 CONSTRUIDA** (rama `claude/s281-mt0`): orquestador transport-neutral con
+> paridad byte-a-byte, runtime effectively-once (store/fake/driver/janitor, dúo focal 6/6-0FP),
+> propuestas DDL `convo` (NO aplicadas — gateadas por la matriz RGPD de Alberto) y 3 seams
+> default-off en el bot (`ORCHESTRATOR_PATH`/`CONVO_SHADOW`/`CONVO_MAINTENANCE`, camino OFF
+> intacto). Fase 1 (MT-1a/1b) diseñada y gateada al GO de Alberto. Suite 3158/0.
 >
 > **Cobertura document-local candidata, post-rerank y default-off.** Parte de scopes derivados
 > del prefijo servido, obtiene en una sola snapshot la revisión activa y candidatos FTS del blob

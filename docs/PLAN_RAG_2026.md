@@ -25,7 +25,53 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (S277 — 22 jul 2026)
+## Estado actual (s281 — 23 jul 2026)
+
+**RELEASE EN PRODUCCIÓN (23-jul tarde).** #184 mergeada a main (`f65ec66`) + flip Railway
+ejecutado por Alberto y **verificado vivo**: query post-deploy sellada `bot_version=f65ec66` en
+`query_logs` con el apéndice del Evidence Contract disparando en producción por primera vez.
+Antes del merge hubo que poner el CI en verde (rojo desde siempre: checkout shallow mataba los
+drift-seals a los 2 min → `fetch-depth: 0` + 3 fixes de plataforma Linux [sha EOL-canónico del
+YAML de facetas ×2 + expectativa del fence test — Linux era el comportamiento fiel]; suite en CI
+3080/0; 4 commits sobre 9cfa6f8, cero cambio de runtime). Smoke ZXSe post-deploy aterrizó en el
+gap CONOCIDO D1 (MIE-MI-600 = 88 chunks `unknown`, verificado en DB): conducta correcta (admite,
+no inventa) — refuerza la prioridad de H0 (backfill de identidad). Checklist histórica del flip: PR **#184** renombrada + des-drafteada (el título
+"NO-GO" era el handoff histórico de Codex), body = checklist de release. Merge ⇒ flip Railway:
+`COVERAGE_RELEASE_PROFILE=coverage_c1_v4` + `IDENTITY_RESOLVE_POLICY=replace` + retirar
+`COVERAGE_MANDATORY_CALLOUT`/`MP_MANDATORY_VERB_TRIGGER` + mantener `MUST_PRESERVE_CONTRACT=on`;
+rollback = cambiar/quitar la variable. **Baseline oficial 39 bajo la release config:
+12 PASS / 25 PARCIAL / 2 FALLO** (vara harness single-pass juez GPT-5.5;
+`evals/bot_vs_gold_39_baseline_coverage_c1_v4_s281.yaml` + recheck hp010; doble uso: sello
+post-release + gate de no-regresión single-turn de la Fase 1). **El juez NO se cambia**
+(estudio s47 vigente: 0 catches únicos del 2º juez; condición de reapertura no disparada).
+
+**Build multi-turn Fase 0 COMPLETO** (rama `claude/s281-mt0` @ `8f1d354`, suite **3158/0**;
+modelo operativo s279+ validado: Opus ejecuta lanes, Fable revisa — caza real en review:
+`fail_run` inalcanzable, janitor dañino, heartbeat sin caller, auth service_role):
+- **MT-0a** orquestador transport-neutral + gate de paridad byte-a-byte (envelope real).
+- **MT-0b** propuestas DDL schema `convo` + 8 RPCs SECURITY DEFINER + 3 read-RPCs (enmienda) +
+  plantilla matriz RGPD. **NO_GO_FOR_DB hasta matriz firmada.**
+- **MT-0c** runtime effectively-once (store client + fake bit-fiel + driver/poller/janitor) con
+  **dúo focal r1** (Sol RECHAZAR + Fable sólido-con-cambios → 6 confirmados 0 FP, 9 fixes
+  aplicados y verificados; `evals/s281_mt0c_duo_r1_adjudication_v1.yaml`).
+- **MT-0d** adapter Telegram + flags `ORCHESTRATOR_PATH`/`CONVO_SHADOW`/`CONVO_MAINTENANCE`
+  (default off, camino OFF textualmente intacto). Dependencias de ops de la activación real
+  documentadas (matriz RGPD · DDL aplicado · JWT `convo_rpc` · PGRST_DB_SCHEMAS · scheduling ·
+  puente sender).
+
+**s281b (24-jul): FASE 1 MEDIDA** — policy dúo-hardened (12/12 fixes, vara 48/48 $0), e2e
+K=3 final **18 PASS / 2 PARCIAL / 1 residual-declarado** (~$3.3), fix medido resolved-query→
+generación (spec de activación), A/B prompts fontiber-default. **H0 hasta packet ejecutable**
+(census + T3 re-tag ZXe/ZXSe adjudicado + batch_attested_v1). Detalle DEC-155.
+
+**Qué sigue:** (1) **clicks de Alberto**: lectura+merge #184 + flip = release · matriz RGPD
+(plantilla `docs/RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`, decide él con validación legal) · visto al
+DDL MT-0b; (2) **Fase 1 multi-turn** (MT-1a clasificador+rewrite gateado · MT-1b eval nueva
+ANTES de activar) — arranca con su GO, gate no-regresión = el baseline 12/25/2; (3) **H0
+campaña de backfill de identidad** (12/15 QIDs bloqueados upstream) — workstream paralelo
+post-release. Traza: DEC-148..153 + HISTORY s277-s281.
+
+## Estado anterior (S277 — 22 jul 2026)
 
 ### Cierre operativo de la P1 fresca y handoff
 

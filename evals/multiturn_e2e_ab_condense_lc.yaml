@@ -1,0 +1,126 @@
+mode: e2e
+flows: 3
+turns: 7
+flow_results:
+- flow: mt02_pron_afp400
+  last_route: rewrite
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - 'Responde directamente al procedimiento: corregir la causa, reconocer/silenciar
+    si procede y esperar el restablecimiento automático de la avería de tierra. No
+    introduce una inferencia peligrosa ni pide aclaración innecesaria.'
+  - Responde directamente que, tras corregir el fallo de tierra, la avería se restablece
+    automáticamente y no requiere rearme manual; además aclara que <Aceptar> solo
+    silencia/reconoce. La inclusión de pasos adicionales no cambia la conducta esperada.
+  - Responde directamente al procedimiento solicitado para borrar/restaurar el aviso
+    de Tierra en la AFP-400 tras corregir la causa, indicando reconocimiento y restablecimiento
+    automático de la avería. No introduce inferencias problemáticas y distingue correctamente
+    entre silenciar/reconocer y eliminación real de la condición.
+  rewritten_query: ¿Cómo se borra el aviso 'Tierra' (Earth Fault) en la Notifier AFP-400
+    una vez que ha sido localizado y corregido?
+  query_for_retrieval: ¿Cómo se borra el aviso 'Tierra' (Earth Fault) en la Notifier
+    AFP-400 una vez que ha sido localizado y corregido?
+  answer_excerpt: '## Borrar aviso de Tierra (Earth Fault) en la AFP-400
+
+
+    El aviso de **Tierra** es una condición de **Avería del Sistema**. El procedimiento
+    para borrarlo una vez corregida la causa es el siguiente:
+
+
+    ### Pasos:
+
+
+    1. **Corrige la causa del fallo de tierra** en el campo (ya realizado según indicas).
+
+
+    2. **Pulsa `<Aceptar>`** para silenciar el piezo y cambiar el LED de *Avería del
+    Sistema* de intermiten'
+- flow: mt08_codes_m710
+  last_route: rewrite
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PASS
+  diagnosticos:
+  - Responde directamente a la pregunta indicando la RFL de 47 kΩ para el M710 / MI-DMMI
+    y añade detalles de conexionado pertinentes. No se aprecia inferencia no documentada
+    ni evasión.
+  - Responde directamente a la resistencia de fin de línea solicitada indicando 47
+    kΩ y añade detalles de conexionado relevantes sin necesidad de pedir aclaración.
+  - Responde directamente a la resistencia requerida indicando 47 kΩ y añade contexto
+    de conexionado pertinente sin contradecir la pregunta. La información adicional
+    no impide la respuesta y no parece inventar más allá de lo documentado citado.
+  rewritten_query: ¿Qué resistencia de fin de línea necesita la entrada del módulo
+    M710 / MI-DMMI?
+  query_for_retrieval: ¿Qué resistencia de fin de línea necesita la entrada del módulo
+    M710 / MI-DMMI?
+  answer_excerpt: '## Resistencia de fin de línea (RFL) del módulo M710 / MI-DMMI
+
+
+    La resistencia de fin de línea requerida para la entrada del módulo M710 / MI-DMMI
+    es:
+
+
+    **RFL = 47 kΩ** [F1]
+
+
+    ---
+
+
+    ### Según el modo de conexionado:
+
+
+    **Conexionado 2 estados** (cortocircuito se señaliza como alarma) [F1]:
+
+    - Se coloca la RFL de **47 kΩ** en fin de línea
+
+    - Terminales de entrada: Terminal 6 y Terminal 7 (Entrada A) [F1]
+
+    '
+- flow: mt12_anaphora_este_esos
+  last_route: rewrite
+  expected_behavior: null
+  veredicto: PASS
+  verdicts:
+  - PASS
+  - PASS
+  - PARCIAL
+  diagnosticos:
+  - El bot reconoce que los fragmentos recuperados no contienen el procedimiento de
+    direccionamiento y evita inventarlo. Aporta únicamente información relacionada
+    disponible y solicita concreción sobre el tipo de direccionado.
+  - El bot reconoce que los fragmentos recuperados no describen el procedimiento de
+    direccionamiento y evita inventar instrucciones. Además distingue posibles variantes
+    del direccionado y pide concreción de forma adecuada.
+  - El bot no inventa y reconoce explícitamente que los fragmentos recuperados no
+    cubren el procedimiento de direccionado, lo cual es seguro. Sin embargo, la conducta
+    esperada era responder con el contenido técnico, y la respuesta no proporciona
+    el procedimiento solicitado.
+  rewritten_query: ¿Cómo se direcciona el elemento ID3000 en el lazo?
+  query_for_retrieval: ¿Cómo se direcciona el elemento ID3000 en el lazo?
+  answer_excerpt: 'La pregunta sobre cómo **direccionar un elemento en el lazo de
+    la ID3000** es de tipo TIPO 2 en cuanto al procedimiento concreto, ya que el fragmento
+    recuperado [F1] trata sobre la **configuración de sensibilidad en la segunda ventana
+    del sensor**, no sobre el procedimiento de asignación de dirección (direccionado
+    físico o lógico del elemento en el lazo).
+
+
+    El fragmento sí menciona que en la pantal'
+cost:
+  rewrite_calls: 4
+  generate_calls: 7
+  judge_calls: 9
+  generate_input_tokens: 70304
+  generate_output_tokens: 4546
+  judge_input_tokens: 5169
+  judge_output_tokens: 2994
+  usd_estimate: 0.3155
+  _note: USD aproximado (placeholders); la corrida de cierre pagada estampa el coste
+    real por-lane en el DEC.
