@@ -17,20 +17,33 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s281 (23 jul 2026).** La **release C1 está a un click**: PR #184 (renombrada,
-> des-drafteada) = perfil `coverage_c1_v4` + identidad `replace` + Evidence Contract + selección
-> document-local v2; merge ⇒ flip Railway (checklist en el body de la PR; rollback = la variable).
-> **Baseline oficial 39 golds bajo esa config: 12 PASS / 25 PARCIAL / 2 FALLO** (vara single-pass;
-> también gate de no-regresión de la Fase 1). Los 29 FAIL de la P1 histórica `b92ff51` tienen sus
-> causas corregidas en la rama; el run queda como baseline inmutable (no existe `P1_PASS`).
-> Marcador fact-level: 146/154 (94,81 %), sin movimiento esta sesión.
-> **Multi-turn: Fase 0 CONSTRUIDA** (rama `claude/s281-mt0`): orquestador transport-neutral con
-> paridad byte-a-byte, runtime effectively-once (store/fake/driver/janitor, dúo focal 6/6-0FP),
-> propuestas DDL `convo` (NO aplicadas — gateadas por la matriz RGPD de Alberto) y 3 seams
-> default-off en el bot (`ORCHESTRATOR_PATH`/`CONVO_SHADOW`/`CONVO_MAINTENANCE`, camino OFF
-> intacto). Fase 1 (MT-1a/1b) diseñada y gateada al GO de Alberto. Suite 3158/0.
+> **Estado s283 (24 jul 2026).** La **release C1 está EN PRODUCCIÓN**: PR #184 mergeada
+> (`f65ec66`) + flip Railway ejecutado y verificado vivo = perfil `coverage_c1_v4` + identidad
+> `replace` + Evidence Contract + selección document-local v2 (rollback = la variable).
+> **Baseline oficial v2 de los 39 golds, con paridad completa de flags harness↔Railway:
+> 16 PASS / 20 PARCIAL / 3 FALLO** (DEC-157; vara single-pass, juez GPT-5.5; también gate de
+> no-regresión de la Fase 1). Sustituye al 12/25/2 de s281, cuyo `cat016`-FALLO era artefacto de
+> paridad (env sin `HYQ_TABLE`), no del sistema. Los 3 FALLO restantes = clase flip single-pass
+> (cat007 K-inestable, cat024 conflicto, hp011). Los 29 FAIL de la P1 histórica `b92ff51` tienen
+> sus causas corregidas; el run queda como baseline inmutable (no existe `P1_PASS`).
+> Marcador fact-level: 146/154 (94,81 %), sin movimiento.
+> **Multi-turn: Fase 0 + Fase 1 VIVAS EN PRODUCCIÓN** (PRs #185/#186 mergeadas, `bot_version`
+> `f1bee30` verificado en `query_logs` con carry-forward conversacional real): orquestador
+> transport-neutral con paridad byte-a-byte, runtime effectively-once (store/fake/driver/janitor,
+> dúo focal 6/6-0FP) y `ORCHESTRATOR_PATH=on` + `CONVERSATION_POLICY=impl` en Railway (rollback =
+> quitar las variables). Las propuestas DDL del schema `convo` siguen **NO aplicadas** (gateadas
+> por la matriz RGPD de Alberto), igual que la campaña H0 de identidad (expediente T2 firmado y
+> packet T3, ambos pendientes de su lectura). Suite 3228/0.
 >
-> **Cobertura document-local candidata, post-rerank y default-off.** Parte de scopes derivados
+> **Cola de calidad s283 CERRADA con cada ítem resuelto o declarado** (DEC-157/158/159): cat016
+> RESUELTO por paridad · cat022 + hp012-retrieval **TECHO-DECLARADOS** (el rescate within-doc vía
+> enunciados muere en `_diversify_by_source_file` cuando el `source_file` diana ya satura sus
+> slots) · hp011 + hp012-framing **APARCADOS-EN-DATOS** (el dúo mató el diseño dual-EC antes de
+> construirlo: la raíz es lineage/supersedes sin poblar y la semántica de los tachados `~~`, ambas
+> decisiones de datos en el lote de Alberto) · mt11b espera dogfooding.
+>
+> **Cobertura document-local candidata y post-rerank — VIVA en producción bajo
+> `coverage_c1_v4`** (era default-off hasta el flip de s281). Parte de scopes derivados
 > del prefijo servido, obtiene en una sola snapshot la revisión activa y candidatos FTS del blob
 > exacto, revalida lifecycle/identidad/formato y puede añadir como máximo un registro completo
 > sin quitar, mutar ni reordenar el prefijo. Ambigüedad, overflow, idioma no soportado o formato

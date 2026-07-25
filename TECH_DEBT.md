@@ -22,6 +22,87 @@ y las citas nuevas deben desambiguar por título.
 
 ---
 
+## Re-verificación s284 (25 jul 2026) — estado por ítem, verificado contra el código
+
+Pase de higiene: **no se resolvió deuda ni se borró ninguna fila**; se re-verificó cada ítem contra
+el código/migraciones vivos y se le puso etiqueta. El índice S277 de arriba se conserva como
+histórico — **manda esta tabla**. Leyenda: `[VIGENTE]` = la premisa sigue siendo cierta ·
+`[CERRADO-refs]` = resuelto o sustituido, con la referencia que lo cierra · `[CADUCO-refs]` = el
+artefacto que describe ya no existe / ya no gobierna nada (la deuda se evaporó, no se pagó).
+
+| # | Etiqueta | Ancla de verificación (s284) |
+|---|---|---|
+| 1 | **[CADUCO]** (#38/s43 · DEC-079/081/083) | `src/ingestion/chunker.py` NO existe; el pipeline vivo `src/reingest/metadata.py` no tiene los dicts `*_SOURCE_FILE_TO_MODEL`/`_TO_CATEGORY` — la identidad sale del sidecar del portal + `config/manufacturers/*.yaml` + `data/catalog/*.jsonl` |
+| 2 | **[CADUCO]** (misma raíz que #1) | no quedan overrides con clave `Path(filename).stem` en el pipeline vivo; el sidecar `_metadata.json` es autoritativo por archivo |
+| 3 | **[VIGENTE]** | `ingestion_run_id` = 0 hits en `src/`, `scripts/`, `supabase/`, `migrations/` |
+| 4 | **[VIGENTE-parcial]** (#55/S277 · DEC-045) | `documents` ya tiene status/revision/revision_date/document_family/superseded_by_id y el runtime filtra (`_filter_by_document_status`, `retriever.py:1782`) + lineage v2 aplicada; falta el parser Phase 2 → `revision_date` sin poblar. Vía viva = campaña H0 (lote de Alberto) |
+| 5b | **[CADUCO como riesgo de retrieval]** (DEC-073) | `VECTOR_NOCAT` quitó `category` del path de retrieval; `_detect_category` (`reingest/metadata.py:199`) deriva de carpeta, no de `_CATEGORY_KEYWORDS`. Residual = presentación de catálogo (ver #44) |
+| 5 | **[VIGENTE]** | `manufacturer_group` = 0 hits |
+| 6 | **[CERRADO-instrumento]** | filtro de idioma vivo en runtime (`_filter_by_language`, `retriever.py:1855`) + `src/reingest/language.py` + `tests/test_reingest_language_determinism.py`. Residual = decisión de política por documento, no falta de instrumento |
+| 7 | **[VIGENTE]** | los 3 docs siguen sin re-ingestar; el bucle de duplicación nunca se explicó |
+| 8 | **[VIGENTE-parcial]** | `query_gaps` = 0 hits en `src/`/`supabase/`; la observabilidad general sí está viva (`query_logs` sellando `bot_version`, verificado en el flip de s281 y en el de F1 de s282) |
+| 9 | **[CERRADO]** ✅ | histórico (19 abr) |
+| 10 | **[CADUCO]** (DEC-123/133) | los 6.959 huérfanos son de la tabla vieja `chunks`; el canal `has_diagram`/`diagram_url` está muerto y sustituido por `document_visual_assets` (ver #45) |
+| 11 | **[CERRADO]** ✅ | histórico (20 abr) |
+| 11b | **[CADUCO]** (DEC-070/073/075) | la clase quedó absorbida por el frente de SÍNTESIS + Evidence Contract vivo; la vara de hoy es el baseline v2 16/20/3, no el `admit_no_info` masivo de abril |
+| 12 | **[CADUCO]** | `scripts/run_eval.py` ya NO es la vara: lo son `scripts/test_bot_vs_gold.py` (juez GPT-5.5 + K-mayoría, DEC-023) y `scripts/atomic_scorer.py`. Sigue en el repo con test de regresión (`tests/test_classify_behavior.py`) pero no gobierna ninguna medida vigente |
+| 11c | **[CERRADO]** ✅ | `_diversify_by_source_file` en `retriever.py` |
+| 11f | **[VIGENTE-residual]** | el filtro parcial existe; el residual (inventar en vez de admitir cuando no hay material del fabricante correcto) sigue siendo materia del frente de síntesis |
+| 11g | **[VIGENTE]** | sin validador estructural de `[F<n>]` en el path vivo |
+| 11h | **[VIGENTE]** | nota viva en `src/rag/generator.py:506` (el corto-circuito duro cross-brand se probó y se retiró) |
+| 11i | **[CERRADO-revertido]** 🔴 | código borrado en s56 (nota viva en `src/config.py:296`) |
+| 11d | **[CERRADO]** ✅ | histórico (22 abr) |
+| 13 | **[VIGENTE]** | sin flag `--use-vision` en el pipeline vivo; la re-ingesta sigue diferida (DEC-049) |
+| 15 | **[VIGENTE]** | umbral mínimo del chunker sin revisar |
+| 14 | **[CERRADO]** ✅ | histórico (22 abr) |
+| 16 | **[CERRADO]** ✅ | `RETRIEVAL_TOP_K` 15→50 (`src/config.py:69`, DEC-018) |
+| 17 | **[VIGENTE]** | límite de batch de embeddings sin guard explícito |
+| 18 (judge FP) | **[VIGENTE]** | el juez NO se cambia (s47 vigente, re-confirmado en DEC-153) |
+| 19 | **[CERRADO]** (DEC-153/155/156) | la eval multi-turn EXISTE y está medida: `scripts/test_multiturn_vs_gold.py` + `tests/test_multiturn_golds_contract.py`; Fase 1 e2e K=3 = 18 PASS / 2 PARCIAL / 1 residual, y **viva en producción** |
+| 20 | **[VIGENTE]** | calibración formal del juez sigue sin hacerse (decisión consciente: el juez no se toca) |
+| 21 | **[VIGENTE]** | `product_family` = 0 hits en `src/` y `config/` |
+| 22 | **[VIGENTE]** | sin intent-classifier + SQL de cobertura |
+| 23 | **[VIGENTE]** | intento revertido en s19; nota viva en `src/rag/generator.py:677` |
+| 24 | **[VIGENTE-parcial]** (DEC-157/159) | Fase A aplicada; s283 volvió a la clase por otra vía (`src/rag/struck_ocr.py`, P1 flag-off MEDIDO) y quedó **NO-GO auto-ship** por colateral en controles → span-strip gateado por dúo + semántica de `~~` (184 docs Securiton) al lote de Alberto |
+| 25 | **[VIGENTE]** | stack de 3 capas sin cerrar |
+| 26 | **[VIGENTE]** | roadmap de juez congelado por decisión (s47) |
+| 27 | **[VIGENTE]** | hay prompt-caching en la INGESTA (`src/reingest/contextualize.py`), no en el generador |
+| 28 | **[VIGENTE]** | side-effect del bloque TABLAS MATRIZ sin re-medir |
+| 29 | **[CERRADO]** (DEC-150, s278) | Alberto aplicó el hardening RLS en el SQL Editor: **13/13 tablas public con RLS**, grants `anon`/`authenticated` sobre `chunks_v2_enunciados` revocados, `EXECUTE` de `create_hnsw_index()` revocado, clase crítica del Advisor desaparecida. Residual declarado: `p1_readonly` sin policies → 0 filas |
+| 30 | **[VIGENTE]** | fallback sin formato con `_` en filenames |
+| 31 | **[VIGENTE]** | shortcuts del bot siguen sin loggear en `query_logs` |
+| 18 (atribución fabricante) | **[VIGENTE]** | diferidos conscientes del 28-may |
+| 32 | **[VIGENTE]** | el cuello sigue siendo GENERACIÓN/síntesis (DEC-070/073/075) |
+| 33 | **[VIGENTE-y-ACTIVO]** | la lane s284 goldreview r2 lo está trabajando (`evals/s284_goldreview_r2_packet_v1.md` + fix del truncado `[:3000]` del juez en ambos harnesses, commits `734e6dc`/`308bf83`) |
+| 34 | **[VIGENTE]** | gaps de corpus-infra sin cerrar |
+| 35 | **[VIGENTE]** | `scripts/atomic_scorer.py` vivo con tests; refinamientos pendientes |
+| 36 | **[CERRADO]** ✅ | s88: cross-model agéntico con tools read-only |
+| 37 | **[VIGENTE]** | el scorer es fiable para categórico, no para deltas finos |
+| 38 | **[CERRADO]** ✅ | verificado hoy: `src/ingestion/` solo conserva `embedder.py` + `supabase_client.py` |
+| 39 | **[VIGENTE]** | frontera compuesta del matcher de anchors sin arreglar |
+| 40 | **[VIGENTE]** | recall@k como gate pre-merge sigue diferido |
+| 41 | **[VIGENTE]** | eje factual retrieval-local vs manual-global sin separar |
+| 42 | **[CERRADO]** ✅ | s57/DEC-037 (nota viva en `tests/test_gold_store.py:114`) |
+| 43 | **[CERRADO]** ✅ | capa A s63/DEC-044 + capa B s65/DEC-046 |
+| 44 | **[VIGENTE-degradado]** (DEC-073) | al salir `category` del path de retrieval ya no puede corromper el serving; la columna sigue sin taxonomía canónica para el catálogo |
+| 45 | **[CERRADO por sustitución]** (DEC-123/133) | `document_visual_assets` (13.257 páginas servibles, `VISUAL_ASSETS_REGISTRY=on` en `src/config.py:187`, álbum Telegram). El canal viejo sigue muerto y ya no es el contrato de serving |
+| 46 | **[CERRADO]** ✅ | s64/DEC-045 |
+| 47 | **[VIGENTE]** | verificado hoy: `_get_all_known_manufacturers` (`retriever.py:2805`) sigue con `select=manufacturer&limit=200` **sin ORDER BY** |
+| 48 | **[VIGENTE]** | `section_path` vive en `src/reingest/*` y en las lanes de coverage; no llega al cliente ni al reranker |
+| 49 | **[VIGENTE-raíz]** (DEC-159) | el dúo re-confirmó que la raíz de hp012-framing es lineage/supersedes sin poblar → es exactamente la campaña H0 del lote de Alberto |
+| 50 | **[VIGENTE]** | `LEVER2_IDENTITY` sigue en `src/rag/retriever.py` + `config/manufacturers/morley.yaml` conviviendo con el resolver data-driven; la retirada F4 no se ha hecho |
+| 51 | **[VIGENTE]** | `revision_date` sigue sin poblar (enlaza con #4 y H0) |
+| 52 | **[VIGENTE]** | canal hyq vivo (`HYQ_TABLE=on`); DEC-157 volvió a tocarlo: el `cat016`-FALLO del baseline v1 era el harness corriendo **sin** `HYQ_TABLE` (artefacto de paridad, no del canal) |
+| 53 | **[VIGENTE]** | generalización real del transporte del autor sigue pendiente (s194-s196 NO-GO) |
+| 54 | **[VIGENTE]** | verificado hoy: `sentence_spans` (`src/rag/mp_lexicon.py:33`) sigue partiendo por puntuación-final + espacio → «Est.Ext. » sigue partiendo la oración de la cita |
+| 55 | **[CERRADO]** ✅ | S277: history reconciliado y lineage v2 aplicada/verificada |
+
+**Hallazgo suelto (no es deuda nueva, es una referencia rota):** `src/config.py:292` cita
+«TECH_DEBT #74», número que no existe en este fichero (el máximo es #55). No se tocó `src/` en este
+pase; queda anotado para quien edite ese comentario.
+
+---
+
 
 ## 1. Externalizar overrides de modelo/categoría a YAML
 
