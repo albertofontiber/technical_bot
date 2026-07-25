@@ -160,7 +160,7 @@ def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str) -> 
             {"role": "system", "content": _JUDGE_SYS},
             {"role": "user", "content": _JUDGE_USER.format(
                 question=question, expected=expected,
-                gold=(gold or "")[:3000], bot=(bot or "")[:3000])},
+                gold=(gold or ""), bot=(bot or "")  # s284: SIN truncado — el [:3000] silencioso (28-may) dejaba al juez ciego a >3000c (20/39 respuestas); artefactos probados por offset (goldreview r2))},
         ],
     )
     txt = resp.choices[0].message.content.strip()
