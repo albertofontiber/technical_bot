@@ -1,0 +1,51 @@
+- qid: cat009
+  question: ¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas
+    de zona de la central convencional NFS Supra?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Responde correctamente el valor aplicable: 6K8 Ω para RFL y también
+    menciona el condensador de 47 µF por defecto, además de instalar fin de línea
+    en todas las zonas incluidas las no usadas. Añade información adicional no esencial
+    y no cita la sección exacta ni menciona la edición anterior de 4K7, pero no compromete
+    la respuesta técnica principal.'
+  bot_sources:
+  - HLSI-MN-025-I_NFS Supra Series
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central NFS Supra\
+    \ admite **dos modos de supervisión de líneas de zona**, configurables por el\
+    \ instalador [F4]:\n\n---\n\n## Modo por defecto: Capacitivo (EFL)\n\n- **Condensador\
+    \ de 47 µF** instalado entre positivo y negativo de la línea, en el último equipo\
+    \ de la zona [F4][F3]\n- Es el modo de fábrica [F1]\n- Indicado por: **Led 2 Anulada\
+    \ (Ámbar) = ON** en el menú de configuración [F1]\n\n---\n\n## Modo alternativo:\
+    \ Resistivo (RFL)\n\n- **Resistencia de 6K8 Ω** instalada entre positivo y negativo\
+    \ de la línea, en el último equipo de la zona [F4][F3]\n- En modo RFL, la central\
+    \ admite un **rango de resistencia final de línea entre 3 KΩ y 7 KΩ** [F4]\n-\
+    \ Indicado por: **Led 1 Alarma (Rojo) = ON** en el menú de configuración [F1]\n\
+    \n> ⚠️ **Importante:** Todas las zonas, **incluso las no usadas**, deben tener\
+    \ instalada su final de línea según la configuración del sistema (EFL o RFL) [F4].\n\
+    \n---\n\n## Cómo cambiar el modo de supervisión\n\nRequiere **Nivel de acceso\
+    \ 3** (Configuración) [F1]:\n\n1. Pulsa simultáneamente **Tecla TECLADO = ON +\
+    \ Tecla EVACUACIÓN = ON** para acceder al menú de configuración de Final de Línea\
+    \ [F1]\n2. Usa la **Tecla REARME** para cambiar cíclicamente entre modo Capacitivo\
+    \ y Resistivo [F1]\n3. Verifica el LED activo:\n   - **Led 1 Rojo = ON** → Resistivo\
+    \ 6K8 Ω [F1]\n   - **Led 2 Ámbar = ON** → Capacitivo 47 µF (por defecto) [F1]\n\
+    \n---\n\n## Rangos de tensión de zona (valores aproximados) [F4]\n\n- **0 a 3,9\
+    \ Vdc** → Cortocircuito\n- **4 a 7,4 Vdc** → Alarma Pulsador\n- **7,6 a 24 Vdc**\
+    \ → Alarma Detector\n- **24,1 a 26 Vdc** → Normal\n- **26 a 27,9 Vdc** → Circuito\
+    \ Abierto\n\n---\n\n**Fuente:** HLSI-MN-025_NFS Supra — Manual de usuario (HLS-MN-025\
+    \ v.05, sin revisión registrada)\n\nTambién puedo ayudarte con: **conexionado\
+    \ de detectores y pulsadores en zona**, **configuración de circuitos de sirena**\
+    \ o **cálculo del número máximo de sensores por zona** de la NFS Supra.\n\n---\n\
+    ⚠️ **Obligaciones de evidencia del manual:**\n- \"Esto significa que debe calcular\
+    \ el número de sensores a instalar dependiendo de su consumo sin sobrepasar nunca\
+    \ los 32 sensores.\" (HLSI-MN-025_NFS Supra, p. 28) [F3]\n- Nota: la fuente es\
+    \ inconsistente: \"La central NFS Supra tiene cuatro, ocho o doce zonas de alarma.\"\
+    \ (HLSI-MN-025_NFS Supra, p. 27) [F4] declara 12 zonas y la enumeración servida\
+    \ lista 6 (HLSI-MN-025_NFS Supra, p. 27) [F4]."

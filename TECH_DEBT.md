@@ -2153,3 +2153,6 @@ cuatro versiones document-local `20260721210847`, `20260721220110`, `20260722013
 nuevo; ninguna divergencia futura se repara ni ejecuta por inferencia. Las migraciones aplicadas
 por Supabase CLI no deben incluir `BEGIN/COMMIT` exteriores si se exige atomicidad con
 `supabase_migrations.schema_migrations`; el rollback manual sí conserva su propia transacción.
+
+## #56 (s285) — [VIGENTE] detector: clase de separadores no cubre `(`, `)`, `*`
+5 canonicals del catálogo no superan el roundtrip detect (`S540(539) COSP`, wildcards `W*A/W*L`…): el join de segmentos usa `[-\s/.+]*`. Arreglo de raíz = ampliar la clase CON dúo + gate de golds (aflojar matching = zona de dolor). Mientras: exclusión documentada en `test_roundtrip_muestra_de_canonicals` (s285) y las SKU concretas compensan los wildcards.
