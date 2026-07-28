@@ -2244,3 +2244,29 @@ dúo final tumbó el EXPEDIENTE (ledger ausente + escritura sin sellar) mantenie
 el lote final lo dejó firmable: manifest sellado 1:1, SQL con before-image y rollback, attestation
 con framing estadístico honesto. Cuatro rondas de "no" bien fundamentado antes del primer UPDATE
 masivo de la historia del corpus — exactamente el aparato que Alberto pidió. Coste: $0.92.
+
+## s285 (25-28 jul 2026) — La campaña H0 tocó tierra: T3 + T2 ejecutados en la DB de producción
+
+La sesión que convirtió tres días de aparato (census, adjudicaciones, LQAS, expediente) en
+escrituras reales. Alberto pegó el SQL de T3 (20 UPDATEs / 221 chunks con sus 26 adjudicaciones
++ 2 documentos basura eliminados con backup) y los chunks `unknown` activos pasaron de 318 a 1
+(el compat Notifier-Morley deliberado). El cierre arrastró todo lo colateral: Excel, catálogo
+canónico (con el producto `morley:vsn-rp1r-plus2` que Alberto desambiguó con URLs — el alias
+apuntaba al producto equivocado de Notifier), la retirada de 5 aliases «nombre-de-propiedad»
+(«1 zona», «Dos Zonas»…) que eran falsos positivos latentes del detector, y TECH_DEBT #56
+(la clase de separadores del detector no cubre `()*`). El gate cat009 con el catálogo mergeado
+dio PASS donde antes había PARCIAL — el saneado pagó solo.
+
+T2 llegó después de que Alberto preguntara lo correcto: «¿esto es Best Practice y qué hago yo?»
+— la respuesta (fill-only fail-closed, conteos exactos o aborta, before-image, LQAS con paradas
+reales) le bastó, pegó el SQL y la verificación en vivo 1:1 contra el manifest devolvió
+533/533 doc_type + 301/301 language, 0 mismatches, 0 sobrescrituras. De regalo: descubrimos que
+`documents.language` ya tenía un consumidor vivo (señal de autoridad ES en document-local
+coverage), así que el metadato recién escrito alimenta mecanismo real desde el primer día.
+Sus preguntas de multi-idioma quedaron respondidas con código en mano: el retrieval no filtra
+por idioma (voyage-4-large es multilingüe; el vocabulario técnico ancla cross-language) y los
+209 multi-idioma se quedan NULL hasta que exista consumidor de la convención.
+
+Cifras vivas al cierre: 1.169 docs (996 active) · 25.088 chunks_v2 · 1 unknown. La identidad
+del corpus — el gap D1 que el smoke ZXSe expuso en producción el día del release — queda
+cerrada de punta a punta en cinco días. DEC-161.

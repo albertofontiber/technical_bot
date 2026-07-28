@@ -17,23 +17,23 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
-> **Estado s283 (24 jul 2026).** La **release C1 está EN PRODUCCIÓN**: PR #184 mergeada
+> **Estado s285 (28 jul 2026).** La **release C1 está EN PRODUCCIÓN**: PR #184 mergeada
 > (`f65ec66`) + flip Railway ejecutado y verificado vivo = perfil `coverage_c1_v4` + identidad
 > `replace` + Evidence Contract + selección document-local v2 (rollback = la variable).
-> **Baseline oficial v2 de los 39 golds, con paridad completa de flags harness↔Railway:
-> 16 PASS / 20 PARCIAL / 3 FALLO** (DEC-157; vara single-pass, juez GPT-5.5; también gate de
-> no-regresión de la Fase 1). Sustituye al 12/25/2 de s281, cuyo `cat016`-FALLO era artefacto de
-> paridad (env sin `HYQ_TABLE`), no del sistema. Los 3 FALLO restantes = clase flip single-pass
-> (cat007 K-inestable, cat024 conflicto, hp011). Los 29 FAIL de la P1 histórica `b92ff51` tienen
-> sus causas corregidas; el run queda como baseline inmutable (no existe `P1_PASS`).
-> Marcador fact-level: 146/154 (94,81 %), sin movimiento.
+> **Baseline oficial v3 de los 39 golds: 16 PASS / 20 PARCIAL / 3 FALLO** (DEC-160; **vara v3**
+> = juez con ventana completa tras corregir el bug [:3000] vigente desde 28-may; paridad de
+> flags harness↔Railway obligatoria [DEC-157]; también gate de no-regresión de la Fase 1).
+> Los 29 FAIL de la P1 histórica `b92ff51` tienen sus causas corregidas; el run queda como
+> baseline inmutable (no existe `P1_PASS`). Fact-level: 146/154 (94,81 %), sin movimiento.
 > **Multi-turn: Fase 0 + Fase 1 VIVAS EN PRODUCCIÓN** (PRs #185/#186 mergeadas, `bot_version`
 > `f1bee30` verificado en `query_logs` con carry-forward conversacional real): orquestador
 > transport-neutral con paridad byte-a-byte, runtime effectively-once (store/fake/driver/janitor,
 > dúo focal 6/6-0FP) y `ORCHESTRATOR_PATH=on` + `CONVERSATION_POLICY=impl` en Railway (rollback =
 > quitar las variables). Las propuestas DDL del schema `convo` siguen **NO aplicadas** (gateadas
-> por la matriz RGPD de Alberto), igual que la campaña H0 de identidad (expediente T2 firmado y
-> packet T3, ambos pendientes de su lectura). Suite 3228/0.
+> por la matriz RGPD de Alberto). **Campaña H0 de identidad EJECUTADA EN DB (s285, DEC-161)**:
+> T3 (221 chunks re-tagueados, 2 docs eliminados) + T2 (533 `doc_type` + 301 `language`
+> fill-only verificado 1:1) → **chunks `unknown` activos 318→1**; cifras vivas 1.169 docs
+> (996 active) · 25.088 chunks_v2. Suite 3228/0.
 >
 > **Cola de calidad s283 CERRADA con cada ítem resuelto o declarado** (DEC-157/158/159): cat016
 > RESUELTO por paridad · cat022 + hp012-retrieval **TECHO-DECLARADOS** (el rescate within-doc vía
