@@ -15,7 +15,7 @@
     "source_file_receipts": [
       {
         "path": "evals/gold_answers_v1.yaml",
-        "sha256_lf": "c16a20ad8d6a5c2f3dc6cdd53080207d8072d43e48910da5aacd63f9edb8cff2"
+        "sha256_lf": "5ab500ec92b20065eed1ddef1e987c77a33bcbb208bd2157ecb8edbb510bacaa"
       },
       {
         "path": "evals/s113_fact_ledger_v1.json",
@@ -114,7 +114,7 @@
         "operation": "replace_fact_in_place",
         "from_fact_key": "hp017#3:seis tipos de retardo",
         "to_fact_key": "hp017#3:disclosure_DEC128",
-        "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+        "parent_fact_sha256": "8af7d0f77307b2fa257e9aa2b8981463a5f1cf3f1bde07d85c99e8d9f2796c55",
         "reason": "DEC-128 option 1 source-contract disclosure"
       },
       {
@@ -1384,14 +1384,14 @@
       "fact_id": "hp002#1:80 %",
       "fact_key": "hp002#1:80 %",
       "qid": "hp002",
-      "statement": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas",
-      "statement_sha256": "d818cc8dca9d86031af593e617c7bf2d94cc37fa81a9490c8ca21d86c218ef5b",
-      "parent_fact_sha256": "c2c99fa936e98f67f6874b81aa507f27b5e36e4267e89838b7cfb1298abada02",
+      "statement": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del rango (> 100 %) apunta a rotura de tubo/fugas",
+      "statement_sha256": "7b4e9afa371b3da0e0ccba5f0031546291188c3f3cf6389fcb542fc59fb96b16",
+      "parent_fact_sha256": "0ab39e5d9dded21ec606442c474f73329207220756c20649ab5c2ad29be0a06f",
       "clauses": {
         "required": [
           {
             "clause_id": "hp002#1:80 %:required",
-            "text": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del 120 % (> 100 %) apunta a rotura de tubo/fugas"
+            "text": "Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por encima del rango (> 100 %) apunta a rotura de tubo/fugas"
           }
         ],
         "forbidden": []
@@ -3208,7 +3208,7 @@
       "qid": "hp017",
       "statement": "La prosa declara seis/6 tipos de retardo; deben enumerarse todas las etiquetas no vacías de al menos una surface servida y declarar explícitamente que las surfaces discrepan, sin exigir ni inventar el literal siete.",
       "statement_sha256": "7eb1e8486828c359c2c0996faa969e579e68c3aff27926f8231a46fd53ffd33d",
-      "parent_fact_sha256": "ee150da7e6a7607d6415f092e104304e82a1e73e8eac42daf4f4fde31b188556",
+      "parent_fact_sha256": "8af7d0f77307b2fa257e9aa2b8981463a5f1cf3f1bde07d85c99e8d9f2796c55",
       "clauses": {
         "required": [
           {
@@ -3954,5 +3954,5 @@
     "forbidden_claim": "ZERO_REGRESSION",
     "official_atomic_kpi_before_and_after_p1": "146/154"
   },
-  "payload_sha256": "e6972b24b3c71ba78e585d820c8002ed46d9424b219a1227430fc73619564ab0"
+  "payload_sha256": "d2d02c9a57da238002aecc799c70ae7e6156e46c74ae01e571dee67cadfc5431"
 }

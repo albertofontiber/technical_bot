@@ -168,13 +168,6 @@
 
     IMPORTANTE — gate de seguridad previo (seccion 9.3): antes de realizar el diagnostico o mantenimiento, bloquear o desconectar el control de incendios, la alerta remota y las zonas de extincion en la CDI de orden superior, para evitar que se disparen durante los trabajos.
   atomic_facts:
-  - texto: 'Gate de seguridad previo al mantenimiento/diagnostico: bloquear o desconectar el control de
-      incendios, la alerta remota y las zonas de extincion en la CDI de orden superior (Indicacion que
-      ENCABEZA el checklist de mantenimiento, para evitar disparos durante los trabajos)'
-    tipo: core
-    estado: presente
-    cita: ASD535_TD_T131192es_h, p121, seccion 9.3
-    valor: null
   - texto: El ASD 535 no da una "alarma de flujo bajo" como tal, sino un aviso "fallo flujo de aire" cuando
       el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana
       de monitorizacion (por defecto +-20 %, EN 54-20)
@@ -228,6 +221,13 @@
     estado: presente
     cita: ASD535_TD_T131192es_h, p28
     valor: A11-C32 / 120 %
+  - texto: 'Gate de seguridad previo al mantenimiento/diagnostico: bloquear o desconectar el control de
+      incendios, la alerta remota y las zonas de extincion en la CDI de orden superior (Indicacion que
+      ENCABEZA el checklist de mantenimiento, para evitar disparos durante los trabajos)'
+    tipo: core
+    estado: presente
+    cita: ASD535_TD_T131192es_h, p121, seccion 9.3
+    valor: null
   citations:
   - manual: ASD535_TD_T131192es_h.pdf
     page: 22

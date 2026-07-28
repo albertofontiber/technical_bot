@@ -43,6 +43,7 @@ from .post_rerank_coverage import (
 )
 from .evidence_derivation import apply_evidence_derivations_with_trace
 from .must_preserve import apply_must_preserve_contract
+from .wiring_topology_guard import apply_wiring_topology_guard
 from .visual_assets import append_cited_visual_assets
 
 logger = logging.getLogger(__name__)
@@ -428,6 +429,26 @@ recoger lo que ESTÁ, no rellenar lo que falta."""
 # Regex: VERBO DE ADQUISICIÓN obligatorio (pido/compro/elijo/recomiendas). El dúo s103b
 # EJECUTÓ contra fraseo real de técnico y tumbó las alternativas laxas («¿cuál pongo?» es
 # fraseo de resistencias/jumpers/DIP; «cuál necesito»/«qué modelo va» = identificación/spec)
+# s286 A' (ANTI_DIAGRAM_INVENTION, default-off): regla anti-invención de procedimientos de
+# cableado desde contenido que solo existe como diagrama en la fuente. Spec:
+# evals/s286_hp018_guard_design_brief_v3_1.md (par de C' = WIRING_TOPOLOGY_GUARD).
+_ANTI_DIAGRAM_BLOCK = """
+
+CONEXIONADO Y TOPOLOGÍA DE CABLEADO (regla de seguridad, prevalece sobre la completitud):
+- NUNCA afirmes la topología de un conexionado (serie, paralelo, cadena, orden de polaridad \
+entre dispositivos) salvo que un fragmento la enuncie LITERALMENTE en texto. Que un fragmento \
+describa un circuito NO te autoriza a deducir su topología.
+- Si el conexionado solo aparece como diagrama/figura en la fuente: describe ÚNICAMENTE lo \
+que el texto dice (componentes, valores, advertencias) y remite al técnico a la figura del \
+manual («ver el diagrama de la página N del documento citado»). Cita el número de figura SOLO \
+si el texto servido lo menciona; si no, NO inventes numeración.
+- PROHIBIDO reconstruir diagramas: nada de esquemas ASCII, pseudo-figuras, ni bloques de \
+código que dibujen el circuito. Un esquema inventado con aspecto de figura oficial es el \
+peor error posible en un manual de incendios.
+- Ante la duda entre dar un procedimiento de cableado incompleto o remitir al diagrama: \
+remite al diagrama. Un paso a paso inventado puede dejar un circuito de evacuación mudo.
+"""
+
 # — fuera. Gap acotado permitido entre «modelo» y el verbo («qué modelo de detector … pido»).
 _SELECTION_INTENT = re.compile(
     r"(qu[eé]\s+modelo[^?.;:]{0,60}?\b(pido|compro|elijo|me\s+recomiendas)\b"
@@ -483,6 +504,8 @@ def _assemble_system(
         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
     if _selection_block_on() and query is not None and _is_selection_query(query):
         base = base + _SELECTION_BLOCK
+    if os.getenv("ANTI_DIAGRAM_INVENTION", "off").strip().lower() == "on":
+        base = base + _ANTI_DIAGRAM_BLOCK
     if enforced_policy:
         base = base + render_enforced_system_policy()
     return base
@@ -793,6 +816,20 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         plan=enforced_plan if planner_mode == "enforced" else guided_plan,
         conflicts=enforced_conflicts,
     )
+
+    # s286 C' (WIRING_TOPOLOGY_GUARD, default-off): guard determinista de topología
+    # de cableado de sirenas (clase DEC-160c; spec evals/s286_hp018_guard_design_brief_v3_1.md).
+    # Contrato de posición: tras apply_answer_planner y ANTES de must_preserve →
+    # conflict_guard → EC, para que los appenders re-validen sobre el texto guardado.
+    wiring_guard_trace = None
+    if os.getenv("WIRING_TOPOLOGY_GUARD", "off").strip().lower() == "on":
+        answer, wiring_guard_trace = apply_wiring_topology_guard(relevant_chunks, answer)
+        if wiring_guard_trace.get("action") != "noop":
+            logger.warning(
+                "wiring topology guard intervino: %s (%s bloques unsafe)",
+                wiring_guard_trace.get("action"),
+                wiring_guard_trace.get("unsafe_blocks"),
+            )
 
     # S269 Track 2 (MUST_PRESERVE_CONTRACT, default-off): contrato de átomos
     # must-preserve con render por postcondición sobre los fragmentos SERVIDOS

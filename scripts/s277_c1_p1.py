@@ -124,6 +124,8 @@ TARGET_OFF_FLAGS = (
     "MP_DEFLINE_EQ",
     "MP_STEM_BINDING",
     "MP_DISTINCTIVE_TOKEN",
+    "WIRING_TOPOLOGY_GUARD",
+    "ANTI_DIAGRAM_INVENTION",
 )
 
 ORTHOGONAL_PRESERVED_FLAGS = (
@@ -339,6 +341,7 @@ IMPLEMENTATION_PYTHON_SOURCES = (
     "src/rag/technical_obligations.py",
     "src/rag/toc_detection.py",
     "src/rag/visual_assets.py",
+    "src/rag/wiring_topology_guard.py",
     "src/reingest/__init__.py",
     "src/reingest/embed.py",
     "src/release_profiles.py",
