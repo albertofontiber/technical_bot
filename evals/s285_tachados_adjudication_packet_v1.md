@@ -42,9 +42,9 @@ de precaución); en p.24 «el botón "OK"» tachado de verdad dejaría la instru
 objeto. Todo apunta a énfasis/subrayado mal renderizado, no a tachado editorial.
 
 **TU MARCA — en el PDF original esto es:**
-`[ ] énfasis/subrayado (conservar texto, limpiar marcas)` ·
+`[X] énfasis/subrayado (conservar texto, limpiar marcas)` ·
 `[ ] tachado real (contenido eliminado)` ·
-`[ ] mixto (anota páginas): ______`
+`[ ] mixto (anota páginas):`
 
 ## CLASE 2 — Notifier legacy (manuales 15xxx SP)
 
@@ -60,7 +60,7 @@ Abre **`15037SP`** (LCD-80, español) y mira:
 época los encabezados van subrayados; el conversor los volvió tachados. Un «Ejemplo:» tachado de
 verdad no tiene sentido editorial.
 
-**TU MARCA:** `[ ] énfasis/subrayado` · `[ ] tachado real` · `[ ] mixto: ______`
+**TU MARCA:** `[X] énfasis/subrayado` · `[ ] tachado real` · `[ ] mixto: ______`
 
 ## CLASE 3 — Resto del corpus (~160 chunks dispersos)
 
@@ -68,7 +68,7 @@ Si las clases 1 y 2 confirman «énfasis mal renderizado», propongo adjudicar e
 ARRASTRE con verificación por muestreo (mismo patrón LQAS barato que el T2) — sin sentada extra
 tuya. Si alguna clase sale «mixto», ese subconjunto se trata aparte.
 
-**TU MARCA:** `[ ] de acuerdo con arrastre+muestreo` · `[ ] quiero ver muestras también`
+**TU MARCA:** `[X] de acuerdo con arrastre+muestreo` · `[ ] quiero ver muestras también`
 
 ## Qué pasa según tu respuesta
 
