@@ -1,0 +1,149 @@
+- qid: cat001
+  question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites
+    de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde
+    la central?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre bien la capacidad del lazo, límites Opal/CLIP,
+    autoconfiguración y edición, incluyendo el caso mixto de 40 CLIP. Pero falla/omite
+    un límite importante de aisladores específico de PEARL: no más de 25 equipos entre
+    aisladores, y 20 cuando se usan aisladores FET o equipos sin aislador interno;
+    además formula de forma algo engañosa que con B501 AP el lazo ''cumple directamente''
+    sin reflejar ese límite.'
+  bot_sources:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Notifier PEARL — Lazo SLC: capacidad, aisladores y alta/edición de\
+    \ equipos\n\n---\n\n## 1. Capacidad máxima del lazo\n\n- **Máximo 318 equipos\
+    \ por lazo analógico**: hasta **159 sensores** y **159 módulos** [F1]\n- En **protocolo\
+    \ Opal**: 159 sensores + 159 módulos [F2]\n- En **protocolo CLIP**: 99 sensores\
+    \ + 99 módulos [F2]\n- En lazos de **protocolo mixto** (Opal + CLIP): el límite\
+    \ de equipos CLIP es **40**; si se supera, la autoconfiguración continúa pero\
+    \ señala fallos [F5]\n- **Límite global del sistema** (ambos lazos): máximo **512\
+    \ sensores y/o pulsadores manuales** en total para cumplir EN54-2: 13-7 [F1]\n\
+    - **Carga máxima por lazo**: **0,75 A** [F2]\n\n---\n\n## 2. Requisitos de aisladores\
+    \ (EN54-2: 12.5.2)\n\n- **Máximo 32 equipos entre aisladores** según EN54-2 [F1]\n\
+    - **Equipos SIN aisladores internos** (incluidos CLIP y algunos Opal): **no más\
+    \ de 20 equipos entre aisladores** [F1]\n- **Equipos CON aisladores internos**\
+    \ (con base **B501 AP**): el lazo cumple directamente los requisitos de EN54-2\
+    \ [F1]\n- Los equipos Opal con aisladores internos FET conectan el aislador a\
+    \ los terminales **+2 y +4** en el extremo positivo [F1]\n- ⚠️ Si hay aisladores\
+    \ instalados, el conductor positivo (+) del lazo será **circuito abierto** al\
+    \ medir continuidad [F1]\n- ⚠️ **NUNCA usar multímetro de alta tensión (Megger)**\
+    \ en el lazo una vez conectados los componentes [F1]\n\n**Regla adicional para\
+    \ arranque del lazo** [F7]:\nPara garantizar que los aisladores se cierren al\
+    \ aplicar alimentación, la carga entre aisladores no debe superar **20 unidades\
+    \ de carga (SU)**. Cargas de referencia para equipos CLIP:\n- Detector por rayo\
+    \ LPB-700: **6 SU**\n- Sirenas de lazo: **3 SU**\n- Módulo ZMX-1: **3 SU**\n-\
+    \ Módulo MMX-10M/CMX10-RM: **10 SU**\n- El resto: **1 SU**\n\n**Límite de cableado**\
+    \ [F11]:\n- Resistencia máxima del lazo: medir entre IN- y OUT-, multiplicar por\
+    \ 2 y añadir la resistencia de cada aislador (**entre 0,1 y 0,13 Ω cada uno**)\n\
+    - Capacitancia del cable: **inferior a 0,5 µF**\n\n---\n\n## 3. Alta de equipos:\
+    \ Autoconfiguración\n\nLa forma recomendada de dar de alta equipos es mediante\
+    \ la **función de autoconfiguración** desde la central [F4].\n\n**Pasos:**\n\n\
+    1. Accede al menú de configuración (nivel de acceso requerido) [F4]\n2. Selecciona\
+    \ **1: Autoconfiguración** [F4]\n3. Elige si aplica a **todos los lazos** o a\
+    \ un **lazo específico** [F4]\n4. Selecciona el modo de autoconfiguración [F4]\
+    \ [F5]:\n   - **1: Todos Prot. OPAL/CLIP** → detecta duplicidades de dirección\n\
+    \   - **2: OPAL/CLIP (No detecta duplicidad)** → más rápido, sin comprobación\
+    \ de duplicados\n   - **3: Sólo con protocolo CLIP** → solo autoconfigura equipos\
+    \ CLIP\n5. Selecciona el modo de gestión de cambios [F5]:\n   - **1: Permite Añadir/Borrar/Cambiar**\n\
+    \   - **2: Sólo Añadir Nuevos Equipos**\n6. El proceso se inicia automáticamente.\
+    \ Los sensores y módulos Opal y CLIP se detectan en la **misma pasada** [F4]\n\
+    7. Al finalizar, se muestran los resultados por lazo. Usa las teclas **◁/▷** para\
+    \ navegar entre lazos [F5]\n\n> **Nota:** Si un equipo Opal se autoconfigura,\
+    \ por defecto será Opal. Si los equipos CLIP superan 40 en lazo mixto, selecciona\
+    \ manualmente la opción \"Sólo con protocolo CLIP\" [F5]\n\nLos equipos configurados\
+    \ pueden consultarse en cualquier momento desde **nivel de acceso 2 → \"Resumen\
+    \ de Equipos\"** [F4]\n\n> La configuración puede transferirse a un ordenador\
+    \ portátil con el programa **ITS** para edición y archivo [F4]\n\n---\n\n## 4.\
+    \ Edición individual de equipos\n\nDesde el menú de edición de equipos se puede\
+    \ editar individualmente cada sensor o módulo [F3].\n\n**Parámetros editables\
+    \ para sensores** [F3]:\n- Números de referencia de zona de red\n- Tipo de equipo\n\
+    - Entorno del número de referencia de zona (opcional)\n- Número de central (LOCAL\
+    \ o 1-125 para centrales de red)\n- Número de zonas (hasta **255 zonas locales**\
+    \ o **8192 zonas de red**)\n- Número de células (hasta **255**)\n- Prioridad de\
+    \ interrogación (solo CLIP: limitada a **30 equipos**)\n- Acción de parpadeo en\
+    \ equipo interrogado (elección de color solo para Opal)\n- Opción de tipo de equipo\
+    \ (VIEW, Optiplex y SMART)\n- Ajuste del nivel de alarma\n- Ajuste del nivel de\
+    \ alarma horaria\n- Ajuste del nivel de prealarma\n- Selección de programación\
+    \ horaria (cambio de sensibilidad)\n- Grupo AWACS (**50 grupos**, con todos los\
+    \ sensores CLIP salvo HEAT)\n- Retardo de alarma\n- Ajuste no silenciable para\
+    \ LED remoto (solo Opal)\n- Operación solo modo térmico L6 (solo SMART y Optiplex)\n\
+    - Número de aplicación (solo equipos SMART 4)\n- Ajuste de función LED remota\
+    \ (solo Opal): \"Seguir el equipo\" o \"Controlada por reglas causa-efecto\"\n\
+    - Retardo de confirmación de coincidencia de detector: hasta **240 s (4 min)**,\
+    \ usable con dependencia tipo B\n\n**Para módulos**, la pantalla de edición muestra\
+    \ columnas de: Dirección, Referencia, Tipo, Zona, Subzona, Prioridad y Confirmación\
+    \ [F6]\n\n---\n\n**Fuentes:**\n- Manual de instalación y puesta en marcha PEARL,\
+    \ ref. 997-669-005-3 (sin revisión registrada)\n- Manual de configuración de la\
+    \ central PEARL, ref. 997-671-005-3 (rev. 997-671-005-3)\n\n---\n\nTambién puedo\
+    \ ayudarte con: **conexionado físico del lazo SLC**, **configuración de zonas\
+    \ y reglas causa-efecto** o **uso del programa ITS para transferencia de configuración**.\n\
+    \n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es de vital importancia\
+    \ que el cable utilizado sea de buena calidad y que se instale de forma correcta.\"\
+    \ (997-669-005-3_Instal-Comm_ES, p. 17) [F11]\n- \"La resistencia máxima del lazo\
+    \ no debe superar los límites definidos en **«6.4.2 Comprobaciones del lazo antes\
+    \ de conectar el cableado»**, paso 2.\" (997-669-005-3_Instal-Comm_ES, p. 17)\
+    \ [F11]\n- \"Las centrales Pearl admiten equipos que incorporen aisladores internos,\
+    \ siempre y cuando se utilicen las bases con los conectores de cable de lazo de\
+    \ extremo positivo adicionales (tipo B501 AP).\" (997-669-005-3_Instal-Comm_ES,\
+    \ p. 21) [F1]"
+- qid: cat009
+  question: ¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas
+    de zona de la central convencional NFS Supra?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en lo esencial: indica 47 µF por defecto, RFL de 6K8 Ω como
+    alternativa y que debe instalarse en todas las zonas, incluidas las no usadas.
+    Sin embargo, al mencionar la discrepancia v04=4K7 recomienda “verificar la versión”
+    en vez de dejar claro que la revisión vigente prescribe 6K8 Ω, lo que puede generar
+    duda al técnico.'
+  bot_sources:
+  - HLSI-MN-025-I_NFS Supra Series
+  - HLSI-MN-025-I_NFS Supra Series v05
+  - HLSI-MN-025_NFS Supra
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Resistencia de Fin de Línea (EOL) — NFS Supra\n\nLa central NFS\
+    \ Supra admite **dos modos de supervisión de zona**, configurables desde el menú\
+    \ de la central [F2][F5]:\n\n---\n\n### Modo por defecto: **Capacitivo (EFL)**\n\
+    - Final de línea: **condensador de 47 µF** [F5]\n- Se instala entre el positivo\
+    \ y negativo de la línea, en la salida del **último equipo** de la zona [F3]\n\
+    - Es el modo de fábrica [F2]\n\n---\n\n### Modo alternativo: **Resistivo (RFL)**\n\
+    - Final de línea: **resistencia de 6K8 Ω** [F5]\n- Rango admisible de resistencia:\
+    \ entre **3 KΩ** (consumo máx. por zona 2,5 mA) y **7 KΩ** (consumo máx. por zona\
+    \ 4 mA) [F5]\n- Se instala igualmente en la salida del **último equipo** de la\
+    \ zona [F3]\n\n> ⚠️ **Importante:** Todas las zonas, **incluso las no usadas**,\
+    \ deben tener instalada su final de línea según la configuración del sistema (EFL\
+    \ o RFL) [F5][F6].\n\n---\n\n### Cómo cambiar el modo de supervisión\n\n1. Acceder\
+    \ al menú pulsando simultáneamente **Tecla TECLADO + Tecla EVACUACIÓN** [F2]\n\
+    2. Cambiar la opción con la tecla **REARME** (requiere **nivel de acceso 3 — Configuración**)\
+    \ [F2]\n3. Verificar el LED activo:\n   - **LED 1 Alarma (Rojo) = ON** → Modo\
+    \ **Resistivo 6K8 Ω** [F2]\n   - **LED 2 Anulada (Ámbar) = ON** → Modo **Capacitivo\
+    \ 47 µF / Diodo** (por defecto) [F2]\n\n---\n\n### Nota sobre versiones del manual\n\
+    \nLos fragmentos recuperados muestran una **discrepancia entre versiones**:\n\
+    - Manual **v05** (español e inglés): resistencia resistiva = **6K8 Ω** [F1][F2][F5][F6]\n\
+    - Manual **v04** (inglés): resistencia resistiva = **4K7 Ω** [F8]\n\nVerifica\
+    \ la versión del manual que corresponde a tu equipo instalado antes de seleccionar\
+    \ el valor.\n\n---\n\nFuentes:\n- HLSI-MN-025_NFS Supra (v05, español)\n- HLSI-MN-025-I_NFS\
+    \ Supra Series v05 (inglés)\n- HLSI-MN-025-I_NFS Supra Series (v04, inglés)\n\n\
+    También puedo ayudarte con: **conexionado de detectores en zona**, **cálculo del\
+    \ número máximo de sensores por zona** o **configuración de los circuitos de sirena\
+    \ (EOL de salidas)**.\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n-\
+    \ \"Esto significa que debe calcular el número de sensores a instalar dependiendo\
+    \ de su consumo sin sobrepasar nunca los 32 sensores.\" (HLSI-MN-025_NFS Supra,\
+    \ p. 28) [F3]\n- Nota: la fuente es inconsistente: \"La central NFS Supra tiene\
+    \ cuatro, ocho o doce zonas de alarma.\" (HLSI-MN-025_NFS Supra, p. 27) [F5] declara\
+    \ 12 zonas y la enumeración servida lista 6 (HLSI-MN-025_NFS Supra, p. 27) [F5]."

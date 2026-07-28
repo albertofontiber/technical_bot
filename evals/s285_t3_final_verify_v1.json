@@ -1,0 +1,660 @@
+{
+  "lane": "s285 H0-T3 FINAL",
+  "modo": "READ-ONLY (PostgREST GET) · 0 escrituras · 0 llamadas a modelos ($0)",
+  "generado": "2026-07-25T19:24:24.283308+00:00",
+  "corpus": {
+    "chunks_v2": 25090,
+    "documents": 1171,
+    "unknown_product_model": 227,
+    "product_model_null": 0,
+    "product_model_vacio": 0
+  },
+  "hallazgo_packet_s281_ya_aplicado": {
+    "zx_familia": {
+      "MIE-MI-600": {
+        "chunks": 88,
+        "pm": {
+          "ZXSe": 88
+        }
+      },
+      "MIE-MI-530rv001": {
+        "chunks": 64,
+        "pm": {
+          "ZXe": 64
+        }
+      },
+      "MIE-MP-530rv001": {
+        "chunks": 96,
+        "pm": {
+          "ZXe": 96
+        }
+      },
+      "MIE-MU-530rv001": {
+        "chunks": 38,
+        "pm": {
+          "ZXe": 38
+        }
+      },
+      "MIE-MP-535rv001": {
+        "chunks": 9,
+        "pm": {
+          "ZXe": 9
+        }
+      }
+    },
+    "nsre24_chunks_con_pm_NSRE24": 3,
+    "compuesto_legacy_ZX2e/ZX5e": 0,
+    "compuesto_legacy_ZX2e y ZX5e": 0,
+    "tabla_respaldo__s281_h0t3_backup": "AUSENTE (HTTP 404 en PostgREST; tampoco figura en el OpenAPI)"
+  },
+  "reconciliacion_227": {
+    "suma_chunks_26_fichas": 227,
+    "unknown_corpus_wide": 227,
+    "cuadra": true
+  },
+  "source_files_de_alberto_sin_match_exacto": {
+    "Finales-de-linea-de-las-centrales-convencional": {
+      "exact_match": false,
+      "canonical_in_db": "Finales-de-linea-de-las-centrales-convencionales"
+    },
+    "Manual_DXD-2X0 (55321002...)": {
+      "exact_match": false,
+      "canonical_in_db": "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)"
+    },
+    "I56-4406-001": {
+      "exact_match": false,
+      "canonical_in_db": "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE"
+    }
+  },
+  "tablas_expuestas": [
+    "chunks",
+    "chunks_v2",
+    "chunks_v2_enunciados",
+    "chunks_v2_hyq",
+    "document_group_members",
+    "document_groups",
+    "document_revision_lineages",
+    "document_visual_assets",
+    "documents",
+    "feedback",
+    "identity_resolve_shadow",
+    "query_logs",
+    "user_consent"
+  ],
+  "fichas": {
+    "FS2-1": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 30,
+      "chunks_no_dup": 28,
+      "product_model_actual": {
+        "unknown": 30
+      },
+      "manufacturer_actual": {
+        "Notifier": 30
+      },
+      "document_id": "517b87ce-500b-4e43-a32a-ad6c96b7d4eb",
+      "doc_level": {
+        "product_model": "FS2-1",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "FS2-1",
+        "document_family": "FS2-1"
+      }
+    },
+    "ms1-2-4": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 29,
+      "chunks_no_dup": 27,
+      "product_model_actual": {
+        "unknown": 29
+      },
+      "manufacturer_actual": {
+        "Morley": 29
+      },
+      "document_id": "de8c0345-2b30-4cfa-a73c-968038acde1f",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "ms1-2-4.pdf",
+        "document_family": "ms1 2 4"
+      }
+    },
+    "Manual-de-Usuario-S3-T1-y-S-2-T1": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 28,
+      "chunks_no_dup": 17,
+      "product_model_actual": {
+        "unknown": 28
+      },
+      "manufacturer_actual": {
+        "Fidegas": 28
+      },
+      "document_id": "5b5c0d4d-7d37-45db-a14b-9252e2c451d8",
+      "doc_level": {
+        "product_model": "S3-T1",
+        "manufacturer": "Fidegas",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "Manual-de-Usuario-S3-T1-y-S-2-T1",
+        "document_family": "Manual-de-Usuario-S3-T1-y-S-2-T1"
+      }
+    },
+    "Manual-de-Usuario-S3-T2-y-S2-T2": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 24,
+      "chunks_no_dup": 22,
+      "product_model_actual": {
+        "unknown": 24
+      },
+      "manufacturer_actual": {
+        "Fidegas": 24
+      },
+      "document_id": "5f8e1ad5-7fa3-4ef2-924a-942eaaabca72",
+      "doc_level": {
+        "product_model": "S3-T2",
+        "manufacturer": "Fidegas",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "Manual-de-Usuario-S3-T2-y-S2-T2",
+        "document_family": "Manual-de-Usuario-S3-T2-y-S2-T2"
+      }
+    },
+    "I56-2006-004 MI-DMMI_DMM2I_D2ICMO": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 17,
+      "chunks_no_dup": 15,
+      "product_model_actual": {
+        "unknown": 17
+      },
+      "manufacturer_actual": {
+        "Morley": 17
+      },
+      "document_id": "58f3dad4-8828-41ce-ac78-3e6bc638a3db",
+      "doc_level": {
+        "product_model": "MI-DMMI",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-2006-004 MI-DMMI_DMM2I_D2ICMO",
+        "document_family": "I56-2006-004 MI-DMMI_DMM2I_D2ICMO"
+      }
+    },
+    "BANI-G-24_Eng": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 16,
+      "chunks_no_dup": 13,
+      "product_model_actual": {
+        "unknown": 16
+      },
+      "manufacturer_actual": {
+        "Hosiden Besson": 16
+      },
+      "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+      "doc_level": {
+        "product_model": "IS 28 Mk 4",
+        "manufacturer": "Hosiden Besson",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "BANI-G-24_Eng",
+        "document_family": "BANI-G-24_Eng"
+      }
+    },
+    "LocatorPlus-Installation-Manual-1.3": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 16,
+      "chunks_no_dup": 8,
+      "product_model_actual": {
+        "unknown": 16
+      },
+      "manufacturer_actual": {
+        "LGM Products": 16
+      },
+      "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "LGM Products",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "LocatorPlus-Installation-Manual-1.3",
+        "document_family": "LocatorPlus-Installation-Manual-1.3"
+      }
+    },
+    "I56-3388-002 NFX-OPT_multi": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 9,
+      "chunks_no_dup": 8,
+      "product_model_actual": {
+        "unknown": 9
+      },
+      "manufacturer_actual": {
+        "Notifier": 9
+      },
+      "document_id": "b4a0b359-2b34-4198-b6d6-5c099e21e04d",
+      "doc_level": {
+        "product_model": "NFXI-OPT",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-3388-002 NFX-OPT_multi",
+        "document_family": "I56-3388-002 NFX-OPT_multi"
+      }
+    },
+    "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 9,
+      "chunks_no_dup": 8,
+      "product_model_actual": {
+        "unknown": 9
+      },
+      "manufacturer_actual": {
+        "Morley": 9
+      },
+      "document_id": "6126a9e6-e00a-4f9a-b544-0e5c82e2b492",
+      "doc_level": {
+        "product_model": "MI-DMMIE",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE",
+        "document_family": "I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE"
+      }
+    },
+    "I56-3389-002 NFX-SMT2_multi": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 7,
+      "chunks_no_dup": 6,
+      "product_model_actual": {
+        "unknown": 7
+      },
+      "manufacturer_actual": {
+        "Notifier": 7
+      },
+      "document_id": "816d833c-4cd0-483c-89ca-c726a3d457a1",
+      "doc_level": {
+        "product_model": "NFXI-SMT2",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-3389-002 NFX-SMT2_multi",
+        "document_family": "I56-3389-002 NFX-SMT2_multi"
+      }
+    },
+    "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 7,
+      "chunks_no_dup": 5,
+      "product_model_actual": {
+        "unknown": 7
+      },
+      "manufacturer_actual": {
+        "Detnov": 7
+      },
+      "document_id": "42471c98-7b61-4fbd-8975-5f24cafd90a4",
+      "doc_level": {
+        "product_model": "DOD-220",
+        "manufacturer": "Detnov",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)",
+        "document_family": "Manual_DXD-2X0 (55321002 MI 607 m 2024 c)"
+      }
+    },
+    "I56-5005-002_D Notifier Sounder Strobe": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 6,
+      "chunks_no_dup": 2,
+      "product_model_actual": {
+        "unknown": 6
+      },
+      "manufacturer_actual": {
+        "Notifier": 6
+      },
+      "document_id": "ee4231ab-e74a-411f-b2da-b71315a93eda",
+      "doc_level": {
+        "product_model": "B501AP",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-5005-002_D Notifier Sounder Strobe",
+        "document_family": "I56-5005-002_D Notifier Sounder Strobe"
+      }
+    },
+    "MIE-MP-525rv1": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 6,
+      "chunks_no_dup": 6,
+      "product_model_actual": {
+        "unknown": 6
+      },
+      "manufacturer_actual": {
+        "Morley": 6
+      },
+      "document_id": "a94d24f0-5c9d-4cb6-b2be-d0d40af416d6",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "needs_review",
+        "source_pdf_filename": "MIE-MP-525rv1.pdf",
+        "document_family": "MIE MP 52"
+      }
+    },
+    "I56-5004-000-Notifier-Strobe": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 5,
+      "chunks_no_dup": 2,
+      "product_model_actual": {
+        "unknown": 5
+      },
+      "manufacturer_actual": {
+        "Notifier": 5
+      },
+      "document_id": "1b970ed1-b98f-46a0-acfb-41d7df036699",
+      "doc_level": {
+        "product_model": "Notifier Strobe",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "I56-5004-000-Notifier-Strobe",
+        "document_family": "I56-5004-000-Notifier-Strobe"
+      }
+    },
+    "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 4,
+      "chunks_no_dup": 3,
+      "product_model_actual": {
+        "unknown": 4
+      },
+      "manufacturer_actual": {
+        "Notifier": 4
+      },
+      "document_id": "853de016-a614-4cb8-a898-6315f7c0039d",
+      "doc_level": {
+        "product_model": "NFS Supra",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c",
+        "document_family": "HLSI-MA-025 Guia Rapida NFS_Supra_XP_c"
+      }
+    },
+    "D700-3-Sp": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 3,
+      "chunks_no_dup": 3,
+      "product_model_actual": {
+        "unknown": 3
+      },
+      "manufacturer_actual": {
+        "Notifier": 3
+      },
+      "document_id": "a32e806d-51ff-4bc6-9c0c-9531bd42efbc",
+      "doc_level": {
+        "product_model": "D700",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "D700-3-Sp",
+        "document_family": "D700-3-Sp"
+      }
+    },
+    "Manual Pulsador convencional IP65 PCD-100WP (1)": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 2,
+      "chunks_no_dup": 2,
+      "product_model_actual": {
+        "unknown": 2
+      },
+      "manufacturer_actual": {
+        "Detnov": 2
+      },
+      "document_id": "a355129e-16fb-4721-9387-aaf2b9a053d3",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Detnov",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "Manual Pulsador convencional IP65 PCD-100WP (1)",
+        "document_family": "Manual Pulsador convencional IP65 PCD-100WP (1)"
+      }
+    },
+    "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "df5fcf75-fa85-415b-9c08-cf30401c8f90",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": "de",
+        "status": "active",
+        "source_pdf_filename": "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO.pdf",
+        "document_family": "Compatibilidad detectores de monoxido NCO10 NCO100 VSN CO"
+      }
+    },
+    "Compatibilidad-entre-equipos-Notifier-y-Morley": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "a04eafd1-48d0-4ed6-9de8-4ff93ca6a3da",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": "en",
+        "status": "active",
+        "source_pdf_filename": "Compatibilidad-entre-equipos-Notifier-y-Morley.pdf",
+        "document_family": "Compatibilidad entre equipos Notifier y Morley"
+      }
+    },
+    "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "1bc55fe2-3f36-455d-9f7a-3f600200a94f",
+      "doc_level": {
+        "product_model": "NFS-Supra",
+        "manufacturer": "Morley",
+        "doc_type": "programacion",
+        "language": "en",
+        "status": "active",
+        "source_pdf_filename": "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus.pdf",
+        "document_family": "Configuracion entrada digital de la central NFS Supra VSN Plus2 ESS 2Plus"
+      }
+    },
+    "Docs Morley-IAS Lite&Plus - QR": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "3912b42a-26c9-46ea-b055-b24309083608",
+      "doc_level": {
+        "product_model": "Morley Lite/Plus",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "Docs Morley-IAS Lite&Plus - QR",
+        "document_family": "Docs Morley-IAS Lite&Plus - QR"
+      }
+    },
+    "EMA24RS2R_NX2y5-R-R": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Notifier": 1
+      },
+      "document_id": "9e0a8f7d-e849-4ac6-aca0-79bcc70283f7",
+      "doc_level": {
+        "product_model": "NX2/R/R y NX5/R/R",
+        "manufacturer": "Notifier",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "EMA24RS2R_NX2y5-R-R",
+        "document_family": "EMA24RS2R_NX2y5-R-R"
+      }
+    },
+    "Finales-de-linea-de-las-centrales-convencionales": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "aacf3f31-49d4-4128-98f9-887189fad761",
+      "doc_level": {
+        "product_model": "NFS2-8",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": "de",
+        "status": "active",
+        "source_pdf_filename": "Finales-de-linea-de-las-centrales-convencionales.pdf",
+        "document_family": "Finales de linea de las centrales convencionales"
+      }
+    },
+    "No-puedo-conectarme-con-el-ordenador-a-la-central-ZX": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "1ddb4a12-e94d-4c28-b87f-87ece6ed41e9",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "No-puedo-conectarme-con-el-ordenador-a-la-central-ZX.pdf",
+        "document_family": "No puedo conectarme con el ordenador a la central ZX"
+      }
+    },
+    "RP1R-SUPRA-VSN-RP1R-PLUS2-Teclado-bloqueado": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "1ab8784f-616f-4215-baf9-ce41a378602a",
+      "doc_level": {
+        "product_model": "RP1R",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": null,
+        "status": "active",
+        "source_pdf_filename": "RP1R-SUPRA-VSN-RP1R-PLUS2-Teclado-bloqueado.pdf",
+        "document_family": "RP1R SUPRA VSN RP1R PLUS2 Teclado bloqueado"
+      }
+    },
+    "Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica": {
+      "match_exacto_chunks_v2": true,
+      "chunks": 1,
+      "chunks_no_dup": 1,
+      "product_model_actual": {
+        "unknown": 1
+      },
+      "manufacturer_actual": {
+        "Morley": 1
+      },
+      "document_id": "b769abb0-6d2f-4003-be9b-e62099b5a03a",
+      "doc_level": {
+        "product_model": "unknown",
+        "manufacturer": "Morley",
+        "doc_type": null,
+        "language": "en",
+        "status": "active",
+        "source_pdf_filename": "Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica.pdf",
+        "document_family": "Solicitud asistencia curso de formacion puesta en marcha consultas tecnica"
+      }
+    }
+  },
+  "eliminaciones": {
+    "Docs Morley-IAS Lite&Plus - QR": {
+      "document_id": "3912b42a-26c9-46ea-b055-b24309083608",
+      "chunks_v2": 1,
+      "chunks_legacy": 1,
+      "chunk_ids": [
+        "4847ec7c-992f-4359-aaf0-23c111f57e17"
+      ],
+      "chunks_v2_hyq": 2,
+      "document_visual_assets": 1,
+      "document_group_members": 0,
+      "superseded_by_ref": 0,
+      "supersedes_ref": 0
+    },
+    "Solicitud-asistencia-curso-de-formacion-puesta-en-marcha-consultas-tecnica": {
+      "document_id": "b769abb0-6d2f-4003-be9b-e62099b5a03a",
+      "chunks_v2": 1,
+      "chunks_legacy": 1,
+      "chunk_ids": [
+        "db1f6c8b-6512-4945-96c5-6efa113b485b"
+      ],
+      "chunks_v2_hyq": 3,
+      "document_visual_assets": 1,
+      "document_group_members": 0,
+      "superseded_by_ref": 0,
+      "supersedes_ref": 0
+    }
+  }
+}

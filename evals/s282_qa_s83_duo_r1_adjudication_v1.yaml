@@ -1,0 +1,21 @@
+# s282 QA-s83 — adjudicación del dúo focal r1 (zona corpus/identidad), regla C
+ronda: 1
+objeto: "commit 3358e1e (instrumento QA-s83 + report + result + caches)"
+lados:
+  sol: "RECHAZAR (4 críticos + 3 medios)"
+  fable: "SÓLIDO-CON-CAMBIOS-obligatorios (3 críticos ejecutados + 2 medios); como triage vale, como puerta NO"
+veredicto_adjudicado: "RECHAZAR-EN-ESTADO como PUERTA del T2 (el titular '879 aplicables tal cual' NO sobrevive); el instrumento se conserva como TRIAGE y el lote de fixes lo re-gatea por cohortes de operación de escritura"
+hallazgos_confirmados:
+  - {id: CALIBRACION-NO-AUTORIZA, fuentes: [sol-S1, fable-M1], sev: CRITICO, fix: "muestra LQAS n=59/0-defectos (el estándar de NUESTRO batch_attested_v1) sobre la cohorte auto-apply superviviente, materializada como artefacto versionado (filas+veredictos+evidencia) ANTES de la firma de Alberto; el spot-check de calibración también se materializa"}
+  - {id: DETERMINISTA-NO-RECALL-SAFE, fuentes: [sol-S2, fable-C2-ejecutado], sev: CRITICO, fix: "las 10 filas via-all_models (instrument.py:376) SALEN del auto-apply (a adjudicación); det-exacto queda SOLO primario-vs-primario (~433); declarar que corrobora contra doc-pm legacy (no ground truth) — por eso el fill se limita y el LQAS existe"}
+  - {id: FAMILIA-NO-IMPLEMENTADA, fuentes: [sol-S5, fable-C1-medido-128], sev: CRITICO, fix: "cohorte family-128: pm NO se auto-aplica JAMÁS (se conserva la etiqueta familia gobernada, convención T3); solo fill de ejes advisory verificados; flag por-fila write_op"}
+  - {id: COLISION-T3, fuentes: [fable-C3-único], sev: CRITICO, fix: "las 24 filas del solape con el packet T3 se EXCLUYEN de este QA (T3 es el dueño; FS2-1/MIE-MI-600 incluidos); check de consistencia cruzada añadido al instrumento"}
+  - {id: AUTO_CLEAN-CONFLATES-ESCRITURAS, fuentes: [sol-S4, fable-M2], sev: MEDIO-ALTO, fix: "write_op por-fila: fill_language_doctype | corroborate_noop | replace_pm; las 25 disjoint → adjudicación (replace con sola palabra de Haiku prohibido); los 66 language-mismatch NO se auto-rellenan (van al packet advisory)"}
+  - {id: S83-EMPTY-INFLADO, fuentes: [sol-S3], sev: MEDIO, fix: "las 22 s83_empty salen del conteo aplicable (a UNMAPPED-like)"}
+  - {id: JUEZ-FABRICA, fuentes: [fable-M1-grep-ejecutado], sev: MEDIO-ALTO, fix: "neutralizado estructuralmente: family/disjoint ya no dependen del juez (van a conservar/adjudicar); el juez queda solo como TRIAGE de conflictos (dirección segura); fila FS2-1 documentada como clase"}
+  - {id: CACHE-DEBIL, fuentes: [sol-S6], sev: MEDIO, fix: "clave de cache = sha(source_file+prompt+modelo+muestra-contenido+registro-s83)"}
+  - {id: COBERTURA-JUEZ-FINA, fuentes: [sol-S7], sev: MENOR-tras-fixes, fix: "declarada como límite del triage (6 chunks×220); irrelevante para auto-apply (ya no existe vía juez)"}
+solidos_confirmados:
+  - "READ-ONLY real · determinismo 2× · lado CONFLICT genuino (MADT155_02 ID60/ID50 verificado = s83 TIENE errores) · det-primario-exacto sano (~433, 55345103 verificado) · advisory separado · disciplina de coste ($0.92)"
+proceso:
+  - "convergencia ×2 en 4 clases; Fable ejecutó contraejemplo dentro del 'seguro' + cazó fabricación del juez con grep; Sol cazó circularidad del testigo (doc_map provenance=s83) + violación de nuestro propio estándar LQAS. 3ª vez del patrón 'salvaguarda declarada no implementada' — va a feedback_my_bias."

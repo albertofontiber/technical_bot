@@ -1,0 +1,501 @@
+- qid: hp006
+  question: La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa
+    y cómo se localiza?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acertó el significado general del aviso y que la MPS-400 tiene detección/LED
+    de fallo de tierra, y reconoce que no hay procedimiento paso a paso documentado.
+    Pero omite puntos importantes del gold como TB1-3/toma de tierra sólida, NAM-232W
+    e ISO-X, y añade pasos especulativos o poco sustentados como localizarlo vía lectura
+    de estados/histórico o asociarlo a puntos concretos.
+  bot_sources:
+  - 15090SP
+  - 50253SP
+  - MFDT170
+  - MIDT170
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Fallo de Tierra (Earth Fault) en la AFP-400
+
+
+    ### ¿Qué significa?
+
+
+    El aviso de **"Tierra"** (Earth Fault / Ground Fault) indica que existe una conexión
+    no deseada entre algún conductor del sistema y tierra (masa). En el SLC, una falla
+    de tierra genera condición de **Alarma/Problema** independientemente del estilo
+    de cableado utilizado (Estilo 4, 6 o 7) [F8].
+
+
+    La **MPS-400** dispone de un **LED específico de "Fallo de Tierra"** en su placa,
+    que se activa cuando se detecta esta condición [F3].
+
+
+    ---
+
+
+    ### Localización del fallo
+
+
+    Los fragmentos disponibles no describen un procedimiento paso a paso de localización
+    del fallo de tierra para la AFP-400. Lo que sí se puede extraer de los manuales
+    es lo siguiente:
+
+
+    **1. Observa el LED de Fallo de Tierra en la MPS-400**
+
+    La placa de alimentación MPS-400 tiene un LED dedicado a "Fallo de Tierra" [F3].
+    Comprueba si está encendido para confirmar que el fallo está activo.
+
+
+    **2. Consulta el menú de Lectura de Estados**
+
+    Accede al menú sin necesidad de clave [F9]:
+
+    - Pulsa `<Enter>` → selecciona `<2>` (Leer Estados)
+
+    - Pulsa `0` + `Enter` → selecciona `SENSOR`, `MÓDULO`, `EQUIPO` o `Z` e introduce
+    la dirección del punto a consultar [F9]
+
+    - Esto te permite identificar qué punto o zona está reportando la condición anormal
+
+
+    **3. Revisa el histórico**
+
+    Desde el mismo menú de Lectura de Estados [F9]:
+
+    - Pulsa `2` + `Enter` → Leer Histórico
+
+    - Pulsa `4` + `Enter` → Leer Histórico Alarma
+
+    Esto puede ayudarte a identificar cuándo se produjo el fallo y qué dispositivo
+    lo originó.
+
+
+    **4. Verifica el cableado del SLC**
+
+    La resistencia total DC del lazo no puede superar **40 Ω** [F10]. Un fallo de
+    tierra puede estar relacionado con deterioro del aislamiento del cable. Comprueba
+    físicamente el cableado en las derivaciones del lazo.
+
+
+    **5. Opción de inhabilitar la detección (solo para diagnóstico)**
+
+    La MPS-400 dispone del puente **JP2**: "Corte para inhabilitar la detección de
+    la Falla de Tierra" [F5]. Úsalo únicamente como recurso de diagnóstico temporal
+    para confirmar que el fallo proviene del sistema y no de la propia placa.
+
+
+    ---
+
+
+    ⚠️ **Nota:** El procedimiento detallado de localización de fallo de tierra no
+    está completamente descrito en los fragmentos recuperados. Para el procedimiento
+    completo, consulta el **Manual de Programación AFP-300/AFP-400 (Documento 50259)**
+    [F7] y el manual de instalación completo.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - MFDT170 (AFP-400, sin revisión registrada)
+
+    - MIDT170 (AFP-400, sin revisión registrada)
+
+    - 50253SP (AFP-300/AFP-400, sin revisión registrada)
+
+    - 15090SP (NRT, sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **resistencia máxima del lazo SLC**, **procedimiento
+    de rearme del sistema** o **lectura del histórico de averías** en la AFP-400.
+
+
+    ---
+
+    📖 **Información adicional del manual:**
+
+    - "- **TB1** (top left): Terminal block with connections labeled TB1
+
+    - **TB2** (top center): Terminal block labeled TB2
+
+    - **TB3-TB6** (top right): Terminal blocks labeled TB3-TB6
+
+    - **TB7-TB10** (far right): Terminal blocks labeled TB7-TB10
+
+    - **Interruptor de Selección de Voltaje 115V/230V** (left side): Voltage selection
+    switch
+
+    - **Circuitos de Aviso y Señalizaciones 1-4** (right side): Alarm and signaling
+    circuits 1-4
+
+    - **Fallo de Tierra** (right side): Ground fault indicator
+
+    - **Activación de la Alimentación AC** (right side): AC power activation
+
+    - **Placa de Alimentación de la MPS-400** (bottom center): MPS-400 power supply
+    board" [F3]'
+- qid: hp009
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de
+    la central Morley ZXe?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'No responde a lo preguntado para el lazo analógico direccionable de
+    la Morley ZXe: según el gold no lleva RFL y se cablea como bucle cerrado con retorno
+    al panel. El bot deriva a sirenas y RS-485/periféricos con valores 6K8 y 150 Ω,
+    mezclando circuitos distintos y citando fuentes no pertinentes para la respuesta
+    esperada.'
+  bot_sources:
+  - MIE-MI-300rv02
+  - MIE-MI-310
+  - MIE-MI-390
+  - MIE-MI-431rv2
+  - MIE-MI-530rv001
+  - MIE-MI-600
+  - MIE-MP-210
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# Resistencia de Fin de Línea (RFL) en la ZXe
+
+
+    La respuesta depende del **tipo de lazo** al que te refieres, ya que la ZXe utiliza
+    valores distintos según el circuito:
+
+
+    ---
+
+
+    ## Salidas de Sirenas de Placa
+
+
+    - **RFL: 6.800 Ω (6K8)** [F8]
+
+    - Las 2 salidas de sirenas de placa son supervisadas para circuito abierto y cortocircuito
+    [F8]
+
+    - La RFL se instala al final del circuito de sirenas [F1]
+
+
+    ---
+
+
+    ## Lazo de Comunicaciones RS-485 (periféricos)
+
+
+    - **RFL: 150 Ω, 0,5 W mínimo** [F2]
+
+    - Se coloca en los **extremos libres** del principio y final de la cadena (lazo
+    abierto) [F2]
+
+    - En lazo cerrado (bucle) no se instalan RFL en los extremos [F2]
+
+    - Longitud máxima del lazo RS-485: **1,2 km** [F2]
+
+
+    > ⚠️ **Nota importante:** Si el equipo extremo dispone de puente de posición **TERM
+    ON**, este puente ya incorpora internamente una resistencia de 150 Ω. En ese caso,
+    **no instales además la RFL externa** para evitar duplicar la terminación [F4].
+
+
+    ---
+
+
+    ## Resumen rápido
+
+
+    - **Sirenas:** RFL = **6.800 Ω (6K8)**
+
+    - **RS-485 (periféricos):** RFL = **150 Ω, 0,5 W mín.**
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZX2e/ZX5e — MIE-MI-530rv001 (rev. 001)
+
+
+    También puedo ayudarte con: **conexionado completo del circuito de sirenas**,
+    **cableado recomendado para el lazo RS-485** o **longitud máxima y sección de
+    cable para el lazo analógico** de la ZXe.
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "Es imprescindible comprobar que no hay derivación entre los terminales A y
+    B y que el lazo entra a un lado del conector y sale por el otro o termina en la
+    resistencia RFL de 150 Ohmios." (MIE-MI-431rv2, p. 8) [F4]
+
+    - "Es imprescindible comprobar que no hay conexión entre los terminales A y B
+    y que el lazo entra a un lado del conector y sale por el otro o termina en la
+    resistencia RFL de 150 Ohmios." (MIE-MI-310, p. 22) [F5]
+
+    - "Debe instalarse siempre la resistencia RFL entre + y - de la ultima sirena
+    para controlar la apertura o cierre de la línea de sirenas." (MIE-MP-210, p. 18)
+    [F9]'
+- qid: hp010
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta
+    en marcha inicial?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: La respuesta identifica correctamente que hay que ejecutar la Autobúsqueda
+    del lazo, seleccionar el lazo, confirmar y verificar el resumen, e incluye la
+    espera de 2 minutos tras cambio de protocolo. Sin embargo, omite pasos relevantes
+    del procedimiento de programación indicados en la referencia, como el acceso detallado
+    a Nivel 3, el desbloqueo de memoria, la edición posterior de propiedades del equipo
+    y la mención del evento 'EQUIPO NUEVO'.
+  bot_sources:
+  - 4188-1132-ES issue 3_04_2025_Qref
+  - DXc_Manual de configuracion
+  - MIDT155
+  - MIE-MI-300rv02
+  - MIE-MP-520rv04
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# Añadir un nuevo detector al lazo en la Morley DXc (tras puesta en
+    marcha)
+
+
+    El procedimiento para incorporar un nuevo detector al lazo una vez el sistema
+    ya está en marcha se realiza mediante la función **Autobúsqueda de equipos** [F1].
+
+
+    ---
+
+
+    ## Pasos
+
+
+    **1. Conecta físicamente el nuevo detector al lazo**
+
+    Instala el detector en el lazo siguiendo el cableado en bucle cerrado [F3]. Asegúrate
+    de que está correctamente polarizado (positivo y negativo) [F3].
+
+
+    > ⚠️ Recuerda: máximo **32 sensores/pulsadores entre aisladores** según **EN54-2:
+    12.5.2** [F3].
+
+
+    **2. Accede al menú de Lazos**
+
+    Desde el menú principal, accede al nivel de programación y selecciona el menú
+    de **Lazo** [F1].
+
+
+    **3. Selecciona la función Autobúsqueda**
+
+    Pulsa la tecla **''2''** en el menú de Lazos para seleccionar **''Autobusqueda''**
+    [F1]:
+
+
+    ```
+
+    [Lazo]
+
+    1:Confg.Equipos    2:Autobusqueda
+
+    ```
+
+
+    **4. Selecciona el número de lazo**
+
+    Si la central tiene más de un lazo (DXc2 o DXc4), introduce el número del lazo
+    donde has conectado el nuevo detector y pulsa **⊙** [F1]:
+
+
+    ```
+
+    [Autobusqueda]
+
+    Sel.Num.Lazo (1-2) :1
+
+    OK:Confirm  1-2:↕:Edit  ←:Cancel
+
+    ```
+
+
+    > Nota: el modelo **DXc1** solo dispone del lazo 1; los modelos **DXc2** y **DXc4**
+    disponen de cuatro conectores (en el DXc2 solo son operativos los lazos 1 y 2)
+    [F3].
+
+
+    **5. Confirma el inicio de la autobúsqueda**
+
+    La pantalla pedirá confirmación. Pulsa **⊙** para iniciar [F1]:
+
+
+    ```
+
+    [Autobusqueda]
+
+    Lazo: 1  Autobusqueda?
+
+    OK:Confirm         ←:Cancel
+
+    ```
+
+
+    **6. Espera a que finalice el proceso**
+
+    La pantalla mostrará una barra de progreso mientras se realiza el reconocimiento
+    [F1]:
+
+
+    ```
+
+    [Autobusqueda]
+
+    Lazo: 1 Reconocimiento en progreso...
+
+    █████████████████
+
+    ```
+
+
+    **7. Verifica el resultado**
+
+    Al finalizar, la pantalla muestra un resumen con el total de equipos y las diferencias
+    encontradas (nuevos, eliminados, modificados) [F1]:
+
+
+    ```
+
+    [Lazo]                   Total: 13
+
+    Nuevos:0    Elimin.:0    Cambiad:0
+
+    ION: 0 OPT: 1 TMP: 1 MLT: 2
+
+    PUL: 4 MON: 0 SIR: 2 REL: 1 OTROS: 2
+
+    ```
+
+
+    Comprueba que el número de equipos mostrado en pantalla corresponde con los equipos
+    y tipos instalados [F1]. El campo **Nuevos** debe reflejar el detector recién
+    añadido.
+
+
+    **8. Sal del menú**
+
+    Pulsa la tecla **⊞** para abandonar la pantalla de resultados y regresar al menú
+    de **Lazo** [F1].
+
+
+    ---
+
+
+    > ⚠️ **Aviso importante:** En mercados donde el protocolo es seleccionable, si
+    previamente se realizó un cambio de protocolo, **espera dos minutos** antes de
+    ejecutar la autobúsqueda. La central necesita ese tiempo para rearmar los equipos
+    del lazo [F1].
+
+
+    ---
+
+
+    **Fuente:** DXc_Manual de configuracion (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración manual del detector recién añadido
+    (zona, sensibilidad, descripción)**, **verificación del cableado del lazo con
+    aisladores** o **consulta de abreviaturas de tipos de equipo (Tabla 4)**.
+
+
+    ---
+
+    📋 **Obligaciones de evidencia del manual:**
+
+    - Nota: la fuente es inconsistente: "PUL: 4 MON: 0 SIR: 2 REL: 1 OTROS : 2" (DXc_Manual
+    de configuracion, p. 48) [F1] declara 1 OTROS y la enumeración servida lista 5
+    (DXc_Manual de configuracion, p. 48) [F1].'
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acierta en lo esencial sobre polaridad, diodo por sirena, RFL 6K8/0,5
+    W y límite de 1 A, pero es impreciso/contradictorio al decir que la ZXe tiene
+    2 circuitos cuando la ZX5e tiene 4. Además, indicar que las sirenas se conectan
+    “en serie” puede inducir a un cableado incorrecto; lo correcto es una línea supervisada
+    con la RFL al final del circuito.
+  bot_sources:
+  - DXc_Manual de configuracion
+  - MIE-MI-300rv02
+  - MIE-MI-310
+  - MIE-MI-530rv001
+  - MIE-MI-600
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Conexión de sirenas convencionales en salidas de sirena de la Morley\
+    \ ZXe\n\n## Identificación de terminales\n\nLa ZXe dispone de **2 circuitos de\
+    \ sirenas supervisados** (Sirena A y Sirena B) [F2]. Los terminales en la placa\
+    \ se identifican como:\n\n- **ZX2e**: bloque de terminales etiquetado **\"SOUNDERS\
+    \ / B+ B- A+ A-\"** [F2]\n- **ZX5e**: bloque de terminales **TB7** con etiquetas\
+    \ **\"A- A+ B- B+ C- C+ D- D+\"** [F2]\n\n---\n\n## Procedimiento de conexión\n\
+    \n1. **Conecta las sirenas en serie** entre los terminales **SIRENA A (+)** y\
+    \ **SIRENA A (-)** (y/o circuito B), respetando la polaridad de cada dispositivo\
+    \ [F1].\n\n2. **Cada sirena debe llevar un diodo integrado** para impedir el consumo\
+    \ en polarización inversa durante la supervisión. El circuito se polariza en inverso\
+    \ en reposo para supervisar la línea [F2].\n\n3. **Si conectas dispositivos no\
+    \ polarizados** (campanas sin polaridad), deberás instalar un diodo de polarización\
+    \ y protección en cada uno de ellos [F2].\n\n4. **Instala la Resistencia Final\
+    \ de Línea (RFL)** de **6.800 Ω, 0,5 W mínimo** entre el terminal (+) y (−) de\
+    \ la **última sirena** del circuito [F1]. Esta resistencia es imprescindible para\
+    \ la supervisión de circuito abierto y cortocircuito.\n\n   > Si no se instala\
+    \ ninguna sirena en la salida, conecta la RFL directamente en los terminales de\
+    \ la central [F4].\n\n5. **No realices ramales (derivaciones)** en el cableado\
+    \ de sirenas. La supervisión se realiza en la línea directa hasta la RFL; los\
+    \ ramales paralelos no quedan supervisados [F5].\n\n6. **No enrolles el cable\
+    \ en los terminales.** Corta y empalma las conexiones adecuadamente para mantener\
+    \ la supervisión de la línea [F1].\n\n---\n\n## Parámetros eléctricos clave\n\n\
+    - **Resistencia Final de Línea (RFL):** 6.800 Ω, 0,5 W mínimo [F1]\n- **Corriente\
+    \ máxima por circuito:** 1 A [F2]\n- **Longitud máxima de cable recomendada:**\
+    \ 1 km (por encima, la capacitancia e inductancia pueden afectar al funcionamiento)\
+    \ [F1]\n- **Sección mínima de cable recomendada:** no inferior a **1,5 mm²** para\
+    \ evitar caídas de tensión excesivas [F4]\n\n---\n\n## Advertencias importantes\n\
+    \n⚠️ **Verifica siempre la sección del conductor** para garantizar que la tensión\
+    \ en las sirenas cumple las especificaciones del fabricante tanto en alimentación\
+    \ principal como en condiciones de mínima tensión de baterías (consulta las Tablas\
+    \ 10 y 11 del manual) [F1].\n\n⚠️ **La corriente de sirena disponible depende\
+    \ de la carga de alarma completa** del panel. Verifica el cálculo mediante el\
+    \ programa de cálculo de lazo y baterías [F6].\n\n---\n\nFuente: Manual de Instalación\
+    \ Paneles de Incendio ZX2e / ZX5e — MIE-MI-530rv001 (sin revisión registrada)\n\
+    \nTambién puedo ayudarte con: **verificación del circuito con multímetro antes\
+    \ de conectar**, **prueba funcional de sirenas desde el panel** o **cableado recomendado\
+    \ (sección y tipo de cable)** para la ZXe.\n\n---\n\U0001F4CB **Obligaciones de\
+    \ evidencia del manual:**\n- Nota: la fuente es inconsistente: \"* El panel de\
+    \ detección y control de incendio ZX5Se tiene 4 circuitos de sirenas supervisados\
+    \ y limitados en corriente, identificados como circuitos de sirena A, B, C y D.\"\
+    \ (MIE-MI-600, p. 24) [F6] declara 4 circuitos y la enumeración servida lista\
+    \ 2 (MIE-MI-600, p. 24) [F6].\n- Nota: la fuente es inconsistente: \"El máximo\
+    \ permitido entre los 4 circuitos de sirena de ZX5Se es de 2A.\" (MIE-MI-600,\
+    \ p. 24) [F6] declara 4 circuitos y la enumeración servida lista 2 (MIE-MI-600,\
+    \ p. 24) [F6].\n- \"* Cada sirena deberá tener un diodo integrado para evitar\
+    \ que ésta consuma alimentación en la posición de supervisión normal.\" (MIE-MI-600,\
+    \ p. 24) [F6]"

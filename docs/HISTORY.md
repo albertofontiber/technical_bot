@@ -2232,3 +2232,41 @@ con la migración simétrica ZXe/ZXSe adjudicada por Alberto (etiqueta=FAMILIA) 
 batch_attested_v1 para industrializar el Tramo 2. Sol abortó 1 run por worktree-cambiante →
 patrón nuevo: vista estable dedicada para reviews con lanes paralelas. Todo en claude/s281-mt0;
 DB y prod intactas; el paquete de decisiones de Alberto quedó listo en lote.
+
+## s282 (24 jul) — F1 vivo + la campaña H0-T2 hasta expediente de firma
+
+Alberto mergeó #185/#186 y puso los flags: primera conversación real del bot (PEARL + follow-up
+resuelto $0, verificado en query_logs). En paralelo, el QA del activo s83 se convirtió en la
+demostración más completa del sistema anti-bias hasta la fecha: el instrumento optimista dijo
+879, el dúo lo tumbó, el re-gating dijo 548, el LQAS paró en el draw 2 con una clase sistemática
+real (Securiton _TD), el guard de plausibilidad la degradó de raíz, el draw 3 confirmó 0/59, el
+dúo final tumbó el EXPEDIENTE (ledger ausente + escritura sin sellar) manteniendo la cohorte, y
+el lote final lo dejó firmable: manifest sellado 1:1, SQL con before-image y rollback, attestation
+con framing estadístico honesto. Cuatro rondas de "no" bien fundamentado antes del primer UPDATE
+masivo de la historia del corpus — exactamente el aparato que Alberto pidió. Coste: $0.92.
+
+## s285 (25-28 jul 2026) — La campaña H0 tocó tierra: T3 + T2 ejecutados en la DB de producción
+
+La sesión que convirtió tres días de aparato (census, adjudicaciones, LQAS, expediente) en
+escrituras reales. Alberto pegó el SQL de T3 (20 UPDATEs / 221 chunks con sus 26 adjudicaciones
++ 2 documentos basura eliminados con backup) y los chunks `unknown` activos pasaron de 318 a 1
+(el compat Notifier-Morley deliberado). El cierre arrastró todo lo colateral: Excel, catálogo
+canónico (con el producto `morley:vsn-rp1r-plus2` que Alberto desambiguó con URLs — el alias
+apuntaba al producto equivocado de Notifier), la retirada de 5 aliases «nombre-de-propiedad»
+(«1 zona», «Dos Zonas»…) que eran falsos positivos latentes del detector, y TECH_DEBT #56
+(la clase de separadores del detector no cubre `()*`). El gate cat009 con el catálogo mergeado
+dio PASS donde antes había PARCIAL — el saneado pagó solo.
+
+T2 llegó después de que Alberto preguntara lo correcto: «¿esto es Best Practice y qué hago yo?»
+— la respuesta (fill-only fail-closed, conteos exactos o aborta, before-image, LQAS con paradas
+reales) le bastó, pegó el SQL y la verificación en vivo 1:1 contra el manifest devolvió
+533/533 doc_type + 301/301 language, 0 mismatches, 0 sobrescrituras. De regalo: descubrimos que
+`documents.language` ya tenía un consumidor vivo (señal de autoridad ES en document-local
+coverage), así que el metadato recién escrito alimenta mecanismo real desde el primer día.
+Sus preguntas de multi-idioma quedaron respondidas con código en mano: el retrieval no filtra
+por idioma (voyage-4-large es multilingüe; el vocabulario técnico ancla cross-language) y los
+209 multi-idioma se quedan NULL hasta que exista consumidor de la convención.
+
+Cifras vivas al cierre: 1.169 docs (996 active) · 25.088 chunks_v2 · 1 unknown. La identidad
+del corpus — el gap D1 que el smoke ZXSe expuso en producción el día del release — queda
+cerrada de punta a punta en cinco días. DEC-161.

@@ -160,7 +160,7 @@ def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str) -> 
             {"role": "system", "content": _JUDGE_SYS},
             {"role": "user", "content": _JUDGE_USER.format(
                 question=question, expected=expected,
-                gold=(gold or "")[:3000], bot=(bot or "")[:3000])},
+                gold=(gold or ""), bot=(bot or ""))},
         ],
     )
     txt = resp.choices[0].message.content.strip()

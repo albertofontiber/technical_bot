@@ -25,51 +25,34 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s281 — 23 jul 2026)
+## Estado actual (s285 — 28 jul 2026)
 
-**RELEASE EN PRODUCCIÓN (23-jul tarde).** #184 mergeada a main (`f65ec66`) + flip Railway
-ejecutado por Alberto y **verificado vivo**: query post-deploy sellada `bot_version=f65ec66` en
-`query_logs` con el apéndice del Evidence Contract disparando en producción por primera vez.
-Antes del merge hubo que poner el CI en verde (rojo desde siempre: checkout shallow mataba los
-drift-seals a los 2 min → `fetch-depth: 0` + 3 fixes de plataforma Linux [sha EOL-canónico del
-YAML de facetas ×2 + expectativa del fence test — Linux era el comportamiento fiel]; suite en CI
-3080/0; 4 commits sobre 9cfa6f8, cero cambio de runtime). Smoke ZXSe post-deploy aterrizó en el
-gap CONOCIDO D1 (MIE-MI-600 = 88 chunks `unknown`, verificado en DB): conducta correcta (admite,
-no inventa) — refuerza la prioridad de H0 (backfill de identidad). Checklist histórica del flip: PR **#184** renombrada + des-drafteada (el título
-"NO-GO" era el handoff histórico de Codex), body = checklist de release. Merge ⇒ flip Railway:
-`COVERAGE_RELEASE_PROFILE=coverage_c1_v4` + `IDENTITY_RESOLVE_POLICY=replace` + retirar
-`COVERAGE_MANDATORY_CALLOUT`/`MP_MANDATORY_VERB_TRIGGER` + mantener `MUST_PRESERVE_CONTRACT=on`;
-rollback = cambiar/quitar la variable. **Baseline oficial 39 bajo la release config:
-12 PASS / 25 PARCIAL / 2 FALLO** (vara harness single-pass juez GPT-5.5;
-`evals/bot_vs_gold_39_baseline_coverage_c1_v4_s281.yaml` + recheck hp010; doble uso: sello
-post-release + gate de no-regresión single-turn de la Fase 1). **El juez NO se cambia**
-(estudio s47 vigente: 0 catches únicos del 2º juez; condición de reapertura no disparada).
+**PRODUCCIÓN**: release C1 viva (#184, perfil `coverage_c1_v4` + identidad `replace` + Evidence
+Contract) **+ multi-turn Fase 0+Fase 1 vivas** (#185/#186; `ORCHESTRATOR_PATH=on` +
+`CONVERSATION_POLICY=impl`, carry-forward verificado en `query_logs`; rollback = quitar
+variables). DDL schema `convo` sigue **NO aplicado** (gateado por matriz RGPD).
 
-**Build multi-turn Fase 0 COMPLETO** (rama `claude/s281-mt0` @ `8f1d354`, suite **3158/0**;
-modelo operativo s279+ validado: Opus ejecuta lanes, Fable revisa — caza real en review:
-`fail_run` inalcanzable, janitor dañino, heartbeat sin caller, auth service_role):
-- **MT-0a** orquestador transport-neutral + gate de paridad byte-a-byte (envelope real).
-- **MT-0b** propuestas DDL schema `convo` + 8 RPCs SECURITY DEFINER + 3 read-RPCs (enmienda) +
-  plantilla matriz RGPD. **NO_GO_FOR_DB hasta matriz firmada.**
-- **MT-0c** runtime effectively-once (store client + fake bit-fiel + driver/poller/janitor) con
-  **dúo focal r1** (Sol RECHAZAR + Fable sólido-con-cambios → 6 confirmados 0 FP, 9 fixes
-  aplicados y verificados; `evals/s281_mt0c_duo_r1_adjudication_v1.yaml`).
-- **MT-0d** adapter Telegram + flags `ORCHESTRATOR_PATH`/`CONVO_SHADOW`/`CONVO_MAINTENANCE`
-  (default off, camino OFF textualmente intacto). Dependencias de ops de la activación real
-  documentadas (matriz RGPD · DDL aplicado · JWT `convo_rpc` · PGRST_DB_SCHEMAS · scheduling ·
-  puente sender).
+**Baseline oficial v3 de los 39 golds: 16 PASS / 20 PARCIAL / 3 FALLO** (DEC-160; **vara v3** =
+juez con ventana completa tras el fix del bug [:3000] que llevaba desde 28-may; paridad de flags
+harness↔Railway obligatoria [DEC-157]; gate de no-regresión F1 apunta aquí). Juez GPT-5.5 NO se
+cambia (s47 vigente). Fact-level 146/154 sin movimiento.
 
-**s281b (24-jul): FASE 1 MEDIDA** — policy dúo-hardened (12/12 fixes, vara 48/48 $0), e2e
-K=3 final **18 PASS / 2 PARCIAL / 1 residual-declarado** (~$3.3), fix medido resolved-query→
-generación (spec de activación), A/B prompts fontiber-default. **H0 hasta packet ejecutable**
-(census + T3 re-tag ZXe/ZXSe adjudicado + batch_attested_v1). Detalle DEC-155.
+**CAMPAÑA H0 DE IDENTIDAD EJECUTADA EN DB (s285, DEC-161)**: T3 (20 UPDATEs / 221 chunks, 26
+adjudicaciones de Alberto, 2 docs basura eliminados) + T2 (backfill s83: 533 `doc_type` + 301
+`language`, verificado 1:1 en vivo, 0 sobrescrituras). **Chunks `unknown` activos: 318→1.**
+Cifras vivas: 1.169 docs (996 active) · 25.088 chunks_v2. El catálogo canónico saneado
+(vsn-rp1r-plus2 + retirada de aliases-propiedad) subió cat009 PARCIAL→PASS. Cola de calidad
+s283 cerrada ítem a ítem (DEC-157/158/159: cat016 resuelto · cat022+hp012-retr techo-declarados
+· hp011+hp012-framing aparcados-en-datos).
 
-**Qué sigue:** (1) **clicks de Alberto**: lectura+merge #184 + flip = release · matriz RGPD
-(plantilla `docs/RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`, decide él con validación legal) · visto al
-DDL MT-0b; (2) **Fase 1 multi-turn** (MT-1a clasificador+rewrite gateado · MT-1b eval nueva
-ANTES de activar) — arranca con su GO, gate no-regresión = el baseline 12/25/2; (3) **H0
-campaña de backfill de identidad** (12/15 QIDs bloqueados upstream) — workstream paralelo
-post-release. Traza: DEC-148..153 + HISTORY s277-s281.
+**Qué sigue:** (1) **PRIORIDAD-1 SEGURIDAD hp018** — generación intermitente de «sirenas en
+serie» (DEC-160c): traza + frecuencia + guard con dúo; (2) **lote de decisiones de Alberto**
+(sin prisa, en su orden): sentada goldreview-r2 (`evals/s284_goldreview_r2_packet_v1.md`) ·
+121 conflictos QA · semántica tachados `~~` (desbloquea hp011) · P2 chunk 2113ac69 · firma T1
+lineage (5 docs) · matriz RGPD · visto DDL · GO paquete telemetría (#3+#4) · abrir PR de la
+rama s282 (acumula s282-s285) · borrar 2 huérfanos Storage (opcional); (3) mejoras 5.1/5.2
+(gating de visual assets en preguntas genéricas · «También puedo ayudarte» A/B) + dogfooding.
+Traza: DEC-148..161 + HISTORY s277-s285.
 
 ## Estado anterior (S277 — 22 jul 2026)
 
