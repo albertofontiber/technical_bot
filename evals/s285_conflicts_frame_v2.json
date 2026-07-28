@@ -1610,7 +1610,7 @@
    "recomendacion": "s83",
    "evidencia": "Chunk único (p1, 3314 car.) leído entero, todo español: tabla «Equipo | Versión Panel | Versión UCIP | Receptoras compatibles» con ID3000 5.22, ID50 5.18, DXc 1.19F, y cola «Todas las receptoras deben ser TCP/IP y soportar encriptación con clave». db_language='de' es falso → correcto 'es'. doc_type db=NULL no está en conflicto; el contenido es una tabla de compatibilidad (encajaría 'otro'), y s83 no propone valor.",
    "confianza": "alta",
-   "nota_reconcil": "flip: el agente concluyó 'configuracion' = el valor s83 real (bug frame v1); db='programacion' además fuera de taxonomía"
+   "nota_reconcil": "adjudicado en dúo r1 (Sol F2): language='es' — la prosa es española y chunk_v2.language='es'; el ['en','es'] del s83 son token-languages (lección MADT609), no idioma de redacción. El eje doc_type NO está en conflicto (db=null). Nota previa era residuo erróneo del flip UCIP."
   },
   {
    "source_file": "UCIP-Ver-configuracion-de-equipo",
