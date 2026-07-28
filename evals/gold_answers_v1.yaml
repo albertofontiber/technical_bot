@@ -2081,24 +2081,28 @@
     valor: 3.4.13
     cita: MI-530 p21
   citations:
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: SALIDAS SIRENAS 24V
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: La ZX1e dispone de 2 salidas de sirena... la ZX5e dispone de 5 salidas de sirena
-  - manual: MIE-MI-310.pdf
-    page: 17
-    quote: Conectar la malla a la arandela del pasacables en contacto con el chasis
-  - manual: MIE-MI-310.pdf
-    page: 31
-    quote: 'Salidas de sirena: 2 (ZX1e) supervisadas, 24Vcc, 500 mA máx, EOL 10 kΩ'
-  - manual: MIE-MI-310.pdf
-    page: 32
-    quote: 5 salidas de sirena supervisadas, 24Vcc, 500 mA, EOL 10 kΩ (ZX5e)
+  - manual: MIE-MI-530rv001.pdf
+    page: 12
+    quote: 'Placa Base: circuitos de sirenas de placa (ZX2e: 2 salidas A/B; ZX5e: 4 salidas A-D)'
+  - manual: MIE-MI-530rv001.pdf
+    page: 21
+    quote: Cada sirena debera tener un diodo integrado, para impedir el consumo en polarizacion inversa
+      (supervision). El circuito de sirenas se polariza en inverso en reposo para supervisar la linea
+      y cambia a su polarizacion normal, cuando se dispara la salida
+  - manual: MIE-MI-530rv001.pdf
+    page: 21
+    quote: '3.4.4 Circuitos de Sirenas — Fig 13/14: conexionado en el bloque de terminales, RFL 6K8 (0,5
+      W) al final del circuito, polaridad'
+  - manual: MIE-MI-530rv001.pdf
+    page: 44
+    quote: 'Tabla 8: salidas de sirena supervisadas, carga maxima 1 A por circuito'
+  notes: ' [s286: pdfs_used y citations estaban STALE apuntando a MIE-MI-310 (ZXAE/ZXEE, producto DISTINTO,
+    mayo 2000) con valores contradictorios (EOL 10k/500mA/5 salidas); re-anclados a MIE-MI-530rv001 conforme
+    a _provenance canonica (pp.12/21/44) y s277_c1_p1_design_v1.md §re-anclaje. Hallazgo colateral: el
+    retrieval de hp018 sirve MI-310 (contaminacion cross-family) — lane retrieval/identidad, no del gold.]'
   confidence: media
   pdfs_used:
-  - MIE-MI-310.pdf
+  - MIE-MI-530rv001.pdf
   _provenance:
     estado: verificado
     metodo: render_pdf + cross_model
