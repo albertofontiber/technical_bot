@@ -352,8 +352,9 @@
     estado: presente
     valor: parte inferior
     cita: p7/f9 (§2.5)
-  - texto: Desconectar el magnetotermico bipolar exterior antes de manipular la central
-    tipo: supplementary
+  - texto: Antes de manipular la central, desconectar el magnetotermico bipolar exterior (gate de seguridad
+      previo al conexionado)
+    tipo: core
     estado: presente
     valor: magnetotermico
     cita: p6/f8 (§2.3)
@@ -966,8 +967,8 @@
     estado: presente
     valor: LPX-751
     cita: p71 (A3-2)
-  - texto: 'Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) y LPB-700/-700T'
-    tipo: supplementary
+  - texto: 'Detectores de humo por rayo/haz proyectado compatibles: LPB500 (max. 4 por lazo) y LPB-700/LPB-700T'
+    tipo: core
     estado: presente
     valor: LPB500
     cita: p71 (A3-2)
@@ -1897,7 +1898,7 @@
     1. Acceda a la pantalla "Causa y Efecto" desde el menú "Editar Configuración" (se recomienda el programa de configuración por ordenador como método principal; el menú de la central, solo para modificaciones menores).
     2. Tenga en cuenta las dos reglas por defecto: Regla 1 (CUALQUIER entrada de alarma activa TODOS los equipos de salida) y Regla 2 (la tecla EVACUACIÓN activa TODOS los equipos de salida). Es fundamental BORRAR la Regla 1 si va a realizar una programación específica, o quedará anulada por ella.
     3. Cree una regla (número discreto; máximo 512 reglas) con una INSTRUCCIÓN DE ENTRADA (la condición; p. ej. alarma en una zona/lazo) y una INSTRUCCIÓN DE SALIDA (el equipo a accionar: sirenas o relés). En la columna "Lazo", un "0" significa TODOS.
-    4. Asigne a la regla uno de los SEIS tipos de retardo de salida (sección A5.3 "Tipos de retardo"). El tipo seleccionado determina el comportamiento del retardo y cómo lo controlan las teclas (p. ej., SILENCIAR SIRENAS detiene la salida durante el retardo; SONIDO ALARMAS activa las sirenas).
+    4. Asigne a la regla un tipo de retardo de salida (sección A5.3 "Tipos de retardo") — atención: la prosa de A5.3 habla de "seis tipos" pero la tabla de la misma página recoge SIETE; declara la discrepancia al elegir. El tipo seleccionado determina el comportamiento del retardo y cómo lo controlan las teclas (p. ej., SILENCIAR SIRENAS detiene la salida durante el retardo; SONIDO ALARMAS activa las sirenas).
     5. Pruebe rigurosamente las reglas durante la puesta en marcha para evitar lógicas contradictorias.
 
     Adicionalmente: a nivel de equipo/zona existe el parámetro "Retardo de alarma" en la programación del lazo; y mediante programaciones horarias pueden imponerse retardos en la activación de las salidas durante periodos preestablecidos del día.
@@ -1923,9 +1924,10 @@
     estado: presente
     valor: Editar Configuracion
     cita: p43
-  - texto: Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 "Tipos de retardo"),
-      que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO
-      ALARMAS)
+  - texto: 'Asignar a la regla un tipo de retardo de salida (seccion A5.3 ''Tipos de retardo''). Aviso
+      de fuente: la prosa de A5.3 dice ''uno de seis tipos'' mientras la tabla de la misma pagina recoge
+      SIETE (Fijo, Estandar, No Silenc., Est. Ext., RetExtStd, No Sil. Ext, SinRetExt); la conducta correcta
+      es declarar la discrepancia, no resolverla en un numero'
     tipo: core
     estado: presente
     valor: seis tipos de retardo
@@ -2282,6 +2284,12 @@
     estado: presente
     valor: CLSS
     cita: p5 / p18
+  - texto: 'Codigos de acceso de fabrica documentados: NA2 = 22222222 y NA3 = 33333333; el manual recomienda
+      sustituirlos por un codigo exclusivo'
+    tipo: supplementary
+    estado: presente
+    cita: HOP-338-9ES issue 4, p14 y p48
+    valor: 22222222 / 33333333
   citations:
   - manual: HOP-138-8ES (Instrucciones de puesta en marcha INSPIRE E10/E15)
     page: 49
@@ -2303,10 +2311,13 @@
     page: 49
     quote: Deberá sincronizar el programa con la central y, a continuación, realizar una copia de seguridad
       del cambio del código de acceso en la nube
-  notes: La información se encuentra en el manual de puesta en marcha HOP-138-8ES, página 49, sección
-    'CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3'. El procedimiento está claramente descrito, incluyendo
-    la regla de que desde Nivel 2 solo se puede cambiar el código de Nivel 2, mientras que desde Nivel
-    3 se pueden cambiar ambos. No se especifican los códigos por defecto de fábrica en los documentos.
+  notes: 'La información se encuentra en el manual de puesta en marcha HOP-138-8ES, página 49, sección
+    ''CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3''. El procedimiento está claramente descrito,
+    incluyendo la regla de que desde Nivel 2 solo se puede cambiar el código de Nivel 2, mientras que
+    desde Nivel 3 se pueden cambiar ambos. Los códigos de acceso de fábrica SÍ están documentados: NA2
+    = 22222222 y NA3 = 33333333 (HOP-338-9ES issue 4, p14 y p48); el manual recomienda cambiarlos por
+    uno exclusivo de 4-8 dígitos. [Corregido s286 tras verificación en DB — la nota original decía que
+    no estaban documentados.]'
   confidence: alta
   pdfs_used:
   - HOP-138-9ES issue 5_11-2025_In.pdf
@@ -3005,11 +3016,11 @@
   estrato:
   - familia-ambigua
   gold_answer: |-
-    «751» no identifica un único detector: en la familia de detectores analógicos direccionables 751 hay varios modelos con tecnologías y aplicaciones DISTINTAS y NO intercambiables. Para confirmarte el correcto, ¿cuál de estos necesitas (o en qué tipo de zona va)?
+    «751» no identifica un único detector: en la familia de detectores analógicos direccionables 751 hay varios modelos con tecnologías y aplicaciones DISTINTAS y NO intercambiables. Estos son los modelos 751 para los que tengo documentación en mi corpus (puede haber otros en el catálogo del fabricante). Para confirmarte el correcto, ¿cuál necesitas (o en qué tipo de zona va)?
 
     • CPX-751E — detector IÓNICO estándar (zonas normales).
     • IDX-751 (AE) — detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas/ATEX (15-24 Vdc, clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca; las pruebas no intrínsecamente seguras deben realizarse FUERA de la zona peligrosa).
-    • FSL-751E — detector por aspiración/láser (gama VIEW).
+    • FSL-751E y LPX-751 — detectores por aspiración/láser (gama VIEW).
 
     Dime el modelo exacto o la aplicación (zona normal vs zona peligrosa; tecnología iónica/óptica/aspiración) y te confirmo las especificaciones. ⚠️ Importante de seguridad: no elijas a ciegas — instalar un detector estándar (p. ej. CPX-751E) en una zona peligrosa en lugar del intrínsecamente seguro (IDX-751) sería un fallo de seguridad.
   atomic_facts:
@@ -3059,7 +3070,9 @@
     751 como compatibles con ID3000 (eje = compatibilidad-lista, conducta answer); este gold los DESAMBIGUA
     (eje = clarify) → MISMO set de productos, DISTINTO modo de fallo. Candidatos restringidos a los que
     SÍ están en el catálogo (CPX-751E/IDX-751/FSL-751E); SDX-751/SDX-751EM excluidos porque NO están en
-    el catálogo (corrección del dúo).'
+    el catálogo (corrección del dúo). [Adjudicado s286 (Alberto, r2 G5=b): el clarify lista los candidatos
+    DOCUMENTADOS EN CORPUS con cita, dejando explícito que son los modelos con información disponible;
+    requisito irrenunciable = distinguir estándar vs seguridad intrínseca antes de elegir.]'
   confidence: alta
   pdfs_used:
   - I56-3383-002 IDX-751 AE EN DE.pdf
