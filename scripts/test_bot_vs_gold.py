@@ -117,6 +117,8 @@ _JUDGE_USER = (
 # conserva la vara anterior SOLO para humo comparativo. El MODELO del juez no cambia
 # (freeze DEC-023). ─────────────────────────────────────────────────────────────────
 JUDGE_VARA = os.getenv("JUDGE_VARA", "v4").strip().lower()
+if JUDGE_VARA not in {"v3", "v4"}:
+    sys.exit(f"JUDGE_VARA={JUDGE_VARA!r} inválido — dominio {{v3, v4}} (typo ejecutaría v3 en silencio)")
 
 _JUDGE_FACTS_BLOCK = (
     "FACTS DEL GOLD (la lista de exigencia; [CORE] = imprescindible, [SUPP] = "
@@ -191,6 +193,8 @@ def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str,
         question=question, expected=expected,
         gold=(gold or ""), bot=(bot or ""))
     # vara v4: facts tipados delante de la respuesta del bot + criterio que prevalece
+    if JUDGE_VARA == "v4" and gold_row is not None and not (gold_row.get("atomic_facts") or []):
+        print(f"  ⚠️ VARA MIXTA: {gold_row.get('qid','?')} sin atomic_facts → juzgado con vara v3 (fallback)")
     if JUDGE_VARA == "v4" and gold_row and (gold_row.get("atomic_facts") or []):
         facts_block = _JUDGE_FACTS_BLOCK.format(facts=_format_facts(gold_row))
         assert user.count("RESPUESTA DEL BOT:") == 1
