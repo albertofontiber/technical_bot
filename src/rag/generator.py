@@ -446,6 +446,14 @@ _FOLLOWUP_BLOCK = """SUGERENCIAS DE FOLLOW-UP:
 
 """
 
+# s286 conducta (d) — intent de LISTADO/enumeración (comparte semántica con la futura lane de
+# inventario #9): «qué productos/dispositivos/modelos/equipos/detectores… tiene/hay/existen/
+# disponibles/catálogo». Gatea el auto-adjunte de visual assets (5.1).
+_LISTING_INTENT = re.compile(
+    r"qu[eé]\s+(productos?|dispositivos?|modelos?|equipos?|detectores?|sirenas?|m[oó]dulos?|centrales?)"
+    r"[^?.;:]{0,50}?\b(tienes?|teneis|hay|existen|dispones?|disponibles?|ofrece[ns]?|cat[aá]logo)\b",
+    re.IGNORECASE)
+
 # s286 conducta (c) — R2 de Alberto (goldreview r2): la respuesta directa va PRIMERO
 # (anti lede-burial, caso hp009). Flag GENERATOR_DIRECT_FIRST default off → byte-idéntico.
 _DIRECT_FIRST_BLOCK = """
@@ -962,7 +970,16 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # doble (aquí y dentro del helper): una excepción jamás toca la respuesta.
     if VISUAL_ASSETS_REGISTRY:
         try:
-            append_cited_visual_assets(result, relevant_chunks)
+            # s286 conducta (d) — 5.1 de Alberto (dogfooding: pantallazos inaplicables en
+            # preguntas de LISTADO tipo «¿qué dispositivos de aspiración tiene Notifier?»).
+            # Flag VISUAL_ASSETS_LISTING_GATE default off = byte-idéntico; on = no auto-adjuntar
+            # en intent de enumeración (las imágenes de páginas sueltas son ruido en una lista).
+            _listing_gate = (
+                os.getenv("VISUAL_ASSETS_LISTING_GATE", "off").strip().lower() == "on"
+                and _LISTING_INTENT.search(query or "")
+            )
+            if not _listing_gate:
+                append_cited_visual_assets(result, relevant_chunks)
         except Exception:
             logger.warning(
                 "VISUAL_ASSETS_REGISTRY fail-open: respuesta sin adjuntos",

@@ -117,3 +117,19 @@ class TestPromptFlagsConducta:
         import src.rag.generator as g
         monkeypatch.setenv("GENERATOR_DIRECT_FIRST", "on")
         assert "PRIMERA LÍNEA (regla de apertura)" in g._assemble_system(None)
+
+
+class TestListingGate:
+    """(d) 5.1: gate de visual assets en intent de listado (flag default off)."""
+
+    def test_regex_caza_los_casos_de_dogfooding(self):
+        import src.rag.generator as g
+        assert g._LISTING_INTENT.search("¿qué dispositivos de detección por aspiración tiene Notifier?")
+        assert g._LISTING_INTENT.search("¿Qué productos Detnov tienes?")
+        assert g._LISTING_INTENT.search("¿Qué modelos de Kidde tienes?")
+
+    def test_regex_no_caza_preguntas_tecnicas(self):
+        import src.rag.generator as g
+        assert not g._LISTING_INTENT.search("¿Cómo se conecta una sirena convencional en la ZXe?")
+        assert not g._LISTING_INTENT.search("¿Qué resistencia lleva la entrada monitorizada?")
+        assert not g._LISTING_INTENT.search("¿Qué modelo de detector me recomiendas para un garaje?")
