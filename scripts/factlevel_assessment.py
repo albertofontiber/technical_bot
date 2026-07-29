@@ -934,9 +934,9 @@ def main() -> int:
     print(f"  no-anclables-léxicamente: {n_non_anchorable}/{total_c} facts (clasificados vía juez SEMÁNTICO, no filtrados)")
     print(f"  family-unresolved: {n_unresolved} golds (soporte NO family-filtrado ahí)")
     print(f"  dual-judge: {len(judge_flips)} desacuerdos resueltos a OK (GPT-miss/Opus-conveyed): "
-          f"{[f'{q}:{v[:18]}' for q, v in judge_flips]}")
+          f"{[f'{q}:{str(v)[:18]}' for q, v in judge_flips]}")
     print(f"  dual-soporte: {len(support_flips)} flips (sup=∅→Opus acredita candidato léxico): "
-          f"{[f'{q}:{v[:18]}' for q, v in support_flips]}")
+          f"{[f'{q}:{str(v)[:18]}' for q, v in support_flips]}")
     if n_judge2_err or n_judge2_fails:
         print(f"  ⚠ judge2: {n_judge2_err} facts con fallo TOTAL (degradación a pre-dual) · "
               f"{n_judge2_fails} votos fallidos en total — si es alto, revisar API/modelo ANTES de fiarse del synth-miss")
