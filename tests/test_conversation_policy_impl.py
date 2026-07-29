@@ -511,7 +511,7 @@ def test_e2e_core_runs_with_fakes_and_stamps_cost(monkeypatch):
     adapters = replay_adapters(
         retrieved=[{"id": "c0", "content": "ctx", "similarity": 0.9}], generate=gen)
 
-    def fake_judge(*, question, expected, gold, bot):
+    def fake_judge(*, question, expected, gold, bot, gold_row=None):
         return {"veredicto": "PASS", "usage": {"in": 50, "out": 10}}
 
     report = harness.run_e2e_flows(

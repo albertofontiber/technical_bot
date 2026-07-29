@@ -492,10 +492,14 @@ def run_e2e_flows(
         store = FakeConvoStore(clock=clock)
         ws = WorkingState()
         gold_txt = ""
+        gold_row: dict[str, Any] | None = None
         for qid in f.get("reuses_golds", []):
             g = gold_rows.get(qid)
-            if g and g.get("answer"):
-                gold_txt = str(g["answer"]); break
+            # s286 fix: la clave real es `gold_answer` (no `answer`) — con la clave
+            # equivocada el juez e2e llevaba TODA la serie juzgando con la
+            # referencia gold EN BLANCO (bug de instrumento, clase [:3000]).
+            if g and g.get("gold_answer"):
+                gold_txt = str(g["gold_answer"]); gold_row = g; break
         last: dict[str, Any] = {}
         for i, t in enumerate(f["turns"]):
             clock.advance(int(t.get("advance_seconds", 0)))
@@ -551,6 +555,7 @@ def run_e2e_flows(
                 gold=gold_txt,
                 bot=last.get("answer") or last.get("clarify_question")
                     or last.get("decline_reason") or "",
+                gold_row=gold_row,   # s286 vara v4: facts tipados (None sin gold reusado)
             )
             cost["judge_calls"] += 1
             u = v.get("usage") or {}
@@ -597,18 +602,26 @@ def _make_openai_judge() -> Any:
     )
     state: dict[str, Any] = {"client": None}
 
-    def _judge(*, question: str, expected: str, gold: str, bot: str) -> dict[str, Any]:
+    def _judge(*, question: str, expected: str, gold: str, bot: str,
+               gold_row: dict[str, Any] | None = None) -> dict[str, Any]:
         if state["client"] is None:
             from openai import OpenAI  # local: solo en la corrida pagada
 
             state["client"] = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        user_msg = _user.format(question=question, expected=expected,
+                                gold=gold or "(sin gold)", bot=bot)
+        # s286 vara v4 (espejo del harness single-turn; bloques importados = fuente única)
+        import test_bot_vs_gold as _TBG
+        if _TBG.JUDGE_VARA == "v4" and gold_row and (gold_row.get("atomic_facts") or []):
+            facts_block = _TBG._JUDGE_FACTS_BLOCK.format(facts=_TBG._format_facts(gold_row))
+            assert user_msg.count("RESPUESTA DEL BOT:") == 1
+            user_msg = user_msg.replace("RESPUESTA DEL BOT:", facts_block + "RESPUESTA DEL BOT:")
+            user_msg = user_msg + _TBG._JUDGE_V4_CRITERIO
         resp = state["client"].chat.completions.create(
             model="gpt-5.5",
             messages=[
                 {"role": "system", "content": _sys},
-                {"role": "user", "content": _user.format(
-                    question=question, expected=expected,
-                    gold=(gold or ""), bot=(bot or ""))},
+                {"role": "user", "content": user_msg},
             ],
         )
         txt = resp.choices[0].message.content.strip()

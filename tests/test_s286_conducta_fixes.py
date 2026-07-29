@@ -133,3 +133,36 @@ class TestListingGate:
         assert not g._LISTING_INTENT.search("¿Cómo se conecta una sirena convencional en la ZXe?")
         assert not g._LISTING_INTENT.search("¿Qué resistencia lleva la entrada monitorizada?")
         assert not g._LISTING_INTENT.search("¿Qué modelo de detector me recomiendas para un garaje?")
+
+
+class TestVaraV4:
+    """Vara v4 del juez: facts tipados (T2b adjudicado)."""
+
+    def _tbg(self):
+        import importlib.util, pathlib
+        spec = importlib.util.spec_from_file_location(
+            "tbg_v4test", pathlib.Path("scripts/test_bot_vs_gold.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        return m
+
+    def test_format_facts_tipa_correctamente(self):
+        m = self._tbg()
+        gold = {"atomic_facts": [
+            {"texto": "RFL de 6K8 al final", "tipo": "core"},
+            {"texto": "referencia 170-073-682", "tipo": "supplementary"}]}
+        out = m._format_facts(gold)
+        assert out == "- [CORE] RFL de 6K8 al final\n- [SUPP] referencia 170-073-682"
+
+    def test_criterio_v4_reglas_clave(self):
+        m = self._tbg()
+        c = m._JUDGE_V4_CRITERIO
+        assert "NUNCA baja el veredicto de PASS" in c        # supp jamás degrada
+        assert "cubierto-con-otras-palabras CUENTA" in c     # anti-checklist
+        assert m.JUDGE_VARA == "v4"                          # default v4
+
+    def test_todos_los_golds_tienen_facts(self):
+        import sys
+        sys.path.insert(0, "scripts")
+        import gold_store
+        assert all((g.get("atomic_facts") or []) for g in gold_store.verified())
