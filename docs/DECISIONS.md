@@ -3690,3 +3690,17 @@ tally); lado Fable in-session.
 - **(f) TELEMETRÍA CONSTRUIDA (GO de Alberto; salud #3 + feedback #4)**: dúo r1 obligatorio (Sol 8 + sub-agente 10 hallazgos, 0 FP; BLOCKER = RLS ausente en la tabla nueva; Sol único: FK sin ON DELETE rompía el borrado RGPD; sub-agente único: la métrica no-info medía contra una constante inexistente + tabla `feedback` existente ignorada) → brief v2 → r2 GO-BUILD → build: `answer_feedback` (FK CASCADE, UNIQUE upsert last-wins, hardening s107-pattern con postcondiciones; paste D9 pendiente de Alberto) + vistas `bot_health_daily/semanal` (security_invoker) + digest `bot_health_report.py` (dogfooding segmentado SOLO aquí — fuente única) + keyboard 👍/👎 (`TELEGRAM_FEEDBACK`, handler INCONDICIONAL) + `BOT_ERROR_LOGGING` (allowlist `error_type@stage`, nunca str(exc) — token risk) + `TERMS_VERSION` v1→v2 + `review_logs` join exacto FK. Suite 3308/0.
 - **(g) Bug de instrumento MT**: el juez multi-turn corría con gold EN BLANCO (`g["answer"]` vs `gold_answer`) — TODA la serie e2e s281b afectada; fix + re-medición pendiente bajo v4 (con (c)).
 - **Cifras**: suite 3308/0 · gasto s286 ≈ $12 + full assessment ~$23 en curso · corpus fingerprint re-anclado post-arco (D7). Paquete de decisiones diferidas D1-D11 + lote ONs: `s286_decisiones_diferidas_v1.md`.
+
+### DEC-162h — s286b (29 jul, adenda): STALENESS del assessment cazada por Alberto; full re-medido con ship-config
+Su pregunta («¿por qué 10 retrieval-miss si teníamos ~1?») destapó DOS fallos míos: (1) el
+flag-set DEMO_FLAGS del `factlevel_assessment.py` llevaba congelado desde el 10-jul → el full
+del 29-jul midió el pipeline PRE-C1 (sin `coverage_c1_v4`/`MUST_PRESERVE_CONTRACT`/identity
+`replace`) y sus retr=10/rerank=8 sobre-cuentan lo que la release C1 ya convierte — NO
+comparable con la foto banked 146/154 (retr 2, DEC-131/134), que es el prior real; (2) respondí
+«la comparación legítima es s104 vs hoy» con el scoreboard incompleto, sin grepear las DEC de la
+campaña S269-S274 (violación del gatillo Protocolo 4 «nunca de memoria»). Corrección: DEMO_FLAGS
+→ ship-config del baseline v4 (freeze-hash roto declarado), fila del scoreboard corregida
+in-place, smoke corregido PASS (OK 19/23), full corregido re-lanzado (~$23; el full stale queda
+como contrafactual «pipeline sin C1»). Estructural: TECH_DEBT nuevo — DEMO_FLAGS sin trigger de
+sync con releases; candidato = check en el cierre de sesión cuando una release cambia flags de
+Railway. Lección #54 en feedback_my_bias.

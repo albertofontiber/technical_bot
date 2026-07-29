@@ -2156,3 +2156,12 @@ por Supabase CLI no deben incluir `BEGIN/COMMIT` exteriores si se exige atomicid
 
 ## #56 (s285) — [VIGENTE] detector: clase de separadores no cubre `(`, `)`, `*`
 5 canonicals del catálogo no superan el roundtrip detect (`S540(539) COSP`, wildcards `W*A/W*L`…): el join de segmentos usa `[-\s/.+]*`. Arreglo de raíz = ampliar la clase CON dúo + gate de golds (aflojar matching = zona de dolor). Mientras: exclusión documentada en `test_roundtrip_muestra_de_canonicals` (s285) y las SKU concretas compensan los wildcards.
+
+## #57 — DEMO_FLAGS del factlevel_assessment sin trigger de sync con releases (s286b)
+El freeze-contract del instrumento exporta un flag-set "demo" que debe espejar Railway, pero
+no hay NINGÚN mecanismo que lo actualice cuando una release cambia flags (quedó 19 días stale
+tras C1 y produjo un full de $23 midiendo un pipeline que ya no existe — cazado por Alberto,
+DEC-162h). Fix candidato: assert en el arranque del assessment comparando DEMO_FLAGS contra
+las REQUIRED_EXACT_VALUES/SAFE_DEFAULTS del release-config sellado (s277_c1_p1_release_config),
+o ítem explícito en el checklist de cierre de release. Coste de no arreglar: fulls caros
+midiendo configs muertas.
