@@ -1,0 +1,1184 @@
+instrument: v3.0
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.0
+  git_commit: '1557790'
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 612a86402957
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 4
+n_golds_scored: 4
+aggregate_hist:
+  OK: 8
+  synthesis-miss: 4
+  rerank-miss: 1
+  retrieval-miss: 1
+  corpus-gap: 1
+  meta-ref: 0
+gold_juez_axis:
+- qid: hp011
+  verdict: '?'
+  n_classified: 4
+  n_ok: 2
+  primary_blocker: corpus-gap
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp013
+  verdict: '?'
+  n_classified: 2
+  n_ok: 0
+  primary_blocker: retrieval-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp014
+  verdict: '?'
+  n_classified: 4
+  n_ok: 3
+  primary_blocker: synthesis-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp017
+  verdict: '?'
+  n_classified: 5
+  n_ok: 3
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 3
+n_via_coverage_append: 4
+n_append_view_truncated: 0
+n_coverage_appended_rows: 13
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements:
+- qid: hp011
+  valor: 05 a 295 seg
+per_gold:
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después de
+    extinción
+
+
+    Hay varias causas posibles que impiden el restablecimiento tras el rearme. Comprueba
+    en este orden:
+
+
+    ---
+
+
+    ## 1. Rearme inhibido por parámetro r.i (causa más probable)
+
+
+    El parámetro **r.i** puede estar configurado para inhibir el rearme durante un
+    intervalo de tiempo tras la extinción [F13]:
+
+
+    - **- -** → Rearme inhibido hasta finalizar extinción o cuando se agota el tiempo
+    configurado en **t.A**
+
+    - **00** → Rearme permitido en cualquier momento *(valor por defecto)*
+
+    - **De 01 a 30** → Rearme inhibido durante el intervalo definido (en minutos)
+
+
+    **Acción:** Accede al modo de programación y verifica el valor del parámetro **r.i**.
+    Si está configurado con un valor de 01 a 30, la central no permitirá el rearme
+    hasta que transcurra ese tiempo [F13].
+
+
+    ---
+
+
+    ## 2. Entrada ABORT activada o en avería
+
+
+    La entrada **ABORT (bloque D)** es la única que **siempre requiere rearme manual**
+    y además **enclavada** [F1][F3]. Si el pulsador de paro está accionado o hay avería
+    en ese circuito:
+
+
+    - LED "Avería en paro": **intermitente**
+
+    - LED "Paro": **fijo**
+
+
+    El manual indica que la entrada ABORT es enclavada: una vez activada, **requiere
+    rearme manual de la central para habilitar de nuevo el proceso de extinción**
+    [F5].
+
+
+    **Acción:** Verifica físicamente que el pulsador ABORT no esté accionado y que
+    el circuito tenga correctamente instalado el resistor serie **2K2** y el condensador
+    **EOL de 47μF (≥35V)** — o alternativamente la resistencia EOL **6K8** [F5].
+
+
+    ---
+
+
+    ## 3. Averías enclavadas en otros circuitos supervisados
+
+
+    Por defecto, **todas las averías son enclavadas y requieren rearme manual** [F1].
+    Si algún circuito supervisado presenta avería activa (zonas, sirenas, circuitos
+    de extinción, etc.), el sistema no volverá a estado normal aunque se pulse rearme
+    si la condición de avería persiste.
+
+
+    **Acción:** Revisa los LEDs del panel e identifica qué circuito está en avería
+    según la tabla [F3]:
+
+
+    - **Circuito extinción 1/2** (bloques 1/2): LED avería circuito extinción intermitente
+
+    - **Sirenas 1/2** (bloques 5/6): LED sirenas fallo/anuladas intermitente
+
+    - **Zonas 1/2/3** (bloques E/F/G): LED avería zona correspondiente intermitente
+
+    - **Extinción manual** (bloque A): LED avería disparo manual **fijo**
+
+
+    ---
+
+
+    ## 4. Avería en tarjeta VSN-4REL (si aplica)
+
+
+    Si el display muestra **"Rl"** o **"Avería MOD. Relés I2C"** con LED de avería
+    general y fallo de sistema intermitente, hay un problema con la tarjeta **VSN-4REL**
+    [F4]:
+
+
+    - Verifica que esté correctamente conectada en **MOD AUX**
+
+    - Si está conectada y sigue el fallo: puede estar averiada → reemplazar
+
+    - Si no hay tarjeta instalada pero el error persiste: la tarjeta puede estar configurada
+    por error → desprogramar según el procedimiento del documento [F4]
+
+
+    ---
+
+
+    ## Procedimiento de rearme correcto
+
+
+    Para rearmar la central [F1][F12]:
+
+    1. Accede con **nivel 2** de acceso
+
+    2. Pulsa la tecla **"Rearme"**
+
+    3. Esta acción reinicia la central y restablece todas las entradas enclavadas
+
+
+    > ⚠️ Si el parámetro **r.i** tiene un valor de inhibición activo, el rearme no
+    será posible hasta que transcurra el tiempo configurado [F13].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01)
+
+    - HLSI-MN-103I_RP1r-Supra_lr (sin revisión registrada)
+
+    - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr (sin revisión registrada)
+
+    - RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente (sin revisión
+    registrada)'
+  family_resolved: true
+  gold_families:
+  - RP1R-SUPRA
+  n_non_anchorable: 1
+  pool_n: 27
+  served_n: 14
+  topk_n: 10
+  appended_n: 4
+  topk_ids:
+  - c8924d59-a9ce-4379-a3b7-57058ff86a82
+  - 4b81cc38-e8f6-4e00-8ca5-71857870a975
+  - 68f06bc3-55c9-4c5c-a1aa-6b84075a7832
+  - 2dca620c-0466-41f0-a0ce-ec9679ddcdac
+  - f5ea54c2-9eaf-46a1-84d6-7df666d3a58d
+  - 296aa5f1-b728-41e8-a4a8-93e19a1708d4
+  - bb2e613e-dca9-47e8-a1e8-124d8988fae0
+  - 63ac47ce-4aeb-405c-a445-21a6463729a4
+  - ecf04c43-d3e5-4d12-8467-22e6d90c38b3
+  - 56d1c5d9-ff07-4164-a94f-0c9760b90b2b
+  served_ids:
+  - c8924d59-a9ce-4379-a3b7-57058ff86a82
+  - 4b81cc38-e8f6-4e00-8ca5-71857870a975
+  - 68f06bc3-55c9-4c5c-a1aa-6b84075a7832
+  - 2dca620c-0466-41f0-a0ce-ec9679ddcdac
+  - f5ea54c2-9eaf-46a1-84d6-7df666d3a58d
+  - 296aa5f1-b728-41e8-a4a8-93e19a1708d4
+  - bb2e613e-dca9-47e8-a1e8-124d8988fae0
+  - 63ac47ce-4aeb-405c-a445-21a6463729a4
+  - ecf04c43-d3e5-4d12-8467-22e6d90c38b3
+  - 56d1c5d9-ff07-4164-a94f-0c9760b90b2b
+  - 2d45a70a-5202-442e-af84-c3a176c2178d
+  - 2bb8be5a-b5ca-4aaa-bc65-226f79d4a140
+  - 475a8f18-7c69-4c7a-8111-45bd67334c96
+  - 18140a8a-ab2c-40d4-a81f-2532fbe1b838
+  appended_ids:
+  - 2d45a70a-5202-442e-af84-c3a176c2178d
+  - 2bb8be5a-b5ca-4aaa-bc65-226f79d4a140
+  - 475a8f18-7c69-4c7a-8111-45bd67334c96
+  - 18140a8a-ab2c-40d4-a81f-2532fbe1b838
+  appended_lane:
+    2d45a70a-5202-442e-af84-c3a176c2178d: same_blob_structural_neighbor_coverage_v1
+    2bb8be5a-b5ca-4aaa-bc65-226f79d4a140: same_blob_structural_neighbor_coverage_v1
+    475a8f18-7c69-4c7a-8111-45bd67334c96: document_local_content_coverage_v1
+    18140a8a-ab2c-40d4-a81f-2532fbe1b838: document_local_content_coverage_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 2
+    synthesis-miss: 1
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 1
+    meta-ref: 0
+  facts:
+  - key: hp011#0:ABORT
+    valor: ABORT
+    texto: 'Entrada ABORT (paro de emergencia): por defecto enclavada (latched); una
+      vez activada requiere rearme manual de la central para rehabilitar el proceso
+      de extincion'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 9c0acc7a-ae07-4a6a-ae69-2ceed3320666
+    - ecf04c43-d3e5-4d12-8467-22e6d90c38b3
+    - f5ea54c2-9eaf-46a1-84d6-7df666d3a58d
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp011#1:r.I
+    valor: r.I
+    texto: 'Parametro r.I "Rearme inhibido tras extincion": "--"=inhibido hasta finalizar
+      la extincion o agotar t.A; "00"=rearme permitido en cualquier momento (POR DEFECTO);
+      "01" a "30"=inhibido durante ese intervalo en minutos'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    corpus_check: semantic
+    corpus_gap:
+      suspect_fn_mine: true
+      best_corpus_score: null
+      near_miss: false
+      es_en_translatable: false
+      sem_bound_truncated: true
+      nota: corpus-gap=default FN-MÍO; revisar es-en/OCR/bare/tie + manual-completo
+        antes de aceptar (feedback_corpus_gap)
+    clase: corpus-gap
+  - key: hp011#2:05 a 295 seg
+    valor: 05 a 295 seg
+    texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a
+      295 seg; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    support_judge_disagreement: true
+    support_judge2_votes:
+      7e657b4b-990b-4de4-83a7-89a057b23f83: 5
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+  - key: hp011#3:enclavadas
+    valor: enclavadas
+    texto: 'Averias enclavadas: por defecto todas las averias son enclavadas y requieren
+      rearme manual de la central para su restablecimiento'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: hp013
+  question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
+  answer: 'El procedimiento específico para cambiar la batería de litio del ADW535
+    sin perder configuración **no está documentado en los fragmentos disponibles**.
+
+
+    Lo que sí puedo confirmar a partir de los fragmentos:
+
+
+    **Sobre la batería de litio:**
+
+    - La batería de litio está ubicada en el **Main Board LMB 35** [F2][F3].
+
+    - En la primera puesta en funcionamiento, se indica que "justo antes del primer
+    encendido del ADW 535, debe retirarse la cinta aislante de la batería de litio
+    (LMB 35)" [F5], lo que confirma que es una batería con conector extraíble, pero
+    no se describe el procedimiento de sustitución posterior.
+
+
+    **Sobre la conservación de la configuración:**
+
+    - Los parámetros específicos del sistema se almacenan en una **EEPROM** [F11],
+    lo que es relevante para entender dónde reside la configuración, pero el manual
+    no especifica si la batería es necesaria para mantener esa memoria durante el
+    cambio.
+
+    - El **reset de hardware** (interrupción de tensión de alimentación) mantiene
+    los parámetros programados [F6].
+
+    - La configuración también puede guardarse en las posiciones de conmutador **X01
+    a X03** [F1].
+
+
+    **Advertencia importante:**
+
+    El manual indica que los trabajos de mantenimiento en el ADW 535 **únicamente
+    podrá llevarlos a cabo el personal autorizado y que haya sido formado por el fabricante**
+    [F4].
+
+
+    ---
+
+
+    Para el procedimiento exacto de sustitución de la batería, consulta directamente
+    el manual completo **ADW535_TD_T140358es_e** (capítulo 9 de mantenimiento) o contacta
+    con el soporte técnico de Securiton/Detnov, ya que los fragmentos disponibles
+    no cubren ese procedimiento.
+
+
+    Fuente: ADW535_TD_T140358es_e (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "Por ello, cuando se realicen trabajos de mantenimiento en el ADW 535, es imprescindible
+    desconectar previamente los controles de incendios y las alertas remotas de los
+    sistemas de orden superior (CDI)." [F6]
+
+    - "Para evitar que los controles de incendios, las alertas remotas y las zonas
+    de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible**
+    bloquearlos o desconectarlos previamente." [F4]'
+  family_resolved: true
+  gold_families:
+  - ADW535
+  n_non_anchorable: 0
+  pool_n: 11
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 84e7ff38-d5c5-4551-8a78-7e7329c513ec
+  - a53e527d-3b07-4c6e-8d0f-a5dd7a5e0adc
+  - af577289-5d7f-4dfc-9187-8a3aca92d40d
+  - 83b87bb1-107a-4574-895c-58fc69a0b93d
+  - 4dd6c20a-3074-450e-bddb-179fabe263d0
+  - cfaecf00-911d-4c9f-b902-edb626814094
+  - 0b3e4dfa-c8d7-43da-a9c3-f00c19157b52
+  - 0bdfd50f-9307-4686-8148-68bf323c8fca
+  - 942fc67f-90ba-4900-9543-3228a424f281
+  - 9a1cab1c-8667-4bab-8dd4-f2c8c998af87
+  served_ids:
+  - 84e7ff38-d5c5-4551-8a78-7e7329c513ec
+  - a53e527d-3b07-4c6e-8d0f-a5dd7a5e0adc
+  - af577289-5d7f-4dfc-9187-8a3aca92d40d
+  - 83b87bb1-107a-4574-895c-58fc69a0b93d
+  - 4dd6c20a-3074-450e-bddb-179fabe263d0
+  - cfaecf00-911d-4c9f-b902-edb626814094
+  - 0b3e4dfa-c8d7-43da-a9c3-f00c19157b52
+  - 0bdfd50f-9307-4686-8148-68bf323c8fca
+  - 942fc67f-90ba-4900-9543-3228a424f281
+  - 9a1cab1c-8667-4bab-8dd4-f2c8c998af87
+  - 721167ef-2a18-4b7d-a57d-00d2690460c7
+  - 5d187ee4-b05d-479d-9748-09a17b856b3d
+  - 698aa0d1-edff-4aff-ac08-d14dc8206a71
+  appended_ids:
+  - 721167ef-2a18-4b7d-a57d-00d2690460c7
+  - 5d187ee4-b05d-479d-9748-09a17b856b3d
+  - 698aa0d1-edff-4aff-ac08-d14dc8206a71
+  appended_lane:
+    721167ef-2a18-4b7d-a57d-00d2690460c7: same_blob_structural_neighbor_coverage_v1
+    5d187ee4-b05d-479d-9748-09a17b856b3d: same_blob_structural_neighbor_coverage_v1
+    698aa0d1-edff-4aff-ac08-d14dc8206a71: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 0
+    synthesis-miss: 1
+    rerank-miss: 0
+    retrieval-miss: 1
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp013#0:EEPROM
+    valor: EEPROM
+    texto: La configuracion especifica del sistema se almacena en una EEPROM (memoria
+      NO volatil); el firmware en Flash PROM -> la configuracion se CONSERVA aunque
+      se cambie la bateria
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - af577289-5d7f-4dfc-9187-8a3aca92d40d
+    support_l1_override: true
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: hedged
+      votes:
+        hedged: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: flip
+  - key: hp013#1:PWR-R
+    valor: PWR-R
+    texto: El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada
+      de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante,
+      NO una bateria tampon a bordo. La unica bateria es de LITIO, en la placa LMB
+      35, para el reloj RTC
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    corpus_check: lexical
+    best_corpus_score: 0.643
+    submotivo: within-doc
+    clase: retrieval-miss
+- qid: hp014
+  question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
+  answer: "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\nLos fragmentos\
+    \ del manual no incluyen el diagrama de conexionado del aislador con los valores\
+    \ de terminal pin a pin (el esquema aparece como figura en el manual pero no es\
+    \ legible en los fragmentos recuperados). Sin embargo, sí hay información textual\
+    \ relevante que te detallo a continuación.\n\n---\n\n### Requisitos de instalación\
+    \ (reglas de diseño)\n\n- **Máximo 25 equipos de lazo entre aisladores** en la\
+    \ central ID2000 [F3][F5].\n- Si se utilizan **aisladores tipo FET**, el límite\
+    \ baja a **20 equipos entre aisladores** [F3][F5].\n- Este requisito es obligatorio\
+    \ para cumplir la norma **EN54-2: 12.5.2** [F5].\n- Los aisladores deben instalarse\
+    \ en **todos los lazos analógicos**, incluyendo los que tengan detectores de zona\
+    \ convencional y/o pulsadores [F5].\n\n---\n\n### Terminales del aislador\n\n\
+    El fragmento menciona que el aislador tiene **terminales 1, 2, 3 y 4** [F3]. El\
+    \ procedimiento de comprobación del lazo indica:\n\n> \"Desconecte los aisladores\
+    \ del lazo temporalmente **cortocircuitando los terminales 2 y 4** de cada aislador.\"\
+    \ [F3]\n\nEsto confirma que los terminales 2 y 4 son los que corresponden a un\
+    \ lado del lazo (el que se puentea para las pruebas), pero el manual no describe\
+    \ en texto el esquema completo de conexionado de los 4 terminales. Para la asignación\
+    \ exacta de cada terminal, **consulta el diagrama de la página 41 del manual MI-DT-180**\
+    \ (figura de conexiones típicas de equipos direccionables analógicos) [F3].\n\n\
+    ---\n\n### Procedimiento de puesta en marcha con aisladores\n\n1. **Antes de conectar\
+    \ el cableado al panel**: realiza las comprobaciones del lazo con los aisladores\
+    \ **temporalmente cortocircuitados** (puentear terminales 2 y 4 de cada aislador)\
+    \ [F3].\n   - ⚠️ El cableado del lazo **debe estar desconectado del panel** durante\
+    \ este procedimiento [F3].\n2. Comprueba la resistencia final de línea. Debe ser\
+    \ inferior a [F3]:\n   - **14,5 Ω** (placa base y LIB, con detección de dirección\
+    \ duplicada)\n   - **28,5 Ω** (placa base y LIB, sin detección de dirección duplicada)\n\
+    \   - **18,5 Ω** (placa base y LIB, con detección de dirección duplicada — segunda\
+    \ variante)\n   - **35,5 Ω** (placa base y LIB, sin detección de dirección duplicada\
+    \ — segunda variante)\n3. Una vez verificado el cableado, **retira las conexiones\
+    \ temporales** de los aisladores (quita los puentes de los terminales 2 y 4) [F1].\n\
+    4. Conecta el cableado del lazo al panel respetando la polaridad: **extremos A\
+    \ y B en sus terminales correspondientes** [F1].\n\n---\n\n### Datos adicionales\
+    \ del lazo\n\n- Resistencia máxima del lazo: **no debe superar los 35 Ω** [F11].\n\
+    - Capacidad del cable: **inferior a 0,5 µF** [F11].\n- Longitud máxima del lazo:\
+    \ **2000 metros** con cable de **1,5 mm² de sección o superior** [F3][F11].\n\
+    - La pantalla del cable apantallado **solo debe conectarse a tierra en el panel**\
+    \ [F2].\n- Los terminales aceptan cables de **0,5 mm² a 2,5 mm²** [F12].\n\n---\n\
+    \n⚠️ Para el esquema de conexionado pin a pin del aislador, consulta directamente\
+    \ la **figura de la página 41 del manual MI-DT-180**, que muestra las conexiones\
+    \ típicas de equipos direccionables analógicos al lazo [F3].\n\n---\n\nFuente:\
+    \ Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev. MI-DT-180,\
+    \ 2003-03-31)\n\n---\n⚠️ **Información adicional del manual:**\n- \"> ⚠️ **¡NUNCA\
+    \ conecte las baterías antes que la fuente de alimentación!**\" [F1]\n- \"**1**\
+    \ Vuelva a conectar la alimentación principal - NUNCA conecte las baterías antes\
+    \ que la alimentación principal.\" [F1]\n\n---\n\U0001F4D6 **Obligaciones de evidencia\
+    \ del manual:**\n- \"Para cumplir con los requisitos de EN54-2, los aisladores\
+    \ se deben instalar entre un máximo de 32 equipos de lazo. **En la central ID2000,\
+    \ no se debe colocar más de 25 equipos de lazo entre aisladores (20 si se utilizan\
+    \ aisladores tipo FET).**\" (MIDT180, p. 20) [F5]\n- \"La resistencia máxima del\
+    \ lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+\
+    \ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]"
+  family_resolved: true
+  gold_families:
+  - ID2000
+  n_non_anchorable: 1
+  pool_n: 34
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 3f8a816d-a733-4108-bad5-710478096c7b
+  - 823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6
+  - 6d5eb18f-4b4b-45fa-bee3-dec0f6026610
+  - 4cdceb3e-31d4-429b-b74c-ba395bb3ea5d
+  - 330d7551-7bb0-4c0e-a27d-ec47c0065128
+  - 4a024b60-4d28-48ee-a167-c15a3950364a
+  - 25ed44fb-422f-4742-be49-e0536a14ca93
+  - 7b6fa85e-b30f-4db9-a278-820709711afe
+  - 04197991-304d-4097-a31d-abedf245039b
+  - 5bc31c53-2db0-4c5a-909e-f40c19525dbd
+  served_ids:
+  - 3f8a816d-a733-4108-bad5-710478096c7b
+  - 823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6
+  - 6d5eb18f-4b4b-45fa-bee3-dec0f6026610
+  - 4cdceb3e-31d4-429b-b74c-ba395bb3ea5d
+  - 330d7551-7bb0-4c0e-a27d-ec47c0065128
+  - 4a024b60-4d28-48ee-a167-c15a3950364a
+  - 25ed44fb-422f-4742-be49-e0536a14ca93
+  - 7b6fa85e-b30f-4db9-a278-820709711afe
+  - 04197991-304d-4097-a31d-abedf245039b
+  - 5bc31c53-2db0-4c5a-909e-f40c19525dbd
+  - d4018c9b-8eff-4b19-b826-5bb4df55d29e
+  - c3541bb2-a33c-4213-8cf1-0ffcf98604ea
+  - bd7415b4-46f9-4886-b2c2-768e6b8f96d6
+  appended_ids:
+  - d4018c9b-8eff-4b19-b826-5bb4df55d29e
+  - c3541bb2-a33c-4213-8cf1-0ffcf98604ea
+  - bd7415b4-46f9-4886-b2c2-768e6b8f96d6
+  appended_lane:
+    d4018c9b-8eff-4b19-b826-5bb4df55d29e: same_blob_structural_neighbor_coverage_v1
+    c3541bb2-a33c-4213-8cf1-0ffcf98604ea: same_blob_structural_neighbor_coverage_v1
+    bd7415b4-46f9-4886-b2c2-768e6b8f96d6: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 1
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp014#0:25
+    valor: '25'
+    texto: Los aisladores se instalan en CADA lazo analogico para separar sensores
+      y pulsadores; maximo 32 equipos de lazo entre aisladores (EN54-2), pero en la
+      ID2000 no mas de 25 equipos entre aisladores (20 si son aisladores tipo FET,
+      p.ej. B524IEFT)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp014#1:continuidad
+    valor: continuidad
+    texto: Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar
+      los aisladores (usar multimetro de baja tension, nunca de alta tension tipo
+      'Megger')
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: flip
+  - key: hp014#2:terminales 2 y 4
+    valor: terminales 2 y 4
+    texto: Para las pruebas, desconectar temporalmente los aisladores cortocircuitando
+      los terminales 2 y 4 de cada aislador; tras verificar polaridad/continuidad,
+      RETIRAR las conexiones temporales antes de conectar el lazo al panel (extremos
+      A y B)
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp014#3:35
+    valor: '35'
+    texto: La pantalla del cable debe ser continua y conectarse a tierra SOLO en el
+      panel; la resistencia maxima del lazo no debe superar 35 ohmios (uniendo B+/B-
+      y midiendo en A+/A-)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    support_judge2_agreed_none: true
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    conveyed_yes: 5
+    clase: OK
+- qid: hp017
+  question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier
+    PEARL?
+  answer: 'El retardo de salida de alarma principal en la PEARL **se programa mediante
+    las reglas de causa-efecto**, no como un parámetro único global. Aquí tienes el
+    proceso completo:
+
+
+    ---
+
+
+    ## Dónde se configura
+
+
+    No puedo confirmar de forma segura el número de menú de Causa y Efecto con los
+    fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un
+    número de menú.
+
+
+    > **Nota importante:** Se recomienda usar el programa de configuración por ordenador
+    como método principal. El menú de la central solo debe usarse para modificaciones
+    menores [F12].
+
+
+    ---
+
+
+    ## Tipos de retardo disponibles
+
+
+    Cada regla de causa-efecto puede tener asignado **uno de seis tipos de retardo
+    de salida** [F1]. Los tipos disponibles son [F2]:
+
+
+    - **Fijo** — Sin posibilidad de silenciar ni ampliar durante el retardo; el tiempo
+    restante no se muestra en LCD.
+
+    - **Estándar** — Silenciable con SILENCIAR SIRENAS; anulable en nivel 2; tiempo
+    visible en pantalla; FIN RETARDO disponible.
+
+    - **No Silenc.** — No silenciable con SILENCIAR SIRENAS; sí anulable en nivel
+    2; tiempo visible; FIN RETARDO disponible.
+
+    - **Est. Ext.** — Como Estándar, más: se detiene si se pulsa AMPLIAR RETARDO.
+
+    - **RetExtStd** — Como Estándar, más: el temporizador comienza en RETARDO AMPLIADO.
+
+    - **No Sil. Ext** — No silenciable, pero se detiene con AMPLIAR RETARDO; anulable
+    en nivel 2; tiempo visible.
+
+    - **SinRetExt** — No silenciable; el temporizador comienza en RETARDO AMPLIADO;
+    anulable en nivel 2.
+
+
+    ---
+
+
+    ## Comportamiento durante el retardo activo
+
+
+    Cuando hay un retardo activo, el **LED de RETARDO ACTIVO** se enciende [F3]. Las
+    acciones disponibles según el tipo configurado son [F2]:
+
+
+    - **SILENCIAR SIRENAS** → detiene la salida solo en tipos: Estándar, Est. Ext.,
+    RetExtStd.
+
+    - **AMPLIAR RETARDO** → detiene/inicia segundo temporizador según el tipo [F4].
+
+    - **FIN RETARDO** → termina cualquier retardo activo (nivel de acceso 1) [F4].
+
+    - **Anular retardos** (menú nivel 2, opción **«5: Retardo Activación Salidas»**)
+    → anula/habilita globalmente todos los retardos configurados [F3].
+
+
+    ---
+
+
+    ## Opción adicional: habilitar/deshabilitar la tecla AMPLIAR RETARDO
+
+
+    Desde **«Editar Parámetros de la Central»**, parámetro **«10: Extend Delay Button»**,
+    puede habilitarse o deshabilitarse el pulsador AMPLIAR RETARDO, ya que esta función
+    no se requiere en algunos mercados [F5].
+
+
+    ---
+
+
+    ## Retardo de alarma por sensor individual
+
+
+    Adicionalmente, cada sensor del lazo tiene un parámetro de **«Retardo de alarma»**
+    editable de forma individual [F7], independiente del retardo de salida de la regla
+    causa-efecto.
+
+
+    ---
+
+
+    > ⚠️ **Aviso:** Prueba rigurosamente todas las reglas durante la puesta en marcha
+    para verificar que no haya conflictos lógicos [F12].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - Manual de configuración de la central PEARL (rev. 997-671-005-3)
+
+    - Manual de funcionamiento de la central PEARL 997-670-005-3 (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "**Es de vital importancia probar rigurosamente todas las reglas durante la
+    puesta en marcha del sistema para verificar que no haya conflictos lógicos entre
+    ellas.**" [F12]
+
+    - "**Al programar reglas de causa-efecto evite las lógicas contradictorias.**"
+    [F12]
+
+    - "- Números de referencia de la zona de red
+
+    - Tipo de equipo
+
+    - Entorno del número de referencia de zona (opcional)
+
+    - Número de central (Central LOCAL; 1-125: otras centrales de red). Esta columna
+    no siempre se muestra, ya que depende del tipo de numeración de zona seleccionada.
+
+    - Número de zonas (hasta 255 zonas locales o 8192 zonas de red)
+
+    - Número de células (hasta 255)
+
+    - Prioridad de interrogación (operación solo protocolo CLIP: limitada a 30 equipos)
+
+    - Acción de parpadeo en equipo interrogado. Elección del color solo para equipos
+    Opal.
+
+    - Opción de tipo de equipo (VIEW, Optiplex y SMART)
+
+    - Ajuste del nivel de alarma
+
+    - Ajuste del nivel de alarma horaria
+
+    - Ajuste del nivel de prealarma
+
+    - Selección de programación horaria (cambio de sensibilidad de sensor)
+
+    - Grupo AWACS (50 grupos con todos los sensores CLIP salvo HEAT)
+
+    - Retardo de alarma
+
+    - Ajuste no silenciable para la función de LED remoto (solo equipos Opal); respuesta
+    a la orden SILENCIAR SIRENAS.
+
+    - Operación solo modo térmico (L6) (solo SMART y Optiplex)
+
+    - Número de aplicación (solo equipos SMART 4)
+
+    - Ajuste de la función LED remota (solo equipos Opal): las opciones son: Seguir
+    el equipo (predeterminada) o Controlada por las reglas de causa-efecto.
+
+    - Retardo de confirmación de coincidencia de detector; puede ajustarse hasta 240
+    s (4 min). Puede usarse con dependencia tipo B." [F7]
+
+
+    ---
+
+    📋 **Obligaciones de evidencia del manual:**
+
+    - Nota: la fuente es inconsistente: "Se puede asignar uno de seis tipos de retardo
+    de salida a una regla, como se explica a continuación." (997-671-005-3_Configuration_ES,
+    p. 44) [F1] declara 6 tipos y la enumeración servida lista 8 (997-671-005-3_Configuration_ES,
+    p. 44) [F1].
+
+    - Nota: la fuente es inconsistente: "Sección 4 - 4" (997-671-005-3_Configuration_ES,
+    p. 21) [F6] declara 4 Equipos y la enumeración servida lista 20 (997-671-005-3_Configuration_ES,
+    p. 20) [F7].'
+  family_resolved: true
+  gold_families:
+  - PEARL
+  n_non_anchorable: 1
+  pool_n: 43
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 570d9951-e3a6-4c64-a927-e26b5e6db842
+  - 7e34cb72-0183-488a-9aa3-fcc81b40f3ef
+  - ac308dbf-357e-4356-9049-1ccfcc6ff749
+  - 3ef1b823-b62e-40d4-8a9a-ebac320f6414
+  - 9587cd83-e271-42b9-ba8f-dfd05ae94935
+  - 13bee205-9f2b-44ba-9891-37d77b5fa110
+  - 39e581ab-3536-4fe5-8faa-4537ca38213f
+  - f8dcce3e-d043-4770-b8b0-8ada66a7c1af
+  - 91c99a65-d987-42a4-a20f-5ceb56d14b94
+  - b7b0e4f9-8327-4d2c-916e-387cee4fb41b
+  served_ids:
+  - 570d9951-e3a6-4c64-a927-e26b5e6db842
+  - 7e34cb72-0183-488a-9aa3-fcc81b40f3ef
+  - ac308dbf-357e-4356-9049-1ccfcc6ff749
+  - 3ef1b823-b62e-40d4-8a9a-ebac320f6414
+  - 9587cd83-e271-42b9-ba8f-dfd05ae94935
+  - 13bee205-9f2b-44ba-9891-37d77b5fa110
+  - 39e581ab-3536-4fe5-8faa-4537ca38213f
+  - f8dcce3e-d043-4770-b8b0-8ada66a7c1af
+  - 91c99a65-d987-42a4-a20f-5ceb56d14b94
+  - b7b0e4f9-8327-4d2c-916e-387cee4fb41b
+  - a95f8659-2277-4b32-a413-edd0e6cd2f10
+  - d27b1a1b-69cd-4318-a459-f3c86eb757ba
+  - 61c95a72-ff4c-452d-9b0c-6ad5962469c6
+  appended_ids:
+  - a95f8659-2277-4b32-a413-edd0e6cd2f10
+  - d27b1a1b-69cd-4318-a459-f3c86eb757ba
+  - 61c95a72-ff4c-452d-9b0c-6ad5962469c6
+  appended_lane:
+    a95f8659-2277-4b32-a413-edd0e6cd2f10: same_blob_structural_neighbor_coverage_v1
+    d27b1a1b-69cd-4318-a459-f3c86eb757ba: same_blob_structural_neighbor_coverage_v1
+    61c95a72-ff4c-452d-9b0c-6ad5962469c6: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 1
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp017#0:causa-efecto
+    valor: causa-efecto
+    texto: El retardo de las salidas se programa mediante PROGRAMACION CAUSA-EFECTO
+      (reglas) en el Manual de configuracion 997-671-005-3 (Apendice 5), NO con un
+      parametro unico de "retardo de salida"
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 2
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 39e581ab-3536-4fe5-8faa-4537ca38213f
+    - 570d9951-e3a6-4c64-a927-e26b5e6db842
+    - ead69cdd-5aff-41ea-9ef5-2fc0c75689a2
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp017#1:instruccion de entrada
+    valor: instruccion de entrada
+    texto: 'Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma
+      en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 048da7d8-1618-431f-aa59-29a0f19eb520
+    support_l1_override: true
+    best_pool_rank: 7
+    submotivo: lexical-distractor
+    clase: rerank-miss
+  - key: hp017#2:Editar Configuracion
+    valor: Editar Configuracion
+    texto: Acceder a la pantalla "Causa y Efecto" desde el menu "Editar Configuracion";
+      borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los
+      equipos de salida) si se va a hacer una programacion especifica
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: hedged
+      votes:
+        hedged: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+  - key: hp017#3:seis tipos de retardo
+    valor: seis tipos de retardo
+    texto: 'Asignar a la regla un tipo de retardo de salida (seccion A5.3 ''Tipos
+      de retardo''). Aviso de fuente: la prosa de A5.3 dice ''uno de seis tipos''
+      mientras la tabla de la misma pagina recoge SIETE (Fijo, Estandar, No Silenc.,
+      Est. Ext., RetExtStd, No Sil. Ext, SinRetExt); la conducta correcta es declarar
+      la discrepancia, no resolverla en un numero'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp017#4:None
+    valor: null
+    texto: 'Recuadro-warning A5.1 (exigible UNA vez como bloque): al programar reglas
+      causa-efecto evitar las logicas contradictorias Y probar rigurosamente TODAS
+      las reglas durante la puesta en marcha para verificar que no haya conflictos'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    conveyed_yes: 5
+    clase: OK
