@@ -25,7 +25,36 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s285 — 28 jul 2026)
+## Estado actual (s286 — 29 jul 2026)
+
+**PRODUCCIÓN**: sin cambios de release (C1 + MT F0+F1 vivas; DDL `convo` sigue gateado por matriz
+RGPD). La rama `claude/s282-h0t2-qa` acumula s282→s286 lista para PR/merge.
+
+**BASELINE v4 = LÍNEA DE SALIDA DEL OBJETIVO: 11 PASS / 16 PARCIAL / 12 FALLO** (39 golds,
+ship-config completa, `judge_vara=v4` en todas las filas — DEC-162d). **Descomposición pareada**
+(mismas respuestas, mismos golds, letra v3): 10/25/4 ⇒ la vara explica +8 de los +9 FALLO vs
+s284; residuo real +1; v4 PASA una más que v3 (SUPP ya no degrada). **OBJETIVO (Alberto 28-jul):
+FALLO→0** (salvo techo DEC-158: cat022/hp012-retr) **y PARCIAL≤10**, vara v4 CONGELADA durante
+el arco, solo palancas BP/estructurales, golds no se ablandan sin adjudicación.
+
+**s286 cerró**: (a) SEGURIDAD hp018 — guard A'+C' shippeado default-off (A/B ciego 10/10→0/20,
+0 supresiones; DEC-162a); (b) tachados `~~` ejecutados en DB (907 filas, 0 mismatches) + 2 fugas
+de dedup cerradas + t.Fi patch; (c) vara v4 (T2b) con adjudicación sellada; (d) conducta medida
+(follow-ups 10/10→0/12 · direct-first · listing-gate · fix parser diagramas); (e) telemetría
+CONSTRUIDA (dúo 18 hallazgos/0 FP → `answer_feedback` + vistas salud + digest + 👍/👎; paste D9
+pendiente); (f) bug juez MT gold-en-blanco (fix; re-medición e2e pendiente bajo v4). Suite
+3308/0. Composición del gap: FALLO real = 10 (2 = techo DEC-158); buckets = CORE-facts perdidos
+(14 PARCIAL + ~5 FALLO) · identidad/variante (hp009/hp018/cat011, conecta con split ZXe/ZXSe
+D1-identidad) · conducta fina (cat013/hp004/cat015) · invención (cat020).
+
+**Qué sigue:** (1) **full del assessment nivel-hecho** (EN CURSO al cierre, ~$23) → estampar
+scoreboard + verificar corpus-gaps a mano → elegir palanca del bucket-1 con evidencia (gate
+primero, delta en eval, dúo antes de cablear); (2) lever loop por buckets hacia FALLO→0 /
+PARCIAL≤10; (3) lane inventario/catálogo («¿qué productos tienes de X?» — dogfooding Detnov/
+Kidde); (4) lote de Alberto (paste D9 · re-accept TERMS v2 · ONs con runbook · D1-D11 ·
+merge PR); (5) re-medición e2e MT bajo v4. Traza: DEC-162 + HISTORY s286.
+
+## Estado anterior (s285 — 28 jul 2026)
 
 **PRODUCCIÓN**: release C1 viva (#184, perfil `coverage_c1_v4` + identidad `replace` + Evidence
 Contract) **+ multi-turn Fase 0+Fase 1 vivas** (#185/#186; `ORCHESTRATOR_PATH=on` +
