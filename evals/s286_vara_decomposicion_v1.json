@@ -1,0 +1,197 @@
+{
+ "cat001": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta la capacidad del lazo, límites CLIP/Opal, carga, tope EN54 y describe razonablemente la autoconfiguración y edición. Pero omite puntos clave del gold: el límite PEARL de 25 equipos entre aisladores, el aviso de autoconfiguración en lazo mixto"
+ },
+ "cat005": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "Recoge correctamente las características técnicas clave del CS4 y distingue las versiones por código 3244 digital y 3270 analógica, indicando la diferencia de conexión de sensores. Añade información extra no presente en la GOLD, pero no contradice lo"
+ },
+ "cat007": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "FALLO",
+  "diag_v3": "Acertó el comportamiento fail-safe/no enclavado del relé de avería y la especificación eléctrica de los contactos, pero falló en datos clave solicitados: negó que estuvieran especificados los contactos NC-C-NA y la resistencia EOL de 47 kΩ, y además "
+ },
+ "cat008": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta los dos modos, la RFL de 47 kΩ, la resistencia de 18 kΩ en serie para 3 estados, la entrada 6-7 y el bypass del aislador con el terminal 5. Pero invierte la identificación entrada/salida de los terminales de lazo respecto a la referencia y om"
+ },
+ "cat009": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó el valor principal de EOL para modo resistivo, 6K8 Ω, y mencionó el condensador de 47 µF por defecto y que debe instalarse en todas las zonas. Sin embargo, no recoge la nota crítica de revisión del manual frente al valor antiguo 4K7 Ω y añade "
+ },
+ "cat010": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó los parámetros de seguridad intrínseca de entrada (+/−: Ui 28 V, Ii 93 mA, Pi 660 mW, Ci/Li 0) y el uso de aparato asociado certificado, además del marcado ATEX/IECEx. Pero no indica claramente la alimentación nominal a 24 Vdc ni la advertenci"
+ },
+ "cat011": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó en no tratar «751» como un único modelo y pidió aclaración según la aplicación, incluyendo la variante intrínsecamente segura IDX-751. Pero omite modelos clave de la referencia (CPX-751E, FSL-751E/LPX-751) e introduce/limita la respuesta a SDX"
+ },
+ "cat012": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "Responde correctamente con la fórmula Ah=(A+B)×1,2, define reposo/alarma con 24/72 h y 0,5 h, indica sumar consumos de tarjetas, lazos y salidas, y verifica el límite físico de baterías 2×12 V hasta 18 Ah. Añade variantes y detalles extra, pero no co"
+ },
+ "cat013": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "FALLO",
+  "diag_v3": "El bot infiere una incompatibilidad no documentada al afirmar que el SDX-751 'no es compatible' con la CAD-150, cuando la conducta esperada era no confirmar ni negar y exponer los datos por separado. Además admite no tener documentación de la CAD-150"
+ },
+ "cat014": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "El contenido técnico coincide con la referencia: vida útil de 10 años desde fabricación y MTBF no especificado. Sin embargo, la cita/evidencia aportada no respalda esos datos: referencia [F1] no aparece desarrollada y el fragmento citado [F4] es irre"
+ },
+ "cat015": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó al indicar que la documentación disponible no describe un procedimiento de actualización de firmware y remitir al soporte de Detnov. Pero introduce una especulación no documentada sobre que el USB podría estar relacionado con el firmware, y añ"
+ },
+ "cat016": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "La respuesta cubre correctamente el alta mediante autobúsqueda del lazo, asignación/nombre/zona y la prueba mediante ZONA > PRUEBA, incluyendo anulación de retardos, salida/retorno automático y consulta en ELEMENTO > VER. Solo omite mencionar explíci"
+ },
+ "cat017": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Cubre correctamente el cableado principal del módulo HOP-433-100, capacidades, no mezcla OPAL/CLIP, licencia CLIP y auto configuración. Queda incompleto frente al GOLD porque no menciona claramente el flujo CLSS de sitio/edificio y generación del .bi"
+ },
+ "cat018": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Responde la idea principal: CBE como lógica evento-salida, ruta de programación en Puntos/Sensores/Modulos, uso de zona/CBE y ejemplos de operadores. Pero introduce información potencialmente errónea o contradictoria sobre el TIPO ID de módulos de sa"
+ },
+ "cat019": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "La respuesta cubre correctamente el flujo esencial indicado en la referencia: crear la maniobra desde MANIOBRAS, configurar coincidencias, añadir eventos de entidad/condición temporal y asignar acciones de salida. Añade detalles adicionales plausible"
+ },
+ "cat020": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "Responde correctamente los valores clave de la versión España/Morley-IAS: prealarma 80%, alarma 100% y máximo 108%, con cita al manual de variaciones. La nota adicional sobre OTM/láser es algo confusa al decir que “no se expresan en porcentaje”, pero"
+ },
+ "cat021": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "El bot identifica correctamente que “40/40” no es un único modelo, enumera varias variantes por tecnología y pide datos clave para concretar el modelo. Aunque podría reforzar la advertencia de seguridad/no intercambiabilidad, la conducta esperada de "
+ },
+ "cat022": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó el significado del sufijo «B» como modelos con BIT incorporado. Pero falló la diferencia principal entre 40/40L y 40/40L4: no es solo sensibilidad/alcance, sino la banda IR del sensor (2,5–3,0 μm frente a 4,5 μm), por lo que la respuesta puede"
+ },
+ "cat023": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta las tres clases EN 54-20 y menciona que W01–W44 configuran retardos de 10/60 min y desviaciones ±20/±50 %. Pero desplaza el foco a posiciones A11–C31 y añade afirmaciones no reflejadas en la referencia, además de no dar el mapeo ejemplificado"
+ },
+ "cat024": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta al identificar la discrepancia 7 mA vs 17 mA y recomienda usar el manual vigente del dispositivo con 17 mA, además de incluir reposo y tensión. Sin embargo, abre afirmando que el consumo es 7 mA, lo que puede inducir a error, omite la revisió"
+ },
+ "hp001": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta lo esencial para acceder: pantalla de reposo, icono del candado y clave de administrador 2222, e incluye advertencia. Pero mezcla ese acceso con una ruta específica AJUSTES > AVANZADO y añade detalles no necesarios/no presentes en la referenc"
+ },
+ "hp002": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "La respuesta cubre bien la causa principal documentada (obstrucción/filtro/sensor sucio), el umbral ±20%/300 s, la lectura del flujo en V y varias comprobaciones de mantenimiento. Pero queda incompleta frente al gold: no advierte claramente la discre"
+ },
+ "hp003": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó en la conexión en serie, puente entre + y -, rojo/negro a los polos libres, ubicación, fusible y pulsador BAT. Queda incompleta/imprecisa porque fija 12V 7Ah sin mencionar variantes de capacidad, omite la comprobación con voltímetro >24V y no "
+ },
+ "hp004": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Da correctamente las dos variantes del DGD-600 con sus tensiones y consumos en reposo, separadas y con fuente. Sin embargo, no pide ni indica explícitamente que debe confirmarse si la versión instalada es 24V o 220V, que era la conducta esperada para"
+ },
+ "hp005": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó en lo esencial: usar Matriz de Control, limitar a zona/subzona, excluir pulsadores del grupo y seleccionar coincidencia de 2 equipos para activar una salida de sirena. Pero es impreciso/incompleto: no indica claramente la entrada ALARMA ni 'No"
+ },
+ "hp006": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acertó en que 'Tierra' es una avería por fuga/contacto a tierra y en que la documentación disponible no da un procedimiento paso a paso, además de mencionar JP2 de la MPS-400. Pero omite puntos clave del gold como TB1-3/tierra sólida, condición en SL"
+ },
+ "hp007": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "La respuesta identifica correctamente que el manual remite a la Tabla 7-1 y enumera las cuatro tareas anuales, además de incluir las precauciones principales y el uso de modo en espera. Aunque no lista todas las tareas de otras frecuencias como en la"
+ },
+ "hp008": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Incluye la mayoría de sensores de humo analógicos compatibles citados en el manual y menciona la barrera Y72221 para IDX-751. Pero omite los detectores por rayo LPB500 y LPB-700/LPB-700T, no indica el límite/protocolo del lazo, y la afirmación de “to"
+ },
+ "hp009": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "FALLO",
+  "diag_v3": "La respuesta atribuye a los lazos de la ZXe una RFL de 150 Ω propia de bus RS-485/otros equipos, mezclando documentación no aplicable. Según la referencia, el lazo analógico direccionable ZXe se cablea en bucle cerrado y no lleva resistencia de fin d"
+ },
+ "hp010": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta en lo esencial: usar la Autobúsqueda del menú de Lazo, seleccionar lazo, confirmar y revisar el resumen, incluyendo la espera de 2 minutos tras cambio de protocolo. Pero omite pasos relevantes del procedimiento GOLD como el acceso detallado a"
+ },
+ "hp011": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "La respuesta cubre correctamente el parámetro r.I, el ABORT, las averías enclavadas y el procedimiento de rearme con cita. Sin embargo, omite o trata de forma insuficiente comprobaciones clave del gold: duración de descarga t.A con su valor por defec"
+ },
+ "hp012": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "FALLO",
+  "diag_v3": "Acertó en los 10 lazos de la AM2020 y en los 198 dispositivos por lazo, pero eligió la variante de 4 lazos para AFP1010 sin surfacear correctamente el conflicto España/US de 2 vs 4 lazos. Además afirma erróneamente que el total de dispositivos de la "
+ },
+ "hp013": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta en que el manual documenta batería de litio en el LMB 35, configuración en EEPROM y que no hay procedimiento paso a paso documentado, recomendando soporte. Pero afirma de forma demasiado categórica que la configuración no se pierde y que no h"
+ },
+ "hp014": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta en los límites de equipos entre aisladores y en la comprobación previa cortocircuitando 2-4, con retirada posterior antes de conectar al panel. Pero queda incompleta frente a la referencia: no explica claramente que el aislador se intercala e"
+ },
+ "hp015": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "Responde correctamente que no se puede desactivar un detector individual en la CCD-103 y que la desconexión es por zona completa, con el procedimiento e indicaciones principales. Aunque no menciona la resistencia de fin de línea ni el máximo de detec"
+ },
+ "hp017": {
+  "v4": "PARCIAL",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "Acierta lo principal: el retardo se programa mediante reglas de causa-efecto, advierte sobre reglas por defecto, tipos de retardo, método por PC y pruebas. Pero omite pasos importantes de creación de la regla —instrucción de entrada/salida, lazo 0=to"
+ },
+ "hp018": {
+  "v4": "FALLO",
+  "v3_mismas_respuestas": "PARCIAL",
+  "diag_v3": "La respuesta cubre correctamente la polaridad, diodo, RFL 6,8 kΩ/0,5 W, supervisión y límite de 1 A, con citas. Pero afirma que la ZXe dispone de solo 2 circuitos y omite/contradice que la ZX5e tiene 4 salidas de sirena (A-D), por lo que queda imprec"
+ },
+ "hp019": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "Responde correctamente el rango principal (–30 °C a +60 °C) para caja y conducto, e incluye las excepciones relevantes de UL/AS 1603.8, ultracongelación, fluctuación máxima y almacenamiento. Añade información extra algo redundante/irrelevante, pero n"
+ },
+ "hp020": {
+  "v4": "PASS",
+  "v3_mismas_respuestas": "PASS",
+  "diag_v3": "La respuesta reproduce correctamente quién puede cambiar cada nivel y el procedimiento principal, incluyendo longitud 4-8 dígitos, confirmación, mensaje de éxito y sincronización/copia en nube. Añade información adicional no problemática; solo omite "
+ }
+}
