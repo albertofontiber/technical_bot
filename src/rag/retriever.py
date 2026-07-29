@@ -1087,6 +1087,12 @@ def vector_search(
                         params={"select": _HYDRATE_SELECT, "id": f"in.({ids})"})
                     h_resp.raise_for_status()
                     for row in h_resp.json():
+                        # s286 fix fuga-hyq: el RPC hyq NO filtra padres retirados por dedup
+                        # (duplicate_of) — sin este guard, las preguntas hyq de chunks
+                        # duplicados podían RESUCITAR contenido retirado vía este canal
+                        # (el canal vectorial y el de enunciados sí filtran en SQL).
+                        if row.get("duplicate_of"):
+                            continue
                         sim, qwin = hyq_parents[row["id"]]
                         row["similarity"] = sim
                         row["_hyq_surrogate"] = True
@@ -1252,7 +1258,7 @@ def _merge_channels(keyword_results: list[dict], vector_results: list[dict],
 
 _HYDRATE_SELECT = ("id,content,context,extraction_sha256,chunk_index,product_model,category,section_title,content_type,"
                  "manufacturer,protocol,doc_type,language,has_diagram,diagram_url,"
-                 "source_file,page_number,document_id,parent_id")
+                 "source_file,page_number,document_id,parent_id,duplicate_of")
 
 
 # (s95-A3) Cuántos enunciados se piden ANTES del colapso por padre (Dense X: se
@@ -1526,7 +1532,8 @@ def _enunciados_swap(chunks: list[dict]) -> list[dict]:
             out.append(c)
             continue
         p = parents.get(smap[cid])
-        if not p:
+        if not p or p.get("duplicate_of"):
+            # s286 fix fuga-hyq: un padre retirado por dedup no puede resucitar vía surrogate
             continue
         sim = c.get("similarity", 0)
         prev = best.get(p["id"])

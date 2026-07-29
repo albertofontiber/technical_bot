@@ -786,23 +786,34 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     answer = raw_answer
 
     if "DIAGRAMAS_RELEVANTES:" in raw_answer:
-        parts = raw_answer.rsplit("DIAGRAMAS_RELEVANTES:", 1)
-        answer = parts[0].rstrip()
-
-        try:
-            # Parse the list of fragment numbers e.g. [1, 3]
-            refs_str = parts[1].strip()
-            refs = json.loads(refs_str)
-            if isinstance(refs, list):
-                seen_urls = set()
-                for ref in refs:
-                    if ref in diagram_map:
-                        info = diagram_map[ref]
-                        if info["url"] not in seen_urls:
-                            seen_urls.add(info["url"])
-                            diagrams.append(info)
-        except (json.JSONDecodeError, ValueError) as e:
-            logger.warning(f"Failed to parse DIAGRAMAS_RELEVANTES: '{parts[1].strip()[:100]}' — {e}")
+        # s286 fix: el parser antiguo hacía json.loads de TODO lo que seguía al marcador y
+        # amputaba la cola de la respuesta. Si el modelo añade texto tras la línea (p.ej. la
+        # coletilla «También puedo ayudarte…»), (a) fallaba el parse («Extra data») perdiendo
+        # los diagramas y (b) esa cola desaparecía en silencio. Ahora: se extrae SOLO el array
+        # JSON inmediato, se re-injerta la cola, y sin array el texto queda intacto.
+        head, _, rest = raw_answer.rpartition("DIAGRAMAS_RELEVANTES:")
+        m = re.match(r"\s*(\[[\d\s,]*\])", rest)
+        if m:
+            tail = rest[m.end():].strip()
+            answer = head.rstrip() + (f"\n\n{tail}" if tail else "")
+            try:
+                refs = json.loads(m.group(1))
+                if isinstance(refs, list):
+                    seen_urls = set()
+                    for ref in refs:
+                        if ref in diagram_map:
+                            info = diagram_map[ref]
+                            if info["url"] not in seen_urls:
+                                seen_urls.add(info["url"])
+                                diagrams.append(info)
+            except (json.JSONDecodeError, ValueError) as e:  # pragma: no cover - regex garantiza array
+                logger.warning(f"Failed to parse DIAGRAMAS_RELEVANTES: '{m.group(1)[:100]}' — {e}")
+        else:
+            logger.warning(
+                "DIAGRAMAS_RELEVANTES sin array JSON inmediato — respuesta intacta, sin diagramas: "
+                f"'{rest.strip()[:100]}'"
+            )
+            answer = raw_answer
 
     # Log if Claude generated markdown tables despite system prompt forbidding them
     if re.search(r'^\|.+\|$', answer, re.MULTILINE) and "---" in answer:
