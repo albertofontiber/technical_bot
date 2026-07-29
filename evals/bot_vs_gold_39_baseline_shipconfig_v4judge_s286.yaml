@@ -1,0 +1,3371 @@
+- qid: cat001
+  question: En la Notifier PEARL, ¿cuántos equipos admite un lazo SLC y qué límites
+    de cableado hay (aisladores), y cómo se dan de alta y editan esos equipos desde
+    la central?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Cubre capacidad básica, carga, autoconfiguración y edición de sensores,
+    pero faltan CORE importantes: el límite de 40 equipos CLIP en la autoconfiguración
+    de lazo mixto Opal/CLIP y el criterio PEARL de no más de 25 equipos entre aisladores.
+    Además el apartado de aisladores queda impreciso respecto a los casos de 20 equipos
+    con FET/equipos sin aislador interno.'
+  bot_sources:
+  - 997-669-005-3_Instal-Comm_ES
+  - 997-671-005-3_Configuration_ES
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Notifier PEARL — Capacidad de lazo SLC, límites de aisladores y\
+    \ alta/edición de equipos\n\n---\n\n### 1. Capacidad máxima por lazo\n\nUn lazo\
+    \ analógico de la PEARL admite un máximo de **318 equipos por lazo**: hasta **159\
+    \ sensores** y **159 módulos** (protocolo Opal) [F1].\n\nEn protocolo **CLIP**,\
+    \ el límite es de **99 sensores más 99 módulos** por lazo [F2].\n\nPara el conjunto\
+    \ del sistema (ambos lazos), la norma **EN54-2: 13-7** limita a un máximo de **512\
+    \ sensores y/o pulsadores manuales** en total [F1].\n\nLa **carga máxima eléctrica**\
+    \ es de **0,75 A por lazo** [F2].\n\n---\n\n### 2. Límites de aisladores (EN54-2:\
+    \ 12.5.2)\n\nLa norma **EN54-2: 12.5.2** exige que entre aisladores haya como\
+    \ máximo **32 equipos** [F1]. Para la PEARL, los criterios concretos son:\n\n\
+    - **Equipos sin aisladores internos** (incluidos equipos CLIP y algunos Opal):\
+    \ **no más de 20 equipos entre aisladores** [F1].\n- **Equipos con aisladores\
+    \ internos** (usados con base **B501 AP**): el lazo cumple directamente los requisitos\
+    \ de EN54-2 [F1].\n- La mayoría de equipos Opal incorporan **aisladores internos\
+    \ FET**; con bases compatibles Opal, el aislador se conecta a los terminales **+2\
+    \ y +4** en el extremo positivo [F1].\n\n> ⚠️ **Nota de arranque del lazo:** Para\
+    \ garantizar que los aisladores se cierren al aplicar alimentación, la carga entre\
+    \ aisladores no debe superar **20 unidades de carga (SU)** [F5].\n\n**Referencia\
+    \ de cargas SU para equipos CLIP** [F5]:\n- Detector por rayo LPB-700: **6 SU**\n\
+    - Sirenas de lazo: **3 SU**\n- Módulo ZMX-1: **3 SU**\n- Módulo MMX-10M/CMX10-RM:\
+    \ **10 SU**\n- Resto de equipos: **1 SU**\n\n**Límite de cableado:** La resistencia\
+    \ máxima del lazo debe respetar los límites definidos en la sección **6.4.2**\
+    \ del manual de instalación. La capacitancia del cable debe ser **inferior a 0,5\
+    \ µF** [F6]. Cada aislador añade entre **0,1 y 0,13 Ω** [F6].\n\n---\n\n### 3.\
+    \ Alta de equipos: Autoconfiguración desde la central\n\nLa forma recomendada\
+    \ es usar el **programa de configuración ITS** (más óptima), pero también puede\
+    \ hacerse desde la central [F3].\n\n**Pasos para la autoconfiguración:**\n\n1.\
+    \ Accede al menú de configuración con nivel de acceso adecuado.\n2. Selecciona\
+    \ **1: Autoconfiguración** [F3].\n3. Elige si aplica a **todos los lazos** o a\
+    \ un **lazo específico** [F3].\n4. Selecciona el modo de autoconfiguración [F3]:\n\
+    \   - **1: Todos Prot. OPAL/CLIP** → detecta duplicidades de dirección.\n   -\
+    \ **2: OPAL/CLIP (No detecta duplicidad)** → más rápido, sin comprobación de duplicados.\n\
+    \   - **3: Sólo con protocolo CLIP** → solo autoconfigura equipos CLIP aunque\
+    \ haya Opal en el lazo.\n5. Selecciona el modo de gestión de cambios [F3]:\n \
+    \  - **\"Permite Añadir/Borrar/Cambiar\"**\n   - **\"Sólo Añadir Nuevos Equipos\"\
+    **\n6. El proceso se inicia automáticamente. Al finalizar, los resultados se muestran\
+    \ en la **pantalla LCD** [F3].\n\n> Los equipos configurados pueden consultarse\
+    \ en cualquier momento desde el **nivel de acceso 2**, opción **«Resumen de Equipos»**\
+    \ [F3].\n\nTras la autoconfiguración, la configuración puede transferirse a un\
+    \ ordenador portátil para editarla y archivarla mediante el programa ITS [F3].\n\
+    \n---\n\n### 4. Edición individual de equipos\n\nDesde la central es posible editar\
+    \ individualmente sensores o módulos [F4]. Los parámetros editables para **sensores**\
+    \ incluyen [F4]:\n\n- Tipo de equipo\n- Número de zona (hasta **255 zonas locales**\
+    \ o **8192 zonas de red**)\n- Número de células (hasta **255**)\n- Ajuste del\
+    \ nivel de alarma, prealarma y alarma horaria\n- Retardo de alarma\n- Retardo\
+    \ de confirmación de coincidencia de detector (hasta **240 s / 4 min**)\n- Prioridad\
+    \ de interrogación (solo CLIP, limitada a **30 equipos**)\n- Grupo AWACS (hasta\
+    \ **50 grupos**, solo sensores CLIP salvo HEAT)\n- Selección de programación horaria\
+    \ (cambio de sensibilidad)\n- Opción de tipo de equipo (VIEW, Optiplex, SMART)\n\
+    - Número de aplicación (solo equipos **SMART 4**)\n- Ajuste de función LED remota\
+    \ (solo equipos Opal): \"Seguir el equipo\" o \"Controlada por reglas de causa-efecto\"\
+    \n- Acción de parpadeo en equipo interrogado (elección de color solo para Opal)\n\
+    \n---\n\n**Fuentes:**\n- Manual de instalación y puesta en marcha 997-669-005-3\\\
+    _Instal-Comm\\_ES (sin revisión registrada)\n- Manual de configuración 997-671-005-3\\\
+    _Configuration\\_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del\
+    \ manual:**\n- \"La resistencia máxima del lazo no debe superar los límites definidos\
+    \ en **«6.4.2 Comprobaciones del lazo antes de conectar el cableado»**, paso 2.\"\
+    \ [F6]\n- \"**NUNCA utilice un multímetro de alta tensión en el lazo de detección.**\"\
+    \ [F1]\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Es de vital importancia\
+    \ que el cable utilizado sea de buena calidad y que se instale de forma correcta.\"\
+    \ (997-669-005-3_Instal-Comm_ES, p. 17) [F6]"
+- qid: cat005
+  question: ¿Cuáles son las características técnicas de la central de detección de
+    gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre todos los facts CORE: alimentación, potencia, hasta 4 sensores
+    analógico/digital, salidas, corriente máxima y códigos 3244/3270 con diferencia
+    de conexión. Añade información adicional no exigida, pero no contradice el gold.'
+  bot_sources:
+  - Manual-de-Usuario-CS4
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Central de Detección de Gas Fidegas CS4 — Características Técnicas\n\
+    \n## Especificaciones generales\n\n- **Tensión de alimentación:** 110-230 Vac,\
+    \ 50-60 Hz [F2]\n- **Potencia/Consumo:** 30 W, Clase II [F2][F3]\n- **Número de\
+    \ sensores:** hasta 4 conexiones simultáneas [F1][F2]\n- **Salidas:** 2 salidas\
+    \ conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n- **Corriente\
+    \ máxima:** 250 mA [F2]\n- **Rearme:** seleccionable manual o automático [F2]\n\
+    - **Dimensiones:** 90 x 106 x 58 mm [F2]\n- **Peso:** 300 g [F2]\n- **Montaje:**\
+    \ carril DIN o armario de superficie [F1]\n- **Firmware (versión analógica):**\
+    \ 1.2 [F3]\n\n---\n\n## Diferencias entre versión digital y analógica\n\n**Versión\
+    \ digital — Código de producto: 3244** [F2]\n- Tipo de entrada: **0-10/15 V**\
+    \ [F1]\n- Sensores compatibles: **S/10 gases combustibles** [F3]\n\n**Versión\
+    \ analógica — Código de producto: 3270** [F2]\n- Tipo de entrada: **4-20 mA**\
+    \ [F1]\n- Sensores compatibles [F3]:\n  - S/3 gases combustibles\n  - S/3 y S/2\
+    \ gases tóxicos\n  - S/10 gases tóxicos\n\n> **Nota importante:** La versión analógica\
+    \ tiene mayor variedad de sensores compatibles (combustibles y tóxicos), mientras\
+    \ que la versión digital solo es compatible con el sensor S/10 de gases combustibles\
+    \ [F3].\n\n---\n\n## Indicaciones y funcionamiento básico\n\n- **LED PWR (verde):**\
+    \ alimentación presente (fijo) / corte de red (intermitente) [F1]\n- **LED ON/ALARM\
+    \ (bicolor):** sensor presente (verde) / alarma (rojo) [F1]\n- **LED ERROR (amarillo):**\
+    \ avería de sensor remoto [F1]\n- **LEDs OUT1/OUT2 (verde):** salida activa (encendido)\
+    \ / desactivada (apagado) [F1]\n- **Avisador acústico:** apoyo sonoro a las indicaciones\
+    \ ópticas [F1]\n- **Umbral de alarma:** 20% del fondo de escala [F5]\n- **Tiempo\
+    \ de arranque:** 30 segundos con salidas en posición NA [F5]\n- **Silenciado de\
+    \ alarma:** posible durante 24 horas mediante botón RESET si la concentración\
+    \ no ha disminuido [F5]\n\n---\n\nFuente: Manual-de-Usuario-CS4, Fidegas CS4 (sin\
+    \ revisión registrada)\n\n---\n\U0001F4CB **Obligaciones de evidencia del manual:**\n\
+    - Nota: la fuente es inconsistente: \"Permite la conexión de hasta 4 sensores\
+    \ remotos simultaneos a través de sus 4 entradas digitales (0-10/15 v) o analógicas\
+    \ (4-20 mA).\" (Manual-de-Usuario-CS4, p. 4) [F1] declara 4 sensores y la enumeración\
+    \ servida lista 6 (Manual-de-Usuario-CS4, p. 4) [F1]."
+- qid: cat007
+  question: En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de
+    sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo
+    o un corte de alimentación, qué resistencia de fin de línea llevan las salidas
+    de sirena y cuál es la especificación eléctrica de los contactos de relé?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Aunque acierta la especificación eléctrica y parte del comportamiento
+    de avería, falla en CORE importantes: dice que no constan los contactos NA/NC
+    ni la resistencia EOL cuando el QIG sí indica NC-C-NA y 47 kohm. Además trata
+    las salidas de sirena como relés y añade variantes/prealarmas no pertinentes,
+    lo que introduce información incorrecta/alucinada.'
+  bot_sources:
+  - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG
+  - I56-6575-005_EN-FAAST-LT-200-Loop-QIG
+  - I56-6575-005_ES FAAST LT-200 Loop QIG
+  - I56-6577-006_ES FAAST Notifier LT-200 QIG
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## FAAST LT-200 — Salidas de relé y sirena: especificaciones completas
+
+
+    ---
+
+
+    ### Tipos de relés disponibles
+
+
+    El FAAST LT-200 dispone de los siguientes relés [F3][F4]:
+
+
+    - **ALARMA 1 y ALARMA 2**
+
+    - **AVERÍA 1 y AVERÍA 2**
+
+    - **SIRENA 1 y SIRENA 2**
+
+
+    > ⚠️ Nota: existe una diferencia entre variantes. En la versión **Stand Alone**
+    (manual I56-6574-005_ES), el relé de ALARMA incluye también **PREALARMA 1 y PREALARMA
+    2** como relés independientes [F3]. En la versión **Loop/Notifier** (manuales
+    I56-6577-006_ES e I56-6575-005_ES), no se mencionan relés de prealarma separados
+    [F4].
+
+
+    ---
+
+
+    ### Comportamiento de cada relé
+
+
+    **Relé de ALARMA 1 o 2:**
+
+    - Versión Stand Alone: se activa cuando se cumple la condición de alarma en un
+    canal. Estado enclavado por defecto; requiere **rearme manual** para desactivar
+    el LED y el relé [F3].
+
+    - Versión Loop/Notifier: controlado por el panel cuando determina que se da la
+    condición de alarma. **No enclavado** [F4].
+
+
+    **Relé de PREALARMA 1 o 2** (solo Stand Alone):
+
+    - Se activa cuando se cumple la condición de prealarma en un canal [F3].
+
+    - Cuando PREALARMA = ALARMA = Nivel 1, la prealarma se activará al **70 % del
+    nivel 1** [F3].
+
+
+    **Relé de AVERÍA 1 o 2:**
+
+    - Se activa ante una condición de avería en el canal 1 o 2, o ante una **avería
+    común** [F3][F4].
+
+    - También se activa en **modo de servicio** y cuando se **desconecta la alimentación**
+    de la unidad [F3][F4].
+
+    - **Estado no enclavado** (predeterminado) [F3][F4].
+
+
+    **Relé de SIRENA 1 o 2:**
+
+    - Se activa cuando el canal correspondiente entra en **ALARMA** [F3][F4].
+
+    - Sirena 1 → Canal 1 / Sirena 2 → Canal 2 [F3][F4].
+
+    - Estado predeterminado: activado en ALARMA [F3][F4].
+
+    - En la versión Stand Alone también puede activarse en **PREALARMA** [F3].
+
+
+    ---
+
+
+    ### Comportamiento del relé de AVERÍA ante corte de alimentación
+
+
+    El relé de avería **se activa (señaliza avería) cuando se desconecta la alimentación
+    de la unidad** [F3][F4]. El estado no está enclavado [F3][F4].
+
+
+    ---
+
+
+    ### Especificación eléctrica de los contactos de relé
+
+
+    - **Corriente máxima (carga resistiva 30 V CC):** **2 A** [F1][F2]
+
+    - **Corriente máxima (carga resistiva 30 V CA):** **0,5 A** [F1][F2]
+
+    - **Vida útil mínima:** **10⁵ operaciones** [F1][F2]
+
+
+    ---
+
+
+    ### Resistencia de fin de línea en salidas de sirena
+
+
+    Los fragmentos disponibles **no especifican el valor de resistencia de fin de
+    línea** para las salidas de sirena del FAAST LT-200. Consulta el manual completo
+    o el soporte técnico de Notifier para este dato.
+
+
+    ---
+
+
+    ### Tipo de contactos (NA/NC)
+
+
+    Los fragmentos recuperados **no especifican explícitamente si los contactos son
+    NA (normalmente abierto) o NC (normalmente cerrado)**. Consulta el diagrama de
+    conexionado del manual físico para verificar la configuración de contactos.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - I56-6574-005_ES FAAST LT-200 HS Stand Alone QIG (sin revisión registrada)
+
+    - I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)
+
+    - I56-6575-005_ES FAAST LT-200 Loop QIG (sin revisión registrada)'
+- qid: cat008
+  question: ¿Cómo se cablea el módulo de entrada M710 / MI-DMMI en el lazo, y qué
+    resistencias necesita (fin de línea y modo 3 estados)?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Aunque cubre los modos 2/3 estados, RFL 47 kΩ y resistencia serie
+    de 18 kΩ, da incorrectamente el mapeo de terminales del lazo: el gold exige 1=−Lazo
+    in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out y Entrada A=6-7. Al estar mal un fact
+    CORE de cableado, la respuesta puede inducir a cablear el lazo incorrectamente.'
+  bot_sources:
+  - Conexionado-del-modulo-M710-MI-DMMI
+  - I56-2005-002 M710 M720 M721 M701
+  - I56-2006-004 MI-DMMI_DMM2I_D2ICMO
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Conexionado del M710 / MI-DMMI en el lazo
+
+
+    Hay **dos modos de conexionado** disponibles: 2 estados y 3 estados.
+
+
+    ---
+
+
+    ### Terminales de lazo (comunes a ambos modos)
+
+
+    - **Terminal 1:** Salida del lazo – [F3]
+
+    - **Terminal 2:** Salida del lazo + (con aislador interno activo) [F3]
+
+    - **Terminal 3:** Entrada del lazo – [F3]
+
+    - **Terminal 4:** Entrada del lazo + [F3]
+
+    - **Terminal 5:** Salida del lazo + alternativa (ver nota aislador) [F3]
+
+
+    ---
+
+
+    ### Modo 2 estados (contacto en corto = alarma)
+
+
+    - Resistencia de fin de línea: **RFL = 47 kΩ** conectada a los terminales **6-7**
+    (Entrada A) [F1]
+
+    - El cortocircuito en el contacto supervisado se señaliza como **alarma** [F1]
+
+
+    ---
+
+
+    ### Modo 3 estados (cortocircuito = avería, no alarma)
+
+
+    - Resistencia de fin de línea: **RFL = 47 kΩ** [F1]
+
+    - Adicionalmente, se debe conectar una resistencia de **18 kΩ en serie con cada
+    contacto de alarma** que se desee supervisar [F1][F3]
+
+    - El modelo de resistencia para el M710 es **M200E-EOL-R18** [F3][F5]
+
+    - Esto permite que la central distinga cortocircuito como **avería** en lugar
+    de alarma, siempre que el panel de control sea compatible [F3]
+
+
+    ---
+
+
+    ### Nota sobre el aislador interno de cortocircuitos
+
+
+    - **Con aislador activo:** conectar la salida + del lazo al **terminal 2** [F3]
+
+    - **Sin aislador (bypass):** conectar la salida + del lazo al **terminal 5** en
+    lugar del terminal 2. El terminal 5 está conectado internamente con el terminal
+    4 [F3][F5]
+
+
+    > ⚠️ El M710 **no tiene conexiones en los terminales 8 y 9** — esos terminales
+    son exclusivos del M720 (entrada doble) [F3][F5]
+
+
+    ---
+
+
+    Para el detalle visual del esquema de conexionado, consulta la **Figura 3** del
+    manual I56-2005-002 (M710) [F3] y la **Figura 3** del manual I56-2006-004 (MI-DMMI)
+    [F2].
+
+
+    **Fuentes:**
+
+    - Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)
+
+    - I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)
+
+    - I56-2006-004 MI-DMMI_DMM2I_D2ICMO (sin revisión registrada)
+
+
+    ---
+
+    📖 **Información adicional del manual:**
+
+    - "1. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la
+    salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado
+    internamente con el terminal 4.
+
+    2. El circuito con línea intermitente conectado a los terminales 8 y 9 se debe
+    utilizar únicamente con el M720. El M710 no tiene conexiones con estos terminales.
+
+    3. Si el panel de control lo permite, se podrá indicar un cortocircuito como avería
+    en lugar de alarma. Para ello hay que conectar una resistencia de 18 KΩ (M200E-EOL-R18)
+    en serie con cada equipo que se desee supervisar." [F3]
+
+    - "1. En no se necesita el aislamiento de cortocircuitos, se debe conectar la
+    salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado
+    internamente con el terminal 2.
+
+
+    2. Si el panel de control lo permite, se podrá indicar un cortocircuito como puede
+    el lugar de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie
+    con cada conmutador de alarma. Para ello hay que conectar una resistencia de 18
+    kΩ en serie con cada conmutador de alarma." [F2]'
+- qid: cat009
+  question: ¿Qué resistencia de fin de línea (EOL) hay que instalar en las líneas
+    de zona de la central convencional NFS Supra?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre el fact CORE: identifica correctamente 6K8 Ω como RFL y también
+    menciona el condensador de 47 µF por defecto. Además incluye el requisito suplementario
+    de instalar final de línea en todas las zonas, incluidas las no usadas, aunque
+    añade detalles no necesarios.'
+  bot_sources:
+  - HLSI-MN-025-I_NFS Supra Series
+  - HLSI-MN-025_NFS Supra
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Resistencia de fin de línea (EOL) en zonas de la NFS Supra\n\nLa\
+    \ NFS Supra admite **dos tipos de final de línea** en las zonas, seleccionables\
+    \ por configuración [F5]:\n\n- **Condensador de 47 µF** → modo EFL (capacitivo)\
+    \ — **opción por defecto** [F3]\n- **Resistencia de 6K8 Ω** → modo RFL (resistivo)\
+    \ [F5]\n\n---\n\n### Detalles del modo resistivo (RFL)\n\nEn modo resistivo, la\
+    \ central admite un rango de resistencia final de línea entre **3 KΩ** y **7 KΩ**\
+    \ [F5]:\n\n- **3 KΩ** → consumo máximo por zona: **2,5 mA** [F5]\n- **7 KΩ** →\
+    \ consumo máximo por zona: **4 mA** [F5]\n- Valor estándar recomendado: **6K8\
+    \ Ω** [F5]\n\n---\n\n### Cómo cambiar entre modo capacitivo y resistivo\n\n1.\
+    \ Pulsa simultáneamente **Tecla TECLADO = ON + Tecla EVACUACIÓN = ON** para acceder\
+    \ al menú de configuración de final de línea [F3]\n2. Usa la **Tecla REARME**\
+    \ para cambiar cíclicamente la opción [F3]:\n   - **Led 1 Alarma (Rojo) encendido**\
+    \ = Final de línea resistivo **6K8 Ω** [F3]\n   - **Led 2 Anulada (Ámbar) encendido**\
+    \ = Final de línea capacitivo **47 µF** (por defecto) [F3]\n\n> ⚠️ Esta configuración\
+    \ requiere **nivel de acceso 3** [F3]. Todas las zonas, incluidas las no usadas,\
+    \ deben tener instalado su final de línea según la configuración elegida [F5].\n\
+    \n---\n\nFuente: HLSI-MN-025_NFS Supra (rev. sin revisión registrada); HLSI-MN-025-I_NFS\
+    \ Supra Series (rev. sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia\
+    \ del manual:**\n- \"Esto significa que debe calcular el número de sensores a\
+    \ instalar dependiendo de su consumo sin sobrepasar nunca los 32 sensores.\" (HLSI-MN-025_NFS\
+    \ Supra, p. 28) [F2]\n- Nota: la fuente es inconsistente: \"La central NFS Supra\
+    \ tiene cuatro, ocho o doce zonas de alarma.\" (HLSI-MN-025_NFS Supra, p. 27)\
+    \ [F5] declara 12 zonas y la enumeración servida lista 6 (HLSI-MN-025_NFS Supra,\
+    \ p. 27) [F5]."
+- qid: cat010
+  question: ¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en
+    una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca
+    de entrada?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Cubre correctamente los parámetros de seguridad intrínseca de entrada
+    Ui/Ii/Pi/Ci/Li y el marcado ATEX. Sin embargo, falta el fact CORE de alimentación
+    completa: no indica que se alimenta a 24 Vdc mediante barrera/aislador 28 V/93
+    mA resistivo ni la advertencia de no operar continuamente sin barrera por encima
+    de 16 V.'
+  bot_sources:
+  - IS5001-F_IS-mA1_EN
+  - manual IS MA1
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Alimentación e parámetros de seguridad intrínseca del IS-mA1
+
+
+    La sirena **IS-mA1** se alimenta desde una ubicación no peligrosa a través de
+    un aparato asociado certificado (barrera zener, aislador galvánico o barrera de
+    diodo de retorno), conectado a los **terminales + y −** del equipo [F1][F3][F4].
+
+
+    ---
+
+
+    ### Clasificación ATEX / IECEx
+
+
+    - Marcado: **II 1G Ex ia IIC T4 Ga** [F1]
+
+    - Temperatura ambiente: **-40 °C ≤ Ta ≤ +60 °C** [F1]
+
+    - Zonas de uso: **Zona 0, 1 y 2** con gases y vapores inflamables, grupos **IIA,
+    IIB e IIC**, clases de temperatura **T1 a T4** [F1]
+
+    - Certificados: **SIRA 05ATEX2084X** / **IECEx SIR 06.0045X** [F1]
+
+    - Norma de producto: **EN54-3 Tipo B** [F1]
+
+
+    ---
+
+
+    ### Parámetros de entidad — Terminales + / − (alimentación principal)
+
+
+    - **Ui = 28 V** [F1][F3]
+
+    - **Ii = 93 mA** [F1][F3]
+
+    - **Pi = 660 mW** [F1][F3]
+
+    - **Ci = 0** [F1][F3]
+
+    - **Li = 0** [F1][F3]
+
+
+    > ⚠️ La capacitancia total conectada a los terminales +/−, incluyendo la capacitancia
+    del cable (C_cable) más cualquier otra capacitancia, **no debe superar 83 nF**
+    [F3][F4].
+
+
+    ---
+
+
+    ### Parámetros de entidad — Terminales S2 y S3 (cambio de tono de alarma)
+
+
+    - **Ui = 28 V** [F3][F5]
+
+    - **Ii = 0 mA** [F3][F5]
+
+    - **Ci = 0** [F3]
+
+    - Uo = 16,8 V / Io = 7,3 mA / Po = 31 mW (parámetros de salida hacia la zona segura)
+    [F3]
+
+
+    > ⚠️ Dado que la corriente de entrada permitida es **cero**, los terminales S2
+    y S3 **solo pueden conectarse** a: barrera de diodo de retorno, relé intrínsecamente
+    seguro o aislador galvánico, todos certificados por un Organismo Notificado. Solo
+    se admiten barreras de diodo de retorno con **caída de tensión inferior a 0,9
+    V**. Alternativamente, pueden conectarse directamente a un **interruptor de accionamiento
+    mecánico** dentro de la zona peligrosa [F5].
+
+
+    > ⚠️ La distancia entre los terminales S2 y S3 es **inferior a 6 mm** — precaución
+    durante el conexionado [F3][F4].
+
+
+    ---
+
+
+    ### Requisitos del aparato asociado (zona segura)
+
+
+    **Opción 1 — Barrera zener con diodo de retorno** [F3]:
+
+    - Uo ≤ 28 V
+
+    - Io ≤ 93 mA
+
+    - Po ≤ 660 mW
+
+    - Co ≥ C_cable
+
+    - Lo ≥ L_cable
+
+
+    **Opción 2 — Fuente galvánicamente aislada** [F4]:
+
+    - Uo ≤ 28 V
+
+    - Io ≤ 93 mA
+
+    - Po ≤ 660 mW
+
+    - Co ≥ C_cable
+
+    - Lo ≥ L_cable
+
+
+    En ambos casos, el aparato asociado debe estar **aprobado/certificado** y se debe
+    seguir el plano de instalación del fabricante del aparato asociado [F3][F4].
+
+
+    ---
+
+
+    ### Advertencias generales de instalación
+
+
+    - La instalación debe realizarla **personal cualificado** [F1]
+
+    - La reparación solo puede realizarla el **fabricante** o según el código de práctica
+    aplicable [F1]
+
+    - La carcasa es de **plástico ABS** — protegerla de sustancias agresivas (ácidos,
+    disolventes) [F1]
+
+    - El certificado lleva sufijo **''X''**: existen condiciones especiales de uso
+    seguro que deben consultarse en el certificado [F1]
+
+    - **Desconectar la alimentación antes de cualquier intervención** para evitar
+    ignición de atmósferas inflamables [F3][F4]
+
+    - La unión entre conexiones de conducto **no es automática** y debe garantizarse
+    en la instalación [F3][F4]
+
+    - Limpiar únicamente con **paño húmedo** para evitar cargas electrostáticas [F1]
+
+
+    ---
+
+
+    Fuente: IS5001-F_IS-mA1_EN (sin revisión registrada); manual IS MA1 (Issue H,
+    03-01-2020)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "CAUTION - The clearance between sounder terminals S2 and S3 is less than 6mm."
+    [F3]
+
+    - "CAUTION - Bonding between conduit connections is not automatic and must be
+    provided as part of this installation." [F3]
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "The IS-mA1 minialarm is an ATEX and IECEx certified intrinsically safe sounder
+    which produces a loud warning signal in a hazardous area." (IS5001-F_IS-mA1_EN,
+    p. 1) [F6]'
+- qid: cat011
+  question: Necesito un detector de humos analógico direccionable «751» para una instalación
+    Notifier; ¿cuál es el modelo correcto?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: clarify
+  conducta_bot: clarify
+  veredicto: FALLO
+  diagnostico: 'Aunque pide aclaración y cubre parcialmente IDX-751 como óptico intrínsecamente
+    seguro con barrera/traductor, omite CORE clave: CPX-751E como detector iónico
+    estándar y que «751» incluye variantes no intercambiables como CPX/IDX/FSL. Además
+    introduce/recomienda SDX-751EM/SDX-751TEM como opción estándar en lugar de los
+    candidatos del gold, lo que puede inducir a elegir un modelo incorrecto.'
+  bot_sources:
+  - I56-0790-003_CPX-751E
+  - I56-1306-002_SDX-751EM
+  - I56-1320-001 SDX-751TEM
+  - I56-3383-002 IDX-751 AE EN DE
+  - MNDT1020
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'El modelo correcto para un detector de humo óptico analógico direccionable
+    «751» de Notifier depende del tipo de instalación. Los fragmentos muestran **tres
+    modelos distintos** con ese sufijo:
+
+
+    ---
+
+
+    **SDX-751EM** [F1]
+
+    - Sensor de humo **óptico** analógico direccionable
+
+    - Uso en zonas diáfanas estándar
+
+    - Certificado según **EN54 parte 7** [F2]
+
+
+    **SDX-751TEM** [F2]
+
+    - Sensor de humo **óptico + temperatura fija (58 °C)** analógico direccionable
+    [F2]
+
+    - Tensión de funcionamiento: **15 a 32 Vdc** [F2]
+
+    - Corriente en reposo máx.: **300 µA** (comunicaciones cada 5 s con parpadeo LED)
+    [F2]
+
+    - Temperatura de funcionamiento: **-30 °C a 80 °C** [F2]
+
+    - Certificado según **EN54 parte 5 y 7: 2000 y CEA4021** [F2]
+
+
+    **IDX-751** [F3]
+
+    - Sensor de humo óptico analógico **intrínsecamente seguro** (para zonas con atmósferas
+    potencialmente explosivas) [F3]
+
+    - Requiere traductor **IMX-1** y barrera galvánica dedicada [F4]
+
+    - Tensión de funcionamiento: **17 a 24 Vdc** (según manual español) [F3] / **15
+    a 24 Vdc** (según manual inglés) [F4]
+
+    - Certificado según **EN54 parte 7: 2000** y aprobación BASEEFA para seguridad
+    intrínseca [F4]
+
+
+    ---
+
+
+    **¿Cuál necesitas?**
+
+    - Instalación estándar (zona sin riesgo de explosión): **SDX-751EM** (solo humo)
+    o **SDX-751TEM** (humo + temperatura).
+
+    - Instalación en zona con atmósfera potencialmente explosiva: **IDX-751**.
+
+
+    ¿Puedes confirmar el tipo de instalación y si la central admite el protocolo analógico
+    direccionable de Notifier? Así te confirmo cuál aplica.
+
+
+    Fuentes:
+
+    - I56-1306-002_SDX-751EM (sin revisión registrada)
+
+    - I56-1320-001 SDX-751TEM (sin revisión registrada)
+
+    - MNDT1020 IDX-751 (sin revisión registrada)
+
+    - I56-3383-002 IDX-751 AE EN DE (sin revisión registrada)'
+- qid: cat012
+  question: ¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central
+    AM-8200?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Cubre correctamente la fórmula Ah=(A+B)×1,2, los periodos 24/72 h y
+    0,5 h, los consumos principales y el límite de baterías 2×12 V hasta 18 Ah. Falta
+    explicitar el dato [CORE] de que la alimentación interna es 24 Vcc con un total
+    de 4 A.
+  bot_sources:
+  - AM-8200 Manual Instalacion
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# Cálculo de capacidad de batería — AM-8200
+
+
+    La fórmula del manual es: **Ah Batería = (A + B) × 1,2** [F3][F4], donde:
+
+
+    - **A** = Corriente total en reposo (A) × horas de reposo requeridas (24 h o 72
+    h según normativa aplicable)
+
+    - **B** = Corriente total en alarma (A) × **0,5 h** [F3][F4]
+
+    - **Factor 1,2** = margen por tolerancias de fabricación de las baterías [F5]
+
+
+    ---
+
+
+    ## Pasos del cálculo
+
+
+    **Paso 1 — Suma de corrientes en reposo (NO ALARMA)**
+
+
+    Suma los consumos de todos los componentes instalados. Valores de referencia del
+    manual:
+
+
+    Para la variante **AM-8200 (CPU AM-8200-KLCD)**:
+
+    - AM-8200 CPU (AM8200-KLCD): **179 mA** [F3]
+
+    - LIB-8200 (por tarjeta): **50 mA** [F3]
+
+    - AM82-2S2C: **28 mA** [F3]
+
+    - AM82-BST-C: **39 mA** [F3]
+
+    - Dispositivos de lazos: consultar fichas de datos del fabricante de cada dispositivo
+    [F5]
+
+    - Salida usuario (24 Vcc, máx. **2 A**): consumo real de dispositivos conectados
+    [F3]
+
+    - Sirenas/campanas/flashes en reposo: 0 si no consumen en reposo [F3]
+
+
+    Para la variante **AM-8200BB (CPU AM-82-BBMB)**:
+
+    - AM-8200BB: **135 mA** [F4]
+
+    - LIB-8200: **50 mA** [F4]
+
+    - AM82-2S2C: **28 mA** [F4]
+
+    - AM82-BST-C: **39 mA** [F4]
+
+
+    > ⚠️ La corriente total de todos los lazos no puede superar **750 mA** [F5]. La
+    corriente total de la salida de usuario no puede superar **2 A** [F5].
+
+
+    **Paso 2 — Suma de corrientes en alarma**
+
+
+    Mismos componentes, con sus valores en alarma:
+
+
+    Para **AM-8200 (KLCD)**:
+
+    - CPU: **345 mA** [F3]
+
+    - LIB-8200: **92 mA** [F3]
+
+    - AM82-2S2C: **28 mA** [F3]
+
+    - AM82-BST-C: **39 mA** [F3]
+
+    - Dispositivos de lazos en alarma: la central activa **solo los primeros 6 LED**
+    de detectores y módulos de entrada en alarma [F5]
+
+
+    Para **AM-8200BB**:
+
+    - CPU: **177 mA** [F4]
+
+    - LIB-8200: **92 mA** [F4]
+
+    - AM82-2S2C: **28 mA** [F4]
+
+    - AM82-BST-C: **39 mA** [F4]
+
+
+    > ⚠️ Si la corriente total calculada supera **3,5 A**, el exceso durante alarma
+    se extrae de las baterías [F5].
+
+
+    **Paso 3 — Aplicar la fórmula**
+
+
+    ```
+
+    Ah Batería = (A + B) × 1,2
+
+    ```
+
+
+    Donde:
+
+    - A = Total reposo (A) × 24 h (o × 72 h según normativa) [F3][F4]
+
+    - B = Total alarma (A) × 0,5 h [F3][F4]
+
+
+    **Paso 4 — Verificar límites físicos**
+
+
+    El manual especifica que las baterías admitidas son **2 × 12 V**, con capacidad
+    mínima **7 Ah** y máxima **18 Ah** [F2].
+
+
+    Baterías recomendadas (capacidad máxima estándar 17–18 Ah) [F2]:
+
+    - Yuasa NP18-12B o NP7-12BFR
+
+    - Fiamm FG21803 o FGV21803
+
+
+    ---
+
+
+    > 📋 El manual incluye las **Tablas 1 y 2** (para AM-8200 y AM-8200BB respectivamente)
+    como hojas de cálculo rellenables con todos los componentes. Consulta el apéndice
+    del manual físico para completarlas con tu instalación concreta [F1][F3][F4].
+
+
+    ---
+
+
+    **Fuente:** AM-8200 Manual de Instalación — Doc. AM-8200-ESP Rev. A.3 (AM8200_manu-inst_ESP)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "4 La corriente en las condiciones de reposo o alarma no puede superar, en ningún
+    caso, la capacidad de la fuente de alimentación." [F5]
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "Calcular la corriente total necesaria para todos los lazos usando **la tabla
+    2 (ver a continuación)** teniendo presente que la central enciende **solo los
+    primeros 6 LED** de los detectores y módulos de entrada en alarma." (AM-8200 Manual
+    Instalacion, p. 53) [F5]'
+- qid: cat013
+  question: Tengo una central Detnov CAD-150 y me ha sobrado de otra instalacion un
+    detector optico Notifier SDX-751; ¿es compatible / puedo montarlo en su lazo?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: refuse-inference
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Afirma categóricamente que el SDX-751 no es compatible con la CAD-150,
+    justo la inferencia cross-marca que debía evitarse: la documentación solo permite
+    decir que no está avalado ni descartado. Además faltan los facts CORE de la CAD-150
+    y no identifica explícitamente el protocolo CLIP del SDX-751.'
+  bot_sources:
+  - MNDT120
+  - MNDT150
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'El detector **SDX-751** de Notifier **no es compatible con la central
+    Detnov CAD-150**.
+
+
+    Los fragmentos disponibles muestran que el SDX-751 es un detector analógico fotoeléctrico
+    de bajo perfil [F3][F4] que pertenece al ecosistema de centrales analógicas **Notifier**:
+    aparece listado como equipo compatible de la **AFP-200** [F1][F3] y de la **ID-200**
+    [F2][F4], usando la base **BX-501** (AFP-200) [F1] o la base **B501** (ID-200)
+    [F2], y comunicándose a través del protocolo de lazo analógico propio de esas
+    centrales Notifier.
+
+
+    No tengo ningún fragmento de la **CAD-150 de Detnov** en mi base documental, por
+    lo que no puedo confirmar sus especificaciones de lazo, protocolo de comunicación
+    ni lista de dispositivos compatibles. Sin embargo, lo que sí es claro es que **no
+    existe ningún fragmento que indique compatibilidad entre el SDX-751 y ninguna
+    central Detnov**.
+
+
+    **Recomendación:**
+
+    - Consulta el manual de la CAD-150 o el soporte técnico de Detnov para obtener
+    la lista oficial de detectores compatibles con su lazo.
+
+    - La compatibilidad entre equipos de distintos fabricantes debe verificarse siempre
+    con cada fabricante antes de la instalación.
+
+
+    ---
+
+
+    Fuente: MNDT120 AFP-200 (sin revisión registrada); MNDT150 ID-200 (sin revisión
+    registrada)
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "Estos detectores analógicos direccionables proporcionan información analógica
+    a la central, que continuamente la va procesando para determinar el estado de
+    cada equipo, ya sea normal, en alarma o mantenimiento requerido." (MNDT150, p.
+    6) [F4]'
+- qid: cat014
+  question: ¿Cual es el MTBF / vida util esperada del detector de gas DGD-600 de Detnov?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre los dos facts CORE: vida útil de 10 años desde fabricación con
+    sustitución y etiqueta lateral, y que el MTBF no está especificado/documentado.
+    La cita final incluida no es la más pertinente, pero la respuesta técnica es correcta
+    y suficiente.'
+  bot_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'La **vida útil del DGD-600 es de 10 años desde su fecha de fabricación**
+    [F1].
+
+
+    El manual indica expresamente que el detector debe ser **sustituido** una vez
+    transcurrido ese plazo [F1]. La fecha de fabricación está impresa en la pegatina
+    adhesiva ubicada en el lateral del dispositivo [F1].
+
+
+    El manual no especifica un valor de MTBF (Mean Time Between Failures) para el
+    DGD-600. Los fragmentos disponibles solo recogen el dato de vida útil de 10 años.
+
+
+    ---
+
+
+    **Fuente:** 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "The range of stand-alone gas detectors has been developed in order to detect
+    any leak of flammable gas for everyday use and it is composed of the following
+    models:" (55360004 Manual Detector Gas DGD-600 ES EN IT FR, p. 1) [F4]'
+- qid: cat015
+  question: ¿Como se actualiza el firmware de la central Detnov CAD-150?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: admit
+  conducta_bot: admit
+  veredicto: PARCIAL
+  diagnostico: Admite correctamente que no hay procedimiento documentado y no inventa
+    pasos, pero lo limita a 'fragmentos disponibles' y sugiere consultar el manual
+    completo, en vez de afirmar que los manuales disponibles no lo cubren. Además
+    especula que el USB podría estar relacionado con firmware, cuando el gold solo
+    lo documenta para configuración.
+  bot_sources:
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'Los fragmentos disponibles del manual de la CAD-150-8 **no describen
+    el procedimiento de actualización de firmware**.
+
+
+    Los fragmentos recuperados cubren únicamente:
+
+    - Menú de Usuario (zonas, elementos, relés, sirenas) [F1][F3]
+
+    - Guía de instalación: conexionado de sirenas, PCB base y PCB carátula [F4][F5][F6]
+
+
+    Cabe destacar que la PCB Carátula dispone de un **Conector USB** [F5], que podría
+    estar relacionado con la actualización de firmware, pero el manual no describe
+    ningún procedimiento al respecto en los fragmentos disponibles.
+
+
+    **Recomendación:** Consulta el manual completo de la CAD-150-8 (sección de mantenimiento
+    o herramientas de instalador) o contacta directamente con el soporte técnico de
+    Detnov para obtener el procedimiento oficial de actualización de firmware.
+
+
+    ---
+
+    Fuente: 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT (sin
+    revisión registrada); 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion
+    ES FR GB IT (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "Es imprescindible que las sirenas sean polarizadas, o en su defecto, es obligado
+    poner un diodo para evitar que las sirenas se activen en estado de reposo." [F4]'
+- qid: cat016
+  question: En la Detnov CAD-150, ¿como se da de alta un detector nuevo en el lazo
+    y como se prueba que funciona?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre todos los CORE: alta mediante autobúsqueda en BUCLE, verificación
+    de elementos, asignación/nombre/zona, prueba mediante ZONA > PRUEBA sin rearme,
+    anulación de retardos, salida por conectar zona y retorno automático a los 20
+    minutos. Añade detalles operativos y cita fuentes sin contradecir el gold.'
+  bot_sources:
+  - 55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# CAD-150-8: Alta de detector nuevo en el lazo y prueba de funcionamiento\n\
+    \n---\n\n## PARTE 1 — Dar de alta un detector nuevo (autobúsqueda del lazo)\n\n\
+    El procedimiento para registrar un nuevo detector es realizar una **autobúsqueda\
+    \ del lazo** [F1]:\n\n1. Accede al **menú BUCLE** desde la central [F1].\n2. Ejecuta\
+    \ la **autobúsqueda** del lazo donde está instalado el nuevo detector. El sistema\
+    \ escaneará el lazo y mostrará todos los elementos que detecte [F1].\n3. Verifica\
+    \ que los elementos encontrados coinciden con los planos de la instalación [F1].\n\
+    4. Una vez confirmado, accede al **menú ELEMENTOS** para asignar al nuevo detector:\n\
+    \   - **Nombre/texto** identificativo [F1]\n   - **Zona** de ubicación [F1]\n\
+    5. Si es necesario, accede al **menú ZONA** para crear o asignar la zona correspondiente\
+    \ al nuevo detector [F1].\n6. Si el detector debe activar alguna salida o sirena,\
+    \ configura la maniobra correspondiente en el **menú MANIOBRAS** [F1].\n\n> Puedes\
+    \ verificar el estado del detector recién dado de alta desde **menú ELEMENTO →\
+    \ VER**, donde se muestra: tipo de elemento, zona asignada, modo (conectado/desconectado/prueba)\
+    \ y valor analógico (VA) [F4].\n\n---\n\n## PARTE 2 — Probar que el detector funciona\
+    \ (modo prueba de zona)\n\nEl procedimiento recomendado es usar el **modo PRUEBA\
+    \ de zona**, que permite verificar los detectores **sin necesidad de rearmar la\
+    \ central** [F2]:\n\n1. Accede al **menú ZONA → Prueba** [F2].\n2. Introduce el\
+    \ **rango de zonas** a poner en prueba (campo `RANGO`) [F2].\n3. El sistema preguntará\
+    \ si deben dispararse las sirenas (`ACTIVAR SIRENAS: [SI/NO]`) [F2]:\n   - Si\
+    \ seleccionas **SÍ**: las sirenas se activarán unos segundos tras la alarma del\
+    \ detector y luego se silenciarán automáticamente [F2].\n   - Cualquier retardo\
+    \ configurado en las sirenas queda **anulado** durante la prueba para agilizarla\
+    \ [F2].\n4. Activa el detector (con aerosol de prueba u otro método) y verifica\
+    \ que la central registra la alarma.\n5. Para **salir del modo prueba**, conecta\
+    \ la zona desde el menú ZONA → Conectar [F2].\n\n> **Aviso de tiempo límite:**\
+    \ Si transcurren **20 minutos** desde la activación del modo prueba sin que se\
+    \ produzca ningún disparo de alarma, el sistema **cancela automáticamente el modo\
+    \ prueba** y vuelve al estado normal [F2].\n\n---\n\n**Fuente:** Manual de Usuario\
+    \ CAD-150-8 (55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT,\
+    \ sin revisión registrada); Manual de Instalación CAD-150-8 (55315013 Manual Centrales\
+    \ Analogicas CAD-150-8 Instalacion ES FR GB IT, sin revisión registrada)."
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre bien el cableado principal, capacidades, no mezcla
+    OPAL/CLIP y la auto configuración. Faltan o quedan incompletos CORE: cable trenzado,
+    licencia CLIP una por cada circuito de lazo, y la gestión CLSS como portal donde
+    se crea el sitio/edificio y se genera el archivo .bin de licencia.'
+  bot_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-138-9ES issue 5_11-2025_In
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Cableado y configuración (alta) de lazo en INSPIRE E10/E15\n\nA continuación\
+    \ se detalla el proceso completo en dos bloques: **cableado físico** y **configuración/auto-búsqueda**.\n\
+    \n---\n\n## BLOQUE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Módulo de lazo (OPAL X2\
+    \ — código color Morado, ref. HOP-433-100)\n\nEl módulo gestiona **2 circuitos\
+    \ de lazo independientes** [F2]. Los terminales son [F2][F3]:\n\n**Lazo 1:**\n\
+    - Terminal **1** → Lazo 1 Salida +VE\n- Terminal **2** → Lazo 1 Salida -VE\n-\
+    \ Terminal **3** → ⊕ *(NO usar para pantalla de cable)*\n- Terminal **4** → Lazo\
+    \ 1 Entrada +VE\n- Terminal **5** → Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal\
+    \ **6** → Lazo 2 Salida +VE\n- Terminal **7** → Lazo 2 Salida -VE\n- Terminal\
+    \ **8** → ⊕ *(NO usar para pantalla de cable)*\n- Terminal **9** → Lazo 2 Entrada\
+    \ +VE\n- Terminal **10** → Lazo 2 Entrada -VE\n\n> ⚠️ **Los terminales 3 y 8 NO\
+    \ deben usarse para la pantalla del cable de lazo. La pantalla debe conectarse\
+    \ a la barra de tierra de la central** [F2][F3].\n\n### Topología del lazo\n\n\
+    El lazo tiene **Salida** (terminales 1-2 / 6-7) y **Entrada** (terminales 4-5\
+    \ / 9-10), lo que indica una topología en bucle cerrado. Para el esquema exacto\
+    \ de conexionado entre dispositivos, consulta el diagrama del manual de instalación\
+    \ **HOP-138-9ES** [F1].\n\n### Capacidad por lazo [F2]\n\n- Dispositivos **OPAL**:\
+    \ hasta **159 detectores** + hasta **159 módulos** por lazo\n- Dispositivos **CLIP**:\
+    \ hasta **99 detectores** + hasta **99 módulos** por lazo\n- Corriente máxima\
+    \ por lazo: **750 mA** [F2]\n- Longitud máxima de cable: **hasta 3,5 km** (dependiendo\
+    \ del tipo de carga y cable, calculado con la herramienta CLSS) [F2]\n\n> ⚠️ **No\
+    \ mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n> ⚠️ **Restricción\
+    \ EN54-2, art. 13.7**: máximo **512 detectores y/o pulsadores** por módulo de\
+    \ lazo (los 2 circuitos en conjunto) [F2].\n\n### Numeración de lazos [F2]\n\n\
+    Los circuitos se numeran **secuencialmente de izquierda a derecha** del portamódulos.\
+    \ En la E15 (dos filas), la segunda fila continúa la numeración desde la primera\
+    \ [F2].\n\n---\n\n## BLOQUE 2 — COMPROBACIONES PREVIAS AL ENCENDIDO\n\nAntes de\
+    \ encender, realiza estas verificaciones con multímetro [F6][F7][F8]:\n\n1. Comprueba\
+    \ la **continuidad** de cada parte del lazo y mide la resistencia extremo a extremo\
+    \ [F6].\n2. Para medir: desconecta físicamente el lazo de los terminales de la\
+    \ central, mide entre **Lazo X Entrada -VE** y **Lazo X Salida -VE**, multiplica\
+    \ el resultado por 2 y suma la resistencia de cada aislador (**0,1 a 0,13 Ω**\
+    \ por aislador) [F6].\n3. Verifica que la pantalla del cable no tenga conexión\
+    \ a tierra en ningún otro punto del recorrido [F7].\n\n> ⚠️ **NUNCA uses un comprobador\
+    \ de alta tensión (megóhmetro) en el circuito de lazo una vez conectados los dispositivos.\
+    \ Solo multímetro de baja tensión** [F8].\n\n---\n\n## BLOQUE 3 — PRIMER ENCENDIDO\
+    \ Y CONFIGURACIÓN INICIAL\n\n1. El **primer encendido** debe realizarse **sin\
+    \ cableado externo conectado**, pero con la fuente de alimentación y un circuito\
+    \ de lazo probado conectado [F1].\n2. Conecta el cable HMI de la puerta a la CPU\
+    \ [F1].\n3. Conecta la corriente principal y las baterías (**2 × 12 V 24 Ah**\
+    \ para E10/E15) [F1].\n\n---\n\n## BLOQUE 4 — AUTO CONFIGURACIÓN (alta del lazo)\n\
+    \n### Paso previo obligatorio para lazos CLIP o TC800\n\n> ⚠️ La central tiene\
+    \ licencia por defecto solo para **protocolo OPAL avanzado**. Para usar **CLIP\
+    \ o TC800**, es necesaria una licencia adicional y configuración previa desde\
+    \ **CLSS** antes de ejecutar Auto Configuración [F5].\n\n### Procedimiento de\
+    \ Auto Configuración [F4][F5]\n\n1. En la pantalla de la central, selecciona **Auto\
+    \ Configuración** para buscar dispositivos en el lazo. Lee el aviso emergente\
+    \ y confirma seleccionando **Auto Configuración** / **Learn Devices** [F4].\n\n\
+    2. Si necesitas cambiar el protocolo del lazo (OPAL/CLIP), el flujo es [F4]:\n\
+    \   - Conecta la herramienta de configuración CLSS\n   - Configura un lazo vacío\
+    \ con el protocolo deseado\n   - Envía la configuración a la central\n   - Ejecuta\
+    \ la búsqueda de dispositivos\n\n3. Una vez completada la Auto Configuración,\
+    \ selecciona la **flecha derecha >** junto al botón para ver el estado de averías\
+    \ del lazo [F4].\n\n4. Lee los mensajes de avería y corrige los problemas detectados.\
+    \ Selecciona **Hecho** al completar [F4].\n\n5. Si se han corregido averías, **repite\
+    \ los pasos 1 a 4** [F4].\n\n6. **Repite el proceso para cada lazo** hasta descubrir\
+    \ todos [F4].\n\n### Configuración de lazo desde CLSS [F5]\n\nEn **Ajustes → Ajustes\
+    \ HMI → Tipo de marca**: selecciona **Notifier EN** [F5].\n\nEn **Ajustes de lazo**\
+    \ [F5]:\n- Si el lazo **no se usa**: marca ☑ **Sin Uso**\n- Si se usa: configura\
+    \ **Limitar a VdS 2540** (Sí/No) — el valor de resistencia cambia según la selección\
+    \ (ejemplo: **93,5 Ω** con VdS2540 = No, protocolo OPAL) [F5]\n- Selecciona el\
+    \ **Tipo de Cable**\n\n### Causas típicas de averías tras Auto Configuración [F4]\n\
+    \n- Discordancia entre diseño de instalación y cableado\n- Averías en el cableado\n\
+    - Fuente de RFI fuerte en el entorno\n- Error de módulo o fuente de alimentación\n\
+    - Conexionado incorrecto en dispositivos\n\n---\n\n**Fuente:** HOP-138-8ES issue\
+    \ 6 (01-2026) — INSPIRE E10/E15 Instrucciones de puesta en marcha; HOP-138-9ES\
+    \ issue 5 (11-2025) — INSPIRE E10 Manual de instalación\n\n---\n\U0001F4D6 **Información\
+    \ adicional del manual:**\n- \"- Left side: CPU module with 6 connection terminals\
+    \ and external wiring connection point ②\n- Center top: HMI cable connection detail\
+    \ showing CPU with points \"a\" and \"b\" marked as ①\n- Center middle: Central\
+    \ unit internal view showing wiring connections with color-coded wires (brown,\
+    \ yellow/green, blue) connecting to L and N terminals, marked as ②\n- Right side:\
+    \ Power supply terminal block showing L (brown wire) and N (blue wire) connections\
+    \ with earth (yellow/green wire)\n- Bottom center: Battery connection diagram\
+    \ showing 2 x 12 V 24 Ah batteries with positive and negative terminals, marked\
+    \ as ③\n- Bottom right: Circular detail view showing battery terminal connection\
+    \ with + and - markings]\" [F1]"
+- qid: cat018
+  question: ¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200
+    para que un evento active una salida?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Cubre parte del flujo de programación y da ejemplos de sintaxis, pero
+    omite o desvirtúa facts CORE: no indica claramente el Tipo SW de los módulos de
+    salida y no cita el Apéndice A ''Control By Event''. Además introduce una nota
+    contradictoria/errónea sobre TIPO ID en módulos de salida que puede confundir
+    al técnico.'
+  bot_sources:
+  - AM-8200-manu-prog-spa
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Programación de ecuación CBE en AM-8200 para activar una salida\n\
+    \nLa lógica CBE de la AM-8200 vincula eventos (sensores/grupos) con salidas mediante\
+    \ operadores lógicos programados en el módulo de salida o en el grupo.\n\n---\n\
+    \n## Concepto clave: cómo funciona la cadena CBE\n\nLa AM-8200 dispone de **400\
+    \ grupos** [F2]. El flujo típico es:\n\n1. Un sensor/módulo de entrada se asigna\
+    \ a un **grupo** (mediante su ecuación CBE).\n2. Un **módulo de salida** tiene\
+    \ su propia ecuación CBE que referencia ese grupo.\n3. Cuando el grupo se activa,\
+    \ el módulo de salida se activa.\n\n> **NOTA importante** [F1]: Para los módulos\
+    \ de salida, la central **no permite programar una ecuación si el módulo tiene\
+    \ un TIPO ID para señalizaciones de carácter general.**\n\n---\n\n## Paso a paso\n\
+    \n### PASO 1 — Asignar el sensor/módulo de entrada a un grupo\n\nAccede a: `MENU\
+    \ PROGRAMMAZIONE \\ Punti \\ Sensor` → pestaña **Programación** [F3]\n\n- Campo\
+    \ **Zona**: número de zona asociada.\n- Campo **CBE**: introduce la ecuación que\
+    \ asigna el sensor al grupo.\n  - Ejemplo: `(G9)` → el sensor pertenece al grupo\
+    \ software 9.\n\nPara módulos de entrada, el procedimiento es equivalente [F4]:\n\
+    - Campo **CBE**: ejemplo `(G2)` → el módulo de entrada pertenece al grupo 2.\n\
+    \n---\n\n### PASO 2 — Configurar el grupo (si es necesario)\n\nAccede a: `MENU\
+    \ PROGRAMMAZIONE \\ Gruppi` → pestaña **Programación** [F2]\n\n- **Tipo D** (Activación\
+    \ directa): se activa desde entradas que tienen el grupo en su CBE. Activa lo\
+    \ que contiene su propia ecuación CBE.\n- **Tipo I** (Activación inversa): se\
+    \ activa desde su ecuación CBE. Activa salidas que tienen el grupo en su CBE [F2].\n\
+    \n---\n\n### PASO 3 — Programar la ecuación CBE en el módulo de salida\n\nAccede\
+    \ a: `MENU PROGRAMMAZIONE \\ Punti \\ Moduli` → pestaña **Programación**\n\nEn\
+    \ el campo **CBE** del módulo de salida, introduce la ecuación con el operador\
+    \ adecuado [F1]:\n\n**Operador OR** — se activa si AL MENOS UN grupo está en alarma:\n\
+    ```\nOR (G9 G15 G23)\n```\n*(también válido omitir OR: `(G9 G15 G23)`)*\n\n**Operador\
+    \ AND** — se activa solo si TODOS los grupos están en alarma:\n```\nAND (G9 G15\
+    \ G23)\n```\n\n**Operador NOT** — el módulo se desactiva cuando el grupo entra\
+    \ en alarma:\n```\nNOT (G23)\n```\n\n**Operador XGRP** — se activa cuando AL MENOS\
+    \ DOS elementos del grupo indicado están activos (doble coincidencia) [F5]:\n\
+    ```\nXGRP (G23)\n```\n> **NOTA** [F5]: Con XGRP **no se permite** referenciar\
+    \ más de un grupo: `XGRP (G23 G24)` → **CBE no permitida**.\n\n---\n\n## Restricciones\
+    \ de índice de grupos a tener en cuenta [F1]\n\n- Para **grupos directos**: los\
+    \ operandos dentro del paréntesis deben tener índice **mayor** que el grupo al\
+    \ que se asigna la CBE.\n  - ✗ No permitida: `G33 = (G23 G24)`\n  - ✓ Permitida:\
+    \ `G21 = (G23 G24)`\n\n- Para **grupos inversos**: los operandos deben tener índice\
+    \ **menor** que el grupo al que se asigna la CBE.\n  - ✗ No permitida: `G305 =\
+    \ (G306 G307)`\n  - ✓ Permitida: `G307 = (G305 G306)`\n\n---\n\n## Ejemplo completo\
+    \ (caso típico: detector activa sirena)\n\n| Elemento | CBE programada | Resultado\
+    \ |\n|---|---|---|\n| Sensor (detector) | `(G9)` | Se asigna al grupo 9 |\n| Módulo\
+    \ de salida (sirena) | `OR (G9)` | Se activa cuando el grupo 9 entra en alarma\
+    \ |\n\n---\n\nFuente: AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP\
+    \ Rev A.3 — HONEYWELL LIFE SAFETY IBERIA (sin fecha de revisión registrada en\
+    \ los fragmentos)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Si, por\
+    \ el contrario, el dispositivo en cuestión es un módulo de salida, esta salida\
+    \ no se activará nunca, a no ser que se programe con software TIPO ID para señalizaciones\
+    \ generales.\" [F1]"
+- qid: cat019
+  question: '¿Como se configura una maniobra (causa-efecto) completa en la Detnov
+    CAD-250: como se crea, como se definen las entradas/eventos que la disparan y
+    como se asignan las salidas?'
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre todos los facts CORE: creación desde Maniobras/AÑADIR con COINCIDENCIAS,
+    alta de EVENTO/ACCIÓN y límite 100.000, eventos por entidad o condición temporal,
+    y acciones/salidas sobre elementos de salida. Añade detalles adicionales no presentes
+    en el gold, pero no contradicen lo esencial.'
+  bot_sources:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Configuración de maniobras (causa-efecto) en la CAD-250\n\nLa CAD-250\
+    \ implementa la lógica causa-efecto mediante el menú **MANIOBRAS**, que relaciona\
+    \ eventos de entrada con acciones de salida a través de una condición de coincidencia\
+    \ [F4].\n\n> ⚠️ La programación de maniobras es una de las funciones más críticas\
+    \ de la configuración del sistema. Requiere conocimiento específico del sistema\
+    \ instalado, del plan de protección y del producto [F4].\n\n---\n\n## PASO 1 —\
+    \ Crear la maniobra\n\n1. Accede al menú **MANIOBRAS** desde el menú principal\
+    \ [F1].\n2. Pulsa el botón **AÑADIR** para crear una nueva maniobra [F1].\n3.\
+    \ Se abre la pantalla de edición de la maniobra (**Maniobra 0001**, etc.). La\
+    \ barra de navegación permite moverse entre maniobras [F1].\n4. Define el campo\
+    \ **COINCIDENCIAS**: número de eventos de entrada que deben cumplirse simultáneamente\
+    \ para que la salida se active [F1]:\n   - **Coincidencias = 1** → lógica **OR**\
+    \ (cualquier evento activa la salida) [F1]\n   - **Coincidencias = N (igual al\
+    \ total de eventos)** → lógica **AND** (todos deben cumplirse) [F1]\n   - **Coincidencias\
+    \ = valor intermedio** → lógica **M de N** (p. ej. 3 de 4 eventos) [F1]\n\n> El\
+    \ número máximo de maniobras entre eventos y acciones es de **100.000** [F2].\n\
+    \n---\n\n## PASO 2 — Añadir eventos de entrada\n\n1. En la pantalla de la maniobra,\
+    \ pulsa **AÑADIR** en el margen inferior [F2].\n2. En la pantalla emergente, selecciona\
+    \ **EVENTO** [F2].\n3. Elige el tipo de evento [F2]:\n   - **ENTIDAD**: cualquier\
+    \ elemento de la jerarquía del sistema (instalación, panel, lazo, área, zona,\
+    \ dispositivo, grupo o modo virtual), tanto del sistema local como de la red [F2].\n\
+    \   - **CONDICIÓN TEMPORAL**: establece un periodo de tiempo para el que la ecuación\
+    \ de entrada sea verdadera [F2].\n\n4. Si seleccionas **ENTIDAD**, accedes a la\
+    \ pantalla **EVENTO DE LA ENTIDAD** donde configuras [F4]:\n   - **Origen:** Local\
+    \ o red [F4]\n   - **Condición:** Alarma, avería, técnico [F4]\n   - **Tipo:**\
+    \ Todos, pulsador, detector o entradas [F4]\n   - **Estado lógico:** Normal o\
+    \ Negado (si se selecciona Negado, la condición es válida cuando NO se cumple\
+    \ el estado) [F4]\n   - **Repeticiones:** Valor entero hasta **9999**; número\
+    \ de veces que el evento debe repetirse en la entidad para que la entrada sea\
+    \ válida [F4]\n\n5. Repite el proceso para añadir tantos eventos de entrada como\
+    \ necesites [F5].\n\n> ⚠️ La maniobra gestiona **eventos** (cambios de estado),\
+    \ no estados estáticos. Solo el cambio de estado, si coincide con la condición\
+    \ establecida, provoca la activación de las salidas [F2].\n\n> Desde la versión\
+    \ **1.1.1** es posible seleccionar un elemento de salida como condición de entrada.\
+    \ En ese caso, será el cambio a condición de avería el que hará verdadera la entrada.\
+    \ Para ello, desmarca la casilla **\"Sólo dispositivos de entrada\"** [F5].\n\n\
+    ---\n\n## PASO 3 — Añadir acciones de salida\n\n1. En la misma pantalla de la\
+    \ maniobra, pulsa **AÑADIR** en el margen inferior [F3].\n2. En la pantalla emergente,\
+    \ selecciona **ACCIÓN** [F3].\n3. Se presentan los campos [F3]:\n   - **RETRASO:**\
+    \ tiempo configurable entre **0 y 600 segundos** antes de que se inicie la acción.\
+    \ El retardo se inicia desde el momento en que la condición de entrada es verdadera\
+    \ [F3][F4].\n   - **ENTIDAD:** elemento de la jerarquía del sistema local (panel,\
+    \ lazo, área, zona, dispositivo, grupo o modo virtual) sobre el que se ejecutará\
+    \ la acción [F3].\n\n4. En la pantalla **ACCIÓN DE LA ENTIDAD** configuras [F3][F4]:\n\
+    \   - **Tipo:** identifica la acción y el tipo de elemento al que se aplica (todos,\
+    \ sirenas, relés, sirena discontinua) [F4]\n   - **Acción:** Activar, desactivar,\
+    \ habilitar, deshabilitar, test, reiniciar o pulso [F4]\n\n> Las acciones siempre\
+    \ serán relativas a la entidad seleccionada [F3].\n\n---\n\n## Funcionalidad adicional:\
+    \ Módulos virtuales\n\nLos **módulos virtuales** permiten crear bucles interdependientes:\
+    \ un conjunto de entradas determina el estado del módulo virtual, y este puede\
+    \ actuar a su vez como entrada de otra maniobra [F6].\n\n---\n\n## Resumen del\
+    \ flujo completo\n\n**Eventos de entrada** → **Lógica de coincidencias (OR / AND\
+    \ / M de N)** → **Acciones de salida** [F4][F7]\n\nParámetros de entrada: coincidencia,\
+    \ negación, estado, tipo, repeticiones [F4][F7]\nParámetros de salida: retardo\
+    \ (0–600 s), entidad destino, tipo de elemento, acción [F3][F4]\n\n---\n\nFuentes:\n\
+    - CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)\n- CAD-250\
+    \ Manual de Software de Configuración MS-416-es-2026-b (rev. b)\n\n---\n\U0001F4D6\
+    \ **Información adicional del manual:**\n- \"Screenshot 1: Shows the main interface\
+    \ with \"Panel 12 08:08 - viernes, 19 de abril de 2019\" at top, displaying \"\
+    Maniobra 0001\" with \"Borrar maniobra\" button and \"MANIOBRAS\" section. Left\
+    \ sidebar shows menu items: LAZO, SECTORIZACION, MANIOBRAS, LOGS, RED, AJUSTES,\
+    \ INSTALACION. The main area shows \"Coincidencias: Eventos\" and \"Acciones\"\
+    \ tabs with a hand cursor pointing to an add button.\n\nScreenshot 2: Shows a\
+    \ popup dialog titled \"Seleccione Eve\" with two options: \"EVENTO\" and \"ACCION\"\
+    \n\nScreenshot 3: Shows \"Seleccione tipo de evento\" dialog with options for\
+    \ \"ENTIDAD\" and \"CONDICION TEMPORAL\", with a \"CERRAR\" button and \"Evento\
+    \ de entidad\" label with \"Repeticiones =? 3\" notation\n\nScreenshot 4: Shows\
+    \ a diagram with numbered nodes (1, 2, 3) connected in sequence, with a counter\
+    \ showing \"Contador 0\" and \"Entidad\" field with \"una entidad\" text, and\
+    \ \"Repeticiones =? 3\" label with \"CANCELAR\" button\n\nScreenshot 5: Shows\
+    \ \"Seleccionar entidad\" dialog with two options: \"Local\" and \"Red\", with\
+    \ a \"CLOSE\" button at bottom]\" [F2]"
+- qid: cat020
+  question: En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma
+    y de prealarma por defecto de los detectores, y el maximo configurable?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: Aunque acierta los valores principales (prealarma 80%, alarma 100%
+    y máximo 108%) y cita la escala 0–100%, introduce información conflictiva/incorrecta
+    sobre OTM/láser al decir que no se expresan en porcentaje y dar rangos/niveles
+    recomendados que no corresponden al fact CORE de escala común con mapeo por niveles
+    0-9. Además no cubre claramente que estos valores son específicos de la versión
+    España y que proceden del Manual de variaciones que complementa el manual base
+    996-203-005-X.
+  bot_sources:
+  - DXc_Manual variaciones de mercado
+  - MIE-MC-530
+  - MIE-MP-530rv001
+  - MIE-MU-520rv02
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Niveles de alarma y prealarma por defecto en la DXc (protocolo Morley-IAS)\n\
+    \nPara los detectores con protocolo **Morley-IAS** instalados en la central **DXc**,\
+    \ los valores por defecto son:\n\n- **Prealarma por defecto: 80%** [F1]\n- **Alarma\
+    \ por defecto: 100%** [F1]\n\nEstos valores se expresan como valor analógico normalizado\
+    \ entre **0% – 100%**, independientemente del tipo de detector [F1].\n\n---\n\n\
+    ### Máximo configurable\n\n- **Nivel máximo de alarma: 108%** [F1]\n\nEl manual\
+    \ indica explícitamente que el ajuste máximo para el nivel de alarma es el **108%**\
+    \ [F1].\n\n---\n\n### Nota sobre detectores Multicriterio (OTM) y Láser\n\nPara\
+    \ los detectores **óptico-térmicos (OTM)** y **láser**, los niveles no se expresan\
+    \ en porcentaje sino en **niveles numerados** (Nivel 1 a Nivel 6 para OTM, Nivel\
+    \ 1 a Nivel 9 para láser) [F2]. En estos casos:\n\n- Los niveles por defecto recomendados\
+    \ son:\n  - **Prealarma: Nivel 3** (OTM) / **Nivel 4** (láser) [F2]\n  - **Alarma:\
+    \ Nivel 4** (OTM) / **Nivel 5** (láser) [F2]\n\nEstos valores están marcados con\
+    \ **\\*P** (prealarma recomendada) y **\\*A** (alarma recomendada) en las tablas\
+    \ de sensibilidad del manual [F2].\n\n---\n\nFuente: DXc_Manual variaciones de\
+    \ mercado (sin revisión registrada), secciones 5.3.10.4 y 5.3.10.3\n\n---\n\U0001F4D6\
+    \ **Información adicional del manual:**\n- \"### 5.3.10.5.1 Información específica\
+    \ para protocolo Morley-IAS\n\n• El valor analógico debe ser un número normalizado\
+    \ entre 0% – 100%, independientemente del tipo de equipo. Para los detectores,\
+    \ el nivel de prealarma por defecto es el 80% y el nivel de alarma por defecto\
+    \ es el 100%.\n\n• El ajuste máximo para el nivel de alarma es el 108%.\" [F1]\n\
+    - \"Fuego    : Niv4\nPrealarma: Niv3\n\nIntrod nivel Fuego     : 3\" [F1]\n\n\
+    ---\n\U0001F4D6 **Obligaciones de evidencia del manual:**\n- \"el umbral de alarma\
+    \ de fuego depende del ajuste del nivel/modo y es diferente para cada nivel de\
+    \ alarma.\" (DXc_Manual variaciones de mercado, p. 5) [F2]"
+- qid: cat021
+  question: Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) para
+    una instalación; ¿qué modelo pido?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: clarify
+  conducta_bot: clarify
+  veredicto: PASS
+  diagnostico: 'Aclara correctamente que “40/40” es una familia ambigua con variantes
+    por tecnología y pide datos de combustible/llama para seleccionar el modelo. Cubre
+    los CORE: S40/40I IR3, S40/40M Multi IR para hidrógeno e hidrocarburos, S40/40U
+    UV, y presenta la necesidad de elegir variante según aplicación.'
+  bot_sources:
+  - MNDT721_40-40I
+  - MNDT722_40-40L
+  - MNDT724_40-40R
+  - MNDT725_40-40M
+  - manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'La familia SharpEye "40/40" de Spectrex/Notifier incluye varios modelos
+    distintos según la tecnología de detección. Los fragmentos disponibles documentan
+    los siguientes:
+
+
+    - **S40/40I** — Detector de llama de **triple espectro infrarrojo (IR3)** [F1]
+
+    - **S40/40R** — Detector de llama de **infrarrojo simple (Single IR)** [F2]
+
+    - **S40/40M** — Detector de llama de **múltiple infrarrojo**, para llamas de hidrógeno
+    e hidrocarburo [F4]
+
+    - **S40/40L / S40/40LB / S40/40L4 / S40/40L4B** — Detector de llama **UV/IR**
+    [F5]
+
+
+    Además, el documento de referencia de la serie menciona también los modelos [F3]:
+
+    - **S40/40UFI** — SharpEye Ultra Fast IR3
+
+    - **S40/40UFL** — SharpEye Ultra Fast UV/IR
+
+    - **S40/40U** — SharpEye UV
+
+
+    ---
+
+
+    Para indicarte el modelo exacto a pedir, necesito saber:
+
+
+    1. **¿Qué tipo de combustible/llama necesitas detectar?** (hidrocarburos, hidrógeno,
+    ambos, etc.)
+
+    2. **¿Cuál es el entorno?** (zona ATEX, interior, exterior, presencia de fuentes
+    de radiación UV falsas, etc.)
+
+    3. **¿Tienes algún requisito de velocidad de respuesta?** (detección estándar
+    o ultra rápida)
+
+
+    Con esos datos te indico el modelo concreto a solicitar.
+
+
+    ---
+
+
+    Fuente: MNDT721_40-40I (sin revisión registrada); MNDT724_40-40R (TM 40/40R, Rev.
+    4, 10 octubre 2011); MNDT725_40-40M (TM 40/40M, Rev. 4, 10 octubre 2011); MNDT722_40-40L
+    (TM 40/40L, Rev. 5, 10 octubre 2011); manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+    (TM777050 Rev. Da, octubre 2017)'
+- qid: cat022
+  question: En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay
+    entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Acertó el significado del sufijo «B» como BIT y su aplicación a LB/L4B,
+    pero falló la diferencia principal entre 40/40L y 40/40L4: no indicó las bandas
+    IR 2,5–3,0 μm vs 4,5 μm ni la adecuación del L4 para fuegos de hidrocarburos.
+    Además presentó como diferencia técnica la sensibilidad/alcance, lo que no corresponde
+    al fact core del gold y puede inducir a error.'
+  bot_sources:
+  - MNDT722_40-40L
+  - MNDT723_40-40U
+  - manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Diferencias entre 40/40L, 40/40L4 y sufijo «B»
+
+
+    El manual cubre los modelos **S40/40L, LB, L4 y L4B** como parte de la misma familia
+    [F1]. A partir de los fragmentos disponibles, aquí está lo que se puede precisar:
+
+
+    ---
+
+
+    ### Diferencia entre 40/40L y 40/40L4
+
+
+    La diferencia documentada está en la **sensibilidad de detección**:
+
+
+    - **40/40L** (y su variante 40/40LB): ajuste de sensibilidad de **15**, correspondiente
+    a **50 ft / 15 m** [F2].
+
+    - **40/40L4** (y su variante 40/40L4B): ajuste de sensibilidad de **28**, correspondiente
+    a **93 ft / 28 m** [F2].
+
+
+    Es decir, el modelo **L4 tiene mayor alcance de detección** que el L estándar
+    según los valores de configuración de sensibilidad disponibles.
+
+
+    ---
+
+
+    ### Significado del sufijo «B»
+
+
+    El sufijo **«B»** indica que el detector **incorpora BIT (Built-In Test / Prueba
+    Incorporada)** [F5].
+
+
+    Esto es consistente con lo documentado para la familia 40/40U, donde la tabla
+    de versiones distingue explícitamente entre:
+
+    - **U** → UV **sin** BIT [F3]
+
+    - **UB** → UV **con** BIT [F3]
+
+
+    Aplicado a la familia L:
+
+    - **40/40L** → sin BIT incorporado
+
+    - **40/40LB** → con BIT incorporado
+
+    - **40/40L4** → sin BIT incorporado
+
+    - **40/40L4B** → con BIT incorporado
+
+
+    ---
+
+
+    ### Lo que los fragmentos NO especifican
+
+
+    Los fragmentos recuperados **no detallan** otras diferencias técnicas entre L
+    y L4 (tecnología de sensores, ángulo de cobertura, homologaciones específicas
+    por modelo, etc.). Para esos datos, consulta el **Apéndice A (Especificaciones
+    técnicas)** del manual físico [F1].
+
+
+    ---
+
+
+    Fuente: MNDT722_40-40L (sin revisión registrada); manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694
+    (TM777050 Rev. Da, octubre 2017); MNDT723_40-40U (sin revisión registrada)'
+- qid: cat023
+  question: En el detector de humos por aspiración Securiton ASD532, ¿qué clases de
+    sensibilidad según EN 54-20 ofrece y cómo se configura la monitorización del flujo
+    de aire?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre los dos facts CORE: identifica las clases EN 54-20 A/B/C con
+    su sensibilidad y explica que la monitorización de flujo puede configurarse mediante
+    W01–W44 con retardo 10/60 min y desviación ±20/±50 %. Añade información adicional
+    sobre posiciones A11–C31 y sensores, pero no impide que la respuesta principal
+    sea correcta.'
+  bot_sources:
+  - ASD532_TD_T140421es_a
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## ASD532 — Clases EN 54-20 y configuración de monitorización de flujo
+    de aire
+
+
+    El ASD532 ofrece las **tres clases de sensibilidad según EN 54-20**: clase A (sensibilidad
+    muy alta), clase B (sensibilidad alta) y clase C (sensibilidad normal) [F3].
+
+
+    ---
+
+
+    ### Clases de sensibilidad y posiciones de conmutador normativas
+
+
+    La selección de clase se realiza mediante las **posiciones de conmutador del AMB
+    32** [F4]:
+
+
+    - **Clase A** → posición **A11** [F3]
+
+    - **Clase B** → posiciones **b11 / b21** [F3]
+
+    - **Clase C** → posiciones **C11 / C21 / C31** [F3]
+
+
+    Estas posiciones son los **límites normativos del sistema según EN 54-20** [F3].
+    Para la elección del sensor de humo adecuado según la clase, el manual remite
+    a los capítulos 4.4.4.3 o al software **«ASD PipeFlow»** [F4].
+
+
+    Los sensores de humo disponibles son [F4]:
+
+    - **SSD 532-1**: rango de sensibilidad **0,5 %/m a 10 %/m**
+
+    - **SSD 532-2**: rango de sensibilidad **0,1 %/m a 10 %/m**
+
+    - **SSD 532-3**: rango de sensibilidad **0,02 %/m a 10 %/m**
+
+
+    ---
+
+
+    ### Monitorización del flujo de aire
+
+
+    El ASD532 usa el **método de medición calorimétrico** (técnica de medición de
+    flujo en masa) [F1].
+
+
+    **Puesta en marcha — registro de valores nominales:**
+
+    1. Con el conducto de aspiración intacto y limpio, ejecuta un **reset inicial**
+    (posición de conmutador **U01**) [F3].
+
+    2. El sistema registra y memoriza los valores de flujo medidos como **valor nominal
+    = 100 %** [F1].
+
+    3. Estos valores quedan centrados en la ventana de monitorización electrónica
+    [F1].
+
+
+    **Disparo de «Fallo flujo de aire»:**
+
+
+    En las posiciones normativas **A11 a C31**, una variación superior a **±20 %**
+    del valor nominal (es decir, por debajo del **80 %** por obstrucción/suciedad,
+    o por encima del **120 %** por rotura de tubo) dispara el aviso «Fallo flujo de
+    aire» tras un **tiempo de retardo de 300 s** [F1].
+
+
+    Este umbral de **±20 %** es el exigido por **EN 54-20** para notificación de fallo
+    [F1].
+
+
+    **Compensación de perturbaciones:**
+
+    - Función de **tiempo de retardo ajustable** para descartar turbulencias de aire
+    [F1].
+
+    - **Circuito de compensación de temperatura** para mitigar fluctuaciones de temperatura
+    ambiente [F1].
+
+
+    ---
+
+
+    ### ⚠️ Posiciones no normativas W01–W44
+
+
+    Las posiciones **W01 a W44** permiten configurar la monitorización del flujo con
+    parámetros distintos [F2]:
+
+
+    - Tiempo de retardo: **10 min o 60 min**
+
+    - Desviación permitida: **±20 % o ±50 %**
+
+
+    Sin embargo, estas posiciones **no están homologadas según EN 54-20** para la
+    monitorización del flujo de aire [F1][F5]. Solo deben utilizarse **previa consulta
+    con el fabricante** [F5].
+
+
+    > Nota: las posiciones W01–W44 sí cumplen la sensibilidad de respuesta de alarma
+    según EN 54-20 (clases A a C), pero no los límites normativos de monitorización
+    de flujo [F5].
+
+
+    ---
+
+
+    Fuente: ASD532_TD_T140421es_a (sin revisión registrada)'
+- qid: cat024
+  question: ¿Cuál es el consumo en alarma de la sirena analógica de zócalo Detnov
+    MAD-472?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre los facts CORE: indica 17 mA a 80 dB(A) en el manual MAD-472,
+    surfacea la discrepancia con las tablas CAD-250 de 7 mA y recomienda usar el manual
+    del dispositivo para el cálculo. Añade datos suplementarios correctos; solo faltaría
+    explicitar más claramente que V2 es la edición vigente y recomendar verificación
+    en campo, pero no afecta al PASS.'
+  bot_sources:
+  - 55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  - Manual instalacion CAD-250 (MI_372_es_2024 e)
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'El consumo en alarma de la **MAD-472** es **7 mA** según las tablas
+    de dispositivos compatibles de la CAD-250 [F2][F3][F4].
+
+
+    No obstante, el manual propio de la sirena **MAD-472** indica un consumo en alarma
+    de **17 mA (a 80 dB A)** [F5].
+
+
+    Hay una discrepancia entre ambas fuentes:
+
+
+    - **Tablas de compatibilidad CAD-250:** Consumo alarma = **7 mA** [F2][F3][F4]
+
+    - **Manual técnico MAD-472:** Consumo en alarma = **17 mA (80 dB A)** [F5]
+
+
+    Para el cálculo de carga del lazo, te recomiendo usar el dato del **manual propio
+    del dispositivo (17 mA)** [F5], ya que es la fuente específica del producto. El
+    valor de 7 mA de las tablas de la CAD-250 puede corresponder al consumo que demanda
+    del lazo en condiciones específicas de operación.
+
+
+    Otros datos técnicos del **MAD-472** [F5]:
+
+    - Consumo en reposo: **< 350 μA**
+
+    - Tensión de funcionamiento: **22-38 VDC**
+
+    - Ocupa **1 dirección** de lazo (posiciones 1 a 250)
+
+    - Sin aislador incorporado [F2]
+
+    - Sin alimentación auxiliar externa (se alimenta directamente del lazo) [F5]
+
+    - Tipo de cable: **1,5 mm²** a regleta extraíble, par trenzado apantallado [F5]
+
+
+    Fuentes: Manual instalacion CAD-250 (MI_372_es_2024 e); CAD-250_Manual-Configuracion-MC-380-es-2026-c
+    (rev. c, 2026-04-23); CAD-250_Manual-software-configuracion-MS-416-es-2026-b (rev.
+    b); 55347200 Manual Sirena Analógica MAD-472 ES GB FR IT_V2'
+- qid: hp001
+  question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acierta el acceso desde reposo tocando el candado y usando la clave
+    de administrador 2222, y advierte que no entra con clave de usuario. Falta el
+    fact CORE de que la clave de usuario por defecto es 1111 y añade una ruta AJUSTES
+    > AVANZADO que no corresponde claramente al acceso general al nivel de administrador
+    descrito en el gold.
+  bot_sources:
+  - CAD-250_Manual-Configuracion-MC-380-es-2026-c
+  - CAD-250_Manual-software-configuracion-MS-416-es-2026-b
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Acceso al menú de programación avanzada — CAD-250\n\nLa ruta de\
+    \ acceso es: **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1].\n\n###\
+    \ Pasos completos:\n\n1. Desde la **pantalla de reposo**, toca el icono del **candado**\
+    \ (\U0001F512) [F2].\n2. Introduce la **clave de administrador** (por defecto:\
+    \ **2222**) [F2].\n   - ⚠️ Este menú requiere **nivel de configuración (Nivel\
+    \ 2)** — no es accesible con clave de usuario [F3].\n3. En el **Menú Principal**,\
+    \ selecciona **AJUSTES** [F1].\n4. En el submenú derecho, selecciona **AVANZADO**\
+    \ [F1].\n\n### Contenido del menú AVANZADO:\n\nUna vez dentro, dispones de **3\
+    \ pestañas** [F1]:\n\n- **SISTEMA:** Configura número de cabinas (PANELES: 1 a\
+    \ 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y cabina de LEDs\
+    \ de zona (0 ó 1) [F1].\n- **OTROS:** Interruptores de puesta en marcha y mantenimiento\
+    \ (tiempo de inactividad, salto a scroll, timeout de test, etc.) [F4].\n- **REINICIAR:**\
+    \ Devuelve los parámetros de panel a valores de fábrica. **No afecta** a configuración\
+    \ de entidades, lazos, maniobras, grupos, módulos virtuales, modos especiales,\
+    \ filtros de red ni registros de eventos [F4].\n\n> ⚠️ **Aviso:** El uso indebido\
+    \ del nivel de administrador puede provocar mal funcionamiento de la instalación\
+    \ y comprometer la protección de personas y bienes [F2].\n\n---\n\n**Fuentes:**\n\
+    - CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23) — Secciones\
+    \ 3.2, 4.1, 5.4\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b\
+    \ (rev. b) — Sección 4.16.2"
+- qid: hp002
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo
+    bajo. ¿Cuál es la causa más probable y cómo se diagnostica?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta la causa probable, el umbral ±20%/80%, el retardo de 300 s,
+    la interpretación <100% obstrucción y >100% rotura/fuga, y cita el gate de seguridad.
+    Falta cubrir con precisión algunos CORE: no explicita claramente que no es una
+    ''alarma de flujo bajo'' sino un aviso de fallo de flujo respecto al nominal de
+    reset inicial, y omite el detalle de diagnóstico V01/V02 por conducto; además
+    recomienda el reset inicial de forma demasiado general.'
+  bot_sources:
+  - ASD535_TD_T131192es_h
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## ASD535 — Alarma de flujo bajo: causa y diagnóstico\n\n**Flujo bajo\
+    \ (valor < 100 %) indica obstrucción en el conducto de aspiración** [F1][F2].\n\
+    \n---\n\n### Causa más probable\n\nSegún el manual, un valor de flujo por debajo\
+    \ del **80 %** (con sensibilidad estándar ±20 %) dispara el aviso «fallo flujo\
+    \ de aire» tras un tiempo de retardo de **300 s** [F1][F2]. El código de evento\
+    \ asociado es el **código 001 — Obstrucción, conducto de aspiración** [F3].\n\n\
+    Las causas concretas del código 001 son [F3]:\n- Orificios de aspiración obstruidos\n\
+    - Salida de aire del ASD obstruida\n- Caja de filtro / unidad de filtrado sucia\
+    \ o bloqueada\n- Sensor de flujo de aire sucio\n\n---\n\n### Procedimiento de\
+    \ diagnóstico\n\n1. **Bloquea o desconecta** el control de incendios y la alerta\
+    \ remota en la CDI de orden superior antes de intervenir [F5].\n\n2. **Lee el\
+    \ valor de flujo actual**: abre la cubierta de la caja del detector, coloca el\
+    \ conmutador en posición **V** y lee el porcentaje de flujo (cap. 7.6.1 del manual)\
+    \ [F5].\n   - Valor < 100 % → confirma obstrucción [F1][F5].\n   - Si el valor\
+    \ ya está por debajo del **90 %** (con sensibilidad ±20 % estándar), la inspección\
+    \ del conducto es obligatoria aunque no haya disparado fallo todavía [F5].\n\n\
+    3. **Inspecciona el conducto de aspiración** [F3][F5]:\n   - Comprueba los orificios\
+    \ de aspiración y la salida de aire del ASD.\n   - Verifica que las transiciones\
+    \ de tubo rígido a flexible no tienen fugas (si aplica) [F5].\n   - Comprueba\
+    \ el orificio de inspección.\n\n4. **Inspecciona y limpia la caja de filtro /\
+    \ unidad de filtrado** [F3].\n\n5. **Inspecciona y limpia el sensor de flujo de\
+    \ aire** [F3].\n\n6. **Verifica la tensión de servicio** en los bornes **1 (+)\
+    \ y 2 (−)**: valor nominal **12,3 a 13,8 V CC** (funcionamiento a 12 V) o **21,6\
+    \ a 27,6 V CC** (funcionamiento a 24 V) [F5].\n\n7. Si tras la limpieza el fallo\
+    \ persiste, comprueba también el **código 004** (parámetros LS-Ü fuera de rango\
+    \ o sensor defectuoso) y el **código 008** (sensor de flujo defectuoso o no conectado)\
+    \ [F3].\n\n8. Tras resolver la causa, realiza un **reset inicial** para que el\
+    \ ASD535 registre de nuevo los valores nominales al 100 % [F2].\n\n---\n\n> ⚠️\
+    \ **Advertencia**: En posiciones de conmutador **W01 a W48**, los valores de monitorización\
+    \ de flujo **no están homologados según EN 54-20** y solo deben usarse previa\
+    \ consulta con el fabricante [F2].\n\n---\n\n**Fuente:** ASD535 Descripción técnica,\
+    \ T 131 192 h es (sin revisión registrada)\n\n---\n⚠️ **Información adicional\
+    \ del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas\
+    \ y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento,\
+    \ es **imprescindible** bloquearlos o desconectarlos previamente.\" [F5]\n- Nota:\
+    \ el manual también indica: \"1. Bloquear o desconectar el control de incendios\
+    \ y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación\
+    \ de la CDI debe estar configurada para la central conforme a la normativa de\
+    \ mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración\
+    \ y los tapones de tubo del orificio de entrada de la caja del detector que no\
+    \ está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe\
+    \ comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n\
+    5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan\
+    \ instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse\
+    \ que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe\
+    \ abrirse la cubierta de la caja del detector y fijarse en la posición media de\
+    \ anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse\
+    \ también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n\
+    \   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) \U0001F87A Valor\
+    \ nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento\
+    \ a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración\
+    \ en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con\
+    \ el protocolo de puesta en funcionamiento. Si existe una desviación superior\
+    \ a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse\
+    \ una inspección del conducto de aspiración de la siguiente manera:\n     - Un\
+    \ **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente\
+    \ \U0001F87A Comprobar si el conducto de aspiración tiene fugas (puntos de unión,\
+    \ racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica\
+    \ una **obstrucción** inminente \U0001F87A Comprobar si el conducto de aspiración\
+    \ está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad\
+    \ de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida =\
+    \ ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el\
+    \ bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado\
+    \ la conexión de cable plano con la unidad de control y retirar completamente\
+    \ la cubierta de la caja del detector. Una vez desconectado el cable plano de\
+    \ los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio\
+    \ interior de las cámaras de los sensores de humo y la rejilla protectora contra\
+    \ insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también\
+    \ puede emplearse nitrógeno o aire comprimido sin aceite.\" [F5]\n- Nota: el manual\
+    \ también indica: \"En las posiciones de conmutador A11 a C32, cualquier variación\
+    \ de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción)\
+    \ o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de\
+    \ aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F2]\n\
+    - Nota: el manual también indica: \"En las posiciones de conmutador **A11** a\
+    \ **C32**, cualquier variación de este valor que supere el ±20 % (es decir, por\
+    \ debajo del 80 % o por encima del 120 %) disparará un aviso de fallo una vez\
+    \ transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F1]"
+- qid: hp003
+  question: ¿Cómo se conectan las baterías de 24V en la Detnov CAD-150?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: La respuesta cubre la conexión en serie, el puente entre positivo y
+    negativo, los cables rojo/negro y el orden general red antes que baterías. Falta
+    el CORE de desconectar el magnetotérmico bipolar exterior antes de manipular la
+    central, y la advertencia sobre no conectar la red hasta la puesta en marcha queda
+    algo imprecisa.
+  bot_sources:
+  - 55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Conexión de baterías en la CAD-150-8
+
+
+    Las baterías se conectan **en serie** (dos baterías de **12V 7Ah** cada una) [F5].
+
+
+    ### Pasos de conexión:
+
+
+    1. **Coloca las dos baterías** en la parte inferior de la caja, en el espacio
+    reservado para ello, de forma vertical [F5].
+
+
+    2. **Conecta el cable puente** (suministrado con la central) uniendo el **polo
+    positivo de una batería con el polo negativo de la otra** — esto las pone en serie
+    para obtener 24V [F5].
+
+
+    3. **Conecta los cables del circuito** (rojo al positivo, negro al negativo) al
+    conjunto de baterías ya unidas entre sí [F1].
+
+
+    4. El conector de batería en la placa base corresponde al **punto 11** de la PCB
+    Base, protegido por el **fusible de baterías (punto 10)** [F2].
+
+
+    ### ⚠️ Advertencia de seguridad:
+
+
+    El orden de conexión es **siempre primero la red y después las baterías** [F5].
+    No conectes la central a la red hasta haber completado la puesta en marcha.
+
+
+    > **Nota:** Para arrancar el equipo solo con baterías (sin red), es imprescindible
+    pulsar el pulsador **BAT** (punto 9 de la PCB Base) [F6][F2].
+
+
+    ---
+
+
+    Fuente: 55315013 Manual Centrales Analógicas CAD-150-8 Instalación ES FR GB IT
+    (sin revisión registrada)'
+- qid: hp004
+  question: ¿Cuál es la tensión de funcionamiento y el consumo en reposo del detector
+    DGD-600 de Detnov?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: clarify
+  conducta_bot: answer-con-conflicto
+  veredicto: PARCIAL
+  diagnostico: La respuesta cubre correctamente las dos versiones y sus tensiones/consumos,
+    incluyendo alarma. Falta pedir o indicar explícitamente que se confirme qué versión
+    instalada es la aplicable, que era parte del fact [CORE] de aclaración.
+  bot_sources:
+  - 55360004 Manual Detector Gas DGD-600 ES EN IT FR
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'El **DGD-600** tiene dos variantes de alimentación con consumos distintos
+    [F1]:
+
+
+    **Versión 24V:**
+
+    - Tensión de funcionamiento: **22 V a 38 V** [F1]
+
+    - Consumo en reposo: **45 mA** [F1]
+
+    - Consumo en alarma: **65 mA** [F1]
+
+
+    **Versión 220V:**
+
+    - Tensión de funcionamiento: **180 V a 240 V** [F1]
+
+    - Consumo en reposo: **70 mA** [F1]
+
+    - Consumo en alarma: **70 mA** [F1]
+
+
+    ---
+
+
+    Fuente: 55360004 Manual Detector Gas DGD-600 ES EN IT FR (sin revisión registrada)'
+- qid: hp005
+  question: En la Notifier ID3000, ¿cómo se programa una zona para que active una
+    salida de sirena solo cuando haya coincidencia de dos detectores?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Aunque menciona la Matriz de Control, la opción COINCIDENCIA 2 EQUIPOS
+    y la condición de misma zona/subzona, omite o deja imprecisos CORE importantes
+    como ENTRADA = ALARMA y la selección concreta de salida ''Salidas activadas''
+    -> ''CIRCUITO SIRENA/RELÉ'' o módulos de sirena. Además introduce errores/confusión:
+    presenta como obligatorio crear una instrucción para pulsadores y en PK-ID3000
+    habla de seleccionar ''2 zonas'' en vez de coincidencia de 2 equipos/detectores.'
+  bot_sources:
+  - MCDT190
+  - MCDT191
+  - MPDT190
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Programación de coincidencia de dos detectores para activar sirena\
+    \ — ID3000\n\nLa función se configura en la **Matriz de Control** usando la opción\
+    \ **\"COINCIDENCIA 2 EQUIPOS\"** en la entrada, de forma que la salida de sirena\
+    \ solo se activa cuando dos detectores de la misma zona están en alarma.\n\n---\n\
+    \n## Procedimiento (vía teclado de la central)\n\n### Paso 1 — Crear la instrucción\
+    \ para pulsadores manuales (obligatorio)\n\n> ⚠️ **EN54-2: 7.1.4** — No incluyas\
+    \ pulsadores manuales en el grupo de coincidencia [F1][F3].\n\nDebes programar\
+    \ **dos instrucciones separadas** en la Matriz de Control [F3]:\n\n**Primera instrucción**\
+    \ — Para que los pulsadores manuales (MCP/PUL) activen la sirena sin coincidencia\
+    \ [F1][F3]:\n- Entrada: tipo **Pulsador Manual (MCP/PUL)**\n- Coincidencia: **UN\
+    \ ÚNICO EQUIPO** (sin coincidencia)\n- Salida: sirena\n\n---\n\n### Paso 2 — Crear\
+    \ la instrucción con coincidencia de dos detectores\n\n**Segunda instrucción**\
+    \ — Para detectores analógicos con coincidencia [F1][F3]:\n\n1. Accede a la **Matriz\
+    \ de Control** (menú Parámetros Sistema → Matriz de control, o pulsa **\\<F6\\\
+    >** desde la edición de sensores) [F6][F7].\n\n2. Crea un nuevo evento de Matriz\
+    \ de Control [F3].\n\n3. **Limitado por tipo** — Selecciona el tipo de detector\
+    \ al que aplica la coincidencia [F3]:\n   - Opciones disponibles: `CUALQUIER TIPO\
+    \ DE EQUIPO`, `CUALQUIER SENSOR TÉRMICO`, `CUALQUIER SENSOR IÓNICO`, etc.\n  \
+    \ - El grupo **ANALÓGICO** incluye detectores térmicos, iónicos, ópticos, VIEW\
+    \ y multisensor [F1].\n\n4. **Selección de zona** — Elige la zona específica donde\
+    \ se aplica la coincidencia [F2][F3]:\n   - Opción **\"Una única zona\"** (párrafo\
+    \ 6 del procedimiento de teclado) [F3].\n   - > ⚠️ No se permite usar coincidencia\
+    \ de zonas y limitación por tipo en la misma entrada de Matriz de Control [F3].\n\
+    \n5. **Coincidencia de equipos** — Selecciona [F3]:\n   \n\n⚠️ Conexionado de\
+    \ las sirenas: la fuente citada muestra este detalle en un DIAGRAMA que no puede\
+    \ transcribirse con fiabilidad a pasos de texto. Antes de cablear, consulta la\
+    \ figura del manual citado en esta respuesta (respeta la resistencia final de\
+    \ línea y la polaridad exactas que muestra el diagrama).\n\n\n   - Esta opción\
+    \ aparece solo si en el paso anterior se seleccionó **\"Una única zona\"** y el\
+    \ tipo no es la opción 9, 10 u 11 (que ya incluyen coincidencia propia) [F3].\n\
+    \n6. **Condición de coincidencia**: los dos equipos en alarma deben estar en la\
+    \ **misma zona o subzona** [F3].\n\n7. **Salida**: asigna la salida de sirena\
+    \ correspondiente [F6][F7].\n\n---\n\n## Vía software PK-ID3000\n\nEn el software\
+    \ de configuración, al definir la entrada de la Matriz de Control [F2]:\n\n- Selecciona\
+    \ la zona específica.\n- En la ventana **\"Seleccionar Zona\"**, activa la casilla\
+    \ de **Coincidencia** y selecciona **2 zonas** en el desplegable (si usas \"Cualquier\
+    \ zona\") o marca la casilla de coincidencia en la selección de zona específica\
+    \ [F2].\n- > Nota: si la casilla no está seleccionada, no hay coincidencia [F2].\n\
+    \nEn la columna **Coincidencia** de la Matriz de Control (vía teclado), pulsa\
+    \ la **barra ESPACIADORA** para cambiar de **NO** a **SÍ** [F1].\n\n---\n\n##\
+    \ Resumen de condiciones para que funcione la coincidencia\n\n- Solo aplica si\
+    \ la entrada está especificada como **ZONA**, **SUBZONA** o **CUALQUIER ZONA**\
+    \ — no para equipo individual ni tecla [F1].\n- Los dos equipos deben estar en\
+    \ la **misma zona o subzona** [F3].\n- En subzonas, si la central está configurada\
+    \ para ello, los equipos pueden estar dentro de un **rango de subzonas** (configurable\
+    \ en **Sección 11.21** de la central) [F5].\n- Las opciones de coincidencia adicionales\
+    \ (n equipos, p equipos) solo aparecen si están configuradas en los ajustes de\
+    \ la central — **Sección 11.21** [F3].\n\n---\n\n**Fuentes:**\n- MCDT190 — ID3000\
+    \ Manual de programación (sin revisión registrada), Sección 6.1.5\n- MPDT190 —\
+    \ ID3000 Manual (sin revisión registrada), Sección Matriz de control y Sección\
+    \ 11.21\n- MCDT191\\_F v. 2.17e — ID3000 Manual del programa de configuración\
+    \ PK-ID3000, Sección 4.3"
+- qid: hp006
+  question: La Notifier AFP-400 muestra el aviso 'Tierra' (Earth Fault). ¿Qué significa
+    y cómo se localiza?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'Acierta en que es una avería por fuga/aislamiento a tierra y menciona
+    JP2, pero faltan facts CORE: LED/terminales de la MPS-400, reconocimiento de ''Tierra''
+    en el SLC y uso de aisladores ISO-X para acotar el lazo. Además alucina o infiere
+    que el Documento 50259 contiene el procedimiento completo de localización de fallas
+    de tierra, cuando el gold indica que no hay procedimiento paso a paso en los manuales
+    disponibles.'
+  bot_sources:
+  - 15090SP
+  - 50253SP
+  - MFDT170
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Aviso de Tierra (Earth Fault) en la AFP-400
+
+
+    El aviso **"Tierra"** en la AFP-400 es una condición de **avería del sistema**
+    que indica una fuga a tierra en el cableado o en algún dispositivo conectado al
+    panel.
+
+
+    ---
+
+
+    ### ¿Qué indica en el panel?
+
+
+    Cuando existe esta condición, el LED **"Avería del Sistema"** (color amarillo)
+    parpadea si no ha sido reconocida, y se ilumina de forma fija una vez reconocida
+    [F2]. Para desactivarlo, debes **eliminar la condición de avería** [F2].
+
+
+    ---
+
+
+    ### Cómo inhabilitar/localizar la detección de Tierra
+
+
+    El manual indica que el puente **JP2** de la **MPS-400** puede cortarse para **inhabilitar
+    la detección de Falla de Tierra** [F1]. Esto puede usarse temporalmente durante
+    el proceso de localización para confirmar que la detección está activa y funcional.
+
+
+    ---
+
+
+    ### Limitación importante
+
+
+    Los fragmentos disponibles **no describen un procedimiento paso a paso para localizar
+    físicamente la fuga a tierra** en la AFP-400. El manual referenciado para procedimientos
+    de resolución de problemas de dispositivos es el **Manual de Programación del
+    AFP-300/AFP-400 (Documento 50259)** [F5], donde encontrarás información detallada
+    sobre tipos de problemas y localización por dirección de dispositivo (formato:
+    Nodo XXX, LIB XX, Módulo XX) [F5].
+
+
+    **Recomendación:** Consulta el Documento 50259 para el procedimiento completo
+    de localización de fallas de tierra.
+
+
+    ---
+
+
+    Fuente: Manual de Usuario AFP-400 – MFDT170 (sin revisión registrada); Manual
+    de Instalación AFP-300/AFP-400 – PN 50253:D (09/22/98)'
+- qid: hp007
+  question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual
+    del fabricante?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre todos los facts CORE del mantenimiento anual: prueba de humos,
+    comprobación de flujo, limpieza de puntos de muestreo y limpieza con agua de la
+    tubería. Además incluye precauciones relevantes y no presenta errores sustantivos
+    frente al gold.'
+  bot_sources:
+  - 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores
+  - 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# Test anual del detector VESDA-E VEP-A10-P
+
+
+    Según la **Tabla 7-1** del manual, las tareas que corresponden a frecuencia **anual**
+    para el VEP-A10-P son las siguientes [F1]:
+
+
+    - **Realizar una prueba de humos** para comprobar la integridad de la red de tubería
+
+    - **Comprobar el flujo** de la red de tubería
+
+    - **Limpiar los puntos de muestreo**
+
+    - **Limpiar con agua la red de tubería**
+
+
+    ---
+
+
+    ## Procedimiento previo obligatorio (antes de cualquier tarea)
+
+
+    Antes de iniciar el mantenimiento, el manual indica [F1]:
+
+
+    1. **Informar a la autoridad supervisora adecuada.**
+
+    2. **Aislar los dispositivos existentes** que dependan del detector antes de ponerlo
+    en funcionamiento.
+
+
+    > ⚠️ **Precaución:** Cuando el detector está deshabilitado o en espera, **no emitirá
+    advertencias de fuego** [F1].
+
+
+    ---
+
+
+    ## Puesta en modo en espera (recomendado durante el mantenimiento de tubería y
+    puntos de muestreo)
+
+
+    Para trabajar sobre la red de tubería o los puntos de muestreo, se recomienda
+    establecer el detector en **modo en espera** [F5]:
+
+
+    1. Desde **Xtralis VSC**, selecciona **"Ir a modo en espera" (Go to Standby)**
+    en el menú **Dispositivo (Device)**.
+
+    2. El **LED desactivado parpadeará** y se apagará el aspirador.
+
+    3. Al terminar, selecciona **"Finalizar modo en espera" (End Standby)** en el
+    menú **Dispositivo (Device)** para reactivar la unidad [F5].
+
+
+    > Nota: En modo en espera se desactiva el aspirador y se detiene la detección
+    de alarmas, pero **no** la detección ni señalización de fallos [F5].
+
+
+    ---
+
+
+    ## Prueba de humos anual
+
+
+    La prueba de humos consiste en introducir una muestra de humo en el **orificio
+    de muestreo más alejado** y medir el tiempo que tarda en llegar al detector [F2].
+    Los resultados se registran y se comparan con pruebas posteriores para detectar
+    variaciones del sistema [F2].
+
+
+    > 📋 El manual remite al documento **"VESDA-E Commissioning Guide"** para los detalles
+    completos del procedimiento de prueba de humos [F2]. Consulta ese documento para
+    el paso a paso detallado.
+
+
+    ---
+
+
+    ## Notas adicionales del fabricante [F1]
+
+
+    - La frecuencia puede variar según **códigos y normas locales** y el entorno de
+    la instalación.
+
+    - El mantenimiento puede realizarlo el **instalador original, un distribuidor
+    autorizado o el contratista de servicio**.
+
+    - Durante las pruebas de humo, seguir los **procedimientos del sitio para evitar
+    falsas alarmas**.
+
+
+    ---
+
+
+    **Fuente:** 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión
+    registrada)
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "**Atención:** Pendant que le detecteur ou la zone est desactivee, aucun feu
+    d''indication va etre emis par le detecteur." (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores,
+    p. 87) [F1]
+
+    - "Se debe realizar una comprobación preliminar del sistema después de instalar
+    el detector VEP-A10-P y antes de ponerlo en marcha." (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores,
+    p. 54) [F6]'
+- qid: hp008
+  question: ¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre la mayoría de sensores iónicos, ópticos, VIEW y
+    multicriterio, incluyendo IDX-751 con barrera Y72221. Sin embargo, falta un fact
+    [CORE]: los detectores de humo por rayo/haz LPB500 (máx. 4 por lazo) y LPB-700/LPB-700T;
+    además, la afirmación genérica de “toda la gama” es imprecisa.'
+  bot_sources:
+  - MIDT190
+  - MPDT190
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Detectores de humo analógicos compatibles con la ID3000
+
+
+    La ID3000 es compatible con toda la gama de sensores analógicos de **Notifier**
+    que utilizan protocolo de comunicaciones Notifier [F4]. A continuación, los detectores
+    de humo analógicos específicos:
+
+
+    **Detectores ópticos (humo por dispersión de luz):**
+
+    - **SDX-551E** — Óptico [F3]
+
+    - **SDX-751** — Óptico [F3]
+
+    - **SDX-751EM** — Óptico [F1][F3]
+
+    - **SDX-551THE** — Óptico [F3]
+
+    - **HPX-751E** — Óptico HARSH/FILTREX [F1][F3]
+
+    - **IDX-751** — Óptico intrínsecamente seguro HAZARD [F1][F3]
+
+
+    **Detectores combinados óptico/térmico (humo + temperatura):**
+
+    - **SDX-751TEM** — Optiplex (combinado térmico/humo) [F1][F3]
+
+
+    **Detectores de humo láser (VIEW):**
+
+    - **FSL-751E** — VIEW (humo láser) [F1]
+
+    - **LPX-751** — VIEW [F3]
+
+
+    **Detectores iónicos:**
+
+    - **CPX-751E** — Iónico bajo perfil [F1][F3]
+
+    - **CPX-551E** — Iónico [F3]
+
+
+    **Detectores multicriterio (humo + CO + IR + térmico):**
+
+    - **IRX-751CTEM** — SMART 4 (óptico/térmico/infrarrojo/CO) [F3][F5]
+
+    - **IRX-751TEM** — SMART 3 [F3]
+
+
+    > **Nota:** Para el sensor **IDX-751** (HAZARD, intrínsecamente seguro) se requiere
+    el aislador galvánico **Y72221** [F3].
+
+
+    ---
+
+
+    Fuente: MPDT190 — Panel ID3000, Manual de programación (sin revisión registrada);
+    MIDT190 — Panel ID3000, Manual de instalación y puesta en marcha (sin revisión
+    registrada)'
+- qid: hp009
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de
+    la central Morley ZXe?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'La respuesta confunde el lazo analógico direccionable ZXe con un bus
+    RS-485/otros equipos y da una RFL de 150 Ω que no aplica al lazo ZXe; esto contradice
+    el core de que el lazo se cablea como bucle cerrado sin RFL. Faltan/queda mal
+    cubiertos los CORE: retorno por los bornes de lazo del panel y que ningún manual
+    ZXe especifica RFL para el lazo direccionable porque la RFL pertenece a circuitos
+    convencionales supervisados.'
+  bot_sources:
+  - MIE-MI-390
+  - MIE-MI-431rv2
+  - MIE-MI-530rv001
+  - MIE-MI-600
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'La resistencia de fin de línea (RFL) para los lazos RS-485 de la ZXe
+    es de **150 Ω, 0,5 W mínimo** [F1].
+
+
+    Se coloca en los **terminales A y B libres** de los equipos en los extremos de
+    la cadena [F1]:
+
+
+    - **Lazo abierto (cadena sencilla):** una RFL en cada extremo libre del primer
+    y último equipo [F1].
+
+    - **Lazo en bucle (cerrado):** no se usan RFLs, ya que el lazo queda cerrado sobre
+    sí mismo [F1].
+
+
+    **Nota importante:** Si el equipo extremo dispone de puente de posición **TERM
+    ON**, ese puente ya incorpora internamente una resistencia de 150 Ω. En ese caso,
+    **no conectes además la RFL externa**, ya que quedarían dos resistencias en paralelo
+    [F3].
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZX2e / ZX5e — MIE-MI-530rv001 (sin revisión registrada)
+    [F1]; Manual de Instalación ZXr-A/ZXr-P — MIE-MI-431rv2 (rev. 2) [F3].
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "Es imprescindible comprobar que no hay derivación entre los terminales A y
+    B y que el lazo entra a un lado del conector y sale por el otro o termina en la
+    resistencia RFL de 150 Ohmios." (MIE-MI-431rv2, p. 8) [F3]'
+- qid: hp010
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta
+    en marcha inicial?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta acierta en que debe usarse la Autobúsqueda del lazo,
+    seleccionar lazo y confirmar, y menciona revisar nuevos/totales. Le faltan facts
+    CORE: acceso explícito a Nivel 3 con clave y desbloqueo de memoria, y que el resumen
+    final incluye también equipos eliminados y modificados.'
+  bot_sources:
+  - DXc_Manual de configuracion
+  - MIE-MP-520rv04
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Añadir un nuevo detector al lazo en la DXc tras la puesta en marcha\n\
+    \nEl procedimiento es usar la función **Autobúsqueda de equipos** desde el menú\
+    \ de Lazo [F1].\n\n---\n\n## Pasos\n\n1. **Conecta físicamente el nuevo detector**\
+    \ al lazo, respetando la polaridad (positivo y negativo) y la topología en bucle\
+    \ cerrado [F2]. Consulta la Figura 12 del manual para el esquema de conexionado\
+    \ [F2].\n\n2. **Accede al nivel de programación** de la central.\n\n3. **Entra\
+    \ en el menú de Lazo** y pulsa la tecla **'2'** para seleccionar la función **'Autobúsqueda'**\
+    \ [F1].\n\n4. **Selecciona el número de lazo** donde has conectado el nuevo detector\
+    \ (si la central tiene más de un lazo) y pulsa **⊙** para confirmar [F1].\n\n\
+    5. **Confirma el inicio de la autobúsqueda** pulsando **⊙** cuando aparezca el\
+    \ mensaje de confirmación [F1]. La pantalla mostrará el progreso:\n   ```\n  \
+    \ Lazo: 1  Reconocimiento en progreso...\n   ```\n\n6. **Revisa el resumen de\
+    \ resultados** al finalizar. Verifica que el campo **\"Nuevos\"** refleja el número\
+    \ de detectores añadidos, y que los totales por tipo (ION, OPT, TMP, etc.) coinciden\
+    \ con los equipos físicamente instalados [F1].\n\n7. Pulsa **⊞** para salir y\
+    \ regresar al menú de Lazo [F1].\n\n---\n\n## Notas importantes\n\n- **Máximo\
+    \ 32 sensores/pulsadores entre aisladores** según EN54-2: 12.5.2 [F2]. Si el nuevo\
+    \ detector supera este límite en un tramo, deberás añadir un aislador de cortocircuito.\n\
+    - Si has realizado un **cambio de protocolo** previamente, espera **dos minutos**\
+    \ antes de ejecutar la autobúsqueda [F1].\n- Los modelos **DXc1** solo disponen\
+    \ de lazo 1; los modelos **DXc2** usan lazos 1 y 2; el **DXc4** dispone de cuatro\
+    \ lazos [F2].\n\n---\n\nFuente: DXc_Manual de configuracion (sin revisión registrada)\n\
+    \n---\n\U0001F4D6 **Información adicional del manual:**\n- \"ION: 0 OPT: 1 TMP:\
+    \ 1 MLT: 2\nPUL: 4 MON: 0 SIR: 2 REL: 1 OTROS : 2\" [F1]\n\n---\n\U0001F4CB **Obligaciones\
+    \ de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"PUL: 4 MON:\
+    \ 0 SIR: 2 REL: 1 OTROS : 2\" (DXc_Manual de configuracion, p. 48) [F1] declara\
+    \ 1 OTROS y la enumeración servida lista 5 (DXc_Manual de configuracion, p. 48)\
+    \ [F1]."
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre ABORT, r.I y averías enclavadas, y añade comprobaciones
+    útiles como Flow Press y rearme en nivel 2. Falta el fact CORE del parámetro t.A:
+    duración de descarga/soak time, rango 05-295 s y valor por defecto ''--'' con
+    circuito activo hasta rearme.'
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MA-103_Quick start guide RP1r_Supra_GB
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    El motivo más probable es que el **rearme esté inhibido temporalmente** por configuración,
+    o que exista una **condición de avería activa** que impide el restablecimiento
+    completo.
+
+
+    ---
+
+
+    ## Comprobaciones por orden
+
+
+    ### 1. Verifica si el rearme está inhibido tras extinción (parámetro r.i)
+
+
+    La central puede tener configurado un intervalo de inhibición del rearme tras
+    la extinción [F8]:
+
+
+    - **Valor `- -`**: Rearme inhibido hasta que finalice la extinción o se agote
+    el tiempo configurado en el parámetro **t.A** (t.A → 0 seg.) [F8]
+
+    - **Valor `00`** (por defecto): Rearme permitido en cualquier momento [F8]
+
+    - **Valores `01` a `30`**: Rearme inhibido durante ese número de minutos desde
+    que la central entró en estado ACTIVADO [F8]
+
+
+    → Accede al modo de programación y comprueba el valor del parámetro **r.i**. Si
+    está configurado con un valor de 01 a 30, la central no permitirá el rearme hasta
+    que transcurra ese intervalo [F7][F8].
+
+
+    ---
+
+
+    ### 2. Comprueba si hay averías enclavadas activas
+
+
+    Todas las averías son **por defecto enclavadas y requieren rearme manual** [F1].
+    Revisa los LEDs de avería en el panel:
+
+
+    - **LED "Avería circuito extinción"** intermitente → fallo en circuito extinción
+    1 o 2 [F5]
+
+    - **LED "Avería en paro"** intermitente + **LED "Paro"** fijo → el pulsador ABORT
+    está activo o en fallo. **Este circuito requiere rearme manual obligatorio** y
+    no admite rearme automático [F5]
+
+    - **LED "Sirenas fallo/anuladas"** intermitente → fallo en circuito de sirenas
+    [F5]
+
+    - **LED "Avería presión baja"** o **"Avería presión flujo"** intermitente → señal
+    de presión baja o flujo activa [F1]
+
+
+    ---
+
+
+    ### 3. Verifica el estado del pulsador ABORT
+
+
+    Si el pulsador de paro de emergencia (ABORT) fue accionado durante la secuencia,
+    la central **inhibe totalmente la lógica de extinción y requiere reseteo manual**
+    para reanudar [F3]. Comprueba:
+
+
+    - Que el pulsador ABORT esté físicamente liberado (no enclavado mecánicamente)
+
+    - Que la entrada ABORT no esté en cortocircuito o fallo de supervisión [F5]
+
+
+    ---
+
+
+    ### 4. Procedimiento de rearme correcto
+
+
+    Para rearmar la central [F1]:
+
+
+    1. Accede al **nivel 2** de acceso (consultar sección **4.3. Niveles de acceso**
+    del manual) [F1]
+
+    2. Pulsa la tecla **"Rearme"** [F1]
+
+    3. La central se reiniciará y todas las entradas enclavadas se restablecerán [F1]
+
+
+    > ⚠️ Si el rearme sigue sin funcionar tras estos pasos, verifica que el tiempo
+    de inhibición configurado en **r.i** haya transcurrido completamente antes de
+    intentar rearmar [F8].
+
+
+    ---
+
+
+    Fuente: HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01); HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+    (sin revisión registrada)'
+- qid: hp012
+  question: ¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos
+    dispositivos por lazo?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer-con-conflicto
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: 'No surfacea correctamente el conflicto España vs US para la AFP1010:
+    falta el fact CORE de Notifier España (2 LIB-200 = 2 lazos / 396 dispositivos)
+    y presenta 4 lazos como respuesta principal. Además alucina/erra el total de AM2020
+    indicando 792 dispositivos cuando con 10 lazos x 198 son 1980.'
+  bot_sources:
+  - 15088SP
+  - BTDT032
+  - MFDT280
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "## Capacidad de lazos y dispositivos — AM2020/AFP1010\n\nLa respuesta\
+    \ varía según el modelo:\n\n---\n\n### AFP1010\n- **Número máximo de lazos SLC:\
+    \ 4** [F2]\n  (soporta un máximo de dos LIB-400, que son tableros dobles → 2 ×\
+    \ 2 = 4 SLCs)\n- **Dispositivos por lazo:** hasta **99 detectores inteligentes**\
+    \ + hasta **99 dispositivos adicionales** (combinación de estaciones direccionables,\
+    \ módulos de monitoreo y módulos de control) [F2]\n- **Total de dispositivos direccionables\
+    \ en el sistema: 792** [F1]\n\n---\n\n### AM2020\n- **Número máximo de lazos SLC:\
+    \ 10** [F2]\n  (de uno a cinco LIB-400, o de uno a diez LIB-200/LIB-200A)\n- **Dispositivos\
+    \ por lazo:** hasta **99 detectores inteligentes** + hasta **99 dispositivos adicionales**\
+    \ (misma combinación que el AFP1010) [F2]\n- **Total de dispositivos direccionables\
+    \ en el sistema: 792** [F1]\n\n---\n\n### Tarjetas de lazo disponibles\n- **LIB-200\
+    \ / LIB-200A:** tablero de lazo simple (1 SLC por tarjeta) [F2]\n- **LIB-400:**\
+    \ tablero de lazo doble (2 SLC por tarjeta) [F2]\n\n---\n\n> **Nota:** El límite\
+    \ de **198 dispositivos por lazo** (99 detectores + 99 módulos) aplica a cada\
+    \ SLC individualmente, independientemente de la tarjeta LIB utilizada [F2].\n\n\
+    Fuente: Manual AM2020/AFP1010 PN 15088SP (sin revisión registrada)\n\n---\n\U0001F4CB\
+    \ **Información adicional del manual:**\n- Nota: el manual también indica: \"\
+    Nota: En Canadá, la Norma S524 de ULC, para la instalación de los sistemas de\
+    \ alarma contra incendios, refiérase a los circuitos de línea señalizadores como\
+    \ un Enlace de las Comunicaciones de Datos (DCL). Un Estilo 4 de la NFPA es equivalente\
+    \ a un DCLB, un Estilo 6 a un DCLA, y un Estilo 7 a un DCLR.\n\nNota: Si usted\
+    \ está experimentando un ruido excesivo en los circuitos de bocina o los telefónicos\
+    \ en el IFC-1010/2020, la señal registradora del LIB-200 del SLC puede que sea\
+    \ la fuente. Para reducir el ruido, conecte los blindados del SLC al sistema común\
+    \ de la fuente de alimentación principal de la MPS-24A, al TB3, terminal 6, o\
+    \ utilice un LIB-200A/LIB-400.\" [F2]\n\n---\n\U0001F4CB **Obligaciones de evidencia\
+    \ del manual:**\n- Nota: la fuente es inconsistente: \"La figura 13 representa\
+    \ un gabinete CAB-A3 utilizado con los módulos del LIB-400 exclusivamente, lo\
+    \ que significa que puede dar alojo a un máximo de cuatro lazos del sistema AFP1010.\"\
+    \ (15088SP, p. 30) [F3] declara 4 lazos y la enumeración servida lista 2 (15088SP,\
+    \ p. 30) [F3]."
+- qid: hp013
+  question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en que la configuración se conserva por estar en EEPROM, que
+    la batería de litio está asociada al RTC y que el manual no documenta un procedimiento
+    específico de sustitución, remitiendo a soporte. Falta un CORE importante: explicar
+    que el ADW 535 se alimenta externamente por PWR +9 a +30 V-CC con entrada redundante
+    PWR-R, y que el respaldo no es una batería tampón a bordo sino esa alimentación
+    redundante; la única batería interna es la de litio del RTC.'
+  bot_sources:
+  - ADW 535-1 ATEX_TD_003 007_en_a
+  - ADW535_TD_T140358es_e
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Sustitución de la batería de litio del ADW535 — conservación de
+    configuración
+
+
+    La configuración del ADW535 **no se pierde al cambiar la batería**, porque los
+    parámetros específicos del sistema están almacenados en la **EEPROM** del equipo
+    [F7], no en la batería de litio. La batería de litio está asociada al **módulo
+    de reloj RTC** [F1].
+
+
+    ---
+
+
+    ### Lo que sí debes tener en cuenta
+
+
+    **Antes de intervenir:**
+
+    - Bloquea o desconecta los controles de incendios y alertas remotas en la CDI
+    de orden superior [F3], ya que cualquier interrupción de tensión provoca un disparo
+    momentáneo del relé de fallo (aprox. **1 s**) [F5].
+
+
+    **Sobre la batería:**
+
+    - El fragmento recuperado indica que el código de fallo **008 "Fallo reloj"**
+    puede deberse a que la **cinta aislante de la batería de litio aún no se ha retirado**,
+    o a que el reloj no está ajustado [F6].
+
+    - La batería de litio está ubicada en el **Main Board LMB 35** [F1].
+
+
+    **Tras la sustitución:**
+
+    - Verifica que el **reloj RTC esté correctamente ajustado** [F6].
+
+    - Si solo sustituyes la batería (sin cambiar el LMB 35), **no es necesario un
+    reset inicial** — los parámetros se conservan en la EEPROM [F7].
+
+
+    ---
+
+
+    ### ⚠️ Advertencia importante
+
+
+    El manual no describe un procedimiento paso a paso específico para la sustitución
+    de la batería de litio en los fragmentos disponibles. Lo que sí documenta es el
+    procedimiento completo de sustitución del **LMB 35** completo [F2], que es una
+    operación más invasiva y **sí requiere reset inicial y reconfiguración** [F2].
+
+
+    Si necesitas el procedimiento detallado de cambio de batería, consulta el manual
+    físico **ADW535_TD_T140358es_e** o contacta con el soporte técnico de Securiton/Detnov.
+
+
+    ---
+
+
+    Fuente: ADW535 Descripción técnica, T 140 358 e es (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "* Una vez sustituido el LMB 35, será imprescindible realizar un **nuevo reset
+    inicial** (véase al respecto el cap." [F2]
+
+    - "Para evitar que los controles de incendios, las alertas remotas y las zonas
+    de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible**
+    bloquearlos o desconectarlos previamente." [F3]'
+- qid: hp014
+  question: ¿Cómo se conecta un módulo de aislamiento de línea en un lazo ID2000?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre correctamente los límites de equipos entre aisladores
+    y el puente temporal 2-4 con retirada antes de conectar el lazo al panel. Faltan
+    CORE importantes: uso de multímetro de baja tensión/nunca Megger, pantalla continua
+    conectada a tierra solo en el panel, resistencia máxima de lazo 35 Ω y la indicación
+    explícita de aisladores en cada lazo para separar sensores y pulsadores.'
+  bot_sources:
+  - MIDT180
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Conexión del módulo de aislamiento de línea en lazo ID2000
+
+
+    Los fragmentos disponibles no incluyen el procedimiento de conexionado físico
+    del módulo aislador (terminales, polaridad, esquema de bornes). Sin embargo, sí
+    contienen información relevante sobre su uso e instalación en el lazo.
+
+
+    ---
+
+
+    ### Lo que sí está documentado:
+
+
+    **Regla de instalación (densidad de aisladores):**
+
+    - Para cumplir los requisitos de **EN54-2**, los aisladores deben instalarse entre
+    un máximo de **32 equipos de lazo** [F4].
+
+    - En la central **ID2000**, no colocar más de **25 equipos de lazo entre aisladores**
+    (o **20 si se utilizan aisladores FET**) [F4].
+
+
+    **Terminales del aislador referenciados en el manual:**
+
+    - El aislador dispone de terminales numerados **1, 2, 3 y 4** [F4].
+
+    - Durante las comprobaciones previas a la puesta en marcha, los aisladores se
+    desconectan temporalmente **cortocircuitando los terminales 2 y 4** de cada aislador
+    [F4].
+
+
+    **Procedimiento de puesta en marcha con aisladores:**
+
+    1. Antes de conectar el cableado del lazo al panel, **cortocircuita temporalmente
+    los terminales 2 y 4** de cada aislador para realizar las comprobaciones de continuidad,
+    polaridad y resistencia [F4].
+
+    2. Una vez verificado el cableado, **retira las conexiones temporales** en las
+    unidades aisladoras [F1].
+
+    3. Conecta el cableado del lazo al panel, verificando que los extremos **A y B**
+    se conectan en los terminales correctos [F1].
+
+
+    ---
+
+
+    ### ⚠️ Limitación importante:
+
+
+    El esquema de conexionado interno del aislador (qué terminales van al cable de
+    entrada y cuáles al de salida del lazo) **solo aparece como diagrama en el manual**
+    [F4], y la extracción del PDF no permite reproducirlo fielmente. Para el conexionado
+    exacto de los terminales 1-2-3-4, consulta la figura de la **sección 8.4.2 del
+    manual MIDT180** directamente.
+
+
+    ---
+
+
+    Fuente: Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev.
+    MI-DT-180, 2003-03-31)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "> ⚠️ **¡NUNCA conecte las baterías antes que la fuente de alimentación!**"
+    [F1]
+
+    - "**1** Vuelva a conectar la alimentación principal - NUNCA conecte las baterías
+    antes que la alimentación principal." [F1]'
+- qid: hp015
+  question: En la Detnov CCD-103, ¿cómo se desactiva un detector individualmente sin
+    afectar al resto del lazo?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acerta en lo esencial: no se puede desactivar un detector individual
+    y la desconexión se hace por zona, con indicaciones y advertencia correctas. Faltan
+    facts CORE: indicar que la CCD-103 es convencional de 3 zonas de detección + 1
+    de extinción/no direccionable, y que cada zona admite hasta 32 detectores/pulsadores,
+    por lo que al anularla quedan anulados todos.'
+  bot_sources:
+  - CCD-103_Manual_ES_FR_GB_IT
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'La CCD-103 **no permite desactivar un detector individual**: la unidad
+    mínima de desconexión es la **zona completa**, no un detector concreto.
+
+
+    Lo que sí puedes hacer es **desconectar la zona** a la que pertenece ese detector:
+
+
+    1. Asegúrate de que la **llave de bloqueo de teclado (G)** está en posición **abierta**
+    [F2]; si está cerrada, el teclado está inhibido y las pulsaciones no tienen efecto
+    [F2].
+
+    2. Pulsa la **tecla de zona (A)** correspondiente **una primera vez** → la zona
+    entra en **modo prueba** [F2].
+
+    3. Pulsa la **tecla de zona (A)** una **segunda vez** → la zona queda en **modo
+    desconexión** [F1][F2].
+
+
+    **Indicaciones visuales que confirman la desconexión** [F1][F4]:
+
+    - **Indicador de anular (4):** encendido fijo [F1][F4].
+
+    - **Indicador amarillo de zona (6):** encendido fijo (fijo = desconexión; intermitente
+    = avería o prueba) [F4].
+
+
+    **Para reconectar la zona** [F1]:
+
+    - Pulsa la tecla de zona **una vez** → zona conectada de nuevo.
+
+
+    ---
+
+
+    ⚠️ **Advertencia importante:** Cuando una zona está desconectada, la central **no
+    refleja ninguna incidencia ni evento** de esa zona [F1]. Limita el tiempo de uso
+    de esta maniobra al mínimo imprescindible.
+
+
+    ---
+
+
+    Fuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)'
+- qid: hp017
+  question: ¿Cómo se programa el retardo de salida de alarma principal en la Notifier
+    PEARL?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en que el retardo se programa mediante reglas de causa-efecto
+    y menciona la necesidad de eliminar reglas por defecto y probar la lógica, pero
+    faltan CORE importantes: no explica que cada regla tiene instrucción de entrada
+    e instrucción de salida, no sitúa claramente la pantalla en ''Editar Configuración''
+    ni identifica la Regla 1 como ''cualquier alarma activa todas las salidas''. Además
+    maneja mal la discrepancia de A5.3: afirma ''seis'' tipos mientras lista siete
+    y luego habla erróneamente de una enumeración de ocho.'
+  bot_sources:
+  - 997-670-005-3_Operating_ES
+  - 997-671-005-3_Configuration_ES
+  coverage_status: appended
+  coverage_appended_rows: 3
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Programación del retardo de salida de alarma en la PEARL
+
+
+    El retardo de salida de alarma en la PEARL se programa mediante las **reglas de
+    causa-efecto**, asignando un **tipo de retardo** a cada regla. No existe un parámetro
+    único de "retardo de alarma principal" — el retardo se define dentro de la lógica
+    causa-efecto.
+
+
+    ---
+
+
+    ### Paso 1 — Acceder al editor de causa-efecto
+
+
+    No puedo confirmar de forma segura el número de menú de Causa y Efecto con los
+    fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un
+    número de menú.
+
+
+    > ⚠️ Si no se ha transferido un archivo de configuración previo, aparecerán dos
+    reglas por defecto. **Deben eliminarse si vas a crear reglas personalizadas**
+    [F6].
+
+
+    ---
+
+
+    ### Paso 2 — Asignar el tipo de retardo a la regla
+
+
+    Dentro de cada regla de causa-efecto puedes asignar uno de **seis tipos de retardo
+    de salida** [F1]. Los tipos disponibles son [F2]:
+
+
+    - **Fijo** — Sin posibilidad de silenciar ni ampliar durante el retardo.
+
+    - **Estándar** — Permite silenciar sirenas y anular el retardo (nivel acceso 2).
+
+    - **No Silenc.** — No permite silenciar sirenas, pero sí anular el retardo (nivel
+    acceso 2).
+
+    - **Est. Ext.** — Estándar con posibilidad de ampliar retardo (tecla AMPLIAR RETARDO).
+
+    - **RetExtStd** — Inicia temporizador de retardo ampliado al pulsar AMPLIAR RETARDO.
+
+    - **No Sil. Ext** — No permite silenciar, pero sí ampliar retardo.
+
+    - **SinRetExt** — Inicia temporizador de retardo ampliado sin opción de silenciar.
+
+
+    El tipo de retardo determina qué acciones puede realizar el usuario mientras el
+    retardo está activo [F1].
+
+
+    ---
+
+
+    ### Paso 3 — Comportamiento durante el retardo (referencia rápida)
+
+
+    Según el tipo seleccionado [F2]:
+
+
+    - **Silenciar sirenas durante retardo:** Solo disponible en tipos Estándar, Est.
+    Ext. y RetExtStd.
+
+    - **Anular retardo (nivel acceso 2, opción «Anular retardos»):** Disponible en
+    todos excepto Fijo.
+
+    - **Ver tiempo restante en pestaña ALARMA:** Disponible en todos excepto Fijo.
+
+    - **Finalizar retardo con tecla FIN RETARDO (nivel acceso 2):** Disponible en
+    todos excepto Fijo.
+
+    - **Detener salida con tecla AMPLIAR RETARDO:** Solo en Est. Ext. y No Sil. Ext.
+
+    - **Iniciar temporizador de retardo ampliado:** Solo en RetExtStd y SinRetExt.
+
+
+    ---
+
+
+    ### Paso 4 — Método recomendado de programación
+
+
+    > **Se recomienda usar el programa de configuración por ordenador como método
+    principal.** El menú de la central debe emplearse solo para modificaciones menores
+    [F7].
+
+
+    ---
+
+
+    ### Notas adicionales
+
+
+    - El LED **RETARDO ACTIVO** se enciende cuando hay un retardo configurado y activo
+    [F3].
+
+    - El retardo puede anularse/habilitarse globalmente desde **Menú Anular/Habilitar
+    → «5: Retardo Activación Salidas»** [F3].
+
+    - La tecla **AMPLIAR RETARDO** puede desactivarse desde los parámetros de la central:
+    **«10: Extend Delay Button»** [F5].
+
+    - ⚠️ Si configuras un retardo de fallo AC 220 superior a **30 minutos**, se contravienen
+    los requisitos de **EN54-4, párrafo 5.4 (a)** [F8].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - 997-671-005-3_Configuration_ES (rev. 997-671-005-3)
+
+    - 997-670-005-3_Operating_ES (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "**Al programar reglas de causa-efecto evite las lógicas contradictorias.**"
+    [F7]
+
+    - "**Es de vital importancia probar rigurosamente todas las reglas durante la
+    puesta en marcha del sistema para verificar que no haya conflictos lógicos entre
+    ellas.**" [F7]
+
+    - Nota: el manual también indica: "Si no se ha transferido a la central un archivo
+    de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por
+    defecto." [F6] · "| Acción de usuario/indicación de estado                                                                                    |
+    Tipos de retardo<br/>Fijo | Tipos de retardo<br/>Estándar | Tipos de retardo<br/>No
+    Silenc | Tipos de retardo<br/>Est. Ext. | Tipos de retardo<br/>RetExtStd | Tipos
+    de retardo<br/>No Sil. Ext | Tipos de retardo<br/>SinRetExt |
+
+    | -------------------------------------------------------------------------------------------------------------------------
+    | ------------------------- | ----------------------------- | ------------------------------
+    | ------------------------------ | ------------------------------ | --------------------------------
+    | ------------------------------ |
+
+    | La salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo. Si pulsa
+    SONIDO ALARMAS, se activarán las sirenas. | ×                         | ✓                             |
+    ×                              | ✓                              | ✓                              |
+    ×                                | ×                              |
+
+    | El retardo puede anularse en el nivel de acceso 2 con la opción «Anular retardos»                                         |
+    ×                         | ✓                             | ✓                              |
+    ✓                              | ✓                              | ✓                                |
+    ✓                              |
+
+    | El tiempo de retardo restante se muestraen la pestaña ALARLMA.                                                            |
+    ×                         | ✓                             | ✓                              |
+    ✓                              | ✓                              | ✓                                |
+    ✓                              |
+
+    | El retardo activo puede detenerse en el nivel de acceso 2 pulsando FIN RETARDO.                                           |
+    ×                         | ✓                             | ✓                              |
+    ✓                              | ✓                              | ✓                                |
+    ✓                              |
+
+    | La salida se detiene si se pulsa AMPLIAR RETARDO                                                                          |
+    ×                         | ×                             | ×                              |
+    ✓                              | ×                              | ✓                                |
+    ×                              |
+
+    | El temporizador comienza en RETARDO AMPLIADO                                                                              |
+    ×                         | ×                             | ×                              |
+    ×                              | ✓                              | ×                                |
+    ✓                              |" [F2]
+
+
+    ---
+
+    📋 **Obligaciones de evidencia del manual:**
+
+    - Nota: la fuente es inconsistente: "Se puede asignar uno de seis tipos de retardo
+    de salida a una regla, como se explica a continuación." (997-671-005-3_Configuration_ES,
+    p. 44) [F1] declara 6 tipos y la enumeración servida lista 8 (997-671-005-3_Configuration_ES,
+    p. 44) [F1].'
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: Aunque cubre RFL 6K8/0,5 W, diodos, polaridad/supervisión y 1 A por
+    circuito, afirma incorrectamente que la ZXe dispone de solo 2 circuitos y no cubre
+    correctamente que la ZX5e tiene 4 salidas A/B/C/D en placa. También cita/ubica
+    figuras y terminales de forma imprecisa frente al gold, lo que puede inducir a
+    error en una ZX5e.
+  bot_sources:
+  - MIE-MI-310
+  - MIE-MI-530rv001
+  - MIE-MI-600
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '## Conexionado de sirenas convencionales en la ZXe
+
+
+    La ZXe dispone de **2 circuitos de sirena supervisados** (Salida A y Salida B)
+    en placa [F2], cada uno con un consumo máximo de **1 A** [F6].
+
+
+    ---
+
+
+    ### Requisitos previos clave
+
+
+    - **Sirenas polarizadas**: deben llevar diodo integrado para bloquear el consumo
+    en supervisión inversa [F2].
+
+    - **Sirenas/campanas sin polaridad**: es obligatorio instalar un diodo de polarización
+    y protección en cada una [F2].
+
+    - **Resistencia Final de Línea (RFL)**: **6,8 kΩ, 0,5 W mínimo**, al final del
+    circuito, entre + y – de la última sirena [F6]. Si no hay ninguna sirena conectada,
+    instala la RFL directamente en los terminales de la central [F4].
+
+
+    ---
+
+
+    ### Principio de supervisión
+
+
+    El circuito se polariza en **inverso en reposo** para supervisar la línea (detecta
+    apertura y cortocircuito). Al activarse la alarma, la polaridad se invierte a
+    la normal y las sirenas disparan [F2]. La corriente de supervisión circula en
+    sentido contrario a la de activación [F4].
+
+
+    ---
+
+
+    ### Pasos de conexionado
+
+
+    1. **Localiza los terminales de sirena** en la placa de la ZXe (ZX2e: bloque etiquetado
+    `SOUNDERS A+ A- B+ B-`; ZX5e: bloque `TB7` con terminales `A- A+ B- B+`) [F2].
+
+
+    2. **Conecta las sirenas en cadena** desde los terminales de la central, respetando
+    la polaridad (+/–) de cada dispositivo. Consulta la **Figura 15** del documento
+    MIE-MI-530 para el esquema visual del circuito [F1].
+
+
+    3. **Instala la RFL (6,8 kΩ / 0,5 W)** entre el terminal + y – de la **última
+    sirena** del circuito [F6].
+
+
+    4. **No realices ramales paralelos**: la supervisión se realiza sobre la línea
+    directa hasta la RFL; los ramales no quedan supervisados [F5].
+
+
+    ---
+
+
+    ### Advertencias de cableado
+
+
+    - **Sección mínima recomendada**: no inferior a **1,5 mm²** [F4], y verifica que
+    la caída de tensión en la línea no impida el funcionamiento de las sirenas a mínima
+    tensión de baterías (consulta las Tablas 10 y 11 del manual) [F1].
+
+    - **Longitud máxima recomendada**: no superior a **1 km**; por encima de esa longitud,
+    la capacitancia e inductancia del lazo pueden afectar al funcionamiento [F1].
+
+    - **No enrolles el cable en los terminales**: corta y empalma correctamente para
+    mantener la supervisión de línea [F1].
+
+
+    ---
+
+
+    > ⚠️ El conexionado exacto (topología visual del circuito) está representado en
+    la **Figura 15** del documento MIE-MI-530rv001. Consulta esa figura en el manual
+    físico para verificar el esquema antes de ejecutar el cableado.
+
+
+    ---
+
+
+    **Fuente:** Manual de Instalación ZX2e / ZX5e — Documento MIE-MI-530, Revisión
+    001 (sin fecha registrada)
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "Cada sirena deberá tener un diodo integrado, para impedir el consumo en polarización
+    inversa (supervisión)." (MIE-MI-530rv001, p. 21) [F2]
+
+    - "Cada circuito de sirena se supervisa ante cortocircuito y circuito abierto."
+    (MIE-MI-530rv001, p. 20) [F6]'
+- qid: hp019
+  question: ¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración
+    ASD535 (Securiton, distribuido por Detnov)?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre correctamente el fact [CORE]: rango de funcionamiento del ASD
+    535 de –30 °C a +60 °C para caja del detector y conducto de aspiración, e incluye
+    además los principales límites y condiciones suplementarias del GOLD. No se aprecian
+    errores relevantes que afecten a la respuesta técnica.'
+  bot_sources:
+  - ASD535_TD_T131192es_h
+  coverage_status: no_append
+  coverage_appended_rows: 0
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: 'El rango de temperatura de funcionamiento del **ASD 535** es **–30
+    °C hasta +60 °C** para la caja del detector y para el conducto de aspiración [F1].
+
+
+    Detalles adicionales según variante de aplicación:
+
+
+    - **Rango estándar — caja del detector:** –30 °C a +60 °C (UL: máx. +40 °C) [F1]
+
+    - **Rango estándar — conducto de aspiración:** –30 °C a +60 °C [F1]
+
+    - **Según estándar australiano AS 1603.8 — caja del detector:** –30 °C a +55 °C
+    [F1]
+
+    - **Según estándar australiano AS 1603.8 — conducto de aspiración:** –30 °C a
+    +55 °C [F1]
+
+    - **Uso en almacenes de ultracongelación:** rango restringido de –30 °C a 0 °C
+    (requiere seguir la directriz T 131 390) [F3]
+
+    - **Temperatura máx. de almacenamiento** (sin condensación): –30 °C a +70 °C [F1]
+
+
+    **Consideraciones importantes:**
+
+
+    - La fluctuación de temperatura máxima permitida durante el funcionamiento (tanto
+    en la caja como en el conducto) es de **20 °C** [F1]. Si se superan oscilaciones
+    de más de 20 °C, pueden ser necesarios ajustes especiales [F4][F5].
+
+    - En recintos con temperatura superior a **50 °C** o humedad superior al **80
+    % H rel.**, puede ser necesario instalar tramos de refrigeración en el conducto
+    de aspiración [F4].
+
+    - Es posible acordar con el fabricante rangos de temperatura inferiores o superiores.
+    La instalación en rango de condensación solo puede llevarse a cabo previa consulta
+    con el fabricante [F2].
+
+
+    ---
+
+
+    Fuente: ASD535_TD_T131192es_h (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "Es imprescindible garantizar el retorno de aire a la zona con riesgo de explosión
+    (recinto vigilado)." [F4]
+
+    - "* Los límites restringidos del sistema en relación con las longitudes máximas
+    de tubería y el número máximo de orificios de aspiración.
+
+    * El uso de puntos de aspiración con calefacción y su programación con el software
+    de configuración «ASD Config».
+
+    * El rango restringido de temperatura (–30 °C hasta 0 °C)" [F3]
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "* Los orificios de aspiración de ambas tuberías y de la caja del detector deben
+    encontrarse en la misma zona climática (presión y temperatura) (posible retorno
+    del aire aspirado a la otra zona climática)." (ASD535_TD_T131192es_h, p. 61) [F4]'
+- qid: hp020
+  question: En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2
+    y nivel 3?
+  judge_vara: v4
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PASS
+  diagnostico: 'Cubre todos los facts CORE: reglas por nivel, ruta de menú, longitud
+    4-8 dígitos, reintroducción para confirmar y mensaje de éxito, además de sincronización/copia
+    en nube. Añade datos suplementarios como código de fábrica de NA2 y cierre automático,
+    sin contradecir el gold.'
+  bot_sources:
+  - HOP-138-8ES  issue 6_01-2026_Co
+  - HOP-338-9ES issue 4_01-2026_Op
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Configuración de contraseñas Nivel 2 y Nivel 3 en Notifier INSPIRE\
+    \ E10/E15\n\nHay dos procedimientos distintos según el nivel de acceso desde el\
+    \ que se opera.\n\n---\n\n## Cambiar contraseña de Nivel 2 (desde Nivel 2)\n\n\
+    1. Selecciona el icono del menú ① y selecciona **\"Configuración\"** ② [F2]. Inicia\
+    \ sesión como usuario de **nivel de acceso 2** [F2].\n2. Selecciona la opción\
+    \ **\"Cambio del código de acceso\"** ③ [F2].\n3. Asegúrate de que **Nivel de\
+    \ Acceso 2** ④ esté seleccionado y que el cursor parpadee ⑤ [F2].\n4. Puedes ver\
+    \ la entrada del código haciendo clic en el **icono del ojo** ⑥ [F2].\n5. Introduce\
+    \ el nuevo código de acceso (**mínimo 4 dígitos, máximo 8 dígitos**) con el teclado\
+    \ ⑦ [F2].\n6. Confirma la entrada seleccionando el símbolo **✓** ⑧ [F2].\n7. Repite\
+    \ los pasos 3 a 6 para confirmar el código [F2].\n\n---\n\n## Cambiar contraseña\
+    \ de Nivel 2 y/o Nivel 3 (desde Nivel 3)\n\n1. Selecciona el icono del menú ①\
+    \ y selecciona **\"Ajustes\"** ② [F1]. Inicia sesión como usuario de **nivel de\
+    \ acceso 3** [F1].\n2. Selecciona la opción **\"Cambio del código de acceso\"\
+    ** ③ [F1].\n3. Asegúrate de que el **Nivel de Acceso 2 o 3** ④ esté seleccionado\
+    \ y que el cursor parpadee ⑤ [F1].\n4. Puedes ver la entrada del código haciendo\
+    \ clic en el **icono del ojo** ⑥ [F1].\n5. Introduce el nuevo código de acceso\
+    \ (**mínimo 4 dígitos, máximo 8 dígitos**) con el teclado ⑦ [F1].\n6. Confirma\
+    \ la entrada seleccionando el símbolo **✓** ⑧ [F1].\n7. Repite los pasos 3 a 6\
+    \ para confirmar el código [F1].\n8. Observa el mensaje **\"Cambio de código de\
+    \ acceso satisfactorio\"** y selecciona **Aceptar** [F1].\n9. Sincroniza el programa\
+    \ con la central y realiza una **copia de seguridad del cambio en la nube** [F1].\n\
+    \n---\n\n## Notas importantes\n\n- El código de fábrica del **Nivel 2** es **\"\
+    22222222\"** [F3]. Se recomienda cambiarlo.\n- Si el Nivel 2 no se usa durante\
+    \ **5 minutos**, la central cierra sesión automáticamente y vuelve al **Nivel\
+    \ 1** [F3].\n- Desde el **Nivel 2** solo puedes cambiar la contraseña de Nivel\
+    \ 2 [F1].\n- Desde el **Nivel 3** puedes cambiar tanto la contraseña de Nivel\
+    \ 2 como la de Nivel 3 [F1].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6_01-2026\
+    \ (Instrucciones de puesta en marcha, sin revisión registrada)\n- HOP-338-9ES\
+    \ issue 4_01-2026 (Instrucciones de usuario, sin revisión registrada)\n\n---\n\
+    \U0001F4CB **Información adicional del manual:**\n- Nota: el manual también indica:\
+    \ \"Se recomienda cambiar la contraseña del código de acceso al nivel de acceso\
+    \ 2/3 contraseña a uno exclusivo que tenga entre 4 y 8 dígitos.\" [F1] · \"- Menu\
+    \ icon ① leading to \"Configuraciones\"\n- \"Configuraciones\" screen showing\
+    \ \"Configuración del sistema, red, datos y hora, programa de mantenimiento, etc\"\
+    \ ②\n- Arrow pointing to \"Cambio de contraseña\" option ③\n- \"Introduzca nueva\
+    \ contraseña\" dialog box with:\n  - \"Acceso Nivel 2\" dropdown ④\n  - Password\
+    \ input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\" text with eye icon ⑥\n  -\
+    \ Numeric keypad showing numbers 1-9, 0, backspace icon, and checkmark icon ⑧\n\
+    \  - Backspace arrow ⑦]\" [F1]"
