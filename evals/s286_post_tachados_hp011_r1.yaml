@@ -1,0 +1,132 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: FALLO
+  diagnostico: Acierta parcialmente al mencionar r.I, ABORT, averías enclavadas y
+    el rearme en nivel 2, pero omite comprobaciones importantes como t.A, Flow Press
+    y estado de zonas en alarma. Además introduce/alucina un parámetro adicional “ri/Resumen
+    inhibido” y referencia t.Fi en vez de t.A, lo que puede confundir al técnico.
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Este comportamiento es **esperado por diseño** según la normativa [F7][F8]. Hay
+    dos mecanismos que pueden estar bloqueando el rearme. Comprueba en este orden:
+
+
+    ---
+
+
+    ## 1. Parámetro **r.i** — Rearme inhibido tras extinción
+
+
+    De acuerdo con la norma **UNE-EN 12094-1:2004, apartado 4.12.2**, la central puede
+    tener configurado un intervalo de tiempo que **impide el rearme** desde que entra
+    en estado ACTIVADO [F8].
+
+
+    Valores posibles del parámetro **r.i** [F8]:
+
+    - **- -** → Rearme inhibido hasta finalizar extinción o hasta agotar el tiempo
+    configurado en **t.Fi**
+
+    - **00** → Rearme permitido en cualquier momento *(valor por defecto)*
+
+    - **01 a 30** → Rearme inhibido durante el intervalo definido en minutos
+
+
+    **Acción:** Accede al modo de programación (nivel 3) y verifica el valor del parámetro
+    **r.i**. Si está en **- -** o en un valor de **01 a 30**, la central no permitirá
+    el rearme hasta que transcurra ese tiempo.
+
+
+    ---
+
+
+    ## 2. Parámetro **ri** — Resumen inhibido tras extinción
+
+
+    Existe además el parámetro **ri** que, según la norma **UNE-EN 12094-1:2004, apartado
+    4.1.2**, mantiene el sistema en **estado inhibido** tras la extinción para evitar
+    reiniciar el proceso de extinción [F1].
+
+
+    Valores posibles [F1]:
+
+    - **00** → Resumen inhibido desde finalizar extinción *(valor por defecto)*
+
+    - **01 a 30** → Resumen inhibido durante el intervalo definido en minutos
+
+
+    ---
+
+
+    ## 3. Averías enclavadas pendientes
+
+
+    Tras la extinción, cualquier avería enclavada **requiere rearme manual** [F3].
+    Comprueba los LEDs del panel:
+
+
+    - LED **"Avería circuito extinción"** intermitente → fallo en circuito de extinción
+    1 o 2 [F4]
+
+    - LED **"Avería Disp. Manual"** fijo → fallo en extinción manual [F4]
+
+    - LED **"Avería en paro"** intermitente + LED **"Paro"** fijo → el pulsador ABORT
+    está activo; **este circuito requiere siempre rearme manual** y no admite rearme
+    automático [F4]
+
+    - LEDs de **Zona 1/2/3** intermitentes → avería en zona de detección [F4]
+
+
+    > ⚠️ **Importante:** El pulsador de paro (ABORT), por defecto, **inhibe totalmente
+    la lógica de extinción y requiere reseteo manual** según UNE-EN 12094-1:2004,
+    apartado 4.1.7 [F5].
+
+
+    ---
+
+
+    ## 4. Procedimiento de rearme correcto
+
+
+    Para rearmar la central [F3]:
+
+    1. Accede con **nivel 2** de acceso
+
+    2. Pulsa la tecla **"Rearme"**
+
+    3. La central se reinicia y las entradas enclavadas se restablecen
+
+
+    > Si el rearme sigue sin funcionar tras verificar los parámetros anteriores, espera
+    a que transcurra el tiempo configurado en **r.i** o **ri** antes de intentarlo
+    de nuevo.
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01)
+
+    - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del parámetro r.i paso a paso**, **interpretación
+    de LEDs de avería específicos** o **comportamiento del pulsador ABORT en la RP1r-Supra**.'

@@ -1,0 +1,163 @@
+- qid: cat018
+  question: ¿Como se programa una ecuacion causa-efecto (CBE) en la Notifier AM-8200
+    para que un evento active una salida?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: Acierta en que la CBE se programa en Puntos sobre el módulo de salida
+    y describe operadores básicos con citas, pero presenta los grupos como paso obligatorio
+    y añade una nota confusa/posiblemente errónea sobre TIPO ID general. Además omite
+    aspectos clave del gold como asignación de zona, Tipo SW de la salida y la referencia
+    clara al Apéndice A/hojas de programación.
+  bot_sources:
+  - AM-8200-manu-prog-spa
+  coverage_status: appended
+  coverage_appended_rows: 2
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# Programación de ecuación CBE en AM-8200 para activar una salida\n\
+    \nLa lógica CBE (Control By Event) de la AM-8200 funciona en dos niveles: primero\
+    \ defines **grupos** que agrupan entradas (sensores/módulos), y luego asignas\
+    \ una **ecuación CBE al módulo de salida** que referencia esos grupos. Aquí el\
+    \ procedimiento completo:\n\n---\n\n## PASO 1 — Configurar el grupo (Menú Grupos)\n\
+    \nLos grupos son conjuntos software que vinculan entradas con salidas [F4].\n\n\
+    1. Accede a **MENU PROGRAMMAZIONE \\ Gruppi** [F4]\n2. En la **Pestaña Principal**,\
+    \ define el número máximo de grupos con activación directa (campo **Max Diretto**)\
+    \ [F4]\n3. En la **Pestaña Programa**, configura:\n   - **Tipo**: `Diretto` (el\
+    \ grupo se activa desde entradas que lo referencian en su CBE) [F4]\n   - **CBE\
+    \ del grupo**: selecciona el campo CBE con las teclas **▲▼**, pulsa **✓** e introduce\
+    \ la ecuación con el teclado alfanumérico. Al terminar, pulsa **✓** para confirmar\
+    \ [F4]\n\n> La AM-8200 dispone de **400 grupos** programables [F4].\n\n---\n\n\
+    ## PASO 2 — Asignar CBE al módulo de salida (Menú Puntos)\n\n1. Accede a **MENU\
+    \ PROGRAMMAZIONE \\ Punti** y selecciona el módulo de salida [F1]\n2. Ve a la\
+    \ **Pestaña Programación** [F1]\n3. Selecciona el campo **CBE** con las teclas\
+    \ **▲▼** y pulsa **✓** [F1]\n4. Introduce la ecuación con el teclado alfanumérico\
+    \ y pulsa **Enter** para confirmar [F1]\n\n> La longitud máxima de una CBE es\
+    \ de **64 caracteres** [F1].\n\n---\n\n## PASO 3 — Construir la ecuación CBE\n\
+    \nUsa los operadores disponibles según la lógica que necesites [F5]:\n\n- **OR\
+    \ (G9 G15 G23)** → La salida se activa si **al menos uno** de los grupos está\
+    \ en alarma. También puedes omitir el operador OR y escribir directamente **(G9\
+    \ G15 G23)** [F5]\n- **AND (G9 G15 G23)** → La salida se activa solo si **todos**\
+    \ los grupos están en alarma simultáneamente [F5]\n- **NOT (G23)** → La salida\
+    \ permanece activa mientras el grupo G23 **no** esté en alarma [F5]\n\n---\n\n\
+    ## ⚠️ Reglas críticas de indexación de grupos\n\n- Para **grupos directos (D)**:\
+    \ los operandos dentro del paréntesis deben tener índice **mayor** que el grupo\
+    \ al que se asigna la CBE [F5]\n  - ✅ Permitido: `G21 = (G23 G24)`\n  - ❌ No permitido:\
+    \ `G33 = (G23 G24)`\n- Para **grupos inversos (I)**: los operandos deben tener\
+    \ índice **menor** que el grupo al que se asigna la CBE [F5]\n  - ✅ Permitido:\
+    \ `G307 = (G305 G306)`\n  - ❌ No permitido: `G305 = (G306 G307)`\n\n---\n\n##\
+    \ ⚠️ Nota sobre módulos de salida con TIPO ID general\n\nSi el módulo de salida\
+    \ tiene programado un **TIPO ID para señalizaciones de carácter general**, la\
+    \ central **no permite programar una ecuación CBE** para ese módulo [F5].\n\n\
+    ---\n\n**Fuente:** AM-8200 Manual de programación — Doc. M-162.1-AM8200-ESP Rev\
+    \ A.3 (Honeywell Life Safety Iberia)\n\n---\n\nTambién puedo ayudarte con: **programación\
+    \ de grupos inversos (tipo I)**, **operadores avanzados (TIM, DIS, PRE)** disponibles\
+    \ en el teclado CBE, o **asignación de zona al módulo de salida**.\n\n---\n⚠️\
+    \ **Información adicional del manual:**\n- \"Si, por el contrario, el dispositivo\
+    \ en cuestión es un módulo de salida, esta salida no se activará nunca, a no ser\
+    \ que se programe con software TIPO ID para señalizaciones generales.\" [F5]\n\
+    - Nota: el manual también indica: \"Si **CUALQUIERA** de los tres operandos de\
+    \ esta ecuación (G9 G15 G23) está en alarma, el módulo de salida se activará,\
+    \ es decir:\" [F5] · \"- **SI** el grupo software 9 está en alarma, o\n- **SI**\
+    \ el grupo software 15 está en alarma, o\n- **SI** el grupo software 23 está en\
+    \ alarma\n- **ENTONCES** este módulo de salida se activará.\" [F5]\n- \"**Zona**\
+    \ - número de zona asignada\n\n**CBE** - ecuación CBE del punto.\" [F1]"
+- qid: hp002
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo
+    bajo. ¿Cuál es la causa más probable y cómo se diagnostica?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta la causa principal probable (obstrucción), los umbrales 80/120
+    %, la lectura en posición V y la consulta de eventos, e incluye el gate de seguridad.
+    Pero queda incompleta frente al gold: no advierte la discrepancia Detnov/Securiton,
+    no desarrolla la posible intermitencia por turbulencias/ventana LS-Ü/retardo,
+    y omite el reset inicial posterior con sus condiciones y advertencias.'
+  bot_sources:
+  - ASD535_TD_T131192es_h
+  coverage_status: appended
+  coverage_appended_rows: 1
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: "# ASD535 — Alarma de flujo bajo: diagnóstico\n\n## Causa más probable\n\
+    \nUn valor de flujo **por debajo del 80 %** del nominal indica **obstrucción en\
+    \ el conducto de aspiración** [F3]. El ASD535 dispara el aviso de fallo flujo\
+    \ de aire (código **001**) una vez transcurrido el tiempo de retardo de **300\
+    \ s** de la LS-Ü [F1][F3].\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\
+    \n**Antes de empezar:** Bloquea o desconecta el control de incendios y la alerta\
+    \ remota en la CDI de orden superior para evitar disparos no deseados [F5].\n\n\
+    1. **Lee el valor de flujo actual** poniendo el conmutador en posición **V** (sección\
+    \ 7.6.1 del manual) [F5]. Compara con el protocolo de puesta en funcionamiento.\n\
+    \   - Valor < **80 %** → obstrucción confirmada [F3]\n   - Valor > **120 %** →\
+    \ rotura de tubo (no es tu caso, pero descártalo) [F3]\n\n2. **Inspecciona el\
+    \ conducto de aspiración** [F2]:\n   - Comprueba si los **orificios de aspiración**\
+    \ están obstruidos\n   - Comprueba la **salida de aire** del ASD (limpia si hay\
+    \ suciedad) [F5]\n   - Revisa el **orificio de inspección**\n   - Verifica que\
+    \ todas las **uniones** (racores, transiciones flexibles) estén correctamente\
+    \ conectadas y sin fugas [F2]\n\n3. **Inspecciona y limpia la caja de filtro /\
+    \ unidad de filtrado** [F2]\n\n4. **Inspecciona y limpia el sensor de flujo de\
+    \ aire** [F2]\n   - Si el sensor está defectuoso tras la limpieza → **sustitúyelo**\
+    \ [F2]\n\n5. **Verifica la tensión de servicio** en bornes **1 (+) y 2 (-)** [F5]:\n\
+    \   - Funcionamiento a 12 V-CC → valor nominal **12,3 a 13,8 V-CC**\n   - Funcionamiento\
+    \ a 24 V-CC → valor nominal **21,6 a 27,6 V-CC**\n\n6. **Referencia de umbral\
+    \ de inspección preventiva** [F5]: Con sensibilidad estándar ±20 % (conforme a\
+    \ EN 54-20), ya debes inspeccionar el conducto cuando el valor caiga por debajo\
+    \ del **90 %** (no esperes al 80 % de disparo).\n\n---\n\n## Códigos de evento\
+    \ relacionados\n\nConsulta el código de evento en el **AMB 35** (posición de conmutador\
+    \ **E**) [F4]:\n\n- **001** → Obstrucción en conducto de aspiración [F2]\n- **002**\
+    \ → Rotura de tubo [F2]\n- **004** → Parámetros LS-Ü no válidos / sensor fuera\
+    \ de rango [F2]\n- **008** → Sensor de flujo defectuoso o no conectado [F2]\n\n\
+    ---\n\n> ⚠️ **Nota normativa:** Conforme a **EN 54-20**, toda variación superior\
+    \ al ±20 % debe notificarse como fallo. Las posiciones de conmutador **W01 a W48**\
+    \ no están homologadas según EN 54-20 y solo deben usarse previa consulta con\
+    \ el fabricante [F3].\n\n---\n\n**Fuente:** ASD535_TD_T131192es_h (sin revisión\
+    \ registrada)\n\n---\n\nTambién puedo ayudarte con: **procedimiento de reset inicial\
+    \ tras la limpieza**, **limpieza de sensores de humo** o **configuración de la\
+    \ ventana de monitorización LS-Ü** del ASD535.\n\n---\n⚠️ **Información adicional\
+    \ del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas\
+    \ y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento,\
+    \ es **imprescindible** bloquearlos o desconectarlos previamente.\" [F5]\n- Nota:\
+    \ el manual también indica: \"1. Bloquear o desconectar el control de incendios\
+    \ y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación\
+    \ de la CDI debe estar configurada para la central conforme a la normativa de\
+    \ mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración\
+    \ y los tapones de tubo del orificio de entrada de la caja del detector que no\
+    \ está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe\
+    \ comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n\
+    5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan\
+    \ instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse\
+    \ que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe\
+    \ abrirse la cubierta de la caja del detector y fijarse en la posición media de\
+    \ anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse\
+    \ también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n\
+    \   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) \U0001F87A Valor\
+    \ nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento\
+    \ a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración\
+    \ en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con\
+    \ el protocolo de puesta en funcionamiento. Si existe una desviación superior\
+    \ a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse\
+    \ una inspección del conducto de aspiración de la siguiente manera:\n     - Un\
+    \ **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente\
+    \ \U0001F87A Comprobar si el conducto de aspiración tiene fugas (puntos de unión,\
+    \ racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica\
+    \ una **obstrucción** inminente \U0001F87A Comprobar si el conducto de aspiración\
+    \ está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad\
+    \ de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida =\
+    \ ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse\
+    \ una inspección del conducto de aspiración cuando el valor caiga por debajo del\
+    \ 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el\
+    \ bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado\
+    \ la conexión de cable plano con la unidad de control y retirar completamente\
+    \ la cubierta de la caja del detector. Una vez desconectado el cable plano de\
+    \ los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio\
+    \ interior de las cámaras de los sensores de humo y la rejilla protectora contra\
+    \ insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también\
+    \ puede emplearse nitrógeno o aire comprimido sin aceite.\" [F5]\n- Nota: el manual\
+    \ también indica: \"En las posiciones de conmutador A11 a C32, cualquier variación\
+    \ de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción)\
+    \ o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de\
+    \ aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F3]"

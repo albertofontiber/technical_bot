@@ -630,6 +630,9 @@ def content_search(
         params = {
             "content": f"ilike.*{search_term}*",
             "product_model": f"imatch.{pattern}",
+            # s286 fix fuga-dedup: content_search Path A servía chunks retirados por dedup
+            # (el RPC _v2 de Path B sí filtra; este PostgREST directo no lo hacía)
+            "duplicate_of": "is.null",
             "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
             "order": _CONTENT_SEARCH_ORDER,
             "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
@@ -681,6 +684,7 @@ def content_search(
     # mismo fix (s278 §1b): ventana ordenada + rank de autoridad + corte final.
     params = {
         "content": f"ilike.*{search_term}*",
+        "duplicate_of": "is.null",  # s286 fix fuga-dedup (paridad con RPC _v2)
         "select": "id,content,product_model,category,section_title,content_type,manufacturer,protocol,doc_type,language,has_diagram,diagram_url,source_file,page_number,document_id",
         "order": _CONTENT_SEARCH_ORDER,
         "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),

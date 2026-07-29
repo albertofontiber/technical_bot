@@ -1,0 +1,130 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta en comprobar el parámetro r.I, averías enclavadas, ABORT y
+    el rearme desde nivel 2, pero queda incompleto frente a la referencia: no trata
+    correctamente el tiempo de descarga t.A, omite Flow Press y zonas aún en alarma.
+    Además introduce un parámetro ''ri / resumen inhibido'' y referencias como t.Fi
+    que no corresponden a la respuesta gold y pueden confundir al técnico.'
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Este comportamiento es **esperado por normativa** y está controlado por dos parámetros
+    clave. Aquí tienes qué comprobar:
+
+
+    ---
+
+
+    ## 1. Parámetro r.i — Rearme inhibido tras extinción
+
+
+    Según la norma **UNE-EN 12094-1:2004, apartado 4.12.2** [F8], debe existir un
+    intervalo de tiempo programable (entre **0 y 30 minutos**) desde que la central
+    notifica el estado ACTIVADO hasta que permite su rearme [F8].
+
+
+    Comprueba el valor configurado:
+
+
+    - **- -** → Rearme inhibido hasta finalizar extinción o cuando se agote el tiempo
+    configurado en el parámetro **t.Fi** (t.A → 0 seg.) [F8]
+
+    - **00** → Rearme permitido en cualquier momento *(valor por defecto)* [F8]
+
+    - **01 a 30** → Rearme inhibido durante el intervalo definido en minutos [F8]
+
+
+    > ⚠️ Si está configurado con un valor distinto de **00**, la central **no permitirá
+    el rearme** hasta que transcurra ese tiempo. Espera a que expire el temporizador
+    o revisa si el valor es el correcto para la instalación.
+
+
+    ---
+
+
+    ## 2. Parámetro ri — Resumen inhibido tras extinción
+
+
+    Adicionalmente, existe el parámetro **ri** que, de acuerdo con la norma **UNE-EN
+    12094-1:2004, apartado 4.1.2**, controla el paso del estado de "extinción realizada"
+    al estado de **sistema inhibido** [F1].
+
+
+    - **00** → Resumen inhibido desde finalizar extinción o cuando agotado el tiempo
+    configurado *(por defecto)* [F1]
+
+    - **01 a 30** → Resumen inhibido después de intervención o reposición, en minutos
+    [F1]
+
+
+    > Verifica que este parámetro no esté bloqueando el retorno al estado normal.
+
+
+    ---
+
+
+    ## 3. Averías enclavadas pendientes
+
+
+    Todas las averías son **por defecto enclavadas** y requieren rearme manual [F3].
+    Comprueba si hay algún LED de avería activo (circuito extinción, sirenas, zonas,
+    pulsador de paro, etc.) que esté impidiendo el restablecimiento completo [F4].
+
+
+    - El **pulsador de paro (ABORT)** en particular **siempre requiere rearme manual**
+    y no admite rearme automático [F4].
+
+
+    ---
+
+
+    ## 4. Procedimiento de rearme correcto
+
+
+    Para rearmar la central es necesario acceder con **nivel 2** de acceso y pulsar
+    la tecla **"Rearme"** [F3]. Esta acción reinicia la central y restablece todas
+    las entradas enclavadas [F3].
+
+
+    > ⚠️ Si el rearme se intenta antes de que expire el tiempo configurado en **r.i**,
+    la central no lo permitirá aunque se pulse la tecla.
+
+
+    ---
+
+
+    **Resumen de comprobaciones:**
+
+    1. Verificar valor del parámetro **r.i** (rearme inhibido) — si es distinto de
+    00, esperar a que expire [F8]
+
+    2. Verificar valor del parámetro **ri** (resumen inhibido) [F1]
+
+    3. Comprobar si hay LEDs de avería activos, especialmente el de **pulsador de
+    paro (ABORT)** [F4]
+
+    4. Confirmar acceso con **nivel 2** antes de pulsar Rearme [F3]
+
+
+    ---
+
+
+    Fuente: HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01); HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+    (sin revisión registrada)
+
+
+    También puedo ayudarte con: **configuración del parámetro r.i paso a paso**, **interpretación
+    de LEDs de avería activos** o **acceso al nivel 2 de programación** de la RP1r-Supra.'

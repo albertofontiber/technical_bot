@@ -1,0 +1,133 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'Acierta al revisar el parámetro r.I, averías enclavadas, ABORT y el
+    procedimiento de rearme, pero es incompleta: omite Flow Press, zonas aún en alarma
+    y el parámetro correcto t.A de duración de descarga. Además introduce un parámetro/explicación
+    confusa o no respaldada (''ri'' / ''Resumen inhibido'' y t.Fi), lo que puede desorientar
+    al técnico.'
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Este comportamiento es **esperado por normativa** y está controlado por dos parámetros
+    clave. Aquí tienes qué comprobar:
+
+
+    ---
+
+
+    ## 1. Parámetro `r.i` — Rearme inhibido tras extinción
+
+
+    Según la norma **UNE-EN 12094-1:2004, apartado 4.12.2** [F8], debe existir un
+    intervalo de tiempo programable entre 0 y 30 minutos desde que la central notifica
+    el estado ACTIVADO hasta que **permite su rearme**.
+
+
+    Comprueba el valor configurado:
+
+
+    - **`- -`** → Rearme inhibido hasta finalizar extinción o cuando se agota el tiempo
+    configurado en `t.Fi` [F8]
+
+    - **`00`** → Rearme permitido en cualquier momento *(valor por defecto)* [F8]
+
+    - **`01` a `30`** → Rearme inhibido durante ese intervalo en minutos [F8]
+
+
+    ➡️ Si está configurado con `- -` o un valor entre `01` y `30`, la central **no
+    permitirá el rearme** hasta que transcurra ese tiempo. Espera a que finalice el
+    intervalo o revisa si el tiempo `t.Fi` ha concluido.
+
+
+    ---
+
+
+    ## 2. Parámetro `ri` — Resumen inhibido tras extinción
+
+
+    Adicionalmente, según la norma **UNE-EN 12094-1:2004, apartado 4.1.2** [F1], tras
+    la extinción realizada el sistema pasa a **estado inhibido** para evitar reiniciar
+    el proceso de extinción.
+
+
+    Comprueba el valor:
+
+
+    - **`00`** → Resumen inhibido desde finalizar extinción o cuando se agota el tiempo
+    configurado en `ri` *(por defecto)* [F1]
+
+    - **`01` a `30`** → Resumen inhibido durante ese intervalo en minutos tras intervención
+    o reposición [F1]
+
+
+    ---
+
+
+    ## 3. Averías enclavadas pendientes
+
+
+    Todas las averías son **por defecto enclavadas y requieren rearme manual** [F3].
+    Comprueba si hay algún LED de avería activo (circuito extinción, sirenas, zonas,
+    pulsador de paro, etc.) que esté impidiendo el retorno al estado normal.
+
+
+    - **Especial atención al pulsador de paro (ABORT):** si fue accionado, requiere
+    **rearme manual obligatorio** y no admite rearme automático por defecto [F4][F5].
+
+
+    ---
+
+
+    ## 4. Procedimiento de rearme
+
+
+    Para rearmar la central [F3]:
+
+    1. Accede al **nivel 2** de acceso
+
+    2. Pulsa la tecla **"Rearme"**
+
+    3. La central se reiniciará y las entradas enclavadas se restablecerán
+
+
+    > ⚠️ Si el parámetro `r.i` tiene configurado un tiempo de inhibición activo, el
+    rearme no será posible hasta que ese tiempo expire [F7][F8].
+
+
+    ---
+
+
+    **Resumen de comprobaciones:**
+
+    - Valor del parámetro **`r.i`** (rearme inhibido)
+
+    - Valor del parámetro **`ri`** (resumen inhibido)
+
+    - LEDs de avería activos en panel (especialmente ABORT/paro)
+
+    - Tiempo de inhibición pendiente de expirar
+
+
+    Fuente: HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01); HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+    (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del parámetro `r.i` paso a paso**,
+    **interpretación de LEDs de avería activos tras extinción** o **niveles de acceso
+    y contraseñas de la RP1r-Supra**.'
