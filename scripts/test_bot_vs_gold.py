@@ -73,6 +73,8 @@ OUTPUT = (
         f"{COVERAGE_RELEASE_POLICY.profile}_k{RERANK_K}_{RERANKER}.yaml"
     )
 )
+# dúo-vara F6: la vara al nombre — corridas v3/v4 con la misma config no se pisan
+OUTPUT = OUTPUT.replace(".yaml", f"_{os.getenv('JUDGE_VARA', 'v4').strip().lower()}judge.yaml")
 OUTPUT = os.getenv("OUTPUT_OVERRIDE", OUTPUT)  # smoke dirigido sin pisar el artefacto del run completo
 JUDGE_MODEL = "gpt-5.5"
 
@@ -128,8 +130,7 @@ _JUDGE_FACTS_BLOCK = (
 _JUDGE_V4_CRITERIO = (
     "\n\nCRITERIO v4 (facts tipados — PREVALECE sobre el criterio general en caso de duda):\n"
     "- PASS: TODOS los facts [CORE] están cubiertos por la respuesta (da igual el orden, la "
-    "redacción o la estructura: cubierto-con-otras-palabras CUENTA), o la conducta esperada "
-    "no-answer está correctamente ejecutada.\n"
+    "redacción o la estructura: cubierto-con-otras-palabras CUENTA).\n"
     "- La ausencia de un fact [SUPP] NUNCA baja el veredicto de PASS por sí sola.\n"
     "- PARCIAL: falta al menos un [CORE] pero lo servido es correcto y útil.\n"
     "- FALLO: igual que el criterio general (incorrecto, alucina, conducta equivocada). "
@@ -146,7 +147,11 @@ def _format_facts(gold_row: dict) -> str:
     facts = gold_row.get("atomic_facts") or []
     lines = []
     for f in facts:
-        tag = "CORE" if str(f.get("tipo", "")).lower() == "core" else "SUPP"
+        tipo = str(f.get("tipo", "")).lower()
+        if tipo not in {"core", "supplementary"}:
+            # fail-closed (dúo-vara F4): un typo degradaría un CORE a SUPP en silencio
+            sys.exit(f"atomic_fact con tipo desconocido {tipo!r} en {gold_row.get('qid', '?')} — corrige el gold")
+        tag = "CORE" if tipo == "core" else "SUPP"
         lines.append(f"- [{tag}] {f.get('texto', '')}")
     return "\n".join(lines)
 
@@ -293,7 +298,10 @@ def main() -> int:
         verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"],
                         gold_row=g)
         row = {
-            "qid": qid, "question": q, "judge_vara": JUDGE_VARA,
+            "qid": qid, "question": q,
+            # dúo-vara F5: la vara REAL de la fila (el fallback sin facts juzga v3)
+            "judge_vara": ("v4" if (g.get("atomic_facts") or []) else "v3(fallback)")
+                          if JUDGE_VARA == "v4" else "v3",
             "gold_estado": _estado(g),
             "conducta_esperada": expected,
             "conducta_bot": verdict.get("conducta_bot"),

@@ -499,6 +499,10 @@ def run_e2e_flows(
             # equivocada el juez e2e llevaba TODA la serie juzgando con la
             # referencia gold EN BLANCO (bug de instrumento, clase [:3000]).
             if g and g.get("gold_answer"):
+                # duo-vara F2b (Sol): con VARIOS reuses_golds la prosa del primero puede no
+                # corresponder al ultimo turno -> sin gold inequivoco se juzga SOLO conducta.
+                if len(f.get("reuses_golds", [])) != 1:
+                    break
                 gold_txt = str(g["gold_answer"])
                 # s286 dúo-vara F2 (Sol): con VARIOS reuses_golds el primero puede no ser
                 # el sujeto del último turno (mt03: [hp001, hp003] pero cierra con CAD-150)
