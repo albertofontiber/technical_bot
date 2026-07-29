@@ -60,3 +60,30 @@ synthesis-miss-con-sub-tag (no clase terminal nueva) + fuera-de-scope declarados
 FRESCA focused sobre v2. 3. Build (Opus ejecuta bajo spec cerrado; los wrappers module-level y
 la vista-del-generador son los puntos delicados). 4. Smoke plomería → smoke anchors → full v3
 = fila canónica + mapa real etapa 1. 5. Tally + scoreboard + DEC.
+
+## ADENDA r2 (confirmación fresca: CAMBIOS-ANTES-DE-BUILD → incorporados; ESTE es el spec sellado)
+13. **[r2-1 crítico] DEMO_FLAGS pinea el flag-set COMPLETO del seam**: los 7 flags-hoja
+    env-resueltos que post_rerank consulta y NO son profile-owned — `TABLE_PREAMBLE_CLOSURE`,
+    `CANONICAL_HYQ_COVERAGE`, `COMPATIBILITY_BUNDLE_COVERAGE`, `RERANK_POOL_COVERAGE`,
+    `STRUCTURAL_CASCADE_COVERAGE`, `LOGICAL_RECORD_COVERAGE`, `EVIDENCE_DERIVATION_OVERLAY` —
+    todos `"off"` (= Railway ship: son TARGET_OFF/ausentes). Un .env sucio ya no mide otra stack.
+14. **[r2-2] `pipe_sha` = closure por IMPORTS, no lista a mano**: hashear `src/rag/*.py` que el
+    seam importa (walk de imports desde serving_pipeline + post_rerank_coverage; incluye
+    compatibility_bundle_coverage, doc_scoped_hyq_coverage, table_preamble_closure,
+    rerank_pool_coverage, mp_lexicon, document_local_coverage, structural_neighbor_*) +
+    release_profiles.py + los config yaml consumidos.
+15. **[r2-3] `append_view_truncated` = SUB-MOTIVO de synthesis-miss** (5 clases terminales
+    INTACTAS; precedente exacto: `threshold-drop` ya vive ahí aunque el generador no viera el
+    valor). Cascada: se evalúa en el conveyed-check del soporte servido; NO prevalece sobre
+    rerank-miss (si el valor está en pool-no-topk, la señal upstream manda). La fila del
+    scoreboard publica n(via_coverage_append) y n(append_view_truncated).
+16. **[r2-4] El filtro de admisión se EXPORTA de generator.py** como función única e importada
+    (fuente única, cero duplicación — la clase de deriva que v3 corrige).
+17. **[r2-5 premisa corregida] El seam SÍ devuelve `chunks`/`coverage_trace`/`generation`;
+    topk = `chunks[:reranked_rows]`** (garantía de prefijo protegido) → solo hace falta el
+    wrapper de CAPTURA de retrieve (module-level); el de rerank estricto ya existe como patrón
+    bvg y se pasa como adapter.
+18. **[r2-6] El retry del fail-open = loop sobre UN único call-site** de `execute_rag_turn`
+    (el guard asserta count==1 en el cuerpo).
+19. **[r2-7] SPLIT de sets de soporte**: `sup_pool` (alimenta in_pool/in_topk/pool_rank/clases
+    upstream) vs `sup_served` (alimenta reaches_gen/conveyed) — hoy un solo `sup` alimenta todo.
