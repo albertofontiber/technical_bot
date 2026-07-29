@@ -2165,3 +2165,10 @@ DEC-162h). Fix candidato: assert en el arranque del assessment comparando DEMO_F
 las REQUIRED_EXACT_VALUES/SAFE_DEFAULTS del release-config sellado (s277_c1_p1_release_config),
 o ítem explícito en el checklist de cierre de release. Coste de no arreglar: fulls caros
 midiendo configs muertas.
+
+### #57b (misma clase que #57, s286c): el assessment escribía en un path FIJO que además es insumo congelado
+`s100_factlevel_full.yaml` es a la vez el OUTPUT del instrumento y el INSUMO sha-pineado del
+linaje s108/s112/s201 (funnel banked) → los 2 fulls del 29-jul lo sobrescribieron y CI rompió
+en PR #188. Restaurado del histórico (9200510) + runs renombrados (`s286_..._stale_pre_c1` /
+`s286b_..._shipconfig`) + el script ahora sufija SIEMPRE un tag (env `FACTLEVEL_OUTPUT_TAG`,
+default fecha). Deuda restante: el resume (.partial.jsonl) comparte la clase de colisión.

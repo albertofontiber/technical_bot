@@ -32,7 +32,8 @@ Freeze-contract leído del ENTORNO, RE-AFIRMADO tras los imports (los módulos l
 Modos:
   python scripts/factlevel_assessment.py smoke [--qids hp007,cat007]   # subset + estimación de coste
   python scripts/factlevel_assessment.py full                          # 39 dev
-Salida: evals/s100_factlevel_<mode>.yaml (+ .partial.jsonl resumible) + manifest embebido.
+Salida: evals/s100_factlevel_<mode>_<tag>.yaml (+ .partial.jsonl resumible) + manifest embebido.
+(s286c: tag SIEMPRE — env FACTLEVEL_OUTPUT_TAG, default fecha — para no pisar el histórico congelado.)
 """
 from __future__ import annotations
 import os
@@ -873,7 +874,11 @@ def main() -> int:
     if "error" in manifest["corpus"]:
         print("  ⚠ corpus fingerprint FALLÓ — el freeze-hash no ancla el corpus este run")
 
-    out_path = OUT_DIR / f"s100_factlevel_{args.mode}.yaml"
+    # s286c: el path histórico s100_factlevel_full.yaml es INSUMO CONGELADO (sha-pineado)
+    # del linaje s108/s112/s201 — sobrescribirlo rompió CI. Runs nuevos SIEMPRE con tag
+    # (default = fecha) para no pisar artefactos consumidos; el histórico no se toca.
+    output_tag = os.getenv("FACTLEVEL_OUTPUT_TAG") or time.strftime("%Y%m%d")
+    out_path = OUT_DIR / f"s100_factlevel_{args.mode}_{output_tag}.yaml"
     partial = out_path.with_suffix(".partial.jsonl")
     done = {}
     if partial.exists():
