@@ -552,6 +552,45 @@ def _assemble_system(
     return base
 
 
+def admitted_evidence_rows(chunks: list[dict]) -> list[dict]:
+    """Single source of truth for the generator's evidence-admission filter.
+
+    Two independent conditions admit a row: (a) it is not a compatibility-lane
+    row, or it belongs to the one complete, fully validated bundle; and (b) it
+    clears the relevance bar, or it is an independently validated coverage row.
+
+    s286e: the fact-level instrument (`scripts/factlevel_assessment.py`) must
+    reason over exactly the rows the model sees. Exporting the filter keeps one
+    implementation instead of a mirror that can drift from this one.
+    """
+    # Batch-revalidate relational bundles before per-row relevance checks. An
+    # incomplete or post-append-tampered bundle must not degrade into ordinary
+    # partial evidence for the LLM.
+    complete_bundle = complete_compatibility_bundle(chunks)
+    complete_bundle_id = (
+        str(complete_bundle[0].get("compatibility_bundle_id") or "")
+        if complete_bundle
+        and all(is_validated_coverage_chunk(row) for row in complete_bundle)
+        else ""
+    )
+
+    # Filter out low-relevance chunks
+    return [
+        c for c in chunks
+        if (
+            c.get("retrieval_lane") != COMPATIBILITY_LANE
+            or (
+                complete_bundle_id
+                and str(c.get("compatibility_bundle_id") or "") == complete_bundle_id
+            )
+        )
+        and (
+            c.get("similarity", 0) >= RELEVANCE_THRESHOLD
+            or is_validated_coverage_chunk(c)
+        )
+    ]
+
+
 def generate_answer(
     query: str,
     chunks: list[dict],
@@ -576,32 +615,10 @@ def generate_answer(
     # `is_cross_brand_query` / `classify_model_manufacturer` remain in
     # retriever.py for future observability/feature use.
 
-    # Batch-revalidate relational bundles before per-row relevance checks. An
-    # incomplete or post-append-tampered bundle must not degrade into ordinary
-    # partial evidence for the LLM.
-    complete_bundle = complete_compatibility_bundle(chunks)
-    complete_bundle_id = (
-        str(complete_bundle[0].get("compatibility_bundle_id") or "")
-        if complete_bundle
-        and all(is_validated_coverage_chunk(row) for row in complete_bundle)
-        else ""
-    )
-
-    # Filter out low-relevance chunks
-    relevant_chunks = [
-        c for c in chunks
-        if (
-            c.get("retrieval_lane") != COMPATIBILITY_LANE
-            or (
-                complete_bundle_id
-                and str(c.get("compatibility_bundle_id") or "") == complete_bundle_id
-            )
-        )
-        and (
-            c.get("similarity", 0) >= RELEVANCE_THRESHOLD
-            or is_validated_coverage_chunk(c)
-        )
-    ]
+    # Batch-revalidate relational bundles, then filter out low-relevance
+    # chunks. Both live in `admitted_evidence_rows` so the fact-level
+    # instrument observes the same admission decision, not a copy of it.
+    relevant_chunks = admitted_evidence_rows(chunks)
 
     compatibility_guard_active = (
         COMPATIBILITY_BUNDLE_COVERAGE
