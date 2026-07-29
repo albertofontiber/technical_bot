@@ -1,0 +1,133 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre correctamente r.I, averías enclavadas y el procedimiento
+    de rearme, y menciona ABORT de forma útil aunque algo enfocada como avería. Falta
+    un [CORE] importante: el parámetro t.A como duración de descarga/soak time, con
+    rango 05-295 s y valor por defecto ''--'' circuito activado hasta rearme.'
+  bot_sources:
+  - HLSI-MN-103I_RP1r-Supra_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Este comportamiento es esperado en varios escenarios. Comprueba los siguientes
+    puntos en orden:
+
+
+    ---
+
+
+    ## 1. Rearme inhibido tras extinción (parámetro r.i)
+
+
+    La central puede tener configurado un intervalo de inhibición del rearme según
+    la norma **UNE-EN 12094-1:2004, apartado 4.12.2** [F8].
+
+
+    El parámetro **r.i** controla este comportamiento [F8]:
+
+
+    - **- -** → Rearme inhibido hasta finalizar extinción o cuando se agota el tiempo
+    del parámetro **t.A** (t.A → 0 seg.)
+
+    - **00** → Rearme permitido en cualquier momento *(valor por defecto)*
+
+    - **De 01 a 30** → Rearme inhibido durante el intervalo definido *(expresado en
+    minutos)*
+
+
+    **Acción:** Accede al modo de programación y verifica el valor del parámetro **r.i**.
+    Si está configurado con un valor de 01 a 30, la central no permitirá el rearme
+    hasta que transcurra ese tiempo [F8].
+
+
+    ---
+
+
+    ## 2. Averías enclavadas en circuitos supervisados
+
+
+    Tras la extinción pueden quedar condiciones de avería activas que impiden el retorno
+    al estado normal. **Todas las averías son por defecto enclavadas y requieren rearme
+    manual** [F3].
+
+
+    Comprueba si alguno de estos LEDs está intermitente en el frontal [F2][F3]:
+
+
+    - **LED "Avería circuito extinción"** → fallo en CCT EXT 1 o CCT EXT 2 (bloques
+    1 y 2)
+
+    - **LED "Avería presión baja"** → fallo en LOW PRESS SWITCH (bloque H)
+
+    - **LED "Avería presión flujo"** → fallo en FLOW PRESS SWITCH (bloque I)
+
+    - **LED "Avería en paro"** fijo + **LED "Paro"** fijo → fallo en ABORT SWITCH
+    (bloque D) — **este circuito requiere siempre rearme manual, no admite rearme
+    automático** [F2]
+
+    - **LED "Avería Disp. Manual"** fijo → fallo en AUX. MAN. REL. (bloque A) [F2]
+
+    - **LEDs de avería en Zona 1, 2 o 3** → fallo en Z1, Z2 o Z3 (bloques E, F, G)
+    [F2]
+
+
+    **Acción:** Identifica qué LED está activo, corrige la condición de avería en
+    el circuito correspondiente y luego realiza el rearme.
+
+
+    ---
+
+
+    ## 3. Procedimiento de rearme correcto
+
+
+    Para rearmar la central [F3]:
+
+
+    1. Accede con **nivel 2** de acceso (consulta sección **4.3 Niveles de acceso**
+    del manual)
+
+    2. Pulsa la tecla **"Rearme"**
+
+    3. La central se reiniciará y todas las entradas enclavadas se restablecerán
+
+
+    > ⚠️ Si existe una condición de avería activa sin resolver (circuito abierto,
+    cortocircuito, presión baja, etc.), el sistema no volverá al estado normal aunque
+    se rearme correctamente. **Primero resuelve la avería, luego rearma.**
+
+
+    ---
+
+
+    ## 4. LED "Extinción Realizada" fijo
+
+
+    Tras la extinción, el LED **"Extinción Realizada"** permanece iluminado de forma
+    **fija** [F1]. Este LED no desaparece hasta que se realiza el rearme correcto
+    con todas las condiciones de avería resueltas.
+
+
+    ---
+
+
+    **Fuente:** HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01)
+
+
+    ---
+
+
+    También puedo ayudarte con: **verificación del parámetro t.A (tiempo de activación
+    de extinción)**, **configuración del rearme automático de averías (sección 5.4
+    Funciones especiales)** o **niveles de acceso de la RP1r-Supra**.'

@@ -17,6 +17,19 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s286 (29 jul 2026).** **BASELINE v4 = línea de salida del objetivo: 11 PASS /
+> 16 PARCIAL / 12 FALLO** (39 golds, ship-config, `judge_vara=v4`; DEC-162d). La descomposición
+> pareada (mismas respuestas, letra v3 → 10/25/4) atribuye +8 de los +9 FALLO a la vara (T2b:
+> CORE-mal ya no se esconde en PARCIAL) y +1 al residuo real; v4 PASA una más que v3 (SUPP no
+> degrada). **Objetivo vigente (Alberto): FALLO→0** (salvo techo DEC-158) **y PARCIAL≤10**.
+> s286 además: guard de seguridad hp018 A'+C' shippeado default-off (A/B ciego 10/10→0/20 peligro,
+> 0 supresiones) · tachados `~~` ejecutados en DB (907 filas, 0 mismatches) + 2 fugas dedup
+> cerradas · conducta medida (follow-ups 0/12 · direct-first · listing-gate · fix parser
+> diagramas) · **telemetría construida** (`answer_feedback` 👍/👎 + vistas `bot_health_*` +
+> digest; paste D9 + ONs pendientes de Alberto; `TERMS_VERSION` v2) · bug juez MT gold-en-blanco
+> corregido. Suite 3308/0. Flags nuevos TODOS default-off = prod byte-idéntica hasta el lote de
+> ONs (runbook con sonda/rollback por flag).
+>
 > **Estado s285 (28 jul 2026).** La **release C1 está EN PRODUCCIÓN**: PR #184 mergeada
 > (`f65ec66`) + flip Railway ejecutado y verificado vivo = perfil `coverage_c1_v4` + identidad
 > `replace` + Evidence Contract + selección document-local v2 (rollback = la variable).

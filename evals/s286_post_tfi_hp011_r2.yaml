@@ -1,0 +1,142 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta es útil y cubre ABORT, r.I de forma parcial, averías
+    enclavadas y el procedimiento de rearme. Falta el fact CORE de t.A: duración de
+    descarga/soak time con rango 05-295 s y valor por defecto ''--'' como circuito
+    activado hasta el rearme; además r.I no desarrolla claramente la opción ''--''
+    salvo en una cita final.'
+  bot_sources:
+  - HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+  - HLSI-MN-103I_RP1r-Supra_lr
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Hay varias causas posibles. Comprueba en este orden:
+
+
+    ---
+
+
+    ## 1. Rearme inhibido tras extinción (causa más probable)
+
+
+    La central puede tener configurado un **intervalo de inhibición de rearme** tras
+    entrar en modo ACTIVADO [F8].
+
+
+    - El parámetro **r.i** (Rearme inhibido tras extinción) puede estar configurado
+    con un valor de **01 a 30 minutos** [F8], durante el cual el rearme no está permitido
+    aunque pulses la tecla.
+
+    - Por defecto este parámetro es **00** (rearme permitido en cualquier momento)
+    [F8].
+
+    - Mientras esté inhibido, el display mostrará **"r.i"** [F8].
+
+
+    **Acción:** Espera a que transcurra el intervalo configurado, o accede a programación
+    y verifica el valor del parámetro **r.i** [F8].
+
+
+    ---
+
+
+    ## 2. Condición de avería enclavada sin resolver
+
+
+    Todas las averías son **por defecto enclavadas y requieren rearme manual** [F1].
+    Si existe alguna avería activa en los circuitos supervisados, el sistema no volverá
+    a estado normal aunque se rearme.
+
+
+    Comprueba los LEDs de avería en los siguientes circuitos [F2]:
+
+
+    - **Circuito extinción 1/2** (bloques 1 y 2): LED "Avería circuito extinción"
+    intermitente
+
+    - **Sirenas 1/2** (bloques 5 y 6): LED "Sirenas fallo/anuladas" intermitente
+
+    - **Extinción manual** (bloque A): LED "Avería Disp. Manual" fijo
+
+    - **Pulsador paro ABORT** (bloque D): LED "Avería en paro" intermitente + LED
+    "Paro" fijo → **Este circuito requiere siempre rearme manual** [F2]
+
+    - **Zonas 1, 2, 3** (bloques E, F, G): LEDs de avería intermitentes
+
+    - **Presión baja** (bloque H): LED "Avería presión baja" intermitente
+
+    - **Señal de flujo** (bloque I): LED "Avería presión flujo" intermitente
+
+
+    **Acción:** Identifica qué LED está activo, resuelve la condición de avería en
+    campo y luego rearma.
+
+
+    ---
+
+
+    ## 3. Procedimiento de rearme correcto
+
+
+    Para rearmar la central [F1]:
+
+
+    1. Accede con **nivel 2** de acceso (consulta sección **4.3 Niveles de acceso**)
+    [F1].
+
+    2. Pulsa la tecla **"Rearme"** [F1].
+
+    3. Esto reinicia la central y restablece todas las entradas enclavadas [F1].
+
+
+    > ⚠️ **Importante:** Si el pulsador de **ABORT** (bloque D) fue accionado durante
+    la secuencia, este circuito **siempre requiere rearme manual** y no admite rearme
+    automático [F2]. Verifica que la condición de paro ha desaparecido físicamente
+    antes de rearmar.
+
+
+    ---
+
+
+    ## 4. Estado "Extinción realizada" pendiente
+
+
+    Tras la descarga, el LED **"Extinción realizada"** queda iluminado de forma **fija**
+    [F3]. Este estado persiste hasta que se realice el rearme correcto con nivel 2.
+    Si el LED sigue fijo tras el intento de reset, confirma que el acceso de nivel
+    2 fue correcto.
+
+
+    ---
+
+
+    Fuente: HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01); HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr
+    (sin revisión registrada)
+
+
+    ---
+
+
+    También puedo ayudarte con: **configuración del parámetro r.i (inhibición de rearme)**,
+    **verificación de circuitos de extinción supervisados** o **niveles de acceso
+    y contraseñas de la RP1r-Supra**.
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "- - Rearme inhibido hasta finalizar extinción o cuando agotado tiempo configurado
+    en parámetro t.A (t.A → 0 seg.)" (HLSI-MN-103_RP1r-Supra_lr, p. 63) [F8]'

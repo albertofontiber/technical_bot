@@ -1,0 +1,127 @@
+- qid: hp011
+  question: En la Morley RP1r, después de descargar la extinción el sistema no vuelve
+    a estado normal tras resetear. ¿Qué comprobar?
+  gold_estado: verificado
+  conducta_esperada: answer
+  conducta_bot: answer
+  veredicto: PARCIAL
+  diagnostico: 'La respuesta cubre r.I, averías enclavadas, ABORT de forma útil y
+    el procedimiento de rearme, pero falta un CORE: detallar el parámetro t.A como
+    duración de descarga/soak time, sus valores 05–295 s y que ''--'' es el valor
+    por defecto con circuito activado hasta rearme.'
+  bot_sources:
+  - HLSI-MN-103_RP1r-Supra_lr
+  coverage_status: appended
+  coverage_appended_rows: 4
+  release_profile: coverage_c1_v4
+  harness_variant: serving_seam_v1_historical_single_turn_inputs
+  bot_answer: '# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después
+    de extinción
+
+
+    Hay varias causas posibles. Comprueba en este orden:
+
+
+    ---
+
+
+    ## 1. Inhibición de rearme activa (causa más probable)
+
+
+    La central puede tener configurado un **intervalo de inhibición de rearme** tras
+    la extinción [F8]. Comprueba el parámetro **r.i** (Rearme inhibido tras extinción):
+
+
+    - **Valor `- -`**: Rearme inhibido hasta que finalice la extinción o se agote
+    el tiempo configurado en el parámetro **t.A** [F8]
+
+    - **Valor `00`**: Rearme permitido en cualquier momento (valor por defecto) [F8]
+
+    - **Valores `01` a `30`**: Rearme inhibido durante ese número de minutos desde
+    que la central entró en estado ACTIVADO [F8]
+
+
+    → Si el parámetro **r.i** tiene un valor distinto de `00`, la central **no permitirá
+    el rearme** hasta que transcurra ese intervalo. Espera o ajusta el parámetro.
+
+
+    ---
+
+
+    ## 2. Averías enclavadas sin resolver
+
+
+    Todas las averías son **enclavadas por defecto** y requieren rearme manual [F1].
+    Pero si la condición de avería **sigue presente físicamente**, el rearme no restablecerá
+    el estado normal. Comprueba los LEDs del panel:
+
+
+    - **LED "Avería circuito extinción" intermitente** → revisar circuito de extinción
+    1 o 2 [F2]
+
+    - **LED "Avería en paro" intermitente + LED "Paro" fijo** → el pulsador ABORT
+    (paro de emergencia) puede estar activo o en fallo. Este circuito **siempre requiere
+    rearme manual** y no admite rearme automático [F2]
+
+    - **LED "Avería presión baja" intermitente** → revisar presión del sistema [F1]
+
+    - **LED "Avería presión flujo" intermitente** → revisar señal de flujo [F1]
+
+    - **LED "Sirenas fallo/anuladas" intermitente** → revisar EOL en circuitos de
+    sirena [F1]
+
+
+    ---
+
+
+    ## 3. Procedimiento de rearme correcto
+
+
+    Para que el rearme sea efectivo [F1]:
+
+
+    1. Accede al **nivel 2** de acceso (consulta sección **4.3 Niveles de acceso**
+    del manual) [F1]
+
+    2. Pulsa la tecla **"Rearme"** [F1]
+
+    3. Esto reinicia la central y restablece todas las entradas enclavadas [F1]
+
+
+    > ⚠️ Si alguna condición de avería o alarma **sigue activa físicamente** en el
+    momento del rearme, la central volverá a indicarla inmediatamente después del
+    reset.
+
+
+    ---
+
+
+    ## 4. LED "Extinción realizada" fijo tras fin de extinción
+
+
+    Es normal que tras la descarga el LED **"Extinción realizada"** quede iluminado
+    de forma **fija** [F3]. Este estado persiste hasta que se realiza el rearme correcto
+    con nivel 2 de acceso.
+
+
+    ---
+
+
+    **Resumen de comprobación rápida:**
+
+    - Verifica parámetro **r.i** → si no es `00`, espera el tiempo configurado
+
+    - Identifica qué LEDs de avería siguen activos → resuelve la condición física
+    antes de rearmar
+
+    - Rearma con **nivel 2 de acceso** + tecla **Rearme**
+
+
+    ---
+
+
+    Fuente: HLSI-MN-103_RP1r-Supra_lr (rev. v.07, 2018-05-01)
+
+
+    También puedo ayudarte con: **configuración del parámetro r.i**, **interpretación
+    de LEDs de avería específicos** o **procedimiento de acceso al nivel 2**.'

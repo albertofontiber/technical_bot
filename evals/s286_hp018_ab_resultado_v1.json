@@ -1,0 +1,43 @@
+{
+ "resultado_por_celda": {
+  "off_off": {
+   "P_n": 20,
+   "P_estricta": 18,
+   "C_n": 12,
+   "P_peligrosa": 7,
+   "guard_P": 0,
+   "C_supresiones": 0
+  },
+  "a_only": {
+   "P_n": 20,
+   "P_estricta": 2,
+   "C_n": 12,
+   "P_peligrosa": 0,
+   "guard_P": 0,
+   "C_supresiones": 0
+  },
+  "c_only": {
+   "P_n": 20,
+   "P_estricta": 9,
+   "C_n": 12,
+   "P_peligrosa": 5,
+   "guard_P": 9,
+   "C_supresiones": 0
+  },
+  "a_c": {
+   "P_n": 20,
+   "guard_P": 1,
+   "C_n": 12,
+   "P_estricta": 0,
+   "P_peligrosa": 0,
+   "C_supresiones": 0
+  }
+ },
+ "decision": "A'+C' PASA su umbral (0/20 estricta + 0 supresiones) → SE SHIPEA A'+C' (máxima preferencia pre-declarada)",
+ "verdicts_sha256_pre_unmask": "4a76be8014c14afe9fd696bf3d8acbde667f94378c3ab97673d0eeac2ea01170",
+ "mapping_sha256": "82b1ecaf21b3af4ecaef6e73329229a42d42310cc5fae6907aa9c2e743cf66fb",
+ "residuales_guard_v1_1": [
+  "B022: gloss '(serie)' sin 'en' escapa al lexicón",
+  "B074: bloque-intro con 'en serie' sobrevivió junto a notice (investigar segmentación)"
+ ]
+}

@@ -73,6 +73,8 @@ OUTPUT = (
         f"{COVERAGE_RELEASE_POLICY.profile}_k{RERANK_K}_{RERANKER}.yaml"
     )
 )
+# dúo-vara F6: la vara al nombre — corridas v3/v4 con la misma config no se pisan
+OUTPUT = OUTPUT.replace(".yaml", f"_{os.getenv('JUDGE_VARA', 'v4').strip().lower()}judge.yaml")
 OUTPUT = os.getenv("OUTPUT_OVERRIDE", OUTPUT)  # smoke dirigido sin pisar el artefacto del run completo
 JUDGE_MODEL = "gpt-5.5"
 
@@ -110,6 +112,48 @@ _JUDGE_USER = (
     "(p.ej. afirma o niega compatibilidad cross-marca) cuando el gold pide "
     "refuse-inference."
 )
+
+# ── VARA v4 (s286, T2b adjudicado por Alberto en la sentada r2): el juez VE los facts
+# tipados del gold. La ausencia de un fact SUPPLEMENTARY jamás baja de PASS por sí sola;
+# PASS exige los CORE cubiertos (con cualquier redacción — anti-checklist). JUDGE_VARA=v3
+# conserva la vara anterior SOLO para humo comparativo. El MODELO del juez no cambia
+# (freeze DEC-023). ─────────────────────────────────────────────────────────────────
+JUDGE_VARA = os.getenv("JUDGE_VARA", "v4").strip().lower()
+if JUDGE_VARA not in {"v3", "v4"}:
+    sys.exit(f"JUDGE_VARA={JUDGE_VARA!r} inválido — dominio {{v3, v4}} (typo ejecutaría v3 en silencio)")
+
+_JUDGE_FACTS_BLOCK = (
+    "FACTS DEL GOLD (la lista de exigencia; [CORE] = imprescindible, [SUPP] = "
+    "complementario):\n{facts}\n\n"
+)
+
+_JUDGE_V4_CRITERIO = (
+    "\n\nCRITERIO v4 (facts tipados — PREVALECE sobre el criterio general en caso de duda):\n"
+    "- PASS: TODOS los facts [CORE] están cubiertos por la respuesta (da igual el orden, la "
+    "redacción o la estructura: cubierto-con-otras-palabras CUENTA).\n"
+    "- La ausencia de un fact [SUPP] NUNCA baja el veredicto de PASS por sí sola.\n"
+    "- PARCIAL: falta al menos un [CORE] pero lo servido es correcto y útil.\n"
+    "- FALLO: igual que el criterio general (incorrecto, alucina, conducta equivocada). "
+    "El FALLO PREVALECE SIEMPRE sobre PASS y PARCIAL: cubrir todos los [CORE] NO salva una "
+    "respuesta con contenido incorrecto o alucinado.\n"
+    "- En golds de conducta no-answer (clarify/admit/refuse-inference): los facts [CORE] "
+    "describen el CONTENIDO que la conducta correcta debe surfacear — conducta correcta + "
+    "[CORE] cubiertos = PASS; conducta correcta sin los [CORE] = PARCIAL.\n"
+    "- En el diagnóstico, nombra QUÉ facts [CORE] faltan (si faltan)."
+)
+
+
+def _format_facts(gold_row: dict) -> str:
+    facts = gold_row.get("atomic_facts") or []
+    lines = []
+    for f in facts:
+        tipo = str(f.get("tipo", "")).lower()
+        if tipo not in {"core", "supplementary"}:
+            # fail-closed (dúo-vara F4): un typo degradaría un CORE a SUPP en silencio
+            sys.exit(f"atomic_fact con tipo desconocido {tipo!r} en {gold_row.get('qid', '?')} — corrige el gold")
+        tag = "CORE" if tipo == "core" else "SUPP"
+        lines.append(f"- [{tag}] {f.get('texto', '')}")
+    return "\n".join(lines)
 
 
 def _eval_strict_rerank(query: str, chunks: list[dict], **kwargs):
@@ -153,14 +197,24 @@ def run_bot(query: str) -> dict:
     }
 
 
-def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str) -> dict:
+def judge(client: OpenAI, question: str, expected: str, gold: str, bot: str,
+          gold_row: dict | None = None) -> dict:
+    user = _JUDGE_USER.format(
+        question=question, expected=expected,
+        gold=(gold or ""), bot=(bot or ""))
+    # vara v4: facts tipados delante de la respuesta del bot + criterio que prevalece
+    if JUDGE_VARA == "v4" and gold_row is not None and not (gold_row.get("atomic_facts") or []):
+        print(f"  ⚠️ VARA MIXTA: {gold_row.get('qid','?')} sin atomic_facts → juzgado con vara v3 (fallback)")
+    if JUDGE_VARA == "v4" and gold_row and (gold_row.get("atomic_facts") or []):
+        facts_block = _JUDGE_FACTS_BLOCK.format(facts=_format_facts(gold_row))
+        assert user.count("RESPUESTA DEL BOT:") == 1
+        user = user.replace("RESPUESTA DEL BOT:", facts_block + "RESPUESTA DEL BOT:")
+        user = user + _JUDGE_V4_CRITERIO
     resp = client.chat.completions.create(
         model=JUDGE_MODEL,
         messages=[
             {"role": "system", "content": _JUDGE_SYS},
-            {"role": "user", "content": _JUDGE_USER.format(
-                question=question, expected=expected,
-                gold=(gold or ""), bot=(bot or ""))},
+            {"role": "user", "content": user},
         ],
     )
     txt = resp.choices[0].message.content.strip()
@@ -182,7 +236,7 @@ def main() -> int:
     validate_config(require_telegram=False, production=True)
     assert CHUNKS_IS_V2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
     print(
-        f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | retrieve={RETRIEVE_K} "
+        f"Tabla activa: {CHUNKS_TABLE} (Voyage 1024) | vara-juez={JUDGE_VARA} | retrieve={RETRIEVE_K} "
         f"rerank_k={RERANK_K} | reranker={RERANKER} | "
         f"release_profile={COVERAGE_RELEASE_POLICY.profile}\n"
     )
@@ -241,9 +295,13 @@ def main() -> int:
         expected = g.get("conducta_esperada", "answer")
         print(f"=== {qid} ===")
         bot = run_bot(q)
-        verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"])
+        verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"],
+                        gold_row=g)
         row = {
             "qid": qid, "question": q,
+            # dúo-vara F5: la vara REAL de la fila (el fallback sin facts juzga v3)
+            "judge_vara": ("v4" if (g.get("atomic_facts") or []) else "v3(fallback)")
+                          if JUDGE_VARA == "v4" else "v3",
             "gold_estado": _estado(g),
             "conducta_esperada": expected,
             "conducta_bot": verdict.get("conducta_bot"),

@@ -1,0 +1,62 @@
+{
+ "cat008": {
+  "v3": {
+   "veredicto": "PARCIAL",
+   "diag": "Acierta las resistencias principales: RFL de 47 kΩ, 18 kΩ en serie para modo 3 estados, y los terminales básicos 1-4 y 6-7. Pero el bypass del aislador interno queda explicado de forma incorrecta/impr"
+  },
+  "v4": {
+   "veredicto": "PARCIAL",
+   "diag": "Cubre los facts CORE principales: modos 2/3 estados, RFL 47 kΩ, resistencia serie 18 kΩ y terminales 1-4/6-7. Sin embargo, la nota sobre eliminar el aislador interno es imprecisa/errónea al indicar co"
+  }
+ },
+ "hp003": {
+  "v3": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta acierta en lo esencial: dos baterías de 12V en serie, puente entre + y -, conexión de rojo/negro a los polos libres, orden red primero y verificación >24V. Es incompleta/imprecisa porque "
+  },
+  "v4": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta cubre la conexión en serie con dos baterías de 12V 7Ah, el puente positivo-negativo, la conexión de rojo/negro a los bornes libres, el orden red antes que baterías y la comprobación de >2"
+  }
+ },
+ "hp008": {
+  "v3": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta incluye prácticamente todos los modelos compatibles y los agrupa de forma útil, pero comete un error de referencia en los detectores por rayo: escribe LBP-700/LBP-700T en lugar de LPB-700"
+  },
+  "v4": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta cubre prácticamente todos los detectores principales compatibles y organiza bien la lista. Sin embargo, en el fact [CORE] de detectores por rayo escribe LBP-700/LBP-700T en lugar de LPB-7"
+  }
+ },
+ "hp020": {
+  "v3": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta recoge correctamente los permisos por nivel y el procedimiento principal para cambiar los códigos de acceso de Nivel 2 y Nivel 3, incluyendo sincronización y copia en la nube. Sin embargo"
+  },
+  "v4": {
+   "veredicto": "PASS",
+   "diag": "Cubre todos los facts CORE: permisos por nivel, ruta de menú/Ajustes y cambio de código, longitud 4-8, repetición de confirmación y mensaje de éxito. Añade varios SUPP como sincronización/copia en nub"
+  }
+ },
+ "cat012": {
+  "v3": {
+   "veredicto": "PASS",
+   "diag": "Responde con el método correcto: suma consumos en reposo y alarma, aplica 24/72 h y 0,5 h, usa el factor 1,2 y verifica límites/capacidad máxima de baterías. Añade información extra sobre AM-8200BB y "
+  },
+  "v4": {
+   "veredicto": "PARCIAL",
+   "diag": "La respuesta cubre la fórmula, las autonomías 24/72 h y 0,5 h, suma de consumos, lazos/salida de usuario y el límite máximo aproximado de 18 Ah. Falta cubrir explícitamente los consumos de batería de "
+  }
+ },
+ "hp007": {
+  "v3": {
+   "veredicto": "PARCIAL",
+   "diag": "Acierta las cuatro tareas anuales y recoge varias precauciones clave del manual. Queda incompleta frente a la referencia porque no enumera claramente las tareas de otras frecuencias ni menciona la rec"
+  },
+  "v4": {
+   "veredicto": "PASS",
+   "diag": "Cubre todos los facts CORE: prueba de humos anual, comprobación de flujo, limpieza de puntos de muestreo y limpieza con agua de la red de tubería. Además incluye precauciones relevantes y cita el cale"
+  }
+ }
+}

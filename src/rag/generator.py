@@ -43,6 +43,7 @@ from .post_rerank_coverage import (
 )
 from .evidence_derivation import apply_evidence_derivations_with_trace
 from .must_preserve import apply_must_preserve_contract
+from .wiring_topology_guard import apply_wiring_topology_guard
 from .visual_assets import append_cited_visual_assets
 
 logger = logging.getLogger(__name__)
@@ -428,6 +429,63 @@ recoger lo que ESTÁ, no rellenar lo que falta."""
 # Regex: VERBO DE ADQUISICIÓN obligatorio (pido/compro/elijo/recomiendas). El dúo s103b
 # EJECUTÓ contra fraseo real de técnico y tumbó las alternativas laxas («¿cuál pongo?» es
 # fraseo de resistencias/jumpers/DIP; «cuál necesito»/«qué modelo va» = identificación/spec)
+# s286 conducta (e): flag GENERATOR_FOLLOWUPS (default on = prod byte-idéntico). off retira el
+# bloque de sugerencias («También puedo ayudarte con…») que Alberto marcó como genérico (5.2).
+# El bloque se extrae por substring EXACTO del SYSTEM_PROMPT (test de anclaje en
+# tests/test_s286_conducta_fixes.py) — A/B medido antes de decidir el default.
+_FOLLOWUP_BLOCK = """SUGERENCIAS DE FOLLOW-UP:
+- Al final de cada respuesta, sugiere 2-3 preguntas relacionadas que el técnico podría necesitar a continuación.
+- Formato: una línea breve con las sugerencias separadas, por ejemplo: \
+"También puedo ayudarte con: **conexionado de baterías**, **prueba funcional** o **mantenimiento periódico** del DOD-220."
+- Las sugerencias deben ser el paso lógico siguiente. Ejemplos:
+  · Después de instalación → conexionado, configuración, puesta en marcha
+  · Después de fallo → procedimiento de reparación, recambios, prevención
+  · Después de especificaciones → comparativa con otros modelos, dimensiones de montaje
+- NO sugieras cosas genéricas. Sé específico al producto y contexto de la pregunta.
+- Si la respuesta ya incluye una pregunta de vuelta para aclarar algo, NO añadas sugerencias (sería demasiado).
+
+"""
+
+# s286 conducta (d) — intent de LISTADO/enumeración (comparte semántica con la futura lane de
+# inventario #9): «qué productos/dispositivos/modelos/equipos/detectores… tiene/hay/existen/
+# disponibles/catálogo». Gatea el auto-adjunte de visual assets (5.1).
+_LISTING_INTENT = re.compile(
+    r"qu[eé]\s+(productos?|dispositivos?|modelos?|equipos?|detectores?|sirenas?|m[oó]dulos?|centrales?)"
+    r"[^?.;:]{0,50}?\b(tienes?|teneis|hay|existen|dispones?|disponibles?|ofrece[ns]?|cat[aá]logo)\b",
+    re.IGNORECASE)
+
+# s286 conducta (c) — R2 de Alberto (goldreview r2): la respuesta directa va PRIMERO
+# (anti lede-burial, caso hp009). Flag GENERATOR_DIRECT_FIRST default off → byte-idéntico.
+_DIRECT_FIRST_BLOCK = """
+
+PRIMERA LÍNEA (regla de apertura):
+- Tras el encabezado, la PRIMERA frase responde la pregunta con el dato o veredicto concreto \\
+(el valor, el sí/no, el modelo, el paso clave). El desarrollo, tablas y matices vienen DESPUÉS.
+- MAL: titular con un tema relacionado y enterrar el dato pedido en la sección 3.
+- Si la conducta correcta es pedir aclaración o admitir que no está documentado, esa \\
+primera frase ES la aclaración o la admisión — esta regla no lo cambia.
+"""
+
+# s286 A' (ANTI_DIAGRAM_INVENTION, default-off): regla anti-invención de procedimientos de
+# cableado desde contenido que solo existe como diagrama en la fuente. Spec:
+# evals/s286_hp018_guard_design_brief_v3_1.md (par de C' = WIRING_TOPOLOGY_GUARD).
+_ANTI_DIAGRAM_BLOCK = """
+
+CONEXIONADO Y TOPOLOGÍA DE CABLEADO (regla de seguridad, prevalece sobre la completitud):
+- NUNCA afirmes la topología de un conexionado (serie, paralelo, cadena, orden de polaridad \
+entre dispositivos) salvo que un fragmento la enuncie LITERALMENTE en texto. Que un fragmento \
+describa un circuito NO te autoriza a deducir su topología.
+- Si el conexionado solo aparece como diagrama/figura en la fuente: describe ÚNICAMENTE lo \
+que el texto dice (componentes, valores, advertencias) y remite al técnico a la figura del \
+manual («ver el diagrama de la página N del documento citado»). Cita el número de figura SOLO \
+si el texto servido lo menciona; si no, NO inventes numeración.
+- PROHIBIDO reconstruir diagramas: nada de esquemas ASCII, pseudo-figuras, ni bloques de \
+código que dibujen el circuito. Un esquema inventado con aspecto de figura oficial es el \
+peor error posible en un manual de incendios.
+- Ante la duda entre dar un procedimiento de cableado incompleto o remitir al diagrama: \
+remite al diagrama. Un paso a paso inventado puede dejar un circuito de evacuación mudo.
+"""
+
 # — fuera. Gap acotado permitido entre «modelo» y el verbo («qué modelo de detector … pido»).
 _SELECTION_INTENT = re.compile(
     r"(qu[eé]\s+modelo[^?.;:]{0,60}?\b(pido|compro|elijo|me\s+recomiendas)\b"
@@ -481,8 +539,14 @@ def _assemble_system(
     base = SYSTEM_PROMPT
     if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
+    if os.getenv("GENERATOR_FOLLOWUPS", "on").strip().lower() == "off":
+        base = base.replace(_FOLLOWUP_BLOCK, "")
+    if os.getenv("GENERATOR_DIRECT_FIRST", "off").strip().lower() == "on":
+        base = base + _DIRECT_FIRST_BLOCK
     if _selection_block_on() and query is not None and _is_selection_query(query):
         base = base + _SELECTION_BLOCK
+    if os.getenv("ANTI_DIAGRAM_INVENTION", "off").strip().lower() == "on":
+        base = base + _ANTI_DIAGRAM_BLOCK
     if enforced_policy:
         base = base + render_enforced_system_policy()
     return base
@@ -763,23 +827,34 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     answer = raw_answer
 
     if "DIAGRAMAS_RELEVANTES:" in raw_answer:
-        parts = raw_answer.rsplit("DIAGRAMAS_RELEVANTES:", 1)
-        answer = parts[0].rstrip()
-
-        try:
-            # Parse the list of fragment numbers e.g. [1, 3]
-            refs_str = parts[1].strip()
-            refs = json.loads(refs_str)
-            if isinstance(refs, list):
-                seen_urls = set()
-                for ref in refs:
-                    if ref in diagram_map:
-                        info = diagram_map[ref]
-                        if info["url"] not in seen_urls:
-                            seen_urls.add(info["url"])
-                            diagrams.append(info)
-        except (json.JSONDecodeError, ValueError) as e:
-            logger.warning(f"Failed to parse DIAGRAMAS_RELEVANTES: '{parts[1].strip()[:100]}' — {e}")
+        # s286 fix: el parser antiguo hacía json.loads de TODO lo que seguía al marcador y
+        # amputaba la cola de la respuesta. Si el modelo añade texto tras la línea (p.ej. la
+        # coletilla «También puedo ayudarte…»), (a) fallaba el parse («Extra data») perdiendo
+        # los diagramas y (b) esa cola desaparecía en silencio. Ahora: se extrae SOLO el array
+        # JSON inmediato, se re-injerta la cola, y sin array el texto queda intacto.
+        head, _, rest = raw_answer.rpartition("DIAGRAMAS_RELEVANTES:")
+        m = re.match(r"\s*(\[[\d\s,]*\])", rest)
+        if m:
+            tail = rest[m.end():].strip()
+            answer = head.rstrip() + (f"\n\n{tail}" if tail else "")
+            try:
+                refs = json.loads(m.group(1))
+                if isinstance(refs, list):
+                    seen_urls = set()
+                    for ref in refs:
+                        if ref in diagram_map:
+                            info = diagram_map[ref]
+                            if info["url"] not in seen_urls:
+                                seen_urls.add(info["url"])
+                                diagrams.append(info)
+            except (json.JSONDecodeError, ValueError) as e:  # pragma: no cover - regex garantiza array
+                logger.warning(f"Failed to parse DIAGRAMAS_RELEVANTES: '{m.group(1)[:100]}' — {e}")
+        else:
+            logger.warning(
+                "DIAGRAMAS_RELEVANTES sin array JSON inmediato — respuesta intacta, sin diagramas: "
+                f"'{rest.strip()[:100]}'"
+            )
+            answer = raw_answer
 
     # Log if Claude generated markdown tables despite system prompt forbidding them
     if re.search(r'^\|.+\|$', answer, re.MULTILINE) and "---" in answer:
@@ -793,6 +868,20 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
         plan=enforced_plan if planner_mode == "enforced" else guided_plan,
         conflicts=enforced_conflicts,
     )
+
+    # s286 C' (WIRING_TOPOLOGY_GUARD, default-off): guard determinista de topología
+    # de cableado de sirenas (clase DEC-160c; spec evals/s286_hp018_guard_design_brief_v3_1.md).
+    # Contrato de posición: tras apply_answer_planner y ANTES de must_preserve →
+    # conflict_guard → EC, para que los appenders re-validen sobre el texto guardado.
+    wiring_guard_trace = None
+    if os.getenv("WIRING_TOPOLOGY_GUARD", "off").strip().lower() == "on":
+        answer, wiring_guard_trace = apply_wiring_topology_guard(relevant_chunks, answer)
+        if wiring_guard_trace.get("action") != "noop":
+            logger.warning(
+                "wiring topology guard intervino: %s (%s bloques unsafe)",
+                wiring_guard_trace.get("action"),
+                wiring_guard_trace.get("unsafe_blocks"),
+            )
 
     # S269 Track 2 (MUST_PRESERVE_CONTRACT, default-off): contrato de átomos
     # must-preserve con render por postcondición sobre los fragmentos SERVIDOS
@@ -850,6 +939,9 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
 
     result = {
         "answer": answer,
+        # s286 A/B guard: traza de C' (None con flag off) — el runner del A/B la usa
+        # como flag operacional de supresión (acción != noop en controles = FP)
+        "wiring_guard": wiring_guard_trace,
         "diagrams": diagrams[:3],
         # Gate s58 (DEC-036b): stop_reason confirma/descarta truncamiento por max_tokens.
         "stop_reason": response.stop_reason,
@@ -878,7 +970,16 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # doble (aquí y dentro del helper): una excepción jamás toca la respuesta.
     if VISUAL_ASSETS_REGISTRY:
         try:
-            append_cited_visual_assets(result, relevant_chunks)
+            # s286 conducta (d) — 5.1 de Alberto (dogfooding: pantallazos inaplicables en
+            # preguntas de LISTADO tipo «¿qué dispositivos de aspiración tiene Notifier?»).
+            # Flag VISUAL_ASSETS_LISTING_GATE default off = byte-idéntico; on = no auto-adjuntar
+            # en intent de enumeración (las imágenes de páginas sueltas son ruido en una lista).
+            _listing_gate = (
+                os.getenv("VISUAL_ASSETS_LISTING_GATE", "off").strip().lower() == "on"
+                and _LISTING_INTENT.search(query or "")
+            )
+            if not _listing_gate:
+                append_cited_visual_assets(result, relevant_chunks)
         except Exception:
             logger.warning(
                 "VISUAL_ASSETS_REGISTRY fail-open: respuesta sin adjuntos",

@@ -488,7 +488,13 @@ def _judge_one(task):
 
 
 def phase_judge(args) -> None:
+    # s286 guard (dúo-vara H4): este instrumento juzga con vara v3 (sin facts) por
+    # construcción — con v4 como default del harness, abort salvo ACK explícito (D3).
+    if getattr(TBG, "JUDGE_VARA", "v3") == "v4" and os.getenv("KMAJORITY_V3_VARA_ACK") != "1":
+        sys.exit("kmajority juzga con vara v3 (sin facts) pero el harness tiene JUDGE_VARA=v4 — "
+                 "pon KMAJORITY_V3_VARA_ACK=1 para reconocerlo o alinea el instrumento (D3)")
     _assert_instrument_equivalence("judge", {
+        "vara": "v3",
         "model_alias": JUDGE_MODEL, "response_format": "json_object",
         "truncation_chars": JUDGE_TRUNCATION,
         "sys_sha": _sha(TBG._JUDGE_SYS), "user_sha": _sha(TBG._JUDGE_USER),

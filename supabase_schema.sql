@@ -156,6 +156,27 @@ CREATE TABLE IF NOT EXISTS feedback (
 
 CREATE INDEX IF NOT EXISTS idx_feedback_created ON feedback (created_at DESC);
 
+-- Structured 1-tap answer feedback (👍/👎), exact-linked to its query_logs row
+-- via FK. Coexists with `feedback` (spontaneous free-text) — disjoint roles
+-- (s286): this table stores verdicts, `feedback` stores prose. ON DELETE
+-- CASCADE keeps the documented RGPD deletion (`DELETE FROM query_logs WHERE
+-- telegram_user_id = X`, DG_DEPLOYMENT) working without extra steps. The
+-- UNIQUE pair makes taps idempotent and lets an upsert implement last-wins
+-- verdict toggles (👍→👎). created_at keeps the FIRST vote's timestamp: the
+-- upsert only updates supplied columns and never resends created_at.
+CREATE TABLE IF NOT EXISTS answer_feedback (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    query_log_id UUID NOT NULL REFERENCES query_logs(id) ON DELETE CASCADE,
+    telegram_user_id BIGINT NOT NULL,
+    verdict TEXT NOT NULL CHECK (verdict IN ('up', 'down')),
+    comment TEXT,                -- Phase 2: optional "¿qué faltó?" on 👎
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (query_log_id, telegram_user_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_answer_feedback_created
+ON answer_feedback (created_at DESC);
+
 -- RGPD consent tracking (one row per user who accepted terms via /accept)
 CREATE TABLE IF NOT EXISTS user_consent (
     telegram_user_id BIGINT PRIMARY KEY,
@@ -187,7 +208,9 @@ BEGIN
         RAISE EXCEPTION 'service_role must exist with BYPASSRLS before hardening';
     END IF;
 
-    FOREACH table_name IN ARRAY ARRAY['query_logs', 'feedback', 'user_consent']
+    FOREACH table_name IN ARRAY ARRAY[
+        'query_logs', 'feedback', 'answer_feedback', 'user_consent'
+    ]
     LOOP
         EXECUTE format(
             'ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', table_name
@@ -204,9 +227,14 @@ BEGIN
 
     EXECUTE 'GRANT SELECT, INSERT ON TABLE public.query_logs TO service_role';
     EXECUTE 'GRANT SELECT, INSERT ON TABLE public.feedback TO service_role';
+    -- answer_feedback needs UPDATE for the last-wins verdict upsert (precedent:
+    -- user_consent, whose /accept re-run is also an upsert).
+    EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback TO service_role';
     EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.user_consent TO service_role';
 
-    FOREACH table_name IN ARRAY ARRAY['query_logs', 'feedback', 'user_consent']
+    FOREACH table_name IN ARRAY ARRAY[
+        'query_logs', 'feedback', 'answer_feedback', 'user_consent'
+    ]
     LOOP
         IF NOT EXISTS (
             SELECT 1
@@ -249,7 +277,7 @@ BEGIN
             END LOOP;
         END LOOP;
 
-        IF table_name = 'user_consent' THEN
+        IF table_name = ANY(ARRAY['user_consent', 'answer_feedback']) THEN
             expected_service_privileges := ARRAY['SELECT', 'INSERT', 'UPDATE'];
         ELSE
             expected_service_privileges := ARRAY['SELECT', 'INSERT'];
@@ -286,6 +314,80 @@ END
 $personal_data_boundary$;
 
 COMMIT;
+
+-- Bot-health views (s286). security_invoker: the view runs with the CALLER's
+-- privileges, so the FORCE-RLS + revoked grants of query_logs keep applying —
+-- anon/authenticated get permission-denied instead of a definer bypass. Static
+-- predicates only: 'error' rows and 'direct' replies are excluded from RAG
+-- volume here; the env-driven dogfooding exclusion (INTERNAL_TELEGRAM_IDS)
+-- lives ONLY in scripts/bot_health_report.py — single source, views stay
+-- unsegmented (s286 dúo r2). % no-info is a DECLARED HEURISTIC (the bot's
+-- admit-no-info is free LLM prose; these prefixes are its common openers) and
+-- the transport-error bucket counts the fixed _EMPTY_ANSWER_FALLBACK.
+-- response_time_ms is PIPELINE latency (measured before Telegram send).
+CREATE OR REPLACE VIEW bot_health_daily
+WITH (security_invoker = true) AS
+SELECT
+    created_at::date AS dia,
+    bot_version,
+    COUNT(*) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS consultas_rag,
+    COUNT(DISTINCT telegram_user_id) FILTER (
+        WHERE source <> 'error'
+    ) AS usuarios_unicos,
+    percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS latencia_pipeline_p50_ms,
+    percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS latencia_pipeline_p95_ms,
+    COUNT(*) FILTER (
+        WHERE source <> 'error'
+          AND category IS DISTINCT FROM 'direct'
+          AND (response ILIKE 'No tengo información%'
+               OR response ILIKE 'No dispongo%')
+    ) AS no_info_heuristica,
+    COUNT(*) FILTER (
+        WHERE response LIKE 'No he podido generar una respuesta completa%'
+    ) AS errores_transporte,
+    COUNT(*) FILTER (WHERE source = 'error') AS filas_error
+FROM query_logs
+GROUP BY created_at::date, bot_version;
+
+CREATE OR REPLACE VIEW bot_health_semanal
+WITH (security_invoker = true) AS
+SELECT
+    date_trunc('week', created_at)::date AS semana,
+    COUNT(*) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS consultas_rag,
+    COUNT(DISTINCT telegram_user_id) FILTER (
+        WHERE source <> 'error'
+    ) AS usuarios_unicos,
+    percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS latencia_pipeline_p50_ms,
+    percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+    ) AS latencia_pipeline_p95_ms,
+    COUNT(*) FILTER (
+        WHERE source <> 'error'
+          AND category IS DISTINCT FROM 'direct'
+          AND (response ILIKE 'No tengo información%'
+               OR response ILIKE 'No dispongo%')
+    ) AS no_info_heuristica,
+    COUNT(*) FILTER (
+        WHERE response LIKE 'No he podido generar una respuesta completa%'
+    ) AS errores_transporte,
+    COUNT(*) FILTER (WHERE source = 'error') AS filas_error
+FROM query_logs
+GROUP BY date_trunc('week', created_at)::date;
+
+REVOKE ALL PRIVILEGES ON bot_health_daily FROM PUBLIC, anon, authenticated;
+REVOKE ALL PRIVILEGES ON bot_health_semanal FROM PUBLIC, anon, authenticated;
+GRANT SELECT ON bot_health_daily TO service_role;
+GRANT SELECT ON bot_health_semanal TO service_role;
 
 -- Create storage bucket for manual images
 -- Note: Run this via Supabase dashboard:

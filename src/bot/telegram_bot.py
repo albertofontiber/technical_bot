@@ -5,15 +5,18 @@ Receives questions, queries the RAG pipeline, and returns formatted answers with
 
 import asyncio
 import logging
+import os
 import re
 import tempfile
 import unicodedata
+import uuid
 from pathlib import Path
 
 import httpx
-from telegram import InputMediaPhoto, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, Update
 from telegram.ext import (
     Application,
+    CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
     filters,
@@ -43,7 +46,13 @@ from ..rag.generator import generate_answer
 from ..rag.runtime_trace import build_rag_serving_trace
 from ..rag.serving_pipeline import RagServingAdapters, execute_rag_turn
 from ..rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
-from ..logging_db import log_query, log_feedback, has_consent, set_consent
+from ..logging_db import (
+    log_query,
+    log_feedback,
+    log_answer_feedback,
+    has_consent,
+    set_consent,
+)
 from .response_formatter import (
     DEFAULT_MESSAGE_LIMIT,
     format_telegram_messages,
@@ -155,6 +164,30 @@ _MANUFACTURER_NAMES = re.compile(
     re.IGNORECASE,
 )
 
+# s286 telemetría: feedback 1-tap 👍/👎. TELEGRAM_FEEDBACK (default off =
+# byte-idéntico) gatea SOLO el attach del keyboard; el CallbackQueryHandler se
+# registra INCONDICIONALMENTE en run_bot para que un keyboard viejo en el
+# historial siempre resuelva (apagar el flag no deja botones muertos girando).
+# callback_data autocontenido "fb:u:<uuid>"/"fb:d:<uuid>" (41 bytes < 64 de
+# Telegram) → taps tras días/restart funcionan sin estado en memoria.
+_FEEDBACK_CALLBACK_PATTERN = re.compile(r"^fb:(u|d):([0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$")
+
+
+def _feedback_keyboard_enabled() -> bool:
+    return os.getenv("TELEGRAM_FEEDBACK", "off").strip().lower() == "on"
+
+
+def _error_logging_enabled() -> bool:
+    return os.getenv("BOT_ERROR_LOGGING", "off").strip().lower() == "on"
+
+
+def _feedback_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton("👍", callback_data=f"fb:u:{query_log_id}"),
+        InlineKeyboardButton("👎", callback_data=f"fb:d:{query_log_id}"),
+    ]])
+
+
 # Feedback detection
 _FEEDBACK_PATTERNS = re.compile(
     r"(no\s+es\s+correcto|incorrecto|está\s+mal|esta\s+mal|"
@@ -187,7 +220,8 @@ _CONSENT_TERMS = (
     "• Cada pregunta (texto y audio original)\n"
     "• La transcripción del audio\n"
     "• La respuesta que te doy\n"
-    "• Fecha/hora y tu ID de Telegram\n\n"
+    "• Fecha/hora y tu ID de Telegram\n"
+    "• Tu valoración 👍/👎 de las respuestas, si la usas\n\n"
     "*Para qué se usa*: identificar errores, mejorar respuestas, calibrar el sistema con preguntas reales del sector.\n\n"
     "*Quién accede*: equipo técnico de Fontiber Industrial Partners.\n\n"
     "*Terceros*: las preguntas pasan por Anthropic (modelo Claude), los audios por OpenAI (Whisper), y los registros se almacenan en Supabase. No se comparten con nadie más.\n\n"
@@ -826,10 +860,16 @@ async def _process_query(
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)
             rag_trace = None
 
-        # Log query. Failure is isolated inside log_query and never changes the answer.
+        # Log query. Failure is isolated inside log_query and never changes the
+        # answer. The row's UUID is generated client-side (s286): it works with
+        # the return=minimal client and the compatibility retry, and it lets the
+        # feedback keyboard reference the row without a read-back. If the log is
+        # not KNOWN committed, the keyboard is skipped this turn — losing one
+        # vote's worth of signal is safe, a dangling FK reference is not.
         elapsed_ms = int((_time.time() - start_time) * 1000)
         user_id = update.effective_user.id if update.effective_user else 0
-        log_query(
+        query_log_uuid = str(uuid.uuid4())
+        query_logged = log_query(
             telegram_user_id=user_id,
             query=query,
             source=source,
@@ -841,21 +881,42 @@ async def _process_query(
             response_length=len(answer),
             response_time_ms=elapsed_ms,
             rag_trace=rag_trace,
+            query_log_id=query_log_uuid,
         )
 
         # Step 4: Render at the transport boundary.  The factual answer kept in
         # logs/evaluation remains untouched; every part is independently valid
         # Telegram HTML, so splitting cannot leave formatting delimiters open.
-        for answer_part in answer_parts:
+        # The feedback keyboard rides the LAST text part; diagrams sent after it
+        # will show below the buttons — accepted (reply_media_group takes no
+        # reply_markup) and documented in the s286 brief.
+        feedback_markup = (
+            _feedback_keyboard(query_log_uuid)
+            if _feedback_keyboard_enabled() and query_logged
+            else None
+        )
+        last_part_index = len(answer_parts) - 1
+        for part_index, answer_part in enumerate(answer_parts):
+            # Flag off (or log not committed) ⇒ markup_kwargs is empty and every
+            # reply_text call stays argument-identical to the pre-s286 code.
+            markup_kwargs = (
+                {"reply_markup": feedback_markup}
+                if feedback_markup is not None and part_index == last_part_index
+                else {}
+            )
             if transport_status == "plain_fallback":
-                await update.message.reply_text(answer_part)
+                await update.message.reply_text(answer_part, **markup_kwargs)
                 continue
             try:
-                await update.message.reply_text(answer_part, parse_mode="HTML")
+                await update.message.reply_text(
+                    answer_part, parse_mode="HTML", **markup_kwargs
+                )
             except Exception:
                 # Fail open without exposing raw HTML tags or entities.  This
                 # fallback preserves all technical text and evidence locators.
-                await update.message.reply_text(telegram_html_to_plain(answer_part))
+                await update.message.reply_text(
+                    telegram_html_to_plain(answer_part), **markup_kwargs
+                )
 
         # Step 5: Send diagrams if available (with descriptive captions).
         # 1-2 imágenes → fotos sueltas (comportamiento original); >2 → un solo
@@ -905,9 +966,60 @@ async def _process_query(
 
     except Exception as e:
         logger.error(f"Error processing query '{query}': {e}")
+        # s286 BOT_ERROR_LOGGING (default off): error rows carry an ALLOWLISTED
+        # summary (exception class @ stage), never str(e) — raw exception text
+        # can embed URLs that contain the bot token (same risk the httpx
+        # silencing above defends against). user_id is re-extracted here: the
+        # happy-path binding may not have been reached when the failure was
+        # earlier in the pipeline. handle_voice/_handle_catalog swallow their
+        # own exceptions and are OUT of scope for error rows (declared, s286).
+        if _error_logging_enabled():
+            try:
+                error_user_id = update.effective_user.id if update.effective_user else 0
+                log_query(
+                    telegram_user_id=error_user_id,
+                    query=query,
+                    source="error",
+                    response=f"{type(e).__name__}@process_query",
+                )
+            except Exception:
+                logger.warning("BOT_ERROR_LOGGING failed open")
         await update.message.reply_text(
             "Ha ocurrido un error procesando tu pregunta. Por favor, inténtalo de nuevo."
         )
+
+
+async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle 👍/👎 taps (s286). Every path calls callback_query.answer() —
+    otherwise a stale tap leaves the client spinner running forever."""
+    callback = update.callback_query
+    if callback is None:
+        return
+    match = _FEEDBACK_CALLBACK_PATTERN.match(callback.data or "")
+    if match is None:
+        # Unknown/malformed fb:* payload — resolve the spinner and drop it.
+        await callback.answer()
+        return
+    tap_user_id = callback.from_user.id if callback.from_user else 0
+    # A revoked/expired user can still tap an old keyboard in their history:
+    # consent gates the WRITE, mirroring the message path.
+    if not has_consent(tap_user_id):
+        await callback.answer(
+            "Para valorar respuestas acepta primero los términos con /start."
+        )
+        return
+    verdict = "up" if match.group(1) == "u" else "down"
+    ok = log_answer_feedback(
+        query_log_id=match.group(2),
+        telegram_user_id=tap_user_id,
+        verdict=verdict,
+    )
+    if ok:
+        await callback.answer("¡Gracias por tu valoración!")
+    else:
+        # Includes the stale-keyboard case: the query_logs row was RGPD-deleted
+        # and the FK rejects the vote — dropped by design.
+        await callback.answer("No se pudo registrar ahora. Inténtalo de nuevo.")
 
 
 def schedule_maintenance(app, store, interval, *, sender, worker_id="janitor-f0", first=None):
@@ -971,6 +1083,9 @@ def run_bot():
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
+    # Unconditional (NOT gated by TELEGRAM_FEEDBACK): stale keyboards in chat
+    # history must always resolve, even after the flag is turned off.
+    app.add_handler(CallbackQueryHandler(feedback_callback, pattern=r"^fb:"))
 
     logger.info("Bot started. Listening for text and voice messages...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

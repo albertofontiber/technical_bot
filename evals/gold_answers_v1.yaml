@@ -165,6 +165,8 @@
        - El reset inicial sólo debe ejecutarse cuando el conducto de aspiración esté limpio y en perfecto estado, ya que si se hace con orificios sucios/obstruidos no se podrán tomar muestras de aire correctamente y la alarma podría no dispararse.
 
     ADVERTENCIA: el documento es para el ASD 535 fabricado por Securiton. La pregunta menciona 'Detnov', pero la documentación aportada corresponde a Securiton AG. Si el equipo realmente es de otro fabricante, los procedimientos podrían diferir.
+
+    IMPORTANTE — gate de seguridad previo (seccion 9.3): antes de realizar el diagnostico o mantenimiento, bloquear o desconectar el control de incendios, la alerta remota y las zonas de extincion en la CDI de orden superior, para evitar que se disparen durante los trabajos.
   atomic_facts:
   - texto: El ASD 535 no da una "alarma de flujo bajo" como tal, sino un aviso "fallo flujo de aire" cuando
       el flujo varia respecto al nominal (reset inicial con conducto limpio = 100 %) mas alla de la ventana
@@ -175,7 +177,7 @@
     cita: p28 (2.2.10)
   - texto: 'Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %): obstruccion del conducto
       de aspiracion (orificios sucios/obstruidos, filtro sucio, trampa de polvo/separador); un valor por
-      encima del 120 % (> 100 %) apunta a rotura de tubo/fugas'
+      encima del rango (> 100 %) apunta a rotura de tubo/fugas'
     tipo: core
     estado: presente
     valor: 80 %
@@ -212,6 +214,20 @@
     estado: presente
     valor: turbulencias
     cita: p28 + p58
+  - texto: 'Literales de la ventana de monitorizacion (posiciones de conmutador A11 a C32): la variacion
+      que supere el +-20 % — por debajo del 80 % o por encima del 120 % — dispara el aviso "fallo flujo
+      de aire" tras el retardo de 300 s de la LS-U'
+    tipo: supplementary
+    estado: presente
+    cita: ASD535_TD_T131192es_h, p28
+    valor: A11-C32 / 120 %
+  - texto: 'Gate de seguridad previo al mantenimiento/diagnostico: bloquear o desconectar el control de
+      incendios, la alerta remota y las zonas de extincion en la CDI de orden superior (Indicacion que
+      ENCABEZA el checklist de mantenimiento, para evitar disparos durante los trabajos)'
+    tipo: core
+    estado: presente
+    cita: ASD535_TD_T131192es_h, p121, seccion 9.3
+    valor: null
   citations:
   - manual: ASD535_TD_T131192es_h.pdf
     page: 22
@@ -352,8 +368,9 @@
     estado: presente
     valor: parte inferior
     cita: p7/f9 (§2.5)
-  - texto: Desconectar el magnetotermico bipolar exterior antes de manipular la central
-    tipo: supplementary
+  - texto: Antes de manipular la central, desconectar el magnetotermico bipolar exterior (gate de seguridad
+      previo al conexionado)
+    tipo: core
     estado: presente
     valor: magnetotermico
     cita: p6/f8 (§2.3)
@@ -966,8 +983,8 @@
     estado: presente
     valor: LPX-751
     cita: p71 (A3-2)
-  - texto: 'Detectores de humo por rayo (haz proyectado): LPB500 (maximo 4 por lazo) y LPB-700/-700T'
-    tipo: supplementary
+  - texto: 'Detectores de humo por rayo/haz proyectado compatibles: LPB500 (max. 4 por lazo) y LPB-700/LPB-700T'
+    tipo: core
     estado: presente
     valor: LPB500
     cita: p71 (A3-2)
@@ -1306,8 +1323,8 @@
     cita: p63
     nota_edit: 's101: adjudicacion CORREGIDA por Alberto (rI = Rearme Inhibido, esquema mnemonico rS/rI;
       revierte s30 r.1). El corpus r.i era correcto; el error era del gold.'
-  - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg en pasos de
-      5 s; "--"=circuito activado hasta el rearme de la central (POR DEFECTO)'
+  - texto: 'Parametro t.A "Duracion de la descarga" (soak time): variable de 05 a 295 seg; "--"=circuito
+      activado hasta el rearme de la central (POR DEFECTO)'
     tipo: core
     estado: presente
     valor: 05 a 295 seg
@@ -1328,6 +1345,11 @@
     estado: presente
     valor: null
     cita: p44
+  - texto: t.A se programa en intervalos de 5 seg (granularidad de la UI al teclear un valor nuevo)
+    tipo: supplementary
+    estado: presente
+    cita: HLSI-MN-103_RP1r-Supra_lr, p56, seccion 5.3.1
+    valor: 5 seg
   citations:
   - manual: HLSI-MN-103_RP1r-Supra_lr.pdf
     page: 44
@@ -1897,7 +1919,7 @@
     1. Acceda a la pantalla "Causa y Efecto" desde el menú "Editar Configuración" (se recomienda el programa de configuración por ordenador como método principal; el menú de la central, solo para modificaciones menores).
     2. Tenga en cuenta las dos reglas por defecto: Regla 1 (CUALQUIER entrada de alarma activa TODOS los equipos de salida) y Regla 2 (la tecla EVACUACIÓN activa TODOS los equipos de salida). Es fundamental BORRAR la Regla 1 si va a realizar una programación específica, o quedará anulada por ella.
     3. Cree una regla (número discreto; máximo 512 reglas) con una INSTRUCCIÓN DE ENTRADA (la condición; p. ej. alarma en una zona/lazo) y una INSTRUCCIÓN DE SALIDA (el equipo a accionar: sirenas o relés). En la columna "Lazo", un "0" significa TODOS.
-    4. Asigne a la regla uno de los SEIS tipos de retardo de salida (sección A5.3 "Tipos de retardo"). El tipo seleccionado determina el comportamiento del retardo y cómo lo controlan las teclas (p. ej., SILENCIAR SIRENAS detiene la salida durante el retardo; SONIDO ALARMAS activa las sirenas).
+    4. Asigne a la regla un tipo de retardo de salida (sección A5.3 "Tipos de retardo") — atención: la prosa de A5.3 habla de "seis tipos" pero la tabla de la misma página recoge SIETE; declara la discrepancia al elegir. El tipo seleccionado determina el comportamiento del retardo y cómo lo controlan las teclas (p. ej., SILENCIAR SIRENAS detiene la salida durante el retardo; SONIDO ALARMAS activa las sirenas).
     5. Pruebe rigurosamente las reglas durante la puesta en marcha para evitar lógicas contradictorias.
 
     Adicionalmente: a nivel de equipo/zona existe el parámetro "Retardo de alarma" en la programación del lazo; y mediante programaciones horarias pueden imponerse retardos en la activación de las salidas durante periodos preestablecidos del día.
@@ -1923,9 +1945,10 @@
     estado: presente
     valor: Editar Configuracion
     cita: p43
-  - texto: Asignar a la regla uno de los SEIS tipos de retardo de salida (seccion A5.3 "Tipos de retardo"),
-      que determina el comportamiento del retardo y su control por teclas (SILENCIAR SIRENAS / SONIDO
-      ALARMAS)
+  - texto: 'Asignar a la regla un tipo de retardo de salida (seccion A5.3 ''Tipos de retardo''). Aviso
+      de fuente: la prosa de A5.3 dice ''uno de seis tipos'' mientras la tabla de la misma pagina recoge
+      SIETE (Fijo, Estandar, No Silenc., Est. Ext., RetExtStd, No Sil. Ext, SinRetExt); la conducta correcta
+      es declarar la discrepancia, no resolverla en un numero'
     tipo: core
     estado: presente
     valor: seis tipos de retardo
@@ -1941,6 +1964,13 @@
     estado: presente
     valor: '512'
     cita: p43
+  - texto: 'Recuadro-warning A5.1 (exigible UNA vez como bloque): al programar reglas causa-efecto evitar
+      las logicas contradictorias Y probar rigurosamente TODAS las reglas durante la puesta en marcha
+      para verificar que no haya conflictos'
+    tipo: core
+    estado: presente
+    cita: 997-671-005-3_Configuration_ES, p42, recuadro A5.1
+    valor: null
   citations:
   - manual: 997-671-005-3_Configuration_ES.pdf (Apéndice 5)
     page: 42
@@ -2051,24 +2081,28 @@
     valor: 3.4.13
     cita: MI-530 p21
   citations:
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: SALIDAS SIRENAS 24V
-  - manual: MIE-MI-310.pdf
-    page: 18
-    quote: La ZX1e dispone de 2 salidas de sirena... la ZX5e dispone de 5 salidas de sirena
-  - manual: MIE-MI-310.pdf
-    page: 17
-    quote: Conectar la malla a la arandela del pasacables en contacto con el chasis
-  - manual: MIE-MI-310.pdf
-    page: 31
-    quote: 'Salidas de sirena: 2 (ZX1e) supervisadas, 24Vcc, 500 mA máx, EOL 10 kΩ'
-  - manual: MIE-MI-310.pdf
-    page: 32
-    quote: 5 salidas de sirena supervisadas, 24Vcc, 500 mA, EOL 10 kΩ (ZX5e)
+  - manual: MIE-MI-530rv001.pdf
+    page: 12
+    quote: 'Placa Base: circuitos de sirenas de placa (ZX2e: 2 salidas A/B; ZX5e: 4 salidas A-D)'
+  - manual: MIE-MI-530rv001.pdf
+    page: 21
+    quote: Cada sirena debera tener un diodo integrado, para impedir el consumo en polarizacion inversa
+      (supervision). El circuito de sirenas se polariza en inverso en reposo para supervisar la linea
+      y cambia a su polarizacion normal, cuando se dispara la salida
+  - manual: MIE-MI-530rv001.pdf
+    page: 21
+    quote: '3.4.4 Circuitos de Sirenas — Fig 13/14: conexionado en el bloque de terminales, RFL 6K8 (0,5
+      W) al final del circuito, polaridad'
+  - manual: MIE-MI-530rv001.pdf
+    page: 44
+    quote: 'Tabla 8: salidas de sirena supervisadas, carga maxima 1 A por circuito'
+  notes: ' [s286: pdfs_used y citations estaban STALE apuntando a MIE-MI-310 (ZXAE/ZXEE, producto DISTINTO,
+    mayo 2000) con valores contradictorios (EOL 10k/500mA/5 salidas); re-anclados a MIE-MI-530rv001 conforme
+    a _provenance canonica (pp.12/21/44) y s277_c1_p1_design_v1.md §re-anclaje. Hallazgo colateral: el
+    retrieval de hp018 sirve MI-310 (contaminacion cross-family) — lane retrieval/identidad, no del gold.]'
   confidence: media
   pdfs_used:
-  - MIE-MI-310.pdf
+  - MIE-MI-530rv001.pdf
   _provenance:
     estado: verificado
     metodo: render_pdf + cross_model
@@ -2282,6 +2316,12 @@
     estado: presente
     valor: CLSS
     cita: p5 / p18
+  - texto: 'Codigos de acceso de fabrica documentados: NA2 = 22222222 y NA3 = 33333333; el manual recomienda
+      sustituirlos por un codigo exclusivo'
+    tipo: supplementary
+    estado: presente
+    cita: HOP-338-9ES issue 4, p14 y p48
+    valor: 22222222 / 33333333
   citations:
   - manual: HOP-138-8ES (Instrucciones de puesta en marcha INSPIRE E10/E15)
     page: 49
@@ -2303,10 +2343,13 @@
     page: 49
     quote: Deberá sincronizar el programa con la central y, a continuación, realizar una copia de seguridad
       del cambio del código de acceso en la nube
-  notes: La información se encuentra en el manual de puesta en marcha HOP-138-8ES, página 49, sección
-    'CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3'. El procedimiento está claramente descrito, incluyendo
-    la regla de que desde Nivel 2 solo se puede cambiar el código de Nivel 2, mientras que desde Nivel
-    3 se pueden cambiar ambos. No se especifican los códigos por defecto de fábrica en los documentos.
+  notes: 'La información se encuentra en el manual de puesta en marcha HOP-138-8ES, página 49, sección
+    ''CAMBIE LA CONTRASEÑA DEL CÓDIGO DE ACCESO NI2/NI3''. El procedimiento está claramente descrito,
+    incluyendo la regla de que desde Nivel 2 solo se puede cambiar el código de Nivel 2, mientras que
+    desde Nivel 3 se pueden cambiar ambos. Los códigos de acceso de fábrica SÍ están documentados: NA2
+    = 22222222 y NA3 = 33333333 (HOP-338-9ES issue 4, p14 y p48); el manual recomienda cambiarlos por
+    uno exclusivo de 4-8 dígitos. [Corregido s286 tras verificación en DB — la nota original decía que
+    no estaban documentados.]'
   confidence: alta
   pdfs_used:
   - HOP-138-9ES issue 5_11-2025_In.pdf
@@ -3005,11 +3048,11 @@
   estrato:
   - familia-ambigua
   gold_answer: |-
-    «751» no identifica un único detector: en la familia de detectores analógicos direccionables 751 hay varios modelos con tecnologías y aplicaciones DISTINTAS y NO intercambiables. Para confirmarte el correcto, ¿cuál de estos necesitas (o en qué tipo de zona va)?
+    «751» no identifica un único detector: en la familia de detectores analógicos direccionables 751 hay varios modelos con tecnologías y aplicaciones DISTINTAS y NO intercambiables. Estos son los modelos 751 para los que tengo documentación en mi corpus (puede haber otros en el catálogo del fabricante). Para confirmarte el correcto, ¿cuál necesitas (o en qué tipo de zona va)?
 
     • CPX-751E — detector IÓNICO estándar (zonas normales).
     • IDX-751 (AE) — detector ÓPTICO/fotoeléctrico de SEGURIDAD INTRÍNSECA para zonas peligrosas/ATEX (15-24 Vdc, clases de temperatura T4/T5; requiere translator/barrera de seguridad intrínseca; las pruebas no intrínsecamente seguras deben realizarse FUERA de la zona peligrosa).
-    • FSL-751E — detector por aspiración/láser (gama VIEW).
+    • FSL-751E y LPX-751 — detectores por aspiración/láser (gama VIEW).
 
     Dime el modelo exacto o la aplicación (zona normal vs zona peligrosa; tecnología iónica/óptica/aspiración) y te confirmo las especificaciones. ⚠️ Importante de seguridad: no elijas a ciegas — instalar un detector estándar (p. ej. CPX-751E) en una zona peligrosa en lugar del intrínsecamente seguro (IDX-751) sería un fallo de seguridad.
   atomic_facts:
@@ -3059,7 +3102,9 @@
     751 como compatibles con ID3000 (eje = compatibilidad-lista, conducta answer); este gold los DESAMBIGUA
     (eje = clarify) → MISMO set de productos, DISTINTO modo de fallo. Candidatos restringidos a los que
     SÍ están en el catálogo (CPX-751E/IDX-751/FSL-751E); SDX-751/SDX-751EM excluidos porque NO están en
-    el catálogo (corrección del dúo).'
+    el catálogo (corrección del dúo). [Adjudicado s286 (Alberto, r2 G5=b): el clarify lista los candidatos
+    DOCUMENTADOS EN CORPUS con cita, dejando explícito que son los modelos con información disponible;
+    requisito irrenunciable = distinguir estándar vs seguridad intrínseca antes de elegir.]'
   confidence: alta
   pdfs_used:
   - I56-3383-002 IDX-751 AE EN DE.pdf
@@ -3722,7 +3767,8 @@
     valor: Control By Events
     cita: AM-8200-manu-prog p21 (render) + Apendice A
   - texto: Se programa desde el menu Programacion AM8200 > Puntos (Sensores/Modulos); en la pestana 'Programacion'
-      de cada punto se asigna la ZONA y se configura su ecuacion CBE
+      — que el panel muestra como 'Programmazione' (UI en italiano) y la seccion del manual llama 'Pestana
+      Programa' — de cada punto se asigna la ZONA y se configura su ecuacion CBE
     tipo: core
     estado: presente
     valor: 'pestana Programacion: Zona + CBE'

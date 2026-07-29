@@ -2270,3 +2270,32 @@ por idioma (voyage-4-large es multilingüe; el vocabulario técnico ancla cross-
 Cifras vivas al cierre: 1.169 docs (996 active) · 25.088 chunks_v2 · 1 unknown. La identidad
 del corpus — el gap D1 que el smoke ZXSe expuso en producción el día del release — queda
 cerrada de punta a punta en cinco días. DEC-161.
+
+## s286 (28-29 jul 2026) — el arco del objetivo: seguridad hp018 cerrada, corpus saneado, vara honesta, telemetría construida
+
+La sesión ejecutó el orden adjudicado por Alberto de punta a punta, con su directiva de autonomía
+(«continúa sin buscar mi aprobación de cada paso; input solo en bloqueantes; lo demás,
+empaquétalo») como modo operativo. PRIORIDAD-1 primero: la traza de hp018 mostró frecuencia 100%
+del patrón peligroso y disparó la excepción del guard adelantado — 3 rondas de dúo (45
+hallazgos, incluido 1 falso positivo mío que el tally registra), y el A/B ciego pre-registrado
+(veredictos hasheados antes del unmask) dio peligro 10/10→0/20 con 0 supresiones en 48: A'+C'
+shippeados default-off. Los tachados `~~` (adjudicación: énfasis mal renderizado) salieron de la
+DB con un tokenizer de runs y ceremonia completa de staging+backup — 907 filas, verificación en
+vivo 0 mismatches — y la post-verificación cazó dos fugas que el plan no había cerrado
+(content_search sin filtro de duplicados y un t.Fi literal en otro chunk, parcheado
+píxel-en-mano). La vara v4 de su T2b pasó diseño→dúo→controles→sanity→adjudicación sellada, y el
+baseline con la config de ship estampó la línea de salida del objetivo: 11/16/12. Cuando Alberto
+preguntó por qué se disparaban los FALLO, la respuesta fue una medición pareada, no una teoría:
+re-juzgar las mismas 39 respuestas bajo v3 dio 10/25/4 — la vara explica +8 de los +9 FALLO, el
+residuo real es +1, y v4 además PASA una más que v3 porque los SUPP ausentes ya no degradan.
+El paquete de telemetría (su GO) atravesó el ciclo completo: el dúo r1 tumbó el diseño v1 (RLS
+ausente que habría repetido la exposición pre-hardening, FK sin CASCADE que rompía su borrado
+RGPD, una métrica no-info contra una constante que no existe, y una tabla `feedback` viva que yo
+había ignorado) → v2 → GO-BUILD → build completo con suite 3308/0. De camino: el parser de
+diagramas amputaba la cola de la mitad de las respuestas (fix), el juez multi-turn llevaba toda
+la serie s281b con el gold EN BLANCO (fix, re-medición pendiente), y la clasificación P1 de los
+flags nuevos se hizo sin tocar el módulo sellado tras comprobar que ampliarlo re-rompía 89 pins.
+Cierra la sesión el full del assessment nivel-hecho corriendo como gate del lever loop, con el
+smoke validado ($3) y el 500 transitorio del canal enunciados verificado como blip, no como
+degradación. Pendiente de Alberto, empaquetado sin urgencia: paste D9 (answer_feedback), re-accept
+por el bump de términos, lote de ONs con runbook de sondas, y D1-D11.

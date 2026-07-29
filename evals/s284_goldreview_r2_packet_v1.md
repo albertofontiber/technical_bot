@@ -743,27 +743,27 @@ usuario/código/contraseña, y el flujo desde Nivel 2 no incluye explícitamente
 
 | # | decisión | evidencia | recomendación | marca |
 |---|---|---|---|---|
-| T1 | **Quitar el `[:3000]` del juez** (`test_bot_vs_gold.py:163`) y **re-medir el baseline (~$3)**, aceptando que el delta puede ser negativo | 12/20 PARCIAL truncados; 4 PARCIAL con la crítica probada por offset; 6/16 PASS y 2/3 FALLO también truncados | **Sí, arreglar y re-medir**: hoy el contrato del baseline no es el que creemos. Sin promesa de signo | [ ]✅ [ ]✏️ [ ]❌ |
-| T2 | **¿El juez debe ver `core` vs `supplementary`?** (a) statu quo · (b) pasar `atomic_facts`+`tipo` al juez · (c) reescribir la prosa de los golds afectados | 4/20 PARCIAL son cores-4/4 con PARCIAL por supplementary; el juez solo recibe `gold_answer` | **(a) + (c) selectivo** (hp003, hp008). (b) NO ahora: cambiar el juez con T1 sin resolver mezcla variables y toca el freeze DEC-021/023 | [ ]✅ [ ]✏️ [ ]❌ |
+| T1 | **Quitar el `[:3000]` del juez** (`test_bot_vs_gold.py:163`) y **re-medir el baseline (~$3)**, aceptando que el delta puede ser negativo | 12/20 PARCIAL truncados; 4 PARCIAL con la crítica probada por offset; 6/16 PASS y 2/3 FALLO también truncados | **Sí, arreglar y re-medir**: hoy el contrato del baseline no es el que creemos. Sin promesa de signo | [X]✅ [ ]✏️ [ ]❌ |
+| T2 | **¿El juez debe ver `core` vs `supplementary`?** (a) statu quo · (b) pasar `atomic_facts`+`tipo` al juez · (c) reescribir la prosa de los golds afectados | 4/20 PARCIAL son cores-4/4 con PARCIAL por supplementary; el juez solo recibe `gold_answer` | **(a) + (c) selectivo** (hp003, hp008). (b) NO ahora: cambiar el juez con T1 sin resolver mezcla variables y toca el freeze DEC-021/023 | [ ]✅ [Creo que mejor b, ya que o lo hacemos para todos o el selectivo al final en realidad es tech?debt que en producción me da que no se sostiene]✏️ [ ]❌ |
 
 ### 3.2 Ediciones de gold propuestas (5)
 
 | # | qid | edición propuesta | efecto en la clase | marca |
 |---|---|---|---|---|
-| G1 | **hp017** | fact 4: «SEIS tipos» → **disclosure del conflicto seis-vs-siete** (aplica tu ✅ de s269 `obl_872c35fb` al `gold_answers_v1`) | A se mantiene; cambia QUÉ se exige | [ ]✅ [ ]✏️ [ ]❌ |
-| G2 | **hp020** | corregir la nota falsa + añadir los códigos de fábrica **22222222 / 33333333** (DB-verificados, HOP-338-9ES p14/p48) | corrige un error del gold | [ ]✅ [ ]✏️ [ ]❌ |
-| G3 | **hp003** | promover **«desconectar el magnetotérmico bipolar antes de manipular»** a `core` (consistencia con tu criterio de gates de seguridad, s269 hp002) | B → **A** | [ ]✅ [ ]✏️ [ ]❌ |
-| G4 | **hp008** | promover **LPB500 / LPB-700-700T** a `core` (pregunta de enumeración: la lista completa ES el hecho) | B → **A** | [ ]✅ [ ]✏️ [ ]❌ |
-| G5 | **cat011** | (a) mantener candidatos = catálogo gobernado, o (b) permitir candidatos documentados-en-corpus con cita (las 8 variantes del bot están DB-verificadas) | (b) convierte la crítica en no-defecto | [ ]✅(a) [ ]✅(b) [ ]✏️ |
+| G1 | **hp017** | fact 4: «SEIS tipos» → **disclosure del conflicto seis-vs-siete** (aplica tu ✅ de s269 `obl_872c35fb` al `gold_answers_v1`) | A se mantiene; cambia QUÉ se exige | [X]✅ [ ]✏️ [ ]❌ |
+| G2 | **hp020** | corregir la nota falsa + añadir los códigos de fábrica **22222222 / 33333333** (DB-verificados, HOP-338-9ES p14/p48) | corrige un error del gold | [X]✅ [ ]✏️ [ ]❌ |
+| G3 | **hp003** | promover **«desconectar el magnetotérmico bipolar antes de manipular»** a `core` (consistencia con tu criterio de gates de seguridad, s269 hp002) | B → **A** | [X]✅ [ ]✏️ [ ]❌ |
+| G4 | **hp008** | promover **LPB500 / LPB-700-700T** a `core` (pregunta de enumeración: la lista completa ES el hecho) | B → **A** | [X]✅ [ ]✏️ [ ]❌ |
+| G5 | **cat011** | (a) mantener candidatos = catálogo gobernado, o (b) permitir candidatos documentados-en-corpus con cita (las 8 variantes del bot están DB-verificadas) | (b) convierte la crítica en no-defecto | [ ]✅(a) [X. aquí el bot debería contestar con lo que tiene, y dejar explícito que esos modelos son para los que tiene información]✅(b) [ ]✏️ |
 
 ### 3.3 Decisiones de rumbo derivadas (4)
 
 | # | decisión | caso-testigo | marca |
 |---|---|---|---|
-| R1 | **cat009 + hp012 como criterio de aceptación de la campaña H0** (lineage/supersedes): con T2/T3 aplicados, cat009 debe resolver a 6K8 sin hedge y hp012 debe atribuir ES vs US | cat009 (DB: v.04 con 5×4K7 y v.05 con 5×6K8 conviviendo sin marca), hp012 | [ ]✅ [ ]✏️ [ ]❌ |
-| R2 | **Conducta: la respuesta directa va primero** (anti lede-burial) y **multi-rama cierra pidiendo confirmación** | hp009 (titula con la RFL de sirenas), hp004 (da ambas versiones sin pedir confirmación) | [ ]✅ [ ]✏️ [ ]❌ |
-| R3 | **Conducta: si el gold declara un core `ausente-probado`, no rellenarlo** con un procedimiento ensamblado | hp006 (construye localización tras declarar que no existe), hp014 (afirma terminal-a-terminal que el manual no da) | [ ]✅ [ ]✏️ [ ]❌ |
-| R4 | **¿Re-scope por facet del gate s174** (`access_prerequisite`) para atacar el prerequisito de acceso? Riesgo declarado: gate-shopping | hp010 (Nivel 3 + desbloqueo de memoria, chunk `155a90fe` con `pool_position=null`) | [ ]✅ [ ]✏️ [ ]❌ |
+| R1 | **cat009 + hp012 como criterio de aceptación de la campaña H0** (lineage/supersedes): con T2/T3 aplicados, cat009 debe resolver a 6K8 sin hedge y hp012 debe atribuir ES vs US | cat009 (DB: v.04 con 5×4K7 y v.05 con 5×6K8 conviviendo sin marca), hp012 | [ ]✅ [cat009 debería estar corregido con H0?]✏️ [ ]❌ |
+| R2 | **Conducta: la respuesta directa va primero** (anti lede-burial) y **multi-rama cierra pidiendo confirmación** | hp009 (titula con la RFL de sirenas), hp004 (da ambas versiones sin pedir confirmación) | [ respuesta directa primero]✅ [para hp004, la realidad es que no tiene por qué pedir confirmación si da ambas posibilidades no? me da la sensación de que estamos penalizando al bot por dar una respuesta completa]✏️ [ ]❌ |
+| R3 | **Conducta: si el gold declara un core `ausente-probado`, no rellenarlo** con un procedimiento ensamblado | hp006 (construye localización tras declarar que no existe), hp014 (afirma terminal-a-terminal que el manual no da) | [ ]✅ [¿estamos seguros de que es ausente-probado? en ese caso, por ahora prefiero ser conservador y que no recomiende un ausente probado, pero mi duda es si en realidad es ausente-probado o si el proceso que reconstruye el bot es correcto. si no somos capaces de validarlo, prefiero no rellenarlo por ahora y ya más adelante lo atacaremos. ¿cómo lo ves?]✏️ [ ]❌ |
+| R4 | **¿Re-scope por facet del gate s174** (`access_prerequisite`) para atacar el prerequisito de acceso? Riesgo declarado: gate-shopping | hp010 (Nivel 3 + desbloqueo de memoria, chunk `155a90fe` con `pool_position=null`) | [ ]✅ [Entiendo que lo que sugieres aquí es atacar el mecanismo para recuperar este tipo de chunks verdad? en ese caso, OK.]✏️ [ ]❌ |
 
 ### 3.4 Sin acción (5)
 

@@ -19,7 +19,8 @@ logger = logging.getLogger(__name__)
 _RESPONSE_MAX_CHARS = 4096
 
 # Bump this string when consent terms change → forces users to re-accept.
-TERMS_VERSION = "v1"
+# v2 (s286): terms now list the 👍/👎 answer verdict as recorded data.
+TERMS_VERSION = "v2"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
@@ -83,8 +84,18 @@ def log_query(
     response_length: int = 0,
     response_time_ms: int = 0,
     rag_trace: dict[str, Any] | None = None,
-):
-    """Log a query to query_logs; failures never escape into the answer path."""
+    query_log_id: str | None = None,
+) -> bool:
+    """Log a query to query_logs; failures never escape into the answer path.
+
+    ``query_log_id`` lets the caller supply the row's UUID client-side (works
+    with ``Prefer: return=minimal`` and survives the compatibility retry, which
+    only fires on definitive atomic rejections — same id, no conflict). The
+    bool return says whether the row is KNOWN to be committed: a timeout after
+    the POST may have committed anyway and still returns False (caller policy:
+    treat False as "don't reference this row", e.g. skip the feedback keyboard
+    that turn — losing signal is safe, a dangling FK reference is not).
+    """
     try:
         safe_trace = None
         if rag_trace is not None:
@@ -105,6 +116,8 @@ def log_query(
             "response_time_ms": response_time_ms,
             "bot_version": get_bot_version(),
         }
+        if query_log_id is not None:
+            row["id"] = query_log_id
         if safe_trace is not None:
             row["rag_trace"] = safe_trace
         with httpx.Client(timeout=10.0) as client:
@@ -126,12 +139,16 @@ def log_query(
                         "Failed to log query after trace compatibility fallback: %s",
                         fallback.status_code,
                     )
-                else:
-                    _warn_trace_compatibility_fallback_once()
-            elif resp.status_code >= 400:
+                    return False
+                _warn_trace_compatibility_fallback_once()
+                return True
+            if resp.status_code >= 400:
                 logger.warning("Failed to log query: %s", resp.status_code)
+                return False
+            return True
     except Exception as e:
         logger.warning(f"Failed to log query: {e}")
+    return False
 
 
 def log_feedback(
@@ -158,6 +175,43 @@ def log_feedback(
                 logger.warning(f"Failed to log feedback: {resp.status_code}")
     except Exception as e:
         logger.warning(f"Failed to log feedback: {e}")
+
+
+def log_answer_feedback(
+    query_log_id: str,
+    telegram_user_id: int,
+    verdict: str,
+) -> bool:
+    """Upsert a 1-tap answer verdict; last-wins per (query_log, user).
+
+    The conflict target is the UNIQUE pair, NOT the primary key, so unlike
+    ``set_consent`` the ``Prefer: resolution=merge-duplicates`` header alone is
+    not enough — PostgREST also needs the ``on_conflict`` query param or the
+    👍→👎 toggle would 409 instead of updating. Returns True when the vote is
+    known committed. A dangling ``query_log_id`` (row RGPD-deleted, stale
+    keyboard) fails the FK and returns False — the tap is dropped, by design.
+    """
+    try:
+        row = {
+            "query_log_id": query_log_id,
+            "telegram_user_id": telegram_user_id,
+            "verdict": verdict,
+        }
+        headers = {**_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.post(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=headers,
+                params={"on_conflict": "query_log_id,telegram_user_id"},
+                json=row,
+            )
+            if resp.status_code >= 400:
+                logger.warning("Failed to log answer feedback: %s", resp.status_code)
+                return False
+        return True
+    except Exception as e:
+        logger.warning(f"Failed to log answer feedback: {e}")
+        return False
 
 
 def has_consent(telegram_user_id: int) -> bool:
