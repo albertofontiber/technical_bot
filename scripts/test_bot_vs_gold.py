@@ -132,7 +132,12 @@ _JUDGE_V4_CRITERIO = (
     "no-answer está correctamente ejecutada.\n"
     "- La ausencia de un fact [SUPP] NUNCA baja el veredicto de PASS por sí sola.\n"
     "- PARCIAL: falta al menos un [CORE] pero lo servido es correcto y útil.\n"
-    "- FALLO: igual que el criterio general (incorrecto, alucina, conducta equivocada).\n"
+    "- FALLO: igual que el criterio general (incorrecto, alucina, conducta equivocada). "
+    "El FALLO PREVALECE SIEMPRE sobre PASS y PARCIAL: cubrir todos los [CORE] NO salva una "
+    "respuesta con contenido incorrecto o alucinado.\n"
+    "- En golds de conducta no-answer (clarify/admit/refuse-inference): los facts [CORE] "
+    "describen el CONTENIDO que la conducta correcta debe surfacear — conducta correcta + "
+    "[CORE] cubiertos = PASS; conducta correcta sin los [CORE] = PARCIAL.\n"
     "- En el diagnóstico, nombra QUÉ facts [CORE] faltan (si faltan)."
 )
 
@@ -288,7 +293,7 @@ def main() -> int:
         verdict = judge(oai, q, expected, g.get("gold_answer", ""), bot["answer"],
                         gold_row=g)
         row = {
-            "qid": qid, "question": q,
+            "qid": qid, "question": q, "judge_vara": JUDGE_VARA,
             "gold_estado": _estado(g),
             "conducta_esperada": expected,
             "conducta_bot": verdict.get("conducta_bot"),

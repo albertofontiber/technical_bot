@@ -622,7 +622,10 @@ def _make_openai_judge() -> Any:
             facts_block = _TBG._JUDGE_FACTS_BLOCK.format(facts=_TBG._format_facts(gold_row))
             assert user_msg.count("RESPUESTA DEL BOT:") == 1
             user_msg = user_msg.replace("RESPUESTA DEL BOT:", facts_block + "RESPUESTA DEL BOT:")
-            user_msg = user_msg + _TBG._JUDGE_V4_CRITERIO
+            user_msg = user_msg + _TBG._JUDGE_V4_CRITERIO + (
+                "\n- CONTEXTO MULTI-TURNO: el turno juzgado puede ser un follow-up ESTRECHO — "
+                "exige SOLO los facts [CORE] pertinentes a la pregunta del último turno; los "
+                "demás facts son contexto, no exigencia.")
         resp = state["client"].chat.completions.create(
             model="gpt-5.5",
             messages=[
