@@ -42,7 +42,21 @@ DEMO_FLAGS = {
     "CHUNKS_TABLE": "chunks_v2",
     "ENUNCIADOS_MULTIVECTOR": "on",
     "IDENTITY_RESOLVE": "on",
-    "IDENTITY_RESOLVE_POLICY": "ADD",
+    # s286b (staleness cazada por ALBERTO): el set llevaba congelado desde el 10-jul y NO
+    # medía la release C1 (PR#184: coverage_c1_v4 + identity REPLACE + must-preserve) que
+    # produjo la foto banked 146/154 (DEC-131/134) — el full del 29-jul corrió PRE-C1 y sus
+    # retr=10/rerank=8 no son comparables con esa foto. Desde s286b el set espeja la SHIP
+    # CONFIG del baseline v4 (scripts/s286_baseline_v4_launcher.sh) = la config del OBJETIVO
+    # FALLO→0/PARCIAL≤10. Cambia el freeze-hash (partials pre-s286b no comparables).
+    "IDENTITY_RESOLVE_POLICY": "replace",
+    "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+    "MUST_PRESERVE_CONTRACT": "on",
+    "VISUAL_ASSETS_REGISTRY": "on",
+    "ANTI_DIAGRAM_INVENTION": "on",
+    "WIRING_TOPOLOGY_GUARD": "on",
+    "GENERATOR_DIRECT_FIRST": "on",
+    "GENERATOR_FOLLOWUPS": "off",
+    "VISUAL_ASSETS_LISTING_GATE": "on",
     "LLM_MAX_TOKENS": "3500",
     "RERANK_TOP_K": "10",
     # defaults de código (ausentes de Railway) — explícitos para que el manifest no mienta:
