@@ -90,3 +90,30 @@ class TestFugaHyqDuplicados:
                 continue
             out.append(p["id"])
         assert out == ["P2"]
+
+
+class TestPromptFlagsConducta:
+    """(c) GENERATOR_DIRECT_FIRST y (e) GENERATOR_FOLLOWUPS — anclaje y byte-identidad."""
+
+    def test_followup_block_es_substring_exacto(self):
+        import src.rag.generator as g
+        assert g._FOLLOWUP_BLOCK in g.SYSTEM_PROMPT
+
+    def test_default_byte_identico(self):
+        import os
+        import src.rag.generator as g
+        for k in ("GENERATOR_FOLLOWUPS", "GENERATOR_DIRECT_FIRST"):
+            os.environ.pop(k, None)
+        assert g._assemble_system(None) == g.SYSTEM_PROMPT
+
+    def test_followups_off_retira_el_bloque(self, monkeypatch):
+        import src.rag.generator as g
+        monkeypatch.setenv("GENERATOR_FOLLOWUPS", "off")
+        s = g._assemble_system(None)
+        assert "SUGERENCIAS DE FOLLOW-UP" not in s
+        assert "NEGACIONES Y AUSENCIA" in s  # el resto del prompt sobrevive
+
+    def test_direct_first_on_anade_regla(self, monkeypatch):
+        import src.rag.generator as g
+        monkeypatch.setenv("GENERATOR_DIRECT_FIRST", "on")
+        assert "PRIMERA LÍNEA (regla de apertura)" in g._assemble_system(None)

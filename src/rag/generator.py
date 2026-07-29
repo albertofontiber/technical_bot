@@ -429,6 +429,35 @@ recoger lo que ESTÁ, no rellenar lo que falta."""
 # Regex: VERBO DE ADQUISICIÓN obligatorio (pido/compro/elijo/recomiendas). El dúo s103b
 # EJECUTÓ contra fraseo real de técnico y tumbó las alternativas laxas («¿cuál pongo?» es
 # fraseo de resistencias/jumpers/DIP; «cuál necesito»/«qué modelo va» = identificación/spec)
+# s286 conducta (e): flag GENERATOR_FOLLOWUPS (default on = prod byte-idéntico). off retira el
+# bloque de sugerencias («También puedo ayudarte con…») que Alberto marcó como genérico (5.2).
+# El bloque se extrae por substring EXACTO del SYSTEM_PROMPT (test de anclaje en
+# tests/test_s286_conducta_fixes.py) — A/B medido antes de decidir el default.
+_FOLLOWUP_BLOCK = """SUGERENCIAS DE FOLLOW-UP:
+- Al final de cada respuesta, sugiere 2-3 preguntas relacionadas que el técnico podría necesitar a continuación.
+- Formato: una línea breve con las sugerencias separadas, por ejemplo: \
+"También puedo ayudarte con: **conexionado de baterías**, **prueba funcional** o **mantenimiento periódico** del DOD-220."
+- Las sugerencias deben ser el paso lógico siguiente. Ejemplos:
+  · Después de instalación → conexionado, configuración, puesta en marcha
+  · Después de fallo → procedimiento de reparación, recambios, prevención
+  · Después de especificaciones → comparativa con otros modelos, dimensiones de montaje
+- NO sugieras cosas genéricas. Sé específico al producto y contexto de la pregunta.
+- Si la respuesta ya incluye una pregunta de vuelta para aclarar algo, NO añadas sugerencias (sería demasiado).
+
+"""
+
+# s286 conducta (c) — R2 de Alberto (goldreview r2): la respuesta directa va PRIMERO
+# (anti lede-burial, caso hp009). Flag GENERATOR_DIRECT_FIRST default off → byte-idéntico.
+_DIRECT_FIRST_BLOCK = """
+
+PRIMERA LÍNEA (regla de apertura):
+- Tras el encabezado, la PRIMERA frase responde la pregunta con el dato o veredicto concreto \\
+(el valor, el sí/no, el modelo, el paso clave). El desarrollo, tablas y matices vienen DESPUÉS.
+- MAL: titular con un tema relacionado y enterrar el dato pedido en la sección 3.
+- Si la conducta correcta es pedir aclaración o admitir que no está documentado, esa \\
+primera frase ES la aclaración o la admisión — esta regla no lo cambia.
+"""
+
 # s286 A' (ANTI_DIAGRAM_INVENTION, default-off): regla anti-invención de procedimientos de
 # cableado desde contenido que solo existe como diagrama en la fuente. Spec:
 # evals/s286_hp018_guard_design_brief_v3_1.md (par de C' = WIRING_TOPOLOGY_GUARD).
@@ -502,6 +531,10 @@ def _assemble_system(
     base = SYSTEM_PROMPT
     if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
+    if os.getenv("GENERATOR_FOLLOWUPS", "on").strip().lower() == "off":
+        base = base.replace(_FOLLOWUP_BLOCK, "")
+    if os.getenv("GENERATOR_DIRECT_FIRST", "off").strip().lower() == "on":
+        base = base + _DIRECT_FIRST_BLOCK
     if _selection_block_on() and query is not None and _is_selection_query(query):
         base = base + _SELECTION_BLOCK
     if os.getenv("ANTI_DIAGRAM_INVENTION", "off").strip().lower() == "on":
