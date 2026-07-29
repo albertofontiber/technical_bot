@@ -77,6 +77,31 @@ def _fetch_table(
     return rows
 
 
+def _attach_tap_verdicts(
+    queries_df: pd.DataFrame,
+    answer_feedback_df: pd.DataFrame,
+) -> pd.DataFrame:
+    """Attach 👍/👎 tap verdicts (answer_feedback, s286) by EXACT FK join on
+    query_logs.id — unlike the free-text `feedback` table, which predates the
+    FK and keeps the fuzzy startswith match below. One verdict per (query,
+    user) is guaranteed by the table's UNIQUE pair; a multi-user query joins
+    as a comma-separated list."""
+    queries_df = queries_df.copy()
+    if answer_feedback_df.empty or "id" not in queries_df.columns:
+        queries_df["tap_verdict"] = None
+        return queries_df
+
+    verdicts = (
+        answer_feedback_df.groupby("query_log_id")["verdict"]
+        .apply(",".join)
+        .rename("tap_verdict")
+    )
+    queries_df = queries_df.merge(
+        verdicts, left_on="id", right_index=True, how="left"
+    )
+    return queries_df
+
+
 def _match_feedback_to_queries(
     queries_df: pd.DataFrame,
     feedback_df: pd.DataFrame,
@@ -183,6 +208,12 @@ def main():
     feedback = _fetch_table("feedback", since_iso=since_iso, extra_filters=fb_extra)
     logger.info(f"  → {len(feedback)} feedback rows")
 
+    logger.info(f"Fetching answer_feedback since {since_iso}...")
+    answer_feedback = _fetch_table(
+        "answer_feedback", since_iso=since_iso, extra_filters=fb_extra
+    )
+    logger.info(f"  → {len(answer_feedback)} answer_feedback rows")
+
     logger.info("Fetching user_consent...")
     consent = _fetch_table(
         "user_consent",
@@ -210,13 +241,14 @@ def main():
 
     # Attach feedback
     queries_df = _match_feedback_to_queries(queries_df, feedback_df)
+    queries_df = _attach_tap_verdicts(queries_df, pd.DataFrame(answer_feedback))
 
     # Reorder columns for review readability
     front = [
         "created_at", "display_name", "telegram_user_id", "source", "query",
         "transcription", "response", "product_models", "category",
         "chunks_used", "response_length", "response_time_ms",
-        "bot_version", "feedback_text",
+        "bot_version", "feedback_text", "tap_verdict",
     ]
     cols = [c for c in front if c in queries_df.columns] + [
         c for c in queries_df.columns if c not in front

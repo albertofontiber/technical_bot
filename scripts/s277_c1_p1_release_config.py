@@ -79,6 +79,17 @@ SAFE_DEFAULTS = {
     "EMBED_PROVIDER": "voyage",
     "EMBED_MODEL": "voyage-4-large",
     "HYDE_MODEL": "claude-haiku-4-5",
+    # s286 conducta. Semánticamente DIRECT_FIRST y LISTING_GATE son target-off
+    # (post-P1, mismo criterio que WIRING_TOPOLOGY_GUARD/ANTI_DIAGRAM_INVENTION)
+    # pero se clasifican AQUÍ y no en p1.TARGET_OFF_FLAGS: ese módulo está
+    # sellado y ampliar su tupla re-rompe los pins históricos (89 tests) sin
+    # ganancia — el allowlist de este dict ya rechaza "on" en un receipt P1
+    # (fail-closed idéntico). GENERATOR_FOLLOWUPS es el caso inverso: conducta
+    # P1-era default ON; el lote de ONs s286 lo apaga en Railway y un receipt
+    # P1 con off físico falla el allowlist — correcto: ya no reproduce P1.
+    "GENERATOR_DIRECT_FIRST": "off",
+    "VISUAL_ASSETS_LISTING_GATE": "off",
+    "GENERATOR_FOLLOWUPS": "on",
     **{name: "off" for name in p1.TARGET_OFF_FLAGS},
 }
 

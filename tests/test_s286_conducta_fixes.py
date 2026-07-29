@@ -99,11 +99,19 @@ class TestPromptFlagsConducta:
         import src.rag.generator as g
         assert g._FOLLOWUP_BLOCK in g.SYSTEM_PROMPT
 
-    def test_default_byte_identico(self):
-        import os
+    def test_default_byte_identico(self, monkeypatch):
+        # Hermetico: limpia TODAS las vars que _assemble_system lee (no solo
+        # las de conducta) via monkeypatch (restaura al salir) - un test
+        # anterior de la suite completa puede dejar variant/anti-diagram en
+        # el entorno y este assert no vigila fugas ajenas, sino el default.
         import src.rag.generator as g
-        for k in ("GENERATOR_FOLLOWUPS", "GENERATOR_DIRECT_FIRST"):
-            os.environ.pop(k, None)
+        for k in (
+            "GENERATOR_FOLLOWUPS",
+            "GENERATOR_DIRECT_FIRST",
+            "GENERATOR_PROMPT_VARIANT",
+            "ANTI_DIAGRAM_INVENTION",
+        ):
+            monkeypatch.delenv(k, raising=False)
         assert g._assemble_system(None) == g.SYSTEM_PROMPT
 
     def test_followups_off_retira_el_bloque(self, monkeypatch):

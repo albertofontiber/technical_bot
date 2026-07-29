@@ -46,7 +46,31 @@ nota en DECISIONS. **Se ejecuta solo; aquí solo para tu visibilidad.**
 Células pareadas → la conclusión (A'+C' 0/20) es internamente válida; la paridad completa la
 re-valida la re-baseline v4 + runner e2e antes de tus ONs. Declarado por transparencia.
 
+## D9 — Telemetría: DDL `answer_feedback` + vistas de salud (TU PASTE)
+Paquete construido tras dúo r1 (Sol 8 + sub-agente 10 hallazgos, 0 FP) + r2 GO-BUILD:
+`evals/s286_answer_feedback_ddl_v1.sql` (tabla con FK ON DELETE CASCADE → tu borrado RGPD
+sigue funcionando; UNIQUE por (respuesta, usuario) = taps idempotentes con toggle; hardening
+RLS patrón completo con postcondiciones que abortan; vistas `bot_health_daily/semanal`
+security_invoker; ROLLBACK comentado al final). **Acción: paste en el SQL editor cuando
+revises el lote.** Sin el paste, los flags de telemetría no se encienden (el resto del bot no
+depende de la tabla).
+
+## D10 — Telemetría: TERMS_VERSION v1→v2 (efecto visible)
+Los términos ahora listan la valoración 👍/👎 → el bump obliga a re-aceptar `/accept` a los
+usuarios demo existentes (hoy: tú). Es 1 mensaje de fricción, deliberado (barato hoy, caro con
+técnicos). **Se despliega con el merge; no requiere gesto tuyo más allá de re-aceptar.**
+
+## D11 — Telemetría: logging ligero de rutas directas (BOT_DIRECT_LOGGING) — NO construido
+Los turnos pre-pipeline (saludo/catálogo/fabricante-ausente/clarify/F1-directo) NO loguean →
+«adopción» subcuenta el onboarding. El digest lo declara. Construir el logging ligero
+(`category='direct'`, ~5 rutas) es ~1h cuando lo decidas; las vistas YA lo excluyen del
+volumen RAG (interlock listo). **Recomendación: construirlo antes del primer técnico real;
+no urge en demo.**
+
 ## LOTE DE ONs DE RAILWAY (cuando el arco cierre — un solo gesto tuyo)
 `ANTI_DIAGRAM_INVENTION=on` · `WIRING_TOPOLOGY_GUARD=on` · `GENERATOR_DIRECT_FIRST=on` ·
 `GENERATOR_FOLLOWUPS=off` (si D1 ok) · `VISUAL_ASSETS_LISTING_GATE=on` — todo tras la
 re-baseline v4 verde + runner e2e; con el merge de la PR de la rama.
+**Telemetría (tras tu paste D9):** `TELEGRAM_FEEDBACK=on` (keyboard 👍/👎) ·
+`BOT_ERROR_LOGGING=on` (filas de error allowlisted) · `INTERNAL_TELEGRAM_IDS=<tu id>`
+(segmenta dogfooding en el digest; sin él, el digest cuenta todo como técnico).

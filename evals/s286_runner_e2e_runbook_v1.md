@@ -27,6 +27,16 @@ Cada flag es independiente y reversible por sí solo (default off/on documentado
 - Estampar resultado (flag → OK/rollback) en el paquete del arco; los ONs que sobreviven
   entran como config vigente en ARCHITECTURE.
 
+## Paso 1b — Telemetría (tras el paste D9 + sus flags)
+| Acción | Esperado | Verificación |
+|---|---|---|
+| `/start` (post-bump TERMS_VERSION v2) | pide re-aceptar; los términos listan la valoración 👍/👎 | texto de términos |
+| `/accept` + pregunta técnica | respuesta CON botones 👍/👎 bajo el último fragmento | visual |
+| tap 👍 | toast «¡Gracias por tu valoración!» | fila en `answer_feedback` (verdict=up) |
+| tap 👎 en la MISMA respuesta | toast; el veredicto CAMBIA (last-wins, no fila nueva) | misma fila, verdict=down |
+| `python -m scripts.bot_health_report` | digest con latencia/no-info/segmentación interna | salida CLI |
+| quitar `TELEGRAM_FEEDBACK` y tapear un keyboard viejo | el tap RESUELVE (handler incondicional) | sin spinner colgado |
+
 ## Alternativa local (solo si algún día hace falta sin tocar Railway)
 Crear un bot de pruebas con @BotFather → `TELEGRAM_BOT_TOKEN` de test en `.env` local +
 `python scripts/run_bot.py` → mismas sondas. No requerido en fase demo.
