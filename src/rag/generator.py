@@ -887,6 +887,9 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
 
     result = {
         "answer": answer,
+        # s286 A/B guard: traza de C' (None con flag off) — el runner del A/B la usa
+        # como flag operacional de supresión (acción != noop en controles = FP)
+        "wiring_guard": wiring_guard_trace,
         "diagrams": diagrams[:3],
         # Gate s58 (DEC-036b): stop_reason confirma/descarta truncamiento por max_tokens.
         "stop_reason": response.stop_reason,
