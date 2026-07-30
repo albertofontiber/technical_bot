@@ -1,0 +1,457 @@
+instrument: v3.1
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.1
+  git_commit: ecc2591
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 092ad8805966
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 1
+n_golds_scored: 1
+aggregate_hist:
+  OK: 1
+  synthesis-miss: 0
+  rerank-miss: 1
+  retrieval-miss: 0
+  corpus-gap: 0
+  meta-ref: 0
+gold_juez_axis:
+- qid: cat010
+  verdict: '?'
+  n_classified: 2
+  n_ok: 1
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 0
+n_via_coverage_append: 0
+n_append_view_truncated: 0
+n_coverage_appended_rows: 1
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements: []
+per_gold:
+- qid: cat010
+  question: ¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en
+    una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca
+    de entrada?
+  answer: '## Alimentación e Parámetros de Seguridad Intrínseca del IS-mA1
+
+
+    La sirena IS-mA1 se alimenta a través de los **terminales + y –** desde una barrera
+    Zener ATEX o un aislador galvánico certificado, con parámetros de salida iguales
+    o inferiores a **28V, 93mA y 660mW** (con Io resistivamente limitado) [F10].
+
+
+    ---
+
+
+    ### Clasificación de zona y certificación
+
+
+    - Certificación ATEX: **Ex ia IIC T4 Ga** [F3]
+
+    - Zonas de uso: **Zona 0, 1 y 2** [F10]
+
+    - Grupos de gas: **IIA, IIB, IIC** (propano, etileno, hidrógeno) [F10]
+
+    - Temperatura ambiente: **-40°C ≤ Ta ≤ +60°C** [F2]
+
+    - Clase de temperatura: **T4 (135°C máx. superficie)** [F10]
+
+    - Certificado: **SIRA 05ATEX2084X** [F3]
+
+
+    ---
+
+
+    ### Parámetros de seguridad intrínseca de entrada — Terminales + y –
+
+
+    Estos son los parámetros de entrada (Entity Parameters) del IS-mA1 [F10] [F2]:
+
+
+    - **Ui = 28 V**
+
+    - **Ii = 93 mA**
+
+    - **Pi = 660 mW**
+
+    - **Ci = 0**
+
+    - **Li = 0**
+
+
+    > La capacitancia total conectada a los terminales +/– (cable + cualquier otra
+    capacitancia) **no debe superar 83 nF** [F10].
+
+
+    ---
+
+
+    ### Parámetros de seguridad intrínseca de entrada — Terminales S2 y S3 (multietapa)
+
+
+    Estos terminales cambian el tono de alarma al conectarlos a 0V (terminal –) [F7]:
+
+
+    - **Ui = 28 V**
+
+    - **Ii = 0 mA**
+
+    - **Ci = 0**
+
+
+    Además, en el diagrama de control con barrera Zener/diodo de retorno, los terminales
+    S2 y S3 presentan también parámetros de **salida** (actúan como fuente hacia el
+    aparato asociado) [F1]:
+
+    - **Uo = 16,8 V**
+
+    - **Io = 7,3 mA**
+
+    - **Po = 31 mW**
+
+
+    > Dado que la corriente de entrada permitida es **cero**, estos terminales **solo
+    pueden conectarse** a una barrera de diodo de retorno, un relé intrínsecamente
+    seguro o un aislador galvánico, todos certificados por un Organismo Notificado.
+    Solo se admiten barreras de diodo de retorno con **caída de tensión inferior a
+    0,9 V** [F7].
+
+
+    ---
+
+
+    ### Opciones de aparato asociado (ubicación no clasificada)
+
+
+    **Opción A — Barrera Zener con diodo de retorno** (terminales +/–) [F1]:
+
+    - Uo ≤ 28 V
+
+    - Io ≤ 93 mA
+
+    - Po ≤ 660 mW
+
+    - Co ≥ Ccable
+
+    - Lo ≥ Lcable
+
+
+    **Opción B — Aislador galvánico** (terminales +/–) [F2]:
+
+    - Uo ≤ 28 V
+
+    - Io ≤ 93 mA
+
+    - Po ≤ 660 mW
+
+    - Co ≥ Ccable
+
+    - Lo ≥ Lcable
+
+
+    > Todo aparato asociado debe estar **aprobado FM / certificado ATEX por Organismo
+    Notificado** [F1] [F2].
+
+
+    ---
+
+
+    ### Conexión en paralelo
+
+
+    Se pueden conectar **hasta 3 sirenas IS-mA1 en paralelo** alimentadas desde una
+    barrera o aislador común. Conectar dos en paralelo reduce la salida de cada una
+    aproximadamente **3 dB**. Tres sirenas en paralelo solo deben alimentarse cuando
+    esté disponible la **tensión máxima de suministro** [F10].
+
+
+    ---
+
+
+    ### Requisitos de instalación clave
+
+
+    - La resistencia entre la tierra intrínsecamente segura y la tierra de protección
+    debe ser **inferior a 1 Ω** [F1].
+
+    - El enclosure tiene protección **IP65** [F10]; si se suministra sin prensaestopas,
+    deben instalarse entradas de cable (metálicas o plásticas) que garanticen la protección
+    ambiental requerida [F10].
+
+    - **Desconectar la alimentación antes de cualquier intervención** para evitar
+    ignición de atmósferas inflamables [F1].
+
+    - La sustitución de componentes puede comprometer la seguridad [F1].
+
+    - El enclosure es de **plástico ABS** no conductor; limpiar únicamente con **paño
+    húmedo** para evitar cargas electrostáticas [F3] [F10].
+
+
+    ---
+
+
+    **Fuente:** manual IS MA1 / IS5001-F_IS-mA1_EN (Document No. IS 5001, Issue H,
+    03-01-2020)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "CAUTION - The clearance between sounder terminals S2 and S3 is less than 6mm."
+    [F2]
+
+    - "CAUTION - Bonding between conduit connections is not automatic and must be
+    provided as part of this installation." [F2]'
+  family_resolved: true
+  gold_families:
+  - IS-MA1
+  n_non_anchorable: 0
+  pool_n: 20
+  served_n: 11
+  topk_n: 10
+  appended_n: 1
+  topk_ids:
+  - 75d15cc3-9784-4690-8009-18c943828329
+  - a979aa4c-ad14-41ea-b48d-2f2faf038c1a
+  - 25d7fd21-e168-43e4-b2e6-b73b15aff49d
+  - 87bf83d1-2602-4199-8d3e-d45e7a17048f
+  - f214a7fc-cff4-4a8b-b6f8-74af62c936b8
+  - 0731690b-65c4-4b56-83f2-c0606d8ee2d3
+  - 68c40b6f-c4a4-478e-adff-bf32febc2cd7
+  - a455d3ec-65fd-40bf-b0f4-fe603694c7d3
+  - 2be22a51-7a94-4d38-af02-7c24046965bb
+  - 77a0cce8-b238-4507-a4ab-17491badfe0c
+  served_ids:
+  - 75d15cc3-9784-4690-8009-18c943828329
+  - a979aa4c-ad14-41ea-b48d-2f2faf038c1a
+  - 25d7fd21-e168-43e4-b2e6-b73b15aff49d
+  - 87bf83d1-2602-4199-8d3e-d45e7a17048f
+  - f214a7fc-cff4-4a8b-b6f8-74af62c936b8
+  - 0731690b-65c4-4b56-83f2-c0606d8ee2d3
+  - 68c40b6f-c4a4-478e-adff-bf32febc2cd7
+  - a455d3ec-65fd-40bf-b0f4-fe603694c7d3
+  - 2be22a51-7a94-4d38-af02-7c24046965bb
+  - 77a0cce8-b238-4507-a4ab-17491badfe0c
+  - 9334a0b8-3dab-492b-adcb-debde49a1374
+  appended_ids:
+  - 9334a0b8-3dab-492b-adcb-debde49a1374
+  appended_lane:
+    9334a0b8-3dab-492b-adcb-debde49a1374: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 1
+    synthesis-miss: 0
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat010#0:24V dc
+    valor: 24V dc
+    texto: El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera
+      Zener / aislador galvánico certificado ATEX/IECEx de 28V / 93mA resistivo (en
+      zona segura sin barrera, no operar de forma continua por encima de 16V por el
+      límite de corriente interno)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    best_pool_rank: 1
+    submotivo: lexical-distractor
+    clase: rerank-miss
+  - key: cat010#1:660mW
+    valor: 660mW
+    texto: 'Parámetros de seguridad intrínseca de entrada de los terminales + y −:
+      Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 5
+    n_support_raw: 5
+    n_support_served: 4
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
