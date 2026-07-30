@@ -1,0 +1,765 @@
+{
+ "instrument": "s287_facet_gates_v2",
+ "scope": {
+  "model_calls": 0,
+  "database_writes": 0,
+  "lane_code_touched": false,
+  "golds_touched": false,
+  "read_only_database": true
+ },
+ "config_blobs": {
+  "config/retrieval_facets_v3.yaml": {
+   "pre_lever_sha256_lf": "1e263796ecd61d33968b61ed942e5da12da31e1ccb49b429d142b77a6e84355b",
+   "head_sha256_lf": "37e1d0d3916febae8ac10290780e2ffa9672cde51e3654f45dc8fc6a78da30d2",
+   "worktree_sha256_lf": "37e1d0d3916febae8ac10290780e2ffa9672cde51e3654f45dc8fc6a78da30d2"
+  },
+  "config/evidence_coverage_facets_v4.yaml": {
+   "pre_lever_sha256_lf": "49a4aa87ed872972ed2c700db4f25393088ab697c99b5618d80957e42d8aaf95",
+   "head_sha256_lf": "914903f266eaafb1078e0c2cf451f0b9a54abe483b52439e20ac51aa15f39935",
+   "worktree_sha256_lf": "914903f266eaafb1078e0c2cf451f0b9a54abe483b52439e20ac51aa15f39935"
+  },
+  "config/evidence_coverage_facets_v2.yaml": {
+   "pre_lever_sha256_lf": "d9a8e9422d60bd94aac5e4e185cc7e81a8c9b5cbfb4be76509f62d86c7a0f838",
+   "head_sha256_lf": "d9a8e9422d60bd94aac5e4e185cc7e81a8c9b5cbfb4be76509f62d86c7a0f838",
+   "worktree_sha256_lf": "3bc83f66ff276b8cefd2b5658d2ed1a3944cafee626334904c3ae4dd594bee93"
+  }
+ },
+ "pre_lever_commit": "0791a3199609fac2a0e92b7ca100de9d95d39d17",
+ "lane_config": {
+  "path": "config/structural_neighbor_coverage_v1.yaml",
+  "max_seeds": 10,
+  "max_gap": 8,
+  "max_anchors": 2,
+  "sha256_lf": "e698f510788a3dfc6a2d571fcb66469b6c982b9e7dd2f17426bf55f4a1bf8c96"
+ },
+ "database_snapshot": {
+  "chunks": 25088,
+  "documents": 1169
+ },
+ "seed_source": {
+  "artifact": "evals/s100_factlevel_full_v3_20260729.yaml",
+  "qids": [
+   "cat022",
+   "cat005"
+  ],
+  "field": "topk_ids"
+ },
+ "amendment": {
+  "id": "s287_facet_F2_resealed",
+  "pre_registration_before": [
+   "cat022"
+  ],
+  "pre_registration_after": [
+   "cat005",
+   "cat022"
+  ],
+  "reason": "cat005 es miembro genuino de la clase (comparativa de variantes); el pre-registro original la dejo sin contar. El trigger ES natural se conserva (anti-overfit) y cat005 entra como CONTROL PROTEGIDO.",
+  "declared_in": "evals/s287_facet_lever_design_brief_v1.md (bloque ENMIENDA post-STOP)",
+  "rejected_alternative": "mutilar los triggers F4 para forzar el diff a {cat022}"
+ },
+ "fix": {
+  "id": "s287_facet_fix_post_stop_b2",
+  "change": "config/evidence_coverage_facets_v4.yaml :: variant_attribute_matrix.required_any [bit, incorporada, version] -> [bit, incorporada]",
+  "version_still_in_terms": true,
+  "reason": "`version` es homografo: en una declaracion UE de conformidad casa con la EDICION DE UNA NORMA («respecto a la version EN 60079-0:2009») y sostenia sola el fail-closed sobre texto normativo (STOP del control cat005). Solo pierde el poder de VETO; sigue contando para min_distinct_terms.",
+  "declared_in": "evals/s287_facet_lever_design_brief_v1.md (bloque FIX post-STOP-b2)",
+  "rejected_alternatives": [
+   "quitar `version` tambien de `terms` (pierde vocabulario real de la clase sin ganar nada)",
+   "negative-lookahead contra `EN 6xxxx`/«norma» (anti-patron que codifica un documento; el validador prohibe digitos)",
+   "min_distinct_terms 3 global (toca los 5 arquetipos pre-lever sellados y NO cerraba el leak: el texto normativo casaba 3 terminos)"
+  ]
+ },
+ "h9_serving_block_reconciliation": {
+  "hypothesis": "H9: bloque `serving` del yaml de la lane = contrato-mentira que ningun codigo lee",
+  "verified_at": "src/rag/structural_neighbor_coverage.py:138-142",
+  "mutation_probes": {
+   "serving_enabled_true": {
+    "loader": "REJECTED",
+    "error": "structural neighbor v1 must remain shadow-only"
+   },
+   "coverage_validated_field_allowed_true": {
+    "loader": "REJECTED",
+    "error": "structural neighbor v1 must remain shadow-only"
+   },
+   "serving_block_removed": {
+    "loader": "REJECTED",
+    "error": "structural neighbor v1 must remain shadow-only"
+   }
+  },
+  "read_by_code": true,
+  "verdict": "H9_FALSIFIED",
+  "action_taken": "config/structural_neighbor_coverage_v1.yaml NO se toca (contrato vivo: cualquiera de las 3 mutaciones mata la lane). Lo corregido es el SPEC (evals/s287_tres_vias_design_brief_v1.md, bloque de reconciliacion V1-4).",
+  "semantics": "El bloque NO significa «la lane no se sirve» (se sirve: el flag STRUCTURAL_NEIGHBOR_COVERAGE lo gobierna el release profile). Significa que ESTE SELECTOR jamas estampa `coverage_validated` por su cuenta — la atestacion la pone `_attest` aguas abajo. El contrato es correcto; lo que inducia a error era leerlo como estado de la lane."
+ },
+ "gate_a": {
+  "gate": "(a) expand_query_facets x39 — diff EXACTO vs pre-registro re-sellado {cat005, cat022}",
+  "queries": 39,
+  "pre_archetypes": {
+   "hp001": null,
+   "hp002": "fault_reset_recovery",
+   "hp003": "connect_install_wire",
+   "hp004": null,
+   "hp005": "program_delay_cause_effect",
+   "hp006": null,
+   "hp007": null,
+   "hp008": "compatibility",
+   "hp009": null,
+   "hp010": null,
+   "hp011": "fault_reset_recovery",
+   "hp012": "capacity_quantity",
+   "hp013": "replace_without_loss",
+   "hp014": "connect_install_wire",
+   "hp015": null,
+   "hp017": "program_delay_cause_effect",
+   "hp018": "connect_install_wire",
+   "hp019": null,
+   "hp020": null,
+   "cat001": "connect_install_wire",
+   "cat005": null,
+   "cat007": null,
+   "cat008": "connect_install_wire",
+   "cat009": null,
+   "cat010": null,
+   "cat011": null,
+   "cat012": "battery_sizing",
+   "cat013": "compatibility",
+   "cat014": null,
+   "cat015": null,
+   "cat016": null,
+   "cat017": "connect_install_wire",
+   "cat018": "program_delay_cause_effect",
+   "cat019": "program_delay_cause_effect",
+   "cat020": null,
+   "cat021": null,
+   "cat022": null,
+   "cat023": null,
+   "cat024": null
+  },
+  "post_archetypes": {
+   "hp001": null,
+   "hp002": "fault_reset_recovery",
+   "hp003": "connect_install_wire",
+   "hp004": null,
+   "hp005": "program_delay_cause_effect",
+   "hp006": null,
+   "hp007": null,
+   "hp008": "compatibility",
+   "hp009": null,
+   "hp010": null,
+   "hp011": "fault_reset_recovery",
+   "hp012": "capacity_quantity",
+   "hp013": "replace_without_loss",
+   "hp014": "connect_install_wire",
+   "hp015": null,
+   "hp017": "program_delay_cause_effect",
+   "hp018": "connect_install_wire",
+   "hp019": null,
+   "hp020": null,
+   "cat001": "connect_install_wire",
+   "cat005": "variant_differentiation",
+   "cat007": null,
+   "cat008": "connect_install_wire",
+   "cat009": null,
+   "cat010": null,
+   "cat011": null,
+   "cat012": "battery_sizing",
+   "cat013": "compatibility",
+   "cat014": null,
+   "cat015": null,
+   "cat016": null,
+   "cat017": "connect_install_wire",
+   "cat018": "program_delay_cause_effect",
+   "cat019": "program_delay_cause_effect",
+   "cat020": null,
+   "cat021": null,
+   "cat022": "variant_differentiation",
+   "cat023": null,
+   "cat024": null
+  },
+  "changed": {
+   "cat005": {
+    "pre": null,
+    "post": "variant_differentiation",
+    "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+    "matched_patterns": [
+     "\\ben\\s+que\\s+se\\s+diferencian\\b"
+    ]
+   },
+   "cat022": {
+    "pre": null,
+    "post": "variant_differentiation",
+    "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?",
+    "matched_patterns": [
+     "(?=.*\\bdiferencias?\\b)(?=.*\\bentre\\b)",
+     "\\bsufijos?\\b"
+    ]
+   }
+  },
+  "changed_qids": [
+   "cat005",
+   "cat022"
+  ],
+  "pre_registered_changed_qids": [
+   "cat005",
+   "cat022"
+  ],
+  "pre_lever_baseline_equals_hand_preregistration": true,
+  "target_post_archetype": "variant_differentiation",
+  "verdict": "PASS"
+ },
+ "gate_b": {
+  "gate": "(b) probe de lane en las 2 queries de la clase (cat022 diana + cat005 control protegido) — select_structural_neighbors con seeds=topk_ids del run v3 y vecinos same-doc/same-blob (SQL del replay s108); 0 llamadas a modelo, 0 escrituras",
+  "probes": {
+   "cat022": {
+    "role": "target",
+    "qid": "cat022",
+    "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?",
+    "run_v3_hist": {
+     "OK": 0,
+     "synthesis-miss": 0,
+     "rerank-miss": 0,
+     "retrieval-miss": 3,
+     "corpus-gap": 0,
+     "meta-ref": 0
+    },
+    "run_v3_appended_n": 0,
+    "seed_ids": [
+     "86dfcf63-8085-4359-8e15-d40fd77b0f67",
+     "481b301f-8ca4-4954-be01-db939de01978",
+     "3c243c96-344e-47fe-aca2-6de7a857f9dd",
+     "42f07528-6cba-4dbe-a155-ca635c092db7",
+     "125c42a7-17c5-4baa-a382-fe86edab49e0",
+     "3e3e3824-046b-4a64-ab83-4f47edf5f2c8",
+     "20d7830d-d77d-41be-8bf2-bf44bf1b75b6",
+     "42328770-fd5a-4db2-8f9c-cc43ae5bec8a",
+     "9bbf1e7c-96cc-4af3-8367-b04974b739c2",
+     "f9ba648f-f7be-4c01-8a98-193d62effe5a"
+    ],
+    "candidate_rows_fetched": 98,
+    "pre": {
+     "trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+      "seed_rows": 10,
+      "valid_seed_rows": 10,
+      "invalid_seed_rows": 0,
+      "input_candidates": 98,
+      "same_blob_candidates": 88,
+      "positive_query_candidates": 70,
+      "facet_candidates": 0,
+      "toc_rejected_ids": [
+       "16c11383-3bae-41b9-8215-84b2813b997e",
+       "18531cb2-2a49-40aa-b88d-8a13e4eb930f",
+       "7ea86592-01b1-448b-b185-8afaed72d703",
+       "f134b497-30eb-41f6-bc72-3b236caff899",
+       "fd51ab6c-20e1-4dcb-a383-5726996572dc"
+      ],
+      "overflow": false,
+      "selected_ids": [],
+      "shadow_only": true,
+      "archetype": null,
+      "needs": [
+       "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)"
+      ],
+      "reason": "no_query_aligned_facet_candidate"
+     },
+     "selected": []
+    },
+    "post": {
+     "trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+      "seed_rows": 10,
+      "valid_seed_rows": 10,
+      "invalid_seed_rows": 0,
+      "input_candidates": 98,
+      "same_blob_candidates": 88,
+      "positive_query_candidates": 77,
+      "facet_candidates": 20,
+      "toc_rejected_ids": [
+       "16c11383-3bae-41b9-8215-84b2813b997e",
+       "18531cb2-2a49-40aa-b88d-8a13e4eb930f",
+       "7ea86592-01b1-448b-b185-8afaed72d703",
+       "b594ceb6-730e-4b1e-b6cf-38635a45e7b9",
+       "f134b497-30eb-41f6-bc72-3b236caff899",
+       "fd51ab6c-20e1-4dcb-a383-5726996572dc"
+      ],
+      "overflow": false,
+      "selected_ids": [
+       "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+       "255948d3-961e-44ff-8cfc-7601178c2172"
+      ],
+      "shadow_only": true,
+      "archetype": "variant_differentiation",
+      "needs": [
+       "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB) diferencia entre variantes de la familia y significado del sufijo",
+       "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB) tabla comparativa por modelo version descripcion",
+       "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB) sensor longitud de onda espectral prueba incorporada"
+      ],
+      "reason": "selected"
+     },
+     "selected": [
+      {
+       "id": "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+       "chunk_index": 10,
+       "gap": 3,
+       "rank": 1,
+       "page_number": 8,
+       "source_file": "MNDT722_40-40L",
+       "product_model": "40-40L",
+       "language": "es",
+       "query_score": 34.43793,
+       "facets": [
+        {
+         "facet": "variant_attribute_matrix",
+         "term_hits": [
+          "bit",
+          "descripcion",
+          "incorporada",
+          "longitud",
+          "model",
+          "modelo",
+          "onda",
+          "prueba",
+          "sensor",
+          "version"
+         ]
+        }
+       ],
+       "coverage_card_facets": [
+        "variant_attribute_matrix",
+        "spectral_band_cell",
+        "spectral_band_cell"
+       ],
+       "content_sha256": "b7b962583ef82dfef839cb8e3718606b0ea39c5c48e40a51bff009b0f9039acb",
+       "content_chars": 2888,
+       "content": "Tabla 28: Rangos de sensibilidad....................................................................... 57\n\nMN-DT-722_B     Honeywell Life Safety Iberia     viii\n\nManual de usuario. Detector S40/40L-LB-L4-L4B\n\n# 1 Introducción\n\n➣ **En este capítulo...**\n\n*Descripción general*\n*Tipos y modelos*\n*Características y ventajas*\n*Principios de funcionamiento*\n*Funcionamiento*\n*Pruebas internas del detector*\n\n## 1.1 Descripción general\n\nExisten dos versiones de detectores de llama UV/IR:\n\n• El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR en la que el sensor IR funciona a una longitud de onda entre 2,5 y 3,0µm y puede detectar combustibles a base de hidrocarburos y fuegos de gas, fuegos de hidróxido e hidrógeno y fuegos de metales o materia inorgánica.\n\n• El modelo S40/40L4 (y L4B) es igual al S40/40L, excepto en que el S40/40L4 funciona a una longitud de onda de 4,5 µm y solo es adecuado para la detección de fuegos de hidrocarburos.\n\nLa función de Prueba incorporada (BIT) solo se incluye en los modelos S40/40LB y 40/40L4B.\n\nTodos los detectores de la serie S40/40 incorporan una ventana óptica calefactada para mejorar el rendimiento del detector frente a condiciones ambientales como escarcha, nieve o condensación.\n\nEl detector se adapta fácilmente a todo tipo de ambientes, aplicaciones y requisitos modificando los parámetros de configuración. El ajuste de estos parámetros, junto con otras tareas de supervisión y mantenimiento, se lleva a cabo a través del protocolo de comunicaciones Modbus, RS-485 o HART (en modelos con salida de 0-20mA)\n\nLa carcasa del detector es antideflagrante (EExd) y está certificada ATEX. Dispone de un compartimiento en la parte posterior aislado EExe que evita la exposición de los sensores y electrónica del detector al medio ambiente. Aprobación combinada: EExde IIB + H2 T5 (75°C) o T4 (85°C).\n\nLos detectores de la serie S40/40 están diseñados para funcionar como unidades independientes conectadas a un sistema de alarma o un sistema de extinción de incendios automático. El detector también puede formar parte de un sistema más complejo en el que varios detectores y otros dispositivos permanecen supervisados por una unidad de control común.\n\nMN-DT-722_B                    Honeywell Life Safety Iberia                    1\n\nManual de usuario. Detector S40/40L-LB-L4-L4B\n\n## 1.2 Tipos y modelos\n\nLos detectores UV/IR de la serie S40/40 se suministran con varias configuraciones dependiendo de:\n\n* El modelo de sensor UV/IR\n* Opciones de cableado\n* Rangos de temperatura\n* Tipo de entradas de cable\n* Tipo de carcasa\n* Homologaciones requeridas\n\nEl detalle de la configuración del equipo se indica en la referencia del producto incluida en la etiqueta del mismo de la siguiente forma: S40/40X XXXXX, donde XXXXX define el modelo según los requisitos anteriores:\n\nLas referencias incluyen la siguiente información:"
+      },
+      {
+       "id": "255948d3-961e-44ff-8cfc-7601178c2172",
+       "chunk_index": 9,
+       "gap": 3,
+       "rank": 2,
+       "page_number": 8,
+       "source_file": "MNDT723_40-40U",
+       "product_model": "40-40U",
+       "language": "es",
+       "query_score": 20.437181,
+       "facets": [
+        {
+         "facet": "variant_attribute_matrix",
+         "term_hits": [
+          "bit",
+          "descripcion",
+          "incorporada",
+          "longitud",
+          "model",
+          "modelo",
+          "prueba",
+          "version"
+         ]
+        }
+       ],
+       "coverage_card_facets": [
+        "variant_attribute_matrix"
+       ],
+       "content_sha256": "5331482e75b158dc082d1fe02231caa8e7eb54695aa8d4ecc12c1bb1d54b941d",
+       "content_chars": 2019,
+       "content": "# Tablas\n\nTabla 1: Opciones de cableado 3\n\nTabla 2: Versiones del detector 3\n\nTabla 3: Rangos de sensibilidad según el combustible 9\n\nTabla 4: Inmunidad a fuentes de falsas alarmas 11\n\nTabla 5: Led indicadores 12\n\nTabla 6: Salidas disponibles 13\n\nTabla 7: Estado del detector 14\n\nTabla 8: Señales de salida según el estado del detector 14\n\nTabla 9: Resultados de una prueba correcta 17\n\nTabla 10: Resultados de una prueba incorrecta 17\n\nTabla 11: Resultados de una prueba manual correcta 18\n\nTabla 12: Resultados de una prueba manual incorrecta 18\n\nTabla 13: Herramientas 21\n\nTabla 14: Versión americana 25\n\nTabla 15: Versión europea 25\n\nTabla 16: Funciones de los terminales para las opciones de conexionado del detector S40/40U y UB 28\n\nTabla 17: Funciones 31\n\nTabla 18: Valores por defecto de las funciones del detector 33\n\nTabla 19: Resultados de una prueba correcta realizada con el simulador de fuego 35\n\nTabla 20: Solución de problemas 38\n\nTabla 21: Valores de los contactos 43\n\nTabla 22: Salida de corriente de 16 mA 44\n\nTabla 23: Máxima resistencia CC a 20ºC para cable de cobre 48\n\nTabla 24: Longitud de cable en metros y pies 49\n\nTabla 25: Conexiones de cableado 51\n\nTabla 26: Rangos de sensibilidad 57\n\nMN-DT-723_B     Honeywell Life Safety Iberia     viii\n\nManual de usuario. Detector S40/40U y UB MN-DT-723_B Honeywell Life Safety Iberia ix\n\n<page_number>ix</page_number>\n\nManual de usuario. Detector S40/40U y UB\n\n**1 Introducción**\n\n➣ **En este capítulo…**\n\n*Descripción general Tipos y modelos Características y ventajas Principios de funcionamiento Funcionamiento Pruebas internas del detector*\n\n**1.1 Descripción general**\n\nExisten dos versiones de detectores de llama UV de la serie S40/40: El modelo S40/40U y el modelo S40/40UB , este último incluye además la función de Prueba incorporada (BIT).\n\nLos detectores de llama S40/40UV dete ctan combustibles de hidrocarburo, fuego de gases y llamas invisibles procedentes de combustibles como hidruros, amoniaco, silano y otros combustibles orgánicos."
+      }
+     ]
+    },
+    "pre_selected_ids": [],
+    "post_selected_ids": [
+     "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+     "255948d3-961e-44ff-8cfc-7601178c2172"
+    ],
+    "expected_anchor_prefixes": [
+     "74cc9f95",
+     "c94d2270",
+     "36ca37d0",
+     "a6eae6a1"
+    ],
+    "post_selected_matching_expected_prefixes": [
+     "74cc9f95"
+    ],
+    "verdict": "PASS"
+   },
+   "cat005": {
+    "role": "protected_control",
+    "qid": "cat005",
+    "question": "¿Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?",
+    "run_v3_hist": {
+     "OK": 6,
+     "synthesis-miss": 0,
+     "rerank-miss": 0,
+     "retrieval-miss": 0,
+     "corpus-gap": 0,
+     "meta-ref": 0
+    },
+    "run_v3_appended_n": 0,
+    "seed_ids": [
+     "8c9b9f0b-8a51-417f-b05e-63d4dd61ed48",
+     "934b00a8-739f-4d7b-8853-32caad5232a4",
+     "8ff1618c-ffe3-4215-b68e-a67c224a20b7",
+     "3a74be02-e58b-4f8a-bf51-1eebefed425b",
+     "2160bd36-9ecc-4f7f-b30d-5cf828216d13",
+     "6bba4f04-ba44-47c7-9310-72ba7a8b4f91",
+     "f22c14d2-9be3-4ea2-b630-c4c872db5499",
+     "4ded9db9-604e-4586-881d-e567567f9a20",
+     "bdd69c04-f496-4323-847a-395295d57bc3",
+     "268e3343-dd97-4f67-95a4-b7476794e4ce"
+    ],
+    "candidate_rows_fetched": 46,
+    "pre": {
+     "trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+      "seed_rows": 10,
+      "valid_seed_rows": 10,
+      "invalid_seed_rows": 0,
+      "input_candidates": 46,
+      "same_blob_candidates": 36,
+      "positive_query_candidates": 31,
+      "facet_candidates": 0,
+      "toc_rejected_ids": [
+       "46064145-348d-4173-946b-6b0bfdabfcf7"
+      ],
+      "overflow": false,
+      "selected_ids": [],
+      "shadow_only": true,
+      "archetype": null,
+      "needs": [
+       "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica"
+      ],
+      "reason": "no_query_aligned_facet_candidate"
+     },
+     "selected": []
+    },
+    "post": {
+     "trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "validation": "same_document_same_blob_bounded_index_query_facets_v1",
+      "seed_rows": 10,
+      "valid_seed_rows": 10,
+      "invalid_seed_rows": 0,
+      "input_candidates": 46,
+      "same_blob_candidates": 36,
+      "positive_query_candidates": 32,
+      "facet_candidates": 0,
+      "toc_rejected_ids": [
+       "46064145-348d-4173-946b-6b0bfdabfcf7"
+      ],
+      "overflow": false,
+      "selected_ids": [],
+      "shadow_only": true,
+      "archetype": "variant_differentiation",
+      "needs": [
+       "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica diferencia entre variantes de la familia y significado del sufijo",
+       "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica tabla comparativa por modelo version descripcion",
+       "Cuáles son las características técnicas de la central de detección de gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica sensor longitud de onda espectral prueba incorporada"
+      ],
+      "reason": "no_query_aligned_facet_candidate"
+     },
+     "selected": []
+    },
+    "pre_selected_ids": [],
+    "post_selected_ids": [],
+    "post_selected_n": 0,
+    "control_untouched": true,
+    "required_any_declared": [
+     "bit",
+     "incorporada"
+    ],
+    "required_any_reports": [],
+    "all_anchors_satisfy_required_any": true,
+    "mechanical_verdict": "PASS",
+    "adjudication_required": false,
+    "adjudications": {},
+    "unadjudicated_anchor_ids": [],
+    "stale_adjudication_ids": [],
+    "generic_noise_anchor_ids": [],
+    "retired_adjudications": {
+     "38b894d1-3e44-4c0a-a90e-8c216db7ae8e": {
+      "verdict": "GENERIC_NOISE",
+      "retired_by": "fix_post_stop_b2_version_out_of_required_any",
+      "page": 13,
+      "what_it_is": "Pagina de DECLARACION UE DE CONFORMIDAD del sensor remoto Fidegas S/3-2 (normas EN/UNE, organismo notificado, certificado AENOR). No es una celda de comparativa por-variante.",
+      "why_it_matched": "term_hits = [descripcion, sensor, version]: `descripcion` viene de «DESCRIPCION DEL PRODUCTO», `sensor` de «Sensor remoto de gas» y `version` de «con respecto a la version EN 60079-0:2009» — la EDICION DE UNA NORMA, no una variante de producto. El `required_any` se aprobaba con ese unico `version` homografo.",
+      "consequence": "La lane apendizaria ruido normativo a cat005, que hoy es 6/6 OK con appended_n=0 => STOP del lever por el contrato del control protegido.",
+      "resolution": "`version` fuera del `required_any` de variant_attribute_matrix (permanece en `terms`): el ancla deja de pasar el fail-closed y el control vuelve a 0 anclas, sin anti-patrones ni exclusiones por id."
+     }
+    },
+    "verdict": "PASS",
+    "verdict_basis": "control_untouched_no_append"
+   }
+  },
+  "verdict": "PASS"
+ },
+ "gate_b_serving": {
+  "gate": "(b-serving) RUTA DE SERVING completa — collect_structural_coverage (defaults de produccion: v4 match + v2 cards) -> _attest -> append_validated_coverage -> coverage_context_content; fetcher inyectado con las filas ya traidas (0 HTTP, 0 llamadas a modelo)",
+  "runtime_modifiers": {
+   "LOGICAL_RECORD_COVERAGE_env": "unset",
+   "verdict_uses_unexpanded_view": true,
+   "mandatory_callout_enabled": false
+  },
+  "micron_value_pattern": "\\d+(?:[.,]\\d+)?\\s*(?:μ|u)m\\b",
+  "arms": {
+   "cat022": {
+    "pre_lever": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "no_validated_source_span",
+      "selected_ids": [],
+      "http_requests": 0,
+      "selector_reason": "no_query_aligned_facet_candidate"
+     },
+     "collected_ids": [],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 0,
+     "appended_ids": [],
+     "appended": [],
+     "micron_values_served": []
+    },
+    "head_without_card_twin": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "selected",
+      "selected_ids": [
+       "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+       "255948d3-961e-44ff-8cfc-7601178c2172"
+      ],
+      "http_requests": 0,
+      "selector_reason": "selected"
+     },
+     "collected_ids": [
+      "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+      "255948d3-961e-44ff-8cfc-7601178c2172"
+     ],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 0,
+     "appended_ids": [],
+     "appended": [],
+     "micron_values_served": []
+    },
+    "post": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "selected",
+      "selected_ids": [
+       "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+       "255948d3-961e-44ff-8cfc-7601178c2172"
+      ],
+      "http_requests": 0,
+      "selector_reason": "selected"
+     },
+     "collected_ids": [
+      "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+      "255948d3-961e-44ff-8cfc-7601178c2172"
+     ],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 2,
+     "appended_ids": [
+      "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+      "255948d3-961e-44ff-8cfc-7601178c2172"
+     ],
+     "appended": [
+      {
+       "id": "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+       "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+       "page_number": 8,
+       "source_file": "MNDT722_40-40L",
+       "product_model": "40-40L",
+       "post_rerank_coverage_contract": "exact_source_span_with_bounded_logical_record_receipt_v2",
+       "coverage_validated": true,
+       "is_validated_coverage_chunk": true,
+       "parent_content_chars": 2888,
+       "coverage_cards": [
+        {
+         "facet": "variant_attribute_matrix",
+         "start": 965,
+         "end": 1055,
+         "quote": "La función de Prueba incorporada (BIT) solo se incluye en los modelos S40/40LB y 40/40L4B."
+        },
+        {
+         "facet": "spectral_band_cell",
+         "start": 780,
+         "end": 963,
+         "quote": "• El modelo S40/40L4 (y L4B) es igual al S40/40L, excepto en que el S40/40L4 funciona a una longitud de onda de 4,5 µm y solo es adecuado para la detección de fuegos de hidrocarburos."
+        },
+        {
+         "facet": "spectral_band_cell",
+         "start": 486,
+         "end": 778,
+         "quote": "• El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR en la que el sensor IR funciona a una longitud de onda entre 2,5 y 3,0µm y puede detectar combustibles a base de hidrocarburos y fuegos de gas, fuegos de hidróxido e hidrógeno y fuegos de metales o materia inorgánica."
+        }
+       ],
+       "served_view": "• El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR en la que el sensor IR funciona a una longitud de onda entre 2,5 y 3,0µm y puede detectar combustibles a base de hidrocarburos y fuegos de gas, fuegos de hidróxido e hidrógeno y fuegos de metales o materia inorgánica.\n\n[... otro extracto fuente ...]\n\n• El modelo S40/40L4 (y L4B) es igual al S40/40L, excepto en que el S40/40L4 funciona a una longitud de onda de 4,5 µm y solo es adecuado para la detección de fuegos de hidrocarburos.\n\n[... otro extracto fuente ...]\n\nLa función de Prueba incorporada (BIT) solo se incluye en los modelos S40/40LB y 40/40L4B.",
+       "served_view_chars": 633,
+       "served_view_logical_record_expanded": "• El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR en la que el sensor IR funciona a una longitud de onda entre 2,5 y 3,0µm y puede detectar combustibles a base de hidrocarburos y fuegos de gas, fuegos de hidróxido e hidrógeno y fuegos de metales o materia inorgánica.\n\n[... otro extracto fuente ...]\n\n• El modelo S40/40L4 (y L4B) es igual al S40/40L, excepto en que el S40/40L4 funciona a una longitud de onda de 4,5 µm y solo es adecuado para la detección de fuegos de hidrocarburos.\n\n[... otro extracto fuente ...]\n\nLa función de Prueba incorporada (BIT) solo se incluye en los modelos S40/40LB y 40/40L4B.",
+       "micron_values_served": [
+        "3,0μm",
+        "4,5 μm"
+       ]
+      },
+      {
+       "id": "255948d3-961e-44ff-8cfc-7601178c2172",
+       "retrieval_lane": "same_blob_structural_neighbor_coverage_v1",
+       "page_number": 8,
+       "source_file": "MNDT723_40-40U",
+       "product_model": "40-40U",
+       "post_rerank_coverage_contract": "exact_source_span_with_bounded_logical_record_receipt_v2",
+       "coverage_validated": true,
+       "is_validated_coverage_chunk": true,
+       "parent_content_chars": 2019,
+       "coverage_cards": [
+        {
+         "facet": "variant_attribute_matrix",
+         "start": 1643,
+         "end": 1818,
+         "quote": "Existen dos versiones de detectores de llama UV de la serie S40/40: El modelo S40/40U y el modelo S40/40UB , este último incluye además la función de Prueba incorporada (BIT)."
+        }
+       ],
+       "served_view": "Existen dos versiones de detectores de llama UV de la serie S40/40: El modelo S40/40U y el modelo S40/40UB , este último incluye además la función de Prueba incorporada (BIT).",
+       "served_view_chars": 175,
+       "served_view_logical_record_expanded": "Existen dos versiones de detectores de llama UV de la serie S40/40: El modelo S40/40U y el modelo S40/40UB , este último incluye además la función de Prueba incorporada (BIT).",
+       "micron_values_served": []
+      }
+     ],
+     "micron_values_served": [
+      "3,0μm",
+      "4,5 μm"
+     ]
+    }
+   },
+   "cat005": {
+    "pre_lever": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "no_validated_source_span",
+      "selected_ids": [],
+      "http_requests": 0,
+      "selector_reason": "no_query_aligned_facet_candidate"
+     },
+     "collected_ids": [],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 0,
+     "appended_ids": [],
+     "appended": [],
+     "micron_values_served": []
+    },
+    "head_without_card_twin": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "no_validated_source_span",
+      "selected_ids": [],
+      "http_requests": 0,
+      "selector_reason": "no_query_aligned_facet_candidate"
+     },
+     "collected_ids": [],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 0,
+     "appended_ids": [],
+     "appended": [],
+     "micron_values_served": []
+    },
+    "post": {
+     "lane_trace": {
+      "lane": "same_blob_structural_neighbor_coverage_v1",
+      "status": "no_validated_source_span",
+      "selected_ids": [],
+      "http_requests": 0,
+      "selector_reason": "no_query_aligned_facet_candidate"
+     },
+     "collected_ids": [],
+     "protected_prefix_rows": 10,
+     "protected_prefix_intact": true,
+     "appended_n": 0,
+     "appended_ids": [],
+     "appended": [],
+     "micron_values_served": []
+    }
+   }
+  },
+  "target": {
+   "qid": "cat022",
+   "pre_lever_appended_n": 0,
+   "head_selected_n": 2,
+   "head_appended_n": 0,
+   "post_appended_n": 2,
+   "post_appended_ids": [
+    "74cc9f95-6bbf-43cc-84bd-3cae03c48371",
+    "255948d3-961e-44ff-8cfc-7601178c2172"
+   ],
+   "micron_values_served": [
+    "3,0μm",
+    "4,5 μm"
+   ],
+   "verdict": "PASS"
+  },
+  "control": {
+   "qid": "cat005",
+   "pre_lever_appended_n": 0,
+   "head_appended_n": 0,
+   "post_appended_n": 0,
+   "verdict": "PASS"
+  },
+  "verdict": "PASS"
+ },
+ "gate_c": {
+  "gate": "(c) centinelas — expand_query_facets sin cambio",
+  "sentinels": {
+   "hp009": {
+    "pre": null,
+    "post": null,
+    "unchanged": true
+   },
+   "hp011": {
+    "pre": "fault_reset_recovery",
+    "post": "fault_reset_recovery",
+    "unchanged": true
+   },
+   "hp012": {
+    "pre": "capacity_quantity",
+    "post": "capacity_quantity",
+    "unchanged": true
+   },
+   "cat012": {
+    "pre": "battery_sizing",
+    "post": "battery_sizing",
+    "unchanged": true
+   },
+   "cat010": {
+    "pre": null,
+    "post": null,
+    "unchanged": true
+   },
+   "cat017": {
+    "pre": "connect_install_wire",
+    "post": "connect_install_wire",
+    "unchanged": true
+   },
+   "hp018": {
+    "pre": "connect_install_wire",
+    "post": "connect_install_wire",
+    "unchanged": true
+   }
+  },
+  "verdict": "PASS"
+ },
+ "verdict": "PASS",
+ "limitations": [
+  "Gates deterministas: NO miden PASS ni sintesis (0 llamadas a modelo).",
+  "La lane sigue shadow-only (serving.enabled=false); esto no cambia OK oficial.",
+  "El brazo pre usa los blobs de PRE_LEVER_COMMIT (0791a319, padre de 7f2a251), no un checkout limpio del repo. Ancla FIJA: con `HEAD` el gate (a) se mediria contra si mismo en cuanto el lever se commitea.",
+  "El gate (b.2) es mecanico + ADJUDICADO a mano: el `required_any` es vocabulario, no semantica, asi que la llamada de «ruido generico» la hace una persona sobre el contenido volcado y queda anclada por id en CONTROL_ADJUDICATIONS (vacio tras el fix: cat005 selecciona 0).",
+  "El gate (b-serving) cruza attest/append/serve con el fetcher inyectado: prueba que la fila LLEGA al generador con el valor en el span, NO que el generador lo use (eso es sintesis => smoke pagado).",
+  "El gate (b-serving) juzga sobre la vista SIN expansion de fila logica (conservadora): LOGICAL_RECORD_COVERAGE solo puede agrandar spans.",
+  "El gate (b.1) exige que ALGUNA ancla sea celda IR pre-declarada, no que TODAS lo sean: revisar el volcado de cada ancla. GAP ABIERTO declarado: el rank-2 de cat022 (255948d3, «# Tablas» de MNDT723_40-40U) sigue pasando el discriminativo por una frase de comparativa GENUINA en su cola («S40/40UB ... Prueba incorporada (BIT)»); es un chunk MIXTO de un manual hermano, y filtrarlo pide un criterio de pureza-de-chunk (TOC-ness) o de doc-matching = otro lever, no este."
+ ]
+}

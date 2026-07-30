@@ -63,3 +63,31 @@ ENTRE V3 y el paste de V2 (jamás un solo full para 4 levers); el paquete de rel
 declara que el baseline bvg 11/16/12 es PRE-P1. Plan de bisect declarado si algo regresa.
 ## Pregunta cero: RESPONDIDA con evidencia — las 3 vías son ortogonales al touch-set de P1
 (cat022/hp012/15088SP fuera de la lista de 10; challenge de Alberto vindicado con datos).
+
+# ══════ CORRECCIÓN DEL SPEC (V1 cierre 4 · H9) — append-only, post-build ══════
+El cierre 4 pedía «reconciliar el bloque serving MUERTO» de
+`config/structural_neighbor_coverage_v1.yaml` bajo la premisa H9 de que es «un
+contrato-mentira que ningún código lee». **H9 es FALSA — verificada contra el
+código (Protocolo 1 aplicado al claim del dúo, no solo a los míos):**
+
+* `src/rag/structural_neighbor_coverage.py:138-142` LEE el bloque y hace
+  **hard-fail**: `if serving.get("enabled") is not False or
+  serving.get("coverage_validated_field_allowed") is not False: raise
+  RuntimeError("structural neighbor v1 must remain shadow-only")`.
+* Probado por MUTACIÓN sobre copias (receipt en `evals/s287_facet_gates_v2.json`
+  → `h9_serving_block_reconciliation`): las **3** mutaciones —`enabled: true`,
+  `coverage_validated_field_allowed: true`, y **borrar el bloque entero**— hacen
+  reventar el loader. Como la lane es fail-open, eso no es cosmético: mata la lane.
+* Por tanto **el yaml NO se toca** (contrato vivo). Lo que se corrige es el spec.
+
+**Lo que el bloque significa de verdad** (la parte que sí inducía a error): NO
+declara «esta lane no se sirve» — la lane SÍ se sirve, y su activación la gobierna
+el release profile vía el flag `STRUCTURAL_NEIGHBOR_COVERAGE`
+(`src/release_profiles.py:50`). Declara que **este SELECTOR jamás estampa
+`coverage_validated` por su cuenta** (ver el comentario deliberado en
+`structural_neighbor_coverage.py:344-345`); la atestación la pone `_attest` aguas
+abajo, con su propio receipt. El contrato es correcto y sigue siendo el que
+impide que el selector se auto-atestigüe; sólo la LECTURA de H9 estaba mal.
+
+`grep` previo por tests que pineen `serving.enabled`: **ninguno** (los hits de
+`serving` en `tests/` son `serving_pipeline`/`rag_serving_trace`, sin relación).

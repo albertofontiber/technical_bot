@@ -30,15 +30,20 @@ from src.rag.evidence_coverage import (
     _project_terms,
     _tokens,
     match_evidence_facets,
+    select_evidence_coverage_cards,
 )
 from src.rag.query_facets import expand_query_facets
 
 ROOT = Path(__file__).resolve().parents[1]
 V3 = ROOT / "config/retrieval_facets_v3.yaml"
 EVIDENCE_V4 = ROOT / "config/evidence_coverage_facets_v4.yaml"
+# s287 V1 cierre 1: el CARD-config de la lane structural
+# (structural_neighbor_coverage.py:190).  v4 puntúa, v2 fabrica las cards.
+EVIDENCE_V2 = ROOT / "config/evidence_coverage_facets_v2.yaml"
 
 ARCHETYPE = "variant_differentiation"
 EVIDENCE_FACET = "variant_attribute_matrix"
+SPECTRAL_FACET = "spectral_band_cell"
 
 # Prefijo-identidad [F3/Sol]: SHA256 del JSON canónico de los arquetipos
 # PRE-LEVER (blob de HEAD antes del build).  Pinear el prefijo, y no el fichero
@@ -314,6 +319,116 @@ def test_norm_edition_version_no_longer_satisfies_required_any():
     assert (
         match_evidence_facets(
             NORM_DECLARATION_SPAN, archetype=ARCHETYPE, config_path=EVIDENCE_V4
+        )
+        == []
+    )
+
+
+# ── s287 V1 cierre 1: la GEMELA en v2 (el CARD-config de la lane) ────────────
+# El fallo que cierra este bloque estaba MEDIDO: la lane seleccionaba las anclas
+# de cat022 y `n_via_coverage_append` seguía en 0 porque las cards se fabrican
+# con evidence_coverage_facets_v2.yaml (MULTIFACET_CONFIG,
+# structural_neighbor_coverage.py:190), que no tenía el arquetipo => cards
+# vacías => `_attest` rechaza.  v4 puntúa (:189), v2 sirve.
+
+# Span VERBATIM de chunks_v2 74cc9f95-…-3cae03c48371 (MNDT722_40-40L, p. 8):
+# es la celda que el gold cat022 necesita — dos bandas espectrales distintas
+# como el atributo que diferencia 40/40L de 40/40L4.
+SPECTRAL_COMPARISON_SPAN = (
+    "Existen dos versiones de detectores de llama UV/IR:\n\n"
+    "• El modelo S40/40L (y LB) proporciona una combinación de sensores UV e IR "
+    "en la que el sensor IR funciona a una longitud de onda entre 2,5 y 3,0µm y "
+    "puede detectar combustibles a base de hidrocarburos y fuegos de gas, fuegos "
+    "de hidróxido e hidrógeno y fuegos de metales o materia inorgánica.\n\n"
+    "• El modelo S40/40L4 (y L4B) es igual al S40/40L, excepto en que el "
+    "S40/40L4 funciona a una longitud de onda de 4,5 µm y solo es adecuado para "
+    "la detección de fuegos de hidrocarburos.\n\n"
+    "La función de Prueba incorporada (BIT) solo se incluye en los modelos "
+    "S40/40LB y 40/40L4B."
+)
+
+
+def test_evidence_v2_twin_entry_exists_and_is_appended_last():
+    payload = _load_yaml(EVIDENCE_V2)
+    keys = list(payload["archetypes"])
+    assert keys == [*EVIDENCE_V4_PRELEVER_KEYS, ARCHETYPE]
+    prefix = {key: payload["archetypes"][key] for key in EVIDENCE_V4_PRELEVER_KEYS}
+    assert _canonical_sha256(prefix) == EVIDENCE_V4_PRELEVER_ARCHETYPES_SHA256
+
+
+def test_evidence_v2_entry_is_designed_for_the_micron_cell():
+    """[H1] La selección de VENTANA es de PRIMER orden, no de segundo.
+
+    Con una sola faceta y `required_any` [bit, incorporada] la única card cae en
+    el span del BIT y los valores de banda no llegan nunca al generador.  De ahí
+    DOS facetas y `max_cards: 2` en ambas (la clase es comparativa: una variante
+    por span, mismo patrón que `system_total` en capacity_quantity).
+    """
+    payload = _load_yaml(EVIDENCE_V2)
+    matrix, spectral = payload["archetypes"][ARCHETYPE]
+    assert matrix["id"] == EVIDENCE_FACET
+    assert spectral["id"] == SPECTRAL_FACET
+    assert matrix["max_cards"] == spectral["max_cards"] == 2
+    # La gemela conserva el discriminativo de v4 (incl. el FIX post-STOP-b2).
+    assert matrix["required_any"] == ["bit", "incorporada"]
+    assert matrix["terms"] == _load_yaml(EVIDENCE_V4)["archetypes"][ARCHETYPE][0]["terms"]
+    # La faceta nueva es vocabulario de CLASE con discriminativo propio.
+    assert spectral["required_any"] == ["espectral", "micrones", "onda"]
+    for facet in (matrix, spectral):
+        assert set(facet["required_any"]).issubset(facet["terms"])
+        assert not any(char.isdigit() for term in facet["terms"] for char in term)
+        assert len(facet["terms"]) >= payload["min_distinct_terms"]
+
+
+def test_min_distinct_terms_is_global_only_no_dead_per_facet_key():
+    """El validador y los DOS consumidores leen `min_distinct_terms` GLOBAL.
+
+    Una clave por-faceta sería contrato-mentira inerte (la clase de defecto que
+    esta misma sesión está cerrando), así que no se declara: se pinea que la
+    global vale 2 y que ninguna faceta la sombrea.
+    """
+    payload = _load_yaml(EVIDENCE_V2)
+    assert payload["min_distinct_terms"] == 2
+    assert all(
+        "min_distinct_terms" not in facet
+        for facets in payload["archetypes"].values()
+        for facet in facets
+    )
+
+
+def test_v2_cards_serve_both_spectral_bands_and_the_bit_difference():
+    """El contrato de SERVIDO: los µm llegan al span, no solo al gate."""
+    cards = select_evidence_coverage_cards(
+        [{"id": "74cc9f95", "content": SPECTRAL_COMPARISON_SPAN}],
+        archetype=ARCHETYPE,
+        config_path=EVIDENCE_V2,
+    )
+    served = " ".join(card["quote"] for card in cards)
+    assert "2,5 y 3,0µm" in served
+    assert "4,5 µm" in served
+    assert "Prueba incorporada (BIT)" in served
+    assert {SPECTRAL_FACET, EVIDENCE_FACET} == {card["facet"] for card in cards}
+    assert all(card["quote"] in SPECTRAL_COMPARISON_SPAN for card in cards)
+    assert all(card["exact_source_span_validated"] for card in cards)
+
+
+def test_v2_cards_also_fail_closed_on_the_norm_declaration_span():
+    """El control protegido cat005 no depende de una sola mitad del par.
+
+    v4 ya rechaza el span (la lane no lo selecciona), pero si algún día lo
+    seleccionara, v2 tampoco debe fabricarle card.
+    """
+    assert (
+        select_evidence_coverage_cards(
+            [{"id": "norm", "content": NORM_DECLARATION_SPAN}],
+            archetype=ARCHETYPE,
+            config_path=EVIDENCE_V2,
+        )
+        == []
+    )
+    assert (
+        match_evidence_facets(
+            NORM_DECLARATION_SPAN, archetype=ARCHETYPE, config_path=EVIDENCE_V2
         )
         == []
     )

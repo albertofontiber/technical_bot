@@ -8,8 +8,15 @@ instrumento NO llama a ningun modelo (rerank/juez/generador = 0 llamadas) y NO
 escribe en la base de datos.
 
 Los DOS brazos son los DOS ESTADOS de config, no una hipotesis:
-  pre  = los blobs de `git HEAD` (el estado sin arquetipo nuevo)
+  pre  = los blobs de PRE_LEVER_COMMIT (el estado sin arquetipo nuevo)
   post = el arbol de trabajo (este build)
+
+s287 V1: el brazo `pre` estaba anclado a `git HEAD`, que era el estado sin
+arquetipo cuando se corrio v1.  Al COMMITEAR el lever (7f2a251) HEAD dejo de ser
+el pre-lever y el gate (a) empezo a medir un diff VACIO contra si mismo (STOP
+espureo).  El ancla pasa a un COMMIT FIJO — el padre del commit que introdujo el
+arquetipo — para que el diff pre-registrado {cat005, cat022} siga significando lo
+mismo y el artefacto sea reproducible aunque HEAD siga avanzando.
 
 GATE (a)  expand_query_facets sobre las 39 queries dev de gold_answers_v1.yaml:
           el diff pre->post debe ser EXACTAMENTE {cat005, cat022} (ENMIENDA
@@ -35,15 +42,34 @@ GATE (b)  probe de lane en las DOS queries de la clase por la via determinista
                 `terms`) por homografo de edicion-de-norma; con eso el unico
                 candidato de cat005 (declaracion UE de conformidad) ya no pasa
                 el fail-closed y el control queda en 0 anclas.
+GATE (b-serving)  s287 V1 cierre 3 (H4) — el gate (b) de arriba mide SELECCION,
+          no SERVIDO: era exactamente el hueco que dejo pasar el fallo real (la
+          lane seleccionaba anclas de cat022 y NO apendizaba porque las cards se
+          fabrican con evidence_coverage_facets_v2.yaml, que no tenia el
+          arquetipo => coverage_cards vacias => `_attest` rechaza).  Este gate
+          re-juega la RUTA DE SERVING COMPLETA con el cableado de PRODUCCION:
+            collect_structural_coverage (defaults reales: v4 match + v2 cards)
+              -> append_validated_coverage -> _attest -> coverage_context_content
+          El unico seam inyectado es el `fetcher` (devuelve las filas ya traidas
+          por el SQL del replay s108: 0 HTTP extra, 0 llamadas a modelo).
+            (b.1) cat022 = DIANA: apendiza >=1 fila cuya VISTA SERVIDA (lo que
+                  el generador veria) contiene los valores de banda en micrones.
+            (b.2) cat005 = CONTROL: sigue con 0 appends.
+          TRES brazos sobre la misma ruta: `pre_lever` (sin arquetipo en ninguna
+          config), `head_without_card_twin` (arquetipo en v3+v4 pero NO en v2 =
+          reproduce el fallo medido: SELECCIONA 2 anclas y apendiza 0) y `post`
+          (este build).  El brazo del medio es el que hace CAUSAL el cierre 1.
+
 GATE (c)  centinelas: expand_query_facets de hp009/hp011/hp012/cat012/cat010/
           cat017/hp018 sin cambio.
 
-Salida: evals/s287_facet_gates_v1.json
+Salida: evals/s287_facet_gates_v2.json
 Uso:    python scripts/s287_facet_gates.py
 """
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import json
 import os
@@ -51,8 +77,10 @@ import re
 import subprocess
 import sys
 import tempfile
+import unicodedata
 from pathlib import Path
 from typing import Any
+from unittest import mock
 
 import psycopg2
 import yaml
@@ -66,6 +94,13 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from s108_structural_retrieval_replay import _fetch_neighbors, _hydrate  # noqa: E402
+from src.rag import post_rerank_coverage  # noqa: E402
+from src.rag.post_rerank_coverage import (  # noqa: E402
+    append_validated_coverage,
+    collect_structural_coverage,
+    coverage_context_content,
+    is_validated_coverage_chunk,
+)
 from src.rag.query_facets import expand_query_facets  # noqa: E402
 from src.rag.structural_neighbor_coverage import (  # noqa: E402
     DEFAULT_CONFIG,
@@ -74,10 +109,20 @@ from src.rag.structural_neighbor_coverage import (  # noqa: E402
 
 GOLDS = ROOT / "evals/gold_answers_v1.yaml"
 RUN_V3 = ROOT / "evals/s100_factlevel_full_v3_20260729.yaml"
-OUT = ROOT / "evals/s287_facet_gates_v1.json"
+OUT = ROOT / "evals/s287_facet_gates_v2.json"
+
+# Padre de 7f2a251 («s287: lever de faceta variant_differentiation COMPLETO»),
+# el ultimo arbol SIN el arquetipo `variant_differentiation` en ninguna config.
+# Es un ANCLA FIJA a proposito: `HEAD` deja de ser el pre-lever en cuanto el
+# lever se commitea, y el gate empezaria a medirse contra si mismo.
+PRE_LEVER_COMMIT = "0791a3199609fac2a0e92b7ca100de9d95d39d17"
 
 QUERY_FACETS_REL = "config/retrieval_facets_v3.yaml"
 EVIDENCE_FACETS_REL = "config/evidence_coverage_facets_v4.yaml"
+# s287 V1 cierre 1: el CARD-config de la lane structural
+# (structural_neighbor_coverage.py:190).  Entra al brazo `pre` porque es
+# EXACTAMENTE el fichero cuya ausencia de arquetipo mataba el append.
+EVIDENCE_CARDS_REL = "config/evidence_coverage_facets_v2.yaml"
 
 TARGET_QID = "cat022"
 # ENMIENDA post-STOP sellada en evals/s287_facet_lever_design_brief_v1.md:
@@ -198,15 +243,15 @@ def _sha256_lf(data: bytes) -> str:
     return hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
 
 
-def _head_blob(relative: str) -> bytes:
+def _blob(revision: str, relative: str) -> bytes:
     completed = subprocess.run(
-        ["git", "cat-file", "blob", f"HEAD:{relative}"],
+        ["git", "cat-file", "blob", f"{revision}:{relative}"],
         cwd=ROOT,
         capture_output=True,
         check=False,
     )
     if completed.returncode != 0:
-        raise RuntimeError(f"HEAD blob unavailable: {relative}")
+        raise RuntimeError(f"blob unavailable: {revision}:{relative}")
     return completed.stdout
 
 
@@ -265,7 +310,7 @@ def gate_a(questions: list[dict[str, Any]], pre: Path, post: Path) -> dict[str, 
         "changed": changed,
         "changed_qids": sorted(changed),
         "pre_registered_changed_qids": sorted(PRE_REGISTERED_CHANGED_QIDS),
-        "head_baseline_equals_hand_preregistration": (
+        "pre_lever_baseline_equals_hand_preregistration": (
             before == PRE_REGISTERED_ARCHETYPES
         ),
         "target_post_archetype": after.get(TARGET_QID),
@@ -331,6 +376,10 @@ def _probe_arms(
             candidates,
             query_facets_path=paths["query_facets"],
             evidence_match_config_path=paths["evidence_facets"],
+            # Las cards NO mueven la seleccion (el ranking usa el match-config),
+            # pero el brazo debe volcar SUS cards: `coverage_card_facets: []` en
+            # el brazo pre es la firma exacta del fallo que cierra el cierre 1.
+            evidence_card_config_path=paths["evidence_cards"],
         )
         results[arm] = {
             "trace": trace,
@@ -486,6 +535,263 @@ def gate_b(probes: dict[str, dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+# ── GATE (b-serving): la RUTA DE SERVING completa (H4) ──────────────────────
+# Magnitud en micrones PRE-REGISTRADA como criterio de «el span sirve el valor»:
+# digito (con decimal opcional) + espacio opcional + `μ`/`u` + `m`, sobre el
+# texto NFKD-normalizado (asi el MICRO SIGN `µ` U+00B5 y la mu griega `μ` U+03BC
+# son el mismo caracter y no hacen falta dos ramas).  Es un criterio de FORMA
+# —no contiene ningun valor del gold— y por eso puede vivir en el instrumento.
+_MICRON_VALUE = re.compile(r"\d+(?:[.,]\d+)?\s*(?:μ|u)m\b", re.IGNORECASE)
+
+
+def _micron_values(text: str) -> list[str]:
+    normalized = unicodedata.normalize("NFKD", text or "")
+    return [match.group(0) for match in _MICRON_VALUE.finditer(normalized)]
+
+
+def _served_receipt(row: dict[str, Any]) -> dict[str, Any]:
+    """Que veria EL GENERADOR de esta fila — no que selecciono el selector."""
+    # Vista conservadora: SIN expansion de fila logica (el flag
+    # LOGICAL_RECORD_COVERAGE solo puede AGRANDAR spans, nunca encogerlos, asi
+    # que un micron visible aqui lo esta tambien con el flag on).
+    served = coverage_context_content(row, logical_record_expansion=False)
+    expanded = coverage_context_content(row, logical_record_expansion=True)
+    return {
+        "id": str(row["id"]),
+        "retrieval_lane": row.get("retrieval_lane"),
+        "page_number": row.get("page_number"),
+        "source_file": row.get("source_file"),
+        "product_model": row.get("product_model"),
+        "post_rerank_coverage_contract": row.get("post_rerank_coverage_contract"),
+        "coverage_validated": row.get("coverage_validated"),
+        "is_validated_coverage_chunk": is_validated_coverage_chunk(row),
+        "parent_content_chars": len(str(row.get("content") or "")),
+        "coverage_cards": [
+            {
+                "facet": card.get("facet"),
+                "start": card.get("start"),
+                "end": card.get("end"),
+                "quote": card.get("quote"),
+            }
+            for card in row.get("coverage_cards") or []
+        ],
+        "served_view": served,
+        "served_view_chars": len(served),
+        "served_view_logical_record_expanded": expanded,
+        "micron_values_served": _micron_values(served),
+    }
+
+
+def _serving_route(
+    question: str,
+    seeds: list[dict[str, Any]],
+    candidates: list[dict[str, Any]],
+    *,
+    selector=None,
+) -> dict[str, Any]:
+    """collect -> attest -> append -> serve, con el cableado de PRODUCCION.
+
+    ``collect_structural_coverage`` se llama SIN tocar sus configs: usa los
+    defaults de ``select_structural_neighbors`` (v4 match + v2 cards), que es
+    justo el par que sirve en runtime.  El unico seam inyectado es el
+    ``fetcher`` (0 HTTP: devuelve las filas que ya trajo el SQL del replay).
+    Los brazos de BASELINE inyectan ademas un selector parcializado con los
+    blobs del commit correspondiente; el brazo `post` no parchea NADA.
+    """
+
+    def fetcher(served_chunks, **kwargs):
+        del served_chunks, kwargs
+        return (
+            list(seeds),
+            list(candidates),
+            {"http_requests": 0, "rows_read": len(candidates)},
+        )
+
+    if selector is None:
+        selected, lane_trace = collect_structural_coverage(
+            question, seeds, fetcher=fetcher
+        )
+    else:
+        with mock.patch.object(
+            post_rerank_coverage, "select_structural_neighbors", selector
+        ):
+            selected, lane_trace = collect_structural_coverage(
+                question, seeds, fetcher=fetcher
+            )
+    served = append_validated_coverage(seeds, selected)
+    appended = served[len(seeds):]
+    receipts = [_served_receipt(row) for row in appended]
+    return {
+        "lane_trace": lane_trace,
+        "collected_ids": [str(row["id"]) for row in selected],
+        "protected_prefix_rows": len(seeds),
+        "protected_prefix_intact": served[: len(seeds)] == seeds,
+        "appended_n": len(appended),
+        "appended_ids": [receipt["id"] for receipt in receipts],
+        "appended": receipts,
+        "micron_values_served": sorted(
+            {value for receipt in receipts for value in receipt["micron_values_served"]}
+        ),
+    }
+
+
+def gate_b_serving(
+    probes: dict[str, dict[str, Any]],
+    pre_paths: dict[str, Path],
+    head_paths: dict[str, Path],
+) -> dict[str, Any]:
+    def selector(paths: dict[str, Path]):
+        return functools.partial(
+            select_structural_neighbors,
+            query_facets_path=paths["query_facets"],
+            evidence_match_config_path=paths["evidence_facets"],
+            evidence_card_config_path=paths["evidence_cards"],
+        )
+
+    arms: dict[str, dict[str, Any]] = {}
+    for qid, probe in probes.items():
+        arms[qid] = {
+            # pre-lever: sin arquetipo en NINGUNA config => ni siquiera selecciona.
+            "pre_lever": _serving_route(
+                probe["question"],
+                probe["seeds"],
+                probe["candidates"],
+                selector=selector(pre_paths),
+            ),
+            # HEAD: arquetipo en v3+v4 pero NO en v2 => reproduce el FALLO EXACTO
+            # medido en el smoke (selecciona anclas y apendiza 0 porque las cards
+            # salen vacias).  Es el brazo que hace CAUSAL al cierre 1.
+            "head_without_card_twin": _serving_route(
+                probe["question"],
+                probe["seeds"],
+                probe["candidates"],
+                selector=selector(head_paths),
+            ),
+            "post": _serving_route(
+                probe["question"], probe["seeds"], probe["candidates"]
+            ),
+        }
+    target = arms[TARGET_QID]
+    control = arms[CONTROL_QID]
+    target_verdict = (
+        "PASS"
+        if target["pre_lever"]["appended_n"] == 0
+        # El fallo reproducido: SELECCIONA y NO apendiza.
+        and target["head_without_card_twin"]["collected_ids"]
+        and target["head_without_card_twin"]["appended_n"] == 0
+        and target["post"]["appended_n"] > 0
+        and target["post"]["micron_values_served"]
+        and target["post"]["protected_prefix_intact"]
+        and all(
+            receipt["is_validated_coverage_chunk"]
+            for receipt in target["post"]["appended"]
+        )
+        else "STOP"
+    )
+    control_verdict = (
+        "PASS"
+        if control["pre_lever"]["appended_n"]
+        == control["head_without_card_twin"]["appended_n"]
+        == control["post"]["appended_n"]
+        == 0
+        and control["post"]["protected_prefix_intact"]
+        else "STOP"
+    )
+    return {
+        "gate": (
+            "(b-serving) RUTA DE SERVING completa — collect_structural_coverage "
+            "(defaults de produccion: v4 match + v2 cards) -> _attest -> "
+            "append_validated_coverage -> coverage_context_content; fetcher "
+            "inyectado con las filas ya traidas (0 HTTP, 0 llamadas a modelo)"
+        ),
+        "runtime_modifiers": {
+            "LOGICAL_RECORD_COVERAGE_env": os.environ.get(
+                "LOGICAL_RECORD_COVERAGE", "unset"
+            ),
+            "verdict_uses_unexpanded_view": True,
+            "mandatory_callout_enabled": (
+                post_rerank_coverage._mandatory_callout_enabled()
+            ),
+        },
+        "micron_value_pattern": _MICRON_VALUE.pattern,
+        "arms": arms,
+        "target": {
+            "qid": TARGET_QID,
+            "pre_lever_appended_n": target["pre_lever"]["appended_n"],
+            "head_selected_n": len(
+                target["head_without_card_twin"]["collected_ids"]
+            ),
+            "head_appended_n": target["head_without_card_twin"]["appended_n"],
+            "post_appended_n": target["post"]["appended_n"],
+            "post_appended_ids": target["post"]["appended_ids"],
+            "micron_values_served": target["post"]["micron_values_served"],
+            "verdict": target_verdict,
+        },
+        "control": {
+            "qid": CONTROL_QID,
+            "pre_lever_appended_n": control["pre_lever"]["appended_n"],
+            "head_appended_n": control["head_without_card_twin"]["appended_n"],
+            "post_appended_n": control["post"]["appended_n"],
+            "verdict": control_verdict,
+        },
+        "verdict": "PASS" if target_verdict == control_verdict == "PASS" else "STOP",
+    }
+
+
+def h9_serving_block_reconciliation(workspace: Path) -> dict[str, Any]:
+    """s287 V1 cierre 4 — H9 decia «bloque serving muerto que nadie lee».
+
+    VERIFICADO CONTRA EL CODIGO (Protocolo 1 aplicado al claim del dueto): el
+    bloque SI se lee y es hard-fail en structural_neighbor_coverage.py:138-142.
+    Se prueba aqui MUTANDO una copia y comprobando que el loader revienta => el
+    yaml NO se toca (contrato vivo) y lo que se corrige es el spec.
+    """
+    from src.rag.structural_neighbor_coverage import _load
+
+    probes: dict[str, Any] = {}
+    mutations = {
+        "serving_enabled_true": lambda data: data["serving"].update({"enabled": True}),
+        "coverage_validated_field_allowed_true": lambda data: data["serving"].update(
+            {"coverage_validated_field_allowed": True}
+        ),
+        "serving_block_removed": lambda data: data.pop("serving"),
+    }
+    for index, (name, mutate) in enumerate(mutations.items()):
+        data = yaml.safe_load(DEFAULT_CONFIG.read_text(encoding="utf-8"))
+        mutate(data)
+        path = workspace / f"h9_{index}_structural_neighbor_coverage_v1.yaml"
+        path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+        try:
+            _load(str(path.resolve()))
+            probes[name] = {"loader": "ACCEPTED", "error": None}
+        except RuntimeError as error:
+            probes[name] = {"loader": "REJECTED", "error": str(error)}
+    read_by_code = all(row["loader"] == "REJECTED" for row in probes.values())
+    return {
+        "hypothesis": "H9: bloque `serving` del yaml de la lane = contrato-mentira que ningun codigo lee",
+        "verified_at": "src/rag/structural_neighbor_coverage.py:138-142",
+        "mutation_probes": probes,
+        "read_by_code": read_by_code,
+        "verdict": "H9_FALSIFIED" if read_by_code else "H9_CONFIRMED",
+        "action_taken": (
+            "config/structural_neighbor_coverage_v1.yaml NO se toca (contrato "
+            "vivo: cualquiera de las 3 mutaciones mata la lane). Lo corregido es "
+            "el SPEC (evals/s287_tres_vias_design_brief_v1.md, bloque de "
+            "reconciliacion V1-4)."
+        )
+        if read_by_code
+        else "pendiente: actualizar el comentario del yaml",
+        "semantics": (
+            "El bloque NO significa «la lane no se sirve» (se sirve: el flag "
+            "STRUCTURAL_NEIGHBOR_COVERAGE lo gobierna el release profile). "
+            "Significa que ESTE SELECTOR jamas estampa `coverage_validated` por "
+            "su cuenta — la atestacion la pone `_attest` aguas abajo. El "
+            "contrato es correcto; lo que inducia a error era leerlo como estado "
+            "de la lane."
+        ),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
@@ -500,22 +806,30 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="s287_facet_gates_") as workspace:
         baseline = Path(workspace)
         pre_paths = {}
+        head_paths = {}
         blobs = {}
         for key, relative in (
             ("query_facets", QUERY_FACETS_REL),
             ("evidence_facets", EVIDENCE_FACETS_REL),
+            ("evidence_cards", EVIDENCE_CARDS_REL),
         ):
-            data = _head_blob(relative)
-            path = baseline / Path(relative).name
-            path.write_bytes(data)
-            pre_paths[key] = path
+            pre_data = _blob(PRE_LEVER_COMMIT, relative)
+            head_data = _blob("HEAD", relative)
+            pre_path = baseline / f"pre_{Path(relative).name}"
+            head_path = baseline / f"head_{Path(relative).name}"
+            pre_path.write_bytes(pre_data)
+            head_path.write_bytes(head_data)
+            pre_paths[key] = pre_path
+            head_paths[key] = head_path
             blobs[relative] = {
-                "head_sha256_lf": _sha256_lf(data),
+                "pre_lever_sha256_lf": _sha256_lf(pre_data),
+                "head_sha256_lf": _sha256_lf(head_data),
                 "worktree_sha256_lf": _sha256_lf((ROOT / relative).read_bytes()),
             }
         post_paths = {
             "query_facets": ROOT / QUERY_FACETS_REL,
             "evidence_facets": ROOT / EVIDENCE_FACETS_REL,
+            "evidence_cards": ROOT / EVIDENCE_CARDS_REL,
         }
         arms = {"pre": pre_paths, "post": post_paths}
 
@@ -523,12 +837,13 @@ def main() -> int:
         result_c = gate_c(questions, pre_paths["query_facets"], post_paths["query_facets"])
         if result_a["verdict"] != "PASS":
             payload = {
-                "instrument": "s287_facet_gates_v1",
+                "instrument": "s287_facet_gates_v2",
                 "model_calls": 0,
                 "database_writes": 0,
                 "config_blobs": blobs,
                 "gate_a": result_a,
                 "gate_b": {"verdict": "NOT_RUN", "reason": "gate_a STOP"},
+                "gate_b_serving": {"verdict": "NOT_RUN", "reason": "gate_a STOP"},
                 "gate_c": result_c,
                 "verdict": "STOP",
             }
@@ -587,6 +902,8 @@ def main() -> int:
                 "run_v3_appended_n": golds[qid].get("appended_n"),
                 "seed_ids": seed_ids[qid],
                 "candidate_rows_fetched": len(fetched[qid]["candidates"]),
+                "seeds": fetched[qid]["seeds"],
+                "candidates": fetched[qid]["candidates"],
                 "arms": _probe_arms(
                     golds[qid]["question"],
                     fetched[qid]["seeds"],
@@ -597,9 +914,10 @@ def main() -> int:
             for qid in PROBE_QIDS
         }
         result_b = gate_b(probes)
+        result_b_serving = gate_b_serving(probes, pre_paths, head_paths)
 
         payload = {
-            "instrument": "s287_facet_gates_v1",
+            "instrument": "s287_facet_gates_v2",
             "scope": {
                 "model_calls": 0,
                 "database_writes": 0,
@@ -608,6 +926,7 @@ def main() -> int:
                 "read_only_database": True,
             },
             "config_blobs": blobs,
+            "pre_lever_commit": PRE_LEVER_COMMIT,
             "lane_config": {
                 "path": DEFAULT_CONFIG.relative_to(ROOT).as_posix(),
                 "max_seeds": lane_config["max_seeds"],
@@ -669,23 +988,37 @@ def main() -> int:
                     "normativo casaba 3 terminos)",
                 ],
             },
+            "h9_serving_block_reconciliation": h9_serving_block_reconciliation(
+                baseline
+            ),
             "gate_a": result_a,
             "gate_b": result_b,
+            "gate_b_serving": result_b_serving,
             "gate_c": result_c,
             "verdict": (
                 "PASS"
-                if result_a["verdict"] == result_b["verdict"] == result_c["verdict"]
+                if result_a["verdict"]
+                == result_b["verdict"]
+                == result_b_serving["verdict"]
+                == result_c["verdict"]
                 == "PASS"
                 else "STOP"
             ),
             "limitations": [
                 "Gates deterministas: NO miden PASS ni sintesis (0 llamadas a modelo).",
                 "La lane sigue shadow-only (serving.enabled=false); esto no cambia OK oficial.",
-                "El brazo pre usa los blobs de HEAD, no un checkout limpio del repo.",
+                "El brazo pre usa los blobs de PRE_LEVER_COMMIT (0791a319, padre de "
+                "7f2a251), no un checkout limpio del repo. Ancla FIJA: con `HEAD` el "
+                "gate (a) se mediria contra si mismo en cuanto el lever se commitea.",
                 "El gate (b.2) es mecanico + ADJUDICADO a mano: el `required_any` es "
                 "vocabulario, no semantica, asi que la llamada de «ruido generico» la "
                 "hace una persona sobre el contenido volcado y queda anclada por id en "
                 "CONTROL_ADJUDICATIONS (vacio tras el fix: cat005 selecciona 0).",
+                "El gate (b-serving) cruza attest/append/serve con el fetcher inyectado: "
+                "prueba que la fila LLEGA al generador con el valor en el span, NO que "
+                "el generador lo use (eso es sintesis => smoke pagado).",
+                "El gate (b-serving) juzga sobre la vista SIN expansion de fila logica "
+                "(conservadora): LOGICAL_RECORD_COVERAGE solo puede agrandar spans.",
                 "El gate (b.1) exige que ALGUNA ancla sea celda IR pre-declarada, no "
                 "que TODAS lo sean: revisar el volcado de cada ancla. GAP ABIERTO "
                 "declarado: el rank-2 de cat022 (255948d3, «# Tablas» de MNDT723_40-40U) "
@@ -730,6 +1063,9 @@ def main() -> int:
                     "unadjudicated_anchor_ids": control["unadjudicated_anchor_ids"],
                     "stale_adjudication_ids": control["stale_adjudication_ids"],
                 },
+                "gate_b_serving": result_b_serving["verdict"],
+                "gate_b_serving_target": result_b_serving["target"],
+                "gate_b_serving_control": result_b_serving["control"],
                 "gate_c": result_c["verdict"],
                 "verdict": payload["verdict"],
             },

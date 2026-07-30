@@ -50,3 +50,36 @@ archetypes:
       terms: [condicion, entrada, regla, causa, efecto, matriz]
     - id: output_timing
       terms: [accion, salida, temporizador, retardo, anulacion]
+
+  # s287 V1 (cierre 1) - GEMELA de `variant_differentiation` en
+  # evidence_coverage_facets_v4.yaml.  Este fichero es el CARD-config de la lane
+  # structural (structural_neighbor_coverage.py:190 -> MULTIFACET_CONFIG) y v4 es
+  # su MATCH-config (:189).  Sin esta entrada el arquetipo aprobaba el gate de v4
+  # y las cards salian VACIAS => `_attest` rechazaba y la lane no apendizaba
+  # JAMAS (defecto de CLASE, no de este arquetipo: lo cierra en CI
+  # tests/test_evidence_facet_lane_parity.py).
+  #
+  # DOS facetas a proposito: la seleccion de VENTANA es de PRIMER orden (H1).
+  # Con solo la gemela [bit, incorporada] la unica card cae en el span del BIT y
+  # los valores de banda (micrones) NUNCA llegan al generador.  `max_cards: 2` en
+  # ambas porque la CLASE es comparativa: una variante por span (mismo patron que
+  # `system_total` en capacity_quantity).
+  #
+  # `min_distinct_terms` NO se declara por-faceta: el validador y los dos
+  # consumidores (match_evidence_facets / select_evidence_coverage_cards) leen
+  # SOLO la clave GLOBAL de la cabecera (=2, arriba).  Una clave por-faceta seria
+  # contrato-mentira inerte.
+  variant_differentiation:
+    - id: variant_attribute_matrix
+      terms: [version, modelo, descripcion, bit, prueba, incorporada, sensor, longitud, onda, espectral, suffix, model, built, test, difference]
+      max_cards: 2
+      required_any: [bit, incorporada]
+    # Celda/fila de BANDA ESPECTRAL: vocabulario de CLASE (sin digitos, sin
+    # modelo ni fabricante) para el span que contrasta variantes por longitud de
+    # onda.  `required_any` discriminativo = los tres terminos que no aparecen en
+    # prosa normativa (una declaracion UE de conformidad casa `sensor` y se queda
+    # ahi).
+    - id: spectral_band_cell
+      terms: [sensor, longitud, onda, espectral, micrones, micras, infrarrojo, ultravioleta, radiacion, rango, banda, deteccion, llama, detector]
+      max_cards: 2
+      required_any: [espectral, micrones, onda]
