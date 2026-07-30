@@ -111,17 +111,25 @@ def test_hp009_replace_conserva_match_family_level(monkeypatch):
     # hp009 (family-genérico → answer): retirar el paraguas no debe expulsar los
     # documentos combinados ('ZX2e/ZX5e', la clase MIE-MI-530), porque las
     # variantes canónicas siguen siendo cores válidos del tag compuesto.
+    # s287 P0.5 (hotfix quarantine, SUNSET: se revierte en el PR que shippee la pieza 1):
+    # 'zxe' está en quarantine → el drop del paraguas queda SUPRIMIDO bajo replace
+    # (fail-open-a-add por unidad) y 'ZXE' se CONSERVA en models. Pin s278 anterior:
+    # assert "ZXE" not in models.
     from src.rag.retriever import _filter_to_query_models
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
     res = R.resolve_query("central ZXe")
     models = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in models
+    assert "ZXE" in models
     chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
     out = _filter_to_query_models(chunks, models)
     assert len(out) == 3, "REPLACE no debe expulsar los docs family-level de hp009"
 
 
 def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
+    # s287 P0.5 (hotfix quarantine, SUNSET: se revierte en el PR que shippee la pieza 1):
+    # con 'zxe' conservado (drop suprimido), los legacy ZXAE/ZXEE se RE-ADMITEN por
+    # substring ('zxe' ⊂ 'zxee') — comportamiento-ADD medido (DEC-084: hp018 4/4).
+    # Pin s278 anterior: solo {"ZX2e/ZX5e"} / {"MIE-MI-530rv001"} sobrevivían.
     from src.rag.retriever import _filter_to_query_models
 
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
@@ -136,8 +144,8 @@ def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
         chunks, models, identity_allowed=res["allowed_sources"]
     )
 
-    assert {c["product_model"] for c in out} == {"ZX2e/ZX5e"}
-    assert {c["source_file"] for c in out} == {"MIE-MI-530rv001"}
+    assert {c["product_model"] for c in out} == {"ZXAE/ZXEE", "ZX2e/ZX5e"}
+    assert {c["source_file"] for c in out} == {"MIE-MI-310", "MIE-MI-530rv001"}
 
 
 # ─── resolución por la puerta (contrato expand) ───
@@ -207,10 +215,13 @@ def test_brazo_add_conserva_el_token(monkeypatch):
 
 
 def test_brazo_replace_retira_el_paraguas(monkeypatch):
+    # s287 P0.5: el ejemplar del brazo replace pasa de ZXe (ahora en quarantine → ya no
+    # dropea; SUNSET: revertir en el PR que shippee la pieza 1) a ZXR, adjudicado s278 y
+    # fuera de quarantine — el CONTRATO del brazo (retirar el paraguas) queda intacto.
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
-    res = R.resolve_query("central ZXe")
-    out = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in out and {"ZX1e", "ZX2e", "ZX5e"} == set(out)
+    res = R.resolve_query("central ZXR")
+    out = R.apply_to_models(["ZXR"], res)
+    assert "ZXR" not in out and {"ZXR4B", "ZXR5B"} <= set(out)
 
 
 # ─── s278 §1a: guard candidate-member + quarantine (drop gobernado bajo replace) ───
@@ -288,13 +299,15 @@ def test_g100_y_g500_expanden_a_sus_paneles():
 
 
 def test_zxe_umbrella_limpia_si_dropea_bajo_replace(monkeypatch):
-    # el guard NO interfiere con el caso medido (hp018): TODOS los miembros de ZXe son
-    # consumibles y no está en quarantine → el drop del paraguas sigue vivo
+    # s287 P0.5 (hotfix quarantine, SUNSET: se revierte en el PR que shippee la pieza 1):
+    # 'zxe' AHORA está en quarantine → el drop queda suprimido aunque el guard
+    # candidate-member (all_members_consumable) lo permitiría. Pin s278 anterior:
+    # 'zxe' in drop_tokens y 'ZXE' expulsado de models.
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
     res = R.resolve_query("central ZXe")
-    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert "zxe" not in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
     out = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in out
+    assert "ZXE" in out
 
 
 def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
@@ -307,12 +320,13 @@ def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
     assert "RP1r" not in out and "RP1r-Supra" in out
 
 
-def test_quarantine_vacia_es_el_estado_shippeado(monkeypatch):
-    # 22-jul: Alberto adjudicó las 4 filas (FAAST, ZXR, G-100-R, INSPIRE) → la quarantine
-    # REAL queda vacía (tokens: []) y el drop bajo replace lo gobierna SOLO el guard
-    # candidate-member (GUARD-IMPL).
+def test_quarantine_estado_s287_solo_zxe(monkeypatch):
+    # 22-jul (s278): Alberto adjudicó las 4 filas (FAAST, ZXR, G-100-R, INSPIRE) → vacía.
+    # s287 P0.5 (hotfix, SUNSET: se revierte en el PR que shippee la pieza 1): 'zxe'
+    # re-entra por la regresión T3×replace (filtro de familia desarmado) → el YAML real
+    # contiene EXACTAMENTE {'zxe'}. Las unidades adjudicadas s278 siguen dropeando.
     monkeypatch.setattr(R, "_quarantine", None)      # fuerza re-lectura del YAML real
-    assert R._quarantine_tokens() == frozenset()
+    assert R._quarantine_tokens() == frozenset({"zxe"})
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
     for q, tok in (("manual de ZXR", "zxr"), ("manual de FAAST", "faast")):
         res = R.resolve_query(q)

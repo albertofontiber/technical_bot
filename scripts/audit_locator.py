@@ -198,18 +198,62 @@ def fact_match_score(valor: str, texto: str, content: str) -> "float | None":
 
 _UNIT_QUANTITY_RE = re.compile(
     r"(?<!\d)([+\-]?\d+(?:[.,]\d+)?)\s*(?:\|\s*)?"
-    r"(kohm|ohm|ma|vac|vdc|kw|hz|seg|sec|min|a|v|w|s)\b",
+    r"(kohm|kω|ohmios|ohms|ohm|ω|ma|vac|vdc|kw|hz|seg|sec|min|a|v|w|s)\b",
     re.I,
 )
 _SCIENTIFIC_NOTATION_RE = re.compile(r"(?<!\d)(\d+)\s*\^\s*(\d+)(?!\d)")
 
+# s287 P0 (S5/DEC-096c): canonicalización del prefijo kilo. norm_ocr NO traduce Ω→ohm
+# (NFKD deja 'ω'), así que el alias vive aquí — strict_match queda INTACTO (cambiarlo
+# re-baselinearía el scoring de golds). Alcance declarado: las 4 formas del spec
+# (6K8 / 6800Ω / 6,8kΩ / 6.8kΩ) + grafías ohmios/ohms del corpus ES/EN. El separador
+# de millar español ('6.800 Ω') NO se canonicaliza (ambiguo con decimal real).
+_UNIT_ALIASES = {"ω": "ohm", "kω": "kohm", "ohmios": "ohm", "ohms": "ohm"}
+_KILO_UNITS = {"kohm": "ohm", "kw": "w"}          # unidad kilo → unidad base
+_KILO_BASE_SURFACES = {"ohm": "ohm|ω|ohmios|ohms", "w": "w"}
+_RKM_KILO_RE = re.compile(r"(?<![a-z0-9])(\d{1,3})k(\d{1,3})(?![a-z0-9])")  # RKM: 6k8/2k2
+
+
+def _kilo_scale(number: str, places: int = 3) -> "str | None":
+    """Desplaza el punto decimal `places` posiciones (kilo↔base) por STRING — exacto.
+    (6.8*1000 en float = 6800.000000000001; '6.8'→'6800' aquí.) None si no es numérico."""
+    number = number.replace(",", ".")
+    if not re.fullmatch(r"\d+(?:\.\d+)?", number):
+        return None
+    whole, _, frac = number.partition(".")
+    if places >= 0:
+        frac = frac.ljust(places, "0")
+        whole, frac = whole + frac[:places], frac[places:]
+    else:
+        whole = whole.rjust(-places + 1, "0")
+        whole, frac = whole[:places], whole[places:] + frac
+    whole = whole.lstrip("0") or "0"
+    frac = frac.rstrip("0")
+    return whole + ("." + frac if frac else "")
+
 
 def _unit_quantities(value: str) -> set[str]:
-    """Return canonical numeric-unit pairs, including one-digit values."""
-    return {
-        number.replace(",", ".") + unit.lower()
-        for number, unit in _UNIT_QUANTITY_RE.findall(norm_ocr(value or ""))
-    }
+    """Return canonical numeric-unit pairs, including one-digit values.
+
+    s287 P0: kilo-prefixed units (6,8 kΩ / 6.8 kohm) y códigos RKM (6K8) canonicalizan
+    a la unidad BASE (6800ohm) — sin esto `quantities_complete` quedaba vacuo para el
+    valor '6K8' (0 cantidades extraídas) y el puente no tenía qué comparar."""
+    normal = norm_ocr(value or "")
+    out: set[str] = set()
+    for number, unit in _UNIT_QUANTITY_RE.findall(normal):
+        unit = _UNIT_ALIASES.get(unit.lower(), unit.lower())
+        number = number.replace(",", ".")
+        if unit in _KILO_UNITS:
+            scaled = _kilo_scale(number)
+            if scaled is not None:
+                out.add(scaled + _KILO_UNITS[unit])
+                continue
+        out.add(number + unit)
+    for whole, frac in _RKM_KILO_RE.findall(normal):
+        scaled = _kilo_scale(f"{whole}.{frac}")
+        if scaled is not None:
+            out.add(scaled + "ohm")
+    return out
 
 
 def decimal_notation_bridge(value: str, content: str) -> bool:
@@ -239,6 +283,65 @@ def collapsed_superscript_bridge(value: str, content: str) -> bool:
     return False
 
 
+def _kilo_quantities(normal_text: str) -> list[tuple[str, str, str]]:
+    """[(notación, número_base, unidad_base)] de las cantidades kilo-expresables de un
+    texto YA norm_ocr'd. notación ∈ {'base','kilo','rkm'} — identifica la grafía de
+    ORIGEN para que el puente exija la grafía OPUESTA en el content."""
+    out: list[tuple[str, str, str]] = []
+    for number, unit in _UNIT_QUANTITY_RE.findall(normal_text):
+        unit = _UNIT_ALIASES.get(unit.lower(), unit.lower())
+        number = number.lstrip("+-")
+        if unit in _KILO_UNITS:
+            scaled = _kilo_scale(number)
+            if scaled is not None:
+                out.append(("kilo", scaled, _KILO_UNITS[unit]))
+        elif unit in _KILO_BASE_SURFACES:
+            canonical = _kilo_scale(number, 0)          # normaliza '6,8'→'6.8', ceros fuera
+            if canonical is not None:
+                out.append(("base", canonical, unit))
+    for whole, frac in _RKM_KILO_RE.findall(normal_text):
+        scaled = _kilo_scale(f"{whole}.{frac}")
+        if scaled is not None:
+            out.append(("rkm", scaled, "ohm"))
+    return out
+
+
+def _kilo_notation_patterns(base_number: str, base_unit: str) -> dict[str, str]:
+    """Regex por notación de UNA MISMA cantidad física (clave = notación)."""
+    unit_alt = _KILO_BASE_SURFACES[base_unit]
+    kilo_number = _kilo_scale(base_number, -3)
+
+    def _num(n: str) -> str:
+        return re.escape(n).replace(r"\.", "[.,]")     # decimal con punto O coma
+
+    patterns = {
+        "base": rf"(?<!\d){_num(base_number)}\s*(?:{unit_alt})\b",
+        "kilo": rf"(?<!\d){_num(kilo_number)}\s*k(?:{unit_alt})\b",
+    }
+    whole, _, frac = (kilo_number or "").partition(".")
+    if base_unit == "ohm" and frac:
+        patterns["rkm"] = rf"(?<![a-z0-9]){whole}k{frac}(?![a-z0-9])"
+    return patterns
+
+
+def kilo_prefix_bridge(value: str, content: str) -> bool:
+    """Detect the same quantity written with the opposite kilo-prefix notation.
+
+    s287 P0 (S5/DEC-096c): RKM 6K8 ↔ 6,8 kΩ / 6.8 kΩ / 6,8 kOhm ↔ 6800 Ω/Ohm.
+    Mismo contrato que los otros puentes de representación: candidate recall,
+    nunca un veredicto de soporte por sí solo — `support_candidate_priority`
+    sigue exigiendo same-family + quantities_complete + context overlap."""
+    normal_content = norm_ocr(content or "")
+    for notation, base_number, base_unit in _kilo_quantities(norm_ocr(value or "")):
+        patterns = _kilo_notation_patterns(base_number, base_unit)
+        original = patterns.pop(notation, None)
+        if original and re.search(original, normal_content):
+            continue                                   # misma grafía presente → no hay puente
+        if any(re.search(p, normal_content) for p in patterns.values()):
+            return True
+    return False
+
+
 def _representation_context_overlap(text: str, content: str) -> bool:
     """Require an attribute/context tie in addition to a reformatted value.
 
@@ -261,19 +364,22 @@ def support_candidate_priority(
 
     The normal calibrated fact score remains the primary lane.  A narrow
     same-family bridge admits candidates only for known representation changes:
-    decimal comma/point or a lost superscript.  The bridge is candidate recall,
-    never an automatic support verdict.
+    decimal comma/point, a lost superscript, or a kilo-prefix respelling
+    (6K8 ↔ 6,8 kΩ ↔ 6800 Ω — s287 P0, S5/DEC-096c: canonicalizar en
+    `_unit_quantities` no basta, el puente debe entrar en ESTE predicado, Sol-2).
+    The bridge is candidate recall, never an automatic support verdict.
     """
     score = fact_match_score(valor, texto, content)
     required_quantities = _unit_quantities(valor)
     quantities_complete = required_quantities <= _unit_quantities(content)
     decimal_bridge = decimal_notation_bridge(valor, content)
     superscript_bridge = collapsed_superscript_bridge(valor, content)
+    kilo_bridge = kilo_prefix_bridge(valor, content)   # s287 P0 (S5/DEC-096c)
     bridge = bool(
         same_family
         and quantities_complete
         and _representation_context_overlap(texto, content)
-        and (decimal_bridge or superscript_bridge)
+        and (decimal_bridge or superscript_bridge or kilo_bridge)
     )
     if not bridge and (score is None or score < SCORE_FLOOR):
         return None

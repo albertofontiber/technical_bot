@@ -446,7 +446,11 @@ CONVEY21_ANSWER_CAP = 12000
 #        dejan de ser invisibles. Serie NUEVA: una fila v3 y una v2.2 del mismo día son FOTOS
 #        DISTINTAS (composición servida distinta + rerank no determinista), NO el delta causal
 #        del seam. La reconciliación entre etapas usa n(via_coverage_append).
-INSTRUMENT_VERSION = "v3.0"
+# v3.1 = s287 P0: kilo-bridge en audit_locator (6K8↔6,8kΩ↔6800Ω — canonicalización kilo en
+#        _unit_quantities + puente en support_candidate_priority/guard L1). Cierra S5 de
+#        DEC-096c: el guard ya no mata soporte servido same-family por re-grafía del prefijo
+#        kilo (hp018#1). Solo acredita fila SERVIDA de la familia correcta (Sol-1/DEC-091b).
+INSTRUMENT_VERSION = "v3.1"
 
 
 def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:

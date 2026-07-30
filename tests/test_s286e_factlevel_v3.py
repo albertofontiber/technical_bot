@@ -341,7 +341,8 @@ def test_demo_flags_pin_the_whole_seam_flag_set(driver):
     flags = driver["demo_flags"]
     for name in SEAM_LEAF_FLAGS:
         assert flags.get(name) == "off", f"{name} sin pinear: un .env sucio mediria otra stack"
-    assert driver["instrument_version"] == "v3.0"
+    # s287 P0: v3.0→v3.1 (kilo-bridge en el guard L1 — S5 cerrado, DEC-096c)
+    assert driver["instrument_version"] == "v3.1"
 
 
 # ─────────────────── (f) pipe_sha = closure del seam ───────────────────

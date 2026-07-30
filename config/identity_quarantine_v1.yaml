@@ -9,4 +9,14 @@ version: 1
 # vaciada por adjudicación de Alberto 22-jul (s278): FAAST (notifier:faast-8100e promovido a
 # miembro pleno), ZXR (zxr4b/zxr5b miembros de la umbrella), G-100-R (umbrella de tarjetas de
 # relé + aliases retirados), INSPIRE (doc de firmware mapeado a e10/e15 en doc_map).
-tokens: []
+#
+# s287 P0.5 (HOTFIX $0): 'zxe' re-entra. T3/s285 re-tagueó el corpus a FAMILIA (pm='ZXe';
+# variantes ZX1e/ZX2e/ZX5e = 0 filas) y el drop del paraguas bajo replace dejaba
+# _filter_to_query_models con 0 supervivientes → fail-open (retriever.py:2152) = filtro de
+# familia DESARMADO y entran los primos ZXSe/ZX50/DXc (diagnóstico s287, Grupo B).
+# Semántica quarantine = «fail-open-a-add por unidad; nunca peor que add» — estiramiento
+# declarado (nació 'pendiente de adjudicación'; nota para Alberto), reversible en una línea.
+tokens:
+  - token: zxe
+    motivo: 'regresion T3xreplace: filtro de familia desarmado (s287, DEC pendiente); SUNSET: retirar en el PR que shippee la pieza 1'
+    fecha: '2026-07-30'
