@@ -3720,3 +3720,56 @@ Railway. Lección #54 en feedback_my_bias.
 - **(c) hp012#3: techo CONFIRMADO pero RE-ATRIBUIDO** a seed-proximity out-of-radius (d=26/15 > 8, con las 2 anclas gastadas) = la clase hp013#1, no diversify.
 - **(d) El flip de «BIT» NO era porosidad**: retrieval byte-idéntico entre runs; fue no-determinismo del juez semántico sobre hecho no-anclable (run 1 = miss FALSO del instrumento; el OK del run 2 es blando — la afirmación compuesta vive en un chunk no servido). Residual declarado del instrumento.
 - **(e) Consecuencia para el OBJETIVO**: mantener «cat022+hp012 = techo» tal cual blindaba de la auditoría 2 hechos con palanca acotada e inflaba el numerador de FALLO→0. DEC-158 queda SUPERSEDED en su letra; la exclusión del objetivo se re-evalúa tras medir el lever de faceta. ARCHITECTURE/PLAN se reconcilian al cierre.
+
+## DEC-165 — s288 (30 jul, autónomo): A-CORE ejecutado — autoridad documental + scope hyq (consolidación A1+A2; el arco census→staging→paste)
+
+**Decisión.** Consolidar A1+A2 en un solo workstream «A-core» con spec normativo único
+(`evals/s288_acore_design_brief_v1.md`, v3 SELLADO) y ejecutarlo hasta la bandeja de Alberto:
+F0 census determinista + F2 lane hardening + P-A staged; P-B gateado a QA humana; P-C
+re-diseñado a tramos; P-D eliminado.
+
+**Motivo / traza del dúo (18/18 confirmados regla-C, 0 FP — `adversarial_review_log.jsonl`).**
+- r1 (Sol NO-SÓLIDO 5 + sub-agente Fable SÓLIDO-CON-CAMBIOS 7): la migración document_id en
+  hyq era una segunda fuente de verdad sin invariante (el rebinding hp011 ya reescribió
+  chunks_v2.document_id) → **P-D ELIMINADO**, scope+dedup van por el embed de la FK
+  autoritativa (`chunks_v2!inner`; `idx_chunks_v2_document_id` verificado). El bulk-lineage
+  «verified» vaciaba la semántica canónica (authority_evidence_sha256 NOT NULL; adjudicación
+  explícita) y su elegibilidad era vulnerable al label-drift. El gate H1 v1 era CIRCULAR
+  (match por sha no puede fallar) → clave independiente por stem. P-A necesitaba el guard del
+  UNIQUE (manufacturer, sha) — prevalencia medida 0.
+- r2 (Sol focused 6): P-A por sha-only = circularidad per-doc → **dual-key stem+sha por
+  fila**; el bulk-lineage cae DEFINITIVO (los predicados no adjudican autoridad) → **P-C =
+  tramos adjudicados por Alberto** con dossier por-doc, y la lane hyq NO exige lineage: su
+  tier honesto es **blob-verificado** (activo + sha real + binding), mismo expuesto que el
+  canal vectorial de prod; el tier lineage-adjudicado queda exclusivo de document_local.
+  Gate de volumen pre-registrado (aplicado==100% de elegibles); freeze de eficacia incluye
+  `EMBED_CACHE_PATH`; campos desnorm de hyq demovidos al parent embebido.
+
+**Ejecutado (commits 0581a0c→39a8961).**
+- **F0** (`scripts/s288_acore_census_v2.py`, determinismo 2×): H1 CONFIRMADA 60/60 no-circular
+  — `extraction_sha256` ES el sha de los bytes del PDF y los 1.334 blobs locales de OneDrive
+  son los ingestados (dual-key 1.012 docs; 0 solo-sha, 0 sin-match). Partición 1169/1169.
+  Colisiones de blob 0. Census hyq: 7.421 filas (10,6%) con padre dup — el canal retrieval
+  guarda, la lane no guardaba.
+- **F2** (lane doc_scoped_hyq): scope por document_id vía embed (name-scope muerto), autoridad
+  ANTES de navegar (presupuesto 1+4+1=6/6 cero holgura), dup excluidos servidor+cinturón,
+  parents_rejected trazados. Suite 3393 passed (+19 gates). Smoke embed contra deploy real
+  PASSED (fallback P-D innecesario). Lane sigue OFF.
+- **P-A staged** (`evals/s288_acore_pA_apply_v1.sql`): 585 docs placeholder→sha real;
+  generador determinista (re-emisión byte-idéntica), parser real PG17 OK, `--verify` 16/16
+  PASS contra DB live, 0 exclusiones, backup anti-reuse + rollback + dry-run. **Paste de
+  Alberto pendiente** (stop-line).
+- **P-B**: el gate de calibración PARÓ un backfill defectuoso — clase nueva cazada:
+  extracciones diagram-heavy con ANOTACIONES EN INGLÉS del extractor (bd0c2e27: doc español
+  con 39/40 marcadores «en» provenientes de `[Diagram showing…]`). FIX 3 = limpieza de input
+  mecanismo-motivada → calibración 100,0% (389/389), 2 backfills erróneos evitados
+  (D700-3-Sp, 4188-1132-PT), cohorte 406 {es 307, en 99}. **Gate (e)(iii) ABIERTO: QA-30 v3
+  (`evals/s288_acore_pB_qa30_v3.md`), 30/30-o-HALT, adjudica Alberto.**
+
+**Alternativas descartadas.** A1-standalone (scope irrealizable sin document_id) · P-D columna
+denormalizada · bulk-lineage en cualquier variante (2 rondas) · sha-only matching · reutilizar
+`audit_chunk_languages.py` (lee tabla legacy `chunks`).
+
+**Pendiente (F3, tras el paste).** Census v3 delta con gate aplicado==100% · receipts de lane
+(atribución por mecanismo) · eficacia cohorte {cat010#0, hp012#3} + hp013#1 en 39 dev con
+freeze completo · después: etapa 3 síntesis sobre serving estable + re-baseline bvg.

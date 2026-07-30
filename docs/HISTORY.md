@@ -2299,3 +2299,21 @@ Cierra la sesión el full del assessment nivel-hecho corriendo como gate del lev
 smoke validado ($3) y el 500 transitorio del canal enunciados verificado como blip, no como
 degradación. Pendiente de Alberto, empaquetado sin urgencia: paste D9 (answer_feedback), re-accept
 por el bump de términos, lote de ONs con runbook de sondas, y D1-D11.
+
+
+## s288 (30 jul 2026, tramo autónomo) — A-core: de la consolidación al paste
+
+Alberto adjudicó upstream-first («¿por qué no recomiendas A?») y dio «arranca y procede de
+forma autónoma». El tramo convirtió la consolidación A1+A2 en un arco completo: census
+verificado contra la DB viva (los placeholder son sha256 del NOMBRE; el binding
+extraction==source_pdf ya se cumplía en 414 docs; solo 9 docs con lineage; 7.421 filas hyq
+apuntando a padres deduplicados; 1.334 PDFs locales en OneDrive), H1 pre-verificada a mano
+34/34, spec normativo único llevado por el dúo a v3 en dos rondas (18/18 hallazgos confirmados,
+0 FP — Sol tumbó dos veces el bulk-lineage y una la columna document_id en hyq; Fable cazó la
+circularidad del gate H1 y el guard del UNIQUE), y build en carriles Opus: census F0
+determinista (H1 60/60), lane F2 endurecida (suite 3393, smoke embed real OK), packet P-A de
+585 filas verificado 16/16 contra la DB, y un detector de idioma que su propio gate de
+calibración paró dos veces hasta cazar la clase real (anotaciones inglesas del extractor en
+docs españoles diagram-heavy) y cerrar en 100,0% con 2 backfills erróneos evitados. Bandeja de
+Alberto: paste P-A (single point of failure del arco), QA-30 de idioma (30/30-o-HALT), y la
+política de tramos de lineage. Traza: DEC-165; tally en adversarial_review_log (3 entradas).
