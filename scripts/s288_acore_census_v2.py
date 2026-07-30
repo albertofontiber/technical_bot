@@ -64,17 +64,21 @@ DESVIACIONES / ELECCIONES CONSERVADORAS (declaradas, spec §F0 no las fija):
   8. **Detector**: muestra los 10 primeros chunks del doc por ``(chunk_index, id)`` (el
      "≥10" del spec, tomado por su piso), sobre TODOS sus chunks (los ``duplicate_of`` no
      se excluyen: su contenido es igualmente evidencia del idioma del documento).
-  9. **Diagnosticos del detector, NO correcciones.**  La regla de confianza del spec
-     (>=20 marcadores Y >=2x el segundo) admite dos falsos "alta" que este census CAZO con
-     casos reales: (a) *degenerado* — el conteo lo sostiene UN token repetido (36x ``plus``,
-     nombre de producto, en una tabla ESPANOLA -> ``fr/alta``); (b) *bilingue sospechoso* —
-     el segundo idioma tambien supera el piso absoluto (manual ``_ES_GB_`` con 168 ``en`` vs
-     83 ``es`` pasa el ratio por los pelos).  **NO se altera el predicado del spec**: la cifra
-     P-B pre-registrada sigue siendo la literal; los dos diagnosticos se publican como
-     cohorte separada (``P_B.document_ids_depurado``) y como insumo de la QA-30/HALT.
-     Cambiar el umbral seria re-disenar; ocultar el defecto seria peor.  Ademas, los
-     desacuerdos de calibracion se etiquetan con el ORIGEN del label (s282-LLM vs residual
-     pre-s282) para separar "error del detector" de "error legacy" (spec riesgo 8).
+  9. **Endurecimientos del detector — ADOPTADOS (tag v2).**  La regla de confianza literal
+     del spec (>=20 marcadores Y >=2x el segundo) admitia dos falsos "alta" que el run v1
+     de este mismo census CAZO con casos reales; ambos quedan cableados como FIX en
+     ``detect_language`` (ver su docstring): FIX 1 supresion del token dominante (>50% del
+     recuento del ganador) con degradacion a baja si el veredicto cambia al quitarlo; FIX 2
+     degradacion a baja si los dos idiomas top cruzan familia (en vs romance) con margen
+     < 3x.  Ambos solo pueden DEGRADAR alta->baja.  El veredicto LITERAL se sigue calculando
+     y publicando (``language_literal``/``confidence_literal``) para poder auditar el delta
+     v1->v2 documento a documento.  **Los artefactos ``*_v1.*`` (predicado literal) NO se
+     regeneran: son el baseline.**  Ademas, los desacuerdos de calibracion se etiquetan con
+     el ORIGEN del label (s282-LLM vs residual pre-s282) para separar "error del detector"
+     de "error legacy" (spec riesgo 8).
+ 10. **La QA-30 se emite como packet legible** (``evals/s288_acore_pB_qa30_<tag>.md``) con 2
+     snippets de evidencia por documento y casilla de adjudicacion, pero **NO se adjudica**:
+     la regla 30/30-o-HALT exige juicio humano y este instrumento es $0/read-only.
 
 Usage:  python scripts/s288_acore_census_v2.py [--tag v1] [--reuse-manifest]
 Outputs: evals/s288_acore_census_v2_result_<tag>.json
@@ -121,9 +125,15 @@ BLOB_EXCLUDE_TOP = {"logs"}          # encargo: excluir el subdirectorio logs
 LANG_SAMPLE_N = 10                   # spec F0(e): >=10 chunks por doc (piso)
 LANG_HIGH_MIN_MARKERS = 20           # spec: confianza alta ⇔ >=20 marcadores ...
 LANG_HIGH_MIN_RATIO = 2.0            # ... Y margen dominante >= 2x el segundo
-LANG_MIN_MARKER_TYPES = 5            # DIAGNOSTICO (no altera el veredicto del spec): con
-                                     # menos tipos distintos, la "alta" la sostiene un token
-                                     # repetido -> se marca `degenerado` y sale del P-B depurado
+LANG_MIN_MARKER_TYPES = 5            # informativo: tipos de marcador distintos que sostienen
+                                     # el recuento del idioma ganador
+# ── endurecimientos v2 del detector (ADOPTADOS tras el diagnostico del run v1) ────────
+DOMINANT_TOKEN_MAX_SHARE = 0.50      # fix 1: un solo TIPO de token no puede aportar >50% del
+                                     # recuento del idioma ganador; se SUPRIME como marcador y,
+                                     # si al quitarlo cambia el veredicto -> confianza BAJA
+CROSS_FAMILY_MIN_RATIO = 3.0         # fix 2: si los dos idiomas top CRUZAN familia (en vs
+                                     # romance) y el margen es < 3x -> confianza BAJA
+ROMANCE = frozenset({"es", "fr", "it", "pt"})
 H1_STRATUM_N = 30                    # spec §2: n>=60 estratificada (30 + 30)
 QA30_N = 30                          # spec F0(e)(iii)
 
@@ -313,52 +323,126 @@ def _tokenize(text: str) -> list[str]:
     return [m.group(0).lower().translate(_ACCENTS) for m in _WORD_RE.finditer(text)]
 
 
-def detect_language(text: str) -> dict[str, Any]:
-    """Detector determinista por marcadores fuertes.
+# Pista ADVISORY (solo para el packet QA-30): tokens de idioma en el NOMBRE del fichero.
+# No entra en ningun veredicto — es una ayuda al humano para cazar el blind spot declarado
+# (documentos multi-idioma que el detector no degrada porque el 2o idioma es romance).
+_STEM_LANG_TOKEN_RE = re.compile(
+    r"(?<![a-z])(es|en|gb|uk|us|fr|it|pt|de|nl|pl|ru|ml|ita|eng|spa|fra|ger|por)(?![a-z])",
+    re.IGNORECASE)
 
-    alta ⇔ (marcadores del dominante >= LANG_HIGH_MIN_MARKERS) Y
-           (dominante >= LANG_HIGH_MIN_RATIO x el segundo).  En cualquier otro caso: baja.
-    Desempate por orden alfabetico de idioma (determinismo).
+
+def stem_multilang_hint(stem: str) -> list[str]:
+    toks = sorted({t.lower() for t in _STEM_LANG_TOKEN_RE.findall(str(stem or ""))})
+    return toks if len(toks) >= 2 else []
+
+
+def _rank(hits: dict[str, int]) -> list[tuple[str, int]]:
+    # Desempate por orden alfabetico de idioma (determinismo).
+    return sorted(hits.items(), key=lambda kv: (-kv[1], kv[0]))
+
+
+def detect_language(text: str) -> dict[str, Any]:
+    """Detector determinista por marcadores fuertes, ENDURECIDO (v2).
+
+    Base (spec F0(e)): alta ⇔ (marcadores del dominante >= LANG_HIGH_MIN_MARKERS) Y
+    (dominante >= LANG_HIGH_MIN_RATIO x el segundo).  Sobre esa base se aplican los DOS
+    endurecimientos adoptados tras el diagnostico del run v1 (ambos solo pueden DEGRADAR
+    alta->baja; ninguno puede promover baja->alta):
+
+    FIX 1 — token dominante.  Un solo TIPO de token que aporte > DOMINANT_TOKEN_MAX_SHARE
+    del recuento del idioma ganador se SUPRIME como marcador en TODOS los idiomas (es un
+    token no discriminante en este documento: nombre de producto, cabecera repetida...).
+    Se re-decide sobre el recuento depurado; si el veredicto (idioma, alta/baja) CAMBIA al
+    quitarlo, la confianza cae a BAJA.  Caso real: 36x ``plus`` (de ``NFS-2 PLUS``) en una
+    tabla de equivalencias ESPANOLA daba ``fr/alta``.
+
+    FIX 2 — cruce de familia.  Si los dos idiomas top cruzan familia (exactamente uno es
+    ``en``, el otro romance) y el margen es < CROSS_FAMILY_MIN_RATIO, la confianza cae a
+    BAJA: es el patron del documento MIXTO (spec §F1 P-B: "mixto -> NULL se queda").  Caso
+    real: manual ``..._ES_GB_...`` con 168 ``en`` vs 83 ``es`` (ratio 2.02) daba ``en/alta``.
+    Entre romances NO se aplica: alli el 2o puesto es SANGRADO de marcadores compartidos
+    (``con``/``una``/``no``/``que`` viven a la vez en es/it/pt), no bilinguismo.
+    Blind spot DECLARADO: un documento es+it realmente mixto no se degrada por esta via.
     """
     tokens = _tokenize(text)
     c = Counter(tokens)
-    hits = {lang: sum(c[w] for w in STRONG_MARKERS[lang]) for lang in LANG_UNIVERSE}
-    ranked = sorted(hits.items(), key=lambda kv: (-kv[1], kv[0]))
+
+    def _hits(exclude: frozenset[str] = frozenset()) -> dict[str, int]:
+        return {lang: sum(c[w] for w in STRONG_MARKERS[lang] if w not in exclude)
+                for lang in LANG_UNIVERSE}
+
+    # -- veredicto LITERAL del spec (se conserva para poder medir el delta v1->v2) --
+    raw_hits = _hits()
+    raw_ranked = _rank(raw_hits)
+    raw_top_lang, raw_top = raw_ranked[0]
+    raw_second = raw_ranked[1][1]
+    raw_high = (raw_top >= LANG_HIGH_MIN_MARKERS) and (raw_top >= LANG_HIGH_MIN_RATIO * raw_second)
+    base = {"hits_literal": raw_hits, "tokens": len(tokens),
+            "language_literal": raw_top_lang if raw_top else None,
+            "confidence_literal": "alta" if (raw_high and raw_top) else "baja"}
+
+    if raw_top == 0:
+        return {**base, "language": None, "confidence": "baja", "hits": raw_hits,
+                "reason": "sin_marcadores", "tipos_marcador": 0, "margin_ratio": None,
+                "segundo_idioma": None, "segundo_marcadores": 0,
+                "tokens_dominantes_suprimidos": [],
+                "degradado_por_token_dominante": False,
+                "degradado_por_familia_cruzada": False}
+
+    # -- FIX 1: suprimir tipos de token dominantes y re-decidir --
+    dominante = frozenset(sorted(
+        w for w in STRONG_MARKERS[raw_top_lang]
+        if c[w] > DOMINANT_TOKEN_MAX_SHARE * raw_top))
+    hits = _hits(dominante) if dominante else raw_hits
+    ranked = _rank(hits)
     top_lang, top_hits = ranked[0]
     second_lang, second_hits = ranked[1]
+
     if top_hits == 0:
-        return {"language": None, "confidence": "baja", "hits": hits, "tokens": len(tokens),
-                "reason": "sin_marcadores", "tipos_marcador": 0,
+        # todo el recuento lo sostenia el token suprimido -> sin evidencia utilizable
+        return {**base, "language": None, "confidence": "baja", "hits": hits,
+                "reason": "solo_token_dominante", "tipos_marcador": 0, "margin_ratio": None,
                 "segundo_idioma": None, "segundo_marcadores": 0,
-                "degenerado": False, "bilingue_sospechoso": False}
+                "tokens_dominantes_suprimidos": sorted(dominante),
+                "degradado_por_token_dominante": True,
+                "degradado_por_familia_cruzada": False}
+
     high = (top_hits >= LANG_HIGH_MIN_MARKERS) and (top_hits >= LANG_HIGH_MIN_RATIO * second_hits)
-    # DIAGNOSTICOS (NO alteran el veredicto del spec; alimentan la QA-30/HALT):
-    #  - `tipos_marcador`: cuantas PALABRAS distintas del set sostienen el conteo.  Con 1-2
-    #    tipos el veredicto lo decide un token repetido (caso real cazado: 36x "plus" en una
-    #    tabla de equivalencias ESPANOLA -> `fr/alta`).
-    #  - `bilingue_sospechoso`: el segundo idioma tambien supera el piso absoluto de
-    #    marcadores -> candidato a "mixto" en el sentido del spec §F1 P-B.
-    n_types = sum(1 for w in STRONG_MARKERS[top_lang] if c[w])
+    ratio = (top_hits / second_hits) if second_hits else None
+
+    # FIX 1 (cont.): el veredicto cambio al suprimir el token -> no es robusto
+    deg_token = bool(dominante) and ((top_lang, high) != (raw_top_lang, raw_high))
+    # FIX 2: cruce de familia con margen estrecho
+    cross_family = ((top_lang == "en") != (second_lang == "en")) and second_hits > 0
+    deg_family = bool(high and cross_family and ratio is not None
+                      and ratio < CROSS_FAMILY_MIN_RATIO)
+
+    confidence = "alta" if (high and not deg_token and not deg_family) else "baja"
+    if high and deg_token:
+        reason = "veredicto_cambia_sin_token_dominante"
+    elif high and deg_family:
+        reason = "familia_cruzada_margen_estrecho"
+    elif high:
+        reason = "ok"
+    elif top_hits < LANG_HIGH_MIN_MARKERS:
+        reason = "pocos_marcadores"
+    else:
+        reason = "margen_insuficiente"
+
     return {
+        **base,
         "language": top_lang,
-        "confidence": "alta" if high else "baja",
+        "confidence": confidence,
         "hits": hits,
-        "tokens": len(tokens),
-        "margin_ratio": round(top_hits / second_hits, 3) if second_hits else None,
-        "reason": "ok" if high else ("pocos_marcadores" if top_hits < LANG_HIGH_MIN_MARKERS
-                                     else "margen_insuficiente"),
-        "tipos_marcador": n_types,
+        "margin_ratio": round(ratio, 3) if ratio is not None else None,
+        "reason": reason,
+        "tipos_marcador": sum(1 for w in STRONG_MARKERS[top_lang]
+                              if c[w] and w not in dominante),
         "segundo_idioma": second_lang if second_hits else None,
         "segundo_marcadores": second_hits,
-        "degenerado": high and n_types < LANG_MIN_MARKER_TYPES,
-        # Solo CRUZANDO familia (exactamente uno de los dos es `en`).  Entre lenguas
-        # romances el segundo puesto es casi siempre SANGRADO de marcadores compartidos
-        # (`con`, `una`, `no`, `que` viven en los sets es/it/pt a la vez), no bilinguismo:
-        # con el criterio absoluto sin esta condicion se marcaban 292 de 453 candidatos, lo
-        # que convertia la senal en ruido.  Blind spot DECLARADO: un documento es+it real
-        # no se marca.
-        "bilingue_sospechoso": (high and second_hits >= LANG_HIGH_MIN_MARKERS
-                                and ((top_lang == "en") != (second_lang == "en"))),
+        "tokens_dominantes_suprimidos": sorted(dominante),
+        "degradado_por_token_dominante": deg_token,
+        "degradado_por_familia_cruzada": deg_family,
     }
 
 
@@ -789,7 +873,10 @@ def derive(documents: list[dict[str, Any]],
         sample = chunks_by_doc.get(did, [])[:LANG_SAMPLE_N]
         if not sample:
             detections[did] = {"language": None, "confidence": "baja", "tokens": 0,
-                               "reason": "sin_chunks", "n_chunks_sampled": 0, "hits": {}}
+                               "reason": "sin_chunks", "n_chunks_sampled": 0, "hits": {},
+                               "language_literal": None, "confidence_literal": "baja",
+                               "degradado_por_token_dominante": False,
+                               "degradado_por_familia_cruzada": False}
             continue
         text = "\n".join(str(c.get("content") or "") for c in sample)
         det = detect_language(text)
@@ -851,23 +938,41 @@ def derive(documents: list[dict[str, Any]],
         and detections[did]["confidence"] == "alta" and detections[did]["language"]
     ])
     pb_rows = [{"document_id": did,
+                "stem": docs[did]["stem"],
                 "propuesta_language": detections[did]["language"],
                 "marcadores": detections[did]["hits"].get(detections[did]["language"]),
                 "margin_ratio": detections[did].get("margin_ratio"),
                 "tipos_marcador": detections[did].get("tipos_marcador"),
                 "segundo_idioma": detections[did].get("segundo_idioma"),
                 "segundo_marcadores": detections[did].get("segundo_marcadores"),
-                "degenerado": detections[did].get("degenerado"),
-                "bilingue_sospechoso": detections[did].get("bilingue_sospechoso"),
+                "tokens_dominantes_suprimidos": detections[did].get("tokens_dominantes_suprimidos"),
                 "n_chunks_sampled": detections[did]["n_chunks_sampled"],
                 "manufacturer": docs[did]["doc"].get("manufacturer"),
                 "source_pdf_filename": docs[did]["doc"].get("source_pdf_filename")}
                for did in pb_ids]
     pb_by_lang = dict(sorted(Counter(r["propuesta_language"] for r in pb_rows).items()))
-    pb_degenerados = sorted([r["document_id"] for r in pb_rows if r["degenerado"]])
-    pb_bilingues = sorted([r["document_id"] for r in pb_rows if r["bilingue_sospechoso"]])
-    pb_depurado = sorted([r["document_id"] for r in pb_rows
-                          if not r["degenerado"] and not r["bilingue_sospechoso"]])
+
+    # Delta v1->v2: quienes ERAN elegibles con el predicado LITERAL del spec y han caido
+    # por cada uno de los dos endurecimientos (auditoria del cambio, no cifra de packet).
+    pb_literal_ids = sorted([
+        did for did, v in docs.items()
+        if v["status"] == "active" and v["language_bucket"] == "null"
+        and detections[did].get("confidence_literal") == "alta"
+        and detections[did].get("language_literal")
+    ])
+    caidos_token = sorted([did for did in pb_literal_ids
+                           if detections[did].get("degradado_por_token_dominante")])
+    caidos_familia = sorted([did for did in pb_literal_ids
+                             if detections[did].get("degradado_por_familia_cruzada")])
+    pb_delta = {
+        "n_elegibles_predicado_literal_v1": len(pb_literal_ids),
+        "n_caidos_por_token_dominante": len(caidos_token),
+        "n_caidos_por_familia_cruzada": len(caidos_familia),
+        "document_ids_caidos_por_token_dominante": caidos_token,
+        "document_ids_caidos_por_familia_cruzada": caidos_familia,
+        "por_idioma_literal_v1": dict(sorted(Counter(
+            detections[d]["language_literal"] for d in pb_literal_ids).items())),
+    }
 
     # QA-30 estratificada por idioma propuesto (round-robin determinista) — NO adjudicada
     by_lang_pool: dict[str, list[str]] = {}
@@ -883,14 +988,40 @@ def derive(documents: list[dict[str, Any]],
             if cursor < len(by_lang_pool[lang]) and len(qa30) < QA30_N:
                 qa30.append(by_lang_pool[lang][cursor])
         cursor += 1
+    def _snippets(did: str, n: int = 2, width: int = 420) -> list[dict[str, Any]]:
+        """`n` extractos de EVIDENCIA deterministas de la muestra del detector.
+
+        Se toman el PRIMERO y el del MEDIO de los chunks muestreados (no dos consecutivos:
+        la portada suele ser multilingue o puro logo, el del medio es cuerpo real).
+        """
+        sample = chunks_by_doc.get(did, [])[:LANG_SAMPLE_N]
+        if not sample:
+            return []
+        idxs = sorted({0, len(sample) // 2})[:n]
+        out = []
+        for i in idxs:
+            ch = sample[i]
+            out.append({
+                "chunk_index": ch.get("chunk_index"),
+                "texto": " ".join(str(ch.get("content") or "").split())[:width],
+            })
+        return out
+
     qa30_rows = [{
         "document_id": did,
+        "stem": docs[did]["stem"],
         "propuesta_language": detections[did]["language"],
         "manufacturer": docs[did]["doc"].get("manufacturer"),
         "source_pdf_filename": docs[did]["doc"].get("source_pdf_filename"),
         "marcadores": detections[did]["hits"],
-        "extracto": " ".join(str((chunks_by_doc.get(did) or [{}])[0].get("content") or "").split())[:300],
+        "margin_ratio": detections[did].get("margin_ratio"),
+        "segundo_idioma": detections[did].get("segundo_idioma"),
+        "segundo_marcadores": detections[did].get("segundo_marcadores"),
+        "n_chunks_sampled": detections[did]["n_chunks_sampled"],
+        "pista_multiidioma_en_nombre": stem_multilang_hint(docs[did]["stem"]),
+        "evidencia": _snippets(did),
     } for did in qa30]
+    qa30_multilang = [r["document_id"] for r in qa30_rows if r["pista_multiidioma_en_nombre"]]
 
     # ── (f) SCREENS DE SIBLINGS ───────────────────────────────────────────────
     pointed_to: dict[str, list[str]] = {}
@@ -977,19 +1108,13 @@ def derive(documents: list[dict[str, Any]],
             "document_ids_predicado_literal": pa_all_ids,
         },
         "P_B": {
-            "definicion_packet": "activo + language NULL + detector v2 confianza ALTA (predicado literal del spec)",
+            "definicion_packet": ("activo + language NULL + detector v2 ENDURECIDO confianza "
+                                  "ALTA (base del spec + supresion de token dominante + "
+                                  "cruce de familia con margen >= 3x)"),
             "n_elegibles": len(pb_ids),
             "document_ids": pb_ids,
             "por_idioma": pb_by_lang,
-            # Secundario DECLARADO: el predicado literal NO se toca (es la cifra
-            # pre-registrada), pero se publica el subconjunto que ademas sobrevive a los
-            # dos diagnosticos de §5.1bis, por si F1 prefiere el corte conservador.
-            "n_depurado": len(pb_depurado),
-            "document_ids_depurado": pb_depurado,
-            "n_degenerados_pocos_tipos_marcador": len(pb_degenerados),
-            "document_ids_degenerados": pb_degenerados,
-            "n_bilingues_sospechosos": len(pb_bilingues),
-            "document_ids_bilingues_sospechosos": pb_bilingues,
+            "delta_vs_predicado_literal": pb_delta,
         },
     }
 
@@ -1071,14 +1196,29 @@ def derive(documents: list[dict[str, Any]],
         "d_deriva": drift,
         "e_idioma": {
             "detector": {
+                "version": "v2_endurecido",
                 "universo": list(LANG_UNIVERSE),
                 "muestra_por_doc": LANG_SAMPLE_N,
                 "umbral_marcadores_alta": LANG_HIGH_MIN_MARKERS,
                 "umbral_ratio_alta": LANG_HIGH_MIN_RATIO,
                 "min_tipos_marcador": LANG_MIN_MARKER_TYPES,
+                "fix1_share_max_token_dominante": DOMINANT_TOKEN_MAX_SHARE,
+                "fix2_ratio_min_cruce_familia": CROSS_FAMILY_MIN_RATIO,
+                "familias": {"en": ["en"], "romance": sorted(ROMANCE)},
             },
             "distribucion_detectada": dict(sorted(Counter(
                 f"{d['language'] or '∅none'}/{d['confidence']}" for d in detections.values()).items())),
+            "degradaciones_corpus": {
+                "n_docs_con_token_dominante_suprimido": sum(
+                    1 for d in detections.values() if d.get("tokens_dominantes_suprimidos")),
+                "n_degradados_por_token_dominante": sum(
+                    1 for d in detections.values() if d.get("degradado_por_token_dominante")),
+                "n_degradados_por_familia_cruzada": sum(
+                    1 for d in detections.values() if d.get("degradado_por_familia_cruzada")),
+                "distribucion_literal_v1": dict(sorted(Counter(
+                    f"{d.get('language_literal') or '∅none'}/{d.get('confidence_literal')}"
+                    for d in detections.values()).items())),
+            },
             "calibracion": calibration,
             "procedencia_scan": provenance_scan,
             "procedencia_cross_s282": cross_s282_manifest(
@@ -1087,11 +1227,11 @@ def derive(documents: list[dict[str, Any]],
                        if (v["doc"].get("language") or "").strip() else None)
                  for did, v in docs.items()}),
             "candidatos_P_B": {"n": len(pb_rows), "por_idioma": pb_by_lang,
-                               "n_degenerados": len(pb_degenerados),
-                               "n_bilingues": len(pb_bilingues),
-                               "n_depurado": len(pb_depurado),
+                               "delta_vs_predicado_literal": pb_delta,
                                "rows": pb_rows[:60]},
-            "qa30": {"n": len(qa30_rows), "rows": qa30_rows, "adjudicada": False},
+            "qa30": {"n": len(qa30_rows), "rows": qa30_rows, "adjudicada": False,
+                     "n_con_pista_multiidioma_en_nombre": len(qa30_multilang),
+                     "document_ids_con_pista_multiidioma": sorted(qa30_multilang)},
         },
         "f_screens": screens_summary,
         "g_pre_registro": pre_registro,
@@ -1148,6 +1288,7 @@ def main(argv: list[str] | None = None) -> int:
     manifest_path = ROOT / f"evals/s288_acore_blob_manifest_{tag}.jsonl"
     result_path = ROOT / f"evals/s288_acore_census_v2_result_{tag}.json"
     report_path = ROOT / f"evals/s288_acore_census_v2_report_{tag}.md"
+    qa30_path = ROOT / f"evals/s288_acore_pB_qa30_{tag}.md"
 
     _init_http()
     contract = freeze_contract(spec)
@@ -1213,18 +1354,91 @@ def main(argv: list[str] | None = None) -> int:
         "result_sha256_pass2": sha2,
         "blob_manifest_path": manifest_path.relative_to(ROOT).as_posix(),
         "blob_manifest_sha256_lf": _sha256_lf(manifest_path),
+        "qa30_packet_path": qa30_path.relative_to(ROOT).as_posix(),
         "census": payload_census,
     }
     result_path.write_text(json.dumps(payload, ensure_ascii=False, indent=1, default=str) + "\n",
                            encoding="utf-8")
     report_path.write_text(build_report(payload), encoding="utf-8")
+    qa30_path.write_text(build_qa30_packet(payload), encoding="utf-8")
     print(f"\nmanifest: {manifest_path}")
     print(f"result:   {result_path}")
     print(f"report:   {report_path}")
+    print(f"qa30:     {qa30_path}")
     return 0 if deterministic else 2
 
 
 # ── report ────────────────────────────────────────────────────────────────────
+def build_qa30_packet(payload: dict[str, Any]) -> str:
+    """Packet LEGIBLE de la muestra QA-30 para adjudicacion humana (spec F0(e)(iii)).
+
+    Una ficha por documento: id · stem · idioma propuesto · evidencia del detector · 2
+    snippets de texto real.  La regla de aceptacion es **30/30 correctos o HALT**; este
+    fichero NO la adjudica (es $0/read-only): trae una casilla por fila para que Alberto
+    marque.  Determinista: sale del mismo blob canonico que el census.
+    """
+    c = payload["census"]
+    e = c["e_idioma"]
+    qa = e["qa30"]
+    det = e["detector"]
+    tag = payload.get("run_tag", "v2")
+    L: list[str] = []
+    A = L.append
+    A(f"# s288 A-CORE — packet QA-30 de P-B para adjudicacion — {tag}")
+    A("")
+    A("**Que hay que decidir (spec F0(e)(iii)):** para cada documento, ¿el idioma PROPUESTO es "
+      "el idioma del documento? Regla de aceptacion: **30/30 correctos -> gate (e) verde; "
+      "cualquier fallo -> HALT y revision del detector** (y, si el fallo es de un label legacy, "
+      "revision de la cohorte etiquetada — spec riesgo 8). Marca `[x] OK` o `[x] MAL` por ficha.")
+    A("")
+    A(f"- cohorte P-B (activos, `language IS NULL`, detector v2 confianza alta): "
+      f"**{e['candidatos_P_B']['n']}** documentos · `{e['candidatos_P_B']['por_idioma']}`")
+    A(f"- muestra: **{qa['n']}** documentos, estratificada por idioma propuesto, round-robin "
+      "determinista sobre `md5(document_id)`")
+    A(f"- detector: **{det.get('version')}** · muestra {det['muestra_por_doc']} chunks/doc · alta ⇔ "
+      f">={det['umbral_marcadores_alta']} marcadores Y >={det['umbral_ratio_alta']}x el segundo, "
+      f"+ supresion de token dominante (>{int(det['fix1_share_max_token_dominante']*100)}%) "
+      f"+ cruce de familia >= {det['fix2_ratio_min_cruce_familia']}x")
+    A(f"- freeze: commit `{payload['freeze_contract']['commit_head'][:12]}` · corpus sha "
+      f"`{payload['corpus_fingerprint']['sha256'][:16]}` · determinismo 2x "
+      f"{'OK' if payload['deterministic_2x'] else 'KO'}")
+    A("")
+    A("**Aviso de honestidad:** el detector NO es fiable fuera de {es, en} (todos los labels "
+      "`it`/`fr`/`pt`/`nl` del corpus se detectan como `en`). Si alguna ficha propone un idioma "
+      "distinto de `es`/`en`, trata la propuesta como sospechosa por defecto.")
+    A("")
+    A(f"**Blind spot declarado:** el FIX 2 solo degrada cuando el 2º idioma cruza familia "
+      "(`en` vs romance); un documento realmente mixto **es+fr/it/pt** NO se degrada. Como ayuda, "
+      "las fichas cuyo NOMBRE sugiere multi-idioma llevan la marca ⚠️ **PISTA MULTI-IDIOMA** "
+      f"(heuristica de nombre, ADVISORY, no entra en ningun veredicto): "
+      f"**{qa.get('n_con_pista_multiidioma_en_nombre', 0)} de {qa['n']}** fichas.")
+    A("")
+    A("---")
+    A("")
+    for i, r in enumerate(qa["rows"], 1):
+        hint = r.get("pista_multiidioma_en_nombre") or []
+        badge = f"  ⚠️ **PISTA MULTI-IDIOMA en el nombre: `{hint}`**" if hint else ""
+        A(f"## {i}. `{r['document_id']}` — propuesta: **{r['propuesta_language']}**{badge}")
+        A("")
+        A(f"- stem: `{r.get('stem')}`")
+        A(f"- fichero: `{r.get('source_pdf_filename')}` · marca: {r.get('manufacturer')}")
+        A(f"- marcadores por idioma: `{r.get('marcadores')}` · 2º idioma: "
+          f"`{r.get('segundo_idioma')}` ({r.get('segundo_marcadores')}) · margen: "
+          f"{r.get('margin_ratio')}x · chunks muestreados: {r.get('n_chunks_sampled')}")
+        A("")
+        for j, ev in enumerate(r.get("evidencia") or [], 1):
+            A(f"> **evidencia {j}** (chunk_index {ev.get('chunk_index')}): {ev.get('texto')}")
+            A("")
+        A("- [ ] OK  - [ ] MAL  → si MAL, idioma correcto: ______")
+        A("")
+        A("---")
+        A("")
+    A(f"**Recuento final:** ____ / {qa['n']} correctos. 30/30 -> gate (e)(iii) verde. "
+      "Cualquier fallo -> HALT.")
+    A("")
+    return "\n".join(L)
+
+
 def build_report(payload: dict[str, Any]) -> str:
     fc = payload["freeze_contract"]
     c = payload["census"]
@@ -1252,6 +1466,8 @@ def build_report(payload: dict[str, Any]) -> str:
       f"sha256 `{fp['sha256']}`")
     A(f"- manifest de blobs: `{payload['blob_manifest_path']}` sha256-LF "
       f"`{payload['blob_manifest_sha256_lf']}`")
+    if payload.get("qa30_packet_path"):
+        A(f"- packet QA-30 de P-B (adjudicacion humana): `{payload['qa30_packet_path']}`")
     A(f"- **determinismo 2x: {'IDENTICO ✅' if payload['deterministic_2x'] else 'DIVERGE ❌'}** "
       f"(pass1 `{payload['result_sha256_pass1'][:16]}` vs pass2 `{payload['result_sha256_pass2'][:16]}`; "
       "ambas pasadas RE-LEEN la DB; el hash de los PDFs se calcula UNA vez y se reusa — los bytes "
@@ -1407,10 +1623,18 @@ def build_report(payload: dict[str, Any]) -> str:
     A("### 5.1 Detector (reconstruido en este script)")
     A("")
     det = e["detector"]
-    A(f"- universo: `{det['universo']}` · muestra por doc: **{det['muestra_por_doc']} chunks** "
-      f"(primeros por `(chunk_index, id)`; todos si hay menos)")
-    A(f"- confianza **alta** ⇔ marcadores del dominante >= {det['umbral_marcadores_alta']} **Y** "
-      f"dominante >= {det['umbral_ratio_alta']}x el segundo. En cualquier otro caso: **baja**.")
+    A(f"- version: **{det.get('version')}** · universo: `{det['universo']}` · muestra por doc: "
+      f"**{det['muestra_por_doc']} chunks** (primeros por `(chunk_index, id)`; todos si hay menos)")
+    A(f"- base (spec F0(e)): confianza **alta** ⇔ marcadores del dominante >= "
+      f"{det['umbral_marcadores_alta']} **Y** dominante >= {det['umbral_ratio_alta']}x el segundo.")
+    A(f"- **FIX 1 (token dominante)**: un solo TIPO de token que aporte > "
+      f"{int(det['fix1_share_max_token_dominante']*100)}% del recuento del ganador se SUPRIME como "
+      "marcador en todos los idiomas y se re-decide; si el veredicto (idioma, alta/baja) CAMBIA al "
+      "quitarlo -> **baja**.")
+    A(f"- **FIX 2 (cruce de familia)**: si los dos idiomas top cruzan familia "
+      f"(`en` vs romance `{sorted(ROMANCE)}`) y el margen es < {det['fix2_ratio_min_cruce_familia']}x "
+      "-> **baja** (patron del documento MIXTO, spec §F1 P-B).")
+    A("- Ambos fixes solo pueden DEGRADAR alta->baja; ninguno promueve baja->alta.")
     A("- listas de marcadores INSPIRADAS en `scripts/audit_chunk_languages.py:89-95`; el modulo NO "
       "se importa ni se invoca (lee la tabla `chunks` legacy con muestra de 3 — spec §1 lo declara "
       "solo como referencia). Los acentos se normalizan antes de contar.")
@@ -1458,28 +1682,23 @@ def build_report(payload: dict[str, Any]) -> str:
           "mas debil que el ingles. No entran en la metrica es/en del gate, pero **avisan de que "
           "el detector no es fiable fuera de {es, en}**: P-B solo deberia tocar esas dos.")
         A("")
-    A("### 5.2bis Diagnosticos del detector (NO alteran el veredicto del spec)")
+    A("### 5.2bis Efecto de los dos endurecimientos (v1 literal -> v2 endurecido)")
     A("")
-    cand0 = e["candidatos_P_B"]
-    A(f"- **`degenerado`** (confianza alta sostenida por <{c['e_idioma']['detector']['min_tipos_marcador']} "
-      "PALABRAS distintas del set): un unico token repetido decide el idioma. **Caso real cazado "
-      "por este census:** un documento cuya tabla de equivalencias en ESPANOL repite 36 veces "
-      "`plus` (nombre de producto, p.ej. `NFS-2 PLUS`) sale `fr/alta` — `plus` es marcador FR. "
-      f"En los candidatos P-B: **{cand0['n_degenerados']}**.")
-    A(f"- **`bilingue_sospechoso`** (el SEGUNDO idioma supera el piso de "
-      f"{c['e_idioma']['detector']['umbral_marcadores_alta']} marcadores **y cruza familia** — "
-      "exactamente uno de los dos es `en`): documento mixto en el sentido del spec §F1 P-B "
-      "(«mixto -> NULL se queda»). **Caso real:** un manual `..._ES_GB_...` con 168 marcadores "
-      "`en` vs 83 `es` pasa el ratio 2.0 por los pelos y sale `en/alta`. La condicion de cruce de "
-      "familia es necesaria: entre romances el 2º puesto es SANGRADO de marcadores compartidos "
-      "(`con`/`una`/`no`/`que` estan a la vez en es/it/pt) y sin ella se marcaban 292 de 453 "
-      f"candidatos = ruido. **Blind spot declarado:** un es+it real no se marca. En P-B: "
-      f"**{cand0['n_bilingues']}**.")
+    dg = e["degradaciones_corpus"]
+    A(f"Sobre los {c['b_particion']['n_documents']} documentos:")
     A("")
-    A("Ninguno de los dos cambia la cifra PRE-REGISTRADA de P-B (§7), que sigue el predicado "
-      "literal del spec. Se publican como cohorte separada (`P_B.document_ids_depurado` en el "
-      "JSON) para que F1 pueda elegir el corte conservador, y como insumo directo de la "
-      "adjudicacion QA-30/HALT.")
+    A(f"- docs con algun token dominante SUPRIMIDO: **{dg['n_docs_con_token_dominante_suprimido']}** "
+      f"· de ellos **DEGRADADOS** (el veredicto cambiaba al quitarlo): "
+      f"**{dg['n_degradados_por_token_dominante']}**")
+    A(f"- docs DEGRADADOS por cruce de familia con margen < {det['fix2_ratio_min_cruce_familia']}x: "
+      f"**{dg['n_degradados_por_familia_cruzada']}**")
+    A(f"- distribucion `idioma/confianza` con el predicado LITERAL v1: `{dg['distribucion_literal_v1']}`")
+    A(f"- distribucion `idioma/confianza` con el detector v2: `{e['distribucion_detectada']}`")
+    A("")
+    A("Casos reales que motivaron cada fix (ambos cazados por el propio census v1): (1) una tabla "
+      "de equivalencias en ESPANOL que repite 36 veces `plus` (de `NFS-2 PLUS`, nombre de "
+      "producto) salia `fr/alta` porque `plus` es marcador FR; (2) un manual `..._ES_GB_...` con "
+      "168 marcadores `en` vs 83 `es` (ratio 2.02) salia `en/alta` siendo bilingue.")
     A("")
     A("### 5.3 PROCEDENCIA de los labels existentes (scan reproducible del repo)")
     A("")
@@ -1518,21 +1737,21 @@ def build_report(payload: dict[str, Any]) -> str:
     A("### 5.4 Candidatos P-B (activos, language NULL, confianza alta)")
     A("")
     cand = e["candidatos_P_B"]
-    A(f"**{cand['n']} documentos** (predicado literal del spec) · por idioma propuesto: "
-      f"`{cand['por_idioma']}` · de ellos **{cand['n_degenerados']} degenerados** y "
-      f"**{cand['n_bilingues']} bilingues sospechosos** -> cohorte depurada = "
-      f"**{cand['n_depurado']}**.")
+    d0 = cand["delta_vs_predicado_literal"]
+    A(f"**{cand['n']} documentos** · por idioma propuesto: `{cand['por_idioma']}`.")
+    A("")
+    A(f"Delta contra el predicado LITERAL v1: partia de **{d0['n_elegibles_predicado_literal_v1']}** "
+      f"(`{d0['por_idioma_literal_v1']}`) y caen **{d0['n_caidos_por_token_dominante']}** por token "
+      f"dominante + **{d0['n_caidos_por_familia_cruzada']}** por cruce de familia.")
     A("")
     if cand["rows"]:
-        A("| document_id | idioma | marc. | ratio | tipos | 2º idioma (marc.) | flags | fichero |")
-        A("|---|---|---:|---:|---:|---|---|---|")
+        A("| document_id | idioma | marc. | ratio | tipos | 2º idioma (marc.) | fichero |")
+        A("|---|---|---:|---:|---:|---|---|")
         for r in cand["rows"][:20]:
-            flags = ",".join(f for f, on in (("degenerado", r.get("degenerado")),
-                                             ("bilingue", r.get("bilingue_sospechoso"))) if on) or "·"
             A(f"| `{str(r['document_id'])[:8]}` | {r['propuesta_language']} | {r['marcadores']} | "
               f"{r['margin_ratio']} | {r.get('tipos_marcador')} | "
-              f"{r.get('segundo_idioma')} ({r.get('segundo_marcadores')}) | {flags} | "
-              f"`{str(r['source_pdf_filename'])[:30]}` |")
+              f"{r.get('segundo_idioma')} ({r.get('segundo_marcadores')}) | "
+              f"`{str(r['source_pdf_filename'])[:34]}` |")
         A("")
     A("### 5.5 Muestra QA-30 (spec F0(e)(iii)) — EMITIDA, NO ADJUDICADA")
     A("")
@@ -1542,11 +1761,15 @@ def build_report(payload: dict[str, Any]) -> str:
       "requiere lectura humana del extracto y NO la decide este script ($0/read-only). Sin este "
       "gate cerrado, **P-B no se stagea** (spec §F0(e)).")
     A("")
-    A("| # | document_id | propuesta | marca | extracto (300 chars) |")
-    A("|---:|---|---|---|---|")
+    A("El packet legible para adjudicacion (2 snippets de evidencia por documento) se emite "
+      "aparte, ver la cabecera de este report.")
+    A("")
+    A("| # | document_id | stem | propuesta | 2º (marc.) | marca |")
+    A("|---:|---|---|---|---|---|")
     for i, r in enumerate(qa["rows"], 1):
-        A(f"| {i} | `{str(r['document_id'])[:8]}` | {r['propuesta_language']} | {r['manufacturer']} | "
-          f"{r['extracto'][:150].replace('|', '/')} |")
+        A(f"| {i} | `{str(r['document_id'])[:8]}` | `{str(r.get('stem'))[:38]}` | "
+          f"{r['propuesta_language']} | {r.get('segundo_idioma')} ({r.get('segundo_marcadores')}) | "
+          f"{r['manufacturer']} |")
     A("")
 
     # (f)
@@ -1608,17 +1831,14 @@ def build_report(payload: dict[str, Any]) -> str:
       f"{g['P_A']['n_elegibles']}**. Ambas listas de `document_id` van en el JSON "
       "(`census.g_pre_registro`), ordenadas.")
     A("")
-    A(f"**P-B por idioma propuesto:** `{g['P_B']['por_idioma']}`. **Gateado por F0(e)(ii)+(iii)** "
-      "(acuerdo es/en por debajo del 99% y QA 30/30 sin adjudicar): la cifra esta pre-registrada, "
-      "**el staging NO esta autorizado**.")
+    dl = g["P_B"]["delta_vs_predicado_literal"]
+    A(f"**P-B por idioma propuesto:** `{g['P_B']['por_idioma']}`. Cohorte construida con el "
+      f"detector **v2 endurecido**: partia de {dl['n_elegibles_predicado_literal_v1']} con el "
+      f"predicado literal y caen {dl['n_caidos_por_token_dominante']} por token dominante + "
+      f"{dl['n_caidos_por_familia_cruzada']} por cruce de familia (§5.2bis).")
     A("")
-    A(f"**P-B, cohorte DEPURADA (secundaria, declarada):** "
-      f"**{g['P_B']['n_depurado']}** documentos = los {g['P_B']['n_elegibles']} del predicado "
-      f"literal menos {g['P_B']['n_degenerados_pocos_tipos_marcador']} `degenerado` (idioma "
-      f"decidido por un token repetido) y {g['P_B']['n_bilingues_sospechosos']} "
-      "`bilingue_sospechoso` (§5.2bis). El predicado literal NO se ha tocado; esta cifra se "
-      "publica para que F1 pueda elegir el corte conservador con los datos delante "
-      "(`census.g_pre_registro.P_B.document_ids_depurado`).")
+    A(f"**Gate (e)(iii) sigue ABIERTO**: la QA-30 fresca de esta cohorte se emite como packet "
+      "legible pero NO esta adjudicada -> **el staging de P-B NO esta autorizado**.")
     A("")
     A("### 7.1 Techo declarado de P-A — por que cada documento NO entra (primer motivo, excluyente)")
     A("")
