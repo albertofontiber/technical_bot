@@ -64,6 +64,17 @@ DESVIACIONES / ELECCIONES CONSERVADORAS (declaradas, spec §F0 no las fija):
   8. **Detector**: muestra los 10 primeros chunks del doc por ``(chunk_index, id)`` (el
      "≥10" del spec, tomado por su piso), sobre TODOS sus chunks (los ``duplicate_of`` no
      se excluyen: su contenido es igualmente evidencia del idioma del documento).
+  9b. **FIX 3 — limpieza de INPUT (tag v3).**  Antes de contar marcadores se eliminan los
+     spans ``[...]`` que el EXTRACTOR inyecta en ingles para describir figuras.  Ese texto no
+     pertenece al documento: lo genera el instrumento.  En documentos ESPANOLES
+     *diagram-heavy* dominaba el recuento y producia ``en`` con confianza ALTA -> P-B habria
+     hecho un backfill ERRONEO (caso ``bd0c2e27`` = MI-DT-192, notifier.es, "9 AGOSTO 2013").
+     **Es limpieza motivada por el MECANISMO, no tuning contra el gate**: criterio sintactico
+     fijo, aplicado a TODOS los documentos, antes de contar.  A diferencia de FIX 1/2, SI
+     puede cambiar el idioma detectado — es su proposito.  Conservador: solo se elimina el
+     span si el corchete cierra en <= ``ANNOTATION_MAX_SPAN`` chars.  Se conserva el rastro
+     literal-vs-endurecido por documento (``language_literal``, ``limpieza``,
+     ``cambio_idioma_por_limpieza``).
   9. **Endurecimientos del detector — ADOPTADOS (tag v2).**  La regla de confianza literal
      del spec (>=20 marcadores Y >=2x el segundo) admitia dos falsos "alta" que el run v1
      de este mismo census CAZO con casos reales; ambos quedan cableados como FIX en
@@ -323,6 +334,40 @@ def _tokenize(text: str) -> list[str]:
     return [m.group(0).lower().translate(_ACCENTS) for m in _WORD_RE.finditer(text)]
 
 
+# ── FIX 3: limpieza de ANOTACIONES DEL EXTRACTOR (limpieza de INPUT) ──────────
+# El extractor inyecta descripciones de figuras EN INGLES dentro del `content`, entre
+# corchetes: "[Diagram showing CAB-IDA1 enclosure - a gray rectangular box...]",
+# "[Exploded view diagram showing assembly...]", "[Grid paper...]".  Ese texto NO es del
+# documento: es del INSTRUMENTO.  En documentos ESPANOLES diagram-heavy llega a dominar el
+# recuento y produce `en` con confianza ALTA — caso resuelto por Alberto leyendo la DB:
+# bd0c2e27 = MI-DT-192 (notifier.es, "9 AGOSTO 2013") es ESPANOL y salia `en/alta`; sin
+# este fix P-B habria escrito `en` en documentos espanoles (backfill ERRONEO).
+#
+# Es una limpieza de INPUT motivada por el MECANISMO (el texto no pertenece al documento),
+# NO un tuning contra el gate: se elimina la misma clase de span en TODOS los documentos,
+# antes de contar, sin mirar el resultado de la calibracion.  A diferencia de FIX 1/2, este
+# SI puede cambiar el IDIOMA detectado — ese es exactamente su proposito.
+#
+# Conservador: un span solo se elimina si el corchete CIERRA dentro de ANNOTATION_MAX_SPAN
+# caracteres (multi-linea permitido).  Un `[` sin cierre cercano se deja INTACTO.
+ANNOTATION_MAX_SPAN = 500
+_ANNOTATION_RE = re.compile(r"\[[\s\S]{0,%d}?\]" % ANNOTATION_MAX_SPAN)
+
+
+def strip_extractor_annotations(text: str) -> tuple[str, int, int]:
+    """Devuelve (texto_limpio, n_anotaciones_eliminadas, chars_eliminados)."""
+    n = 0
+    removed = 0
+
+    def _sub(m: re.Match) -> str:
+        nonlocal n, removed
+        n += 1
+        removed += len(m.group(0))
+        return " "
+
+    return _ANNOTATION_RE.sub(_sub, str(text or "")), n, removed
+
+
 # Pista ADVISORY (solo para el packet QA-30): tokens de idioma en el NOMBRE del fichero.
 # No entra en ningun veredicto — es una ayuda al humano para cazar el blind spot declarado
 # (documentos multi-idioma que el detector no degrada porque el 2o idioma es romance).
@@ -363,37 +408,70 @@ def detect_language(text: str) -> dict[str, Any]:
     Entre romances NO se aplica: alli el 2o puesto es SANGRADO de marcadores compartidos
     (``con``/``una``/``no``/``que`` viven a la vez en es/it/pt), no bilinguismo.
     Blind spot DECLARADO: un documento es+it realmente mixto no se degrada por esta via.
+
+    FIX 3 — limpieza de INPUT (anotaciones del extractor).  Antes de contar se eliminan los
+    spans ``[...]`` que el extractor inyecta EN INGLES para describir figuras (ver
+    ``strip_extractor_annotations``).  A diferencia de FIX 1/2, este SI puede cambiar el
+    IDIOMA detectado: ese es su proposito.  Motivado por el MECANISMO (ese texto no
+    pertenece al documento), no por el resultado del gate.
+
+    Trazabilidad: ``*_literal`` = veredicto de la regla LITERAL del spec sobre el texto CRUDO
+    (baseline v1, intacto); ``language_sin_limpieza`` = ganador sobre el texto crudo sin
+    FIX 1/2, para poder atribuir a FIX 3 los cambios de idioma.
     """
-    tokens = _tokenize(text)
+    # -- veredicto LITERAL del spec sobre el texto CRUDO (baseline v1, no se toca) --
+    tokens_raw = _tokenize(text)
+    c_raw = Counter(tokens_raw)
+    raw_hits = {lang: sum(c_raw[w] for w in STRONG_MARKERS[lang]) for lang in LANG_UNIVERSE}
+    raw_ranked = _rank(raw_hits)
+    raw_top_lang, raw_top = raw_ranked[0]
+    raw_second = raw_ranked[1][1]
+    raw_high = (raw_top >= LANG_HIGH_MIN_MARKERS) and (raw_top >= LANG_HIGH_MIN_RATIO * raw_second)
+
+    # -- FIX 3: limpiar las anotaciones del extractor y re-tokenizar --
+    cleaned_text, n_annot, chars_annot = strip_extractor_annotations(text)
+    tokens = _tokenize(cleaned_text)
     c = Counter(tokens)
 
     def _hits(exclude: frozenset[str] = frozenset()) -> dict[str, int]:
         return {lang: sum(c[w] for w in STRONG_MARKERS[lang] if w not in exclude)
                 for lang in LANG_UNIVERSE}
 
-    # -- veredicto LITERAL del spec (se conserva para poder medir el delta v1->v2) --
-    raw_hits = _hits()
-    raw_ranked = _rank(raw_hits)
-    raw_top_lang, raw_top = raw_ranked[0]
-    raw_second = raw_ranked[1][1]
-    raw_high = (raw_top >= LANG_HIGH_MIN_MARKERS) and (raw_top >= LANG_HIGH_MIN_RATIO * raw_second)
-    base = {"hits_literal": raw_hits, "tokens": len(tokens),
-            "language_literal": raw_top_lang if raw_top else None,
-            "confidence_literal": "alta" if (raw_high and raw_top) else "baja"}
+    clean_hits = _hits()
+    clean_ranked = _rank(clean_hits)
+    clean_top_lang, clean_top = clean_ranked[0]
+    clean_second = clean_ranked[1][1]
+    clean_high = (clean_top >= LANG_HIGH_MIN_MARKERS) and (clean_top >= LANG_HIGH_MIN_RATIO * clean_second)
 
-    if raw_top == 0:
-        return {**base, "language": None, "confidence": "baja", "hits": raw_hits,
-                "reason": "sin_marcadores", "tipos_marcador": 0, "margin_ratio": None,
+    base = {
+        "hits_literal": raw_hits,
+        "tokens": len(tokens),
+        "tokens_crudos": len(tokens_raw),
+        "language_literal": raw_top_lang if raw_top else None,
+        "confidence_literal": "alta" if (raw_high and raw_top) else "baja",
+        "language_sin_limpieza": raw_top_lang if raw_top else None,
+        "limpieza": {"n_anotaciones": n_annot, "chars_eliminados": chars_annot,
+                     "pct_chars_eliminados": (round(100 * chars_annot / len(str(text or "")), 2)
+                                              if text else 0.0)},
+        "language_tras_limpieza": clean_top_lang if clean_top else None,
+        "cambio_idioma_por_limpieza": bool(
+            (clean_top_lang if clean_top else None) != (raw_top_lang if raw_top else None)),
+    }
+
+    if clean_top == 0:
+        return {**base, "language": None, "confidence": "baja", "hits": clean_hits,
+                "reason": "sin_marcadores_tras_limpieza" if raw_top else "sin_marcadores",
+                "tipos_marcador": 0, "margin_ratio": None,
                 "segundo_idioma": None, "segundo_marcadores": 0,
                 "tokens_dominantes_suprimidos": [],
                 "degradado_por_token_dominante": False,
                 "degradado_por_familia_cruzada": False}
 
-    # -- FIX 1: suprimir tipos de token dominantes y re-decidir --
+    # -- FIX 1: suprimir tipos de token dominantes y re-decidir (sobre el texto LIMPIO) --
     dominante = frozenset(sorted(
-        w for w in STRONG_MARKERS[raw_top_lang]
-        if c[w] > DOMINANT_TOKEN_MAX_SHARE * raw_top))
-    hits = _hits(dominante) if dominante else raw_hits
+        w for w in STRONG_MARKERS[clean_top_lang]
+        if c[w] > DOMINANT_TOKEN_MAX_SHARE * clean_top))
+    hits = _hits(dominante) if dominante else clean_hits
     ranked = _rank(hits)
     top_lang, top_hits = ranked[0]
     second_lang, second_hits = ranked[1]
@@ -411,7 +489,7 @@ def detect_language(text: str) -> dict[str, Any]:
     ratio = (top_hits / second_hits) if second_hits else None
 
     # FIX 1 (cont.): el veredicto cambio al suprimir el token -> no es robusto
-    deg_token = bool(dominante) and ((top_lang, high) != (raw_top_lang, raw_high))
+    deg_token = bool(dominante) and ((top_lang, high) != (clean_top_lang, clean_high))
     # FIX 2: cruce de familia con margen estrecho
     cross_family = ((top_lang == "en") != (second_lang == "en")) and second_hits > 0
     deg_family = bool(high and cross_family and ratio is not None
@@ -874,7 +952,11 @@ def derive(documents: list[dict[str, Any]],
         if not sample:
             detections[did] = {"language": None, "confidence": "baja", "tokens": 0,
                                "reason": "sin_chunks", "n_chunks_sampled": 0, "hits": {},
+                               "hits_literal": {},
                                "language_literal": None, "confidence_literal": "baja",
+                               "limpieza": {"n_anotaciones": 0, "chars_eliminados": 0,
+                                            "pct_chars_eliminados": 0.0},
+                               "cambio_idioma_por_limpieza": False,
                                "degradado_por_token_dominante": False,
                                "degradado_por_familia_cruzada": False}
             continue
@@ -919,6 +1001,11 @@ def derive(documents: list[dict[str, Any]],
              "detected": detections[did]["language"],
              "confidence": detections[did]["confidence"],
              "hits": detections[did].get("hits"),
+             # pre/post FIX 3 — permite ver si el desacuerdo era ruido del extractor
+             "hits_pre_limpieza": detections[did].get("hits_literal"),
+             "limpieza": detections[did].get("limpieza"),
+             "cambio_idioma_por_limpieza": detections[did].get("cambio_idioma_por_limpieza"),
+             "detected_pre_limpieza": detections[did].get("language_literal"),
              # De cual de los dos mecanismos de procedencia (§5.3) viene ESTE label:
              # separa "error del detector" de "posible error legacy" (spec riesgo 8).
              "origen_label": ("s282_T2_extraccion_LLM" if did in t2_lang_ids
@@ -960,18 +1047,36 @@ def derive(documents: list[dict[str, Any]],
         and detections[did].get("confidence_literal") == "alta"
         and detections[did].get("language_literal")
     ])
-    caidos_token = sorted([did for did in pb_literal_ids
-                           if detections[did].get("degradado_por_token_dominante")])
-    caidos_familia = sorted([did for did in pb_literal_ids
-                             if detections[did].get("degradado_por_familia_cruzada")])
+    # Reconciliacion COMPLETA y aditiva: literal - perdidos + ganados == cohorte actual.
+    pb_set, lit_set = set(pb_ids), set(pb_literal_ids)
+    perdidos = sorted(lit_set - pb_set)
+    ganados = sorted(pb_set - lit_set)
+    conservados = sorted(pb_set & lit_set)
+    cambian_idioma = sorted([d for d in conservados
+                             if detections[d]["language"] != detections[d].get("language_literal")])
     pb_delta = {
         "n_elegibles_predicado_literal_v1": len(pb_literal_ids),
-        "n_caidos_por_token_dominante": len(caidos_token),
-        "n_caidos_por_familia_cruzada": len(caidos_familia),
-        "document_ids_caidos_por_token_dominante": caidos_token,
-        "document_ids_caidos_por_familia_cruzada": caidos_familia,
+        "n_perdidos": len(perdidos),
+        "n_ganados": len(ganados),
+        "n_conservados": len(conservados),
+        "reconciliacion": (f"{len(pb_literal_ids)} literal - {len(perdidos)} perdidos "
+                           f"+ {len(ganados)} ganados = {len(pb_ids)}"),
+        "aditiva_ok": len(pb_literal_ids) - len(perdidos) + len(ganados) == len(pb_ids),
+        "perdidos_por_motivo": dict(sorted(Counter(
+            detections[d].get("reason") for d in perdidos).items())),
+        "ganados_por_motivo": dict(sorted(Counter(
+            ("limpieza_desbloquea_alta" if detections[d].get("cambio_idioma_por_limpieza")
+             else "limpieza_mejora_margen") for d in ganados).items())),
+        "n_conservados_que_cambian_de_idioma": len(cambian_idioma),
+        "document_ids_perdidos": perdidos,
+        "document_ids_ganados": ganados,
+        "document_ids_conservados_cambian_idioma": cambian_idioma,
         "por_idioma_literal_v1": dict(sorted(Counter(
             detections[d]["language_literal"] for d in pb_literal_ids).items())),
+        "n_caidos_por_token_dominante": sum(
+            1 for d in perdidos if detections[d].get("degradado_por_token_dominante")),
+        "n_caidos_por_familia_cruzada": sum(
+            1 for d in perdidos if detections[d].get("degradado_por_familia_cruzada")),
     }
 
     # QA-30 estratificada por idioma propuesto (round-robin determinista) — NO adjudicada
@@ -991,21 +1096,23 @@ def derive(documents: list[dict[str, Any]],
     def _snippets(did: str, n: int = 2, width: int = 420) -> list[dict[str, Any]]:
         """`n` extractos de EVIDENCIA deterministas de la muestra del detector.
 
-        Se toman el PRIMERO y el del MEDIO de los chunks muestreados (no dos consecutivos:
-        la portada suele ser multilingue o puro logo, el del medio es cuerpo real).
+        Se muestra el texto YA LIMPIO (FIX 3): es exactamente lo que el detector cuenta, y
+        evita que el humano adjudique sobre anotaciones inglesas del extractor que no son
+        del documento.  Se prefieren chunks con >=80 chars utiles tras la limpieza; se toman
+        el PRIMERO y el del MEDIO de esos (no dos consecutivos: la portada suele ser logo).
         """
         sample = chunks_by_doc.get(did, [])[:LANG_SAMPLE_N]
         if not sample:
             return []
-        idxs = sorted({0, len(sample) // 2})[:n]
-        out = []
-        for i in idxs:
-            ch = sample[i]
-            out.append({
-                "chunk_index": ch.get("chunk_index"),
-                "texto": " ".join(str(ch.get("content") or "").split())[:width],
-            })
-        return out
+        cleaned = []
+        for ch in sample:
+            txt, n_an, _ = strip_extractor_annotations(str(ch.get("content") or ""))
+            txt = " ".join(txt.split())
+            cleaned.append((ch.get("chunk_index"), txt, n_an))
+        usable = [x for x in cleaned if len(x[1]) >= 80] or cleaned
+        idxs = sorted({0, len(usable) // 2})[:n]
+        return [{"chunk_index": usable[i][0], "texto": usable[i][1][:width],
+                 "anotaciones_eliminadas": usable[i][2]} for i in idxs]
 
     qa30_rows = [{
         "document_id": did,
@@ -1196,7 +1303,9 @@ def derive(documents: list[dict[str, Any]],
         "d_deriva": drift,
         "e_idioma": {
             "detector": {
-                "version": "v2_endurecido",
+                "version": "v3_endurecido_fix1_fix2_fix3",
+                "fix3_limpieza_anotaciones_extractor": True,
+                "fix3_span_max_chars": ANNOTATION_MAX_SPAN,
                 "universo": list(LANG_UNIVERSE),
                 "muestra_por_doc": LANG_SAMPLE_N,
                 "umbral_marcadores_alta": LANG_HIGH_MIN_MARKERS,
@@ -1208,6 +1317,27 @@ def derive(documents: list[dict[str, Any]],
             },
             "distribucion_detectada": dict(sorted(Counter(
                 f"{d['language'] or '∅none'}/{d['confidence']}" for d in detections.values()).items())),
+            "limpieza_corpus": {
+                "n_docs_con_anotaciones_eliminadas": sum(
+                    1 for d in detections.values()
+                    if (d.get("limpieza") or {}).get("n_anotaciones")),
+                "n_anotaciones_totales": sum(
+                    (d.get("limpieza") or {}).get("n_anotaciones", 0) for d in detections.values()),
+                "chars_eliminados_totales": sum(
+                    (d.get("limpieza") or {}).get("chars_eliminados", 0) for d in detections.values()),
+                "n_docs_que_CAMBIAN_de_idioma_por_limpieza": sum(
+                    1 for d in detections.values() if d.get("cambio_idioma_por_limpieza")),
+                "cambios_de_idioma": sorted(
+                    [{"document_id": did,
+                      "de": detections[did].get("language_literal"),
+                      "a": detections[did].get("language"),
+                      "tras_limpieza": detections[did].get("language_tras_limpieza"),
+                      "pct_chars_eliminados": (detections[did].get("limpieza") or {}).get(
+                          "pct_chars_eliminados"),
+                      "source_pdf_filename": docs[did]["doc"].get("source_pdf_filename")}
+                     for did in docs if detections[did].get("cambio_idioma_por_limpieza")],
+                    key=lambda r: (str(r["de"]), str(r["a"]), r["document_id"]))[:40],
+            },
             "degradaciones_corpus": {
                 "n_docs_con_token_dominante_suprimido": sum(
                     1 for d in detections.values() if d.get("tokens_dominantes_suprimidos")),
@@ -1391,6 +1521,10 @@ def build_qa30_packet(payload: dict[str, Any]) -> str:
       "cualquier fallo -> HALT y revision del detector** (y, si el fallo es de un label legacy, "
       "revision de la cohorte etiquetada — spec riesgo 8). Marca `[x] OK` o `[x] MAL` por ficha.")
     A("")
+    A("**Los extractos estan LIMPIOS de anotaciones del extractor** (spans `[...]` en ingles "
+      "describiendo figuras: «[Diagram showing…]»). Es lo que el detector cuenta, y evita "
+      "adjudicar sobre texto que no es del documento.")
+    A("")
     A(f"- cohorte P-B (activos, `language IS NULL`, detector v2 confianza alta): "
       f"**{e['candidatos_P_B']['n']}** documentos · `{e['candidatos_P_B']['por_idioma']}`")
     A(f"- muestra: **{qa['n']}** documentos, estratificada por idioma propuesto, round-robin "
@@ -1398,7 +1532,8 @@ def build_qa30_packet(payload: dict[str, Any]) -> str:
     A(f"- detector: **{det.get('version')}** · muestra {det['muestra_por_doc']} chunks/doc · alta ⇔ "
       f">={det['umbral_marcadores_alta']} marcadores Y >={det['umbral_ratio_alta']}x el segundo, "
       f"+ supresion de token dominante (>{int(det['fix1_share_max_token_dominante']*100)}%) "
-      f"+ cruce de familia >= {det['fix2_ratio_min_cruce_familia']}x")
+      f"+ cruce de familia >= {det['fix2_ratio_min_cruce_familia']}x "
+      f"+ limpieza de anotaciones del extractor `[...]`")
     A(f"- freeze: commit `{payload['freeze_contract']['commit_head'][:12]}` · corpus sha "
       f"`{payload['corpus_fingerprint']['sha256'][:16]}` · determinismo 2x "
       f"{'OK' if payload['deterministic_2x'] else 'KO'}")
@@ -1427,7 +1562,9 @@ def build_qa30_packet(payload: dict[str, Any]) -> str:
           f"{r.get('margin_ratio')}x · chunks muestreados: {r.get('n_chunks_sampled')}")
         A("")
         for j, ev in enumerate(r.get("evidencia") or [], 1):
-            A(f"> **evidencia {j}** (chunk_index {ev.get('chunk_index')}): {ev.get('texto')}")
+            extra = (f", {ev['anotaciones_eliminadas']} anotacion(es) del extractor eliminadas"
+                     if ev.get("anotaciones_eliminadas") else "")
+            A(f"> **evidencia {j}** (chunk_index {ev.get('chunk_index')}{extra}): {ev.get('texto')}")
             A("")
         A("- [ ] OK  - [ ] MAL  → si MAL, idioma correcto: ______")
         A("")
@@ -1634,7 +1771,26 @@ def build_report(payload: dict[str, Any]) -> str:
     A(f"- **FIX 2 (cruce de familia)**: si los dos idiomas top cruzan familia "
       f"(`en` vs romance `{sorted(ROMANCE)}`) y el margen es < {det['fix2_ratio_min_cruce_familia']}x "
       "-> **baja** (patron del documento MIXTO, spec §F1 P-B).")
-    A("- Ambos fixes solo pueden DEGRADAR alta->baja; ninguno promueve baja->alta.")
+    A(f"- **FIX 3 (limpieza de INPUT — anotaciones del extractor)**: antes de contar se eliminan "
+      f"los spans `[...]` que el EXTRACTOR inyecta en ingles para describir figuras "
+      f"(«[Diagram showing…]», «[Exploded view…]», «[Grid paper…]»), siempre que el corchete "
+      f"cierre en <= {ANNOTATION_MAX_SPAN} chars (si no cierra, se deja intacto). "
+      "**A diferencia de FIX 1/2, este SI puede cambiar el idioma detectado — ese es su "
+      "proposito.**")
+    A("")
+    A("  > **Es limpieza de INPUT motivada por el MECANISMO, NO tuning contra el gate.** Ese "
+      "texto no pertenece al documento: lo genera el instrumento de extraccion. Se elimina la "
+      "misma clase de span en TODOS los documentos, antes de contar, con un criterio "
+      "sintactico fijo. Motivo raiz: los documentos ESPANOLES *diagram-heavy* acumulaban "
+      "marcadores INGLESES falsos y salian `en` con confianza ALTA — sin este fix P-B habria "
+      "escrito `en` en documentos espanoles (**backfill ERRONEO**). Caso que lo destapo: "
+      "`bd0c2e27` = MI-DT-192 (notifier.es, «9 AGOSTO 2013»), documento espanol que salia "
+      "`en/alta`.")
+    A("")
+    A("- FIX 1 y FIX 2 solo pueden DEGRADAR alta->baja. FIX 3 actua ANTES, sobre el texto.")
+    A("- Rastro completo conservado por documento: `language_literal`/`confidence_literal` "
+      "(regla literal del spec sobre texto CRUDO = baseline v1) vs el veredicto endurecido, "
+      "mas `limpieza` y `cambio_idioma_por_limpieza`.")
     A("- listas de marcadores INSPIRADAS en `scripts/audit_chunk_languages.py:89-95`; el modulo NO "
       "se importa ni se invoca (lee la tabla `chunks` legacy con muestra de 3 — spec §1 lo declara "
       "solo como referencia). Los acentos se normalizan antes de contar.")
@@ -1670,23 +1826,40 @@ def build_report(payload: dict[str, Any]) -> str:
           "columna **origen** separa «error del detector» de «posible error LEGACY del label» "
           f"(spec riesgo 8): `{cal.get('desacuerdos_por_origen')}`.")
         A("")
-        A("| document_id | label | detectado | conf | origen del label | fichero |")
-        A("|---|---|---|---|---|---|")
+        A("| document_id | label | pre-FIX3 | detectado | conf | anot. | origen del label | fichero |")
+        A("|---|---|---|---|---|---:|---|---|")
         for r in cal["desacuerdos"][:20]:
-            A(f"| `{str(r['document_id'])[:8]}` | {r['label']} | {r['detected']} | "
-              f"{r['confidence']} | {r.get('origen_label')} | "
-              f"`{str(r['source_pdf_filename'])[:38]}` |")
+            lp = r.get("limpieza") or {}
+            A(f"| `{str(r['document_id'])[:8]}` | {r['label']} | {r.get('detected_pre_limpieza')} | "
+              f"{r['detected']} | {r['confidence']} | {lp.get('n_anotaciones')} "
+              f"({lp.get('pct_chars_eliminados')}%) | {r.get('origen_label')} | "
+              f"`{str(r['source_pdf_filename'])[:34]}` |")
         A("")
         A("Lectura: los labels `it`/`fr`/`pt`/`nl` caen sistematicamente en `en` — son documentos "
           "MULTILINGUES cuyos primeros chunks son ingleses, o idiomas cuyo set de marcadores es "
           "mas debil que el ingles. No entran en la metrica es/en del gate, pero **avisan de que "
           "el detector no es fiable fuera de {es, en}**: P-B solo deberia tocar esas dos.")
         A("")
-    A("### 5.2bis Efecto de los dos endurecimientos (v1 literal -> v2 endurecido)")
+    A("### 5.2bis Efecto de los endurecimientos (literal -> endurecido)")
     A("")
+    lc = e.get("limpieza_corpus") or {}
     dg = e["degradaciones_corpus"]
     A(f"Sobre los {c['b_particion']['n_documents']} documentos:")
     A("")
+    A(f"- **FIX 3**: docs con anotaciones del extractor eliminadas: "
+      f"**{lc.get('n_docs_con_anotaciones_eliminadas')}** · anotaciones totales: "
+      f"{lc.get('n_anotaciones_totales')} · chars eliminados: {lc.get('chars_eliminados_totales')} "
+      f"· **docs que CAMBIAN de idioma detectado por la limpieza: "
+      f"{lc.get('n_docs_que_CAMBIAN_de_idioma_por_limpieza')}**")
+    if lc.get("cambios_de_idioma"):
+        A("")
+        A("| document_id | crudo | tras limpieza | final | % chars elim. | fichero |")
+        A("|---|---|---|---|---:|---|")
+        for r in lc["cambios_de_idioma"][:20]:
+            A(f"| `{str(r['document_id'])[:8]}` | {r['de']} | {r.get('tras_limpieza')} | "
+              f"{r['a']} | {r['pct_chars_eliminados']}% | "
+              f"`{str(r['source_pdf_filename'])[:36]}` |")
+        A("")
     A(f"- docs con algun token dominante SUPRIMIDO: **{dg['n_docs_con_token_dominante_suprimido']}** "
       f"· de ellos **DEGRADADOS** (el veredicto cambiaba al quitarlo): "
       f"**{dg['n_degradados_por_token_dominante']}**")
@@ -1740,9 +1913,20 @@ def build_report(payload: dict[str, Any]) -> str:
     d0 = cand["delta_vs_predicado_literal"]
     A(f"**{cand['n']} documentos** · por idioma propuesto: `{cand['por_idioma']}`.")
     A("")
-    A(f"Delta contra el predicado LITERAL v1: partia de **{d0['n_elegibles_predicado_literal_v1']}** "
-      f"(`{d0['por_idioma_literal_v1']}`) y caen **{d0['n_caidos_por_token_dominante']}** por token "
-      f"dominante + **{d0['n_caidos_por_familia_cruzada']}** por cruce de familia.")
+    A(f"**Reconciliacion contra el predicado LITERAL** (`{d0['reconciliacion']}` · aditiva: "
+      f"{'OK' if d0.get('aditiva_ok') else 'KO'}):")
+    A("")
+    A(f"- literal (regla del spec sobre texto crudo): **{d0['n_elegibles_predicado_literal_v1']}** "
+      f"(`{d0['por_idioma_literal_v1']}`)")
+    A(f"- **perdidos: {d0['n_perdidos']}** por motivo: `{d0['perdidos_por_motivo']}` "
+      f"(de ellos {d0['n_caidos_por_token_dominante']} con degradacion por token dominante y "
+      f"{d0['n_caidos_por_familia_cruzada']} por cruce de familia)")
+    A(f"- **ganados: {d0['n_ganados']}** por motivo: `{d0['ganados_por_motivo']}` — documentos que "
+      "la regla literal dejaba en `baja` porque las anotaciones inglesas del extractor diluian el "
+      "margen, y que tras FIX 3 resuelven limpio")
+    A(f"- conservados: {d0['n_conservados']}, de los cuales "
+      f"**{d0['n_conservados_que_cambian_de_idioma']} CAMBIAN de idioma propuesto** respecto al "
+      "literal (efecto directo de FIX 3 — el caso `bd0c2e27`)")
     A("")
     if cand["rows"]:
         A("| document_id | idioma | marc. | ratio | tipos | 2º idioma (marc.) | fichero |")
@@ -1833,9 +2017,8 @@ def build_report(payload: dict[str, Any]) -> str:
     A("")
     dl = g["P_B"]["delta_vs_predicado_literal"]
     A(f"**P-B por idioma propuesto:** `{g['P_B']['por_idioma']}`. Cohorte construida con el "
-      f"detector **v2 endurecido**: partia de {dl['n_elegibles_predicado_literal_v1']} con el "
-      f"predicado literal y caen {dl['n_caidos_por_token_dominante']} por token dominante + "
-      f"{dl['n_caidos_por_familia_cruzada']} por cruce de familia (§5.2bis).")
+      f"detector **endurecido (FIX 1+2+3)**; reconciliacion contra el predicado literal: "
+      f"`{dl['reconciliacion']}` (§5.4).")
     A("")
     A(f"**Gate (e)(iii) sigue ABIERTO**: la QA-30 fresca de esta cohorte se emite como packet "
       "legible pero NO esta adjudicada -> **el staging de P-B NO esta autorizado**.")
