@@ -69,3 +69,56 @@ Sellos C1 (DEC-147): tocar retriever/resolver exige re-anclar recibos — invent
    veces es el único con la aguja — cat010 mismo): dedup por CONTENIDO (extraction_sha o
    sim>umbral), no por nombre. 4. cat017 puede no moverse con 1+2 (su clase es facet) — se
    declara de entrada, no se persigue con el lever equivocado (anti-overfit).
+
+# ══════════ v2 (SPEC CONSOLIDADO post-dúo r1: Sol 6 + sub-agente 11, convergencia) ══════════
+
+## RÉPLICA N=2 (hallazgo entre-medias: Alberto relanzó el full → 2 runs, mismo código)
+r1 (0729): OK 101·synth 13·rerank 4·retr 10 / r2 (0730): OK 98·synth 15·rerank 6·retr 8.
+15 flips = suelo de ruido del instrumento (estocástica de generación + churn de composición;
+incl. hp014#2 OK→corpus-gap = 10ª instancia FN). **Los 4 objetivos de etapa 2 son ESTABLES
+4/4 en ambos runs** → dianas estructurales. CONSECUENCIAS NORMATIVAS: (a) la campaña cuenta
+misses ESTABLES-entre-runs, no fotos single-run; (b) cohorte protegida del gate = **93
+OK-estables-N2** (DERIVADA: 101 menos 8 flippy — responde Sol-1 con datos); (c) el delta de
+cualquier lever se declara sobre estables.
+
+## PIEZAS (orden final; cada una con su gate)
+**0. Instrumento S5**: puente prefijo-kilo con canonicalización DENTRO de `_unit_quantities`
+   (F9: si no, `quantities_complete` queda vacuo) + re-adjudicación de `l1_killed` con sup≠∅ +
+   bump `INSTRUMENT_VERSION` v3.0→v3.1 + estampa (norma F4/DEC-096) + re-baseline declarado.
+**0.5 HOTFIX $0 (F11, NUEVA)**: `config/identity_quarantine_v1.yaml` → `tokens: [zxe]` —
+   suprime el drop DENTRO del diseño sellado (semántica «fail-open-a-add por unidad; nunca
+   peor que add», consumida en catalog_resolver.py:310-313). Es TAMBIÉN el probe más barato de
+   la predicción 6/10 (pool de hp018 antes/después, $0). Estiramiento semántico declarado
+   (la quarantine nació «pendiente de adjudicación») → nota para Alberto, reversible una línea.
+**1. `_consumable` corpus-aware — REGLA MONÓTONA-SEGURA (F4, BLOCKER resuelto)**: NUNCA
+   dropear un token cuyo PROPIO core tenga presencia en `pm` (presencia del tag-FAMILIA, no
+   ausencia de variantes) → estado mixto post-split-D1 seguro; coexistencia → conservar.
+   Declaraciones honestas: (i) es CRITERIO NUEVO con dependencia DB nueva en módulo file-only
+   (F1/Sol-3) — fail-open a conservar-token en error DB; (ii) cache por FINGERPRINT DE CORPUS
+   o TTL, jamás catálogo-commit (F6/Sol-2); (iii) CONFINA el comportamiento-ADD a las familias
+   sin tags finos — el riesgo DEC-091b (valor-coincidente, `zxe`⊂`zxee`) PERSISTE ahí y se
+   declara, no se niega (F2/Sol-4) + control negativo catalog-wide de familias con valores
+   divergentes ANTES del ship; (iv) F3: esto repara una REGRESIÓN DE CORRECCIÓN VIVA
+   corpus-wide (toda query con token-paraguas re-tagueado en T3), no solo hp018 — nota de
+   release para Alberto. GATE AMPLIADO (F5): sweep-39 de composición de pool (determinista,
+   sin juez) + centinelas hp009/hp012/cat022/cat012/hp001 + famtie ±0 + bvg K=3 tocados.
+**2. Dedup — RAÍZ corpus-side (F7/Sol-6)**: adjudicación near-dup (shingle/Jaccard, maquinaria
+   del audit s62) → `duplicate_of` vía census→staging→PASTE DE ALBERTO, con política de
+   representante language/revision-aware (el gemelo EN se protege por adjudicación, no por
+   umbral — cat010 mismo: la aguja está en el EN). El dedup-en-pool queda como DEFENSA
+   fallback y respeta las marcas de carve-out `_hyq_boosted`/`_enun_quota`/`_swapped_*`
+   (F8/DEC-099 §1.1c). Sol-6: primero materializar la relación canónica; hecho.
+**3. Cuota-faceta**: sin cambios (condicionada + pre-registro).
+
+## CORRECCIONES DE FRAMING (para el registro)
+- Sol-5: retirada mi frase «el soporte de cat010 se sirve vía obligation_warning_reserve» —
+  el artefacto dice n_support_served=0; la conexión con etapa 3 queda como hipótesis no medida.
+- F1: «la consulta que el guard ya hace» era falso-adyacente; F10: los sellos NO byte-pinean
+  retriever/resolver — el coste real es la serie nueva del pipe_sha del assessment (declarada).
+- «93 OK protegidos» de v1 era eco stale; ahora es la cohorte DERIVADA estable-N2 (§réplica).
+
+## PLAN v2
+1. ~~Dúo r1~~ HECHO (Sol 6 + Fable 11, tally). 2. Confirmación FRESCA focused (F4-regla +
+F11-semántica + este consolidado). 3. Build por piezas CON SUS GATES en orden 0→0.5→1→2;
+la 0.5 da el probe de la predicción antes de construir la 1. 4. Re-medición estable (2 runs o
+K-reps de los golds tocados). 5. Tally/scoreboard/DEC + nota release + paquete Alberto.
