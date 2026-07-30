@@ -122,3 +122,29 @@ cualquier lever se declara sobre estables.
 F11-semántica + este consolidado). 3. Build por piezas CON SUS GATES en orden 0→0.5→1→2;
 la 0.5 da el probe de la predicción antes de construir la 1. 4. Re-medición estable (2 runs o
 K-reps de los golds tocados). 5. Tally/scoreboard/DEC + nota release + paquete Alberto.
+
+# ══════ v3 FINAL (r2: Sol 6 + Fable fresco 6 — SPEC DE BUILD SELLADO) ══════
+**P0 (instrumento S5)**: el kilo-bridge entra TAMBIÉN en `support_candidate_priority`
+(canonicalizar no basta, Sol-2) y SOLO acredita si recupera una fila SERVIDA de la familia
+CORRECTA (Sol-1 crítico — la demostración existe: ZXe p.22 «RFL (6800Ω)» servida en topk[0] y
+matada por falta de puente; la literalidad de la respuesta NO acredita: pudo venir de primos =
+DEC-091b). v3.0→v3.1 + estampa.
+**P0.5 (quarantine)**: entrada BIEN FORMADA `{token: zxe, motivo: regresión T3×replace
+(filtro desarmado, s287), fecha: 2026-07-30}` — el literal del v2 crasheaba prod (H1, loader
+fail-fast :244-249). Incluye actualizar los 4 tests de contrato que pinean s278
+(test_catalog_resolver :118/:139/:295/:315 — el :315 assertea el YAML real). SUNSET declarado:
+la entrada se RETIRA en el mismo PR que shippea P1, y el gate de P1 se corre con la quarantine
+VACIADA (H4: si no, el probe 6/10 es vacuo).
+**P1 (regla)**: scopeada a `via ∈ {paraguas, alias}` — NUNCA homónimos (H2: RP1r-Supra
+regresaría el win medido de hp011-prefer) + hp011 AÑADIDO a los centinelas. Semántica de
+presencia PINEADA: **exact-tag por ELEMENTO** (pm normalizado y partido por separadores; el
+tag-familia debe aparecer como elemento completo) — ni substring (suffix-capture: cad150⊂
+cad1501 haría el drop inerte post-split, H3a) ni exact-crudo (composites 'ZX2e/ZX5e', H3b).
+La claim «confina ADD a familias sin tags finos» queda VERDADERA bajo esta semántica. Este
+delta de diseño lo ve Sol EN LA REVIEW DEL DIFF pre-ship (tiering r2).
+**Gates**: cohorte COMPLETA 93 OK-estables SIN alternativa (Sol-4) + regla de decisión ante
+ruido: flip en la cohorte → re-run de confirmación antes de declarar regresión (H6).
+**P2 (dedup)**: gate de SPAN-DIFF por chunk antes de suprimir (Sol-6) — census adjudica
+por-chunk, no por-doc.
+**Wording**: demote-TOC = settled EN SU MÉTRICA proxy (no absoluto — Sol-5, disciplina de
+métrica del digest).
