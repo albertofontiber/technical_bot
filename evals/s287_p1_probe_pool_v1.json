@@ -1,0 +1,348 @@
+{
+ "gate": "s287 P1 (a) — hp018: la regla corpus-aware reproduce la composición del hotfix P0.5 con la quarantine RETIRADA",
+ "flags": {
+  "CHUNKS_TABLE": "chunks_v2",
+  "ENUNCIADOS_MULTIVECTOR": "on",
+  "IDENTITY_RESOLVE": "on",
+  "IDENTITY_RESOLVE_POLICY": "replace",
+  "HYQ_TABLE": "on",
+  "HYDE_ENABLED": "false",
+  "DIVERSIFY_TIEBREAK": "off",
+  "HYQ_PILOT_FILE": "",
+  "LEVER2_PM_RESCUE": ""
+ },
+ "retrieval_top_k": 50,
+ "arms_state": {
+  "pre_p1": {
+   "quarantine": [
+    "zxe"
+   ],
+   "presence_elements_n": 0
+  },
+  "p1": {
+   "quarantine": [],
+   "presence_elements_n": 850
+  }
+ },
+ "pre_p1": {
+  "pool_n": 44,
+  "head10": [
+   {
+    "id": "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 3
+   },
+   {
+    "id": "281dfd90-e02f-4c72-b32a-3c6aa0f667eb",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4
+   },
+   {
+    "id": "4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 19
+   },
+   {
+    "id": "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MU-310",
+    "page_number": 11
+   },
+   {
+    "id": "ffb37fd8-2579-4cc0-992f-05200aa9abdd",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-535rv001",
+    "page_number": 2
+   },
+   {
+    "id": "c7398da6-c2d2-4506-9408-b01362906730",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-315",
+    "page_number": 2
+   },
+   {
+    "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+    "product_model": "ZXe",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 17
+   },
+   {
+    "id": "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-310",
+    "page_number": 38
+   },
+   {
+    "id": "9c348384-ea78-4e6e-bb5c-d8c2e564c8b0",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 4
+   },
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22
+   }
+  ],
+  "head10_by_family": {
+   "ZXAE/ZXEE": 5,
+   "ZXE": 5
+  },
+  "pool_by_family": {
+   "ZXAE/ZXEE": 29,
+   "ZXE": 15
+  },
+  "pool_by_source_file": {
+   "MIE-MI-310": 21,
+   "MIE-MI-530rv001": 7,
+   "MIE-MP-530rv001": 3,
+   "MIE-MU-310": 2,
+   "MIE-MP-535rv001": 2,
+   "MIE-MP-315": 3,
+   "MIE-MU-530rv001": 3,
+   "MIE-MP-310": 3
+  },
+  "head10_primos": 0,
+  "head10_familia": 10,
+  "pool_primos": 0,
+  "accrediting_chunk_in_pool": true,
+  "accrediting_chunk_pool_rank": 9,
+  "arm": "pre_p1",
+  "qid": "hp018",
+  "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?"
+ },
+ "p1": {
+  "pool_n": 45,
+  "head10": [
+   {
+    "id": "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 3
+   },
+   {
+    "id": "281dfd90-e02f-4c72-b32a-3c6aa0f667eb",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4
+   },
+   {
+    "id": "4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 19
+   },
+   {
+    "id": "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MU-310",
+    "page_number": 11
+   },
+   {
+    "id": "ffb37fd8-2579-4cc0-992f-05200aa9abdd",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-535rv001",
+    "page_number": 2
+   },
+   {
+    "id": "c7398da6-c2d2-4506-9408-b01362906730",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-315",
+    "page_number": 2
+   },
+   {
+    "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+    "product_model": "ZXe",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 17
+   },
+   {
+    "id": "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-310",
+    "page_number": 38
+   },
+   {
+    "id": "9c348384-ea78-4e6e-bb5c-d8c2e564c8b0",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 4
+   },
+   {
+    "id": "9930f0a2-9920-4b92-9af1-81b5aeaf61ee",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 16
+   }
+  ],
+  "head10_by_family": {
+   "ZXAE/ZXEE": 5,
+   "ZXE": 5
+  },
+  "pool_by_family": {
+   "ZXAE/ZXEE": 30,
+   "ZXE": 15
+  },
+  "pool_by_source_file": {
+   "MIE-MI-310": 22,
+   "MIE-MI-530rv001": 7,
+   "MIE-MP-530rv001": 3,
+   "MIE-MU-310": 2,
+   "MIE-MP-535rv001": 2,
+   "MIE-MP-315": 3,
+   "MIE-MU-530rv001": 3,
+   "MIE-MP-310": 3
+  },
+  "head10_primos": 0,
+  "head10_familia": 10,
+  "pool_primos": 0,
+  "accrediting_chunk_in_pool": true,
+  "accrediting_chunk_pool_rank": 17,
+  "arm": "p1",
+  "qid": "hp018",
+  "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?"
+ },
+ "same_composition_pre_p1_vs_p1": false,
+ "same_composition_vs_p05_artifact": false,
+ "p05_reference": {
+  "pool_n": 45,
+  "pool_by_family": {
+   "ZXAE/ZXEE": 34,
+   "ZXE": 11
+  },
+  "pool_by_source_file": {
+   "MIE-MI-310": 21,
+   "MIE-MI-530rv001": 6,
+   "MIE-MP-530rv001": 3,
+   "MIE-MU-530rv001": 2,
+   "MIE-MU-310": 2,
+   "MIE-MP-315": 3,
+   "MIE-MP-310": 8
+  },
+  "head10_by_family": {
+   "ZXAE/ZXEE": 5,
+   "ZXE": 5
+  }
+ },
+ "jitter_control_mismo_brazo": {
+  "compositions": [
+   {
+    "pool_n": 45,
+    "pool_by_family": {
+     "ZXAE/ZXEE": 30,
+     "ZXE": 15
+    },
+    "pool_by_source_file": {
+     "MIE-MI-310": 22,
+     "MIE-MI-530rv001": 7,
+     "MIE-MP-530rv001": 3,
+     "MIE-MU-310": 2,
+     "MIE-MP-535rv001": 2,
+     "MIE-MP-315": 3,
+     "MIE-MU-530rv001": 3,
+     "MIE-MP-310": 3
+    },
+    "head10_by_family": {
+     "ZXAE/ZXEE": 5,
+     "ZXE": 5
+    }
+   },
+   {
+    "pool_n": 45,
+    "pool_by_family": {
+     "ZXAE/ZXEE": 30,
+     "ZXE": 15
+    },
+    "pool_by_source_file": {
+     "MIE-MI-310": 22,
+     "MIE-MI-530rv001": 7,
+     "MIE-MP-530rv001": 3,
+     "MIE-MU-310": 2,
+     "MIE-MP-535rv001": 2,
+     "MIE-MP-315": 3,
+     "MIE-MU-530rv001": 3,
+     "MIE-MP-310": 3
+    },
+    "head10_by_family": {
+     "ZXAE/ZXEE": 5,
+     "ZXE": 5
+    }
+   },
+   {
+    "pool_n": 44,
+    "pool_by_family": {
+     "ZXAE/ZXEE": 29,
+     "ZXE": 15
+    },
+    "pool_by_source_file": {
+     "MIE-MI-310": 21,
+     "MIE-MI-530rv001": 7,
+     "MIE-MP-530rv001": 3,
+     "MIE-MU-310": 2,
+     "MIE-MP-535rv001": 2,
+     "MIE-MP-315": 3,
+     "MIE-MU-530rv001": 3,
+     "MIE-MP-310": 3
+    },
+    "head10_by_family": {
+     "ZXAE/ZXEE": 5,
+     "ZXE": 5
+    }
+   }
+  ],
+  "invariantes": [
+   {
+    "head10_primos": 0,
+    "head10_familia": 10,
+    "pool_primos": 0,
+    "pool_fuera_de_familia": [],
+    "accrediting_chunk_in_pool": true
+   },
+   {
+    "head10_primos": 0,
+    "head10_familia": 10,
+    "pool_primos": 0,
+    "pool_fuera_de_familia": [],
+    "accrediting_chunk_in_pool": true
+   },
+   {
+    "head10_primos": 0,
+    "head10_familia": 10,
+    "pool_primos": 0,
+    "pool_fuera_de_familia": [],
+    "accrediting_chunk_in_pool": true
+   }
+  ],
+  "misma_composicion_entre_replicas": false
+ },
+ "invariante_100pct_familia": {
+  "pre_p1": {
+   "head10_primos": 0,
+   "head10_familia": 10,
+   "pool_primos": 0,
+   "pool_fuera_de_familia": [],
+   "accrediting_chunk_in_pool": true
+  },
+  "p1": {
+   "head10_primos": 0,
+   "head10_familia": 10,
+   "pool_primos": 0,
+   "pool_fuera_de_familia": [],
+   "accrediting_chunk_in_pool": true
+  },
+  "p05_artifact": {
+   "head10_primos": 0,
+   "head10_familia": 10,
+   "pool_primos": 0,
+   "pool_fuera_de_familia": [],
+   "accrediting_chunk_in_pool": true
+  }
+ },
+ "invariante_ok": true,
+ "veredicto": "La igualdad ESTRICTA de composición no es utilizable como gate: la composición se mueve entre RÉPLICAS DEL MISMO BRAZO (churn del instrumento, ya documentado en el spec §réplica). El criterio del spec — «100% familia» — se evalúa en `invariante_ok` y aplica a los dos brazos Y al artefacto de P0.5.",
+ "nota": "pool FILTRADO pre-rerank (el rerank es LLM y no se llama); el gate es de COMPOSICIÓN, no de orden"
+}

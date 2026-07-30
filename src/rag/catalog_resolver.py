@@ -25,17 +25,36 @@ RuntimeError al primer uso — sin precedencia silenciosa (doble expansión = me
 Shadow (F2.5 del contrato): en modo `shadow` NO muta nada; loggea a Supabase
 (identity_resolve_shadow, non-blocking, patrón logging_db) qué habría cambiado + stamp del
 catálogo-commit (freeze-contract; posible por el fix D1 s91).
+
+s287 P1 (pieza 1 de la etapa 2, spec `evals/s287_etapa2_design_brief_v1.md` §v3 FINAL) —
+REGLA MONÓTONA-SEGURA CORPUS-AWARE del drop: el drop del paraguas/alias bajo `replace` solo
+procede si el PROPIO core del token ya NO es una etiqueta viva del corpus. Raíz de la
+regresión s287 Grupo B: T3/s285 re-tagueó el corpus a FAMILIA (`pm='ZXe'`, variantes
+ZX1e/ZX2e/ZX5e = 0 filas) y el drop dejaba `_filter_to_query_models` con 0 supervivientes →
+fail-open → filtro de familia DESARMADO → entran los primos. La regla es MONÓTONA (solo
+SUPRIME drops, nunca añade) y confina el comportamiento-ADD a las familias sin tags finos —
+el riesgo DEC-091b (valor-coincidente en `zxe`⊂`zxee` vía el substring del filtro) PERSISTE
+ahí y se declara, no se niega. Dependencia DB NUEVA en este módulo (era file-only): la
+presencia se consulta contra la tabla de chunks (+ `documents` para excluir docs no-activos,
+el criterio de vida del retriever — Sol-3); error/indisponibilidad ⇒ FAIL-OPEN a
+CONSERVAR el token (nunca peor que add, coherente con el fail-open-por-unidad de la
+quarantine). Los HOMÓNIMOS quedan FUERA del scope (H2: 'rp1r' tiene tag vivo y la regla
+regresaría el prefer medido de hp011).
 """
 from __future__ import annotations
 
 import json
 import logging
 import os
+import re
 import subprocess
 import sys
+import threading
+import time
 from pathlib import Path
 
 from src.rag import catalog as C
+from src.rag import series_registry as _series
 
 ROOT = Path(__file__).resolve().parents[2]
 # catalog_store es LA puerta (D1) y vive en scripts/ — se importa por path; graduarlo a paquete
@@ -257,6 +276,307 @@ def _quarantine_tokens() -> frozenset[str]:
     return _quarantine
 
 
+# ───────── (s287 P1) presencia de FAMILIA en el corpus — regla monótona-segura ─────────
+# Semántica PINEADA por el spec v3 FINAL: EXACT-TAG POR ELEMENTO. El `product_model` del
+# corpus se PARTE por los separadores de composite ('/', '+', espacio) y cada trozo se
+# normaliza con LA normalización del filtro de retrieval (series_registry.normalize_model:
+# quita '-'/espacio + lowercase). El core del token debe aparecer como ELEMENTO COMPLETO:
+#   - NI substring: 'cad150' ⊂ 'cad1508' haría el drop INERTE tras el split D1 (H3a) — y
+#     'zxe' ⊂ 'zxee' convertiría un legacy en "presencia" de la familia;
+#   - NI exact-crudo: perdería los composites reales del corpus ('ZXe/ZXSe', 'ZX2e/ZX5e' —
+#     el tag-familia SÍ está, como elemento) (H3b).
+_PM_ELEMENT_SEP = re.compile(r"[/+\s]+")
+_PRESENCE_TTL_S = 900.0          # 15 min de vida del set (F6: TTL, JAMÁS catálogo-commit)
+_PRESENCE_FAIL_TTL_S = 60.0      # cooldown tras un fallo de DB (no re-pegar en cada query)
+_PRESENCE_FP_RECHECK_S = 60.0    # cada cuánto se re-valida el fingerprint DENTRO del TTL
+_PRESENCE_PAGE = 1000            # PostgREST capa a max-rows=1000 (lección s64/s65: paginar)
+_PRESENCE_MAX_PAGES = 200        # techo duro: si no converge ⇒ EXCEPCIÓN (nunca set parcial:
+                                 # un set truncado inventaría "ausencias" y dropearía de más)
+_presence: dict | None = None    # {"elements": frozenset|None, "at", "fp", "fp_at"}
+
+
+def _pm_elements(pm: str | None) -> set[str]:
+    """Elementos exact-tag de un `product_model` del corpus (ver semántica arriba).
+    'ZXe/ZXSe' → {'zxe','zxse','zxe/zxse'} · 'CAD-150-8' → {'cad1508'} · 'FAAST LT-200' →
+    {'faast','lt200','faastlt200'}. (Sol-2, review 30-jul) Además de los elementos PARTIDOS
+    entra la forma pm-COMPLETA normalizada: el core de un token multi-palabra del catálogo
+    ('FAAST LT-200' → 'faastlt200') jamás aparecería en el split por espacio
+    ({'faast','lt200'}) y el drop procedería contra su PROPIA etiqueta exacta viva."""
+    out: set[str] = set()
+    whole = _series.normalize_model(pm or "")
+    if whole:
+        out.add(whole)
+    for piece in _PM_ELEMENT_SEP.split(pm or ""):
+        norm = _series.normalize_model(piece)
+        if norm:
+            out.add(norm)
+    return out
+
+
+def _chunks_table() -> str:
+    return os.getenv("CHUNKS_TABLE", "chunks_v2").strip() or "chunks_v2"
+
+
+def _supabase_headers() -> dict[str, str]:
+    from src.config import SUPABASE_SERVICE_KEY
+    return {"apikey": SUPABASE_SERVICE_KEY,
+            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
+
+
+def _corpus_fingerprint() -> tuple[str, str]:
+    """Fingerprint BARATO del corpus (medido: 2 GETs ≈ 0,15-0,30s): count exacto +
+    max(created_at) de la tabla de chunks — el mismo par que estampan los manifests de eval
+    (bvg_kmajority.corpus_fingerprint). Sirve para invalidar el cache DENTRO del TTL cuando
+    el corpus se mueve (re-ingesta/backfill de tags). Lanza si no es obtenible.
+    HONESTIDAD (Sol-4, review 30-jul): count+max(created_at) NO detecta UPDATEs in-place de
+    `product_model` (mismo count, mismo created_at) — la cota REAL de staleness es el TTL
+    (900s); el fingerprint solo ACELERA la detección de ingestas/borrados. chunks_v2 NO
+    tiene columna updated_at (verificado 30-jul-2026: GET select=updated_at → 42703
+    «column does not exist»); si algún día existe, añadir max(updated_at) al par para
+    cubrir también los UPDATEs."""
+    import httpx
+
+    from src.config import SUPABASE_URL
+    url = f"{SUPABASE_URL}/rest/v1/{_chunks_table()}"
+    headers = _supabase_headers()
+    with httpx.Client(timeout=10.0) as client:
+        r = client.get(url, headers={**headers, "Prefer": "count=exact", "Range": "0-0"},
+                       params={"select": "id"})
+        if r.status_code not in (200, 206):
+            raise RuntimeError(f"count de corpus: HTTP {r.status_code}")
+        count = (r.headers.get("content-range") or "*/?").split("/")[-1]
+        r2 = client.get(url, headers=headers,
+                        params={"select": "created_at", "order": "created_at.desc",
+                                "limit": "1"})
+        if r2.status_code not in (200, 206):
+            raise RuntimeError(f"max(created_at) de corpus: HTTP {r2.status_code}")
+        rows = r2.json() or [{}]
+        return (str(count), str(rows[0].get("created_at")))
+
+
+def _try_corpus_fingerprint() -> tuple[str, str] | None:
+    """El fingerprint es un EXTRA de invalidación: si no se puede obtener, el TTL manda
+    (no se degrada la presencia por eso)."""
+    try:
+        return _corpus_fingerprint()
+    except Exception as e:                                   # noqa: BLE001
+        logger.warning(f"fingerprint de corpus no disponible ({e}) — el cache de presencia "
+                       f"queda gobernado SOLO por el TTL ({_PRESENCE_TTL_S:.0f}s)")
+        return None
+
+
+def _inactive_document_ids() -> frozenset[str] | None:
+    """(Sol-3, review 30-jul) ids de `documents` NO activos — el MISMO criterio de vida que
+    aplica el retriever al servir (`_filter_by_document_status`, src/rag/retriever.py): el
+    join chunk→documents por `document_id` DROPEA status != 'active' (superseded / draft /
+    retired / needs_review, NULL-status incluido); los chunks con document_id NULL (legacy)
+    y los document_id sin fila en documents se SIRVEN. Un tag vivo SOLO en docs no-activos
+    no es una etiqueta servible y no debe contar como presencia (contaría presencia de algo
+    que el retriever jamás devolvería → drop suprimido de más… para siempre).
+    `None` = documents NO consultable ⇒ SIN exclusión (keep-all, el mismo fail-open del
+    retriever — dirección monótona-segura: la sobre-presencia solo SUPRIME drops)."""
+    import httpx
+
+    from src.config import SUPABASE_URL
+    headers = _supabase_headers()
+    ids: set[str] = set()
+    pages = 0
+    try:
+        with httpx.Client(timeout=10.0) as client:
+            while True:
+                r = client.get(f"{SUPABASE_URL}/rest/v1/documents", headers=headers,
+                               params={"select": "id",
+                                       # espejo EXACTO del predicado local del retriever
+                                       # `doc.get("status") != "active"` (NULL incluido)
+                                       "or": "(status.neq.active,status.is.null)",
+                                       "order": "id.asc",
+                                       "limit": str(_PRESENCE_PAGE),
+                                       "offset": str(pages * _PRESENCE_PAGE)})
+                if r.status_code not in (200, 206):
+                    raise RuntimeError(f"documents no-activos: HTTP {r.status_code}")
+                rows = r.json()
+                for row in rows:
+                    did = row.get("id")
+                    if did:
+                        ids.add(str(did))
+                pages += 1
+                if len(rows) < _PRESENCE_PAGE:
+                    break
+                if pages >= _PRESENCE_MAX_PAGES:
+                    raise RuntimeError("documents no-activos: paginación sin converger")
+    except Exception as e:                                   # noqa: BLE001
+        logger.warning(f"documents no consultable ({e}) — presencia SIN filtro de estado "
+                       f"(keep-all, el fail-open del retriever)")
+        return None
+    return frozenset(ids)
+
+
+def _fetch_corpus_pm_elements() -> frozenset[str]:
+    """Set COMPLETO de elementos exact-tag presentes en el corpus. Paginado por offset
+    (PostgREST no permite agregados en esta instancia: `PGRST123` — verificado; y el keyset
+    por valor se atasca si un `pm` supera una página). TODO-o-NADA: cualquier fallo LANZA;
+    el llamante fail-open a conservar. (Sol-3) las filas de documentos NO-activos se
+    EXCLUYEN (mismo criterio que el retriever al servir). Medido hoy: 1 GET de documents
+    no-activos (173) + 26 páginas / 25.088 filas / ~3s."""
+    import httpx
+
+    from src.config import SUPABASE_URL
+    url = f"{SUPABASE_URL}/rest/v1/{_chunks_table()}"
+    headers = _supabase_headers()
+    inactive = _inactive_document_ids()
+    elements: set[str] = set()
+    pages = 0
+    with httpx.Client(timeout=20.0) as client:
+        while True:
+            r = client.get(url, headers=headers,
+                           params={"select": "product_model,document_id",
+                                   # orden total = paginación estable por offset
+                                   "order": "product_model.asc,id.asc",
+                                   # (invariante T0 s94b) solo filas SERVIBLES: los
+                                   # surrogates jamás definen la identidad del corpus
+                                   "parent_id": "is.null",
+                                   "limit": str(_PRESENCE_PAGE),
+                                   "offset": str(pages * _PRESENCE_PAGE)})
+            if r.status_code not in (200, 206):
+                raise RuntimeError(f"presencia de corpus: HTTP {r.status_code}")
+            rows = r.json()
+            for row in rows:
+                if inactive:
+                    did = row.get("document_id")
+                    if did and str(did) in inactive:
+                        continue                 # doc no-activo: tag NO servible (Sol-3)
+                elements |= _pm_elements(row.get("product_model"))
+            pages += 1
+            if len(rows) < _PRESENCE_PAGE:
+                break
+            if pages >= _PRESENCE_MAX_PAGES:
+                raise RuntimeError(
+                    f"presencia de corpus: paginación sin converger en "
+                    f"{_PRESENCE_MAX_PAGES} páginas — set PARCIAL descartado")
+    if pages > 50:
+        logger.warning(f"presencia de corpus: {pages} páginas — coste creciente con el "
+                       f"corpus (revisar si conviene una vista/RPC de pm distintos)")
+    return frozenset(elements)
+
+
+_MISS = object()                          # sentinel del lookup (None es un valor VÁLIDO del cache)
+_presence_lock = threading.Lock()         # (Sol-5) anti-stampede del scan en frío
+
+
+def _presence_lookup(now: float):
+    """Valor cacheado vigente o `_MISS`. El re-chequeo de fingerprint DENTRO del TTL vive
+    aquí (acotado a 1×/60s para no meter 2 GETs en cada query)."""
+    entry = _presence
+    if entry is None:
+        return _MISS
+    ttl = _PRESENCE_TTL_S if entry["elements"] is not None else _PRESENCE_FAIL_TTL_S
+    if now - entry["at"] >= ttl:
+        return _MISS
+    if entry["elements"] is None or now - entry["fp_at"] < _PRESENCE_FP_RECHECK_S:
+        return entry["elements"]
+    fp = _try_corpus_fingerprint()
+    if fp is None or fp == entry["fp"]:
+        entry["fp_at"] = now
+        return entry["elements"]
+    logger.info(f"presencia de corpus: fingerprint cambió ({entry['fp']} → {fp}) "
+                f"— recargando el set de etiquetas")
+    return _MISS
+
+
+def _load_presence() -> "tuple[frozenset[str] | None, tuple[str, str] | None]":
+    """Scan con fingerprint HONESTO (Sol-4a, review 30-jul): el scan dura ~3-5s (26
+    páginas) — una ingesta concurrente lo dejaría TORN (mitad corpus viejo, mitad nuevo =
+    "ausencias" inventadas → drops de más). El fingerprint se toma ANTES y se RE-CHEQUEA AL
+    ACABAR: si cambió → set descartado y 1 reintento; si vuelve a cambiar → None (fail-open
+    a conservar; el cooldown _PRESENCE_FAIL_TTL_S reintenta después). Fingerprint no
+    obtenible (None) ⇒ el torn no es validable — el set se acepta y manda el TTL (el
+    fingerprint es un EXTRA, nunca degrada la presencia)."""
+    fp = _try_corpus_fingerprint()
+    for retry in (False, True):
+        try:
+            elements = _fetch_corpus_pm_elements()
+        except Exception as e:                               # noqa: BLE001
+            logger.warning(f"presencia de corpus NO consultable ({e}) — FAIL-OPEN: el drop "
+                           f"de paraguas/alias queda SUPRIMIDO (nunca peor que add)")
+            return None, fp
+        fp_after = _try_corpus_fingerprint()
+        if fp is None or fp_after is None or fp_after == fp:
+            return elements, (fp_after if fp_after is not None else fp)
+        logger.warning(f"presencia de corpus: el corpus se movió DURANTE el scan "
+                       f"({fp} → {fp_after}) — set torn DESCARTADO"
+                       + ("" if retry else "; reintento único"))
+        fp = fp_after
+    logger.warning("presencia de corpus: fingerprint inestable también en el reintento — "
+                   "FAIL-OPEN a conservar")
+    return None, fp
+
+
+def corpus_pm_elements() -> frozenset[str] | None:
+    """Elementos exact-tag del corpus, con cache de PROCESO. `None` = la DB no es
+    consultable AHORA ⇒ el llamante debe FAIL-OPEN (conservar el token).
+    Cache: TTL de 15 min + invalidación por FINGERPRINT de corpus (re-chequeo acotado a
+    1×/60s). NUNCA keyed por catálogo-commit (F6: el catálogo puede no moverse y el corpus
+    sí — sería un cache que miente). LAZY: la primera resolución que la necesite la paga;
+    nada en import-time. (Sol-5) el scan en frío corre bajo LOCK con double-check: N
+    queries concurrentes = UN solo scan (quien esperó relee el cache recién poblado);
+    TECH_DEBT #58 registra el candidato a vista/RPC cuando haya volumen."""
+    global _presence
+    hit = _presence_lookup(time.monotonic())
+    if hit is not _MISS:
+        return hit
+    with _presence_lock:
+        hit = _presence_lookup(time.monotonic())
+        if hit is not _MISS:
+            return hit
+        elements, fp = _load_presence()
+        now = time.monotonic()
+        _presence = {"elements": elements, "at": now, "fp": fp, "fp_at": now}
+        return elements
+
+
+def _token_core_absent_in_corpus(token: str) -> bool:
+    """True SOLO si estamos SEGUROS de que el core del token NO tiene presencia exact-tag
+    POR ELEMENTO en el corpus. Core vacío o DB no consultable ⇒ False = CONSERVAR."""
+    core = _series.normalize_model(token or "")
+    if not core:
+        return False
+    elements = corpus_pm_elements()
+    if elements is None:
+        return False
+    return core not in elements
+
+
+def _replace_policy() -> bool:
+    """El brazo del seam 1 (IDENTITY_RESOLVE_POLICY): 'add' (default) | 'replace'."""
+    return (os.getenv("IDENTITY_RESOLVE_POLICY", "") or "add").strip().lower() == "replace"
+
+
+def _drop_gates_pass(tok: str, via: str | None, resolved: dict) -> bool:
+    """¿Puede el token REEMPLAZARSE (entrar en `drop_tokens`)? Puertas, en orden:
+    1. solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original (exact ya ES el
+       canonical — reemplazarlo sería un no-op);
+    2. (s278 §1a GUARD-IMPL) la expansión no filtró miembros (`all_members_consumable`);
+    3. (s278 §1a) la unidad no está en la quarantine de pendientes-de-adjudicación;
+    4. (s287 P1) el PROPIO core del token NO tiene presencia exact-tag en el corpus.
+    Las cuatro fail-open-a-add (el token se conserva y la expansión se añade igual)."""
+    if via not in ("paraguas", "alias", "homonimo"):
+        return False
+    if not resolved.get("all_members_consumable"):
+        return False
+    if catalog_store.norm_token(tok) in _quarantine_tokens():
+        return False
+    if via == "homonimo":
+        # SCOPING s287 P1 (H2): los homónimos NO pasan por la regla corpus-aware y NUNCA
+        # consultan el corpus. 'rp1r' TIENE tag vivo ('RP1r-Supra' → elemento 'rp1r'), así
+        # que la regla lo conservaría y regresaría el prefer MEDIDO de hp011.
+        return True
+    if not _replace_policy():
+        # brazo add: `drop_tokens` es inerte (apply_to_models lo ignora) → no se paga la
+        # consulta de corpus y el campo conserva su semántica histórica.
+        return True
+    return _token_core_absent_in_corpus(tok)
+
+
 def resolve_query(query: str) -> dict:
     """Detecta + resuelve por la puerta. Devuelve el registro completo (para seams y shadow):
     {detected, records[{token, via, politica, expand, ids}], add_models, drop_tokens,
@@ -301,15 +621,10 @@ def resolve_query(query: str) -> dict:
                     "ids": list(rec["ids"]),
                     "sources": sorted(record_sources),
                 })
-            # solo paraguas/alias/homónimo-prefer REEMPLAZAN el token original en el brazo
-            # replace (exact ya ES el canonical — reemplazarlo sería un no-op). s278 §1a:
-            # y SOLO si (a) la expansión original NO filtró miembros (guard candidate-member
-            # — all_members_consumable, GUARD-IMPL) y (b) la unidad no está en la quarantine
-            # de pendientes-de-adjudicación; en ambos casos fail-open-a-add (nunca peor que
-            # add: el token se conserva y la expansión se añade igual).
-            if (rec["via"] in ("paraguas", "alias", "homonimo")
-                    and r.get("all_members_consumable")
-                    and catalog_store.norm_token(tok) not in _quarantine_tokens()):
+            # el drop del token original (brazo replace) pasa por las 4 puertas de
+            # `_drop_gates_pass` (via-elegible · guard candidate-member s278 · quarantine
+            # s278 · regla monótona-segura corpus-aware s287 P1); todas fail-open-a-add.
+            if _drop_gates_pass(tok, rec["via"], r):
                 drop_tokens.append(tok)
     return {"detected": detected, "records": records, "add_models": add_models,
             "drop_tokens": drop_tokens, "allowed_sources": frozenset(allowed),
@@ -336,9 +651,8 @@ def apply_to_models(models: list[str], res: dict) -> list[str]:
     paraguas/alias resuelto. Dedup por normkey, orden estable."""
     # keying por catalog_store.norm_token (no C.normkey): C.normkey conserva '+'/'.', y un
     # match 'zx.2e' resolvería bien pero el drop fallaría silencioso (replace→add) — dúo #8
-    policy = (os.getenv("IDENTITY_RESOLVE_POLICY", "") or "add").strip().lower()
     nt = catalog_store.norm_token
-    drop = {nt(t) for t in res["drop_tokens"]} if policy == "replace" else set()
+    drop = {nt(t) for t in res["drop_tokens"]} if _replace_policy() else set()
     out, seen = [], set()
     for m in models:
         nk = nt(m)
