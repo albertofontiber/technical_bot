@@ -74,3 +74,22 @@ archetypes:
       - '{query} ruta menú programación edición'
       - '{query} condición entrada regla causa efecto'
       - '{query} acción salida temporizador anulación'
+
+  # s287 (DEC-164b) - clase «diferencia-entre-variantes / semantica-de-sufijo».
+  # AL FINAL de la ontologia first_match: un arquetipo anadido aqui solo puede
+  # capturar queries que hoy caen a archetype=None, nunca mover una existente.
+  # ``diferenc`` NO es un stem admisible: «presostato diferencial» es vocabulario
+  # PCI corriente y no describe una comparativa de variantes. Alcance ES + EN.
+  - id: variant_differentiation
+    patterns:
+      - '(?=.*\bdiferencias?\b)(?=.*\bentre\b)'
+      - '(?=.*\bdifferences?\b)(?=.*\bbetween\b)'
+      - '\ben\s+que\s+se\s+diferencian\b'
+      - '\bwhat\s+(?:is|are)\s+the\s+differences?\b'
+      - '\bsufijos?\b'
+      - '\bsuffix(?:es)?\b'
+    stem_prefixes: []
+    needs:
+      - '{query} diferencia entre variantes de la familia y significado del sufijo'
+      - '{query} tabla comparativa por modelo version descripcion'
+      - '{query} sensor longitud de onda espectral prueba incorporada'

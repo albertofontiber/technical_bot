@@ -58,3 +58,85 @@ facet` sigue (el arquetipo nuevo lo alimenta, no lo apaga); fail-closed intacto 
 7. **Gate 3 real [Sol]**: el artefacto sweep-39 de P1 NO sirve aquí — sweep FACET-aware:
    expand_query_facets×39 (diff exacto vs pre-registro) + probe de lane en cat022 + centinelas.
 8. Erratas del hallazgo corregidas: v3 tiene 7 arquetipos (no 9).
+
+# ══════ ENMIENDA post-STOP: F2 re-sellado {cat005, cat022} ══════
+El gate (a) del build paró en legítimo STOP: el diff real fue `{cat005, cat022}` contra el
+pre-registro `{cat022}`. Enmienda declarada a Alberto y sellada ANTES de re-correr (no
+racionalización post-hoc: el STOP se respetó, el pre-registro se re-sella explícitamente y la
+razón queda escrita aquí).
+
+- **Nuevo F2 = `{cat005, cat022}`.** Cualquier tercera query que gane arquetipo sigue siendo STOP.
+- **Motivo — cat005 es MIEMBRO GENUINO de la clase, no un falso positivo:** su enunciado es
+  «…¿y **en qué se diferencian** las versiones digital y analógica?» → una comparativa de
+  variantes de una misma familia (Fidegas CS4), exactamente la clase que el arquetipo define. El
+  error estuvo en el CONTEO del pre-registro (se enumeró la clase leyendo sólo cat022), no en el
+  trigger. El trigger `\ben\s+que\s+se\s+diferencian\b` es **español natural** y se **CONSERVA**:
+  estrecharlo para que sólo cazara cat022 sería overfit al gold diana — el lever tiene que servir
+  a la clase, no a una fila del eval (escala a 30+ fabricantes).
+- **cat005 = CONTROL PROTEGIDO.** Estado en el run v3 (`evals/s100_factlevel_full_v3_20260729.yaml`):
+  `hist = {OK: 6, …}` = **6/6 OK** con `appended_n = 0` / `coverage_status = no_append`. Es la
+  query de la clase que HOY ya está perfecta: no hay nada que ganar y todo que perder.
+  Contrato: **cualquier regresión en cat005 = STOP del lever** (no se «compensa» con cat022).
+  Gate (b) se extiende a cat005: si la lane le apendizara **ruido genérico** → STOP; si no
+  selecciona nada, o selecciona celdas de comparativa por-variante que pasan el
+  `required_any [bit, incorporada, version]`, sigue.
+- **DESCARTADO: mutilar F4** (recortar los triggers ES para forzar el diff a `{cat022}`). Es la
+  alternativa que «hace pasar el gate» y la peor: convierte el arquetipo de clase en un
+  reconocedor de un gold, deja `en qué se diferencian` sin cubrir para el resto del corpus, y
+  esconde el verdadero riesgo (¿apendiza bien en la clase?) en vez de medirlo. Se elige medir
+  cat005 con protección explícita en lugar de dejarlo fuera del alcance.
+- **DESCARTADO: excluir cat005 del alcance** vía un anti-patrón/negative-lookahead sobre
+  «versiones digital y analógica»: mismo overfit, con la deuda añadida de un anti-patrón que
+  nadie podrá justificar en 6 meses.
+- Alcance sin cambios en lo demás: centinelas 7/7, radio/caps/cuota/diversify intocados,
+  `require_evidence_facet` fail-closed intacto, lane shadow-only.
+
+# ══════ FIX post-STOP-b2: `version` fuera de `required_any` (homógrafo norma); control cat005 re-adjudicado ══════
+El gate (b.2) paró en STOP legítimo: la lane seleccionaba para **cat005** (CONTROL PROTEGIDO,
+6/6 OK con `appended_n=0`) la pág. 13 del manual Fidegas S/3-2 — una **DECLARACIÓN UE DE
+CONFORMIDAD**, no una celda de comparativa. Aprobaba el fail-closed con
+`term_hits = [descripcion, sensor, version]`, donde `version` venía de «con respecto a la
+**versión** EN 60079-0:2009» = **EDICIÓN DE UNA NORMA**, no una variante de producto.
+
+- **FIX (candidato (i) del informe del gate, declarado a Alberto):** en
+  `config/evidence_coverage_facets_v4.yaml`, faceta `variant_attribute_matrix` →
+  `required_any: [bit, incorporada]`. **`version` PERMANECE en `terms`** (sigue contando para
+  `min_distinct_terms`, sigue siendo vocabulario legítimo de la clase); lo que pierde es el poder
+  de **sostener sola** el fail-closed. `bit`/`incorporada` sólo aparecen en una comparativa
+  por-variante real («la función de Prueba **incorporada** (**BIT**) sólo se incluye en…»).
+- **Por qué es de RAÍZ y no un parche:** el gap no era «un chunk malo», era un **homógrafo con
+  poder de veto** en el discriminativo. Se corrige en el eje que lo causa (qué término puede
+  autorizar por sí solo), no con un anti-patrón contra el doc Fidegas ni con una exclusión por id
+  — ambos serían overfit invisible en 6 meses. Escala: cualquier manual con declaración de
+  conformidad (todos los de ATEX) dejaba de ser candidato por la misma razón estructural.
+- **Efecto medido, no supuesto** (re-run completo del gate, mismos seeds/blobs):
+  - **cat005 → 0 anclas seleccionadas.** El único candidato (`38b894d1`) cae por `required_any`:
+    sus hits no incluyen `bit` ni `incorporada`. Control **intacto** (`appended_n` sigue 0), y su
+    adjudicación manual queda **retirada** (`RETIRED_CONTROL_ADJUDICATIONS` en el gate) porque el
+    ancla ya no se selecciona — no se reutiliza una llamada vieja sobre una selección nueva.
+  - **cat022 rank-1 `74cc9f95` SOBREVIVE** (celda IR pre-declarada, gap 3, pág. 8 de
+    `MNDT722_40-40L`): tiene `bit` + `incorporada` + `prueba` del span
+    «Existen dos versiones… S40/40L4 funciona a 4,5 µm… la función de Prueba incorporada (BIT)
+    sólo se incluye en los modelos S40/40LB y 40/40L4B».
+  - **DECLARADO — el rank-2 `255948d3` («# Tablas», `MNDT723_40-40U`) NO cae:** sigue pasando
+    `required_any` porque su cola contiene una frase de comparativa GENUINA
+    («…S40/40UB, este último incluye además la función de Prueba incorporada (BIT)»), de donde
+    salen `bit`/`incorporada`. Es un chunk **mixto** (índice-de-tablas + intro con la comparativa),
+    no un falso positivo del discriminativo, y es de un manual **hermano** (serie 40/40U, no la
+    40/40L de la pregunta). El fix no lo toca, y no debía: filtrarlo exigiría un criterio de
+    pureza-de-chunk (TOC-ness) o de doc-matching, que es **otro lever** (clase TOC/índice) y no
+    se cuela aquí. Queda como GAP ABIERTO declarado, no como ruido silenciado.
+- **DESCARTADO — quitar `version` también de `terms`:** perdería vocabulario real de la clase
+  («versiones digital y analógica», «Tabla 2: Versiones del detector») sin ganar nada: el veto ya
+  lo cierra el `required_any`.
+- **DESCARTADO — negative-lookahead contra `EN 6\d{4}` / «norma»:** anti-patrón que codifica un
+  documento concreto en la ontología de clase, con dígitos (el validador de
+  `evidence_coverage.py:84` los prohíbe en `terms` precisamente por esto).
+- **DESCARTADO — endurecer `min_distinct_terms` a 3:** global al fichero, tocaría los 5
+  arquetipos pre-lever (prefijo sellado por test de identidad) para arreglar uno nuevo, y el
+  texto normativo casaba 3 términos de todas formas → no habría cerrado el leak.
+- **Contrato del test:** el `xfail(strict=True)`
+  `test_norm_edition_version_is_the_open_required_any_leak` pasaba a XPASS con el fix → se
+  **invierte** (marcador retirado, nombre y aserciones pinean el comportamiento nuevo: texto de
+  norma con `[descripcion, sensor, version]` NO pasa) + un test nuevo pinea que `version` sigue en
+  `terms` y que una comparativa por-variante real sigue casando.

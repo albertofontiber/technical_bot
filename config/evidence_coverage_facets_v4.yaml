@@ -9,6 +9,7 @@ query_alignment_min_terms:
   capacity_quantity: 1
   fault_reset_recovery: 2
   program_delay_cause_effect: 3
+  variant_differentiation: 0
 archetypes:
   replace_without_loss:
     - id: component_identity
@@ -56,3 +57,17 @@ archetypes:
       terms: [condicion, entrada, regla, causa, efecto, matriz]
     - id: output_timing
       terms: [accion, salida, temporizador, retardo, anulacion]
+
+  # s287 (DEC-164b) - gemela de `variant_differentiation` en retrieval_facets_v3.
+  # Vocabulario de CLASE (no calcado de un documento): celda/fila que contrasta
+  # variantes de una familia por atributo. min_distinct_terms global (2) +
+  # required_any discriminativo evitan que prosa generica pase el fail-closed.
+  # FIX post-STOP-b2: `version` FUERA del required_any (sigue en terms). Es
+  # homografo: en una DECLARACION UE DE CONFORMIDAD casa con la EDICION DE UNA
+  # NORMA («respecto a la version EN 60079-0:2009») y aprobaba el fail-closed
+  # sobre texto normativo (control cat005). El discriminativo queda en los dos
+  # terminos que solo existen en una comparativa por-variante real.
+  variant_differentiation:
+    - id: variant_attribute_matrix
+      terms: [version, modelo, descripcion, bit, prueba, incorporada, sensor, longitud, onda, espectral, suffix, model, built, test, difference]
+      required_any: [bit, incorporada]
