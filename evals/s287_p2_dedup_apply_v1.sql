@@ -4,12 +4,21 @@
 -- Census: evals/s287_p2_dedup_census_v1.json
 -- Packet: evals/s287_p2_dedup_adjudicacion_packet_v1.md  ← LÉELO ANTES DE APROBAR NADA
 --
+-- ⚠ EDITADO A MANO tras la adjudicación de Alberto (s287): par semilla → OPCIÓN B. Este
+--   fichero ya NO es salida limpia del generador, y `s287_p2_dedup_census.py` lo SOBRESCRIBE
+--   (OUT_SQL, línea 104) → salva este .sql antes de re-correr el census.
+--
 -- ###########################################################################################
--- #  TODAS las filas salen COMENTADAS, A PROPÓSITO. Ningún par entra vivo.                  #
+-- #  Salen COMENTADAS todas las filas MENOS las del PAR 1 (semilla), que Alberto ADJUDICÓ  #
+-- #  en s287 → OPCIÓN B (ver bloque 0 y el §1 del packet). Ningún otro par entra vivo.     #
 -- #  El census midió que CADA clase de candidato arrastra un riesgo de IDENTIDAD que solo   #
 -- #  la adjudicación resuelve (variantes -IS, manual-vs-datasheet, módulos hermanos con     #
 -- #  pm='unknown', rebadges OEM Notifier/Morley). APROBAR UN PAR = quitar el '-- ' inicial  #
 -- #  de las filas de su bloque. No hay que tocar comas: la fila SENTINELA cierra el VALUES. #
+-- #  CADA par lleva DOS decisiones (política Alberto s287): (1) aprobar/rechazar el par y   #
+-- #  (2) CONFIRMAR la metadata del representante (fabricante + product_model) a nivel       #
+-- #  `documents` Y a nivel `chunks_v2` — divergen en silencio; si está mal, el fix va en    #
+-- #  este mismo paste, con el bloque 0 como plantilla.                                      #
 -- ###########################################################################################
 --
 -- INVARIANTE del gate SPAN-DIFF (re-verificado en SQL, guard 3f): solo se marcan chunks de
@@ -18,10 +27,159 @@
 -- Jaccard >= 0.6. Los chunks UNIQUE / PARTIAL / COVERED_NO_TWIN / SHORT NO se
 -- tocan: siguen sirviéndose desde el doc "suprimido" (la supresión es POR CHUNK, no por doc).
 --
--- Propuestas: 120 marcas en 24 pares · tiers {'T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA': 6, 'T1-DOC-IDENTICO': 1, 'T2-MISMA-MARCA': 17}
+-- Propuestas: 121 marcas en 24 pares · tiers {'T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA': 6, 'T1-DOC-IDENTICO': 1, 'T2-MISMA-MARCA': 17}
+--   (120 del census + 1: el par semilla INVERTIDO a opción B pasa de 9 a 10 marcas — la
+--    clase TWIN se re-clasifica en la dirección nueva, ver el bloque del PAR 1)
+-- VIVO en este paste: solo el PAR 1 (10 marcas). Los otros 23 pares siguen comentados.
 -- Dry-run: cambia COMMIT por ROLLBACK.
 
 BEGIN;
+
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- 0. METADATA-FIX del PAR SEMILLA · *** ADJUDICADO POR ALBERTO (s287): OPCIÓN B ***
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- El representante pasa a ser 'manual IS MA1' (doc B): la extracción MÁS COMPLETA (8 págs,
+-- incluye el control drawing ATEX de p7-p8) y además la ISSUE MÁS NUEVA del mismo documento
+-- de e2S — B dice "Document No. IS 5001  Issue H  03-01-2020" en las 6 hojas; A dice
+-- "Issue F 06-08-15" en la portada y "Issue E 27-11-09" en las hojas 2-6. Criterio de
+-- Alberto: «representante = la extracción más completa CON la metadata corregida; si la
+-- metadata del más completo está corrupta, el fix va en el MISMO paste».
+--
+-- EVIDENCIA (sonda read-only 2026-07-30 contra la DB viva, cero escrituras):
+--   · doc B `manufacturer='Detnov'` es ESPURIO — la cadena `detnov` no aparece en su propio
+--     texto; su contenido dice "european safety systems ltd. impress house, mansell road,
+--     acton, london w3 7qh" y "e2S". OJO: 66 documentos / 1409 chunks del corpus SÍ son
+--     Detnov de verdad → todo UPDATE va acotado por document_id, nunca por valor.
+--   · doc B `product_model`: 'unknown' a nivel doc y 'VIA-28V' en los 18 chunks. `VIA-28V`
+--     es un ARTEFACTO DE PARSEO de la frase del manual "…designed to operate in a hazardous
+--     area from a 24V dc supply VIA 28V 93mA resistive ATEX … Zener Barriers". Corpus-wide
+--     `VIA-28V` existe SOLO aquí (18 chunks, 0 documents) → el fix no puede tocar nada más.
+--   · doc A `product_model='IS5001'` a nivel doc es la REFERENCIA DEL MANUAL, no el producto:
+--     el pie de página de LOS DOS docs dice "Document No. IS 5001". Sus 15 chunks ya llevan
+--     'IS-mA1' (correcto) → A también entra en el fix, solo a nivel `documents`.
+--   · MODELO CORRECTO = IS-mA1: la portada de AMBOS docs dice "INSTRUCTION MANUAL / IS-mA1
+--     Minialarm / Intrinsically Safe Round Sounder" y la placa ATEX de ambos, "IS-mA1 Sounder".
+--
+-- GUARD: mismo patrón que el 3a — la precondición viaja EN el paste y ABORTA si el estado
+-- vivo no es el que vio la sonda. Aquí el valor literal ES el hash (son campos cortos, no
+-- blobs): comparar el literal es la forma más fuerte y legible del mismo control.
+-- Este bloque 0 es INDEPENDIENTE del 4: si retiras el par semilla, comenta el bloque entero.
+
+-- 0.1 BACKUP (persistente, para rollback post-COMMIT)
+CREATE TABLE IF NOT EXISTS _s287_metafix_backup_documents AS
+SELECT id, manufacturer, product_model, now() AS backed_at
+FROM documents
+WHERE id IN ('a6b9dc84-af6d-4957-a403-4b4c2136557b',
+             '2b694083-5b21-4f1a-a29b-565072860fb8');
+
+CREATE TABLE IF NOT EXISTS _s287_metafix_backup_chunks AS
+SELECT id, document_id, manufacturer, product_model, now() AS backed_at
+FROM chunks_v2
+WHERE document_id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b';
+
+-- 0.2 GUARDS de precondición (cualquiera aborta TODO)
+DO $$
+DECLARE m int;
+BEGIN
+  -- 0a. doc B activo y con EXACTAMENTE la metadata corrupta que vio la sonda
+  SELECT count(*) INTO m FROM documents
+   WHERE id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b' AND status = 'active'
+     AND manufacturer = 'Detnov' AND product_model = 'unknown';
+  IF m <> 1 THEN RAISE EXCEPTION
+    'doc B no está en el estado pre-fix esperado (Detnov/unknown) — ABORTA'; END IF;
+
+  -- 0b. doc A activo y con EXACTAMENTE el pm doc-level a corregir
+  SELECT count(*) INTO m FROM documents
+   WHERE id = '2b694083-5b21-4f1a-a29b-565072860fb8' AND status = 'active'
+     AND manufacturer = 'European Safety Systems' AND product_model = 'IS5001';
+  IF m <> 1 THEN RAISE EXCEPTION
+    'doc A no está en el estado pre-fix esperado (European Safety Systems/IS5001) — ABORTA'; END IF;
+
+  -- 0c. los 18 chunks de B llevan TODOS el artefacto, y nada fuera de B lo lleva
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE document_id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b';
+  IF m <> 18 THEN RAISE EXCEPTION 'doc B tiene % chunks, la sonda vio 18 — ABORTA', m; END IF;
+
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE document_id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b'
+     AND product_model = 'VIA-28V' AND manufacturer = 'Detnov';
+  IF m <> 18 THEN RAISE EXCEPTION
+    'solo % de los 18 chunks de B están en el estado pre-fix (VIA-28V/Detnov) — ABORTA', m; END IF;
+
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE product_model = 'VIA-28V'
+     AND document_id <> 'a6b9dc84-af6d-4957-a403-4b4c2136557b';
+  IF m > 0 THEN RAISE EXCEPTION
+    'VIA-28V aparece en % chunks FUERA del doc B — la sonda vio 0, revisa antes de tocar', m; END IF;
+
+  -- 0d. el doc A ya tiene el pm correcto a nivel chunk (no se toca)
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE document_id = '2b694083-5b21-4f1a-a29b-565072860fb8'
+     AND product_model = 'IS-mA1' AND manufacturer = 'European Safety Systems';
+  IF m <> 15 THEN RAISE EXCEPTION
+    'los chunks de A no están como los vio la sonda (15× IS-mA1/European Safety Systems) — ABORTA'; END IF;
+END $$;
+
+-- 0.3 UPDATES (5 campos · SIEMPRE acotados por document_id)
+UPDATE documents SET manufacturer = 'European Safety Systems'          -- (1) B doc-level manu
+ WHERE id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b' AND manufacturer = 'Detnov';
+
+UPDATE documents SET product_model = 'IS-mA1'                          -- (2) B doc-level pm
+ WHERE id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b' AND product_model = 'unknown';
+
+UPDATE chunks_v2 SET product_model = 'IS-mA1'                          -- (3) B chunk-level pm
+ WHERE document_id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b' AND product_model = 'VIA-28V';
+
+UPDATE documents SET product_model = 'IS-mA1'                          -- (4) A doc-level pm
+ WHERE id = '2b694083-5b21-4f1a-a29b-565072860fb8' AND product_model = 'IS5001';
+
+-- (5) AÑADIDO por la sonda, NO estaba en la lista de 4 campos — decláralo o coméntalo:
+--     los 18 chunks de B llevan manufacturer='Detnov' a nivel CHUNK, y ese es el campo que
+--     FILTRA de verdad (`match_chunks_v2(filter_manufacturer)` compara `c.manufacturer`,
+--     supabase_schema.sql:81). Dejarlo sin tocar mantendría al representante nuevo sirviendo
+--     los hechos de cat010 etiquetados 'Detnov' — justo el defecto que motivó la opción B.
+UPDATE chunks_v2 SET manufacturer = 'European Safety Systems'          -- (5) B chunk-level manu
+ WHERE document_id = 'a6b9dc84-af6d-4957-a403-4b4c2136557b' AND manufacturer = 'Detnov';
+
+-- 0.4 POST-CHECK del fix (aborta si algún campo quedó a medias)
+DO $$
+DECLARE m int;
+BEGIN
+  -- campos (1)(2)(4): los DOS documents con manufacturer y pm correctos
+  SELECT count(*) INTO m FROM documents
+   WHERE id IN ('a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8')
+     AND manufacturer = 'European Safety Systems' AND product_model = 'IS-mA1';
+  IF m <> 2 THEN RAISE EXCEPTION 'metadata-fix doc-level incompleto (% de 2) — ABORTA', m; END IF;
+
+  -- campo (3): 18 chunks de B + 15 de A = 33 con el pm correcto
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE document_id IN ('a6b9dc84-af6d-4957-a403-4b4c2136557b',
+                         '2b694083-5b21-4f1a-a29b-565072860fb8')
+     AND product_model = 'IS-mA1';
+  IF m <> 33 THEN RAISE EXCEPTION 'metadata-fix pm chunk-level incompleto (% de 33) — ABORTA', m; END IF;
+END $$;
+
+-- Check del campo (5) — EN SU PROPIO BLOQUE: si comentas el UPDATE (5), comenta también esto.
+DO $$
+DECLARE m int;
+BEGIN
+  SELECT count(*) INTO m FROM chunks_v2
+   WHERE document_id IN ('a6b9dc84-af6d-4957-a403-4b4c2136557b',
+                         '2b694083-5b21-4f1a-a29b-565072860fb8')
+     AND manufacturer = 'European Safety Systems';
+  IF m <> 33 THEN RAISE EXCEPTION
+    'metadata-fix manufacturer chunk-level incompleto (% de 33) — ABORTA', m; END IF;
+END $$;
+-- SIN EFECTOS COLATERALES verificados: el trigger FTS `chunks_v2_search_vector_trigger` es
+-- `BEFORE INSERT OR UPDATE OF content, context, section_title, section_path`
+-- (migrations/006_chunks_v2.sql:181-186) → NO dispara con product_model/manufacturer. Y el
+-- `context` de los 18 chunks de B NO contiene 'VIA-28V' ni 'Detnov' (sonda) → el artefacto
+-- no está embebido en el texto que se indexa ni se embebe.
+-- RESIDUAL DECLARADO (no se toca aquí): `chunks_v2_hyq` guarda una copia DESNORMALIZADA de
+-- product_model/source_file — 49 filas de B siguen diciendo 'VIA-28V'. Es INERTE para el
+-- servicio: `match_hyq` devuelve solo (chunk_id, question, similarity) y el retriever
+-- rehidrata desde chunks_v2 (retriever.py:1091, _HYDRATE_SELECT). Queda anotado para que no
+-- se pudra en silencio; incluirlo sería 1 UPDATE más si quieres consistencia total.
 
 -- 1. STAGING (scratch; el paste la crea y la puebla — no hay carga previa)
 DROP TABLE IF EXISTS _s287_dedup_staging;
@@ -45,21 +203,35 @@ INSERT INTO _s287_dedup_staging
 VALUES
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
 -- PAR 1: 2b694083__a6b9dc84   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** PAR SEMILLA (cat010) ***
---   CONSERVA  'IS5001-F_IS-mA1_EN'  (manu='European Safety Systems' pm='IS5001')
---   SUPRIME   9 de 18 chunks de 'manual IS MA1'  (manu='Detnov' pm='unknown')
---   PRESERVA  UNIQUE=4, PARTIAL=5
---   cobertura 0.72/0.89 · motivo del representante: metadata auto-soportada (2/3 vs 0/3)
---   !! POLÍTICAS DIVERGENTES: la literal del spec conservaría 'manual IS MA1' (más spans únicos (13 vs 7))
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('25d7fd21-e168-43e4-b2e6-b73b15aff49d','d4ae732f-2838-4134-a558-680b1ac36bb8','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9653,0.7444,0,'536b6baa12e5a359a8eab165f317ea59','2b694083__a6b9dc84'),
---   ('68c40b6f-c4a4-478e-adff-bf32febc2cd7','1a7ac511-31fd-4281-a482-157c3dabcb15','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9897,0.7157,0,'c644615d4ff1f01a55d666970f7b2f80','2b694083__a6b9dc84'),
---   ('b21ff3e2-56f0-4d12-96d9-6735f6648a7c','2b9a9f41-f468-42db-895b-920fb5050472','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9766,0.8022,0,'f68497bc353ec2fe9436b707b6e805ac','2b694083__a6b9dc84'),
---   ('1ffd36f5-2f6d-4759-aac5-e1cf532833da','9d4ae236-ad66-428e-91b2-5fd254715b23','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',1.0,1.0,0,'60db8eb69268cf462eba150b808b0270','2b694083__a6b9dc84'),
---   ('e3a101aa-41dd-4aa1-a042-1b7b01bcf467','c07ed164-df92-4e07-9e8a-d1a4d730d3f0','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',1.0,1.0,0,'7276f8f9892f36fe059b6cef63171caf','2b694083__a6b9dc84'),
---   ('70f4ac0e-1497-460a-b893-4bcfd33f0168','d4e91d5f-2721-45bb-8cbb-ca7fbbdd9fc9','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9545,0.8261,0,'29f141cd25f722349ca696c08a3ae242','2b694083__a6b9dc84'),
---   ('ba38fed9-e1a9-4388-941e-78de2289e27a','4feea9a8-59d3-4742-9ab9-2ff9aee1caa0','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9728,0.7052,0,'57cf13b3eedf4bd9fc13c246927a78df','2b694083__a6b9dc84'),
---   ('df475873-b2d4-4884-9086-a527771a3f82','e10519a0-e237-49df-a151-83a859609a8e','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',0.9921,0.6642,0,'0ceddf025b3558e46a189d23b48a9b1d','2b694083__a6b9dc84'),
---   ('d335a010-5715-4214-975b-1e18bf58ac75','7eff6257-85e6-402d-9947-90c7336ff7e1','a6b9dc84-af6d-4957-a403-4b4c2136557b','2b694083-5b21-4f1a-a29b-565072860fb8',1.0,1.0,0,'9bd4ac05997d1e1de79119df222776f2','2b694083__a6b9dc84'),
+--   *** ADJUDICADO POR ALBERTO (s287) → OPCIÓN B · DIRECCIÓN INVERTIDA · SIN CASILLA ***
+--   CONSERVA  'manual IS MA1'      (doc B · 18 chunks · 8 págs · Issue H 03-01-2020)
+--             metadata CORREGIDA en el bloque 0 de este mismo paste
+--   SUPRIME   10 de 15 chunks de 'IS5001-F_IS-mA1_EN'  (doc A · Issue F/E 2015-2009)
+--   PRESERVA  PARTIAL=5 de A (idx 0,5,7,8,9) + los 18 chunks de B intactos
+--   cobertura 0.89 (A cubierto por B) / 0.72 (B cubierto por A)
+--   MOTIVO: doc canónico completo por manual físico (Alberto) — B tiene el control drawing
+--           ATEX de p7-p8 (los 4 chunks UNIQUE, territorio de los hechos de cat010) y es la
+--           ISSUE MÁS NUEVA del mismo Document No. IS 5001.
+--
+--   ¡OJO! 10 marcas, no 9. La clase TWIN es DIRECCIONAL y se re-clasifica al invertir: el
+--   census ya midió `side_a.classes = {TWIN: 10, PARTIAL: 5}`. Los 9 punteros del sentido
+--   viejo invertidos son un SUBCONJUNTO; el que falta es el chunk idx2 de A (77003e0f), TWIN
+--   en esta dirección (cov 0.9325, racha 0, J 0.6351 con 77a0cce8) y que en el sentido
+--   antiguo no salía porque su gemelo 77a0cce8 es PARTIAL en B (cov 0.9061 < 0.92).
+--   Los `covered_word_frac` / `max_uncovered_span_words` de abajo son los del lado A
+--   (dirección nueva), NO los reciclados del lado B — reciclarlos habría dejado el guard 3f
+--   validando números de otro chunk. `twin_jaccard` sí es simétrico.
+--   Si prefieres la inversión literal de 9, comenta SOLO la fila marcada `[+1]`.
+  ('d4ae732f-2838-4134-a558-680b1ac36bb8','25d7fd21-e168-43e4-b2e6-b73b15aff49d','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9693,0.7444,0,'862dcdcbc5a024b6a8e1ea48fe735815','2b694083__a6b9dc84'),   -- idx1 p1 424w · 4.1 ATEX certificate
+  ('77003e0f-fbaa-4def-adc3-cbf7cc000683','77a0cce8-b238-4507-a4ab-17491badfe0c','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9325,0.6351,0,'6364787451a49c7007eeeb0bf4a0c86e','2b694083__a6b9dc84'),   -- idx2 p2 504w · [+1] TWIN solo en esta dirección
+  ('1a7ac511-31fd-4281-a482-157c3dabcb15','68c40b6f-c4a4-478e-adff-bf32febc2cd7','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9873,0.7157,0,'1443272a951c843e3a6b1d02fef462ee','2b694083__a6b9dc84'),   -- idx3 p2 157w · 4.1 ATEX certificate
+  ('2b9a9f41-f468-42db-895b-920fb5050472','b21ff3e2-56f0-4d12-96d9-6735f6648a7c','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9766,0.8022,0,'69181b5301f58e01c9bf5304dcb71285','2b694083__a6b9dc84'),   -- idx4 p3 896w · 4.1 ATEX certificate
+  ('9d4ae236-ad66-428e-91b2-5fd254715b23','1ffd36f5-2f6d-4759-aac5-e1cf532833da','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',1.0,1.0,0,'60db8eb69268cf462eba150b808b0270','2b694083__a6b9dc84'),   -- idx6 p4 310w · J=1.000
+  ('c07ed164-df92-4e07-9e8a-d1a4d730d3f0','e3a101aa-41dd-4aa1-a042-1b7b01bcf467','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',1.0,1.0,0,'7276f8f9892f36fe059b6cef63171caf','2b694083__a6b9dc84'),   -- idx10 p5 79w · J=1.000
+  ('d4e91d5f-2721-45bb-8cbb-ca7fbbdd9fc9','70f4ac0e-1497-460a-b893-4bcfd33f0168','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9545,0.8261,0,'69615a3c9f14cb9a558d15180605f2d3','2b694083__a6b9dc84'),   -- idx11 p5 154w
+  ('4feea9a8-59d3-4742-9ab9-2ff9aee1caa0','ba38fed9-e1a9-4388-941e-78de2289e27a','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9553,0.7052,0,'ef0019fb43549e38f1ce956d126f98d6','2b694083__a6b9dc84'),   -- idx12 p6 403w · IECEx Approval
+  ('e10519a0-e237-49df-a151-83a859609a8e','df475873-b2d4-4884-9086-a527771a3f82','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9921,0.6642,0,'20684fdaba29f3a3d3a4d8c7fae8890e','2b694083__a6b9dc84'),   -- idx13 p6 126w · FM Approval
+  ('7eff6257-85e6-402d-9947-90c7336ff7e1','d335a010-5715-4214-975b-1e18bf58ac75','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',1.0,1.0,0,'06911258051b6a2704b035aec059acf7','2b694083__a6b9dc84'),   -- idx14 p6 124w · CPD 89/106/EEC · J=1.000
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
 -- PAR 2: 5e878ee7__eb749df8   [T1-DOC-IDENTICO]
 --   CONSERVA  'DXc_Connexion Averia-de-resistencia-de-baterias.pdf'  (manu='Morley' pm='unknown')
@@ -423,8 +595,13 @@ SELECT (SELECT count(*) FROM _s287_dedup_staging) AS staged,
        (SELECT updated FROM tmp_s287_updated)     AS updated,
        (SELECT count(*) FROM _s287_dedup_backup)  AS backed_up;
 
--- ROLLBACK post-COMMIT:
+-- ROLLBACK post-COMMIT (dedup):
 --   UPDATE chunks_v2 c SET duplicate_of = b.duplicate_of
 --     FROM _s287_dedup_backup b WHERE c.id = b.id;
+-- ROLLBACK post-COMMIT (metadata-fix del bloque 0):
+--   UPDATE documents d SET manufacturer = b.manufacturer, product_model = b.product_model
+--     FROM _s287_metafix_backup_documents b WHERE d.id = b.id;
+--   UPDATE chunks_v2 c SET manufacturer = b.manufacturer, product_model = b.product_model
+--     FROM _s287_metafix_backup_chunks b WHERE c.id = b.id;
 
 COMMIT;   -- <-- para dry-run: ROLLBACK

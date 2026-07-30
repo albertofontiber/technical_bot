@@ -2783,33 +2783,50 @@
   gold_answer: 'El módulo de entrada M710 (MI-DMMI en nomenclatura Morley; es el mismo módulo de Notifier)
     admite dos formas de conexionado: 2 estados (el cortocircuito se señaliza como alarma) y 3 estados,
     que requiere una resistencia de 18 kΩ en serie con el contacto monitorizado (part M200E-EOL-R18).
-    La resistencia de fin de línea (RFL) del lazo es de 47 kΩ. El cableado del lazo usa los terminales
-    1 (−Lazo in), 2 (+Lazo in), 3 (−Lazo out) y 4 (+Lazo out); la Entrada A se conecta a los terminales
-    6-7. Para eliminar el aislador interno, los positivos de entrada/salida del lazo se conectan a los
-    terminales 4 y 5. Para instalaciones con requisitos VdS 2489 existe una opción de fin de línea polarizada
-    alternativa (M200E-EOL-RD).'
+    La resistencia de fin de línea (RFL) de 47 kΩ (M200-EOL-R / M200E-EOL-R) va al final de la entrada
+    de supervisión (Entrada A, terminales 6-7); el lazo analógico direccionable no lleva RFL. El cableado
+    del lazo usa los terminales 1 (−Salida del lazo), 2 (+Salida del lazo), 3 (−Entrada del lazo) y 4
+    (+Entrada del lazo); la Entrada A (entrada de supervisión) se conecta a los terminales 6-7. Para eliminar
+    el aislador interno, los positivos de entrada/salida del lazo se conectan a los terminales 4 y 5.
+    Para instalaciones con requisitos VdS 2489 existe una opción de fin de línea polarizada alternativa
+    (M200E-EOL-RD).'
   atomic_facts:
   - texto: 'Hay 2 formas de conexionado: 2 estados (el corto se señaliza como alarma) y 3 estados'
     tipo: core
     estado: presente
     valor: 2 estados / 3 estados
-    cita: guía MI-DMMI; I56-2005 figs 5/6
-  - texto: La resistencia de fin de línea (RFL) del lazo es 47 kΩ
+    cita: I56-2005-002 FIGURE 3 nota 3 + guía KB Conexionado-del-modulo-M710-MI-DMMI
+    nota_edit: 's287 (adjudicado Alberto): puntero corregido — «I56-2005 figs 5/6» era erróneo (FIGURE
+      5/6 son del M701/salida). El anclaje real del modo 3 estados es FIGURE 3 nota 3 («...An 18KΩ resistor
+      (M200E-EOL-R18) should be wired in series with each device switch being monitored»); el desglose
+      2-estados/3-estados como tal lo aporta la guía KB.'
+  - texto: RFL 47 kΩ (M200-EOL-R / M200E-EOL-R) de la ENTRADA DE SUPERVISIÓN (Entrada A, terminales 6-7);
+      el lazo analógico direccionable NO lleva RFL
     tipo: core
     estado: presente
     valor: 47 kΩ
-    cita: diagrama guía MI-DMMI + I56-2005 (47KΩ)
+    cita: I56-2006-004 FIGURA 3 (ES) + I56-4406-001 §MI-DMMIE Wiring (a–e) + I56-2005-002 FIGURE 3
+    nota_edit: 's287 (adjudicado Alberto): RE-ALCANCE — la RFL 47 kΩ cierra el circuito de contactos de
+      la entrada de supervisión (terminales 6-7), NO el lazo. El lazo analógico direccionable no lleva
+      resistencia de fin de línea. Verificado en FIGURE 3 de I56-2005-002 e I56-2006-004 (el 47KΩ M200-EOL-R
+      cuelga de los contactos monitorizados) y en el propio diagrama de la guía KB.'
   - texto: El modo 3 estados requiere una resistencia de 18 kΩ en serie con el contacto (part M200E-EOL-R18)
     tipo: core
     estado: presente
     valor: 18 kΩ
     cita: guía MI-DMMI + I56-2005
-  - texto: 'Terminales del lazo: 1=−Lazo in, 2=+Lazo in, 3=−Lazo out, 4=+Lazo out; Entrada A = terminales
-      6-7'
+  - texto: 'Terminales del lazo: 1=−Salida del lazo, 2=+Salida del lazo, 3=−Entrada del lazo, 4=+Entrada
+      del lazo; 5=+Salida del lazo alternativa (sin aislador de cortocircuito, unido internamente al 4);
+      Entrada A (entrada de supervisión) = terminales 6-7'
     tipo: core
     estado: presente
     valor: 1/2/3/4 lazo; 6-7 entrada A
-    cita: diagrama guía MI-DMMI
+    cita: I56-2006-004 FIGURA 3 (ES) + I56-4406-001 §MI-DMMIE Wiring (a–e) + I56-2005-002 FIGURE 3
+    nota_edit: 's287 (adjudicado Alberto, autoridad-manda): mapping CORREGIDO — el anterior (1=−Lazo in
+      / 2=+Lazo in / 3=−Lazo out / 4=+Lazo out) venía de la guía KB, que tiene los rótulos 1-4 INVERTIDOS
+      por error de edición. 13 variantes / 5 manuales oficiales / 4 idiomas coinciden en salida=1-2, entrada=3-4
+      (auditoría píxel s287, evals/s287_renders/). `valor` se deja INTACTO (direction-agnostic) por estabilidad
+      de la clave aguas abajo.'
   - texto: Para eliminar el aislador interno, los positivos in/out del lazo se conectan a los terminales
       4 y 5
     tipo: supplementary
@@ -2826,12 +2843,24 @@
     estado: presente
     valor: M200E-EOL-RD / VdS 2489
     cita: I56-2005 (valor numérico del polarizado no afirmado por ambigüedad 47Ω/47KΩ)
+    nota_demote: 's287 (adjudicado Alberto): FUERA DE ALCANCE del M710/MI-DMMI — es opción del M701 /
+      módulo de SALIDA (I56-2005-002 §M701, FIGURE 5 nota 5, Table 1: EOL Monitoring Options). Se RE-ETIQUETA
+      con el alcance explícito y se MANTIENE como supplementary (no se elimina: estabilidad de índices
+      de atomic_facts).'
   citations:
   - Conexionado-del-modulo-M710-MI-DMMI.pdf
   - I56-2005-002 M710 M720 M721 M701.pdf
+  - I56-2006-004 MI-DMMI_DMM2I_D2ICMO.pdf
+  - I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE.pdf
+  notes: 'CONFLICTO-FUENTE (adjudicado Alberto s287, autoridad-manda): manual de instalación certificado
+    EN54-17/18 (M200-500-00 / M200-91-00) > artículo KB de soporte; la guía KB Conexionado-del-modulo-M710-MI-DMMI
+    tiene los rótulos de los bornes 1-4 INVERTIDOS por error de edición (auditoría píxel s287, evals/s287_renders/);
+    patrón cat009'
   pdfs_used:
   - Conexionado-del-modulo-M710-MI-DMMI.pdf
   - I56-2005-002 M710 M720 M721 M701.pdf
+  - I56-2006-004 MI-DMMI_DMM2I_D2ICMO.pdf
+  - I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE.pdf
   _provenance:
     estado: verificado
     fecha: '2026-06-07'

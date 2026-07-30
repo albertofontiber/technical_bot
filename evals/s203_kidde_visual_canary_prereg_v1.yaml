@@ -2,6 +2,7 @@ instrument: s203_kidde_visual_canary_v1
 status: FROZEN_BEFORE_FRONTIER_EXECUTION
 hash_contract: sha256_of_utf8_text_with_crlf_normalized_to_lf
 
+# re-anclado s287: gold cat008 editado por ADJUDICACIÓN de Alberto (auditoría píxel A-D + citations/pdfs_used)
 frozen_inputs:  # re-anclado s286 (golds editados por adjudicación de Alberto)
   design: {path: evals/s203_kidde_visual_canary_design_v1.md, sha256: e395c8d424393c119b2ca94d1260823db076ad757ba9ca5716d7fc688cfea1a9}
   packet: {path: evals/s203_kidde_visual_canary_packet_v1.json, sha256: bb2f9115ca506d251421ec21cb31267c73ae129ed92f2dfdc0dde139777b7f7c}
@@ -9,7 +10,7 @@ frozen_inputs:  # re-anclado s286 (golds editados por adjudicación de Alberto)
   runner: {path: scripts/s203_run_kidde_visual_canary.py, sha256: 93a9f620aaaeb705030dfc3f2579eeef6653e41862d47df30559587a2a662e90}
   tests: {path: tests/test_s203_kidde_visual_canary.py, sha256: deee03337607216fb7fe1c3a679511a176bf187bd2c3d44ed41638821dc9da46}
   design_review_adjudication: {path: evals/s203_kidde_visual_design_review_adjudication_v1.json, sha256: 0c09b0b57923864a5f623201fe462ae1d95ef4bfa212a50bc7d2aec9a5abf2d6}
-  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: 5ab500ec92b20065eed1ddef1e987c77a33bcbb208bd2157ecb8edbb510bacaa}
+  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: 79701140dff096aef8cac0faf1833bb14b1df080e2d466803109fc81ece25e1d}
 
 packet_sha256: c81a580abfc6e60bc806e66bc7c8b7096d2b4fdcbad29cc61704684124135340
 

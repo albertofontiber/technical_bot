@@ -1,15 +1,26 @@
 # s287 P2 — PACKET DE ADJUDICACIÓN: near-duplicados a nivel DOCUMENTO
 
 Generado read-only por `scripts/s287_p2_dedup_census.py` · 2026-07-30T09:48:09 · git `a2fbad2` · rama `claude/s282-h0t2-qa`. **Cero escrituras a DB.**
+
+> ⚠ **EDITADO A MANO tras la adjudicación de Alberto (s287): par semilla → OPCIÓN B.** Este `.md` y el `.sql` ya **no** son salida limpia del generador. `scripts/s287_p2_dedup_census.py` escribe los tres artefactos (`OUT_JSON`/`OUT_MD`/`OUT_SQL`, líneas 101-104) → **re-correr el census SOBRESCRIBE la adjudicación**. Si hay que regenerar, salva antes estos dos ficheros (el `.json` del census sí es reproducible).
 Spec: `evals/s287_etapa2_design_brief_v1.md` (v2-P2 + v3-FINAL-P2, gate de SPAN-DIFF de Sol-6). Datos: `evals/s287_p2_dedup_census_v1.json`. Paste: `evals/s287_p2_dedup_apply_v1.sql`.
 
 ## Qué decidir y cómo
 
 El census propone marcar `duplicate_of` **chunk a chunk** (no doc a doc): de un par de documentos casi idénticos se retira del pool SOLO los chunks del no-representante cuyo contenido está **íntegramente** en el representante. Todo lo demás sigue sirviéndose.
 
-- **24 pares** con propuesta · **120 marcas** de chunk.
-- **Ninguna fila entra viva.** En el `.sql` todas están comentadas con una casilla `[ ] APROBAR ESTE PAR`. Aprobar = quitar el `-- ` inicial de las filas de ese bloque (no hay que tocar comas).
-- Si no apruebas nada y pegas el SQL igualmente, el guard 3 aborta la transacción y no se aplica nada.
+- **24 pares** con propuesta · **121 marcas** de chunk (120 del census + 1 por la inversión del par semilla, §1.6).
+- **Solo el par semilla entra vivo** (adjudicado por Alberto, §1). Los otros **23 pares siguen comentados** con su casilla. Aprobar = quitar el `-- ` inicial de las filas de ese bloque (no hay que tocar comas).
+- Si no apruebas nada más y pegas el SQL, se aplica **solo** el par semilla + su metadata-fix.
+
+### La decisión es DOBLE por par (política Alberto s287)
+
+Aprobar un par ya no es una casilla, son dos:
+
+1. **¿Se deduplica el par?** — sí/no, con la tabla §3 y las clases de falso positivo de §3.1.
+2. **¿La metadata del REPRESENTANTE es correcta?** — fabricante **y** `product_model`, y a los **DOS niveles** (`documents` **y** `chunks_v2`): el par semilla demostró que divergen en silencio (doc B: `documents.product_model='unknown'` pero los 18 chunks decían `VIA-28V`; doc A: `documents.product_model='IS5001'` pero los chunks decían `IS-mA1`, y el bueno era el de los chunks). Si está mal, **el fix va en el MISMO paste** — usa el bloque 0 del `.sql` como plantilla (backup + guards de precondición + `UPDATE` acotado por `document_id` + post-check).
+
+Motivo: marcar `duplicate_of` **concentra** todas las citas del contenido compartido en el representante. Bendecir un representante con metadata mala multiplica el error en vez de arreglarlo.
 
 ### El invariante que protege el corpus (gate de Sol-6)
 
@@ -17,11 +28,23 @@ Un chunk solo se propone si (a) ≥ **92% de sus palabras** están cubiertas por
 
 ---
 
-## 1. PAR SEMILLA (cat010) — análisis completo
+## 1. PAR SEMILLA (cat010) — **ADJUDICADO POR ALBERTO (s287): OPCIÓN B**
+
+> **Veredicto de Alberto — el representante es `manual IS MA1` (doc B), NO `IS5001-F_IS-mA1_EN`.**
+> Motivo largoplacista: *representante = el doc canónico completo por manual físico*. B es la
+> extracción más completa (8 páginas, incluye el control drawing ATEX) y su metadata corrupta
+> se corrige **en el mismo paste** (bloque 0 del `.sql`). Esto invierte la recomendación
+> original del census (§1.4 abajo, conservada como traza). Ya no hay casilla que marcar en
+> este par: las 10 filas del PAR 1 salen **VIVAS** en el `.sql`.
+>
+> **Lo que la adjudicación cambió en el paste** (todo pre-validado read-only contra la DB viva):
+> 1. **Dirección invertida**: se marcan chunks de **A** apuntando a su gemelo en **B**.
+> 2. **10 marcas, no 9** — la clase TWIN es direccional (§1.6).
+> 3. **Bloque 0 de METADATA-FIX** con guards de precondición (§1.7).
 
 `2b694083__a6b9dc84` · tier **T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA** · cobertura de palabras 0.72 / 0.89
 
-| | doc A (recomendado CONSERVAR) | doc B (recomendado SUPRIMIR-parcial) |
+| | doc A (**AHORA suprimido-parcial**) | doc B (**AHORA representante**) |
 |---|---|---|
 | `source_pdf_filename` | `IS5001-F_IS-mA1_EN` | `manual IS MA1` |
 | `document_id` | `2b694083-5b21-4f1a-a29b-565072860fb8` | `a6b9dc84-af6d-4957-a403-4b4c2136557b` |
@@ -48,6 +71,10 @@ Son **dos extracciones distintas del MISMO manual de e2S** (el sounder ATEX IS-m
 
 ### 1.3 Por qué NO se puede suprimir B entero (el gate de Sol-6 mordiendo)
 
+> *Traza del análisis original, cuando B era el candidato a suprimir. Sigue siendo la
+> evidencia clave — solo que ahora sostiene la decisión de Alberto: si B tiene 4 páginas de
+> contenido que A no tiene, B es el manual físico completo y debe ser el representante.*
+
 El PDF de B tiene **8 páginas** frente a 6 de A. Sus páginas finales son contenido **ausente de A**:
 
 - chunk `75d15cc3` (idx 14, p7, 470 palabras): cubierto solo al **6.2%**, racha única de **349 palabras**.
@@ -66,13 +93,76 @@ Es el **control drawing / schedule drawing ATEX** con los *entity parameters* (`
 - **Literal del spec v2-P2** (más spans únicos gana): conservaría `manual IS MA1` — más spans únicos (13 vs 7).
 - **Refinamiento propuesto** (auto-soporte de metadata primero): conserva `IS5001-F_IS-mA1_EN` — metadata auto-soportada (2/3 vs 0/3).
 
-**Recomiendo el refinamiento, y creo que el criterio literal está mal para este problema.** Razón: los spans únicos **nunca se suprimen** — ya los protege el gate. Así que «más spans únicos» no protege ningún contenido; lo único que decide el representante es **de qué documento sale la CITA** del contenido compartido. Con el criterio literal, el bot respondería los hechos de cat010 citando `manual IS MA1` atribuido a **Detnov** para un producto de e2S. Con el refinamiento, cita el manual correcto y las páginas únicas de B siguen disponibles.
+El census recomendó el refinamiento razonando que los spans únicos **nunca se suprimen** —ya los protege el gate—, así que «más spans únicos» no protege contenido y lo único que decide el representante es **de qué documento sale la CITA**. Con el criterio literal, el bot citaría `manual IS MA1` atribuido a **Detnov** para un producto de e2S.
 
-**Riesgo del refinamiento, declarado:** el auto-soporte es una heurística de substring. Un `manufacturer` correcto que simplemente no se imprime en el manual puntúa 0 (falso negativo) — por eso no se aplica solo y todos los pares divergentes van a tu casilla.
+**Alberto resolvió la divergencia por una tercera vía, que es la que manda**: el representante NO se elige entre «metadata buena pero doc incompleto» y «doc completo pero metadata mala» — se elige el **doc completo** y **se arregla la metadata**. Eso disuelve el dilema en vez de arbitrarlo: la cita sale del manual físico completo Y sale bien atribuida.
 
-### 1.5 Efecto esperado sobre el pool de cat010
+**Riesgo del criterio de auto-soporte, declarado (sigue vivo para los otros pares):** es una heurística de substring. Un `manufacturer` correcto que simplemente no se imprime en el manual puntúa 0 (falso negativo) — por eso no se aplica solo y todos los pares divergentes van a tu casilla.
 
-Se retirarían **9 de 18** chunks de B (los gemelos), liberando los slots que el diagnóstico midió comidos por el doc gemelo, y quedarían servibles los 9 restantes (UNIQUE=4, PARTIAL=5) más los 15 de A. **No medido aquí**: el efecto en el pool/composición es el gate de la pieza (probe de cat010 + sweep-39), no una promesa de este census.
+### 1.5 Evidencia NUEVA que refuerza la opción B: **B es la ISSUE MÁS NUEVA**
+
+Sonda de contenido read-only (2026-07-30) sobre los dos docs. El pie de página de e2S da la revisión:
+
+| | doc A `IS5001-F_IS-mA1_EN` | doc B `manual IS MA1` |
+|---|---|---|
+| pie de página | `Document No. IS 5001  Issue F  06-08-15` (portada) + `Issue E  27-11-09` (hojas 2-6) | `Document No. IS 5001  Issue H  03-01-2020` (**las 6 hojas**) |
+| directivas de la portada | `94/9/EC` (ATEX) + `89/336/EEC` (EMC) — **derogadas** | `2014/34/EU` (ATEX) + `2014/30/EU` (EMC) — **vigentes** |
+| páginas | 6 | 8 (+control drawing ATEX) |
+
+Los dos son el **mismo documento** (`IS 5001`) en revisiones distintas: A mezcla Issue F/E (2009-2015), B es Issue H (2020). Además de más completo, B es **más reciente y regulatoriamente correcto**. Esto no lo vio el census —su desempate por recencia usa `revision`/`revision_date`/`ingested_at`, y ambos docs tienen `revision = NULL`— pero apunta en la misma dirección que la adjudicación.
+
+**Residual declarado:** el dedup NO resuelve la contradicción de revisión. El chunk `idx0` de A es `PARTIAL` → **sobrevive** y sigue declarando las directivas derogadas `94/9/EC`/`89/336/EEC`. El arreglo estructural de esa clase es el **linaje de revisión** (`supersedes_id`/`superseded_by_id`, hoy `NULL` en ambos docs), no `duplicate_of`.
+
+### 1.6 Por qué son **10** marcas y no 9 (la clase TWIN es DIRECCIONAL)
+
+Invertir el par **no es invertir los 9 punteros**. `covered_word_frac` y `max_uncovered_span_words` se miden *del chunk contra el OTRO documento*; solo `twin_jaccard` es simétrico. El census ya midió las dos direcciones:
+
+- `side_b.classes` (B cubierto por A) = `{TWIN: 9, PARTIAL: 5, UNIQUE: 4}` → las 9 marcas del sentido viejo.
+- `side_a.classes` (**A cubierto por B**) = `{TWIN: 10, PARTIAL: 5}` → **las 10 marcas del sentido nuevo**.
+
+Los 9 punteros invertidos son un **subconjunto** de los 10. El que falta es el chunk `77003e0f` (idx2, p2, 504 palabras): TWIN en esta dirección (cobertura **0.9325**, racha máxima sin cubrir **0**, gemelo `77a0cce8` con J 0.6351), y no salía en el sentido viejo porque su gemelo es `PARTIAL` en B (cobertura 0.9061 < 0.92). Es la asimetría esperada: B es la issue nueva y tiene texto propio que A no tiene.
+
+Haber reciclado los números del lado B habría dejado el **guard 3f validando métricas de otro chunk** — un guard verde sobre datos equivocados. Las 10 filas del `.sql` llevan los valores del lado A. Si prefieres la inversión literal de 9, basta comentar la fila marcada `[+1]`.
+
+A queda con sus **5 chunks PARTIAL** servibles (idx 0, 5, 7, 8, 9 — diagramas de barrera Zener/aislador galvánico con texto propio) y B entero con sus 18.
+
+### 1.7 El bloque 0: METADATA-FIX en el mismo paste (5 campos)
+
+Verificado contra la DB viva antes de escribir nada:
+
+| # | objeto | campo | antes | después | evidencia |
+|---|---|---|---|---|---|
+| 1 | `documents` doc B | `manufacturer` | `Detnov` | `European Safety Systems` | `detnov` no aparece en su texto; su contenido dice «european safety systems ltd. impress house…» y `e2S` |
+| 2 | `documents` doc B | `product_model` | `unknown` | `IS-mA1` | portada: «INSTRUCTION MANUAL / IS-mA1 Minialarm» |
+| 3 | `chunks_v2` doc B (18) | `product_model` | `VIA-28V` | `IS-mA1` | `VIA-28V` = artefacto de parseo de «…a 24V dc supply **via 28V** 93mA resistive ATEX…». Corpus-wide existe **solo** en este doc (18 chunks, 0 documents) |
+| 4 | `documents` doc A | `product_model` | `IS5001` | `IS-mA1` | `IS 5001` es la **referencia del manual** (pie de página de AMBOS docs), no el producto. Sus 15 chunks ya llevan `IS-mA1` |
+| 5 | `chunks_v2` doc B (18) | `manufacturer` | `Detnov` | `European Safety Systems` | **añadido por la sonda**, no estaba en la lista de 4: es el campo que FILTRA de verdad (`match_chunks_v2(filter_manufacturer)` compara `c.manufacturer`, `supabase_schema.sql:81`). Sin él, el representante nuevo serviría cat010 etiquetado `Detnov` |
+
+Guards de precondición (patrón del guard 3a: la precondición viaja EN el paste y aborta si el estado vivo no es el que vio la sonda): estado exacto pre-fix de A y B a nivel `documents`, 18/18 chunks de B en `VIA-28V`+`Detnov`, **0 chunks con `VIA-28V` fuera de B**, 15/15 chunks de A ya correctos; y un post-check `2 documents` + `33 chunks` en el estado final. Backup en `_s287_metafix_backup_documents` / `_s287_metafix_backup_chunks` con rollback al pie del `.sql`.
+
+**Acotación obligatoria:** el corpus tiene **66 documentos / 1409 chunks que SÍ son Detnov de verdad** → todos los `UPDATE` van acotados por `document_id`, nunca por valor.
+
+**Residual declarado:** `chunks_v2_hyq` guarda una copia **desnormalizada** de `product_model` — 49 filas de B siguen diciendo `VIA-28V`. Es **inerte para el servicio** (`match_hyq` devuelve solo `chunk_id/question/similarity` y el retriever rehidrata desde `chunks_v2`, `retriever.py:1091`), pero queda anotado para que no se pudra en silencio.
+
+### 1.8 Efecto esperado sobre el pool de cat010
+
+Se retiran **10 de 15** chunks de **A** (los gemelos), y el pool queda con los **18 de B** (incluidas las 4 páginas ATEX únicas) más los **5 PARTIAL de A**. **No medido aquí**: el efecto en pool/composición es el gate de la pieza (probe de cat010 + sweep-39), no una promesa de este census.
+
+### 1.9 POLÍTICA NUEVA para los pares siguientes (criterio Alberto s287)
+
+> **El representante es la extracción MÁS COMPLETA, con su metadata CORREGIDA.**
+> Si la metadata del más completo está corrupta, **el fix va en el MISMO paste** que el
+> `duplicate_of` — no se elige un doc peor para esquivar una metadata mala.
+
+Sustituye al desempate del census («auto-soporte de metadata» y, antes, «más spans únicos») como criterio rector cuando ambos entran en conflicto. Orden de aplicación:
+
+1. **Completitud del manual físico** — quién tiene las páginas/secciones que el otro no tiene (spans `UNIQUE`), y, si se ve en el propio texto, quién es la **issue más reciente**.
+2. **Metadata**: se **verifica** contra el contenido del doc (fabricante impreso, modelo de portada) y se **corrige en el paste** si hace falta — a nivel `documents` **y** `chunks_v2`.
+3. Los desempates del census (auto-soporte, spans únicos, recencia por `revision`/`ingested_at`) quedan como **señal**, no como decisión.
+
+Por qué es el criterio correcto y no un parche: `duplicate_of` **concentra** las citas del contenido compartido en un solo doc. Elegir por metadata (un atributo *reparable*) en vez de por completitud (una propiedad *intrínseca* de la extracción) optimiza la variable equivocada — y encima deja servible la extracción pobre. Escala: a 30+ fabricantes, la metadata se arregla en lote con el mismo patrón de guards; la completitud del PDF, no.
+
+**Gap declarado:** la política asume que «más completo» es discernible. En pares manual-vs-datasheet o instalación-vs-operación (§3.1) **ningún doc contiene al otro**: son documentos distintos por FUNCIÓN y la respuesta correcta suele ser **no deduplicar**, no elegir representante.
 
 ---
 
@@ -100,11 +190,13 @@ Y **38 son rebadges OEM Notifier↔Morley** con las dos marcas impresas en sus p
 
 ## 3. Pares a adjudicar (los que tienen propuesta)
 
+**Call-to-action DOBLE por par** (política Alberto s287): **(1)** aprobar o rechazar el par — tabla de abajo + §3.1; **(2)** **CONFIRMAR la metadata del representante elegido** (fabricante + `product_model`) **a los dos niveles**, `documents` y `chunks_v2` — sonda en §3.2. Si está mal, el fix va **en el mismo paste**, con el bloque 0 del `.sql` como plantilla.
+
 Ordenados: semilla primero, luego por nº de marcas. `div` = las dos políticas de representante discrepan.
 
 | # | par | tier | div | CONSERVA | SUPRIME (marcas/total) | PRESERVA | cob. | motivo |
 |---|---|---|---|---|---|---|---|---|
-| 1 **SEMILLA** | `2b694083__a6b9dc84` | T3 | SÍ | `IS5001-F_IS-mA1_EN` (European Safety Systems) | `manual IS MA1` (Detnov) 9/18 | UNIQUE=4, PARTIAL=5 | 0.72/0.89 | metadata auto-soportada (2/3 vs 0/3) |
+| 1 **SEMILLA** — ~~[ ]~~ **ADJUDICADO · OPCIÓN B** | `2b694083__a6b9dc84` | T3 | resuelta | **`manual IS MA1`** (→ European Safety Systems, metadata corregida en el bloque 0) | `IS5001-F_IS-mA1_EN` **10/15** | PARTIAL=5 | 0.89/0.72 | **Alberto: doc canónico completo por manual físico** (§1) |
 | 2 | `5e878ee7__eb749df8` | T1 |  | `DXc_Connexion Averia-de-resistencia-de-baterias.pdf` (Morley) | `Averia-de-resistencia-de-baterias-en-central-DXc.pdf` (Morley) 1/1 | — | 0.95/0.96 | empate → más reciente (revision_date/revision/ingested_at) |
 | 3 | `517b87ce__de8c0345` | T3 |  | `FS2-1` (Notifier) | `ms1-2-4.pdf` (Morley) 12/27 | UNIQUE=4, PARTIAL=5, COVERED_NO_TWIN=6 | 0.80/0.86 | metadata auto-soportada (2/3 vs 0/3) |
 | 4 | `7f9ea4ab__acafc5d1` | T2 |  | `MNDT1026` (Notifier) | `MNDT1025` (Notifier) 5/23 | UNIQUE=3, PARTIAL=12, COVERED_NO_TWIN=3 | 0.64/0.85 | empate metadata → más spans únicos (18 vs 8) |
@@ -138,6 +230,45 @@ El census no las puede separar por umbral; por eso todo va comentado:
 - **Módulos hermanos con `pm` heredado o `unknown`**: `MIE-MI-470`/`480`/`490` (Morley), `NRX-SMT3` vs `NRX-OPT` (los dos con `pm='B501RF'`, que es la BASE común, no el detector), `D 1148-1 BRS` vs `D 1147-1 BRH` (los dos `pm='B501AP'`). El discriminador de serie no los pilla porque su `pm` no distingue.
 - **Duplicados de verdad, casi seguros**: `TIDT089_copia` vs `TIDT089`, el FAQ DXc `Averia-de-resistencia-de-baterias` duplicado con el título reordenado, y `Con-que-Sistema-Operativo-es-compatible-el-programa-…` repetido.
 
+### 3.2 Metadata del REPRESENTANTE a los DOS niveles (sonda read-only 2026-07-30)
+
+El par semilla enseñó que `documents` y `chunks_v2` **divergen en silencio** y que el valor bueno puede estar en cualquiera de los dos. Esta es la sonda del representante de cada par contra la DB viva (chunks con `duplicate_of IS NULL`). **17 de 24 divergen.**
+
+| # | representante | `documents.manufacturer` | `documents.product_model` | chunks `manufacturer` | chunks `product_model` | ⚠ |
+|---|---|---|---|---|---|---|
+| 1 | `manual IS MA1` | Detnov | unknown | `Detnov`×18 | `VIA-28V`×18 | **pm** → *corregido en el bloque 0* |
+| 2 | `DXc_Connexion Averia-de-resistencia-de-baterias.pdf` | Morley | unknown | `Morley`×1 | `DXc`×1 | pm |
+| 3 | `FS2-1` | Notifier | FS2-1 | `Notifier`×28 | `FS-1/FS-2/FS-4`×28 | pm |
+| 4 | `MNDT1026` | Notifier | VIEW | `Notifier`×30 | `VIEW`×30 | — |
+| 5 | `FS8` | Notifier | EFS/EM 8 | `Notifier`×63 | `EFS/EM 8`×63 | — |
+| 6 | `D 1148-1 BRS Notifier` | Notifier | B501AP | `Notifier`×8 | `SP-20`×8 | pm |
+| 7 | `Instruction Manual SG100-IS ENG` | Argus Security | SG100 | `Argus Security`×15 | `SG100-IS`×15 | pm |
+| 8 | `MNDT1070` | Notifier | LTS-240 | `Notifier`×99 | `LTS-240`×99 | — |
+| 9 | `MI-DT-951_V7.2` | Notifier | unknown | `Notifier`×16 | `TG-NOTIFIER`×16 | pm |
+| 10 | `Instruction Manual SG200-IS ENG` | Argus Security | SG200 | `Argus Security`×14 | `SG200-IS`×14 | pm |
+| 11 | `Instruction Manual SG350-IS ENG` | Argus Security | SG350 | `Argus Security`×13 | `SG350-IS`×13 | pm |
+| 12 | `I56-4225-001 NRX-OPT Web` | Notifier | B501RF | `Notifier`×12 | `EN-54-25`×12 | pm |
+| 13 | `MIEMI130.pdf` | Morley | unknown | `Morley`×52 | `VSN PLUS`×52 | pm |
+| 14 | `I56-2081-001ES 6500R(S) Manual` | System Sensor | 6500R | `System Sensor`×22 | `6500R`×22 | — |
+| 15 | `I56-4225-001 NRX-OPT Web` | Notifier | B501RF | `Notifier`×12 | `EN-54-25`×12 | pm |
+| 16 | `MIE-MP-210.pdf` | Morley | unknown | `Morley`×104 | `ZXCE`×104 | pm |
+| 17 | `MIE-MI-490.pdf` | Morley | unknown | `Morley`×6 | `MMX-10M`×6 | pm |
+| 18 | `MNDT626.pdf` | Notifier | SMART 3 | `Notifier`×23 | `SMART 3`×23 | — |
+| 19 | `MNDT516` | Notifier | PL4 | `Notifier`×49 | `PL4`×49 | — |
+| 20 | `MIE-MI-490.pdf` | Morley | unknown | `Morley`×6 | `MMX-10M`×6 | pm |
+| 21 | `MNDT710_B.pdf` | Spectrex | 20/20U, 20/20UB | `Spectrex`×47 | `20/20UB`×47 | pm |
+| 22 | `MN-DT-951_v7.2` | Notifier | unknown | `Notifier`×38 | `TG-NOTIFIER`×38 | pm |
+| 23 | `MIE-MI-431rv2_1.pdf` | Morley | unknown | `Morley`×18 | `ZXR50A/ZXR50P`×18 | pm |
+| 24 | `00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf` | Aritech | 2X-A | `Aritech`×218 | `2X-A`×218 | — |
+
+Lectura, sin sobre-interpretar (esto es una sonda de **consistencia**, no una adjudicación de identidad):
+
+- **`manufacturer` cuadra en los 24.** Toda la divergencia está en `product_model`.
+- **Segundo artefacto de parseo confirmado, misma clase que `VIA-28V`**: pares 12 y 15, `product_model = 'EN-54-25'` en los 12 chunks de `I56-4225-001 NRX-OPT Web`. **EN 54-25 es la NORMA** de componentes con enlace radio, no un modelo. Y el doc-level de ese mismo doc dice `B501RF`, que es la **base** común (§3.1), tampoco el detector.
+- **A veces el valor bueno está en los chunks** (`DXc`, `VSN PLUS`, `ZXCE`, `MMX-10M`, `ZXR50A/ZXR50P`, `SP-20`, `TG-NOTIFIER` frente a `unknown` doc-level) **y a veces al revés** (`VIA-28V`, `EN-54-25`). Por eso el check es a los DOS niveles y no se puede automatizar con «copia el que no sea `unknown`».
+- **La variante `-IS` de Argus vive SOLO a nivel chunk** (pares 7/10/11: doc dice `SG100`, chunks dicen `SG100-IS`). Un fix que «normalizara» el chunk al doc-level **borraría** la distinción intrínsecamente-segura vs estándar — justo el falso positivo de §3.1.
+- **No verificado aquí**: si cada `product_model` de chunk está **respaldado por el texto** del doc. La sonda compara los dos niveles entre sí, no contra la fuente. Ese es el trabajo de identidad D1/D3, y para el par semilla se hizo a mano (§1.7).
+
 ---
 
 ## 4. Gaps y riesgos declarados
@@ -156,13 +287,22 @@ El census no las puede separar por umbral; por eso todo va comentado:
 6. **Nada medido en pool/eval.** Este artefacto es un census + propuesta. El delta (probe de composición del pool de cat010 + sweep-39 de no-regresión) es el gate de la pieza y no se ha corrido aquí.
 7. **`duplicate_of` no es reversible-gratis a nivel semántico**: el UPDATE sí es reversible (backup + rollback documentado), pero el chunk retirado deja de competir en TODOS los canales, no solo en el pool donde molestaba.
 
+### 4.1 Gaps añadidos por la adjudicación del par semilla (s287)
+
+8. **Los `md5` de las 10 filas nuevas se re-derivaron de la DB viva** (sonda 2026-07-30 posterior al census), no vienen del census. Control ejecutado: los **9 `md5` del par semilla en el sentido antiguo se re-verificaron contra la DB y cuadran los 9** → no hubo deriva entre el census (09:48) y la sonda, así que los md5 nuevos describen el mismo contenido que midió el census. Aun así el guard 3a queda algo más débil aquí: cubre la ventana sonda→paste, no census→paste.
+9. **La contradicción de revisión NO la arregla el dedup.** Los 5 chunks `PARTIAL` de A sobreviven y uno de ellos (idx0) declara las directivas **derogadas** `94/9/EC`/`89/336/EEC` mientras B declara las vigentes `2014/34/EU`/`2014/30/EU`. El bot puede seguir citando la versión vieja. Arreglo estructural = linaje de revisión (`supersedes_id`/`superseded_by_id`, hoy `NULL` en ambos), no `duplicate_of`.
+10. **El gate span-diff es ciego a la deriva de EDICIÓN.** Marca como TWIN chunks cuya única diferencia son tokens cortos y dispersos — «Issue F 06-08-15» vs «Issue H 03-01-2020», `94/9/EC` vs `2014/34/EU` — porque ninguna racha llega a 25 palabras. Es el comportamiento correcto para el objetivo (servir la issue nueva), pero significa que el texto de la revisión antigua **desaparece del pool** sin que ningún guard lo señale. Aquí es deseable; en un par donde el doc suprimido fuera el más nuevo, sería daño.
+11. **El fix de metadata cambia la superficie de recuperación por `product_model`.** Los 18 chunks de B pasan de `VIA-28V` (inalcanzable) a `IS-mA1` → los filtros por modelo devuelven 33 chunks en vez de 15. Es el efecto buscado (findability de cat010), pero **no está medido**: entra en el mismo gate diferido que el resto (probe cat010 + sweep-39).
+12. **17 de 24 representantes divergen `documents` ↔ `chunks_v2` en `product_model`** (§3.2), con al menos un segundo artefacto de parseo confirmado (`EN-54-25`). No se toca ninguno aquí: cada uno necesita su adjudicación (decisión 2 de §3).
+
 ---
 
 ## 5. Cómo aplicar
 
-1. Lee la tabla §3 y marca las casillas `[ ] APROBAR ESTE PAR` que quieras en `evals/s287_p2_dedup_apply_v1.sql`, descomentando las filas de esos bloques.
-2. Pega el SQL con `COMMIT` cambiado por `ROLLBACK` (dry-run): verás `staged` / `updated` / `backed_up` y saltará cualquier guard.
+0. **Estado del `.sql` hoy**: el **bloque 0** (metadata-fix del par semilla) y las **10 filas del PAR 1** salen **VIVAS**. Los otros 23 pares siguen comentados, byte a byte como los dejó el census (verificado). Si quieres el par semilla **sin** el fix de metadata, o al revés, cada parte se comenta por separado.
+1. Lee la tabla §3 y marca las casillas `[ ] APROBAR ESTE PAR` que quieras, descomentando las filas de esos bloques — y para cada par que apruebes, resuelve también la **decisión 2** (metadata del representante, §3.2).
+2. Pega el SQL con `COMMIT` cambiado por `ROLLBACK` (dry-run): verás `staged` / `updated` / `backed_up` y saltará cualquier guard. Con solo el par semilla vivo debe dar `staged=10 · updated=10 · backed_up=10`.
 3. Si cuadra, pégalo con `COMMIT`.
-4. Rollback post-COMMIT (está al pie del `.sql`): `UPDATE chunks_v2 c SET duplicate_of = b.duplicate_of FROM _s287_dedup_backup b WHERE c.id = b.id;`
+4. Rollback post-COMMIT (los tres `UPDATE` están al pie del `.sql`): `duplicate_of` desde `_s287_dedup_backup`, y la metadata desde `_s287_metafix_backup_documents` / `_s287_metafix_backup_chunks`.
 
 Guards del paste: anti-deriva md5 por chunk · ninguno ya marcado · puntero canónico existente, no-duplicado y dentro del representante · el chunk marcado pertenece al doc suprimido · sin cadenas de duplicados · **re-verificación en SQL del invariante span-diff** · sin filas de enunciados colgando · `updated == staged` o aborta.

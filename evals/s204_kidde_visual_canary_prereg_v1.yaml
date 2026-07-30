@@ -3,6 +3,7 @@ status: FROZEN_BEFORE_FRONTIER_EXECUTION
 hash_contract: sha256_of_utf8_text_with_crlf_normalized_to_lf
 
 # re-anclado s286: gold ledger editado por ADJUDICACIÓN de Alberto (r1+r2+hp018)
+# re-anclado s287: gold cat008 editado por ADJUDICACIÓN de Alberto (auditoría píxel A-D + citations/pdfs_used)
 frozen_inputs:
   design: {path: evals/s204_kidde_visual_canary_design_v1.md, sha256: 0af40c73176f933d7b03c108ff8c5b77be35ad2292757f5cf4cd17a4562bb742}
   packet: {path: evals/s204_kidde_visual_canary_packet_v1.json, sha256: 2833f38153030cec7dd60b52b6a66b504923c6d4b6a8907410f310fa17f9ef64}
@@ -13,7 +14,7 @@ frozen_inputs:
   tests: {path: tests/test_s204_kidde_visual_canary.py, sha256: 3177f26eb5ab53818dbdca2f2fb8b2e1947eaad54a5e001328586d707b70ff36}
   frontier_review_receipts: {path: evals/s204_kidde_visual_design_reviews_v1.json, sha256: 32dd055fa86f86fd1c88429e0138bf4e0392cfa6c395eb0765ae7612f0216c59}
   review_adjudication: {path: evals/s204_kidde_visual_design_review_adjudication_v1.json, sha256: eddb168e3419f7c972a66a31002caa05ce6a9fce9c648b6dae023294ef580432}
-  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: 5ab500ec92b20065eed1ddef1e987c77a33bcbb208bd2157ecb8edbb510bacaa}
+  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: 79701140dff096aef8cac0faf1833bb14b1df080e2d466803109fc81ece25e1d}
   retriever_hyq_ledger: {path: evals/s99_hyq_generated.jsonl, sha256: 74ea2a346c9fb135a0e3f527d00d4098e42dc15037661294ce112991befdc4e9}
 
 packet_sha256: 419f0cb1b9bf073e09c962d050094c72cdece842616970c5f389352571974f04
