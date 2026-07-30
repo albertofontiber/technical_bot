@@ -1,0 +1,980 @@
+instrument: v3.1
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.1
+  git_commit: 0a19bf5
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 2654acf3f353
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 3
+n_golds_scored: 3
+aggregate_hist:
+  OK: 6
+  synthesis-miss: 3
+  rerank-miss: 3
+  retrieval-miss: 0
+  corpus-gap: 0
+  meta-ref: 0
+gold_juez_axis:
+- qid: hp018
+  verdict: '?'
+  n_classified: 5
+  n_ok: 3
+  primary_blocker: synthesis-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat010
+  verdict: '?'
+  n_classified: 2
+  n_ok: 1
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat017
+  verdict: '?'
+  n_classified: 5
+  n_ok: 2
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 2
+n_via_coverage_append: 1
+n_append_view_truncated: 0
+n_coverage_appended_rows: 7
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements: []
+per_gold:
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  answer: '# Conexionado de sirenas convencionales en salidas de sirena de la ZXe
+
+
+    La ZXe dispone de **2 salidas supervisadas para sirenas convencionales** (Salida
+    A y Salida B) en la placa base [F3][F4]. Los terminales se identifican como **SIRENA
+    A (+) / SIRENA A (-)** y **SIRENA B (+) / SIRENA B (-)** [F3].
+
+
+    ---
+
+
+    ## Requisitos previos
+
+
+    - **Corriente máxima por circuito: 1 A** [F11]
+
+    - **Resistencia Final de Línea (RFL): 6.800 Ω, 0,5 W mínimo**, instalada al final
+    del circuito [F11]
+
+    - **Sección mínima de cable recomendada:** no inferior a **1,5 mm²** [F1]
+
+    - **Longitud máxima recomendada:** no superior a **1 km** (por encima, la capacitancia
+    e inductancia pueden afectar al funcionamiento) [F3]
+
+
+    ---
+
+
+    ## Procedimiento de conexionado
+
+
+    1. **Identifica los terminales de sirena** en la placa base de la ZXe. Para la
+    ZX2e, los terminales están etiquetados como `A- A+ B- B+` en el bloque de sirenas
+    [F4]. Consulta la **Figura 13** (ZX2e) o **Figura 14** (ZX5e) del documento MIE-MI-530rv001
+    para la ubicación exacta en placa [F4].
+
+
+    2. **Conecta las sirenas en línea** (sin ramales paralelos). La supervisión se
+    realiza sobre la línea directa hasta la RFL; los ramales paralelos no pueden ser
+    supervisados [F2].
+
+
+    3. **Sirenas con polaridad:** conecta el terminal **+** de cada sirena al conductor
+    positivo y el **−** al negativo. Cada sirena debe tener un **diodo integrado**
+    para impedir el consumo en polarización inversa durante la supervisión [F4].
+
+
+    4. **Sirenas/campanas sin polaridad:** instala un **diodo de polarización y protección**
+    en cada dispositivo no polarizado, para evitar consumos durante la supervisión
+    (la corriente de supervisión circula en sentido inverso a la de activación) [F1][F4].
+
+
+    5. **Instala la RFL (6.800 Ω, 0,5 W mínimo)** entre el conductor **+** y el conductor
+    **−** al final de la última sirena de cada circuito [F11]. Si no se conecta ninguna
+    sirena en una salida, instala la RFL directamente en los terminales de la central
+    [F1].
+
+
+    6. **No enrolles el cable en los terminales.** Corta y empalma las conexiones
+    adecuadamente para mantener la supervisión de la línea [F3].
+
+
+    7. Consulta la **Figura 15** del documento MIE-MI-530rv001 para ver el esquema
+    completo del circuito de sirenas convencionales [F3].
+
+
+    ---
+
+
+    ## Supervisión del circuito
+
+
+    El circuito se supervisa ante **cortocircuito y circuito abierto** [F11]. En reposo,
+    la corriente de supervisión circula en sentido inverso. Al activarse la salida,
+    la corriente circula en sentido normal. Cualquier fallo en la línea se mostrará
+    en pantalla con un mensaje del tipo:
+
+
+    ```
+
+    !ATENCION!  CIRCUITO ABIERTO SIRENA B
+
+    ```
+
+    [F5]
+
+
+    ---
+
+
+    ## Advertencia de cableado
+
+
+    > Asegúrate de que la sección del cable es adecuada para garantizar la alimentación
+    de las sirenas tanto con alimentación principal como en condiciones de mínima
+    tensión de baterías. Revisa las **Tablas 10 y 11** del documento MIE-MI-530rv001
+    para las condiciones de tensión mínima del panel [F3].
+
+
+    ---
+
+
+    Fuente: Manual de Instalación ZX2e/ZX5e — Documento No. MIE-MI-530, Revisión:
+    001 (MIE-MI-530rv001); Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión
+    registrada)
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "(NOTA: Las salidas de relé no se activan nunca)." (MIE-MU-530rv001, p. 17)
+    [F10]
+
+    - "Todas las salidas de sirena quedan configuradas por defecto para sonar de forma
+    contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1."
+    (MIE-MP-310, p. 38) [F8]'
+  family_resolved: true
+  gold_families:
+  - ZXE
+  n_non_anchorable: 2
+  pool_n: 44
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 72fc4c53-f507-4e67-9192-ebc68b94be78
+  - 276b5745-9ecc-4260-bb63-a5aacfc62579
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
+  served_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 72fc4c53-f507-4e67-9192-ebc68b94be78
+  - 276b5745-9ecc-4260-bb63-a5aacfc62579
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - c40ac5cb-20a0-4f11-943e-6a6fc29bdedc
+  appended_ids:
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - c40ac5cb-20a0-4f11-943e-6a6fc29bdedc
+  appended_lane:
+    90d51dac-bd0b-4051-b414-ced0fe6e33bb: same_blob_structural_neighbor_coverage_v1
+    d79a07b8-745f-4c62-8355-d0cee6fde1db: same_blob_structural_neighbor_coverage_v1
+    c40ac5cb-20a0-4f11-943e-6a6fc29bdedc: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 2
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp018#0:4 circuitos
+    valor: 4 circuitos
+    texto: 'La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2:
+      Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados
+      en corriente'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 7
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: contradicted
+      votes:
+        contradicted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: flip
+  - key: hp018#1:6K8
+    valor: 6K8
+    texto: Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el
+      final de cada circuito de sirena (en la ultima sirena) para la supervision
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 4
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#2:diodo
+    valor: diodo
+    texto: Cada sirena debe llevar un diodo integrado; el circuito se polariza en
+      inverso en reposo (supervision) y cambia a polarizacion normal al dispararse;
+      los dispositivos no polarizados requieren anadir un diodo en cada uno
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#3:Sirenas A,B,C,D
+    valor: Sirenas A,B,C,D
+    texto: La conexion se hace en el bloque de terminales de circuitos de sirena de
+      la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/-
+      de cada salida (A/B/C/D)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+    - 276b5745-9ecc-4260-bb63-a5aacfc62579
+    - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+    support_l1_override: null
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: contradicted
+      votes:
+        contradicted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: flip
+  - key: hp018#4:1 A
+    valor: 1 A
+    texto: Carga maxima 1 A por circuito/salida de sirena
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 4
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: true
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    conveyed_yes: 5
+    clase: OK
+- qid: cat010
+  question: ¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en
+    una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca
+    de entrada?
+  answer: '## Alimentación e parámetros de seguridad intrínseca del IS-mA1
+
+
+    El IS-mA1 es un avisador acústico certificado **ATEX e IECEx** para seguridad
+    intrínseca, apto para zonas 0, 1 y 2 con gases y vapores inflamables de grupos
+    **IIA, IIB e IIC**, clases de temperatura T1 a T4 [F1][F2].
+
+
+    ---
+
+
+    ### Parámetros de entidad de entrada (terminales + / -)
+
+
+    Estos son los parámetros máximos admisibles en los bornes de alimentación principal
+    del avisador [F1][F3]:
+
+
+    - **Ui = 28 V**
+
+    - **Ii = 93 mA**
+
+    - **Pi = 660 mW**
+
+    - **Ci = 0**
+
+    - **Li = 0**
+
+
+    > ⚠️ La capacitancia total conectada a los terminales +/- (cable + cualquier otra
+    capacitancia) **no debe superar 83 nF** [F3][F4].
+
+
+    ---
+
+
+    ### Parámetros de entidad de entrada (terminales S2 y S3 respecto a -)
+
+
+    Estos terminales sirven para activar el 2.º y 3.er tono de alarma [F5][F3]:
+
+
+    - **Ui = 28 V**
+
+    - **Ii = 0 mA** ← corriente de entrada permitida: **cero**
+
+    - **Ci = 0**
+
+    - **Uo = 16,8 V** (salida hacia el área segura)
+
+    - **Io = 7,3 mA**
+
+    - **Po = 31 mW**
+
+
+    > ⚠️ Al ser Ii = 0 mA, los terminales S2 y S3 **solo pueden conectarse** a [F5][F6]:
+
+    > - Barrera de diodo de retorno (con caída de tensión < **0,9 V**)
+
+    > - Relé intrínsecamente seguro
+
+    > - Aislador galvánico
+
+    >
+
+    > Todos ellos deben estar certificados **Ex ia** por un Organismo Notificado de
+    la CE. Alternativamente, pueden conectarse directamente a un **interruptor de
+    accionamiento mecánico** en la zona peligrosa [F5][F6].
+
+    >
+
+    > ⚠️ La separación entre los terminales S2 y S3 es **inferior a 6 mm** — tener
+    precaución durante el conexionado [F3][F4].
+
+
+    ---
+
+
+    ### Aparato asociado requerido (zona segura)
+
+
+    El IS-mA1 puede alimentarse mediante dos tipos de aparato asociado [F3][F4]:
+
+
+    **Opción A — Aislador galvánico** (no requiere tierra de alta integridad) [F10]:
+
+    - Uo ≤ **28 V**, Io ≤ **93 mA**, Po ≤ **660 mW**
+
+    - Co ≥ Ccable, Lo ≥ Lcable
+
+    - Debe estar certificado **Ex ia** por Organismo Notificado de la CE [F10]
+
+
+    **Opción B — Barrera Zener de diodo shunt** [F4]:
+
+    - Uo ≤ **28 V**, Io ≤ **93 mA**, Po ≤ **660 mW**
+
+    - Co ≥ Ccable, Lo ≥ Lcable
+
+    - La resistencia entre la tierra intrínsecamente segura y la tierra de protección
+    debe ser **< 1 Ω** [F4]
+
+
+    ---
+
+
+    ### Certificación
+
+
+    - **ATEX:** SIRA 05ATEX2084X (sufijo X → condiciones especiales de uso) [F1]
+
+    - **IECEx:** IECEx SIR 06.0045X [F1]
+
+    - **Marcado:** II 1G Ex ia IIC T4 Ga, –40 °C ≤ Ta ≤ +60 °C [F1]
+
+    - **EN 54-3 / VdS**, Tipo B [F1]
+
+
+    ---
+
+
+    ### Advertencias generales
+
+
+    - La instalación debe realizarla **personal cualificado** [F1]
+
+    - Las reparaciones solo puede realizarlas el **fabricante** o según el código
+    de práctica aplicable [F1]
+
+    - **Desconectar la alimentación antes de cualquier intervención** para evitar
+    ignición [F3][F4]
+
+    - La carcasa es de **plástico ABS** — protegerla de sustancias agresivas [F1]
+
+    - Grado de protección de la carcasa: **IP 65** [F3][F4]
+
+
+    ---
+
+
+    Fuente: IS5001-F_IS-mA1_EN (Issue F, 06-08-15); manual IS MA1 (Issue H, 03-01-2020)
+    — sin revisión registrada en metadatos
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "CAUTION - The clearance between sounder terminals S2 and S3 is less than 6mm."
+    [F3]
+
+    - "CAUTION - Bonding between conduit connections is not automatic and must be
+    provided as part of this installation." [F3]
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "The IS-mA1 minialarm is an ATEX and IECEx certified intrinsically safe sounder
+    which produces a loud warning signal in a hazardous area." (IS5001-F_IS-mA1_EN,
+    p. 1) [F11]'
+  family_resolved: true
+  gold_families:
+  - IS-MA1
+  n_non_anchorable: 0
+  pool_n: 28
+  served_n: 11
+  topk_n: 10
+  appended_n: 1
+  topk_ids:
+  - d4ae732f-2838-4134-a558-680b1ac36bb8
+  - 25d7fd21-e168-43e4-b2e6-b73b15aff49d
+  - a979aa4c-ad14-41ea-b48d-2f2faf038c1a
+  - 75d15cc3-9784-4690-8009-18c943828329
+  - 68c40b6f-c4a4-478e-adff-bf32febc2cd7
+  - 1a7ac511-31fd-4281-a482-157c3dabcb15
+  - 0731690b-65c4-4b56-83f2-c0606d8ee2d3
+  - 87bf83d1-2602-4199-8d3e-d45e7a17048f
+  - 2be22a51-7a94-4d38-af02-7c24046965bb
+  - f214a7fc-cff4-4a8b-b6f8-74af62c936b8
+  served_ids:
+  - d4ae732f-2838-4134-a558-680b1ac36bb8
+  - 25d7fd21-e168-43e4-b2e6-b73b15aff49d
+  - a979aa4c-ad14-41ea-b48d-2f2faf038c1a
+  - 75d15cc3-9784-4690-8009-18c943828329
+  - 68c40b6f-c4a4-478e-adff-bf32febc2cd7
+  - 1a7ac511-31fd-4281-a482-157c3dabcb15
+  - 0731690b-65c4-4b56-83f2-c0606d8ee2d3
+  - 87bf83d1-2602-4199-8d3e-d45e7a17048f
+  - 2be22a51-7a94-4d38-af02-7c24046965bb
+  - f214a7fc-cff4-4a8b-b6f8-74af62c936b8
+  - aad31581-bef4-4991-80cf-b014e889b1c3
+  appended_ids:
+  - aad31581-bef4-4991-80cf-b014e889b1c3
+  appended_lane:
+    aad31581-bef4-4991-80cf-b014e889b1c3: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 1
+    synthesis-miss: 0
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat010#0:24V dc
+    valor: 24V dc
+    texto: El IS-mA1 se alimenta a 24V dc en zona peligrosa a través de una barrera
+      Zener / aislador galvánico certificado ATEX/IECEx de 28V / 93mA resistivo (en
+      zona segura sin barrera, no operar de forma continua por encima de 16V por el
+      límite de corriente interno)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 2
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - d335a010-5715-4214-975b-1e18bf58ac75
+    support_l1_override: null
+    best_pool_rank: 0
+    submotivo: lexical-distractor
+    clase: rerank-miss
+  - key: cat010#1:660mW
+    valor: 660mW
+    texto: 'Parámetros de seguridad intrínseca de entrada de los terminales + y −:
+      Ui = 28V, Ii = 93mA, Pi = 660mW, Ci = 0, Li = 0'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 8
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  answer: "# Cableado y configuración de lazo — INSPIRE E10/E15\n\nEl proceso se divide\
+    \ en dos fases: **cableado físico** y **configuración mediante CLSS**.\n\n---\n\
+    \n## FASE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Módulo de lazo a usar\n\nEl módulo\
+    \ es el **LAZO OPAL X2** (código **HOP-433-100**), de color **morado** [F2]. Proporciona\
+    \ **2 circuitos de lazo** por módulo [F2].\n\n### Terminales del módulo OPAL X2\n\
+    \n**Lazo 1:**\n- Terminal **1** → Lazo 1 Salida +VE\n- Terminal **2** → Lazo 1\
+    \ Salida -VE\n- Terminal **3** → ⊕ (**NO USAR** para pantalla de cable)\n- Terminal\
+    \ **4** → Lazo 1 Entrada +VE\n- Terminal **5** → Lazo 1 Entrada -VE\n\n**Lazo\
+    \ 2:**\n- Terminal **6** → Lazo 2 Salida +VE\n- Terminal **7** → Lazo 2 Salida\
+    \ -VE\n- Terminal **8** → ⊕ (**NO USAR** para pantalla de cable)\n- Terminal **9**\
+    \ → Lazo 2 Entrada +VE\n- Terminal **10** → Lazo 2 Entrada -VE\n\n[F2][F3]\n\n\
+    > ⚠️ **CRÍTICO:** No utilices los terminales **3** y **8** para la pantalla del\
+    \ cable de lazo. La pantalla debe conectarse a la **barra de tierra** de la central\
+    \ [F2][F3].\n\n> ℹ️ Se recomienda poner a tierra **un solo extremo** de la pantalla\
+    \ del cable de lazo en la barra de tierra de la central [F11].\n\n### Posición\
+    \ del módulo en la central\n\nInstala los módulos de lazo comenzando por la **RANURA\
+    \ 3** (la contigua a la CPU) hacia la derecha. Los lazos se numeran secuencialmente\
+    \ de izquierda a derecha [F2][F4].\n\n---\n\n## FASE 2 — COMPROBACIONES PREVIAS\
+    \ AL ENCENDIDO (con multímetro)\n\nAntes de conectar el lazo a la central, realiza\
+    \ estas verificaciones [F6][F7][F8]:\n\n1. **Continuidad del lazo:** Comprueba\
+    \ la continuidad de cada parte del lazo y mide la resistencia extremo a extremo\
+    \ [F6].\n\n2. **Resistencia máxima admisible** [F8]:\n   - Protocolo **OPAL**:\
+    \ resistencia inferior a **40 Ω**\n   - Protocolo **CLIP** (detección de duplicados):\
+    \ inferior a **40 Ω**\n   - Protocolo **CLIP** (sin detección de duplicados):\
+    \ inferior a **71 Ω**\n   - Capacidad del cable: inferior a **0,5 µF** [F8]\n\
+    \   - Para calcular: mide entre Lazo X Entrada -VE y Lazo X Salida -VE con el\
+    \ lazo desconectado de la central, multiplica el resultado por 2 y añade la resistencia\
+    \ de cada aislador (**0,1 a 0,13 Ω** por aislador) [F8].\n\n3. **Pantalla del\
+    \ cable:** Comprueba que no hay continuidad entre la pantalla y los cables +VE\
+    \ ni -VE [F6][F7].\n\n4. **Prueba de diodo (polaridad de dispositivos)** [F7]:\n\
+    \   - Conecta el multímetro en **polaridad invertida** (+VE del multímetro al\
+    \ negativo del lazo, -VE al positivo): debe indicar diodo en polarización directa.\n\
+    \   - Conecta en **polaridad normal**: la resistencia debe empezar baja y aumentar\
+    \ progresivamente al cargarse los condensadores de los dispositivos.\n   - Si\
+    \ en polaridad normal aparece un diodo en directa, hay uno o varios dispositivos\
+    \ conectados en polaridad inversa o un cortocircuito [F7].\n\n5. **Aisladores:**\
+    \ Con dispositivos OPAL, al retirar el detector de la base B501 AP se mantiene\
+    \ la continuidad (terminales +2 y +4 de la base se puentean automáticamente).\
+    \ En módulos y pulsadores con aisladores: terminales **+2 y +4** en módulos, terminales\
+    \ **+3 y +4** en pulsadores [F8].\n\n> ⚠️ **NUNCA** uses un comprobador de alta\
+    \ tensión (megóhmetro) en el circuito de lazo una vez conectados los dispositivos\
+    \ [F6].\n\nUna vez verificado el cableado, conecta el circuito de lazo al bloque\
+    \ de terminales correspondiente en la central [F11].\n\n---\n\n## FASE 3 — CONFIGURACIÓN\
+    \ DEL LAZO EN CLSS\n\n### Requisito previo\n\nLa central debe configurarse con\
+    \ el **programa de configuración CLSS** antes de realizar la Auto Configuración\
+    \ [F9].\n\n> ℹ️ Por defecto, la central tiene licencia para **Protocolo avanzado\
+    \ OPAL** únicamente. Para usar CLIP o TC800, se requiere licencia adicional [F9].\n\
+    \n### Pasos de configuración\n\n1. Accede a **Ajustes → Ajustes HMI** y en **Tipo\
+    \ de marca** selecciona **Notifier EN** [F9][F10].\n\n2. Ve a **Ajustes de lazo**\
+    \ y configura cada lazo [F9][F10]:\n   - Si el lazo **no se utiliza**: marca ☑\
+    \ **Sin Uso** [F1][F9].\n   - Si el lazo **sí se utiliza**:\n     - **Familia\
+    \ de Dispositivos:** Notifier\n     - **Protocolo Lazo:** Opal (o Clip si tienes\
+    \ licencia)\n     - **Limitar a VdS 2540:** Sí o No (el valor de resistencia cambia\
+    \ según la selección)\n     - **Tipo de Cable:** selecciona el tipo correspondiente\n\
+    \     - **Resistencia (Ohm):** introduce el valor medido (el ejemplo de pantalla\
+    \ muestra **93,5 Ω**) [F9][F10]\n\n3. **Envía el archivo de configuración a la\
+    \ central** siguiendo los pasos 01 a 04 del procedimiento \"Enviar configuración\
+    \ a la central\" [F9].\n\n4. Procede a la **Auto Configuración** desde la central\
+    \ [F9].\n\n---\n\n## Capacidades del lazo (referencia rápida)\n\n**Protocolo OPAL**\
+    \ [F2][F5]:\n- Hasta **159 detectores** OPAL por lazo\n- Hasta **159 módulos**\
+    \ OPAL por lazo (sirenas, pulsadores, módulos E/S)\n- Corriente máxima por lazo:\
+    \ **750 mA** [F2]\n\n**Protocolo CLIP** [F2][F5]:\n- Hasta **99 detectores** CLIP\
+    \ por lazo\n- Hasta **99 módulos** CLIP por lazo\n\n> ⚠️ **EN54-2 (13.7):** Restricción\
+    \ de **512 detectores y/o pulsadores** por módulo de lazo (que comprende 2 circuitos)\
+    \ [F2].\n\n> ⚠️ **No se permite mezclar dispositivos OPAL y CLIP en el mismo lazo**\
+    \ [F2].\n\n> ℹ️ La longitud máxima del cable de lazo puede ser de hasta **3,5\
+    \ km** dependiendo del tipo de carga y de cable. Usa el **programa de cálculo\
+    \ de lazo y batería de CLSS** para verificar tu configuración concreta [F2].\n\
+    \n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta\
+    \ en marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Instrucciones de\
+    \ instalación INSPIRE E10)\n- 4188-1132-ES issue 3, 04-2025 (Guía rápida CLSS-10)"
+  family_resolved: true
+  gold_families:
+  - INSPIRE E10
+  - INSPIRE E10/E15
+  n_non_anchorable: 0
+  pool_n: 58
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 09ae499b-90ae-46b4-a5e7-138bfb5cf94b
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - ad28ab54-cf7e-41a1-923d-9c4ad1332b47
+  served_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 09ae499b-90ae-46b4-a5e7-138bfb5cf94b
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - ad28ab54-cf7e-41a1-923d-9c4ad1332b47
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - fd092752-a693-4581-b039-34f8d2399829
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_ids:
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - fd092752-a693-4581-b039-34f8d2399829
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_lane:
+    c2564c21-16d2-477e-ba50-e4a02f240900: same_blob_structural_neighbor_coverage_v1
+    fd092752-a693-4581-b039-34f8d2399829: same_blob_structural_neighbor_coverage_v1
+    1452c904-cf11-4803-9b2b-4b977bfa3d5f: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 2
+    synthesis-miss: 1
+    rerank-miss: 2
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat017#0:modulo OPAL HOP-433-100
+    valor: modulo OPAL HOP-433-100
+    texto: 'El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector
+      morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN
+      (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la
+      pantalla a tierra en la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#1:159 + 159
+    valor: 159 + 159
+    texto: 'Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318
+      por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL
+      y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada
+      con el programa de lazo/bateria de CLSS)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#2:licencia CLIP por lazo
+    valor: licencia CLIP por lazo
+    texto: Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de
+      lazo CLIP)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - b0273b01-279d-4151-849c-4bcf2cf5c612
+    support_l1_override: null
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+  - key: cat017#3:Auto Configuracion
+    valor: Auto Configuracion
+    texto: El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la
+      central detecta automaticamente los dispositivos conectados), tras la 'Configuracion
+      inicial y primer encendido'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    - ad28ab54-cf7e-41a1-923d-9c4ad1332b47
+    - e472044e-ce86-4569-ac6f-2bd297bb1c93
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    best_pool_rank: 31
+    submotivo: pos-buried
+    clase: rerank-miss
+  - key: cat017#4:CLSS
+    valor: CLSS
+    texto: 'La configuracion de la central se gestiona con el Programa de Configuracion
+      de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion
+      y se genera el archivo .bin de licencia de la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 4
+    n_support_raw: 10
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 0c7b5006-3421-4134-835a-307059203b08
+    - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+    - 63b307b1-0f71-4c4f-86ee-558ed6470b80
+    - 68d812f5-c2ac-40be-8634-a420f082ab81
+    - 6fbcc48b-4944-4e7a-9b34-bed3af771e7b
+    - 76864386-9e44-4b85-b930-abfe73d27c99
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    - 99d100ae-e92d-4eed-8c34-e13692424e1d
+    best_pool_rank: 8
+    submotivo: lexical-distractor
+    clase: rerank-miss
