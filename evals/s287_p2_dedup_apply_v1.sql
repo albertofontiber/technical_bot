@@ -4,21 +4,30 @@
 -- Census: evals/s287_p2_dedup_census_v1.json
 -- Packet: evals/s287_p2_dedup_adjudicacion_packet_v1.md  ← LÉELO ANTES DE APROBAR NADA
 --
--- ⚠ EDITADO A MANO tras la adjudicación de Alberto (s287): par semilla → OPCIÓN B. Este
---   fichero ya NO es salida limpia del generador, y `s287_p2_dedup_census.py` lo SOBRESCRIBE
---   (OUT_SQL, línea 104) → salva este .sql antes de re-correr el census.
+-- ⚠ EDITADO A MANO tras la ADJUDICACIÓN COMPLETA de Alberto (s287) sobre los 24 pares.
+--   Este fichero ya NO es salida limpia del generador, y `s287_p2_dedup_census.py` lo
+--   SOBRESCRIBE (OUT_SQL, línea 104) → salva este .sql antes de re-correr el census.
 --
 -- ###########################################################################################
--- #  Salen COMENTADAS todas las filas MENOS las del PAR 1 (semilla), que Alberto ADJUDICÓ  #
--- #  en s287 → OPCIÓN B (ver bloque 0 y el §1 del packet). Ningún otro par entra vivo.     #
--- #  El census midió que CADA clase de candidato arrastra un riesgo de IDENTIDAD que solo   #
--- #  la adjudicación resuelve (variantes -IS, manual-vs-datasheet, módulos hermanos con     #
--- #  pm='unknown', rebadges OEM Notifier/Morley). APROBAR UN PAR = quitar el '-- ' inicial  #
--- #  de las filas de su bloque. No hay que tocar comas: la fila SENTINELA cierra el VALUES. #
--- #  CADA par lleva DOS decisiones (política Alberto s287): (1) aprobar/rechazar el par y   #
--- #  (2) CONFIRMAR la metadata del representante (fabricante + product_model) a nivel       #
--- #  `documents` Y a nivel `chunks_v2` — divergen en silencio; si está mal, el fix va en    #
--- #  este mismo paste, con el bloque 0 como plantilla.                                      #
+-- #  ESTADO DE LA ADJUDICACIÓN (Alberto, s287) — 24 pares repartidos en 5 clases:           #
+-- #                                                                                          #
+-- #   VIVOS  (3 pares · 12 marcas)   PAR 1 semilla + PAR 2 + PAR 14                          #
+-- #   RECHAZADOS (10)  PAR 7·10·11·12·13·15·17·20·21·23 — productos/modelos DISTINTOS.       #
+-- #                    Sus filas están FUERA de este paste; el ground truth de Alberto y     #
+-- #                    la causa (metadata que los hizo indistinguibles) van en el packet §6. #
+-- #   SUPERSEDED (2)   PAR 9 y PAR 22 — NO son dedup: son REVISIÓN NUEVA del mismo manual.   #
+-- #                    Sus filas del census están FUERA (iban en la dirección CONTRARIA: el  #
+-- #                    census proponía retirar chunks de la revisión NUEVA). El mecanismo    #
+-- #                    de linaje va en el BLOQUE S al final, COMENTADO, pendiente de tu OK.  #
+-- #   KEEP-BOTH (2)    PAR 8 y PAR 24 — doc_type distinto (usuario vs funcionamiento /       #
+-- #                    instalación vs funcionamiento). Verificado en `documents`: el         #
+-- #                    doc_type YA es correcto en los 4 docs → no hay fix que proponer.      #
+-- #   ABIERTOS (7)     PAR 3·4·5·6·16·18·19 — preguntas de Alberto. Sus filas siguen         #
+-- #                    COMENTADAS con mi propuesta inline; NADA de ellos entra hoy.          #
+-- #                    Análisis con evidencia en el packet §8 «PREGUNTAS ABIERTAS».          #
+-- #                                                                                          #
+-- #  APROBAR UN PAR ABIERTO = quitar el '-- ' inicial de las filas de su bloque. No hay que  #
+-- #  tocar comas: la fila SENTINELA cierra el VALUES.                                        #
 -- ###########################################################################################
 --
 -- INVARIANTE del gate SPAN-DIFF (re-verificado en SQL, guard 3f): solo se marcan chunks de
@@ -27,14 +36,14 @@
 -- Jaccard >= 0.6. Los chunks UNIQUE / PARTIAL / COVERED_NO_TWIN / SHORT NO se
 -- tocan: siguen sirviéndose desde el doc "suprimido" (la supresión es POR CHUNK, no por doc).
 --
--- Propuestas: 121 marcas en 24 pares · tiers {'T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA': 6, 'T1-DOC-IDENTICO': 1, 'T2-MISMA-MARCA': 17}
---   (120 del census + 1: el par semilla INVERTIDO a opción B pasa de 9 a 10 marcas — la
---    clase TWIN se re-clasifica en la dirección nueva, ver el bloque del PAR 1)
--- VIVO en este paste: solo el PAR 1 (10 marcas). Los otros 23 pares siguen comentados.
+-- VIVO en este paste: PAR 1 (10 marcas) + PAR 2 (1) + PAR 14 (1) = **12 marcas**.
+-- Los 8 guards de las 12 filas se RE-PRE-VALIDARON en vivo read-only contra la DB
+-- (2026-07-30, posterior al census): 0 fallos — md5 sin deriva, ninguno ya marcado,
+-- canónicos existentes/no-duplicados/dentro del representante, sin cadenas, gate 3f OK,
+-- 0 filas de enunciados colgando. Dry-run esperado: **staged=12 · updated=12 · backed_up=12**.
 -- Dry-run: cambia COMMIT por ROLLBACK.
 
 BEGIN;
-
 -- ═══════════════════════════════════════════════════════════════════════════════════════════
 -- 0. METADATA-FIX del PAR SEMILLA · *** ADJUDICADO POR ALBERTO (s287): OPCIÓN B ***
 -- ═══════════════════════════════════════════════════════════════════════════════════════════
@@ -181,6 +190,33 @@ END $$;
 -- rehidrata desde chunks_v2 (retriever.py:1091, _HYDRATE_SELECT). Queda anotado para que no
 -- se pudra en silencio; incluirlo sería 1 UPDATE más si quieres consistencia total.
 
+
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- 0-bis. METADATA-FIX CANDIDATO del representante del PAR 2  ***COMENTADO — REQUIERE TU OK***
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- Decisión 2 del PAR 2 (metadata del representante). Sonda read-only 2026-07-30:
+--   'DXc_Connexion Averia-de-resistencia-de-baterias.pdf' (5e878ee7) → documents.product_model
+--   = 'unknown' pero su único chunk dice pm='DXc', y el TÍTULO del propio contenido es
+--   «Tengo avería de resistencia de baterías en central DXc» → el valor bueno está en el chunk.
+-- Política confirmada por Alberto (s287): las divergencias documents↔chunks se adjudican
+-- POR-DOC contra la portada. Aquí no hay portada (es un FAQ de 1 chunk) pero el título del
+-- propio texto nombra el producto → candidato SÓLIDO, no automático. Sale COMENTADO porque
+-- Alberto adjudicó el DEDUP del par 2, no su metadata.  (Va también al ticket A3.)
+--
+-- DO $$
+-- DECLARE m int;
+-- BEGIN
+--   SELECT count(*) INTO m FROM documents
+--    WHERE id = '5e878ee7-53eb-4b03-bda3-5fd5de306bba' AND status = 'active'
+--      AND manufacturer = 'Morley' AND product_model = 'unknown';
+--   IF m <> 1 THEN RAISE EXCEPTION 'par 2: doc representante no está en el estado pre-fix — ABORTA'; END IF;
+--   SELECT count(*) INTO m FROM chunks_v2
+--    WHERE document_id = '5e878ee7-53eb-4b03-bda3-5fd5de306bba' AND product_model = 'DXc';
+--   IF m <> 1 THEN RAISE EXCEPTION 'par 2: el chunk no dice DXc (% filas) — ABORTA', m; END IF;
+-- END $$;
+-- UPDATE documents SET product_model = 'DXc'
+--  WHERE id = '5e878ee7-53eb-4b03-bda3-5fd5de306bba' AND product_model = 'unknown';
+
 -- 1. STAGING (scratch; el paste la crea y la puebla — no hay carga previa)
 DROP TABLE IF EXISTS _s287_dedup_staging;
 CREATE TABLE _s287_dedup_staging (
@@ -233,19 +269,30 @@ VALUES
   ('e10519a0-e237-49df-a151-83a859609a8e','df475873-b2d4-4884-9086-a527771a3f82','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',0.9921,0.6642,0,'20684fdaba29f3a3d3a4d8c7fae8890e','2b694083__a6b9dc84'),   -- idx13 p6 126w · FM Approval
   ('7eff6257-85e6-402d-9947-90c7336ff7e1','d335a010-5715-4214-975b-1e18bf58ac75','2b694083-5b21-4f1a-a29b-565072860fb8','a6b9dc84-af6d-4957-a403-4b4c2136557b',1.0,1.0,0,'06911258051b6a2704b035aec059acf7','2b694083__a6b9dc84'),   -- idx14 p6 124w · CPD 89/106/EEC · J=1.000
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 2: 5e878ee7__eb749df8   [T1-DOC-IDENTICO]
+-- PAR 2: 5e878ee7__eb749df8   [T1-DOC-IDENTICO]   *** APROBADO POR ALBERTO (s287) — VIVO ***
 --   CONSERVA  'DXc_Connexion Averia-de-resistencia-de-baterias.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   1 de 1 chunks de 'Averia-de-resistencia-de-baterias-en-central-DXc.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  (nada más en el doc suprimido)
 --   cobertura 0.95/0.96 · motivo del representante: empate → más reciente (revision_date/revision/ingested_at)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('f58ad5cd-5d6a-438f-b546-4ff11d5b8b48','c9952764-8b68-4aea-b7ca-9d6a85fa917c','eb749df8-87db-4800-90dd-7d65889822fa','5e878ee7-53eb-4b03-bda3-5fd5de306bba',0.9536,0.7803,0,'fa4905b168fc4c5225f9c099ef755a99','5e878ee7__eb749df8'),
+--   VEREDICTO Alberto: OK (duplicado real: el mismo FAQ del DXc subido dos veces con
+--   el título reordenado). Contenido verificado idéntico en la sonda read-only.
+--   Decisión 2 (metadata del representante): candidato pm 'unknown'→'DXc' en el bloque 0-bis.
+--   GUARDS RE-PRE-VALIDADOS EN VIVO (read-only, 2026-07-30): md5 sin deriva · no marcado ·
+--   canónico existente/no-duplicado/dentro del representante · sin cadenas · gate 3f OK ·
+--   0 filas de enunciados colgando.
+  ('f58ad5cd-5d6a-438f-b546-4ff11d5b8b48','c9952764-8b68-4aea-b7ca-9d6a85fa917c','eb749df8-87db-4800-90dd-7d65889822fa','5e878ee7-53eb-4b03-bda3-5fd5de306bba',0.9536,0.7803,0,'fa4905b168fc4c5225f9c099ef755a99','5e878ee7__eb749df8'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 3: 517b87ce__de8c0345   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]
+-- PAR 3: 517b87ce__de8c0345   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'FS2-1'  (manu='Notifier' pm='FS2-1')
 --   SUPRIME   12 de 27 chunks de 'ms1-2-4.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=4, PARTIAL=5, COVERED_NO_TWIN=6
 --   cobertura 0.80/0.86 · motivo del representante: metadata auto-soportada (2/3 vs 0/3)
+--   ⏸ PREGUNTA ABIERTA de Alberto («¿no son muy similares?») — packet §8.1.
+--   MI PROPUESTA: **NO deduplicar** (rebadge OEM). Los dos son el MISMO manual rebadgeado:
+--   FS2-1 imprime «NOTIFIER ESPAÑA, S.L.» y nombra FS-1/FS-2/FS-4; ms1-2-4 es «Ref. 997-158
+--   Versión 1.0, 9 Enero 2002» y nombra MS-1/MS-2/MS-4. Verificado: los 7 chunks TWIN que se
+--   propone retirar nombran MS-1/MS-2/MS-4 y su gemelo nombra FS-1/FS-2/FS-4 → deduplicar
+--   haría que el bot responda una pregunta de MS-2 citando el manual de FS-2 (daño DEC-091b).
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('3f117e9e-da69-474d-932d-094349d7ced5','3a16fb38-1f65-4d6e-9f3f-e310e053f3a6','de8c0345-2b30-4cfa-a73c-968038acde1f','517b87ce-500b-4e43-a32a-ad6c96b7d4eb',0.983,0.9399,0,'3d3e092c996889bafb75023787ed92ef','517b87ce__de8c0345'),
 --   ('6cad07bc-fd6d-4efb-9dcc-acc4f5c66bb9','79726dcc-0144-4e9d-a0f5-43c7742488da','de8c0345-2b30-4cfa-a73c-968038acde1f','517b87ce-500b-4e43-a32a-ad6c96b7d4eb',0.9912,0.8462,0,'aeb5cf04d547ba1f1c17c6ebef9160ef','517b87ce__de8c0345'),
@@ -260,11 +307,20 @@ VALUES
 --   ('dbb5fdd1-0f84-4dd6-9dc9-8b7e811d0d8e','6172917e-70ef-45fe-8673-77f8523e4300','de8c0345-2b30-4cfa-a73c-968038acde1f','517b87ce-500b-4e43-a32a-ad6c96b7d4eb',0.9645,0.8356,0,'e909a50f51cc901aab360aeb7b43f8cc','517b87ce__de8c0345'),
 --   ('f52d2fc3-89c1-4687-ae4d-cc85538b49ea','e872a4f9-1b11-4185-89cb-b7bb8781d0a4','de8c0345-2b30-4cfa-a73c-968038acde1f','517b87ce-500b-4e43-a32a-ad6c96b7d4eb',0.9834,0.9116,0,'a08def76915d21c8650b6f4b74823558','517b87ce__de8c0345'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 4: 7f9ea4ab__acafc5d1   [T2-MISMA-MARCA]
+-- PAR 4: 7f9ea4ab__acafc5d1   [T2-MISMA-MARCA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'MNDT1026'  (manu='Notifier' pm='VIEW')
 --   SUPRIME   5 de 23 chunks de 'MNDT1025'  (manu='Notifier' pm='VIEW')
 --   PRESERVA  UNIQUE=3, PARTIAL=12, COVERED_NO_TWIN=3
 --   cobertura 0.64/0.85 · motivo del representante: empate metadata → más spans únicos (18 vs 8)
+--   ⏸ PREGUNTA ABIERTA de Alberto (¿1026 más completo? ¿1025 tiene algo único?) — packet §8.2.
+--   VERIFICADO: MNDT1026 = «Aplicaciones del VIEW™ CON LA CENTRAL AFP-300/400» (MN-DT-1026_A,
+--   24 MAR 2004); MNDT1025 = «Aplicaciones del VIEW™» genérico (MN-DT-1025, 8 ABR 2004,
+--   doc. 997-198). 1026 SÍ es más completo (secciones propias: Cableado · Programación de la
+--   cooperación · Autoaprendizaje de prealarma · Algoritmos de filtrado). De lo ÚNICO de 1025
+--   (412 palabras en 8 spans) no sale ningún HECHO nuevo: son prosa de figura/tabla ASCII.
+--   MI PROPUESTA: aprobable con riesgo bajo (mismo producto, mismo fabricante). Residual
+--   declarado: 1025 etiqueta sus chunks pm='FSL-751E' y 1026 pm='VIEW' → retirar 5 chunks
+--   reduce el alcance de la etiqueta 'FSL-751E' (candidato de unificación al ticket A3).
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('130b656a-2ad3-4025-b2bd-7768f46bfacf','a4bcff6e-b2e8-4328-b677-0048da277226','7f9ea4ab-3fa6-49fc-ab7d-8ccc20d33bd6','acafc5d1-6a91-4faa-a896-c4abc0df3d03',0.9915,0.8413,0,'3a92eced40884313b187a82a35431c84','7f9ea4ab__acafc5d1'),
 --   ('6def4121-4b61-4737-aba0-e2e488dce100','3d792de5-1b05-4028-b2c2-a2942f9267f6','7f9ea4ab-3fa6-49fc-ab7d-8ccc20d33bd6','acafc5d1-6a91-4faa-a896-c4abc0df3d03',0.9912,0.8522,0,'80d7733541322e0105f98c7de9c290eb','7f9ea4ab__acafc5d1'),
@@ -272,12 +328,21 @@ VALUES
 --   ('ac8027dc-9c00-4ca5-a89d-7563ab84573f','ae1a68ce-3b87-4699-bd20-4bf3713ea238','7f9ea4ab-3fa6-49fc-ab7d-8ccc20d33bd6','acafc5d1-6a91-4faa-a896-c4abc0df3d03',0.9523,0.6755,0,'cf4cfd643f4405a32a674af1526b9ff3','7f9ea4ab__acafc5d1'),
 --   ('685ab164-fac2-41be-ab86-febe0ff66059','d245c6fb-aa4c-40bb-b6b5-1fce2137d302','7f9ea4ab-3fa6-49fc-ab7d-8ccc20d33bd6','acafc5d1-6a91-4faa-a896-c4abc0df3d03',0.952,0.7912,0,'a0a0cc249800e60cafa252169e33106e','7f9ea4ab__acafc5d1'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 5: 5800c4c0__cbc9c21c   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]
+-- PAR 5: 5800c4c0__cbc9c21c   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'FS8'  (manu='Notifier' pm='EFS/EM 8')
 --   SUPRIME   30 de 63 chunks de 'MS8.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=8, PARTIAL=20, COVERED_NO_TWIN=5
 --   cobertura 0.84/0.85 · motivo del representante: metadata auto-soportada (1/3 vs 0/3)
 --   !! POLÍTICAS DIVERGENTES: la literal del spec conservaría 'MS8.pdf' (más spans únicos (36 vs 27))
+--   ⏸ PREGUNTA ABIERTA de Alberto («exactamente el mismo documento») — packet §8.3.
+--   CONFIRMADO: es el MISMO documento. Las dos portadas dicen «Panel de control de incendios
+--   de 8 zonas EFS/EM 8 · Manual de instalación, puesta en marcha y funcionamiento ·
+--   997-201-103 · Edición 1, Septiembre 1999». Ninguno de los dos imprime Notifier NI Morley
+--   en su texto: la atribución de marca es SOLO metadata. Los spans 'UNIQUE' de ambos lados
+--   son la MISMA sección extraída dos veces (mutuos best-twin) — verificado que 8.7.1 y 3.4.4
+--   existen en LOS DOS. MI PROPUESTA: **no aprobar tal cual**. Retirar 30 de los 63 chunks
+--   etiquetados 'Morley' degrada el alcance por marca de un manual que es de marca DUAL
+--   (EFS = Notifier / EM = Morley). Primero decidir el seam de identidad (D1/D3), luego dedup.
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('c1523563-cecb-4250-9b37-abbac4834a69','2e01c2f0-b979-47f8-ab35-e9517d287c55','cbc9c21c-4369-4316-905f-40cdce16af53','5800c4c0-df50-46c0-b37b-a756417e7131',0.9978,0.9438,0,'3b18b88ca3120d573348b14e1580cfbc','5800c4c0__cbc9c21c'),
 --   ('ac4a3c5e-3f13-4457-8e25-5a610b683f18','2f353ee0-b4d5-496d-957f-4fd89c93dde9','cbc9c21c-4369-4316-905f-40cdce16af53','5800c4c0-df50-46c0-b37b-a756417e7131',1.0,1.0,0,'85f571669e91d3d9ebe77a34c66f0996','5800c4c0__cbc9c21c'),
@@ -310,141 +375,188 @@ VALUES
 --   ('17ba332d-dffe-4c45-8d26-3d50bc2acf3c','205c093b-e9ac-46ac-9780-74984457b724','cbc9c21c-4369-4316-905f-40cdce16af53','5800c4c0-df50-46c0-b37b-a756417e7131',1.0,0.6034,0,'fd18162b1d6893cef6de1e2cf54a3417','5800c4c0__cbc9c21c'),
 --   ('1513b3ac-3507-4d57-b076-71ff778e83b9','da1931be-e37d-4ca7-927b-48ccb43c5797','cbc9c21c-4369-4316-905f-40cdce16af53','5800c4c0-df50-46c0-b37b-a756417e7131',1.0,1.0,0,'c392d95ebe4acb248ad2efd5fdace319','5800c4c0__cbc9c21c'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 6: 2c299ef1__89024b18   [T2-MISMA-MARCA]
+-- PAR 6: 2c299ef1__89024b18   [T2-MISMA-MARCA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'D 1148-1 BRS Notifier'  (manu='Notifier' pm='B501AP')
 --   SUPRIME   2 de 7 chunks de 'D 1147-1 BRH Notifier'  (manu='Notifier' pm='B501AP')
 --   PRESERVA  UNIQUE=2, PARTIAL=2, COVERED_NO_TWIN=1
 --   cobertura 0.80/0.83 · motivo del representante: metadata auto-soportada (3/3 vs 1/3)
+--   ⏸ PREGUNTA ABIERTA de Alberto («exactamente el mismo documento») — packet §8.4.
+--   NO se confirma: son datasheets de productos DISTINTOS. D 1148-1 BRS → pm de chunk 'SP-20',
+--   I(max) 25/14 mA, P 590/330 mW, remite a SP20-3249. D 1147-1 BRH → pm 'NFXI-BSF-WCH',
+--   I(max) 32/24/13 mA, P 760/580/320 mW, remite a SP20-3248. Y el chunk grande que se
+--   propone retirar es la TABLA DE TONOS: la del BRH es «Default Setting (C-3-15)» y la
+--   cadena 'C-3-15' aparece 3× en el BRH y **0× en el BRS** → retirarlo borra el ajuste por
+--   defecto del BRH. MI PROPUESTA: **RECHAZAR** (keep-both).
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('f0154a63-652c-4748-a9fb-a082a4e4b160','1416c36a-2d89-4350-a76d-7e8e8b293ee8','89024b18-d156-4118-ae3a-997210903102','2c299ef1-4304-4253-9438-f37ab44a795e',0.9491,0.8853,0,'26b62150208725013cd8976e8fd46ffa','2c299ef1__89024b18'),
 --   ('e18c50b2-bc45-42ec-9d0a-fdec55906f3a','41cb0689-52b6-4de0-b74c-3bd357dc3e87','89024b18-d156-4118-ae3a-997210903102','2c299ef1-4304-4253-9438-f37ab44a795e',0.9457,0.6872,0,'ea6176e9ff7940b1971f88296eaa3506','2c299ef1__89024b18'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 7: 2e0ee11a__b788bbda   [T2-MISMA-MARCA]
+-- PAR 7: 2e0ee11a__b788bbda   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'Instruction Manual SG100-IS ENG'  (manu='Argus Security' pm='SG100')
 --   SUPRIME   2 de 13 chunks de 'Instruction Manual SG100 ENG'  (manu='Argus Security' pm='SG100')
 --   PRESERVA  UNIQUE=2, PARTIAL=8, COVERED_NO_TWIN=1
 --   cobertura 0.66/0.77 · motivo del representante: empate metadata → más spans únicos (9 vs 2)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('8d6c561a-c7df-4ea4-b0c3-fefa647ff3fc','c5f71f68-5a5f-4740-8a7e-61f5531904a2','2e0ee11a-e42e-4c25-a5d6-d77924cbdb11','b788bbda-6045-46f5-b645-b54a23bdae5c',1.0,1.0,0,'67664b78ce4dea11fd06bf28218c0038','2e0ee11a__b788bbda'),
---   ('2412344f-367d-4e44-b783-271d1c47897a','411ca95e-bfa5-4e8e-b2d8-0674affe19ad','2e0ee11a-e42e-4c25-a5d6-d77924cbdb11','b788bbda-6045-46f5-b645-b54a23bdae5c',1.0,0.9714,0,'3ba3de2605d602dca630ca7f36827615','2e0ee11a__b788bbda'),
+--   'SG100-IS' (intrínsecamente seguro) y 'SG100' (estándar) son productos DISTINTOS de Argus.
+--   Ground truth de Alberto (s287): las variantes -IS se PRESERVAN aunque el manual sea casi igual.
+--   Causa del falso positivo: `documents.product_model` dice 'SG100' en LOS DOS docs; la etiqueta
+--   fina vive SOLO a nivel chunk ('SG100-IS' vs 'SG100') → el discriminador de serie no la ve.
+--   La etiqueta -IS de chunk queda BLINDADA: ninguna normalización doc→chunks puede borrarla.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 8: 1c6eff80__6d84be7f   [T2-MISMA-MARCA]
+-- PAR 8: 1c6eff80__6d84be7f   [T2-MISMA-MARCA]   *** KEEP-BOTH por Alberto — doc_type DISTINTO, sin marcas ***
 --   CONSERVA  'MNDT1070'  (manu='Notifier' pm='LTS-240')
 --   SUPRIME   9 de 34 chunks de 'MFDT1070'  (manu='Notifier' pm='LTS-240')
 --   PRESERVA  UNIQUE=5, PARTIAL=19, COVERED_NO_TWIN=1
 --   cobertura 0.23/0.77 · motivo del representante: empate metadata → más spans únicos (86 vs 21)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('3d614ca6-1106-4566-b1af-73c9f6c7860c','6710fe0b-58da-4b7b-8b60-b1b5a0c97182','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.9675,0.9268,0,'3e9454d55b095253e1d679fbc85d7262','1c6eff80__6d84be7f'),
---   ('56a0391d-f2a4-402f-b193-a911e941464d','aed13542-4f86-4831-abc1-f37e89ce2594','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.9508,0.7037,0,'6fc347fc4f868179a8065ac1e713bb02','1c6eff80__6d84be7f'),
---   ('ed1fdaf4-1994-4664-b0aa-cffc91642a4c','12c55257-4f2d-4d98-b61b-608ef3d0f804','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.943,0.8812,0,'fa3949fd03998fbfc434a39797a8415f','1c6eff80__6d84be7f'),
---   ('13aee284-9aea-4bf2-87f8-7cbafad18be4','0af81402-1c4e-4a6e-b436-1da5353a45fe','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.995,0.8306,0,'b6559d487668697038da6de8a5932263','1c6eff80__6d84be7f'),
---   ('973d572b-d30d-4022-8dc1-0ae8e9c128ad','4ac88edd-ec41-4714-859f-27f94ac5b83b','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.951,0.8341,0,'4004e09882b627356360e8b158258932','1c6eff80__6d84be7f'),
---   ('abc645a3-9bdc-449b-85f2-f70dc1d4d8f0','4877065e-0ec9-42dc-86dc-22f429e3d35a','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.9826,0.7604,0,'ccd1f881889e8510981b9126507c7582','1c6eff80__6d84be7f'),
---   ('f852c200-4ec7-422a-9ecf-b4bf94409ef2','c89118bf-ed8f-4379-9097-aa9fede41f53','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.9558,0.9203,0,'4811d93ad654c388582c08aca2dc4de6','1c6eff80__6d84be7f'),
---   ('85a5bd78-bfab-4930-9df1-7724c8c013f8','b30c1824-e119-45d7-8edc-d43633fa3cb6','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',1.0,1.0,0,'036e5cf59aac9fd46cd518693feda1e5','1c6eff80__6d84be7f'),
---   ('3414db46-1988-44fd-9c63-4cedf9d1b323','0c31110e-9906-4b72-87fa-6841324bac06','1c6eff80-d065-4074-a229-55c8ed391b3e','6d84be7f-0ada-4647-9852-6089d690f8fc',0.9923,0.9839,0,'e5862452eb2bcb281818c0f5c65f04c8','1c6eff80__6d84be7f'),
+--   'MNDT1070' (doc_type='guia_usuario') vs 'MFDT1070' (doc_type='operacion') — mismo
+--   producto LTS-240, documentos distintos por FUNCIÓN.
+--   VERIFICADO en `documents` (sonda read-only 2026-07-30): el doc_type de los DOS docs ya
+--   es correcto y NO es NULL → **no hay fix de doc_type que proponer**.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 9: 681e506b__a7bf5098   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]
+-- PAR 9: 681e506b__a7bf5098   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** SUPERSEDED por Alberto — NO es dedup · ver BLOQUE S al final ***
 --   CONSERVA  'MI-DT-951_V7.2'  (manu='Notifier' pm='unknown')
 --   SUPRIME   2 de 25 chunks de 'Tg-Honeywell_Introduccion'  (manu='Morley' pm='TG-Honeywell')
 --   PRESERVA  UNIQUE=12, PARTIAL=10, COVERED_NO_TWIN=1
 --   cobertura 0.52/0.75 · motivo del representante: metadata auto-soportada (2/3 vs 1/3)
 --   !! POLÍTICAS DIVERGENTES: la literal del spec conservaría 'Tg-Honeywell_Introduccion' (más spans únicos (20 vs 10))
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('ca200e02-ec5e-404b-beaf-d69e7acd23d8','1d39689b-c7f8-4e9d-a250-de6ef3e51371','a7bf5098-6187-4df9-863b-b24d62d0687e','681e506b-daaa-4f78-8336-aa732695962c',0.9353,0.808,0,'52d8774e7b51252007b5e374fca2b847','681e506b__a7bf5098'),
---   ('4dcf2f0a-e87b-466d-9cd1-e86764570b3a','fe53736d-c51e-4567-a2f5-3bb2e0d55097','a7bf5098-6187-4df9-863b-b24d62d0687e','681e506b-daaa-4f78-8336-aa732695962c',0.9916,0.917,0,'8b141c494cc1577939e73338b157d019','681e506b__a7bf5098'),
+--   ⚠ LAS LÍNEAS DE ARRIBA SON LA PROPUESTA DEL CENSUS, con la dirección INVERTIDA
+--     respecto a tu adjudicación (el census conservaba la revisión VIEJA). Traza, no acción.
+--   'Tg-Honeywell_Introduccion' SUPERSEDE a 'MI-DT-951_V7.2'. VERIFICADO al píxel en el
+--   corpus: son el MISMO documento en dos revisiones —
+--     MI-DT-951_V7.2         → portada «MI-DT-951 (Rev.:7.2) · Septiembre 2007» · TG-NOTIFIER
+--     Tg-Honeywell_Introduccion → portada «MI-DT-951 (Rev.:7.4) · Abril 2009»  · TG-HONEYWELL
+--   Las 2 filas del census iban en la dirección CONTRARIA (retiraban chunks de la revisión
+--   NUEVA) → SE CAEN. El mecanismo correcto es el linaje del BLOQUE S.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 10: f8020fa4__fc285f22   [T2-MISMA-MARCA]
+-- PAR 10: f8020fa4__fc285f22   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'Instruction Manual SG200-IS ENG'  (manu='Argus Security' pm='SG200')
 --   SUPRIME   1 de 12 chunks de 'Instruction Manual SG200 ENG'  (manu='Argus Security' pm='SG200')
 --   PRESERVA  UNIQUE=1, PARTIAL=9, COVERED_NO_TWIN=1
 --   cobertura 0.65/0.74 · motivo del representante: empate metadata → más spans únicos (10 vs 6)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('0d7a3e70-cdea-4c04-8978-79b3acff28fd','271a85f7-c29b-46fc-9b63-252233fe4787','fc285f22-cfa5-4c88-b12d-aa18a764a2a7','f8020fa4-cd11-48e5-b80c-39d606dacc8b',1.0,0.9714,0,'f5666060891645a57a46c68ccd14ee6f','f8020fa4__fc285f22'),
+--   'SG200-IS' vs 'SG200' — misma clase que el PAR 7 (variante intrínsecamente segura).
+--   Causa: doc-level pm = 'SG200' en ambos; la distinción vive solo en los chunks.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 11: 29c145dc__c270c9c7   [T2-MISMA-MARCA]
+-- PAR 11: 29c145dc__c270c9c7   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'Instruction Manual SG350-IS ENG'  (manu='Argus Security' pm='SG350')
 --   SUPRIME   1 de 8 chunks de 'Instruction Manual SG350 ENG'  (manu='Argus Security' pm='SG350')
 --   PRESERVA  PARTIAL=7
 --   cobertura 0.66/0.74 · motivo del representante: empate metadata → más spans únicos (10 vs 7)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('5311b986-43c3-4245-819e-f1c51af5dc1b','b8de452b-3d0f-442a-8e2e-fb9be14ea692','29c145dc-f036-4e24-b16f-66ba61f480b6','c270c9c7-80f1-41a9-8639-0b1a624765b5',1.0,1.0,0,'67664b78ce4dea11fd06bf28218c0038','29c145dc__c270c9c7'),
+--   'SG350-IS' vs 'SG350' — misma clase que los PARES 7 y 10.
+--   Causa: doc-level pm = 'SG350' en ambos; la distinción vive solo en los chunks.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 12: 65246432__a6d93291   [T2-MISMA-MARCA]
+-- PAR 12: 65246432__a6d93291   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'I56-4225-001 NRX-OPT Web'  (manu='Notifier' pm='B501RF')
 --   SUPRIME   2 de 12 chunks de 'I56-4206-001 NRX Radio Thermals Web'  (manu='Notifier' pm='B501RF')
 --   PRESERVA  UNIQUE=2, PARTIAL=6, COVERED_NO_TWIN=2
 --   cobertura 0.50/0.72 · motivo del representante: empate metadata → más spans únicos (11 vs 7)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('721c3b21-9f21-4b56-995d-462b4f6e3aa3','a487dec9-0ec3-4408-ab55-accb2423c0b7','65246432-bac6-4cf0-ac02-f4d770f4ac92','a6d93291-43e7-464f-b0da-8b888f5a0ab0',0.9863,0.7838,0,'9cb99e9cabf514d56c745e0336f7e770','65246432__a6d93291'),
---   ('519c16b8-9d73-4e5a-8400-00cbae2916d4','6afc0d1f-560d-45da-94c9-0429128c42af','65246432-bac6-4cf0-ac02-f4d770f4ac92','a6d93291-43e7-464f-b0da-8b888f5a0ab0',1.0,1.0,0,'384787d22de7c96214e98ab9fbafcbc3','65246432__a6d93291'),
+--   'NRX-OPT' (óptico) vs 'NRX Radio Thermals' (térmico NRX-TFIX58) — detectores DISTINTOS.
+--   Causa doble: doc-level pm = 'B501RF' en LOS DOS (es la BASE común, no el detector) y el
+--   chunk-level del NRX-OPT dice 'EN-54-25', que es la NORMA de enlace radio, no un modelo.
+--   Alberto (s287): el pm REAL de 'I56-4225-001 NRX-OPT Web' es **NRX-OPT** → fix al ticket A3.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 13: 153d05f2__9cbcc4fa   [T2-MISMA-MARCA]
+-- PAR 13: 153d05f2__9cbcc4fa   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'MIEMI130.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   6 de 46 chunks de 'MIEMI120rev05.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=7, PARTIAL=32, COVERED_NO_TWIN=1
 --   cobertura 0.62/0.71 · motivo del representante: empate metadata → más spans únicos (58 vs 44)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('0e6abe55-2726-404d-8349-8c6bb7df0bef','12f9fde3-b448-4f05-b52d-0c4a03839489','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',0.9474,0.716,0,'a5b49abad770a1bf3230182cae90b2bb','153d05f2__9cbcc4fa'),
---   ('9fcf26e7-b975-4eaf-b95e-499d7130b2d5','09476249-c016-4cf5-a2fa-c77d674babbd','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',1.0,0.6358,0,'86c16e402b372ad1fcb537e13f765712','153d05f2__9cbcc4fa'),
---   ('0c120e45-a546-4947-bf68-2924cdab2705','7e247206-4f33-46e7-84f4-011242a309e5','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',0.9882,0.8784,0,'48a2aa3380b1c5ae7f2802e640bc0bdc','153d05f2__9cbcc4fa'),
---   ('2c426c6f-57e9-4ba0-8f55-efdc2ad2f37f','d1613d5a-d641-4775-8a94-c8da1326571f','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',0.9769,0.9533,0,'d88dbb7e4adb15fd16eb7823da66c1fa','153d05f2__9cbcc4fa'),
---   ('22f91858-d6fa-4e55-8e59-81661e16487c','dfa6baef-ab59-4d89-adb6-db6628346ba1','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',0.9889,0.9176,0,'e2144ff61cd2c5b8dc8f070fb423102a','153d05f2__9cbcc4fa'),
---   ('dd4fd297-1fb9-4307-9421-ee2aa956a4f2','8bfa775c-a3fa-4b60-8556-81e0219da6e9','9cbcc4fa-fe19-4dc5-a2c6-d8fcbe606f92','153d05f2-81ed-496c-b6b2-8d699a591778',0.9527,0.8371,0,'4ec4ade3321598ddab1155bc3269e7bc','153d05f2__9cbcc4fa'),
+--   'MIEMI130' (VSN PLUS, Rev 008) vs 'MIEMI120rev05' (VSN 2-4, Rev 005) — modelos DISTINTOS
+--   de la misma familia VSN. Causa: doc-level pm = 'unknown' en LOS DOS; los chunks SÍ los
+--   distinguen ('VSN PLUS' vs 'VSN 2-4') → el discriminador de serie no puede disparar.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 14: 1e86c112__4bf442fb   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]
+-- PAR 14: 1e86c112__4bf442fb   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** APROBADO POR ALBERTO (s287) — VIVO ***
 --   CONSERVA  'I56-2081-001ES 6500R(S) Manual'  (manu='System Sensor' pm='6500R')
 --   SUPRIME   1 de 20 chunks de 'I56-2081-012 6500R(S)_ES'  (manu='Xtralis' pm='6500R')
 --   PRESERVA  UNIQUE=6, PARTIAL=9, COVERED_NO_TWIN=4
 --   cobertura 0.68/0.69 · motivo del representante: metadata auto-soportada (3/3 vs 1/3)
---   !! POLÍTICAS DIVERGENTES: la literal del spec conservaría 'I56-2081-012 6500R(S)_ES' (más spans únicos (16 vs 14))
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('1475940a-ae7f-4c2d-9f1b-90cfc252ddf5','0498cd0a-0aca-479b-bdbb-c0999cda51ba','1e86c112-02a7-4c91-b64a-4d340601cd6a','4bf442fb-9f63-4205-a2f7-535a5055eac6',1.0,1.0,0,'e62a0ed8d7802f34c76d2b100d9d8190','1e86c112__4bf442fb'),
+--   VEREDICTO Alberto: «mismo producto». Contenido verificado idéntico (Fase 3, ajuste
+--   final de ganancia; J=1.000). Decisión 2: la metadata del REPRESENTANTE está BIEN
+--   ('System Sensor' / '6500R' en documents Y en sus 22 chunks) → nada que arreglar aquí.
+--   NOTA A3 (no bloquea): el doc SUPRIMIDO está atribuido a 'Xtralis' y su texto imprime
+--   «System Sensor» 7× y «Xtralis» 0×; su pm de chunk es 'MODELO-6500R' (artefacto).
+--   GUARDS RE-PRE-VALIDADOS EN VIVO (read-only, 2026-07-30): md5 sin deriva · no marcado ·
+--   canónico existente/no-duplicado/dentro del representante · sin cadenas · gate 3f OK ·
+--   0 filas de enunciados colgando.
+  ('1475940a-ae7f-4c2d-9f1b-90cfc252ddf5','0498cd0a-0aca-479b-bdbb-c0999cda51ba','1e86c112-02a7-4c91-b64a-4d340601cd6a','4bf442fb-9f63-4205-a2f7-535a5055eac6',1.0,1.0,0,'e62a0ed8d7802f34c76d2b100d9d8190','1e86c112__4bf442fb'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 15: 3caeba69__a6d93291   [T2-MISMA-MARCA]
+-- PAR 15: 3caeba69__a6d93291   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'I56-4225-001 NRX-OPT Web'  (manu='Notifier' pm='B501RF')
 --   SUPRIME   3 de 16 chunks de 'I56-4205-001 NRX-SMT3 Web'  (manu='Notifier' pm='B501RF')
 --   PRESERVA  UNIQUE=3, PARTIAL=8, COVERED_NO_TWIN=2
 --   cobertura 0.63/0.69 · motivo del representante: REORIENTADO por consistencia de cluster: el representante del cluster de 3 docs es 'I56-4225-001 NRX-OPT Web' (metadata 3/3, 11 spans únicos). Original por-par: empate metadata → más spans únicos (10 vs 7)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('b0938b50-71dd-4827-81ad-65959777e13a','2fb5fa0a-b09b-4897-8f9f-9c5c2891a3fd','3caeba69-e786-4fde-89c2-3249f44519ae','a6d93291-43e7-464f-b0da-8b888f5a0ab0',1.0,1.0,0,'df2caa8055376e6ec740543d8a1a7ccb','3caeba69__a6d93291'),
---   ('fd89253b-9d2e-49e7-acaf-bba726cf9f43','a487dec9-0ec3-4408-ab55-accb2423c0b7','3caeba69-e786-4fde-89c2-3249f44519ae','a6d93291-43e7-464f-b0da-8b888f5a0ab0',1.0,1.0,0,'776af76fe101fbcc40cc85ccbb749e26','3caeba69__a6d93291'),
---   ('0d0cb948-7b24-42ed-b938-c817e8267caa','6afc0d1f-560d-45da-94c9-0429128c42af','3caeba69-e786-4fde-89c2-3249f44519ae','a6d93291-43e7-464f-b0da-8b888f5a0ab0',1.0,0.8327,0,'5561101d2f865bb4724b79a2cf5bf85e','3caeba69__a6d93291'),
+--   'NRX-OPT' (óptico) vs 'NRX-SMT3' (multicriterio) — detectores DISTINTOS.
+--   Causa MÁXIMA de este lote: los dos docs son indistinguibles en AMBOS niveles —
+--   doc-level pm='B501RF' (la base) y chunk-level pm='EN-54-25' (la norma) en los dos.
+--   Los dos valores son artefactos; ninguno nombra el detector → fixes al ticket A3.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 16: 0befac70__af770ec5   [T2-MISMA-MARCA]
+-- PAR 16: 0befac70__af770ec5   [T2-MISMA-MARCA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'MIE-MP-210.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   2 de 11 chunks de 'MIE-MI-220.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=5, PARTIAL=4
 --   cobertura 0.07/0.69 · motivo del representante: empate metadata → más spans únicos (105 vs 7)
+--   ⏸ PREGUNTA ABIERTA de Alberto («analiza y propone») — packet §8.5.
+--   VERIFICADO: MIE-MP-210 = manual de la central ZXCE (104 chunks, Vers.1.48 Rev.003, MAYO
+--   2002); MIE-MI-220 = «TARJETA DE 20 RELÉS (NC/NO) MOD.REL-2000 · SISTEMA ECO-2000 ·
+--   MANUAL DE INSTALACIÓN» (11 chunks). Productos distintos. Los 2 chunks propuestos son
+--   «ECUACIONES DE ACTIVACIÓN DE LOS RELÉS» y «EJEMPLOS PRÁCTICOS DE PROGRAMACIÓN»: el
+--   lenguaje de expresiones del PANEL, compartido de verdad. MI PROPUESTA: **RECHAZAR** —
+--   los chunks del REL-2000 llevan pm='REL-2000' y los del ZXCE pm='ZXCE'; retirarlos deja
+--   una consulta de REL-2000 filtrada por modelo sin esos 2 chunks y sin gemelo que la
+--   sustituya. Ganancia = 2 chunks; riesgo = pérdida de alcance por modelo.
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('364a687f-a3ca-4379-a8dd-82d5da7c3ba0','3c140682-581e-4542-b7c1-20421d337349','af770ec5-b3b8-4fdd-b8c0-282df17c28ab','0befac70-e041-4f8f-bf13-27678621c334',0.9428,0.7022,0,'4dc6bd51be2f314e9290789f44a0b2c1','0befac70__af770ec5'),
 --   ('3fad8a0f-3cf4-42d3-8cb6-8aa9cdab1956','8ff427e4-316b-4695-8b2b-457319e3f3a0','af770ec5-b3b8-4fdd-b8c0-282df17c28ab','0befac70-e041-4f8f-bf13-27678621c334',0.9884,0.847,0,'89d828253c7445008a2343f2899a92fc','0befac70__af770ec5'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 17: f3e9aaa9__fea0ec1d   [T2-MISMA-MARCA]
+-- PAR 17: f3e9aaa9__fea0ec1d   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'MIE-MI-490.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   2 de 7 chunks de 'MIE-MI-480.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=2, PARTIAL=3
 --   cobertura 0.62/0.67 · motivo del representante: empate metadata → más spans únicos (6 vs 4)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('badc4779-fb12-4381-8f25-2d338d46834a','dc7a67a9-c9be-41f1-8205-25b3ddfa9be9','fea0ec1d-2f2d-4b88-9b91-3e41a2234e46','f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1',0.9399,0.8151,0,'8eeea9b3c83793536ae23fa7cd111882','f3e9aaa9__fea0ec1d'),
---   ('85d4dbfd-8aba-4dc0-8811-cb21729ae73a','beac1db0-f76d-40bf-ae9a-59d33f317b21','fea0ec1d-2f2d-4b88-9b91-3e41a2234e46','f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1',1.0,1.0,0,'d49a30c45a023083c0fff6b294662823','f3e9aaa9__fea0ec1d'),
+--   Ground truth de Alberto: MIE-MI-490 = **MMX-10M** y MIE-MI-480 = **MCX-55M** (módulos
+--   distintos). Verificado contra la DB: los chunks ya llevan esos pm; el doc-level dice
+--   'unknown' en los dos → por eso el census los emparejó. Fix doc-level al ticket A3.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 18: 0ef10ac7__7601da55   [T2-MISMA-MARCA]
+-- PAR 18: 0ef10ac7__7601da55   [T2-MISMA-MARCA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'MNDT626.pdf'  (manu='Notifier' pm='SMART 3')
 --   SUPRIME   4 de 18 chunks de 'MNDT625.pdf'  (manu='Notifier' pm='SMART 3')
 --   PRESERVA  UNIQUE=4, PARTIAL=9, COVERED_NO_TWIN=1
 --   cobertura 0.49/0.67 · motivo del representante: empate metadata → más spans únicos (24 vs 16)
+--   ⏸ PREGUNTA ABIERTA de Alberto (¿mismo modelo, revisiones?) — packet §8.6.
+--   NO son revisiones. VERIFICADO en las portadas: MNDT626 = «DETECTORES PARA GAS **TÓXICO**
+--   SMART 3 CC-CD (ST/x)» (MN-DT-626_F, 7 OCTUBRE 2009, MTX2081 rev.5); MNDT625 =
+--   «DETECTORES PARA GAS **EXPLOSIVO** SMART 3 CC-CD (ST/x)» (MN-DT-625_E, 12 JUNIO 2009).
+--   Son las ediciones TÓXICO y EXPLOSIVO del mismo manual: productos distintos (escalas ppm
+--   vs %LIE, gases de calibración distintos). MI PROPUESTA: **RECHAZAR** — confundir las dos
+--   ediciones en una respuesta es un riesgo de seguridad, no una redundancia.
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('86df92b5-c05c-436c-86c2-27c5bd24a43e','b60fbf81-32c3-4cc1-bb13-dd8341c5781b','7601da55-96b9-4991-b97a-0b0ce9b44030','0ef10ac7-fb05-47bd-a85f-de393bbac45e',0.9556,0.8658,0,'6db4573b725d8e47454f5faabf8127dd','0ef10ac7__7601da55'),
 --   ('62cd8227-933e-44a5-9bf7-04efe93a27fe','b56ee4b3-b7d9-49e3-813a-1046951e6ddb','7601da55-96b9-4991-b97a-0b0ce9b44030','0ef10ac7-fb05-47bd-a85f-de393bbac45e',0.9698,0.6789,0,'9801b799b52fd1e7fda84312619e7d44','0ef10ac7__7601da55'),
 --   ('4a98b418-ab93-4bb2-833d-fc78eda133e1','b1ce217d-a3b0-4177-9f0d-73e3fc42f19e','7601da55-96b9-4991-b97a-0b0ce9b44030','0ef10ac7-fb05-47bd-a85f-de393bbac45e',0.9444,0.7955,0,'4f4d693c907b6b056caef6346f5d8180','0ef10ac7__7601da55'),
 --   ('020ff008-608c-4aff-8103-1f88b4809b21','1524abf5-1ac0-4db1-8674-5b5580bead19','7601da55-96b9-4991-b97a-0b0ce9b44030','0ef10ac7-fb05-47bd-a85f-de393bbac45e',0.9658,0.68,0,'29754d329fd93e633aa531997e4f39c4','0ef10ac7__7601da55'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 19: 06887ff1__1d4f6e36   [T2-MISMA-MARCA]
+-- PAR 19: 06887ff1__1d4f6e36   [T2-MISMA-MARCA]   *** ABIERTO — pendiente de tu adjudicación ***
 --   CONSERVA  'MNDT516'  (manu='Notifier' pm='PL4')
 --   SUPRIME   11 de 26 chunks de 'MNDT516_PL4_ESP-PORT'  (manu='Notifier' pm='PL4')
 --   PRESERVA  UNIQUE=9, PARTIAL=5, COVERED_NO_TWIN=1
 --   cobertura 0.36/0.67 · motivo del representante: metadata auto-soportada (3/3 vs 1/3)
+--   ⏸ PREGUNTA ABIERTA de Alberto (propone: quedarse el ES/EN y retirar el ES/PT) — §8.7.
+--   VERIFICADO: los dos son el MISMO manual (pie «MN-DT-516.doc (MT3910.doc) 15/06/2017, 34
+--   páginas») en dos ediciones bilingües: MNDT516 = ES/EN, MNDT516_PL4_ESP-PORT = ES/PT.
+--   La parte ES es materialmente IDÉNTICA (11 chunks TWIN, 6 de ellos con Jaccard 1.000).
+--   Lo 'único' del ES/PT es (a) la traducción PORTUGUESA y (b) prosa de figura distinta —
+--   ningún HECHO exclusivo: el único candidato (diagrama de conexión SMART3→PL4+) EXISTE
+--   también en el ES/EN. MI PROPUESTA: la propuesta de Alberto es SEGURA en contenido, pero
+--   el mecanismo correcto NO es 'superseded' (no hay revisión nueva: misma fecha y doc) sino
+--   `status='retired'`, y choca con la política KEEP-BOTH-LANG del propio census (11 pares).
+--   Alternativa MÁS BARATA y sin pérdida: aprobar las 11 filas TWIN de abajo (retira solo el
+--   ES duplicado y deja el PT servible). Bloque de RETIRO completo, comentado, en §8.7.
 --   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
 --   ('c2b83c20-6042-4d1f-a2a0-0cc16ba252dc','6c841a90-f3b8-46a6-a12b-d3efb4da8d87','1d4f6e36-0582-42e7-b9c8-62339d5a999d','06887ff1-3783-4c29-9f4b-0012facfebb1',1.0,1.0,0,'74ed428f8048884daf3d14093a12bdf2','06887ff1__1d4f6e36'),
 --   ('06d4da66-050d-4f6e-8a76-285da9df0b76','f8b202ef-38f4-483e-9c0e-768145cc16d0','1d4f6e36-0582-42e7-b9c8-62339d5a999d','06887ff1-3783-4c29-9f4b-0012facfebb1',0.9686,0.7277,0,'bdbda5f5ead91d8650e5c58141b8d57b','06887ff1__1d4f6e36'),
@@ -458,56 +570,62 @@ VALUES
 --   ('a68f7c17-1580-453b-91b8-b46ccd75ceab','a7b8773a-c1fc-4b46-9af9-4af5b5a06115','1d4f6e36-0582-42e7-b9c8-62339d5a999d','06887ff1-3783-4c29-9f4b-0012facfebb1',0.9827,0.8796,0,'0f069ce5fd421da6df80d57958518e3f','06887ff1__1d4f6e36'),
 --   ('764e6435-c958-4ad6-ab95-16623974becc','6d8b7b5c-b45b-4075-94ed-edd77212c17c','1d4f6e36-0582-42e7-b9c8-62339d5a999d','06887ff1-3783-4c29-9f4b-0012facfebb1',0.9808,0.9596,0,'bab49bff35ff9c53e4202f930bcf5948','06887ff1__1d4f6e36'),
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 20: 496ef3af__f3e9aaa9   [T2-MISMA-MARCA]
+-- PAR 20: 496ef3af__f3e9aaa9   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'MIE-MI-490.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   2 de 6 chunks de 'MIE-MI-470.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=1, PARTIAL=3
 --   cobertura 0.55/0.66 · motivo del representante: REORIENTADO por consistencia de cluster: el representante del cluster de 3 docs es 'MIE-MI-490.pdf' (metadata 2/3, 6 spans únicos). Original por-par: empate metadata → más spans únicos (6 vs 4)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('1c41c6fc-4c60-48df-870a-2d9bb6899d0b','dc7a67a9-c9be-41f1-8205-25b3ddfa9be9','496ef3af-6599-4f2e-9329-7ab6a3517c3f','f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1',1.0,1.0,0,'d7dd5cb81044d826a1011fe0f1531ff7','496ef3af__f3e9aaa9'),
---   ('4b1d21e2-817b-4ac1-8d48-4d082da173a9','416e6d08-16ad-4794-8afb-19e98b035e84','496ef3af-6599-4f2e-9329-7ab6a3517c3f','f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1',0.989,0.7576,0,'231403091383b7e448900ad09f997eff','496ef3af__f3e9aaa9'),
+--   Ground truth de Alberto: el 2º doc (MIE-MI-470) es **CMX-10RM**, no una variante del 490.
+--   Verificado: chunks 'MMX-10M' (490) vs 'CMX-10RM' (470); doc-level 'unknown' en ambos.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 21: 1e2b058a__4421642f   [T2-MISMA-MARCA]
+-- PAR 21: 1e2b058a__4421642f   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'MNDT710_B.pdf'  (manu='Spectrex' pm='20/20U, 20/20UB')
 --   SUPRIME   6 de 41 chunks de 'MNDT720.pdf'  (manu='Spectrex' pm='20/20L, 20/20LB')
 --   PRESERVA  UNIQUE=14, PARTIAL=21
 --   cobertura 0.56/0.66 · motivo del representante: empate metadata → más spans únicos (36 vs 30)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('c5cda265-afed-447a-881f-21e4ccc39a38','3feb06af-4101-494d-b564-837f22aa5308','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',0.951,0.6667,0,'9272c2688c258d8c4db9dc7b3d4543af','1e2b058a__4421642f'),
---   ('750ece5a-721a-4683-bd9c-bf43d617fbbc','574af291-4586-4994-8d40-137c6ffb712f','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',1.0,0.9355,0,'8243e5e09884f4023fe8951caad45cab','1e2b058a__4421642f'),
---   ('ecbd4102-154e-433e-82aa-a6f92a8315ee','709611a5-3fb7-474b-8383-0becdfbbb535','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',0.9678,0.7467,0,'0b305f133340d00427c93bf34940f866','1e2b058a__4421642f'),
---   ('d3fda059-590f-45f5-851c-cc8058b2bfdf','eee344d5-d329-4520-af6a-9b2460513693','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',1.0,1.0,0,'1018867779ef8ff22b7dc62c66c105fc','1e2b058a__4421642f'),
---   ('5dfb30b6-21bc-4f10-a8f3-b1474a54a0ac','4bf70e81-e1c2-4f46-9b99-72b9dbaebae3','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',0.9446,0.6424,0,'ab91c42921e84967bfb3780808dd5981','1e2b058a__4421642f'),
---   ('ac668909-fb9d-4593-a9c7-5470e8f9aab5','db9dd780-f34e-4186-971a-fa8258a49866','1e2b058a-4951-4d67-b9c9-61e009ccd59f','4421642f-29b2-4cc9-af08-2eb1f393316f',0.984,0.9781,0,'d06047297490f2b63a059f178031660e','1e2b058a__4421642f'),
+--   Ground truth de Alberto: MNDT710_B = **20/20U / 20/20UB** y MNDT720 = 20/20L / 20/20LB
+--   (Spectrex). Aquí la metadata SÍ los distinguía en los dos niveles — el census los
+--   emparejó por plantilla común, no por metadata rota. Es la clase KEEP-BOTH-SERIE que el
+--   discriminador dejó escapar (los pm son cadenas multi-modelo separadas por coma).
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 22: 5e483105__71654eda   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]
+-- PAR 22: 5e483105__71654eda   [T3-CROSS-BRAND-ATRIBUCION-SOSPECHOSA]   *** SUPERSEDED por Alberto — NO es dedup · ver BLOQUE S al final ***
 --   CONSERVA  'MN-DT-951_v7.2'  (manu='Notifier' pm='unknown')
 --   SUPRIME   1 de 57 chunks de 'TG-Honeywell_Usuario'  (manu='Morley' pm='TG-Honeywell')
 --   PRESERVA  UNIQUE=33, PARTIAL=17, COVERED_NO_TWIN=6
 --   cobertura 0.40/0.66 · motivo del representante: metadata auto-soportada (2/3 vs 1/3)
 --   !! POLÍTICAS DIVERGENTES: la literal del spec conservaría 'TG-Honeywell_Usuario' (más spans únicos (61 vs 24))
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('3036bc47-d185-480e-a27f-f6b463b4961b','ff789f7c-1aef-43a3-9c98-5930446b5e33','71654eda-7c94-4aec-9ce3-4310fb254e7e','5e483105-7539-45be-9858-d50ecbdc5cd0',0.9759,0.6412,0,'24ccf2fcc3da55af3428f6f3d70e4230','5e483105__71654eda'),
+--   ⚠ LAS LÍNEAS DE ARRIBA SON LA PROPUESTA DEL CENSUS, con la dirección INVERTIDA
+--     respecto a tu adjudicación (el census conservaba la revisión VIEJA). Traza, no acción.
+--   'TG-Honeywell_Usuario' SUPERSEDE a 'MN-DT-951_v7.2'. VERIFICADO al píxel:
+--     MN-DT-951_v7.2        → portada «MN-DT-951 (Rev.:7.2) · Septiembre 2007» · TG-NOTIFIER
+--     TG-Honeywell_Usuario  → portada «MN-DT-951 (Rev.:7.4) · 06/04/2017»    · TG-HONEYWELL
+--   La fila del census iba en la dirección CONTRARIA → SE CAE. Ver BLOQUE S.
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 23: 29a94dea__30c75a7c   [T2-MISMA-MARCA]
+-- PAR 23: 29a94dea__30c75a7c   [T2-MISMA-MARCA]   *** RECHAZADO por Alberto — PRODUCTOS DISTINTOS ***
 --   CONSERVA  'MIE-MI-431rv2_1.pdf'  (manu='Morley' pm='unknown')
 --   SUPRIME   1 de 8 chunks de 'MIE-MI-450.pdf'  (manu='Morley' pm='unknown')
 --   PRESERVA  UNIQUE=7
 --   cobertura 0.33/0.65 · motivo del representante: empate metadata → más spans únicos (17 vs 7)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('4fa0ce82-f5e4-417c-86b4-90393901464c','582fc396-ab79-4fdb-a3b5-1293251839e5','29a94dea-c2a7-4672-b028-b3e776d1de6d','30c75a7c-36ef-4160-bd76-99d869d7ac77',1.0,1.0,0,'7ca1870985090506e3762414e37b120f','29a94dea__30c75a7c'),
+--   Ground truth de Alberto: MIE-MI-450 es la **IMPRESORA** de las centrales ZXAE/ZXEE.
+--   Verificado al píxel en el corpus: su portada dice «IMPRESORA DE LAZO PERIFÉRICO /
+--   MOD.EXP-060R / MANUAL DE INSTALACIÓN»; MIE-MI-431 es el repetidor ZXr-A / ZXr-P.
+--   Causa: doc-level pm='unknown' en los dos (los chunks sí dicen EXP-060R / ZXR50A-ZXR50P).
+--   (sin filas en este paste)
 -- ────────────────────────────────────────────────────────────────────────────────────────────────
--- PAR 24: af5d5d01__b9c694a3   [T2-MISMA-MARCA]
+-- PAR 24: af5d5d01__b9c694a3   [T2-MISMA-MARCA]   *** KEEP-BOTH por Alberto — doc_type DISTINTO, sin marcas ***
 --   CONSERVA  '00-3280-501-4009-05_r005_2x-a_series_installation_manual_es.pdf'  (manu='Aritech' pm='2X-A')
 --   SUPRIME   5 de 44 chunks de '00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf'  (manu='Aritech' pm='2X-A')
 --   PRESERVA  UNIQUE=16, PARTIAL=16, COVERED_NO_TWIN=7
 --   cobertura 0.20/0.62 · motivo del representante: metadata auto-soportada (3/3 vs 1/3)
---   [ ] APROBAR ESTE PAR  →  descomenta las filas de abajo (quita el '-- ' inicial)
---   ('571d0fe8-25b5-4cfb-8aab-8426fc867437','39e830d7-fb0d-4d5d-a919-85a6deb3e957','b9c694a3-163f-400f-9785-6e34790fb880','af5d5d01-d5a9-48df-9acb-ae4994d19251',0.9956,0.7296,0,'94e49ff8d7b7abb93a996e55a053a2e5','af5d5d01__b9c694a3'),
---   ('e9cd2d16-f197-482c-9655-a9ed72eeb5f7','f83e4e02-7eb8-4eb3-8c8d-74ee89ed4c50','b9c694a3-163f-400f-9785-6e34790fb880','af5d5d01-d5a9-48df-9acb-ae4994d19251',0.9606,0.7051,0,'d501031f1ee538c339b99e8b70568bf1','af5d5d01__b9c694a3'),
---   ('cfc0bf85-19a5-41a8-8d72-e5be636f2ece','760f421a-98dd-4fad-9575-367db7dc4edd','b9c694a3-163f-400f-9785-6e34790fb880','af5d5d01-d5a9-48df-9acb-ae4994d19251',0.9508,0.7445,0,'7d898aa3b47a04dd80e5acf7433f7160','af5d5d01__b9c694a3'),
---   ('6c863a67-bf48-4a69-a7d4-0d3498aa14e0','a33a3d5f-a963-40a5-87d5-e6792599d7e7','b9c694a3-163f-400f-9785-6e34790fb880','af5d5d01-d5a9-48df-9acb-ae4994d19251',0.97,0.8561,0,'38d66de82c4d5277dc09b75ee1b9efc5','af5d5d01__b9c694a3'),
---   ('f33a1620-4fbc-4d9d-824f-e666ebea0623','29b4c8b8-3699-4a7f-98e9-b96d8d379fec','b9c694a3-163f-400f-9785-6e34790fb880','af5d5d01-d5a9-48df-9acb-ae4994d19251',0.9796,0.8939,0,'9f519cabe867f1d646874f2bae1a64fc','af5d5d01__b9c694a3'),
+--   '..._2x-a_series_installation_manual_es' (doc_type='instalacion') vs
+--   '..._2x-a_series_operation_manual_es' (doc_type='operacion') — Aritech 2X-A.
+--   VERIFICADO en `documents`: los dos doc_type ya son correctos y no son NULL →
+--   **no hay fix de doc_type que proponer**.
+--   (sin filas en este paste)
+-- ────────────────────────────────────────────────────────────────────────────────────────────────
   ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000000',
    '00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000000',
    0, 0, 0, '', '__SENTINELA__');
@@ -605,3 +723,249 @@ SELECT (SELECT count(*) FROM _s287_dedup_staging) AS staged,
 --     FROM _s287_metafix_backup_chunks b WHERE c.id = b.id;
 
 COMMIT;   -- <-- para dry-run: ROLLBACK
+
+
+-- ###########################################################################################
+-- #                                                                                          #
+-- #   BLOQUE S — LINAJE DE REVISIÓN (clase SUPERSEDED)  ***COMENTADO ENTERO***               #
+-- #   PAR 9 y PAR 22 · pendiente de tu OK AL MECANISMO, no solo al veredicto.                #
+-- #   TRANSACCIÓN SEPARADA: no forma parte del paste de dedup de arriba.                     #
+-- #                                                                                          #
+-- ###########################################################################################
+--
+-- QUÉ ADJUDICASTE (s287) y qué lo confirma en la FUENTE (sonda read-only 2026-07-30):
+--
+--   PAR 9   MI-DT-951 «Manual de introducción»
+--           VIEJO  681e506b  'MI-DT-951_V7.2'            portada: MI-DT-951 (Rev.:7.2) · Septiembre 2007 · TG-NOTIFIER
+--           NUEVO  a7bf5098  'Tg-Honeywell_Introduccion' portada: MI-DT-951 (Rev.:7.4) · Abril 2009      · TG-HONEYWELL
+--
+--   PAR 22  MN-DT-951 «Manual de usuario»
+--           VIEJO  5e483105  'MN-DT-951_v7.2'            portada: MN-DT-951 (Rev.:7.2) · Septiembre 2007 · TG-NOTIFIER
+--           NUEVO  71654eda  'TG-Honeywell_Usuario'      portada: MN-DT-951 (Rev.:7.4) · 06/04/2017      · TG-HONEYWELL
+--
+--   Mismo número de documento, revisión mayor, y el cambio de marca Notifier→Honeywell que
+--   explica por qué el census los vio como "cross-brand". Es EXACTAMENTE la clase que el gap
+--   #9 del packet declaró que `duplicate_of` NO arregla. Tu adjudicación es la correcta.
+--
+--   CONTEXTO DE FAMILIA (encontrado de paso, read-only): la familia TG-DT-951 tiene TRES
+--   generaciones en el corpus, no dos —
+--     · MIDT951_v5-87 (06c08203) «MI-DT-951 (Rev:5.87) · Mayo 2005»  → 31 chunks
+--     · MNDT951_v5-87 (81534fd9) «MN-DT-951 (Rev:5.87) · Mayo 2005»  → 61 chunks
+--     · MP-DT-951_v7.2 (067598cb) «MP-DT-951 (Rev.:7.2) · Sept 2007» → 89 chunks (manual de
+--       configuración; no tiene pareja 7.4 entre los 24 pares)
+--   Los 4 docs del BLOQUE S tienen HOY `status='active'`, `supersedes_id IS NULL` y
+--   `superseded_by_id IS NULL` (verificado). El linaje del corpus está SIN POBLAR.
+--
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- LO QUE ENCONTRÉ Y CAMBIA LA DECISIÓN (léelo antes de elegir variante)
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+--
+-- (1) `status='superseded'` NO es "marcar una etiqueta": APAGA EL DOC ENTERO en runtime.
+--     `retrieve_chunks` descarta todo chunk cuyo documento padre no esté 'active'
+--     (src/rag/retriever.py:1789-1794 y :2802). Coste medido de apagar los dos viejos:
+--       · PAR 9  → 16 chunks activos dejan de servirse. El census midió que solo el
+--                  **75.4%** de las palabras del viejo están en el nuevo (clases del viejo:
+--                  UNIQUE 5 · PARTIAL 6 · TWIN 4 · COVERED_NO_TWIN 1).
+--       · PAR 22 → 38 chunks activos dejan de servirse, y solo el **66.0%** de sus palabras
+--                  están en el nuevo (UNIQUE 14 · PARTIAL 16 · COVERED_NO_TWIN 8 · TWIN 0).
+--     Es decir: la revisión 7.4 NO contiene todo lo que decía la 7.2. Apagarlas retira
+--     contenido servible que ninguna otra fuente cubre.
+--
+-- (2) HAY HUÉRFANOS (el patrón HP011, ya visto en este repo). Otros chunks apuntan con
+--     `duplicate_of` a chunks de los docs VIEJOS. Si el viejo se apaga, esos chunks siguen
+--     suprimidos y su canónico deja de servirse → el contenido desaparece por completo:
+--       · PAR 9  → 2 punteros entrantes, los dos desde MIDT951_v5-87 (06c08203).
+--       · PAR 22 → 13 punteros entrantes: **10 desde el propio doc NUEVO** (71654eda),
+--                  2 desde MNDT951_v5-87 (81534fd9) y 1 interno.
+--     Los 10 del doc NUEVO son literalmente el defecto que la migración
+--     `supabase/migrations/20260721190847_reconcile_hp011_v04_v07_lifecycle.sql` tuvo que
+--     reparar en HP011 («38 v.07 chunks currently point at v.04 through duplicate_of […]
+--     those links make parts of the authoritative revision unservable»). Cualquier variante
+--     que apague el viejo DEBE des-enlazarlos, o deja 10 trozos de la revisión AUTORITATIVA
+--     sin servir.
+--
+-- (3) Las filas que el census proponía para estos 2 pares iban en la DIRECCIÓN CONTRARIA
+--     (retiraban chunks del doc NUEVO). Están fuera del paste de arriba. Bien cazado.
+--
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+-- TRES VARIANTES. MI RECOMENDACIÓN: **A ahora**, y B solo si decides que la 7.2 no debe
+-- servirse aunque tenga contenido propio. C es el punto medio si quieres además limpiar el
+-- solape del PAR 9 sin perder nada.
+-- ═══════════════════════════════════════════════════════════════════════════════════════════
+
+-- ───────────────────────────────────────────────────────────────────────────────────────────
+-- VARIANTE A (RECOMENDADA) — LINAJE SIN APAGAR NADA
+--   Materializa la relación (`supersedes_id` / `superseded_by_id`) y deja `status='active'`.
+--   Efecto en runtime: **CERO** — el filtro de lifecycle solo mira `status`; `supersedes_id`
+--   y `superseded_by_id` no los lee ningún path de retrieval (verificado: solo aparecen en
+--   migraciones y en el contrato de DOCUMENT_MANAGEMENT).
+--   Por qué es la correcta primero: registra tu ground-truth de forma duradera y reversible,
+--   no pierde ni un chunk, no crea huérfanos, y deja la política de "servir solo la última
+--   revisión" para cuando se decida CON la medida delante (probe de pool + sweep-39).
+--   Es el mismo orden que siguió el repo en s64/DEC-045: primero poblar el linaje, después
+--   consumirlo.
+--
+-- BEGIN;
+-- SET LOCAL lock_timeout = '5s';
+-- SET LOCAL statement_timeout = '30s';
+--
+-- CREATE TABLE IF NOT EXISTS _s287_lineage_backup_documents AS
+-- SELECT id, status, supersedes_id, superseded_by_id, revision, revision_date, now() AS backed_at
+--   FROM documents
+--  WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',
+--               '5e483105-7539-45be-9858-d50ecbdc5cd0','71654eda-7c94-4aec-9ce3-4310fb254e7e');
+--
+-- DO $$
+-- DECLARE m int;
+-- BEGIN
+--   -- pre-estado EXACTO de los 4 docs (si alguno ya tiene linaje, ABORTA)
+--   SELECT count(*) INTO m FROM documents
+--    WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',
+--                 '5e483105-7539-45be-9858-d50ecbdc5cd0','71654eda-7c94-4aec-9ce3-4310fb254e7e')
+--      AND status = 'active' AND supersedes_id IS NULL AND superseded_by_id IS NULL;
+--   IF m <> 4 THEN RAISE EXCEPTION 'linaje: los 4 docs no están en el pre-estado (% de 4) — ABORTA', m; END IF;
+--   -- cardinalidad de chunks (ancla anti-deriva)
+--   SELECT count(*) INTO m FROM chunks_v2 WHERE document_id = '681e506b-daaa-4f78-8336-aa732695962c';
+--   IF m <> 24 THEN RAISE EXCEPTION 'MI-DT-951_V7.2 tiene % chunks, la sonda vio 24 — ABORTA', m; END IF;
+--   SELECT count(*) INTO m FROM chunks_v2 WHERE document_id = 'a7bf5098-6187-4df9-863b-b24d62d0687e';
+--   IF m <> 26 THEN RAISE EXCEPTION 'Tg-Honeywell_Introduccion tiene % chunks, la sonda vio 26 — ABORTA', m; END IF;
+--   SELECT count(*) INTO m FROM chunks_v2 WHERE document_id = '5e483105-7539-45be-9858-d50ecbdc5cd0';
+--   IF m <> 54 THEN RAISE EXCEPTION 'MN-DT-951_v7.2 tiene % chunks, la sonda vio 54 — ABORTA', m; END IF;
+--   SELECT count(*) INTO m FROM chunks_v2 WHERE document_id = '71654eda-7c94-4aec-9ce3-4310fb254e7e';
+--   IF m <> 105 THEN RAISE EXCEPTION 'TG-Honeywell_Usuario tiene % chunks, la sonda vio 105 — ABORTA', m; END IF;
+-- END $$;
+--
+-- -- PAR 9: 7.4 (nuevo) supersede a 7.2 (viejo)
+-- UPDATE documents SET supersedes_id = '681e506b-daaa-4f78-8336-aa732695962c'
+--  WHERE id = 'a7bf5098-6187-4df9-863b-b24d62d0687e' AND supersedes_id IS NULL;
+-- UPDATE documents SET superseded_by_id = 'a7bf5098-6187-4df9-863b-b24d62d0687e'
+--  WHERE id = '681e506b-daaa-4f78-8336-aa732695962c' AND superseded_by_id IS NULL;
+-- -- PAR 22
+-- UPDATE documents SET supersedes_id = '5e483105-7539-45be-9858-d50ecbdc5cd0'
+--  WHERE id = '71654eda-7c94-4aec-9ce3-4310fb254e7e' AND supersedes_id IS NULL;
+-- UPDATE documents SET superseded_by_id = '71654eda-7c94-4aec-9ce3-4310fb254e7e'
+--  WHERE id = '5e483105-7539-45be-9858-d50ecbdc5cd0' AND superseded_by_id IS NULL;
+--
+-- -- OPCIONAL dentro de A (recomendado: la portada da el dato y hoy está NULL en los 4):
+-- -- UPDATE documents SET revision = '7.2', revision_date = DATE '2007-09-01'
+-- --  WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0');
+-- -- UPDATE documents SET revision = '7.4', revision_date = DATE '2009-04-01'
+-- --  WHERE id = 'a7bf5098-6187-4df9-863b-b24d62d0687e';
+-- -- UPDATE documents SET revision = '7.4', revision_date = DATE '2017-04-06'
+-- --  WHERE id = '71654eda-7c94-4aec-9ce3-4310fb254e7e';
+--
+-- DO $$
+-- DECLARE m int;
+-- BEGIN
+--   SELECT count(*) INTO m FROM documents d JOIN documents n ON n.id = d.superseded_by_id
+--    WHERE d.id IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0')
+--      AND n.supersedes_id = d.id AND d.status = 'active' AND n.status = 'active';
+--   IF m <> 2 THEN RAISE EXCEPTION 'linaje incompleto (% de 2 cadenas) — ABORTA', m; END IF;
+-- END $$;
+-- SELECT id, source_pdf_filename, status, supersedes_id, superseded_by_id FROM documents
+--  WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',
+--               '5e483105-7539-45be-9858-d50ecbdc5cd0','71654eda-7c94-4aec-9ce3-4310fb254e7e');
+-- COMMIT;   -- dry-run: ROLLBACK
+--
+-- ROLLBACK post-COMMIT de A:
+--   UPDATE documents d SET status = b.status, supersedes_id = b.supersedes_id,
+--          superseded_by_id = b.superseded_by_id, revision = b.revision, revision_date = b.revision_date
+--     FROM _s287_lineage_backup_documents b WHERE d.id = b.id;
+
+-- ───────────────────────────────────────────────────────────────────────────────────────────
+-- VARIANTE B — LIFECYCLE COMPLETO (apaga las revisiones 7.2) · SOLO si aceptas el coste
+--   Añade a A: `status='superseded'` en los dos viejos + la REPARACIÓN DE HUÉRFANOS.
+--   COSTE DECLARADO (medido arriba): 16 + 38 = **54 chunks activos dejan de servirse**, de los
+--   cuales el census marca 19 UNIQUE y 22 PARTIAL — contenido que la 7.4 NO tiene.
+--   NO lo recomiendo sin medir antes (probe de pool + sweep-39). Si aun así lo quieres, la
+--   reparación de huérfanos NO es opcional.
+--
+-- BEGIN;
+-- SET LOCAL lock_timeout = '5s';
+-- SET LOCAL statement_timeout = '30s';
+-- -- (ejecuta ANTES el bloque de guards + backup de la VARIANTE A, sin su COMMIT)
+--
+-- CREATE TABLE IF NOT EXISTS _s287_lineage_backup_orphans AS
+-- SELECT id, document_id, duplicate_of, now() AS backed_at FROM chunks_v2
+--  WHERE id IN ('3095f0b9-7e44-4832-a104-f2b00e6064ed','3d2a6a21-fe1f-4240-9635-ad9ccd953ffe',
+--               '91fae1ce-4642-4355-9f22-d0035b254682','efddc1d4-2dd2-43f4-a0f2-56cf4028359b',
+--               '561fc173-29c4-42c1-a888-7b07ce921912','02bab8bb-3b05-438a-b5e0-d11cf0b10217',
+--               '509c2245-2d2a-47ad-bc45-b23c5be7571c','7bcf5bcf-31ef-488b-a524-205c15cbe97b',
+--               'fa221fa4-fc77-41bf-99d4-acda355cb012','b97709fe-8917-40e7-b99a-4d3c24e15f34',
+--               '16ad0101-ca46-4f26-ae36-e84fca7049d6','8d1a19c8-5180-4d43-aee7-a0d76261a349',
+--               '7e65dd25-014a-4785-a6fc-83cbbeed1d9c','963a45ef-d423-4048-a691-8c2eab3bee6f');
+--
+-- DO $$
+-- DECLARE m int;
+-- BEGIN
+--   -- la topología de huérfanos es EXACTAMENTE la que vio la sonda (2 + 13, con 1 interno)
+--   SELECT count(*) INTO m FROM chunks_v2 c JOIN chunks_v2 t ON t.id = c.duplicate_of
+--    WHERE t.document_id = '681e506b-daaa-4f78-8336-aa732695962c' AND c.document_id <> t.document_id;
+--   IF m <> 2 THEN RAISE EXCEPTION 'PAR 9: % punteros entrantes, la sonda vio 2 — ABORTA', m; END IF;
+--   SELECT count(*) INTO m FROM chunks_v2 c JOIN chunks_v2 t ON t.id = c.duplicate_of
+--    WHERE t.document_id = '5e483105-7539-45be-9858-d50ecbdc5cd0' AND c.document_id <> t.document_id;
+--   IF m <> 12 THEN RAISE EXCEPTION 'PAR 22: % punteros entrantes externos, la sonda vio 12 — ABORTA', m; END IF;
+-- END $$;
+--
+-- UPDATE documents SET status = 'superseded'
+--  WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0')
+--    AND status = 'active';
+--
+-- -- REPARACIÓN DE HUÉRFANOS (patrón HP011): todo chunk de un doc que SIGUE activo y que
+-- -- apuntaba a un chunk del doc apagado se des-enlaza para volver a servirse.
+-- UPDATE chunks_v2 c SET duplicate_of = NULL
+--   FROM chunks_v2 t
+--  WHERE t.id = c.duplicate_of
+--    AND t.document_id IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0')
+--    AND c.document_id NOT IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0');
+--
+-- DO $$
+-- DECLARE m int;
+-- BEGIN
+--   SELECT count(*) INTO m FROM chunks_v2 c JOIN chunks_v2 t ON t.id = c.duplicate_of
+--    JOIN documents d ON d.id = t.document_id
+--   WHERE d.status <> 'active' AND c.document_id <> t.document_id;
+--   IF m > 0 THEN RAISE EXCEPTION 'quedan % huérfanos apuntando a docs no-activos — ABORTA', m; END IF;
+--   SELECT count(*) INTO m FROM documents
+--    WHERE id IN ('681e506b-daaa-4f78-8336-aa732695962c','5e483105-7539-45be-9858-d50ecbdc5cd0')
+--      AND status = 'superseded' AND superseded_by_id IS NOT NULL;
+--   IF m <> 2 THEN RAISE EXCEPTION 'lifecycle incompleto (% de 2) — ABORTA', m; END IF;
+-- END $$;
+-- COMMIT;   -- dry-run: ROLLBACK
+--
+-- ROLLBACK post-COMMIT de B: el de A +
+--   UPDATE chunks_v2 c SET duplicate_of = b.duplicate_of
+--     FROM _s287_lineage_backup_orphans b WHERE c.id = b.id;
+
+-- ───────────────────────────────────────────────────────────────────────────────────────────
+-- VARIANTE C — A + dedup POR CHUNK de lo que la 7.4 SÍ contiene (sin apagar nada)
+--   Retira solo los chunks del viejo que pasan el gate span-diff contra el nuevo. Medido:
+--     · PAR 9  → 4 chunks TWIN (los 4 con guards re-pre-validados en vivo, filas abajo).
+--     · PAR 22 → **0 chunks**: el doc viejo no tiene ni un TWIN contra el nuevo (el manual de
+--                usuario se reescribió entre 2007 y 2017) → en el PAR 22 no hay nada que dedup
+--                pueda hacer. Eso mismo es la prueba de que `duplicate_of` no es el mecanismo.
+--   Es el complemento honesto de A: concentra la cita en la revisión nueva donde el contenido
+--   es demostrablemente el mismo, y deja servible todo lo demás de la 7.2.
+--   Para usarlo: pega estas 4 filas en el VALUES del paste de arriba (staged pasaría a 16).
+--
+--   ('20d02359-0f14-46bf-a627-555ef9e87dd5','d5ddafd4-63dd-4224-9352-0cae9da6bc0d','681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',0.9858,0.7992,0,'9bf547237b992e5cd4877df3f59132eb','681e506b__a7bf5098'),   -- idx3 p5 424w
+--   ('1d39689b-c7f8-4e9d-a250-de6ef3e51371','ca200e02-ec5e-404b-beaf-d69e7acd23d8','681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',0.9882,0.808,0,'ddadb44a2a0141bd11b454a66a42b8d8','681e506b__a7bf5098'),   -- idx13 p21 423w
+--   ('25faa43c-c7cf-44de-b64a-a98cbc6797e6','9fd06c80-a360-41e5-92ac-088caf9828a9','681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',1.0,0.6783,0,'16cabf5e7d474e3408434e1c6c76795a','681e506b__a7bf5098'),   -- idx14 p22 104w
+--   ('fe53736d-c51e-4567-a2f5-3bb2e0d55097','4dcf2f0a-e87b-466d-9cd1-e86764570b3a','681e506b-daaa-4f78-8336-aa732695962c','a7bf5098-6187-4df9-863b-b24d62d0687e',0.9833,0.917,0,'9e7232fac8af40f77febf722be1dee55','681e506b__a7bf5098'),   -- idx21 p32 239w
+--
+--   OJO en C: el chunk 1d39689b del viejo es HOY el canónico de ca200e02 (del doc nuevo) —
+--   la relación está INVERTIDA en la DB. Marcarlo sin más crearía cadena y el guard 3e
+--   abortaría. Antes hay que des-enlazar ca200e02 (mismo des-enlace HP011 de la variante B,
+--   acotado a ese chunk). Está declarado aquí para que no sea una sorpresa en el paste.
+
+-- ───────────────────────────────────────────────────────────────────────────────────────────
+-- GAPS DECLARADOS DEL BLOQUE S (los tres, de entrada)
+--  1. Ninguna variante está MEDIDA en pool/eval. A tiene efecto-cero por construcción, así que
+--     no necesita gate; B y C sí lo necesitan (probe de composición + sweep-39 de no-regresión).
+--  2. El linaje de la familia queda a MEDIAS: las generaciones v5.87 (MIDT951/MNDT951) y el
+--     MP-DT-951_v7.2 siguen sin cadena. Poblarlos es el mismo patrón, pero NO están adjudicados
+--     por ti → no los toco. Van al ticket A3.
+--  3. `document_family` de los 4 docs es el filename (MI-DT-951_V7.2, Tg-Honeywell_Introduccion…),
+--     así que la familia NO agrupa las revisiones. El linaje por FK funciona igual, pero
+--     cualquier consumo futuro por `document_family` no verá la relación. Es el defecto
+--     filename-naive ya conocido (DECISIONS.md:909) — no lo arreglo aquí.
