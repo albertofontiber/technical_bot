@@ -1,4 +1,14 @@
-# s288b — LEVER ONTOLOGÍA de la lane hyq (v2 post-dúo r1 — REDISEÑO: adopción, no autoría)
+# s288b — LEVER ONTOLOGÍA de la lane hyq (v3 SELLADO; r2 Sol focused 4/4 incorporados)
+
+**r2 (Sol focused sobre v2, 1 crítico + 3 medios, 0 FP)**: (i) el par (v4,v5) solo es
+transferible CON su tercera pieza — v5 desactiva la alineación query-card porque rerank_pool
+impone la barrera `_query_card`; la lane hyq DEBE adoptar la barrera equivalente (≥1 card con
+query_term_hits, umbral espejo del de rerank_pool) o relajaría el gate también para los
+arquetipos preexistentes; (ii) la tabla §2 se regenera con los NOMBRES EXACTOS del runtime
+(la abreviada dispararía el STOP literal siempre); (iii) LANE_PAIRS necesita EXTRACTOR
+(v4-retrieval = lista de objetos, el test espera mapping → TypeError sin él) + introspección
+del puntero real — trabajo declarado, no «verde por construcción»; (iv) el gate-0 se RE-EJECUTA
+con receipt sellado (JSON con queries+resultados committeado), no narrado.
 
 **v2 reescribe v1 tras el dúo r1** (Sol 5 hallazgos [2 críticos] + Fable 7 [2 críticos] — CONVERGEN
 en el crítico: v1 omitía el prior-art in-repo). El lever YA NO autoriza arquetipos: **la ontología
@@ -38,11 +48,13 @@ ambos ACTIVOS + sha real (post P-A) + surrogates hyq: 48 filas (16 con padre viv
 | cat023 | program_delay | None | PIERDE entrada — patrón conjuntivo anti-overtrigger de v4, deliberado; cat023 no es diana de campaña; ACEPTADO y declarado |
 
 ## 3. BUILD (mínimo; nada de configs)
-1. `doc_scoped_hyq_coverage`: puntero de facets → v4 · puntero de cards → v5 (constantes del
-   módulo; el resto de la lane F2 intacto).
+1. `doc_scoped_hyq_coverage`: puntero de facets → v4 · puntero de cards → v5 + **barrera
+   query-card espejo de rerank_pool** (r2-i: parent servible exige ≥1 card con query_term_hits
+   al umbral que rerank_pool usa — leer su valor exacto y espejarlo; rechazo trazado
+   `no_query_aligned_card`).
 2. **LANE_PAIRS del test de paridad EXTENDIDO con el par de ESTA lane** (v4-retrieval →
-   v5-cards) — Fable-3: era requisito ausente incluso ANTES de este lever (v5 cubre los 9 →
-   verde por construcción; el test lo CONTRACTUALIZA).
+   v5-cards) **+ el extractor que r2-iii exige** (v4 declara lista de objetos; el test espera
+   mapping) + introspección del puntero real del módulo (no hardcodear el path dos veces).
 3. **Trazabilidad del descarte sin-card** (Fable-4): `if not cards: continue` → rejection
    `no_matching_card` en `parents_rejected` (cierra el falso-«corpus», feedback_corpus_gap).
 4. **Fix del probe F3.2** (Fable-4, bug confirmado en receipts: `card_excerpt_heads: [""]`):
@@ -78,6 +90,9 @@ cat023 rescue (declarado aceptado) · surrogates nuevos (H5).
    filtra en servidor; si la selección se queda corta se verá en el probe (no en silencio).
 
 ## 7. PROTOCOLO
-r1 HECHO ambos lados (tally regla-C). Siguiente: **Sol focused FRESCO sobre ESTE v2** (patrón
-A-core) → build §3 → gates §4 → tally final → DEC/digest. Stop-lines habituales; held-out
-embargado.
+r1 (ambos lados) + r2 (Sol focused) HECHOS — 16/16 confirmados 0 FP; ESTE v3 = spec sellado.
+Build §3 (con: tabla §2 regenerada a nombres runtime EXACTOS pre-gates + gate-0 re-ejecutado
+con receipt JSON sellado) → gates §4 (el gate 1 compara contra la tabla REGENERADA; añadir
+gate 2b: sweep de CARDS sobre los 39 — ningún parent servido sin query-aligned card, el
+control de falsos-appends que r2-i señaló) → tally final → DEC/digest. Stop-lines habituales;
+held-out embargado.
