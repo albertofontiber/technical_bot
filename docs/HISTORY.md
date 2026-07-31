@@ -2328,3 +2328,51 @@ todos los gates en verde. cat010 — el retrieval-miss que A-core dejó atribuid
 entra y sirve sus dos manuales con los valores de alimentación IS en las quotes. El outcome
 espera a A3 (lane ON). Acumulado adversarial de la sesión s288+s288b: 34/34 hallazgos
 confirmados, 0 falsos positivos.
+
+## s288c (31 jul 2026) — investigación completa de la pieza 3 de etapa 2: la cuota muere ×2 en dúo y el diagnóstico $0 encuentra los bugs reales en las puertas existentes
+
+**Arranque — recuperación de estado**: el cierre s288b NO estaba pusheado (19 commits solo en
+`C:\dev\technical_bot`) → push; el brief de cat017 del agente Opus sí llegó (sobrevivió al cierre,
+escrito 07:26) y una segunda pasada independiente lo corroboró con regla-C + addenda. PR #189
+abierta (51 commits s287→s288b) → CI ROJO por bug Linux-only del instrumento
+(`seam_config_assets` hacía stat() de docstrings como rutas; Windows traga winerror 123, Linux
+revienta ENAMETOOLONG) → fix quirúrgico 5 líneas → verde → Alberto mergeó. **Corrección honesta
+post-merge**: el PR body decía «todo default-off» pero P1 corpus-aware va VIVA sin flag
+(incondicional bajo replace del perfil C1) → desplegada en Railway; su re-medición pendiente se
+cerró con el mapa re-anclado (abajo). QA-30 v4 reenviado como fichero (el link epitaxy de la
+sesión anterior murió con ella).
+
+**Investigación cat017#4 (cuota-por-faceta, GO 31-jul)**:
+- Recon ×3 pasadas + dúo r1 (Sol 8 + sub-agente 5 = 13/13 confirmados, 0 FP): fork lane-vecinos
+  CERRADO en código (rank_key 5-claves + max_anchors schema 1..4 + cap per-lane 2); cuota v1 no
+  build-ready (fork-A circular — el arquetipo `commissioning_setup` se autoró contra el
+  chunk-respuesta del gold —, cohorte stale, gate sin aislamiento causal, contrato-93 violado).
+- Probe serve-rate judge-free committeado (`scripts/s288c_cat017_serve_rate_probe.py`): 0/6 por
+  la ruta harness exacta → MISS-ESTABLE; exclusión SISTEMÁTICA de selección (0/8 acumulado).
+- Mapa re-anclado (10 golds P1, N=2): OK estables 22→26 · retrieval 4→0 (hp010#0/#1 convierten;
+  hp009#0 baja a síntesis; hp013#1 flippy) · hp018#1/#4 confirmados OK · única regresión estable
+  = hp002#4 (clase SEGURIDAD) — P1 concentró su pool (50→32-34) y el singleton cayó a rank 21-23.
+  **Etapa 2 en HEAD = {cat017#4, hp002#4}, mismo mecanismo.**
+- Re-spec content-keyed sobre need-groups → dúo r2 (Sol 9 + sub-agente 9 = 18/18, 0 FP): NO-GO —
+  F1/F2 críticos: la «autoría ciega» estaba contaminada EN LA ORDEN (los descriptores de clase
+  eran el gold abstraído; la query de hp002 no tiene vocabulario de mantenimiento) y el predicado
+  cobertura-de-grupo ≠ predicado del fallo (la selección de cat017 YA contiene sub-intención-2).
+  Regla-C contra mí ×2: bandas de estabilidad sin recibo committeado (scratchpad) + fail-open mal
+  atribuido (es el canal vector PRINCIPAL, retriever.py:1638).
+- Diagnóstico $0 de las puertas existentes (la respuesta final): AMBOS misses mueren por
+  orden/fallback en lanes YA construidas. cat017: `document_local` dispara, `b7633e98` elegible y
+  atesta True en contrafactual — muere en `bucket[0]`-único + aborto sin fallback
+  (post_rerank_coverage.py:1118/:1377-82). hp002: singleton identificado (`5b6a3a19` p.121 §9.3);
+  pasa TODOS los gates de `obligation_warning_reserve` y pierde por selector primer-match-por-pool
+  (rerank_pool_coverage.py:535-585; el presupuesto se lo lleva una fila de changelog). Bonus:
+  matcher de attestation token-exacto sin stemming (lemas de config vs flexiones reales) →
+  TECH_DEBT #59; F7 (grupos existentes para hp002) refutado por medición 0/26.
+
+**Estado al cierre**: NADA cableado (2 diseños muertos en revisión, 0 build desperdiciado); ruta
+adjudicada = diseño de los 2 fixes quirúrgicos → dúo r3 → build flag-off → gates (sweep-39;
+por-fila sobre `339f06e0`; dirigido pareado ~$2-4) + pieza observabilidad (salud/fail-open por
+canal en traza — `_channel` ya se estampa) + recibos committeados de estabilidad de pool.
+Hallazgo transversal: pool del reranker VENTANA-DEPENDIENTE (bandas 1/12-14/44 en ~2h).
+Dúo acumulado sesión: 31/31 confirmados, 0 FP (tallies completados en el log, r1+r2).
+Gasto ≈ $20. Traza: DEC-167 + brief v1 (5 addendas) + re-spec (consolidación r2) +
+`s288c_gate_diagnosis_v1.md`.

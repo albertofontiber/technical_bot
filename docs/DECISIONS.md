@@ -3820,3 +3820,49 @@ preexistentes bajo el mínimo v4 de su arquetipo — gap conocido, se re-evalúa
 cat009 entra por arquetipo pero sin scope de resolver; hp013 entra y sirve 0 (sin surrogate
 PWR-R) — coherente con lo pre-registrado. (4) cat010#0 SIGUE rerank-class en el mapa DEC-163
 hasta medir outcome: este lever abre la vía de cobertura, no re-clasifica el miss.
+
+## DEC-167 — s288c (31 jul): pieza 3 de etapa 2 investigada a fondo — la cuota-por-faceta MUERE ×2 en dúo; los misses reales son bugs de orden/fallback en puertas EXISTENTES; ruta = 2 fixes quirúrgicos
+
+**Decisión.** (a) La cuota-por-faceta queda **CERRADA como familia de lever nuevo** para etapa 2
+(dos diseños consecutivos — v1 slots + v2 content-keyed — tumbados en dúo con 31/31 hallazgos
+confirmados 0 FP entre r1 y r2). (b) La ruta viva para {cat017#4, hp002#4} = **fixes quirúrgicos
+en las lanes existentes**: (i) fallback de iteración del bucket en `_facet_gate_and_select` /
+`_append_facet_complement` (hoy `bucket[0]`-único + aborto si no atesta,
+post_rerank_coverage.py:1118/:1377-82); (ii) selección puntuada en `obligation_warning_reserve_v1`
+(hoy primer-match por pool-rank, rerank_pool_coverage.py:535-585). Ambos MEDIO-en-zona-de-dolor
+⇒ dúo r3 obligatorio ANTES de build. (c) Pieza de observabilidad adelantada (ambos dúos lo
+pidieron): exponer salud/fail-open por canal en traza (`_channel` ya se estampa por fila; el
+fail-open silencioso es el del canal vector PRINCIPAL) + recibos de estabilidad committeados.
+
+**Motivo / evidencia (toda con recibo).**
+- Probe serve-rate judge-free (`scripts/s288c_cat017_serve_rate_probe.py` + json, mandato dúo r1):
+  0/6 ruta harness exacta ⇒ exclusión SISTEMÁTICA de selección (0/8 con reps canónicas).
+- Mapa re-anclado 10 golds P1 (N=2): OK 22→26 · retr 4→0 · hp018#1/#4 OK · regresión única
+  hp002#4 (SEGURIDAD) ⇒ etapa 2 HEAD = {cat017#4, hp002#4}, mecanismo común (monopolio de
+  selección within-doc).
+- Diagnóstico $0 (`evals/s288c_gate_diagnosis_v1.md` + probe reejecutable): cat017 = la lane
+  document_local dispara y `b7633e98` atesta True en contrafactual (muere por orden+no-fallback);
+  hp002 = singleton `5b6a3a19` p.121 pasa TODOS los gates de la reserva y pierde por orden (el
+  presupuesto 1 se lo lleva una fila de changelog con la palabra «Advertencia»). Reproducción
+  byte-exacta de appends HEAD en 2 ventanas de pool ⇒ inmune a la inestabilidad.
+- Dúo r1 (13/13): lane-vecinos CERRADA (rank_key 5-claves; max_anchors schema 1..4; cap per-lane
+  2; sin señal no-contaminada). Dúo r2 (18/18): la «autoría ciega» del re-spec estaba contaminada
+  EN LA ORDEN (F1, verificado: query hp002 sin léxico de mantenimiento) y el predicado
+  cobertura-de-grupo ≠ predicado del fallo (F2, verificado: sub-intención-2 ya servida en cat017).
+- Tallies completos en `evals/adversarial_review_log.jsonl` (ts 08:37 r1 · 22:40 r2).
+
+**Alternativas descartadas.** Cuota v1 slots (8-Sol r1) · re-spec content-keyed (F1/F2 r2) ·
+lane-vecinos presupuesto/orden (H4 r1: 4 topes duros) · re-tune reranker (settled DEC-092) ·
+ampliar K (cobrado DEC-092b) · residual-declarado-sin-diagnóstico (contradecía upstream-first
+con un hecho de SEGURIDAD en el suelo).
+
+**Colaterales de la sesión.** (1) CI fix Linux-only del instrumento (docstrings-como-rutas,
+ENAMETOOLONG; commit 9a9736b). (2) P1 a prod SIN flag vía merge #189 — el PR body decía «todo
+default-off» (inexacto, corrección declarada en sesión); re-medición cubierta por el mapa
+re-anclado; bvg K=3 de tocados queda opcional. (3) Matcher de attestation sin stemming (lemas vs
+flexiones) = TECH_DEBT #59; refutó F7 por medición (0/26 grupos atestan el singleton). (4) Pool
+del reranker ventana-dependiente (bandas 1/12-14/44) — la banda 12-14/44 sin recibo committeado
+(lección #56 de feedback_my_bias): se re-emite committeada dentro de la pieza de observabilidad.
+(5) Instrumento: hueco `l1_killed` con sup no-vacío nunca re-adjudicado
+(factlevel_assessment.py:731) — sin efecto en estas 2 dianas (kills verificados correctos),
+anotado para la próxima revisión del instrumento.

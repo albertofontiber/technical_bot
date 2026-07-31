@@ -1,0 +1,2234 @@
+instrument: v3.1
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.1
+  git_commit: da2273a
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 013d7b94d57e
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 10
+n_golds_scored: 10
+aggregate_hist:
+  OK: 28
+  synthesis-miss: 2
+  rerank-miss: 2
+  retrieval-miss: 1
+  corpus-gap: 0
+  meta-ref: 1
+gold_juez_axis:
+- qid: hp002
+  verdict: '?'
+  n_classified: 5
+  n_ok: 4
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp009
+  verdict: '?'
+  n_classified: 1
+  n_ok: 0
+  primary_blocker: synthesis-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp010
+  verdict: '?'
+  n_classified: 3
+  n_ok: 3
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp013
+  verdict: '?'
+  n_classified: 2
+  n_ok: 1
+  primary_blocker: retrieval-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp018
+  verdict: '?'
+  n_classified: 5
+  n_ok: 5
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp019
+  verdict: '?'
+  n_classified: 1
+  n_ok: 1
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: hp020
+  verdict: '?'
+  n_classified: 4
+  n_ok: 4
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat007
+  verdict: '?'
+  n_classified: 5
+  n_ok: 5
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat017
+  verdict: '?'
+  n_classified: 5
+  n_ok: 3
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat020
+  verdict: '?'
+  n_classified: 2
+  n_ok: 2
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 6
+n_via_coverage_append: 1
+n_append_view_truncated: 0
+n_coverage_appended_rows: 14
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements: []
+per_gold:
+- qid: hp002
+  question: El detector ASD535 de Detnov está dando una alarma intermitente de flujo
+    bajo. ¿Cuál es la causa más probable y cómo se diagnostica?
+  answer: '# ASD535 — Alarma intermitente de flujo bajo: causa y diagnóstico
+
+
+    La causa más probable es una **obstrucción en el conducto de aspiración** (código
+    de fallo **G30/001**), que provoca que el flujo de aire caiga por debajo del **80
+    %** del valor nominal registrado en el reset inicial [F2][F8].
+
+
+    ---
+
+
+    ## Lógica del fallo
+
+
+    El ASD535 monitoriza el flujo de aire comparando el valor real con el valor nominal
+    (100 %) registrado en el último reset inicial [F1]. Cuando el flujo cae por debajo
+    del **80 %** (variación > −20 %), el sistema:
+
+
+    1. Hace parpadear el LED **«Fault»** inmediatamente [F7]
+
+    2. Transcurridos **300 s** de tiempo de retardo (LS-Ü), dispara el aviso de fallo
+    de flujo de aire [F1][F2]
+
+
+    Esto es lo que genera la alarma intermitente que describes.
+
+
+    ---
+
+
+    ## Diagnóstico paso a paso
+
+
+    **1. Leer el valor de flujo actual**
+
+    - Accede a la lectura de flujo mediante la posición de conmutador **V** (sección
+    7.6.1 del manual) [F2]
+
+    - Valor < 100 % → apunta a obstrucción [F2]
+
+    - Valor > 100 % → apuntaría a rotura de tubo (no es tu caso)
+
+
+    **2. Inspeccionar el conducto de aspiración (código G30/001)**
+
+    Según la tabla de fallos [F8], comprobar:
+
+    - Orificios de aspiración: verificar si están tapados o sucios
+
+    - Salida de aire en el ASD: comprobar que no esté obstruida
+
+    - Caja de filtro / unidad de filtrado: inspeccionar y limpiar si procede
+
+
+    **3. Inspeccionar y limpiar el sensor de flujo de aire**
+
+    El propio código G30/001 indica también inspeccionar y limpiar el sensor de flujo
+    de aire [F8]. Si tras la limpieza el sensor sigue dando lecturas erróneas, verificar
+    código **G30/004** (parámetros LS-Ü no válidos), que puede indicar sensor defectuoso
+    → sustituir [F8].
+
+
+    **4. Verificar el sensor de flujo de aire (código G30/008)**
+
+    Si el sensor no está enchufado, el cable de conexión está defectuoso, o el sensor
+    es inexistente/averiado, se generará el código **G30/008** [F8]:
+
+    - Comprobar que el enchufe A del sensor está correctamente conectado al AMB 35
+    [F6]
+
+    - Comprobar el cable de conexión
+
+
+    **5. Verificar la tensión de alimentación**
+
+    Medir en bornes **1 y 2** (y 3 y 4 si hay alimentación redundante) [F10]:
+
+    - Funcionamiento a **12 V CC**: rango válido **12,3 – 13,8 V CC** [F10]
+
+    - Funcionamiento a **24 V CC**: rango válido **21,6 – 27,6 V CC** [F10]
+
+    - Una tensión fuera de rango puede provocar funcionamiento defectuoso [F10]
+
+
+    **6. Tras resolver la causa: ejecutar nuevo reset inicial**
+
+    Una vez corregida la obstrucción o sustituido el componente defectuoso, es **imprescindible
+    realizar un nuevo reset inicial** para que el sistema registre los nuevos valores
+    nominales de flujo [F1][F6].
+
+
+    ---
+
+
+    ## ⚠ Advertencia sobre la configuración de la ventana
+
+
+    Si la ventana de monitorización está configurada por debajo de **±20 %** con un
+    tiempo de retardo ≤ 300 s, el riesgo de avisos de fallo erróneos aumenta significativamente
+    [F5]. Cualquier modificación de estos parámetros por encima de ±20 % o del tiempo
+    de retardo implica incumplimiento de la norma **EN 54-20** y requiere consulta
+    previa con el fabricante [F1][F5].
+
+
+    ---
+
+
+    **Fuente:** ASD535, Descripción técnica, T 131 192 h es (sin revisión registrada
+    en los fragmentos)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "Al conectar el nuevo AMB 35, debe prestarse atención a la correcta asignación
+    de los bornes de conexión y del enchufe de cable plano (véase para ello también
+    la Fig." [F6]
+
+    - "Para ello, deberán presionarse las pestañas de agarre C del sensor de flujo
+    de aire en dirección al fondo de la caja hasta que la lengüeta de desbloqueo quede
+    encajada por encima del sensor 🡺 **Atención: no ejercer presión sobre los cables
+    de conexión del sensor de flujo de aire.**" [F6]
+
+    - Nota: el manual también indica: "En las posiciones de conmutador A11 a C32,
+    cualquier variación de este valor que supere el ±20 % – es decir, por debajo del
+    80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará
+    un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300
+    s de la LS-Ü." [F1]'
+  family_resolved: true
+  gold_families:
+  - ASD535
+  n_non_anchorable: 1
+  pool_n: 32
+  served_n: 12
+  topk_n: 10
+  appended_n: 2
+  topk_ids:
+  - 414ce99c-0dec-478c-b504-009f14631804
+  - b5804921-836c-49ca-8316-cecae6da409b
+  - aa698b5e-646d-45e2-8d49-696e6015d587
+  - 16695901-dbd3-4106-a316-2b5bfb8f0554
+  - 51bc5368-bd68-4feb-97e8-5c7023df6530
+  - 6f4bd53d-4d1b-4c99-a70b-20e58884204f
+  - 6d5a807f-3a42-401b-96a4-83c51d796114
+  - 9410f72f-fff5-494b-bdf5-a0a177e7f02e
+  - d0a14450-289c-44c3-92a0-b63f5477a76b
+  - 390494ab-5306-4616-a3f0-ec575d6633e9
+  served_ids:
+  - 414ce99c-0dec-478c-b504-009f14631804
+  - b5804921-836c-49ca-8316-cecae6da409b
+  - aa698b5e-646d-45e2-8d49-696e6015d587
+  - 16695901-dbd3-4106-a316-2b5bfb8f0554
+  - 51bc5368-bd68-4feb-97e8-5c7023df6530
+  - 6f4bd53d-4d1b-4c99-a70b-20e58884204f
+  - 6d5a807f-3a42-401b-96a4-83c51d796114
+  - 9410f72f-fff5-494b-bdf5-a0a177e7f02e
+  - d0a14450-289c-44c3-92a0-b63f5477a76b
+  - 390494ab-5306-4616-a3f0-ec575d6633e9
+  - 1d1ca159-1155-4f8b-9fc7-bde755133e02
+  - 339f06e0-ac30-47d9-b22e-c1baf25e7240
+  appended_ids:
+  - 1d1ca159-1155-4f8b-9fc7-bde755133e02
+  - 339f06e0-ac30-47d9-b22e-c1baf25e7240
+  appended_lane:
+    1d1ca159-1155-4f8b-9fc7-bde755133e02: same_blob_structural_neighbor_coverage_v1
+    41bcd390-1e14-4853-b03f-03612f07bf70: same_blob_structural_neighbor_coverage_v1
+    339f06e0-ac30-47d9-b22e-c1baf25e7240: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 4
+    synthesis-miss: 0
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp002#0:fallo flujo de aire
+    valor: fallo flujo de aire
+    texto: El ASD 535 no da una "alarma de flujo bajo" como tal, sino un aviso "fallo
+      flujo de aire" cuando el flujo varia respecto al nominal (reset inicial con
+      conducto limpio = 100 %) mas alla de la ventana de monitorizacion (por defecto
+      +-20 %, EN 54-20)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 866064ba-47a7-4f48-be44-a87329758c7e
+    - aa698b5e-646d-45e2-8d49-696e6015d587
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp002#1:80 %
+    valor: 80 %
+    texto: 'Causa mas probable de flujo BAJO (por debajo del 80 % / valor < 100 %):
+      obstruccion del conducto de aspiracion (orificios sucios/obstruidos, filtro
+      sucio, trampa de polvo/separador); un valor por encima del rango (> 100 %) apunta
+      a rotura de tubo/fugas'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp002#2:300 s
+    valor: 300 s
+    texto: El aviso «fallo flujo de aire» se dispara una vez transcurrido el tiempo
+      de retardo de 300 s de la LS-Ü (retardo ajustable que descarta turbulencias)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 5
+    n_support_raw: 5
+    n_support_served: 4
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp002#3:7.6.1
+    valor: 7.6.1
+    texto: 'Diagnostico: leer el valor actual del flujo de aire (cap 7.6.1) -> posicion
+      de conmutador V, V01 (conducto I) y V02 (conducto II); interpretacion: valor
+      < 100 % apunta a obstruccion, > 100 % apunta a rotura de tubo'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp002#4:None
+    valor: null
+    texto: 'Gate de seguridad previo al mantenimiento/diagnostico: bloquear o desconectar
+      el control de incendios, la alerta remota y las zonas de extincion en la CDI
+      de orden superior (Indicacion que ENCABEZA el checklist de mantenimiento, para
+      evitar disparos durante los trabajos)'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    best_pool_rank: 21
+    submotivo: pos-buried
+    clase: rerank-miss
+- qid: hp009
+  question: ¿Cuál es la resistencia de fin de línea recomendada para los lazos de
+    la central Morley ZXe?
+  answer: 'La resistencia de fin de línea (RFL) para los **circuitos de sirenas**
+    de la ZXe es de **6,8 KΩ (6800 Ω), 0,5 W mínimo** [F9][F1].
+
+
+    Debe instalarse en el final de cada circuito de sirena para la supervisión ante
+    cortocircuito y circuito abierto [F9].
+
+
+    **Detalles adicionales sobre la RFL de sirenas:**
+
+
+    - Se instala entre el terminal **+** y **−** de la última sirena del circuito
+    [F1]
+
+    - Si no hay sirenas conectadas en la salida, la RFL se conecta directamente en
+    los terminales de la central [F1]
+
+    - No se deben realizar ramales en la línea de sirenas, ya que la supervisión se
+    realiza en la línea directa hasta la RFL; los ramales paralelos no quedan supervisados
+    [F2]
+
+
+    ---
+
+
+    **Nota sobre otros lazos de la ZXe:**
+
+
+    El lazo **RS-485** (periférico/red de centrales) usa una RFL diferente: **150
+    Ω, 0,5 W mínimo**, colocada en los extremos libres del principio y final de la
+    cadena [F8].
+
+
+    El **lazo analógico** de la ZXe no utiliza resistencia de fin de línea; su supervisión
+    se realiza mediante la comunicación digital a dos hilos [F9].
+
+
+    ---
+
+
+    Fuente: Manual de Instalación Paneles de Incendio ZX2e / ZX5e (Documento No. MIE-MI-530,
+    Revisión: 001); Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión
+    registrada)
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "Es imprescindible comprobar que no hay conexión entre los terminales A y B
+    y que el lazo entra a un lado del conector y sale por el otro o termina en la
+    resistencia RFL de 150 Ohmios." (MIE-MI-310, p. 22) [F4]
+
+    - "Debe instalarse siempre una resistencia RFL entre + y - de la última sirena
+    para controlar la apertura o cierre de la línea de sirenas." (MIE-MI-310, p. 18)
+    [F1]'
+  family_resolved: true
+  gold_families:
+  - ZXAE/ZXEE
+  - ZXE
+  n_non_anchorable: 0
+  pool_n: 35
+  served_n: 10
+  topk_n: 10
+  appended_n: 0
+  topk_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 2e39e371-a009-4dd0-8e61-da9ce65b169a
+  - ebe26de8-6468-40f4-b15b-4ef84c51464f
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - 127f77e4-644f-45ae-8f99-e0924fd0ef14
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - 8f81c44f-6fd8-4350-ac13-bfe360af0e85
+  served_ids:
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 2e39e371-a009-4dd0-8e61-da9ce65b169a
+  - ebe26de8-6468-40f4-b15b-4ef84c51464f
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - 127f77e4-644f-45ae-8f99-e0924fd0ef14
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - 8f81c44f-6fd8-4350-ac13-bfe360af0e85
+  appended_ids: []
+  appended_lane: {}
+  coverage_status: no_append
+  coverage_degraded: false
+  hist:
+    OK: 0
+    synthesis-miss: 1
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp009#0:Retorno
+    valor: Retorno
+    texto: 'El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE
+      CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales
+      de Retorno (+/-) del mismo conector de lazo; NO se cierra con una resistencia
+      de fin de linea'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 8f81c44f-6fd8-4350-ac13-bfe360af0e85
+    support_l1_override: null
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+- qid: hp010
+  question: En la Morley DXc, ¿cómo se añade un nuevo detector al lazo tras la puesta
+    en marcha inicial?
+  answer: "# Añadir un nuevo detector al lazo en la Morley DXc\n\nEl procedimiento\
+    \ consiste en conectar físicamente el detector al lazo y luego ejecutar una **Autobúsqueda**\
+    \ desde el menú de programación para que la central lo reconozca.\n\n---\n\n##\
+    \ Paso 1 — Acceder al Nivel 3 (programación)\n\n1. Desde el menú de Nivel 2, pulsa\
+    \ la opción **'7: Programacion/Niv3'** [F2].\n2. Introduce la **clave de acceso\
+    \ de Nivel 3** y pulsa **⊙** [F2].\n3. Cuando aparezca el mensaje **\"Memoria\
+    \ Bloqueada / Presione OK para desbloquear\"**, pulsa **⊙** de nuevo [F2].\n \
+    \  > ⚠️ El puente **J5** sobre el conector de PC debe estar puesto para poder\
+    \ desbloquear la memoria [F2].\n4. Aparecerá el menú de programación [F2]:\n\n\
+    ```\n[Programar]\n1:Op. Generales    2:Lazo\n3:Entradas Placa   4:Salidas Placa\n\
+    ...\n```\n\n---\n\n## Paso 2 — Acceder al menú de Lazo y ejecutar Autobúsqueda\n\
+    \n1. Pulsa **'2'** para entrar en el menú de **Lazo** [F1].\n2. Pulsa **'2'**\
+    \ para seleccionar la función **'Autobusqueda'** [F1].\n3. Si la central tiene\
+    \ más de un lazo, introduce el **número de lazo** correspondiente y pulsa **⊙**\
+    \ [F1].\n4. Confirma que deseas realizar la autobúsqueda pulsando **⊙** [F1].\n\
+    5. Espera a que el proceso finalice (se muestra una barra de progreso en pantalla)\
+    \ [F1].\n\n> ⚠️ **Importante:** Si previamente se realizó un cambio de protocolo,\
+    \ espera **dos minutos** antes de ejecutar la autobúsqueda [F1].\n\n---\n\n##\
+    \ Paso 3 — Verificar el resultado\n\nAl finalizar, la pantalla mostrará un resumen\
+    \ con el total de equipos y las diferencias detectadas [F1]:\n\n```\n[Lazo]  \
+    \                Total: XX\nNuevos: X    Elimin.:X  Cambiad:X\nION: X  OPT: X\
+    \  TMP: X  MLT: X\nPUL: X  MON: X  SIR: X  REL: X  OTROS: X\n```\n\n- Comprueba\
+    \ que el campo **\"Nuevos\"** refleja el número de detectores añadidos [F1].\n\
+    - Verifica que el **total de equipos** y los **tipos** mostrados corresponden\
+    \ con los equipos físicamente instalados [F1].\n- Si la central tiene más de un\
+    \ lazo, usa las teclas **▲ / ▼** para ver los resultados de otros lazos [F1].\n\
+    \n---\n\n## Paso 4 — Salir\n\n- Pulsa **⊞** para abandonar la pantalla de resultados\
+    \ y regresar al menú de Lazo [F1].\n\n---\n\n**Nota:** Por defecto, el sistema\
+    \ asigna la **zona 1** a cualquier equipo nuevo detectado [F5]. Si necesitas reasignar\
+    \ el nuevo detector a otra zona, deberás hacerlo desde la configuración de equipos\
+    \ del lazo (menú **'2: Lazo'** → **'1: Confg. Equipos'**) [F1].\n\n---\n\nFuente:\
+    \ DXc_Manual de configuracion (sin revisión registrada)\n\n---\n\U0001F4CB **Obligaciones\
+    \ de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"PUL: 4 MON:\
+    \ 0 SIR: 2 REL: 1 OTROS : 2\" (DXc_Manual de configuracion, p. 48) [F1] declara\
+    \ 1 OTROS y la enumeración servida lista 5 (DXc_Manual de configuracion, p. 48)\
+    \ [F1]."
+  family_resolved: true
+  gold_families:
+  - DXC
+  n_non_anchorable: 1
+  pool_n: 27
+  served_n: 11
+  topk_n: 10
+  appended_n: 1
+  topk_ids:
+  - 64cecd3f-204f-456e-91cc-e563280b1b99
+  - 155a90fe-8c3f-484e-a617-7637fe29b547
+  - ef03d328-0f06-48a2-b797-83f164a650e2
+  - 0b544170-848c-4cf4-af24-54d702a6e736
+  - a56f52e7-e723-4394-b460-b594ce898f04
+  - da3f9792-75d9-4007-a226-b0bb837200bb
+  - cdc3ecad-a1ad-4825-838c-3a83a7002a3d
+  - 5ce9dcd0-f36e-4ceb-92b9-32e3fb646a71
+  - b2f2292c-8f55-4e7b-9d90-eca0b9e5f5d8
+  - 5f6d908f-3ddb-45aa-8a71-32143d203c5d
+  served_ids:
+  - 64cecd3f-204f-456e-91cc-e563280b1b99
+  - 155a90fe-8c3f-484e-a617-7637fe29b547
+  - ef03d328-0f06-48a2-b797-83f164a650e2
+  - 0b544170-848c-4cf4-af24-54d702a6e736
+  - a56f52e7-e723-4394-b460-b594ce898f04
+  - da3f9792-75d9-4007-a226-b0bb837200bb
+  - cdc3ecad-a1ad-4825-838c-3a83a7002a3d
+  - 5ce9dcd0-f36e-4ceb-92b9-32e3fb646a71
+  - b2f2292c-8f55-4e7b-9d90-eca0b9e5f5d8
+  - 5f6d908f-3ddb-45aa-8a71-32143d203c5d
+  - d4ea4891-9d97-4698-a388-25c66fbc4756
+  appended_ids:
+  - d4ea4891-9d97-4698-a388-25c66fbc4756
+  appended_lane:
+    d4ea4891-9d97-4698-a388-25c66fbc4756: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp010#0:Autobusqueda
+    valor: Autobusqueda
+    texto: Para anadir un equipo nuevo al lazo tras la puesta en marcha se ejecuta
+      una AUTOBUSQUEDA de equipos (la central detecta automaticamente los equipos
+      del lazo; no se anaden de uno en uno manualmente)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - ef03d328-0f06-48a2-b797-83f164a650e2
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp010#1:Nivel 3
+    valor: Nivel 3
+    texto: 'Procedimiento: acceder al Nivel 3 (clave de acceso) y desbloquear la memoria;
+      en el menu de Lazos pulsar la tecla ''2'' para ''Autobusqueda'', seleccionar
+      el numero de lazo y confirmar la autobusqueda de todos los equipos del lazo'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp010#2:nuevos, eliminados y modificados
+    valor: nuevos, eliminados y modificados
+    texto: Al finalizar, la central muestra un RESUMEN con los equipos nuevos, eliminados
+      y modificados, y el total por tipo; comprobar que coincide con los equipos instalados
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: hp013
+  question: ¿Cómo se cambia la batería tampón de la Detnov ADW535 sin perder configuración?
+  answer: 'El procedimiento de sustitución de la batería de litio **no está documentado
+    paso a paso** en los fragmentos disponibles. Sin embargo, sí hay información relevante
+    que te afecta directamente:
+
+
+    ---
+
+
+    ## Lo que SÍ confirman los fragmentos
+
+
+    **Sobre la configuración y su almacenamiento:**
+
+
+    - Las configuraciones específicas del sistema se guardan en una **EEPROM** [F12],
+    no en la batería. Esto significa que los parámetros programados **no dependen
+    de la batería para su retención**.
+
+    - La batería de litio está ubicada en el **Main Board LMB 35** [F6][F8].
+
+    - Su función principal está asociada al **módulo de reloj RTC** [F8].
+
+
+    **Sobre el fallo de batería:**
+
+
+    - El código de fallo **G80 / 008** indica "Fallo reloj" y sus causas son: la cinta
+    aislante de la batería de litio aún no retirada, el reloj no ajustado, o batería
+    de litio defectuosa → sustituir [F10].
+
+    - Tras sustituir la batería, deberás **ajustar el reloj** (fecha/hora) desde «ADW
+    Config» [F6][F10].
+
+
+    **Sobre el reset de hardware al reconectar:**
+
+
+    - Si se interrumpe la tensión de alimentación momentáneamente durante el proceso,
+    se producirá un **reset de hardware**, que provoca un disparo momentáneo del relé
+    de fallo de aproximadamente **1 s** [F3].
+
+    - Los parámetros programados con anterioridad **se mantienen** tras un reset de
+    hardware [F3].
+
+    - ⚠️ Es **imprescindible desconectar previamente los controles de incendios y
+    las alertas remotas** de la CDI de orden superior antes de realizar trabajos de
+    mantenimiento [F3].
+
+
+    **Sobre el reset inicial:**
+
+
+    - La sustitución del **Main Board LMB 35** obliga a realizar un nuevo **reset
+    inicial** [F1][F2]. Si solo cambias la batería sin sustituir el LMB 35 completo,
+    los fragmentos no indican que sea necesario un reset inicial.
+
+
+    ---
+
+
+    ## Limitación importante
+
+
+    El manual **no describe el procedimiento paso a paso de extracción e inserción
+    de la batería de litio** en los fragmentos disponibles. Para el procedimiento
+    físico exacto (tipo de batería, forma de extracción del soporte), consulta el
+    manual físico completo del ADW535 o contacta con el soporte técnico de Securiton/Detnov.
+
+
+    ---
+
+
+    Fuente: ADW535, Descripción técnica, T 140 358 e es (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "* Para la puesta en funcionamiento, así como después de realizar modificaciones
+    en el tubo sensor (longitud, reparaciones) es **obligatorio llevar a cabo** un
+    reset inicial con la caja del ADW abierta." [F2]'
+  family_resolved: true
+  gold_families:
+  - ADW535
+  n_non_anchorable: 0
+  pool_n: 29
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - d6a698c3-2813-48ba-9b21-aba426be1cbe
+  - 3f794ca0-bef7-42cc-a94e-2dfb93797b04
+  - cfaecf00-911d-4c9f-b902-edb626814094
+  - d51349a4-0038-43f3-be15-47a8c7f1a917
+  - 018cecbc-f9cd-417d-9167-363e880d62c4
+  - a53e527d-3b07-4c6e-8d0f-a5dd7a5e0adc
+  - 83b87bb1-107a-4574-895c-58fc69a0b93d
+  - af577289-5d7f-4dfc-9187-8a3aca92d40d
+  - 295b747a-3d35-4807-97fc-d00642985d93
+  - 95492b48-8ecb-4348-9a70-b28b53d344d9
+  served_ids:
+  - d6a698c3-2813-48ba-9b21-aba426be1cbe
+  - 3f794ca0-bef7-42cc-a94e-2dfb93797b04
+  - cfaecf00-911d-4c9f-b902-edb626814094
+  - d51349a4-0038-43f3-be15-47a8c7f1a917
+  - 018cecbc-f9cd-417d-9167-363e880d62c4
+  - a53e527d-3b07-4c6e-8d0f-a5dd7a5e0adc
+  - 83b87bb1-107a-4574-895c-58fc69a0b93d
+  - af577289-5d7f-4dfc-9187-8a3aca92d40d
+  - 295b747a-3d35-4807-97fc-d00642985d93
+  - 95492b48-8ecb-4348-9a70-b28b53d344d9
+  - 84e7ff38-d5c5-4551-8a78-7e7329c513ec
+  - dfe7d132-b879-43e9-9cdb-b1e1c7d6992d
+  - 4dd6c20a-3074-450e-bddb-179fabe263d0
+  appended_ids:
+  - 84e7ff38-d5c5-4551-8a78-7e7329c513ec
+  - dfe7d132-b879-43e9-9cdb-b1e1c7d6992d
+  - 4dd6c20a-3074-450e-bddb-179fabe263d0
+  appended_lane:
+    84e7ff38-d5c5-4551-8a78-7e7329c513ec: same_blob_structural_neighbor_coverage_v1
+    dfe7d132-b879-43e9-9cdb-b1e1c7d6992d: same_blob_structural_neighbor_coverage_v1
+    4dd6c20a-3074-450e-bddb-179fabe263d0: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 1
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 1
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp013#0:EEPROM
+    valor: EEPROM
+    texto: La configuracion especifica del sistema se almacena en una EEPROM (memoria
+      NO volatil); el firmware en Flash PROM -> la configuracion se CONSERVA aunque
+      se cambie la bateria
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - af577289-5d7f-4dfc-9187-8a3aca92d40d
+    support_l1_override: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp013#1:PWR-R
+    valor: PWR-R
+    texto: El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada
+      de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redundante,
+      NO una bateria tampon a bordo. La unica bateria es de LITIO, en la placa LMB
+      35, para el reloj RTC
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: false
+    corpus_check: lexical
+    best_corpus_score: 0.643
+    submotivo: within-doc
+    clase: retrieval-miss
+- qid: hp018
+  question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
+    Morley ZXe?
+  answer: '## Conexionado de sirenas convencionales en las salidas de sirena de la
+    ZXe
+
+
+    ⚠️ Conexionado de las sirenas: la fuente citada muestra este detalle en un DIAGRAMA
+    que no puede transcribirse con fiabilidad a pasos de texto. Antes de cablear,
+    consulta la figura del manual citado en esta respuesta (respeta la resistencia
+    final de línea y la polaridad exactas que muestra el diagrama).
+
+
+    ---
+
+
+    ### Datos eléctricos clave
+
+
+    - **Corriente máxima por circuito:** 1 A [F2][F11]
+
+    - **RFL:** 6.800 Ω, 0,5 W mínimo [F2][F11]
+
+    - **Longitud máxima de cable recomendada:** no superior a 1 km (por encima, la
+    capacitancia e inductancia pueden afectar al funcionamiento) [F3]
+
+    - **Sección mínima de cable:** no inferior a 1,5 mm² [F2]
+
+
+    ---
+
+
+    ### Terminales físicos en placa
+
+
+    - **ZX2e:** terminales etiquetados **A+ A− B+ B−** en el bloque de sirenas [F4]
+
+    - **ZX5e:** terminales **A− A+ B− B+ C− C+ D− D+** en el bloque **TB7** [F4]
+
+
+    Para ver la ubicación exacta de los terminales en la placa, consulta la **Figura
+    13** (ZX2e) y la **Figura 14** (ZX5e) del manual [F4].
+
+
+    ---
+
+
+    ### Procedimiento de conexionado
+
+
+    1. **Conecta las sirenas en cadena** desde los terminales de salida de la central,
+    respetando la polaridad (+ y −) en cada sirena [F3].
+
+
+    2. **Sirenas con polaridad:** conéctalas directamente respetando + y − [F1].
+
+
+    3. **Dispositivos sin polaridad (campanas, bobinas):** instala un **diodo de polarización**
+    entre el terminal + y uno de los terminales de alimentación del dispositivo, para
+    evitar consumo durante la supervisión [F2][F4].
+
+
+    4. **Instala la RFL (6.800 Ω / 0,5 W mínimo) entre + y − de la última sirena**
+    del circuito, al final de la cadena [F2][F11].
+
+
+    5. **Si no hay ninguna sirena conectada** en una salida, instala la RFL directamente
+    en los terminales de la central para esa salida [F2].
+
+
+    6. **No realices ramales paralelos:** la supervisión se realiza en la línea directa
+    hasta la RFL; los ramales no quedan supervisados [F1].
+
+
+    7. **No enrolles el cable en los terminales:** corta y empalma las conexiones
+    adecuadamente para mantener la supervisión de la línea [F3].
+
+
+    ---
+
+
+    ### Principio de supervisión
+
+
+    El circuito se supervisa ante **cortocircuito y circuito abierto** [F11]. La corriente
+    de supervisión circula en **sentido inverso** al de activación (pequeña tensión
+    con polaridad inversa en reposo). Al dispararse la salida, la corriente circula
+    en sentido normal [F2].
+
+
+    ---
+
+
+    > ⚠️ **Verifica el consumo total de la central** con todas las sirenas activadas
+    para no exceder el límite de corriente total del sistema [F2].
+
+
+    Para el esquema visual del circuito completo, consulta la **Figura 15 – Circuito
+    de sirenas convencionales** del manual de instalación [F3].
+
+
+    ---
+
+
+    **Fuente:** Manual de Instalación Paneles de Incendio ZX2e / ZX5e, Documento No.
+    MIE-MI-530, Revisión: 001 [F3][F4][F11]; Manual de Instalación ZXAE/ZXEE, DOC.MIE-MI-310,
+    sin revisión registrada [F1][F2]
+
+
+    ---
+
+    📖 **Obligaciones de evidencia del manual:**
+
+    - "Cada sirena deberá tener un diodo integrado, para impedir el consumo en polarización
+    inversa (supervisión)." (MIE-MI-530rv001, p. 21) [F4]
+
+    - "Todas las salidas de sirena quedan configuradas por defecto para sonar de forma
+    contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1."
+    (MIE-MP-310, p. 38) [F6]'
+  family_resolved: true
+  gold_families:
+  - ZXE
+  n_non_anchorable: 2
+  pool_n: 42
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 72fc4c53-f507-4e67-9192-ebc68b94be78
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 2cd2ba66-db10-4770-b142-04b572826fe8
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - c7398da6-c2d2-4506-9408-b01362906730
+  served_ids:
+  - 35f4421a-d039-4672-9884-5540ab42a788
+  - 692718af-8d13-4e2f-80df-90d22dd832ec
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 72fc4c53-f507-4e67-9192-ebc68b94be78
+  - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+  - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - 2cd2ba66-db10-4770-b142-04b572826fe8
+  - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+  - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+  - c7398da6-c2d2-4506-9408-b01362906730
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - 485b970c-2c3d-40c8-9fc2-91ce5cff62f1
+  appended_ids:
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
+  - 485b970c-2c3d-40c8-9fc2-91ce5cff62f1
+  appended_lane:
+    90d51dac-bd0b-4051-b414-ced0fe6e33bb: same_blob_structural_neighbor_coverage_v1
+    d79a07b8-745f-4c62-8355-d0cee6fde1db: same_blob_structural_neighbor_coverage_v1
+    485b970c-2c3d-40c8-9fc2-91ce5cff62f1: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 5
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp018#0:4 circuitos
+    valor: 4 circuitos
+    texto: 'La ZX5e dispone de 4 circuitos/salidas de sirena de placa (la ZX2e, 2:
+      Sirenas A y B); supervisados ante cortocircuito y circuito abierto, limitados
+      en corriente'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 4
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#1:6K8
+    valor: 6K8
+    texto: Resistencia de fin de linea (RFL) = 6,8 kOhm (6K8), 0,5 W minimo, en el
+      final de cada circuito de sirena (en la ultima sirena) para la supervision
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 4
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#2:diodo
+    valor: diodo
+    texto: Cada sirena debe llevar un diodo integrado; el circuito se polariza en
+      inverso en reposo (supervision) y cambia a polarizacion normal al dispararse;
+      los dispositivos no polarizados requieren anadir un diodo en cada uno
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#3:Sirenas A,B,C,D
+    valor: Sirenas A,B,C,D
+    texto: La conexion se hace en el bloque de terminales de circuitos de sirena de
+      la placa base (Figura 13 ZX2e / Figura 14 ZX5e), respetando la polaridad +/-
+      de cada salida (A/B/C/D)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
+    - 4ec32bc7-289e-45a6-992b-f9a06dd93500
+    - 692718af-8d13-4e2f-80df-90d22dd832ec
+    - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: hp018#4:1 A
+    valor: 1 A
+    texto: Carga maxima 1 A por circuito/salida de sirena
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 4
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: true
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    conveyed_yes: 5
+    clase: OK
+- qid: hp019
+  question: ¿Cuál es el rango de temperatura de funcionamiento del detector de aspiración
+    ASD535 (Securiton, distribuido por Detnov)?
+  answer: 'El rango de temperatura de funcionamiento del **ASD 535** es el siguiente
+    [F1]:
+
+
+    **Caja del detector:**
+
+    - Rango estándar: **–30 °C hasta +60 °C** (para certificación UL, máximo +40 °C)
+
+    - Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C**
+
+
+    **Conducto de aspiración:**
+
+    - Rango estándar: **–30 °C hasta +60 °C**
+
+    - Según estándar australiano AS 1603.8: **–30 °C hasta +55 °C**
+
+
+    **Restricción adicional importante:**
+
+    - La fluctuación de temperatura máxima permitida durante el funcionamiento (tanto
+    en la caja del detector como en el conducto de aspiración) es de **20 °C** [F1].
+
+    - En entornos con oscilaciones térmicas superiores a 20 °C, pueden ser necesarios
+    ajustes especiales (ventana de flujo de aire más grande, mayor tiempo de retardo,
+    etc.) [F5][F6].
+
+
+    **Temperatura de almacenamiento:**
+
+    - Caja del detector (sin condensación): **–30 °C hasta +70 °C** [F1]
+
+
+    **Notas adicionales:**
+
+    - Para uso en almacenes de ultracongelación, el rango de temperatura restringido
+    es **–30 °C hasta 0 °C** [F3].
+
+    - Es posible acordar con el fabricante rangos de temperatura inferiores o superiores
+    al estándar. La instalación en rango de condensación solo puede llevarse a cabo
+    previa consulta con el fabricante [F2].
+
+    - En recintos con temperatura ambiente superior a **50 °C**, puede ser necesario
+    instalar tramos de refrigeración en el conducto de aspiración [F5].
+
+
+    ---
+
+
+    Fuente: ASD535_TD_T131192es_h (sin revisión registrada)
+
+
+    ---
+
+    ⚠️ **Información adicional del manual:**
+
+    - "Es imprescindible garantizar el retorno de aire a la zona con riesgo de explosión
+    (recinto vigilado)." [F5]
+
+    - "* Los límites restringidos del sistema en relación con las longitudes máximas
+    de tubería y el número máximo de orificios de aspiración.
+
+    * El uso de puntos de aspiración con calefacción y su programación con el software
+    de configuración «ASD Config».
+
+    * El rango restringido de temperatura (–30 °C hasta 0 °C)" [F3]
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "* Después de modificar el número de revoluciones del ventilador, será **obligatorio**
+    realizar un nuevo reset inicial (mantener un tiempo de espera de al menos 5 min)."
+    (ASD535_TD_T131192es_h, p. 24) [F10]
+
+    - "* Los orificios de aspiración de ambas tuberías y de la caja del detector deben
+    encontrarse en la misma zona climática (presión y temperatura) (posible retorno
+    del aire aspirado a la otra zona climática)." (ASD535_TD_T131192es_h, p. 61) [F5]'
+  family_resolved: true
+  gold_families:
+  - ASD535
+  n_non_anchorable: 0
+  pool_n: 50
+  served_n: 10
+  topk_n: 10
+  appended_n: 0
+  topk_ids:
+  - 99908a8c-aa47-4d92-aba4-17d0188e9f6c
+  - 79bc7788-b128-4abc-beea-6317e4d06993
+  - 59e5bb92-5469-42e7-a754-ba40b8af6fe6
+  - fd0706a4-d70b-4c09-ae68-3e308c178d35
+  - 070085b8-435f-4187-bd33-ce432ac03db6
+  - 11f6d1c1-7cdd-43b8-8d78-7e656a681724
+  - 4a198acf-560c-4e91-ab65-c443c3e7dec0
+  - 6877a6a3-91d1-4791-9316-a6b670183387
+  - b8374360-c565-4581-80f0-18680705242f
+  - 4c23fc9c-78f9-4be8-919d-0750b203ef8c
+  served_ids:
+  - 99908a8c-aa47-4d92-aba4-17d0188e9f6c
+  - 79bc7788-b128-4abc-beea-6317e4d06993
+  - 59e5bb92-5469-42e7-a754-ba40b8af6fe6
+  - fd0706a4-d70b-4c09-ae68-3e308c178d35
+  - 070085b8-435f-4187-bd33-ce432ac03db6
+  - 11f6d1c1-7cdd-43b8-8d78-7e656a681724
+  - 4a198acf-560c-4e91-ab65-c443c3e7dec0
+  - 6877a6a3-91d1-4791-9316-a6b670183387
+  - b8374360-c565-4581-80f0-18680705242f
+  - 4c23fc9c-78f9-4be8-919d-0750b203ef8c
+  appended_ids: []
+  appended_lane: {}
+  coverage_status: no_append
+  coverage_degraded: false
+  hist:
+    OK: 1
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp019#0:-30 a +60
+    valor: -30 a +60
+    texto: 'Rango de temperatura de funcionamiento (caja del detector y conducto de
+      aspiracion): -30 a +60 °C'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: hp020
+  question: En la Notifier INSPIRE, ¿cómo se configuran las contraseñas de nivel 2
+    y nivel 3?
+  answer: "# Configuración de contraseñas Nivel 2 y Nivel 3 — INSPIRE E10/E15\n\n\
+    ## Contraseña de fábrica (Nivel 2)\n\nEl código de acceso configurado de fábrica\
+    \ para el **Nivel 2** es **\"22222222\"** [F4]. Se recomienda cambiarlo por uno\
+    \ exclusivo [F4].\n\nLos códigos tienen un mínimo de **4 dígitos** y un máximo\
+    \ de **8 dígitos** [F1][F2][F4].\n\n---\n\n## Cambio de contraseña de Nivel 2\
+    \ (desde sesión Nivel 2)\n\nProcedimiento según el manual de operación [F2]:\n\
+    \n1. Selecciona el icono del menú ① y selecciona **\"Configuración\"** ②. Inicia\
+    \ sesión como usuario de **nivel de acceso 2**.\n2. Selecciona la opción **\"\
+    Cambio del código de acceso\"** ③.\n3. Asegúrate de que **Nivel de Acceso 2**\
+    \ ④ esté seleccionado y que el cursor parpadee ⑤.\n4. Puedes ver la entrada del\
+    \ código haciendo clic en el **icono del ojo** ⑥.\n5. Introduce el nuevo código\
+    \ de acceso (entre 4 y 8 caracteres) con el teclado ⑦.\n6. Confirma seleccionando\
+    \ el símbolo **✓** ⑧.\n7. Repite los pasos 3 a 6 para confirmar el código introducido.\n\
+    \n---\n\n## Cambio de contraseña de Nivel 2 y/o Nivel 3 (desde sesión Nivel 3)\n\
+    \nProcedimiento según el manual de puesta en marcha [F1]:\n\n> Si estás en nivel\
+    \ de acceso 3, puedes cambiar el código de acceso del **nivel 2 o del nivel 3**\
+    \ [F1].\n\n1. Selecciona el icono del menú ① y selecciona **\"Ajustes\"** ②. Inicia\
+    \ sesión como usuario de **nivel de acceso 3**.\n2. Selecciona la opción **\"\
+    Cambio del código de acceso\"** ③.\n3. Asegúrate de que el **Nivel de Acceso 2\
+    \ o 3** ④ esté seleccionado y que el cursor parpadee ⑤.\n4. Puedes ver la entrada\
+    \ del código haciendo clic en el **icono del ojo** ⑥.\n5. Introduce el nuevo código\
+    \ de acceso (entre 4 y 8 caracteres) con el teclado ⑦.\n6. Confirma seleccionando\
+    \ el símbolo **✓** ⑧.\n7. Repite los pasos 3 a 6 para confirmar el código introducido.\n\
+    8. Observa el mensaje **\"Cambio de código de acceso satisfactorio\"** y selecciona\
+    \ **Aceptar** [F1].\n9. Sincroniza el programa con la central y realiza una **copia\
+    \ de seguridad del cambio en la nube** [F1].\n\n---\n\n## Notas de seguridad\n\
+    \n- Si el Nivel 2 no se usa durante **5 minutos**, la central cierra sesión automáticamente\
+    \ y vuelve al **nivel de acceso 1** [F4].\n- Asegúrate de que los códigos de acceso\
+    \ se mantienen seguros y solo los conocen usuarios autorizados [F4].\n- El código\
+    \ de acceso (PIN) de nivel 2/3 debe tener entre **4 y 8 caracteres** como práctica\
+    \ de ciberseguridad recomendada [F3].\n\n---\n\nFuentes:\n- HOP-138-8ES issue\
+    \ 6_01-2026_Co (sin revisión registrada) [F1]\n- HOP-338-9ES issue 4_01-2026_Op\
+    \ (sin revisión registrada) [F2][F4]\n- 4188-1122-ES issue 4_04-2025_Cyb (sin\
+    \ revisión registrada) [F3]\n\n---\n\U0001F4CB **Información adicional del manual:**\n\
+    - Nota: el manual también indica: \"Se recomienda cambiar la contraseña del código\
+    \ de acceso al nivel de acceso 2/3 contraseña a uno exclusivo que tenga entre\
+    \ 4 y 8 dígitos.\" [F1] · \"- Menu icon ① leading to \"Configuraciones\"\n- \"\
+    Configuraciones\" screen showing \"Configuración del sistema, red, datos y hora,\
+    \ programa de mantenimiento, etc\" ②\n- Arrow pointing to \"Cambio de contraseña\"\
+    \ option ③\n- \"Introduzca nueva contraseña\" dialog box with:\n  - \"Acceso Nivel\
+    \ 2\" dropdown ④\n  - Password input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\"\
+    \ text with eye icon ⑥\n  - Numeric keypad showing numbers 1-9, 0, backspace icon,\
+    \ and checkmark icon ⑧\n  - Backspace arrow ⑦]\" [F1]\n\n---\n\U0001F4D6 **Obligaciones\
+    \ de evidencia del manual:**\n- \"* El programa de configuración de CLSS y la\
+    \ Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas\
+    \ localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb,\
+    \ p. 9) [F7]"
+  family_resolved: true
+  gold_families:
+  - INSPIRE E10/E15
+  n_non_anchorable: 2
+  pool_n: 37
+  served_n: 11
+  topk_n: 10
+  appended_n: 1
+  topk_ids:
+  - 1e38f728-ce6a-4753-b24f-46c9106d8c6a
+  - ce6e37f4-5a28-4510-99ca-07a490624e02
+  - f4915639-2e22-4461-8255-abc8ad5fef8f
+  - 93e8cc33-6534-4c6d-b15c-0ff7cee8e7bd
+  - 51880726-5654-4bf3-87ef-44558a3bcd78
+  - b7633e98-b011-4035-9548-a564c71e70ac
+  - 6843a293-65bc-4963-b81a-1741ba15940b
+  - 62807d13-a208-4d47-b49e-da4990f4ca63
+  - 6200d7ad-66d0-4d53-b326-0dae136feca9
+  - 5b3bcbde-fe7f-40e7-81e0-2f74468b49f8
+  served_ids:
+  - 1e38f728-ce6a-4753-b24f-46c9106d8c6a
+  - ce6e37f4-5a28-4510-99ca-07a490624e02
+  - f4915639-2e22-4461-8255-abc8ad5fef8f
+  - 93e8cc33-6534-4c6d-b15c-0ff7cee8e7bd
+  - 51880726-5654-4bf3-87ef-44558a3bcd78
+  - b7633e98-b011-4035-9548-a564c71e70ac
+  - 6843a293-65bc-4963-b81a-1741ba15940b
+  - 62807d13-a208-4d47-b49e-da4990f4ca63
+  - 6200d7ad-66d0-4d53-b326-0dae136feca9
+  - 5b3bcbde-fe7f-40e7-81e0-2f74468b49f8
+  - b894fdeb-f1c6-4bb7-8d9f-a072ec372bee
+  appended_ids:
+  - b894fdeb-f1c6-4bb7-8d9f-a072ec372bee
+  appended_lane:
+    b894fdeb-f1c6-4bb7-8d9f-a072ec372bee: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 4
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: hp020#0:nivel 2 o 3
+    valor: nivel 2 o 3
+    texto: 'Regla por nivel: en nivel de acceso 2 solo se puede cambiar el codigo
+      de NA2; en nivel de acceso 3 se puede cambiar el codigo de NA2 o de NA3'
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp020#1:Cambio del codigo de acceso
+    valor: Cambio del codigo de acceso
+    texto: 'Ruta: icono de menu > "Ajustes", iniciar sesion como usuario de nivel
+      de acceso 3, y seleccionar la opcion "Cambio del codigo de acceso"'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp020#2:4 y 8
+    valor: 4 y 8
+    texto: El nuevo codigo de acceso debe tener entre 4 y 8 caracteres/digitos
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: hp020#3:satisfactorio
+    valor: satisfactorio
+    texto: Tras introducir el nuevo codigo hay que re-introducirlo para confirmar
+      (repetir los pasos 03 a 06); aparece el mensaje "Cambio de codigo de acceso
+      satisfactorio"
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+- qid: cat007
+  question: En el detector por aspiración FAAST LT-200, ¿qué salidas de relé y de
+    sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo
+    o un corte de alimentación, qué resistencia de fin de línea llevan las salidas
+    de sirena y cuál es la especificación eléctrica de los contactos de relé?
+  answer: '## FAAST LT-200 — Salidas de relé y sirena: contactos, comportamiento y
+    especificaciones
+
+
+    ---
+
+
+    ### 1. Relés disponibles y su comportamiento
+
+
+    El FAAST LT-200 (versión Stand-Alone) dispone de los siguientes relés [F1]:
+
+
+    - **Relé de ALARMA 1 y 2:** Se activa cuando se cumple la condición de alarma
+    en el canal correspondiente. Condición predeterminada = Nivel 1. **Estado enclavado
+    por defecto** — se requiere REARME manual para desactivar el LED y el relé [F1].
+
+    - **Relé de PREALARMA 1 y 2:** Se activa cuando se cumple la condición de prealarma
+    en el canal. Condición predeterminada = Nivel 1. Nota: cuando PREALARMA = ALARMA
+    = Nivel 1, la prealarma se activa al **70 % del Nivel 1** [F1].
+
+    - **Relé de AVERÍA 1 y 2:** Se activa ante una condición de avería en el canal
+    1 o 2, o ante una avería común. **También se activa en modo de servicio y cuando
+    se desconecta la alimentación de la unidad.** Estado de avería **no enclavado**
+    (predeterminado) [F1].
+
+    - **Salida de SIRENA 1 y 2:** Se activa cuando el canal está en ALARMA o PREALARMA.
+    La sirena 1 corresponde al canal 1 y la sirena 2 al canal 2. Estado predeterminado
+    = activada en ALARMA [F1].
+
+
+    > **Comportamiento del relé de avería ante corte de alimentación:** el relé de
+    avería se activa también cuando se desconecta la alimentación de la unidad [F1].
+    El estado no está enclavado [F1].
+
+
+    ---
+
+
+    ### 2. Contactos de cada relé (terminales)
+
+
+    Según la tabla de designaciones de terminales [F6]:
+
+
+    **Relé de ALARMA:**
+
+    - Canal 1 (T1): terminales 5 (NC), 6 (C), 7 (NA)
+
+    - Canal 2 (T2): terminales 8 (NC), 9 (C), 10 (NA)
+
+
+    **Relé de AVERÍA:**
+
+    - Canal 1 (T3): terminales 11 (NC), 12 (C), 13 (NA)
+
+    - Canal 2 — AUX. (T4): terminales 14 (NC AUX.), 15 (C AUX.), 16 (NA AUX.)
+
+
+    **Relé de PREALARMA:**
+
+    - Canal 1 (T9): terminales 23 (NC), 24 (C), 25 (NA)
+
+    - Canal 2 (T10): terminales 26 (NC), 27 (C), 28 (NA)
+
+
+    Todos los relés de alarma, avería y prealarma exponen contactos **NC, C (común)
+    y NA** [F6].
+
+
+    ---
+
+
+    ### 3. Salidas de sirena y resistencia de fin de línea
+
+
+    - **Sirena 1** (T5): terminales 17 (–) y 18 (+) — resistencia de fin de línea
+    de **47 kΩ** [F6]
+
+    - **Sirena 2** (T6): terminales 19 (–) y 20 (+) — resistencia de fin de línea
+    de **47 kΩ** [F6]
+
+
+    ---
+
+
+    ### 4. Especificación eléctrica de los contactos de relé
+
+
+    - Corriente máxima con carga resistiva **30 V CC: 2,0 A** [F3][F7]
+
+    - Corriente máxima con carga resistiva **30 V CA: 0,5 A** [F3][F7]
+
+    - Vida útil mínima: **10⁵ operaciones** [F3]
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - I56-6574-005_ES — HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)
+
+    - I56-6577-006_ES — FAAST Notifier LT-200 QIG (sin revisión registrada)'
+  family_resolved: true
+  gold_families:
+  - FAAST LT-200
+  n_non_anchorable: 0
+  pool_n: 50
+  served_n: 11
+  topk_n: 10
+  appended_n: 1
+  topk_ids:
+  - d47ddbb0-410a-418e-bffa-4bd61ab56844
+  - 8221ec70-6882-41b5-8dd6-705a1a7e739a
+  - 856cae09-99d5-4b03-b08a-fe6a368e1207
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - 5ba44464-842b-46f7-ac43-259be83ad416
+  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+  - f1828195-5188-49e4-9091-30bc9f462a59
+  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
+  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
+  - 53f9a782-c9a1-4218-b4f4-ea2ef844c1a3
+  served_ids:
+  - d47ddbb0-410a-418e-bffa-4bd61ab56844
+  - 8221ec70-6882-41b5-8dd6-705a1a7e739a
+  - 856cae09-99d5-4b03-b08a-fe6a368e1207
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - 5ba44464-842b-46f7-ac43-259be83ad416
+  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+  - f1828195-5188-49e4-9091-30bc9f462a59
+  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
+  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
+  - 53f9a782-c9a1-4218-b4f4-ea2ef844c1a3
+  - 8c1cd486-3510-42d7-b71b-1ae43cb2893f
+  appended_ids:
+  - 8c1cd486-3510-42d7-b71b-1ae43cb2893f
+  appended_lane:
+    8c1cd486-3510-42d7-b71b-1ae43cb2893f: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 5
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat007#0:NC-C-NA
+    valor: NC-C-NA
+    texto: El LT-200 tiene salida de rele de ALARMA y de AVERIA (canal 1 y, en modelos
+      de 2 canales, canal 2), con contactos NC-C-NA
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 4
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 1b3a2b55-ea39-4a6c-b676-c70673708fa0
+    - 4ba034f3-9a65-4129-a4ad-fbe94a0ba266
+    - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+    - e49a4944-4157-42e3-a1c5-15ec4a6e8926
+    support_l1_override: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#1:no enclavado
+    valor: no enclavado
+    texto: 'El rele de AVERIA es FAILSAFE (se desenergiza para senalar): la averia
+      se indica ante condicion de averia en canal 1/2 o averia comun, en Modo Servicio
+      y al quedar la unidad SIN alimentacion; el estado de averia NO esta enclavado'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 4
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    - 5ba44464-842b-46f7-ac43-259be83ad416
+    - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+    - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#2:47 kohm
+    valor: 47 kohm
+    texto: Las 2 salidas de sirena tienen bornes de polaridad -/+ (supervisadas) y
+      resistencia de fin de linea de 47 kohm; no son contactos de rele
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 4
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#3:2 A / 0,5 A
+    valor: 2 A / 0,5 A
+    texto: 'Especificacion electrica de los contactos de rele: maximo 2 A (carga resistiva
+      30 V CC) / maximo 0,5 A (carga resistiva 30 V CA)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 4
+    n_support_raw: 6
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: cat007#4:10^5
+    valor: 10^5
+    texto: 'Vida util minima de los contactos de rele: 10^5 operaciones (en el texto
+      extraido aparece como ''105'' por perdida del superindice; leido como 10^5 en
+      el render)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 4
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 0438dbce-ae0f-4b74-8209-b86c42da87ef
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  answer: "# Cableado y configuración (alta) de lazo en INSPIRE E10/E15\n\nA continuación\
+    \ se detalla el proceso completo en dos bloques: **cableado físico** y **configuración\
+    \ en CLSS**.\n\n---\n\n## BLOQUE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Terminales\
+    \ del módulo LAZO OPAL X2 (HOP-433-100)\n\nEl módulo de lazo es de color **morado**\
+    \ [F2] y dispone de 10 terminales [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1**:\
+    \ Lazo 1 Salida +VE\n- Terminal **2**: Lazo 1 Salida -VE\n- Terminal **3**: ⊕\
+    \ (tierra — **NO usar para pantalla de cable**)\n- Terminal **4**: Lazo 1 Entrada\
+    \ +VE\n- Terminal **5**: Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6**:\
+    \ Lazo 2 Salida +VE\n- Terminal **7**: Lazo 2 Salida -VE\n- Terminal **8**: ⊕\
+    \ (tierra — **NO usar para pantalla de cable**)\n- Terminal **9**: Lazo 2 Entrada\
+    \ +VE\n- Terminal **10**: Lazo 2 Entrada -VE\n\n> ⚠️ **No utilice los terminales\
+    \ 3 y 8 para la pantalla del cable de lazo. La pantalla debe conectarse a la barra\
+    \ de tierra de la central** [F2][F3].\n\n---\n\n### Advertencias previas al cableado\n\
+    \n- **No mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n- **NUNCA\
+    \ utilice un dispositivo de alta tensión** (como un comprobador de resistencia\
+    \ de aislamiento) en el circuito de lazo. Solo se permiten comprobadores de baja\
+    \ tensión como multímetro [F6].\n- Se recomienda poner a tierra **un extremo**\
+    \ de la pantalla del cable de lazo en la barra de tierra de la central [F5].\n\
+    \n---\n\n### Capacidades del lazo [F2][F4]\n\n**Modo OPAL:**\n- Hasta **159 detectores\
+    \ OPAL** por lazo\n- Hasta **159 módulos OPAL** por lazo (sirenas, pulsadores,\
+    \ módulos E/S)\n- Máximo **750 mA** por lazo\n\n**Modo CLIP** (requiere licencia):\n\
+    - Hasta **99 detectores CLIP** por lazo\n- Hasta **99 módulos CLIP** por lazo\n\
+    \n> ⚠️ **EN54**: Restricción de **512 detectores y/o pulsadores** por módulo de\
+    \ lazo (2 circuitos) según EN54-2, 13.7 [F2].\n\n> ℹ️ Aprobación VdS2540 con **99\
+    \ detectores + 99 módulos** por lazo de **∅ 0,8 mm** [F4].\n\n---\n\n### Comprobaciones\
+    \ con multímetro ANTES de conectar a la central\n\nRealiza estas verificaciones\
+    \ con el lazo desconectado de los terminales de la central [F6][F7][F8]:\n\n**1.\
+    \ Continuidad y resistencia del lazo:**\n- Comprueba la continuidad de cada parte\
+    \ del lazo [F6].\n- Mide la resistencia de extremo a extremo entre **Lazo X Entrada\
+    \ -VE** y **Lazo X Salida -VE** [F8].\n- Multiplica el resultado por 2 y añade\
+    \ la resistencia de cada aislador (**0,1 a 0,13 Ω**) [F8].\n- La capacidad del\
+    \ cable debe ser **inferior a 0,5 µF** [F8].\n\nLímites de resistencia máxima\
+    \ [F8]:\n- Protocolo **OPAL**: resistencia **< 40 Ω**\n- Protocolo **CLIP** (detección\
+    \ de dirección duplicada): resistencia **< 40 Ω**\n- Protocolo **CLIP** (sin detección\
+    \ de dirección duplicada): resistencia **< 71 Ω**\n\n> ℹ️ Con aisladores en cada\
+    \ dispositivo OPAL, el conductor positivo del lazo será un circuito abierto [F6].\
+    \ Para dispositivos CLIP con aisladores, puentea temporalmente los terminales\
+    \ **2 y 4** de cada aislador [F8].\n\n**2. Comprobación de polaridad con función\
+    \ diodo del multímetro** [F7]:\n- Conecta el multímetro en **polaridad invertida**\
+    \ (+VE del multímetro al negativo del lazo, -VE al positivo). Debe indicar un\
+    \ **diodo en polarización directa**.\n- Conecta en **polaridad normal** (+VE al\
+    \ positivo, -VE al negativo). Al principio debe leer resistencia baja, que aumenta\
+    \ progresivamente al cargarse los condensadores de los dispositivos.\n- Si en\
+    \ polaridad normal indica diodo en directa, hay dispositivos con **polaridad invertida\
+    \ o cortocircuito** [F7].\n\n**3. Comprobación de pantalla de cable** [F7]:\n\
+    - Verifica que no hay continuidad entre la pantalla y el cable +VE.\n- Verifica\
+    \ que no hay continuidad entre la pantalla y el cable -VE.\n- Si la pantalla no\
+    \ está conectada a la barra de tierra de la central, comprueba que no tiene ninguna\
+    \ otra conexión a tierra en el recorrido del lazo.\n\n> ℹ️ Se recomienda usar\
+    \ la herramienta **POL-200-TS** para comprobar y medir circuitos de lazo antes\
+    \ de conectar a la central. La herramienta **POL-200** funciona tanto en protocolo\
+    \ OPAL como CLIP [F5].\n\n---\n\n### Conexión a la central\n\n**Lazo OPAL:** Una\
+    \ vez verificado el cableado, conecta el circuito al bloque de terminales de lazo\
+    \ seleccionado en la central [F5].\n\n**Lazo CLIP** [F5]:\n1. Vuelve a conectar\
+    \ los aisladores que se puentearon temporalmente, los módulos de lazo y los pulsadores.\n\
+    2. Conecta el circuito al bloque de terminales de lazo seleccionado en la central.\n\
+    \n---\n\n## BLOQUE 2 — CONFIGURACIÓN (ALTA) DEL LAZO EN CLSS\n\n### Numeración\
+    \ de lazos\n\nLos circuitos de lazo se numeran **secuencialmente de izquierda\
+    \ a derecha** del portamódulos. El primer módulo de lazo instalado en la ranura\
+    \ izquierda tiene el lazo 1, y los siguientes se numeran correlativamente. En\
+    \ la E15 (dos filas de portamódulos), la segunda fila continúa la numeración desde\
+    \ la primera [F2].\n\n---\n\n### Paso 1 — Configuración previa en CLSS (obligatoria\
+    \ antes de Auto Configuración)\n\n> ⚠️ De forma predeterminada, la central tiene\
+    \ licencia solo para **protocolo OPAL avanzado**. Para usar CLIP o TC800 OPAL/CLIP\
+    \ se requiere **licencia adicional** antes de realizar Auto Configuración [F9].\n\
+    \n1. Conecta la herramienta de configuración CLSS a la central [F9].\n2. Ve a\
+    \ **\"Ajustes\"** → **\"Ajustes HMI\"** y en **Tipo de marca** selecciona **Notifier\
+    \ EN** [F9].\n3. Ve a **\"Ajustes de lazo\"** [F9]:\n   - Si el lazo **no se utiliza**:\
+    \ marca ☑ **Sin Uso** [F1][F9].\n   - Si el lazo **se utiliza**: selecciona **\"\
+    Limitar a VdS 2540\"** (Sí o No) — el valor de resistencia cambia según la selección.\
+    \ Selecciona el **tipo de cable** [F9].\n4. Envía la configuración a la central\
+    \ siguiendo los pasos del apartado **\"Enviar configuración a la central\"** [F9].\n\
+    \n---\n\n### Paso 2 — Auto Configuración (búsqueda de dispositivos)\n\nCon la\
+    \ central encendida y la configuración inicial enviada [F10]:\n\n1. Selecciona\
+    \ **Auto Configuración** para buscar dispositivos conectados al circuito de lazo.\
+    \ Lee la información de la ventana emergente y confirma seleccionando **Auto Configuración**\
+    \ [F10].\n\n   > ℹ️ Si no hay protocolo especificado en la configuración, el lazo\
+    \ usará el **protocolo OPAL** por defecto [F10].\n\n2. Una vez completada la Auto\
+    \ Configuración, selecciona la **flecha > derecha** junto al botón Auto Búsqueda\
+    \ para ver el estado de averías del lazo [F10].\n\n3. Lee los mensajes de avería\
+    \ y toma las medidas necesarias. Selecciona **Hecho** al completar. Si no hay\
+    \ averías, vuelve ← a la página **Información del sistema** [F10].\n\n4. Si se\
+    \ han rectificado averías, **repite los pasos 1 a 3** [F10].\n\n5. **Repite el\
+    \ proceso para cada lazo** hasta descubrir todos [F10].\n\n---\n\n### Causas típicas\
+    \ de averías tras Auto Configuración [F10]:\n- Discordancia entre el diseño de\
+    \ la instalación y el cableado\n- Averías en el cableado\n- Presencia de fuente\
+    \ de RFI fuerte\n- Error de un módulo o fuente de alimentación\n- Conexionado\
+    \ incorrecto en los dispositivos\n- Dispositivo con dirección 00 (sin asignar)\n\
+    \n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6, 01-2026 — INSPIRE E10/E15 Instrucciones\
+    \ de puesta en marcha\n- HOP-138-9ES issue 5, 11-2025 — INSPIRE E10/E15 Manual\
+    \ de instalación"
+  family_resolved: true
+  gold_families:
+  - INSPIRE E10
+  - INSPIRE E10/E15
+  n_non_anchorable: 0
+  pool_n: 53
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - 6596dfec-a47e-46ec-9aba-8807575b6983
+  served_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - 6596dfec-a47e-46ec-9aba-8807575b6983
+  - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+  - 470a499b-d5b0-454c-85bc-db00d48ab4a1
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_ids:
+  - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+  - 470a499b-d5b0-454c-85bc-db00d48ab4a1
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_lane:
+    5880b3b6-65dd-421d-8368-0b8e15ecd0b6: same_blob_structural_neighbor_coverage_v1
+    470a499b-d5b0-454c-85bc-db00d48ab4a1: same_blob_structural_neighbor_coverage_v1
+    1452c904-cf11-4803-9b2b-4b977bfa3d5f: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 1
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat017#0:modulo OPAL HOP-433-100
+    valor: modulo OPAL HOP-433-100
+    texto: 'El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector
+      morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN
+      (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la
+      pantalla a tierra en la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#1:159 + 159
+    valor: 159 + 159
+    texto: 'Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318
+      por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL
+      y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada
+      con el programa de lazo/bateria de CLSS)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#2:licencia CLIP por lazo
+    valor: licencia CLIP por lazo
+    texto: Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de
+      lazo CLIP)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - b0273b01-279d-4151-849c-4bcf2cf5c612
+    support_l1_override: null
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+  - key: cat017#3:Auto Configuracion
+    valor: Auto Configuracion
+    texto: El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la
+      central detecta automaticamente los dispositivos conectados), tras la 'Configuracion
+      inicial y primer encendido'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 6e38c543-da17-4c8e-955c-d8f10b9eb273
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    - ad28ab54-cf7e-41a1-923d-9c4ad1332b47
+    - e472044e-ce86-4569-ac6f-2bd297bb1c93
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#4:CLSS
+    valor: CLSS
+    texto: 'La configuracion de la central se gestiona con el Programa de Configuracion
+      de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion
+      y se genera el archivo .bin de licencia de la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 5
+    n_support_raw: 10
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 0c7b5006-3421-4134-835a-307059203b08
+    - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+    - 62807d13-a208-4d47-b49e-da4990f4ca63
+    - 63b307b1-0f71-4c4f-86ee-558ed6470b80
+    - 68d812f5-c2ac-40be-8634-a420f082ab81
+    - 76864386-9e44-4b85-b930-abfe73d27c99
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    best_pool_rank: 8
+    submotivo: lexical-distractor
+    clase: rerank-miss
+- qid: cat020
+  question: En una central Morley DXc instalada en Espana, ¿cual es el nivel de alarma
+    y de prealarma por defecto de los detectores, y el maximo configurable?
+  answer: '## Niveles de alarma y prealarma en detectores — Central Morley DXc (España)
+
+
+    Los valores por defecto y el máximo configurable dependen del **tipo de detector**
+    conectado al lazo.
+
+
+    ---
+
+
+    ### Detectores con protocolo Morley-IAS (detectores analógicos OTM, LSR, etc.)
+
+
+    Los niveles se expresan como **niveles discretos** (Niv1 a Niv6/Niv9 según el
+    tipo):
+
+
+    **Valores por defecto** [F1]:
+
+    - Nivel de **alarma (Fuego): Niv4**
+
+    - Nivel de **prealarma: Niv3**
+
+
+    Esto se puede ver en pantalla para los detectores OTM (óptico-térmicos multicriterio)
+    [F1]:
+
+    ```
+
+    S001 OTM  Fuego:Niv4  Prealarma:Niv3
+
+    ```
+
+
+    **Niveles de referencia recomendados** según tablas del manual [F2]:
+
+
+    Para detectores **OTM** (óptico-térmicos):
+
+    - Prealarma recomendada (\*P): **Nivel 3** (6,5% osc./m)
+
+    - Alarma recomendada (\*A): **Nivel 4** (6,5% a 11,5% osc./m, autoajustado)
+
+
+    Para detectores **LSR** (láser):
+
+    - Prealarma recomendada (\*P): **Nivel 4** (0,32% osc./m)
+
+    - Alarma recomendada (\*A): **Nivel 5** (0,65% osc./m)
+
+
+    ---
+
+
+    ### Detectores OPT (ópticos convencionales analógicos) — protocolo Morley-IAS
+
+
+    Los niveles se expresan en **porcentaje** [F1]:
+
+    - Nivel de **alarma (Fuego): 100%**
+
+    - Nivel de **prealarma: 80%**
+
+
+    Esto se puede ver en pantalla [F1]:
+
+    ```
+
+    S004 OPT  Fuego:100%  Prealarma: 80%
+
+    ```
+
+
+    ---
+
+
+    ### Máximo configurable
+
+
+    - El **ajuste máximo para el nivel de alarma es el 108%** [F1].
+
+
+    ---
+
+
+    ### Restricciones de configuración
+
+
+    - La central **no permite ajustar niveles que impidan el reconocimiento de las
+    alarmas** [F3].
+
+    - El **nivel de prealarma no puede ser superior al nivel de alarma** [F3].
+
+
+    ---
+
+
+    **Fuentes:**
+
+    - DXc_Manual variaciones de mercado (sección 5.3.10.4 y 5.3.10.5.1), sin revisión
+    registrada
+
+    - DXc_Manual de configuración (sección 5.3.10.2 y 5.3.10.3), sin revisión registrada
+
+
+    ---
+
+    📋 **Información adicional del manual:**
+
+    - Nota: el manual también indica: "### 5.3.10.5.1 Información específica para
+    protocolo Morley-IAS
+
+
+    • El valor analógico debe ser un número normalizado entre 0% – 100%, independientemente
+    del tipo de equipo. Para los detectores, el nivel de prealarma por defecto es
+    el 80% y el nivel de alarma por defecto es el 100%.
+
+
+    • El ajuste máximo para el nivel de alarma es el 108%." [F1]
+
+
+    ---
+
+    ⚠️ **Obligaciones de evidencia del manual:**
+
+    - "* Todas las indicaciones obligatorias que no deben ocultarse durante una condición
+    de alarma de incendio se muestran mediante LEDs." (DXc_Manual de usuario, p. 4)
+    [F6]
+
+    - "Antes de conectar cualquier cable a la central, se deben realizar las siguientes
+    comprobaciones:" (DXc_Guia de instalacion_multiling, p. 4) [F10]
+
+    - Nota: la fuente es inconsistente: "* Las cinco teclas principales están bloqueadas
+    en el Nivel 1 (Nota: la tecla SILENCIAR ZUMBADOR está siempre habilitada)." (DXc_Manual
+    de usuario, p. 17) [F8] declara 5 teclas y la enumeración servida lista 2 (DXc_Manual
+    de usuario, p. 17) [F8].'
+  family_resolved: true
+  gold_families:
+  - DXC
+  n_non_anchorable: 0
+  pool_n: 28
+  served_n: 10
+  topk_n: 10
+  appended_n: 0
+  topk_ids:
+  - 0a35b5c3-0063-4a8c-b49c-2b8eabe6da31
+  - 827d36e5-6890-4245-beef-43359d021cff
+  - 4b983da1-5723-4c90-a305-5737fcf03987
+  - d4ea4891-9d97-4698-a388-25c66fbc4756
+  - cdc3ecad-a1ad-4825-838c-3a83a7002a3d
+  - c5da1b88-737c-474b-bb11-295928746cee
+  - 9051e732-a413-4711-86d9-93a10211dbaf
+  - e8527da2-c31c-4bb0-a315-b026bb67bb1a
+  - 7d9aaa12-cb12-4fe1-aab6-fcd6fe195a3b
+  - 03ae5580-bbfe-4393-b8d3-bd7a2cc0f071
+  served_ids:
+  - 0a35b5c3-0063-4a8c-b49c-2b8eabe6da31
+  - 827d36e5-6890-4245-beef-43359d021cff
+  - 4b983da1-5723-4c90-a305-5737fcf03987
+  - d4ea4891-9d97-4698-a388-25c66fbc4756
+  - cdc3ecad-a1ad-4825-838c-3a83a7002a3d
+  - c5da1b88-737c-474b-bb11-295928746cee
+  - 9051e732-a413-4711-86d9-93a10211dbaf
+  - e8527da2-c31c-4bb0-a315-b026bb67bb1a
+  - 7d9aaa12-cb12-4fe1-aab6-fcd6fe195a3b
+  - 03ae5580-bbfe-4393-b8d3-bd7a2cc0f071
+  appended_ids: []
+  appended_lane: {}
+  coverage_status: no_append
+  coverage_degraded: false
+  hist:
+    OK: 2
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 1
+  facts:
+  - key: cat020#0:80 % / 100 % / 108 %
+    valor: 80 % / 100 % / 108 %
+    texto: 'En la DXc version Espana (protocolo Morley-IAS) los niveles por defecto
+      de los detectores son: PREALARMA 80 %, ALARMA 100 %; el ajuste MAXIMO del nivel
+      de alarma es 108 %'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat020#1:0-100 % normalizado
+    valor: 0-100 % normalizado
+    texto: El valor analogico del nivel de alarma es un numero normalizado entre 0
+      % y 100 % (escala comun; algunos tipos OTM/LSR se configuran en campo por Niveles
+      0-9 que mapean a esa escala)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat020#2:manual de variaciones Espana
+    valor: manual de variaciones Espana
+    clase: meta-ref

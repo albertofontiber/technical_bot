@@ -2182,3 +2182,15 @@ vista/RPC de tags distintos cuando haya volumen** (`select distinct product_mode
 con el join de status — el agregado que PostgREST no permite hoy en esta instancia, PGRST123).
 Coste de no arreglar: latencia fría creciente del primer query con token de catálogo bajo
 replace.
+
+## #59 — matcher de attestation token-exacto SIN stemming: los lemas de config no matchean las flexiones del corpus (s288c)
+
+El matcher de ventanas de evidence-coverage (`post_rerank_coverage.py`, vara `N_FACET`) compara
+token-exacto contra términos de config escritos como LEMAS («bloqueo», «comprobacion»), que jamás
+matchean las flexiones reales del castellano de los manuales («bloquearlos», «Comprobaciones»).
+Medido en s288c (diagnóstico hp002#4, `evals/s288c_gate_funnel_probe_v1.json`): 0/26 grupos de
+`evidence_coverage_facets_v5.yaml` atestan un chunk que contiene literalmente la semántica de
+`state_blockers`. Riesgo: sub-attestation SILENCIOSA corpus-wide de toda la vara de coverage
+(no solo hp002). Trigger de pago: cualquier lever/gate futuro que dependa de attestation por
+grupos (p.ej. los fixes DEC-167) — evaluar stemming spanish_unaccent (el FTS del corpus ya lo
+usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
