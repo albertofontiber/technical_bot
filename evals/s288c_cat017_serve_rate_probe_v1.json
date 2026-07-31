@@ -1,0 +1,151 @@
+{
+  "probe": "s288c_cat017_serve_rate_v1",
+  "qid": "cat017",
+  "git_commit": "9a9736b",
+  "ts": "2026-07-31T08:54:28",
+  "route": "retrieve_chunks+_eval_strict_rerank (DEMO_FLAGS pineados por import; target_models=None; espejo factlevel_assessment.py:366-378)",
+  "retrieval_top_k": 50,
+  "rerank_top_k": 10,
+  "targets": [
+    "b7633e98",
+    "ae86bacb"
+  ],
+  "reps": [
+    {
+      "rep": 1,
+      "pool_n": 50,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "4d76ec50",
+        "3a2fc401",
+        "ad81ba70",
+        "79faef35",
+        "e472044e",
+        "6596dfec"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    },
+    {
+      "rep": 2,
+      "pool_n": 49,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "ad28ab54",
+        "e472044e",
+        "6596dfec",
+        "4d76ec50",
+        "3a2fc401",
+        "79faef35"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    },
+    {
+      "rep": 3,
+      "pool_n": 49,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "4d76ec50",
+        "e472044e",
+        "6596dfec",
+        "ad28ab54",
+        "79faef35",
+        "3a2fc401"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    },
+    {
+      "rep": 4,
+      "pool_n": 49,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "4d76ec50",
+        "e472044e",
+        "6596dfec",
+        "ad28ab54",
+        "79faef35",
+        "3a2fc401"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    },
+    {
+      "rep": 5,
+      "pool_n": 49,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "4d76ec50",
+        "e472044e",
+        "6596dfec",
+        "ad28ab54",
+        "79faef35",
+        "3a2fc401"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    },
+    {
+      "rep": 6,
+      "pool_n": 49,
+      "pool_rank": {
+        "b7633e98": 1,
+        "ae86bacb": 2
+      },
+      "topk_ids": [
+        "f0dc41c3",
+        "f8f1c9f3",
+        "68d812f5",
+        "c2564c21",
+        "4d76ec50",
+        "e472044e",
+        "6596dfec",
+        "ad28ab54",
+        "79faef35",
+        "3a2fc401"
+      ],
+      "carrier_in_topk": false,
+      "sentinel_in_topk": true
+    }
+  ],
+  "serve_count": 0,
+  "n": 6,
+  "verdict": "MISS-ESTABLE",
+  "decision_rule": "0/N => miss estable (mecanismo procede); >=1/N => frontera (pieza 3 pierde justificacion)"
+}

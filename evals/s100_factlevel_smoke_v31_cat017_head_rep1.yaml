@@ -1,0 +1,457 @@
+instrument: v3.1
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.1
+  git_commit: 9a9736b
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 013d7b94d57e
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 1
+n_golds_scored: 1
+aggregate_hist:
+  OK: 3
+  synthesis-miss: 1
+  rerank-miss: 1
+  retrieval-miss: 0
+  corpus-gap: 0
+  meta-ref: 0
+gold_juez_axis:
+- qid: cat017
+  verdict: '?'
+  n_classified: 5
+  n_ok: 3
+  primary_blocker: rerank-miss
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 0
+n_via_coverage_append: 0
+n_append_view_truncated: 0
+n_coverage_appended_rows: 3
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements: []
+per_gold:
+- qid: cat017
+  question: ¿Como se cablea y se da de alta (configura) un lazo en la central Notifier
+    INSPIRE (E10/E15)?
+  answer: "# Cableado y configuración de lazo — Notifier INSPIRE E10/E15\n\nEl proceso\
+    \ se divide en tres fases: **cableado físico**, **verificación con multímetro**\
+    \ y **configuración/auto-aprendizaje en CLSS**.\n\n---\n\n## FASE 1 — CABLEADO\
+    \ FÍSICO DEL LAZO\n\n### Terminales del módulo LAZO OPAL X2 (HOP-433-100)\n\n\
+    El módulo de lazo es de **color morado** [F2] y dispone de 10 terminales [F2][F3]:\n\
+    \n**Lazo 1:**\n- Terminal **1**: Lazo 1 Salida +VE\n- Terminal **2**: Lazo 1 Salida\
+    \ -VE\n- Terminal **3**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **4**:\
+    \ Lazo 1 Entrada +VE\n- Terminal **5**: Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal\
+    \ **6**: Lazo 2 Salida +VE\n- Terminal **7**: Lazo 2 Salida -VE\n- Terminal **8**:\
+    \ ⊕ — **NO usar para pantalla de cable**\n- Terminal **9**: Lazo 2 Entrada +VE\n\
+    - Terminal **10**: Lazo 2 Entrada -VE\n\n> ⚠️ **La pantalla del cable de lazo\
+    \ debe conectarse a la barra de tierra de la central, NO a los terminales 3 u\
+    \ 8** [F2][F3].\n> Se recomienda poner a tierra un extremo de la pantalla [F7].\n\
+    \n### Numeración de lazos\n\nLos circuitos de lazo se numeran secuencialmente\
+    \ de **izquierda a derecha** del portamódulos. En la E15 (dos filas), la segunda\
+    \ fila continúa la numeración desde la primera [F2].\n\n### Restricciones de mezcla\
+    \ y capacidad\n\n- **No se permite mezclar dispositivos OPAL y CLIP en el mismo\
+    \ lazo** [F2].\n- Modo **OPAL**: hasta **159 detectores + 159 módulos** por lazo\
+    \ (318 dispositivos totales) [F2][F4].\n- Modo **CLIP**: hasta **99 detectores\
+    \ + 99 módulos** por lazo [F2][F4]. Requiere licencia específica [F9].\n- Corriente\
+    \ máxima por lazo: **750 mA** [F2].\n- Aprobación **VdS2540**: 99 detectores +\
+    \ 99 módulos por lazo con cable de ∅ 0,8 mm [F4].\n- Restricción **EN54-2 (13.7)**:\
+    \ máximo **512 detectores y/o pulsadores** por módulo de lazo (los 2 circuitos\
+    \ en conjunto) [F2].\n- Longitud máxima de cable: **hasta 3,5 km** dependiendo\
+    \ del tipo de carga y cable — verificar siempre con el **calculador de lazo y\
+    \ batería de CLSS** [F2].\n\n> ⚠️ **NUNCA uses un comprobador de alta tensión\
+    \ (megóhmetro) en el circuito de lazo una vez conectados los dispositivos.** Solo\
+    \ multímetro de baja tensión [F5].\n\n---\n\n## FASE 2 — VERIFICACIÓN CON MULTÍMETRO\
+    \ (antes de conectar a la central)\n\nSe recomienda usar la herramienta **POL-200-TS**\
+    \ para diagnóstico previo (compatible con OPAL y CLIP) [F7].\n\n### Preparación\
+    \ de aisladores\n\n- Dispositivos **OPAL** (base B501 AP): al retirar el detector,\
+    \ los terminales **+2 y +4** de la base mantienen continuidad automáticamente\
+    \ [F8].\n- En módulos y pulsadores OPAL con aislador: terminales **+2 y +4** (módulos)\
+    \ y **+3 y +4** (pulsadores) [F8].\n- Dispositivos **CLIP**: puentea temporalmente\
+    \ los terminales **2 y 4** de cada aislador [F8].\n\n> ℹ️ Con aisladores activos,\
+    \ el conductor positivo del lazo será un circuito abierto [F5][F8].\n\n### Comprobaciones\
+    \ paso a paso\n\n1. Comprueba la **continuidad** de cada parte del lazo y mide\
+    \ la resistencia extremo a extremo [F5][F8].\n2. Mide entre **Lazo X Entrada -VE**\
+    \ y **Lazo X Salida -VE** con el lazo desconectado de la central. Multiplica el\
+    \ resultado por 2 y suma la resistencia de cada aislador (**0,1 a 0,13 Ω** por\
+    \ aislador) [F8].\n\n   **Límites de resistencia máxima** [F8]:\n   - Lazo **OPAL**:\
+    \ resistencia < **40 Ω**\n   - Lazo **CLIP** (detección de dirección duplicada):\
+    \ < **40 Ω**\n   - Lazo **CLIP** (sin detección de dirección duplicada): < **71\
+    \ Ω**\n\n   La **capacidad del cable** debe ser inferior a **0,5 µF** [F8].\n\n\
+    3. Comprueba la continuidad de la **pantalla del cable** (resistencia muy baja)\
+    \ [F5].\n4. Verifica que **no hay continuidad** entre la pantalla y los cables\
+    \ +VE ni -VE [F5][F6].\n5. Con el multímetro en **función de prueba de diodo**,\
+    \ conecta en **polaridad invertida** (+VE del multímetro al negativo del lazo,\
+    \ -VE al positivo): debe indicar **diodo en polarización directa** [F6].\n6. Conecta\
+    \ en **polaridad normal** (+VE al positivo, -VE al negativo): al inicio debe leer\
+    \ resistencia baja, que **aumenta progresivamente** al cargarse los condensadores\
+    \ de los dispositivos [F6].\n   - Si indica diodo en directa en este paso → uno\
+    \ o varios dispositivos están **conectados en polaridad inversa o hay cortocircuito**\
+    \ [F6].\n7. Si hay dispositivos en polaridad inversa, localízalos por **sectorización\
+    \ sucesiva** del lazo [F6].\n8. Comprueba que no hay conexión entre la pantalla\
+    \ y los cables +VE ni -VE en ningún punto del recorrido [F6].\n\n### Conexión\
+    \ a la central\n\n- **Lazo OPAL**: una vez verificado, conecta el circuito al\
+    \ bloque de terminales seleccionado [F7].\n- **Lazo CLIP**: reconecta los aisladores\
+    \ desconectados temporalmente, módulos y pulsadores; luego conecta al bloque de\
+    \ terminales [F7].\n\n---\n\n## FASE 3 — CONFIGURACIÓN EN CLSS Y AUTO-APRENDIZAJE\n\
+    \n### Primer encendido\n\nLa primera vez, enciende la central **sin cableado externo**,\
+    \ pero con la fuente de alimentación y al menos un circuito de lazo probado conectado\
+    \ [F1].\n\n> ⚠️ Toma precauciones para evitar activación inadvertida de equipos\
+    \ conectados (módulos con salidas a centros de control, etc.) [F1].\n\n### Configuración\
+    \ previa en CLSS (paso 09)\n\nAntes de ejecutar Auto Configuración en lazo CLIP\
+    \ o TC800 OPAL/CLIP [F9]:\n\n1. Conecta la herramienta de configuración CLSS.\n\
+    2. Ve a **\"Ajustes\" → \"Ajustes HMI\"** y en **Tipo de marca** selecciona **Notifier\
+    \ EN** [F9].\n3. Ve a **\"Ajustes de lazo\"**:\n   - Si el lazo **no se usa**:\
+    \ marca ☑ **Sin Uso** [F1][F9].\n   - Si se usa: selecciona **\"Limitar a VdS\
+    \ 2540\"** (Sí/No) — el valor de resistencia cambia según la selección [F9].\n\
+    \   - Selecciona el **tipo de cable** [F9].\n4. Envía la configuración a la central\
+    \ [F9].\n\n> ℹ️ De forma predeterminada, la central tiene licencia para **modo\
+    \ OPAL (Protocolo avanzado)** únicamente. Para CLIP o TC800 se requiere **licencia\
+    \ adicional** [F9].\n\n### Auto Configuración (auto-aprendizaje de dispositivos)\n\
+    \n1. En la central, selecciona **Auto Configuración** para buscar dispositivos\
+    \ en el lazo. Confirma en la ventana emergente seleccionando **Auto Configuración**\
+    \ / **Learn Devices** [F10].\n   - Si no hay protocolo configurado, el lazo usará\
+    \ **protocolo OPAL** por defecto [F10].\n2. Al completar, selecciona la **flecha\
+    \ derecha (>)** junto al botón Auto Búsqueda para ver el estado de averías del\
+    \ lazo [F10].\n3. Lee los mensajes de avería y corrige los problemas detectados.\
+    \ Selecciona **Hecho** al terminar [F10].\n4. Si se han corregido averías, **repite\
+    \ los pasos 1 a 3** [F10].\n5. Repite el proceso para **cada lazo** hasta descubrir\
+    \ todos [F10].\n\n### Averías típicas tras Auto Configuración\n\nLas averías pueden\
+    \ deberse a [F10]:\n- Discordancia entre diseño e instalación real\n- Averías\
+    \ en el cableado\n- Fuentes de RFI externas\n- Error de módulo o fuente de alimentación\n\
+    - Conexionado incorrecto en dispositivos\n\n---\n\n**Fuente:** HOP-138-8ES issue\
+    \ 6 (01-2026) — Instrucciones de puesta en marcha INSPIRE E10/E15; HOP-138-9ES\
+    \ issue 5 (11-2025) — Manual de instalación INSPIRE E10"
+  family_resolved: true
+  gold_families:
+  - INSPIRE E10
+  - INSPIRE E10/E15
+  n_non_anchorable: 0
+  pool_n: 50
+  served_n: 13
+  topk_n: 10
+  appended_n: 3
+  topk_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - 6596dfec-a47e-46ec-9aba-8807575b6983
+  served_ids:
+  - 68d812f5-c2ac-40be-8634-a420f082ab81
+  - f0dc41c3-25e3-4b21-b58a-416177fdcbff
+  - f8f1c9f3-5840-470a-bfa0-ad9c51463cf8
+  - 4d76ec50-a17d-4af6-9334-f6d0b439f1cf
+  - 79faef35-68cf-4631-8e18-7d6d8ef09790
+  - ad81ba70-980c-4146-993d-e26fc08eb16f
+  - c2564c21-16d2-477e-ba50-e4a02f240900
+  - 3a2fc401-1761-4ef9-901d-5e99fb01bb24
+  - e472044e-ce86-4569-ac6f-2bd297bb1c93
+  - 6596dfec-a47e-46ec-9aba-8807575b6983
+  - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+  - 470a499b-d5b0-454c-85bc-db00d48ab4a1
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_ids:
+  - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+  - 470a499b-d5b0-454c-85bc-db00d48ab4a1
+  - 1452c904-cf11-4803-9b2b-4b977bfa3d5f
+  appended_lane:
+    5880b3b6-65dd-421d-8368-0b8e15ecd0b6: same_blob_structural_neighbor_coverage_v1
+    470a499b-d5b0-454c-85bc-db00d48ab4a1: same_blob_structural_neighbor_coverage_v1
+    1452c904-cf11-4803-9b2b-4b977bfa3d5f: obligation_warning_reserve_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 1
+    rerank-miss: 1
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat017#0:modulo OPAL HOP-433-100
+    valor: modulo OPAL HOP-433-100
+    texto: 'El lazo se cablea en el modulo de doble lazo OPAL (HOP-433-100, conector
+      morado): Lazo 1 OUT +VE/-VE (term. 1/2), Lazo 1 IN +VE/-VE (4/5), Lazo 2 OUT/IN
+      (6/7, 9/10); terminales 3 y 8 NO se usan; cable trenzado y apantallado con la
+      pantalla a tierra en la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#1:159 + 159
+    valor: 159 + 159
+    texto: 'Capacidad por lazo: solo OPAL = hasta 159 detectores + 159 modulos (318
+      por lazo); solo CLIP = hasta 99 + 99 (198 por lazo); NO se permite mezclar OPAL
+      y CLIP en el mismo lazo; maximo 750 mA por lazo; longitud hasta 3,5 km (calculada
+      con el programa de lazo/bateria de CLSS)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#2:licencia CLIP por lazo
+    valor: licencia CLIP por lazo
+    texto: Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de
+      lazo CLIP)
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - b0273b01-279d-4151-849c-4bcf2cf5c612
+    support_l1_override: null
+    conveyed_yes: 0
+    conveyed_yes_judge2: 0
+    judge2_n_fail: 0
+    borderline: false
+    submotivo:
+      submotivo: omitted
+      votes:
+        omitted: 5
+      n_fail: 0
+    clase: synthesis-miss
+    stability: stable-miss
+  - key: cat017#3:Auto Configuracion
+    valor: Auto Configuracion
+    texto: El ALTA de los dispositivos del lazo se hace por AUTO CONFIGURACION (la
+      central detecta automaticamente los dispositivos conectados), tras la 'Configuracion
+      inicial y primer encendido'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 3
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    - ad28ab54-cf7e-41a1-923d-9c4ad1332b47
+    - e472044e-ce86-4569-ac6f-2bd297bb1c93
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    conveyed_yes: 5
+    clase: OK
+  - key: cat017#4:CLSS
+    valor: CLSS
+    texto: 'La configuracion de la central se gestiona con el Programa de Configuracion
+      de CLSS (portal en la nube Honeywell): se crea el sitio, se carga la configuracion
+      y se genera el archivo .bin de licencia de la central'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 4
+    n_support_raw: 9
+    n_support_served: 0
+    reaches_gen: false
+    in_topk: false
+    in_pool: true
+    support_l1_killed:
+    - 0c7b5006-3421-4134-835a-307059203b08
+    - 5880b3b6-65dd-421d-8368-0b8e15ecd0b6
+    - 63b307b1-0f71-4c4f-86ee-558ed6470b80
+    - 68d812f5-c2ac-40be-8634-a420f082ab81
+    - 76864386-9e44-4b85-b930-abfe73d27c99
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    support_l1_override: null
+    support_toc_killed:
+    - 7a09deff-43dc-407a-8e82-d861eba56c6f
+    - 8db55998-3225-4f65-a2d7-4846f670165f
+    best_pool_rank: 9
+    submotivo: lexical-distractor
+    clase: rerank-miss
