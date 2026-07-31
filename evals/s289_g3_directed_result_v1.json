@@ -1,0 +1,1870 @@
+{
+ "instrument": "s289_g3_directed_result_v1",
+ "population": [
+  "cat007",
+  "cat008",
+  "cat017",
+  "hp001",
+  "hp002",
+  "hp007",
+  "hp014",
+  "hp018",
+  "hp020"
+ ],
+ "n_reps": 2,
+ "verdict": "PASS",
+ "targets": {
+  "cat017#4": {
+   "off": "miss-stable",
+   "on": "conveyed-stable"
+  },
+  "hp002#4": {
+   "off": "conveyed-stable",
+   "on": "conveyed-stable"
+  }
+ },
+ "conversions": [
+  [
+   "cat017#4",
+   "conveyed-stable"
+  ]
+ ],
+ "regressions": [],
+ "golds": {
+  "cat007": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "856cae09-99d5-4b03-b08a-fe6a368e1207",
+      "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+      "dd9e230c-327a-426a-bf94-f5f1bb3b5835",
+      "f1828195-5188-49e4-9091-30bc9f462a59",
+      "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+      "da4ca582-ce22-476c-8664-b9dda9660b75",
+      "ff120c5b-d4f9-4006-b650-eb204fb99ed4",
+      "422ed8a7-8bea-49d6-ac82-da39d6fb9050",
+      "7362ea0f-2b9d-42aa-8b2c-43b81b1931c0",
+      "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+      "8c1cd486-3510-42d7-b71b-1ae43cb2893f"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "856cae09-99d5-4b03-b08a-fe6a368e1207",
+      "8221ec70-6882-41b5-8dd6-705a1a7e739a",
+      "dd9e230c-327a-426a-bf94-f5f1bb3b5835",
+      "f1828195-5188-49e4-9091-30bc9f462a59",
+      "e49a4944-4157-42e3-a1c5-15ec4a6e8926",
+      "da4ca582-ce22-476c-8664-b9dda9660b75",
+      "ff120c5b-d4f9-4006-b650-eb204fb99ed4",
+      "422ed8a7-8bea-49d6-ac82-da39d6fb9050",
+      "7362ea0f-2b9d-42aa-8b2c-43b81b1931c0",
+      "80f7a04f-3b43-4a6f-a0dd-13a57721f442",
+      "2e549215-e5e4-4865-8687-e6f2f183058a"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "## FAAST LT-200 — Salidas de relé, sirena y especificaciones eléctricas\n\n### Relés disponibles y sus contactos\n\nEl FAAST LT-200 dispone de los siguientes relés, con terminales NC (normalmente cerrado), C (común) y NA (normalmente abierto) [F3]:\n\n**Relés de alarma:**\n- Relé de alarma Canal 1 → terminales 5 (NC), 6 (C), 7 (NA) [F3]\n- Relé de alarma Canal 2 → terminales 8 (NC), 9 (C), 10 (NA) [F3]\n\n**Relés de avería:**\n- Relé de avería Canal 1 → terminales 11 (NC), 12 (C), 13 (NA) [F3]\n- Relé de avería Canal 2 (AUX.) → terminales 14 (NC), 15 (C), 16 (NA) [F3]\n\n**Relés de prealarma:**\n- Relé de prealarma Canal 1 → terminales 23 (NC), 24 (C), 25 (NA) [F3]\n- Relé de prealarma Canal 2 → terminales 26 (NC), 27 (C), 28 (NA) [F3]\n\n---\n\n### Salidas de sirena y resistencia de fin de línea\n\n- Salida sirena 1: terminales 17 (−) y 18 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n- Salida sirena 2: terminales 19 (−) y 20 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n\nLa sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2 [F2]. El estado predeterminado es que se activan en condición de ALARMA [F2].\n\n---\n\n### Comportamiento del relé de avería\n\nEl relé de avería se activa en las siguientes condiciones [F2]:\n- Cuando se produce una **condición de avería** en el canal 1 o canal 2.\n- Cuando se produce una **avería común**.\n- Cuando la unidad está en **modo de servicio**.\n- Cuando se **desconecta la alimentación** de la unidad.\n\n> **Importante:** El estado de avería **no está enclavado** [F2].\n\n---\n\n### Especificación eléctrica de los contactos de relé\n\n- Corriente máxima: **2,0 A** con carga resistiva a **30 V CC** [F1][F4]\n- Corriente máxima: **0,5 A** con carga resistiva a **30 V CA** [F1][F4]\n- Vida útil mínima: **10⁵ operaciones** [F1]\n\n---\n\n### Nota sobre cargas inductivas\n\nEl fragmento F10 indica que existe una advertencia específica sobre la conmutación de cargas inductivas (con diagramas de circuito en el manual original). Consulta la sección \"WARNING: Switching Inductive Loads\" del manual I56-6577-006 para ver los esquemas de protección recomendados [F10].\n\n---\n\n**Fuentes:**\n- I56-6574-005_ES FAAST LT-200 Stand Alone QIG (sin revisión registrada)\n- I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)\n- I56-6577-006_EN Notifier FAAST LT-200 QIG (sin revisión registrada)",
+     "## FAAST LT-200 — Salidas de relé, sirena y especificaciones eléctricas\n\n---\n\n### 1. Relés disponibles y sus contactos\n\nEl equipo dispone de los siguientes relés, cada uno con contactos **NC (normalmente cerrado), C (común) y NA (normalmente abierto)** [F3]:\n\n**Relés de alarma:**\n- Relé de alarma Canal 1 → terminales 5 (NC), 6 (C), 7 (NA) [F3]\n- Relé de alarma Canal 2 → terminales 8 (NC), 9 (C), 10 (NA) [F3]\n\n**Relés de avería:**\n- Relé de avería Canal 1 → terminales 11 (NC), 12 (C), 13 (NA) [F3]\n- Relé de avería Canal 2 (AUX.) → terminales 14 (NC), 15 (C), 16 (NA) [F3]\n\n**Relés de prealarma:**\n- Relé de prealarma Canal 1 → terminales 23 (NC), 24 (C), 25 (NA) [F3]\n- Relé de prealarma Canal 2 → terminales 26 (NC), 27 (C), 28 (NA) [F3]\n\n---\n\n### 2. Salidas de sirena y resistencia de fin de línea\n\n- Salida sirena 1: terminales 17 (−) y 18 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n- Salida sirena 2: terminales 19 (−) y 20 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n\nEl estado predeterminado de los relés de sirena es **activado en ALARMA** [F2]. La sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2 [F2].\n\n---\n\n### 3. Comportamiento del relé de avería\n\nEl relé de avería se activa en las siguientes condiciones [F2]:\n- Cuando se produce una **condición de avería** en el canal 1 o canal 2.\n- Cuando se produce una **avería común**.\n- Cuando la unidad está en **modo de servicio**.\n- Cuando se **desconecta la alimentación** de la unidad.\n\n> ⚠️ El estado de avería **no está enclavado** [F2].\n\n---\n\n### 4. Especificación eléctrica de los contactos de relé\n\n- Corriente máxima con **carga resistiva 30 V CC**: **2,0 A** [F1][F4]\n- Corriente máxima con **carga resistiva 30 V CA**: **0,5 A** [F1][F4]\n- Vida útil mínima: **10⁵ operaciones** [F1]\n\n> ⚠️ El manual incluye una advertencia específica sobre la conmutación de **cargas inductivas** (ver diagrama en el documento fuente) [F10]. Consulta la figura correspondiente en el manual físico para el circuito de protección recomendado.\n\n---\n\n**Fuentes:**\n- I56-6574-005_ES FAAST Notifier LT-200 QIG (Stand Alone), sin revisión registrada\n- I56-6577-006_ES FAAST Notifier LT-200 QIG, sin revisión registrada\n- I56-6577-006_EN Notifier FAAST LT-200 QIG, sin revisión registrada"
+    ],
+    "on": [
+     "## FAAST LT-200 — Salidas de relé, sirena y especificaciones eléctricas\n\n### Relés disponibles y sus contactos\n\nEl equipo dispone de los siguientes relés, con terminales NC (normalmente cerrado), C (común) y NA (normalmente abierto) [F3]:\n\n**Relés de alarma:**\n- Relé de alarma Canal 1 → terminales 5 (NC), 6 (C), 7 (NA) [F3]\n- Relé de alarma Canal 2 → terminales 8 (NC), 9 (C), 10 (NA) [F3]\n\n**Relés de avería:**\n- Relé de avería Canal 1 → terminales 11 (NC), 12 (C), 13 (NA) [F3]\n- Relé de avería Canal 2 (AUX.) → terminales 14 (NC), 15 (C), 16 (NA) [F3]\n\n**Relés de prealarma:**\n- Relé de prealarma Canal 1 → terminales 23 (NC), 24 (C), 25 (NA) [F3]\n- Relé de prealarma Canal 2 → terminales 26 (NC), 27 (C), 28 (NA) [F3]\n\n---\n\n### Salidas de sirena y resistencia de fin de línea\n\n- Salida sirena 1: terminales 17 (−) y 18 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n- Salida sirena 2: terminales 19 (−) y 20 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n\n---\n\n### Comportamiento de los relés\n\n**Relé de alarma (1 o 2):** controlado por el panel cuando determina que se ha alcanzado la condición de alarma. Se activa y desactiva por el panel; **no está enclavado** [F2].\n\n**Relé de avería (1 o 2):** se activa cuando se produce una condición de avería en el canal 1 o 2, o una avería común. También se señaliza en modo de servicio y **cuando se desconecta la alimentación de la unidad**. El estado de avería **no está enclavado** [F2].\n\n**Relé de sirena (1 o 2):** se activa cuando el canal correspondiente entra en ALARMA. La sirena 1 corresponde al canal 1 y la sirena 2 al canal 2. Estado predeterminado = establecido en ALARMA [F2].\n\n---\n\n### Especificación eléctrica de los contactos de relé\n\n- Corriente máxima: **2,0 A** con carga resistiva a **30 V CC** [F1][F4]\n- Corriente máxima: **0,5 A** con carga resistiva a **30 V CA** [F1][F4]\n- Vida útil mínima: **10⁵ operaciones** [F1]\n\n> ⚠️ El manual advierte sobre la conmutación de cargas inductivas. Para cargas inductivas se requiere protección adicional (diodo tipo 1N6284CA según el diagrama del manual) [F10]. Consulta los diagramas de la sección \"WARNING: Switching Inductive Loads\" del manual I56-6577-006.\n\n---\n\nFuentes: I56-6574-005_ES Stand Alone FAAST LT-200 QIG (sin revisión registrada); I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada); I56-6577-006_EN Notifier FAAST LT-200 QIG (sin revisión registrada)",
+     "## FAAST LT-200 — Salidas de relé y sirena: terminales, comportamiento y especificaciones eléctricas\n\n---\n\n### 1. Relés disponibles y sus contactos\n\nEl equipo dispone de los siguientes relés, cada uno con contactos **NC (normalmente cerrado), C (común) y NA (normalmente abierto)** [F3]:\n\n**Relés de alarma:**\n- Relé de alarma Canal 1 → terminales 5 (NC), 6 (C), 7 (NA) [F3]\n- Relé de alarma Canal 2 → terminales 8 (NC), 9 (C), 10 (NA) [F3]\n\n**Relés de avería:**\n- Relé de avería Canal 1 → terminales 11 (NC), 12 (C), 13 (NA) [F3]\n- Relé de avería Canal 2 (AUX.) → terminales 14 (NC), 15 (C), 16 (NA) [F3]\n\n**Relés de prealarma:**\n- Relé de prealarma Canal 1 → terminales 23 (NC), 24 (C), 25 (NA) [F3]\n- Relé de prealarma Canal 2 → terminales 26 (NC), 27 (C), 28 (NA) [F3]\n\n---\n\n### 2. Salidas de sirena y resistencia de fin de línea\n\n- Salida sirena 1: terminales 17 (−) y 18 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n- Salida sirena 2: terminales 19 (−) y 20 (+), con **resistencia de fin de línea de 47 kΩ** [F3]\n\nLa sirena 1 se corresponde con el canal 1 y la sirena 2 con el canal 2 [F2]. El estado predeterminado es que se activan cuando el canal entra en **ALARMA** [F2].\n\n---\n\n### 3. Comportamiento del relé de avería\n\nEl relé de avería se activa en las siguientes condiciones [F2]:\n\n- Cuando se produce una **condición de avería** en el canal 1 o canal 2.\n- Cuando se produce una **avería común**.\n- Cuando la unidad está en **modo de servicio**.\n- Cuando se **desconecta la alimentación** de la unidad.\n\n> **Importante:** El estado de avería **no está enclavado** [F2].\n\n---\n\n### 4. Comportamiento del relé de alarma\n\n- Controlado por el panel cuando determina que se ha dado la condición de alarma [F2].\n- Se enciende y apaga por el panel; **no está enclavado** [F2].\n\n---\n\n### 5. Especificación eléctrica de los contactos de relé\n\n- Corriente máxima con carga resistiva a **30 V CC: 2,0 A** [F1][F4]\n- Corriente máxima con carga resistiva a **30 V CA: 0,5 A** [F1][F4]\n- Vida útil mínima: **10⁵ operaciones** [F1]\n\n---\n\n**Fuentes:**\n- I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)\n- I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)"
+    ]
+   },
+   "facts": [
+    {
+     "key": "cat007#0",
+     "valor": "NC-C-NA",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat007#1",
+     "valor": "no enclavado",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat007#2",
+     "valor": "47 kohm",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat007#3",
+     "valor": "2 A / 0,5 A",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat007#4",
+     "valor": "10^5",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "cat008": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "9cfb5d22-1082-4903-896b-efe36d5f4567",
+      "93a35630-853a-47e8-b560-ea20cb5b5621",
+      "f3793f7a-c0ab-4a5a-847b-534dbccd58a9",
+      "7a3a1a6a-a77d-464b-b23c-eba56b475472",
+      "e7088366-3294-4d1f-b474-14911f6800ae",
+      "97e161bb-3466-46d4-95c4-b3a005b468ab",
+      "0430f5b8-5f54-4a4a-8025-9c5a7ea12dfe",
+      "d9516b90-18ce-48ce-b774-f57a1077ac08",
+      "e2a07867-2ab8-4da6-a412-d95c9b07020f",
+      "53c3aaaa-7524-4892-af8f-b2785cadc672",
+      "8b082fc1-7834-44c8-859c-5c7ac05b0872"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "9cfb5d22-1082-4903-896b-efe36d5f4567",
+      "93a35630-853a-47e8-b560-ea20cb5b5621",
+      "f3793f7a-c0ab-4a5a-847b-534dbccd58a9",
+      "7a3a1a6a-a77d-464b-b23c-eba56b475472",
+      "e7088366-3294-4d1f-b474-14911f6800ae",
+      "97e161bb-3466-46d4-95c4-b3a005b468ab",
+      "0430f5b8-5f54-4a4a-8025-9c5a7ea12dfe",
+      "d9516b90-18ce-48ce-b774-f57a1077ac08",
+      "e2a07867-2ab8-4da6-a412-d95c9b07020f",
+      "53c3aaaa-7524-4892-af8f-b2785cadc672",
+      "b456ea92-1a6f-4932-87f0-2b9876bc7c34"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "## Conexionado del M710 / MI-DMMI en el lazo\n\nHay **dos modos de conexionado** disponibles [F1]:\n\n---\n\n### Modo 2 estados (corto = alarma)\n\nTerminales de lazo [F1][F3]:\n- **Terminal 1** → Salida del lazo –\n- **Terminal 2** → Salida del lazo + *(con aislador interno activo)*\n- **Terminal 3** → Entrada del lazo –\n- **Terminal 4** → Entrada del lazo +\n\n> **Nota sobre el aislador interno:** Si **no** se necesita aislamiento de cortocircuitos, conecta la salida + del lazo al **terminal 5** en lugar del terminal 2. El terminal 5 está conectado internamente con el terminal 4 (M710) [F9] / terminal 2 (MI-DMMI) [F8]. Verifica cuál aplica según tu variante.\n\n**Resistencia de fin de línea (RFL): 47 kΩ** [F1][F7]\n- En el M710 se referencia como **M200E-EOL-R** [F3]\n- En el MI-DMMIE se referencia como **MO-EOL-R** [F7]\n\n---\n\n### Modo 3 estados (corto = avería, no alarma)\n\nRequiere que **la central sea compatible** con esta función [F3][F5].\n\n- Se añade una **resistencia de 18 kΩ en serie con cada contacto/conmutador** que se desee supervisar [F1][F5][F6]\n- En el M710 esta resistencia se referencia como **M200E-EOL-R18** [F3][F9]\n- En el MI-DMM2I se puede usar el pack **M200-EOL4** [F4]\n\n---\n\n### Terminales de entrada (señal supervisada)\n\n- **Terminal 6** → Entrada A [F1]\n- **Terminal 7** → Entrada A (par con terminal 6) [F1]\n\n> ⚠️ Los terminales 8 y 9 **no tienen conexión en el M710 ni en el MI-DMMI** (entrada única). Esos terminales son exclusivos del M720 / MI-DMM2I (entrada doble) [F9][F8].\n\n---\n\n### Advertencia de seguridad\n\n> **Desconecta la alimentación del lazo antes de instalar los módulos** [F10].\n\n---\n\n### Sobre los diagramas\n\nLos fragmentos recuperados hacen referencia a diagramas de conexionado (Figura 3 del manual I56-2005-002 para el M710, y Figura 2/3 del manual I56-2006-004 para el MI-DMMI) que contienen el esquema visual completo. **Consulta esas figuras en el manual físico** para verificar la topología exacta del cableado antes de ejecutar la instalación.\n\n---\n\n**Fuentes:**\n- Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)\n- I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)\n- I56-2006-004 MI-DMMI_DMM2I_D2ICMO (sin revisión registrada)\n- I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE (sin revisión registrada)",
+     "## Conexionado del M710 / MI-DMMI en el lazo\n\nHay **dos modos de conexionado** disponibles: 2 estados y 3 estados.\n\n---\n\n### Terminales de lazo (comunes a ambos modos)\n\n- **T1** – Salida del lazo – [F3][F5]\n- **T2** – Salida del lazo + (con aislador interno activo) [F3][F5]\n- **T3** – Entrada del lazo – [F3][F5]\n- **T4** – Entrada del lazo + [F3][F5]\n- **T5** – Salida del lazo + alternativa (sin aislador) [F3][F5]\n\n---\n\n### Aislador interno de cortocircuito\n\n- Si **se requiere** aislamiento de cortocircuitos: conectar la salida + del lazo al **terminal 2** [F3][F5]\n- Si **no se requiere** aislamiento: conectar la salida + del lazo al **terminal 5** en vez del 2. El terminal 5 está conectado internamente con el terminal 4 (M710/M720) [F9] / con el terminal 2 (MI-DMMI) [F8] — según el manual de cada variante.\n\n> ⚠️ **Nota importante:** El fragmento F3 indica que T5 está conectado internamente con T4 (para M710), mientras que F8 indica que T5 está conectado internamente con T2 (para MI-DMMI). Verifica en el diagrama físico del manual correspondiente a tu modelo exacto antes de cablear.\n\n---\n\n### Modo 2 estados\n\n- Resistencia de fin de línea (RFL): **47 kΩ** [F1]\n- Un cortocircuito en la entrada se señaliza como **alarma** [F1]\n- No se requiere resistencia adicional en serie con el contacto\n\n---\n\n### Modo 3 estados\n\n- Resistencia de fin de línea (RFL): **47 kΩ** [F1]\n- Resistencia adicional en serie: **18 kΩ** en serie con cada conmutador/contacto de alarma que se desee supervisar [F1][F3]\n  - Referencia de componente para M710: **M200E-EOL-R18** [F3][F9]\n- Permite indicar un cortocircuito como **avería** en lugar de alarma, siempre que el panel de control lo permita [F3][F5]\n\n---\n\n### Nota sobre terminales 8 y 9\n\n- El circuito de aislamiento adicional conectado a los terminales 8 y 9 **solo aplica al M720 / MI-DMM2I** (módulo de entrada doble) [F9][F8]\n- El **M710 / MI-DMMI no tiene conexiones en esos terminales** [F9][F8]\n\n---\n\n### Esquemas de conexión\n\nLos diagramas de conexión están disponibles en los manuales referenciados. Consulta la **Figura 3** del manual I56-2005-002 para el M710 [F3], y la **Figura 3** del manual I56-2006-004 para el MI-DMMI [F2].\n\n---\n\n**Fuentes:**\n- Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)\n- I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)\n- I56-2006-004 MI-DMMI_DMM2I_D2ICMO (sin revisión registrada)\n- I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE (sin revisión registrada)\n\n---\n📖 **Información adicional del manual:**\n- \"1. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n2. El circuito con línea intermitente conectado a los terminales 8 y 9 se debe utilizar únicamente con el M720. El M710 no tiene conexiones con estos terminales.\n3. Si el panel de control lo permite, se podrá indicar un cortocircuito como avería en lugar de alarma. Para ello hay que conectar una resistencia de 18 KΩ (M200E-EOL-R18) en serie con cada equipo que se desee supervisar.\" [F3]\n- \"1. En no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 2.\n\n2. Si el panel de control lo permite, se podrá indicar un cortocircuito como puede el lugar de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie con cada conmutador de alarma. Para ello hay que conectar una resistencia de 18 kΩ en serie con cada conmutador de alarma.\" [F2]"
+    ],
+    "on": [
+     "## Conexionado del M710 / MI-DMMI en el lazo\n\nHay **dos modos de conexionado** disponibles: 2 estados y 3 estados.\n\n---\n\n### Terminales de lazo (comunes a ambos modos)\n\n- **T1** – Salida del lazo – [F3][F5]\n- **T2** – Salida del lazo + (con aislador de cortocircuito activo) [F3][F5]\n- **T3** – Entrada del lazo – [F3][F5]\n- **T4** – Entrada del lazo + [F3][F5]\n- **T5** – Salida del lazo + alternativa (sin aislador) [F3][F5]\n\n> **Nota sobre el aislador interno:** Si **no** se necesita aislamiento de cortocircuitos, conecta la salida + del lazo al **terminal 5** en lugar del terminal 2. El terminal 5 está conectado internamente con el terminal 4 (en el M710/M720) [F3][F9] o con el terminal 2 (en el MI-DMMI/MI-DMM2I) [F8]. Consulta el diagrama de tu variante para confirmar la conexión interna exacta.\n\n---\n\n### Modo 2 estados\n\n- **Resistencia de fin de línea (RFL): 47 kΩ** [F1]\n- Un cortocircuito en la entrada se señaliza como **alarma** [F1]\n- La entrada A se conecta a los terminales **6 y 7** [F1]\n\n---\n\n### Modo 3 estados\n\n- **Resistencia de fin de línea (RFL): 47 kΩ** [F1]\n- **Resistencia en serie con el contacto: 18 kΩ** por cada dispositivo/conmutador supervisado [F1][F2][F3]\n  - En el M710: referencia **M200E-EOL-R18** [F3][F9]\n  - En el MI-DMMI: se menciona el uso de **M200-EOL4** (pack de resistencias) [F4]\n- Un cortocircuito puede señalizarse como **avería** en lugar de alarma, si el panel de control lo permite [F2][F3][F5]\n\n---\n\n### Advertencias importantes\n\n- **Desconecta la alimentación del lazo antes de instalar el módulo** [F10]\n- El M710 **no tiene conexiones** en los terminales 8 y 9 (esos terminales son exclusivos del M720 para el circuito de aislador adicional) [F3][F9]\n- Igualmente, el MI-DMMI **no tiene conexiones** en los terminales 8 y 9 (exclusivos del MI-DMM2I) [F4][F8]\n- El cableado admite conductores de hasta **2,5 mm²** [F10]\n\n---\n\n### Diagrama de conexión\n\nLos fragmentos incluyen diagramas de conexión (Figura 3 en ambos manuales). Para el esquema visual exacto de cada variante, consulta la figura correspondiente en el manual físico, ya que la topología de conexionado debe verificarse sobre el diagrama oficial.\n\n---\n\n**Fuentes:**\n- Conexionado-del-modulo-M710-MI-DMMI (sin revisión registrada)\n- I56-2005-002 M710 M720 M721 M701 (sin revisión registrada)\n- I56-2006-004 MI-DMMI_DMM2I_D2ICMO (sin revisión registrada)\n- I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE (sin revisión registrada)\n\n---\n📖 **Información adicional del manual:**\n- \"1. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n2. El circuito con línea intermitente conectado a los terminales 8 y 9 se debe utilizar únicamente con el M720. El M710 no tiene conexiones con estos terminales.\n3. Si el panel de control lo permite, se podrá indicar un cortocircuito como avería en lugar de alarma. Para ello hay que conectar una resistencia de 18 KΩ (M200E-EOL-R18) en serie con cada equipo que se desee supervisar.\" [F3]",
+     "## Conexionado del M710 / MI-DMMI en el lazo\n\nHay **dos modos de conexionado** disponibles: 2 estados y 3 estados.\n\n---\n\n### Terminales de lazo (comunes a ambos modos)\n\n- **T1** – Salida del lazo – [F3][F5]\n- **T2** – Salida del lazo + (con aislador de cortocircuito activo) [F3][F5]\n- **T3** – Entrada del lazo – [F3][F5]\n- **T4** – Entrada del lazo + [F3][F5]\n- **T5** – Salida del lazo + alternativa (sin aislador) [F3][F5]\n\n> **Nota sobre el aislador interno:** Si **no** se necesita aislamiento de cortocircuitos, conecta la salida + del lazo al **terminal 5** en lugar del terminal 2. El terminal 5 está conectado internamente con el terminal 4 (en el M710/M720) [F3][F9] o con el terminal 2 (en el MI-DMMI según otra fuente) [F8]. Consulta el diagrama de tu manual específico para confirmar la conexión interna exacta de tu variante.\n\n---\n\n### Modo 2 estados\n\n- Resistencia de fin de línea: **RFL = 47 kΩ** conectada a los terminales de entrada (terminales 6-7 en el MI-DMMI) [F1]\n- Un **cortocircuito** en la entrada se señaliza como **alarma** [F1]\n- No se requiere resistencia adicional en serie con el contacto\n\n---\n\n### Modo 3 estados\n\n- Resistencia de fin de línea: **RFL = 47 kΩ** [F1]\n- Adicionalmente, se debe colocar una **resistencia de 18 kΩ en serie con cada contacto de alarma** que se desee supervisar [F1][F3][F5]\n  - En el M710, el modelo de resistencia es **M200E-EOL-R18** [F3][F9]\n  - En el MI-DMMI (versión Morley), se usa el paquete **M200-EOL4** [F4]\n- Esto permite que la central distinga cortocircuito como **avería** en lugar de alarma, siempre que el panel de control sea compatible [F3][F5]\n\n---\n\n### Advertencias importantes\n\n- **Desconecta la alimentación del lazo antes de instalar el módulo** [F10]\n- El M710 **no tiene conexiones en los terminales 8 y 9** — esos terminales son exclusivos del M720 (entrada doble) [F3][F9]\n- El MI-DMMI **no tiene conexiones en los terminales 8 y 9** — esos terminales son exclusivos del MI-DMM2I [F4][F8]\n- Los diagramas de conexión exactos (Figura 3) están disponibles en los manuales citados — consulta la figura para la topología visual del cableado\n\n---\n\n**Fuentes:**\n- Manual `Conexionado-del-modulo-M710-MI-DMMI` (rev. sin revisión registrada)\n- Manual `I56-2005-002 M710 M720 M721 M701` (rev. sin revisión registrada)\n- Manual `I56-2006-004 MI-DMMI_DMM2I_D2ICMO` (rev. sin revisión registrada)\n- Manual `I56-4406-001 MI-DMMIE MI-DMM2IE MI-D2ICMOE` (rev. sin revisión registrada)\n\n---\n📖 **Información adicional del manual:**\n- \"1. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n2. El circuito con línea intermitente conectado a los terminales 8 y 9 se debe utilizar únicamente con el M720. El M710 no tiene conexiones con estos terminales.\n3. Si el panel de control lo permite, se podrá indicar un cortocircuito como avería en lugar de alarma. Para ello hay que conectar una resistencia de 18 KΩ (M200E-EOL-R18) en serie con cada equipo que se desee supervisar.\" [F3]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "cat008#0",
+     "valor": "2 estados / 3 estados",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat008#1",
+     "valor": "47 kΩ",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 4,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat008#2",
+     "valor": "18 kΩ",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat008#3",
+     "valor": "1/2/3/4 lazo; 6-7 entrada A",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "flip"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "cat017": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "68d812f5-c2ac-40be-8634-a420f082ab81",
+      "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+      "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+      "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+      "ad81ba70-980c-4146-993d-e26fc08eb16f",
+      "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "6596dfec-a47e-46ec-9aba-8807575b6983",
+      "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+      "79faef35-68cf-4631-8e18-7d6d8ef09790",
+      "ad28ab54-cf7e-41a1-923d-9c4ad1332b47",
+      "c2564c21-16d2-477e-ba50-e4a02f240900",
+      "fd092752-a693-4581-b039-34f8d2399829",
+      "1452c904-cf11-4803-9b2b-4b977bfa3d5f"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "68d812f5-c2ac-40be-8634-a420f082ab81",
+      "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+      "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+      "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+      "ad81ba70-980c-4146-993d-e26fc08eb16f",
+      "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "6596dfec-a47e-46ec-9aba-8807575b6983",
+      "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+      "79faef35-68cf-4631-8e18-7d6d8ef09790",
+      "ad28ab54-cf7e-41a1-923d-9c4ad1332b47",
+      "c2564c21-16d2-477e-ba50-e4a02f240900",
+      "fd092752-a693-4581-b039-34f8d2399829",
+      "7a33265b-09a7-4628-8110-980a83d28152",
+      "b7633e98-b011-4035-9548-a564c71e70ac"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "# Cableado y configuración de lazo en INSPIRE E10/E15\n\nA continuación se detalla el proceso completo en dos fases: **cableado físico** y **configuración/alta en software**.\n\n---\n\n## FASE 1 — CABLEADO FÍSICO DEL LAZO\n\n### 1.1 Terminales del módulo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo es de color **morado** [F2] y dispone de 10 terminales [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1**: Lazo 1 Salida +VE\n- Terminal **2**: Lazo 1 Salida -VE\n- Terminal **3**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **4**: Lazo 1 Entrada +VE\n- Terminal **5**: Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6**: Lazo 2 Salida +VE\n- Terminal **7**: Lazo 2 Salida -VE\n- Terminal **8**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **9**: Lazo 2 Entrada +VE\n- Terminal **10**: Lazo 2 Entrada -VE\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3]. Se recomienda poner a tierra un solo extremo de la pantalla [F11].\n\n### 1.2 Topología y cableado\n\nPara el conexionado físico de los dispositivos en el lazo, consulta el diagrama de cableado del manual **HOP-138-8ES issue 6** (sección \"CABLEADO DE LAZO\") [F1], ya que el esquema de conexionado entre dispositivos solo está disponible como diagrama en el manual.\n\nConsideraciones clave del cableado [F9]:\n- Se recomienda **cable de 2 hilos** [F9].\n- **NUNCA** uses dispositivos de alta tensión (como comprobadores de resistencia de aislamiento) en el circuito de lazo una vez conectados los dispositivos. Solo multímetros de baja tensión [F9].\n- **No mezcles dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n### 1.3 Numeración de lazos\n\nLos circuitos de lazo se numeran **secuencialmente de izquierda a derecha** del portamódulos [F2]. En la E15, la segunda fila de portamódulos continúa la numeración desde la primera fila [F2].\n\n---\n\n## FASE 2 — COMPROBACIONES PREVIAS CON MULTÍMETRO\n\nAntes de conectar el lazo a la central, realiza estas verificaciones [F8][F9]:\n\n1. **Continuidad del lazo**: Comprueba la continuidad de cada parte del lazo y mide la resistencia de extremo a extremo [F9].\n\n2. **Resistencia máxima admisible** [F8]:\n   - Protocolo **OPAL**: resistencia inferior a **40 Ω**\n   - Protocolo **CLIP** (detección de dirección duplicada): inferior a **40 Ω**\n   - Protocolo **CLIP** (sin detección de dirección duplicada): inferior a **71 Ω**\n   - Para medir: conecta el multímetro entre \"Lazo X Entrada -VE\" y \"Lazo X Salida -VE\" con el lazo desconectado de la central, multiplica el resultado por 2 y suma la resistencia de cada aislador (**0,1 a 0,13 Ω** por aislador) [F8].\n   - La **capacidad del cable debe ser inferior a 0,5 µF** [F8].\n\n3. **Prueba de polaridad** (con función de diodo del multímetro) [F5]:\n   - En **polaridad invertida** (+ve del multímetro al -VE del lazo): debe indicar símbolo de diodo en directa.\n   - En **polaridad normal** (+ve al +VE del lazo): debe leer resistencia baja que va aumentando al cargarse los condensadores de los dispositivos. Si indica diodo en directa, hay dispositivos con polaridad invertida o cortocircuito [F5].\n\n4. **Pantalla del cable** [F5]:\n   - Comprueba que no hay continuidad entre la pantalla y el cable +VE.\n   - Comprueba que no hay continuidad entre la pantalla y el cable -VE.\n   - Verifica que la pantalla no tiene otra conexión a tierra en ningún punto del recorrido [F5].\n\n5. Una vez verificado todo, conecta el circuito de lazo al bloque de terminales de la central [F11].\n\n---\n\n## FASE 3 — CONFIGURACIÓN EN CLSS (Alta del lazo)\n\n### 3.1 Configuración previa con CLSS\n\n> ⚠️ Antes de realizar la Auto Configuración en un lazo CLIP o TC800 OPAL/CLIP, la central debe configurarse previamente con CLSS. Por defecto, la central tiene licencia solo para **protocolo OPAL avanzado**. Para CLIP o TC800 se requiere licencia adicional [F6].\n\nPasos en el software CLSS [F6][F10]:\n\n1. Accede a **Ajustes → Ajustes HMI** y en **Tipo de Marca** selecciona **Notifier EN** [F6].\n\n2. En **Ajustes de Lazo** (o \"Configuración de lazo\") [F6][F10]:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**.\n   - Si el lazo **se utiliza**:\n     - Selecciona **Protocolo de Lazo**: `Opal` (o `Clip` si tienes licencia).\n     - Configura **Límite a VdS 2540**: Sí o No (el valor de resistencia cambia según la selección) [F6].\n     - Selecciona el **Tipo de Cable**.\n     - Introduce la **resistencia de los cables de lazo** (ejemplo de referencia en pantalla: **93,5 Ω**) [F6][F10].\n\n3. Envía el archivo de configuración a la central [F6][F10].\n\n### 3.2 Auto Configuración (búsqueda de dispositivos)\n\nUna vez enviada la configuración [F7]:\n\n1. Selecciona **Auto Configuración** en la central para buscar dispositivos conectados al lazo. Confirma en la ventana emergente seleccionando **Auto Configuración** / **Learn Devices** [F7].\n\n2. Al completarse, selecciona la flecha **>** junto al botón Auto Búsqueda para ver el estado de averías del lazo [F7].\n\n3. Lee los mensajes de avería y rectifica los problemas detectados. Las causas típicas de avería son [F7]:\n   - Discordancia entre diseño e instalación.\n   - Averías en el cableado.\n   - Presencia de fuente de RFI fuerte.\n   - Error de módulo o fuente de alimentación.\n   - Conexionado incorrecto en dispositivos.\n\n4. Selecciona **Hecho** al completar. Si no hay averías, vuelve a la página **Información del sistema** [F7].\n\n5. **Repite los pasos 1 a 4 para cada lazo** hasta descubrir todos los lazos del sistema [F7].\n\n---\n\n## Capacidades del lazo (referencia rápida)\n\n**Protocolo OPAL** [F2][F4]:\n- Hasta **159 detectores OPAL** por lazo\n- Hasta **159 módulos OPAL** por lazo\n- Corriente máxima por lazo: **750 mA** [F2]\n\n**Protocolo CLIP** [F2][F4]:\n- Hasta **99 detectores CLIP** por lazo\n- Hasta **99 módulos CLIP** por lazo\n\n> ⚠️ **Restricción EN54-2, apartado 13.7**: máximo **512 detectores y/o pulsadores** por módulo de lazo (que comprende 2 circuitos de lazo) [F2].\n\n> ℹ️ La longitud máxima del cable de lazo puede ser de **hasta 3,5 km** dependiendo del tipo de carga y de cable, y debe calcularse con el **programa de cálculo de lazo y batería de CLSS** [F2].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6 (01-2026) — Instrucciones de puesta en marcha INSPIRE E10/E15\n- HOP-138-9ES issue 5 (11-2025) — Manual de instalación INSPIRE E10\n- 4188-1132-ES issue 3 (04-2025) — Guía rápida CLSS-10",
+     "# Cableado y configuración de lazo — INSPIRE E10/E15\n\nA continuación se detalla el proceso completo en dos bloques: **cableado físico** y **configuración (alta) del lazo**.\n\n---\n\n## BLOQUE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Terminales del módulo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo dual tiene código de color **morado** [F2] y sus terminales son [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1**: Lazo 1 Salida +VE\n- Terminal **2**: Lazo 1 Salida -VE\n- Terminal **3**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **4**: Lazo 1 Entrada +VE\n- Terminal **5**: Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6**: Lazo 2 Salida +VE\n- Terminal **7**: Lazo 2 Salida -VE\n- Terminal **8**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **9**: Lazo 2 Entrada +VE\n- Terminal **10**: Lazo 2 Entrada -VE\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3]. Se recomienda poner a tierra un solo extremo de la pantalla [F11].\n\n---\n\n### Requisitos de cableado\n\n- Se recomienda cable de **2 hilos** [F9].\n- La capacidad del cable debe ser **inferior a 0,5 µF** [F8].\n- La longitud máxima del lazo se calcula con el **programa de cálculo de lazo y batería de CLSS**, pudiendo llegar hasta **3,5 km** dependiendo del tipo de carga y cable [F2].\n- **No mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n---\n\n### Comprobaciones previas con multímetro (antes de conectar a la central)\n\nRealiza estas pruebas con el lazo **desconectado físicamente** de los terminales de la central [F8]:\n\n1. Comprueba la continuidad de cada parte del lazo y mide la resistencia de extremo a extremo [F9].\n\n2. Mide entre **Lazo X Entrada -VE** y **Lazo X Salida -VE**, multiplica el resultado por 2 y añade la resistencia de cada aislador (**0,1 a 0,13 Ω** por aislador) [F8].\n\n   Verifica que la resistencia total sea inferior a:\n   - **40 Ω** para lazo protocolo **OPAL** [F8]\n   - **40 Ω** para lazo protocolo **CLIP** (si se necesita detección de dirección duplicada) [F8]\n   - **71 Ω** para lazo protocolo **CLIP** (si no se necesita detección de dirección duplicada) [F8]\n\n3. Comprueba la continuidad de la pantalla del cable (debe dar resistencia muy baja) [F9].\n\n4. Verifica que **no hay continuidad** entre la pantalla y los cables +VE ni -VE [F9].\n\n5. Con el multímetro en función de prueba de diodo, conecta en **polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo): debe indicar símbolo de diodo en polarización directa [F5].\n\n6. Conecta en **polaridad normal** (+VE al positivo, -VE al negativo): al principio debe leer resistencia baja, que aumenta progresivamente al cargarse los condensadores de los dispositivos [F5].\n   - Si indica diodo en polarización directa en este paso, hay uno o varios dispositivos conectados en polaridad inversa o cortocircuito [F5].\n\n7. Comprueba que no hay conexión entre la pantalla del cable y los cables +VE ni -VE [F5].\n\n> ⚠️ **NUNCA uses un dispositivo de alta tensión (p. ej. comprobador de resistencia de aislamiento) en el circuito de lazo** [F9]. Solo se permiten comprobadores de baja tensión como el multímetro.\n\n---\n\n### Conexión a la central\n\nUna vez verificado el cableado y comprobado que es correcto, conecta el circuito del lazo al bloque de terminales del módulo OPAL X2 seleccionado en la central [F11].\n\n> ℹ️ Con aisladores en cada dispositivo, el conductor positivo del lazo será un circuito abierto — esto es normal [F9].\n\n---\n\n## BLOQUE 2 — CONFIGURACIÓN (ALTA) DEL LAZO\n\n### Requisito previo: licencias\n\nDe forma predeterminada, la central tiene licencia para el modo **Protocolo avanzado OPAL únicamente**. Para usar CLIP o TC800 OPAL/CLIP se necesita una licencia adicional antes de realizar la Auto Configuración [F6].\n\n---\n\n### Paso A — Configuración previa con CLSS\n\n1. Conecta la herramienta de configuración **CLSS** a la central [F7].\n\n2. Ve a **Ajustes → Ajustes HMI** y en **Tipo de marca** selecciona **Notifier EN** [F6][F10].\n\n3. Ve a **Ajustes de lazo** y configura cada lazo [F6][F10]:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**.\n   - Si el lazo **se utiliza**:\n     - Selecciona **Protocolo de lazo**: Opal (o Clip si tienes licencia).\n     - Selecciona **Limitar a VdS 2540**: Sí o No (el valor de resistencia cambia según la selección).\n     - Selecciona el **Tipo de cable**.\n     - Introduce la **resistencia de los cables de lazo** (ejemplo de pantalla: **93,5 Ω**) [F6][F10].\n\n4. Envía el archivo de configuración a la central [F6][F10].\n\n---\n\n### Paso B — Auto Configuración (búsqueda de dispositivos) desde la central\n\n1. En la central, selecciona **Auto Configuración** para buscar dispositivos conectados al lazo. Lee la ventana emergente y confirma seleccionando **Auto Configuración** / **Learn Devices** [F7].\n\n2. Una vez completada, selecciona la flecha **>** derecha junto al botón Auto Búsqueda para ver el estado de averías del lazo [F7].\n\n3. Lee los mensajes de avería y toma las medidas necesarias. Las causas típicas de averías son [F7]:\n   - Discordancia entre diseño e instalación y cableado.\n   - Averías en el cableado.\n   - Presencia de fuente de RFI fuerte.\n   - Error de módulo o fuente de alimentación.\n   - Conexionado incorrecto en dispositivos.\n\n4. Selecciona **Hecho** al completar. Si no hay averías, vuelve a la página **Información del sistema** [F7].\n\n5. Si se han rectificado averías, repite los pasos de Auto Configuración [F7].\n\n6. **Repite el proceso para cada lazo** hasta descubrir todos los lazos del sistema [F7].\n\n---\n\n## Capacidades del lazo (referencia rápida)\n\n**Protocolo OPAL** [F2][F4]:\n- Hasta **159 detectores OPAL** por lazo\n- Hasta **159 módulos OPAL** por lazo\n- Corriente máxima por lazo: **750 mA**\n\n**Protocolo CLIP** [F2][F4]:\n- Hasta **99 detectores CLIP** por lazo\n- Hasta **99 módulos CLIP** por lazo\n\n> ⚠️ **Restricción EN54-2, apartado 13.7**: máximo **512 detectores y/o pulsadores** por módulo de lazo (que consta de 2 circuitos de lazo) [F2].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta en marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Instalación INSPIRE E10)\n- 4188-1132-ES issue 3, 04-2025 (Guía rápida CLSS-10)"
+    ],
+    "on": [
+     "# Cableado y configuración de lazo en INSPIRE E10/E15\n\nA continuación se detalla el proceso completo en dos bloques: **cableado físico** y **configuración (alta) del lazo**.\n\n---\n\n## BLOQUE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Módulo de lazo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo es de **color morado** [F2] y dispone de 10 terminales [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1** → Lazo 1 Salida +VE\n- Terminal **2** → Lazo 1 Salida -VE\n- Terminal **3** → ⊕ (**NO conectar pantalla de cable aquí**)\n- Terminal **4** → Lazo 1 Entrada +VE\n- Terminal **5** → Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6** → Lazo 2 Salida +VE\n- Terminal **7** → Lazo 2 Salida -VE\n- Terminal **8** → ⊕ (**NO conectar pantalla de cable aquí**)\n- Terminal **9** → Lazo 2 Entrada +VE\n- Terminal **10** → Lazo 2 Entrada -VE\n\n> ⚠️ **IMPORTANTE:** Los terminales 3 y 8 NO deben usarse para la pantalla del cable de lazo. La pantalla debe conectarse a la **barra de tierra** de la central [F2][F3].\n\n> ⓘ Se recomienda poner a tierra **un solo extremo** de la pantalla del cable de lazo en la barra de tierra de la central [F11].\n\n> ⚠️ **PROHIBIDO** usar dispositivos de alta tensión (como comprobadores de resistencia de aislamiento) en el circuito de lazo una vez conectados los dispositivos. Solo se permiten comprobadores de baja tensión como multímetros [F9].\n\n> ⚠️ **NO mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n---\n\n### Comprobaciones previas con multímetro (antes de conectar a la central)\n\nRealiza estas pruebas **con el lazo desconectado físicamente de los terminales de la central** [F8]:\n\n**1.** Comprueba la continuidad de cada parte del lazo y mide la resistencia de extremo a extremo [F9]. El sistema se debe conectar con **cable de 2 hilos** [F9].\n\n**2.** Comprueba la continuidad de la pantalla del cable (debe dar resistencia muy baja) y verifica que **no hay continuidad entre la pantalla y los cables +VE y -VE** [F9].\n\n**3.** Con el multímetro en función de prueba de diodo, conecta en **polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo). El multímetro debe indicar un **símbolo de diodo en polarización directa** [F5].\n\n**4.** Conecta el multímetro en **polaridad normal** (+VE al positivo del lazo, -VE al negativo). Al principio debe leer resistencia baja, que irá aumentando a medida que se cargan los condensadores de los dispositivos [F5].\n- Si indica diodo en polarización directa en este paso, hay dispositivos conectados en polaridad inversa o cortocircuito en el cableado [F5].\n\n**5.** Verifica que la resistencia medida (multiplicar el resultado por 2 y añadir la resistencia de cada aislador, de **0,1 a 0,13 ohmios** por aislador) sea inferior a [F8]:\n- **Protocolo OPAL:** < **40 ohmios** para comunicación correcta\n- **Protocolo CLIP:** < **40 ohmios** para detección de dirección duplicada / < **71 ohmios** si no se necesita detección de dirección duplicada\n\n- La **capacidad del cable** debe ser inferior a **0,5 µF** [F8].\n\n**6.** Verifica los valores con el **Calculador Global de Baterías de Bucle en CLSS Suite** [F8].\n\n> ⓘ Nota sobre aisladores: Con dispositivos OPAL (base B501 AP), al retirar el detector de la base se mantiene la continuidad mediante los terminales +2 y +4. En módulos y pulsadores con aisladores, los terminales son +2 y +4 en módulos, y +3 y +4 en pulsadores. Para dispositivos CLIP, puentea temporalmente los terminales 2 y 4 de cada aislador [F8].\n\n**Una vez verificado el cableado**, conecta el circuito del lazo al bloque de terminales de lazo seleccionado en la central [F11].\n\n---\n\n### Numeración de lazos\n\nLos circuitos de lazo se numeran **secuencialmente de izquierda a derecha** del portamódulos. El primer módulo de lazo instalado en la ranura izquierda tiene el lazo 1, y los siguientes se numeran correlativamente. En la E15, la segunda fila de portamódulos continúa la numeración desde la primera fila [F2].\n\n---\n\n### Capacidad del lazo\n\n- **Protocolo OPAL:** hasta **159 detectores** + **159 módulos** por lazo [F2]\n- **Protocolo CLIP** (requiere licencia): hasta **99 detectores** + **99 módulos** por lazo [F2][F6]\n- Corriente máxima por lazo: **750 mA** [F2]\n- Longitud máxima del lazo: hasta **3,5 km** dependiendo del tipo de carga y de cable (calcular con el programa CLSS) [F2]\n\n> ⚠️ **EN54-2 (13.7):** Restricción de **512 detectores y/o pulsadores** por módulo de lazo (que consta de 2 circuitos de lazo) [F2].\n\n---\n\n## BLOQUE 2 — CONFIGURACIÓN (ALTA) DEL LAZO\n\n### Requisito previo: preparación en CLSS\n\nAntes del primer encendido, en el **portal en la nube de CLSS** (https://fire.eu.honeywell.com/#/home) [F14]:\n1. Crea un sitio/edificio y añade una central.\n2. Carga la configuración con el programa de configuración de CLSS.\n3. Genera el archivo **.bin de licencia** de la central.\n\n> ⚠️ El primer encendido debe realizarse **sin el cableado externo conectado**, pero con la fuente de alimentación y un circuito de lazo probado conectado [F1].\n\n---\n\n### Configuración del lazo desde CLSS\n\n1. Ejecuta el programa de configuración de **CLSS** [F10].\n\n2. Ve a **Ajustes → Ajustes HMI** y en **Tipo de Marca** selecciona **Notifier EN** [F6][F10].\n\n3. En **Ajustes de lazo** (Configuración de lazo) [F6][F10]:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**.\n   - Si el lazo **se utiliza**:\n     - Selecciona **Protocolo de Lazo**: **Opal** (por defecto) o **Clip** (requiere licencia previa) [F6][F10].\n     - Selecciona **Limitar a VdS 2540**: Sí o No (el valor de resistencia cambia según la selección) [F6].\n     - Introduce la **resistencia del cable** (ejemplo de valor mostrado en pantalla: **93,5 Ohm**) [F6][F10].\n     - Selecciona el **Tipo de Cable** [F6][F10].\n\n4. **Envía el archivo de configuración a la central** (pasos 01 a 04 del procedimiento \"Enviar configuración a la central\" de CLSS) [F6][F10].\n\n> ⚠️ Para lazos CLIP o TC800 OPAL/CLIP, la central debe configurarse previamente con CLSS **antes** de realizar la Auto Configuración, ya que por defecto solo tiene licencia para **Protocolo avanzado OPAL** [F6].\n\n---\n\n### Auto Configuración (búsqueda de dispositivos)\n\nUna vez enviada la configuración y con la central encendida [F7]:\n\n1. Selecciona **Auto Configuración** en la central para buscar dispositivos conectados al lazo. Confirma en la ventana emergente seleccionando **Auto Configuración** / **Learn Devices** [F7].\n\n2. Una vez completada, selecciona la **flecha derecha (>)** junto al botón Auto Búsqueda para ver el estado de averías del lazo [F7].\n\n3. Lee los mensajes de avería y toma las medidas necesarias. Las causas típicas de averías son [F7]:\n   - Discordancia entre diseño e instalación y cableado\n   - Averías en el cableado\n   - Presencia de fuente de RFI fuerte\n   - Error de módulo o fuente de alimentación\n   - Conexionado incorrecto en los dispositivos\n\n4. Selecciona **Hecho** al completar. Si no hay averías, vuelve a la página **Información del sistema** [F7].\n\n5. **Repite los pasos 1 a 4 para cada lazo** hasta descubrir todos los lazos [F7].\n\n---\n\nFuentes:\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta en marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Instalación INSPIRE E10)\n- 4188-1132-ES issue 3, 04-2025 (Guía rápida CLSS-10)\n\n---\n⚠️ **Información adicional del manual:**\n- \"> ⚠️ NUNCA utilice un dispositivo con alta tensión conectándolo en el circuito de lazo de la central.\" [F9]\n- \"- Left side: CPU module with 6 connection terminals and external wiring connection point ②\n- Center top: HMI cable connection detail showing CPU with points \"a\" and \"b\" marked as ①\n- Center middle: Central unit internal view showing wiring connections with color-coded wires (brown, yellow/green, blue) connecting to L and N terminals, marked as ②\n- Right side: Power supply terminal block showing L (brown wire) and N (blue wire) connections with earth (yellow/green wire)\n- Bottom center: Battery connection diagram showing 2 x 12 V 24 Ah batteries with positive and negative terminals, marked as ③\n- Bottom right: Circular detail view showing battery terminal connection with + and - markings]\" [F1]",
+     "# Cableado y configuración de lazo en INSPIRE E10/E15\n\nA continuación se detalla el proceso completo en dos bloques: **cableado físico** y **configuración (alta) del lazo**.\n\n---\n\n## BLOQUE 1 — CABLEADO FÍSICO DEL LAZO\n\n### Terminales del módulo OPAL X2 (HOP-433-100)\n\nEl módulo de lazo dual tiene color **morado** [F2] y sus terminales son [F2][F3]:\n\n**Lazo 1:**\n- Terminal **1**: Lazo 1 Salida +VE\n- Terminal **2**: Lazo 1 Salida -VE\n- Terminal **3**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **4**: Lazo 1 Entrada +VE\n- Terminal **5**: Lazo 1 Entrada -VE\n\n**Lazo 2:**\n- Terminal **6**: Lazo 2 Salida +VE\n- Terminal **7**: Lazo 2 Salida -VE\n- Terminal **8**: ⊕ — **NO usar para pantalla de cable**\n- Terminal **9**: Lazo 2 Entrada +VE\n- Terminal **10**: Lazo 2 Entrada -VE\n\n> ⚠️ **La pantalla del cable de lazo debe conectarse a la barra de tierra de la central, NO a los terminales 3 u 8** [F2][F3]. Se recomienda poner a tierra un solo extremo de la pantalla [F11].\n\n### Restricciones de dispositivos por lazo [F2][F4]\n\n**Modo OPAL:**\n- Hasta **159 detectores OPAL** + **159 módulos OPAL** por lazo\n- Corriente máxima por lazo: **750 mA** [F2]\n\n**Modo CLIP** (requiere licencia):\n- Hasta **99 detectores CLIP** + **99 módulos CLIP** por lazo [F2][F4]\n\n> ⚠️ **No se permite mezclar dispositivos OPAL y CLIP en el mismo lazo** [F2].\n\n> ⚠️ **EN54**: Restricción de **512 detectores y/o pulsadores** por módulo de lazo (2 circuitos) según EN54-2, 13.7 [F2].\n\n### Numeración de lazos [F2]\n\nLos circuitos de lazo se numeran secuencialmente de **izquierda a derecha** del portamódulos. En la E15 (dos filas), la segunda fila continúa la numeración desde la primera.\n\n---\n\n## BLOQUE 2 — COMPROBACIONES PREVIAS AL ENCENDIDO\n\nAntes de conectar el lazo a la central, realiza estas verificaciones con multímetro [F9][F8]:\n\n> ⚠️ **NUNCA uses un comprobador de alta tensión (megóhmetro) en el circuito de lazo** [F9].\n\n1. Comprueba la **continuidad** de cada parte del lazo y mide la resistencia extremo a extremo [F9].\n2. Comprueba la **continuidad de la pantalla** del cable (debe dar resistencia muy baja) [F9].\n3. Verifica que **no hay continuidad** entre la pantalla y los cables +VE y -VE [F9].\n4. Con el lazo desconectado de los terminales de la central, mide entre **Lazo X Entrada -VE** y **Lazo X Salida -VE**, multiplica el resultado por 2 y añade la resistencia de cada aislador (**0,1 a 0,13 Ω** por aislador). La capacidad del cable debe ser **inferior a 0,5 µF** [F8].\n\n**Resistencia máxima admisible** [F8]:\n- Protocolo **OPAL**: inferior a **40 Ω**\n- Protocolo **CLIP** (detección de dirección duplicada): inferior a **40 Ω**\n- Protocolo **CLIP** (sin detección de dirección duplicada): inferior a **71 Ω**\n\n5. Con multímetro en **función de prueba de diodo**, conecta en **polaridad invertida** (+VE del multímetro al negativo del lazo, -VE al positivo): debe indicar símbolo de diodo en polarización directa [F5].\n6. Conecta en **polaridad normal**: al inicio debe leer resistencia baja, que aumenta progresivamente al cargarse los condensadores de los dispositivos. Si indica diodo en polarización directa en este paso, hay dispositivos con polaridad invertida o cortocircuito [F5].\n\n> ℹ️ Con aisladores en cada dispositivo, el conductor positivo del lazo será un **circuito abierto** [F9].\n\nUna vez verificado el cableado, conecta el circuito al bloque de terminales de lazo de la central [F11].\n\n---\n\n## BLOQUE 3 — CONFIGURACIÓN (ALTA) DEL LAZO\n\n### Paso previo: Configuración inicial y primer encendido [F1]\n\nEl primer encendido debe realizarse **sin cableado externo conectado**, pero con la fuente de alimentación y un circuito de lazo probado conectado [F1].\n\n### Configuración con CLSS [F6][F10]\n\n1. En el portal en la nube de CLSS, crea el sitio y carga la configuración de la central [F14].\n2. En el programa de configuración de CLSS, ve a **Ajustes → Ajustes HMI** y en **Tipo de Marca** selecciona **Notifier EN** [F6][F10].\n3. Ve a **Ajustes de Lazo** y configura cada lazo [F6][F10]:\n   - Si el lazo **no se utiliza**: marca ☑ **Sin Uso**\n   - Si el lazo se utiliza, configura:\n     - **Protocolo de Lazo**: Opal (por defecto) o CLIP (requiere licencia)\n     - **Limitar a VdS 2540**: Sí o No (el valor de resistencia cambia según la selección)\n     - **Tipo de Cable**\n     - **Resistencia (Ohm)**: introduce el valor medido (ejemplo en pantalla: **93,5 Ω**) [F6]\n4. Envía el archivo de configuración a la central [F6][F10].\n\n> ⚠️ Para lazos CLIP o TC800 OPAL/CLIP, la central debe configurarse previamente con CLSS **antes** de realizar la Auto Configuración, ya que por defecto solo tiene licencia para **protocolo OPAL avanzado** [F6].\n\n### Auto Configuración (búsqueda de dispositivos) [F7]\n\n1. En la central, selecciona **Auto Configuración** para buscar dispositivos en el lazo. Confirma en la ventana emergente seleccionando **Auto Configuración** / **Learn Devices** [F7].\n2. Una vez completada, selecciona la flecha **>** junto al botón Auto Búsqueda para ver el estado de averías del lazo [F7].\n3. Lee los mensajes de avería y rectifica los problemas detectados. Selecciona **Hecho** al completar [F7].\n4. Si se han rectificado averías, repite los pasos 1 a 3 [F7].\n5. Repite el proceso para **cada lazo** hasta descubrir todos los dispositivos [F7].\n\n**Causas típicas de averías tras Auto Configuración** [F7]:\n- Discordancia entre diseño e instalación real\n- Averías en el cableado\n- Presencia de fuente de RFI fuerte\n- Error de módulo o fuente de alimentación\n- Conexionado incorrecto en dispositivos\n\n---\n\nFuentes:\n- HOP-138-8ES issue 6, 01-2026 (Instrucciones de puesta en marcha INSPIRE E10/E15)\n- HOP-138-9ES issue 5, 11-2025 (Instalación INSPIRE E10)\n- 4188-1132-ES issue 3, 04-2025 (Guía rápida CLSS-10)\n\n---\n📖 **Información adicional del manual:**\n- \"- Left side: CPU module with 6 connection terminals and external wiring connection point ②\n- Center top: HMI cable connection detail showing CPU with points \"a\" and \"b\" marked as ①\n- Center middle: Central unit internal view showing wiring connections with color-coded wires (brown, yellow/green, blue) connecting to L and N terminals, marked as ②\n- Right side: Power supply terminal block showing L (brown wire) and N (blue wire) connections with earth (yellow/green wire)\n- Bottom center: Battery connection diagram showing 2 x 12 V 24 Ah batteries with positive and negative terminals, marked as ③\n- Bottom right: Circular detail view showing battery terminal connection with + and - markings]\" [F1]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "cat017#0",
+     "valor": "modulo OPAL HOP-433-100",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat017#1",
+     "valor": "159 + 159",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat017#2",
+     "valor": "licencia CLIP por lazo",
+     "off": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "miss-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "miss-stable"
+     }
+    },
+    {
+     "key": "cat017#3",
+     "valor": "Auto Configuracion",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "cat017#4",
+     "valor": "CLSS",
+     "off": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 1,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "miss-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 2,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "hp001": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "adc2214e-926f-40e7-a014-c86683dd1673",
+      "8cf55c57-dc8d-4e81-b35b-67f777580cd5",
+      "a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1",
+      "9bd17466-1a22-4ade-bb16-a44624c9f166",
+      "ff6d8078-66fc-4738-ade1-3ddc188d51d4",
+      "1ad2ebc0-4f05-4332-a41d-a443c0e69545",
+      "c9073247-3baf-4064-a26d-b755bee5449d",
+      "0c474a26-83b0-457d-a951-bc3846ab0158",
+      "b626e345-334b-40c8-a607-7666a4a0e206",
+      "e2576d4a-f711-414c-bdb8-5c6e9a65de24",
+      "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "adc2214e-926f-40e7-a014-c86683dd1673",
+      "8cf55c57-dc8d-4e81-b35b-67f777580cd5",
+      "a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1",
+      "9bd17466-1a22-4ade-bb16-a44624c9f166",
+      "ff6d8078-66fc-4738-ade1-3ddc188d51d4",
+      "1ad2ebc0-4f05-4332-a41d-a443c0e69545",
+      "c9073247-3baf-4064-a26d-b755bee5449d",
+      "0c474a26-83b0-457d-a951-bc3846ab0158",
+      "b626e345-334b-40c8-a607-7666a4a0e206",
+      "e2576d4a-f711-414c-bdb8-5c6e9a65de24",
+      "895e1d42-7776-4140-abe7-3979018311e2"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "Para acceder al menú de programación avanzada de la CAD-250, sigue estos pasos:\n\n1. **Desbloquea la pantalla** tocando el icono del candado (🔒) en la pantalla de reposo [F2].\n\n2. **Introduce la clave de administrador** (por defecto: **2222**) en el teclado numérico y confirma con ✓ [F2]. Este nivel es necesario para acceder a los ajustes avanzados [F3].\n\n3. **Navega al menú AJUSTES** en el menú principal (barra lateral izquierda) [F1].\n\n4. **Selecciona AVANZADO** en el submenú de la derecha [F1].\n\nLa ruta completa es:\n\n**AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1]\n\n---\n\nUna vez dentro, dispones de **3 pestañas** [F1]:\n\n- **SISTEMA:** configura número de cabinas (PANELES: 1 a 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y cabina de LEDs de zona (0 ó 1). Los cambios requieren pulsar **Guardar y Reiniciar** [F1].\n- **OTROS:** interruptores para facilitar puesta en marcha y mantenimiento (tiempo de inactividad, salto a scroll si incidentes, saltar a último incidente prioritario si timeout) [F1][F6].\n- **REINICIAR:** devuelve la configuración completa de la central a valores de fábrica [F6].\n\n> ⚠️ **AVISO:** Por razones de seguridad y cumplimiento normativo, los interruptores de inactividad, timeout y scroll deben estar activados (en verde) por defecto [F6].\n\n---\n\nFuente: CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)",
+     "## Acceso al menú de programación avanzada — CAD-250\n\nLa ruta de acceso es: **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1].\n\n### Pasos completos:\n\n1. Desde la **pantalla de reposo**, toca el icono del **candado (🔒)** en la pantalla táctil [F2].\n2. Introduce la **clave de administrador** (por defecto: **2222**) en el teclado numérico y confirma [F2].\n3. En el menú principal de la izquierda, selecciona **AJUSTES** [F1].\n4. En el submenú de la derecha, selecciona **AVANZADO** [F1].\n\n### Contenido del menú AVANZADO:\n\nDispone de **3 pestañas** [F1]:\n\n- **SISTEMA:** configura número de cabinas (PANELES: valor 1 a 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y si hay cabina con LEDs de zona (0 ó 1) [F1].\n- **OTROS:** interruptores para facilitar puesta en marcha y mantenimiento (Tiempo de inactividad, Salto a scroll si incidentes, Saltar a último incidente prioritario si timeout) [F1][F6].\n- **REINICIAR:** devuelve la configuración completa de la central a valores de fábrica [F6].\n\n> ⚠️ **AVISO:** Para validar cambios en la pestaña SISTEMA, pulsa el botón **\"Guardar y Reiniciar\"** [F1]. Por razones de seguridad y cumplimiento normativo, los interruptores de inactividad, timeout y scroll deben permanecer activados (en verde) por defecto [F6].\n\n---\n\nFuente: CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)"
+    ],
+    "on": [
+     "## Acceso al menú de programación avanzada — CAD-250\n\nLa ruta de acceso es: **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1].\n\n### Pasos completos:\n\n1. Desde la **pantalla de reposo**, toca el icono del **candado (🔒)** en la pantalla táctil [F2].\n2. Introduce la **clave de administrador** (por defecto: **2222**) en el teclado numérico y confirma [F2].\n3. En el menú principal, selecciona **AJUSTES** [F1].\n4. En el submenú derecho, selecciona **AVANZADO** [F1].\n\n### Contenido del menú AVANZADO:\n\nUna vez dentro, dispones de **3 pestañas** [F1]:\n\n- **SISTEMA**: configura número de cabinas (PANELES: 1 a 4), número de lazos (2, 4, 6, 8... hasta 32 según cabinas) y si hay cabina con LEDs de zona (0 ó 1) [F1].\n- **OTROS**: interruptores para facilitar puesta en marcha y mantenimiento [F1][F7]:\n  - Tiempo de inactividad\n  - Salto a scroll si incidentes\n  - Saltar a último incidente prioritario si timeout\n  - Recordar estado de módulos virtuales en pantalla incidentes [F7]\n  - Salir del modo de test automáticamente (1 a 24 horas) [F7]\n- **REINICIAR**: devuelve la configuración del panel a valores de fábrica (no afecta a entidades, lazos, maniobras, grupos, módulos virtuales, modos especiales, filtros de red ni registros de eventos) [F7].\n\n> ⚠️ **AVISO:** Por razones de seguridad y cumplimiento normativo, los interruptores de inactividad, timeout y scroll deben estar activados (en verde) por defecto [F6][F7].\n\nPara validar cambios en la pestaña SISTEMA, pulsa **Guardar y Reiniciar** [F1].\n\n---\n\n**Fuente:** CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23); CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b)",
+     "Para acceder al menú de programación avanzada de la **CAD-250**, sigue estos pasos:\n\n1. **Desbloquea la pantalla**: En la pantalla de reposo, toca el icono del candado (🔒) [F2].\n\n2. **Introduce la clave de administrador**: Introduce el código de administrador (por defecto **2222**) en el teclado numérico que aparece [F2]. Este nivel es necesario para acceder a los ajustes avanzados [F3].\n\n3. **Navega al menú AJUSTES**: En el menú principal (barra lateral izquierda), selecciona **AJUSTES** [F1].\n\n4. **Selecciona AVANZADO**: En el submenú de la derecha, pulsa **AVANZADO** [F1].\n\n   La ruta completa es: **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1].\n\nUna vez dentro, dispones de **3 pestañas** de configuración [F1]:\n\n- **SISTEMA**: número de cabinas (paneles), número de lazos y cabina de LEDs de zona.\n- **OTROS**: interruptores de ajuste para puesta en marcha y mantenimiento (tiempo de inactividad, salto a scroll si incidentes, saltar a último incidente prioritario si timeout, entre otros) [F6][F7].\n- **REINICIAR**: devuelve la configuración completa de la central a valores de fábrica [F6].\n\n> ⚠️ **AVISO**: El uso indebido del nivel de administrador puede provocar un mal funcionamiento de la instalación. Asegúrate de tener la autorización necesaria antes de operar en este nivel [F2].\n\n---\n\nFuente: CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23)"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp001#0",
+     "valor": "candado",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp001#1",
+     "valor": "2222",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp001#2",
+     "valor": "1111",
+     "off": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "miss-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 5,
+         "firm": false
+        }
+       }
+      ],
+      "verdict": "miss-stable"
+     }
+    }
+   ]
+  },
+  "hp002": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "414ce99c-0dec-478c-b504-009f14631804",
+      "b5804921-836c-49ca-8316-cecae6da409b",
+      "aa698b5e-646d-45e2-8d49-696e6015d587",
+      "16695901-dbd3-4106-a316-2b5bfb8f0554",
+      "51bc5368-bd68-4feb-97e8-5c7023df6530",
+      "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+      "6d5a807f-3a42-401b-96a4-83c51d796114",
+      "6bd4326b-c8df-4172-b3b1-fa397d5ea887",
+      "d0a14450-289c-44c3-92a0-b63f5477a76b",
+      "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+      "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+      "339f06e0-ac30-47d9-b22e-c1baf25e7240"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "414ce99c-0dec-478c-b504-009f14631804",
+      "b5804921-836c-49ca-8316-cecae6da409b",
+      "aa698b5e-646d-45e2-8d49-696e6015d587",
+      "16695901-dbd3-4106-a316-2b5bfb8f0554",
+      "51bc5368-bd68-4feb-97e8-5c7023df6530",
+      "9410f72f-fff5-494b-bdf5-a0a177e7f02e",
+      "6d5a807f-3a42-401b-96a4-83c51d796114",
+      "6bd4326b-c8df-4172-b3b1-fa397d5ea887",
+      "d0a14450-289c-44c3-92a0-b63f5477a76b",
+      "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+      "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+      "fa55311c-2cf4-4555-8bd1-2027bb6a1379"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "## ASD535 — Alarma intermitente de flujo bajo: causa y diagnóstico\n\n**La causa más probable es una obstrucción parcial en el conducto de aspiración** (código de fallo **001 — Obstrucción, conducto de aspiración**) [F6].\n\n---\n\n### Causas posibles según el manual\n\nCuando el valor de flujo cae **por debajo del 80 %** del valor nominal registrado en el reset inicial, el ASD535 dispara el aviso de fallo de flujo de aire una vez transcurrido el tiempo de retardo de **300 s** [F1][F2]. Las causas concretas para flujo bajo son [F6]:\n\n- Conducto de aspiración obstruido (orificios de aspiración u orificio de salida de aire tapados)\n- Caja de filtro / unidad de filtrado sucia o colmatada\n- Sensor de flujo de aire sucio o contaminado\n- Sensor de flujo de aire defectuoso (código **008**) [F6]\n\nEl carácter **intermitente** puede estar relacionado con la función de tiempo de retardo y el circuito de compensación de temperatura, que descartan perturbaciones transitorias como turbulencias de aire [F1].\n\n---\n\n### Procedimiento de diagnóstico\n\n1. **Leer el valor de flujo actual** en la posición de conmutador **V** (cap. 7.6.1 del manual) [F10][F2].\n   - Valor < 100 % → apunta a obstrucción [F2]\n   - Compara con el valor registrado en el protocolo de puesta en funcionamiento [F10]\n\n2. **Evaluar la desviación**:\n   - Con sensibilidad estándar **±20 %**: si el valor cae por debajo del **90 %** (mitad de la ventana), ya es recomendable inspeccionar el conducto antes de que se dispare el fallo [F10]\n   - El fallo se activa al caer por debajo del **80 %** transcurridos **300 s** [F1][F2]\n\n3. **Inspección física del conducto de aspiración** [F6][F10]:\n   - Comprobar si los orificios de aspiración están obstruidos\n   - Comprobar la salida de aire del ASD (limpiar si hay suciedad) [F10]\n   - Inspeccionar y limpiar la caja de filtro / unidad de filtrado [F6]\n\n4. **Inspeccionar y limpiar el sensor de flujo de aire** [F6]:\n   - Si tras la limpieza el fallo persiste, el sensor puede estar defectuoso → **sustituir** [F6]\n\n5. **Verificar el código de evento** en el AMB 35 (posición de conmutador **E**) para delimitar el patrón de error [F3]:\n   - Código **001**: obstrucción confirmada\n   - Código **004**: parámetros LS-Ü no válidos / punto de funcionamiento fuera de rango → también inspeccionar y limpiar sensor de flujo [F6]\n   - Código **008**: sensor de flujo defectuoso o no conectado [F6]\n\n6. **Tras resolver la causa**, realizar un **reset inicial** para que el ASD535 registre de nuevo los valores nominales de flujo [F1].\n\n---\n\n> ⚠️ **Advertencia**: Antes de realizar cualquier comprobación de mantenimiento, bloquea o desconecta el control de incendios y la alerta remota en la CDI de orden superior para evitar disparos no deseados [F10].\n\n> ⚠️ **Nota normativa**: Modificar el tamaño de la ventana de monitorización por encima de **±20 %** o el tiempo de retardo por encima de **300 s** implica incumplimiento de la norma **EN 54-20** y solo puede realizarse previa consulta con el fabricante [F1][F5].\n\n---\n\n**Fuente:** ASD535, Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F10]\n- Nota: el manual también indica: \"1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe abrirse la cubierta de la caja del detector y fijarse en la posición media de anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:\n     - Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente 🡺 Comprobar si el conducto de aspiración tiene fugas (puntos de unión, racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente 🡺 Comprobar si el conducto de aspiración está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado la conexión de cable plano con la unidad de control y retirar completamente la cubierta de la caja del detector. Una vez desconectado el cable plano de los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.\" [F10]\n- Nota: el manual también indica: \"En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F1]",
+     "# ASD535 — Alarma intermitente de flujo bajo: causa y diagnóstico\n\n**La causa más probable es una obstrucción parcial en el conducto de aspiración** (orificios de aspiración, salida de aire o filtro). Un valor de flujo por debajo del **80 %** del valor nominal dispara el aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de **300 s** [F1][F2].\n\n---\n\n## Causas posibles (código G30/001 — Obstrucción)\n\nSegún la tabla de fallos [F6], las causas a verificar son:\n\n- Conducto de aspiración obstruido (orificios de aspiración y salida de aire)\n- Caja de filtro / unidad de filtrado sucia o colmatada\n- Sensor de flujo de aire sucio o defectuoso\n\n---\n\n## Procedimiento de diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\n\nColoca el conmutador en posición **V** (cap. 7.6.1) [F2][F10] para leer el porcentaje de flujo real:\n- Valor < 100 % → apunta a obstrucción [F2]\n- Si el valor ha caído por debajo del **90 %** (con sensibilidad estándar ±20 %), ya es recomendable inspeccionar el conducto aunque no haya disparado fallo todavía [F10]\n- El fallo se dispara cuando cae por debajo del **80 %** [F1][F2]\n\n**2. Inspeccionar el conducto de aspiración**\n\n- Comprobar visualmente todos los **orificios de aspiración**: busca suciedad, obstrucciones físicas o tapones [F6]\n- Comprobar la **salida de aire** del ASD: limpiar si hay suciedad acumulada [F10]\n- Verificar que las **transiciones de tubo rígido a flexible** (si las hay) están colocadas correctamente y sin fugas [F10]\n\n**3. Inspeccionar y limpiar el filtro**\n\n- Abrir la caja del detector y revisar la **caja de filtro / unidad de filtrado** [F6]\n- Limpiar según los puntos 9 y 10 del procedimiento de mantenimiento (cap. 9.3) [F10]\n\n**4. Inspeccionar el sensor de flujo de aire**\n\n- Limpiar el **sensor de flujo de aire** [F6]\n- Si tras la limpieza el fallo persiste: el sensor puede estar defectuoso → **sustituir** [F6]\n\n**5. Verificar la tensión de alimentación**\n\n- Medir en bornes **1 (+) y 2 (-)** del AMB 35 [F10]:\n  - Funcionamiento a **12 V-CC**: valor nominal **12,3 a 13,8 V-CC**\n  - Funcionamiento a **24 V-CC**: valor nominal **21,6 a 27,6 V-CC**\n- Una tensión fuera de rango puede afectar al funcionamiento del ventilador y del sensor\n\n**6. Tras la corrección: ejecutar reset inicial**\n\n- Una vez resuelto el problema físico, realizar un **reset inicial** para que el ASD registre los nuevos valores nominales de flujo [F1]\n- ⚠️ Respetar el tiempo de espera mínimo antes del reset inicial para evitar el código de fallo **004 (Timeout reset inicial)** [F4]\n\n---\n\n## Nota sobre el comportamiento intermitente\n\nEl carácter **intermitente** del aviso puede deberse a:\n- Fluctuaciones de flujo que entran y salen de la ventana de monitorización (±20 % por defecto) [F1]\n- Turbulencias de aire en el entorno que generan variaciones transitorias [F5]\n- El tiempo de retardo de **300 s** hace que el fallo se dispare solo cuando la condición se mantiene de forma sostenida [F1][F2]\n\nSi el entorno tiene grandes turbulencias, el manual indica que puede ser necesario aumentar el tiempo de retardo y/o el tamaño de la ventana, pero esto requiere consulta con el fabricante y puede implicar incumplimiento de **EN 54-20** [F5].\n\n---\n\n⚠️ **Antes de cualquier intervención**: bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior [F10].\n\n---\n\n**Fuente:** ASD535, Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"| ⚠ | **Advertencia**- El aumento de los valores de la LS-Ü (> ±20 % / > 300 s) implica el incumplimiento de la norma EN 54-20 y solo podrá aplicarse previa consulta con el fabricante.\" [F5]\n- \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F10]\n- Nota: el manual también indica: \"1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe abrirse la cubierta de la caja del detector y fijarse en la posición media de anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:\n     - Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente 🡺 Comprobar si el conducto de aspiración tiene fugas (puntos de unión, racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente 🡺 Comprobar si el conducto de aspiración está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado la conexión de cable plano con la unidad de control y retirar completamente la cubierta de la caja del detector. Una vez desconectado el cable plano de los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.\" [F10]\n- Nota: el manual también indica: \"En las posiciones de conmutador A11 a C32, cualquier variación de este valor que supere el ±20 % – es decir, por debajo del 80 % (suciedad/obstrucción) o por encima del 120 % (rotura de tubo) – disparará un aviso «fallo flujo de aire» una vez transcurrido el tiempo de retardo de 300 s de la LS-Ü.\" [F1]"
+    ],
+    "on": [
+     "## ASD535 — Alarma intermitente de flujo bajo: causa y diagnóstico\n\n**La causa más probable es una obstrucción parcial en el conducto de aspiración** (orificios de aspiración, salida de aire o filtro). El valor de flujo ha caído por debajo del **80 %** del valor nominal registrado en el reset inicial, superando el umbral de **±20 %** establecido por EN 54-20, y tras el tiempo de retardo de **300 s** el ASD535 dispara el aviso de fallo [F1][F2].\n\nEl carácter \"intermitente\" puede indicar que el flujo oscila cerca del umbral, lo que apunta a una obstrucción parcial o a turbulencias de aire que interactúan con la ventana de monitorización [F5].\n\n---\n\n### Diagnóstico paso a paso\n\n**1. Leer el valor de flujo actual**\n\n- Coloca el conmutador en posición **V** para leer el valor de flujo del conducto de aspiración [F10].\n- Valor nominal = **100 %**. Un valor inferior al 100 % apunta a obstrucción [F2][F10].\n- Si la sensibilidad LS-Ü establecida es **±20 %** (estándar), ya deberías inspeccionar el conducto cuando el valor caiga por debajo del **90 %** (la mitad de la sensibilidad = ±10 %) [F10].\n- Compara el valor leído con el protocolo de puesta en funcionamiento [F10].\n\n**2. Verificar el código de fallo activo**\n\n- Accede al código de evento en el **AMB 35** (posición de conmutador **E**) para delimitar el patrón de error [F3].\n- Para flujo bajo, los códigos relevantes son [F6]:\n  - **Código 001** → Obstrucción en conducto de aspiración\n  - **Código 004** → Parámetros LS-Ü no válidos / fuera de rango (también puede indicar sensor de flujo sucio o defectuoso)\n  - **Código 008** → Sensor de flujo de aire defectuoso o no conectado\n\n**3. Inspección física del conducto de aspiración**\n\nAnte código **001** (obstrucción) [F6]:\n- Comprobar si los **orificios de aspiración** están obstruidos (suciedad, objetos, etc.).\n- Comprobar la **salida de aire** en el ASD.\n- Inspeccionar y limpiar la **caja de filtro / unidad de filtrado**.\n- Inspeccionar y limpiar el **sensor de flujo de aire**.\n\n**4. Verificar la tensión de alimentación**\n\n- Medir en los bornes **1 (+)** y **2 (-)** del AMB 35 [F10]:\n  - Funcionamiento a **12 V CC**: valor nominal **12,3 a 13,8 V CC**\n  - Funcionamiento a **24 V CC**: valor nominal **21,6 a 27,6 V CC**\n- Una tensión fuera de rango puede afectar al funcionamiento del ventilador y, por tanto, al flujo [F3] (fallo baja tensión se dispara a **10,4 V CC +0/–0,3 V**).\n\n**5. Si el código es 004 o 008 (sensor de flujo)**\n\n- Inspeccionar y limpiar el sensor de flujo de aire [F6].\n- Si el sensor está defectuoso → **sustituirlo** [F6].\n\n**6. Tras la corrección: ejecutar nuevo reset inicial**\n\n- Una vez resuelto el problema físico, es necesario realizar un **reset inicial** para que el ASD535 registre los nuevos valores nominales de flujo [F1].\n- Respetar el tiempo de espera mínimo antes del reset (el manual indica al menos **5 min** desde el arranque del motor en el punto 9 del procedimiento de puesta en funcionamiento) [F11].\n\n---\n\n### Nota sobre alarmas intermitentes\n\nSi el fallo aparece y desaparece, puede deberse a turbulencias de aire que hacen oscilar el flujo cerca del umbral. En ese caso, el manual indica que puede ser necesario **aumentar el tiempo de retardo y/o el tamaño de la ventana de monitorización** por encima del ±20 %, pero advierte que esto implica **incumplimiento de EN 54-20** y solo puede realizarse **previa consulta con el fabricante** [F5].\n\n---\n\nFuente: ASD535 Descripción técnica, T 131 192 h es (sin revisión registrada en los fragmentos)\n\n---\n⚠️ **Información adicional del manual:**\n- \"| ⚠ | **Advertencia**- El aumento de los valores de la LS-Ü (> ±20 % / > 300 s) implica el incumplimiento de la norma EN 54-20 y solo podrá aplicarse previa consulta con el fabricante.\" [F5]\n- \"Atención: solo será necesario cuando así se indique expresamente en la especificación del firmware correspondiente.\" [F11]\n- Nota: el manual también indica: \"1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe abrirse la cubierta de la caja del detector y fijarse en la posición media de anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:\n     - Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente 🡺 Comprobar si el conducto de aspiración tiene fugas (puntos de unión, racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente 🡺 Comprobar si el conducto de aspiración está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado la conexión de cable plano con la unidad de control y retirar completamente la cubierta de la caja del detector. Una vez desconectado el cable plano de los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.\" [F10]\n- \"* Fallo flujo de aire (transcurrido el tiempo de retardo del LS)\n* Fallo ventilador (por debajo o por encima de los valores límite del ventilador, señal taquimétrica)\n* Fallo reset inicial\n* Fallo polvo o suciedad en sensor de humo\n* Fallo sensor de humo inexistente; fallo de comunicación; otros\n* Fallo de comunicación del AMB 35 con la unidad de control\n* Fallo de comunicación del AMB 35 con el XLM 35 / SLM 35 / RIM 35 / MCM 35 / SIM 35 (individual)\n* Fallo de emergencia (microprocesador averiado)\n* Fallo baja tensión (10,4 V-CC, +0 / –0,3 V)\n* Fallo alimentación (sin tensión en el ASD, sin indicación «Fault»)\n* ASD inactivo a través de la entrada «Reset externo».\" [F3]\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" (ASD535_TD_T131192es_h, p. 121) [F10]",
+     "## ASD535 — Alarma intermitente de flujo bajo: causa y diagnóstico\n\n**La causa más probable es una obstrucción parcial en el conducto de aspiración** (orificios de aspiración, salida de aire o filtro). El valor de flujo ha caído por debajo del **80 %** del valor nominal registrado en el reset inicial, superando el umbral de **±20 %** establecido por EN 54-20 [F1][F2].\n\nEl carácter **intermitente** indica que el flujo oscila cerca del umbral, lo que puede deberse a turbulencias de aire o a una obstrucción parcial que varía con las condiciones del entorno [F5].\n\n---\n\n### Diagnóstico paso a paso\n\n1. **Leer el valor de flujo actual**\n   Coloca el conmutador en posición **V** (cap. 7.6.1) para leer el porcentaje de flujo real y compararlo con el protocolo de puesta en funcionamiento [F10].\n   - Valor < 100 % → apunta a **obstrucción** [F2]\n   - Valor > 100 % → apuntaría a rotura de tubo (no es tu caso)\n\n2. **Verificar el umbral de actuación**\n   Con sensibilidad estándar **±20 %**, el fallo se dispara cuando el flujo cae por debajo del **80 %**, transcurrido el tiempo de retardo de **300 s** (LS-Ü) [F1][F2]. Si la sensibilidad configurada es **±50 %** (no conforme a EN 54-20), el umbral baja al **50 %** [F10].\n\n3. **Inspección física del conducto de aspiración**\n   - Comprobar si los **orificios de aspiración** están obstruidos (suciedad, polvo, objetos) [F6]\n   - Inspeccionar y limpiar la **caja de filtro / unidad de filtrado** [F6]\n   - Comprobar la **salida de aire** del ASD (suciedad acumulada) [F10]\n   - Inspeccionar y limpiar el **sensor de flujo de aire** [F6]\n\n4. **Comprobar el código de fallo activo**\n   Coloca el conmutador en posición **E** (AMB 35) para leer el código de evento [F3]. Los códigos relevantes para flujo bajo son:\n   - **Código 001** (grupo G30/G40): Obstrucción en conducto de aspiración [F6]\n   - **Código 004** (grupo G30/G40): Parámetros LS-Ü no válidos / sensor de flujo fuera de rango → inspeccionar y limpiar sensor; si está defectuoso, sustituir [F6]\n   - **Código 008**: Sensor de flujo de aire defectuoso o no conectado → comprobar cable de conexión y sensor [F6]\n\n5. **Verificar la tensión de alimentación**\n   Medir en bornes **1 (+) y 2 (-)** del AMB 35:\n   - Funcionamiento a **12 V CC**: valor nominal **12,3 a 13,8 V CC** [F10]\n   - Funcionamiento a **24 V CC**: valor nominal **21,6 a 27,6 V CC** [F10]\n   Un fallo de baja tensión (por debajo de **10,4 V CC, +0/–0,3 V**) también puede generar avisos de fallo [F3].\n\n6. **Evaluar si hay turbulencias ambientales**\n   Si el entorno tiene grandes turbulencias de aire, puede ser necesario aumentar el tiempo de retardo o el tamaño de la ventana de monitorización, pero esto requiere **consulta previa con el fabricante** y puede implicar incumplimiento de EN 54-20 [F5].\n\n7. **Tras la limpieza: ejecutar nuevo reset inicial**\n   Una vez resuelto el problema físico, es necesario realizar un **reset inicial** para que el ASD535 registre los nuevos valores nominales de flujo [F1]. Respetar el tiempo de espera mínimo antes del reset (cap. 7.3.5) [F11].\n\n---\n\n> ⚠️ **Importante**: Antes de realizar cualquier comprobación de mantenimiento, bloquea o desconecta el control de incendios y la alerta remota en la CDI de orden superior para evitar disparos no deseados [F10].\n\n---\n\n**Fuente:** ASD535, Descripción técnica, T 131 192 h es (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- \"| ⚠ | **Advertencia**- El aumento de los valores de la LS-Ü (> ±20 % / > 300 s) implica el incumplimiento de la norma EN 54-20 y solo podrá aplicarse previa consulta con el fabricante.\" [F5]\n- \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F10]\n- Nota: el manual también indica: \"1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe abrirse la cubierta de la caja del detector y fijarse en la posición media de anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:\n     - Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente 🡺 Comprobar si el conducto de aspiración tiene fugas (puntos de unión, racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente 🡺 Comprobar si el conducto de aspiración está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado la conexión de cable plano con la unidad de control y retirar completamente la cubierta de la caja del detector. Una vez desconectado el cable plano de los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.\" [F10]\n- \"* Fallo flujo de aire (transcurrido el tiempo de retardo del LS)\n* Fallo ventilador (por debajo o por encima de los valores límite del ventilador, señal taquimétrica)\n* Fallo reset inicial\n* Fallo polvo o suciedad en sensor de humo\n* Fallo sensor de humo inexistente; fallo de comunicación; otros\n* Fallo de comunicación del AMB 35 con la unidad de control\n* Fallo de comunicación del AMB 35 con el XLM 35 / SLM 35 / RIM 35 / MCM 35 / SIM 35 (individual)\n* Fallo de emergencia (microprocesador averiado)\n* Fallo baja tensión (10,4 V-CC, +0 / –0,3 V)\n* Fallo alimentación (sin tensión en el ASD, sin indicación «Fault»)\n* ASD inactivo a través de la entrada «Reset externo».\" [F3]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp002#0",
+     "valor": "fallo flujo de aire",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 1,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp002#1",
+     "valor": "80 %",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp002#2",
+     "valor": "300 s",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp002#3",
+     "valor": "7.6.1",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 2,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 3,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 3,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp002#4",
+     "valor": null,
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 4,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 3,
+        "dual": {
+         "yes": 5,
+         "n_valid": 5,
+         "firm": true
+        }
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "hp007": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "289e81d3-0584-4bc3-b2ca-3bbab6e64a94",
+      "bd4e288b-d65b-4491-bee1-8e140a9e56f8",
+      "4a971ddc-cc1b-4bcb-8119-f4873a6bb4f9",
+      "8f779132-616d-4feb-80b7-1fcd401d4864",
+      "610dabe9-9321-49bc-b85d-db7e53d88779",
+      "d65090aa-413d-47da-be9e-2a6ac44910b0",
+      "bbbd1b00-45a1-42ef-8f6e-1743e4f7464b",
+      "2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83",
+      "9aed283d-f604-4425-9132-8a09de361c6d",
+      "dcf90292-5a85-4f32-823f-1e30989ea7ef",
+      "22339a81-49b0-4c62-8839-0f762873aeb2"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "289e81d3-0584-4bc3-b2ca-3bbab6e64a94",
+      "bd4e288b-d65b-4491-bee1-8e140a9e56f8",
+      "4a971ddc-cc1b-4bcb-8119-f4873a6bb4f9",
+      "8f779132-616d-4feb-80b7-1fcd401d4864",
+      "610dabe9-9321-49bc-b85d-db7e53d88779",
+      "d65090aa-413d-47da-be9e-2a6ac44910b0",
+      "bbbd1b00-45a1-42ef-8f6e-1743e4f7464b",
+      "2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83",
+      "9aed283d-f604-4425-9132-8a09de361c6d",
+      "dcf90292-5a85-4f32-823f-1e30989ea7ef",
+      "159bb21f-1ada-4535-b68d-0c0c7d363940"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "# Test anual del detector VESDA-E VEP según el manual del fabricante\n\nEl manual del VEP-A10-P establece **cuatro tareas de mantenimiento anual** (frecuencia \"Una vez al año\") [F1]:\n\n1. **Prueba de humos** — para comprobar la integridad de la red de tubería\n2. **Comprobación del flujo** de la red de tubería\n3. **Limpieza de los puntos de muestreo**\n4. **Limpieza con agua de la red de tubería**\n\n---\n\n## Antes de comenzar — Precauciones obligatorias [F1]\n\n> ⚠️ Cuando el detector está deshabilitado o en espera, **no emitirá advertencias de fuego**.\n\n- Informa a la autoridad supervisora adecuada antes de iniciar cualquier prueba o mantenimiento.\n- Asegúrate de que se aíslen los dispositivos existentes que dependan del detector antes de ponerlo en funcionamiento.\n\n---\n\n## Modo en espera durante el mantenimiento de tubería [F6]\n\nCuando realices mantenimiento de la red de tubería o los puntos de muestreo, establece el detector en **modo en espera** para apagar el aspirador:\n\n- En **Xtralis VSC**: selecciona **\"Go to Standby\"** en el menú **\"Device\"**.\n- El LED desactivado parpadeará y se desactivará el aspirador [F6].\n- Al terminar, selecciona **\"End Standby\"** en el menú **\"Device\"** para reactivar la unidad [F6].\n\n> Nota: En modo en espera se detiene la detección de alarmas, pero **no** la detección ni señalización de fallos [F6].\n\n---\n\n## Prueba de humos anual [F2]\n\nLa prueba consiste en:\n\n1. Introducir una muestra de humo en el **orificio de muestreo más alejado** de la red.\n2. Medir el **tiempo de transporte** hasta que el humo llega al detector.\n3. Registrar los resultados y compararlos con pruebas anteriores para detectar variaciones del sistema [F2].\n\n> El manual indica que los detalles completos del procedimiento de prueba de humo se encuentran en la **VESDA-E Commissioning Guide** (guía de puesta en marcha de VESDA-E) [F2]. Consulta ese documento para el procedimiento paso a paso.\n\n---\n\n## Comandos de prueba disponibles desde Xtralis VSC [F9]\n\nDurante el mantenimiento anual puedes apoyarte en los siguientes comandos del software:\n\n- **\"Start Alarm Test\"** — Simula nivel de humo de escala completa, generando condiciones de Alerta, Acción, Fuego 1 y Fuego 2. Los relés de alarma se activarán salvo que el detector esté desactivado [F9].\n- **\"Start Air Flow Fault Test\"** — Comprueba el sistema de detección de circulación de aire apagando el aspirador [F9].\n- **\"Start Relay Test\"** — Activa y desactiva los relés disponibles para probarlos individualmente [F9].\n- **\"Start Major Fault Test\"** — Genera un fallo importante y desactiva el relé de fallo durante **2 minutos** [F9].\n- **\"Start Minor Fault Test\"** — Genera un fallo menor y desactiva el relé de fallo durante **2 minutos** [F9].\n\n---\n\n## Nota sobre frecuencias de otras tareas [F1]\n\n- **Cada 3 meses**: Fuente de alimentación y batería.\n- **Cada 6 meses**: Comprobación de la red de tubería.\n- **Cada 2 años**: Sustitución del filtro.\n\nLa frecuencia puede variar según los códigos y normas locales y el entorno de la instalación [F1].\n\n---\n\n**Fuente:** 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión registrada); 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores (sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"**Atención:** Pendant que le detecteur ou la zone est desactivee, aucun feu d'indication va etre emis par le detecteur.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 87) [F1]\n- \"Se debe realizar una comprobación preliminar del sistema después de instalar el detector VEP-A10-P y antes de ponerlo en marcha.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 54) [F5]",
+     "# Test anual del detector VESDA-E VEP según el manual del fabricante\n\nEl manual del VEP-A10-P establece **cuatro tareas de mantenimiento anual** (frecuencia \"Una vez al año\") en la Tabla 7-1 [F1]:\n\n1. **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n2. **Comprobar el flujo** de la red de tubería\n3. **Limpiar los puntos de muestreo**\n4. **Limpiar con agua la red de tubería**\n\n---\n\n## Procedimiento previo obligatorio antes de cualquier prueba\n\nAntes de iniciar el mantenimiento, el manual indica [F1]:\n\n- Informar a la autoridad supervisora adecuada\n- Asegurarse de que se aíslen los dispositivos existentes que dependan del detector antes de ponerlo en funcionamiento\n- **Precaución:** Cuando el detector está deshabilitado o en espera, **no emitirá advertencias de fuego**\n\n---\n\n## Poner el detector en modo en espera (recomendado para tareas de tubería)\n\nCuando se realiza mantenimiento de la red de tubería o los puntos de muestreo, el manual recomienda establecer el detector en **modo en espera** [F6]:\n\n1. En **Xtralis VSC**, selecciona **\"Go to Standby\"** (Ir a modo en espera) en el menú **\"Device\"** (Dispositivo)\n2. El LED desactivado parpadeará y se desactivará el aspirador\n3. Si está configurado, el zumbador emitirá un pitido por minuto (si la casilla de pitido en espera está marcada en la pantalla de configuración de relés, sección 5.5.10) [F6]\n4. Al terminar el mantenimiento, selecciona **\"End Standby\"** (Finalizar modo en espera) en el menú **\"Device\"** [F6]\n\n> **Nota:** El modo en espera desactiva el aspirador y detiene la detección de alarmas, pero **no** la detección ni la señalización de fallos [F6]\n\n---\n\n## Prueba de humos anual\n\nLa prueba de humos consiste en introducir una muestra de humo en el **orificio de muestreo más alejado** y medir el tiempo que tarda el humo en llegar al detector [F2]. Los resultados se registran y se comparan con pruebas posteriores para tener en cuenta las variaciones del sistema [F2].\n\n> El manual remite al documento **\"VESDA-E Commissioning Guide\"** para los detalles completos del procedimiento de prueba de humo [F2].\n\nLos resultados deben registrarse en el **Formulario de puesta en marcha: prueba de humo (Tabla A-2)**, que incluye: método de prueba, tipo de humo y fecha de la prueba [F8].\n\n---\n\n## Comandos de prueba disponibles desde Xtralis VSC\n\nPara verificar el correcto funcionamiento del sistema durante el mantenimiento anual, están disponibles los siguientes comandos desde **Xtralis VSC** [F9]:\n\n- **\"Start Alarm Test\"**: Simula nivel de humo de escala completa, generando condiciones de Alerta, Acción, Fuego 1 y Fuego 2. Los relés de alarma se activarán salvo que el detector esté desactivado\n- **\"Start Air Flow Fault Test\"**: Comprueba el sistema de detección de circulación del aire apagando el aspirador\n- **\"Start Relay Test\"**: Activa y desactiva los relés disponibles para probarlos\n- **\"Start Major Fault Test\"**: Genera un fallo importante y desactiva el relé de fallo durante **2 minutos**\n- **\"Start Minor Fault Test\"**: Genera un fallo menor y desactiva el relé de fallo durante **2 minutos**\n\n---\n\n## Notas adicionales del manual\n\n- La frecuencia de las comprobaciones puede variar en función de los **códigos y normas locales** y del entorno de la instalación [F1]\n- El mantenimiento puede realizarlo el instalador original, un distribuidor autorizado o el contratista de servicio [F1]\n- Cuando se realicen pruebas de humo, seguir los **procedimientos del sitio para evitar falsas alarmas** a los servicios supervisados [F1]\n\n---\n\n**Fuentes:**\n- 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión registrada)\n- 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores (sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"**Atención:** Pendant que le detecteur ou la zone est desactivee, aucun feu d'indication va etre emis par le detecteur.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 87) [F1]"
+    ],
+    "on": [
+     "## Test anual del detector VESDA-E VEP-A10-P\n\nSegún la **Tabla 7-1** del manual, las tareas que corresponden a frecuencia **anual** son las siguientes [F1]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n### Precauciones previas obligatorias (antes de iniciar cualquier prueba)\n\nEl manual establece explícitamente [F1]:\n\n1. **Informar a la autoridad supervisora adecuada** antes de comenzar.\n2. **Aislar los dispositivos existentes** que dependan del detector antes de ponerlo en funcionamiento.\n3. **Seguir los procedimientos del sitio** para evitar falsas alarmas en los servicios supervisados.\n\n> ⚠️ Cuando el detector está deshabilitado o en espera, **no emitirá advertencias de fuego** [F1].\n\n---\n\n### Procedimiento recomendado\n\n**Paso 1 — Poner el detector en modo en espera** (para tareas de tubería y puntos de muestreo)\n\nMediante **Xtralis VSC**: selecciona *\"Go to Standby\"* en el menú *\"Device\"* [F6]. Esto desactiva el aspirador y detiene la detección de alarmas (pero no la detección ni señalización de fallos) [F6]. El LED desactivado parpadeará [F6].\n\n**Paso 2 — Limpiar puntos de muestreo y red de tubería**\n\nRealiza la limpieza de los puntos de muestreo y la limpieza con agua de la red de tubería [F1].\n\n**Paso 3 — Volver a activar el detector**\n\nMediante **Xtralis VSC**: selecciona *\"End Standby\"* en el menú *\"Device\"* [F6].\n\n**Paso 4 — Prueba de humos**\n\nIntroduce una muestra de humo en el **orificio de muestreo más alejado** y mide el tiempo que tarda en llegar al detector [F2]. Los resultados deben registrarse y compararse con pruebas anteriores para detectar variaciones del sistema [F2].\n\n> El manual remite al detalle completo del procedimiento de prueba de humos a la **VESDA-E Commissioning Guide** [F2].\n\n**Paso 5 — Comprobar el flujo de la red de tubería**\n\nEl manual indica esta comprobación como tarea anual [F1], pero los fragmentos disponibles no detallan el procedimiento paso a paso para esta comprobación. Consulta la **VESDA-E Commissioning Guide** o el manual completo para el procedimiento detallado.\n\n---\n\n### Registro de resultados\n\nEl manual incluye el **Formulario A-3** (Tabla A-3) para registrar los resultados de la prueba de muestreo de aire, y el **Formulario A-2** (Tabla A-2) para registrar los resultados de la prueba de humos, incluyendo método de prueba, tipo de humo y fecha [F8].\n\n---\n\n> 📝 **Nota:** La frecuencia de las comprobaciones puede variar en función de los códigos y normas locales, y del entorno de la instalación [F1].\n\n**Fuente:** 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"**Atención:** Pendant que le detecteur ou la zone est desactivee, aucun feu d'indication va etre emis par le detecteur.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 87) [F1]",
+     "# Test anual del detector VESDA-E VEP-A10-P\n\nSegún la **Tabla 7-1** del manual, las tareas de mantenimiento con frecuencia **anual** son las siguientes [F1]:\n\n- **Realizar una prueba de humos** para comprobar la integridad de la red de tubería\n- **Comprobar el flujo** de la red de tubería\n- **Limpiar los puntos de muestreo**\n- **Limpiar con agua la red de tubería**\n\n---\n\n## Procedimiento previo obligatorio (antes de cualquier prueba)\n\nAntes de iniciar el mantenimiento o las pruebas [F1]:\n\n1. **Informa a la autoridad supervisora adecuada.**\n2. **Aísla los dispositivos existentes** que dependan del detector antes de ponerlo en funcionamiento.\n\n> ⚠️ **Precaución:** Cuando el detector está deshabilitado o en espera, **no emitirá advertencias de fuego** [F1].\n\n---\n\n## Pasos para ejecutar el test anual\n\n### 1. Poner el detector en modo en espera (para tareas de tubería/puntos de muestreo)\n\nCuando se realice mantenimiento de la red de tubería o los puntos de muestreo, establece el detector en **modo en espera** para apagar el aspirador [F6]:\n\n- En **Xtralis VSC**: selecciona **\"Go to Standby\"** en el menú **\"Device\"**.\n- El LED desactivado parpadeará y se desactivará el aspirador [F6].\n- Si está configurado, el zumbador emitirá un pitido por minuto [F6].\n\n### 2. Realizar la prueba de humos\n\nIntroduce una muestra de humo en el **orificio de muestreo más alejado** y mide el tiempo que tarda el humo en llegar al detector [F2]. Los resultados deben registrarse y compararse con pruebas anteriores para detectar variaciones del sistema [F2].\n\n> 📋 El manual indica que los detalles completos del procedimiento de prueba de humo se encuentran en la **VESDA-E Commissioning Guide** [F2]. Consulta ese documento para el procedimiento paso a paso.\n\n### 3. Comprobar el flujo de la red de tubería\n\nEl manual no detalla el procedimiento específico de comprobación de flujo en los fragmentos disponibles. Consulta la **VESDA-E Commissioning Guide** para el procedimiento completo.\n\n### 4. Limpiar los puntos de muestreo y la red de tubería\n\nRealiza la limpieza de puntos de muestreo y limpieza con agua de la red de tubería [F1].\n\n### 5. Reactivar el detector\n\nUna vez finalizadas las tareas, en **Xtralis VSC** selecciona **\"End Standby\"** en el menú **\"Device\"** [F6].\n\n---\n\n## Comandos de prueba disponibles desde Xtralis VSC (complementarios)\n\nDesde el software **Xtralis VSC** también están disponibles los siguientes comandos de prueba [F9]:\n\n- **Start Alarm Test**: simula nivel de humo de escala completa, activando condiciones de Alerta, Acción, Fuego 1 y Fuego 2.\n- **Start Air Flow Fault Test**: comprueba el sistema de detección de circulación del aire apagando el aspirador.\n- **Start Relay Test**: activa y desactiva los relés disponibles para probarlos.\n- **Start Major Fault Test**: genera un fallo importante y desactiva el relé de fallo durante **2 minutos**.\n- **Start Minor Fault Test**: genera un fallo menor y desactiva el relé de fallo durante **2 minutos**.\n\n---\n\n## Nota sobre frecuencias\n\n> La frecuencia de las comprobaciones puede variar en función de los **códigos y normas locales** y del **entorno de la instalación** [F1]. Cuando se realicen pruebas de humo, sigue los procedimientos del sitio para evitar falsas alarmas [F1].\n\n---\n\n**Fuente:** 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión registrada); 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores (sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"**Atención:** Pendant que le detecteur ou la zone est desactivee, aucun feu d'indication va etre emis par le detecteur.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 87) [F1]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp007#0",
+     "valor": "una vez al año",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp007#1",
+     "valor": "una vez al año",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp007#2",
+     "valor": "una vez al año",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp007#3",
+     "valor": "una vez al año",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "hp014": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "3f8a816d-a733-4108-bad5-710478096c7b",
+      "823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6",
+      "6d5eb18f-4b4b-45fa-bee3-dec0f6026610",
+      "4cdceb3e-31d4-429b-b74c-ba395bb3ea5d",
+      "7b6fa85e-b30f-4db9-a278-820709711afe",
+      "4a024b60-4d28-48ee-a167-c15a3950364a",
+      "04197991-304d-4097-a31d-abedf245039b",
+      "330d7551-7bb0-4c0e-a27d-ec47c0065128",
+      "25ed44fb-422f-4742-be49-e0536a14ca93",
+      "5bc31c53-2db0-4c5a-909e-f40c19525dbd",
+      "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+      "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+      "bd7415b4-46f9-4886-b2c2-768e6b8f96d6"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "3f8a816d-a733-4108-bad5-710478096c7b",
+      "823ccbfd-d9d8-4d9a-9a89-049ff3b96dc6",
+      "6d5eb18f-4b4b-45fa-bee3-dec0f6026610",
+      "4cdceb3e-31d4-429b-b74c-ba395bb3ea5d",
+      "7b6fa85e-b30f-4db9-a278-820709711afe",
+      "4a024b60-4d28-48ee-a167-c15a3950364a",
+      "04197991-304d-4097-a31d-abedf245039b",
+      "330d7551-7bb0-4c0e-a27d-ec47c0065128",
+      "25ed44fb-422f-4742-be49-e0536a14ca93",
+      "5bc31c53-2db0-4c5a-909e-f40c19525dbd",
+      "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+      "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+      "458afc80-1df5-4936-a313-59452bfad4cd"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\nLos fragmentos del manual MIDT180 no incluyen el esquema de conexionado interno del aislador (terminales pin a pin), ya que ese detalle aparece en el diagrama de la sección 8.4.2 [F3], que no es legible en texto. Para el conexionado exacto terminal a terminal, consulta la figura de esa sección en el manual físico.\n\nLo que sí está documentado es lo siguiente:\n\n---\n\n### Requisitos de instalación (cuántos y dónde)\n\n- Máximo **32 equipos de lazo** entre aisladores para cumplir **EN54-2: 12.5.2** [F8]\n- En la central ID2000, el límite operativo es más restrictivo: **no más de 25 equipos entre aisladores** (o **20 si se usan aisladores tipo FET**) [F8] [F3]\n- Los aisladores deben instalarse en **cada lazo analógico**, incluyendo lazos con detectores de zona convencional y/o pulsadores [F8]\n\n---\n\n### Procedimiento de comprobación del lazo con aisladores instalados\n\n1. **Antes de conectar el panel**, desconecta temporalmente los aisladores cortocircuitando los **terminales 2 y 4** de cada aislador [F3]\n\n   > ⚠️ El cableado del lazo DEBE estar desconectado del panel durante este procedimiento [F3]\n\n2. Comprueba la continuidad de cada extremo del lazo y mide la resistencia final de línea. Verifica que es inferior a [F3]:\n   - **14,5 Ω** (placa base y LIB, con detección de dirección duplicada)\n   - **28,5 Ω** (placa base y LIB, sin detección de dirección duplicada)\n   - **18,5 Ω** (otra configuración de placa base y LIB, con detección de dirección duplicada)\n   - **35,5 Ω** (otra configuración de placa base y LIB, sin detección de dirección duplicada)\n\n3. Con multímetro en modo diodo, conecta en **polaridad invertida** (+ al lazo −, − al lazo +): debe indicar diodos polarizados en paralelo [F3]\n\n4. Conecta en **polaridad normal** (+ al lazo +, − al lazo −): la resistencia debe aumentar progresivamente mientras se cargan los condensadores de los equipos. Si indica un único diodo polarizado, hay un equipo con polaridad invertida [F3]\n\n5. Comprueba que **no hay continuidad entre la pantalla del cable y los conductores + o −** [F3]\n\n   > **Nota:** La pantalla solo debe conectarse a tierra en el panel [F3]\n\n---\n\n### Conexión del cableado del lazo al panel (tras las comprobaciones)\n\n1. **Retira las conexiones temporales** (cortocircuitos) de los terminales 2 y 4 de cada aislador [F1]\n2. Conecta el cableado del lazo al panel respetando la polaridad: **extremos A y B en sus terminales correspondientes** [F1]\n\n---\n\n### Parámetros de cableado relevantes\n\n- Longitud máxima del lazo: **2000 metros** con cable de **1,5 mm² de sección o superior** [F3]\n- Resistencia máxima del lazo: **35 Ω** [F11]\n- Capacidad máxima del cable: **0,5 µF** [F11]\n- Sección de cable admitida en terminales: entre **0,5 mm²** y **2,5 mm²** [F12]\n\n---\n\n### Comportamiento ante cortocircuito (con aisladores instalados)\n\nCuando ocurre un cortocircuito entre dos aisladores, el sistema lo señaliza como **\"Posible corte\"** (no como cortocircuito directo), ya que los aisladores desconectan la sección afectada [F7]. Los equipos en la sección aislada aparecerán como **NO RESPONDE / PERDIDO** o **PÉRDIDA PARCIAL DEL LAZO** si faltan más de tres equipos [F7].\n\n---\n\n> ⚠️ Para el diagrama de conexionado pin a pin del aislador (terminales 1, 2, 3, 4), consulta la figura de la **sección 8.4.2** del manual físico MIDT180 [F3].\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev. MI-DT-180, 2003-03-31)\n\n---\n⚠️ **Información adicional del manual:**\n- \"> ⚠️ **NO utilice NUNCA un multímetro de alta tensión en el lazo.**\" [F8]\n- \"> ⚠️ **¡NUNCA conecte las baterías antes que la fuente de alimentación!**\" [F1]\n- \"Avería central 5 - Reinicio de alimentación\nAvería de sistema 29 - Avería Checksum LIB ROM**\" [F7]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]",
+     "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\nLos fragmentos del manual MIDT180 no incluyen el esquema de conexionado interno del aislador (terminales pin a pin), ya que ese detalle aparece en el diagrama de la sección 8.4.2 [F3], que no es legible en texto. Para el conexionado exacto terminal a terminal, consulta la figura de esa sección en el manual físico.\n\nLo que sí está documentado es lo siguiente:\n\n---\n\n### Requisitos de instalación (norma EN54-2)\n\n- Máximo **32 equipos de lazo** entre aisladores para cumplir EN54-2: 12.5.2 [F8]\n- En la central ID2000 específicamente: **no más de 25 equipos entre aisladores** (o **20 si se usan aisladores tipo FET**) [F8] [F3]\n- Los aisladores deben instalarse en **cada lazo analógico** [F8]\n\n---\n\n### Terminales del aislador\n\nEl manual referencia el aislador con **4 terminales numerados 1, 2, 3 y 4** [F3].\n\nDurante las comprobaciones previas a la puesta en marcha, los aisladores se desconectan temporalmente **cortocircuitando los terminales 2 y 4** de cada aislador [F3].\n\nPara el conexionado completo de esos terminales, remítete al diagrama de la sección 8.4.2 del manual físico MIDT180.\n\n---\n\n### Procedimiento de puesta en marcha con aisladores\n\n1. **Antes de comprobar el cableado del lazo**: desconecta los aisladores cortocircuitando los terminales 2 y 4 de cada uno [F3]. El cableado del lazo debe estar desconectado del panel durante este procedimiento [F3].\n2. **Realiza las comprobaciones de continuidad** del lazo (resistencia, polaridad, aislamiento de pantalla) con los aisladores desconectados [F8] [F3].\n3. **Una vez verificado el cableado**: retira las conexiones temporales en las unidades aisladoras [F1].\n4. **Conecta el cableado del lazo al panel**, verificando que los extremos marcados **A y B** se conectan en los terminales adecuados [F1].\n\n---\n\n### Parámetros de cableado del lazo\n\n- Resistencia máxima del lazo: **no superior a 35 Ω** [F11]\n- Capacidad máxima del cable: **inferior a 0,5 µF** [F11]\n- Longitud máxima total del par de lazo: **2000 metros** con cable de **1,5 mm² de sección o superior** [F3] [F11]\n- Sección de cable admitida en terminales: entre **0,5 mm² y 2,5 mm²** [F12]\n- La pantalla del cable debe conectarse a tierra **únicamente en el panel** [F2] [F7]\n\n---\n\n⚠️ **Advertencia**: No utilices nunca un multímetro de alta tensión (tipo \"Megger\") en el lazo [F8].\n\n⚠️ **Advertencia**: Nunca conectes las baterías antes que la fuente de alimentación principal [F1].\n\n---\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev. MI-DT-180, 2003-03-31)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Es de vital importancia que el cable utilizado sea de buena calidad y que se instale de forma correcta.\" [F11]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]"
+    ],
+    "on": [
+     "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\nLos aisladores son **obligatorios** en cada lazo analógico de la ID2000 para cumplir la norma **EN54-2: 12.5.2** [F8].\n\n---\n\n### Regla de espaciado (crítica)\n\n- Máximo **32 equipos** entre aisladores según EN54-2 [F8]\n- En la ID2000 específicamente: **no más de 25 equipos** entre aisladores [F3][F8]\n- Si se usan **aisladores tipo FET**: máximo **20 equipos** entre aisladores [F3][F8]\n\n> ⚠️ Superar estos límites contraviene EN54-2 en caso de avería de transmisión [F8]\n\n---\n\n### Terminales del aislador\n\nEl aislador dispone de **4 terminales numerados: 1, 2, 3 y 4** [F3].\n\nPara las comprobaciones previas a la puesta en marcha, los aisladores se desconectan temporalmente **cortocircuitando los terminales 2 y 4** de cada aislador [F3].\n\n---\n\n### Procedimiento de conexión al lazo\n\n1. **Antes de conectar el panel**: realiza todas las comprobaciones de continuidad del lazo con los aisladores desconectados (terminales 2 y 4 cortocircuitados) [F3][F8].\n\n   > ⚠️ El cableado del lazo DEBE desconectarse del panel durante este procedimiento [F3]\n\n2. **Comprueba la resistencia de lazo** — debe ser inferior a [F3]:\n   - Con placa base y LIB, detección de dirección duplicada: **14,5 Ω**\n   - Con placa base y LIB, sin detección duplicada: **28,5 Ω**\n   - Otros casos con detección duplicada: **18,5 Ω**\n   - Otros casos sin detección duplicada: **35,5 Ω**\n\n   El manual también indica que la resistencia máxima del lazo no debe superar los **35 Ω** y la capacidad del cable debe ser inferior a **0,5 µF** [F11].\n\n3. **Verifica polaridad** con multímetro en modo diodo: conecta en polaridad invertida (+ al lazo − y − al lazo +) — debe indicar diodos polarizados en paralelo [F3].\n\n4. **Comprueba que no hay continuidad** entre el cable de pantalla y el positivo (+) o negativo (−) del cable [F2].\n\n   > Nota: La pantalla solo debe conectarse a tierra en el panel [F2]\n\n5. **Retira las conexiones temporales** (cortocircuitos en terminales 2 y 4) de todos los aisladores [F1].\n\n6. **Conecta el cableado del lazo al panel** verificando que los extremos **A y B** se conectan en los terminales correctos [F1].\n\n---\n\n### Longitud máxima del lazo\n\nLa longitud total del par de lazo no puede exceder los **2000 metros**, y solo si se utiliza cable de **1,5 mm² de sección o superior** [F3].\n\nLos terminales del panel aceptan cables entre **0,5 mm² y 2,5 mm²** [F12].\n\n---\n\n### Comportamiento ante cortocircuito (para referencia)\n\nSi ocurre un cortocircuito entre dos aisladores, el sistema señaliza los equipos afectados como **NO RESPONDE/PERDIDO** o **PÉRDIDA PARCIAL DEL LAZO** si faltan más de tres equipos. Un cortocircuito entre dos aisladores se señaliza como **'Posible corte'** [F7].\n\n---\n\n> ⚠️ El diagrama de conexionado típico del lazo con aisladores se encuentra en la ilustración de la **Sección 8.4.2** del manual físico. Consúltalo para verificar la topología exacta de conexión de los terminales del aislador al lazo [F3].\n\n---\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev. MI-DT-180, 2003-03-31)\n\n---\n⚠️ **Información adicional del manual:**\n- \"> ⚠️ **NO utilice NUNCA un multímetro de alta tensión en el lazo.**\" [F8]\n- \"> ⚠️ **¡NUNCA conecte las baterías antes que la fuente de alimentación!**\" [F1]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]",
+     "## Conexión del módulo de aislamiento de línea en lazo ID2000\n\nLos aisladores en el lazo ID2000 se conectan mediante sus **terminales 1, 2, 3 y 4**, y durante las comprobaciones previas se cortocircuitan temporalmente los terminales **2 y 4** de cada aislador [F3].\n\n---\n\n### Requisitos de instalación (norma EN54-2)\n\n- Máximo **32 equipos de lazo entre aisladores** para cumplir EN54-2: 12.5.2 [F8]\n- En la central ID2000 específicamente: **no más de 25 equipos entre aisladores** (o **20 si se utilizan aisladores tipo FET**) [F8] [F3]\n- Los aisladores deben instalarse en **cada lazo analógico** [F8]\n\n---\n\n### Procedimiento de puesta en marcha con aisladores\n\n**Fase 1 — Comprobaciones del lazo ANTES de conectar al panel** [F3]\n\n⚠️ El cableado del lazo DEBE estar desconectado del panel durante este procedimiento [F3]\n\n1. **Cortocircuita temporalmente** los terminales **2 y 4** de cada aislador para desconectarlos del lazo [F3]\n2. Comprueba la continuidad de cada extremo del lazo y mide la resistencia final de línea. Verifica que es inferior a [F3]:\n   - En placa base y LIB: **14,5 Ω** (con detección de dirección duplicada) / **28,5 Ω** (sin detección duplicada)\n   - En placa base y LIB (segunda variante): **18,5 Ω** (con detección duplicada) / **35,5 Ω** (sin detección duplicada)\n3. Con multímetro en modo diodo, conecta en **polaridad invertida** (+ al lazo −, − al lazo +): debe indicar diodos polarizados en paralelo [F3]\n4. Conecta en **polaridad normal** (+ al lazo +, − al lazo −): la resistencia debe aumentar progresivamente al cargarse los condensadores de los equipos [F3]\n5. Comprueba que **no hay continuidad entre la pantalla del cable y los conductores** + ni − [F3]\n\n> **Nota:** La pantalla solo debe conectarse a tierra en el panel [F3]\n\n**Fase 2 — Conexión del cableado al panel** [F1]\n\n1. **Retira las conexiones temporales** (cortocircuitos en terminales 2 y 4) de todos los aisladores [F1]\n2. Conecta el cableado del lazo al panel respetando la polaridad: extremos marcados **A y B** a sus terminales correspondientes [F1]\n\n**Fase 3 — Comprobaciones post-conexión** [F1]\n\n1. Reconecta la alimentación principal\n   ⚠️ **NUNCA conectes las baterías antes que la alimentación principal** [F1]\n2. Comprueba la pantalla LCD para detectar posibles averías [F1]\n\n---\n\n### Comportamiento ante cortocircuito con aisladores instalados\n\nSi se produce un cortocircuito entre dos aisladores, el sistema señaliza los equipos afectados como **NO RESPONDE/PERDIDO** o **PÉRDIDA PARCIAL DEL LAZO** (si faltan más de tres equipos). El cortocircuito entre dos aisladores se señaliza como **'Posible corte'** [F7]\n\n---\n\n### Parámetros de cableado del lazo\n\n- Longitud máxima del lazo: **2000 metros** con cable de **1,5 mm² de sección o superior** [F3]\n- Resistencia máxima del lazo: **35 Ω** [F11]\n- Capacidad máxima del cable: **0,5 µF** [F11]\n- Sección de cable admitida en terminales: **0,5 mm² a 2,5 mm²** [F12]\n\n---\n\n> ⚠️ **Las comprobaciones de continuidad del lazo deben realizarse ANTES de conectar los aisladores. NUNCA uses multímetros de alta tensión (tipo \"Megger\") en el lazo** [F8]\n\n---\n\n**Fuente:** Panel ID2000 - Manual de instalación y puesta en marcha, MIDT180 (rev. MI-DT-180, 2003-03-31)\n\n---\n⚠️ **Información adicional del manual:**\n- \"Es de vital importancia que el cable utilizado sea de buena calidad y que se instale de forma correcta.\" [F11]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp014#0",
+     "valor": "25",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp014#1",
+     "valor": "continuidad",
+     "off": {
+      "reps": [
+       {
+        "conveyed": false,
+        "primary_yes": 0,
+        "dual": {
+         "yes": 0,
+         "n_valid": 2,
+         "firm": false
+        }
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "flip"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp014#2",
+     "valor": "terminales 2 y 4",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp014#3",
+     "valor": "35",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "hp018": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "692718af-8d13-4e2f-80df-90d22dd832ec",
+      "35f4421a-d039-4672-9884-5540ab42a788",
+      "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+      "72fc4c53-f507-4e67-9192-ebc68b94be78",
+      "276b5745-9ecc-4260-bb63-a5aacfc62579",
+      "bf70bdde-b22e-47a9-b6e9-eff5b6e51c85",
+      "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+      "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+      "4ec32bc7-289e-45a6-992b-f9a06dd93500",
+      "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+      "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+      "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+      "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "692718af-8d13-4e2f-80df-90d22dd832ec",
+      "35f4421a-d039-4672-9884-5540ab42a788",
+      "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+      "72fc4c53-f507-4e67-9192-ebc68b94be78",
+      "276b5745-9ecc-4260-bb63-a5aacfc62579",
+      "bf70bdde-b22e-47a9-b6e9-eff5b6e51c85",
+      "d4d54d05-bd6e-4861-81db-be2f6d67cd88",
+      "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+      "4ec32bc7-289e-45a6-992b-f9a06dd93500",
+      "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+      "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+      "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+      "cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "# Conexionado de sirenas convencionales en salidas de sirena de la ZXe\n\nLas salidas de sirena de la ZXe son circuitos supervisados con resistencia final de línea de **6,8 kΩ, 0,5 W mínimo** [F11], y cada circuito admite un **consumo máximo de 1 A** [F11].\n\n---\n\n## Requisitos previos\n\n- **Sirenas con polaridad**: cada sirena debe tener un **diodo integrado** para impedir el consumo en polarización inversa durante la supervisión [F4].\n- **Dispositivos no polarizados** (campanas sin polaridad): deben usarse **diodos de polarización y protección** en cada uno [F4].\n- El circuito se polariza en **inverso en reposo** para supervisar la línea, y cambia a polarización normal al dispararse la salida [F4].\n\n---\n\n## Pasos de conexionado\n\n1. **Identifica los terminales de sirena en la placa:**\n   - En la **ZX2e**: terminales `A+`, `A-`, `B+`, `B-` del bloque `SOUNDERS` [F4].\n   - En la **ZX5e**: terminales `A-`, `A+`, `B-`, `B+`, `C-`, `C+`, `D-`, `D+` del bloque `TB7` [F4].\n\n2. **Conecta las sirenas en línea** (sin ramales paralelos) respetando la polaridad `+` y `-` de cada dispositivo [F3].\n\n3. **Instala la Resistencia Final de Línea (RFL)** de **6,8 kΩ (6800 Ω), 0,5 W mínimo** entre `+` y `-` al final de la última sirena de cada circuito [F11] [F1].\n   - Si no se conecta ninguna sirena en una salida, instala la RFL directamente en los terminales de la central [F1].\n\n4. **No realices ramales** en la línea de sirenas: la supervisión se realiza sobre la línea directa hasta la RFL, y los ramales paralelos no quedan supervisados [F3].\n\n5. **No enrolles el cable en los terminales**: corta y empalma las conexiones adecuadamente para mantener la supervisión de la línea [F3].\n\n---\n\n## Limitaciones de cableado\n\n- **Sección mínima recomendada**: no inferior a **1,5 mm²** [F1].\n- **Longitud máxima recomendada**: no superior a **1 km**; longitudes mayores pueden afectar al funcionamiento por capacitancia e inductancia del lazo [F3].\n- Asegúrate de que la sección es adecuada para garantizar la alimentación de las sirenas tanto con alimentación principal como en condiciones de mínima tensión de baterías [F3].\n\n---\n\n## Referencia al diagrama\n\nPara el esquema visual del circuito de sirenas (Circuito A y B con RFL), consulta la **Figura 15 – Circuito de sirenas convencionales** del manual de instalación [F3], y la **Figura 13** (ZX2e) y **Figura 14** (ZX5e) para la ubicación física de los terminales en la placa [F4].\n\n---\n\n**Fuentes:**\n- Manual de Instalación Paneles de Incendio ZX2e/ZX5e — Documento No. MIE-MI-530, Revisión: 001\n- Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310 (sin revisión registrada)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"(NOTA: Las salidas de relé no se activan nunca).\" (MIE-MU-530rv001, p. 17) [F10]\n- \"Todas las salidas de sirena quedan configuradas por defecto para sonar de forma contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F7]\n- \"Cada circuito de sirena se supervisa ante cortocircuito y circuito abierto.\" (MIE-MI-530rv001, p. 20) [F11]",
+     "# Conexionado de sirenas convencionales en salidas de sirena de la ZXe\n\nLa ZXe dispone de **2 salidas supervisadas para sirenas convencionales** (Sirena A y Sirena B) en su placa base [F3][F4].\n\n---\n\n## Parámetros eléctricos clave\n\n- **Corriente máxima por circuito:** 1 A [F11]\n- **Resistencia Final de Línea (RFL):** 6.800 Ω, 0,5 W mínimo [F11]\n- **Longitud máxima de cable recomendada:** no superior a 1 km [F3]\n- **Sección mínima de cable:** la adecuada para garantizar la alimentación de las sirenas a la tensión recomendada por el fabricante (revisar tablas 10 y 11 del manual para tensión mínima del panel) [F3]\n\n---\n\n## Principio de supervisión\n\nEl circuito se polariza en **inverso en reposo** para supervisar la línea. Al dispararse la salida, cambia a polarización normal permitiendo el funcionamiento de las sirenas [F4].\n\n---\n\n## Requisitos de conexionado\n\n### Sirenas con polaridad\n- Cada sirena debe tener un **diodo integrado** para impedir el consumo en polarización inversa (supervisión) [F4].\n- Respetar la polaridad + / − en cada sirena.\n\n### Dispositivos no polarizados (campanas sin polaridad)\n- Deben usarse **diodos de polarización y protección** en cada uno de ellos [F4].\n\n### Resistencia Final de Línea (RFL)\n- Instalar **obligatoriamente** una RFL de **6.800 Ω, 0,5 W mínimo** al final del circuito, entre + y − de la última sirena [F11].\n- Si no se conecta ninguna sirena en la salida, la RFL debe colocarse directamente en los terminales de la central [F1].\n\n---\n\n## Reglas de cableado\n\n1. **No realizar ramales** en la línea de sirenas. La supervisión se realiza en la línea directa hasta la RFL; los ramales paralelos no quedan supervisados [F2].\n2. **No enrollar el cable en los terminales.** Cortar y empalmar las conexiones adecuadamente para mantener la supervisión de la línea [F3].\n3. Evitar longitudes superiores a **1 km**, ya que la capacitancia e inductancia del lazo pueden afectar al funcionamiento [F3].\n\n---\n\n## Terminales físicos en placa\n\n- En la **ZX2e**: terminales etiquetados **A+ A− B+ B−** en el bloque **SOUNDERS** [F4].\n- En la **ZX5e**: terminales **A− A+ B− B+ C− C+ D− D+** en el bloque **TB7** [F4].\n\n> Para el esquema visual de conexionado, consulta la **Figura 15 – Circuito de sirenas convencionales** del manual de instalación [F3].\n\n---\n\n## Aviso de fallo de supervisión\n\nCualquier fallo en la línea (circuito abierto o cortocircuito) se mostrará en pantalla y quedará registrado en el sistema [F5]:\n\n```\n!ATENCION!  CIRCUITO ABIERTO SIRENA B\n```\n\n---\n\n**Fuentes:**\n- Manual de Instalación ZX2e/ZX5e — Documento No. MIE-MI-530, Revisión: 001\n- Manual de Configuración ZX2e/ZX5e — Documento No. MIE-MP-530, Revisión: 001\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"(NOTA: Las salidas de relé no se activan nunca).\" (MIE-MU-530rv001, p. 17) [F10]\n- \"Todas las salidas de sirena quedan configuradas por defecto para sonar de forma contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F7]"
+    ],
+    "on": [
+     "# Conexionado de sirena convencional en salidas de sirena de la ZXe\n\nLa ZXe (ZX2e) dispone de **2 salidas supervisadas de sirenas convencionales (Salida A y B)** en placa base [F4], y la ZX5e dispone de **4 salidas (A, B, C y D)** [F4].\n\n---\n\n## Parámetros eléctricos clave\n\n- **Corriente máxima por circuito:** 1 A [F11]\n- **Resistencia Final de Línea (RFL):** 6.800 Ω, 0,5 W mínimo [F11]\n- **Supervisión:** El circuito se polariza en inverso en reposo para supervisar la línea; al dispararse la salida, cambia a polarización normal [F4]\n- **Longitud máxima de cable recomendada:** no superior a 1 km (por encima, la capacitancia e inductancia pueden afectar al funcionamiento) [F3]\n- **Sección mínima de cable:** la adecuada para garantizar la alimentación de las sirenas a las tensiones recomendadas por el fabricante; no se deben usar secciones que provoquen caídas de tensión excesivas [F3]\n\n---\n\n## Requisitos de las sirenas\n\n- **Sirenas con polaridad:** cada sirena debe tener un **diodo integrado** para impedir el consumo en polarización inversa (supervisión) [F4]\n- **Sirenas/campanas sin polaridad (no polarizadas):** deben instalarse **diodos de polarización y protección** en cada dispositivo [F4]\n\n---\n\n## Procedimiento de conexionado\n\n1. **Identifica los terminales de sirena en la placa:**\n   - En la **ZX2e**: terminales etiquetados **A+ A- B+ B-** en el bloque **SOUNDERS** [F4]\n   - En la **ZX5e**: terminales **A- A+ B- B+ C- C+ D- D+** en el bloque **TB7** [F4]\n\n2. **Conecta las sirenas en línea** (sin ramales paralelos) respetando la polaridad (+/-) de cada dispositivo [F3]\n\n3. **Instala la RFL (6.800 Ω, 0,5 W mínimo) al final de la línea**, entre el conductor + y el conductor – de la última sirena del circuito [F11]\n\n4. **Si no se conecta ninguna sirena** en una salida, instala igualmente la RFL directamente en los terminales de esa salida en la central [F1]\n\n5. **No realices ramales paralelos:** la supervisión se realiza sobre la línea directa hasta la RFL; los ramales paralelos no quedan supervisados [F2]\n\n6. **No enrolles el cable en los terminales:** corta y empalma las conexiones adecuadamente para mantener la supervisión de la línea [F3]\n\n---\n\n## ⚠️ Advertencias importantes\n\n- **No hagas ramales:** cualquier derivación paralela queda fuera de supervisión [F2]\n- **Campanas sin polaridad:** instala un diodo en cada una para evitar consumo durante la supervisión [F4]\n- **Verifica la sección de cable** para garantizar la tensión adecuada en las sirenas tanto con alimentación principal como en condiciones de mínima tensión de baterías (consulta las tablas 10 y 11 del manual de instalación) [F3]\n\n---\n\nPara el diagrama de conexionado exacto, consulta la **Figura 15 – Circuito de sirenas convencionales** del documento MIE-MI-530 [F3].\n\n**Fuentes:**\n- Manual de Instalación ZX2e/ZX5e — Documento No. MIE-MI-530, Revisión: 001 (MIE-MI-530rv001)\n- Manual de Instalación ZXAE/ZXEE — DOC.MIE-MI-310\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"(NOTA: Las salidas de relé no se activan nunca).\" (MIE-MU-530rv001, p. 17) [F10]\n- \"Todas las salidas de sirena quedan configuradas por defecto para sonar de forma contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F7]\n- \"Cada circuito de sirena se supervisa ante cortocircuito y circuito abierto.\" (MIE-MI-530rv001, p. 20) [F11]",
+     "# Conexionado de sirena convencional en salidas de sirena de la ZXe\n\nLas sirenas convencionales se conectan a los terminales **SIRENA A (+) / SIRENA A (-)** y **SIRENA B (+) / SIRENA B (-)** de la placa base [F4], con una **resistencia final de línea (RFL) de 6.800 Ω, 0,5 W mínimo** al final del circuito [F11].\n\n---\n\n## Requisitos previos y parámetros clave\n\n- **Corriente máxima por circuito:** 1 A [F11]\n- **RFL:** 6.800 Ω, 0,5 W mínimo, instalada entre + y – de la última sirena [F11]\n- **Sección mínima de cable:** no inferior a 1,5 mm² [F1]\n- **Longitud máxima recomendada:** no superior a 1 km (por encima, la capacitancia e inductancia del lazo pueden afectar al funcionamiento) [F3]\n\n---\n\n## Pasos de conexionado\n\n1. **Identifica los terminales de sirena en la placa.** En la ZX2e los terminales son **A+ A- B+ B-** en el bloque **SOUNDERS** [F4]. En la ZX5e los terminales son **A- A+ B- B+ C- C+ D- D+** en el bloque **TB7** [F4].\n\n2. **Conecta las sirenas con polaridad** respetando el signo + y – de cada sirena. Cada sirena debe llevar un **diodo integrado** para impedir el consumo en polarización inversa (supervisión) [F4].\n\n3. **Si conectas campanas/sirenas sin polaridad**, instala un diodo de polarización y protección en cada dispositivo no polarizado [F4].\n\n4. **Instala la RFL (6.800 Ω, 0,5 W mínimo)** entre + y – al final del último dispositivo de la línea [F11]. Si no hay ninguna sirena conectada, coloca la RFL directamente en los terminales de la central [F1].\n\n5. **No realices ramales (derivaciones paralelas)** en la línea de sirenas. La supervisión se realiza sobre la línea directa hasta la RFL; los ramales no quedan supervisados [F2].\n\n6. **No enrolles el cable en los terminales.** Corta y empalma las conexiones adecuadamente para mantener la supervisión de la línea [F3].\n\n---\n\n## Cómo funciona la supervisión\n\nEl circuito se polariza en **inverso en reposo** para supervisar la línea (corriente de supervisión en sentido contrario a la de activación). Al dispararse la salida, la polarización cambia a la normal y las sirenas suenan [F4]. Cualquier fallo (circuito abierto o cortocircuito) se mostrará en pantalla, por ejemplo [F5]:\n\n```\n!ATENCION!  CIRCUITO ABIERTO SIRENA B\n```\n\n---\n\n## Referencia de terminales por modelo\n\n- **ZX2e:** bloque **SOUNDERS → A+ A- B+ B-** [F4] — ver Figura 13 del manual de instalación [F4]\n- **ZX5e:** bloque **TB7 → A- A+ B- B+ C- C+ D- D+** [F4] — ver Figura 14 del manual de instalación [F4]\n\nPara el esquema visual del circuito completo, consulta la **Figura 15 – Circuito de sirenas convencionales** del documento MIE-MI-530 [F3].\n\n---\n\n**Fuentes:** Manual de Instalación ZX2e/ZX5e (Documento No. MIE-MI-530, Revisión: 001); Manual de Instalación ZXAE/ZXEE (DOC.MIE-MI-310, sin revisión registrada); Manual de Configuración ZX2e/ZX5e (Documento No. MIE-MP-530, Revisión: 001)\n\n---\n⚠️ **Obligaciones de evidencia del manual:**\n- \"(NOTA: Las salidas de relé no se activan nunca).\" (MIE-MU-530rv001, p. 17) [F10]\n- \"Todas las salidas de sirena quedan configuradas por defecto para sonar de forma contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F7]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp018#0",
+     "valor": "4 circuitos",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp018#1",
+     "valor": "6K8",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp018#2",
+     "valor": "diodo",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp018#3",
+     "valor": "Sirenas A,B,C,D",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp018#4",
+     "valor": "1 A",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  },
+  "hp020": {
+   "arms": {
+    "off": {
+     "served_ids": [
+      "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+      "ce6e37f4-5a28-4510-99ca-07a490624e02",
+      "48f10797-6b7c-4d2e-a2c7-ca39e0517bfa",
+      "f4915639-2e22-4461-8255-abc8ad5fef8f",
+      "93e8cc33-6534-4c6d-b15c-0ff7cee8e7bd",
+      "51880726-5654-4bf3-87ef-44558a3bcd78",
+      "62807d13-a208-4d47-b49e-da4990f4ca63",
+      "2b5fef6b-fa8d-49bf-9750-922acd156a8b",
+      "6843a293-65bc-4963-b81a-1741ba15940b",
+      "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "b894fdeb-f1c6-4bb7-8d9f-a072ec372bee"
+     ]
+    },
+    "on": {
+     "served_ids": [
+      "1e38f728-ce6a-4753-b24f-46c9106d8c6a",
+      "ce6e37f4-5a28-4510-99ca-07a490624e02",
+      "48f10797-6b7c-4d2e-a2c7-ca39e0517bfa",
+      "f4915639-2e22-4461-8255-abc8ad5fef8f",
+      "93e8cc33-6534-4c6d-b15c-0ff7cee8e7bd",
+      "51880726-5654-4bf3-87ef-44558a3bcd78",
+      "62807d13-a208-4d47-b49e-da4990f4ca63",
+      "2b5fef6b-fa8d-49bf-9750-922acd156a8b",
+      "6843a293-65bc-4963-b81a-1741ba15940b",
+      "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+      "f60fdcd2-25b9-4253-a110-d1c03133331e"
+     ]
+    }
+   },
+   "answers": {
+    "off": [
+     "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\nLos códigos de acceso de nivel 2 y nivel 3 deben tener entre **4 y 8 dígitos** [F1][F2]. Los códigos de fábrica son **\"22222222\"** para nivel 2 y **\"33333333\"** para nivel 3 [F3].\n\n---\n\n## Cambio de contraseña desde la propia central\n\n### Nivel 2 (puede hacerlo un usuario de nivel 2 o nivel 3)\n\n1. Selecciona el icono del menú y accede a **\"Configuración\"** [F2].\n2. Inicia sesión como usuario de **nivel de acceso 2** [F2].\n3. Selecciona la opción **\"Cambio del código de acceso\"** [F2].\n4. Asegúrate de que **Nivel de Acceso 2** esté seleccionado y el cursor parpadee [F2].\n5. Pulsa el icono del **ojo** si quieres ver la entrada del código [F2].\n6. Introduce el nuevo código de acceso (4–8 dígitos) con el teclado [F2].\n7. Confirma seleccionando el símbolo **✓** [F2].\n8. Repite los pasos 3 a 6 para confirmar la entrada [F2].\n\n### Nivel 2 y/o Nivel 3 (desde nivel de acceso 3)\n\n1. Selecciona el icono del menú → **\"Ajustes\"** [F1].\n2. Inicia sesión como usuario de **nivel de acceso 3** [F1].\n3. Selecciona **\"Cambio del código de acceso\"** [F1].\n4. Asegúrate de que el nivel correcto (**Nivel 2 o Nivel 3**) esté seleccionado y el cursor parpadee [F1].\n5. Pulsa el icono del **ojo** si quieres ver la entrada [F1].\n6. Introduce el nuevo código (4–8 dígitos) con el teclado [F1].\n7. Confirma seleccionando el símbolo **✓** [F1].\n8. Repite los pasos 3 a 6 para confirmar [F1].\n9. Observa el mensaje **\"Cambio de código de acceso satisfactorio\"** y selecciona **Aceptar** [F1].\n10. **Sincroniza el programa con la central** y realiza una **copia de seguridad del cambio en la nube** [F1].\n\n> ⚠️ Se recomienda cambiar los códigos de fábrica por códigos exclusivos. Asegúrate de que solo los usuarios autorizados los conozcan [F5].\n\n---\n\n## Nota de seguridad adicional\n\nEl código de nivel 2 de fábrica es **\"22222222\"** [F5]. Tras 5 minutos de inactividad, la central cierra sesión automáticamente del nivel 2 y vuelve al nivel 1 [F5].\n\nEl PIN de nivel 2/3 debe tener entre **4 y 8 caracteres** como requisito de ciberseguridad [F4].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6_01-2026_Co (sin revisión registrada) [F1, F6, F7, F10]\n- HOP-338-9ES issue 4_01-2026_Op (sin revisión registrada) [F2, F3, F5]\n- 4188-1122-ES issue 4_04-2025_Cyb (sin revisión registrada) [F4]\n\n---\n📋 **Información adicional del manual:**\n- Nota: el manual también indica: \"Se recomienda cambiar la contraseña del código de acceso al nivel de acceso 2/3 contraseña a uno exclusivo que tenga entre 4 y 8 dígitos.\" [F1] · \"- Menu icon ① leading to \"Configuraciones\"\n- \"Configuraciones\" screen showing \"Configuración del sistema, red, datos y hora, programa de mantenimiento, etc\" ②\n- Arrow pointing to \"Cambio de contraseña\" option ③\n- \"Introduzca nueva contraseña\" dialog box with:\n  - \"Acceso Nivel 2\" dropdown ④\n  - Password input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\" text with eye icon ⑥\n  - Numeric keypad showing numbers 1-9, 0, backspace icon, and checkmark icon ⑧\n  - Backspace arrow ⑦]\" [F1]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"* El programa de configuración de CLSS y la Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]",
+     "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\nLas contraseñas de nivel 2 y nivel 3 se configuran desde el menú **Ajustes → Cambio del código de acceso**, con una longitud de entre **4 y 8 dígitos** [F1][F2].\n\n---\n\n## Códigos de fábrica\n\n- Nivel 2: **22222222** [F3][F5]\n- Nivel 3: **33333333** [F3]\n\n---\n\n## Cambiar contraseña de Nivel 2 (desde sesión NI2 o NI3)\n\n1. Selecciona el icono del menú y accede a **\"Configuración\"** [F2].\n2. Inicia sesión como usuario de **nivel de acceso 2** [F2].\n3. Selecciona la opción **\"Cambio del código de acceso\"** [F2].\n4. Asegúrate de que **Nivel de Acceso 2** esté seleccionado y el cursor parpadee [F2].\n5. Puedes ver la entrada haciendo clic en el **icono del ojo** [F2].\n6. Introduce el nuevo código de acceso (4–8 dígitos) con el teclado [F2].\n7. Confirma seleccionando el símbolo **✓** [F2].\n8. Repite los pasos 4 a 7 para confirmar la entrada [F2].\n\n---\n\n## Cambiar contraseña de Nivel 2 y/o Nivel 3 (desde sesión NI3)\n\nSi estás en nivel de acceso 3, puedes cambiar el código de nivel 2 **o** el de nivel 3 [F1].\n\n1. Selecciona el icono del menú y accede a **\"Ajustes\"** [F1].\n2. Inicia sesión como usuario de **nivel de acceso 3** [F1].\n3. Selecciona **\"Cambio del código de acceso\"** [F1].\n4. Asegúrate de que el nivel deseado (**Nivel 2 o Nivel 3**) esté seleccionado y el cursor parpadee [F1].\n5. Puedes ver la entrada haciendo clic en el **icono del ojo** [F1].\n6. Introduce el nuevo código de acceso (4–8 dígitos) con el teclado [F1].\n7. Confirma seleccionando el símbolo **✓** [F1].\n8. Repite los pasos 4 a 7 para confirmar la entrada [F1].\n9. Observa el mensaje **\"Cambio de código de acceso satisfactorio\"** y selecciona **Aceptar** [F1].\n10. **Sincroniza el programa con la central** y realiza una **copia de seguridad del cambio en la nube** [F1].\n\n---\n\n## Notas importantes\n\n- Se recomienda cambiar los códigos de fábrica por códigos exclusivos [F1][F5].\n- El código de nivel 2 de fábrica es **22222222** — se recomienda cambiarlo [F5].\n- Si los controles no se usan durante **5 minutos** con sesión de nivel 2 abierta, la central cierra sesión automáticamente y vuelve al nivel 1 [F5].\n- El código de acceso (PIN) de nivel 2/3 debe tener entre **4 y 8 caracteres** como práctica de ciberseguridad [F4].\n- Asegúrate de que los códigos se mantienen seguros y solo los conocen usuarios autorizados [F5].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6_01-2026_Co (sin revisión registrada) [F1, F6, F7, F10]\n- HOP-338-9ES issue 4_01-2026_Op (sin revisión registrada) [F2, F3, F5]\n- 4188-1122-ES issue 4_04-2025_Cyb (sin revisión registrada) [F4]\n\n---\n📋 **Información adicional del manual:**\n- Nota: el manual también indica: \"Se recomienda cambiar la contraseña del código de acceso al nivel de acceso 2/3 contraseña a uno exclusivo que tenga entre 4 y 8 dígitos.\" [F1] · \"- Menu icon ① leading to \"Configuraciones\"\n- \"Configuraciones\" screen showing \"Configuración del sistema, red, datos y hora, programa de mantenimiento, etc\" ②\n- Arrow pointing to \"Cambio de contraseña\" option ③\n- \"Introduzca nueva contraseña\" dialog box with:\n  - \"Acceso Nivel 2\" dropdown ④\n  - Password input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\" text with eye icon ⑥\n  - Numeric keypad showing numbers 1-9, 0, backspace icon, and checkmark icon ⑧\n  - Backspace arrow ⑦]\" [F1]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"* El programa de configuración de CLSS y la Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]"
+    ],
+    "on": [
+     "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\nLos códigos de acceso de fábrica son **\"22222222\"** para nivel 2 y **\"33333333\"** para nivel 3 [F3]. Se recomienda cambiarlos por códigos exclusivos de **entre 4 y 8 dígitos** [F1][F4].\n\n---\n\n## Cambio de contraseña desde la propia central\n\n**Quién puede cambiar qué:**\n- Sesión de **nivel 2**: puede cambiar únicamente el código de nivel 2 [F1][F2].\n- Sesión de **nivel 3**: puede cambiar el código de nivel 2 **o** el de nivel 3 [F1].\n\n**Pasos (desde nivel 3, para cambiar nivel 2 o nivel 3):**\n\n1. Selecciona el icono del menú y accede a **\"Ajustes\"** [F1].\n2. Inicia sesión como usuario de **nivel de acceso 3** [F1].\n3. Selecciona la opción **\"Cambio del código de acceso\"** [F1].\n4. Asegúrate de que el nivel correcto (**Nivel 2** o **Nivel 3**) esté seleccionado y que el cursor parpadee en el campo de entrada [F1].\n5. Puedes visualizar el código introducido pulsando el **icono del ojo** [F1].\n6. Introduce el nuevo código de acceso (**mínimo 4 dígitos, máximo 8 dígitos**) con el teclado numérico [F1].\n7. Confirma la entrada seleccionando el **símbolo ✓** [F1].\n8. Repite los pasos 4 a 7 para confirmar el código [F1].\n9. Observa el mensaje **\"Cambio de código de acceso satisfactorio\"** y selecciona **Aceptar** [F1].\n10. **Sincroniza el programa con la central** y realiza una **copia de seguridad del cambio en la nube** [F1].\n\n---\n\n**Pasos (desde nivel 2, para cambiar solo el nivel 2):**\n\n1. Selecciona el icono del menú y accede a **\"Configuración\"** [F2].\n2. Inicia sesión como usuario de **nivel de acceso 2** [F2].\n3. Selecciona la opción de **cambio del código de acceso** [F2].\n4. Asegúrate de que **Nivel de Acceso 2** esté seleccionado y el cursor parpadee [F2].\n5. Puedes visualizar el código pulsando el **icono del ojo** [F2].\n6. Introduce el nuevo código (**mínimo 4 dígitos, máximo 8 dígitos**) con el teclado [F2].\n7. Confirma seleccionando el **símbolo ✓** [F2].\n8. Repite los pasos 4 a 7 para confirmar [F2].\n\n---\n\n## Lectura del código AL2 desde el programa CLSS\n\nEl programa de configuración **CLSS Configuration Tool** permite leer el fichero de contraseña AL2 desde la central. En la pantalla de sincronización, selecciona **\"Read file from Panel to Tool\"** y marca la opción **\"AL2 password\"** [F7].\n\n---\n\n⚠️ **Aviso de seguridad:** Asegúrate de que los códigos de acceso se mantienen seguros y solo los conocen los usuarios autorizados [F5].\n\n---\n\nFuentes:\n- HOP-138-8ES issue 6_01-2026_Co (sin revisión registrada) [F1, F6, F7, F10, F11]\n- HOP-338-9ES issue 4_01-2026_Op (sin revisión registrada) [F2, F3, F5]\n- 4188-1122-ES issue 4_04-2025_Cyb (sin revisión registrada) [F4]\n\n---\n📋 **Información adicional del manual:**\n- Nota: el manual también indica: \"Se recomienda cambiar la contraseña del código de acceso al nivel de acceso 2/3 contraseña a uno exclusivo que tenga entre 4 y 8 dígitos.\" [F1] · \"- Menu icon ① leading to \"Configuraciones\"\n- \"Configuraciones\" screen showing \"Configuración del sistema, red, datos y hora, programa de mantenimiento, etc\" ②\n- Arrow pointing to \"Cambio de contraseña\" option ③\n- \"Introduzca nueva contraseña\" dialog box with:\n  - \"Acceso Nivel 2\" dropdown ④\n  - Password input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\" text with eye icon ⑥\n  - Numeric keypad showing numbers 1-9, 0, backspace icon, and checkmark icon ⑧\n  - Backspace arrow ⑦]\" [F1]\n- \"- Window title: \"CLSS Configuration Tool\"\n- Menu bar: File, Edit, View, Window, Help\n- Top toolbar with options: \"Check Integrity of Configuration\", \"Manage Vouchers\", \"Synchronise\", \"Export Configuration\"\n- Left panel showing:\n  - Panels section with \"Johan-Vossen...\" and \"Add Panel\" option\n  - \"001 Panel\" (expanded) containing:\n    - Add Module\n    - 01 CHARGER\n    - 02 MAIN_CPU\n    - 03 Notifier loop module\n    - 04 INPUT_OUTPUT\n    - 05 COMMS\n    - 06 ID2NET\n  - \"002 Panel\" (collapsed)\n  - Collapse Drawer option at bottom\n- Main content area showing \"001 Panel\" with tabs: Overview, Panel Settings, HMI Settings\n- Synchronization dialog box displaying:\n  - Title: \"Synchronization\"\n  - \"What action would you like to take?\"\n    - Radio buttons: \"Send config file from Tool to Panel\" and \"Read file from Panel to Tool\" (selected)\n  - \"Which file would you like to read from Panel\"\n    - Radio buttons: \"Configuration file\" (selected), \"AL2 password\", \"Engineering log\"\n    - Additional options: \"Audit log\", \"Event log\"\n  - Visual representation showing a panel icon on left and a document icon on right with dots between them\n  - Buttons: \"CANCEL\" and \"PROCEED\"\n- Green status bar at bottom indicating connection]\" [F7]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"* El programa de configuración de CLSS y la Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]",
+     "# Configuración de contraseñas Nivel 2 y Nivel 3 — Notifier INSPIRE E10/E15\n\nLos códigos de acceso de fábrica son **\"22222222\"** para nivel 2 y **\"33333333\"** para nivel 3 [F3]. Se recomienda cambiarlos por códigos exclusivos de **entre 4 y 8 dígitos** [F1][F4].\n\n---\n\n## Cambio de contraseña desde la propia central\n\n### Nivel 2 (estando logado como nivel 2 o nivel 3)\n\n1. Selecciona el icono del menú y accede a **\"Configuración\"** [F2].\n2. Inicia sesión como usuario de **nivel de acceso 2** [F2].\n3. Selecciona la opción **\"Cambio del código de acceso\"** [F2].\n4. Asegúrate de que **Nivel de Acceso 2** esté seleccionado y el cursor parpadee [F2].\n5. Puedes ver la entrada haciendo clic en el **icono del ojo** [F2].\n6. Introduce el nuevo código de acceso (4–8 caracteres) con el teclado [F2].\n7. Confirma seleccionando el símbolo **✓** [F2].\n8. Repite los pasos 3 a 6 para confirmar la entrada [F2].\n\n### Nivel 2 y/o Nivel 3 (estando logado como nivel 3)\n\n1. Selecciona el icono del menú y accede a **\"Ajustes\"** [F1].\n2. Inicia sesión como usuario de **nivel de acceso 3** [F1].\n3. Selecciona la opción **\"Cambio del código de acceso\"** [F1].\n4. Asegúrate de que el **Nivel de Acceso 2 o 3** esté seleccionado y el cursor parpadee [F1].\n5. Puedes ver la entrada haciendo clic en el **icono del ojo** [F1].\n6. Introduce el nuevo código de acceso (4–8 caracteres) con el teclado [F1].\n7. Confirma seleccionando el símbolo **✓** [F1].\n8. Repite los pasos 3 a 6 para confirmar la entrada [F1].\n9. Observa el mensaje **\"Cambio de código de acceso satisfactorio\"** y selecciona **Aceptar** [F1].\n10. **Sincroniza el programa con la central** y realiza una **copia de seguridad del cambio en la nube** [F1].\n\n> ⚠️ Regla de acceso: si estás en nivel 2, solo puedes cambiar el código de nivel 2. Si estás en nivel 3, puedes cambiar el código de nivel 2 **o** el de nivel 3 [F1].\n\n---\n\n## Cambio de contraseña desde el programa CLSS\n\nEl programa de configuración de **CLSS** permite leer el fichero de contraseña AL2 desde la central mediante la opción **\"AL2 password\"** en el diálogo de sincronización [F7].\n\n---\n\n## Consideraciones de seguridad\n\n- El código de nivel 2 cierra sesión automáticamente tras **5 minutos de inactividad**, volviendo al nivel de acceso 1 [F5].\n- El código de acceso (PIN) de nivel 2/3 debe tener entre **4 y 8 caracteres** [F4].\n- Asegúrate de que los códigos se mantienen seguros y solo los conocen usuarios autorizados [F5].\n\n---\n\n**Fuentes:**\n- HOP-138-8ES issue 6_01-2026_Co (sin revisión registrada)\n- HOP-338-9ES issue 4_01-2026_Op (sin revisión registrada)\n- 4188-1122-ES issue 4_04-2025_Cyb (sin revisión registrada)\n\n---\n📋 **Información adicional del manual:**\n- Nota: el manual también indica: \"Se recomienda cambiar la contraseña del código de acceso al nivel de acceso 2/3 contraseña a uno exclusivo que tenga entre 4 y 8 dígitos.\" [F1] · \"- Menu icon ① leading to \"Configuraciones\"\n- \"Configuraciones\" screen showing \"Configuración del sistema, red, datos y hora, programa de mantenimiento, etc\" ②\n- Arrow pointing to \"Cambio de contraseña\" option ③\n- \"Introduzca nueva contraseña\" dialog box with:\n  - \"Acceso Nivel 2\" dropdown ④\n  - Password input field ⑤\n  - \"Min:4 digitos,Max:8 digitos\" text with eye icon ⑥\n  - Numeric keypad showing numbers 1-9, 0, backspace icon, and checkmark icon ⑧\n  - Backspace arrow ⑦]\" [F1]\n\n---\n📖 **Obligaciones de evidencia del manual:**\n- \"* El programa de configuración de CLSS y la Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]"
+    ]
+   },
+   "facts": [
+    {
+     "key": "hp020#0",
+     "valor": "nivel 2 o 3",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp020#1",
+     "valor": "Cambio del codigo de acceso",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp020#2",
+     "valor": "4 y 8",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    },
+    {
+     "key": "hp020#3",
+     "valor": "satisfactorio",
+     "off": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     },
+     "on": {
+      "reps": [
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       },
+       {
+        "conveyed": true,
+        "primary_yes": 5,
+        "dual": null
+       }
+      ],
+      "verdict": "conveyed-stable"
+     }
+    }
+   ]
+  }
+ }
+}
