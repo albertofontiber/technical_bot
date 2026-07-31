@@ -3789,3 +3789,34 @@ trazada; **cat010 = archetype None** (clase alimentación/ATEX → diana ya diag
 lever de taxonomía post-A-core); **hp013 baseline doble-bloqueo confirmado**. A-core queda
 CERRADO en mecanismo; el impacto en outcome se medirá con la lane ON (A3/perfil) y el
 re-baseline de campaña.
+
+## DEC-166 — s288b (31 jul): lever ONTOLOGÍA de la lane hyq — adopción del par v4/v5 con barrera; cat010 convertida en MECANISMO
+
+**Decisión.** La lane `doc_scoped_hyq_coverage` abandona la taxonomía primitiva v1 y adopta el
+par ya probado (retrieval_facets_v4 + evidence_coverage_facets_v5) CON la tercera pieza que lo
+hace seguro: barrera query-card (≥1 card con query_term_hits; rechazos trazados
+`no_matching_card`/`no_query_aligned_card`). Cero ediciones de configs (inertness 7/7 por
+bytes). Lane sigue OFF.
+
+**Traza del dúo (16/16 confirmados, 0 FP).** r1 convergente: mi v1 AUTORABA arquetipos que ya
+existían (intrinsic_safety en v4:5-12, stems nativos, cards en v5) — prior-art omitido; r2
+(Sol): el par no es transferible sin la barrera de su consumidor (v5 declara alignment 0;
+rerank_pool impone `_query_card`), tabla pre-registrada a nombres runtime EXACTOS, extractor
+para LANE_PAIRS, gate-0 con receipt sellado.
+
+**Medido (gates 7/7 PASS, $0 — `evals/s288b_taxonomy_gates_v1.json` + `s288b_gate0_receipt_v1.json`).**
+Diff v1→v4 en 39 dev == tabla pre-registrada (10 cambios/29 sin cambio, 0 extra) · over-trigger
+limpio · sweep 21 queries → 23 parents, 0 sin card alineada · **cat010: None→intrinsic_safety,
+sirve 2 parents (EN p.1 + manual IS MA1 p.8) con quotes de valores IS (24V dc, 28V 93mA,
+barreras Zener ATEX/IECEx)** — símbolos Ui/Ii/Pi/Ci/Li NO en los spans servidos (clase excerpt,
+no corpus) · entradas a lane 17→21 (gana cat010/hp002/hp008/hp009/hp013; pierde cat023,
+adjudicado) · suite 3398. Desviaciones aceptadas: umbral barrera=1 (el 6 de rerank_pool es
+IMPOSIBLE aquí — query_term_hits capado 0..4 por esquema; con 6 → 0/23, medido) ·
+compatibility_bundle opt-out explícito byte-equivalente (reusa el colector).
+
+**Residuales declarados.** (1) Estrictez per-arquetipo de v4 NO restaurada: 8/17 parents
+preexistentes bajo el mínimo v4 de su arquetipo — gap conocido, se re-evalúa en el gate de A3
+(outcome, lane ON). (2) hp009 entra a loop_eol → nota-CENTINELA de conducta para A3. (3)
+cat009 entra por arquetipo pero sin scope de resolver; hp013 entra y sirve 0 (sin surrogate
+PWR-R) — coherente con lo pre-registrado. (4) cat010#0 SIGUE rerank-class en el mapa DEC-163
+hasta medir outcome: este lever abre la vía de cobertura, no re-clasifica el miss.

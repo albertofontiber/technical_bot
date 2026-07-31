@@ -2317,3 +2317,14 @@ calibración paró dos veces hasta cazar la clase real (anotaciones inglesas del
 docs españoles diagram-heavy) y cerrar en 100,0% con 2 backfills erróneos evitados. Bandeja de
 Alberto: paste P-A (single point of failure del arco), QA-30 de idioma (30/30-o-HALT), y la
 política de tramos de lineage. Traza: DEC-165; tally en adversarial_review_log (3 entradas).
+
+
+## s288b (31 jul 2026) — lever ontología hyq: de autorar a adoptar
+
+El dúo tumbó dos veces el diseño inicial (autorar arquetipos que ya existían en v4/v5;
+adoptar el par sin su barrera) y el lever final quedó en su forma mínima: dos punteros, una
+barrera espejo y trazabilidad, con la tabla de 10 cambios pre-registrada a nombres exactos y
+todos los gates en verde. cat010 — el retrieval-miss que A-core dejó atribuido a arquetipo —
+entra y sirve sus dos manuales con los valores de alimentación IS en las quotes. El outcome
+espera a A3 (lane ON). Acumulado adversarial de la sesión s288+s288b: 34/34 hallazgos
+confirmados, 0 falsos positivos.
