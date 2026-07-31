@@ -795,3 +795,33 @@ contexto NI acceso a la config contaminada; cohorte re-derivada en HEAD incl. ca
 aislamiento causal pareado; 93 completos; política de error fail-open; radio observer/lanes
 en los gates). Nota de registro: Sol SÍ revisó ADDENDA-3 (snapshot post-append). Tally en
 `evals/adversarial_review_log.jsonl` (ts=2026-07-31T08:37:44, 8/8/0, duo complete).
+
+---
+
+# ADDENDA-5 — PROBE 0/6 + MAPA RE-ANCLADO (31-jul; cierra los pasos 1-2 de la ruta del dúo)
+
+**Probe serve-rate (paso 1): 0/6 → MISS-ESTABLE**, con dato nuevo decisivo: los DOS portadores
+(`b7633e98`, `ae86bacb`) están en pool ranks **1-2** y el reranker los excluye 8/8 (6 probe + 2
+canónicas). No es frontera ni dado: exclusión sistemática de SELECCIÓN. Centinela `f0dc41c3` 6/6.
+Recibo: `evals/s288c_cat017_serve_rate_probe_v1.json` (git 9a9736b).
+
+**Mapa re-anclado (paso 2): 10 golds P1, N=2** (`s100_factlevel_smoke_v31_p1map_rep{1,2}.yaml`).
+Contabilidad estable-N2, pre-P1 → HEAD: **OK 22→26 · retrieval 4→0 · rerank 3→2 · synth 1→2**.
+- Conversiones: hp010#0/#1 retr→OK · hp018#1/#4 rerank→OK (confirma s287) · cat017#3 y hp002#0
+  flippy→OK. hp009#0 retr→synth (baja downstream; centinela de conducta sigue para A3).
+  hp013#1 retr→flippy(synth/retr).
+- **Regresión estable ÚNICA: hp002#4 OK→rerank-miss — clase SEGURIDAD** («gate de seguridad
+  previo al mantenimiento»): soporte singleton sigue en pool pero cae a rank 21-23 porque P1
+  CONCENTRÓ el pool (50→32-34, dominado por el doc del gold) y el reranker no lo selecciona.
+  **Mismo mecanismo que cat017#4: monopolio de composición within-doc en la selección del top-K.**
+
+**ETAPA 2 EN HEAD (estables): {cat017#4, hp002#4}** (+cat010#0 pendiente del outcome A3). La clase
+del lever de composición pasa de n=1 a **n=2 con mecanismo común nombrado y un hecho de seguridad
+dentro** — cambia el cálculo anti-overfit que mató la cuota v1. Cualquier re-spec sigue atada a los
+8 críticos/medios de Sol (ADDENDA-4): vocabulario ciego por agente sin acceso a la config
+contaminada, cohorte re-derivada en HEAD (estos mismos artefactos), aislamiento causal pareado,
+93 completos, política fail-open, radio observer/lanes en gates.
+
+**Gate pendiente heredado de P1** (su spec exigía bvg K=3 de tocados): el mapa fact-level está
+re-anclado; el bvg K=3 (~$10-15, vara PASS) queda como confirmación opcional post-ship — P1 ya
+está en prod vía merge #189 (nota de release declarada tarde, corregida en sesión).
