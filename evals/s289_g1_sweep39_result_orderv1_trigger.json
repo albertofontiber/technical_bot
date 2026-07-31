@@ -1,0 +1,435 @@
+{
+ "instrument": "s289_g1_sweep39_result_v1",
+ "verdict": "PASS",
+ "replay_fidelity_fail": [],
+ "replica_off_fail": [],
+ "changed_golds": [
+  "cat007",
+  "cat008",
+  "cat017",
+  "hp001",
+  "hp002",
+  "hp014",
+  "hp018"
+ ],
+ "n_changed": 7,
+ "diffs": {
+  "hp001": {
+   "off_appended": [
+    "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199"
+   ],
+   "on_appended": [
+    "895e1d42-7776-4140-abe7-3979018311e2"
+   ],
+   "gained": [
+    [
+     "895e1d42-7776-4140-abe7-3979018311e2",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [],
+   "reserve_ranked_ids": [
+    "895e1d42-7776-4140-abe7-3979018311e2",
+    "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199",
+    "f68f2d40-cad2-4a0f-9045-9637928456aa",
+    "d26717a7-9297-4e06-ae67-7806e16007ee",
+    "3029e4d8-2511-4e1f-a3dc-833fe05ff4c0",
+    "f678d7b7-fd60-4bd8-a864-d57ff3841874"
+   ]
+  },
+  "hp002": {
+   "off_appended": [
+    "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+    "339f06e0-ac30-47d9-b22e-c1baf25e7240"
+   ],
+   "on_appended": [
+    "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+    "fa55311c-2cf4-4555-8bd1-2027bb6a1379"
+   ],
+   "gained": [
+    [
+     "fa55311c-2cf4-4555-8bd1-2027bb6a1379",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "339f06e0-ac30-47d9-b22e-c1baf25e7240",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [
+    {
+     "pool_rank": 2,
+     "id": "339f06e0-ac30-47d9-b22e-c1baf25e7240",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 11,
+     "id": "b8374360-c565-4581-80f0-18680705242f",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 12,
+     "id": "4881c18e-1ea9-44a0-8f7c-e33e352fde7a",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 15,
+     "id": "41bcd390-1e14-4853-b03f-03612f07bf70",
+     "filter": "all_groups_filtered"
+    }
+   ],
+   "reserve_ranked_ids": [
+    "fa55311c-2cf4-4555-8bd1-2027bb6a1379",
+    "7ebc128e-cc32-4b39-a266-685ef3f45426",
+    "8986fef8-9ccb-4036-9192-a4048f40402d"
+   ]
+  },
+  "hp014": {
+   "off_appended": [
+    "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+    "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+    "bd7415b4-46f9-4886-b2c2-768e6b8f96d6"
+   ],
+   "on_appended": [
+    "d4018c9b-8eff-4b19-b826-5bb4df55d29e",
+    "c3541bb2-a33c-4213-8cf1-0ffcf98604ea",
+    "118b6ab3-56db-4f23-94a9-e9f6f6487ce8"
+   ],
+   "gained": [
+    [
+     "118b6ab3-56db-4f23-94a9-e9f6f6487ce8",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "bd7415b4-46f9-4886-b2c2-768e6b8f96d6",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [],
+   "reserve_ranked_ids": [
+    "118b6ab3-56db-4f23-94a9-e9f6f6487ce8",
+    "bd7415b4-46f9-4886-b2c2-768e6b8f96d6",
+    "458afc80-1df5-4936-a313-59452bfad4cd",
+    "f399a077-9aad-4ba8-93a2-c49dd6e3f0e2"
+   ]
+  },
+  "hp018": {
+   "off_appended": [
+    "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+    "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+    "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc"
+   ],
+   "on_appended": [
+    "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+    "d79a07b8-745f-4c62-8355-d0cee6fde1db",
+    "cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7"
+   ],
+   "gained": [
+    [
+     "cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [
+    {
+     "pool_rank": 14,
+     "id": "3e060f66-2abe-4fae-acb3-f0c44aa8f161",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 29,
+     "id": "c069b771-519a-44ae-930d-96ce1bec986a",
+     "filter": "all_groups_filtered"
+    }
+   ],
+   "reserve_ranked_ids": [
+    "cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7",
+    "a88c76e9-86b6-4a60-8e88-c20842af5d05",
+    "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+    "4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9",
+    "31ccb719-ddc0-4b2d-aefe-94b9e65aea3c",
+    "bb495d70-f41b-453a-a964-0a733db86928"
+   ]
+  },
+  "cat007": {
+   "off_appended": [
+    "8c1cd486-3510-42d7-b71b-1ae43cb2893f"
+   ],
+   "on_appended": [
+    "2e549215-e5e4-4865-8687-e6f2f183058a"
+   ],
+   "gained": [
+    [
+     "2e549215-e5e4-4865-8687-e6f2f183058a",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "8c1cd486-3510-42d7-b71b-1ae43cb2893f",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [
+    {
+     "pool_rank": 2,
+     "id": "8c1cd486-3510-42d7-b71b-1ae43cb2893f",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 23,
+     "id": "85ca9208-a4e1-4ad1-b360-1b2820bf1953",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 28,
+     "id": "78e0cbd2-1dd9-46c2-b9c4-57921c8d6dbd",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 41,
+     "id": "de962291-ba9d-448d-ad88-b3cc930cd2a5",
+     "filter": "all_groups_filtered"
+    }
+   ],
+   "reserve_ranked_ids": [
+    "2e549215-e5e4-4865-8687-e6f2f183058a",
+    "686013cf-af20-4aa0-bbf6-78e2978dc72b",
+    "57ba5142-1091-4748-8df4-ed552340f199"
+   ]
+  },
+  "cat008": {
+   "off_appended": [
+    "8b082fc1-7834-44c8-859c-5c7ac05b0872"
+   ],
+   "on_appended": [
+    "b456ea92-1a6f-4932-87f0-2b9876bc7c34"
+   ],
+   "gained": [
+    [
+     "b456ea92-1a6f-4932-87f0-2b9876bc7c34",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "8b082fc1-7834-44c8-859c-5c7ac05b0872",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": null,
+   "reserve_discards": [
+    {
+     "pool_rank": 6,
+     "id": "8b082fc1-7834-44c8-859c-5c7ac05b0872",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 10,
+     "id": "423b5aeb-5431-495f-8ee8-cdc27b74816f",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 18,
+     "id": "491bd9fa-2ade-4996-b30d-e9c68d895129",
+     "filter": "all_groups_filtered"
+    },
+    {
+     "pool_rank": 25,
+     "id": "cbc3aa3d-78ec-4192-8927-8962fcc3421b",
+     "filter": "all_groups_filtered"
+    }
+   ],
+   "reserve_ranked_ids": [
+    "b456ea92-1a6f-4932-87f0-2b9876bc7c34"
+   ]
+  },
+  "cat017": {
+   "off_appended": [
+    "c2564c21-16d2-477e-ba50-e4a02f240900",
+    "fd092752-a693-4581-b039-34f8d2399829",
+    "1452c904-cf11-4803-9b2b-4b977bfa3d5f"
+   ],
+   "on_appended": [
+    "c2564c21-16d2-477e-ba50-e4a02f240900",
+    "fd092752-a693-4581-b039-34f8d2399829",
+    "f88b6b26-362d-4a10-83e6-bbe84592dd32",
+    "b7633e98-b011-4035-9548-a564c71e70ac"
+   ],
+   "gained": [
+    [
+     "b7633e98-b011-4035-9548-a564c71e70ac",
+     "document_local_content_coverage_v1"
+    ],
+    [
+     "f88b6b26-362d-4a10-83e6-bbe84592dd32",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "lost": [
+    [
+     "1452c904-cf11-4803-9b2b-4b977bfa3d5f",
+     "obligation_warning_reserve_v1"
+    ]
+   ],
+   "facet_attempts": [
+    {
+     "id": "f2a64128-11e6-494f-84ff-9c270533fa46",
+     "group_index": 3,
+     "outcome": "attestation_failed"
+    },
+    {
+     "id": "8db55998-3225-4f65-a2d7-4846f670165f",
+     "group_index": 3,
+     "outcome": "attestation_failed"
+    },
+    {
+     "id": "b7633e98-b011-4035-9548-a564c71e70ac",
+     "group_index": 3,
+     "outcome": "attested"
+    }
+   ],
+   "reserve_discards": [
+    {
+     "pool_rank": 9,
+     "id": "1452c904-cf11-4803-9b2b-4b977bfa3d5f",
+     "filter": "all_groups_filtered"
+    }
+   ],
+   "reserve_ranked_ids": [
+    "f88b6b26-362d-4a10-83e6-bbe84592dd32",
+    "1f5105a8-d929-4728-8cdf-8a3976bd4b77",
+    "7a33265b-09a7-4628-8110-980a83d28152",
+    "b06ad597-4b4b-4601-9157-0d7984d9d76a"
+   ]
+  }
+ },
+ "arm_flag_sets": {
+  "off": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "replace",
+   "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+   "MUST_PRESERVE_CONTRACT": "on",
+   "VISUAL_ASSETS_REGISTRY": "on",
+   "ANTI_DIAGRAM_INVENTION": "on",
+   "WIRING_TOPOLOGY_GUARD": "on",
+   "GENERATOR_DIRECT_FIRST": "on",
+   "GENERATOR_FOLLOWUPS": "off",
+   "VISUAL_ASSETS_LISTING_GATE": "on",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "HYQ_TABLE": "on",
+   "GENERATOR_SELECTION_BLOCK": "on",
+   "TABLE_PREAMBLE_CLOSURE": "off",
+   "CANONICAL_HYQ_COVERAGE": "off",
+   "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+   "RERANK_POOL_COVERAGE": "off",
+   "STRUCTURAL_CASCADE_COVERAGE": "off",
+   "LOGICAL_RECORD_COVERAGE": "off",
+   "EVIDENCE_DERIVATION_OVERLAY": "off",
+   "STRUCTURAL_NEIGHBOR_SHADOW": "off",
+   "FACET_COMPLEMENT_FALLBACK": "off",
+   "OBLIGATION_RESERVE_ORDERED": "off"
+  },
+  "on": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "replace",
+   "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+   "MUST_PRESERVE_CONTRACT": "on",
+   "VISUAL_ASSETS_REGISTRY": "on",
+   "ANTI_DIAGRAM_INVENTION": "on",
+   "WIRING_TOPOLOGY_GUARD": "on",
+   "GENERATOR_DIRECT_FIRST": "on",
+   "GENERATOR_FOLLOWUPS": "off",
+   "VISUAL_ASSETS_LISTING_GATE": "on",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "HYQ_TABLE": "on",
+   "GENERATOR_SELECTION_BLOCK": "on",
+   "TABLE_PREAMBLE_CLOSURE": "off",
+   "CANONICAL_HYQ_COVERAGE": "off",
+   "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+   "RERANK_POOL_COVERAGE": "off",
+   "STRUCTURAL_CASCADE_COVERAGE": "off",
+   "LOGICAL_RECORD_COVERAGE": "off",
+   "EVIDENCE_DERIVATION_OVERLAY": "off",
+   "STRUCTURAL_NEIGHBOR_SHADOW": "off",
+   "FACET_COMPLEMENT_FALLBACK": "on",
+   "OBLIGATION_RESERVE_ORDERED": "on"
+  },
+  "off_replica": {
+   "CHUNKS_TABLE": "chunks_v2",
+   "ENUNCIADOS_MULTIVECTOR": "on",
+   "IDENTITY_RESOLVE": "on",
+   "IDENTITY_RESOLVE_POLICY": "replace",
+   "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+   "MUST_PRESERVE_CONTRACT": "on",
+   "VISUAL_ASSETS_REGISTRY": "on",
+   "ANTI_DIAGRAM_INVENTION": "on",
+   "WIRING_TOPOLOGY_GUARD": "on",
+   "GENERATOR_DIRECT_FIRST": "on",
+   "GENERATOR_FOLLOWUPS": "off",
+   "VISUAL_ASSETS_LISTING_GATE": "on",
+   "LLM_MAX_TOKENS": "3500",
+   "RERANK_TOP_K": "10",
+   "RERANKER_BACKEND": "llm",
+   "MERGE_STRATEGY": "stamps",
+   "RERANK_PREVIEW_CHARS": "800",
+   "HYDE_ENABLED": "false",
+   "DIVERSIFY_TIEBREAK": "off",
+   "HYQ_PILOT_FILE": "",
+   "GENERATOR_PROMPT_VARIANT": "fidelity",
+   "HYQ_TABLE": "on",
+   "GENERATOR_SELECTION_BLOCK": "on",
+   "TABLE_PREAMBLE_CLOSURE": "off",
+   "CANONICAL_HYQ_COVERAGE": "off",
+   "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+   "RERANK_POOL_COVERAGE": "off",
+   "STRUCTURAL_CASCADE_COVERAGE": "off",
+   "LOGICAL_RECORD_COVERAGE": "off",
+   "EVIDENCE_DERIVATION_OVERLAY": "off",
+   "STRUCTURAL_NEIGHBOR_SHADOW": "off",
+   "FACET_COMPLEMENT_FALLBACK": "off",
+   "OBLIGATION_RESERVE_ORDERED": "off"
+  }
+ }
+}

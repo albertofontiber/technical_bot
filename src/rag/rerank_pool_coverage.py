@@ -651,15 +651,33 @@ def select_obligation_warning_reserve(
                 "source_row": source_row,
                 "span": span,
                 "blockquote": _is_blockquote_span(content[start:end]),
+                # v2 (escalada pre-declarada en el diseño s289, disparada por
+                # el G-1 orden-v1: fa55311c p.78 «Instalación» ganaba por rank
+                # al aviso de la sección procedimental p.121): el aviso que
+                # GATEA el procedimiento preguntado vive en la sección cuyo
+                # título matchea la MISMA intención que dispara la lane —
+                # léxico existente, cero vocabulario nuevo.
+                "section_intent": bool(
+                    _OBLIGATION_INTENT.search(
+                        _fold(str(source_row.get("section_title") or ""))
+                    )
+                ),
             }
         )
     if ordered:
         trace["reserve_discards"] = discards
         if candidates:
-            # Orden determinista (dúo r3 s289): callout-blockquote primero
+            # Orden determinista v2 (dúo r3 + escalada declarada): sección
+            # con intención procedimental primero, callout-blockquote después
             # (censo: la clase = avisos reales), pool-rank de desempate.  Sin
-            # blockquote elegible degrada a pool-rank = first-match actual.
-            candidates.sort(key=lambda c: (not c["blockquote"], c["pool_rank"]))
+            # señal alguna degrada a pool-rank = first-match actual.
+            candidates.sort(
+                key=lambda c: (
+                    not c["section_intent"],
+                    not c["blockquote"],
+                    c["pool_rank"],
+                )
+            )
             trace["reserve_ranked_ids"] = [c["row_id"] for c in candidates]
             winner = candidates[0]
             trace["status"] = "selected"

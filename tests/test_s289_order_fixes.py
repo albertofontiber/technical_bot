@@ -314,6 +314,34 @@ def test_flag_on_blockquote_beats_earlier_prose(monkeypatch):
     assert trace["reserve_ranked_ids"] == ["real-warning", "incidental"]
 
 
+def test_flag_on_section_intent_beats_blockquote(monkeypatch):
+    """Orden v2 (escalada declarada): el aviso de la sección PROCEDIMENTAL
+    (la clase hp002: p.121 «9.3 Comprobaciones de mantenimiento») gana a un
+    callout de una sección ajena mejor rankeada (fa55311c «Instalación»)."""
+    monkeypatch.setenv("OBLIGATION_RESERVE_ORDERED", "on")
+    other = _pool_row("callout-ajeno", _REAL_CALLOUT)
+    other["section_title"] = "6.3 Instalacion de los sensores"
+    target = _pool_row(
+        "aviso-procedimental",
+        "> Para evitar disparos es **imprescindible** bloquear los controles.\n",
+    )
+    target["section_title"] = "9.3 Comprobaciones de mantenimiento y funcionamiento"
+    rows, trace = _reserve([other, target])
+    assert [r["id"] for r in rows] == ["aviso-procedimental"]
+    assert trace["reserve_ranked_ids"] == ["aviso-procedimental", "callout-ajeno"]
+
+
+def test_flag_on_section_intent_tie_broken_by_blockquote(monkeypatch):
+    """Dentro de secciones con intención, el callout gana a la prosa."""
+    monkeypatch.setenv("OBLIGATION_RESERVE_ORDERED", "on")
+    prose = _pool_row("prosa-mantenimiento", _INCIDENTAL_PROSE)
+    prose["section_title"] = "7.7 Pruebas y mantenimiento"
+    callout = _pool_row("callout-mantenimiento", _REAL_CALLOUT)
+    callout["section_title"] = "9.3 Comprobaciones de mantenimiento"
+    rows, _trace = _reserve([prose, callout])
+    assert [r["id"] for r in rows] == ["callout-mantenimiento"]
+
+
 def test_flag_on_filters_discard_the_changelog_with_trace(monkeypatch):
     monkeypatch.setenv("OBLIGATION_RESERVE_ORDERED", "on")
     rows, trace = _reserve([

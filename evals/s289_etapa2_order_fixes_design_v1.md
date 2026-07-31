@@ -131,6 +131,18 @@ generador = quote de 13 chars con CERO información.
    + `reserve_ranked_ids` en la traza de la lane — G-1 necesita atribuir cada cambio de fila en
    los 18/39 golds que la reserva toca.
 
+**ESCALADA v2 EJECUTADA (post G-1, trigger preservado en
+`evals/s289_g1_sweep39_result_orderv1_trigger.json`):** el arms orden-v1 mostró la
+materialización EXACTA del riesgo 4: en la ventana capturada de hp002 (`pool_n=34`), el callout
+`fa55311c` (p.78, sección «Instalación» — aviso real pero AJENO al procedimiento preguntado)
+ganaba por pool-rank (20<23) al aviso de la sección procedimental (`5b6a3a19`, p.121). Orden v2
+= la escalada pre-declarada abajo: clave `(sección-con-intención-procedimental desc,
+blockquote desc, pool_rank asc)` donde el match de sección usa el MISMO léxico
+`_OBLIGATION_INTENT` que dispara la lane (cero vocabulario nuevo) sobre `section_title`
+foldeado. Es además la letra de DEC-167(b)(ii) («selección PUNTUADA»). Fail-open intacto: sin
+señal alguna → pool-rank = first-match actual. Medido en la ventana: solo `5b6a3a19` matchea
+sección → v2 lo sirve.
+
 **Estatus epistémico del criterio blockquote-first (dúo r3, S4/A5 + lección #56):** es
 heurística anticipatoria no-eval-driven, elegida CON el ganador de hp002 a la vista — misma
 clase que la alternativa section-intent descartada; la simetría se declara. Lo que la separa:
