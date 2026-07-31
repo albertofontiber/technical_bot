@@ -50,12 +50,18 @@ FIX 3 limpieza de input; calibración 100,0% 389/389; 2 backfills erróneos evit
 re-diseñado a TRAMOS** (2 rondas de Sol tumban bulk-verified; semántica canónica intacta;
 ritmo de Alberto; el GO de A-core NO depende de ello); (f) P-D ELIMINADO (join-through FK).
 
-**Qué sigue:** (1) bandeja Alberto: paste P-A → F3 (census v3 delta + receipts de lane +
-eficacia cohorte 39 dev con freeze completo) · QA-30 v3 → si 30/30, staging P-B · decisión
-tramos P-C; (2) tras F3: etapa 3 síntesis sobre serving estable + re-baseline bvg vs 11/16/12;
-(3) lever taxonomía/arquetipos post-A-core (separado, corpus fijo); (4) resto bandeja: ONs
-Railway + paste D9 telemetría + PR/merge de la rama; (5) lane inventario/catálogo. Traza:
-DEC-163/164/165 + HISTORY s288.
+**F3 CERRADO (30-jul tarde, paste P-A de Alberto aplicado)**: delta live exacto al
+pre-registro (placeholders 744→159 · binding_ok 414→999 · P-A elegibles →0 = gate
+aplicado==100%) · probe cohorte: **hp012 mecanismo CONFIRMADO** (lane sirve 15088SP
+p.108+p.151 con las facetas de la aguja) · cat010 = archetype None (diana del lever
+taxonomía) · hp013 baseline confirmado. Addendum F3 en DEC-165.
+
+**Qué sigue:** (1) **lever taxonomía/arquetipos** (post-A-core, corpus+autoridad FIJOS,
+audits 39 dev; diana diagnosticada cat010 clase alimentación/ATEX; dúo antes de cablear);
+(2) etapa 3 síntesis sobre serving estable + re-baseline bvg vs 11/16/12 (outcome de A-core
+se mide con la lane ON — A3/perfil c1_v5); (3) bandeja Alberto: QA-30 v3 (30/30-o-HALT →
+staging P-B) · tramos P-C · ONs Railway + paste D9 + PR/merge de la rama; (4) lane
+inventario/catálogo. Traza: DEC-163/164/165 + HISTORY s288.
 
 ## Estado anterior (s286 — 29 jul 2026)
 
