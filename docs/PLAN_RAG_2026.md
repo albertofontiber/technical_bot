@@ -11,6 +11,7 @@
 > s30→s55, rationale histórico de mayo 2026 (secciones originales ## 1-9, con su numeración —
 > las citas antiguas tipo "PLAN §9.14" o "§660" resuelven allí) y changelog. Este fichero queda
 > compacto a propósito: es el doc que se relee en cada arranque de sesión.
+> **Última actualización:** 31 jul 2026 (s288c).
 >
 > **📍 Mapa canónico (un dueño por tema).** ESTE documento es el **único canónico** del
 > **roadmap + estado + qué sigue**. Los demás lo referencian, NO lo duplican:
@@ -25,9 +26,12 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s288 — 30 jul 2026)
+## Estado actual (s288c — 31 jul 2026)
 
-**PRODUCCIÓN**: sin cambios de release. Rama `claude/s282-h0t2-qa` acumula s282→s288.
+**PRODUCCIÓN**: PR #189 MERGEADA (31-jul) → Railway despliega s287→s288b: todo default-off SALVO
+**P1 corpus-aware, VIVA sin flag** (incondicional bajo `replace` del perfil C1; nota de release
+tardía declarada en DEC-167; re-medición = mapa re-anclado, neto +4 OK / retr 4→0 / 1 regresión
+hp002#4). Rama `claude/s282-h0t2-qa` acumula ahora solo s288c (post-merge), pendiente de PR nueva.
 
 **CAMPAÑA upstream→downstream (mapa canónico DEC-163, instrumento v3.1 N=2)**: etapa 1
 retrieval con residual ÍNTEGRAMENTE atribuido (cat010#0/hp012#3/hp013#1 → A-core; hp001
@@ -61,11 +65,22 @@ retrieval-v4+evidence-v5 con barrera query-card; 7/7 gates $0; **cat010 converti
 MECANISMO** (intrinsic_safety, 2 parents con valores IS); entradas 17→21; residuales
 declarados (estrictez per-arquetipo → gap A3; hp009-centinela). Dúo s288+s288b: 34/34, 0 FP.
 
-**Qué sigue:** (1) **etapa 3 síntesis** (13 estables, 5 pre-trazados) sobre serving estable +
-re-baseline bvg vs 11/16/12; (2) **A3 / perfil c1_v5** (lane hyq ON con gate de outcome:
-eficacia cat010/hp012 + centinela hp009 + estrictez per-arquetipo re-evaluada); (3) bandeja
-Alberto: QA-30 v3/v4 (30/30-o-HALT → staging P-B) · tramos P-C · ONs Railway + paste D9 +
-PR/merge de la rama; (4) lane inventario/catálogo. Traza: DEC-163..166 + HISTORY s288/s288b.
+**s288c (31-jul): pieza 3 de etapa 2 RESUELTA en diagnóstico (DEC-167)** — cuota-por-faceta
+CERRADA como familia (2 diseños tumbados en dúo, 31/31 confirmados 0 FP); probe serve-rate 0/6
+committeado; mapa re-anclado 10 golds P1 (OK 22→26, retr 4→0, regresión única hp002#4 SEGURIDAD);
+**etapa 2 HEAD = {cat017#4, hp002#4}, ambos mueren por orden/fallback en lanes EXISTENTES**
+(document_local `bucket[0]`-sin-fallback · obligation_warning primer-match) — diagnóstico $0 con
+funnel exacto (`evals/s288c_gate_diagnosis_v1.md`). Colaterales: CI fix Linux del instrumento ·
+matcher attestation sin stemming (TECH_DEBT #59) · pool ventana-dependiente.
+
+**Qué sigue:** (1) **los 2 fixes quirúrgicos DEC-167** (diseño → dúo r3 → build flag-off →
+gates: sweep-39 + por-fila `339f06e0` + dirigido pareado ~$2-4) + **pieza observabilidad**
+(salud/fail-open por canal en traza + recibos de estabilidad committeados); (2) **etapa 3
+síntesis** (13 estables) sobre serving estable + re-baseline bvg vs 11/16/12; (3) **A3 / perfil
+c1_v5** (lane hyq ON: eficacia cat010/hp012 + centinela hp009 + estrictez per-arquetipo);
+(4) bandeja Alberto: QA-30 v4 (30/30-o-HALT → staging P-B) · tramos P-C · ONs Railway + paste D9
+· PR nueva del tramo s288c; (5) lane inventario/catálogo. Traza: DEC-163..167 + HISTORY
+s288/s288b/s288c.
 
 ## Estado anterior (s286 — 29 jul 2026)
 

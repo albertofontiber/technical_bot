@@ -17,6 +17,14 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s288c (31 jul 2026).** **PROD = C1 + multi-turn F0+F1 + P1 corpus-aware** (merge
+> PR #189: el resolver degrada a token-familia cuando las variantes no existen en el corpus —
+> repara la regresión T3×replace corpus-wide; el resto del tramo s287→s288b va default-off).
+> Re-medición P1 (mapa fact-level 10 golds, N=2): OK 22→26 · retrieval 4→0 · 1 regresión
+> (hp002#4, seguridad, en diagnóstico DEC-167). Etapa 2 de la campaña = {cat017#4, hp002#4},
+> ambos con mecanismo diagnosticado en lanes existentes (orden/fallback); fixes pendientes de
+> dúo r3. Suite 3398+9 en verde (CI Linux arreglado). Detalle → PLAN "Estado actual" + DEC-167.
+>
 > **Estado s286 (29 jul 2026).** **BASELINE v4 = línea de salida del objetivo: 11 PASS /
 > 16 PARCIAL / 12 FALLO** (39 golds, ship-config, `judge_vara=v4`; DEC-162d). La descomposición
 > pareada (mismas respuestas, letra v3 → 10/25/4) atribuye +8 de los +9 FALLO a la vara (T2b:
