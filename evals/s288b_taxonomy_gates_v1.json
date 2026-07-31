@@ -1,0 +1,1689 @@
+{
+  "barrier": {
+    "constant": "MIN_QUERY_ALIGNED_CARD_TERMS",
+    "mirror_of": "rerank_pool_coverage.MIN_ALIGNMENT_TERMS = 6 (rerank_pool_coverage.py:37, aplicado en _query_card:177 e impuesto en :341-342)",
+    "value": 1
+  },
+  "commit": "c6c6da853e7e5111356ff624141bf3522834be25",
+  "corpus_fingerprint": {
+    "chunks_v2": 25088,
+    "chunks_v2_hyq": 70126,
+    "documents": 1169,
+    "documents_placeholder_sha": 159
+  },
+  "dev_golds": 39,
+  "gates": "s288b_taxonomy_lever_v3",
+  "mode": "all",
+  "results": [
+    {
+      "documents": {
+        "2b694083-5b21-4f1a-a29b-565072860fb8": {
+          "document_family": "IS5001-F_IS-mA1_EN",
+          "expected_hyq_rows": 48,
+          "expected_hyq_rows_live_parent": 16,
+          "hyq_rows": 48,
+          "hyq_rows_live_parent": 16,
+          "label": "IS5001-F_IS-mA1_EN",
+          "present": true,
+          "product_model": "IS-mA1",
+          "sha_is_real_64hex": true,
+          "source_pdf_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+          "status": "active"
+        },
+        "a6b9dc84-af6d-4957-a403-4b4c2136557b": {
+          "document_family": "manual IS MA1",
+          "expected_hyq_rows": 49,
+          "expected_hyq_rows_live_parent": 49,
+          "hyq_rows": 49,
+          "hyq_rows_live_parent": 49,
+          "label": "manual IS MA1",
+          "present": true,
+          "product_model": "IS-mA1",
+          "sha_is_real_64hex": true,
+          "source_pdf_sha256": "d2abf8778cfcccdc5f3f4d5d2c5084339c9e0e2971cca095069e7f3179740244",
+          "status": "active"
+        }
+      },
+      "failures": [],
+      "gate": 0,
+      "name": "surrogates de cat010 (receipt sellado)",
+      "pass": true,
+      "receipt_path": "evals/s288b_gate0_receipt_v1.json"
+    },
+    {
+      "changed": 10,
+      "dev_golds": 39,
+      "failures": [],
+      "gate": 1,
+      "name": "diff de asignación v1->v4 == tabla §2",
+      "observed_diff": {
+        "cat007": [
+          "fault_reset_recovery",
+          "loop_eol_topology"
+        ],
+        "cat008": [
+          "connect_install_wire",
+          "loop_eol_topology"
+        ],
+        "cat009": [
+          "connect_install_wire",
+          "loop_eol_topology"
+        ],
+        "cat010": [
+          null,
+          "intrinsic_safety"
+        ],
+        "cat013": [
+          "connect_install_wire",
+          "compatibility"
+        ],
+        "cat023": [
+          "program_delay_cause_effect",
+          null
+        ],
+        "hp002": [
+          null,
+          "fault_reset_recovery"
+        ],
+        "hp008": [
+          null,
+          "compatibility"
+        ],
+        "hp009": [
+          null,
+          "loop_eol_topology"
+        ],
+        "hp013": [
+          null,
+          "replace_without_loss"
+        ]
+      },
+      "pass": true,
+      "unchanged": 29
+    },
+    {
+      "failures": [],
+      "gate": 2,
+      "name": "sintéticos negativos (over-trigger) + caso-sombra",
+      "negatives": [
+        {
+          "archetype_v4": null,
+          "query": "¿cuál es el consumo por lazo?"
+        },
+        {
+          "archetype_v4": "battery_sizing",
+          "query": "¿qué batería de 12 Ah necesito?"
+        }
+      ],
+      "pass": true,
+      "shadow_case": {
+        "archetype_v4": "replace_without_loss",
+        "documented_expectation": "replace_without_loss",
+        "matches_documented": true,
+        "query": "¿cómo se cambia el retardo de sirenas?",
+        "verdict": "HEREDADO de v4 — declarado, no-STOP de este lever"
+      }
+    },
+    {
+      "barrier_threshold": 1,
+      "counterfactual_thresholds": {
+        "ge1": 23,
+        "ge2": 12,
+        "ge3": 4,
+        "ge6": 0,
+        "served": 23
+      },
+      "failures": [],
+      "gate": "2b",
+      "name": "sweep de cards — ningún parent servido sin card query-alineada",
+      "pass": true,
+      "per_query": {
+        "cat001": {
+          "archetype_v4": "capacity_quantity",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "706b0dc418d8973ef1496a561967be76286d5fd3520a00aa83f6a6848083b9ae",
+            "hyq_rows_sha256": "f401bdab8e788c4f249df6c31d2659ea077016fb1631cf8134dbbf5f7d6b3b9a",
+            "selected_parent_ids_sha256": "5fe331130dc5bddc7e9f4cd642ed0b42c6f06286f91a96e5f6ca61d94321adf1"
+          },
+          "http_requests": 3,
+          "hyq_rows": 837,
+          "rejected": 4,
+          "rejected_by_reason": {
+            "no_matching_card": 2,
+            "no_query_aligned_card": 2
+          },
+          "scope_document_ids": [
+            "10e5a9ef-dadc-4b08-aae6-29c3671aa3cc",
+            "17d4b914-fa21-4b41-a928-bafe1846528a",
+            "28184f04-8988-4443-bf9c-39140174dcb6",
+            "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+            "e2b44424-92bb-446d-bc05-3a66202399e1"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "per_unit_capacity",
+                  "facet_term_hits": [
+                    "lazo",
+                    "modulo"
+                  ],
+                  "query_term_hits": [
+                    "equipos",
+                    "limites"
+                  ],
+                  "quote": "es de 40: si se supera dicho límite, la autoconfiguración continuará pero señalará que hay fallos. En cambio, un lazo solo con equipos CLIP admite una completa gama de 99 sensores y 99 módulos."
+                },
+                {
+                  "facet": "system_total",
+                  "facet_term_hits": [
+                    "lazo",
+                    "total"
+                  ],
+                  "query_term_hits": [
+                    "equipos"
+                  ],
+                  "quote": "```\nLazo 1 Resumen de Equipos         <>:Más\nTotal Sensores/Módulos : 79/42\nOPAL OPT (Óptico)                 :64\nOPAL SMT4 (Óptico/Térmico/IR/CO):5\nOPAL SMT3 (Óptico/Térmico/IR)     :5\nOPAL TFIX58 (Térmico)             :5\nOPAL M701 (Una salida)            :5\nOPAL MCP (Pulsador Alarma)        :17\nOPAL M701 (Una Entrada)           :5\nOPAL M720 (Dos Entradas)"
+                }
+              ],
+              "facets": [
+                "per_unit_capacity",
+                "system_total"
+              ],
+              "id": "8339f632-88c4-41c3-8b14-82348f7ab837",
+              "max_query_term_hits": 2,
+              "page_number": 18,
+              "source_file": "997-671-005-3_Configuration_ES"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "per_unit_capacity",
+                  "facet_term_hits": [
+                    "lazo",
+                    "modulo"
+                  ],
+                  "query_term_hits": [
+                    "equipos"
+                  ],
+                  "quote": "equipos Opal\n- Asignar si es necesario para alimentación de potenciador de lazo (solo para alarma)\n- Seleccionar función de acción de subdirecciones de módulo de entrada o salida\n- Ajuste de acción de fallo no AUX:* entrada de alarma o avería\n- Ajuste de supervisión de avería de cortocircuito o circuito abierto\n- Periodo de retardo de confirmación de"
+                }
+              ],
+              "facets": [
+                "per_unit_capacity"
+              ],
+              "id": "ac652044-a4ff-40bd-9011-95521bb79e0f",
+              "max_query_term_hits": 1,
+              "page_number": 20,
+              "source_file": "997-671-005-3_Configuration_ES"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat007": {
+          "archetype_v4": "loop_eol_topology",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "051c56d8f7e8d1ffe7ee52287fcd971818af67188005a37d5c203ca831adcfab",
+            "hyq_rows_sha256": "8fd05fecce950fa3618fd0f1c524a80360136d0bcb5a47d31315add8e16399bb",
+            "selected_parent_ids_sha256": "27db906354566698065180d9dae31a4816d21e04d29852fe66308578811e021a"
+          },
+          "http_requests": 4,
+          "hyq_rows": 1430,
+          "rejected": 3,
+          "rejected_by_reason": {
+            "no_matching_card": 2,
+            "no_query_aligned_card": 1
+          },
+          "scope_document_ids": [
+            "16d21f2d-10f8-442a-ab96-f825a09624fe",
+            "1c28dfaa-cb38-488a-b0e2-ec4d74e3d8a3",
+            "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+            "6bcf5666-e1e0-437e-8759-3870165bcd1e",
+            "956172ed-619c-4876-91db-dbd33edbd91b",
+            "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+            "be8f0c3a-be40-4ae4-9e09-738a9093273a",
+            "c6c6cc81-8dec-48c8-a72a-797a54afe2f3",
+            "c8a27769-e7bb-4ab4-a2f1-fcc4bbad9df2",
+            "eef91711-fcb7-4b46-ab86-21657490df40",
+            "f1d3db52-c955-472e-9237-9019a007ba83"
+          ],
+          "served": 1,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "termination",
+                  "facet_term_hits": [
+                    "line",
+                    "linea",
+                    "resistencia"
+                  ],
+                  "query_term_hits": [
+                    "sirena"
+                  ],
+                  "quote": "|     |\n| 17  | Salida sirena 1 -        | Resistencia de fin de línea de   | T5  |\n| 18  | Salida sirena 1 +        | 47 kohm                          |     |\n| 19  | Salida sirena 2 -        | Resistencia de fin de línea de   | T6  |\n| 20  | Salida sirena 2 +        | 47 kohm                          |     |\n| 21  | Entrada"
+                }
+              ],
+              "facets": [
+                "termination"
+              ],
+              "id": "dd9e230c-327a-426a-bf94-f5f1bb3b5835",
+              "max_query_term_hits": 1,
+              "page_number": 5,
+              "source_file": "I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat008": {
+          "archetype_v4": "loop_eol_topology",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "c6048bed0c6c36d6ea16311198d05a6dcfa43aabafc10c45c92819b95f8af011",
+            "hyq_rows_sha256": "660510e83b62e66c729405c79aa6bcd44df8fe88631fc68d85afea8950f93c27",
+            "selected_parent_ids_sha256": "cc1907d2ee4231e226a9c1812d3923e91335b920e055e114c53245a8969426db"
+          },
+          "http_requests": 3,
+          "hyq_rows": 103,
+          "rejected": 1,
+          "rejected_by_reason": {
+            "no_query_aligned_card": 1
+          },
+          "scope_document_ids": [
+            "58f3dad4-8828-41ce-ac78-3e6bc638a3db",
+            "7e2805f4-e43f-4369-9151-2e8b3cf2bf4f",
+            "ab0195cb-cd0b-42c2-bcf7-0a3e259cb49e"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "loop_topology",
+                  "facet_term_hits": [
+                    "lazo",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "entrada"
+                  ],
+                  "quote": "```\n         Salida del lazo -                                  1\n         Salida del lazo +                                  2\n       Entrada del lazo  -                                  3\n         Entrada del lazo+                                  4\nSalida del lazo (ver nota 1)+                               5"
+                },
+                {
+                  "facet": "termination",
+                  "facet_term_hits": [
+                    "line",
+                    "linea"
+                  ],
+                  "query_term_hits": [
+                    "m710",
+                    "necesita",
+                    "estados"
+                  ],
+                  "quote": "1. Si no se necesita el aislamiento de cortocircuitos, se debe conectar la salida + del lazo al terminal 5 en vez de al terminal 2. El terminal 5 está conectado internamente con el terminal 4.\n2. El circuito con línea intermitente conectado a los terminales 8 y 9 se debe utilizar únicamente con el M720. El M710 no tiene conexiones con estos terminales.\n3."
+                }
+              ],
+              "facets": [
+                "loop_topology",
+                "termination"
+              ],
+              "id": "f3793f7a-c0ab-4a5a-847b-534dbccd58a9",
+              "max_query_term_hits": 3,
+              "page_number": 3,
+              "source_file": "I56-2005-002 M710 M720 M721 M701"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "loop_topology",
+                  "facet_term_hits": [
+                    "lazo",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "entrada"
+                  ],
+                  "quote": "```\n                        Salida del lazo    -                              1\n                        Salida del lazo    +                              2\n                       Entrada del lazo    -                              3\n                       Entrada del lazo    +                              4\n              Salida del lazo (ver nota 1) +"
+                },
+                {
+                  "facet": "termination",
+                  "facet_term_hits": [
+                    "line",
+                    "linea",
+                    "resistencia"
+                  ],
+                  "query_term_hits": [
+                    "modo",
+                    "estados"
+                  ],
+                  "quote": "| MODO     | Posición Selector A | Posición selector B | Equipo de final de línea | Carga      |\n| -------- | ------------------- | ------------------- | ------------------------ | ---------- |\n| Estándar | 0                   | 0                   | Resistencia 47kΩ         | Ver Nota 4 |\n| Vds      | 1                   | 0                   | 47Ω"
+                }
+              ],
+              "facets": [
+                "loop_topology",
+                "termination"
+              ],
+              "id": "8c063677-40c1-45c5-9660-9e0d9a9cd0ed",
+              "max_query_term_hits": 2,
+              "page_number": 3,
+              "source_file": "I56-2005-002 M710 M720 M721 M701"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat009": {
+          "archetype_v4": "loop_eol_topology",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": null,
+            "hyq_rows_sha256": null,
+            "selected_parent_ids_sha256": null
+          },
+          "http_requests": null,
+          "hyq_rows": null,
+          "rejected": 0,
+          "rejected_by_reason": {},
+          "scope_document_ids": [],
+          "served": 0,
+          "served_parents": [],
+          "status": "not_applicable"
+        },
+        "cat010": {
+          "archetype_v4": "intrinsic_safety",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "39ff647e89908b23e2837b404c645520666536553dca29d5556e23f2b0db4f53",
+            "hyq_rows_sha256": "874ff612b7d09d2de2f2178cb53adc36ccd7f46d5a1cb14059429b43fbde4658",
+            "selected_parent_ids_sha256": "16ba671f67794343381c3b4ac65f810e8cbc8aeea83af11477be9c148f352693"
+          },
+          "http_requests": 3,
+          "hyq_rows": 65,
+          "rejected": 3,
+          "rejected_by_reason": {
+            "no_query_aligned_card": 3
+          },
+          "scope_document_ids": [
+            "2b694083-5b21-4f1a-a29b-565072860fb8",
+            "a6b9dc84-af6d-4957-a403-4b4c2136557b"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "power_path",
+                  "facet_term_hits": [
+                    "barrier",
+                    "hazardous",
+                    "isolator",
+                    "safe",
+                    "supply"
+                  ],
+                  "query_term_hits": [
+                    "atex"
+                  ],
+                  "quote": "The IS-mA1 minialarm sounder has been designed to operate in a hazardous area from a 24V dc supply via 28V 93mA resistive ATEX and IECEx certified Zener Barriers or Galvanic Isolators. The sounders may be tested or used in safe areas without a Zener Barrier or Galvanic Isolator, but at supply voltages above 16V the internal current limit will function and"
+                },
+                {
+                  "facet": "entity_parameters",
+                  "facet_term_hits": [
+                    "current",
+                    "voltage"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "ic Isolator, but at supply voltages above 16V the internal current limit will function and therefore it is recommended that they are not operated continuously with a direct supply greater than 16V."
+                },
+                {
+                  "facet": "terminals_control",
+                  "facet_term_hits": [
+                    "control",
+                    "stage",
+                    "terminal",
+                    "terminals"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "be installed. The output tone is defined by the positions of the six internal switches and this tone can be changed to a second or third stage alarm tone by connecting terminals S2 or S3 to 0V. The tone generator is crystal controlled to ensure that when two sounders connected to the same power supply are started at the same time the output tones remain"
+                }
+              ],
+              "facets": [
+                "power_path",
+                "entity_parameters",
+                "terminals_control"
+              ],
+              "id": "aad31581-bef4-4991-80cf-b014e889b1c3",
+              "max_query_term_hits": 1,
+              "page_number": 1,
+              "source_file": "IS5001-F_IS-mA1_EN"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "power_path",
+                  "facet_term_hits": [
+                    "hazardous",
+                    "safe"
+                  ],
+                  "query_term_hits": [
+                    "intrinsecamente",
+                    "intrinseca"
+                  ],
+                  "quote": "4. Installation should be in accordance with ANSI/ISA RP12.06.01 \"Installation of Intrinsically Safe Systems for Hazardous (Classified) Locations\" and the National Electrical Code (ANSI/NFPA 70)."
+                },
+                {
+                  "facet": "terminals_control",
+                  "facet_term_hits": [
+                    "connection",
+                    "terminal",
+                    "terminals"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "[Schematic shows three connection points labeled with + and - terminals at top, S2 terminal in middle, and S3 terminal at bottom, with wave symbols between hazardous and unclassified locations]"
+                }
+              ],
+              "facets": [
+                "power_path",
+                "terminals_control"
+              ],
+              "id": "a979aa4c-ad14-41ea-b48d-2f2faf038c1a",
+              "max_query_term_hits": 2,
+              "page_number": 8,
+              "source_file": "manual IS MA1"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat012": {
+          "archetype_v4": "capacity_quantity",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "1f5f603174fba874e3448f30fb30db45f95a7a30774a520ff7cd00cb7241fbae",
+            "hyq_rows_sha256": "436f332902df29924308fb2e279975d8e12b2d10d61ad4ab9283191423759d20",
+            "selected_parent_ids_sha256": "9ef4c159c2a11cc5e156d5fa51e99d298f8b2a01c1f3d909e545269134727bd4"
+          },
+          "http_requests": 3,
+          "hyq_rows": 670,
+          "rejected": 5,
+          "rejected_by_reason": {
+            "no_matching_card": 2,
+            "no_query_aligned_card": 3
+          },
+          "scope_document_ids": [
+            "6e9d06c4-2292-4478-8e21-0b8af5d9cf5c",
+            "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+            "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+            "c1834315-a779-4074-ba5f-baa590907a59"
+          ],
+          "served": 1,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "per_unit_capacity",
+                  "facet_term_hits": [
+                    "detector",
+                    "dispositivo",
+                    "lazo",
+                    "modulo"
+                  ],
+                  "query_term_hits": [
+                    "calcula",
+                    "necesaria"
+                  ],
+                  "quote": "alarmas**: Hacer referencia a las fichas de datos del fabricante de los dispositivos para obtener la corriente en condición de alarma.\n Calcular la corriente total necesaria para todos los lazos usando **la tabla 2 (ver a continuación)** teniendo presente que la central enciende **solo los primeros 6 LED** de los detectores y módulos de entrada en alarma."
+                },
+                {
+                  "facet": "system_total",
+                  "facet_term_hits": [
+                    "dispositivo",
+                    "lazo",
+                    "total"
+                  ],
+                  "query_term_hits": [
+                    "calcula"
+                  ],
+                  "quote": "2 **Consumo de los lazos**: Hacer referencia a las fichas de datos del fabricante de los dispositivos para obtener la corriente en modo reposo. Calcular la corriente total requerida para todos los lazos usando **la tabla 2 (ver a continuación)**.\n **Corriente en alarmas**: Hacer referencia a las fichas de datos del fabricante de los dispositivos para"
+                },
+                {
+                  "facet": "system_total",
+                  "facet_term_hits": [
+                    "lazo",
+                    "total"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "al enciende **solo los primeros 6 LED** de los detectores y módulos de entrada en alarma.\n Comprobar que la corriente **total para todos los lazos sea inferior a 750 mA**."
+                }
+              ],
+              "facets": [
+                "per_unit_capacity",
+                "system_total",
+                "system_total"
+              ],
+              "id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+              "max_query_term_hits": 2,
+              "page_number": 53,
+              "source_file": "AM-8200 Manual Instalacion"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat013": {
+          "archetype_v4": "compatibility",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "5adfabddc5281f196fb62ae1acce0bcb93c062feee69a3b0ae8722afed6d88eb",
+            "hyq_rows_sha256": "60a60e5f577879f038778d7ec0f1dc2178eb09d217b843aaa188e8bb28058c0c",
+            "selected_parent_ids_sha256": "a2de206287fc527e6dafd92db18a797410c9f0d74778910d08acf0d060297483"
+          },
+          "http_requests": 3,
+          "hyq_rows": 994,
+          "rejected": 6,
+          "rejected_by_reason": {
+            "document_not_active": 1,
+            "no_matching_card": 5
+          },
+          "scope_document_ids": [
+            "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+            "17674072-d0a8-4bd7-91d6-f67cb56312e7",
+            "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+            "3e7328bf-8094-42e0-86b5-d31185d2be35",
+            "78696368-c146-4765-9967-5bdf85a174fa"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "cat017": {
+          "archetype_v4": "connect_install_wire",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "c0a7f61f7006e6e3d7c44e0e5c5dd28ac11836bb316499f96963e80e506df068",
+            "hyq_rows_sha256": "1bdc2921c12ae9fdcaaad7cfbd0ca32396f01806a1fcb9fb2e4f7ff29560629f",
+            "selected_parent_ids_sha256": "7188052c839e90cd8e25c52ad80e8647c1c2bb0c5580089494d7fcc3a4a63153"
+          },
+          "http_requests": 3,
+          "hyq_rows": 370,
+          "rejected": 6,
+          "rejected_by_reason": {
+            "no_matching_card": 5,
+            "no_query_aligned_card": 1
+          },
+          "scope_document_ids": [
+            "484dd402-3e32-4792-b81f-9f1419114154",
+            "49f79dcf-5963-41af-8fe6-fdacf53cbd65",
+            "68b7230c-15d3-4632-8c6b-d486bd6617bc",
+            "80e1b7d2-1455-454d-8545-18b858ba9a70",
+            "81c783f5-ebfd-452b-8a13-214482eccfc1",
+            "bb0b336d-be38-41c3-a21d-f9c0db811f34"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "cat018": {
+          "archetype_v4": "program_delay_cause_effect",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "0a6a782058cd0c40c99909fa124ea06754dd4fec087e7bf3c393ad29f22b5fd6",
+            "hyq_rows_sha256": "436f332902df29924308fb2e279975d8e12b2d10d61ad4ab9283191423759d20",
+            "selected_parent_ids_sha256": "2f0812d9af7e163d117b6c1dd7221c66d020ca201f8c26bdbb4e6f69fb0bfbb5"
+          },
+          "http_requests": 3,
+          "hyq_rows": 670,
+          "rejected": 3,
+          "rejected_by_reason": {
+            "no_matching_card": 1,
+            "no_query_aligned_card": 2
+          },
+          "scope_document_ids": [
+            "6e9d06c4-2292-4478-8e21-0b8af5d9cf5c",
+            "849cc19a-89f8-4942-b499-6ac0f3b7ae6a",
+            "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+            "c1834315-a779-4074-ba5f-baa590907a59"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "navigation",
+                  "facet_term_hits": [
+                    "edicion",
+                    "programacion"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "mado por 3 pestañas de programación, donde para la inserción de datos se usa la función de edición anteriormente descrita en el párrafo de funcionamiento del teclado para la inserción de datos."
+                },
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "activar",
+                    "funcion",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "active"
+                  ],
+                  "quote": "Un grupo es un conjunto de software de dispositivos que permite crear asociaciones.\nCuando un sensor o módulo (que forme parte del grupo) está en alarma, el grupo se activa.\nSi un módulo de salida es miembro del mismo grupo, se activará.\nEste procedimiento está formado por 3 pestañas de programación, donde para la inserción de datos se usa la función de"
+                }
+              ],
+              "facets": [
+                "navigation",
+                "output_action"
+              ],
+              "id": "28567d07-6db2-4034-992f-5bbe8ebfd928",
+              "max_query_term_hits": 1,
+              "page_number": 43,
+              "source_file": "AM-8200-manu-prog-spa"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "activar",
+                    "circuit",
+                    "circuito",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "ecuacion",
+                    "8200",
+                    "active"
+                  ],
+                  "quote": "A través de los módulos de salida, el sistema AM-8200, a través de las ecuaciones programables CBE, se pueden activar circuitos de señalización o relé de salida con contactos libres de tensión o supervisados en Clase A."
+                }
+              ],
+              "facets": [
+                "output_action"
+              ],
+              "id": "3155e0c7-af4e-4e31-b57c-7d3dce0ff2a8",
+              "max_query_term_hits": 3,
+              "page_number": 38,
+              "source_file": "AM-8200 Manual Instalacion"
+            }
+          ],
+          "status": "selected"
+        },
+        "cat019": {
+          "archetype_v4": "program_delay_cause_effect",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "a42452b6c49440ab9b5fb629c972a9ebe59650b52e85ac3daa6b600739f6bc38",
+            "hyq_rows_sha256": "aa25e308fcc10437b0333b55044f1583e19b6d0b50db078333f6b0b0bd2690b7",
+            "selected_parent_ids_sha256": "4cbcfcd268e15b8c7ef0018543d4a7d4b04b3772313fbc2734079c7b0d1f5d3f"
+          },
+          "http_requests": 3,
+          "hyq_rows": 865,
+          "rejected": 5,
+          "rejected_by_reason": {
+            "document_not_active": 2,
+            "no_matching_card": 1,
+            "no_query_aligned_card": 2
+          },
+          "scope_document_ids": [
+            "03b1ccf6-10cc-43a3-9041-4a2d42be0bc2",
+            "23f0e4d2-5fd6-4f7c-992c-82584f311745",
+            "348c4ec1-210a-441a-9ce7-02014a51f26d",
+            "bc6bdd33-72e6-4054-9ce4-60583be4b5c4",
+            "bd2a5dfc-7abf-40d0-ad62-bdc3aadbb0b1",
+            "d58f75b3-ce81-4bc7-add5-096933e254c7"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "accion",
+                    "salida",
+                    "seleccionar"
+                  ],
+                  "query_term_hits": [
+                    "maniobra",
+                    "eventos",
+                    "disparan"
+                  ],
+                  "quote": "> Desde la versión 1.1.1 es posible seleccionar un elemento de entrada como para que se vea afectado como acción de salida\n>\n> Para seleccionar una salida como evento en la maniobra, desmarque la casilla \"Sólo dispositivos de salida\""
+                }
+              ],
+              "facets": [
+                "output_action"
+              ],
+              "id": "d24671ba-e00c-498a-8053-e310e23297d3",
+              "max_query_term_hits": 3,
+              "page_number": 55,
+              "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "navigation",
+                  "facet_term_hits": [
+                    "edicion",
+                    "menu"
+                  ],
+                  "query_term_hits": [
+                    "crea"
+                  ],
+                  "quote": "Alternativamente, tal como se ha descrito para otros menús, mediante el botón derecho del ratón puede acceder directamente a las opciones de creación, edición o borrado de elementos y grupos."
+                }
+              ],
+              "facets": [
+                "navigation"
+              ],
+              "id": "984983c4-a20d-482c-9ec3-c7dc52f08bda",
+              "max_query_term_hits": 1,
+              "page_number": 59,
+              "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp002": {
+          "archetype_v4": "fault_reset_recovery",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "62f638fe8ba167b5c53698b1989e465e51375a096c063fb6bf63ca0c7e7d04c9",
+            "hyq_rows_sha256": "96cff46faca8ba7c21d0d95e52d5a52e58f5cd50a629274d3c48c43f9370d8b2",
+            "selected_parent_ids_sha256": "3f9f955034f6d5045b9e79094e0c5ce1ca896f11fab7dc4cfd4df954ae9b3f29"
+          },
+          "http_requests": 3,
+          "hyq_rows": 677,
+          "rejected": 4,
+          "rejected_by_reason": {
+            "no_matching_card": 4
+          },
+          "scope_document_ids": [
+            "ab258c38-30f7-4047-a421-ebb7a701a84a"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "hp003": {
+          "archetype_v4": "connect_install_wire",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "65ef5b04b94460b46ab3cc4425c808d464879ee6fc1944b1ebb87d57ab95e207",
+            "hyq_rows_sha256": "2c9ae54846abd498ea95bde3b2e90edb8bc17bbd5ec30cf82b1637d6882904ae",
+            "selected_parent_ids_sha256": "de816879b625669fa36c2c3c0824e82193d164782207a433a11f588eaa5d3c7d"
+          },
+          "http_requests": 3,
+          "hyq_rows": 168,
+          "rejected": 6,
+          "rejected_by_reason": {
+            "no_matching_card": 4,
+            "no_query_aligned_card": 2
+          },
+          "scope_document_ids": [
+            "131e6fcb-4d52-4c21-bac9-f6430559f47b",
+            "78696368-c146-4765-9967-5bdf85a174fa"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "hp005": {
+          "archetype_v4": "program_delay_cause_effect",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "8eec84fb7dbcc28a4379b0032fccffd92e2954e98cc2f715fe900035c729307d",
+            "hyq_rows_sha256": "d32c677bd5ee99fc9bdecd9fb9a7fe00a50a5781f73103f036bc3eb6f6bd0562",
+            "selected_parent_ids_sha256": "c222c663bc29097fc3bfc9da30e91dab103862af37d1661c182e039356eb1239"
+          },
+          "http_requests": 5,
+          "hyq_rows": 2196,
+          "rejected": 6,
+          "rejected_by_reason": {
+            "document_not_active": 2,
+            "no_matching_card": 2,
+            "no_query_aligned_card": 2
+          },
+          "scope_document_ids": [
+            "0cbff62b-0f60-40fc-8c21-87e68475bedd",
+            "197bcdcf-7bef-46fa-a823-ae24d9577fd4",
+            "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+            "3737c7f5-996c-4a3f-9fee-abc983147c01",
+            "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+            "53004592-9a57-4c00-ba0b-f5166a6a5418",
+            "6985a8f7-9b30-4991-a8ef-e6a4a3d2184b",
+            "7ade556d-6cd5-429c-9b7e-b53dc392496d",
+            "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+            "8dd14204-0a1c-4121-bc0a-f125e6114903",
+            "96995185-3f74-403c-8204-c9544bd9894f",
+            "97d304e1-a64e-473e-b937-389ee53f6108",
+            "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
+            "c0697e6c-6dc3-43f4-9858-a995aaea56fa",
+            "c39c0456-27e0-4c92-9fe9-039bdec4684a",
+            "d57e015a-db8f-4d7d-a065-067aeb47b023",
+            "dd747ae4-4ad0-4ffa-abcb-0bb579d662b8",
+            "e009191b-62e0-445c-b066-258e8787ccb4",
+            "e2f8edbf-60fe-41e1-8237-f534f356866b",
+            "f568ea6b-79e3-4e39-ac5e-815c60f7d2c9"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "logic_structure",
+                  "facet_term_hits": [
+                    "entrada",
+                    "matriz"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "**Nota:** Si selecciona un módulo de entrada (p. ej. PUL) como salida, la única acción de la Matriz de control será la de iluminar el LED del módulo."
+                },
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "accion",
+                    "equipo",
+                    "salida",
+                    "seleccionar"
+                  ],
+                  "query_term_hits": [
+                    "zona",
+                    "active"
+                  ],
+                  "quote": "**Nota:** Solo se puede seleccionar un Potenciador de lazo (loop booster) como equipo individual si la entrada es ACTIVACIÓN TÉCNICA y la salida es 'Acciones ANULAR'. Si la zona del Potenciador del lazo está incluida en una salida, los otros equipos de la zona se activan pero no el potenciador de lazo, incluso si la Limitación por tipo es de TODOS MÓDULOS"
+                }
+              ],
+              "facets": [
+                "logic_structure",
+                "output_action"
+              ],
+              "id": "f5ab61ca-bda4-4561-a500-0d8c3edb6a12",
+              "max_query_term_hits": 2,
+              "page_number": 77,
+              "source_file": "MPDT190"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "logic_structure",
+                  "facet_term_hits": [
+                    "entrada",
+                    "matriz"
+                  ],
+                  "query_term_hits": [
+                    "zona"
+                  ],
+                  "quote": "↓\n\n```\nCrear nuevo evento matriz de control\nSelecc. definición matriz de SALIDA:-\n   1:OTRA (S) ZONAS (S)\n   2:MISMA ZONA QUE LA ENTRADA\n```"
+                },
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "circuit",
+                    "circuito",
+                    "salida",
+                    "siren",
+                    "sirena"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "Si selecciona TODOS LOS MÓDULOS DE SALIDA o TODOS LOS MÓDULOS DE SIRENA, los circuitos de sirena internos se incluyen en la categoría de salida."
+                }
+              ],
+              "facets": [
+                "logic_structure",
+                "output_action"
+              ],
+              "id": "b92ecc4a-23ad-4f1f-bbf6-3778bebbbcc8",
+              "max_query_term_hits": 1,
+              "page_number": 78,
+              "source_file": "MPDT190"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp008": {
+          "archetype_v4": "compatibility",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "e8a730228e3075afe1da8f1ac5802ca04dbcebe011f90f5a9224e63fb572e674",
+            "hyq_rows_sha256": "d32c677bd5ee99fc9bdecd9fb9a7fe00a50a5781f73103f036bc3eb6f6bd0562",
+            "selected_parent_ids_sha256": "42a6d3a47936341de858cae2b7b557d9c4e2e89c6bd026fac29f1a6c46b9d785"
+          },
+          "http_requests": 5,
+          "hyq_rows": 2196,
+          "rejected": 5,
+          "rejected_by_reason": {
+            "document_not_active": 2,
+            "no_matching_card": 3
+          },
+          "scope_document_ids": [
+            "0cbff62b-0f60-40fc-8c21-87e68475bedd",
+            "197bcdcf-7bef-46fa-a823-ae24d9577fd4",
+            "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+            "3737c7f5-996c-4a3f-9fee-abc983147c01",
+            "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+            "53004592-9a57-4c00-ba0b-f5166a6a5418",
+            "6985a8f7-9b30-4991-a8ef-e6a4a3d2184b",
+            "7ade556d-6cd5-429c-9b7e-b53dc392496d",
+            "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+            "8dd14204-0a1c-4121-bc0a-f125e6114903",
+            "96995185-3f74-403c-8204-c9544bd9894f",
+            "97d304e1-a64e-473e-b937-389ee53f6108",
+            "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
+            "c0697e6c-6dc3-43f4-9858-a995aaea56fa",
+            "c39c0456-27e0-4c92-9fe9-039bdec4684a",
+            "d57e015a-db8f-4d7d-a065-067aeb47b023",
+            "dd747ae4-4ad0-4ffa-abcb-0bb579d662b8",
+            "e009191b-62e0-445c-b066-258e8787ccb4",
+            "e2f8edbf-60fe-41e1-8237-f534f356866b",
+            "f568ea6b-79e3-4e39-ac5e-815c60f7d2c9"
+          ],
+          "served": 1,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "compatibility_scope",
+                  "facet_term_hits": [
+                    "compatible",
+                    "protocol",
+                    "protocolo"
+                  ],
+                  "query_term_hits": [
+                    "notifier",
+                    "id3000"
+                  ],
+                  "quote": "La ID3000 es compatible con los siguientes equipos que utilizan protocolo de comunicaciones Notifier:"
+                }
+              ],
+              "facets": [
+                "compatibility_scope"
+              ],
+              "id": "f15e1eca-7985-4abf-83ee-130d66e1849d",
+              "max_query_term_hits": 2,
+              "page_number": 135,
+              "source_file": "MPDT190"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp009": {
+          "archetype_v4": "loop_eol_topology",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "7b4e53498e2587bd3c47fd6b3945c45563b36e5d1ae629001e900021a8a48b88",
+            "hyq_rows_sha256": "00f23bbe0f7221dba12c62ac563acdb815d7f9c1fbbcf7f7bb2c7b59276c4034",
+            "selected_parent_ids_sha256": "06f5a4be5de09f4415a0648deaa802eda027feb884c2b2618124d48ad450c39a"
+          },
+          "http_requests": 3,
+          "hyq_rows": 851,
+          "rejected": 6,
+          "rejected_by_reason": {
+            "no_matching_card": 2,
+            "no_query_aligned_card": 4
+          },
+          "scope_document_ids": [
+            "0560ef38-c95d-4a01-8cdd-f8da35c0b551",
+            "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+            "1ddb4a12-e94d-4c28-b87f-87ece6ed41e9",
+            "3454fc80-8e19-487c-84b7-fcf1c5bc96cd",
+            "6096bdf6-27b6-41bb-a03a-e65bf90b5ea9",
+            "7470235c-2358-4000-bb15-48c0cce7c8e3",
+            "e009191b-62e0-445c-b066-258e8787ccb4"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "hp011": {
+          "archetype_v4": "fault_reset_recovery",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "8f36cd2ea491195b1dcd29ddb7d8b70f45c53fabf853b0d7d2997d322b8369ba",
+            "hyq_rows_sha256": "31abde53993abcb9e7bd989b8491cd3923796d366c020036f7f55303c7b32467",
+            "selected_parent_ids_sha256": "1c9cc1b9e650587f3cba9cc16cba81bb3a42a3133e98957241a2bde32023f2db"
+          },
+          "http_requests": 3,
+          "hyq_rows": 809,
+          "rejected": 8,
+          "rejected_by_reason": {
+            "document_not_active": 1,
+            "document_sha_placeholder": 1,
+            "no_matching_card": 2,
+            "no_query_aligned_card": 4
+          },
+          "scope_document_ids": [
+            "1ab8784f-616f-4215-baf9-ce41a378602a",
+            "2ae1d34a-c668-4f94-b19b-2631d8748e6c",
+            "43e2ec68-c0f0-4098-905e-8ddc51eed4b7",
+            "494e71be-873b-48c1-adb3-a21a122da111",
+            "4eb9710c-8fa2-4ff3-9052-2704d666dcb9",
+            "56098df1-42eb-45bc-8834-aa2003bfb3f0",
+            "6e9d06c4-2292-4478-8e21-0b8af5d9cf5c",
+            "75aeced9-c959-4eea-9df3-b22dd54288e8",
+            "81615931-e1e5-495a-95d3-f4c65b15388e",
+            "8ed64d8a-03e0-4bb4-8543-4277efac35ee",
+            "8f5f9ad2-cf8d-4303-813f-98940ca5514c",
+            "9982bb96-8ee8-44f0-9f1c-304d6d90167b",
+            "c4bb48a0-973b-455a-8bbd-d1d7d1bfde3a",
+            "de7edb6e-aa61-44fd-9718-d01a9424b659",
+            "e0c48b01-7c25-46f9-83ff-65a52c08181e",
+            "e55fa2f9-9926-414b-9098-01a8d00b1855"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "hp012": {
+          "archetype_v4": "capacity_quantity",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "4d012684314fad24e12481b5b26e7ae885eeeb200b82e62040d6eb6cbd28dd35",
+            "hyq_rows_sha256": "61f1fb5085d6e3a805c4a6a8b3d1734264e8ca92f8fed90d54120c356366ceb9",
+            "selected_parent_ids_sha256": "593806b267d522b4a8dd933fafad0fd6494236f5ac5a9a84ed6a30b741ffbb31"
+          },
+          "http_requests": 5,
+          "hyq_rows": 2049,
+          "rejected": 2,
+          "rejected_by_reason": {
+            "document_not_active": 2
+          },
+          "scope_document_ids": [
+            "0295feed-a23c-479a-af0a-d4a6247d3f3e",
+            "11083248-6274-4203-ac67-dce279af1a6a",
+            "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+            "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+            "3a7e439f-0a14-4793-bc06-0756a97b1761",
+            "4bd47ab0-e19c-4a41-99f9-8fb002359630",
+            "50f1334a-9827-496d-bdd8-94f7f8ba4eb0",
+            "6d939414-e09a-4ca1-ad50-393b047402f7",
+            "713bc70c-55b0-40d2-8afe-aff1f126791e",
+            "782efe98-c918-4efa-b9b2-4d0af2edba03",
+            "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+            "832f32ef-a250-4db9-8760-b87c8fb27213",
+            "9fcefe88-8f84-4448-bc79-04465d9baaab",
+            "cf5eadeb-a666-4f99-ad5c-3131ba4af129",
+            "e009191b-62e0-445c-b066-258e8787ccb4",
+            "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+            "f3896ae9-00bf-48f7-9a1a-e053bd0e80f6"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "per_unit_capacity",
+                  "facet_term_hits": [
+                    "detector",
+                    "lazo",
+                    "modulo"
+                  ],
+                  "query_term_hits": [
+                    "direccionables",
+                    "am2020",
+                    "afp1010"
+                  ],
+                  "quote": "ientos de operación en Estilo 4 (Clase B) o Estilo 6 o 7 (Clase AA) de la NFPA. El sistema del AM2020 puede ser configurado con hasta 10 Lazos SLC del LIB y el sistema AFP1010 con hasta 4 Lazos, cada uno es capaz de soportar hasta 99 detectores inteligentes y hasta 99 módulos de monitoreo o de control direccionables."
+                }
+              ],
+              "facets": [
+                "per_unit_capacity"
+              ],
+              "id": "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+              "max_query_term_hits": 3,
+              "page_number": 108,
+              "source_file": "15088SP"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "system_total",
+                  "facet_term_hits": [
+                    "dispositivo",
+                    "sistema",
+                    "total"
+                  ],
+                  "query_term_hits": [
+                    "am2020"
+                  ],
+                  "quote": "El AM2020 es capaz de un máximo de diez LIBs (1980 dispositivos totales en el sistema)"
+                },
+                {
+                  "facet": "system_total",
+                  "facet_term_hits": [
+                    "dispositivo",
+                    "sistema",
+                    "total"
+                  ],
+                  "query_term_hits": [
+                    "afp1010"
+                  ],
+                  "quote": "El AFP1010 es capaz de un máximo de cuatro LIBs (792 dispositivos en total en el sistema)"
+                }
+              ],
+              "facets": [
+                "system_total",
+                "system_total"
+              ],
+              "id": "b162a7eb-50bd-4b0f-88f7-40ad855c6c94",
+              "max_query_term_hits": 1,
+              "page_number": 151,
+              "source_file": "15088SP"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp013": {
+          "archetype_v4": "replace_without_loss",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "1d9e8e22ab8cc16092ff65816e234e91b57e028a566611dafd833a49e3ee5524",
+            "hyq_rows_sha256": "428e5088ee95a281992610b1d3ab6a3df57b1f5070ed63f397f0d886ab65af50",
+            "selected_parent_ids_sha256": "e0d43684636dbb8366d47a601a644f33e032463ed49bffbce3a0d50d795dc2f9"
+          },
+          "http_requests": 3,
+          "hyq_rows": 534,
+          "rejected": 5,
+          "rejected_by_reason": {
+            "no_matching_card": 1,
+            "no_query_aligned_card": 4
+          },
+          "scope_document_ids": [
+            "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6"
+          ],
+          "served": 0,
+          "served_parents": [],
+          "status": "no_validated_source_span"
+        },
+        "hp014": {
+          "archetype_v4": "connect_install_wire",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "bee053d4b8ceb00ff6c1483a817d8bcacfbd9ba02a6a8de5db8625afa69e61c5",
+            "hyq_rows_sha256": "d022ac4228abe21177a0a51d2f6560284b929da7711e294c27637f497c246461",
+            "selected_parent_ids_sha256": "0f320329ce61cf7a332800d058ddf5ea79ce38c56efa21d1c33f45fd905f76e2"
+          },
+          "http_requests": 3,
+          "hyq_rows": 412,
+          "rejected": 5,
+          "rejected_by_reason": {
+            "document_not_active": 1,
+            "no_matching_card": 1,
+            "no_query_aligned_card": 3
+          },
+          "scope_document_ids": [
+            "17bd36ac-412b-4607-aa52-f9dbf37e26b7",
+            "aa1bc380-4c99-41d0-aea3-3f0567bb7347",
+            "f643f5d6-66d3-452f-9305-b54dbdb01d3c"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "connection",
+                  "facet_term_hits": [
+                    "conexion",
+                    "terminal"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "**Nota:** Si se ajustan direcciones superiores a 15, es necesario instalar una conexión entre el terminal 1 de J3 y el terminal 4 de J2. Esto añadirá 16 a la dirección indicada en el selector rotatorio."
+                },
+                {
+                  "facet": "continuity",
+                  "facet_term_hits": [
+                    "circuit",
+                    "circuito",
+                    "resistencia"
+                  ],
+                  "query_term_hits": [
+                    "linea"
+                  ],
+                  "quote": "**3** En el caso de varios repetidores (o unidades esclavas), compruebe que la resistencia de terminación de línea está fuera del circuito en todas las unidades excepto en aquellas que constituyen extremos de la red (R7 se extrae físicamente de los repetidores, R15 en los paneles esclavos). Si las resistencias están todavía en circuito, consulte la Sección"
+                }
+              ],
+              "facets": [
+                "connection",
+                "continuity"
+              ],
+              "id": "48a32695-0334-4604-9072-3d8a6ff04322",
+              "max_query_term_hits": 1,
+              "page_number": 50,
+              "source_file": "MIDT180"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "continuity",
+                  "facet_term_hits": [
+                    "continuidad",
+                    "lazo"
+                  ],
+                  "query_term_hits": [
+                    "aislamiento"
+                  ],
+                  "quote": "**Nota:** Las comprobaciones de continuidad en el lazo se deben realizar antes de conectar los aisladores."
+                }
+              ],
+              "facets": [
+                "continuity"
+              ],
+              "id": "330d7551-7bb0-4c0e-a27d-ec47c0065128",
+              "max_query_term_hits": 1,
+              "page_number": 20,
+              "source_file": "MIDT180"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp017": {
+          "archetype_v4": "program_delay_cause_effect",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "c3a3f98ac261aee73aeff2b385677621c98099c013ebbe720e2b3d80ac7b2f3f",
+            "hyq_rows_sha256": "f401bdab8e788c4f249df6c31d2659ea077016fb1631cf8134dbbf5f7d6b3b9a",
+            "selected_parent_ids_sha256": "ed02cd423b09b6ae6feb25a320be284158d91e564eb7693b03a28d6403d0e8fe"
+          },
+          "http_requests": 3,
+          "hyq_rows": 837,
+          "rejected": 4,
+          "rejected_by_reason": {
+            "no_matching_card": 1,
+            "no_query_aligned_card": 3
+          },
+          "scope_document_ids": [
+            "10e5a9ef-dadc-4b08-aae6-29c3671aa3cc",
+            "17d4b914-fa21-4b41-a928-bafe1846528a",
+            "28184f04-8988-4443-bf9c-39140174dcb6",
+            "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+            "e2b44424-92bb-446d-bc05-3a66202399e1"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "logic_structure",
+                  "facet_term_hits": [
+                    "causa",
+                    "condicion",
+                    "efecto",
+                    "regla"
+                  ],
+                  "query_term_hits": [
+                    "retardo"
+                  ],
+                  "quote": "Las reglas de causa-efecto pueden especificar diferentes condiciones para retardos de salida y cómo se controlan. Se puede asignar uno de seis tipos de retardo de salida a una regla, como se explica a continuación."
+                },
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "accion",
+                    "equipo",
+                    "funcion",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "retardo"
+                  ],
+                  "quote": "Cuando se examina una matriz de causa-efecto y hay una o más reglas con un retardo antes de la activación de equipos de salida, el tipo de retardo seleccionado determina qué acciones podrán realizarse mientras el retardo esté activo. Pueden utilizarse varias reglas en toda la matriz de causa-efecto para conseguir las funciones específicas del sitio"
+                }
+              ],
+              "facets": [
+                "logic_structure",
+                "output_action"
+              ],
+              "id": "570d9951-e3a6-4c64-a927-e26b5e6db842",
+              "max_query_term_hits": 1,
+              "page_number": 44,
+              "source_file": "997-671-005-3_Configuration_ES"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "output_action",
+                  "facet_term_hits": [
+                    "funcion",
+                    "salida"
+                  ],
+                  "query_term_hits": [
+                    "alarma"
+                  ],
+                  "quote": "bstante, el relé solo funciona cuando se ha detectado una condición de alarma. Utilice los contactos NO y C para una salida de alarma."
+                }
+              ],
+              "facets": [
+                "output_action"
+              ],
+              "id": "ace819b0-95a3-4c24-a501-06c9fe243015",
+              "max_query_term_hits": 1,
+              "page_number": 41,
+              "source_file": "997-669-005-3_Instal-Comm_ES"
+            }
+          ],
+          "status": "selected"
+        },
+        "hp018": {
+          "archetype_v4": "connect_install_wire",
+          "fetch_fingerprints": {
+            "hydrated_parents_sha256": "825b40b03b6abf9b0770621f66214c647f7985d01fc569af094b573537e0a45a",
+            "hyq_rows_sha256": "00f23bbe0f7221dba12c62ac563acdb815d7f9c1fbbcf7f7bb2c7b59276c4034",
+            "selected_parent_ids_sha256": "addf317728ac63284ddf5317acf0fbb1cc7a422b525bac66433f3970f5dbcfc6"
+          },
+          "http_requests": 3,
+          "hyq_rows": 851,
+          "rejected": 1,
+          "rejected_by_reason": {
+            "no_matching_card": 1
+          },
+          "scope_document_ids": [
+            "0560ef38-c95d-4a01-8cdd-f8da35c0b551",
+            "0e9330c8-2c53-4941-bf4f-17fe40adbe84",
+            "1ddb4a12-e94d-4c28-b87f-87ece6ed41e9",
+            "3454fc80-8e19-487c-84b7-fcf1c5bc96cd",
+            "6096bdf6-27b6-41bb-a03a-e65bf90b5ea9",
+            "7470235c-2358-4000-bb15-48c0cce7c8e3",
+            "e009191b-62e0-445c-b066-258e8787ccb4"
+          ],
+          "served": 2,
+          "served_parents": [
+            {
+              "cards": [
+                {
+                  "facet": "connection",
+                  "facet_term_hits": [
+                    "connection",
+                    "terminal",
+                    "wiring"
+                  ],
+                  "query_term_hits": [],
+                  "quote": "Each circular device shows internal wiring connections marked with + and - terminals.]"
+                },
+                {
+                  "facet": "continuity",
+                  "facet_term_hits": [
+                    "circuit",
+                    "circuito"
+                  ],
+                  "query_term_hits": [
+                    "sirena",
+                    "convencional"
+                  ],
+                  "quote": "**Figura 15 – Circuito de sirenas convencionales**"
+                }
+              ],
+              "facets": [
+                "connection",
+                "continuity"
+              ],
+              "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+              "max_query_term_hits": 2,
+              "page_number": 22,
+              "source_file": "MIE-MI-530rv001"
+            },
+            {
+              "cards": [
+                {
+                  "facet": "continuity",
+                  "facet_term_hits": [
+                    "circuit",
+                    "circuito",
+                    "resistencia"
+                  ],
+                  "query_term_hits": [
+                    "sirena",
+                    "salidas"
+                  ],
+                  "quote": "|\n| Salida Sirenas de placa    | 2 programables.<br/>Supervisadas para circuito abierto o cortocircuito.<br/>Resistencia final de línea 6K8.<br/>Carga máxima 1A por salida.<br/>Mínima corriente de contacto 1mA."
+                },
+                {
+                  "facet": "limits_safety",
+                  "facet_term_hits": [
+                    "limit",
+                    "maxim"
+                  ],
+                  "query_term_hits": [
+                    "salidas"
+                  ],
+                  "quote": "a 6K8.<br/>Carga máxima 1A por salida.<br/>Mínima corriente de contacto 1mA.                           |\n| Relés de placa             | 1 Relé programable y 1 Relé de avería (Normalmente excitado).<br/>Contactos limitados a 24V C.A./C.C., 1 A, 0.6PF máx.<br/>Mínima corriente de contacto 1mA a 5V                                            |\n| Lazos"
+                }
+              ],
+              "facets": [
+                "continuity",
+                "limits_safety"
+              ],
+              "id": "53e12a08-1cc2-45e3-8882-3e0854e3ed8c",
+              "max_query_term_hits": 2,
+              "page_number": 43,
+              "source_file": "MIE-MI-530rv001"
+            }
+          ],
+          "status": "selected"
+        }
+      },
+      "queries_entered": 21
+    },
+    {
+      "archetype_v4": "intrinsic_safety",
+      "attribution_if_no_value": "n/a",
+      "failures": [],
+      "gate": 3,
+      "is_value_matches": {
+        "entity_parameter_symbol": [],
+        "supply_or_voltage_word": [
+          "current",
+          "supply",
+          "voltage"
+        ]
+      },
+      "is_values_present": true,
+      "name": "probe de mecanismo cat010 (entra · sirve · valores IS en la quote)",
+      "pass": true,
+      "question": "¿Cómo se alimenta la sirena/avisador intrínsecamente seguro IS-mA1 en una zona peligrosa (ATEX) y cuáles son sus parámetros de seguridad intrínseca de entrada?",
+      "served": 2,
+      "served_parents": [
+        {
+          "cards": [
+            {
+              "facet": "power_path",
+              "facet_term_hits": [
+                "barrier",
+                "hazardous",
+                "isolator",
+                "safe",
+                "supply"
+              ],
+              "query_term_hits": [
+                "atex"
+              ],
+              "quote": "The IS-mA1 minialarm sounder has been designed to operate in a hazardous area from a 24V dc supply via 28V 93mA resistive ATEX and IECEx certified Zener Barriers or Galvanic Isolators. The sounders may be tested or used in safe areas without a Zener Barrier or Galvanic Isolator, but at supply voltages above 16V the internal current limit will function and"
+            },
+            {
+              "facet": "entity_parameters",
+              "facet_term_hits": [
+                "current",
+                "voltage"
+              ],
+              "query_term_hits": [],
+              "quote": "ic Isolator, but at supply voltages above 16V the internal current limit will function and therefore it is recommended that they are not operated continuously with a direct supply greater than 16V."
+            },
+            {
+              "facet": "terminals_control",
+              "facet_term_hits": [
+                "control",
+                "stage",
+                "terminal",
+                "terminals"
+              ],
+              "query_term_hits": [],
+              "quote": "be installed. The output tone is defined by the positions of the six internal switches and this tone can be changed to a second or third stage alarm tone by connecting terminals S2 or S3 to 0V. The tone generator is crystal controlled to ensure that when two sounders connected to the same power supply are started at the same time the output tones remain"
+            }
+          ],
+          "facets": [
+            "power_path",
+            "entity_parameters",
+            "terminals_control"
+          ],
+          "id": "aad31581-bef4-4991-80cf-b014e889b1c3",
+          "max_query_term_hits": 1,
+          "page_number": 1,
+          "source_file": "IS5001-F_IS-mA1_EN"
+        },
+        {
+          "cards": [
+            {
+              "facet": "power_path",
+              "facet_term_hits": [
+                "hazardous",
+                "safe"
+              ],
+              "query_term_hits": [
+                "intrinsecamente",
+                "intrinseca"
+              ],
+              "quote": "4. Installation should be in accordance with ANSI/ISA RP12.06.01 \"Installation of Intrinsically Safe Systems for Hazardous (Classified) Locations\" and the National Electrical Code (ANSI/NFPA 70)."
+            },
+            {
+              "facet": "terminals_control",
+              "facet_term_hits": [
+                "connection",
+                "terminal",
+                "terminals"
+              ],
+              "query_term_hits": [],
+              "quote": "[Schematic shows three connection points labeled with + and - terminals at top, S2 terminal in middle, and S3 terminal at bottom, with wave symbols between hazardous and unclassified locations]"
+            }
+          ],
+          "facets": [
+            "power_path",
+            "terminals_control"
+          ],
+          "id": "a979aa4c-ad14-41ea-b48d-2f2faf038c1a",
+          "max_query_term_hits": 2,
+          "page_number": 8,
+          "source_file": "manual IS MA1"
+        }
+      ],
+      "status": "selected"
+    },
+    {
+      "entering_v1": [
+        "cat001",
+        "cat007",
+        "cat008",
+        "cat009",
+        "cat012",
+        "cat013",
+        "cat017",
+        "cat018",
+        "cat019",
+        "cat023",
+        "hp003",
+        "hp005",
+        "hp011",
+        "hp012",
+        "hp014",
+        "hp017",
+        "hp018"
+      ],
+      "entering_v4": [
+        "cat001",
+        "cat007",
+        "cat008",
+        "cat009",
+        "cat010",
+        "cat012",
+        "cat013",
+        "cat017",
+        "cat018",
+        "cat019",
+        "hp002",
+        "hp003",
+        "hp005",
+        "hp008",
+        "hp009",
+        "hp011",
+        "hp012",
+        "hp013",
+        "hp014",
+        "hp017",
+        "hp018"
+      ],
+      "failures": [],
+      "gained_entry": [
+        "cat010",
+        "hp002",
+        "hp008",
+        "hp009",
+        "hp013"
+      ],
+      "gate": 4,
+      "lost_entry": [
+        "cat023"
+      ],
+      "name": "sweep de entrada a la lane == tabla §2",
+      "pass": true
+    },
+    {
+      "configs": {
+        "config/evidence_coverage_facets_v2.yaml": {
+          "git_blob_head": "989d2bdd2189db384611cae7f79c98529c0e23e0",
+          "git_blob_worktree": "989d2bdd2189db384611cae7f79c98529c0e23e0",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "3bc83f66ff276b8cefd2b5658d2ed1a3944cafee626334904c3ae4dd594bee93",
+          "sha256_worktree_normalized_lf": "3bc83f66ff276b8cefd2b5658d2ed1a3944cafee626334904c3ae4dd594bee93",
+          "sha256_worktree_raw": "89d54dc8c1656114ac86a37eb1080ce9cecfdb3a169fa93c77594ca45fd8e1fa"
+        },
+        "config/evidence_coverage_facets_v4.yaml": {
+          "git_blob_head": "c395901d0bbe91dc9f47cdcf143d2747628da66f",
+          "git_blob_worktree": "c395901d0bbe91dc9f47cdcf143d2747628da66f",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "914903f266eaafb1078e0c2cf451f0b9a54abe483b52439e20ac51aa15f39935",
+          "sha256_worktree_normalized_lf": "914903f266eaafb1078e0c2cf451f0b9a54abe483b52439e20ac51aa15f39935",
+          "sha256_worktree_raw": "9ce9f40185c5e290064d20161b0355cbc34186bfea245cd374d4b5abc759d215"
+        },
+        "config/evidence_coverage_facets_v5.yaml": {
+          "git_blob_head": "666549294b46d713e0838a870859d7f359b3ca45",
+          "git_blob_worktree": "666549294b46d713e0838a870859d7f359b3ca45",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "4cc64183da44e8faf12e0521845175929efa8acf1e05c2994bf0bacfeb8c3ad0",
+          "sha256_worktree_normalized_lf": "4cc64183da44e8faf12e0521845175929efa8acf1e05c2994bf0bacfeb8c3ad0",
+          "sha256_worktree_raw": "a8187c8153e3dfe113df500b74890e1ba2a9c65c491cde745bcdcd682afffc07"
+        },
+        "config/retrieval_facets_v1.yaml": {
+          "git_blob_head": "9413afabddc4209778476be1a78a27f83aa31f00",
+          "git_blob_worktree": "9413afabddc4209778476be1a78a27f83aa31f00",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "331dd5e990bd0af7c123e811589364c2015afc9574e8000c3ef17173baefb563",
+          "sha256_worktree_normalized_lf": "331dd5e990bd0af7c123e811589364c2015afc9574e8000c3ef17173baefb563",
+          "sha256_worktree_raw": "ebd80a2d234a4970bc5e6fb83db3e035bd797bc0ed7ab65c9cf882b1047ed646"
+        },
+        "config/retrieval_facets_v2.yaml": {
+          "git_blob_head": "8b5590ee5f63090167af62a8b0a2d1893967a2c1",
+          "git_blob_worktree": "8b5590ee5f63090167af62a8b0a2d1893967a2c1",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "b7e1c7dc8f51f6c1d6c9bed237072c96df047afb79fa1d2605f2cae0b5459222",
+          "sha256_worktree_normalized_lf": "b7e1c7dc8f51f6c1d6c9bed237072c96df047afb79fa1d2605f2cae0b5459222",
+          "sha256_worktree_raw": "114c6d7f52513f00c46313fba8d2c55ff492bd474adcc0f42a9f9b1d64e4b690"
+        },
+        "config/retrieval_facets_v3.yaml": {
+          "git_blob_head": "cf1ae60497c0d4317f647e2f5c6d09540fe983f6",
+          "git_blob_worktree": "cf1ae60497c0d4317f647e2f5c6d09540fe983f6",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "37e1d0d3916febae8ac10290780e2ffa9672cde51e3654f45dc8fc6a78da30d2",
+          "sha256_worktree_normalized_lf": "37e1d0d3916febae8ac10290780e2ffa9672cde51e3654f45dc8fc6a78da30d2",
+          "sha256_worktree_raw": "ffeb9f58495ff255e59efa8b03eb3b243906320862ad49719b8b2f05c7144f08"
+        },
+        "config/retrieval_facets_v4.yaml": {
+          "git_blob_head": "983fe4718303f5ff6e3be3da8d685f84eda3ab3d",
+          "git_blob_worktree": "983fe4718303f5ff6e3be3da8d685f84eda3ab3d",
+          "git_status_porcelain": "",
+          "identical": true,
+          "sha256_head_blob": "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb",
+          "sha256_worktree_normalized_lf": "fcc5aa7ade886a864cdd654757a79709136968c3d010ffde8a94dc0eae0401bb",
+          "sha256_worktree_raw": "05c91e49a7c539b71c1e17c98ffb36007f815aa701347e421384b2aecfb01371"
+        }
+      },
+      "failures": [],
+      "gate": 5,
+      "name": "inertness por bytes de las 7 configs + suite completa",
+      "pass": true,
+      "pointers": {
+        "facets_v1_default_unchanged": "config/retrieval_facets_v1.yaml",
+        "hyq_card_config": "config/evidence_coverage_facets_v5.yaml",
+        "hyq_match_config": "config/retrieval_facets_v4.yaml"
+      },
+      "suite": {
+        "failed_lines": [],
+        "returncode": 0,
+        "run": true,
+        "summary": "3398 passed, 5 skipped in 482.47s (0:08:02)"
+      }
+    }
+  ]
+}

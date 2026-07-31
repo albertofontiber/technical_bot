@@ -23,11 +23,16 @@ from __future__ import annotations
 import ast
 import inspect
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
 
 from src.rag import post_rerank_coverage, rerank_pool_coverage
+from src.rag.doc_scoped_hyq_coverage import (
+    LANE as HYQ_LANE,
+    collect_document_scoped_hyq,
+)
 from src.rag.evidence_coverage import (
     MULTIFACET_CONFIG,
     POOL_COMPLEMENT_CONFIG,
@@ -119,14 +124,51 @@ def _served_lane_pairs() -> dict[str, dict[str, Path]]:
             "match": POOL_COMPLEMENT_CONFIG,
             "card": POOL_COMPLEMENT_CONFIG,
         },
+        # hyq (s288b): el par es un RETRIEVAL-config (match) + un evidence-config
+        # (card), y AMBOS son defaults de la firma del colector — se leen por
+        # introspección para que re-apuntar cualquiera de los dos rompa aquí.
+        HYQ_LANE: {
+            "match": _signature_default(
+                collect_document_scoped_hyq, "query_facets_path"
+            ),
+            "card": _signature_default(
+                collect_document_scoped_hyq, "evidence_config_path"
+            ),
+        },
     }
 
 
 LANE_PAIRS = _served_lane_pairs()
 
 
-def _archetypes(path: Path) -> dict[str, list[dict]]:
-    return yaml.safe_load(path.read_text(encoding="utf-8"))["archetypes"]
+def _archetypes(path: Path) -> dict[str, Any]:
+    """EXTRACTOR: normaliza las dos formas de declarar ``archetypes`` a un mapping.
+
+    Los card-configs (``evidence_coverage_facets_*``) los declaran como MAPPING
+    ``id -> [facetas]``; los match-configs de retrieval (``retrieval_facets_*``)
+    como LISTA de objetos con ``id``.  Mientras cada lane emparejó dos configs de
+    evidencia el test no vio nunca la segunda forma; el par de la lane hyq
+    (retrieval_facets_v4 -> evidence_coverage_facets_v5) SÍ la trae, y sin este
+    extractor ``set(...)`` sobre la lista revienta con TypeError (dict no
+    hashable) en vez de comparar arquetipos.
+    """
+    payload = yaml.safe_load(path.read_text(encoding="utf-8"))["archetypes"]
+    if isinstance(payload, dict):
+        return payload
+    assert isinstance(payload, list) and payload, (
+        f"{path.name}: ``archetypes`` debe ser un mapping o una lista no vacía"
+    )
+    extracted: dict[str, Any] = {}
+    for entry in payload:
+        archetype_id = entry["id"]
+        assert archetype_id not in extracted, (
+            f"{path.name}: arquetipo duplicado {archetype_id}"
+        )
+        # El valor solo se usa para la prueba de "starvation" del lado CARD; se
+        # conserva el contenido declarado (needs) para que un arquetipo vacío
+        # siguiera siendo falsy si algún día una lista se usara como card-config.
+        extracted[archetype_id] = entry.get("needs") or []
+    return extracted
 
 
 def test_the_served_pairs_are_the_ones_this_contract_believes():
@@ -144,6 +186,11 @@ def test_the_served_pairs_are_the_ones_this_contract_believes():
         "match": POOL_COMPLEMENT_CONFIG,
         "card": POOL_COMPLEMENT_CONFIG,
     }
+    # s288b: el par de la lane hyq se ancla POR NOMBRE de fichero en el lado del
+    # match (la constante vive en el propio módulo de la lane: compararla consigo
+    # misma no probaría nada) y por CONSTANTE COMPARTIDA en el lado de la card.
+    assert LANE_PAIRS[HYQ_LANE]["match"] == ROOT / "config/retrieval_facets_v4.yaml"
+    assert LANE_PAIRS[HYQ_LANE]["card"] == POOL_COMPLEMENT_CONFIG
 
 
 @pytest.mark.parametrize("lane", sorted(LANE_PAIRS))

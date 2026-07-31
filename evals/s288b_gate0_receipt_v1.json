@@ -1,0 +1,109 @@
+{
+  "commit": "c6c6da853e7e5111356ff624141bf3522834be25",
+  "documents": {
+    "2b694083-5b21-4f1a-a29b-565072860fb8": {
+      "document_family": "IS5001-F_IS-mA1_EN",
+      "expected_hyq_rows": 48,
+      "expected_hyq_rows_live_parent": 16,
+      "hyq_rows": 48,
+      "hyq_rows_live_parent": 16,
+      "label": "IS5001-F_IS-mA1_EN",
+      "present": true,
+      "product_model": "IS-mA1",
+      "sha_is_real_64hex": true,
+      "source_pdf_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+      "status": "active"
+    },
+    "a6b9dc84-af6d-4957-a403-4b4c2136557b": {
+      "document_family": "manual IS MA1",
+      "expected_hyq_rows": 49,
+      "expected_hyq_rows_live_parent": 49,
+      "hyq_rows": 49,
+      "hyq_rows_live_parent": 49,
+      "label": "manual IS MA1",
+      "present": true,
+      "product_model": "IS-mA1",
+      "sha_is_real_64hex": true,
+      "source_pdf_sha256": "d2abf8778cfcccdc5f3f4d5d2c5084339c9e0e2971cca095069e7f3179740244",
+      "status": "active"
+    }
+  },
+  "failures": [],
+  "pass": true,
+  "queries": [
+    {
+      "params": {
+        "id": "in.(\"2b694083-5b21-4f1a-a29b-565072860fb8\",\"a6b9dc84-af6d-4957-a403-4b4c2136557b\")",
+        "order": "id.asc",
+        "select": "id,status,source_pdf_sha256,document_family,product_model"
+      },
+      "purpose": "documents_authority",
+      "rows": [
+        {
+          "document_family": "IS5001-F_IS-mA1_EN",
+          "id": "2b694083-5b21-4f1a-a29b-565072860fb8",
+          "product_model": "IS-mA1",
+          "source_pdf_sha256": "44d6f7126ffe2d4bb86c64abd3d8502b011a278086c4f9083a0c4d76fe4b6d07",
+          "status": "active"
+        },
+        {
+          "document_family": "manual IS MA1",
+          "id": "a6b9dc84-af6d-4957-a403-4b4c2136557b",
+          "product_model": "IS-mA1",
+          "source_pdf_sha256": "d2abf8778cfcccdc5f3f4d5d2c5084339c9e0e2971cca095069e7f3179740244",
+          "status": "active"
+        }
+      ],
+      "table": "documents",
+      "url": "https://izooestgffgscdirkfia.supabase.co/rest/v1/documents?select=id%2Cstatus%2Csource_pdf_sha256%2Cdocument_family%2Cproduct_model&id=in.%28%222b694083-5b21-4f1a-a29b-565072860fb8%22%2C%22a6b9dc84-af6d-4957-a403-4b4c2136557b%22%29&order=id.asc"
+    },
+    {
+      "count": 48,
+      "params": {
+        "chunks_v2.document_id": "eq.2b694083-5b21-4f1a-a29b-565072860fb8",
+        "limit": "1",
+        "select": "chunk_id,chunks_v2!inner(document_id,duplicate_of)"
+      },
+      "purpose": "hyq_rows:2b694083-5b21-4f1a-a29b-565072860fb8",
+      "table": "chunks_v2_hyq",
+      "url": "https://izooestgffgscdirkfia.supabase.co/rest/v1/chunks_v2_hyq?select=chunk_id%2Cchunks_v2%21inner%28document_id%2Cduplicate_of%29&chunks_v2.document_id=eq.2b694083-5b21-4f1a-a29b-565072860fb8&limit=1"
+    },
+    {
+      "count": 16,
+      "params": {
+        "chunks_v2.document_id": "eq.2b694083-5b21-4f1a-a29b-565072860fb8",
+        "chunks_v2.duplicate_of": "is.null",
+        "limit": "1",
+        "select": "chunk_id,chunks_v2!inner(document_id,duplicate_of)"
+      },
+      "purpose": "hyq_rows_live_parent:2b694083-5b21-4f1a-a29b-565072860fb8",
+      "table": "chunks_v2_hyq",
+      "url": "https://izooestgffgscdirkfia.supabase.co/rest/v1/chunks_v2_hyq?select=chunk_id%2Cchunks_v2%21inner%28document_id%2Cduplicate_of%29&chunks_v2.document_id=eq.2b694083-5b21-4f1a-a29b-565072860fb8&limit=1&chunks_v2.duplicate_of=is.null"
+    },
+    {
+      "count": 49,
+      "params": {
+        "chunks_v2.document_id": "eq.a6b9dc84-af6d-4957-a403-4b4c2136557b",
+        "limit": "1",
+        "select": "chunk_id,chunks_v2!inner(document_id,duplicate_of)"
+      },
+      "purpose": "hyq_rows:a6b9dc84-af6d-4957-a403-4b4c2136557b",
+      "table": "chunks_v2_hyq",
+      "url": "https://izooestgffgscdirkfia.supabase.co/rest/v1/chunks_v2_hyq?select=chunk_id%2Cchunks_v2%21inner%28document_id%2Cduplicate_of%29&chunks_v2.document_id=eq.a6b9dc84-af6d-4957-a403-4b4c2136557b&limit=1"
+    },
+    {
+      "count": 49,
+      "params": {
+        "chunks_v2.document_id": "eq.a6b9dc84-af6d-4957-a403-4b4c2136557b",
+        "chunks_v2.duplicate_of": "is.null",
+        "limit": "1",
+        "select": "chunk_id,chunks_v2!inner(document_id,duplicate_of)"
+      },
+      "purpose": "hyq_rows_live_parent:a6b9dc84-af6d-4957-a403-4b4c2136557b",
+      "table": "chunks_v2_hyq",
+      "url": "https://izooestgffgscdirkfia.supabase.co/rest/v1/chunks_v2_hyq?select=chunk_id%2Cchunks_v2%21inner%28document_id%2Cduplicate_of%29&chunks_v2.document_id=eq.a6b9dc84-af6d-4957-a403-4b4c2136557b&limit=1&chunks_v2.duplicate_of=is.null"
+    }
+  ],
+  "read_only": true,
+  "receipt": "s288b_gate0_cat010_surrogates_v1"
+}

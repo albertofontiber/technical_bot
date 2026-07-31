@@ -540,10 +540,15 @@ def _patch_resolution(monkeypatch, document_ids, *, archetype="capacity_count",
             ],
         },
     )
+    # s288b: la lane pasa SIEMPRE su puntero de facets (default de la firma), así
+    # que el doble tiene que aceptar el argumento de config.
     monkeypatch.setattr(
         lane,
         "expand_query_facets",
-        lambda _query: {"archetype": archetype, "needs": list(needs)},
+        lambda _query, *_args, **_kwargs: {
+            "archetype": archetype,
+            "needs": list(needs),
+        },
     )
 
 
@@ -566,6 +571,9 @@ def test_collection_serves_parent_source_not_generated_hyq(monkeypatch):
                 "end": len(content),
                 "quote": content,
                 "facet": "capacity",
+                # s288b: el selector real SIEMPRE emite esta clave; la barrera
+                # espejo exige que al menos una card la traiga no vacía.
+                "query_term_hits": ["lazos"],
                 "exact_source_span_validated": True,
             }
         ],
@@ -600,7 +608,10 @@ def test_collection_without_resolved_documents_is_not_applicable(monkeypatch):
     monkeypatch.setattr(
         lane,
         "expand_query_facets",
-        lambda _query: {"archetype": "capacity_quantity", "needs": ["capacity"]},
+        lambda _query, *_args, **_kwargs: {
+            "archetype": "capacity_quantity",
+            "needs": ["capacity"],
+        },
     )
 
     def forbidden(*_args, **_kwargs):
@@ -698,6 +709,129 @@ def test_collection_prefers_complementary_facets_over_duplicate_early_parents(mo
     )
 
     assert [row["id"] for row in selected] == ["unit-a", "total"]
+
+
+def test_collection_traces_the_parent_that_produced_no_card(monkeypatch):
+    """s288b: el descarte sin-card deja de ser un ``continue`` mudo.
+
+    Antes, un parent que no producía card desaparecía sin razón y el síntoma era
+    indistinguible de un hueco de corpus (feedback_corpus_gap).
+    """
+    _patch_resolution(monkeypatch, [DOC_A], archetype="capacity_quantity",
+                      needs=["capacity"], source_files=["manual"])
+    monkeypatch.setattr(lane, "select_evidence_coverage_cards", lambda *_a, **_k: [])
+
+    selected, trace = lane.collect_document_scoped_hyq(
+        "capacidad",
+        fetcher=lambda _scope, _needs: (
+            [
+                {
+                    "id": "cardless",
+                    "content": "prosa sin faceta",
+                    "source_file": "manual",
+                    "document_id": DOC_A,
+                }
+            ],
+            1,
+        ),
+    )
+
+    assert selected == []
+    assert trace["status"] == "no_validated_source_span"
+    assert trace["parents_rejected"] == [
+        {"id": "cardless", "reason": "no_matching_card", "scope": "parent"}
+    ]
+
+
+def test_collection_rejects_the_parent_without_a_query_aligned_card(monkeypatch):
+    """s288b (barrera espejo de ``_query_card`` en rerank_pool_coverage).
+
+    ``evidence_coverage_facets_v5`` no exige alineación de query en la card; sin
+    esta barrera, adoptar v5 relajaría el gate de la lane.  Un parent cuyas cards
+    NO comparten ningún anclaje distintivo con la pregunta no sirve, y se traza.
+    """
+    _patch_resolution(monkeypatch, [DOC_A], archetype="capacity_quantity",
+                      needs=["capacity"], source_files=["manual"])
+    monkeypatch.setattr(
+        lane,
+        "select_evidence_coverage_cards",
+        lambda candidates, **_kwargs: [
+            {
+                "candidate_id": candidates[0]["id"],
+                "start": 0,
+                "end": 5,
+                "quote": "lazos",
+                "facet": "per_unit_capacity",
+                "query_term_hits": [],
+                "exact_source_span_validated": True,
+            }
+        ],
+    )
+
+    selected, trace = lane.collect_document_scoped_hyq(
+        "capacidad",
+        fetcher=lambda _scope, _needs: (
+            [
+                {
+                    "id": "unaligned",
+                    "content": "lazos",
+                    "source_file": "manual",
+                    "document_id": DOC_A,
+                }
+            ],
+            1,
+        ),
+    )
+
+    assert selected == []
+    assert trace["parents_rejected"] == [
+        {"id": "unaligned", "reason": "no_query_aligned_card", "scope": "parent"}
+    ]
+
+
+def test_a_consumer_with_its_own_contract_can_opt_out_of_the_query_barrier(monkeypatch):
+    """El opt-out es EXPLÍCITO y fail-closed por default (bundle de compatibilidad).
+
+    Su gate relacional de dos entidades sustituye a la alineación por query, del
+    mismo modo que la reserva obligation-aware sustituye la suya (s278 §3).
+    """
+    _patch_resolution(monkeypatch, [DOC_A], archetype="capacity_quantity",
+                      needs=["capacity"], source_files=["manual"])
+    monkeypatch.setattr(
+        lane,
+        "select_evidence_coverage_cards",
+        lambda candidates, **_kwargs: [
+            {
+                "candidate_id": candidates[0]["id"],
+                "start": 0,
+                "end": 5,
+                "quote": "lazos",
+                "facet": "per_unit_capacity",
+                "query_term_hits": [],
+                "exact_source_span_validated": True,
+            }
+        ],
+    )
+    parents = (
+        [
+            {
+                "id": "unaligned",
+                "content": "lazos",
+                "source_file": "manual",
+                "document_id": DOC_A,
+            }
+        ],
+        1,
+    )
+
+    selected, trace = lane.collect_document_scoped_hyq(
+        "capacidad",
+        fetcher=lambda _scope, _needs: parents,
+        require_query_aligned_card=False,
+    )
+
+    assert [row["id"] for row in selected] == ["unaligned"]
+    assert trace["parents_rejected"] == []
 
 
 def test_collection_rejects_hydrated_parent_outside_document_scope(monkeypatch):
@@ -823,6 +957,9 @@ def test_candidate_compatibility_contract_can_cover_three_complementary_relation
         evidence_config_path=COMPAT_EVIDENCE,
         append_limit=3,
         entity_stratified=True,
+        # Calca el call site real (compatibility_bundle_coverage.py): su gate
+        # relacional sustituye a la barrera espejo de alineación (s288b).
+        require_query_aligned_card=False,
     )
 
     assert [row["id"] for row in selected] == ["protocol", "roster", "topology"]

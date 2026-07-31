@@ -92,8 +92,16 @@ def main() -> int:
                 "page_number": row.get("page_number"),
                 "document_id": str(row.get("document_id") or ""),
                 "facets": row.get("coverage_card_facets") or [],
+                # ``quote`` es la clave REAL del span de una card
+                # (evidence_coverage.select_evidence_coverage_cards); leer solo
+                # excerpt/content devolvía [""] y hacía ilegibles los receipts.
                 "card_excerpt_heads": [
-                    str(card.get("excerpt") or card.get("content") or "")[:160]
+                    str(
+                        card.get("quote")
+                        or card.get("excerpt")
+                        or card.get("content")
+                        or ""
+                    )[:160]
                     for card in cards
                 ],
             })

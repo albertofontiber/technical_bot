@@ -20,6 +20,14 @@ s288 F2 (lane hardening) — three normative properties, all declared:
   language are deliberately NOT required here — the lineage-adjudicated tier
   belongs to ``document_local``; naming the tier is how this lane avoids
   over-claiming canonical authority.
+
+s288b (lever de ontología) — el PAR de configs de la lane pasa a ser el que ya
+sirve la lane hermana ``rerank_pool_coverage``: match = ``retrieval_facets_v4``
+(ontología bilingüe con ``stem_prefixes``), cards = ``evidence_coverage_facets_v5``.
+Las configs quedan byte-intactas; lo único que cambia es a cuál apunta la lane, y
+la **barrera espejo** de alineación query↔card que ese par exige (ver
+``MIN_QUERY_ALIGNED_CARD_TERMS``).  Todo descarte de parent queda TRAZADO en
+``parents_rejected`` — un parent que no produce card ya no desaparece en silencio.
 """
 from __future__ import annotations
 
@@ -31,16 +39,19 @@ import time
 import unicodedata
 from collections import Counter, defaultdict
 from contextlib import nullcontext
+from pathlib import Path
 from typing import Any
 
 import httpx
 
 from ..config import SUPABASE_SERVICE_KEY, SUPABASE_URL
 from .catalog_resolver import resolve_query
-from .evidence_coverage import STRICT_ALIGNED_CONFIG, select_evidence_coverage_cards
-from .query_facets import expand_query_facets
+from .evidence_coverage import POOL_COMPLEMENT_CONFIG, select_evidence_coverage_cards
+from .query_facets import ROOT as QUERY_ROOT, expand_query_facets
 
 LANE = "canonical_document_hyq_coverage_v1"
+# Mismo match-config que la lane hermana del pool (rerank_pool_coverage.py:38).
+QUERY_FACETS_CONFIG = QUERY_ROOT / "config/retrieval_facets_v4.yaml"
 SCOPE_LIMIT = 32
 ROW_LIMIT = 4000
 PAGE_SIZE = 1000
@@ -87,6 +98,31 @@ REJECTED_DOCUMENT_SHA_PLACEHOLDER = "document_sha_placeholder"
 REJECTED_PARENT_OUT_OF_SCOPE = "parent_document_out_of_scope"
 REJECTED_PARENT_SHA_MISMATCH = "parent_extraction_sha_mismatch"
 REJECTED_PARENT_DUPLICATE = "parent_marked_duplicate"
+# s288b: los dos descartes de la capa de cards.  El primero EXISTÍA como
+# ``continue`` mudo — un parent sin card se contaba como "no había material",
+# indistinguible de un hueco de corpus (feedback_corpus_gap).  Ahora se traza.
+REJECTED_PARENT_NO_MATCHING_CARD = "no_matching_card"
+REJECTED_PARENT_NO_QUERY_ALIGNED_CARD = "no_query_aligned_card"
+
+# s288b (r2-i) — BARRERA ESPEJO de la alineación query↔card.
+# ``evidence_coverage_facets_v5`` declara ``query_alignment_min_terms: 0`` para
+# TODOS sus arquetipos (config/evidence_coverage_facets_v5.yaml:6-15).  En la lane
+# hermana eso es seguro porque ``rerank_pool_coverage`` impone su PROPIA barrera
+# antes de servir: ``_query_card`` (rerank_pool_coverage.py:168-195) exige una
+# ventana con al menos ``MIN_ALIGNMENT_TERMS = 6`` términos alineados
+# (rerank_pool_coverage.py:37) y el candidato se descarta cuando devuelve ``None``
+# (rerank_pool_coverage.py:341-342).  Sin barrera aquí, adoptar v5 relajaría la
+# alineación TAMBIÉN para los arquetipos preexistentes de esta lane (v4 exigía
+# 2 / 2 / 3 / 1 en connect_install_wire / fault_reset_recovery /
+# program_delay_cause_effect / capacity_quantity).
+# El NÚMERO de rerank_pool no es transferible, y por eso se cita aquí en vez de
+# copiarse: allí se cuentan los aciertos de ``query ∪ needs`` (todo el vocabulario
+# expandido de la faceta, ~40 términos) contra la ventana, mientras que
+# ``query_term_hits`` cuenta SOLO los anclajes DISTINTIVOS de la pregunta
+# (``_query_alignment_hits`` descarta genéricos y términos de la propia faceta),
+# magnitud cuyo rango de esquema es 0..4 (evidence_coverage.py:94-101).  Lo que se
+# espeja es la BARRERA: ningún parent sirve sin ≥1 card con alineación de query.
+MIN_QUERY_ALIGNED_CARD_TERMS = 1
 
 
 def _tokens(text: str) -> list[str]:
@@ -529,13 +565,23 @@ def collect_document_scoped_hyq(
     query: str,
     *,
     fetcher=fetch_document_scoped_rows,
-    query_facets_path=None,
-    evidence_config_path=STRICT_ALIGNED_CONFIG,
+    query_facets_path: Path = QUERY_FACETS_CONFIG,
+    evidence_config_path: Path = POOL_COMPLEMENT_CONFIG,
     append_limit: int = APPEND_LIMIT,
     entity_stratified: bool = False,
     include_fetch_receipts: bool = False,
+    require_query_aligned_card: bool = True,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Return exact-source candidates; never expose generated HYQ prose."""
+    """Return exact-source candidates; never expose generated HYQ prose.
+
+    ``require_query_aligned_card`` es fail-closed por default (barrera espejo,
+    ver ``MIN_QUERY_ALIGNED_CARD_TERMS``).  Un consumidor solo puede apagarla si
+    su PROPIO contrato sustituye a la alineación por query — hoy únicamente
+    ``compatibility_bundle_coverage``, cuyo gate relacional (roster + protocolo +
+    topología, ligados a dos entidades gobernadas) es estrictamente más fuerte y
+    NO cambia de par de configs en este lever; mantenerlo intacto es lo que
+    impide que este cambio se filtre a una lane que nadie revisó aquí.
+    """
     if not isinstance(append_limit, int) or isinstance(append_limit, bool) or not 1 <= append_limit <= 3:
         raise ValueError("HYQ append limit must be 1..3")
     if not isinstance(entity_stratified, bool):
@@ -546,11 +592,9 @@ def collect_document_scoped_hyq(
     scope = _resolved_document_ids(resolution)
     source_groups = resolution.get("source_groups") or []
     active_source_groups = source_groups if entity_stratified else []
-    plan = (
-        expand_query_facets(query, query_facets_path)
-        if query_facets_path is not None
-        else expand_query_facets(query)
-    )
+    # Los DOS punteros de configs son defaults de ESTA firma (el test de paridad
+    # por lane los lee por introspección, no por una ruta copiada a mano).
+    plan = expand_query_facets(query, query_facets_path)
     trace = {
         "lane": LANE,
         "scope_rows": len(scope),
@@ -622,6 +666,19 @@ def collect_document_scoped_hyq(
             config_path=evidence_config_path,
         )
         if not cards:
+            parents_rejected.append(
+                _rejection(parent_id, REJECTED_PARENT_NO_MATCHING_CARD, "parent")
+            )
+            continue
+        if require_query_aligned_card and not any(
+            len(card.get("query_term_hits") or []) >= MIN_QUERY_ALIGNED_CARD_TERMS
+            for card in cards
+        ):
+            parents_rejected.append(
+                _rejection(
+                    parent_id, REJECTED_PARENT_NO_QUERY_ALIGNED_CARD, "parent"
+                )
+            )
             continue
         row = dict(parent)
         row.update(
