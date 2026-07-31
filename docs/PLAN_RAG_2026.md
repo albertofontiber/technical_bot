@@ -56,12 +56,16 @@ aplicado==100%) · probe cohorte: **hp012 mecanismo CONFIRMADO** (lane sirve 150
 p.108+p.151 con las facetas de la aguja) · cat010 = archetype None (diana del lever
 taxonomía) · hp013 baseline confirmado. Addendum F3 en DEC-165.
 
-**Qué sigue:** (1) **lever taxonomía/arquetipos** (post-A-core, corpus+autoridad FIJOS,
-audits 39 dev; diana diagnosticada cat010 clase alimentación/ATEX; dúo antes de cablear);
-(2) etapa 3 síntesis sobre serving estable + re-baseline bvg vs 11/16/12 (outcome de A-core
-se mide con la lane ON — A3/perfil c1_v5); (3) bandeja Alberto: QA-30 v3 (30/30-o-HALT →
-staging P-B) · tramos P-C · ONs Railway + paste D9 + PR/merge de la rama; (4) lane
-inventario/catálogo. Traza: DEC-163/164/165 + HISTORY s288.
+**s288b (31-jul): lever ontología hyq EJECUTADO (DEC-166)** — la lane adopta el par
+retrieval-v4+evidence-v5 con barrera query-card; 7/7 gates $0; **cat010 convertida en
+MECANISMO** (intrinsic_safety, 2 parents con valores IS); entradas 17→21; residuales
+declarados (estrictez per-arquetipo → gap A3; hp009-centinela). Dúo s288+s288b: 34/34, 0 FP.
+
+**Qué sigue:** (1) **etapa 3 síntesis** (13 estables, 5 pre-trazados) sobre serving estable +
+re-baseline bvg vs 11/16/12; (2) **A3 / perfil c1_v5** (lane hyq ON con gate de outcome:
+eficacia cat010/hp012 + centinela hp009 + estrictez per-arquetipo re-evaluada); (3) bandeja
+Alberto: QA-30 v3/v4 (30/30-o-HALT → staging P-B) · tramos P-C · ONs Railway + paste D9 +
+PR/merge de la rama; (4) lane inventario/catálogo. Traza: DEC-163..166 + HISTORY s288/s288b.
 
 ## Estado anterior (s286 — 29 jul 2026)
 
