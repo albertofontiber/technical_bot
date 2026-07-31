@@ -1,0 +1,1066 @@
+{
+ "gate": "s287 P1 (b) — CENTINELAS: cero cambio de composición de pool (hp009 conserva ZXAE/ZXEE · hp011 mantiene el prefer RP1r)",
+ "flags": {
+  "CHUNKS_TABLE": "chunks_v2",
+  "ENUNCIADOS_MULTIVECTOR": "on",
+  "IDENTITY_RESOLVE": "on",
+  "IDENTITY_RESOLVE_POLICY": "replace",
+  "HYQ_TABLE": "on",
+  "HYDE_ENABLED": "false",
+  "DIVERSIFY_TIEBREAK": "off",
+  "HYQ_PILOT_FILE": "",
+  "LEVER2_PM_RESCUE": ""
+ },
+ "retrieval_top_k": 50,
+ "arms_state": {
+  "pre_p1": {
+   "quarantine": [
+    "zxe"
+   ],
+   "presence_elements_n": 0
+  },
+  "p1": {
+   "quarantine": [],
+   "presence_elements_n": 850
+  }
+ },
+ "centinelas": {
+  "hp009": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 35,
+    "head10": [
+     {
+      "id": "1a353c9c-9472-4883-941b-1c927428d24b",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 4
+     },
+     {
+      "id": "041a3676-294c-4fd3-ba22-940d29dbce43",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 8
+     },
+     {
+      "id": "3c7e9384-19ba-4670-8a97-b238901e142b",
+      "product_model": "ZXe",
+      "source_file": "MIE-MP-530rv001",
+      "page_number": 10
+     },
+     {
+      "id": "ebe26de8-6468-40f4-b15b-4ef84c51464f",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MP-310",
+      "page_number": 29
+     },
+     {
+      "id": "ea97a905-42b6-4e50-82ae-2f11a6c66615",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MU-310",
+      "page_number": 6
+     },
+     {
+      "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+      "product_model": "ZXe",
+      "source_file": "MIE-MU-530rv001",
+      "page_number": 17
+     },
+     {
+      "id": "31ccb719-ddc0-4b2d-aefe-94b9e65aea3c",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 5
+     },
+     {
+      "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 20
+     },
+     {
+      "id": "e08da464-c088-4689-af8e-0c1795870e50",
+      "product_model": "ZXe",
+      "source_file": "MIE-MP-530rv001",
+      "page_number": 17
+     },
+     {
+      "id": "7f4ad443-539c-4219-87d1-951921cab68e",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MP-310",
+      "page_number": 22
+     }
+    ],
+    "head10_by_family": {
+     "ZXAE/ZXEE": 5,
+     "ZXE": 5
+    },
+    "pool_by_family": {
+     "ZXAE/ZXEE": 18,
+     "ZXE": 17
+    },
+    "pool_by_source_file": {
+     "MIE-MI-310": 13,
+     "MIE-MI-530rv001": 12,
+     "MIE-MP-530rv001": 2,
+     "MIE-MP-310": 3,
+     "MIE-MU-310": 2,
+     "MIE-MU-530rv001": 3
+    },
+    "arm": "pre_p1",
+    "qid": "hp009",
+    "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
+   },
+   "p1": {
+    "pool_n": 35,
+    "head10": [
+     {
+      "id": "1a353c9c-9472-4883-941b-1c927428d24b",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 4
+     },
+     {
+      "id": "041a3676-294c-4fd3-ba22-940d29dbce43",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 8
+     },
+     {
+      "id": "3c7e9384-19ba-4670-8a97-b238901e142b",
+      "product_model": "ZXe",
+      "source_file": "MIE-MP-530rv001",
+      "page_number": 10
+     },
+     {
+      "id": "ebe26de8-6468-40f4-b15b-4ef84c51464f",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MP-310",
+      "page_number": 29
+     },
+     {
+      "id": "ea97a905-42b6-4e50-82ae-2f11a6c66615",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MU-310",
+      "page_number": 6
+     },
+     {
+      "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+      "product_model": "ZXe",
+      "source_file": "MIE-MU-530rv001",
+      "page_number": 17
+     },
+     {
+      "id": "31ccb719-ddc0-4b2d-aefe-94b9e65aea3c",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 5
+     },
+     {
+      "id": "90d51dac-bd0b-4051-b414-ced0fe6e33bb",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 20
+     },
+     {
+      "id": "e08da464-c088-4689-af8e-0c1795870e50",
+      "product_model": "ZXe",
+      "source_file": "MIE-MP-530rv001",
+      "page_number": 17
+     },
+     {
+      "id": "7f4ad443-539c-4219-87d1-951921cab68e",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MP-310",
+      "page_number": 22
+     }
+    ],
+    "head10_by_family": {
+     "ZXAE/ZXEE": 5,
+     "ZXE": 5
+    },
+    "pool_by_family": {
+     "ZXAE/ZXEE": 18,
+     "ZXE": 17
+    },
+    "pool_by_source_file": {
+     "MIE-MI-310": 13,
+     "MIE-MI-530rv001": 12,
+     "MIE-MP-530rv001": 2,
+     "MIE-MP-310": 3,
+     "MIE-MU-310": 2,
+     "MIE-MU-530rv001": 3
+    },
+    "arm": "p1",
+    "qid": "hp009",
+    "question": "¿Cuál es la resistencia de fin de línea recomendada para los lazos de la central Morley ZXe?"
+   }
+  },
+  "hp011": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 26,
+    "head10": [
+     {
+      "id": "7f50faf7-2523-4017-9699-8882591c1586",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 18
+     },
+     {
+      "id": "f5ea54c2-9eaf-46a1-84d6-7df666d3a58d",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 17
+     },
+     {
+      "id": "18691365-b867-4c39-a75c-be0196ff4b81",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     },
+     {
+      "id": "2dca620c-0466-41f0-a0ce-ec9679ddcdac",
+      "product_model": "RP1R-Supra",
+      "source_file": "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente",
+      "page_number": 1
+     },
+     {
+      "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 56
+     },
+     {
+      "id": "317bc63a-3342-48a6-9840-c1f57695e5e6",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 41
+     },
+     {
+      "id": "2113ac69-52c0-4a7e-a34c-3da1336b4927",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     },
+     {
+      "id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 53
+     },
+     {
+      "id": "ecf04c43-d3e5-4d12-8467-22e6d90c38b3",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 52
+     },
+     {
+      "id": "296aa5f1-b728-41e8-a4a8-93e19a1708d4",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     }
+    ],
+    "head10_by_family": {
+     "RP1R-SUPRA": 10
+    },
+    "pool_by_family": {
+     "RP1R-SUPRA": 25,
+     "RP1R SUPRA": 1
+    },
+    "pool_by_source_file": {
+     "HLSI-MN-103_RP1r-Supra_lr": 12,
+     "HLSI-MN-103I_RP1r-Supra_lr": 9,
+     "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr": 3,
+     "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente": 1,
+     "HLSI-MA-103_Quick start guide RP1r_Supra_GB": 1
+    },
+    "arm": "pre_p1",
+    "qid": "hp011",
+    "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?"
+   },
+   "p1": {
+    "pool_n": 26,
+    "head10": [
+     {
+      "id": "7f50faf7-2523-4017-9699-8882591c1586",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 18
+     },
+     {
+      "id": "f5ea54c2-9eaf-46a1-84d6-7df666d3a58d",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 17
+     },
+     {
+      "id": "18691365-b867-4c39-a75c-be0196ff4b81",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     },
+     {
+      "id": "2dca620c-0466-41f0-a0ce-ec9679ddcdac",
+      "product_model": "RP1R-Supra",
+      "source_file": "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente",
+      "page_number": 1
+     },
+     {
+      "id": "2d45a70a-5202-442e-af84-c3a176c2178d",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 56
+     },
+     {
+      "id": "317bc63a-3342-48a6-9840-c1f57695e5e6",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 41
+     },
+     {
+      "id": "2113ac69-52c0-4a7e-a34c-3da1336b4927",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     },
+     {
+      "id": "c8924d59-a9ce-4379-a3b7-57058ff86a82",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+      "page_number": 53
+     },
+     {
+      "id": "ecf04c43-d3e5-4d12-8467-22e6d90c38b3",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MN-103I_RP1r-Supra_lr",
+      "page_number": 52
+     },
+     {
+      "id": "296aa5f1-b728-41e8-a4a8-93e19a1708d4",
+      "product_model": "RP1r-Supra",
+      "source_file": "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr",
+      "page_number": 2
+     }
+    ],
+    "head10_by_family": {
+     "RP1R-SUPRA": 10
+    },
+    "pool_by_family": {
+     "RP1R-SUPRA": 25,
+     "RP1R SUPRA": 1
+    },
+    "pool_by_source_file": {
+     "HLSI-MN-103_RP1r-Supra_lr": 12,
+     "HLSI-MN-103I_RP1r-Supra_lr": 9,
+     "HLSI-MA-103_GuiaRapida_RP1r-Supra_ES_lr": 3,
+     "RP1R-Supra_VSN-RP1R-PLUS2-Averia-Rl_y_Fallo-de-sistema-intermitente": 1,
+     "HLSI-MA-103_Quick start guide RP1r_Supra_GB": 1
+    },
+    "arm": "p1",
+    "qid": "hp011",
+    "question": "En la Morley RP1r, después de descargar la extinción el sistema no vuelve a estado normal tras resetear. ¿Qué comprobar?"
+   }
+  },
+  "hp012": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 55,
+    "head10": [
+     {
+      "id": "66c7500a-9075-4cf6-ba2f-c8862702bd9a",
+      "product_model": "AM-2020",
+      "source_file": "15088SP",
+      "page_number": 1
+     },
+     {
+      "id": "69b47c7d-b902-4058-8b1c-bb8579b0f9e6",
+      "product_model": "AM-2020",
+      "source_file": "15037SP",
+      "page_number": 40
+     },
+     {
+      "id": "a1f92ddb-f755-49e0-88a9-32b7acd1998e",
+      "product_model": "AM2020/AFP1010",
+      "source_file": "BTDT032",
+      "page_number": 4
+     },
+     {
+      "id": "c6340793-0fef-43ca-9f34-9f57cbea5a3e",
+      "product_model": "AM2020 y AFP1010",
+      "source_file": "MFDT280",
+      "page_number": 4
+     },
+     {
+      "id": "d3dd2c30-29d2-4cd4-b23b-8cd8f84d5f35",
+      "product_model": "AFP1010",
+      "source_file": "MIDT340",
+      "page_number": 32
+     },
+     {
+      "id": "2b51a135-16a6-44b6-93fe-85e81cb805b5",
+      "product_model": "AFP1010",
+      "source_file": "MADT284",
+      "page_number": 1
+     },
+     {
+      "id": "3c15adc5-c922-49a7-922d-66489cadc81a",
+      "product_model": "AFP1010",
+      "source_file": "MADT285",
+      "page_number": 20
+     },
+     {
+      "id": "fcad3d09-28dc-4ea1-8610-a64e1a07e410",
+      "product_model": "AM2020",
+      "source_file": "MADT283",
+      "page_number": 2
+     },
+     {
+      "id": "d1e7b6bd-d37a-4be7-87df-c7d7c83039aa",
+      "product_model": "AM2020",
+      "source_file": "MADT285_01",
+      "page_number": 1
+     },
+     {
+      "id": "9201fedc-6f80-4618-adaa-bf4a1a4b9937",
+      "product_model": "AFP1010",
+      "source_file": "MPDT281",
+      "page_number": 14
+     }
+    ],
+    "head10_by_family": {
+     "AM-2020": 2,
+     "AM2020/AFP1010": 1,
+     "AM2020 Y AFP1010": 1,
+     "AFP1010": 4,
+     "AM2020": 2
+    },
+    "pool_by_family": {
+     "AM-2020": 23,
+     "AM2020/AFP1010": 1,
+     "AM2020 Y AFP1010": 10,
+     "AFP1010": 12,
+     "AM2020": 2,
+     "MPDT-280": 5,
+     "NRT": 1,
+     "NOTI-FIRE-NET": 1
+    },
+    "pool_by_source_file": {
+     "15088SP": 13,
+     "15037SP": 10,
+     "BTDT032": 1,
+     "MFDT280": 10,
+     "MIDT340": 7,
+     "MADT284": 2,
+     "MADT285": 1,
+     "MADT283": 1,
+     "MADT285_01": 1,
+     "MPDT281": 2,
+     "MPDT280": 5,
+     "MNDT370": 1,
+     "MADT370": 1
+    },
+    "arm": "pre_p1",
+    "qid": "hp012",
+    "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?"
+   },
+   "p1": {
+    "pool_n": 55,
+    "head10": [
+     {
+      "id": "66c7500a-9075-4cf6-ba2f-c8862702bd9a",
+      "product_model": "AM-2020",
+      "source_file": "15088SP",
+      "page_number": 1
+     },
+     {
+      "id": "69b47c7d-b902-4058-8b1c-bb8579b0f9e6",
+      "product_model": "AM-2020",
+      "source_file": "15037SP",
+      "page_number": 40
+     },
+     {
+      "id": "a1f92ddb-f755-49e0-88a9-32b7acd1998e",
+      "product_model": "AM2020/AFP1010",
+      "source_file": "BTDT032",
+      "page_number": 4
+     },
+     {
+      "id": "c6340793-0fef-43ca-9f34-9f57cbea5a3e",
+      "product_model": "AM2020 y AFP1010",
+      "source_file": "MFDT280",
+      "page_number": 4
+     },
+     {
+      "id": "d3dd2c30-29d2-4cd4-b23b-8cd8f84d5f35",
+      "product_model": "AFP1010",
+      "source_file": "MIDT340",
+      "page_number": 32
+     },
+     {
+      "id": "2b51a135-16a6-44b6-93fe-85e81cb805b5",
+      "product_model": "AFP1010",
+      "source_file": "MADT284",
+      "page_number": 1
+     },
+     {
+      "id": "3c15adc5-c922-49a7-922d-66489cadc81a",
+      "product_model": "AFP1010",
+      "source_file": "MADT285",
+      "page_number": 20
+     },
+     {
+      "id": "fcad3d09-28dc-4ea1-8610-a64e1a07e410",
+      "product_model": "AM2020",
+      "source_file": "MADT283",
+      "page_number": 2
+     },
+     {
+      "id": "d1e7b6bd-d37a-4be7-87df-c7d7c83039aa",
+      "product_model": "AM2020",
+      "source_file": "MADT285_01",
+      "page_number": 1
+     },
+     {
+      "id": "9201fedc-6f80-4618-adaa-bf4a1a4b9937",
+      "product_model": "AFP1010",
+      "source_file": "MPDT281",
+      "page_number": 14
+     }
+    ],
+    "head10_by_family": {
+     "AM-2020": 2,
+     "AM2020/AFP1010": 1,
+     "AM2020 Y AFP1010": 1,
+     "AFP1010": 4,
+     "AM2020": 2
+    },
+    "pool_by_family": {
+     "AM-2020": 23,
+     "AM2020/AFP1010": 1,
+     "AM2020 Y AFP1010": 10,
+     "AFP1010": 12,
+     "AM2020": 2,
+     "MPDT-280": 5,
+     "NRT": 1,
+     "NOTI-FIRE-NET": 1
+    },
+    "pool_by_source_file": {
+     "15088SP": 13,
+     "15037SP": 10,
+     "BTDT032": 1,
+     "MFDT280": 10,
+     "MIDT340": 7,
+     "MADT284": 2,
+     "MADT285": 1,
+     "MADT283": 1,
+     "MADT285_01": 1,
+     "MPDT281": 2,
+     "MPDT280": 5,
+     "MNDT370": 1,
+     "MADT370": 1
+    },
+    "arm": "p1",
+    "qid": "hp012",
+    "question": "¿Cuántos lazos direccionables soporta la Notifier AM2020/AFP1010 y cuántos dispositivos por lazo?"
+   }
+  },
+  "cat022": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 56,
+    "head10": [
+     {
+      "id": "22b3a186-f9f8-4dd6-97cd-d6ba339da4f2",
+      "product_model": "40-40I",
+      "source_file": "MNDT721_40-40I",
+      "page_number": 3
+     },
+     {
+      "id": "16c11383-3bae-41b9-8215-84b2813b997e",
+      "product_model": "40-40L",
+      "source_file": "MNDT722_40-40L",
+      "page_number": 5
+     },
+     {
+      "id": "26e2e1ce-70b5-4542-8c29-0b65add38a3b",
+      "product_model": "40-40-AIR",
+      "source_file": "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942",
+      "page_number": 1
+     },
+     {
+      "id": "8d984c8e-ae11-4f7c-934c-7327c0d03a4b",
+      "product_model": "40-40R-SINGLE",
+      "source_file": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812",
+      "page_number": 1
+     },
+     {
+      "id": "3c243c96-344e-47fe-aca2-6de7a857f9dd",
+      "product_model": "40-40U",
+      "source_file": "MNDT723_40-40U",
+      "page_number": 12
+     },
+     {
+      "id": "8593c6a4-c03c-4fe0-8c44-79ae009ca5b7",
+      "product_model": "40-40M",
+      "source_file": "MNDT725_40-40M",
+      "page_number": 71
+     },
+     {
+      "id": "481b301f-8ca4-4954-be01-db939de01978",
+      "product_model": "40-40-SERIES",
+      "source_file": "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694",
+      "page_number": 24
+     },
+     {
+      "id": "78802a8d-e4ca-4f6d-a94e-d1e2f15e0158",
+      "product_model": "40-40R",
+      "source_file": "MNDT724_40-40R",
+      "page_number": 12
+     },
+     {
+      "id": "32511f5c-bb8a-4072-8858-959a0b6a0362",
+      "product_model": "40-40I",
+      "source_file": "MNDT721_40-40I",
+      "page_number": 5
+     },
+     {
+      "id": "f9ba648f-f7be-4c01-8a98-193d62effe5a",
+      "product_model": "40-40L",
+      "source_file": "MNDT722_40-40L",
+      "page_number": 6
+     }
+    ],
+    "head10_by_family": {
+     "40-40": 10
+    },
+    "pool_by_family": {
+     "40-40": 56
+    },
+    "pool_by_source_file": {
+     "MNDT721_40-40I": 9,
+     "MNDT722_40-40L": 9,
+     "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942": 5,
+     "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812": 11,
+     "MNDT723_40-40U": 9,
+     "MNDT725_40-40M": 6,
+     "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694": 3,
+     "MNDT724_40-40R": 4
+    },
+    "arm": "pre_p1",
+    "qid": "cat022",
+    "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?"
+   },
+   "p1": {
+    "pool_n": 56,
+    "head10": [
+     {
+      "id": "22b3a186-f9f8-4dd6-97cd-d6ba339da4f2",
+      "product_model": "40-40I",
+      "source_file": "MNDT721_40-40I",
+      "page_number": 3
+     },
+     {
+      "id": "16c11383-3bae-41b9-8215-84b2813b997e",
+      "product_model": "40-40L",
+      "source_file": "MNDT722_40-40L",
+      "page_number": 5
+     },
+     {
+      "id": "26e2e1ce-70b5-4542-8c29-0b65add38a3b",
+      "product_model": "40-40-AIR",
+      "source_file": "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942",
+      "page_number": 1
+     },
+     {
+      "id": "8d984c8e-ae11-4f7c-934c-7327c0d03a4b",
+      "product_model": "40-40R-SINGLE",
+      "source_file": "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812",
+      "page_number": 1
+     },
+     {
+      "id": "3c243c96-344e-47fe-aca2-6de7a857f9dd",
+      "product_model": "40-40U",
+      "source_file": "MNDT723_40-40U",
+      "page_number": 12
+     },
+     {
+      "id": "8593c6a4-c03c-4fe0-8c44-79ae009ca5b7",
+      "product_model": "40-40M",
+      "source_file": "MNDT725_40-40M",
+      "page_number": 71
+     },
+     {
+      "id": "481b301f-8ca4-4954-be01-db939de01978",
+      "product_model": "40-40-SERIES",
+      "source_file": "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694",
+      "page_number": 24
+     },
+     {
+      "id": "78802a8d-e4ca-4f6d-a94e-d1e2f15e0158",
+      "product_model": "40-40R",
+      "source_file": "MNDT724_40-40R",
+      "page_number": 12
+     },
+     {
+      "id": "32511f5c-bb8a-4072-8858-959a0b6a0362",
+      "product_model": "40-40I",
+      "source_file": "MNDT721_40-40I",
+      "page_number": 5
+     },
+     {
+      "id": "f9ba648f-f7be-4c01-8a98-193d62effe5a",
+      "product_model": "40-40L",
+      "source_file": "MNDT722_40-40L",
+      "page_number": 6
+     }
+    ],
+    "head10_by_family": {
+     "40-40": 10
+    },
+    "pool_by_family": {
+     "40-40": 56
+    },
+    "pool_by_source_file": {
+     "MNDT721_40-40I": 9,
+     "MNDT722_40-40L": 9,
+     "guide-40-40-air-shield-p-n-777650-spectrex-en-us-1459942": 5,
+     "guide-40-40r-single-ir-flame-detector-spectrex-en-us-1459812": 11,
+     "MNDT723_40-40U": 9,
+     "MNDT725_40-40M": 6,
+     "manual-sharpeye-40-40-series-winhost-spectrex-en-us-4845694": 3,
+     "MNDT724_40-40R": 4
+    },
+    "arm": "p1",
+    "qid": "cat022",
+    "question": "En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?"
+   }
+  },
+  "cat012": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 10,
+    "head10": [
+     {
+      "id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 53
+     },
+     {
+      "id": "8e1c5d2f-203e-4157-bb6c-dadf564156f9",
+      "product_model": "AM-8200",
+      "source_file": "UCIP MODBUS AM8200 V5.1",
+      "page_number": 27
+     },
+     {
+      "id": "3fdbf0b9-655c-406b-aed7-2d70ebdc3ae4",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200-manu-prog-spa",
+      "page_number": 51
+     },
+     {
+      "id": "39e63117-87de-4694-af41-926eac82e439",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 4
+     },
+     {
+      "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 52
+     },
+     {
+      "id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 53
+     },
+     {
+      "id": "a766979a-205b-4050-a974-2716a087385f",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 13
+     },
+     {
+      "id": "32c52b61-8132-4b4f-8742-0eb2a7af50e6",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 16
+     },
+     {
+      "id": "1982242a-9808-4a49-95bb-6501d3b9d6ec",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 52
+     },
+     {
+      "id": "48170b10-7673-47e1-adf0-0b070d73f5e1",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 31
+     }
+    ],
+    "head10_by_family": {
+     "AM-8200": 10
+    },
+    "pool_by_family": {
+     "AM-8200": 10
+    },
+    "pool_by_source_file": {
+     "AM-8200 Manual Instalacion": 8,
+     "UCIP MODBUS AM8200 V5.1": 1,
+     "AM-8200-manu-prog-spa": 1
+    },
+    "arm": "pre_p1",
+    "qid": "cat012",
+    "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?"
+   },
+   "p1": {
+    "pool_n": 10,
+    "head10": [
+     {
+      "id": "3393ccc0-01ff-474b-8b6f-9030ba0253ff",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 53
+     },
+     {
+      "id": "8e1c5d2f-203e-4157-bb6c-dadf564156f9",
+      "product_model": "AM-8200",
+      "source_file": "UCIP MODBUS AM8200 V5.1",
+      "page_number": 27
+     },
+     {
+      "id": "3fdbf0b9-655c-406b-aed7-2d70ebdc3ae4",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200-manu-prog-spa",
+      "page_number": 51
+     },
+     {
+      "id": "39e63117-87de-4694-af41-926eac82e439",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 4
+     },
+     {
+      "id": "6c24fecd-a3f1-41c3-ab05-155e32c85fe6",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 52
+     },
+     {
+      "id": "248eb7da-80d0-470f-bddb-b024c21de8a4",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 53
+     },
+     {
+      "id": "a766979a-205b-4050-a974-2716a087385f",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 13
+     },
+     {
+      "id": "32c52b61-8132-4b4f-8742-0eb2a7af50e6",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 16
+     },
+     {
+      "id": "1982242a-9808-4a49-95bb-6501d3b9d6ec",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 52
+     },
+     {
+      "id": "48170b10-7673-47e1-adf0-0b070d73f5e1",
+      "product_model": "AM-8200",
+      "source_file": "AM-8200 Manual Instalacion",
+      "page_number": 31
+     }
+    ],
+    "head10_by_family": {
+     "AM-8200": 10
+    },
+    "pool_by_family": {
+     "AM-8200": 10
+    },
+    "pool_by_source_file": {
+     "AM-8200 Manual Instalacion": 8,
+     "UCIP MODBUS AM8200 V5.1": 1,
+     "AM-8200-manu-prog-spa": 1
+    },
+    "arm": "p1",
+    "qid": "cat012",
+    "question": "¿Cómo se calcula la capacidad de batería (en Ah) necesaria para la central AM-8200?"
+   }
+  },
+  "hp001": {
+   "same_composition": true,
+   "pre_p1": {
+    "pool_n": 42,
+    "head10": [
+     {
+      "id": "969e2916-87da-4a0c-aa2b-5d820631d84e",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 1
+     },
+     {
+      "id": "c9073247-3baf-4064-a26d-b755bee5449d",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+      "page_number": 33
+     },
+     {
+      "id": "9e312358-1eb8-4383-90f8-ef66bdad3f25",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 25
+     },
+     {
+      "id": "bcc694ff-b911-40a6-9e69-17c5b27ab71d",
+      "product_model": "CAD-250",
+      "source_file": "Manual usuario CAD-250 (MU 376 es 2024 f)",
+      "page_number": 9
+     },
+     {
+      "id": "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 5
+     },
+     {
+      "id": "86075613-1d4a-45cc-b244-0157ad50b7c9",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+      "page_number": 41
+     },
+     {
+      "id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 29
+     },
+     {
+      "id": "5c8f7b52-ad72-4818-8c74-3f46f6da529c",
+      "product_model": "CAD-250",
+      "source_file": "Manual usuario CAD-250 (MU 376 es 2024 f)",
+      "page_number": 15
+     },
+     {
+      "id": "f68f2d40-cad2-4a0f-9045-9637928456aa",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 10
+     },
+     {
+      "id": "e19c19bc-3245-4048-856f-a6ed8b1f6aee",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 37
+     }
+    ],
+    "head10_by_family": {
+     "CAD-250": 10
+    },
+    "pool_by_family": {
+     "CAD-250": 42
+    },
+    "pool_by_source_file": {
+     "CAD-250_Manual-Configuracion-MC-380-es-2026-c": 33,
+     "CAD-250_Manual-software-configuracion-MS-416-es-2026-b": 2,
+     "Manual instalacion CAD-250 (MI_372_es_2024 e)": 4,
+     "Manual usuario CAD-250 (MU 376 es 2024 f)": 3
+    },
+    "arm": "pre_p1",
+    "qid": "hp001",
+    "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?"
+   },
+   "p1": {
+    "pool_n": 42,
+    "head10": [
+     {
+      "id": "969e2916-87da-4a0c-aa2b-5d820631d84e",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 1
+     },
+     {
+      "id": "c9073247-3baf-4064-a26d-b755bee5449d",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+      "page_number": 33
+     },
+     {
+      "id": "9e312358-1eb8-4383-90f8-ef66bdad3f25",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 25
+     },
+     {
+      "id": "bcc694ff-b911-40a6-9e69-17c5b27ab71d",
+      "product_model": "CAD-250",
+      "source_file": "Manual usuario CAD-250 (MU 376 es 2024 f)",
+      "page_number": 9
+     },
+     {
+      "id": "6eb0c5d8-c2f0-4a1c-ab40-5564a3d31199",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 5
+     },
+     {
+      "id": "86075613-1d4a-45cc-b244-0157ad50b7c9",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+      "page_number": 41
+     },
+     {
+      "id": "9bd17466-1a22-4ade-bb16-a44624c9f166",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 29
+     },
+     {
+      "id": "5c8f7b52-ad72-4818-8c74-3f46f6da529c",
+      "product_model": "CAD-250",
+      "source_file": "Manual usuario CAD-250 (MU 376 es 2024 f)",
+      "page_number": 15
+     },
+     {
+      "id": "f68f2d40-cad2-4a0f-9045-9637928456aa",
+      "product_model": "CAD-250",
+      "source_file": "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+      "page_number": 10
+     },
+     {
+      "id": "e19c19bc-3245-4048-856f-a6ed8b1f6aee",
+      "product_model": "CAD-250",
+      "source_file": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+      "page_number": 37
+     }
+    ],
+    "head10_by_family": {
+     "CAD-250": 10
+    },
+    "pool_by_family": {
+     "CAD-250": 42
+    },
+    "pool_by_source_file": {
+     "CAD-250_Manual-Configuracion-MC-380-es-2026-c": 33,
+     "CAD-250_Manual-software-configuracion-MS-416-es-2026-b": 2,
+     "Manual instalacion CAD-250 (MI_372_es_2024 e)": 4,
+     "Manual usuario CAD-250 (MU 376 es 2024 f)": 3
+    },
+    "arm": "p1",
+    "qid": "hp001",
+    "question": "En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?"
+   }
+  }
+ },
+ "all_same_composition": true
+}

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 import re
+import time
 from pathlib import Path
 
 import pytest
@@ -21,6 +22,28 @@ pytestmark = pytest.mark.skipif(
     reason="catálogo no cargado")
 
 
+# referencias a las implementaciones REALES, capturadas ANTES de que el fixture autouse las
+# prohíba: los tests que ejercitan el fetch/fingerprint de verdad (con httpx mockeado) las
+# re-inyectan a mano.
+_fetch_real = R._fetch_corpus_pm_elements
+_fingerprint_real = R._corpus_fingerprint
+
+
+class _RedProhibida(BaseException):
+    """Deriva de BaseException A PROPÓSITO: los fail-open del resolver capturan
+    `Exception`, así que un test que se cuele a la DB debe REVENTAR, no degradar en
+    silencio a 'presencia desconocida'."""
+
+
+def _inject_presence(monkeypatch, elements, *, fp=("fixture", "fixture")):
+    """(s287 P1) Inyecta la presencia de corpus SIN RED sembrando el cache de proceso del
+    resolver. `elements=None` simula «DB no consultable» (fail-open a conservar)."""
+    now = time.monotonic()
+    monkeypatch.setattr(R, "_presence", {
+        "elements": None if elements is None else frozenset(elements),
+        "at": now, "fp": fp, "fp_at": now})
+
+
 @pytest.fixture(autouse=True)
 def _clean_env(monkeypatch):
     for f in ("IDENTITY_RESOLVE", "IDENTITY_RESOLVE_POLICY", *R.LEGACY_FLAGS):
@@ -28,6 +51,16 @@ def _clean_env(monkeypatch):
     # dúo build-S1 #4: los tests NO escriben en la tabla shadow REAL de Supabase — ensuciaría
     # el dataset que S2 lee como evidencia (FP-rate/demanda) + network-call en tests unitarios
     monkeypatch.setattr(R, "_shadow_log", lambda *a, **k: None)
+    # s287 P1: la regla monótona-segura añade una dependencia DB al resolver. Default de los
+    # tests = corpus SIN presencia (set VACÍO) ⇒ conducta EXACTA pre-P1, de modo que los
+    # contratos s278 del drop siguen pinneando lo suyo (guard candidate-member + quarantine)
+    # y no la etiqueta viva del corpus. Quien necesite presencia la INYECTA.
+    _inject_presence(monkeypatch, ())
+
+    def _prohibida(*a, **k):
+        raise _RedProhibida("presencia de corpus: los tests la INYECTAN, no la consultan")
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _prohibida)
+    monkeypatch.setattr(R, "_corpus_fingerprint", _prohibida)
     yield
 
 
@@ -111,20 +144,33 @@ def test_hp009_replace_conserva_match_family_level(monkeypatch):
     # hp009 (family-genérico → answer): retirar el paraguas no debe expulsar los
     # documentos combinados ('ZX2e/ZX5e', la clase MIE-MI-530), porque las
     # variantes canónicas siguen siendo cores válidos del tag compuesto.
+    # s287 P1 (SUNSET del hotfix P0.5 CUMPLIDO — 'zxe' YA NO está en quarantine): lo que
+    # conserva el token es la REGLA MONÓTONA-SEGURA CORPUS-AWARE — T3/s285 dejó el
+    # tag-FAMILIA 'ZXe' vivo en el corpus (elemento 'zxe' presente, verificado: 11 filas
+    # pm='ZXe' + composite 'ZXe/ZXSe') ⇒ el drop se SUPRIME. Observable IDÉNTICO al hotfix.
+    # Pin s278 anterior (pre-P0.5): assert "ZXE" not in models.
     from src.rag.retriever import _filter_to_query_models
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, {"zxe"})
     res = R.resolve_query("central ZXe")
     models = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in models
+    assert "ZXE" in models
     chunks = [{"product_model": "ZX2e/ZX5e", "source_file": "MIE-MI-530", "content": "x"}] * 3
     out = _filter_to_query_models(chunks, models)
     assert len(out) == 3, "REPLACE no debe expulsar los docs family-level de hp009"
 
 
 def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
+    # s287 P1 (mismo observable que el hotfix P0.5, ahora por la regla corpus-aware): con
+    # 'zxe' conservado (drop suprimido), los legacy ZXAE/ZXEE se RE-ADMITEN por el substring
+    # DEL FILTRO ('zxe' ⊂ 'zxee') — comportamiento-ADD medido (DEC-084: hp018 4/4). OJO: el
+    # substring vive en `_filter_to_query_models`, NO en la regla de presencia (que es
+    # exact-tag por elemento) → el riesgo DEC-091b (valor-coincidente) PERSISTE y se declara.
+    # Pin s278 anterior: solo {"ZX2e/ZX5e"} / {"MIE-MI-530rv001"} sobrevivían.
     from src.rag.retriever import _filter_to_query_models
 
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, {"zxe"})
     res = R.resolve_query("conectar una sirena convencional en Morley ZXe")
     models = R.apply_to_models(["ZXE"], res)
     chunks = (
@@ -136,8 +182,8 @@ def test_zxe_replace_expulsa_legacy_zxae_zxee_y_conserva_familia(monkeypatch):
         chunks, models, identity_allowed=res["allowed_sources"]
     )
 
-    assert {c["product_model"] for c in out} == {"ZX2e/ZX5e"}
-    assert {c["source_file"] for c in out} == {"MIE-MI-530rv001"}
+    assert {c["product_model"] for c in out} == {"ZXAE/ZXEE", "ZX2e/ZX5e"}
+    assert {c["source_file"] for c in out} == {"MIE-MI-310", "MIE-MI-530rv001"}
 
 
 # ─── resolución por la puerta (contrato expand) ───
@@ -207,10 +253,16 @@ def test_brazo_add_conserva_el_token(monkeypatch):
 
 
 def test_brazo_replace_retira_el_paraguas(monkeypatch):
+    # s287 P0.5/P1: el ejemplar del brazo replace pasa de ZXe (conservado por la regla
+    # corpus-aware) a ZXR — el CONTRATO del brazo (retirar el paraguas) queda intacto.
+    # Presencia inyectada = el estado REAL del corpus para esta familia (tags 'ZXR50A/ZXR50P'
+    # y 'ZXR5B/ZXR4B'; NO existe un pm 'ZXR' pelado) = estado SOLO-VARIANTES ⇒ el drop
+    # procede, que es el punto: la regla no anestesia el brazo replace.
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
-    res = R.resolve_query("central ZXe")
-    out = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in out and {"ZX1e", "ZX2e", "ZX5e"} == set(out)
+    _inject_presence(monkeypatch, {"zxr50a", "zxr50p", "zxr4b", "zxr5b"})
+    res = R.resolve_query("central ZXR")
+    out = R.apply_to_models(["ZXR"], res)
+    assert "ZXR" not in out and {"ZXR4B", "ZXR5B"} <= set(out)
 
 
 # ─── s278 §1a: guard candidate-member + quarantine (drop gobernado bajo replace) ───
@@ -233,6 +285,9 @@ def test_faast_dropea_bajo_replace_tras_adjudicacion(monkeypatch):
     # (incl. los 2 del 8100E) quedan en allowed_sources. NOTA medida: el 3er doc del census
     # (I56-3836-006_FAAST_XM_8100E_ML) pertenece en doc_map a systemsensor:8100e-faast
     # (duplicado candidate NO-miembro) y sigue FUERA de allowed_sources — residual declarado.
+    # s287 P1: este test pinea las puertas 1-3 (via/guard/quarantine) con la presencia de
+    # corpus inyectada VACÍA por el fixture. En el corpus REAL 'faast' ES elemento vivo ⇒ la
+    # puerta 4 lo CONSERVA (ver test_efecto_corpus_wide_de_la_regla_no_es_solo_zxe).
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
     res = R.resolve_query("manual de FAAST")
     assert "faast" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
@@ -287,14 +342,20 @@ def test_g100_y_g500_expanden_a_sus_paneles():
     assert "MNDT500" in res["allowed_sources"]
 
 
-def test_zxe_umbrella_limpia_si_dropea_bajo_replace(monkeypatch):
-    # el guard NO interfiere con el caso medido (hp018): TODOS los miembros de ZXe son
-    # consumibles y no está en quarantine → el drop del paraguas sigue vivo
+def test_zxe_no_dropea_por_la_regla_corpus_aware(monkeypatch):
+    # s287 P1 (antes `test_zxe_umbrella_limpia_si_dropea_bajo_replace`): el drop queda
+    # suprimido aunque el guard candidate-member (all_members_consumable) lo permitiría y
+    # aunque la quarantine esté VACÍA — lo suprime la puerta 4 (core 'zxe' con presencia
+    # exact-tag en el corpus). Pin s278 anterior: 'zxe' in drop_tokens y 'ZXE' expulsado.
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, {"zxe"})
+    R._ensure()
+    assert R._cat.resolve("ZXe")["all_members_consumable"] is True   # el guard NO es la causa
+    assert R.catalog_store.norm_token("ZXe") not in R._quarantine_tokens()
     res = R.resolve_query("central ZXe")
-    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert "zxe" not in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
     out = R.apply_to_models(["ZXE"], res)
-    assert "ZXE" not in out
+    assert "ZXE" in out
 
 
 def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
@@ -307,16 +368,347 @@ def test_homonimo_prefer_rp1r_sigue_dropeando_bajo_replace(monkeypatch):
     assert "RP1r" not in out and "RP1r-Supra" in out
 
 
-def test_quarantine_vacia_es_el_estado_shippeado(monkeypatch):
-    # 22-jul: Alberto adjudicó las 4 filas (FAAST, ZXR, G-100-R, INSPIRE) → la quarantine
-    # REAL queda vacía (tokens: []) y el drop bajo replace lo gobierna SOLO el guard
-    # candidate-member (GUARD-IMPL).
+def test_quarantine_vacia_tras_el_sunset_de_zxe(monkeypatch):
+    # 22-jul (s278): Alberto adjudicó las 4 filas (FAAST, ZXR, G-100-R, INSPIRE) → vacía.
+    # s287 P0.5 metió 'zxe' con SUNSET explícito; s287 P1 lo CUMPLE (la causa la gobierna
+    # ahora la regla corpus-aware, estructural) → el YAML real vuelve a `tokens: []` y la
+    # quarantine recupera su semántica original (SOLO pendientes de adjudicación).
     monkeypatch.setattr(R, "_quarantine", None)      # fuerza re-lectura del YAML real
     assert R._quarantine_tokens() == frozenset()
+    # y el drop de las unidades adjudicadas s278 sigue vivo cuando el corpus NO lleva el
+    # tag-familia (presencia inyectada = solo-variantes, el estado real de ZXR)
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
-    for q, tok in (("manual de ZXR", "zxr"), ("manual de FAAST", "faast")):
+    _inject_presence(monkeypatch, {"zxr50a", "zxr50p", "zxr4b", "zxr5b"})
+    res = R.resolve_query("manual de ZXR")
+    assert "zxr" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+
+
+def test_efecto_corpus_wide_de_la_regla_no_es_solo_zxe(monkeypatch):
+    # F3 del spec (declaración honesta): P1 NO es un parche para hp018 — repara la clase
+    # completa «token-paraguas con tag-FAMILIA vivo en el corpus». Verificado contra el
+    # corpus REAL (661 pm distintos → 731 elementos): 'faast' e 'inspire' TAMBIÉN están como
+    # elemento ⇒ en producción esos paraguas pasan de DROP (s278) a CONSERVARSE. Los tests
+    # s278 de más arriba pinean el guard/quarantine con presencia inyectada VACÍA, no este
+    # efecto; el gate del cambio es el probe de composición de pool, no un unit test.
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, {"faast", "inspire"})
+    for q, tok in (("manual de FAAST", "faast"),
+                   ("manual de la central INSPIRE", "inspire")):
         res = R.resolve_query(q)
-        assert tok in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}, q
+        assert tok not in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}, q
+
+
+# ─── s287 P1: regla monótona-segura corpus-aware (spec v3 FINAL — presencia INYECTADA) ───
+def test_pm_elements_exact_tag_por_elemento_no_substring():
+    # H3a (suffix-capture): 'cad150' NO es elemento de 'CAD-150-8' — si la presencia fuese
+    # substring, el drop quedaría INERTE en cuanto el corpus se parta por variantes (D1).
+    assert R._pm_elements("CAD-150-8") == {"cad1508"}
+    assert "cad150" not in R._pm_elements("CAD-150-8")
+    # H3b (composites reales del corpus): exact-crudo perdería el tag-familia dentro del
+    # compuesto; por ELEMENTO sí lo ve. (Sol-2) entra ADEMÁS la forma pm-completa
+    # normalizada — es la que un core multi-palabra necesita (ver
+    # test_multipalabra_forma_pm_completa_es_presencia); en los composites con '/' es
+    # inofensiva (ningún core de token la produce).
+    assert R._pm_elements("ZXe/ZXSe") == {"zxe", "zxse", "zxe/zxse"}
+    assert R._pm_elements("ZX2e/ZX5e") == {"zx2e", "zx5e", "zx2e/zx5e"}
+    assert R._pm_elements("ZXR5B/ZXR4B") == {"zxr5b", "zxr4b", "zxr5b/zxr4b"}
+    # separadores: '/', '+', espacio; y la normalización del filtro (quita '-', lowercase)
+    assert R._pm_elements("AM2020 y AFP1010") == {"am2020", "y", "afp1010",
+                                                  "am2020yafp1010"}
+    assert R._pm_elements("MS-1/MS-2/MS-4") == {"ms1", "ms2", "ms4", "ms1/ms2/ms4"}
+    assert R._pm_elements(None) == set() and R._pm_elements("  ") == set()
+
+
+def test_multipalabra_forma_pm_completa_es_presencia(monkeypatch):
+    # (Sol-2, review 30-jul) el core de un token multi-palabra ('FAAST LT-200' →
+    # 'faastlt200') debe encontrar presencia cuando el corpus lleva el tag EXACTO
+    # (backfill s80: pm 'FAAST LT-200'): los elementos PARTIDOS solos {'faast','lt200'}
+    # no lo contienen y el drop procedería contra una etiqueta VIVA.
+    assert R._pm_elements("FAAST LT-200") == {"faast", "lt200", "faastlt200"}
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, R._pm_elements("FAAST LT-200"))
+    res = R.resolve_query("sensibilidad del FAAST LT-200")
+    tok = next(t for t in res["detected"] if "faast" in t)
+    assert R._series.normalize_model(tok) == "faastlt200"      # el core multi-palabra
+    assert R.catalog_store.norm_token(tok) not in {
+        R.catalog_store.norm_token(t) for t in res["drop_tokens"]}   # presencia → CONSERVA
+    # sin presencia → drop (el estado actual: el corpus no conserva nada)
+    _inject_presence(monkeypatch, set())
+    res2 = R.resolve_query("sensibilidad del FAAST LT-200")
+    assert R.catalog_store.norm_token(tok) in {
+        R.catalog_store.norm_token(t) for t in res2["drop_tokens"]}
+
+
+@pytest.mark.parametrize("estado,presencia,dropea", [
+    ("solo-familia", {"zxe"}, False),                       # el tag vivo es el paraguas
+    ("solo-variantes", {"zx1e", "zx2e", "zx5e"}, True),      # split D1 hecho → drop limpio
+    ("mixto", {"zxe", "zx2e", "zx5e"}, False),               # coexistencia → CONSERVAR
+    ("ninguno", set(), True),                                # el corpus no opina → drop
+])
+def test_los_4_estados_de_presencia(monkeypatch, estado, presencia, dropea):
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, presencia)
+    res = R.resolve_query("central ZXe")
+    dropped = "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert dropped is dropea, estado
+    out = R.apply_to_models(["ZXE"], res)
+    assert ("ZXE" in out) is (not dropea), estado
+
+
+def test_presencia_no_es_substring_zxe_en_zxee(monkeypatch):
+    # el legacy 'ZXAE/ZXEE' contiene 'zxe' como SUBSTRING ('zxe' ⊂ 'zxee') pero NO como
+    # elemento → NO cuenta como presencia de la familia (si contase, ningún paraguas
+    # dropearía nunca y la regla dejaría de ser una regla).
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, R._pm_elements("ZXAE/ZXEE"))
+    res = R.resolve_query("central ZXe")
+    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    # y el composite REAL del corpus sí lo conserva
+    _inject_presence(monkeypatch, R._pm_elements("ZXe/ZXSe"))
+    res2 = R.resolve_query("central ZXe")
+    assert "zxe" not in {R.catalog_store.norm_token(t) for t in res2["drop_tokens"]}
+
+
+def test_fail_open_db_conserva_y_es_igual_a_add(monkeypatch):
+    # (i) del spec: dependencia DB nueva ⇒ error/indisponibilidad = CONSERVAR el token.
+    # El observable debe ser EL DEL BRAZO ADD (nunca peor que add).
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "add")
+    esperado_add = R.apply_to_models(["ZXE"], R.resolve_query("central ZXe"))
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, None)                     # DB no consultable
+    res = R.resolve_query("central ZXe")
+    assert res["drop_tokens"] == []
+    assert R.apply_to_models(["ZXE"], res) == esperado_add
+
+
+def test_fail_open_db_real_httpx_cae_a_conservar(monkeypatch):
+    # el fail-open no es solo del cache: el fetch REAL que revienta (timeout/500/red) debe
+    # acabar en presencia=None → conservar. Sin red: httpx.Client explota al construirse.
+    import httpx
+
+    class _Boom:
+        def __init__(self, *a, **k):
+            raise httpx.ConnectError("sin red (test)")
+
+    monkeypatch.setattr(httpx, "Client", _Boom)
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _fetch_real)
+    monkeypatch.setattr(R, "_corpus_fingerprint", _fingerprint_real)
+    monkeypatch.setattr(R, "_presence", None)               # obliga a ir al fetch
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    assert R.corpus_pm_elements() is None
+    res = R.resolve_query("central ZXe")
+    assert res["drop_tokens"] == [] and "ZXE" in R.apply_to_models(["ZXE"], res)
+
+
+def test_homonimo_nunca_consulta_el_corpus(monkeypatch):
+    # SCOPING (H2): con presencia de 'rp1r' inyectada (el corpus REAL la tiene, vía
+    # 'RP1r-Supra'), si la regla alcanzase a los homónimos el drop desaparecería y hp011
+    # perdería el prefer MEDIDO. Además NO debe consultarse el corpus para un homónimo.
+    llamadas = []
+    monkeypatch.setattr(R, "corpus_pm_elements",
+                        lambda: llamadas.append(1) or frozenset({"rp1r"}))
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("conectar el RP1r al software de gestión")
+    assert "rp1r" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert llamadas == [], "el homónimo NO debe consultar la presencia de corpus"
+    out = R.apply_to_models(["RP1r"], res)
+    assert "RP1r" not in out and "RP1r-Supra" in out
+
+
+def test_brazo_add_no_consulta_el_corpus(monkeypatch):
+    # bajo add el campo drop_tokens es inerte (apply_to_models lo ignora) → no se paga la
+    # consulta ni se altera la semántica histórica del campo (artefactos/shadow estables).
+    llamadas = []
+    monkeypatch.setattr(R, "corpus_pm_elements",
+                        lambda: llamadas.append(1) or frozenset())
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "add")
+    res = R.resolve_query("central ZXe")
+    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
+    assert llamadas == []
+    assert "ZXE" in R.apply_to_models(["ZXE"], res)         # el brazo add, intacto
+
+
+def test_presencia_cachea_dentro_del_ttl_y_no_repega(monkeypatch):
+    fetches, fps = [], []
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements",
+                        lambda: fetches.append(1) or frozenset({"zxe"}))
+    monkeypatch.setattr(R, "_corpus_fingerprint", lambda: fps.append(1) or ("1", "t0"))
+    monkeypatch.setattr(R, "_presence", None)
+    assert R.corpus_pm_elements() == frozenset({"zxe"})
+    assert R.corpus_pm_elements() == frozenset({"zxe"})
+    # (Sol-4a) el load frío toma el fingerprint ANTES y AL ACABAR el scan (honesto) = 2;
+    # la 2ª llamada la absorbe el cache sin tocar la red.
+    assert len(fetches) == 1 and len(fps) == 2, "el cache de proceso debe absorber la 2ª"
+
+
+def test_fingerprint_torn_scan_descarta_y_reintenta_una_vez(monkeypatch):
+    # (Sol-4a, review 30-jul) el fingerprint se RE-CHEQUEA al acabar el scan (~3-5s): si el
+    # corpus se movió DURANTE, el set torn se DESCARTA y se reintenta 1 vez; si vuelve a
+    # moverse → None = fail-open a conservar.
+    fetches = []
+    fps = iter([("1", "t0"), ("2", "t1"), ("2", "t1")])
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements",
+                        lambda: fetches.append(1) or frozenset({"zxe"}))
+    monkeypatch.setattr(R, "_corpus_fingerprint", lambda: next(fps))
+    monkeypatch.setattr(R, "_presence", None)
+    assert R.corpus_pm_elements() == frozenset({"zxe"})     # el reintento valida ("2","t1")
+    assert len(fetches) == 2, "el 1er set (torn) debe descartarse y re-escanearse"
+    assert R._presence["fp"] == ("2", "t1")
+    # inestable TAMBIÉN en el reintento → None (y el cooldown corto gobierna el cache)
+    fps2 = iter([("1", "t0"), ("2", "t1"), ("3", "t2"), ("4", "t3")])
+    monkeypatch.setattr(R, "_corpus_fingerprint", lambda: next(fps2))
+    monkeypatch.setattr(R, "_presence", None)
+    assert R.corpus_pm_elements() is None
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    res = R.resolve_query("central ZXe")
+    assert res["drop_tokens"] == [], "fingerprint inestable ⇒ CONSERVAR (nunca peor que add)"
+
+
+def test_stampede_frio_un_solo_scan(monkeypatch):
+    # (Sol-5, review 30-jul) N queries concurrentes en frío = UN solo scan: el lock
+    # serializa y el double-check hace que quien esperó lea el cache recién poblado.
+    import threading as _th
+    fetches = []
+    primera_dentro = _th.Event()
+
+    def _fetch_lento():
+        fetches.append(1)
+        primera_dentro.set()
+        time.sleep(0.15)
+        return frozenset({"zxe"})
+
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _fetch_lento)
+    monkeypatch.setattr(R, "_corpus_fingerprint", lambda: ("1", "t0"))
+    monkeypatch.setattr(R, "_presence", None)
+    resultados = []
+    t1 = _th.Thread(target=lambda: resultados.append(R.corpus_pm_elements()))
+    t2 = _th.Thread(target=lambda: resultados.append(R.corpus_pm_elements()))
+    t1.start()
+    assert primera_dentro.wait(2.0)          # t2 entra mientras t1 escanea
+    t2.start()
+    t1.join(5.0)
+    t2.join(5.0)
+    assert resultados == [frozenset({"zxe"})] * 2
+    assert len(fetches) == 1, "el lock anti-stampede debe absorber el scan duplicado"
+
+
+def test_presencia_se_invalida_por_fingerprint_no_por_catalogo(monkeypatch):
+    # F6: la invalidación es por FINGERPRINT DE CORPUS (o TTL) — nunca por catálogo-commit.
+    fetches = []
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements",
+                        lambda: fetches.append(1) or frozenset({"zxe"}))
+    monkeypatch.setattr(R, "_corpus_fingerprint", lambda: ("2", "t1"))
+    now = time.monotonic()
+    monkeypatch.setattr(R, "_presence", {"elements": frozenset({"viejo"}), "at": now,
+                                         "fp": ("1", "t0"),
+                                         "fp_at": now - R._PRESENCE_FP_RECHECK_S - 1})
+    assert R.corpus_pm_elements() == frozenset({"zxe"})     # fingerprint distinto → recarga
+    assert len(fetches) == 1
+    src = (Path(R.ROOT) / "src" / "rag" / "catalog_resolver.py").read_text(encoding="utf-8")
+    i_cache = src.index("def corpus_pm_elements")
+    cuerpo = src[i_cache:src.index("\ndef ", i_cache + 1)]      # solo esa función
+    assert "catalog_commit" not in cuerpo, \
+        "el cache de presencia NO puede ir keyed por catálogo-commit (F6)"
+
+
+def test_presencia_paginacion_todo_o_nada(monkeypatch):
+    # nunca un set PARCIAL: un truncado inventaría ausencias y dropearía de más → LANZA
+    # (y el llamante fail-open a conservar).
+    import httpx
+
+    class _R:
+        status_code = 200
+        def json(self):
+            return [{"product_model": "ZXe"}] * R._PRESENCE_PAGE     # nunca converge
+
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None): return _R()
+
+    monkeypatch.setattr(httpx, "Client", _Client)
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _fetch_real)
+    monkeypatch.setattr(R, "_PRESENCE_MAX_PAGES", 3)
+    with pytest.raises(RuntimeError, match="PARCIAL"):
+        R._fetch_corpus_pm_elements()
+
+
+def test_presencia_lee_solo_filas_servibles_y_pagina(monkeypatch):
+    # invariante T0 (parent_id is.null: los surrogates no definen identidad) + orden total
+    # estable + paginación por offset hasta la página corta. (Sol-3) el scan pre-consulta
+    # los documents NO-activos con el criterio EXACTO del retriever.
+    import httpx
+    vistos_docs, vistos_chunks = [], []
+
+    class _R:
+        def __init__(self, rows): self._rows = rows
+        status_code = 200
+        def json(self): return self._rows
+
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            if "/documents" in url:
+                vistos_docs.append(params)
+                return _R([])                            # ningún doc no-activo
+            vistos_chunks.append(params)
+            if len(vistos_chunks) == 1:
+                return _R([{"product_model": "ZXe", "document_id": "d1"}]
+                          * R._PRESENCE_PAGE)
+            return _R([{"product_model": "ZXAE/ZXEE", "document_id": "d1"},
+                       {"product_model": None, "document_id": None}])
+
+    monkeypatch.setattr(httpx, "Client", _Client)
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _fetch_real)
+    assert R._fetch_corpus_pm_elements() == frozenset(
+        {"zxe", "zxae", "zxee", "zxae/zxee"})
+    assert [p["offset"] for p in vistos_chunks] == ["0", str(R._PRESENCE_PAGE)]
+    assert all(p["parent_id"] == "is.null" for p in vistos_chunks)
+    assert all(p["order"] == "product_model.asc,id.asc" for p in vistos_chunks)
+    assert all(p["select"] == "product_model,document_id" for p in vistos_chunks)
+    # espejo del predicado del retriever: NOT(status='active'), NULL incluido
+    assert vistos_docs and all(p["or"] == "(status.neq.active,status.is.null)"
+                               for p in vistos_docs)
+
+
+def test_presencia_excluye_tags_de_docs_no_activos(monkeypatch):
+    # (Sol-3, review 30-jul) un tag vivo SOLO en un doc retirado NO es presencia: el
+    # retriever jamás serviría esos chunks (_filter_by_document_status dropea
+    # status != 'active') → el drop del paraguas SIGUE. Legacy (document_id NULL) y
+    # doc-activo SÍ cuentan, como en el retriever.
+    import httpx
+
+    class _R:
+        def __init__(self, rows): self._rows = rows
+        status_code = 200
+        def json(self): return self._rows
+
+    class _Client:
+        def __init__(self, **kw): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, headers=None, params=None):
+            if "/documents" in url:
+                return _R([{"id": "doc-retirado"}])      # el único NO-activo
+            return _R([
+                {"product_model": "ZXe", "document_id": "doc-retirado"},   # excluido
+                {"product_model": "CAD-150-8", "document_id": "doc-activo"},
+                {"product_model": "ZXR4B", "document_id": None},           # legacy: cuenta
+            ])
+
+    monkeypatch.setattr(httpx, "Client", _Client)
+    monkeypatch.setattr(R, "_fetch_corpus_pm_elements", _fetch_real)
+    presencia = R._fetch_corpus_pm_elements()
+    assert presencia == frozenset({"cad1508", "zxr4b"})      # 'zxe' AUSENTE
+    # y con esa presencia el drop de ZXe bajo replace SIGUE (ausente ⇒ el corpus no
+    # conserva nada — el estado pre-P1 para esta familia)
+    monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")
+    _inject_presence(monkeypatch, presencia)
+    res = R.resolve_query("central ZXe")
+    assert "zxe" in {R.catalog_store.norm_token(t) for t in res["drop_tokens"]}
 
 
 def test_quarantine_malformada_fail_fast(monkeypatch, tmp_path):
@@ -622,6 +1014,8 @@ def test_inspire_dropea_bajo_replace_adjudicada(monkeypatch):
     # s278 adjudicado (Alberto 22-jul): la fila INSPIRE salió de la quarantine — con la
     # config REAL (vacía) el guard GUARD-IMPL gobierna: miembros consumibles ⇒ drop bajo
     # replace, y el doc de cat017 sigue en allowed_sources.
+    # s287 P1: presencia inyectada VACÍA (fixture) — en el corpus REAL 'inspire' ES elemento
+    # vivo y la puerta 4 lo conserva (test_efecto_corpus_wide_de_la_regla_no_es_solo_zxe).
     R._ensure()
     assert R._cat.resolve("INSPIRE")["all_members_consumable"] is True
     monkeypatch.setenv("IDENTITY_RESOLVE_POLICY", "replace")

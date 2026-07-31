@@ -221,6 +221,9 @@ def test_user_facing_eval_and_smoke_harnesses_cross_the_serving_seam():
     cases = (
         ("scripts/test_bot_vs_gold.py", "run_bot"),
         ("scripts/smoke_test.py", "run_query"),
+        # s286e: el instrumento fact-level mide la misma ruta servida que bvg. Antes
+        # llamaba retrieve/rerank/generate directo y era ciego a los appends de coverage.
+        ("scripts/factlevel_assessment.py", "run_pipeline"),
     )
     for relative, function_name in cases:
         source = (root / relative).read_text(encoding="utf-8")

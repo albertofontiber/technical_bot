@@ -3704,3 +3704,119 @@ in-place, smoke corregido PASS (OK 19/23), full corregido re-lanzado (~$23; el f
 como contrafactual «pipeline sin C1»). Estructural: TECH_DEBT nuevo — DEMO_FLAGS sin trigger de
 sync con releases; candidato = check en el cierre de sesión cuando una release cambia flags de
 Railway. Lección #54 en feedback_my_bias.
+
+## DEC-163 — s286e (29-30 jul, nocturno autónomo): instrumento factlevel v3.0 (ruta real) + MAPA CANÓNICO de la campaña + veredicto ETAPA 1
+- **(a) Instrumento v3.0 construido bajo spec sellado** (dúo r1: Fable 10 + Sol 8 hallazgos, 0 FP, convergencia en 2 BLOCKERs; r2 confirmación fresca: 7 cierres; 19 cláusulas): el assessment cruza `execute_rag_turn` (patrón bvg), `served` = vista del generador (`admitted_evidence_rows` exportado — generator.py NO estaba sellado, pre-check con race identificada y descartada), soporte split pool/servido, appends juzgados sobre `coverage_context_content`, sub-motivo `append_view_truncated`, fail-open→`coverage_degraded`, pipe_sha por import-closure (40 módulos + 39 configs), 8 pins nuevos en DEMO_FLAGS, seam-guard CI cubre el assessment. Suite 3317/0.
+- **(b) Los smokes v3 probaron el mecanismo**: la lane `same_blob_structural_neighbor_coverage_v1` SIRVE (7 facts `via_coverage_append` en el full). En los golds diana la transición vs la ruta stale fue retr 4→1 · OK 7→8 · synth 1→4 = **la cascada upstream→downstream que Alberto anticipó, materializada y medida** (el hecho llega y el LLM lo omite).
+- **(c) MAPA CANÓNICO (full v3, serie nueva): OK 101/131 (77%) · synth 13 · retr 10 · rerank 4 · corpus 3→0 (FN 9ª instancia).** Reconciliación declarada: NO comparable 1:1 con v2.2 (ruta distinta + rerank no determinista) ni con la foto banked 146/154 (otra contabilidad). El bvg baseline 11/16/12 sigue siendo la vara del OBJETIVO.
+- **(d) VEREDICTO ETAPA 1 (retrieval <2, marco 29-jul):** de los 10: 4 techo DEC-158 · 3 clase identidad (vías retrieval agotadas por medición — DEC-074/084/091b; ruta = workstream entity-linking, NO se re-litiga) · 1 centinela hp001 · 1 mecanismo real (hp013#1: seed-proximity, valor a ~12 páginas del seed más cercano, radio lane ±8) · 1 en auditoría (cat008#3). **Residual mecanismo-abierto = 1-2 ⇒ umbral alcanzado con atribución explícita, no por barrido.**
+- **(e) HALLAZGO cat008#3 (pendiente de auditoría de fuente, NO adjudicado):** los docs de MI-DMMI (I56-2006-004, ES) y MI-DMMIE (I56-4406-001, EN) **se contradicen en el puente interno** (T5↔T2 vs T5↔T4) y ninguno de los chunks servidos respalda el mapping del gold (1/2=in) — mismo patrón que hp018 ZXe/ZX5e: divergencia de VARIANTE. Siguiente paso: auditoría píxel de la fuente del gold ANTES de tocar nada (el gold no se ablanda sin adjudicación de Alberto).
+- **(f) ETAPA 2 abierta (rerank 4):** cat010#0 + cat017#4 (lexical-distractor) · hp018#1/#4 (pos-buried, el residual document-side de DEC-092). Brief de diagnóstico escrito; el dúo se lanza cuando haya DISEÑO que desafiar (anti-ritual: no se convoca para rubber-stamp de un plan de lectura).
+- Todo committeado en `claude/s282-h0t2-qa`; ejecución nocturna bajo la directiva de autonomía del 29-jul (cero decisiones de Alberto tomadas por mí: gold intacto, prod intacta, paquete D1-D11 intacto).
+
+## DEC-164 — s287 (30 jul): auditoría del techo DEC-158 (pregunta de Alberto) → LETRA FALSIFICADA 4/4, conclusión re-caracterizada; el «techo» son TRES cosas distintas
+- **(a) El mecanismo declarado por DEC-158 está MUERTO bajo el pipeline actual** (auditoría read-only, trazas de ambos runs v3 + sondas): `_diversify_by_source_file` no puede ser el punto de muerte — solo fetcha `missing_sources`, su cap real es 16/50 (no 3/10), el reranker no tiene cuota por fichero, y el fichero diana de cat022 POSEE 7/10 slots servidos.
+- **(b) cat022#0/#1 (bandas IR): POROSO con lever acotado.** Las dianas viven a **1, 3, 6 y 8** chunk_index de seeds SERVIDOS con mismo document_id+extraction_sha — DENTRO del radio ±8 de la lane structural. La lane no dispara por un gate ORTOGONAL: `expand_query_facets` → `archetype=None` (ningún arquetipo de retrieval_facets_v3 cubre la clase «diferencia-entre-variantes/semántica-de-sufijo») → `require_evidence_facet` fail-closed. **Candidato de lever (a dúo antes de cablear): cubrir esa clase de arquetipo — sin tocar radio, cap, cuota ni diversify.**
+- **(c) hp012#3: techo CONFIRMADO pero RE-ATRIBUIDO** a seed-proximity out-of-radius (d=26/15 > 8, con las 2 anclas gastadas) = la clase hp013#1, no diversify.
+- **(d) El flip de «BIT» NO era porosidad**: retrieval byte-idéntico entre runs; fue no-determinismo del juez semántico sobre hecho no-anclable (run 1 = miss FALSO del instrumento; el OK del run 2 es blando — la afirmación compuesta vive en un chunk no servido). Residual declarado del instrumento.
+- **(e) Consecuencia para el OBJETIVO**: mantener «cat022+hp012 = techo» tal cual blindaba de la auditoría 2 hechos con palanca acotada e inflaba el numerador de FALLO→0. DEC-158 queda SUPERSEDED en su letra; la exclusión del objetivo se re-evalúa tras medir el lever de faceta. ARCHITECTURE/PLAN se reconcilian al cierre.
+
+## DEC-165 — s288 (30 jul, autónomo): A-CORE ejecutado — autoridad documental + scope hyq (consolidación A1+A2; el arco census→staging→paste)
+
+**Decisión.** Consolidar A1+A2 en un solo workstream «A-core» con spec normativo único
+(`evals/s288_acore_design_brief_v1.md`, v3 SELLADO) y ejecutarlo hasta la bandeja de Alberto:
+F0 census determinista + F2 lane hardening + P-A staged; P-B gateado a QA humana; P-C
+re-diseñado a tramos; P-D eliminado.
+
+**Motivo / traza del dúo (18/18 confirmados regla-C, 0 FP — `adversarial_review_log.jsonl`).**
+- r1 (Sol NO-SÓLIDO 5 + sub-agente Fable SÓLIDO-CON-CAMBIOS 7): la migración document_id en
+  hyq era una segunda fuente de verdad sin invariante (el rebinding hp011 ya reescribió
+  chunks_v2.document_id) → **P-D ELIMINADO**, scope+dedup van por el embed de la FK
+  autoritativa (`chunks_v2!inner`; `idx_chunks_v2_document_id` verificado). El bulk-lineage
+  «verified» vaciaba la semántica canónica (authority_evidence_sha256 NOT NULL; adjudicación
+  explícita) y su elegibilidad era vulnerable al label-drift. El gate H1 v1 era CIRCULAR
+  (match por sha no puede fallar) → clave independiente por stem. P-A necesitaba el guard del
+  UNIQUE (manufacturer, sha) — prevalencia medida 0.
+- r2 (Sol focused 6): P-A por sha-only = circularidad per-doc → **dual-key stem+sha por
+  fila**; el bulk-lineage cae DEFINITIVO (los predicados no adjudican autoridad) → **P-C =
+  tramos adjudicados por Alberto** con dossier por-doc, y la lane hyq NO exige lineage: su
+  tier honesto es **blob-verificado** (activo + sha real + binding), mismo expuesto que el
+  canal vectorial de prod; el tier lineage-adjudicado queda exclusivo de document_local.
+  Gate de volumen pre-registrado (aplicado==100% de elegibles); freeze de eficacia incluye
+  `EMBED_CACHE_PATH`; campos desnorm de hyq demovidos al parent embebido.
+
+**Ejecutado (commits 0581a0c→39a8961).**
+- **F0** (`scripts/s288_acore_census_v2.py`, determinismo 2×): H1 CONFIRMADA 60/60 no-circular
+  — `extraction_sha256` ES el sha de los bytes del PDF y los 1.334 blobs locales de OneDrive
+  son los ingestados (dual-key 1.012 docs; 0 solo-sha, 0 sin-match). Partición 1169/1169.
+  Colisiones de blob 0. Census hyq: 7.421 filas (10,6%) con padre dup — el canal retrieval
+  guarda, la lane no guardaba.
+- **F2** (lane doc_scoped_hyq): scope por document_id vía embed (name-scope muerto), autoridad
+  ANTES de navegar (presupuesto 1+4+1=6/6 cero holgura), dup excluidos servidor+cinturón,
+  parents_rejected trazados. Suite 3393 passed (+19 gates). Smoke embed contra deploy real
+  PASSED (fallback P-D innecesario). Lane sigue OFF.
+- **P-A staged** (`evals/s288_acore_pA_apply_v1.sql`): 585 docs placeholder→sha real;
+  generador determinista (re-emisión byte-idéntica), parser real PG17 OK, `--verify` 16/16
+  PASS contra DB live, 0 exclusiones, backup anti-reuse + rollback + dry-run. **Paste de
+  Alberto pendiente** (stop-line).
+- **P-B**: el gate de calibración PARÓ un backfill defectuoso — clase nueva cazada:
+  extracciones diagram-heavy con ANOTACIONES EN INGLÉS del extractor (bd0c2e27: doc español
+  con 39/40 marcadores «en» provenientes de `[Diagram showing…]`). FIX 3 = limpieza de input
+  mecanismo-motivada → calibración 100,0% (389/389), 2 backfills erróneos evitados
+  (D700-3-Sp, 4188-1132-PT), cohorte 406 {es 307, en 99}. **Gate (e)(iii) ABIERTO: QA-30 v3
+  (`evals/s288_acore_pB_qa30_v3.md`), 30/30-o-HALT, adjudica Alberto.**
+
+**Alternativas descartadas.** A1-standalone (scope irrealizable sin document_id) · P-D columna
+denormalizada · bulk-lineage en cualquier variante (2 rondas) · sha-only matching · reutilizar
+`audit_chunk_languages.py` (lee tabla legacy `chunks`).
+
+**Pendiente (F3, tras el paste).** Census v3 delta con gate aplicado==100% · receipts de lane
+(atribución por mecanismo) · eficacia cohorte {cat010#0, hp012#3} + hp013#1 en 39 dev con
+freeze completo · después: etapa 3 síntesis sobre serving estable + re-baseline bvg.
+
+**F3 EJECUTADO (mismo día, post-paste de Alberto — commits f8caccb + census v4).**
+Paste P-A verificado en vivo EXACTO al pre-registro: placeholders 744→159 · sha real
+425→1.010 · backup 585 filas · binding post 585/585. Census v4 (determinista 2×, sha
+8ae2060269a1e931): **binding_ok 414→999 (+585 == el packet) · P-A elegibles 585→0 (packet
+agotado = gate aplicado==100% cerrado formalmente)** · P-B intacto 406 (sigue gateado a
+QA-30) · hyq dup 7.421 sin cambio (marks-only, la lane los excluye). H1 v4 «INCONCLUSA
+32/32» = artefacto esperado (el estrato placeholder casi desapareció con el paste; 0
+mismatches; el veredicto canónico es el 60/60 pre-paste). Probe F3.2 de cohorte
+(`evals/s288_acore_f3_cohort_probe_v1.json`, $0, receipts completos): **hp012 MECANISMO
+CONFIRMADO** — la lane sirve 2 parents de 15088SP con las facetas de la aguja
+(per_unit_capacity p.108 + system_total p.151) y rechaza 2 docs no-activos con razón
+trazada; **cat010 = archetype None** (clase alimentación/ATEX → diana ya diagnosticada del
+lever de taxonomía post-A-core); **hp013 baseline doble-bloqueo confirmado**. A-core queda
+CERRADO en mecanismo; el impacto en outcome se medirá con la lane ON (A3/perfil) y el
+re-baseline de campaña.
+
+## DEC-166 — s288b (31 jul): lever ONTOLOGÍA de la lane hyq — adopción del par v4/v5 con barrera; cat010 convertida en MECANISMO
+
+**Decisión.** La lane `doc_scoped_hyq_coverage` abandona la taxonomía primitiva v1 y adopta el
+par ya probado (retrieval_facets_v4 + evidence_coverage_facets_v5) CON la tercera pieza que lo
+hace seguro: barrera query-card (≥1 card con query_term_hits; rechazos trazados
+`no_matching_card`/`no_query_aligned_card`). Cero ediciones de configs (inertness 7/7 por
+bytes). Lane sigue OFF.
+
+**Traza del dúo (16/16 confirmados, 0 FP).** r1 convergente: mi v1 AUTORABA arquetipos que ya
+existían (intrinsic_safety en v4:5-12, stems nativos, cards en v5) — prior-art omitido; r2
+(Sol): el par no es transferible sin la barrera de su consumidor (v5 declara alignment 0;
+rerank_pool impone `_query_card`), tabla pre-registrada a nombres runtime EXACTOS, extractor
+para LANE_PAIRS, gate-0 con receipt sellado.
+
+**Medido (gates 7/7 PASS, $0 — `evals/s288b_taxonomy_gates_v1.json` + `s288b_gate0_receipt_v1.json`).**
+Diff v1→v4 en 39 dev == tabla pre-registrada (10 cambios/29 sin cambio, 0 extra) · over-trigger
+limpio · sweep 21 queries → 23 parents, 0 sin card alineada · **cat010: None→intrinsic_safety,
+sirve 2 parents (EN p.1 + manual IS MA1 p.8) con quotes de valores IS (24V dc, 28V 93mA,
+barreras Zener ATEX/IECEx)** — símbolos Ui/Ii/Pi/Ci/Li NO en los spans servidos (clase excerpt,
+no corpus) · entradas a lane 17→21 (gana cat010/hp002/hp008/hp009/hp013; pierde cat023,
+adjudicado) · suite 3398. Desviaciones aceptadas: umbral barrera=1 (el 6 de rerank_pool es
+IMPOSIBLE aquí — query_term_hits capado 0..4 por esquema; con 6 → 0/23, medido) ·
+compatibility_bundle opt-out explícito byte-equivalente (reusa el colector).
+
+**Residuales declarados.** (1) Estrictez per-arquetipo de v4 NO restaurada: 8/17 parents
+preexistentes bajo el mínimo v4 de su arquetipo — gap conocido, se re-evalúa en el gate de A3
+(outcome, lane ON). (2) hp009 entra a loop_eol → nota-CENTINELA de conducta para A3. (3)
+cat009 entra por arquetipo pero sin scope de resolver; hp013 entra y sirve 0 (sin surrogate
+PWR-R) — coherente con lo pre-registrado. (4) cat010#0 SIGUE rerank-class en el mapa DEC-163
+hasta medir outcome: este lever abre la vía de cobertura, no re-clasifica el miss.

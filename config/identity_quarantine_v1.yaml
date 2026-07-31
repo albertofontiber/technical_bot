@@ -9,4 +9,14 @@ version: 1
 # vaciada por adjudicación de Alberto 22-jul (s278): FAAST (notifier:faast-8100e promovido a
 # miembro pleno), ZXR (zxr4b/zxr5b miembros de la umbrella), G-100-R (umbrella de tarjetas de
 # relé + aliases retirados), INSPIRE (doc de firmware mapeado a e10/e15 en doc_map).
+#
+# s287 P0.5 (HOTFIX $0) metio 'zxe' aqui por la regresion T3xreplace (corpus re-tagueado a
+# FAMILIA pm='ZXe' => el drop del paraguas dejaba _filter_to_query_models con 0
+# supervivientes => fail-open = filtro de familia DESARMADO, entraban los primos
+# ZXSe/ZX50/DXc). s287 P1 CUMPLE EL SUNSET declarado en el spec v3: la entrada se RETIRA en
+# el mismo PR que shippea la pieza 1, porque la causa la gobierna ahora la REGLA
+# MONOTONA-SEGURA CORPUS-AWARE (catalog_resolver._drop_gates_pass puerta 4: un paraguas/alias
+# cuyo core sigue siendo etiqueta viva del corpus NO se dropea) — estructural y corpus-wide,
+# no una excepcion por unidad. La quarantine vuelve a su semantica original: SOLO unidades
+# pendientes de adjudicacion de Alberto.
 tokens: []

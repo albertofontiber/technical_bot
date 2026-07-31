@@ -1,0 +1,557 @@
+instrument: v3.1
+manifest:
+  route: eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank
+    strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
+    (s286e/v3)
+  instrument_version: v3.1
+  git_commit: df79b05
+  release_profile: coverage_c1_v4
+  corpus:
+    table: chunks_v2
+    count: '25088'
+    max_created_at: '2026-06-09T19:15:25.848279+00:00'
+  pipeline_closure:
+    sha: 092ad8805966
+    n_modules: 40
+    n_assets: 39
+    modules:
+    - src/config.py
+    - src/ingestion/embedder.py
+    - src/rag/__init__.py
+    - src/rag/answer_obligation_contract.py
+    - src/rag/answer_planner.py
+    - src/rag/catalog.py
+    - src/rag/catalog_resolver.py
+    - src/rag/compatibility_bundle_coverage.py
+    - src/rag/coverage_runtime.py
+    - src/rag/deep_lookup.py
+    - src/rag/doc_scoped_hyq_coverage.py
+    - src/rag/document_local_coverage.py
+    - src/rag/evidence_contract.py
+    - src/rag/evidence_coverage.py
+    - src/rag/evidence_derivation.py
+    - src/rag/evidence_window.py
+    - src/rag/generator.py
+    - src/rag/hyde.py
+    - src/rag/identity_index.py
+    - src/rag/mp_lexicon.py
+    - src/rag/must_preserve.py
+    - src/rag/post_rerank_coverage.py
+    - src/rag/query_facets.py
+    - src/rag/rerank_pool_coverage.py
+    - src/rag/reranker.py
+    - src/rag/retriever.py
+    - src/rag/series_registry.py
+    - src/rag/serving_pipeline.py
+    - src/rag/source_identity_attestation.py
+    - src/rag/struck_ocr.py
+    - src/rag/structural_neighbor_coverage.py
+    - src/rag/structural_neighbor_shadow.py
+    - src/rag/structured_claims.py
+    - src/rag/table_preamble_closure.py
+    - src/rag/technical_obligations.py
+    - src/rag/toc_detection.py
+    - src/rag/visual_assets.py
+    - src/rag/wiring_topology_guard.py
+    - src/reingest/embed.py
+    - src/release_profiles.py
+    assets:
+    - config/chunk_loss_policy_v1.yaml
+    - config/document_local_source_contracts_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v1.yaml
+    - config/evidence_coverage_compatibility_candidate_v2.yaml
+    - config/evidence_coverage_facets_cascade_v1.yaml
+    - config/evidence_coverage_facets_v1.yaml
+    - config/evidence_coverage_facets_v2.yaml
+    - config/evidence_coverage_facets_v3.yaml
+    - config/evidence_coverage_facets_v4.yaml
+    - config/evidence_coverage_facets_v5.yaml
+    - config/extraction_derivations_v5.json
+    - config/identity_quarantine_v1.yaml
+    - config/manufacturers/_global.yaml
+    - config/manufacturers/argus_security.yaml
+    - config/manufacturers/detnov.yaml
+    - config/manufacturers/morley.yaml
+    - config/manufacturers/notifier.yaml
+    - config/manufacturers/pepperl_fuchs.yaml
+    - config/manufacturers/pfannenberg.yaml
+    - config/manufacturers/securiton.yaml
+    - config/manufacturers/senseware.yaml
+    - config/manufacturers/spectrex.yaml
+    - config/manufacturers/xtralis.yaml
+    - config/portal.yaml
+    - config/reference_edge_contract_v1.yaml
+    - config/reference_edge_contract_v2.yaml
+    - config/reference_edge_contract_v3.yaml
+    - config/reference_edge_contract_v4.yaml
+    - config/retrieval_facets_compatibility_candidate_v1.yaml
+    - config/retrieval_facets_compatibility_candidate_v2.yaml
+    - config/retrieval_facets_v1.yaml
+    - config/retrieval_facets_v2.yaml
+    - config/retrieval_facets_v3.yaml
+    - config/retrieval_facets_v4.yaml
+    - config/retrieval_facets_v5_document_local.yaml
+    - config/structural_cascade_coverage_v1.yaml
+    - config/structural_neighbor_coverage_v1.yaml
+    - config/structured_numeric_claims_v2.yaml
+    - config/table_preamble_closure_v3.yaml
+  flags_demo:
+    CHUNKS_TABLE: chunks_v2
+    ENUNCIADOS_MULTIVECTOR: 'on'
+    IDENTITY_RESOLVE: 'on'
+    IDENTITY_RESOLVE_POLICY: replace
+    COVERAGE_RELEASE_PROFILE: coverage_c1_v4
+    MUST_PRESERVE_CONTRACT: 'on'
+    VISUAL_ASSETS_REGISTRY: 'on'
+    ANTI_DIAGRAM_INVENTION: 'on'
+    WIRING_TOPOLOGY_GUARD: 'on'
+    GENERATOR_DIRECT_FIRST: 'on'
+    GENERATOR_FOLLOWUPS: 'off'
+    VISUAL_ASSETS_LISTING_GATE: 'on'
+    LLM_MAX_TOKENS: '3500'
+    RERANK_TOP_K: '10'
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: '800'
+    HYDE_ENABLED: 'false'
+    DIVERSIFY_TIEBREAK: 'off'
+    HYQ_PILOT_FILE: ''
+    GENERATOR_PROMPT_VARIANT: fidelity
+    HYQ_TABLE: 'on'
+    GENERATOR_SELECTION_BLOCK: 'on'
+    TABLE_PREAMBLE_CLOSURE: 'off'
+    CANONICAL_HYQ_COVERAGE: 'off'
+    COMPATIBILITY_BUNDLE_COVERAGE: 'off'
+    RERANK_POOL_COVERAGE: 'off'
+    STRUCTURAL_CASCADE_COVERAGE: 'off'
+    LOGICAL_RECORD_COVERAGE: 'off'
+    EVIDENCE_DERIVATION_OVERLAY: 'off'
+    STRUCTURAL_NEIGHBOR_SHADOW: 'off'
+  flags_source: 6 overrides Railway DEC-asserted (valores enmascarados en dashboard)
+    + defaults de código + los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW
+    pineados off (s286e/r2-1)
+  resolved:
+    RETRIEVAL_TOP_K: 50
+    RERANK_TOP_K: 10
+    LLM_MAX_TOKENS: 3500
+    LLM_MODEL: claude-sonnet-4-6
+    RELEVANCE_THRESHOLD: 0.4
+    RERANKER_BACKEND: llm
+    MERGE_STRATEGY: stamps
+    RERANK_PREVIEW_CHARS: 800
+    GENERATOR_INCLUDE_CONTEXT: null
+  judge:
+    model: gpt-5.5
+    K: 5
+    K_stability: 3
+    judge2_model: claude-opus-4-8
+    judge2_rule: 'dual-consensus: synthesis-miss requiere miss de AMBOS; Opus>=4/5
+      => OK flagged judge_disagreement (suite s100: 5 flips FN, 0 FP fakes)'
+    support_dual_rule: 'targeted-lexical (s101): sup_fam=∅ + fact_match>=SCORE_FLOOR(0.55)
+      en pool => Opus K=5 re-juzga candidatos ordenados por score cap 8 (truncation
+      flagged); flip=UNION flagged support_judge_disagreement (evidencia: evals/s101_inpool_adjudication.json
+      6/7 supports, 0/18 refuters). Residual no-léxico sigue single'
+    support_sha: fd3090e74655
+    conveyed_sha: 2a6f1beaa811-v2.1cap12000
+    support_l1_rule: 'anchorable: crédito solo si fact_match>=FLOOR-0.15 en el chunk
+      acreditado (anti TOC/colisión, s102-L1)'
+    submotivo_sha: a5941215c021
+  similarity_note: 'pin de pool NO estampa `similarity` como fiel: stamp plano léxico
+    (retriever.py:554) ≠ coseno (fix G).'
+  diversify_tiebreak: flag VIVO en el código (portado s101 para la re-medición) pero
+    PINEADO off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) —
+    jamás a demo.
+  hyq_pilot: seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated
+    (D2 Alberto).
+  family_aware: 'acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa
+    retrieval_miss_famtie).'
+  support_split: 's286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank
+    y las clases upstream; sup_served (vista del generador, coverage_context_content
+    en las filas de coverage validadas) alimenta reaches_gen y el conveyed-check.'
+  served_view: 'admitted_evidence_rows() importado de src/rag/generator.py — MISMA
+    función que el generador usa (r2-4: fuente única, cero espejo que pueda derivar).'
+  series_note: v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas
+    (composición servida distinta + rerank no determinista), NO la medición causal
+    del seam.
+mode: smoke
+n_golds: 2
+n_golds_scored: 2
+aggregate_hist:
+  OK: 9
+  synthesis-miss: 0
+  rerank-miss: 0
+  retrieval-miss: 0
+  corpus-gap: 0
+  meta-ref: 0
+gold_juez_axis:
+- qid: cat022
+  verdict: '?'
+  n_classified: 3
+  n_ok: 3
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+- qid: cat005
+  verdict: '?'
+  n_classified: 6
+  n_ok: 6
+  primary_blocker: null
+  n_identidad_facts: 0
+  family_resolved: true
+  no_pass_perp_pipeline: false
+gold_juez_advisory: false
+n_no_pass_perp_pipeline: 0
+n_family_unresolved: 0
+n_non_anchorable: 2
+n_via_coverage_append: 3
+n_append_view_truncated: 0
+n_coverage_appended_rows: 2
+n_coverage_degraded: 0
+coverage_degraded_qids: []
+judge_disagreements: []
+support_disagreements: []
+per_gold:
+- qid: cat022
+  question: En los detectores de llama Spectrex SharpEye 40/40, ¿qué diferencia hay
+    entre el modelo 40/40L y el 40/40L4, y qué significa el sufijo «B» (p. ej. 40/40LB)?
+  answer: '## Diferencias entre 40/40L, 40/40L4 y el sufijo «B»
+
+
+    ### 40/40L vs. 40/40L4 — Longitud de onda IR
+
+
+    La diferencia clave está en la longitud de onda del sensor IR [F11]:
+
+
+    - **S40/40L**: sensor IR que funciona a una longitud de onda entre **2,5 y 3,0
+    µm**. Detecta combustibles a base de hidrocarburos, fuegos de gas, fuegos de hidróxido
+    e hidrógeno, y fuegos de metales o materia inorgánica [F11].
+
+
+    - **S40/40L4**: idéntico al S40/40L en todo lo demás, **excepto** que el sensor
+    IR funciona a **4,5 µm**. Esta longitud de onda lo hace **apto únicamente para
+    la detección de fuegos de hidrocarburos** [F11].
+
+
+    > En resumen: si el riesgo incluye fuegos de hidrógeno, metales o materia inorgánica,
+    usa el **L**. Si el riesgo es exclusivamente de hidrocarburos, el **L4** es la
+    variante específica.
+
+
+    ---
+
+
+    ### Sufijo «B» — Prueba Incorporada (BIT)
+
+
+    El sufijo **B** indica que el modelo incluye la función de **Prueba Incorporada
+    (BIT)** [F11]:
+
+
+    - **S40/40L** → **sin BIT**
+
+    - **S40/40LB** → **con BIT**
+
+    - **S40/40L4** → **sin BIT**
+
+    - **S40/40L4B** → **con BIT**
+
+
+    La misma lógica aplica a la familia UV: el S40/40U no incluye BIT, mientras que
+    el S40/40UB sí [F12].
+
+
+    ---
+
+
+    ### Resumen rápido
+
+
+    - **L vs. L4**: longitud de onda IR (2,5–3,0 µm vs. 4,5 µm) → rango de combustibles
+    detectables.
+
+    - **Sufijo B**: presencia de BIT (Prueba Incorporada). Sin «B» = sin BIT.
+
+
+    ---
+
+
+    Fuente: Manual de usuario. Detector S40/40L-LB-L4-L4B — MNDT722_40-40L (sin revisión
+    registrada); Manual de usuario. Detector S40/40U y UB — MNDT723_40-40U (sin revisión
+    registrada).'
+  family_resolved: true
+  gold_families:
+  - 40-40
+  n_non_anchorable: 1
+  pool_n: 57
+  served_n: 12
+  topk_n: 10
+  appended_n: 2
+  topk_ids:
+  - 86dfcf63-8085-4359-8e15-d40fd77b0f67
+  - 481b301f-8ca4-4954-be01-db939de01978
+  - 16c11383-3bae-41b9-8215-84b2813b997e
+  - f9ba648f-f7be-4c01-8a98-193d62effe5a
+  - 3e3e3824-046b-4a64-ab83-4f47edf5f2c8
+  - 20d7830d-d77d-41be-8bf2-bf44bf1b75b6
+  - 3c243c96-344e-47fe-aca2-6de7a857f9dd
+  - 125c42a7-17c5-4baa-a382-fe86edab49e0
+  - 9bbf1e7c-96cc-4af3-8367-b04974b739c2
+  - 41fd8158-2581-4dd9-8d19-a7ccc000c12d
+  served_ids:
+  - 86dfcf63-8085-4359-8e15-d40fd77b0f67
+  - 481b301f-8ca4-4954-be01-db939de01978
+  - 16c11383-3bae-41b9-8215-84b2813b997e
+  - f9ba648f-f7be-4c01-8a98-193d62effe5a
+  - 3e3e3824-046b-4a64-ab83-4f47edf5f2c8
+  - 20d7830d-d77d-41be-8bf2-bf44bf1b75b6
+  - 3c243c96-344e-47fe-aca2-6de7a857f9dd
+  - 125c42a7-17c5-4baa-a382-fe86edab49e0
+  - 9bbf1e7c-96cc-4af3-8367-b04974b739c2
+  - 41fd8158-2581-4dd9-8d19-a7ccc000c12d
+  - 74cc9f95-6bbf-43cc-84bd-3cae03c48371
+  - 255948d3-961e-44ff-8cfc-7601178c2172
+  appended_ids:
+  - 74cc9f95-6bbf-43cc-84bd-3cae03c48371
+  - 255948d3-961e-44ff-8cfc-7601178c2172
+  appended_lane:
+    74cc9f95-6bbf-43cc-84bd-3cae03c48371: same_blob_structural_neighbor_coverage_v1
+    255948d3-961e-44ff-8cfc-7601178c2172: same_blob_structural_neighbor_coverage_v1
+  coverage_status: appended
+  coverage_degraded: false
+  hist:
+    OK: 3
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat022#0:2,5-3,0 μm
+    valor: 2,5-3,0 μm
+    texto: El modelo 40/40L (y LB) es un detector de llama UV/IR cuyo sensor IR trabaja
+      en una longitud de onda entre 2,5 y 3,0 μm
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    support_judge2_agreed_none: true
+    support_judge2_n_fail: 0
+    support_candidates_truncated: false
+    conveyed_yes: 5
+    clase: OK
+  - key: cat022#1:4,5 μm
+    valor: 4,5 μm
+    texto: El modelo 40/40L4 (y L4B) es UV/IR pero su sensor IR trabaja en 4,5 μm,
+      adecuado para fuegos de hidrocarburos
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    support_l1_killed:
+    - e914fb84-d574-4fff-9247-e44ce5a2f7f2
+    support_l1_override: false
+    conveyed_yes: 5
+    clase: OK
+  - key: cat022#2:BIT
+    valor: BIT
+    texto: El sufijo «B» (40/40LB, 40/40L4B) = modelos con función BIT (prueba incorporada);
+      el BIT solo se incluye en los modelos LB y L4B
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 0
+    n_support_raw: 0
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: false
+    in_pool: false
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    conveyed_yes: 5
+    clase: OK
+- qid: cat005
+  question: ¿Cuáles son las características técnicas de la central de detección de
+    gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?
+  answer: "# Características técnicas de la central CS4 (Fidegas)\n\nLa CS4 es una\
+    \ central de alarmas para detección de gas que admite hasta **4 sensores remotos\
+    \ simultáneos**, disponible en dos versiones: **digital** y **analógica** [F1].\n\
+    \n---\n\n## Características técnicas generales\n\n- **Tensión de alimentación:**\
+    \ 110-230 Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W, Clase II [F2][F4]\n- **Firmware:**\
+    \ versión 1.2 (tanto en versión digital como analógica) [F4][F7]\n- **Número de\
+    \ entradas:** hasta 4 sensores remotos [F1]\n- **Salidas:** 2 salidas conmutadas\
+    \ LP (relé apto para 230 Vac) con contactos NA-C-NC [F2]\n- **Corriente máxima:**\
+    \ 250 mA [F2]\n- **Rearme:** seleccionable manual o automático [F2]\n- **Dimensiones:**\
+    \ 90 x 106 x 58 mm [F2]\n- **Peso:** 300 g [F2]\n- **Instalación:** carril DIN\
+    \ o armario de superficie [F1]\n\n---\n\n## Indicaciones (LEDs y avisador)\n\n\
+    - **LED verde PWR:** alimentación presente (fijo) / corte de red (intermitente)\
+    \ [F1]\n- **LED bicolor ON/ALARM** (por sensor): sensor presente (verde) / alarma\
+    \ (rojo) [F1]\n- **LED amarillo ERROR** (por sensor): avería del sensor remoto\
+    \ [F1]\n- **LED verde OUT1 y OUT2:** salida activa (verde) / desactivada (apagado)\
+    \ [F1]\n- **Avisador acústico:** apoyo sonoro a las indicaciones ópticas [F1]\n\
+    \n---\n\n## Diferencias entre versión digital y analógica\n\n**Código de producto:**\n\
+    - Versión digital: **3244** [F2]\n- Versión analógica: **3270** [F2]\n\n**Tipo\
+    \ de entrada:**\n- Versión digital: entradas **0-10/15 V** [F1]\n- Versión analógica:\
+    \ entradas **4-20 mA** [F1]\n\n**Sensores compatibles:**\n- Versión digital: sensores\
+    \ **S/10 gases combustibles** [F4]\n- Versión analógica:\n  - Sensores **S/3 gases\
+    \ combustibles** [F4]\n  - Sensores **S/3 y S/2 gases tóxicos** [F4]\n  - Sensores\
+    \ **S/10 gases tóxicos** [F4]\n\n---\n\n## Umbral de alarma\n\n- La alarma se\
+    \ activa cuando la concentración de gas supera el **20% del fondo de escala**\
+    \ [F5]\n- En situación de alarma, si la concentración no ha disminuido, la central\
+    \ no puede rearmarse, pero la alarma puede **silenciarse durante 24 horas** mediante\
+    \ el botón RESET [F5]\n\n---\n\n## Conexión de sensores\n\nCada sensor se conecta\
+    \ mediante 3 terminales [F3]:\n- **Terminal 1:** positivo de alimentación (12\
+    \ a 24 Vdc)\n- **Terminal 2:** entrada de señal\n- **Terminal 3:** negativo común\
+    \ de alimentación y señal\n\nPara el detalle del conexionado, consulta los diagramas\
+    \ de la sección 3 del manual físico [F3].\n\n---\n\nFuente: Manual de Usuario\
+    \ CS4 (Analógica o Digital), elaborado y aprobado en Revisión 2, 10/2018, C.A.E.,\
+    \ S.L. — FIDEGAS®\n\n---\n\U0001F4CB **Obligaciones de evidencia del manual:**\n\
+    - Nota: la fuente es inconsistente: \"Permite la conexión de hasta 4 sensores\
+    \ remotos simultaneos a través de sus 4 entradas digitales (0-10/15 v) o analógicas\
+    \ (4-20 mA).\" (Manual-de-Usuario-CS4, p. 4) [F1] declara 4 sensores y la enumeración\
+    \ servida lista 6 (Manual-de-Usuario-CS4, p. 4) [F1].\n- \"Ningún sistema de detección\
+    \ de gas sustituye a una correcta instalación y mantenimiento de los aparatos\
+    \ quemadores de gas y debe ser colocado por una persona competente o un instalador\
+    \ autorizado.\" (Manual-de-Usuario-CS4, p. 2) [F7]"
+  family_resolved: true
+  gold_families:
+  - EL-10
+  n_non_anchorable: 1
+  pool_n: 50
+  served_n: 10
+  topk_n: 10
+  appended_n: 0
+  topk_ids:
+  - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
+  - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+  - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
+  - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+  - 4ded9db9-604e-4586-881d-e567567f9a20
+  - bdd69c04-f496-4323-847a-395295d57bc3
+  - 9c4290f3-cb38-4246-aeb2-f6d060565905
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  served_ids:
+  - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
+  - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+  - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
+  - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+  - 4ded9db9-604e-4586-881d-e567567f9a20
+  - bdd69c04-f496-4323-847a-395295d57bc3
+  - 9c4290f3-cb38-4246-aeb2-f6d060565905
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  appended_ids: []
+  appended_lane: {}
+  coverage_status: no_append
+  coverage_degraded: false
+  hist:
+    OK: 6
+    synthesis-miss: 0
+    rerank-miss: 0
+    retrieval-miss: 0
+    corpus-gap: 0
+    meta-ref: 0
+  facts:
+  - key: cat005#0:110-230 Vac
+    valor: 110-230 Vac
+    texto: 'Alimentacion de la CS4: 110-230 Vac, 50-60 Hz'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 4
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#1:30 W
+    valor: 30 W
+    texto: 'Potencia de la CS4: 30 W'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 3
+    n_support_raw: 3
+    n_support_served: 3
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#2:4
+    valor: '4'
+    texto: La CS4 admite hasta 4 conexiones de sensores, en modo analogico (4-20 mA)
+      o digital
+    lexically_anchorable: false
+    family_resolved: true
+    n_support_fam: 4
+    n_support_raw: 6
+    n_support_served: 4
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#3:NA-C-NC
+    valor: NA-C-NC
+    texto: La CS4 dispone de 2 salidas conmutadas LP, con rele apto para 230 Vac y
+      contactos NA-C-NC
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 2
+    n_support_raw: 2
+    n_support_served: 2
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    support_l1_killed:
+    - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
+    - 3a74be02-e58b-4f8a-bf51-1eebefed425b
+    support_l1_override: null
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#4:250 mA
+    valor: 250 mA
+    texto: 'Corriente maxima de la CS4: 250 mA'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK
+  - key: cat005#5:3244 / 3270
+    valor: 3244 / 3270
+    texto: 'Las dos versiones se distinguen por el codigo de producto: version DIGITAL
+      = 3244; version ANALOGICA = 3270 (difieren en el modo de conexion de sensores)'
+    lexically_anchorable: true
+    family_resolved: true
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
+    reaches_gen: true
+    in_topk: true
+    in_pool: true
+    conveyed_yes: 5
+    clase: OK

@@ -443,6 +443,15 @@ def collect_compatibility_bundle(
         append_limit=3,
         entity_stratified=True,
         include_fetch_receipts=True,
+        # s288b: la barrera espejo de alineación query↔card nace con el par
+        # (retrieval_v4, evidence_v5) que adopta la lane hyq.  Este bundle NO
+        # cambia de par y su gate es RELACIONAL y estrictamente más fuerte
+        # (roster + protocolo + topología ligados a DOS entidades gobernadas; un
+        # bundle incompleto no sirve NADA), igual que la reserva obligation-aware
+        # sustituye la alineación por su clase de seguridad (s278 §3).  Apagarla
+        # aquí deja esta lane byte-equivalente a su conducta anterior — el lever
+        # no se filtra a una lane que no estaba en su alcance.
+        require_query_aligned_card=False,
     )
     trace = dict(navigation_trace)
     trace.update(

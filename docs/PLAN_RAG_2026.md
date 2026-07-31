@@ -25,7 +25,49 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s286 — 29 jul 2026)
+## Estado actual (s288 — 30 jul 2026)
+
+**PRODUCCIÓN**: sin cambios de release. Rama `claude/s282-h0t2-qa` acumula s282→s288.
+
+**CAMPAÑA upstream→downstream (mapa canónico DEC-163, instrumento v3.1 N=2)**: etapa 1
+retrieval con residual ÍNTEGRAMENTE atribuido (cat010#0/hp012#3/hp013#1 → A-core; hp001
+judge-fragile; hp009/hp010 pendientes de medir bajo P1) · etapa 2 rerank en 2 estables con
+mecanismos nombrados · etapa 3 síntesis (13 estables) ESPERANDO serving estable (A-core) —
+orden de Alberto: infraestructura antes de síntesis.
+
+**s288 cerró — A-CORE ejecutado hasta la bandeja de Alberto** (spec normativo único
+`evals/s288_acore_design_brief_v1.md` v3 SELLADO; dúo r1 Sol+Fable + r2 Sol focused = 18/18
+hallazgos confirmados, 0 FP; DEC-165): (a) **F0 census v2** determinista 2× — H1 CONFIRMADA
+60/60 (extraction_sha256 == sha de bytes del PDF; 1.334 blobs locales censados, dual-key 1.012
+docs), partición 1169/1169, colisiones 0; (b) **F2 lane doc_scoped_hyq endurecida** — scope por
+document_id vía embed FK (name-scope muerto), tier blob-verificado ANTES de navegar (6/6 cero
+holgura), dup excluidos, suite 3393 passed + smoke embed real PASSED (lane sigue OFF);
+(c) **P-A staged**: 585 docs placeholder→sha real (`evals/s288_acore_pA_apply_v1.sql`,
+--verify 16/16 PASS live, dry-run, rollback) — PASTE DE ALBERTO pendiente; (d) **P-B gateado
+como debía**: detector idioma v3 (clase diagram-heavy cazada: anotaciones EN del extractor →
+FIX 3 limpieza de input; calibración 100,0% 389/389; 2 backfills erróneos evitados), cohorte
+406 {es 307, en 99}, **QA-30 v3 = adjudicación de Alberto (30/30-o-HALT)**; (e) **P-C
+re-diseñado a TRAMOS** (2 rondas de Sol tumban bulk-verified; semántica canónica intacta;
+ritmo de Alberto; el GO de A-core NO depende de ello); (f) P-D ELIMINADO (join-through FK).
+
+**F3 CERRADO (30-jul tarde, paste P-A de Alberto aplicado)**: delta live exacto al
+pre-registro (placeholders 744→159 · binding_ok 414→999 · P-A elegibles →0 = gate
+aplicado==100%) · probe cohorte: **hp012 mecanismo CONFIRMADO** (lane sirve 15088SP
+p.108+p.151 con las facetas de la aguja) · cat010 = archetype None (diana del lever
+taxonomía) · hp013 baseline confirmado. Addendum F3 en DEC-165.
+
+**s288b (31-jul): lever ontología hyq EJECUTADO (DEC-166)** — la lane adopta el par
+retrieval-v4+evidence-v5 con barrera query-card; 7/7 gates $0; **cat010 convertida en
+MECANISMO** (intrinsic_safety, 2 parents con valores IS); entradas 17→21; residuales
+declarados (estrictez per-arquetipo → gap A3; hp009-centinela). Dúo s288+s288b: 34/34, 0 FP.
+
+**Qué sigue:** (1) **etapa 3 síntesis** (13 estables, 5 pre-trazados) sobre serving estable +
+re-baseline bvg vs 11/16/12; (2) **A3 / perfil c1_v5** (lane hyq ON con gate de outcome:
+eficacia cat010/hp012 + centinela hp009 + estrictez per-arquetipo re-evaluada); (3) bandeja
+Alberto: QA-30 v3/v4 (30/30-o-HALT → staging P-B) · tramos P-C · ONs Railway + paste D9 +
+PR/merge de la rama; (4) lane inventario/catálogo. Traza: DEC-163..166 + HISTORY s288/s288b.
+
+## Estado anterior (s286 — 29 jul 2026)
 
 **PRODUCCIÓN**: sin cambios de release (C1 + MT F0+F1 vivas; DDL `convo` sigue gateado por matriz
 RGPD). La rama `claude/s282-h0t2-qa` acumula s282→s286 lista para PR/merge.

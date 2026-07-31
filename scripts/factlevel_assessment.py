@@ -1,22 +1,37 @@
 #!/usr/bin/env python3
-"""factlevel_assessment.py (s100) — assessment a nivel-hecho ESTANDARIZADO (spec v3, dúo ×3 spec + ×2 build).
+"""factlevel_assessment.py (s100 · instrumento v3.0 s286e) — assessment a nivel-hecho ESTANDARIZADO.
 
 UN entry-point canónico que unifica los instrumentos ad-hoc (s85/s87/s88/s99) que bit-roteaban.
 Clasifica cada hecho CORE de cada gold-dev en UNA clase terminal del funnel de PIPELINE.
 
-MIDE LA RUTA EVAL-HARNESS (sin target_models, strict=True, available_models=None) — decisión Alberto
-s100: paridad con bvg / DEC-075 / ancho DEC-092b y TODAS las mediciones previas, para re-derivar el
-plateau CADUCO de DEC-075 de forma COMPARABLE. La ruta Telegram (target_models + available_models) es
-una medición SEPARADA con su propio baseline. Flags = los de la DEMO (Railway). NO es "pipeline
-shippeado a secas": es el harness-con-flags-de-demo.
+RUTA (v3.0, s286e — CAMBIO DE RUTA, serie nueva): la medición CRUZA EL SEAM DE SERVING
+(`src.rag.serving_pipeline.execute_rag_turn`), la MISMA función que `scripts/test_bot_vs_gold.py`
+y que el handler de Telegram — espejo FUNCIONAL de bvg:run_bot con dos deltas declarados (captura
+del pool + los jueces). Hasta v2.2 llamaba retrieve/rerank/generate DIRECTO y por tanto era CIEGA
+a las filas que las lanes de coverage apendizan DESPUÉS del rerank: cualquier lever de lane era
+invisible en la medición. Sigue siendo la ruta EVAL-HARNESS (sin target_models, rerank strict,
+available_models=None) para conservar la paridad con bvg/DEC-075; la ruta Telegram
+(target_models + available_models) es una medición SEPARADA con su propio baseline. Flags = los
+de la DEMO (Railway), con el flag-set COMPLETO del seam pineado (ver DEMO_FLAGS).
+
+VISTA SERVIDA: `served` NO es "topk sobre el umbral" — es `admitted_evidence_rows()` IMPORTADO de
+`src/rag/generator.py` (fuente única, r2-4). El soporte se parte en dos ejes (cláusula 19):
+`sup_pool` (pool-50) alimenta in_pool/in_topk/pool_rank y las clases upstream; `sup_served` (la
+vista del generador — las filas de coverage validadas se juzgan sobre `coverage_context_content`,
+los excerpts que el modelo VE) alimenta reaches_gen y el conveyed-check.
 
 Taxonomía v3 (5 clases terminales + OK; TODOS los facts clasificados), FAMILY-AWARE (fix dúo build #3):
   corpus-gap    — el hecho NO existe servible en el corpus (default = FN-MÍO, anti-FN reforzado)
   retrieval-miss— servible en corpus pero NINGÚN chunk SAME-FAMILY en el pool-50   (sub: within-doc/es-en/model-filter/cross-fam)
   rerank-miss   — chunk-soporte same-family en pool-50 pero NO sobrevive al top-k  (sub: pos-buried/lexical)
-  synthesis-miss— servido (post-threshold) pero la respuesta NO lo transmite (sub-motivo LLM CON chunks
-                  servidos: omitted/hedged/partial/contradicted/threshold-drop) + STABILITY (rep×2, flip vs structural)
+  synthesis-miss— servido pero la respuesta NO lo transmite (sub-motivo LLM CON chunks servidos:
+                  omitted/hedged/partial/contradicted/threshold-drop/append_view_truncated)
+                  + STABILITY (rep×2 sobre la composición SERVIDA, flip vs structural)
   OK            — servido + transmitido
+`append_view_truncated` (s286e) = el valor está en el content de una fila apendizada y servida pero
+FUERA de sus excerpts: gap de EXCERPT de lane, ni retrieval ni síntesis-LLM. Es SUB-MOTIVO (las 5
+clases terminales quedan intactas; precedente exacto: threshold-drop) y NO prevalece sobre
+rerank-miss. Golds cuyo coverage erroreó tras retry: `coverage_degraded`, fuera del histograma.
 `lexically_anchorable` = FLAG por-hecho (fix v3, NO gate): los no-anclables (prosa/periodicidades) se clasifican
 igual vía juez SEMÁNTICO; solo enruta el corpus-check (léxico vs semántico). meta-ref (valor=puntero: apéndice/
 tabla) = único fuera del histograma.
@@ -28,12 +43,17 @@ producto acredita mal (bug hp018, DEC-075 by_target).
 Anti-bit-rot: regenerar SIEMPRE (no cache, no seed DEF). Join hecho↔texto por clave (qid#idx:valor) — ESTABLE
 para el orden actual de core_facts() (NO una fact-id global; si core_facts reordena, cambia — declarado).
 Freeze-contract leído del ENTORNO, RE-AFIRMADO tras los imports (los módulos legacy hacen load_dotenv override).
+El `pipe_sha` del freeze-hash es el CLOSURE DE IMPORTS del seam (AST, orden estable) + sus configs
+versionadas — no una lista a mano: una lane nueva o un dirty-tree en coverage invalidan el `.partial` solos.
 
 Modos:
   python scripts/factlevel_assessment.py smoke [--qids hp007,cat007]   # subset + estimación de coste
   python scripts/factlevel_assessment.py full                          # 39 dev
 Salida: evals/s100_factlevel_<mode>_<tag>.yaml (+ .partial.jsonl resumible) + manifest embebido.
-(s286c: tag SIEMPRE — env FACTLEVEL_OUTPUT_TAG, default fecha — para no pisar el histórico congelado.)
+(s286c: tag SIEMPRE — env FACTLEVEL_OUTPUT_TAG — para no pisar el histórico congelado; s286e: el
+default lleva la versión del instrumento, `v3_<fecha>`, para no colisionar con los fulls v2.2.)
+La fila del scoreboard publica además n(via_coverage_append), n(append_view_truncated) y
+n(coverage_degraded) — los campos que reconcilian esta serie con las etapas del mapa.
 """
 from __future__ import annotations
 import os
@@ -81,6 +101,22 @@ DEMO_FLAGS = {
     # lleva ON. Cambia el freeze-hash. CAVEAT declarado para la fila v3 del scoreboard: el
     # bucket in-pool gana +10 de ancho mecánico donde el canal dispara (pool ≤ top_k+cuota).
     "GENERATOR_SELECTION_BLOCK": "on",
+    # ── s286e (r2-1): el flag-set COMPLETO del seam de coverage ─────────────────
+    # Los 7 flags-hoja que `post_rerank_coverage` consulta y que NO son
+    # profile-owned se resuelven del ENTORNO, no del perfil. Sin pinearlos, un
+    # .env sucio mediría OTRA stack de lanes bajo la etiqueta "demo". Todos
+    # "off" = el ship de Railway (ausentes/TARGET_OFF) y lo único que
+    # `validate_release_contract` admite junto a coverage_c1_v4.
+    "TABLE_PREAMBLE_CLOSURE": "off",
+    "CANONICAL_HYQ_COVERAGE": "off",
+    "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+    "RERANK_POOL_COVERAGE": "off",
+    "STRUCTURAL_CASCADE_COVERAGE": "off",
+    "LOGICAL_RECORD_COVERAGE": "off",
+    "EVIDENCE_DERIVATION_OVERLAY": "off",
+    # s286e (m6): la ruta v3 cruza el seam, que SIEMPRE llama al observer de
+    # shadow. Pineado off para que un .env sucio no lo active en medición.
+    "STRUCTURAL_NEIGHBOR_SHADOW": "off",
 }
 
 
@@ -96,7 +132,7 @@ def _assert_demo_flags():
 
 _assert_demo_flags()   # 1º set (antes de importar el pipeline → config.py lee getenv en import)
 
-import sys, re, json, time, hashlib, argparse, subprocess
+import ast, copy, sys, re, json, time, hashlib, argparse, subprocess
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -113,9 +149,15 @@ sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "scripts"))
 
 from src.rag.retriever import retrieve_chunks
 from src.rag.reranker import rerank
-from src.rag.generator import generate_answer, RELEVANCE_THRESHOLD
+from src.rag.generator import (
+    generate_answer, admitted_evidence_rows, RELEVANCE_THRESHOLD,
+)
+from src.rag.post_rerank_coverage import coverage_context_content
+from src.rag.serving_pipeline import RagServingAdapters, execute_rag_turn
+from src.rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
 from src.config import (RETRIEVAL_TOP_K, RERANK_TOP_K, LLM_MODEL, LLM_MAX_TOKENS,
-                        RERANKER_BACKEND, MERGE_STRATEGY, RERANK_PREVIEW_CHARS, CHUNKS_TABLE)
+                        RERANKER_BACKEND, MERGE_STRATEGY, RERANK_PREVIEW_CHARS, CHUNKS_TABLE,
+                        COVERAGE_RELEASE_POLICY, validate_config)
 from scripts.retrieval_miss_judge import (
     judge_fact, supported_ids, core_facts, load_dev,
     THRESH_FIRM, THRESH_BAND, CONTENT_CHARS,
@@ -274,18 +316,99 @@ def corpus_gap_suspect(best_corpus_score: float, valor: str, sem_truncated: bool
 
 
 # ── pipeline FIEL a la RUTA HARNESS (paridad bvg): sin target_models, strict, available_models=None ──
+# s286e: la ruta v2.2 llamaba retrieve/rerank/generate DIRECTO y era CIEGA a las filas que las lanes de
+# coverage apendizan DESPUÉS del rerank (el seam de serving). Desde v3 cruza `execute_rag_turn` — la
+# MISMA función que bvg (test_bot_vs_gold.py:170-183) y que el handler de Telegram.
+_CAPTURED_POOL: list[dict] = []   # objeto de captura MODULE-LEVEL (ver `_capture_retrieve`)
+
+
+def _capture_retrieve(query: str, top_k: int) -> list[dict]:
+    """Adapter de retrieve que GUARDA el pool ordenado que ve el seam.
+
+    `execute_rag_turn` devuelve conteos, no el pool: sin esta captura habría que
+    re-recuperar fuera del run y eso rompe la identidad de la medición (el retrieve
+    no es idéntico entre llamadas). Es MODULE-LEVEL a propósito: el seam-guard AST
+    camina el cuerpo de `run_pipeline` y un closure anidado ahí lo rompería."""
+    pool = retrieve_chunks(query, top_k=top_k)
+    _CAPTURED_POOL.clear()
+    _CAPTURED_POOL.extend(copy.deepcopy(pool))   # deepcopy: el seam muta/deepcopyea aguas abajo
+    return pool
+
+
+def _eval_strict_rerank(query: str, chunks: list[dict], **kwargs):
+    """Reranker ESTRICTO en evaluación (patrón bvg, test_bot_vs_gold.py:159-160): una avería
+    de eval no debe confundirse con el fail-open de disponibilidad de producción."""
+    return rerank(query, chunks, strict=True, **kwargs)
+
+
+def _lane_by_appended_id(coverage_trace: dict, appended: list[dict]) -> dict:
+    """lane de cada fila apendizada: la traza de lane la declara en `selected_ids`;
+    la propia fila la lleva en `retrieval_lane` (fallback para lanes sin traza de ids)."""
+    lanes: dict[str, str | None] = {}
+    for lane_trace in (coverage_trace.get("lanes") or []):
+        if not isinstance(lane_trace, dict):
+            continue
+        for cid in (lane_trace.get("selected_ids") or []):
+            lanes.setdefault(str(cid), lane_trace.get("lane"))
+    for row in appended:
+        lanes.setdefault(str(row.get("id") or ""), row.get("retrieval_lane"))
+    return lanes
+
+
 def run_pipeline(question: str) -> dict:
-    pool = retrieve_chunks(question, top_k=RETRIEVAL_TOP_K)
-    topk = rerank(question, pool, top_k=RERANK_TOP_K, strict=True)   # SIN target_models (paridad harness)
-    served = [c for c in topk if c.get("similarity", 0) >= RELEVANCE_THRESHOLD]  # lo que VE el generador
-    res = generate_answer(question, topk)   # available_models=None (paridad harness, test_bot_vs_gold:107)
-    return {"answer": res.get("answer", ""), "pool": pool, "topk": topk, "served": served,
+    """UN turno servido completo cruzando el seam (retrieve → rerank → coverage → generate).
+
+    Fail-open de coverage (cláusulas 4+18): `status=="error"` → retry 1× sobre el ÚNICO
+    call-site del seam; si persiste, el gold se devuelve con `coverage_degraded=True` y
+    queda fuera del histograma (nada se promedia en silencio)."""
+    pipeline: dict = {}
+    for attempt in range(2):
+        pipeline = execute_rag_turn(
+            query=question,
+            query_for_retrieval=question,
+            target_models=None,                  # paridad harness/bvg
+            available_models=None,               # paridad harness/bvg
+            retrieval_top_k=RETRIEVAL_TOP_K,
+            rerank_top_k=RERANK_TOP_K,
+            adapters=RagServingAdapters(
+                retrieve=_capture_retrieve,
+                rerank=_eval_strict_rerank,
+                observe_structural_shadow=observe_structural_neighbor_shadow,
+                generate=generate_answer,
+            ),
+        )
+        if (pipeline.get("coverage_trace") or {}).get("status") != "error":
+            break
+
+    trace = pipeline.get("coverage_trace") or {}
+    chunks = pipeline["chunks"]                       # prefijo protegido + appends de coverage
+    n_prefix = pipeline["reranked_rows"]
+    topk = chunks[:n_prefix]                          # garantía de prefijo del seam (r2-5)
+    appended = chunks[n_prefix:]
+    pool = list(_CAPTURED_POOL)
+    served = admitted_evidence_rows(chunks)           # la VISTA del generador (fuente única)
+    return {"answer": (pipeline.get("generation") or {}).get("answer", ""),
+            "pool": pool, "topk": topk, "served": served, "chunks": chunks, "appended": appended,
             "topk_ids": [c.get("id") for c in topk], "served_ids": [c.get("id") for c in served],
-            "pool_ids": [c.get("id") for c in pool]}
+            "pool_ids": [c.get("id") for c in pool],
+            "appended_ids": [str(c.get("id") or "") for c in appended],
+            "appended_lane": _lane_by_appended_id(trace, appended),
+            "coverage_status": trace.get("status"),
+            "coverage_degraded": trace.get("status") == "error"}
 
 
-def gen_answer_only(question: str, topk: list[dict]) -> str:
-    return generate_answer(question, topk).get("answer", "")
+def gen_answer_only(question: str, served_composition: list[dict]) -> str:
+    """Regenera la respuesta sobre una composición YA servida (reps de estabilidad).
+    El insumo es `pipeline["chunks"]` — prefijo + appends — no el topk (cláusula 6)."""
+    return generate_answer(question, served_composition).get("answer", "")
+
+
+def served_view(chunk: dict) -> dict:
+    """La fila TAL COMO la ve el generador: una fila de coverage VALIDADA se sirve como
+    excerpts acotados (`coverage_context_content`), no como su content completo."""
+    view = dict(chunk)
+    view["content"] = coverage_context_content(chunk)
+    return view
 
 
 def pool_rank_of(supported: set[str], pool_ids: list[str]) -> int:
@@ -318,7 +441,16 @@ CONVEY21_ANSWER_CAP = 12000
 # v2   = dual-judge (GPT-5.5 K=5 → Opus K=5) en conveyed + soporte-targeted
 # v2.1 = juez conveyed cap 12k + rúbrica morfología/cuantificadores + umbral proporcional
 # v2.2 = H4: kill de anclas-TOC en el crédito de soporte L1 (re-adjudicable por la red dual)
-INSTRUMENT_VERSION = "v2.2"
+# v3.0 = s286e: la medición cruza el SEAM de serving (execute_rag_turn) en vez de llamar
+#        retrieve/rerank/generate directo → las filas apendizadas por las lanes de coverage
+#        dejan de ser invisibles. Serie NUEVA: una fila v3 y una v2.2 del mismo día son FOTOS
+#        DISTINTAS (composición servida distinta + rerank no determinista), NO el delta causal
+#        del seam. La reconciliación entre etapas usa n(via_coverage_append).
+# v3.1 = s287 P0: kilo-bridge en audit_locator (6K8↔6,8kΩ↔6800Ω — canonicalización kilo en
+#        _unit_quantities + puente en support_candidate_priority/guard L1). Cierra S5 de
+#        DEC-096c: el guard ya no mata soporte servido same-family por re-grafía del prefijo
+#        kilo (hp018#1). Solo acredita fila SERVIDA de la familia correcta (Sol-1/DEC-091b).
+INSTRUMENT_VERSION = "v3.1"
 
 
 def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:
@@ -466,13 +598,54 @@ def semantic_corpus_present(valor: str, texto: str, manual: list[dict], workers:
     return bool(supported_ids(v, THRESH_FIRM)), truncated
 
 
-def _pm_map(pool: list[dict]) -> dict:
-    """product_model por id para el pool. Usa el campo del chunk si viene; si no, fetch por-id (famtie)."""
-    pm = {c.get("id"): c.get("product_model") for c in pool if c.get("id")}
+def _pm_map(rows: list[dict]) -> dict:
+    """product_model por id. Usa el campo del chunk si viene; si no, fetch por-id (famtie).
+    s286e/B1: se alimenta del pool ∪ las filas APENDIZADAS — sin los appends, `same_family`
+    no podría decidir sobre una fila que sí llegó al generador."""
+    pm = {c.get("id"): c.get("product_model") for c in rows if c.get("id")}
     missing = [cid for cid, v in pm.items() if v in (None, "")]
     if missing:
         pm.update(_pm_by_ids(missing))
     return pm
+
+
+# ── SPLIT de sets de soporte (s286e, cláusula 19) ──────────────────────────────
+# `sup_pool`   = soporte sobre el pool-50 → alimenta in_pool/in_topk/pool_rank y TODAS las
+#                clases upstream (semántica INTACTA respecto de v2.2).
+# `sup_served` = soporte sobre la VISTA SERVIDA → alimenta reaches_gen y el conveyed-check.
+def support_over_served(valor: str, texto: str, pipe: dict, sup_pool: set,
+                        workers: int) -> tuple[set, dict]:
+    """Soporte sobre lo que el generador realmente VE.
+
+    Las filas cuya vista servida es BYTE-IDÉNTICA a la ya juzgada en el pool heredan su
+    veredicto: re-juzgar el mismo texto solo añadiría ruido de juez (un hecho podría estar
+    "en pool" y no "servido" por azar) y coste. Se juzga fresco lo que DIFIERE: los appends
+    de coverage, servidos como excerpts acotados."""
+    pool_content = {str(c.get("id") or ""): (c.get("content") or "") for c in pipe["pool"]}
+    inherited: set = set()
+    fresh: list[dict] = []
+    for row in pipe["served"]:
+        cid = str(row.get("id") or "")
+        view = served_view(row)
+        if cid in pool_content and (view.get("content") or "") == pool_content[cid]:
+            if cid in sup_pool:
+                inherited.add(cid)
+        else:
+            fresh.append(view)
+    res = judge_fact(valor, texto, fresh, workers=workers) if fresh else {}
+    return inherited | supported_ids(res, THRESH_FIRM), res
+
+
+def support_over_append_content(valor: str, texto: str, pipe: dict, workers: int) -> tuple[set, dict]:
+    """¿El valor vive en el CONTENT de una fila apendizada aunque NO en sus excerpts servidos?
+    Ese delta es `append_view_truncated` (gap de EXCERPT de lane). Solo se juzga cuando la vista
+    difiere del content: si coinciden no hay truncamiento posible y el pase se ahorra."""
+    rows = [c for c in pipe["appended"]
+            if (coverage_context_content(c) or "") != (c.get("content") or "")]
+    if not rows:
+        return set(), {}
+    res = judge_fact(valor, texto, rows, workers=workers)
+    return supported_ids(res, THRESH_FIRM), res
 
 
 # ── núcleo: clasificar cada hecho CORE de un gold en su clase terminal (FAMILY-AWARE) ──
@@ -480,7 +653,9 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
     qid = gold["qid"]
     pipe = run_pipeline(gold["question"])
     served_ids = set(pipe["served_ids"]); topk_ids = set(pipe["topk_ids"])
-    pm = _pm_map(pipe["pool"])
+    appended_ids = set(pipe["appended_ids"])
+    served_appended_ids = appended_ids & served_ids
+    pm = _pm_map(pipe["pool"] + pipe["appended"])   # B1: los appends también necesitan familia
     # familia(s) de producto del gold (fix #3): un soporte solo cuenta si es SAME-FAMILY
     prov = gold.get("_provenance") or {}
     fuente = prov.get("fuente", "")
@@ -605,13 +780,27 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
                     entry_support_flip = {"support_judge2_agreed_none": True,
                                           "support_judge2_n_fail": d2["n_fail"],
                                           "support_candidates_truncated": truncated}
-        reaches_gen = bool(sup_fam & served_ids)
+        # SEÑALES UPSTREAM: sobre el pool-50 puro (semántica v2.2 INTACTA).
         in_topk = bool(sup_fam & topk_ids)
         in_pool = bool(sup_fam)
+        # SEÑAL SERVIDA (s286e/cláusula 19): sobre la VISTA del generador — un hecho cuyo
+        # ÚNICO soporte llega por una fila apendizada por coverage ya NO es invisible.
+        sup_served, v_served = support_over_served(valor, texto, pipe, sup, workers=workers)
+        sup_served_fam = {cid for cid in sup_served if same_family(cid)}
+        served_support = sup_served_fam & served_ids
+        reaches_gen = bool(served_support)
+        via_coverage_append = bool(served_support) and served_support <= served_appended_ids
 
         entry = {"key": key, "valor": valor, "texto": texto, "lexically_anchorable": anchorable,
                  "family_resolved": family_resolved, "n_support_fam": len(sup_fam),
-                 "n_support_raw": len(sup), "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+                 "n_support_raw": len(sup), "n_support_served": len(sup_served_fam),
+                 "reaches_gen": reaches_gen, "in_topk": in_topk, "in_pool": in_pool}
+        if via_coverage_append:
+            entry["via_coverage_append"] = True
+            entry["append_lanes"] = sorted(
+                {str(pipe["appended_lane"].get(cid) or "?") for cid in served_support})
+        if v_served.get("n_fail"):
+            entry["served_support_votes_missing"] = v_served["n_fail"]
         if l1_killed:                                # H2: los kills de L1 VISIBLES (pre/post + ids)
             entry["support_l1_killed"] = sorted(l1_killed)[:6]
             entry["support_l1_override"] = entry_l1_override   # True=Opus restauró; False=confirmó kill
@@ -650,16 +839,34 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
                     clase = "synthesis-miss"          # CONSENSO de miss (o borderline del 2º juez)
                     entry["borderline"] = THRESH_BAND <= max(conv["yes"], dual["yes"]) < THRESH_FIRM
                     if do_submotivo:
-                        entry["submotivo"] = submotivo_synthesis(valor, texto, pipe["served"], pipe["answer"],
-                                                                 sup_fam & served_ids, workers=workers)
+                        # el juez de sub-motivo debe ver EXACTAMENTE lo servido (excerpts en las
+                        # filas de coverage), no el content completo del padre.
+                        entry["submotivo"] = submotivo_synthesis(
+                            valor, texto, [served_view(c) for c in pipe["served"]],
+                            pipe["answer"], served_support, workers=workers)
                     synth_miss_refs.append(entry)
         elif in_topk:
             clase = "synthesis-miss"     # en top-k pero cayó por RELEVANCE_THRESHOLD (raro, fix H)
             entry["submotivo"] = {"submotivo": "threshold-drop", "nota": "en top-k pero <RELEVANCE_THRESHOLD"}
         elif in_pool:
-            clase = "rerank-miss"
+            clase = "rerank-miss"        # r2-3: la señal UPSTREAM manda sobre append_view_truncated
             entry["best_pool_rank"] = pool_rank_of(sup_fam, pipe["pool_ids"])
             entry["submotivo"] = submotivo_rerank(entry["best_pool_rank"], RERANK_TOP_K)
+        elif (append_truncated := (
+                {cid for cid in support_over_append_content(valor, texto, pipe, workers)[0]
+                 if same_family(cid)} & served_appended_ids)):
+            # s286e/r2-3: el valor SÍ está en una fila que coverage apendizó y que se sirvió,
+            # pero fuera de las cards que el generador ve → gap de EXCERPT de lane (ni retrieval
+            # ni síntesis-LLM). SUB-MOTIVO de synthesis-miss (precedente exacto: threshold-drop,
+            # que también vive ahí aunque el generador no viera el valor). Las 5 clases
+            # terminales quedan INTACTAS; sin esta traza la campaña apuntaría al lever equivocado.
+            clase = "synthesis-miss"
+            entry["submotivo"] = {
+                "submotivo": "append_view_truncated",
+                "nota": "valor en el content del append servido pero fuera de coverage_context_content",
+                "chunk_ids": sorted(append_truncated)[:6],
+                "lanes": sorted({str(pipe["appended_lane"].get(cid) or "?")
+                                 for cid in append_truncated})}
         elif sup:
             # servible en el pool pero SOLO cross-familia (sup_raw>0, sup_fam=0): coincidencia de valor
             # en OTRA familia (DEC-091b: '1 A' de ZXAE/ZXEE para ZXe). El dato EXISTE en el corpus → NO
@@ -697,7 +904,10 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
     # fix dúo dual-judge #4: las reps se adjudican con el MISMO árbitro dual (GPT → si miss, Opus),
     # no GPT-solo — si no, "stable-miss" significaría "estable para GPT", no estable bajo el instrumento.
     if do_stability and synth_miss_refs:
-        ans_reps = [gen_answer_only(gold["question"], pipe["topk"]) for _ in range(K_STAB - 1)]
+        # s286e/cláusula 6: las reps regeneran desde la COMPOSICIÓN SERVIDA (prefijo + appends
+        # del turno primario), no desde el topk — si no, la estabilidad se mediría sobre una
+        # composición que el generador nunca vio.
+        ans_reps = [gen_answer_only(gold["question"], pipe["chunks"]) for _ in range(K_STAB - 1)]
         def _rep_is_miss(valor, texto, ans):
             if judge_conveyed21(valor, texto, ans, workers=workers)["yes"] >= THRESH_FIRM:
                 return False
@@ -711,11 +921,17 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
             "family_resolved": family_resolved, "gold_families": sorted(gfam),
             "n_non_anchorable": n_non_anchorable,
             "pool_n": len(pipe["pool"]), "served_n": len(pipe["served"]), "topk_n": len(pipe["topk"]),
+            "appended_n": len(pipe["appended"]),
             # SA3 (dúo s102/L4): PERSISTIR la composición servida — el rerank es no-determinista a
             # temp=0 (DEC-096b) y sin estos ids una composición-que-falla no es replayable (el fork
             # serving-vs-prompt de cat021 quedó indecidible por no tenerlos). Provenance pura.
             "topk_ids": [c.get("id") for c in pipe["topk"]],
             "served_ids": [c.get("id") for c in pipe["served"]],
+            # s286e: traza del seam — qué apendizó coverage, por qué lane, y si la lane erroreó.
+            "appended_ids": pipe["appended_ids"],
+            "appended_lane": pipe["appended_lane"],
+            "coverage_status": pipe["coverage_status"],
+            "coverage_degraded": pipe["coverage_degraded"],
             "hist": hist, "facts": facts_out}
 
 
@@ -726,6 +942,10 @@ BLOCKER_ORDER = ["corpus-gap", "retrieval-miss", "rerank-miss", "synthesis-miss"
 def gold_juez_axis(per_gold: list[dict], bvg: dict) -> list[dict]:
     axis = []
     for r in per_gold:
+        if r.get("coverage_degraded"):
+            # M3/cláusula 4: coverage erroreó tras el retry → el gold NO alimenta ninguna
+            # inferencia (ni blocker-primario ni radio). Estampado, contado aparte, excluido.
+            continue
         h = r["hist"]
         n_classified = sum(h[c] for c in h if c != "meta-ref")
         fails = {c: h[c] for c in BLOCKER_ORDER if h[c] > 0}
@@ -745,6 +965,113 @@ def gold_juez_axis(per_gold: list[dict], bvg: dict) -> list[dict]:
                      "n_ok": h["OK"], "primary_blocker": primary, "n_identidad_facts": identidad,
                      "family_resolved": r["family_resolved"], "no_pass_perp_pipeline": perp})
     return axis
+
+
+# ── freeze-contract del CÓDIGO: closure de imports del seam (s286e/r2-2) ──────────────
+# v2.2 hasheaba una lista A MANO (retriever/reranker/generator) y era ciega a coverage:
+# un árbol sucio en post_rerank/lanes reutilizaba un `.partial` incompatible (clase s101b).
+# El closure se DERIVA de los imports (AST, sin ejecutar) desde las raíces del seam, así que
+# una lane nueva entra sola.
+# Raíces = el seam + el perfil de release + los CUATRO adapters que este script inyecta
+# (retriever/reranker/generator/shadow: el trío que v2.2 ya hasheaba NO se pierde).
+_SEAM_ROOTS = ("src/rag/serving_pipeline.py", "src/rag/post_rerank_coverage.py",
+               "src/release_profiles.py", "src/rag/retriever.py", "src/rag/reranker.py",
+               "src/rag/generator.py", "src/rag/structural_neighbor_shadow.py")
+_ASSET_SUFFIXES = (".yaml", ".yml", ".json", ".jsonl")
+
+
+def _module_relpath(dotted: str) -> str | None:
+    parts = dotted.split(".")
+    for candidate in ("/".join(parts) + ".py", "/".join(parts) + "/__init__.py"):
+        if (ROOT / candidate).is_file():
+            return candidate
+    return None
+
+
+def _imported_modules(relative: str, tree: ast.AST) -> list[str]:
+    """Módulos LOCALES importados por un fichero (absolutos `src.*` y relativos `.x`)."""
+    package = relative.rsplit("/", 1)[0].replace("/", ".")
+    found: list[str] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            found.extend(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            if node.level:                       # relativo: sube `level-1` paquetes
+                base_parts = package.split(".")
+                base = ".".join(base_parts[: len(base_parts) - (node.level - 1)] or base_parts)
+            else:
+                base = ""
+            module = ".".join(p for p in (base, node.module or "") if p)
+            if module:
+                found.append(module)
+            found.extend(".".join(p for p in (module, alias.name) if p) for alias in node.names)
+    return found
+
+
+def seam_code_closure() -> list[str]:
+    """Ficheros de código alcanzables desde el seam, en orden ESTABLE (sorted)."""
+    seen: set[str] = set()
+    pending = list(_SEAM_ROOTS)
+    while pending:
+        relative = pending.pop()
+        if relative in seen or not (ROOT / relative).is_file():
+            continue
+        seen.add(relative)
+        try:
+            tree = ast.parse((ROOT / relative).read_text(encoding="utf-8", errors="replace"),
+                             filename=relative)
+        except SyntaxError:
+            continue
+        for dotted in _imported_modules(relative, tree):
+            resolved = _module_relpath(dotted)
+            if resolved and resolved not in seen:
+                pending.append(resolved)
+    return sorted(seen)
+
+
+def seam_config_assets(modules: list[str]) -> list[str]:
+    """Configs versionadas que ese código consume (los `config/*.yaml` de las lanes).
+    Se derivan de los literales de ruta del propio código — no de una lista a mano."""
+    assets: set[str] = set()
+    for relative in modules:
+        try:
+            tree = ast.parse((ROOT / relative).read_text(encoding="utf-8", errors="replace"),
+                             filename=relative)
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if not (isinstance(node, ast.Constant) and isinstance(node.value, str)):
+                continue
+            literal = node.value.strip().replace("\\", "/")
+            if not literal or literal.startswith("/") or ".." in literal:
+                continue
+            # Docstrings también son ast.Constant str: con saltos de línea o longitud
+            # no-de-ruta, stat() revienta en Linux (ENAMETOOLONG; Windows lo ignora).
+            if "\n" in literal or len(literal) > 200:
+                continue
+            for candidate in (literal, f"config/{literal}"):
+                path = ROOT / candidate
+                if candidate.endswith(_ASSET_SUFFIXES) and path.is_file():
+                    assets.add(candidate)
+                    break
+                if path.is_dir() and str(path).startswith(str(ROOT / "config")):
+                    assets.update(
+                        str(child.relative_to(ROOT)).replace("\\", "/")
+                        for child in sorted(path.rglob("*"))
+                        if child.is_file() and child.name.endswith(_ASSET_SUFFIXES)
+                    )
+                    break
+    return sorted(assets)
+
+
+def pipeline_fingerprint() -> dict:
+    """sha del closure de código + assets del seam (entra en el freeze-hash del run)."""
+    modules = seam_code_closure()
+    assets = seam_config_assets(modules)
+    blob = "".join((ROOT / relative).read_text(encoding="utf-8", errors="replace")
+                   for relative in [*modules, *assets])
+    return {"sha": _sha(blob), "n_modules": len(modules), "n_assets": len(assets),
+            "modules": modules, "assets": assets}
 
 
 # ── manifest / freeze-contract ──
@@ -773,11 +1100,16 @@ def build_manifest() -> dict:
     assert RERANK_TOP_K == 10, f"RERANK_TOP_K={RERANK_TOP_K} ≠ demo(10) — pipeline fantasma (fix A)"
     gic = os.environ.get("GENERATOR_INCLUDE_CONTEXT")     # flag vivo (generator.py:23)
     return {
-        "route": "eval-harness (sin target_models, strict, available_models=None) — paridad bvg/DEC-075",
+        "route": "eval-harness CRUZANDO EL SEAM (execute_rag_turn; sin target_models, rerank strict, "
+                 "available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot (s286e/v3)",
+        "instrument_version": INSTRUMENT_VERSION,
         "git_commit": commit,
+        "release_profile": COVERAGE_RELEASE_POLICY.profile,
         "corpus": corpus_fingerprint(),
+        "pipeline_closure": pipeline_fingerprint(),
         "flags_demo": dict(DEMO_FLAGS),
-        "flags_source": "6 overrides Railway DEC-asserted (valores enmascarados en dashboard) + defaults de código",
+        "flags_source": "6 overrides Railway DEC-asserted (valores enmascarados en dashboard) + defaults de código "
+                        "+ los 7 flags-hoja del seam y STRUCTURAL_NEIGHBOR_SHADOW pineados off (s286e/r2-1)",
         "resolved": {"RETRIEVAL_TOP_K": RETRIEVAL_TOP_K, "RERANK_TOP_K": RERANK_TOP_K,
                      "LLM_MAX_TOKENS": LLM_MAX_TOKENS, "LLM_MODEL": LLM_MODEL,
                      "RELEVANCE_THRESHOLD": RELEVANCE_THRESHOLD, "RERANKER_BACKEND": RERANKER_BACKEND,
@@ -797,6 +1129,13 @@ def build_manifest() -> dict:
                               "off en DEMO_FLAGS; NO-GO definitivo s101 (tripwire con ambos anchos) — jamás a demo.",
         "hyq_pilot": "seam VIVO (s101) pineado '' (off); piloto GO del mecanismo, ship gated (D2 Alberto).",
         "family_aware": "acreditación de soporte SAME-FAMILY vía product_model (fix #3, reusa retrieval_miss_famtie).",
+        "support_split": "s286e/cláusula 19: sup_pool (pool-50) alimenta in_pool/in_topk/pool_rank y las "
+                         "clases upstream; sup_served (vista del generador, coverage_context_content en las "
+                         "filas de coverage validadas) alimenta reaches_gen y el conveyed-check.",
+        "served_view": "admitted_evidence_rows() importado de src/rag/generator.py — MISMA función que el "
+                       "generador usa (r2-4: fuente única, cero espejo que pueda derivar).",
+        "series_note": "v3 = SERIE NUEVA. Un v3 y un v2.2 del mismo día son fotos distintas (composición "
+                       "servida distinta + rerank no determinista), NO la medición causal del seam.",
     }
 
 
@@ -809,11 +1148,19 @@ def estimate_cost(n_golds: int, avg_facts: float = 3.2) -> str:
     sem_corpus = int(n_facts * 0.15) * K * 3   # no-anclables-no-en-pool (~15%) × K × 3 batches acotados
     judge2 = int(n_facts * 0.3) * K            # dual-judge Opus: K por cada miss del primario (~30%)
     support2 = int(n_facts * 0.12) * K         # dual-soporte Opus: K por fact sin soporte same-family (~12%)
-    calls = support + conveyed + submotivo + stability + sem_corpus + judge2 + support2
+    # s286e: el eje SERVIDO (cláusula 19). Solo se juzga fresco lo que difiere del pool = los
+    # appends de coverage (<=4 filas => 1 batch × K), y solo donde alguna lane apendizó (~50%).
+    # El pase de content-completo del append (append_view_truncated) está gateado a los facts que
+    # llegan a esa rama (~10%). Ambos son marginales frente al pase de pool (7 batches × K).
+    served_support = int(n_facts * 0.5) * K
+    append_full = int(n_facts * 0.1) * K
+    calls = (support + conveyed + submotivo + stability + sem_corpus + judge2 + support2
+             + served_support + append_full)
     usd = calls * 0.004
     return (f"~{n_golds} golds × ~{avg_facts} facts ≈ {n_facts} hechos · ~{calls} llamadas "
-            f"(support≈{support}, conveyed≈{conveyed}, judge2≈{judge2}, submotivo≈{submotivo}, "
-            f"stability≈{stability}, sem-corpus≈{sem_corpus}) · ≈ ${usd:.0f}")
+            f"(support≈{support}, served-support≈{served_support}, conveyed≈{conveyed}, "
+            f"judge2≈{judge2}, submotivo≈{submotivo}, stability≈{stability}, "
+            f"sem-corpus≈{sem_corpus}, append-full≈{append_full}) · ≈ ${usd:.0f}")
 
 
 def main() -> int:
@@ -828,6 +1175,12 @@ def main() -> int:
     ap.add_argument("--no-submotivo", action="store_true")
     ap.add_argument("--no-stability", action="store_true")
     args = ap.parse_args()
+
+    # ESPEJO del paso de validación del contrato de release de bvg (test_bot_vs_gold.py:236-237):
+    # medir con un contrato de release inválido (perfil sin lane, lane-hoja encendida contra
+    # coverage_c1_v4, identity ≠ replace) produciría una foto de OTRA stack. Fail-fast, no warning.
+    validate_config(require_telegram=False, production=True)
+    assert _isv2, f"CHUNKS_TABLE debe ser chunks_v2, es {CHUNKS_TABLE}"
 
     dev = {g["qid"]: g for g in load_dev()}
     # Veredictos PASS para el eje gold/juez. ADVISORY: bvg PREVIO (posiblemente pre-ancho/A3) — el eje
@@ -846,7 +1199,9 @@ def main() -> int:
     else:
         qids = sorted(dev)
 
-    print(f"factlevel_assessment · mode={args.mode} · {len(qids)} golds · RUTA HARNESS (sin target_models)")
+    print(f"factlevel_assessment {INSTRUMENT_VERSION} · mode={args.mode} · {len(qids)} golds · "
+          f"RUTA HARNESS CRUZANDO EL SEAM (execute_rag_turn, sin target_models) · "
+          f"profile={COVERAGE_RELEASE_POLICY.profile}")
     print(f"  DEMO flags: RERANK_TOP_K={RERANK_TOP_K} LLM_MAX_TOKENS={LLM_MAX_TOKENS} "
           f"ENUNCIADOS={os.environ.get('ENUNCIADOS_MULTIVECTOR')} "
           f"IDENTITY={os.environ.get('IDENTITY_RESOLVE')}/{os.environ.get('IDENTITY_RESOLVE_POLICY')} CHUNKS={CHUNKS_TABLE}")
@@ -861,8 +1216,8 @@ def main() -> int:
     gold_sha = _sha((ROOT / "evals" / "gold_answers_v1.yaml").read_text(encoding="utf-8", errors="replace"))
     # árbol sucio: ancla el código de ESTE script + el del PIPELINE que se mide (crít cross-model s101b:
     # un cambio en retriever/reranker/generator con el mismo commit reutilizaría un partial incompatible).
-    pipe_sha = _sha("".join((ROOT / "src" / "rag" / f).read_text(encoding="utf-8", errors="replace")
-                            for f in ("retriever.py", "reranker.py", "generator.py")))
+    # s286e/r2-2: ya NO es una lista a mano — es el CLOSURE DE IMPORTS del seam + sus configs.
+    pipe_sha = manifest["pipeline_closure"]["sha"]
     script_sha = _sha(Path(__file__).read_text(encoding="utf-8", errors="replace"))
     freeze_hash = _sha(json.dumps({"c": manifest["git_commit"], "f": manifest["flags_demo"],
                                    "r": manifest["resolved"], "j": manifest["judge"],
@@ -877,7 +1232,9 @@ def main() -> int:
     # s286c: el path histórico s100_factlevel_full.yaml es INSUMO CONGELADO (sha-pineado)
     # del linaje s108/s112/s201 — sobrescribirlo rompió CI. Runs nuevos SIEMPRE con tag
     # (default = fecha) para no pisar artefactos consumidos; el histórico no se toca.
-    output_tag = os.getenv("FACTLEVEL_OUTPUT_TAG") or time.strftime("%Y%m%d")
+    # s286e/m10: el tag lleva la VERSIÓN del instrumento — un v3 y un v2.2 del mismo día son
+    # series distintas y no pueden colisionar en el mismo fichero.
+    output_tag = os.getenv("FACTLEVEL_OUTPUT_TAG") or f"v3_{time.strftime('%Y%m%d')}"
     out_path = OUT_DIR / f"s100_factlevel_{args.mode}_{output_tag}.yaml"
     partial = out_path.with_suffix(".partial.jsonl")
     done = {}
@@ -913,19 +1270,31 @@ def main() -> int:
             per_gold.append(r)
             h = r["hist"]
             fam = "" if r["family_resolved"] else " ⚠fam?"
-            print(f"  [{qid}]{fam} {time.time()-t0:4.0f}s · OK={h['OK']} synth={h['synthesis-miss']} "
+            deg = " ⚠coverage_degraded" if r.get("coverage_degraded") else ""
+            app = f" +{r.get('appended_n', 0)}app" if r.get("appended_n") else ""
+            print(f"  [{qid}]{fam}{deg}{app} {time.time()-t0:4.0f}s · OK={h['OK']} synth={h['synthesis-miss']} "
                   f"rerank={h['rerank-miss']} retr={h['retrieval-miss']} corpus={h['corpus-gap']} "
                   f"meta={h['meta-ref']} (nonanch={r.get('n_non_anchorable',0)})")
 
+    # cláusula 4: los golds con coverage degradado NO entran en el histograma — contador propio.
+    scored_golds = [r for r in per_gold if not r.get("coverage_degraded")]
+    degraded_golds = [r["qid"] for r in per_gold if r.get("coverage_degraded")]
     agg = {k: 0 for k in ("OK", "synthesis-miss", "rerank-miss", "retrieval-miss",
                           "corpus-gap", "meta-ref")}
-    for r in per_gold:
+    for r in scored_golds:
         for k2, v in r["hist"].items():
             agg[k2] += v
+    # s286e: los dos contadores que reconcilian las etapas del mapa (r2-3).
+    n_via_append = sum(1 for r in scored_golds for f in r["facts"] if f.get("via_coverage_append"))
+    n_append_truncated = sum(1 for r in scored_golds for f in r["facts"]
+                             if isinstance(f.get("submotivo"), dict)
+                             and f["submotivo"].get("submotivo") == "append_view_truncated")
+    n_appended_rows = sum(r.get("appended_n", 0) for r in scored_golds)
     axis = gold_juez_axis(per_gold, bvg)
     n_perp = sum(1 for a in axis if a["no_pass_perp_pipeline"])
-    n_unresolved = sum(1 for r in per_gold if not r["family_resolved"])
-    n_non_anchorable = sum(r.get("n_non_anchorable", 0) for r in per_gold)
+    # denominadores COHERENTES con el histograma (los degradados no entran en ninguno)
+    n_unresolved = sum(1 for r in scored_golds if not r["family_resolved"])
+    n_non_anchorable = sum(r.get("n_non_anchorable", 0) for r in scored_golds)
     judge_flips = [(r["qid"], f["valor"]) for r in per_gold for f in r["facts"]
                    if f.get("judge_disagreement")]
     n_judge2_err = sum(1 for r in per_gold for f in r["facts"]
@@ -937,9 +1306,16 @@ def main() -> int:
 
     result = {"instrument": INSTRUMENT_VERSION,
               "manifest": manifest, "mode": args.mode, "n_golds": len(per_gold),
+              "n_golds_scored": len(scored_golds),
               "aggregate_hist": agg, "gold_juez_axis": axis, "gold_juez_advisory": bool(bvg),
               "n_no_pass_perp_pipeline": n_perp, "n_family_unresolved": n_unresolved,
               "n_non_anchorable": n_non_anchorable,
+              # s286e: la traza del seam publicada en la fila del scoreboard
+              "n_via_coverage_append": n_via_append,
+              "n_append_view_truncated": n_append_truncated,
+              "n_coverage_appended_rows": n_appended_rows,
+              "n_coverage_degraded": len(degraded_golds),
+              "coverage_degraded_qids": degraded_golds,
               "judge_disagreements": [{"qid": q, "valor": v} for q, v in judge_flips],
               "support_disagreements": [{"qid": q, "valor": v} for q, v in support_flips],
               "per_gold": per_gold}
@@ -951,6 +1327,13 @@ def main() -> int:
         print(f"  {c:16s} {agg[c]:3d}  ({100*agg[c]/max(total_c,1):.0f}% de clasificados)")
     print(f"  {'meta-ref':16s} {agg['meta-ref']:3d} (puntero, fuera del histograma)")
     print(f"  no-anclables-léxicamente: {n_non_anchorable}/{total_c} facts (clasificados vía juez SEMÁNTICO, no filtrados)")
+    # ── s286e: lo que la ruta v2.2 NO podía ver ──
+    print(f"  via_coverage_append:    {n_via_append:3d} facts cuyo ÚNICO soporte servido llega por una "
+          f"fila apendizada por coverage ({n_appended_rows} filas apendizadas en total)")
+    print(f"  append_view_truncated:  {n_append_truncated:3d} facts con el valor en el content del append "
+          f"pero FUERA de sus excerpts servidos (sub-motivo de synthesis-miss; lever de EXCERPT de lane)")
+    print(f"  coverage_degraded:      {len(degraded_golds):3d} golds excluidos del histograma "
+          f"(coverage erroreó tras retry): {degraded_golds}")
     print(f"  family-unresolved: {n_unresolved} golds (soporte NO family-filtrado ahí)")
     print(f"  dual-judge: {len(judge_flips)} desacuerdos resueltos a OK (GPT-miss/Opus-conveyed): "
           f"{[f'{q}:{str(v)[:18]}' for q, v in judge_flips]}")

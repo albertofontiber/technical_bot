@@ -1,0 +1,263 @@
+{
+ "gate": "s287 P0.5 — quarantine 'zxe' re-arma el filtro de familia (hp018)",
+ "question": "¿Cómo se conecta una sirena convencional en las salidas de sirena de la Morley ZXe?",
+ "flags": {
+  "CHUNKS_TABLE": "chunks_v2",
+  "ENUNCIADOS_MULTIVECTOR": "on",
+  "IDENTITY_RESOLVE": "on",
+  "IDENTITY_RESOLVE_POLICY": "replace",
+  "HYQ_TABLE": "on",
+  "HYDE_ENABLED": "false",
+  "DIVERSIFY_TIEBREAK": "off",
+  "HYQ_PILOT_FILE": "",
+  "LEVER2_PM_RESCUE": ""
+ },
+ "retrieval_top_k": 50,
+ "quarantine_yaml": [
+  "zxe"
+ ],
+ "prediction": "ZXSe/ZX50/DXc caen del pool filtrado; quedan ZXe+ZXAE/ZXEE (~6/10 en cabeza — DEC-084/comportamiento-ADD)",
+ "before": {
+  "arm": "before_quarantine_vacia",
+  "pool_n": 50,
+  "head10": [
+   {
+    "id": "74b324bd-a8f1-4b7c-8e46-035432c833f8",
+    "product_model": "ZXCE",
+    "source_file": "MIE-MP-210",
+    "page_number": 18
+   },
+   {
+    "id": "35f4421a-d039-4672-9884-5540ab42a788",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 19
+   },
+   {
+    "id": "692718af-8d13-4e2f-80df-90d22dd832ec",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 18
+   },
+   {
+    "id": "97c6106f-03a6-4fb6-b5cc-df16f02a90a0",
+    "product_model": "MI-200",
+    "source_file": "MIE-MI-110",
+    "page_number": 23
+   },
+   {
+    "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 22
+   },
+   {
+    "id": "b3fc8b3b-f3b8-4a79-92a2-6f18cf1a8b67",
+    "product_model": "CCD-103",
+    "source_file": "CCD-103_Manual_ES_FR_GB_IT",
+    "page_number": 58
+   },
+   {
+    "id": "1177afab-bf11-42eb-ade3-f0cba4a1a540",
+    "product_model": "HRZ2-8",
+    "source_file": "MIE-MI-100",
+    "page_number": 28
+   },
+   {
+    "id": "452c197f-a292-471e-9f2c-3ee1856881ac",
+    "product_model": "ZX50",
+    "source_file": "MIE-MI-300rv02",
+    "page_number": 34
+   },
+   {
+    "id": "f92bfaf5-59d7-453f-985d-d6e33366baf9",
+    "product_model": "CCD-100",
+    "source_file": "55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_FR_IT",
+    "page_number": 15
+   },
+   {
+    "id": "fd776141-ffed-4ae8-8529-3220fde48ea6",
+    "product_model": "MS-1/MS-2/MS-4",
+    "source_file": "ms1-2-4",
+    "page_number": 26
+   }
+  ],
+  "head10_by_family": {
+   "ZXCE": 1,
+   "ZXAE/ZXEE": 2,
+   "MI-200": 1,
+   "ZXE": 1,
+   "CCD-103": 1,
+   "HRZ2-8": 1,
+   "ZX50": 1,
+   "CCD-100": 1,
+   "MS-1/MS-2/MS-4": 1
+  },
+  "pool_by_family": {
+   "ZXCE": 2,
+   "ZXAE/ZXEE": 4,
+   "MI-200": 1,
+   "ZXE": 5,
+   "CCD-103": 2,
+   "HRZ2-8": 1,
+   "ZX50": 3,
+   "CCD-100": 2,
+   "MS-1/MS-2/MS-4": 1,
+   "CAD-201": 1,
+   "CAD-171": 1,
+   "PEARL": 2,
+   "DXC": 1,
+   "EFS/EM 8": 2,
+   "CAD-250": 1,
+   "FS-1/FS-2/FS-4": 1,
+   "ZXHE": 3,
+   "ZXSE": 3,
+   "VSN 2-4": 1,
+   "VSN PLUS": 1,
+   "CAD-150-8": 1,
+   "SERIE 800": 1,
+   "AM-8200G": 1,
+   "AM-200": 1,
+   "RP1R-SUPRA": 1,
+   "NFS 2-8": 1,
+   "NC": 1,
+   "VSN LT": 1,
+   "ID50/60": 1,
+   "AM-8200N": 1,
+   "TRD-100": 1,
+   "CAD-150R": 1
+  },
+  "pool_by_source_file": {
+   "MIE-MP-210": 2,
+   "MIE-MI-310": 2,
+   "MIE-MI-110": 1,
+   "MIE-MI-530rv001": 3,
+   "CCD-103_Manual_ES_FR_GB_IT": 2,
+   "MIE-MI-100": 1,
+   "MIE-MI-300rv02": 3,
+   "55310021-Manual-Centrales-Convencionales-CCD-100-ES_GB_FR_IT": 2,
+   "ms1-2-4": 1,
+   "Manual_CAD-201-MI-715-es": 1,
+   "Manual_CAD-171-MI-716-es": 1,
+   "997-669-005-3_Instal-Comm_ES": 2,
+   "DXc_Manual de configuracion": 1,
+   "MS8": 1,
+   "Manual instalacion CAD-250 (MI_372_es_2024 e)": 1,
+   "MIE-MP-310": 2,
+   "FS2-1": 1,
+   "MIE-MI-230": 3,
+   "MIE-MI-600": 3,
+   "FS8": 1,
+   "MIEMI120rev05": 1,
+   "MIEMI130": 1,
+   "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT": 1,
+   "MIDT020": 1,
+   "AM 8200G manual instalacion Rv 3": 1,
+   "MNDT105_A": 1,
+   "HLSI-MN-103_RP1r-Supra_lr": 1,
+   "MIDT015": 1,
+   "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual": 1,
+   "MIE-MI-580": 1,
+   "MIDT156": 1,
+   "AM 8200N-manual instalacion RV 4 30-01-2025": 1,
+   "55310007 Manual Tarjeta Expansion TRD-100 TSD-100 ES FR GB IT": 1,
+   "55315501 CAD150R Instalacion ES GB 191018": 1,
+   "MIE-MP-530rv001": 2
+  },
+  "head10_primos": 1,
+  "head10_familia": 3,
+  "pool_primos": 7,
+  "accrediting_chunk_in_pool": true,
+  "accrediting_chunk_pool_rank": 4
+ },
+ "after": {
+  "arm": "after_quarantine_zxe",
+  "pool_n": 45,
+  "head10": [
+   {
+    "id": "c40ac5cb-20a0-4f11-943e-6a6fc29bdedc",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 3
+   },
+   {
+    "id": "281dfd90-e02f-4c72-b32a-3c6aa0f667eb",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 4
+   },
+   {
+    "id": "4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 19
+   },
+   {
+    "id": "b1b119f1-0dcf-44bd-83fb-f8d0cf604689",
+    "product_model": "ZXe",
+    "source_file": "MIE-MU-530rv001",
+    "page_number": 17
+   },
+   {
+    "id": "1d58bcf8-a838-4d31-b65c-89c068b6ce6b",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MU-310",
+    "page_number": 11
+   },
+   {
+    "id": "c7398da6-c2d2-4506-9408-b01362906730",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-315",
+    "page_number": 2
+   },
+   {
+    "id": "2e691e40-6164-4a75-b944-bc353944aadb",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MP-310",
+    "page_number": 15
+   },
+   {
+    "id": "9c348384-ea78-4e6e-bb5c-d8c2e564c8b0",
+    "product_model": "ZXAE/ZXEE",
+    "source_file": "MIE-MI-310",
+    "page_number": 4
+   },
+   {
+    "id": "9930f0a2-9920-4b92-9af1-81b5aeaf61ee",
+    "product_model": "ZXe",
+    "source_file": "MIE-MI-530rv001",
+    "page_number": 16
+   },
+   {
+    "id": "276b5745-9ecc-4260-bb63-a5aacfc62579",
+    "product_model": "ZXe",
+    "source_file": "MIE-MP-530rv001",
+    "page_number": 32
+   }
+  ],
+  "head10_by_family": {
+   "ZXAE/ZXEE": 5,
+   "ZXE": 5
+  },
+  "pool_by_family": {
+   "ZXAE/ZXEE": 34,
+   "ZXE": 11
+  },
+  "pool_by_source_file": {
+   "MIE-MI-310": 21,
+   "MIE-MI-530rv001": 6,
+   "MIE-MP-530rv001": 3,
+   "MIE-MU-530rv001": 2,
+   "MIE-MU-310": 2,
+   "MIE-MP-315": 3,
+   "MIE-MP-310": 8
+  },
+  "head10_primos": 0,
+  "head10_familia": 10,
+  "pool_primos": 0,
+  "accrediting_chunk_in_pool": true,
+  "accrediting_chunk_pool_rank": 15
+ },
+ "prediction_ok": true,
+ "nota": "probe sobre el POOL FILTRADO pre-rerank (el rerank es LLM y NO se llama); dos retrieves = dos embeddings de la misma query, jitter de composición posible pero el delta lo gobierna el filtro"
+}

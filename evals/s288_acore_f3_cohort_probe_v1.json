@@ -1,0 +1,138 @@
+{
+  "commit": "3437c38ea00404b9b4b2ef90897fe3bcd014c11c",
+  "corpus_post_paste": {
+    "chunks_v2": 25088,
+    "documents": 1169,
+    "documents_placeholder": 159
+  },
+  "probe": "s288_acore_f3_cohort_v1",
+  "qids": {
+    "cat010": {
+      "fetch_receipts": null,
+      "http_requests": null,
+      "hyq_rows": null,
+      "parents_rejected": [],
+      "role": "diana",
+      "scope_document_ids": [
+        "2b694083-5b21-4f1a-a29b-565072860fb8",
+        "a6b9dc84-af6d-4957-a403-4b4c2136557b"
+      ],
+      "served_parents": [],
+      "status": "not_applicable"
+    },
+    "hp012": {
+      "fetch_receipts": {
+        "hydrated_parents_sha256": "6db9873a79b4d0c3102aaf7e6c37914eb28348104bcc206a8ec492269dbfc9a4",
+        "hyq_rows_sha256": "61f1fb5085d6e3a805c4a6a8b3d1734264e8ca92f8fed90d54120c356366ceb9",
+        "navigation_rows_skipped": 0,
+        "parents_rejected": [
+          {
+            "id": "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+            "reason": "document_not_active",
+            "scope": "document"
+          },
+          {
+            "id": "3a7e439f-0a14-4793-bc06-0756a97b1761",
+            "reason": "document_not_active",
+            "scope": "document"
+          }
+        ],
+        "scope_document_ids": [
+          "0295feed-a23c-479a-af0a-d4a6247d3f3e",
+          "11083248-6274-4203-ac67-dce279af1a6a",
+          "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+          "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "3a7e439f-0a14-4793-bc06-0756a97b1761",
+          "4bd47ab0-e19c-4a41-99f9-8fb002359630",
+          "50f1334a-9827-496d-bdd8-94f7f8ba4eb0",
+          "6d939414-e09a-4ca1-ad50-393b047402f7",
+          "713bc70c-55b0-40d2-8afe-aff1f126791e",
+          "782efe98-c918-4efa-b9b2-4d0af2edba03",
+          "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+          "832f32ef-a250-4db9-8760-b87c8fb27213",
+          "9fcefe88-8f84-4448-bc79-04465d9baaab",
+          "cf5eadeb-a666-4f99-ad5c-3131ba4af129",
+          "e009191b-62e0-445c-b066-258e8787ccb4",
+          "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+          "f3896ae9-00bf-48f7-9a1a-e053bd0e80f6"
+        ],
+        "selected_parent_ids_sha256": "eee6474d2649914a1a176a2f8ded2b288b8d2f87213a494fa9fc1c2ddcf4befb"
+      },
+      "http_requests": 5,
+      "hyq_rows": 2049,
+      "parents_rejected": [
+        {
+          "id": "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+          "reason": "document_not_active",
+          "scope": "document"
+        },
+        {
+          "id": "3a7e439f-0a14-4793-bc06-0756a97b1761",
+          "reason": "document_not_active",
+          "scope": "document"
+        }
+      ],
+      "role": "diana",
+      "scope_document_ids": [
+        "0295feed-a23c-479a-af0a-d4a6247d3f3e",
+        "11083248-6274-4203-ac67-dce279af1a6a",
+        "228a47c5-4f0d-40fb-8d4b-14fe884744fe",
+        "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+        "3a7e439f-0a14-4793-bc06-0756a97b1761",
+        "4bd47ab0-e19c-4a41-99f9-8fb002359630",
+        "50f1334a-9827-496d-bdd8-94f7f8ba4eb0",
+        "6d939414-e09a-4ca1-ad50-393b047402f7",
+        "713bc70c-55b0-40d2-8afe-aff1f126791e",
+        "782efe98-c918-4efa-b9b2-4d0af2edba03",
+        "8249039b-a883-46d6-b81c-c5fb8a6eacfd",
+        "832f32ef-a250-4db9-8760-b87c8fb27213",
+        "9fcefe88-8f84-4448-bc79-04465d9baaab",
+        "cf5eadeb-a666-4f99-ad5c-3131ba4af129",
+        "e009191b-62e0-445c-b066-258e8787ccb4",
+        "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+        "f3896ae9-00bf-48f7-9a1a-e053bd0e80f6"
+      ],
+      "served_parents": [
+        {
+          "card_excerpt_heads": [
+            ""
+          ],
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "facets": [
+            "per_unit_capacity"
+          ],
+          "id": "a2451f0d-4382-4820-b058-eb0d7d8af45c",
+          "page_number": 108,
+          "source_file": "15088SP"
+        },
+        {
+          "card_excerpt_heads": [
+            "",
+            ""
+          ],
+          "document_id": "2aa35292-4377-4160-aea3-2d5c67e9fca2",
+          "facets": [
+            "system_total",
+            "system_total"
+          ],
+          "id": "b162a7eb-50bd-4b0f-88f7-40ad855c6c94",
+          "page_number": 151,
+          "source_file": "15088SP"
+        }
+      ],
+      "status": "selected"
+    },
+    "hp013": {
+      "fetch_receipts": null,
+      "http_requests": null,
+      "hyq_rows": null,
+      "parents_rejected": [],
+      "role": "baseline_no_gating",
+      "scope_document_ids": [
+        "dff3152a-8f8d-4be8-becc-8c9cda3cb6a6"
+      ],
+      "served_parents": [],
+      "status": "not_applicable"
+    }
+  }
+}

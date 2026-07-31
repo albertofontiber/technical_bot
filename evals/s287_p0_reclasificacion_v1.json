@@ -1,0 +1,149 @@
+{
+ "instrument": "audit_locator v3.1 (kilo_prefix_bridge, s287 P0)",
+ "gate": "S5/DEC-096c — re-clasificación sin regenerar",
+ "sol1_condition": "la literalidad de la respuesta NO acredita (DEC-091b, primos con el mismo valor); acredita SOLO fila SERVIDA same-family recuperada por el puente",
+ "runs": [
+  {
+   "run": "evals/s100_factlevel_full_v3_20260729.yaml",
+   "fact_key": "hp018#1:6K8",
+   "before": {
+    "clase": "rerank-miss",
+    "submotivo": "pos-buried",
+    "in_topk": false,
+    "n_support_served": 0,
+    "best_pool_rank": 49,
+    "support_l1_killed": [
+     "35f4421a-d039-4672-9884-5540ab42a788",
+     "d4de9ba9-9206-49cf-9782-ba141168a0c2"
+    ]
+   },
+   "after": {
+    "adjudications": [
+     {
+      "id": "35f4421a-d039-4672-9884-5540ab42a788",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 19,
+      "same_family": false,
+      "served": true,
+      "in_topk": true,
+      "fact_match_score": 0.0,
+      "quantities_value": [
+       "6800ohm"
+      ],
+      "quantities_complete": true,
+      "bridges": {
+       "decimal": false,
+       "superscript": false,
+       "kilo": true
+      },
+      "guard_before_v30": false,
+      "guard_after_v31": false
+     },
+     {
+      "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 22,
+      "same_family": true,
+      "served": true,
+      "in_topk": true,
+      "fact_match_score": 0.0,
+      "quantities_value": [
+       "6800ohm"
+      ],
+      "quantities_complete": true,
+      "bridges": {
+       "decimal": false,
+       "superscript": false,
+       "kilo": true
+      },
+      "guard_before_v30": false,
+      "guard_after_v31": true
+     }
+    ],
+    "accrediting_rows": [
+     "d4de9ba9-9206-49cf-9782-ba141168a0c2"
+    ],
+    "n_support_served_recovered": 1
+   },
+   "verdict": {
+    "reclassified": true,
+    "clase_after": "deja-de-ser-miss (soporte servido same-family recuperado; OK definitivo lo estampa el re-baseline v3.1)"
+   }
+  },
+  {
+   "run": "evals/s100_factlevel_full_v3_20260730.yaml",
+   "fact_key": "hp018#1:6K8",
+   "before": {
+    "clase": "rerank-miss",
+    "submotivo": "pos-buried",
+    "in_topk": false,
+    "n_support_served": 0,
+    "best_pool_rank": 49,
+    "support_l1_killed": [
+     "35f4421a-d039-4672-9884-5540ab42a788",
+     "d4de9ba9-9206-49cf-9782-ba141168a0c2"
+    ]
+   },
+   "after": {
+    "adjudications": [
+     {
+      "id": "35f4421a-d039-4672-9884-5540ab42a788",
+      "product_model": "ZXAE/ZXEE",
+      "source_file": "MIE-MI-310",
+      "page_number": 19,
+      "same_family": false,
+      "served": true,
+      "in_topk": true,
+      "fact_match_score": 0.0,
+      "quantities_value": [
+       "6800ohm"
+      ],
+      "quantities_complete": true,
+      "bridges": {
+       "decimal": false,
+       "superscript": false,
+       "kilo": true
+      },
+      "guard_before_v30": false,
+      "guard_after_v31": false
+     },
+     {
+      "id": "d4de9ba9-9206-49cf-9782-ba141168a0c2",
+      "product_model": "ZXe",
+      "source_file": "MIE-MI-530rv001",
+      "page_number": 22,
+      "same_family": true,
+      "served": true,
+      "in_topk": true,
+      "fact_match_score": 0.0,
+      "quantities_value": [
+       "6800ohm"
+      ],
+      "quantities_complete": true,
+      "bridges": {
+       "decimal": false,
+       "superscript": false,
+       "kilo": true
+      },
+      "guard_before_v30": false,
+      "guard_after_v31": true
+     }
+    ],
+    "accrediting_rows": [
+     "d4de9ba9-9206-49cf-9782-ba141168a0c2"
+    ],
+    "n_support_served_recovered": 1
+   },
+   "verdict": {
+    "reclassified": true,
+    "clase_after": "deja-de-ser-miss (soporte servido same-family recuperado; OK definitivo lo estampa el re-baseline v3.1)"
+   }
+  }
+ ],
+ "global_verdict": {
+  "hp018#1_reclassified_both_runs": true,
+  "nota": "hp018#1 deja de ser miss ESTABLE-N2 (misma fila acreditante en ambos runs)"
+ }
+}

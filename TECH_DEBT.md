@@ -2172,3 +2172,13 @@ linaje s108/s112/s201 (funnel banked) → los 2 fulls del 29-jul lo sobrescribie
 en PR #188. Restaurado del histórico (9200510) + runs renombrados (`s286_..._stale_pre_c1` /
 `s286b_..._shipconfig`) + el script ahora sufija SIEMPRE un tag (env `FACTLEVEL_OUTPUT_TAG`,
 default fecha). Deuda restante: el resume (.partial.jsonl) comparte la clase de colisión.
+
+## #58 — presencia pm vía scan paginado (s287 P1, review Sol-5)
+La regla monótona-segura corpus-aware (`catalog_resolver.corpus_pm_elements`) construye el set
+de etiquetas vivas con un scan paginado COMPLETO de `product_model` (~3-5s en frío hoy: 1 GET
+de documents no-activos + 26 páginas de chunks_v2) — **escala con las filas** del corpus.
+Mitigado: TTL 15 min + fingerprint + lock anti-stampede (un solo scan en frío). **Candidato a
+vista/RPC de tags distintos cuando haya volumen** (`select distinct product_model` server-side
+con el join de status — el agregado que PostgREST no permite hoy en esta instancia, PGRST123).
+Coste de no arreglar: latencia fría creciente del primer query con token de catálogo bajo
+replace.
