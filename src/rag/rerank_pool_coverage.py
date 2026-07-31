@@ -468,13 +468,84 @@ def _warning_sentence_triggers(sentence: str) -> list[str]:
     return triggers
 
 
-def _warning_span(content: str) -> tuple[int, int, list[str]] | None:
+def _ordered_reserve_enabled() -> bool:
+    from ..config import _strict_on_off
+
+    return _strict_on_off("OBLIGATION_RESERVE_ORDERED")
+
+
+# Los compuestos del léxico ("debe(n)+antes de" / "must+before") no son
+# substrings literales del span: para el filtro de contenido-residual se
+# retiran por sus COMPONENTES (mismos patrones que trigger_present).
+_WARNING_COMPOUND_COMPONENTS = {
+    "debe(n)+antes de": (r"\bdebe(?:n)?\b", r"antes de"),
+    "must+before": (r"\bmust\b", r"\bbefore\b"),
+}
+_WARNING_LINE_QUOTE_PREFIX = re.compile(r"^(?:>\s*)+")
+
+
+def _warning_group_lines(text: str) -> list[str]:
+    return [line.strip() for line in text.splitlines() if line.strip()]
+
+
+def _is_table_group(text: str) -> bool:
+    """Grupo cuyo texto entero son filas de tabla markdown (changelog/specs).
+
+    Se pliega el prefijo blockquote ANTES de mirar el ``|`` inicial: una tabla
+    dentro de un callout sigue siendo tabla.
+    """
+    lines = _warning_group_lines(text)
+    if not lines:
+        return False
+    return all(
+        _WARNING_LINE_QUOTE_PREFIX.sub("", line).startswith("|") for line in lines
+    )
+
+
+def _group_has_residual_content(text: str) -> bool:
+    """False = marcador huérfano: sin contenido alfanumérico más allá de los
+    gatillos (p.ej. ``> **Peligro**`` con el cuerpo del callout sin gatillo en
+    otro grupo).  Retirada boundary-safe: frases multi-palabra como substring,
+    términos-token con boundary, compuestos por sus componentes.  Sin umbral."""
+    folded = _fold(text)
+    for trigger in set(_warning_sentence_triggers(text)):
+        for pattern in _WARNING_COMPOUND_COMPONENTS.get(trigger, ()):
+            folded = re.sub(pattern, " ", folded)
+        if trigger in _WARNING_COMPOUND_COMPONENTS:
+            continue
+        if " " in trigger:
+            folded = folded.replace(trigger, " ")
+        else:
+            folded = re.sub(
+                rf"(?<![a-z0-9]){re.escape(trigger)}(?![a-z0-9])", " ", folded
+            )
+    return bool(re.search(r"[a-z0-9]", folded))
+
+
+def _is_blockquote_span(text: str) -> bool:
+    """Span cuyas líneas no vacías son TODAS blockquote — la forma en que la
+    extracción preserva las cajas de callout reales (censo
+    evals/s289_warning_census_v1.json, 284 docs)."""
+    lines = _warning_group_lines(text)
+    return bool(lines) and all(line.startswith(">") for line in lines)
+
+
+def _warning_span(
+    content: str, *, filtered: bool = False
+) -> tuple[int, int, list[str]] | None:
     """Primer bloque de aviso acotado del chunk, o None.
 
     Misma mecánica de agrupación que la card de callout-MANDATORY (s274,
     ``_mandatory_callout_card``): oraciones con gatillo del léxico cerrado,
     contiguas se mergean cuando el hueco no contiene alfanuméricos, y un grupo
     mayor que el bound se omite entero — jamás se recorta a media oración.
+
+    ``filtered=True`` (solo bajo ``OBLIGATION_RESERVE_ORDERED``) aplica los 2
+    filtros de clase POR-GRUPO — grupo-tabla y marcador-huérfano hacen
+    ``continue`` al siguiente grupo del MISMO chunk, igual que el bound de
+    tamaño (dúo r3 s289, A3: un primer-grupo-FP no entierra un callout real
+    más abajo del chunk).  Default False = byte-idéntico al comportamiento
+    previo.
     """
     groups: list[list[int]] = []
     for start, end in sentence_spans(content):
@@ -487,6 +558,10 @@ def _warning_span(content: str) -> tuple[int, int, list[str]] | None:
     for start, end in groups:
         if end - start > MAX_WARNING_RESERVE_CHARS:
             continue
+        if filtered:
+            text = content[start:end]
+            if _is_table_group(text) or not _group_has_residual_content(text):
+                continue
         return start, end, _warning_sentence_triggers(content[start:end])
     return None
 
@@ -532,6 +607,9 @@ def select_obligation_warning_reserve(
         trace["status"] = "no_served_document_scope"
         return [], trace
     served_ids = {str(row.get("id") or "") for row in served_rows}
+    ordered = _ordered_reserve_enabled()
+    candidates: list[dict[str, Any]] = []
+    discards: list[dict[str, Any]] = []
     for pool_rank, source_row in enumerate(retrieval_pool[:POOL_LIMIT]):
         row_id = str(source_row.get("id") or "")
         source_file = str(source_row.get("source_file") or "")
@@ -547,41 +625,93 @@ def select_obligation_warning_reserve(
             )
         ):
             continue
-        span = _warning_span(content)
+        span = _warning_span(content, filtered=ordered)
         if span is None:
-            continue
-        start, end, triggers = span
-        enriched = dict(source_row)
-        enriched.update(
-            {
-                "retrieval_lane": OBLIGATION_WARNING_LANE,
-                "obligation_warning_reserve_validated": True,
-                "obligation_warning_reserve_validation": (
-                    OBLIGATION_WARNING_VALIDATION
-                ),
-                "obligation_warning_pool_rank": pool_rank,
-                # La validación de esta lane ES determinista (intención
-                # procedimental + scope de documento servido + léxico
-                # MANDATORY): la clase de seguridad sustituye a la alineación
-                # por facetas de query (punto ciego medido en hp002:r1).
-                "local_semantic_validated": True,
-                "coverage_cards": [
+            # Atribución para G-1/observabilidad: la fila TENÍA span sin
+            # filtros => los filtros de clase la descartaron entera.  La
+            # llamada extra solo corre en ese path de miss.
+            if ordered and _warning_span(content) is not None:
+                discards.append(
                     {
-                        "candidate_id": row_id,
-                        "candidate_rank": 1,
-                        "start": start,
-                        "end": end,
-                        "quote": content[start:end],
-                        "facet": "mandatory_warning",
-                        "mandatory_warning": True,
-                        "warning_term_hits": sorted(set(triggers)),
-                        "exact_source_span_validated": True,
+                        "pool_rank": pool_rank,
+                        "id": row_id,
+                        "filter": "all_groups_filtered",
                     }
-                ],
+                )
+            continue
+        if not ordered:
+            trace["status"] = "selected"
+            trace["selected_ids"] = [row_id]
+            return [_reserve_enriched_row(source_row, row_id, pool_rank, span)], trace
+        start, end, _triggers = span
+        candidates.append(
+            {
+                "pool_rank": pool_rank,
+                "row_id": row_id,
+                "source_row": source_row,
+                "span": span,
+                "blockquote": _is_blockquote_span(content[start:end]),
             }
         )
-        trace["status"] = "selected"
-        trace["selected_ids"] = [row_id]
-        return [enriched], trace
+    if ordered:
+        trace["reserve_discards"] = discards
+        if candidates:
+            # Orden determinista (dúo r3 s289): callout-blockquote primero
+            # (censo: la clase = avisos reales), pool-rank de desempate.  Sin
+            # blockquote elegible degrada a pool-rank = first-match actual.
+            candidates.sort(key=lambda c: (not c["blockquote"], c["pool_rank"]))
+            trace["reserve_ranked_ids"] = [c["row_id"] for c in candidates]
+            winner = candidates[0]
+            trace["status"] = "selected"
+            trace["selected_ids"] = [winner["row_id"]]
+            return [
+                _reserve_enriched_row(
+                    winner["source_row"],
+                    winner["row_id"],
+                    winner["pool_rank"],
+                    winner["span"],
+                )
+            ], trace
     trace["status"] = "no_warning_in_served_scope"
     return [], trace
+
+
+def _reserve_enriched_row(
+    source_row: dict[str, Any],
+    row_id: str,
+    pool_rank: int,
+    span: tuple[int, int, list[str]],
+) -> dict[str, Any]:
+    """Fila de reserva enriquecida — extraído del bucle sin cambio de campos."""
+    start, end, triggers = span
+    content = str(source_row.get("content") or "")
+    enriched = dict(source_row)
+    enriched.update(
+        {
+            "retrieval_lane": OBLIGATION_WARNING_LANE,
+            "obligation_warning_reserve_validated": True,
+            "obligation_warning_reserve_validation": (
+                OBLIGATION_WARNING_VALIDATION
+            ),
+            "obligation_warning_pool_rank": pool_rank,
+            # La validación de esta lane ES determinista (intención
+            # procedimental + scope de documento servido + léxico
+            # MANDATORY): la clase de seguridad sustituye a la alineación
+            # por facetas de query (punto ciego medido en hp002:r1).
+            "local_semantic_validated": True,
+            "coverage_cards": [
+                {
+                    "candidate_id": row_id,
+                    "candidate_rank": 1,
+                    "start": start,
+                    "end": end,
+                    "quote": content[start:end],
+                    "facet": "mandatory_warning",
+                    "mandatory_warning": True,
+                    "warning_term_hits": sorted(set(triggers)),
+                    "exact_source_span_validated": True,
+                }
+            ],
+        }
+    )
+    return enriched

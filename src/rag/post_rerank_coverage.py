@@ -1062,12 +1062,18 @@ def _facet_chunk_index(candidate: dict[str, Any]) -> int:
     return value
 
 
-def _facet_gate_and_select(
+def _facet_complement_fallback_enabled() -> bool:
+    from ..config import _strict_on_off
+
+    return _strict_on_off("FACET_COMPLEMENT_FALLBACK")
+
+
+def _facet_gate_and_select_all(
     served: list[dict[str, Any]],
     reranked: list[dict[str, Any]],
     plan: dict[str, Any],
     candidate_pool: list[dict[str, Any]],
-) -> tuple[dict[str, Any] | None, str, list[int], list[list[str]]]:
+) -> tuple[list[dict[str, Any]], str, list[int], list[list[str]]]:
     """A7 gate + A4 orden pre-registrado TOTAL (cero libertad).
 
     Gate A7: >=1 need-group NO cubierta (grado < N_FACET) con >=N_FACET términos
@@ -1076,6 +1082,10 @@ def _facet_gate_and_select(
     PRIMER grupo de ese orden para el que es elegible (ventana >=N_FACET términos
     distintos).  Dentro del grupo: terms_hit desc -> densidad asc -> chunk_index
     asc -> source_file asc -> id asc.
+
+    Devuelve TODAS las selecciones en ese orden total (s289, dúo r3 A4): el
+    fallback de attestation itera la lista; el primer elemento es EXACTAMENTE
+    la selección única histórica (``_facet_gate_and_select`` delega aquí).
     """
     need_groups = [list(group) for group in plan.get("need_groups") or []]
     grades = [_facet_need_group_grade(served, group) for group in need_groups]
@@ -1085,7 +1095,7 @@ def _facet_gate_and_select(
         if len(group) >= N_FACET and grades[index] < N_FACET
     ]
     if not gate_indices:
-        return None, "skipped_no_uncovered_group", grades, need_groups
+        return [], "skipped_no_uncovered_group", grades, need_groups
     ordered = sorted(gate_indices, key=lambda index: (grades[index], index))
     served_ids = {str(row.get("id") or "") for row in served}
     reranked_ids = {str(row.get("id") or "") for row in reranked}
@@ -1102,6 +1112,7 @@ def _facet_gate_and_select(
             if window is not None and window["terms_hit"] >= N_FACET:
                 assigned[index].append((candidate, window))
                 break
+    selections: list[dict[str, Any]] = []
     for index in ordered:
         bucket = assigned[index]
         if not bucket:
@@ -1115,19 +1126,32 @@ def _facet_gate_and_select(
                 str(pair[0].get("id") or ""),
             )
         )
-        candidate, window = bucket[0]
-        return (
-            {
-                "group_index": index,
-                "group_terms": list(need_groups[index]),
-                "candidate": candidate,
-                "window": window,
-            },
-            "ok",
-            grades,
-            need_groups,
-        )
-    return None, "no_eligible_candidate", grades, need_groups
+        for candidate, window in bucket:
+            selections.append(
+                {
+                    "group_index": index,
+                    "group_terms": list(need_groups[index]),
+                    "candidate": candidate,
+                    "window": window,
+                }
+            )
+    if not selections:
+        return [], "no_eligible_candidate", grades, need_groups
+    return selections, "ok", grades, need_groups
+
+
+def _facet_gate_and_select(
+    served: list[dict[str, Any]],
+    reranked: list[dict[str, Any]],
+    plan: dict[str, Any],
+    candidate_pool: list[dict[str, Any]],
+) -> tuple[dict[str, Any] | None, str, list[int], list[list[str]]]:
+    """Firma histórica preservada (pineada por tests + probe s288c + censo
+    s279): devuelve la PRIMERA selección del orden total, o None."""
+    selections, status, grades, need_groups = _facet_gate_and_select_all(
+        served, reranked, plan, candidate_pool
+    )
+    return (selections[0] if selections else None), status, grades, need_groups
 
 
 def _facet_complement_row(
@@ -1367,17 +1391,39 @@ def _append_facet_complement(
         return served, trace
     if facet_fetch not in {"own", "reused"} or plan is None:
         return served, trace
-    selection, status, grades, _need_groups = _facet_gate_and_select(
+    selections, status, grades, _need_groups = _facet_gate_and_select_all(
         served, reranked, plan, candidate_pool or []
     )
     trace["need_group_grades"] = grades
-    if selection is None:
+    if not selections:
         trace["status"] = status
         return served, trace
-    attested = _facet_complement_row(
-        selection, served, plan_sha256=str(plan.get("sha256") or "")
-    )
-    if attested is None or not _attest_facet_complement(attested, served, plan):
+    # s289 (dúo r3): con FACET_COMPLEMENT_FALLBACK se itera el orden total
+    # hasta que un candidato ATESTA — un candidato inservible-por-clase en el
+    # puesto 1 ya no apaga la vía entera.  Off = solo el primero (byte-igual).
+    fallback = _facet_complement_fallback_enabled()
+    attempts: list[dict[str, Any]] = []
+    attested = None
+    selection = None
+    for candidate_selection in selections if fallback else selections[:1]:
+        row = _facet_complement_row(
+            candidate_selection, served, plan_sha256=str(plan.get("sha256") or "")
+        )
+        ok = row is not None and _attest_facet_complement(row, served, plan)
+        if fallback:
+            attempts.append(
+                {
+                    "id": str(candidate_selection["candidate"].get("id") or ""),
+                    "group_index": candidate_selection["group_index"],
+                    "outcome": "attested" if ok else "attestation_failed",
+                }
+            )
+        if ok:
+            attested, selection = row, candidate_selection
+            break
+    if fallback:
+        trace["facet_attempts"] = attempts
+    if attested is None or selection is None:
         trace["status"] = "facet_attestation_failed"
         return served, trace
     attested["facet_complement_rank"] = 1
