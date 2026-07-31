@@ -33,14 +33,33 @@ from __future__ import annotations
 
 import copy
 import gzip
+import hashlib
 import json
 import os
+import subprocess
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+
+
+def freeze_binding() -> dict:
+    """r4-2 (Sol, crítico): liga captura↔código↔golds — sin esto una captura
+    stale puede combinarse con otra implementación/árbitro sin que el recibo
+    lo delate.  Los consumidores (arms/G-3) estampan y VERIFICAN."""
+    def _sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.strip()
+    return {
+        "capture_sha256": _sha(CAPTURE_PATH) if CAPTURE_PATH.exists() else None,
+        "git_commit": commit,
+        "gold_file_sha256": _sha(ROOT / "evals" / "gold_answers_v1.yaml"),
+    }
 
 # Importar el instrumento PIN-ea DEMO_FLAGS (paridad exacta de entorno con la
 # medición v3.1) y trae sus adapters de captura/rerank estricto.
@@ -72,6 +91,11 @@ def _flag_set_receipt() -> dict[str, str]:
 def _set_treatment(value: str) -> None:
     for name in TREATMENT_FLAGS:
         os.environ[name] = value
+
+
+def _set_treatment_map(flag_map: dict[str, str]) -> None:
+    for name in TREATMENT_FLAGS:
+        os.environ[name] = flag_map.get(name, "off")
 
 
 def capture() -> None:
@@ -136,8 +160,11 @@ def capture() -> None:
     print(f"captura -> {CAPTURE_PATH} ({CAPTURE_PATH.stat().st_size/1e6:.1f} MB)")
 
 
-def _replay_arm(arm: str, treatment: str, captured: dict) -> dict[str, dict]:
-    _set_treatment(treatment)
+def _replay_arm(arm: str, treatment: str | dict[str, str], captured: dict) -> dict[str, dict]:
+    if isinstance(treatment, dict):
+        _set_treatment_map(treatment)
+    else:
+        _set_treatment(treatment)
     results: dict[str, dict] = {}
     flag_set = _flag_set_receipt()
     for qid, entry in captured["golds"].items():
@@ -187,6 +214,18 @@ def arms() -> None:
     arm_off = _replay_arm("off", "off", captured)
     arm_on = _replay_arm("on", "on", captured)
     arm_replica = _replay_arm("off_replica", "off", captured)
+    # r4-3 (Sol): brazos por-flag — atribución causal de cada cambio de
+    # composición a Fix A o Fix B por separado ($0, misma captura).
+    arm_a_only = _replay_arm(
+        "a_only",
+        {"FACET_COMPLEMENT_FALLBACK": "on", "OBLIGATION_RESERVE_ORDERED": "off"},
+        captured,
+    )
+    arm_b_only = _replay_arm(
+        "b_only",
+        {"FACET_COMPLEMENT_FALLBACK": "off", "OBLIGATION_RESERVE_ORDERED": "on"},
+        captured,
+    )
 
     fidelity_fail, replica_fail, diffs = [], [], {}
     for qid, entry in captured["golds"].items():
@@ -199,9 +238,20 @@ def arms() -> None:
             replica_fail.append(qid)
         if off["appended_ids"] != on["appended_ids"]:
             off_set, on_set = set(off["appended_ids"]), set(on["appended_ids"])
+            a_ids = arm_a_only["results"][qid]["appended_ids"]
+            b_ids = arm_b_only["results"][qid]["appended_ids"]
             diffs[qid] = {
                 "off_appended": off["appended_ids"],
                 "on_appended": on["appended_ids"],
+                "a_only_appended": a_ids,
+                "b_only_appended": b_ids,
+                # atribución r4-3: qué brazo mono-flag reproduce el diff del ON
+                "attribution": (
+                    "A" if a_ids == on["appended_ids"] and b_ids == off["appended_ids"]
+                    else "B" if b_ids == on["appended_ids"] and a_ids == off["appended_ids"]
+                    else "A+B" if set(a_ids) | set(b_ids) == on_set
+                    else "interaction"
+                ),
                 "gained": sorted(
                     {(cid, on["appended_lane"].get(cid)) for cid in on_set - off_set}
                 ),
@@ -216,6 +266,7 @@ def arms() -> None:
     verdict = "PASS" if not fidelity_fail and not replica_fail else "STOP-HARNESS"
     result = {
         "instrument": "s289_g1_sweep39_result_v1",
+        "freeze_binding": freeze_binding(),
         "verdict": verdict,
         "replay_fidelity_fail": fidelity_fail,
         "replica_off_fail": replica_fail,
@@ -225,6 +276,7 @@ def arms() -> None:
         "arm_flag_sets": {
             "off": arm_off["flag_set"], "on": arm_on["flag_set"],
             "off_replica": arm_replica["flag_set"],
+            "a_only": arm_a_only["flag_set"], "b_only": arm_b_only["flag_set"],
         },
     }
     RESULT_PATH.write_text(

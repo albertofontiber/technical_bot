@@ -4,7 +4,10 @@
 GO-con-cambios; 0 FP; tally en `evals/adversarial_review_log.jsonl` ts=2026-08-01T00:06:06;
 resoluciones en §Reconciliación al final).
 
-Estado: **DISEÑO, nada cableado.** Ejecuta la parte (b) del «Al retomar» de s288c (DEC-167):
+Estado: **CONSTRUIDO flag-off + gates ejecutados** (G-0 suite verde · G-1 5-brazos PASS ·
+G-2 receipteado · G-3 PASS · probe ventana-mala; cronología en §Reconciliación r4 — la
+cabecera «DISEÑO, nada cableado» de v1.0/v1.1 quedó obsoleta, hallazgo r4-6). Los flags
+siguen **OFF**; el ON es de Alberto. Ejecuta la parte (b) del «Al retomar» de s288c (DEC-167):
 los 2 head de etapa 2 = {cat017#4, hp002#4} mueren por ORDEN/FALLBACK en lanes existentes, no
 por vocabulario ni por presupuesto. La parte (c) de DEC-167 (observabilidad salud/fail-open por
 canal) es pieza SEPARADA del mismo arco — este diseño no la cubre (la traza nueva de ambos
@@ -146,13 +149,19 @@ sección → v2 lo sirve.
 **Estatus epistémico del criterio blockquote-first (dúo r3, S4/A5 + lección #56):** es
 heurística anticipatoria no-eval-driven, elegida CON el ganador de hp002 a la vista — misma
 clase que la alternativa section-intent descartada; la simetría se declara. Lo que la separa:
-el **CENSO** (`s289_warning_census_v1.json`, 284 docs, 2.216 spans): la clase blockquote (200)
-es avisos reales de seguridad en el eyeball (Caution/ATENCIÓN/PRECAUCIÓN/NUNCA/imprescindible…;
-1 caso-borde anotación-de-imagen declarado); las clases que los filtros matan (tabla 217 +
-huérfano 220) son ~20% de la masa total de spans y FP por construcción; en 64/284 docs
-conviven blockquote y prosa (la prioridad DECIDE); avisos reales en formato heading
-(`## Peligro`, p.5 ASD535) EXISTEN y pierden contra blockquote solo cuando ambos compiten —
-limitación declarada, gateada por G-1+G-3 (el fallo iría a per-fact, no silencioso).
+el **CENSO** (`s289_warning_census_v1.json`, 284 docs, 2.216 spans). **Alcance del censo
+re-declarado (r4-5, Sol):** prueba la DISTRIBUCIÓN de formato, no un universal semántico; la
+población son los documentos de los pools de los 39 golds (NO «corpus-wide»; la escala a 30+
+fabricantes es hipótesis gateada, no dato). El eyeball (18 muestras) da la clase blockquote
+mayoritariamente avisos reales (Caution/ATENCIÓN/PRECAUCIÓN/NUNCA/imprescindible…) **con 2
+clases residuales de FP DENTRO de blockquote, presentes en el propio recibo:** anotaciones de
+imagen y bullets de prosa incidental (ASD532 «no es imprescindible mantener una disposición
+simétrica»). Las clases que los filtros matan (tabla 217 + huérfano 220) son ~20% de la masa y
+FP por construcción; en 64/284 docs conviven blockquote y prosa (la prioridad DECIDE); avisos
+reales en formato heading (`## Peligro`, p.5 ASD535) EXISTEN y pierden contra blockquote solo
+cuando ambos compiten. Todo lo anterior = heurística de ORDEN gateada por G-1+G-3 per-fact (el
+fallo iría a outcome medido, no silencioso); en v2 la señal PRIMARIA ya no es el formato sino
+la sección-con-intención.
 
 Con filtros+orden sobre los datos medidos de hp002: elegibles post-filtros = {p.5
 prosa-genérica, p.17 prosa, **p.121 callout**} → gana **p.121, el aviso real**. (Nota honesta:
@@ -288,3 +297,24 @@ no-colisión con revalidación downstream de la reserva (`_attest` + content-exa
 `_warning_span`); flags fuera de `PROFILE_OWNED_FLAGS` correcto (89 pins intactos);
 no-colisión con DEC-167 (esto no es cuota: cero vocabulario/presupuesto/gate nuevo);
 alternativas descartadas de Fix A honestas.
+
+---
+
+## Reconciliación r4 (ronda focal cross-model post-gates; tally ts=2026-08-01T01:44:11)
+
+r4 = GPT-5.6 Sol xhigh sobre {diseño v1.1+escalada, reports G-1/G-3, repo}. 6 hallazgos; regla C
+aplicada. Adjudicación y cierre:
+
+| # | hallazgo | sev | adjudicación | cierre |
+|---|---|---|---|---|
+| r4-1 | «Fix B no validado: la captura no reproduce el miss; el PASS de G-3 es de ventana ya resuelta» | CRÍTICO | PARCIAL — el probe HEAD (`s289_probe_hp002_ordered_v2.json`, que Sol no alcanzó en su presupuesto) ya demostraba la SELECCIÓN; pero selección≠conversión: correcto | **Probe pareado ventana-mala** (`s289_badwindow_paired_probe.py`): prefijo HEAD sin el portador + OFF/ON + N=2 gen + juez de hp002#4 → `s289_badwindow_paired_result_v1.json` |
+| r4-2 | freeze-contract roto: captura reusada por existencia, recibos sin hash-binding, captura sin versionar | CRÍTICO | CONFIRMADO | `freeze_binding()` (sha captura + commit + sha golds) estampado en G-1/G-3/probe; G-3 se NIEGA si la captura no coincide con la ligada; captura committeada a git |
+| r4-3 | ambos flags conmutan juntos ⇒ conversión no atribuible por flag | MEDIO | CONFIRMADO | Brazos **a_only/b_only** en el sweep ($0): 8/9 golds = puro Fix B; cat017 = descomposición limpia A∘B (a_only añade EXACTO el portador; b_only EXACTO el swap de reserva; la etiqueta "interaction" del runner es un check de unión demasiado estricto, declarado). Conversión cat017#4 re-medida bajo **A-only** en el probe |
+| r4-4 | G-2 «por-fila» prometido no receipteado (solo outcome) | MEDIO | CONFIRMADO (el pre-audit existió pero solo en sesión) | `s289_g2_339f06e0_perrow_receipt_v1.json`: 0 citas de soporte ×5 facts ×2 reps + answer no extrae del changelog + cross-ref G-3 |
+| r4-5 | censo prueba formato, no semántica; muestra propia con prosa incidental en blockquote; «corpus-wide» sobre-afirmado | MEDIO | CONFIRMADO | §censo re-redactado: población declarada, universal retirado, 2 clases FP-en-blockquote declaradas desde el propio recibo |
+| r4-6 | «DISEÑO, nada cableado» obsoleto | MENOR | CONFIRMADO | Cabecera de estado re-escrita |
+
+**Post-cierre:** los veredictos de gates NO cambian (G-1 PASS 5-brazos · G-3 PASS 0 regresiones);
+lo que cambia es la CADENA DE EVIDENCIA (binding + atribución + receipts) y la honestidad del
+framing. El patrón de r4-1/r4-3 es la clase `feedback_my_bias` (declarar «validado/cubierto» lo
+que solo está «visible/parcial») — cazada por el control estructural, 2ª vez en la sesión.

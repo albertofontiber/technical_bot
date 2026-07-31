@@ -88,6 +88,15 @@ def main() -> int:
     g1 = json.loads(G1_RESULT_PATH.read_text(encoding="utf-8"))
     if g1.get("verdict") != "PASS":
         raise SystemExit(f"G-1 verdict={g1.get('verdict')} — no se corre G-3")
+    # r4-2 (Sol): freeze-binding — G-3 se niega a correr sobre una captura que
+    # no sea BYTE-idéntica a la que G-1 ligó en su recibo.
+    from scripts.s289_order_fixes_sweep import freeze_binding
+    binding = freeze_binding()
+    g1_binding = g1.get("freeze_binding") or {}
+    if g1_binding.get("capture_sha256") != binding["capture_sha256"]:
+        raise SystemExit(
+            "freeze-binding roto: la captura no coincide con la del recibo G-1"
+        )
 
     qids = sorted(set(g1["changed_golds"]) | set(TARGET_QIDS))
     golds = {g["qid"]: g for g in verified() if g["qid"] in qids}
@@ -159,6 +168,9 @@ def main() -> int:
 
     result = {
         "instrument": "s289_g3_directed_result_v1",
+        "freeze_binding": binding,
+        "judges": {"primary": fla.JUDGE_MODEL, "dual": fla.JUDGE2_MODEL,
+                   "K": fla.K, "thresh_firm": fla.THRESH_FIRM},
         "population": qids,
         "n_reps": N_REPS,
         "verdict": verdict,

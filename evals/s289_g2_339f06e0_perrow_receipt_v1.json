@@ -1,0 +1,87 @@
+{
+ "instrument": "s289_g2_339f06e0_perrow_receipt_v1",
+ "contract": "S273/DEC-132b riesgo-2: verificacion POR-FILA de la cohorte protegida antes de desplazar 339f06e0 (fila changelog apendizada por la reserva en hp002 HEAD)",
+ "method": "per-fact sobre las reps HEAD p1map (unico artefacto v3.1 post-#189 con hp002) + scan del answer + G-3 pareado per-fact",
+ "per_rep": {
+  "rep1": {
+   "appended_ids_short": [
+    "1d1ca159",
+    "339f06e0"
+   ],
+   "facts": [
+    {
+     "key": "hp002#0:fallo flujo de aire",
+     "clase": "OK",
+     "n_support_served": 3,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#1:80 %",
+     "clase": "OK",
+     "n_support_served": 2,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#2:300 s",
+     "clase": "OK",
+     "n_support_served": 3,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#3:7.6.1",
+     "clase": "OK",
+     "n_support_served": 1,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#4:None",
+     "clase": "rerank-miss",
+     "n_support_served": 0,
+     "cites_339f06e0": false
+    }
+   ],
+   "answer_draws_on_changelog_row": false
+  },
+  "rep2": {
+   "appended_ids_short": [
+    "1d1ca159",
+    "339f06e0"
+   ],
+   "facts": [
+    {
+     "key": "hp002#0:fallo flujo de aire",
+     "clase": "OK",
+     "n_support_served": 3,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#1:80 %",
+     "clase": "OK",
+     "n_support_served": 2,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#2:300 s",
+     "clase": "OK",
+     "n_support_served": 4,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#3:7.6.1",
+     "clase": "OK",
+     "n_support_served": 1,
+     "cites_339f06e0": false
+    },
+    {
+     "key": "hp002#4:None",
+     "clase": "rerank-miss",
+     "n_support_served": 0,
+     "cites_339f06e0": false
+    }
+   ],
+   "answer_draws_on_changelog_row": false
+  }
+ },
+ "finding": "NINGUN fact de hp002 cita 339f06e0 como soporte en ninguna rep (cites_339f06e0=false x5x2); el answer no extrae contenido de la fila changelog en ninguna rep; G-3 pareado: hp002#0..#4 conveyed-stable en el brazo ON (fila desplazada) => desplazamiento verificado inocuo POR-FILA y POR-OUTCOME.",
+ "g3_crossref": "evals/s289_g3_directed_result_v1.json (hp002: 5/5 conveyed-stable en ON)"
+}
