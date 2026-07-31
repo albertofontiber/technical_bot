@@ -3773,3 +3773,19 @@ denormalizada · bulk-lineage en cualquier variante (2 rondas) · sha-only match
 **Pendiente (F3, tras el paste).** Census v3 delta con gate aplicado==100% · receipts de lane
 (atribución por mecanismo) · eficacia cohorte {cat010#0, hp012#3} + hp013#1 en 39 dev con
 freeze completo · después: etapa 3 síntesis sobre serving estable + re-baseline bvg.
+
+**F3 EJECUTADO (mismo día, post-paste de Alberto — commits f8caccb + census v4).**
+Paste P-A verificado en vivo EXACTO al pre-registro: placeholders 744→159 · sha real
+425→1.010 · backup 585 filas · binding post 585/585. Census v4 (determinista 2×, sha
+8ae2060269a1e931): **binding_ok 414→999 (+585 == el packet) · P-A elegibles 585→0 (packet
+agotado = gate aplicado==100% cerrado formalmente)** · P-B intacto 406 (sigue gateado a
+QA-30) · hyq dup 7.421 sin cambio (marks-only, la lane los excluye). H1 v4 «INCONCLUSA
+32/32» = artefacto esperado (el estrato placeholder casi desapareció con el paste; 0
+mismatches; el veredicto canónico es el 60/60 pre-paste). Probe F3.2 de cohorte
+(`evals/s288_acore_f3_cohort_probe_v1.json`, $0, receipts completos): **hp012 MECANISMO
+CONFIRMADO** — la lane sirve 2 parents de 15088SP con las facetas de la aguja
+(per_unit_capacity p.108 + system_total p.151) y rechaza 2 docs no-activos con razón
+trazada; **cat010 = archetype None** (clase alimentación/ATEX → diana ya diagnosticada del
+lever de taxonomía post-A-core); **hp013 baseline doble-bloqueo confirmado**. A-core queda
+CERRADO en mecanismo; el impacto en outcome se medirá con la lane ON (A3/perfil) y el
+re-baseline de campaña.
