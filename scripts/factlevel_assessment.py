@@ -1045,9 +1045,13 @@ def seam_config_assets(modules: list[str]) -> list[str]:
             literal = node.value.strip().replace("\\", "/")
             if not literal or literal.startswith("/") or ".." in literal:
                 continue
+            # Docstrings también son ast.Constant str: con saltos de línea o longitud
+            # no-de-ruta, stat() revienta en Linux (ENAMETOOLONG; Windows lo ignora).
+            if "\n" in literal or len(literal) > 200:
+                continue
             for candidate in (literal, f"config/{literal}"):
                 path = ROOT / candidate
-                if path.is_file() and candidate.endswith(_ASSET_SUFFIXES):
+                if candidate.endswith(_ASSET_SUFFIXES) and path.is_file():
                     assets.add(candidate)
                     break
                 if path.is_dir() and str(path).startswith(str(ROOT / "config")):
