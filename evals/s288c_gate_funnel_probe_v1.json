@@ -1,0 +1,2529 @@
+{
+  "probe": "s288c_gate_funnel_probe_v1",
+  "purpose": "funnel de las 2 puertas content-keyed existentes (paso 2-3 de la ruta re-adjudicada del duo r2)",
+  "read_only": true,
+  "release_profile": {
+    "profile": "coverage_c1_v4",
+    "post_rerank_coverage": true,
+    "structural_neighbor_coverage": true,
+    "coverage_mandatory_callout": true,
+    "mp_mandatory_verb_trigger": true,
+    "document_local_coverage": true,
+    "evidence_contract": true,
+    "obligation_warning_reserve": true,
+    "prose_source_card": true,
+    "document_local_selection_v2": true
+  },
+  "demo_flags": {
+    "CHUNKS_TABLE": "chunks_v2",
+    "ENUNCIADOS_MULTIVECTOR": "on",
+    "IDENTITY_RESOLVE": "on",
+    "IDENTITY_RESOLVE_POLICY": "replace",
+    "COVERAGE_RELEASE_PROFILE": "coverage_c1_v4",
+    "MUST_PRESERVE_CONTRACT": "on",
+    "VISUAL_ASSETS_REGISTRY": "on",
+    "ANTI_DIAGRAM_INVENTION": "on",
+    "WIRING_TOPOLOGY_GUARD": "on",
+    "GENERATOR_DIRECT_FIRST": "on",
+    "GENERATOR_FOLLOWUPS": "off",
+    "VISUAL_ASSETS_LISTING_GATE": "on",
+    "LLM_MAX_TOKENS": "3500",
+    "RERANK_TOP_K": "10",
+    "RERANKER_BACKEND": "llm",
+    "MERGE_STRATEGY": "stamps",
+    "RERANK_PREVIEW_CHARS": "800",
+    "HYDE_ENABLED": "false",
+    "DIVERSIFY_TIEBREAK": "off",
+    "HYQ_PILOT_FILE": "",
+    "GENERATOR_PROMPT_VARIANT": "fidelity",
+    "HYQ_TABLE": "on",
+    "GENERATOR_SELECTION_BLOCK": "on",
+    "TABLE_PREAMBLE_CLOSURE": "off",
+    "CANONICAL_HYQ_COVERAGE": "off",
+    "COMPATIBILITY_BUNDLE_COVERAGE": "off",
+    "RERANK_POOL_COVERAGE": "off",
+    "STRUCTURAL_CASCADE_COVERAGE": "off",
+    "LOGICAL_RECORD_COVERAGE": "off",
+    "EVIDENCE_DERIVATION_OVERLAY": "off",
+    "STRUCTURAL_NEIGHBOR_SHADOW": "off"
+  },
+  "code_anchors": {
+    "MAX_APPENDED": 4,
+    "MAX_APPENDED_PER_LANE": 2,
+    "MAX_APPENDED_BY_LANE": {
+      "canonical_compatibility_bundle_coverage_v2": 3,
+      "document_local_content_coverage_v1": 1
+    },
+    "OBLIGATION_WARNING_RESERVE_BUDGET": 1,
+    "FACET_COMPLEMENT_BUDGET": 1,
+    "N_FACET": 3,
+    "DOCUMENT_LOCAL_ANCHOR_LIMIT": 2,
+    "APPEND_LIMIT_document_local": 1,
+    "SOURCE_LIMIT": 2,
+    "CANDIDATE_LIMIT": 64
+  },
+  "mission_A_cat017": {
+    "query": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+    "artifact_topk_ids": {
+      "rep1": [
+        "68d812f5-c2ac-40be-8634-a420f082ab81",
+        "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+        "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+        "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+        "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "ad81ba70-980c-4146-993d-e26fc08eb16f",
+        "c2564c21-16d2-477e-ba50-e4a02f240900",
+        "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+        "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+        "6596dfec-a47e-46ec-9aba-8807575b6983"
+      ],
+      "rep2": [
+        "68d812f5-c2ac-40be-8634-a420f082ab81",
+        "f0dc41c3-25e3-4b21-b58a-416177fdcbff",
+        "f8f1c9f3-5840-470a-bfa0-ad9c51463cf8",
+        "4d76ec50-a17d-4af6-9334-f6d0b439f1cf",
+        "79faef35-68cf-4631-8e18-7d6d8ef09790",
+        "ad81ba70-980c-4146-993d-e26fc08eb16f",
+        "3a2fc401-1761-4ef9-901d-5e99fb01bb24",
+        "e472044e-ce86-4569-ac6f-2bd297bb1c93",
+        "6596dfec-a47e-46ec-9aba-8807575b6983",
+        "ad28ab54-cf7e-41a1-923d-9c4ad1332b47"
+      ]
+    },
+    "artifact_appended": {
+      "rep1": {
+        "5880b3b6": "same_blob_structural_neighbor_coverage_v1",
+        "470a499b": "same_blob_structural_neighbor_coverage_v1",
+        "1452c904": "obligation_warning_reserve_v1"
+      },
+      "rep2": {
+        "c2564c21": "same_blob_structural_neighbor_coverage_v1",
+        "fd092752": "same_blob_structural_neighbor_coverage_v1",
+        "1452c904": "obligation_warning_reserve_v1"
+      }
+    },
+    "A0_plan": {
+      "expand_query_facets_v5_multi_match": {
+        "archetype": "connect_install_wire",
+        "archetypes": [
+          "connect_install_wire",
+          "commissioning_setup"
+        ],
+        "n_needs": 4,
+        "needs": [
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) terminales polaridad conexion cableado terminals polarity connection wiring",
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) limites seguridad comprobacion instalacion limits safety check installation",
+          "Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15) sitio edificio licencia bin alta portal"
+        ]
+      },
+      "MULTI_MATCH_MAX": 2,
+      "MAX_NEED_GROUPS_MULTI": 5,
+      "MAX_TSQUERY_CHARS": 480,
+      "NEED_GROUP_GATE_FLOOR": 3,
+      "N_FACET": 3,
+      "plan_no_scopes": {
+        "archetype": "connect_install_wire",
+        "archetypes": [
+          "connect_install_wire",
+          "commissioning_setup"
+        ],
+        "anchor_terms": [
+          "cablea",
+          "alta",
+          "configura",
+          "lazo",
+          "notifier",
+          "inspire",
+          "e10",
+          "e15"
+        ],
+        "need_groups": [
+          [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          [
+            "pantalla",
+            "tierra",
+            "continuidad"
+          ],
+          [
+            "limites",
+            "seguridad",
+            "comprobacion"
+          ],
+          [
+            "sitio",
+            "edificio",
+            "licencia"
+          ]
+        ],
+        "trim": {
+          "trimmed": true,
+          "terms_removed": [
+            {
+              "group_index": 3,
+              "term": "portal"
+            },
+            {
+              "group_index": 2,
+              "term": "safety"
+            },
+            {
+              "group_index": 1,
+              "term": "shield"
+            },
+            {
+              "group_index": 0,
+              "term": "polarity"
+            },
+            {
+              "group_index": 3,
+              "term": "bin"
+            },
+            {
+              "group_index": 2,
+              "term": "limits"
+            },
+            {
+              "group_index": 1,
+              "term": "circuito"
+            },
+            {
+              "group_index": 0,
+              "term": "terminals"
+            },
+            {
+              "group_index": 2,
+              "term": "instalacion"
+            },
+            {
+              "group_index": 1,
+              "term": "resistencia"
+            }
+          ],
+          "groups_removed": []
+        },
+        "tsquery_len": 457,
+        "tsquery": "(cablea|alta|configura|lazo|notifier|inspire|e10|e15)&(((terminales|polaridad|conexion|cableado)&(pantalla|tierra|continuidad))|((terminales|polaridad|conexion|cableado)&(limites|seguridad|comprobacion))|((terminales|polaridad|conexion|cableado)&(sitio|edificio|licencia))|((pantalla|tierra|continuidad)&(limites|seguridad|comprobacion))|((pantalla|tierra|continuidad)&(sitio|edificio|licencia))|((limites|seguridad|comprobacion)&(sitio|edificio|licencia)))",
+        "sha256": "a729a063aae6383803501d62954a69a68b0e43317bf863dc174a8085c403d890"
+      },
+      "plan_inspire_scope": {
+        "archetype": "connect_install_wire",
+        "archetypes": [
+          "connect_install_wire",
+          "commissioning_setup"
+        ],
+        "anchor_terms": [
+          "cablea",
+          "alta",
+          "configura",
+          "lazo",
+          "e10",
+          "e15"
+        ],
+        "need_groups": [
+          [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          [
+            "pantalla",
+            "tierra",
+            "continuidad",
+            "resistencia"
+          ],
+          [
+            "limites",
+            "seguridad",
+            "comprobacion"
+          ],
+          [
+            "sitio",
+            "edificio",
+            "licencia"
+          ]
+        ],
+        "trim": {
+          "trimmed": true,
+          "terms_removed": [
+            {
+              "group_index": 3,
+              "term": "portal"
+            },
+            {
+              "group_index": 2,
+              "term": "safety"
+            },
+            {
+              "group_index": 1,
+              "term": "shield"
+            },
+            {
+              "group_index": 0,
+              "term": "polarity"
+            },
+            {
+              "group_index": 3,
+              "term": "bin"
+            },
+            {
+              "group_index": 2,
+              "term": "limits"
+            },
+            {
+              "group_index": 1,
+              "term": "circuito"
+            },
+            {
+              "group_index": 0,
+              "term": "terminals"
+            },
+            {
+              "group_index": 2,
+              "term": "instalacion"
+            }
+          ],
+          "groups_removed": []
+        },
+        "tsquery_len": 476,
+        "tsquery": "(cablea|alta|configura|lazo|e10|e15)&(((terminales|polaridad|conexion|cableado)&(pantalla|tierra|continuidad|resistencia))|((terminales|polaridad|conexion|cableado)&(limites|seguridad|comprobacion))|((terminales|polaridad|conexion|cableado)&(sitio|edificio|licencia))|((pantalla|tierra|continuidad|resistencia)&(limites|seguridad|comprobacion))|((pantalla|tierra|continuidad|resistencia)&(sitio|edificio|licencia))|((limites|seguridad|comprobacion)&(sitio|edificio|licencia)))",
+        "sha256": "da3d81cc310de579f950e0a1bd4193348551aab45bf346b9f8429271bdef0999"
+      },
+      "need_groups_pre_trim": [
+        [
+          "terminales",
+          "polaridad",
+          "conexion",
+          "cableado",
+          "terminals",
+          "polarity"
+        ],
+        [
+          "pantalla",
+          "tierra",
+          "continuidad",
+          "resistencia",
+          "circuito",
+          "shield"
+        ],
+        [
+          "limites",
+          "seguridad",
+          "comprobacion",
+          "instalacion",
+          "limits",
+          "safety"
+        ],
+        [
+          "sitio",
+          "edificio",
+          "licencia",
+          "bin",
+          "portal"
+        ]
+      ],
+      "tsquery_len_pre_trim": 709
+    },
+    "A1_inputs": {
+      "retrieval_top_k": 50,
+      "pool_n": 49,
+      "prefix": {
+        "prefix_rows": 10,
+        "from_fresh_pool": 10,
+        "hydrated_from_db": [],
+        "absent": []
+      },
+      "carrier_in_fresh_pool": true,
+      "carrier_pool_rank": 13
+    },
+    "A2_seam": {
+      "status": "appended",
+      "appended_ids": [
+        "5880b3b6",
+        "470a499b",
+        "1452c904"
+      ],
+      "served_n": 13,
+      "lanes": [
+        {
+          "lane": "same_blob_structural_neighbor_coverage_v1",
+          "status": "selected",
+          "selected_ids": [
+            "5880b3b6-65dd-421d-8368-0b8e15ecd0b6",
+            "470a499b-d5b0-454c-85bc-db00d48ab4a1"
+          ],
+          "http_requests": 4,
+          "selector_reason": "selected"
+        },
+        {
+          "lane": "document_local_content_coverage_v1",
+          "validation": "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1",
+          "status": "best_candidate_already_covered",
+          "anchor_rows": 1,
+          "source_scopes_considered": 1,
+          "seed_scope_count": 1,
+          "seed_sources": {
+            "served_structural_append": 1
+          },
+          "seed_scopes_sha256": "2d73a291f1cc443454664852d2389af4274e6d2e1b20876a426ba0b3d58dc6d0",
+          "seed_scopes_truncated": false,
+          "document_rows": 1,
+          "authoritative_documents": 1,
+          "ambiguous_lineages": 0,
+          "fts_queries": 1,
+          "fts_candidate_rows": 39,
+          "eligible_rows": 3,
+          "selected_ids": [],
+          "satisfied_ids": [
+            "79faef35-68cf-4631-8e18-7d6d8ef09790"
+          ],
+          "satisfaction_route": "already_served",
+          "http_requests": 1,
+          "rows_read": 40,
+          "model_calls": 0,
+          "database_writes": 0,
+          "overflow": false,
+          "query_plan_sha256": "324967bcb6ba90f3f184a57373a09c0c62b7467ff9d6ea118784707080969c5b",
+          "query_facets_sha256": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9",
+          "query_plan_config": "v5",
+          "query_plan_trim": {
+            "trimmed": true,
+            "terms_removed": [
+              {
+                "group_index": 3,
+                "term": "portal"
+              },
+              {
+                "group_index": 2,
+                "term": "safety"
+              },
+              {
+                "group_index": 1,
+                "term": "shield"
+              },
+              {
+                "group_index": 0,
+                "term": "polarity"
+              },
+              {
+                "group_index": 3,
+                "term": "bin"
+              },
+              {
+                "group_index": 2,
+                "term": "limits"
+              },
+              {
+                "group_index": 1,
+                "term": "circuito"
+              },
+              {
+                "group_index": 0,
+                "term": "terminals"
+              },
+              {
+                "group_index": 2,
+                "term": "instalacion"
+              }
+            ],
+            "groups_removed": []
+          },
+          "snapshot_authoritative_documents": 1,
+          "snapshot_sha256": "cd687295be2269abe8d70f604d597b4b7e4ae2090406149c3b15810bb23cb1b1",
+          "candidate_waterfall": [
+            {
+              "scope_rank": 1,
+              "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+              "observed_rows": 39,
+              "candidate_truncated": false,
+              "available_rows": 39,
+              "waterfall_quota": 64,
+              "retained": 39
+            }
+          ],
+          "candidate_truncated": false,
+          "catalog_scope_applied": false
+        },
+        {
+          "lane": "obligation_warning_reserve_v1",
+          "validation": "procedural_query_served_document_scope_mandatory_warning_exact_span_v1",
+          "input_pool_rows": 49,
+          "served_scope_files": 2,
+          "selected_ids": [
+            "1452c904-cf11-4803-9b2b-4b977bfa3d5f"
+          ],
+          "model_calls": 0,
+          "database_reads": 0,
+          "database_writes": 0,
+          "status": "selected"
+        },
+        {
+          "lane": "document_local_content_coverage_v1",
+          "conduct": "facet_complement",
+          "facet_fetch": "reused",
+          "facet_plan_rederived": false,
+          "selected_ids": [],
+          "status": "facet_attestation_failed",
+          "need_group_grades": [
+            2,
+            3,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "A3_funnel": {
+      "source_contract_anchors": {
+        "n": 0,
+        "overflow": false,
+        "document_ids": []
+      },
+      "served_structural_anchors": [
+        "5880b3b6",
+        "470a499b"
+      ],
+      "anchor_rows": [
+        {
+          "id": "5880b3b6",
+          "route": "served_structural_append",
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+          "chunk_index": 16
+        }
+      ],
+      "DOCUMENT_LOCAL_ANCHOR_LIMIT": 2,
+      "anchor_scopes": {
+        "reason": "ok",
+        "scopes": [
+          {
+            "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+            "extraction_sha256": "98018e3eec3efd1d9b8370232128b17e4026ac53cfbe5e52db686d67cc0dd7bc",
+            "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+            "manufacturer": "",
+            "product_model": "INSPIRE E10/E15"
+          }
+        ]
+      },
+      "real_plan": {
+        "archetypes": [
+          "connect_install_wire",
+          "commissioning_setup"
+        ],
+        "anchor_terms": [
+          "cablea",
+          "alta",
+          "configura",
+          "lazo",
+          "notifier"
+        ],
+        "need_groups": [
+          [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          [
+            "pantalla",
+            "tierra",
+            "continuidad",
+            "resistencia"
+          ],
+          [
+            "limites",
+            "seguridad",
+            "comprobacion"
+          ],
+          [
+            "sitio",
+            "edificio",
+            "licencia"
+          ]
+        ],
+        "trim": {
+          "trimmed": true,
+          "terms_removed": [
+            {
+              "group_index": 3,
+              "term": "portal"
+            },
+            {
+              "group_index": 2,
+              "term": "safety"
+            },
+            {
+              "group_index": 1,
+              "term": "shield"
+            },
+            {
+              "group_index": 0,
+              "term": "polarity"
+            },
+            {
+              "group_index": 3,
+              "term": "bin"
+            },
+            {
+              "group_index": 2,
+              "term": "limits"
+            },
+            {
+              "group_index": 1,
+              "term": "circuito"
+            },
+            {
+              "group_index": 0,
+              "term": "terminals"
+            },
+            {
+              "group_index": 2,
+              "term": "instalacion"
+            }
+          ],
+          "groups_removed": []
+        },
+        "tsquery": "(cablea|alta|configura|lazo|notifier)&(((terminales|polaridad|conexion|cableado)&(pantalla|tierra|continuidad|resistencia))|((terminales|polaridad|conexion|cableado)&(limites|seguridad|comprobacion))|((terminales|polaridad|conexion|cableado)&(sitio|edificio|licencia))|((pantalla|tierra|continuidad|resistencia)&(limites|seguridad|comprobacion))|((pantalla|tierra|continuidad|resistencia)&(sitio|edificio|licencia))|((limites|seguridad|comprobacion)&(sitio|edificio|licencia)))",
+        "tsquery_len": 477
+      },
+      "fetch": {
+        "n_candidates": 39,
+        "n_authorities": 1,
+        "read_trace_status": "fetched",
+        "read_trace": {
+          "lane": "document_local_content_coverage_v1",
+          "validation": "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1",
+          "status": "fetched",
+          "anchor_rows": 1,
+          "source_scopes_considered": 1,
+          "seed_scope_count": 1,
+          "seed_sources": {
+            "served_structural_append": 1
+          },
+          "seed_scopes_sha256": "2d73a291f1cc443454664852d2389af4274e6d2e1b20876a426ba0b3d58dc6d0",
+          "seed_scopes_truncated": false,
+          "document_rows": 1,
+          "authoritative_documents": 1,
+          "ambiguous_lineages": 0,
+          "fts_queries": 1,
+          "fts_candidate_rows": 39,
+          "eligible_rows": 0,
+          "selected_ids": [],
+          "satisfied_ids": [],
+          "satisfaction_route": null,
+          "http_requests": 1,
+          "rows_read": 40,
+          "model_calls": 0,
+          "database_writes": 0,
+          "overflow": false,
+          "query_plan_sha256": "324967bcb6ba90f3f184a57373a09c0c62b7467ff9d6ea118784707080969c5b",
+          "query_facets_sha256": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9",
+          "query_plan_config": "v5",
+          "query_plan_trim": {
+            "trimmed": true,
+            "terms_removed": [
+              {
+                "group_index": 3,
+                "term": "portal"
+              },
+              {
+                "group_index": 2,
+                "term": "safety"
+              },
+              {
+                "group_index": 1,
+                "term": "shield"
+              },
+              {
+                "group_index": 0,
+                "term": "polarity"
+              },
+              {
+                "group_index": 3,
+                "term": "bin"
+              },
+              {
+                "group_index": 2,
+                "term": "limits"
+              },
+              {
+                "group_index": 1,
+                "term": "circuito"
+              },
+              {
+                "group_index": 0,
+                "term": "terminals"
+              },
+              {
+                "group_index": 2,
+                "term": "instalacion"
+              }
+            ],
+            "groups_removed": []
+          },
+          "snapshot_authoritative_documents": 1,
+          "snapshot_sha256": "cd687295be2269abe8d70f604d597b4b7e4ae2090406149c3b15810bb23cb1b1",
+          "candidate_waterfall": [
+            {
+              "scope_rank": 1,
+              "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+              "observed_rows": 39,
+              "candidate_truncated": false,
+              "available_rows": 39,
+              "waterfall_quota": 64,
+              "retained": 39
+            }
+          ],
+          "candidate_truncated": false
+        },
+        "candidate_ids": [
+          "7a09deff",
+          "470a499b",
+          "b7633e98",
+          "4d76ec50",
+          "79faef35",
+          "3a2fc401",
+          "ad81ba70",
+          "c2564c21",
+          "e472044e",
+          "5225b248",
+          "6b4aeccb",
+          "62807d13",
+          "d399077d",
+          "074d5b85",
+          "1f5105a8",
+          "73b4b9a6",
+          "53a360f3",
+          "300ab189",
+          "dade6242",
+          "c0261744",
+          "2219484b",
+          "d9a3f535",
+          "51880726",
+          "a01755a8",
+          "f8f1c9f3",
+          "85d84699",
+          "c42c264d",
+          "0f01860a",
+          "6bce6372",
+          "6fbcc48b",
+          "0cf36fa1",
+          "f2a64128",
+          "7a33265b",
+          "35636da3",
+          "03944ac8",
+          "2c302764",
+          "d41a3350",
+          "71b44e93",
+          "a8ea6115"
+        ],
+        "carrier_in_candidates": true
+      },
+      "selector": {
+        "status": "best_candidate_already_covered",
+        "eligible_rows": 3,
+        "selected_ids": [],
+        "satisfied_ids": [
+          "79faef35"
+        ],
+        "satisfaction_route": "already_served"
+      },
+      "ranker": {
+        "status": "selected",
+        "eligible_rows": 3,
+        "ranked_ids": [
+          "79faef35",
+          "3a2fc401"
+        ],
+        "carrier_rank": null
+      }
+    },
+    "A4_facet_complement": {
+      "facet_selection_v2_enabled": true,
+      "FACET_COMPLEMENT_BUDGET": 1,
+      "MAX_APPENDED_BY_LANE_document_local": 1,
+      "facet_lane_trace": [
+        {
+          "lane": "document_local_content_coverage_v1",
+          "conduct": "facet_complement",
+          "facet_fetch": "reused",
+          "facet_plan_rederived": false,
+          "selected_ids": [],
+          "status": "facet_attestation_failed",
+          "need_group_grades": [
+            2,
+            3,
+            1,
+            1
+          ]
+        }
+      ],
+      "gate_A7": {
+        "need_groups": [
+          [
+            "terminales",
+            "polaridad",
+            "conexion",
+            "cableado"
+          ],
+          [
+            "pantalla",
+            "tierra",
+            "continuidad",
+            "resistencia"
+          ],
+          [
+            "limites",
+            "seguridad",
+            "comprobacion"
+          ],
+          [
+            "sitio",
+            "edificio",
+            "licencia"
+          ]
+        ],
+        "grades": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "gate_indices": [
+          0,
+          2,
+          3
+        ],
+        "ordered_groups": [
+          2,
+          3,
+          0
+        ],
+        "order_key": "(grade asc, index asc)"
+      },
+      "buckets": {
+        "2": [],
+        "3": [
+          {
+            "id": "f2a64128",
+            "terms_hit": 3,
+            "density": 45,
+            "chunk_index": 61
+          },
+          {
+            "id": "b7633e98",
+            "terms_hit": 3,
+            "density": 148,
+            "chunk_index": 4
+          }
+        ],
+        "0": [
+          {
+            "id": "a01755a8",
+            "terms_hit": 3,
+            "density": 254,
+            "chunk_index": 46
+          }
+        ]
+      },
+      "carrier_detail": {
+        "id": "b7633e98-b011-4035-9548-a564c71e70ac",
+        "page_number": 5,
+        "chunk_index": 4,
+        "windows_by_group": {
+          "0": {
+            "terms_hit": 1,
+            "density": 8,
+            "start": 1620,
+            "end": 1980,
+            "hits": [
+              "cableado"
+            ]
+          },
+          "1": null,
+          "2": null,
+          "3": {
+            "terms_hit": 3,
+            "density": 148,
+            "start": 0,
+            "end": 360,
+            "hits": [
+              "edificio",
+              "licencia",
+              "sitio"
+            ]
+          }
+        },
+        "excluded_as_served_or_prefix": false,
+        "assigned_group": 3
+      },
+      "gate_and_select": {
+        "status": "ok",
+        "grades": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "selected_id": "f2a64128",
+        "selected_group_index": 3,
+        "selected_group_terms": [
+          "sitio",
+          "edificio",
+          "licencia"
+        ],
+        "selected_window": {
+          "terms_hit": 3,
+          "density": 45,
+          "start": 1260,
+          "end": 1620,
+          "hits": [
+            "edificio",
+            "licencia",
+            "sitio"
+          ]
+        }
+      },
+      "selected_candidate_authority_stamps": {
+        "document_local_authority_document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+        "document_local_authority_extraction_sha256": "98018e3eec3efd1d9b8370232128b17e4026ac53cfbe5e52db686d67cc0dd7bc",
+        "document_local_authority_source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+        "document_local_authority_language": "es",
+        "document_local_authority_revision": null,
+        "duplicate_of": null
+      },
+      "facet_complement_row_built": false,
+      "row_build_death": {
+        "bounds_ok": true,
+        "markdown_record_cards": false,
+        "prose_source_card_enabled": true,
+        "prose_source_cards_built": 0,
+        "has_exact_coverage_receipt": true,
+        "authority_identity_ok": true,
+        "authority_stamp_match": {
+          "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "authority_document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+          "extraction_sha256_eq": true,
+          "duplicate_of": null
+        },
+        "attest_returned_row": false,
+        "death": "_attest (post_rerank_coverage.py:720-820) — clase de servido"
+      },
+      "counterfactual_iterate_bucket": [
+        {
+          "group_index": 3,
+          "id": "f2a64128",
+          "terms_hit": 3,
+          "density": 45,
+          "chunk_index": 61,
+          "page_number": 66,
+          "row_built": false,
+          "diagnosis": {
+            "bounds_ok": true,
+            "markdown_record_cards": false,
+            "prose_source_card_enabled": true,
+            "prose_source_cards_built": 0,
+            "has_exact_coverage_receipt": true,
+            "authority_identity_ok": true,
+            "authority_stamp_match": {
+              "document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+              "authority_document_id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+              "extraction_sha256_eq": true,
+              "duplicate_of": null
+            },
+            "attest_returned_row": false,
+            "death": "_attest (post_rerank_coverage.py:720-820) — clase de servido"
+          }
+        },
+        {
+          "group_index": 3,
+          "id": "b7633e98",
+          "terms_hit": 3,
+          "density": 148,
+          "chunk_index": 4,
+          "page_number": 5,
+          "row_built": true,
+          "attest_facet_complement": true,
+          "served_class": "exact_source_bounded_prose_sentence_span_v1",
+          "served_text": "# Comprobaciones preliminares\n\nAntes de ir a la instalación:\n\n01 En el portal en la nube de CLSS Gestión de Clientes, cree un sitio/edificio y añada una central. Cargue la configuración de la central con el programa de configuración de CLSS. Generar archivo .bin de licencia de la central.\nInicie sesión en el portal en la nube de CLSS https://fire.eu.honeywell.com/#/home utilizando su cuenta de empresa."
+        },
+        {
+          "group_index": 0,
+          "id": "a01755a8",
+          "terms_hit": 3,
+          "density": 254,
+          "chunk_index": 46,
+          "page_number": 50,
+          "row_built": true,
+          "attest_facet_complement": true,
+          "served_class": "exact_source_bounded_prose_sentence_span_v1",
+          "served_text": "> ⚠️ Asegúrese de que se toman las precauciones adecuadas para evitar la conexión involuntaria de la alimentación a los equipos externos del sistema durante la puesta en servicio.\n>\n> Apague siempre la alimentación principal y las batería de la central antes de realizar cualquier cambio en el cableado externo a los terminales de la central."
+        }
+      ],
+      "counterfactual_verdict": "ALGUN candidato serviria"
+    }
+  },
+  "mission_B_hp002": {
+    "query": "El detector ASD535 de Detnov está dando una alarma intermitente de flujo bajo. ¿Cuál es la causa más probable y cómo se diagnostica?",
+    "fact_text": "Gate de seguridad previo al mantenimiento/diagnostico: bloquear o desconectar el control de incendios, la alerta remota y las zonas de extincion en la CDI de orden superior (Indicacion que ENCABEZA el checklist de mantenimiento, para evitar disparos durante los trabajos)",
+    "artifact": {
+      "rep1": {
+        "pool_n": 34,
+        "topk_ids": [
+          "414ce99c",
+          "b5804921",
+          "aa698b5e",
+          "16695901",
+          "51bc5368",
+          "9410f72f",
+          "7b95d320",
+          "6d5a807f",
+          "d0a14450",
+          "509d9de4"
+        ],
+        "appended": {
+          "1d1ca159": "same_blob_structural_neighbor_coverage_v1",
+          "41bcd390": "same_blob_structural_neighbor_coverage_v1",
+          "339f06e0": "obligation_warning_reserve_v1"
+        },
+        "best_pool_rank_fact4": 23
+      },
+      "rep2": {
+        "pool_n": 32,
+        "topk_ids": [
+          "414ce99c",
+          "b5804921",
+          "aa698b5e",
+          "16695901",
+          "51bc5368",
+          "6f4bd53d",
+          "6d5a807f",
+          "9410f72f",
+          "d0a14450",
+          "390494ab"
+        ],
+        "appended": {
+          "1d1ca159": "same_blob_structural_neighbor_coverage_v1",
+          "41bcd390": "same_blob_structural_neighbor_coverage_v1",
+          "339f06e0": "obligation_warning_reserve_v1"
+        },
+        "best_pool_rank_fact4": 21
+      }
+    },
+    "B1_doc_dump": {
+      "source_file": "ASD535_TD_T131192es_h",
+      "n_chunks": 242,
+      "n_extractions": 1,
+      "adjudication_terms": [
+        "bloquear",
+        "bloqueo",
+        "desconectar",
+        "desconecte",
+        "control de incendios",
+        "alerta remota",
+        "extincion",
+        "cdi",
+        "orden superior",
+        "mantenimiento",
+        "disparo",
+        "disparos",
+        "antes de",
+        "previo"
+      ],
+      "adjudication_core_terms": [
+        "extincion",
+        "mantenimiento",
+        "bloquear",
+        "desconectar"
+      ],
+      "top_candidates": [
+        {
+          "id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 215,
+          "page_number": 121,
+          "section_title": "9.3 Comprobaciones de mantenimiento y funcionamiento",
+          "n_hits": 8,
+          "hits": [
+            "bloquear",
+            "desconectar",
+            "control de incendios",
+            "alerta remota",
+            "extincion",
+            "cdi",
+            "orden superior",
+            "mantenimiento"
+          ],
+          "n_core_hits": 4,
+          "core_hits": [
+            "extincion",
+            "mantenimiento",
+            "bloquear",
+            "desconectar"
+          ],
+          "content_head": "## 9.3 Comprobaciones de mantenimiento y funcionamiento\n\n> **Indicación**\n>\n> Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\n\nPara las comprobaciones de mantenimiento y funcionamiento deberán llevarse a cabo las siguientes acciones:\n\n1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso d"
+        },
+        {
+          "id": "f31ecbc9-6897-4866-aae6-d702b4561eab",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 176,
+          "page_number": 103,
+          "section_title": "7.7.2 Disparos de prueba",
+          "n_hits": 8,
+          "hits": [
+            "bloquear",
+            "desconectar",
+            "control de incendios",
+            "alerta remota",
+            "cdi",
+            "orden superior",
+            "disparo",
+            "disparos"
+          ],
+          "n_core_hits": 2,
+          "core_hits": [
+            "bloquear",
+            "desconectar"
+          ],
+          "content_head": "## 7.7.2 Disparos de prueba\n\n> ### Indicación sobre la prueba de disparos\n> \n> [Icon: Information symbol] El control de incendios y la alerta remota en la CDI de orden superior deben bloquearse o desconectarse.\n> \n> La función «Prueba preseñal» y «Prueba alarma 2» también puede dispararse con un evento no parametrizado.\n> \n> ➀ Entre las distintas comprobaciones, deberá llevarse a cabo cada vez un restablecimiento del ASD 535 (preferentemente en la CDI, ya que el reset en el ASD no reinicializará la CDI).\n> \n> ➁ Para el ASD 535-2 / -4 deberán llevarse a cabo los controles en ambos sensores de humo (canales) (en el ASD 535-1 / -3, los pasos (5) a (8), (13) a (16), (21) a (24) y (29) a (32) no aparecen en el proceso."
+        },
+        {
+          "id": "66bff43f-5b8d-4f0e-9183-3915f97ba87a",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 47,
+          "page_number": 32,
+          "section_title": "2.2.17 Tipos de reset",
+          "n_hits": 7,
+          "hits": [
+            "desconectar",
+            "control de incendios",
+            "alerta remota",
+            "cdi",
+            "orden superior",
+            "mantenimiento",
+            "disparo"
+          ],
+          "n_core_hits": 2,
+          "core_hits": [
+            "mantenimiento",
+            "desconectar"
+          ],
+          "content_head": "## 2.2.17 Tipos de reset\n\nEn la configuración estándar, todos los eventos generados en el ASD 535 entran en el modo de parada automática. Para la reinicialización debe llevarse a cabo un reset de estado.\n\nExisten los siguientes tipos de reset (cap. 2.2.17.1 a 2.2.17.3):\n\n### 2.2.17.1 Reset de estado\n\nEl reset de estado se dispara al pulsar el botón «Reset» de la unidad de control o activando la entrada «Reset externo» (véase también el cap. 6.6.2). El reset de estado solo puede dispararse después de un evento, pero no hasta el momento en que el criterio que ha disparado el evento vuelva a la posición de reposo (p. ej., cuando el nivel de humo en el sensor de humo vuelve a estar por debajo del umbral de disparo o cuando se soluciona un evento de fallo). Al realizar un reset de estado, el ASD 535 continúa con su funcionamiento «normal» y el ventilador no se detiene.\n\n### 2.2.17.2 Reset de "
+        },
+        {
+          "id": "6d5a807f-3a42-401b-96a4-83c51d796114",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 174,
+          "page_number": 102,
+          "section_title": "7.7 Pruebas, revisiones y comprobaciones",
+          "n_hits": 7,
+          "hits": [
+            "bloquear",
+            "desconectar",
+            "control de incendios",
+            "alerta remota",
+            "cdi",
+            "orden superior",
+            "disparo"
+          ],
+          "n_core_hits": 2,
+          "core_hits": [
+            "bloquear",
+            "desconectar"
+          ],
+          "content_head": "## 7.7 Pruebas, revisiones y comprobaciones\n\nAdemás de las comprobaciones del conducto de aspiración mencionadas en el cap. 7.1, debe verificarse la correcta alerta (grupo/línea) a la CDI mediante el disparo del aviso de fallo y de la alarma en el ASD 535. Estas pruebas deben anotarse en el protocolo de puesta en funcionamiento (véase también el cap. 7.9).\n\n> ### Indicación\n>\n> Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n>\n> ➀ Entre las distintas comprobaciones, deberá llevarse a cabo cada vez un restablecimiento del ASD 535 (preferentemente en la CDI, ya que el reset en el ASD no reinicializará la CDI). Asimismo, una vez finalizada la prueba, el conducto de aspiración deberá devolverse a su estado original (abrir los orificios de aspiración tapados y cerrar el orificio de inspección).\n>\n> ➁ En el ASD 535-2 y -4 deben realizarse las comp"
+        },
+        {
+          "id": "6f4bd53d-4d1b-4c99-a70b-20e58884204f",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 220,
+          "page_number": 124,
+          "section_title": "Conservación y mantenimiento",
+          "n_hits": 3,
+          "hits": [
+            "bloqueo",
+            "desconectar",
+            "mantenimiento"
+          ],
+          "n_core_hits": 2,
+          "core_hits": [
+            "mantenimiento",
+            "desconectar"
+          ],
+          "content_head": "# Conservación y mantenimiento\n\n## 9.4.3 Sustitución del sensor de flujo de aire\n\n> ### Advertencia\n>\n> Al retirar y al montar el sensor de flujo de aire, debe prestarse atención a que el elemento sensor no resulte dañado (se rompa). No se debe tirar de los cables de conexión.\n>\n> Después de sustituir un sensor de flujo de aire (nuevo sensor) será imprescindible realizar un nuevo reset inicial (véase para ello el cap. 7.3.5).\n\nEn el AMB 35, debe desconectarse el enchufe A del sensor de flujo de aire. Para desmontar el sensor de flujo de aire, debe presionarse levemente la lengüeta de desbloqueo B en dirección a la cámara del sensor de humo. A continuación, el sensor de flujo de aire podrá extraerse de su soporte tirando cuidadosamente con los dedos pulgar e índice de las pestañas de agarre C 🡺 **Atención: no estirar de los cables de conexión del sensor.** El montaje del nuevo sensor de f"
+        },
+        {
+          "id": "31202882-93cd-4a8b-a0e3-e62fcb4eb2d1",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 221,
+          "page_number": 124,
+          "section_title": "9.4.5 Sustitución de la placa de circuito impreso BCB 35 / ACB 35",
+          "n_hits": 2,
+          "hits": [
+            "desconectar",
+            "mantenimiento"
+          ],
+          "n_core_hits": 2,
+          "core_hits": [
+            "mantenimiento",
+            "desconectar"
+          ],
+          "content_head": "Para sustituir la placa de circuito impreso BCB 35 / ACB 35 del panel de visualización debe desconectarse con cuidado el conector de cable plano del BCB 35 / ACB 35. Una vez retirados los 4 tornillos de fijación del BCB 35 / ACB 35 con un **destornillador Torx T10**, ya se podrá llevar a cabo la sustitución. El montaje se realiza en el orden inverso.\n\n124 / 134                    ASD 535, Descripción técnica, T 131 192 h es\n\nConservación y mantenimiento"
+        },
+        {
+          "id": "8e141656-2270-4c30-9caf-95eb87a23cff",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 137,
+          "page_number": 85,
+          "section_title": "6.6.3.2 Control a través de la entrada «Reset externo»",
+          "n_hits": 3,
+          "hits": [
+            "desconectar",
+            "cdi",
+            "antes de"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "desconectar"
+          ],
+          "content_head": "## 6.6.3.2 Control a través de la entrada «Reset externo»\n\nPara el control a través de la entrada de reset existen las siguientes opciones (véase Fig. 38):\n\n**A.** Control mediante el relé auxiliar desde el positivo de la línea.\n\n**B.** Control mediante el relé auxiliar o el relé semiconductor (PMR 81) desde la salida de control (Open collector).\n\n**C.** Control sin relé auxiliar, directamente desde la salida de control (contacto del relé o colector abierto).\n\n**D.** Control a través de la línea en bucle utilizando el XLM 35 / SLM 35. En este caso, el control no se lleva a cabo a través de la entrada de reset, sino directamente con el comando correspondiente del XLM 35 / SLM 35 en el ASD 535.\n\nLos tipos de funcionamiento descritos anteriormente dependerán del sistema de CDI empleado, por lo que deberán consultarse con el fabricante o el proveedor de la CDI antes de llevarse a cabo.\n\n> ##"
+        },
+        {
+          "id": "dbd7d67e-7c60-4339-baec-2ab720c0b54a",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 166,
+          "page_number": 99,
+          "section_title": "7.5 Cargar un nuevo firmware en el ASD 535",
+          "n_hits": 3,
+          "hits": [
+            "desconectar",
+            "cdi",
+            "orden superior"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "desconectar"
+          ],
+          "content_head": "## 7.5 Cargar un nuevo firmware en el ASD 535\n\nEl firmware está guardado en la Flash PROM del ASD 535. La actualización de FW se lleva a cabo a través de la interfaz USB del AMB 35 con el software de configuración «ASD Config». Al seleccionar la actualización de FW en «ASD Config» se iniciará el programa «Flasher Tool». Para la actualización de FW, el interruptor S4 del AMB 35 en el ASD 535 debe cambiarse a la posición «P», y posteriormente debe pulsarse el botón «HW-Reset» (véase también la Fig. 44).\n\n> ### Indicación\n>\n> [Icono de información] Si se pulsa el botón «Reset de HW» en la posición de conmutador S4 «P» se disparará el relé de fallo. Por ello, cuando se realice una actualización de FW en el ASD 535, es imprescindible desconectar previamente los controles de incendios y las alertas remotas de los sistemas de orden superior (CDI)."
+        },
+        {
+          "id": "85e9a471-dc3f-4599-939b-6f36cd9d1b79",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 217,
+          "page_number": 122,
+          "section_title": "Conservación y mantenimiento",
+          "n_hits": 3,
+          "hits": [
+            "cdi",
+            "mantenimiento",
+            "disparo"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "mantenimiento"
+          ],
+          "content_head": "# Conservación y mantenimiento\n\nContinuación:\n\n**9.** En caso de que, según el **punto 6**, sea preciso limpiar el conducto de aspiración, deberán adoptarse las siguientes medidas (y, en caso necesario, también las del **punto 10**):\n\n* Limpiar todos los orificios de aspiración de la tubería de aspiración completa, p. ej. con bastoncillos limpia-pipas.\n* Si no es posible acceder a los orificios de aspiración, puede introducirse nitrógeno o aire comprimido sin aceite desde la caja del detector hacia el conjunto de la tubería de aspiración, a través de la válvula de bola manual o desde la unión atornillada (conexión de tubo) del último accesorio en dirección a la tubería de aspiración.\n\n> ## Advertencia\n>\n> Evite el soplado desde el interior de las cámaras de los sensores de humo (mediante el ventilador), ya que esto puede dañar el ventilador.\n\n* Se deben abrir y limpiar con un pincel suav"
+        },
+        {
+          "id": "7b95d320-ba51-4729-87d2-1858625d4b79",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 218,
+          "page_number": 122,
+          "section_title": "Conservación y mantenimiento",
+          "n_hits": 3,
+          "hits": [
+            "mantenimiento",
+            "disparo",
+            "antes de"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "mantenimiento"
+          ],
+          "content_head": "> ## Peligro\n>\n> Después de limpiar los orificios de aspiración, normalmente no es necesario un nuevo reset inicial (con la limpieza se vuelve al estado de puesta en funcionamiento). No obstante, si tras los trabajos según el **punto 13** es necesario ejecutar un reset inicial, este **sólo** podrá llevarse a cabo cuando se tenga la seguridad de que se han adoptado previamente todas las medidas posibles para limpiar el conducto de aspiración (incluyendo la instalación de un nuevo elemento de filtro).\n>\n> Si se realiza un reset inicial con los orificios de aspiración obstruidos, existe el riesgo de que la toma de muestras resulte imposible o sea insuficiente, lo cual puede impedir que el ASD 535 dispare la alarma.\n\n**14.** En caso de que, durante las comprobaciones de mantenimiento, se hayan efectuado trabajos de mantenimiento o de reparación en el ASD 535 (incluyendo el conducto de aspira"
+        },
+        {
+          "id": "3a8ccec7-8368-4be1-89e5-a35c09a6f548",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 90,
+          "page_number": 57,
+          "section_title": "4.7 Dependencia de 2 detectores",
+          "n_hits": 2,
+          "hits": [
+            "extincion",
+            "antes de"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "extincion"
+          ],
+          "content_head": "## 4.7 Dependencia de 2 detectores\n\nEn caso de dependencia de 2 detectores, deberán instalarse sistemas con 2 sensores de humo, es decir, un ASD 535-2 o -4. Para ello, la instalación de las tuberías de aspiración puede hacerse conforme a la **Fig. 14** de forma doble o simple. Para la monitorización con una única tubería, antes del acceso a la caja del detector es necesario realizar una unión de las entradas de tubo I y II. Los dos sensores de humo del ASD 535 deben evaluarse de forma independiente (véase para ello también el cap. 6.6.4.1). Atención: Para la vigilancia de **zonas de extinción** es necesaria una **instalación doble** de las tuberías de aspiración; deberán observarse las directrices específicas de cada país.\n\n[Diagram showing two pipe configurations:\n\nLeft side - \"Tubería doble\" (Double pipe):\n\n- ASD 535-2 /-4 detector box on left\n- Two parallel pipes labeled \"Tubería II\" "
+        },
+        {
+          "id": "63e04b7c-1bb6-4c8b-b168-5179ba0a0244",
+          "extraction_sha256": "143d462c2cdf",
+          "chunk_index": 95,
+          "page_number": 59,
+          "section_title": "4.10.1 Requisitos del cable de instalación",
+          "n_hits": 2,
+          "hits": [
+            "desconectar",
+            "cdi"
+          ],
+          "n_core_hits": 1,
+          "core_hits": [
+            "desconectar"
+          ],
+          "content_head": "> ### Indicación\n>\n> Por motivos de seguridad (EN 54), en las líneas de salida y de retorno de los sistemas de líneas en bucle deben utilizarse cables individuales.\n>\n> Asimismo, <ins>deben observarse las indicaciones del fabricante de la CDI</ins> en relación con la <ins>longitud máxima de línea</ins>, <ins>el tipo de cable</ins>, <ins>el apantallamiento</ins>, etc. del sistema de línea en bucle utilizado.\n>\n> Para la separación de cables y para el tipo de instalación serán aplicables además las directrices y normas específicas de cada país.\n>\n> Atención: Para la vigilancia del sistema no debe conectarse <ins>ningún cable en bucle</ins> en los bornes de conexión «Alarma I», «Alarma II» y «Fallo». El cable en bucle debe desconectarse para poder vigilar las conexiones.\n>\n> En circunstancias normales, la instalación eléctrica del ASD 535 puede llevarse a cabo sin apantallar. La instalación"
+        }
+      ],
+      "adjudicated_singleton": {
+        "id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+        "page_number": 121,
+        "chunk_index": 215,
+        "section_title": "9.3 Comprobaciones de mantenimiento y funcionamiento",
+        "core_hits": [
+          "extincion",
+          "mantenimiento",
+          "bloquear",
+          "desconectar"
+        ],
+        "full_content": "## 9.3 Comprobaciones de mantenimiento y funcionamiento\n\n> **Indicación**\n>\n> Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\n\nPara las comprobaciones de mantenimiento y funcionamiento deberán llevarse a cabo las siguientes acciones:\n\n1. Bloquear o desconectar el control de incendios y la alerta remota en la CDI de orden superior.\n2. La tensión de alimentación de la CDI debe estar configurada para la central conforme a la normativa de mantenimiento.\n3. Debe comprobarse que la entrada del conducto de aspiración y los tapones de tubo del orificio de entrada de la caja del detector que no está en uso (ASD 535-1 y ASD 535-3) están en la posición correcta.\n4. Debe comprobarse si existe suciedad en la salida de aire, en cuyo caso deberá limpiarse.\n5. En caso de que el ASD 535 se utilice para la vigilancia de equipos y se hayan instalado transiciones insertadas de tubo rígido a tubo flexible, debe comprobarse que dichas transiciones están colocadas correctamente (sin fugas).\n6. Debe abrirse la cubierta de la caja del detector y fijarse en la posición media de anclaje del fondo de la caja. **Atención**: conexión de cable plano (véanse también los cap. 5.4.1 y 7.1). Deberán efectuarse las siguientes mediciones:\n   * Medir la tensión de servicio en los bornes 1 (+), 2 (-) 🡺 Valor nominal = 12,3 a 13,8 V-CC (funcionamiento a 12 V-CC) o 21,6 a 27,6 V-CC (funcionamiento a 24 V-CC).\n   * Leer el valor de flujo de aire del conducto de aspiración en la posición de conmutador V (véase para ello el cap. 7.6.1) y comparar con el protocolo de puesta en funcionamiento. Si existe una desviación superior a la mitad de la sensibilidad establecida (véanse ejemplos ➀ y ➁), deberá realizarse una inspección del conducto de aspiración de la siguiente manera:\n     - Un **aumento** del valor (superior al 100 %) implica una **rotura de tubo** inminente 🡺 Comprobar si el conducto de aspiración tiene fugas (puntos de unión, racores, etc.)\n     - Una **disminución** del valor (inferior al 100 %) implica una **obstrucción** inminente 🡺 Comprobar si el conducto de aspiración está obstruido y limpiarlo según el **punto 9** o el **punto 10**.\n   * ➀ Sensibilidad de LS-Ü establecida = ±20 % (estándar); la mitad = ±10 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 90 % o suba por encima del 110 %.\n   * ➁ Sensibilidad de LS-Ü establecida = ±50 % (no conforme a EN 54-20); la mitad = ±25 %. También deberá realizarse una inspección del conducto de aspiración cuando el valor caiga por debajo del 75 % o suba por encima del 125 %.\n7. Debe desconectarse el ASD (extraer el bloque de bornes 1/2 y, en su caso, 3/4 del AMB 35), desconectar con cuidado la conexión de cable plano con la unidad de control y retirar completamente la cubierta de la caja del detector. Una vez desconectado el cable plano de los sensores de humo, estos deberán extraerse del ASD con cuidado.\n8. El espacio interior de las cámaras de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.",
+        "corroboration": "post_rerank_coverage.py:33-38 (docstring s278 §3) nombra el fallo hp002:r1 como 'el warning ASD535 p121 quedo en el pool #28 sin servir' — la MISMA pagina que este chunk, escrita antes y por otra sesion"
+      }
+    },
+    "B2_need_group_attestation": {
+      "N_FACET": 3,
+      "WINDOW_CHARS": 360,
+      "singleton_id": "5b6a3a19-a924-4cf4-9513-bd50786ee3d9",
+      "evidence_v5_header": {
+        "schema": "evidence_coverage_facets_v5",
+        "max_cards": 4,
+        "window_chars": 360,
+        "min_window_chars": 20,
+        "min_distinct_terms": 2
+      },
+      "group_x_term_hits": [
+        {
+          "archetype": "intrinsic_safety",
+          "group_id": "entity_parameters",
+          "group_index": 1,
+          "n_terms": 13,
+          "terms": [
+            "parametro",
+            "entrada",
+            "tension",
+            "corriente",
+            "potencia",
+            "capacitancia",
+            "inductancia",
+            "input",
+            "voltage",
+            "current",
+            "power",
+            "capacitance",
+            "inductance"
+          ],
+          "terms_hit": 2,
+          "hits": [
+            "entrada",
+            "tension"
+          ],
+          "window_bounds": [
+            360,
+            720
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": true
+        },
+        {
+          "archetype": "intrinsic_safety",
+          "group_id": "terminals_control",
+          "group_index": 2,
+          "n_terms": 7,
+          "terms": [
+            "terminal",
+            "etapa",
+            "control",
+            "conexion",
+            "terminals",
+            "stage",
+            "connection"
+          ],
+          "terms_hit": 2,
+          "hits": [
+            "conexion",
+            "control"
+          ],
+          "window_bounds": [
+            2700,
+            3060
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": true
+        },
+        {
+          "archetype": "replace_without_loss",
+          "group_id": "main_power",
+          "group_index": 1,
+          "n_terms": 10,
+          "terms": [
+            "alimentacion",
+            "principal",
+            "suministro",
+            "borne",
+            "tension",
+            "voltaje",
+            "main",
+            "supply",
+            "terminal",
+            "voltage"
+          ],
+          "terms_hit": 2,
+          "hits": [
+            "alimentacion",
+            "tension"
+          ],
+          "window_bounds": [
+            180,
+            540
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": true
+        },
+        {
+          "archetype": "replace_without_loss",
+          "group_id": "redundant_power",
+          "group_index": 2,
+          "n_terms": 11,
+          "terms": [
+            "alimentacion",
+            "respaldo",
+            "redundan",
+            "pwr",
+            "borne",
+            "tension",
+            "suministro",
+            "backup",
+            "redundant",
+            "supply",
+            "terminal"
+          ],
+          "terms_hit": 2,
+          "hits": [
+            "alimentacion",
+            "tension"
+          ],
+          "window_bounds": [
+            180,
+            540
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": true
+        },
+        {
+          "archetype": "capacity_quantity",
+          "group_id": "per_unit_capacity",
+          "group_index": 0,
+          "n_terms": 11,
+          "terms": [
+            "lazo",
+            "capacidad",
+            "detector",
+            "modulo",
+            "dispositivo",
+            "canal",
+            "loop",
+            "capacity",
+            "module",
+            "device",
+            "channel"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "detector"
+          ],
+          "window_bounds": [
+            400,
+            757
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "compatibility",
+          "group_id": "compatibility_scope",
+          "group_index": 0,
+          "n_terms": 8,
+          "terms": [
+            "compatible",
+            "compatibilidad",
+            "protocolo",
+            "fabricante",
+            "familia",
+            "protocol",
+            "manufacturer",
+            "family"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "protocolo"
+          ],
+          "window_bounds": [
+            1440,
+            1800
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "connect_install_wire",
+          "group_id": "connection",
+          "group_index": 0,
+          "n_terms": 8,
+          "terms": [
+            "terminal",
+            "borne",
+            "polaridad",
+            "conexion",
+            "cableado",
+            "polarity",
+            "connection",
+            "wiring"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "conexion"
+          ],
+          "window_bounds": [
+            931,
+            1289
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "intrinsic_safety",
+          "group_id": "power_path",
+          "group_index": 0,
+          "n_terms": 12,
+          "terms": [
+            "alimentacion",
+            "barrera",
+            "aislador",
+            "galvanico",
+            "peligrosa",
+            "segura",
+            "power",
+            "supply",
+            "barrier",
+            "isolator",
+            "hazardous",
+            "safe"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "alimentacion"
+          ],
+          "window_bounds": [
+            180,
+            540
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "loop_eol_topology",
+          "group_id": "loop_topology",
+          "group_index": 0,
+          "n_terms": 10,
+          "terms": [
+            "lazo",
+            "cerrado",
+            "inicio",
+            "retorno",
+            "salida",
+            "loop",
+            "closed",
+            "start",
+            "return",
+            "out"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "salida"
+          ],
+          "window_bounds": [
+            540,
+            900
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "program_delay_cause_effect",
+          "group_id": "logic_structure",
+          "group_index": 1,
+          "n_terms": 14,
+          "terms": [
+            "condicion",
+            "entrada",
+            "regla",
+            "causa",
+            "efecto",
+            "matriz",
+            "coincidencia",
+            "condition",
+            "input",
+            "rule",
+            "cause",
+            "effect",
+            "matrix",
+            "coincidence"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "entrada"
+          ],
+          "window_bounds": [
+            360,
+            720
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "program_delay_cause_effect",
+          "group_id": "output_action",
+          "group_index": 2,
+          "n_terms": 21,
+          "terms": [
+            "accion",
+            "salida",
+            "seleccionar",
+            "aplicar",
+            "transferir",
+            "circuito",
+            "equipo",
+            "funcion",
+            "sirena",
+            "activar",
+            "action",
+            "output",
+            "select",
+            "apply",
+            "transfer",
+            "circuit",
+            "equipment",
+            "function",
+            "sounder",
+            "siren",
+            "activation"
+          ],
+          "terms_hit": 1,
+          "hits": [
+            "salida"
+          ],
+          "window_bounds": [
+            540,
+            900
+          ],
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "battery_sizing",
+          "group_id": "consumption_autonomy",
+          "group_index": 0,
+          "n_terms": 10,
+          "terms": [
+            "consumo",
+            "reposo",
+            "alarma",
+            "autonomia",
+            "bateria",
+            "consumption",
+            "standby",
+            "alarm",
+            "autonomy",
+            "battery"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "battery_sizing",
+          "group_id": "ageing_margin",
+          "group_index": 1,
+          "n_terms": 8,
+          "terms": [
+            "coeficiente",
+            "envejecimiento",
+            "margen",
+            "reglamentario",
+            "coefficient",
+            "ageing",
+            "margin",
+            "regulatory"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "capacity_quantity",
+          "group_id": "system_total",
+          "group_index": 1,
+          "n_terms": 9,
+          "terms": [
+            "total",
+            "sistema",
+            "lazo",
+            "dispositivo",
+            "capacidad",
+            "system",
+            "loop",
+            "device",
+            "capacity"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "capacity_quantity",
+          "group_id": "variant_reconciliation",
+          "group_index": 2,
+          "n_terms": 11,
+          "terms": [
+            "variante",
+            "revision",
+            "mercado",
+            "documento",
+            "conflicto",
+            "maximo",
+            "variant",
+            "market",
+            "document",
+            "conflict",
+            "maximum"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "compatibility",
+          "group_id": "installation_requirements",
+          "group_index": 1,
+          "n_terms": 8,
+          "terms": [
+            "electrico",
+            "mecanico",
+            "instalacion",
+            "requisito",
+            "electrical",
+            "mechanical",
+            "installation",
+            "requirement"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "connect_install_wire",
+          "group_id": "continuity",
+          "group_index": 1,
+          "n_terms": 12,
+          "terms": [
+            "pantalla",
+            "tierra",
+            "continuidad",
+            "resistencia",
+            "circuito",
+            "lazo",
+            "shield",
+            "earth",
+            "continuity",
+            "resistance",
+            "circuit",
+            "loop"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "connect_install_wire",
+          "group_id": "limits_safety",
+          "group_index": 2,
+          "n_terms": 12,
+          "terms": [
+            "limite",
+            "maxim",
+            "seguridad",
+            "comprobar",
+            "medicion",
+            "instalacion",
+            "limit",
+            "maximum",
+            "safety",
+            "check",
+            "measurement",
+            "installation"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "fault_reset_recovery",
+          "group_id": "state_blockers",
+          "group_index": 0,
+          "n_terms": 13,
+          "terms": [
+            "condicion",
+            "activa",
+            "enclavada",
+            "inhibicion",
+            "bloqueo",
+            "abort",
+            "condition",
+            "active",
+            "latched",
+            "inhibit",
+            "blocked",
+            "manual",
+            "reset"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "fault_reset_recovery",
+          "group_id": "timing_state",
+          "group_index": 1,
+          "n_terms": 15,
+          "terms": [
+            "temporizador",
+            "duracion",
+            "tiempo",
+            "periodo",
+            "intervalo",
+            "posterior",
+            "evento",
+            "rearme",
+            "timer",
+            "duration",
+            "time",
+            "period",
+            "interval",
+            "event",
+            "reset"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "fault_reset_recovery",
+          "group_id": "verification_recovery",
+          "group_index": 2,
+          "n_terms": 11,
+          "terms": [
+            "diagnostico",
+            "comprobacion",
+            "recuperacion",
+            "normal",
+            "reposo",
+            "averia",
+            "diagnostic",
+            "check",
+            "recovery",
+            "standby",
+            "fault"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "loop_eol_topology",
+          "group_id": "termination",
+          "group_index": 1,
+          "n_terms": 8,
+          "terms": [
+            "resistencia",
+            "linea",
+            "terminacion",
+            "rfl",
+            "eol",
+            "resistor",
+            "line",
+            "termination"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "loop_eol_topology",
+          "group_id": "wiring_continuity",
+          "group_index": 2,
+          "n_terms": 6,
+          "terms": [
+            "borne",
+            "cableado",
+            "continuidad",
+            "terminal",
+            "wiring",
+            "continuity"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "program_delay_cause_effect",
+          "group_id": "navigation",
+          "group_index": 0,
+          "n_terms": 7,
+          "terms": [
+            "ruta",
+            "menu",
+            "programacion",
+            "edicion",
+            "route",
+            "programming",
+            "edit"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "replace_without_loss",
+          "group_id": "component_identity",
+          "group_index": 0,
+          "n_terms": 9,
+          "terms": [
+            "bateria",
+            "litio",
+            "componente",
+            "rtc",
+            "reloj",
+            "battery",
+            "lithium",
+            "component",
+            "clock"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        },
+        {
+          "archetype": "replace_without_loss",
+          "group_id": "persistence",
+          "group_index": 3,
+          "n_terms": 9,
+          "terms": [
+            "memoria",
+            "eeprom",
+            "flash",
+            "configuracion",
+            "conservar",
+            "persist",
+            "memory",
+            "configuration",
+            "retain"
+          ],
+          "terms_hit": 0,
+          "hits": [],
+          "window_bounds": null,
+          "gate_eligible_group": true,
+          "attests_window_N_FACET_3": false,
+          "meets_min_distinct_terms_2": false
+        }
+      ],
+      "n_groups_attesting_N_FACET_3": 0,
+      "attesting_groups": []
+    },
+    "B3_obligation_warning_funnel": {
+      "OBLIGATION_WARNING_RESERVE_BUDGET": 1,
+      "is_procedural_diagnostic_query": true,
+      "selector_is_first_match_by_pool_rank": true,
+      "singleton_warning_span": {
+        "start": 76,
+        "end": 290,
+        "triggers": [
+          "imprescindible"
+        ],
+        "quote": "> Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente."
+      },
+      "winner_339f06e0": {
+        "id": "339f06e0-ac30-47d9-b22e-c1baf25e7240",
+        "chunk_index": 5,
+        "page_number": 7,
+        "section_title": "Historia del documento",
+        "warning_span": {
+          "start": 3474,
+          "end": 3666,
+          "triggers": [
+            "advertencia"
+          ],
+          "quote": "| • 9.4.3           | c | Advertencia insertada antes del texto y adaptación del texto (daños en el elemento sensor)                                                 | Rectificación           |"
+        }
+      },
+      "seam": {
+        "pool_n": 33,
+        "prefix": {
+          "prefix_rows": 10,
+          "from_fresh_pool": 8,
+          "hydrated_from_db": [
+            "7b95d320",
+            "509d9de4"
+          ],
+          "absent": []
+        },
+        "status": "appended",
+        "appended_ids": [
+          "1d1ca159",
+          "339f06e0"
+        ],
+        "lanes": [
+          {
+            "lane": "same_blob_structural_neighbor_coverage_v1",
+            "status": "selected",
+            "selected_ids": [
+              "1d1ca159-1155-4f8b-9fc7-bde755133e02",
+              "41bcd390-1e14-4853-b03f-03612f07bf70"
+            ],
+            "http_requests": 5,
+            "selector_reason": "selected"
+          },
+          {
+            "lane": "document_local_content_coverage_v1",
+            "validation": "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1",
+            "status": "unverified_document_lineage",
+            "anchor_rows": 1,
+            "source_scopes_considered": 1,
+            "seed_scope_count": 1,
+            "seed_sources": {
+              "protected_rerank_prefix": 1
+            },
+            "seed_scopes_sha256": "48e9f024ec773030a8e62bd4ca5ec273af5209dbdd698e3eed999d12170e6849",
+            "seed_scopes_truncated": false,
+            "document_rows": 0,
+            "authoritative_documents": 0,
+            "ambiguous_lineages": 1,
+            "fts_queries": 0,
+            "fts_candidate_rows": 0,
+            "eligible_rows": 0,
+            "selected_ids": [],
+            "satisfied_ids": [],
+            "satisfaction_route": null,
+            "http_requests": 1,
+            "rows_read": 0,
+            "model_calls": 0,
+            "database_writes": 0,
+            "overflow": false,
+            "query_plan_sha256": "b0c81a56bbef29659d512d0ab4735500c75131ee71ecee69baf61518239bc416",
+            "query_facets_sha256": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9",
+            "query_plan_config": "v5",
+            "query_plan_trim": {
+              "trimmed": false,
+              "terms_removed": [],
+              "groups_removed": []
+            },
+            "authority_rejections": [
+              "unverified_document_lineage"
+            ],
+            "prose_source_card": {
+              "status": "blocked_unverified_document_lineage",
+              "snapshot_rejections": [
+                "unverified_document_lineage"
+              ],
+              "cards": 0
+            }
+          },
+          {
+            "lane": "obligation_warning_reserve_v1",
+            "validation": "procedural_query_served_document_scope_mandatory_warning_exact_span_v1",
+            "input_pool_rows": 33,
+            "served_scope_files": 1,
+            "selected_ids": [
+              "339f06e0-ac30-47d9-b22e-c1baf25e7240"
+            ],
+            "model_calls": 0,
+            "database_reads": 0,
+            "database_writes": 0,
+            "status": "selected"
+          },
+          {
+            "lane": "document_local_content_coverage_v1",
+            "conduct": "facet_complement",
+            "facet_fetch": "reused",
+            "facet_plan_rederived": false,
+            "selected_ids": [],
+            "status": "no_eligible_candidate",
+            "need_group_grades": [
+              0,
+              2,
+              1
+            ]
+          }
+        ]
+      },
+      "served_view_used": {
+        "rows_final": 12,
+        "rows_pre_reserve": 11,
+        "note": "la reserva ve la vista SIN su propia fila"
+      },
+      "reserve_pool_walk": [
+        {
+          "pool_rank": 0,
+          "id": "93cfe0cc",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 1,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 1,
+          "id": "2491b1cd",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 3,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 2,
+          "id": "339f06e0",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 7,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 3,
+          "id": "c48fd557",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 14,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 4,
+          "id": "2064cc96",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 15,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 5,
+          "id": "7ebc128e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 17,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 6,
+          "id": "f3feae48",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 17,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 7,
+          "id": "4e53c3a8",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 18,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 8,
+          "id": "55ba93a0",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 18,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 9,
+          "id": "866064ba",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 18,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 10,
+          "id": "8986fef8",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 5,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 11,
+          "id": "b8374360",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 20,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 12,
+          "id": "4881c18e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 21,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 13,
+          "id": "6bd4326b",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 24,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 14,
+          "id": "9ab90a01",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 26,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 15,
+          "id": "dbdd3a3e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 54,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 16,
+          "id": "56c084d9",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 54,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 17,
+          "id": "4c4a9b96",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 54,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 18,
+          "id": "927ea1d6",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 27,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 19,
+          "id": "41bcd390",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 27,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 20,
+          "id": "b5804921",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 101,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 21,
+          "id": "9410f72f",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 128,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 22,
+          "id": "5b6a3a19",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 121,
+          "chunk_index": null,
+          "eligible": true,
+          "skip_reasons": []
+        },
+        {
+          "pool_rank": 23,
+          "id": "6d5a807f",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 102,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 24,
+          "id": "414ce99c",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 28,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 25,
+          "id": "aa698b5e",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 31,
+          "chunk_index": null,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 26,
+          "id": "390494ab",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 100,
+          "chunk_index": 170,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 27,
+          "id": "51bc5368",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 58,
+          "chunk_index": 93,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 28,
+          "id": "16695901",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 128,
+          "chunk_index": 231,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 29,
+          "id": "d0a14450",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 127,
+          "chunk_index": 226,
+          "eligible": false,
+          "skip_reasons": [
+            "already_served"
+          ]
+        },
+        {
+          "pool_rank": 30,
+          "id": "1d02a64c",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 48,
+          "chunk_index": 71,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 31,
+          "id": "504227b3",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 113,
+          "chunk_index": 198,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        },
+        {
+          "pool_rank": 32,
+          "id": "3b52f449",
+          "source_file": "ASD535_TD_T131192es_h",
+          "page_number": 98,
+          "chunk_index": 163,
+          "eligible": false,
+          "skip_reasons": [
+            "no_warning_span"
+          ]
+        }
+      ],
+      "first_eligible": {
+        "pool_rank": 2,
+        "id": "339f06e0",
+        "source_file": "ASD535_TD_T131192es_h",
+        "page_number": 7,
+        "chunk_index": null,
+        "eligible": true,
+        "skip_reasons": []
+      },
+      "singleton_pool_entry": {
+        "pool_rank": 22,
+        "id": "5b6a3a19",
+        "source_file": "ASD535_TD_T131192es_h",
+        "page_number": 121,
+        "chunk_index": null,
+        "eligible": true,
+        "skip_reasons": []
+      },
+      "reserve_direct_call": {
+        "status": "selected",
+        "selected_ids": [
+          "339f06e0"
+        ],
+        "input_pool_rows": 33,
+        "served_scope_files": 1
+      }
+    }
+  },
+  "cost": {
+    "embedding_calls": 2,
+    "llm_calls": 0,
+    "judge_calls": 0,
+    "db_writes": 0
+  }
+}
