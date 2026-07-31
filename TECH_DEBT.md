@@ -2194,3 +2194,19 @@ Medido en s288c (diagnóstico hp002#4, `evals/s288c_gate_funnel_probe_v1.json`):
 (no solo hp002). Trigger de pago: cualquier lever/gate futuro que dependa de attestation por
 grupos (p.ej. los fixes DEC-167) — evaluar stemming spanish_unaccent (el FTS del corpus ya lo
 usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
+
+## #60 — Paquete telemetría PRE-TÉCNICOS: reacciones Telegram como canal de feedback + logging de rutas directas (s288d, adjudicado por Alberto 31-jul)
+
+Las reacciones de Telegram como segundo canal de feedback van al paquete pre-técnicos, NO a demo
+(mismo criterio que D11 del packet s286: con un usuario, el teclado 👍/👎 captura el 100%; con
+técnicos reales, la reacción es fricción-cero y captura más). Diseño esbozado:
+1. Delta de esquema: mapeo `message_id → query_log_id` (columna en `query_logs` estampada al
+   enviar la respuesta, o tabla puente) — `answer_feedback` se ancla por
+   `(query_log_id, telegram_user_id)` y una reacción solo trae el `message_id`.
+2. `allowed_updates` con SUPERSET explícito (gotcha real: mal configurado, el bot deja de
+   recibir los updates normales — cambio de transporte, sonda obligatoria + mini-dúo).
+3. Handler `message_reaction` escribiendo en la MISMA `answer_feedback` (el UNIQUE idempotente
+   ya cubre toggle/retirada de reacción).
+4. Mapeo emoji→sentimiento declarado (👍/❤️/🔥 → up, 👎 → down; resto ignorar + campo raw).
+Coste ~1-2h + tests. Va JUNTO a D11 (logging ligero de rutas directas, ~1h, packet
+`evals/s286_decisiones_diferidas_v1.md`). **Trigger: ANTES del primer técnico real.**
