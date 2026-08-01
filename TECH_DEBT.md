@@ -2222,3 +2222,16 @@ existente. Diseño: no-bloqueante, solo tras 👎, una vez por respuesta, ignora
 esquema del punto 1 ya lo da). CAVEAT RGPD: el texto libre entra en la matriz de retención
 pendiente (misma vara que query_logs). Telemetría del propio follow-up (tasa de respuesta).
 Coste ~1h extra sobre el paquete.
+
+**6. Corrección de marca con relanzamiento (idea de Alberto, 1-ago, smoke s291b): ante
+mismatch marca↔producto («ASD535 de Detnov» cuando el catálogo dice Securiton), NO rechazar:
+ofrecer «¿Te refieres al ASD535 de Securiton?» con botón que RELANZA la query corregida** —
+el bot YA sabe la marca correcta (el rechazo actual la cita). Fricción-cero para el técnico
+(caso real: Detnov DISTRIBUYE Securiton en España → la pregunta "incorrecta" es la natural).
+Conecta con: el resolver de identidad (la corrección sale del catálogo gobernado, no de texto
+libre) + multi-turn F1 (el relanzamiento es un turno sintético). CAVEAT de conducta: es la
+familia clarify-vs-answer (DEC-084: clarify SOLO si diverge) — aquí no diverge, la respuesta
+es ÚNICA ⇒ la variante aún más fluida sería responder directamente con nota «(el ASD535 es
+de Securiton, distribuido por Detnov)». AMBAS variantes a diseño+dúo con el paquete #60.
+FICHA para la sentada B2: el gold hp002 pregunta «ASD535 de Detnov» — prod hoy lo rechaza;
+adjudicar la conducta esperada (y de paso la redacción del gold).
