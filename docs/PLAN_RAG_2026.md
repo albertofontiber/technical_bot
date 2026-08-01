@@ -26,7 +26,33 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s291 — 2 ago 2026)
+## Estado actual (s292 — 2 ago 2026)
+
+**PRODUCCIÓN**: L2 (`OBLIGATION_WARNING_APPENDIX`) VIVO y verificado en query real
+(`query_logs` 19:41Z: aviso de seguridad + apéndice). Etapas 1-2 completas; OK 115/131 (88%).
+
+**s292 cerró — etapa 3 DIAGNOSTICADA y repartida (DEC-171):**
+- **Los 9 synth estables = 4 clases**: 3 levers vivos (hp003#4 hueco de léxico · hp017#2
+  supresión por conflict-guard · cat017#2 recuperado-no-servido) · 1 gold-split (cat018#2) ·
+  1 re-cablear (hp011#2) · 2 gold-review (hp006#2, hp008#4) · 2 techo (hp013#1, hp017#1).
+- **Hallazgo transversal ACOTADO**: signature-check $0 = 1/10 (solo cat017#2) ⇒ el «rerank 0»
+  del FULL se sostiene.
+- **L3 NO-GO como diseñado** (dúo 13/13, 0 FP): `atom_good_form=False` lo haría no-op y el
+  seam obvio explota a serving (la lane L2 viva). Nada cableado; v2 con lista de tareas.
+- **Pin del sub-agente → Opus 5** (Alberto; crédito Fable agotado). Cross-model intacto.
+
+**Qué sigue (nada bloqueado, todo con recibo):** (1) **L3 v2** si se retoma — seam
+por-parámetro + lista cerrada de imperativos + guard de span + vara ciega + censo
+out-of-sample + ES/EN; (2) **hp017#2** (conflict-guard) y **cat017#2** (probe $0 de lanes) =
+los otros 2 levers vivos; (3) **A3 / perfil c1_v5** (gate de outcome, paquete ON #2);
+(4) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 · cat018#2-split · meta-ref
+cat020#2 · hp001#2 · gold hp002 «de Detnov»); (5) bandeja Alberto: QA-30 v4 · tramos P-C ·
+DROP de 8 backups s285-s287 · B1 entity-linking · B3 juez (~sept) · B4 follow-up de 👎.
+Traza: DEC-171 + HISTORY s292.
+
+---
+
+## Estado anterior (s291 — 2 ago 2026)
 
 **PRODUCCIÓN**: sin cambios desde los ONs de etapa 2 (query real en query_logs 16:02Z ✓).
 

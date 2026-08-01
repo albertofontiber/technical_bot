@@ -1,0 +1,134 @@
+{
+ "instrument": "s292_l3_probe_result_v1",
+ "full_receipt_sha256_16": "3b07bda472a6ee77",
+ "poblacion_chunks_servidos": 398,
+ "regex": {
+  "NAIVE": "\\b([a-záéíóúñ]{3,}[ae])\\s+siempre\\b(?!\\s+que\\b)|(?<!\\w)siempre\\s+([a-záéíóúñ]{3,}[ae])\\b",
+  "COND": "siempre\\s+(y\\s+cuando|que)\\b",
+  "IMPER": "(?:^|[.;:]\\s*|[*>\\-]\\s+)([A-ZÁÉÍÓÚÑ][a-záéíóúñ]{3,}[ae])\\s+siempre\\b",
+  "DEONT": "siempre[^.]{0,60}\\b(debe|deben|tiene\\s+que|tienen\\s+que|hay\\s+que)\\b|\\b(debe|deben|tiene\\s+que|tienen\\s+que|hay\\s+que)\\b[^.]{0,60}siempre\\b"
+ },
+ "S3_censo": {
+  "naive_n": 13,
+  "tight_n": 6,
+  "naive_hits": [
+   {
+    "id": "155a90fe",
+    "sent": "Este menú, aunque se haya accedido mediante clave de acceso o utilizando la llave opcional, presenta siempre las mismas opciones."
+   },
+   {
+    "id": "4a198acf",
+    "sent": "> * La caja de filtro/unidad de filtrado, la trampa para polvo, el separador de polvo y el separador de agua deben colocarse siempre bajo la caja del detector."
+   },
+   {
+    "id": "4dd6c20a",
+    "sent": "> * Cuando se ejecuta desde «ADW Config», el reset inicial debe realizarse normalmente con el «control de estanqueidad» y el «control de longitud» activados (se activan siempre desde *EasyConfig*)."
+   },
+   {
+    "id": "692718af",
+    "sent": "Debe instalarse siempre una resistencia RFL entre + y - de la última sirena para controlar la apertura o cierre de la línea de sirenas."
+   },
+   {
+    "id": "8cf55c57",
+    "sent": "Esta pantalla permanecerá fija siempre y cuando el sistema no detecte ningún evento (alarma, avería o evento técnico)."
+   },
+   {
+    "id": "9bd17466",
+    "sent": "Esta pantalla permanecerá fija siempre y cuando el sistema no detecte"
+   },
+   {
+    "id": "9bd17466",
+    "sent": "Esta pantalla permanecerá fija siempre y cuando el sistema no detecte ningún evento (alarma, avería, evento técnico, eventos de deshabilitaciones o tests de entidades)."
+   },
+   {
+    "id": "a11ffa4a",
+    "sent": "De este modo, el sensor de humo siempre recibe nuevas muestras de aire procedentes del recinto que se desea vigilar."
+   },
+   {
+    "id": "d51349a4",
+    "sent": "La consecuencia de esta operativa es que, en una situación normal (tubo sensor sellado), siempre existe una cierta sobrepresión o subpresión mínima en el tubo sensor."
+   },
+   {
+    "id": "d6a698c3",
+    "sent": "> * Cuando se ejecuta desde «ADW Config», el reset inicial debe realizarse normalmente con el «control de estanqueidad» y el «control de longitud» activados (se activan siempre desde *EasyConfig*)."
+   },
+   {
+    "id": "d79a07b8",
+    "sent": "> Siempre debe comprobarse que la sección del cable usado mantiene la tensión de funcionamiento de los equipos especificada por el fabricante."
+   },
+   {
+    "id": "eaa39792",
+    "sent": "Desconecte siempre la magneto térmico bipolar exterior antes de manipular la central."
+   },
+   {
+    "id": "eaa39792",
+    "sent": "El orden de conexión para su seguridad, siempre tiene que ser primero la red y posteriormente las baterías."
+   }
+  ],
+  "tight_hits": [
+   {
+    "id": "4a198acf",
+    "form": "B-deontico",
+    "sent": "> * La caja de filtro/unidad de filtrado, la trampa para polvo, el separador de polvo y el separador de agua deben colocarse siempre bajo la caja del detector.",
+    "source_file": "ASD535_TD_T131192es_h",
+    "page": 76
+   },
+   {
+    "id": "692718af",
+    "form": "B-deontico",
+    "sent": "Debe instalarse siempre una resistencia RFL entre + y - de la última sirena para controlar la apertura o cierre de la línea de sirenas.",
+    "source_file": "MIE-MI-310",
+    "page": 18
+   },
+   {
+    "id": "b1665588",
+    "form": "B-deontico",
+    "sent": "Siempre deben respetarse las recomendaciones de mantenimiento de la norma EN54 parte 14.",
+    "source_file": "55315008-Manual-Centrales-Analogicas-CAD",
+    "page": 37
+   },
+   {
+    "id": "d79a07b8",
+    "form": "B-deontico",
+    "sent": "> Siempre debe comprobarse que la sección del cable usado mantiene la tensión de funcionamiento de los equipos especificada por el fabricante.",
+    "source_file": "MIE-MI-310",
+    "page": 15
+   },
+   {
+    "id": "eaa39792",
+    "form": "A-imperativo",
+    "sent": "Desconecte siempre la magneto térmico bipolar exterior antes de manipular la central.",
+    "source_file": "55315013 Manual Centrales Analogicas CAD",
+    "page": 8
+   },
+   {
+    "id": "eaa39792",
+    "form": "B-deontico",
+    "sent": "El orden de conexión para su seguridad, siempre tiene que ser primero la red y posteriormente las baterías.",
+    "source_file": "55315013 Manual Centrales Analogicas CAD",
+    "page": 8
+   }
+  ]
+ },
+ "S1_exigibilidad": {
+  "fragment_number": 3,
+  "is_cited": true,
+  "target_sentence": "Desconecte siempre la magneto térmico bipolar exterior antes de manipular la central.",
+  "citation_window_chars": 439,
+  "atom_exigible_in_window": true,
+  "atom_satisfied_by_answer": false,
+  "VERDICT_apendice_emitiria": true
+ },
+ "S2_cap_global": {
+  "missing_mandatory_en_toda_la_respuesta": 1,
+  "FAMILY_CAP": 2,
+  "detalle": [
+   {
+    "fragment": 3,
+    "id": "eaa39792",
+    "span": "No usar nunca el fusible de la regleta de Red para conectar y desconectar la central de la"
+   }
+  ],
+  "riesgo_desplazamiento": false
+ }
+}
