@@ -28,6 +28,11 @@ def _patch_pipeline(monkeypatch, *, vector, keyword_rows):
     monkeypatch.setattr(
         retriever, "_filter_by_document_status", lambda chunks: chunks
     )
+    # Sin modelo detectado, el Step 5b fetchea fresco del corpus (REST) — en CI
+    # no hay SUPABASE_URL y httpx revienta. Fuera del objeto de estos tests.
+    monkeypatch.setattr(
+        retriever, "_diversify_by_manufacturer", lambda chunks, *a, **k: chunks
+    )
 
 
 def test_vector_fail_open_logs_and_traces(monkeypatch, caplog):
