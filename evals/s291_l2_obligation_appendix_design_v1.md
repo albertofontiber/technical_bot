@@ -86,3 +86,54 @@ brazo del MISMO gate pareado; si A pasa FP-limpio y convierte, B queda de respal
 4. Radio 18/39: el apéndice solo puede DISPARAR donde la reserva sirvió Y el cuerpo omite —
    el sweep mide la frecuencia real; si dispara >5/39, STOP y re-diseño (sobre-apendizar es
    la clase 24/105).
+
+---
+
+## Reconciliación dúo r2 (v1 → v2) — 14 hallazgos, 0 FP; build GATEADO por V1
+
+Sol 8 (3 críticos) + sub-agente Fable 8 (H1 crítico). Convergencias en léxico, cap/prioridad,
+dedup (AMBAS direcciones cazadas: doble-aviso por paráfrasis [Sol] y no-op por satisfied
+genérico [H2]) e identidad. Regla C: el matiz «ordered sin ship» de H1 está STALE (ON en
+Railway desde hoy) — la exigencia de codificar la dependencia sigue en pie.
+
+### Cambios de diseño (v2)
+1. **Gate pareado del brazo A re-diseñado (Sol-1, mejora)**: A es post-generación pura → el
+   pareado congela LOS DRAFTS (capturas OFF reales) y aplica el apéndice determinísticamente
+   OFF/ON sobre el MISMO draft — $0 de generación, cero varianza. B (prompt) = gate separado
+   con generación.
+2. **Vector de flags pineado + dependencia codificada (H1)**: `OBLIGATION_WARNING_APPENDIX`
+   exige `OBLIGATION_RESERVE_ORDERED=on` (y RESERVE+MP_CONTRACT) en `validate_release_contract`
+   (patrón reserve⇒post_rerank_coverage, release_profiles.py:268). Todos los gates corren con
+   el vector de ship (hoy: ambos ON en Railway y en DEMO_FLAGS).
+3. **Span anexado = QUOTE ENTERO de la card como átomo sintético (H6)** si ≥1 átomo F-MANDATORY
+   detectado en él ∧ el quote pasa `_mandatory_clause_form` — evita fragmentación por-oración y
+   el rechazo de good-form sobre cabeceras.
+4. **Slot garantizado sin desplazar banked (Sol-3 + H4)**: el átomo de la reserva NO compite en
+   `_select_for_appendix` — entra como slot PROPIO (adicional al cap de familia y al cap global),
+   espejo del presupuesto-propio que la lane ya tiene en serving. Aserción de sweep: entradas de
+   apéndice existentes SIN CAMBIO (solo adiciones) — protege obl_0d6a/hp017 banked (DEC-134).
+5. **Cita [Fn] garantizada (Sol-4)**: `meta.fragment_number` del fragmento fuente estampado.
+6. **Revalidación fail-closed del receipt (Sol-5)**: antes de anexar, re-verificar id/bounds/
+   quote/contenido-padre con el mismo contrato del serving (post_rerank_coverage.py:196-220).
+7. **Gates de identidad HEREDADOS (H3, recomendación aceptada)**: el apéndice corre tras el gate
+   de identidad y attestation como el pase normal; el coste de radio se MIDE en el sweep
+   (columna identity_resolved por gold), no se asume.
+8. **Dedup con vara medida (Sol-6 + H2)**: V1b obligatorio — `atom_satisfied(átomo-sintético,
+   answer)` sobre las capturas OFF reales donde #4 fue no-conveyed DEBE dar False (dirección
+   no-op) y sobre las conveyed DEBE dar True (dirección doble-aviso). Si falla cualquiera, la
+   vara del dedup se re-trabaja ANTES de cablear.
+9. **Léxico (Sol-2 + H5)**: V1a sobre LOS 18 QUOTES REALES del censo de la reserva (átomos por
+   quote); decisión declarada tras el dato: extender triggers del detector SOLO en este path
+   (extensión = `_WARNING_EXTRA_TERMS`) o aceptar pérdida de clase con cifra.
+10. **G-FP con recibo por-fila pre-registrado (H7)**: yaml {gold, fragment_id, quote,
+    section_title, veredicto, ancla-en-fuente}; expectativa honesta hasta ~9 disparos
+    (18 golds × ~50% omisión); el control real = tripwire STOP>5 + 0-espurios por-fila.
+11. **Atribución de inflación cruzada (H8)**: en el pareado, cada delta per-fact se etiqueta
+    cuerpo-vs-solo-apéndice; G-0 invariancia con `MUST_PRESERVE_CONTRACT=on` + appendix off.
+12. **Cita DEC-051 corregida (Sol-8)**: B es hipótesis débil por diseño (obediencia), no clase
+    zanjada — DEC-098 (fact-level +3/0 SHIP) superseded el veredicto PASS de DEC-051.
+
+### Secuencia de build (gateada)
+**V1a+V1b ($0, medidos ANTES de tocar código de producción)** → build v2 flag-off → G-0 →
+G-FP (sweep con recibo por-fila + aserción banked) → G-directed pareado-de-drafts → B si A
+no convierte. Tallies ts=18:11:38.
