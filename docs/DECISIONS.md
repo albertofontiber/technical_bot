@@ -3923,3 +3923,54 @@ rerank (variance DEC-096b). La etiqueta `attribution:"interaction"` del runner e
 unión demasiado estricto (cat017 documentado como A∘B limpio). Coste sesión ≈$9-12 de gates
 (captura con rerank fresco > el ~$2-4 pre-registrado; declarado y a cambio mata la caveat de
 staleness).
+
+## DEC-169 — s290 (1 ago 2026): foto post-etapa-2 + diagnóstico de etapa 3 en fan-out adversarial + instrumento v3.2 (asimetría del acreditador servido cerrada, puente doc_map, pool_ids)
+
+**Decisión.** (a) La foto post-ONs de etapa 2 (mapa-10 N=2, flags ON, freeze nuevo) se estampó
+en el scoreboard; hp002 5/5 OK en rep1 con el aviso p.121 APENDIZADO por la reserva ordenada =
+Fix B sirviendo en la ruta viva. (b) El diagnóstico de etapa 3 se corrió como WORKFLOW de 4
+misiones judge-free + 1 refutador adversarial por misión (8 agentes, 0 errores) + regla-C mía
++ dúo r1 (Sol 6 + Fable 7, 0 FP) → levers ADJUDICADOS con secuencia. (c) El instrumento sube a
+**v3.2** (un solo corte de serie, dúo-mandado): votos por-id del eje servido persistidos +
+rescate dual-Opus en `support_over_served`/`support_over_append_content` (única asimetría sin
+red; FN medido cat017#4) + puente de familia vía **doc_map** (join gobernado doc-a-doc por
+catalog-ids role=primary, guard de ambigüedad >4 stems, fail-open) + `pool_ids` estampados.
+Guard conveyed-antes-de-rerank-miss **EN HOLD** (dúo: cambia la semántica de OK).
+
+**Gate v3.2 (recibo `s100_factlevel_smoke_v32gate.yaml`, expectativas pre-declaradas):**
+cat017#4 rerank-miss→**OK** (votos por-id muestran el near-threshold del primario 0/5→2/5→5/5
+entre ventanas; `via_coverage_append=True` vía la lane de Fix A — **las 2 dianas de etapa 2
+convertidas de verdad**) · cat017#2 synthesis-miss SIN cambio (0 OK falso; conveyed sigue
+gateando) · hp009#0 centinela INTACTO con `bridged_rows=[]` (el puente no ablandó crédito) ·
+puente acredita 4 filas en cat017 (visibilidad nueva).
+
+**Diagnóstico etapa 3 (brief `evals/s290_etapa3_diagnosis_v1.md` v1.1, refutadores + dúo):**
+- cat017#4 = FN del instrumento (cerrado con v3.2).
+- hp002#4 = omisión discrecional + `bind_atoms` ciego a fragmentos no-citados
+  (must_preserve.py:1685-1688); el brazo determinista es HIPÓTESIS NUEVA sobre población
+  distinta del NO-GO medido `MP_SERVED_BINDING` (24/105 FP, DEC-127×2 — cazado por el dúo
+  tras proponerlo yo sin grepear: 4ª instancia de la clase en la sesión) → diseño L2 con gate
+  FP pre-registrado tipo DEC-134-P3; brazo prompt/header paralelo.
+- cat017#2 NO es techo: DOS carriers de la cardinalidad (5bb83899 + 4c186fb2, verificados);
+  clase recuperado-pero-no-servido (rank-en-ventana variable; pool_ids v3.2 lo mide gratis) +
+  crédito de familia reparado por el puente. L3a (serving) NO-GO-todavía: probe $0 de las 2
+  lanes existentes (RERANK_POOL_COVERAGE off-por-stack-C1; hyq doc_scoped pendiente A3) y
+  dimensionar con el FULL antes de diseñar lane nueva.
+- hp009#0 = centinela conducta (DEC-166) — fuera de cola; tripwire en cada A/B.
+- L3b re-frame: doc_map YA mapea el doc de licencias; normalización runtime nueva = doble
+  verdad (rechazada); re-tag corpus = clase en cuarentena (identity_quarantine_v1).
+
+**Secuencia vigente:** v3.2 ✓ → re-run mapa-10 (opcional barato) → **FULL de 39 bajo v3.2**
+(cola real de etapa 3) → dimensionar recuperado-no-servido → L3a si paga. L2 en paralelo
+flag-off; su gate GO bajo v3.2. Tripwire hp009 en todo A/B.
+
+**Alternativas descartadas.** Guard conveyed 1(c) (hold) · normalización runtime de familia ·
+re-tag de corpus · encender RERANK_POOL_COVERAGE global (re-abre stack C1) · atacar la cola
+vieja de synth sin re-confirmar (clase DEC-075-caduco) · full ANTES del diagnóstico (medía
+cola que los fixes de instrumento iban a mover).
+
+**Método (durable).** Workflow de diagnóstico con refutador-por-misión pagó: 2 anclas falsas
+cazadas ANTES del dúo (slot-competition era output del anexo; «único chunk» era falso) y el
+hallazgo positivo del segundo carrier vino del refutador. El patrón queda: diagnóstico →
+refutación → regla-C → dúo → build. Costes: workflow ~$0 API-jueces (agentes harness) · gate
+v3.2 ~$4 · mapa N=2 ~$8.
