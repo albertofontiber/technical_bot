@@ -2210,3 +2210,15 @@ técnicos reales, la reacción es fricción-cero y captura más). Diseño esboza
 4. Mapeo emoji→sentimiento declarado (👍/❤️/🔥 → up, 👎 → down; resto ignorar + campo raw).
 Coste ~1-2h + tests. Va JUNTO a D11 (logging ligero de rutas directas, ~1h, packet
 `evals/s286_decisiones_diferidas_v1.md`). **Trigger: ANTES del primer técnico real.**
+
+**5. Follow-up de 👎 (idea de Alberto, 1-ago s291b): al recibir thumbs-down, UNA pregunta
+opcional «¿qué falló?» con quick-reply buttons** (p.ej.: «faltó información» · «dato
+incorrecto» · «no era mi pregunta» · «otra cosa (escríbela)») + texto libre como fallback.
+Racional: convierte la señal 👎 (sin mecanismo) en CASO DIAGNOSTICABLE — los botones mapean
+~1:1 a la taxonomía del instrumento (omitted/contradicted/scope/retrieval) → cada 👎+motivo
+= semilla del eval orgánico y candidato a gold, vía el patrón `query_gaps.review_status` ya
+existente. Diseño: no-bloqueante, solo tras 👎, una vez por respuesta, ignorable; columnas
+`reason_class`+`reason_text` en `answer_feedback` ancladas al `query_log_id` (el delta de
+esquema del punto 1 ya lo da). CAVEAT RGPD: el texto libre entra en la matriz de retención
+pendiente (misma vara que query_logs). Telemetría del propio follow-up (tasa de respuesta).
+Coste ~1h extra sobre el paquete.

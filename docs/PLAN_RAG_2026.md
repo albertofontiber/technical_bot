@@ -56,6 +56,9 @@ adecuado = VISUAL_ASSETS_REGISTRY verificado vivo).
   meta-ref cat020#2 (valor→«específicos de la versión España» + la referencia al manual de
   variaciones pasa a expectativa de CITA) · afilar `texto` de hp001#2 «1111» (sin tocar el
   valor — reduce fragilidad del juez) · + los 2 cat013 si B1 no los resuelve antes.
+- **(B4) Follow-up de 👎 en Telegram** («¿qué falló?» con botones → caso diagnosticable;
+  idea de Alberto 1-ago): integrado en TECH_DEBT #60 punto 5 — va en el paquete
+  pre-técnicos, trigger ANTES del primer técnico real.
 - **(B3) Juez: NO cambiar ahora; revisar en el re-baseline del eval orgánico (~sept).**
   Cambiar el primario a Opus 5 rompería la propiedad CROSS-VENDOR (Claude genera / GPT
   juzga = anti-echo-chamber deliberado, DEC-023) además del freeze de comparabilidad; el
