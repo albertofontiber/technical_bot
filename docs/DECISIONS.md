@@ -3866,3 +3866,60 @@ del reranker ventana-dependiente (bandas 1/12-14/44) — la banda 12-14/44 sin r
 (5) Instrumento: hueco `l1_killed` con sup no-vacío nunca re-adjudicado
 (factlevel_assessment.py:731) — sin efecto en estas 2 dianas (kills verificados correctos),
 anotado para la próxima revisión del instrumento.
+
+## DEC-168 — s289 (1 ago 2026): etapa 2 EJECUTADA — 2 fixes de orden/fallback construidos flag-off, gates PASS, cat017#4 convertida (Fix A) y hp002#4 miss→flip en ventana-mala (Fix B); observabilidad de canales entregada
+
+**Decisión.** (a) Los 2 fixes quirúrgicos de DEC-167(b) quedan CONSTRUIDOS default-off,
+byte-invariantes con flag off, y GATEADOS con cadena de evidencia ligada por hash:
+`FACET_COMPLEMENT_FALLBACK` (fallback de attestation en la vía por-faceta:
+`_facet_gate_and_select_all` + iteración del orden total; firma histórica preservada) y
+`OBLIGATION_RESERVE_ORDERED` (2 filtros de clase POR-GRUPO en `_warning_span` — grupo-tabla y
+marcador-huérfano — + orden determinista v2 `(sección-con-intención, blockquote, pool_rank)` en
+la reserva). (b) La pieza de observabilidad DEC-167(c): fail-open del canal VECTOR con log+traza
+(era el ÚNICO silencioso) + `channel_health` en el seam `_trace` inerte. (c) El ON en Railway =
+decisión de Alberto (checklist en el PR); rollback = quitar la variable.
+
+**Resultados de gates (recibos en `evals/s289_*`).**
+- G-0: suite 3416+3/0 (los 3 de observabilidad tras el último run verde).
+- G-1 sweep-39, 5 brazos (OFF/ON/réplica-OFF/A-only/B-only) sobre captura única congelada
+  (39 embeddings + 39 rerank, patrón DEC-096b): harness PASS (fidelidad replay 0 · réplica 0);
+  9 golds cambian composición; atribución 8/9 = Fix B puro, cat017 = A∘B descomponible.
+- G-2 por-fila `339f06e0` (cohorte protegida S273/DEC-132b): 0 citas de soporte ×5 facts ×2
+  reps HEAD + answer no extrae del changelog (recibo formal) + outcome en G-3.
+- G-3 dirigido pareado per-fact (9 golds, 39 facts, N=2, juez del instrumento GPT-5.5 K=5 →
+  dual Opus en miss): **PASS — cat017#4 miss-stable→conveyed-stable · 0 regresiones**; bonus
+  cat008#3/hp014#1 flip→conveyed-stable; hp002 5/5 conveyed-stable en ON.
+- Probe ventana-mala (r4-1; prefijo HEAD sin el portador): **hp002#4 OFF=miss-stable →
+  ON=flip** (el portador `5b6a3a19` SE SIRVE; conversión parcial = residual de síntesis, no de
+  serving) · **cat017#4 bajo A-only = conveyed-stable** (conversión atribuible a Fix A).
+
+**Método (lo durable).**
+- **Escalada v2 pre-declarada y disparada por dato**: el orden v1 (blockquote-first) sirvió en
+  la ventana capturada un callout AJENO al procedimiento (`fa55311c` «Instalación» > p.121 por
+  pool-rank) → v2 = sección-con-intención primaria (léxico `_OBLIGATION_INTENT` ya existente,
+  cero vocabulario nuevo; la letra «selección puntuada» de DEC-167(b)(ii)). Trigger preservado
+  (`s289_g1_sweep39_result_orderv1_trigger.json`).
+- **Dúo ×2 + r4 post-gates**: r3 pre-build (Sol 5/5 crítico-metodológico [brazos sobre pools
+  serializados idénticos] + Fable 8 anclados [filtros POR-GRUPO; firma pineada por el probe
+  reproductor de DEC-167]) y r4 focal post-gates (Sol 6/6: freeze-binding, atribución por flag,
+  selección≠conversión, censo re-declarado) — **2 veces en la sesión el control estructural
+  cazó la clase «validado-vs-visible» de feedback_my_bias**. Tallies completos (ts 00:06 r3 ·
+  01:44 r4), 0 FP en las 3 rondas de Sol.
+- **Freeze-binding de harness propio** (r4-2): sha captura + commit + sha golds estampados; G-3
+  se niega ante captura no-ligada. La captura (1.2MB gz) committeada como ancla.
+- Audit $0 pre-diseño sobre competidores reales (perfil de FP medido: tabla/prosa-incidental/
+  marcador-huérfano) + censo 284 docs (población = pools de los 39 golds; distribución, NO
+  universal semántico — 2 clases FP-en-blockquote declaradas del propio recibo).
+
+**Alternativas descartadas (con quién las mató).** Excluir-changelog solo (insuficiente:
+5 FPs por delante, audit s289) · per-chunk post-return (A3 Fable: entierra callouts reales) ·
+romper la firma de `_facet_gate_and_select` (A4: 4 ficheros pineados) · cap de intentos
+(número mágico) · extender el merge de `_warning_span` (radio) · blockquote-first como señal
+primaria (r4-5 + trigger v1) · G-3 solo-dianas (S2=A1: todo gold con vista cambiada).
+
+**Gaps declarados.** hp002#4 convierte PARCIAL (flip) en ventana-mala — residual = síntesis
+(el hecho compite en respuesta larga), no serving; la ventana fresca lo auto-resuelve vía
+rerank (variance DEC-096b). La etiqueta `attribution:"interaction"` del runner es un check de
+unión demasiado estricto (cat017 documentado como A∘B limpio). Coste sesión ≈$9-12 de gates
+(captura con rerank fresco > el ~$2-4 pre-registrado; declarado y a cambio mata la caveat de
+staleness).

@@ -17,6 +17,16 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s289 (1 ago 2026).** PROD sin cambios (la release de #189 sigue viva). **Etapa 2 de
+> la campaña EJECUTADA (DEC-168)**: los 2 fixes de orden/fallback de DEC-167 construidos
+> **default-off** (`FACET_COMPLEMENT_FALLBACK` en la vía por-faceta ·
+> `OBLIGATION_RESERVE_ORDERED` en la reserva de avisos, con filtros de clase por-grupo + orden
+> sección-con-intención) y **gateados**: G-3 pareado per-fact = cat017#4 CONVERTIDA
+> (atribuida a Fix A) · hp002#4 miss→flip en la ventana-mala (el aviso p.121 se sirve; el
+> residual es síntesis) · 0 regresiones en 39 facts. Observabilidad nueva: fail-open del canal
+> VECTOR con log+traza + `channel_health` en el seam `_trace`. El ON de los flags = decisión de
+> Alberto (PR de la rama s289). Suite 3419/0. Detalle → PLAN "Estado actual" + DEC-168.
+>
 > **Estado s288c (31 jul 2026).** **PROD = C1 + multi-turn F0+F1 + P1 corpus-aware** (merge
 > PR #189: el resolver degrada a token-familia cuando las variantes no existen en el corpus —
 > repara la regresión T3×replace corpus-wide; el resto del tramo s287→s288b va default-off).
