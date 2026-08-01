@@ -43,8 +43,24 @@
 
 **Qué sigue:** (1) **G-FP + G-directed de L2** → paquete de decisión ON a Alberto;
 (2) **etapa 3 sobre los 9** (diagnóstico por sub-motivo con patrón refutador s290 → levers
-con dúo); (3) A3/perfil c1_v5 (lane hyq ON, centinela hp009); (4) bandeja Alberto: smoke
-Telegram procedimental · QA-30 v4 · tramos P-C · ONs telemetría + D9 · DROP backup.
+con dúo); (3) A3/perfil c1_v5 (lane hyq ON, centinela hp009); (4) bandeja Alberto: QA-30 v4
+· tramos P-C · DROP backup (smoke Telegram ✓ 1-ago: texto completo 2 msgs + álbum 4/4
+adecuado = VISUAL_ASSETS_REGISTRY verificado vivo).
+
+**Backlog adjudicado (Alberto 1-ago, «atacar después» — orden tentativo tras etapa 3):**
+- **(B1) Entity-linking / relaciones del catálogo gobernado** (clase cat013 cross-family:
+  protocolo CLIP, componentes/OEM compartidos): GENERALIZABLE — capa de consumo del activo
+  s83 (pieza F), `relations.jsonl` ya en esquema; consumida por family-filter del serving Y
+  crédito del instrumento (patrón puente doc_map v3.2). Diseño con dúo cuando toque.
+- **(B2) Sentada de gold-review** (packet a preparar para adjudicación de Alberto):
+  meta-ref cat020#2 (valor→«específicos de la versión España» + la referencia al manual de
+  variaciones pasa a expectativa de CITA) · afilar `texto` de hp001#2 «1111» (sin tocar el
+  valor — reduce fragilidad del juez) · + los 2 cat013 si B1 no los resuelve antes.
+- **(B3) Juez: NO cambiar ahora; revisar en el re-baseline del eval orgánico (~sept).**
+  Cambiar el primario a Opus 5 rompería la propiedad CROSS-VENDOR (Claude genera / GPT
+  juzga = anti-echo-chamber deliberado, DEC-023) además del freeze de comparabilidad; el
+  ruido-de-juez hoy es ~1-2 hechos (no dominante). Vía barata si se quiere mejora antes:
+  subir el SECUNDARIO del dual-rescue (Opus 4.8→5) re-validando la suite balanceada s100.
 Traza: DEC-170 + HISTORY s291.
 
 ---
