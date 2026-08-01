@@ -2419,3 +2419,18 @@ familia doc_map (join gobernado doc-a-doc, guard de ambigüedad medido por dato)
 el near-threshold 0/5→2/5→5/5; via_coverage_append vía la lane de Fix A ⇒ **las 2 dianas de
 etapa 2 convertidas de verdad**) · cat017#2 sin OK-falso · hp009 centinela intacto con puente
 inerte. Suite verde tras actualizar el pin deliberado de versión. Traza: DEC-169.
+
+
+## s291 (1-2 ago 2026) — el full v3.2: etapas 1-2 completadas corpus-wide; L2 construido con dúo y V1 medido
+
+GO de Alberto al full (~$25). **OK 115/131 (88%)** — retrieval 10→2 (centinela+techo) y
+rerank 4→0 desde el mapa canónico: las dos primeras etapas de la campaña quedan hechas a
+nivel corpus, y la cascada upstream→downstream que motivó el orden de Alberto quedó MEDIDA
+(hp013#1 pasó de retrieval-techo a synth: el carrier ya se sirve y ahora el cuello es el LLM).
+Cola de etapa 3 = 9 synth estables. En paralelo, L2 (apéndice determinista del aviso
+obligatorio servido — la clase SEGURIDAD hp002#4): diseño v1 → dúo r2 (Sol 8 + Fable 8, 0 FP;
+el gate pareado se rediseñó a pareado-de-drafts $0; vector de flags codificado en el contrato
+de release; slot propio sin tocar banked) → **V1a/V1b medidos ANTES de construir** (0-átomos
+3/20 clase precaución = no-op limpio; dedup dirección letal 0/4) → build default-off + 7 tests
+→ suite 3426/0. El ON de L2 queda gateado por G-FP de amplitud con recibo por-fila. Traza:
+DEC-170.

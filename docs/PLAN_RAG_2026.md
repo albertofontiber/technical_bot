@@ -26,7 +26,30 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s290 — 1 ago 2026, tarde)
+## Estado actual (s291 — 2 ago 2026)
+
+**PRODUCCIÓN**: sin cambios desde los ONs de etapa 2 (query real en query_logs 16:02Z ✓).
+
+**s291 cerró — HITO DEL FULL v3.2 + lever L2 construido (DEC-170):**
+- **FULL 39 bajo v3.2** (GO Alberto): **OK 115/131 (88%) · synth 12 · rerank 0 · retrieval 2
+  (centinela+techo) · corpus-gap 2 (cat013×2 FN conocidos)**. Etapas 1-2 COMPLETADAS
+  corpus-wide; cascada medida (hp013#1 retrieval→synth). vs v3.0: +14 OK (serving real +
+  honestidad v3.2, empaquetado declarado). via_coverage_append=14 facts.
+- **Cola etapa 3 = 9 synth estables**: cat017#2 · cat018#2 · hp003#4 · hp006#2 · hp008#4 ·
+  hp011#2 · hp013#1 · hp017#1 · hp017#2 (hp009 centinela fuera).
+- **L2 `OBLIGATION_WARNING_APPENDIX`** (hp002#4 SEGURIDAD): construido default-off tras dúo r2
+  (14 resoluciones) + V1 medido; suite 3426/0. **ON gateado por G-FP de amplitud** (~$5,
+  recibo por-fila) + G-directed — pendientes.
+
+**Qué sigue:** (1) **G-FP + G-directed de L2** → paquete de decisión ON a Alberto;
+(2) **etapa 3 sobre los 9** (diagnóstico por sub-motivo con patrón refutador s290 → levers
+con dúo); (3) A3/perfil c1_v5 (lane hyq ON, centinela hp009); (4) bandeja Alberto: smoke
+Telegram procedimental · QA-30 v4 · tramos P-C · ONs telemetría + D9 · DROP backup.
+Traza: DEC-170 + HISTORY s291.
+
+---
+
+## Estado anterior (s290 — 1 ago 2026, tarde)
 
 **PRODUCCIÓN**: PR #191 MERGEADA + los 2 flags de etapa 2 ON en Railway (Alberto, mediodía).
 Smoke Telegram pendiente de su primera query real (verificable en query_logs).

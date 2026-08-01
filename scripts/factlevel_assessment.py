@@ -123,6 +123,9 @@ DEMO_FLAGS = {
     # s102). Cambia el freeze-hash. El gate-runner s289 los conmuta por brazo.
     "FACET_COMPLEMENT_FALLBACK": "on",
     "OBLIGATION_RESERVE_ORDERED": "on",
+    # s291/L2: apéndice del aviso obligatorio servido — flag-hoja del seam,
+    # pineado off (= ship actual). El gate L2 lo conmuta por brazo declarado.
+    "OBLIGATION_WARNING_APPENDIX": "off",
 }
 
 

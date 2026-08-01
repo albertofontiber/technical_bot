@@ -17,6 +17,12 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s291 (2 ago 2026).** **FULL v3.2 = HITO: OK 115/131 (88%) · retrieval+rerank a
+> cero-más-techo corpus-wide (etapas 1-2 de la campaña completadas)**; cascada medida
+> (hp013#1 retrieval→synth). Cola de etapa 3 = 9 synth estables. Lever L2 (apéndice
+> determinista del aviso de SEGURIDAD servido) construido default-off con dúo r2 + V1 medido;
+> su ON está gateado por G-FP por-fila. Suite 3426/0. Detalle → PLAN + DEC-170.
+>
 > **Estado s290 (1 ago 2026, tarde).** **PROD = C1 + multi-turn F0+F1 + P1 + los 2 fixes de
 > etapa 2 ON** (PR #191 mergeada + variables en Railway, Alberto). Foto post-ONs (mapa-10 N=2):
 > hp002 5/5 OK con el aviso de seguridad p.121 servido por la reserva ordenada. Diagnóstico de

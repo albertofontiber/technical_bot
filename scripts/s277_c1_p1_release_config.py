@@ -96,6 +96,9 @@ SAFE_DEFAULTS = {
     # allowlist = fail-closed correcto.
     "FACET_COMPLEMENT_FALLBACK": "off",
     "OBLIGATION_RESERVE_ORDERED": "off",
+    # s291/L2: mismo criterio (flag-hoja default-off; un receipt P1 con "on"
+    # falla el allowlist = fail-closed correcto).
+    "OBLIGATION_WARNING_APPENDIX": "off",
     **{name: "off" for name in p1.TARGET_OFF_FLAGS},
 }
 

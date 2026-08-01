@@ -2462,9 +2462,66 @@ def apply_must_preserve_contract(
             atom.setdefault("meta", {})["fragment_number"] = count_idx
             missing.append(atom)
     trace["atoms_missing"] = len(missing)
+    # ── s291/L2 (`OBLIGATION_WARNING_APPENDIX`, default off — diseño v2
+    # evals/s291_l2_obligation_appendix_design_v1.md, dúo r2 14/14 + V1 medido):
+    # el AVISO OBLIGATORIO que la reserva sirvió queda exento de la compuerta de
+    # citación SOLO para su fila lane-estampada (≤1/respuesta) — población
+    # DISTINTA del NO-GO MP_SERVED_BINDING (24/105, binding genérico
+    # all-families), gateada por el G-FP 0-espurios. Hereda identidad+attestation
+    # (H3: el pase itera `attested`); revalida el receipt exacto (Sol-5); átomo
+    # sintético = QUOTE entero (H6); dedup por atom_satisfied — V1b: dirección
+    # no-op 0/4, dirección doble 1/4 benigna (SEGURIDAD: duplicar >> omitir);
+    # slot PROPIO post-selección (Sol-3+H4: ni desplaza banked ni es desplazado).
+    obligation_entry: str | None = None
+    if _mp_flag("OBLIGATION_WARNING_APPENDIX"):
+        ob: dict[str, Any] = {"candidates": 0, "satisfied": 0, "appended": 0,
+                              "rejected": []}
+        for idx, chunk in attested.items():
+            if chunk.get("retrieval_lane") != "obligation_warning_reserve_v1":
+                continue
+            card = (chunk.get("coverage_cards") or [{}])[0]
+            if card.get("mandatory_warning") is not True:
+                continue
+            ob["candidates"] += 1
+            content = str(chunk.get("content") or "")
+            quote = str(card.get("quote") or "")
+            start, end = card.get("start"), card.get("end")
+            if (not quote
+                    or isinstance(start, bool) or not isinstance(start, int)
+                    or isinstance(end, bool) or not isinstance(end, int)
+                    or not 0 <= start < end <= len(content)
+                    or content[start:end] != quote):
+                ob["rejected"].append({"fragment": idx, "reason": "receipt_mismatch"})
+                continue
+            atoms = [a for a in detect_atoms(quote)
+                     if a.get("family") == FAMILY_MANDATORY]
+            if not atoms or not _mandatory_clause_form(quote):
+                # V1a: clase precaución/cabecera (3/20 medidos) = no-op declarado
+                ob["rejected"].append({"fragment": idx, "reason": "no_atom_or_form"})
+                continue
+            if all(atom_satisfied(a, draft_answer) for a in atoms):
+                ob["satisfied"] += 1
+                continue
+            span = _strip_blockquote_markers(quote).strip()
+            obligation_entry = (
+                f'- ⚠️ Aviso obligatorio del manual: "{span}" [F{idx}]'
+            )
+            ob["appended"] += 1
+            break  # ≤1 por construcción (presupuesto de la reserva)
+        trace["obligation_appendix"] = ob
     appendix = render_appendix(missing, draft_answer)
+    if obligation_entry:
+        if appendix:
+            appendix = appendix + "\n" + obligation_entry
+        else:
+            appendix = "\n".join(
+                [APPENDIX_SEPARATOR, f"⚠️ **{APPENDIX_HEADER}**", obligation_entry]
+            )
     if not appendix:
         return draft_answer, trace
-    trace["atoms_appended"] = len(_select_for_appendix(missing, draft_answer))
+    trace["atoms_appended"] = (
+        len(_select_for_appendix(missing, draft_answer))
+        + (1 if obligation_entry else 0)
+    )
     trace["appendix_appended"] = True
     return draft_answer.rstrip() + "\n\n" + appendix, trace

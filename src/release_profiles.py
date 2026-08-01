@@ -269,6 +269,22 @@ def validate_release_contract(
         errors.append(
             "OBLIGATION_WARNING_RESERVE requires POST_RERANK_COVERAGE"
         )
+    # s291/L2 (dúo r2 H1): el apéndice del aviso obligatorio exige el VECTOR
+    # completo — su argumento de población (≤1 fila, filtros de clase + orden
+    # sección-intención) solo existe con la reserva ORDENADA activa.
+    if _strict_on_off("OBLIGATION_WARNING_APPENDIX", os.environ):
+        if not policy.obligation_warning_reserve:
+            errors.append(
+                "OBLIGATION_WARNING_APPENDIX requires OBLIGATION_WARNING_RESERVE"
+            )
+        if not _strict_on_off("OBLIGATION_RESERVE_ORDERED", os.environ):
+            errors.append(
+                "OBLIGATION_WARNING_APPENDIX requires OBLIGATION_RESERVE_ORDERED=on"
+            )
+        if not must_preserve_enabled:
+            errors.append(
+                "OBLIGATION_WARNING_APPENDIX requires MUST_PRESERVE_CONTRACT=on"
+            )
     if policy.document_local_selection_v2 and not policy.document_local_coverage:
         errors.append(
             "DOCUMENT_LOCAL_SELECTION_V2 requires DOCUMENT_LOCAL_COVERAGE"
