@@ -137,3 +137,14 @@ Railway desde hoy) — la exigencia de codificar la dependencia sigue en pie.
 **V1a+V1b ($0, medidos ANTES de tocar código de producción)** → build v2 flag-off → G-0 →
 G-FP (sweep con recibo por-fila + aserción banked) → G-directed pareado-de-drafts → B si A
 no convierte. Tallies ts=18:11:38.
+
+### V1 MEDIDO (pre-build, $0 — `s291_l2_v1_probe_result_v1.json`)
+- **V1a**: reserva sirve en 20/39 (vector ship); **0-átomos = 3/20** (hp006 cabecera-only ·
+  cat001 línea-TOC · cat017 precaución-batería) — TODOS clase precaución/cabecera predicha
+  (H5) y TODOS fallan también `_mandatory_clause_form` ⇒ bajo la regla v2 son NO-OP silencioso
+  (jamás apéndice basura). Pérdida de radio aceptada con cifra (17/20); léxico del detector NO
+  se extiende (la estrictez protege: 2/3 quotes son sirvientes de bajo valor).
+- **V1b**: dirección no-op (H2, la letal) = **0/4** ✓; dirección doble (Sol-6) = 1/4
+  (paráfrasis conveyed que la vara léxica no ve → apéndice redundante). Para clase SEGURIDAD
+  duplicar >> omitir; al recibo G-FP como columna «redundante» separada de «espurio».
+- **Adjudicación: BUILD GO** (flag-off, gates v2).
