@@ -2483,6 +2483,20 @@ def apply_must_preserve_contract(
             if card.get("mandatory_warning") is not True:
                 continue
             ob["candidates"] += 1
+            # s291b (G-FP r1, mitigación pre-registrada del riesgo 2 del diseño
+            # v2 — MEDIDA: 4 apéndices, 1-2 espurios de prosa-incidental/nota-
+            # de-diseño [cat007 p.1 QIG, hp001 zonas]): el apéndice SOLO actúa
+            # si la SECCIÓN del aviso matchea la intención procedimental — el
+            # MISMO léxico que dispara la lane y ordena v2 (cero vocabulario
+            # nuevo). El caso diana (hp002 «9.3 Comprobaciones de
+            # mantenimiento») lo pasa; los espurios medidos no.
+            from .rerank_pool_coverage import _OBLIGATION_INTENT, _fold as _rp_fold
+            section = str(chunk.get("section_title") or "")
+            if not _OBLIGATION_INTENT.search(_rp_fold(section)):
+                ob["rejected"].append(
+                    {"fragment": idx, "reason": "no_section_intent"}
+                )
+                continue
             content = str(chunk.get("content") or "")
             quote = str(card.get("quote") or "")
             start, end = card.get("start"), card.get("end")
