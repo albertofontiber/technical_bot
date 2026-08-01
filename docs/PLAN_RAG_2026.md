@@ -26,7 +26,36 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s289 — 1 ago 2026)
+## Estado actual (s290 — 1 ago 2026, tarde)
+
+**PRODUCCIÓN**: PR #191 MERGEADA + los 2 flags de etapa 2 ON en Railway (Alberto, mediodía).
+Smoke Telegram pendiente de su primera query real (verificable en query_logs).
+
+**s290 cerró — foto post-etapa-2 + diagnóstico de etapa 3 + instrumento v3.2 (DEC-169):**
+- **Foto** (mapa-10 N=2, flags ON): rep1 OK 27/33 · hp002 5/5 OK con el aviso p.121 apendizado
+  por la reserva = Fix B vivo en la ruta del instrumento. Estables: cat017#2 (omitted),
+  cat017#4 (→ FN del instrumento, ver abajo), hp009#0 (centinela), hp013#1 (techo).
+- **Diagnóstico etapa 3** = workflow 4 misiones judge-free + refutador POR misión (8 agentes,
+  2 anclas falsas cazadas + hallazgo del 2º carrier) + dúo r1 (Sol 6 + Fable 7, 0 FP):
+  cat017#4=FN instrumento · hp002#4=discrecionalidad+bind_atoms-ciego (brazo determinista =
+  hipótesis sobre población distinta del NO-GO MP_SERVED_BINDING 24/105, gate FP obligatorio)
+  · cat017#2 NO-techo (2 carriers, recuperado-no-servido + crédito de familia) · hp009#0
+  centinela fuera de cola. Brief: `evals/s290_etapa3_diagnosis_v1.md` v1.1.
+- **Instrumento v3.2** (un corte de serie): votos por-id servidos + dual-rescue en el eje
+  servido/append (asimetría cerrada) + puente familia doc_map (join gobernado) + pool_ids.
+  Gate 3/3 expectativas: cat017#4→OK (las 2 dianas de etapa 2 convertidas DE VERDAD) ·
+  cat017#2 sin OK-falso · hp009 intacto con puente inerte.
+
+**Qué sigue:** (1) **FULL de 39 bajo v3.2** = cola real de etapa 3 (~$23, gate de gasto);
+(2) diseño L2 (hp002#4 determinista con gate FP pre-registrado tipo DEC-134-P3 + brazo
+prompt/header) — construible flag-off en paralelo; (3) probe $0 de lanes existentes para
+recuperado-no-servido (L3a) DESPUÉS de dimensionar con el full; (4) A3/perfil c1_v5 (lane hyq
+ON con centinela hp009); (5) bandeja Alberto: smoke Telegram + QA-30 v4 · tramos P-C · ONs
+telemetría + D9 · DROP backup. Traza: DEC-168/169 + HISTORY s289/s290.
+
+---
+
+## Estado anterior (s289 — 1 ago 2026)
 
 **PRODUCCIÓN**: sin cambios de release (la de #189 sigue viva). Rama de sesión
 `claude/s289-etapa2-order-fixes` (desde `claude/s288d-pretecnicos-note` = main + TECH_DEBT #60)

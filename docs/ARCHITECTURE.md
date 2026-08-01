@@ -17,6 +17,16 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s290 (1 ago 2026, tarde).** **PROD = C1 + multi-turn F0+F1 + P1 + los 2 fixes de
+> etapa 2 ON** (PR #191 mergeada + variables en Railway, Alberto). Foto post-ONs (mapa-10 N=2):
+> hp002 5/5 OK con el aviso de seguridad p.121 servido por la reserva ordenada. Diagnóstico de
+> etapa 3 (workflow con refutadores + dúo): cat017#4 era FN del instrumento → **instrumento
+> v3.2** (dual-rescue del eje servido + votos por-id + puente de familia doc_map + pool_ids;
+> serie nueva) con gate 3/3 — **las 2 dianas de etapa 2 convertidas de verdad**. Cola de
+> etapa 3: hp002#4 (lever determinista con gate FP obligatorio — hipótesis sobre población
+> distinta del NO-GO MP_SERVED_BINDING) · cat017#2 (recuperado-no-servido, 2 carriers) ·
+> resto pendiente del FULL bajo v3.2. Suite 3419/0. Detalle → PLAN "Estado actual" + DEC-169.
+>
 > **Estado s289 (1 ago 2026).** PROD sin cambios (la release de #189 sigue viva). **Etapa 2 de
 > la campaña EJECUTADA (DEC-168)**: los 2 fixes de orden/fallback de DEC-167 construidos
 > **default-off** (`FACET_COMPLEMENT_FALLBACK` en la vía por-faceta ·

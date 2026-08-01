@@ -2397,3 +2397,25 @@ síntesis), recibo G-2 formal, censo re-declarado. **Observabilidad DEC-167(c)**
 canal VECTOR (el único silencioso) con log+traza + `channel_health` en `_trace`. Sol cazó 2× en
 la sesión la clase «validado-vs-visible» — el control estructural operando. 0 FP en 3 rondas.
 Suite final verde. Coste ≈$9-12. Traza: DEC-168.
+
+## s290 (1 ago 2026, tarde) — foto post-etapa-2, diagnóstico de etapa 3 en fan-out con refutadores, instrumento v3.2
+
+Post-ONs de Alberto (PR #191 + Railway). **Foto** mapa-10 N=2 bajo flags ON: hp002 5/5 OK con
+el aviso p.121 apendizado por la reserva (Fix B en la ruta viva); estables cat017#2/cat017#4/
+hp009#0/hp013#1, flips hp002#4/hp013#0/hp018#0. **Pregunta de Alberto** («¿atacar los synth
+antes del full?») → sí con matiz: solo los estables frescos; full diferido. **Diagnóstico** =
+workflow de 4 misiones judge-free + 1 refutador adversarial por misión (8 agentes, 0 errores):
+el patrón pagó — los refutadores cazaron 2 anclas falsas ANTES del dúo (la «slot-competition»
+era output del anexo determinista, no del modelo; el «único chunk» de la cardinalidad era
+falso) y trajeron el hallazgo positivo del 2º carrier (4c186fb2, «dos licencias por módulo»).
+**Dúo r1** (Sol 6 [3 críticos] + Fable 7, 0 FP): mi brazo determinista de L2 re-abría el NO-GO
+medido MP_SERVED_BINDING (24/105 FP) sin citarlo — 4ª cazada de la sesión a `feedback_my_bias`;
+adjudicación = L1 a+b GO (guard c HOLD), L2 hipótesis-con-gate-FP, L3a NO-GO-todavía (probe $0
+de lanes existentes primero), L3b re-frame (doc_map YA lo mapea), L3c GO consumiendo doc_map.
+**Build v3.2** (un corte de serie): votos por-id del eje servido + dual-rescue en
+support_over_served/append (la única asimetría sin red — FN medido en cat017#4) + puente de
+familia doc_map (join gobernado doc-a-doc, guard de ambigüedad medido por dato) + pool_ids.
+**Gate 3/3 expectativas pre-declaradas**: cat017#4 rerank-miss→OK (los votos por-id muestran
+el near-threshold 0/5→2/5→5/5; via_coverage_append vía la lane de Fix A ⇒ **las 2 dianas de
+etapa 2 convertidas de verdad**) · cat017#2 sin OK-falso · hp009 centinela intacto con puente
+inerte. Suite verde tras actualizar el pin deliberado de versión. Traza: DEC-169.
