@@ -456,7 +456,19 @@ CONVEY21_ANSWER_CAP = 12000
 #        _unit_quantities + puente en support_candidate_priority/guard L1). Cierra S5 de
 #        DEC-096c: el guard ya no mata soporte servido same-family por re-grafía del prefijo
 #        kilo (hp018#1). Solo acredita fila SERVIDA de la familia correcta (Sol-1/DEC-091b).
-INSTRUMENT_VERSION = "v3.1"
+# v3.2 = s290 (dúo r1 etapa-3, L1 a+b + 3c — UN corte de serie): (a) votos por-id del juez
+#        de soporte SERVIDO persistidos en el entry (antes invisibles: un FN era
+#        indistinguible de no-soporte real); (b) rescate dual-Opus en support_over_served y
+#        support_over_append_content — cierra la ÚNICA asimetría sin red del instrumento
+#        (FN medido: cat017#4, answer transmite citando la fila servida y el primario
+#        near-threshold la excluía → rerank-miss falso); (c) puente de familia vía doc_map
+#        (fuente GOBERNADA, role primary, join doc-a-doc por catalog-ids — sin traducción de
+#        strings de familia): el doc de licencias del panel (pm="INSPIRE Panel") acreditaba 0
+#        contra gold_families "INSPIRE E10/E15" pese a que doc_map mapea ambos docs a
+#        notifier:inspire-e10/e15; (d) pool_ids estampados en el recibo (micro-lever s290).
+#        El guard conveyed-antes-de-rerank-miss del diagnóstico quedó EN HOLD (dúo: cambia la
+#        semántica de OK; crédito-por-memoria posible). Serie NUEVA no comparable con v3.0/v3.1.
+INSTRUMENT_VERSION = "v3.2"
 
 
 def _conveyed21_once(valor: str, texto: str, answer: str) -> int | None:
@@ -626,7 +638,13 @@ def support_over_served(valor: str, texto: str, pipe: dict, sup_pool: set,
     Las filas cuya vista servida es BYTE-IDÉNTICA a la ya juzgada en el pool heredan su
     veredicto: re-juzgar el mismo texto solo añadiría ruido de juez (un hecho podría estar
     "en pool" y no "servido" por azar) y coste. Se juzga fresco lo que DIFIERE: los appends
-    de coverage, servidos como excerpts acotados."""
+    de coverage, servidos como excerpts acotados.
+
+    v3.2(b): este eje era el ÚNICO sin red dual-Opus (asimetría vs :737-744/:771/:834) con
+    prompt "ante la duda EXCLUYE" → FN medido (cat017#4). Si el primario no acredita NINGUNA
+    fila fresca pero hay candidatos léxicos (support_candidate_priority, mismo pre-filtro que
+    el dual del pool), Opus re-adjudica. Los votos por-id (primario y dual) se DEVUELVEN para
+    persistirse en el entry — un FN ya no es indistinguible de un no-soporte real."""
     pool_content = {str(c.get("id") or ""): (c.get("content") or "") for c in pipe["pool"]}
     inherited: set = set()
     fresh: list[dict] = []
@@ -638,20 +656,117 @@ def support_over_served(valor: str, texto: str, pipe: dict, sup_pool: set,
                 inherited.add(cid)
         else:
             fresh.append(view)
-    res = judge_fact(valor, texto, fresh, workers=workers) if fresh else {}
-    return inherited | supported_ids(res, THRESH_FIRM), res
+    res = dict(judge_fact(valor, texto, fresh, workers=workers)) if fresh else {}
+    sup = inherited | supported_ids(res, THRESH_FIRM)
+    if fresh and not supported_ids(res, THRESH_FIRM):
+        lex = []
+        for view in fresh:
+            priority = support_candidate_priority(
+                valor, texto, view.get("content") or "", True
+            )
+            if priority is not None:
+                lex.append((priority, view))
+        lex.sort(key=lambda item: item[0], reverse=True)
+        candidates = [view for _, view in lex]
+        if candidates:
+            d3 = judge_support_dual(valor, texto, candidates, workers=workers)
+            res["served_dual"] = {"votes": d3.get("votes"), "n_fail": d3.get("n_fail"),
+                                  "n_valid": d3.get("n_valid"),
+                                  "truncated": len(candidates) > SUPPORT_BATCH_CAP}
+            if d3.get("sup"):
+                sup = sup | d3["sup"]
+                res["served_dual"]["disagreement"] = True
+    return sup, res
 
 
 def support_over_append_content(valor: str, texto: str, pipe: dict, workers: int) -> tuple[set, dict]:
     """¿El valor vive en el CONTENT de una fila apendizada aunque NO en sus excerpts servidos?
     Ese delta es `append_view_truncated` (gap de EXCERPT de lane). Solo se juzga cuando la vista
-    difiere del content: si coinciden no hay truncamiento posible y el pase se ahorra."""
+    difiere del content: si coinciden no hay truncamiento posible y el pase se ahorra.
+    v3.2(b): misma red dual que support_over_served (asimetría señalada por el dúo r1 s290)."""
     rows = [c for c in pipe["appended"]
             if (coverage_context_content(c) or "") != (c.get("content") or "")]
     if not rows:
         return set(), {}
-    res = judge_fact(valor, texto, rows, workers=workers)
-    return supported_ids(res, THRESH_FIRM), res
+    res = dict(judge_fact(valor, texto, rows, workers=workers))
+    sup = supported_ids(res, THRESH_FIRM)
+    if not sup:
+        lex = []
+        for row in rows:
+            priority = support_candidate_priority(
+                valor, texto, row.get("content") or "", True
+            )
+            if priority is not None:
+                lex.append((priority, row))
+        lex.sort(key=lambda item: item[0], reverse=True)
+        candidates = [row for _, row in lex]
+        if candidates:
+            d3 = judge_support_dual(valor, texto, candidates, workers=workers)
+            res["append_dual"] = {"votes": d3.get("votes"), "n_fail": d3.get("n_fail")}
+            if d3.get("sup"):
+                sup = sup | d3["sup"]
+                res["append_dual"]["disagreement"] = True
+    return sup, res
+
+
+# ── v3.2(c): puente de familia vía doc_map (fuente GOBERNADA — dúo r1 s290, L3c) ────────
+# El crédito L1 comparaba SOLO fam_norm(product_model del chunk) contra gold_families → el
+# doc de licencias del panel (pm="INSPIRE Panel") acreditaba 0 contra "INSPIRE E10/E15"
+# pese a que doc_map mapea AMBOS docs (HOP-138 y 4188-1125) a notifier:inspire-e10/e15.
+# Join doc-a-doc por catalog-ids role=primary — SIN traducción de strings de familia
+# (una sola verdad, el catálogo gobernado; re-frame del dúo: doc_map YA lo mapea).
+# Fail-open: fuente del gold sin entrada en doc_map → puente inerte (conducta previa).
+_DOC_MAP_PATH = ROOT / "data" / "catalog" / "doc_map.jsonl"
+_DM_CACHE: dict | None = None
+
+
+def _doc_map_tables() -> dict:
+    global _DM_CACHE
+    if _DM_CACHE is None:
+        by_docid: dict[str, frozenset] = {}
+        by_stem: dict[str, frozenset] = {}
+        if _DOC_MAP_PATH.exists():
+            for line in _DOC_MAP_PATH.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                dm = json.loads(line)
+                ids = frozenset(
+                    e["id"] for e in (dm.get("entries") or [])
+                    if e.get("role") == "primary" and e.get("id")
+                )
+                if not ids:
+                    continue
+                if dm.get("document_id"):
+                    by_docid[str(dm["document_id"])] = ids
+                stem = str(dm.get("source_file") or "").casefold().strip()
+                if stem:
+                    by_stem[stem] = ids
+        _DM_CACHE = {"by_docid": by_docid, "by_stem": by_stem}
+    return _DM_CACHE
+
+
+def _gold_bridge_ids(fuente: str, targets: list[str] | None = None) -> frozenset:
+    """Catalog-ids primary de los docs FUENTE/TARGET del gold. Dos vías:
+    (1) match exacto del source_file (casefold, con/sin extensión) — fuentes simples;
+    (2) target_tokens por STARTSWITH sobre los stems — fuentes compuestas ("A + B").
+        Medido s290: tokens-doc matchean 1-2 stems (variantes de idioma), fragmentos
+        de fecha 0. Guard de ambigüedad: token con >4 stems se DESCARTA (un token que
+        no identifica un doc no puede acreditar familia). Sin match → puente inerte."""
+    tables = _doc_map_tables()
+    ids: set = set()
+    stem = (fuente or "").casefold().strip()
+    for candidate in (stem, stem.rsplit(".", 1)[0] if "." in stem else stem):
+        if candidate and candidate in tables["by_stem"]:
+            ids |= tables["by_stem"][candidate]
+    for token in (targets or []):
+        tok = str(token or "").casefold().strip()
+        if not tok:
+            continue
+        hits = [s for s in tables["by_stem"] if s.startswith(tok)]
+        if 0 < len(hits) <= 4:
+            for h in hits:
+                ids |= tables["by_stem"][h]
+    return frozenset(ids)
 
 
 # ── núcleo: clasificar cada hecho CORE de un gold en su clase terminal (FAMILY-AWARE) ──
@@ -671,10 +786,24 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
     family_resolved = bool(gfam)
     manual = fetch_manual_chunks(targets) if targets else []
 
+    # v3.2(c): puente doc_map — ids de catálogo del doc fuente/target del gold + document_id por chunk.
+    bridge_ids = _gold_bridge_ids(fuente, targets)
+    docid_of = {str(c.get("id") or ""): str(c.get("document_id") or "")
+                for c in pipe["pool"] + pipe["appended"]}
+    dm_by_docid = _doc_map_tables()["by_docid"]
+    bridged_rows: set = set()
+
     def same_family(cid: str) -> bool:
         if not family_resolved:       # no se pudo resolver familia → no se puede family-filtrar
             return True               # (fall-back marcado; family_resolved=False lo señala en el output)
-        return fam_norm(pm.get(cid, "")) in gfam
+        if fam_norm(pm.get(cid, "")) in gfam:
+            return True
+        if bridge_ids:                # v3.2(c): join gobernado doc-a-doc (catalog-ids primary)
+            row_ids = dm_by_docid.get(docid_of.get(cid, ""), frozenset())
+            if row_ids & bridge_ids:
+                bridged_rows.add(cid)
+                return True
+        return False
 
     facts_out = []
     hist = {"OK": 0, "synthesis-miss": 0, "rerank-miss": 0, "retrieval-miss": 0,
@@ -807,6 +936,12 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
                 {str(pipe["appended_lane"].get(cid) or "?") for cid in served_support})
         if v_served.get("n_fail"):
             entry["served_support_votes_missing"] = v_served["n_fail"]
+        # v3.2(a): votos por-id del eje servido SIEMPRE persistidos (primario + dual si corrió)
+        # — un FN del acreditador deja de ser indistinguible de un no-soporte real.
+        if v_served.get("votes"):
+            entry["served_support_votes"] = dict(v_served["votes"])
+        if v_served.get("served_dual"):
+            entry["served_support_dual"] = v_served["served_dual"]
         if l1_killed:                                # H2: los kills de L1 VISIBLES (pre/post + ids)
             entry["support_l1_killed"] = sorted(l1_killed)[:6]
             entry["support_l1_override"] = entry_l1_override   # True=Opus restauró; False=confirmó kill
@@ -925,9 +1060,15 @@ def measure_gold(gold: dict, workers: int = 6, do_submotivo: bool = True, do_sta
 
     return {"qid": qid, "question": gold["question"], "answer": pipe["answer"],
             "family_resolved": family_resolved, "gold_families": sorted(gfam),
+            # v3.2(c): visibilidad del puente doc_map (ids del gold + filas acreditadas vía puente)
+            "doc_map_bridge_ids": sorted(bridge_ids),
+            "doc_map_bridged_rows": sorted(bridged_rows)[:12],
             "n_non_anchorable": n_non_anchorable,
             "pool_n": len(pipe["pool"]), "served_n": len(pipe["served"]), "topk_n": len(pipe["topk"]),
             "appended_n": len(pipe["appended"]),
+            # v3.2(d): pool COMPLETO estampado (micro-lever s290 — el rank-en-pool de un
+            # carrier deja de exigir re-retrieve fuera de ventana)
+            "pool_ids": [c.get("id") for c in pipe["pool"]],
             # SA3 (dúo s102/L4): PERSISTIR la composición servida — el rerank es no-determinista a
             # temp=0 (DEC-096b) y sin estos ids una composición-que-falla no es replayable (el fork
             # serving-vs-prompt de cat021 quedó indecidible por no tenerlos). Provenance pura.
