@@ -1,0 +1,52 @@
+{
+ "instrument": "s291_l2_gdirected_result_v1",
+ "carrier_reserve_served": true,
+ "prefix_trace": {
+  "prefix_rows": 10,
+  "from_fresh_pool": 8,
+  "hydrated_from_db": [
+   "7b95d320",
+   "509d9de4"
+  ],
+  "absent": []
+ },
+ "verdict": "PASS",
+ "reps": [
+  {
+   "rep": 0,
+   "warning_travels": false,
+   "appendix_present": true,
+   "hp002_4": {
+    "conveyed": true,
+    "primary_yes": 5,
+    "dual": null
+   },
+   "hp002_1_centinela": {
+    "conveyed": true,
+    "primary_yes": 5,
+    "dual": null
+   },
+   "answer_tail": "h es (sin revisión registrada en los fragmentos)\n\n---\n⚠️ **Información adicional del manual:**\n- ⚠️ Aviso obligatorio del manual: \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F10]",
+   "warning_travels_adjudicated": true
+  },
+  {
+   "rep": 1,
+   "warning_travels": false,
+   "appendix_present": true,
+   "hp002_4": {
+    "conveyed": true,
+    "primary_yes": 5,
+    "dual": null
+   },
+   "hp002_1_centinela": {
+    "conveyed": true,
+    "primary_yes": 5,
+    "dual": null
+   },
+   "answer_tail": "io cuando así se indique expresamente en la especificación del firmware correspondiente.\" [F9]\n- ⚠️ Aviso obligatorio del manual: \"Para evitar que los controles de incendios, las alertas remotas y las zonas de extinción se disparen al llevar a cabo los trabajos de mantenimiento, es **imprescindible** bloquearlos o desconectarlos previamente.\" [F10]",
+   "warning_travels_adjudicated": true
+  }
+ ],
+ "verdict_v1_probe": "FAIL",
+ "adjudication": "regla-C contra el propio probe: el marker v1 era markdown-unaware («imprescindible bloquear» vs verbatim «es **imprescindible** bloquearlos»). Re-derivado de los answer_tail almacenados: el aviso viaja VERBATIM con cita [F10] en 2/2 reps; juez conveyed 2/2 firme; centinela #1 OK 2/2; apendice presente 2/2. Script corregido para reproducibilidad."
+}
