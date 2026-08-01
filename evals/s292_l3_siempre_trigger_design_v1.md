@@ -92,3 +92,69 @@ estándar del contrato.
 3. **Cobertura EN**: el censo es sobre corpus ES mayoritario; la forma inglesa («always +
    imperative») no está medida — se declara fuera de alcance de esta v1 o se censa antes.
 4. El apéndice añade texto a respuestas ya largas (clase truncado s98) — G-conducta lo vigila.
+
+---
+
+## Reconciliación dúo (v1 → v2): **NO-GO como estaba diseñado** — 13/13 confirmados, 0 FP
+
+Sol (GPT-5.6, xhigh) 4 + sub-agente **en Opus 5** 9. **Desviación de pin declarada**: el
+sub-agente adversarial está pineado a Fable 5 (s88, Alberto) y el crédito de Fable se agotó
+mid-sesión; se corrió en Opus 5 (el pin previo s73 era `opus`), con el cross-model —el lado
+innegociable— intacto. **Decisión de política pendiente de Alberto.**
+
+### El hallazgo que decide (F1, CRÍTICO — verificado por mí en 1 línea)
+`atom_good_form(átomo-de-la-cláusula) = **False**` con el léxico intacto, porque
+`_mandatory_clause_form` (must_preserve.py:1973-1997) **re-deriva el gatillo** con el
+`_mandatory_triggers` COMPARTIDO. ⇒ Aunque el detector lo viera, el átomo **muere en la
+whitelist fail-closed**: el lever era **no-op silencioso**. Mi afirmación «el resto de la
+maquinaria funcionaría sin cambios» era FALSA.
+
+**Y el seam obvio es peor que el problema**: parchear `mp_lexicon.mandatory_triggers` tiene
+radio de explosión a **SERVING** — `rerank_pool_coverage.py:463` lo consume vía
+`_warning_sentence_triggers` para `select_obligation_warning_reserve`, **la lane L2 que
+Alberto acaba de encender en producción** (verificado). Cambiaría qué avisos se reservan,
+invalidaría los drafts congelados de los gates y G-0 (medido en flag-OFF) NO podría cazarlo.
+⇒ **Seam correcto (v2)**: pasar el set de gatillos extendido **por parámetro** a
+`_detect_mandatory` **y** `_mandatory_clause_form`, dejando `mp_lexicon` byte-idéntico, +
+gate de invariancia de `served_ids` OFF vs ON.
+
+### Los otros hallazgos materiales
+- **F3 (medio-alto)**: mis regex sobre población ampliada (1187 chunks) dan **16 capturas con
+  ≥4 SPANS ROTOS** — citas decapitadas («…según el cap. », termina en «:»), fusión de 2
+  oraciones, y una nota-de-diseño que es **exactamente la clase espuria que L2 r1 dejó
+  registrada en código**. El apéndice cita VERBATIM: una cita decapitada en un aviso de
+  SEGURIDAD rompe el contrato de fuente ⇒ **guard de integridad de span obligatorio**.
+- **F4**: mi censo era **in-sample** (los 39 golds donde correrá el gate) ≈1,6% del corpus ⇒
+  censo out-of-sample N≈300-500 antes del GO ($0, la sonda ya hace GET por id).
+- **F5**: el léxico se declara **CERRADO BILINGÜE**; mis dos formas son ES-only y hay 16% de
+  chunks EN en la propia población ⇒ gemela EN en la misma v1, o DEC explícita de que el
+  léxico deja de ser bilingüe. **No es scoping de v1: es contrato.**
+- **F7**: mi vara era auto-calificada y **mi tripwire STOP>4/39 cae EXACTAMENTE sobre el valor
+  observado** (4 filas en 3 golds) ⇒ ni discrimina ni acota daño. Sustituir por **regla de
+  daño** («cualquier fila adjudicada espuria → STOP») + taxonomía de «espurio» pre-registrada
+  ANTES de ver filas + adjudicación ciega (Alberto o cross-model), no mía.
+- **F8**: FP-por-relevancia medido en el brazo ON: hp009 (pregunta por resistencia EOL de
+  **lazos**) recibiría «…resistencia RFL entre + y − de la última **sirena**» = **otro
+  circuito**, en la familia donde la confusión de topología es clase SEGURIDAD (DEC-162a).
+- **F6**: la forma A es un detector morfológico de **clase abierta** dentro de un léxico
+  cerrado; la alternativa que NO re-abre DEC-122/130 —**lista cerrada de imperativos**
+  (desconecte/utilice/apague/corte/compruebe…) + adyacencia de «siempre»— no se consideró
+  (gap del Protocolo 2 punto 2). **Es la vía preferente de la v2.**
+- **F2/F9**: mi Medición 3 estaba mal en 3 términos (cap por-respuesta, 2 capturas en el chunk
+  no 1, el átomo existente ni siquiera pasa good_form) aunque acertara por casualidad; y el
+  censo se commiteó sin generador (cerrado a posteriori por `scripts/s292_l3_probe.py`).
+
+### Lo que SÍ se sostiene (verificado ejecutando por el revisor)
+El **mecanismo** es correcto (F3 citado · ventana 439 chars · `atom_exigible_in=True` ·
+`atom_satisfied=False`): la clase ES un hueco de léxico, no serving ni retrieval. DEC-134 no
+la zanja (hp003#4 no está entre los 6 exhaustos). MP_SERVED_BINDING bien descartado. La v1
+naive bien matada. Y su simulación OFF/ON ($0, 39 golds) da **+4 filas en 3 golds, 0
+desplazadas, con la diana entrando** ⇒ **el lever convierte SI se cablea en el seam correcto**.
+El propio revisor declaró el caveat de su medición y se auto-corrigió (regla C sobre sí mismo).
+
+### Estado
+**Build NO autorizado.** v2 exige, en orden: (F1) seam por-parámetro + gate de invariancia de
+serving · (F6) lista cerrada de imperativos en vez del patrón morfológico · (F3) guard de
+integridad de span · (F7) taxonomía + adjudicación ciega + regla de daño · (F4) censo
+out-of-sample · (F5) resolver ES/EN. Siguiente ronda del dúo sobre la v2 **con Sol
+obligatorio** (y el pin del sub-agente a decidir por Alberto).
