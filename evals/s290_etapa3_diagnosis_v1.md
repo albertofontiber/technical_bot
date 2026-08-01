@@ -89,3 +89,35 @@ Los synth fuera de los 10 golds quedan pendientes del full (diferido a decisión
 Dúo (sub-agente + cross-model Sol — instrumento y generación = zona-de-dolor) sobre los
 levers 1 y 2 (build) y el fork de diseño de 3. Los micro-levers de instrumento (pool_ids,
 votos por-id) van con el lever 1.
+
+---
+
+## Reconciliación dúo r1 (v1 → v1.1) — levers RE-SCOPEADOS
+
+Dúo: Sol xhigh (6 hallazgos, 3 críticos) + sub-agente Fable fresco (7, convergente + propios).
+Regla C: MP_SERVED_BINDING NO-GO (24/105, DEC-127×2) + citation_window + pool_n=53 verificados
+por mí contra código/recibos. 4ª cazada de la sesión a la clase `feedback_my_bias` (proponer
+lever sin grepear su settled: el brazo determinista de L2 era un flag ya construido y ya
+NO-GO). Tallies ts=17:04:26.
+
+### Declaración de OBJETIVO+MÉTRICA de etapa 3 (S6 — faltaba)
+Objetivo: convertir los **synthesis-miss estables** bajo el serving nuevo. Métrica = per-fact
+conveyed (instrumento, con la corrección L1 aplicada ANTES de los gates de L2/L3). Vara común
+de no-regresión: sweep de composición + per-fact en todo gold cuya vista cambie (patrón s289)
++ tripwire hp009 (answer, 0 clarify) en CADA A/B. cat017#2 es clase rerank/serving (A7): entra
+al arco pero FUERA de la métrica synth; su dimensión real espera el full.
+
+### Levers v1.1 (adjudicados)
+| lever | veredicto dúo | re-scope |
+|---|---|---|
+| **L1 instrumento** | GO-con-cambios | Solo (a) votos-por-id + (b) dual-rescue en `support_over_served` **y** `support_over_append_content` (asimetría verificada). **(c) guard conveyed EN HOLD** (cambia semántica de OK: L1-pass no es soporte adjudicado; crédito-por-memoria posible; redundante si (b) rescata). **= instrumento v3.2** — bump declarado, fila nueva no-comparable, **empaqueta 3c y pool_ids en el MISMO corte de serie**. Gate: re-run cat017#4 (~10 llamadas) + controles falsos (S3). |
+| **L2 hp002#4** | GO-con-cambios | El brazo determinista NO es "por construcción": es **hipótesis nueva sobre población distinta del NO-GO medido** (MP_SERVED_BINDING 24/105 = binding genérico all-families; esto = 1 fila/respuesta, lane-estampada, solo F-MANDATORY; S274 exhausta era "para los 6 de entonces", hp002#4 no era uno). Diseño debe: citar DEC-127/134-C2 con métrica; ligar SOLO el span de la card `mandatory_warning` (jamás todos los átomos); equivalente de `atom_satisfied` sobre el span (dedup si el cuerpo ya lo transmite); render vía `render_appendix` existente; **gate FP pre-registrado tipo DEC-134-P3 (0 apéndices espurios, sweep-39)**; trampas medidas de ambos brazos (b2043 serving-view-sin-gatillo; irrelevancia del append) tratadas. Brazo prompt/header = paralelo débil. Construible flag-off en paralelo (SEGURIDAD); su gate GO corre bajo el instrumento v3.2. |
+| **L3a serving cat017#2** | NO-GO-todavía | Antes de diseñar: **probe $0 de las 2 lanes existentes** (`RERANK_POOL_COVERAGE` — off por membresía del stack C1, no por NO-GO propio; hyq doc_scoped — DEC-166, outcome pendiente de A3) sobre pool congelado; incógnita real = barrera `MIN_ALIGNMENT_TERMS=6`. Encender RERANK_POOL_COVERAGE global re-abre el stack C1 (desproporcionado para 1 hecho). Dimensionar la clase con el full ANTES de diseñar lane nueva. |
+| **L3b identidad** | RE-FRAME | NO es mecanismo nuevo: **doc_map.jsonl:90 YA mapea 4188-1125-ES → inspire-e10/e15** (umbrella s278). El gap = el crédito L1 usa `product_model` del chunk, no el doc_map. Normalización runtime nueva = doble verdad (bug canónico). Re-tag de corpus = clase en cuarentena (identity_quarantine_v1: regresión T3×replace) — ahí sí riesgo hp009/hp018. |
+| **L3c puente L1** | GO-con-cambios | Legítimo consumiendo **doc_map** (fuente gobernada, role primary) — no ablanda el crédito. Va DENTRO del bump v3.2. |
+
+### Secuencia adjudicada (A7)
+**L1+3c+pool_ids (v3.2, un corte) → re-run mapa-10 → FULL de 39 (cola real bajo instrumento
+corregido) → dimensionar recuperado-no-servido → L3a si paga. L2 en paralelo flag-off; gate GO
+bajo v3.2.** Recibos pendientes exigidos antes del build (regla C del sub-agente): los votos
+G-3 2/5→dual-5/5 y el rank-18 (se re-emiten con pool_ids del v3.2).
