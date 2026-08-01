@@ -3974,3 +3974,32 @@ cazadas ANTES del dúo (slot-competition era output del anexo; «único chunk» 
 hallazgo positivo del segundo carrier vino del refutador. El patrón queda: diagnóstico →
 refutación → regla-C → dúo → build. Costes: workflow ~$0 API-jueces (agentes harness) · gate
 v3.2 ~$4 · mapa N=2 ~$8.
+
+## DEC-170 — s291 (1-2 ago 2026): FULL v3.2 = HITO (OK 88%, etapas 1-2 completadas corpus-wide) + lever L2 construido flag-off con dúo r2 y V1 medido
+
+**Decisión.** (a) El FULL de 39 bajo el instrumento v3.2 (GO de Alberto, ~$25) queda estampado
+como 1ª fila de la serie: **OK 115/131 (88%) · synth 12 (10 estables) · rerank 0 · retrieval 2
+(centinela+techo) · corpus-gap 2 (cat013×2, clase FN verificada 8ª/9ª vez)**. Las etapas 1 y 2
+de la campaña están COMPLETADAS corpus-wide; la **cascada upstream→downstream quedó medida**
+(hp013#1 retrieval→synth: el serving nuevo ya sirve su carrier y el LLM lo omite). Cola de
+etapa 3 = 9 synth estables (hp009 centinela excluido). (b) El lever **L2
+`OBLIGATION_WARNING_APPENDIX`** (clase hp002#4 SEGURIDAD) queda CONSTRUIDO default-off tras
+dúo r2 (Sol 8 + Fable 8, 0 FP, 14 resoluciones) y **V1 medido pre-build** ($0: clase 0-átomos
+3/20 toda precaución/cabecera con clause_form-fail = no-op limpio; dedup dirección letal 0/4,
+doble benigna 1/4): revalidación de receipt, átomo sintético del quote entero, dedup
+`atom_satisfied`, slot propio post-selección (ni desplaza banked ni es desplazado), herencia
+de identidad+attestation, dependencia de vector `appendix⇒ordered+reserve+contract` en el
+contrato de release. Suite 3426/0. (c) **El ON de L2 queda GATEADO por G-FP de amplitud**
+(drafts coherentes sobre las composiciones de la captura s289, ~$5, recibo por-fila
+espurio/redundante/legítimo, tripwire STOP>5/39) + G-directed hp002#4 — pendientes.
+
+**Método.** El diseño v1 de L2 lo tumbó 2× el dúo ANTES de gastar (r2: gate pareado-de-drafts
+$0 en vez de regeneración; vector de flags; cap del renderer; ambas direcciones del dedup) y
+V1a/V1b convirtieron 2 riesgos en cifras. Los 2 corpus-gap del full = los cat013 conocidos
+(DEC-074, no re-litigados). La comparación 77%→88% empaqueta serving real + honestidad de
+instrumento — declarado, no se desagrega sin re-run v3.0 (no se paga: la serie vieja está
+cerrada).
+
+**Siguiente.** G-FP+G-directed de L2 (→ decisión ON de Alberto empaquetada) · etapa 3 sobre
+los 9 (diagnóstico por sub-motivo omitted/partial con el patrón refutador de s290) · smoke
+Telegram de los fixes (query procedimental de Alberto).
