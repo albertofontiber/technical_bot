@@ -2376,3 +2376,24 @@ Hallazgo transversal: pool del reranker VENTANA-DEPENDIENTE (bandas 1/12-14/44 e
 Dúo acumulado sesión: 31/31 confirmados, 0 FP (tallies completados en el log, r1+r2).
 Gasto ≈ $20. Traza: DEC-167 + brief v1 (5 addendas) + re-spec (consolidación r2) +
 `s288c_gate_diagnosis_v1.md`.
+
+## s289 (1 ago 2026) — etapa 2 ejecutada: los 2 fixes de orden/fallback, del diseño al gate con dúo ×3
+
+Arranque desde el «Al retomar» de s288c. **Diseño** anclado en el diagnóstico + audit $0 fresco
+sobre los 7 competidores reales de hp002 en DB (halló que la exclusión-de-changelog sola era
+insuficiente y una clase FP nueva: el marcador-huérfano `> **Peligro**` de 13 chars) + censo de
+284 docs. **Dúo r3 pre-build** (Sol xhigh 5 hallazgos [crítico: brazos pareados sobre pools
+serializados idénticos] + sub-agente Fable 8 [filtros POR-GRUPO; firma pineada]; GO-con-cambios,
+13 resoluciones al spec). **Build flag-off** (`FACET_COMPLEMENT_FALLBACK` +
+`OBLIGATION_RESERVE_ORDERED`, DEMO_FLAGS + SAFE_DEFAULTS, byte-invariantes; 16→21 tests nuevos).
+**Gates**: captura congelada 39 golds (embedding+rerank fresco, ~$5) → sweep 5-brazos $0 con
+réplica-OFF y atribución por flag → G-3 pareado per-fact con el juez del instrumento →
+**cat017#4 CONVERTIDA (miss→conveyed-stable, A-only) · 0 regresiones/39 facts**. El orden v1
+(blockquote-first) sirvió un callout ajeno en la ventana capturada → **escalada v2
+pre-declarada** (sección-con-intención primaria) disparada por dato, trigger preservado.
+**r4 focal post-gates** (Sol 6/6): freeze-binding de harness propio, brazos A-only/B-only,
+probe de ventana-mala (**hp002#4 miss-stable→flip**: el portador se sirve, el residual es
+síntesis), recibo G-2 formal, censo re-declarado. **Observabilidad DEC-167(c)**: fail-open del
+canal VECTOR (el único silencioso) con log+traza + `channel_health` en `_trace`. Sol cazó 2× en
+la sesión la clase «validado-vs-visible» — el control estructural operando. 0 FP en 3 rondas.
+Suite final verde. Coste ≈$9-12. Traza: DEC-168.

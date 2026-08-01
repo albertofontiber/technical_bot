@@ -1635,8 +1635,19 @@ def retrieve_chunks(
             query, effective_top_k, threshold, product_filter, None, query_embedding,
             hyq_models=models or None,
         )
-    except Exception:
+    except Exception as exc:
+        # s289/DEC-167(c): este fail-open era el ÚNICO silencioso del retriever
+        # (enunciados/hyq ya avisan) — un canal vectorial muerto se veía como
+        # "pool pequeño", indistinguible de una query rara. El serving no
+        # cambia (mismo []); ahora queda log + registro en el seam _trace.
+        logger.warning(
+            "canal VECTOR fail-open: sirviendo solo canales keyword (%r)", exc
+        )
         vector_results = []
+        if _trace is not None:
+            _trace.setdefault("channel_failures", []).append(
+                {"channel": "VECTOR", "error": repr(exc)}
+            )
     _tag_channel(vector_results, "VECTOR")
 
     # Step 3: Keyword search for each detected model
@@ -1769,6 +1780,14 @@ def retrieve_chunks(
             _trace[stage] = {c.get("id") for c in chunks}
 
     _tr("channels", vector_results + keyword_results)
+    # s289/DEC-167(c): salud por canal en el seam inerte — cuántas filas aportó
+    # cada canal ANTES de la fusión (el 0 estructural de un canal es la señal).
+    if _trace is not None:
+        health: dict[str, int] = {}
+        for c in vector_results + keyword_results:
+            channel = str(c.get("_channel") or "?")
+            health[channel] = health.get(channel, 0) + 1
+        _trace["channel_health"] = health
 
     # Step 4: Merge and deduplicate — extraído a _merge_channels (s68): la estrategia
     # de fusión es el LEVER bajo flag; `stamps` reproduce el comportamiento histórico

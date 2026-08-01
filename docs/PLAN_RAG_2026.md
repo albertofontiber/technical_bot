@@ -26,7 +26,41 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s288c — 31 jul 2026)
+## Estado actual (s289 — 1 ago 2026)
+
+**PRODUCCIÓN**: sin cambios de release (la de #189 sigue viva). Rama de sesión
+`claude/s289-etapa2-order-fixes` (desde `claude/s288d-pretecnicos-note` = main + TECH_DEBT #60)
+— TODO lo de s289 default-off; el ON de los 2 flags nuevos = decisión de Alberto vía PR.
+
+**s289 cerró — ETAPA 2 EJECUTADA (DEC-168)**: los 2 fixes de orden/fallback de DEC-167(b)
+construidos flag-off byte-invariantes + gateados con cadena ligada por hash:
+- **Fix A `FACET_COMPLEMENT_FALLBACK`** (fallback de attestation, orden total, firma histórica
+  preservada) → **cat017#4 miss-stable→conveyed-stable, atribuido A-only**.
+- **Fix B `OBLIGATION_RESERVE_ORDERED`** (filtros POR-GRUPO tabla/marcador-huérfano en
+  `_warning_span` + orden v2 sección-con-intención>blockquote>pool-rank; la escalada v2
+  pre-declarada disparó por dato — trigger preservado) → **hp002#4 miss-stable→flip en
+  ventana-mala** (el portador p.121 SE SIRVE; residual = síntesis) · ventana fresca
+  auto-resuelta por rerank (variance DEC-096b).
+- Gates: **G-1 sweep-39 5-brazos** sobre captura congelada (réplica-OFF limpia; 9 golds
+  cambian, 8/9 = B puro) · **G-2 por-fila 339f06e0** inocuo (recibo formal) · **G-3 pareado
+  per-fact PASS: 0 regresiones en 39 facts** (+2 bonus flip→stable) · suite 3419/0.
+- **Observabilidad DEC-167(c)**: fail-open del canal VECTOR con log+traza (era el único
+  silencioso) + `channel_health` en el seam `_trace`.
+- **Dúo r3 pre-build + r4 focal post-gates** (Sol 5+6 hallazgos, 0 FP; Fable 8): 2 cazadas de
+  la clase «validado-vs-visible»; freeze-binding + atribución por flag + selección≠conversión
+  incorporados. Tallies 00:06/01:44. Coste sesión ≈$9-12.
+
+**Qué sigue:** (1) **PR de la rama s289** (incluye s288d) + decisión de Alberto sobre los ONs
+(`FACET_COMPLEMENT_FALLBACK` + `OBLIGATION_RESERVE_ORDERED` en Railway; rollback = quitar la
+variable); (2) **etapa 3 síntesis** (13 estables; ahora también el residual flip de hp002#4
+en ventana-mala) sobre serving estable + re-baseline bvg vs 11/16/12; (3) **A3 / perfil c1_v5**
+(lane hyq ON: eficacia cat010/hp012 + centinela hp009 + estrictez per-arquetipo); (4) bandeja
+Alberto: QA-30 v4 · tramos P-C · ONs Railway + paste D9 · DROP documents_backup_s288_pa;
+(5) lane inventario/catálogo. Traza: DEC-168 + HISTORY s289.
+
+---
+
+## Estado anterior (s288c — 31 jul 2026)
 
 **PRODUCCIÓN**: PR #189 MERGEADA (31-jul) → Railway despliega s287→s288b: todo default-off SALVO
 **P1 corpus-aware, VIVA sin flag** (incondicional bajo `replace` del perfil C1; nota de release

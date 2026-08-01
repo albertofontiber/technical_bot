@@ -117,6 +117,12 @@ DEMO_FLAGS = {
     # s286e (m6): la ruta v3 cruza el seam, que SIEMPRE llama al observer de
     # shadow. Pineado off para que un .env sucio no lo active en medición.
     "STRUCTURAL_NEIGHBOR_SHADOW": "off",
+    # s289 (dúo r3, S3=A2): los 2 fixes de orden/fallback de etapa 2 son
+    # flags-hoja del MISMO seam — pineados off (= ship). El runner de gates los
+    # pone ON vía override DECLARADO post-_assert_demo_flags y el freeze-hash
+    # del brazo estampa el flag-set efectivo.
+    "FACET_COMPLEMENT_FALLBACK": "off",
+    "OBLIGATION_RESERVE_ORDERED": "off",
 }
 
 

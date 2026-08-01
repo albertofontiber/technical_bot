@@ -90,6 +90,12 @@ SAFE_DEFAULTS = {
     "GENERATOR_DIRECT_FIRST": "off",
     "VISUAL_ASSETS_LISTING_GATE": "off",
     "GENERATOR_FOLLOWUPS": "on",
+    # s289: fixes de orden/fallback etapa 2 (dúo r3) — flags-hoja default-off,
+    # clasificados aquí y no en p1 (módulo sellado, mismo criterio que el
+    # bloque s286 de arriba). Un receipt P1 con cualquiera "on" falla el
+    # allowlist = fail-closed correcto.
+    "FACET_COMPLEMENT_FALLBACK": "off",
+    "OBLIGATION_RESERVE_ORDERED": "off",
     **{name: "off" for name in p1.TARGET_OFF_FLAGS},
 }
 
