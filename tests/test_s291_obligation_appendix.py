@@ -53,6 +53,7 @@ def _reserve_chunk(*, quote=_WARNING_QUOTE, start=_START, end=_END,
     return {
         "document_id": document_id,
         "content": _CONTENT,
+        "section_title": "9.3 Comprobaciones de mantenimiento y funcionamiento",
         "retrieval_lane": "obligation_warning_reserve_v1",
         "coverage_cards": [
             {
@@ -122,6 +123,19 @@ def test_quote_sin_atomo_clase_precaucion_no_op(monkeypatch):
     assert "Aviso obligatorio" not in out
     assert trace["obligation_appendix"]["rejected"] == [
         {"fragment": 1, "reason": "no_atom_or_form"}
+    ]
+
+
+def test_seccion_sin_intencion_procedimental_no_anexa(monkeypatch):
+    """s291b (G-FP r1): un aviso real de una sección AJENA al procedimiento
+    (la clase espuria medida: intro de QIG, notas de diseño) NO se anexa."""
+    _wire(monkeypatch)
+    chunk = _reserve_chunk()
+    chunk["section_title"] = "1. Introducción al sistema"
+    out, trace = mp.apply_must_preserve_contract("asd535", [chunk], _DRAFT)
+    assert "Aviso obligatorio" not in out
+    assert trace["obligation_appendix"]["rejected"] == [
+        {"fragment": 1, "reason": "no_section_intent"}
     ]
 
 

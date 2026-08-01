@@ -1,0 +1,393 @@
+{
+ "instrument": "s291_l2_gfp_result_v1",
+ "n_reserve_golds": 20,
+ "n_appendix": 4,
+ "tripwire": "RECIBO-LISTO",
+ "rows": [
+  {
+   "qid": "hp001",
+   "fragment_id": "895e1d42",
+   "section_title": "1.7. AREAS Y ZONAS",
+   "page": 9,
+   "quote_head": "> Esta organización del espacio zonal, es imprescindible para una identificación precisa evitando un exceso de información procedente de los múltiples",
+   "outcome": "appended",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 1,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 273,
+   "draft_tail": "fecto [F6].\n\n---\n\n**Fuentes:**\n- CAD-250 Manual de Configuración MC-380-es-2026-c (rev. c, 2026-04-23) [F1, F2, F3, F6, F9]\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b) [F7]",
+   "appendix_tail": "s-2026-c (rev. c, 2026-04-23) [F1, F2, F3, F6, F9]\n- CAD-250 Manual de Software de Configuración MS-416-es-2026-b (rev. b) [F7]\n\n---\n⚠️ **Información adicional del manual:**\n- ⚠️ Aviso obligatorio del manual: \"Esta organización del espacio zonal, es imprescindible para una identificación precisa evitando un exceso de información procedente de los múltiples puntos que constituyen el sistema.\" [F11]"
+  },
+  {
+   "qid": "hp002",
+   "fragment_id": "fa55311c",
+   "section_title": "Instalación",
+   "page": 78,
+   "quote_head": "> **Advertencia sobre la instalación de los sensores de humo**",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 12,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "as de los sensores de humo y la rejilla protectora contra insectos deberán limpiarse con un pincel suave y seco. Para la limpieza también puede emplearse nitrógeno o aire comprimido sin aceite.\" [F10]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp003",
+   "fragment_id": "0909bcbb",
+   "section_title": "2.7 Conexión de las Sirenas",
+   "page": 9,
+   "quote_head": "Es imprescindible que las sirenas sean polarizadas, o en su defecto, es obligado poner un diodo para evitar que las sirenas se activen en estado de re",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 849,
+   "draft_tail": "adas.\n* Ajustar el retardo deseado de las sirenas.\n* Verificar que la tensión de red es de 230VAC mediante el uso de un voltímetro y compruebe que las baterías tienen una tensión superior a 24V.\" [F9]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp005",
+   "fragment_id": "37daea7f",
+   "section_title": "2 Iniciar el Programa",
+   "page": 10,
+   "quote_head": "> («Debe registrar su copia del programa de configuarción ID3000 antes de poder enviar cualquier archivo a un panel ID3000.",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "eber estar en la misma Subzona\n- Radio button: Se extiende en el rango de Subzonas especificadas (labeled as 4)\" [F8]\n- \"- Radio button: Misma Central o Red\n- Radio button: Siempre la misma Zona\" [F8]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp006",
+   "fragment_id": "2df76b53",
+   "section_title": "",
+   "page": 1,
+   "quote_head": "# PRECAUCIONES PARA LA INSTALACIÓN",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 11,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 934,
+   "draft_tail": "e Tierra\n* 2 Neutro\n* 3 Tierra\n* 4 Caliente\n* 5 Instalación\n* 6 +24 VDC batería\n* 7 –24 VDC batería\n* Refiérase a las \"Conexiones de la Alimentación AC y de Batería (MPS-400)\" en la página 2-45.\" [F3]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp007",
+   "fragment_id": "159bb21f",
+   "section_title": "7 Mantenimiento",
+   "page": 92,
+   "quote_head": "⚠️ **Precaución:** Deben tomarse precauciones contra la descarga electrostática antes de retirar el tablero del detector.",
+   "outcome": "identity_unresolved",
+   "ob_trace": {},
+   "mp_reason": "identity_unresolved",
+   "answer_delta_chars": 0,
+   "draft_tail": "e debe realizar una comprobación preliminar del sistema después de instalar el detector VEP-A10-P y antes de ponerlo en marcha.\" (33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores, p. 54) [F5]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp013",
+   "fragment_id": "4dd6c20a",
+   "section_title": "7 Puesta en funcionamiento",
+   "page": 64,
+   "quote_head": "> * Antes de la puesta en marcha es imprescindible asegurarse de que el tubo sensor se ha soplado con aire comprimido o con hidrógeno después de su mo",
+   "outcome": "appended",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 1,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 266,
+   "draft_tail": "orte técnico de Securiton/Detnov, ya que el procedimiento de sustitución de la batería de litio no está cubierto en los fragmentos recuperados.\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)",
+   "appendix_tail": "tución de la batería de litio no está cubierto en los fragmentos recuperados.\n\nFuente: ADW535_TD_T140358es_e (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- ⚠️ Aviso obligatorio del manual: \"* Antes de la puesta en marcha es imprescindible asegurarse de que el tubo sensor se ha soplado con aire comprimido o con hidrógeno después de su montaje (véase también el cap.\" [F13]"
+  },
+  {
+   "qid": "hp014",
+   "fragment_id": "458afc80",
+   "section_title": "8 Puesta en marcha",
+   "page": 43,
+   "quote_head": "**Nota:** Si aparecen averías (aparte de la pérdida de lazos en un panel configurado), deben eliminarse antes de proceder a la puesta en marcha del eq",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 160,
+   "draft_tail": "encia del manual:**\n- \"La resistencia máxima del lazo no debe superar los 35 ohmios. Puede comprobarlo uniendo los extremos B+ y B- y midiendo a través de los extremos A+ y A-.\" (MIDT180, p. 17) [F11]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp015",
+   "fragment_id": "3c0b004c",
+   "section_title": "3.3.5- Conexionado eléctrico y cableado",
+   "page": 11,
+   "quote_head": "Es imprescindible que se usen los orificios marcados en la caja para conexionar los cables tanto de alimentación como de zonas al regletero.",
+   "outcome": "identity_unresolved",
+   "ob_trace": {},
+   "mp_reason": "identity_unresolved",
+   "answer_delta_chars": 0,
+   "draft_tail": "a central **no refleja ninguna incidencia ni evento** de esa zona. Limita el tiempo de uso de esta maniobra al mínimo imprescindible.\n\n---\n\nFuente: CCD-103_Manual_ES_FR_GB_IT (sin revisión registrada)",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp017",
+   "fragment_id": "45fb8eb3",
+   "section_title": "Apéndice 9. Mensajes de avería",
+   "page": 93,
+   "quote_head": "FIN DE VIDA ÚTIL DE CÉLULA CO: advertencia de mantenimiento de sensor.",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 13,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "[F2].\n- Nota: la fuente es inconsistente: \"Sección 4 - 4\" (997-671-005-3_Configuration_ES, p. 21) [F7] declara 4 Equipos y la enumeración servida lista 20 (997-671-005-3_Configuration_ES, p. 20) [F6].",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp018",
+   "fragment_id": "cc327dc0",
+   "section_title": "MANUAL DE INSTALACIÓN ZXAE/ZXEE",
+   "page": 12,
+   "quote_head": "> ⚠️ Antes de conectar o desconectar cualquier tarjeta a la placa base es imprescindible desconectar las Baterías y la alimentación externa 220 Vca o ",
+   "outcome": "no_candidate",
+   "ob_trace": {
+    "candidates": 0,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": " p. 17) [F10]\n- \"Todas las salidas de sirena quedan configuradas por defecto para sonar de forma contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F7]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "hp020",
+   "fragment_id": "f60fdcd2",
+   "section_title": "Mantenimiento",
+   "page": 56,
+   "quote_head": "Antes de una visita de mantenimiento, utilice el portal en la nube de CLSS y genere un informe sobre los dispositivos que se deben comprobar.",
+   "outcome": "appended",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 1,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 231,
+   "draft_tail": " configuración de CLSS y la Central INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]",
+   "appendix_tail": "tral INSPIRE de Notifier tienen \"pruebas de autenticación\" almacenadas localmente en el programa para que ambas funcionen.\" (4188-1122-ES issue 4_04-2025_Cyb, p. 9) [F9]\n\n---\n⚠️ **Información adicional del manual:**\n- ⚠️ Aviso obligatorio del manual: \"Antes de una visita de mantenimiento, utilice el portal en la nube de CLSS y genere un informe sobre los dispositivos que se deben comprobar.\" [F11]"
+  },
+  {
+   "qid": "cat001",
+   "fragment_id": "db5069af",
+   "section_title": "",
+   "page": 1,
+   "quote_head": "2.1.2 Advertencias y precauciones ...................................",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 13,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "ña AUX*\n* El tipo de equipo de acción auxiliar (AUX) se utiliza para equipos con entrada enclavada/no enclavada (predeterminada), no de incendio con sistemas de alarma contra incendios Notifier.\" [F7]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat007",
+   "fragment_id": "2e549215",
+   "section_title": "NFXI-ASD11-HS NFXI-ASD12-HS NFXI-ASD22-HS",
+   "page": 1,
+   "quote_head": "FAAST es un sistema de detección de incendios avanzado que se utiliza para aplicaciones donde es imprescindible disponer de una advertencia temprana y",
+   "outcome": "appended",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 1,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 254,
+   "draft_tail": "l: mínimo **10⁵ operaciones** [F1]\n\n---\n\n**Fuentes:**\n- I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)\n- I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)",
+   "appendix_tail": "- I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)\n- I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)\n\n---\n⚠️ **Información adicional del manual:**\n- ⚠️ Aviso obligatorio del manual: \"FAAST es un sistema de detección de incendios avanzado que se utiliza para aplicaciones donde es imprescindible disponer de una advertencia temprana y muy temprana.\" [F11]"
+  },
+  {
+   "qid": "cat008",
+   "fragment_id": "b456ea92",
+   "section_title": "INSTRUCCIONES PARA LA INSTALACIÓN DE LOS MÓDULOS DE ENTRADA ",
+   "page": 1,
+   "quote_head": "Atención de conformidad",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 11,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 631,
+   "draft_tail": "o permite, se podrá indicar un cortocircuito como avería en lugar de alarma. Para ello hay que conectar una resistencia de 18 KΩ (M200E-EOL-R18) en serie con cada equipo que se desee supervisar.\" [F3]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat010",
+   "fragment_id": "aad31581",
+   "section_title": "IS-mA1 Sounder",
+   "page": 1,
+   "quote_head": "The IS-mA1 minialarm is an ATEX and IECEx certified intrinsically safe sounder which produces a loud warning signal in a hazardous area.",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "de evidencia del manual:**\n- \"The IS-mA1 minialarm is an ATEX and IECEx certified intrinsically safe sounder which produces a loud warning signal in a hazardous area.\" (IS5001-F_IS-mA1_EN, p. 1) [F11]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat016",
+   "fragment_id": "0909bcbb",
+   "section_title": "2.7 Conexión de las Sirenas",
+   "page": 9,
+   "quote_head": "Es imprescindible que las sirenas sean polarizadas, o en su defecto, es obligado poner un diodo para evitar que las sirenas se activen en estado de re",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "mación adicional del manual:**\n- \"En caso de necesidad, se puede encender el equipo solo con las baterías conectadas, pero es imprescindible pulsar sobre el pulsador BAT para arrancar el equipo.\" [F7]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat017",
+   "fragment_id": "7a33265b",
+   "section_title": "AVERÍAS RELACIONADAS CON LA FUENTE DE ALIMENTACIÓN Y/O CARGA",
+   "page": 69,
+   "quote_head": "**Precaución:** La batería puede calentarse cuando se carga, lo que produce una caída del voltaje de la batería.<br/>**Acción:** Compruebe la temperat",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 13,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 751,
+   "draft_tail": "nection diagram showing 2 x 12 V 24 Ah batteries with positive and negative terminals, marked as ③\n- Bottom right: Circular detail view showing battery terminal connection with + and - markings]\" [F1]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat019",
+   "fragment_id": "f68f2d40",
+   "section_title": "2. ARQUITECTURA DEL SISTEMA VESTA",
+   "page": 10,
+   "quote_head": "Como consecuencia de la detección de un peligro o la recepción de una señal de control, el sistema realizará acciones preestablecidas, por defecto o m",
+   "outcome": "rejected",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 0,
+    "appended": 0,
+    "rejected": [
+     {
+      "fragment": 13,
+      "reason": "no_atom_or_form"
+     }
+    ]
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 0,
+   "draft_tail": "alquiera de los dos cuadrid de la maniobra, eventos o acciones y pulse este botón para entrar en el menú de edición del elemento.\" (CAD-250_Manual-software-configuracion-MS-416-es-2026-b, p. 56) [F10]",
+   "appendix_tail": null
+  },
+  {
+   "qid": "cat023",
+   "fragment_id": "1c0c9603",
+   "section_title": "1 Aspectos generales",
+   "page": 13,
+   "quote_head": "La presente descripción técnica contiene toda la información imprescindible para garantizar el correcto funcionamiento.",
+   "outcome": "satisfied",
+   "ob_trace": {
+    "candidates": 1,
+    "satisfied": 1,
+    "appended": 0,
+    "rejected": []
+   },
+   "mp_reason": null,
+   "answer_delta_chars": 173,
+   "draft_tail": ", para la instalación, el proyecto y el uso del detector de humos por aspiración ASD 532 serán aplicables las disposiciones y directrices específicas de cada país.\" (ASD532_TD_T140421es_a, p. 37) [F9]",
+   "appendix_tail": null
+  }
+ ]
+}
