@@ -81,7 +81,14 @@ actuar (Protocolo 1 aplica a su output); **(F)** aumenta, no reemplaza — yo de
 responsable. Guardarraíl anti-ritual: precisión/recall en casos congelados con fallos conocidos
 y controles limpios, más coste; una propuesta sólida puede devolver `SÓLIDO`. NO es un `/propose` 2.0:
 debe producir bite concreto anclado en evidencia (validado: cazó 5 fallos del localizador).
-**s56→s73→s88→actual:** el segundo revisor frontera corre de forma independiente con pin
+**s292 (Alberto, 1-ago) — PIN ACTUAL DEL SUB-AGENTE = `opus` (Opus 5).** El crédito de Fable 5
+se agotó mid-sesión y el pin `fable` dejó de ser EJECUTABLE; Alberto adjudicó correr el
+sub-agente en Opus 5 (que ya fue el pin s73→s88 y cuyo dúo cazó 4 issues que el de Sonnet no
+vio). El cross-model (Sol) sigue INNEGOCIABLE e intacto — es el lado que rompe la cámara de eco,
+y con autor y sub-agente ambos en Opus 5 lo es MÁS. Validado en s292: el sub-agente Opus 5
+produjo 9 hallazgos con un CRÍTICO verificable en 1 línea (`atom_good_form=False`) que habría
+convertido el lever L3 en no-op silencioso.
+**Histórico s56→s73→s88:** el segundo revisor frontera corría con pin
 `model: fable` / proveedor `claude-fable-5` (Fable 5; Alberto, s88; s73→s88 fue `opus`)
 y el revisor principal es
 GPT-5.6 Sol xhigh; en

@@ -4003,3 +4003,46 @@ cerrada).
 **Siguiente.** G-FP+G-directed de L2 (→ decisión ON de Alberto empaquetada) · etapa 3 sobre
 los 9 (diagnóstico por sub-motivo omitted/partial con el patrón refutador de s290) · smoke
 Telegram de los fixes (query procedimental de Alberto).
+
+## DEC-171 — s292 (1-2 ago 2026): etapa 3 diagnosticada (9 = 4 clases) · hallazgo transversal ACOTADO · lever L3 NO-GO-como-diseñado · pin del sub-agente → Opus 5 (Alberto)
+
+**Decisión.** (a) La cola de etapa 3 queda **diagnosticada y repartida**: los 9 synth-miss
+estables NO son 9 problemas sino **4 clases** — 3 levers vivos (hp003#4 hueco de léxico ·
+hp017#2 supresión por conflict-guard post-generación · cat017#2 recuperado-no-servido) · 1
+gold-split (cat018#2) · 1 re-cablear (hp011#2, diagnóstico REFUTADO) · 2 gold-review
+(hp006#2, hp008#4) · 2 techo (hp013#1, hp017#1). Brief:
+`evals/s291c_etapa3_nine_diagnosis_v1.md`. (b) El **hallazgo transversal** («el rerank 0 del
+FULL está infracontado por asimetría de vara soporte-vs-conveyed») queda **ACOTADO a
+cat017#2**: signature-check determinista sobre los 10 estables = **1/10**; la línea de DEC-170
+se sostiene. (c) **L3 (`MP_SIEMPRE_TRIGGER`) = NO-GO COMO ESTABA DISEÑADO** (dúo 13/13, 0 FP):
+`atom_good_form=False` mataría el átomo en la whitelist aunque el detector lo viera ⇒ no-op
+silencioso; y el seam obvio (parchear `mp_lexicon`) **explota a SERVING** porque
+`rerank_pool_coverage:463` lo consume para la lane L2 **viva en producción**. NADA cableado.
+(d) **Pin del sub-agente adversarial → `opus` (Opus 5), adjudicado por Alberto**: el crédito de
+Fable 5 se agotó y el pin `fable` (s88) dejó de ser ejecutable. Cross-model INNEGOCIABLE
+intacto. CLAUDE.md actualizado.
+
+**Método (lo durable de esta sesión).**
+- **Medir ANTES de diseñar** volvió a pagar: el gatillo naive murió por censo (69% FP) sin
+  llegar al dúo, y el apretado llegó al dúo con números.
+- **Regla-C sobre mis propias sondas, 3 veces**: (i) la sonda del signature-check v1 dio 0/10
+  y era CIEGA a su hipótesis (matcher de anchor + sin kill de TOC + ties) — corregida, encontró
+  el carrier correcto; (ii) la sonda de exigibilidad v1 pasaba `procedural_context_tokens`
+  vacíos y MATABA el lever — corregida contra el código de producción y **marcada para
+  verificación externa** por ser una corrección auto-favorable; (iii) el marcador del probe de
+  ventana-mala era markdown-unaware (FAIL falso). **El patrón a retener: una sonda que
+  confirma lo que quiero exige el mismo escrutinio que un resultado adverso.**
+- El **fan-out con refutador-por-misión** (18 agentes) cazó 2 anclas falsas y aportó el
+  hallazgo del 2º carrier; el dúo posterior cazó lo que el fan-out no vio. Capas, no
+  redundancia.
+
+**Alternativas descartadas.** Parchear el léxico compartido (radio a serving) · patrón
+morfológico de clase abierta para el imperativo (la vía viva es **lista cerrada**, precedente
+`MANDATORY_VERB_TRIGGERS`) · atacar los 9 con levers de prompt (settled DEC-051) · dar por
+refutado el hallazgo transversal con la sonda ciega.
+
+**Estado para la v2 de L3 (si se retoma).** Seam por-parámetro a `_detect_mandatory` **y**
+`_mandatory_clause_form` + gate de invariancia de `served_ids` OFF/ON · lista cerrada de
+imperativos · guard de integridad de span (≥4 spans rotos medidos: citas decapitadas en clase
+SEGURIDAD) · vara ciega con taxonomía pre-registrada (mi tripwire caía sobre el valor
+observado) · censo out-of-sample · resolver ES/EN (el léxico se declara bilingüe).

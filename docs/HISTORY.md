@@ -2434,3 +2434,23 @@ de release; slot propio sin tocar banked) → **V1a/V1b medidos ANTES de constru
 3/20 clase precaución = no-op limpio; dedup dirección letal 0/4) → build default-off + 7 tests
 → suite 3426/0. El ON de L2 queda gateado por G-FP de amplitud con recibo por-fila. Traza:
 DEC-170.
+
+
+## s292 (1-2 ago 2026) — etapa 3 diagnosticada; L3 tumbado por el dúo; tres sondas mías corregidas por regla-C
+
+Tras el ON de L2 (verificado vivo en query real), Alberto pidió atacar la cola de síntesis por
+el orden barato. **Fan-out de 18 agentes** (9 diagnósticos judge-free + 9 refutadores) sobre los
+9 synth estables del FULL v3.2: **no son 9 problemas, son 4 clases** — 3 levers vivos, 1
+gold-split, 1 re-cablear, 2 gold-review, 2 techo. **Signature-check $0** del hallazgo
+transversal: ACOTADO a cat017#2 (1/10) ⇒ el «rerank 0» de DEC-170 se sostiene. **hp011#2**
+re-cablado: mecanismo confirmado con la orientación INVERTIDA (se sirve el valor, falta el
+label, a gap-1 de la misma lane que ya corre). **L3** (gatillo «siempre» en el léxico
+MANDATORY): censo mató el gatillo naive (69% FP) antes del dúo; el apretado llegó con números
+— y el dúo lo tumbó igual (13/13, 0 FP): `atom_good_form=False` lo haría no-op silencioso y
+parchear el léxico compartido explota a la lane L2 VIVA en prod. **Lección de método de la
+sesión: tres sondas mías fallaron y las cacé yo antes de reportar** — la del signature-check
+era ciega a su propia hipótesis, la de exigibilidad mataba el lever por pasar contexto vacío
+(corrección auto-favorable ⇒ marcada para verificación externa), y el marcador del probe de
+ventana-mala era markdown-unaware. Una sonda que confirma lo que quiero exige el mismo
+escrutinio que un resultado adverso. Alberto adjudicó el **pin del sub-agente a Opus 5** al
+agotarse el crédito de Fable. Traza: DEC-171.
