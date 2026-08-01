@@ -118,11 +118,11 @@ DEMO_FLAGS = {
     # shadow. Pineado off para que un .env sucio no lo active en medición.
     "STRUCTURAL_NEIGHBOR_SHADOW": "off",
     # s289 (dúo r3, S3=A2): los 2 fixes de orden/fallback de etapa 2 son
-    # flags-hoja del MISMO seam — pineados off (= ship). El runner de gates los
-    # pone ON vía override DECLARADO post-_assert_demo_flags y el freeze-hash
-    # del brazo estampa el flag-set efectivo.
-    "FACET_COMPLEMENT_FALLBACK": "off",
-    "OBLIGATION_RESERVE_ORDERED": "off",
+    # flags-hoja del MISMO seam. s290: SHIPPEADOS (PR #191 merged + variables ON
+    # en Railway, 1-ago, DEC-168) → la demo los lleva ON (precedente HYQ_TABLE
+    # s102). Cambia el freeze-hash. El gate-runner s289 los conmuta por brazo.
+    "FACET_COMPLEMENT_FALLBACK": "on",
+    "OBLIGATION_RESERVE_ORDERED": "on",
 }
 
 
