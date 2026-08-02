@@ -100,6 +100,17 @@ ADVERB_HEADS = {"siempre", "always"}
 # Ventana de adyacencia imperativo↔siempre (tokens), cerrada a propósito.
 ADJACENCY_TOKENS = 3
 
+# ── GATILLO v2 (tras la adjudicación CIEGA de la ronda 1, F7) ────────────────────
+# Ronda 1 (61 filas, cross-model, taxonomía pre-registrada): 12 espurias ⇒ **STOP**
+# por la regla de daño. El reparto decide el rediseño: forma B (deóntico reforzado)
+# 11/38 espurias ≈ 29%; forma A (imperativo de lista cerrada) 1/23 ≈ 4%. La v2
+# ELIMINA la forma B — no la parchea — y añade la exclusión de la única trampa que
+# cazó la forma A: «Seleccione Siempre on…», donde «Siempre on» es el NOMBRE de una
+# opción de pantalla, no el adverbio.
+TRIGGER_VERSION = "v2"
+FORMS_ACTIVAS = {"A_imperativo_cerrado", "A_adverbio_primero"}
+RX_UI_LABEL = re.compile(r"\b(?:siempre|always)\s+(?:on|off)\b", re.IGNORECASE)
+
 
 def sb_get(**params) -> list[dict]:
     with httpx.Client(timeout=120.0) as client:
@@ -155,29 +166,45 @@ def tokens_between(sentence: str, word_rx: re.Pattern) -> int | None:
 
 # ── F3 · auditoría de integridad de span ─────────────────────────────────────────
 def span_defects(sentence: str) -> list[str]:
+    """v2 — calibrado contra las 8 filas que el adjudicador ciego marcó `span_roto` y
+    que la v1 NO veía (p. ej. «4.10.2, este rango de tensión … (es decir, en»). El
+    listón lo pone el adjudicador, no el autor. Cualquier defecto EXCLUYE la captura:
+    el apéndice cita VERBATIM y una cita rota en un aviso de SEGURIDAD rompe el
+    contrato de fuente."""
     defects = []
-    text = sentence.strip()
+    text = " ".join((sentence or "").split())
     if not text:
         return ["vacio"]
-    if len(" ".join(text.split())) < 40:
-        defects.append("bajo_min_clause_content")   # < _MIN_CLAUSE_CONTENT de producción
-    if text.endswith((":", ";", ",", "cap.", "apartado", "seccion", "sección")):
+    if len(text) < 40:
+        defects.append("bajo_min_clause_content")
+    if not text.endswith((".", "!", "?")):
+        defects.append("sin_cierre")                       # cita truncada
+    if text.rstrip().endswith((":", ";", ",")):
         defects.append("decapitada")
-    if re.search(r"\b(?:cap|apartado|secci[oó]n|fig|tabla)\.?\s*$", text, re.IGNORECASE):
+    if re.search(r"\b(?:cap|apartado|secci[oó]n|fig|figura|tabla|p[aá]g)\.?\s*$",
+                 text, re.IGNORECASE):
         defects.append("referencia_truncada")
+    if re.match(r"^\d+(?:\.\d+)*\s*[,.)]?\s", text):
+        defects.append("arranque_fragmentario")            # «4.10.2, este rango…»
+    if re.match(r"^[a-záéíóúñü]", text):
+        defects.append("arranque_en_minuscula")
+    for opener, closer in (("(", ")"), ("[", "]"), ("«", "»")):
+        if text.count(opener) != text.count(closer):
+            defects.append("delimitador_sin_cerrar")
+            break
+    if text.count('"') % 2 or text.count("“") != text.count("”"):
+        defects.append("comilla_sin_cerrar")
     if len(re.findall(r"[.!?]\s+[A-ZÁÉÍÓÚÑ]", text)) >= 2:
         defects.append("fusion_de_oraciones")
     if text.count("|") >= 2:
         defects.append("fila_de_tabla")
-    if re.match(r"^[a-záéíóúñü]", text) and not re.match(r"^\W", text):
-        defects.append("arranque_en_minuscula")
-    if re.match(r"^#{1,6}\s", text):
-        defects.append("cabecera")
+    if re.match(r"^#{1,6}\s|^[-•*>]\s*\*{0,2}Text in\b", text):
+        defects.append("cabecera_o_metadato")
     return defects
 
 
 def scan(rows: list[dict], closed_es: tuple[str, ...], closed_en: tuple[str, ...]):
-    captures, discovery, rejected = [], Counter(), []
+    captures, discovery, rejected, excluded = [], Counter(), [], []
     for row in rows:
         content = str(row.get("content") or "")
         for s_start, s_end in sentence_spans(content):
@@ -189,6 +216,8 @@ def scan(rows: list[dict], closed_es: tuple[str, ...], closed_en: tuple[str, ...
                 continue
             if has_es and RX_COND_ES.search(sentence):
                 continue                       # condicional: fuera por construcción
+            if RX_UI_LABEL.search(sentence):
+                continue                       # v2: «Siempre on/off» = etiqueta de UI
             head = first_token(sentence)
             lang = "es" if has_es else "en"
             gap = tokens_between(sentence, RX_SIEMPRE if has_es else RX_ALWAYS)
@@ -216,13 +245,19 @@ def scan(rows: list[dict], closed_es: tuple[str, ...], closed_en: tuple[str, ...
                         "lang": lang, "head_siguiente": following[0].lower(),
                         "span": sentence.strip()[:180],
                     }
-            if form is None and lang == "es" and RX_DEONTIC_ES.search(sentence):
-                form = "B_deontico_reforzado"
-            elif form is None and lang == "en" and RX_DEONTIC_EN.search(sentence):
-                form = "B_deontico_reforzado"
+            if form is None and "B_deontico_reforzado" in FORMS_ACTIVAS:
+                if lang == "es" and RX_DEONTIC_ES.search(sentence):
+                    form = "B_deontico_reforzado"
+                elif lang == "en" and RX_DEONTIC_EN.search(sentence):
+                    form = "B_deontico_reforzado"
             if not form:
                 if pending_rejection is not None:
                     rejected.append(pending_rejection)
+                continue
+            defects = span_defects(sentence)
+            if defects:
+                excluded.append({"form": form, "span": sentence.strip()[:180],
+                                 "defects": defects})
                 continue
             captures.append({
                 "chunk_id": row["id"],
@@ -234,11 +269,11 @@ def scan(rows: list[dict], closed_es: tuple[str, ...], closed_en: tuple[str, ...
                 "form": form,
                 "head_verb": head,
                 "span": sentence.strip(),
-                "span_defects": span_defects(sentence),
+                "span_defects": defects,
                 "adjudicacion": None,          # F7: la rellena un adjudicador CIEGO
                 "clase_espuria": None,
             })
-    return captures, discovery, rejected
+    return captures, discovery, rejected, excluded
 
 
 def main() -> None:
@@ -250,7 +285,7 @@ def main() -> None:
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True).stdout.decode().strip()
 
     if MODE == "discover":
-        _caps, discovery, _rej = scan(rows, (), ())     # listas vacías: solo descubre
+        _caps, discovery, _rej, _exc = scan(rows, (), ())     # listas vacías: solo descubre
         top = discovery.most_common(120)
         out = {
             "probe": "s294_siempre_discovery_v1", "git_sha": sha,
@@ -262,12 +297,12 @@ def main() -> None:
         }
         path = os.path.join(os.getcwd(), "evals", "s294_siempre_discovery_v1.json")
     else:
-        captures, _disc, rejected = scan(rows, CLOSED_IMPERATIVES_ES, CLOSED_IMPERATIVES_EN)
+        captures, _disc, rejected, excluded = scan(rows, CLOSED_IMPERATIVES_ES, CLOSED_IMPERATIVES_EN)
         by_form = Counter(c["form"] for c in captures)
         by_lang = Counter(c["lang_detectado"] for c in captures)
         with_defects = [c for c in captures if c["span_defects"]]
         out = {
-            "probe": "s294_siempre_census_v1", "git_sha": sha,
+            "probe": "s294_siempre_census_v2", "git_sha": sha,
             "poblacion_chunks": len(rows),
             "taxonomia_espurio_PRE_REGISTRADA": SPURIOUS_TAXONOMY,
             "regla_de_dano": "cualquier fila adjudicada ESPURIA ⇒ STOP del lever",
@@ -279,11 +314,16 @@ def main() -> None:
             "por_idioma": dict(by_lang),
             "n_con_defecto_de_span": len(with_defects),
             "defectos": dict(Counter(d for c in captures for d in c["span_defects"])),
+            "trigger_version": TRIGGER_VERSION,
+            "formas_activas": sorted(FORMS_ACTIVAS),
+            "n_excluidas_por_guard_de_span": len(excluded),
+            "excluidas_por_defecto": dict(Counter(d for e in excluded for d in e["defects"])),
+            "excluidas_muestra": excluded[:20],
             "n_rechazadas_verbo_fuera_de_lista": len(rejected),
             "rechazadas_muestra": rejected[:25],
             "capturas": captures,
         }
-        path = os.path.join(os.getcwd(), "evals", "s294_siempre_census_v1.json")
+        path = os.path.join(os.getcwd(), "evals", "s294_siempre_census_v2.json")
 
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
