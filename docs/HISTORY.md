@@ -2518,3 +2518,39 @@ media evidencia), **carrier equivocado heredado del censo de s292** (el document
 `chunk_index` duplicados y el label `t.A` vive en el gemelo que aquel censo no eligió), y un
 patrón ciego a «magneto térmico» con espacio que fingía un hueco de corpus donde el span estaba
 servido. Traza: DEC-173.
+
+## s294 (2 ago 2026) — L3 v2: el gatillo se limpió, y aun así se para
+
+Sesión de continuación autónoma sobre el único lever de etapa 3 con retorno demostrado y
+población medida. Se cumplieron **cinco de las seis** condiciones que el dúo le puso en s292, y
+la sexta —la adjudicación ciega— acabó decidiendo en contra dos veces.
+
+El **F1** se cerró antes de diseñar nada: `_sentence_has_finite_verb` devuelve True en las cinco
+formas candidatas, así que el átomo pasa la whitelist sin exención y la v1 moría **solo** porque
+`_mandatory_triggers` devolvía vacío en sus dos llamadas. El seam por-parámetro dentro de
+`must_preserve` bastaba. El **F4/F5/F6** se cerraron con un censo out-of-sample de los 1.552
+chunks del corpus que contienen «siempre»/«always», con la lista cerrada de imperativos derivada
+de los datos en vez de inventada, y con el inglés dentro por primera vez.
+
+Entonces entró el control que importa. **Adjudicación ciega r1** (cross-model, taxonomía
+pre-registrada, la diana metida sin marcar): **12 espurias de 61**, o sea STOP por la regla de
+daño. El reparto mandó un **rediseño, no un parche** — 11 de las 12 estaban en la forma B, que
+se eliminó entera, y 8 eran spans rotos que mi propio detector no veía, así que el guard se
+recalibró al listón del adjudicador. **r2: 1 espuria de 60, 98,3% de precisión**, con la diana
+declarada legítima en las dos rondas.
+
+Y aun así, STOP. La regla estaba pre-registrada y la excusa disponible se comprobó en vez de
+usarse: `_near_duplicate_span` devuelve False para esa pareja, luego el apéndice emitiría las
+dos. Pero lo que decidió de verdad fue otra medición: sobre la superficie real de emisión el
+gatillo dispara tres veces en dos chunks del **mismo manual**, y sirve la obligación **en
+español y sus dos gemelas en inglés dentro de la misma respuesta**. Cumplir el requisito
+bilingüe que exigía el dúo **creó** el problema. Shipear pedía dos cambios en la lane L2 viva
+para entregar un hecho, sin justificación independiente: **Alberto eligió parar** y pasar al
+lever B de `cat017#2`.
+
+Se llevan dos cosas de valor sin haber tocado producción: **dos defectos latentes de la lane
+viva** con causa exacta (el punto ciego de contención del dedup y el hueco de política de
+idioma del apéndice), y un censo reproducible por si se retoma. Y tres fallos propios cazados
+—paginación sin `ORDER BY` que hacía el censo irreproducible, `\b` escritos como bytes de
+retroceso que convertían una exclusión en no-op silencioso, y una contabilidad de rechazos
+prematura—, los tres **por verificar el efecto y no el código**. Traza: DEC-174.

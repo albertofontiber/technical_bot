@@ -4143,3 +4143,48 @@ anterior sin verificar el carrier (habría producido un NO-GO falso en hp011#2).
 fuerza la admisión (mide «si lo viera», no la viabilidad de la lane) · el oráculo `appendix`
 dice que el span BASTA, no que el lever lo elegiría · **un «alcanzable» NO es un GO**: el
 diseño sigue necesitando dúo, flag-off y su gate.
+
+## DEC-174 — s294 (2 ago 2026): L3 v2 PARADO por decisión de Alberto (opción A) · el gatillo quedó limpio (98,3%) pero exige 2 cambios en la lane viva · 2 defectos latentes de L2 documentados
+
+**Decisión.** (a) **L3 v2 se para** y el trabajo de etapa 3 pasa al **lever B de `cat017#2`**
+(alcanzabilidad probada 0/5→5/5, DEC-173; no toca léxico ni dedup compartidos). Adjudicado por
+Alberto sobre bifurcación con evidencia balanceada (`evals/s294_l3_v2_status_v1.md`).
+(b) **Nada cableado en `src/`**: la sesión no tocó producción. (c) Quedan documentados **dos
+defectos LATENTES de la lane L2 viva**, encontrados sin tocarla y con causa exacta —(1) punto
+ciego de **contención** en `_near_duplicate_span` (`must_preserve:2074-2089`): con solape
+0,908 ≥ 0,90 y números iguales, un solo token de diferencia hace que conserve AMBOS spans
+cuando uno **contiene** al otro; y (2) **hueco de política de idioma** del apéndice: no
+distingue el idioma del span respecto al de la respuesta.
+
+**Lo que sí se midió (y queda reusable).** Censo **out-of-sample reproducible** del gatillo
+«siempre» (1.552 chunks del corpus, `scripts/s294_siempre_census.py`) · **dos adjudicaciones
+CIEGAS** del cross-model con taxonomía pre-registrada y la diana incluida sin marcar: **r1
+12/61 espurias (80,3%) ⇒ STOP**, rediseño (fuera la forma B, donde estaban 11 de las 12; guard
+de span recalibrado al listón del adjudicador; exclusión de la trampa «Siempre on»), **r2 1/60
+(98,3%) ⇒ STOP igualmente por la regla de daño pre-registrada** · **F1 verificado suficiente**:
+`_sentence_has_finite_verb` = True en las 5 formas ⇒ el átomo pasa la whitelist sin exención;
+la v1 moría SOLO porque `_mandatory_triggers` devolvía `[]` en los dos sitios.
+
+**El hallazgo que decidió.** Sobre la superficie REAL de emisión (398 chunks servidos de los 39
+golds) el gatillo v2 dispara **3 veces en 2 chunks del mismo manual CAD-150**: la diana ES
+(`eaa39792` p.8) y sus **dos gemelas EN** (`7849231c` p.20) — y **ambos chunks se sirven en la
+MISMA respuesta de hp003**, con cap de familia 2 ⇒ el apéndice emitiría la obligación en
+español **y** su gemela inglesa. `_near_duplicate_span` no puede cazarlo (idioma y tokens
+distintos). Es consecuencia DIRECTA de satisfacer F5 (léxico declarado bilingüe): **cumplir el
+requisito del dúo creó el problema**.
+
+**Alternativas descartadas.** Reinterpretar la regla de daño a la vista de r2 (se comprobó si
+la excusa disponible —«el pipeline ya deduplica»— se sostenía: **no**, medido) · shipear
+aceptando el duplicado cross-lingüe · tocar `_near_duplicate_span` y la política de idioma
+para entregar 1 hecho, sin justificación independiente (**0 casos** con el léxico actual en los
+398 servidos).
+
+**Método (durable).** El patrón «adjudicación ciega con taxonomía pre-registrada + regla de
+daño» funcionó como control: r1 mandó un rediseño (no un parche) y r2 impidió que yo cerrara
+en falso. **Tres fallos propios cazados**: paginación sin `ORDER BY` que hacía el censo
+irreproducible (268 vs 235 capturas con el mismo código, 23% de población perdida); `\b`
+escritos como **bytes de retroceso (0x08)** por escapado de heredoc, que convertían una
+exclusión en no-op silencioso (y cuyo primer «arreglo» sustituía backspace por backspace);
+contabilidad de rechazos anotada antes de evaluar la forma B. La lección operativa:
+**verificar el EFECTO, no el código** — los tres se cazaron con pruebas de comportamiento
+(`cat -A`, dos corridas consecutivas, casos unitarios), ninguno leyendo el fuente.

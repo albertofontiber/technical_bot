@@ -54,9 +54,13 @@ medición, no con código (DEC-172).
   mitades admitidas ⇒ la pair-completion que s292 iba a diseñar **no pagaría**).
 
 **Qué sigue (nada bloqueado, y ahora con retorno DEMOSTRADO o descartado por hecho):**
-(0) los dos levers con retorno probado son **lever B de cat017#2** (+1 garantizado, pero toca
-lane viva en release C1 ⇒ dúo + flag-off + gate de no-desplazamiento) y **L3 v2 para hp003#4**
-(su hecho-diana SÍ es alcanzable; la v2 sigue exigiendo las 6 condiciones de DEC-171);
+(0) **L3 v2 PARADO (s294/DEC-174, opción A de Alberto)**: el gatillo llegó a 98,3% de precisión
+en adjudicación ciega, pero shipearlo exige 2 cambios en la lane L2 viva (política de idioma +
+dedup por contención) para 1 hecho — y el propio requisito bilingüe crea un duplicado
+cross-lingüe en la diana. Quedan 2 defectos latentes de L2 documentados. **El siguiente lever es
+el B de `cat017#2`** (+1 con retorno PROBADO 0/5→5/5; toca la satisfacción de necesidades de
+`document_local_content_coverage_v1`, viva en release C1 ⇒ censo de población primero, luego dúo
++ flag-off + gate de no-desplazamiento);
 (1) **hp003#4** = el lever vivo que queda de etapa 3;
 (2) **lever B de cat017#2** si Alberto lo abre (toca lane viva en release C1 ⇒ dúo + flag-off
 + gate de no-desplazamiento); (3) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 ·
