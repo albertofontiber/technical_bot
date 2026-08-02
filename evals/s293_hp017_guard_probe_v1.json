@@ -1,0 +1,271 @@
+{
+ "probe": "s293_hp017_guard_probe_v1",
+ "git_sha": "610f1372306f57a8a93295e82366ce0d4b2d8a2b",
+ "receipt": "evals/s100_factlevel_full_v32_full_20260801.yaml",
+ "qid": "hp017",
+ "query": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+ "n_served": 13,
+ "served_ids": [
+  "570d9951-e3a6-4c64-a927-e26b5e6db842",
+  "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+  "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+  "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+  "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+  "4bb05ec8-79be-4ff1-af07-eaec9aa1c2b6",
+  "39e581ab-3536-4fe5-8faa-4537ca38213f",
+  "13bee205-9f2b-44ba-9891-37d77b5fa110",
+  "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+  "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+  "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+  "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+  "45fb8eb3-93c0-42bb-88fd-00220c30e912"
+ ],
+ "registry": [
+  {
+   "registry_id": "pearl_cause_effect_menu_7_vs_8_v1",
+   "product_scopes": [
+    "pearl"
+   ],
+   "operation": "cause_effect_menu_path",
+   "values": [
+    "7",
+    "8"
+   ]
+  }
+ ],
+ "A_carrier": {
+  "id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+  "fragment_number": 11,
+  "source_file": "997-671-005-3_Configuration_ES",
+  "page_number": 45,
+  "chunk_index": 78,
+  "n_chars": 3037,
+  "menu_rows_in_carrier": [
+   {
+    "line": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos",
+    "value": "7",
+    "at": 2033
+   }
+  ],
+  "editar_configuracion_hits": [
+   {
+    "at": 2045,
+    "text": "uración de la central\nApéndice 5 - 4\n\nProgramación de causa-efecto\n\nEn el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usu"
+   }
+  ],
+  "regla_1_hits": [
+   814
+  ],
+  "min_dist_editar_to_menu": 12,
+  "content": "# A5.4 Ejemplos de reglas de causa-efecto\n\nEn esta sección se ilustra la programación de causa-efecto mediante varios ejemplos típicos.\n\n**Ejemplo 1** – ¿Cómo crear una regla para permitir una evacuación por etapas en caso de alarma en una zona específica?\n\nCrear una regla de este tipo es muy sencillo. Para explicar cómo hacerlo, utilizaremos un edificio de varios pisos.\n\nHay varias maneras de hacerlo, pero primero veremos el método más fácil. Para ello, necesitaremos crear varias reglas, cada una con instrucciones de entrada y salida.\n\nSolo abordaremos la configuración de un conjunto de reglas de causa-efecto (matriz) de una sola central Pearl.\n\n## *Ejemplo 1. Programación simple de causa-efecto*\n\nEn relación con el edificio de varios pisos de la derecha, cree las siguientes reglas de causa-efecto:\n\n* Regla 1: una regla que diga que para cualquier entrada de alarma todas las sirenas de cada zona deben activarse en modo intermitente* (patrón de alerta).\n\n* Regla 2: puesto que una salida de sirena fija anula una salida intermitente, debe crearse una regla para cada zona con el fin de que una alarma de la zona active las sirenas de esa zona en modo fijo.*\n\n  * Estos modos de salida se consiguen seleccionando el tono deseado para cada una de estas reglas (solo sirenas Opal). En dichos casos, los tonos con un número más alto anulan los que tienen un número más bajo. Para más detalles, véase el «Apéndice 3. Programa de patrones de sirena».\n\n**Bloque de oficinas de varios pisos con sótano**\n\n| Planta 4    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 5 |        |\n| ----------- | - | - | - | - | - | - | ------ | ------ |\n| Planta 3    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 4 |        |\n| Planta 2    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 3 |        |\n| Planta 1    | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ | Zona 2 |        |\n| Planta baja | ⬜ | ⬜ | ⬛ | ⬜ | ⬛ | ⬜ | ⬜      | Zona 1 |\n| Sótano      |   |   |   |   |   |   | Zona 6 |        |\n\n997-671-005-3\nwww.notifier.es\n\nManual de configuración de la central\nApéndice 5 - 4\n\nProgramación de causa-efecto\n\nEn el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos reglas de causa-efecto por defecto. **Deben eliminarse si se van a crear reglas de causa-efecto personalizadas.**\n\nPara el ejemplo aquí ilustrado, se ha detectado un alarma en la zona 3 (planta 2). La matriz de causa-efecto se examina de inmediato y se procesan todas las reglas configuradas para la activación de las salidas. En este ejemplo nos interesa cualquier regla relacionada con una condición de alarma que se detecte en la zona 3.\n\nSe han configurado varias reglas para procesar alarmas procedentes de cualquiera de las seis zonas de alarma de este edificio, que consta de cinco plantas y un sótano.\n\nLa primera regla de causa-efecto es una instrucción general para accionar las sirenas de todas las zonas, en modo de alerta, cuando se detecta una alarma en cualquier zona, del siguiente modo:"
+ },
+ "B_menu_values_in_served_context": {
+  "7": [
+   {
+    "chunk_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "fragment_number": 11,
+    "source_file": "997-671-005-3_Configuration_ES",
+    "page_number": 45,
+    "line": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario encontrará aquí las dos"
+   }
+  ]
+ },
+ "C_conflicts": [
+  {
+   "conflict_id": "conf_cd779d097724",
+   "product_scope": "pearl",
+   "operation": "cause_effect_menu_path",
+   "values": [
+    "7",
+    "8"
+   ],
+   "evidence_values": [
+    "7"
+   ],
+   "n_evidence": 1,
+   "evidence": [
+    {
+     "fragment_number": 11,
+     "value": "7",
+     "candidate_id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+     "statement": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un archivo de configuración, el usuario enc"
+    }
+   ]
+  }
+ ],
+ "C_one_sided": [
+  "conf_cd779d097724"
+ ],
+ "D_final_answer_blocks_unsafe": [
+  {
+   "i": 0,
+   "head": "El retardo de salida de alarma principal en la Pearl **no se configura como un parámetro único**, sino a travé",
+   "unsafe_ids": []
+  },
+  {
+   "i": 1,
+   "head": "## Cómo se programa el retardo de salida en la Pearl",
+   "unsafe_ids": []
+  },
+  {
+   "i": 2,
+   "head": "### 1. Acceder a la programación de causa-efecto",
+   "unsafe_ids": []
+  },
+  {
+   "i": 3,
+   "head": "No puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma e",
+   "unsafe_ids": []
+  },
+  {
+   "i": 4,
+   "head": "> ⚠️ Si no se ha transferido un archivo de configuración previo, aparecerán dos reglas por defecto. **Deben el",
+   "unsafe_ids": []
+  },
+  {
+   "i": 5,
+   "head": "> ✅ **Se recomienda usar el programa de configuración por ordenador como método principal**. El menú de la cen",
+   "unsafe_ids": []
+  },
+  {
+   "i": 6,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 7,
+   "head": "### 2. Asignar el tipo de retardo a la regla",
+   "unsafe_ids": []
+  },
+  {
+   "i": 8,
+   "head": "Dentro de cada regla de causa-efecto, se puede asignar **uno de seis tipos de retardo de salida** [F1]. Los ti",
+   "unsafe_ids": []
+  },
+  {
+   "i": 9,
+   "head": "- **Fijo**\n- **Estándar**\n- **No Silenc.**\n- **Est. Ext.** (Estándar Extendido)\n- **RetExtStd**\n- **No Sil. Ex",
+   "unsafe_ids": []
+  },
+  {
+   "i": 10,
+   "head": "El tipo de retardo determina qué acciones puede realizar el usuario mientras el retardo está activo [F1]. Las ",
+   "unsafe_ids": []
+  },
+  {
+   "i": 11,
+   "head": "- **Silenciar sirenas detiene la salida durante el retardo:** solo en tipos Estándar, Est. Ext. y RetExtStd ✓\n",
+   "unsafe_ids": []
+  },
+  {
+   "i": 12,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 13,
+   "head": "### 3. Funcionamiento del retardo en operación",
+   "unsafe_ids": []
+  },
+  {
+   "i": 14,
+   "head": "Cuando se detecta una alarma y hay un retardo activo [F4]:",
+   "unsafe_ids": []
+  },
+  {
+   "i": 15,
+   "head": "- El **LED de RETARDO ACTIVO** se enciende [F3].\n- El personal autorizado (con llave, nivel acceso 2) puede pu",
+   "unsafe_ids": []
+  },
+  {
+   "i": 16,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 17,
+   "head": "### 4. Anular/habilitar los retardos desde el menú de operación",
+   "unsafe_ids": []
+  },
+  {
+   "i": 18,
+   "head": "Si necesitas anular o habilitar los retardos configurados sin modificar la programación [F3]:",
+   "unsafe_ids": []
+  },
+  {
+   "i": 19,
+   "head": "1. Accede al **Menú Anular/Habilitar**.\n2. Selecciona **«5: Retardo Activación Salidas»**.\n3. Pulsa **✓** para",
+   "unsafe_ids": []
+  },
+  {
+   "i": 20,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 21,
+   "head": "### 5. Pulsador AMPLIAR RETARDO (opcional)",
+   "unsafe_ids": []
+  },
+  {
+   "i": 22,
+   "head": "El pulsador **AMPLIAR RETARDO** puede desactivarse desde los parámetros de la central si no se requiere en la ",
+   "unsafe_ids": []
+  },
+  {
+   "i": 23,
+   "head": "- Parámetro **«10: Extend Delay Button»** → `Enabled` / `Disabled` [F5].",
+   "unsafe_ids": []
+  },
+  {
+   "i": 24,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 25,
+   "head": "> ⚠️ **Nota importante:** Los fragmentos disponibles describen los tipos de retardo y su comportamiento, pero ",
+   "unsafe_ids": []
+  },
+  {
+   "i": 26,
+   "head": "---",
+   "unsafe_ids": []
+  },
+  {
+   "i": 27,
+   "head": "**Fuentes:**\n- Manual de configuración de la central Pearl, ref. 997-671-005-3_Configuration_ES (rev. 997-671-",
+   "unsafe_ids": []
+  },
+  {
+   "i": 28,
+   "head": "---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contra",
+   "unsafe_ids": []
+  },
+  {
+   "i": 29,
+   "head": "---\n📋 **Obligaciones de evidencia del manual:**\n- Nota: la fuente es inconsistente: \"Se puede asignar uno de s",
+   "unsafe_ids": []
+  }
+ ],
+ "D_faithful_variants": {
+  "con_numero_de_menu": {
+   "input": "Accede a la pantalla **Causa y Efecto** desde el menú **Editar Configuración** (opción 7: Causa y Efecto) y borra la **Regla 1** por defecto si vas a hacer una programación específica [F1].",
+   "action": "surgical_repair",
+   "repaired_blocks": 1,
+   "initial_unsafe": [
+    "conf_cd779d097724"
+   ],
+   "output_changed": true,
+   "output": "No puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú."
+  },
+  "sin_numero_de_menu": {
+   "input": "Accede a la pantalla **Causa y Efecto** desde el menú **Editar Configuración** y borra la **Regla 1** por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si vas a hacer una programación específica [F1].",
+   "action": "pass",
+   "repaired_blocks": 0,
+   "initial_unsafe": [],
+   "output_changed": false,
+   "output": "Accede a la pantalla **Causa y Efecto** desde el menú **Editar Configuración** y borra la **Regla 1** por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si vas a hacer una programación específica [F1]."
+  }
+ }
+}

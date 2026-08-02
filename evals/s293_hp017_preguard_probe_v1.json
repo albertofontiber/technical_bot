@@ -1,0 +1,157 @@
+{
+ "probe": "s293_hp017_preguard_probe_v2",
+ "git_sha": "610f1372306f57a8a93295e82366ce0d4b2d8a2b",
+ "qid": "hp017",
+ "query": "¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?",
+ "recorded_served_ids": [
+  "570d9951-e3a6-4c64-a927-e26b5e6db842",
+  "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+  "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+  "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+  "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+  "4bb05ec8-79be-4ff1-af07-eaec9aa1c2b6",
+  "39e581ab-3536-4fe5-8faa-4537ca38213f",
+  "13bee205-9f2b-44ba-9891-37d77b5fa110",
+  "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+  "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+  "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+  "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+  "45fb8eb3-93c0-42bb-88fd-00220c30e912"
+ ],
+ "reps": [
+  {
+   "rep": 0,
+   "guard_reached": true,
+   "guard_action": "surgical_repair",
+   "repaired_blocks": 1,
+   "initial_unsafe": [
+    "conf_cd779d097724"
+   ],
+   "served_ids": [
+    "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+    "570d9951-e3a6-4c64-a927-e26b5e6db842",
+    "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+    "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+    "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+    "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+    "39e581ab-3536-4fe5-8faa-4537ca38213f",
+    "13bee205-9f2b-44ba-9891-37d77b5fa110",
+    "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+    "91c99a65-d987-42a4-a20f-5ceb56d14b94",
+    "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+    "a8b16f43-1421-4275-a5bb-8e9b636fd3c2"
+   ],
+   "served_equals_receipt": false,
+   "n_served": 13,
+   "pre_has_route": true,
+   "post_has_route": false,
+   "pre_has_rule1": false,
+   "post_has_rule1": false,
+   "final_has_route": false,
+   "route_blocks_in_pre": [
+    {
+     "i": 5,
+     "has_route": true,
+     "has_screen": true,
+     "has_rule1": false,
+     "text": "1. En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** [F11].\n2. Crea o edita la regla de causa-efecto correspondiente a la salida de alarma (sirena, relé, etc.).\n3. Asigna a esa regla uno de los **seis tipos de retardo** disponibles [F2][F3]:"
+    }
+   ],
+   "pre": "El retardo de activación de salidas de alarma en la PEARL **no se programa como un valor de tiempo directo desde el menú de operación**, sino que se configura dentro de las **reglas de causa-efecto** y posteriormente se puede anular/habilitar desde el menú de usuario.\n\nA continuación te explico ambas partes:\n\n---\n\n## 1. Configuración del retardo (vía causa-efecto)\n\nEl retardo de salida se define dentro de la **matriz de causa-efecto** [F2]. El proceso general es:\n\n1. En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** [F11].\n2. Crea o edita la regla de causa-efecto correspondiente a la salida de alarma (sirena, relé, etc.).\n3. Asigna a esa regla uno de los **seis tipos de retardo** disponibles [F2][F3]:\n\n   - **Fijo**: el retardo no puede anularse ni detenerse por el usuario; no muestra cuenta atrás en LCD.\n   - **Estándar**: la salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo; puede anularse en nivel de acceso 2; muestra cuenta atrás en LCD; puede detenerse con FIN RETARDO.\n   - **No Silenc.**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; muestra cuenta atrás; puede detenerse con FIN RETARDO.\n   - **Est. Ext.**: igual que Estándar, y además la salida se detiene si se pulsa AMPLIAR RETARDO.\n   - **RetExtStd**: igual que Estándar, y además el temporizador comienza en RETARDO AMPLIADO.\n   - **No Sil. Ext**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; la salida se detiene con AMPLIAR RETARDO.\n   - **SinRetExt**: el temporizador comienza en RETARDO AMPLIADO; no se detiene con SILENCIAR SIRENAS ni AMPLIAR RETARDO.\n\n> ⚠️ **Nota importante** [F12]: Se recomienda usar el **programa de configuración por ordenador** como método principal de programación de causa-efecto. El menú de la central debe usarse solo para modificaciones menores.\n\n> ⚠️ **Advertencia** [F12]: Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha para verificar que no haya conflictos lógicos entre ellas.\n\n---\n\n## 2. Anular/Habilitar el retardo desde el panel (operación en campo)\n\nUna vez configurado el retardo en causa-efecto, desde el menú de usuario (nivel de acceso 2) puedes anularlo o habilitarlo [F1]:\n\n1. Accede al menú **Anular/Habilitar**.\n2. Selecciona **«5: Retardo Activación Salidas»**.\n3. Pulsa **✓** para cambiar el estado entre ANULADO y HABILITADO.\n4. Pulsa **✕** para salir.\n\n> El **LED de RETARDO ACTIVO** se enciende cuando hay un retardo activo en curso [F1].\n\n---\n\n## 3. Comportamiento durante el retardo activo\n\n- Tecla **AMPLIAR RETARDO**: disponible en nivel de acceso 2; inicia el segundo temporizador (normalmente más largo que el primero) [F4].\n- Tecla **FIN RETARDO**: disponible en nivel de acceso 1; pone fin al retardo y activa la condición de alarma completa [F4].\n- El pulsador AMPLIAR RETARDO puede desactivarse desde la configuración de la central en el parámetro **«10: Extend Delay Button»** [F5].\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]",
+   "post": "El retardo de activación de salidas de alarma en la PEARL **no se programa como un valor de tiempo directo desde el menú de operación**, sino que se configura dentro de las **reglas de causa-efecto** y posteriormente se puede anular/habilitar desde el menú de usuario.\n\nA continuación te explico ambas partes:\n\n---\n\n## 1. Configuración del retardo (vía causa-efecto)\n\nEl retardo de salida se define dentro de la **matriz de causa-efecto** [F2]. El proceso general es:\n\nNo puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú.\n\n   - **Fijo**: el retardo no puede anularse ni detenerse por el usuario; no muestra cuenta atrás en LCD.\n   - **Estándar**: la salida se detiene si se pulsa SILENCIAR SIRENAS durante el retardo; puede anularse en nivel de acceso 2; muestra cuenta atrás en LCD; puede detenerse con FIN RETARDO.\n   - **No Silenc.**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; muestra cuenta atrás; puede detenerse con FIN RETARDO.\n   - **Est. Ext.**: igual que Estándar, y además la salida se detiene si se pulsa AMPLIAR RETARDO.\n   - **RetExtStd**: igual que Estándar, y además el temporizador comienza en RETARDO AMPLIADO.\n   - **No Sil. Ext**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; la salida se detiene con AMPLIAR RETARDO.\n   - **SinRetExt**: el temporizador comienza en RETARDO AMPLIADO; no se detiene con SILENCIAR SIRENAS ni AMPLIAR RETARDO.\n\n> ⚠️ **Nota importante** [F12]: Se recomienda usar el **programa de configuración por ordenador** como método principal de programación de causa-efecto. El menú de la central debe usarse solo para modificaciones menores.\n\n> ⚠️ **Advertencia** [F12]: Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha para verificar que no haya conflictos lógicos entre ellas.\n\n---\n\n## 2. Anular/Habilitar el retardo desde el panel (operación en campo)\n\nUna vez configurado el retardo en causa-efecto, desde el menú de usuario (nivel de acceso 2) puedes anularlo o habilitarlo [F1]:\n\n1. Accede al menú **Anular/Habilitar**.\n2. Selecciona **«5: Retardo Activación Salidas»**.\n3. Pulsa **✓** para cambiar el estado entre ANULADO y HABILITADO.\n4. Pulsa **✕** para salir.\n\n> El **LED de RETARDO ACTIVO** se enciende cuando hay un retardo activo en curso [F1].\n\n---\n\n## 3. Comportamiento durante el retardo activo\n\n- Tecla **AMPLIAR RETARDO**: disponible en nivel de acceso 2; inicia el segundo temporizador (normalmente más largo que el primero) [F4].\n- Tecla **FIN RETARDO**: disponible en nivel de acceso 1; pone fin al retardo y activa la condición de alarma completa [F4].\n- El pulsador AMPLIAR RETARDO puede desactivarse desde la configuración de la central en el parámetro **«10: Extend Delay Button»** [F5].\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]"
+  },
+  {
+   "rep": 1,
+   "guard_reached": true,
+   "guard_action": "surgical_repair",
+   "repaired_blocks": 1,
+   "initial_unsafe": [
+    "conf_cd779d097724"
+   ],
+   "served_ids": [
+    "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+    "570d9951-e3a6-4c64-a927-e26b5e6db842",
+    "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+    "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+    "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+    "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+    "13bee205-9f2b-44ba-9891-37d77b5fa110",
+    "39e581ab-3536-4fe5-8faa-4537ca38213f",
+    "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+    "91c99a65-d987-42a4-a20f-5ceb56d14b94",
+    "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+    "a8b16f43-1421-4275-a5bb-8e9b636fd3c2"
+   ],
+   "served_equals_receipt": false,
+   "n_served": 13,
+   "pre_has_route": true,
+   "post_has_route": false,
+   "pre_has_rule1": false,
+   "post_has_rule1": false,
+   "final_has_route": false,
+   "route_blocks_in_pre": [
+    {
+     "i": 4,
+     "has_route": true,
+     "has_screen": true,
+     "has_rule1": false,
+     "text": "1. En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** para abrir la función de edición [F11].\n2. Dentro de cada regla de causa-efecto, se asigna un **tipo de retardo de salida** a esa regla [F2].\n3. Se puede asignar **uno de seis tipos de retardo** disponibles [F2]:"
+    }
+   ],
+   "pre": "## Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de activación de salidas en la PEARL **no se programa como un parámetro aislado**, sino que se configura dentro de las **reglas de causa-efecto** de la central [F2].\n\n---\n\n### Cómo se configura el retardo (vía menú de configuración)\n\n1. En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** para abrir la función de edición [F11].\n2. Dentro de cada regla de causa-efecto, se asigna un **tipo de retardo de salida** a esa regla [F2].\n3. Se puede asignar **uno de seis tipos de retardo** disponibles [F2]:\n\n   - **Fijo**\n   - **Estándar**\n   - **No Silenc.**\n   - **Est. Ext.** (Estándar Extendido)\n   - **RetExtStd** (Retardo Extendido Estándar)\n   - **No Sil. Ext** (No Silenciable Extendido)\n   - **SinRetExt** [F3]\n\n4. El tipo de retardo determina qué acciones puede realizar el usuario mientras el retardo está activo [F2].\n\n---\n\n### Diferencias clave entre tipos de retardo [F3]\n\n- **Silenciar sirenas durante el retardo** (la salida se detiene): disponible en **Estándar, Est. Ext. y RetExtStd**.\n- **Anular retardo desde nivel de acceso 2**: disponible en todos excepto **Fijo**.\n- **Tiempo restante visible en pestaña ALARMA**: disponible en todos excepto **Fijo**.\n- **FIN RETARDO activo**: disponible en todos excepto **Fijo**.\n- **AMPLIAR RETARDO detiene la salida**: solo en **Est. Ext.** y **No Sil. Ext**.\n- **Temporizador comienza en RETARDO AMPLIADO**: solo en **RetExtStd** y **SinRetExt**.\n\n---\n\n### Anular/Habilitar el retardo en operación (nivel de acceso 2)\n\nUna vez configurado, el retardo puede anularse o habilitarse desde el menú de operación [F1]:\n\n1. Accede al menú **Anular/Habilitar** (nivel de acceso 2).\n2. Selecciona **«5: Retardo Activación Salidas»** [F1].\n3. Pulsa **✓** para cambiar el estado entre HABILITADO y ANULADO [F1].\n4. Pulsa **✕** para salir en cualquier momento [F1].\n\n> ⚠️ Esta opción **solo está disponible si se han configurado retardos** en alguna regla de causa-efecto. Si el LED de **RETARDO ACTIVO** está encendido, indica que hay un retardo activo en ese momento [F1].\n\n---\n\n### Nota sobre el método de programación recomendado\n\nEl manual indica que **se recomienda utilizar el programa de configuración por ordenador como principal método de programación**. El menú de la central debería emplearse solo para modificaciones menores [F12].\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]",
+   "post": "## Programación del retardo de salida de alarma en la Notifier PEARL\n\nEl retardo de activación de salidas en la PEARL **no se programa como un parámetro aislado**, sino que se configura dentro de las **reglas de causa-efecto** de la central [F2].\n\n---\n\n### Cómo se configura el retardo (vía menú de configuración)\n\nNo puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú.\n\n   - **Fijo**\n   - **Estándar**\n   - **No Silenc.**\n   - **Est. Ext.** (Estándar Extendido)\n   - **RetExtStd** (Retardo Extendido Estándar)\n   - **No Sil. Ext** (No Silenciable Extendido)\n   - **SinRetExt** [F3]\n\n4. El tipo de retardo determina qué acciones puede realizar el usuario mientras el retardo está activo [F2].\n\n---\n\n### Diferencias clave entre tipos de retardo [F3]\n\n- **Silenciar sirenas durante el retardo** (la salida se detiene): disponible en **Estándar, Est. Ext. y RetExtStd**.\n- **Anular retardo desde nivel de acceso 2**: disponible en todos excepto **Fijo**.\n- **Tiempo restante visible en pestaña ALARMA**: disponible en todos excepto **Fijo**.\n- **FIN RETARDO activo**: disponible en todos excepto **Fijo**.\n- **AMPLIAR RETARDO detiene la salida**: solo en **Est. Ext.** y **No Sil. Ext**.\n- **Temporizador comienza en RETARDO AMPLIADO**: solo en **RetExtStd** y **SinRetExt**.\n\n---\n\n### Anular/Habilitar el retardo en operación (nivel de acceso 2)\n\nUna vez configurado, el retardo puede anularse o habilitarse desde el menú de operación [F1]:\n\n1. Accede al menú **Anular/Habilitar** (nivel de acceso 2).\n2. Selecciona **«5: Retardo Activación Salidas»** [F1].\n3. Pulsa **✓** para cambiar el estado entre HABILITADO y ANULADO [F1].\n4. Pulsa **✕** para salir en cualquier momento [F1].\n\n> ⚠️ Esta opción **solo está disponible si se han configurado retardos** en alguna regla de causa-efecto. Si el LED de **RETARDO ACTIVO** está encendido, indica que hay un retardo activo en ese momento [F1].\n\n---\n\n### Nota sobre el método de programación recomendado\n\nEl manual indica que **se recomienda utilizar el programa de configuración por ordenador como principal método de programación**. El menú de la central debería emplearse solo para modificaciones menores [F12].\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]"
+  },
+  {
+   "rep": 2,
+   "guard_reached": true,
+   "guard_action": "surgical_repair",
+   "repaired_blocks": 1,
+   "initial_unsafe": [
+    "conf_cd779d097724"
+   ],
+   "served_ids": [
+    "ac308dbf-357e-4356-9049-1ccfcc6ff749",
+    "570d9951-e3a6-4c64-a927-e26b5e6db842",
+    "7e34cb72-0183-488a-9aa3-fcc81b40f3ef",
+    "3ef1b823-b62e-40d4-8a9a-ebac320f6414",
+    "9587cd83-e271-42b9-ba8f-dfd05ae94935",
+    "61c95a72-ff4c-452d-9b0c-6ad5962469c6",
+    "13bee205-9f2b-44ba-9891-37d77b5fa110",
+    "39e581ab-3536-4fe5-8faa-4537ca38213f",
+    "f8dcce3e-d043-4770-b8b0-8ada66a7c1af",
+    "91c99a65-d987-42a4-a20f-5ceb56d14b94",
+    "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+    "d27b1a1b-69cd-4318-a459-f3c86eb757ba",
+    "a8b16f43-1421-4275-a5bb-8e9b636fd3c2"
+   ],
+   "served_equals_receipt": false,
+   "n_served": 13,
+   "pre_has_route": true,
+   "post_has_route": false,
+   "pre_has_rule1": false,
+   "post_has_rule1": false,
+   "final_has_route": false,
+   "route_blocks_in_pre": [
+    {
+     "i": 5,
+     "has_route": true,
+     "has_screen": true,
+     "has_rule1": false,
+     "text": "- En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** [F11].\n- Cada regla de causa-efecto puede tener asignado un **tipo de retardo de salida** [F2]."
+    }
+   ],
+   "pre": "El retardo de activación de salidas de alarma en la PEARL **no se programa como un valor de tiempo directamente desde el menú de operación**, sino que se configura dentro de las **reglas de causa-efecto** y posteriormente se puede anular/habilitar desde el menú de usuario.\n\nA continuación te explico el proceso completo:\n\n---\n\n## 1. Configuración del retardo (nivel de configuración)\n\nEl retardo se define dentro de la **matriz de causa-efecto** [F2][F12]. Para acceder a ella:\n\n- En el menú «Editar Configuración», selecciona **«7: Causa y Efecto»** [F11].\n- Cada regla de causa-efecto puede tener asignado un **tipo de retardo de salida** [F2].\n\n### Tipos de retardo disponibles [F3]\n\nSe puede asignar uno de **seis tipos** a cada regla:\n\n- **Fijo**: el retardo no puede anularse con SILENCIAR SIRENAS, no muestra cuenta atrás en LCD, no puede detenerse con FIN RETARDO.\n- **Estándar**: la salida se detiene si se pulsa SILENCIAR SIRENAS; el retardo puede anularse en nivel de acceso 2; muestra tiempo restante en pestaña ALARMA; puede detenerse con FIN RETARDO.\n- **No Silenc.**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **Est. Ext.**: se detiene con SILENCIAR SIRENAS o AMPLIAR RETARDO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **RetExtStd**: se detiene con SILENCIAR SIRENAS; el temporizador comienza en RETARDO AMPLIADO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **No Sil. Ext**: no se detiene con SILENCIAR SIRENAS; se detiene con AMPLIAR RETARDO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **SinRetExt**: el temporizador comienza en RETARDO AMPLIADO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n\n> ⚠️ **Nota importante** [F12]: Se recomienda usar el **programa de configuración por ordenador** como método principal de programación de causa-efecto. El menú de la central debe usarse solo para modificaciones menores.\n\n---\n\n## 2. Anular/Habilitar el retardo en operación (nivel de acceso 2)\n\nUna vez configurado el retardo en causa-efecto, el operador puede anularlo o habilitarlo desde el menú de usuario:\n\n1. Accede al nivel de acceso 2 (con llave) [F9].\n2. Entra en el menú **«Anular/Habilitar»**.\n3. Selecciona la opción **«5: Retardo Activación Salidas»** [F1].\n4. Pulsa **✓** para cambiar el estado entre HABILITADO y ANULADO [F1].\n5. Pulsa **✕** para salir en cualquier momento [F1].\n\n> El **LED de RETARDO ACTIVO** se ilumina cuando hay un retardo activo en curso [F1].\n\n---\n\n## 3. Control del retardo durante una alarma activa\n\nCuando el retardo está en curso [F4]:\n\n- Tecla **AMPLIAR RETARDO** (nivel de acceso 2): extiende el tiempo de retardo para permitir investigación [F4].\n- Tecla **FIN RETARDO** (nivel de acceso 1): termina el retardo inmediatamente y activa la condición de alarma completa [F4].\n\n---\n\n## 4. Opción adicional: habilitar/deshabilitar el pulsador AMPLIAR RETARDO\n\nDesde los parámetros de la central, la opción **«10: Extend Delay Button»** permite activar o desactivar el pulsador AMPLIAR RETARDO [F5], ya que esta función no se requiere en todos los mercados.\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]",
+   "post": "El retardo de activación de salidas de alarma en la PEARL **no se programa como un valor de tiempo directamente desde el menú de operación**, sino que se configura dentro de las **reglas de causa-efecto** y posteriormente se puede anular/habilitar desde el menú de usuario.\n\nA continuación te explico el proceso completo:\n\n---\n\n## 1. Configuración del retardo (nivel de configuración)\n\nEl retardo se define dentro de la **matriz de causa-efecto** [F2][F12]. Para acceder a ella:\n\nNo puedo confirmar de forma segura el número de menú de Causa y Efecto con los fragmentos servidos. Confirma el manual y la revisión exactos antes de usar un número de menú.\n\n### Tipos de retardo disponibles [F3]\n\nSe puede asignar uno de **seis tipos** a cada regla:\n\n- **Fijo**: el retardo no puede anularse con SILENCIAR SIRENAS, no muestra cuenta atrás en LCD, no puede detenerse con FIN RETARDO.\n- **Estándar**: la salida se detiene si se pulsa SILENCIAR SIRENAS; el retardo puede anularse en nivel de acceso 2; muestra tiempo restante en pestaña ALARMA; puede detenerse con FIN RETARDO.\n- **No Silenc.**: no se detiene con SILENCIAR SIRENAS; sí puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **Est. Ext.**: se detiene con SILENCIAR SIRENAS o AMPLIAR RETARDO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **RetExtStd**: se detiene con SILENCIAR SIRENAS; el temporizador comienza en RETARDO AMPLIADO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **No Sil. Ext**: no se detiene con SILENCIAR SIRENAS; se detiene con AMPLIAR RETARDO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n- **SinRetExt**: el temporizador comienza en RETARDO AMPLIADO; puede anularse en nivel 2; muestra tiempo restante; puede detenerse con FIN RETARDO.\n\n> ⚠️ **Nota importante** [F12]: Se recomienda usar el **programa de configuración por ordenador** como método principal de programación de causa-efecto. El menú de la central debe usarse solo para modificaciones menores.\n\n---\n\n## 2. Anular/Habilitar el retardo en operación (nivel de acceso 2)\n\nUna vez configurado el retardo en causa-efecto, el operador puede anularlo o habilitarlo desde el menú de usuario:\n\n1. Accede al nivel de acceso 2 (con llave) [F9].\n2. Entra en el menú **«Anular/Habilitar»**.\n3. Selecciona la opción **«5: Retardo Activación Salidas»** [F1].\n4. Pulsa **✓** para cambiar el estado entre HABILITADO y ANULADO [F1].\n5. Pulsa **✕** para salir en cualquier momento [F1].\n\n> El **LED de RETARDO ACTIVO** se ilumina cuando hay un retardo activo en curso [F1].\n\n---\n\n## 3. Control del retardo durante una alarma activa\n\nCuando el retardo está en curso [F4]:\n\n- Tecla **AMPLIAR RETARDO** (nivel de acceso 2): extiende el tiempo de retardo para permitir investigación [F4].\n- Tecla **FIN RETARDO** (nivel de acceso 1): termina el retardo inmediatamente y activa la condición de alarma completa [F4].\n\n---\n\n## 4. Opción adicional: habilitar/deshabilitar el pulsador AMPLIAR RETARDO\n\nDesde los parámetros de la central, la opción **«10: Extend Delay Button»** permite activar o desactivar el pulsador AMPLIAR RETARDO [F5], ya que esta función no se requiere en todos los mercados.\n\n---\n\n**Fuentes:**\n- 997-670-005-3_Operating_ES (sin revisión registrada)\n- 997-671-005-3_Configuration_ES (rev. 997-671-005-3)\n\n---\n⚠️ **Información adicional del manual:**\n- \"**Al programar reglas de causa-efecto evite las lógicas contradictorias.**\" [F12]\n- \"**Es de vital importancia probar rigurosamente todas las reglas durante la puesta en marcha del sistema para verificar que no haya conflictos lógicos entre ellas.**\" [F12]"
+  }
+ ],
+ "resumen": {
+  "n_reps": 3,
+  "n_guard_alcanzado": 3,
+  "n_guard_reparo": 3,
+  "n_pre_con_ruta": 3,
+  "n_post_con_ruta": 0,
+  "n_composicion_igual_al_recibo": 0
+ }
+}

@@ -1,0 +1,297 @@
+{
+ "probe": "s293_lane_replay_v1",
+ "qid": "cat017",
+ "arm": "hyq",
+ "arm_overrides": {
+  "CANONICAL_HYQ_COVERAGE": "on"
+ },
+ "git_sha": "610f1372306f57a8a93295e82366ce0d4b2d8a2b",
+ "query": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+ "n_pool": 50,
+ "n_topk": 10,
+ "n_served_replay": 14,
+ "fidelity_vs_receipt": {
+  "recorded_appended": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "replay_appended": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "equal_set": true,
+  "equal_order": true,
+  "missing_from_db_pool": [],
+  "missing_from_db_topk": []
+ },
+ "recorded_lane": {
+  "fd092752-a693-4581-b039-34f8d2399829": "same_blob_structural_neighbor_coverage_v1",
+  "6596dfec-a47e-46ec-9aba-8807575b6983": "same_blob_structural_neighbor_coverage_v1",
+  "7a33265b-09a7-4628-8110-980a83d28152": "obligation_warning_reserve_v1",
+  "b7633e98-b011-4035-9548-a564c71e70ac": "document_local_content_coverage_v1"
+ },
+ "coverage_trace": {
+  "enabled": true,
+  "protected_prefix_rows": 10,
+  "lanes": [
+   {
+    "lane": "same_blob_structural_neighbor_coverage_v1",
+    "status": "selected",
+    "selected_ids": [
+     "fd092752-a693-4581-b039-34f8d2399829",
+     "6596dfec-a47e-46ec-9aba-8807575b6983"
+    ],
+    "http_requests": 5,
+    "selector_reason": "selected"
+   },
+   {
+    "lane": "canonical_document_hyq_coverage_v1",
+    "scope_rows": 6,
+    "scope_document_ids": [
+     "484dd402-3e32-4792-b81f-9f1419114154",
+     "49f79dcf-5963-41af-8fe6-fdacf53cbd65",
+     "68b7230c-15d3-4632-8c6b-d486bd6617bc",
+     "80e1b7d2-1455-454d-8545-18b858ba9a70",
+     "81c783f5-ebfd-452b-8a13-214482eccfc1",
+     "bb0b336d-be38-41c3-a21d-f9c0db811f34"
+    ],
+    "source_groups": 1,
+    "entity_stratified": false,
+    "selected_parent_ids": [],
+    "parents_rejected": [
+     {
+      "id": "ad28ab54-cf7e-41a1-923d-9c4ad1332b47",
+      "reason": "no_query_aligned_card",
+      "scope": "parent"
+     },
+     {
+      "id": "161b4b2c-25cc-4a8c-9107-0341319ba376",
+      "reason": "no_matching_card",
+      "scope": "parent"
+     },
+     {
+      "id": "809cd704-27ba-4478-9d03-fd926cab278a",
+      "reason": "no_matching_card",
+      "scope": "parent"
+     },
+     {
+      "id": "63a4acc6-20a8-4201-ae97-f6888c2f1062",
+      "reason": "no_matching_card",
+      "scope": "parent"
+     },
+     {
+      "id": "eb249799-ab62-409a-8ec6-8535b2796141",
+      "reason": "no_matching_card",
+      "scope": "parent"
+     },
+     {
+      "id": "c4ff8896-55cc-4a86-8718-3a3a5e42dfd6",
+      "reason": "no_matching_card",
+      "scope": "parent"
+     }
+    ],
+    "served_hyq_prose": false,
+    "status": "no_validated_source_span",
+    "hyq_rows": 370,
+    "http_requests": 3,
+    "fetch_receipts": {}
+   },
+   {
+    "lane": "document_local_content_coverage_v1",
+    "validation": "atomic_unique_active_family_fts_exact_markdown_pipe_row_v1",
+    "status": "best_candidate_already_covered",
+    "anchor_rows": 2,
+    "source_scopes_considered": 2,
+    "seed_scope_count": 2,
+    "seed_sources": {
+     "protected_rerank_prefix": 2
+    },
+    "seed_scopes_sha256": "138505a7ce003d70d2f25a8321267ab27ba6731e07ae89d2f4d8fd1ee73e28be",
+    "seed_scopes_truncated": true,
+    "document_rows": 2,
+    "authoritative_documents": 2,
+    "ambiguous_lineages": 0,
+    "fts_queries": 2,
+    "fts_candidate_rows": 47,
+    "eligible_rows": 7,
+    "selected_ids": [],
+    "satisfied_ids": [
+     "79faef35-68cf-4631-8e18-7d6d8ef09790"
+    ],
+    "satisfaction_route": "already_served",
+    "http_requests": 1,
+    "rows_read": 49,
+    "model_calls": 0,
+    "database_writes": 0,
+    "overflow": false,
+    "query_plan_sha256": "b6ecffdb2ad858f45dac3a9eb789ccc44c4fcd6430f2aaaa8f0d45a0e485d785",
+    "query_facets_sha256": "9c25664cbbf262f34767785ccb09c34b0ae3683ec24c3a5a970f0425d201dff9",
+    "query_plan_config": "v5",
+    "query_plan_trim": {
+     "trimmed": true,
+     "terms_removed": [
+      {
+       "group_index": 3,
+       "term": "portal"
+      },
+      {
+       "group_index": 2,
+       "term": "safety"
+      },
+      {
+       "group_index": 1,
+       "term": "shield"
+      },
+      {
+       "group_index": 0,
+       "term": "polarity"
+      },
+      {
+       "group_index": 3,
+       "term": "bin"
+      },
+      {
+       "group_index": 2,
+       "term": "limits"
+      },
+      {
+       "group_index": 1,
+       "term": "circuito"
+      },
+      {
+       "group_index": 0,
+       "term": "terminals"
+      },
+      {
+       "group_index": 2,
+       "term": "instalacion"
+      }
+     ],
+     "groups_removed": []
+    },
+    "snapshot_authoritative_documents": 2,
+    "snapshot_sha256": "c312d2ac1291b75f5fb2a09c18dc4b7f49a034e998ef3b1b91a72f1fb002dc9b",
+    "candidate_waterfall": [
+     {
+      "scope_rank": 1,
+      "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+      "observed_rows": 29,
+      "candidate_truncated": false,
+      "available_rows": 29,
+      "waterfall_quota": 32,
+      "retained": 29
+     },
+     {
+      "scope_rank": 2,
+      "source_file": "HOP-138-9ES issue 5_11-2025_In",
+      "observed_rows": 18,
+      "candidate_truncated": false,
+      "available_rows": 18,
+      "waterfall_quota": 35,
+      "retained": 18
+     }
+    ],
+    "candidate_truncated": false,
+    "catalog_scope_applied": false
+   },
+   {
+    "lane": "obligation_warning_reserve_v1",
+    "validation": "procedural_query_served_document_scope_mandatory_warning_exact_span_v1",
+    "input_pool_rows": 50,
+    "served_scope_files": 3,
+    "selected_ids": [
+     "7a33265b-09a7-4628-8110-980a83d28152"
+    ],
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "reserve_discards": [
+     {
+      "pool_rank": 8,
+      "id": "1452c904-cf11-4803-9b2b-4b977bfa3d5f",
+      "filter": "all_groups_filtered"
+     }
+    ],
+    "reserve_ranked_ids": [
+     "7a33265b-09a7-4628-8110-980a83d28152",
+     "1f5105a8-d929-4728-8cdf-8a3976bd4b77",
+     "b06ad597-4b4b-4601-9157-0d7984d9d76a"
+    ],
+    "status": "selected"
+   },
+   {
+    "lane": "document_local_content_coverage_v1",
+    "conduct": "facet_complement",
+    "facet_fetch": "reused",
+    "facet_plan_rederived": false,
+    "selected_ids": [
+     "b7633e98-b011-4035-9548-a564c71e70ac"
+    ],
+    "status": "selected",
+    "need_group_grades": [
+     2,
+     3,
+     1,
+     1
+    ],
+    "facet_attempts": [
+     {
+      "id": "b7633e98-b011-4035-9548-a564c71e70ac",
+      "group_index": 3,
+      "outcome": "attested"
+     }
+    ],
+    "need_group_index": 3,
+    "need_group_terms": [
+     "sitio",
+     "edificio",
+     "licencia"
+    ]
+   }
+  ],
+  "appended_ids": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "model_calls": 0,
+  "database_writes": 0,
+  "status": "appended",
+  "protected_prefix_equal": true
+ },
+ "watch_carriers": {
+  "4c186fb2": {
+   "in_pool": true,
+   "pool_rank": 18,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "5bb83899": {
+   "in_pool": false,
+   "pool_rank": null,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "b0273b01": {
+   "in_pool": true,
+   "pool_rank": 14,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "809cd704": {
+   "in_pool": true,
+   "pool_rank": 9,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  }
+ }
+}
