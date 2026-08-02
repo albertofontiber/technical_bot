@@ -2454,3 +2454,52 @@ era ciega a su propia hipótesis, la de exigibilidad mataba el lever por pasar c
 ventana-mala era markdown-unaware. Una sonda que confirma lo que quiero exige el mismo
 escrutinio que un resultado adverso. Alberto adjudicó el **pin del sub-agente a Opus 5** al
 agotarse el crédito de Fable. Traza: DEC-171.
+
+## s293 (2 ago 2026) — dos levers cerrados con medición, cero código de producción
+
+Sesión de **cierre por evidencia**: los 2 levers vivos que quedaban en cola de etapa 3
+(hp017#2 y cat017#2) quedan resueltos sin cablear una línea. Arrancó con una sorpresa de
+infraestructura: el checkout desde el que se trabajaba (dentro de OneDrive) llevaba **muerto
+desde el 13 de julio** — HEAD en s107, `main` local 545 commits por detrás y el `.git`
+corrompido a nivel de refs por la sincronización entre máquinas (existe una rama
+`main-ASGlaptop` que es el `refs/heads/main` del portátil sincronizado como fichero en
+conflicto). El trabajo real vive en `C:\dev\technical_bot`; baseline verificado ahí:
+**3427 passed / 5 skipped** en `610f137`, y los módulos de coverage/serving/generación
+**byte-idénticos** contra `bf2bf8e` (el commit del FULL v3.2) ⇒ las sondas miden el mismo
+código que el recibo.
+
+**hp017#2** pasó de «supresión por conflict-guard» a **dos causas**. El mecanismo se confirmó
+al píxel: la fuente pone la ruta («menú Editar Configuración») y el valor en conflicto
+(«7: Causa y Efecto») en la **misma frase**, a 12 caracteres, y el guard repara **por bloque**
+⇒ borra la lista de 3 pasos entera. Tres turnos reales: `surgical_repair` 3/3, ruta presente
+antes 3/3 y ausente después 3/3. Y el conflicto es **real e intra-documento** (el mismo manual
+dice `7` en la prosa de p.45 y `8:Causa y Efecto` en el árbol de menú de pp.15/26/41): el
+criterio del guard es correcto, el defecto es de granularidad. Pero el lever murió por dos
+sitios a la vez. **Economía**: el juez canónico K=5 sobre el borrador PRE-guard da 3/5, 1/5 y
+2/5 — por debajo del umbral firme de 4 — porque el hecho tiene **dos mitades** y el modelo
+nunca escribe la segunda («borrar la Regla 1»: 0/3 con cinco marcadores, paráfrasis
+incluidas). **Seguridad**: el peldaño de redacción que yo proponía conservaba la cita del span
+mientras el aviso mapea fragmento→valor, así que el validador decía `safe` y el técnico
+**reconstruía el número** — el agujero exacto que el guard existe para cerrar, y que hoy no
+existe porque esa línea muere entera. Corolario incómodo: mejorar retrieval habría empeorado
+ese lever.
+
+**cat017#2** cerró el probe $0 que DEC-169 dejó pre-declarado, con un replay de la etapa de
+coverage sobre el pool grabado que **se auto-verifica**: el brazo baseline reproduce los 4
+apéndices del recibo en orden y lane antes de creerse ningún contrafactual. Ni
+`RERANK_POOL_COVERAGE=on` ni `CANONICAL_HYQ_COVERAGE=on` traen el carrier. Y el porqué es más
+fino que «no hay lane»: `facet_complement` **ya detecta** la necesidad «licencia» y la da por
+satisfecha con el chunk **puntero** —el que dice «Consulte… 4188-1125-ES»— mientras el dato
+vive en el documento referenciado, a rank 18 del pool.
+
+**Método.** El dúo (Sol xhigh + sub-agente Opus 5) devolvió **15 hallazgos, 15 confirmados,
+0 falsos positivos**, y no cazó un detalle: cazó **el gate entero** — vara ciega que medía la
+mitad del hecho que me convenía, NO-GO sin contraste pareado, circularidad de usar el mismo
+validador como filtro y como árbitro, G4 tautológico, y la falta del invariante de integridad
+de span que DEC-171 ya exigía. Los dos revisores convergieron además en la misma medición
+barata que **mi propia sonda había pre-declarado en su docstring y yo no había ejecutado**.
+La lección que queda: *cuando una sonda escribe su propio criterio de refutación, se ejecuta
+ANTES de diseñar el gate*. Y regla-C sobre mis sondas **cuatro** veces: un censo con filtro
+español y espacio-sensible que habría declarado fantasma un registro real, un replay con el
+flag-set copiado a mano que no reproducía el recibo, una sonda que no pasaba `similarity` y
+mataba el guard antes de llegar a él, y un marcador ciego a paráfrasis. Traza: DEC-172.

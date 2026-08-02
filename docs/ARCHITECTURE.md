@@ -17,6 +17,14 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s293 (2 ago 2026).** **Producción SIN cambios**; nada cableado. Se cierran 2 de los
+> 3 levers vivos de etapa 3 **por medición**: `hp017#2` = NO-GO y re-clasificado a DOS causas
+> (el conflict-guard suprime la mitad «ruta» —causal PRE 3/5 → POST 0/5— pero la mitad «borrar
+> la Regla 1» no se escribe ⇒ ni con guard perfecto llega al umbral firme; y el span-repair
+> propuesto ABRÍA un canal de reconstrucción del número por la cita del span); `cat017#2` =
+> probe $0 de lanes cerrado (ninguna lane existente trae el carrier; la necesidad se da por
+> satisfecha con el chunk PUNTERO). Dúo 15/15, 0 FP. Suite 3427/0. Detalle → PLAN + DEC-172.
+>
 > **Estado s291 (2 ago 2026).** **FULL v3.2 = HITO: OK 115/131 (88%) · retrieval+rerank a
 > cero-más-techo corpus-wide (etapas 1-2 de la campaña completadas)**; cascada medida
 > (hp013#1 retrieval→synth). Cola de etapa 3 = 9 synth estables. Lever L2 (apéndice

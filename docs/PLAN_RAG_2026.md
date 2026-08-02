@@ -26,7 +26,38 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s292 — 2 ago 2026)
+## Estado actual (s293 — 2 ago 2026)
+
+**PRODUCCIÓN**: sin cambios (L2 `OBLIGATION_WARNING_APPENDIX` vivo; etapas 1-2 completas;
+OK 115/131, 88%). **s293 no cableó NADA**: cerró 2 de los 3 levers vivos de etapa 3 con
+medición, no con código (DEC-172).
+
+- **hp017#2 = NO-GO y RE-CLASIFICADO a DOS causas.** El conflict-guard sí suprime la mitad
+  «ruta» (causal medido: PRE-guard 3/5 → POST 0/5, juez canónico K=5) pero la mitad «borrar la
+  Regla 1» el modelo **no la escribe** (0/3 reps, 5 marcadores con paráfrasis) ⇒ **ni con el
+  guard perfecto llega al umbral firme**. El residual es omisión de síntesis = otra clase.
+  El lever de span-repair además **abría** un agujero de seguridad (línea redactada que
+  conserva su cita + aviso que mapea fragmento→valor ⇒ el lector reconstruye el número).
+  Dúo 15/15 confirmados, 0 FP, crítico.
+- **cat017#2: probe $0 de lanes CERRADO** (el paso que DEC-169 dejó pre-declarado). Ninguna
+  lane existente trae el carrier `4c186fb2` (pool rank 18): `facet_complement` ya detecta la
+  necesidad «licencia» y la da por satisfecha con el chunk **puntero** («Consulte…
+  4188-1125-ES»), mientras el dato vive en el documento referenciado. Lever B (referencia
+  gobernada, pool-only, sin fetch nuevo) diseñado a nivel de mecanismo, **no construido**.
+- **Daño cualitativo documentado**: el guard borra un procedimiento de 3 pasos por un número
+  dudoso. Sin retorno en métrica, pero es coste de usuario y queda escrito.
+
+**Qué sigue (nada bloqueado):** (1) **hp003#4** = el lever vivo que queda de etapa 3;
+(2) **lever B de cat017#2** si Alberto lo abre (toca lane viva en release C1 ⇒ dúo + flag-off
++ gate de no-desplazamiento); (3) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 ·
+cat018#2-split · meta-ref cat020#2 · hp001#2 · gold hp002 «de Detnov» · **nuevo: hp017#2, cuya
+mitad «Regla 1» decide si el hecho es alcanzable**); (4) hp011#2 re-cablado espera diseño;
+(5) bandeja Alberto: QA-30 v4 · tramos P-C · DROP de 8 backups s285-s287 · B1 entity-linking ·
+B3 juez (~sept) · B4 follow-up de 👎. Traza: DEC-172 + HISTORY s293.
+
+---
+
+## Estado anterior (s292 — 2 ago 2026)
 
 **PRODUCCIÓN**: L2 (`OBLIGATION_WARNING_APPENDIX`) VIVO y verificado en query real
 (`query_logs` 19:41Z: aviso de seguridad + apéndice). Etapas 1-2 completas; OK 115/131 (88%).

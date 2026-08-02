@@ -4046,3 +4046,58 @@ refutado el hallazgo transversal con la sonda ciega.
 imperativos · guard de integridad de span (≥4 spans rotos medidos: citas decapitadas en clase
 SEGURIDAD) · vara ciega con taxonomía pre-registrada (mi tripwire caía sobre el valor
 observado) · censo out-of-sample · resolver ES/EN (el léxico se declara bilingüe).
+
+## DEC-172 — s293 (2 ago 2026): lever A (span-repair del conflict-guard) = NO-GO por economía Y seguridad · cat017#2 = probe $0 de lanes CERRADO · hp017#2 re-clasificado a DOS causas
+
+**Decisión.** (a) **Lever A NO-GO, nada cableado** (dúo 15/15 confirmados, 0 FP, severidad
+máxima crítico; sub-agente Opus 5: «NO-SÓLIDA»). Cae por dos motivos independientes:
+**economía** — juez canónico `judge_conveyed21` K=5 sobre el borrador **PRE-guard** = 3/5,
+1/5, 2/5 < `THRESH_FIRM` 4 ⇒ ni con el guard perfecto `hp017#2` alcanza el umbral; y
+**seguridad** — el peldaño de redacción conserva la cita del span (`[F2]`) mientras el aviso
+mapea fragmento→valor (`answer_planner.py:2718`), así que el validador dice `safe` pero el
+lector **reconstruye el número**: elección unilateral de facto, justo lo que el guard existe
+para impedir (`:2758-2759`); hoy esa línea muere entera (`:2829`). Corolario declarado:
+**mejorar retrieval empeoraría ese lever**. Recibo: `evals/s293_lever_a_guard_verdict_v1.md`.
+(b) **`hp017#2` se RE-CLASIFICA: no es solo supresión por conflict-guard** (como fijó
+DEC-171) sino **dos causas** — supresión de la mitad «ruta» (efecto causal medido 3/5→0/5) +
+**omisión de síntesis** de la mitad «borrar la Regla 1», que el modelo no escribe (0/3 reps,
+cinco marcadores incluyendo paráfrasis). (c) **cat017#2: cerrado el probe $0 de lanes que
+DEC-169 dejó pre-declarado** — ni `RERANK_POOL_COVERAGE=on` ni `CANONICAL_HYQ_COVERAGE=on`
+traen el carrier `4c186fb2` (pool rank 18); la conduct `facet_complement` de
+`document_local_content_coverage_v1` YA detecta la necesidad («licencia») y la da por
+satisfecha con el chunk **PUNTERO** (hook «Consulte… 4188-1125-ES»), `attested`, mientras el
+dato vive en el documento referenciado, fuera de su scope document-local. Corrección: el 2º
+carrier `5bb83899` de DEC-169 **no está en el pool** de este run. **Lever B diseñado a nivel
+de mecanismo, NO construido** (decisión de Alberto: solo A).
+
+**Método (lo durable).**
+- **La medición decisiva era barata y la tenía pre-declarada sin ejecutar**: mi propia sonda
+  escribía en su docstring «si el modelo NO escribía la ruta, el lever no paga»; los dos
+  revisores convergieron en ejecutar el juez sobre el borrador PRE-guard ya persistido. La
+  regla que queda: **cuando una sonda pre-declara su propio criterio de refutación, ejecutarlo
+  ANTES de diseñar el gate**, no después.
+- **Regla-C sobre mis propias sondas, 4 veces en la sesión** (censo con filtro ES-only y
+  espacio-sensible que habría declarado fantasma un registro REAL; replay con flag-set copiado
+  a mano que no reproducía el recibo; sonda pre-guard sin `similarity` ⇒ el guard ni corría;
+  y el marcador `regla\s*1` ciego a paráfrasis, verificado con 5 marcadores).
+- **Auto-verificación de fidelidad como parte del diseño de la sonda**: el replay de coverage
+  exige reproducir los `appended_ids` del recibo en orden y lane ANTES de creerse ningún
+  brazo contrafactual. Es lo que convirtió el probe de lanes en evidencia y no en opinión.
+- El dúo cazó **el gate entero**, no un detalle: vara ciega (media verdad del hecho), NO-GO sin
+  contraste pareado, circularidad validador-filtro/validador-árbitro, G1 sin cobertura del
+  camino nuevo, G4 tautológico, A/B no pareado, y falta del **invariante de integridad de
+  span** que DEC-171 ya exigía para esta clase.
+
+**Alternativas descartadas.** Construir A con el gate v1 (lo mata el dúo) · relajar el
+registro `KNOWN_ANSWER_CONFLICTS` o el umbral del validador (el conflicto está VERIFICADO en
+corpus: intra-documento, `7` en prosa p.45 vs `8:Causa y Efecto` en el árbol de menú de
+pp.15/26/41 del MISMO manual) · brazo serving-side de hp017#2 (roza settled y, medido, no
+quita el colateral) · reescritura del bloque por modelo (llamada de modelo en un guard
+determinista always-on) · encender `RERANK_POOL_COVERAGE` global (ya descartado en DEC-169:
+re-abre la stack C1; además, medido, tampoco trae el carrier).
+
+**Lo que queda en pie y NO se re-litiga.** El guard **borra un procedimiento de 3 pasos** por
+un número dudoso (daño cualitativo real, medido 3/3, sin retorno en métrica) · su **criterio
+es correcto** y el defecto es de granularidad · la huella del guard es **1/39 golds** · el
+tier de un cambio que toca seguridad es **ALTO** (`docs/ADVERSARIAL_REVIEWER.md:24-27`), no
+MEDIO. Requisitos para una v2 (si alguien la retoma) en el veredicto, §«Si alguien retoma».
