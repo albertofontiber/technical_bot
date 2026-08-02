@@ -1,0 +1,207 @@
+{
+ "probe": "s293_guard_censo_v1",
+ "git_sha": "610f1372306f57a8a93295e82366ce0d4b2d8a2b",
+ "receipt": "evals/s100_factlevel_full_v32_full_20260801.yaml",
+ "n_golds": 39,
+ "1_guard_footprint": {
+  "n_touched": 1,
+  "touched": [
+   {
+    "qid": "hp017",
+    "markers": [
+     "No puedo confirmar de forma segura"
+    ]
+   }
+  ]
+ },
+ "2_served_miss_candidates": {
+  "n_served_miss": 12,
+  "n_collateral_candidates": 1,
+  "rows": [
+   {
+    "qid": "cat001",
+    "key": "cat001#3:32 / 25 / 20",
+    "texto": "Aisladores: EN54-2 exige como maximo 32 equipos entre aisladores; en Pearl no mas de 25 (20 con equipos sin aislador interno / aisladores FET); los eq",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "cat017",
+    "key": "cat017#2:licencia CLIP por lazo",
+    "texto": "Los dispositivos CLIP requieren una LICENCIA (una por cada circuito de lazo CLIP)",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "cat018",
+    "key": "cat018#2:Tipo SW / asociacion CBE",
+    "texto": "Los modulos de SALIDA llevan un Tipo SW (p. ej. SND = sirena); un modulo de salida se dispara cuando se cumple su ecuacion CBE (se activa 'por asociac",
+    "carriers": [],
+    "submotivo": "partial",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "cat020",
+    "key": "cat020#1:0-100 % normalizado",
+    "texto": "El valor analogico del nivel de alarma es un numero normalizado entre 0 % y 100 % (escala comun; algunos tipos OTM/LSR se configuran en campo por Nive",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp003",
+    "key": "hp003#4:magnetotermico",
+    "texto": "Antes de manipular la central, desconectar el magnetotermico bipolar exterior (gate de seguridad previo al conexionado)",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp006",
+    "key": "hp006#2:ISO-X",
+    "texto": "Para acotar un fallo en el lazo se usan los modulos aisladores ISO-X, que aislan la rama en averia del resto del lazo (requeridos para Estilo 7 segun ",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp008",
+    "key": "hp008#4:LPB500",
+    "texto": "Detectores de humo por rayo/haz proyectado compatibles: LPB500 (max. 4 por lazo) y LPB-700/LPB-700T",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp009",
+    "key": "hp009#0:Retorno",
+    "texto": "El lazo analogico direccionable de la ZXe (ZX2e/ZX5e) se cablea como BUCLE CERRADO: salida del panel (Inicio Lazo +/- OUT) y vuelta por los terminales",
+    "carriers": [],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp011",
+    "key": "hp011#2:05 a 295 seg",
+    "texto": "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+    "carriers": [
+     "2d45a70a-5202-442e-af84-c3a176c2178d"
+    ],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp013",
+    "key": "hp013#1:PWR-R",
+    "texto": "El ADW 535 se alimenta externamente (borne PWR +9 a +30 V-CC) con una entrada de alimentacion REDUNDANTE PWR-R; el respaldo es esa alimentacion redund",
+    "carriers": [
+     "2365dfaa-45e5-4c65-9328-194441e375c9"
+    ],
+    "submotivo": "omitted",
+    "answer_has_notice": false,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp017",
+    "key": "hp017#1:instruccion de entrada",
+    "texto": "Una regla consta de una INSTRUCCION DE ENTRADA (condicion, p.ej. alarma en zona/lazo) y una INSTRUCCION DE SALIDA (equipo a accionar: sirenas o reles)",
+    "carriers": [
+     "d27b1a1b-69cd-4318-a459-f3c86eb757ba"
+    ],
+    "submotivo": "omitted",
+    "answer_has_notice": true,
+    "carrier_menu_rows": [],
+    "collateral_candidate": false
+   },
+   {
+    "qid": "hp017",
+    "key": "hp017#2:Editar Configuracion",
+    "texto": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS l",
+    "carriers": [
+     "a95f8659-2277-4b32-a413-edd0e6cd2f10"
+    ],
+    "submotivo": "omitted",
+    "answer_has_notice": true,
+    "carrier_menu_rows": [
+     {
+      "carrier": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+      "value": "7",
+      "line": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un "
+     }
+    ],
+    "collateral_candidate": true
+   }
+  ]
+ },
+ "3_corpus_menu_values": {
+  "7": {
+   "n": 1,
+   "docs": [
+    "997-671-005-3_Configuration_ES"
+   ],
+   "sample": [
+    {
+     "id": "a95f8659-2277-4b32-a413-edd0e6cd2f10",
+     "value": "7",
+     "source_file": "997-671-005-3_Configuration_ES",
+     "page_number": 45,
+     "product_model": "Pearl",
+     "line": "En el menú «Editar Configuración», seleccione «7: Causa y Efecto» para abrir la función de edición. Si no se ha transferido a la central un "
+    }
+   ]
+  },
+  "8": {
+   "n": 7,
+   "docs": [
+    "997-671-005-3_Configuration_ES"
+   ],
+   "sample": [
+    {
+     "id": "51df7a51-4970-4cfc-8ef1-3771f480dd78",
+     "value": "8",
+     "source_file": "997-671-005-3_Configuration_ES",
+     "page_number": 15,
+     "product_model": "Pearl",
+     "line": "8:Causa y Efecto"
+    },
+    {
+     "id": "02576ce6-0189-445d-a13f-bc2d72234f87",
+     "value": "8",
+     "source_file": "997-671-005-3_Configuration_ES",
+     "page_number": 26,
+     "product_model": "Pearl",
+     "line": "| 8:Causa y Efecto                 |                      |                         |                      |"
+    },
+    {
+     "id": "dd20df27-b0f3-493b-a811-25bfa50229a2",
+     "value": "8",
+     "source_file": "997-671-005-3_Configuration_ES",
+     "page_number": 41,
+     "product_model": "Pearl",
+     "line": "| Editar Configuración<br/>1:Configuración de la Central<br/>2:Equipos de Lazo<br/>3:Salidas Virtuales<br/>4:Opciones de Zonas<br/>5:Configu"
+    }
+   ]
+  }
+ }
+}

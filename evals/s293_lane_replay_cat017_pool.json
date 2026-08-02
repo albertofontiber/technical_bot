@@ -1,0 +1,182 @@
+{
+ "probe": "s293_lane_replay_v1",
+ "qid": "cat017",
+ "arm": "pool",
+ "arm_overrides": {
+  "RERANK_POOL_COVERAGE": "on"
+ },
+ "git_sha": "610f1372306f57a8a93295e82366ce0d4b2d8a2b",
+ "query": "¿Como se cablea y se da de alta (configura) un lazo en la central Notifier INSPIRE (E10/E15)?",
+ "n_pool": 50,
+ "n_topk": 10,
+ "n_served_replay": 16,
+ "fidelity_vs_receipt": {
+  "recorded_appended": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "replay_appended": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "c0b2dce8-bdef-47ec-a0b5-a47736b78ff8",
+   "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "equal_set": false,
+  "equal_order": false,
+  "missing_from_db_pool": [],
+  "missing_from_db_topk": []
+ },
+ "recorded_lane": {
+  "fd092752-a693-4581-b039-34f8d2399829": "same_blob_structural_neighbor_coverage_v1",
+  "6596dfec-a47e-46ec-9aba-8807575b6983": "same_blob_structural_neighbor_coverage_v1",
+  "7a33265b-09a7-4628-8110-980a83d28152": "obligation_warning_reserve_v1",
+  "b7633e98-b011-4035-9548-a564c71e70ac": "document_local_content_coverage_v1"
+ },
+ "coverage_trace": {
+  "enabled": true,
+  "protected_prefix_rows": 10,
+  "lanes": [
+   {
+    "lane": "same_blob_structural_neighbor_coverage_v1",
+    "status": "selected",
+    "selected_ids": [
+     "fd092752-a693-4581-b039-34f8d2399829",
+     "6596dfec-a47e-46ec-9aba-8807575b6983"
+    ],
+    "http_requests": 5,
+    "selector_reason": "selected"
+   },
+   {
+    "lane": "retrieval_pool_coverage_v1",
+    "validation": "same_query_retrieval_pool_canonical_scope_exact_span_v1",
+    "input_pool_rows": 50,
+    "bounded_pool_rows": 50,
+    "canonical_scope_rows": 30,
+    "eligible_rows": 4,
+    "selected_ids": [
+     "c0b2dce8-bdef-47ec-a0b5-a47736b78ff8",
+     "b06ad597-4b4b-4601-9157-0d7984d9d76a"
+    ],
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "catalog_scope_applied": true,
+    "duplicate_location_rows_rejected": 0,
+    "status": "selected",
+    "archetype": "connect_install_wire",
+    "needs": [
+     "terminales polaridad conexion cableado terminals polarity connection wiring",
+     "pantalla tierra continuidad resistencia circuito shield earth continuity resistance circuit",
+     "limites seguridad comprobacion instalacion limits safety check installation"
+    ]
+   },
+   {
+    "lane": "document_local_content_coverage_v1",
+    "status": "skipped_no_append_capacity",
+    "selected_ids": [],
+    "http_requests": 0,
+    "model_calls": 0,
+    "database_writes": 0
+   },
+   {
+    "lane": "obligation_warning_reserve_v1",
+    "validation": "procedural_query_served_document_scope_mandatory_warning_exact_span_v1",
+    "input_pool_rows": 50,
+    "served_scope_files": 3,
+    "selected_ids": [
+     "7a33265b-09a7-4628-8110-980a83d28152"
+    ],
+    "model_calls": 0,
+    "database_reads": 0,
+    "database_writes": 0,
+    "reserve_discards": [
+     {
+      "pool_rank": 8,
+      "id": "1452c904-cf11-4803-9b2b-4b977bfa3d5f",
+      "filter": "all_groups_filtered"
+     }
+    ],
+    "reserve_ranked_ids": [
+     "7a33265b-09a7-4628-8110-980a83d28152",
+     "1f5105a8-d929-4728-8cdf-8a3976bd4b77"
+    ],
+    "status": "selected"
+   },
+   {
+    "lane": "document_local_content_coverage_v1",
+    "conduct": "facet_complement",
+    "facet_fetch": "own",
+    "facet_plan_rederived": true,
+    "selected_ids": [
+     "b7633e98-b011-4035-9548-a564c71e70ac"
+    ],
+    "status": "selected",
+    "need_group_grades": [
+     2,
+     3,
+     1,
+     1
+    ],
+    "facet_attempts": [
+     {
+      "id": "b7633e98-b011-4035-9548-a564c71e70ac",
+      "group_index": 3,
+      "outcome": "attested"
+     }
+    ],
+    "need_group_index": 3,
+    "need_group_terms": [
+     "sitio",
+     "edificio",
+     "licencia"
+    ]
+   }
+  ],
+  "appended_ids": [
+   "fd092752-a693-4581-b039-34f8d2399829",
+   "6596dfec-a47e-46ec-9aba-8807575b6983",
+   "c0b2dce8-bdef-47ec-a0b5-a47736b78ff8",
+   "b06ad597-4b4b-4601-9157-0d7984d9d76a",
+   "7a33265b-09a7-4628-8110-980a83d28152",
+   "b7633e98-b011-4035-9548-a564c71e70ac"
+  ],
+  "model_calls": 0,
+  "database_writes": 0,
+  "status": "appended",
+  "protected_prefix_equal": true
+ },
+ "watch_carriers": {
+  "4c186fb2": {
+   "in_pool": true,
+   "pool_rank": 18,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "5bb83899": {
+   "in_pool": false,
+   "pool_rank": null,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "b0273b01": {
+   "in_pool": true,
+   "pool_rank": 14,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  },
+  "809cd704": {
+   "in_pool": true,
+   "pool_rank": 9,
+   "in_topk": false,
+   "served_in_replay": false,
+   "appended_in_replay": false
+  }
+ }
+}
