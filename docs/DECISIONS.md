@@ -4101,3 +4101,45 @@ un número dudoso (daño cualitativo real, medido 3/3, sin retorno en métrica) 
 es correcto** y el defecto es de granularidad · la huella del guard es **1/39 golds** · el
 tier de un cambio que toca seguridad es **ALTO** (`docs/ADVERSARIAL_REVIEWER.md:24-27`), no
 MEDIO. Requisitos para una v2 (si alguien la retoma) en el veredicto, §«Si alguien retoma».
+
+## DEC-173 — s293 (2 ago 2026): sonda de ALCANZABILIDAD como gate previo al diseño de todo lever de serving/síntesis · 2 levers confirmados y 2 muertos
+
+**Decisión.** (a) Se establece un **procedimiento nuevo y recurrente**: antes de diseñar
+cualquier lever de serving/síntesis para un hecho-diana, **medir si el hecho es ALCANZABLE**
+— oráculo de evidencia perfecta (inyectar el carrier en la vista del generador, o simular el
+apéndice con el span verbatim) + juez canónico `judge_conveyed21` K=5. Si no transmite ni con
+la evidencia ideal delante, **ningún lever de serving puede pagarlo** y el diseño sobra.
+Instrumento: `scripts/s293_reachability_probe.py`; queda en la tabla del Protocolo 4 de
+CLAUDE.md. Coste medido: ~$1 por hecho, minutos. (b) **Veredictos** (N=3, `THRESH_FIRM=4`;
+recibo `evals/s293_reachability_result_v1.md`): **cat017#2 ALCANZABLE** (0/5 → **5/5 en 3/3**
+al servir `4c186fb2`) ⇒ el lever B tiene retorno de +1 hecho garantizado · **hp003#4
+ALCANZABLE** (0/5 → **5/5 en 3/3** con el apéndice del span mandatorio) ⇒ el lever L3
+convertiría, con el caveat de que el «stable-miss» del recibo NO es estable con composición
+fresca (1 de 3 bases dio 5/5) · **hp011#2 NO alcanzable** (0/5 → **0/5 en 3/3** con AMBAS
+mitades admitidas; la respuesta ni menciona el «295») ⇒ **la pair-completion que s292 iba a
+diseñar NO pagaría**: el modelo tiene el dato y contesta con otro parámetro (`r.i`), así que
+el residual es selección/síntesis o alcance de gold, NO serving · **hp017#2 NO alcanzable**
+(DEC-172).
+
+**Por qué es estructural y no un truco de esta cola.** El gate es independiente del lever, del
+mecanismo y del gold: solo necesita el hecho, su carrier y el juez que ya arbitra la métrica.
+Escala a 30+ fabricantes porque no depende de conocimiento de producto, y convierte la
+pregunta cara («¿este lever funcionaría?») en una barata («¿el techo está en el hecho o en el
+pipeline?»). En esta sesión habría ahorrado el diseño del lever A y el del pair-completion.
+
+**Regla-C sobre la propia sonda (3 fallos cazados antes de reportar).** Oráculo INCOMPLETO en
+hp011#2 (inyectaba solo la mitad del label; corregido con las dos y verificando que el modelo
+las tenía delante) · **carrier equivocado heredado del censo de s292**: `4581dc4b` NO contiene
+el label `t.A` — el documento tiene `chunk_index` DUPLICADOS y el portador real es `f18362c6`
+· patrón CIEGO en hp003#4 (`/magnetot/` no ve «magneto térmico» con espacio; el span existe y
+está servido en `eaa39792` p.8 §2.3, y `feedback_corpus_gap` vuelve a tener razón).
+
+**Alternativas descartadas.** Diseñar el lever y descubrir el techo en el gate (es lo que pasó
+con el lever A: dos revisores y un diseño entero para llegar a lo que la sonda dice en
+minutos) · usar un regex propio como vara (lección #58) · dar por bueno el censo de una sesión
+anterior sin verificar el carrier (habría producido un NO-GO falso en hp011#2).
+
+**Límites declarados.** N=3 separa 5/5 de 0/5 pero no estima tasas finas · el oráculo `serve`
+fuerza la admisión (mide «si lo viera», no la viabilidad de la lane) · el oráculo `appendix`
+dice que el span BASTA, no que el lever lo elegiría · **un «alcanzable» NO es un GO**: el
+diseño sigue necesitando dúo, flag-off y su gate.
