@@ -2554,3 +2554,24 @@ idioma del apéndice), y un censo reproducible por si se retoma. Y tres fallos p
 —paginación sin `ORDER BY` que hacía el censo irreproducible, `\b` escritos como bytes de
 retroceso que convertían una exclusión en no-op silencioso, y una contabilidad de rechazos
 prematura—, los tres **por verificar el efecto y no el código**. Traza: DEC-174.
+
+**s294 (cont.) — el lever B cae por población, y aparece algo mejor.** Con L3 parado, el
+siguiente era el lever B de `cat017#2`. Su mecanismo estaba probado y su retorno también
+(0/5→5/5), así que fui al censo que DEC-173 obliga a hacer antes de diseñar — y el censo lo
+mató: **1 gold de 39** en el eval y **0,13% del corpus**. Al clasificar las remisiones de 3.000
+chunks salió por qué: **329 son internas** al propio documento (no cruzan nada), 343 son vagas,
+28 citan manuales que no tenemos y **solo 4** citan uno que sí. Con eso **retiro el argumento
+estructural que yo mismo había usado** para recomendarlo. Etapa 3 queda cerrada como cola de
+ingeniería: sus tres levers vivos están resueltos y lo que resta es adjudicación de golds y
+techo. La regla que queda: **alcanzabilidad y población son ortogonales, y un lever necesita
+las dos** — `cat017#2` era alcanzable y a la vez población 1.
+
+Del descarte salió el hallazgo más útil del día: esas remisiones a manuales ausentes son
+**peticiones explícitas del propio fabricante**, así que ordenarlas da una **lista de
+adquisición dirigida por citas**. Barrido del corpus entero: **44 documentos citados y
+ausentes, 77 citas**, concentrados en Notifier/Morley series ID50/ID1000 — tenemos el manual de
+instalación y falta el de **programación**, justo donde vive el detalle que pregunta un técnico.
+Antes de publicarla la corregí dos veces: normalizar guiones (el corpus escribe `MIDT155` donde
+el manual cita `MI-DT-155`, y sin eso **160 documentos presentes salían como ausentes**) y
+exigir una palabra de documento entre el verbo y el código (el pie de página del propio manual
+se colaba como destino). Traza: DEC-175.

@@ -4188,3 +4188,46 @@ exclusión en no-op silencioso (y cuyo primer «arreglo» sustituía backspace p
 contabilidad de rechazos anotada antes de evaluar la forma B. La lección operativa:
 **verificar el EFECTO, no el código** — los tres se cazaron con pruebas de comportamiento
 (`cat -A`, dos corridas consecutivas, casos unitarios), ninguno leyendo el fuente.
+
+## DEC-175 — s294 (2 ago 2026): lever B `cat017#2` = NO-GO por POBLACIÓN (1 gold · 0,13% del corpus) · etapa 3 cerrada como cola de ingeniería · subproducto: lista de adquisición dirigida por citas
+
+**Decisión.** (a) **Lever B NO-GO**, y no por mecanismo (correcto, con retorno probado
+0/5→5/5 en DEC-173) sino por **población**, que es justo lo que DEC-173 obliga a medir antes de
+diseñar: **1 gold de 39** (solo `cat017`; `facet_complement` solo dispara en 2) y **≈0,13% del
+corpus** (de las remisiones halladas en 3.000 chunks: 329 son INTERNAS a su propio documento,
+343 vagas, 28 citan documentos que NO tenemos y **solo 4** citan uno que sí). **Retiro
+explícitamente el argumento estructural que yo mismo usé al recomendarlo** («los manuales se
+citan entre sí ⇒ escala a 30+»): el corpus lo desmiente. Construirlo sería 1 hecho tocando la
+satisfacción de necesidades de `document_local_content_coverage_v1`, **viva en release C1**.
+(b) Con esto **etapa 3 queda cerrada como cola de INGENIERÍA**: sus 3 levers vivos están
+resueltos —hp017#2 y hp011#2 **no alcanzables** (DEC-172/173), hp003#4/L3 v2 **parado** tras
+llegar a 98,3% de precisión (DEC-174), cat017#2 **NO-GO por población** (este DEC)—; lo que
+resta es **adjudicación de golds (Alberto)** y techo declarado. (c) **Subproducto que se
+queda**: `scripts/s294_citation_gap.py` produce una **lista de adquisición dirigida por citas**
+— **44 documentos citados por nuestros manuales y ausentes del corpus, 77 citas**, concentrada
+en Notifier/Morley series ID50/ID1000/1000 (tenemos el manual de instalación y **falta el de
+programación**, que es donde vive el detalle que pregunta un técnico). Recibo con la cita
+literal para adjudicación humana: `evals/s294_citation_gap_v1.json`.
+
+**Por qué el subproducto vale más que el lever.** El lever movía 1 hecho del eval; la lista
+ataca la causa raíz de una clase entera de preguntas sin respuesta, está ordenada por
+frecuencia con la que el propio fabricante remite al documento, y es insumo directo del
+objetivo 30+ y del Excel de inventario (`feedback_approach`).
+
+**Método (durable) — el censo de población es el gate barato que faltaba.** DEC-173 introdujo
+la sonda de alcanzabilidad («¿el techo está en el hecho?»); s294 muestra que hace falta su
+gemela: **«¿cuántos casos hay?»**. Alcanzabilidad y población son ortogonales — `cat017#2` es
+ALCANZABLE (5/5) y a la vez POBLACIÓN 1. Un lever necesita las dos.
+
+**Regla-C sobre mis propias mediciones (dos correcciones antes de publicar la lista).**
+(1) **Guiones**: el corpus escribe `MIDT155` donde el manual cita `MI-DT-155` ⇒ sin normalizar,
+**160 documentos PRESENTES salían como ausentes** (42% de lista falsa). (2) **Ruido de pie de
+página**: el código del propio manual caía en la ventana cuando el verbo remitía a una sección
+(«Véase la Sección 4.1.4 … PK-ID3000») ⇒ se exige una palabra de documento entre verbo y código
+y ≤100 chars: 93 → 44. Residual declarado: códigos-comodín (`997-670-00X` = manual Pearl que SÍ
+tenemos).
+
+**Alternativas descartadas.** Construir el lever B igualmente (1 hecho sobre lane viva) ·
+declarar «estructural» sin censo (era mi propia afirmación, y el corpus la desmiente) ·
+publicar la lista de adquisición sin normalizar guiones (habría mandado a comprar 160
+documentos, ~42% ya en el corpus).

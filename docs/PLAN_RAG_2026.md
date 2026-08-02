@@ -57,10 +57,13 @@ medición, no con código (DEC-172).
 (0) **L3 v2 PARADO (s294/DEC-174, opción A de Alberto)**: el gatillo llegó a 98,3% de precisión
 en adjudicación ciega, pero shipearlo exige 2 cambios en la lane L2 viva (política de idioma +
 dedup por contención) para 1 hecho — y el propio requisito bilingüe crea un duplicado
-cross-lingüe en la diana. Quedan 2 defectos latentes de L2 documentados. **El siguiente lever es
-el B de `cat017#2`** (+1 con retorno PROBADO 0/5→5/5; toca la satisfacción de necesidades de
-`document_local_content_coverage_v1`, viva en release C1 ⇒ censo de población primero, luego dúo
-+ flag-off + gate de no-desplazamiento);
+cross-lingüe en la diana. Quedan 2 defectos latentes de L2 documentados. **Lever B de `cat017#2` = NO-GO por POBLACIÓN** (DEC-175): alcanzable (5/5) pero
+**1 gold de 39** y **0,13% del corpus** — el censo desmintió mi propio argumento estructural.
+⇒ **Etapa 3 queda CERRADA como cola de ingeniería**; lo que resta es adjudicación de golds
+(tuya) + techo declarado. **Subproducto vivo y con valor propio: lista de adquisición dirigida
+por citas** — 44 documentos que nuestros manuales citan y no tenemos (77 citas), concentrados en
+Notifier/Morley ID50/ID1000: tenemos el manual de instalación y falta el de PROGRAMACIÓN, que es
+donde vive el detalle que pregunta un técnico (`evals/s294_citation_gap_v1.json`);
 (1) **hp003#4** = el lever vivo que queda de etapa 3;
 (2) **lever B de cat017#2** si Alberto lo abre (toca lane viva en release C1 ⇒ dúo + flag-off
 + gate de no-desplazamiento); (3) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 ·

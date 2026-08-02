@@ -1,0 +1,84 @@
+{
+ "probe": "s294_pointer_census_v1",
+ "git_sha": "67bf46fb5a78d7744fa81fac18e412650c248c31",
+ "n_golds": 39,
+ "fidelidad_baseline_ok": 39,
+ "n_filas_facet_complement": 2,
+ "n_patron_puntero": 1,
+ "qids_con_patron": [
+  "cat017"
+ ],
+ "filas": [
+  {
+   "qid": "cat017",
+   "selected_id": "b7633e98-b011-4035-9548-a564c71e70ac",
+   "source_file": "HOP-138-8ES  issue 6_01-2026_Co",
+   "page_number": 5,
+   "need_group_terms": [
+    "sitio",
+    "edificio",
+    "licencia"
+   ],
+   "n_referencias_gobernadas": 1,
+   "referencias": [
+    {
+     "verbo": "Consulte",
+     "codigo": "4188-1125-ES",
+     "documentos_destino": [
+      "4188-1125-ES issue 5_11-2025_Li"
+     ],
+     "cita": "Consulte la guía del usuario Concesión de licencias para la central INSPIRE con CLSS (4188-1125-ES). > [Information icon] El inicio de sesión para el portal en la nube de CLSS, la "
+    }
+   ],
+   "candidatos_del_doc_referenciado_en_pool": [
+    {
+     "id": "ae86bacb-6368-4c6e-bc86-a5e402ce9d9c",
+     "source_file": "4188-1125-ES issue 5_11-2025_Li",
+     "page_number": 21,
+     "pool_rank": 2,
+     "servido": false
+    },
+    {
+     "id": "809cd704-27ba-4478-9d03-fd926cab278a",
+     "source_file": "4188-1125-ES issue 5_11-2025_Li",
+     "page_number": 5,
+     "pool_rank": 9,
+     "servido": false
+    },
+    {
+     "id": "b0273b01-279d-4151-849c-4bcf2cf5c612",
+     "source_file": "4188-1125-ES issue 5_11-2025_Li",
+     "page_number": 16,
+     "pool_rank": 14,
+     "servido": false
+    },
+    {
+     "id": "4c186fb2-aa4b-4ca0-b316-c12ebab59712",
+     "source_file": "4188-1125-ES issue 5_11-2025_Li",
+     "page_number": 17,
+     "pool_rank": 18,
+     "servido": false
+    }
+   ],
+   "patron_puntero": true
+  },
+  {
+   "qid": "hp011",
+   "selected_id": "18140a8a-ab2c-40d4-a81f-2532fbe1b838",
+   "source_file": "HLSI-MN-103_RP1r-Supra_lr",
+   "page_number": 43,
+   "need_group_terms": [
+    "condicion",
+    "activa",
+    "enclavada",
+    "inhibicion",
+    "bloqueo",
+    "abort"
+   ],
+   "n_referencias_gobernadas": 0,
+   "referencias": [],
+   "candidatos_del_doc_referenciado_en_pool": [],
+   "patron_puntero": false
+  }
+ ]
+}
