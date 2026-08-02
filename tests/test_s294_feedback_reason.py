@@ -147,16 +147,23 @@ def test_callback_data_cabe_en_telegram_y_entra_por_el_mismo_handler():
     row_id = str(uuid.uuid4())
     markup = bot._feedback_reason_keyboard(row_id)
     datas = [b.callback_data for row in markup.inline_keyboard for b in row]
+    # s294 punto 5b: «Otra cosa» sale del teclado (en la prueba real de Alberto era
+    # la única que encajaba y no informaba de nada) y su hueco lo ocupa la ACCIÓN de
+    # explicar. La clase `other` sigue siendo válida en el CHECK de la DB.
     assert datas == [
         f"fb:r:info:{row_id}", f"fb:r:wrong:{row_id}",
-        f"fb:r:scope:{row_id}", f"fb:r:other:{row_id}",
+        f"fb:r:scope:{row_id}", f"fb:x:{row_id}",
     ]
     for data in datas:
         assert len(data.encode()) <= 64
-        # el handler se registra con `^fb:` — el motivo DEBE entrar por ahí
+        # el handler se registra con `^fb:` — todo el teclado DEBE entrar por ahí
         assert data.startswith("fb:")
-        assert bot._FEEDBACK_REASON_PATTERN.match(data)
-        # y no puede confundirse con un voto
+        # cada botón casa con SU patrón (motivo o acción de explicar)…
+        assert (
+            bot._FEEDBACK_REASON_PATTERN.match(data)
+            or bot._FEEDBACK_EXPLAIN_PATTERN.match(data)
+        )
+        # …y ninguno puede confundirse con un voto
         assert bot._FEEDBACK_CALLBACK_PATTERN.match(data) is None
 
 

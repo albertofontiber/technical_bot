@@ -13,7 +13,13 @@ import uuid
 from pathlib import Path
 
 import httpx
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, Update
+from telegram import (
+    ForceReply,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    Update,
+)
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
@@ -51,7 +57,9 @@ from ..logging_db import (
     log_feedback,
     log_answer_feedback,
     set_feedback_reason,
+    set_feedback_comment,
     has_feedback_reason,
+    query_log_id_for_message,
     stamp_answer_messages,
     has_consent,
     set_consent,
@@ -183,13 +191,34 @@ _FEEDBACK_REASON_PATTERN = re.compile(
     r"^fb:r:(info|wrong|scope|other):"
     r"([0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$"
 )
-_FEEDBACK_REASON_PROMPT = "¿Qué falló? (opcional)"
+_FEEDBACK_EXPLAIN_PATTERN = re.compile(
+    r"^fb:x:([0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$"
+)
+# Texto adjudicado por Alberto: es el MISMO acuse que el canal de texto libre
+# (`handle_feedback`), para que el tecnico vea la misma respuesta venga por donde venga.
+_FEEDBACK_REASON_PROMPT = (
+    "Gracias por el aviso 🙏\n\n"
+    "Tu feedback queda registrado. ¿Puedes indicarme qué dato concreto "
+    "es incorrecto y qué dice el manual? Así podré mejorar."
+)
+# «Otra cosa» sale: en la prueba real de Alberto fue la unica que encajaba con
+# «la ruta de menu esta mal anidada» y no informaba de nada. Su hueco lo ocupa la
+# ACCION de explicar, que es lo que si informa.
 _FEEDBACK_REASON_LABELS = (
     ("info", "Faltó información"),
     ("wrong", "Dato incorrecto"),
     ("scope", "No era mi pregunta"),
-    ("other", "Otra cosa"),
 )
+_FEEDBACK_EXPLAIN_LABEL = "✍️ Te lo explico"
+# ForceReply es el mecanismo NATIVO de Telegram para esto: el cliente abre la caja
+# apuntando a este mensaje, asi que el siguiente mensaje ES un reply por construccion
+# y se ancla exacto. Si el tecnico pasa y pregunta otra cosa, la escribe en el chat
+# normal y el bot la responde como siempre — la ambiguedad se resuelve por diseno.
+_FEEDBACK_EXPLAIN_PROMPT = (
+    "Cuéntame qué dato es incorrecto y qué dice el manual 👇"
+)
+_FEEDBACK_EXPLAIN_PLACEHOLDER = "El manual dice…"
+_FEEDBACK_EXPLAIN_ACK = "Anotado 👍"
 
 
 def _feedback_keyboard_enabled() -> bool:
@@ -207,7 +236,10 @@ def _feedback_reason_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
         InlineKeyboardButton(label, callback_data=f"fb:r:{code}:{query_log_id}")
         for code, label in _FEEDBACK_REASON_LABELS
     ]
-    return InlineKeyboardMarkup([buttons[:2], buttons[2:]])
+    explain = InlineKeyboardButton(
+        _FEEDBACK_EXPLAIN_LABEL, callback_data=f"fb:x:{query_log_id}"
+    )
+    return InlineKeyboardMarkup([buttons[:2], [buttons[2], explain]])
 
 
 def _error_logging_enabled() -> bool:
@@ -254,7 +286,8 @@ _CONSENT_TERMS = (
     "• La transcripción del audio\n"
     "• La respuesta que te doy\n"
     "• Fecha/hora y tu ID de Telegram\n"
-    "• Tu valoración 👍/👎 de las respuestas, si la usas\n\n"
+    "• Tu valoración 👍/👎 de las respuestas, si la usas\n"
+    "• La explicación que escribas cuando marques una respuesta como incorrecta\n\n"
     "*Para qué se usa*: identificar errores, mejorar respuestas, calibrar el sistema con preguntas reales del sector.\n\n"
     "*Quién accede*: equipo técnico de Fontiber Industrial Partners.\n\n"
     "*Terceros*: las preguntas pasan por Anthropic (modelo Claude), los audios por OpenAI (Whisper), y los registros se almacenan en Supabase. No se comparten con nadie más.\n\n"
@@ -410,6 +443,34 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
             Path(tmp_path).unlink(missing_ok=True)
 
 
+async def _capture_reply_explanation(update: Update, user_id: int, text: str) -> bool:
+    """¿Este mensaje es una explicación en reply a una respuesta anclada?
+
+    Devuelve True si se ha capturado (y por tanto el mensaje NO debe ir al RAG).
+
+    Binding EXACTO y sin estado en memoria: `message_id → query_log_id` vía
+    `answer_messages`, así que funciona tras reinicio de Railway y días después.
+    Fail-open total: cualquier problema devuelve False y el mensaje sigue su curso
+    normal — jamás se traga una pregunta del técnico por un fallo de telemetría.
+    """
+    try:
+        replied = getattr(update.message, "reply_to_message", None)
+        message_id = getattr(replied, "message_id", None)
+        chat_id = getattr(getattr(replied, "chat", None), "id", None)
+        if not isinstance(message_id, int) or not isinstance(chat_id, int):
+            return False
+        query_log_id = query_log_id_for_message(chat_id, message_id)
+        if not query_log_id:
+            return False
+        if not set_feedback_comment(query_log_id, user_id, text):
+            return False
+        await update.message.reply_text(_FEEDBACK_EXPLAIN_ACK)
+        return True
+    except Exception:
+        logger.warning("captura de explicación falló open")
+        return False
+
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle user text messages — classifies and routes before RAG pipeline."""
     query = update.message.text.strip()
@@ -419,6 +480,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id if update.effective_user else 0
     if not has_consent(user_id):
         await update.message.reply_text(_NEEDS_CONSENT, parse_mode="Markdown")
+        return
+
+    # s294 (#60 punto 5b): si el mensaje RESPONDE a un mensaje del bot que está
+    # anclado, es una explicación sobre esa consulta — intención explícita, sin
+    # heurística de palabras clave. Se anota y NO se manda al RAG.
+    # Si no se resuelve el ancla (mensaje ajeno, retención, respuesta anterior a
+    # esta telemetría), NO se degrada a «última consulta»: se sigue el camino
+    # normal y el bot responde, que es lo que el técnico espera si en realidad
+    # estaba preguntando otra cosa (aviso de Alberto: puede «pasar» del feedback).
+    if await _capture_reply_explanation(update, user_id, query):
         return
 
     # --- Pre-pipeline classification (saves API calls) ---
@@ -1060,7 +1131,11 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         None if match is not None
         else _FEEDBACK_REASON_PATTERN.match(callback.data or "")
     )
-    if match is None and reason_match is None:
+    explain_match = (
+        None if (match is not None or reason_match is not None)
+        else _FEEDBACK_EXPLAIN_PATTERN.match(callback.data or "")
+    )
+    if match is None and reason_match is None and explain_match is None:
         # Unknown/malformed fb:* payload — resolve the spinner and drop it.
         await callback.answer()
         return
@@ -1071,6 +1146,29 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await callback.answer(
             "Para valorar respuestas acepta primero los términos con /start."
         )
+        return
+
+    if explain_match is not None:
+        # s294 (#60 punto 5b): «Te lo explico». Se abre la caja de respuesta de
+        # Telegram (ForceReply) APUNTANDO a este mensaje, y se ESTAMPA el mensaje en
+        # `answer_messages` para que la respuesta del técnico se resuelva exacta.
+        # Sin ese estampado la vía de reply queda desabastecida (hallazgo F5 del dúo).
+        await callback.answer()
+        query_log_id = explain_match.group(1)
+        try:
+            sent = await callback.message.reply_text(
+                _FEEDBACK_EXPLAIN_PROMPT,
+                reply_markup=ForceReply(
+                    selective=True,
+                    input_field_placeholder=_FEEDBACK_EXPLAIN_PLACEHOLDER,
+                ),
+            )
+            message_id = getattr(sent, "message_id", None)
+            chat_id = getattr(getattr(sent, "chat", None), "id", None)
+            if isinstance(message_id, int) and isinstance(chat_id, int):
+                stamp_answer_messages(query_log_id, chat_id, [message_id])
+        except Exception:
+            logger.warning("invitación a explicar falló open")
         return
 
     if reason_match is not None:

@@ -20,7 +20,10 @@ _RESPONSE_MAX_CHARS = 4096
 
 # Bump this string when consent terms change → forces users to re-accept.
 # v2 (s286): terms now list the 👍/👎 answer verdict as recorded data.
-TERMS_VERSION = "v2"
+# v3 (s294): el bot ahora PIDE explicaciones en texto libre tras un 👎 — antes
+# solo recogia lo que el tecnico escribia por su cuenta. Pedir un dato nuevo
+# obliga a re-aceptar (precedente: el voto 👍/👎 subio v1->v2 en s286).
+TERMS_VERSION = "v3"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
@@ -255,6 +258,48 @@ def set_feedback_reason(
             return bool(resp.json())
     except Exception as exc:
         logger.warning(f"Failed to set feedback reason: {exc}")
+        return False
+
+
+def set_feedback_comment(
+    query_log_id: str,
+    telegram_user_id: int,
+    comment: str,
+    *,
+    max_chars: int = 2000,
+) -> bool:
+    """Guarda la EXPLICACIÓN en prosa sobre el voto que ya existe (#60 punto 5b).
+
+    Va a `answer_feedback.comment` — la columna que s286 (DEC-162f) reservó para
+    esto: «la Fase 2 «¿qué faltó?» escribirá `answer_feedback.comment`, NO
+    `feedback`». Así la prosa hereda FK, UNIQUE por (consulta, usuario) y CASCADE,
+    y queda unible al veredicto y a la evidencia servida sin esquema nuevo.
+
+    PATCH, no upsert: sin voto previo no hay nada que explicar. Fail-open.
+    """
+    text = (comment or "").strip()
+    if not text:
+        return False
+    try:
+        headers = {**_HEADERS, "Prefer": "return=representation"}
+        params = {
+            "query_log_id": f"eq.{query_log_id}",
+            "telegram_user_id": f"eq.{telegram_user_id}",
+            "select": "id",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.patch(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=headers,
+                params=params,
+                json={"comment": text[:max_chars]},
+            )
+            if resp.status_code >= 400:
+                logger.warning("Failed to set feedback comment: %s", resp.status_code)
+                return False
+            return bool(resp.json())
+    except Exception as exc:
+        logger.warning(f"Failed to set feedback comment: {exc}")
         return False
 
 
