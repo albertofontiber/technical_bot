@@ -172,3 +172,32 @@ esto no cambia ninguna métrica: es coherencia del gold.
 
 **Lo que NO te pido:** nada sobre `hp013#1` ni `hp017#1` (techo declarado), ni sobre los flips
 (`cat001#3`, `cat020#1`, ruido), ni sobre `hp009#0` (centinela de conducta).
+
+---
+
+## 9 · **NUEVO — candidato a gold nacido de USO REAL** (CAD-171, menú avanzado)
+
+No es una edición de un gold existente: es una **ficha nueva** que propongo, y sale del primer
+caso que entró por el canal de feedback que acabamos de construir (tu 👎 + explicación del 2-ago).
+
+**El fallo, verificado contra la fuente:** preguntaste cómo acceder al menú de configuración
+avanzada de la CAD-171 y el bot encabezó con «AJUSTES > **GENERAL**» —que él mismo etiqueta como
+configuración *básica*— sin componer nunca la ruta pedida. El manual (`Manual_CAD-171-MI-716-es`,
+tres diagramas coincidentes en p.26/34/35) deja claro que **AVANZADO es hermano de GENERAL**
+dentro del submenú de AJUSTES, y usa esa misma notación para otras rutas («AJUSTES > TEST >
+INICIAR»). La respuesta correcta era **«AJUSTES (Menú principal) > AVANZADO (Submenú)»**, tras
+entrar como administrador con la clave **2222**.
+
+**Ficha propuesta:**
+- **Pregunta**: «¿Cómo se accede al menú de configuración avanzada en la Detnov CAD-171?»
+- **Hecho 1** — acceso: candado en la PANTALLA DE REPOSO → clave de administrador **2222** (p.25 §6.1).
+- **Hecho 2** — ruta: **AJUSTES (Menú principal) > AVANZADO (Submenú)**.
+- **Hecho 3** (opcional, alcance): el contenido de AVANZADO no está en `MI-716`; remite a la Guía
+  Avanzada de Configuración — que **no tenemos** (candidato de adquisición).
+
+**Por qué merece entrar**: respuesta COMPUESTA sobre evidencia ya servida, y discrimina la clase
+de fallo «responde con el elemento vecino», que ya tiene **dos** instancias (esta y `hp011#2`,
+donde el bot contestó con `r.i` en vez de `t.A`). Detalle completo en
+`evals/s294_cad171_menu_avanzado_v1.md`.
+
+`[ ] ✅ crear el gold · [ ] ✏️ crearlo con cambios (anota) · [ ] ❌ no crearlo`
