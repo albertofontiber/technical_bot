@@ -47,7 +47,17 @@ medición, no con código (DEC-172).
 - **Daño cualitativo documentado**: el guard borra un procedimiento de 3 pasos por un número
   dudoso. Sin retorno en métrica, pero es coste de usuario y queda escrito.
 
-**Qué sigue (nada bloqueado):** (1) **hp003#4** = el lever vivo que queda de etapa 3;
+- **CRIBA DE ALCANZABILIDAD (DEC-173, procedimiento nuevo en el Protocolo 4)**: antes de
+  diseñar un lever de serving/síntesis se mide si el hecho transmite **con la evidencia ideal
+  delante** (oráculo + juez K=5, ~$1/hecho). Veredictos: **ALCANZABLES** `cat017#2` (0/5→5/5)
+  y `hp003#4` (0/5→5/5); **NO alcanzables** `hp017#2` y **`hp011#2`** (0/5→0/5 con AMBAS
+  mitades admitidas ⇒ la pair-completion que s292 iba a diseñar **no pagaría**).
+
+**Qué sigue (nada bloqueado, y ahora con retorno DEMOSTRADO o descartado por hecho):**
+(0) los dos levers con retorno probado son **lever B de cat017#2** (+1 garantizado, pero toca
+lane viva en release C1 ⇒ dúo + flag-off + gate de no-desplazamiento) y **L3 v2 para hp003#4**
+(su hecho-diana SÍ es alcanzable; la v2 sigue exigiendo las 6 condiciones de DEC-171);
+(1) **hp003#4** = el lever vivo que queda de etapa 3;
 (2) **lever B de cat017#2** si Alberto lo abre (toca lane viva en release C1 ⇒ dúo + flag-off
 + gate de no-desplazamiento); (3) **sentada B2 de gold-review** (packet: hp006#2 · hp008#4 ·
 cat018#2-split · meta-ref cat020#2 · hp001#2 · gold hp002 «de Detnov» · **nuevo: hp017#2, cuya

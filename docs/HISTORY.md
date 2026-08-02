@@ -2503,3 +2503,18 @@ ANTES de diseñar el gate*. Y regla-C sobre mis sondas **cuatro** veces: un cens
 español y espacio-sensible que habría declarado fantasma un registro real, un replay con el
 flag-set copiado a mano que no reproducía el recibo, una sonda que no pasaba `similarity` y
 mataba el guard antes de llegar a él, y un marcador ciego a paráfrasis. Traza: DEC-172.
+
+**s293 (cont.) — la criba de alcanzabilidad.** Tras el NO-GO del lever A, Alberto aprobó
+generalizar lo que lo había matado: **antes de diseñar, medir si el hecho-diana es alcanzable**
+con la evidencia ideal delante (DEC-173, ahora fila del Protocolo 4). Coste ~$1 por hecho.
+Resultado sobre los candidatos que quedaban: **`cat017#2` alcanzable** (0/5 → 5/5 en 3/3 al
+servir el carrier) y **`hp003#4` alcanzable** (0/5 → 5/5 en 3/3 con el apéndice del span
+«Desconecte siempre…»), pero **`hp011#2` NO** — 0/5 → 0/5 en 3/3 con AMBAS mitades inyectadas y
+admitidas, sin que la respuesta llegue a mencionar el «295»: el modelo tiene el dato y contesta
+con otro parámetro, así que la **pair-completion que s292 iba a diseñar no habría pagado**. Dos
+levers confirmados y dos muertos por unos pocos dólares y antes de escribir una línea. La sonda
+me falló tres veces más y las tres las cacé antes de reportar: oráculo incompleto (inyectaba
+media evidencia), **carrier equivocado heredado del censo de s292** (el documento tiene
+`chunk_index` duplicados y el label `t.A` vive en el gemelo que aquel censo no eligió), y un
+patrón ciego a «magneto térmico» con espacio que fingía un hueco de corpus donde el span estaba
+servido. Traza: DEC-173.
