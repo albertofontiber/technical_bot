@@ -169,13 +169,36 @@ CREATE TABLE IF NOT EXISTS answer_feedback (
     query_log_id UUID NOT NULL REFERENCES query_logs(id) ON DELETE CASCADE,
     telegram_user_id BIGINT NOT NULL,
     verdict TEXT NOT NULL CHECK (verdict IN ('up', 'down')),
-    comment TEXT,                -- Phase 2: optional "¿qué faltó?" on 👎
+    comment TEXT,                -- texto libre: GATEADO por la matriz de retención RGPD
+    -- s294 (#60 punto 5): motivo del 👎 en clases cerradas que mapean ~1:1 a la
+    -- taxonomía del instrumento (omitted/contradicted/scope) => cada 👎 con motivo
+    -- es un caso diagnosticable y semilla de eval orgánico.
+    reason_class TEXT CHECK (reason_class IS NULL OR reason_class IN (
+        'info', 'wrong', 'scope', 'other'
+    )),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (query_log_id, telegram_user_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_answer_feedback_created
 ON answer_feedback (created_at DESC);
+
+-- s294 (#60 punto 1): ancla message_id -> query_log_id. Tabla PUENTE (no columna en
+-- query_logs) porque una respuesta se envia PARTIDA en N mensajes: una columna solo
+-- anclaria uno y las reacciones sobre el resto se perderian. Muere en cascada con su
+-- query_log (retencion RGPD).
+CREATE TABLE IF NOT EXISTS answer_messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    query_log_id UUID NOT NULL REFERENCES query_logs(id) ON DELETE CASCADE,
+    telegram_chat_id BIGINT NOT NULL,
+    telegram_message_id BIGINT NOT NULL,
+    part_index SMALLINT NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (telegram_chat_id, telegram_message_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_answer_messages_query_log
+ON answer_messages (query_log_id);
 
 -- RGPD consent tracking (one row per user who accepted terms via /accept)
 CREATE TABLE IF NOT EXISTS user_consent (
@@ -209,7 +232,8 @@ BEGIN
     END IF;
 
     FOREACH table_name IN ARRAY ARRAY[
-        'query_logs', 'feedback', 'answer_feedback', 'user_consent'
+        'query_logs', 'feedback', 'answer_feedback', 'answer_messages',
+        'user_consent'
     ]
     LOOP
         EXECUTE format(
@@ -230,10 +254,13 @@ BEGIN
     -- answer_feedback needs UPDATE for the last-wins verdict upsert (precedent:
     -- user_consent, whose /accept re-run is also an upsert).
     EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback TO service_role';
+    -- answer_messages: el bot INSERTA al enviar y LEE al recibir una reaccion.
+    EXECUTE 'GRANT SELECT, INSERT ON TABLE public.answer_messages TO service_role';
     EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.user_consent TO service_role';
 
     FOREACH table_name IN ARRAY ARRAY[
-        'query_logs', 'feedback', 'answer_feedback', 'user_consent'
+        'query_logs', 'feedback', 'answer_feedback', 'answer_messages',
+        'user_consent'
     ]
     LOOP
         IF NOT EXISTS (

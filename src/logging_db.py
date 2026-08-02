@@ -214,6 +214,175 @@ def log_answer_feedback(
         return False
 
 
+FEEDBACK_REASON_CLASSES = ("info", "wrong", "scope", "other")
+
+
+def set_feedback_reason(
+    query_log_id: str,
+    telegram_user_id: int,
+    reason_class: str,
+) -> bool:
+    """Anota el MOTIVO de un 👎 sobre la fila del voto que ya existe (#60 punto 5).
+
+    Es un PATCH, no un upsert: el motivo solo tiene sentido si el voto está
+    registrado — si no hay fila, no se inventa una (un motivo sin verdict no es
+    interpretable). PostgREST devuelve 204 igualmente cuando el filtro no casa, así
+    que se pide ``return=representation`` para distinguir «escrito» de «no había
+    fila».
+
+    Fail-open: cualquier error devuelve False sin propagar.
+    """
+    if reason_class not in FEEDBACK_REASON_CLASSES:
+        logger.warning("Invalid feedback reason class: %r", reason_class)
+        return False
+    try:
+        headers = {**_HEADERS, "Prefer": "return=representation"}
+        params = {
+            "query_log_id": f"eq.{query_log_id}",
+            "telegram_user_id": f"eq.{telegram_user_id}",
+            "select": "id",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.patch(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=headers,
+                params=params,
+                json={"reason_class": reason_class},
+            )
+            if resp.status_code >= 400:
+                logger.warning("Failed to set feedback reason: %s", resp.status_code)
+                return False
+            return bool(resp.json())
+    except Exception as exc:
+        logger.warning(f"Failed to set feedback reason: {exc}")
+        return False
+
+
+def has_feedback_reason(query_log_id: str, telegram_user_id: int) -> bool:
+    """¿Este voto ya tiene motivo? Evita re-preguntar «¿qué falló?» si el técnico
+    vuelve a pulsar 👎 sobre el mismo teclado. Sin estado en memoria: el bot
+    reinicia y los teclados viejos siguen siendo válidos (contrato s286).
+
+    Ante error devuelve False = «no consta» ⇒ como mucho se pregunta de más, nunca
+    se pierde la oportunidad de preguntar.
+    """
+    try:
+        params = {
+            "query_log_id": f"eq.{query_log_id}",
+            "telegram_user_id": f"eq.{telegram_user_id}",
+            "reason_class": "not.is.null",
+            "select": "id",
+            "limit": "1",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=_HEADERS,
+                params=params,
+            )
+            if resp.status_code >= 400:
+                logger.warning(
+                    "Failed to check feedback reason: %s", resp.status_code
+                )
+                return False
+            return bool(resp.json())
+    except Exception as exc:
+        logger.warning(f"Failed to check feedback reason: {exc}")
+        return False
+
+
+def stamp_answer_messages(
+    query_log_id: str,
+    telegram_chat_id: int,
+    message_ids: list[int],
+) -> bool:
+    """Ancla los mensajes enviados de una respuesta a su fila de `query_logs`.
+
+    Es el punto 1 del paquete de telemetría (#60): una REACCIÓN de Telegram solo
+    trae `message_id`, así que sin esta ancla no hay forma de saber a qué consulta
+    se refiere. Se estampan TODAS las partes (la respuesta se envía partida), en un
+    único POST.
+
+    No bloqueante y fail-open TOTAL, igual que el resto del logging: cualquier
+    excepción o error HTTP se traga con un warning y devuelve False — el técnico ya
+    tiene su respuesta y una telemetría caída jamás puede cambiarla.
+
+    Idempotente vía ``resolution=ignore-duplicates`` (``ON CONFLICT DO NOTHING``)
+    sobre el UNIQUE (chat, message): un reintento del mismo envío no duplica.
+    **NO se usa ``merge-duplicates``** aunque sea el patrón de `answer_feedback`:
+    ese es un UPSERT y PostgREST exige privilegio UPDATE, que esta tabla no tiene
+    ni necesita — el ancla es de ESCRITURA ÚNICA. Cazado en smoke contra la DB
+    real: con merge-duplicates el insert devolvía 403 y, por el fail-open, el
+    ancla nunca se habría estampado sin que nada fallara a la vista.
+    """
+    if not message_ids:
+        return False
+    try:
+        rows = [
+            {
+                "query_log_id": query_log_id,
+                "telegram_chat_id": telegram_chat_id,
+                "telegram_message_id": message_id,
+                "part_index": index,
+            }
+            for index, message_id in enumerate(message_ids)
+        ]
+        headers = {**_HEADERS, "Prefer": "resolution=ignore-duplicates,return=minimal"}
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.post(
+                f"{SUPABASE_URL}/rest/v1/answer_messages",
+                headers=headers,
+                params={"on_conflict": "telegram_chat_id,telegram_message_id"},
+                json=rows,
+            )
+            if resp.status_code >= 400:
+                logger.warning(
+                    "Failed to stamp answer messages: %s", resp.status_code
+                )
+                return False
+        return True
+    except Exception as exc:
+        logger.warning(f"Failed to stamp answer messages: {exc}")
+        return False
+
+
+def query_log_id_for_message(
+    telegram_chat_id: int,
+    telegram_message_id: int,
+) -> str | None:
+    """Búsqueda inversa del ancla: (chat, message) → `query_log_id`.
+
+    La consume el handler de reacciones (punto 3 de #60). Devuelve None cuando no
+    hay ancla — mensaje ajeno al bot, respuesta anterior a esta telemetría, o fila
+    ya borrada por retención RGPD (la cascada se lleva el ancla, por diseño).
+    """
+    try:
+        params = {
+            "telegram_chat_id": f"eq.{telegram_chat_id}",
+            "telegram_message_id": f"eq.{telegram_message_id}",
+            "select": "query_log_id",
+            "limit": "1",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/answer_messages",
+                headers=_HEADERS,
+                params=params,
+            )
+            if resp.status_code >= 400:
+                logger.warning(
+                    "Failed to resolve answer message: %s", resp.status_code
+                )
+                return None
+            rows = resp.json()
+        if not rows:
+            return None
+        return str(rows[0].get("query_log_id")) or None
+    except Exception as exc:
+        logger.warning(f"Failed to resolve answer message: {exc}")
+        return None
+
+
 def has_consent(telegram_user_id: int) -> bool:
     """Check if user has accepted the current TERMS_VERSION.
 

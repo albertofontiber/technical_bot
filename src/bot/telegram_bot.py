@@ -50,6 +50,9 @@ from ..logging_db import (
     log_query,
     log_feedback,
     log_answer_feedback,
+    set_feedback_reason,
+    has_feedback_reason,
+    stamp_answer_messages,
     has_consent,
     set_consent,
 )
@@ -172,9 +175,39 @@ _MANUFACTURER_NAMES = re.compile(
 # Telegram) → taps tras días/restart funcionan sin estado en memoria.
 _FEEDBACK_CALLBACK_PATTERN = re.compile(r"^fb:(u|d):([0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$")
 
+# s294 (#60 punto 5): motivo del 👎. Comparte el prefijo `fb:` A PROPÓSITO para
+# entrar por el MISMO CallbackQueryHandler (registrado incondicionalmente): un
+# teclado viejo en el historial siempre resuelve su spinner, aunque el flag esté
+# apagado. "fb:r:wrong:<uuid>" = 46 bytes < 64 de Telegram.
+_FEEDBACK_REASON_PATTERN = re.compile(
+    r"^fb:r:(info|wrong|scope|other):"
+    r"([0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$"
+)
+_FEEDBACK_REASON_PROMPT = "¿Qué falló? (opcional)"
+_FEEDBACK_REASON_LABELS = (
+    ("info", "Faltó información"),
+    ("wrong", "Dato incorrecto"),
+    ("scope", "No era mi pregunta"),
+    ("other", "Otra cosa"),
+)
+
 
 def _feedback_keyboard_enabled() -> bool:
     return os.getenv("TELEGRAM_FEEDBACK", "off").strip().lower() == "on"
+
+
+def _feedback_reason_enabled() -> bool:
+    """Flag propio (default off), independiente del teclado 👍/👎: el follow-up
+    añade un mensaje más por cada 👎 y esa conducta se enciende aparte."""
+    return os.getenv("TELEGRAM_FEEDBACK_REASON", "off").strip().lower() == "on"
+
+
+def _feedback_reason_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
+    buttons = [
+        InlineKeyboardButton(label, callback_data=f"fb:r:{code}:{query_log_id}")
+        for code, label in _FEEDBACK_REASON_LABELS
+    ]
+    return InlineKeyboardMarkup([buttons[:2], buttons[2:]])
 
 
 def _error_logging_enabled() -> bool:
@@ -896,6 +929,19 @@ async def _process_query(
             else None
         )
         last_part_index = len(answer_parts) - 1
+        sent_message_ids: list[int] = []
+
+        def _remember(sent) -> None:
+            """Recoge el message_id para el ancla de telemetría (#60 punto 1).
+
+            Defensivo a propósito: si el transporte devuelve None o un objeto sin
+            `message_id` entero (dobles de test, cambio de librería), NO se anota y
+            el envío sigue igual. El ancla es telemetría: jamás puede romper la
+            entrega de la respuesta."""
+            message_id = getattr(sent, "message_id", None)
+            if isinstance(message_id, int):
+                sent_message_ids.append(message_id)
+
         for part_index, answer_part in enumerate(answer_parts):
             # Flag off (or log not committed) ⇒ markup_kwargs is empty and every
             # reply_text call stays argument-identical to the pre-s286 code.
@@ -905,18 +951,32 @@ async def _process_query(
                 else {}
             )
             if transport_status == "plain_fallback":
-                await update.message.reply_text(answer_part, **markup_kwargs)
+                _remember(await update.message.reply_text(answer_part, **markup_kwargs))
                 continue
             try:
-                await update.message.reply_text(
-                    answer_part, parse_mode="HTML", **markup_kwargs
+                _remember(
+                    await update.message.reply_text(
+                        answer_part, parse_mode="HTML", **markup_kwargs
+                    )
                 )
             except Exception:
                 # Fail open without exposing raw HTML tags or entities.  This
                 # fallback preserves all technical text and evidence locators.
-                await update.message.reply_text(
-                    telegram_html_to_plain(answer_part), **markup_kwargs
+                _remember(
+                    await update.message.reply_text(
+                        telegram_html_to_plain(answer_part), **markup_kwargs
+                    )
                 )
+
+        # Ancla message_id → query_log_id (#60 punto 1). Sin ella, una REACCIÓN de
+        # Telegram (que solo trae `message_id`) no se puede atribuir a una consulta.
+        # Se estampa solo si la fila de query_logs está KNOWN committed — el mismo
+        # criterio que el teclado: una FK colgante no aporta señal, la rompe.
+        # Fail-open total: `stamp_answer_messages` traga sus propios errores.
+        if query_logged and sent_message_ids:
+            chat_id = getattr(getattr(update, "effective_chat", None), "id", None)
+            if isinstance(chat_id, int):
+                stamp_answer_messages(query_log_uuid, chat_id, sent_message_ids)
 
         # Step 5: Send diagrams if available (with descriptive captions).
         # 1-2 imágenes → fotos sueltas (comportamiento original); >2 → un solo
@@ -996,7 +1056,11 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if callback is None:
         return
     match = _FEEDBACK_CALLBACK_PATTERN.match(callback.data or "")
-    if match is None:
+    reason_match = (
+        None if match is not None
+        else _FEEDBACK_REASON_PATTERN.match(callback.data or "")
+    )
+    if match is None and reason_match is None:
         # Unknown/malformed fb:* payload — resolve the spinner and drop it.
         await callback.answer()
         return
@@ -1008,9 +1072,33 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Para valorar respuestas acepta primero los términos con /start."
         )
         return
+
+    if reason_match is not None:
+        # s294 (#60 punto 5): motivo del 👎. Se anota SOBRE el voto existente; si
+        # no hay voto (fila borrada por retención, teclado viejo) no se inventa
+        # uno: un motivo sin verdict no es interpretable.
+        recorded = set_feedback_reason(
+            query_log_id=reason_match.group(2),
+            telegram_user_id=tap_user_id,
+            reason_class=reason_match.group(1),
+        )
+        await callback.answer(
+            "Gracias, lo tendré en cuenta." if recorded
+            else "No se pudo registrar ahora."
+        )
+        # El teclado del follow-up se retira SIEMPRE que se pudo anotar: deja de
+        # invitar a re-pulsar y el mensaje queda como recibo de lo elegido.
+        if recorded:
+            try:
+                await callback.edit_message_reply_markup(reply_markup=None)
+            except Exception:
+                logger.debug("no se pudo retirar el teclado de motivo")
+        return
+
     verdict = "up" if match.group(1) == "u" else "down"
+    query_log_id = match.group(2)
     ok = log_answer_feedback(
-        query_log_id=match.group(2),
+        query_log_id=query_log_id,
         telegram_user_id=tap_user_id,
         verdict=verdict,
     )
@@ -1020,6 +1108,21 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Includes the stale-keyboard case: the query_logs row was RGPD-deleted
         # and the FK rejects the vote — dropped by design.
         await callback.answer("No se pudo registrar ahora. Inténtalo de nuevo.")
+        return
+
+    # Follow-up SOLO tras un 👎 registrado y solo si aún no hay motivo (re-pulsar
+    # el mismo teclado no debe volver a preguntar). Es un mensaje más, opcional e
+    # ignorable: nada bloquea y cualquier fallo se traga — la valoración ya está
+    # guardada y el follow-up jamás puede ponerla en riesgo.
+    if verdict == "down" and _feedback_reason_enabled():
+        try:
+            if not has_feedback_reason(query_log_id, tap_user_id):
+                await callback.message.reply_text(
+                    _FEEDBACK_REASON_PROMPT,
+                    reply_markup=_feedback_reason_keyboard(query_log_id),
+                )
+        except Exception:
+            logger.warning("follow-up de 👎 falló open")
 
 
 def schedule_maintenance(app, store, interval, *, sender, worker_id="janitor-f0", first=None):

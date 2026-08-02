@@ -252,12 +252,15 @@ def test_schema_boundary_covers_answer_feedback():
     schema = (REPO / "supabase_schema.sql").read_text(encoding="utf-8")
     # r2 nota 3: las postcondiciones iteran arrays — answer_feedback debe estar
     # en AMBOS FOREACH o un bootstrap fresco la crearía sin hardening.
+    # s294: la guarda ya NO fija el literal del array — se rompía al añadir una
+    # tabla legítima (`answer_messages`) y eso la convertía en fricción, no en
+    # protección. Fija lo que de verdad importa: que `answer_feedback` esté en
+    # los DOS FOREACH del boundary.
     boundary_arrays = re.findall(
-        r"FOREACH table_name IN ARRAY ARRAY\[\s*'query_logs', 'feedback', "
-        r"'answer_feedback', 'user_consent'\s*\]",
-        schema,
+        r"FOREACH table_name IN ARRAY ARRAY\[(.*?)\]", schema, re.DOTALL
     )
-    assert len(boundary_arrays) == 2, "answer_feedback falta en un FOREACH del boundary"
+    with_feedback = [a for a in boundary_arrays if "'answer_feedback'" in a]
+    assert len(with_feedback) == 2, "answer_feedback falta en un FOREACH del boundary"
     assert "ANY(ARRAY['user_consent', 'answer_feedback'])" in schema
     assert (
         "GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback" in schema
