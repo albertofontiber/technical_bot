@@ -169,7 +169,13 @@ CREATE TABLE IF NOT EXISTS answer_feedback (
     query_log_id UUID NOT NULL REFERENCES query_logs(id) ON DELETE CASCADE,
     telegram_user_id BIGINT NOT NULL,
     verdict TEXT NOT NULL CHECK (verdict IN ('up', 'down')),
-    comment TEXT,                -- Phase 2: optional "¿qué faltó?" on 👎
+    comment TEXT,                -- texto libre: GATEADO por la matriz de retención RGPD
+    -- s294 (#60 punto 5): motivo del 👎 en clases cerradas que mapean ~1:1 a la
+    -- taxonomía del instrumento (omitted/contradicted/scope) => cada 👎 con motivo
+    -- es un caso diagnosticable y semilla de eval orgánico.
+    reason_class TEXT CHECK (reason_class IS NULL OR reason_class IN (
+        'info', 'wrong', 'scope', 'other'
+    )),
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (query_log_id, telegram_user_id)
 );

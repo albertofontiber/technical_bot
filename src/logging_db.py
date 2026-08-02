@@ -214,6 +214,83 @@ def log_answer_feedback(
         return False
 
 
+FEEDBACK_REASON_CLASSES = ("info", "wrong", "scope", "other")
+
+
+def set_feedback_reason(
+    query_log_id: str,
+    telegram_user_id: int,
+    reason_class: str,
+) -> bool:
+    """Anota el MOTIVO de un 👎 sobre la fila del voto que ya existe (#60 punto 5).
+
+    Es un PATCH, no un upsert: el motivo solo tiene sentido si el voto está
+    registrado — si no hay fila, no se inventa una (un motivo sin verdict no es
+    interpretable). PostgREST devuelve 204 igualmente cuando el filtro no casa, así
+    que se pide ``return=representation`` para distinguir «escrito» de «no había
+    fila».
+
+    Fail-open: cualquier error devuelve False sin propagar.
+    """
+    if reason_class not in FEEDBACK_REASON_CLASSES:
+        logger.warning("Invalid feedback reason class: %r", reason_class)
+        return False
+    try:
+        headers = {**_HEADERS, "Prefer": "return=representation"}
+        params = {
+            "query_log_id": f"eq.{query_log_id}",
+            "telegram_user_id": f"eq.{telegram_user_id}",
+            "select": "id",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.patch(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=headers,
+                params=params,
+                json={"reason_class": reason_class},
+            )
+            if resp.status_code >= 400:
+                logger.warning("Failed to set feedback reason: %s", resp.status_code)
+                return False
+            return bool(resp.json())
+    except Exception as exc:
+        logger.warning(f"Failed to set feedback reason: {exc}")
+        return False
+
+
+def has_feedback_reason(query_log_id: str, telegram_user_id: int) -> bool:
+    """¿Este voto ya tiene motivo? Evita re-preguntar «¿qué falló?» si el técnico
+    vuelve a pulsar 👎 sobre el mismo teclado. Sin estado en memoria: el bot
+    reinicia y los teclados viejos siguen siendo válidos (contrato s286).
+
+    Ante error devuelve False = «no consta» ⇒ como mucho se pregunta de más, nunca
+    se pierde la oportunidad de preguntar.
+    """
+    try:
+        params = {
+            "query_log_id": f"eq.{query_log_id}",
+            "telegram_user_id": f"eq.{telegram_user_id}",
+            "reason_class": "not.is.null",
+            "select": "id",
+            "limit": "1",
+        }
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/answer_feedback",
+                headers=_HEADERS,
+                params=params,
+            )
+            if resp.status_code >= 400:
+                logger.warning(
+                    "Failed to check feedback reason: %s", resp.status_code
+                )
+                return False
+            return bool(resp.json())
+    except Exception as exc:
+        logger.warning(f"Failed to check feedback reason: {exc}")
+        return False
+
+
 def stamp_answer_messages(
     query_log_id: str,
     telegram_chat_id: int,
