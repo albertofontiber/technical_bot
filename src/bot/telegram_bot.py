@@ -18,6 +18,7 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InputMediaPhoto,
+    ReplyKeyboardRemove,
     Update,
 )
 from telegram.ext import (
@@ -464,7 +465,12 @@ async def _capture_reply_explanation(update: Update, user_id: int, text: str) ->
             return False
         if not set_feedback_comment(query_log_id, user_id, text):
             return False
-        await update.message.reply_text(_FEEDBACK_EXPLAIN_ACK)
+        # `ReplyKeyboardRemove` CIERRA la caja de respuesta: sin esto el cliente
+        # sigue mostrando «Reply to…» y vuelve a pedir explicación después de
+        # haberla dado (cazado por Alberto en prueba real, 2-ago).
+        await update.message.reply_text(
+            _FEEDBACK_EXPLAIN_ACK, reply_markup=ReplyKeyboardRemove()
+        )
         return True
     except Exception:
         logger.warning("captura de explicación falló open")
@@ -1158,8 +1164,12 @@ async def feedback_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         try:
             sent = await callback.message.reply_text(
                 _FEEDBACK_EXPLAIN_PROMPT,
+                # SIN `selective`: apunta a los usuarios @mencionados o al remitente
+                # del mensaje respondido, y esta invitación responde al mensaje del
+                # PROPIO BOT — así que `selective=True` no apuntaba al técnico y el
+                # cliente dejaba la caja «Reply to…» armada tras contestar (cazado
+                # por Alberto en prueba real, 2-ago).
                 reply_markup=ForceReply(
-                    selective=True,
                     input_field_placeholder=_FEEDBACK_EXPLAIN_PLACEHOLDER,
                 ),
             )
