@@ -120,7 +120,11 @@ def test_log_answer_feedback_false_on_fk_reject(monkeypatch):
 
 
 def test_terms_version_bumped_for_feedback_consent():
-    assert TERMS_VERSION == "v2"
+    # Tripwire DELIBERADO: cada dato nuevo que el bot recoge obliga a re-aceptar,
+    # así que un cambio de versión debe ser una decisión, nunca un descuido.
+    # v2 (s286) = el voto 👍/👎. v3 (s294) = la explicación en texto libre que el
+    # bot ahora PIDE tras un 👎 (antes solo recogía lo espontáneo).
+    assert TERMS_VERSION == "v3"
 
 
 # ------------------------------------------------------------- telegram_bot
