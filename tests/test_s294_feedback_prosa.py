@@ -261,3 +261,47 @@ def test_captura_fail_open(monkeypatch):
     monkeypatch.setattr(bot, "query_log_id_for_message", boom)
     update = _message_update("texto", reply_to=_bot_message())
     assert asyncio.run(bot._capture_reply_explanation(update, 7, "texto")) is False
+
+
+# ---- cierre de la caja de respuesta (bug cazado por Alberto en prueba real) ----
+
+
+def test_forcereply_sin_selective(monkeypatch):
+    """`selective` apunta a los @mencionados o al remitente del mensaje respondido;
+    la invitación responde al mensaje del PROPIO BOT, así que activarlo no apuntaba
+    al técnico y el cliente dejaba la caja «Reply to…» armada.
+
+    Se comprueba el OBJETO construido, no el fuente: la primera versión de este test
+    grepeaba el código y fallaba por la cadena que aparece en su propio comentario
+    explicativo — una vara que mide el texto en vez de la conducta.
+    """
+    monkeypatch.setattr(bot, "has_consent", lambda _u: True)
+    monkeypatch.setattr(bot, "stamp_answer_messages", lambda *a: True)
+    enviado = types.SimpleNamespace(
+        message_id=1, chat=types.SimpleNamespace(id=-1)
+    )
+    update, callback = _callback_update(f"fb:x:{uuid.uuid4()}", sent=enviado)
+
+    asyncio.run(bot.feedback_callback(update, None))
+
+    markup = callback.message.reply_text.calls[0]["kwargs"]["reply_markup"]
+    assert isinstance(markup, bot.ForceReply)
+    assert markup.selective is None                   # NO restringido
+    assert markup.input_field_placeholder == bot._FEEDBACK_EXPLAIN_PLACEHOLDER
+
+
+def test_el_acuse_cierra_la_caja_de_respuesta(monkeypatch):
+    """Sin `ReplyKeyboardRemove` el cliente vuelve a pedir explicación tras darla."""
+    from telegram import ReplyKeyboardRemove
+
+    monkeypatch.setattr(bot, "query_log_id_for_message", lambda c, m: str(uuid.uuid4()))
+    monkeypatch.setattr(bot, "set_feedback_comment", lambda *a: True)
+    update = _message_update("la ruta está mal", reply_to=_bot_message())
+
+    assert asyncio.run(
+        bot._capture_reply_explanation(update, 7, "la ruta está mal")
+    ) is True
+
+    llamada = update.message.reply_text.calls[0]
+    assert llamada["args"][0] == bot._FEEDBACK_EXPLAIN_ACK
+    assert isinstance(llamada["kwargs"].get("reply_markup"), ReplyKeyboardRemove)
