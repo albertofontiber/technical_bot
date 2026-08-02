@@ -1,0 +1,174 @@
+# s294 — Packet de la sentada B2 · 8 ítems para tu adjudicación en lote
+
+> **Cómo usarlo (~25-30 min).** Cada ítem trae: la **pregunta** del gold, el **hecho** tal como
+> está escrito hoy, **qué dijo el bot** (respuesta congelada del FULL v3.2), la **evidencia
+> medida**, y **mi recomendación** con la decisión concreta que te pido. Marca por ítem:
+> `[ ] ✅ acepto · [ ] ✏️ editar (anota el matiz) · [ ] ❌ rechazo`.
+> Yo aplico después las ✅/✏️ vía `gold_store` (la puerta valida; DEC-025: **el gold es tuyo**).
+> **Nada se edita sin tu marca.**
+
+**Qué hay en juego.** De los 12 synthesis-miss del FULL, **3 son gold/alcance** y otros **2**
+se han vuelto candidatos esta sesión al medirlos. Si aceptas mis recomendaciones, el
+denominador y la clasificación cambian —no el bot— y la foto pasa a reflejar lo que el bot
+hace de verdad. **En 2 ítems mi lectura DISCREPA del triage previo de s291c**: los marco
+explícitamente, porque son justo los que necesitan tu criterio de PCI y no el mío.
+
+---
+
+## 1 · `hp008#4` — LPB500 · **DISCREPO del triage previo**
+
+**Pregunta:** «¿Qué detectores de humo analógicos son compatibles con la Notifier ID3000?»
+**Hecho (hoy):** «Detectores de humo por rayo/haz proyectado compatibles: LPB500 (máx. 4 por
+lazo) y LPB-700/LPB-700T».
+**Qué dijo el bot:** enumeró los puntuales y los de entornos especiales (HPX-751E, IDX-751) y
+cerró con el protocolo Notifier. **Cero menciones de detectores de haz/rayo.** Respuesta corta
+(1.188 caracteres).
+**Medido:** el fragmento estaba servido en posición 2/10 y citado.
+
+- **s291c lo triaba como «alcance del gold»** (la pregunta no contrataría los de haz).
+- **Yo discrepo**: un detector de haz **es** un detector de humo y va en el mismo lazo. Un
+  técnico que pregunta «qué detectores de humo analógicos son compatibles» espera verlos. Si
+  esto es alcance, entonces la respuesta correcta es incompleta por definición.
+
+**Mi recomendación:** **mantener CORE** y reclasificar la miss como **síntesis real**
+(incompletitud de enumeración), no como problema de gold. **Decisión que te pido:** ¿un
+detector de haz cuenta como «detector de humo analógico» para un técnico? Si dices que no,
+acoto la pregunta a «detectores puntuales» y el hecho pasa a SUPPLEMENTARY.
+
+`[ ] ✅ es síntesis (mantener CORE) · [ ] ✏️ acotar la pregunta a puntuales · [ ] ❌ otra cosa`
+
+---
+
+## 2 · `hp011#2` — t.A «05 a 295 seg» · **el más consecuente**
+
+**Pregunta:** «En la Morley RP1r, después de descargar la extinción el sistema no vuelve a
+estado normal tras resetear. ¿Qué comprobar?»
+**Hecho (hoy):** «Parámetro **t.A** "Duración de la descarga" (soak time): variable de 05 a 295
+seg; "--" = circuito activado hasta el rearme de la central (POR DEFECTO)».
+**Qué dijo el bot:** abre con «**1. Verifica si el rearme está inhibido por parámetro de
+configuración**» y desarrolla el parámetro **`r.i`** (Rearme inhibido tras extinción), con sus
+valores y el caso `- -`.
+**Medido esta sesión (sonda de alcanzabilidad):** inyecté las DOS mitades del hecho (etiqueta
+`t.A` + tabla del valor) en la vista del generador y las admitió — y aun así **0/5 en 3 de 3
+repeticiones**: ni menciona el «295». No es que no lo tenga: **elige contestar con `r.i`**.
+
+- Y `r.i` es una respuesta **defendible**: «rearme inhibido tras extinción» ataca literalmente
+  «no vuelve a estado normal tras resetear».
+
+**Mi recomendación:** el gold está **infra-especificado**. O bien `r.i` se acepta como
+comprobación válida (y el hecho `t.A` pasa a SUPPLEMENTARY), o bien la pregunta se afila a la
+duración de la descarga. **Sin esto, seguiremos contando como fallo de síntesis algo que
+probablemente es una respuesta correcta distinta de la esperada.**
+
+`[ ] ✅ aceptar r.i (t.A → SUPPLEMENTARY) · [ ] ✏️ afilar la pregunta · [ ] ❌ t.A es la única válida`
+
+---
+
+## 3 · `hp017#2` — «Editar Configuración» + «borrar la Regla 1» · **hecho compuesto**
+
+**Pregunta:** «¿Cómo se programa el retardo de salida de alarma principal en la Notifier PEARL?»
+**Hecho (hoy):** dos mitades en una — (a) acceder a «Causa y Efecto» desde el menú «**Editar
+Configuración**»; (b) **borrar la Regla 1** por defecto si se va a programar específico.
+**Medido esta sesión:** la mitad (a) **el modelo la escribe siempre** (3/3) y **el conflict-guard
+la borra** (3/3, porque en la fuente va pegada al número de menú en conflicto). La mitad (b)
+**no aparece nunca** (0/3, con cinco marcadores incluidas paráfrasis). Con el juez canónico, el
+borrador PRE-guard se queda en 3/5 · 1/5 · 2/5 — **por debajo del umbral aunque el guard no
+existiera**.
+
+**Mi recomendación:** **partir el hecho en dos**. Así (a) queda medible contra el guard —y su
+NO-GO de hoy queda bien atribuido— y (b) se mide como lo que es: una omisión de síntesis
+independiente.
+
+`[ ] ✅ partir en dos · [ ] ✏️ partir y además reformular (anota) · [ ] ❌ dejarlo compuesto`
+
+---
+
+## 4 · `cat018#2` — «Tipo SW / asociación CBE» · **hecho compuesto**
+
+**Pregunta:** «¿Cómo se programa una ecuación causa-efecto (CBE) en la Notifier AM-8200…?»
+**Hecho (hoy):** «Los módulos de SALIDA llevan un **Tipo SW** (p. ej. SND = sirena); un módulo
+de salida se dispara cuando se cumple su **ecuación CBE**».
+**Qué dijo el bot:** respuesta larga (3.831 caracteres) sobre CBE, con **cero** apariciones de
+«Tipo SW», «SND» o «asociación». El sub-motivo del juez fue `partial`.
+
+**Mi recomendación:** **partir en dos** (el «Tipo SW» del módulo · el disparo por ecuación CBE)
+y volver a medir. Es lo que ya proponía el diagnóstico de s291c y lo suscribo.
+
+`[ ] ✅ partir en dos · [ ] ✏️ editar el texto (anota) · [ ] ❌ dejarlo`
+
+---
+
+## 5 · `hp006#2` — ISO-X
+
+**Pregunta:** «La Notifier AFP-400 muestra el aviso "Tierra" (Earth Fault). ¿Qué significa y
+cómo se localiza?»
+**Hecho (hoy):** los módulos aisladores **ISO-X** acotan la rama en avería del resto del lazo
+(requeridos para Estilo 7 según NFPA).
+**Qué dijo el bot:** procedimiento de localización en 4 pasos (bandeja/canaleta, humedad,
+aislamiento dañado, bloque TB1 de la MPS-400). Menciona «aislamiento» del cable, **no** los
+módulos ISO-X.
+
+**Mi recomendación:** **demote a SUPPLEMENTARY**. Los ISO-X aíslan cortocircuitos de lazo; la
+localización de un fallo **de tierra** se hace por desconexión por tramos, que es lo que el bot
+explica. Es adyacente, no contratado. **Pero esto es criterio de PCI y es tuyo**: si en tu
+práctica el ISO-X es parte del procedimiento de acotado de tierra, dilo y se queda CORE.
+
+`[ ] ✅ demote a SUPPLEMENTARY · [ ] ✏️ se queda CORE (explica) · [ ] ❌ borrar el hecho`
+
+---
+
+## 6 · `cat020#2` — meta-ref del manual de variaciones España
+
+**Pregunta:** «En una central Morley DXc instalada en España, ¿cuál es el nivel de alarma y de
+prealarma por defecto…?»
+**Estado:** el hecho está marcado `meta-ref` y **sin `texto`**.
+**Qué dijo el bot:** cita explícitamente «**DXc_Manual variaciones de mercado**» como fuente y
+reproduce el matiz de que el umbral depende del nivel/modo.
+
+**Mi recomendación:** aplicar lo que ya dejaste escrito en el PLAN — el **valor** pasa a
+«específicos de la versión España» y la referencia al manual de variaciones se convierte en
+**expectativa de CITA** (que la respuesta actual ya cumple).
+
+`[ ] ✅ aplicar · [ ] ✏️ otra redacción (anota) · [ ] ❌ dejarlo`
+
+---
+
+## 7 · `hp001#2` — clave «1111» (afilar redacción)
+
+**Estado:** es **retrieval-miss**, no síntesis (`within-doc`); entra aquí solo por la edición
+pendiente. **Hecho (hoy):** «La clave de USUARIO por defecto es 1111, que NO da acceso a la
+configuración avanzada completa (solo el nivel de usuario)».
+**Mi recomendación:** afilar el **`texto`** sin tocar el **`valor`**, para reducir fragilidad
+del juez (lo dejaste escrito en el PLAN). Propuesta concreta: dejar el hecho en «clave de
+usuario por defecto **1111**; el acceso a configuración avanzada **requiere otra clave/nivel**»,
+sin la negación larga.
+
+`[ ] ✅ aplicar la propuesta · [ ] ✏️ tu redacción (anota) · [ ] ❌ dejarlo`
+
+---
+
+## 8 · `hp002` — la pregunta dice «de Detnov»
+
+**Pregunta (hoy):** «El detector ASD535 **de Detnov** está dando una alarma intermitente…»
+**Problema:** el ASD535 es **Securiton**, distribuido por Detnov — y así lo dice ya `hp019`
+(«ASD535 (Securiton, distribuido por Detnov)»). Los 5 hechos de hp002 salen **OK**, así que
+esto no cambia ninguna métrica: es coherencia del gold.
+**Mi recomendación:** armonizar la pregunta con la de hp019.
+
+`[ ] ✅ armonizar · [ ] ✏️ otra redacción · [ ] ❌ dejarlo`
+
+---
+
+## Efecto esperado si aceptas todo
+
+- **2 hechos compuestos partidos** (`hp017#2`, `cat018#2`) → dejan de contar como una miss
+  opaca y pasan a medir dos cosas distintas; el denominador sube en 2.
+- **2 reclasificaciones** (`hp006#2` a supplementary, `hp011#2` a gold infra-especificado) →
+  salen de la cola de síntesis, que quedaría en **~1-2 hechos de ingeniería real**.
+- **1 discrepancia que puede ir en mi contra** (`hp008#4`): si me das la razón, la cola de
+  síntesis **sube** en un hecho legítimo. Lo digo porque el packet no está montado para que
+  salgan las cuentas bonitas.
+- `cat020#2`, `hp001#2` y `hp002` son higiene: no mueven el número, reducen fragilidad.
+
+**Lo que NO te pido:** nada sobre `hp013#1` ni `hp017#1` (techo declarado), ni sobre los flips
+(`cat001#3`, `cat020#1`, ruido), ni sobre `hp009#0` (centinela de conducta).
