@@ -50,6 +50,7 @@ from ..logging_db import (
     log_query,
     log_feedback,
     log_answer_feedback,
+    stamp_answer_messages,
     has_consent,
     set_consent,
 )
@@ -896,6 +897,19 @@ async def _process_query(
             else None
         )
         last_part_index = len(answer_parts) - 1
+        sent_message_ids: list[int] = []
+
+        def _remember(sent) -> None:
+            """Recoge el message_id para el ancla de telemetría (#60 punto 1).
+
+            Defensivo a propósito: si el transporte devuelve None o un objeto sin
+            `message_id` entero (dobles de test, cambio de librería), NO se anota y
+            el envío sigue igual. El ancla es telemetría: jamás puede romper la
+            entrega de la respuesta."""
+            message_id = getattr(sent, "message_id", None)
+            if isinstance(message_id, int):
+                sent_message_ids.append(message_id)
+
         for part_index, answer_part in enumerate(answer_parts):
             # Flag off (or log not committed) ⇒ markup_kwargs is empty and every
             # reply_text call stays argument-identical to the pre-s286 code.
@@ -905,18 +919,32 @@ async def _process_query(
                 else {}
             )
             if transport_status == "plain_fallback":
-                await update.message.reply_text(answer_part, **markup_kwargs)
+                _remember(await update.message.reply_text(answer_part, **markup_kwargs))
                 continue
             try:
-                await update.message.reply_text(
-                    answer_part, parse_mode="HTML", **markup_kwargs
+                _remember(
+                    await update.message.reply_text(
+                        answer_part, parse_mode="HTML", **markup_kwargs
+                    )
                 )
             except Exception:
                 # Fail open without exposing raw HTML tags or entities.  This
                 # fallback preserves all technical text and evidence locators.
-                await update.message.reply_text(
-                    telegram_html_to_plain(answer_part), **markup_kwargs
+                _remember(
+                    await update.message.reply_text(
+                        telegram_html_to_plain(answer_part), **markup_kwargs
+                    )
                 )
+
+        # Ancla message_id → query_log_id (#60 punto 1). Sin ella, una REACCIÓN de
+        # Telegram (que solo trae `message_id`) no se puede atribuir a una consulta.
+        # Se estampa solo si la fila de query_logs está KNOWN committed — el mismo
+        # criterio que el teclado: una FK colgante no aporta señal, la rompe.
+        # Fail-open total: `stamp_answer_messages` traga sus propios errores.
+        if query_logged and sent_message_ids:
+            chat_id = getattr(getattr(update, "effective_chat", None), "id", None)
+            if isinstance(chat_id, int):
+                stamp_answer_messages(query_log_uuid, chat_id, sent_message_ids)
 
         # Step 5: Send diagrams if available (with descriptive captions).
         # 1-2 imágenes → fotos sueltas (comportamiento original); >2 → un solo
