@@ -1,0 +1,23 @@
+{
+ "fact": "Editar Configuracion",
+ "texto": "Acceder a la pantalla \"Causa y Efecto\" desde el menu \"Editar Configuracion\"; borrar la Regla 1 por defecto (CUALQUIER entrada de alarma activa TODOS los equipos de salida) si se va a hacer una programacion especifica",
+ "reps": [
+  {
+   "rep": 0,
+   "pre_yes": 3,
+   "post_yes": 0
+  },
+  {
+   "rep": 1,
+   "pre_yes": 1,
+   "post_yes": 0
+  },
+  {
+   "rep": 2,
+   "pre_yes": 2,
+   "post_yes": 0
+  }
+ ],
+ "control_recibo": 0,
+ "THRESH_FIRM": 4
+}
