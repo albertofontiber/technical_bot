@@ -4231,3 +4231,63 @@ tenemos).
 declarar «estructural» sin censo (era mi propia afirmación, y el corpus la desmiente) ·
 publicar la lista de adquisición sin normalizar guiones (habría mandado a comprar 160
 documentos, ~42% ya en el corpus).
+
+## DEC-176 — s294 (2 ago 2026): paquete de telemetría PRE-TÉCNICOS puntos 1+5 EN PRODUCCIÓN · el 👎 pasa de señal muda a caso diagnosticable · primer fallo ORGÁNICO del bot, de una clase ya conocida
+
+**Decisión.** (a) **Puntos 1 y 5 del TECH_DEBT #60 construidos, desplegados y VERIFICADOS contra
+la DB real** (PRs #200/#201/#202; 2 migraciones aplicadas por Alberto): ancla
+`message_id → query_log_id` (tabla puente `answer_messages`) + follow-up del 👎 que **invita a
+la prosa** y la captura con **intención explícita** vía `ForceReply`, anclada a la consulta y
+escrita en `answer_feedback.comment`. (b) **`TERMS_VERSION` v2 → v3** (autorizado por Alberto:
+sin técnicos en activo): el bot ahora PIDE la explicación, antes solo recogía lo espontáneo, y
+los términos la enumeran. (c) **Quedan FUERA a propósito**: puntos 2/3/4 (reacciones de
+Telegram — cambian el transporte, el debt avisa del gotcha de `allowed_updates`) y punto 6
+(corrección de marca con relanzamiento — engancha con `hp002`, que está en el packet B2).
+
+**Diseño, tras el dúo (17 hallazgos, 15 confirmados, 2 FP inducidos por mí).** El aviso de
+Alberto gobernó el diseño: «el técnico puede PASAR del feedback y hacer otra pregunta». Se
+resuelve **por diseño, no por heurística** — `ForceReply` abre la caja apuntando al mensaje del
+bot, así que la explicación llega como REPLY y se ancla exacta; un mensaje suelto NO se captura
+y el bot lo responde como siempre; un reply irresoluble **no degrada** a «última consulta».
+**CERO esquema nuevo**: la prosa va a `answer_feedback.comment`, que es lo que **s286/DEC-162f
+ya había decidido** («escribirá `answer_feedback.comment`, NO `feedback`») y que yo propuse
+contradecir sin grepear el settled — el dúo lo tumbó.
+
+**Hallazgo de producto, y el más valioso del día.** El primer caso ORGÁNICO entró por ese bucle
+el mismo día: el bot dio mal la ruta al menú AVANZADO de la CAD-171 («AJUSTES > GENERAL», que él
+mismo etiqueta *básica*) teniendo AVANZADO en la evidencia servida. **Verificado contra la
+fuente** (tres diagramas coincidentes, p.26/34/35 de `Manual_CAD-171-MI-716-es`). **No es dato
+falso: es fallo de SELECCIÓN — responde con el ELEMENTO VECINO.** Es la **misma clase que
+`hp011#2`** (`r.i` en vez de `t.A`). ⇒ **Dos instancias, una de uso real.** Matiza el argumento
+de DEC-175 («ningún lever de síntesis se diseña con n=1»): **la población no había que
+fabricarla, había que dejarla entrar**. Recibo: `evals/s294_cad171_menu_avanzado_v1.md`;
+candidato a gold en el packet B2 (ítem 9), sin crear — DEC-025.
+
+**Método (durable) — el efecto, no el código.** Cinco fallos propios cazados, TODOS por probar
+la conducta y ninguno leyendo el fuente: (1) `merge-duplicates` en una tabla con solo
+SELECT+INSERT ⇒ **403 en cada insert, tragado por el fail-open**: ni un ancla jamás, sin un solo
+error a la vista (cazado en smoke contra la DB); (2) `\b` escritos como **bytes de retroceso**
+(0x08) por escapado de heredoc ⇒ exclusión convertida en no-op, y mi primer «arreglo»
+sustituía backspace por backspace; (3) `ForceReply(selective=True)` apuntando al bot y no al
+técnico ⇒ la caja se quedaba armada (lo cazó Alberto probando); (4) un test de regresión que
+grepeaba el FUENTE y fallaba por la cadena de su propio comentario; (5) el flag encendido en
+Railway **sin el código desplegado** (`git log origin/main..HEAD` lo destapó — Protocolo 1).
+
+**Lección nueva (#59).** **Citar evidencia TRUNCADA en un brief induce críticos falsos.** Puse
+el mensaje real de Alberto recortado a 160 caracteres y **ambos revisores** concluyeron «el
+detector no dispara» como CRÍTICO; con el texto completo sí dispara. El sub-agente detectó la
+contradicción por su cuenta y exigió resolverla antes de diseñar encima — tenía razón. Un
+revisor solo puede ser tan bueno como la cita que se le pasa: las citas del brief van íntegras
+o marcadas como recorte.
+
+**Riesgo declarado que NO se ha cerrado.** La **matriz de retención RGPD sigue sin existir**
+(verificado: se menciona una vez en el debt, no hay purga de `query_logs`). El bot ahora **pide**
+prosa, así que la exposición crece; los datos nuevos heredan CASCADE, pero el hueco de fondo es
+de Alberto y precede a este cambio.
+
+**Alternativas descartadas.** FK sobre la tabla legacy `feedback` (contradecía s286/DEC-162f, y
+además solo tiene GRANT SELECT+INSERT con postcondición que lo exige ⇒ la FK solo podría fijarse
+en el INSERT) · capturar el siguiente mensaje sin intención explícita (rompería la función
+principal: se tragaría preguntas) · pedir *reply* manual sin `ForceReply` (correcto pero con
+tasa de captura baja) · texto libre gateado tras flag (la cautela no protegía nada: el texto ya
+se guardaba, peor, sin enlace y sin cascada).

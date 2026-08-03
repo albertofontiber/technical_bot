@@ -57,6 +57,17 @@ def _include_context() -> bool:
     return os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"
 
 
+def _source_legend_enabled() -> bool:
+    """s294: leyenda de referencias. Flag estricto default-off leido en RUNTIME y con
+    el modulo importado DENTRO de la rama (precedente EVIDENCE_CONTRACT): asi, con el
+    flag off, `src/rag/source_legend.py` NI SE IMPORTA y no entra en el cierre de
+    dependencias SELLADO del release (`s277_c1_p1.IMPLEMENTATION_PYTHON_SOURCES`).
+    Un import de nivel de modulo rompia ese sello — cazado por su propio guard."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("SOURCE_LEGEND")
+
+
 def _evidence_contract_enabled() -> bool:
     """S278 §5: flag estricto default-off, perfil-owned, releído en RUNTIME (patrón
     GENERATOR_PROMPT_VARIANT / must_preserve.contract_enabled) para togglear A/B en
@@ -1002,4 +1013,15 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
                 "VISUAL_ASSETS_REGISTRY fail-open: respuesta sin adjuntos",
                 exc_info=True,
             )
+
+    # s294 (hallazgo de Alberto usando el bot): la respuesta cita [F10] y la línea
+    # «Fuente:» solo nombra el manual ⇒ el técnico no sabe a qué apunta. La leyenda
+    # emite la correspondencia [F<n>] → manual · sección · página, que el generador
+    # YA tenía. Determinista, 0 llamadas de modelo, flag default off (byte-idéntico).
+    # Va la ÚLTIMA a propósito: añade ocurrencias de [F<n>] y contarlas como citas
+    # falsearía el orden de relevancia del adjunto de páginas.
+    if _source_legend_enabled():
+        from .source_legend import append_source_legend
+
+        append_source_legend(result, relevant_chunks)
     return result

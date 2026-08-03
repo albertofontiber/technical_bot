@@ -26,7 +26,38 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s293 — 2 ago 2026)
+## Estado actual (s294 — 2 ago 2026)
+
+**PRODUCCIÓN**: **paquete de telemetría pre-técnicos puntos 1+5 VIVOS** (PRs #200/#201/#202, 2
+migraciones aplicadas, `TERMS_VERSION` v3). El 👎 deja de ser señal muda: invita a explicar,
+captura la prosa con intención explícita (`ForceReply`) y la ancla a la consulta, al veredicto y
+a la evidencia servida. Verificado contra la DB real, no solo con tests. Etapas 1-2 completas,
+OK 115/131 sin cambios (nada de esto toca retrieval ni síntesis).
+
+**Etapa 3 CERRADA como cola de ingeniería (DEC-172/174/175)**: `hp017#2` y `hp011#2` no
+alcanzables · `hp003#4`/L3 v2 parado (98,3% de precisión en adjudicación ciega, pero exigía 2
+cambios en la lane L2 viva para 1 hecho) · `cat017#2` NO-GO por población (1 gold, 0,13% del
+corpus). Lo que resta ahí es **adjudicación de golds (Alberto)** + techo declarado.
+
+**El hallazgo que cambia el rumbo (DEC-176)**: el primer fallo ORGÁNICO —el bot dio mal la ruta
+al menú AVANZADO de la CAD-171, teniendo el dato servido— es de **la misma clase que `hp011#2`**:
+responde con el **elemento vecino**. **Dos instancias, una de uso real, el mismo día que se
+abrió el canal.** ⇒ la población que DEC-175 quería fabricar con una cohorte **empieza a entrar
+sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
+
+**Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 9 ítems**, packet listo con
+recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
+(2) **lista de adquisición dirigida por citas** — 44 documentos que nuestros manuales citan y no
+tenemos, + la Guía Avanzada de Configuración de la CAD-171 (citada por nombre, punto ciego
+declarado del barrido); (3) **matriz de retención RGPD** — sigue sin existir y ahora el bot PIDE
+prosa: decisión de Alberto; (4) puntos 2/3/4 del #60 (reacciones: cambian el transporte, piden
+sonda + dúo propios) y punto 6 (corrección de marca, engancha con `hp002` del packet);
+(5) `hp003#4` sigue siendo el único lever vivo de etapa 3 si alguna vez se retoma L3 v2.
+Traza: DEC-176 + HISTORY s294.
+
+---
+
+## Estado anterior (s293 — 2 ago 2026)
 
 **PRODUCCIÓN**: sin cambios (L2 `OBLIGATION_WARNING_APPENDIX` vivo; etapas 1-2 completas;
 OK 115/131, 88%). **s293 no cableó NADA**: cerró 2 de los 3 levers vivos de etapa 3 con
