@@ -45,7 +45,6 @@ from .evidence_derivation import apply_evidence_derivations_with_trace
 from .must_preserve import apply_must_preserve_contract
 from .wiring_topology_guard import apply_wiring_topology_guard
 from .visual_assets import append_cited_visual_assets
-from .source_legend import source_legend_enabled
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +55,17 @@ def _include_context() -> bool:
     — prod sirve solo content (el blurb vive en el embedding, no en la generación). Se lee
     en runtime (no a import-time) para poder togglear el A/B en un mismo proceso."""
     return os.getenv("GENERATOR_INCLUDE_CONTEXT") == "1"
+
+
+def _source_legend_enabled() -> bool:
+    """s294: leyenda de referencias. Flag estricto default-off leido en RUNTIME y con
+    el modulo importado DENTRO de la rama (precedente EVIDENCE_CONTRACT): asi, con el
+    flag off, `src/rag/source_legend.py` NI SE IMPORTA y no entra en el cierre de
+    dependencias SELLADO del release (`s277_c1_p1.IMPLEMENTATION_PYTHON_SOURCES`).
+    Un import de nivel de modulo rompia ese sello — cazado por su propio guard."""
+    from ..config import _strict_on_off
+
+    return _strict_on_off("SOURCE_LEGEND")
 
 
 def _evidence_contract_enabled() -> bool:
@@ -1010,7 +1020,7 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # YA tenía. Determinista, 0 llamadas de modelo, flag default off (byte-idéntico).
     # Va la ÚLTIMA a propósito: añade ocurrencias de [F<n>] y contarlas como citas
     # falsearía el orden de relevancia del adjunto de páginas.
-    if source_legend_enabled():
+    if _source_legend_enabled():
         from .source_legend import append_source_legend
 
         append_source_legend(result, relevant_chunks)
