@@ -100,9 +100,19 @@ def base():
     conexion = _conectar()
     conexion.autocommit = True
     with conexion.cursor() as cur:
-        cur.execute("DROP TRIGGER IF EXISTS rgpd_no_reidentificar ON answer_feedback;")
-        cur.execute("DROP ROLE IF EXISTS rgpd_retencion;")
+        # ORDEN IMPORTANTE: primero las tablas (su DROP se lleva triggers y ACLs), y solo
+        # despues el rol. Al reves, `DROP ROLE` falla con «objects depend on it» — que es
+        # exactamente lo que le pasaria a alguien aplicando el rollback declarado en la
+        # propuesta, y por eso alli tambien se usa `DROP OWNED BY`.
         cur.execute(ESQUEMA)
+        cur.execute("""
+            DO $limpieza$ BEGIN
+                IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'rgpd_retencion') THEN
+                    DROP OWNED BY rgpd_retencion;   -- privilegios y politicas que queden
+                    DROP ROLE rgpd_retencion;
+                END IF;
+            END $limpieza$;
+        """)
         # La PROPUESTA, tal cual: si no ejecuta o alguna postcondición falla, esto revienta.
         cur.execute(PROPUESTA.read_text(encoding="utf-8"))
 
@@ -326,10 +336,13 @@ def test_el_rollback_de_la_propuesta_funciona(base):
     with conexion.cursor() as cur:
         for tabla in ("query_logs", "feedback", "answer_feedback", "answer_messages"):
             cur.execute(f"DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.{tabla};")
-            cur.execute(f"REVOKE ALL PRIVILEGES ON public.{tabla} FROM rgpd_retencion;")
-        cur.execute("REVOKE USAGE ON SCHEMA public FROM rgpd_retencion;")
+        cur.execute("DROP TRIGGER IF EXISTS rgpd_no_reidentificar ON public.answer_feedback;")
+        # `DROP OWNED BY` es lo que retira TODOS los privilegios que le quedan, incluidos los
+        # de COLUMNA y el USAGE del esquema. Con solo REVOKE, el `DROP ROLE` falla con
+        # «objects depend on it» — verificado, no supuesto.
+        cur.execute("DROP OWNED BY rgpd_retencion;")
         cur.execute("REVOKE rgpd_retencion FROM postgres;")
-        cur.execute("DROP ROLE rgpd_retencion;")            # sin dependencias colgando
+        cur.execute("DROP ROLE rgpd_retencion;")
         cur.execute("SELECT 1 FROM pg_roles WHERE rolname='rgpd_retencion'")
         assert cur.fetchone() is None
     conexion.autocommit = False

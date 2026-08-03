@@ -397,10 +397,15 @@ COMMIT;
 -- ROLLBACK
 -- ---------------------------------------------------------------------------
 --   DROP POLICY IF EXISTS rgpd_retencion_ventana ON public.query_logs;      (x4 tablas)
---   REVOKE ALL ON public.query_logs FROM rgpd_retencion;                    (x4 tablas)
---   REVOKE USAGE ON SCHEMA public FROM rgpd_retencion;
+--   DROP TRIGGER IF EXISTS rgpd_no_reidentificar ON public.answer_feedback;
+--   DROP FUNCTION IF EXISTS public.rgpd_no_reidentificar_v1();
+--   DROP OWNED BY rgpd_retencion;   -- <-- IMPRESCINDIBLE
 --   REVOKE rgpd_retencion FROM postgres;
 --   DROP ROLE rgpd_retencion;
+--
+-- El `DROP OWNED BY` no es adorno: con solo `REVOKE ALL ON TABLE` sobreviven privilegios
+-- (entre ellos el USAGE del esquema) y el `DROP ROLE` falla con «objects depend on it».
+-- Verificado ejecutandolo contra Postgres, no razonado.
 --   ALTER TABLE public.answer_feedback ALTER COLUMN telegram_user_id SET NOT NULL;
 --
 -- El último paso **falla en cuanto haya una sola fila disociada** ⇒ el rollback del esquema
