@@ -2615,3 +2615,105 @@ sin el código desplegado. **Lección #59**: citar evidencia **truncada** en un 
 críticos falsos — recorté el mensaje de Alberto a 160 caracteres y los dos revisores concluyeron
 lo mismo y equivocado. Un revisor solo puede ser tan bueno como la cita que se le pasa.
 Traza: DEC-172..176.
+
+---
+
+## s295 (3 ago 2026) — la matriz RGPD, y el duo tumbando mi propia pieza central
+
+**El bloqueo.** s294 cerro con un riesgo declarado y sin cerrar: el bot ahora PIDE prosa al
+tecnico tras un 👎, y no habia matriz de retencion.
+
+**La decision.** Alberto fijo 24 meses y `info@fontiber.com`, y pidio asumir los DPA firmados
+para no bloquear. Sobre eso, mi decision de diseno: el plazo no termina en `DELETE` sino
+retirando el identificador — el valor del historico esta en el contenido (material de eval),
+no en quien pregunto, y un plazo que quema el activo se pospone para siempre.
+
+**Y entonces el duo lo tumbo.** Los dos revisores, por separado, cazaron que **el mecanismo no
+anonimizaba nada**:
+
+1. **No podia escribir.** `service_role` tiene solo SELECT+INSERT sobre `query_logs` y
+   `feedback` — DELIBERADAMENTE (el hardening de julio hizo `REVOKE ALL` con una postcondicion
+   que revienta si alguien le da UPDATE). `--aplicar` habria devuelto 403. Lo verifique yo
+   contra la DB antes de que llegaran sus informes, con una sonda de filtro imposible; el
+   cross-model lo tenia como su primer critico.
+2. **Aunque escribiera, no bastaba.** Quitar `query_logs.telegram_user_id` deja la consulta
+   re-identificable por sus hijas, que se unen por `query_log_id`:
+   `answer_feedback.telegram_user_id NOT NULL` y `answer_messages.telegram_chat_id NOT NULL`
+   (== user_id en chat privado). El CASCADE de esas FK solo actua al BORRAR el padre; una
+   retencion que ACTUALIZA no dispara nada. Era **seudonimizacion**, y yo la habia llamado
+   anonimizacion en el doc, en el codigo y en los terminos que el tecnico acepta.
+
+**Y tres cosas mas que eran mias.** El motivo que yo daba para excluir `answer_feedback` (su
+UNIQUE) era **tecnicamente falso** — en Postgres un UNIQUE admite varios NULL; el blocker real
+es el NOT NULL, y lo tenia cementado en DECISIONS y impreso en cada ejecucion. Mi claim de que
+esto **desbloqueaba el DDL `convo`** era falsa: ese gate exige una matriz DISTINTA
+(`RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`, 20 celdas `[DECIDIR]`) firmada con validacion legal — y
+yo escribi un doc nuevo sin grepear que la plantilla ya existia. Y mis tres tests nuevos ni
+siquiera importaban `sys`.
+
+**Lo que quedo.** La matriz, corregida, con las tres filas que me faltaban: el ID del votante,
+el ancla de mensajes y —hallazgo del sub-agente— los **exports a disco** de `review_logs.py`,
+que sacan `display_name` + `telegram_user_id` + pregunta + respuesta fuera de Supabase, sin
+plazo y fuera del alcance del job. Los terminos v4 corregidos: el audio (se declaraba guardar
+el original y no se guarda), Telegram como transporte que retiene por su cuenta, y
+«disociado» en lugar de «anonimizado». Un **tripwire de hash** sobre el texto de los terminos,
+que cierra el agujero de fondo: los pins de version no impedian editar el texto dejando la
+version quieta. El job, que ahora sirve para una cosa util y honesta: **demostrar con recibo
+que la retencion no es ejecutable** (exit 2). Y el diseno completo como PROPUESTA sin aplicar,
+porque revierte parcialmente una postura de seguridad deliberada — eso es de Alberto.
+
+**Y una ronda 2, que hizo falta.** El sub-agente exigio re-correr el duo sobre el artefacto
+reescrito, y tenia razon: la segunda ronda encontro que el job cubria solo la tabla padre (tras
+aplicar la migracion habria salido con exit 0 dejando dos identificadores vivos), que sin
+barrera una ejecucion podia quedar a medias e irreversible, que el filtro «imposible» de la
+sonda no lo era, y que el preflight daba un FALSO OK en `answer_feedback` — tiene UPDATE de
+tabla, pero su columna es NOT NULL y un PATCH sobre conjunto vacio no evalua constraints. Ese
+ultimo es el mismo fallo de la ronda 1, una capa mas abajo: **la sonda comprobaba el privilegio
+y yo lo llamaba «el efecto»**. Se arregla leyendo el `required` que PostgREST publica en su
+OpenAPI.
+
+**Dos bugs preexistentes de propina.** `set_consent` decia refrescar `accepted_at` y limpiar
+`revoked_at` sin incluir ninguna de las dos en el payload: un usuario revocado que re-aceptaba
+quedaba servido en memoria y revocado en la base. Y el `logger.error` metia la pregunta cruda
+del tecnico en el log del worker de Railway, fuera de toda gobernanza.
+
+**Y el cierre, que llego por una pregunta de Alberto.** Pregunto que implicaciones tenia la
+propuesta. Al desglosarlas aparecio la que decide y que yo no habia puesto delante:
+`service_role` **es la identidad del bot**, el worker de Railway encendido 24/7 — concederle
+UPDATE/DELETE pagaba superficie permanente de un proceso expuesto a internet por un privilegio
+que se ejerce una vez cada varios anos. Alberto aprobo mover el privilegio a un **rol dedicado**
+`rgpd_retencion` (NOLOGIN/NOINHERIT/NOBYPASSRLS, `SET LOCAL ROLE` desde conexion de operador),
+patron que el repo ya usaba en `p1_readonly`.
+
+Y el cambio de enfoque **disolvio tres parches** de la ronda 2 en vez de mantenerlos: sobre
+conexion directa el dry-run ejecuta de verdad y hace ROLLBACK (verifica el EFECTO, no el
+privilegio — se acabo el falso OK), las 4 tablas van en UNA transaccion (la ejecucion parcial
+deja de existir), y como el rol es NOBYPASSRLS sobre tablas con FORCE RLS, **sus politicas
+convierten la ventana de 24 meses en un invariante del motor**: ni un bug ni un `--meses 0`
+pueden tocar una fila reciente. Cuando el diseno correcto hace desaparecer los parches en vez de
+sumarlos, suele ser senal de que es el correcto.
+
+**Ronda 3, y el golpe que faltaba.** El sub-agente lo dijo sin rodeos: **nada de esto habia
+tocado un PostgreSQL**. Los tests corrian sobre una conexion falsa, asi que probaban que se
+emiten las sentencias correctas, no que la base haga lo que yo afirmaba — y afirmaba cosas
+fuertes. La leccion #60 que esta sesion escribe se incumplia en el mismo commit. La respuesta
+fue construir el instrumento: esquema + propuesta ejecutada de verdad + filas vencidas y
+recientes, en un contenedor desechable en CI. Ahi se comprueba que el rol NO VE las filas
+nuevas, que no puede leer la pregunta ni el comentario, que el trigger corta la
+re-vinculacion, y que el rollback declarado funciona de verdad.
+
+Ademas: **Voyage AI no estaba declarado** —cada consulta se embebe con Voyage para buscar en
+`chunks_v2`, mientras los terminos decian «no se comparten con nadie mas»— y **la retencion se
+podia deshacer sola**: un 👍/👎 en un teclado de hace dos anos re-identificaba la consulta
+vencida. Y dos afirmaciones mias que eran falsas: `ALTER ROLE … SET statement_timeout` no se
+aplica al `SET ROLE` (el precedente de `p1_readonly` lo documenta, lo tenia delante), y «una
+ejecucion a mano no puede tocar una fila reciente» tampoco — `postgres` es owner y BYPASSRLS.
+
+**La leccion (#60).** Un mecanismo de cumplimiento que no puede ejecutarse **aparenta**
+cumplimiento, y eso es peor que no tenerlo: el dry-run informaba «0 candidatas» y se leia como
+«listo». La unica defensa fue verificar el EFECTO contra la base real, no leer el codigo — la
+misma regla transversal de s293-s294, ahora con un caso donde el codigo era correcto y el
+sistema no. Y la de siempre: **grepear si el artefacto ya existe antes de escribirlo**.
+
+Traza: DEC-177 · `docs/RGPD_RETENCION.md` ·
+`supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` · TECH_DEBT #60.

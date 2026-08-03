@@ -2204,8 +2204,17 @@ usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
 > **PENDIENTES: 2/3/4** (reacciones — cambian el transporte, gotcha `allowed_updates`, piden
 > sonda + dúo propios) y **6** (corrección de marca con relanzamiento — engancha con `hp002`,
 > que está en el packet de gold-review B2). Traza: DEC-176.
-> **RGPD: la matriz de retención SIGUE SIN EXISTIR** y ahora el bot PIDE prosa — el hueco
-> precede a este cambio pero crece con él. Decisión de Alberto.
+> **RGPD (s295): la matriz EXISTE, la retención NO es ejecutable todavía** —
+> `docs/RGPD_RETENCION.md` con las decisiones de Alberto (24 meses → **disociar, no borrar**;
+> `info@fontiber.com`), términos v4 + tripwire de hash, y `scripts/rgpd_retencion.py` que
+> **demuestra con recibo (exit 2) que hoy no puede cumplir**: falta privilegio de escritura
+> (hardening deliberado de julio) y la disociación tendría que alcanzar a las hijas
+> (`answer_feedback`/`answer_messages` conservan el identificador ⇒ es SEUDONIMIZACIÓN).
+> **Decide Alberto**: aplicar o rechazar
+> `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` (revierte
+> parcialmente el hardening) + `user_consent` + FK de `feedback` + plazo de los **exports a
+> disco de `review_logs.py`** (dato personal fuera de Supabase, hallazgo del dúo) + `/borrar` +
+> transferencia. **NO desbloquea `convo`**: ese gate exige otra matriz, firmada. Traza: DEC-177.
 
 Las reacciones de Telegram como segundo canal de feedback van al paquete pre-técnicos, NO a demo
 (mismo criterio que D11 del packet s286: con un usuario, el teclado 👍/👎 captura el 100%; con

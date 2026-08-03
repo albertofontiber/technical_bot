@@ -123,8 +123,15 @@ def test_terms_version_bumped_for_feedback_consent():
     # Tripwire DELIBERADO: cada dato nuevo que el bot recoge obliga a re-aceptar,
     # así que un cambio de versión debe ser una decisión, nunca un descuido.
     # v2 (s286) = el voto 👍/👎. v3 (s294) = la explicación en texto libre que el
-    # bot ahora PIDE tras un 👎 (antes solo recogía lo espontáneo).
-    assert TERMS_VERSION == "v3"
+    # bot ahora PIDE tras un 👎 (antes solo recogía lo espontáneo). v4 (s295) = plazo
+    # de retención declarado + canal de derechos + corrección del audio.
+    # Aquí se comprueba SU dato (el voto) + un suelo de versión; el pin EXACTO vive en
+    # UN solo sitio (`test_s295_rgpd_retencion`) para que una subida legítima no rompa
+    # tres tests a la vez sin aportar señal (pasó en v2→v3 y otra vez en v3→v4).
+    import src.bot.telegram_bot as bot
+
+    assert "👍/👎" in bot._CONSENT_TERMS
+    assert int(TERMS_VERSION.lstrip("v")) >= 2
 
 
 # ------------------------------------------------------------- telegram_bot

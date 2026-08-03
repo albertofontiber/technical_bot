@@ -5,6 +5,7 @@ Consent checks are cached in-memory to avoid a Supabase round-trip per message.
 """
 
 import logging
+from datetime import datetime, timezone
 from typing import Any
 
 import httpx
@@ -23,7 +24,16 @@ _RESPONSE_MAX_CHARS = 4096
 # v3 (s294): el bot ahora PIDE explicaciones en texto libre tras un 👎 — antes
 # solo recogia lo que el tecnico escribia por su cuenta. Pedir un dato nuevo
 # obliga a re-aceptar (precedente: el voto 👍/👎 subio v1->v2 en s286).
-TERMS_VERSION = "v3"
+# v4 (s295): plazo de retencion (24 meses -> DISOCIADO; es seudonimizacion, no
+# anonimizacion: el texto libre puede identificar), canal de derechos
+# (info@fontiber.com) y correccion — se declaraba guardar el "audio original" y
+# NO se guarda (solo la transcripcion; el fichero temporal se borra tras Whisper).
+# v5 (s295, tras el duo): faltaban DOS encargados que reciben la consulta -- VOYAGE AI
+# (embebe la pregunta para buscar en chunks_v2) y RAILWAY (ejecuta el bot) -- mientras el
+# texto afirmaba "no se comparten con nadie mas". Ademas se declara la transferencia fuera
+# de la UE y se ACOTA la promesa de retirada del identificador a lo que el mecanismo hace
+# (consultas y valoraciones; la prueba del consentimiento sigue su propia regla).
+TERMS_VERSION = "v5"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
@@ -470,6 +480,13 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
             "telegram_user_id": telegram_user_id,
             "display_name": display_name,
             "terms_version": TERMS_VERSION,
+            # s295: sin estas dos el upsert NO las tocaba y el comentario de abajo era
+            # FALSO. `accepted_at` conservaba la fecha de la PRIMERA aceptación (una
+            # prueba de consentimiento «v4» fechada en v1) y `revoked_at` seguía puesto,
+            # mientras `_consent_cache` daba al usuario por consentido: servido en
+            # memoria, revocado en la base, y bloqueado otra vez al reiniciar el proceso.
+            "accepted_at": datetime.now(timezone.utc).isoformat(),
+            "revoked_at": None,
         }
         # Upsert so re-running /accept refreshes accepted_at and clears revoked_at.
         headers = {**_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}

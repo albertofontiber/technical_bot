@@ -106,9 +106,14 @@ def test_comment_fail_open(monkeypatch, kwargs):
 
 
 def test_terms_version_subida_por_pedir_prosa():
-    """Pedir un dato nuevo obliga a re-aceptar (precedente s286: v1→v2)."""
-    assert TERMS_VERSION == "v3"
+    """Pedir un dato nuevo obliga a re-aceptar (precedente s286: v1→v2).
+
+    Este test protege SU dato: que los términos declaren la explicación en texto libre
+    y que la versión no haya caído por debajo de la que la introdujo. El pin EXACTO
+    vive en UN solo sitio (`test_s295_rgpd_retencion`) — duplicarlo aquí convertía cada
+    subida legítima en un fallo sin señal (pasó en v2→v3 y otra vez en v3→v4)."""
     assert "explicación que escribas" in bot._CONSENT_TERMS
+    assert int(TERMS_VERSION.lstrip("v")) >= 3
 
 
 # ------------------------------------------------------------- telegram_bot

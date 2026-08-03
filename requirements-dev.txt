@@ -20,3 +20,9 @@ pytest>=8.0.0
 # scripts/review_logs.py — log export to CSV/Excel
 pandas>=2.0.0
 openpyxl>=3.1.0
+
+# s295: el job de retencion RGPD (`scripts/rgpd_retencion.py`) NO usa PostgREST a
+# proposito — el privilegio vive en el rol dedicado `rgpd_retencion`, que se asume con
+# SET LOCAL ROLE sobre una conexion directa. Es herramienta de operador, no del bot:
+# Railway NO la necesita.
+psycopg2-binary>=2.9

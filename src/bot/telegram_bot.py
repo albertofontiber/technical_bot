@@ -283,16 +283,26 @@ _CONSENT_TERMS = (
     "Puedes preguntarme por texto o por audio 🎤.\n\n"
     "⚠️ *Antes de empezar — términos de uso*\n\n"
     "Para mejorar el sistema durante esta fase de pruebas, registramos:\n"
-    "• Cada pregunta (texto y audio original)\n"
-    "• La transcripción del audio\n"
+    "• Cada pregunta: el texto que escribes o, si mandas un audio, solo su transcripción "
+    "— el audio original NO se guarda (se transcribe y se descarta)\n"
     "• La respuesta que te doy\n"
     "• Fecha/hora y tu ID de Telegram\n"
     "• Tu valoración 👍/👎 de las respuestas, si la usas\n"
     "• La explicación que escribas cuando marques una respuesta como incorrecta\n\n"
     "*Para qué se usa*: identificar errores, mejorar respuestas, calibrar el sistema con preguntas reales del sector.\n\n"
     "*Quién accede*: equipo técnico de Fontiber Industrial Partners.\n\n"
-    "*Terceros*: las preguntas pasan por Anthropic (modelo Claude), los audios por OpenAI (Whisper), y los registros se almacenan en Supabase. No se comparten con nadie más.\n\n"
-    "*Tus derechos*: puedes pedir el borrado de tus datos contactando con tu interlocutor en Fontiber. Si no aceptas, simplemente no uses el bot.\n\n"
+    "*Terceros*: la conversación viaja por *Telegram* (es el canal). Tu pregunta pasa por "
+    "*Anthropic* (modelo Claude, genera la respuesta) y por *Voyage AI* (la busca en los "
+    "manuales); los audios por *OpenAI* (Whisper, los transcribe). Los registros se guardan "
+    "en *Supabase* (servidores en la UE) y el bot corre en *Railway*. Telegram, Anthropic, "
+    "Voyage, OpenAI y Railway procesan fuera de la UE, y cada uno aplica su propia política "
+    "de conservación. No se comparten con nadie más.\n\n"
+    "*Cuánto se guarda*: 24 meses vinculado a ti. Después se retira tu identificador de tus "
+    "consultas y de sus valoraciones, y el contenido se conserva disociado para seguir "
+    "mejorando el sistema. Tu aceptación de estos términos se conserva como prueba del "
+    "consentimiento mientras uses el bot.\n\n"
+    "*Tus derechos*: puedes pedir el acceso o el borrado de tus datos escribiendo a "
+    "*info@fontiber.com*. Si no aceptas, simplemente no uses el bot.\n\n"
     "Para aceptar y empezar, envía:\n"
     "`/accept [tu nombre]`  _(el nombre es opcional pero ayuda a la revisión)_"
 )
@@ -1102,7 +1112,14 @@ async def _process_query(
                 )
 
     except Exception as e:
-        logger.error(f"Error processing query '{query}': {e}")
+        # s295 RGPD: la pregunta NO va al log del proceso. Es texto libre escrito por un
+        # técnico —puede llevar un nombre, una empresa o una obra— y el log del worker
+        # vive en Railway, fuera de la matriz de retención y de cualquier supresión a
+        # petición. Para diagnosticar basta la longitud y la clase de excepción; el texto
+        # ya está en `query_logs`, que SÍ está gobernado.
+        logger.error(
+            "Error processing query (len=%d): %s", len(query or ""), type(e).__name__
+        )
         # s286 BOT_ERROR_LOGGING (default off): error rows carry an ALLOWLISTED
         # summary (exception class @ stage), never str(e) — raw exception text
         # can embed URLs that contain the bot token (same risk the httpx

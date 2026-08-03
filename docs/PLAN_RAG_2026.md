@@ -49,8 +49,14 @@ sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
 recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
 (2) **lista de adquisición dirigida por citas** — 44 documentos que nuestros manuales citan y no
 tenemos, + la Guía Avanzada de Configuración de la CAD-171 (citada por nombre, punto ciego
-declarado del barrido); (3) **matriz de retención RGPD** — sigue sin existir y ahora el bot PIDE
-prosa: decisión de Alberto; (4) puntos 2/3/4 del #60 (reacciones: cambian el transporte, piden
+declarado del barrido); (3) **matriz de retención RGPD (s295/DEC-177)**: `docs/RGPD_RETENCION.md`
++ términos v4 + `scripts/rgpd_retencion.py`. 24 meses → **disociar, no borrar**. **La retención
+NO es ejecutable todavía** y el job lo demuestra con recibo (exit 2): falta privilegio de escritura
+(hardening deliberado de julio) y la disociación tendría que alcanzar a las hijas
+(`answer_feedback`/`answer_messages` conservan el identificador) ⇒ propuesta de migración
+**sin aplicar, decisión de Alberto**. **NO desbloquea `convo`**: ese gate exige la matriz
+`RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA con validación legal, que sigue sin firmar;
+(4) puntos 2/3/4 del #60 (reacciones: cambian el transporte, piden
 sonda + dúo propios) y punto 6 (corrección de marca, engancha con `hp002` del packet);
 (5) `hp003#4` sigue siendo el único lever vivo de etapa 3 si alguna vez se retoma L3 v2.
 Traza: DEC-176 + HISTORY s294.
