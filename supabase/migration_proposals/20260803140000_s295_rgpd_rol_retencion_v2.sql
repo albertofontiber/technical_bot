@@ -243,7 +243,6 @@ DECLARE
     tabla TEXT;
     priv TEXT;
     columna TEXT;
-    esperado_rol TEXT[] := ARRAY['SELECT', 'UPDATE'];
 BEGIN
     -- 6.1 PRECONDICION del invariante: sin RLS + FORCE RLS las politicas no gobiernan nada.
     FOREACH tabla IN ARRAY ARRAY[
@@ -285,9 +284,12 @@ BEGIN
                 RAISE EXCEPTION 's295: privilegio de TABLA inesperado % en % para rgpd_retencion',
                     priv, tabla;
             END IF;
-            -- Privilegio de COLUMNA: solo SELECT y UPDATE, nada mas.
-            IF priv <> ALL(esperado_rol)
-               AND priv <> 'DELETE'
+            -- Privilegio de COLUMNA: en Postgres SOLO existen SELECT/INSERT/UPDATE/
+            -- REFERENCES. Pasarle 'TRUNCATE' a has_any_column_privilege no devuelve false:
+            -- lanza «unrecognized privilege type» y aborta la migracion entera. (Lo destapo
+            -- el test de integracion contra Postgres real; leyendo el SQL no se ve.)
+            -- De los cuatro validos, al rol le tocan SELECT y UPDATE; los otros dos, falsos.
+            IF priv IN ('INSERT', 'REFERENCES')
                AND has_any_column_privilege('rgpd_retencion', format('public.%I', tabla), priv) THEN
                 RAISE EXCEPTION 's295: privilegio de COLUMNA inesperado % en % para rgpd_retencion',
                     priv, tabla;
