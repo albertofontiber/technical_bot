@@ -336,8 +336,13 @@ BEGIN
             SELECT 1 FROM pg_policies
              WHERE schemaname = 'public' AND tablename = tabla
                AND policyname = 'rgpd_retencion_ventana'
-               AND roles @> ARRAY['rgpd_retencion']::name[]
-               AND qual LIKE '%24 mons%'
+               AND 'rgpd_retencion' = ANY(roles)
+               -- Postgres NORMALIZA el intervalo al guardarlo: `interval '24 months'` se
+               -- renderiza como `'2 years'`. Se aceptan ambas formas porque lo que importa
+               -- es la duracion, no como la escriba el motor. (Lo destapo el Postgres real:
+               -- buscando solo '24 mons' esta postcondicion fallaba SIEMPRE.)
+               AND qual LIKE '%created_at%'
+               AND (qual LIKE '%2 years%' OR qual LIKE '%24 mons%')
         ) THEN
             RAISE EXCEPTION 's295: la politica de ventana de % no existe, no apunta al rol, '
                             'o su predicado no acota a 24 meses', tabla;
