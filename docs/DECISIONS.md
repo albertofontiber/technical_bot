@@ -4291,3 +4291,220 @@ en el INSERT) · capturar el siguiente mensaje sin intención explícita (romper
 principal: se tragaría preguntas) · pedir *reply* manual sin `ForceReply` (correcto pero con
 tasa de captura baja) · texto libre gateado tras flag (la cautela no protegía nada: el texto ya
 se guardaba, peor, sin enlace y sin cascada).
+
+---
+
+## DEC-177 (s295) — Retención RGPD: matriz + términos v4 + la constatación de que la retención NO es ejecutable
+
+**Contexto.** s294 dejó un riesgo declarado y sin cerrar: el bot ahora **pide** prosa tras un 👎
+y no existía matriz de retención.
+
+**Decisión de Alberto (2-ago).** Retención **24 meses**; canal **`info@fontiber.com`**; DPAs
+**asumidos firmados** para no bloquear (asunción DECLARADA en la matriz, no hecho verificado).
+
+**Decisión de diseño.** El plazo no termina en `DELETE` sino retirando el identificador: el
+valor del histórico está en el CONTENIDO (material de evaluación y candidatos a gold), no en
+quién preguntó, y un plazo que quema el activo se pospone indefinidamente. **Con el nombre
+correcto: seudonimización** (Considerando 26), no anonimización — el texto libre de un técnico
+puede contener nombres, empresas u obras.
+
+**Lo que el dúo tumbó (ambos revisores, por separado).** El mecanismo que había construido
+**no anonimizaba**:
+1. **No podía escribir**: `service_role` tiene solo SELECT+INSERT sobre `query_logs`/`feedback`
+   — deliberadamente (`20260713164800_harden_personal_data_tables_v1.sql` hizo `REVOKE ALL` con
+   postcondición que revienta si alguien concede UPDATE). Medido: `PATCH → 403` en ambas.
+2. **Aunque escribiera, no bastaba**: `answer_feedback.telegram_user_id NOT NULL` y
+   `answer_messages.telegram_chat_id NOT NULL` (== user_id en chat privado) sobreviven y se unen
+   por `query_log_id`. El `ON DELETE CASCADE` solo actúa al BORRAR el padre.
+3. El motivo que yo daba para excluir `answer_feedback` (**el UNIQUE**) era **falso**: en
+   Postgres un UNIQUE admite múltiples NULL; el blocker real es el **NOT NULL**.
+4. Mi claim de que esto **desbloqueaba `convo`** era **falsa**: ese gate exige
+   `docs/RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA con validación legal — matriz distinta, que
+   ya existía y no grepeé antes de escribir un doc nuevo.
+5. `scripts/review_logs.py` exporta `display_name` + `telegram_user_id` + pregunta +
+   transcripción + respuesta a `data/eval/*.csv|xlsx`: dato personal **fuera de Supabase**, sin
+   plazo e inalcanzable para el job. No estaba en la matriz.
+6. `user_consent` hace upsert con `merge-duplicates` ⇒ **solo sobrevive la última versión**
+   aceptada; llamarlo «prueba del consentimiento» declaraba de más.
+
+**Qué queda cableado.**
+- `docs/RGPD_RETENCION.md` — la matriz CORREGIDA, con las filas que faltaban y con lo que hoy
+  NO funciona en su propia tabla, no en una nota al pie.
+- Términos v4 (`TERMS_VERSION` v3→v4): el audio (**se declaraba guardar el original y no se
+  guarda**), Telegram como transporte con retención propia, «disociado» en vez de
+  «anonimizado», plazo y canal.
+- **Tripwire de HASH** sobre `_CONSENT_TERMS`: **detector de drift, no cierre automático**.
+  Los pins de versión no veían una edición del texto con la versión quieta; el hash la ve y
+  obliga a pasar por la decisión. Lo que NO puede es impedir que alguien actualice el digest y
+  deje `v4` — eso es juicio humano, y se declara en vez de venderlo como garantía.
+- `scripts/rgpd_retencion.py` — dry-run por defecto, meses de CALENDARIO, `--meses >= 1`
+  validado en el parser (un `--meses 0` habría seleccionado todo el histórico), ids de las filas
+  tocadas conservados (el registro es parte del cumplimiento), y **falla ruidosamente (exit 2)**
+  en vez de aparentar cumplimiento. *(La sonda `preflight_escritura` que describía esta línea
+  fue SUSTITUIDA en la v2 por la transacción real con `ROLLBACK`; ver más abajo.)*
+- `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` — el diseño
+  completo (GRANT de COLUMNA para `query_logs`/`feedback`/`answer_feedback`, `DROP NOT NULL` en
+  `answer_feedback`, `DELETE` de `answer_messages`), con postcondiciones, rollback declarado
+  (que deja de ser posible tras la primera ejecución) y el **cambio acompañante obligatorio en
+  `supabase_schema.sql`**: su `REVOKE ALL ON TABLE` retira también los privilegios de columna y
+  su postcondición abortaría el bootstrap. **NO aplicada.**
+
+**Lo que decide Alberto.** Aplicar o rechazar esa propuesta: **revierte parcialmente un
+hardening deliberado**. También `user_consent` (¿se borra la fila cuando ya no queda dato
+identificado de esa persona?), la FK de `feedback`, el plazo de los exports a disco, `/borrar`
+y el mecanismo de transferencia.
+
+**Alternativas descartadas.** *Purgar con `DELETE`* — cumple, pero quema el material de eval y
+un plazo que duele se pospone. *Anonimizar ya el histórico* — 0 filas fuera de plazo; sería
+destruir dato sin obligación. *Aplicar el GRANT en `supabase/migrations/`* — se aplica solo con
+`db push` y esto cambia una postura de seguridad: va a `migration_proposals/`, el patrón que el
+repo ya usa para DDL gateado por RGPD. *Tocar `supabase_schema.sql` ahora* — crearía la
+divergencia inversa (bootstrap con un privilegio que producción no tiene). *Resolver
+`user_consent` por mi cuenta* — cambia qué significa la prueba de consentimiento.
+
+**Ronda 2 del dúo — seis correcciones más, todas verificadas.** (1) El job cubría solo el
+padre: tras aplicar la migración habría salido con exit 0 dejando vivos los identificadores de
+las hijas ⇒ ahora `OBJETIVOS` cubre las 4 tablas con modo (`nulificar`/`borrar`). (2) Sin
+**barrera**, un privilegio divergente dejaba `query_logs` ya disociado (irreversible) y el resto
+intacto: ejecución parcial, el peor estado posible ⇒ se comprueban TODOS los permisos antes de
+escribir nada. (3) El filtro de la sonda (año 2000) **no era estructuralmente vacío** —
+`created_at` no tiene `NOT NULL` ni cota, un backfill lo habría convertido en escritura real ⇒
+ahora se exige la columna nula Y no-nula a la vez. (4) El preflight daba un **falso OK** en
+`answer_feedback` (tiene UPDATE de tabla, pero la columna es `NOT NULL` y un PATCH sobre
+conjunto vacío no evalúa constraints) ⇒ se lee el `required` del OpenAPI de PostgREST. (5) El
+cambio acompañante del bootstrap estaba **incompleto**: el `GRANT DELETE` también aborta su
+postcondición de TABLA. (6) La supresión a petición **no alcanzaba los votos que una persona
+emitió sobre consultas ajenas** (el voto es `callback.from_user.id` sin filtro de chat privado;
+la cascada baja desde la consulta, no desde el votante) ⇒ el procedimiento lleva ahora
+`DELETE FROM answer_feedback WHERE telegram_user_id = X`.
+
+**Dos bugs preexistentes cazados de paso.** `set_consent` documentaba que refrescaba
+`accepted_at` y limpiaba `revoked_at`, y **no incluía ninguna de las dos en el payload**: la
+prueba de consentimiento «v4» conservaba la fecha de v1, y un usuario revocado que re-aceptaba
+quedaba servido por `_consent_cache` mientras la base lo daba por revocado (y bloqueado otra vez
+al reiniciar el proceso). Y `logger.error(f"Error processing query '{query}': …")` metía la
+pregunta cruda —texto libre de un técnico— en el log del worker en Railway, fuera de la matriz
+y de cualquier supresión. Ambos arreglados; Railway entra en la tabla de encargados.
+
+**Renombrado** `scripts/rgpd_anonimizar.py` → `scripts/rgpd_retencion.py`: el nombre del único
+artefacto probatorio afirmaba justo lo que el resto del documento declara falso.
+
+**v1 → v2: rol dedicado, NO `service_role` (decisión de Alberto, 3-ago).** Al presentar las
+implicaciones apareció la que decide: **`service_role` es la identidad del bot** — la misma clave
+del worker de Railway encendido 24/7. Concederle UPDATE/DELETE pagaba con superficie permanente
+de un proceso expuesto a internet un privilegio que se ejerce una vez cada varios meses, y el más
+fuerte (DELETE de anclas) quedaba colgando de él. La v2 lo mueve a un rol `rgpd_retencion`
+NOLOGIN/NOINHERIT/NOBYPASSRLS que se asume con `SET LOCAL ROLE` desde una conexión de operador,
+con credenciales fuera del entorno del bot. **El hardening de julio queda intacto** y hay
+postcondición que lo ancla. Patrón ya establecido en el repo: `p1_readonly` (s277).
+
+**Lo que el cambio de enfoque regaló, y que no estaba en el plan.** Al pasar de PostgREST a
+conexión directa, tres defectos que la ronda 2 obligó a parchear **desaparecen de raíz**:
+- El dry-run **ejecuta las sentencias reales y hace `ROLLBACK`** ⇒ verifica el EFECTO, con
+  privilegios y constraints evaluados sobre filas de verdad. Se acabaron la sonda de conjunto
+  vacío, el falso OK de `answer_feedback` y la lectura del OpenAPI para adivinar el `NOT NULL`.
+- Las 4 tablas van en **UNA transacción** ⇒ la ejecución parcial deja de ser posible; la
+  «barrera» de preflight sobra.
+- El rol es NOBYPASSRLS y las tablas tienen FORCE RLS con 0 políticas, así que las **políticas
+  del rol acotan la ventana a `created_at < now() - interval '24 months'`**: el plazo pasa a ser
+  un **invariante del motor**, no un filtro que el script deba acordarse de poner. Un bug, un
+  `--meses 0` o una ejecución a mano no pueden tocar una fila reciente. La validación del parser
+  queda como defensa en profundidad. Y si el plazo cambia, cambia por migración — que es como
+  debe cambiar una decisión gobernada.
+- Bonus: la v1 obligaba a mover `supabase_schema.sql` a la vez (su `REVOKE ALL` se llevaba los
+  grants de columna y su postcondición abortaba). La v2 **no toca sus postcondiciones**: solo
+  miran `anon`/`authenticated`/`service_role`, y ninguno cambia.
+
+**Alternativas descartadas en esta segunda vuelta.** *Conceder a `service_role`* (v1): simple,
+pero paga superficie permanente del bot por un privilegio episódico. *Ejecutarlo a mano como
+`postgres` desde el editor SQL*: cero superficie nueva, pero sin recibo, sin verificación y no
+programable; además `postgres` puede tocarlo TODO, así que un error de copia no tiene tope.
+*Dar `BYPASSRLS` al rol nuevo*: haría innecesarias las políticas y tiraría justo la propiedad más
+valiosa —la ventana como invariante—. *Concederlo también a `authenticator`*: abriría el camino
+HTTP; no dárselo es parte del diseño.
+
+**Ronda 3 del dúo — el hallazgo que obligó a construir instrumento.** El sub-agente señaló que
+**ningún artefacto había tocado un PostgreSQL**: los tests usaban conexión falsa, así que probaban
+que se emiten las sentencias correctas, no que la base haga lo afirmado — y lo afirmado era fuerte
+(la ventana como invariante RLS, el rol sin acceso al contenido, la retención que no se deshace).
+Es decir: **la lección #60 que esta misma sesión escribe se incumplía en el mismo commit**. Se
+cierra con `tests/test_s295_rgpd_integracion_pg.py` + `.github/workflows/s295-rgpd-retencion-pg.yml`
+(contenedor desechable, patrón del gate s133): levanta el esquema, **ejecuta la propuesta entera**
+—si una postcondición falla, el test revienta—, siembra filas vencidas y recientes, y comprueba el
+comportamiento con datos reales.
+
+Y siete correcciones más, todas verificadas antes de actuar:
+- **Voyage AI no estaba declarado.** Producción fuerza `chunks_v2` ⇒ cada consulta se embebe con
+  Voyage (`embedder.py`, `input_type="query"`), mientras los términos decían «no se comparten con
+  nadie más». Términos → **v5** con los cinco encargados, la transferencia fuera de la UE y la
+  promesa acotada a lo que el mecanismo hace.
+- **La retención se podía deshacer sola**: tras disociar, la fila de `query_logs` sigue existiendo,
+  así que un 👍/👎 en un teclado de hace dos años insertaba un voto identificado (FK válida, UNIQUE
+  sin choque por NULLS DISTINCT) y re-identificaba la consulta otros 24 meses. Cerrado con un
+  TRIGGER en el motor, no en Python: cubre a cualquier cliente.
+- **`--meses` eliminado**: contradecía la política gobernada en las dos direcciones.
+- **`ALTER ROLE … SET statement_timeout` es NO-OP** al asumir el rol con `SET ROLE` — el precedente
+  `p1_readonly` lo documenta literalmente. El límite lo pone `SET LOCAL` en la sesión.
+- **`SET LOCAL ROLE` fuera de transacción es un no-op con warning** ⇒ todo correría como operador
+  (owner + BYPASSRLS). El job ahora **comprueba `current_user`** y aborta si no se asumió.
+- **`created_at` era NULLABLE** en las cuatro tablas: una fila sin fecha no vencía jamás. 0 nulos
+  hoy (verificado) ⇒ `SET NOT NULL` cierra el hueco.
+- **Postcondiciones por igualdad exacta** sobre los 8 privilegios (como el bootstrap) en vez de
+  «ausencia de algunos»; RLS + FORCE RLS afirmada en la propia migración (`answer_feedback` solo la
+  recibía en el bootstrap ⇒ no reproducible por `db push`); políticas verificadas por rol y
+  predicado, no solo por nombre.
+
+**Dos afirmaciones mías, corregidas.** «Una ejecución a mano no puede tocar una fila reciente» era
+falsa: `postgres` es owner y `BYPASSRLS`; el invariante rige **para quien actúa como el rol**. Y el
+job **no es programable tal cual**: haría falta un rol runner LOGIN acotado, porque un scheduler con
+`DATABASE_URL` de operador sería MÁS potente que el `service_role` que se evitó tocar. Hoy es
+ejecución manual por diseño, declarado.
+
+**Ronda 4 — usabilidad del aviso, a petición de Alberto.** Preguntó si convenía **alargar los
+términos ahora** para cubrir cosas futuras y ahorrarse re-aceptaciones. Respuesta: no. Un
+consentimiento debe ser *específico*; una cláusula que cubra «mejoras futuras» no autoriza nada y
+solo hace el aviso más vago hoy. Lo que sí reduce la churn de forma legítima es (a) describir a los
+destinatarios **por categoría con su lista actual** —que es lo que el RGPD pide— y (b) revisar la
+**base jurídica**, que es de donde nace la fricción.
+
+**Lo construido**: **aviso en DOS CAPAS** — aceptación de **1.803 → 971 caracteres** (25 → 16
+líneas) + comando **`/privacidad`** con el detalle, registrado **sin gate de consentimiento**
+(poder leerlo antes de aceptar es la condición para que la primera capa cuente como informada) y
+listado en `/help`. **Base jurídica declarada** en la matriz por primera vez, con la recomendación
+(interés legítimo para la herramienta de trabajo; consentimiento explícito solo para lo que lo
+exija) y el porqué: **la churn es consecuencia de la base elegida, no de la redacción**. Todo en el
+MISMO salto a v5 ⇒ una sola re-aceptación.
+
+**Lo que el dúo cazó en esta ronda, y era grave:**
+- El «detalle completo» **no era completo**: faltaban responsable identificado, base jurídica, cómo
+  retirar el consentimiento, reclamación ante la AEPD y transferencias. Los tenía en la matriz
+  INTERNA, que ningún técnico lee.
+- **Al acortar perdí el alcance de la promesa**: la versión larga decía «se retira tu identificador
+  *de tus consultas y valoraciones*» y el resumen dejó «se retira tu identificador», a secas.
+  Regresión introducida por el propio refactor.
+- **El tripwire protegía solo la primera capa.** Moví la sustancia a `_PRIVACY_DETAIL` y la dejé
+  fuera del hash: se podía cambiar un destinatario, una finalidad o un plazo manteniendo v5 y sin
+  que nadie re-aceptara. El agujero lo abrió el refactor que reducía fricción. El hash cubre ahora
+  las dos capas.
+- **`display_name` se recogía sin declararlo**: `/accept [tu nombre]` lo guarda en `user_consent` y
+  no aparecía en ninguna capa.
+- Precisión: «cada pregunta» era inexacto (saludos y despedidas retornan antes de `log_query`); el
+  gate `/accept` prueba una acción técnica, **no** la validez jurídica de la base; y la misma
+  categoría de proveedor **no da inmunidad** — si el sustituto cambia país, garantías o
+  subencargados, es material igual.
+- Un test era **circular**: la lista de encargados estaba escrita en el propio test. Ahora se **lee
+  de la matriz**, así que añadir un proveedor al documento y no al aviso lo rompe.
+
+**Techo con dientes**: un test falla si la aceptación vuelve a pasar de 1.000 caracteres — quien
+añada detalle ahí tiene que decidir si va a la segunda capa o si sube el techo a conciencia.
+
+**Riesgo declarado y ACEPTADO.** Los términos prometen que a los 24 meses «se retira tu
+identificador», y hoy esa promesa **no es ejecutable** (ni programada). Se mantiene, no se
+diluye: la fila más antigua vence en **2028**, hay margen de sobra para aplicar la propuesta, y
+debilitar el compromiso ante quien consiente sería la salida fácil y peor. Lo que sí exige es
+que aplicar la propuesta deje de ser opcional antes de esa fecha — y que `user_consent` y los
+exports a disco, que hoy conservan identificadores sin plazo, entren en el alcance.
+
+**Lección #60.** Un mecanismo de cumplimiento que no puede ejecutarse **aparenta** cumplimiento,
+y eso es peor que no tenerlo: el dry-run decía «0 candidatas» y se leía como «listo». Solo lo
+destapó verificar el EFECTO contra la base real — el código era correcto y el sistema no.

@@ -1,0 +1,57 @@
+name: S295 retencion RGPD contra Postgres real
+
+# Por que existe: el resto de tests de s295 usan una conexion falsa, asi que prueban que se
+# emiten las sentencias correctas, no que la base haga lo que afirmamos. Y lo afirmado es
+# fuerte (la ventana de 24 meses como invariante RLS, el rol sin acceso al contenido, la
+# retencion que no se puede deshacer sola). Verificar el EFECTO y no el codigo es la leccion
+# #60 de la propia sesion: este workflow es lo que la hace cumplible.
+#
+# Contenedor desechable, mismo patron que el gate de pgvector (s133).
+
+on:
+  push:
+    paths:
+      - "supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql"
+      - "scripts/rgpd_retencion.py"
+      - "tests/test_s295_rgpd_integracion_pg.py"
+      - ".github/workflows/s295-rgpd-retencion-pg.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retencion-pg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: s295_rgpd
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d s295_rgpd"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      # Base DESECHABLE. Nunca apuntar a produccion: el test CREA y DESTRUYE objetos.
+      RGPD_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:55433/s295_rgpd
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar lo minimo
+        run: python -m pip install --upgrade pip psycopg2-binary pytest python-dotenv
+
+      - name: Ejercer la propuesta y el job contra Postgres
+        run: python -m pytest tests/test_s295_rgpd_integracion_pg.py -v --no-header
