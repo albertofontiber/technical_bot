@@ -2575,3 +2575,43 @@ Antes de publicarla la corregí dos veces: normalizar guiones (el corpus escribe
 el manual cita `MI-DT-155`, y sin eso **160 documentos presentes salían como ausentes**) y
 exigir una palabra de documento entre el verbo y el código (el pie de página del propio manual
 se colaba como destino). Traza: DEC-175.
+
+## s294 (2 ago 2026) — cuatro levers muertos con recibo, y un canal que empieza a traer señal
+
+Día largo y de forma poco habitual: **casi todo lo que se midió terminó en NO-GO, y eso es el
+resultado**, no el fracaso. `hp017#2` y `hp011#2` cayeron por **no ser alcanzables** —ni con la
+evidencia perfecta delante el modelo transmite el hecho—; `hp003#4`/L3 v2 se paró **después** de
+que el gatillo llegara al 98,3% de precisión en adjudicación ciega, porque shipearlo exigía dos
+cambios en una lane viva para ganar un hecho; y el lever B cayó por **población**: alcanzable
+(5/5) pero 1 gold de 39 y 0,13% del corpus, lo que desmintió mi propio argumento estructural.
+Cero líneas de producción desperdiciadas en los cuatro.
+
+De ese trabajo salieron **dos gates baratos que quedan como procedimiento**: la sonda de
+**alcanzabilidad** («¿el techo está en el hecho o en el pipeline?», DEC-173) y su gemela de
+**población** («¿cuántos casos hay?», DEC-175). Son ortogonales —`cat017#2` era alcanzable *y*
+población 1— y cuestan un dólar frente a un diseño entero con dúo.
+
+La segunda mitad del día fue **fontanería con retorno**: los puntos 1 y 5 del paquete de
+telemetría, construidos, desplegados y verificados contra la base real. Un 👎 ya no es una señal
+muda: el bot invita a explicar, captura la prosa **por intención explícita** (`ForceReply`, para
+que una pregunta posterior no se confunda con feedback — aviso de Alberto que gobernó el diseño)
+y la ancla a la consulta, al veredicto y a la evidencia servida. Sin esquema nuevo: el dúo tumbó
+mi diseño porque s286 ya había decidido dónde vivía esa prosa y yo no lo grepeé.
+
+Y el día cerró con lo que no estaba en el plan: **el primer fallo orgánico**. Alberto probó el
+canal recién hecho, el bot le dio mal la ruta al menú AVANZADO de la CAD-171 teniendo el dato
+servido, y al verificarlo contra el manual resultó ser **la misma clase que `hp011#2`**: responder
+con el **elemento vecino**. Dos instancias, una de uso real, el mismo día que se abrió el canal.
+Eso matiza mi propia propuesta de la mañana: **la población que quería fabricar con una cohorte
+empieza a entrar sola** en cuanto hay una persona usando el bot y una forma de contarlo.
+
+**Método.** Cinco fallos propios cazados, **todos probando el efecto y ninguno leyendo el
+código**: un `merge-duplicates` que devolvía 403 en cada insert y se tragaba con el fail-open
+(ni un ancla jamás, sin un error a la vista); unos `\b` escritos como bytes de retroceso que
+convertían una exclusión en no-op —y un primer «arreglo» que sustituía backspace por backspace—;
+un `ForceReply(selective=True)` que apuntaba al bot en vez de al técnico; un test de regresión
+que grepeaba el fuente y fallaba por su propio comentario; y una variable encendida en Railway
+sin el código desplegado. **Lección #59**: citar evidencia **truncada** en un brief induce
+críticos falsos — recorté el mensaje de Alberto a 160 caracteres y los dos revisores concluyeron
+lo mismo y equivocado. Un revisor solo puede ser tan bueno como la cita que se le pasa.
+Traza: DEC-172..176.

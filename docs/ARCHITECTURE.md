@@ -17,6 +17,14 @@
 > sesiones, en [`HISTORY.md`](HISTORY.md). Este doc explica **cómo funciona** el sistema; sus
 > cifras se reconcilian al cierre de sesión (§7), pero ante discrepancia manda el PLAN.
 >
+> **Estado s294 (2 ago 2026).** **Telemetría pre-técnicos puntos 1+5 EN PRODUCCIÓN**: cada
+> respuesta queda anclada a su consulta (`answer_messages`, todas sus partes) y un 👎 invita a
+> explicar, captura la prosa por intención explícita (`ForceReply` → reply anclado) y la escribe
+> en `answer_feedback.comment`. `TERMS_VERSION` v3 (el bot ahora PIDE la explicación). Verificado
+> contra la DB real. Suite 3480/0. **Etapa 3 cerrada como cola de ingeniería** (DEC-172/174/175).
+> **Primer fallo ORGÁNICO** (ruta al menú AVANZADO de la CAD-171) = misma clase que `hp011#2`:
+> responde con el elemento vecino teniendo el dato servido. Detalle → PLAN + DEC-176.
+>
 > **Estado s293 (2 ago 2026).** **Producción SIN cambios**; nada cableado. Se cierran 2 de los
 > 3 levers vivos de etapa 3 **por medición**: `hp017#2` = NO-GO y re-clasificado a DOS causas
 > (el conflict-guard suprime la mitad «ruta» —causal PRE 3/5 → POST 0/5— pero la mitad «borrar

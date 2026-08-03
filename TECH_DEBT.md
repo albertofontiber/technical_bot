@@ -2197,6 +2197,16 @@ usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
 
 ## #60 — Paquete telemetría PRE-TÉCNICOS: reacciones Telegram como canal de feedback + logging de rutas directas (s288d, adjudicado por Alberto 31-jul)
 
+> **ESTADO s294 (2-ago): puntos 1 y 5 HECHOS y EN PRODUCCIÓN** (PRs #200/#201/#202, 2
+> migraciones aplicadas, `TERMS_VERSION` v3, verificado contra la DB real). El punto 5 se
+> construyó con el diseño de Alberto (mismo acuse que el canal de texto libre + botones) y con
+> captura de PROSA por intención explícita (`ForceReply` → reply anclado → `answer_feedback.comment`).
+> **PENDIENTES: 2/3/4** (reacciones — cambian el transporte, gotcha `allowed_updates`, piden
+> sonda + dúo propios) y **6** (corrección de marca con relanzamiento — engancha con `hp002`,
+> que está en el packet de gold-review B2). Traza: DEC-176.
+> **RGPD: la matriz de retención SIGUE SIN EXISTIR** y ahora el bot PIDE prosa — el hueco
+> precede a este cambio pero crece con él. Decisión de Alberto.
+
 Las reacciones de Telegram como segundo canal de feedback van al paquete pre-técnicos, NO a demo
 (mismo criterio que D11 del packet s286: con un usuario, el teclado 👍/👎 captura el 100%; con
 técnicos reales, la reacción es fricción-cero y captura más). Diseño esbozado:
