@@ -45,6 +45,7 @@ from .evidence_derivation import apply_evidence_derivations_with_trace
 from .must_preserve import apply_must_preserve_contract
 from .wiring_topology_guard import apply_wiring_topology_guard
 from .visual_assets import append_cited_visual_assets
+from .source_legend import source_legend_enabled
 
 logger = logging.getLogger(__name__)
 
@@ -1002,4 +1003,15 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
                 "VISUAL_ASSETS_REGISTRY fail-open: respuesta sin adjuntos",
                 exc_info=True,
             )
+
+    # s294 (hallazgo de Alberto usando el bot): la respuesta cita [F10] y la línea
+    # «Fuente:» solo nombra el manual ⇒ el técnico no sabe a qué apunta. La leyenda
+    # emite la correspondencia [F<n>] → manual · sección · página, que el generador
+    # YA tenía. Determinista, 0 llamadas de modelo, flag default off (byte-idéntico).
+    # Va la ÚLTIMA a propósito: añade ocurrencias de [F<n>] y contarlas como citas
+    # falsearía el orden de relevancia del adjunto de páginas.
+    if source_legend_enabled():
+        from .source_legend import append_source_legend
+
+        append_source_legend(result, relevant_chunks)
     return result
