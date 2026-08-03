@@ -277,34 +277,75 @@ _WELCOME_TEXT = (
 )
 
 
+# AVISO EN DOS CAPAS (s295). La primera capa es lo que hay que saber ANTES de aceptar; el
+# detalle completo vive en `/privacidad` y se puede leer sin haber aceptado nada. Motivo: los
+# términos habían llegado a 25 líneas y 1.800 caracteres — un muro de texto como primer
+# contacto se lee peor, y un aviso que nadie lee no informa a nadie. La completitud no se
+# pierde, se mueve a donde no estorba.
+#
+# LOS DESTINATARIOS SE DESCRIBEN POR CATEGORÍA + lista actual (el RGPD pide «destinatarios o
+# CATEGORÍAS de destinatarios»). Así, cambiar de proveedor dentro de la misma categoría no
+# altera lo que la persona aceptó. Lo que NO se hace es declarar propósitos futuros para
+# ahorrarse una re-aceptación: un consentimiento tiene que ser específico, y una cláusula que
+# cubra «mejoras futuras» no autoriza nada — solo hace el aviso más vago hoy.
 _CONSENT_TERMS = (
     "🤖 *Asistente técnico PCI* — _versión beta_\n\n"
     "Te doy información de los manuales técnicos de *Notifier*, *Morley* y *Detnov*. "
     "Puedes preguntarme por texto o por audio 🎤.\n\n"
-    "⚠️ *Antes de empezar — términos de uso*\n\n"
-    "Para mejorar el sistema durante esta fase de pruebas, registramos:\n"
-    "• Cada pregunta: el texto que escribes o, si mandas un audio, solo su transcripción "
-    "— el audio original NO se guarda (se transcribe y se descarta)\n"
-    "• La respuesta que te doy\n"
-    "• Fecha/hora y tu ID de Telegram\n"
-    "• Tu valoración 👍/👎 de las respuestas, si la usas\n"
-    "• La explicación que escribas cuando marques una respuesta como incorrecta\n\n"
-    "*Para qué se usa*: identificar errores, mejorar respuestas, calibrar el sistema con preguntas reales del sector.\n\n"
-    "*Quién accede*: equipo técnico de Fontiber Industrial Partners.\n\n"
-    "*Terceros*: la conversación viaja por *Telegram* (es el canal). Tu pregunta pasa por "
-    "*Anthropic* (modelo Claude, genera la respuesta) y por *Voyage AI* (la busca en los "
-    "manuales); los audios por *OpenAI* (Whisper, los transcribe). Los registros se guardan "
-    "en *Supabase* (servidores en la UE) y el bot corre en *Railway*. Telegram, Anthropic, "
-    "Voyage, OpenAI y Railway procesan fuera de la UE, y cada uno aplica su propia política "
-    "de conservación. No se comparten con nadie más.\n\n"
-    "*Cuánto se guarda*: 24 meses vinculado a ti. Después se retira tu identificador de tus "
-    "consultas y de sus valoraciones, y el contenido se conserva disociado para seguir "
-    "mejorando el sistema. Tu aceptación de estos términos se conserva como prueba del "
-    "consentimiento mientras uses el bot.\n\n"
-    "*Tus derechos*: puedes pedir el acceso o el borrado de tus datos escribiendo a "
-    "*info@fontiber.com*. Si no aceptas, simplemente no uses el bot.\n\n"
+    "⚠️ *Antes de empezar*\n\n"
+    "Para mejorar el sistema, guardamos *las preguntas que respondo y mis respuestas*, junto "
+    "con tu ID de Telegram, el nombre que nos des al aceptar y tus valoraciones 👍/👎. Si "
+    "mandas un audio, guardamos solo su transcripción: el audio original NO se guarda.\n\n"
+    "*Cuánto*: 24 meses vinculado a ti; después se retira tu identificador de tus consultas "
+    "y valoraciones.\n"
+    "*Quién lo ve*: el equipo técnico de Fontiber. Para funcionar, tus preguntas pasan por "
+    "proveedores de IA y de alojamiento que operan *fuera de la UE*.\n"
+    "*Tus derechos*: escribe a *info@fontiber.com* para acceder o borrar tus datos.\n\n"
+    "📄 Detalle completo (qué proveedores, para qué, y qué pasa a los 24 meses): /privacidad\n\n"
     "Para aceptar y empezar, envía:\n"
     "`/accept [tu nombre]`  _(el nombre es opcional pero ayuda a la revisión)_"
+)
+
+
+# SEGUNDA CAPA — accesible con /privacidad SIN haber aceptado nada, que es la condición para
+# que la primera capa cuente como informada.
+_PRIVACY_DETAIL = (
+    "📄 *Privacidad — detalle completo*\n\n"
+    "*Responsable*: Fontiber Industrial Partners · *info@fontiber.com*\n"
+    "*Base jurídica*: tu consentimiento, el que das al enviar `/accept`.\n\n"
+    "*Qué se guarda*\n"
+    "• Las preguntas que respondo: el texto que escribes o, si mandas un audio, solo su "
+    "transcripción — el audio original NO se guarda (se transcribe y se descarta al "
+    "momento). Los saludos y las despedidas no se registran\n"
+    "• La respuesta que te doy\n"
+    "• Fecha/hora, tu ID de Telegram y el nombre que nos des al aceptar\n"
+    "• Tu valoración 👍/👎, si la usas, y la explicación que escribas al marcar una "
+    "respuesta como incorrecta\n\n"
+    "*Para qué*: identificar errores, mejorar respuestas y calibrar el sistema con preguntas "
+    "reales del sector. No se usa para perfilarte ni para decisiones sobre ti.\n\n"
+    "*Quién accede*: el equipo técnico de Fontiber Industrial Partners.\n\n"
+    "*Quién más interviene* (por función, con quién lo hace hoy):\n"
+    "• _Canal de mensajería_: *Telegram* — transporta toda la conversación\n"
+    "• _Generación de la respuesta_: *Anthropic* (modelo Claude) — recibe tu pregunta\n"
+    "• _Búsqueda en los manuales_: *Voyage AI* — recibe tu pregunta\n"
+    "• _Transcripción de audio_: *OpenAI* (Whisper) — recibe el audio\n"
+    "• _Almacenamiento_: *Supabase* — servidores en la UE (Estocolmo)\n"
+    "• _Ejecución del bot_: *Railway*\n\n"
+    "Salvo el almacenamiento, todos operan *fuera de la UE* y cada uno aplica su propia "
+    "política de conservación. No se comparten con nadie más.\n\n"
+    "*Cuánto tiempo*: 24 meses vinculado a ti. Pasado ese plazo se retira tu identificador "
+    "de tus consultas y de sus valoraciones; el contenido se conserva disociado para seguir "
+    "mejorando el sistema. Tu aceptación de estos términos se conserva como prueba del "
+    "consentimiento mientras uses el bot.\n\n"
+    "*Transferencias fuera de la UE*: puedes pedirnos información sobre las garantías "
+    "aplicables escribiendo a *info@fontiber.com*.\n\n"
+    "*Tus derechos*: acceso, rectificación, supresión, oposición y portabilidad. Escribe a "
+    "*info@fontiber.com* y te atendemos.\n\n"
+    "*Retirar el consentimiento*: puedes hacerlo cuando quieras escribiendo a esa misma "
+    "dirección. No afecta a lo tratado hasta ese momento; a partir de ahí, deja de usarse.\n\n"
+    "*Reclamación*: si crees que no lo hacemos bien, puedes reclamar ante la Agencia Española "
+    "de Protección de Datos (aepd.es).\n\n"
+    "_Puedes leer esto sin haber aceptado nada. Si no aceptas, simplemente no uses el bot._"
 )
 
 
@@ -342,13 +383,23 @@ async def accept_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def privacy_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Segunda capa del aviso de privacidad.
+
+    NO exige consentimiento: poder leer el detalle ANTES de aceptar es justo lo que hace
+    que la primera capa cuente como informada.
+    """
+    await update.message.reply_text(_PRIVACY_DETAIL, parse_mode="Markdown")
+
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /help command."""
     await update.message.reply_text(
         "*Comandos disponibles:*\n\n"
         "/start - Términos / mensaje de bienvenida\n"
         "/accept [nombre] - Aceptar términos de uso\n"
-        "/help - Esta ayuda\n\n"
+        "/help - Esta ayuda\n"
+        "/privacidad - Qué datos se guardan, quién interviene y por cuánto tiempo\n\n"
         "*Consejos para mejores respuestas:*\n"
         "• Menciona el modelo de equipo (ej: CAD-250, MAD-402, FT-2000, MS-25)\n"
         "• Sé específico en tu pregunta\n"
@@ -1309,6 +1360,9 @@ def run_bot():
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("accept", accept_command))
     app.add_handler(CommandHandler("help", help_command))
+    # SIN gate de consentimiento a propósito: el detalle tiene que poder leerse antes de
+    # aceptar, o la aceptación no sería informada.
+    app.add_handler(CommandHandler("privacidad", privacy_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
     # Unconditional (NOT gated by TELEGRAM_FEEDBACK): stale keyboards in chat

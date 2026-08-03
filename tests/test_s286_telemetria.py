@@ -145,7 +145,11 @@ def bot_module():
 
 
 def test_consent_terms_list_tap_verdict(bot_module):
-    assert "valoración 👍/👎" in bot_module._CONSENT_TERMS
+    # s295: el aviso pasó a DOS CAPAS (aceptación corta + `/privacidad` con el detalle). Lo
+    # que este test protege es que el voto se DECLARE al técnico, no en qué capa aparezca:
+    # se comprueba el aviso completo. La capa corta lo menciona; el detalle lo desarrolla.
+    aviso = bot_module._CONSENT_TERMS + bot_module._PRIVACY_DETAIL
+    assert "valoraciones 👍/👎" in aviso or "valoración 👍/👎" in aviso
 
 
 def test_feedback_flag_default_off(bot_module, monkeypatch):

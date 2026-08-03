@@ -2709,6 +2709,21 @@ vencida. Y dos afirmaciones mias que eran falsas: `ALTER ROLE … SET statement_
 aplica al `SET ROLE` (el precedente de `p1_readonly` lo documenta, lo tenia delante), y «una
 ejecucion a mano no puede tocar una fila reciente» tampoco — `postgres` es owner y BYPASSRLS.
 
+**Ronda 4 — y la leccion mas fina de la sesion.** Alberto pregunto si convenia alargar los
+terminos para cubrir el futuro y ahorrarse re-aceptaciones. No: un consentimiento debe ser
+especifico, y la churn viene de la BASE JURIDICA elegida, no de la redaccion — que ademas no
+estaba declarada en ninguna parte. Se hizo aviso en dos capas (1.803 -> 971 chars + `/privacidad`)
+y se declaro la base con su recomendacion.
+
+Y entonces el duo caz **el fallo mas instructivo del dia**: al mover la sustancia a la segunda
+capa, **la deje fuera del tripwire de hash**. Es decir: el refactor que reducia friccion abrio un
+agujero por el que se podia cambiar un destinatario o un plazo sin que nadie re-aceptara. Regla:
+**cuando muevo contenido protegido, el control se mueve con el, o deja de proteger.** Tambien
+perdi el alcance de la promesa al resumir («se retira tu identificador» a secas, cuando el
+mecanismo solo cubre consultas y valoraciones), y el aviso «completo» no llevaba responsable,
+base juridica, retirada del consentimiento ni reclamacion ante la AEPD: los tenia en la matriz
+interna, que ningun tecnico lee.
+
 **La leccion (#60).** Un mecanismo de cumplimiento que no puede ejecutarse **aparenta**
 cumplimiento, y eso es peor que no tenerlo: el dry-run informaba «0 candidatas» y se leia como
 «listo». La unica defensa fue verificar el EFECTO contra la base real, no leer el codigo — la

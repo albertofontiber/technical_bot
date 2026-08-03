@@ -1,89 +1,63 @@
-# Propuesta s295 (RONDA 3 — diseño NUEVO) — Retención RGPD con rol dedicado
+# Propuesta s295 (RONDA 4 — delta de usabilidad del aviso) — acotada
 
-> **Aviso al revisor**: tercera ronda. Las dos anteriores tumbaron el diseño y el mecanismo
-> ha cambiado por completo (de PostgREST + `service_role` a rol dedicado + conexión directa
-> + políticas RLS). **No des nada por bueno porque ya pasara una revisión: lo que revisas es
-> otro artefacto.** El árbol está congelado mientras revisas.
+> **Alcance de ESTA revisión**: solo el delta que sigue. El diseño de retención (rol dedicado,
+> políticas RLS, trigger, job) ya pasó tres rondas y está verificado contra un PostgreSQL real
+> en CI (12/12 verdes). No lo re-revises salvo que el delta lo rompa.
 
-## OBJETIVO + MÉTRICA de HOY
+## OBJETIVO + MÉTRICA
 
-**Objetivo**: que la retención de 24 meses sea ejecutable, sin ampliar la superficie de
-privilegios del bot.
+**Objetivo**: bajar la fricción del aviso sin perder completitud legal, y declarar la base
+jurídica, que no estaba declarada en ninguna parte.
 
-**Métrica**: NINGUNA de calidad de respuesta. No toca retrieval ni generación; no hay delta
-de eval y no se reclama ninguno. El criterio es de cumplimiento y de corrección factual de
-lo que se le declara al usuario. Si algo aquí parece reclamar mejora de calidad, es error mío.
+**Métrica**: ninguna de calidad de respuesta (no toca retrieval ni generación). El criterio es
+que el aviso siga siendo completo y exacto, y que la primera capa sea legible.
 
-## El giro respecto a la ronda 2
+## Contexto: la pregunta de Alberto
 
-Alberto preguntó qué implicaciones tenía la propuesta anterior. Al desglosarlas apareció la
-que decide: **`service_role` es la identidad del bot** — la misma clave que usa el worker de
-Railway encendido 24/7. La v1 le concedía UPDATE de columna y DELETE, es decir, pagaba con
-superficie permanente de un proceso expuesto a internet un privilegio que se ejerce una vez
-cada varios años. Alberto aprobó moverlo a un **rol dedicado**.
+Preguntó si convenía **alargar los términos ahora** para cubrir cosas futuras y así evitar
+re-aceptaciones. Mi respuesta fue que no: un consentimiento debe ser específico, y una cláusula
+que cubra «mejoras futuras» no autoriza nada — solo hace el aviso más vago hoy. Y que el lever
+real es **la base jurídica**, no la redacción.
 
-## El diseño v2
+## El delta
 
-`supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` (SIN aplicar):
+1. **Aviso en DOS CAPAS.** `_CONSENT_TERMS` pasa de **1.803 chars / 25 líneas** a **892 / 16**:
+   qué se guarda, cuánto, quién lo ve, que hay terceros fuera de la UE, canal de derechos, y un
+   puente a `/privacidad`. El detalle completo va a `_PRIVACY_DETAIL` (1.685 chars), servido por
+   un comando nuevo **`/privacidad`** registrado **sin gate de consentimiento** (poder leerlo
+   antes de aceptar es la condición para que la primera capa cuente como informada). Listado en
+   `/help`.
+2. **Destinatarios por CATEGORÍA + lista actual** («_Búsqueda en los manuales_: Voyage AI»).
+   El RGPD pide «destinatarios *o categorías de destinatarios*»; así, cambiar de proveedor
+   dentro de la misma categoría no altera lo aceptado.
+3. **Base jurídica declarada en la matriz** como `[DECIDIR]`, con el estado real (hoy:
+   consentimiento, vía el gate `/accept`) y la recomendación (interés legítimo para la
+   herramienta de trabajo; consentimiento explícito solo para lo que lo requiera, p.ej. memoria
+   durable opt-in). Se explica que **la churn de re-aceptaciones es consecuencia de la base
+   elegida**, no de la redacción.
+4. Todo va en el **mismo salto a `TERMS_VERSION` v5** ⇒ una sola re-aceptación, no dos.
 
-1. Rol `rgpd_retencion`: `NOLOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION
-   NOBYPASSRLS`, `statement_timeout = 120s`. Concedido **solo a `postgres`** con
-   `INHERIT FALSE` + `SET TRUE`. **NO a `authenticator`**: no se ejerce por HTTP.
-2. Privilegios de **columna**: `SELECT (id, created_at, <columna id>)` + `UPDATE (<columna
-   id>)` en `query_logs`, `feedback`, `answer_feedback`; `SELECT (...)` + `DELETE` de tabla en
-   `answer_messages`. El rol **no puede leer** pregunta, transcripción, respuesta ni comentario.
-3. **Políticas RLS** `rgpd_retencion_ventana` en las 4 tablas, acotadas a
-   `created_at < now() - interval '24 months'`. Como el rol es NOBYPASSRLS y las tablas tienen
-   FORCE RLS con 0 políticas, sin política no vería nada; con ella, **la ventana de retención
-   es un invariante del motor**, no un filtro del script.
-4. `ALTER TABLE answer_feedback ALTER COLUMN telegram_user_id DROP NOT NULL`.
-5. Postcondiciones: el rol tiene lo que necesita **y nada más** (no INSERT, no UPDATE de tabla,
-   no DELETE donde no toca, no lectura de contenido), las 4 políticas existen, la columna es
-   nullable, y **`service_role` no ha ganado ni un privilegio**.
-6. Rollback declarado, incluido que el `SET NOT NULL` deja de ser posible tras la primera
-   ejecución real.
+## Tests (29 en el fichero, verdes)
 
-## El job — `scripts/rgpd_retencion.py`
-
-Conexión directa (`DATABASE_URL`) + `SET LOCAL ROLE rgpd_retencion` como primera sentencia.
-Las 4 tablas en **una transacción**. Dry-run = ejecutar de verdad y `ROLLBACK`. `--aplicar`
-= `COMMIT`. `--recibo` escribe los ids en JSON. `--meses >= 1` validado en el parser (defensa
-en profundidad; la ventana real la impone la política). Meses de CALENDARIO. Diagnóstico que
-traduce el fallo al hueco real (rol ausente → apunta a la migración; permiso; NOT NULL).
-
-**Tres parches de la ronda 2 desaparecen** en vez de mantenerse: la sonda de conjunto vacío y
-su falso OK (ahora se verifica el efecto real), la barrera anti-ejecución-parcial (ahora lo da
-la transacción), y la lectura del OpenAPI para adivinar el `NOT NULL`.
-
-## Verificado
-
-- El job corre contra la base real: conecta, intenta `SET LOCAL ROLE` y sale con **exit 2**
-  diciendo que el rol no existe y qué migración lo crea.
-- 26 tests en `tests/test_s295_rgpd_retencion.py`, verdes.
-- Suite completa: **en ejecución** al escribir esto (la anterior, con el diseño previo, dio
-  3513 passed / 5 skipped / 0 failed).
-- Privilegios y nullability leídos del catálogo real; `service_role` tiene `rolbypassrls`;
-  las 4 tablas tienen RLS + FORCE RLS con 0 políticas.
-
-## Fuera de alcance, declarado en la matriz
-
-`user_consent` (decisión pendiente), los exports a disco de `scripts/review_logs.py`, el
-extracto de recibos versionado en git, y la retención de Telegram/Railway/Anthropic/OpenAI.
-Y el resultado es **seudonimización**, no anonimización: el texto libre puede identificar.
+Primera capa lleva lo imprescindible · **techo de 1.000 chars** para que no vuelva a ser un muro
+· la segunda capa declara los 6 encargados **y** las 6 categorías · `privacy_command` **no**
+consulta `has_consent` (comprobado sobre el código de la función) · comando registrado y
+listado · mapa hash↔versión actualizado.
 
 ## Gaps y riesgos declarados
 
-1. DPAs = asunción, no hecho. 2. Transferencia internacional sin documentar. 3. `feedback` no
-cascadea. 4. El job no está programado. 5. Acceso y portabilidad no implementados. 6. No soy
-asesor legal. 7. Un bootstrap limpio (`supabase_schema.sql`) no crearía el rol: hay que
-replicar el bloque al aplicar — pero, a diferencia de la v1, **no hay que tocar sus
-postcondiciones**, porque solo miran `anon`/`authenticated`/`service_role` y ninguno cambia.
+1. **No soy asesor legal**; la base jurídica y la suficiencia del aviso las valida cumplimiento.
+2. La primera capa dice «proveedores de IA y de alojamiento **fuera de la UE**» sin nombrarlos:
+   los nombres están en la segunda capa. Si eso se considerase insuficiente para la primera,
+   habría que subirlos — a costa de la longitud.
+3. El techo de 1.000 chars es un juicio mío, no una norma.
+4. `/privacidad` es un comando: si alguien no lo teclea, no lo lee. Un aviso en dos capas
+   siempre apuesta a que la primera basta para decidir.
+5. Cambiar la base jurídica NO está hecho: solo declarado como decisión pendiente.
 
 ## Lo que te pido que ataques
 
-¿Las políticas RLS hacen lo que digo, para las cuatro operaciones (SELECT/UPDATE/DELETE) y con
-`USING` vs `WITH CHECK` correctos? ¿Se puede tocar una fila reciente por algún camino?
-¿`SET LOCAL ROLE` acota de verdad, o `postgres` conserva algo por herencia? ¿La transacción
-única tiene alguna pega (bloqueos, `statement_timeout`, tamaño)? ¿Queda alguna afirmación que
-declare de más o de menos en la matriz, los términos, el docstring, DEC-177 o HISTORY? ¿Los 26
-tests prueban lo que dicen probar?
+¿La primera capa omite algo que una persona necesita para decidir? ¿Hay alguna afirmación de la
+primera o la segunda capa que ya no case con lo que el código hace? ¿El criterio de
+«categorías» está bien aplicado, o hay categorías demasiado vagas? ¿La sección de base jurídica
+afirma de más sobre derecho? ¿Los 5 tests nuevos prueban lo que dicen probar?

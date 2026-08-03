@@ -14,6 +14,36 @@
 > **Aviso**: este documento lo redacta el asistente técnico, no un asesor legal. Los plazos y
 > la base jurídica los valida quien lleve cumplimiento en Fontiber.
 
+## Base jurídica — [DECIDIR], y es el lever que más ahorra a futuro
+
+**Hoy el sistema OPERA como si la base fuese el CONSENTIMIENTO**: el gate `/accept` no permite
+usar el bot sin aceptar, y así se declara ahora al técnico. Conviene la precisión: ese gate
+prueba una acción técnica, **no resuelve la validez jurídica de la base** — que es justo lo que
+queda pendiente de decidir.
+
+**Por qué es frágil.** El consentimiento debe ser *libre*, y para una herramienta de trabajo que
+la empresa pone a disposición del técnico hay desequilibrio: quien no puede negarse sin coste
+laboral no consiente libremente. Para un caso así lo habitual es **interés legítimo** o
+**ejecución de contrato**, con un aviso de información en lugar de una casilla.
+
+**Qué cambia en la práctica.** Con consentimiento, un cambio material del aviso obliga a
+**re-aceptar** (es lo que hace `TERMS_VERSION`). Con interés legítimo o contrato, el cambio se
+**informa** — lo que reduce la fricción, aunque no la elimina: un cambio sustancial de finalidad
+sigue exigiendo aviso y puede exigir rehacer la ponderación.
+Es decir: **la churn de re-aceptaciones es consecuencia de la base elegida**, no un problema de
+redacción — y no se arregla escribiendo términos más largos ni pre-declarando propósitos
+futuros (un consentimiento tiene que ser específico; una cláusula que cubra «mejoras futuras»
+no autoriza nada y solo hace el aviso más vago hoy).
+
+**Recomendación** (asistente técnico, NO asesor legal): pasar a **interés legítimo** para el uso
+del bot como herramienta de trabajo, conservando el **consentimiento explícito** solo para lo
+que de verdad lo requiera (p. ej. memoria durable opt-in). Requiere análisis de ponderación
+documentado. **Decisión de Alberto con validación legal**; la plantilla de `convo`
+(`RGPD_LIFECYCLE_MATRIX_TEMPLATE.md`) ya lo tenía como `[DECIDIR]` y aquí faltaba.
+
+**Momento**: hoy hay UNA fila de consentimiento, así que la fricción es de una persona. El
+momento de decidirlo es **antes de que entren técnicos**, no ahora.
+
 ## Principio rector: DISOCIAR, no borrar ⬤
 
 El valor del histórico para el proyecto está en el **contenido** (la pregunta, la respuesta y
@@ -96,6 +126,28 @@ sobrevive la última versión aceptada**. Decir «prueba del consentimiento» si
 más: no hay traza de que alguien aceptase la v2 o la v3. Si esa traza importa, la tabla
 necesita ser append-only por (usuario, versión). **[DECIDIR]**
 
+## Cómo se informa: aviso en DOS CAPAS
+
+La segunda capa lleva además lo que un aviso debe llevar y antes no estaba en ninguna parte
+visible para el técnico: **responsable identificado**, **base jurídica**, **cómo retirar el
+consentimiento**, **reclamación ante la AEPD** y **transferencias fuera de la UE** (con el canal
+para preguntar por las garantías). Declararlo solo en este documento interno no informaba a
+nadie.
+
+El texto de aceptación (`/start`) es la **primera capa**: qué se guarda, cuánto, quién lo ve, que
+hay proveedores fuera de la UE, y el canal de derechos. El **detalle completo** —proveedores por
+función, finalidad, plazos, derechos— vive en **`/privacidad`**, que se puede leer **sin haber
+aceptado nada** (condición para que la primera capa cuente como informada).
+
+Los destinatarios se describen **por categoría, con la lista actual** («búsqueda en los
+manuales: Voyage AI»), que es lo que pide el RGPD («destinatarios *o categorías de
+destinatarios*»). Consecuencia práctica **acotada**: sustituir un proveedor por otro **equivalente** dentro de la
+misma categoría no obliga a rehacer el aviso. Pero la categoría **no da inmunidad**: si el
+sustituto cambia el país, las garantías de transferencia, sus subencargados o su plazo de
+conservación, eso es material y hay que informarlo igual. Lo que sí exige aviso nuevo —y re-aceptación mientras la
+base sea el consentimiento— es una **categoría de dato nueva** (p. ej. fotos), un **propósito
+nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías declaradas**.
+
 ## Encargados de tratamiento y ubicación
 
 | Proveedor | Qué hace | Dónde | DPA |
@@ -140,7 +192,14 @@ necesita ser append-only por (usuario, versión). **[DECIDIR]**
    `service_role` que se evitó tocar. Requiere antes un rol runner LOGIN acotado. → *Alberto.*
 5. **Autoservicio `/borrar`**: hoy el técnico tiene que escribir a un correo. → *Propuesto, no
    construido.*
-6. **Mecanismo de transferencia** para Telegram, Anthropic y OpenAI. → *Alberto / asesor legal.*
+6. **Mecanismo de transferencia** para Telegram, Anthropic, Voyage AI, OpenAI y Railway.
+   → *Alberto / asesor legal.*
+7. **Identificación completa del responsable**: el aviso dice «Fontiber Industrial Partners ·
+   info@fontiber.com». Un aviso completo lleva **razón social exacta, CIF y domicilio**. No se
+   inventan aquí: los aporta Alberto y entran en la segunda capa (`/privacidad`), lo que
+   obligará a subir `TERMS_VERSION`. → *Alberto.*
+8. **Decidir la base jurídica** (ver la sección de arriba). Es lo que determina si los cambios
+   futuros del aviso exigen re-aceptación o basta con informar. → *Alberto / asesor legal.*
 
 ## Estado real hoy (verificado 3 ago 2026)
 

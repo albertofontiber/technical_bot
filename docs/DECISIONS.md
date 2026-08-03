@@ -4460,6 +4460,44 @@ job **no es programable tal cual**: haría falta un rol runner LOGIN acotado, po
 `DATABASE_URL` de operador sería MÁS potente que el `service_role` que se evitó tocar. Hoy es
 ejecución manual por diseño, declarado.
 
+**Ronda 4 — usabilidad del aviso, a petición de Alberto.** Preguntó si convenía **alargar los
+términos ahora** para cubrir cosas futuras y ahorrarse re-aceptaciones. Respuesta: no. Un
+consentimiento debe ser *específico*; una cláusula que cubra «mejoras futuras» no autoriza nada y
+solo hace el aviso más vago hoy. Lo que sí reduce la churn de forma legítima es (a) describir a los
+destinatarios **por categoría con su lista actual** —que es lo que el RGPD pide— y (b) revisar la
+**base jurídica**, que es de donde nace la fricción.
+
+**Lo construido**: **aviso en DOS CAPAS** — aceptación de **1.803 → 971 caracteres** (25 → 16
+líneas) + comando **`/privacidad`** con el detalle, registrado **sin gate de consentimiento**
+(poder leerlo antes de aceptar es la condición para que la primera capa cuente como informada) y
+listado en `/help`. **Base jurídica declarada** en la matriz por primera vez, con la recomendación
+(interés legítimo para la herramienta de trabajo; consentimiento explícito solo para lo que lo
+exija) y el porqué: **la churn es consecuencia de la base elegida, no de la redacción**. Todo en el
+MISMO salto a v5 ⇒ una sola re-aceptación.
+
+**Lo que el dúo cazó en esta ronda, y era grave:**
+- El «detalle completo» **no era completo**: faltaban responsable identificado, base jurídica, cómo
+  retirar el consentimiento, reclamación ante la AEPD y transferencias. Los tenía en la matriz
+  INTERNA, que ningún técnico lee.
+- **Al acortar perdí el alcance de la promesa**: la versión larga decía «se retira tu identificador
+  *de tus consultas y valoraciones*» y el resumen dejó «se retira tu identificador», a secas.
+  Regresión introducida por el propio refactor.
+- **El tripwire protegía solo la primera capa.** Moví la sustancia a `_PRIVACY_DETAIL` y la dejé
+  fuera del hash: se podía cambiar un destinatario, una finalidad o un plazo manteniendo v5 y sin
+  que nadie re-aceptara. El agujero lo abrió el refactor que reducía fricción. El hash cubre ahora
+  las dos capas.
+- **`display_name` se recogía sin declararlo**: `/accept [tu nombre]` lo guarda en `user_consent` y
+  no aparecía en ninguna capa.
+- Precisión: «cada pregunta» era inexacto (saludos y despedidas retornan antes de `log_query`); el
+  gate `/accept` prueba una acción técnica, **no** la validez jurídica de la base; y la misma
+  categoría de proveedor **no da inmunidad** — si el sustituto cambia país, garantías o
+  subencargados, es material igual.
+- Un test era **circular**: la lista de encargados estaba escrita en el propio test. Ahora se **lee
+  de la matriz**, así que añadir un proveedor al documento y no al aviso lo rompe.
+
+**Techo con dientes**: un test falla si la aceptación vuelve a pasar de 1.000 caracteres — quien
+añada detalle ahí tiene que decidir si va a la segunda capa o si sube el techo a conciencia.
+
 **Riesgo declarado y ACEPTADO.** Los términos prometen que a los 24 meses «se retira tu
 identificador», y hoy esa promesa **no es ejecutable** (ni programada). Se mantiene, no se
 diluye: la fila más antigua vence en **2028**, hay margen de sobra para aplicar la propuesta, y

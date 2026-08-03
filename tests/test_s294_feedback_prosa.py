@@ -112,7 +112,9 @@ def test_terms_version_subida_por_pedir_prosa():
     y que la versión no haya caído por debajo de la que la introdujo. El pin EXACTO
     vive en UN solo sitio (`test_s295_rgpd_retencion`) — duplicarlo aquí convertía cada
     subida legítima en un fallo sin señal (pasó en v2→v3 y otra vez en v3→v4)."""
-    assert "explicación que escribas" in bot._CONSENT_TERMS
+    # s295: aviso en DOS CAPAS. Lo que este test protege es que la explicación en texto libre
+    # se DECLARE al técnico, no en qué capa: se comprueba el aviso completo.
+    assert "explicación que escribas" in (bot._CONSENT_TERMS + bot._PRIVACY_DETAIL)
     assert int(TERMS_VERSION.lstrip("v")) >= 3
 
 

@@ -32,7 +32,10 @@ _RESPONSE_MAX_CHARS = 4096
 # (embebe la pregunta para buscar en chunks_v2) y RAILWAY (ejecuta el bot) -- mientras el
 # texto afirmaba "no se comparten con nadie mas". Ademas se declara la transferencia fuera
 # de la UE y se ACOTA la promesa de retirada del identificador a lo que el mecanismo hace
-# (consultas y valoraciones; la prueba del consentimiento sigue su propia regla).
+# (consultas y valoraciones; la prueba del consentimiento sigue su propia regla). El MISMO
+# salto v5 lleva ademas el aviso en DOS CAPAS (aceptacion corta + /privacidad con el detalle)
+# y los destinatarios por CATEGORIA: se agrupa a proposito para que haya UNA sola
+# re-aceptacion en vez de dos.
 TERMS_VERSION = "v5"
 
 _HEADERS = {

@@ -27,10 +27,28 @@ PROPUESTA = (
 # Ata TEXTO <-> VERSION. Un mapa (y no un único hash suelto) es lo que impide la evasión
 # «edito el texto y actualizo el digest dejando la versión quieta»: reescribir la entrada
 # de una versión ya publicada declara que dos textos distintos son el mismo contrato.
+#
+# Cubre las DOS CAPAS. Al mover el detalle a `_PRIVACY_DETAIL` se quedó fuera del tripwire,
+# así que se podía cambiar un destinatario, una finalidad o un plazo manteniendo v5 y sin
+# que nadie re-aceptara: el agujero lo abrí yo con el refactor. El contrato es lo que se le
+# muestra al técnico, esté en la capa que esté.
 HASH_POR_VERSION = {
-    "v4": "43e52a3df2e4dfea",
-    "v5": "0e25de92dcc9f7db",
+    "v4": "43e52a3df2e4dfea",              # capa única (antes del aviso en dos capas)
+    "v5": "1600bb5d68033a84",              # sha256(capa1 + SEPARADOR + capa2)
 }
+
+
+# Separador literal entre capas: no puede aparecer en el texto y no depende de escapes.
+SEPARADOR = "<<<CAPA-2>>>"
+
+
+def _huella_del_aviso() -> str:
+    import hashlib
+
+    import src.bot.telegram_bot as bot
+
+    crudo = bot._CONSENT_TERMS + SEPARADOR + bot._PRIVACY_DETAIL
+    return hashlib.sha256(crudo.encode("utf-8")).hexdigest()[:16]
 
 
 # ------------------------------------------------------------------ términos
@@ -46,43 +64,126 @@ def test_terms_version_es_tripwire():
 def test_el_texto_de_los_terminos_esta_atado_a_su_version():
     import src.bot.telegram_bot as bot
 
-    digest = hashlib.sha256(bot._CONSENT_TERMS.encode("utf-8")).hexdigest()[:16]
+    digest = _huella_del_aviso()
     esperado = HASH_POR_VERSION.get(TERMS_VERSION)
     assert esperado is not None, (
         f"TERMS_VERSION={TERMS_VERSION} no tiene hash registrado: añade la entrada con el "
-        f"digest del texto que se le muestra al técnico ({digest})."
+        f"digest de LAS DOS CAPAS que se le muestran al técnico ({digest})."
     )
     assert digest == esperado, (
-        f"_CONSENT_TERMS cambió (hash {digest}) sin subir TERMS_VERSION (sigue en "
+        f"el aviso cambió (hash {digest}) sin subir TERMS_VERSION (sigue en "
         f"{TERMS_VERSION}). Si el cambio afecta a lo que se le promete al técnico, SUBE la "
         f"versión y añade su entrada — reescribir el hash de {TERMS_VERSION} declararía que "
         f"el texto viejo y el nuevo son el mismo contrato, y nadie re-aceptaría."
     )
 
 
-def test_los_terminos_no_declaran_guardar_el_audio():
-    """Se declaraba guardar el «audio original» y NO se guarda — declarar de más es tan
-    incorrecto como declarar de menos."""
-    import src.bot.telegram_bot as bot
-
-    assert "audio original NO se guarda" in bot._CONSENT_TERMS
-    assert "solo su transcripción" in bot._CONSENT_TERMS
-
-
-def test_los_terminos_declaran_plazo_canal_y_transporte():
-    """Telegram transporta TODO. Decir «no se comparten con nadie más» sin nombrarlo era
-    declarar de menos."""
+def test_la_primera_capa_lleva_lo_imprescindible():
+    """Aviso en DOS capas. La primera es lo que hay que saber ANTES de aceptar: qué se
+    guarda, cuánto, quién lo ve, que hay terceros fuera de la UE, y el canal de derechos."""
     import src.bot.telegram_bot as bot
 
     terms = bot._CONSENT_TERMS
+    assert "audio original NO se guarda" in terms
     assert "24 meses" in terms
     assert "info@fontiber.com" in terms
-    assert "viaja por *Telegram*" in terms     # el transporte, no solo «tu ID de Telegram»
-    # Los cinco encargados que la matriz lista tienen que estar TAMBIEN aqui: declarar de
-    # menos ante quien consiente es el mismo defecto que declarar de mas.
-    for encargado in ("Anthropic", "Voyage AI", "OpenAI", "Supabase", "Railway"):
-        assert encargado in terms, f"los terminos no declaran a {encargado}"
-    assert "fuera de la UE" in terms           # la transferencia internacional
+    assert "fuera de la UE" in terms
+    assert "/privacidad" in terms              # el puente a la segunda capa
+
+
+def test_la_primera_capa_no_vuelve_a_ser_un_muro():
+    """Llegó a 1.803 caracteres y 25 líneas. Un aviso que nadie lee no informa a nadie: el
+    detalle se movió a `/privacidad`. Este techo es el que impide que vuelva a crecer sin
+    que alguien lo decida."""
+    import src.bot.telegram_bot as bot
+
+    assert len(bot._CONSENT_TERMS) <= 1000, (
+        f"la aceptación creció a {len(bot._CONSENT_TERMS)} chars: si es detalle, va a "
+        f"`_PRIVACY_DETAIL`; si de verdad es imprescindible antes de aceptar, sube el techo "
+        f"a conciencia."
+    )
+
+
+def test_la_segunda_capa_declara_a_todos_los_encargados_por_categoria():
+    """Los destinatarios se describen por CATEGORÍA con la lista actual («búsqueda en los
+    manuales: Voyage AI»), que es lo que pide el RGPD. Así, cambiar de proveedor dentro de
+    la misma categoría no altera lo aceptado — y los cinco de la matriz aparecen."""
+    import src.bot.telegram_bot as bot
+
+    detalle = bot._PRIVACY_DETAIL
+    # Los encargados se leen de la MATRIZ, no de una lista escrita aquí: si mañana se añade
+    # uno al documento y no al aviso, este test cae. Con la lista hardcodeada el test era
+    # circular — se comprobaba a sí mismo.
+    matriz = (REPO / "docs" / "RGPD_RETENCION.md").read_text(encoding="utf-8")
+    seccion = matriz.split("## Encargados de tratamiento", 1)[1].split("\n## ", 1)[0]
+    encargados = [
+        fila.split("|")[1].replace("*", "").strip()
+        for fila in seccion.splitlines()
+        if fila.startswith("| **")
+    ]
+    assert len(encargados) >= 5, f"no se pudo leer la tabla de encargados: {encargados}"
+    for encargado in encargados:
+        assert encargado in detalle, f"el detalle no declara a {encargado} (sí está en la matriz)"
+    for categoria in ("Canal de mensajería", "Generación de la respuesta",
+                      "Búsqueda en los manuales", "Transcripción de audio",
+                      "Almacenamiento", "Ejecución del bot"):
+        assert categoria in detalle, f"falta la categoría: {categoria}"
+    assert "fuera de la UE" in detalle
+    assert "solo su transcripción" in detalle
+
+
+def test_la_segunda_capa_lleva_lo_que_un_aviso_debe_llevar():
+    """Se llamaba «detalle completo» y le faltaban puntos del artículo 13: responsable, base
+    jurídica, cómo retirar el consentimiento, reclamación ante la autoridad de control y
+    transferencias. Declararlos solo en una matriz interna no informa a nadie."""
+    import src.bot.telegram_bot as bot
+
+    detalle = bot._PRIVACY_DETAIL
+    for marca in ("*Responsable*", "Fontiber Industrial Partners", "*Base jurídica*",
+                  "Retirar el consentimiento", "Agencia Española", "Transferencias"):
+        assert marca in detalle, f"el aviso no informa de: {marca}"
+
+
+def test_las_dos_capas_son_enviables_por_telegram():
+    """Ambas se mandan con `parse_mode="Markdown"`: si un `*`, `_` o backtick queda sin
+    cerrar, Telegram **rechaza el mensaje entero** y el aviso no llega — el técnico se
+    quedaría sin poder leerlo, o sin poder aceptar. No se ve revisando el texto a ojo."""
+    import src.bot.telegram_bot as bot
+
+    for nombre, txt in (("_CONSENT_TERMS", bot._CONSENT_TERMS),
+                        ("_PRIVACY_DETAIL", bot._PRIVACY_DETAIL)):
+        for marca in ("*", "_", "`"):
+            assert txt.count(marca) % 2 == 0, (
+                f"{nombre} tiene un {marca!r} sin cerrar: Telegram rechazaría el mensaje"
+            )
+        assert len(txt) <= 4096, f"{nombre} excede el límite de Telegram"
+
+
+def test_el_aviso_declara_el_nombre_que_se_pide_en_accept():
+    """`/accept [tu nombre]` guarda `display_name` en `user_consent`. Se recogía sin
+    declararlo en ninguna capa."""
+    import src.bot.telegram_bot as bot
+
+    assert "nombre que nos des" in bot._CONSENT_TERMS
+    assert "nombre que nos des" in bot._PRIVACY_DETAIL
+
+
+def test_la_segunda_capa_se_puede_leer_sin_haber_aceptado():
+    """Condición para que la primera capa cuente como informada: el detalle tiene que estar
+    accesible ANTES de aceptar. Se comprueba que el handler NO consulta el consentimiento."""
+    import inspect
+
+    import src.bot.telegram_bot as bot
+
+    cuerpo = inspect.getsource(bot.privacy_command)
+    assert "has_consent" not in cuerpo
+    assert "_PRIVACY_DETAIL" in cuerpo
+
+
+def test_privacidad_esta_registrado_y_listado():
+    fuente = (REPO / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8")
+    assert 'CommandHandler("privacidad", privacy_command)' in fuente
+    assert "/privacidad - " in fuente          # visible en /help, no un comando oculto
 
 
 def test_el_audio_se_borra_tras_transcribir():
@@ -382,5 +483,8 @@ def test_la_matriz_declara_lo_que_de_verdad_pasa():
         "telegram",                 # el transporte también es encargado
         "railway",                  # los logs del worker
         "no desbloquea",            # el gate de `convo` sigue cerrado
+        "base jurídica",            # el lever de fondo, declarado como [DECIDIR]
+        "interés legítimo",         # la recomendación, no una vaguedad
+        "/privacidad",              # el aviso en dos capas
     ):
         assert marca in doc, f"la matriz no declara: {marca}"
