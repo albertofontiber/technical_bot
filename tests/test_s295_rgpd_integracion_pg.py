@@ -37,7 +37,7 @@ pytestmark = pytest.mark.skipif(
 # Esquema mínimo con lo que la retención toca: mismas columnas, mismas constraints, mismas
 # FK con CASCADE. No se copia el esquema entero — se copia lo que gobierna el invariante.
 ESQUEMA = """
-DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs CASCADE;
+DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent CASCADE;
 CREATE TABLE query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
@@ -69,13 +69,23 @@ CREATE TABLE answer_messages (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (telegram_chat_id, telegram_message_id)
 );
+-- `user_consent` no la toca la retención, pero SÍ la comprueba la postcondición que ancla
+-- que `service_role` sigue exactamente como estaba (su UPDATE ahí es legítimo: la
+-- re-aceptación). Sin ella el fixture estaría midiendo un mundo más pequeño que el real.
+CREATE TABLE user_consent (
+    telegram_user_id BIGINT PRIMARY KEY,
+    display_name TEXT,
+    terms_version TEXT NOT NULL,
+    accepted_at TIMESTAMPTZ DEFAULT NOW(),
+    revoked_at TIMESTAMPTZ
+);
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN
         CREATE ROLE service_role NOLOGIN BYPASSRLS;
     END IF;
 END $$;
 GRANT SELECT, INSERT ON query_logs, feedback, answer_messages TO service_role;
-GRANT SELECT, INSERT, UPDATE ON answer_feedback TO service_role;
+GRANT SELECT, INSERT, UPDATE ON answer_feedback, user_consent TO service_role;
 """
 
 
