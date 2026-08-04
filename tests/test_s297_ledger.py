@@ -119,14 +119,20 @@ def test_feedback_con_enlace_colgante_sobrevive_suelto(monkeypatch, caplog):
     ])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    log_feedback(111, "la respuesta estaba mal", query_log_id="uuid-borrado")
+    log_feedback(111, "la respuesta estaba mal",
+                 previous_query="pregunta borrada", previous_response="respuesta borrada",
+                 query_log_id="uuid-borrado")
 
     assert len(cliente.posts) == 2
     _, primero = cliente.posts[0]
     _, reintento = cliente.posts[1]
     assert primero["query_log_id"] == "uuid-borrado"
     assert "query_log_id" not in reintento             # suelto, como antes de s296
-    assert reintento["feedback_text"] == "la respuesta estaba mal"
+    # Y SIN las copias (dúo): si el padre desapareció por una supresión, las copias SON el
+    # dato recién borrado — reinsertarlas re-materializaría lo suprimido, fuera de cascada.
+    assert "previous_query" not in reintento
+    assert "previous_response" not in reintento
+    assert reintento["feedback_text"] == "la respuesta estaba mal"   # el mensaje NUEVO sí
     assert any("SIN enlace" in r.message for r in caplog.records)
 
 
@@ -153,3 +159,41 @@ def test_un_timeout_no_se_reintenta(monkeypatch):
 
     log_feedback(111, "texto", query_log_id="uuid")     # no revienta (fire-and-forget)
     assert len(cliente.posts) == 1
+
+
+def test_si_el_libro_lanza_excepcion_el_tecnico_entra_igual(monkeypatch, caplog):
+    """El dúo cazó que el fail-open solo cubría errores HTTP: una excepción de TRANSPORTE
+    en el POST del evento, con el estado YA commiteado, devolvía False — el bot pedía
+    reintentar un consentimiento ya dado y el usuario quedaba atascado en la caché de
+    misses. El POST del evento vive ahora en su propio try."""
+
+    class _EstadoOkEventoExplota(_ClienteFalso):
+        def post(self, url, headers=None, json=None):
+            self.posts.append((url, json))
+            if "consent_events" in url:
+                raise httpx.ConnectError("red caida")
+            return _Respuesta(201)
+
+    cliente = _EstadoOkEventoExplota([])
+    monkeypatch.setattr(logging_db.httpx, "Client", cliente)
+    logging_db._consent_cache_misses.add(111)          # estaba como miss (escribió antes)
+
+    assert set_consent(111) is True                    # el estado manda: entra
+    assert 111 in logging_db._consent_cache
+    assert 111 not in logging_db._consent_cache_misses # y NO queda atascado
+    assert any("transporte" in r.message for r in caplog.records)
+
+
+def test_la_cache_de_consentimiento_expira():
+    """El dúo cazó que un usuario REVOCADO seguía entrando hasta reiniciar el worker: la
+    caché era un set sin expiración. Con TTL, la revocación surte efecto sin reinicio."""
+    import time as _time
+
+    from src.logging_db import has_consent
+
+    logging_db._consent_cache[999] = _time.monotonic() + 60      # vigente
+    assert has_consent(999) is True
+
+    logging_db._consent_cache[999] = _time.monotonic() - 1       # caducada
+    # Sin red no puede reconfirmar: lo que importa es que NO responde True desde la caché.
+    assert has_consent(999) is False

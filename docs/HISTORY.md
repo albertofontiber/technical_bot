@@ -2793,3 +2793,32 @@ cota.
 
 Al cierre: 22/22 contra Postgres real, seis fallos corregidos y tres gaps nuevos declarados sin
 resolver.
+
+---
+
+## s297 (5 ago 2026) — el libro que no debia mentir, y las cuatro maneras en que podia
+
+La sentada pequena ("dos gaps y una columna") produjo la densidad de hallazgos mas alta de la
+linea RGPD: 15 del duo, 4 criticos, sobre ~300 lineas de delta. Los cuatro criticos comparten
+forma: **un mecanismo de evidencia o de garantia que, en cierto camino, hacia lo contrario de
+lo que prometia**. La marca "inalcanzable" era insertable (INSERT de tabla cubre toda columna,
+tambien las nuevas); el usuario revocado seguia entrando (cache sin TTL); el reintento
+"protector" re-materializaba el dato recien suprimido (las copias); y el backfill del libro
+--el libro cuya unica razon de ser es no mentir-- duplicaba evidencia si la migracion se
+re-ejecutaba, con COMMIT limpio y postcondicion complice (>= en vez de igualdad).
+
+El quinto, del sub-agente, es el mas fino: el fail-open del libro **solo era fail-open para
+errores HTTP**. Una excepcion de transporte tras el estado ya commiteado devolvia False, el
+bot pedia reintentar un consentimiento ya dado, y el usuario quedaba atascado en la cache de
+misses. La leccion: "fail-open" es una propiedad del CAMINO DE ERROR completo, no del caso de
+error que uno penso primero.
+
+Y en el LIA, el framing de siempre, cazado otra vez: garantias construidas presentadas como
+vigentes, y una afirmacion empirica ("el laboratorio no predijo los fallos organicos") con
+n=1 y ese n=1 en contra. Retirada CON la retirada explicada en el propio documento — que el
+asesor vea que estuvo y por que se quito.
+
+Al cierre: 9 unitarios + integracion contra Postgres real incluyendo la RE-EJECUCION de la
+migracion, el INSERT tramposo ejercido como service_role en las dos tablas, y la coherencia
+marca-fecha. Verde a la primera en CI la ronda inicial (la ruta del workflow se anadio ANTES
+del primer push — leccion s296 aplicada).

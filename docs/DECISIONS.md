@@ -4656,3 +4656,37 @@ el libro es de solo inserción EJECUTANDO como service_role, re-aceptar no pisa 
 roles anónimos sin acceso, la marca del canal espontáneo inalcanzable para el bot). La ruta de
 la migración s297 añadida al workflow ANTES del primer push — lección de s296, donde el CI no
 se disparaba con los ficheros nuevos.
+
+**Dúo sobre s297 (dos rondas paralelas, ambas con bite — 15 hallazgos, 4 críticos).**
+- **La marca NO era inalcanzable** (cross-model): cerré el UPDATE pero `service_role`
+  conservaba INSERT de TABLA, que cubre toda columna — el bot podía insertar una fila con
+  `utilidad` ya puesta, en `feedback` Y en `answer_feedback` (agujero heredado de s296).
+  Ahora INSERT de COLUMNA sobre exactamente lo que el bot escribe, con postcondición.
+- **Un usuario revocado seguía entrando hasta reiniciar el worker**: `_consent_cache` era un
+  set sin expiración. Ahora TTL de 10 min; la revocación surte efecto sin reinicio.
+- **El reintento de FK podía re-materializar datos borrados**: conservaba las copias de la
+  pregunta/respuesta — el dato recién suprimido — sueltas y fuera de cascada. Ahora suelta
+  también las copias; el texto del feedback sí se conserva (mensaje nuevo, tratamiento fresco).
+- **El backfill corrompía el libro al re-ejecutar** (ambos revisores): sin guarda, una segunda
+  pasada re-insertaba un 'accepted' por fila viva con COMMIT limpio y la postcondición de >=
+  tragándoselo. Ahora: gate libro-vacío + columna `origen` (reconstruido ≠ presenciado) +
+  postcondición de IGUALDAD. Con test que RE-EJECUTA la migración de verdad.
+- **El fail-open no era fail-open** (sub-agente): una excepción de TRANSPORTE en el POST del
+  evento, con el estado ya commiteado, devolvía False — el bot pedía reintentar un
+  consentimiento ya dado y el usuario quedaba atascado en la caché de misses. El POST del
+  evento vive ahora en su propio try, y la caché se actualiza en cuanto el estado commitea.
+- **La revocación manual en dos sentencias sueltas** podía dejar evidencia en FALSO POSITIVO
+  (evento 'revoked' sin efecto real): el runbook la exige ahora en BEGIN…COMMIT.
+- **FRAMING cazado en el LIA**: presentaba como vigentes garantías construidas pero NO
+  aplicadas (aviso de estado añadido: la ponderación no se firma hasta que la cola s295→s297
+  esté viva); afirmaba «ya se probó que el laboratorio no predijo los fallos orgánicos» con
+  n=1 y ese n=1 EN CONTRA (retirado, con la retirada explicada en el propio doc); contaba 4
+  encargados fuera de la UE y son 5.
+- Coherencia `utilidad`↔`utilidad_revisada_at` gobernada por CHECK en ambas tablas; matriz y
+  runbook alineados sobre el destino de `consent_events` ante una supresión (**[DECIDIR]** con
+  el asesor: borrar vs conservar como prueba); postcondiciones al patrón de anchura de la casa;
+  residual declarado: el CI conecta como superuser y no observa la RLS del camino operador.
+
+**Lo que el dúo confirmó sólido**: `_fk_rejected` y el no-reintento ante timeout; el orden
+evento-tras-estado; el backfill en primera ejecución; el patrón de frontera; que el bootstrap
+NO repite el bug s296.

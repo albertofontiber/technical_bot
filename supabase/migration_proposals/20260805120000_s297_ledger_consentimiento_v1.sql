@@ -39,6 +39,9 @@ CREATE TABLE IF NOT EXISTS public.consent_events (
     telegram_user_id BIGINT NOT NULL,
     terms_version    TEXT NOT NULL,
     evento           TEXT NOT NULL CHECK (evento IN ('accepted', 'revoked')),
+    -- Un evento reconstruido no es un evento presenciado: el libro los distingue para no
+    -- fingir un histórico que el upsert antiguo destruyó.
+    origen           TEXT NOT NULL DEFAULT 'runtime' CHECK (origen IN ('runtime', 'backfill')),
     created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -63,13 +66,27 @@ GRANT SELECT, INSERT ON TABLE public.consent_events TO service_role;
 -- el libro arranca con lo único que sobrevivió — el estado actual. Un evento 'accepted' por
 -- fila viva (con su fecha real) y un 'revoked' donde conste revocación. Todo lo anterior
 -- (v1..v6 pisadas) es irrecuperable y el libro NO lo finge.
-INSERT INTO public.consent_events (telegram_user_id, terms_version, evento, created_at)
-SELECT telegram_user_id, terms_version, 'accepted', COALESCE(accepted_at, NOW())
-  FROM public.user_consent;
-INSERT INTO public.consent_events (telegram_user_id, terms_version, evento, created_at)
-SELECT telegram_user_id, terms_version, 'revoked', revoked_at
-  FROM public.user_consent
- WHERE revoked_at IS NOT NULL;
+-- CON GUARDA de re-ejecución (hallazgo del dúo): sin ella, un operador inseguro de si ya
+-- aplicó la migración la re-corría, todo lo demás no-opeaba por idempotencia, y el backfill
+-- RE-INSERTABA un 'accepted' por fila viva — COMMIT limpio, libro afirmando dos aceptaciones
+-- donde hubo una, y la postcondición (que usaba >=) tragándoselo. Un libro cuya única razón
+-- de ser es no mentir, corrompido en silencio. El gate: backfill solo sobre libro VACÍO.
+DO $s297_backfill$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM public.consent_events) THEN
+        INSERT INTO public.consent_events
+            (telegram_user_id, terms_version, evento, origen, created_at)
+        SELECT telegram_user_id, terms_version, 'accepted', 'backfill',
+               COALESCE(accepted_at, NOW())
+          FROM public.user_consent;
+        INSERT INTO public.consent_events
+            (telegram_user_id, terms_version, evento, origen, created_at)
+        SELECT telegram_user_id, terms_version, 'revoked', 'backfill', revoked_at
+          FROM public.user_consent
+         WHERE revoked_at IS NOT NULL;
+    END IF;
+END
+$s297_backfill$;
 
 -- ---------------------------------------------------------------------------
 -- 2. La marca de utilidad en el canal espontáneo
@@ -95,9 +112,34 @@ BEGIN
 END
 $s297_utilidad_check$;
 
--- Aquí NO hay que retirar ningún privilegio: `service_role` no tiene UPDATE sobre
--- `feedback` desde el hardening de julio, así que el bot ya no puede escribir la marca.
--- La escribe el operador (postgres) al revisar, igual que en `answer_feedback`.
+-- El UPDATE ya estaba cerrado (hardening de julio), pero el dúo cazó el flanco que quedaba
+-- abierto: `service_role` conservaba INSERT **de tabla**, que cubre TODA columna — incluida
+-- la marca. El bot podía INSERTAR una fila nueva con `utilidad` ya puesta. Se sustituye por
+-- INSERT de COLUMNA sobre exactamente lo que el bot escribe, aquí y en `answer_feedback`
+-- (mismo agujero, heredado de s296).
+REVOKE INSERT ON TABLE public.feedback FROM service_role;
+GRANT INSERT (telegram_user_id, feedback_text, previous_query, previous_response, query_log_id)
+    ON public.feedback TO service_role;
+
+REVOKE INSERT ON TABLE public.answer_feedback FROM service_role;
+GRANT INSERT (query_log_id, telegram_user_id, verdict)
+    ON public.answer_feedback TO service_role;
+
+-- M6 del dúo: la coherencia NULL≠ninguna no estaba gobernada — cabía una marca sin fecha de
+-- revisión, o una fecha sin marca. O las dos o ninguna, en ambas tablas.
+DO $s297_coherencia$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'feedback_utilidad_coherente') THEN
+        ALTER TABLE public.feedback ADD CONSTRAINT feedback_utilidad_coherente
+            CHECK ((utilidad IS NULL) = (utilidad_revisada_at IS NULL));
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint
+                    WHERE conname = 'answer_feedback_utilidad_coherente') THEN
+        ALTER TABLE public.answer_feedback ADD CONSTRAINT answer_feedback_utilidad_coherente
+            CHECK ((utilidad IS NULL) = (utilidad_revisada_at IS NULL));
+    END IF;
+END
+$s297_coherencia$;
 
 -- ---------------------------------------------------------------------------
 -- 3. Postcondiciones
@@ -122,11 +164,19 @@ BEGIN
         RAISE EXCEPTION 's297: service_role no puede escribir/leer el libro';
     END IF;
 
-    -- 3.2 Ningún rol anónimo lo toca (y RLS forzada).
+    -- 3.2 Ningún rol anónimo lo toca (y RLS forzada) — los 8 privilegios de tabla y los de
+    --     columna, patrón de igualdad de la casa (S4 del dúo: una postcondición más estrecha
+    --     que el REVOKE deja pasar regresiones futuras que el REVOKE de hoy no cubre).
     FOREACH rol IN ARRAY ARRAY['anon', 'authenticated'] LOOP
-        FOREACH priv IN ARRAY ARRAY['SELECT', 'INSERT', 'UPDATE', 'DELETE'] LOOP
+        FOREACH priv IN ARRAY ARRAY['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+                                    'REFERENCES', 'TRIGGER', 'MAINTAIN'] LOOP
             IF has_table_privilege(rol, 'public.consent_events', priv) THEN
                 RAISE EXCEPTION 's297: % tiene % sobre consent_events', rol, priv;
+            END IF;
+        END LOOP;
+        FOREACH priv IN ARRAY ARRAY['SELECT', 'INSERT', 'UPDATE', 'REFERENCES'] LOOP
+            IF has_any_column_privilege(rol, 'public.consent_events', priv) THEN
+                RAISE EXCEPTION 's297: % tiene % de columna sobre consent_events', rol, priv;
             END IF;
         END LOOP;
     END LOOP;
@@ -138,13 +188,17 @@ BEGIN
         RAISE EXCEPTION 's297: RLS no esta habilitada Y forzada en consent_events';
     END IF;
 
-    -- 3.3 El backfill dejó el libro consistente con el estado.
-    IF (SELECT count(*) FROM public.consent_events WHERE evento = 'accepted')
-       < (SELECT count(*) FROM public.user_consent) THEN
-        RAISE EXCEPTION 's297: el backfill no cubrio todas las aceptaciones vivas';
+    -- 3.3 El backfill dejó el libro consistente con el estado — IGUALDAD, no >=: o corrió
+    --     completo sobre libro vacío (== filas del estado) o no corrió (0, re-ejecución).
+    --     Cualquier otro valor es un backfill parcial o duplicado.
+    IF (SELECT count(*) FROM public.consent_events
+         WHERE origen = 'backfill' AND evento = 'accepted')
+       NOT IN (0, (SELECT count(*) FROM public.user_consent)) THEN
+        RAISE EXCEPTION 's297: backfill parcial o duplicado -- el libro no puede mentir';
     END IF;
 
-    -- 3.4 La marca del canal espontáneo existe y el bot NO puede escribirla.
+    -- 3.4 La marca del canal espontáneo existe y el bot NO puede escribirla — ni por
+    --     UPDATE ni por el flanco que el dúo cazó: INSERT de tabla, que cubre toda columna.
     IF NOT EXISTS (
         SELECT 1 FROM information_schema.columns
          WHERE table_schema='public' AND table_name='feedback' AND column_name='utilidad'
@@ -155,6 +209,25 @@ BEGIN
        OR has_any_column_privilege('service_role', 'public.feedback', 'UPDATE') THEN
         RAISE EXCEPTION 's297: service_role puede escribir en feedback -- la marca quedaria '
                         'al alcance del canal del interesado';
+    END IF;
+    IF has_table_privilege('service_role', 'public.feedback', 'INSERT')
+       OR has_table_privilege('service_role', 'public.answer_feedback', 'INSERT') THEN
+        RAISE EXCEPTION 's297: service_role conserva INSERT de TABLA -- podria insertar una '
+                        'fila con la marca ya puesta';
+    END IF;
+    IF has_column_privilege('service_role', 'public.feedback', 'utilidad', 'INSERT')
+       OR has_column_privilege('service_role', 'public.answer_feedback', 'utilidad', 'INSERT')
+       OR has_column_privilege('service_role', 'public.feedback',
+                               'utilidad_revisada_at', 'INSERT')
+       OR has_column_privilege('service_role', 'public.answer_feedback',
+                               'utilidad_revisada_at', 'INSERT') THEN
+        RAISE EXCEPTION 's297: service_role puede INSERTAR la marca';
+    END IF;
+    -- ...pero lo que el bot SÍ escribe tiene que seguir funcionando.
+    IF NOT has_column_privilege('service_role', 'public.feedback', 'feedback_text', 'INSERT')
+       OR NOT has_column_privilege('service_role', 'public.answer_feedback',
+                                   'verdict', 'INSERT') THEN
+        RAISE EXCEPTION 's297: se ha roto la escritura normal de feedback/voto';
     END IF;
 END
 $s297_post$;
@@ -168,6 +241,11 @@ COMMIT;
 -- SELECT,INSERT a service_role, y las dos columnas de `feedback` con su CHECK. Sin tocar
 -- sus postcondiciones de `feedback` (siguen esperando SELECT+INSERT, que no cambia).
 --
+-- RESIDUAL DECLARADO (S6 del dúo): el CI conecta como `postgres` SUPERUSER, que ignora
+-- incluso FORCE RLS, así que ningún test observa la RLS de esta tabla para el camino del
+-- operador. La inmutabilidad frente al BOT sí se ejerce de verdad (ausencia de GRANT,
+-- ejecutada como service_role); el residuo es solo el camino operador, ruidoso si fallara.
+
 -- ---------------------------------------------------------------------------
 -- RETENCIÓN DEL PROPIO LIBRO (declarado, no cableado)
 -- ---------------------------------------------------------------------------

@@ -680,3 +680,77 @@ def test_la_marca_del_canal_espontaneo_existe_y_el_bot_no_puede_escribirla(base)
         with pytest.raises(psycopg2.errors.InsufficientPrivilege):
             cur.execute("UPDATE feedback SET utilidad = 'corrigio' WHERE telegram_user_id = 111")
     conexion.rollback()
+
+
+def test_la_migracion_s297_se_puede_reejecutar_sin_corromper_el_libro(base):
+    """S1 del dúo, el crítico: sin guarda, re-ejecutar la migración (operador inseguro de
+    «¿la apliqué?») re-insertaba el backfill entero — COMMIT limpio, libro afirmando dos
+    aceptaciones donde hubo una, y la postcondición de >= tragándoselo. Aquí se re-ejecuta
+    DE VERDAD y se exige que el libro quede idéntico."""
+    conexion, _, _ = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        cur.execute("SELECT count(*) FROM consent_events")
+        antes = cur.fetchone()[0]
+        cur.execute(PROPUESTA_S297.read_text(encoding="utf-8"))     # segunda pasada
+        cur.execute("SELECT count(*) FROM consent_events")
+        despues = cur.fetchone()[0]
+    conexion.autocommit = False
+    assert despues == antes, "la re-ejecución duplicó evidencia"
+
+
+def test_los_eventos_reconstruidos_se_distinguen_de_los_presenciados(base):
+    """Un evento del backfill no es un evento presenciado: el libro lo dice (`origen`),
+    para no fingir un histórico que el upsert antiguo destruyó."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SELECT DISTINCT origen FROM consent_events")
+        assert {f[0] for f in cur.fetchall()} == {"backfill"}       # solo backfill aún
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute("INSERT INTO consent_events (telegram_user_id, terms_version, evento) "
+                    "VALUES (111, 'v7', 'accepted')")
+        cur.execute("SELECT origen FROM consent_events "
+                    " WHERE telegram_user_id = 111 ORDER BY created_at DESC LIMIT 1")
+        assert cur.fetchone()[0] == "runtime"                       # el default distingue
+    conexion.rollback()
+
+
+def test_el_bot_no_puede_INSERTAR_la_marca(base):
+    """C1 del cross-model: el UPDATE estaba cerrado pero el INSERT de tabla cubría toda
+    columna — el bot podía insertar una fila nueva con `utilidad` ya puesta. Se ejerce de
+    verdad como service_role, en las DOS tablas."""
+    import psycopg2
+    conexion, vieja, _ = base
+
+    with conexion.cursor() as cur:                     # la escritura NORMAL sigue viva
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute("INSERT INTO feedback (telegram_user_id, feedback_text) "
+                    "VALUES (222, 'feedback normal')")
+    conexion.rollback()
+
+    for sentencia in (
+        "INSERT INTO feedback (telegram_user_id, feedback_text, utilidad, "
+        " utilidad_revisada_at) VALUES (222, 'tramposo', 'corrigio', now())",
+        f"INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict, utilidad, "
+        f" utilidad_revisada_at) VALUES ('{vieja}', 999, 'up', 'gold', now())",
+    ):
+        with conexion.cursor() as cur:
+            cur.execute("SET LOCAL ROLE service_role;")
+            with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+                cur.execute(sentencia)
+        conexion.rollback()
+
+
+def test_la_marca_exige_fecha_de_revision_y_viceversa(base):
+    """M6 del cross-model: NULL≠ninguna no estaba gobernado — cabía una marca sin fecha o
+    una fecha sin marca, y la semántica «auditable» quedaba contradictoria."""
+    import psycopg2
+    conexion, vieja, _ = base
+    for sentencia in (
+        "UPDATE feedback SET utilidad = 'corpus' WHERE telegram_user_id = 111",   # sin fecha
+        "UPDATE feedback SET utilidad_revisada_at = now() WHERE telegram_user_id = 111",
+    ):
+        with conexion.cursor() as cur:
+            with pytest.raises(psycopg2.errors.CheckViolation):
+                cur.execute(sentencia)
+        conexion.rollback()
