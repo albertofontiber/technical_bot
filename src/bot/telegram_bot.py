@@ -311,7 +311,8 @@ _CONSENT_TERMS = (
 # que la primera capa cuente como informada.
 _PRIVACY_DETAIL = (
     "📄 *Privacidad — detalle completo*\n\n"
-    "*Responsable*: Fontiber Industrial Partners · *info@fontiber.com*\n"
+    "*Responsable*: Fontiber Industrial Partners, S.L. · CIF B24984759 · Calle de la Palma "
+    "10, 28004 Madrid · *info@fontiber.com*\n"
     "*Base jurídica*: tu consentimiento, el que das al enviar `/accept`.\n\n"
     "*Qué se guarda*\n"
     "• Las preguntas que respondo: el texto que escribes o, si mandas un audio, solo su "

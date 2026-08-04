@@ -194,10 +194,9 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
    construido.*
 6. **Mecanismo de transferencia** para Telegram, Anthropic, Voyage AI, OpenAI y Railway.
    → *Alberto / asesor legal.*
-7. **Identificación completa del responsable**: el aviso dice «Fontiber Industrial Partners ·
-   info@fontiber.com». Un aviso completo lleva **razón social exacta, CIF y domicilio**. No se
-   inventan aquí: los aporta Alberto y entran en la segunda capa (`/privacidad`), lo que
-   obligará a subir `TERMS_VERSION`. → *Alberto.*
+7. ~~Identificación completa del responsable~~ **HECHO (v6)**: el aviso lleva razón social,
+   CIF y domicilio — *Fontiber Industrial Partners, S.L. · CIF B24984759 · Calle de la Palma
+   10, 28004 Madrid*, tomados del aviso legal de `fontiber.com` (indicado por Alberto).
 8. **Decidir la base jurídica** (ver la sección de arriba). Es lo que determina si los cambios
    futuros del aviso exigen re-aceptación o basta con informar. → *Alberto / asesor legal.*
 

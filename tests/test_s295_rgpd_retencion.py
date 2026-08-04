@@ -34,7 +34,8 @@ PROPUESTA = (
 # muestra al técnico, esté en la capa que esté.
 HASH_POR_VERSION = {
     "v4": "43e52a3df2e4dfea",              # capa única (antes del aviso en dos capas)
-    "v5": "1600bb5d68033a84",              # sha256(capa1 + SEPARADOR + capa2)
+    "v5": "1600bb5d68033a84",
+    "v6": "18a139c87ac30a35",              # sha256(capa1 + SEPARADOR + capa2)
 }
 
 
@@ -58,7 +59,7 @@ def test_terms_version_es_tripwire():
     """Único pin EXACTO del proyecto. Los otros dos tests de términos (s286, s294)
     comprueban su propio dato + un suelo, para que una subida legítima no rompa tres
     tests a la vez sin señal."""
-    assert TERMS_VERSION == "v5"
+    assert TERMS_VERSION == "v6"
 
 
 def test_el_texto_de_los_terminos_esta_atado_a_su_version():
@@ -139,8 +140,9 @@ def test_la_segunda_capa_lleva_lo_que_un_aviso_debe_llevar():
     import src.bot.telegram_bot as bot
 
     detalle = bot._PRIVACY_DETAIL
-    for marca in ("*Responsable*", "Fontiber Industrial Partners", "*Base jurídica*",
-                  "Retirar el consentimiento", "Agencia Española", "Transferencias"):
+    for marca in ("*Responsable*", "Fontiber Industrial Partners, S.L.", "B24984759",
+                  "28004 Madrid", "*Base jurídica*", "Retirar el consentimiento",
+                  "Agencia Española", "Transferencias"):
         assert marca in detalle, f"el aviso no informa de: {marca}"
 
 

@@ -36,7 +36,11 @@ _RESPONSE_MAX_CHARS = 4096
 # salto v5 lleva ademas el aviso en DOS CAPAS (aceptacion corta + /privacidad con el detalle)
 # y los destinatarios por CATEGORIA: se agrupa a proposito para que haya UNA sola
 # re-aceptacion en vez de dos.
-TERMS_VERSION = "v5"
+# v6 (s295): identificacion COMPLETA del responsable en el aviso (razon social, CIF y
+# domicilio, tomados del aviso legal de fontiber.com). Antes solo constaba el nombre
+# comercial y un correo. Se sube version por prudencia: cambia QUIEN responde ante el
+# interesado, y eso no es cosmetico aunque no cambie que se trata ni para que.
+TERMS_VERSION = "v6"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
