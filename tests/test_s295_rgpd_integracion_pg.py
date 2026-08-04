@@ -58,6 +58,11 @@ CREATE TABLE feedback (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
     feedback_text TEXT,
+    -- Las copias que `log_feedback` escribe en prod: el GRANT de COLUMNA de s297 las
+    -- referencia, así que el fixture debe tenerlas o la migración revienta aquí y no en
+    -- producción (lo cazó el CI: el esquema mínimo se había quedado más mínimo que el real).
+    previous_query TEXT,
+    previous_response TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 CREATE TABLE answer_feedback (
