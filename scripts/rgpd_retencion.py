@@ -96,10 +96,19 @@ class Objetivo(NamedTuple):
                 f"WHERE {self.columna_fecha} < %s AND {self.columna_id} IS NOT NULL "
                 f"RETURNING id"
             )
+        # s296: NO se pone a NULL. Se ESTAMPA el seudónimo y luego se retira el
+        # identificador, en la misma sentencia. Con NULL el corpus de un técnico quedaría
+        # desperdigado —200 preguntas sueltas sin saber que son de la misma persona— y ese
+        # agrupamiento es justo lo que da valor al histórico. El código se copia ANTES de
+        # borrar la correspondencia (ver `destruir_correspondencias`), que es el orden que
+        # hace la operación irreversible sin perder la agrupación.
         return (
-            f"UPDATE public.{self.tabla} SET {self.columna_id} = NULL "
-            f"WHERE {self.columna_fecha} < %s AND {self.columna_id} IS NOT NULL "
-            f"RETURNING id"
+            f"UPDATE public.{self.tabla} AS t "
+            f"   SET seudonimo = p.seudonimo, {self.columna_id} = NULL "
+            f"  FROM public.persona_seudonimo AS p "
+            f" WHERE p.telegram_user_id = t.{self.columna_id} "
+            f"   AND t.{self.columna_fecha} < %s AND t.{self.columna_id} IS NOT NULL "
+            f"RETURNING t.id"
         )
 
 
@@ -194,10 +203,49 @@ def ejecutar(limite: datetime, aplicar: bool, conexion=None) -> dict:
                     f"privilegios del operador y la ventana de 24 meses NO estaria "
                     f"garantizada por la base. Abortado sin tocar nada."
                 )
+            # Antes de nada: EMITIR el código que falte. La emisión en `/accept` es
+            # fail-open, así que puede haber gente sin código — y sin código el
+            # `UPDATE ... FROM persona_seudonimo` no casaría sus filas: conservarían el
+            # identificador PARA SIEMPRE y el recibo diría «0 tocadas» sin chirriar. La RLS
+            # solo deja ver filas vencidas, así que esto alcanza exactamente a quien toca.
+            for tabla, columna in (("query_logs", "telegram_user_id"),
+                                   ("feedback", "telegram_user_id"),
+                                   ("answer_feedback", "telegram_user_id")):
+                cur.execute(
+                    f"INSERT INTO public.persona_seudonimo (telegram_user_id) "
+                    f"SELECT DISTINCT {columna} FROM public.{tabla} "
+                    f" WHERE {columna} IS NOT NULL AND created_at < %s "
+                    f"ON CONFLICT (telegram_user_id) DO NOTHING",
+                    (limite,),
+                )
+
             for obj in OBJETIVOS:
                 cur.execute(obj.sentencia(), (limite,))
                 ids = [str(fila[0]) for fila in cur.fetchall()]
                 resultado[obj.tabla] = {"modo": obj.modo, "tocadas": len(ids), "ids": ids}
+
+            # EL PUNTO DE NO RETORNO, y va el ÚLTIMO a propósito: mientras la
+            # correspondencia existe, todo lo anterior es reversible. Se borra solo la de
+            # quien ya no tiene NINGUNA fila identificada — si a alguien le quedan
+            # consultas recientes, su código sigue haciendo falta para estamparlas cuando
+            # les toque. Y va dentro de la misma transacción: o se estampa el código y se
+            # destruye el vínculo, o no pasa ninguna de las dos cosas.
+            # La condición NO se consulta a mano: la política de ventana solo enseña filas
+            # vencidas a este rol, así que un `NOT EXISTS` desde aquí daría verdadero
+            # también para quien tiene filas RECIENTES identificadas — y destruiría su
+            # vínculo antes de tiempo, partiendo su corpus en dos códigos. La función corre
+            # con visibilidad completa y devuelve solo un booleano.
+            cur.execute(
+                "DELETE FROM public.persona_seudonimo p "
+                " WHERE NOT public.rgpd_quedan_identificados(p.telegram_user_id) "
+                "RETURNING telegram_user_id"
+            )
+            destruidas = [str(fila[0]) for fila in cur.fetchall()]
+            resultado["persona_seudonimo"] = {
+                "modo": "destruir_vinculo",
+                "tocadas": len(destruidas),
+                "ids": [],          # el id ES el identificador de la persona: NO se registra
+            }
         if aplicar:
             conexion.commit()
         else:
@@ -255,9 +303,8 @@ def main() -> int:
         )
         return 2
 
-    for obj in OBJETIVOS:
-        fila = resultado[obj.tabla]
-        print(f"  {obj.tabla:17s} {obj.modo:10s} tocadas={fila['tocadas']:5d}")
+    for tabla, fila in resultado.items():
+        print(f"  {tabla:19s} {fila['modo']:17s} tocadas={fila['tocadas']:5d}")
     # Los ids salen por stdout ANTES que nada mas: si el recibo en fichero fallase, la traza
     # de una operacion irreversible no puede depender de que `open()` funcione.
     for tabla, fila in resultado.items():

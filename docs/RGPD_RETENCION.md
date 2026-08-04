@@ -44,6 +44,55 @@ documentado. **Decisión de Alberto con validación legal**; la plantilla de `co
 **Momento**: hoy hay UNA fila de consentimiento, así que la fricción es de una persona. El
 momento de decidirlo es **antes de que entren técnicos**, no ahora.
 
+## El seudónimo estable: una sola pieza para agrupar y para desvincular ⬤
+
+**Decisión de Alberto (4-ago).** El plazo no pone el identificador a NULL: lo sustituye por un
+**código aleatorio, estable por persona**. Motivo, en sus palabras: no quiere perder el corpus de
+un técnico bueno que se vaya. Con NULL quedarían 200 preguntas excelentes sueltas, sin poder
+saber que son de la misma persona; con un código estable, el corpus sobrevive agrupado y el
+vínculo con la persona no.
+
+**Y resuelve a la vez el problema de los exports.** Un seudónimo solo para la retención y otro
+solo para los exports darían dos numeraciones que no casan. Una sola pieza, usada desde el
+principio:
+
+| | |
+|---|---|
+| Alta | Cada técnico recibe un código aleatorio la primera vez que usa el bot |
+| Correspondencia | Una tabla pequeña `persona_seudonimo` (código ↔ `telegram_user_id`) |
+| Exports | Llevan **siempre el código, nunca el identificador real**. Precisión: el identificador sí se LEE al proceso que genera el fichero; lo garantizado es que **no se escribe al fichero** |
+| Operativa | La base conserva el identificador real mientras haga falta (consentimiento, peticiones) |
+| A los 24 meses | Se sustituye el identificador por el código en los registros **y se borra la fila de correspondencia** — ese borrado ES el punto de no retorno |
+
+**Contrapartida declarada**: `persona_seudonimo` **es dato personal mientras existe** (vincula
+código y persona). Entra en la matriz, en el procedimiento de supresión a petición y en el
+alcance del job. No se disimula: se ha cambiado un riesgo difuso (identificador esparcido por
+exports) por uno concentrado y gobernado (una tabla, un borrado).
+
+**Alternativa descartada**: derivar el código del identificador con una función y una clave
+secreta (HMAC). Evita la tabla, pero los identificadores de Telegram son un espacio pequeño: con
+la clave se pueden recorrer todos y deshacer el seudónimo. Sería irreversible solo si se destruye
+la clave — y entonces vuelve el problema de no poder emitir el mismo código otra vez.
+
+### Límites del seudónimo, declarados
+
+**No es «el mismo código para siempre».** Lo es mientras viva la correspondencia. El vínculo
+se destruye en cuanto esa persona no tiene NINGUNA fila identificada — incluido quien aceptó y
+nunca preguntó, cuyo código no agrupa nada y por tanto no se pierde nada al borrarlo. Si a alguien
+se le destruye el vínculo (no le quedaba nada identificado) y luego vuelve, recibe un código
+NUEVO y su histórico queda en dos bloques. **No es un fallo: es la irreversibilidad
+funcionando** — un vínculo destruido no se puede resucitar, esa es justo la garantía. Pero
+conviene decirlo, porque la prosa «estable siempre» sugería lo contrario.
+
+**El append-only cubre el eje versión, no el eje tiempo.** Re-aceptar la MISMA versión
+refresca su fila: se pisa la fecha original y se limpia `revoked_at`. Es decir, **se conserva
+qué versión aceptó cada uno, pero no la traza de que en su día revocó y cuándo**. Arreglarlo
+exige un registro de eventos aparte; queda anotado, no hecho.
+
+**El feedback espontáneo puede perderse si la consulta se borra entre medias.** Al añadir el
+enlace con cascada, un `feedback` cuya consulta padre desaparezca justo antes de escribirlo
+falla entero (antes se guardaba suelto). Ventana pequeña y el caso es raro; se declara.
+
 ## Principio rector: DISOCIAR, no borrar ⬤
 
 El valor del histórico para el proyecto está en el **contenido** (la pregunta, la respuesta y
@@ -82,6 +131,28 @@ la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea)
 > hay postcondición que lo ancla. **Sin aplicar**: pendiente de revisar y ejecutar.
 > `scripts/rgpd_retencion.py` lo comprueba en cada ejecución y sale con código 2.
 
+> **Y una segunda migración encima** (s296):
+> `supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql` — el
+> seudónimo estable, `user_consent` append-only, el enlace de `feedback` y la marca de
+> utilidad. **Se aplica DESPUÉS de la anterior.** Ambas verificadas juntas contra un
+> PostgreSQL real en CI (19/19).
+
+### Dos fallos que solo aparecieron ejecutando (s296)
+
+Se dejan escritos porque son la misma clase y conviene reconocerla:
+
+1. **Quien no tuviera código quedaba FUERA de la retención, en silencio.** La emisión en
+   `/accept` es fail-open, así que puede faltar; sin código, el `UPDATE ... FROM` no casaba
+   sus filas — conservaban el identificador para siempre y el recibo decía «0 tocadas».
+   *Arreglo*: el job emite el que falte antes de estampar nada.
+2. **El borrado del vínculo no veía las filas recientes.** La condición «solo si no le queda
+   nada identificado» se consultaba desde el propio rol, cuya política solo le enseña filas
+   vencidas: las recientes «no existían» y destruía el vínculo antes de tiempo, lo que
+   partiría el corpus del técnico en dos códigos. *Arreglo*: una función acotada
+   (`rgpd_quedan_identificados`) que responde solo esa pregunta con visibilidad completa.
+
+Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
+
 ## La matriz
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
@@ -94,7 +165,10 @@ la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea)
 | Ancla mensaje ↔ consulta | `answer_messages` (`telegram_chat_id`, `telegram_message_id`) | Atribuir una respuesta de Telegram a su consulta | Sigue a su consulta | CASCADE | **Se BORRA** — mapeo operativo sin valor analítico a 24 meses (propuesta §3) |
 | Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
-| **Exports a disco** (`display_name`, `telegram_user_id`, pregunta, transcripción, respuesta) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
+| **Exports a disco** (desde s296: **seudónimo**, pregunta, transcripción, respuesta — SIN `display_name` ni `telegram_user_id`) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
+| **Exports ANTERIORES a s296** (llevan `display_name` y `telegram_user_id`) | los ficheros ya generados | — | ⚠️ ninguna | Borrado manual — **hay que buscarlos**: el cambio no toca lo ya escrito | Nada |
+| **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
+| **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
@@ -172,11 +246,30 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
   `UPDATE user_consent SET revoked_at = NOW() …` + `DELETE FROM query_logs WHERE
   telegram_user_id = X` (la cascada se lleva votos, explicaciones y anclas de SUS consultas)
   + `DELETE FROM answer_feedback WHERE telegram_user_id = X` (los votos que emitió sobre
-  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X`. **No alcanza los exports a disco**: hay que borrarlos
+  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X` + **`DELETE FROM persona_seudonimo WHERE telegram_user_id = X`** (la correspondencia es dato personal: sin borrarla, el código seguiría llevando a la persona). **No alcanza los exports a disco**: hay que borrarlos
   aparte.
 - **Acceso y portabilidad**: no implementados. Hoy se atienden a mano.
 
 ## Pendiente (con dueño)
+
+0. **DECIDIDO por Alberto (4-ago) y ya CONSTRUIDO** (s296, sin aplicar a la base):
+   - **Seudónimo estable** en lugar de NULL (sección de arriba), y **exports que solo lleven el
+     código**.
+   - **`user_consent`: una fila por (persona, versión)** con su fecha, en vez de una por
+     persona. Hoy no se puede demostrar que alguien aceptó la v3 — solo la última. **Ojo con
+     el nombre**: esto CONSERVA cada versión, pero NO es inmutable — re-aceptar la misma
+     versión refresca su fila, y `service_role` mantiene UPDATE de tabla sobre el histórico.
+     Inmutabilidad real exigiría quitarle ese UPDATE; queda anotado, no hecho.
+   - **Enlace en `feedback`**: se añade la columna que hoy no existe y se rellena en cada
+     escritura nueva, así la tabla entra en la cascada. Las filas antiguas (1) quedan huérfanas y
+     así se declara. *Deuda anotada, NO resuelta aquí: lo verdaderamente BP sería tener un solo
+     canal de feedback en vez de dos; es un refactor de producto, no de cumplimiento.*
+   - **Supresión a petición = DESVINCULAR, no borrar** (Alberto quiere conservar el material):
+     ante una petición se aplica el mismo mecanismo del plazo. **Cautela obligatoria**: revisar
+     que el texto libre de esa persona no lleve su nombre escrito dentro.
+   - **`/borrar` autoservicio: NO se construye.** La vía es escribir a `info@fontiber.com`, ya
+     declarada en el aviso. Recordatorio: el plazo legal de respuesta es de un mes y la petición
+     no se puede denegar.
 
 1. **Aplicar la propuesta del rol de retención** —
    `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` (enfoque

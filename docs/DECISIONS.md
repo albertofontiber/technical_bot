@@ -4508,3 +4508,107 @@ exports a disco, que hoy conservan identificadores sin plazo, entren en el alcan
 **Lección #60.** Un mecanismo de cumplimiento que no puede ejecutarse **aparenta** cumplimiento,
 y eso es peor que no tenerlo: el dry-run decía «0 candidatas» y se leía como «listo». Solo lo
 destapó verificar el EFECTO contra la base real — el código era correcto y el sistema no.
+
+---
+
+## DEC-178 (s296) — Seudónimo estable, consentimiento append-only y marca de calidad del feedback
+
+**Contexto.** Al explicarle a Alberto los pendientes de la matriz en lenguaje llano, aparecieron
+tres cosas que el diseño de s295 no cubría y una finalidad nueva.
+
+**Decisiones de Alberto (4-ago).**
+1. **Seudónimo estable en lugar de NULL.** Su miedo, literal: perder el corpus de un técnico bueno
+   que se vaya. Con NULL el contenido sobrevive pero **la agrupación no** — 200 preguntas
+   excelentes sueltas, sin poder saber que son de la misma persona. Con un código aleatorio
+   estable, el corpus sobrevive agrupado y el vínculo con la persona no.
+2. **Los exports llevan ese mismo código.** Un seudónimo para la retención y otro para los exports
+   darían dos numeraciones que no casan. Una sola pieza desde el principio ⇒ el identificador real
+   **no sale nunca** de la base.
+3. **`user_consent` append-only** por (persona, versión) con su fecha.
+4. **Enlace en `feedback`** para que cascadee. *Deuda declarada, NO resuelta*: lo verdaderamente BP
+   sería un solo canal de feedback en vez de dos; es refactor de producto, no de cumplimiento.
+5. **Supresión a petición = DESVINCULAR**, no borrar; `/borrar` autoservicio NO se construye.
+6. **Marca de utilidad + posible bonus por CALIDAD.**
+
+**El diseño, y por qué así.**
+- La correspondencia vive en una tabla (`persona_seudonimo`), no en un HMAC: los identificadores
+  de Telegram son un espacio pequeño y enumerable, así que con la clave se deshace el seudónimo.
+  Con tabla, la irreversibilidad llega en un momento explícito y auditable — **el borrado de la
+  fila**, que va el último y en la misma transacción.
+- **Contrapartida declarada**: esa tabla es dato personal mientras existe. Se ha cambiado un riesgo
+  difuso (el identificador esparcido por exports en varios discos) por uno concentrado y gobernado.
+
+**La pieza load-bearing del bonus.** `service_role` —la identidad del proceso con el que habla el
+técnico— **pierde el UPDATE de TABLA** sobre `answer_feedback` y recibe UPDATE de COLUMNA sobre lo
+que el voto necesita. El dato que sostendría un incentivo **no puede escribirse desde el canal que
+toca el interesado**. Esto ENDURECE la postura de julio: quita un privilegio, no añade.
+
+**`TERMS_VERSION` v6 → v7.** El aviso prometía que los datos no se usaban «para decisiones sobre
+ti», y un bonus **lo es**. Se declara el reconocimiento de aportaciones, que la marca la pone una
+**persona** al revisar y que **cualquier decisión la toma una persona**, no un cálculo automático.
+
+**Lo que se le dijo a Alberto y NO se hizo, porque no procede.** (a) Un seudónimo **no** libera del
+permiso: el dato seudonimizado sigue siendo personal, y lo que determina si hace falta base nueva
+es la FINALIDAD, no la identificabilidad. (b) Los «permisos especiales a ciertos técnicos» mezclan
+dos cosas: **ponderar por calidad** es decisión de ingeniería y no necesita permiso de nadie; un
+**opt-in de colaborador** para entrenar un modelo propio sí es consentimiento, y hay que pedirlo
+ANTES de recoger, no después.
+
+**Riesgo de producto declarado (no legal).** Pagar por feedback cambia lo que el feedback mide: se
+mediría quién ha entendido cómo se cobra, no dónde falla el bot, y el corpus de evaluación se
+llenaría de ruido generado por el propio incentivo. De ahí que la marca sea por **consecuencia**
+(`corrigio` / `gold` / `corpus` / `ninguna`), adjudicada por una persona después del hecho.
+
+**Dos fallos que solo aparecieron EJECUTANDO** (CI contra PostgreSQL real, 19/19 tras arreglarlos):
+- Quien no tuviera código quedaba **fuera de la retención en silencio** (`0 tocadas` y a otra cosa).
+- El borrado del vínculo **no veía las filas recientes** —la propia política de ventana se las
+  oculta al rol— y lo destruía antes de tiempo, lo que habría **partido el corpus en dos códigos**.
+Ambos se leen correctos en el código; la diferencia la marca ejecutarlos. Es la misma lección #60,
+tercera y cuarta instancia.
+
+**Alternativas descartadas.** *NULL* (pierde la agrupación, que es el activo). *HMAC con clave*
+(reversible por enumeración; irreversible solo destruyendo la clave, y entonces no se puede volver
+a emitir el mismo código). *Dejar el UPDATE de tabla a `service_role`* (el interesado podría influir
+en su propia valoración). *Contar votos para el bonus* (se infla en una tarde).
+
+**Dúo completo (2 rondas sobre s296, ambas con bite).** El cross-model cazó que **los exports
+no agrupaban nada**: `_seudonimizar` leía el código de `query_logs.seudonimo`, columna que solo
+se rellena al vencer el plazo ⇒ hasta 2028 todas las filas caían bajo el mismo literal. La
+finalidad que motivó la pieza estaba invertida, y no se veía porque la columna existe y el
+código se ejecutaba sin error. También: el código solo se emitía en `/accept` (quien ya aceptó
+no vuelve a pasar por ahí), el claim «append-only» era más fuerte que el mecanismo, el aviso
+prometía guardar el consentimiento «mientras uses el bot» contra lo que dice la matriz, y el
+workflow de Postgres **no se disparaba** con los ficheros de s296.
+
+El sub-agente añadió cuatro, tres silenciosos:
+- **El bootstrap deshacía la pieza 5.b.** `supabase_schema.sql` se re-ejecuta y restaura el
+  `UPDATE` de TABLA en `answer_feedback` con postcondición de igualdad exacta ⇒ la marca de
+  utilidad volvía a ser escribible desde el canal del interesado, sin que nada fallara. s296
+  lleva ahora su sección de bootstrap, como s295.
+- **El trigger anti-reidentificación bloqueaba marcar la utilidad** de todo voto colgado de una
+  consulta ya disociada — es decir, del feedback MÁS ANTIGUO, que es justo el que ha tenido
+  tiempo de demostrar que sirvió. Acotado a las columnas que re-identifican, con `WHEN`.
+- **`persona_seudonimo` nacía sin `REVOKE` de `anon`/`authenticated`**, única tabla de datos
+  personales sin él; Supabase concede todo por defecto sobre las tablas nuevas. El fixture no
+  creaba esos roles ⇒ el CI no podía cazarlo: ahora los crea y reproduce la concesión.
+- Las postcondiciones de s295 dejaban de pasar si se re-ejecutaba DESPUÉS de s296 (el UPDATE
+  pasa de tabla a columna): las propuestas quedaban orden-dependientes.
+
+**Un arreglo mío que estaba mal, y se retira en vez de maquillarse.** Acoté el borrado del
+vínculo con una ventana sobre `persona_seudonimo.created_at` — que dice cuándo se emitió el
+código, no cuándo vencen los datos: un código emitido por el propio job no se podría borrar
+jamás. El CI lo cazó. Al revisarlo, la preocupación que lo motivaba era infundada: borrar el
+código de quien aceptó y nunca preguntó no pierde nada, porque no agrupa ninguna fila. Retirado
+y **declarado**.
+
+**Claims acotados.** «El identificador no sale nunca de la base» era falso: SÍ se lee al proceso
+que genera el export; lo garantizado es que **no se escribe al fichero**. Y la matriz se
+contradecía a sí misma sobre el contenido de los exports.
+
+**Gaps nuevos, declarados y NO resueltos.** El código no es estable «siempre» (tras destruir el
+vínculo, quien vuelve recibe uno nuevo — es la irreversibilidad funcionando); el append-only
+cubre el eje versión pero **no conserva la traza de una revocación**; y el feedback espontáneo
+puede perderse si su consulta se borra entre medias.
+
+**Verificado**: 22/22 contra PostgreSQL real en CI, incluidos los cuatro fallos que solo
+aparecen ejecutando. Suite completa verde.

@@ -12,7 +12,11 @@ on:
   push:
     paths:
       - "supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql"
+      - "supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql"
       - "scripts/rgpd_retencion.py"
+      - "scripts/review_logs.py"
+      - "src/logging_db.py"
+      - "src/bot/telegram_bot.py"
       - "tests/test_s295_rgpd_integracion_pg.py"
       - ".github/workflows/s295-rgpd-retencion-pg.yml"
   workflow_dispatch:

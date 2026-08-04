@@ -64,6 +64,8 @@ from ..logging_db import (
     stamp_answer_messages,
     has_consent,
     set_consent,
+    seudonimo_de,
+    asegurar_seudonimo,
 )
 from .response_formatter import (
     DEFAULT_MESSAGE_LIMIT,
@@ -323,7 +325,12 @@ _PRIVACY_DETAIL = (
     "• Tu valoración 👍/👎, si la usas, y la explicación que escribas al marcar una "
     "respuesta como incorrecta\n\n"
     "*Para qué*: identificar errores, mejorar respuestas y calibrar el sistema con preguntas "
-    "reales del sector. No se usa para perfilarte ni para decisiones sobre ti.\n\n"
+    "reales del sector.\n\n"
+    "*Reconocimiento de aportaciones*: al revisar tu feedback marcamos si sirvió para "
+    "corregir algo, y esa valoración puede tenerse en cuenta para reconocer o incentivar "
+    "a quien más aporta. La marca la pone una persona al revisar, nunca el sistema, y "
+    "**cualquier decisión sobre ti la toma una persona**, no un cálculo automático. No se "
+    "te perfila para ninguna otra cosa.\n\n"
     "*Quién accede*: el equipo técnico de Fontiber Industrial Partners.\n\n"
     "*Quién más interviene* (por función, con quién lo hace hoy):\n"
     "• _Canal de mensajería_: *Telegram* — transporta toda la conversación\n"
@@ -337,7 +344,7 @@ _PRIVACY_DETAIL = (
     "*Cuánto tiempo*: 24 meses vinculado a ti. Pasado ese plazo se retira tu identificador "
     "de tus consultas y de sus valoraciones; el contenido se conserva disociado para seguir "
     "mejorando el sistema. Tu aceptación de estos términos se conserva como prueba del "
-    "consentimiento mientras uses el bot.\n\n"
+    "consentimiento mientras conservemos datos tuyos.\n\n"
     "*Transferencias fuera de la UE*: puedes pedirnos información sobre las garantías "
     "aplicables escribiendo a *info@fontiber.com*.\n\n"
     "*Tus derechos*: acceso, rectificación, supresión, oposición y portabilidad. Escribe a "
@@ -376,6 +383,12 @@ async def accept_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Ha ocurrido un error al registrar tu aceptación. Por favor, inténtalo de nuevo en unos segundos."
         )
         return
+
+    # s296: se emite aquí el código estable de esta persona. `/accept` es el punto natural
+    # — es obligatorio, ocurre una vez, y no está en el camino caliente de una consulta.
+    # Fail-open a propósito: si la emisión falla, el técnico entra igual; el código se
+    # emitirá en el siguiente intento. Bloquear el acceso por esto sería desproporcionado.
+    seudonimo_de(user_id)
 
     name_part = f", {display_name}" if display_name else ""
     await update.message.reply_text(
@@ -707,6 +720,7 @@ async def _handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE, q
         feedback_text=query,
         previous_query=previous_query[:500] if previous_query else None,
         previous_response=previous_response[:500] if previous_response else None,
+        query_log_id=context.user_data.get("last_query_log_id"),
     )
 
     await update.message.reply_text(
@@ -1055,6 +1069,18 @@ async def _process_query(
             rag_trace=rag_trace,
             query_log_id=query_log_uuid,
         )
+
+        # s296: garantizar el código aquí y no solo en `/accept`. Quien ya aceptó y sigue
+        # usando el bot NO vuelve a pasar por `/accept`, y quien regresa después de que su
+        # vínculo se destruyera, tampoco. Sin código, sus filas quedarían fuera de la
+        # agrupación. Cacheado en proceso: una llamada por persona, no por consulta.
+        asegurar_seudonimo(user_id)
+
+        # s296: el feedback espontáneo que venga DESPUÉS se ancla a esta consulta, para que
+        # la tabla `feedback` cascadee. Solo si la fila está CONFIRMADA: escribir un enlace
+        # colgando haría fallar la clave foránea y se perdería el feedback entero — misma
+        # política que el teclado de valoración, que también se omite si no está confirmada.
+        context.user_data["last_query_log_id"] = query_log_uuid if query_logged else None
 
         # Step 4: Render at the transport boundary.  The factual answer kept in
         # logs/evaluation remains untouched; every part is independently valid

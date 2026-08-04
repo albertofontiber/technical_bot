@@ -27,6 +27,10 @@ PROPUESTA = (
     REPO / "supabase" / "migration_proposals"
     / "20260803140000_s295_rgpd_rol_retencion_v2.sql"
 )
+PROPUESTA_S296 = (
+    REPO / "supabase" / "migration_proposals"
+    / "20260804120000_s296_seudonimo_y_calidad_v1.sql"
+)
 
 DSN = os.environ.get("RGPD_TEST_DATABASE_URL")
 pytestmark = pytest.mark.skipif(
@@ -37,7 +41,7 @@ pytestmark = pytest.mark.skipif(
 # Esquema mínimo con lo que la retención toca: mismas columnas, mismas constraints, mismas
 # FK con CASCADE. No se copia el esquema entero — se copia lo que gobierna el invariante.
 ESQUEMA = """
-DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent CASCADE;
+DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo CASCADE;
 CREATE TABLE query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
@@ -58,6 +62,7 @@ CREATE TABLE answer_feedback (
     telegram_user_id BIGINT NOT NULL,
     verdict TEXT NOT NULL,
     comment TEXT,
+    reason_class TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (query_log_id, telegram_user_id)
 );
@@ -82,6 +87,15 @@ CREATE TABLE user_consent (
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN
         CREATE ROLE service_role NOLOGIN BYPASSRLS;
+    END IF;
+    -- Los roles anonimos de Supabase. El fixture NO los creaba, asi que el CI no podia
+    -- cazar que una tabla nueva naciera accesible para ellos -- que es justo el riesgo de
+    -- `persona_seudonimo`, la tabla que vincula codigo y persona.
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+        CREATE ROLE anon NOLOGIN;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+        CREATE ROLE authenticated NOLOGIN;
     END IF;
 END $$;
 GRANT SELECT, INSERT ON query_logs, feedback, answer_messages TO service_role;
@@ -113,8 +127,16 @@ def base():
                 END IF;
             END $limpieza$;
         """)
-        # La PROPUESTA, tal cual: si no ejecuta o alguna postcondición falla, esto revienta.
+        # Se reproduce el comportamiento de Supabase: por defecto concede TODO sobre las
+        # tablas nuevas de `public` a los roles anonimos. Sin esto, la tabla del vinculo
+        # nace limpia en el test y el REVOKE de la migracion no probaria nada.
+        cur.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA public "
+                    "GRANT ALL ON TABLES TO anon, authenticated;")
+
+        # Las PROPUESTAS, tal cual y EN ORDEN: si alguna no ejecuta o falla una
+        # postcondición, esto revienta.
         cur.execute(PROPUESTA.read_text(encoding="utf-8"))
+        cur.execute(PROPUESTA_S296.read_text(encoding="utf-8"))
 
         vieja = str(uuid.uuid4())
         nueva = str(uuid.uuid4())
@@ -272,6 +294,7 @@ def test_el_job_completo_contra_postgres_real(base, monkeypatch):
     from datetime import datetime, timezone
 
     import scripts.rgpd_retencion as job
+    from scripts.rgpd_retencion import OBJETIVOS
 
     conexion, vieja, nueva = base
     limite = job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc))
@@ -279,7 +302,11 @@ def test_el_job_completo_contra_postgres_real(base, monkeypatch):
 
     assert resultado["query_logs"]["ids"] == [vieja]
     assert resultado["answer_messages"]["tocadas"] == 1
-    assert all(f["tocadas"] >= 1 for f in resultado.values())
+    # Las 4 tablas de datos sí tocan algo; `persona_seudonimo` NO debe tocar nada aquí,
+    # porque a esa persona le queda una consulta reciente identificada y su código todavía
+    # hace falta. Exigir >=1 a todas las entradas era exigir justo lo contrario.
+    assert all(resultado[o.tabla]["tocadas"] >= 1 for o in OBJETIVOS)
+    assert resultado["persona_seudonimo"]["tocadas"] == 0
 
     with conexion.cursor() as cur:            # dry-run ⇒ nada persistido
         cur.execute("SELECT telegram_user_id FROM query_logs WHERE id = %s", (vieja,))
@@ -346,3 +373,208 @@ def test_el_rollback_de_la_propuesta_funciona(base):
         cur.execute("SELECT 1 FROM pg_roles WHERE rolname='rgpd_retencion'")
         assert cur.fetchone() is None
     conexion.autocommit = False
+
+
+# ------------------------------------------------------------------ s296: el seudónimo
+
+
+def test_el_corpus_sigue_agrupado_tras_la_retencion(base):
+    """LO QUE ALBERTO PIDIÓ, comprobado de punta a punta: que al vencer el plazo no se
+    pierdan las preguntas de un buen técnico *como conjunto*.
+
+    Con NULL quedarían sueltas — sabrías qué se preguntó, no que lo preguntó la misma
+    persona. Con el seudónimo, el corpus sobrevive agrupado y el vínculo con la persona
+    desaparece. Este test es el que distingue una cosa de la otra."""
+    from datetime import datetime, timezone
+
+    import scripts.rgpd_retencion as job
+
+    conexion, vieja, nueva = base
+    with conexion.cursor() as cur:
+        # Una SEGUNDA consulta vencida de la misma persona: la propiedad que importa es que
+        # las dos acaben bajo el MISMO código. Con NULL acabarían indistinguibles de las de
+        # cualquier otro.
+        cur.execute(
+            "INSERT INTO query_logs (telegram_user_id, query, created_at) "
+            "VALUES (111, 'otra pregunta suya', now() - interval '30 months') RETURNING id")
+        otra_vieja = str(cur.fetchone()[0])
+    conexion.commit()
+
+    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
+                 aplicar=True, conexion=conexion)
+
+    with conexion.cursor() as cur:
+        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = ANY(%s::uuid[])",
+                    ([vieja, otra_vieja],))
+        filas = cur.fetchall()
+        assert len(filas) == 2
+        assert all(identificador is None for identificador, _ in filas)   # no se sabe QUIÉN
+        codigos = {str(seudonimo) for _, seudonimo in filas}
+        assert len(codigos) == 1 and None not in codigos   # ...pero sí que fue el MISMO
+
+        # La reciente sigue intacta: la ventana la impone la base.
+        cur.execute("SELECT telegram_user_id FROM query_logs WHERE id = %s", (nueva,))
+        assert cur.fetchone()[0] == 111
+    conexion.commit()
+
+
+def test_el_vinculo_se_destruye_solo_cuando_no_queda_nada_identificado(base):
+    """El borrado de la correspondencia es el punto de no retorno, así que no puede ir
+    antes de tiempo: mientras a esa persona le queden filas recientes, su código todavía
+    hace falta para estamparlas cuando les toque."""
+    from datetime import datetime, timezone
+
+    import scripts.rgpd_retencion as job
+
+    conexion, _, nueva = base
+    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
+                 aplicar=True, conexion=conexion)
+
+    with conexion.cursor() as cur:
+        # Le queda la consulta reciente ⇒ la correspondencia SIGUE viva.
+        cur.execute("SELECT count(*) FROM persona_seudonimo WHERE telegram_user_id = 111")
+        assert cur.fetchone()[0] == 1
+
+        # Se retira lo último identificado y se vuelve a pasar: ahora sí se destruye.
+        cur.execute("DELETE FROM query_logs WHERE id = %s", (nueva,))
+    conexion.commit()
+
+    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
+                 aplicar=True, conexion=conexion)
+    with conexion.cursor() as cur:
+        cur.execute("SELECT count(*) FROM persona_seudonimo WHERE telegram_user_id = 111")
+        assert cur.fetchone()[0] == 0                     # irreversible a partir de aquí
+    conexion.commit()
+
+
+def test_el_bot_no_puede_escribir_la_marca_de_utilidad(base):
+    """La marca es el dato en que se apoyaría un bonus, y el técnico habla precisamente por
+    el canal del bot. Que `service_role` no pueda escribirla no es un detalle: es lo que
+    impide que el interesado influya en su propia valoración."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SELECT has_column_privilege('service_role', 'public.answer_feedback',"
+                    " 'utilidad', 'UPDATE')")
+        assert cur.fetchone()[0] is False
+    conexion.rollback()
+
+
+def test_el_voto_sigue_funcionando_como_service_role(base):
+    """No basta mirar flags de privilegio: el fallo de esta clase solo aparece EJECUTANDO
+    (precedente s294 — un `merge-duplicates` daba 403 real sobre una tabla que «tenía» los
+    permisos). Aquí se ejerce el upsert 👍→👎 asumiendo el rol del bot."""
+    conexion, _, nueva = base
+    with conexion.cursor() as cur:
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute(
+            "INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict) "
+            "VALUES (%s, 777, 'up') "
+            "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
+            "SET verdict = EXCLUDED.verdict", (nueva,))
+        cur.execute(
+            "INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict) "
+            "VALUES (%s, 777, 'down') "
+            "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
+            "SET verdict = EXCLUDED.verdict", (nueva,))
+        cur.execute("SELECT verdict FROM answer_feedback "
+                    " WHERE query_log_id = %s AND telegram_user_id = 777", (nueva,))
+        assert cur.fetchone()[0] == "down"          # el toggle sigue vivo
+    conexion.rollback()
+
+
+def test_la_marca_se_puede_poner_en_feedback_de_una_consulta_YA_disociada(base):
+    """El caso que el trigger bloqueaba: el feedback MÁS ANTIGUO —el que ha tenido tiempo de
+    demostrar que sirvió— cuelga de consultas ya disociadas. Si marcar su utilidad saltara
+    el trigger, sería imposible reconocer justo lo que se quiere reconocer."""
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("UPDATE query_logs SET telegram_user_id = NULL WHERE id = %s", (vieja,))
+        cur.execute("UPDATE answer_feedback SET utilidad = 'corrigio', "
+                    "utilidad_revisada_at = now() WHERE query_log_id = %s RETURNING id",
+                    (vieja,))
+        assert cur.fetchone() is not None
+    conexion.rollback()
+
+
+def test_el_bot_no_puede_cambiar_un_seudonimo(base):
+    """Un código que cambia deja de agrupar — que es justo lo que se quiere conservar."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for privilegio in ("UPDATE", "DELETE"):
+            cur.execute("SELECT has_table_privilege('service_role',"
+                        " 'public.persona_seudonimo', %s)", (privilegio,))
+            assert cur.fetchone()[0] is False, f"service_role no debe tener {privilegio}"
+    conexion.rollback()
+
+
+def test_user_consent_conserva_la_aceptacion_de_cada_version(base):
+    """Antes el upsert iba por persona y machacaba: no se podía demostrar que alguien
+    aceptó la v3 en su día. Ahora convive una fila por versión, cada una con su fecha."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for version in ("v6", "v7"):
+            cur.execute(
+                "INSERT INTO user_consent (telegram_user_id, terms_version, accepted_at) "
+                "VALUES (111, %s, now()) "
+                "ON CONFLICT (telegram_user_id, terms_version) DO UPDATE "
+                "SET accepted_at = EXCLUDED.accepted_at", (version,))
+        cur.execute("SELECT count(*) FROM user_consent WHERE telegram_user_id = 111")
+        assert cur.fetchone()[0] == 2          # la v6 sobrevive a la aceptación de la v7
+    conexion.rollback()
+
+
+def test_el_feedback_ya_cascadea(base):
+    """La tabla guardaba copias sueltas del texto y un borrado no la alcanzaba."""
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        cur.execute(
+            "INSERT INTO feedback (telegram_user_id, feedback_text, query_log_id) "
+            "VALUES (111, 'esto está mal', %s)", (vieja,))
+        cur.execute("DELETE FROM query_logs WHERE id = %s", (vieja,))
+        cur.execute("SELECT count(*) FROM feedback WHERE query_log_id = %s", (vieja,))
+        assert cur.fetchone()[0] == 0          # se fue con su consulta
+    conexion.rollback()
+
+
+def test_nadie_se_queda_fuera_de_la_retencion_por_no_tener_codigo(base):
+    """El fallo que destapó el CI: la emisión del código en `/accept` es fail-open, así que
+    puede haber gente sin código. Sin código, el `UPDATE ... FROM persona_seudonimo` no
+    casaría sus filas — conservarían el identificador PARA SIEMPRE y el recibo diría
+    «0 tocadas» sin que nada chirriara. El job tiene que emitir el que falte."""
+    from datetime import datetime, timezone
+
+    import scripts.rgpd_retencion as job
+
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        # Se simula exactamente ese caso: se le quita el código a alguien con filas vencidas.
+        cur.execute("DELETE FROM persona_seudonimo WHERE telegram_user_id = 111")
+    conexion.commit()
+
+    resultado = job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
+                             aplicar=True, conexion=conexion)
+
+    assert resultado["query_logs"]["tocadas"] >= 1, "se saltó a alguien sin código"
+    with conexion.cursor() as cur:
+        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = %s",
+                    (vieja,))
+        identificador, seudonimo = cur.fetchone()
+        assert identificador is None            # disociada de verdad
+        assert seudonimo is not None            # y agrupada bajo un código recién emitido
+    conexion.commit()
+
+
+def test_la_tabla_del_vinculo_no_nace_accesible_para_roles_anonimos(base):
+    """`persona_seudonimo` vincula código y persona: es la pieza más sensible del diseño.
+    Supabase concede TODO por defecto sobre las tablas nuevas de `public` a `anon` y
+    `authenticated`, así que una tabla creada sin REVOKE explícito nace expuesta. La RLS lo
+    taparía, pero el patrón del repo es REVOKE **y** RLS — y aquí el fixture reproduce la
+    concesión por defecto, así que este test falla de verdad si el REVOKE desaparece."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for rol in ("anon", "authenticated"):
+            for privilegio in ("SELECT", "INSERT", "UPDATE", "DELETE"):
+                cur.execute("SELECT has_table_privilege(%s, 'public.persona_seudonimo', %s)",
+                            (rol, privilegio))
+                assert cur.fetchone()[0] is False, f"{rol} tiene {privilegio}"
+    conexion.rollback()
