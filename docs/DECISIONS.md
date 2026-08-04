@@ -4570,3 +4570,45 @@ tercera y cuarta instancia.
 (reversible por enumeración; irreversible solo destruyendo la clave, y entonces no se puede volver
 a emitir el mismo código). *Dejar el UPDATE de tabla a `service_role`* (el interesado podría influir
 en su propia valoración). *Contar votos para el bonus* (se infla en una tarde).
+
+**Dúo completo (2 rondas sobre s296, ambas con bite).** El cross-model cazó que **los exports
+no agrupaban nada**: `_seudonimizar` leía el código de `query_logs.seudonimo`, columna que solo
+se rellena al vencer el plazo ⇒ hasta 2028 todas las filas caían bajo el mismo literal. La
+finalidad que motivó la pieza estaba invertida, y no se veía porque la columna existe y el
+código se ejecutaba sin error. También: el código solo se emitía en `/accept` (quien ya aceptó
+no vuelve a pasar por ahí), el claim «append-only» era más fuerte que el mecanismo, el aviso
+prometía guardar el consentimiento «mientras uses el bot» contra lo que dice la matriz, y el
+workflow de Postgres **no se disparaba** con los ficheros de s296.
+
+El sub-agente añadió cuatro, tres silenciosos:
+- **El bootstrap deshacía la pieza 5.b.** `supabase_schema.sql` se re-ejecuta y restaura el
+  `UPDATE` de TABLA en `answer_feedback` con postcondición de igualdad exacta ⇒ la marca de
+  utilidad volvía a ser escribible desde el canal del interesado, sin que nada fallara. s296
+  lleva ahora su sección de bootstrap, como s295.
+- **El trigger anti-reidentificación bloqueaba marcar la utilidad** de todo voto colgado de una
+  consulta ya disociada — es decir, del feedback MÁS ANTIGUO, que es justo el que ha tenido
+  tiempo de demostrar que sirvió. Acotado a las columnas que re-identifican, con `WHEN`.
+- **`persona_seudonimo` nacía sin `REVOKE` de `anon`/`authenticated`**, única tabla de datos
+  personales sin él; Supabase concede todo por defecto sobre las tablas nuevas. El fixture no
+  creaba esos roles ⇒ el CI no podía cazarlo: ahora los crea y reproduce la concesión.
+- Las postcondiciones de s295 dejaban de pasar si se re-ejecutaba DESPUÉS de s296 (el UPDATE
+  pasa de tabla a columna): las propuestas quedaban orden-dependientes.
+
+**Un arreglo mío que estaba mal, y se retira en vez de maquillarse.** Acoté el borrado del
+vínculo con una ventana sobre `persona_seudonimo.created_at` — que dice cuándo se emitió el
+código, no cuándo vencen los datos: un código emitido por el propio job no se podría borrar
+jamás. El CI lo cazó. Al revisarlo, la preocupación que lo motivaba era infundada: borrar el
+código de quien aceptó y nunca preguntó no pierde nada, porque no agrupa ninguna fila. Retirado
+y **declarado**.
+
+**Claims acotados.** «El identificador no sale nunca de la base» era falso: SÍ se lee al proceso
+que genera el export; lo garantizado es que **no se escribe al fichero**. Y la matriz se
+contradecía a sí misma sobre el contenido de los exports.
+
+**Gaps nuevos, declarados y NO resueltos.** El código no es estable «siempre» (tras destruir el
+vínculo, quien vuelve recibe uno nuevo — es la irreversibilidad funcionando); el append-only
+cubre el eje versión pero **no conserva la traza de una revocación**; y el feedback espontáneo
+puede perderse si su consulta se borra entre medias.
+
+**Verificado**: 22/22 contra PostgreSQL real en CI, incluidos los cuatro fallos que solo
+aparecen ejecutando. Suite completa verde.

@@ -2774,3 +2774,22 @@ las oculta al rol— asi que lo destruia antes de tiempo, lo que habria partido 
 en dos codigos. Los dos se leen correctos en el SQL. 19/19 en verde tras arreglarlos.
 
 Traza: DEC-178 · `supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql`.
+
+**s296 — el duo, dos rondas, y seis fallos que el codigo no ensena.** El cross-model caz que
+**los exports no agrupaban nada**: el codigo se leia de una columna que solo se rellena al
+vencer el plazo, asi que la finalidad que motivo la pieza estaba invertida hasta 2028. El
+sub-agente anadi que **el bootstrap deshacia la pieza central** (re-ejecutarlo devolvia al bot
+la escritura de la marca que sostendria un bonus), que **el trigger impedia marcar la utilidad
+del feedback mas antiguo** —el que ha tenido tiempo de demostrar que sirvio— y que la tabla que
+vincula codigo y persona **nacia accesible para los roles anonimos**, con un fixture que no
+creaba esos roles y por tanto no podia cazarlo.
+
+Y uno mio, que conviene registrar tal cual: **arregle mal un hallazgo**. Acote el borrado del
+vinculo con una ventana sobre la fecha de emision del codigo — que no es la fecha de los datos —
+y eso hacia imposible borrar un codigo emitido por el propio job. Lo caz el CI. Al revisarlo, la
+preocupacion original era infundada. Regla: **cuando un arreglo exige un criterio que no es el
+del problema, el arreglo esta mal planteado**; lo correcto era declarar el caso, no inventar una
+cota.
+
+Al cierre: 22/22 contra Postgres real, seis fallos corregidos y tres gaps nuevos declarados sin
+resolver.
