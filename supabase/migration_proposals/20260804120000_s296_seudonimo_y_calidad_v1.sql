@@ -101,8 +101,16 @@ CREATE POLICY rgpd_retencion_correspondencia_emite ON public.persona_seudonimo
     FOR INSERT TO rgpd_retencion WITH CHECK (true);
 
 CREATE POLICY rgpd_retencion_correspondencia_destruye ON public.persona_seudonimo
-    FOR DELETE TO rgpd_retencion
-    USING (created_at < now() - interval '24 months');
+    FOR DELETE TO rgpd_retencion USING (true);
+-- SIN ventana, y a conciencia. Se intentó acotar por `created_at` y era el criterio
+-- equivocado: esa fecha dice cuándo se EMITIÓ el código, no cuándo vencen los datos, así
+-- que un código emitido por el propio job no podría borrarse nunca.
+--
+-- Lo que de verdad protege es `rgpd_quedan_identificados()`: solo se destruye el vínculo de
+-- quien no tiene NINGUNA fila identificada. El caso que preocupaba —alguien que hizo
+-- `/accept` y aún no ha preguntado— resulta ser BENIGNO: no tiene datos, así que su código
+-- no agrupa nada; si luego pregunta, recibe uno nuevo y su corpus entero queda bajo ese.
+-- No hay nada que partir. Declarado en vez de «arreglado» con un criterio que no aplica.
 
 -- BACKFILL: quien ya usaba el bot antes de esta migración necesita su código igual. Si no,
 -- su histórico sería el único que llegaría a los 24 meses sin nada que lo agrupe — que es
@@ -283,17 +291,11 @@ BEGIN
         END IF;
     END LOOP;
 
-    -- 6.1.c La ventana acota el BORRADO y solo el borrado.
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_policies
-         WHERE schemaname='public' AND tablename='persona_seudonimo'
-           AND policyname='rgpd_retencion_correspondencia_destruye'
-           AND cmd = 'DELETE' AND qual LIKE '%2 years%'
-    ) THEN
-        RAISE EXCEPTION 's296: la politica de borrado del vinculo no acota por ventana';
-    END IF;
+    -- 6.1.c Las tres politicas separadas: leer, emitir y destruir son operaciones
+    -- distintas y colapsarlas en una `FOR ALL` rompio el mecanismo una vez.
     FOREACH tabla IN ARRAY ARRAY['rgpd_retencion_correspondencia_lee',
-                                 'rgpd_retencion_correspondencia_emite'] LOOP
+                                 'rgpd_retencion_correspondencia_emite',
+                                 'rgpd_retencion_correspondencia_destruye'] LOOP
         IF NOT EXISTS (
             SELECT 1 FROM pg_policies
              WHERE schemaname='public' AND tablename='persona_seudonimo' AND policyname=tabla

@@ -76,7 +76,9 @@ la clave — y entonces vuelve el problema de no poder emitir el mismo código o
 
 ### Límites del seudónimo, declarados
 
-**No es «el mismo código para siempre».** Lo es mientras viva la correspondencia. Si a alguien
+**No es «el mismo código para siempre».** Lo es mientras viva la correspondencia. El vínculo
+se destruye en cuanto esa persona no tiene NINGUNA fila identificada — incluido quien aceptó y
+nunca preguntó, cuyo código no agrupa nada y por tanto no se pierde nada al borrarlo. Si a alguien
 se le destruye el vínculo (no le quedaba nada identificado) y luego vuelve, recibe un código
 NUEVO y su histórico queda en dos bloques. **No es un fallo: es la irreversibilidad
 funcionando** — un vínculo destruido no se puede resucitar, esa es justo la garantía. Pero
