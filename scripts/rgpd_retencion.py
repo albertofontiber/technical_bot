@@ -230,14 +230,14 @@ def ejecutar(limite: datetime, aplicar: bool, conexion=None) -> dict:
             # consultas recientes, su código sigue haciendo falta para estamparlas cuando
             # les toque. Y va dentro de la misma transacción: o se estampa el código y se
             # destruye el vínculo, o no pasa ninguna de las dos cosas.
+            # La condición NO se consulta a mano: la política de ventana solo enseña filas
+            # vencidas a este rol, así que un `NOT EXISTS` desde aquí daría verdadero
+            # también para quien tiene filas RECIENTES identificadas — y destruiría su
+            # vínculo antes de tiempo, partiendo su corpus en dos códigos. La función corre
+            # con visibilidad completa y devuelve solo un booleano.
             cur.execute(
                 "DELETE FROM public.persona_seudonimo p "
-                " WHERE NOT EXISTS (SELECT 1 FROM public.query_logs q "
-                "                    WHERE q.telegram_user_id = p.telegram_user_id) "
-                "   AND NOT EXISTS (SELECT 1 FROM public.feedback f "
-                "                    WHERE f.telegram_user_id = p.telegram_user_id) "
-                "   AND NOT EXISTS (SELECT 1 FROM public.answer_feedback a "
-                "                    WHERE a.telegram_user_id = p.telegram_user_id) "
+                " WHERE NOT public.rgpd_quedan_identificados(p.telegram_user_id) "
                 "RETURNING telegram_user_id"
             )
             destruidas = [str(fila[0]) for fila in cur.fetchall()]

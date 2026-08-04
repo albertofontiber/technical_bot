@@ -371,20 +371,26 @@ def test_el_corpus_sigue_agrupado_tras_la_retencion(base):
 
     conexion, vieja, nueva = base
     with conexion.cursor() as cur:
-        cur.execute("SELECT seudonimo FROM persona_seudonimo WHERE telegram_user_id = 111")
-        codigo = str(cur.fetchone()[0])          # el backfill de la migración lo emitió
+        # Una SEGUNDA consulta vencida de la misma persona: la propiedad que importa es que
+        # las dos acaben bajo el MISMO código. Con NULL acabarían indistinguibles de las de
+        # cualquier otro.
+        cur.execute(
+            "INSERT INTO query_logs (telegram_user_id, query, created_at) "
+            "VALUES (111, 'otra pregunta suya', now() - interval '30 months') RETURNING id")
+        otra_vieja = str(cur.fetchone()[0])
     conexion.commit()
 
     job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
                  aplicar=True, conexion=conexion)
 
     with conexion.cursor() as cur:
-        # La consulta vencida: sin identificador, PERO con su código.
-        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = %s",
-                    (vieja,))
-        identificador, seudonimo = cur.fetchone()
-        assert identificador is None                      # ya no se sabe QUIÉN
-        assert str(seudonimo) == codigo                   # ...pero sí que fue el mismo
+        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = ANY(%s)",
+                    ([vieja, otra_vieja],))
+        filas = cur.fetchall()
+        assert len(filas) == 2
+        assert all(identificador is None for identificador, _ in filas)   # no se sabe QUIÉN
+        codigos = {str(seudonimo) for _, seudonimo in filas}
+        assert len(codigos) == 1 and None not in codigos   # ...pero sí que fue el MISMO
 
         # La reciente sigue intacta: la ventana la impone la base.
         cur.execute("SELECT telegram_user_id FROM query_logs WHERE id = %s", (nueva,))

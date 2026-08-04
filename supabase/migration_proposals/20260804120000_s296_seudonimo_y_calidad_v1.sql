@@ -92,6 +92,43 @@ SELECT DISTINCT telegram_user_id FROM public.user_consent WHERE telegram_user_id
 ON CONFLICT (telegram_user_id) DO NOTHING;
 
 -- ---------------------------------------------------------------------------
+-- 1.b «¿le queda algo identificado a esta persona?» — la pregunta que el rol NO puede
+--     responder por sí mismo
+-- ---------------------------------------------------------------------------
+-- El vínculo solo debe destruirse cuando a esa persona no le queda ninguna fila
+-- identificada. Pero el rol es NOBYPASSRLS y su política solo le enseña las filas
+-- VENCIDAS: preguntándole a él, las recientes «no existen» y destruiría el vínculo de
+-- alguien que todavía tiene datos suyos identificados. Consecuencia: cuando esas filas
+-- venciesen, habría que emitirle un código NUEVO — y el corpus del técnico quedaría
+-- partido en dos, que es exactamente lo que el diseño existe para evitar.
+--
+-- (Lo destapó el test contra Postgres real. Leyendo el SQL la consulta parece correcta:
+-- lo que falla es que se ejecuta con una visibilidad recortada.)
+--
+-- Se resuelve con una función acotada que responde SOLO esa pregunta —un booleano, ninguna
+-- fila— y que corre con los privilegios de su dueño para poder ver el conjunto completo.
+CREATE OR REPLACE FUNCTION public.rgpd_quedan_identificados(p_user BIGINT)
+RETURNS BOOLEAN
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+    SELECT EXISTS (SELECT 1 FROM public.query_logs      WHERE telegram_user_id = p_user)
+        OR EXISTS (SELECT 1 FROM public.feedback        WHERE telegram_user_id = p_user)
+        OR EXISTS (SELECT 1 FROM public.answer_feedback WHERE telegram_user_id = p_user);
+$$;
+
+-- `user_consent` queda FUERA de la pregunta a propósito: su plazo es una decisión aparte
+-- (pendiente en la matriz) y, si contase, el vínculo no se destruiría jamás — la prueba
+-- del consentimiento se conserva, así que la condición nunca se cumpliría. Se declara la
+-- consecuencia: tras la retención puede quedar una fila de consentimiento con el
+-- identificador, aunque el resto ya esté disociado.
+
+REVOKE ALL ON FUNCTION public.rgpd_quedan_identificados(BIGINT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.rgpd_quedan_identificados(BIGINT) TO rgpd_retencion;
+
+-- ---------------------------------------------------------------------------
 -- 2. Dónde aterriza el código en los registros
 -- ---------------------------------------------------------------------------
 -- Columna aparte, no reutilizar `telegram_user_id`: son tipos distintos y, sobre todo,
