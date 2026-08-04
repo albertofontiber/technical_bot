@@ -279,6 +279,7 @@ def test_el_job_completo_contra_postgres_real(base, monkeypatch):
     from datetime import datetime, timezone
 
     import scripts.rgpd_retencion as job
+    from scripts.rgpd_retencion import OBJETIVOS
 
     conexion, vieja, nueva = base
     limite = job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc))
@@ -286,7 +287,11 @@ def test_el_job_completo_contra_postgres_real(base, monkeypatch):
 
     assert resultado["query_logs"]["ids"] == [vieja]
     assert resultado["answer_messages"]["tocadas"] == 1
-    assert all(f["tocadas"] >= 1 for f in resultado.values())
+    # Las 4 tablas de datos sí tocan algo; `persona_seudonimo` NO debe tocar nada aquí,
+    # porque a esa persona le queda una consulta reciente identificada y su código todavía
+    # hace falta. Exigir >=1 a todas las entradas era exigir justo lo contrario.
+    assert all(resultado[o.tabla]["tocadas"] >= 1 for o in OBJETIVOS)
+    assert resultado["persona_seudonimo"]["tocadas"] == 0
 
     with conexion.cursor() as cur:            # dry-run ⇒ nada persistido
         cur.execute("SELECT telegram_user_id FROM query_logs WHERE id = %s", (vieja,))
@@ -384,7 +389,7 @@ def test_el_corpus_sigue_agrupado_tras_la_retencion(base):
                  aplicar=True, conexion=conexion)
 
     with conexion.cursor() as cur:
-        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = ANY(%s)",
+        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = ANY(%s::uuid[])",
                     ([vieja, otra_vieja],))
         filas = cur.fetchall()
         assert len(filas) == 2
