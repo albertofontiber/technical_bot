@@ -44,6 +44,36 @@ documentado. **Decisión de Alberto con validación legal**; la plantilla de `co
 **Momento**: hoy hay UNA fila de consentimiento, así que la fricción es de una persona. El
 momento de decidirlo es **antes de que entren técnicos**, no ahora.
 
+## El seudónimo estable: una sola pieza para agrupar y para desvincular ⬤
+
+**Decisión de Alberto (4-ago).** El plazo no pone el identificador a NULL: lo sustituye por un
+**código aleatorio, estable por persona**. Motivo, en sus palabras: no quiere perder el corpus de
+un técnico bueno que se vaya. Con NULL quedarían 200 preguntas excelentes sueltas, sin poder
+saber que son de la misma persona; con un código estable, el corpus sobrevive agrupado y el
+vínculo con la persona no.
+
+**Y resuelve a la vez el problema de los exports.** Un seudónimo solo para la retención y otro
+solo para los exports darían dos numeraciones que no casan. Una sola pieza, usada desde el
+principio:
+
+| | |
+|---|---|
+| Alta | Cada técnico recibe un código aleatorio la primera vez que usa el bot |
+| Correspondencia | Una tabla pequeña `persona_seudonimo` (código ↔ `telegram_user_id`) |
+| Exports | Llevan **siempre el código, nunca el identificador real** ⇒ el identificador no sale jamás de la base |
+| Operativa | La base conserva el identificador real mientras haga falta (consentimiento, peticiones) |
+| A los 24 meses | Se sustituye el identificador por el código en los registros **y se borra la fila de correspondencia** — ese borrado ES el punto de no retorno |
+
+**Contrapartida declarada**: `persona_seudonimo` **es dato personal mientras existe** (vincula
+código y persona). Entra en la matriz, en el procedimiento de supresión a petición y en el
+alcance del job. No se disimula: se ha cambiado un riesgo difuso (identificador esparcido por
+exports) por uno concentrado y gobernado (una tabla, un borrado).
+
+**Alternativa descartada**: derivar el código del identificador con una función y una clave
+secreta (HMAC). Evita la tabla, pero los identificadores de Telegram son un espacio pequeño: con
+la clave se pueden recorrer todos y deshacer el seudónimo. Sería irreversible solo si se destruye
+la clave — y entonces vuelve el problema de no poder emitir el mismo código otra vez.
+
 ## Principio rector: DISOCIAR, no borrar ⬤
 
 El valor del histórico para el proyecto está en el **contenido** (la pregunta, la respuesta y
@@ -177,6 +207,22 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 - **Acceso y portabilidad**: no implementados. Hoy se atienden a mano.
 
 ## Pendiente (con dueño)
+
+0. **DECIDIDO por Alberto (4-ago), pendiente de construir**:
+   - **Seudónimo estable** en lugar de NULL (sección de arriba), y **exports que solo lleven el
+     código**.
+   - **`user_consent` pasa a append-only**: una fila por (persona, versión) con su fecha, en vez
+     de sobrescribir. Hoy no se puede demostrar que alguien aceptó la v3 — solo la última.
+   - **Enlace en `feedback`**: se añade la columna que hoy no existe y se rellena en cada
+     escritura nueva, así la tabla entra en la cascada. Las filas antiguas (1) quedan huérfanas y
+     así se declara. *Deuda anotada, NO resuelta aquí: lo verdaderamente BP sería tener un solo
+     canal de feedback en vez de dos; es un refactor de producto, no de cumplimiento.*
+   - **Supresión a petición = DESVINCULAR, no borrar** (Alberto quiere conservar el material):
+     ante una petición se aplica el mismo mecanismo del plazo. **Cautela obligatoria**: revisar
+     que el texto libre de esa persona no lleve su nombre escrito dentro.
+   - **`/borrar` autoservicio: NO se construye.** La vía es escribir a `info@fontiber.com`, ya
+     declarada en el aviso. Recordatorio: el plazo legal de respuesta es de un mes y la petición
+     no se puede denegar.
 
 1. **Aplicar la propuesta del rol de retención** —
    `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` (enfoque

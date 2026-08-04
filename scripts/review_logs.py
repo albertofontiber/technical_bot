@@ -137,6 +137,24 @@ def _match_feedback_to_queries(
     return queries_df
 
 
+def _seudonimizar(df: pd.DataFrame) -> pd.DataFrame:
+    """Cambia identificadores por el código estable ANTES de que nada llegue al disco.
+
+    Se hace aquí, en un único punto, y no confiando en que cada sitio se acuerde de
+    excluir las columnas: lo que no se puede olvidar es lo que ya no está en la tabla.
+    Si una fila no tiene código (registros anteriores a s296), se marca como tal en vez
+    de dejar pasar el identificador — ante la duda, no sale.
+    """
+    if df.empty:
+        return df
+    salida = df.copy()
+    if "seudonimo" not in salida.columns:
+        salida["seudonimo"] = None
+    salida["seudonimo"] = salida["seudonimo"].fillna("(sin código)")
+    return salida.drop(columns=[c for c in ("telegram_user_id", "display_name")
+                                if c in salida.columns])
+
+
 def _print_summary(df: pd.DataFrame) -> None:
     if df.empty:
         print("\n(no rows in selected range)")
@@ -157,11 +175,12 @@ def _print_summary(df: pd.DataFrame) -> None:
         with_fb = df["feedback_text"].notna().sum()
         print(f"\nQueries with feedback: {with_fb} / {len(df)} ({100*with_fb/len(df):.1f}%)")
 
-    if "display_name" in df.columns:
-        print("\nTop users:")
+    if "seudonimo" in df.columns:
+        # Se agrupa por el código, no por el nombre: para saber «cuánta actividad hay y
+        # cómo se reparte» no hace falta saber de quién es cada bloque.
+        print("\nActividad por persona (seudónimo):")
         top = (
-            df.assign(name=df["display_name"].fillna(df["telegram_user_id"].astype(str)))
-            .groupby("name")
+            df.groupby(df["seudonimo"].fillna("(sin código)"))
             .size()
             .sort_values(ascending=False)
             .head(10)
@@ -214,38 +233,31 @@ def main():
     )
     logger.info(f"  → {len(answer_feedback)} answer_feedback rows")
 
-    logger.info("Fetching user_consent...")
-    consent = _fetch_table(
-        "user_consent",
-        select="telegram_user_id,display_name,terms_version,accepted_at",
-        order="accepted_at.desc",
-    )
-    logger.info(f"  → {len(consent)} consent rows")
-
+    # s296: ya NO se trae `user_consent`. Se traia solo para pegar el nombre del tecnico
+    # al export -- exactamente el dato que ahora no debe salir. Traer dato personal para
+    # despues descartarlo es peor que no traerlo: basta un descuido para que se cuele.
     queries_df = pd.DataFrame(queries)
     feedback_df = pd.DataFrame(feedback)
-    consent_df = pd.DataFrame(consent)
 
     if queries_df.empty:
         print("No query rows in selected range.")
         return
 
-    # Join display_name from user_consent
-    if not consent_df.empty:
-        names = consent_df[["telegram_user_id", "display_name"]].drop_duplicates(
-            subset=["telegram_user_id"], keep="first"
-        )
-        queries_df = queries_df.merge(names, on="telegram_user_id", how="left")
-    else:
-        queries_df["display_name"] = None
-
     # Attach feedback
     queries_df = _match_feedback_to_queries(queries_df, feedback_df)
     queries_df = _attach_tap_verdicts(queries_df, pd.DataFrame(answer_feedback))
 
+    # s296 — EL FICHERO NO SALE CON IDENTIFICADORES. Este export acaba en el disco de
+    # alguien: fuera de la base, fuera de la matriz de retención y fuera del alcance de una
+    # petición de borrado. Se sustituyen `telegram_user_id` y `display_name` por el
+    # SEUDÓNIMO estable, que agrupa igual de bien («estas 40 preguntas son de la misma
+    # persona») sin decir quién es. Es el mismo código que el job estampa a los 24 meses,
+    # así que un export de hoy y la base de dentro de tres años siguen cruzándose.
+    queries_df = _seudonimizar(queries_df)
+
     # Reorder columns for review readability
     front = [
-        "created_at", "display_name", "telegram_user_id", "source", "query",
+        "created_at", "seudonimo", "source", "query",
         "transcription", "response", "product_models", "category",
         "chunks_used", "response_length", "response_time_ms",
         "bot_version", "feedback_text", "tap_verdict",

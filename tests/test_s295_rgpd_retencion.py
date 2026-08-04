@@ -36,6 +36,7 @@ HASH_POR_VERSION = {
     "v4": "43e52a3df2e4dfea",              # capa única (antes del aviso en dos capas)
     "v5": "1600bb5d68033a84",
     "v6": "18a139c87ac30a35",              # sha256(capa1 + SEPARADOR + capa2)
+    "v7": "d7472689b771c121",              # s296: reconocimiento de aportaciones
 }
 
 
@@ -59,7 +60,7 @@ def test_terms_version_es_tripwire():
     """Único pin EXACTO del proyecto. Los otros dos tests de términos (s286, s294)
     comprueban su propio dato + un suelo, para que una subida legítima no rompa tres
     tests a la vez sin señal."""
-    assert TERMS_VERSION == "v6"
+    assert TERMS_VERSION == "v7"
 
 
 def test_el_texto_de_los_terminos_esta_atado_a_su_version():
@@ -142,7 +143,10 @@ def test_la_segunda_capa_lleva_lo_que_un_aviso_debe_llevar():
     detalle = bot._PRIVACY_DETAIL
     for marca in ("*Responsable*", "Fontiber Industrial Partners, S.L.", "B24984759",
                   "28004 Madrid", "*Base jurídica*", "Retirar el consentimiento",
-                  "Agencia Española", "Transferencias"):
+                  "Agencia Española", "Transferencias",
+                  # s296: usar el feedback para reconocer o incentivar es una DECISION
+                  # sobre la persona. El aviso decia literalmente lo contrario.
+                  "Reconocimiento de aportaciones", "la toma una persona"):
         assert marca in detalle, f"el aviso no informa de: {marca}"
 
 
@@ -264,8 +268,13 @@ def test_cada_sentencia_acota_por_fecha_y_devuelve_recibo():
         sql = obj.sentencia()
         assert f"{obj.columna_fecha} < %s" in sql          # nunca sin cota temporal
         assert f"{obj.columna_id} IS NOT NULL" in sql      # idempotente
-        assert sql.rstrip().endswith("RETURNING id")       # el recibo es parte del trabajo
+        assert "RETURNING" in sql                          # el recibo es parte del trabajo
         assert sql.startswith("DELETE" if obj.modo == "borrar" else "UPDATE")
+        if obj.modo == "nulificar":
+            # s296: estampa el seudónimo Y retira el identificador en la MISMA sentencia.
+            # Separarlas dejaría una ventana en la que la fila no tiene ni lo uno ni lo otro.
+            assert "SET seudonimo = p.seudonimo" in sql
+            assert f"{obj.columna_id} = NULL" in sql
 
 
 # ------------------------------------------------------------------ la ejecución
@@ -321,8 +330,10 @@ def test_el_dry_run_ejecuta_de_verdad_y_revierte():
 
     assert conexion.registro["rollback"] == 1
     assert conexion.registro["commit"] == 0
-    assert len(resultado) == len(OBJETIVOS)
+    # Las 4 tablas + la destrucción del vínculo, que es la 5ª entrada del recibo.
+    assert len(resultado) == len(OBJETIVOS) + 1
     assert resultado["query_logs"]["tocadas"] == 2
+    assert "persona_seudonimo" in resultado
 
 
 def test_aplicar_confirma_la_transaccion():
@@ -358,8 +369,8 @@ def test_las_cuatro_tablas_van_en_una_sola_transaccion():
     ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), True, conexion)
 
     # arranque (SET LOCAL ROLE + statement_timeout + SELECT current_user) + una sentencia
-    # por objetivo, y UN solo commit al final.
-    assert len(conexion.registro["sql"]) == 3 + len(OBJETIVOS)
+    # por objetivo + la destrucción del vínculo, y UN solo commit al final.
+    assert len(conexion.registro["sql"]) == 3 + len(OBJETIVOS) + 1
     assert conexion.registro["commit"] == 1
 
 

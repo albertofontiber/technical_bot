@@ -40,7 +40,12 @@ _RESPONSE_MAX_CHARS = 4096
 # domicilio, tomados del aviso legal de fontiber.com). Antes solo constaba el nombre
 # comercial y un correo. Se sube version por prudencia: cambia QUIEN responde ante el
 # interesado, y eso no es cosmetico aunque no cambie que se trata ni para que.
-TERMS_VERSION = "v6"
+# v7 (s296): FINALIDAD NUEVA. El aviso decia "no se usa para perfilarte ni para decisiones
+# sobre ti", y Alberto quiere poder reconocer/incentivar a quien aporte feedback valioso --
+# lo cual ES una decision sobre la persona. Se declara: la marca de utilidad la pone una
+# PERSONA al revisar (nunca el sistema) y cualquier decision la toma una persona. Sin este
+# cambio, usar el feedback para un bonus contradiria lo prometido.
+TERMS_VERSION = "v7"
 
 _HEADERS = {
     "apikey": SUPABASE_SERVICE_KEY,
@@ -176,8 +181,15 @@ def log_feedback(
     feedback_text: str,
     previous_query: str | None = None,
     previous_response: str | None = None,
+    query_log_id: str | None = None,
 ):
-    """Log technician feedback. Non-blocking."""
+    """Log technician feedback. Non-blocking.
+
+    ``query_log_id`` (s296): esta tabla guardaba COPIAS del texto de la pregunta y la
+    respuesta, sin referencia a ellas, así que un borrado de `query_logs` no la alcanzaba.
+    Con el enlace, la fila cascadea sola. Las filas anteriores a s296 quedan huérfanas —
+    solo tienen texto, no se pueden emparejar a posteriori — y así se declara en la matriz.
+    """
     try:
         row = {
             "telegram_user_id": telegram_user_id,
@@ -185,6 +197,8 @@ def log_feedback(
             "previous_query": previous_query,
             "previous_response": previous_response,
         }
+        if query_log_id is not None:
+            row["query_log_id"] = query_log_id
         with httpx.Client(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/feedback",
@@ -480,6 +494,58 @@ def has_consent(telegram_user_id: int) -> bool:
         return False
 
 
+def seudonimo_de(telegram_user_id: int) -> str | None:
+    """Código estable de esa persona. Lo emite la primera vez y lo reutiliza siempre.
+
+    Es la pieza que permite AGRUPAR sin identificar: los exports a disco llevan este
+    código y nunca el identificador de Telegram, así que el identificador real no sale
+    de la base de datos. A los 24 meses el job estampa este mismo código en los registros
+    y **borra la correspondencia** — ese borrado es el punto de no retorno, y hasta
+    entonces el corpus de un técnico sigue siendo reconocible como suyo.
+
+    Fail-open: si no se puede emitir, devuelve None. Nunca debe romper una respuesta.
+    """
+    try:
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/persona_seudonimo",
+                headers={**_HEADERS, "Prefer": "return=representation"},
+                params={
+                    "telegram_user_id": f"eq.{telegram_user_id}",
+                    "select": "seudonimo",
+                    "limit": "1",
+                },
+            )
+            if resp.status_code == 200 and resp.json():
+                return resp.json()[0]["seudonimo"]
+
+            # `ignore-duplicates`: si dos mensajes llegan a la vez, el segundo no pisa al
+            # primero. El código NUNCA debe cambiar — uno que cambia deja de agrupar.
+            creada = client.post(
+                f"{SUPABASE_URL}/rest/v1/persona_seudonimo",
+                headers={**_HEADERS,
+                         "Prefer": "resolution=ignore-duplicates,return=representation"},
+                json={"telegram_user_id": telegram_user_id},
+            )
+            if creada.status_code < 400 and creada.json():
+                return creada.json()[0]["seudonimo"]
+            # Perdió la carrera: la fila la escribió el otro mensaje. Se relee.
+            relectura = client.get(
+                f"{SUPABASE_URL}/rest/v1/persona_seudonimo",
+                headers=_HEADERS,
+                params={
+                    "telegram_user_id": f"eq.{telegram_user_id}",
+                    "select": "seudonimo",
+                    "limit": "1",
+                },
+            )
+            if relectura.status_code == 200 and relectura.json():
+                return relectura.json()[0]["seudonimo"]
+    except Exception as e:
+        logger.warning(f"No se pudo obtener el seudonimo: {e}")
+    return None
+
+
 def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
     """Record user consent for the current TERMS_VERSION. Returns True on success."""
     try:
@@ -495,11 +561,15 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
             "accepted_at": datetime.now(timezone.utc).isoformat(),
             "revoked_at": None,
         }
-        # Upsert so re-running /accept refreshes accepted_at and clears revoked_at.
+        # s296 APPEND-ONLY: el conflicto se resuelve sobre (persona, VERSIÓN), no sobre la
+        # persona. Re-aceptar la MISMA versión refresca su fila; aceptar una versión NUEVA
+        # deja intacta la anterior, que es la prueba de que en su día aceptó aquella. Antes
+        # el upsert iba por PK de persona y machacaba el histórico de aceptaciones.
         headers = {**_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}
         with httpx.Client(timeout=10.0) as client:
             resp = client.post(
-                f"{SUPABASE_URL}/rest/v1/user_consent",
+                f"{SUPABASE_URL}/rest/v1/user_consent"
+                "?on_conflict=telegram_user_id,terms_version",
                 headers=headers,
                 json=row,
             )
