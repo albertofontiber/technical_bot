@@ -2732,3 +2732,45 @@ sistema no. Y la de siempre: **grepear si el artefacto ya existe antes de escrib
 
 Traza: DEC-177 · `docs/RGPD_RETENCION.md` ·
 `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` · TECH_DEBT #60.
+
+---
+
+## s296 (4 ago 2026) — el seudonimo que salva el corpus, y el bonus que obliga a decir la verdad
+
+**Como empezo.** Alberto pidio que le explicara los pendientes de la matriz en lenguaje llano. Al
+hacerlo aparecio lo que su pregunta destapaba: le daba miedo perder las consultas de un tecnico
+bueno que se fuera. El contenido nunca corrio peligro —el diseno guarda el QUE y tira el QUIEN—,
+pero su miedo apuntaba a algo que yo no habia visto: **poner el identificador a NULL destruye la
+AGRUPACION**. Doscientas preguntas excelentes sueltas, sin poder saber que son de la misma persona.
+
+**El arreglo, y el regalo.** Un codigo aleatorio estable por persona, en una tabla de
+correspondencias. Y resulta que la misma pieza resuelve el otro pendiente: los exports a disco
+llevan el codigo desde el primer dia, asi que **el identificador real no sale nunca de la base**.
+Un problema menos, no una pieza mas.
+
+**El bonus, y lo que obligo a corregir.** Alberto quiere poder reconocer a quien aporte feedback
+valioso. Tecnicamente cabe —durante los 24 meses el identificador sigue ahi—, pero el aviso decia
+literalmente *«no se usa para perfilarte ni para decisiones sobre ti»*, y un bonus **ES** una
+decision sobre la persona. Habria sido usar los datos contradiciendo lo prometido. v7.
+
+Y hubo que corregirle dos ideas, ambas razonables y ambas equivocadas: que seudonimizar libera del
+permiso (no: el dato seudonimizado sigue siendo personal, y lo que manda es la FINALIDAD), y que
+podia «dar permisos especiales» a ciertos tecnicos (los permisos los dan ellos; lo que el decide es
+el PESO, que no necesita permiso de nadie).
+
+**La pieza de la que estoy mas contento.** `service_role` —la identidad del proceso con el que
+habla el tecnico— **pierde** el UPDATE de tabla sobre `answer_feedback`. El dato que sostendria un
+incentivo no puede escribirse desde el canal que toca el interesado. Y fijate que el cambio
+ENDURECE la seguridad: quita un privilegio para habilitar una funcionalidad.
+
+**Y el aviso que no es legal sino de producto**: pagar por feedback cambia lo que el feedback mide.
+Se mediria quien ha entendido como se cobra, no donde falla el bot. De ahi que la marca sea por
+CONSECUENCIA (corrigio / gold / corpus / ninguna) y la ponga una persona despues del hecho.
+
+**Dos fallos mas que solo aparecieron ejecutando.** Tercera y cuarta instancia de la leccion #60:
+quien no tuviera codigo quedaba FUERA de la retencion en silencio, con el recibo diciendo «0
+tocadas»; y el borrado del vinculo NO VEIA las filas recientes —la propia politica de ventana se
+las oculta al rol— asi que lo destruia antes de tiempo, lo que habria partido el corpus del tecnico
+en dos codigos. Los dos se leen correctos en el SQL. 19/19 en verde tras arreglarlos.
+
+Traza: DEC-178 · `supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql`.

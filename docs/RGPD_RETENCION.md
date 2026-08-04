@@ -112,6 +112,28 @@ la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea)
 > hay postcondición que lo ancla. **Sin aplicar**: pendiente de revisar y ejecutar.
 > `scripts/rgpd_retencion.py` lo comprueba en cada ejecución y sale con código 2.
 
+> **Y una segunda migración encima** (s296):
+> `supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql` — el
+> seudónimo estable, `user_consent` append-only, el enlace de `feedback` y la marca de
+> utilidad. **Se aplica DESPUÉS de la anterior.** Ambas verificadas juntas contra un
+> PostgreSQL real en CI (19/19).
+
+### Dos fallos que solo aparecieron ejecutando (s296)
+
+Se dejan escritos porque son la misma clase y conviene reconocerla:
+
+1. **Quien no tuviera código quedaba FUERA de la retención, en silencio.** La emisión en
+   `/accept` es fail-open, así que puede faltar; sin código, el `UPDATE ... FROM` no casaba
+   sus filas — conservaban el identificador para siempre y el recibo decía «0 tocadas».
+   *Arreglo*: el job emite el que falte antes de estampar nada.
+2. **El borrado del vínculo no veía las filas recientes.** La condición «solo si no le queda
+   nada identificado» se consultaba desde el propio rol, cuya política solo le enseña filas
+   vencidas: las recientes «no existían» y destruía el vínculo antes de tiempo, lo que
+   partiría el corpus del técnico en dos códigos. *Arreglo*: una función acotada
+   (`rgpd_quedan_identificados`) que responde solo esa pregunta con visibilidad completa.
+
+Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
+
 ## La matriz
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
@@ -125,6 +147,8 @@ la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea)
 | Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
 | **Exports a disco** (`display_name`, `telegram_user_id`, pregunta, transcripción, respuesta) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
+| **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
+| **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
@@ -202,13 +226,13 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
   `UPDATE user_consent SET revoked_at = NOW() …` + `DELETE FROM query_logs WHERE
   telegram_user_id = X` (la cascada se lleva votos, explicaciones y anclas de SUS consultas)
   + `DELETE FROM answer_feedback WHERE telegram_user_id = X` (los votos que emitió sobre
-  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X`. **No alcanza los exports a disco**: hay que borrarlos
+  consultas AJENAS, que la cascada no alcanza) + `DELETE FROM feedback WHERE telegram_user_id = X` + **`DELETE FROM persona_seudonimo WHERE telegram_user_id = X`** (la correspondencia es dato personal: sin borrarla, el código seguiría llevando a la persona). **No alcanza los exports a disco**: hay que borrarlos
   aparte.
 - **Acceso y portabilidad**: no implementados. Hoy se atienden a mano.
 
 ## Pendiente (con dueño)
 
-0. **DECIDIDO por Alberto (4-ago), pendiente de construir**:
+0. **DECIDIDO por Alberto (4-ago) y ya CONSTRUIDO** (s296, sin aplicar a la base):
    - **Seudónimo estable** en lugar de NULL (sección de arriba), y **exports que solo lleven el
      código**.
    - **`user_consent` pasa a append-only**: una fila por (persona, versión) con su fecha, en vez
