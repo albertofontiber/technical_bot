@@ -82,14 +82,26 @@ GRANT SELECT, DELETE ON TABLE public.persona_seudonimo TO rgpd_retencion;
 GRANT INSERT (telegram_user_id) ON TABLE public.persona_seudonimo TO rgpd_retencion;
 
 -- Sin política no vería nada (el rol es NOBYPASSRLS).
+-- TRES políticas y no una: la ventana acota SOLO el borrado.
+--
+-- Con una sola `FOR ALL` acotada por fecha, el `USING` se reutiliza como comprobación de
+-- INSERT y el job no podía ni emitir un código (el recién creado tiene `created_at = now()`
+-- y no pasa la ventana). Y con una sola `USING (true)`, el job borraba el vínculo de quien
+-- acaba de hacer `/accept` y aún no ha preguntado. Leer y emitir siempre; DESTRUIR solo lo
+-- que ya venció.
 DROP POLICY IF EXISTS rgpd_retencion_correspondencia ON public.persona_seudonimo;
-CREATE POLICY rgpd_retencion_correspondencia ON public.persona_seudonimo
-    TO rgpd_retencion
-    -- Acotada por ventana, como las demás. Con `USING (true)` el job borraba también el
-    -- código recién emitido de quien acaba de hacer `/accept` y aún no ha preguntado
-    -- (no tiene filas identificadas ⇒ cumplía la condición), y el invariante «no puede
-    -- tocar nada reciente» no regía para esta tabla. El código se emite y se lee siempre;
-    -- lo que se acota es a quién se le puede DESTRUIR el vínculo.
+DROP POLICY IF EXISTS rgpd_retencion_correspondencia_lee ON public.persona_seudonimo;
+DROP POLICY IF EXISTS rgpd_retencion_correspondencia_emite ON public.persona_seudonimo;
+DROP POLICY IF EXISTS rgpd_retencion_correspondencia_destruye ON public.persona_seudonimo;
+
+CREATE POLICY rgpd_retencion_correspondencia_lee ON public.persona_seudonimo
+    FOR SELECT TO rgpd_retencion USING (true);
+
+CREATE POLICY rgpd_retencion_correspondencia_emite ON public.persona_seudonimo
+    FOR INSERT TO rgpd_retencion WITH CHECK (true);
+
+CREATE POLICY rgpd_retencion_correspondencia_destruye ON public.persona_seudonimo
+    FOR DELETE TO rgpd_retencion
     USING (created_at < now() - interval '24 months');
 
 -- BACKFILL: quien ya usaba el bot antes de esta migración necesita su código igual. Si no,
@@ -268,6 +280,25 @@ BEGIN
            OR has_table_privilege(tabla, 'public.persona_seudonimo', 'DELETE')
            OR has_any_column_privilege(tabla, 'public.persona_seudonimo', 'SELECT') THEN
             RAISE EXCEPTION 's296: % tiene privilegios sobre persona_seudonimo', tabla;
+        END IF;
+    END LOOP;
+
+    -- 6.1.c La ventana acota el BORRADO y solo el borrado.
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_policies
+         WHERE schemaname='public' AND tablename='persona_seudonimo'
+           AND policyname='rgpd_retencion_correspondencia_destruye'
+           AND cmd = 'DELETE' AND qual LIKE '%2 years%'
+    ) THEN
+        RAISE EXCEPTION 's296: la politica de borrado del vinculo no acota por ventana';
+    END IF;
+    FOREACH tabla IN ARRAY ARRAY['rgpd_retencion_correspondencia_lee',
+                                 'rgpd_retencion_correspondencia_emite'] LOOP
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_policies
+             WHERE schemaname='public' AND tablename='persona_seudonimo' AND policyname=tabla
+        ) THEN
+            RAISE EXCEPTION 's296: falta la politica %', tabla;
         END IF;
     END LOOP;
 
