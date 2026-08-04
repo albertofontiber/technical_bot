@@ -31,6 +31,10 @@ PROPUESTA_S296 = (
     REPO / "supabase" / "migration_proposals"
     / "20260804120000_s296_seudonimo_y_calidad_v1.sql"
 )
+PROPUESTA_S297 = (
+    REPO / "supabase" / "migration_proposals"
+    / "20260805120000_s297_ledger_consentimiento_v1.sql"
+)
 
 DSN = os.environ.get("RGPD_TEST_DATABASE_URL")
 pytestmark = pytest.mark.skipif(
@@ -41,7 +45,7 @@ pytestmark = pytest.mark.skipif(
 # Esquema mínimo con lo que la retención toca: mismas columnas, mismas constraints, mismas
 # FK con CASCADE. No se copia el esquema entero — se copia lo que gobierna el invariante.
 ESQUEMA = """
-DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo CASCADE;
+DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo, consent_events CASCADE;
 CREATE TABLE query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
@@ -137,6 +141,15 @@ def base():
         # postcondición, esto revienta.
         cur.execute(PROPUESTA.read_text(encoding="utf-8"))
         cur.execute(PROPUESTA_S296.read_text(encoding="utf-8"))
+        # Material para el BACKFILL de s297: una aceptación viva y una revocada, escritas
+        # ANTES de aplicar la migración — así su reconstrucción tiene qué reconstruir.
+        cur.execute(
+            "INSERT INTO user_consent (telegram_user_id, terms_version, accepted_at) "
+            "VALUES (111, 'v7', now() - interval '3 months')")
+        cur.execute(
+            "INSERT INTO user_consent (telegram_user_id, terms_version, accepted_at, revoked_at) "
+            "VALUES (555, 'v6', now() - interval '8 months', now() - interval '2 months')")
+        cur.execute(PROPUESTA_S297.read_text(encoding="utf-8"))
 
         vieja = str(uuid.uuid4())
         nueva = str(uuid.uuid4())
@@ -577,4 +590,93 @@ def test_la_tabla_del_vinculo_no_nace_accesible_para_roles_anonimos(base):
                 cur.execute("SELECT has_table_privilege(%s, 'public.persona_seudonimo', %s)",
                             (rol, privilegio))
                 assert cur.fetchone()[0] is False, f"{rol} tiene {privilegio}"
+    conexion.rollback()
+
+
+# ------------------------------------------------------------------ s297: el libro
+
+
+def test_el_backfill_reconstruye_lo_que_sobrevivio(base):
+    """El upsert antiguo destruyó el histórico: el libro arranca con lo único que quedó —
+    el estado actual — sin fingir más. Una aceptación viva ⇒ un evento; una revocada ⇒ dos
+    (accepted + revoked), cada uno con su fecha real."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SELECT evento FROM consent_events WHERE telegram_user_id = 111")
+        assert [f[0] for f in cur.fetchall()] == ["accepted"]
+        cur.execute("SELECT evento FROM consent_events WHERE telegram_user_id = 555 "
+                    "ORDER BY created_at")
+        assert [f[0] for f in cur.fetchall()] == ["accepted", "revoked"]
+    conexion.rollback()
+
+
+def test_el_libro_es_de_solo_insercion_para_el_bot(base):
+    """La evidencia editable no es evidencia. Se EJECUTA como service_role (no se miran
+    flags: esa clase de fallo solo aparece ejecutando — precedente s294)."""
+    import psycopg2
+    conexion, _, _ = base
+
+    with conexion.cursor() as cur:                     # INSERT sí: es su función
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute("INSERT INTO consent_events (telegram_user_id, terms_version, evento) "
+                    "VALUES (111, 'v7', 'accepted')")
+    conexion.rollback()
+
+    for sentencia in (
+        "UPDATE consent_events SET evento = 'revoked' WHERE telegram_user_id = 111",
+        "DELETE FROM consent_events WHERE telegram_user_id = 111",
+    ):
+        with conexion.cursor() as cur:
+            cur.execute("SET LOCAL ROLE service_role;")
+            with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+                cur.execute(sentencia)
+        conexion.rollback()
+
+
+def test_reaceptar_no_pisa_la_evidencia(base):
+    """El defecto que motivó el libro: re-aceptar la misma versión refresca el ESTADO
+    (correcto) pero antes destruía la traza. Ahora cada aceptación es un evento nuevo."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SET LOCAL ROLE service_role;")
+        for _ in range(2):                             # el técnico re-acepta la v7
+            cur.execute("INSERT INTO consent_events (telegram_user_id, terms_version, evento) "
+                        "VALUES (111, 'v7', 'accepted')")
+        cur.execute("SELECT count(*) FROM consent_events "
+                    " WHERE telegram_user_id = 111 AND evento = 'accepted'")
+        assert cur.fetchone()[0] == 3                  # backfill + 2 re-aceptaciones
+    conexion.rollback()
+
+
+def test_los_roles_anonimos_no_ven_el_libro(base):
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for rol in ("anon", "authenticated"):
+            for privilegio in ("SELECT", "INSERT", "UPDATE", "DELETE"):
+                cur.execute("SELECT has_table_privilege(%s, 'public.consent_events', %s)",
+                            (rol, privilegio))
+                assert cur.fetchone()[0] is False, f"{rol} tiene {privilegio}"
+    conexion.rollback()
+
+
+def test_la_marca_del_canal_espontaneo_existe_y_el_bot_no_puede_escribirla(base):
+    """El canal espontáneo (`feedback`) es por donde llega parte del feedback más valioso
+    y no tenía dónde marcarse. Y la marca —el dato que sostendría un bonus— tiene que ser
+    inalcanzable desde el canal por el que habla el interesado, también aquí."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        # El operador (postgres) SÍ puede marcar.
+        cur.execute("UPDATE feedback SET utilidad = 'corpus', utilidad_revisada_at = now() "
+                    " WHERE telegram_user_id = 111 RETURNING id")
+        assert cur.fetchone() is not None
+        # Un valor fuera de la taxonomía revienta.
+        with pytest.raises(psycopg2.errors.CheckViolation):
+            cur.execute("UPDATE feedback SET utilidad = 'genial' WHERE telegram_user_id = 111")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:                     # el bot, ejecutando de verdad: no
+        cur.execute("SET LOCAL ROLE service_role;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("UPDATE feedback SET utilidad = 'corrigio' WHERE telegram_user_id = 111")
     conexion.rollback()

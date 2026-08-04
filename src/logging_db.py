@@ -208,10 +208,44 @@ def log_feedback(
                 headers=_HEADERS,
                 json=row,
             )
+            # s297: si el enlace quedó COLGANDO (la consulta padre se borró entre que se
+            # capturó `last_query_log_id` y este POST — p.ej. una supresión a petición),
+            # la FK rechaza la fila ENTERA y el feedback se perdería. Se reintenta SIN el
+            # enlace: sobrevive suelto, como antes de s296. Mismo patrón que el fallback
+            # de `log_query` con la traza. Solo ante el rechazo definitivo de FK (23503):
+            # un timeout no se reintenta, porque el primer POST pudo haberse confirmado.
+            if resp.status_code >= 400 and "query_log_id" in row and _fk_rejected(resp):
+                fallback_row = {k: v for k, v in row.items() if k != "query_log_id"}
+                reintento = client.post(
+                    f"{SUPABASE_URL}/rest/v1/feedback",
+                    headers=_HEADERS,
+                    json=fallback_row,
+                )
+                if reintento.status_code >= 400:
+                    logger.warning(
+                        "Failed to log feedback after dangling-FK fallback: %s",
+                        reintento.status_code,
+                    )
+                else:
+                    logger.warning(
+                        "Feedback guardado SIN enlace: su consulta ya no existe (FK 23503)"
+                    )
+                return
             if resp.status_code >= 400:
                 logger.warning(f"Failed to log feedback: {resp.status_code}")
     except Exception as e:
         logger.warning(f"Failed to log feedback: {e}")
+
+
+def _fk_rejected(response: httpx.Response) -> bool:
+    """True solo ante una violación de clave foránea DEFINITIVA (SQLSTATE 23503)."""
+    if response.status_code not in (400, 409):
+        return False
+    try:
+        payload = response.json()
+    except Exception:
+        return False
+    return isinstance(payload, dict) and str(payload.get("code") or "") == "23503"
 
 
 def log_answer_feedback(
@@ -595,6 +629,28 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
             if resp.status_code >= 400:
                 logger.warning(f"Failed to set consent: {resp.status_code} {resp.text}")
                 return False
+
+            # s297: el LIBRO. `user_consent` es el estado vigente; el evento es la
+            # EVIDENCIA, y nada la pisa (la tabla es de solo inserción para el bot —
+            # inmutabilidad estructural, no promesa). Se escribe DESPUÉS del estado: si el
+            # estado falló, la aceptación no se consumó y no hay qué evidenciar. Fail-open
+            # con aviso: bloquear la entrada del técnico porque falló el libro sería
+            # desproporcionado — la divergencia posible queda declarada en la matriz.
+            evento = client.post(
+                f"{SUPABASE_URL}/rest/v1/consent_events",
+                headers=_HEADERS,
+                json={
+                    "telegram_user_id": telegram_user_id,
+                    "terms_version": TERMS_VERSION,
+                    "evento": "accepted",
+                },
+            )
+            if evento.status_code >= 400:
+                logger.warning(
+                    "Consentimiento registrado SIN evento en el libro (%s): "
+                    "aplicar la migracion s297 o revisar consent_events",
+                    evento.status_code,
+                )
         _consent_cache.add(telegram_user_id)
         _consent_cache_misses.discard(telegram_user_id)
         return True

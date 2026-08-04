@@ -13,6 +13,7 @@ on:
     paths:
       - "supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql"
       - "supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql"
+      - "supabase/migration_proposals/20260805120000_s297_ledger_consentimiento_v1.sql"
       - "scripts/rgpd_retencion.py"
       - "scripts/review_logs.py"
       - "src/logging_db.py"
