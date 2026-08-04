@@ -63,6 +63,14 @@ GRANT SELECT, INSERT ON TABLE public.persona_seudonimo TO service_role;
 -- borrado es el punto de no retorno.
 GRANT SELECT, DELETE ON TABLE public.persona_seudonimo TO rgpd_retencion;
 
+-- Y puede EMITIR el que falte. Sin esto, alguien sin código (la emisión en `/accept` es
+-- fail-open: si falla, el técnico entra igual) quedaría FUERA de la retención para
+-- siempre — el `UPDATE ... FROM persona_seudonimo` no casaría sus filas, conservaría su
+-- identificador, y el recibo diría «0 tocadas» sin que nada chirriara. Es la clase de
+-- fallo «aparenta cumplimiento» otra vez, y la destapó el test contra Postgres real.
+-- Emitir un código es inocuo: es un UUID aleatorio.
+GRANT INSERT (telegram_user_id) ON TABLE public.persona_seudonimo TO rgpd_retencion;
+
 -- Sin política no vería nada (el rol es NOBYPASSRLS). Aquí NO se acota por fecha: la
 -- ventana ya la imponen las políticas de las tablas de datos, y la correspondencia debe
 -- poder leerse para la persona cuyos registros vencen.

@@ -475,3 +475,31 @@ def test_el_feedback_ya_cascadea(base):
         cur.execute("SELECT count(*) FROM feedback WHERE query_log_id = %s", (vieja,))
         assert cur.fetchone()[0] == 0          # se fue con su consulta
     conexion.rollback()
+
+
+def test_nadie_se_queda_fuera_de_la_retencion_por_no_tener_codigo(base):
+    """El fallo que destapó el CI: la emisión del código en `/accept` es fail-open, así que
+    puede haber gente sin código. Sin código, el `UPDATE ... FROM persona_seudonimo` no
+    casaría sus filas — conservarían el identificador PARA SIEMPRE y el recibo diría
+    «0 tocadas» sin que nada chirriara. El job tiene que emitir el que falte."""
+    from datetime import datetime, timezone
+
+    import scripts.rgpd_retencion as job
+
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        # Se simula exactamente ese caso: se le quita el código a alguien con filas vencidas.
+        cur.execute("DELETE FROM persona_seudonimo WHERE telegram_user_id = 111")
+    conexion.commit()
+
+    resultado = job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
+                             aplicar=True, conexion=conexion)
+
+    assert resultado["query_logs"]["tocadas"] >= 1, "se saltó a alguien sin código"
+    with conexion.cursor() as cur:
+        cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = %s",
+                    (vieja,))
+        identificador, seudonimo = cur.fetchone()
+        assert identificador is None            # disociada de verdad
+        assert seudonimo is not None            # y agrupada bajo un código recién emitido
+    conexion.commit()

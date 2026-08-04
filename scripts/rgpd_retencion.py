@@ -203,6 +203,22 @@ def ejecutar(limite: datetime, aplicar: bool, conexion=None) -> dict:
                     f"privilegios del operador y la ventana de 24 meses NO estaria "
                     f"garantizada por la base. Abortado sin tocar nada."
                 )
+            # Antes de nada: EMITIR el código que falte. La emisión en `/accept` es
+            # fail-open, así que puede haber gente sin código — y sin código el
+            # `UPDATE ... FROM persona_seudonimo` no casaría sus filas: conservarían el
+            # identificador PARA SIEMPRE y el recibo diría «0 tocadas» sin chirriar. La RLS
+            # solo deja ver filas vencidas, así que esto alcanza exactamente a quien toca.
+            for tabla, columna in (("query_logs", "telegram_user_id"),
+                                   ("feedback", "telegram_user_id"),
+                                   ("answer_feedback", "telegram_user_id")):
+                cur.execute(
+                    f"INSERT INTO public.persona_seudonimo (telegram_user_id) "
+                    f"SELECT DISTINCT {columna} FROM public.{tabla} "
+                    f" WHERE {columna} IS NOT NULL AND created_at < %s "
+                    f"ON CONFLICT (telegram_user_id) DO NOTHING",
+                    (limite,),
+                )
+
             for obj in OBJETIVOS:
                 cur.execute(obj.sentencia(), (limite,))
                 ids = [str(fila[0]) for fila in cur.fetchall()]

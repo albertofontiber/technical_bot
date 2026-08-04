@@ -368,9 +368,10 @@ def test_las_cuatro_tablas_van_en_una_sola_transaccion():
     conexion = _ConexionFalsa()
     ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), True, conexion)
 
-    # arranque (SET LOCAL ROLE + statement_timeout + SELECT current_user) + una sentencia
-    # por objetivo + la destrucción del vínculo, y UN solo commit al final.
-    assert len(conexion.registro["sql"]) == 3 + len(OBJETIVOS) + 1
+    # arranque (SET LOCAL ROLE + statement_timeout + SELECT current_user) + 3 emisiones de
+    # código que falte + una sentencia por objetivo + la destrucción del vínculo, y UN solo
+    # commit al final.
+    assert len(conexion.registro["sql"]) == 3 + 3 + len(OBJETIVOS) + 1
     assert conexion.registro["commit"] == 1
 
 
