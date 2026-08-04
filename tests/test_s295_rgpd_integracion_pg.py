@@ -88,6 +88,15 @@ DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN
         CREATE ROLE service_role NOLOGIN BYPASSRLS;
     END IF;
+    -- Los roles anonimos de Supabase. El fixture NO los creaba, asi que el CI no podia
+    -- cazar que una tabla nueva naciera accesible para ellos -- que es justo el riesgo de
+    -- `persona_seudonimo`, la tabla que vincula codigo y persona.
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+        CREATE ROLE anon NOLOGIN;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+        CREATE ROLE authenticated NOLOGIN;
+    END IF;
 END $$;
 GRANT SELECT, INSERT ON query_logs, feedback, answer_messages TO service_role;
 GRANT SELECT, INSERT, UPDATE ON answer_feedback, user_consent TO service_role;
@@ -118,6 +127,12 @@ def base():
                 END IF;
             END $limpieza$;
         """)
+        # Se reproduce el comportamiento de Supabase: por defecto concede TODO sobre las
+        # tablas nuevas de `public` a los roles anonimos. Sin esto, la tabla del vinculo
+        # nace limpia en el test y el REVOKE de la migracion no probaria nada.
+        cur.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA public "
+                    "GRANT ALL ON TABLES TO anon, authenticated;")
+
         # Las PROPUESTAS, tal cual y EN ORDEN: si alguna no ejecuta o falla una
         # postcondición, esto revienta.
         cur.execute(PROPUESTA.read_text(encoding="utf-8"))
@@ -441,10 +456,43 @@ def test_el_bot_no_puede_escribir_la_marca_de_utilidad(base):
         cur.execute("SELECT has_column_privilege('service_role', 'public.answer_feedback',"
                     " 'utilidad', 'UPDATE')")
         assert cur.fetchone()[0] is False
-        # ...y el voto sigue funcionando.
-        cur.execute("SELECT has_column_privilege('service_role', 'public.answer_feedback',"
-                    " 'verdict', 'UPDATE')")
-        assert cur.fetchone()[0] is True
+    conexion.rollback()
+
+
+def test_el_voto_sigue_funcionando_como_service_role(base):
+    """No basta mirar flags de privilegio: el fallo de esta clase solo aparece EJECUTANDO
+    (precedente s294 — un `merge-duplicates` daba 403 real sobre una tabla que «tenía» los
+    permisos). Aquí se ejerce el upsert 👍→👎 asumiendo el rol del bot."""
+    conexion, _, nueva = base
+    with conexion.cursor() as cur:
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute(
+            "INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict) "
+            "VALUES (%s, 777, 'up') "
+            "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
+            "SET verdict = EXCLUDED.verdict", (nueva,))
+        cur.execute(
+            "INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict) "
+            "VALUES (%s, 777, 'down') "
+            "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
+            "SET verdict = EXCLUDED.verdict", (nueva,))
+        cur.execute("SELECT verdict FROM answer_feedback "
+                    " WHERE query_log_id = %s AND telegram_user_id = 777", (nueva,))
+        assert cur.fetchone()[0] == "down"          # el toggle sigue vivo
+    conexion.rollback()
+
+
+def test_la_marca_se_puede_poner_en_feedback_de_una_consulta_YA_disociada(base):
+    """El caso que el trigger bloqueaba: el feedback MÁS ANTIGUO —el que ha tenido tiempo de
+    demostrar que sirvió— cuelga de consultas ya disociadas. Si marcar su utilidad saltara
+    el trigger, sería imposible reconocer justo lo que se quiere reconocer."""
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("UPDATE query_logs SET telegram_user_id = NULL WHERE id = %s", (vieja,))
+        cur.execute("UPDATE answer_feedback SET utilidad = 'corrigio', "
+                    "utilidad_revisada_at = now() WHERE query_log_id = %s RETURNING id",
+                    (vieja,))
+        assert cur.fetchone() is not None
     conexion.rollback()
 
 
@@ -514,3 +562,19 @@ def test_nadie_se_queda_fuera_de_la_retencion_por_no_tener_codigo(base):
         assert identificador is None            # disociada de verdad
         assert seudonimo is not None            # y agrupada bajo un código recién emitido
     conexion.commit()
+
+
+def test_la_tabla_del_vinculo_no_nace_accesible_para_roles_anonimos(base):
+    """`persona_seudonimo` vincula código y persona: es la pieza más sensible del diseño.
+    Supabase concede TODO por defecto sobre las tablas nuevas de `public` a `anon` y
+    `authenticated`, así que una tabla creada sin REVOKE explícito nace expuesta. La RLS lo
+    taparía, pero el patrón del repo es REVOKE **y** RLS — y aquí el fixture reproduce la
+    concesión por defecto, así que este test falla de verdad si el REVOKE desaparece."""
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        for rol in ("anon", "authenticated"):
+            for privilegio in ("SELECT", "INSERT", "UPDATE", "DELETE"):
+                cur.execute("SELECT has_table_privilege(%s, 'public.persona_seudonimo', %s)",
+                            (rol, privilegio))
+                assert cur.fetchone()[0] is False, f"{rol} tiene {privilegio}"
+    conexion.rollback()

@@ -60,7 +60,7 @@ principio:
 |---|---|
 | Alta | Cada técnico recibe un código aleatorio la primera vez que usa el bot |
 | Correspondencia | Una tabla pequeña `persona_seudonimo` (código ↔ `telegram_user_id`) |
-| Exports | Llevan **siempre el código, nunca el identificador real** ⇒ el identificador no sale jamás de la base |
+| Exports | Llevan **siempre el código, nunca el identificador real**. Precisión: el identificador sí se LEE al proceso que genera el fichero; lo garantizado es que **no se escribe al fichero** |
 | Operativa | La base conserva el identificador real mientras haga falta (consentimiento, peticiones) |
 | A los 24 meses | Se sustituye el identificador por el código en los registros **y se borra la fila de correspondencia** — ese borrado ES el punto de no retorno |
 
@@ -73,6 +73,23 @@ exports) por uno concentrado y gobernado (una tabla, un borrado).
 secreta (HMAC). Evita la tabla, pero los identificadores de Telegram son un espacio pequeño: con
 la clave se pueden recorrer todos y deshacer el seudónimo. Sería irreversible solo si se destruye
 la clave — y entonces vuelve el problema de no poder emitir el mismo código otra vez.
+
+### Límites del seudónimo, declarados
+
+**No es «el mismo código para siempre».** Lo es mientras viva la correspondencia. Si a alguien
+se le destruye el vínculo (no le quedaba nada identificado) y luego vuelve, recibe un código
+NUEVO y su histórico queda en dos bloques. **No es un fallo: es la irreversibilidad
+funcionando** — un vínculo destruido no se puede resucitar, esa es justo la garantía. Pero
+conviene decirlo, porque la prosa «estable siempre» sugería lo contrario.
+
+**El append-only cubre el eje versión, no el eje tiempo.** Re-aceptar la MISMA versión
+refresca su fila: se pisa la fecha original y se limpia `revoked_at`. Es decir, **se conserva
+qué versión aceptó cada uno, pero no la traza de que en su día revocó y cuándo**. Arreglarlo
+exige un registro de eventos aparte; queda anotado, no hecho.
+
+**El feedback espontáneo puede perderse si la consulta se borra entre medias.** Al añadir el
+enlace con cascada, un `feedback` cuya consulta padre desaparezca justo antes de escribirlo
+falla entero (antes se guardaba suelto). Ventana pequeña y el caso es raro; se declara.
 
 ## Principio rector: DISOCIAR, no borrar ⬤
 
@@ -146,7 +163,8 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | Ancla mensaje ↔ consulta | `answer_messages` (`telegram_chat_id`, `telegram_message_id`) | Atribuir una respuesta de Telegram a su consulta | Sigue a su consulta | CASCADE | **Se BORRA** — mapeo operativo sin valor analítico a 24 meses (propuesta §3) |
 | Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
-| **Exports a disco** (`display_name`, `telegram_user_id`, pregunta, transcripción, respuesta) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
+| **Exports a disco** (desde s296: **seudónimo**, pregunta, transcripción, respuesta — SIN `display_name` ni `telegram_user_id`) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
+| **Exports ANTERIORES a s296** (llevan `display_name` y `telegram_user_id`) | los ficheros ya generados | — | ⚠️ ninguna | Borrado manual — **hay que buscarlos**: el cambio no toca lo ya escrito | Nada |
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
 | **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
@@ -235,8 +253,11 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 0. **DECIDIDO por Alberto (4-ago) y ya CONSTRUIDO** (s296, sin aplicar a la base):
    - **Seudónimo estable** en lugar de NULL (sección de arriba), y **exports que solo lleven el
      código**.
-   - **`user_consent` pasa a append-only**: una fila por (persona, versión) con su fecha, en vez
-     de sobrescribir. Hoy no se puede demostrar que alguien aceptó la v3 — solo la última.
+   - **`user_consent`: una fila por (persona, versión)** con su fecha, en vez de una por
+     persona. Hoy no se puede demostrar que alguien aceptó la v3 — solo la última. **Ojo con
+     el nombre**: esto CONSERVA cada versión, pero NO es inmutable — re-aceptar la misma
+     versión refresca su fila, y `service_role` mantiene UPDATE de tabla sobre el histórico.
+     Inmutabilidad real exigiría quitarle ese UPDATE; queda anotado, no hecho.
    - **Enlace en `feedback`**: se añade la columna que hoy no existe y se rellena en cada
      escritura nueva, así la tabla entra en la cascada. Las filas antiguas (1) quedan huérfanas y
      así se declara. *Deuda anotada, NO resuelta aquí: lo verdaderamente BP sería tener un solo

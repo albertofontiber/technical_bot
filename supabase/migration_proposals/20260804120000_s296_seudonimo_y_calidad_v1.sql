@@ -9,8 +9,10 @@
 --      por un código aleatorio, el mismo siempre para la misma persona. Motivo de
 --      Alberto: no perder el corpus de un buen técnico que se vaya. Con NULL quedarían
 --      sus preguntas sueltas, sin saber que son de la misma persona.
---   2. Ese mismo código es el que viaja en los EXPORTS a disco, desde el primer día
---      ⇒ el identificador real de Telegram no sale nunca de la base de datos.
+--   2. Ese mismo código es el que viaja en los EXPORTS a disco, desde el primer día.
+--      PRECISIÓN: el identificador SÍ se lee de la base al proceso que genera el export
+--      (la consulta trae la fila entera); lo que se garantiza es que **no se escribe
+--      nunca al fichero**. Decir «no sale nunca de la base» sería declarar de más.
 --   3. `user_consent` pasa a APPEND-ONLY: una fila por (persona, versión) con su fecha.
 --      Hoy el upsert machaca, así que no se puede demostrar que alguien aceptó la v3.
 --   4. Enlace en `feedback`, y MARCA DE UTILIDAD en `answer_feedback` para poder
@@ -55,6 +57,14 @@ CREATE TABLE IF NOT EXISTS public.persona_seudonimo (
 ALTER TABLE public.persona_seudonimo ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.persona_seudonimo FORCE  ROW LEVEL SECURITY;
 
+-- REVOKE explícito, como en las otras cinco tablas de datos personales. NO es redundante
+-- con la RLS: Supabase aplica `ALTER DEFAULT PRIVILEGES ... GRANT ALL ... TO anon,
+-- authenticated` sobre `public`, así que una tabla nueva NACE con privilegios para roles
+-- anónimos. La RLS lo tapa hoy, pero el patrón del repo es REVOKE **y** RLS — y esta es
+-- precisamente la tabla que vincula el código con la persona.
+REVOKE ALL PRIVILEGES ON TABLE public.persona_seudonimo
+    FROM PUBLIC, anon, authenticated, service_role;
+
 -- El bot necesita EMITIR el código (primera vez que alguien usa el bot) y LEERLO. No
 -- necesita borrarlo ni cambiarlo: un código que cambia deja de agrupar.
 GRANT SELECT, INSERT ON TABLE public.persona_seudonimo TO service_role;
@@ -71,12 +81,16 @@ GRANT SELECT, DELETE ON TABLE public.persona_seudonimo TO rgpd_retencion;
 -- Emitir un código es inocuo: es un UUID aleatorio.
 GRANT INSERT (telegram_user_id) ON TABLE public.persona_seudonimo TO rgpd_retencion;
 
--- Sin política no vería nada (el rol es NOBYPASSRLS). Aquí NO se acota por fecha: la
--- ventana ya la imponen las políticas de las tablas de datos, y la correspondencia debe
--- poder leerse para la persona cuyos registros vencen.
+-- Sin política no vería nada (el rol es NOBYPASSRLS).
 DROP POLICY IF EXISTS rgpd_retencion_correspondencia ON public.persona_seudonimo;
 CREATE POLICY rgpd_retencion_correspondencia ON public.persona_seudonimo
-    TO rgpd_retencion USING (true);
+    TO rgpd_retencion
+    -- Acotada por ventana, como las demás. Con `USING (true)` el job borraba también el
+    -- código recién emitido de quien acaba de hacer `/accept` y aún no ha preguntado
+    -- (no tiene filas identificadas ⇒ cumplía la condición), y el invariante «no puede
+    -- tocar nada reciente» no regía para esta tabla. El código se emite y se lee siempre;
+    -- lo que se acota es a quién se le puede DESTRUIR el vínculo.
+    USING (created_at < now() - interval '24 months');
 
 -- BACKFILL: quien ya usaba el bot antes de esta migración necesita su código igual. Si no,
 -- su histórico sería el único que llegaría a los 24 meses sin nada que lo agrupe — que es
@@ -179,7 +193,10 @@ ALTER TABLE public.feedback
 
 CREATE INDEX IF NOT EXISTS idx_feedback_query_log ON public.feedback (query_log_id);
 
-GRANT INSERT (query_log_id) ON public.feedback TO service_role;
+-- No hace falta GRANT: `service_role` ya tiene INSERT de TABLA sobre `feedback`
+-- (`supabase_schema.sql`), que cubre cualquier columna nueva. Un `GRANT INSERT (columna)`
+-- aquí sería un no-op decorativo, y un no-op decorativo en una migración de privilegios
+-- es peor que nada: parece que protege algo.
 
 -- ---------------------------------------------------------------------------
 -- 5. La marca de UTILIDAD — para reconocer calidad, no cantidad
@@ -243,6 +260,17 @@ BEGIN
         RAISE EXCEPTION 's296: service_role no debe poder cambiar ni borrar un seudonimo';
     END IF;
 
+    -- 6.1.b Ningun rol anonimo toca la tabla del vinculo.
+    FOREACH tabla IN ARRAY ARRAY['anon', 'authenticated'] LOOP
+        IF has_table_privilege(tabla, 'public.persona_seudonimo', 'SELECT')
+           OR has_table_privilege(tabla, 'public.persona_seudonimo', 'INSERT')
+           OR has_table_privilege(tabla, 'public.persona_seudonimo', 'UPDATE')
+           OR has_table_privilege(tabla, 'public.persona_seudonimo', 'DELETE')
+           OR has_any_column_privilege(tabla, 'public.persona_seudonimo', 'SELECT') THEN
+            RAISE EXCEPTION 's296: % tiene privilegios sobre persona_seudonimo', tabla;
+        END IF;
+    END LOOP;
+
     -- 6.2 El rol de retencion puede estampar el codigo y destruir la correspondencia.
     FOREACH tabla IN ARRAY ARRAY['query_logs', 'feedback', 'answer_feedback'] LOOP
         IF NOT has_column_privilege('rgpd_retencion', format('public.%I', tabla),
@@ -292,6 +320,32 @@ END
 $s296_post$;
 
 COMMIT;
+
+-- ---------------------------------------------------------------------------
+-- CAMBIO ACOMPAÑANTE OBLIGATORIO EN `supabase_schema.sql` (bootstrap)
+-- ---------------------------------------------------------------------------
+-- ⚠️ SIN ESTO, LA PIEZA 5.b SE DESHACE SOLA. El bootstrap está escrito para re-ejecutarse
+-- y hace:
+--     REVOKE ALL … FROM service_role
+--     GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback TO service_role
+-- con una postcondición de IGUALDAD EXACTA (`expected = ['SELECT','INSERT','UPDATE']`).
+-- Re-correrlo devuelve a `service_role` el UPDATE de TABLA, le quita los grants de columna,
+-- y **la marca de utilidad vuelve a ser escribible desde el canal por el que habla el
+-- interesado** — sin que nada falle ni avise. Un entorno nuevo nacería igual.
+--
+-- Al aplicar esta propuesta hay que, en `supabase_schema.sql`:
+--   1. Sustituir el GRANT de tabla por el de columna:
+--        EXECUTE 'GRANT SELECT, INSERT ON TABLE public.answer_feedback TO service_role';
+--        EXECUTE 'GRANT UPDATE (telegram_user_id, query_log_id, verdict, comment, '
+--                'reason_class) ON public.answer_feedback TO service_role';
+--   2. Ajustar `expected_service_privileges` de `answer_feedback` a ['SELECT','INSERT'] y
+--      añadir la comprobación de que NO tiene UPDATE de columna sobre `utilidad`.
+--   3. Replicar el bloque de `persona_seudonimo` (tabla + REVOKE + RLS + política + grants)
+--      y las columnas nuevas, para que un bootstrap limpio quede completo.
+--
+-- NO se modifica aquí, por lo mismo que en s295: hacerlo antes de aplicar crearía la
+-- divergencia inversa (bootstrap con privilegios que producción no tiene). Los dos cambios
+-- van juntos o no van.
 
 -- ---------------------------------------------------------------------------
 -- ROLLBACK

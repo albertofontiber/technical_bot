@@ -228,8 +228,15 @@ $rgpd_trigger$;
 
 DROP TRIGGER IF EXISTS rgpd_no_reidentificar ON public.answer_feedback;
 CREATE TRIGGER rgpd_no_reidentificar
-    BEFORE INSERT OR UPDATE ON public.answer_feedback
-    FOR EACH ROW EXECUTE FUNCTION public.rgpd_no_reidentificar_v1();
+    -- ACOTADO a las columnas que pueden re-identificar, y solo cuando de verdad se está
+    -- poniendo un identificador. Sin acotar, CUALQUIER update sobre un voto cuya consulta
+    -- ya está disociada saltaba -- incluido marcar su utilidad al revisarlo. Y justo el
+    -- feedback MÁS ANTIGUO, el que ha tenido tiempo de demostrar que sirvió, es el que
+    -- cuelga de consultas disociadas: el trigger habría hecho imposible reconocerlo.
+    BEFORE INSERT OR UPDATE OF telegram_user_id, query_log_id ON public.answer_feedback
+    FOR EACH ROW
+    WHEN (NEW.telegram_user_id IS NOT NULL)
+    EXECUTE FUNCTION public.rgpd_no_reidentificar_v1();
 
 -- El bot ya trata el fallo de escritura del voto como «no se pudo registrar» (mismo camino
 -- que el teclado obsoleto tras un borrado RGPD), asi que no hace falta tocarlo.
@@ -315,9 +322,14 @@ BEGIN
         FOREACH priv IN ARRAY ARRAY['UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER'] LOOP
             -- UPDATE de tabla es legitimo en answer_feedback (upsert del voto, s286) y en
             -- user_consent (re-aceptacion). Todo lo demas debe ser FALSO.
-            IF has_table_privilege('service_role', format('public.%I', tabla), priv)
-               IS DISTINCT FROM (priv = 'UPDATE'
-                                 AND tabla IN ('answer_feedback', 'user_consent')) THEN
+            -- `answer_feedback` se exceptua: s296 le quita a service_role el UPDATE de
+            -- TABLA y le da UPDATE de COLUMNA (para que no pueda escribir la marca de
+            -- utilidad). Sin esta excepcion, re-ejecutar s295 DESPUES de s296 fallaria y
+            -- las dos propuestas quedarian orden-dependientes. Lo que de verdad importa
+            -- --que el voto siga funcionando-- se comprueba justo debajo.
+            IF tabla <> 'answer_feedback'
+               AND has_table_privilege('service_role', format('public.%I', tabla), priv)
+                   IS DISTINCT FROM (priv = 'UPDATE' AND tabla = 'user_consent') THEN
                 RAISE EXCEPTION 's295: service_role ha ganado o perdido % en % -- el hardening '
                                 'de julio debe quedar EXACTAMENTE como estaba', priv, tabla;
             END IF;
@@ -326,6 +338,12 @@ BEGIN
     IF has_any_column_privilege('service_role', 'public.query_logs', 'UPDATE')
        OR has_any_column_privilege('service_role', 'public.feedback', 'UPDATE') THEN
         RAISE EXCEPTION 's295: service_role ha ganado UPDATE de columna -- no era el plan';
+    END IF;
+    -- El voto tiene que seguir funcionando, venga el privilegio por tabla (antes de s296)
+    -- o por columna (despues).
+    IF NOT has_column_privilege('service_role', 'public.answer_feedback',
+                                'verdict', 'UPDATE') THEN
+        RAISE EXCEPTION 's295: service_role ya no puede actualizar el voto';
     END IF;
 
     -- 6.6 Las politicas existen Y dicen lo que deben: nombre, rol y predicado.

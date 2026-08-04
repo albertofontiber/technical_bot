@@ -137,19 +137,35 @@ def _match_feedback_to_queries(
     return queries_df
 
 
-def _seudonimizar(df: pd.DataFrame) -> pd.DataFrame:
+def _seudonimizar(df: pd.DataFrame, correspondencias: dict) -> pd.DataFrame:
     """Cambia identificadores por el código estable ANTES de que nada llegue al disco.
 
-    Se hace aquí, en un único punto, y no confiando en que cada sitio se acuerde de
-    excluir las columnas: lo que no se puede olvidar es lo que ya no está en la tabla.
-    Si una fila no tiene código (registros anteriores a s296), se marca como tal en vez
-    de dejar pasar el identificador — ante la duda, no sale.
+    Se hace en un único punto, y no confiando en que cada sitio se acuerde de excluir las
+    columnas: lo que no se puede olvidar es lo que ya no está en la tabla.
+
+    DOS FUENTES, y hacen falta las dos:
+      · `query_logs.seudonimo` — solo tiene valor en filas YA disociadas por la retención;
+        ahí el identificador ya no existe, así que es la única fuente posible.
+      · `persona_seudonimo` — para todo lo demás, que es TODO hasta 2028.
+
+    Usar solo la primera (como hacía la versión anterior) dejaba a todos los técnicos
+    colapsados bajo el mismo literal «(sin código)» y destruía la agrupación justo en el
+    periodo en que hace falta: el de ahora. No se veía porque la columna existe y el
+    código «funcionaba» — el fallo estaba en de dónde venía el dato.
     """
     if df.empty:
         return df
     salida = df.copy()
     if "seudonimo" not in salida.columns:
         salida["seudonimo"] = None
+
+    if "telegram_user_id" in salida.columns:
+        desde_tabla = salida["telegram_user_id"].map(
+            lambda uid: correspondencias.get(uid) if pd.notna(uid) else None
+        )
+        # La columna estampada manda: en una fila disociada es lo único que queda.
+        salida["seudonimo"] = salida["seudonimo"].fillna(desde_tabla)
+
     salida["seudonimo"] = salida["seudonimo"].fillna("(sin código)")
     return salida.drop(columns=[c for c in ("telegram_user_id", "display_name")
                                 if c in salida.columns])
@@ -253,7 +269,15 @@ def main():
     # SEUDÓNIMO estable, que agrupa igual de bien («estas 40 preguntas son de la misma
     # persona») sin decir quién es. Es el mismo código que el job estampa a los 24 meses,
     # así que un export de hoy y la base de dentro de tres años siguen cruzándose.
-    queries_df = _seudonimizar(queries_df)
+    # La correspondencia se trae de su tabla: es la unica fuente para las filas que aun
+    # NO han vencido, que hoy son todas.
+    correspondencias = {
+        fila["telegram_user_id"]: fila["seudonimo"]
+        for fila in _fetch_table("persona_seudonimo",
+                                 select="telegram_user_id,seudonimo", order="created_at")
+    }
+    logger.info(f"  -> {len(correspondencias)} seudonimos")
+    queries_df = _seudonimizar(queries_df, correspondencias)
 
     # Reorder columns for review readability
     front = [

@@ -59,6 +59,9 @@ _HEADERS = {
 _consent_cache: set[int] = set()
 _consent_cache_misses: set[int] = set()  # users we've already checked and have no consent
 _trace_compatibility_warning_emitted = False
+# Personas de las que ya sabemos que tienen codigo. Evita una llamada por consulta: el
+# codigo, una vez emitido, no cambia nunca.
+_seudonimo_emitido: set[int] = set()
 
 
 def _trace_contract_rejected(response: httpx.Response) -> bool:
@@ -517,6 +520,7 @@ def seudonimo_de(telegram_user_id: int) -> str | None:
                 },
             )
             if resp.status_code == 200 and resp.json():
+                _seudonimo_emitido.add(telegram_user_id)
                 return resp.json()[0]["seudonimo"]
 
             # `ignore-duplicates`: si dos mensajes llegan a la vez, el segundo no pisa al
@@ -528,6 +532,7 @@ def seudonimo_de(telegram_user_id: int) -> str | None:
                 json={"telegram_user_id": telegram_user_id},
             )
             if creada.status_code < 400 and creada.json():
+                _seudonimo_emitido.add(telegram_user_id)
                 return creada.json()[0]["seudonimo"]
             # Perdió la carrera: la fila la escribió el otro mensaje. Se relee.
             relectura = client.get(
@@ -540,10 +545,24 @@ def seudonimo_de(telegram_user_id: int) -> str | None:
                 },
             )
             if relectura.status_code == 200 and relectura.json():
+                _seudonimo_emitido.add(telegram_user_id)
                 return relectura.json()[0]["seudonimo"]
     except Exception as e:
         logger.warning(f"No se pudo obtener el seudonimo: {e}")
     return None
+
+
+def asegurar_seudonimo(telegram_user_id: int) -> None:
+    """Garantiza que esa persona tiene código, sin pagar una llamada por consulta.
+
+    `/accept` no basta: quien ya aceptó y sigue usando el bot NO vuelve a pasar por ahí, y
+    quien vuelve después de que su vínculo se destruyera tampoco. Sin código, sus filas
+    quedarían fuera de la agrupación — y el job las disociaría emitiendo uno nuevo, con el
+    corpus partido. Aquí se cierra ese hueco.
+    """
+    if telegram_user_id in _seudonimo_emitido:
+        return
+    seudonimo_de(telegram_user_id)
 
 
 def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:

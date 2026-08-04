@@ -65,6 +65,7 @@ from ..logging_db import (
     has_consent,
     set_consent,
     seudonimo_de,
+    asegurar_seudonimo,
 )
 from .response_formatter import (
     DEFAULT_MESSAGE_LIMIT,
@@ -343,7 +344,7 @@ _PRIVACY_DETAIL = (
     "*Cuánto tiempo*: 24 meses vinculado a ti. Pasado ese plazo se retira tu identificador "
     "de tus consultas y de sus valoraciones; el contenido se conserva disociado para seguir "
     "mejorando el sistema. Tu aceptación de estos términos se conserva como prueba del "
-    "consentimiento mientras uses el bot.\n\n"
+    "consentimiento mientras conservemos datos tuyos.\n\n"
     "*Transferencias fuera de la UE*: puedes pedirnos información sobre las garantías "
     "aplicables escribiendo a *info@fontiber.com*.\n\n"
     "*Tus derechos*: acceso, rectificación, supresión, oposición y portabilidad. Escribe a "
@@ -1068,6 +1069,12 @@ async def _process_query(
             rag_trace=rag_trace,
             query_log_id=query_log_uuid,
         )
+
+        # s296: garantizar el código aquí y no solo en `/accept`. Quien ya aceptó y sigue
+        # usando el bot NO vuelve a pasar por `/accept`, y quien regresa después de que su
+        # vínculo se destruyera, tampoco. Sin código, sus filas quedarían fuera de la
+        # agrupación. Cacheado en proceso: una llamada por persona, no por consulta.
+        asegurar_seudonimo(user_id)
 
         # s296: el feedback espontáneo que venga DESPUÉS se ancla a esta consulta, para que
         # la tabla `feedback` cascadee. Solo si la fila está CONFIRMADA: escribir un enlace

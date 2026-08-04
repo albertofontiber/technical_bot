@@ -36,7 +36,7 @@ HASH_POR_VERSION = {
     "v4": "43e52a3df2e4dfea",              # capa única (antes del aviso en dos capas)
     "v5": "1600bb5d68033a84",
     "v6": "18a139c87ac30a35",              # sha256(capa1 + SEPARADOR + capa2)
-    "v7": "d7472689b771c121",              # s296: reconocimiento de aportaciones
+    "v7": "d9b4b91872b3e569",              # s296: reconocimiento de aportaciones
 }
 
 
@@ -502,3 +502,49 @@ def test_la_matriz_declara_lo_que_de_verdad_pasa():
         "/privacidad",              # el aviso en dos capas
     ):
         assert marca in doc, f"la matriz no declara: {marca}"
+
+
+# ------------------------------------------------------------------ el export
+
+
+def test_el_export_agrupa_por_codigo_DESDE_HOY():
+    """El fallo que cazó el dúo: `_seudonimizar` leía el código de `query_logs.seudonimo`,
+    que SOLO se rellena al vencer el plazo. Hasta 2028 todas las filas caían en el mismo
+    literal «(sin código)» — es decir, la agrupación que justifica todo esto no existía
+    justo en el periodo en que hace falta. No se veía porque la columna existe y el código
+    «funcionaba»: el fallo estaba en de dónde venía el dato."""
+    import pandas as pd
+
+    from scripts.review_logs import _seudonimizar
+
+    correspondencias = {111: "codigo-A", 222: "codigo-B"}
+    df = pd.DataFrame([
+        {"telegram_user_id": 111, "query": "una", "seudonimo": None},
+        {"telegram_user_id": 111, "query": "otra", "seudonimo": None},
+        {"telegram_user_id": 222, "query": "de otro", "seudonimo": None},
+        # Fila YA disociada: no tiene identificador, y su código es lo único que queda.
+        {"telegram_user_id": None, "query": "vieja", "seudonimo": "codigo-A"},
+    ])
+    salida = _seudonimizar(df, correspondencias)
+
+    assert "telegram_user_id" not in salida.columns     # el identificador NO sale al disco
+    assert "display_name" not in salida.columns
+    codigos = list(salida["seudonimo"])
+    assert codigos == ["codigo-A", "codigo-A", "codigo-B", "codigo-A"]
+    # Lo que Alberto pidió: las tres del mismo técnico agrupan, incluida la ya disociada.
+    assert codigos.count("codigo-A") == 3
+
+
+def test_el_export_nunca_deja_pasar_un_identificador_sin_codigo():
+    """Ante la duda, no sale: una persona sin correspondencia se marca, no se filtra."""
+    import pandas as pd
+
+    from scripts.review_logs import _seudonimizar
+
+    salida = _seudonimizar(
+        pd.DataFrame([{"telegram_user_id": 999, "display_name": "Fulano", "query": "x"}]),
+        {},
+    )
+    assert "telegram_user_id" not in salida.columns
+    assert "display_name" not in salida.columns
+    assert salida["seudonimo"].iloc[0] == "(sin código)"
