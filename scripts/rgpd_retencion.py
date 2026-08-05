@@ -42,9 +42,9 @@ Eso además arregla tres cosas de raíz, no con parches:
 **Por defecto NO escribe**: sin `--aplicar` hace la pasada completa y revierte.
 ═══════════════════════════════════════════════════════════════════════════════
 
-REQUIERE la propuesta `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql`
-(sin aplicar al escribir esto). Mientras no esté, el script lo dice y sale con código 2 en
-vez de aparentar cumplimiento.
+REQUIERE la cola de migraciones s295 → s296 → s297 (`supabase/migration_proposals/`),
+APLICADA en producción el 5-ago-2026. En un entorno donde falte, el script lo dice y sale
+con código 2 en vez de aparentar cumplimiento.
 
 FUERA DE ALCANCE, con dueño declarado en la matriz: `user_consent`, los exports a disco de
 `scripts/review_logs.py`, y el extracto de recibos versionado en git.

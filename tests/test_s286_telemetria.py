@@ -275,11 +275,20 @@ def test_schema_boundary_covers_answer_feedback():
         r"FOREACH table_name IN ARRAY ARRAY\[(.*?)\]", schema, re.DOTALL
     )
     with_feedback = [a for a in boundary_arrays if "'answer_feedback'" in a]
-    assert len(with_feedback) == 2, "answer_feedback falta en un FOREACH del boundary"
-    assert "ANY(ARRAY['user_consent', 'answer_feedback'])" in schema
-    assert (
-        "GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback" in schema
-    )
+    # s298: el boundary creció (bucle nominal de la marca) — lo que protege esta guarda es
+    # que answer_feedback esté en los DOS bucles principales (hardening + postcondición),
+    # no un conteo literal que se rompa con cada bucle legítimo nuevo (lección s294).
+    assert len(with_feedback) >= 2, "answer_feedback falta en un FOREACH del boundary"
+    # s298: el boundary paso de un branch ANY(ARRAY[...]) a IF/ELSIF por tabla (feedback y
+    # answer_feedback tienen expectativas de COLUMNA distintas). La intencion de la guarda
+    # se conserva: answer_feedback tiene rama de privilegios PROPIA en el boundary.
+    assert "ELSIF table_name = 'answer_feedback' THEN" in schema
+    # s298: el grant de tabla se partió a propósito — SELECT de tabla + INSERT/UPDATE de
+    # COLUMNA, para que la marca de utilidad quede fuera del alcance del bot. La guarda
+    # protege el invariante NUEVO, incluido que el viejo no vuelva.
+    assert "GRANT SELECT ON TABLE public.answer_feedback TO service_role" in schema
+    assert "GRANT UPDATE (telegram_user_id, query_log_id, verdict, comment, reason_class)" in schema
+    assert "GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback" not in schema
     assert "REFERENCES query_logs(id) ON DELETE CASCADE" in schema
     assert "UNIQUE (query_log_id, telegram_user_id)" in schema
 

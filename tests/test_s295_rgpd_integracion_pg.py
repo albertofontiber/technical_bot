@@ -759,3 +759,73 @@ def test_la_marca_exige_fecha_de_revision_y_viceversa(base):
             with pytest.raises(psycopg2.errors.CheckViolation):
                 cur.execute(sentencia)
         conexion.rollback()
+
+
+# ------------------------------------------------------- s298: bootstrap re-ejecutable
+
+
+def _bloque_frontera() -> str:
+    """El bloque del bootstrap entre los marcadores RGPD-BOUNDARY. Extraído por marcadores
+    EXPLÍCITOS (no por heurística) para que mover el bloque no rompa el test en silencio."""
+    bootstrap = (REPO / "supabase_schema.sql").read_text(encoding="utf-8")
+    # Unicidad ANTES de extraer: un marcador duplicado (p.ej. citado en un comentario)
+    # haria que .index() cogiera el primero y se extrajera un span equivocado en silencio.
+    assert bootstrap.count(">>> RGPD-BOUNDARY-BEGIN <<<") == 1
+    assert bootstrap.count(">>> RGPD-BOUNDARY-END <<<") == 1
+    ini = bootstrap.index(">>> RGPD-BOUNDARY-BEGIN <<<")
+    fin = bootstrap.index("-- >>> RGPD-BOUNDARY-END <<<")
+    return bootstrap[bootstrap.index("\n", ini) + 1 : fin]
+
+
+def test_reejecutar_el_bootstrap_no_deshace_las_garantias(base):
+    """LA CLASE s296, cerrada con mecanismo y no con procedimiento: la versión anterior del
+    bloque frontera re-concedía a service_role el INSERT/UPDATE de TABLA — re-correr el
+    bootstrap deshacía la protección de la marca EN SILENCIO. Aquí se ejecuta el bloque
+    REAL del fichero, tras la cola completa, y se exige que todo sobreviva."""
+    import psycopg2
+    conexion, _, nueva = base
+    conexion.autocommit = True
+    with conexion.cursor() as cur:
+        cur.execute(_bloque_frontera())        # sus postcondiciones internas ya verifican
+    conexion.autocommit = False
+
+    # Y además se EJERCE, no solo se consulta el catálogo:
+    with conexion.cursor() as cur:             # la marca sigue fuera del alcance del bot
+        cur.execute("SET LOCAL ROLE service_role;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("UPDATE answer_feedback SET utilidad = 'gold', "
+                        "utilidad_revisada_at = now() WHERE query_log_id = %s", (nueva,))
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # el voto sigue funcionando
+        cur.execute("SET LOCAL ROLE service_role;")
+        cur.execute("INSERT INTO answer_feedback (query_log_id, telegram_user_id, verdict) "
+                    "VALUES (%s, 888, 'up') "
+                    "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
+                    "SET verdict = EXCLUDED.verdict", (nueva,))
+        # ...y el motivo y el comentario del 👎 (los PATCH de reason/comment), y el
+        # feedback espontáneo con su enlace — TODOS los write-paths del bot, no solo el
+        # voto (dúo s298: una column-list recortada pasaba el catálogo con CI verde).
+        cur.execute("UPDATE answer_feedback SET reason_class = 'wrong', comment = 'mal' "
+                    " WHERE query_log_id = %s AND telegram_user_id = 888", (nueva,))
+        cur.execute("INSERT INTO feedback (telegram_user_id, feedback_text, query_log_id) "
+                    "VALUES (888, 'feedback tras re-bootstrap', %s)", (nueva,))
+        cur.execute("INSERT INTO user_consent (telegram_user_id, terms_version) "
+                    "VALUES (888, 'v7') "
+                    "ON CONFLICT (telegram_user_id, terms_version) DO UPDATE "
+                    "SET accepted_at = now()")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # y el libro sigue siendo de solo inserción
+        cur.execute("SET LOCAL ROLE service_role;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("DELETE FROM consent_events")
+    conexion.rollback()
+
+
+def test_el_bloque_frontera_tiene_sus_marcadores():
+    """Si alguien borra o renombra los marcadores, la extracción falla AQUÍ con un mensaje
+    claro, no en el test de arriba con un index error críptico."""
+    bootstrap = (REPO / "supabase_schema.sql").read_text(encoding="utf-8")
+    assert ">>> RGPD-BOUNDARY-BEGIN <<<" in bootstrap
+    assert ">>> RGPD-BOUNDARY-END <<<" in bootstrap

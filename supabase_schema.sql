@@ -213,15 +213,93 @@ CREATE INDEX IF NOT EXISTS idx_user_consent_active
 ON user_consent (telegram_user_id)
 WHERE revoked_at IS NULL;
 
--- Personal-data boundary for a fresh bootstrap. Keep this in sync with
--- 20260713164800_harden_personal_data_tables_v1.sql. One DO statement makes
--- all RLS/grant changes and their postconditions atomic under autocommit.
+-- Columnas s296/s297 sobre las tablas del bot — MISMAS sentencias idempotentes que las
+-- migraciones de la cola (mismos nombres de constraint): aplicar bootstrap y cola en
+-- cualquier orden converge al mismo estado. El resto de la maquinaria de retención (rol
+-- `rgpd_retencion`, `persona_seudonimo`, `consent_events`, políticas, trigger) tiene UNA
+-- fuente: la cola `supabase/migration_proposals/` (s295 → s296 → s297). Entorno nuevo =
+-- este bootstrap Y DESPUÉS la cola; sin la cola, el bot funciona y la retención dice
+-- honestamente que no puede (exit 2).
+-- s296: `/accept` upserta con ON CONFLICT (telegram_user_id, terms_version) — sin este
+-- indice, el upsert falla con 42P10 y el gate de consentimiento (fail-closed) no deja
+-- entrar a NADIE. Lo cazo el sub-agente: el criterio «lo que el bot escribe va al
+-- bootstrap» incluye los INDICES que sus upserts exigen, no solo las columnas.
+DO $bootstrap_consent$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+         WHERE table_schema='public' AND table_name='user_consent' AND column_name='id'
+    ) THEN
+        ALTER TABLE user_consent ADD COLUMN id UUID NOT NULL DEFAULT gen_random_uuid();
+        ALTER TABLE user_consent DROP CONSTRAINT IF EXISTS user_consent_pkey;
+        ALTER TABLE user_consent ADD PRIMARY KEY (id);
+    END IF;
+END
+$bootstrap_consent$;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_user_consent_persona_version
+    ON user_consent (telegram_user_id, terms_version);
+
+ALTER TABLE feedback
+    ADD COLUMN IF NOT EXISTS query_log_id UUID REFERENCES query_logs(id) ON DELETE CASCADE,
+    ADD COLUMN IF NOT EXISTS utilidad TEXT,
+    ADD COLUMN IF NOT EXISTS utilidad_revisada_at TIMESTAMPTZ;
+CREATE INDEX IF NOT EXISTS idx_feedback_query_log ON feedback (query_log_id);
+ALTER TABLE answer_feedback
+    ADD COLUMN IF NOT EXISTS comment TEXT,
+    ADD COLUMN IF NOT EXISTS reason_class TEXT,
+    ADD COLUMN IF NOT EXISTS utilidad TEXT,
+    ADD COLUMN IF NOT EXISTS utilidad_revisada_at TIMESTAMPTZ;
+DO $bootstrap_reason$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint
+                    WHERE conname = 'answer_feedback_reason_class_check'
+                      AND conrelid = 'public.answer_feedback'::regclass) THEN
+        ALTER TABLE answer_feedback ADD CONSTRAINT answer_feedback_reason_class_check
+            CHECK (reason_class IS NULL OR reason_class IN ('info', 'wrong', 'scope', 'other'));
+    END IF;
+END
+$bootstrap_reason$;
+DO $bootstrap_utilidad$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'feedback_utilidad_check'
+                      AND conrelid = 'public.feedback'::regclass) THEN
+        ALTER TABLE feedback ADD CONSTRAINT feedback_utilidad_check
+            CHECK (utilidad IS NULL OR utilidad IN ('corrigio', 'gold', 'corpus', 'ninguna'));
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'feedback_utilidad_coherente'
+                      AND conrelid = 'public.feedback'::regclass) THEN
+        ALTER TABLE feedback ADD CONSTRAINT feedback_utilidad_coherente
+            CHECK ((utilidad IS NULL) = (utilidad_revisada_at IS NULL));
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint
+                    WHERE conname = 'answer_feedback_utilidad_check') THEN
+        ALTER TABLE answer_feedback ADD CONSTRAINT answer_feedback_utilidad_check
+            CHECK (utilidad IS NULL OR utilidad IN ('corrigio', 'gold', 'corpus', 'ninguna'));
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint
+                    WHERE conname = 'answer_feedback_utilidad_coherente') THEN
+        ALTER TABLE answer_feedback ADD CONSTRAINT answer_feedback_utilidad_coherente
+            CHECK ((utilidad IS NULL) = (utilidad_revisada_at IS NULL));
+    END IF;
+END
+$bootstrap_utilidad$;
+
+-- Personal-data boundary for a fresh bootstrap.
+-- Sincronizado con la COLA COMPLETA: 20260713164800 (hardening) + s295/s296/s297
+-- (migration_proposals). ESTADO FINAL, no el intermedio: la versión anterior de este
+-- bloque re-concedía a `service_role` el INSERT de tabla en feedback/answer_feedback y el
+-- UPDATE de tabla en answer_feedback — re-ejecutar el bootstrap DESHACÍA en silencio la
+-- protección de la marca de utilidad (la clase de fallo s296, cazada por el dúo). Ahora
+-- re-ejecutarlo re-AFIRMA las garantías, y el CI lo ejerce (test de re-ejecución del
+-- bloque tras la cola). Los marcadores delimitan el bloque que el test extrae.
+-- >>> RGPD-BOUNDARY-BEGIN <<<
 DO $personal_data_boundary$
 DECLARE
     table_name text;
     role_name text;
     privilege_name text;
-    expected_service_privileges text[];
+    expected_table_privs text[];
+    expected_column_privs text[];
 BEGIN
     IF NOT EXISTS (
         SELECT 1
@@ -250,13 +328,38 @@ BEGIN
     END LOOP;
 
     EXECUTE 'GRANT SELECT, INSERT ON TABLE public.query_logs TO service_role';
-    EXECUTE 'GRANT SELECT, INSERT ON TABLE public.feedback TO service_role';
-    -- answer_feedback needs UPDATE for the last-wins verdict upsert (precedent:
-    -- user_consent, whose /accept re-run is also an upsert).
-    EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.answer_feedback TO service_role';
+    -- feedback y answer_feedback: INSERT/UPDATE de COLUMNA, nunca de tabla. El INSERT de
+    -- tabla cubre TODA columna — incluida `utilidad`, la marca en que se apoyaría un bonus,
+    -- que no puede ser escribible desde el canal por el que habla el interesado (s296/s297).
+    EXECUTE 'GRANT SELECT ON TABLE public.feedback TO service_role';
+    EXECUTE 'GRANT INSERT (telegram_user_id, feedback_text, previous_query, '
+            'previous_response, query_log_id) ON public.feedback TO service_role';
+    EXECUTE 'GRANT SELECT ON TABLE public.answer_feedback TO service_role';
+    EXECUTE 'GRANT INSERT (query_log_id, telegram_user_id, verdict) '
+            'ON public.answer_feedback TO service_role';
+    EXECUTE 'GRANT UPDATE (telegram_user_id, query_log_id, verdict, comment, reason_class) '
+            'ON public.answer_feedback TO service_role';
     -- answer_messages: el bot INSERTA al enviar y LEE al recibir una reaccion.
     EXECUTE 'GRANT SELECT, INSERT ON TABLE public.answer_messages TO service_role';
     EXECUTE 'GRANT SELECT, INSERT, UPDATE ON TABLE public.user_consent TO service_role';
+
+    -- Tablas de la cola de retención, si existen (tras aplicar s296/s297): re-AFIRMAR su
+    -- frontera para que una re-ejecución del bootstrap nunca las deje más abiertas. Sus
+    -- grants a `rgpd_retencion` no se tocan (el REVOKE nombra roles concretos).
+    IF to_regclass('public.persona_seudonimo') IS NOT NULL THEN
+        EXECUTE 'ALTER TABLE public.persona_seudonimo ENABLE ROW LEVEL SECURITY';
+        EXECUTE 'ALTER TABLE public.persona_seudonimo FORCE ROW LEVEL SECURITY';
+        EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE public.persona_seudonimo '
+                'FROM PUBLIC, anon, authenticated, service_role';
+        EXECUTE 'GRANT SELECT, INSERT ON TABLE public.persona_seudonimo TO service_role';
+    END IF;
+    IF to_regclass('public.consent_events') IS NOT NULL THEN
+        EXECUTE 'ALTER TABLE public.consent_events ENABLE ROW LEVEL SECURITY';
+        EXECUTE 'ALTER TABLE public.consent_events FORCE ROW LEVEL SECURITY';
+        EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE public.consent_events '
+                'FROM PUBLIC, anon, authenticated, service_role';
+        EXECUTE 'GRANT SELECT, INSERT ON TABLE public.consent_events TO service_role';
+    END IF;
 
     FOREACH table_name IN ARRAY ARRAY[
         'query_logs', 'feedback', 'answer_feedback', 'answer_messages',
@@ -304,10 +407,20 @@ BEGIN
             END LOOP;
         END LOOP;
 
-        IF table_name = ANY(ARRAY['user_consent', 'answer_feedback']) THEN
-            expected_service_privileges := ARRAY['SELECT', 'INSERT', 'UPDATE'];
+        -- Estado FINAL por tabla: privilegios de TABLA y de COLUMNA por separado (un grant
+        -- de columna no enciende has_table_privilege, pero sí has_any_column_privilege).
+        IF table_name = 'user_consent' THEN
+            expected_table_privs  := ARRAY['SELECT', 'INSERT', 'UPDATE'];
+            expected_column_privs := ARRAY['SELECT', 'INSERT', 'UPDATE'];
+        ELSIF table_name = 'feedback' THEN
+            expected_table_privs  := ARRAY['SELECT'];
+            expected_column_privs := ARRAY['SELECT', 'INSERT'];
+        ELSIF table_name = 'answer_feedback' THEN
+            expected_table_privs  := ARRAY['SELECT'];
+            expected_column_privs := ARRAY['SELECT', 'INSERT', 'UPDATE'];
         ELSE
-            expected_service_privileges := ARRAY['SELECT', 'INSERT'];
+            expected_table_privs  := ARRAY['SELECT', 'INSERT'];
+            expected_column_privs := ARRAY['SELECT', 'INSERT'];
         END IF;
         FOREACH privilege_name IN ARRAY ARRAY[
             'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
@@ -318,7 +431,7 @@ BEGIN
                 'service_role',
                 format('public.%I', table_name),
                 privilege_name
-            ) IS DISTINCT FROM (privilege_name = ANY(expected_service_privileges)) THEN
+            ) IS DISTINCT FROM (privilege_name = ANY(expected_table_privs)) THEN
                 RAISE EXCEPTION 'unexpected service_role % privilege on %',
                     privilege_name, table_name;
             END IF;
@@ -331,14 +444,106 @@ BEGIN
                 'service_role',
                 format('public.%I', table_name),
                 privilege_name
-            ) IS DISTINCT FROM (privilege_name = ANY(expected_service_privileges)) THEN
+            ) IS DISTINCT FROM (privilege_name = ANY(expected_column_privs)) THEN
                 RAISE EXCEPTION 'unexpected service_role column % privilege on %',
                     privilege_name, table_name;
             END IF;
         END LOOP;
     END LOOP;
+
+    -- Positivas NOMINALES: cada columna que el bot escribe, comprobada UNA a UNA.
+    -- `has_any_column_privilege` solo prueba que existe ALGUN grant; con esto, una lista
+    -- recortada (p.ej. sin `reason_class`) no pasa el bootstrap.
+    FOREACH privilege_name IN ARRAY ARRAY[
+        'telegram_user_id', 'feedback_text', 'previous_query', 'previous_response',
+        'query_log_id'
+    ] LOOP
+        IF NOT has_column_privilege('service_role', 'public.feedback',
+                                    privilege_name, 'INSERT') THEN
+            RAISE EXCEPTION 'service_role cannot INSERT feedback.%', privilege_name;
+        END IF;
+    END LOOP;
+    FOREACH privilege_name IN ARRAY ARRAY['query_log_id', 'telegram_user_id', 'verdict'] LOOP
+        IF NOT has_column_privilege('service_role', 'public.answer_feedback',
+                                    privilege_name, 'INSERT') THEN
+            RAISE EXCEPTION 'service_role cannot INSERT answer_feedback.%', privilege_name;
+        END IF;
+    END LOOP;
+    FOREACH privilege_name IN ARRAY ARRAY[
+        'telegram_user_id', 'query_log_id', 'verdict', 'comment', 'reason_class'
+    ] LOOP
+        IF NOT has_column_privilege('service_role', 'public.answer_feedback',
+                                    privilege_name, 'UPDATE') THEN
+            RAISE EXCEPTION 'service_role cannot UPDATE answer_feedback.%', privilege_name;
+        END IF;
+    END LOOP;
+
+    -- LA MARCA, nominalmente: ni INSERT ni UPDATE para el bot, en ninguna de las dos
+    -- tablas. Es la postcondición que convierte una regresión futura en un fallo ruidoso.
+    FOREACH table_name IN ARRAY ARRAY['feedback', 'answer_feedback'] LOOP
+        FOREACH privilege_name IN ARRAY ARRAY['INSERT', 'UPDATE'] LOOP
+            IF has_column_privilege('service_role', format('public.%I', table_name),
+                                    'utilidad', privilege_name)
+               OR has_column_privilege('service_role', format('public.%I', table_name),
+                                       'utilidad_revisada_at', privilege_name) THEN
+                RAISE EXCEPTION 'service_role can % the utilidad mark on % -- the bonus '
+                                'datum must not be writable from the bot channel',
+                    privilege_name, table_name;
+            END IF;
+        END LOOP;
+    END LOOP;
+
+    -- Las dos tablas de la cola, si existen: MISMO listón que las cinco fijas — RLS
+    -- forzada, roles anónimos a cero (tabla y columna), e igualdad exacta para el bot.
+    -- Sin esto, «re-afirma su frontera» declaraba más de lo comprobado (dúo, s298).
+    FOREACH table_name IN ARRAY ARRAY['persona_seudonimo', 'consent_events'] LOOP
+        IF to_regclass(format('public.%I', table_name)) IS NULL THEN
+            CONTINUE;
+        END IF;
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_class
+             WHERE oid = to_regclass(format('public.%I', table_name))
+               AND relrowsecurity AND relforcerowsecurity
+        ) THEN
+            RAISE EXCEPTION 'personal-data RLS invariant failed for %', table_name;
+        END IF;
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated'] LOOP
+            FOREACH privilege_name IN ARRAY ARRAY[
+                'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+                'REFERENCES', 'TRIGGER', 'MAINTAIN'
+            ] LOOP
+                IF has_table_privilege(role_name, format('public.%I', table_name),
+                                       privilege_name) THEN
+                    RAISE EXCEPTION 'unexpected % privilege for % on %',
+                        privilege_name, role_name, table_name;
+                END IF;
+            END LOOP;
+            FOREACH privilege_name IN ARRAY ARRAY['SELECT', 'INSERT', 'UPDATE', 'REFERENCES'] LOOP
+                IF has_any_column_privilege(role_name, format('public.%I', table_name),
+                                            privilege_name) THEN
+                    RAISE EXCEPTION 'unexpected column % privilege for % on %',
+                        privilege_name, role_name, table_name;
+                END IF;
+            END LOOP;
+        END LOOP;
+        FOREACH privilege_name IN ARRAY ARRAY[
+            'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+            'REFERENCES', 'TRIGGER', 'MAINTAIN'
+        ] LOOP
+            IF has_table_privilege('service_role', format('public.%I', table_name),
+                                   privilege_name)
+               IS DISTINCT FROM (privilege_name = ANY(ARRAY['SELECT', 'INSERT'])) THEN
+                RAISE EXCEPTION 'unexpected service_role % privilege on %',
+                    privilege_name, table_name;
+            END IF;
+        END LOOP;
+        IF has_any_column_privilege('service_role', format('public.%I', table_name), 'UPDATE') THEN
+            RAISE EXCEPTION 'service_role must not UPDATE any column of %', table_name;
+        END IF;
+    END LOOP;
 END
 $personal_data_boundary$;
+-- >>> RGPD-BOUNDARY-END <<<
 
 COMMIT;
 

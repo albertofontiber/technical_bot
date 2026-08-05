@@ -1,6 +1,7 @@
 -- ============================================================================
--- PROPUESTA NO APLICADA — decisión de Alberto (3-ago-2026: OK al enfoque). NO EJECUTAR
--- hasta revisar. Vive en `migration_proposals/` (excluida de `supabase db push`).
+-- APLICADA EN PRODUCCIÓN el 5-ago-2026 (Alberto, SQL Editor; verificada contra el
+-- catálogo). IDEMPOTENTE: re-ejecutarla es seguro y no-opea/re-afirma. Orden de la cola:
+-- s295 → s296 → s297. En un entorno nuevo se aplica tras el bootstrap.
 -- ============================================================================
 -- s295 · DEC-177 — hacer EJECUTABLE la retención de 24 meses **sin tocar `service_role`**.
 --

@@ -4690,3 +4690,45 @@ se disparaba con los ficheros nuevos.
 **Lo que el dúo confirmó sólido**: `_fk_rejected` y el no-reintento ante timeout; el orden
 evento-tras-estado; el backfill en primera ejecución; el patrón de frontera; que el bootstrap
 NO repite el bug s296.
+
+---
+
+## DEC-180 (s298) — Bootstrap al estado final: la clase «re-ejecutar deshace» muere en CI
+
+**Contexto.** Alberto aplicó la cola s295→s296→s297 en producción (5-ago) y ejecutó el dry-run
+(0 candidatas, rol asumido). Verificado contra el catálogo: rol, 4+3 políticas, trigger,
+seudónimo, primer evento del libro, privilegios de columna exactos. **La retención es
+ejecutable y está dormida** — su estado correcto hasta 2028.
+
+**El hueco que el despliegue dejó al descubierto.** `supabase_schema.sql` re-concedía el estado
+PRE-cola: re-ejecutar el bootstrap deshacía en silencio la protección de la marca (INSERT/UPDATE
+de tabla de vuelta a `service_role`). La clase s296, viva en `main` hasta esta rama.
+
+**Lo construido.** (1) Bloque frontera al ESTADO FINAL entre marcadores explícitos, con
+expectativas de tabla y de columna POR SEPARADO y re-afirmación condicional de las tablas de la
+cola. (2) Columnas s296/s297 en el bootstrap con las mismas sentencias idempotentes ⇒ bootstrap
+y cola convergen en cualquier orden; la maquinaria de retención conserva UNA fuente (la cola).
+(3) **El test que mata la clase**: extrae el bloque REAL del fichero y lo RE-EJECUTA tras la
+cola en el Postgres del CI, exigiendo marca inalcanzable, voto vivo y libro intacto — la
+prevención pasa de procedimiento a CI (cierra el residual declarado en s297). (4) Docs
+canónicos al estado aplicado (matriz, runbook, LIA, PLAN, TECH_DEBT, rótulos de las
+migraciones — que ya no dicen «NO EJECUTAR» sino «APLICADA + idempotente»).
+
+**El dúo, una ronda más con bite (5 hallazgos, todos aplicados).**
+- **Sub-agente, el gordo**: mi claim «sin la cola, el bot funciona» era FALSA en `/accept` — el
+  upsert del consentimiento exige el índice único (persona, versión) que solo creaba s296; en
+  solo-bootstrap, el gate fail-closed no dejaba entrar a NADIE. Nadie había arrancado nunca un
+  bot solo-bootstrap: la clase «declarar de más», aplicando mi propio criterio a las columnas
+  pero no a los ÍNDICES que el mismo write-path exige. Bloque de consentimiento replicado.
+- **Cross-model**: una `answer_feedback` legacy pre-s294 rompía la re-ejecución (falta
+  `reason_class` → el GRANT de columna revienta; falla cerrado pero contradice «re-ejecutable»)
+  → ADD COLUMN idempotente. Las tablas condicionales no tenían el MISMO listón de postcondición
+  que las cinco fijas → ahora sí (RLS, anónimos a cero, igualdad). `has_any_column_privilege`
+  solo prueba «alguna columna» → positivas NOMINALES por cada columna que el bot escribe, y el
+  test de re-ejecución ejerce TODOS los write-paths (voto + reason/comment + feedback con
+  enlace + re-aceptación), no solo el voto. Y PLAN/TECH_DEBT seguían diciendo «no ejecutable»
+  — actualicé la matriz y no la fuente canónica de estado: la contradicción interna era mía.
+
+**Guardas actualizadas al invariante nuevo**: dos tests anclaban el texto viejo del boundary
+(el grant de tabla que quitamos a propósito); ahora protegen el nuevo — incluido que el viejo
+NO vuelva (`not in`).

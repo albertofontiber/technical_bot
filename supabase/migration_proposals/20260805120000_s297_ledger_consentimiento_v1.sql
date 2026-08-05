@@ -1,6 +1,7 @@
 -- ============================================================================
--- PROPUESTA NO APLICADA. Se aplica DESPUÉS de
--- `20260804120000_s296_seudonimo_y_calidad_v1.sql` (tercera de la cola: s295 → s296 → s297).
+-- APLICADA EN PRODUCCIÓN el 5-ago-2026 (Alberto, SQL Editor; verificada contra el
+-- catálogo). IDEMPOTENTE: re-ejecutarla es seguro y no-opea/re-afirma. Orden de la cola:
+-- s295 → s296 → s297. En un entorno nuevo se aplica tras el bootstrap.
 -- ============================================================================
 -- s297 — cierra dos gaps declarados en s296 y uno descubierto al evaluar la taxonomía:
 --

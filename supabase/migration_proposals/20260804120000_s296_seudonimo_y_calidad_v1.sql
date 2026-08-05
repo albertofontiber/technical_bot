@@ -1,6 +1,7 @@
 -- ============================================================================
--- PROPUESTA NO APLICADA. Se aplica DESPUÉS de
--- `20260803140000_s295_rgpd_rol_retencion_v2.sql` (que crea el rol y la ventana).
+-- APLICADA EN PRODUCCIÓN el 5-ago-2026 (Alberto, SQL Editor; verificada contra el
+-- catálogo). IDEMPOTENTE: re-ejecutarla es seguro y no-opea/re-afirma. Orden de la cola:
+-- s295 → s296 → s297. En un entorno nuevo se aplica tras el bootstrap.
 -- ============================================================================
 -- s296 — decisiones de Alberto (4-ago-2026), cuatro piezas que van juntas porque
 -- tocan las mismas tablas y no tiene sentido migrar dos veces:
