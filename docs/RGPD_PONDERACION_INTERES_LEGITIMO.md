@@ -2,10 +2,9 @@
 
 > **Estado: BORRADOR SIN VALIDAR.** Y una precisión de DESPLIEGUE que el asesor debe conocer
 > (el rótulo «sin validar» cubre la validez legal, no esto): las garantías técnicas citadas
-> (retención por disociación, seudónimo, libro de eventos) están **construidas y verificadas
-> contra base de datos real en integración continua, pero PENDIENTES de aplicar en
-> producción** — cola de migraciones s295 → s296 → s297, ejecución manual de Alberto. La
-> ponderación no se firma hasta que estén vivas. Lo redacta el asistente técnico del proyecto, que NO es
+> (retención por disociación, seudónimo, libro de eventos) están **APLICADAS en producción
+> desde el 5-ago-2026** (cola s295 → s296 → s297, ejecutada por Alberto y verificada contra
+> el catálogo). La ponderación puede firmarse una vez validada. Lo redacta el asistente técnico del proyecto, que NO es
 > asesor legal, para que quien lleve cumplimiento en Fontiber **revise y corrija** en lugar de
 > producir desde cero. Nada de este documento surte efecto hasta esa validación. La decisión
 > de cambiar la base jurídica es de Alberto con su asesor (pendiente 8 de
@@ -67,14 +66,13 @@ usa una herramienta beta sabe que su uso la mejora, y así se le dice en el prim
    decisión derivada (reconocimiento/incentivo) **la toma una persona** — el sistema no puede
    escribir esa marca desde el canal del bot (restricción estructural, no de política).
 3. **Disociación con seudónimo a los 24 meses**, con destrucción del vínculo verificada contra
-   base de datos real en integración continua (pendiente de aplicar en producción — ver el
-   aviso de estado del encabezado).
+   base de datos real en integración continua, y desplegada en producción.
 4. **Transparencia en dos capas**: aviso corto antes de usar + `/privacidad` con el detalle
    completo, legible sin aceptar nada.
 5. **Derechos operativos**: acceso/supresión por `info@fontiber.com` (procedimiento interno
    documentado), reclamación ante la AEPD declarada en el aviso.
-6. **Evidencia**: libro de eventos de consentimiento de solo inserción (`consent_events`) —
-   pendiente de aplicar, como el resto de la cola.
+6. **Evidencia**: libro de eventos de consentimiento de solo inserción (`consent_events`),
+   vivo en producción.
 
 **Contrapesos honestos, declarados:**
 - El texto libre puede contener datos personales incidentales (nombres, obras); por eso el
@@ -89,7 +87,7 @@ usa una herramienta beta sabe que su uso la mejora, y así se le dice en el prim
   información adicional al trabajador por la vía laboral (representación, igualdad de trato).
 
 **Conclusión provisional** (a validar): el interés es legítimo y real, no hay vía menos
-intrusiva que sirva a la finalidad, y el impacto es bajo con las garantías descritas — **una vez aplicadas** — ⇒ la
+intrusiva que sirva a la finalidad, y el impacto es bajo con las garantías descritas, ya desplegadas ⇒ la
 ponderación **favorece el interés legítimo** para las finalidades 1–3. Quedan FUERA y
 exigirían consentimiento explícito propio: memoria durable de conversaciones (opt-in) y
 entrenamiento de modelos propios con el material.

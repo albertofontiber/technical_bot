@@ -18,6 +18,7 @@ on:
       - "scripts/review_logs.py"
       - "src/logging_db.py"
       - "src/bot/telegram_bot.py"
+      - "supabase_schema.sql"
       - "tests/test_s295_rgpd_integracion_pg.py"
       - ".github/workflows/s295-rgpd-retencion-pg.yml"
   workflow_dispatch:

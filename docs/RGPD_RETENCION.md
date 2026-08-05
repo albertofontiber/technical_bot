@@ -110,23 +110,28 @@ preguntó**. Por eso el plazo no termina en un `DELETE` sino retirando el identi
 Dos razones, ambas declaradas y no disimuladas:
 
 1. Mientras existan otras columnas que permitan re-vincular la fila con la persona, el dato
-   sigue siendo personal (ver «lo que hoy NO funciona»).
+   sigue siendo personal (ver el estado de despliegue, más abajo).
 2. Aun retirando **todos** los identificadores estructurados, el texto libre escrito por un
    técnico puede contener un nombre, una empresa, una obra o un teléfono. Llamar «anónimo» a
    eso sin una evaluación de reidentificación sería declarar de más.
 
-## Lo que hoy NO funciona (verificado contra la DB real, 3 ago 2026)
+## Estado de despliegue: EJECUTABLE (cola aplicada el 5 ago 2026)
 
-**La retención no es ejecutable todavía.** Dos bloqueos independientes:
+**Alberto aplicó las tres migraciones** (s295 → s296 → s297) en el SQL Editor de Supabase y
+ejecutó el dry-run del job, que asumió el rol y recorrió las cinco tablas con 0 candidatas.
+Verificado además contra el catálogo de producción: rol `rgpd_retencion` con sus atributos, 4
+políticas de ventana + 3 del vínculo, trigger anti-reidentificación armado, seudónimo emitido
+por el backfill, 1 evento en el libro (origen `backfill`), `answer_feedback.telegram_user_id`
+nullable, y los privilegios de columna exactos (la marca NO insertable por el bot; el voto y
+el feedback, sí).
 
-| # | Bloqueo | Evidencia |
-|---|---|---|
-| 1 | **No existe todavía el rol que puede escribir.** El hardening de julio dejó a `service_role` con solo SELECT+INSERT, a propósito — y **no se va a tocar**: es la identidad del bot. El privilegio vive en un rol dedicado `rgpd_retencion` que aún no está creado | `PATCH → 403` con la clave de servicio; `SET LOCAL ROLE rgpd_retencion` → «role does not exist» |
-| 2 | Aunque escribiera, **no bastaría**: las hijas conservan el identificador y se unen por `query_log_id` | `answer_feedback.telegram_user_id BIGINT NOT NULL`; `answer_messages.telegram_chat_id BIGINT NOT NULL` (== user_id en chat privado) |
+Los dos bloqueos históricos (el rol no existía; las hijas conservaban el identificador y el
+CASCADE solo actúa al borrar) quedan documentados en DEC-177/178 como motivo del diseño, no
+aquí como estado.
 
-El `ON DELETE CASCADE` de esas FK **solo actúa al BORRAR** la fila padre. Una retención que
-ACTUALIZA no dispara ninguna cascada — por eso la columna «qué lo borra» de abajo distingue
-la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea).
+Nota operativa que sigue vigente: el `ON DELETE CASCADE` actúa al BORRAR la fila padre, por
+eso la matriz distingue la supresión a petición (cascadea) del vencimiento del plazo (el job
+estampa el seudónimo, no borra).
 
 > El diseño completo está en
 > `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql`: un rol
@@ -135,14 +140,16 @@ la supresión a petición (sí cascadea) del vencimiento del plazo (no cascadea)
 > '24 months'` — **la ventana de retención pasa a ser un invariante de la base** para quien
 > actúa como ese rol (NO ata a `postgres`, que es owner y `BYPASSRLS`, ni a `service_role`;
 > por eso el job comprueba `current_user` tras asumirlo). **`service_role` no cambia en absoluto**;
-> hay postcondición que lo ancla. **Sin aplicar**: pendiente de revisar y ejecutar.
-> `scripts/rgpd_retencion.py` lo comprueba en cada ejecución y sale con código 2.
+> hay postcondición que lo ancla. **APLICADA en producción (5 ago 2026)**.
+> `scripts/rgpd_retencion.py` comprueba el estado en cada ejecución: exit 0 con la cola
+> aplicada, exit 2 con diagnóstico si en algún entorno faltara.
 
 > **Y una segunda migración encima** (s296):
 > `supabase/migration_proposals/20260804120000_s296_seudonimo_y_calidad_v1.sql` — el
 > seudónimo estable, `user_consent` append-only, el enlace de `feedback` y la marca de
-> utilidad. **Se aplica DESPUÉS de la anterior.** Ambas verificadas juntas contra un
-> PostgreSQL real en CI (19/19).
+> utilidad. **APLICADA (5 ago 2026)**, después de la anterior; y encima la tercera,
+> s297 (libro de eventos), también aplicada. La cola entera se verifica junta contra un
+> PostgreSQL real en CI en cada cambio.
 
 ### Dos fallos que solo aparecieron ejecutando (s296)
 
@@ -260,7 +267,7 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 
 ## Pendiente (con dueño)
 
-0. **DECIDIDO por Alberto (4-ago) y ya CONSTRUIDO** (s296, sin aplicar a la base):
+0. **DECIDIDO por Alberto (4-ago), construido y APLICADO (5-ago)**:
    - **Seudónimo estable** en lugar de NULL (sección de arriba), y **exports que solo lleven el
      código**.
    - **`user_consent`: una fila por (persona, versión)** con su fecha, en vez de una por
@@ -279,12 +286,11 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
      declarada en el aviso. Recordatorio: el plazo legal de respuesta es de un mes y la petición
      no se puede denegar.
 
-1. **Aplicar la propuesta del rol de retención** —
-   `supabase/migration_proposals/20260803140000_s295_rgpd_rol_retencion_v2.sql` (enfoque
-   aprobado por Alberto el 3-ago; queda ejecutarla). Sin ella la retención no es ejecutable.
-   `user_consent` queda FUERA y necesita decisión aparte.
-2. **`feedback` no cascadea** (sin FK a `query_logs`): un borrado a petición debe acordarse de
-   ella a mano. → *Propuesto: añadir la FK con CASCADE. Decisión de Alberto.*
+1. ~~Aplicar la propuesta del rol de retención~~ **HECHO (5-ago)**: la cola s295 → s296 →
+   s297 está aplicada y verificada. `user_consent` sigue FUERA y necesita decisión aparte.
+2. ~~`feedback` no cascadea~~ **HECHO (s296/s297, aplicado 5-ago)**: el enlace existe y se
+   rellena en cada escritura nueva. Las filas ANTERIORES al enlace siguen huérfanas: un
+   borrado a petición aún debe acordarse de ellas a mano (está en el runbook).
 3. **Exports a disco**: `scripts/review_logs.py` deposita datos personales fuera de Supabase
    sin plazo. → *Propuesto: plazo corto + borrado, o excluir las columnas identificadoras.*
 4. **Programar el job**: hoy es de EJECUCIÓN MANUAL por diseño. Programarlo exigiría una
