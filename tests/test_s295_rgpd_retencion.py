@@ -473,7 +473,10 @@ def test_la_ventana_de_24_meses_vive_en_la_base():
 def test_la_propuesta_declara_su_rollback_y_su_limite():
     sql = PROPUESTA.read_text(encoding="utf-8")
     assert "ROLLBACK" in sql
-    assert "NO EJECUTAR" in sql                                   # banner de propuesta
+    # s298: la cola esta APLICADA en produccion (5-ago) -- el banner cambio de proposito:
+    # ya no avisa "no ejecutar" sino que declara el estado y que re-ejecutar es seguro.
+    assert "APLICADA EN PRODUCCI" in sql
+    assert "IDEMPOTENTE" in sql
     assert "deja de ser posible tras la primera ejecucion real" in sql.replace("ó", "o")
 
 

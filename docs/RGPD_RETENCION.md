@@ -84,7 +84,7 @@ NUEVO y su histórico queda en dos bloques. **No es un fallo: es la irreversibil
 funcionando** — un vínculo destruido no se puede resucitar, esa es justo la garantía. Pero
 conviene decirlo, porque la prosa «estable siempre» sugería lo contrario.
 
-**~~El append-only no conservaba la traza de una revocación~~ — RESUELTO EN DISEÑO (s297), pendiente de APLICAR** (cola s295 → s296 → s297; hasta entonces cada aceptación avisa «SIN evento en el libro» en el log del worker). El estado
+**~~El append-only no conservaba la traza de una revocación~~ — RESUELTO y APLICADO (5-ago)**. El estado
 (`user_consent`) sigue siendo lo que `has_consent` consulta; la EVIDENCIA vive en
 `consent_events`, un libro de solo inserción para el bot donde cada aceptación y cada
 revocación es una fila nueva con su fecha. Dos límites declarados: (a) el backfill es

@@ -768,6 +768,10 @@ def _bloque_frontera() -> str:
     """El bloque del bootstrap entre los marcadores RGPD-BOUNDARY. Extraído por marcadores
     EXPLÍCITOS (no por heurística) para que mover el bloque no rompa el test en silencio."""
     bootstrap = (REPO / "supabase_schema.sql").read_text(encoding="utf-8")
+    # Unicidad ANTES de extraer: un marcador duplicado (p.ej. citado en un comentario)
+    # haria que .index() cogiera el primero y se extrajera un span equivocado en silencio.
+    assert bootstrap.count(">>> RGPD-BOUNDARY-BEGIN <<<") == 1
+    assert bootstrap.count(">>> RGPD-BOUNDARY-END <<<") == 1
     ini = bootstrap.index(">>> RGPD-BOUNDARY-BEGIN <<<")
     fin = bootstrap.index("-- >>> RGPD-BOUNDARY-END <<<")
     return bootstrap[bootstrap.index("\n", ini) + 1 : fin]
@@ -799,6 +803,17 @@ def test_reejecutar_el_bootstrap_no_deshace_las_garantias(base):
                     "VALUES (%s, 888, 'up') "
                     "ON CONFLICT (query_log_id, telegram_user_id) DO UPDATE "
                     "SET verdict = EXCLUDED.verdict", (nueva,))
+        # ...y el motivo y el comentario del 👎 (los PATCH de reason/comment), y el
+        # feedback espontáneo con su enlace — TODOS los write-paths del bot, no solo el
+        # voto (dúo s298: una column-list recortada pasaba el catálogo con CI verde).
+        cur.execute("UPDATE answer_feedback SET reason_class = 'wrong', comment = 'mal' "
+                    " WHERE query_log_id = %s AND telegram_user_id = 888", (nueva,))
+        cur.execute("INSERT INTO feedback (telegram_user_id, feedback_text, query_log_id) "
+                    "VALUES (888, 'feedback tras re-bootstrap', %s)", (nueva,))
+        cur.execute("INSERT INTO user_consent (telegram_user_id, terms_version) "
+                    "VALUES (888, 'v7') "
+                    "ON CONFLICT (telegram_user_id, terms_version) DO UPDATE "
+                    "SET accepted_at = now()")
     conexion.rollback()
 
     with conexion.cursor() as cur:             # y el libro sigue siendo de solo inserción

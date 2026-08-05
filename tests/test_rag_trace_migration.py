@@ -74,7 +74,11 @@ def test_full_schema_bootstrap_has_atomic_trace_limit_and_personal_data_boundary
     assert "force row level security" in boundary_sql
     assert "revoke all privileges on table public.%i" in boundary_sql
     assert "grant select, insert on table public.query_logs to service_role" in sql
-    assert "grant select, insert on table public.feedback to service_role" in sql
+    # s298: feedback pasa a SELECT de tabla + INSERT de COLUMNA — el INSERT de tabla
+    # cubria toda columna, incluida la marca de utilidad (el dato del bonus).
+    assert "grant select on table public.feedback to service_role" in sql
+    assert "grant insert (telegram_user_id, feedback_text, previous_query, " in sql
+    assert "grant select, insert on table public.feedback to service_role" not in sql
     assert (
         "grant select, insert, update on table public.user_consent to service_role"
         in sql
