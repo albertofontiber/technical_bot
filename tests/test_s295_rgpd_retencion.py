@@ -1,19 +1,17 @@
-"""s295 — retención RGPD: términos v4 + job de disociación sobre el rol dedicado.
+"""s295 — retención RGPD: términos + la propuesta del rol dedicado + la matriz.
 
 Contrato que se fija aquí:
   · los términos declaran lo que REALMENTE pasa con los datos, y el texto está atado a
     `TERMS_VERSION` por un mapa de hashes (no por buena voluntad);
-  · el job **no usa la clave del bot**: asume `rgpd_retencion` con `SET LOCAL ROLE`, para
-    no abrirle superficie permanente a un proceso encendido 24/7;
-  · el dry-run **ejecuta de verdad y revierte** — verifica el efecto, no el privilegio;
-  · las 4 tablas van en UNA transacción: no existe la ejecución parcial;
+  · el job **no usa la clave del bot**. Desde s299 la pasada es UNA función en la base
+    (`rgpd_retencion_pasada`, la misma que ejecuta pg_cron) y el script es su driver —
+    los tests del driver y de la migración s299 viven en `test_s299_job_programado.py`;
   · cuando no puede cumplir, lo dice y sale con 2, en vez de aparentarlo;
   · la matriz declara sus pendientes en vez de disimularlos.
 """
 
 import hashlib
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 from src.logging_db import TERMS_VERSION
@@ -208,21 +206,9 @@ def test_la_pregunta_no_va_al_log_del_proceso():
     assert "Error processing query (len=%d)" in fuente
 
 
-# ------------------------------------------------------------------ el corte
-
-
-def test_corte_en_meses_de_calendario_con_reloj_inyectable():
-    from scripts.rgpd_retencion import corte
-
-    limite = corte(24, ahora=datetime(2028, 3, 31, tzinfo=timezone.utc))
-    assert (limite.year, limite.month, limite.day) == (2026, 3, 31)   # no 720 días
-
-
-def test_corte_recorta_el_dia_cuando_el_mes_destino_es_mas_corto():
-    from scripts.rgpd_retencion import corte
-
-    limite = corte(1, ahora=datetime(2028, 3, 31, tzinfo=timezone.utc))
-    assert (limite.year, limite.month, limite.day) == (2028, 2, 29)   # bisiesto; nunca 31
+# ------------------------------------------------------------------ el driver
+# (El corte ya no se calcula en Python: lo devuelve la base — la MISMA expresión que las
+# políticas RLS — así que los tests de calendario murieron con el código que probaban.)
 
 
 def test_no_hay_flag_que_pueda_contradecir_la_politica():
@@ -245,158 +231,10 @@ def test_el_parser_real_tiene_el_default_en_dry_run():
     assert args.recibo is None
 
 
-# ------------------------------------------------------------------ el alcance
-
-
-def test_los_objetivos_cubren_el_ciclo_completo_no_solo_el_padre():
-    """Disociar solo `query_logs` no anonimiza: las hijas conservan el identificador y se
-    unen por `query_log_id`; el CASCADE de sus FK solo actúa al BORRAR el padre."""
-    from scripts.rgpd_retencion import OBJETIVOS
-
-    assert {o.tabla: o.modo for o in OBJETIVOS} == {
-        "query_logs": "nulificar",
-        "feedback": "nulificar",
-        "answer_feedback": "nulificar",
-        "answer_messages": "borrar",     # mapeo operativo caduco: se borra, no se disocia
-    }
-
-
-def test_cada_sentencia_acota_por_fecha_y_devuelve_recibo():
-    from scripts.rgpd_retencion import OBJETIVOS
-
-    for obj in OBJETIVOS:
-        sql = obj.sentencia()
-        assert f"{obj.columna_fecha} < %s" in sql          # nunca sin cota temporal
-        assert f"{obj.columna_id} IS NOT NULL" in sql      # idempotente
-        assert "RETURNING" in sql                          # el recibo es parte del trabajo
-        assert sql.startswith("DELETE" if obj.modo == "borrar" else "UPDATE")
-        if obj.modo == "nulificar":
-            # s296: estampa el seudónimo Y retira el identificador en la MISMA sentencia.
-            # Separarlas dejaría una ventana en la que la fila no tiene ni lo uno ni lo otro.
-            assert "SET seudonimo = p.seudonimo" in sql
-            assert f"{obj.columna_id} = NULL" in sql
-
-
 # ------------------------------------------------------------------ la ejecución
-
-
-class _CursorFalso:
-    def __init__(self, registro):
-        self.registro = registro
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *exc):
-        return False
-
-    def execute(self, sql, params=None):
-        self.registro["sql"].append((sql, params))
-
-    def fetchall(self):
-        return [("id-1",), ("id-2",)]
-
-    def fetchone(self):
-        # El job comprueba `current_user` tras asumir el rol: la conexión falsa responde
-        # como si lo hubiera asumido. El caso contrario tiene su propio test contra
-        # Postgres real (`test_el_job_aborta_si_el_rol_no_se_asumio`).
-        from scripts.rgpd_retencion import ROL
-        return (ROL,)
-
-
-class _ConexionFalsa:
-    def __init__(self):
-        self.registro = {"sql": [], "commit": 0, "rollback": 0}
-
-    def cursor(self):
-        return _CursorFalso(self.registro)
-
-    def commit(self):
-        self.registro["commit"] += 1
-
-    def rollback(self):
-        self.registro["rollback"] += 1
-
-
-def test_el_dry_run_ejecuta_de_verdad_y_revierte():
-    """La diferencia con la versión anterior: no se sondea un conjunto vacío, se ejecutan
-    las sentencias REALES y se hace ROLLBACK. Así privilegios y constraints quedan
-    evaluados sobre filas de verdad — el falso OK de `answer_feedback` (columna NOT NULL)
-    no puede repetirse."""
-    from scripts.rgpd_retencion import OBJETIVOS, ejecutar
-
-    conexion = _ConexionFalsa()
-    resultado = ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), False, conexion)
-
-    assert conexion.registro["rollback"] == 1
-    assert conexion.registro["commit"] == 0
-    # Las 4 tablas + la destrucción del vínculo, que es la 5ª entrada del recibo.
-    assert len(resultado) == len(OBJETIVOS) + 1
-    assert resultado["query_logs"]["tocadas"] == 2
-    assert "persona_seudonimo" in resultado
-
-
-def test_aplicar_confirma_la_transaccion():
-    from scripts.rgpd_retencion import ejecutar
-
-    conexion = _ConexionFalsa()
-    ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), True, conexion)
-
-    assert conexion.registro["commit"] == 1
-    assert conexion.registro["rollback"] == 0
-
-
-def test_asume_el_rol_acotado_antes_de_tocar_nada():
-    """Sin `SET LOCAL ROLE` correría con los privilegios del operador y podría exceder su
-    mandato. Tiene que ser la PRIMERA sentencia."""
-    from scripts.rgpd_retencion import ROL, ejecutar
-
-    conexion = _ConexionFalsa()
-    ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), False, conexion)
-
-    primera = conexion.registro["sql"][0][0]
-    assert primera.strip().upper().startswith("SET LOCAL ROLE")
-    assert ROL in primera
-
-
-def test_las_cuatro_tablas_van_en_una_sola_transaccion():
-    """Atomicidad: o se hace todo o no se hace nada. Es lo que elimina de raíz la
-    ejecución parcial e irreversible (un commit por tabla dejaría `query_logs` disociado
-    y el resto intacto: ni cumple ni se puede repetir limpio)."""
-    from scripts.rgpd_retencion import OBJETIVOS, ejecutar
-
-    conexion = _ConexionFalsa()
-    ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), True, conexion)
-
-    # arranque (SET LOCAL ROLE + statement_timeout + SELECT current_user) + 3 emisiones de
-    # código que falte + una sentencia por objetivo + la destrucción del vínculo, y UN solo
-    # commit al final.
-    assert len(conexion.registro["sql"]) == 3 + 3 + len(OBJETIVOS) + 1
-    assert conexion.registro["commit"] == 1
-
-
-def test_un_fallo_a_mitad_revierte_y_propaga():
-    from scripts.rgpd_retencion import ejecutar
-
-    class _Explota(_ConexionFalsa):
-        def cursor(self):
-            class _C(_CursorFalso):
-                def execute(self, sql, params=None):
-                    super().execute(sql, params)
-                    if "answer_feedback" in sql:
-                        raise RuntimeError("boom")
-            return _C(self.registro)
-
-    conexion = _Explota()
-    try:
-        ejecutar(datetime(2028, 1, 1, tzinfo=timezone.utc), True, conexion)
-    except RuntimeError:
-        pass
-    else:
-        raise AssertionError("el fallo debe propagarse, no tragarse")
-
-    assert conexion.registro["rollback"] == 1
-    assert conexion.registro["commit"] == 0
+# (Los tests de la pasada — dry-run que revierte, atomicidad, emisión de códigos, punto
+# de no retorno — viven donde vive la pasada: `test_s299_job_programado.py` para el
+# driver y `test_s295_rgpd_integracion_pg.py` para la función contra Postgres real.)
 
 
 def test_el_job_no_usa_la_clave_del_bot():

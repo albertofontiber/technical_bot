@@ -35,6 +35,10 @@ PROPUESTA_S297 = (
     REPO / "supabase" / "migration_proposals"
     / "20260805120000_s297_ledger_consentimiento_v1.sql"
 )
+PROPUESTA_S299 = (
+    REPO / "supabase" / "migration_proposals"
+    / "20260805150000_s299_job_programado_v1.sql"
+)
 
 DSN = os.environ.get("RGPD_TEST_DATABASE_URL")
 pytestmark = pytest.mark.skipif(
@@ -45,7 +49,8 @@ pytestmark = pytest.mark.skipif(
 # Esquema mínimo con lo que la retención toca: mismas columnas, mismas constraints, mismas
 # FK con CASCADE. No se copia el esquema entero — se copia lo que gobierna el invariante.
 ESQUEMA = """
-DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo, consent_events CASCADE;
+DROP TABLE IF EXISTS answer_messages, answer_feedback, feedback, query_logs, user_consent, persona_seudonimo, consent_events, rgpd_recibos CASCADE;
+DROP FUNCTION IF EXISTS public.rgpd_retencion_pasada(TEXT);
 CREATE TABLE query_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     telegram_user_id BIGINT,
@@ -155,6 +160,10 @@ def base():
             "INSERT INTO user_consent (telegram_user_id, terms_version, accepted_at, revoked_at) "
             "VALUES (555, 'v6', now() - interval '8 months', now() - interval '2 months')")
         cur.execute(PROPUESTA_S297.read_text(encoding="utf-8"))
+        # s299: la pasada única + recibos + reloj. En este contenedor pg_cron NO está
+        # disponible ⇒ el bloque 3 corre su rama WARNING (gap declarado en la migración);
+        # la FUNCIÓN — lo irreversible — se ejerce entera aquí abajo.
+        cur.execute(PROPUESTA_S299.read_text(encoding="utf-8"))
 
         vieja = str(uuid.uuid4())
         nueva = str(uuid.uuid4())
@@ -306,67 +315,48 @@ def test_el_voto_sigue_funcionando_en_una_consulta_no_disociada(base):
 # ------------------------------------------------------------------ el job de verdad
 
 
-def test_el_job_completo_contra_postgres_real(base, monkeypatch):
-    """`ejecutar()` de punta a punta: asume el rol, comprueba `current_user`, recorre las 4
-    tablas en una transacción y revierte. Con filas de verdad, no con una conexión falsa."""
-    from datetime import datetime, timezone
-
+def test_el_job_completo_contra_postgres_real(base):
+    """`ejecutar()` de punta a punta: el driver llama a la ÚNICA implementación
+    (`rgpd_retencion_pasada`, la misma que ejecuta pg_cron), que asume el rol en su
+    encabezado, recorre el ciclo en una transacción — y sin `--aplicar` se revierte TODO,
+    el recibo en base incluido. Con filas de verdad, no con una conexión falsa."""
     import scripts.rgpd_retencion as job
-    from scripts.rgpd_retencion import OBJETIVOS
 
     conexion, vieja, nueva = base
-    limite = job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc))
-    resultado = job.ejecutar(limite, aplicar=False, conexion=conexion)
+    recibo = job.ejecutar(aplicar=False, conexion=conexion)
 
-    assert resultado["query_logs"]["ids"] == [vieja]
-    assert resultado["answer_messages"]["tocadas"] == 1
+    tablas = recibo["tablas"]
+    assert tablas["query_logs"]["ids"] == [vieja]
+    assert tablas["answer_messages"]["tocadas"] == 1
     # Las 4 tablas de datos sí tocan algo; `persona_seudonimo` NO debe tocar nada aquí,
     # porque a esa persona le queda una consulta reciente identificada y su código todavía
     # hace falta. Exigir >=1 a todas las entradas era exigir justo lo contrario.
-    assert all(resultado[o.tabla]["tocadas"] >= 1 for o in OBJETIVOS)
-    assert resultado["persona_seudonimo"]["tocadas"] == 0
+    assert all(tablas[t]["tocadas"] >= 1 for t in
+               ("query_logs", "feedback", "answer_feedback", "answer_messages"))
+    assert tablas["persona_seudonimo"]["tocadas"] == 0
 
     with conexion.cursor() as cur:            # dry-run ⇒ nada persistido
         cur.execute("SELECT telegram_user_id FROM query_logs WHERE id = %s", (vieja,))
         assert cur.fetchone()[0] == 111
+        cur.execute("SELECT count(*) FROM rgpd_recibos")
+        assert cur.fetchone()[0] == 0          # el recibo se revierte con la pasada
     conexion.rollback()
 
 
-def test_el_job_aborta_si_el_rol_no_se_asumio(base, monkeypatch):
-    """`SET LOCAL ROLE` fuera de transacción es un NO-OP con warning. Si eso pasara, el job
-    correría como operador (owner + BYPASSRLS) y la ventana no estaría garantizada por nada.
-    Se simula neutralizando el SET y comprobando que aborta en vez de seguir."""
-    from datetime import datetime, timezone
-
-    import scripts.rgpd_retencion as job
+def test_la_pasada_aborta_si_pierde_el_set_role(base):
+    """El cinturón del tirante, ejercido de verdad: se le quita a la función el `SET role`
+    del encabezado (lo que haría una edición descuidada) y la pasada tiene que ABORTAR —
+    sin el rol asumido correría como el operador (owner + BYPASSRLS) y la ventana de 24
+    meses no la garantizaría NADA. El fallo más grave posible aquí, y silencioso."""
+    import psycopg2
 
     conexion, _, _ = base
-
-    class _Envoltorio:
-        def __init__(self, real):
-            self._real = real
-
-        def cursor(self):
-            real_cur = self._real.cursor()
-
-            class _C:
-                def __enter__(_s): return _s
-                def __exit__(_s, *e): return False
-                def execute(_s, sql, params=None):
-                    if sql.strip().upper().startswith("SET LOCAL ROLE"):
-                        return                      # el NO-OP silencioso
-                    real_cur.execute(sql, params)
-                def fetchone(_s): return real_cur.fetchone()
-                def fetchall(_s): return real_cur.fetchall()
-            return _C()
-
-        def commit(self): self._real.commit()
-        def rollback(self): self._real.rollback()
-
-    limite = job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc))
-    with pytest.raises(RuntimeError, match="SET LOCAL ROLE no surtio efecto"):
-        job.ejecutar(limite, aplicar=True, conexion=_Envoltorio(conexion))
-    conexion.rollback()
+    with conexion.cursor() as cur:
+        cur.execute("ALTER FUNCTION public.rgpd_retencion_pasada(TEXT) RESET role;")
+        with pytest.raises(psycopg2.errors.RaiseException,
+                           match="debe correr como rgpd_retencion"):
+            cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()                        # revierte también el RESET: queda armado
 
 
 # ------------------------------------------------------------------ el rollback declarado
@@ -403,8 +393,6 @@ def test_el_corpus_sigue_agrupado_tras_la_retencion(base):
     Con NULL quedarían sueltas — sabrías qué se preguntó, no que lo preguntó la misma
     persona. Con el seudónimo, el corpus sobrevive agrupado y el vínculo con la persona
     desaparece. Este test es el que distingue una cosa de la otra."""
-    from datetime import datetime, timezone
-
     import scripts.rgpd_retencion as job
 
     conexion, vieja, nueva = base
@@ -418,8 +406,7 @@ def test_el_corpus_sigue_agrupado_tras_la_retencion(base):
         otra_vieja = str(cur.fetchone()[0])
     conexion.commit()
 
-    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
-                 aplicar=True, conexion=conexion)
+    job.ejecutar(aplicar=True, conexion=conexion)
 
     with conexion.cursor() as cur:
         cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = ANY(%s::uuid[])",
@@ -440,13 +427,10 @@ def test_el_vinculo_se_destruye_solo_cuando_no_queda_nada_identificado(base):
     """El borrado de la correspondencia es el punto de no retorno, así que no puede ir
     antes de tiempo: mientras a esa persona le queden filas recientes, su código todavía
     hace falta para estamparlas cuando les toque."""
-    from datetime import datetime, timezone
-
     import scripts.rgpd_retencion as job
 
     conexion, _, nueva = base
-    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
-                 aplicar=True, conexion=conexion)
+    job.ejecutar(aplicar=True, conexion=conexion)
 
     with conexion.cursor() as cur:
         # Le queda la consulta reciente ⇒ la correspondencia SIGUE viva.
@@ -457,8 +441,7 @@ def test_el_vinculo_se_destruye_solo_cuando_no_queda_nada_identificado(base):
         cur.execute("DELETE FROM query_logs WHERE id = %s", (nueva,))
     conexion.commit()
 
-    job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
-                 aplicar=True, conexion=conexion)
+    job.ejecutar(aplicar=True, conexion=conexion)
     with conexion.cursor() as cur:
         cur.execute("SELECT count(*) FROM persona_seudonimo WHERE telegram_user_id = 111")
         assert cur.fetchone()[0] == 0                     # irreversible a partir de aquí
@@ -559,8 +542,6 @@ def test_nadie_se_queda_fuera_de_la_retencion_por_no_tener_codigo(base):
     puede haber gente sin código. Sin código, el `UPDATE ... FROM persona_seudonimo` no
     casaría sus filas — conservarían el identificador PARA SIEMPRE y el recibo diría
     «0 tocadas» sin que nada chirriara. El job tiene que emitir el que falte."""
-    from datetime import datetime, timezone
-
     import scripts.rgpd_retencion as job
 
     conexion, vieja, _ = base
@@ -569,10 +550,9 @@ def test_nadie_se_queda_fuera_de_la_retencion_por_no_tener_codigo(base):
         cur.execute("DELETE FROM persona_seudonimo WHERE telegram_user_id = 111")
     conexion.commit()
 
-    resultado = job.ejecutar(job.corte(job.VENTANA_MESES, ahora=datetime.now(timezone.utc)),
-                             aplicar=True, conexion=conexion)
+    recibo = job.ejecutar(aplicar=True, conexion=conexion)
 
-    assert resultado["query_logs"]["tocadas"] >= 1, "se saltó a alguien sin código"
+    assert recibo["tablas"]["query_logs"]["tocadas"] >= 1, "se saltó a alguien sin código"
     with conexion.cursor() as cur:
         cur.execute("SELECT telegram_user_id, seudonimo FROM query_logs WHERE id = %s",
                     (vieja,))
@@ -761,6 +741,90 @@ def test_la_marca_exige_fecha_de_revision_y_viceversa(base):
         conexion.rollback()
 
 
+# ------------------------------------------------------------------ s299: la pasada
+
+
+def test_la_pasada_confirmada_deja_recibo_en_la_base(base):
+    """Una ejecución programada no tiene a nadie mirando stdout: la evidencia es la fila
+    de `rgpd_recibos`, escrita por la MISMA transacción de la pasada. Y la pasada corre
+    COMO el rol — si el `SET role` del encabezado no surtiera efecto, su primera
+    comprobación habría abortado y este test no vería recibo."""
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SELECT public.rgpd_retencion_pasada('cron');")
+        recibo = cur.fetchone()[0]
+    conexion.commit()
+
+    assert recibo["tablas"]["query_logs"]["ids"] == [vieja]
+    with conexion.cursor() as cur:
+        cur.execute("SELECT origen, corte, resultado FROM rgpd_recibos")
+        filas = cur.fetchall()
+        assert len(filas) == 1
+        origen, corte, resultado = filas[0]
+        assert origen == "cron"
+        assert corte is not None
+        assert resultado["query_logs"]["tocadas"] == 1
+    conexion.commit()
+
+
+def test_el_bot_no_puede_ejecutar_la_pasada(base):
+    """Dos capas: sin EXECUTE no se entra (esta), y sin membresía SET en el rol el
+    `SET role` de la entrada fallaría igualmente. Se ejerce, no se mira el flag."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SET LOCAL ROLE service_role;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("SELECT public.rgpd_retencion_pasada('cron');")
+    conexion.rollback()
+
+
+def test_los_recibos_no_se_pueden_editar_ni_ver_desde_los_roles_acotados(base):
+    """Un recibo editable no es un recibo: el rol de retención SOLO inserta (lo hace la
+    pasada por él), y el bot ni los ve. La lectura es del operador."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.commit()
+
+    for rol, sentencia in (
+        ("rgpd_retencion", "UPDATE rgpd_recibos SET origen = 'cron'"),
+        ("rgpd_retencion", "DELETE FROM rgpd_recibos"),
+        ("rgpd_retencion", "SELECT resultado FROM rgpd_recibos"),
+        ("service_role", "SELECT resultado FROM rgpd_recibos"),
+        ("service_role", "INSERT INTO rgpd_recibos (origen, corte, resultado) "
+                         "VALUES ('manual', now(), '{}'::jsonb)"),
+    ):
+        with conexion.cursor() as cur:
+            cur.execute(f"SET LOCAL ROLE {rol};")
+            with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+                cur.execute(sentencia)
+        conexion.rollback()
+
+
+def test_el_recibo_del_vinculo_destruido_no_registra_a_la_persona(base):
+    """El punto de no retorno queda CONTADO, no identificado: `tocadas` sí, ids NO — en
+    esa tabla el id ES la persona, y un recibo que lo registrara conservaría el vínculo
+    que la pasada acaba de destruir."""
+    conexion, _, nueva = base
+    with conexion.cursor() as cur:             # sin filas recientes, el vínculo cae hoy
+        cur.execute("DELETE FROM query_logs WHERE id = %s", (nueva,))
+    conexion.commit()
+    with conexion.cursor() as cur:
+        cur.execute("SELECT public.rgpd_retencion_pasada('cron');")
+    conexion.commit()
+
+    with conexion.cursor() as cur:
+        cur.execute("SELECT resultado -> 'persona_seudonimo' FROM rgpd_recibos")
+        entrada = cur.fetchone()[0]
+        assert entrada["tocadas"] == 1
+        assert entrada["ids"] == []
+        cur.execute("SELECT count(*) FROM persona_seudonimo")
+        assert cur.fetchone()[0] == 0          # irreversible, y contado sin identificar
+    conexion.commit()
+
+
 # ------------------------------------------------------- s298: bootstrap re-ejecutable
 
 
@@ -820,6 +884,16 @@ def test_reejecutar_el_bootstrap_no_deshace_las_garantias(base):
         cur.execute("SET LOCAL ROLE service_role;")
         with pytest.raises(psycopg2.errors.InsufficientPrivilege):
             cur.execute("DELETE FROM consent_events")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # s299: la pasada sigue siendo del operador
+        cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # ...y los recibos, invisibles para el bot
+        cur.execute("SET LOCAL ROLE service_role;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("SELECT resultado FROM rgpd_recibos")
     conexion.rollback()
 
 

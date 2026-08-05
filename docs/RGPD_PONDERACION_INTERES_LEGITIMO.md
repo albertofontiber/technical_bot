@@ -79,8 +79,11 @@ usa una herramienta beta sabe que su uso la mejora, y así se le dice en el prim
   resultado se llama seudonimización y no anonimización, y la supresión a petición incluye
   revisar la prosa.
 - **Cinco** encargados procesan fuera de la UE (Telegram, Anthropic, Voyage AI, OpenAI,
-  Railway); el mecanismo de transferencia está **pendiente de
-  documentar** (pendiente 6 de la matriz). El asesor debe cerrarlo antes de apoyarse en esta
+  Railway); el mecanismo de transferencia de cada uno está **documentado con fuente y fecha
+  (5-ago-2026)** en la tabla «Mecanismos de transferencia» de `docs/RGPD_RETENCION.md`
+  (SCCs en el DPA para Anthropic/OpenAI/Railway/Supabase; DPF nominal para Voyage AI vía
+  MongoDB; Telegram sin DPA — posición: responsable propio del transporte). El asesor debe
+  **validar esa tabla** (entradas del registro DPF incluidas) antes de apoyarse en esta
   ponderación.
 - El reconocimiento/incentivo introduce un interés del responsable en evaluar aportaciones;
   se mitiga con decisión humana + marca auditable, pero el asesor debe valorar si exige

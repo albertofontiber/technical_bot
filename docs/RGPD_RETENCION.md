@@ -129,6 +129,16 @@ Los dos bloqueos históricos (el rol no existía; las hijas conservaban el ident
 CASCADE solo actúa al borrar) quedan documentados en DEC-177/178 como motivo del diseño, no
 aquí como estado.
 
+**Encima, s299 (construida — pendiente de aplicar):** la pasada se mueve a UNA función en
+la base (`public.rgpd_retencion_pasada`, `SET role` en el encabezado + cinturón de
+`current_user`), pg_cron la ejecuta el día 1 de cada mes (04:30 UTC) sin que ninguna
+credencial salga de la base, y cada pasada confirmada deja recibo en `rgpd_recibos`.
+`scripts/rgpd_retencion.py` queda como driver manual de esa misma función (dry-run = la
+misma pasada + ROLLBACK, recibo incluido). Gap declarado: el contenedor de CI no trae
+pg_cron ⇒ la RAMA de programación no se ejerce en CI (la función sí, entera); en
+producción la postcondición exige el job si pg_cron está disponible — que lo está
+(verificado, 1.6.4).
+
 Nota operativa que sigue vigente: el `ON DELETE CASCADE` actúa al BORRAR la fila padre, por
 eso la matriz distingue la supresión a petición (cascadea) del vencimiento del plazo (el job
 estampa el seudónimo, no borra).
@@ -185,6 +195,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
 | **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
+| **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA ya disociada — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | Indefinida: es evidencia de cumplimiento y no identifica a nadie | No aplica (no lleva persona) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
 ### Nota sobre el votante: la supresión a petición NO le alcanza del todo
@@ -251,8 +262,29 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 > **Asunción declarada, NO hecho verificado**: Alberto pidió asumir los DPA firmados para no
 > bloquear el trabajo. Queda escrito aquí como asunción para que nadie lo lea como comprobado.
 > Acción pendiente: aceptar el DPA en la consola de cada proveedor, revisar si ofrecen
-> retención cero para API, y documentar el mecanismo de transferencia de los que procesan
-> fuera de la UE.
+> retención cero para API, y archivarlos. El **mecanismo de transferencia** de cada uno está
+> ya documentado en la sección siguiente (5-ago-2026); lo valida el asesor.
+
+## Mecanismos de transferencia (documentados 5-ago-2026 — los valida el asesor)
+
+Cuando un dato personal viaja a un encargado fuera de la UE, el RGPD exige un vehículo
+legal: la **certificación DPF** (EU-US Data Privacy Framework, registro público) o las
+**SCCs** (cláusulas contractuales tipo, normalmente incorporadas en el DPA del proveedor).
+Verificado por el asistente contra las fuentes indicadas el 5-ago-2026; **el asesor confirma
+las entradas del registro DPF** (dataprivacyframework.gov) antes de apoyarse en ellas.
+
+| Proveedor | Mecanismo documentado | Fuente (5-ago-2026) | Acción restante |
+|---|---|---|---|
+| **Anthropic** | **SCCs en su DPA comercial**. Su propia política de privacidad declara adecuación + SCCs y **NO declara DPF**; contrata la región europea desde *Anthropic Ireland, Limited*. Fuentes terciarias lo listan como DPF-certificado (jun-2026) — **no apoyarse en DPF** hasta que el asesor lo vea en el registro | [anthropic.com/legal/privacy](https://www.anthropic.com/legal/privacy) | Aceptar/archivar DPA de la consola API |
+| **OpenAI** | **SCCs incorporadas en su DPA público** (vigente 1-ene-2026); fuentes terciarias: DPF activo (jun-2026) — comprobar registro | [openai.com/policies/data-processing-addendum](https://openai.com/policies/data-processing-addendum/) | Aceptar/archivar DPA |
+| **Voyage AI** | **DPF**: la declaración de MongoDB nombra expresamente a *Voyage AI Innovations, Inc.* como entidad certificada (EU-US + extensión UK + Swiss-US), con DPA de MongoDB disponible. La más sólida de las cinco | [mongodb.com/legal/data-privacy-framework-statement](https://www.mongodb.com/legal/data-privacy-framework-statement) | Confirmar entrada en el registro; archivar DPA |
+| **Railway** | **SCCs (Decisión 2021/914) incorporadas en su DPA autoservicio**; su política declara además cumplimiento EU-US DPF + UK + Swiss | [railway.com/legal/dpa](https://railway.com/legal/dpa) · [railway.com/legal/privacy](https://railway.com/legal/privacy) | Ejecutar el DPA self-service y archivarlo |
+| **Supabase** | El almacenamiento está **en la UE** (`eu-north-1`, verificado vía API): en operación normal el dato no sale. DPA con módulos SCC para sub-encargados | [supabase.com/legal/dpa](https://supabase.com/legal/dpa) | Aceptar/archivar DPA |
+| **Telegram** | **NO ofrece DPA.** Su propia política se declara **responsable (controller)** del tratamiento de sus usuarios del EEE, con representante art. 27 (EDPO). Refuerza la posición ya declarada en el aviso: responsable propio del transporte, como una operadora — **la valida el asesor** | [telegram.org/privacy](https://telegram.org/privacy) | Validación del asesor de la posición |
+
+**Mantenimiento**: las certificaciones DPF se renuevan ANUALMENTE — revisar esta tabla al
+año o al cambiar/añadir proveedor (la categoría del aviso no da inmunidad si cambia el
+mecanismo de transferencia; ver «Cómo se informa»).
 
 ## Derechos del interesado
 
@@ -291,16 +323,22 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 2. ~~`feedback` no cascadea~~ **HECHO (s296/s297, aplicado 5-ago)**: el enlace existe y se
    rellena en cada escritura nueva. Las filas ANTERIORES al enlace siguen huérfanas: un
    borrado a petición aún debe acordarse de ellas a mano (está en el runbook).
-3. **Exports a disco**: `scripts/review_logs.py` deposita datos personales fuera de Supabase
-   sin plazo. → *Propuesto: plazo corto + borrado, o excluir las columnas identificadoras.*
-4. **Programar el job**: hoy es de EJECUCIÓN MANUAL por diseño. Programarlo exigiría una
-   credencial durable con membresía en `rgpd_retencion`, y el rol solo se concede a
-   `postgres` ⇒ un scheduler guardaría un `DATABASE_URL` de operador, **más potente** que el
-   `service_role` que se evitó tocar. Requiere antes un rol runner LOGIN acotado. → *Alberto.*
-5. **Autoservicio `/borrar`**: hoy el técnico tiene que escribir a un correo. → *Propuesto, no
-   construido.*
-6. **Mecanismo de transferencia** para Telegram, Anthropic, Voyage AI, OpenAI y Railway.
-   → *Alberto / asesor legal.*
+3. ~~Exports a disco sin plazo~~ **RESUELTO por decisión de Alberto (5-ago)**: los exports
+   llevan seudónimo desde s296 — sin identificadores directos, el plazo se disuelve.
+   Higiene restante: no reenviarlos, y borrar los ANTERIORES a s296 si aparecen. → *Alberto.*
+4. ~~Programar el job~~ **CONSTRUIDO (s299)**: pg_cron DENTRO de la base — el argumento
+   histórico contra programar («un scheduler guardaría un `DATABASE_URL` de operador») era
+   contra el cron EXTERNO, y pg_cron es justo lo que lo evita: ninguna credencial sale de la
+   base, la pasada es UNA función (`rgpd_retencion_pasada`) que asume el rol en su
+   encabezado, y cada pasada confirmada deja recibo en `rgpd_recibos`. **Pendiente: APLICAR
+   la migración s299 en el SQL Editor** (→ Alberto) y verificar `SELECT * FROM cron.job` +
+   el primer recibo mensual. ⚠️ Hasta aplicarla, `scripts/rgpd_retencion.py` de esta
+   versión sale con exit 2 (la función aún no existe en producción) — diagnóstico incluido.
+5. **Autoservicio `/borrar`: NO se construye** (decisión 5-ago) — la vía es
+   `info@fontiber.com`, ya declarada en el aviso.
+6. ~~Mecanismo de transferencia~~ **DOCUMENTADO (5-ago)**: tabla «Mecanismos de
+   transferencia» de arriba, con fuentes y fecha. Falta: validación del asesor + aceptar y
+   archivar los DPA. → *Alberto / asesor legal.*
 7. ~~Identificación completa del responsable~~ **HECHO (v6)**: el aviso lleva razón social,
    CIF y domicilio — *Fontiber Industrial Partners, S.L. · CIF B24984759 · Calle de la Palma
    10, 28004 Madrid*, tomados del aviso legal de `fontiber.com` (indicado por Alberto).
@@ -328,7 +366,9 @@ la maquinaria ya construida y probada, no improvisada.
    Supabase** (extensión disponible, verificado) — ninguna credencial sale de la base; la
    función corre con `SET role = rgpd_retencion` a nivel de función, así que la ventana de 24
    meses sigue siendo invariante del motor también en la ejecución programada. Con tabla de
-   recibos. Pendiente de construir (s299) con el circuito completo (CI Postgres + dúo).
+   recibos. **Construido (s299)**: migración `20260805150000_s299_job_programado_v1.sql`
+   (la pasada pasa a ser UNA función en la base; el script queda como driver manual) —
+   **pendiente de APLICAR en el SQL Editor** (pendiente 4).
 4. **`/borrar`: por correo — confirmado** (ya era el estado; no se construye comando).
 5. **Transferencias: las documenta el asistente y las valida el asesor** — por proveedor: DPA
    archivado + estado en el registro DPF o SCCs del contrato + nota de una línea aquí.
