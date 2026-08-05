@@ -86,8 +86,10 @@ def test_el_reloj_es_mensual_y_condicional():
     assert "'rgpd-retencion-mensual'" in sql
     assert "'30 4 1 * *'" in sql                        # mensual, día 1
     assert "SELECT public.rgpd_retencion_pasada(''cron'')" in sql
-    assert ("el job mensual no existe, esta inactivo, cambio de "
-            "horario/comando, o su username no puede asumir el rol") in sql
+    # El literal SQL está partido en dos líneas del fichero: se comprueban los dos
+    # fragmentos (unirlos aquí fallaría contra el TEXTO aunque el SQL concatene bien).
+    assert "el job mensual no existe, esta inactivo" in sql
+    assert "su username no puede asumir el rol" in sql
 
 
 def test_los_recibos_estan_blindados_y_el_bot_no_ejecuta_la_pasada():
