@@ -84,10 +84,17 @@ NUEVO y su histórico queda en dos bloques. **No es un fallo: es la irreversibil
 funcionando** — un vínculo destruido no se puede resucitar, esa es justo la garantía. Pero
 conviene decirlo, porque la prosa «estable siempre» sugería lo contrario.
 
-**El append-only cubre el eje versión, no el eje tiempo.** Re-aceptar la MISMA versión
-refresca su fila: se pisa la fecha original y se limpia `revoked_at`. Es decir, **se conserva
-qué versión aceptó cada uno, pero no la traza de que en su día revocó y cuándo**. Arreglarlo
-exige un registro de eventos aparte; queda anotado, no hecho.
+**~~El append-only no conservaba la traza de una revocación~~ — RESUELTO EN DISEÑO (s297), pendiente de APLICAR** (cola s295 → s296 → s297; hasta entonces cada aceptación avisa «SIN evento en el libro» en el log del worker). El estado
+(`user_consent`) sigue siendo lo que `has_consent` consulta; la EVIDENCIA vive en
+`consent_events`, un libro de solo inserción para el bot donde cada aceptación y cada
+revocación es una fila nueva con su fecha. Dos límites declarados: (a) el backfill es
+**reconstrucción** — el upsert antiguo destruyó el histórico v1..v6 y el libro arranca con lo
+único que sobrevivió, sin fingir más; (b) el evento se escribe fail-open tras el estado —
+bloquear al técnico porque falló el libro sería desproporcionado— así que una divergencia
+puntual es posible **en las dos direcciones**: por omisión (evento que no llegó a escribirse)
+y, en la revocación manual, por falso positivo si las dos sentencias no van en una transacción
+— por eso el runbook la exige en `BEGIN…COMMIT`. Se detectaría comparando ambas tablas; no hay
+reconciliación automática.
 
 **El feedback espontáneo puede perderse si la consulta se borra entre medias.** Al añadir el
 enlace con cascada, un `feedback` cuya consulta padre desaparezca justo antes de escribirlo
@@ -165,6 +172,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | Ancla mensaje ↔ consulta | `answer_messages` (`telegram_chat_id`, `telegram_message_id`) | Atribuir una respuesta de Telegram a su consulta | Sigue a su consulta | CASCADE | **Se BORRA** — mapeo operativo sin valor analítico a 24 meses (propuesta §3) |
 | Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
+| **Libro de eventos de consentimiento** (`telegram_user_id`, versión, evento, fecha) | `consent_events` (s297) | EVIDENCIA de aceptaciones y revocaciones — solo inserción para el bot | ⚠️ mismo **[DECIDIR]** que `user_consent` (es la prueba; fuera de `rgpd_quedan_identificados`, como ella) | **[DECIDIR]** con el asesor: borrar vs conservar como prueba de cumplimiento (alineado con el runbook) | **[DECIDIR]** |
 | **Exports a disco** (desde s296: **seudónimo**, pregunta, transcripción, respuesta — SIN `display_name` ni `telegram_user_id`) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
 | **Exports ANTERIORES a s296** (llevan `display_name` y `telegram_user_id`) | los ficheros ya generados | — | ⚠️ ninguna | Borrado manual — **hay que buscarlos**: el cambio no toca lo ya escrito | Nada |
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |

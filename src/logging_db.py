@@ -5,6 +5,7 @@ Consent checks are cached in-memory to avoid a Supabase round-trip per message.
 """
 
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -55,8 +56,12 @@ _HEADERS = {
 }
 
 # In-memory cache of user_ids with active consent on the current TERMS_VERSION.
-# Populated lazily on first has_consent() check, mutated by set_consent().
-_consent_cache: set[int] = set()
+# s297 (duo): entrada -> EXPIRACION (time.monotonic). Antes era un set que no expiraba
+# nunca ⇒ un usuario REVOCADO manualmente seguia entrando hasta reiniciar el worker. Con
+# TTL, la revocacion surte efecto en <= _CONSENT_CACHE_TTL_S sin reinicio. Los misses se
+# quedan sin TTL: un miss caduco solo cuesta una relectura a DB, que ya hace lo correcto.
+_CONSENT_CACHE_TTL_S = 600
+_consent_cache: dict[int, float] = {}
 _consent_cache_misses: set[int] = set()  # users we've already checked and have no consent
 _trace_compatibility_warning_emitted = False
 # Personas de las que ya sabemos que tienen codigo. Evita una llamada por consulta: el
@@ -208,10 +213,51 @@ def log_feedback(
                 headers=_HEADERS,
                 json=row,
             )
+            # s297: si el enlace quedó COLGANDO (la consulta padre se borró entre que se
+            # capturó `last_query_log_id` y este POST — p.ej. una supresión a petición),
+            # la FK rechaza la fila ENTERA y el feedback se perdería. Se reintenta SIN el
+            # enlace: sobrevive suelto, como antes de s296. Mismo patrón que el fallback
+            # de `log_query` con la traza. Solo ante el rechazo definitivo de FK (23503):
+            # un timeout no se reintenta, porque el primer POST pudo haberse confirmado.
+            if resp.status_code >= 400 and "query_log_id" in row and _fk_rejected(resp):
+                # El duo cazo el matiz: si el padre desaparecio por una SUPRESION, las
+                # copias de la pregunta y la respuesta SON el dato recien borrado --
+                # reinsertarlas seria re-materializar lo suprimido, suelto y fuera de toda
+                # cascada. El texto del feedback si se conserva: es el mensaje NUEVO del
+                # tecnico, tratamiento fresco.
+                fallback_row = {k: v for k, v in row.items()
+                                if k not in ("query_log_id", "previous_query",
+                                             "previous_response")}
+                reintento = client.post(
+                    f"{SUPABASE_URL}/rest/v1/feedback",
+                    headers=_HEADERS,
+                    json=fallback_row,
+                )
+                if reintento.status_code >= 400:
+                    logger.warning(
+                        "Failed to log feedback after dangling-FK fallback: %s",
+                        reintento.status_code,
+                    )
+                else:
+                    logger.warning(
+                        "Feedback guardado SIN enlace: su consulta ya no existe (FK 23503)"
+                    )
+                return
             if resp.status_code >= 400:
                 logger.warning(f"Failed to log feedback: {resp.status_code}")
     except Exception as e:
         logger.warning(f"Failed to log feedback: {e}")
+
+
+def _fk_rejected(response: httpx.Response) -> bool:
+    """True solo ante una violación de clave foránea DEFINITIVA (SQLSTATE 23503)."""
+    if response.status_code not in (400, 409):
+        return False
+    try:
+        payload = response.json()
+    except Exception:
+        return False
+    return isinstance(payload, dict) and str(payload.get("code") or "") == "23503"
 
 
 def log_answer_feedback(
@@ -468,7 +514,8 @@ def has_consent(telegram_user_id: int) -> bool:
     Cached in-memory after first successful check. On Supabase failure,
     returns False (fail-closed: don't log queries from un-verified users).
     """
-    if telegram_user_id in _consent_cache:
+    expiracion = _consent_cache.get(telegram_user_id)
+    if expiracion is not None and expiracion > time.monotonic():
         return True
     if telegram_user_id in _consent_cache_misses:
         return False
@@ -488,7 +535,7 @@ def has_consent(telegram_user_id: int) -> bool:
                 params=params,
             )
             if resp.status_code == 200 and resp.json():
-                _consent_cache.add(telegram_user_id)
+                _consent_cache[telegram_user_id] = time.monotonic() + _CONSENT_CACHE_TTL_S
                 return True
             _consent_cache_misses.add(telegram_user_id)
             return False
@@ -595,8 +642,40 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
             if resp.status_code >= 400:
                 logger.warning(f"Failed to set consent: {resp.status_code} {resp.text}")
                 return False
-        _consent_cache.add(telegram_user_id)
+
+        # El estado esta COMMITEADO: desde aqui, el tecnico entra pase lo que pase.
+        _consent_cache[telegram_user_id] = time.monotonic() + _CONSENT_CACHE_TTL_S
         _consent_cache_misses.discard(telegram_user_id)
+
+        # s297: el LIBRO. `user_consent` es el estado vigente; el evento es la EVIDENCIA
+        # (tabla de solo inserción para el bot — inmutabilidad estructural). Se escribe
+        # DESPUÉS del estado: si el estado falló, la aceptación no se consumó y no hay qué
+        # evidenciar. Fail-open DE VERDAD: en su propio try — el dúo cazó que con el POST
+        # dentro del try general, una excepción de transporte tras un estado ya commiteado
+        # devolvía False, el bot pedía reintentar con el consentimiento YA dado, y el
+        # usuario quedaba atascado en la caché de misses. Bloquear la entrada porque falló
+        # la evidencia sería desproporcionado; la divergencia queda declarada en la matriz.
+        try:
+            with httpx.Client(timeout=10.0) as client:
+                evento = client.post(
+                    f"{SUPABASE_URL}/rest/v1/consent_events",
+                    headers=_HEADERS,
+                    json={
+                        "telegram_user_id": telegram_user_id,
+                        "terms_version": TERMS_VERSION,
+                        "evento": "accepted",
+                    },
+                )
+                if evento.status_code >= 400:
+                    logger.warning(
+                        "Consentimiento registrado SIN evento en el libro (%s): "
+                        "aplicar la migracion s297 o revisar consent_events",
+                        evento.status_code,
+                    )
+        except Exception as e:
+            logger.warning(
+                "Consentimiento registrado SIN evento en el libro (transporte: %s)", e
+            )
         return True
     except Exception as e:
         logger.warning(f"Failed to set consent: {e}")

@@ -4612,3 +4612,81 @@ puede perderse si su consulta se borra entre medias.
 
 **Verificado**: 22/22 contra PostgreSQL real en CI, incluidos los cuatro fallos que solo
 aparecen ejecutando. Suite completa verde.
+
+---
+
+## DEC-179 (s297) — Libro de eventos de consentimiento + feedback resistente + marca en el canal espontáneo
+
+**Contexto.** Al cerrar s296 quedaron tres gaps declarados. Alberto preguntó cómo resolverlos y
+si las cuatro categorías de utilidad eran BP; aprobó el lote propuesto.
+
+**Lo decidido primero, porque es contraintuitivo: el gap del código NO se resuelve.** Que quien
+vuelve tras 24+ meses de ausencia total reciba un código nuevo es el precio de la garantía —
+conservar la correspondencia tras el plazo significaría que el vínculo no muere nunca.
+Alternativa descartada: periodo de gracia antes de destruir (alarga la retención de un dato
+personal por comodidad — lo contrario de lo prometido).
+
+**Lo construido.**
+1. **`consent_events`** — patrón estado + libro: `user_consent` sigue siendo el estado vigente
+   (lo que `has_consent` lee); el libro es la EVIDENCIA, de **solo inserción para el bot**
+   (inmutabilidad estructural: ausencia de privilegio, no promesa de código). `set_consent`
+   escribe el evento TRAS el estado (si el estado falló, no hay qué evidenciar), fail-open con
+   aviso. La revocación manual de `DG_DEPLOYMENT` inserta su evento ANTES del UPDATE — un libro
+   vale lo que valen sus escritores. Backfill declarado como RECONSTRUCCIÓN: el upsert antiguo
+   destruyó v1..v6 y el libro no lo finge.
+2. **Reintento sin enlace en `log_feedback`** ante FK colgante (23503 definitivo, nunca
+   timeout — el primer POST pudo confirmarse): el feedback sobrevive suelto en vez de morir.
+   Mismo patrón que el fallback de traza de `log_query`.
+3. **`utilidad` en la tabla `feedback`** — la marca solo cubría el canal del voto; el
+   espontáneo, por donde llega parte del feedback más valioso, no tenía dónde marcarse. Sin
+   cambio de privilegios: `service_role` no tiene UPDATE ahí desde julio.
+4. **Borrador de ponderación** (`docs/RGPD_PONDERACION_INTERES_LEGITIMO.md`) para que el asesor
+   revise en vez de producir: interés, necesidad, ponderación con contrapesos declarados
+   (transferencias pendientes; la arista laboral del incentivo), derecho de oposición, y qué
+   cambia si se aprueba. SIN VALIDAR y así rotulado.
+
+**Sobre la taxonomía de utilidad (respuesta a Alberto): BP en lo esencial** — mide consecuencia
+auditable contra artefactos reales (commit/gold/manual), `NULL` ≠ `ninguna`, decisión final
+humana, sin peso de severidad a propósito (lo juzga quien paga; codificarlo hoy = aparato).
+Matices declarados: las categorías no son mutuamente excluyentes (se marca la dominante;
+multi-etiqueta solo si el volumen lo exige) y hasta s297 solo cubrían un canal de los dos.
+
+**Verificado**: 7 unitarios nuevos + integración contra Postgres real (backfill reconstruye,
+el libro es de solo inserción EJECUTANDO como service_role, re-aceptar no pisa la evidencia,
+roles anónimos sin acceso, la marca del canal espontáneo inalcanzable para el bot). La ruta de
+la migración s297 añadida al workflow ANTES del primer push — lección de s296, donde el CI no
+se disparaba con los ficheros nuevos.
+
+**Dúo sobre s297 (dos rondas paralelas, ambas con bite — 15 hallazgos, 4 críticos).**
+- **La marca NO era inalcanzable** (cross-model): cerré el UPDATE pero `service_role`
+  conservaba INSERT de TABLA, que cubre toda columna — el bot podía insertar una fila con
+  `utilidad` ya puesta, en `feedback` Y en `answer_feedback` (agujero heredado de s296).
+  Ahora INSERT de COLUMNA sobre exactamente lo que el bot escribe, con postcondición.
+- **Un usuario revocado seguía entrando hasta reiniciar el worker**: `_consent_cache` era un
+  set sin expiración. Ahora TTL de 10 min; la revocación surte efecto sin reinicio.
+- **El reintento de FK podía re-materializar datos borrados**: conservaba las copias de la
+  pregunta/respuesta — el dato recién suprimido — sueltas y fuera de cascada. Ahora suelta
+  también las copias; el texto del feedback sí se conserva (mensaje nuevo, tratamiento fresco).
+- **El backfill corrompía el libro al re-ejecutar** (ambos revisores): sin guarda, una segunda
+  pasada re-insertaba un 'accepted' por fila viva con COMMIT limpio y la postcondición de >=
+  tragándoselo. Ahora: gate libro-vacío + columna `origen` (reconstruido ≠ presenciado) +
+  postcondición de IGUALDAD. Con test que RE-EJECUTA la migración de verdad.
+- **El fail-open no era fail-open** (sub-agente): una excepción de TRANSPORTE en el POST del
+  evento, con el estado ya commiteado, devolvía False — el bot pedía reintentar un
+  consentimiento ya dado y el usuario quedaba atascado en la caché de misses. El POST del
+  evento vive ahora en su propio try, y la caché se actualiza en cuanto el estado commitea.
+- **La revocación manual en dos sentencias sueltas** podía dejar evidencia en FALSO POSITIVO
+  (evento 'revoked' sin efecto real): el runbook la exige ahora en BEGIN…COMMIT.
+- **FRAMING cazado en el LIA**: presentaba como vigentes garantías construidas pero NO
+  aplicadas (aviso de estado añadido: la ponderación no se firma hasta que la cola s295→s297
+  esté viva); afirmaba «ya se probó que el laboratorio no predijo los fallos orgánicos» con
+  n=1 y ese n=1 EN CONTRA (retirado, con la retirada explicada en el propio doc); contaba 4
+  encargados fuera de la UE y son 5.
+- Coherencia `utilidad`↔`utilidad_revisada_at` gobernada por CHECK en ambas tablas; matriz y
+  runbook alineados sobre el destino de `consent_events` ante una supresión (**[DECIDIR]** con
+  el asesor: borrar vs conservar como prueba); postcondiciones al patrón de anchura de la casa;
+  residual declarado: el CI conecta como superuser y no observa la RLS del camino operador.
+
+**Lo que el dúo confirmó sólido**: `_fk_rejected` y el no-reintento ante timeout; el orden
+evento-tras-estado; el backfill en primera ejecución; el patrón de frontera; que el bootstrap
+NO repite el bug s296.
