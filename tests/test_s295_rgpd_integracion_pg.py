@@ -112,6 +112,12 @@ DO $$ BEGIN
         CREATE ROLE authenticated NOLOGIN;
     END IF;
 END $$;
+-- El ALTER DEFAULT PRIVILEGES del fixture PERSISTE entre tests (es estado de la BASE):
+-- a partir del segundo test, estas tablas re-creadas nacerian con ALL para la API y la
+-- postcondicion 6.5 de s295 (hardening de julio EXACTO) reventaria. Se hace lo mismo que
+-- el bootstrap en produccion: REVOKE nominal y luego conceder el estado exacto de julio.
+REVOKE ALL PRIVILEGES ON query_logs, feedback, answer_feedback, answer_messages, user_consent
+    FROM PUBLIC, anon, authenticated, service_role;
 GRANT SELECT, INSERT ON query_logs, feedback, answer_messages TO service_role;
 GRANT SELECT, INSERT, UPDATE ON answer_feedback, user_consent TO service_role;
 """
