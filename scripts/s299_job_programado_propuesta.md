@@ -73,3 +73,28 @@ RLS, marca de utilidad inalcanzable, libro solo-inserción) INTACTOS tras el cam
 - La operación programada ejecuta `--aplicar` sin botón humano: mitigado por ventana-RLS
   como invariante + recibos + ~2 años de pasadas en vacío antes del primer vencimiento
   (2028).
+
+## Ronda 2 — el DELTA de los fixes (commits d4ef62f + ac562c6)
+
+La ronda 1 (sub-agente Fable + GPT-5.6 Sol) produjo 9 hallazgos aplicables; todos
+aplicados en d4ef62f. Esta ronda ataca SOLO el delta (`git show d4ef62f`):
+
+1. `rgpd_quedan_identificados` re-creada en s299 con `answer_messages`
+   (`telegram_chat_id = p_user`) + REVOKE nominal (era oráculo público en producción,
+   verificado contra catálogo vivo) + postcondiciones 4.2/4.5.
+2. REVOKE nominal de `rgpd_retencion_pasada` + fixture de CI con
+   `ALTER DEFAULT PRIVILEGES ... ON FUNCTIONS` (antes ciego a la clase).
+3. Aserción «ventana ARMADA» en el cuerpo de la pasada (RLS forzada + política en las 4
+   tablas, sin duplicar el plazo).
+4. Guardia de membresía SET en el bloque cron + postcondición 4.4 endurecida
+   (activo + horario + username capaz).
+5. `p_origen` sin DEFAULT; recibo local por `tocadas`; test de operador no-superusuario;
+   tests nuevos de integración (edades desalineadas, oráculo, ventana desarmada, origen).
+6. Docs: celdas stale de la matriz corregidas, Voyage como declaración nominal, celda
+   Supabase acotada, nota user_consent al estado real.
+
+Preguntas duras para esta ronda: ¿los fixes abren algo nuevo? ¿la aserción de ventana
+armada puede dar falso-abort (p.ej. en el fixture, políticas con roles en otro orden)?
+¿el REVOKE nominal rompe algún caller legítimo del oráculo? ¿`unnest(...) AS t(tabla)` y
+`pg_get_functiondef` se comportan igual en PG17 de CI y en el PG de Supabase? ¿queda
+algún camino donde el recibo mienta?
