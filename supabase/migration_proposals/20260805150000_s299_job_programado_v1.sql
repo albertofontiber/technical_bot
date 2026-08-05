@@ -53,10 +53,14 @@
 --
 -- GAP DECLARADO (CI): el contenedor `postgres:17` del workflow no trae pg_cron, así que
 -- el bloque de programación corre solo su rama WARNING en CI. La FUNCIÓN — la parte que
--- hace el trabajo irreversible — sí se ejerce entera contra Postgres real. La
--- postcondición 4 hace imposible el fallo silencioso en producción: si pg_cron está
--- disponible (verificado en el proyecto: 1.6.4), el job DEBE quedar programado o la
--- migración revienta. Tras aplicar: verificar `SELECT * FROM cron.job` y el primer
+-- hace el trabajo irreversible — sí se ejerce entera contra Postgres real, y el fixture
+-- reproduce los default privileges de Supabase TAMBIÉN para funciones (verificados
+-- contra `pg_default_acl` de producción el 5-ago: toda función nueva de `public` nace
+-- ejecutable por anon/authenticated/service_role — por eso los REVOKE de aquí son
+-- NOMINALES, no solo PUBLIC). La postcondición 4.4 hace imposible el fallo silencioso
+-- en producción: si pg_cron está disponible (verificado en el proyecto: 1.6.4), el job
+-- DEBE quedar programado, activo y a nombre de un rol que pueda asumir el de retención,
+-- o la migración revienta. Tras aplicar: verificar `SELECT * FROM cron.job` y el primer
 -- recibo mensual.
 
 BEGIN;
@@ -108,9 +112,52 @@ CREATE POLICY rgpd_recibos_inserta ON public.rgpd_recibos
     FOR INSERT TO rgpd_retencion WITH CHECK (true);
 
 -- ---------------------------------------------------------------------------
+-- 1.b «¿le queda algo identificado?» aprende la 4ª tabla — y deja de ser oráculo público
+-- ---------------------------------------------------------------------------
+-- Dos hallazgos del dúo (s299) sobre la función de s296:
+--
+--   (a) NO miraba `answer_messages`. Un ancla RECIENTE colgada de una consulta ya
+--       vencida sobrevive a la pasada (la ventana RLS no deja borrarla) llevando
+--       `telegram_chat_id` — que en chat privado ES la persona. Con la versión de 3
+--       tablas, el vínculo se destruía con esa fila identificada AÚN VIVA: la cadena
+--       chat_id → query_log_id → seudónimo re-identificaba el corpus recién disociado.
+--       El punto de no retorno llegaba ANTES de tiempo — exactamente lo que esta
+--       función existe para impedir.
+--   (b) En producción era EJECUTABLE por anon/authenticated/service_role (VERIFICADO
+--       contra el catálogo vivo el 5-ago-2026): Supabase concede EXECUTE por default
+--       privileges a toda función nueva de `public`, y s296 solo revocó PUBLIC — un
+--       ORÁCULO de pertenencia («¿este telegram_user_id tiene datos?») expuesto por
+--       PostgREST RPC con la clave anónima, y encima SECURITY DEFINER. Se revoca
+--       NOMINAL, como ya hacía el precedente s277 del repo.
+--
+-- `user_consent`/`consent_events` siguen FUERA a propósito (decisión s296: su plazo es
+-- decisión aparte y, si contasen, el vínculo no se destruiría jamás).
+CREATE OR REPLACE FUNCTION public.rgpd_quedan_identificados(p_user BIGINT)
+RETURNS BOOLEAN
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+    SELECT EXISTS (SELECT 1 FROM public.query_logs      WHERE telegram_user_id = p_user)
+        OR EXISTS (SELECT 1 FROM public.feedback        WHERE telegram_user_id = p_user)
+        OR EXISTS (SELECT 1 FROM public.answer_feedback WHERE telegram_user_id = p_user)
+        -- s299(a): el ancla lleva chat_id == user_id en chat privado. En grupo el
+        -- chat_id es el grupo y no casa con la persona: declarado, no disimulado.
+        OR EXISTS (SELECT 1 FROM public.answer_messages WHERE telegram_chat_id = p_user);
+$$;
+
+REVOKE ALL ON FUNCTION public.rgpd_quedan_identificados(BIGINT)
+    FROM PUBLIC, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.rgpd_quedan_identificados(BIGINT) TO rgpd_retencion;
+
+-- ---------------------------------------------------------------------------
 -- 2. LA pasada — la única implementación
 -- ---------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION public.rgpd_retencion_pasada(p_origen TEXT DEFAULT 'cron')
+-- `p_origen` SIN default (dúo s299): un `SELECT rgpd_retencion_pasada()` suelto en el
+-- SQL Editor estamparía `origen='cron'` falso en un recibo inmutable. El origen se
+-- declara SIEMPRE: el reloj pasa 'cron', el driver pasa 'manual'.
+CREATE OR REPLACE FUNCTION public.rgpd_retencion_pasada(p_origen TEXT)
 RETURNS JSONB
 LANGUAGE plpgsql
 SET role = rgpd_retencion
@@ -131,6 +178,32 @@ BEGIN
         RAISE EXCEPTION 'rgpd: la pasada debe correr como rgpd_retencion y corre como %. '
                         'Sin el rol asumido, la ventana de 24 meses no la garantiza nadie. '
                         'Abortado sin tocar nada.', current_user;
+    END IF;
+
+    -- Segunda capa SIN duplicar la ventana (dúo s299): correr como el rol no basta si
+    -- las políticas están DESARMADAS (un `DISABLE ROW LEVEL SECURITY` de debug entre
+    -- re-afirmaciones del bootstrap) — y el reloj mensual corre DESATENDIDO: disociaría
+    -- filas de ayer y vaciaría `answer_messages` entera, con un recibo de aspecto
+    -- normal. Se aserta el MECANISMO (RLS forzada + política presente en las 4 tablas),
+    -- no el plazo: la ventana sigue teniendo UNA sola fuente.
+    IF EXISTS (
+        SELECT 1
+          FROM unnest(ARRAY['query_logs', 'feedback', 'answer_feedback',
+                            'answer_messages']) AS t(tabla)
+         WHERE NOT EXISTS (
+                   SELECT 1 FROM pg_class c
+                    WHERE c.oid = to_regclass(format('public.%I', t.tabla))
+                      AND c.relrowsecurity AND c.relforcerowsecurity
+               )
+            OR NOT EXISTS (
+                   SELECT 1 FROM pg_policies p
+                    WHERE p.schemaname = 'public' AND p.tablename = t.tabla
+                      AND p.policyname = 'rgpd_retencion_ventana'
+                      AND 'rgpd_retencion' = ANY(p.roles)
+               )
+    ) THEN
+        RAISE EXCEPTION 'rgpd: la ventana NO esta armada en alguna de las 4 tablas (RLS '
+                        'deshabilitada o politica ausente). Pasada abortada sin tocar nada.';
     END IF;
 
     -- Primero, EMITIR el código que falte (la emisión en /accept es fail-open): sin
@@ -229,9 +302,14 @@ BEGIN
 END
 $rgpd_pasada$;
 
--- Solo el operador la ejecuta. `service_role` no tiene EXECUTE — y aunque lo ganara, el
--- `SET role` de la entrada le fallaría por no tener membresía en el rol. Dos capas.
-REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) FROM PUBLIC;
+-- Solo el operador la ejecuta. NOMINAL, no solo PUBLIC (dúo s299 + catálogo vivo): los
+-- default privileges de Supabase conceden EXECUTE a anon/authenticated/service_role
+-- sobre toda función nueva de `public` — revocar solo PUBLIC los dejaba puestos, y la
+-- postcondición 4.2 habría tumbado la migración entera en el SQL Editor (el precedente
+-- s277 del repo ya revocaba nominal). Aunque alguno lo ganara, el `SET role` de la
+-- entrada le fallaría por no tener membresía en el rol. Dos capas.
+REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT)
+    FROM PUBLIC, anon, authenticated, service_role;
 
 -- ---------------------------------------------------------------------------
 -- 3. El reloj (condicional: pg_cron no existe en el contenedor de CI)
@@ -239,6 +317,25 @@ REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) FROM PUBLIC;
 DO $s299_cron$
 BEGIN
     IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name = 'pg_cron') THEN
+        -- El job corre como QUIEN LO PROGRAMA (`cron.job.username = current_user`). Si
+        -- ese rol no tuviera membresía SET en rgpd_retencion, el `SET role` de la
+        -- función fallaría CADA MES en silencio (solo visible en job_run_details). Se
+        -- exige aquí, en el momento de programar — no se supone (dúo s299).
+        IF NOT (
+            (SELECT rolsuper FROM pg_roles WHERE rolname = current_user)
+            OR EXISTS (
+                SELECT 1 FROM pg_auth_members m
+                  JOIN pg_roles objetivo ON objetivo.oid = m.roleid
+                  JOIN pg_roles miembro  ON miembro.oid  = m.member
+                 WHERE objetivo.rolname = 'rgpd_retencion'
+                   AND miembro.rolname = current_user
+                   AND m.set_option
+            )
+        ) THEN
+            RAISE EXCEPTION 's299: % no tiene membresia SET en rgpd_retencion -- '
+                            'programa el job desde el rol operador (postgres) o el '
+                            'reloj fallara cada mes', current_user;
+        END IF;
         CREATE EXTENSION IF NOT EXISTS pg_cron;
         -- Mensual, día 1 a las 04:30 UTC. `cron.schedule` con el mismo jobname
         -- ACTUALIZA el job existente: re-ejecutar esta migración no duplica el reloj.
@@ -277,12 +374,23 @@ BEGIN
                         'perdio el SET role del encabezado';
     END IF;
 
-    -- 4.2 Nadie de la API puede ejecutarla.
+    -- 4.2 Nadie de la API puede ejecutar NI la pasada NI el oráculo de pertenencia.
+    -- (Esta postcondición es la que habría tumbado la migración con el REVOKE
+    -- solo-PUBLIC: los default privileges de Supabase les daban EXECUTE a los tres.)
     FOREACH rol IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
         IF has_function_privilege(rol, 'public.rgpd_retencion_pasada(text)', 'EXECUTE') THEN
             RAISE EXCEPTION 's299: % puede ejecutar la pasada de retencion', rol;
         END IF;
+        IF has_function_privilege(rol, 'public.rgpd_quedan_identificados(bigint)',
+                                  'EXECUTE') THEN
+            RAISE EXCEPTION 's299: % puede ejecutar el oraculo de pertenencia '
+                            '(quien tiene datos) via RPC', rol;
+        END IF;
     END LOOP;
+    IF NOT has_function_privilege('rgpd_retencion',
+                                  'public.rgpd_quedan_identificados(bigint)', 'EXECUTE') THEN
+        RAISE EXCEPTION 's299: rgpd_retencion perdio EXECUTE sobre rgpd_quedan_identificados';
+    END IF;
 
     -- 4.3 Los recibos: RLS forzada; API a CERO (tabla y columna); el rol de retención
     -- EXACTAMENTE INSERT y nada más (igualdad, no ausencia-de-algunos).
@@ -327,19 +435,45 @@ BEGIN
         RAISE EXCEPTION 's299: falta la politica de insercion de recibos';
     END IF;
 
-    -- 4.4 El reloj: si pg_cron está DISPONIBLE, el job DEBE existir con el comando
-    -- exacto — hace imposible el «migración en verde sin programar nada» en producción.
-    -- Si no está disponible (contenedor de CI), se acepta con el WARNING ya emitido.
+    -- 4.4 El reloj: si pg_cron está DISPONIBLE, el job DEBE existir ACTIVO, con el
+    -- comando y el horario exactos, y a nombre de un rol que PUEDE asumir
+    -- rgpd_retencion (superusuario o membresía SET) — hace imposible tanto el
+    -- «migración en verde sin programar nada» como el «job programado que fallará cada
+    -- mes» (dúo s299). Si no está disponible (contenedor de CI), WARNING ya emitido.
     IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
         IF NOT EXISTS (
-            SELECT 1 FROM cron.job
-             WHERE jobname = 'rgpd-retencion-mensual'
-               AND command LIKE '%rgpd_retencion_pasada%'
+            SELECT 1 FROM cron.job j
+             WHERE j.jobname = 'rgpd-retencion-mensual'
+               AND j.command LIKE '%rgpd_retencion_pasada%'
+               AND j.schedule = '30 4 1 * *'
+               AND j.active
+               AND (
+                   EXISTS (SELECT 1 FROM pg_roles r
+                            WHERE r.rolname = j.username AND r.rolsuper)
+                   OR EXISTS (
+                       SELECT 1 FROM pg_auth_members m
+                         JOIN pg_roles objetivo ON objetivo.oid = m.roleid
+                         JOIN pg_roles miembro  ON miembro.oid  = m.member
+                        WHERE objetivo.rolname = 'rgpd_retencion'
+                          AND miembro.rolname = j.username
+                          AND m.set_option
+                   )
+               )
         ) THEN
-            RAISE EXCEPTION 's299: pg_cron instalado pero el job mensual no quedo programado';
+            RAISE EXCEPTION 's299: el job mensual no existe, esta inactivo, cambio de '
+                            'horario/comando, o su username no puede asumir el rol';
         END IF;
     ELSIF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name = 'pg_cron') THEN
         RAISE EXCEPTION 's299: pg_cron disponible pero no instalado -- el bloque 3 no corrio';
+    END IF;
+
+    -- 4.5 El punto de no retorno mira las CUATRO tablas identificadas — incluida el
+    -- ancla (hallazgo (a) del dúo): sin esto, un ancla reciente de una consulta vencida
+    -- dejaba viva la cadena chat_id → consulta → seudónimo tras destruir el vínculo.
+    IF pg_get_functiondef(to_regprocedure('public.rgpd_quedan_identificados(bigint)'))
+       NOT ILIKE '%answer_messages%' THEN
+        RAISE EXCEPTION 's299: rgpd_quedan_identificados no mira answer_messages -- '
+                        'el punto de no retorno llegaria antes de tiempo';
     END IF;
 END
 $s299_post$;
@@ -361,6 +495,9 @@ COMMIT;
 --   DROP FUNCTION public.rgpd_retencion_pasada(TEXT);
 --   DROP TABLE public.rgpd_recibos;   -- ⚠️ se lleva los recibos: exportarlos antes
 --   -- la extensión pg_cron se DEJA: es un recurso compartido del proyecto
+--   -- rgpd_quedan_identificados: para volver a la versión de 3 tablas, re-aplicar
+--   -- s296 §1.b — pero NO revertir sus REVOKE nominales: el oráculo público era un
+--   -- fallo vivo en producción, no parte del diseño de s296
 --
 -- El rollback deja la retención otra vez en manual-sin-recibos-durables
 -- (`scripts/rgpd_retencion.py` dejaría de funcionar: llama a la función). Reversible

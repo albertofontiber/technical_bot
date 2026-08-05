@@ -4458,7 +4458,8 @@ Y siete correcciones más, todas verificadas antes de actuar:
 falsa: `postgres` es owner y `BYPASSRLS`; el invariante rige **para quien actúa como el rol**. Y el
 job **no es programable tal cual**: haría falta un rol runner LOGIN acotado, porque un scheduler con
 `DATABASE_URL` de operador sería MÁS potente que el `service_role` que se evitó tocar. Hoy es
-ejecución manual por diseño, declarado.
+ejecución manual por diseño, declarado. *(SUPERADO en s299/DEC-181: la premisa valía para un cron
+EXTERNO; con pg_cron el reloj vive dentro de la base y no hace falta credencial ni rol LOGIN.)*
 
 **Ronda 4 — usabilidad del aviso, a petición de Alberto.** Preguntó si convenía **alargar los
 términos ahora** para cubrir cosas futuras y ahorrarse re-aceptaciones. Respuesta: no. Un

@@ -216,7 +216,10 @@ def main() -> int:
         "La ventana de 24 meses la impone la POLITICA RLS del rol, no este script."
     )
 
-    if args.recibo and any(f["ids"] for f in tablas.values()):
+    # Por `tocadas` y no por `ids`: una pasada que SOLO destruye vínculos toca filas cuyo
+    # id no se registra a propósito (el id ES la persona) — con `ids` como criterio, esa
+    # pasada confirmada e irreversible no dejaría recibo local pese a pedirlo (dúo s299).
+    if args.recibo and any(f["tocadas"] for f in tablas.values()):
         with open(args.recibo, "w", encoding="utf-8") as fh:
             json.dump(
                 {"corte": recibo["corte"], "meses": VENTANA_MESES,

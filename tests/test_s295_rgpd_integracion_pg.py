@@ -146,6 +146,12 @@ def base():
         # nace limpia en el test y el REVOKE de la migracion no probaria nada.
         cur.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA public "
                     "GRANT ALL ON TABLES TO anon, authenticated;")
+        # ...y lo mismo para FUNCIONES (verificado contra el pg_default_acl de
+        # producción, s299): toda función nueva de `public` nace ejecutable por la API
+        # ENTERA. Sin esto el CI no podía cazar que un REVOKE solo-PUBLIC dejara vivo el
+        # oráculo de pertenencia (`rgpd_quedan_identificados` estuvo así en producción).
+        cur.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA public "
+                    "GRANT ALL ON FUNCTIONS TO anon, authenticated, service_role;")
 
         # Las PROPUESTAS, tal cual y EN ORDEN: si alguna no ejecuta o falla una
         # postcondición, esto revienta.
@@ -825,6 +831,116 @@ def test_el_recibo_del_vinculo_destruido_no_registra_a_la_persona(base):
     conexion.commit()
 
 
+def test_un_ancla_reciente_de_una_consulta_vencida_conserva_el_vinculo(base):
+    """Hallazgo (a) del dúo s299: `answer_messages` lleva `telegram_chat_id` — la persona,
+    en chat privado. Si el ancla es RECIENTE pero su consulta ya venció, la ventana RLS no
+    deja borrarla; con la versión s296 del oráculo (3 tablas) el vínculo se destruía con
+    esa fila identificada AÚN VIVA, y la cadena chat_id → query_log_id → seudónimo
+    re-identificaba el corpus recién disociado. El punto de no retorno, antes de tiempo."""
+    conexion, vieja, nueva = base
+    with conexion.cursor() as cur:
+        # Se le quita la consulta reciente (su ancla y su voto cascadean)...
+        cur.execute("DELETE FROM query_logs WHERE id = %s", (nueva,))
+        # ...y se le deja UN ancla reciente colgada de la consulta VIEJA: edades
+        # desalineadas, el caso exacto del hallazgo.
+        cur.execute(
+            "INSERT INTO answer_messages "
+            "(query_log_id, telegram_chat_id, telegram_message_id, created_at) "
+            "VALUES (%s, 111, 424242, now() - interval '1 month')", (vieja,))
+    conexion.commit()
+    with conexion.cursor() as cur:
+        cur.execute("SELECT public.rgpd_retencion_pasada('cron');")
+    conexion.commit()
+
+    with conexion.cursor() as cur:
+        cur.execute("SELECT count(*) FROM answer_messages WHERE telegram_chat_id = 111")
+        assert cur.fetchone()[0] == 1          # el ancla reciente sobrevive (la ventana)
+        cur.execute("SELECT count(*) FROM persona_seudonimo WHERE telegram_user_id = 111")
+        assert cur.fetchone()[0] == 1          # ⇒ el vínculo TIENE que seguir vivo
+
+        # Cuando el ancla venza (aquí: se va), la siguiente pasada sí cierra el ciclo.
+        cur.execute("DELETE FROM answer_messages WHERE telegram_chat_id = 111")
+    conexion.commit()
+    with conexion.cursor() as cur:
+        cur.execute("SELECT public.rgpd_retencion_pasada('cron');")
+    conexion.commit()
+    with conexion.cursor() as cur:
+        cur.execute("SELECT count(*) FROM persona_seudonimo WHERE telegram_user_id = 111")
+        assert cur.fetchone()[0] == 0
+    conexion.commit()
+
+
+def test_el_oraculo_de_pertenencia_no_es_publico(base):
+    """Hallazgo (b) del dúo s299, VIVO en producción hasta s299: los default privileges de
+    Supabase daban EXECUTE sobre `rgpd_quedan_identificados` (SECURITY DEFINER) a la API
+    entera — «¿este telegram_user_id tiene datos?» respondible por PostgREST con la clave
+    anónima. Se ejerce con los tres roles, y se comprueba que el rol de retención SÍ."""
+    import psycopg2
+    conexion, _, _ = base
+    for rol in ("anon", "authenticated", "service_role"):
+        with conexion.cursor() as cur:
+            cur.execute(f"SET LOCAL ROLE {rol};")
+            with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+                cur.execute("SELECT public.rgpd_quedan_identificados(111);")
+        conexion.rollback()
+
+    with conexion.cursor() as cur:
+        cur.execute("SET LOCAL ROLE rgpd_retencion;")
+        cur.execute("SELECT public.rgpd_quedan_identificados(111);")
+        assert cur.fetchone()[0] is True
+    conexion.rollback()
+
+
+def test_la_pasada_aborta_si_la_ventana_esta_desarmada(base):
+    """El reloj corre DESATENDIDO: si alguien deshabilitó la RLS (debug, herramienta de
+    sync) entre re-afirmaciones, correr «como el rol» ya no acota nada — la pasada
+    disociaría filas de ayer con un recibo de aspecto normal. La función aserta el
+    MECANISMO (no el plazo: la ventana sigue teniendo una sola fuente) y corta."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("ALTER TABLE public.query_logs DISABLE ROW LEVEL SECURITY;")
+        with pytest.raises(psycopg2.errors.RaiseException, match="NO esta armada"):
+            cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()                        # revierte también el DISABLE
+
+    with conexion.cursor() as cur:             # sin política tampoco (no solo sin RLS)
+        cur.execute("DROP POLICY rgpd_retencion_ventana ON public.feedback;")
+        with pytest.raises(psycopg2.errors.RaiseException, match="NO esta armada"):
+            cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()
+
+
+def test_un_operador_no_superusuario_entra_por_la_membresia_SET(base):
+    """En producción quien llama NO es superusuario: el `postgres` de Supabase entra por
+    la membresía SET de s295. El resto de la integración corre como superuser (que puede
+    asumir cualquier rol), así que esa entrada no se ejercía — aquí se ejerce: EXECUTE +
+    membresía SET bastan, sin heredar nada más."""
+    conexion, vieja, _ = base
+    with conexion.cursor() as cur:
+        cur.execute("CREATE ROLE operador_prueba NOLOGIN;")
+        cur.execute("GRANT rgpd_retencion TO operador_prueba WITH INHERIT FALSE;")
+        cur.execute("GRANT rgpd_retencion TO operador_prueba WITH SET TRUE;")
+        cur.execute("GRANT EXECUTE ON FUNCTION public.rgpd_retencion_pasada(TEXT) "
+                    "TO operador_prueba;")
+        cur.execute("SET LOCAL ROLE operador_prueba;")
+        cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+        recibo = cur.fetchone()[0]
+        assert recibo["tablas"]["query_logs"]["ids"] == [vieja]
+    conexion.rollback()                        # revierte pasada, grants y rol de prueba
+
+
+def test_el_origen_del_recibo_es_explicito(base):
+    """Sin default (dúo s299): un `SELECT rgpd_retencion_pasada()` suelto en el SQL
+    Editor habría estampado `origen='cron'` falso en un recibo inmutable."""
+    import psycopg2
+    conexion, _, _ = base
+    with conexion.cursor() as cur:
+        with pytest.raises(psycopg2.errors.UndefinedFunction):
+            cur.execute("SELECT public.rgpd_retencion_pasada();")
+    conexion.rollback()
+
+
 # ------------------------------------------------------- s298: bootstrap re-ejecutable
 
 
@@ -894,6 +1010,12 @@ def test_reejecutar_el_bootstrap_no_deshace_las_garantias(base):
         cur.execute("SET LOCAL ROLE service_role;")
         with pytest.raises(psycopg2.errors.InsufficientPrivilege):
             cur.execute("SELECT resultado FROM rgpd_recibos")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # ...y el oráculo sigue sin ser público
+        cur.execute("SET LOCAL ROLE anon;")
+        with pytest.raises(psycopg2.errors.InsufficientPrivilege):
+            cur.execute("SELECT public.rgpd_quedan_identificados(111);")
     conexion.rollback()
 
 

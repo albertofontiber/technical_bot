@@ -86,7 +86,8 @@ def test_el_reloj_es_mensual_y_condicional():
     assert "'rgpd-retencion-mensual'" in sql
     assert "'30 4 1 * *'" in sql                        # mensual, día 1
     assert "SELECT public.rgpd_retencion_pasada(''cron'')" in sql
-    assert "pg_cron instalado pero el job mensual no quedo programado" in sql
+    assert ("el job mensual no existe, esta inactivo, cambio de "
+            "horario/comando, o su username no puede asumir el rol") in sql
 
 
 def test_los_recibos_estan_blindados_y_el_bot_no_ejecuta_la_pasada():
@@ -95,7 +96,23 @@ def test_los_recibos_estan_blindados_y_el_bot_no_ejecuta_la_pasada():
     assert "origen IN ('manual', 'cron')" in sql
     assert "REVOKE ALL PRIVILEGES ON TABLE public.rgpd_recibos" in sql
     assert "GRANT INSERT ON TABLE public.rgpd_recibos TO rgpd_retencion" in sql
-    assert "REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) FROM PUBLIC" in sql
+    # NOMINAL, no solo PUBLIC (dúo s299 + catálogo vivo): los default privileges de
+    # Supabase dan EXECUTE a la API entera sobre toda función nueva de `public`.
+    assert "REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT)" in sql
+    assert "REVOKE ALL ON FUNCTION public.rgpd_quedan_identificados(BIGINT)" in sql
+    assert sql.count("FROM PUBLIC, anon, authenticated, service_role") >= 3
+
+
+def test_el_oraculo_aprende_el_ancla_y_el_origen_es_explicito():
+    """Los dos hallazgos del dúo con forma de texto en la migración: (a) el punto de no
+    retorno mira TAMBIÉN `answer_messages` (chat_id == la persona en privado); (b) el
+    origen del recibo no tiene default que estampe 'cron' en una pasada manual."""
+    sql = _sql()
+    assert "FROM public.answer_messages WHERE telegram_chat_id = p_user" in sql
+    assert "DEFAULT 'cron'" not in sql
+    # Y el reloj exige membresía SET de quien programa + postcondición sobre username.
+    assert "set_option" in sql
+    assert "j.active" in sql and "j.schedule = '30 4 1 * *'" in sql
 
 
 def test_la_propuesta_no_esta_en_el_camino_auto_aplicado():
@@ -251,3 +268,32 @@ def test_main_escribe_el_recibo_local(monkeypatch, tmp_path, capsys):
     assert escrito["aplicado"] is True
     assert escrito["meses"] == 24
     assert escrito["tablas"]["query_logs"]["ids"] == ["id-1", "id-2"]
+
+
+def test_el_recibo_local_se_escribe_aunque_solo_caigan_vinculos(monkeypatch, tmp_path):
+    """Dúo s299: la pasada que SOLO destruye vínculos toca filas cuyo id no se registra
+    a propósito (el id ES la persona). Con `ids` como criterio, esa pasada confirmada e
+    irreversible no dejaba recibo local pese a `--recibo`. El criterio es `tocadas`."""
+    import sys
+
+    import scripts.rgpd_retencion as job
+
+    solo_vinculos = {
+        "corte": "2028-09-01T04:30:00+00:00",
+        "origen": "manual",
+        "tablas": {
+            "query_logs":        {"modo": "nulificar", "tocadas": 0, "ids": []},
+            "feedback":          {"modo": "nulificar", "tocadas": 0, "ids": []},
+            "answer_feedback":   {"modo": "nulificar", "tocadas": 0, "ids": []},
+            "answer_messages":   {"modo": "borrar", "tocadas": 0, "ids": []},
+            "persona_seudonimo": {"modo": "destruir_vinculo", "tocadas": 3, "ids": []},
+        },
+    }
+    destino = tmp_path / "recibo.json"
+    monkeypatch.setattr(job, "ejecutar", lambda aplicar, conexion=None: solo_vinculos)
+    monkeypatch.setattr(sys, "argv",
+                        ["rgpd_retencion.py", "--aplicar", "--recibo", str(destino)])
+
+    assert job.main() == 0
+    escrito = json.loads(destino.read_text(encoding="utf-8"))
+    assert escrito["tablas"]["persona_seudonimo"]["tocadas"] == 3

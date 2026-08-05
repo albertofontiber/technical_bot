@@ -139,6 +139,17 @@ pg_cron ⇒ la RAMA de programación no se ejerce en CI (la función sí, entera
 producción la postcondición exige el job si pg_cron está disponible — que lo está
 (verificado, 1.6.4).
 
+**Además, s299 CIERRA un hallazgo del dúo VIVO en producción**: `rgpd_quedan_identificados`
+(s296) nació ejecutable por `anon`/`authenticated`/`service_role` — los default privileges
+de Supabase conceden EXECUTE sobre toda función nueva de `public`, y s296 solo revocó
+PUBLIC. Es un **oráculo de pertenencia** («¿este telegram_user_id tiene datos?», SECURITY
+DEFINER) alcanzable por PostgREST RPC con la clave anónima (verificado contra el catálogo
+vivo el 5-ago). Al aplicar s299 queda revocado nominal; hasta entonces, el cierre
+inmediato es un `REVOKE` suelto (ver pendiente 4). La misma clase se corrige de raíz: el
+fixture de CI ahora reproduce los default privileges de FUNCIONES, y el punto de no
+retorno aprende la 4ª tabla (`answer_messages` — un ancla reciente de una consulta
+vencida mantenía la cadena chat_id → consulta → seudónimo tras destruir el vínculo).
+
 Nota operativa que sigue vigente: el `ON DELETE CASCADE` actúa al BORRAR la fila padre, por
 eso la matriz distingue la supresión a petición (cascadea) del vencimiento del plazo (el job
 estampa el seudónimo, no borra).
@@ -181,13 +192,13 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
 |---|---|---|---|---|---|
-| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | Se retira el id — **hoy bloqueado (1)** |
-| ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → NULL — **hoy bloqueado (1)** |
+| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — **vivo desde el 5-ago** (mensual con s299) |
+| ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → **seudónimo estable** + retirada del id (aplicado s295/s296) |
 | Voto 👍/👎 y su motivo | `answer_feedback` | Señal de calidad | Sigue a su consulta | **CASCADE** desde `query_logs` | — |
-| **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | **NO se retira hoy** — es `NOT NULL`; exige `DROP NOT NULL` (propuesta §2) |
+| **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | → seudónimo + retirada del id (el `DROP NOT NULL` se aplicó en s295) |
 | Explicación en texto libre del 👎 | `answer_feedback.comment` | Convertir el 👎 en caso diagnosticable | Sigue a su consulta | CASCADE | Se conserva; puede contener datos personales en prosa |
 | Ancla mensaje ↔ consulta | `answer_messages` (`telegram_chat_id`, `telegram_message_id`) | Atribuir una respuesta de Telegram a su consulta | Sigue a su consulta | CASCADE | **Se BORRA** — mapeo operativo sin valor analítico a 24 meses (propuesta §3) |
-| Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
+| Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | **Cascadea desde s296** vía `query_log_id` — ⚠️ las filas PRE-s296 (sin enlace) hay que borrarlas a mano | → seudónimo + retirada del id (aplicado) |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
 | **Libro de eventos de consentimiento** (`telegram_user_id`, versión, evento, fecha) | `consent_events` (s297) | EVIDENCIA de aceptaciones y revocaciones — solo inserción para el bot | ⚠️ mismo **[DECIDIR]** que `user_consent` (es la prueba; fuera de `rgpd_quedan_identificados`, como ella) | **[DECIDIR]** con el asesor: borrar vs conservar como prueba de cumplimiento (alineado con el runbook) | **[DECIDIR]** |
 | **Exports a disco** (desde s296: **seudónimo**, pregunta, transcripción, respuesta — SIN `display_name` ni `telegram_user_id`) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
@@ -221,10 +232,12 @@ petición no lo alcanza.
 
 ### Nota sobre `user_consent`
 
-`log_user_consent` hace *upsert* con `merge-duplicates` sobre la PK del usuario ⇒ **solo
-sobrevive la última versión aceptada**. Decir «prueba del consentimiento» sin más declaraba de
-más: no hay traza de que alguien aceptase la v2 o la v3. Si esa traza importa, la tabla
-necesita ser append-only por (usuario, versión). **[DECIDIR]**
+~~El upsert machacaba: solo sobrevivía la última versión aceptada~~ — **RESUELTO y APLICADO
+(5-ago)**: desde s296 hay una fila por (persona, versión) y desde s297 el libro
+`consent_events` conserva la traza de cada aceptación y revocación. Límite histórico
+declarado: lo pisado antes de s296 (v1..v6) es irrecuperable y el libro arranca con una
+reconstrucción marcada `origen='backfill'`, sin fingir más. Lo que SIGUE pendiente aquí es
+el **PLAZO** de `user_consent`/`consent_events` — **[DECIDIR]** con el asesor.
 
 ## Cómo se informa: aviso en DOS CAPAS
 
@@ -277,9 +290,9 @@ las entradas del registro DPF** (dataprivacyframework.gov) antes de apoyarse en 
 |---|---|---|---|
 | **Anthropic** | **SCCs en su DPA comercial**. Su propia política de privacidad declara adecuación + SCCs y **NO declara DPF**; contrata la región europea desde *Anthropic Ireland, Limited*. Fuentes terciarias lo listan como DPF-certificado (jun-2026) — **no apoyarse en DPF** hasta que el asesor lo vea en el registro | [anthropic.com/legal/privacy](https://www.anthropic.com/legal/privacy) | Aceptar/archivar DPA de la consola API |
 | **OpenAI** | **SCCs incorporadas en su DPA público** (vigente 1-ene-2026); fuentes terciarias: DPF activo (jun-2026) — comprobar registro | [openai.com/policies/data-processing-addendum](https://openai.com/policies/data-processing-addendum/) | Aceptar/archivar DPA |
-| **Voyage AI** | **DPF**: la declaración de MongoDB nombra expresamente a *Voyage AI Innovations, Inc.* como entidad certificada (EU-US + extensión UK + Swiss-US), con DPA de MongoDB disponible. La más sólida de las cinco | [mongodb.com/legal/data-privacy-framework-statement](https://www.mongodb.com/legal/data-privacy-framework-statement) | Confirmar entrada en el registro; archivar DPA |
+| **Voyage AI** | **DPF declarado por el PROPIO proveedor**: la declaración de MongoDB nombra expresamente a *Voyage AI Innovations, Inc.* entre las entidades que se auto-certifican (EU-US + extensión UK + Swiss-US), con DPA de MongoDB disponible. Es declaración nominal del proveedor, **no certificación confirmada**: la entrada del registro la comprueba el asesor | [mongodb.com/legal/data-privacy-framework-statement](https://www.mongodb.com/legal/data-privacy-framework-statement) | Confirmar entrada en el registro; archivar DPA |
 | **Railway** | **SCCs (Decisión 2021/914) incorporadas en su DPA autoservicio**; su política declara además cumplimiento EU-US DPF + UK + Swiss | [railway.com/legal/dpa](https://railway.com/legal/dpa) · [railway.com/legal/privacy](https://railway.com/legal/privacy) | Ejecutar el DPA self-service y archivarlo |
-| **Supabase** | El almacenamiento está **en la UE** (`eu-north-1`, verificado vía API): en operación normal el dato no sale. DPA con módulos SCC para sub-encargados | [supabase.com/legal/dpa](https://supabase.com/legal/dpa) | Aceptar/archivar DPA |
+| **Supabase** | El **almacenamiento** está en la UE (`eu-north-1`, verificado vía API) — eso cubre dónde viven los datos, no toda operación de la empresa (soporte/backups son de una entidad US); por eso su DPA con módulos SCC aplica igualmente | [supabase.com/legal/dpa](https://supabase.com/legal/dpa) | Aceptar/archivar DPA |
 | **Telegram** | **NO ofrece DPA.** Su propia política se declara **responsable (controller)** del tratamiento de sus usuarios del EEE, con representante art. 27 (EDPO). Refuerza la posición ya declarada en el aviso: responsable propio del transporte, como una operadora — **la valida el asesor** | [telegram.org/privacy](https://telegram.org/privacy) | Validación del asesor de la posición |
 
 **Mantenimiento**: las certificaciones DPF se renuevan ANUALMENTE — revisar esta tabla al
@@ -334,6 +347,10 @@ mecanismo de transferencia; ver «Cómo se informa»).
    la migración s299 en el SQL Editor** (→ Alberto) y verificar `SELECT * FROM cron.job` +
    el primer recibo mensual. ⚠️ Hasta aplicarla, `scripts/rgpd_retencion.py` de esta
    versión sale con exit 2 (la función aún no existe en producción) — diagnóstico incluido.
+   ⚠️ Y aplicarla CIERRA el oráculo público de `rgpd_quedan_identificados` (ver estado);
+   si se quiere cerrar YA sin esperar: `REVOKE ALL ON FUNCTION
+   public.rgpd_quedan_identificados(BIGINT) FROM PUBLIC, anon, authenticated,
+   service_role;` en el SQL Editor (idempotente; s299 lo re-afirma).
 5. **Autoservicio `/borrar`: NO se construye** (decisión 5-ago) — la vía es
    `info@fontiber.com`, ya declarada en el aviso.
 6. ~~Mecanismo de transferencia~~ **DOCUMENTADO (5-ago)**: tabla «Mecanismos de

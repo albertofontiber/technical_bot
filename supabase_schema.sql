@@ -370,8 +370,17 @@ BEGIN
         EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE public.rgpd_recibos '
                 'FROM PUBLIC, anon, authenticated, service_role';
     END IF;
+    -- NOMINAL, no solo PUBLIC: los default privileges de Supabase conceden EXECUTE a
+    -- anon/authenticated/service_role sobre toda función nueva de `public` (verificado
+    -- contra pg_default_acl de producción, s299). El REVOKE nominal no toca los grants
+    -- a rgpd_retencion.
     IF to_regprocedure('public.rgpd_retencion_pasada(text)') IS NOT NULL THEN
-        EXECUTE 'REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) FROM PUBLIC';
+        EXECUTE 'REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) '
+                'FROM PUBLIC, anon, authenticated, service_role';
+    END IF;
+    IF to_regprocedure('public.rgpd_quedan_identificados(bigint)') IS NOT NULL THEN
+        EXECUTE 'REVOKE ALL ON FUNCTION public.rgpd_quedan_identificados(BIGINT) '
+                'FROM PUBLIC, anon, authenticated, service_role';
     END IF;
 
     FOREACH table_name IN ARRAY ARRAY[
@@ -586,12 +595,21 @@ BEGIN
             END LOOP;
         END LOOP;
     END IF;
-    -- ...y la pasada solo la ejecuta el operador.
+    -- ...y ni la pasada ni el oráculo de pertenencia son alcanzables desde la API.
     IF to_regprocedure('public.rgpd_retencion_pasada(text)') IS NOT NULL THEN
         FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
             IF has_function_privilege(role_name, 'public.rgpd_retencion_pasada(text)',
                                       'EXECUTE') THEN
                 RAISE EXCEPTION '% can execute the retention pass', role_name;
+            END IF;
+        END LOOP;
+    END IF;
+    IF to_regprocedure('public.rgpd_quedan_identificados(bigint)') IS NOT NULL THEN
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
+            IF has_function_privilege(role_name,
+                                      'public.rgpd_quedan_identificados(bigint)',
+                                      'EXECUTE') THEN
+                RAISE EXCEPTION '% can execute the membership oracle', role_name;
             END IF;
         END LOOP;
     END IF;
