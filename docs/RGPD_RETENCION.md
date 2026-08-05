@@ -100,6 +100,13 @@ reconciliación automática.
 enlace con cascada, un `feedback` cuya consulta padre desaparezca justo antes de escribirlo
 falla entero (antes se guardaba suelto). Ventana pequeña y el caso es raro; se declara.
 
+**La destrucción del vínculo tiene una carrera declarada (s299).** Una consulta que se
+confirme en el instante exacto de la pasada mensual puede llegar después del snapshot del
+oráculo y el vínculo destruirse igual. La consecuencia NO es una re-identificación: es el
+mismo «corpus en dos códigos» del que vuelve tras la destrucción (límite de arriba), y la
+emisión de códigos de la siguiente pasada lo recoge. A la escala actual es ~0; si entran
+técnicos en volumen, la pasada debe subir a `SERIALIZABLE` con retry (TECH_DEBT).
+
 ## Principio rector: DISOCIAR, no borrar ⬤
 
 El valor del histórico para el proyecto está en el **contenido** (la pregunta, la respuesta y
@@ -128,6 +135,27 @@ el feedback, sí).
 Los dos bloqueos históricos (el rol no existía; las hijas conservaban el identificador y el
 CASCADE solo actúa al borrar) quedan documentados en DEC-177/178 como motivo del diseño, no
 aquí como estado.
+
+**Encima, s299 (construida — pendiente de aplicar):** la pasada se mueve a UNA función en
+la base (`public.rgpd_retencion_pasada`, `SET role` en el encabezado + cinturón de
+`current_user`), pg_cron la ejecuta el día 1 de cada mes (04:30 UTC) sin que ninguna
+credencial salga de la base, y cada pasada confirmada deja recibo en `rgpd_recibos`.
+`scripts/rgpd_retencion.py` queda como driver manual de esa misma función (dry-run = la
+misma pasada + ROLLBACK, recibo incluido). Gap declarado: el contenedor de CI no trae
+pg_cron ⇒ la RAMA de programación no se ejerce en CI (la función sí, entera); en
+producción la postcondición exige el job si pg_cron está disponible — que lo está
+(verificado, 1.6.4).
+
+**Además, s299 CIERRA un hallazgo del dúo VIVO en producción**: `rgpd_quedan_identificados`
+(s296) nació ejecutable por `anon`/`authenticated`/`service_role` — los default privileges
+de Supabase conceden EXECUTE sobre toda función nueva de `public`, y s296 solo revocó
+PUBLIC. Es un **oráculo de pertenencia** («¿este telegram_user_id tiene datos?», SECURITY
+DEFINER) alcanzable por PostgREST RPC con la clave anónima (verificado contra el catálogo
+vivo el 5-ago). Al aplicar s299 queda revocado nominal; hasta entonces, el cierre
+inmediato es un `REVOKE` suelto (ver pendiente 4). La misma clase se corrige de raíz: el
+fixture de CI ahora reproduce los default privileges de FUNCIONES, y el punto de no
+retorno aprende la 4ª tabla (`answer_messages` — un ancla reciente de una consulta
+vencida mantenía la cadena chat_id → consulta → seudónimo tras destruir el vínculo).
 
 Nota operativa que sigue vigente: el `ON DELETE CASCADE` actúa al BORRAR la fila padre, por
 eso la matriz distingue la supresión a petición (cascadea) del vencimiento del plazo (el job
@@ -171,13 +199,13 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
 |---|---|---|---|---|---|
-| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | Se retira el id — **hoy bloqueado (1)** |
-| ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → NULL — **hoy bloqueado (1)** |
+| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — ejecutable manual desde el 5-ago; **mensual al aplicar s299** (en PR) |
+| ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → **seudónimo estable** + retirada del id (aplicado s295/s296) |
 | Voto 👍/👎 y su motivo | `answer_feedback` | Señal de calidad | Sigue a su consulta | **CASCADE** desde `query_logs` | — |
-| **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | **NO se retira hoy** — es `NOT NULL`; exige `DROP NOT NULL` (propuesta §2) |
+| **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | → seudónimo + retirada del id (el `DROP NOT NULL` se aplicó en s295) |
 | Explicación en texto libre del 👎 | `answer_feedback.comment` | Convertir el 👎 en caso diagnosticable | Sigue a su consulta | CASCADE | Se conserva; puede contener datos personales en prosa |
 | Ancla mensaje ↔ consulta | `answer_messages` (`telegram_chat_id`, `telegram_message_id`) | Atribuir una respuesta de Telegram a su consulta | Sigue a su consulta | CASCADE | **Se BORRA** — mapeo operativo sin valor analítico a 24 meses (propuesta §3) |
-| Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | ⚠️ **NO CASCADEA** (sin FK): hay que borrarla a mano | → NULL — **hoy bloqueado (1)** |
+| Feedback libre del canal antiguo + **copias** de pregunta/respuesta | `feedback` | Histórico | Igual que `query_logs` | **Cascadea desde s296** vía `query_log_id` — ⚠️ las filas PRE-s296 (sin enlace) hay que borrarlas a mano | → seudónimo + retirada del id (aplicado) |
 | Aceptación de términos, `display_name` | `user_consent` | Prueba del consentimiento | ⚠️ **hoy indefinido** — ver pendiente 1 | Revocación lógica (`revoked_at`) **no borra nada** | **[DECIDIR]** |
 | **Libro de eventos de consentimiento** (`telegram_user_id`, versión, evento, fecha) | `consent_events` (s297) | EVIDENCIA de aceptaciones y revocaciones — solo inserción para el bot | ⚠️ mismo **[DECIDIR]** que `user_consent` (es la prueba; fuera de `rgpd_quedan_identificados`, como ella) | **[DECIDIR]** con el asesor: borrar vs conservar como prueba de cumplimiento (alineado con el runbook) | **[DECIDIR]** |
 | **Exports a disco** (desde s296: **seudónimo**, pregunta, transcripción, respuesta — SIN `display_name` ni `telegram_user_id`) | `data/eval/logs_export_*.csv\|xlsx` vía `scripts/review_logs.py` | Curar eval orgánico | ⚠️ **ninguna** — fuera de Supabase e **inalcanzable** para el job | Borrado manual del fichero | Nada |
@@ -185,6 +213,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
 | **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
+| **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | ⚠️ Son datos **seudonimizados** mientras viva la correspondencia (uuid → fila → seudónimo → persona): solo lectura del operador; su plazo entra en el mismo **[DECIDIR]** que `user_consent` | Las filas referidas se borran por cascada; los uuid del recibo quedan apuntando a nada (inofensivo, declarado) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
 ### Nota sobre el votante: la supresión a petición NO le alcanza del todo
@@ -210,10 +239,12 @@ petición no lo alcanza.
 
 ### Nota sobre `user_consent`
 
-`log_user_consent` hace *upsert* con `merge-duplicates` sobre la PK del usuario ⇒ **solo
-sobrevive la última versión aceptada**. Decir «prueba del consentimiento» sin más declaraba de
-más: no hay traza de que alguien aceptase la v2 o la v3. Si esa traza importa, la tabla
-necesita ser append-only por (usuario, versión). **[DECIDIR]**
+~~El upsert machacaba: solo sobrevivía la última versión aceptada~~ — **RESUELTO y APLICADO
+(5-ago)**: desde s296 hay una fila por (persona, versión) y desde s297 el libro
+`consent_events` conserva la traza de cada aceptación y revocación. Límite histórico
+declarado: lo pisado antes de s296 (v1..v6) es irrecuperable y el libro arranca con una
+reconstrucción marcada `origen='backfill'`, sin fingir más. Lo que SIGUE pendiente aquí es
+el **PLAZO** de `user_consent`/`consent_events` — **[DECIDIR]** con el asesor.
 
 ## Cómo se informa: aviso en DOS CAPAS
 
@@ -251,8 +282,29 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 > **Asunción declarada, NO hecho verificado**: Alberto pidió asumir los DPA firmados para no
 > bloquear el trabajo. Queda escrito aquí como asunción para que nadie lo lea como comprobado.
 > Acción pendiente: aceptar el DPA en la consola de cada proveedor, revisar si ofrecen
-> retención cero para API, y documentar el mecanismo de transferencia de los que procesan
-> fuera de la UE.
+> retención cero para API, y archivarlos. El **mecanismo de transferencia** de cada uno está
+> ya documentado en la sección siguiente (5-ago-2026); lo valida el asesor.
+
+## Mecanismos de transferencia (documentados 5-ago-2026 — los valida el asesor)
+
+Cuando un dato personal viaja a un encargado fuera de la UE, el RGPD exige un vehículo
+legal: la **certificación DPF** (EU-US Data Privacy Framework, registro público) o las
+**SCCs** (cláusulas contractuales tipo, normalmente incorporadas en el DPA del proveedor).
+Verificado por el asistente contra las fuentes indicadas el 5-ago-2026; **el asesor confirma
+las entradas del registro DPF** (dataprivacyframework.gov) antes de apoyarse en ellas.
+
+| Proveedor | Mecanismo documentado | Fuente (5-ago-2026) | Acción restante |
+|---|---|---|---|
+| **Anthropic** | **SCCs en su DPA comercial**. Su propia política de privacidad declara adecuación + SCCs y **NO declara DPF**; contrata la región europea desde *Anthropic Ireland, Limited*. Fuentes terciarias lo listan como DPF-certificado (jun-2026) — **no apoyarse en DPF** hasta que el asesor lo vea en el registro | [anthropic.com/legal/privacy](https://www.anthropic.com/legal/privacy) | Aceptar/archivar DPA de la consola API |
+| **OpenAI** | **SCCs incorporadas en su DPA público** (vigente 1-ene-2026); fuentes terciarias: DPF activo (jun-2026) — comprobar registro | [openai.com/policies/data-processing-addendum](https://openai.com/policies/data-processing-addendum/) | Aceptar/archivar DPA |
+| **Voyage AI** | **DPF declarado por el PROPIO proveedor**: la declaración de MongoDB nombra expresamente a *Voyage AI Innovations, Inc.* entre las entidades que se auto-certifican (EU-US + extensión UK + Swiss-US), con DPA de MongoDB disponible. Es declaración nominal del proveedor, **no certificación confirmada**: la entrada del registro la comprueba el asesor | [mongodb.com/legal/data-privacy-framework-statement](https://www.mongodb.com/legal/data-privacy-framework-statement) | Confirmar entrada en el registro; archivar DPA |
+| **Railway** | **SCCs (Decisión 2021/914) incorporadas en su DPA autoservicio**; su política declara además cumplimiento EU-US DPF + UK + Swiss | [railway.com/legal/dpa](https://railway.com/legal/dpa) · [railway.com/legal/privacy](https://railway.com/legal/privacy) | Ejecutar el DPA self-service y archivarlo |
+| **Supabase** | El **almacenamiento** está en la UE (`eu-north-1`, verificado vía API) — eso cubre dónde viven los datos, no toda operación de la empresa (soporte/backups son de una entidad US); por eso su DPA con módulos SCC aplica igualmente | [supabase.com/legal/dpa](https://supabase.com/legal/dpa) | Aceptar/archivar DPA |
+| **Telegram** | **NO ofrece DPA.** Su propia política se declara **responsable (controller)** del tratamiento de sus usuarios del EEE, con representante art. 27 (EDPO). Refuerza la posición ya declarada en el aviso: responsable propio del transporte, como una operadora — **la valida el asesor** | [telegram.org/privacy](https://telegram.org/privacy) | Validación del asesor de la posición |
+
+**Mantenimiento**: las certificaciones DPF se renuevan ANUALMENTE — revisar esta tabla al
+año o al cambiar/añadir proveedor (la categoría del aviso no da inmunidad si cambia el
+mecanismo de transferencia; ver «Cómo se informa»).
 
 ## Derechos del interesado
 
@@ -291,16 +343,31 @@ nuevo** (p. ej. memoria durable) o un destinatario **fuera de las categorías de
 2. ~~`feedback` no cascadea~~ **HECHO (s296/s297, aplicado 5-ago)**: el enlace existe y se
    rellena en cada escritura nueva. Las filas ANTERIORES al enlace siguen huérfanas: un
    borrado a petición aún debe acordarse de ellas a mano (está en el runbook).
-3. **Exports a disco**: `scripts/review_logs.py` deposita datos personales fuera de Supabase
-   sin plazo. → *Propuesto: plazo corto + borrado, o excluir las columnas identificadoras.*
-4. **Programar el job**: hoy es de EJECUCIÓN MANUAL por diseño. Programarlo exigiría una
-   credencial durable con membresía en `rgpd_retencion`, y el rol solo se concede a
-   `postgres` ⇒ un scheduler guardaría un `DATABASE_URL` de operador, **más potente** que el
-   `service_role` que se evitó tocar. Requiere antes un rol runner LOGIN acotado. → *Alberto.*
-5. **Autoservicio `/borrar`**: hoy el técnico tiene que escribir a un correo. → *Propuesto, no
-   construido.*
-6. **Mecanismo de transferencia** para Telegram, Anthropic, Voyage AI, OpenAI y Railway.
-   → *Alberto / asesor legal.*
+3. ~~Exports a disco sin plazo~~ **RESUELTO por decisión de Alberto (5-ago)**: los exports
+   llevan seudónimo desde s296 — sin identificadores directos, el plazo se disuelve.
+   Higiene restante: no reenviarlos, y borrar los ANTERIORES a s296 si aparecen. → *Alberto.*
+4. ~~Programar el job~~ **CONSTRUIDO (s299)**: pg_cron DENTRO de la base — el argumento
+   histórico contra programar («un scheduler guardaría un `DATABASE_URL` de operador») era
+   contra el cron EXTERNO, y pg_cron es justo lo que lo evita: ninguna credencial sale de la
+   base, la pasada es UNA función (`rgpd_retencion_pasada`) que asume el rol en su
+   encabezado, y cada pasada confirmada deja recibo en `rgpd_recibos`. **Pendiente: APLICAR
+   la migración s299 en el SQL Editor** (→ Alberto) y verificar `SELECT * FROM cron.job` +
+   el primer recibo mensual. ⚠️ Hasta aplicarla, `scripts/rgpd_retencion.py` de esta
+   versión sale con exit 2 (la función aún no existe en producción) — diagnóstico incluido.
+   ⚠️ Y aplicarla CIERRA el oráculo público de `rgpd_quedan_identificados` (ver estado);
+   si se quiere cerrar YA sin esperar: `REVOKE ALL ON FUNCTION
+   public.rgpd_quedan_identificados(BIGINT) FROM PUBLIC, anon, authenticated,
+   service_role;` en el SQL Editor (idempotente; s299 lo re-afirma).
+   **Vigilancia del reloj (ronda 2 del dúo)**: un reloj roto ABORTA en silencio — la
+   pasada que no puede cumplir no deja recibo y el error solo vive en
+   `cron.job_run_details`. Comprobación trimestral (o en cada sesión de mantenimiento):
+   `SELECT max(ejecutado_at) FROM rgpd_recibos;` debe ser del mes en curso o el anterior;
+   si no, mirar `SELECT * FROM cron.job_run_details ORDER BY start_time DESC LIMIT 5;`.
+5. **Autoservicio `/borrar`: NO se construye** (decisión 5-ago) — la vía es
+   `info@fontiber.com`, ya declarada en el aviso.
+6. ~~Mecanismo de transferencia~~ **DOCUMENTADO (5-ago)**: tabla «Mecanismos de
+   transferencia» de arriba, con fuentes y fecha. Falta: validación del asesor + aceptar y
+   archivar los DPA. → *Alberto / asesor legal.*
 7. ~~Identificación completa del responsable~~ **HECHO (v6)**: el aviso lleva razón social,
    CIF y domicilio — *Fontiber Industrial Partners, S.L. · CIF B24984759 · Calle de la Palma
    10, 28004 Madrid*, tomados del aviso legal de `fontiber.com` (indicado por Alberto).
@@ -314,3 +381,25 @@ votos, 4 anclas. **0 filas fuera de plazo** (la más antigua es de abril de 2026
 2028). La exposición **hoy** es trivial; la matriz existe para que deje de serlo de forma
 controlada cuando entren técnicos, no para el estado actual — y para que el plazo llegue con
 la maquinaria ya construida y probada, no improvisada.
+
+## Decisiones de Alberto (5-ago, segunda tanda) — registro
+
+1. **Base jurídica: INTERÉS LEGÍTIMO — decidido.** Surte efecto tras la validación del asesor
+   (regla del propio borrador LIA); entonces se construye el aviso v8 (base + derecho de
+   oposición, `/accept` pasa a acuse de recibo, `TERMS_VERSION` pasa a tripwire de
+   re-información).
+2. **Exports: con seudónimo — confirmado.** Ya construido y vivo desde s296; el pendiente del
+   plazo se disuelve (los ficheros nuevos no llevan identificadores directos). Higiene
+   restante: no reenviarlos por correo/Drive, y borrar los ANTERIORES a s296 si aparecen.
+3. **Programar el job: SÍ — aprobado scheduler.** Diseño elegido: **pg_cron dentro de
+   Supabase** (extensión disponible, verificado) — ninguna credencial sale de la base; la
+   función corre con `SET role = rgpd_retencion` a nivel de función, así que la ventana de 24
+   meses sigue siendo invariante del motor también en la ejecución programada. Con tabla de
+   recibos. **Construido (s299)**: migración `20260805150000_s299_job_programado_v1.sql`
+   (la pasada pasa a ser UNA función en la base; el script queda como driver manual) —
+   **pendiente de APLICAR en el SQL Editor** (pendiente 4).
+4. **`/borrar`: por correo — confirmado** (ya era el estado; no se construye comando).
+5. **Transferencias: las documenta el asistente y las valida el asesor** — por proveedor: DPA
+   archivado + estado en el registro DPF o SCCs del contrato + nota de una línea aquí.
+   Telegram es el caso especial (sin DPA: posición defendible = responsable propio del
+   transporte, ya declarado en el aviso; la confirma el asesor).

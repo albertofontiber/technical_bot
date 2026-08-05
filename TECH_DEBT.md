@@ -2204,15 +2204,26 @@ usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
 > **PENDIENTES: 2/3/4** (reacciones — cambian el transporte, gotcha `allowed_updates`, piden
 > sonda + dúo propios) y **6** (corrección de marca con relanzamiento — engancha con `hp002`,
 > que está en el packet de gold-review B2). Traza: DEC-176.
-> **RGPD (s295→s298): CERRADO Y VIVO EN PRODUCCIÓN desde el 5-ago-2026.** Cola de
+> **RGPD (s295→s299): CERRADO Y VIVO EN PRODUCCIÓN desde el 5-ago-2026.** Cola de
 > migraciones (rol de retención + seudónimo estable + libro de consentimiento) APLICADA por
-> Alberto y verificada contra el catálogo; retención ejecutable (dry-run 0 candidatas, dormida
-> hasta 2028); aviso en dos capas v7; marca de utilidad para el futuro bonus, inalcanzable
-> para el bot por construcción; bootstrap re-ejecutable con test en CI. **Residuo con dueño**
-> (`docs/RGPD_RETENCION.md`): base jurídica (borrador LIA listo, va con el asesor) ·
-> `user_consent`/`consent_events` [DECIDIR] · exports antiguos en disco (buscar y borrar,
-> Alberto) · transferencias · rol runner LOGIN si algún día se programa el job. **NO
-> desbloquea `convo`**. Traza: DEC-177/178/179.
+> Alberto y verificada contra el catálogo; retención ejecutable (dormida hasta 2028); aviso
+> en dos capas v7; marca de utilidad inalcanzable para el bot por construcción; bootstrap
+> re-ejecutable con test en CI. **s299 (rama en PR): pasada = UNA función en la base +
+> reloj pg_cron mensual + recibos `rgpd_recibos`; cierra el oráculo público de
+> `rgpd_quedan_identificados` (default privileges de Supabase sobre funciones — hallazgo
+> del dúo VIVO en producción) — pendiente de APLICAR en SQL Editor (Alberto).** Deuda
+> declarada s299: la rama de programación de pg_cron no se ejerce en CI (contenedor sin la
+> extensión; mitigada por postcondición username/activo/horario + verificación
+> post-aplicación) · ids del recibo sin cota/lote (irrelevante hasta que haya volumen;
+> revisar antes del primer vencimiento real, 2028) · carrera del punto de no retorno en
+> READ COMMITTED (consecuencia = el «corpus en dos códigos» YA declarado; con técnicos en
+> volumen, subir la pasada a SERIALIZABLE con retry) · vigilancia del reloj: comprobación
+> trimestral de `max(ejecutado_at)` en `rgpd_recibos` (un reloj roto aborta en silencio,
+> solo visible en `cron.job_run_details`; runbook en la matriz, pendiente 4). **Residuo con dueño**
+> (`docs/RGPD_RETENCION.md`): base jurídica (decidida interés legítimo, efectiva tras
+> validación del asesor → aviso v8) · `user_consent`/`consent_events` [DECIDIR plazo] ·
+> exports PRE-s296 en disco (buscar y borrar, Alberto) · transferencias DOCUMENTADAS
+> (5-ago, valida asesor + archivar DPAs). **NO desbloquea `convo`**. Traza: DEC-177..181.
 
 Las reacciones de Telegram como segundo canal de feedback van al paquete pre-técnicos, NO a demo
 (mismo criterio que D11 del packet s286: con un usuario, el teclado 👍/👎 captura el 100%; con

@@ -4458,7 +4458,8 @@ Y siete correcciones más, todas verificadas antes de actuar:
 falsa: `postgres` es owner y `BYPASSRLS`; el invariante rige **para quien actúa como el rol**. Y el
 job **no es programable tal cual**: haría falta un rol runner LOGIN acotado, porque un scheduler con
 `DATABASE_URL` de operador sería MÁS potente que el `service_role` que se evitó tocar. Hoy es
-ejecución manual por diseño, declarado.
+ejecución manual por diseño, declarado. *(SUPERADO en s299/DEC-181: la premisa valía para un cron
+EXTERNO; con pg_cron el reloj vive dentro de la base y no hace falta credencial ni rol LOGIN.)*
 
 **Ronda 4 — usabilidad del aviso, a petición de Alberto.** Preguntó si convenía **alargar los
 términos ahora** para cubrir cosas futuras y ahorrarse re-aceptaciones. Respuesta: no. Un
@@ -4732,3 +4733,60 @@ migraciones — que ya no dicen «NO EJECUTAR» sino «APLICADA + idempotente»)
 **Guardas actualizadas al invariante nuevo**: dos tests anclaban el texto viejo del boundary
 (el grant de tabla que quitamos a propósito); ahora protegen el nuevo — incluido que el viejo
 NO vuelva (`not in`).
+
+## DEC-181 (s299) — El reloj DENTRO de la base: pg_cron + la pasada como función única
+
+**Decisión (Alberto, 5-ago, segunda tanda):** programar la retención. **Diseño elegido:
+pg_cron dentro de Supabase** — el job mensual (`rgpd-retencion-mensual`, día 1, 04:30 UTC)
+llama a `public.rgpd_retencion_pasada('cron')`, que asume `rgpd_retencion` en su ENCABEZADO
+(`SET role` a nivel de función) ⇒ la ventana de 24 meses sigue siendo invariante del motor
+también en la ejecución programada, y **ninguna credencial sale de la base**. Cada pasada
+confirmada deja recibo en `rgpd_recibos` (solo-inserción, ilegible para el bot). Esto SUPERA
+la premisa de s295 («programar exigiría un rol runner LOGIN») — aquella valía para un cron
+EXTERNO (GitHub/Railway), que habría guardado fuera un `DATABASE_URL` de operador más
+potente que el `service_role` que s295 evitó tocar.
+
+**La pieza estructural: UNA implementación.** La pasada se movió de Python a la función SQL;
+`scripts/rgpd_retencion.py` queda como driver (`--aplicar` = commit; dry-run = la MISMA
+pasada + rollback, recibo incluido). Alternativa descartada: mantener el script como
+implementación paralela para no reescribir sus tests — dos implementaciones de una operación
+irreversible driftan, y una de las dos «cumple» sin cumplir. Sin `--meses` sigue: el plazo
+se cambia por migración. La ventana NO se repite en la función (una sola fuente: las
+políticas RLS); a cambio la función ASERTA el mecanismo (RLS forzada + política presente en
+las 4 tablas) antes de tocar nada — el reloj corre desatendido y un `DISABLE ROW LEVEL
+SECURITY` de debug la habría convertido en disociador de filas de ayer con recibo normal.
+
+**El dúo, dos rondas (9 hallazgos ronda 1, todos aplicados; 2 CRÍTICOS):**
+- **Sub-agente, el gordo — VIVO EN PRODUCCIÓN**: `rgpd_quedan_identificados` (s296) nació
+  ejecutable por `anon`/`authenticated`/`service_role` — los **default privileges de
+  Supabase conceden EXECUTE sobre toda función nueva de `public`** y s296 solo revocó
+  PUBLIC. Un oráculo de pertenencia («¿este telegram_user_id tiene datos?», SECURITY
+  DEFINER) alcanzable por PostgREST RPC con la clave anónima. VERIFICADO contra el catálogo
+  vivo (`pg_default_acl` + `has_function_privilege`) antes de actuar (regla C). Cierre:
+  REVOKE nominal en s299 + bootstrap + postcondición, y **el fixture de CI ahora reproduce
+  el default de FUNCIONES** — antes era estructuralmente ciego a la clase (por eso mi propio
+  REVOKE solo-PUBLIC pasó el CI y habría tumbado la migración en el SQL Editor contra su
+  propia postcondición).
+- **Cross-model, el conceptual**: el punto de no retorno no miraba `answer_messages` — un
+  ancla RECIENTE de una consulta ya vencida (la ventana no deja borrarla) mantenía la cadena
+  `telegram_chat_id → query_log_id → seudónimo` tras destruir el vínculo: re-identificaba el
+  corpus recién disociado. La función aprende la 4ª tabla + test de edades desalineadas.
+- Resto: membresía SET exigida a quien programa el cron (+postcondición con username/activo/
+  horario); `p_origen` sin DEFAULT (un `SELECT` suelto estampaba `'cron'` falso en un recibo
+  inmutable); recibo local por `tocadas` (la pasada solo-vínculos no dejaba recibo); test del
+  camino de operador NO-superusuario; celdas stale de la matriz («hoy bloqueado», «NOT
+  NULL», «no cascadea») corregidas; Voyage re-etiquetado de «certificada» a «declaración
+  nominal del proveedor» (mi clase de framing, otra vez, cazada por el cross-model).
+
+**Transferencias (pendiente 6): DOCUMENTADAS** con fuente y fecha (5-ago) en la matriz —
+SCCs-en-DPA (Anthropic, cuya PROPIA política no declara DPF; OpenAI; Railway; Supabase),
+DPF declarado por el propio proveedor solo Voyage (vía MongoDB), Telegram sin DPA
+(posición: responsable propio del transporte). Las valida el asesor contra el registro.
+
+**Ronda 2 del dúo (sobre el delta de los fixes): SÓLIDA con 10 hallazgos menores/medios, aplicados o declarados.** Los que cambiaron código: la aserción de ventana pasa de presencia a EXCLUSIVIDAD + predicado (una 2ª política permisiva de debug se OR-ea y abría la ventana con la aserción en verde — ejercido en CI con 3 escenarios); el default de TABLES del fixture aprende `service_role`; message_id determinista (el `hash()` salted era flake irreproducible). Los declarados sin cablear (proporcionalidad): carrera del punto de no retorno en READ COMMITTED (consecuencia = el «corpus en dos códigos» YA declarado en s296, ~0 a esta escala; SERIALIZABLE+retry si entra volumen — TECH_DEBT); recibos re-clasificados como dato SEUDONIMIZADO mientras viva la correspondencia (fila de la matriz corregida — decían «no identifica»); el alcance del recibo acotado («toda fila persistida = pasada confirmada» vale contra el BOT, no contra el owner); vigilancia trimestral del reloj (un reloj roto aborta SIN recibo, solo visible en job_run_details — runbook en la matriz); celda «vivo (mensual)» corregida a «manual hoy; mensual al aplicar s299».
+
+**Estado**: rama `claude/s299-scheduler`, CI Postgres real en verde con la cola entera
+(s295→s299). **Migración s299 PENDIENTE de aplicar** (SQL Editor, Alberto) — al aplicarla se
+programa el reloj Y se cierra el oráculo público (cierre inmediato opcional: el REVOKE
+suelto documentado en la matriz, pendiente 4). Traza de review:
+`evals/adversarial_review_log.jsonl` (2 rondas, 5-ago).

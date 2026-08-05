@@ -360,6 +360,28 @@ BEGIN
                 'FROM PUBLIC, anon, authenticated, service_role';
         EXECUTE 'GRANT SELECT, INSERT ON TABLE public.consent_events TO service_role';
     END IF;
+    -- s299: recibos de retención y función de la pasada, si existen. A diferencia de las
+    -- dos de arriba, aquí el bot NO recupera NADA: los recibos son evidencia de operación
+    -- y la pasada solo la ejecuta el operador (su INSERT/EXECUTE viven en grants a
+    -- rgpd_retencion/owner, que este REVOKE nominal no toca).
+    IF to_regclass('public.rgpd_recibos') IS NOT NULL THEN
+        EXECUTE 'ALTER TABLE public.rgpd_recibos ENABLE ROW LEVEL SECURITY';
+        EXECUTE 'ALTER TABLE public.rgpd_recibos FORCE ROW LEVEL SECURITY';
+        EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE public.rgpd_recibos '
+                'FROM PUBLIC, anon, authenticated, service_role';
+    END IF;
+    -- NOMINAL, no solo PUBLIC: los default privileges de Supabase conceden EXECUTE a
+    -- anon/authenticated/service_role sobre toda función nueva de `public` (verificado
+    -- contra pg_default_acl de producción, s299). El REVOKE nominal no toca los grants
+    -- a rgpd_retencion.
+    IF to_regprocedure('public.rgpd_retencion_pasada(text)') IS NOT NULL THEN
+        EXECUTE 'REVOKE ALL ON FUNCTION public.rgpd_retencion_pasada(TEXT) '
+                'FROM PUBLIC, anon, authenticated, service_role';
+    END IF;
+    IF to_regprocedure('public.rgpd_quedan_identificados(bigint)') IS NOT NULL THEN
+        EXECUTE 'REVOKE ALL ON FUNCTION public.rgpd_quedan_identificados(BIGINT) '
+                'FROM PUBLIC, anon, authenticated, service_role';
+    END IF;
 
     FOREACH table_name IN ARRAY ARRAY[
         'query_logs', 'feedback', 'answer_feedback', 'answer_messages',
@@ -541,6 +563,56 @@ BEGIN
             RAISE EXCEPTION 'service_role must not UPDATE any column of %', table_name;
         END IF;
     END LOOP;
+
+    -- s299: los recibos de retención, si existen — API a CERO, service_role INCLUIDO
+    -- (aquí no hay «lo que el bot escribe»: no escribe nada).
+    IF to_regclass('public.rgpd_recibos') IS NOT NULL THEN
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_class
+             WHERE oid = to_regclass('public.rgpd_recibos')
+               AND relrowsecurity AND relforcerowsecurity
+        ) THEN
+            RAISE EXCEPTION 'personal-data RLS invariant failed for rgpd_recibos';
+        END IF;
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
+            FOREACH privilege_name IN ARRAY ARRAY[
+                'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE',
+                'REFERENCES', 'TRIGGER', 'MAINTAIN'
+            ] LOOP
+                IF has_table_privilege(role_name, 'public.rgpd_recibos', privilege_name) THEN
+                    RAISE EXCEPTION 'unexpected % privilege for % on rgpd_recibos',
+                        privilege_name, role_name;
+                END IF;
+            END LOOP;
+            FOREACH privilege_name IN ARRAY ARRAY[
+                'SELECT', 'INSERT', 'UPDATE', 'REFERENCES'
+            ] LOOP
+                IF has_any_column_privilege(role_name, 'public.rgpd_recibos',
+                                            privilege_name) THEN
+                    RAISE EXCEPTION 'unexpected column % privilege for % on rgpd_recibos',
+                        privilege_name, role_name;
+                END IF;
+            END LOOP;
+        END LOOP;
+    END IF;
+    -- ...y ni la pasada ni el oráculo de pertenencia son alcanzables desde la API.
+    IF to_regprocedure('public.rgpd_retencion_pasada(text)') IS NOT NULL THEN
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
+            IF has_function_privilege(role_name, 'public.rgpd_retencion_pasada(text)',
+                                      'EXECUTE') THEN
+                RAISE EXCEPTION '% can execute the retention pass', role_name;
+            END IF;
+        END LOOP;
+    END IF;
+    IF to_regprocedure('public.rgpd_quedan_identificados(bigint)') IS NOT NULL THEN
+        FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated', 'service_role'] LOOP
+            IF has_function_privilege(role_name,
+                                      'public.rgpd_quedan_identificados(bigint)',
+                                      'EXECUTE') THEN
+                RAISE EXCEPTION '% can execute the membership oracle', role_name;
+            END IF;
+        END LOOP;
+    END IF;
 END
 $personal_data_boundary$;
 -- >>> RGPD-BOUNDARY-END <<<
