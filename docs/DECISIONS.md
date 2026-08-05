@@ -4785,8 +4785,10 @@ DPF declarado por el propio proveedor solo Voyage (vía MongoDB), Telegram sin D
 
 **Ronda 2 del dúo (sobre el delta de los fixes): SÓLIDA con 10 hallazgos menores/medios, aplicados o declarados.** Los que cambiaron código: la aserción de ventana pasa de presencia a EXCLUSIVIDAD + predicado (una 2ª política permisiva de debug se OR-ea y abría la ventana con la aserción en verde — ejercido en CI con 3 escenarios); el default de TABLES del fixture aprende `service_role`; message_id determinista (el `hash()` salted era flake irreproducible). Los declarados sin cablear (proporcionalidad): carrera del punto de no retorno en READ COMMITTED (consecuencia = el «corpus en dos códigos» YA declarado en s296, ~0 a esta escala; SERIALIZABLE+retry si entra volumen — TECH_DEBT); recibos re-clasificados como dato SEUDONIMIZADO mientras viva la correspondencia (fila de la matriz corregida — decían «no identifica»); el alcance del recibo acotado («toda fila persistida = pasada confirmada» vale contra el BOT, no contra el owner); vigilancia trimestral del reloj (un reloj roto aborta SIN recibo, solo visible en job_run_details — runbook en la matriz); celda «vivo (mensual)» corregida a «manual hoy; mensual al aplicar s299».
 
-**Estado**: rama `claude/s299-scheduler`, CI Postgres real en verde con la cola entera
-(s295→s299). **Migración s299 PENDIENTE de aplicar** (SQL Editor, Alberto) — al aplicarla se
-programa el reloj Y se cierra el oráculo público (cierre inmediato opcional: el REVOKE
-suelto documentado en la matriz, pendiente 4). Traza de review:
-`evals/adversarial_review_log.jsonl` (2 rondas, 5-ago).
+**Estado FINAL (misma tarde)**: PR #210 mergeada y **migración APLICADA por Alberto** (SQL
+Editor). Verificado contra el catálogo tras aplicar: job `rgpd-retencion-mensual` ACTIVO a
+nombre de `postgres` (horario y comando exactos), oráculo CERRADO para los tres roles de la
+API, recibos blindados, y dry-run del driver con exit 0 — con 2 vínculos sin datos en
+NINGUNA tabla que caerán en la primera pasada real (huérfanos del backfill s296; caso
+benigno declarado). **Primer recibo esperado: 1-sep, 04:30 UTC**; vigilancia trimestral en
+el runbook. Traza de review: `evals/adversarial_review_log.jsonl` (2 rondas, 5-ago).

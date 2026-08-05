@@ -2208,10 +2208,11 @@ usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
 > migraciones (rol de retención + seudónimo estable + libro de consentimiento) APLICADA por
 > Alberto y verificada contra el catálogo; retención ejecutable (dormida hasta 2028); aviso
 > en dos capas v7; marca de utilidad inalcanzable para el bot por construcción; bootstrap
-> re-ejecutable con test en CI. **s299 (rama en PR): pasada = UNA función en la base +
-> reloj pg_cron mensual + recibos `rgpd_recibos`; cierra el oráculo público de
-> `rgpd_quedan_identificados` (default privileges de Supabase sobre funciones — hallazgo
-> del dúo VIVO en producción) — pendiente de APLICAR en SQL Editor (Alberto).** Deuda
+> re-ejecutable con test en CI. **s299 (PR #210 mergeada, migración APLICADA el 5-ago):
+> pasada = UNA función en la base + reloj pg_cron mensual VIVO + recibos `rgpd_recibos`;
+> el oráculo público de `rgpd_quedan_identificados` (default privileges de Supabase sobre
+> funciones — hallazgo del dúo VIVO en producción) quedó CERRADO y re-verificado; dry-run
+> exit 0; primer recibo esperado el 1-sep.** Deuda
 > declarada s299: la rama de programación de pg_cron no se ejerce en CI (contenedor sin la
 > extensión; mitigada por postcondición username/activo/horario + verificación
 > post-aplicación) · ids del recibo sin cota/lote (irrelevante hasta que haya volumen;

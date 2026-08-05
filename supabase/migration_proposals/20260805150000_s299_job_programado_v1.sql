@@ -1,7 +1,10 @@
 -- ============================================================================
--- PENDIENTE DE APLICAR (Alberto, SQL Editor). Orden de la cola: s295 → s296 → s297 → s299.
--- IDEMPOTENTE: re-ejecutarla es seguro y no-opea/re-afirma (el `cron.schedule` con el mismo
--- nombre ACTUALIZA el job, no lo duplica). En un entorno nuevo se aplica tras el bootstrap.
+-- APLICADA EN PRODUCCIÓN el 5-ago-2026 (Alberto, SQL Editor; verificada contra el
+-- catálogo: job mensual ACTIVO a nombre de postgres, oráculo cerrado para los 3 roles de
+-- la API, recibos blindados, y dry-run del driver con exit 0). IDEMPOTENTE: re-ejecutarla
+-- es seguro y no-opea/re-afirma (el `cron.schedule` con el mismo nombre ACTUALIZA el job,
+-- no lo duplica). Orden de la cola: s295 → s296 → s297 → s299. En un entorno nuevo se
+-- aplica tras el bootstrap.
 -- ============================================================================
 -- s299 — decisión de Alberto (5-ago): PROGRAMAR la retención. Dos piezas que van juntas:
 --

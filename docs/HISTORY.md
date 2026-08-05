@@ -2856,6 +2856,9 @@ corpus-en-dos-codigos ya aceptado en s296) y los recibos re-clasificados como da
 seudonimizado, no evidencia impersonal. Las transferencias quedaron documentadas con fuente y fecha en la matriz (SCCs-en-DPA para
 cuatro; DPF solo declarado por el propio proveedor en Voyage/MongoDB; Telegram sin DPA =
 responsable propio del transporte, posicion que confirma el asesor). CI contra Postgres
-real en verde con la cola entera. Queda en manos de Alberto: aplicar s299 en el SQL Editor
-(programa el reloj Y cierra el oraculo), mergear la PR, y pasar el LIA + la tabla de
-transferencias al asesor. Traza: DEC-181.
+real en verde con la cola entera. Cierre esa misma tarde: Alberto mergeo la PR #210 y
+aplico la migracion — verificado contra el catalogo (job mensual ACTIVO, oraculo CERRADO
+para los tres roles, recibos blindados) y dry-run exit 0, con 2 vinculos huerfanos del
+backfill s296 (sin datos en ninguna tabla) que caeran en la primera pasada real. Primer
+recibo esperado: 1-sep. Queda de Alberto: LIA + tabla de transferencias al asesor, y la
+vigilancia trimestral del recibo. Traza: DEC-181.
