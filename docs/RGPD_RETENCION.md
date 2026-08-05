@@ -100,6 +100,13 @@ reconciliación automática.
 enlace con cascada, un `feedback` cuya consulta padre desaparezca justo antes de escribirlo
 falla entero (antes se guardaba suelto). Ventana pequeña y el caso es raro; se declara.
 
+**La destrucción del vínculo tiene una carrera declarada (s299).** Una consulta que se
+confirme en el instante exacto de la pasada mensual puede llegar después del snapshot del
+oráculo y el vínculo destruirse igual. La consecuencia NO es una re-identificación: es el
+mismo «corpus en dos códigos» del que vuelve tras la destrucción (límite de arriba), y la
+emisión de códigos de la siguiente pasada lo recoge. A la escala actual es ~0; si entran
+técnicos en volumen, la pasada debe subir a `SERIALIZABLE` con retry (TECH_DEBT).
+
 ## Principio rector: DISOCIAR, no borrar ⬤
 
 El valor del histórico para el proyecto está en el **contenido** (la pregunta, la respuesta y
@@ -192,7 +199,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
 |---|---|---|---|---|---|
-| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — **vivo desde el 5-ago** (mensual con s299) |
+| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — ejecutable manual desde el 5-ago; **mensual al aplicar s299** (en PR) |
 | ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → **seudónimo estable** + retirada del id (aplicado s295/s296) |
 | Voto 👍/👎 y su motivo | `answer_feedback` | Señal de calidad | Sigue a su consulta | **CASCADE** desde `query_logs` | — |
 | **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | → seudónimo + retirada del id (el `DROP NOT NULL` se aplicó en s295) |
@@ -206,7 +213,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 | **Correspondencia código ↔ persona** | `persona_seudonimo` | Agrupar el histórico de un técnico sin identificarlo | Mientras le quede alguna fila identificada | `DELETE` (hay que incluirla) | **Se BORRA** — ese borrado ES el punto de no retorno |
 | **Marca de utilidad del feedback** | `answer_feedback.utilidad` | Reconocer aportaciones valiosas (posible incentivo) | Sigue a su consulta | CASCADE | Se conserva: no identifica por sí sola |
 | **Extracto de recibos en git** (`query`, `response`, `created_at` de 3 consultas) | `evals/s272_live_receipts_v1.json` + copia en `tests/fixtures/` | Recibos de una ventana de flag | ⚠️ **ninguna** — vive en el HISTORIAL DE GIT, fuera del alcance del job | Reescritura de historia (costosa) | Nada |
-| **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA ya disociada — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | Indefinida: es evidencia de cumplimiento y no identifica a nadie | No aplica (no lleva persona) | Nada |
+| **Recibos de las pasadas de retención** (origen, corte, conteos; ids de FILA — el conteo de vínculos destruidos va SIN ids a propósito) | `rgpd_recibos` (s299) | Evidencia de que la retención corrió (manual o pg_cron) — solo inserción, ilegible para el bot | ⚠️ Son datos **seudonimizados** mientras viva la correspondencia (uuid → fila → seudónimo → persona): solo lectura del operador; su plazo entra en el mismo **[DECIDIR]** que `user_consent` | Las filas referidas se borran por cascada; los uuid del recibo quedan apuntando a nada (inofensivo, declarado) | Nada |
 | **Audio original de las notas de voz** | **NO SE ALMACENA** por nosotros | — | — | — | Temporal borrado en un `finally` tras transcribir |
 
 ### Nota sobre el votante: la supresión a petición NO le alcanza del todo
@@ -351,6 +358,11 @@ mecanismo de transferencia; ver «Cómo se informa»).
    si se quiere cerrar YA sin esperar: `REVOKE ALL ON FUNCTION
    public.rgpd_quedan_identificados(BIGINT) FROM PUBLIC, anon, authenticated,
    service_role;` en el SQL Editor (idempotente; s299 lo re-afirma).
+   **Vigilancia del reloj (ronda 2 del dúo)**: un reloj roto ABORTA en silencio — la
+   pasada que no puede cumplir no deja recibo y el error solo vive en
+   `cron.job_run_details`. Comprobación trimestral (o en cada sesión de mantenimiento):
+   `SELECT max(ejecutado_at) FROM rgpd_recibos;` debe ser del mes en curso o el anterior;
+   si no, mirar `SELECT * FROM cron.job_run_details ORDER BY start_time DESC LIMIT 5;`.
 5. **Autoservicio `/borrar`: NO se construye** (decisión 5-ago) — la vía es
    `info@fontiber.com`, ya declarada en el aviso.
 6. ~~Mecanismo de transferencia~~ **DOCUMENTADO (5-ago)**: tabla «Mecanismos de

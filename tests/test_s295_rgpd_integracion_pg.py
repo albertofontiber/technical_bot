@@ -142,10 +142,11 @@ def base():
             END $limpieza$;
         """)
         # Se reproduce el comportamiento de Supabase: por defecto concede TODO sobre las
-        # tablas nuevas de `public` a los roles anonimos. Sin esto, la tabla del vinculo
-        # nace limpia en el test y el REVOKE de la migracion no probaria nada.
+        # tablas nuevas de `public` al trio de la API COMPLETO (ronda 2 del duo: dejar a
+        # service_role fuera dejaba al CI ciego a un REVOKE de tabla olvidado para el).
+        # Sin esto, la tabla del vinculo nace limpia y el REVOKE no probaria nada.
         cur.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA public "
-                    "GRANT ALL ON TABLES TO anon, authenticated;")
+                    "GRANT ALL ON TABLES TO anon, authenticated, service_role;")
         # ...y lo mismo para FUNCIONES (verificado contra el pg_default_acl de
         # producción, s299): toda función nueva de `public` nace ejecutable por la API
         # ENTERA. Sin esto el CI no podía cazar que un REVOKE solo-PUBLIC dejara vivo el
@@ -173,7 +174,7 @@ def base():
 
         vieja = str(uuid.uuid4())
         nueva = str(uuid.uuid4())
-        for qid, edad in ((vieja, "30 months"), (nueva, "1 month")):
+        for indice, (qid, edad) in enumerate(((vieja, "30 months"), (nueva, "1 month"))):
             cur.execute(
                 "INSERT INTO query_logs (id, telegram_user_id, query, created_at) "
                 "VALUES (%s, 111, 'pregunta', now() - interval %s)", (qid, edad))
@@ -181,11 +182,14 @@ def base():
                 "INSERT INTO answer_feedback "
                 "(query_log_id, telegram_user_id, verdict, comment, created_at) "
                 "VALUES (%s, 111, 'down', 'fallo X', now() - interval %s)", (qid, edad))
+            # message_id DETERMINISTA (ronda 2 del duo): `abs(hash(qid))` era un canal de
+            # flakiness salted-per-run — una colision con el UNIQUE (chat, message) o con
+            # los ids fijos de otros tests seria irreproducible.
             cur.execute(
                 "INSERT INTO answer_messages "
                 "(query_log_id, telegram_chat_id, telegram_message_id, created_at) "
                 "VALUES (%s, 111, %s, now() - interval %s)",
-                (qid, abs(hash(qid)) % 100000, edad))
+                (qid, 1000 + indice, edad))
         cur.execute(
             "INSERT INTO feedback (telegram_user_id, feedback_text, created_at) "
             "VALUES (111, 'texto', now() - interval '30 months')")
@@ -906,6 +910,21 @@ def test_la_pasada_aborta_si_la_ventana_esta_desarmada(base):
 
     with conexion.cursor() as cur:             # sin política tampoco (no solo sin RLS)
         cur.execute("DROP POLICY rgpd_retencion_ventana ON public.feedback;")
+        with pytest.raises(psycopg2.errors.RaiseException, match="NO esta armada"):
+            cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # ...ni con una 2ª política permisiva de
+        cur.execute("CREATE POLICY debug_abierta ON public.query_logs "  # debug (se OR-ea
+                    "AS PERMISSIVE FOR ALL TO rgpd_retencion USING (true)")  # con la ventana)
+        with pytest.raises(psycopg2.errors.RaiseException, match="NO esta armada"):
+            cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
+    conexion.rollback()
+
+    with conexion.cursor() as cur:             # ...ni si la política nombrada ya no dice
+        cur.execute("DROP POLICY rgpd_retencion_ventana ON public.answer_messages;")
+        cur.execute("CREATE POLICY rgpd_retencion_ventana ON public.answer_messages "
+                    "TO rgpd_retencion USING (true)")      # mismo nombre, predicado abierto
         with pytest.raises(psycopg2.errors.RaiseException, match="NO esta armada"):
             cur.execute("SELECT public.rgpd_retencion_pasada('manual');")
     conexion.rollback()

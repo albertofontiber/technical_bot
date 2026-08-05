@@ -46,10 +46,16 @@
 -- Una ejecución programada no tiene a nadie mirando stdout. Cada pasada CONFIRMADA deja
 -- una fila en `public.rgpd_recibos` (origen, corte, resultado por tabla con ids tocados).
 -- Se escribe DENTRO de la misma transacción de la pasada: en un dry-run (el script
--- ejecuta y revierte) el recibo se revierte con todo lo demás, así que toda fila
--- persistida corresponde a una pasada confirmada — no hace falta columna «aplicado».
--- Los ids registrados son UUIDs de FILA (la persona ya está retirada de ellas); la
--- entrada de `persona_seudonimo` registra solo el CONTEO, porque ahí el id ES la persona.
+-- ejecuta y revierte) el recibo se revierte con todo lo demás — no hace falta columna
+-- «aplicado». ALCANCE HONESTO de esa garantía (ronda 2 del dúo): vale para el BOT y los
+-- roles de la API, no contra el operador — `postgres` es owner (+ puede asumir el rol
+-- con su INSERT) y siempre podría fabricar una fila; lo estructural es que el bot no
+-- puede, y que el dry-run no deja rastro.
+-- Los ids registrados son UUIDs de FILA; la entrada de `persona_seudonimo` registra solo
+-- el CONTEO, porque ahí el id ES la persona. PRECISIÓN (ronda 2): mientras viva la
+-- correspondencia de esa persona, uuid → fila → seudónimo → persona sigue siendo un
+-- camino: el recibo es dato SEUDONIMIZADO, no evidencia impersonal — solo lectura del
+-- operador, y su plazo entra en el mismo [DECIDIR] que `user_consent` (matriz).
 --
 -- GAP DECLARADO (CI): el contenedor `postgres:17` del workflow no trae pg_cron, así que
 -- el bloque de programación corre solo su rama WARNING en CI. La FUNCIÓN — la parte que
@@ -195,15 +201,27 @@ BEGIN
                     WHERE c.oid = to_regclass(format('public.%I', t.tabla))
                       AND c.relrowsecurity AND c.relforcerowsecurity
                )
+            -- EXACTAMENTE UNA política alcanza al rol (ronda 2 del dúo): las permisivas
+            -- se OR-ean — una segunda de debug (`USING (true)`, al rol o a PUBLIC)
+            -- abriría la ventana con la aserción en verde y recibo de aspecto normal.
+            OR (SELECT count(*) FROM pg_policies p
+                 WHERE p.schemaname = 'public' AND p.tablename = t.tabla
+                   AND ('rgpd_retencion' = ANY(p.roles) OR 'public' = ANY(p.roles))) <> 1
+            -- ...y es LA de la ventana, con el predicado que s295 instaló. Mismo listón
+            -- que la postcondición 6.6 de s295 (Postgres normaliza `24 months` a
+            -- `2 years`): VERIFICACIÓN de la única fuente, no una segunda fuente.
             OR NOT EXISTS (
                    SELECT 1 FROM pg_policies p
                     WHERE p.schemaname = 'public' AND p.tablename = t.tabla
                       AND p.policyname = 'rgpd_retencion_ventana'
                       AND 'rgpd_retencion' = ANY(p.roles)
+                      AND p.qual LIKE '%created_at%'
+                      AND (p.qual LIKE '%2 years%' OR p.qual LIKE '%24 mons%')
                )
     ) THEN
         RAISE EXCEPTION 'rgpd: la ventana NO esta armada en alguna de las 4 tablas (RLS '
-                        'deshabilitada o politica ausente). Pasada abortada sin tocar nada.';
+                        'deshabilitada, politica ausente o alterada, o una politica '
+                        'EXTRA alcanza al rol). Pasada abortada sin tocar nada.';
     END IF;
 
     -- Primero, EMITIR el código que falte (la emisión en /accept es fail-open): sin
@@ -282,6 +300,13 @@ BEGIN
     -- `rgpd_quedan_identificados()` (SECURITY DEFINER, visibilidad completa), porque a
     -- este rol la RLS solo le enseña filas vencidas y un NOT EXISTS desde aquí
     -- destruiría vínculos de gente con filas RECIENTES, partiendo su corpus en dos.
+    -- CARRERA DECLARADA (ronda 2 del dúo, READ COMMITTED): una consulta que se confirme
+    -- en el instante exacto de esta sentencia puede llegar DESPUÉS del snapshot del
+    -- oráculo y el vínculo destruirse igual. Consecuencia: el mismo «corpus en dos
+    -- códigos» del que vuelve tras la destrucción — límite YA declarado en s296, no una
+    -- re-identificación — y la emisión de códigos de la siguiente pasada lo recoge. A
+    -- esta escala (pasada mensual, minutos de duración en ms) es ~0; si la escala sube,
+    -- la pasada debe subir a SERIALIZABLE con retry (anotado en TECH_DEBT).
     WITH destruidas AS (
         DELETE FROM public.persona_seudonimo p
          WHERE NOT public.rgpd_quedan_identificados(p.telegram_user_id)

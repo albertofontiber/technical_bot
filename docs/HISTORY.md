@@ -2822,3 +2822,40 @@ Al cierre: 9 unitarios + integracion contra Postgres real incluyendo la RE-EJECU
 migracion, el INSERT tramposo ejercido como service_role en las dos tablas, y la coherencia
 marca-fecha. Verde a la primera en CI la ronda inicial (la ruta del workflow se anadio ANTES
 del primer push — leccion s296 aplicada).
+
+## s299 (5 ago 2026) — el reloj dentro de la base, y el oraculo que llevaba un dia abierto
+
+Alberto cerro la segunda tanda de decisiones RGPD (base juridica = interes legitimo tras
+validacion del asesor; exports con seudonimo confirmados; /borrar por correo; scheduler SI;
+transferencias las documenta el asistente y las valida el asesor) y la sesion construyo el
+lote s299: la pasada de retencion se movio de Python a UNA funcion en la base
+(`rgpd_retencion_pasada`, `SET role` en el encabezado + cinturon de `current_user` +
+asercion de ventana ARMADA), pg_cron la ejecuta el dia 1 de cada mes sin que ninguna
+credencial salga de la base, cada pasada confirmada deja recibo en `rgpd_recibos`
+(solo-insercion, ilegible para el bot), y el script queda como driver manual de la misma
+funcion — dos implementaciones de una operacion irreversible driftan, asi que ahora hay una.
+
+El duo pago la sesion entera. El sub-agente encontro un hallazgo VIVO EN PRODUCCION: los
+default privileges de Supabase conceden EXECUTE sobre toda funcion nueva de `public`, s296
+solo revoco PUBLIC, y `rgpd_quedan_identificados` — SECURITY DEFINER, «¿este id tiene
+datos?» — llevaba desde el 5-ago ejecutable por la clave anonima via PostgREST RPC.
+Verificado contra el catalogo vivo antes de actuar; cerrado con REVOKE nominal + el fixture
+de CI reproduciendo el default de FUNCIONES (el CI era ciego a la clase: mi propio REVOKE
+solo-PUBLIC habia pasado verde y habria tumbado la migracion en el SQL Editor contra su
+propia postcondicion). El cross-model encontro el conceptual: el punto de no retorno no
+miraba `answer_messages`, y un ancla reciente de una consulta vencida mantenia la cadena
+chat_id → consulta → seudonimo despues de destruir el vinculo — la funcion aprende la
+4ª tabla, con test de edades desalineadas. Mas siete hallazgos menores aplicados (membresia
+SET de quien programa, origen sin default, recibo por tocadas, celdas stale de la matriz,
+Voyage rebajada de «certificada» a «declaracion nominal» — mi framing, otra vez).
+
+La ronda 2 (agentes frescos sobre el delta) dio SOLIDA con 10 menores/medios: la
+asercion de ventana subio a exclusividad+predicado (una 2a politica permisiva de debug
+la burlaba), la carrera del punto de no retorno quedo DECLARADA (consecuencia = el
+corpus-en-dos-codigos ya aceptado en s296) y los recibos re-clasificados como dato
+seudonimizado, no evidencia impersonal. Las transferencias quedaron documentadas con fuente y fecha en la matriz (SCCs-en-DPA para
+cuatro; DPF solo declarado por el propio proveedor en Voyage/MongoDB; Telegram sin DPA =
+responsable propio del transporte, posicion que confirma el asesor). CI contra Postgres
+real en verde con la cola entera. Queda en manos de Alberto: aplicar s299 en el SQL Editor
+(programa el reloj Y cierra el oraculo), mergear la PR, y pasar el LIA + la tabla de
+transferencias al asesor. Traza: DEC-181.

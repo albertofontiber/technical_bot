@@ -49,14 +49,18 @@ sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
 recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
 (2) **lista de adquisición dirigida por citas** — 44 documentos que nuestros manuales citan y no
 tenemos, + la Guía Avanzada de Configuración de la CAD-171 (citada por nombre, punto ciego
-declarado del barrido); (3) **RGPD (s295→s298, DEC-177/178/179): CERRADO Y VIVO EN PRODUCCIÓN (5-ago)** —
-retención 24 meses → disociar con seudónimo estable, aviso en dos capas v7, libro de eventos
-de consentimiento, marca de utilidad para el futuro bonus (inalcanzable para el bot), cola de
-migraciones APLICADA por Alberto y verificada, bootstrap re-ejecutable con test en CI contra
-Postgres real. Residuo con dueño en `docs/RGPD_RETENCION.md`: base jurídica (borrador LIA listo
-para el asesor) + `user_consent`/`consent_events` [DECIDIR] + transferencias. **NO desbloquea
-`convo`**: ese gate exige la matriz `RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA, que sigue sin
-firmar;
+declarado del barrido); (3) **RGPD (s295→s299, DEC-177..181): CERRADO Y VIVO EN PRODUCCIÓN (5-ago)** —
+retención 24 meses → disociar con seudónimo estable, aviso en dos capas v7, libro de eventos,
+marca de utilidad inalcanzable para el bot, bootstrap re-ejecutable con test en CI. **s299
+(rama en PR): la pasada es UNA función en la base + reloj pg_cron mensual + recibos**; el dúo
+cazó y cerró un oráculo de pertenencia VIVO en producción (default privileges de Supabase
+sobre funciones — `rgpd_quedan_identificados` ejecutable por la clave anónima) y el punto de
+no retorno aprende `answer_messages`. Transferencias DOCUMENTADAS con fuente (valida asesor).
+**Acciones de Alberto**: aplicar la migración s299 en el SQL Editor (programa el reloj Y
+cierra el oráculo) + mergear la PR + LIA y tabla de transferencias al asesor. Residuo:
+base jurídica (decidida: interés legítimo, efectiva tras validación → aviso v8) +
+`user_consent`/`consent_events` [DECIDIR plazo]. **NO desbloquea `convo`**: ese gate exige la
+matriz `RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA, que sigue sin firmar;
 (4) puntos 2/3/4 del #60 (reacciones: cambian el transporte, piden
 sonda + dúo propios) y punto 6 (corrección de marca, engancha con `hp002` del packet);
 (5) `hp003#4` sigue siendo el único lever vivo de etapa 3 si alguna vez se retoma L3 v2.
