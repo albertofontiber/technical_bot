@@ -314,3 +314,23 @@ votos, 4 anclas. **0 filas fuera de plazo** (la más antigua es de abril de 2026
 2028). La exposición **hoy** es trivial; la matriz existe para que deje de serlo de forma
 controlada cuando entren técnicos, no para el estado actual — y para que el plazo llegue con
 la maquinaria ya construida y probada, no improvisada.
+
+## Decisiones de Alberto (5-ago, segunda tanda) — registro
+
+1. **Base jurídica: INTERÉS LEGÍTIMO — decidido.** Surte efecto tras la validación del asesor
+   (regla del propio borrador LIA); entonces se construye el aviso v8 (base + derecho de
+   oposición, `/accept` pasa a acuse de recibo, `TERMS_VERSION` pasa a tripwire de
+   re-información).
+2. **Exports: con seudónimo — confirmado.** Ya construido y vivo desde s296; el pendiente del
+   plazo se disuelve (los ficheros nuevos no llevan identificadores directos). Higiene
+   restante: no reenviarlos por correo/Drive, y borrar los ANTERIORES a s296 si aparecen.
+3. **Programar el job: SÍ — aprobado scheduler.** Diseño elegido: **pg_cron dentro de
+   Supabase** (extensión disponible, verificado) — ninguna credencial sale de la base; la
+   función corre con `SET role = rgpd_retencion` a nivel de función, así que la ventana de 24
+   meses sigue siendo invariante del motor también en la ejecución programada. Con tabla de
+   recibos. Pendiente de construir (s299) con el circuito completo (CI Postgres + dúo).
+4. **`/borrar`: por correo — confirmado** (ya era el estado; no se construye comando).
+5. **Transferencias: las documenta el asistente y las valida el asesor** — por proveedor: DPA
+   archivado + estado en el registro DPF o SCCs del contrato + nota de una línea aquí.
+   Telegram es el caso especial (sin DPA: posición defendible = responsable propio del
+   transporte, ya declarado en el aviso; la confirma el asesor).
