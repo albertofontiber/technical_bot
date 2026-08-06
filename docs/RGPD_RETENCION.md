@@ -136,10 +136,14 @@ Los dos bloqueos históricos (el rol no existía; las hijas conservaban el ident
 CASCADE solo actúa al borrar) quedan documentados en DEC-177/178 como motivo del diseño, no
 aquí como estado.
 
-**Encima, s299 (construida — pendiente de aplicar):** la pasada se mueve a UNA función en
-la base (`public.rgpd_retencion_pasada`, `SET role` en el encabezado + cinturón de
-`current_user`), pg_cron la ejecuta el día 1 de cada mes (04:30 UTC) sin que ninguna
+**Encima, s299 — APLICADA (5-ago, misma tarde; PR #210 mergeada):** la pasada es UNA
+función en la base (`public.rgpd_retencion_pasada`, `SET role` en el encabezado + cinturón
+de `current_user`), pg_cron la ejecuta el día 1 de cada mes (04:30 UTC) sin que ninguna
 credencial salga de la base, y cada pasada confirmada deja recibo en `rgpd_recibos`.
+Verificado contra el catálogo tras aplicar: job ACTIVO a nombre de `postgres` con horario y
+comando exactos + dry-run del driver con exit 0 (2 vínculos sin datos en ninguna tabla
+caerán en la primera pasada real — caso benigno declarado). **Primer recibo esperado:
+1-sep, 04:30 UTC.**
 `scripts/rgpd_retencion.py` queda como driver manual de esa misma función (dry-run = la
 misma pasada + ROLLBACK, recibo incluido). Gap declarado: el contenedor de CI no trae
 pg_cron ⇒ la RAMA de programación no se ejerce en CI (la función sí, entera); en
@@ -151,8 +155,8 @@ producción la postcondición exige el job si pg_cron está disponible — que l
 de Supabase conceden EXECUTE sobre toda función nueva de `public`, y s296 solo revocó
 PUBLIC. Es un **oráculo de pertenencia** («¿este telegram_user_id tiene datos?», SECURITY
 DEFINER) alcanzable por PostgREST RPC con la clave anónima (verificado contra el catálogo
-vivo el 5-ago). Al aplicar s299 queda revocado nominal; hasta entonces, el cierre
-inmediato es un `REVOKE` suelto (ver pendiente 4). La misma clase se corrige de raíz: el
+vivo el 5-ago). **CERRADO ese mismo día al aplicar s299** — re-verificado contra el
+catálogo: los tres roles sin EXECUTE. La misma clase se corrige de raíz: el
 fixture de CI ahora reproduce los default privileges de FUNCIONES, y el punto de no
 retorno aprende la 4ª tabla (`answer_messages` — un ancla reciente de una consulta
 vencida mantenía la cadena chat_id → consulta → seudónimo tras destruir el vínculo).
@@ -199,7 +203,7 @@ Los dos se leen correctos en el código. La diferencia la marca ejecutarlos.
 
 | Dato | Dónde vive | Para qué | Retención ⬤ | Supresión a petición | Al vencer el plazo |
 |---|---|---|---|---|---|
-| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — ejecutable manual desde el 5-ago; **mensual al aplicar s299** (en PR) |
+| Pregunta, respuesta, transcripción de voz | `query_logs` | Diagnóstico, calibración con preguntas reales | **24 meses identificado → disociado indefinido** | `DELETE` (cascadea a las hijas) | El job estampa el **seudónimo** y retira el id — **vivo: manual + mensual por pg_cron** (s299 aplicada el 5-ago; primer recibo 1-sep) |
 | ID de Telegram del autor | `query_logs.telegram_user_id` | Vincular consulta ↔ persona | **24 meses** | `DELETE` | → **seudónimo estable** + retirada del id (aplicado s295/s296) |
 | Voto 👍/👎 y su motivo | `answer_feedback` | Señal de calidad | Sigue a su consulta | **CASCADE** desde `query_logs` | — |
 | **ID del votante** | `answer_feedback.telegram_user_id` | Un voto por persona y consulta | 24 meses | ⚠️ CASCADE **solo si votó su propia consulta** — ver nota | → seudónimo + retirada del id (el `DROP NOT NULL` se aplicó en s295) |
@@ -346,18 +350,13 @@ mecanismo de transferencia; ver «Cómo se informa»).
 3. ~~Exports a disco sin plazo~~ **RESUELTO por decisión de Alberto (5-ago)**: los exports
    llevan seudónimo desde s296 — sin identificadores directos, el plazo se disuelve.
    Higiene restante: no reenviarlos, y borrar los ANTERIORES a s296 si aparecen. → *Alberto.*
-4. ~~Programar el job~~ **CONSTRUIDO (s299)**: pg_cron DENTRO de la base — el argumento
-   histórico contra programar («un scheduler guardaría un `DATABASE_URL` de operador») era
-   contra el cron EXTERNO, y pg_cron es justo lo que lo evita: ninguna credencial sale de la
-   base, la pasada es UNA función (`rgpd_retencion_pasada`) que asume el rol en su
-   encabezado, y cada pasada confirmada deja recibo en `rgpd_recibos`. **Pendiente: APLICAR
-   la migración s299 en el SQL Editor** (→ Alberto) y verificar `SELECT * FROM cron.job` +
-   el primer recibo mensual. ⚠️ Hasta aplicarla, `scripts/rgpd_retencion.py` de esta
-   versión sale con exit 2 (la función aún no existe en producción) — diagnóstico incluido.
-   ⚠️ Y aplicarla CIERRA el oráculo público de `rgpd_quedan_identificados` (ver estado);
-   si se quiere cerrar YA sin esperar: `REVOKE ALL ON FUNCTION
-   public.rgpd_quedan_identificados(BIGINT) FROM PUBLIC, anon, authenticated,
-   service_role;` en el SQL Editor (idempotente; s299 lo re-afirma).
+4. ~~Programar el job~~ **HECHO Y APLICADO (s299, 5-ago; PR #210)**: pg_cron DENTRO de la
+   base — el argumento histórico contra programar («un scheduler guardaría un
+   `DATABASE_URL` de operador») era contra el cron EXTERNO, y pg_cron es justo lo que lo
+   evita: ninguna credencial sale de la base, la pasada es UNA función
+   (`rgpd_retencion_pasada`) que asume el rol en su encabezado, y cada pasada confirmada
+   deja recibo en `rgpd_recibos`. Verificado tras aplicar: job ACTIVO (`cron.job`),
+   oráculo CERRADO, dry-run exit 0. **Primer recibo esperado: 1-sep.**
    **Vigilancia del reloj (ronda 2 del dúo)**: un reloj roto ABORTA en silencio — la
    pasada que no puede cumplir no deja recibo y el error solo vive en
    `cron.job_run_details`. Comprobación trimestral (o en cada sesión de mantenimiento):

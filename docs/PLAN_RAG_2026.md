@@ -52,12 +52,13 @@ tenemos, + la Guía Avanzada de Configuración de la CAD-171 (citada por nombre,
 declarado del barrido); (3) **RGPD (s295→s299, DEC-177..181): CERRADO Y VIVO EN PRODUCCIÓN (5-ago)** —
 retención 24 meses → disociar con seudónimo estable, aviso en dos capas v7, libro de eventos,
 marca de utilidad inalcanzable para el bot, bootstrap re-ejecutable con test en CI. **s299
-(rama en PR): la pasada es UNA función en la base + reloj pg_cron mensual + recibos**; el dúo
-cazó y cerró un oráculo de pertenencia VIVO en producción (default privileges de Supabase
-sobre funciones — `rgpd_quedan_identificados` ejecutable por la clave anónima) y el punto de
-no retorno aprende `answer_messages`. Transferencias DOCUMENTADAS con fuente (valida asesor).
-**Acciones de Alberto**: aplicar la migración s299 en el SQL Editor (programa el reloj Y
-cierra el oráculo) + mergear la PR + LIA y tabla de transferencias al asesor. Residuo:
+(PR #210 mergeada + migración APLICADA el 5-ago): la pasada es UNA función en la base +
+reloj pg_cron mensual VIVO (primer recibo 1-sep) + recibos**; el dúo cazó y cerró un oráculo
+de pertenencia VIVO en producción (default privileges de Supabase sobre funciones —
+`rgpd_quedan_identificados` ejecutable por la clave anónima; CERRADO y re-verificado contra
+el catálogo) y el punto de no retorno aprende `answer_messages`. Transferencias DOCUMENTADAS
+con fuente (valida asesor). **Acciones de Alberto**: LIA y tabla de transferencias al asesor
++ vigilancia trimestral del recibo mensual. Residuo:
 base jurídica (decidida: interés legítimo, efectiva tras validación → aviso v8) +
 `user_consent`/`consent_events` [DECIDIR plazo]. **NO desbloquea `convo`**: ese gate exige la
 matriz `RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA, que sigue sin firmar;
