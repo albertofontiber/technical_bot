@@ -2888,3 +2888,25 @@ de scripts/|src/ (los 2 modulos isla que un probe sellado importa quedan ANCLADO
 mueve 33/35) y que el recolector no veia el harness/ futuro; el sub-agente hizo mutation
 testing (9/10 cazadas) y verifico la ISLA exacta con censo independiente. Blueprint en
 docs/BLUEPRINT_MODERNIZACION.md; lotes L1-L3 esperan GO por-lote. Traza: DEC-182.
+
+## s301 (6 ago 2026) — el dashboard resulto ser abrir grifos, y el aviso mando
+
+El frente 6 se construyo como se habia auditado: sin app. Export del voto negativo CON su
+porque (la prosa del ForceReply de s294 por fin sale del SQL manual), columna route con
+log de los shortcuts de consulta y de los dos clarify que respondian sin dejar rastro,
+cinco vistas agregadas (las 2 de salud por fin versionadas + feedback/motivos/uso), Gold
+gate en CI, guardas de ingesta contra el manifiesto-vacio, y el camino de escritura de la
+marca de utilidad que no existia. Todo S, cero infra nueva, DEC-162f intacto.
+
+La leccion de la sesion la puso el duo. El cross-model cazo un CRITICO de CONTRATO: el
+aviso v7 promete literalmente que los saludos y despedidas no se registran — y mis ramas
+nuevas los registraban. La observabilidad tambien es tratamiento: se revirtio la cortesia
+y quedo la regla (DEC-183) de contrastar toda metrica nueva contra el aviso ANTES de
+cablearla. El sub-agente convirtio un hallazgo especulativo en real verificando contra el
+catalogo vivo: la migracion de rag_trace de JULIO nunca se aplico — el bot llevaba
+semanas logueando sin traza por su fallback silencioso — y el caso ambas-columnas-
+ausentes habria perdido log y teclado de feedback en cada consulta durante la ventana de
+deploy; el fallback es ahora componible por columna nombrada y ESTRICTO (el laxo se comia
+la ruta ante una violacion del CHECK: el patron de la casa, otra vez). 12 hallazgos, 0
+falsos positivos. Queda de Alberto: aplicar las DOS migraciones (julio + s301) en una
+sentada y montar el dashboard de Supabase sobre las vistas. Traza: DEC-183.
