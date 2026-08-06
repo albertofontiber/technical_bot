@@ -2204,6 +2204,12 @@ usa) o stem_prefixes como en retrieval_facets. NO parchear ad-hoc por gold.
 
 ## #60 — Paquete telemetría PRE-TÉCNICOS: reacciones Telegram como canal de feedback + logging de rutas directas (s288d, adjudicado por Alberto 31-jul)
 
+> **PARCIAL (s301, 6-ago)**: el «logging de rutas directas» de este paquete quedó CUBIERTO
+> — `route` en query_logs + log en catálogo/mismatch/sin-manuales y en los dos clarify
+> (legacy y F1 CLARIFY/DECLINE), con la cortesía EXCLUIDA a conciencia (promesa del aviso
+> v7). Quedan de este paquete: las REACCIONES (puntos 2/3/4 — cambian el transporte,
+> sonda + dúo propios) y el punto 6 (corrección de marca).
+
 > **ESTADO s294 (2-ago): puntos 1 y 5 HECHOS y EN PRODUCCIÓN** (PRs #200/#201/#202, 2
 > migraciones aplicadas, `TERMS_VERSION` v3, verificado contra la DB real). El punto 5 se
 > construyó con el diseño de Alberto (mismo acuse que el canal de texto libre + botones) y con
@@ -2271,3 +2277,23 @@ es ÚNICA ⇒ la variante aún más fluida sería responder directamente con not
 de Securiton, distribuido por Detnov)». AMBAS variantes a diseño+dúo con el paquete #60.
 FICHA para la sentada B2: el gold hp002 pregunta «ASD535 de Detnov» — prod hoy lo rechaza;
 adjudicar la conducta esperada (y de paso la redacción del gold).
+
+---
+
+## #61 — `log_query` es HTTP síncrono dentro del handler async (event loop bloqueado hasta 2×10 s) (s301, dúo)
+
+**Qué pasa**: `log_query` usa `httpx.Client` SÍNCRONO y se llama inline en los handlers
+async del bot (camino RAG desde s21; +6 call-sites de shortcuts/clarify en s301, misma
+clase). No toca la respuesta del usuario que pregunta (ya enviada), pero mientras el POST
+(hasta 2, con el fallback componible de columnas) espera, el event loop entero está
+bloqueado: otros usuarios ven latencia añadida. Con 1 usuario es irrelevante — por eso se
+declara y no se cablea.
+
+**Acción propuesta**: mover TODOS los call-sites juntos a `asyncio.to_thread` (o un
+httpx.AsyncClient compartido) en un solo lote — hacerlo por partes crearía dos semánticas
+de log conviviendo. Ojo con el camino RAG: el teclado de feedback depende del RESULTADO
+de `log_query` (query_logged), así que no es fire-and-forget puro — el to_thread debe
+esperarse con await, no soltarse.
+
+**Trigger**: el primer técnico real (concurrencia > 1) o cualquier p95 de respuesta que
+señale al log. **Coste**: 1-2h + tests.

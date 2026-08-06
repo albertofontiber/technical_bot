@@ -575,47 +575,48 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # --- Pre-pipeline classification (saves API calls) ---
 
-    # s301 (#31): cada shortcut LOGGEA antes de retornar — sin esto, las métricas de
-    # uso por canal eran ciegas («¿qué fabricantes tienes?» no existía en query_logs) y
-    # la trazabilidad no cubría todo lo que el bot dice. Mismo fire-and-forget que el
-    # camino RAG: un fallo del log jamás toca la respuesta.
+    # s301 (#31): los shortcuts de CONSULTA loggean antes de retornar — sin esto, las
+    # métricas de uso por canal eran ciegas («¿qué fabricantes tienes?» no existía en
+    # query_logs). La CORTESÍA (saludo/gracias/adiós) NO se loggea, a conciencia: el
+    # aviso v7 promete literalmente «Los saludos y las despedidas no se registran» y la
+    # ponderación de interés legítimo usa esa minimización como argumento (§3 del LIA).
+    # Cazado por el dúo s301: loggearla habría ampliado el tratamiento contra el
+    # contrato aceptado. Los valores greeting/thanks/bye del CHECK quedan RESERVADOS
+    # para un aviso futuro que lo cambie; hoy ningún camino los emite.
 
-    # 1. Greetings
+    # 1. Greetings (SIN log: promesa del aviso)
     if _GREETING_PATTERNS.match(query):
-        respuesta = (
+        await update.message.reply_text(
             "¡Hola! 👋 Soy el asistente técnico PCI.\n\n"
             "Pregúntame lo que necesites sobre instalación, conexionado, "
             "especificaciones o resolución de problemas de equipos *Notifier*, *Morley* o *Detnov*.\n\n"
-            "También puedes enviarme un audio 🎤"
+            "También puedes enviarme un audio 🎤",
+            parse_mode="Markdown",
         )
-        await update.message.reply_text(respuesta, parse_mode="Markdown")
-        log_query(telegram_user_id=user_id, query=query, route="greeting",
-                  response=respuesta, response_length=len(respuesta))
         return
 
-    # 2. Thanks
+    # 2. Thanks (SIN log: promesa del aviso)
     if _THANKS_PATTERNS.match(query):
-        respuesta = "De nada 👍 ¿Necesitas algo más?"
-        await update.message.reply_text(respuesta)
-        log_query(telegram_user_id=user_id, query=query, route="thanks",
-                  response=respuesta, response_length=len(respuesta))
+        await update.message.reply_text(
+            "De nada 👍 ¿Necesitas algo más?"
+        )
         return
 
-    # 3. Bye
+    # 3. Bye (SIN log: promesa del aviso)
     if _BYE_PATTERNS.match(query):
-        respuesta = "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
-        await update.message.reply_text(respuesta)
-        log_query(telegram_user_id=user_id, query=query, route="bye",
-                  response=respuesta, response_length=len(respuesta))
+        await update.message.reply_text(
+            "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
+        )
         return
 
-    # 4. Catalog questions
+    # 4. Catalog questions (consulta de contenido: SÍ se loggea, como toda consulta)
     if _CATALOG_PATTERNS.search(query):
         await update.message.chat.send_action("typing")
         await _handle_catalog(update)
         # La respuesta vive dentro del handler (catálogo dinámico); para la métrica de
         # canal basta la consulta y la ruta — no se duplica el texto aquí.
         log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
+        asegurar_seudonimo(user_id)
         return
 
     # 5. Smart manufacturer detection (dynamic — queries Supabase)
@@ -642,6 +643,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     log_query(telegram_user_id=user_id, query=query,
                               route="manufacturer_mismatch",
                               response=respuesta, response_length=len(respuesta))
+                    asegurar_seudonimo(user_id)
                     return
                 # else: correct manufacturer + model → fall through to RAG
             else:
@@ -669,6 +671,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     log_query(telegram_user_id=user_id, query=query,
                               route="manufacturer_no_model",
                               response=respuesta, response_length=len(respuesta))
+                    asegurar_seudonimo(user_id)
                     return
                 # else: manufacturer IS in DB → fall through to RAG (model index desynced)
         else:
@@ -686,6 +689,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 log_query(telegram_user_id=user_id, query=query,
                           route="manufacturer_no_model",
                           response=respuesta, response_length=len(respuesta))
+                asegurar_seudonimo(user_id)
                 return
             # else: manufacturer IS in DB → fall through to RAG
 
@@ -845,13 +849,24 @@ async def _process_query(
                 query_clean = query.lower().strip("¿?¡!., ")
                 is_pci_term = any(term in query_clean for term in PCI_TERMS)
                 if is_pci_term:
-                    await update.message.reply_text(
+                    respuesta_clarify = (
                         f"Para darte información precisa sobre *{query_clean}*, "
                         f"necesito saber el modelo de equipo.\n\n"
                         f"Por ejemplo: _{query_clean} en la CAD-250_ o "
                         f"_{query_clean} del MAD-461_.\n\n"
-                        f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?",
-                        parse_mode="Markdown",
+                        f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?"
+                    )
+                    await update.message.reply_text(respuesta_clarify,
+                                                    parse_mode="Markdown")
+                    # s301 (dúo): esta rama respondía y retornaba SIN log — «cada
+                    # respuesta lleva ruta» era falso. Es una consulta de contenido:
+                    # se loggea como el resto.
+                    log_query(
+                        telegram_user_id=(update.effective_user.id
+                                          if update.effective_user else 0),
+                        query=query, source=source, route="clarify",
+                        response=respuesta_clarify,
+                        response_length=len(respuesta_clarify),
                     )
                     return
 
@@ -923,6 +938,17 @@ async def _process_query(
                 context.user_data["last_response"] = direct_reply[:500]
                 context.user_data["last_query_time"] = _time.time()
                 await update.message.reply_text(direct_reply)
+                # s301 (dúo): CLARIFY/DECLINE de F1 también son respuestas a consultas
+                # — sin log, «quién usa el bot y cuánto» tenía un agujero por aquí.
+                log_query(
+                    telegram_user_id=(update.effective_user.id
+                                      if update.effective_user else 0),
+                    query=query, source=source,
+                    route=("clarify"
+                           if f1_resolution.route is PolicyRoute.CLARIFY
+                           else "decline"),
+                    response=direct_reply, response_length=len(direct_reply),
+                )
                 return
 
             # Retrieving route: surface the resolved models to logging + state.

@@ -119,8 +119,10 @@ BEGIN
     ) THEN
         ALTER TABLE query_logs ADD CONSTRAINT query_logs_route_check
             CHECK (route IS NULL OR route IN (
-                'rag', 'catalog_shortcut', 'greeting', 'thanks', 'bye',
-                'manufacturer_mismatch', 'manufacturer_no_model'
+                'rag', 'catalog_shortcut', 'manufacturer_mismatch',
+                'manufacturer_no_model', 'clarify', 'decline',
+                -- reservados: el aviso v7 promete no registrar cortesia (duo s301)
+                'greeting', 'thanks', 'bye'
             ));
     END IF;
 END
@@ -653,19 +655,23 @@ SELECT
     bot_version,
     COUNT(*) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,
@@ -682,19 +688,23 @@ SELECT
     date_trunc('week', created_at)::date AS semana,
     COUNT(*) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,

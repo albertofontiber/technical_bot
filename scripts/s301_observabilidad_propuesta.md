@@ -59,7 +59,13 @@ completa verde; el camino RAG queda BYTE-IDÉNTICO salvo un campo nuevo en el lo
   la palabra 'route' dispararía un reintento inofensivo (sin la columna) — benigno.
 - `_handle_catalog` loggea sin response text (el texto vive en el handler) — métrica de
   canal completa, contenido no duplicado.
-- Los shortcuts loggean `source="text"` implícito aunque la consulta viniera de voz ya
-  transcrita — simplificación declarada (el canal de VOZ solo entra tras transcripción).
+- ~~«los shortcuts pueden recibir voz transcrita»~~ — RETIRADO (H5 del dúo): `handle_voice`
+  llama a `_process_query` directo y NUNCA pasa por los shortcuts; la declaración
+  describía un camino inexistente.
+- «Fire-and-forget» ACOTADO (Y4/H6 del dúo): `log_query` es HTTP síncrono (hasta 2 POSTs
+  × 10 s) dentro del handler async — no toca la respuesta (ya enviada) pero bloquea el
+  event loop. Es la clase PRE-existente del camino RAG (+call-sites, no regresión);
+  deuda anotada en TECH_DEBT con trigger = primer técnico real (mover a
+  `asyncio.to_thread` todos los call-sites juntos).
 - Filas históricas con `route` NULL: las vistas hacen COALESCE(route,'rag') — correcto
   porque los shortcuts NUNCA loggearon antes (todas las filas históricas son RAG/error).

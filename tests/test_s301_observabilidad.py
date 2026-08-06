@@ -28,9 +28,22 @@ MIGRACION = (
 
 
 class _Respuesta:
-    def __init__(self, status_code=201, texto=""):
+    """Habla el formato PostgREST real: el detector estricto exige `code` + json()."""
+
+    def __init__(self, status_code=201, payload=None):
         self.status_code = status_code
-        self.text = texto
+        self._payload = payload if payload is not None else {}
+        self.text = json.dumps(self._payload)
+
+    def json(self):
+        return self._payload
+
+
+def _falta_columna(nombre):
+    return _Respuesta(400, {
+        "code": "PGRST204",
+        "message": f"Could not find the '{nombre}' column of 'query_logs' in the schema cache",
+    })
 
 
 class _ClienteFalso:
@@ -71,35 +84,89 @@ def test_si_la_columna_no_existe_el_log_no_se_pierde(monkeypatch):
     mano. Sin el fallback, CADA log fallaría — y con él el teclado de feedback
     (query_logged=False). Se reintenta sin la columna y se avisa una vez."""
     logging_db._route_compatibility_warning_emitted = False
-    cliente = _ClienteFalso([
-        _Respuesta(400, "Could not find the 'route' column of 'query_logs'"),
-        _Respuesta(201),
-    ])
+    cliente = _ClienteFalso([_falta_columna("route"), _Respuesta(201)])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
-    assert log_query(telegram_user_id=1, query="hola", route="greeting") is True
+    assert log_query(telegram_user_id=1, query="hola", route="catalog_shortcut") is True
     assert len(cliente.posts) == 2
     assert "route" in cliente.posts[0]
     assert "route" not in cliente.posts[1]             # el reintento va sin la columna
 
 
+def test_con_las_dos_columnas_ausentes_el_log_sobrevive(monkeypatch):
+    """El caso REAL de producción (dúo s301): `rag_trace` tampoco existe — su migración
+    de julio nunca se aplicó. Los manejadores de un solo tiro perdían el log cuando el
+    400 nombraba la otra columna primero; el fallback componible itera."""
+    from tests.test_rag_runtime_trace import _minimal_valid_trace
+
+    cliente = _ClienteFalso([
+        _falta_columna("rag_trace"), _falta_columna("route"), _Respuesta(201),
+    ])
+    monkeypatch.setattr(logging_db.httpx, "Client", cliente)
+
+    assert log_query(telegram_user_id=1, query="q", route="rag",
+                     rag_trace=_minimal_valid_trace()) is True
+    assert len(cliente.posts) == 3
+    assert "rag_trace" in cliente.posts[0] and "route" in cliente.posts[0]
+    assert "rag_trace" not in cliente.posts[1] and "route" in cliente.posts[1]
+    assert "rag_trace" not in cliente.posts[2] and "route" not in cliente.posts[2]
+
+
+def test_la_violacion_del_CHECK_de_route_falla_ruidosa(monkeypatch):
+    """H2 del dúo — el patrón de la casa: el fallback que protege el log NO puede
+    comerse la ruta. Una violación del CHECK (23514, cuyo texto CONTIENE 'route' vía
+    `query_logs_route_check`) es un bug del emisor: debe fallar, no colarse como fila
+    sin ruta que `bot_uso_por_canal` cuenta como 'rag' en silencio."""
+    cliente = _ClienteFalso([_Respuesta(400, {
+        "code": "23514",
+        "message": 'new row violates check constraint "query_logs_route_check"',
+    })])
+    monkeypatch.setattr(logging_db.httpx, "Client", cliente)
+
+    assert log_query(telegram_user_id=1, query="x", route="rag") is False
+    assert len(cliente.posts) == 1                     # SIN strip, SIN reintento
+
+
 def test_un_400_ajeno_no_dispara_el_fallback(monkeypatch):
-    cliente = _ClienteFalso([_Respuesta(400, "null value in column query")])
+    cliente = _ClienteFalso([_Respuesta(400, {
+        "code": "23502", "message": "null value in column query",
+    })])
     monkeypatch.setattr(logging_db.httpx, "Client", cliente)
 
     assert log_query(telegram_user_id=1, query="x", route="rag") is False
     assert len(cliente.posts) == 1                     # sin reintento a ciegas
 
 
-def test_todos_los_shortcuts_loggean_su_ruta():
+def test_las_consultas_loggean_su_ruta_y_la_cortesia_NO():
     """Anclado en el FUENTE (idioma del repo para ramas de transporte difíciles de
-    ejercer sin Telegram): cada rama de shortcut llama a log_query con su ruta."""
+    ejercer sin Telegram). Dos contratos a la vez:
+
+    (a) toda respuesta a una CONSULTA lleva ruta — incluidos los dos clarify que el
+        dúo cazó respondiendo sin log;
+    (b) la CORTESÍA no se registra: el aviso v7 lo promete literalmente («Los saludos
+        y las despedidas no se registran») y la LIA usa esa minimización como
+        argumento — loggearla fue el hallazgo CRÍTICO del cross-model s301."""
     fuente = (REPO / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8")
-    for ruta in ("greeting", "thanks", "bye", "catalog_shortcut",
-                 "manufacturer_mismatch", "manufacturer_no_model"):
-        assert f'route="{ruta}"' in fuente, f"shortcut sin log: {ruta}"
-    # manufacturer_no_model tiene DOS ramas (con y sin modelo): ambas loggean.
-    assert fuente.count('route="manufacturer_no_model"') == 2
+    for ruta in ("catalog_shortcut", "manufacturer_mismatch",
+                 "manufacturer_no_model", "clarify", "decline"):
+        assert f'"{ruta}"' in fuente, f"consulta sin log de ruta: {ruta}"
+    assert fuente.count('route="manufacturer_no_model"') == 2   # con y sin modelo
+    for cortesia in ("greeting", "thanks", "bye"):
+        assert f'route="{cortesia}"' not in fuente, (
+            f"la cortesía {cortesia} se está loggeando: el aviso v7 promete que NO"
+        )
+    # Y la promesa sigue en el aviso (si un aviso futuro la quita, este test se
+    # revisa JUNTO con la versión de términos, no en silencio).
+    assert "Los saludos y las despedidas no se registran" in fuente
+
+
+def test_los_shortcuts_loggeados_aseguran_el_seudonimo():
+    """H7 del dúo: las rutas que SÍ escriben filas identificadas emiten el código —
+    sin esto, un usuario solo-shortcuts exportaba como «(sin código)» hasta su
+    primera consulta RAG."""
+    fuente = (REPO / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8")
+    # 1 catalog + 1 mismatch + 2 no_model + el call-site original del camino RAG.
+    assert fuente.count("asegurar_seudonimo(user_id)") >= 4
 
 
 # ------------------------------------------------------------------ el export
@@ -145,15 +212,25 @@ def _sql() -> str:
 def test_la_migracion_crea_la_taxonomia_y_las_vistas():
     sql = _sql()
     assert "ADD COLUMN IF NOT EXISTS route" in sql
-    for ruta in ("'rag'", "'catalog_shortcut'", "'greeting'", "'thanks'", "'bye'",
-                 "'manufacturer_mismatch'", "'manufacturer_no_model'"):
+    for ruta in ("'rag'", "'catalog_shortcut'", "'clarify'", "'decline'",
+                 "'manufacturer_mismatch'", "'manufacturer_no_model'",
+                 "'greeting'", "'thanks'", "'bye'"):
         assert ruta in sql, f"taxonomía sin {ruta}"
+    assert "RESERVADOS" in sql                          # la cortesía no se emite hoy
     for vista in ("bot_health_daily", "bot_health_semanal", "bot_feedback_semanal",
                   "bot_motivos_negativos", "bot_uso_por_canal"):
         assert f"CREATE OR REPLACE VIEW public.{vista}" in sql, f"falta la vista {vista}"
     # Sin security_invoker, una vista sobre query_logs perfora la RLS (lee como owner).
     assert sql.count("security_invoker = true") == 5
-    assert "REVOKE ALL PRIVILEGES" in sql and "FROM PUBLIC, anon, authenticated" in sql
+    # H1 del dúo: las CINCO en el REVOKE/GRANT (en entorno fresco, las 2 de salud
+    # nacen aquí con los default privileges de la API y la postcondición abortaría).
+    seccion_grants = sql.split("REVOKE ALL PRIVILEGES", 1)[1]
+    for vista in ("bot_health_daily", "bot_health_semanal", "bot_feedback_semanal",
+                  "bot_motivos_negativos", "bot_uso_por_canal"):
+        assert vista in seccion_grants.split("GRANT SELECT")[0], f"{vista} sin REVOKE"
+    # Y2 del dúo: sin el filtro de ruta, los shortcuts contaminan consultas_rag y
+    # hunden los percentiles de latencia con ceros.
+    assert sql.count("COALESCE(route, 'rag') = 'rag'") >= 8
 
 
 def test_las_vistas_nuevas_no_exponen_ids_ni_prosa():

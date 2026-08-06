@@ -7,11 +7,19 @@
 -- vigente: nada de Grafana/web hasta técnicos y volumen). Tres piezas:
 --
 --   1. `query_logs.route` (TECH_DEBT #31, trigger (a) disparado: Alberto pidió métricas
---      de uso). Los shortcuts del bot (saludo/gracias/adiós/catálogo/mismatch) retornaban
---      SIN loggear: «¿qué fabricantes tienes?» no existía en query_logs. El código ya
---      envía `route` en cada log (con fallback de compatibilidad si esta migración aún
---      no está aplicada). Filas históricas: NULL = pre-s301 (todas eran RAG o error; las
---      vistas usan COALESCE(route,'rag') y lo declaran).
+--      de uso). Los shortcuts de CONSULTA (catálogo/mismatch/sin-manuales) y los dos
+--      clarify retornaban SIN loggear: «¿qué fabricantes tienes?» no existía en
+--      query_logs. La CORTESÍA (saludo/gracias/adiós) sigue SIN registrarse, a
+--      conciencia: el aviso v7 lo promete literalmente y la LIA usa esa minimización
+--      como argumento (hallazgo CRÍTICO del dúo s301) — sus valores quedan RESERVADOS
+--      en el CHECK. El código ya envía `route` en cada log (fallback de compatibilidad
+--      componible si faltan columnas). Filas históricas: NULL = pre-s301 (todas eran
+--      RAG o error; las vistas usan COALESCE(route,'rag') y lo declaran).
+--
+-- ⚠ DESCUBIERTO al verificar (s301): la migración de julio
+-- `20260720095702_add_query_logs_rag_trace.sql` NUNCA se aplicó — `rag_trace` no existe
+-- en producción y el bot lleva desde entonces guardando logs SIN traza por su fallback.
+-- RECOMENDADO: aplicarla en la MISMA sentada, antes que esta.
 --   2. Las 2 vistas de salud EXISTENTES, ahora VERSIONADAS: vivían solo en el bootstrap
 --      (nunca en una migración) — un entorno levantado por la cola no las tenía.
 --   3. Tres vistas nuevas para las preguntas de Alberto: cuánto feedback y de qué signo
@@ -41,9 +49,14 @@ BEGIN
             CHECK (route IS NULL OR route IN (
                 'rag',                    -- el pipeline completo (default del código)
                 'catalog_shortcut',       -- «¿qué fabricantes/modelos tienes?»
-                'greeting', 'thanks', 'bye',
                 'manufacturer_mismatch',  -- modelo de OTRO fabricante
-                'manufacturer_no_model'   -- fabricante sin manuales en corpus
+                'manufacturer_no_model',  -- fabricante sin manuales en corpus
+                'clarify',                -- pide modelo/aclaración sin ir a retrieval
+                'decline',                -- F1 declina el turno ($0, sin retrieval)
+                -- RESERVADOS (dúo s301): el aviso v7 promete «Los saludos y las
+                -- despedidas no se registran» ⇒ HOY ningún camino los emite. Quedan en
+                -- la taxonomía para un aviso futuro que lo cambie, sin re-migrar.
+                'greeting', 'thanks', 'bye'
             ));
     END IF;
 END
@@ -58,20 +71,21 @@ SELECT
     created_at::date AS dia,
     bot_version,
     COUNT(*) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,
@@ -87,20 +101,21 @@ WITH (security_invoker = true) AS
 SELECT
     date_trunc('week', created_at)::date AS semana,
     COUNT(*) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
-        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+        WHERE source <> 'error' AND category IS DISTINCT FROM 'direct' AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,
@@ -170,11 +185,18 @@ GROUP BY 1, 2;
 
 -- Mismo perímetro que las vistas de salud: NADA para la API anónima; lectura solo del
 -- operador (postgres) y del bot si algún día la necesita.
-REVOKE ALL PRIVILEGES ON public.bot_feedback_semanal,
+-- Las CINCO, no solo las nuevas (dúo s301): en un entorno fresco las 2 de salud
+-- NACEN en esta migración con los default privileges de Supabase (API legible) — y la
+-- postcondición 4.2 habría tumbado la migración entera justo en su entorno objetivo.
+REVOKE ALL PRIVILEGES ON public.bot_health_daily,
+                         public.bot_health_semanal,
+                         public.bot_feedback_semanal,
                          public.bot_motivos_negativos,
                          public.bot_uso_por_canal
     FROM PUBLIC, anon, authenticated;
-GRANT SELECT ON public.bot_feedback_semanal,
+GRANT SELECT ON public.bot_health_daily,
+                public.bot_health_semanal,
+                public.bot_feedback_semanal,
                 public.bot_motivos_negativos,
                 public.bot_uso_por_canal
     TO service_role;

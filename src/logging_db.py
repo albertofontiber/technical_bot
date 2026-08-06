@@ -69,30 +69,38 @@ _trace_compatibility_warning_emitted = False
 _seudonimo_emitido: set[int] = set()
 
 
-def _trace_contract_rejected(response: httpx.Response) -> bool:
-    """Return true only for a definitive optional-trace schema rejection.
+def _columna_opcional_rechazada(response) -> str | None:
+    """Nombre de la columna OPCIONAL (`route`/`rag_trace`) rechazada por esquema, o None.
 
-    Timeouts and uncertain network failures are never retried because the first
-    INSERT may have committed. These explicit PostgREST/Postgres errors are
-    atomic failures, so one compatibility retry without ``rag_trace`` is safe.
+    Solo rechazos ATÓMICOS: timeouts e incertidumbres de red jamás se reintentan (el
+    primer INSERT pudo haberse confirmado). Y ESTRICTO a propósito (dúo s301): solo el
+    código de columna-desconocida (PGRST204/42703) nombra la columna a quitar. Un 400
+    cualquiera cuyo texto contenga 'route' — p. ej. la violación del CHECK
+    `query_logs_route_check` — NO es compatibilidad: es un bug del emisor y debe fallar
+    RUIDOSO, no colarse como fila sin ruta que `bot_uso_por_canal` cuenta como 'rag'.
     """
-    if response.status_code not in (400, 409):
-        return False
+    if getattr(response, "status_code", None) not in (400, 409):
+        return None
     try:
         payload = response.json()
     except Exception:
-        return False
+        return None
     if not isinstance(payload, dict):
-        return False
+        return None
     code = str(payload.get("code") or "")
     message = " ".join(
         str(payload.get(key) or "") for key in ("message", "details", "hint")
     ).lower()
-    if code == "PGRST204" and "rag_trace" in message:
-        return True
-    if code == "42703" and "rag_trace" in message:
-        return True
-    return code == "23514" and "query_logs_rag_trace" in message
+    if code in ("PGRST204", "42703"):
+        for columna in ("route", "rag_trace"):
+            if columna in message:
+                return columna
+    # Caso HEREDADO solo-trace: su CHECK de contrato (23514) también degrada a
+    # fila-sin-traza — la traza es telemetría opcional. Para `route` NO existe el
+    # equivalente, a conciencia (ver arriba).
+    if code == "23514" and "query_logs_rag_trace" in message:
+        return "rag_trace"
+    return None
 
 
 def _warn_trace_compatibility_fallback_once() -> None:
@@ -177,36 +185,28 @@ def log_query(
                 headers=_HEADERS,
                 json=row,
             )
-            # Compatibilidad de DESPLIEGUE (misma clase que el fallback de rag_trace):
-            # main auto-despliega, y la columna `route` llega con la migración s301 que
-            # aplica Alberto a mano. Si el código gana la carrera, sin esto CADA log
-            # fallaría — y con él el teclado de feedback (query_logged=False). Se
-            # reintenta sin la columna y se avisa UNA vez.
-            if (resp.status_code == 400 and "route" in row
-                    and "route" in getattr(resp, "text", "")):
-                row = {k: v for k, v in row.items() if k != "route"}
-                _warn_route_compatibility_once()
+            # Compatibilidad de DESPLIEGUE, estricta y COMPONIBLE (dúo s301): main
+            # auto-despliega y las columnas opcionales llegan por migraciones que
+            # Alberto aplica a mano — y hoy en producción faltan LAS DOS (`rag_trace`
+            # desde julio; descubierto en s301). Cada rechazo atómico de
+            # columna-desconocida quita ESA columna y reintenta: dos faltas, dos
+            # pasadas. Los manejadores secuenciales de un solo tiro perdían el log —
+            # y con él el teclado de feedback (query_logged=False) — cuando el 400
+            # nombraba la otra columna primero.
+            for _ in range(2):
+                faltante = _columna_opcional_rechazada(resp)
+                if faltante is None or faltante not in row:
+                    break
+                row = {k: v for k, v in row.items() if k != faltante}
+                if faltante == "route":
+                    _warn_route_compatibility_once()
+                else:
+                    _warn_trace_compatibility_fallback_once()
                 resp = client.post(
                     f"{SUPABASE_URL}/rest/v1/query_logs",
                     headers=_HEADERS,
                     json=row,
                 )
-            if safe_trace is not None and _trace_contract_rejected(resp):
-                fallback_row = dict(row)
-                fallback_row.pop("rag_trace", None)
-                fallback = client.post(
-                    f"{SUPABASE_URL}/rest/v1/query_logs",
-                    headers=_HEADERS,
-                    json=fallback_row,
-                )
-                if fallback.status_code >= 400:
-                    logger.warning(
-                        "Failed to log query after trace compatibility fallback: %s",
-                        fallback.status_code,
-                    )
-                    return False
-                _warn_trace_compatibility_fallback_once()
-                return True
             if resp.status_code >= 400:
                 logger.warning("Failed to log query: %s", resp.status_code)
                 return False
