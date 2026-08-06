@@ -4879,3 +4879,47 @@ Tally: `evals/adversarial_review_log.jsonl`.
 **Pendiente de Alberto**: aplicar en el SQL Editor, en una sentada y en este orden,
 `20260720095702` (rag_trace — la de julio) y `20260806150000_s301` (route + vistas);
 luego crear el dashboard de Supabase sobre las 5 vistas (clicks, no código).
+
+## DEC-184 (s302) — El packet de adquisición desmonta el barrido: 7 huecos, no 44 — y la CAD-171 ya la teníamos
+
+**Contexto.** El PLAN llevaba desde s294 con «44 documentos que nuestros manuales citan y no
+tenemos» como frente de trabajo, con la Guía Avanzada de Configuración de la CAD-171 en
+cabeza — el documento del primer fallo orgánico del bot (DEC-176). s302 adjudicó los 44
+candidatos uno a uno (8 agentes; clasificación + investigación de vías) antes de pedir nada.
+
+**Resultado: mi encuadre era falso en las DOS afirmaciones.**
+
+1. **De 44 candidatos, 7 son huecos reales** (16%). 18 ya estaban EN EL CORPUS bajo otro
+   nombre de fichero — incluido el nº1 del ranking (`997-340-003`, 11 citas, que es
+   `MPDT212.pdf`) —, 10 son referencias de PIEZA o rangos de direcciones (`001-127` es «la
+   dirección 1 a 127» de un lazo), 5 son erratas de imprenta o pies de página.
+2. **La «Guía Avanzada de Configuración» de la CAD-171 NO falta: es el
+   `CAD-250_Manual-Configuracion-MC-380-es-2026-c`**, ya ingestado y ya mapeado a
+   `detnov:cad-171` como `primary` en `doc_map.jsonl` — cuyo control de revisiones dice
+   «Adaptación para CAD-171 y CAD-201» y cuyo §5.4 p.29 documenta EXACTAMENTE la ruta que el
+   bot falló (`AJUSTES > AVANZADO`). El primer fallo orgánico es **100% de SELECCIÓN**:
+   DEC-176 se REFUERZA, y no se arregla comprando nada.
+
+**La clase, por CUARTA vez** (`feedback_corpus_gap`): atribuir a hueco de corpus lo que es
+fallo propio. Aquí con un agravante nuevo — no fue un instrumento LLM el que sobre-atribuyó,
+fui yo elevando la salida CRUDA de un probe («candidatos, NO confirmados», lo decía su
+propio JSON) a frente de trabajo del PLAN, y manteniéndolo tres sesiones sin adjudicar.
+Regla que deja: **la salida de un probe no entra al PLAN como hecho hasta estar adjudicada**;
+si entra como candidata, se rotula candidata EN EL PLAN.
+
+**Lo que SÍ queda (y es accionable)**: 3 documentos con valor real — `997-340-005`
+(programación por PC de la ID1000, la familia que tenemos a medias), `997-415`
+(actualización ID50/ID60/ZX50: 6 citas, dos marcas, un solo PDF) y **`997-412`** (Sinóptico
+IDR, 4 citas) — este último un hueco REAL que **el barrido perdió** por un `break` en citas
+dobles (TECH_DEBT #62: 4 bugs del instrumento, uno de ellos lo hace no-fiable para NEGAR).
+
+**Vía de obtención (verificada con HTTP real, sin inventar URLs)**: en `notifier.es` y
+`morley-ias.es` **los PDF están abiertos y el ÍNDICE está cerrado** — lo escaso no es el
+fichero sino saber qué existe. Plan en paralelo: descarga directa por nombre (yo), 3 altas
+de partner (Alberto: Notifier ES, Morley-IAS ES, Morley Professional UK) y, si se atasca,
+petición a `soporteHLSI@honeywell.com` **pidiendo el LISTADO, no los ficheros**. El portal
+`firesecurityproducts.com` (runbook s55) NO sirve: cubre Carrier/Kidde, no Honeywell.
+
+**Consecuencia para el rumbo**: el frente «adquisición» baja de 44 documentos a 3 con
+valor + 3 altas, y **el trabajo de calidad vuelve a retrieval/síntesis** — donde el primer
+fallo orgánico dijo desde el principio que estaba.

@@ -2297,3 +2297,30 @@ esperarse con await, no soltarse.
 
 **Trigger**: el primer técnico real (concurrencia > 1) o cualquier p95 de respuesta que
 señale al log. **Coste**: 1-2h + tests.
+
+---
+
+## #62 — El barrido de citas (`s294_citation_gap.py`) tiene 4 bugs: 84% de ruido y PIERDE huecos reales (s302)
+
+**Qué pasa**: el instrumento produjo 44 «documentos citados y ausentes»; la adjudicación de
+s302 (`evals/s302_adquisicion_packet_v1.md`) dejó **7 reales**. Peor que el ruido: **perdió
+un hueco REAL** (`997-412`, Sinóptico IDR, 4 citas). Los cuatro bugs, verificados en el
+fichero:
+
+1. **`known` se construye solo con `source_file`** (~línea 88-128) → no ve el código impreso
+   en la PORTADA. Notifier/Morley guardan los ficheros con su código editorial (`MPDT212`)
+   e imprimen el `997-xxx` dentro. **Esto solo explica 18 de los 37 falsos positivos** — el
+   nº1 del ranking (997-340-003, 11 citas) era `MPDT212.pdf`, que ya teníamos. La materia
+   prima del fix ya existe: `evals/s83_full_extraction_merged.jsonl` (refs internas).
+2. **Comodín de idioma no normalizado** (~66-67, ~125): `997-670-00X` no casa con
+   `997-670-005-3_*`. 5 falsos positivos del bloque Pearl.
+3. **Prefijo truncado** (`RX_DOCCODE`, ~47-49): emite `06200-005` en vez de `74-06200-005`.
+4. **`MAX_GAP=100` + `break`** (~117-118): **pierde el SEGUNDO código de toda cita doble**
+   → así se perdió `997-412`. Es el bug que convierte al instrumento en no-fiable para
+   *negar* («no hay más huecos»), no solo ruidoso.
+
+**Filtro barato adicional**: descartar el código que aparece ≫N veces en el MISMO
+`source_file` (encabezado/pie corriente) — mata `PK-ID3000` (128 apariciones) en 3 líneas.
+
+**Trigger**: antes de RE-CORRER el barrido (hoy su salida está adjudicada a mano y
+congelada en el packet; re-correrlo sin los fixes reproduce el ruido). **Coste**: 2-3h.
