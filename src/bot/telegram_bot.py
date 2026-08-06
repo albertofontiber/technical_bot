@@ -575,7 +575,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # --- Pre-pipeline classification (saves API calls) ---
 
-    # 1. Greetings
+    # s301 (#31): los shortcuts de CONSULTA loggean antes de retornar — sin esto, las
+    # métricas de uso por canal eran ciegas («¿qué fabricantes tienes?» no existía en
+    # query_logs). La CORTESÍA (saludo/gracias/adiós) NO se loggea, a conciencia: el
+    # aviso v7 promete literalmente «Los saludos y las despedidas no se registran» y la
+    # ponderación de interés legítimo usa esa minimización como argumento (§3 del LIA).
+    # Cazado por el dúo s301: loggearla habría ampliado el tratamiento contra el
+    # contrato aceptado. Los valores greeting/thanks/bye del CHECK quedan RESERVADOS
+    # para un aviso futuro que lo cambie; hoy ningún camino los emite.
+
+    # 1. Greetings (SIN log: promesa del aviso)
     if _GREETING_PATTERNS.match(query):
         await update.message.reply_text(
             "¡Hola! 👋 Soy el asistente técnico PCI.\n\n"
@@ -586,24 +595,28 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    # 2. Thanks
+    # 2. Thanks (SIN log: promesa del aviso)
     if _THANKS_PATTERNS.match(query):
         await update.message.reply_text(
             "De nada 👍 ¿Necesitas algo más?"
         )
         return
 
-    # 3. Bye
+    # 3. Bye (SIN log: promesa del aviso)
     if _BYE_PATTERNS.match(query):
         await update.message.reply_text(
             "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
         )
         return
 
-    # 4. Catalog questions
+    # 4. Catalog questions (consulta de contenido: SÍ se loggea, como toda consulta)
     if _CATALOG_PATTERNS.search(query):
         await update.message.chat.send_action("typing")
         await _handle_catalog(update)
+        # La respuesta vive dentro del handler (catálogo dinámico); para la métrica de
+        # canal basta la consulta y la ruta — no se duplica el texto aquí.
+        log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
+        asegurar_seudonimo(user_id)
         return
 
     # 5. Smart manufacturer detection (dynamic — queries Supabase)
@@ -620,13 +633,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if actual_manufacturer:
                 if actual_manufacturer.lower() != mentioned_manufacturer.lower():
                     # Model exists but under a different manufacturer
-                    await update.message.reply_text(
+                    respuesta = (
                         f"El *{model}* es un producto de *{actual_manufacturer}*, "
                         f"no de _{mentioned_manufacturer}_.\n\n"
                         f"¿Te refieres al *{model}* de *{actual_manufacturer}*? "
-                        f"Si es así, dime tu pregunta y te ayudo.",
-                        parse_mode="Markdown",
+                        f"Si es así, dime tu pregunta y te ayudo."
                     )
+                    await update.message.reply_text(respuesta, parse_mode="Markdown")
+                    log_query(telegram_user_id=user_id, query=query,
+                              route="manufacturer_mismatch",
+                              response=respuesta, response_length=len(respuesta))
+                    asegurar_seudonimo(user_id)
                     return
                 # else: correct manufacturer + model → fall through to RAG
             else:
@@ -645,12 +662,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 if not manufacturer_in_db(mentioned_manufacturer):
                     available = get_available_manufacturers()
                     manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                    await update.message.reply_text(
+                    respuesta = (
                         f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
                         f"Tengo información de: {manufacturers_str}.\n"
-                        f"¿Puedo ayudarte con alguno de estos?",
-                        parse_mode="Markdown",
+                        f"¿Puedo ayudarte con alguno de estos?"
                     )
+                    await update.message.reply_text(respuesta, parse_mode="Markdown")
+                    log_query(telegram_user_id=user_id, query=query,
+                              route="manufacturer_no_model",
+                              response=respuesta, response_length=len(respuesta))
+                    asegurar_seudonimo(user_id)
                     return
                 # else: manufacturer IS in DB → fall through to RAG (model index desynced)
         else:
@@ -659,12 +680,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 # Manufacturer not in DB
                 available = get_available_manufacturers()
                 manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                await update.message.reply_text(
+                respuesta = (
                     f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
                     f"Tengo información de: {manufacturers_str}.\n"
-                    f"¿Puedo ayudarte con alguno de estos?",
-                    parse_mode="Markdown",
+                    f"¿Puedo ayudarte con alguno de estos?"
                 )
+                await update.message.reply_text(respuesta, parse_mode="Markdown")
+                log_query(telegram_user_id=user_id, query=query,
+                          route="manufacturer_no_model",
+                          response=respuesta, response_length=len(respuesta))
+                asegurar_seudonimo(user_id)
                 return
             # else: manufacturer IS in DB → fall through to RAG
 
@@ -824,13 +849,24 @@ async def _process_query(
                 query_clean = query.lower().strip("¿?¡!., ")
                 is_pci_term = any(term in query_clean for term in PCI_TERMS)
                 if is_pci_term:
-                    await update.message.reply_text(
+                    respuesta_clarify = (
                         f"Para darte información precisa sobre *{query_clean}*, "
                         f"necesito saber el modelo de equipo.\n\n"
                         f"Por ejemplo: _{query_clean} en la CAD-250_ o "
                         f"_{query_clean} del MAD-461_.\n\n"
-                        f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?",
-                        parse_mode="Markdown",
+                        f"¿Qué equipo (Notifier, Morley o Detnov) estás usando?"
+                    )
+                    await update.message.reply_text(respuesta_clarify,
+                                                    parse_mode="Markdown")
+                    # s301 (dúo): esta rama respondía y retornaba SIN log — «cada
+                    # respuesta lleva ruta» era falso. Es una consulta de contenido:
+                    # se loggea como el resto.
+                    log_query(
+                        telegram_user_id=(update.effective_user.id
+                                          if update.effective_user else 0),
+                        query=query, source=source, route="clarify",
+                        response=respuesta_clarify,
+                        response_length=len(respuesta_clarify),
                     )
                     return
 
@@ -902,6 +938,17 @@ async def _process_query(
                 context.user_data["last_response"] = direct_reply[:500]
                 context.user_data["last_query_time"] = _time.time()
                 await update.message.reply_text(direct_reply)
+                # s301 (dúo): CLARIFY/DECLINE de F1 también son respuestas a consultas
+                # — sin log, «quién usa el bot y cuánto» tenía un agujero por aquí.
+                log_query(
+                    telegram_user_id=(update.effective_user.id
+                                      if update.effective_user else 0),
+                    query=query, source=source,
+                    route=("clarify"
+                           if f1_resolution.route is PolicyRoute.CLARIFY
+                           else "decline"),
+                    response=direct_reply, response_length=len(direct_reply),
+                )
                 return
 
             # Retrieving route: surface the resolved models to logging + state.

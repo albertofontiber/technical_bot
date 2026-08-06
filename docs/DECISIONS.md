@@ -4842,3 +4842,40 @@ workflow y dúo, 0 falsos positivos. Traza: `evals/adversarial_review_log.jsonl`
 
 **Estado**: rama `claude/s300-blueprint-l0`, PR abierta. Los lotes L1-L3 esperan el GO de
 Alberto (cada uno con su dúo); los frentes (1) y (3) son sesiones S/M sueltas.
+
+## DEC-183 (s301) — El «dashboard» resultó ser abrir grifos; y el aviso mandó sobre la métrica
+
+**Decisión (frente 6 + S-wins del 7).** Nada de app: export del 👎 con motivo y prosa
+(`tap_reason`/`tap_comment` — el dato existía y CERO herramientas lo leían), columna
+`route` + log de los shortcuts de CONSULTA y de los dos clarify (#31 cerrado; parte del
+paquete #60 cubierta), migración s301 con las 2 vistas de salud POR FIN versionadas + 3
+vistas agregadas nuevas (feedback semanal, motivos del 👎, uso por canal;
+`security_invoker`, API a cero), Gold gate en CI, guardas de ingesta anti-vacío, y
+`scripts/marcar_utilidad.py` (el camino de escritura del operador para la marca del
+bonus). Front = dashboard de Supabase; DEC-162f intacto.
+
+**El hallazgo que manda: el AVISO es un contrato, también para la telemetría.** El
+cross-model cazó (CRÍTICO) que loggear saludos/gracias/adiós contradecía la promesa
+literal del aviso v7 («Los saludos y las despedidas no se registran») y la minimización
+que la LIA usa como argumento. Se revirtió: la cortesía NO se registra; sus valores
+quedan RESERVADOS en el CHECK para un aviso futuro. Regla que deja: **una métrica nueva
+se contrasta contra el aviso ANTES de cablearse** — la observabilidad también es
+tratamiento.
+
+**Los otros dos con dientes:** (a) al verificar la carrera de deploy contra el catálogo
+VIVO apareció que la migración de `rag_trace` (julio) NUNCA se aplicó — el bot lleva
+semanas guardando logs sin traza por su fallback silencioso; el fallback pasa a ser
+COMPONIBLE por columna nombrada (dos faltas, dos pasadas — los manejadores de un solo
+tiro perdían log Y teclado de feedback cuando el 400 nombraba la otra columna primero) y
+la migración de julio entra en la cola del SQL Editor; (b) el patrón de la casa, otra
+vez: mi detector laxo (`'route' in text`) habría DEGRADADO a silencio la violación del
+CHECK de ruta — misclasificando como 'rag' justo la métrica que el lote existe para dar;
+detector estricto (PGRST204/42703 + columna nombrada) con test de la rama 23514.
+
+**Dúo**: cross-model 4/4 (1 crítico) + sub-agente 8/8 (NO-SÓLIDA→fixes; H4 verificado
+contra prod y era peor de lo especulado) — 0 falsos positivos. 12 hallazgos aplicados.
+Tally: `evals/adversarial_review_log.jsonl`.
+
+**Pendiente de Alberto**: aplicar en el SQL Editor, en una sentada y en este orden,
+`20260720095702` (rag_trace — la de julio) y `20260806150000_s301` (route + vistas);
+luego crear el dashboard de Supabase sobre las 5 vistas (clicks, no código).

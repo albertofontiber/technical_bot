@@ -124,14 +124,20 @@ def main():
     args = ap.parse_args()
 
     key = load_key()
+    # GUARDAS (s301): estos "return" salían con EXIT 0 — un paso que no puede correr
+    # APARENTA haber corrido (misma clase que el manifiesto vacío de inventory).
     if not key:
-        print("LLAMAPARSE_API_KEY no encontrada en .env")
-        return
+        raise SystemExit("LLAMAPARSE_API_KEY no encontrada en .env")
     if not os.path.exists(MANIFEST):
-        print(f"Falta {MANIFEST} — corre antes src/reingest/inventory.py (A1)")
-        return
+        raise SystemExit(f"Falta {MANIFEST} — corre antes src/reingest/inventory.py (A1)")
 
     files = load_manifest()
+    if not files:
+        raise SystemExit(
+            f"{MANIFEST} está VACÍO: 0 entradas. Un manifiesto vacío casi siempre "
+            f"significa inventario corrido desde el checkout sin corpus (el corpus vive "
+            f"en la carpeta OneDrive). Re-corre A1 desde el directorio correcto."
+        )
     if args.probe:
         files = select_probe_sample(files, args.probe_pages)
     if args.limit:

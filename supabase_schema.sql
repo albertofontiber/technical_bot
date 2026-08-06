@@ -104,10 +104,29 @@ CREATE TABLE IF NOT EXISTS query_logs (
     response_time_ms INTEGER DEFAULT 0,
     bot_version TEXT,            -- git short hash or tag of code that generated this row
     rag_trace JSONB,
+    route TEXT,                  -- s301: canal de la respuesta (rag o shortcut); NULL = pre-s301
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 ALTER TABLE query_logs ADD COLUMN IF NOT EXISTS rag_trace JSONB;
+ALTER TABLE query_logs ADD COLUMN IF NOT EXISTS route TEXT;
+DO $route_check$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint
+         WHERE conname = 'query_logs_route_check'
+           AND conrelid = 'public.query_logs'::regclass
+    ) THEN
+        ALTER TABLE query_logs ADD CONSTRAINT query_logs_route_check
+            CHECK (route IS NULL OR route IN (
+                'rag', 'catalog_shortcut', 'manufacturer_mismatch',
+                'manufacturer_no_model', 'clarify', 'decline',
+                -- reservados: el aviso v7 promete no registrar cortesia (duo s301)
+                'greeting', 'thanks', 'bye'
+            ));
+    END IF;
+END
+$route_check$;
 -- One DO statement is atomic even when this bootstrap is run with autocommit:
 -- a failed ADD rolls the DROP back instead of leaving the table unbounded.
 DO $rag_trace_constraint$
@@ -636,19 +655,23 @@ SELECT
     bot_version,
     COUNT(*) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,
@@ -665,19 +688,23 @@ SELECT
     date_trunc('week', created_at)::date AS semana,
     COUNT(*) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS consultas_rag,
     COUNT(DISTINCT telegram_user_id) FILTER (
         WHERE source <> 'error'
     ) AS usuarios_unicos,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p50_ms,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY response_time_ms) FILTER (
         WHERE source <> 'error' AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
     ) AS latencia_pipeline_p95_ms,
     COUNT(*) FILTER (
         WHERE source <> 'error'
           AND category IS DISTINCT FROM 'direct'
+          AND COALESCE(route, 'rag') = 'rag'
           AND (response ILIKE 'No tengo información%'
                OR response ILIKE 'No dispongo%')
     ) AS no_info_heuristica,
@@ -692,6 +719,62 @@ REVOKE ALL PRIVILEGES ON bot_health_daily FROM PUBLIC, anon, authenticated;
 REVOKE ALL PRIVILEGES ON bot_health_semanal FROM PUBLIC, anon, authenticated;
 GRANT SELECT ON bot_health_daily TO service_role;
 GRANT SELECT ON bot_health_semanal TO service_role;
+
+-- s301: feedback, motivos del 👎 y uso por canal — AGREGADOS puros (ni ids ni prosa).
+CREATE OR REPLACE VIEW bot_feedback_semanal
+WITH (security_invoker = true) AS
+SELECT
+    COALESCE(v.semana, f.semana) AS semana,
+    COALESCE(v.votos_up, 0)        AS votos_up,
+    COALESCE(v.votos_down, 0)      AS votos_down,
+    COALESCE(v.con_motivo, 0)      AS votos_down_con_motivo,
+    COALESCE(v.con_comentario, 0)  AS votos_con_comentario,
+    COALESCE(v.marcados_utiles, 0) AS marcados_utiles,
+    COALESCE(f.mensajes, 0)        AS feedback_libre
+FROM (
+    SELECT date_trunc('week', created_at)::date AS semana,
+           COUNT(*) FILTER (WHERE verdict = 'up')        AS votos_up,
+           COUNT(*) FILTER (WHERE verdict = 'down')      AS votos_down,
+           COUNT(*) FILTER (WHERE verdict = 'down'
+                              AND reason_class IS NOT NULL) AS con_motivo,
+           COUNT(*) FILTER (WHERE comment IS NOT NULL)   AS con_comentario,
+           COUNT(*) FILTER (WHERE utilidad IS NOT NULL
+                              AND utilidad <> 'ninguna') AS marcados_utiles
+      FROM answer_feedback
+     GROUP BY 1
+) v
+FULL JOIN (
+    SELECT date_trunc('week', created_at)::date AS semana,
+           COUNT(*) AS mensajes
+      FROM feedback
+     GROUP BY 1
+) f USING (semana);
+
+CREATE OR REPLACE VIEW bot_motivos_negativos
+WITH (security_invoker = true) AS
+SELECT
+    date_trunc('week', created_at)::date AS semana,
+    COALESCE(reason_class, '(sin motivo)') AS motivo,
+    COUNT(*) AS votos
+FROM answer_feedback
+WHERE verdict = 'down'
+GROUP BY 1, 2;
+
+CREATE OR REPLACE VIEW bot_uso_por_canal
+WITH (security_invoker = true) AS
+SELECT
+    date_trunc('week', created_at)::date AS semana,
+    CASE WHEN source = 'error' THEN 'error'
+         ELSE COALESCE(route, 'rag') END AS canal,
+    COUNT(*) AS consultas,
+    COUNT(DISTINCT telegram_user_id) AS personas
+FROM query_logs
+GROUP BY 1, 2;
+
+REVOKE ALL PRIVILEGES ON bot_feedback_semanal, bot_motivos_negativos, bot_uso_por_canal
+    FROM PUBLIC, anon, authenticated;
+GRANT SELECT ON bot_feedback_semanal, bot_motivos_negativos, bot_uso_por_canal
+    TO service_role;
 
 -- Create storage bucket for manual images
 -- Note: Run this via Supabase dashboard:

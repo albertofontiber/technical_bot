@@ -67,13 +67,14 @@ sonda + dúo propios) y punto 6 (corrección de marca, engancha con `hp002` del 
 (5) `hp003#4` sigue siendo el único lever vivo de etapa 3 si alguna vez se retoma L3 v2.
 **Frentes nuevos (Alberto, 6-ago; forma auditada con evidencia — 20+10 agentes + 3
 verificaciones adversariales, s300):**
-(6) **«dashboard» SIN app** — el veredicto DEC-162f (descartar Grafana/web «hasta
-técnicos y volumen») SIGUE vigente; lo que se hace es abrir los grifos ya construidos:
-export del 👎 con `reason_class`+`comment` (~10 líneas — hoy CERO herramientas leen el
-porqué del voto negativo), 2-3 vistas SQL agregadas versionadas en migración (las
-`bot_health_*` actuales no lo están) con el dashboard de Supabase como front, TECH_DEBT
-#31 (shortcuts sin loggear = uso por canal ciego, 1-2h), y script de operador para
-estampar `utilidad` (la marca del bonus no tiene camino de escritura). Todo S.
+(6) **«dashboard» SIN app — CONSTRUIDO (s301, PR #213; DEC-183)**: export del 👎 con
+motivo y prosa, `route` + log de shortcuts de consulta y clarify (#31 cerrado; la
+CORTESÍA excluida — promesa literal del aviso v7, crítico del dúo), 5 vistas agregadas
+versionadas (front = dashboard de Supabase), Gold gate en CI, guardas de ingesta,
+`marcar_utilidad.py`. **Acciones de Alberto tras el merge**: aplicar EN ORDEN las
+migraciones `20260720095702` (rag_trace — la de JULIO, descubierta sin aplicar: el bot
+llevaba semanas logueando sin traza) y `20260806150000_s301`; montar el dashboard de
+Supabase sobre las 5 vistas (clicks).
 (7) **automatización proporcionada** — ingesta: guardas anti-manifiesto-vacío (⚠ el
 corpus de 1.323 PDFs vive SOLO en OneDrive y desde `C:\dev` el inventario produce vacío
 SIN fallar) + playbook re-escrito contra `src/reingest/` + `ingest_new.py` con gates y
