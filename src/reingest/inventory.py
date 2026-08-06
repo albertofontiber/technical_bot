@@ -79,6 +79,17 @@ def page_count(path: str) -> int | None:
 
 def main():
     pdfs = find_corpus_pdfs()
+    # GUARDA (s301, frente 7): el corpus vive en la carpeta OneDrive y este glob es
+    # RELATIVO al cwd — ejecutado desde el checkout de C:\dev (que no tiene PDFs) esto
+    # producía un manifiesto VACÍO con exit 0, y todo lo de aguas abajo «funcionaba»
+    # sobre nada. Un inventario sin corpus no es un inventario: se corta aquí.
+    if not pdfs:
+        raise SystemExit(
+            "inventario VACÍO: 0 PDFs bajo el directorio actual. ¿Estás ejecutando "
+            "desde el checkout sin corpus? El corpus vive en la carpeta OneDrive del "
+            "proyecto — ejecuta desde allí (cd) o revisa el cwd. NO se escribe un "
+            "manifiesto vacío."
+        )
     print(f"Corpus: {len(pdfs)} PDFs encontrados.\n", flush=True)
     pages_map = load_pages_map()
 

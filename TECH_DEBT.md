@@ -1317,7 +1317,14 @@ convierte la exposición confirmada en deuda no urgente.
 
 ## 31. Shortcuts del bot no se loggean en `query_logs` — gap de observability (sesión 21 cierre)
 
-**Estado actual (28 abril 2026)**: `log_query()` solo se invoca al final de la rama RAG completa de `_process_query` (`src/bot/telegram_bot.py:478`). Los `return` tempranos de los shortcuts (greeting, thanks, bye, **catalog**, manufacturer-mismatch, manufacturer-without-model) nunca llegan al log. **Evidencia**: la query "¿Qué fabricantes tienes?" del smoke real post-hotfix-2 (que sí entró por `_handle_catalog`) no aparece en el CSV de `query_logs` exportado por Alberto. La misma query, días antes (commit `cebf3ef` pre-hotfix-2 cuando regex aún no detectaba "fabricantes"), sí aparece porque cayó a RAG.
+> **HECHO (s301, 6-ago-2026)** — trigger (a) disparado: Alberto pidió métricas de uso.
+> Columna `route` (+CHECK de taxonomía, migración `20260806150000_s301` — pendiente de
+> aplicar) + `log_query(route=...)` en las 6 ramas de shortcut + fallback de
+> compatibilidad si el código despliega antes que la migración + vista
+> `bot_uso_por_canal`. Filas históricas: `route` NULL = pre-s301 (las vistas hacen
+> COALESCE a 'rag' y lo declaran).
+
+**Estado anterior (28 abril 2026)**: `log_query()` solo se invoca al final de la rama RAG completa de `_process_query` (`src/bot/telegram_bot.py:478`). Los `return` tempranos de los shortcuts (greeting, thanks, bye, **catalog**, manufacturer-mismatch, manufacturer-without-model) nunca llegan al log. **Evidencia**: la query "¿Qué fabricantes tienes?" del smoke real post-hotfix-2 (que sí entró por `_handle_catalog`) no aparece en el CSV de `query_logs` exportado por Alberto. La misma query, días antes (commit `cebf3ef` pre-hotfix-2 cuando regex aún no detectaba "fabricantes"), sí aparece porque cayó a RAG.
 
 **Por qué importa**: si los técnicos preguntan mucho "¿qué fabricantes tienes?" o saludan, no hay forma de saberlo. Se pierde:
 - Métricas de uso real por canal (¿% queries que son catálogo?, ¿% saludos vs RAG?)

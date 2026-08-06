@@ -85,20 +85,35 @@ def _attach_tap_verdicts(
     query_logs.id — unlike the free-text `feedback` table, which predates the
     FK and keeps the fuzzy startswith match below. One verdict per (query,
     user) is guaranteed by the table's UNIQUE pair; a multi-user query joins
-    as a comma-separated list."""
+    as a comma-separated list.
+
+    s301: se acaba el voto MUDO en el export — `reason_class` y `comment` (la prosa
+    que s294 construyó con ForceReply) viajan JUNTO al veredicto. Hasta hoy, CERO
+    herramientas del repo leían el porqué del 👎: la columna existía, el bot la
+    capturaba, y nadie la miraba. Este es el grifo."""
     queries_df = queries_df.copy()
+    columnas = {"tap_verdict": "verdict", "tap_reason": "reason_class",
+                "tap_comment": "comment"}
     if answer_feedback_df.empty or "id" not in queries_df.columns:
-        queries_df["tap_verdict"] = None
+        for destino in columnas:
+            queries_df[destino] = None
         return queries_df
 
-    verdicts = (
-        answer_feedback_df.groupby("query_log_id")["verdict"]
-        .apply(",".join)
-        .rename("tap_verdict")
-    )
-    queries_df = queries_df.merge(
-        verdicts, left_on="id", right_index=True, how="left"
-    )
+    for destino, origen in columnas.items():
+        if origen not in answer_feedback_df.columns:
+            queries_df[destino] = None
+            continue
+        agregada = (
+            answer_feedback_df.dropna(subset=[origen])
+            .groupby("query_log_id")[origen]
+            .apply(lambda valores: ",".join(str(v) for v in valores))
+            .rename(destino)
+        )
+        queries_df = queries_df.merge(
+            agregada, left_on="id", right_index=True, how="left"
+        )
+        if destino not in queries_df.columns:
+            queries_df[destino] = None
     return queries_df
 
 
@@ -281,10 +296,10 @@ def main():
 
     # Reorder columns for review readability
     front = [
-        "created_at", "seudonimo", "source", "query",
+        "created_at", "seudonimo", "source", "route", "query",
         "transcription", "response", "product_models", "category",
         "chunks_used", "response_length", "response_time_ms",
-        "bot_version", "feedback_text", "tap_verdict",
+        "bot_version", "feedback_text", "tap_verdict", "tap_reason", "tap_comment",
     ]
     cols = [c for c in front if c in queries_df.columns] + [
         c for c in queries_df.columns if c not in front

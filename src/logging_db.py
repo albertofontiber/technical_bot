@@ -105,6 +105,19 @@ def _warn_trace_compatibility_fallback_once() -> None:
         _trace_compatibility_warning_emitted = True
 
 
+_route_compatibility_warning_emitted = False
+
+
+def _warn_route_compatibility_once() -> None:
+    global _route_compatibility_warning_emitted
+    if not _route_compatibility_warning_emitted:
+        logger.warning(
+            "query_logs acepto la fila SIN `route`: la migracion s301 no esta "
+            "aplicada aun -- las metricas de uso por canal siguen ciegas hasta aplicarla"
+        )
+        _route_compatibility_warning_emitted = True
+
+
 def log_query(
     telegram_user_id: int,
     query: str,
@@ -118,6 +131,7 @@ def log_query(
     response_time_ms: int = 0,
     rag_trace: dict[str, Any] | None = None,
     query_log_id: str | None = None,
+    route: str = "rag",
 ) -> bool:
     """Log a query to query_logs; failures never escape into the answer path.
 
@@ -148,6 +162,10 @@ def log_query(
             "response_length": response_length,
             "response_time_ms": response_time_ms,
             "bot_version": get_bot_version(),
+            # s301 (#31): la RUTA por la que salió la respuesta — 'rag' o un shortcut.
+            # Sin ella, las métricas de uso por canal eran ciegas: los shortcuts
+            # retornaban antes de llegar aquí y "¿qué fabricantes tienes?" no existía.
+            "route": route,
         }
         if query_log_id is not None:
             row["id"] = query_log_id
@@ -159,6 +177,20 @@ def log_query(
                 headers=_HEADERS,
                 json=row,
             )
+            # Compatibilidad de DESPLIEGUE (misma clase que el fallback de rag_trace):
+            # main auto-despliega, y la columna `route` llega con la migración s301 que
+            # aplica Alberto a mano. Si el código gana la carrera, sin esto CADA log
+            # fallaría — y con él el teclado de feedback (query_logged=False). Se
+            # reintenta sin la columna y se avisa UNA vez.
+            if (resp.status_code == 400 and "route" in row
+                    and "route" in getattr(resp, "text", "")):
+                row = {k: v for k, v in row.items() if k != "route"}
+                _warn_route_compatibility_once()
+                resp = client.post(
+                    f"{SUPABASE_URL}/rest/v1/query_logs",
+                    headers=_HEADERS,
+                    json=row,
+                )
             if safe_trace is not None and _trace_contract_rejected(resp):
                 fallback_row = dict(row)
                 fallback_row.pop("rag_trace", None)

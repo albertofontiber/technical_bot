@@ -157,12 +157,19 @@ def process_file(record: dict, supabase: SupabaseHTTP | None,
 
 def run(config: str, limit: int, dry_run: bool, reset: bool) -> None:
     store = os.path.join(STORE_ROOT, config)
+    # GUARDAS (s301): salir con codigo != 0 cuando el paso NO puede correr — un
+    # "return" con exit 0 aparenta ejecucion (clase manifiesto-vacio: el corpus y el
+    # store viven en la carpeta OneDrive; desde el checkout de C:\dev esto esta vacio).
     if not os.path.isdir(store):
-        logger.error("No existe el store %s — ¿config correcta?", store)
-        return
+        raise SystemExit(f"No existe el store {store} — ¿config correcta? ¿cwd con corpus?")
 
     files = sorted(p for p in glob.glob(os.path.join(store, "*.json"))
                    if _SHA_RE.match(os.path.basename(p)))
+    if not files:
+        raise SystemExit(
+            f"Store {store} VACIO: 0 extracciones. ¿Ejecutando desde el checkout sin "
+            f"corpus? El store vive en la carpeta OneDrive del proyecto."
+        )
     if limit:
         files = files[:limit]
     logger.info("Store %s — %d archivos de extracción", store, len(files))

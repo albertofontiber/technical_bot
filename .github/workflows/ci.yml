@@ -59,3 +59,8 @@ jobs:
       # bloquear el merge. $0, sin keys (validación local de ficheros).
       - name: Catalog gate
         run: python scripts/catalog_store.py validate
+
+      # La puerta de los golds (s301): su propio docstring afirmaba que CI la corría y
+      # era FALSO — un gold roto pasaba verde. $0, sin keys (validación local).
+      - name: Gold gate
+        run: python scripts/gold_store.py validate

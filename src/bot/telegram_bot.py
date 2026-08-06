@@ -575,35 +575,47 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # --- Pre-pipeline classification (saves API calls) ---
 
+    # s301 (#31): cada shortcut LOGGEA antes de retornar — sin esto, las métricas de
+    # uso por canal eran ciegas («¿qué fabricantes tienes?» no existía en query_logs) y
+    # la trazabilidad no cubría todo lo que el bot dice. Mismo fire-and-forget que el
+    # camino RAG: un fallo del log jamás toca la respuesta.
+
     # 1. Greetings
     if _GREETING_PATTERNS.match(query):
-        await update.message.reply_text(
+        respuesta = (
             "¡Hola! 👋 Soy el asistente técnico PCI.\n\n"
             "Pregúntame lo que necesites sobre instalación, conexionado, "
             "especificaciones o resolución de problemas de equipos *Notifier*, *Morley* o *Detnov*.\n\n"
-            "También puedes enviarme un audio 🎤",
-            parse_mode="Markdown",
+            "También puedes enviarme un audio 🎤"
         )
+        await update.message.reply_text(respuesta, parse_mode="Markdown")
+        log_query(telegram_user_id=user_id, query=query, route="greeting",
+                  response=respuesta, response_length=len(respuesta))
         return
 
     # 2. Thanks
     if _THANKS_PATTERNS.match(query):
-        await update.message.reply_text(
-            "De nada 👍 ¿Necesitas algo más?"
-        )
+        respuesta = "De nada 👍 ¿Necesitas algo más?"
+        await update.message.reply_text(respuesta)
+        log_query(telegram_user_id=user_id, query=query, route="thanks",
+                  response=respuesta, response_length=len(respuesta))
         return
 
     # 3. Bye
     if _BYE_PATTERNS.match(query):
-        await update.message.reply_text(
-            "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
-        )
+        respuesta = "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
+        await update.message.reply_text(respuesta)
+        log_query(telegram_user_id=user_id, query=query, route="bye",
+                  response=respuesta, response_length=len(respuesta))
         return
 
     # 4. Catalog questions
     if _CATALOG_PATTERNS.search(query):
         await update.message.chat.send_action("typing")
         await _handle_catalog(update)
+        # La respuesta vive dentro del handler (catálogo dinámico); para la métrica de
+        # canal basta la consulta y la ruta — no se duplica el texto aquí.
+        log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
         return
 
     # 5. Smart manufacturer detection (dynamic — queries Supabase)
@@ -620,13 +632,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if actual_manufacturer:
                 if actual_manufacturer.lower() != mentioned_manufacturer.lower():
                     # Model exists but under a different manufacturer
-                    await update.message.reply_text(
+                    respuesta = (
                         f"El *{model}* es un producto de *{actual_manufacturer}*, "
                         f"no de _{mentioned_manufacturer}_.\n\n"
                         f"¿Te refieres al *{model}* de *{actual_manufacturer}*? "
-                        f"Si es así, dime tu pregunta y te ayudo.",
-                        parse_mode="Markdown",
+                        f"Si es así, dime tu pregunta y te ayudo."
                     )
+                    await update.message.reply_text(respuesta, parse_mode="Markdown")
+                    log_query(telegram_user_id=user_id, query=query,
+                              route="manufacturer_mismatch",
+                              response=respuesta, response_length=len(respuesta))
                     return
                 # else: correct manufacturer + model → fall through to RAG
             else:
@@ -645,12 +660,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 if not manufacturer_in_db(mentioned_manufacturer):
                     available = get_available_manufacturers()
                     manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                    await update.message.reply_text(
+                    respuesta = (
                         f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
                         f"Tengo información de: {manufacturers_str}.\n"
-                        f"¿Puedo ayudarte con alguno de estos?",
-                        parse_mode="Markdown",
+                        f"¿Puedo ayudarte con alguno de estos?"
                     )
+                    await update.message.reply_text(respuesta, parse_mode="Markdown")
+                    log_query(telegram_user_id=user_id, query=query,
+                              route="manufacturer_no_model",
+                              response=respuesta, response_length=len(respuesta))
                     return
                 # else: manufacturer IS in DB → fall through to RAG (model index desynced)
         else:
@@ -659,12 +677,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 # Manufacturer not in DB
                 available = get_available_manufacturers()
                 manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                await update.message.reply_text(
+                respuesta = (
                     f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
                     f"Tengo información de: {manufacturers_str}.\n"
-                    f"¿Puedo ayudarte con alguno de estos?",
-                    parse_mode="Markdown",
+                    f"¿Puedo ayudarte con alguno de estos?"
                 )
+                await update.message.reply_text(respuesta, parse_mode="Markdown")
+                log_query(telegram_user_id=user_id, query=query,
+                          route="manufacturer_no_model",
+                          response=respuesta, response_length=len(respuesta))
                 return
             # else: manufacturer IS in DB → fall through to RAG
 
