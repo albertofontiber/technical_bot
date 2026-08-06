@@ -65,7 +65,31 @@ matriz `RGPD_LIFECYCLE_MATRIX_TEMPLATE.md` FIRMADA, que sigue sin firmar;
 (4) puntos 2/3/4 del #60 (reacciones: cambian el transporte, piden
 sonda + dúo propios) y punto 6 (corrección de marca, engancha con `hp002` del packet);
 (5) `hp003#4` sigue siendo el único lever vivo de etapa 3 si alguna vez se retoma L3 v2.
-Traza: DEC-176 + HISTORY s294.
+**Frentes nuevos (Alberto, 6-ago; forma auditada con evidencia — 20+10 agentes + 3
+verificaciones adversariales, s300):**
+(6) **«dashboard» SIN app** — el veredicto DEC-162f (descartar Grafana/web «hasta
+técnicos y volumen») SIGUE vigente; lo que se hace es abrir los grifos ya construidos:
+export del 👎 con `reason_class`+`comment` (~10 líneas — hoy CERO herramientas leen el
+porqué del voto negativo), 2-3 vistas SQL agregadas versionadas en migración (las
+`bot_health_*` actuales no lo están) con el dashboard de Supabase como front, TECH_DEBT
+#31 (shortcuts sin loggear = uso por canal ciego, 1-2h), y script de operador para
+estampar `utilidad` (la marca del bonus no tiene camino de escritura). Todo S.
+(7) **automatización proporcionada** — ingesta: guardas anti-manifiesto-vacío (⚠ el
+corpus de 1.323 PDFs vive SOLO en OneDrive y desde `C:\dev` el inventario produce vacío
+SIN fallar) + playbook re-escrito contra `src/reingest/` + `ingest_new.py` con gates y
+dry-run (M); ops: `gold_store validate` a CI (3 líneas — su docstring dice que CI lo
+corre y es falso), verificación corpus↔store↔`chunks_v2` (S), `BOT_ERROR_LOGGING=on` en
+Railway (Alberto, coste cero); feedback→gold: puente 👎-con-prosa→packet pre-rellenado
+(M, DESPUÉS del export). PREMATUROS declarados: eval periódica en cron y auto-ingesta
+por scraper — pasan a obligatorios con el primer técnico real.
+(8) **modernización dirigida por blueprint** (`docs/BLUEPRINT_MODERNIZACION.md`): L0
+HECHO — `tests/test_import_contract.py`, la arquitectura como invariante de CI (matriz
+de paquetes + 6 excepciones con trinquete + 2 ciclos permitidos + isla-harness de 35
+módulos en cuarentena LÓGICA desde el día 0); lotes L1 (catalog_store) → L2a (isla →
+`harness/`) → L2b (flags.py recortado) → L2c (split lane vetada) → L3 (embed), cada uno
+con paridad + sellos enumerados + dúo. NO se reescribe nada medido; `retriever.py` no
+se parte en estos lotes.
+Traza: DEC-176 + HISTORY s294; frentes 6-8: DEC-182 + HISTORY s300.
 
 ---
 
