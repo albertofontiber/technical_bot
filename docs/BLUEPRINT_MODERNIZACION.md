@@ -51,11 +51,16 @@ Matriz (importador → puede importar de):
 
 - **`src/` = solo producto** (113 → 82 ficheros): raíz transversal (config,
   release_profiles, logging_db, version, +`flags.py`) · `bot/` transporte ·
-  `orchestrator/` turno conversacional (con `fake_convo_store`, que NO es isla: lo
-  exporta el `__init__` del paquete y es alcanzable en runtime) · `rag/` serving core
-  69→38 módulos (+`catalog_store` graduado, + los 2 del split L2c) · `ingestion/`
-  frontera de datos compartida (+`embed.py`) · `reingest/` pipeline CLI offline.
-- **`harness/` = paquete top-level NUEVO fuera de `src/`** con los 35 módulos isla.
+  `orchestrator/` turno conversacional — `fake_convo_store` se queda por DISEÑO, no
+  por alcanzabilidad (el dúo cazó la justificación circular): es el fake first-class
+  del trío contrato/fake/real de `convo_store`, parte de la superficie que sus
+  consumidores usan para tests herméticos; candidato a reubicar SI el trío se
+  re-empaqueta, con trigger propio · `rag/` serving core 69→40 módulos
+  (38 vivos + 2 anclados por el probe sellado; +`catalog_store` graduado, + los 2 del
+  split L2c) · `ingestion/` frontera de datos compartida (+`embed.py`) · `reingest/`
+  pipeline CLI offline.
+- **`harness/` = paquete top-level NUEVO fuera de `src/`** con 33 de los 35 módulos
+  isla (los 2 anclados por el probe sellado se quedan — ver L2a).
   **Alternativa barata considerada y comparada** (exigencia del veredicto de
   proporcionalidad): la cuarentena lógica del contrato ya da la GARANTÍA sin mover nada
   — y por eso L0 la trae desde hoy. El movimiento físico paga aparte: (a) legibilidad
@@ -83,28 +88,40 @@ ALTOS del veredicto vinieron de mirar solo los 42).
 - **L1 — graduación de `catalog_store` (retira E1).** `git mv` a `src/rag/` +
   `from . import catalog_store` (preserva `R.catalog_store.*` de ~20 asserts). Sin
   shim (dos copias crean ambigüedad real en `_implementation_module_index`). Migran los
-  6 scripts importadores + 2 tests. Sello: entrada `:295` → ruta nueva, ELIMINAR la
-  entrada dinámica `:403`, regen release config. **⚠ `ci.yml:61` invoca
-  `scripts/catalog_store.py` por ruta — se actualiza en el MISMO PR** (hallazgo del
-  veredicto: sin esto, L1 rompe su propio CI). Assessment: `pipe_sha` cambia → smoke +
-  fila nueva en el scoreboard.
-- **L2a — isla → `harness/` (35 módulos, 8.5k LOC, cero cambio de conducta).**
-  **⚠ «Sello intocado» era FALSO** (hallazgo ALTO): `scripts/s270_etapa2_probe.py`
-  (SELLADO, dynamic-import del scorer) importa `visual_gold` (:159, :806) y
-  `omission_correction` (:336) en function-local — invisibles al verify. L2a DEBE
-  editar ese script sellado (imports → `harness.*`) + añadir las entradas a
-  `IMPLEMENTATION_DYNAMIC_IMPORTS` + regen — declarado aquí, no descubierto en el PR.
-  Más anclas de ruta: `test_s117_m28` (`:17/:29/:36-39/:103` — el `:103` es un sha de
-  RUTA literal), `test_s210:87`, y el monkeypatch por string dotted de
-  `test_frontier_visual_runtime_v3:64`. El PR corre `verify_release_config` para
-  PROBAR el closure, no para suponerlo.
+  6 scripts importadores + 2 tests **+ el literal de ruta
+  `tests/test_s274_bloquesCD_prereg.py:156`** (lee el fichero VIVO — se actualiza; el
+  assert `:152` sobre el prereg histórico NO se toca: el YAML es registro). Sello:
+  entrada `:295` → ruta nueva, ELIMINAR la entrada dinámica `:403`, regen release
+  config. **⚠ `ci.yml:61` invoca `scripts/catalog_store.py` por ruta — se actualiza en
+  el MISMO PR** (hallazgo del veredicto: sin esto, L1 rompe su propio CI). Assessment:
+  `pipe_sha` cambia → smoke + fila nueva en el scoreboard.
+- **L2a — isla → `harness/` (mueve 33 de los 35; 2 se quedan ANCLADOS).**
+  Hallazgo ALTO del dúo, en dos tiempos: (1) `scripts/s270_etapa2_probe.py` (SELLADO,
+  dynamic-import del scorer) importa `visual_gold` (:159, :806) y `omission_correction`
+  (:336) en function-local — invisibles al verify; y (2) NO se pueden re-declarar esas
+  aristas apuntando a `harness/`: el MECANISMO del gate rechaza todo path fuera de
+  `scripts/`|`src/` (`_implementation_module_name`, `s277_c1_p1.py:1211-1216`, HOLD) —
+  y tocar el mecanismo es línea roja de este blueprint. Resolución: **`visual_gold` y
+  `omission_correction` NO se mueven** — quedan en `src/` bajo la cuarentena lógica de
+  `ISLA` (que sigue siendo de 35), con trigger declarado: se moverán si el probe se
+  re-sella/versiona o el gate C1 se retira. `src/rag/` queda 69→40 (38 vivos + 2
+  anclados). Más anclas de ruta del movimiento: `test_s117_m28` (`:17/:29/:36-39/:103`
+  — el `:103` es un sha de RUTA literal), `test_s210:87`, y el monkeypatch por string
+  dotted de `test_frontier_visual_runtime_v3:64`. El PR corre `verify_release_config`
+  para PROBAR el closure, no para suponerlo. El contrato L0 ya prohíbe importar
+  `harness.*` desde `src/` SIN lista de excepciones posible — la regla nació cerrada
+  antes de que `harness/` exista.
 - **L2b — `src/flags.py` (RECORTADO por proporcionalidad).** Registro declarativo de
-  los ~89 flags + `snapshot()` sin secretos + test de completitud (grep `os.getenv` −
-  allowlist = ∅) + pin de `DEMO_FLAGS` contra el registro (los pins fantasma se
-  detectan solos). **SIN migrar lectores sellados al accessor** (0 regen de sello): los
-  lectores migran oportunistamente cuando otro lote ya toque su fichero. La divergencia
-  harness↔Railway detectada (p. ej. `OBLIGATION_WARNING_APPENDIX` pineado off en el
-  harness, shipped on) queda visible en el pin, no corregida a ciegas.
+  los ~89 flags + `snapshot()` sin secretos + test de completitud + pin de `DEMO_FLAGS`
+  contra el registro. **Alcance honesto de esas garantías** (dúo): el test de
+  completitud es NOMINAL — grep de `os.getenv`/`os.environ` en `src/` contra el
+  registro: garantiza que no hay call-site textual sin registrar, NO equivalencia
+  semántica de defaults/parsing entre lectores no migrados; y el pin de `DEMO_FLAGS`
+  detecta NOMBRES no registrados (pins fantasma por nombre), no valores erróneos.
+  **SIN migrar lectores sellados al accessor** (0 regen de sello): los lectores migran
+  oportunistamente cuando otro lote ya toque su fichero. La divergencia harness↔Railway
+  detectada (p. ej. `OBLIGATION_WARNING_APPENDIX` pineado off en el harness, shipped
+  on) queda visible en el pin, no corregida a ciegas.
 - **L2c — split del doble-inquilino (retira E3a-c).** `rerank_pool_coverage` →
   `pool_selection.py` (motor compartido) + `obligation_warning.py` (reserva VIVA en
   v3/v4) + residual = la lane vetada. **Pendiente-de-diseño declarado**: la partición

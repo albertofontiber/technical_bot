@@ -8,18 +8,24 @@ retiro) y la cuarentena de la isla-harness. Misma filosofía que la ventana RGPD
 garantía vive en el motor): aquí la arquitectura vive en el CI.
 
   · MATRIZ de paquetes: qué paquete puede importar de cuál (pocas reglas, duras);
-  · EXCEPCIONES iniciales: las 6 aristas que HOY violan la matriz, con su retiro — el
+  · EXCEPCIONES iniciales: E1/E2/E6 violan la matriz; E3a-c violan la CUARENTENA de la
+    lane vetada (su celda rag→rag es legal); E4/E5 son los 2 ciclos deliberados. El
     trinquete exige que EXISTAN (retirarlas obliga a borrarlas de aquí, en el diff);
-  · CICLOS: exactamente los 2 deliberados y documentados in-situ; ninguno nuevo;
   · CUARENTENA de lane vetada: `rerank_pool_coverage` (vetada bajo todo perfil C1) solo
     es importable desde sus 3 deudores declarados, hasta el split L2c;
   · ISLA-HARNESS en cuarentena LÓGICA: los 35 módulos que solo scripts/tests importan
     no pueden ser importados por el producto — la garantía estructural llega HOY; el
     movimiento físico a `harness/` (L2a) es legibilidad, no seguridad;
-  · PRECONDICIÓN: 0 imports dinámicos en `src/` — es lo que hace fiable este análisis
-    estático, así que el propio test la re-verifica.
+  · NOMBRES PROHIBIDOS: `src/` no importa nada cuyo primer segmento sea `harness`,
+    `scripts`, `tests` o `evals` — la regla nace CERRADA (sin constante de excepciones
+    donde apuntar), así que vale también para el `harness/` que aún no existe;
+  · PRECONDICIÓN: 0 imports dinámicos Y 0 `importlib` en `src/` — es lo que hace
+    fiable este análisis estático, y el propio test lo re-verifica. Alcance honesto:
+    esto corta el ACCIDENTE y la deriva; una evasión deliberada (exec, loaders ad-hoc)
+    no es detectable estáticamente y la frontera contra eso es la revisión, no este
+    test.
 
-Censo base y veredictos: workflow s300 (blueprint), cifras de control al pie.
+Censo base y veredictos: workflow s300 + dúo (2 rondas), cifras de control al pie.
 """
 
 import ast
@@ -60,6 +66,9 @@ EXCEPCIONES = frozenset({
         "src-no-importa-scripts", "L1: graduar catalog_store a src/rag/"),
     # E2 · embedder.py:160 (lazy pero corre en CADA query v2) — el producto ejecuta un
     # módulo del pipeline offline B8. Retiro: embed.py → src/ingestion/ (L3).
+    # La excepción es por FORMA canónica a propósito: reescribir el import como
+    # `from src.reingest import embed` (misma dependencia) pone el test rojo — se usa
+    # la forma de aquí o se retira la arista, no se re-fraseá (dúo s300).
     Exc("src.ingestion.embedder", "src.reingest.embed",
         "ingestion-no-importa-reingest", "L3: embed.py a src/ingestion/"),
     # E3a-c · los 3 deudores de la lane vetada (split L2c). E3b importa 8 nombres —
@@ -165,9 +174,10 @@ def _recolectar():
     stems_scripts = {p.stem for p in (REPO / "scripts").glob("*.py")}
 
     aristas = set()            # (importador, importado_modulo_src)
-    externas = set()           # (importador, stem_de_scripts)
+    externas = set()           # (importador, stem_de_scripts) — bare, vía sys.path
+    prohibidos = set()         # (importador, nombre) con 1er segmento harness/scripts/…
     sys_path_mut = set()       # rutas relativas con sys.path.insert/append
-    dinamicos = set()          # módulos con __import__/import_module
+    dinamicos = set()          # módulos con __import__/import_module/importlib
 
     def _resolver(base_mod, node):
         objetivo = []
@@ -188,17 +198,31 @@ def _recolectar():
                 objetivo.append(prefijo)
         return [o for o in objetivo if o]
 
+    # Primeros segmentos SIEMPRE prohibidos en src/ (dúo s300): la regla nace CERRADA y
+    # cubre el `harness/` que aún no existe — sin esto, vaciar ISLA tras L2a dejaría a
+    # src/ libre de importar harness sin poner nada rojo. `importlib` va con ellos:
+    # prohibirlo entero cierra el alias-evasión (`from importlib import x as y`).
+    RAICES_PROHIBIDAS = {"harness", "scripts", "tests", "evals"}
+
     for mod, path in modulos.items():
         arbol = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(arbol):
             if isinstance(node, (ast.Import, ast.ImportFrom)):
                 for candidato in _resolver(mod, node):
+                    raiz = candidato.split(".")[0]
                     if candidato in nombres and candidato != mod:
                         aristas.add((mod, candidato))
                     elif candidato in paquetes_src and candidato not in ("src", mod):
                         aristas.add((mod, candidato))
-                    elif candidato.split(".")[0] in stems_scripts:
-                        externas.add((mod, candidato.split(".")[0]))
+                    elif raiz in RAICES_PROHIBIDAS:
+                        prohibidos.add((mod, candidato))
+                    elif raiz == "importlib":
+                        dinamicos.add(mod)
+                    elif raiz in stems_scripts:
+                        # Colisión stem-vs-lib DELIBERADAMENTE ruidosa: si alguien crea
+                        # scripts/<nombre-de-lib>.py, este test se pone rojo ESPURIO —
+                        # falla FP, nunca FN, y ese nombre ya era un smell (dúo s300).
+                        externas.add((mod, raiz))
             elif isinstance(node, ast.Call):
                 f = node.func
                 nombre = f.id if isinstance(f, ast.Name) else (
@@ -209,10 +233,10 @@ def _recolectar():
                         and isinstance(f.value, ast.Attribute) and f.value.attr == "path"
                         and isinstance(f.value.value, ast.Name) and f.value.value.id == "sys"):
                     sys_path_mut.add(path.relative_to(REPO).as_posix())
-    return modulos, aristas, externas, sys_path_mut, dinamicos
+    return modulos, aristas, externas, prohibidos, sys_path_mut, dinamicos
 
 
-MODULOS, ARISTAS, EXTERNAS, SYS_PATH_MUT, DINAMICOS = _recolectar()
+MODULOS, ARISTAS, EXTERNAS, PROHIBIDOS, SYS_PATH_MUT, DINAMICOS = _recolectar()
 _EXC_ARISTAS = {(e.importador, e.importado) for e in EXCEPCIONES}
 
 
@@ -263,11 +287,22 @@ def _sccs():
 
 
 def test_precondicion_sin_imports_dinamicos():
-    """Lo que hace VÁLIDO todo lo demás: sin `__import__`/`import_module` en src/, el
-    grafo estático ES el grafo de runtime. Un import dinámico nuevo invalida el
-    análisis entero — por eso es fallo aquí, no una curiosidad."""
+    """Lo que hace VÁLIDO todo lo demás: sin `__import__`/`import_module` NI `importlib`
+    (entero — prohibirlo cierra el alias-evasión) en src/, el grafo estático es el de
+    runtime para todo lo no-deliberado. Un import dinámico nuevo invalida el análisis
+    entero — por eso es fallo aquí, no una curiosidad."""
     assert not DINAMICOS, (
-        f"imports dinámicos en src/ (invalidan el contrato): {sorted(DINAMICOS)}"
+        f"imports dinámicos/importlib en src/ (invalidan el contrato): {sorted(DINAMICOS)}"
+    )
+
+
+def test_src_no_importa_raices_prohibidas():
+    """`harness`/`scripts`/`tests`/`evals` como nombre importado: prohibido SIN
+    constante de excepciones — la regla nace cerrada y ya gobierna el `harness/` que
+    L2a creará. (La vía bare-stem de scripts/ vive en el test de abajo, con E1.)"""
+    assert not PROHIBIDOS, (
+        "src/ importa raíces prohibidas:\n  "
+        + "\n  ".join(f"{a} → {b}" for a, b in sorted(PROHIBIDOS))
     )
 
 
@@ -347,8 +382,14 @@ def test_trinquete_las_excepciones_siguen_vivas():
 
 def test_cifras_de_control():
     """Ancla el censo s300 con tolerancia CERO en lo que protege: si estas cifras se
-    mueven, que sea en un diff que las explique."""
-    assert len(MODULOS) == 113, f"módulos en src/: {len(MODULOS)} (censo: 113)"
+    mueven, que sea en un diff que las explique. Fricción DELIBERADA anti-acreción:
+    un módulo nuevo en src/ paga un toque aquí."""
+    assert len(MODULOS) == 113, (
+        f"módulos en src/: {len(MODULOS)} (censo: 113). Si es PRODUCTO nuevo "
+        f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
+        f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
+        f"tras L2a). La acreción empezaba exactamente así."
+    )
     assert len(ISLA) == 35
     assert len(EXCEPCIONES) == 6
     assert sum(1 for m in ISLA if m not in MODULOS) == 0, "ISLA cita módulos inexistentes"

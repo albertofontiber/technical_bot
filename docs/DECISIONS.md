@@ -4792,3 +4792,53 @@ API, recibos blindados, y dry-run del driver con exit 0 — con 2 vínculos sin 
 NINGUNA tabla que caerán en la primera pasada real (huérfanos del backfill s296; caso
 benigno declarado). **Primer recibo esperado: 1-sep, 04:30 UTC**; vigilancia trimestral en
 el runbook. Traza de review: `evals/adversarial_review_log.jsonl` (2 rondas, 5-ago).
+
+## DEC-182 (s300) — Los tres frentes de Alberto, con forma auditada; y la arquitectura como invariante de CI
+
+**Contexto.** Alberto pidió añadir al plan: dashboard de seguimiento, refactoring hacia una
+arquitectura más modular, y automatización (ingesta, feedback→mejora). En vez de asentir o
+construir, se auditó cada frente con evidencia (20 agentes de arqueología + verificación
+adversarial de claims; luego censo de 10 agentes para el blueprint). Resultado: **los tres
+entran, ninguno con su forma nominal.**
+
+**(1) Dashboard SIN app.** DEC-162f (descartar Grafana/web «hasta técnicos y volumen») SIGUE
+vigente — no se reabre: la tubería ya existe (vistas `bot_health_*` VIVAS en el catálogo,
+digest, captura de voto+motivo+prosa). El gap real: CERO herramientas leen `reason_class`/
+`comment` (el porqué del 👎 es invisible), las vistas no están en migración versionada, los
+shortcuts no loggean (#31) y `utilidad` no tiene camino de escritura. Todo S; front = el
+dashboard de Supabase. Descartado: app web nueva (auth+despliegue+cumplimiento).
+
+**(2) Modernización dirigida por blueprint, NO reescritura** (`docs/BLUEPRINT_MODERNIZACION.md`).
+Medido: `src/` no es bola de barro (2 ciclos deliberados, 1% duplicación, seams limpios); el
+problema es ACRECIÓN (~30% no alcanzable desde el Procfile) y su causa raíz: nada impedía que
+los experimentos sedimentaran en `src/`. La pieza estructural — respuesta directa al «aquí tú
+controlas más» de Alberto: **la arquitectura vive en el CI, no en mi disciplina** —
+`tests/test_import_contract.py` (L0, HECHO): matriz de paquetes + 6 excepciones EXACTAS con
+trinquete (solo encogen; retirar la arista obliga a borrar la excepción en el mismo diff — y
+hace al test no-vacuo) + 2 ciclos allowlisted + cuarentena de lane vetada + **cuarentena
+lógica de la isla-harness (35)** + raíces prohibidas (`harness`/`scripts`/`tests`/`evals`,
+sin lista de excepciones posible) + prohibición total de `importlib`. Nace verde 9/9. Lotes:
+L1 catalog_store → L2a isla→`harness/` (33/35) → L2b flags recortado → L2c split lane vetada
+→ L3 embed; paridad byte-a-byte (método del orquestador) + sellos enumerados ANTES de mover.
+Alternativas descartadas: big-bang/reescritura (freeze-contracts + sellos + demo-abilidad en
+due-diligence), microservicios, Fase-E packaging, partir retriever.py en estos lotes.
+
+**(3) Automatización proporcionada.** Ingesta: guardas anti-manifiesto-vacío (el corpus vive
+SOLO en OneDrive; desde C:\dev el inventario produce VACÍO sin fallar), playbook re-escrito
+(el actual cita un pipeline borrado en s43), `ingest_new.py` con gates+dry-run (M). Ops:
+`gold_store validate` a CI (su docstring miente), verificación corpus↔store↔chunks_v2,
+`BOT_ERROR_LOGGING=on` (Alberto). PREMATUROS declarados: eval-en-cron y auto-ingesta por
+scraper — obligatorios con el primer técnico real.
+
+**El dúo sobre el lote L0 (2 críticos del cross-model, ambos verificados con ancla):** (X1)
+el mecanismo del gate C1 RECHAZA paths fuera de `scripts/`|`src/` (HOLD en
+`s277_c1_p1.py:1211-1216`) ⇒ los 2 módulos isla que un probe SELLADO importa en
+function-local (`visual_gold`, `omission_correction`) NO pueden moverse sin tocar el
+mecanismo → quedan anclados en `src/` bajo cuarentena lógica, con trigger. (X2) el recolector
+no veía `harness/` como raíz ⇒ tras L2a el contrato no habría bloqueado src→harness — regla
+de raíces prohibidas nacida CERRADA. Sub-agente: SÓLIDA con 6 menores (mutation testing 9/10;
+ISLA verificada exacta por censo independiente). Tally: 2 rondas s300, 11+16 hallazgos entre
+workflow y dúo, 0 falsos positivos. Traza: `evals/adversarial_review_log.jsonl`.
+
+**Estado**: rama `claude/s300-blueprint-l0`, PR abierta. Los lotes L1-L3 esperan el GO de
+Alberto (cada uno con su dúo); los frentes (1) y (3) son sesiones S/M sueltas.
