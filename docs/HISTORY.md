@@ -2862,3 +2862,29 @@ para los tres roles, recibos blindados) y dry-run exit 0, con 2 vinculos huerfan
 backfill s296 (sin datos en ninguna tabla) que caeran en la primera pasada real. Primer
 recibo esperado: 1-sep. Queda de Alberto: LIA + tabla de transferencias al asesor, y la
 vigilancia trimestral del recibo. Traza: DEC-181.
+
+## s300 (6 ago 2026) — los tres frentes de Alberto, auditados antes de asentir
+
+Alberto pidio anadir al plan dashboard, refactoring modular y automatizacion. La sesion
+respondio con arqueologia en vez de asentimiento: 20 agentes de barrido + verificacion
+adversarial de cada claim fuerte (varias CAYERON: "no hay veredicto previo de refactor" era
+falsa, "las vistas no existen en produccion" era falsa, "420 scripts archivables" bailaba
+con la definicion). El resultado cambio la forma de los tres: el dashboard ya estaba
+construido en un 70% (el gap real: NADIE lee el porque del voto negativo), el refactor no
+necesita reescritura sino un DESTINO + fronteras en CI (la acrecion sedimentaba porque nada
+lo impedia), y la automatizacion tiene dos joyas (guardas de ingesta: el corpus vive SOLO en
+OneDrive y el inventario desde C:\dev produce vacio SIN fallar; gold_store validate no esta
+en CI aunque su docstring lo afirma) y dos prematuros declarados.
+
+Cuando Alberto pregunto "¿es BP? la arquitectura podria ser mucho mas modular", la respuesta
+honesta fue A MEDIAS: su instinto senalaba el hueco real (faltaba el destino publicado),
+pero "mucho mas modular" literal era la trampa (la escala a 30+ fabricantes es por DATOS,
+no por codigo). El puente: la arquitectura como INVARIANTE DE CI. Censo de 10 agentes
+(grafo AST de 113 modulos, alcanzabilidad, sellos, flags, acoplamientos, seams) → sintesis
+→ 3 verificaciones → `tests/test_import_contract.py` (L0): matriz + 6 excepciones exactas
+con trinquete + isla de 35 en cuarentena logica + raices prohibidas + importlib vetado.
+Nacio verde y el duo lo endurecio: el cross-model cazo que el gate C1 rechaza paths fuera
+de scripts/|src/ (los 2 modulos isla que un probe sellado importa quedan ANCLADOS — L2a
+mueve 33/35) y que el recolector no veia el harness/ futuro; el sub-agente hizo mutation
+testing (9/10 cazadas) y verifico la ISLA exacta con censo independiente. Blueprint en
+docs/BLUEPRINT_MODERNIZACION.md; lotes L1-L3 esperan GO por-lote. Traza: DEC-182.
