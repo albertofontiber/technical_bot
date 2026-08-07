@@ -105,6 +105,116 @@ El **acceso** al menú sí está en el manual que tenemos.
 > ⇒ El caso pasa a ser **la 2ª instancia de la clase `hp011#2` medida CON la evidencia
 > correcta delante**, y esta vez de uso REAL — es decir, coherente con el NO-GO de DEC-173
 > (oráculo 0/5→0/5) en vez de contradecirlo.
+> ### VEREDICTO FINAL (s304, tras el dúo) — SELECCIÓN DE SECCIÓN, dentro del documento correcto
+>
+> La pregunta de Alberto («¿ese catálogo estaba asociado a la CAD-171?») abrió dos rondas.
+> Se dejan las dos, con lo que cayó, porque la traza importa más que el acierto:
+>
+> **Ronda 1 — mi hipótesis: «la identidad no llega al chunk».** Verificado que el `doc_map`
+> dice `detnov:cad-171` primary y que los 136 chunks del MC-380 dicen `CAD-250`. De ahí
+> deduje un defecto de propagación de identidad en el 57% del corpus.
+>
+> **Ronda 2 — el dúo la derribó, y con razón.** Tres cosas, todas verificadas contra el
+> repo por mí:
+> 1. **Mi instrumento tenía un bug real**: paginaba `limit/offset` SIN `ORDER BY`, así que
+>    perdía entre el 12% y el 21% de los documentos, distintos en cada pasada. Sus cifras
+>    no eran reproducibles. Corregido (`s304_identidad_propagacion.py` v2).
+> 2. **La pregunta era la equivocada**: medía COINCIDENCIA DE ETIQUETA, no ALCANZABILIDAD.
+>    La granularidad de familia (`pm='2X-A'` con 26 variantes en el mapa) es deliberada, no
+>    un defecto.
+> 3. **La identidad SÍ llega**, por otra vía que yo no comprobé antes de afirmar: el seam 2
+>    doc_map-aware (`IDENTITY_RESOLVE=on` en Railway, DEC-084) y el `series_registry` —
+>    que para ESTE caso declara desde s63/DEC-043 la serie Vesta `[CAD-171, CAD-201,
+>    CAD-250]` con el MC-380 como `shared_docs`. El mecanismo llevaba un año resuelto.
+>
+> Con el instrumento corregido: **35 huérfanos (4,1%), 55 identidades**, y casi todas de ids
+> `unresolved:` (candidatos sin adjudicar, que el catálogo declara que NO consume). No hay
+> lever ahí.
+>
+> **Lo que queda, verificado, y es la respuesta al caso:** el bot tuvo servidos, en la MISMA
+> pasada, el §5.4 AVANZADO (p.29 del MC-380, **rango 1**) *y* el §5.1 GENERAL (p.20 del
+> mismo documento, **rango 4**) — y encabezó con la ruta del §5.1. No descartó el documento
+> por su etiqueta: **respondió desde él, eligiendo la sección equivocada**. Y el manual
+> propio de la CAD-171 (MI-716, 75 chunks etiquetados CAD-171) también estaba servido, con
+> los diagramas que muestran AVANZADO como hermano de GENERAL.
+>
+> ⇒ **Fallo de SELECCIÓN DE SECCIÓN dentro del documento correcto, con la evidencia
+> correcta delante.** El veredicto original de s303 era el bueno; mi «corrección» de la
+> ronda 1 sobraba. Retrieval e identidad quedan DESCARTADOS para este caso, ahora por dos
+> vías independientes.
+>
+> ⇒ Sigue abierta, y sigue siendo barata, la única pregunta que puede mover esto: **¿el
+> techo es del sistema o del MODELO?** El oráculo de DEC-173 y las sondas de s303 comparten
+> generador (Sonnet); la clase no se ha medido con uno más fuerte.
+
+## La clase del fallo — y por qué importa más que el caso
+
+No es un dato falso: la lista que dio es correcta. El fallo es de **SELECCIÓN**: encabezó con la
+ruta de OTRO submenú (GENERAL, que él mismo etiqueta «básica») y **nunca compuso la ruta pedida**,
+teniendo AVANZADO delante en la evidencia servida.
+
+**Es la misma forma que `hp011#2`**: el bot tiene el dato servido y responde con el **elemento
+vecino** — allí `r.i` (inhibición de rearme) en vez de `t.A` (duración de descarga), aquí GENERAL
+en vez de AVANZADO. **Dos instancias de la misma clase, y esta viene de uso real.**
+
+Esto matiza el argumento de s294 («ningún lever de síntesis se puede diseñar con n=1»): la clase
+existe y empieza a poblarse sola en cuanto hay una persona usando el bot y un canal para
+contarlo — que es exactamente lo que el paquete de telemetría acaba de habilitar.
+
+## Lo que NO es: hueco de corpus para lo preguntado
+
+El **acceso** al menú sí está en el manual que tenemos.
+
+> ### ⚠️ CORRECCIÓN (s302, 6-ago — DEC-184): la «Guía Avanzada» TAMPOCO falta
+>
+> Este apartado decía que faltaba la «Guía Avanzada de Configuración» de la CAD-171, apoyado
+> en que **ningún fichero de Detnov lleva «avanzada» en el NOMBRE**. Ese test era el
+> equivocado — buscaba por nombre de fichero, no por contenido. La adjudicación de s302 lo
+> desmontó:
+>
+> **El documento existe, está ingestado y está mapeado a la central.** Es
+> `CAD-250_Manual-Configuracion-MC-380-es-2026-c`, cuyo control de revisiones (p.2) dice
+> literalmente «**c · Adaptación para CAD-171 y CAD-201 · 23/04/2026**», que figura en
+> `data/catalog/doc_map.jsonl` con **`detnov:cad-171` como `role: primary`** — y cuyo **§5.4,
+> p.29** documenta exactamente lo pedido: «**AJUSTES (Menú principal) > AVANZADO (Submenú)** …
+> dispone de 3 pestañas de configuración en este nivel, SISTEMA, OTROS y REINICIAR».
+>
+> **Consecuencia para el diagnóstico de este caso.** El caveat del bot («los fragmentos
+> disponibles no detallan su contenido específico») era honesto **sobre la evidencia
+> servida**, pero el corpus SÍ tenía el detalle. Así que el caso tiene **dos capas**, no una:
+>
+> 1. **SELECCIÓN** (lo ya diagnosticado, y sigue en pie): con AVANZADO delante en la
+>    evidencia servida, compuso la ruta de GENERAL. Clase `hp011#2`, elemento vecino.
+> 2. **RETRIEVAL — abierto, y NO medido**: ¿estaba el §5.4 del MC-380 en el pool de esa
+>    consulta? Si NO estaba, este caso es (también) un retrieval-miss de documento-vecino
+>    dentro de la MISMA familia de producto, y el veredicto «no alcanzable» de `hp011#2`
+>    (DEC-173, oráculo 0/5→0/5) **no le aplica sin más**: aquel se midió con la evidencia
+>    ideal de OTRO hecho, no con este documento delante.
+>
+> **SONDA CORRIDA (s303, 7-ago) — VEREDICTO: SÍNTESIS/SELECCIÓN PURA.**
+> `scripts/s303_cad171_pool_probe.py`, recibo `evals/s303_cad171_pool_probe_v1.json`.
+> Replay de la consulta LITERAL con la configuración de la demo (DEMO_FLAGS, misma fuente
+> que el assessment) y **medido hasta la evidencia SERVIDA, no solo el pool** — el pool no
+> es lo que ve el generador; el rerank recorta antes.
+>
+> | Etapa | Resultado |
+> |---|---|
+> | Pool (retrieval) | 34 chunks · **8 del MC-380** |
+> | Chunks con el detalle del §5.4 (AVANZADO+SISTEMA+REINICIAR) | 3 en el pool |
+> | **Evidencia SERVIDA (post-rerank)** | 10 chunks · **4 del MC-380** |
+> | **El detalle del §5.4, SERVIDO** | **SÍ — en el rango 1**, y en 3 de 4 pasadas también una 2ª copia |
+>
+> Estabilidad: **K=4 pasadas, mismo veredicto** (el rerank es un LLM: una sola pasada no
+> zanjaría). Representatividad: el mapeo `MC-380 → detnov:cad-171` entró en `doc_map.jsonl`
+> en s91 y no se ha tocado desde s278 — **estaba vigente el 2-ago**, así que el replay no
+> mide un mundo posterior al fallo.
+>
+> ⇒ **Retrieval queda DESCARTADO para este caso**: el bot tuvo el documento correcto y el
+> párrafo correcto en el primer puesto de su evidencia, y aun así encabezó con la ruta de
+> GENERAL. La familia doc-local / vecino estructural (s104/s107) **no aplica aquí**.
+> ⇒ El caso pasa a ser **la 2ª instancia de la clase `hp011#2` medida CON la evidencia
+> correcta delante**, y esta vez de uso REAL — es decir, coherente con el NO-GO de DEC-173
+> (oráculo 0/5→0/5) en vez de contradecirlo.
 > ### ⚠️⚠️ CORRECCIÓN DEL VEREDICTO (s304, 7-ago) — la pregunta de Alberto lo tumbó
 >
 > Alberto preguntó: «el bot tenía el catálogo, ¿pero ese catálogo estaba asociado a la

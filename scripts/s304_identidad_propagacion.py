@@ -12,13 +12,23 @@ pero etiquetado con OTRO modelo, y —razonablemente— no quiso trasladarlo.
 Es decir: la adjudicación de identidad que costó sesiones (s83, s91, s278…) puede estar
 muriendo en la frontera entre el catálogo y lo que se sirve.
 
-Qué mide (y qué NO). Para cada documento del `doc_map` con identidad adjudicada, compara
-los ids del mapa contra los `product_model` DISTINTOS de sus chunks en `chunks_v2`, y
-clasifica:
-  · OK          — todo id primario del mapa aparece en los product_model del documento;
-  · HUÉRFANO    — el documento tiene ids primarios que NINGÚN chunk refleja (la clase del
-                  MC-380: el bot no puede saber que ese manual cubre esa central);
-  · SIN CHUNKS  — el documento está en el mapa pero no en `chunks_v2` (fuera de alcance).
+⚠️ **v1 RETIRADA — LA PREGUNTA ERA LA EQUIVOCADA** (dúo s304). La v1 comparaba el id del
+mapa contra el `product_model` del chunk y llamaba «huérfano» a toda diferencia. Eso mide
+COINCIDENCIA DE ETIQUETA, no lo que importa, y por dos razones fabricaba un número enorme
+y falso:
+  (a) la granularidad de FAMILIA es deliberada, no un defecto — el corpus se re-taguea a
+      familia a propósito (`pm='ZXe'` con variantes a 0 filas, `pm='2X-A'` con 26 variantes
+      en el mapa), y existe una regla monótona-segura construida para eso;
+  (b) la identidad SÍ llega al retrieval por OTRO camino: el seam 2 doc_map-aware
+      (`retriever.py`, `IDENTITY_RESOLVE=on` en Railway, DEC-084) y el `series_registry`
+      (`config/manufacturers/*.yaml`), que para el caso motivador declara desde s63/DEC-043
+      la serie Vesta `[CAD-171, CAD-201, CAD-250]` con el MC-380 como `shared_docs`.
+
+La pregunta correcta es **¿es el documento ALCANZABLE desde ese id?**, no si las etiquetas
+coinciden. Esta v2 mide eso: para cada id primario NO reflejado en el `product_model`,
+comprueba si el documento igualmente entra en `allowed_sources` del resolutor de catálogo
+(seam 2) o de la serie. Solo lo que NO es alcanzable por ninguna vía cuenta como residual.
+
 NO mide impacto en respuestas: dimensiona la brecha, no la traduce a PASS.
 
 Uso:  python scripts/s304_identidad_propagacion.py
@@ -58,14 +68,47 @@ def _norm(s: str) -> str:
     return re.sub(r"[\s_]+", "-", s.strip().lower())
 
 
+_CACHE_ALCANCE: dict[str, frozenset] = {}
+
+
+def _alcanzable_por_catalogo(id_canonico: str) -> frozenset:
+    """`source_files` que el resolutor de catálogo (seam 2) asocia a este id.
+
+    Es la vía por la que la identidad SÍ llega al retrieval hoy — la que la v1 ignoraba.
+    Fail-open a conjunto vacío: si el resolutor no sabe de este id, el documento cuenta
+    como NO alcanzable por esta vía (conservador: sobre-estima el residual, no lo esconde).
+    """
+    if id_canonico in _CACHE_ALCANCE:
+        return _CACHE_ALCANCE[id_canonico]
+    try:
+        from src.rag import catalog_resolver as cr
+        if not getattr(cr, "_loaded", False):
+            cr._build()
+        docs = getattr(cr, "_docs_by_id", {}).get(id_canonico) or frozenset()
+    except Exception as e:                       # noqa: BLE001
+        print(f"  [aviso] resolutor no disponible para {id_canonico}: "
+              f"{type(e).__name__}", flush=True)
+        docs = frozenset()
+    _CACHE_ALCANCE[id_canonico] = docs
+    return docs
+
+
 def _product_models_por_documento() -> dict[str, set[str]]:
-    """`source_file` → conjunto de `product_model` distintos, paginando el REST."""
+    """`source_file` → conjunto de `product_model` distintos, paginando el REST.
+
+    ⚠️ `order=id.asc` NO es decorativo: sin ORDEN ESTABLE, Postgres no garantiza qué filas
+    devuelve cada página con `limit/offset`, así que el barrido pierde y duplica filas —
+    DISTINTAS en cada pasada. La v1 de este script paginaba sin él y perdía entre el 12% y
+    el 21% de los documentos por ejecución; sus cifras (57% huérfanos, 1.112 identidades)
+    NO eran reproducibles y quedan RETIRADAS. Lo cazó el dúo (s304).
+    """
     salida: dict[str, set[str]] = collections.defaultdict(set)
     offset, page = 0, 1000
     with httpx.Client(timeout=60.0) as cli:
         while True:
             r = cli.get(f"{SUPABASE_URL}/rest/v1/{TABLA}", headers=_H,
                         params={"select": "source_file,product_model",
+                                "order": "id.asc",
                                 "limit": str(page), "offset": str(offset)})
             r.raise_for_status()
             filas = r.json()
@@ -112,7 +155,16 @@ def main() -> int:
             sin_chunks.append({"source_file": fuente, "primarios": primarios})
             continue
         servidos = {_norm(m) for m in modelos[fuente]}
-        faltan = [p for p in primarios if _norm(p) not in servidos]
+        faltan = []
+        for p in primarios:
+            if _norm(p) in servidos:
+                continue
+            # LA PREGUNTA CORRECTA (v2): que la etiqueta no coincida NO significa que el
+            # documento sea inalcanzable. Antes de contarlo, se pregunta al resolutor de
+            # catálogo (seam 2, doc_map-aware) si ese id lleva a este documento.
+            if fuente in _alcanzable_por_catalogo(p):
+                continue
+            faltan.append(p)
         fila = {"source_file": fuente, "primarios": primarios,
                 "product_models_en_chunks": sorted(modelos[fuente]),
                 "primarios_NO_reflejados": faltan,
