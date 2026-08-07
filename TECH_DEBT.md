@@ -2407,3 +2407,44 @@ migración urgente de modelo).
 
 **Nota**: `scripts/s305_techo_modelo_ab.py` los sortea con un envoltorio del cliente, a
 propósito documentado como apaño de instrumento — NO es el fix.
+
+---
+
+## #65 — `documents.product_model` está STALE post-H0: no es fuente de identidad (s307)
+
+Descubierto construyendo el inventario por fabricante: la campaña H0 (s285, DEC-161)
+re-tagueó los CHUNKS (unknown 318→1) pero `documents.product_model` conservó los valores
+de ingesta. Caso probado: `MADT235` dice `AFP4000` en documents y `ART1194` en los chunks
+curados; los docs `ADW 535-1 ATEX` y `ART 535-x` siguen `unknown` en documents con
+identidad ya asignada en chunks. **Regla**: para identidad de producto manda
+`chunks_v2.product_model`; `documents` vale para manufacturer/status/lineage. El
+inventario s307 ya elige así (con el porqué en el docstring).
+
+**Acción propuesta**: backfill one-shot de `documents.product_model` desde los chunks
+curados (reversible, ~1 UPDATE por doc), O declarar la columna no-autoritativa en el
+esquema. **Trigger**: el próximo consumidor que quiera leer identidad de `documents`.
+**Coste**: S.
+
+## #66 — La prosa del 👎 llegó como consulta nueva, no como comentario (observación, s307)
+
+Primer dato orgánico del punto 5 (s294): tras el 👎 de Alberto (reason_class=info
+capturado ✓), el bot invitó a explicar con ForceReply — pero la respuesta llegó como
+mensaje NUEVO (no reply) → `comment=NULL` y la frase entró al pipeline como consulta.
+En este caso terminó bien (el bot confirmó el ASD 535 y la conversación siguió), pero
+el PORQUÉ del 👎 no quedó anclado al voto.
+
+**No es (aún) un bug**: es el gap entre el supuesto de diseño (la gente responde con
+reply) y el comportamiento natural (la gente escribe sin más). **Trigger**: 2ª
+ocurrencia → considerar capturar como comentario el PRIMER mensaje tras la invitación
+si llega en <N min y no parece consulta técnica (cuidado: ambigüedad real, pedirá dúo).
+**Coste**: M (el borde es delicado).
+
+## #67 — `manufacturer_in_db`/detección de marca: `lda` no casa `LDA audioTech` (s307, dúo H6)
+
+Pre-existente (no lo introdujo s307): `manufacturer_in_db` usa `ilike` SIN comodines →
+`lda` no casa `LDA audioTech` ni `argus` casa `Argus Security` → «No dispongo de manuales
+de _lda_» (falso rechazo de marca cubierta). s307 mitiga `argus` (resolución por primera
+palabra única ≥4 chars contra la lista real de la DB) pero **LDA queda fuera a propósito**
+(3 chars, riesgo de colisión). **Trigger**: primera consulta orgánica por LDA, o al tocar
+`manufacturer_in_db`. **Fix candidato**: tabla de alias cortos curada (no comodines
+ciegos: `%lda%` casa demasiado). **Coste**: S.
