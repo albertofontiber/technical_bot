@@ -26,7 +26,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s294 — 2 ago 2026)
+## Estado actual (s306 — 7 ago 2026)
 
 **PRODUCCIÓN**: **paquete de telemetría pre-técnicos puntos 1+5 VIVOS** (PRs #200/#201/#202, 2
 migraciones aplicadas, `TERMS_VERSION` v3). El 👎 deja de ser señal muda: invita a explicar,
@@ -45,7 +45,9 @@ responde con el **elemento vecino**. **Dos instancias, una de uso real, el mismo
 abrió el canal.** ⇒ la población que DEC-175 quería fabricar con una cohorte **empieza a entrar
 sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
 
-**Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 9 ítems**, packet listo con
+**Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 9 ítems + 1 NUEVO de s305**
+(hp011#2: los 3 modelos —Opus 5 incluido— responden el DEFAULT del parámetro, no el RANGO
+que pide el gold ⇒ adjudicar si el alcance del gold es el correcto), packet listo con
 recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
 (2) ~~lista de adquisición: 44 documentos + la Guía Avanzada de la CAD-171~~ **CORREGIDO
 (s302, DEC-184): eran 7-8, no 44 — y la Guía de la CAD-171 YA LA TENEMOS.** El packet
@@ -101,21 +103,39 @@ módulos en cuarentena LÓGICA desde el día 0); lotes L1 (catalog_store) → L2
 `harness/`) → L2b (flags.py recortado) → L2c (split lane vetada) → L3 (embed), cada uno
 con paridad + sellos enumerados + dúo. NO se reescribe nada medido; `retriever.py` no
 se parte en estos lotes.
-**(9) SONDA CORRIDA (s303) — el fallo orgánico queda CLASIFICADO: SÍNTESIS, no retrieval.**
-Replay de la consulta literal con la config de la demo, medido hasta la evidencia SERVIDA
-(no solo el pool): el §5.4 del `MC-380` —el párrafo que documenta `AJUSTES > AVANZADO`—
-llegó al generador **en el rango 1**, y aun así el bot encabezó con GENERAL. K=4 pasadas,
-mismo veredicto; mapeo vigente el 2-ago (entró en s91). ⇒ **Retrieval DESCARTADO para este
-caso** (la familia doc-local/vecino estructural de s104/s107 no aplica aquí); el caso es la
-**2ª instancia de la clase `hp011#2` medida con la evidencia correcta delante**, y de uso
-REAL — coherente con el NO-GO de DEC-173 (oráculo 0/5→0/5), no en contra. **La pregunta que
-queda abierta y es barata: ¿el techo es del SISTEMA o del MODELO?** El oráculo de DEC-173 y
-esta sonda comparten generador (Sonnet); nadie ha medido la clase con un generador más
-fuerte. Recibos: `scripts/s303_cad171_pool_probe.py` + `evals/s303_cad171_pool_probe_v1.json`.
-**Hallazgo colateral con dueño**: durante la sonda, el canal de ENUNCIADOS devolvió un 500
-transitorio y el pool cayó de 34 a 23 chunks **en silencio** (fail-open declarado) — la
-degradación no deja rastro en ninguna métrica. Ficha: TECH_DEBT #63.
-Traza: DEC-176 + HISTORY s294; frentes 6-8: DEC-182 + HISTORY s300.
+**(9) CERRADO (s303→s306) — el fallo orgánico clasificado en firme, el techo medido con 3
+modelos, y las dos deudas colaterales resueltas.**
+· **Veredicto FINAL del caso CAD-171 (s303, confirmado tras el arco s304): SELECCIÓN DE
+SECCIÓN dentro del documento correcto.** El bot tuvo servidos EN LA MISMA PASADA el §5.4
+AVANZADO (rango 1) y el §5.1 GENERAL (rango 4) del MISMO `MC-380`, y encabezó con la ruta
+del §5.1 — no descartó el documento por su etiqueta: respondió desde él. Retrieval e
+identidad DESCARTADOS por dos vías independientes.
+· **La hipótesis intermedia de propagación de identidad (s304) MURIÓ en el dúo**, y con
+razón triple verificada: mi instrumento paginaba sin `ORDER BY` (perdía 12-21% de los docs
+por pasada — cifras 57%/1.112 RETIRADAS); medía coincidencia-de-etiqueta cuando la pregunta
+es ALCANZABILIDAD (la granularidad de familia es deliberada); y la identidad SÍ llega por
+el seam 2 doc_map-aware + `series_registry` — que para ESTE caso declara la serie Vesta
+desde s63/DEC-043. Instrumento v2 corregido: residual 4,1%/55 ids, casi todos `unresolved:`
+(candidatos que el catálogo declara no consumir). **No hay lever ahí.** DEC-185.
+· **s305 — el techo NO es del MODELO**: oráculo de DEC-173 reusado tal cual (misma
+evidencia inyectada, juez K=5, 3 reps), única variable el generador → Sonnet 4.6 / Sonnet 5
+/ **Opus 5** = 0/3 firmes los tres (máx 2/5; 9 respuestas con hash distinto — sin caché;
+testigo del modelo REALMENTE enviado en verde). Los 3 modelos responden el DEFAULT del
+parámetro en vez del RANGO que pide el gold ⇒ apunta a **alcance de GOLD** → ítem para la
+sentada B2. Control 2/5 (no el 0/5 de agosto: corpus tocado — declarado, ambos bajo
+umbral). DEC-186 · `evals/s305_techo_modelo_ab_v1.json`.
+· **TECH_DEBT #64 RESUELTO** (PR #215): el generador ya puede cambiar de modelo
+(`temperature` aprendida en runtime ante rechazo + bloque de texto por tipo con
+equivalencia histórica exacta — mi 1ª versión rompió 29 tests por ser más estricta que el
+código viejo; lección estampada).
+· **TECH_DEBT #63 RESUELTO** (s306, PR #216, dúo 8/8 confirmados 0 FP): el fail-open de
+canal registra en el seam s289 extendido (4 canales), reintento único ante 5xx del RPC de
+enunciados, sección `retrieval` TRI-ESTADO en `rag_trace` (sin sección / `measured=false`
+seam-no-conectado / `measured=true`+lista — el dúo convergió en que mi v1 colapsaba «sin
+seam» a «sano», el defecto reintroducido una capa arriba) + vista `salud_canal_retrieval_v1`
++ test-ancla del seam en los adapters de producción. **Alberto tras el merge: aplicar la
+migración `20260807120000_s306` en el SQL Editor.**
+Traza: DEC-176 (origen) · DEC-185..187 · HISTORY s303-s306; frentes 6-8: DEC-182.
 
 ---
 

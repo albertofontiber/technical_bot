@@ -2937,3 +2937,44 @@ programacion por PC de la ID1000; 997-415, seis citas y dos marcas; y 997-412, q
 barrido PERDIO por un break en citas dobles — el bug que lo hace no-fiable para negar,
 TECH_DEBT #62). Y un hallazgo operativo util: en notifier.es y morley-ias.es los PDF estan
 abiertos y lo que esta cerrado es el INDICE. Traza: DEC-184 + evals/s302_adquisicion_packet_v1.md.
+
+## s303-s306 (7 ago 2026) — Tres hipótesis mías cayeron por verificación; lo que quedó en pie es mejor que lo que proponían
+
+El arco empezó con la sonda del fallo orgánico y terminó con dos deudas estructurales
+resueltas. Por el camino, el sistema de control (dúo + suite + testigos) me corrigió tres
+veces, y esa es la historia real de la sesión.
+
+**El caso CAD-171, cerrado en firme.** La sonda s303 ya decía SÍNTESIS (§5.4 servido en
+rango 1). La pregunta de Alberto («¿ese catálogo estaba asociado a la CAD-171?») me llevó a
+una hipótesis mejor-sonante: la identidad adjudicada muere en la frontera catálogo→chunk
+(57% del corpus). El dúo la demolió con tres hechos que verifiqué antes de aceptar: mi
+instrumento paginaba sin ORDER BY (12-21% de docs perdidos POR PASADA — cifras retiradas),
+medía etiqueta cuando la pregunta es alcanzabilidad, y la identidad SÍ llega (seam 2 +
+series_registry — la serie Vesta con el MC-380 declarada desde s63). Instrumento v2:
+residual 4,1%, casi todo `unresolved:`. Veredicto final: **selección de sección dentro del
+documento correcto** — el bot respondió DESDE el MC-380 (la ruta que dio está en su p.20),
+así que ni siquiera la etiqueta CAD-250 lo frenó. DEC-185.
+
+**El techo, medido con 3 generadores (s305).** Oráculo de DEC-173 tal cual, única variable
+el modelo: Sonnet 4.6 / Sonnet 5 / Opus 5 → 0/3 firmes los tres, máx 2/5, 9 respuestas con
+hash distinto. El techo NO es del modelo. Los tres responden el DEFAULT del parámetro en
+vez del RANGO que pide el gold → ítem nuevo para la sentada B2 (alcance de gold, no
+ingeniería). Controles que pagaron: el testigo del efecto (mi 1ª aserción era demasiado
+estricta), y la guarda que impide contar un brazo ABORTADO como 0/5 (el primer smoke
+proclamaba «techo confirmado» con 2 brazos muertos por API). Colateral: #64 — el generador
+no se podía cambiar de modelo (temperature + ThinkingBlock); resuelto con rechazo aprendido
+en runtime y extracción por tipo; mi 1ª versión rompió 29 tests por ser MÁS estricta que el
+código histórico (claim de equivalencia sin verificar). PR #215 mergeada. DEC-186.
+
+**#63 resuelto (s306, PR #216).** El fail-open de canal (500 → pool 34→23 en silencio)
+registra ahora en el seam s289 extendido a los 4 canales; reintento único ante 5xx; sección
+`retrieval` TRI-ESTADO en rag_trace — el dúo convergió desde ambos lados en que mi v1
+colapsaba «sin seam» a «sano», el defecto reintroducido una capa arriba — + vista
+`salud_canal_retrieval_v1` + test-ancla del seam en producción. Dúo 8/8 confirmados, 0 FP.
+Suite 3591. DEC-187.
+
+**Patrón de la sesión (va a feedback_my_bias)**: mis diseños razonables, mis claims sobre
+ellos en exceso — «la identidad no llega», «equivalencia byte a byte», «sin medida ≠ sano» —
+y las tres veces lo cazó una verificación externa, no mi criterio. El control estructural
+funciona; el sesgo persiste; la conclusión operativa es no firmar ninguna propiedad de
+diseño sin el test o el testigo que la ancle.

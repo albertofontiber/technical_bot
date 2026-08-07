@@ -4923,3 +4923,92 @@ petición a `soporteHLSI@honeywell.com` **pidiendo el LISTADO, no los ficheros**
 **Consecuencia para el rumbo**: el frente «adquisición» baja de 44 documentos a 3 con
 valor + 3 altas, y **el trabajo de calidad vuelve a retrieval/síntesis** — donde el primer
 fallo orgánico dijo desde el principio que estaba.
+
+## DEC-185 (s303-s304) — El fallo orgánico cerrado en firme: SELECCIÓN DE SECCIÓN; la hipótesis de identidad murió en el dúo (y era mía)
+
+**Decisión**: el único fallo orgánico (CAD-171, DEC-176) queda clasificado DEFINITIVO como
+**selección de sección dentro del documento correcto**: el bot tuvo servidos en la misma
+pasada el §5.4 AVANZADO (rango 1) y el §5.1 GENERAL (rango 4) del mismo `MC-380` y encabezó
+con la ruta del §5.1 — respondió DESDE el documento, no lo descartó por su etiqueta.
+Retrieval e identidad descartados por dos vías independientes. **La hipótesis intermedia
+(«la identidad adjudicada no llega al chunk: 57% del corpus huérfano») queda RETIRADA.**
+
+**Motivo (verificado, no opinión)**: el dúo derribó la hipótesis con 3 hechos que comprobé
+contra el repo antes de aceptar: (1) mi instrumento paginaba `limit/offset` SIN `ORDER BY` —
+perdía 12-21% de los documentos, DISTINTOS por pasada; cifras no reproducibles; (2) medía
+coincidencia-de-etiqueta cuando la pregunta correcta es ALCANZABILIDAD — la granularidad de
+familia (`pm='2X-A'`, 26 variantes en el mapa) es deliberada (T3/s285); (3) la identidad SÍ
+llega al retrieval por el seam 2 doc_map-aware (`IDENTITY_RESOLVE=on`, DEC-084) y el
+`series_registry`, que para el caso motivador declara la serie Vesta `[CAD-171, CAD-201,
+CAD-250]` con el MC-380 como shared_doc DESDE s63 (DEC-043). Instrumento v2 (orden estable +
+pregunta de alcanzabilidad): **35 huérfanos (4,1%) / 55 ids**, casi todos `unresolved:`
+(candidatos que `catalog_store` declara no-consumibles). No hay lever.
+
+**Alternativas descartadas**: diseñar el lever de propagación (backfill chunk-level o join
+en serving) — muerto con la hipótesis; re-litigar DEC-059/s77 (el índice de modelos como
+oráculo) — no aplica, el seam vivo ya es doc_map-aware.
+
+**Lección (feedback_my_bias)**: verifiqué dos capas (doc_map, product_model) y declaré rota
+la cadena SIN comprobar si existía OTRO camino entre ellas — misma clase que negar ausencia
+sin agotar las vías de presencia (barrido s302). La pregunta de Alberto («¿ese catálogo
+estaba asociado a la CAD-171?») abrió la ronda; el dúo la cerró.
+
+Recibos: `evals/s294_cad171_menu_avanzado_v1.md` (veredicto final, con las DOS rondas y lo
+que cayó) · `scripts/s304_identidad_propagacion.py` v2 · `evals/adversarial_review_log.jsonl`.
+
+## DEC-186 (s305) — El techo de la clase «elemento vecino» NO es del modelo; y de paso, el generador no se podía cambiar de modelo (#64, resuelto)
+
+**Decisión**: la clase `hp011#2`/CAD-171 queda cerrada TAMBIÉN por el eje modelo: con el
+oráculo de DEC-173 reusado tal cual (misma evidencia inyectada, mismo juez K=5, 3 reps,
+única variable = generador), **Sonnet 4.6, Sonnet 5 y Opus 5 dan 0/3 firmes (máx 2/5) los
+tres**. Ni una generación nueva ni un tier superior mueven la clase. NO hay lever de modelo.
+
+**Motivo + hacia dónde apunta**: las 9 respuestas (hashes todos distintos — sin caché;
+testigo del modelo REALMENTE enviado verde en los 3 brazos) hacen LO MISMO: describen el
+DEFAULT del parámetro t.A («--» = activado hasta rearme) en vez del RANGO (05-295 s) que
+pide el gold — coherente con DEC-173 («tiene el dato y responde con otro parámetro»").
+⇒ el residual apunta a **alcance de GOLD** → ítem de la sentada B2, no de ingeniería.
+
+**Controles que hicieron falta** (cada uno cazó algo): testigo del efecto (cazó mi aserción
+demasiado estricta: el reranker DEBE seguir en su modelo — una sola variable); hashes
+anti-caché; guarda de veredicto (en el primer smoke 2 brazos ABORTARON por incompatibilidad
+de API y la lógica proclamaba «techo confirmado» sobre datos inexistentes — un brazo caído
+es dato-que-falta, no un cero). Honestidad: control 2/5 ≠ 0/5 de agosto (corpus tocado hoy;
+ambos bajo umbral) — declarado, no vendido como réplica.
+
+**Colateral estructural (#64 RESUELTO, PR #215)**: cambiar `LLM_MODEL` a un modelo de
+razonamiento rompía el bot en la 1ª consulta (`temperature` rechazada; `content[0]` es
+ThinkingBlock). Fix: rechazo aprendido en runtime + reintento único con identidad de caché
+recalculada + extracción de texto por tipo con equivalencia histórica EXACTA (mi 1ª versión
+exigía `type=="text"` y rompió 29 tests — un fix de compatibilidad que rompe compatibilidad
+es peor que el problema; test del caso exacto añadido). Camino vivo byte-idéntico, anclado
+por test.
+
+Recibos: `evals/s305_techo_modelo_ab_v1.json` · `scripts/s305_techo_modelo_ab.py`.
+
+## DEC-187 (s306) — TECH_DEBT #63 resuelto: el fail-open de canal deja de ser invisible; y el dúo cazó el defecto reintroducido en su propio fix
+
+**Decisión**: la degradación silenciosa del retrieval (s303: 500 transitorio del RPC de
+enunciados → pool 34→23 sin rastro) queda CERRADA en la clase entera (PR #216): registro en
+los 4 fail-opens (seam s289 extendido a enunciados/hyq-tabla/hyq-hidrata), reintento ÚNICO
+ante 5xx del RPC de enunciados (ni 4xx ni timeout — el caso exacto de s303 queda SANO),
+sección `retrieval` REQUERIDA en `rag_trace` con TRI-ESTADO, vista `salud_canal_retrieval_v1`
+(% + conteos por canal, `source <> 'error'`, security_invoker, API a cero incluido PUBLIC).
+
+**Motivo del tri-estado (el hallazgo del dúo, convergente en AMBOS lados por caminos
+independientes)**: mi v1 colapsaba «adapter sin seam» a «sano» (lista vacía) — el propio
+defecto #63 reintroducido una capa arriba. Fix: sin sección (no valida) / `measured=false`
+(seam no conectado) / `measured=true`+lista (medido; vacía = sano), propagado por pipeline
+(`None` ≠ `{}`), contrato del orquestador y vista; + test-ancla de que los adapters de
+PRODUCCIÓN tienen el seam (un wrapper futuro sin `_trace` = test rojo, no salud perfecta
+eterna). Dúo: 8 únicos, 8 confirmados, 0 FP (REVOKE PUBLIC, dependencias del header,
+filas-error fuera del denominador, % prometido, ConnectError, 2 comentarios). Tally
+COMPLETO en el log con recibo de ambos lados.
+
+**Alternativas descartadas**: try/TypeError para pasar el seam (re-corre el retrieval
+entero enmascarando bugs — se pasa por FIRMA); retry también en canales hyq (especulativo:
+el 5xx observado fue del RPC de enunciados; trigger declarado = primer 5xx hyq en la vista);
+retry en el RPC principal VECTOR (cambiaría el camino más caliente — fuera de alcance, s289
+lo dejó deliberadamente sin tocar).
+
+Recibos: `evals/adversarial_review_log.jsonl` (duo_status=complete) · suite 3591 passed.
