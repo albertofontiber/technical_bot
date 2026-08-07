@@ -893,6 +893,96 @@ def manufacturer_in_db(manufacturer_name: str) -> bool:
     return len(resp.json()) > 0
 
 
+def get_manufacturers_by_docs() -> list[tuple[str, int]]:
+    """Fabricantes con documentos ACTIVOS, ordenados por nº de docs (desc).
+
+    s307: la intro del bot llevaba «Notifier, Morley y Detnov» hardcodeado desde
+    el primer día — con 30 fabricantes reales en corpus. Derivarlo de `documents`
+    (status=active) en vez de otra constante es lo que evita que vuelva a caducar:
+    el número correcto es «lo que el bot puede servir HOY», y eso vive en la base,
+    no en el código. Una llamada por proceso (el caller cachea); fallo → excepción
+    al caller, que usa su texto estático.
+    """
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    with httpx.Client(timeout=10.0) as client:
+        resp = client.get(
+            f"{SUPABASE_URL}/rest/v1/documents",
+            headers=headers,
+            params={"select": "manufacturer", "status": "eq.active",
+                    "limit": "2000"},
+        )
+        resp.raise_for_status()
+        conteo: dict[str, int] = {}
+        for fila in resp.json():
+            marca = (fila.get("manufacturer") or "").strip()
+            if marca:
+                conteo[marca] = conteo.get(marca, 0) + 1
+    return sorted(conteo.items(), key=lambda kv: (-kv[1], kv[0]))
+
+
+def get_products_by_manufacturer(manufacturer: str) -> list[tuple[str, int]]:
+    """(product_model, nº de documentos ACTIVOS) de un fabricante — inventario completo.
+
+    s307, nace del 2º fallo orgánico: «¿qué productos de Securiton tienes?» se respondió
+    desde la ventana de 10 chunks del RAG y la enumeración salió INCOMPLETA (faltaron
+    ASD531 y ASD535 — el doc más grande de la marca). Una pregunta de INVENTARIO se
+    responde mirando el inventario, no una muestra.
+
+    Fuentes, elegidas con evidencia (no por comodidad):
+      · `chunks_v2.product_model` — la verdad CURADA (la campaña H0/s285 re-tagueó los
+        CHUNKS; `documents.product_model` quedó stale: para `MADT235` dice `AFP4000`
+        mientras los chunks curados dicen `ART1194`, y tiene `unknown` donde los chunks
+        ya tienen identidad — TECH_DEBT #65);
+      · `documents.status` — para excluir retirados/supersedidos del inventario.
+    Paginación SIEMPRE con `order=id.asc` (lección s304: sin orden estable, limit/offset
+    pierde filas distintas en cada pasada).
+    """
+    headers = {
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+    }
+    with httpx.Client(timeout=15.0) as client:
+        resp = client.get(
+            f"{SUPABASE_URL}/rest/v1/documents",
+            headers=headers,
+            params={"select": "source_pdf_filename",
+                    "manufacturer": f"ilike.{manufacturer}",
+                    "status": "eq.active", "limit": "2000"},
+        )
+        resp.raise_for_status()
+        activos = {f["source_pdf_filename"] for f in resp.json()
+                   if f.get("source_pdf_filename")}
+        if not activos:
+            return []
+
+        docs_por_pm: dict[str, set[str]] = {}
+        offset, page = 0, 5000
+        while True:
+            resp = client.get(
+                f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
+                headers=headers,
+                params={"select": "source_file,product_model",
+                        "manufacturer": f"ilike.{manufacturer}",
+                        "order": "id.asc",
+                        "limit": str(page), "offset": str(offset)},
+            )
+            resp.raise_for_status()
+            filas = resp.json()
+            for fila in filas:
+                pm = (fila.get("product_model") or "").strip()
+                src = fila.get("source_file")
+                if pm and pm.lower() != "unknown" and src in activos:
+                    docs_por_pm.setdefault(pm, set()).add(src)
+            if len(filas) < page:
+                break
+            offset += page
+    return sorted(((pm, len(srcs)) for pm, srcs in docs_por_pm.items()),
+                  key=lambda kv: (-kv[1], kv[0]))
+
+
 def get_all_models_by_category() -> dict[str, list[str]]:
     """Get all distinct product models grouped by category."""
     headers = {
