@@ -2568,7 +2568,7 @@ las dos** — `cat017#2` era alcanzable y a la vez población 1.
 
 Del descarte salió el hallazgo más útil del día: esas remisiones a manuales ausentes son
 **peticiones explícitas del propio fabricante**, así que ordenarlas da una **lista de
-adquisición dirigida por citas**. Barrido del corpus entero: **44 documentos citados y
+adquisición dirigida por citas**. Barrido del corpus entero: **44 CANDIDATOS citados y
 ausentes, 77 citas**, concentrados en Notifier/Morley series ID50/ID1000 — tenemos el manual de
 instalación y falta el de **programación**, justo donde vive el detalle que pregunta un técnico.
 Antes de publicarla la corregí dos veces: normalizar guiones (el corpus escribe `MIDT155` donde
@@ -2910,3 +2910,30 @@ deploy; el fallback es ahora componible por columna nombrada y ESTRICTO (el laxo
 la ruta ante una violacion del CHECK: el patron de la casa, otra vez). 12 hallazgos, 0
 falsos positivos. Queda de Alberto: aplicar las DOS migraciones (julio + s301) en una
 sentada y montar el dashboard de Supabase sobre las vistas. Traza: DEC-183.
+
+
+## s302 (6 ago 2026) — el packet que desmonto mi propio frente de trabajo
+
+Toco adjudicar los 44 "documentos citados y ausentes" que el PLAN arrastraba desde s294 como
+frente de adquisicion. Ocho agentes, uno a uno, contra el corpus real. Resultado: **7 huecos
+reales de 44**. Dieciocho ya estaban ingestados con OTRO nombre de fichero — incluido el
+numero 1 del ranking con 11 citas, que resulto ser un PDF que ya teniamos —, diez eran
+referencias de PIEZA o rangos de direcciones de lazo, cinco erratas de imprenta y pies de
+pagina. El barrido casaba el codigo citado contra el NOMBRE del fichero, y Honeywell imprime
+el codigo solo en la portada.
+
+Y el caso que duele: la "Guia Avanzada de Configuracion de la CAD-171", que yo habia puesto
+en cabeza del packet como el documento del primer fallo organico del bot, YA LA TENEMOS. Es
+el MC-380 rev c ("Adaptacion para CAD-171"), ingestado y mapeado a detnov:cad-171, y su
+seccion 5.4 documenta exactamente la ruta AJUSTES > AVANZADO que el bot fallo. El fallo era
+100% de seleccion: DEC-176 sale reforzado y no se arregla comprando nada. Cuarta vez de la
+clase feedback_corpus_gap — pero con forma nueva: no sobre-atribuyo un instrumento, sino que
+yo eleve la salida CRUDA de un probe (rotulada "candidatos, NO confirmados" en su propio
+JSON) a frente del PLAN, y la mantuve tres sesiones sin adjudicar. Regla nueva: la salida de
+un probe no entra al PLAN como hecho hasta adjudicarse.
+
+Lo accionable que queda es pequeno y bueno: tres documentos con valor real (997-340-005
+programacion por PC de la ID1000; 997-415, seis citas y dos marcas; y 997-412, que el
+barrido PERDIO por un break en citas dobles — el bug que lo hace no-fiable para negar,
+TECH_DEBT #62). Y un hallazgo operativo util: en notifier.es y morley-ias.es los PDF estan
+abiertos y lo que esta cerrado es el INDICE. Traza: DEC-184 + evals/s302_adquisicion_packet_v1.md.

@@ -47,9 +47,20 @@ sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
 
 **Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 9 ítems**, packet listo con
 recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
-(2) **lista de adquisición dirigida por citas** — 44 documentos que nuestros manuales citan y no
-tenemos, + la Guía Avanzada de Configuración de la CAD-171 (citada por nombre, punto ciego
-declarado del barrido); (3) **RGPD (s295→s299, DEC-177..181): CERRADO Y VIVO EN PRODUCCIÓN (5-ago)** —
+(2) ~~lista de adquisición: 44 documentos + la Guía Avanzada de la CAD-171~~ **CORREGIDO
+(s302, DEC-184): eran 7-8, no 44 — y la Guía de la CAD-171 YA LA TENEMOS.** El packet
+adjudicado (`evals/s302_adquisicion_packet_v1.md`) desmonta 37 de los 44 candidatos: 18 ya
+están en corpus bajo otro nombre de fichero (el barrido casaba contra el NOMBRE, no contra
+el código impreso en portada), 10 son referencias de PIEZA o rangos de direcciones, 5
+erratas/pies de página. **Y la «Guía Avanzada de Configuración» de la CAD-171 es el
+`MC-380 rev c` que YA está ingestado y mapeado a `detnov:cad-171` — con la ruta correcta
+(`AJUSTES > AVANZADO`, §5.4 p.29) que el bot falló**: el primer fallo orgánico es 100% de
+SELECCIÓN, se refuerza DEC-176 y NO se arregla comprando nada (4ª vez de la clase
+`feedback_corpus_gap`). Quedan **3 documentos con valor real**: `997-340-005` (programación
+por PC ID1000), `997-415` (actualización ID50/ID60/ZX50, 6 citas, dos marcas) y `997-412`
+(Sinóptico IDR — hueco REAL que el barrido PERDIÓ por un bug de `break` en citas dobles).
+Vía: los PDF de `notifier.es`/`morley-ias.es` se descargan sin login; lo cerrado es el
+ÍNDICE → 3 altas de partner (→ Alberto). Deuda del instrumento: TECH_DEBT #62; (3) **RGPD (s295→s299, DEC-177..181): CERRADO Y VIVO EN PRODUCCIÓN (5-ago)** —
 retención 24 meses → disociar con seudónimo estable, aviso en dos capas v7, libro de eventos,
 marca de utilidad inalcanzable para el bot, bootstrap re-ejecutable con test en CI. **s299
 (PR #210 mergeada + migración APLICADA el 5-ago): la pasada es UNA función en la base +
@@ -128,8 +139,9 @@ dedup por contención) para 1 hecho — y el propio requisito bilingüe crea un 
 cross-lingüe en la diana. Quedan 2 defectos latentes de L2 documentados. **Lever B de `cat017#2` = NO-GO por POBLACIÓN** (DEC-175): alcanzable (5/5) pero
 **1 gold de 39** y **0,13% del corpus** — el censo desmintió mi propio argumento estructural.
 ⇒ **Etapa 3 queda CERRADA como cola de ingeniería**; lo que resta es adjudicación de golds
-(tuya) + techo declarado. **Subproducto vivo y con valor propio: lista de adquisición dirigida
-por citas** — 44 documentos que nuestros manuales citan y no tenemos (77 citas), concentrados en
+(tuya) + techo declarado. **Subproducto: lista de adquisición dirigida
+por citas** — 44 CANDIDATOS (⚠️ s302/DEC-184: adjudicados = 7 reales; el resto ya estaban en
+corpus con otro nombre o eran refs de pieza) que nuestros manuales citan (77 citas), concentrados en
 Notifier/Morley ID50/ID1000: tenemos el manual de instalación y falta el de PROGRAMACIÓN, que es
 donde vive el detalle que pregunta un técnico (`evals/s294_citation_gap_v1.json`);
 (1) **hp003#4** = el lever vivo que queda de etapa 3;

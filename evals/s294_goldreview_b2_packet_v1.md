@@ -35,7 +35,7 @@ cerró con el protocolo Notifier. **Cero menciones de detectores de haz/rayo.** 
 detector de haz cuenta como «detector de humo analógico» para un técnico? Si dices que no,
 acoto la pregunta a «detectores puntuales» y el hecho pasa a SUPPLEMENTARY.
 
-`[ ] ✅ es síntesis (mantener CORE) · [ ] ✏️ acotar la pregunta a puntuales · [ ] ❌ otra cosa`
+`[X] ✅ es síntesis (mantener CORE) · [ ] ✏️ acotar la pregunta a puntuales · [ ] ❌ otra cosa`
 
 ---
 
