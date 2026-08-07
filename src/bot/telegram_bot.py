@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import tempfile
+import time as _time
 import unicodedata
 import uuid
 from pathlib import Path
@@ -173,20 +174,61 @@ _CATALOG_PATTERNS = re.compile(
 # (s307) Intención de INVENTARIO sobre un fabricante — 2º fallo orgánico: «¿qué
 # productos de Securiton tienes?» no casaba con _CATALOG_PATTERNS (exige «productos»
 # y «tienes» ADYACENTES) y caía al RAG, que enumeró una MUESTRA de 10 chunks como si
-# fuera el inventario (faltaron ASD531 y ASD535). Deliberadamente ESTRECHO: exige
-# interrogativo+sustantivo-de-inventario+verbo-de-posesión, o palabra-de-lista — una
-# consulta de avería que mencione «central» NO debe convertirse en un listado.
-# OJO DEC-059: aquel fall-through medido es para preguntas DE MODELO (índice poco
-# fiable como oráculo de disponibilidad); esta ruta cubre preguntas DE INVENTARIO,
-# población que DEC-059 no midió — el fall-through de modelo queda INTACTO.
+# fuera el inventario (faltaron ASD531 y ASD535).
+#
+# v2 tras el dúo (H2: la v1 era ANCHA y desviaba consultas técnicas al listado —
+# «lista de averías/eventos» es vocabulario NUCLEAR de la UI de centrales PCI, y
+# «¿qué centrales Notifier tienen salida de relé?» es un filtro de specs, no un
+# inventario). Dos discriminadores, ambos empíricos:
+#   1. el verbo de posesión va AL FINAL — una pregunta de inventario TERMINA en el
+#      verbo («…tienes?»); una de specs continúa tras él («…tienen salida de relé»);
+#   2. la palabra-de-lista solo cuenta pegada a un sustantivo DE INVENTARIO
+#      («listado de productos» sí; «lista de averías» no) — o al nombre del
+#      fabricante, que se comprueba aparte porque no puede vivir en un regex.
+# `gama` FUERA (colisiona con recomendaciones: «¿qué central de la gama X me
+# recomiendas?»). OJO DEC-059: aquel fall-through medido es para preguntas DE
+# MODELO; esta ruta cubre INVENTARIO, población que DEC-059 no midió — el
+# fall-through de modelo queda INTACTO.
 _ENUM_FABRICANTE = re.compile(
     r"(qu[eé]|cu[aá]l(?:es)?)\s+(productos?|modelos?|equipos?|centrales?|detectores?|"
-    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]*"
+    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]{0,40}"
     r"\b(tienes|ten[eé]is|tienen|hay|dispones?|dispon[eé]is|disponen|"
-    r"soportas?|cubres?|conoces)\b"
-    r"|\b(listado|lista|cat[aá]logo|gama|inventario)\b",
+    r"soportas?|cubres?|conoces)\s*\??\s*$"
+    r"|\b(listado|lista|cat[aá]logo|inventario)\s+de\s+"
+    r"(productos?|modelos?|equipos?|detectores?|centrales?|manuales?|documentaci[oó]n)\b"
+    # EN mínimo (Sol s307: el corpus y los técnicos son ES/EN; una consulta EN caía a
+    # RAG = status quo, pero cubrirla es barato con los MISMOS discriminadores). El
+    # orden inglés mete la MARCA entre medias («what Securiton products» · «list of
+    # Notifier panels») → se toleran 1-2 palabras antes del sustantivo:
+    r"|(what|which)\s+(?:[\w-]+\s+){0,2}(products?|models?|equipment|panels?|detectors?)"
+    r"[^?]{0,40}\b(do\s+you\s+(have|know|support|cover)|are\s+(there|available))\s*\??\s*$"
+    r"|\b(list|catalog(?:ue)?|inventory)\s+of\s+(?:[\w-]+\s+){0,2}"
+    r"(products?|models?|equipment|detectors?|panels?)\b",
     re.IGNORECASE,
 )
+
+
+# Pre-gate barato del paso 5-bis: solo si hay señal de inventario se paga la
+# resolución de marca contra la DB. Cualquier término dispara el CHEQUEO, no la ruta.
+_PREGATE_INVENTARIO = re.compile(
+    r"\b(productos?|modelos?|equipos?|centrales?|detectores?|manuales?|"
+    r"documentaci[oó]n|informaci[oó]n|listado|lista|cat[aá]logo|inventario|"
+    r"products?|models?|equipment|panels?|detectors?|list|catalog|inventory)\b",
+    re.IGNORECASE,
+)
+
+
+def _intencion_inventario(query: str, marca: str | None = None) -> bool:
+    """¿La consulta pide el INVENTARIO? Regex estático + la variante con el nombre
+    del fabricante («catálogo de securiton»), que no puede pre-compilarse."""
+    if _ENUM_FABRICANTE.search(query):
+        return True
+    if marca:
+        return bool(re.search(
+            rf"\b(listado|lista|cat[aá]logo|inventario)\s+(de\s+)?{re.escape(marca)}\b",
+            query, re.IGNORECASE,
+        ))
+    return False
 
 _MANUFACTURER_NAMES = re.compile(
     r"\b(notifier|honeywell|siemens|bosch|esser|kilsen|cerberus|"
@@ -316,35 +358,95 @@ def _fabricantes_resumen() -> tuple[str, int | None]:
 
 
 _inventario_cache: dict[str, str] = {}
+_inventario_falla_ts: float = 0.0
+_FALLA_BACKOFF_S = 60.0            # tras un fallo de DB, no re-pagar el timeout en
+                                   # cada consulta (dúo H5: httpx síncrono en handler
+                                   # async — con DB caída bloqueaba el loop por turno)
+_PRESUPUESTO_MSG = 3500            # dúo H1: el inventario de Notifier medía 4.377
+                                   # chars > límite Telegram 4.096 → BadRequest sin
+                                   # handler = el técnico recibía NADA. Cota por
+                                   # CONSTRUCCIÓN, no por confianza.
+
+
+def _pm_plano(pm: str) -> str:
+    """Markdown v1 de Telegram rompe con `*`/`_`/`` ` `` sueltos en nombres de
+    producto — se sirven planos (Sol s307: un metacarácter en un pm = BadRequest)."""
+    return pm.replace("*", "").replace("_", " ").replace("`", "")
 
 
 def _inventario_fabricante(nombre: str) -> str | None:
     """Respuesta de inventario para un fabricante, o None para caer al RAG.
 
-    Completa por construcción (viene del corpus, no de una ventana de retrieval) y
-    honesta sobre su granularidad: los nombres son los `product_model` del corpus,
-    que en varias marcas son FAMILIA (deliberado, T3/s285). Éxito cacheado por
-    proceso; fallo NO cacheado (el siguiente intento reintenta) y → RAG.
+    Del corpus, no de una ventana de retrieval; ACOTADA a `_PRESUPUESTO_MSG` por
+    construcción (las que no caben se resumen en «…y N más»); «referencias» y no
+    «modelos» (varias marcas taguean a FAMILIA — deliberado, T3/s285). Éxito
+    cacheado por proceso; fallo NO cacheado pero con backoff (60 s) y → RAG.
     """
+    global _inventario_falla_ts
     clave = nombre.strip().lower()
     if clave in _inventario_cache:
         return _inventario_cache[clave]
+    if _time.time() - _inventario_falla_ts < _FALLA_BACKOFF_S:
+        return None                                       # DB tocada hace nada → RAG
     try:
         productos = get_products_by_manufacturer(nombre)
     except Exception as exc:                             # noqa: BLE001
+        _inventario_falla_ts = _time.time()
         logger.warning("inventario de fabricante fail-open a RAG (%s)",
                        type(exc).__name__)
         return None
     if not productos:
         return None                                       # sin datos → RAG decide
-    lineas = [f"📦 *Productos de {nombre.title()} en mi documentación* "
-              f"({len(productos)} modelos):\n"]
+    cabecera = (f"📦 *Productos de {nombre.title()} en mi documentación* "
+                f"({len(productos)} referencias):\n")
+    cierre = "\n¿Sobre cuál necesitas información?"
+    lineas, usado, fuera = [cabecera], len(cabecera) + len(cierre) + 40, 0
     for pm, n_docs in productos:
         docs = "1 documento" if n_docs == 1 else f"{n_docs} documentos"
-        lineas.append(f"• *{pm}* — {docs}")
-    lineas.append("\n¿Sobre cuál necesitas información?")
+        linea = f"• *{_pm_plano(pm)}* — {docs}"
+        if usado + len(linea) > _PRESUPUESTO_MSG:
+            fuera += 1
+            continue
+        lineas.append(linea)
+        usado += len(linea) + 1
+    if fuera:
+        lineas.append(f"\n…y {fuera} referencias más — dime cuál te interesa "
+                      f"o pregunta por un modelo concreto.")
+    lineas.append(cierre)
     _inventario_cache[clave] = "\n".join(lineas)
     return _inventario_cache[clave]
+
+
+_marcas_db_cache: list[str] | None = None
+
+
+def _marca_en_consulta(query: str) -> str | None:
+    """Nombre REAL (de la DB) de un fabricante mencionado en la consulta.
+
+    Cubre las marcas FUERA del regex hardcodeado `_MANUFACTURER_NAMES` (dúo s307/F2:
+    «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton literal — el fix
+    dependía de la misma constante que diagnosticaba). Matching conservador: nombre
+    completo con frontera de palabra, o su primera palabra si es ÚNICA entre las marcas
+    y ≥4 chars («argus» → Argus Security). `LDA` (3 chars) queda fuera a propósito —
+    demasiado corto para no colisionar (TECH_DEBT #67, junto al ilike sin comodines).
+    """
+    global _marcas_db_cache
+    if _marcas_db_cache is None:
+        try:
+            _marcas_db_cache = get_available_manufacturers()
+        except Exception:                                # noqa: BLE001
+            return None      # fallo NO cacheado: el siguiente intento reintenta
+    primeras: dict[str, list[str]] = {}
+    for nombre in _marcas_db_cache:
+        primeras.setdefault(nombre.split()[0].lower(), []).append(nombre)
+    for nombre in _marcas_db_cache:
+        if re.search(rf"\b{re.escape(nombre)}\b", query, re.IGNORECASE):
+            return nombre
+        primera = nombre.split()[0]
+        if (len(primera) >= 4 and len(primeras[primera.lower()]) == 1
+                and re.search(rf"\b{re.escape(primera)}\b", query, re.IGNORECASE)):
+            return nombre
+    return None
 
 
 def _welcome_text() -> str:
@@ -783,7 +885,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                           response=respuesta, response_length=len(respuesta))
                 asegurar_seudonimo(user_id)
                 return
-            if _ENUM_FABRICANTE.search(query):
+            if _intencion_inventario(query, mentioned_manufacturer):
                 # (s307) Pregunta de INVENTARIO sobre un fabricante que SÍ tenemos:
                 # se responde desde el inventario real (chunks curados × docs activos),
                 # completo por construcción — no desde la ventana del RAG. Fail-open:
@@ -797,6 +899,24 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     asegurar_seudonimo(user_id)
                     return
             # else: manufacturer IS in DB → fall through to RAG
+
+    # 5-bis (s307, dúo F2): inventario para marcas FUERA del regex hardcodeado de
+    # arriba — «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton
+    # literal porque el fix dependía de la MISMA constante que diagnosticaba. El
+    # nombre se resuelve contra la lista REAL de la DB (cacheada); el pre-gate
+    # barato evita pagar la resolución en cada consulta normal.
+    if not manufacturer_match and _PREGATE_INVENTARIO.search(query) \
+            and not extract_product_models(query):
+        marca_db = _marca_en_consulta(query)
+        if marca_db and _intencion_inventario(query, marca_db):
+            respuesta = _inventario_fabricante(marca_db)
+            if respuesta is not None:
+                await update.message.reply_text(respuesta, parse_mode="Markdown")
+                log_query(telegram_user_id=user_id, query=query,
+                          route="catalog_shortcut",
+                          response=respuesta, response_length=len(respuesta))
+                asegurar_seudonimo(user_id)
+                return
 
     # 6. Feedback
     if _FEEDBACK_PATTERNS.search(query):

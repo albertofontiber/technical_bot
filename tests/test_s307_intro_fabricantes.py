@@ -93,6 +93,10 @@ def test_welcome_sin_db_usa_el_fallback_sin_numero(monkeypatch):
 
 
 def test_el_texto_legal_sigue_estatico_v7():
-    """`_CONSENT_TERMS` es lo que la gente ACEPTÓ: nada dinámico puede entrar ahí
-    sin bump de versión. Este test lo pinna hasta el v8."""
-    assert "*Notifier*, *Morley* y *Detnov*" in bot._CONSENT_TERMS
+    """`_CONSENT_TERMS` es lo que la gente ACEPTÓ: nada puede entrar ahí sin bump de
+    versión. Pin por HASH del texto completo (Sol s307: la subcadena no pinna byte-
+    identidad). Si falla: o alguien tocó el texto legal SIN bump a v8 — revertir — o
+    es el bump deliberado: actualizar hash Y TERMS_VERSION juntos."""
+    import hashlib
+    assert hashlib.sha256(bot._CONSENT_TERMS.encode("utf-8")).hexdigest() == (
+        "bb0f14908ec788b97dac332bb165d4fd2e8f0b5f16272fb920e258217b67ea3a")

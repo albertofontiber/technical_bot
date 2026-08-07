@@ -2438,3 +2438,13 @@ reply) y el comportamiento natural (la gente escribe sin más). **Trigger**: 2ª
 ocurrencia → considerar capturar como comentario el PRIMER mensaje tras la invitación
 si llega en <N min y no parece consulta técnica (cuidado: ambigüedad real, pedirá dúo).
 **Coste**: M (el borde es delicado).
+
+## #67 — `manufacturer_in_db`/detección de marca: `lda` no casa `LDA audioTech` (s307, dúo H6)
+
+Pre-existente (no lo introdujo s307): `manufacturer_in_db` usa `ilike` SIN comodines →
+`lda` no casa `LDA audioTech` ni `argus` casa `Argus Security` → «No dispongo de manuales
+de _lda_» (falso rechazo de marca cubierta). s307 mitiga `argus` (resolución por primera
+palabra única ≥4 chars contra la lista real de la DB) pero **LDA queda fuera a propósito**
+(3 chars, riesgo de colisión). **Trigger**: primera consulta orgánica por LDA, o al tocar
+`manufacturer_in_db`. **Fix candidato**: tabla de alias cortos curada (no comodines
+ciegos: `%lda%` casa demasiado). **Coste**: S.
