@@ -105,9 +105,53 @@ El **acceso** al menú sí está en el manual que tenemos.
 > ⇒ El caso pasa a ser **la 2ª instancia de la clase `hp011#2` medida CON la evidencia
 > correcta delante**, y esta vez de uso REAL — es decir, coherente con el NO-GO de DEC-173
 > (oráculo 0/5→0/5) en vez de contradecirlo.
-> ⇒ Lo que NO zanja: si el techo es **del sistema** o **del modelo**. El oráculo de DEC-173
-> y esta sonda comparten generador (Sonnet); **nadie ha medido la clase con un generador
-> más fuerte**. Es la pregunta abierta barata que queda.
+> ### ⚠️⚠️ CORRECCIÓN DEL VEREDICTO (s304, 7-ago) — la pregunta de Alberto lo tumbó
+>
+> Alberto preguntó: «el bot tenía el catálogo, ¿pero ese catálogo estaba asociado a la
+> CAD-171?». Verificado, y **mi veredicto de «síntesis pura» era DEMASIADO FUERTE**:
+>
+> | Capa | Qué dice |
+> |---|---|
+> | `doc_map.jsonl` (identidad ADJUDICADA) | MC-380 rev c → `detnov:cad-171` **primary** ✓ |
+> | `chunks_v2.product_model` (lo que VIAJA al generador) | **136 de 136 chunks: `CAD-250`. Ninguno CAD-171** ✗ |
+>
+> Y el generador lee el CHUNK, no el mapa (`generator.py:704`). Así que el bot tuvo delante
+> el párrafo correcto **etiquetado con OTRO modelo de central**. Su cautela —«los fragmentos
+> disponibles no detallan su contenido específico»— es **defendible**: no trasladar el
+> detalle de una CAD-250 a una CAD-171 es la conducta que se le exige a un bot de PCI.
+>
+> **Lo que SIGUE siendo fallo suyo, sin atenuante**: encabezar con `AJUSTES > GENERAL` como
+> ruta a la configuración avanzada. Eso no depende del MC-380 — está en el manual PROPIO de
+> la CAD-171 (MI-716, etiquetado CAD-171), cuyos 3 diagramas muestran AVANZADO como HERMANO
+> de GENERAL. **Error de SELECCIÓN, confirmado, pero acotado a la RUTA.**
+>
+> **Lo que ya NO se sostiene**: «el modelo tuvo la evidencia correcta delante y aun así
+> falló» como prueba de techo de síntesis. La evidencia estaba, sí, pero contradictoriamente
+> etiquetada. El caso deja de ser instancia limpia del techo `hp011#2`.
+>
+> **Y lo que aparece en su lugar es MEJOR, porque es arreglable** (`scripts/s304_identidad_propagacion.py`,
+> recibo `evals/s304_identidad_propagacion_v1.json`): la adjudicación de identidad **NO
+> llega al momento de responder**, y no es un caso aislado —
+>
+> | | |
+> |---|---|
+> | Documentos con identidad primaria adjudicada y chunks | 732 |
+> | **Huérfanos** (algún id primario que NINGÚN chunk refleja) | **414 = 57%** |
+> | Identidades primarias que no llegan al generador | **1.112** |
+> | Huérfanos cuyos chunks llevan UN SOLO `product_model` | **414 de 414** |
+>
+> Esa última fila es la firma estructural del defecto: **la ingesta asigna UN modelo por
+> documento**, mientras la identidad adjudicada dice N. Todo el trabajo de s83/s91/s278
+> (miles de adjudicaciones, algunas de Alberto a mano) muere en esa frontera para más de la
+> mitad del corpus. Ejemplos: un manual de la serie 2X-A pierde 26 variantes Kidde; el de
+> barreras Zener, 64; el MC-380, la CAD-171 **y** la CAD-201.
+>
+> **Alcance honesto de lo medido**: se ha medido la BRECHA, no su impacto en respuestas.
+> `retrieve_chunks` NO filtra duro por `product_model` (verificado: el pool trajo chunks
+> `CAD-250` con la consulta de CAD-171), así que el efecto no es supresión total; lo medido
+> es que el generador ve etiquetas que contradicen la identidad adjudicada — y en el único
+> fallo orgánico que tenemos, eso coincidió con una respuesta con hedge. Traducirlo a PASS
+> exige eval, no inferencia.
 
 ⇒ **Candidato de adquisición**: Guía Avanzada de Configuración, CAD-171 (Detnov).
 
