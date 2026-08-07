@@ -1551,7 +1551,7 @@ def _matched_own_tokens(own_tokens, window_tokens: set[str]) -> set[str]:
 def _catalog_identifier_tokens() -> set[str]:
     """D2 — identificadores del catálogo gobernado YA cargado en memoria: claves de
     los índices ``_by_canonical``/``_by_alias`` de ``src/rag/catalog_store.py``
-    (campos l.79-81, construidos en ``load()`` ~l.94: ``norm_token(canonical_model)``
+    (campos l.83-84, construidos en ``load()`` ~l.95-100: ``norm_token(canonical_model)``
     y alias), re-normalizadas al fold alfanumérico del binding. Fail-open a vacío
     (sin catálogo el criterio-catálogo simplemente no aporta). Cache de proceso."""
     global _CATALOG_ID_TOKENS

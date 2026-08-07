@@ -73,7 +73,7 @@ sys.path.insert(0, WORKTREE)
 os.chdir(WORKTREE)
 
 from src.rag import catalog as C                      # noqa: E402
-from src.rag import catalog_resolver as R             # noqa: E402  (auto-inserta scripts/)
+from src.rag import catalog_resolver as R             # noqa: E402
 from src.rag import catalog_store                     # noqa: E402  (L1/s309)
 from src.rag import series_registry as SR             # noqa: E402
 from src.rag.retriever import (                       # noqa: E402

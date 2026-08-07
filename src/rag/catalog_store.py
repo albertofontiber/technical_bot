@@ -26,8 +26,8 @@ Reglas duras del contrato que ESTA puerta hace cumplir:
   consume; fail-open (None) si no resuelve. Un token homónimo NUNCA cae a exact.
 
 Uso CLI:
-  python scripts/catalog_store.py validate    # chequeo de esquema/refs (lo corre CI)
-  python scripts/catalog_store.py resolve <token> [...]
+  python src/rag/catalog_store.py validate    # chequeo de esquema/refs (lo corre CI)
+  python src/rag/catalog_store.py resolve <token> [...]
 """
 from __future__ import annotations
 

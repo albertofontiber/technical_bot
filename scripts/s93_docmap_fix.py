@@ -16,7 +16,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # L1/s309: raíz, no scripts/
 from src.rag.catalog_store import CATALOG_DIR, FILES, _read_jsonl, load, validate, write_jsonl  # noqa: E402
 
 PROV = "s93-mecanico (diagnostico s92 cat013)"

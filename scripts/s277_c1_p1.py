@@ -1239,8 +1239,9 @@ def _implementation_module_index(root: Path) -> dict[str, str]:
             relative = path.relative_to(root).as_posix()
             module = _implementation_module_name(relative)
             index[module] = relative
-            # catalog_resolver deliberately imports catalog_store after adding
-            # scripts/ to sys.path, so mirror that legitimate top-level alias.
+            # Historic top-level alias for bare-stem imports of scripts/ files.
+            # (Its motivating case — catalog_resolver importing catalog_store via
+            # sys.path — died in L1/s309; the mechanism stays for other stems.)
             if dirname == "scripts" and path.parent == base:
                 index.setdefault(path.stem, relative)
     return index

@@ -8,7 +8,7 @@ retiro) y la cuarentena de la isla-harness. Misma filosofía que la ventana RGPD
 garantía vive en el motor): aquí la arquitectura vive en el CI.
 
   · MATRIZ de paquetes: qué paquete puede importar de cuál (pocas reglas, duras);
-  · EXCEPCIONES iniciales: E1/E2/E6 violan la matriz; E3a-c violan la CUARENTENA de la
+  · EXCEPCIONES vigentes: E2/E6 violan la matriz (E1 retirada en L1/s309); E3a-c violan la CUARENTENA de la
     lane vetada (su celda rag→rag es legal); E4/E5 son los 2 ciclos deliberados. El
     trinquete exige que EXISTAN (retirarlas obliga a borrarlas de aquí, en el diff);
   · CUARENTENA de lane vetada: `rerank_pool_coverage` (vetada bajo todo perfil C1) solo
@@ -52,12 +52,12 @@ ALLOWED = {
 
 class Exc(NamedTuple):
     importador: str      # módulo que viola
-    importado: str       # módulo importado ("catalog_store" = stem de scripts/)
+    importado: str       # módulo importado (un stem bare de scripts/ también valdría)
     regla: str
     retiro: str          # el lote/decisión que la elimina — al retirarla, BORRAR de aquí
 
 
-# Las SEIS excepciones (8 aristas). Lista EXACTA a nivel módulo→módulo, verificada
+# Las CINCO excepciones vigentes (7 aristas; E1 retirada en L1/s309). Lista EXACTA a nivel módulo→módulo, verificada
 # adversarialmente contra el árbol (s300): el contrato nace verde con estas y cero más.
 EXCEPCIONES = frozenset({
     # E1 — RETIRADA (L1/s309): catalog_store graduado a src/rag/, import relativo
@@ -298,7 +298,7 @@ def test_precondicion_sin_imports_dinamicos():
 def test_src_no_importa_raices_prohibidas():
     """`harness`/`scripts`/`tests`/`evals` como nombre importado: prohibido SIN
     constante de excepciones — la regla nace cerrada y ya gobierna el `harness/` que
-    L2a creará. (La vía bare-stem de scripts/ vive en el test de abajo, con E1.)"""
+    L2a creará. (La vía bare-stem de scripts/ vive en el test de abajo — sin excepciones desde L1/s309.)"""
     assert not PROHIBIDOS, (
         "src/ importa raíces prohibidas:\n  "
         + "\n  ".join(f"{a} → {b}" for a, b in sorted(PROHIBIDOS))
