@@ -192,3 +192,29 @@ def test_un_400_por_otra_causa_NO_se_reintenta(monkeypatch):
         generator.generate_answer("¿bornes?", [dict(_CHUNK)])
     assert len(mensajes.envelopes) == 1                # sin reintento
     assert not generator._MODELS_REJECTING_TEMPERATURE  # y sin aprender nada falso
+
+
+# ----------------------------------------------- el seam de entorno (s308, GO Alberto)
+
+
+def test_llm_model_es_configurable_por_entorno_y_su_default_no_cambia():
+    """El swap de modelo es una variable de Railway (patrón CHUNKS_TABLE), no un
+    deploy de código; y SIN la variable, producción queda byte-idéntica."""
+    import subprocess
+    import sys
+
+    salida = subprocess.run(
+        [sys.executable, "-c",
+         "import os; os.environ.pop('LLM_MODEL', None); "
+         "from src.config import LLM_MODEL; print(LLM_MODEL)"],
+        capture_output=True, text=True, cwd=".",
+    )
+    assert salida.stdout.strip() == "claude-sonnet-4-6"
+
+    salida = subprocess.run(
+        [sys.executable, "-c",
+         "import os; os.environ['LLM_MODEL'] = 'claude-opus-5'; "
+         "from src.config import LLM_MODEL; print(LLM_MODEL)"],
+        capture_output=True, text=True, cwd=".",
+    )
+    assert salida.stdout.strip() == "claude-opus-5"

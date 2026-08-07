@@ -153,7 +153,9 @@ def test_marca_fuera_del_regex_se_resuelve_contra_la_db(monkeypatch):
                         ["Xtralis", "Argus Security", "System Sensor", "LDA audioTech"])
     assert bot._marca_en_consulta("¿qué productos de Xtralis tienes?") == "Xtralis"
     assert bot._marca_en_consulta("productos de argus") == "Argus Security"
-    assert bot._marca_en_consulta("productos de lda") is None   # 3 chars: fuera (#67)
+    # (s308/#67) los alias curados resuelven lo que ni nombre ni primera-palabra
+    # pueden: «lda» (3 chars) → nombre real de la DB
+    assert bot._marca_en_consulta("productos de lda") == "LDA audioTech"
     assert bot._marca_en_consulta("no menciona marca alguna") is None
 
 
@@ -232,3 +234,26 @@ def test_dec059_intacto_el_fallthrough_de_modelo_no_se_toca():
     assert idx_enum > idx_rama_sin_modelo
     # y el paso 5-bis (marcas fuera del regex) también exige no-modelo antes de servir
     assert "not extract_product_models(query)" in fuente
+
+
+# ------------------------------------------------------------ alias curados (s308/#67)
+
+
+def test_alias_curado_resuelve_en_toda_la_cadena(monkeypatch):
+    """«lda» debe funcionar de punta a punta: detección de marca, gate de DB e
+    inventario — el falso rechazo («No dispongo de manuales de _lda_») era sobre
+    una marca CUBIERTA."""
+    assert retriever.resolve_manufacturer_alias("lda") == "LDA audioTech"
+    assert retriever.resolve_manufacturer_alias("LDA") == "LDA audioTech"
+    assert retriever.resolve_manufacturer_alias("detnov") == "detnov"   # identidad
+
+    visto = {}
+
+    def fake(nombre):
+        visto["nombre"] = nombre
+        return [("NEO-8060", 1)]
+
+    monkeypatch.setattr(bot, "get_products_by_manufacturer", fake)
+    texto = bot._inventario_fabricante("lda")
+    assert visto["nombre"] == "LDA audioTech"           # la fuente recibe el nombre REAL
+    assert "Lda Audiotech" in texto or "LDA audioTech".title() in texto or "Lda" in texto

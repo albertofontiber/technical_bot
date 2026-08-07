@@ -2412,6 +2412,14 @@ propósito documentado como apaño de instrumento — NO es el fix.
 
 ## #65 — `documents.product_model` está STALE post-H0: no es fuente de identidad (s307)
 
+> **✅ RESUELTO en código (s308)** — migración
+> `supabase/migration_proposals/20260808100000_s308_backfill_documents_pm_v1.sql`:
+> backfill de los **591 casos inequívocos** (exactamente 1 pm curado ≠ documents; 0
+> ambiguos — cada doc tiene UN pm curado, firma s304) con respaldo en
+> `_s308_backup_documents_pm` y postcondiciones (MADT235→ART1194 verificado dentro de la
+> transacción; 165 docs sin chunks curados NO se tocan, declarado). **Pendiente: Alberto
+> la aplica en el SQL Editor.**
+
 Descubierto construyendo el inventario por fabricante: la campaña H0 (s285, DEC-161)
 re-tagueó los CHUNKS (unknown 318→1) pero `documents.product_model` conservó los valores
 de ingesta. Caso probado: `MADT235` dice `AFP4000` en documents y `ART1194` en los chunks
@@ -2440,6 +2448,11 @@ si llega en <N min y no parece consulta técnica (cuidado: ambigüedad real, ped
 **Coste**: M (el borde es delicado).
 
 ## #67 — `manufacturer_in_db`/detección de marca: `lda` no casa `LDA audioTech` (s307, dúo H6)
+
+> **✅ RESUELTO (s308)** — tabla de alias CURADOS (`_MANUFACTURER_ALIASES`: lda→LDA
+> audioTech, argus→Argus Security; corta a propósito, sin comodines) aplicada en
+> `manufacturer_in_db`, `_marca_en_consulta` y la entrada del inventario. Tests e2e del
+> alias en ambos ficheros.
 
 Pre-existente (no lo introdujo s307): `manufacturer_in_db` usa `ilike` SIN comodines →
 `lda` no casa `LDA audioTech` ni `argus` casa `Argus Security` → «No dispongo de manuales

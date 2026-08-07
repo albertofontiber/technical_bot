@@ -47,6 +47,7 @@ from ..config import (
 from ..rag.retriever import (
     retrieve_chunks, extract_product_models, get_category_models,
     get_manufacturers_by_docs, get_products_by_manufacturer,
+    _MANUFACTURER_ALIASES, resolve_manufacturer_alias,
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
     lookup_model_manufacturer, get_available_manufacturers, manufacturer_in_db,
 )
@@ -383,6 +384,7 @@ def _inventario_fabricante(nombre: str) -> str | None:
     cacheado por proceso; fallo NO cacheado pero con backoff (60 s) y → RAG.
     """
     global _inventario_falla_ts
+    nombre = resolve_manufacturer_alias(nombre)   # s308/#67: «lda» → LDA audioTech
     clave = nombre.strip().lower()
     if clave in _inventario_cache:
         return _inventario_cache[clave]
@@ -427,10 +429,16 @@ def _marca_en_consulta(query: str) -> str | None:
     «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton literal — el fix
     dependía de la misma constante que diagnosticaba). Matching conservador: nombre
     completo con frontera de palabra, o su primera palabra si es ÚNICA entre las marcas
-    y ≥4 chars («argus» → Argus Security). `LDA` (3 chars) queda fuera a propósito —
-    demasiado corto para no colisionar (TECH_DEBT #67, junto al ilike sin comodines).
+    y ≥4 chars («argus» → Argus Security). Los nombres demasiado cortos para eso
+    («lda») se resuelven por la tabla de ALIAS curados (s308, cierra #67).
     """
     global _marcas_db_cache
+    # (s308/#67) Los alias curados van PRIMERO: «lda» jamás casaría «LDA audioTech»
+    # ni por nombre ni por primera-palabra (3 chars). Tabla corta y a mano — sin
+    # comodines ciegos.
+    for alias, real in _MANUFACTURER_ALIASES.items():
+        if re.search(rf"\b{re.escape(alias)}\b", query, re.IGNORECASE):
+            return real
     if _marcas_db_cache is None:
         try:
             _marcas_db_cache = get_available_manufacturers()
