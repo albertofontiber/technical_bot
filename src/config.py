@@ -294,6 +294,14 @@ CONVO_MAINTENANCE = _strict_on_off("CONVO_MAINTENANCE")
 # declarado (DEC-186: en la clase medida el modelo NO mueve el techo; el swap compra
 # lo NO medido). El RERANKER no se toca (RERANK_MODEL propio, freeze de una variable).
 LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
+# (dúo s308, crítico CONVERGENTE — ambos lados): LLM_MODEL también pineaba el REWRITER
+# multi-turn, que NO tiene los fixes del #64 (manda `temperature` siempre y lee
+# `content[0].text`) → con Opus 5 en Railway, el 100% del slice anafórico habría dado
+# 400 y degradado a carry_forward EN SILENCIO. Variable PROPIA con default pineado al
+# modelo histórico: el swap del generador mueve UN componente («una sola variable»,
+# la disciplina de DEC-186). El rewriter solo se cambia deliberadamente, y portándole
+# los fixes de compatibilidad primero.
+REWRITER_MODEL = os.getenv("REWRITER_MODEL", "claude-sonnet-4-6")
 # s99: tope de tokens de SALIDA del generador. SWAP reversible por entorno (patrón RERANK_TOP_K)
 # — default 2048 = prod histórico INERTE. Se sube a 3500 en Railway JUNTO con RERANK_TOP_K=10:
 # servir 10 chunks produce respuestas más completas que a veces rozaban el cap de 2048 (cat019

@@ -2412,13 +2412,16 @@ propósito documentado como apaño de instrumento — NO es el fix.
 
 ## #65 — `documents.product_model` está STALE post-H0: no es fuente de identidad (s307)
 
-> **✅ RESUELTO en código (s308)** — migración
-> `supabase/migration_proposals/20260808100000_s308_backfill_documents_pm_v1.sql`:
-> backfill de los **591 casos inequívocos** (exactamente 1 pm curado ≠ documents; 0
-> ambiguos — cada doc tiene UN pm curado, firma s304) con respaldo en
-> `_s308_backup_documents_pm` y postcondiciones (MADT235→ART1194 verificado dentro de la
-> transacción; 165 docs sin chunks curados NO se tocan, declarado). **Pendiente: Alberto
-> la aplica en el SQL Editor.**
+> **✅ RESUELTO en código (s308, migración v2 tras dúo)** —
+> `20260808100000_s308_backfill_documents_pm_v1.sql`: 591 inequívocos, 0 ambiguos;
+> respaldo MULTI-FILA que audita también re-runs; UPDATE desde el conjunto FRESCO (nunca
+> desde el respaldo); cota de radio (≤700) ANTES de escribir; igualdad
+> respaldo=update=inequívocos; RLS+REVOKE en la tabla de respaldo; postcondiciones
+> (MADT235→ART1194 · 0 residuales · 0 linajes tocados mixtos). **IMPACTO DECLARADO
+> (Sol s308: mi «byte-idéntico» era falso)**: el RPC document-local s278 SÍ lee esta
+> columna — 175 docs pasan de sin-identidad a curada y ganan elegibilidad en esa lane
+> (corrección observable vía lane_outcomes; deriva de linaje medida: imposible).
+> **Pendiente: Alberto la aplica en el SQL Editor.**
 
 Descubierto construyendo el inventario por fabricante: la campaña H0 (s285, DEC-161)
 re-tagueó los CHUNKS (unknown 318→1) pero `documents.product_model` conservó los valores

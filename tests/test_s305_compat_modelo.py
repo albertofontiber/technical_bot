@@ -200,21 +200,43 @@ def test_un_400_por_otra_causa_NO_se_reintenta(monkeypatch):
 def test_llm_model_es_configurable_por_entorno_y_su_default_no_cambia():
     """El swap de modelo es una variable de Railway (patrón CHUNKS_TABLE), no un
     deploy de código; y SIN la variable, producción queda byte-idéntica."""
+    import pathlib
     import subprocess
     import sys
 
-    salida = subprocess.run(
-        [sys.executable, "-c",
-         "import os; os.environ.pop('LLM_MODEL', None); "
-         "from src.config import LLM_MODEL; print(LLM_MODEL)"],
-        capture_output=True, text=True, cwd=".",
-    )
-    assert salida.stdout.strip() == "claude-sonnet-4-6"
+    raiz = str(pathlib.Path(__file__).resolve().parent.parent)  # robusto al cwd (dúo)
 
+    def _corre(codigo):
+        salida = subprocess.run([sys.executable, "-c", codigo],
+                                capture_output=True, text=True, cwd=raiz)
+        assert salida.returncode == 0, salida.stderr    # fallo con diagnóstico, no ''
+        return salida.stdout.strip()
+
+    assert _corre("import os; os.environ.pop('LLM_MODEL', None); "
+                  "from src.config import LLM_MODEL; print(LLM_MODEL)") == "claude-sonnet-4-6"
+    assert _corre("import os; os.environ['LLM_MODEL'] = 'claude-opus-5'; "
+                  "from src.config import LLM_MODEL; print(LLM_MODEL)") == "claude-opus-5"
+
+
+def test_el_rewriter_NO_hereda_el_modelo_del_generador():
+    """Crítico convergente del dúo s308: el rewriter multi-turn no tiene los fixes
+    del #64 (temperature siempre + content[0].text) — heredar LLM_MODEL habría roto
+    F1 en silencio con el swap. Su variable es PROPIA y su default, el histórico."""
+    import inspect
+    import pathlib
+    import subprocess
+    import sys
+
+    import src.bot.telegram_bot as bot
+    assert "make_rewriter(model=REWRITER_MODEL)" in inspect.getsource(bot)
+    assert "make_rewriter(model=LLM_MODEL)" not in inspect.getsource(bot)
+
+    raiz = str(pathlib.Path(__file__).resolve().parent.parent)
     salida = subprocess.run(
         [sys.executable, "-c",
          "import os; os.environ['LLM_MODEL'] = 'claude-opus-5'; "
-         "from src.config import LLM_MODEL; print(LLM_MODEL)"],
-        capture_output=True, text=True, cwd=".",
-    )
-    assert salida.stdout.strip() == "claude-opus-5"
+         "os.environ.pop('REWRITER_MODEL', None); "
+         "from src.config import REWRITER_MODEL; print(REWRITER_MODEL)"],
+        capture_output=True, text=True, cwd=raiz)
+    assert salida.returncode == 0, salida.stderr
+    assert salida.stdout.strip() == "claude-sonnet-4-6"  # el swap NO lo arrastra"

@@ -37,6 +37,7 @@ from ..config import (
     RETRIEVAL_TOP_K,
     RERANK_TOP_K,
     LLM_MODEL,
+    REWRITER_MODEL,
     VOICE_TRANSCRIPTION_MODEL,
     COVERAGE_RELEASE_POLICY,
     ORCHESTRATOR_PATH,
@@ -399,7 +400,10 @@ def _inventario_fabricante(nombre: str) -> str | None:
         return None
     if not productos:
         return None                                       # sin datos → RAG decide
-    cabecera = (f"📦 *Productos de {nombre.title()} en mi documentación* "
+    # (dúo s308) .title() destrozaba los nombres reales («LDA audioTech» →
+    # «Lda Audiotech»): solo se titula la mención toda-minúscula del usuario.
+    nombre_visible = nombre if nombre != nombre.lower() else nombre.title()
+    cabecera = (f"📦 *Productos de {nombre_visible} en mi documentación* "
                 f"({len(productos)} referencias):\n")
     cierre = "\n¿Sobre cuál necesitas información?"
     lineas, usado, fuera = [cabecera], len(cabecera) + len(cierre) + 40, 0
@@ -433,9 +437,11 @@ def _marca_en_consulta(query: str) -> str | None:
     («lda») se resuelven por la tabla de ALIAS curados (s308, cierra #67).
     """
     global _marcas_db_cache
-    # (s308/#67) Los alias curados van PRIMERO: «lda» jamás casaría «LDA audioTech»
-    # ni por nombre ni por primera-palabra (3 chars). Tabla corta y a mano — sin
-    # comodines ciegos.
+    # (s308/#67) Alias curados primero. HONESTIDAD de alcance (sub-agente s308):
+    # para lda/argus este bucle es HOY inalcanzable en serving — ambos están en
+    # _MANUFACTURER_NAMES y el paso 5 los captura antes (donde el alias resuelve
+    # vía manufacturer_in_db + inventario). Se conserva para alias FUTUROS de
+    # marcas fuera del regex; el camino load-bearing está testeado aparte.
     for alias, real in _MANUFACTURER_ALIASES.items():
         if re.search(rf"\b{re.escape(alias)}\b", query, re.IGNORECASE):
             return real
@@ -833,7 +839,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             actual_manufacturer = lookup_model_manufacturer(model)
 
             if actual_manufacturer:
-                if actual_manufacturer.lower() != mentioned_manufacturer.lower():
+                # (dúo s308) comparar contra el alias RESUELTO: sin esto, una
+                # consulta modelo+«lda» respondería «es de LDA audioTech, no de
+                # lda» — mismatch falso de la misma marca.
+                _mencionado_real = resolve_manufacturer_alias(mentioned_manufacturer)
+                if actual_manufacturer.lower() != _mencionado_real.lower():
                     # Model exists but under a different manufacturer
                     respuesta = (
                         f"El *{model}* es un producto de *{actual_manufacturer}*, "
@@ -1144,7 +1154,10 @@ async def _process_query(
                 if rewriter is None:
                     from ..orchestrator.rewriter import make_rewriter
 
-                    rewriter = make_rewriter(model=LLM_MODEL)
+                    # (dúo s308) REWRITER_MODEL propio: el rewriter NO tiene los
+                    # fixes del #64 — pinearlo a LLM_MODEL habría roto F1 en
+                    # silencio con el swap a Opus 5.
+                    rewriter = make_rewriter(model=REWRITER_MODEL)
                     _rewriter_cell["rewriter"] = rewriter
                 return rewriter(anaphoric_query, ws)
 

@@ -256,4 +256,5 @@ def test_alias_curado_resuelve_en_toda_la_cadena(monkeypatch):
     monkeypatch.setattr(bot, "get_products_by_manufacturer", fake)
     texto = bot._inventario_fabricante("lda")
     assert visto["nombre"] == "LDA audioTech"           # la fuente recibe el nombre REAL
-    assert "Lda Audiotech" in texto or "LDA audioTech".title() in texto or "Lda" in texto
+    # (dúo s308) el nombre real NO se destroza con .title(): se muestra tal cual
+    assert "LDA audioTech" in texto and "Lda Audiotech" not in texto

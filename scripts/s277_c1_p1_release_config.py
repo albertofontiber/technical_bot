@@ -99,6 +99,14 @@ SAFE_DEFAULTS = {
     # s291/L2: mismo criterio (flag-hoja default-off; un receipt P1 con "on"
     # falla el allowlist = fail-closed correcto).
     "OBLIGATION_WARNING_APPENDIX": "off",
+    # s308: el modelo del GENERADOR y del REWRITER pasan a ser configurables por
+    # entorno (GO de Alberto — swap a Opus 5 vía Railway; REWRITER_MODEL aislado
+    # porque el rewriter no tiene los fixes #64). En la era P1 ambos eran el
+    # hardcode "claude-sonnet-4-6": ese es su default y su valor P1. Mismo criterio
+    # que GENERATOR_FOLLOWUPS (s286): cuando Alberto ponga claude-opus-5 físico,
+    # un receipt P1 fallará el allowlist = correcto, ya no reproduce P1.
+    "LLM_MODEL": "claude-sonnet-4-6",
+    "REWRITER_MODEL": "claude-sonnet-4-6",
     **{name: "off" for name in p1.TARGET_OFF_FLAGS},
 }
 
