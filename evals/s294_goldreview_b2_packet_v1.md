@@ -1,4 +1,4 @@
-# s294 — Packet de la sentada B2 · 8 ítems para tu adjudicación en lote
+# s294 — Packet de la sentada B2 · 10 ítems para tu adjudicación en lote
 
 > **Cómo usarlo (~25-30 min).** Cada ítem trae: la **pregunta** del gold, el **hecho** tal como
 > está escrito hoy, **qué dijo el bot** (respuesta congelada del FULL v3.2), la **evidencia
@@ -193,7 +193,12 @@ entrar como administrador con la clave **2222**.
 - **Hecho 1** — acceso: candado en la PANTALLA DE REPOSO → clave de administrador **2222** (p.25 §6.1).
 - **Hecho 2** — ruta: **AJUSTES (Menú principal) > AVANZADO (Submenú)**.
 - **Hecho 3** (opcional, alcance): el contenido de AVANZADO no está en `MI-716`; remite a la Guía
-  Avanzada de Configuración — que **no tenemos** (candidato de adquisición).
+  Avanzada de Configuración — ~~que no tenemos (candidato de adquisición)~~.
+  **⚠️ CORRECCIÓN (s302-s303, antes de que adjudiques con el dato viejo)**: la «Guía
+  Avanzada» ES el `MC-380 rev c` que YA tenemos ingestado y mapeado a `detnov:cad-171`
+  — con la ruta correcta (§5.4, p.29) que además llegó SERVIDA en rango 1 (sonda s303).
+  El candidato de gold sigue teniendo sentido, pero como caso de SELECCIÓN DE SECCIÓN
+  con la evidencia delante (veredicto final s304), no como hueco de corpus.
 
 **Por qué merece entrar**: respuesta COMPUESTA sobre evidencia ya servida, y discrimina la clase
 de fallo «responde con el elemento vecino», que ya tiene **dos** instancias (esta y `hp011#2`,
@@ -201,3 +206,33 @@ donde el bot contestó con `r.i` en vez de `t.A`). Detalle completo en
 `evals/s294_cad171_menu_avanzado_v1.md`.
 
 `[ ] ✅ crear el gold · [ ] ✏️ crearlo con cambios (anota) · [ ] ❌ no crearlo`
+
+
+---
+
+## 10 · `hp011#2` — rango vs default del parámetro `t.A` · **NUEVO (s305, medido con 3 modelos)**
+
+**Pregunta:** «El sistema no vuelve a estado normal tras resetear después de una extinción»
+(RP1r-Supra).
+**Hecho (hoy):** el gold espera el **RANGO** del parámetro `t.A` (05 a 295 segundos).
+**Qué dijo el bot:** describe el **DEFAULT** («--» = el circuito de extinción queda activado
+hasta el rearme de la central) — y este es el matiz nuevo: **no es un fallo de un modelo**.
+
+**Medido (s305, DEC-186 · `evals/s305_techo_modelo_ab_v1.json`)**: oráculo de evidencia
+perfecta de DEC-173 reusado tal cual (las dos mitades del hecho inyectadas, juez K=5, 3
+repeticiones), única variable el generador → **Sonnet 4.6, Sonnet 5 y Opus 5: 0/3 firmes
+los tres (máx 2/5; 9 respuestas distintas — sin caché; testigo del modelo enviado en
+verde)**. Los tres modelos, con el rango DELANTE, eligen contar el default.
+
+- **Mi lectura**: ante ESTA pregunta (un síntoma de troubleshooting: «no vuelve a estado
+  normal»), el dato operativo es el default — explica POR QUÉ no vuelve. El rango es lo que
+  responderías a «¿qué valores admite t.A?», que es otra pregunta. Tres generaciones de
+  modelos coinciden en esa lectura; forzar el rango aquí mediría obediencia al gold, no
+  utilidad para el técnico.
+
+**Mi recomendación:** **re-acotar el hecho al default** (el rango pasa a SUPPLEMENTARY o a
+un gold propio con la pregunta directa «¿qué valores admite t.A?»). **Decisión que te
+pido:** ¿qué esperaría un técnico de PCI ante ese síntoma — el default que explica el
+comportamiento, o el rango configurable?
+
+`[ ] ✅ re-acotar al default · [ ] ✏️ split en dos golds (anota) · [ ] ❌ mantener el rango (techo declarado)`
