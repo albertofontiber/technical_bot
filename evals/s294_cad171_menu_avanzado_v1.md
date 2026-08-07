@@ -53,10 +53,37 @@ contarlo — que es exactamente lo que el paquete de telemetría acaba de habili
 
 ## Lo que NO es: hueco de corpus para lo preguntado
 
-El **acceso** al menú sí está en el manual que tenemos. Lo que falta es la **«Guía Avanzada de
-Configuración»** de la CAD-171: verificado, **ningún fichero de Detnov en el corpus lleva
-«avanzada» en el nombre** (de la CAD-250 sí tenemos sus dos manuales de configuración). El
-caveat del bot era honesto.
+El **acceso** al menú sí está en el manual que tenemos.
+
+> ### ⚠️ CORRECCIÓN (s302, 6-ago — DEC-184): la «Guía Avanzada» TAMPOCO falta
+>
+> Este apartado decía que faltaba la «Guía Avanzada de Configuración» de la CAD-171, apoyado
+> en que **ningún fichero de Detnov lleva «avanzada» en el NOMBRE**. Ese test era el
+> equivocado — buscaba por nombre de fichero, no por contenido. La adjudicación de s302 lo
+> desmontó:
+>
+> **El documento existe, está ingestado y está mapeado a la central.** Es
+> `CAD-250_Manual-Configuracion-MC-380-es-2026-c`, cuyo control de revisiones (p.2) dice
+> literalmente «**c · Adaptación para CAD-171 y CAD-201 · 23/04/2026**», que figura en
+> `data/catalog/doc_map.jsonl` con **`detnov:cad-171` como `role: primary`** — y cuyo **§5.4,
+> p.29** documenta exactamente lo pedido: «**AJUSTES (Menú principal) > AVANZADO (Submenú)** …
+> dispone de 3 pestañas de configuración en este nivel, SISTEMA, OTROS y REINICIAR».
+>
+> **Consecuencia para el diagnóstico de este caso.** El caveat del bot («los fragmentos
+> disponibles no detallan su contenido específico») era honesto **sobre la evidencia
+> servida**, pero el corpus SÍ tenía el detalle. Así que el caso tiene **dos capas**, no una:
+>
+> 1. **SELECCIÓN** (lo ya diagnosticado, y sigue en pie): con AVANZADO delante en la
+>    evidencia servida, compuso la ruta de GENERAL. Clase `hp011#2`, elemento vecino.
+> 2. **RETRIEVAL — abierto, y NO medido**: ¿estaba el §5.4 del MC-380 en el pool de esa
+>    consulta? Si NO estaba, este caso es (también) un retrieval-miss de documento-vecino
+>    dentro de la MISMA familia de producto, y el veredicto «no alcanzable» de `hp011#2`
+>    (DEC-173, oráculo 0/5→0/5) **no le aplica sin más**: aquel se midió con la evidencia
+>    ideal de OTRO hecho, no con este documento delante.
+>
+> **La sonda que lo decide está sin correr** y es barata (replay de la consulta por el
+> harness + inspección del pool). Hasta correrla, este caso NO cuenta como instancia limpia
+> de «no alcanzable», ni como retrieval-miss: cuenta como **pendiente de clasificar**.
 
 ⇒ **Candidato de adquisición**: Guía Avanzada de Configuración, CAD-171 (Detnov).
 

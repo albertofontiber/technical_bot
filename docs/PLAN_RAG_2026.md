@@ -101,6 +101,16 @@ módulos en cuarentena LÓGICA desde el día 0); lotes L1 (catalog_store) → L2
 `harness/`) → L2b (flags.py recortado) → L2c (split lane vetada) → L3 (embed), cada uno
 con paridad + sellos enumerados + dúo. NO se reescribe nada medido; `retriever.py` no
 se parte en estos lotes.
+**(9) LA SONDA QUE DECIDE EL RUMBO DE CALIDAD — sin correr, barata, la siguiente**:
+s302 destapó que el único fallo ORGÁNICO (CAD-171, DEC-176) tiene DOS capas, no una. La de
+SELECCIÓN sigue en pie; la de RETRIEVAL está **abierta y sin medir**: el §5.4 del `MC-380`
+—documento ingestado y mapeado a `detnov:cad-171`— documenta la ruta pedida, y NO sabemos si
+estuvo en el pool de esa consulta. Si NO estuvo, el caso es también un retrieval-miss de
+documento-vecino en la misma familia, y el NO-GO de `hp011#2` (DEC-173, oráculo 0/5→0/5) NO
+le aplica sin más — aquel se midió con la evidencia ideal de OTRO hecho. **Hasta correr la
+sonda (replay por el harness + inspección del pool), el caso está PENDIENTE DE CLASIFICAR**,
+no cerrado como techo. Es lo que decide si el trabajo va a retrieval (doc-local/vecino
+estructural, s104/s107) o a síntesis. Recibo corregido: `evals/s294_cad171_menu_avanzado_v1.md`.
 Traza: DEC-176 + HISTORY s294; frentes 6-8: DEC-182 + HISTORY s300.
 
 ---
