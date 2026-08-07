@@ -57,11 +57,10 @@ from src.rag import catalog as C
 from src.rag import series_registry as _series
 
 ROOT = Path(__file__).resolve().parents[2]
-# catalog_store es LA puerta (D1) y vive en scripts/ — se importa por path; graduarlo a paquete
-# instalable es parte del retiro F4 (plan v2.2 §anti-dos-copias), no se duplica su lógica aquí.
-if str(ROOT / "scripts") not in sys.path:
-    sys.path.insert(0, str(ROOT / "scripts"))
-import catalog_store  # noqa: E402
+# catalog_store es LA puerta (D1). L1/s309: graduado de scripts/ a src/rag/ — import
+# RELATIVO estático (blueprint L1, retiro F4 cumplido); la mutación de sys.path que E1
+# permitía queda RETIRADA (el contrato de imports exige ahora CERO mutaciones en src/).
+from . import catalog_store  # noqa: E402
 
 logger = logging.getLogger(__name__)
 

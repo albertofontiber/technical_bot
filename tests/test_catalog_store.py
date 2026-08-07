@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-import catalog_store as cs  # noqa: E402
+from src.rag import catalog_store as cs  # noqa: E402  (L1/s309)
 
 
 def _write(dirp: Path, name: str, rows: list[dict]) -> None:

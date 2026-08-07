@@ -38,7 +38,11 @@ import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+# L1/s309: al graduar de scripts/ a src/rag/ el fichero baja UN nivel más — parents[2]
+# es la raíz del repo. La v1 del traslado dejó `parent.parent` y el CLI buscaba el
+# catálogo en src/data/ (0/7 ficheros presentes): la ruta derivada-de-mi-posición es el
+# coste oculto de todo git mv, y el `validate` lo cazó en el primer smoke.
+ROOT = Path(__file__).resolve().parents[2]
 CATALOG_DIR = ROOT / "data" / "catalog"
 
 FILES = {

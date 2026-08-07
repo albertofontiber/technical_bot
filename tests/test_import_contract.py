@@ -60,10 +60,8 @@ class Exc(NamedTuple):
 # Las SEIS excepciones (8 aristas). Lista EXACTA a nivel módulo→módulo, verificada
 # adversarialmente contra el árbol (s300): el contrato nace verde con estas y cero más.
 EXCEPCIONES = frozenset({
-    # E1 · catalog_resolver.py:62-64 — sys.path.insert + import catalog_store.
-    # El "retiro F4" que su propio comentario anuncia: graduación a src/rag/ (L1).
-    Exc("src.rag.catalog_resolver", "catalog_store",
-        "src-no-importa-scripts", "L1: graduar catalog_store a src/rag/"),
+    # E1 — RETIRADA (L1/s309): catalog_store graduado a src/rag/, import relativo
+    # estático. El trinquete solo encoge: esta lista pasó de 6 a 5.
     # E2 · embedder.py:160 (lazy pero corre en CADA query v2) — el producto ejecuta un
     # módulo del pipeline offline B8. Retiro: embed.py → src/ingestion/ (L3).
     # La excepción es por FORMA canónica a propósito: reescribir el import como
@@ -96,8 +94,9 @@ CICLOS_PERMITIDOS = frozenset({
     frozenset({"src.rag.document_local_coverage", "src.rag.post_rerank_coverage"}),
 })
 
-# Única mutación de sys.path permitida en src/ — muere con E1 en L1.
-SYS_PATH_EXCEPCIONES = {"src/rag/catalog_resolver.py"}
+# L1/s309: E1 retirada → CERO mutaciones de sys.path permitidas en src/. El conjunto
+# vacío es el estado FINAL del contrato, no un placeholder.
+SYS_PATH_EXCEPCIONES: set = set()
 
 # Lane vetada bajo todo perfil C1 (release_profiles.py) — importable SOLO por sus
 # deudores E3a-c hasta L2c. scripts/ y tests/ son libres (no los mira este contrato).
@@ -384,12 +383,14 @@ def test_cifras_de_control():
     """Ancla el censo s300 con tolerancia CERO en lo que protege: si estas cifras se
     mueven, que sea en un diff que las explique. Fricción DELIBERADA anti-acreción:
     un módulo nuevo en src/ paga un toque aquí."""
-    assert len(MODULOS) == 113, (
-        f"módulos en src/: {len(MODULOS)} (censo: 113). Si es PRODUCTO nuevo "
+    # L1/s309: 113→114 — catalog_store GRADUADO de scripts/ a src/rag/ (blueprint L1,
+    # PRODUCTO deliberado: la puerta D1 del catálogo es código de producción).
+    assert len(MODULOS) == 114, (
+        f"módulos en src/: {len(MODULOS)} (censo: 114). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."
     )
     assert len(ISLA) == 35
-    assert len(EXCEPCIONES) == 6
+    assert len(EXCEPCIONES) == 5   # L1/s309: E1 retirada — el trinquete solo encoge
     assert sum(1 for m in ISLA if m not in MODULOS) == 0, "ISLA cita módulos inexistentes"

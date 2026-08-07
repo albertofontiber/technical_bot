@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalog_store import (CATALOG_DIR, FILES, _read_jsonl, load, norm_token,  # noqa: E402
+from src.rag.catalog_store import (CATALOG_DIR, FILES, _read_jsonl, load, norm_token,  # noqa: E402
                            validate, write_jsonl)
 
 PROV = "gt-s91-alberto-homonyms"
