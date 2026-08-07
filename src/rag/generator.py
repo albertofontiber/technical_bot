@@ -49,6 +49,55 @@ from .visual_assets import append_cited_visual_assets
 logger = logging.getLogger(__name__)
 
 
+# s305/#64 — COMPATIBILIDAD DE MODELO. Se descubrió al medir el techo con generadores más
+# fuertes (s305): con el código anterior, cambiar `LLM_MODEL` a un modelo de razonamiento
+# rompía el bot en la PRIMERA consulta, por dos motivos independientes. Ambos se arreglan
+# aquí de forma que el modelo ACTUAL no cambie ni un byte de comportamiento.
+#
+# Se puebla en runtime al recibir el primer rechazo, en vez de mantener una lista de
+# familias: una lista se queda obsoleta con cada modelo nuevo y vuelve a romper en el peor
+# momento. Ámbito de proceso: un reinicio re-aprende con un único 400.
+_MODELS_REJECTING_TEMPERATURE: set[str] = set()
+
+
+def _rejects_temperature(exc: Exception) -> bool:
+    """¿El 400 se debe a `temperature` y no a otra cosa?
+
+    ESTRICTO a propósito: un reintento a ciegas ante cualquier 400 escondería errores
+    reales de la petición (mensajes mal formados, tokens excedidos) detrás de un envelope
+    distinto. Se exige que el mensaje nombre el parámetro.
+    """
+    texto = str(getattr(exc, "message", "") or exc).lower()
+    return "temperature" in texto
+
+
+def _first_text_block(response) -> str:
+    """Texto de la respuesta, sea cual sea la posición del bloque.
+
+    Los modelos con razonamiento devuelven un `ThinkingBlock` en `content[0]`, así que el
+    `response.content[0].text` histórico reventaba con `AttributeError`.
+
+    El orden de intentos NO es cosmético — lo impuso la suite. La primera versión exigía
+    `type == "text"` y rompió 29 tests: un bloque que expone `.text` pero no declara
+    `type` funcionaba con el código histórico y dejaba de funcionar con el nuevo. Un
+    arreglo de compatibilidad que ROMPE la compatibilidad es peor que el problema. Así
+    que: (1) el bloque que se declara texto; (2) si ninguno lo hace, el comportamiento
+    HISTÓRICO exacto —lo que tenga `.text`, empezando por el primero—; (3) solo si no hay
+    ni eso, se falla ruidoso.
+    """
+    for bloque in response.content:
+        if getattr(bloque, "type", None) == "text":
+            return bloque.text
+    for bloque in response.content:                 # equivalencia con el código histórico
+        texto = getattr(bloque, "text", None)
+        if isinstance(texto, str):
+            return texto
+    # Sin nada legible no hay respuesta que servir: se falla RUIDOSO en vez de devolver
+    # vacío, que el transporte confundiría con «el modelo no supo contestar».
+    tipos = [getattr(b, "type", "?") for b in response.content]
+    raise ValueError(f"la respuesta del modelo no trae ningún bloque de texto: {tipos}")
+
+
 def _include_context() -> bool:
     """A/B s48 (lever destapado por el dúo): incluir el blurb de contextual-retrieval
     (B7, chunk['context']) en el prompt del generador, además del content. Default OFF
@@ -826,29 +875,59 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # Keep the provider request as one exact serializable envelope. Any future
     # answer-cache lookup must hash this same mapping (plus the versioned
     # obligation packet), rather than reconstructing a partial list of fields.
-    generation_request_envelope = {
-        "model": LLM_MODEL,
-        "max_tokens": LLM_MAX_TOKENS,
-        "temperature": 0,  # eval reproducibility — same query + chunks → same answer
-        "system": _assemble_system(
-            query,
-            enforced_policy=planner_mode == "enforced",
-        ),  # s69 base|fidelity (+s103b selection code-gated) + optional code policy
-        "messages": [{"role": "user", "content": user_message}],
-    }
-    enforced_cache_identity = (
-        build_enforced_answer_cache_identity(
-            generation_request_envelope=generation_request_envelope,
-            plan=enforced_contract_plan,
-            conflicts=enforced_conflicts or [],
-            planner_contract_version=ANSWER_PLANNER_CONTRACT_S122,
-        )
-        if planner_mode == "enforced"
-        else None
-    )
-    response = client.messages.create(**generation_request_envelope)
+    def _build_envelope() -> dict:
+        envelope = {
+            "model": LLM_MODEL,
+            "max_tokens": LLM_MAX_TOKENS,
+            "temperature": 0,  # eval reproducibility — same query + chunks → same answer
+            "system": _assemble_system(
+                query,
+                enforced_policy=planner_mode == "enforced",
+            ),  # s69 base|fidelity (+s103b selection code-gated) + optional code policy
+            "messages": [{"role": "user", "content": user_message}],
+        }
+        # s305/#64: los modelos con razonamiento RECHAZAN `temperature`
+        # (400 «deprecated for this model»). Se omite SOLO para los modelos que ya se
+        # sabe que la rechazan — así el envelope del modelo actual queda BYTE-IDÉNTICO
+        # y la identidad de caché no se mueve.
+        if envelope["model"] in _MODELS_REJECTING_TEMPERATURE:
+            envelope.pop("temperature")
+        return envelope
 
-    raw_answer = response.content[0].text
+    def _identity_for(envelope: dict):
+        return (
+            build_enforced_answer_cache_identity(
+                generation_request_envelope=envelope,
+                plan=enforced_contract_plan,
+                conflicts=enforced_conflicts or [],
+                planner_contract_version=ANSWER_PLANNER_CONTRACT_S122,
+            )
+            if planner_mode == "enforced"
+            else None
+        )
+
+    generation_request_envelope = _build_envelope()
+    enforced_cache_identity = _identity_for(generation_request_envelope)
+    try:
+        response = client.messages.create(**generation_request_envelope)
+    except anthropic.BadRequestError as exc:
+        # Compatibilidad de MODELO, mismo patrón que los fallbacks de esquema: se aprende
+        # del rechazo, se reconstruye el envelope SIN el parámetro y se reintenta UNA vez.
+        # La identidad de caché se recalcula con el envelope realmente enviado — si no, se
+        # estaría hasheando una petición que nunca ocurrió.
+        if not _rejects_temperature(exc) or "temperature" not in generation_request_envelope:
+            raise
+        _MODELS_REJECTING_TEMPERATURE.add(generation_request_envelope["model"])
+        logger.warning(
+            "%s rechaza `temperature`; se reintenta sin ella y se recuerda para esta "
+            "ejecución. La reproducibilidad pasa a apoyarse en la K-mayoría del juez.",
+            generation_request_envelope["model"],
+        )
+        generation_request_envelope = _build_envelope()
+        enforced_cache_identity = _identity_for(generation_request_envelope)
+        response = client.messages.create(**generation_request_envelope)
+
+    raw_answer = _first_text_block(response)
 
     # Parse diagram references from Claude's response
     diagrams = []

@@ -2358,6 +2358,20 @@ que acabamos de construir.
 
 ## #64 — El generador NO se puede cambiar de modelo hoy: dos bloqueadores duros (s305)
 
+> **✅ RESUELTO (s305, 7-ago)** — `src/rag/generator.py` + `tests/test_s305_compat_modelo.py`
+> (8 tests). (1) `temperature`: se sigue enviando; ante un 400 que la NOMBRA, se aprende ese
+> modelo, se reconstruye el envelope sin ella y se reintenta UNA vez, recalculando la
+> identidad de caché sobre lo realmente enviado. Detector estricto: un 400 por otra causa se
+> propaga. (2) Texto: se busca el bloque que se declara `text`; si ninguno lo declara, el
+> comportamiento HISTÓRICO exacto; y solo sin nada legible, fallo ruidoso. **El modelo
+> actual no cambia ni un byte** (test que lo ancla). Suite completa: 3575 passed.
+>
+> Lección propia registrada: la PRIMERA versión exigía `type == "text"` y rompió **29
+> tests** — dobles que exponen `.text` sin declarar tipo funcionaban con el código
+> histórico. Un arreglo de compatibilidad que rompe la compatibilidad es peor que el
+> problema; y mi claim de «equivalencia byte a byte» solo estaba comprobado en el caso que
+> yo tenía en la cabeza. Lo cazó la suite ajena, no mis 7 tests.
+
 Descubierto al medir el techo con modelos más fuertes (s305). Con el código actual, poner
 un modelo de la generación 5 en `LLM_MODEL` **rompe el bot en la primera consulta**:
 
