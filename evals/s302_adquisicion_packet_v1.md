@@ -271,6 +271,45 @@ Convención del playbook: el sufijo `_Privado` distingue el material del área d
 
 ---
 
+## ADENDA s303 (7-ago) — resultado de la búsqueda, y una corrección al propio packet
+
+**Encontrados 2 de los 3 documentos con valor real** (verificados: HTTP 200, `%PDF`,
+identidad confirmada abriendo el fichero):
+
+| Doc | Estado | Fichero | Nota |
+|---|---|---|---|
+| **997-412** | ✅ DESCARGADO | `997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual.pdf` (2,68 MB, 24 pp., issue 3 jun-2005) | **Solo en INGLÉS** — no existe edición española (verificado) |
+| **997-415** | ✅ DESCARGADO | `997-415_4_ID50_Panel_software_upgrade_instruction.pdf` (1,35 MB, 5 pp., issue 4 oct-2002) + la issue 3 de 2001 | **Solo en INGLÉS** |
+| **997-340-005** | ❌ NO EXISTE en abierto | — | La categoría ID1000 del portal lista 5 documentos y ninguno es carga/descarga; `MCDT212.pdf` (el prefijo `MC` = carga/descarga) da 404 en ambas carpetas. Requiere cuenta de distribuidor |
+
+Fuente de los dos hallados: un distribuidor holandés (`support.topsecurity.nl`), no los
+portales españoles — que **no publican estos dos documentos en ningún idioma**.
+
+**Corrección al punto 3.2 de este packet.** El packet afirmaba: «el cuello de botella no es
+el acceso, es la descubribilidad: los ficheros están abiertos, lo que no tenemos es la lista
+de qué existe → merece la pena el registro». **La segunda mitad es falsa.** El índice es
+PÚBLICO vía el componente ZOO de Joomla (`/component/zoo/alphaindex/…`), que además
+devuelve el nombre de fichero real en `Content-Disposition`. Cosechado: **844 entradas
+(813 títulos únicos)** de las dos marcas → `data/catalog_portales/s303_portales_notifier_morley_v1.json`.
+Método y trampas: `docs/CORPUS_NOTIFIER_MORLEY.md`. **Consecuencia para Alberto: las altas
+de partner de Notifier ES y Morley-IAS ES NO hacen falta** para conocer el catálogo (la del
+foro Morley UK sigue en pie para el legacy `996-xxx`).
+
+**Trampa operativa registrada** (invalidó la primera pasada): hay un WAF de Akamai delante
+de `notifier.es` y responde **403, no 404**, al bloquear — un probe rápido reporta «no
+existe» sobre ficheros que sí existen. Barridos futuros: secuenciales, ~3 s, y tratar 403
+como «para», nunca como ausencia.
+
+**El «bonus» confirma el packet**: el agente descargó también el `997-411` en español
+(`MN-DT-200`), que este packet clasificaba como falso positivo por estar ya en corpus.
+Verificado contra `chunks_v2`: **44 chunks bajo `MNDT200`** — en efecto, ya lo teníamos.
+
+**Lo que queda por decidir (Alberto)**: (a) ingerir los 2 documentos, que están en INGLÉS y
+el corpus es ES-dominante — coste de extracción ~$2, pero el hueco de vocabulario ES↔EN es
+un lever medido (DEC-085), así que conviene ingerir Y MEDIR, no asumir; (b) correr el cruce
+catálogo↔corpus (813 títulos vs 705 docs de estas marcas) para tener la lista de adquisición
+definitiva — exige resolver nombres de fichero secuencialmente, ~45 min.
+
 ## Resumen ejecutivo en cinco líneas
 
 1. **La «Guía Avanzada de Configuración» de la CAD-171 NO hay que comprarla: ya la tenemos** (`MC-380 rev c`, §5.4 p.29, mapeado a `detnov:cad-171`). El primer fallo orgánico del bot es 100 % de selección → se arregla con gold + retrieval, no con corpus.
@@ -293,3 +332,93 @@ Convención del playbook: el sufijo `_Privado` distingue el material del área d
 - `C:\dev\technical_bot\docs\INGESTION_PLAYBOOK.md` — playbook canónico de 9 pasos
 - `C:\dev\technical_bot\docs\CORPUS_FIRESECURITYPRODUCTS.md` — runbook Carrier (**necesita** el fix `page=1` + nota de alcance «no cubre Honeywell»)
 - `C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\Manuales_*\` — **el corpus real**
+## ADENDA 2 — s303: los 2 documentos INGERIDOS y su alcanzabilidad MEDIDA
+
+**Ingesta hecha** (7-ago): A1 inventario → A2 extracción LlamaParse (2 docs, 29 páginas,
+~2 $) → B dry-run → B real. **36 chunks en `chunks_v2`**, verificados contra la base:
+
+| Documento | source_file | chunks | product_model asignado |
+|---|---|---|---|
+| 997-412 (Sinóptico IDR-M) | `997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual` | 32 | `ID-2000` ⚠️ |
+| 997-415 (actualización ID50) | `997-415_4_ID50_Panel_software_upgrade_instruction` | 4 | `ID-50` |
+
+**La pregunta que motivó medir: ¿sirve un documento en INGLÉS a un técnico que pregunta en
+ESPAÑOL?** Sonda `scripts/s303_alcanzabilidad_es_en.py` (recibo
+`evals/s303_alcanzabilidad_es_en_v1.json`): 4 formulaciones en español, cada una con su
+gemela inglesa como CONTROL, medidas hasta la evidencia SERVIDA (post-rerank).
+
+| | Español | Inglés (control) |
+|---|---|---|
+| Documento servido al generador | **3 / 4** | 4 / 4 |
+
+⇒ **La ingesta PAGA, con límite declarado.** El hueco ES↔EN es real pero **parcial**: tres
+de cuatro formulaciones españolas traen el documento. La que falla —«conexionado y puesta
+en marcha del panel repetidor sinóptico IDR-M»— no lo alcanza **ni siquiera en el pool**,
+mientras su gemela inglesa trae 12 chunks: el vocabulario («conexionado», «panel repetidor»
+vs *wiring*, *mimic*) es la variable, no el contenido ni la ingesta. Coherente con DEC-085
+(el mecanismo que paga contra este hueco es extracción→ENUNCIADOS), y ahora con dos
+documentos reales sobre los que medirlo.
+
+### Dos residuos con dueño
+
+1. **Identidad del 997-412 — para adjudicar (Alberto)**: quedó etiquetado `product_model =
+   ID-2000`, pero el documento es un sinóptico **multi-panel**: menciona ID50 (×3), ID2000
+   (×2), ID3000, ID2008, ID1000, NF3000, NF300. La etiqueta única no representa su alcance.
+   No bloquea (las consultas de la sonda no filtraban por modelo), pero una pregunta que
+   fije «ID50» podría no verlo. Es material de curación de identidad / `doc_map`.
+2. **⚠️ DIVERGENCIA DE CORPUS — acción de Alberto**: los 2 PDF se ingirieron desde
+   `C:\dev\technical_bot\data\Manuales_Notifier\` (gitignorado), **no** desde la carpeta
+   OneDrive que es el corpus de referencia. La base ya tiene los chunks, pero **el corpus de
+   ficheros está incompleto**: si alguien re-corre el inventario desde OneDrive, estos 2 no
+   estarán. **Copiar los 2 PDF a `…\OneDrive…\Manuales_Notifier\`** para que el corpus de
+   referencia vuelva a ser completo (y, con él, el Inventario Excel).
+
+## ADENDA 3 — s303: el CRUCE catálogo↔corpus, y el resultado es un NEGATIVO valioso
+
+Crawl completo (**835/835 enlaces resueltos, 44 min, cero bloqueos** con la cadencia del
+runbook). Informe: `evals/s303_cruce_portales_corpus_v1.md` · datos:
+`evals/s303_cruce_portales_corpus_v1.json` · instrumentos:
+`scripts/s303_resolve_portal_filenames.py` + `scripts/s303_cross_portal_corpus.py`.
+
+| | |
+|---|---|
+| Entradas del catálogo resueltas a fichero real | 837 (735 ficheros únicos) |
+| **Casan con el corpus** | **751 entradas (666 ficheros)** — 746 por coincidencia EXACTA |
+| No están en el corpus | 69 ficheros → **46 netos** (23 son traducción PT de algo que ya tenemos) |
+| **De ellos, en español o multilingüe-con-español** | **24** |
+| **De esos 24, de clase programación/configuración** | **1** |
+
+**El titular es un NEGATIVO, y vale más que una lista larga: el corpus ya está
+prácticamente completo para Notifier y Morley.** Nueve de cada diez documentos del catálogo
+público de ambas marcas ya están ingeridos. Lo que falta en español son, casi en su
+totalidad, **hojas de instrucciones de accesorios** (electroimanes 1315/1330/1350/1370,
+sirenas HSR, indicadores IRK, etiquetas de teclado) — material de instalación de pieza, no
+el detalle de configuración por el que pregunta un técnico. El único hueco de clase
+programación/configuración es la *Guía de licencias de PEARL*.
+
+⇒ **El frente de adquisición se agota aquí.** Confirma, ahora por censo completo y no por
+inferencia, lo que ya apuntaba DEC-184: **el trabajo de calidad está en retrieval/síntesis,
+no en comprar corpus.**
+
+**Anexo de re-ediciones (4)**: documentos que SÍ tenemos pero cuya edición del portal es más
+reciente (AM-8100 rev 5, AM-8200N rev 4, NFS-Supra `_rv05`, MNDT710) — actualización, no
+adquisición; y la vigencia se ancla en el CONTENIDO, no en la tabla de revisiones (lección
+#33).
+
+### Tres bugs de normalización que el propio instrumento cazó y corrigió
+
+Se dejan escritos porque son la clase que fabrica conclusiones falsas en un cruce:
+1. **`_NN` no es un sufijo de revisión**: `MADT190_01`…`_15` son 13 documentos DISTINTOS
+   (ID²NET, ID3000, LIB3000, ID-CRA, PSU7A). Podarlo fabricaba coincidencias falsas que
+   **borraban candidatos reales**.
+2. **Mojibake de `Content-Disposition`**: las cabeceras HTTP se decodifican en latin-1 y el
+   portal envía UTF-8 ⇒ todo fichero con acento aparecía como candidato falso.
+3. **`\b` no delimita contra `_`** (es carácter de palabra) ⇒ `_rv05` no se podaba y un
+   documento que teníamos se declaraba ausente.
+
+### Incertidumbre declarada
+
+No se descargó ningún PDF: **no está verificado que el contenido corresponda al título**.
+Y **131 de los 705 documentos** del corpus de estas marcas no los alcanza ningún fichero del
+catálogo — cualquiera podría ser el gemelo renombrado de un candidato, así que los 24 son un
+techo, no un suelo. Términos de licencia de ambos portales: no revisados.

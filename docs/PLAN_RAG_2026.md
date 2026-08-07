@@ -101,6 +101,20 @@ módulos en cuarentena LÓGICA desde el día 0); lotes L1 (catalog_store) → L2
 `harness/`) → L2b (flags.py recortado) → L2c (split lane vetada) → L3 (embed), cada uno
 con paridad + sellos enumerados + dúo. NO se reescribe nada medido; `retriever.py` no
 se parte en estos lotes.
+**(9) SONDA CORRIDA (s303) — el fallo orgánico queda CLASIFICADO: SÍNTESIS, no retrieval.**
+Replay de la consulta literal con la config de la demo, medido hasta la evidencia SERVIDA
+(no solo el pool): el §5.4 del `MC-380` —el párrafo que documenta `AJUSTES > AVANZADO`—
+llegó al generador **en el rango 1**, y aun así el bot encabezó con GENERAL. K=4 pasadas,
+mismo veredicto; mapeo vigente el 2-ago (entró en s91). ⇒ **Retrieval DESCARTADO para este
+caso** (la familia doc-local/vecino estructural de s104/s107 no aplica aquí); el caso es la
+**2ª instancia de la clase `hp011#2` medida con la evidencia correcta delante**, y de uso
+REAL — coherente con el NO-GO de DEC-173 (oráculo 0/5→0/5), no en contra. **La pregunta que
+queda abierta y es barata: ¿el techo es del SISTEMA o del MODELO?** El oráculo de DEC-173 y
+esta sonda comparten generador (Sonnet); nadie ha medido la clase con un generador más
+fuerte. Recibos: `scripts/s303_cad171_pool_probe.py` + `evals/s303_cad171_pool_probe_v1.json`.
+**Hallazgo colateral con dueño**: durante la sonda, el canal de ENUNCIADOS devolvió un 500
+transitorio y el pool cayó de 34 a 23 chunks **en silencio** (fail-open declarado) — la
+degradación no deja rastro en ninguna métrica. Ficha: TECH_DEBT #63.
 Traza: DEC-176 + HISTORY s294; frentes 6-8: DEC-182 + HISTORY s300.
 
 ---

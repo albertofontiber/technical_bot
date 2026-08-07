@@ -53,10 +53,61 @@ contarlo — que es exactamente lo que el paquete de telemetría acaba de habili
 
 ## Lo que NO es: hueco de corpus para lo preguntado
 
-El **acceso** al menú sí está en el manual que tenemos. Lo que falta es la **«Guía Avanzada de
-Configuración»** de la CAD-171: verificado, **ningún fichero de Detnov en el corpus lleva
-«avanzada» en el nombre** (de la CAD-250 sí tenemos sus dos manuales de configuración). El
-caveat del bot era honesto.
+El **acceso** al menú sí está en el manual que tenemos.
+
+> ### ⚠️ CORRECCIÓN (s302, 6-ago — DEC-184): la «Guía Avanzada» TAMPOCO falta
+>
+> Este apartado decía que faltaba la «Guía Avanzada de Configuración» de la CAD-171, apoyado
+> en que **ningún fichero de Detnov lleva «avanzada» en el NOMBRE**. Ese test era el
+> equivocado — buscaba por nombre de fichero, no por contenido. La adjudicación de s302 lo
+> desmontó:
+>
+> **El documento existe, está ingestado y está mapeado a la central.** Es
+> `CAD-250_Manual-Configuracion-MC-380-es-2026-c`, cuyo control de revisiones (p.2) dice
+> literalmente «**c · Adaptación para CAD-171 y CAD-201 · 23/04/2026**», que figura en
+> `data/catalog/doc_map.jsonl` con **`detnov:cad-171` como `role: primary`** — y cuyo **§5.4,
+> p.29** documenta exactamente lo pedido: «**AJUSTES (Menú principal) > AVANZADO (Submenú)** …
+> dispone de 3 pestañas de configuración en este nivel, SISTEMA, OTROS y REINICIAR».
+>
+> **Consecuencia para el diagnóstico de este caso.** El caveat del bot («los fragmentos
+> disponibles no detallan su contenido específico») era honesto **sobre la evidencia
+> servida**, pero el corpus SÍ tenía el detalle. Así que el caso tiene **dos capas**, no una:
+>
+> 1. **SELECCIÓN** (lo ya diagnosticado, y sigue en pie): con AVANZADO delante en la
+>    evidencia servida, compuso la ruta de GENERAL. Clase `hp011#2`, elemento vecino.
+> 2. **RETRIEVAL — abierto, y NO medido**: ¿estaba el §5.4 del MC-380 en el pool de esa
+>    consulta? Si NO estaba, este caso es (también) un retrieval-miss de documento-vecino
+>    dentro de la MISMA familia de producto, y el veredicto «no alcanzable» de `hp011#2`
+>    (DEC-173, oráculo 0/5→0/5) **no le aplica sin más**: aquel se midió con la evidencia
+>    ideal de OTRO hecho, no con este documento delante.
+>
+> **SONDA CORRIDA (s303, 7-ago) — VEREDICTO: SÍNTESIS/SELECCIÓN PURA.**
+> `scripts/s303_cad171_pool_probe.py`, recibo `evals/s303_cad171_pool_probe_v1.json`.
+> Replay de la consulta LITERAL con la configuración de la demo (DEMO_FLAGS, misma fuente
+> que el assessment) y **medido hasta la evidencia SERVIDA, no solo el pool** — el pool no
+> es lo que ve el generador; el rerank recorta antes.
+>
+> | Etapa | Resultado |
+> |---|---|
+> | Pool (retrieval) | 34 chunks · **8 del MC-380** |
+> | Chunks con el detalle del §5.4 (AVANZADO+SISTEMA+REINICIAR) | 3 en el pool |
+> | **Evidencia SERVIDA (post-rerank)** | 10 chunks · **4 del MC-380** |
+> | **El detalle del §5.4, SERVIDO** | **SÍ — en el rango 1**, y en 3 de 4 pasadas también una 2ª copia |
+>
+> Estabilidad: **K=4 pasadas, mismo veredicto** (el rerank es un LLM: una sola pasada no
+> zanjaría). Representatividad: el mapeo `MC-380 → detnov:cad-171` entró en `doc_map.jsonl`
+> en s91 y no se ha tocado desde s278 — **estaba vigente el 2-ago**, así que el replay no
+> mide un mundo posterior al fallo.
+>
+> ⇒ **Retrieval queda DESCARTADO para este caso**: el bot tuvo el documento correcto y el
+> párrafo correcto en el primer puesto de su evidencia, y aun así encabezó con la ruta de
+> GENERAL. La familia doc-local / vecino estructural (s104/s107) **no aplica aquí**.
+> ⇒ El caso pasa a ser **la 2ª instancia de la clase `hp011#2` medida CON la evidencia
+> correcta delante**, y esta vez de uso REAL — es decir, coherente con el NO-GO de DEC-173
+> (oráculo 0/5→0/5) en vez de contradecirlo.
+> ⇒ Lo que NO zanja: si el techo es **del sistema** o **del modelo**. El oráculo de DEC-173
+> y esta sonda comparten generador (Sonnet); **nadie ha medido la clase con un generador
+> más fuerte**. Es la pregunta abierta barata que queda.
 
 ⇒ **Candidato de adquisición**: Guía Avanzada de Configuración, CAD-171 (Detnov).
 

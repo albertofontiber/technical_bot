@@ -24,6 +24,10 @@ sys.stdout.reconfigure(encoding="utf-8")
 import fitz  # PyMuPDF — solo para contar páginas de PDFs no vistos por el diagnóstico
 
 OUT = "logs/reingest_manifest.json"
+# `logs/` es local (gitignorado): en un checkout limpio NO existe y el script moría al
+# escribir el manifiesto — tras haber hasheado el corpus entero. Misma clase que las
+# guardas de s301: el pipeline asumía el entorno donde nació. Crear es idempotente.
+os.makedirs("logs", exist_ok=True)
 DIAGNOSIS = "logs/corpus_diagnosis.json"
 # Carpetas que no forman parte del corpus de manuales.
 EXCLUDE = (".git", "extracted_images", "logs", ".venv", "venv", "node_modules")
