@@ -58,6 +58,10 @@ def run_turn(request: TurnRequest, adapters: RagServingAdapters) -> TurnResult:
         coverage_trace=pipeline["coverage_trace"],
         retrieval_rows=pipeline["retrieval_rows"],
         reranked_rows=pipeline["reranked_rows"],
+        channel_failures=tuple(
+            (pipeline.get("retrieval_health") or {}).get("channel_failures") or ()
+        ),
+        retrieval_measured=pipeline.get("retrieval_health") is not None,
     )
     return TurnResult(
         answer=generation.get("answer", ""),

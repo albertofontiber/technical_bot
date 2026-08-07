@@ -776,6 +776,57 @@ REVOKE ALL PRIVILEGES ON bot_feedback_semanal, bot_motivos_negativos, bot_uso_po
 GRANT SELECT ON bot_feedback_semanal, bot_motivos_negativos, bot_uso_por_canal
     TO service_role;
 
+-- s306 (#63): salud del canal de retrieval — ¿cuántos turnos respondieron con el
+-- pool DEGRADADO (fail-open de canal), y qué canal falla? Lee los tokens acotados
+-- de rag_trace.retrieval.channel_failures (allowlist en runtime_trace, sin prosa).
+-- «sin medida» ≠ «sano»: las filas pre-s306 no tienen la sección y NO cuentan
+-- como sanas — la confusión entre ambas cosas era exactamente el defecto #63.
+CREATE OR REPLACE VIEW salud_canal_retrieval_v1
+WITH (security_invoker = true) AS
+SELECT
+    date_trunc('day', created_at)::date AS dia,
+    COUNT(*) AS turnos_rag,
+    COUNT(*) FILTER (
+        WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
+    ) AS turnos_con_medida,
+    ROUND(
+        100.0 * COUNT(*) FILTER (
+            WHERE jsonb_array_length(
+                rag_trace -> 'retrieval' -> 'channel_failures'
+            ) > 0
+        ) / NULLIF(COUNT(*) FILTER (
+            WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
+        ), 0), 1
+    ) AS pct_turnos_degradados,
+    COUNT(*) FILTER (
+        WHERE jsonb_array_length(
+            rag_trace -> 'retrieval' -> 'channel_failures'
+        ) > 0
+    ) AS turnos_degradados,
+    COUNT(*) FILTER (
+        WHERE rag_trace -> 'retrieval' -> 'channel_failures'
+              @> '[{"channel": "VECTOR"}]'
+    ) AS fallos_vector,
+    COUNT(*) FILTER (
+        WHERE rag_trace -> 'retrieval' -> 'channel_failures'
+              @> '[{"channel": "ENUNCIADOS"}]'
+    ) AS fallos_enunciados,
+    COUNT(*) FILTER (
+        WHERE rag_trace -> 'retrieval' -> 'channel_failures'
+              @> '[{"channel": "HYQ_TABLE"}]'
+    ) AS fallos_hyq_table,
+    COUNT(*) FILTER (
+        WHERE rag_trace -> 'retrieval' -> 'channel_failures'
+              @> '[{"channel": "HYQ_HYDRATE"}]'
+    ) AS fallos_hyq_hydrate
+FROM query_logs
+WHERE COALESCE(route, 'rag') = 'rag' AND source <> 'error'
+GROUP BY 1;
+
+REVOKE ALL PRIVILEGES ON salud_canal_retrieval_v1
+    FROM PUBLIC, anon, authenticated;
+GRANT SELECT ON salud_canal_retrieval_v1 TO service_role;
+
 -- Create storage bucket for manual images
 -- Note: Run this via Supabase dashboard:
 -- Create bucket "manual-images" with public access

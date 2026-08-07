@@ -950,6 +950,28 @@ def get_category_models(category: str) -> list[str]:
     return models
 
 
+def _record_channel_failure(trace: dict | None, channel: str, exc: Exception) -> None:
+    """Registra un fail-open de canal en el seam ``_trace`` (s289 → s306).
+
+    Mismo shape que el registro histórico del canal VECTOR en ``retrieve_chunks``
+    (``{"channel", "error"}``) — un solo formato para toda la clase, no uno por canal.
+    Nunca lanza: el registro de la degradación no puede convertirse él mismo en una
+    fuente de fallo del serving.
+    """
+    if trace is None:
+        return
+    try:
+        trace.setdefault("channel_failures", []).append(
+            # `error` (repr) para depurar en proceso; `error_type` para la telemetría
+            # acotada (runtime_trace solo persiste tokens de una allowlist, jamás el repr
+            # — puede llevar URL/payload y el trace es privacy-bounded).
+            {"channel": channel, "error": repr(exc),
+             "error_type": type(exc).__name__}
+        )
+    except Exception:                                    # noqa: BLE001
+        logger.warning("registro de fail-open de canal %s falló", channel)
+
+
 def vector_search(
     query: str,
     top_k: int = RETRIEVAL_TOP_K,
@@ -958,8 +980,17 @@ def vector_search(
     category_filter: str | None = None,
     precomputed_embedding: list[float] | None = None,
     hyq_models: list[str] | None = None,
+    _trace: dict | None = None,
 ) -> list[dict]:
-    """Vector similarity search via the match_chunks RPC function."""
+    """Vector similarity search via the match_chunks RPC function.
+
+    ``_trace`` (s306/#63) extiende hacia dentro el seam de s289/DEC-167(c): los
+    fail-opens de los canales interiores (enunciados / hyq) registran aquí su
+    ``channel_failures`` igual que ya lo hacía el canal VECTOR en el caller. La
+    conducta de servicio NO cambia — solo deja de ser invisible: en s303 un 500
+    transitorio del RPC de enunciados bajó el pool de 34 a 23 chunks (−32%) sin
+    que ningún log ni métrica lo registrara.
+    """
     query_embedding = precomputed_embedding or embed_query(query)
 
     payload = {
@@ -1000,15 +1031,30 @@ def vector_search(
         # disponibilidad del canal real a la tabla nueva. Fallo aquí → solo-reales.
         if _multivector_on() and RPC_SUFFIX == "_v2":
             try:
+                _enun_payload = {"query_embedding": query_embedding,
+                                 "match_threshold": threshold,
+                                 "match_count": ENUNCIADOS_FETCH_K,
+                                 "filter_product": product_filter,
+                                 "filter_manufacturer": None}
                 e_resp = client.post(
                     f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
                     headers=headers,
-                    json={"query_embedding": query_embedding,
-                          "match_threshold": threshold,
-                          "match_count": ENUNCIADOS_FETCH_K,
-                          "filter_product": product_filter,
-                          "filter_manufacturer": None},
+                    json=_enun_payload,
                 )
+                # (s306/#63c) Reintento ÚNICO ante 5xx — y SOLO ante 5xx: el fallo
+                # observado en s303 fue un 500 transitorio que respondió 200 al repetir,
+                # así que el reintento es barato (la respuesta llegó, no hubo espera).
+                # Un timeout NO se reintenta (duplicaría la espera en el turno malo) y
+                # un 4xx tampoco (es un error de la petición, repetirla no lo arregla).
+                if e_resp.status_code >= 500:
+                    logger.warning(
+                        "RPC enunciados devolvió %d; reintento único", e_resp.status_code
+                    )
+                    e_resp = client.post(
+                        f"{SUPABASE_URL}/rest/v1/rpc/match_chunks_v2_enunciados",
+                        headers=headers,
+                        json=_enun_payload,
+                    )
                 e_resp.raise_for_status()
                 e_rows = e_resp.json()
                 # (s273 Sol-C2b, prod-neutral) Con la cuota OFF, las filas del batch acotado
@@ -1049,6 +1095,7 @@ def vector_search(
                 logger.warning(
                     "canal enunciados fail-open: sirviendo solo chunks reales (%r)", exc
                 )
+                _record_channel_failure(_trace, "ENUNCIADOS", exc)
 
         # (s101 piloto → s102 SHIP, D2/DEC-095) Canal question-side (HyPE). Dos backends con
         # mecánicas DISTINTAS (corrección framing, cross-model r2 — no vender paridad):
@@ -1071,8 +1118,9 @@ def vector_search(
             try:
                 hyq_parents = _hyq_table_hits(client, query_embedding, threshold,
                                               models=hyq_models)
-            except Exception:
+            except Exception as exc:
                 logger.warning("canal hyq-table fail-open: sirviendo sin surrogates-pregunta")
+                _record_channel_failure(_trace, "HYQ_TABLE", exc)
         elif HYQ_PILOT_FILE and RPC_SUFFIX == "_v2" and not product_filter:
             # H3 (dúo s101, lección s96-H3): la CARGA del índice npz es fail-FAST — un path
             # malo con el flag ON haría "hyq ON" con 0 surrogates = OFF-silencioso-medido-
@@ -1130,8 +1178,12 @@ def vector_search(
                                    + protected + quota)
                     else:
                         results = results[:max(0, top_k - len(quota))] + quota
-            except Exception:
+            except Exception as exc:
+                # Cubre la HIDRATACIÓN y fusión de los padres hyq (tabla Y npz comparten
+                # este bloque) — no la carga del índice npz, que es fail-FAST a propósito
+                # (H3 s101: un path malo con el flag ON sería OFF-silencioso).
                 logger.warning("canal hyq-pilot fail-open: sirviendo sin surrogates-pregunta")
+                _record_channel_failure(_trace, "HYQ_HYDRATE", exc)
 
     return results
 
@@ -1634,7 +1686,8 @@ def retrieve_chunks(
         vector_results = vector_search(
             query, effective_top_k, threshold, product_filter, None, query_embedding,
             hyq_models=models or None,
-        )
+            _trace=_trace,   # s306/#63: los fail-opens INTERIORES (enunciados/hyq)
+        )                    # registran su degradación en el mismo seam que VECTOR.
     except Exception as exc:
         # s289/DEC-167(c): este fail-open era el ÚNICO silencioso del retriever
         # (enunciados/hyq ya avisan) — un canal vectorial muerto se veía como
@@ -1644,10 +1697,7 @@ def retrieve_chunks(
             "canal VECTOR fail-open: sirviendo solo canales keyword (%r)", exc
         )
         vector_results = []
-        if _trace is not None:
-            _trace.setdefault("channel_failures", []).append(
-                {"channel": "VECTOR", "error": repr(exc)}
-            )
+        _record_channel_failure(_trace, "VECTOR", exc)
     _tag_channel(vector_results, "VECTOR")
 
     # Step 3: Keyword search for each detected model

@@ -45,7 +45,10 @@ def test_vector_fail_open_logs_and_traces(monkeypatch, caplog):
         out = retriever.retrieve_chunks("consulta generica", top_k=5, _trace=trace)
     assert out == []  # fail-open intacto: sin vector ni keyword, pool vacío
     assert trace["channel_failures"] == [
-        {"channel": "VECTOR", "error": "RuntimeError('rpc caido')"}
+        # s306 añadió `error_type` al registro (la telemetría acotada persiste el
+        # TIPO; el repr se queda en proceso) — mismo seam, un campo más.
+        {"channel": "VECTOR", "error": "RuntimeError('rpc caido')",
+         "error_type": "RuntimeError"}
     ]
     assert trace["channel_health"] == {}
     assert any("canal VECTOR fail-open" in r.message for r in caplog.records)

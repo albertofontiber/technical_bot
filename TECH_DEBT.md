@@ -2329,6 +2329,19 @@ congelada en el packet; re-correrlo sin los fixes reproduce el ruido). **Coste**
 
 ## #63 — El fail-open del canal ENUNCIADOS degrada el pool EN SILENCIO (s303)
 
+> **✅ RESUELTO (s306, 7-ago)** — rama `claude/s306-canal-degradado`, dúo completo (8/8
+> confirmados, 0 FP, convergencia en el hallazgo principal). Los 4 fail-opens del
+> retriever (VECTOR ya lo hacía; enunciados/hyq-tabla/hyq-hidrata eran invisibles)
+> registran canal+tipo en el seam s289; reintento ÚNICO ante 5xx del RPC de enunciados
+> (ni 4xx ni timeout); sección `retrieval` REQUERIDA en rag_trace con TRI-ESTADO
+> (sin sección / `measured=false` seam-no-conectado / `measured=true`+lista — el dúo
+> cazó que mi v1 colapsaba «sin seam» a «sano», el propio defecto #63 una capa arriba);
+> vista `salud_canal_retrieval_v1` (% y conteos por canal, `source <> 'error'`,
+> security_invoker, API a cero incluido PUBLIC); test-ancla de que los adapters de
+> producción tienen el seam. Suite 3591 passed. **Pendiente de Alberto**: aplicar la
+> migración `20260807120000_s306_salud_canal_retrieval_v1.sql` en el SQL Editor
+> (aditiva pura, cualquier orden respecto al deploy).
+
 **Qué pasa**: `retriever.py` (~línea 1001) consulta `match_chunks_v2_enunciados` y, ante
 cualquier fallo, hace fail-open: *«canal enunciados fail-open: sirviendo solo chunks
 reales»* y sigue con el canal real. Correcto como decisión de disponibilidad — pero
@@ -2353,3 +2366,44 @@ reintento único ante 5xx antes del fail-open — el RPC respondió 200 al repet
 (b) el primer técnico real. **Coste**: 1-2h. **Hoy no urge** porque con un usuario el
 impacto es una respuesta peor puntual; con técnicos, es ruido sistemático en las métricas
 que acabamos de construir.
+
+---
+
+## #64 — El generador NO se puede cambiar de modelo hoy: dos bloqueadores duros (s305)
+
+> **✅ RESUELTO (s305, 7-ago)** — `src/rag/generator.py` + `tests/test_s305_compat_modelo.py`
+> (8 tests). (1) `temperature`: se sigue enviando; ante un 400 que la NOMBRA, se aprende ese
+> modelo, se reconstruye el envelope sin ella y se reintenta UNA vez, recalculando la
+> identidad de caché sobre lo realmente enviado. Detector estricto: un 400 por otra causa se
+> propaga. (2) Texto: se busca el bloque que se declara `text`; si ninguno lo declara, el
+> comportamiento HISTÓRICO exacto; y solo sin nada legible, fallo ruidoso. **El modelo
+> actual no cambia ni un byte** (test que lo ancla). Suite completa: 3575 passed.
+>
+> Lección propia registrada: la PRIMERA versión exigía `type == "text"` y rompió **29
+> tests** — dobles que exponen `.text` sin declarar tipo funcionaban con el código
+> histórico. Un arreglo de compatibilidad que rompe la compatibilidad es peor que el
+> problema; y mi claim de «equivalencia byte a byte» solo estaba comprobado en el caso que
+> yo tenía en la cabeza. Lo cazó la suite ajena, no mis 7 tests.
+
+Descubierto al medir el techo con modelos más fuertes (s305). Con el código actual, poner
+un modelo de la generación 5 en `LLM_MODEL` **rompe el bot en la primera consulta**:
+
+1. **`temperature` es rechazada.** `src/rag/generator.py:~830` fija `"temperature": 0` en el
+   envelope (para reproducibilidad de eval). Los modelos 5 devuelven
+   `400 invalid_request_error: 'temperature' is deprecated for this model`.
+2. **El primer bloque de la respuesta ya no es texto.** `generator.py:851` hace
+   `response.content[0].text`; los modelos con razonamiento devuelven un `ThinkingBlock`
+   en `content[0]` → `AttributeError: 'ThinkingBlock' object has no attribute 'text'`.
+
+**Acción propuesta** (pequeña y de raíz): (a) construir el envelope sin `temperature` cuando
+el modelo no la admite — la reproducibilidad de eval pasa entonces a apoyarse en K-mayoría
+del juez, que ya es el contrato; (b) extraer el texto buscando el primer bloque con
+`type == "text"` en vez de asumir la posición 0. Ambos son cambios locales al generador.
+
+**Trigger**: cualquier intento de cambiar el modelo (upgrade, coste, o A/B). **Coste**: ~1h
++ tests. **Hoy no urge** porque el modelo de producción no cambia — pero es un bloqueador
+oculto: nadie sabía que existía hasta intentarlo, y aparecería en el peor momento (una
+migración urgente de modelo).
+
+**Nota**: `scripts/s305_techo_modelo_ab.py` los sortea con un envoltorio del cliente, a
+propósito documentado como apaño de instrumento — NO es el fix.

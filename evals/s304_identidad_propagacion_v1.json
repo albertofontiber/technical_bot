@@ -1,0 +1,543 @@
+{
+  "probe": "s304_identidad_propagacion_v1",
+  "ts": "2026-08-07T12:31:57.810978+00:00",
+  "tabla": "chunks_v2",
+  "resumen": {
+    "con_identidad_y_chunks": 848,
+    "ok": 813,
+    "huerfanos": 35,
+    "sin_chunks": 1,
+    "identidades_primarias_perdidas": 55
+  },
+  "huerfanos": [
+    {
+      "source_file": "0044-033-01 Guia F5000",
+      "primarios": [
+        "unresolved:f5000"
+      ],
+      "product_models_en_chunks": [
+        "OF-50"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:f5000"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "AC1460R - CESI 03 ATEX 050",
+      "primarios": [
+        "unresolved:efd1",
+        "unresolved:efd2",
+        "unresolved:efd3",
+        "unresolved:efd4"
+      ],
+      "product_models_en_chunks": [
+        "EFD"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:efd1",
+        "unresolved:efd2",
+        "unresolved:efd3",
+        "unresolved:efd4"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Compatibilidad-detectores-de-monoxido-NCO10-NCO100-VSN-CO",
+      "primarios": [
+        "notifier:nco-10",
+        "notifier:nco-100",
+        "notifier:vsn-co"
+      ],
+      "product_models_en_chunks": [
+        "NCO10/NCO100/VSN-CO"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:vsn-co"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Conexionado-del-modulo-M710-CZ-MI-DCZM",
+      "primarios": [
+        "notifier:m710-cz",
+        "notifier:mi-dczm"
+      ],
+      "product_models_en_chunks": [
+        "ID-3000"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:mi-dczm"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Conexionado-del-modulo-M710-MI-DMMI",
+      "primarios": [
+        "morley:m710",
+        "morley:mi-dmmi"
+      ],
+      "product_models_en_chunks": [
+        "ID-3000"
+      ],
+      "primarios_NO_reflejados": [
+        "morley:m710"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Configuracion-entrada-digital-de-la-central-NFS-Supra-VSN-Plus2-ESS-2Plus",
+      "primarios": [
+        "notifier:ess-2plus",
+        "notifier:nfs-supra",
+        "notifier:vsn-plus2"
+      ],
+      "product_models_en_chunks": [
+        "NFS Supra/Vision Plus2/VSN-Plus2/ESS-2Plus"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:vsn-plus2"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "D 1036-1_M700KAC_SP",
+      "primarios": [
+        "notifier:m700kac",
+        "notifier:m700kaci"
+      ],
+      "product_models_en_chunks": [
+        "M700KAC + M700KACI"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:m700kac",
+        "notifier:m700kaci"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "D 1101-7 Sounder Beacon",
+      "primarios": [
+        "unresolved:cwss-xx-s5",
+        "unresolved:cwss-xx-s6",
+        "unresolved:cwss-xx-w5",
+        "unresolved:cwss-xx-w6"
+      ],
+      "product_models_en_chunks": [
+        "ENScape EN54-23"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:cwss-xx-s5",
+        "unresolved:cwss-xx-s6",
+        "unresolved:cwss-xx-w5",
+        "unresolved:cwss-xx-w6"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "D391 Issue 3 WR2001 ",
+      "primarios": [
+        "unresolved:2001",
+        "unresolved:2004",
+        "unresolved:2061",
+        "unresolved:2072",
+        "unresolved:2101",
+        "unresolved:wr2001"
+      ],
+      "product_models_en_chunks": [
+        "WR-2001"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:2001",
+        "unresolved:2004",
+        "unresolved:2061",
+        "unresolved:2072",
+        "unresolved:2101",
+        "unresolved:wr2001"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "D391 Issue 3 WW_WY_WR2001 ",
+      "primarios": [
+        "unresolved:2001",
+        "unresolved:2004",
+        "unresolved:2061",
+        "unresolved:2072",
+        "unresolved:2101"
+      ],
+      "product_models_en_chunks": [
+        "WR-2001"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:2001",
+        "unresolved:2004",
+        "unresolved:2061",
+        "unresolved:2072",
+        "unresolved:2101"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "DXC-Como-conectar-una-sirena-de-lazo",
+      "primarios": [
+        "notifier:b501ap"
+      ],
+      "product_models_en_chunks": [
+        "DXc"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:b501ap"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232",
+      "primarios": [
+        "unresolved:795-122"
+      ],
+      "product_models_en_chunks": [
+        "DXc"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:795-122"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Installation manual_conduct detector",
+      "primarios": [
+        "unresolved:ug-3-a4o",
+        "unresolved:ug-3-a5o"
+      ],
+      "product_models_en_chunks": [
+        "UG-3-A4O & UG-3-A5O"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ug-3-a4o",
+        "unresolved:ug-3-a5o"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "MADT780_01",
+      "primarios": [
+        "notifier:6500r",
+        "notifier:lpb-700"
+      ],
+      "product_models_en_chunks": [
+        "MADT-780"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:6500r"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "MADT951_01",
+      "primarios": [
+        "notifier:afp1010",
+        "notifier:afp-400",
+        "notifier:am2020",
+        "notifier:am-6000",
+        "unresolved:id3000",
+        "unresolved:id50",
+        "notifier:ina",
+        "notifier:tg-ip-10",
+        "notifier:tg-ip-100"
+      ],
+      "product_models_en_chunks": [
+        "TG-NOTIFIER"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:id3000"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "MIDT1041",
+      "primarios": [
+        "notifier:dh500acdc-e"
+      ],
+      "product_models_en_chunks": [
+        "PA400"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:dh500acdc-e"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "MNDT080",
+      "primarios": [
+        "unresolved:ms-5210ud",
+        "unresolved:ms-5210ude"
+      ],
+      "product_models_en_chunks": [
+        "MS-5210UD"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ms-5210ude"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "MNDT650",
+      "primarios": [
+        "notifier:smart-2"
+      ],
+      "product_models_en_chunks": [
+        "MNDT-650"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:smart-2"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "NFS-SUPRA-VSN12-2PLUS-Funcionamiento-de-la-central-en-modo-prueba",
+      "primarios": [
+        "notifier:nfs-supra",
+        "notifier:vsn12-2plus"
+      ],
+      "product_models_en_chunks": [
+        "NFS-SUPRA VSN12-2PLUS"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:vsn12-2plus"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "NSRE24_EXTERNO",
+      "primarios": [
+        "unresolved:estela-1",
+        "unresolved:estela-2"
+      ],
+      "product_models_en_chunks": [
+        "ESTELA-1/ESTELA-2"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:estela-1",
+        "unresolved:estela-2"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX",
+      "primarios": [
+        "unresolved:id3000"
+      ],
+      "product_models_en_chunks": [
+        "ID-3000"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:id3000"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "PAN AVD2_SPANISH",
+      "primarios": [
+        "unresolved:pan-avd2"
+      ],
+      "product_models_en_chunks": [
+        "PARA-16"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:pan-avd2"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "SFD-220_Manual_EN",
+      "primarios": [
+        "unresolved:vtb-32e"
+      ],
+      "product_models_en_chunks": [
+        "DS109F"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:vtb-32e"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "TIDT089",
+      "primarios": [
+        "notifier:ais-gald1",
+        "notifier:ais-gals1",
+        "notifier:y72221",
+        "notifier:z978"
+      ],
+      "product_models_en_chunks": [
+        "TI-DT-089"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:z978"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "TIDT089_copia",
+      "primarios": [
+        "notifier:ais-gald1",
+        "notifier:ais-gals1",
+        "notifier:y72221",
+        "notifier:z978"
+      ],
+      "product_models_en_chunks": [
+        "TI-DT-089"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:z978"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "TIDT105",
+      "primarios": [
+        "notifier:777163"
+      ],
+      "product_models_en_chunks": [
+        "TIDT-105"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:777163"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-Como hacer una Actualizacion",
+      "primarios": [
+        "unresolved:ucip"
+      ],
+      "product_models_en_chunks": [
+        "ID-50"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ucip"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-Compatibilidades-con-centrales-actuales",
+      "primarios": [
+        "unresolved:ucip"
+      ],
+      "product_models_en_chunks": [
+        "ID-300X"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ucip"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-Conexionado-con-ID3000",
+      "primarios": [
+        "unresolved:id3000",
+        "notifier:ucip"
+      ],
+      "product_models_en_chunks": [
+        "ID-3000"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:id3000"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-No-conecta-por-IP",
+      "primarios": [
+        "unresolved:ucip"
+      ],
+      "product_models_en_chunks": [
+        "IP-192"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ucip"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-Programacion-IP-de-equipo",
+      "primarios": [
+        "unresolved:ucip"
+      ],
+      "product_models_en_chunks": [
+        "TCPIP-192"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ucip"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales",
+      "primarios": [
+        "unresolved:ucip"
+      ],
+      "product_models_en_chunks": [
+        "ID-3000"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ucip"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "VSN4-PLUS_ITA",
+      "primarios": [
+        "notifier:vsn4-plus"
+      ],
+      "product_models_en_chunks": [
+        "VSN-232"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:vsn4-plus"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "Ver-Como-Cambiar-configuracion-de-las-Funciones-especiales-en-las-centrales-",
+      "primarios": [
+        "notifier:ess-2plus",
+        "notifier:nfs-supra",
+        "notifier:vsn-plus2"
+      ],
+      "product_models_en_chunks": [
+        "NFS-Supra"
+      ],
+      "primarios_NO_reflejados": [
+        "notifier:vsn-plus2"
+      ],
+      "n_modelos_chunk": 1
+    },
+    {
+      "source_file": "ms1-2-4",
+      "primarios": [
+        "unresolved:ms1",
+        "unresolved:ms2",
+        "unresolved:ms4"
+      ],
+      "product_models_en_chunks": [
+        "MS-1/MS-2/MS-4"
+      ],
+      "primarios_NO_reflejados": [
+        "unresolved:ms1",
+        "unresolved:ms2",
+        "unresolved:ms4"
+      ],
+      "n_modelos_chunk": 1
+    }
+  ],
+  "sin_chunks": [
+    {
+      "source_file": "HLSI-MA-103_Guide rapide RP1r_Supra_FR",
+      "primarios": [
+        "notifier:rp1r-supra"
+      ]
+    }
+  ]
+}
