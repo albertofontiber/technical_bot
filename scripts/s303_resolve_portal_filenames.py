@@ -38,7 +38,19 @@ UA = (
 )
 
 
+def fix_mojibake(s: str | None) -> str | None:
+    """Cabeceras HTTP = latin-1 (RFC 9110), pero el portal manda UTF-8:
+    'programación' llega como 'programacioÌ\\x81n'. Se repara el round-trip."""
+    if not s or all(ord(c) < 128 for c in s):
+        return s
+    try:
+        return s.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return s
+
+
 def parse_content_disposition(cd: str | None) -> str | None:
+    cd = fix_mojibake(cd)
     if not cd:
         return None
     # filename*=UTF-8''...

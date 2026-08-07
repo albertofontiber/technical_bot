@@ -372,3 +372,53 @@ documentos reales sobre los que medirlo.
    ficheros está incompleto**: si alguien re-corre el inventario desde OneDrive, estos 2 no
    estarán. **Copiar los 2 PDF a `…\OneDrive…\Manuales_Notifier\`** para que el corpus de
    referencia vuelva a ser completo (y, con él, el Inventario Excel).
+
+## ADENDA 3 — s303: el CRUCE catálogo↔corpus, y el resultado es un NEGATIVO valioso
+
+Crawl completo (**835/835 enlaces resueltos, 44 min, cero bloqueos** con la cadencia del
+runbook). Informe: `evals/s303_cruce_portales_corpus_v1.md` · datos:
+`evals/s303_cruce_portales_corpus_v1.json` · instrumentos:
+`scripts/s303_resolve_portal_filenames.py` + `scripts/s303_cross_portal_corpus.py`.
+
+| | |
+|---|---|
+| Entradas del catálogo resueltas a fichero real | 837 (735 ficheros únicos) |
+| **Casan con el corpus** | **751 entradas (666 ficheros)** — 746 por coincidencia EXACTA |
+| No están en el corpus | 69 ficheros → **46 netos** (23 son traducción PT de algo que ya tenemos) |
+| **De ellos, en español o multilingüe-con-español** | **24** |
+| **De esos 24, de clase programación/configuración** | **1** |
+
+**El titular es un NEGATIVO, y vale más que una lista larga: el corpus ya está
+prácticamente completo para Notifier y Morley.** Nueve de cada diez documentos del catálogo
+público de ambas marcas ya están ingeridos. Lo que falta en español son, casi en su
+totalidad, **hojas de instrucciones de accesorios** (electroimanes 1315/1330/1350/1370,
+sirenas HSR, indicadores IRK, etiquetas de teclado) — material de instalación de pieza, no
+el detalle de configuración por el que pregunta un técnico. El único hueco de clase
+programación/configuración es la *Guía de licencias de PEARL*.
+
+⇒ **El frente de adquisición se agota aquí.** Confirma, ahora por censo completo y no por
+inferencia, lo que ya apuntaba DEC-184: **el trabajo de calidad está en retrieval/síntesis,
+no en comprar corpus.**
+
+**Anexo de re-ediciones (4)**: documentos que SÍ tenemos pero cuya edición del portal es más
+reciente (AM-8100 rev 5, AM-8200N rev 4, NFS-Supra `_rv05`, MNDT710) — actualización, no
+adquisición; y la vigencia se ancla en el CONTENIDO, no en la tabla de revisiones (lección
+#33).
+
+### Tres bugs de normalización que el propio instrumento cazó y corrigió
+
+Se dejan escritos porque son la clase que fabrica conclusiones falsas en un cruce:
+1. **`_NN` no es un sufijo de revisión**: `MADT190_01`…`_15` son 13 documentos DISTINTOS
+   (ID²NET, ID3000, LIB3000, ID-CRA, PSU7A). Podarlo fabricaba coincidencias falsas que
+   **borraban candidatos reales**.
+2. **Mojibake de `Content-Disposition`**: las cabeceras HTTP se decodifican en latin-1 y el
+   portal envía UTF-8 ⇒ todo fichero con acento aparecía como candidato falso.
+3. **`\b` no delimita contra `_`** (es carácter de palabra) ⇒ `_rv05` no se podaba y un
+   documento que teníamos se declaraba ausente.
+
+### Incertidumbre declarada
+
+No se descargó ningún PDF: **no está verificado que el contenido corresponda al título**.
+Y **131 de los 705 documentos** del corpus de estas marcas no los alcanza ningún fichero del
+catálogo — cualquiera podría ser el gemelo renombrado de un candidato, así que los 24 son un
+techo, no un suelo. Términos de licencia de ambos portales: no revisados.
