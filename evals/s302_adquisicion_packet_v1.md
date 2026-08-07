@@ -271,6 +271,45 @@ Convención del playbook: el sufijo `_Privado` distingue el material del área d
 
 ---
 
+## ADENDA s303 (7-ago) — resultado de la búsqueda, y una corrección al propio packet
+
+**Encontrados 2 de los 3 documentos con valor real** (verificados: HTTP 200, `%PDF`,
+identidad confirmada abriendo el fichero):
+
+| Doc | Estado | Fichero | Nota |
+|---|---|---|---|
+| **997-412** | ✅ DESCARGADO | `997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual.pdf` (2,68 MB, 24 pp., issue 3 jun-2005) | **Solo en INGLÉS** — no existe edición española (verificado) |
+| **997-415** | ✅ DESCARGADO | `997-415_4_ID50_Panel_software_upgrade_instruction.pdf` (1,35 MB, 5 pp., issue 4 oct-2002) + la issue 3 de 2001 | **Solo en INGLÉS** |
+| **997-340-005** | ❌ NO EXISTE en abierto | — | La categoría ID1000 del portal lista 5 documentos y ninguno es carga/descarga; `MCDT212.pdf` (el prefijo `MC` = carga/descarga) da 404 en ambas carpetas. Requiere cuenta de distribuidor |
+
+Fuente de los dos hallados: un distribuidor holandés (`support.topsecurity.nl`), no los
+portales españoles — que **no publican estos dos documentos en ningún idioma**.
+
+**Corrección al punto 3.2 de este packet.** El packet afirmaba: «el cuello de botella no es
+el acceso, es la descubribilidad: los ficheros están abiertos, lo que no tenemos es la lista
+de qué existe → merece la pena el registro». **La segunda mitad es falsa.** El índice es
+PÚBLICO vía el componente ZOO de Joomla (`/component/zoo/alphaindex/…`), que además
+devuelve el nombre de fichero real en `Content-Disposition`. Cosechado: **844 entradas
+(813 títulos únicos)** de las dos marcas → `data/catalog_portales/s303_portales_notifier_morley_v1.json`.
+Método y trampas: `docs/CORPUS_NOTIFIER_MORLEY.md`. **Consecuencia para Alberto: las altas
+de partner de Notifier ES y Morley-IAS ES NO hacen falta** para conocer el catálogo (la del
+foro Morley UK sigue en pie para el legacy `996-xxx`).
+
+**Trampa operativa registrada** (invalidó la primera pasada): hay un WAF de Akamai delante
+de `notifier.es` y responde **403, no 404**, al bloquear — un probe rápido reporta «no
+existe» sobre ficheros que sí existen. Barridos futuros: secuenciales, ~3 s, y tratar 403
+como «para», nunca como ausencia.
+
+**El «bonus» confirma el packet**: el agente descargó también el `997-411` en español
+(`MN-DT-200`), que este packet clasificaba como falso positivo por estar ya en corpus.
+Verificado contra `chunks_v2`: **44 chunks bajo `MNDT200`** — en efecto, ya lo teníamos.
+
+**Lo que queda por decidir (Alberto)**: (a) ingerir los 2 documentos, que están en INGLÉS y
+el corpus es ES-dominante — coste de extracción ~$2, pero el hueco de vocabulario ES↔EN es
+un lever medido (DEC-085), así que conviene ingerir Y MEDIR, no asumir; (b) correr el cruce
+catálogo↔corpus (813 títulos vs 705 docs de estas marcas) para tener la lista de adquisición
+definitiva — exige resolver nombres de fichero secuencialmente, ~45 min.
+
 ## Resumen ejecutivo en cinco líneas
 
 1. **La «Guía Avanzada de Configuración» de la CAD-171 NO hay que comprarla: ya la tenemos** (`MC-380 rev c`, §5.4 p.29, mapeado a `detnov:cad-171`). El primer fallo orgánico del bot es 100 % de selección → se arregla con gold + retrieval, no con corpus.
