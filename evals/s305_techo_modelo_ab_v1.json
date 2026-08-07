@@ -1,0 +1,110 @@
+{
+  "probe": "s305_techo_modelo_ab_v1",
+  "ts": "2026-08-07T13:52:07.813091+00:00",
+  "git_sha": "006e3795571e39a689dc881e0fa628eb6f9c7afa",
+  "qid": "hp011",
+  "fact": "hp011#2:05 a 295 seg",
+  "valor": "05 a 295 seg",
+  "texto": "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+  "inject": [
+    "f18362c6-26d2-4bb2-8c97-f1a4fb81729e",
+    "2d45a70a-5202-442e-af84-c3a176c2178d"
+  ],
+  "reps_por_brazo": 3,
+  "THRESH_FIRM": 4,
+  "juez": "judge_conveyed21 K=5",
+  "resumen": {
+    "A_control_prod": {
+      "modelo": "claude-sonnet-4-6",
+      "n": 3,
+      "oracle_firme": 0,
+      "max_oracle": 2,
+      "alcanzable": false
+    },
+    "B_sonnet_5": {
+      "modelo": "claude-sonnet-5",
+      "n": 3,
+      "oracle_firme": 0,
+      "max_oracle": 2,
+      "alcanzable": false
+    },
+    "C_opus_5": {
+      "modelo": "claude-opus-5",
+      "n": 3,
+      "oracle_firme": 0,
+      "max_oracle": 2,
+      "alcanzable": false
+    }
+  },
+  "brazos": {
+    "A_control_prod": {
+      "modelo": "claude-sonnet-4-6",
+      "reps": [
+        {
+          "rep": 0,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después de extinción\n\nEl problema más probable es que **el circuito de extinción sigue activo hasta rearme** (parámetro t.A configurado en \"--\") o que existe una **condición de avería enclavada** que impide el restablecimiento. Comprueba los siguientes puntos en orden:\n\n---\n\n## 1. Verifica el parámetro t.A (duración de descarga)\n\nEl parámetro **t.A** controla la duración de activación del circuito de extinción [F13][F14]:\n\n- Si está configurado en **\"--\"** → el circuito de extinción permanece **activado hasta que se rearme manualmente la central** (este es el valor por defecto) [F13].\n- Si está configurado con un valor de **05 a 295 seg.** → el circuito se desactiva automáticamente al finalizar ese tiempo [F13].\n\n**Acción:** Accede al modo de programación (nivel 3) y comprueba el valor de t.A. Si está en \"--\" y la extinción ya ha concluido físicamente, el sistema espera el rearme manual.\n\n---\n\n## 2. Verifica el parámetro r.i (rearme inhibido tras extinción)\n\nEl parámetro **r.i** puede estar bloqueando el rearme [F11]:\n\n- **\"--\"** → Rearme inhibido hasta finalizar extinción o hasta que se agote el tiempo configurado en t.A [F11].\n- **00** → Rearme permitido en cualquier momento (por defecto) [F11].\n- **01 a 30** → Rearme inhibido durante el intervalo definido en minutos [F11].\n\nDe acuerdo con la norma **UNE-EN 12094-1:2004, apartado 4.12.2**, debe existir un intervalo de tiempo programable entre 0 y 30 minutos desde"
+        },
+        {
+          "rep": 1,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "## RP1r-Supra: Sistema no vuelve a estado normal tras resetear después de extinción\n\nLa causa más probable es que el **circuito de extinción siga activo hasta rearme** (parámetro **t.A** configurado en `- -`) o que exista una **condición de avería enclavada** que impide el restablecimiento.\n\nComprueba los siguientes puntos en orden:\n\n---\n\n### 1. Verifica el parámetro t.A (duración de descarga)\n\nEl parámetro **t.A** controla la duración de activación del circuito de extinción [F13][F14]. Si está configurado en `- -`, el circuito permanece **activo hasta que se rearme manualmente la central** [F13]. Comprueba si este es el valor configurado y ajústalo si procede (valores de **05 a 295 seg.** en intervalos de 5 seg.) [F13].\n\n---\n\n### 2. Verifica el parámetro r.i (rearme inhibido tras extinción)\n\nEl parámetro **r.i** puede estar configurado para inhibir el rearme durante un intervalo de tiempo [F11]:\n\n- **00** → Rearme permitido en cualquier momento (por defecto) [F11]\n- **01 a 30** → Rearme inhibido durante ese número de minutos desde el estado ACTIVADO [F11]\n\nSi está en un valor distinto de 00, la central no permitirá el rearme hasta que transcurra ese tiempo [F11].\n\n---\n\n### 3. Comprueba si hay averías enclavadas activas\n\nTodas las averías son **enclavadas por defecto** y requieren rearme manual [F1]. Revisa los LEDs del panel:\n\n- **LED \"Avería circuito extinción\" intermitente** → Fallo en circuito extinción 1 o 2 (bloques 1/2) [F3]\n- **LED \"Avería Disp. Manual\" fijo** → Fallo"
+        },
+        {
+          "rep": 2,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "# RP1r-Supra: Sistema no vuelve a estado normal tras resetear después de extinción\n\nEl motivo más probable es que **alguna condición de avería o enclavamiento sigue activa** en la central, impidiendo el restablecimiento completo. Comprueba los siguientes puntos en orden:\n\n---\n\n## 1. Verifica el parámetro de rearme inhibido (r.i)\n\nEl parámetro **r.i** puede estar configurado para inhibir el rearme durante un intervalo de tiempo tras la extinción [F11]:\n\n- **Valor `- -`**: Rearme inhibido hasta que finalice la extinción o se agote el tiempo configurado en el parámetro **t.A**\n- **Valor `00`**: Rearme permitido en cualquier momento *(por defecto)*\n- **Valores `01` a `30`**: Rearme inhibido durante ese número de minutos\n\n→ Si t.A no ha expirado aún, la central no permitirá el rearme. Espera a que transcurra el tiempo configurado o revisa el valor de t.A.\n\n---\n\n## 2. Comprueba si el circuito de extinción sigue activo (parámetro t.H)\n\nEl parámetro **t.H** (duración de la descarga) puede estar configurado en **`- -`**, lo que significa que el **circuito de extinción permanece activado hasta que se realice un rearme manual** [F13]. En ese caso:\n\n- El led \"Extinción realizada\" permanecerá **fijo** [F6]\n- Los relés de salida de los solenoides no se desactivarán hasta el rearme\n\n→ Verifica que el rearme se está ejecutando correctamente desde **nivel de acceso 2**, pulsando la tecla **Rearme** [F1].\n\n---\n\n## 3. Comprueba averías enclavadas en circuitos supervisados\n\n**Todas las averías s"
+        }
+      ]
+    },
+    "B_sonnet_5": {
+      "modelo": "claude-sonnet-5",
+      "reps": [
+        {
+          "rep": 0,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "**Comprobación inmediata:** el motivo más probable es que el **rearme esté inhibido temporalmente por el parámetro de inhibición tras extinción**, o que exista una **avería enclavada** (circuito, presión baja, flujo, paro) que no se resuelve con el simple rearme.\n\nPasos a comprobar en la **RP1r-Supra**:\n\n1. **Parámetro de inhibición de rearme tras extinción**\n   Según la norma UNE-EN 12094-1:2004, apartado 4.12.2, debe existir un intervalo programable (entre 0 y 30 minutos) desde que la central notifica el estado de **ACTIVADO** hasta que permite el rearme [F11]. Este parámetro se identifica como **r.i** en el manual en español [F11] (en la versión inglesa aparece como **F.1** [F2]).\n   - Valor \"- -\": rearme inhibido hasta finalizar la extinción o hasta agotar el tiempo definido en el parámetro **t.A** [F11].\n   - Valor \"00\": rearme permitido en cualquier momento (por defecto) [F11].\n   - Valores \"01 a 30\": rearme inhibido durante ese intervalo en minutos [F11].\n   → Si este parámetro está configurado con un valor distinto de 00, **el sistema no aceptará el rearme hasta que transcurra ese tiempo**, aunque pulses la tecla Rearme.\n\n2. **Estado de fin de extinción**\n   Comprueba que haya transcurrido completamente el **tiempo de activación de extinción (parámetro t-H)** [F5]. Solo cuando este tiempo finaliza, el temporizador queda fijo en \"00\", el led \"Extinción realizada\" se ilumina fijo, y los relés de salida de los solenoides se desactivan [F5]. Si el temporizador aún parpade"
+        },
+        {
+          "rep": 1,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "**Comprobación paso a paso — RP1r-Supra tras reset post-extinción:**\n\n1. **Verifica que el rearme se ejecutó correctamente**: debe hacerse desde **nivel 2 de acceso**, pulsando la tecla \"Rearme\" [F1]. Esta acción reinicia la central y restablece todas las entradas enclavadas [F1].\n\n2. **Comprueba el parámetro r.i (Rearme inhibido tras extinción)** en la configuración (nivel 3): según UNE-EN 12094-1:2004 apartado 4.12.2, existe un intervalo programable entre 0 y 30 minutos desde que la central notifica ACTIVADO hasta que permite el rearme [F11]. Si el valor está en \"--\", el rearme queda **inhibido hasta finalizar la extinción o hasta agotar el tiempo definido en t.A** [F11]. Si está entre 01 y 30, el rearme queda inhibido durante ese número de minutos [F11]. Solo con valor **00** (por defecto) el rearme es permitido en cualquier momento [F11]. Si este parámetro está mal configurado, el reset no tendrá efecto aunque se pulse la tecla.\n\n3. **Revisa el estado de la entrada ABORT (pulsador de paro)**: a diferencia del resto de circuitos supervisados, la avería en el circuito de paro **siempre requiere rearme manual** y no admite la opción de rearme automático [F1] [F3]. Si el pulsador de paro sigue activo o en avería, esto puede impedir que la central vuelva a estado normal.\n\n4. **Revisa el resto de circuitos supervisados** en el panel: extinción 1/2, sirenas 1/2, disparo manual, disparo manual 2, pulsador espera (HOLD), zonas 1-3, presión baja, señal de flujo y puerta abierta [F3"
+        },
+        {
+          "rep": 2,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "**Primero comprobar si el rearme está inhibido por configuración (causa más probable):**\n\nVerifica el parámetro **r.i \"Rearme inhibido tras extinción\"** en el modo de programación (nivel 3) [F12]. Según UNE-EN 12094-1:2004, apartado 4.12.2, la central puede tener configurado un intervalo de inhibición de rearme tras el estado ACTIVADO [F12][F2]:\n\n- **00**: Rearme permitido en cualquier momento (valor por defecto) [F12]\n- **\"- -\"**: Rearme inhibido hasta finalizar la extinción o hasta agotar el tiempo del parámetro **t.A** [F12]\n- **01 a 30**: Rearme inhibido durante el intervalo definido, expresado en minutos [F12]\n\nSi este parámetro está en \"- -\" o en un valor distinto de 00, el rearme **no restablecerá la central** hasta que transcurra el tiempo configurado, aunque pulses la tecla de rearme. La versión en inglés del manual denomina este parámetro **F.1** [F2].\n\n**Segundo, revisar si el timer de extinción (t.H) ha finalizado realmente:**\n\nMientras el temporizador de disparo esté en curso, el display muestra \"00\" **intermitente** y el led \"Extinción realizada\" también parpadea, y los relés de los circuitos de extinción permanecen activados [F7][F8]. Solo cuando termina el tiempo t.H, el display pasa a \"00\" **fijo**, el led \"Extinción realizada\" queda **fijo**, y los relés de salida se **desactivan** [F6][F8]. Si el timer sigue corriendo, la central seguirá en estado de disparo y no responderá al rearme hasta que finalice.\n\n**Tercero, comprobar si hay una avería enclavada acti"
+        }
+      ]
+    },
+    "C_opus_5": {
+      "modelo": "claude-opus-5",
+      "reps": [
+        {
+          "rep": 0,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "## Qué comprobar cuando la RP1r no vuelve a reposo tras la descarga\n\nLo primero: en configuración por defecto el circuito de extinción queda **activado hasta el rearme de la central** (parámetro **t.A** con valor **\"- -\"**, valor por defecto) [F15], y **todas las averías son enclavadas y requieren rearme manual** [F1]. Es decir, si tras pulsar Rearme la central no vuelve a normal, hay una condición todavía presente o el rearme está inhibido. Comprueba en este orden:\n\n**1. Que el rearme no esté inhibido por programación**\n- Parámetro **r.i \"Rearme inhibido tras extinción\"** [F13]:\n  · **\"- -\"**: rearme inhibido hasta finalizar la extinción o hasta agotarse el tiempo configurado en **t.A** [F13]\n  · **00**: rearme permitido en cualquier momento (valor por defecto) [F13]\n  · **01 a 30**: rearme inhibido durante ese intervalo, en minutos [F13]\n- Este intervalo existe por la norma **UNE-EN 12094-1:2004, apartado 4.12.2**, que exige un tiempo programable de **0 a 30 minutos** desde que la central notifica el estado ACTIVADO hasta que permite el rearme [F13]. La versión inglesa del manual identifica ese parámetro de inhibición como **F.1**, configurable desde el modo de programación [F2][F12].\n\n**2. Que el rearme se esté ejecutando correctamente**\n- El rearme requiere **nivel 2 de acceso** y pulsar la tecla **\"Rearme\"**; esta acción reinicia la central y restablece **todas las entradas enclavadas** [F1].\n\n**3. Entradas enclavadas que sigan activas físicamente**\n- **LOW PRESS SWITCH*"
+        },
+        {
+          "rep": 1,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "## RP1r — El sistema no vuelve a estado normal tras el rearme\n\nLo primero a comprobar es el parámetro de duración de descarga: por defecto el circuito de extinción queda **activado hasta rearme de la central** [F14], y el parámetro **r.i (Rearme inhibido tras extinción)** puede estar bloqueando el rearme durante un intervalo programado. Repasa en este orden:\n\n**1. Parámetro r.i — rearme inhibido tras extinción [F12]**\nSegún UNE-EN 12094-1:2004, apartado 4.12.2, existe un intervalo programable entre 0 y 30 minutos desde que la central notifica el estado de ACTIVADO hasta que permite su rearme [F12]. Valores:\n- **- -**: rearme inhibido hasta finalizar extinción o hasta agotarse el tiempo configurado en **t.A** (t.A → 0 seg.) [F12]\n- **00**: rearme permitido en cualquier momento (por defecto) [F12]\n- **01 a 30**: rearme inhibido durante el intervalo definido, en minutos [F12]\n\n**2. Parámetro t.A / duración de la descarga [F14][F15]**\n- Si t.A está en **- -**, el circuito está *activado hasta rearme de la central* (valor por defecto) [F14]\n- Valor variable de **05 a 295 seg.**, en intervalos de 5 seg. [F14][F11]\n- Recuerda que **t.A** es la duración de la descarga para el circuito de extinción 1 [F15]\n\n**3. Pulsador de paro (ABORT) — entrada enclavada**\nEl circuito de paro (bloque **D**, ABORT SWITCH) **detiene la extinción y requiere rearme manual** [F3]. Es la única excepción: el resto de circuitos admiten configuración de rearme automático, pero el de paro no [F1]. Comprueba q"
+        },
+        {
+          "rep": 2,
+          "base_yes": 2,
+          "oracle_yes": 2,
+          "oracle_answer": "## RP1r / RP1r-Supra — el rearme no restablece el estado normal tras la descarga\n\nLo primero: comprueba si el **rearme está inhibido por configuración** y si queda alguna **entrada enclavada activa** (paro/ABORT, baja presión, flujo). Estos son los puntos que el manual documenta:\n\n**1. Parámetro `r.i` — \"Rearme inhibido tras extinción\"** [F13]\nSegún UNE-EN 12094-1:2004, apartado 4.12.2, debe existir un intervalo programable de **0 a 30 minutos** desde que la central notifica ACTIVADO hasta que permite el rearme [F13]. Valores:\n- `- -`: Rearme inhibido **hasta finalizar la extinción**, o cuando se agote el tiempo configurado en el parámetro **`t.A`** (t.A → 0 seg.) [F13]\n- `00`: Rearme permitido en cualquier momento (**por defecto**) [F13]\n- `01` a `30`: Rearme inhibido durante el intervalo definido, en minutos [F13]\n\nEn la versión inglesa del manual esta inhibición temporal del reset se configura mediante el parámetro **`F.1`** desde el modo de programación [F2].\n\n**2. Parámetro `t.A` — Duración de la descarga del circuito de extinción 1** [F16][F15]\n- Valor variable de **05 a 295 seg.**, en intervalos de 5 seg. [F15]\n- `- -`: **Circuito activado hasta rearme de la central (por defecto)** [F15]\n\nVerifica los dos valores (`r.i` y `t.A`) juntos, porque `r.i = - -` condiciona el rearme al fin de la extinción o al agotamiento de `t.A` [F13].\n\n**3. Pulsador de paro (ABORT), bloque de terminales `D`**\n- \"Detiene la extinción. **Requiere rearme manual**\" [F3][F4]\n- **Todas las averí"
+        }
+      ]
+    }
+  }
+}

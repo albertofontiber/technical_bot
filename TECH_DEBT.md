@@ -2353,3 +2353,30 @@ reintento único ante 5xx antes del fail-open — el RPC respondió 200 al repet
 (b) el primer técnico real. **Coste**: 1-2h. **Hoy no urge** porque con un usuario el
 impacto es una respuesta peor puntual; con técnicos, es ruido sistemático en las métricas
 que acabamos de construir.
+
+---
+
+## #64 — El generador NO se puede cambiar de modelo hoy: dos bloqueadores duros (s305)
+
+Descubierto al medir el techo con modelos más fuertes (s305). Con el código actual, poner
+un modelo de la generación 5 en `LLM_MODEL` **rompe el bot en la primera consulta**:
+
+1. **`temperature` es rechazada.** `src/rag/generator.py:~830` fija `"temperature": 0` en el
+   envelope (para reproducibilidad de eval). Los modelos 5 devuelven
+   `400 invalid_request_error: 'temperature' is deprecated for this model`.
+2. **El primer bloque de la respuesta ya no es texto.** `generator.py:851` hace
+   `response.content[0].text`; los modelos con razonamiento devuelven un `ThinkingBlock`
+   en `content[0]` → `AttributeError: 'ThinkingBlock' object has no attribute 'text'`.
+
+**Acción propuesta** (pequeña y de raíz): (a) construir el envelope sin `temperature` cuando
+el modelo no la admite — la reproducibilidad de eval pasa entonces a apoyarse en K-mayoría
+del juez, que ya es el contrato; (b) extraer el texto buscando el primer bloque con
+`type == "text"` en vez de asumir la posición 0. Ambos son cambios locales al generador.
+
+**Trigger**: cualquier intento de cambiar el modelo (upgrade, coste, o A/B). **Coste**: ~1h
++ tests. **Hoy no urge** porque el modelo de producción no cambia — pero es un bloqueador
+oculto: nadie sabía que existía hasta intentarlo, y aparecería en el peor momento (una
+migración urgente de modelo).
+
+**Nota**: `scripts/s305_techo_modelo_ab.py` los sortea con un envoltorio del cliente, a
+propósito documentado como apaño de instrumento — NO es el fix.
