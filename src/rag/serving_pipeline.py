@@ -8,6 +8,7 @@ without bypassing rerank, coverage, or the generator boundary.
 from __future__ import annotations
 
 import copy
+import inspect
 from dataclasses import dataclass
 import logging
 from typing import Any, Callable
@@ -46,7 +47,22 @@ def execute_rag_turn(
     reranking, and generation failures are intentionally left to the transport
     handler's existing error boundary.
     """
-    retrieved = adapters.retrieve(query_for_retrieval, top_k=retrieval_top_k)
+    # (s306/#63) Salud del retrieval: el dict viaja al seam `_trace` del retriever y
+    # recoge los fail-opens de canal (VECTOR/enunciados/hyq). Se pasa SOLO si el adapter
+    # lo acepta — por firma, no por try/TypeError: un reintento tras TypeError re-correría
+    # el retrieval entero (coste real) para enmascarar un bug genuino. Los fakes de test
+    # sin `_trace` siguen funcionando igual; simplemente no reportan salud.
+    retrieval_health: dict[str, Any] = {}
+    retrieve_kwargs: dict[str, Any] = {"top_k": retrieval_top_k}
+    try:
+        params = inspect.signature(adapters.retrieve).parameters
+        if "_trace" in params or any(
+            p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values()
+        ):
+            retrieve_kwargs["_trace"] = retrieval_health
+    except (TypeError, ValueError):
+        pass  # firma no introspeccionable (builtin/mock exótico) → sin salud, sin romper
+    retrieved = adapters.retrieve(query_for_retrieval, **retrieve_kwargs)
     retrieval_pool = list(retrieved)
     reranked = adapters.rerank(
         query,
@@ -136,4 +152,7 @@ def execute_rag_turn(
         "chunks": served,
         "coverage_trace": coverage_trace,
         "generation": generation,
+        # (s306/#63) Fail-opens de canal del retriever este turno; {} = sano o adapter
+        # sin seam. La telemetría lo lleva a `rag_trace.retrieval` acotado.
+        "retrieval_health": retrieval_health,
     }

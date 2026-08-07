@@ -100,6 +100,10 @@ class RetrievalResult:
     coverage_trace: dict[str, Any]
     retrieval_rows: int
     reranked_rows: int
+    # (s306/#63) Fail-opens de canal del retriever este turno (shape del seam s289:
+    # {"channel", "error"}). Default () para no romper constructores previos: un
+    # TurnResult antiguo simplemente reporta «sin degradación registrada».
+    channel_failures: tuple[dict[str, Any], ...] = ()
 
 
 @dataclass(frozen=True, kw_only=True)

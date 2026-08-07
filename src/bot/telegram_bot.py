@@ -994,6 +994,9 @@ async def _process_query(
             turn = await asyncio.to_thread(run_turn, request, from_production())
             chunks = list(turn.retrieval.chunks)
             coverage_trace = turn.retrieval.coverage_trace
+            retrieval_health = {
+                "channel_failures": list(turn.retrieval.channel_failures)
+            }
             result = turn.generation
             answer = result["answer"]
             diagrams = result["diagrams"]
@@ -1016,6 +1019,7 @@ async def _process_query(
             )
             chunks = pipeline["chunks"]
             coverage_trace = pipeline["coverage_trace"]
+            retrieval_health = pipeline.get("retrieval_health") or {}
 
             # Step 3: Generate answer from reranked + governed coverage chunks.
             result = pipeline["generation"]
@@ -1088,6 +1092,7 @@ async def _process_query(
                 transport_parts=len(answer_parts),
                 transport_status=transport_status,
                 transport_error_type=transport_error_type,
+                retrieval_health=retrieval_health,
             )
         except Exception as exc:
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)

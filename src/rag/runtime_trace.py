@@ -103,6 +103,14 @@ _ALLOWED_LANES = frozenset(
     }
 )
 _ALLOWED_MP_REASONS = frozenset({"identity_unresolved"})
+# (s306/#63) Canales de retrieval con fail-open registrable. Cerrado a los 4 sitios
+# reales del retriever (s289 el exterior, s306 los 3 interiores) — un canal nuevo
+# exige tocar esta allowlist a la vez que su `except`, que es el punto: el trace
+# jamás persiste strings libres.
+_ALLOWED_CHANNELS = frozenset(
+    {"VECTOR", "ENUNCIADOS", "HYQ_TABLE", "HYQ_HYDRATE"}
+)
+_MAX_CHANNEL_FAILURES = 8
 _ALLOWED_RENDER_STATUSES = frozenset(
     {"html", "plain_fallback", "empty_answer_fallback"}
 )
@@ -154,6 +162,33 @@ def _safe_enum(value: Any, allowed: frozenset[str], *, default: str) -> str:
 
 def _safe_error_type(value: Any) -> str:
     return _safe_enum(value, _ALLOWED_ERROR_TYPES, default="OtherError")
+
+
+def _retrieval_section(retrieval_health: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `retrieval` (s306/#63): fail-opens de canal del turno, acotados.
+
+    Del seam del retriever solo cruzan TOKENS (canal + tipo de error, ambos de
+    allowlist) — el `error` crudo (repr, puede llevar URL/payload) se queda en
+    proceso. Salud = lista vacía; la ausencia de la sección ya no es posible
+    (clave requerida del esquema): «sin datos» y «sin fallos» dejan de confundirse,
+    que era exactamente el defecto #63.
+    """
+    failures: list[dict[str, Any]] = []
+    raw = retrieval_health.get("channel_failures") if isinstance(
+        retrieval_health, Mapping
+    ) else None
+    if isinstance(raw, list):
+        for item in raw[:_MAX_CHANNEL_FAILURES]:
+            if not isinstance(item, Mapping):
+                continue
+            failures.append({
+                "channel": _safe_enum(
+                    item.get("channel"), _ALLOWED_CHANNELS,
+                    default="unknown_channel",
+                ),
+                "error_type": _safe_error_type(item.get("error_type")),
+            })
+    return {"channel_failures": failures}
 
 
 def _selected_count(lane_trace: Mapping[str, Any]) -> int:
@@ -343,6 +378,7 @@ def build_rag_serving_trace(
     transport_parts: int,
     transport_status: str = "html",
     transport_error_type: str | None = None,
+    retrieval_health: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -360,6 +396,7 @@ def build_rag_serving_trace(
             must_preserve_trace,
             must_preserve_outcome,
         ),
+        "retrieval": _retrieval_section(retrieval_health),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -401,9 +438,30 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
 
     if not exact_keys(
         value,
-        {"schema", "release_profile", "coverage", "must_preserve", "transport"},
+        # `retrieval` es REQUERIDA (s306/#63), no opcional: si fuera opcional, un
+        # builder futuro que la omitiera volvería a confundir «sin datos» con «sin
+        # fallos» — la clase exacta que esta sección elimina. Solo el sink de
+        # escritura valida (verificado): las filas históricas no se re-validan.
+        {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
+         "transport"},
     ):
         return None
+    retrieval = value["retrieval"]
+    if not exact_keys(retrieval, {"channel_failures"}):
+        return None
+    channel_failures = retrieval["channel_failures"]
+    if (
+        not isinstance(channel_failures, list)
+        or len(channel_failures) > _MAX_CHANNEL_FAILURES
+    ):
+        return None
+    for failure in channel_failures:
+        if not exact_keys(failure, {"channel", "error_type"}):
+            return None
+        if failure["channel"] not in (_ALLOWED_CHANNELS | {"unknown_channel"}):
+            return None
+        if failure["error_type"] not in (_ALLOWED_ERROR_TYPES | {"OtherError"}):
+            return None
     if value["schema"] != TRACE_SCHEMA or value["release_profile"] not in (
         _ALLOWED_PROFILES | {"unknown"}
     ):
