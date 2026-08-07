@@ -135,7 +135,16 @@ seam-no-conectado / `measured=true`+lista — el dúo convergió en que mi v1 co
 seam» a «sano», el defecto reintroducido una capa arriba) + vista `salud_canal_retrieval_v1`
 + test-ancla del seam en los adapters de producción. **Alberto tras el merge: aplicar la
 migración `20260807120000_s306` en el SQL Editor.**
-Traza: DEC-176 (origen) · DEC-185..187 · HISTORY s303-s306; frentes 6-8: DEC-182.
+· **s307 (mismo día, PR #218): 2º y 3º datos orgánicos de Alberto** — intro stale (3
+marcas de 30) e inventario-desde-ventana-RAG (Securiton sin ASD535). Lote: textos
+derivados de datos vivos (texto legal v7 INTACTO, pin sha256; su línea viaja en el bump
+v8) + ruta de inventario por fabricante (document_id, acotada, estrecha, 30/30 marcas
+verificadas en vivo). El dúo tumbó mi v1 con 4 CRÍTICOS (13/13, 0 FP — n=1
+confirmatorio otra vez, cap de PostgREST, límite de Telegram, colisión con «lista de
+averías»). La telemetría s306 estrenó filas measured=true con los turnos de Alberto.
+Deudas nuevas: #65 documents.product_model stale · #66 prosa del 👎 como consulta ·
+#67 alias cortos. DEC-188.
+Traza: DEC-176 (origen) · DEC-185..188 · HISTORY s303-s307; frentes 6-8: DEC-182.
 
 ---
 

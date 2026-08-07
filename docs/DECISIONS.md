@@ -5012,3 +5012,41 @@ retry en el RPC principal VECTOR (cambiaría el camino más caliente — fuera d
 lo dejó deliberadamente sin tocar).
 
 Recibos: `evals/adversarial_review_log.jsonl` (duo_status=complete) · suite 3591 passed.
+
+## DEC-188 (s307) — Dos fallos orgánicos en una tarde, misma raíz: el bot hablaba de su corpus DE MEMORIA; y el dúo tumbó mi v1 con 4 críticos
+
+**Decisión**: (a) los textos de presentación (intro/help/greeting/productos) se derivan de
+`documents` activos — 30 fabricantes, cacheado por proceso, fallback estático, backoff;
+EXCEPCIÓN: `_CONSENT_TERMS` (TERMS v7) intacto y pinneado por sha256 — su línea de marcas
+viaja en el bump a v8 (reservado para base jurídica). (b) Las preguntas de INVENTARIO
+(«¿qué productos de X tienes?») dejan de caer al RAG: ruta nueva en la rama
+fabricante-sin-modelo que responde desde el inventario real — cruce por `document_id` (la
+clave del serving), completo por construcción, acotado bajo el límite de Telegram,
+intención estrecha (verbo de posesión AL FINAL discrimina inventario de specs), fail-open
+a RAG, cobertura de las 30 marcas vía lista real de la DB. **DEC-059 NO tocado y con
+métrica citada**: aquel fall-through se midió (s77) para preguntas DE MODELO; el
+inventario es población que s77 no midió — la rama modelo+fabricante queda byte-idéntica
+(test de fuente lo ancla).
+
+**Origen**: 2º y 3º datos orgánicos (Alberto, 7-ago): pantallazo de la intro
+(«Notifier, Morley y Detnov» con 30 marcas reales) y 👎 con motivo sobre «¿qué productos
+de Securiton tienes?» — el RAG presentó su ventana de 10 chunks como inventario, sin
+ASD531 ni ASD535 (242 chunks, el doc más grande de la marca). La ruta era `rag`
+(route/measured=true: PRIMERAS filas de la telemetría s306 en producción).
+
+**El dúo dio NO-GO a mi v1 — 13/13 confirmados, 0 FP** (tally completo en el log):
+F1 «completo por construcción» verificado en n=1 confirmatorio (6 marcas VACÍAS por
+cruce por nombre de fichero vs lotes s55) · Sol-only: page=5000 > cap PostgREST 1000 =
+corte tras la 1ª página · H1 Notifier 4.377 chars > 4.096 = BadRequest sin handler ·
+H2 «lista de averías/eventos» desviada al listado (8 casos de colisión → tests
+negativos). Todo aplicado; sweep en vivo 30/30 marcas funcionales. Deudas: #65
+(`documents.product_model` STALE post-H0 — probado con MADT235: AFP4000 allí, ART1194
+en chunks), #66 (la prosa del 👎 llegó como consulta nueva — observación punto 5),
+#67 (alias cortos: `lda` no casa `LDA audioTech`).
+
+**Alternativas descartadas**: constante nueva con 30 nombres (caduca en el 31);
+`documents.product_model` como fuente (stale, #65); ensanchar `_CATALOG_PATTERNS`
+global (habría servido el catálogo entero ante preguntas por-marca); valor nuevo de
+`route` (migración del CHECK para un menor — auditable por prefijo de respuesta).
+
+Recibos: PR #218 · sweep 30/30 · `evals/adversarial_review_log.jsonl` (13/13, 0 FP).

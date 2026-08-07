@@ -2978,3 +2978,22 @@ ellos en exceso — «la identidad no llega», «equivalencia byte a byte», «s
 y las tres veces lo cazó una verificación externa, no mi criterio. El control estructural
 funciona; el sesgo persiste; la conclusión operativa es no firmar ninguna propiedad de
 diseño sin el test o el testigo que la ancle.
+
+## s307 (7 ago 2026, tarde-noche) — El bot deja de hablar de su corpus de memoria; la telemetría s306 estrena filas; y el dúo me tumba la v1 con 4 críticos
+
+Alberto probó el bot recién desplegado y cazó DOS fallos orgánicos en una tarde, ambos de
+la misma raíz: la intro decía «Notifier, Morley y Detnov» (30 fabricantes reales) y «¿qué
+productos de Securiton tienes?» cayó al RAG — que presentó su ventana de 10 chunks como
+inventario, sin los dos ASD grandes. Sus turnos fueron además las PRIMERAS filas con
+`measured=true`: la telemetría s306 funcionando en producción el mismo día de su merge.
+
+El lote (PR #218): textos derivados de datos vivos (con el texto legal intacto y pinneado
+por hash) + ruta de inventario por fabricante (cruce por document_id, acotada, estrecha,
+fail-open, 30 marcas). El dúo dio NO-GO a mi v1 con 4 críticos medidos — incluido mi
+patrón: verifiqué «completo por construcción» en n=1 confirmatorio mientras 6 marcas
+devolvían vacío; y Sol cazó en mi «fix» de paginación el corte silencioso tras la primera
+página (cap PostgREST). 13/13 confirmados, 0 FP, todo aplicado, sweep final 30/30.
+
+También: el 👎 de Alberto capturó reason_class pero su prosa llegó como consulta nueva
+(#66, primer dato del punto 5); y documents.product_model resultó estar stale post-H0
+(#65). El packet B2 quedó en 10 ítems (PR #217 mergeada). DEC-188.
