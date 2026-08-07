@@ -8,7 +8,11 @@
 -- allowlist, sin prosa ni ids). Esta vista lo agrega para responder: ¿cuántos
 -- turnos respondieron con el pool DEGRADADO, y qué canal falla?
 --
--- DEPENDENCIA: s301 aplicada (columna `route` + patrón de vistas). Aditiva pura:
+-- DEPENDENCIAS (cross-model s306: la declaración anterior era INCOMPLETA):
+--   (1) migración 20260720095702_add_query_logs_rag_trace.sql (columna `rag_trace` —
+--       s301 documenta expresamente que NO la crea);
+--   (2) s301 aplicada (columna `route` + patrón de vistas).
+-- Ambas están aplicadas en producción (verificado en s301/s303). Aditiva pura:
 -- no toca tablas ni vistas existentes — sin carrera de deploy en ningún orden
 -- (código-primero: la vista aún no existe y nadie la consulta; SQL-primero: la
 -- vista devuelve 0 degradados hasta que el código nuevo escriba la sección).
@@ -29,8 +33,18 @@ SELECT
     date_trunc('day', created_at)::date AS dia,
     COUNT(*) AS turnos_rag,
     COUNT(*) FILTER (
-        WHERE rag_trace IS NOT NULL AND rag_trace ? 'retrieval'
+        WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
     ) AS turnos_con_medida,
+    -- el % prometido, con denominador protegido (los conteos crudos siguen ahí):
+    ROUND(
+        100.0 * COUNT(*) FILTER (
+            WHERE jsonb_array_length(
+                rag_trace -> 'retrieval' -> 'channel_failures'
+            ) > 0
+        ) / NULLIF(COUNT(*) FILTER (
+            WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
+        ), 0), 1
+    ) AS pct_turnos_degradados,
     COUNT(*) FILTER (
         WHERE jsonb_array_length(
             rag_trace -> 'retrieval' -> 'channel_failures'
@@ -55,14 +69,18 @@ SELECT
               @> '[{"channel": "HYQ_HYDRATE"}]'
     ) AS fallos_hyq_hydrate
 FROM public.query_logs
-WHERE COALESCE(route, 'rag') = 'rag'   -- los shortcuts no hacen retrieval
+-- (cross-model s306) `source <> 'error'`: las filas de error se loggean SIN route y
+-- heredarían 'rag' por el COALESCE, contaminando el denominador con turnos que no
+-- sirvieron retrieval — mismo filtro que las vistas de salud de s301.
+WHERE COALESCE(route, 'rag') = 'rag' AND source <> 'error'
 GROUP BY 1;
 
 -- ----------------------------------------------------------------------------
 -- 2. Permisos (espejo exacto de s301: API pública a cero, operador vía service)
 -- ----------------------------------------------------------------------------
 REVOKE ALL PRIVILEGES ON public.salud_canal_retrieval_v1
-    FROM anon, authenticated;
+    FROM PUBLIC, anon, authenticated;   -- PUBLIC también (cross-model s306: sin él,
+                                        -- un grant heredado sobreviviría al REPLACE)
 GRANT SELECT ON public.salud_canal_retrieval_v1 TO service_role;
 
 -- ----------------------------------------------------------------------------
@@ -88,7 +106,7 @@ BEGIN
         SELECT 1 FROM information_schema.role_table_grants
         WHERE table_schema = 'public'
           AND table_name = 'salud_canal_retrieval_v1'
-          AND grantee IN ('anon', 'authenticated')
+          AND grantee IN ('anon', 'authenticated', 'PUBLIC')
     ) THEN
         RAISE EXCEPTION 's306: la vista quedó expuesta a la API pública';
     END IF;

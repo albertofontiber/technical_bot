@@ -87,6 +87,8 @@ _ALLOWED_ERROR_TYPES = frozenset(
         "TimeoutError",
         "ReadTimeout",
         "ConnectTimeout",
+        "ConnectError",   # s306 (sub-agente): DNS/conexión rechazada — el fallo de
+                          # red más común tras timeout; sin él degradaba a OtherError
         "HTTPStatusError",
         "JSONDecodeError",
     }
@@ -168,15 +170,20 @@ def _retrieval_section(retrieval_health: Mapping[str, Any] | None) -> dict[str, 
     """Sección `retrieval` (s306/#63): fail-opens de canal del turno, acotados.
 
     Del seam del retriever solo cruzan TOKENS (canal + tipo de error, ambos de
-    allowlist) — el `error` crudo (repr, puede llevar URL/payload) se queda en
-    proceso. Salud = lista vacía; la ausencia de la sección ya no es posible
-    (clave requerida del esquema): «sin datos» y «sin fallos» dejan de confundirse,
-    que era exactamente el defecto #63.
+    allowlist) — el `error` crudo (repr, puede llevar URL/payload) no entra en el
+    trace PERSISTIDO (al log operacional sí va, como siempre desde s96/s289: ese
+    perímetro es otro y es deliberado).
+
+    `measured` (cross-model s306): exigir la sección no bastaba — un adapter sin
+    el seam `_trace` producía lista vacía, indistinguible de «medido y sano», que
+    era EXACTAMENTE la confusión del defecto #63 reapareciendo un nivel más
+    arriba. Tres estados, los tres distinguibles: sin sección (imposible: clave
+    requerida) / `measured=false` (seam no conectado) / `measured=true` + lista
+    (medido; vacía = sano).
     """
+    measured = isinstance(retrieval_health, Mapping)
     failures: list[dict[str, Any]] = []
-    raw = retrieval_health.get("channel_failures") if isinstance(
-        retrieval_health, Mapping
-    ) else None
+    raw = retrieval_health.get("channel_failures") if measured else None
     if isinstance(raw, list):
         for item in raw[:_MAX_CHANNEL_FAILURES]:
             if not isinstance(item, Mapping):
@@ -188,7 +195,7 @@ def _retrieval_section(retrieval_health: Mapping[str, Any] | None) -> dict[str, 
                 ),
                 "error_type": _safe_error_type(item.get("error_type")),
             })
-    return {"channel_failures": failures}
+    return {"measured": measured, "channel_failures": failures}
 
 
 def _selected_count(lane_trace: Mapping[str, Any]) -> int:
@@ -447,7 +454,9 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
     ):
         return None
     retrieval = value["retrieval"]
-    if not exact_keys(retrieval, {"channel_failures"}):
+    if not exact_keys(retrieval, {"measured", "channel_failures"}):
+        return None
+    if type(retrieval["measured"]) is not bool:
         return None
     channel_failures = retrieval["channel_failures"]
     if (

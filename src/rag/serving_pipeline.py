@@ -52,16 +52,20 @@ def execute_rag_turn(
     # lo acepta — por firma, no por try/TypeError: un reintento tras TypeError re-correría
     # el retrieval entero (coste real) para enmascarar un bug genuino. Los fakes de test
     # sin `_trace` siguen funcionando igual; simplemente no reportan salud.
-    retrieval_health: dict[str, Any] = {}
+    # (cross-model s306) `None` ≠ `{}`: si el adapter NO tiene el seam, la salud es
+    # «SIN MEDIDA», no «sana» — confundirlas sería el defecto #63 reapareciendo un
+    # nivel más arriba. Solo un dict (aunque vacío) significa «el seam midió».
+    retrieval_health: dict[str, Any] | None = None
     retrieve_kwargs: dict[str, Any] = {"top_k": retrieval_top_k}
     try:
         params = inspect.signature(adapters.retrieve).parameters
         if "_trace" in params or any(
             p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values()
         ):
+            retrieval_health = {}
             retrieve_kwargs["_trace"] = retrieval_health
     except (TypeError, ValueError):
-        pass  # firma no introspeccionable (builtin/mock exótico) → sin salud, sin romper
+        pass  # firma no introspeccionable (builtin/mock exótico) → sin medida, sin romper
     retrieved = adapters.retrieve(query_for_retrieval, **retrieve_kwargs)
     retrieval_pool = list(retrieved)
     reranked = adapters.rerank(
@@ -152,7 +156,7 @@ def execute_rag_turn(
         "chunks": served,
         "coverage_trace": coverage_trace,
         "generation": generation,
-        # (s306/#63) Fail-opens de canal del retriever este turno; {} = sano o adapter
-        # sin seam. La telemetría lo lleva a `rag_trace.retrieval` acotado.
+        # (s306/#63) Salud del retrieval del turno. `None` = adapter sin seam (SIN
+        # MEDIDA); `{}` = seam conectado y sano; con `channel_failures` = degradado.
         "retrieval_health": retrieval_health,
     }

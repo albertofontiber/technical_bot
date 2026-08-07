@@ -20,11 +20,13 @@ Contratos que fija este fichero, por capa:
 """
 from __future__ import annotations
 
+import inspect
+
 import httpx
 import pytest
 
 import src.rag.retriever as retriever
-from src.orchestrator import from_production  # noqa: F401  (import sanity)
+from src.orchestrator import from_production
 from src.rag.runtime_trace import (
     build_rag_serving_trace,
     validate_rag_serving_trace,
@@ -219,9 +221,23 @@ def test_pipeline_pasa_el_seam_a_quien_lo_acepta():
 
 def test_pipeline_tolera_fakes_sin_el_seam():
     """La razón de pasar por FIRMA: los adapters de test existentes no aceptan
-    `_trace` y deben seguir funcionando sin cambios — salud vacía, no TypeError."""
+    `_trace` y deben seguir funcionando sin cambios. Y su salud es `None` — SIN
+    MEDIDA, no «sana» (hallazgo convergente del dúo: `{}` aquí habría reintroducido
+    la confusión del #63 una capa arriba)."""
     pipeline = _turno(lambda _q, top_k=5: [{"id": "a", "content": "A"}])
-    assert pipeline["retrieval_health"] == {}
+    assert pipeline["retrieval_health"] is None
+
+
+def test_los_adapters_de_produccion_tienen_el_seam():
+    """El ancla del dúo (bite del sub-agente): las DOS rutas de producción usan
+    retrieve_chunks, que SÍ acepta `_trace` — pero nada lo pinneaba. Si alguien
+    envuelve retrieve en un wrapper sin el seam (`lambda q, top_k: ...`), la
+    telemetría moriría en silencio con la vista mostrando salud perfecta. Este
+    test lo convierte en rojo."""
+    params = inspect.signature(from_production().retrieve).parameters
+    assert "_trace" in params or any(
+        p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values()
+    )
 
 
 # --------------------------------------------------- runtime_trace: tokens, no repr
@@ -244,7 +260,7 @@ def test_seccion_retrieval_persiste_tokens_y_jamas_el_repr():
         {"channel": "ENUNCIADOS", "error_type": "HTTPStatusError",
          "error": "HTTPStatusError('https://xyz.supabase.co/rest/v1/rpc/...')"},
     ]})
-    assert trace["retrieval"] == {"channel_failures": [
+    assert trace["retrieval"] == {"measured": True, "channel_failures": [
         {"channel": "ENUNCIADOS", "error_type": "HTTPStatusError"},
     ]}
     assert "supabase" not in str(trace)               # el repr NUNCA cruza
@@ -261,25 +277,37 @@ def test_tokens_fuera_de_allowlist_degradan_a_desconocido():
     assert validate_rag_serving_trace(trace) is not None
 
 
-def test_salud_es_lista_vacia_no_ausencia():
-    """«Sin fallos» = lista vacía PRESENTE. La ausencia de la sección ya no
-    valida — la confusión entre «sin datos» y «sano» era el defecto #63."""
-    trace = _trace_con(None)
-    assert trace["retrieval"] == {"channel_failures": []}
-    assert validate_rag_serving_trace(trace) is not None
+def test_los_tres_estados_son_distinguibles():
+    """El corazón del #63, endurecido por el dúo: sin sección (no valida) /
+    `measured=False` (seam no conectado) / `measured=True` + lista vacía (medido
+    y SANO). Un adapter sin seam ya no puede hacerse pasar por sano."""
+    sin_seam = _trace_con(None)
+    assert sin_seam["retrieval"] == {"measured": False, "channel_failures": []}
+    assert validate_rag_serving_trace(sin_seam) is not None
 
-    sin_seccion = {k: v for k, v in trace.items() if k != "retrieval"}
+    sano = _trace_con({})
+    assert sano["retrieval"] == {"measured": True, "channel_failures": []}
+    assert validate_rag_serving_trace(sano) is not None
+
+    sin_seccion = {k: v for k, v in sano.items() if k != "retrieval"}
     assert validate_rag_serving_trace(sin_seccion) is None
+
+
+def test_validador_exige_measured_booleano():
+    base = _trace_con({})
+    roto = dict(base)
+    roto["retrieval"] = {"measured": "true", "channel_failures": []}
+    assert validate_rag_serving_trace(roto) is None
 
 
 def test_validador_rechaza_shapes_ajenos():
     base = _trace_con(None)
     con_extra = dict(base)
-    con_extra["retrieval"] = {"channel_failures": [], "prosa": "no"}
+    con_extra["retrieval"] = {"measured": True, "channel_failures": [], "prosa": "no"}
     assert validate_rag_serving_trace(con_extra) is None
 
     con_canal_libre = dict(base)
-    con_canal_libre["retrieval"] = {"channel_failures": [
+    con_canal_libre["retrieval"] = {"measured": True, "channel_failures": [
         {"channel": "LO_QUE_SEA", "error_type": "OtherError"},
     ]}
     assert validate_rag_serving_trace(con_canal_libre) is None

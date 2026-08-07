@@ -2329,6 +2329,19 @@ congelada en el packet; re-correrlo sin los fixes reproduce el ruido). **Coste**
 
 ## #63 — El fail-open del canal ENUNCIADOS degrada el pool EN SILENCIO (s303)
 
+> **✅ RESUELTO (s306, 7-ago)** — rama `claude/s306-canal-degradado`, dúo completo (8/8
+> confirmados, 0 FP, convergencia en el hallazgo principal). Los 4 fail-opens del
+> retriever (VECTOR ya lo hacía; enunciados/hyq-tabla/hyq-hidrata eran invisibles)
+> registran canal+tipo en el seam s289; reintento ÚNICO ante 5xx del RPC de enunciados
+> (ni 4xx ni timeout); sección `retrieval` REQUERIDA en rag_trace con TRI-ESTADO
+> (sin sección / `measured=false` seam-no-conectado / `measured=true`+lista — el dúo
+> cazó que mi v1 colapsaba «sin seam» a «sano», el propio defecto #63 una capa arriba);
+> vista `salud_canal_retrieval_v1` (% y conteos por canal, `source <> 'error'`,
+> security_invoker, API a cero incluido PUBLIC); test-ancla de que los adapters de
+> producción tienen el seam. Suite 3591 passed. **Pendiente de Alberto**: aplicar la
+> migración `20260807120000_s306_salud_canal_retrieval_v1.sql` en el SQL Editor
+> (aditiva pura, cualquier orden respecto al deploy).
+
 **Qué pasa**: `retriever.py` (~línea 1001) consulta `match_chunks_v2_enunciados` y, ante
 cualquier fallo, hace fail-open: *«canal enunciados fail-open: sirviendo solo chunks
 reales»* y sigue con el canal real. Correcto como decisión de disponibilidad — pero

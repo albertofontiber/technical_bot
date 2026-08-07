@@ -994,9 +994,10 @@ async def _process_query(
             turn = await asyncio.to_thread(run_turn, request, from_production())
             chunks = list(turn.retrieval.chunks)
             coverage_trace = turn.retrieval.coverage_trace
-            retrieval_health = {
-                "channel_failures": list(turn.retrieval.channel_failures)
-            }
+            retrieval_health = (
+                {"channel_failures": list(turn.retrieval.channel_failures)}
+                if turn.retrieval.retrieval_measured else None
+            )
             result = turn.generation
             answer = result["answer"]
             diagrams = result["diagrams"]

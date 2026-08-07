@@ -100,10 +100,13 @@ class RetrievalResult:
     coverage_trace: dict[str, Any]
     retrieval_rows: int
     reranked_rows: int
-    # (s306/#63) Fail-opens de canal del retriever este turno (shape del seam s289:
-    # {"channel", "error"}). Default () para no romper constructores previos: un
-    # TurnResult antiguo simplemente reporta «sin degradación registrada».
+    # (s306/#63) Fail-opens de canal del retriever este turno. Shape del seam:
+    # {"channel", "error", "error_type"} — `error` es el repr in-process (NO
+    # persiste; la telemetría acotada solo toma channel+error_type). `retrieval_
+    # measured` distingue «el seam midió» de «no había seam» (dúo s306) — los
+    # defaults dicen SIN MEDIDA, lo honesto para un constructor previo a s306.
     channel_failures: tuple[dict[str, Any], ...] = ()
+    retrieval_measured: bool = False
 
 
 @dataclass(frozen=True, kw_only=True)

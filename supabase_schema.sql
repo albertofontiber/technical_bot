@@ -787,8 +787,17 @@ SELECT
     date_trunc('day', created_at)::date AS dia,
     COUNT(*) AS turnos_rag,
     COUNT(*) FILTER (
-        WHERE rag_trace IS NOT NULL AND rag_trace ? 'retrieval'
+        WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
     ) AS turnos_con_medida,
+    ROUND(
+        100.0 * COUNT(*) FILTER (
+            WHERE jsonb_array_length(
+                rag_trace -> 'retrieval' -> 'channel_failures'
+            ) > 0
+        ) / NULLIF(COUNT(*) FILTER (
+            WHERE (rag_trace -> 'retrieval' ->> 'measured') = 'true'
+        ), 0), 1
+    ) AS pct_turnos_degradados,
     COUNT(*) FILTER (
         WHERE jsonb_array_length(
             rag_trace -> 'retrieval' -> 'channel_failures'
@@ -811,7 +820,7 @@ SELECT
               @> '[{"channel": "HYQ_HYDRATE"}]'
     ) AS fallos_hyq_hydrate
 FROM query_logs
-WHERE COALESCE(route, 'rag') = 'rag'   -- los shortcuts no hacen retrieval
+WHERE COALESCE(route, 'rag') = 'rag' AND source <> 'error'
 GROUP BY 1;
 
 REVOKE ALL PRIVILEGES ON salud_canal_retrieval_v1
