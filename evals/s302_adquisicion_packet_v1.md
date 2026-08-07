@@ -332,3 +332,43 @@ definitiva — exige resolver nombres de fichero secuencialmente, ~45 min.
 - `C:\dev\technical_bot\docs\INGESTION_PLAYBOOK.md` — playbook canónico de 9 pasos
 - `C:\dev\technical_bot\docs\CORPUS_FIRESECURITYPRODUCTS.md` — runbook Carrier (**necesita** el fix `page=1` + nota de alcance «no cubre Honeywell»)
 - `C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot\Manuales_*\` — **el corpus real**
+## ADENDA 2 — s303: los 2 documentos INGERIDOS y su alcanzabilidad MEDIDA
+
+**Ingesta hecha** (7-ago): A1 inventario → A2 extracción LlamaParse (2 docs, 29 páginas,
+~2 $) → B dry-run → B real. **36 chunks en `chunks_v2`**, verificados contra la base:
+
+| Documento | source_file | chunks | product_model asignado |
+|---|---|---|---|
+| 997-412 (Sinóptico IDR-M) | `997-412-000-3_IDR-M_Mimic_installation_and_commissioning_manual` | 32 | `ID-2000` ⚠️ |
+| 997-415 (actualización ID50) | `997-415_4_ID50_Panel_software_upgrade_instruction` | 4 | `ID-50` |
+
+**La pregunta que motivó medir: ¿sirve un documento en INGLÉS a un técnico que pregunta en
+ESPAÑOL?** Sonda `scripts/s303_alcanzabilidad_es_en.py` (recibo
+`evals/s303_alcanzabilidad_es_en_v1.json`): 4 formulaciones en español, cada una con su
+gemela inglesa como CONTROL, medidas hasta la evidencia SERVIDA (post-rerank).
+
+| | Español | Inglés (control) |
+|---|---|---|
+| Documento servido al generador | **3 / 4** | 4 / 4 |
+
+⇒ **La ingesta PAGA, con límite declarado.** El hueco ES↔EN es real pero **parcial**: tres
+de cuatro formulaciones españolas traen el documento. La que falla —«conexionado y puesta
+en marcha del panel repetidor sinóptico IDR-M»— no lo alcanza **ni siquiera en el pool**,
+mientras su gemela inglesa trae 12 chunks: el vocabulario («conexionado», «panel repetidor»
+vs *wiring*, *mimic*) es la variable, no el contenido ni la ingesta. Coherente con DEC-085
+(el mecanismo que paga contra este hueco es extracción→ENUNCIADOS), y ahora con dos
+documentos reales sobre los que medirlo.
+
+### Dos residuos con dueño
+
+1. **Identidad del 997-412 — para adjudicar (Alberto)**: quedó etiquetado `product_model =
+   ID-2000`, pero el documento es un sinóptico **multi-panel**: menciona ID50 (×3), ID2000
+   (×2), ID3000, ID2008, ID1000, NF3000, NF300. La etiqueta única no representa su alcance.
+   No bloquea (las consultas de la sonda no filtraban por modelo), pero una pregunta que
+   fije «ID50» podría no verlo. Es material de curación de identidad / `doc_map`.
+2. **⚠️ DIVERGENCIA DE CORPUS — acción de Alberto**: los 2 PDF se ingirieron desde
+   `C:\dev\technical_bot\data\Manuales_Notifier\` (gitignorado), **no** desde la carpeta
+   OneDrive que es el corpus de referencia. La base ya tiene los chunks, pero **el corpus de
+   ficheros está incompleto**: si alguien re-corre el inventario desde OneDrive, estos 2 no
+   estarán. **Copiar los 2 PDF a `…\OneDrive…\Manuales_Notifier\`** para que el corpus de
+   referencia vuelva a ser completo (y, con él, el Inventario Excel).
