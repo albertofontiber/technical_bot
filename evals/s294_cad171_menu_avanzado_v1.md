@@ -81,9 +81,33 @@ El **acceso** al menú sí está en el manual que tenemos.
 >    (DEC-173, oráculo 0/5→0/5) **no le aplica sin más**: aquel se midió con la evidencia
 >    ideal de OTRO hecho, no con este documento delante.
 >
-> **La sonda que lo decide está sin correr** y es barata (replay de la consulta por el
-> harness + inspección del pool). Hasta correrla, este caso NO cuenta como instancia limpia
-> de «no alcanzable», ni como retrieval-miss: cuenta como **pendiente de clasificar**.
+> **SONDA CORRIDA (s303, 7-ago) — VEREDICTO: SÍNTESIS/SELECCIÓN PURA.**
+> `scripts/s303_cad171_pool_probe.py`, recibo `evals/s303_cad171_pool_probe_v1.json`.
+> Replay de la consulta LITERAL con la configuración de la demo (DEMO_FLAGS, misma fuente
+> que el assessment) y **medido hasta la evidencia SERVIDA, no solo el pool** — el pool no
+> es lo que ve el generador; el rerank recorta antes.
+>
+> | Etapa | Resultado |
+> |---|---|
+> | Pool (retrieval) | 34 chunks · **8 del MC-380** |
+> | Chunks con el detalle del §5.4 (AVANZADO+SISTEMA+REINICIAR) | 3 en el pool |
+> | **Evidencia SERVIDA (post-rerank)** | 10 chunks · **4 del MC-380** |
+> | **El detalle del §5.4, SERVIDO** | **SÍ — en el rango 1**, y en 3 de 4 pasadas también una 2ª copia |
+>
+> Estabilidad: **K=4 pasadas, mismo veredicto** (el rerank es un LLM: una sola pasada no
+> zanjaría). Representatividad: el mapeo `MC-380 → detnov:cad-171` entró en `doc_map.jsonl`
+> en s91 y no se ha tocado desde s278 — **estaba vigente el 2-ago**, así que el replay no
+> mide un mundo posterior al fallo.
+>
+> ⇒ **Retrieval queda DESCARTADO para este caso**: el bot tuvo el documento correcto y el
+> párrafo correcto en el primer puesto de su evidencia, y aun así encabezó con la ruta de
+> GENERAL. La familia doc-local / vecino estructural (s104/s107) **no aplica aquí**.
+> ⇒ El caso pasa a ser **la 2ª instancia de la clase `hp011#2` medida CON la evidencia
+> correcta delante**, y esta vez de uso REAL — es decir, coherente con el NO-GO de DEC-173
+> (oráculo 0/5→0/5) en vez de contradecirlo.
+> ⇒ Lo que NO zanja: si el techo es **del sistema** o **del modelo**. El oráculo de DEC-173
+> y esta sonda comparten generador (Sonnet); **nadie ha medido la clase con un generador
+> más fuerte**. Es la pregunta abierta barata que queda.
 
 ⇒ **Candidato de adquisición**: Guía Avanzada de Configuración, CAD-171 (Detnov).
 

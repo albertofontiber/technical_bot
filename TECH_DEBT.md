@@ -2324,3 +2324,32 @@ fichero:
 
 **Trigger**: antes de RE-CORRER el barrido (hoy su salida está adjudicada a mano y
 congelada en el packet; re-correrlo sin los fixes reproduce el ruido). **Coste**: 2-3h.
+
+---
+
+## #63 — El fail-open del canal ENUNCIADOS degrada el pool EN SILENCIO (s303)
+
+**Qué pasa**: `retriever.py` (~línea 1001) consulta `match_chunks_v2_enunciados` y, ante
+cualquier fallo, hace fail-open: *«canal enunciados fail-open: sirviendo solo chunks
+reales»* y sigue con el canal real. Correcto como decisión de disponibilidad — pero
+**invisible**: observado en vivo durante la sonda s303, un **500 transitorio** del RPC bajó
+el pool de **34 a 23 chunks** (−32%) sin que ninguna métrica lo registre. El mismo turno,
+repetido, dio 34. El bot habría respondido con un tercio menos de evidencia y nadie lo
+sabría — ni el técnico, ni el log, ni las vistas de salud de s301.
+
+**Por qué importa ahora**: acabamos de abrir la observabilidad (s301) y esta es justo la
+clase de degradación que las vistas NO ven — `bot_health_*` mide latencia y no-info, no el
+ANCHO del pool. Un 500 recurrente del RPC se leería como «el bot responde peor» sin causa
+identificable. Y contamina cualquier medición: la primera pasada de la sonda s303 midió un
+pool degradado (23) y podría haber dado un veredicto distinto si el corte hubiera caído en
+otro sitio.
+
+**Acción propuesta**: (a) contar el evento en `rag_trace` (ya existe el campo y la columna
+acaba de aplicarse en producción) con un booleano `enunciados_fail_open`; (b) exponerlo
+como columna en una vista de salud (`% de turnos con canal degradado`); (c) opcional:
+reintento único ante 5xx antes del fail-open — el RPC respondió 200 al repetir.
+
+**Trigger**: (a) cualquier medición que dependa del ancho del pool (una eval, un gate), o
+(b) el primer técnico real. **Coste**: 1-2h. **Hoy no urge** porque con un usuario el
+impacto es una respuesta peor puntual; con técnicos, es ruido sistemático en las métricas
+que acabamos de construir.
