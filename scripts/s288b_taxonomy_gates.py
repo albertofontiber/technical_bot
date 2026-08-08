@@ -650,8 +650,8 @@ def main(argv: list[str]) -> int:
         "barrier": {
             "constant": "MIN_QUERY_ALIGNED_CARD_TERMS",
             "value": MIN_QUERY_ALIGNED_CARD_TERMS,
-            "mirror_of": "rerank_pool_coverage.MIN_ALIGNMENT_TERMS = 6 "
-                         "(rerank_pool_coverage.py:37, aplicado en _query_card:177 "
+            "mirror_of": "pool_selection.MIN_ALIGNMENT_TERMS = 6 "
+                         "(pool_selection.py post-L2c, aplicado en _query_card "
                          "e impuesto en :341-342)",
         },
         "results": results,
