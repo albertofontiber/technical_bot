@@ -210,8 +210,8 @@ REGISTRO: dict[str, dict] = {
     },
     "IDENTITY_MAP": {
         "default_fuente": '""',
-        "via": ['getenv'],
-        "lectores": ('src/rag/retriever.py',),
+        "via": ['getenv', 'legacy-flags-loop'],
+        "lectores": ('src/rag/catalog_resolver.py', 'src/rag/retriever.py'),
     },
     "IDENTITY_RESOLVE": {
         "default_fuente": '""',
@@ -236,13 +236,13 @@ REGISTRO: dict[str, dict] = {
     },
     "LEVER2_IDENTITY": {
         "default_fuente": '""',
-        "via": ['getenv', 'series-registry-yaml:morley.yaml'],
-        "lectores": ('src/rag/retriever.py', 'src/rag/series_registry.py'),
+        "via": ['getenv', 'legacy-flags-loop', 'series-registry-yaml:morley.yaml'],
+        "lectores": ('src/rag/catalog_resolver.py', 'src/rag/retriever.py', 'src/rag/series_registry.py'),
     },
     "LEVER2_PM_RESCUE": {
         "default_fuente": '""',
-        "via": ['getenv'],
-        "lectores": ('src/rag/retriever.py',),
+        "via": ['getenv', 'legacy-flags-loop'],
+        "lectores": ('src/rag/catalog_resolver.py', 'src/rag/retriever.py'),
     },
     "LLM_MAX_TOKENS": {
         "default_fuente": '"2048"',

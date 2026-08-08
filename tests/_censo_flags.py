@@ -13,8 +13,11 @@ deriva entre ambos. Historia de versiones (cada patrón nuevo = un hueco cazado)
       `os.getenv(str(flag))` — Sol s311), +normalización de comillas en defaults
       (la divergencia tipográfica no es divergencia).
 
-Alcance honesto (sin cambios): completitud NOMINAL de call-sites conocidos; una vía
-de lectura NUEVA exige su patrón aquí (y este docstring exige contar de dónde salió).
+Alcance honesto: completitud NOMINAL de call-sites conocidos; una vía de lectura NUEVA
+exige su patrón aquí (y este docstring exige contar de dónde salió). Limitación H5
+declarada (sub-agente s311): el default de `_strict_on_off` 2-args se resuelve con el
+PRIMER match del fichero — dos llamadas al mismo flag con defaults distintos en un
+fichero serían una divergencia invisible (hoy: 0 casos).
 """
 from __future__ import annotations
 
@@ -24,7 +27,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 
 _Q = "[\"']"          # ambas comillas — la lección deep_lookup
-_VIAS_MECANICAS = {"profile-owned-loop"}      # + las series-registry-yaml:* por prefijo
+_VIAS_MECANICAS = {"profile-owned-loop", "legacy-flags-loop"}      # + las series-registry-yaml:* por prefijo
 
 
 def _norm_default(default: str) -> str:
@@ -82,6 +85,13 @@ def escanear() -> dict[str, dict]:
     from src.release_profiles import PROFILE_OWNED_FLAGS
     for nombre in PROFILE_OWNED_FLAGS:
         add(nombre, '"off"', "src/release_profiles.py", "profile-owned-loop")
+
+    # LEGACY_FLAGS: catalog_resolver las lee en bucle con nombre dinámico
+    # (catalog_resolver:88, `os.getenv(f, ...)` sobre la tupla) — misma clase que
+    # PROFILE_OWNED, cazada por el sub-agente s311 (H3). El constante es la fuente.
+    from src.rag.catalog_resolver import LEGACY_FLAGS
+    for nombre in LEGACY_FLAGS:
+        add(nombre, '""', "src/rag/catalog_resolver.py", "legacy-flags-loop")
 
     # Flags data-driven: series_registry hace os.getenv(str(flag)) con el nombre
     # venido de config/manufacturers/*.yaml (`flag: NOMBRE`).
