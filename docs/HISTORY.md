@@ -2997,3 +2997,22 @@ página (cap PostgREST). 13/13 confirmados, 0 FP, todo aplicado, sweep final 30/
 También: el 👎 de Alberto capturó reason_class pero su prosa llegó como consulta nueva
 (#66, primer dato del punto 5); y documents.product_model resultó estar stale post-H0
 (#65). El packet B2 quedó en 10 ítems (PR #217 mergeada). DEC-188.
+
+## s311-s313 (8 ago 2026, tarde) — L2b y L2c cierran; el blueprint a un lote; y el dúo corta en las DOS direcciones
+
+L2b (registro de flags): el censo pasó de v3 a v5.1 a golpe de hallazgo — el pin fantasma
+destapó las vías indirectas, Sol las comillas simples y las flags-en-bucle, el sub-agente
+la tercera tupla y la CIRCULARIDAD (el test escaneaba con los mismos patrones ciegos del
+generador). 91 flags, 2 divergencias reales declaradas, un fantasma documentado
+(DIVERSIFY_TIEBREAK, lever s97 nunca mergeado), y el pin por AST que mató la clase entera
+de contaminación de entorno (2 bugs cazados por el camino).
+
+L2c (split del doble-inquilino): delegado con spec cerrada, verificado pieza a pieza,
+byte-identidad AST×3. El FP central de Sol refutado con recibo — sexta ronda del dúo del
+arco y primera donde la regla C corta hacia el revisor. Los dos lotes L2 engranaron el
+mismo día (el registro cazó al split moviendo lectores). E3c retirada; el contrato encoge
+por tercera vez en la semana (6→5→4 excepciones).
+
+También: packet B2 v3 mergeado (sentada de Alberto desbloqueada), el misterio del CI
+resuelto (conflicto de tally, no cuota — `merge=union` lo extingue), y Opus 5 + backfill
+confirmados en producción con recibos de Alberto. DEC-190.

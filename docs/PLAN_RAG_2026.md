@@ -26,7 +26,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s306 — 7 ago 2026)
+## Estado actual (s313 — 8 ago 2026)
 
 **PRODUCCIÓN**: **paquete de telemetría pre-técnicos puntos 1+5 VIVOS** (PRs #200/#201/#202, 2
 migraciones aplicadas, `TERMS_VERSION` v3). El 👎 deja de ser señal muda: invita a explicar,
@@ -144,7 +144,14 @@ confirmatorio otra vez, cap de PostgREST, límite de Telegram, colisión con «l
 averías»). La telemetría s306 estrenó filas measured=true con los turnos de Alberto.
 Deudas nuevas: #65 documents.product_model stale · #66 prosa del 👎 como consulta ·
 #67 alias cortos. DEC-188.
-Traza: DEC-176 (origen) · DEC-185..188 · HISTORY s303-s307; frentes 6-8: DEC-182.
+· **s308-s313: los CINCO GO de Alberto ejecutados** — deudas #65/#67 + swap a Opus 5
+(CONFIRMADO en prod: Railway 12:52 UTC) + blueprint L1→L2c COMPLETO con dúo por lote
+(L2a = NO-GO por medición DEC-189; contrato 6→4 excepciones; sello +4 entradas; registro
+de 91 flags como invariante) + packet B2 v3 (dúo doble, mergeado — sentada DESBLOQUEADA).
+Queda del blueprint: L3 (embed, pre-flight limpio). De la cola de GOs: ingesta
+Tyco/Hikvision/Dahua/Ajax (espera respuesta de Alberto: ¿OneDrive o portales?) y
+reacciones Telegram. DEC-189/190.
+Traza: DEC-176 (origen) · DEC-185..190 · HISTORY s303-s313; frentes 6-8: DEC-182.
 
 ---
 

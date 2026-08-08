@@ -5082,3 +5082,32 @@ para planes propios ya aprobados.
 
 Recibos: `evals/s310_l2a_medicion_sellos_v1.txt` · rama `claude/s310-l2a-harness`
 (conservada como registro del diseño puente, por si un futuro re-sellado lo reabre).
+
+## DEC-190 (s311-s313) — L2b y L2c ejecutados con sus dúos; el blueprint queda a un lote (L3) con TODOS los veredictos estampados
+
+**Decisión/estado**: L2b SHIPPED (registro declarativo de 91 flags con censo v5.1 de fuente
+única `tests/_censo_flags.py`, snapshot sin secretos, pin de DEMO_FLAGS por AST, invariante
+en CI) y L2c SHIPPED (split del doble-inquilino a nivel símbolo: `pool_selection` motor +
+`obligation_warning` reserva viva + residual vetado con shim declarado mínimo; E3c retirada
+→ excepciones 5→4, cuarentena 3→2; sello +2 entradas exigidas fail-closed por el gate).
+Byte-identidad de las 22 funciones verificada por **AST ×3** (autor, sub-agente, diff).
+
+**Los dúos siguieron pagando** (tally completo por lote en el log): L2b 8/8-0FP con el
+crítico convergente de las flags-en-bucle-dinámico Y la circularidad
+test-escanea-como-el-generador que lo ocultaba; L2c 7/8-1FP donde el FP era el hallazgo
+CENTRAL de Sol («el cuerpo de la reserva cambió») — refutado con recibo triple. Regla C en
+ambas direcciones: corta mis over-claims y también los de los revisores.
+
+**Piezas de sistema que nacieron del arco**: los dos lotes L2 ENGRANARON el mismo día (el
+split movió lectores y el registro lo puso en rojo hasta regenerar — el invariante nuevo
+cazando su primer caso real); `merge=union` para el log append-only (los conflictos de
+tally que bloquearon el PR #220 no se repiten — el «no checks reported» de GitHub era
+conflicto, no cuota, y quedó documentado); el assessment smoke como peaje de todo cambio
+de `pipe_sha` (pagado en L1 y L2c, mismas cifras limpias: 0 synth, 0 corpus-gap).
+
+**Ejecución declarada** (L2c): split mecánico delegado a agente con spec cerrada — entregó
+completo y se colgó en su suite final; TODO su trabajo verificado pieza a pieza antes de
+aceptarlo (el contrato que dejó era exactamente el diseño correcto).
+
+Recibos: PRs #223/#224 · filas del scoreboard 2026-08-08/2026-08-08b ·
+`evals/adversarial_review_log.jsonl` (s311, s312, s313 complete).
