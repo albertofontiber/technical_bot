@@ -37,6 +37,7 @@ from ..config import (
     RETRIEVAL_TOP_K,
     RERANK_TOP_K,
     LLM_MODEL,
+    REWRITER_MODEL,
     VOICE_TRANSCRIPTION_MODEL,
     COVERAGE_RELEASE_POLICY,
     ORCHESTRATOR_PATH,
@@ -47,6 +48,7 @@ from ..config import (
 from ..rag.retriever import (
     retrieve_chunks, extract_product_models, get_category_models,
     get_manufacturers_by_docs, get_products_by_manufacturer,
+    _MANUFACTURER_ALIASES, resolve_manufacturer_alias,
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
     lookup_model_manufacturer, get_available_manufacturers, manufacturer_in_db,
 )
@@ -383,6 +385,7 @@ def _inventario_fabricante(nombre: str) -> str | None:
     cacheado por proceso; fallo NO cacheado pero con backoff (60 s) y → RAG.
     """
     global _inventario_falla_ts
+    nombre = resolve_manufacturer_alias(nombre)   # s308/#67: «lda» → LDA audioTech
     clave = nombre.strip().lower()
     if clave in _inventario_cache:
         return _inventario_cache[clave]
@@ -397,7 +400,10 @@ def _inventario_fabricante(nombre: str) -> str | None:
         return None
     if not productos:
         return None                                       # sin datos → RAG decide
-    cabecera = (f"📦 *Productos de {nombre.title()} en mi documentación* "
+    # (dúo s308) .title() destrozaba los nombres reales («LDA audioTech» →
+    # «Lda Audiotech»): solo se titula la mención toda-minúscula del usuario.
+    nombre_visible = nombre if nombre != nombre.lower() else nombre.title()
+    cabecera = (f"📦 *Productos de {nombre_visible} en mi documentación* "
                 f"({len(productos)} referencias):\n")
     cierre = "\n¿Sobre cuál necesitas información?"
     lineas, usado, fuera = [cabecera], len(cabecera) + len(cierre) + 40, 0
@@ -427,10 +433,18 @@ def _marca_en_consulta(query: str) -> str | None:
     «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton literal — el fix
     dependía de la misma constante que diagnosticaba). Matching conservador: nombre
     completo con frontera de palabra, o su primera palabra si es ÚNICA entre las marcas
-    y ≥4 chars («argus» → Argus Security). `LDA` (3 chars) queda fuera a propósito —
-    demasiado corto para no colisionar (TECH_DEBT #67, junto al ilike sin comodines).
+    y ≥4 chars («argus» → Argus Security). Los nombres demasiado cortos para eso
+    («lda») se resuelven por la tabla de ALIAS curados (s308, cierra #67).
     """
     global _marcas_db_cache
+    # (s308/#67) Alias curados primero. HONESTIDAD de alcance (sub-agente s308):
+    # para lda/argus este bucle es HOY inalcanzable en serving — ambos están en
+    # _MANUFACTURER_NAMES y el paso 5 los captura antes (donde el alias resuelve
+    # vía manufacturer_in_db + inventario). Se conserva para alias FUTUROS de
+    # marcas fuera del regex; el camino load-bearing está testeado aparte.
+    for alias, real in _MANUFACTURER_ALIASES.items():
+        if re.search(rf"\b{re.escape(alias)}\b", query, re.IGNORECASE):
+            return real
     if _marcas_db_cache is None:
         try:
             _marcas_db_cache = get_available_manufacturers()
@@ -825,7 +839,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             actual_manufacturer = lookup_model_manufacturer(model)
 
             if actual_manufacturer:
-                if actual_manufacturer.lower() != mentioned_manufacturer.lower():
+                # (dúo s308) comparar contra el alias RESUELTO: sin esto, una
+                # consulta modelo+«lda» respondería «es de LDA audioTech, no de
+                # lda» — mismatch falso de la misma marca.
+                _mencionado_real = resolve_manufacturer_alias(mentioned_manufacturer)
+                if actual_manufacturer.lower() != _mencionado_real.lower():
                     # Model exists but under a different manufacturer
                     respuesta = (
                         f"El *{model}* es un producto de *{actual_manufacturer}*, "
@@ -1136,7 +1154,10 @@ async def _process_query(
                 if rewriter is None:
                     from ..orchestrator.rewriter import make_rewriter
 
-                    rewriter = make_rewriter(model=LLM_MODEL)
+                    # (dúo s308) REWRITER_MODEL propio: el rewriter NO tiene los
+                    # fixes del #64 — pinearlo a LLM_MODEL habría roto F1 en
+                    # silencio con el swap a Opus 5.
+                    rewriter = make_rewriter(model=REWRITER_MODEL)
                     _rewriter_cell["rewriter"] = rewriter
                 return rewriter(anaphoric_query, ws)
 

@@ -2412,6 +2412,17 @@ propósito documentado como apaño de instrumento — NO es el fix.
 
 ## #65 — `documents.product_model` está STALE post-H0: no es fuente de identidad (s307)
 
+> **✅ RESUELTO en código (s308, migración v2 tras dúo)** —
+> `20260808100000_s308_backfill_documents_pm_v1.sql`: 591 inequívocos, 0 ambiguos;
+> respaldo MULTI-FILA que audita también re-runs; UPDATE desde el conjunto FRESCO (nunca
+> desde el respaldo); cota de radio (≤700) ANTES de escribir; igualdad
+> respaldo=update=inequívocos; RLS+REVOKE en la tabla de respaldo; postcondiciones
+> (MADT235→ART1194 · 0 residuales · 0 linajes tocados mixtos). **IMPACTO DECLARADO
+> (Sol s308: mi «byte-idéntico» era falso)**: el RPC document-local s278 SÍ lee esta
+> columna — 175 docs pasan de sin-identidad a curada y ganan elegibilidad en esa lane
+> (corrección observable vía lane_outcomes; deriva de linaje medida: imposible).
+> **Pendiente: Alberto la aplica en el SQL Editor.**
+
 Descubierto construyendo el inventario por fabricante: la campaña H0 (s285, DEC-161)
 re-tagueó los CHUNKS (unknown 318→1) pero `documents.product_model` conservó los valores
 de ingesta. Caso probado: `MADT235` dice `AFP4000` en documents y `ART1194` en los chunks
@@ -2440,6 +2451,11 @@ si llega en <N min y no parece consulta técnica (cuidado: ambigüedad real, ped
 **Coste**: M (el borde es delicado).
 
 ## #67 — `manufacturer_in_db`/detección de marca: `lda` no casa `LDA audioTech` (s307, dúo H6)
+
+> **✅ RESUELTO (s308)** — tabla de alias CURADOS (`_MANUFACTURER_ALIASES`: lda→LDA
+> audioTech, argus→Argus Security; corta a propósito, sin comodines) aplicada en
+> `manufacturer_in_db`, `_marca_en_consulta` y la entrada del inventario. Tests e2e del
+> alias en ambos ficheros.
 
 Pre-existente (no lo introdujo s307): `manufacturer_in_db` usa `ilike` SIN comodines →
 `lda` no casa `LDA audioTech` ni `argus` casa `Argus Security` → «No dispongo de manuales
