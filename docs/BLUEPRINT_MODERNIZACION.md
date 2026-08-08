@@ -95,7 +95,24 @@ ALTOS del veredicto vinieron de mirar solo los 42).
   config. **⚠ `ci.yml:61` invoca `scripts/catalog_store.py` por ruta — se actualiza en
   el MISMO PR** (hallazgo del veredicto: sin esto, L1 rompe su propio CI). Assessment:
   `pipe_sha` cambia → smoke + fila nueva en el scoreboard.
-- **L2a — isla → `harness/` (mueve 33 de los 35; 2 se quedan ANCLADOS).**
+- **L2a — NO-GO POR MEDICIÓN (s310, DEC-189). El movimiento físico NO se hace.**
+  Al EJECUTAR el traslado (rama `claude/s310-l2a-harness`, conservada como registro) la
+  realidad desmintió el censo: este blueprint contó ARISTAS DE IMPORT y enumeró 2 anclados
+  + un puñado de tests, pero el ecosistema de sellos (preregs/permisos con `{path,sha256}`)
+  referencia POR RUTA **29 de los 33 módulos** desde recibos o desde los **380 ficheros de
+  código que esos recibos pinan por sha** (10 de los 13 tests que fallaron son ELLOS MISMOS
+  ficheros congelados ineditables). Solo 4 módulos son libres de verdad — mover 4 no compra
+  la legibilidad que L2a prometía, y mover 29 exige o romper sellos o una cirugía de puentes
+  y traducciones desproporcionada (se construyó y funcionó — renames byte-puros +
+  MetaPathFinder + ruta_viva, anclas 44/44 — pero el goteo de ecosistemas s114→s267 no
+  tiene final razonable). **La garantía ESTRUCTURAL ya la da la cuarentena lógica de L0**
+  («el movimiento físico es legibilidad, no seguridad» — este blueprint lo dijo; la
+  medición lo confirma). Estado FINAL: isla de 35 en cuarentena lógica; regla nueva
+  DEC-189 = `scripts/s310_audit_sellos_ruta.py` es PRE-FLIGHT obligatorio de cualquier
+  movimiento de ficheros (recibo: `evals/s310_l2a_medicion_sellos_v1.txt`). **L2b/L2c no
+  mueven ficheros → siguen. L3 auditado: `embed.py` con 0 referencias desde congelados
+  (solo fingerprints del assessment = la vía sancionada de L1) → sigue.**
+  <details>El plan original: mueve 33 de los 35; 2 quedan ANCLADOS.</details>
   Hallazgo ALTO del dúo, en dos tiempos: (1) `scripts/s270_etapa2_probe.py` (SELLADO,
   dynamic-import del scorer) importa `visual_gold` (:159, :806) y `omission_correction`
   (:336) en function-local — invisibles al verify; y (2) NO se pueden re-declarar esas

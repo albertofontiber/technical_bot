@@ -5050,3 +5050,35 @@ global (habría servido el catálogo entero ante preguntas por-marca); valor nue
 `route` (migración del CHECK para un menor — auditable por prefijo de respuesta).
 
 Recibos: PR #218 · sweep 30/30 · `evals/adversarial_review_log.jsonl` (13/13, 0 FP).
+
+## DEC-189 (s310) — L2a NO-GO por medición: la isla está atada al ecosistema de sellos; el audit de rutas pineadas se vuelve PRE-FLIGHT obligatorio
+
+**Decisión**: el movimiento físico de la isla a `harness/` NO se hace. La cuarentena
+LÓGICA del contrato L0 queda como estado FINAL de la isla (la garantía estructural ya
+estaba entregada; L2a solo compraba legibilidad). L2b/L2c (no mueven ficheros) y L3
+(`embed.py`: 0 referencias desde congelados, auditado) siguen adelante.
+
+**Motivo (medido ejecutando, no estimado)**: el traslado se CONSTRUYÓ y sus anclas
+pasaron (renames byte-puros para que los sha congelados sigan verificando +
+MetaPathFinder en `harness/__init__` + traducción de rutas en tests-pin — 44/44), pero
+la suite completa destapó la dimensión real: **29 de los 33 módulos** referenciados POR
+RUTA desde recibos congelados o desde los **380 ficheros de código pineados por sha**;
+10 de los 13 ficheros de test que fallaban son ELLOS MISMOS congelados (ineditables sin
+romper su pin). Cada ecosistema (s114→s267) exigiría su propia cirugía. Coste sin final
+razonable para comprar legibilidad que la cuarentena lógica ya suple.
+
+**Alternativas descartadas**: (a) puente + traducciones para los 29 — desproporcionado y
+de riesgo permanente sobre sellos; (b) shims en src/ — rompe anti-dos-copias Y los sha
+igualmente; (c) mover solo los 4 libres — no compra nada y deja un paquete raquítico.
+
+**Regla nueva (extiende Protocolo 4)**: antes de proponer mover CUALQUIER fichero →
+correr `scripts/s310_audit_sellos_ruta.py`. Referencia-por-ruta desde sellos = el
+fichero SE ANCLA y se declara (el patrón «2 anclados» del blueprint resultó ser la regla,
+no la excepción). El censo de imports NO basta: los sellos pinan RUTAS.
+
+**Lección (la del arco, otra vez y en grande)**: el blueprint enumeró anclas leyendo;
+la medición ejecutando encontró 29/33. Verificar el efecto, no la intención — también
+para planes propios ya aprobados.
+
+Recibos: `evals/s310_l2a_medicion_sellos_v1.txt` · rama `claude/s310-l2a-harness`
+(conservada como registro del diseño puente, por si un futuro re-sellado lo reabre).
