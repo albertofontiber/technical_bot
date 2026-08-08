@@ -325,6 +325,12 @@ IMPLEMENTATION_PYTHON_SOURCES = (
     "src/rag/hyde.py",
     "src/rag/mp_lexicon.py",
     "src/rag/must_preserve.py",
+    # L2c/s313: el split del doble-inquilino gradua el motor y la reserva viva a
+    # modulos propios (+2 entradas). El "-1" que el blueprint anticipaba (la lane
+    # vetada fuera del manifest) NO aplica: sigue alcanzable via E3a-b y el gate
+    # la exige (unreachable=[] lo verifico al anadir estas dos).
+    "src/rag/obligation_warning.py",
+    "src/rag/pool_selection.py",
     "src/rag/post_rerank_coverage.py",
     "src/rag/query_facets.py",
     "src/rag/rerank_pool_coverage.py",
