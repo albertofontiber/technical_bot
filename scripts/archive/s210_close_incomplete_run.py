@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from harness.query_evidence_compiler import (  # noqa: E402
+from src.rag.query_evidence_compiler import (  # noqa: E402
     MAX_MODEL_CLAIMS_PER_CHUNK,
     portable_file_sha,
     stable_sha,

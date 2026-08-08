@@ -13,12 +13,11 @@ garantía vive en el motor): aquí la arquitectura vive en el CI.
     trinquete exige que EXISTAN (retirarlas obliga a borrarlas de aquí, en el diff);
   · CUARENTENA de lane vetada: `rerank_pool_coverage` (vetada bajo todo perfil C1) solo
     es importable desde sus 3 deudores declarados, hasta el split L2c;
-  · ISLA-HARNESS en cuarentena LÓGICA: los 35 módulos que solo scripts/tests importan
-    no pueden ser importados por el producto — la garantía estructural llega HOY; el
-    movimiento físico a `harness/` (L2a) es legibilidad, no seguridad;
+  · ISLA-HARNESS: 33 de los 35 módulos viven en `harness/` desde L2a/s310 (la matriz
+    los cubre); los 2 ANCLADOS por el sello C1 siguen en src/ bajo cuarentena lógica;
   · NOMBRES PROHIBIDOS: `src/` no importa nada cuyo primer segmento sea `harness`,
-    `scripts`, `tests` o `evals` — la regla nace CERRADA (sin constante de excepciones
-    donde apuntar), así que vale también para el `harness/` que aún no existe;
+    `scripts`, `tests` o `evals` — la regla nació CERRADA antes de que `harness/`
+    existiera, y desde L2a/s310 es la que guarda la isla movida;
   · PRECONDICIÓN: 0 imports dinámicos Y 0 `importlib` en `src/` — es lo que hace
     fiable este análisis estático, y el propio test lo re-verifica. Alcance honesto:
     esto corta el ACCIDENTE y la deriva; una evasión deliberada (exec, loaders ad-hoc)
@@ -108,33 +107,16 @@ CUARENTENA = {
     },
 }
 
-# La ISLA-HARNESS: 35 módulos que NINGÚN módulo vivo de src/ importa (solo scripts/ y
-# tests/). Cuarentena lógica desde HOY: el producto no puede cablearlos por accidente.
-# El movimiento físico a harness/ (L2a) los sacará de src/; entonces esta constante se
-# vacía y la regla pasa a ser la propia matriz (src no importa harness).
-# `fake_convo_store` NO está aquí: es fake first-class exportado por
-# src/orchestrator/__init__.py (alcanzable en runtime vía el paquete).
+# La ISLA-HARNESS residual. `fake_convo_store` NO está aquí: es fake first-class
+# exportado por src/orchestrator/__init__.py (alcanzable en runtime vía el paquete).
 ISLA = frozenset({
-    # 31 de src/rag
-    "src.rag.visual_gold", "harness.principal_visual_gold",
-    "harness.multisource_visual_gold", "harness.source_unit_gold",
-    "harness.planner_holdout_gold", "harness.holdout_evidence",
-    "harness.planner_support_review", "harness.evidence_units",
-    "harness.evidence_units_v2", "harness.evidence_selector",
-    "harness.evidence_coverage_verifier", "harness.decomposed_evidence_planner",
-    "harness.decomposed_evidence_planner_v2", "harness.decomposed_synthesis",
-    "harness.clause_bound_synthesis", "harness.sharded_unit_selector",
-    "src.rag.omission_correction", "harness.query_evidence_compiler",
-    "harness.query_evidence_compiler_v2", "harness.query_evidence_compiler_v3",
-    "harness.query_evidence_obligations", "harness.typed_relations",
-    "harness.typed_relations_v2", "harness.quantitative_claim_contract",
-    "harness.relation_complete_highlights", "harness.frontier_visual_schemas",
-    "harness.frontier_visual_runtime", "harness.frontier_visual_runtime_v2",
-    "harness.frontier_visual_runtime_v3", "harness.procedure_bundle_coverage",
-    "harness.reference_edge_coverage",
-    # 4 de src/reingest
-    "harness.chunk_provenance", "harness.extraction_derivation",
-    "harness.retrieval_policy", "harness.superscript_overlay",
+    # L2a/s310: los 33 módulos de la isla VIVEN ya en harness/ — fuera de src/, la
+    # matriz y la regla de raíces prohibidas los cubren solos. Quedan los 2 ANCLADOS:
+    # el probe sellado s270 los importa function-local (invisible al verify) y el gate
+    # C1 rechaza rutas fuera de scripts/|src/ — se mudarán si el probe se re-sella o
+    # el gate se retira (trigger declarado, blueprint §4-L2a).
+    "src.rag.visual_gold",
+    "src.rag.omission_correction",
 })
 
 
@@ -383,14 +365,14 @@ def test_cifras_de_control():
     """Ancla el censo s300 con tolerancia CERO en lo que protege: si estas cifras se
     mueven, que sea en un diff que las explique. Fricción DELIBERADA anti-acreción:
     un módulo nuevo en src/ paga un toque aquí."""
-    # L1/s309: 113→114 — catalog_store GRADUADO de scripts/ a src/rag/ (blueprint L1,
-    # PRODUCTO deliberado: la puerta D1 del catálogo es código de producción).
-    assert len(MODULOS) == 114, (
-        f"módulos en src/: {len(MODULOS)} (censo: 114). Si es PRODUCTO nuevo "
+    # L1/s309: 113→114 (catalog_store graduado). L2a/s310: 114→81 — los 33 de la
+    # isla viven en harness/; src/ queda con lo que SIRVE queries + los 2 anclados.
+    assert len(MODULOS) == 81, (
+        f"módulos en src/: {len(MODULOS)} (censo: 81). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."
     )
-    assert len(ISLA) == 35
+    assert len(ISLA) == 2    # L2a/s310: 33 movidos a harness/
     assert len(EXCEPCIONES) == 5   # L1/s309: E1 retirada — el trinquete solo encoge
     assert sum(1 for m in ISLA if m not in MODULOS) == 0, "ISLA cita módulos inexistentes"

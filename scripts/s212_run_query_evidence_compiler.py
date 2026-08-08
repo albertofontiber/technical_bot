@@ -12,8 +12,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import s210_run_query_evidence_compiler as engine  # noqa: E402
-from harness.query_evidence_compiler import stable_sha  # noqa: E402
-from harness.query_evidence_compiler_v3 import (  # noqa: E402
+from src.rag.query_evidence_compiler import stable_sha  # noqa: E402
+from src.rag.query_evidence_compiler_v3 import (  # noqa: E402
     MAX_MODEL_CLAIMS_PER_CHUNK,
     claim_schema,
     validate_claim_response,

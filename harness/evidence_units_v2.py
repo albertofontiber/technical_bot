@@ -11,7 +11,7 @@ import hashlib
 import re
 from dataclasses import dataclass
 
-from harness.evidence_units import build_evidence_units
+from src.rag.evidence_units import build_evidence_units
 
 
 EVIDENCE_UNIT_CONTRACT_V2 = "evidence_units_s146_header_aware_v2"

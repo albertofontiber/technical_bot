@@ -15,7 +15,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.reingest.chunk import chunk_document
-from harness.extraction_derivation import (
+from src.reingest.extraction_derivation import (
     canonical_json_bytes,
     derive_numeric_superscripts,
     validate_derivation,

@@ -26,6 +26,9 @@ ALLOWED_LOCAL_MODULES = {
     "src",
     "src.reingest",
     "src.reingest.chunk",
+    # L2a/s310: el paquete-puente y el alias del destino relativo del congelado
+    "harness",
+    "harness.chunk",
     "harness.chunk_provenance",
     "scripts",
     "scripts.s117_materialize_chunks_v3_local",
@@ -36,7 +39,11 @@ LOCAL_CLOSURE = {
     "src": ROOT / "src/__init__.py",
     "src.reingest": ROOT / "src/reingest/__init__.py",
     "src.reingest.chunk": ROOT / "src/reingest/chunk.py",
-    "harness.chunk_provenance": ROOT / "src/reingest/chunk_provenance.py",
+    # L2a/s310: harness/__init__ = el puente (exención acotada del guard dinámico);
+    # harness.chunk = alias del MISMO fichero de producto src/reingest/chunk.py
+    "harness": ROOT / "harness/__init__.py",
+    "harness.chunk": ROOT / "src/reingest/chunk.py",
+    "harness.chunk_provenance": ROOT / "harness/chunk_provenance.py",
     "scripts.s117_materialize_chunks_v3_local": ROOT
     / "scripts/s117_materialize_chunks_v3_local.py",
     "scripts.s117_m28_candidate_validation": ROOT
@@ -100,7 +107,7 @@ def _raw_record(markdown: str = "alpha\n\nbeta") -> tuple[bytes, dict]:
 def _dependencies() -> dict[str, str]:
     result = {key: "d" * 64 for key in validation.DEPENDENCY_KEYS}
     result["chunker_sha256"] = _sha(ROOT / "src/reingest/chunk.py")
-    result["materializer_sha256"] = _sha(ROOT / "src/reingest/chunk_provenance.py")
+    result["materializer_sha256"] = _sha(ROOT / "harness/chunk_provenance.py")
     result["row_validator_sha256"] = _sha(
         ROOT / "scripts/s117_materialize_chunks_v3_local.py"
     )
@@ -508,7 +515,15 @@ def test_output_schema_rejects_wrong_nested_types(tmp_path: Path):
         validation.validate_output_schema(payload)
 
 
+# L2a/s310: los módulos congelados de la isla son renames BYTE-PUROS (sus sellos sha
+# siguen verificando) y el puente de harness/__init__ redirige sus imports. Este
+# resolver de FICHEROS necesita el mismo mapa para el único destino puenteado.
+_PUENTE_ISLA = {"harness.chunk": ROOT / "src/reingest/chunk.py"}
+
+
 def _module_path(module: str) -> Path | None:
+    if module in _PUENTE_ISLA:
+        return _PUENTE_ISLA[module]
     base = ROOT.joinpath(*module.split("."))
     module_file = base.with_suffix(".py")
     package_file = base / "__init__.py"
@@ -540,6 +555,12 @@ def _resolved_imports(module: str, path: Path) -> set[str]:
                     if _module_path(candidate) is not None:
                         result.add(candidate)
         elif isinstance(node, ast.Call):
+            # L2a/s310 — exención ACOTADA al puente: harness/__init__ ES maquinaria de
+            # import (redirige los nombres de los módulos congelados byte-puros, ver su
+            # docstring; dúo s310). El guard sigue intacto para TODO el contenido del
+            # closure — solo el mecanismo documentado queda fuera de su alcance.
+            if module == "harness":
+                continue
             if isinstance(node.func, ast.Name):
                 assert node.func.id not in {"__import__", "eval", "exec"}
             elif isinstance(node.func, ast.Attribute):

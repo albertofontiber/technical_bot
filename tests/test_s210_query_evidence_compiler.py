@@ -1,4 +1,5 @@
 from __future__ import annotations
+from tests._ruta_viva import ruta_viva  # L2a/s310: pins congelados -> fichero vivo
 
 import json
 from pathlib import Path
@@ -57,7 +58,7 @@ def test_s210_prereg_freezes_exact_models_geometry_and_98_gate():
 def test_s210_all_preregistered_inputs_are_byte_frozen():
     value = yaml.safe_load(PREREG.read_text(encoding="utf-8"))
     for spec in value["frozen_inputs"].values():
-        assert file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert file_sha(ruta_viva(spec["path"])) == spec["sha256"]
 
 
 def test_s210_preflight_is_sealed_zero_call_and_has_exact_population():
@@ -84,7 +85,7 @@ def test_s210_mechanism_contains_no_target_identity_or_residual_fact_names():
     implementation = "\n".join(
         (ROOT / path).read_text(encoding="utf-8")
         for path in (
-            "src/rag/query_evidence_compiler.py",
+            "harness/query_evidence_compiler.py",   # L2a/s310: chequeo de fichero VIVO
             "scripts/s210_run_query_evidence_compiler.py",
         )
     ).casefold()
@@ -144,7 +145,7 @@ def test_s210_execution_permit_requires_both_frontier_passes_and_exact_preflight
     assert permit["budget_ceiling_usd"] == 75
     assert permit["conservative_full_run_upper_bound_usd"] < 75
     for spec in permit["frozen_artifacts"]:
-        assert file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert file_sha(ruta_viva(spec["path"])) == spec["sha256"]
 
 
 def test_s210_global_worst_case_cost_is_bounded_before_any_call():

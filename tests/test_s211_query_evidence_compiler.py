@@ -1,4 +1,5 @@
 from __future__ import annotations
+from tests._ruta_viva import ruta_viva  # L2a/s310: pins congelados -> fichero vivo
 
 import json
 from pathlib import Path
@@ -42,7 +43,7 @@ def test_s211_prereg_is_only_the_generic_schema_validator_equivalence_delta():
 def test_s211_every_preregistered_input_uses_portable_frozen_hashes():
     value = yaml.safe_load(PREREG.read_text(encoding="utf-8"))
     for spec in value["frozen_inputs"].values():
-        assert portable_file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert portable_file_sha(ruta_viva(spec["path"])) == spec["sha256"]
 
 
 def test_s211_preflight_is_zero_call_complete_and_explicitly_not_fresh():
@@ -111,4 +112,4 @@ def test_s211_permit_requires_both_frontier_passes_and_frozen_contract():
     assert permit["contract_delta"]["fresh_generalization_evidence"] is False
     assert permit["conservative_full_run_upper_bound_usd"] < 75
     for spec in permit["frozen_artifacts"]:
-        assert portable_file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert portable_file_sha(ruta_viva(spec["path"])) == spec["sha256"]

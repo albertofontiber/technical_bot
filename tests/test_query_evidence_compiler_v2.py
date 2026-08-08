@@ -3,8 +3,8 @@ from __future__ import annotations
 import pytest
 from jsonschema import Draft202012Validator
 
-from harness.query_evidence_compiler import claim_schema as claim_schema_v1
-from harness.query_evidence_compiler_v2 import (
+from src.rag.query_evidence_compiler import claim_schema as claim_schema_v1
+from src.rag.query_evidence_compiler_v2 import (
     MAX_MODEL_CLAIMS_PER_CHUNK,
     claim_schema,
     validate_claim_response,

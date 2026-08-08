@@ -19,19 +19,19 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from harness.clause_bound_synthesis import (  # noqa: E402
+from src.rag.clause_bound_synthesis import (  # noqa: E402
     WRITER_SYSTEM,
     assemble_claim_blocks,
     validate_claim_block,
     writer_payload,
 )
-from harness.decomposed_evidence_planner import (  # noqa: E402
+from src.rag.decomposed_evidence_planner import (  # noqa: E402
     PLANNER_SYSTEM,
     output_format,
     planner_payload,
     validate_plan,
 )
-from harness.evidence_units_v2 import build_header_aware_evidence_units  # noqa: E402
+from src.rag.evidence_units_v2 import build_header_aware_evidence_units  # noqa: E402
 from src.rag.visual_gold import parse_json, sealed_artifact, stable_sha, write_json  # noqa: E402
 
 PACKET = ROOT / "evals/s219_omission_generation_packet_v1.json"

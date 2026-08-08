@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from harness.procedure_bundle_coverage import (
+from src.rag.procedure_bundle_coverage import (
     MAX_CARD_CHARS,
     MAX_CARDS_PER_ROW,
     select_procedure_bundle_coverage,

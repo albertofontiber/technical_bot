@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from harness.query_evidence_compiler import claim_schema as claim_schema_v1
-from harness.query_evidence_compiler_v3 import (
+from src.rag.query_evidence_compiler import claim_schema as claim_schema_v1
+from src.rag.query_evidence_compiler_v3 import (
     MAX_MODEL_CLAIMS_PER_CHUNK,
     claim_schema,
     validate_claim_response,

@@ -13,7 +13,7 @@ if __package__ in {None, ""}:
 
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s168_source_unit_gold_ledger_gate import score_selection
-from harness.evidence_units_v2 import build_header_aware_evidence_units
+from src.rag.evidence_units_v2 import build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

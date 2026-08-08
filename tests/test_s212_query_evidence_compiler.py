@@ -1,4 +1,5 @@
 from __future__ import annotations
+from tests._ruta_viva import ruta_viva  # L2a/s310: pins congelados -> fichero vivo
 
 import json
 from pathlib import Path
@@ -41,7 +42,7 @@ def test_s212_prereg_changes_only_generic_deterministic_overflow_policy():
 def test_s212_frozen_inputs_are_portable_and_exact():
     value = yaml.safe_load(PREREG.read_text(encoding="utf-8"))
     for spec in value["frozen_inputs"].values():
-        assert portable_file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert portable_file_sha(ruta_viva(spec["path"])) == spec["sha256"]
 
 
 def test_s212_zero_call_preflight_is_complete_bounded_and_not_fresh():
@@ -97,4 +98,4 @@ def test_s212_permit_rejects_first16_and_requires_dual_pass_full_binding():
     assert permit["contract_delta"]["claims_dropped_for_legacy_limit"] == 0
     assert permit["conservative_full_run_upper_bound_usd"] < 75
     for spec in permit["frozen_artifacts"]:
-        assert portable_file_sha(ROOT / spec["path"]) == spec["sha256"]
+        assert portable_file_sha(ruta_viva(spec["path"])) == spec["sha256"]

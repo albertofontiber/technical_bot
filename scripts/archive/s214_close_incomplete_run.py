@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from harness.multisource_visual_gold import validate_candidate  # noqa: E402
-from harness.query_evidence_compiler import portable_file_sha  # noqa: E402
+from src.rag.multisource_visual_gold import validate_candidate  # noqa: E402
+from src.rag.query_evidence_compiler import portable_file_sha  # noqa: E402
 from src.rag.visual_gold import stable_sha, write_json  # noqa: E402
 
 

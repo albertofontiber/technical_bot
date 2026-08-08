@@ -4,7 +4,7 @@ import hashlib
 
 import pytest
 
-from harness.query_evidence_compiler import (
+from src.rag.query_evidence_compiler import (
     EvidenceCandidate,
     append_to_answer,
     compile_evidence_appendix,

@@ -17,9 +17,9 @@ if str(ROOT) not in sys.path:
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, plan_for
 from scripts.s206_score_answer_facet_ab import hp017_cardinality_contradiction
 from src.rag.answer_planner import validate_answer_plan
-from harness.evidence_units_v2 import build_header_aware_evidence_units
+from src.rag.evidence_units_v2 import build_header_aware_evidence_units
 from src.rag.omission_correction import point_covered
-from harness.query_evidence_compiler import portable_file_sha, stable_sha
+from src.rag.query_evidence_compiler import portable_file_sha, stable_sha
 
 
 PREFLIGHT = ROOT / "evals/s210_query_evidence_compiler_preflight_v1.json"

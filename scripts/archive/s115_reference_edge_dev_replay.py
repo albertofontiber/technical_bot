@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from harness.reference_edge_coverage import (
+from src.rag.reference_edge_coverage import (
     select_reference_edge_coverage,
     verify_reference_edge_receipt,
 )
