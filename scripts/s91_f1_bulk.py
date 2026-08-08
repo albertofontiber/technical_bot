@@ -34,7 +34,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import httpx
-import catalog_store as cs
+from src.rag import catalog_store as cs  # (L1/s309)
 import catalog_gt as gt
 from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 

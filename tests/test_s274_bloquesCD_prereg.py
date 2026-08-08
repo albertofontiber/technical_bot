@@ -153,7 +153,7 @@ def test_d2_catalog_anchor_is_file_line_specific():
     assert "l.79-81" in notes and "l.94" in notes
     assert "catalog_resolver.py" in notes
     # el ancla describe el codigo real
-    store = Path("scripts/catalog_store.py").read_text(encoding="utf-8")
+    store = Path("src/rag/catalog_store.py").read_text(encoding="utf-8")  # L1/s309
     assert "_by_canonical" in store and "_by_alias" in store
 
 
