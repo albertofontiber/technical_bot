@@ -2490,7 +2490,8 @@ def apply_must_preserve_contract(
             # MISMO léxico que dispara la lane y ordena v2 (cero vocabulario
             # nuevo). El caso diana (hp002 «9.3 Comprobaciones de
             # mantenimiento») lo pasa; los espurios medidos no.
-            from .rerank_pool_coverage import _OBLIGATION_INTENT, _fold as _rp_fold
+            from .obligation_warning import _OBLIGATION_INTENT
+            from .pool_selection import _fold as _rp_fold
             section = str(chunk.get("section_title") or "")
             if not _OBLIGATION_INTENT.search(_rp_fold(section)):
                 ob["rejected"].append(

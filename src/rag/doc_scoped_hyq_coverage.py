@@ -108,9 +108,9 @@ REJECTED_PARENT_NO_QUERY_ALIGNED_CARD = "no_query_aligned_card"
 # ``evidence_coverage_facets_v5`` declara ``query_alignment_min_terms: 0`` para
 # TODOS sus arquetipos (config/evidence_coverage_facets_v5.yaml:6-15).  En la lane
 # hermana eso es seguro porque ``rerank_pool_coverage`` impone su PROPIA barrera
-# antes de servir: ``_query_card`` (rerank_pool_coverage.py:168-195) exige una
+# antes de servir: ``_query_card`` (pool_selection.py — graduada en L2c/s313) exige una
 # ventana con al menos ``MIN_ALIGNMENT_TERMS = 6`` términos alineados
-# (rerank_pool_coverage.py:37) y el candidato se descarta cuando devuelve ``None``
+# (pool_selection.py) y el candidato se descarta cuando devuelve ``None``
 # (rerank_pool_coverage.py:341-342).  Sin barrera aquí, adoptar v5 relajaría la
 # alineación TAMBIÉN para los arquetipos preexistentes de esta lane (v4 exigía
 # 2 / 2 / 3 / 1 en connect_install_wire / fault_reset_recovery /

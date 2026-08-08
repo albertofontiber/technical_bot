@@ -33,7 +33,7 @@ hp002) con presupuesto PROPIO de 1 fila FUERA del cap global ``MAX_APPENDED``,
 solo en preguntas procedimentales/diagnósticas y solo del MISMO scope canónico
 de documento que lo ya servido; el chunk exacto (id+content) se revalida
 contra el pool antes de reservar.  Selector determinista en
-``rerank_pool_coverage.select_obligation_warning_reserve``.
+``obligation_warning.select_obligation_warning_reserve`` (graduada del split L2c/s313).
 
 s278 §4 (flag ``PROSE_SOURCE_CARD``, default-off byte-inerte, releído
 at-call-time): el lane document-local admite una SEGUNDA clase de card servida
@@ -98,14 +98,18 @@ from .table_preamble_closure import (
     select_table_preambles,
 )
 from .mp_lexicon import mandatory_triggers, sentence_spans
-from .rerank_pool_coverage import (
-    LANE as POOL_LANE,
+from .obligation_warning import (
     OBLIGATION_WARNING_LANE,
+    select_obligation_warning_reserve,
+)
+from .pool_selection import (
     WINDOW_CHARS as FACET_WINDOW_CHARS,
     _exact_windows as _facet_exact_windows,
     _fold as _facet_fold,
     _tokens as _facet_tokens,
-    select_obligation_warning_reserve,
+)
+from .rerank_pool_coverage import (  # cuarentena: lane vetada
+    LANE as POOL_LANE,
     select_rerank_pool_coverage,
 )
 

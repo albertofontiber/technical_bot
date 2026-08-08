@@ -34,13 +34,13 @@ from ..release_profiles import (
 )
 from .mp_lexicon import line_spans, sentence_spans
 from .query_facets import expand_query_facets
-from .rerank_pool_coverage import (
+from .pool_selection import (
     POOL_LIMIT,
     QUERY_CONFIG,
     _incremental_needs,
     _tokens,
-    select_rerank_pool_coverage,
 )
+from .rerank_pool_coverage import select_rerank_pool_coverage  # cuarentena: lane vetada
 from .structural_neighbor_coverage import LANE as STRUCTURAL_LANE
 
 SOURCE_LIMIT = 2

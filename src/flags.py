@@ -317,7 +317,7 @@ REGISTRO: dict[str, dict] = {
     "OBLIGATION_RESERVE_ORDERED": {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
-        "lectores": ('src/rag/rerank_pool_coverage.py', 'src/release_profiles.py'),
+        "lectores": ('src/rag/obligation_warning.py', 'src/release_profiles.py'),
     },
     "OBLIGATION_WARNING_APPENDIX": {
         "default_fuente": '"off"',
