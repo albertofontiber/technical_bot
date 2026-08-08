@@ -31,7 +31,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import httpx
-import catalog_store as cs
+from src.rag import catalog_store as cs  # (L1/s309)
 from src.config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 
 SEED_IDENT = ROOT / "evals" / "s83_document_identity_final.jsonl"

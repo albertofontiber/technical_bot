@@ -292,7 +292,7 @@ IMPLEMENTATION_RUNTIME_ASSETS = (
 # changes.  ``implementation_dependency_closure`` below independently derives
 # the transitive top-level import closure and rejects omissions.
 IMPLEMENTATION_PYTHON_SOURCES = (
-    "scripts/catalog_store.py",
+    "src/rag/catalog_store.py",
     "scripts/s270_etapa2_probe.py",
     "scripts/s277_c1_p1.py",
     EXECUTION_IMPLEMENTATION_PATH,
@@ -400,7 +400,6 @@ IMPLEMENTATION_DYNAMIC_IMPORTS = {
     ),
     "scripts/s270_etapa2_probe.py": ("src/rag/must_preserve.py",),
     "src/ingestion/embedder.py": ("src/reingest/embed.py",),
-    "src/rag/catalog_resolver.py": ("scripts/catalog_store.py",),
     "src/rag/must_preserve.py": (
         "src/config.py",
         "src/rag/catalog_resolver.py",
@@ -1240,8 +1239,9 @@ def _implementation_module_index(root: Path) -> dict[str, str]:
             relative = path.relative_to(root).as_posix()
             module = _implementation_module_name(relative)
             index[module] = relative
-            # catalog_resolver deliberately imports catalog_store after adding
-            # scripts/ to sys.path, so mirror that legitimate top-level alias.
+            # Historic top-level alias for bare-stem imports of scripts/ files.
+            # (Its motivating case — catalog_resolver importing catalog_store via
+            # sys.path — died in L1/s309; the mechanism stays for other stems.)
             if dirname == "scripts" and path.parent == base:
                 index.setdefault(path.stem, relative)
     return index

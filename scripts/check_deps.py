@@ -84,8 +84,8 @@ def main() -> int:
     for mod, files in imported_top_level_modules().items():
         if mod in stdlib or mod in first_party:
             continue
-        # módulos LOCALES del repo importados por path (p.ej. catalog_store, la puerta D1,
-        # importado desde src/rag/catalog_resolver.py vía sys.path a scripts/) — no son pip
+        # módulos LOCALES del repo importados por path desde scripts/ — no son pip.
+        # (catalog_store, el ejemplo histórico, se graduó a src/rag/ en L1/s309.)
         if (ROOT / "scripts" / f"{mod}.py").is_file():
             continue
         candidates = {_norm(d) for d in module_to_dists.get(mod, [])}
