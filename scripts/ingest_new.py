@@ -10,7 +10,8 @@ completo para PDFs nuevos ya colocados en su carpeta de canal:
              sidecar obligatorio (identidad autoritativa), dedup por SHA-256
              contra store + documents
     DRY    → informe de qué se ingestaría + coste estimado (LlamaParse/página);
-             B1-B5 en memoria (0 API, 0 escrituras) — es el modo por DEFECTO
+             0 API de pago y 0 escrituras (sí consulta Supabase para el dedup)
+             — es el modo por DEFECTO
     COMMIT → A2 extracción LlamaParse → alta de la fila `documents` (con sha
              real; ANTES de indexar, para que el enlace por sha funcione) →
              B completo (contextualize+embed+index) → verificación en DB
@@ -65,10 +66,35 @@ EXTRACT_MODE = "parse_page_with_agent"
 EXTRACT_MODEL = "anthropic-sonnet-4.5"  # config_slug() → agent_anthropic-sonnet-45
 
 # Tipos que NO se ingestan (certificados / homologaciones / declaraciones).
-# Se filtra por token en el filename; la primera defensa es no descargarlos.
-_EXCLUIR_TOKENS = ("h_dop", "h_cpr", "c_dop", "c_cpr", "_doc_", "_ce_",
-                   "declaracion", "declaration", "certificado", "certificate",
+# Prefijos (taxonomía Casmar/portal, espejo del cruce s314) + palabras; la
+# primera defensa es no descargarlos. La exclusión SIEMPRE se lista, nunca es
+# silenciosa. (Dúo s314, Sol: los prefijos CE_/C_/DOP_ faltaban; el substring
+# "_doc_" era sobre-inclusivo y se retira — "c_" cubre los C_*_DoC.)
+_EXCLUIR_PREFIJOS = ("h_dop", "h_cpr", "h_ce", "ce_", "c_", "dop_")
+_EXCLUIR_TOKENS = ("declaracion", "declaration", "certificado", "certificate",
                    "homologacion", "incert")
+
+
+def _tipo_excluido(filename_lower: str) -> bool:
+    return (filename_lower.startswith(_EXCLUIR_PREFIJOS)
+            or any(tok in filename_lower for tok in _EXCLUIR_TOKENS))
+
+
+# tipo del sidecar → doc_type canónico de `documents`. El regex de B5
+# (_detect_doc_type) no reconoce la nomenclatura del portal (MI_/G_INST_/HD_…)
+# y metadata.py está sha-pineada por recibos s116/s117 (pre-flight s314) → el
+# mapeo vive AQUÍ y solo alimenta la fila de documents; el doc_type de los
+# chunks queda como lo deje B5 (NULL para estos nombres — igual que el corpus
+# existente; limitación declarada, no silenciosa).
+_TIPO_SIDECAR_A_DOC_TYPE = {
+    "manual instalación": "instalacion", "manual instalacion": "instalacion",
+    "manual usuario": "usuario", "manual programación": "programacion",
+    "manual programacion": "programacion", "guía instalación": "instalacion",
+    "guia instalacion": "instalacion", "guía uso": "usuario", "guia uso": "usuario",
+    "guía rápida": "guia_rapida", "guia rapida": "guia_rapida",
+    "datasheet": "datasheet", "nota técnica": "comunicacion_tecnica",
+    "nota tecnica": "comunicacion_tecnica",
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -80,12 +106,19 @@ def sha256_file(path: Path) -> str:
 
 
 def _document_family(filename: str) -> str:
-    """Normalización de familia (misma forma que el backfill 001): filename sin
-    extensión, separadores → espacios, minúsculas."""
+    """Normalización de familia: filename sin extensión, separadores → espacios,
+    minúsculas, y SIN los tokens de fecha (AAAAMM) ni el hash de media del CMS
+    (sufijo hex de 4) — el contrato de `documents.document_family` ignora
+    rev/fecha para que las revisiones del mismo manual compartan familia
+    (dúo s314, Sol; migrations/001_document_management.sql)."""
     base = os.path.splitext(filename)[0].lower()
     for sep in ("-", "_", ".", "  "):
         base = base.replace(sep, " ")
-    return " ".join(base.split())
+    tokens = base.split()
+    if tokens and re.fullmatch(r"[0-9a-f]{4}", tokens[-1]):
+        tokens = tokens[:-1]  # hash de media del CMS (Akeneo)
+    tokens = [t for t in tokens if not re.fullmatch(r"20\d{4}|20\d{2}", t)]
+    return " ".join(tokens)
 
 
 def _paginas(path: Path) -> int | None:
@@ -126,7 +159,7 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
         fn = pdf.name
         low = fn.lower()
         registro = {"file": fn}
-        if any(tok in low for tok in _EXCLUIR_TOKENS):
+        if _tipo_excluido(low):
             excluidos.append({**registro, "motivo": "tipo excluido (certificado/homologación)"})
             continue
         if pdf.stat().st_size < 1024:
@@ -137,20 +170,28 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
             excluidos.append({**registro, "motivo": "PDF ilegible (PyMuPDF no lo abre)"})
             continue
         sha = sha256_file(pdf)
-        if (store / f"{sha}.json").exists():
-            excluidos.append({**registro, "motivo": "ya extraído (sha en store)", "sha256": sha})
-            continue
-        filas = sb.fetch_rows("documents", select="id,manufacturer",
-                              filters={"source_pdf_sha256": f"eq.{sha}"}, limit=2)
-        if filas:
-            excluidos.append({**registro, "motivo": "ya en documents (sha)", "sha256": sha})
+
+        # «Hecho» = chunks INDEXADOS para este sha (el estado final), no la mera
+        # presencia de estados intermedios: si el proceso murió tras extraer o
+        # tras el alta, el doc debe seguir siendo candidato y REANUDAR las fases
+        # que falten (crítico del dúo s314: el criterio anterior — sha en store /
+        # en documents ⇒ excluido — dejaba altas a medias irreanudables).
+        chunks = sb.fetch_rows("chunks_v2", select="id",
+                               filters={"extraction_sha256": f"eq.{sha}"}, limit=1)
+        if chunks:
+            excluidos.append({**registro, "motivo": "ya indexado (chunks_v2 por sha)", "sha256": sha})
             continue
         entrada = indice.get(low)
         if entrada is None:
             excluidos.append({**registro, "motivo": "SIN entrada en _metadata.json (identidad) — añadirla antes de ingestar"})
             continue
+        extraido = (store / f"{sha}.json").exists()
+        documentado = bool(sb.fetch_rows("documents", select="id",
+                                         filters={"source_pdf_sha256": f"eq.{sha}"}, limit=1))
         candidatos.append({"file": fn, "path": str(pdf), "sha256": sha,
-                           "paginas": paginas, "equipo": entrada.get("equipo")})
+                           "paginas": paginas, "equipo": entrada.get("equipo"),
+                           "tipo_sidecar": entrada.get("tipo"),
+                           "reanuda": {"extraido": extraido, "documentado": documentado}})
     return candidatos, excluidos
 
 
@@ -217,13 +258,17 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
             continue
 
         # Alta en documents ANTES de indexar (resolve_document_id enlaza por sha).
+        # doc_type: el tipo del sidecar manda (B5 no reconoce la nomenclatura del
+        # portal); su regex queda de fallback.
+        doc_type = (_TIPO_SIDECAR_A_DOC_TYPE.get((c.get("tipo_sidecar") or "").strip().lower())
+                    or meta.doc_type)
         filas = sb.fetch_rows("documents", select="id",
                               filters={"source_pdf_sha256": f"eq.{sha}"}, limit=2)
         if not filas:
             sb.insert_rows("documents", [{
                 "document_family": _document_family(fn),
                 "language": dry.get("language"),
-                "doc_type": meta.doc_type,
+                "doc_type": doc_type,
                 "manufacturer": meta.manufacturer,
                 "product_model": meta.product_model,
                 "source_pdf_filename": fn,
@@ -231,7 +276,9 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
                 "status": "active",
                 "notes": nota,
             }])
-            print(f"  documents ← {meta.manufacturer} / {meta.product_model} / {meta.doc_type}")
+            print(f"  documents ← {meta.manufacturer} / {meta.product_model} / {doc_type}")
+        else:
+            print("  documents: fila ya existente (reanudación) — se reutiliza")
 
         # B completo (contextualize + embed + dedup + index; enlaza por sha).
         real = process_file(record, sb, dry_run=False)
@@ -254,9 +301,7 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
         ok = bool(filas) and (r.get("chunks") or 0) > 0 and enlazado
         fallos += 0 if ok else 1
         print(f"  {'✓' if ok else '✗'} {r['file']}: {r.get('chunks')} chunks, enlazado={enlazado}")
-    if fallos:
-        print(f"\n{fallos} documento(s) con problema — revisar antes de dar el lote por bueno.")
-    return resultados
+    return resultados, fallos
 
 
 def main() -> None:
@@ -288,12 +333,14 @@ def main() -> None:
         recibo = {"modo": "dry-run", "canal": args.canal, "stamp": stamp,
                   "candidatos": candidatos, "excluidos": excluidos}
     else:
-        resultados = ejecutar(args.canal, data_root, candidatos, nota)
+        resultados, fallos = ejecutar(args.canal, data_root, candidatos, nota)
         recibo = {"modo": "commit", "canal": args.canal, "stamp": stamp, "nota": nota,
+                  "fallos_verificacion": fallos,
                   "resultados": resultados, "excluidos": excluidos}
         print("\nRecordatorios post-lote: (1) actualizar data/Inventario_Manuales.xlsx "
-              "(scripts/update_inventario.py); (2) el corpus cambió → anotarlo en la "
-              "próxima fila del assessment; (3) sonda de alcanzabilidad de los docs nuevos.")
+              "(scripts/update_inventario.py --data-root <corpus>); (2) el corpus "
+              "cambió → anotarlo en la próxima fila del assessment; (3) sonda de "
+              "alcanzabilidad de los docs nuevos.")
 
     logs = data_root / "logs"
     logs.mkdir(exist_ok=True)
@@ -301,6 +348,10 @@ def main() -> None:
     with open(ruta, "w", encoding="utf-8") as f:
         json.dump(recibo, f, ensure_ascii=False, indent=1)
     print(f"\nRecibo: {ruta}")
+    if args.commit and fallos:
+        # Un lote con documentos sin chunks o sin enlace NO es un éxito: salida
+        # ruidosa para que ninguna automatización lo dé por bueno (dúo s314).
+        raise SystemExit(f"{fallos} documento(s) con problema — lote NO limpio (recibo: {ruta})")
 
 
 if __name__ == "__main__":
