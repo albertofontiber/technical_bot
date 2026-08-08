@@ -152,6 +152,7 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
 
     sb = SupabaseHTTP()
     candidatos, excluidos = [], []
+    vistos_lote: dict[str, str] = {}  # sha -> filename (dedup INTRA-lote, dúo s314)
     pdfs = sorted(p for p in carpeta.glob("*.pdf"))
     if solo:
         pdfs = [p for p in pdfs if fnmatch.fnmatch(p.name.lower(), solo.lower())]
@@ -170,6 +171,11 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
             excluidos.append({**registro, "motivo": "PDF ilegible (PyMuPDF no lo abre)"})
             continue
         sha = sha256_file(pdf)
+        if sha in vistos_lote:
+            excluidos.append({**registro, "motivo": f"DUP intra-lote (idéntico a {vistos_lote[sha]})",
+                              "sha256": sha})
+            continue
+        vistos_lote[sha] = fn
 
         # «Hecho» = chunks INDEXADOS para este sha (el estado final), no la mera
         # presencia de estados intermedios: si el proceso murió tras extraer o
@@ -220,72 +226,127 @@ def ejecutar(canal: str, data_root: Path, candidatos: list[dict], nota: str) -> 
     for i, c in enumerate(candidatos, 1):
         fn, sha, path = c["file"], c["sha256"], c["path"]
         print(f"\n[{i}/{len(candidatos)}] {fn}")
+        # try/except POR DOCUMENTO (dúo s314): una excepción (Voyage 500, PDF
+        # raro…) no aborta el lote ni se traga el recibo; el doc queda FALLO en
+        # el recibo y, gracias a los gates reanudables, el siguiente run lo
+        # retoma en la fase que le falte.
+        try:
+            _ingesta_doc(c, store, sb, key, nota, resultados)
+        except Exception as e:
+            resultados.append({"file": fn, "sha256": sha,
+                               "status": f"FALLO: {type(e).__name__}: {e}"})
+            print(f"  ✗ FALLO {type(e).__name__}: {e}")
 
-        # A2 — extracción al store canónico (source_path ABSOLUTO → sidecar OK).
-        out = store / f"{sha}.json"
-        if not out.exists():
-            t0 = time.time()
-            job_id, resultado = llamaparse_extract(path, key, EXTRACT_MODE, EXTRACT_MODEL)
-            record = {"sha256": sha, "source_path": path, "manufacturer": None,
-                      "pages": c["paginas"], "mode": EXTRACT_MODE, "model": EXTRACT_MODEL,
-                      "job_id": job_id,
-                      "extracted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                      "result": resultado}
-            tmp = str(out) + ".tmp"
-            with open(tmp, "w", encoding="utf-8") as f:
-                json.dump(record, f, ensure_ascii=False)
-            os.replace(tmp, str(out))
-            print(f"  extracción OK ({time.time() - t0:.0f}s)")
-        else:
-            with open(out, encoding="utf-8") as f:
-                record = json.load(f)
-            print("  extracción ya en store")
-        with open(out, encoding="utf-8") as f:
-            record = json.load(f)
-
-        # B-dry en memoria → identidad + nº de chunks esperado.
-        dry = process_file(record, None, dry_run=True)
-        if dry["status"] != "dry_run":
-            resultados.append({"file": fn, "sha256": sha, "status": f"NO-INDEXABLE: {dry['status']}"})
-            print(f"  ✗ no indexable ({dry['status']}) — fila de documents NO creada")
+    # Verificación en DB: cada sha con chunks > 0 y document_id enlazado.
+    print("\n— VERIFICACIÓN EN DB —")
+    fallos = 0
+    for r in resultados:
+        if "chunks" not in r:
+            fallos += 1
+            print(f"  ✗ {r['file']}: {r['status']}")
             continue
-        kept = dry.pop("_chunks")
-        muestra = " ".join(ch.content for ch in kept[:4])
-        meta = detect_document_metadata(path, muestra)
-        if not meta.manufacturer:
-            resultados.append({"file": fn, "sha256": sha, "status": "SIN-FABRICANTE (revisar sidecar/overrides)"})
-            print("  ✗ fabricante no resuelto — NO se ingesta (identidad es fail-closed)")
-            continue
+        filas = sb.fetch_rows("chunks_v2", select="id,document_id",
+                              filters={"extraction_sha256": f"eq.{r['sha256']}"}, limit=1)
+        enlazado = bool(filas and filas[0].get("document_id"))
+        ok = bool(filas) and (r.get("chunks") or 0) > 0 and enlazado
+        fallos += 0 if ok else 1
+        print(f"  {'✓' if ok else '✗'} {r['file']}: {r.get('chunks')} chunks, enlazado={enlazado}")
+    return resultados, fallos
 
-        # Alta en documents ANTES de indexar (resolve_document_id enlaza por sha).
-        # doc_type: el tipo del sidecar manda (B5 no reconoce la nomenclatura del
-        # portal); su regex queda de fallback.
-        doc_type = (_TIPO_SIDECAR_A_DOC_TYPE.get((c.get("tipo_sidecar") or "").strip().lower())
-                    or meta.doc_type)
-        filas = sb.fetch_rows("documents", select="id",
-                              filters={"source_pdf_sha256": f"eq.{sha}"}, limit=2)
-        if not filas:
-            sb.insert_rows("documents", [{
-                "document_family": _document_family(fn),
-                "language": dry.get("language"),
-                "doc_type": doc_type,
-                "manufacturer": meta.manufacturer,
-                "product_model": meta.product_model,
-                "source_pdf_filename": fn,
-                "source_pdf_sha256": sha,
-                "status": "active",
-                "notes": nota,
-            }])
-            print(f"  documents ← {meta.manufacturer} / {meta.product_model} / {doc_type}")
-        else:
-            print("  documents: fila ya existente (reanudación) — se reutiliza")
 
-        # B completo (contextualize + embed + dedup + index; enlaza por sha).
-        real = process_file(record, sb, dry_run=False)
-        resultados.append({"file": fn, "sha256": sha, "status": real["status"],
-                           "chunks": real.get("indexed"), "document_id": real.get("document_id"),
-                           "manufacturer": meta.manufacturer, "product_model": meta.product_model})
-        print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')})")
+def _patch_chunks_doc_type(sha: str, doc_type: str) -> int:
+    """doc_type en los CHUNKS por PATCH post-index. B5 no reconoce la
+    nomenclatura del portal y metadata.py está sha-pineada por recibos
+    s116/s117 (pre-flight s314) → el fix vive aquí. Devuelve filas tocadas."""
+    url = os.environ["SUPABASE_URL"].rstrip("/") + "/rest/v1/chunks_v2"
+    k = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ["SUPABASE_KEY"]
+    import httpx
+    r = httpx.patch(url, params={"extraction_sha256": f"eq.{sha}"},
+                    headers={"apikey": k, "Authorization": f"Bearer {k}",
+                             "Prefer": "return=headers-only"},
+                    json={"doc_type": doc_type}, timeout=60)
+    r.raise_for_status()
+    rango = r.headers.get("content-range", "")
+    try:
+        return int(rango.rsplit("/", 1)[-1]) if "/" in rango else -1
+    except ValueError:
+        return -1
+
+
+def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
+                 resultados: list[dict]) -> None:
+    fn, sha, path = c["file"], c["sha256"], c["path"]
+
+    # A2 — extracción al store canónico (source_path ABSOLUTO → sidecar OK).
+    out = store / f"{sha}.json"
+    if not out.exists():
+        # TOCTOU (dúo s314): en OneDrive el fichero puede cambiar entre el gate
+        # y la extracción — recomputar y abortar este doc si el sha difiere.
+        if sha256_file(Path(path)) != sha:
+            raise RuntimeError("el PDF cambió entre gates y extracción (sha distinto) — re-corre")
+        t0 = time.time()
+        job_id, resultado = llamaparse_extract(path, key, EXTRACT_MODE, EXTRACT_MODEL)
+        record = {"sha256": sha, "source_path": path, "manufacturer": None,
+                  "pages": c["paginas"], "mode": EXTRACT_MODE, "model": EXTRACT_MODEL,
+                  "job_id": job_id,
+                  "extracted_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                  "result": resultado}
+        tmp = str(out) + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(record, f, ensure_ascii=False)
+        os.replace(tmp, str(out))
+        print(f"  extracción OK ({time.time() - t0:.0f}s)")
+    else:
+        print("  extracción ya en store (reanudación)")
+    with open(out, encoding="utf-8") as f:
+        record = json.load(f)
+
+    # B-dry en memoria → identidad + nº de chunks esperado.
+    dry = process_file(record, None, dry_run=True)
+    if dry["status"] != "dry_run":
+        resultados.append({"file": fn, "sha256": sha, "status": f"NO-INDEXABLE: {dry['status']}"})
+        print(f"  ✗ no indexable ({dry['status']}) — fila de documents NO creada")
+        return
+    kept = dry.pop("_chunks")
+    muestra = " ".join(ch.content for ch in kept[:4])
+    meta = detect_document_metadata(path, muestra)
+    if not meta.manufacturer:
+        resultados.append({"file": fn, "sha256": sha, "status": "SIN-FABRICANTE (revisar sidecar/overrides)"})
+        print("  ✗ fabricante no resuelto — NO se ingesta (identidad es fail-closed)")
+        return
+
+    # Alta en documents ANTES de indexar (resolve_document_id enlaza por sha).
+    # doc_type: el tipo del sidecar manda (B5 no reconoce la nomenclatura del
+    # portal); su regex queda de fallback.
+    doc_type = (_TIPO_SIDECAR_A_DOC_TYPE.get((c.get("tipo_sidecar") or "").strip().lower())
+                or meta.doc_type)
+    filas = sb.fetch_rows("documents", select="id",
+                          filters={"source_pdf_sha256": f"eq.{sha}"}, limit=2)
+    if not filas:
+        sb.insert_rows("documents", [{
+            "document_family": _document_family(fn),
+            "language": dry.get("language"),
+            "doc_type": doc_type,
+            "manufacturer": meta.manufacturer,
+            "product_model": meta.product_model,
+            "source_pdf_filename": fn,
+            "source_pdf_sha256": sha,
+            "status": "active",
+            "notes": nota,
+        }])
+        print(f"  documents ← {meta.manufacturer} / {meta.product_model} / {doc_type}")
+    else:
+        print("  documents: fila ya existente (reanudación) — se reutiliza")
+
+    # B completo (contextualize + embed + dedup + index; enlaza por sha).
+    real = process_file(record, sb, dry_run=False)
+    parcheados = _patch_chunks_doc_type(sha, doc_type) if doc_type else 0
+    resultados.append({"file": fn, "sha256": sha, "status": real["status"],
+                       "chunks": real.get("indexed"), "document_id": real.get("document_id"),
+                       "doc_type": doc_type, "chunks_doc_type": parcheados,
+                       "manufacturer": meta.manufacturer, "product_model": meta.product_model})
+    print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')}, "
+          f"doc_type→{parcheados} chunks)")
 
     # Verificación en DB: cada sha con chunks > 0 y document_id enlazado.
     print("\n— VERIFICACIÓN EN DB —")
