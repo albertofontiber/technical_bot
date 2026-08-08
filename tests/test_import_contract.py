@@ -383,10 +383,10 @@ def test_cifras_de_control():
     """Ancla el censo s300 con tolerancia CERO en lo que protege: si estas cifras se
     mueven, que sea en un diff que las explique. Fricción DELIBERADA anti-acreción:
     un módulo nuevo en src/ paga un toque aquí."""
-    # L1/s309: 113→114 — catalog_store GRADUADO de scripts/ a src/rag/ (blueprint L1,
-    # PRODUCTO deliberado: la puerta D1 del catálogo es código de producción).
-    assert len(MODULOS) == 114, (
-        f"módulos en src/: {len(MODULOS)} (censo: 114). Si es PRODUCTO nuevo "
+    # L1/s309: 113→114 (catalog_store graduado). L2b/s311: 114→115 — src/flags.py,
+    # el REGISTRO declarativo de configuración (blueprint L2b; raiz, importa solo os).
+    assert len(MODULOS) == 115, (
+        f"módulos en src/: {len(MODULOS)} (censo: 115). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."

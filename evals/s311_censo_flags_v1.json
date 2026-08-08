@@ -1,0 +1,681 @@
+{
+ "ANSWER_OBLIGATION_PLANNER": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/answer_planner.py",
+   "via": "getenv"
+  }
+ ],
+ "ANTHROPIC_API_KEY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  },
+  {
+   "default": "None",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "environ.get"
+  }
+ ],
+ "ANTI_DIAGRAM_INVENTION": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "BOT_ERROR_LOGGING": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/bot/telegram_bot.py",
+   "via": "getenv"
+  }
+ ],
+ "BOT_VERSION": [
+  {
+   "default": "\"\"",
+   "fichero": "src/version.py",
+   "via": "getenv"
+  }
+ ],
+ "CANONICAL_HYQ_COVERAGE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "CHUNKS_TABLE": [
+  {
+   "default": "\"chunks_v2\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  },
+  {
+   "default": "\"chunks_v2\"",
+   "fichero": "src/rag/catalog_resolver.py",
+   "via": "getenv"
+  }
+ ],
+ "COMPATIBILITY_BUNDLE_COVERAGE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "CONVERSATION_POLICY": [
+  {
+   "default": "\"stub\"",
+   "fichero": "src/orchestrator/conversation_policy_impl.py",
+   "via": "getenv"
+  }
+ ],
+ "CONVO_MAINTENANCE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "CONVO_SHADOW": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "COVERAGE_MANDATORY_CALLOUT": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/post_rerank_coverage.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "COVERAGE_RELEASE_PROFILE": [
+  {
+   "default": "None",
+   "fichero": "src/release_profiles.py",
+   "via": "mapping.get-indirecto"
+  }
+ ],
+ "DEDUP_REFERENCE_NAVIGATION": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "DOCUMENT_LOCAL_SELECTION_V2": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/document_local_coverage.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/post_rerank_coverage.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "EMBED_CACHE_PATH": [
+  {
+   "default": "None",
+   "fichero": "src/ingestion/embedder.py",
+   "via": "getenv"
+  }
+ ],
+ "EMBED_MODEL": [
+  {
+   "default": "\"voyage-4-large\"",
+   "fichero": "src/reingest/embed.py",
+   "via": "getenv"
+  }
+ ],
+ "EMBED_PROVIDER": [
+  {
+   "default": "\"voyage\"",
+   "fichero": "src/reingest/embed.py",
+   "via": "getenv"
+  }
+ ],
+ "ENUNCIADOS_MULTIVECTOR": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "ENUNCIADOS_QUOTA_FUSION": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "EVIDENCE_CONTRACT": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "EVIDENCE_DERIVATION_OVERLAY": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "FACET_COMPLEMENT_FALLBACK": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/post_rerank_coverage.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "GENERATOR_DIRECT_FIRST": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "GENERATOR_FOLLOWUPS": [
+  {
+   "default": "\"on\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "GENERATOR_INCLUDE_CONTEXT": [
+  {
+   "default": "None",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "GENERATOR_PROMPT_VARIANT": [
+  {
+   "default": "\"base\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "GENERATOR_SELECTION_BLOCK": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "HYDE_ENABLED": [
+  {
+   "default": "\"false\"",
+   "fichero": "src/rag/hyde.py",
+   "via": "getenv"
+  }
+ ],
+ "HYDE_MODEL": [
+  {
+   "default": "\"claude-haiku-4-5\"",
+   "fichero": "src/rag/hyde.py",
+   "via": "getenv"
+  }
+ ],
+ "HYQ_PILOT_FILE": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "HYQ_PILOT_MIN_COS": [
+  {
+   "default": "\"0.45\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "HYQ_PILOT_QUOTA": [
+  {
+   "default": "\"10\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "HYQ_TABLE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "IDENTITY_FETCH": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/catalog_resolver.py",
+   "via": "getenv"
+  }
+ ],
+ "IDENTITY_MAP": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "IDENTITY_RESOLVE": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/catalog_resolver.py",
+   "via": "getenv"
+  }
+ ],
+ "IDENTITY_RESOLVE_POLICY": [
+  {
+   "default": "None",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  },
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/catalog_resolver.py",
+   "via": "getenv"
+  },
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/catalog_resolver.py",
+   "via": "getenv"
+  }
+ ],
+ "IMAGES_DIR": [
+  {
+   "default": "PROJECT_DIR / \"extracted_images\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "LEVER1_KEYWORD_ORDER": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "LEVER2_IDENTITY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "LEVER2_PM_RESCUE": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "LLM_MAX_TOKENS": [
+  {
+   "default": "\"2048\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "LLM_MODEL": [
+  {
+   "default": "\"claude-sonnet-4-6\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "LOGICAL_RECORD_COVERAGE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "MANUALS_DIR": [
+  {
+   "default": "PROJECT_DIR / \"Manuales_ES\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "MERGE_STRATEGY": [
+  {
+   "default": "\"stamps\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "MP_DEFLINE_EQ": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MP_DISTINCTIVE_TOKEN": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MP_HYBRID_DETECT": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MP_MANDATORY_VERB_TRIGGER": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MP_SERVED_BINDING": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MP_STEM_BINDING": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "MUST_PRESERVE_CONTRACT": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "NEIGHBOR_MODELS_ONLY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "NEIGHBOR_WINDOW": [
+  {
+   "default": "\"0\"",
+   "fichero": "src/rag/retriever.py",
+   "via": "getenv"
+  }
+ ],
+ "OBLIGATION_RESERVE_ORDERED": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/release_profiles.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/rerank_pool_coverage.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "OBLIGATION_WARNING_APPENDIX": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/release_profiles.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/must_preserve.py",
+   "via": "mp_flag"
+  }
+ ],
+ "OPENAI_API_KEY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "ORCHESTRATOR_PATH": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "PROSE_SOURCE_CARD": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/document_local_coverage.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/post_rerank_coverage.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "R2_REPAIR_NAVIGATION": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "RAILWAY_GIT_COMMIT_SHA": [
+  {
+   "default": "\"\"",
+   "fichero": "src/version.py",
+   "via": "getenv"
+  }
+ ],
+ "RERANKER_BACKEND": [
+  {
+   "default": "\"llm\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "RERANK_POOL_COVERAGE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "RERANK_PREVIEW_CHARS": [
+  {
+   "default": "\"800\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "RERANK_TOP_K": [
+  {
+   "default": "\"5\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "REWRITER_MODEL": [
+  {
+   "default": "\"claude-sonnet-4-6\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "SERIES_REGISTRY_ENABLED": [
+  {
+   "default": "\"true\"",
+   "fichero": "src/rag/series_registry.py",
+   "via": "getenv"
+  }
+ ],
+ "SOURCE_LEGEND": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "strict_on_off"
+  },
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/source_legend.py",
+   "via": "getenv"
+  }
+ ],
+ "STRUCK_OCR_CONTEXT": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "STRUCTURAL_CASCADE_COVERAGE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "STRUCTURAL_NEIGHBOR_SHADOW": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "STRUCTURAL_NEIGHBOR_SHADOW_HMAC_KEY_VERSION": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "SUPABASE_KEY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "SUPABASE_SERVICE_KEY": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "SUPABASE_URL": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "TABLE_PREAMBLE_CLOSURE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "TELEGRAM_BOT_TOKEN": [
+  {
+   "default": "\"\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "TELEGRAM_FEEDBACK": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/bot/telegram_bot.py",
+   "via": "getenv"
+  }
+ ],
+ "TELEGRAM_FEEDBACK_REASON": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/bot/telegram_bot.py",
+   "via": "getenv"
+  }
+ ],
+ "VISUAL_ASSETS_LISTING_GATE": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ],
+ "VISUAL_ASSETS_REGISTRY": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/config.py",
+   "via": "strict_on_off"
+  }
+ ],
+ "VOICE_TRANSCRIPTION_MODEL": [
+  {
+   "default": "\"whisper-1\"",
+   "fichero": "src/config.py",
+   "via": "getenv"
+  }
+ ],
+ "VOYAGE_API_KEY": [
+  {
+   "default": "None",
+   "fichero": "src/rag/reranker.py",
+   "via": "getenv"
+  },
+  {
+   "default": "None",
+   "fichero": "src/reingest/embed.py",
+   "via": "getenv"
+  }
+ ],
+ "WIRING_TOPOLOGY_GUARD": [
+  {
+   "default": "\"off\"",
+   "fichero": "src/rag/generator.py",
+   "via": "getenv"
+  }
+ ]
+}
