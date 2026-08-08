@@ -8,11 +8,12 @@ retiro) y la cuarentena de la isla-harness. Misma filosofía que la ventana RGPD
 garantía vive en el motor): aquí la arquitectura vive en el CI.
 
   · MATRIZ de paquetes: qué paquete puede importar de cuál (pocas reglas, duras);
-  · EXCEPCIONES vigentes: E2/E6 violan la matriz (E1 retirada en L1/s309); E3a-c violan la CUARENTENA de la
-    lane vetada (su celda rag→rag es legal); E4/E5 son los 2 ciclos deliberados. El
+  · EXCEPCIONES vigentes: E2/E6 violan la matriz (E1 retirada en L1/s309); E3a-b violan la CUARENTENA de la
+    lane vetada (su celda rag→rag es legal; E3c retirada en L2c/s313); E4/E5 son los 2 ciclos deliberados. El
     trinquete exige que EXISTAN (retirarlas obliga a borrarlas de aquí, en el diff);
   · CUARENTENA de lane vetada: `rerank_pool_coverage` (vetada bajo todo perfil C1) solo
-    es importable desde sus 3 deudores declarados, hasta el split L2c;
+    es importable desde sus 2 deudores declarados (post-split L2c/s313: el motor vive
+    en `pool_selection` y la reserva viva en `obligation_warning`);
   · ISLA-HARNESS en cuarentena LÓGICA: los 35 módulos que solo scripts/tests importan
     no pueden ser importados por el producto — la garantía estructural llega HOY; el
     movimiento físico a `harness/` (L2a) es legibilidad, no seguridad;
@@ -57,7 +58,8 @@ class Exc(NamedTuple):
     retiro: str          # el lote/decisión que la elimina — al retirarla, BORRAR de aquí
 
 
-# Las CINCO excepciones vigentes (7 aristas; E1 retirada en L1/s309). Lista EXACTA a nivel módulo→módulo, verificada
+# Las CUATRO excepciones vigentes (6 aristas; E1 retirada en L1/s309, E3c en L2c/s313).
+# Lista EXACTA a nivel módulo→módulo, verificada
 # adversarialmente contra el árbol (s300): el contrato nace verde con estas y cero más.
 EXCEPCIONES = frozenset({
     # E1 — RETIRADA (L1/s309): catalog_store graduado a src/rag/, import relativo
@@ -69,14 +71,14 @@ EXCEPCIONES = frozenset({
     # la forma de aquí o se retira la arista, no se re-fraseá (dúo s300).
     Exc("src.ingestion.embedder", "src.reingest.embed",
         "ingestion-no-importa-reingest", "L3: embed.py a src/ingestion/"),
-    # E3a-c · los 3 deudores de la lane vetada (split L2c). E3b importa 8 nombres —
-    # el split debe darles hogar a los 8, no a los 4 más visibles (veredicto s300).
+    # E3a-b · los 2 deudores restantes de la lane vetada tras el split L2c/s313
+    # (E3c —must_preserve— retirada: su import function-local migró a
+    # obligation_warning/pool_selection). Solo queda el import en cuarentena de la
+    # selectora vetada `select_rerank_pool_coverage` (+ LANE en E3b).
     Exc("src.rag.document_local_coverage", "src.rag.rerank_pool_coverage",
-        "cuarentena-lane", "L2c: split pool_selection/obligation_warning"),
+        "cuarentena-lane", "muerte de la lane vetada (C1 la veta bajo todo perfil)"),
     Exc("src.rag.post_rerank_coverage", "src.rag.rerank_pool_coverage",
-        "cuarentena-lane", "L2c: split pool_selection/obligation_warning"),
-    Exc("src.rag.must_preserve", "src.rag.rerank_pool_coverage",
-        "cuarentena-lane", "L2c: split pool_selection/obligation_warning"),
+        "cuarentena-lane", "muerte de la lane vetada (C1 la veta bajo todo perfil)"),
     # E6 · logging_db.py:15 — la raíz transversal importa dominio (runtime_trace).
     # Retiro: inyección del validador como callable, post-L3 (con dúo: zona telemetría).
     Exc("src.logging_db", "src.rag.runtime_trace",
@@ -99,12 +101,12 @@ CICLOS_PERMITIDOS = frozenset({
 SYS_PATH_EXCEPCIONES: set = set()
 
 # Lane vetada bajo todo perfil C1 (release_profiles.py) — importable SOLO por sus
-# deudores E3a-c hasta L2c. scripts/ y tests/ son libres (no los mira este contrato).
+# deudores E3a-b (post-split L2c/s313). scripts/ y tests/ son libres (no los mira
+# este contrato).
 CUARENTENA = {
     "src.rag.rerank_pool_coverage": {
         "src.rag.document_local_coverage",
         "src.rag.post_rerank_coverage",
-        "src.rag.must_preserve",
     },
 }
 
@@ -342,7 +344,7 @@ def test_cuarentena_de_lane_vetada():
         intrusos = importadores - permitidos
         assert not intrusos, (
             f"{sorted(intrusos)} importan la lane vetada {vetado} — solo los deudores "
-            f"E3a-c pueden, hasta el split L2c"
+            f"E3a-b pueden, hasta la muerte de la lane"
         )
 
 
@@ -383,14 +385,17 @@ def test_cifras_de_control():
     """Ancla el censo s300 con tolerancia CERO en lo que protege: si estas cifras se
     mueven, que sea en un diff que las explique. Fricción DELIBERADA anti-acreción:
     un módulo nuevo en src/ paga un toque aquí."""
-    # L1/s309: 113→114 (catalog_store graduado). L2b/s311: 114→115 — src/flags.py,
-    # el REGISTRO declarativo de configuración (blueprint L2b; raiz, importa solo os).
-    assert len(MODULOS) == 115, (
-        f"módulos en src/: {len(MODULOS)} (censo: 115). Si es PRODUCTO nuevo "
+    # L1/s309: 113→114 (catalog_store graduado). L2b/s311: 114→115 (src/flags.py,
+    # el registro declarativo). L2c/s313: 115→117 — split del doble-inquilino
+    # rerank_pool_coverage en pool_selection (motor compartido) + obligation_warning
+    # (reserva viva); el residual queda como lane vetada en cuarentena. Cero código
+    # nuevo: solo bloques movidos.
+    assert len(MODULOS) == 117, (
+        f"módulos en src/: {len(MODULOS)} (censo: 117). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."
     )
     assert len(ISLA) == 35
-    assert len(EXCEPCIONES) == 5   # L1/s309: E1 retirada — el trinquete solo encoge
+    assert len(EXCEPCIONES) == 4   # L1/s309: E1 · L2c/s313: E3c — el trinquete solo encoge
     assert sum(1 for m in ISLA if m not in MODULOS) == 0, "ISLA cita módulos inexistentes"

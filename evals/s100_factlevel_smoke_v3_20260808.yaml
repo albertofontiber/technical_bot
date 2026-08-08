@@ -4,15 +4,15 @@ manifest:
     strict, available_models=None) — espejo funcional de bvg/test_bot_vs_gold:run_bot
     (s286e/v3)
   instrument_version: v3.2
-  git_commit: eaa5c61
+  git_commit: 726ac4e
   release_profile: coverage_c1_v4
   corpus:
     table: chunks_v2
     count: '25124'
     max_created_at: '2026-08-07T09:15:30.813279+00:00'
   pipeline_closure:
-    sha: d7bdab63b5cd
-    n_modules: 42
+    sha: 0217fe23e054
+    n_modules: 44
     n_assets: 39
     modules:
     - src/config.py
@@ -37,6 +37,8 @@ manifest:
     - src/rag/identity_index.py
     - src/rag/mp_lexicon.py
     - src/rag/must_preserve.py
+    - src/rag/obligation_warning.py
+    - src/rag/pool_selection.py
     - src/rag/post_rerank_coverage.py
     - src/rag/query_facets.py
     - src/rag/rerank_pool_coverage.py
@@ -182,9 +184,9 @@ mode: smoke
 n_golds: 5
 n_golds_scored: 5
 aggregate_hist:
-  OK: 21
+  OK: 22
   synthesis-miss: 0
-  rerank-miss: 1
+  rerank-miss: 0
   retrieval-miss: 1
   corpus-gap: 0
   meta-ref: 0
@@ -208,8 +210,8 @@ gold_juez_axis:
 - qid: hp018
   verdict: '?'
   n_classified: 5
-  n_ok: 4
-  primary_blocker: rerank-miss
+  n_ok: 5
+  primary_blocker: null
   n_identidad_facts: 0
   family_resolved: true
   no_pass_perp_pipeline: false
@@ -233,9 +235,9 @@ gold_juez_advisory: false
 n_no_pass_perp_pipeline: 0
 n_family_unresolved: 0
 n_non_anchorable: 7
-n_via_coverage_append: 0
+n_via_coverage_append: 1
 n_append_view_truncated: 0
-n_coverage_appended_rows: 4
+n_coverage_appended_rows: 6
 n_coverage_degraded: 0
 coverage_degraded_qids: []
 judge_disagreements: []
@@ -244,59 +246,36 @@ per_gold:
 - qid: hp007
   question: ¿Cómo se realiza el test anual de un detector VESDA-E VEP según el manual
     del fabricante?
-  answer: '## Test anual del detector VESDA-E VEP-A10-P
+  answer: '## Test anual del detector VESDA-E VEP según el manual del fabricante
 
 
-    Según el calendario de mantenimiento del manual, las tareas de frecuencia **anual**
-    para el VEP-A10-P son las siguientes [F1]:
+    El manual del VEP-A10-P establece **cuatro tareas de mantenimiento anual** (frecuencia
+    "Una vez al año") [F1]:
 
 
-    ---
+    1. **Realizar una prueba de humos** para comprobar la integridad de la red de
+    tubería
 
+    2. **Comprobar el flujo** de la red de tubería
 
-    ### Tareas anuales obligatorias
+    3. **Limpiar los puntos de muestreo**
 
-
-    **1. Prueba de humos (integridad de la red de tubería)**
-
-
-    - Introduce una muestra de humo en el orificio de muestreo más alejado [F2].
-
-    - Mide el tiempo que tarda el humo en llegar al detector (tiempo de transporte)
-    [F2].
-
-    - Registra los resultados y compáralos con pruebas anteriores para detectar variaciones
-    del sistema [F2].
-
-    - El procedimiento detallado de la prueba de humo se encuentra en la **VESDA-E
-    Commissioning Guide** [F2] — consulta ese documento para el paso a paso completo.
-
-
-    **2. Comprobación del flujo de la red de tubería** [F1]
-
-
-    **3. Limpieza de los puntos de muestreo** [F1]
-
-
-    **4. Limpieza con agua de la red de tubería** [F1]
+    4. **Limpiar con agua la red de tubería**
 
 
     ---
 
 
-    ### Antes de realizar cualquier prueba — Precauciones obligatorias
-
-
-    Antes de iniciar el mantenimiento o las pruebas [F1]:
+    ### Antes de comenzar cualquier prueba — Precauciones obligatorias [F1]
 
 
     - Informa a la **autoridad supervisora adecuada**.
 
-    - Asegúrate de que se **aíslen todos los dispositivos** que dependan del detector
-    antes de ponerlo en funcionamiento.
+    - Asegúrate de que se **aíslen los dispositivos existentes** que dependan del
+    detector antes de ponerlo en funcionamiento.
 
-    - Sigue los **procedimientos del sitio para evitar falsas alarmas** a los servicios
-    supervisados.
+    - Cuando se realicen pruebas de humo, **sigue los procedimientos del sitio para
+    evitar falsas alarmas** a los servicios supervisados.
 
 
     > ⚠️ Cuando el detector está deshabilitado o en espera, **no emitirá advertencias
@@ -306,67 +285,69 @@ per_gold:
     ---
 
 
-    ### Modo en espera durante el mantenimiento
+    ### Modo en espera durante el mantenimiento de tubería y puntos de muestreo [F6]
 
 
-    Para las tareas que requieran intervenir en la red de tubería o puntos de muestreo,
-    establece el detector en **modo en espera** mediante Xtralis VSC [F6]:
+    Cuando realices el mantenimiento de la red de tubería o los puntos de muestreo,
+    establece el detector en **modo en espera** para apagar el aspirador:
 
 
-    1. En Xtralis VSC, selecciona **"Go to Standby"** en el menú **"Device"** [F6].
+    1. Mediante **Xtralis VSC**, selecciona **"Go to Standby"** (Ir a modo en espera)
+    en el menú **"Device"** (Dispositivo).
 
-    2. El LED desactivado parpadeará y se desactivará el aspirador [F6].
+    2. El LED desactivado parpadeará y se desactivará el aspirador.
 
-    3. Al terminar, selecciona **"End Standby"** en el menú **"Device"** para reactivar
-    la unidad [F6].
+    3. Si está configurado, el zumbador emitirá **un pitido por minuto** (si la casilla
+    de pitido en espera está marcada en la pantalla de configuración de relés, sección
+    5.5.10) [F6].
 
-
-    > Nota: En modo en espera se detiene la detección de alarmas, pero **no** la detección
-    ni señalización de fallos [F6].
-
-
-    ---
+    4. Al terminar, selecciona **"End Standby"** (Finalizar modo en espera) en el
+    menú **"Device"** para reactivar la unidad [F6].
 
 
-    ### Comandos de prueba disponibles desde Xtralis VSC
-
-
-    Para verificar el correcto funcionamiento del sistema durante el mantenimiento
-    anual, el software Xtralis VSC permite ejecutar [F7]:
-
-
-    - **Prueba de alarma** ("Start Alarm Test"): simula nivel de humo de escala completa,
-    activando condiciones de Alerta, Acción, Fuego 1 y Fuego 2.
-
-    - **Prueba de fallo de circulación de aire** ("Start Air Flow Fault Test"): comprueba
-    el sistema de detección de flujo apagando el aspirador.
-
-    - **Prueba de relés** ("Start Relay Test"): activa y desactiva los relés disponibles
-    para verificarlos.
-
-    - **Prueba de fallo importante** ("Start Major Fault Test"): genera un fallo importante
-    y desactiva el relé de fallo durante **2 minutos** [F7].
-
-    - **Prueba de fallo menor** ("Start Minor Fault Test"): genera un fallo menor
-    y desactiva el relé de fallo durante **2 minutos** [F7].
+    > Nota: El modo en espera **detiene la detección de alarmas**, pero **no** la
+    detección ni señalización de fallos [F6].
 
 
     ---
 
 
-    ### Nota sobre frecuencias
+    ### Prueba de humos anual [F2]
 
 
-    La frecuencia de las comprobaciones puede variar en función de los **códigos y
-    normas locales** y del **entorno de la instalación** [F1]. Verifica siempre con
-    la normativa aplicable en tu zona.
+    La prueba de humos consiste en:
+
+
+    - Introducir una muestra de humo en el **orificio de muestreo más alejado**.
+
+    - Medir el **tiempo de transporte** hasta que el humo llega al detector.
+
+    - Registrar los resultados y compararlos con pruebas anteriores para detectar
+    variaciones del sistema [F2].
+
+
+    > El manual remite al procedimiento detallado a la **VESDA-E Commissioning Guide**
+    (Guía de puesta en marcha de VESDA-E) para los detalles completos de la prueba
+    de humos [F2].
+
+
+    ---
+
+
+    ### Notas adicionales del calendario de mantenimiento [F1]
+
+
+    - El mantenimiento puede realizarlo el **instalador original, un distribuidor
+    autorizado o el contratista de servicio**.
+
+    - La frecuencia puede variar según **códigos y normas locales** y el **entorno
+    de la instalación**.
 
 
     ---
 
 
     **Fuente:** 33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores (sin revisión
-    registrada); 33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores (sin revisión
     registrada)
 
 
@@ -401,7 +382,7 @@ per_gold:
   - 610dabe9-9321-49bc-b85d-db7e53d88779
   - 94c54252-e8f1-49b1-bba8-8da5791609e0
   - 6b0f9d3c-ab56-493f-ae0a-8e4c39794dd6
-  - 9aed283d-f604-4425-9132-8a09de361c6d
+  - 22339a81-49b0-4c62-8839-0f762873aeb2
   - 89e31c03-ec8a-4256-95e2-95333b376cb4
   - badb88d3-80a9-4359-a5ee-da0193fea8f8
   - 289e81d3-0584-4bc3-b2ca-3bbab6e64a94
@@ -409,14 +390,14 @@ per_gold:
   - d65090aa-413d-47da-be9e-2a6ac44910b0
   - c4054186-00f0-451a-b66e-f7cad2ef0eb8
   - 159bb21f-1ada-4535-b68d-0c0c7d363940
-  - 22339a81-49b0-4c62-8839-0f762873aeb2
+  - 51eb42e8-59b3-45e1-bf3e-765c3eca5c67
   - 8f779132-616d-4feb-80b7-1fcd401d4864
-  - 551994ff-7666-41da-adca-cb928b910b95
+  - 7aae2a14-38e6-4da9-a28a-d3aa60d42e5e
   - bd4e288b-d65b-4491-bee1-8e140a9e56f8
-  - f4681f84-956e-4fb7-85c2-60845343705e
+  - 9aed283d-f604-4425-9132-8a09de361c6d
   - 2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83
-  - bd3e59c2-4211-4f51-84a9-1eb243dbab9b
-  - d8a936fa-84a2-4874-8882-c2af263beb8a
+  - d278cf45-14d3-4f5d-892a-fe3c0bc154e5
+  - f1e83712-abcf-4a6f-b064-2d38eb2eadc8
   - 6bf71772-48b6-4543-b6ed-8187ab97a8fd
   - b2fdffad-3bff-4a8c-a672-1b64e48189d6
   - bbbd1b00-45a1-42ef-8f6e-1743e4f7464b
@@ -432,10 +413,10 @@ per_gold:
   - 8f779132-616d-4feb-80b7-1fcd401d4864
   - 610dabe9-9321-49bc-b85d-db7e53d88779
   - d65090aa-413d-47da-be9e-2a6ac44910b0
-  - 9aed283d-f604-4425-9132-8a09de361c6d
-  - dcf90292-5a85-4f32-823f-1e30989ea7ef
-  - 2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83
   - bbbd1b00-45a1-42ef-8f6e-1743e4f7464b
+  - 2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83
+  - 159bb21f-1ada-4535-b68d-0c0c7d363940
+  - fcdedc66-cc54-449b-8e59-8a37cc75b7f9
   served_ids:
   - 289e81d3-0584-4bc3-b2ca-3bbab6e64a94
   - bd4e288b-d65b-4491-bee1-8e140a9e56f8
@@ -443,15 +424,15 @@ per_gold:
   - 8f779132-616d-4feb-80b7-1fcd401d4864
   - 610dabe9-9321-49bc-b85d-db7e53d88779
   - d65090aa-413d-47da-be9e-2a6ac44910b0
-  - 9aed283d-f604-4425-9132-8a09de361c6d
-  - dcf90292-5a85-4f32-823f-1e30989ea7ef
-  - 2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83
   - bbbd1b00-45a1-42ef-8f6e-1743e4f7464b
+  - 2fc1314b-f2ec-46a2-b0e6-3fd0ec643d83
   - 159bb21f-1ada-4535-b68d-0c0c7d363940
+  - fcdedc66-cc54-449b-8e59-8a37cc75b7f9
+  - 22339a81-49b0-4c62-8839-0f762873aeb2
   appended_ids:
-  - 159bb21f-1ada-4535-b68d-0c0c7d363940
+  - 22339a81-49b0-4c62-8839-0f762873aeb2
   appended_lane:
-    159bb21f-1ada-4535-b68d-0c0c7d363940: obligation_warning_reserve_v1
+    22339a81-49b0-4c62-8839-0f762873aeb2: obligation_warning_reserve_v1
   coverage_status: appended
   coverage_degraded: false
   hist:
@@ -519,143 +500,173 @@ per_gold:
     sirena tiene y con qué contactos, cómo se comporta el relé de avería ante un fallo
     o un corte de alimentación, qué resistencia de fin de línea llevan las salidas
     de sirena y cuál es la especificación eléctrica de los contactos de relé?
-  answer: '## Salidas de relé y sirena del FAAST LT-200
+  answer: '# FAAST LT-200 — Salidas de relé, sirena y especificaciones eléctricas
 
 
-    ### Relés disponibles y sus contactos
-
-
-    El FAAST LT-200 dispone de los siguientes relés, con contactos **NC (normalmente
-    cerrado), C (común) y NA (normalmente abierto)** para cada uno [F3]:
-
-
-    **Relés de alarma:**
-
-    - Terminal 5 → Relé de alarma NC — Canal 1 (T1) [F3]
-
-    - Terminal 6 → Relé de alarma C — Canal 1 [F3]
-
-    - Terminal 7 → Relé de alarma NA — Canal 1 [F3]
-
-    - Terminal 8 → Relé de alarma NC — Canal 2 (T2) [F3]
-
-    - Terminal 9 → Relé de alarma C — Canal 2 [F3]
-
-    - Terminal 10 → Relé de alarma NA — Canal 2 [F3]
-
-
-    **Relés de avería:**
-
-    - Terminal 11 → Relé de avería NC — Canal 1 (T3) [F3]
-
-    - Terminal 12 → Relé de avería C — Canal 1 [F3]
-
-    - Terminal 13 → Relé de avería NA — Canal 1 [F3]
-
-    - Terminal 14 → Relé de avería NC (AUX.) — Canal 2 (T4) [F3]
-
-    - Terminal 15 → Relé de avería C (AUX.) — Canal 2 [F3]
-
-    - Terminal 16 → Relé de avería NA (AUX.) — Canal 2 [F3]
-
-
-    **Relés de prealarma** (presentes en la variante Stand Alone HS):
-
-    - Terminal 23 → Relé de prealarma NC — Canal 1 (T9) [F3]
-
-    - Terminal 24 → Relé de prealarma C — Canal 1 [F3]
-
-    - Terminal 25 → Relé de prealarma NA — Canal 1 [F3]
-
-    - Terminal 26 → Relé de prealarma NC — Canal 2 (T10) [F3]
-
-    - Terminal 27 → Relé de prealarma C — Canal 2 [F3]
-
-    - Terminal 28 → Relé de prealarma NA — Canal 2 [F3]
+    El FAAST LT-200 dispone de relés de alarma, avería y sirena (y prealarma en la
+    variante Stand Alone), con contactos NC/C/NA por canal, resistencia de fin de
+    línea de **47 kΩ** en las salidas de sirena, y contactos de relé nominales a **2,0
+    A / 30 V CC** y **0,5 A / 30 V CA**.
 
 
     ---
 
 
-    ### Salidas de sirena
+    ## 1. Relés disponibles y su comportamiento
 
 
-    - Terminal 17 → Salida sirena 1 − (T5) [F3]
-
-    - Terminal 18 → Salida sirena 1 + [F3]
-
-    - Terminal 19 → Salida sirena 2 − (T6) [F3]
-
-    - Terminal 20 → Salida sirena 2 + [F3]
+    ### Variante conectada a panel (manual I56-6577-006_ES)
 
 
-    **Resistencia de fin de línea:** **47 kΩ** en cada salida de sirena [F3]
+    - **Relé de ALARMA 1 y 2**: Controlado por el panel cuando determina que se cumple
+    la condición de alarma. Encendido y apagado por el panel; **no enclavado** [F1].
+
+    - **Relé de AVERÍA 1 y 2**: Se activa ante una condición de avería en el canal
+    1 o 2, o una avería común. También se activa en **modo de servicio** y cuando
+    se **desconecta la alimentación** de la unidad. El estado de avería **no está
+    enclavado** [F1].
+
+    - **Relé de SIRENA 1 y 2**: Se activa cuando el canal está en ALARMA. La sirena
+    1 corresponde al canal 1 y la sirena 2 al canal 2. Estado predeterminado = establecido
+    en ALARMA [F1].
 
 
-    ---
+    ### Variante Stand Alone (manual I56-6574-005_ES)
 
 
-    ### Comportamiento de los relés
+    - **Relé de ALARMA 1 y 2**: Se establece en ENCENDIDO si se cumple la condición
+    de alarma en un canal. Condición predeterminada = Nivel 1. El estado de alarma
+    **está enclavado por defecto**; se necesita un **rearme manual** para desactivar
+    el LED y el relé [F2].
 
+    - **Relé de PREALARMA 1 y 2**: Se establece en ENCENDIDO si se cumple la condición
+    de prealarma en un canal. Condición predeterminada = Nivel 1. Nota: cuando PREALARMA
+    = ALARMA = Nivel 1, la prealarma se activará al **70 % del nivel 1** [F2].
 
-    **Relé de alarma:**
+    - **Relé de AVERÍA 1 y 2**: Igual que la variante de panel — se activa ante avería
+    en canal 1 o 2, avería común, modo de servicio y **corte de alimentación**. El
+    estado de avería **no está enclavado** (predeterminado) [F2].
 
-    - En la variante **Loop** (conectada a panel): controlado por el panel cuando
-    determina la condición de alarma; **no enclavado**, se enciende y apaga por el
-    panel [F2]
-
-    - En la variante **Stand Alone HS**: se establece en ENCENDIDO al cumplirse la
-    condición de alarma (nivel 1 por defecto); **estado enclavado por defecto**, requiere
-    **REARME manual** para desactivar el LED y el relé [F10]
-
-
-    **Relé de prealarma** (variante Stand Alone HS):
-
-    - Se activa al cumplirse la condición de prealarma (nivel 1 por defecto)
-
-    - Nota: cuando PREALARMA = ALARMA = Nivel 1, la prealarma se activará al **70
-    % del nivel 1** [F10]
-
-
-    **Relé de avería:**
-
-    - Se activa ante cualquier condición de avería en el canal 1 o 2, o avería común
-    [F2]
-
-    - También se activa en **modo de servicio** [F2]
-
-    - También se activa cuando se **desconecta la alimentación de la unidad** [F2]
-
-    - **El estado de avería NO está enclavado** (predeterminado) [F2]
-
-
-    **Relé de sirena:**
-
-    - Se activa cuando el canal está en ALARMA [F2]
-
-    - En la variante Stand Alone HS, también se activa en PREALARMA [F10]
-
-    - Estado predeterminado: establecido en ALARMA [F2]
+    - **Relé de SIRENA 1 y 2**: Se activa cuando el canal está en ALARMA / PREALARMA.
+    La sirena 1 corresponde al canal 1 y la sirena 2 al canal 2. Estado predeterminado
+    = establecido en ALARMA [F2].
 
 
     ---
 
 
-    ### Especificación eléctrica de los contactos de relé
+    ## 2. Contactos de los relés (terminales de cableado)
 
 
-    - Potencia nominal de los contactos (carga resistiva CC): **máx. 2 A a 30 V CC**
-    [F1]
-
-    - Potencia nominal de los contactos (carga resistiva CA): **máx. 0,5 A a 30 V
-    CA** [F1]
-
-    - Vida útil: **mínimo 10⁵ operaciones** [F1]
+    ### Variante conectada a panel — terminales T2 a T7 [F4]
 
 
-    > ⚠️ **Advertencia:** El manual incluye una sección específica sobre conmutación
-    de cargas inductivas con diagramas de circuito [F6]. Para cargas inductivas, consulta
-    los diagramas de la sección "WARNING: Switching Inductive Loads" del manual I56-6577-006.
+    **Relé de alarma canal 1** (terminales T2):
+
+    - Terminal 5: Relé de alarma **NC** — C1
+
+    - Terminal 6: Relé de alarma **C** — C1
+
+    - Terminal 7: Relé de alarma **NA** — C1
+
+
+    **Relé de alarma canal 2** (terminales T3):
+
+    - Terminal 8: Relé de alarma **NC** — C2
+
+    - Terminal 9: Relé de alarma **C** — C2
+
+    - Terminal 10: Relé de alarma **NA** — C2
+
+
+    **Relé de avería canal 1** (terminales T4):
+
+    - Terminal 11: Relé de avería **NC** — C1
+
+    - Terminal 12: Relé de avería **C** — C1
+
+    - Terminal 13: Relé de avería **NA** — C1
+
+
+    **Relé de avería canal 2 (AUX.)** (terminales T5):
+
+    - Terminal 14: Relé de avería **NC** (AUX.) — C2
+
+    - Terminal 15: Relé de avería **C** (AUX.) — C2
+
+    - Terminal 16: Relé de avería **NA** (AUX.) — C2
+
+
+    ### Variante Stand Alone — terminales T1 a T10 [F5]
+
+
+    **Relé de alarma canal 1** (T1): terminales 5 NC / 6 C / 7 NA — C1
+
+    **Relé de alarma canal 2** (T2): terminales 8 NC / 9 C / 10 NA — C2
+
+    **Relé de avería canal 1** (T3): terminales 11 NC / 12 C / 13 NA — C1
+
+    **Relé de avería canal 2 (AUX.)** (T4): terminales 14 NC / 15 C / 16 NA — C2
+
+    **Relé de prealarma canal 1** (T9): terminales 23 NC / 24 C / 25 NA — C1
+
+    **Relé de prealarma canal 2** (T10): terminales 26 NC / 27 C / 28 NA — C2
+
+
+    ---
+
+
+    ## 3. Salidas de sirena y resistencia de fin de línea
+
+
+    Ambas variantes tienen dos salidas de sirena con los siguientes terminales [F4][F5]:
+
+
+    - **Salida sirena 1**: terminal — (negativo) y terminal + (positivo) → resistencia
+    de fin de línea de **47 kΩ**
+
+    - **Salida sirena 2**: terminal — (negativo) y terminal + (positivo) → resistencia
+    de fin de línea de **47 kΩ**
+
+
+    > La resistencia de fin de línea de **47 kΩ** se suministra en el kit de instalación
+    (2 unidades incluidas) [F9].
+
+
+    ---
+
+
+    ## 4. Especificación eléctrica de los contactos de relé
+
+
+    - Potencia nominal de los contactos (carga resistiva **30 V CC**): máx. **2 A**
+    [F3][F6]
+
+    - Potencia nominal de los contactos (carga resistiva **30 V CA**): máx. **0,5
+    A** [F3][F6]
+
+    - Vida útil: mínimo **10⁵ operaciones** [F3]
+
+
+    ---
+
+
+    ## 5. Comportamiento del relé de avería ante fallo o corte de alimentación
+
+
+    El relé de avería se activa en los siguientes casos [F1][F2]:
+
+    1. Condición de avería en el **canal 1 o canal 2**
+
+    2. **Avería común**
+
+    3. Cuando la unidad está en **modo de servicio**
+
+    4. Cuando se **desconecta la alimentación** de la unidad
+
+
+    El estado de avería **no está enclavado** — no requiere rearme manual para desactivarse
+    [F1][F2].
 
 
     ---
@@ -663,11 +674,11 @@ per_gold:
 
     **Fuentes:**
 
-    - I56-6574-005_ES — HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)
+    - I56-6577-006_ES FAAST Notifier LT-200 QIG (sin revisión registrada)
 
-    - I56-6577-006_ES — FAAST Notifier LT-200 QIG (sin revisión registrada)
+    - I56-6574-005_ES -HS Stand Alone FAAST LT-200 QIG (sin revisión registrada)
 
-    - I56-6577-006_EN — Notifier FAAST LT-200 QIG (sin revisión registrada)'
+    - I56-3956-201_ES Morley Loop FAAST LT QIG (sin revisión registrada)'
   family_resolved: true
   gold_families:
   - FAAST LT-200
@@ -687,7 +698,7 @@ per_gold:
   topk_n: 10
   appended_n: 1
   pool_ids:
-  - d47ddbb0-410a-418e-bffa-4bd61ab56844
+  - f1828195-5188-49e4-9091-30bc9f462a59
   - f539c939-6e6a-4b18-8e3f-abab6f4459b4
   - 8c1cd486-3510-42d7-b71b-1ae43cb2893f
   - 8060eb42-9c8d-4dd9-a9c9-582946fb5734
@@ -696,74 +707,74 @@ per_gold:
   - 9ee4655c-2220-43d7-af96-e643e5f720e6
   - 77e12a99-b1d0-4c1d-b9fa-f39572d24189
   - 0438dbce-ae0f-4b74-8209-b86c42da87ef
-  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
-  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
-  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+  - 1aa8834a-d5a7-4df3-a32b-bcbdf8f67506
+  - 3298a4d6-d8c9-444e-a56e-0ce54ce1b990
+  - d47ddbb0-410a-418e-bffa-4bd61ab56844
   - 6c3cb8df-8369-4cd4-bd8a-fc5f35be7e49
   - 2e549215-e5e4-4865-8687-e6f2f183058a
   - 53f9a782-c9a1-4218-b4f4-ea2ef844c1a3
   - e5a09bb1-1272-41fb-94de-4d0c2cd7edd6
   - 225af315-9e59-4a89-931a-fd551e5a45ca
   - 1b3a2b55-ea39-4a6c-b676-c70673708fa0
-  - e49a4944-4157-42e3-a1c5-15ec4a6e8926
-  - 78e0cbd2-1dd9-46c2-b9c4-57921c8d6dbd
+  - 1ccf2035-4ca2-4241-8474-4cdcb6e6e796
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
   - 65f6882e-51af-49b4-b712-3148dd15d5d8
   - 8b7287ea-e8ea-4e92-84f2-33050751a1e3
   - 85ca9208-a4e1-4ad1-b360-1b2820bf1953
   - 0fbc7b13-2b1d-48ad-8564-c0718fe728af
   - 94a04ec2-e032-4da1-b181-37462df15445
   - 686013cf-af20-4aa0-bbf6-78e2978dc72b
-  - 62ded8a4-c738-435e-87d1-32e0beca01aa
+  - 3bb30ca1-57be-4af5-940f-c1d743ff162a
+  - 78e0cbd2-1dd9-46c2-b9c4-57921c8d6dbd
   - 154a7bfd-fa11-43e8-8e7b-703c2371d8dd
   - 7ea28e5a-8693-40f4-a738-8f3bc4c70c47
-  - c5e2a68e-ccb1-4a27-891a-da623d884637
+  - d7dbcba9-9104-4216-90fe-37d2baafbe86
   - e2dfc0bb-21d1-4d5f-8e8a-444e9473541c
   - 4a12c8cc-d358-42bb-ad92-00c94afba9af
   - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
-  - de962291-ba9d-448d-ad88-b3cc930cd2a5
+  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+  - 62ded8a4-c738-435e-87d1-32e0beca01aa
   - 9fb42bbd-cd3c-4b2c-9bf4-a6e779b740dd
   - 8221ec70-6882-41b5-8dd6-705a1a7e739a
-  - d7dbcba9-9104-4216-90fe-37d2baafbe86
+  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
   - b2242d67-cf79-47e6-9347-8b547d07e01d
-  - 2949130f-32dc-4adf-87ca-64fba37ff329
+  - e49a4944-4157-42e3-a1c5-15ec4a6e8926
+  - de962291-ba9d-448d-ad88-b3cc930cd2a5
   - 89b96f56-a83e-4b46-8b15-99c482faee6e
-  - 856cae09-99d5-4b03-b08a-fe6a368e1207
-  - 6f96940c-e607-42cb-a2cd-70795a41bdb4
-  - a77a231f-417e-43c3-ba0d-7129e46624d6
-  - b379f1db-8866-44b8-b434-74a3bf0073e0
-  - a5a474e6-3053-4db0-a5a9-a00dfa76eef1
-  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
-  - 5ba44464-842b-46f7-ac43-259be83ad416
-  - 34d5c1ad-5ba7-4b15-918e-675c7b93a80d
-  - b564b014-22a9-4122-9fc8-b0684fa3393e
+  - af6ba10e-7f43-4f83-abed-1037cac32034
   - 57ba5142-1091-4748-8df4-ed552340f199
+  - a77a231f-417e-43c3-ba0d-7129e46624d6
+  - 2f9b9e8f-5307-4830-b297-1ff6f804d6c3
+  - a5a474e6-3053-4db0-a5a9-a00dfa76eef1
+  - 856cae09-99d5-4b03-b08a-fe6a368e1207
   topk_ids:
-  - 856cae09-99d5-4b03-b08a-fe6a368e1207
   - 8221ec70-6882-41b5-8dd6-705a1a7e739a
-  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
-  - 5ba44464-842b-46f7-ac43-259be83ad416
-  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
-  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
-  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
-  - 53f9a782-c9a1-4218-b4f4-ea2ef844c1a3
-  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
   - d47ddbb0-410a-418e-bffa-4bd61ab56844
+  - 856cae09-99d5-4b03-b08a-fe6a368e1207
+  - af6ba10e-7f43-4f83-abed-1037cac32034
+  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+  - f1828195-5188-49e4-9091-30bc9f462a59
+  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
+  - 1ccf2035-4ca2-4241-8474-4cdcb6e6e796
   served_ids:
-  - 856cae09-99d5-4b03-b08a-fe6a368e1207
   - 8221ec70-6882-41b5-8dd6-705a1a7e739a
-  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
-  - 5ba44464-842b-46f7-ac43-259be83ad416
-  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
-  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
-  - 422ed8a7-8bea-49d6-ac82-da39d6fb9050
-  - 53f9a782-c9a1-4218-b4f4-ea2ef844c1a3
-  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
   - d47ddbb0-410a-418e-bffa-4bd61ab56844
-  - 9ee4655c-2220-43d7-af96-e643e5f720e6
+  - 856cae09-99d5-4b03-b08a-fe6a368e1207
+  - af6ba10e-7f43-4f83-abed-1037cac32034
+  - dd9e230c-327a-426a-bf94-f5f1bb3b5835
+  - f1828195-5188-49e4-9091-30bc9f462a59
+  - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
+  - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
+  - ff120c5b-d4f9-4006-b650-eb204fb99ed4
+  - 1ccf2035-4ca2-4241-8474-4cdcb6e6e796
+  - 2e549215-e5e4-4865-8687-e6f2f183058a
   appended_ids:
-  - 9ee4655c-2220-43d7-af96-e643e5f720e6
+  - 2e549215-e5e4-4865-8687-e6f2f183058a
   appended_lane:
-    9ee4655c-2220-43d7-af96-e643e5f720e6: obligation_warning_reserve_v1
+    2e549215-e5e4-4865-8687-e6f2f183058a: obligation_warning_reserve_v1
   coverage_status: appended
   coverage_degraded: false
   hist:
@@ -780,15 +791,17 @@ per_gold:
       de 2 canales, canal 2), con contactos NC-C-NA
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 3
-    n_support_raw: 4
-    n_support_served: 1
+    n_support_fam: 5
+    n_support_raw: 6
+    n_support_served: 2
     reaches_gen: true
     in_topk: true
     in_pool: true
     support_l1_killed:
     - 1b3a2b55-ea39-4a6c-b676-c70673708fa0
+    - 3298a4d6-d8c9-444e-a56e-0ce54ce1b990
     - 4ba034f3-9a65-4129-a4ad-fbe94a0ba266
+    - af6ba10e-7f43-4f83-abed-1037cac32034
     - dd9e230c-327a-426a-bf94-f5f1bb3b5835
     - e49a4944-4157-42e3-a1c5-15ec4a6e8926
     support_l1_override: true
@@ -809,7 +822,6 @@ per_gold:
     in_pool: true
     support_l1_killed:
     - 0438dbce-ae0f-4b74-8209-b86c42da87ef
-    - 5ba44464-842b-46f7-ac43-259be83ad416
     - 7362ea0f-2b9d-42aa-8b2c-43b81b1931c0
     - 80f7a04f-3b43-4a6f-a0dd-13a57721f442
     support_l1_override: null
@@ -821,9 +833,9 @@ per_gold:
       resistencia de fin de linea de 47 kohm; no son contactos de rele
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 3
-    n_support_raw: 4
-    n_support_served: 1
+    n_support_fam: 5
+    n_support_raw: 7
+    n_support_served: 2
     reaches_gen: true
     in_topk: true
     in_pool: true
@@ -837,10 +849,13 @@ per_gold:
     family_resolved: true
     n_support_fam: 6
     n_support_raw: 6
-    n_support_served: 4
+    n_support_served: 3
     reaches_gen: true
     in_topk: true
     in_pool: true
+    support_l1_killed:
+    - 1ccf2035-4ca2-4241-8474-4cdcb6e6e796
+    support_l1_override: null
     conveyed_yes: 5
     clase: OK
   - key: cat007#4:10^5
@@ -850,9 +865,9 @@ per_gold:
       el render)'
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 5
-    n_support_raw: 5
-    n_support_served: 3
+    n_support_fam: 4
+    n_support_raw: 4
+    n_support_served: 2
     reaches_gen: true
     in_topk: true
     in_pool: true
@@ -861,139 +876,49 @@ per_gold:
 - qid: hp018
   question: ¿Cómo se conecta una sirena convencional en las salidas de sirena de la
     Morley ZXe?
-  answer: '# Conexionado de sirenas convencionales en salidas de sirena de la ZXe
-
-
-    Los fragmentos recuperados corresponden principalmente a los modelos **ZX2e y
-    ZX5e** (documento MIE-MI-530rv001) [F3][F4]. A continuación te detallo todo lo
-    necesario:
-
-
-    ---
-
-
-    ## Terminales físicos
-
-
-    **ZX2e** — Los circuitos de sirena se ubican en el bloque de terminales etiquetado
-    **"SOUNDERS / A+ A- B+ B-"** [F4] (ver Figura 13 del documento MIE-MI-530rv001).
-
-
-    **ZX5e** — Los circuitos de sirena se ubican en el bloque **TB7**, con terminales
-    **"A- A+ B- B+ C- C+ D- D+"** [F4] (ver Figura 14 del documento MIE-MI-530rv001).
-
-
-    ---
-
-
-    ## Requisitos de conexionado
-
-
-    1. **Polaridad de las sirenas**: Cada sirena debe tener un **diodo integrado**
-    para impedir el consumo en polarización inversa durante la supervisión [F4]. El
-    circuito se polariza en inverso en reposo para supervisar la línea, y cambia a
-    polarización normal al dispararse [F4].
-
-
-    2. **Dispositivos no polarizados**: Si conectas campanas o dispositivos sin polaridad,
-    debes instalar **diodos de polarización y protección en cada uno** [F4].
-
-
-    3. **Resistencia Final de Línea (RFL)**: La supervisión se realiza mediante una
-    **RFL de 6.800 Ω** instalada al final de la línea, entre el terminal + y − de
-    la última sirena [F3]. Si no hay sirenas conectadas, la RFL se instala directamente
-    en los terminales de la central [F1].
-
-
-    4. **Sin ramales**: No se deben realizar derivaciones en paralelo en la línea
-    de sirenas, ya que la supervisión solo cubre la línea directa hasta la RFL — los
-    ramales no quedan supervisados [F2].
-
-
-    5. **Cableado**: No se recomienda longitud superior a **1 km**, ya que la capacitancia
-    e inductancia del lazo pueden afectar al funcionamiento [F3]. Usa secciones adecuadas
-    para garantizar la alimentación de las sirenas tanto en tensión de red como en
-    condiciones de mínima tensión de baterías (consulta las tablas 10 y 11 del documento
-    MIE-MI-530rv001) [F3].
-
-
-    6. **Empalmes**: No enrolles el cable en los terminales — corta y empalma las
-    conexiones adecuadamente para mantener la supervisión de la línea [F3].
-
-
-    ---
-
-
-    ## Número de salidas disponibles
-
-
-    - **ZX2e**: **2 salidas** supervisadas de sirenas convencionales (A y B) [F4][F5].
-
-    - **ZX5e**: **4 salidas** supervisadas de sirenas convencionales (A, B, C y D)
-    [F4][F5].
-
-
-    ---
-
-
-    ## Programas de disparo por defecto (instalación nueva o tras borrado)
-
-
-    - Sirena de placa A → **Programa 3** [F5]
-
-    - Sirena de placa B → **Programa 4** [F5]
-
-    - Sirena de placa C → **Programa 5** (solo ZX5e) [F5]
-
-    - Sirena de placa D → **Programa 6** (solo ZX5e) [F5]
-
-
-    Todos los programas tienen seleccionado modo **Sí** para todas las zonas (disparo
-    inmediato para cualquier fuego de zona) [F5].
-
-
-    ---
-
-
-    > ⚠️ Consulta las **Figuras 13 y 14** (terminales) y la **Figura 15** (circuito
-    de sirenas convencionales) del documento MIE-MI-530rv001 para el esquema de conexionado
-    completo.
-
-
-    ---
-
-
-    **Fuente:** Manual de Instalación Paneles de Incendio ZX2e/ZX5e — Documento No.
-    MIE-MI-530, Revisión: 001 (MIE-MI-530rv001); Manual de Configuración Paneles de
-    Incendio ZX2e/ZX5e — Documento No. MIE-MP-530, Revisión: 001 (MIE-MP-530rv001)
-
-
-    ---
-
-    📖 **Información adicional del manual:**
-
-    - "**Sirena de placa A: Programa asignado: 3**
-
-
-    **Sirena de placa B: Programa asignado: 4**
-
-
-    **Sirena de placa C: Programa asignado: 5 (sólo en ZX5e)**
-
-
-    **Sirena de placa D: Programa asignado: 6 (sólo en ZX5e)**" [F5]
-
-
-    ---
-
-    ⚠️ **Obligaciones de evidencia del manual:**
-
-    - "(NOTA: Las salidas de relé no se activan nunca)." (MIE-MU-530rv001, p. 17)
-    [F10]
-
-    - "Todas las salidas de sirena quedan configuradas por defecto para sonar de forma
-    contínua con cualquier alarma de cualquier zona, quedándo así en el patrón 1."
-    (MIE-MP-310, p. 38) [F8]'
+  answer: "# Conexionado de sirenas convencionales en salidas de sirena de la ZXe\n\
+    \nLos fragmentos recuperados corresponden principalmente a los modelos **ZX2e\
+    \ y ZX5e** (manual MIE-MI-530rv001) y a la familia **ZXAE/ZXEE** (manual MIE-MI-310).\
+    \ A continuación se detalla el conexionado aplicable a la ZXe según esa documentación.\n\
+    \n---\n\n## Terminales de conexión\n\n- **ZX2e**: terminales de sirena en bloque\
+    \ etiquetado **`AUX RELAY A+ A- B+ B-`** / **`SOUNDERS B+ B- A+ A-`** [F4]\n-\
+    \ **ZX5e**: terminales en **TB7**, etiquetados **`A- A+ B- B+ C- C+ D- D+`** [F4]\n\
+    \nConsulta la **Figura 13** (ZX2e) y **Figura 14** (ZX5e) del documento MIE-MI-530rv001\
+    \ para la ubicación exacta en placa [F4].\n\n---\n\n## Requisitos del circuito\n\
+    \n1. **Corriente máxima por circuito: 1 A** [F11]. No superar este límite sumando\
+    \ el consumo de todas las sirenas del circuito.\n\n2. **Resistencia Final de Línea\
+    \ (RFL)**: obligatoria al final del circuito. Valor: **6,8 kΩ, 0,5 W mínimo**\
+    \ [F11]. Se instala entre el terminal `+` y `-` de la última sirena del circuito.\n\
+    \   - Si no se conecta ninguna sirena en la salida, la RFL debe colocarse directamente\
+    \ en los terminales de la central [F1].\n\n3. **Diodo de polarización en cada\
+    \ sirena**: cada sirena debe llevar un diodo integrado para impedir consumo en\
+    \ polarización inversa durante la supervisión [F4]. El circuito se polariza en\
+    \ inverso en reposo para supervisar la línea y cambia a polarización normal al\
+    \ dispararse [F4].\n\n4. **Dispositivos no polarizados** (campanas sin polaridad):\
+    \ deben incorporar un diodo de polarización y protección en cada uno [F4].\n\n\
+    ---\n\n## Topología del cableado\n\nEl circuito discurre en línea directa desde\
+    \ la central hasta la RFL al final. **No se deben realizar ramales** en la conexión\
+    \ de sirenas convencionales, ya que la supervisión se realiza sobre la línea directa\
+    \ hasta la RFL; los ramales paralelos no podrán ser supervisados [F2].\n\nPara\
+    \ el esquema de conexionado exacto, consulta la **Figura 15 – Circuito de sirenas\
+    \ convencionales** del documento MIE-MI-530rv001 [F3].\n\n---\n\n## Advertencias\
+    \ de cableado\n\n- **No enrollar el cable en los terminales**. Cortar y empalmar\
+    \ las conexiones adecuadamente para mantener la supervisión de la línea [F3].\n\
+    - **Longitud máxima recomendada: 1 km**. Longitudes superiores pueden afectar\
+    \ al funcionamiento por capacitancia e inductancia del lazo [F3].\n- Usar secciones\
+    \ de cable adecuadas para garantizar la alimentación de las sirenas tanto con\
+    \ alimentación principal como en condiciones de mínima tensión de baterías. Revisar\
+    \ las **tablas 10 y 11** del manual MIE-MI-530rv001 para las condiciones de tensión\
+    \ mínima del panel [F3].\n- No realizar cableados de sección inferior a **1,5\
+    \ mm²** [F1].\n\n---\n\n## Supervisión\n\nCualquier fallo en la línea (circuito\
+    \ abierto o cortocircuito) se mostrará en pantalla y quedará registrado en el\
+    \ registro del sistema [F5]. Ejemplo de mensaje: `!ATENCION! CIRCUITO ABIERTO\
+    \ SIRENA B` [F5].\n\n---\n\n**Fuentes:**\n- Manual de Instalación ZX2e/ZX5e —\
+    \ Documento MIE-MI-530rv001, Revisión 001\n- Manual de Instalación ZXAE/ZXEE —\
+    \ Documento MIE-MI-310 (sin revisión registrada)\n\n---\n\U0001F4D6 **Obligaciones\
+    \ de evidencia del manual:**\n- \"Todas las salidas de sirena quedan configuradas\
+    \ por defecto para sonar de forma contínua con cualquier alarma de cualquier zona,\
+    \ quedándo así en el patrón 1.\" (MIE-MP-310, p. 38) [F8]"
   family_resolved: true
   gold_families:
   - ZXE
@@ -1002,36 +927,34 @@ per_gold:
   - morley:zx5e
   doc_map_bridged_rows: []
   n_non_anchorable: 2
-  pool_n: 44
-  served_n: 11
+  pool_n: 43
+  served_n: 13
   topk_n: 10
-  appended_n: 1
+  appended_n: 3
   pool_ids:
   - c40ac5cb-20a0-4f11-943e-6a6fc29bdedc
   - 281dfd90-e02f-4c72-b32a-3c6aa0f667eb
   - 4b4733ca-bef8-4e0f-bf2b-6e406f9e81a9
   - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
   - ffb37fd8-2579-4cc0-992f-05200aa9abdd
-  - c7398da6-c2d2-4506-9408-b01362906730
-  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
+  - 504a5413-f636-4223-b743-da9944e50431
+  - 7226629a-cdd1-477b-a89d-63d208e39c8e
   - d4d54d05-bd6e-4861-81db-be2f6d67cd88
+  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
   - 9c348384-ea78-4e6e-bb5c-d8c2e564c8b0
-  - d4de9ba9-9206-49cf-9782-ba141168a0c2
+  - 9930f0a2-9920-4b92-9af1-81b5aeaf61ee
   - 276b5745-9ecc-4260-bb63-a5aacfc62579
   - ce7883c4-1a38-4df4-83f1-e35fa854340b
   - 8e211cc7-c025-4a8d-b44c-56928fedc34b
-  - 6044b61a-0068-4143-b8cc-aa353fcd00dc
-  - 3e060f66-2abe-4fae-acb3-f0c44aa8f161
+  - caf6c8be-761e-464a-a9ad-73bb56626d62
   - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
   - 31ccb719-ddc0-4b2d-aefe-94b9e65aea3c
-  - 4f0215e4-8d57-44d0-9698-3811e94c081c
-  - 81f98f85-0cf2-4285-bbef-7c042edab69b
+  - d4de9ba9-9206-49cf-9782-ba141168a0c2
   - 3cad4bf7-b1e1-4b8d-9fe5-01cfd32977ea
-  - bb495d70-f41b-453a-a964-0a733db86928
+  - 4f0215e4-8d57-44d0-9698-3811e94c081c
   - a743b999-37e1-4556-a28b-abbc507f2d16
-  - 9930f0a2-9920-4b92-9af1-81b5aeaf61ee
-  - 60c90e20-581e-4fff-9a09-85a5d54457f3
   - 72fc4c53-f507-4e67-9192-ebc68b94be78
+  - 60c90e20-581e-4fff-9a09-85a5d54457f3
   - cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7
   - 9da8fc32-2e72-416c-bacd-5cbba8f78325
   - a88c76e9-86b6-4a60-8e88-c20842af5d05
@@ -1047,6 +970,7 @@ per_gold:
   - 022c78b2-b0ca-4ac7-af45-7323a96845bd
   - 61c7ea1e-4276-47e7-9a27-8f9fa814eb62
   - c3d345b3-418a-44f6-97ab-34578c145ca2
+  - 8f81c44f-6fd8-4350-ac13-bfe360af0e85
   - 4ec32bc7-289e-45a6-992b-f9a06dd93500
   - d6debd86-37d3-4b68-ac08-ba7737667542
   - 53e12a08-1cc2-45e3-8882-3e0854e3ed8c
@@ -1061,7 +985,7 @@ per_gold:
   - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
   - d4d54d05-bd6e-4861-81db-be2f6d67cd88
   - 4ec32bc7-289e-45a6-992b-f9a06dd93500
-  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
+  - 8e211cc7-c025-4a8d-b44c-56928fedc34b
   served_ids:
   - 692718af-8d13-4e2f-80df-90d22dd832ec
   - 35f4421a-d039-4672-9884-5540ab42a788
@@ -1072,18 +996,24 @@ per_gold:
   - 1d58bcf8-a838-4d31-b65c-89c068b6ce6b
   - d4d54d05-bd6e-4861-81db-be2f6d67cd88
   - 4ec32bc7-289e-45a6-992b-f9a06dd93500
-  - b1b119f1-0dcf-44bd-83fb-f8d0cf604689
+  - 8e211cc7-c025-4a8d-b44c-56928fedc34b
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
   - cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7
   appended_ids:
+  - 90d51dac-bd0b-4051-b414-ced0fe6e33bb
+  - d79a07b8-745f-4c62-8355-d0cee6fde1db
   - cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7
   appended_lane:
+    90d51dac-bd0b-4051-b414-ced0fe6e33bb: same_blob_structural_neighbor_coverage_v1
+    d79a07b8-745f-4c62-8355-d0cee6fde1db: same_blob_structural_neighbor_coverage_v1
     cc327dc0-1f4b-44bf-b8f1-bc482e95e8a7: obligation_warning_reserve_v1
   coverage_status: appended
   coverage_degraded: false
   hist:
-    OK: 4
+    OK: 5
     synthesis-miss: 0
-    rerank-miss: 1
+    rerank-miss: 0
     retrieval-miss: 0
     corpus-gap: 0
     meta-ref: 0
@@ -1096,7 +1026,7 @@ per_gold:
     lexically_anchorable: false
     family_resolved: true
     n_support_fam: 2
-    n_support_raw: 7
+    n_support_raw: 8
     n_support_served: 2
     reaches_gen: true
     in_topk: true
@@ -1111,10 +1041,12 @@ per_gold:
     family_resolved: true
     n_support_fam: 2
     n_support_raw: 4
-    n_support_served: 1
+    n_support_served: 2
     reaches_gen: true
     in_topk: true
     in_pool: true
+    served_support_votes:
+      90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
     support_l1_killed:
     - 35f4421a-d039-4672-9884-5540ab42a788
     support_l1_override: null
@@ -1134,6 +1066,7 @@ per_gold:
     in_topk: true
     in_pool: true
     support_l1_killed:
+    - 35f4421a-d039-4672-9884-5540ab42a788
     - 692718af-8d13-4e2f-80df-90d22dd832ec
     support_l1_override: null
     conveyed_yes: 5
@@ -1156,7 +1089,6 @@ per_gold:
     - 276b5745-9ecc-4260-bb63-a5aacfc62579
     - 4ec32bc7-289e-45a6-992b-f9a06dd93500
     - 692718af-8d13-4e2f-80df-90d22dd832ec
-    - bf70bdde-b22e-47a9-b6e9-eff5b6e51c85
     support_l1_override: null
     conveyed_yes: 5
     clase: OK
@@ -1167,53 +1099,71 @@ per_gold:
     family_resolved: true
     n_support_fam: 1
     n_support_raw: 4
-    n_support_served: 0
-    reaches_gen: false
+    n_support_served: 1
+    reaches_gen: true
     in_topk: false
     in_pool: true
-    best_pool_rank: 42
-    submotivo: pos-buried
-    clase: rerank-miss
+    via_coverage_append: true
+    append_lanes:
+    - same_blob_structural_neighbor_coverage_v1
+    served_support_votes:
+      90d51dac-bd0b-4051-b414-ced0fe6e33bb: 5
+    conveyed_yes: 5
+    clase: OK
 - qid: hp001
   question: En la Detnov CAD-250, ¿cómo se entra al menú de programación avanzada?
-  answer: 'Para entrar al menú de programación avanzada de la **CAD-250**, sigue estos
-    pasos:
+  answer: '## Acceso al menú de programación avanzada — CAD-250
 
 
-    1. **Desbloquea la pantalla**: En la pantalla de reposo, toca el icono del candado
-    (🔒) [F2].
+    La ruta de acceso es la siguiente [F1]:
 
 
-    2. **Introduce la clave de administrador**: Introduce el código de administrador
-    por defecto **2222** [F2]. Este nivel de acceso es necesario para acceder a los
-    ajustes avanzados [F3].
+    **AJUSTES** (Menú principal) **> AVANZADO** (Submenú)
 
 
-    3. **Navega al menú AJUSTES**: En el menú principal (columna izquierda), pulsa
-    **AJUSTES** [F1].
+    ### Pasos previos obligatorios
 
 
-    4. **Selecciona AVANZADO**: En el submenú (columna derecha), pulsa **AVANZADO**
-    [F1].
+    Antes de poder acceder, debes autenticarte como administrador [F2]:
 
 
-    La ruta completa es: **AJUSTES** (Menú principal) **> AVANZADO** (Submenú) [F1].
+    1. En la **pantalla de reposo**, toca el icono del **candado** (🔒) [F2].
+
+    2. Se mostrará la pantalla de introducción de contraseña [F2].
+
+    3. Introduce la **clave de administrador por defecto: 2222** [F2].
 
 
-    Una vez dentro, dispones de **3 pestañas** de configuración [F1]:
-
-    - **SISTEMA**: número de cabinas (PANELES: 1 a 4), número de lazos y si hay cabina
-    con LEDs de zona [F1].
-
-    - **OTROS**: interruptores para facilitar tareas de puesta en marcha y mantenimiento,
-    incluyendo el control del **Tiempo de inactividad** [F1].
-
-    - **REINICIAR** [F1].
+    > ⚠️ **AVISO:** El uso indebido del nivel de administrador puede provocar un mal
+    funcionamiento de la instalación. Asegúrate de tener la autorización necesaria
+    antes de operar en este nivel [F2].
 
 
-    > ⚠️ El uso indebido del nivel de administrador puede provocar un mal funcionamiento
-    de la instalación. Asegúrate de tener la autorización necesaria antes de operar
-    en este nivel [F2].
+    ### Contenido del menú AVANZADO
+
+
+    Una vez dentro, dispones de **3 pestañas** [F1]:
+
+
+    - **SISTEMA:** Configuración del número de cabinas (PANELES: 1 a 4), número de
+    lazos (2, 4, 6, 8, hasta 32 según cabinas) y si hay cabina con LEDs de zona (0
+    ó 1). Los cambios requieren pulsar **"Guardar y Reiniciar"** [F1].
+
+    - **OTROS:** Interruptores para facilitar tareas de puesta en marcha y mantenimiento
+    (Tiempo de inactividad, Salto a scroll si incidentes, Saltar a último incidente
+    prioritario si timeout, entre otros) [F1][F8].
+
+    - **REINICIAR:** Devuelve la configuración completa de la central a valores de
+    fábrica [F7].
+
+
+    > ⚠️ **AVISO:** Por razones de seguridad y cumplimiento normativo, los interruptores
+    de inactividad, timeout y scroll deben estar activados (en verde) por defecto
+    [F7].
+
+
+    Este menú es accesible desde el **Nivel 2 de configuración** (nivel de administrador/instalador)
+    [F4].
 
 
     ---
@@ -1278,25 +1228,25 @@ per_gold:
   topk_ids:
   - adc2214e-926f-40e7-a014-c86683dd1673
   - 8cf55c57-dc8d-4e81-b35b-67f777580cd5
-  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
   - 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
   - ff6d8078-66fc-4738-ade1-3ddc188d51d4
   - 0c474a26-83b0-457d-a951-bc3846ab0158
+  - 1ad2ebc0-4f05-4332-a41d-a443c0e69545
+  - c9073247-3baf-4064-a26d-b755bee5449d
   - b626e345-334b-40c8-a607-7666a4a0e206
   - e2576d4a-f711-414c-bdb8-5c6e9a65de24
-  - 5fec2067-10bc-492b-82dc-94073164a132
-  - e19c19bc-3245-4048-856f-a6ed8b1f6aee
   served_ids:
   - adc2214e-926f-40e7-a014-c86683dd1673
   - 8cf55c57-dc8d-4e81-b35b-67f777580cd5
-  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
   - 9bd17466-1a22-4ade-bb16-a44624c9f166
+  - a9f55361-6fc8-4c4b-b8c9-a2c4ba6e93b1
   - ff6d8078-66fc-4738-ade1-3ddc188d51d4
   - 0c474a26-83b0-457d-a951-bc3846ab0158
+  - 1ad2ebc0-4f05-4332-a41d-a443c0e69545
+  - c9073247-3baf-4064-a26d-b755bee5449d
   - b626e345-334b-40c8-a607-7666a4a0e206
   - e2576d4a-f711-414c-bdb8-5c6e9a65de24
-  - 5fec2067-10bc-492b-82dc-94073164a132
-  - e19c19bc-3245-4048-856f-a6ed8b1f6aee
   - 895e1d42-7776-4140-abe7-3979018311e2
   appended_ids:
   - 895e1d42-7776-4140-abe7-3979018311e2
@@ -1362,46 +1312,48 @@ per_gold:
 - qid: cat005
   question: ¿Cuáles son las características técnicas de la central de detección de
     gas Fidegas CS4, y en qué se diferencian las versiones digital y analógica?
-  answer: "# Características técnicas de la central Fidegas CS4\n\nLa CS4 es una central\
-    \ de alarmas de gas que admite hasta **4 sensores remotos simultáneos**, disponible\
-    \ en versión analógica (4-20 mA) y versión digital (0-10/15 V) [F1][F2].\n\n---\n\
-    \n## Especificaciones técnicas generales\n\n- **Tensión de alimentación:** 110-230\
-    \ Vac, 50-60 Hz [F1]\n- **Potencia:** 30 W, Clase II [F1][F3]\n- **Firmware:**\
-    \ versión 1.2 (tanto en versión analógica como digital) [F3][F8]\n- **Sensores:**\
-    \ hasta 4 conexiones en modo analógico o digital [F1]\n- **Salidas:** 2 salidas\
-    \ conmutadas LP (relé apto para 230 Vac) con contactos NA-C-NC [F1]\n- **Corriente\
-    \ máxima:** 250 mA [F1]\n- **Rearme:** seleccionable manual o automático [F1]\n\
-    - **Dimensiones:** 90 x 106 x 58 mm [F1]\n- **Peso:** 300 g [F1]\n- **Instalación:**\
-    \ carril DIN o armario de superficie [F2]\n\n---\n\n## Indicaciones (LEDs y avisador)\n\
-    \n- **LED verde PWR:** alimentación presente (fijo) / corte de red (intermitente)\
-    \ [F2]\n- **LED bicolor ON/ALARM** (por sensor): presencia de sensor remoto (verde)\
-    \ / alarma (rojo) [F2]\n- **LED amarillo ERROR** (por sensor): avería de sensor\
-    \ remoto [F2]\n- **LED verde OUT1 y OUT2:** salida activa (verde) / desactivada\
-    \ (apagado) [F2]\n- **Avisador acústico:** apoyo sonoro a las indicaciones ópticas\
-    \ [F2]\n\n---\n\n## Diferencias entre versión digital y analógica\n\n**Código\
-    \ de producto:**\n- Versión digital: **3244** [F1]\n- Versión analógica: **3270**\
-    \ [F1]\n\n**Tipo de señal de entrada:**\n- Versión digital: entradas **0-10/15\
-    \ V** [F2]\n- Versión analógica: entradas **4-20 mA** [F2]\n\n**Sensores compatibles:**\n\
-    - Versión analógica [F3]:\n  - Sensores S/3 gases combustibles\n  - Sensores S/3\
-    \ y S/2 gases tóxicos\n  - Sensores S/10 gases tóxicos\n- Versión digital [F3]:\n\
-    \  - Sensores S/10 gases combustibles\n\n---\n\n## Funcionamiento básico relevante\n\
-    \n- Umbral de alarma: **20% del fondo de escala** [F6]\n- Tras encendido, el LED\
-    \ PWR parpadea durante **30 segundos** con salidas OUT1 y OUT2 en posición NA\
-    \ [F6]\n- Las alarmas son enclavadas; si la concentración no ha disminuido, la\
-    \ central no puede rearmarse, pero la alarma puede silenciarse durante **24 horas**\
-    \ con el botón RESET [F6]\n- En alarma, las salidas asignadas pasan a NA [F6]\n\
-    \n---\n\n> ⚠️ Para el conexionado de sensores, consulta los diagramas de la sección\
-    \ 3 del manual físico, ya que los esquemas de conexión de los conectores 1-2-3\
-    \ (positivo de alimentación, entrada de señal y negativo común) están representados\
-    \ en figura [F4].\n\n**Fuente:** Manual de Usuario CS4 — C.A.E., S.L. / FIDEGAS®\
-    \ (Rev. 2, 10/2018)\n\n---\n\U0001F4CB **Obligaciones de evidencia del manual:**\n\
+  answer: "## Características técnicas de la central Fidegas CS4\n\nLa CS4 es una\
+    \ central de alarmas de detección de gas fabricada por C.A.E., S.L. (marca FIDEGAS®),\
+    \ disponible en dos versiones: **digital** y **analógica** [F7][F3].\n\n---\n\n\
+    ### Características técnicas generales\n\n- **Tensión de alimentación:** 110-230\
+    \ Vac, 50-60 Hz [F2]\n- **Potencia:** 30 W, Clase II [F2][F3]\n- **Número de sensores:**\
+    \ hasta 4 conexiones simultáneas [F1][F2]\n- **Salidas:** 2 salidas conmutadas\
+    \ LP (relé apto para 230 Vac) con contactos NA-C-NC [F1][F2]\n- **Corriente máxima:**\
+    \ 250 mA [F2]\n- **Rearme:** seleccionable manual o automático [F2]\n- **Dimensiones:**\
+    \ 90 x 106 x 58 mm [F2]\n- **Peso:** 300 g [F2]\n- **Instalación:** carril DIN\
+    \ o armario de superficie [F1]\n- **Firmware:** versión 1.2 (tanto digital como\
+    \ analógica) [F7][F3]\n\n---\n\n### Indicaciones (LEDs y avisador)\n\n- **LED\
+    \ verde PWR:** alimentación presente (fijo) / corte de red (intermitente) [F1]\n\
+    - **LED bicolor ON/ALARM** (por sensor): sensor conectado (verde) / alarma (rojo)\
+    \ [F1]\n- **LED amarillo ERROR** (por sensor): avería del sensor remoto [F1]\n\
+    - **LED verde OUT1 y OUT2:** salida activa (verde) / desactivada (apagado) [F1]\n\
+    - **Avisador acústico:** apoyo sonoro a las indicaciones ópticas [F1]\n\n---\n\
+    \n### Diferencias entre versión digital y analógica\n\n**Tipo de entrada de señal:**\n\
+    - Versión **analógica:** entradas 4-20 mA [F1][F4]\n- Versión **digital:** entradas\
+    \ 0-10/15 V [F1]\n\n**Código de producto:**\n- Versión **digital:** 3244 [F2]\n\
+    - Versión **analógica:** 3270 [F2]\n\n**Sensores compatibles:**\n- Versión **analógica:**\
+    \ [F3]\n  - Sensores S/3 gases combustibles\n  - Sensores S/3 y S/2 gases tóxicos\n\
+    \  - Sensores S/10 gases tóxicos\n- Versión **digital:** [F3]\n  - Sensores S/10\
+    \ gases combustibles\n\n---\n\n### Conexión de sensores\n\nCada sensor se conecta\
+    \ mediante 3 terminales [F4]:\n1. Positivo de alimentación (12 a 24 Vdc)\n2. Entrada\
+    \ de señal\n3. Negativo común de alimentación y señal\n\nPara el conexionado exacto\
+    \ de cada tipo de sensor (S/3 analógico y S/10 digital), consulta los diagramas\
+    \ de la sección 3 del manual físico [F4].\n\n---\n\n### Funcionamiento de alarma\n\
+    \n- El umbral de alarma se activa al superar el **20% del fondo de escala** [F5]\n\
+    - Las alarmas son **enclavadas**: se guardan en memoria hasta que el usuario pulsa\
+    \ **RESET** [F5]\n- Si la concentración de gas no ha disminuido, la alarma puede\
+    \ **silenciarse durante 24 horas** con el botón RESET, pero no se puede rearmar\
+    \ [F5]\n- En alarma, las salidas OUT1/OUT2 asignadas pasan a posición NA [F5]\n\
+    \n---\n\nFuente: Manual de Usuario CS4 (Analógica o Digital), elaborado y aprobado\
+    \ en Revisión 2, 10/2018, C.A.E., S.L. — Manual-de-Usuario-CS4, sin revisión registrada\
+    \ en metadatos.\n\n---\n\U0001F4CB **Obligaciones de evidencia del manual:**\n\
     - Nota: la fuente es inconsistente: \"Permite la conexión de hasta 4 sensores\
     \ remotos simultaneos a través de sus 4 entradas digitales (0-10/15 v) o analógicas\
-    \ (4-20 mA).\" (Manual-de-Usuario-CS4, p. 4) [F2] declara 4 sensores y la enumeración\
-    \ servida lista 6 (Manual-de-Usuario-CS4, p. 4) [F2].\n- \"Ningún sistema de detección\
+    \ (4-20 mA).\" (Manual-de-Usuario-CS4, p. 4) [F1] declara 4 sensores y la enumeración\
+    \ servida lista 6 (Manual-de-Usuario-CS4, p. 4) [F1].\n- \"Ningún sistema de detección\
     \ de gas sustituye a una correcta instalación y mantenimiento de los aparatos\
     \ quemadores de gas y debe ser colocado por una persona competente o un instalador\
-    \ autorizado.\" (Manual-de-Usuario-CS4, p. 2) [F8]"
+    \ autorizado.\" (Manual-de-Usuario-CS4, p. 2) [F7]"
   family_resolved: true
   gold_families:
   - EL-10
@@ -1416,78 +1368,78 @@ per_gold:
   topk_n: 10
   appended_n: 0
   pool_ids:
-  - 658c7d77-5090-4ac4-aaed-173803a9e372
+  - c0c06206-9715-4d36-b502-c88664aa1a8b
+  - 3a89a09b-5de6-4105-94a8-f1ec02423468
+  - 2c363573-b03f-4cfe-8b79-4438280866a7
   - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
-  - f22c14d2-9be3-4ea2-b630-c4c872db5499
   - 268e3343-dd97-4f67-95a4-b7476794e4ce
-  - 8a77f97e-f987-44c2-89dc-d7ac1f819fdf
   - 9a925f7e-4c9a-43e0-acd0-6f65bd51db93
   - bee212b7-691a-4e30-9848-fdbaa8fdfb74
   - 0493c949-cd49-488e-b7bc-c2a516d98f23
-  - cd502686-1755-4996-8059-19ad3552aa99
+  - 7444a6af-3461-4642-aa0f-c8e5468b12b3
+  - 8a77f97e-f987-44c2-89dc-d7ac1f819fdf
+  - facb305a-8567-4721-89e2-e404981e65db
   - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
-  - 9c4290f3-cb38-4246-aeb2-f6d060565905
   - 46064145-348d-4173-946b-6b0bfdabfcf7
-  - f9a572be-fbe7-44c1-a85b-38adeb897a90
   - 8695e14f-2df2-4718-87a5-63f99f7c1ca6
-  - 8283baa3-d5b5-4c8a-a11a-f27c5d3bf372
+  - 7b512eee-389c-4c49-921a-59f86f24a1d9
+  - f9a572be-fbe7-44c1-a85b-38adeb897a90
+  - f624d428-a271-4102-9de3-14ac5611a407
   - 3a74be02-e58b-4f8a-bf51-1eebefed425b
-  - 16d919c8-6961-4f74-9c9c-13d691ae45c3
   - 378d6ece-f60c-4f08-98d4-dbbd4ae2b817
-  - cd02528d-f8d7-4e1e-912b-ff906bd96877
   - 15802028-20a4-4775-a35c-ad37fec0e73e
-  - 5f6ba334-ccc1-45fc-ac26-af24dd792618
+  - b40905f6-473f-4c62-88ee-b508eee5935a
+  - cd02528d-f8d7-4e1e-912b-ff906bd96877
+  - 7abd2140-8d8f-4847-ac9a-7bf607ac5da5
   - 934b00a8-739f-4d7b-8853-32caad5232a4
-  - 89bcb368-8ebd-4d3f-b1be-de50faf8ea5d
   - f418e702-97da-4086-8b17-c5a0dd45449f
   - d95f92a5-f28e-4565-87f8-306d479d983d
-  - 361edbfb-cca8-4e60-b72f-184bf91b5679
+  - fc43c6ca-628b-4bde-aaba-440d7667b357
+  - bb22c619-615b-4d83-8f37-db2c877d154d
   - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
-  - 952d2d68-f2ba-460c-83f9-8f72f1e27e23
   - ea3e5666-68c7-4216-ac3c-79ca6f06a75c
   - 20275b97-4f62-4c39-a4a9-3b517d178382
-  - 3e6e6b48-1957-46ca-9c3e-8010c2c83643
+  - a33a3d5f-a963-40a5-87d5-e6792599d7e7
+  - 490c12f8-8684-42b7-ae0e-9b7a28ebcd36
   - 4ded9db9-604e-4586-881d-e567567f9a20
-  - 27b02e74-7ed4-4966-b284-4040217d980e
   - 4caa43cd-a550-498e-b730-b33cfeb1f20c
   - 36213d62-8f1a-4a62-9cae-f9d97a20c4dd
-  - 881b76d3-e38f-4d37-b571-572ecfad6616
+  - 59b832f5-b88c-427d-a02a-e17a77ce63c0
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
   - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
-  - 77f7c069-3be1-47b4-a4fe-22ae2ad12733
   - 9bdba248-3896-434d-acd0-c8e6c9220845
-  - 35fca8bb-73ea-4c92-baa3-88274f98caad
+  - bf32d0b0-2b7a-4a9a-a8ff-3b400c72eca5
+  - 9c4290f3-cb38-4246-aeb2-f6d060565905
   - bdd69c04-f496-4323-847a-395295d57bc3
-  - 2f2e7b51-c3c3-42d7-b339-25409d1516ac
   - 1e776678-2641-4b8c-92ab-6999199ded16
-  - e7fc8212-51b2-42eb-95c9-908ce2058e86
-  - 64b88032-7a9f-4a06-8e0e-7863ca9bdd10
+  - e5569d77-cfdf-4eb4-bc00-135ae38fc761
+  - 16d919c8-6961-4f74-9c9c-13d691ae45c3
   - d9faa49b-300b-4491-9a18-6f1d65caba99
-  - b8069563-12b6-404c-a766-db60b4ac3306
-  - 141006b3-4fd4-4546-abbf-35f0464f979f
+  - 295d7f86-d023-435c-83e9-4f84771ca523
+  - 89bcb368-8ebd-4d3f-b1be-de50faf8ea5d
   - 27658dc6-a3d8-45ce-bd03-d993a28f01f4
-  - 7b512eee-389c-4c49-921a-59f86f24a1d9
   topk_ids:
-  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
   - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
   - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
   - 3a74be02-e58b-4f8a-bf51-1eebefed425b
-  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
   - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
-  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
   - 4ded9db9-604e-4586-881d-e567567f9a20
   - bdd69c04-f496-4323-847a-395295d57bc3
-  - 141006b3-4fd4-4546-abbf-35f0464f979f
+  - 9c4290f3-cb38-4246-aeb2-f6d060565905
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
   served_ids:
-  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
   - 934b00a8-739f-4d7b-8853-32caad5232a4
+  - 8c9b9f0b-8a51-417f-b05e-63d4dd61ed48
   - 8ff1618c-ffe3-4215-b68e-a67c224a20b7
   - 3a74be02-e58b-4f8a-bf51-1eebefed425b
-  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
   - 6bba4f04-ba44-47c7-9310-72ba7a8b4f91
-  - f22c14d2-9be3-4ea2-b630-c4c872db5499
+  - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
   - 4ded9db9-604e-4586-881d-e567567f9a20
   - bdd69c04-f496-4323-847a-395295d57bc3
-  - 141006b3-4fd4-4546-abbf-35f0464f979f
+  - 9c4290f3-cb38-4246-aeb2-f6d060565905
+  - f22c14d2-9be3-4ea2-b630-c4c872db5499
   appended_ids: []
   appended_lane: {}
   coverage_status: no_append
@@ -1533,7 +1485,7 @@ per_gold:
     lexically_anchorable: false
     family_resolved: true
     n_support_fam: 4
-    n_support_raw: 6
+    n_support_raw: 7
     n_support_served: 4
     reaches_gen: true
     in_topk: true
@@ -1546,16 +1498,15 @@ per_gold:
       contactos NA-C-NC
     lexically_anchorable: true
     family_resolved: true
-    n_support_fam: 2
-    n_support_raw: 2
-    n_support_served: 2
+    n_support_fam: 1
+    n_support_raw: 1
+    n_support_served: 1
     reaches_gen: true
     in_topk: true
     in_pool: true
     support_l1_killed:
     - 2160bd36-9ecc-4f7f-b30d-5cf828216d13
     - 3a74be02-e58b-4f8a-bf51-1eebefed425b
-    - 4caa43cd-a550-498e-b730-b33cfeb1f20c
     support_l1_override: null
     conveyed_yes: 5
     clase: OK
