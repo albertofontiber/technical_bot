@@ -84,9 +84,25 @@ def test_pin_de_demo_flags_sin_fantasmas_nuevos():
     fantasma CONOCIDO: lever s97/s101 NO-GO cuyo código nunca se mergeó — el harness
     pina una flag que ningún lector de src/ consume. Se declara, no se borra (tocar
     DEMO_FLAGS cambia la identidad de la config del assessment sin necesidad)."""
-    from scripts.factlevel_assessment import DEMO_FLAGS
+    # En SUBPROCESO a propósito: importar factlevel_assessment FIJA los DEMO_FLAGS en
+    # os.environ en import-time (línea ~139) — hacerlo aquí envenenaría a todos los
+    # tests posteriores del proceso (cazado: 5 tests de s69 rotos por el prompt-variant
+    # pineado). El aislamiento es bidireccional: ni su entorno ni el nuestro se tocan.
+    import json as _json
+    import subprocess
+    import sys
 
-    fantasmas = set(DEMO_FLAGS) - set(REGISTRO)
+    salida = subprocess.run(
+        [sys.executable, "-c",
+         "import sys, json; sys.path.insert(0, '.'); "
+         "from scripts.factlevel_assessment import DEMO_FLAGS; "
+         "print(json.dumps(sorted(DEMO_FLAGS)))"],
+        capture_output=True, text=True, cwd=str(REPO),
+    )
+    assert salida.returncode == 0, salida.stderr
+    demo_flags = _json.loads(salida.stdout.strip().splitlines()[-1])
+
+    fantasmas = set(demo_flags) - set(REGISTRO)
     assert fantasmas == {"DIVERSIFY_TIEBREAK"}, (
         f"pins fantasma nuevos en DEMO_FLAGS: {sorted(fantasmas - {'DIVERSIFY_TIEBREAK'})} "
         f"— ¿flag pineada sin lector? regístrala o justifícala aquí"
