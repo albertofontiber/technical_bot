@@ -1,0 +1,16 @@
+recibos evals escaneados: yaml+json de evals/
+ficheros .py pineados por sha256 en recibos: 380
+
+[1] PINS DIRECTOS {path: src/reingest/embed.py, sha256}: 4
+    s117_m26_independent_audit_prereg_v1.yaml  sha256=61fc24128b03b2cc...
+    s117_m2_legacy_reuse_prereg_v1.yaml  sha256=61fc24128b03b2cc...
+    s117_m2_legacy_reuse_prereg_v2.yaml  sha256=61fc24128b03b2cc...
+    s117_m2_legacy_reuse_prereg_v21.yaml  sha256=61fc24128b03b2cc...
+
+[2] menciones de la ruta en campo path SIN sha256: 0
+
+[3] ficheros CONGELADOS (pineados) que referencian src[./]reingest[./]embed: 2
+    src/reingest/embed.py  <- pineado por ['s117_m26_independent_audit_prereg_v1.yaml', 's117_m2_legacy_reuse_prereg_v1.yaml', 's117_m2_legacy_reuse_prereg_v2.yaml']
+    tests/test_s117_m28_candidate_materialization.py  <- pineado por ['s117_m28_candidate_materialization_gate_v1.yaml', 's117_m28_candidate_materialization_prereg_v1.yaml']
+
+VEREDICTO: BLOQUEA - hay pins vivos
