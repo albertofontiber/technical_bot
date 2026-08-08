@@ -44,6 +44,10 @@ def _fuente(ch: dict) -> str:
 
 
 def main() -> None:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     filas = []
     for objetivo, pregunta in CASOS:
         pool = retrieve_chunks(pregunta)

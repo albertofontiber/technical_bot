@@ -34,25 +34,31 @@ def idioma_de(nombre):
     return "ES"
 
 
+# docs de familia con cobertura ATESTADA por su extraccion (s314: el MI NC_PFx
+# menciona 24x cada NC-PF2/4/8 y 12x cada -SC; las guias se declaran "Serie NC")
+_FAMILIA_ATESTADA = {
+    "mi_kidde_nc_pfx": ["NC-PF2", "NC-PF4", "NC-PF8", "NC-PF2-SC", "NC-PF4-SC", "NC-PF8-SC"],
+    "g_inst_kidde_nc_pfx": ["NC-PF2", "NC-PF4", "NC-PF8", "NC-PF2-SC", "NC-PF4-SC", "NC-PF8-SC"],
+    "g_uso_kidde_nc_pfx": ["NC-PF2", "NC-PF4", "NC-PF8", "NC-PF2-SC", "NC-PF4-SC", "NC-PF8-SC"],
+    "inc___doci_141_gu__a_r__pida_kidde_nc_pf": ["NC-PF2", "NC-PF4", "NC-PF8",
+                                                  "NC-PF2-SC", "NC-PF4-SC", "NC-PF8-SC"],
+}
+
+
 def familia_de(nombre, skus):
-    """Serie para docs multi-SKU: prefijo comun de los SKUs (p.ej. NC-PF2/NC-PF4/
-    NC-PF4-SC -> NC-PF); SKU exacto si es unico. El token del filename era fragil
-    (la x-comodin del portal subia a mayuscula: NC-PFx -> NC-PFX; y sin fecha en
-    el nombre caia al stem entero)."""
+    """`equipo` del sidecar = lo que B5 escribe como product_model. Para docs
+    multi-SKU la convencion del corpus es la LISTA con barras (cf. pm
+    'AM2020/AFP1010'): el retriever construye el patron imatch desde el modelo
+    de la QUERY y lo busca DENTRO del pm almacenado, asi que un pm de familia
+    generico ('NC-PF') jamas matchea la query 'NC-PF2' (leccion s314: 0/5 en la
+    sonda de alcanzabilidad hasta corregirlo)."""
+    low = nombre.lower()
+    for pref, lista in _FAMILIA_ATESTADA.items():
+        if low.startswith(pref):
+            return "/".join(lista)
     if len(skus) == 1:
         return skus[0]
-    prefijo = os.path.commonprefix(list(skus)).rstrip("-_ ")
-    if len(prefijo) >= 4:
-        return prefijo
-    # sin prefijo comun util (p.ej. modulo + su KIT): el SKU que aparece EN el
-    # filename es el sujeto del doc; el resto son productos que lo contienen.
-    plano = os.path.splitext(nombre)[0].upper().replace("_", "-")
-    en_nombre = [s for s in skus if s.upper().replace("_", "-").replace(" ", "-") in plano]
-    if en_nombre:
-        return max(en_nombre, key=len)
-    m = re.search(r"(?i)(?:mi|mu|ds|hd|gr|g_inst|g_uso|g_usu|qg)_(?:kidde_)?(.+?)_20\d{4}", nombre)
-    token = (m.group(1) if m else os.path.splitext(nombre)[0]).strip("_")
-    return token.replace("_", "-").upper()
+    return "/".join(sorted(set(skus)))
 
 
 def main():

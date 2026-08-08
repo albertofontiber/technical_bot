@@ -42,6 +42,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -263,7 +264,7 @@ def _patch_chunks_doc_type(sha: str, doc_type: str) -> int:
     import httpx
     r = httpx.patch(url, params={"extraction_sha256": f"eq.{sha}"},
                     headers={"apikey": k, "Authorization": f"Bearer {k}",
-                             "Prefer": "return=headers-only"},
+                             "Prefer": "return=headers-only, count=exact"},
                     json={"doc_type": doc_type}, timeout=60)
     r.raise_for_status()
     rango = r.headers.get("content-range", "")
@@ -347,22 +348,6 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
                        "manufacturer": meta.manufacturer, "product_model": meta.product_model})
     print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')}, "
           f"doc_type→{parcheados} chunks)")
-
-    # Verificación en DB: cada sha con chunks > 0 y document_id enlazado.
-    print("\n— VERIFICACIÓN EN DB —")
-    fallos = 0
-    for r in resultados:
-        if "chunks" not in r:
-            fallos += 1
-            print(f"  ✗ {r['file']}: {r['status']}")
-            continue
-        filas = sb.fetch_rows("chunks_v2", select="id,document_id",
-                              filters={"extraction_sha256": f"eq.{r['sha256']}"}, limit=1)
-        enlazado = bool(filas and filas[0].get("document_id"))
-        ok = bool(filas) and (r.get("chunks") or 0) > 0 and enlazado
-        fallos += 0 if ok else 1
-        print(f"  {'✓' if ok else '✗'} {r['file']}: {r.get('chunks')} chunks, enlazado={enlazado}")
-    return resultados, fallos
 
 
 def main() -> None:

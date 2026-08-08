@@ -1,0 +1,41 @@
+{
+ "motivo": "extension de pm de hojas de familia existentes a los SKUs de SU familia que su contenido menciona (>=2 chunks; clase NC-PFx, recibo s314_identity_ncpf). Solo hojas cuyo SUJETO es la familia; las menciones de compatibilidad (hoja de bases 3102987 mencionando detectores) NO se extienden (contaminacion de pm).",
+ "reversible": "PATCH inverso con campo 'antes'",
+ "cambios": [
+  {
+   "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet.pdf",
+   "antes": "KE-AS3115R-WM",
+   "despues": "KE-AS3115R-WM/KE-AS3005W-WM/KE-AS3010R/KE-AS3010W/KE-AS3011R/KE-AS3011W/KE-AS3015R-WM/KE-AS3015W-WM/KE-AS3105W-WM/KE-AS3110R/KE-AS3110W/KE-AS3111R/KE-AS3111W/KE-AS3115W-WM",
+   "chunks": "0-48/49",
+   "documents": "0-0/1"
+  },
+  {
+   "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet.pdf",
+   "antes": "KE-AS3115R-WMIP",
+   "despues": "KE-AS3115R-WMIP/KE-AS3010R-IP/KE-AS3011R-IP/KE-AS3015R-WMIP/KE-AS3110R-IP/KE-AS3111R-IP",
+   "chunks": "0-45/46",
+   "documents": "0-0/1"
+  },
+  {
+   "doc": "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet.pdf",
+   "antes": "KE-DP3020W",
+   "despues": "KE-DP3020W/KE-DP3120W",
+   "chunks": "0-21/22",
+   "documents": "0-0/1"
+  },
+  {
+   "doc": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet.pdf",
+   "antes": "KE-DT3001W-HAB",
+   "despues": "KE-DT3001W-HAB/KE-DT3101W-HAB",
+   "chunks": "0-20/21",
+   "documents": "0-0/1"
+  },
+  {
+   "doc": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet.pdf",
+   "antes": "KE-IO3122",
+   "despues": "KE-IO3122/KE-IO3144",
+   "chunks": "0-35/36",
+   "documents": "0-0/1"
+  }
+ ]
+}
