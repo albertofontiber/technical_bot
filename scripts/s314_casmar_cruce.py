@@ -72,11 +72,24 @@ while True:
 print(f"corpus total (todas las marcas): {len(corpus)} docs activos")
 corpus_por_pm = defaultdict(set)
 for d in corpus:
-    corpus_por_pm[(d.get("product_model") or "?").upper()].add(d.get("doc_type") or "sin-tipo")
+    # pm puede ser lista-con-barras (convencion 'AM2020/AFP1010'; s314): cada
+    # variante es una clave — sin el split, los docs recien ingestados con pm
+    # de familia aparecian como gaps de si mismos.
+    for pm in (d.get("product_model") or "?").upper().split("/"):
+        corpus_por_pm[pm.strip()].add(d.get("doc_type") or "sin-tipo")
 
-# corpus doc_type -> categorias comparables
-_MAPA_CORPUS = {"instalacion": "manual-instalacion", "datasheet": "datasheet",
-                "usuario": "manual-usuario", "programacion": "manual-programacion"}
+# corpus doc_type -> categorias del cruce que CUBRE (un doc 'instalacion' cubre
+# tambien la guia de instalacion; el driver pliega guias en instalacion/usuario)
+_MAPA_CORPUS_MULTI = {
+    "instalacion": {"manual-instalacion", "guia-instalacion"},
+    "datasheet": {"datasheet"},
+    "hoja_datos": {"datasheet"},
+    "usuario": {"manual-usuario", "guia-uso"},
+    "operacion": {"manual-usuario", "guia-uso"},
+    "programacion": {"manual-programacion"},
+    "guia_rapida": {"guia-rapida"},
+    "comunicacion_tecnica": {"nota-tecnica"},
+}
 
 # ---- inventario Casmar por URL unica ----
 por_url = {}
@@ -103,7 +116,8 @@ for u, e in sorted(incluibles.items(), key=lambda kv: kv[1]["nombre"]):
     skus = sorted(set(e["skus"]))
     tipos_corpus = set()
     for s in skus:
-        tipos_corpus |= {_MAPA_CORPUS.get(t, t) for t in corpus_por_pm.get(s.upper(), set())}
+        for t in corpus_por_pm.get(s.upper(), set()):
+            tipos_corpus |= _MAPA_CORPUS_MULTI.get(t, {t})
     # familia NC: el corpus taguea la serie algorítmica como "NC" — NO cubre NC-PFx
     if e["tipo"] in tipos_corpus:
         cubiertos.append((e["nombre"], e["tipo"], skus))

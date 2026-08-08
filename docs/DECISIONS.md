@@ -5111,3 +5111,67 @@ aceptarlo (el contrato que dejó era exactamente el diseño correcto).
 
 Recibos: PRs #223/#224 · filas del scoreboard 2026-08-08/2026-08-08b ·
 `evals/adversarial_review_log.jsonl` (s311, s312, s313 complete).
+
+## DEC-192 (s314) — `ingest_new.py` estrenado con el lote Casmar/Kidde (74 docs, 1.091 chunks) y el hallazgo que re-clasifica el gap orgánico: era FINDABILITY, no corpus
+
+**Contexto.** Pregunta orgánica de Alberto: el bot admitió (honesto) no tener el manual de
+instalación del Kidde NC-PF2; Alberto lo localizó en casmarglobal.com y encargó: añadirlo,
+revisar TODA la documentación Kidde de Casmar contra el corpus (sin certificados ni
+homologaciones) y estrenar con ello la automatización de altas (frente 7).
+
+**Lo construido.** (a) Método Casmar reproducible (`scripts/s314_casmar_*.py`): catálogo por
+búsqueda paginada (88 SKUs; +corpus = 94) → docs por SKU (`form_id` OBLIGATORIO: sin él el
+filtro se ignora EN SILENCIO y devuelve el listado global — guarda anti-fallback) → 266 PDFs
+únicos → clasificación por prefijo (H_DOP_/H_CPR_/H_CE_/CE_/C_/DOP_ = excluidos) → cruce por
+(SKU, tipo) contra TODO el corpus. (b) `scripts/ingest_new.py` (driver A2+B por canal):
+gates fail-closed (sidecar obligatorio, dedup sha vs chunks_v2 —el estado FINAL, no los
+intermedios—, exclusión de certificados, PDF legible), dry-run por defecto con coste
+estimado, alta de fila `documents` ANTES de indexar (cierra el hueco histórico: el pipeline
+no crea filas y `resolve_document_id` solo enlaza; las altas s55/s58 fueron backfills
+post-hoc), reanudable por fase, try/except por doc, recibo JSON, exit≠0 si la verificación
+en DB falla. La reanudabilidad se estrenó a la primera (un `import re` ausente cayó DESPUÉS
+de pagar 4 extracciones; el re-run las retomó del store sin re-pagar).
+
+**El hallazgo (honestidad primero).** El manual de instalación de la familia NC-PFx YA
+ESTABA en corpus (`bcn-3100017` «NC series», 126 chunks, «convencional» ×142, menciona
+NC-PF2/4/8) con pm=`NC` — invisible: `model_to_imatch_pattern` construye el patrón desde el
+modelo de la QUERY y lo busca DENTRO del pm ALMACENADO, así que un pm de familia genérico
+jamás matchea la variante. Clase hp011#2/DEC-176 (identidad/alcanzabilidad), 4ª instancia.
+Sonda `scripts/s314_alcanzabilidad_ncpf.py`: 0/5 al pool ANTES del fix → 5/5 a EVIDENCIA
+después. **Fix de identidad (clase s78/s80, UPDATE reversible con recibo): pm =
+lista-con-barras (convención viva `AM2020/AFP1010`)** aplicado a los 4 docs nuevos, los 4
+bcn viejos, 5 hojas de familia (solo donde la hoja es SUJETO de la familia; las menciones de
+compatibilidad NO — contaminación) y los 2 manuales 2X-A byte-idénticos a los docs de
+usuario que Casmar lista bajo los KIT 2X-AT. El generador de sidecar emite equipo =
+lista-con-barras desde ahora.
+
+**Cierre medido (criterio de Sol: la métrica debe cubrir el objetivo).** Re-cruce final:
+**104 gaps → 1 residual declarado** (KE-ASA-AUXR sin doc de instalación propio EN NINGÚN
+sitio: la hoja XIP no lo menciona — cross-link comercial de Casmar; su datasheet ingestada);
+133/134 incluibles cubiertos. Lote: 74 docs ingestados (4+70), 1.091 chunks, ~$60 LlamaParse;
+1 near-dup retirado con recibo (hoja XIP ES = 99,6% contenida en la ML existente); 29 dups
+del PIM colapsados por sha. Corpus: chunks_v2 26.215 · documents 1.243 (Kidde 103) ·
+Manuales_Kidde 129 PDFs · Excel reconciliado (`--data-root` nuevo: desde C:\dev el ROOT del
+checkout no ve OneDrive — clase manifiesto-vacío).
+
+**Dúo (Protocolo 3, zona de dolor corpus).** Sol 8 + sub-agente 7 = 11 hallazgos únicos
+(4 convergentes), 11 confirmados con regla C, 0 FP; ambos SÓLIDA-CON-CAMBIOS y TODOS los
+cambios cablEADOS antes de gastar. Los 3 que cambiaron el orden de operaciones: reanudabilidad
+(crítico), lote-solo-en-scratchpad (el sesgo del autor en la parte operativa), doc_type NULL
+para nomenclatura del portal (mapeo en el driver + PATCH a chunks; `metadata.py` NO se toca —
+sha-pineada por recibos s116/s117, pre-flight tipo-L3 ejecutado ANTES de decidir).
+
+**Alternativas descartadas.** Canal nuevo `Kidde_Casmar` (canal=fabricante en el seam →
+contaminaría manufacturer); alta de documents post-index (patrón backfill: repite el hueco);
+ingestar el near-dup y los byte-idénticos (identidad > gasto); scraper Casmar permanente
+(prematuro, declarado en frente 7); tocar `metadata.py` para que B5 lea el `tipo` del
+sidecar (pins vivos).
+
+**Deuda declarada.** El MI Casmar 202502 y el bcn r002 conviven ACTIVOS para la misma
+familia (TECH_DEBT #4, cadena supersede sin construir — riesgo: evidencia con near-dups
+compitiendo); doc_type de los CHUNKS pre-s314 sigue NULL para nomenclatura no-regex.
+Recibos: `evals/s314_casmar_kidde_cruce_v1.{md,json}` · `s314_casmar_batch_report_v1.json` ·
+`s314_identity_{ncpf_patch,familias_kidde,2xat_kit,reconciliacion}_v1.json` ·
+`s314_alcanzabilidad_ncpf_v1.json` · `s314_etapa2_rediagnostico_v1.json` ·
+`s314_casmar_kidde_cruce_cierre_v1.json` · tally en `adversarial_review_log.jsonl`.
+

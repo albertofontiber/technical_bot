@@ -1,0 +1,34 @@
+{
+ "motivo": "los docs de usuario del KIT 2X-AT en Casmar son BYTE-IDENTICOS a los manuales Aritech 2X-A ya ingestados (dedup sha los paro); la aplicabilidad a 2X-AT-F2/-FB la atesta el propio portal (los lista bajo esos KITs) -> extension de pm, no gasto. doc_type usuario en la quick guide (era NULL). Residual declarado: KE-ASA-AUXR sin doc de instalacion propio EN NINGUN sitio (la hoja XIP no lo menciona; el link de Casmar es cruce comercial) — tiene su datasheet ingestada.",
+ "cambios": [
+  {
+   "doc": "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es.pdf",
+   "antes": [
+    {
+     "product_model": "2X-A",
+     "doc_type": "operacion"
+    }
+   ],
+   "despues": {
+    "product_model": "2X-A/2X-AT-F2/2X-AT-F2-FB"
+   },
+   "chunks": "0-44/45",
+   "documents": "0-0/1"
+  },
+  {
+   "doc": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es.pdf",
+   "antes": [
+    {
+     "product_model": "2X-A",
+     "doc_type": null
+    }
+   ],
+   "despues": {
+    "product_model": "2X-A/2X-AT-F2/2X-AT-F2-FB",
+    "doc_type": "usuario"
+   },
+   "chunks": "0-6/7",
+   "documents": "0-0/1"
+  }
+ ]
+}

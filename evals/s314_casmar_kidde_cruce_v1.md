@@ -50,3 +50,16 @@ casmarglobal.com, revisar TODA la documentación Kidde de Casmar contra el corpu
 Datos: `evals/s314_casmar_kidde_cruce_v1.json` (gaps/cubiertos/excluidos con SKUs y
 URLs). Descarga+dedup+coste: `evals/s314_casmar_batch_report_v1.json` (el recibo del
 lote descargado).
+
+## CIERRE (post-lote, 9-ago)
+
+Re-cruce con el instrumento corregido (split del pm-lista + mapa de tipos multi —
+sin ambos, los docs recién ingestados aparecían como gaps de sí mismos):
+**104 gaps → 1 residual declarado** (`MI_..._XIP` para KE-ASA-AUXR: la hoja XIP no
+menciona ese SKU — el link de Casmar es cruce comercial; no existe doc de instalación
+propio en ningún sitio y su datasheet SÍ está ingestada). 133/134 incluibles cubiertos:
+74 ingestados (recibos `logs/ingest_new_*`) + 1 near-dup retirado + 2 byte-idénticos
+resueltos por extensión de pm (KIT 2X-AT) + el resto cubierto por el fix de identidad.
+JSON de cierre: `evals/s314_casmar_kidde_cruce_cierre_v1.json`. El hallazgo estructural
+(el gap orgánico era FINDABILITY: pm de familia no matchea la variante de la query) y
+sus fixes: DEC-192 + `evals/s314_identity_*_v1.json`.
