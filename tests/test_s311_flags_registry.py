@@ -92,12 +92,21 @@ def test_pin_de_demo_flags_sin_fantasmas_nuevos():
     import subprocess
     import sys
 
+    # Entorno LIMPIO además de subproceso: el env del proceso pytest llega tocado por
+    # tests anteriores (flags globales sueltas) y el import de factlevel es fail-fast
+    # con combinaciones ilegales. Solo pasa lo que el SO necesita; las credenciales
+    # las carga la propia cadena de config desde .env.
+    import os as _os
+    base_env = {k: _os.environ[k] for k in
+                ("PATH", "SYSTEMROOT", "TEMP", "TMP", "USERPROFILE", "APPDATA",
+                 "LOCALAPPDATA", "PYTHONIOENCODING", "HOME")
+                if k in _os.environ}
     salida = subprocess.run(
         [sys.executable, "-c",
          "import sys, json; sys.path.insert(0, '.'); "
          "from scripts.factlevel_assessment import DEMO_FLAGS; "
          "print(json.dumps(sorted(DEMO_FLAGS)))"],
-        capture_output=True, text=True, cwd=str(REPO),
+        capture_output=True, text=True, cwd=str(REPO), env=base_env,
     )
     assert salida.returncode == 0, salida.stderr
     demo_flags = _json.loads(salida.stdout.strip().splitlines()[-1])
