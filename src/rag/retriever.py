@@ -872,6 +872,23 @@ def get_available_manufacturers() -> list[str]:
     return manufacturers
 
 
+# (s308, TECH_DEBT #67) Alias CURADOS de nombre coloquial → nombre real en la DB.
+# El `ilike` sin comodines exige igualdad case-insensitive: «lda» no casaba «LDA
+# audioTech» ni «argus» «Argus Security» → «No dispongo de manuales de _lda_» sobre
+# una marca CUBIERTA (falso rechazo). Tabla curada a mano y CORTA a propósito —
+# comodines ciegos (`%lda%`) casarían de más; solo entra un alias cuando el nombre
+# coloquial difiere del registrado en `documents.manufacturer`.
+_MANUFACTURER_ALIASES = {
+    "lda": "LDA audioTech",
+    "argus": "Argus Security",
+}
+
+
+def resolve_manufacturer_alias(name: str) -> str:
+    """Nombre real de la DB para un alias coloquial; identidad si no hay alias."""
+    return _MANUFACTURER_ALIASES.get(name.strip().lower(), name)
+
+
 def manufacturer_in_db(manufacturer_name: str) -> bool:
     """Check if a manufacturer has data in the database (case-insensitive)."""
     headers = {
@@ -883,7 +900,7 @@ def manufacturer_in_db(manufacturer_name: str) -> bool:
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
             params={
-                "manufacturer": f"ilike.{manufacturer_name}",
+                "manufacturer": f"ilike.{resolve_manufacturer_alias(manufacturer_name)}",
                 "select": "id",
                 "limit": "1",
             },

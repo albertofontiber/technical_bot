@@ -80,3 +80,6 @@ scripts/s197_* whitespace=-blank-at-eof,cr-at-eol
 tests/test_s197_* whitespace=-blank-at-eof,cr-at-eol
 evals/adversarial_reviews/* whitespace=-blank-at-eof,cr-at-eol
 requirements.txt whitespace=-blank-at-eof,cr-at-eol
+# s310: los logs append-only compartidos entre ramas generan conflictos triviales de
+# "las dos ramas apendizaron" — union los resuelve solos (el orden lo da el ts interno).
+evals/adversarial_review_log.jsonl merge=union
