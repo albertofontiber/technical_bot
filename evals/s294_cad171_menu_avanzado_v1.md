@@ -143,9 +143,10 @@ El **acceso** al menú sí está en el manual que tenemos.
 > ronda 1 sobraba. Retrieval e identidad quedan DESCARTADOS para este caso, ahora por dos
 > vías independientes.
 >
-> ⇒ Sigue abierta, y sigue siendo barata, la única pregunta que puede mover esto: **¿el
-> techo es del sistema o del MODELO?** El oráculo de DEC-173 y las sondas de s303 comparten
-> generador (Sonnet); la clase no se ha medido con uno más fuerte.
+> ⇒ ~~Sigue abierta … ¿el techo es del sistema o del MODELO?~~ **CERRADA (s305,
+> DEC-186)**: medido con Sonnet 4.6 / Sonnet 5 / Opus 5 sobre el oráculo de DEC-173 —
+> 0/3 firmes los tres. **El techo NO es del modelo.** Recibo:
+> `evals/s305_techo_modelo_ab_v1.json`.
 
 ## La clase del fallo — y por qué importa más que el caso
 
@@ -240,15 +241,19 @@ El **acceso** al menú sí está en el manual que tenemos.
 > etiquetada. El caso deja de ser instancia limpia del techo `hp011#2`.
 >
 > **Y lo que aparece en su lugar es MEJOR, porque es arreglable** (`scripts/s304_identidad_propagacion.py`,
-> recibo `evals/s304_identidad_propagacion_v1.json`): la adjudicación de identidad **NO
-> llega al momento de responder**, y no es un caso aislado —
+> recibo `evals/s304_identidad_propagacion_v1.json`):
 >
-> | | |
+> **TABLA RETIRADA (dúo s304, DEC-185) — NO USAR ESTAS CIFRAS.** El instrumento v1
+> paginaba sin ORDER BY (perdía 12-21% de docs POR PASADA) y medía coincidencia de
+> etiqueta en vez de alcanzabilidad. Cifras reales del v2: **4,1% / 55 ids**, casi
+> todos `unresolved:`. Se conserva solo como registro de la ronda:
+>
+> | *(retirada)* | |
 > |---|---|
-> | Documentos con identidad primaria adjudicada y chunks | 732 |
-> | **Huérfanos** (algún id primario que NINGÚN chunk refleja) | **414 = 57%** |
-> | Identidades primarias que no llegan al generador | **1.112** |
-> | Huérfanos cuyos chunks llevan UN SOLO `product_model` | **414 de 414** |
+> | ~~Documentos con identidad primaria adjudicada y chunks~~ | ~~732~~ |
+> | ~~Huérfanos~~ | ~~414 = 57%~~ |
+> | ~~Identidades primarias que no llegan al generador~~ | ~~1.112~~ |
+> | ~~Huérfanos con UN SOLO product_model~~ | ~~414 de 414~~ |
 >
 > Esa última fila es la firma estructural del defecto: **la ingesta asigna UN modelo por
 > documento**, mientras la identidad adjudicada dice N. Todo el trabajo de s83/s91/s278

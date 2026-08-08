@@ -2421,7 +2421,12 @@ propósito documentado como apaño de instrumento — NO es el fix.
 > (Sol s308: mi «byte-idéntico» era falso)**: el RPC document-local s278 SÍ lee esta
 > columna — 175 docs pasan de sin-identidad a curada y ganan elegibilidad en esa lane
 > (corrección observable vía lane_outcomes; deriva de linaje medida: imposible).
-> **Pendiente: Alberto la aplica en el SQL Editor.**
+> **APLICADA por Alberto (8-ago)** — verificación citada por él en sesión: la query de
+> MADT235 devuelve **ART1194** (las postcondiciones internas de la transacción garantizan
+> el resto). El swap a **Opus 5** también APLICADO y verificado el mismo día: línea de
+> Railway 12:52:24 UTC (el rechazo de temperature + reintento = la firma del mecanismo
+> #64 en producción, pantallazo de Alberto). Sol s312 cazó que estos estados vivían en el
+> chat y no en el repo — regla: el estado se estampa AQUÍ al confirmarse, no al final.
 
 Descubierto construyendo el inventario por fabricante: la campaña H0 (s285, DEC-161)
 re-tagueó los CHUNKS (unknown 318→1) pero `documents.product_model` conservó los valores
