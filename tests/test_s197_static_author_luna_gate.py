@@ -13,7 +13,7 @@ from scripts.s196_static_transport_canary import (
     FORBIDDEN_SCHEMA_KEYS,
     static_transport_schema,
 )
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 def _point(*, active, claim="", facet="", supports=("", "", "")):

@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from scripts import s117_materialize_chunks_v3_local as replay
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 
 
 def _raw(markdown: str, extraction_sha256: str = "a" * 64) -> bytes:

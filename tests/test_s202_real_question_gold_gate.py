@@ -13,7 +13,7 @@ from scripts.s202_real_question_gold_gate import (
     chunks_v3_lane,
     verified_units,
 )
-from src.rag.source_unit_gold import (
+from harness.source_unit_gold import (
     FORBIDDEN_PROVIDER_KEYS,
     POINT_SLOTS,
     SUPPORT_SLOTS,

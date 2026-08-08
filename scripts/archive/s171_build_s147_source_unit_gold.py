@@ -11,7 +11,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.s165_answer_archetype_ledger import stable_sha
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

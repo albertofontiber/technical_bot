@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.evidence_selector import (
+from harness.evidence_selector import (
     EvidenceSelection,
     materialize_selected_chunks,
     prepare_evidence_units,

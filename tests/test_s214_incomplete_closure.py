@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from src.rag.query_evidence_compiler import portable_file_sha
+from harness.query_evidence_compiler import portable_file_sha
 from src.rag.visual_gold import stable_sha
 
 

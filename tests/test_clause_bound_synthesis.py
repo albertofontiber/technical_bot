@@ -1,6 +1,6 @@
 import pytest
-from src.rag.clause_bound_synthesis import assemble_claim_blocks, validate_claim_block, writer_payload
-from src.rag.evidence_units_v2 import EvidenceUnitV2
+from harness.clause_bound_synthesis import assemble_claim_blocks, validate_claim_block, writer_payload
+from harness.evidence_units_v2 import EvidenceUnitV2
 def unit(uid, fragment, text): return EvidenceUnitV2(uid,fragment,f"c{fragment}","contiguous",((0,len(text)),),text,"sha")
 def test_writer_payload_exposes_only_allowed_units():
     value=writer_payload("¿Qué valor?","valor",[unit("E1",2,"Valor 18 kΩ")])

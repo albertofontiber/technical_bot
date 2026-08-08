@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from src.rag.typed_relations_v2 import (
+from harness.typed_relations_v2 import (
     single_chunk_extraction_schema,
     validate_single_chunk_extraction,
 )

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 
-from src.rag.principal_visual_gold import principal_publication_gate
+from harness.principal_visual_gold import principal_publication_gate
 
 
 def _review():

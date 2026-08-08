@@ -1,4 +1,4 @@
-from src.rag.procedure_bundle_coverage import (
+from harness.procedure_bundle_coverage import (
     MAX_CARD_CHARS,
     select_procedure_bundle_coverage,
     verify_source_span_receipt,

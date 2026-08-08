@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.frontier_visual_runtime_v2 import FrontierVisualRuntime  # noqa: E402
-from src.rag.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
+from harness.frontier_visual_runtime_v2 import FrontierVisualRuntime  # noqa: E402
+from harness.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
 from src.rag.visual_gold import conservative_cost, sealed_artifact, write_json  # noqa: E402
 
 DESIGN = ROOT / "evals/s235_direct_clause_bound_ab_design_v1.md"

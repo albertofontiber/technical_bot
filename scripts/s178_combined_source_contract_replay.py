@@ -17,7 +17,7 @@ if __package__ in {None, ""}:
 
 from scripts.s161_table_preamble_answer_probe import score_answer
 from scripts.s172_superscript_answer_cascade import supports_exact_exponent
-from src.reingest.extraction_derivation import (
+from harness.extraction_derivation import (
     derive_numeric_superscripts,
     validate_derivation,
 )

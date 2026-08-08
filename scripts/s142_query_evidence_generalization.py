@@ -14,7 +14,7 @@ import yaml
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.rag.query_evidence_obligations import extract_query_evidence_obligations
+from harness.query_evidence_obligations import extract_query_evidence_obligations
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from src.rag.decomposed_evidence_planner import planner_payload, validate_plan
-from src.rag.evidence_units_v2 import EvidenceUnitV2
-from src.rag.planner_holdout_gold import (
+from harness.decomposed_evidence_planner import planner_payload, validate_plan
+from harness.evidence_units_v2 import EvidenceUnitV2
+from harness.planner_holdout_gold import (
     author_prompt_v2,
     validate_support_mapping,
     validate_support_review,

@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from src.reingest import extraction_derivation as derivation
-from src.reingest.superscript_overlay import SuperscriptOverlayResult
+from harness import extraction_derivation as derivation
+from harness.superscript_overlay import SuperscriptOverlayResult
 
 
 def _raw() -> bytes:

@@ -19,7 +19,7 @@ from scripts.s201_real_question_planner_gate import (
     validate_gold_validator,
     verified_units,
 )
-from src.rag.decomposed_evidence_planner import compile_append, validate_plan
+from harness.decomposed_evidence_planner import compile_append, validate_plan
 
 
 ROOT = Path(__file__).resolve().parents[1]

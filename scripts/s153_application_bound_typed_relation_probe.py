@@ -18,14 +18,14 @@ if __package__ in {None, ""}:
 
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, attested, plan_for
 from scripts.s151_typed_relation_target_probe import file_sha, relation_covered_by_claims, stable_sha
-from src.rag.typed_relations import (
+from harness.typed_relations import (
     SELECTION_SYSTEM,
     TypedRelation,
     build_claim_selection_prompt,
     claim_selection_schema,
     validate_claim_selection,
 )
-from src.rag.typed_relations_v2 import (
+from harness.typed_relations_v2 import (
     SINGLE_CHUNK_EXTRACTION_SYSTEM,
     single_chunk_extraction_schema,
     validate_single_chunk_extraction,

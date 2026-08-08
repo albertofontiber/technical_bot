@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.rag.multisource_visual_gold import (
+from harness.multisource_visual_gold import (
     author_prompt,
     principal_publication_gate,
     validate_candidate,

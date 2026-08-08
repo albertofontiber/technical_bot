@@ -16,8 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
-from src.rag.principal_visual_gold import principal_publication_gate  # noqa: E402
+from harness.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
+from harness.principal_visual_gold import principal_publication_gate  # noqa: E402
 from src.rag.visual_gold import (  # noqa: E402
     SemanticNoGo,
     all_pass,

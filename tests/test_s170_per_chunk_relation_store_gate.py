@@ -3,7 +3,7 @@ import pytest
 from scripts.s170_per_chunk_relation_store_gate import (
     RELATION_TYPES, score_relations, validate_relations, validate_selection,
 )
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 def _fixture():

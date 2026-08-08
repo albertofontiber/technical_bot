@@ -40,7 +40,7 @@ from scripts.s197_build_fresh_source_packet import (
     PRIOR_SOURCE_PACKETS,
     S195_PACKET,
 )
-from src.rag.evidence_units_v2 import (
+from harness.evidence_units_v2 import (
     EvidenceUnitV2,
     build_header_aware_evidence_units,
     reconstruct_unit_content,

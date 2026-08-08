@@ -18,7 +18,7 @@ import yaml
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.rag.decomposed_synthesis import (
+from harness.decomposed_synthesis import (
     DECOMPOSITION_SYSTEM,
     assemble_blocks,
     decomposition_output_format,

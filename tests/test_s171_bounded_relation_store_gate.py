@@ -2,7 +2,7 @@ from scripts import s170_per_chunk_relation_store_gate as base
 from scripts.s171_bounded_relation_store_gate import (
     MAX_RELATIONS, SOURCE, COHORT, configure_base, extraction_schema,
 )
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 def test_s171_schema_and_local_validator_share_thirty_relation_bound():

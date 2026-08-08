@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from src.rag.evidence_units_v2 import (
+from harness.evidence_units_v2 import (
     build_header_aware_evidence_units,
     reconstruct_unit_content,
 )

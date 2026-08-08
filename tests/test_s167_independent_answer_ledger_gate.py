@@ -3,7 +3,7 @@ from scripts.s167_independent_answer_ledger_gate import (
     score_selection,
     validate_author_item,
 )
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 def _source():

@@ -31,7 +31,7 @@ from scripts.s194_build_fresh_source_packet import (
     TARGET_FILES,
     _prior_contract,
 )
-from src.rag.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
+from harness.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -30,7 +30,7 @@ from scripts.s167_independent_answer_ledger_gate import (
     _write,
     file_sha,
 )
-from src.rag.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
+from harness.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

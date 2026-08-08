@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.holdout_evidence import atomic_evidence_unit_rows  # noqa: E402
+from harness.holdout_evidence import atomic_evidence_unit_rows  # noqa: E402
 from src.rag.visual_gold import sha256_bytes, stable_sha, write_json  # noqa: E402
 
 

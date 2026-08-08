@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from src.rag.evidence_units import build_evidence_units
+from harness.evidence_units import build_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

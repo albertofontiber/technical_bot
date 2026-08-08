@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.procedure_bundle_coverage import (
+from harness.procedure_bundle_coverage import (
     select_procedure_bundle_coverage,
     verify_source_span_receipt,
 )

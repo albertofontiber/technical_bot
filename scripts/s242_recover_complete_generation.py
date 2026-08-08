@@ -12,11 +12,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.s235_run_direct_clause_bound_ab import _units  # noqa: E402
-from src.rag.clause_bound_synthesis import (  # noqa: E402
+from harness.clause_bound_synthesis import (  # noqa: E402
     assemble_claim_blocks,
     validate_claim_block,
 )
-from src.rag.decomposed_evidence_planner_v2 import validate_plan  # noqa: E402
+from harness.decomposed_evidence_planner_v2 import validate_plan  # noqa: E402
 from src.rag.visual_gold import (  # noqa: E402
     parse_json,
     sealed_artifact,

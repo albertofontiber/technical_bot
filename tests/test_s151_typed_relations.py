@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.typed_relations import (
+from harness.typed_relations import (
     build_claim_selection_prompt,
     validate_claim_selection,
     validate_extraction_value,

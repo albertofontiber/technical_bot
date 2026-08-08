@@ -12,11 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.quantitative_claim_contract import (  # noqa: E402
+from harness.quantitative_claim_contract import (  # noqa: E402
     extract_quantitative_fields,
     find_partial_quantitative_claims,
 )
-from src.rag.relation_complete_highlights import (  # noqa: E402
+from harness.relation_complete_highlights import (  # noqa: E402
     JOINER,
     build_relation_complete_highlights,
 )

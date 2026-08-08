@@ -9,7 +9,7 @@ from scripts.s216_run_decomposed_synthesis_screen import (
 )
 from scripts.s216_review_decomposed_synthesis_screen import schema as review_schema
 
-from src.rag.decomposed_synthesis import (
+from harness.decomposed_synthesis import (
     assemble_blocks,
     decomposition_payload,
     decomposition_schema,

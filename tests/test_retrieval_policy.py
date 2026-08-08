@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.reingest import retrieval_policy
+from harness import retrieval_policy
 
 
 @pytest.mark.parametrize(

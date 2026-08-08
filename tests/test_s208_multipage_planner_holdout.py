@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.rag.holdout_evidence import atomic_evidence_unit_rows
-from src.rag.planner_holdout_gold import (
+from harness.holdout_evidence import atomic_evidence_unit_rows
+from harness.planner_holdout_gold import (
     author_prompt_v3,
     validate_candidate_v3,
     validate_support_mapping_v3,

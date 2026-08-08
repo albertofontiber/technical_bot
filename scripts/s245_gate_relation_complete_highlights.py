@@ -14,7 +14,7 @@ import yaml
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.rag.relation_complete_highlights import (  # noqa: E402
+from harness.relation_complete_highlights import (  # noqa: E402
     MAX_ATOM_CHARS,
     MAX_ATOMS_PER_FRAGMENT,
     build_relation_complete_highlights,

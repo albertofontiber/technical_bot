@@ -23,7 +23,7 @@ from scripts.s151_typed_relation_target_probe import (
     relation_covered_by_claims,
     stable_sha,
 )
-from src.rag.typed_relations import (
+from harness.typed_relations import (
     EXTRACTION_SYSTEM,
     SELECTION_SYSTEM,
     TypedRelation,

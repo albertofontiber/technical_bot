@@ -5,8 +5,8 @@ import json
 import pytest
 
 from scripts.s213_score_sharded_unit_selector import build_legacy_score_proxy
-from src.rag.query_evidence_compiler import stable_sha
-from src.rag.sharded_unit_selector import (
+from harness.query_evidence_compiler import stable_sha
+from harness.sharded_unit_selector import (
     MAX_COMPILED_IDS,
     ShardedEvidenceCandidate,
     build_sharded_candidates,

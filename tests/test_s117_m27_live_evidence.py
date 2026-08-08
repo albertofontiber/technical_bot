@@ -9,7 +9,7 @@ import yaml
 
 from scripts import s117_m27_live_evidence as evidence
 from scripts import s117_materialize_chunks_v3_local as replay
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 
 
 def _row(

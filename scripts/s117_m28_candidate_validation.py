@@ -11,7 +11,7 @@ from typing import Any
 
 from scripts import s117_materialize_chunks_v3_local as row_validator
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 
 
 PROJECTION_SCHEMA = "s117_m28_candidate_treatment_projection_v1"

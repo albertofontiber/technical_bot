@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import s210_score_query_evidence_compiler as engine  # noqa: E402
-from src.rag.query_evidence_compiler import stable_sha  # noqa: E402
+from harness.query_evidence_compiler import stable_sha  # noqa: E402
 
 
 PREFLIGHT = ROOT / "evals/s212_query_evidence_compiler_preflight_v1.json"

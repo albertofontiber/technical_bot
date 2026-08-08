@@ -14,9 +14,9 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, plan_for  # noqa: E402
-from src.rag.query_evidence_compiler import stable_sha  # noqa: E402
-from src.rag.query_evidence_compiler_v3 import validate_claim_response  # noqa: E402
-from src.rag.query_evidence_compiler import (  # noqa: E402
+from harness.query_evidence_compiler import stable_sha  # noqa: E402
+from harness.query_evidence_compiler_v3 import validate_claim_response  # noqa: E402
+from harness.query_evidence_compiler import (  # noqa: E402
     deterministic_fallback_candidates,
     merge_candidate_pool,
 )

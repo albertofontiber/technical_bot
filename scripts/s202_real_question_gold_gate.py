@@ -19,11 +19,11 @@ if __package__ in {None, ""}:
 
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s167_independent_answer_ledger_gate import _cost, _format
-from src.rag.evidence_units_v2 import (
+from harness.evidence_units_v2 import (
     EvidenceUnitV2,
     build_header_aware_evidence_units,
 )
-from src.rag.source_unit_gold import (
+from harness.source_unit_gold import (
     POINT_SLOTS,
     static_author_schema,
     validate_static_author_output,

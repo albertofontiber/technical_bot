@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.evidence_units_v2 import (  # noqa: E402
+from harness.evidence_units_v2 import (  # noqa: E402
     EvidenceUnitV2,
     build_header_aware_evidence_units,
     reconstruct_unit_content,

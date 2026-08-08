@@ -9,7 +9,7 @@ from scripts.s210_run_query_evidence_compiler import (
     MAX_PLANNER_PROMPT_BYTES,
     conservative_execution_upper_bound_usd,
 )
-from src.rag.query_evidence_compiler import portable_file_sha, stable_sha
+from harness.query_evidence_compiler import portable_file_sha, stable_sha
 
 
 ROOT = Path(__file__).resolve().parents[1]

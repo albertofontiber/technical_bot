@@ -25,7 +25,7 @@ import yaml
 from dotenv import dotenv_values
 
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 from src.reingest import contextualize, embed, language, metadata, sidecar
 
 

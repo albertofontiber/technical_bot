@@ -18,7 +18,7 @@ if __package__ in {None, ""}:
 
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, attested, plan_for
 from scripts.s149_target_evidence_selector_probe import relation_anchors_covered
-from src.rag.evidence_coverage_verifier import (
+from harness.evidence_coverage_verifier import (
     EVIDENCE_COVERAGE_VERIFIER_MODEL,
     SYSTEM,
     build_verification_prompt,
@@ -26,7 +26,7 @@ from src.rag.evidence_coverage_verifier import (
     verification_schema,
     verify_evidence_coverage,
 )
-from src.rag.evidence_selector import EvidenceSelection, prepare_evidence_units
+from harness.evidence_selector import EvidenceSelection, prepare_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -22,7 +22,7 @@ from scripts import s117_m27_loss_accounted_alignment as m27b
 from scripts import s117_m27_upstream_sql_budget_v2 as m27
 from scripts import s117_materialize_chunks_v3_local as replay
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 
 
 ROOT = Path(__file__).resolve().parents[1]

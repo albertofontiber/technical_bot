@@ -18,16 +18,16 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.decomposed_evidence_planner import (  # noqa: E402
+from harness.decomposed_evidence_planner import (  # noqa: E402
     PLANNER_SYSTEM,
     compile_append,
     output_format,
     planner_payload,
     validate_plan,
 )
-from src.rag.evidence_units_v2 import EvidenceUnitV2  # noqa: E402
-from src.rag.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
-from src.rag.planner_holdout_gold import (  # noqa: E402
+from harness.evidence_units_v2 import EvidenceUnitV2  # noqa: E402
+from harness.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
+from harness.planner_holdout_gold import (  # noqa: E402
     SUPPORT_MAPPING_PROMPT_V3,
     SUPPORT_REVIEW_PROMPT_V3,
     author_prompt_v3,
@@ -35,7 +35,7 @@ from src.rag.planner_holdout_gold import (  # noqa: E402
     validate_support_mapping_v3,
     validate_support_review_v3,
 )
-from src.rag.principal_visual_gold import principal_publication_gate  # noqa: E402
+from harness.principal_visual_gold import principal_publication_gate  # noqa: E402
 from src.rag.visual_gold import (  # noqa: E402
     all_pass,
     conservative_cost,

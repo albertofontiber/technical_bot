@@ -5,7 +5,7 @@ import hashlib
 
 import pytest
 
-from src.reingest.superscript_overlay import (
+from harness.superscript_overlay import (
     NumericSuperscriptSignal,
     _numeric_signal_from_spans,
     _preserve_numeric_superscripts,

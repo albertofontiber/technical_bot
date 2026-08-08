@@ -16,7 +16,7 @@ from typing import Any
 
 import yaml
 
-from src.reingest import chunk_provenance as materializer
+from harness import chunk_provenance as materializer
 
 
 ROOT = Path(__file__).resolve().parents[1]

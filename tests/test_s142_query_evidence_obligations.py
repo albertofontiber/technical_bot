@@ -5,7 +5,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-from src.rag.query_evidence_obligations import extract_query_evidence_obligations
+from harness.query_evidence_obligations import extract_query_evidence_obligations
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.query_evidence_compiler import portable_file_sha, stable_sha  # noqa: E402
-from src.rag.sharded_unit_selector import (  # noqa: E402
+from harness.query_evidence_compiler import portable_file_sha, stable_sha  # noqa: E402
+from harness.sharded_unit_selector import (  # noqa: E402
     MAX_COMPILED_CHARS,
     build_sharded_candidates,
     compile_sharded_appendix,

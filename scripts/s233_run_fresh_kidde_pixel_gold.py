@@ -18,15 +18,15 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import s217_run_kidde_external_cohort as base  # noqa: E402
-from src.rag.frontier_visual_runtime_v2 import FrontierVisualRuntime  # noqa: E402
-from src.rag.frontier_visual_schemas import (  # noqa: E402
+from harness.frontier_visual_runtime_v2 import FrontierVisualRuntime  # noqa: E402
+from harness.frontier_visual_schemas import (  # noqa: E402
     anthropic_compatible_schema,
     candidate_schema,
     review_schema,
     support_mapping_schema,
     support_review_schema,
 )
-from src.rag.multisource_visual_gold import (  # noqa: E402
+from harness.multisource_visual_gold import (  # noqa: E402
     page_content_fable,
     page_content_openai,
 )

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from src.rag.evidence_selector import prepare_evidence_units
+from harness.evidence_selector import prepare_evidence_units
 from scripts.s150_target_coverage_verifier_probe import reconstruct_primary_selection
 
 

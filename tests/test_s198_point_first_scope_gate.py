@@ -8,7 +8,7 @@ import pytest
 
 import scripts.s198_point_first_scope_gate as s198
 from scripts.s196_static_transport_canary import static_transport_schema
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 def _point(active, claim="", facet="", supports=("", "", "")):

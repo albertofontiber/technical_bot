@@ -9,7 +9,7 @@ import yaml
 
 from scripts import s117_m2_legacy_reuse_analysis as m2
 from scripts import s117_m26_independent_reuse_audit as audit
-from src.reingest import retrieval_policy
+from harness import retrieval_policy
 
 
 def _local() -> dict:

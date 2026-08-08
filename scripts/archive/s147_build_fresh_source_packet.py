@@ -22,7 +22,7 @@ from scripts.s146_build_fresh_source_packet import (
     prior_chunks_sha256,
     stable_sha,
 )
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

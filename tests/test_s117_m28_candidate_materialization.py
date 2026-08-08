@@ -14,7 +14,7 @@ from scripts import s117_m28_candidate_materialization as runner
 from scripts import s117_m28_candidate_validation as validation
 from scripts import s117_materialize_chunks_v3_local as row_validator
 from src.reingest.chunk import Chunk, chunk_document
-from src.reingest import chunk_provenance as materializer
+from harness import chunk_provenance as materializer
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,7 +26,7 @@ ALLOWED_LOCAL_MODULES = {
     "src",
     "src.reingest",
     "src.reingest.chunk",
-    "src.reingest.chunk_provenance",
+    "harness.chunk_provenance",
     "scripts",
     "scripts.s117_materialize_chunks_v3_local",
     "scripts.s117_m28_candidate_validation",
@@ -36,7 +36,7 @@ LOCAL_CLOSURE = {
     "src": ROOT / "src/__init__.py",
     "src.reingest": ROOT / "src/reingest/__init__.py",
     "src.reingest.chunk": ROOT / "src/reingest/chunk.py",
-    "src.reingest.chunk_provenance": ROOT / "src/reingest/chunk_provenance.py",
+    "harness.chunk_provenance": ROOT / "src/reingest/chunk_provenance.py",
     "scripts.s117_materialize_chunks_v3_local": ROOT
     / "scripts/s117_materialize_chunks_v3_local.py",
     "scripts.s117_m28_candidate_validation": ROOT

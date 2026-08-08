@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import scripts.s224_review_s223_semantics as prior  # noqa: E402
-from src.rag.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
+from harness.frontier_visual_runtime import FrontierVisualRuntime  # noqa: E402
 from src.rag.visual_gold import normalized_text_sha, sealed_artifact, write_json  # noqa: E402
 
 PREREG=ROOT/"evals/s225_s223_sol_principal_review_prereg_v1.yaml"

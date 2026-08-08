@@ -23,7 +23,7 @@ from src.rag.omission_correction import (
     point_covered,
     units_by_fragment,
 )
-from src.rag.evidence_units_v2 import reconstruct_unit_content
+from harness.evidence_units_v2 import reconstruct_unit_content
 
 
 ROOT = Path(__file__).resolve().parents[1]

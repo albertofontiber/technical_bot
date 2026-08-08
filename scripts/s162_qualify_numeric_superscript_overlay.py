@@ -13,7 +13,7 @@ if __package__ in {None, ""}:
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.reingest.superscript_overlay import preserve_numeric_superscripts
+from harness.superscript_overlay import preserve_numeric_superscripts
 
 
 ROOT = Path(__file__).resolve().parents[1]

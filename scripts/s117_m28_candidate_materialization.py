@@ -17,7 +17,7 @@ import yaml
 from scripts import s117_m28_candidate_validation as validation
 from scripts import s117_materialize_chunks_v3_local as row_validator
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as materializer
+from harness import chunk_provenance as materializer
 
 
 ROOT = Path(__file__).resolve().parents[1]

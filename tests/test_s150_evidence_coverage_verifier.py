@@ -4,12 +4,12 @@ from types import SimpleNamespace
 
 import pytest
 
-from src.rag.evidence_coverage_verifier import (
+from harness.evidence_coverage_verifier import (
     EvidenceCoverageVerification,
     merge_verified_selection,
     validate_verification_value,
 )
-from src.rag.evidence_selector import EvidenceSelection, prepare_evidence_units
+from harness.evidence_selector import EvidenceSelection, prepare_evidence_units
 
 
 def _prepared():

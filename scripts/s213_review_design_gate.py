@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import s211_review_rerun_gate as engine  # noqa: E402
-from src.rag.query_evidence_compiler import stable_sha  # noqa: E402
+from harness.query_evidence_compiler import stable_sha  # noqa: E402
 
 
 BRIEF = ROOT / "evals/s213_frontier_design_gate_brief_v1.md"

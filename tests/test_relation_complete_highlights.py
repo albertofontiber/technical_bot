@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.rag.relation_complete_highlights import (
+from harness.relation_complete_highlights import (
     HighlightLimitError,
     build_relation_complete_highlights,
     reconstruct_highlight_content,

@@ -19,8 +19,8 @@ from scripts.s141_source_bound_technical_obligations import (  # noqa: E402
     plan_for,
 )
 from scripts.s210_build_query_evidence_compiler_preflight import build_rows  # noqa: E402
-from src.rag.query_evidence_compiler import portable_file_sha, stable_sha  # noqa: E402
-from src.rag.sharded_unit_selector import (  # noqa: E402
+from harness.query_evidence_compiler import portable_file_sha, stable_sha  # noqa: E402
+from harness.sharded_unit_selector import (  # noqa: E402
     build_sharded_candidates,
     selector_payload,
     verifier_payload,

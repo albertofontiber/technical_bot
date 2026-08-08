@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from src.rag.multisource_visual_gold import principal_publication_gate
+from harness.multisource_visual_gold import principal_publication_gate
 from src.rag.visual_gold import stable_sha
 
 

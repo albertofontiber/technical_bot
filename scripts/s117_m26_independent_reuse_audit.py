@@ -15,7 +15,7 @@ from typing import Any
 import yaml
 
 from scripts import s117_m2_legacy_reuse_analysis as m2
-from src.reingest import retrieval_policy
+from harness import retrieval_policy
 
 
 ROOT = Path(__file__).resolve().parents[1]

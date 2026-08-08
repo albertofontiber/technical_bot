@@ -5,9 +5,9 @@ from scripts.s235_run_direct_clause_bound_ab import (
     _forbidden_score_keys,
     _units,
 )
-from src.rag.clause_bound_synthesis import WRITER_SYSTEM, claim_block_schema
-from src.rag.frontier_visual_schemas import anthropic_compatible_schema
-from src.rag.decomposed_evidence_planner_v2 import PLANNER_SYSTEM
+from harness.clause_bound_synthesis import WRITER_SYSTEM, claim_block_schema
+from harness.frontier_visual_schemas import anthropic_compatible_schema
+from harness.decomposed_evidence_planner_v2 import PLANNER_SYSTEM
 
 
 def test_s235_packets_preserve_exact_frozen_population_and_isolation():

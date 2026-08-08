@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import pytest
 
-from src.rag.planner_support_review import (
+from harness.planner_support_review import (
     SUPPORT_REVIEW_PROMPT_V4,
     validate_support_review_v4,
 )

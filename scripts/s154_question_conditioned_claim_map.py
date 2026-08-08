@@ -22,7 +22,7 @@ if __package__ in {None, ""}:
 
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, plan_for
 from scripts.s151_typed_relation_target_probe import relation_covered_by_claims
-from src.rag.typed_relations import TypedRelation
+from harness.typed_relations import TypedRelation
 
 
 ROOT = Path(__file__).resolve().parents[1]

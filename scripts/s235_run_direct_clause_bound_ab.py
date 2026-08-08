@@ -22,24 +22,24 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.s156_frontier_synthesis_ceiling import build_prompt  # noqa: E402
-from src.rag.clause_bound_synthesis import (  # noqa: E402
+from harness.clause_bound_synthesis import (  # noqa: E402
     WRITER_SYSTEM,
     assemble_claim_blocks,
     claim_block_schema,
     validate_claim_block,
     writer_payload,
 )
-from src.rag.decomposed_evidence_planner_v2 import (  # noqa: E402
+from harness.decomposed_evidence_planner_v2 import (  # noqa: E402
     PLANNER_SYSTEM,
     planner_payload,
     planner_schema,
     validate_plan,
 )
-from src.rag.evidence_units_v2 import (  # noqa: E402
+from harness.evidence_units_v2 import (  # noqa: E402
     EvidenceUnitV2,
     build_header_aware_evidence_units,
 )
-from src.rag.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
+from harness.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
 from src.rag.visual_gold import (  # noqa: E402
     parse_json,
     sealed_artifact,

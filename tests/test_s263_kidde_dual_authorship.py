@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 from scripts import s263_run_kidde_dual_authorship as runner
-from src.rag.frontier_visual_schemas import anthropic_compatible_schema, candidate_schema
+from harness.frontier_visual_schemas import anthropic_compatible_schema, candidate_schema
 from src.rag.visual_gold import normalized_text_sha
 
 

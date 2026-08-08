@@ -22,7 +22,7 @@ from scripts.s146_build_fresh_source_packet import (
 )
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s167_build_independent_ledger_source_support import collect_uuid_strings
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

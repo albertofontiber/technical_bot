@@ -16,7 +16,7 @@ if __package__ in {None, ""}:
 from scripts import s199_build_restored_margin_packet as base
 from scripts.s165_answer_archetype_ledger import stable_sha
 from scripts.s194_build_fresh_source_packet import DEFAULT_ENV, TARGET_FILES, file_sha
-from src.rag.evidence_units_v2 import build_header_aware_evidence_units
+from harness.evidence_units_v2 import build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

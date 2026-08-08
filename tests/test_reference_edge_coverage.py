@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from src.rag.reference_edge_coverage import (
+from harness.reference_edge_coverage import (
     select_reference_edge_coverage,
     verify_reference_edge_receipt,
 )

@@ -29,7 +29,7 @@ from scripts.s235_review_direct_clause_bound_ab_design import (  # noqa: E402
     schema,
     validate,
 )
-from src.rag.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
+from harness.frontier_visual_schemas import anthropic_compatible_schema  # noqa: E402
 from src.rag.visual_gold import (  # noqa: E402
     conservative_cost,
     parse_json,

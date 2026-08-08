@@ -15,7 +15,7 @@ from typing import Any
 import yaml
 
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as materializer
+from harness import chunk_provenance as materializer
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PREREG = ROOT / "evals/s117_chunks_v3_local_migration_prereg_v21.yaml"

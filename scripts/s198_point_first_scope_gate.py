@@ -37,7 +37,7 @@ from scripts.s198_question_schema_canary import (
     question_schema,
     validate_question_schema,
 )
-from src.rag.evidence_units_v2 import (
+from harness.evidence_units_v2 import (
     EvidenceUnitV2,
     build_header_aware_evidence_units,
     reconstruct_unit_content,

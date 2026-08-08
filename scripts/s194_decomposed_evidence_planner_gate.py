@@ -36,7 +36,7 @@ from src.rag.answer_planner import (
     validate_answer_conflicts,
     validate_answer_plan,
 )
-from src.rag.evidence_units_v2 import (
+from harness.evidence_units_v2 import (
     EvidenceUnitV2,
     build_header_aware_evidence_units,
     reconstruct_unit_content,

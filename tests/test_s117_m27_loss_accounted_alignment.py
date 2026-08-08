@@ -7,7 +7,7 @@ import random
 import pytest
 
 from scripts import s117_m27_loss_accounted_alignment as audit
-from src.reingest import chunk_provenance as provenance
+from harness import chunk_provenance as provenance
 
 
 def _block(

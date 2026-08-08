@@ -7,13 +7,13 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.rag.holdout_evidence import atomic_evidence_unit_rows
-from src.rag.planner_holdout_gold import (
+from harness.holdout_evidence import atomic_evidence_unit_rows
+from harness.planner_holdout_gold import (
     author_prompt_v3,
     validate_candidate_v3,
     validate_support_mapping_v3,
 )
-from src.rag.planner_support_review import validate_support_review_v4
+from harness.planner_support_review import validate_support_review_v4
 from src.rag.visual_gold import normalized_text_sha
 
 

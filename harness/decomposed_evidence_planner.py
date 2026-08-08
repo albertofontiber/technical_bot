@@ -9,7 +9,7 @@ import hashlib
 import json
 from typing import Any
 
-from src.rag.evidence_units_v2 import EvidenceUnitV2
+from harness.evidence_units_v2 import EvidenceUnitV2
 
 
 PLANNER_SYSTEM = """You are an evidence coverage planner for technical field support.

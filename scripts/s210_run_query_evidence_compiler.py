@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.rag.query_evidence_compiler import (
+from harness.query_evidence_compiler import (
     append_to_answer,
     claim_schema,
     compile_evidence_appendix,

@@ -1,4 +1,4 @@
-from src.rag.quantitative_claim_contract import (
+from harness.quantitative_claim_contract import (
     extract_quantitative_fields,
     find_partial_quantitative_claims,
 )

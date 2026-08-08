@@ -20,7 +20,7 @@ if __package__ in {None, ""}:
 from scripts.s146_fresh_header_aware_gate import _repair_unique_whitespace_quote
 from scripts.s165_answer_archetype_ledger import FACETS, SYSTEM, ledger_schema, stable_sha
 from scripts.s166_answer_archetype_ledger_transport import validate_ledger_v2
-from src.rag.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
+from harness.evidence_units_v2 import EvidenceUnitV2, build_header_aware_evidence_units
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -116,25 +116,25 @@ CUARENTENA = {
 # src/orchestrator/__init__.py (alcanzable en runtime vía el paquete).
 ISLA = frozenset({
     # 31 de src/rag
-    "src.rag.visual_gold", "src.rag.principal_visual_gold",
-    "src.rag.multisource_visual_gold", "src.rag.source_unit_gold",
-    "src.rag.planner_holdout_gold", "src.rag.holdout_evidence",
-    "src.rag.planner_support_review", "src.rag.evidence_units",
-    "src.rag.evidence_units_v2", "src.rag.evidence_selector",
-    "src.rag.evidence_coverage_verifier", "src.rag.decomposed_evidence_planner",
-    "src.rag.decomposed_evidence_planner_v2", "src.rag.decomposed_synthesis",
-    "src.rag.clause_bound_synthesis", "src.rag.sharded_unit_selector",
-    "src.rag.omission_correction", "src.rag.query_evidence_compiler",
-    "src.rag.query_evidence_compiler_v2", "src.rag.query_evidence_compiler_v3",
-    "src.rag.query_evidence_obligations", "src.rag.typed_relations",
-    "src.rag.typed_relations_v2", "src.rag.quantitative_claim_contract",
-    "src.rag.relation_complete_highlights", "src.rag.frontier_visual_schemas",
-    "src.rag.frontier_visual_runtime", "src.rag.frontier_visual_runtime_v2",
-    "src.rag.frontier_visual_runtime_v3", "src.rag.procedure_bundle_coverage",
-    "src.rag.reference_edge_coverage",
+    "src.rag.visual_gold", "harness.principal_visual_gold",
+    "harness.multisource_visual_gold", "harness.source_unit_gold",
+    "harness.planner_holdout_gold", "harness.holdout_evidence",
+    "harness.planner_support_review", "harness.evidence_units",
+    "harness.evidence_units_v2", "harness.evidence_selector",
+    "harness.evidence_coverage_verifier", "harness.decomposed_evidence_planner",
+    "harness.decomposed_evidence_planner_v2", "harness.decomposed_synthesis",
+    "harness.clause_bound_synthesis", "harness.sharded_unit_selector",
+    "src.rag.omission_correction", "harness.query_evidence_compiler",
+    "harness.query_evidence_compiler_v2", "harness.query_evidence_compiler_v3",
+    "harness.query_evidence_obligations", "harness.typed_relations",
+    "harness.typed_relations_v2", "harness.quantitative_claim_contract",
+    "harness.relation_complete_highlights", "harness.frontier_visual_schemas",
+    "harness.frontier_visual_runtime", "harness.frontier_visual_runtime_v2",
+    "harness.frontier_visual_runtime_v3", "harness.procedure_bundle_coverage",
+    "harness.reference_edge_coverage",
     # 4 de src/reingest
-    "src.reingest.chunk_provenance", "src.reingest.extraction_derivation",
-    "src.reingest.retrieval_policy", "src.reingest.superscript_overlay",
+    "harness.chunk_provenance", "harness.extraction_derivation",
+    "harness.retrieval_policy", "harness.superscript_overlay",
 })
 
 

@@ -11,7 +11,7 @@ from typing import Any
 from scripts import s135_representative_chunks_shadow as base
 from src.rag.retriever import extract_search_keywords
 from src.reingest import chunk as chunk_module
-from src.reingest import chunk_provenance as materializer
+from harness import chunk_provenance as materializer
 
 
 ROOT = Path(__file__).resolve().parents[1]

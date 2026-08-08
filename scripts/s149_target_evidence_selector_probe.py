@@ -18,7 +18,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.s141_source_bound_technical_obligations import TARGET_KINDS, attested, plan_for
-from src.rag.evidence_selector import (
+from harness.evidence_selector import (
     EVIDENCE_SELECTOR_MODEL,
     SYSTEM,
     build_selection_prompt,
