@@ -33,7 +33,7 @@ hp002) con presupuesto PROPIO de 1 fila FUERA del cap global ``MAX_APPENDED``,
 solo en preguntas procedimentales/diagnósticas y solo del MISMO scope canónico
 de documento que lo ya servido; el chunk exacto (id+content) se revalida
 contra el pool antes de reservar.  Selector determinista en
-``rerank_pool_coverage.select_obligation_warning_reserve``.
+``obligation_warning.select_obligation_warning_reserve`` (graduada del split L2c/s313).
 
 s278 §4 (flag ``PROSE_SOURCE_CARD``, default-off byte-inerte, releído
 at-call-time): el lane document-local admite una SEGUNDA clase de card servida

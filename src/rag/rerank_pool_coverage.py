@@ -261,8 +261,14 @@ def select_rerank_pool_coverage(
 
 
 # ── RE-EXPORTS ───────────────────────────────────────────────────────────────
-# Shim DECLARADO del split L2c (blueprint: el residual re-exporta para los
-# monkeypatch de sus tests; muere con la lane o cuando los tests migren).
+# Shim DECLARADO del split L2c. Consumidores REALES por esta ruta (Sol s313 cazó
+# que decir solo «tests» sub-declaraba): los monkeypatch de tests/test_rerank_pool_
+# coverage.py Y los instrumentos scripts/s291_l2_v1_probe.py + s288c_gate_funnel_
+# probe.py. Muere con la lane o cuando TODOS esos consumidores migren.
+# OJO semántica de namespace (Sol s313): `select_obligation_warning_reserve` aquí es
+# RE-EXPORT — sus globals resuelven en obligation_warning; un monkeypatch de sus
+# helpers debe apuntar ALLÍ, no aquí (los 5 patch vivos de resolve_query afectan a la
+# selectora vetada, que SÍ vive aquí — intactos).
 from .pool_selection import MIN_ALIGNMENT_TERMS  # noqa: E402,F401
 from .obligation_warning import (  # noqa: E402,F401
     OBLIGATION_WARNING_LANE,
