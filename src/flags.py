@@ -1,7 +1,8 @@
 """src/flags.py — REGISTRO declarativo de la configuración por entorno (L2b, s311).
 
-Qué ES: el censo ejecutable de las 86 flags que `src/` lee del entorno (100 call-sites:
-getenv directo/indirecto + environ[.get] + `_strict_on_off` [ambas firmas] + `_mp_flag`), con default (como TEXTO fuente — el lector real
+Qué ES: el censo ejecutable de las 91 flags que `src/` lee del entorno — censo v5,
+fuente UNICA en `tests/_censo_flags.py` (8 vias, ambas comillas, profile-owned por
+import del constante, y flags data-driven de los YAML de fabricantes), con default (como TEXTO fuente — el lector real
 es quien lo resuelve), vía y lectores por flag. Generado del árbol y VERIFICADO contra
 el árbol por `tests/test_s311_flags_registry.py`: un `getenv` nuevo sin registrar pone
 la suite en rojo.
@@ -35,7 +36,7 @@ REGISTRO: dict[str, dict] = {
         "via": ['environ.get', 'getenv'],
         "lectores": ('src/config.py', 'src/rag/must_preserve.py'),
         "sensible": True,
-        "divergencia": ['""', 'None'],  # VISIBLE a propósito (L2b: el pin detecta, no corrige a ciegas)
+        "divergencia": ['""', 'None'],  # VISIBLE a proposito (L2b: el pin detecta, no corrige)
     },
     "ANTI_DIAGRAM_INVENTION": {
         "default_fuente": '"off"',
@@ -60,7 +61,7 @@ REGISTRO: dict[str, dict] = {
     "CHUNKS_TABLE": {
         "default_fuente": '"chunks_v2"',
         "via": ['getenv'],
-        "lectores": ('src/config.py', 'src/rag/catalog_resolver.py'),
+        "lectores": ('src/config.py', 'src/rag/catalog_resolver.py', 'src/rag/deep_lookup.py'),
     },
     "COMPATIBILITY_BUNDLE_COVERAGE": {
         "default_fuente": '"off"',
@@ -77,13 +78,6 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
     },
-    "COVERAGE_RELEASE_PROFILE": {
-        # leída vía `env.get(PROFILE_ENV, LEGACY_PROFILE)` con el entorno pasado como
-        # mapping — la indirección que el censo v3 no veía (el pin fantasma la destapó)
-        "default_fuente": 'LEGACY_PROFILE',
-        "via": ['mapping.get-indirecto'],
-        "lectores": ('src/release_profiles.py',),
-    },
     "CONVO_SHADOW": {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
@@ -91,18 +85,28 @@ REGISTRO: dict[str, dict] = {
     },
     "COVERAGE_MANDATORY_CALLOUT": {
         "default_fuente": '"off"',
-        "via": ['strict_on_off'],
-        "lectores": ('src/rag/post_rerank_coverage.py',),
+        "via": ['profile-owned-loop', 'strict_on_off'],
+        "lectores": ('src/rag/post_rerank_coverage.py', 'src/release_profiles.py'),
+    },
+    "COVERAGE_RELEASE_PROFILE": {
+        "default_fuente": 'None',
+        "via": ['mapping.get-indirecto'],
+        "lectores": ('src/release_profiles.py',),
     },
     "DEDUP_REFERENCE_NAVIGATION": {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
     },
+    "DOCUMENT_LOCAL_COVERAGE": {
+        "default_fuente": '"off"',
+        "via": ['profile-owned-loop'],
+        "lectores": ('src/release_profiles.py',),
+    },
     "DOCUMENT_LOCAL_SELECTION_V2": {
         "default_fuente": '"off"',
-        "via": ['strict_on_off'],
-        "lectores": ('src/rag/document_local_coverage.py', 'src/rag/post_rerank_coverage.py'),
+        "via": ['profile-owned-loop', 'strict_on_off'],
+        "lectores": ('src/rag/document_local_coverage.py', 'src/rag/post_rerank_coverage.py', 'src/release_profiles.py'),
     },
     "EMBED_CACHE_PATH": {
         "default_fuente": 'None',
@@ -131,8 +135,8 @@ REGISTRO: dict[str, dict] = {
     },
     "EVIDENCE_CONTRACT": {
         "default_fuente": '"off"',
-        "via": ['strict_on_off'],
-        "lectores": ('src/rag/generator.py',),
+        "via": ['profile-owned-loop', 'strict_on_off'],
+        "lectores": ('src/rag/generator.py', 'src/release_profiles.py'),
     },
     "EVIDENCE_DERIVATION_OVERLAY": {
         "default_fuente": '"off"',
@@ -218,7 +222,7 @@ REGISTRO: dict[str, dict] = {
         "default_fuente": '""',
         "via": ['getenv'],
         "lectores": ('src/config.py', 'src/rag/catalog_resolver.py'),
-        "divergencia": ['""', 'None'],  # VISIBLE a propósito (L2b: el pin detecta, no corrige a ciegas)
+        "divergencia": ['""', 'None'],  # VISIBLE a proposito (L2b: el pin detecta, no corrige)
     },
     "IMAGES_DIR": {
         "default_fuente": 'PROJECT_DIR / "extracted_images"',
@@ -232,8 +236,8 @@ REGISTRO: dict[str, dict] = {
     },
     "LEVER2_IDENTITY": {
         "default_fuente": '""',
-        "via": ['getenv'],
-        "lectores": ('src/rag/retriever.py',),
+        "via": ['getenv', 'series-registry-yaml:morley.yaml'],
+        "lectores": ('src/rag/retriever.py', 'src/rag/series_registry.py'),
     },
     "LEVER2_PM_RESCUE": {
         "default_fuente": '""',
@@ -282,8 +286,8 @@ REGISTRO: dict[str, dict] = {
     },
     "MP_MANDATORY_VERB_TRIGGER": {
         "default_fuente": '"off"',
-        "via": ['mp_flag'],
-        "lectores": ('src/rag/must_preserve.py',),
+        "via": ['mp_flag', 'profile-owned-loop'],
+        "lectores": ('src/rag/must_preserve.py', 'src/release_profiles.py'),
     },
     "MP_SERVED_BINDING": {
         "default_fuente": '"off"',
@@ -320,6 +324,11 @@ REGISTRO: dict[str, dict] = {
         "via": ['mp_flag', 'strict_on_off'],
         "lectores": ('src/rag/must_preserve.py', 'src/release_profiles.py'),
     },
+    "OBLIGATION_WARNING_RESERVE": {
+        "default_fuente": '"off"',
+        "via": ['profile-owned-loop'],
+        "lectores": ('src/release_profiles.py',),
+    },
     "OPENAI_API_KEY": {
         "default_fuente": '""',
         "via": ['getenv'],
@@ -331,10 +340,15 @@ REGISTRO: dict[str, dict] = {
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
     },
+    "POST_RERANK_COVERAGE": {
+        "default_fuente": '"off"',
+        "via": ['profile-owned-loop'],
+        "lectores": ('src/release_profiles.py',),
+    },
     "PROSE_SOURCE_CARD": {
         "default_fuente": '"off"',
-        "via": ['strict_on_off'],
-        "lectores": ('src/rag/document_local_coverage.py', 'src/rag/post_rerank_coverage.py'),
+        "via": ['profile-owned-loop', 'strict_on_off'],
+        "lectores": ('src/rag/document_local_coverage.py', 'src/rag/post_rerank_coverage.py', 'src/release_profiles.py'),
     },
     "R2_REPAIR_NAVIGATION": {
         "default_fuente": '"off"',
@@ -390,6 +404,11 @@ REGISTRO: dict[str, dict] = {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],
         "lectores": ('src/config.py',),
+    },
+    "STRUCTURAL_NEIGHBOR_COVERAGE": {
+        "default_fuente": '"off"',
+        "via": ['profile-owned-loop'],
+        "lectores": ('src/release_profiles.py',),
     },
     "STRUCTURAL_NEIGHBOR_SHADOW": {
         "default_fuente": '"off"',

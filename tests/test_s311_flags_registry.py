@@ -1,121 +1,90 @@
 """s311/L2b — el registro de flags ES un invariante, no un doc (blueprint §4-L2b).
 
-Contratos, con su alcance HONESTO (declarado en el dúo del blueprint):
-  · COMPLETITUD NOMINAL: cada call-site TEXTUAL de lectura de entorno en `src/`
-    (getenv directo/indirecto, environ[.get], `_strict_on_off` en ambas firmas,
-    `_mp_flag`) está registrado — un `getenv` nuevo sin registrar = suite ROJA.
-    NO garantiza equivalencia semántica de parsing entre lectores no migrados.
-  · DIVERGENCIAS DECLARADAS: si dos lectores usan defaults distintos para la misma
-    flag, la divergencia vive VISIBLE en el registro — y este test exige que el
-    conjunto declarado coincida con la realidad re-escaneada (una divergencia nueva
-    pone esto rojo con instrucciones, no se corrige a ciegas).
-  · PIN DE DEMO_FLAGS por NOMBRE: pins fantasma (el harness pina, nadie lee) quedan
-    declarados — hoy exactamente uno, con su historia.
-  · SNAPSHOT SIN SECRETOS: las flags `sensible` reportan presencia, jamás valor.
+El escáner canónico vive en `tests/_censo_flags.py` (v5) y lo comparten este test y el
+generador del registro — cero deriva entre ambos. Contratos, con su alcance HONESTO:
+  · COMPLETITUD NOMINAL v5 (Sol s311 cazó 3 huecos del v4: comillas simples
+    [deep_lookup], PROFILE_OWNED_FLAGS en bucle dinámico, y flags data-driven de los
+    YAML de fabricantes): nombres Y METADATA (lectores por flag) — la deriva de
+    metadata pasaba verde en v4 (CHUNKS_TABLE sin deep_lookup en lectores).
+  · DIVERGENCIAS DECLARADAS == reales (solo defaults de LECTORES DE CÓDIGO; los
+    placeholders mecánicos de yaml/loop no cuentan).
+  · PIN DE DEMO_FLAGS por AST (sin importar factlevel: su import fija env — dos bugs
+    de contaminación cazados; el AST elimina la clase entera).
+  · SNAPSHOT sin secretos, heurística por PARTES ampliada (Sol: fail-open con
+    DSN/PASSWORD…) — sigue siendo heurística y así se declara.
 """
 from __future__ import annotations
 
-import re
+import ast
 from pathlib import Path
 
 from src.flags import REGISTRO, snapshot
+from tests._censo_flags import escanear, divergencias
 
 REPO = Path(__file__).resolve().parent.parent
 
 
-def _escanear() -> dict[str, set[str]]:
-    """Los MISMOS patrones del generador del registro (censo v4, s311)."""
-    encontrados: dict[str, set[str]] = {}
-
-    def add(nombre, default):
-        encontrados.setdefault(nombre, set()).add(default)
-
-    for f in (REPO / "src").rglob("*.py"):
-        t = f.read_text(encoding="utf-8")
-        for m in re.finditer(r'os\.getenv\(\s*"([A-Z_0-9]+)"\s*(?:,\s*([^)]+?))?\s*\)', t):
-            add(m.group(1), (m.group(2) or "None").strip())
-        for m in re.finditer(r'os\.environ\.get\(\s*"([A-Z_0-9]+)"', t):
-            add(m.group(1), "None")
-        for m in re.finditer(r'os\.environ\[\s*"([A-Z_0-9]+)"\s*\]', t):
-            add(m.group(1), "(REQUERIDA)")
-        for m in re.finditer(r'_strict_on_off\(\s*"([A-Z_0-9]+)"', t):
-            d = re.search(rf'_strict_on_off\(\s*"{m.group(1)}"\s*,\s*"(\w+)"', t)
-            add(m.group(1), f'"{d.group(1)}"' if d else '"off"')
-        for m in re.finditer(r'_mp_flag\(\s*"([A-Z_0-9]+)"', t):
-            add(m.group(1), '"off"')
-        for c in re.finditer(r'^(\w+)\s*=\s*"([A-Z_0-9]+)"\s*$', t, re.M):
-            if re.search(rf'os\.getenv\(\s*{c.group(1)}\b', t):
-                add(c.group(2), "None")
-            if re.search(rf'\.get\(\s*{c.group(1)}\b', t):
-                # env.get(CONST, ...) con el entorno como mapping — release_profiles
-                add(c.group(2), "None")
-    return encontrados
-
-
-def test_completitud_nominal_del_registro():
-    """Toda lectura textual registrada; todo lo registrado existe. El mensaje del
-    fallo ES la instrucción: registrar la flag nueva o retirar la entrada muerta."""
-    reales = set(_escanear())
+def test_completitud_nominal_nombres_y_metadata():
+    censo = escanear()
+    reales = set(censo)
     registradas = set(REGISTRO)
     assert reales - registradas == set(), (
-        f"flags leídas en src/ SIN registrar en src/flags.py: "
-        f"{sorted(reales - registradas)} — añade su entrada (censo v3)"
+        f"flags leídas en src/ SIN registrar: {sorted(reales - registradas)}"
     )
     assert registradas - reales == set(), (
-        f"entradas del registro sin lector vivo en src/: "
-        f"{sorted(registradas - reales)} — retíralas (o el lector cambió de patrón)"
+        f"entradas sin lector vivo: {sorted(registradas - reales)}"
     )
+    # metadata: los LECTORES por flag también se pinnan (v4 dejaba pasar la deriva)
+    for nombre, e in censo.items():
+        assert set(REGISTRO[nombre]["lectores"]) == e["lectores"], (
+            f"{nombre}: lectores del registro {sorted(REGISTRO[nombre]['lectores'])} ≠ "
+            f"reales {sorted(e['lectores'])} — regenera con el censo v5"
+        )
 
 
 def test_divergencias_de_defaults_declaradas_y_exactas():
-    reales = {n for n, ds in _escanear().items() if len(ds) > 1}
+    reales = divergencias(escanear())
     declaradas = {n for n, spec in REGISTRO.items() if "divergencia" in spec}
     assert reales == declaradas, (
         f"divergencias reales {sorted(reales)} ≠ declaradas {sorted(declaradas)} — "
-        f"una divergencia NUEVA se DECLARA en su entrada del registro (visible), "
-        f"no se corrige a ciegas (regla L2b)"
+        f"una divergencia NUEVA se DECLARA en su entrada (visible), no se corrige a ciegas"
     )
-    # y las dos de hoy son las conocidas, ambas con lados falsy (adjudicación pendiente)
     assert declaradas == {"ANTHROPIC_API_KEY", "IDENTITY_RESOLVE_POLICY"}
 
 
 def test_pin_de_demo_flags_sin_fantasmas_nuevos():
-    """El pin del harness contra el registro, por NOMBRE. `DIVERSIFY_TIEBREAK` es el
-    fantasma CONOCIDO: lever s97/s101 NO-GO cuyo código nunca se mergeó — el harness
-    pina una flag que ningún lector de src/ consume. Se declara, no se borra (tocar
-    DEMO_FLAGS cambia la identidad de la config del assessment sin necesidad)."""
-    # En SUBPROCESO a propósito: importar factlevel_assessment FIJA los DEMO_FLAGS en
-    # os.environ en import-time (línea ~139) — hacerlo aquí envenenaría a todos los
-    # tests posteriores del proceso (cazado: 5 tests de s69 rotos por el prompt-variant
-    # pineado). El aislamiento es bidireccional: ni su entorno ni el nuestro se tocan.
-    import json as _json
-    import subprocess
-    import sys
+    """DEMO_FLAGS se extrae por AST — importar factlevel fija env en import-time y
+    contaminó la suite dos veces (s69 y el propio subproceso). El literal es la fuente.
+    `DIVERSIFY_TIEBREAK` es el fantasma CONOCIDO: lever s97/s101 NO-GO cuyo código
+    nunca se mergeó; se declara, no se borra (identidad de la config del assessment)."""
+    arbol = ast.parse((REPO / "scripts" / "factlevel_assessment.py")
+                      .read_text(encoding="utf-8"))
+    demo = None
+    for nodo in ast.walk(arbol):
+        if isinstance(nodo, ast.Assign) and getattr(nodo.targets[0], "id", "") == "DEMO_FLAGS":
+            demo = ast.literal_eval(nodo.value)
+    assert isinstance(demo, dict) and demo, "DEMO_FLAGS no encontrado como literal"
 
-    # Entorno LIMPIO además de subproceso: el env del proceso pytest llega tocado por
-    # tests anteriores (flags globales sueltas) y el import de factlevel es fail-fast
-    # con combinaciones ilegales. Solo pasa lo que el SO necesita; las credenciales
-    # las carga la propia cadena de config desde .env.
-    import os as _os
-    base_env = {k: _os.environ[k] for k in
-                ("PATH", "SYSTEMROOT", "TEMP", "TMP", "USERPROFILE", "APPDATA",
-                 "LOCALAPPDATA", "PYTHONIOENCODING", "HOME")
-                if k in _os.environ}
-    salida = subprocess.run(
-        [sys.executable, "-c",
-         "import sys, json; sys.path.insert(0, '.'); "
-         "from scripts.factlevel_assessment import DEMO_FLAGS; "
-         "print(json.dumps(sorted(DEMO_FLAGS)))"],
-        capture_output=True, text=True, cwd=str(REPO), env=base_env,
-    )
-    assert salida.returncode == 0, salida.stderr
-    demo_flags = _json.loads(salida.stdout.strip().splitlines()[-1])
-
-    fantasmas = set(demo_flags) - set(REGISTRO)
+    fantasmas = set(demo) - set(REGISTRO)
     assert fantasmas == {"DIVERSIFY_TIEBREAK"}, (
-        f"pins fantasma nuevos en DEMO_FLAGS: {sorted(fantasmas - {'DIVERSIFY_TIEBREAK'})} "
-        f"— ¿flag pineada sin lector? regístrala o justifícala aquí"
+        f"pins fantasma nuevos en DEMO_FLAGS: {sorted(fantasmas - {'DIVERSIFY_TIEBREAK'})}"
     )
+
+
+def test_profile_owned_y_yaml_cubiertos():
+    """Las dos vías dinámicas que el v4 no veía (crítico de Sol) quedan pineadas por su
+    FUENTE, no por regex: el constante y los YAML."""
+    from src.release_profiles import PROFILE_OWNED_FLAGS
+    assert set(PROFILE_OWNED_FLAGS) <= set(REGISTRO)
+
+    import re
+    for y in (REPO / "config" / "manufacturers").glob("*.yaml"):
+        for m in re.finditer(r"^\s*flag:\s*([A-Z_0-9]+)\s*$",
+                             y.read_text(encoding="utf-8"), re.M):
+            assert m.group(1) in REGISTRO, (
+                f"flag data-driven {m.group(1)} ({y.name}) sin registrar — "
+                f"series_registry la leerá con os.getenv y el censo debe verla"
+            )
 
 
 def test_snapshot_jamas_expone_secretos(monkeypatch):
@@ -124,20 +93,20 @@ def test_snapshot_jamas_expone_secretos(monkeypatch):
     s = snapshot()
     assert s["ANTHROPIC_API_KEY"] == "(presente)"
     assert "sk-super-secreto" not in str(s)
-    assert s["RERANK_TOP_K"] == "10"                    # lo no-sensible sí se ve
+    assert s["RERANK_TOP_K"] == "10"
     monkeypatch.delenv("ANTHROPIC_API_KEY")
     assert snapshot()["ANTHROPIC_API_KEY"] == "(ausente)"
 
 
 def test_todas_las_sensibles_estan_marcadas():
-    """Ningún nombre con pinta de credencial sin `sensible: True` — el snapshot es
-    la única superficie nueva y no puede filtrar por omisión de marca."""
-    # por PARTES del nombre, no substring: KEYWORD≠KEY, TOKENS(límite)≠TOKEN
-    piezas_credencial = {"KEY", "TOKEN", "SECRET", "JWT", "URL"}
-    sospechosos = {n for n in REGISTRO
-                   if piezas_credencial & set(n.split("_"))}
-    # excepción DECLARADA: MP_DISTINCTIVE_TOKEN es un token DE EVIDENCIA del contrato
-    # must-preserve (una palabra del manual), no una credencial.
+    """Heurística por PARTES del nombre, AMPLIADA tras Sol s311 (era fail-open a
+    DSN/PASSWORD/…). Sigue siendo heurística — nombres sin ninguna pieza credencial
+    (p.ej. un futuro `ADMIN_CONTACT`) no los ve; la frontera real es la revisión de
+    la entrada nueva, y este test al menos hace imposible el descuido típico."""
+    piezas = {"KEY", "TOKEN", "SECRET", "JWT", "URL", "DSN", "PASSWORD", "PASS",
+              "PWD", "CREDENTIAL", "CREDENTIALS", "AUTH"}
+    sospechosos = {n for n in REGISTRO if piezas & set(n.split("_"))}
+    # MP_DISTINCTIVE_TOKEN: token DE EVIDENCIA del contrato must-preserve, no credencial
     sin_marcar = {n for n in sospechosos
                   if not REGISTRO[n].get("sensible")} - {"MP_DISTINCTIVE_TOKEN"}
     assert sin_marcar == set(), (
