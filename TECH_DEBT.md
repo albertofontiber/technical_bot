@@ -2469,3 +2469,32 @@ palabra única ≥4 chars contra la lista real de la DB) pero **LDA queda fuera 
 (3 chars, riesgo de colisión). **Trigger**: primera consulta orgánica por LDA, o al tocar
 `manufacturer_in_db`. **Fix candidato**: tabla de alias cortos curada (no comodines
 ciegos: `%lda%` casa demasiado). **Coste**: S.
+
+## #68 — Los canales derivados (enunciados + hyq) NO cubren lotes de ingesta nuevos (s315, pregunta de Alberto)
+
+**Verificado en DB (9-ago)**: los 1.091 chunks del lote Casmar/Kidde s314 tienen **0 filas en
+`chunks_v2_enunciados` y 0 en `chunks_v2_hyq`** (totales: 22.842 / 70.126 — todo corpus viejo), y
+`scripts/ingest_new.py` no menciona ninguno de los dos canales. Ambos están VIVOS en producción
+(`ENUNCIADOS_MULTIVECTOR=on` DEC-090, `HYQ_TABLE=on` DEC-099) ⇒ todo doc nuevo entra SOLO por el
+canal vectorial + imatch de pm: los mecanismos que rescatan hechos de tabla y matching
+question-side no le aplican. **Fix estructural**: fase «derivados» en `ingest_new.py` (o driver
+hermano) que corra los generadores canónicos (R2-Haiku con QA-gate DEC-102; hyq v2 con
+cuota/barra/family-parity DEC-099) SOLO para los chunks del lote. Coste estimado: ~$1-2 por lote
+de este tamaño. **Trigger**: antes del siguiente lote de ingesta (Tyco/Hikvision/Dahua/Ajax o
+Aritech/Edwards) — ingestar otro lote sin esto agranda el corpus de segunda clase.
+
+## #69 — `documents.source_url` solo cubre el manifiesto Casmar; el corpus histórico queda sin link (s315)
+
+76/1.243 documents con URL (backfill por sha256, recibo `evals/s315_source_url_backfill_v1.json`).
+Los docs históricos (OneDrive, scrapes notifier/morley sin manifiesto sha) están a NULL ⇒ la
+leyenda no emite link para ellos (fail-open declarado, no silencioso).
+
+**Ruta adjudicada (Alberto, s315 mismo día): corpus COMPLETO auto-alojado.** Bucket
+`manuales` de Supabase Storage CREADO (público-por-URL, 100MB/fichero, solo
+`application/pdf` — patrón `manual-images` del álbum). Script listo:
+`scripts/s315_upload_manuales_storage.py` (sube desde OneDrive, join por sha256,
+skip-si-existe reanudable, `source_url` solo-si-NULL — los links de portal se conservan
+salvo `--pisar-portal`; recibo reversible). **Acción de Alberto**: correrlo desde la
+máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam es la
+misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
+a ingesta perdidos (revisarlos, no ignorarlos).

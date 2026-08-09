@@ -1250,6 +1250,7 @@ async def _process_query(
             result = turn.generation
             answer = result["answer"]
             diagrams = result["diagrams"]
+            stage_timings = turn.stage_timings
         else:
             # One production seam shared with the deterministic release gate.  The
             # adapters are built here so existing handler tests can patch only I/O.
@@ -1270,6 +1271,7 @@ async def _process_query(
             chunks = pipeline["chunks"]
             coverage_trace = pipeline["coverage_trace"]
             retrieval_health = pipeline.get("retrieval_health") or {}
+            stage_timings = pipeline.get("stage_timings")
 
             # Step 3: Generate answer from reranked + governed coverage chunks.
             result = pipeline["generation"]
@@ -1343,6 +1345,7 @@ async def _process_query(
                 transport_status=transport_status,
                 transport_error_type=transport_error_type,
                 retrieval_health=retrieval_health,
+                stage_timings=stage_timings,
             )
         except Exception as exc:
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)

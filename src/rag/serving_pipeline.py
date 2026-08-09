@@ -11,6 +11,7 @@ import copy
 import inspect
 from dataclasses import dataclass
 import logging
+import time
 from typing import Any, Callable
 
 from .coverage_runtime import apply_profiled_post_rerank_coverage
@@ -66,14 +67,27 @@ def execute_rag_turn(
             retrieve_kwargs["_trace"] = retrieval_health
     except (TypeError, ValueError):
         pass  # firma no introspeccionable (builtin/mock exótico) → sin medida, sin romper
+    # (s315/punto-1) Atribución de latencia por etapa. `response_time_ms` (34-47s
+    # p50) existe desde siempre pero SIN desglose: no se puede optimizar lo que no
+    # se atribuye. Reloj monotónico, enteros acotados; viaja al trace por la misma
+    # puerta cerrada que el resto de la telemetría (runtime_trace).
+    stage_timings: dict[str, int] = {}
+    _t0 = time.perf_counter()
     retrieved = adapters.retrieve(query_for_retrieval, **retrieve_kwargs)
+    stage_timings["retrieve_ms"] = int((time.perf_counter() - _t0) * 1000)
     retrieval_pool = list(retrieved)
+    _t0 = time.perf_counter()
     reranked = adapters.rerank(
         query,
         retrieved,
         top_k=rerank_top_k,
         target_models=target_models,
     )
+    stage_timings["rerank_ms"] = int((time.perf_counter() - _t0) * 1000)
+    # coverage_ms cubre TODA la ventana rerank→generación (validaciones, copias,
+    # shadow y lanes): el reloj arranca aquí para que nada caiga en el «resto»
+    # (hallazgo #10 del dúo s315: telemetría y código deben decir lo mismo).
+    _t0 = time.perf_counter()
     if not isinstance(reranked, list) or any(
         not isinstance(row, dict) for row in reranked
     ):
@@ -145,11 +159,15 @@ def execute_rag_turn(
             "appended_ids": [],
         }
 
+    stage_timings["coverage_ms"] = int((time.perf_counter() - _t0) * 1000)
+
+    _t0 = time.perf_counter()
     generation = adapters.generate(
         query,
         served,
         available_models=available_models,
     )
+    stage_timings["generate_ms"] = int((time.perf_counter() - _t0) * 1000)
     return {
         "retrieval_rows": len(retrieval_pool),
         "reranked_rows": len(protected_prefix),
@@ -159,4 +177,6 @@ def execute_rag_turn(
         # (s306/#63) Salud del retrieval del turno. `None` = adapter sin seam (SIN
         # MEDIDA); `{}` = seam conectado y sano; con `channel_failures` = degradado.
         "retrieval_health": retrieval_health,
+        # (s315) Desglose de latencia del turno; el handler lo pasa al trace.
+        "stage_timings": stage_timings,
     }

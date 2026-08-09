@@ -26,7 +26,34 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s314 — 9 ago 2026)
+## Estado actual (s315 — 9 ago 2026, tarde)
+
+**s315 (los puntos de Alberto, automode — DEC-193):** (1) **latencia INSTRUMENTADA**
+(p50 34,5s/p95 57,6s sin atribución → `stage_timings` por etapa en `rag_trace.timings`
+tri-estado + vista `salud_latencia_etapas_v1` APLICADA; el plan de ataque se decide con ~1
+semana de datos — nada optimizado a ciegas); (2) **links a manuales construidos**
+(`documents.source_url` + backfill Casmar 76/1.243 + leyenda con `URL#page=N`; flag
+`SOURCE_LEGEND_LINKS`, y OJO: es no-op si `SOURCE_LEGEND` está off — receta Railway:
+encender AMBOS); (3) **barrido pm-de-familia APLICADO a producción y verificado 49/49**
+(104 variantes SUJETO, refutación independiente ×3 + invariantes imatch 104/104; recibo
+`evals/s315_family_pm_patch_v1.json` — la 4ª instancia findability cerrada a escala);
+(4) **panel = guía dashboard Supabase** (`docs/DASHBOARD_SUPABASE_GUIA.md`, DEC-183 se
+mantiene; las 6 vistas vivas y con datos); (5) **#68 NUEVO (pregunta de Alberto): los
+lotes de ingesta nuevos NO pasan por enunciados/hyq** (lote s314: 1.091 chunks = 0/0
+verificado) — trigger: ANTES del siguiente lote. **Deploy pendiente**: merge de la rama
+`claude/chatbot-pending-items-amutbm` (3 commits; push bloqueado por permisos de la
+GitHub App — 403 al crear refs) → Railway auto-deploy activa los timings; flags de links
+cuando Alberto quiera. Dúo con gap declarado (Sol sin key en el entorno; sub-agente Opus
+12 hallazgos aplicados). **Cola de puntos de Alberto**: página cómo-utilizar (punto 4) ·
+fotos/pantallazos (punto 5 — sonda de alcanzabilidad con fotos reales ANTES de diseñar) ·
+Aritech/Edwards (recon listo `scripts/s315_casmar_recon.py`; egress bloqueado en la
+sesión; evidencia: 2X ya en corpus, Edwards NO está en Casmar → firesecurityproducts.com)
+· Tyco/Hikvision/Dahua/Ajax («más adelante», Alberto) · rapidez fase 2 (leer la vista con
+datos) · sentada B2 (suya; **packet vigente = `evals/s312_goldreview_b2_packet_v3.md`**,
+la v3 del dúo doble — el v1 de s294 es solo registro; staleness corregida por Alberto en
+s315: yo mismo cité el v1).
+
+## Estado anterior (s314 — 9 ago 2026)
 
 **PRODUCCIÓN**: **paquete de telemetría pre-técnicos puntos 1+5 VIVOS** (PRs #200/#201/#202, 2
 migraciones aplicadas, `TERMS_VERSION` v3). El 👎 deja de ser señal muda: invita a explicar,

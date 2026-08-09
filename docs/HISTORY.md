@@ -3018,3 +3018,55 @@ resuelto (conflicto de tally, no cuota — `merge=union` lo extingue), y Opus 5 
 confirmados en producción con recibos de Alberto. DEC-190.
 
 > - **RESULTADO s314 (8-9 ago 2026 — DEC-191/192): L3 NO-GO por medición (blueprint CERRADO 4✓/2 NO-GO medidos) + `ingest_new.py` estrenado con el lote Casmar/Kidde + el gap orgánico del NC-PF2 re-clasificado a FINDABILITY.** L3: el pre-flight DEC-189 apuntado a `embed.py` halló 4 pins vivos en preregs s117 (sha coincidente) → se ancla y declara (PR #226). Casmar: harvest reproducible (94 SKUs, 266 PDFs, form_id obligatorio) → cruce (SKU,tipo) → 104 gaps → descarga+dedup (75 nuevos de 104; 29 dups PIM) → dúo (11/11 confirmados, 0 FP; reanudabilidad + lote-en-scratchpad + doc_type cazados ANTES de gastar) → etapa 1 (NC-PFx, 4 docs; la reanudabilidad se estrenó a la primera) → sonda 0/5 → **descubrimiento: el manual YA estaba (bcn-3100017, pm=`NC` invisible para «NC-PF2»)** → fix de identidad pm=lista-con-barras (nuevos + bcn + 5 hojas de familia + 2 docs KIT 2X-AT byte-idénticos) → sonda 5/5 → re-diagnóstico de falsos-gaps (1 near-dup XIP retirado) → etapa 2 (70 docs, 943 chunks, 0 fallos) → re-cruce final **104→1 residual declarado (KE-ASA-AUXR: no existe doc propio)**. Corpus: 26.215 chunks · 1.243 documents · Kidde 103 · Excel reconciliado (`update_inventario --data-root`). ~$60 LlamaParse. Ramas `claude/s314-l3-nogo` (mergeada) y `claude/s314-casmar-ingest`.
+
+## s315 (9 ago 2026) — Los puntos de Alberto: latencia INSTRUMENTADA, links a manuales, barrido pm-de-familia APLICADO (49 docs), y el gap de los canales derivados
+
+Sesión lanzada por Alberto con su lista de puntos (automode). Tres frentes ejecutados
+end-to-end + dos hallazgos.
+
+**Punto 1 (rapidez, prioridad 2).** Medido primero: p50 34,5s / p95 57,6s (n=52, 60 días) y
+CERO atribución por etapa — `rag_trace` no llevaba timings. Construido: `stage_timings` en
+`execute_rag_turn` (retrieve/rerank/coverage/generate) → sección `timings` REQUERIDA
+tri-estado del trace (patrón s306; measured exige 4 etapas int — un mapping roto no se
+disfraza de medida) → vista `salud_latencia_etapas_v1` (casts guardados por jsonb_typeof,
+totales de la MISMA población que las etapas). Migración APLICADA vía MCP. El plan de ataque
+se decide con ~1 semana de datos; candidatos ya documentados (cap-rerank-~30, retrieve=30,
+keep-alive del typing — expira a ~5s y el turno dura 34).
+
+**Punto 6 (links).** `documents.source_url` + backfill por sha256 desde el manifiesto Casmar
+(76/1.243, recibo) + leyenda de fuentes con `URL#page=N` tras `SOURCE_LEGEND_LINKS` (estricto,
+default off = byte-idéntico). El dúo (sub-agente Opus, SÓLIDO-CON-CAMBIOS, 12 hallazgos 0
+críticos) convirtió el diseño: la URL viaja en el chunk enriquecido por el fetch batched de
+documents del retriever — cero round-trips nuevos, cero bloqueo del event loop. Los 12
+hallazgos aplicados (timings propagados por TurnResult; vista robusta a filas malformadas;
+recibo del backfill post-apply; e2e del handler en tests). Smoke real: línea con
+`#page=3` de un manual Casmar vivo.
+
+**Barrido pm-de-familia (la semilla s314 — 4ª instancia findability, ejecutada a escala).**
+Censo SQL corpus-wide (variantes atestadas en el PROPIO contenido del doc, ≥3 menciones,
+filtro imatch-mismatch con el patrón exacto del retriever) → 525 filas brutas → filtro de
+forma → adjudicación con extractos (agente 1: 49 docs / 104 variantes SUJETO, 0
+compatibilidad) → refutación independiente (workflow 3 agentes: 101/104 confirmadas, 0
+refutadas; 5 verificadas directas por mismatch de nombre) → invariantes deterministas
+104/104 (cada variante matchea el pm nuevo, ninguna matcheaba el viejo) → **APLICADO a
+producción (chunks_v2 + documents, 2 tandas guardadas por pm=antes) → verificación 49/49 en
+ambas tablas + sonda imatch server-side 6/6**. Recibo: `evals/s315_family_pm_patch_v1.json`.
+Familias rescatadas: LDM-32/E32/R32, MPS15/25/50, DX1E/2E/4E, XP (XPP-1/XPC-8/XPM-8…),
+FSL100-*, códigos de pedido VESDA-E, TG-* (pasarelas = producto propio, no compat), Pearl
+PRL-D-1/2, ICAM IFT/IAS/ILS…
+
+**Hallazgo de Alberto (pregunta a media sesión) = TECH_DEBT #68**: el lote s314 (1.091
+chunks) tiene 0 enunciados y 0 hyq — `ingest_new.py` no corre los generadores de los canales
+derivados vivos en prod. Todo doc nuevo es hoy «corpus de segunda clase» para esos canales.
+Trigger: antes del siguiente lote.
+
+**Bloqueos del entorno (declarados)**: push a GitHub imposible (la App no puede crear refs —
+`403 Resource not accessible by integration` — y el git local no tiene credencial de
+escritura; 3 commits locales en `claude/chatbot-pending-items-amutbm` esperando permiso);
+casmarglobal.com bloqueado por egress → el recon Aritech/Edwards quedó preparado
+(`scripts/s315_casmar_recon.py`) con la evidencia offline: 2X=Aritech-OEM ya en corpus,
+Edwards sin rastro en Casmar (fuente conocida: firesecurityproducts.com). Sol no ejecutable
+(sin OPENAI key) — dúo declarado con gap; sub-agente Opus + refutadores + verificación
+determinista como compensación. Puntos 4 (página cómo-utilizar) y 5 (fotos: sonda de
+alcanzabilidad con fotos reales ANTES de diseñar) quedan en cola con diseño anotado.
+DEC-193.

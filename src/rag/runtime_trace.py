@@ -166,6 +166,33 @@ def _safe_error_type(value: Any) -> str:
     return _safe_enum(value, _ALLOWED_ERROR_TYPES, default="OtherError")
 
 
+_TIMING_STAGES = ("retrieve_ms", "rerank_ms", "coverage_ms", "generate_ms")
+# Latencia por etapa acotada a 10 min: por encima es un colgado, no una medida.
+_TIMING_MAX_MS = 600_000
+
+
+def _timings_section(stage_timings: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `timings` (s315/punto-1): desglose de latencia del turno.
+
+    Mismo contrato tri-estado que `retrieval` (s306): `measured=false` = el caller
+    no midió (ruta orchestrator, fakes de test) — distinguible de «midió y dio 0».
+    Solo cruzan enteros acotados de una lista cerrada de etapas: nada de strings.
+    """
+    # `measured` exige las 4 etapas como int reales — un mapping parcial o con
+    # tipos rotos NO puede disfrazarse de medida con ceros (hallazgo #8 del dúo
+    # s315; la clase exacta que el tri-estado existe para eliminar).
+    measured = isinstance(stage_timings, Mapping) and all(
+        isinstance(stage_timings.get(stage), int)
+        and not isinstance(stage_timings.get(stage), bool)
+        for stage in _TIMING_STAGES
+    )
+    section: dict[str, Any] = {"measured": measured}
+    for stage in _TIMING_STAGES:
+        raw = stage_timings.get(stage) if measured else 0
+        section[stage] = _bounded_int(raw, maximum=_TIMING_MAX_MS)
+    return section
+
+
 def _retrieval_section(retrieval_health: Mapping[str, Any] | None) -> dict[str, Any]:
     """Sección `retrieval` (s306/#63): fail-opens de canal del turno, acotados.
 
@@ -386,6 +413,7 @@ def build_rag_serving_trace(
     transport_status: str = "html",
     transport_error_type: str | None = None,
     retrieval_health: Mapping[str, Any] | None = None,
+    stage_timings: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -404,6 +432,7 @@ def build_rag_serving_trace(
             must_preserve_outcome,
         ),
         "retrieval": _retrieval_section(retrieval_health),
+        "timings": _timings_section(stage_timings),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -449,12 +478,20 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # builder futuro que la omitiera volvería a confundir «sin datos» con «sin
         # fallos» — la clase exacta que esta sección elimina. Solo el sink de
         # escritura valida (verificado): las filas históricas no se re-validan.
+        # `timings` (s315) es REQUERIDA por la misma razón: tri-estado explícito.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
-         "transport"},
+         "timings", "transport"},
     ):
         return None
     retrieval = value["retrieval"]
     if not exact_keys(retrieval, {"measured", "channel_failures"}):
+        return None
+    timings = value["timings"]
+    if not exact_keys(timings, {"measured", *_TIMING_STAGES}):
+        return None
+    if type(timings["measured"]) is not bool:
+        return None
+    if any(not safe_int(timings[stage], _TIMING_MAX_MS) for stage in _TIMING_STAGES):
         return None
     if type(retrieval["measured"]) is not bool:
         return None

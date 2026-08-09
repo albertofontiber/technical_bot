@@ -70,4 +70,7 @@ def run_turn(request: TurnRequest, adapters: RagServingAdapters) -> TurnResult:
         compute_status="answer_ready",
         retrieval=retrieval,
         generation=generation,
+        # (s315) El seam ya mide; tirar la medida aquí apagaría la latencia por
+        # etapa el día que ORCHESTRATOR_PATH se encienda (hallazgo #4 del dúo).
+        stage_timings=pipeline.get("stage_timings"),
     )

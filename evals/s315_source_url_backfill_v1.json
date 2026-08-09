@@ -1,0 +1,13 @@
+{
+ "motivo": "s315 punto 6: URL publica de origen para la leyenda de fuentes (SOURCE_LEGEND_LINKS)",
+ "fuente": "evals/s314_casmar_batch_report_v1.json (77 sha->url unicos del manifiesto Casmar)",
+ "metodo": "UPDATE documents SET source_url FROM VALUES(sha,url) JOIN por source_pdf_sha256, solo filas con source_url NULL — aplicado via MCP SQL (el entorno remoto no tiene claves para scripts/s315_backfill_source_urls.py; el script queda para re-runs con credenciales)",
+ "resultado": {
+  "aplicadas": 76,
+  "manifiesto": 77,
+  "nota": "76 de 77: los sha del manifiesto que no casan son dups del PIM ya colapsados; incluye 2 docs 2X-A historicos (byte-identicos a los del KIT Casmar) que heredan URL por sha — identidad de contenido, no de nombre"
+ },
+ "verificacion": "select count(*) from documents where source_url is not null -> 76, todos casmarglobal.com",
+ "reversible": "UPDATE documents SET source_url = NULL WHERE source_url LIKE 'https://www.casmarglobal.com/%' (criterio exacto: hoy 76=76)",
+ "gap_declarado": "docs historicos sin manifiesto sha (OneDrive/scrapes) quedan NULL -> sin link en la leyenda"
+}

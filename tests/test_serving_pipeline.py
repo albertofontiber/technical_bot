@@ -271,3 +271,55 @@ def test_serving_eval_keeps_process_release_profile_authoritative():
         if keyword.arg == "override"
     )
     assert isinstance(override, ast.Constant) and override.value is False
+
+
+def test_stage_timings_present_and_bounded(monkeypatch):
+    """s315 (punto 1): cada turno del seam emite el desglose de latencia.
+
+    Enteros >= 0 para las 4 etapas; el contrato de FORMA es lo que se fija —
+    los valores reales dependen del reloj y no se afirman.
+    """
+
+    def ok(_query, chunks, *, retrieval_pool):
+        del retrieval_pool
+        return chunks, {"status": "no_append"}
+
+    result, _ = _run(monkeypatch, ok)
+    timings = result["stage_timings"]
+    assert set(timings) == {"retrieve_ms", "rerank_ms", "coverage_ms", "generate_ms"}
+    assert all(isinstance(v, int) and v >= 0 for v in timings.values())
+
+
+def test_stage_timings_measure_a_slow_adapter(monkeypatch):
+    """La medida atribuye de verdad: un generador lento aparece en generate_ms."""
+    import time as _time
+
+    def ok(_query, chunks, *, retrieval_pool):
+        del retrieval_pool
+        return chunks, {"status": "no_append"}
+
+    monkeypatch.setattr(
+        serving_pipeline,
+        "apply_profiled_post_rerank_coverage",
+        ok,
+    )
+
+    def slow_generate(_query, chunks, *, available_models=None):
+        _time.sleep(0.05)
+        return {"answer": "ok", "diagrams": []}
+
+    result = execute_rag_turn(
+        query="q",
+        query_for_retrieval="q",
+        target_models=None,
+        available_models=None,
+        retrieval_top_k=50,
+        rerank_top_k=2,
+        adapters=RagServingAdapters(
+            retrieve=lambda _query, **_kwargs: [{"id": "a", "content": "A"}],
+            rerank=lambda _query, chunks, **_kwargs: list(chunks),
+            observe_structural_shadow=lambda _q, _c: None,
+            generate=slow_generate,
+        ),
+    )
+    assert result["stage_timings"]["generate_ms"] >= 40

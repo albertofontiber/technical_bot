@@ -174,6 +174,10 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
     assert logged["response"] == raw_answer
     assert logged["rag_trace"]["schema"] == "rag_serving_trace_v1"
     assert logged["rag_trace"]["transport"]["message_parts"] == 1
+    # s315 (dúo #7): el cable pipeline→handler→builder debe llegar MEDIDO a la
+    # fila logueada — un typo en el passthrough dejaría measured=false para
+    # siempre con la suite en verde.
+    assert logged["rag_trace"]["timings"]["measured"] is True
     assert len(update.message.replies) == 1
     rendered, kwargs = update.message.replies[0]
     assert kwargs == {"parse_mode": "HTML"}

@@ -128,3 +128,6 @@ class TurnResult:
     compute_status: str
     retrieval: RetrievalResult | None = None
     generation: dict[str, Any] | None = None
+    # (s315/punto-1) Desglose de latencia del seam. `None` = sin medida (el
+    # default honesto para constructores previos, espejo de retrieval_measured).
+    stage_timings: dict[str, int] | None = None
