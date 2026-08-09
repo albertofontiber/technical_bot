@@ -26,7 +26,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s313 — 8 ago 2026)
+## Estado actual (s314 — 9 ago 2026)
 
 **PRODUCCIÓN**: **paquete de telemetría pre-técnicos puntos 1+5 VIVOS** (PRs #200/#201/#202, 2
 migraciones aplicadas, `TERMS_VERSION` v3). El 👎 deja de ser señal muda: invita a explicar,
@@ -88,10 +88,11 @@ versionadas (front = dashboard de Supabase), Gold gate en CI, guardas de ingesta
 migraciones `20260720095702` (rag_trace — la de JULIO, descubierta sin aplicar: el bot
 llevaba semanas logueando sin traza) y `20260806150000_s301`; montar el dashboard de
 Supabase sobre las 5 vistas (clicks).
-(7) **automatización proporcionada** — ingesta: guardas anti-manifiesto-vacío (⚠ el
-corpus de 1.323 PDFs vive SOLO en OneDrive y desde `C:\dev` el inventario produce vacío
-SIN fallar) + playbook re-escrito contra `src/reingest/` + `ingest_new.py` con gates y
-dry-run (M); ops: `gold_store validate` a CI (3 líneas — su docstring dice que CI lo
+(7) **automatización proporcionada** — ingesta: guardas anti-manifiesto-vacío ✓ +
+**`ingest_new.py` CONSTRUIDO Y ESTRENADO (s314, DEC-192)**: driver A2+B por canal con
+gates fail-closed, dry-run con coste, alta de `documents` ANTES de indexar, reanudable;
+primer lote real = Casmar/Kidde 74 docs (ver bloque 10). Falta del frente: playbook
+re-escrito contra `src/reingest/`; ops: `gold_store validate` a CI (3 líneas — su docstring dice que CI lo
 corre y es falso), verificación corpus↔store↔`chunks_v2` (S), `BOT_ERROR_LOGGING=on` en
 Railway (Alberto, coste cero); feedback→gold: puente 👎-con-prosa→packet pre-rellenado
 (M, DESPUÉS del export). PREMATUROS declarados: eval periódica en cron y auto-ingesta
@@ -148,10 +149,22 @@ Deudas nuevas: #65 documents.product_model stale · #66 prosa del 👎 como cons
 (CONFIRMADO en prod: Railway 12:52 UTC) + blueprint L1→L2c COMPLETO con dúo por lote
 (L2a = NO-GO por medición DEC-189; contrato 6→4 excepciones; sello +4 entradas; registro
 de 91 flags como invariante) + packet B2 v3 (dúo doble, mergeado — sentada DESBLOQUEADA).
-Queda del blueprint: L3 (embed, pre-flight limpio). De la cola de GOs: ingesta
-Tyco/Hikvision/Dahua/Ajax (espera respuesta de Alberto: ¿OneDrive o portales?) y
-reacciones Telegram. DEC-189/190.
-Traza: DEC-176 (origen) · DEC-185..190 · HISTORY s303-s313; frentes 6-8: DEC-182.
+**Blueprint CERRADO (s314, DEC-191, PR #226): L3 NO-GO por medición** — el pre-flight
+DEC-189 sobre `embed.py` halló 4 pins vivos en preregs s117 (sha coincidente; el replay
+del audit m26 moriría fail-closed) → se ancla y declara; E2 queda con trigger. Balance
+final: L0 ✓ L1 ✓ L2a NO-GO L2b ✓ L2c ✓ L3 NO-GO. De la cola de GOs: ingesta
+Tyco/Hikvision/Dahua/Ajax (espera respuesta de Alberto: ¿OneDrive o portales? — para
+Kidde la respuesta fue Casmar, ver bloque 10) y reacciones Telegram. DEC-189/190.
+**(10) s314 — lote Casmar/Kidde + la 4ª instancia de la clase identidad (DEC-192).** La
+pregunta orgánica de Alberto (manual instalación NC-PF2) disparó: harvest Casmar
+reproducible (94 SKUs, 266 PDFs, `form_id` obligatorio) → cruce → 104 gaps → dúo
+(11/11 confirmados, 0 FP) → ingesta en 2 etapas (74 docs, 1.091 chunks, ~$60, 0 fallos,
+reanudabilidad estrenada) → **hallazgo: el manual YA estaba (`bcn-3100017`, pm=`NC`
+invisible para «NC-PF2» — FINDABILITY, clase hp011#2/DEC-176)** → fix de identidad
+pm=lista-con-barras (nuevos + bcn + 5 hojas de familia + 2 docs KIT 2X-AT) → sonda
+0/5→**5/5 a evidencia** → re-cruce final **104→1 residual declarado**. Corpus: 26.215
+chunks · 1.243 documents · Kidde 103 · Excel reconciliado (`--data-root`).
+Traza: DEC-176 (origen) · DEC-185..192 · HISTORY s303-s314; frentes 6-8: DEC-182.
 
 ---
 

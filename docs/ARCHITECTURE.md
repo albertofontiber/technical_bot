@@ -95,8 +95,10 @@
 > quitar las variables). Las propuestas DDL del schema `convo` siguen **NO aplicadas** (gateadas
 > por la matriz RGPD de Alberto). **Campaña H0 de identidad EJECUTADA EN DB (s285, DEC-161)**:
 > T3 (221 chunks re-tagueados, 2 docs eliminados) + T2 (533 `doc_type` + 301 `language`
-> fill-only verificado 1:1) → **chunks `unknown` activos 318→1**; cifras vivas 1.169 docs
-> (996 active) · 25.088 chunks_v2. Suite 3228/0.
+> fill-only verificado 1:1) → **chunks `unknown` activos 318→1**; cifras vivas **1.243 docs
+> (1.069 active) · 26.215 chunks_v2** (s314: +74 docs Kidde/Casmar +1.091 chunks, DEC-192;
+> identidad pm=lista-con-barras para docs de familia — el gap orgánico NC-PF2 era
+> FINDABILITY, no corpus). Suite 3636/0 (s313).
 >
 > **Cola de calidad s283 CERRADA con cada ítem resuelto o declarado** (DEC-157/158/159): cat016
 > RESUELTO por paridad · cat022 + hp012-retrieval **TECHO-DECLARADOS** (el rescate within-doc vía

@@ -359,7 +359,24 @@ def main() -> int:
     ap.add_argument("--only", default=None,
                     help="Comma-separated list of fabricantes to process "
                          "(default: all in the FABRICANTES registry)")
+    ap.add_argument("--data-root", default=None,
+                    help="Raíz del corpus con las carpetas Manuales_* (la carpeta "
+                         "OneDrive). Sin ella se escanea junto al checkout — que "
+                         "desde C:\\dev NO tiene corpus y produciría hojas vacías "
+                         "(clase manifiesto-vacío, s301). El xlsx canónico sigue "
+                         "siendo el del repo.")
     args = ap.parse_args()
+
+    if args.data_root:
+        base = Path(args.data_root)
+        if not any(base.glob("Manuales_*")):
+            logger.error("--data-root %s no contiene carpetas Manuales_* — ¿ruta correcta?", base)
+            return 2
+        for cfg in FABRICANTES.values():
+            cfg["subfolders"] = {k: base / p.relative_to(ROOT)
+                                 for k, p in cfg["subfolders"].items()}
+            if cfg.get("metadata_sidecar"):
+                cfg["metadata_sidecar"] = base / cfg["metadata_sidecar"].relative_to(ROOT)
 
     if args.only:
         selected = [name.strip() for name in args.only.split(",") if name.strip()]
