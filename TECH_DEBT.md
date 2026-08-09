@@ -2487,6 +2487,14 @@ Aritech/Edwards) — ingestar otro lote sin esto agranda el corpus de segunda cl
 
 76/1.243 documents con URL (backfill por sha256, recibo `evals/s315_source_url_backfill_v1.json`).
 Los docs históricos (OneDrive, scrapes notifier/morley sin manifiesto sha) están a NULL ⇒ la
-leyenda no emite link para ellos (fail-open declarado, no silencioso). **Fix incremental**: cada
-harvest futuro aporta su manifiesto (url+sha256) y re-corre el backfill; para notifier.es/
-morley-ias.es se puede reconstruir el manifiesto re-descargando y hasheando (los PDF son públicos).
+leyenda no emite link para ellos (fail-open declarado, no silencioso).
+
+**Ruta adjudicada (Alberto, s315 mismo día): corpus COMPLETO auto-alojado.** Bucket
+`manuales` de Supabase Storage CREADO (público-por-URL, 100MB/fichero, solo
+`application/pdf` — patrón `manual-images` del álbum). Script listo:
+`scripts/s315_upload_manuales_storage.py` (sube desde OneDrive, join por sha256,
+skip-si-existe reanudable, `source_url` solo-si-NULL — los links de portal se conservan
+salvo `--pisar-portal`; recibo reversible). **Acción de Alberto**: correrlo desde la
+máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam es la
+misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
+a ingesta perdidos (revisarlos, no ignorarlos).
