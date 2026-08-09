@@ -49,7 +49,9 @@ fotos/pantallazos (punto 5 — sonda de alcanzabilidad con fotos reales ANTES de
 Aritech/Edwards (recon listo `scripts/s315_casmar_recon.py`; egress bloqueado en la
 sesión; evidencia: 2X ya en corpus, Edwards NO está en Casmar → firesecurityproducts.com)
 · Tyco/Hikvision/Dahua/Ajax («más adelante», Alberto) · rapidez fase 2 (leer la vista con
-datos) · sentada B2 (suya, packet listo).
+datos) · sentada B2 (suya; **packet vigente = `evals/s312_goldreview_b2_packet_v3.md`**,
+la v3 del dúo doble — el v1 de s294 es solo registro; staleness corregida por Alberto en
+s315: yo mismo cité el v1).
 
 ## Estado anterior (s314 — 9 ago 2026)
 
