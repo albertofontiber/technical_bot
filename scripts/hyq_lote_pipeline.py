@@ -43,6 +43,11 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+try:  # convención del repo: consola Windows cp1252 vs → ≈ ⚠ ✅ ❌ del informe
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 from dotenv import load_dotenv  # noqa: E402
 
 load_dotenv(ROOT / ".env", override=False)
@@ -84,7 +89,7 @@ def _chunks_del_lote(client: httpx.Client, docs: list[str]) -> list[dict]:
             r = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
                            headers={**HEADERS, "Range": f"{offset}-{offset + 999}"},
                            params={"select": "id,content,product_model,manufacturer,"
-                                             "source_file,page_number",
+                                             "source_file,page_number,document_id",
                                    "source_file": f"eq.{doc}",
                                    "duplicate_of": "is.null",
                                    "order": "id.asc"})
@@ -140,6 +145,7 @@ def fase_generar(client: httpx.Client, docs: list[str], jsonl: Path,
     # con claude-haiku-4-5 (modelo 4.x que SÍ acepta temperature=0)
     temp_kw = {} if re.search(r"fable|mythos|sonnet-5|opus-5", model) else {"temperature": 0}
     errores_seguidos = 0
+    errores_totales = 0
     with jsonl.open("a", encoding="utf-8") as fh:
         for i, c in enumerate(pend):
             prod = c.get("product_model") or "el equipo del manual"
@@ -155,6 +161,7 @@ def fase_generar(client: httpx.Client, docs: list[str], jsonl: Path,
             except Exception as exc:
                 # error de API NO se escribe (S4 dúo s102): reintenta en el próximo run
                 errores_seguidos += 1
+                errores_totales += 1
                 print(f"  ERROR chunk {c['id'][:8]}: {type(exc).__name__} "
                       f"({errores_seguidos}/{MAX_ERRORES_SEGUIDOS})")
                 if errores_seguidos >= MAX_ERRORES_SEGUIDOS:
@@ -165,13 +172,24 @@ def fase_generar(client: httpx.Client, docs: list[str], jsonl: Path,
                   if q.strip() and "NONE" not in q]
             fh.write(json.dumps({
                 "chunk_id": c["id"], "source_file": c.get("source_file"),
-                "page_number": c.get("page_number"), "product_model": prod,
+                "page_number": c.get("page_number"),
+                # (dúo s316, Sol MENOR) el centinela «el equipo del manual» es texto
+                # de PROMPT, no identidad: la fila conserva el pm REAL (NULL si no hay).
+                "product_model": c.get("product_model"),
+                "document_id": c.get("document_id"),
                 "manufacturer": c.get("manufacturer"),
                 "questions": qs, "origin": "synthetic",
             }, ensure_ascii=False) + "\n")
             if i % 50 == 0:
                 fh.flush()
                 print(f"  {i}/{len(pend)}", flush=True)
+    # (dúo s316, Sol CRÍTICO) los saltados por error de API NO pueden pasar por
+    # éxito: el resto del pipeline cargaría y verificaría solo lo generado y
+    # declararía «cobertura completa» sobre un lote mutilado.
+    if errores_totales:
+        print(f"❌ {errores_totales} chunk(s) quedaron SIN generar por errores de API "
+              f"(no consecutivos) — re-lanza para reanudar; NO se sigue a carga")
+        return 1
     return 0
 
 
@@ -210,7 +228,12 @@ def _existing_pairs_tagged(client: httpx.Client) -> list[tuple[str, str, str]]:
                        headers={**HEADERS, "Range": f"{offset}-{offset + 999}"},
                        params={"select": "chunk_id,question,ingest_batch",
                                "order": "id.asc"})
-        if r.status_code not in (200, 206) or not r.json():
+        # (dúo s316, Sol MEDIO) antes, CUALQUIER no-200/206 se leía como «fin de
+        # paginación»: una lectura parcial degradaba el resume en silencio y hacía
+        # re-insertar. El esquema solo impone UNIQUE(chunk_id,question), así que el
+        # error tiene que ser ruidoso.
+        r.raise_for_status()
+        if not r.json():
             break
         batch = r.json()
         filas.extend((row["chunk_id"], row["question"], row.get("ingest_batch") or "")
@@ -223,7 +246,7 @@ def _existing_pairs_tagged(client: httpx.Client) -> list[tuple[str, str, str]]:
 
 def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
                 aplicar: bool) -> int:
-    questions, chunk_ids, srcs, _st = parse_questions(jsonl)
+    questions, chunk_ids, srcs, st_parse = parse_questions(jsonl)
     d = np.load(npz, allow_pickle=True)
     if [str(x) for x in d["questions"]] != questions or \
        [str(x) for x in d["chunk_ids"]] != chunk_ids:
@@ -238,9 +261,6 @@ def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
 
     filas_tabla = _existing_pairs_tagged(client)
     propias = {(cid, q) for cid, q, b in filas_tabla if b == batch_tag}
-    # dedup cross-vintage por TEXTO normalizado contra los DEMÁS vintages (el parse
-    # global deduplicaba corpus-wide; un lote no ve a los demás)
-    textos_ajenos = {_norm_q(q) for _cid, q, b in filas_tabla if b != batch_tag}
     meta: dict[str, dict] = {}
     n_corruptas = 0
     for ln in jsonl.read_text(encoding="utf-8-sig").splitlines():
@@ -251,12 +271,26 @@ def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
             meta.setdefault(r["chunk_id"], {
                 "page_number": r.get("page_number"),
                 "product_model": r.get("product_model"),
+                "document_id": r.get("document_id"),
                 "origin": r.get("origin") or "synthetic"})
         except Exception:
             n_corruptas += 1
     if n_corruptas:
         print(f"  AVISO: {n_corruptas} línea(s) corrupta(s) en {jsonl.name}")
+
+    # DEDUP — semántica ORIGINAL (cross-vintage por texto). En s316 se intentó cambiar
+    # a keep-FIRST por (document_id, texto) y el dúo lo TUMBÓ; Alberto adjudicó revertir.
+    # Por qué no se toca sin medir antes (DEC-196):
+    #  · `parse_questions` YA deduplica global por texto dentro del jsonl
+    #    (`s101_hyq_embed.py:44`, `seen_global`) ⇒ las preguntas llegan aquí pairwise
+    #    únicas y un dedup por documento sería un NO-OP con umbral muerto;
+    #  · `tests/test_s315_derive_lote.py:41-53` FIJA como contrato que dentro del lote
+    #    se deduplica cross-documento;
+    #  · quitar el descarte cross-vintage mete texto duplicado en un RPC global que
+    #    trunca a LIMIT 200 ANTES de filtrar por familia (TECH_DEBT #52) ⇒ es un LEVER
+    #    de ingesta con coste, no una corrección — se decide midiendo `dup_cross`.
     universo, pend, dup_cross = [], [], 0
+    textos_ajenos = {_norm_q(q) for _cid, q, b in filas_tabla if b != batch_tag}
     for i in range(len(questions)):
         if _norm_q(questions[i]) in textos_ajenos:
             dup_cross += 1
@@ -264,9 +298,16 @@ def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
         universo.append(i)                       # debería acabar en la tabla con el tag
         if (chunk_ids[i], questions[i]) not in propias:
             pend.append(i)
+    total_parseadas = len(questions)
     print(f"  universo del lote: {len(universo)} · ya insertadas (resume): "
-          f"{len(universo) - len(pend)} · pendientes: {len(pend)} "
-          f"· dup-cross-vintage: {dup_cross}")
+          f"{len(universo) - len(pend)} · pendientes: {len(pend)}")
+    # (s316) los descartes dejan de ser invisibles: antes `dup_cross` no declaraba
+    # denominador y los de `parse_questions` se tiraban como `_st`. Este número es el
+    # que decide si el lever de dedup merece medirse (DEC-196) — que se vea siempre.
+    print(f"  descartes VISIBLES: cross-vintage {dup_cross}/{total_parseadas} "
+          f"({(dup_cross / total_parseadas if total_parseadas else 0):.1%}) "
+          f"· intra-lote (parse_questions) {st_parse.get('dup_texto', 0)} "
+          f"· cap/chunk {st_parse.get('sobre_cap', 0)}")
     if not aplicar:
         return 0
 
@@ -293,7 +334,9 @@ def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
                    headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
                    params={"select": "id", "ingest_batch": f"eq.{batch_tag}"})
     n_batch = int((r.headers.get("content-range") or "/0").split("/")[-1])
-    ok_count = n_batch == len(universo) - len(poison)
+    # (dúo s316, Sol CRÍTICO) el poison NO se resta del universo esperado: restarlo
+    # convertía filas RECHAZADAS en «cobertura completa». Si hay poison, es FALLO.
+    ok_count = bool(universo) and (n_batch == len(universo)) and not poison
     print(f"  filas del batch en tabla: {n_batch} / universo {len(universo)} "
           f"(poison {len(poison)}) → {'✅' if ok_count else '❌'}")
     smoke_ok = True
@@ -312,7 +355,12 @@ def fase_cargar(client: httpx.Client, jsonl: Path, npz: Path, tag: str,
     # recibo propio (dúo #9): el batch_tag es el asa de rollback selectivo
     recibo = {"lote": tag, "ingest_batch": batch_tag,
               "universo": len(universo), "en_tabla": n_batch,
-              "dup_cross_vintage": dup_cross, "poison": len(poison),
+              "preguntas_parseadas": total_parseadas,
+              "dup_cross_vintage": dup_cross,
+              "dup_intra_lote_parse": st_parse.get("dup_texto", 0),
+              "sobre_cap_por_chunk": st_parse.get("sobre_cap", 0),
+              "poison": len(poison), "smoke_self_hit": smoke_ok,
+              "veredicto": "COMPLETO" if (ok_count and smoke_ok) else "INCOMPLETO",
               "reversible": f"DELETE FROM chunks_v2_hyq WHERE ingest_batch = '{batch_tag}'"}
     rpath = ROOT / "evals" / f"hyq_lote_{tag}_recibo.json"
     rpath.write_text(json.dumps(recibo, ensure_ascii=False, indent=1),

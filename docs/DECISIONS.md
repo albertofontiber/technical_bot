@@ -5294,3 +5294,135 @@ Recibos: `evals/derive_lote_*` cuando corra. Alternativas descartadas: reescribi
 (drift de paridad); cargar el lote en el vintage global con --wipe+re-embed (70k filas de
 churn por lote); gate de desplazamiento obligatorio por lote (el instrumento enunciados_panel
 queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órdenes lejos).
+
+## DEC-195 (s316) — Reparación de gobernanza: s315c retro-registrado y el hook del digest deja de depender del checkout
+
+- **Fecha**: 10 ago 2026 (s316, apertura). **Impacto**: MEDIO (gobernanza: toca el aparato
+  anti-recall y la política de versionado de `.claude/`; zona de dolor = proceso/anti-bias).
+- **Disparador**: Alberto pidió retomar contra una sesión anterior corrida EN CLOUD, advirtiendo
+  del riesgo de inconsistencias. La reconciliación (local iba 5 commits por detrás; FF limpio a
+  `f947fac`) destapó dos agujeros REALES, ninguno de ellos de código.
+- **Diagnóstico (verificado en esta sesión, no de memoria)**:
+  1. **s315c (`0fba21f`) no existe en la memoria canónica**: ni PLAN, ni HISTORY, ni DECISIONS, ni
+     TECH_DEBT lo mencionan; `docs/ENTORNO_CLOUD.md` quedó huérfano y sin DEC. El «Cierre de
+     sesión» de CLAUDE.md se quedó a medias justo en el último commit de la sesión cloud.
+  2. **El control anti-recall de DEC-072 estaba CAÍDO**: `.claude/hooks/inject_lever_digest.sh`
+     no existía en la máquina local y ni el settings de proyecto ni el de usuario lo registraban
+     ⇒ el digest de levers NO se inyectó en el arranque de esta sesión. No lo causó el merge (git
+     no borra ignorados; s315c solo AÑADIÓ `session-start.sh`): ya estaba caído. **Es exactamente
+     el gap que DEC-072 declaró de entrada** — «el hook vive en `.claude/` gitignored = setup
+     local por checkout» — materializado, y además invisible en cloud: las sesiones s315/s315b/s315c
+     nunca tuvieron digest.
+- **Decisión**: (1) **versionar el hook del digest** (`.claude/hooks/inject_lever_digest.sh` +
+  entrada `SessionStart` con matcher `startup|resume` en `.claude/settings.json` + whitelist en
+  `.gitignore`), aprovechando que s315c ya abrió `.claude/` a versionado selectivo ⇒ el control
+  viaja con el repo y aplica IGUAL en local y en cloud; fail-open si falta el digest (rc=0).
+  (2) **Retro-registrar s315c** en PLAN/HISTORY/DECISIONS con su ámbito real. (3) Refrescar el
+  «START HERE» de CLAUDE.md, que seguía apuntando a S278 (22-jul, 25 sesiones stale).
+- **Alternativas descartadas**: (a) **re-crear el hook gitignored** como estaba (fiel a DEC-072):
+  reproduce el fallo por tercera vez y deja el cloud sin control — el gap ya está MEDIDO, no es
+  hipotético; (b) **inline del digest en CLAUDE.md**: NO-BP y ya descartado por DEC-072 (CLAUDE.md
+  = instrucciones durables, no estado mutable); (c) **generar el digest desde tags greppables**:
+  mejora real pero es otro workstream — no bloquear la reparación con una refactorización;
+  (d) **dejarlo como deuda**: el control caído es precisamente el que evita re-litigar levers, y
+  esta sesión iba a proponer sobre levers.
+- **Gaps / riesgos declarados**: el digest son ~33KB inyectados en CADA sesión (coste de contexto
+  aceptado por DEC-072, no re-litigado aquí, pero ahora también se paga en cloud); sigue siendo
+  hand-maintained (el paso de cierre del Protocolo 4 es el único anti-drift); versionar `.claude/`
+  amplía la superficie de config compartida — si alguien tenía un `settings.json` local privado,
+  el merge de s315c pudo pisarlo sin aviso (git sobrescribe ignorados en silencio) y no es
+  recuperable; el hook no valida que el digest esté al día, solo que exista.
+- **Estado**: ✅ hook escrito, `chmod +x`, JSON validado y **ejecutado en el mismo turno**
+  (rc=0, 32.965 bytes emitidos) + trackeado por git. Retro-registro de s315c aplicado.
+  **Relacionado**: DEC-072 (el control original y su gap declarado), DEC-193/194 (s315/s315b),
+  `docs/ENTORNO_CLOUD.md`, `docs/LEVER_DIGEST.md`.
+
+## DEC-195b (s315c, retro-registrado en s316) — Entorno cloud: hook de arranque web versionado + guía de habilitación
+
+- **Fecha**: 9 ago 2026 (s315c; registrado retroactivamente el 10-ago al detectarse ausente).
+  **Impacto**: MEDIO (toca el arranque de toda sesión cloud + política de `.gitignore`).
+- **Disparador**: la primera sesión cloud (s315) perdió tiempo montando el contenedor a mano y
+  chocó con tres límites del entorno; Alberto quiere lanzar trabajo «on the go» desde el móvil.
+- **Decisión**: `.claude/hooks/session-start.sh` versionado y **guardado por `CLAUDE_CODE_REMOTE`**
+  (en local sale con rc=0 sin efectos): des-shallowea el clon (sin historial completo fallan ~180
+  tests de contratos congelados que leen blobs viejos con `git cat-file`), instala dependencias
+  con los tres workarounds cazados a mano en s315 (langdetect sin wheel; PyJWT/cryptography de deb
+  sin RECORD → `--ignore-installed`; `requirements-dev` arrastrando el base) y fija `PYTHONPATH=.`.
+  `.gitignore` pasa de ignorar `.claude/` entero a whitelist selectiva. `docs/ENTORNO_CLOUD.md` =
+  checklist de Alberto (secretos, política de red, límites).
+- **Alternativas descartadas**: arreglar el contenedor a mano cada sesión (el coste se repite y no
+  es auditable); imagen/devcontainer propio (sobre-ingeniería para tres pips y un unshallow);
+  versionar `.claude/` entero (arrastraría config y memoria locales).
+- **Gaps / riesgos declarados**: **OneDrive nunca estará en cloud** ⇒ la fase de enunciados y las
+  re-ingestas siguen exigiendo máquina local (subir el extraction store a un bucket queda anotado,
+  NO decidido); `TELEGRAM_BOT_TOKEN` deliberadamente FUERA (un script suelto en cloud haciendo
+  polling competiría con producción); la política de red por defecto bloqueó casmarglobal.com
+  (recon s315) y sin `OPENAI_API_KEY` el dúo queda cojo — ambos requieren acción de Alberto en el
+  environment del repo, y hasta que la haga las sesiones cloud arrastran esos dos gaps.
+- **Estado**: ✅ validado end-to-end en el contenedor web en s315c (hook rc=0; suite, `check_deps`,
+  `catalog_store validate` y `gold_store validate` en verde). Checklist de Alberto **PENDIENTE**.
+  **Relacionado**: DEC-193, `docs/ENTORNO_CLOUD.md`, DEC-195.
+
+## DEC-196 (s316) — El dedup por documento del canal hyq: intentado, TUMBADO por el dúo, REVERTIDO; y los fixes que sí quedan
+
+- **Fecha**: 10 ago 2026 (s316). **Impacto**: ALTO (zona de dolor: ingesta + un canal VIVO
+  en producción; el run que dependía de esto escribe en dos índices con HNSW propio).
+- **Disparador**: el run del lote Casmar (#68, DEC-194) quedó pendiente «en máquina con
+  claves» y su dúo se declaró CON GAP (Sol no ejecutable en cloud, sin `OPENAI_API_KEY`).
+  En local la clave existe ⇒ el Protocolo 3 exige cerrar el gap antes de escribir.
+- **Lo que el dúo cazó (2 rondas, 20 hallazgos)**: ronda 1 (Sol) = 3 CRÍTICOS de la clase
+  **éxito silencioso** — V imprimía ❌ y devolvía 0; el lote se materializaba con UN
+  `source_file` por `limit:1` sin `order` (la fuga que s288 F2 prohíbe en runtime); los
+  chunks saltados por error de API y el `poison` se convertían en «cobertura completa».
+  Ronda 2 (Sol + sub-agente Opus, sobre MIS fixes) = **NO-SÓLIDO**.
+- **Decisión 1 — REVERTIR el dedup (adjudicada por Alberto)**. Se había cambiado el
+  descarte cross-vintage por keep-FIRST `(document_id, texto)`. Es **inválido por tres
+  razones verificadas**: (a) `parse_questions` (`s101_hyq_embed.py:44`, `seen_global`) ya
+  deduplica global por texto dentro del jsonl ⇒ `dup_intra_doc ≡ 0` y `UMBRAL_DEDUP` es
+  código muerto (el sub-agente lo probó EJECUTANDO la función); (b)
+  `tests/test_s315_derive_lote.py:41-53` **fija como contrato** que dentro del lote se
+  deduplica cross-documento — mi afirmación de lo contrario era falsa; (c) el atenuante
+  que declaré (family-parity del RPC) era **over-claim**: el RPC global trunca a
+  `LIMIT 200` ANTES de filtrar por familia (TECH_DEBT #52), así que meter texto duplicado
+  ataca justo ese techo. **Conclusión de rumbo: el dedup NO es un fix, es un LEVER de
+  ingesta con coste** — se decide MIDIENDO `dup_cross_vintage` en un lote real (Protocolo
+  4: delta en eval, no proxies), no razonando. Queda como lever ABIERTO, no medido.
+- **Decisión 2 — CONSOLIDAR los fixes que sí lo son** (todos con test): V fail-closed con
+  `veredicto`+`fallos`+`avisos` en el recibo y rc=1; `_verificar_biyeccion` (aborta si un
+  `source_file` trae chunks de documentos ajenos); paginación real de `_source_files_de_doc`;
+  `errores_totales` detiene el pipeline; `ok_count` no resta `poison` y exige `universo>0`;
+  `raise_for_status` en la paginación de `_existing_pairs_tagged`; congelado de selección
+  por firma sha256-16 con `--hasta` y `--refrescar-seleccion`, que **no se re-congela solo**;
+  `alcance.canales_ejecutados` en el recibo (con `--solo`, declarar «COMPLETO en ambos
+  canales» era la misma clase de éxito silencioso que V venía a cerrar); `product_model`
+  real en vez del centinela de prompt; y la convención de encoding del repo
+  (`stdout.reconfigure`) en los 4 scripts del camino que la omitían — sin ella, en Windows
+  con salida capturada un `print` con `→ ≈ ─ ✅ ❌ ⚠` **aborta el run a media carga**
+  (la suite lo cazó: `test_clis_exponen_contrato` estaba en rojo).
+- **Decisión 3 — bug independiente, arreglado**: `s315_upload_manuales_storage.py` pedía
+  `limit=10000` con guarda `len(docs) >= 10000`, pero **PostgREST capa a 1.000 filas por
+  servidor**: con 1.243 documentos veía 1.000, la guarda no disparaba y **243 quedaban
+  invisibles** → sus PDFs se clasificaban «sin fila» y el `--aplicar` los habría SALTADO
+  sin poblar `source_url`. Con paginación real: a enlazar 807→**1.008**, «ya con URL»
+  69→**76** (casa exacto con la DB), «sin fila» 269→**61**.
+- **Alternativas descartadas**: (a) implementar el dedup por documento de verdad tocando
+  `parse_questions` — está PINEADA e importada por el loader global s102 para paridad
+  byte-a-byte; romper ese contrato por un lever no medido es exactamente lo que el dúo
+  vino a impedir; (b) dejar los fixes sin tests («139/139» describía tests preexistentes,
+  crítica justa del sub-agente); (c) correr el `--aplicar` con los fixes de la ronda 1:
+  quedaban dos rutas (`--solo` en sus dos valores) que escribían declarando COMPLETO.
+- **Gaps / riesgos declarados**: el lever del dedup queda ABIERTO y sin medir — el número
+  que lo decide (`dup_cross_vintage`, ahora VISIBLE en consola y recibo) exige generar el
+  lote (~$4,4) sin cargar; **no hay canario automático pre/post** (Sol MEDIO, aceptado y no
+  cerrado en código: es paso manual con `factlevel_assessment.py smoke`); `_verificar_biyeccion`
+  solo corre en la rama `--since` y su mensaje de error recomienda `--docs-file`, que
+  **desactiva la comprobación** (salida documentada del guard — anotado); el resume queda
+  frágil si el jsonl crece tras una carga parcial (el `batch_tag` cambia con el npz y las
+  filas viejas quedan huérfanas bajo el tag anterior); y **el run del lote sigue SIN
+  EJECUTAR** — nada escrito en producción.
+- **Estado**: ✅ revertido + consolidado + **suite 3.666 passed / 46 skipped / 0 failed**
+  (antes 1 failed) + 8 tests nuevos (`tests/test_s316_derive_lote_fixes.py`) + dry-run
+  verificado (74 docs · 1.091 chunks · firma `77e3ae58900afdc7` · rc=0). Dúo COMPLETO por
+  primera vez en este frente: Sol xhigh ×2 rondas + sub-agente Opus 5 (pin s292).
+  **Relacionado**: DEC-194 (el build), DEC-102 (crowding del canal enunciados),
+  TECH_DEBT #52 (techo top-200) y #68.

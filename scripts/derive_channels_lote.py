@@ -29,11 +29,18 @@ Post-carga: VACUUM (fantasmas HNSW, DEC-088) — el recibo lo recuerda.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+try:  # convención del repo (143 scripts): la consola Windows es cp1252 y los
+    # informes llevan → ≈ ─ ✅ ❌ — sin esto, un print revienta el run a media carga
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -53,30 +60,87 @@ COSTE_HYQ_POR_CHUNK = 0.004
 COSTE_ENUN_POR_DOC = (0.05, 0.15)          # banda observada T2 (DEC-102: $9.7 / 81 docs)
 
 
-def _docs_del_lote(client: httpx.Client, since: str) -> list[dict]:
-    """Docs con ingested_at >= since y su nº de chunks (fuente: DB, no memoria)."""
-    r = client.get(f"{SUPABASE_URL}/rest/v1/documents", headers=HEADERS,
-                   params={"select": "id,source_pdf_filename,ingested_at",
-                           "ingested_at": f"gte.{since}", "limit": "2000",
-                           "order": "ingested_at.asc"})
+def _source_files_de_doc(client: httpx.Client, doc_id: str) -> tuple[set[str], int]:
+    """TODOS los source_file distintos de un documento + su nº de chunks.
+
+    (dúo s316, Sol CRÍTICO) La v1 tomaba `limit=1` SIN `order`: un documento con
+    source_file heterogéneo entraba a medias y la fila elegida no era determinista
+    entre runs. Aquí se paginan los chunks de verdad (max-rows de Supabase = 1000).
+    """
+    vistos: set[str] = set()
+    total = 0
+    offset = 0
+    while True:
+        r = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                       headers={**HEADERS, "Range": f"{offset}-{offset + 999}"},
+                       params={"select": "source_file", "document_id": f"eq.{doc_id}",
+                               "order": "id.asc"})
+        r.raise_for_status()
+        filas = r.json()
+        vistos.update(f["source_file"] for f in filas if f.get("source_file"))
+        total += len(filas)
+        if len(filas) < 1000:
+            break
+        offset += 1000
+    return vistos, total
+
+
+def _docs_del_lote(client: httpx.Client, since: str,
+                   hasta: str | None = None) -> list[dict]:
+    """Docs con ingested_at en [since, hasta) y sus source_file (fuente: DB)."""
+    params = {"select": "id,source_pdf_filename,ingested_at",
+              "ingested_at": f"gte.{since}", "limit": "2000",
+              "order": "ingested_at.asc"}
+    if hasta:
+        # (dúo s316, Sol MEDIO) sin cota superior, `--aplicar` re-consulta y puede
+        # arrastrar documentos ingestados DESPUÉS del dry-run revisado.
+        params["and"] = f"(ingested_at.gte.{since},ingested_at.lt.{hasta})"
+    r = client.get(f"{SUPABASE_URL}/rest/v1/documents", headers=HEADERS, params=params)
     r.raise_for_status()
-    docs = r.json()
     out = []
-    for d in docs:
-        rc = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
-                        headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
-                        params={"select": "id", "document_id": f"eq.{d['id']}"})
-        n = int((rc.headers.get("content-range") or "/0").split("/")[-1])
-        # source_file de los CHUNKS (clave de selección de los generadores): puede
-        # diferir del filename de documents en extensión — tomar el real
-        rs = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2", headers=HEADERS,
-                        params={"select": "source_file",
-                                "document_id": f"eq.{d['id']}", "limit": "1"})
-        rows = rs.json()
-        if n and rows:
-            out.append({"document_id": d["id"], "source_file": rows[0]["source_file"],
+    for d in r.json():
+        src, n = _source_files_de_doc(client, d["id"])
+        if n and src:
+            out.append({"document_id": d["id"], "source_files": sorted(src),
                         "chunks": n})
     return out
+
+
+def _verificar_biyeccion(client: httpx.Client, lote: list[dict]) -> list[str]:
+    """Ningún source_file del lote puede traer chunks de documentos AJENOS.
+
+    (dúo s316, Sol CRÍTICO) El lote se selecciona por `document_id` pero los
+    generadores consultan por `source_file`. El runtime endureció exactamente esta
+    fuga en s288 F2 (`doc_scoped_hyq_coverage`: «Scope is document_id, never a file
+    name … two documents sharing a source_file can no longer bleed into each
+    other»); el driver la reintroducía. Aquí se comprueba, ANTES de gastar: el
+    recuento corpus-wide por source_file debe casar con el recuento dentro del lote.
+    """
+    del_lote = {d["document_id"] for d in lote}
+    propios: dict[str, int] = {}
+    for d in lote:
+        for sf in d["source_files"]:
+            propios[sf] = propios.get(sf, 0) + 0  # asegura la clave
+    # recuento REAL por source_file dentro del lote (por doc, para no confiar en sumas)
+    for d in lote:
+        for sf in d["source_files"]:
+            rc = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                            headers={**HEADERS, "Prefer": "count=exact",
+                                     "Range": "0-0"},
+                            params={"select": "id", "document_id": f"eq.{d['document_id']}",
+                                    "source_file": f"eq.{sf}"})
+            propios[sf] += int((rc.headers.get("content-range") or "/0").split("/")[-1])
+    fugas = []
+    for sf, n_propios in sorted(propios.items()):
+        rc = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2",
+                        headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
+                        params={"select": "id", "source_file": f"eq.{sf}"})
+        n_global = int((rc.headers.get("content-range") or "/0").split("/")[-1])
+        if n_global != n_propios:
+            fugas.append(f"{sf}: {n_global} chunks corpus-wide vs {n_propios} del lote "
+                         f"(+{n_global - n_propios} de documentos AJENOS)")
+    _ = del_lote
+    return fugas
 
 
 def main() -> int:
@@ -85,17 +149,32 @@ def main() -> int:
     g.add_argument("--since", help="fecha ISO: docs con ingested_at >= fecha")
     g.add_argument("--docs-file", help="fichero con un source_file por línea")
     ap.add_argument("--tag", required=True, help="nombre del lote (p.ej. casmar314)")
+    ap.add_argument("--hasta", default=None,
+                    help="cota SUPERIOR ISO de ingested_at (congela la ventana del lote)")
     ap.add_argument("--data-root", default=None,
                     help="raíz de datos de ingest_new (para el extraction store)")
     ap.add_argument("--aplicar", action="store_true")
     ap.add_argument("--solo", choices=["enunciados", "hyq"], default=None)
+    ap.add_argument("--refrescar-seleccion", action="store_true",
+                    help="permite que --aplicar re-congele una selección que ha cambiado "
+                         "desde el dry-run (por defecto ABORTA: dúo s316)")
     a = ap.parse_args()
 
     with httpx.Client(timeout=120.0) as client:
         if a.since:
-            lote = _docs_del_lote(client, a.since)
-            src_files = sorted({d["source_file"] for d in lote})
+            lote = _docs_del_lote(client, a.since, a.hasta)
+            src_files = sorted({sf for d in lote for sf in d["source_files"]})
             n_chunks = sum(d["chunks"] for d in lote)
+            fugas = _verificar_biyeccion(client, lote)
+            if fugas:
+                print("❌ FUGA source_file: estos nombres traen chunks de documentos "
+                      "AJENOS al lote — los generadores derivarían corpus que no has "
+                      "revisado (s288 F2 prohíbe esta fuga en runtime):")
+                for f in fugas:
+                    print(f"    - {f}")
+                print("   Usa --docs-file con una selección saneada, o corrige la "
+                      "colisión de nombres antes de derivar.")
+                return 1
         else:
             src_files = sorted({ln.strip() for ln in open(a.docs_file, encoding="utf-8")
                                 if ln.strip()})
@@ -110,6 +189,40 @@ def main() -> int:
         if not src_files:
             print("❌ lote vacío (0 source_files) — nada que derivar")
             return 1
+
+        # (dúo s316, Sol MEDIO) CONGELAR la selección: el dry-run que se revisa y el
+        # --aplicar que gasta tienen que ser el MISMO lote. Sin esto, un documento
+        # ingestado entre ambos entra sin haber sido mirado por nadie.
+        doc_ids = sorted(d["document_id"] for d in lote)
+        firma = hashlib.sha256(
+            json.dumps({"docs": src_files, "document_ids": doc_ids,
+                        "chunks": n_chunks}, ensure_ascii=False,
+                       sort_keys=True).encode("utf-8")).hexdigest()[:16]
+        sel_path = ROOT / "evals" / f"derive_lote_{a.tag}_seleccion.json"
+        previa = json.loads(sel_path.read_text(encoding="utf-8")) if sel_path.exists() else None
+        if previa and previa.get("firma") != firma:
+            print(f"⚠ la selección del lote '{a.tag}' CAMBIÓ desde el dry-run:")
+            print(f"    firma congelada: {previa.get('firma')} "
+                  f"({previa.get('docs_n')} docs / {previa.get('chunks')} chunks)")
+            print(f"    firma de ahora:  {firma} ({len(src_files)} docs / {n_chunks} chunks)")
+            if a.aplicar and not a.refrescar_seleccion:
+                print("❌ abortado: revisa el diff y re-lanza con --refrescar-seleccion "
+                      "si el lote nuevo es el que quieres derivar.")
+                return 1
+        # (dúo s316) el congelado NO se re-congela solo: si ya hay una firma revisada,
+        # solo se sustituye con gesto explícito (--refrescar-seleccion). Antes, un
+        # dry-run posterior pisaba en silencio la selección que se había revisado.
+        if previa is None or a.refrescar_seleccion:
+            sel_path.write_text(json.dumps(
+                {"firma": firma, "docs_n": len(src_files), "chunks": n_chunks,
+                 "docs": src_files, "document_ids": doc_ids,
+                 "hasta": a.hasta, "since": a.since,
+                 "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds")},
+                ensure_ascii=False, indent=1), encoding="utf-8")
+            print(f"selección congelada: firma {firma} → {sel_path.name}")
+        else:
+            print(f"selección ya congelada: firma {firma} (coincide con {sel_path.name})")
+
         docs_txt = ROOT / "evals" / f"derive_lote_{a.tag}_docs.txt"
         docs_txt.write_text("\n".join(src_files) + "\n", encoding="utf-8")
         c_lo = len(src_files) * COSTE_ENUN_POR_DOC[0]
@@ -124,7 +237,13 @@ def main() -> int:
         py = sys.executable
         enun_tag = f"enunciados-v1:{a.tag}:h1"
         ids_out = ROOT / "evals" / f"derive_lote_{a.tag}_enun_ids.json"
-        if a.solo in (None, "enunciados"):
+        corrio_enunciados = a.solo in (None, "enunciados")
+        sin_filas: list[str] = []
+        if corrio_enunciados:
+            # (dúo s316) un manifiesto de un run ANTERIOR haría que V emitiera un
+            # veredicto stale sobre esta pasada — se retira antes de re-generarlo.
+            if ids_out.exists():
+                ids_out.unlink()
             # (dúo s315 #7) --budget-usd del generador compara contra el LEDGER
             # acumulado de por vida: pasar techo = gastado + margen del lote, o el
             # lote N-ésimo se pararía en el doc 1 devolviendo éxito.
@@ -160,7 +279,7 @@ def main() -> int:
                         docs_en_dump.add(json.loads(ln)["source_file"])
                     except Exception:
                         continue
-            sin_filas = sorted(set(src_files) - docs_en_dump)
+            sin_filas[:] = sorted(set(src_files) - docs_en_dump)
             if sin_filas:
                 print(f"  {len(sin_filas)} doc(s) del lote SIN enunciados en el dump "
                       f"(sin store / todo-dup / 0 items) — se cargan los "
@@ -190,8 +309,23 @@ def main() -> int:
 
         # V — verificación de COMPLETITUD (dúo s315 #9): el manifest de ids que E2
         # declaró es lo que se comprueba en DB, no un presence-check por doc.
+        # (dúo s316, Sol CRÍTICO) V es FAIL-CLOSED: antes imprimía ❌ y devolvía 0,
+        # así que un lote a medias salía con recibo de éxito.
         enun_ids_ok = None
-        if ids_out.exists():
+        fallos: list[str] = []
+        avisos: list[str] = []
+        corrio_hyq = a.solo in (None, "hyq")
+        if corrio_enunciados and not ids_out.exists():
+            fallos.append("E2 no dejó manifiesto de ids (ningún enunciado cargado)")
+        if sin_filas:
+            # (dúo s316) NO es fallo: el propio driver declara que un doc sin store /
+            # todo-dup / 0 items es «lo esperable, no la excepción» en un lote real.
+            # Hacerlo fallar garantizaba INCOMPLETO en el caso normal = fatiga de
+            # alarma, que degrada el fail-closed en vez de reforzarlo. Queda VISIBLE
+            # en el recibo y en consola, que es lo que hacía falta.
+            avisos.append(f"{len(sin_filas)} doc(s) del lote sin NINGÚN enunciado "
+                          f"en el dump (sin store / todo-dup / 0 items)")
+        if corrio_enunciados and ids_out.exists():
             ids = json.loads(ids_out.read_text(encoding="utf-8"))
             if isinstance(ids, dict):
                 ids = ids.get("ids") or []
@@ -209,17 +343,40 @@ def main() -> int:
                            "completo": presentes == len(ids)}
             print(f"V enunciados: {presentes}/{len(ids)} ids del manifest en DB "
                   f"→ {'✅' if enun_ids_ok['completo'] else '❌'}")
+            if not ids:
+                fallos.append("el manifiesto de E2 está VACÍO (0 ids)")
+            elif not enun_ids_ok["completo"]:
+                fallos.append(f"enunciados incompletos en DB: {presentes}/{len(ids)}")
         hyq_recibo = {}
         hr = ROOT / "evals" / f"hyq_lote_{a.tag}_recibo.json"
         if hr.exists():
             hyq_recibo = json.loads(hr.read_text(encoding="utf-8"))
+        if corrio_hyq:
+            if not hyq_recibo:
+                fallos.append("la fase hyq no dejó recibo")
+            elif hyq_recibo.get("veredicto") == "INCOMPLETO" or \
+                    hyq_recibo.get("en_tabla") != hyq_recibo.get("universo"):
+                fallos.append(f"hyq incompleto: {hyq_recibo.get('en_tabla')}/"
+                              f"{hyq_recibo.get('universo')} del universo del lote")
+        # (dúo s316, CRÍTICO) el ALCANCE se estampa y manda sobre el mensaje: con
+        # --solo, un canal no se ejecuta ni se verifica, así que declarar «COMPLETO en
+        # ambos canales» era éxito silencioso — la misma clase que V venía a cerrar.
+        canales = [c for c, corrio in (("enunciados", corrio_enunciados),
+                                       ("hyq", corrio_hyq)) if corrio]
         recibo = {
             "motivo": "s315/#68: fase derivados del lote (enunciados + hyq)",
             "lote": a.tag, "docs": len(src_files), "chunks": n_chunks,
-            "enunciados": {"ingest_batch": enun_tag, "verificacion_ids": enun_ids_ok,
-                           "reversible": ("DELETE FROM chunks_v2_enunciados WHERE "
-                                          f"ingest_batch = '{enun_tag}'")},
-            "hyq": hyq_recibo,
+            "seleccion_firma": firma,
+            "alcance": {"solo": a.solo, "canales_ejecutados": canales},
+            "enunciados": ({"ingest_batch": enun_tag, "verificacion_ids": enun_ids_ok,
+                            "docs_sin_enunciados": sin_filas,
+                            "reversible": ("DELETE FROM chunks_v2_enunciados WHERE "
+                                           f"ingest_batch = '{enun_tag}'")}
+                           if corrio_enunciados else "NO EJECUTADO (--solo)"),
+            "hyq": hyq_recibo if corrio_hyq else "NO EJECUTADO (--solo)",
+            "veredicto": "COMPLETO" if not fallos else "INCOMPLETO",
+            "avisos": avisos,
+            "fallos": fallos,
             "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "pendiente": "VACUUM de chunks_v2_enunciados y chunks_v2_hyq (DEC-088)",
         }
@@ -227,6 +384,16 @@ def main() -> int:
         out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1),
                        encoding="utf-8")
         print(f"\nrecibo → {out}")
+        for av in avisos:
+            print(f"⚠ {av}")
+        if fallos:
+            print(f"\n❌ lote '{a.tag}' INCOMPLETO — el recibo NO declara cobertura:")
+            for f in fallos:
+                print(f"    - {f}")
+            print("   (lo cargado es reversible por ingest_batch; re-lanzar reanuda)")
+            return 1
+        print(f"\n✅ lote '{a.tag}' COMPLETO en: {', '.join(canales)}"
+              + ("" if len(canales) == 2 else "  ⚠ el otro canal NO se ejecutó (--solo)"))
     return 0
 
 
