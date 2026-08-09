@@ -417,8 +417,17 @@ def main() -> int:
                     help="(s104 F4) vintage del batch: p1=Sonnet piloto, h1=Haiku, ...")
     ap.add_argument("--budget-usd", type=float, default=180.0,
                     help="(s104 F10) tope DURO de gasto acumulado del ledger")
+    ap.add_argument("--store", default=None,
+                    help="(s315/#68) ruta del extraction store si no es la relativa al cwd "
+                         "(los lotes nuevos viven bajo --data-root de ingest_new, p.ej. "
+                         "<OneDrive>/data/extraction/agent_anthropic-sonnet-45)")
     ap.add_argument("--rollback")
     a = ap.parse_args()
+    if a.store:
+        # mismo patrón que el override de LLM_MODEL: ambos módulos leen su global.
+        import s94_f1_generate as _s94
+        globals()["STORE"] = a.store
+        _s94.STORE = a.store
     if a.rollback:
         return rollback(a.rollback)
     assert a.tranche and a.docs, "--tranche y --docs son obligatorios"
