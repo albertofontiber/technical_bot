@@ -149,14 +149,21 @@ def main() -> int:
     meta = _meta_by_chunk()
     with httpx.Client(timeout=180.0) as client:
         if wipe and not dry:
+            # (dúo s315 #1) --wipe SOLO borra el vintage GLOBAL (hyq-v1-*): los lotes
+            # incrementales (hyq-lote-*, pipeline #68) NO viven en el npz global y un
+            # wipe de hyq-* los perdería sin camino de re-carga desde aquí.
             client.delete(f"{SUPABASE_URL}/rest/v1/{TABLE}", headers=HEADERS,
-                          params={"ingest_batch": "like.hyq-*"}).raise_for_status()
-            print("tabla vaciada (--wipe, batches hyq-*)")
-        # GUARDA DE VINTAGE DB↔npz (fix cross-model): filas de OTRO batch = mezcla silenciosa
-        # (ignore-duplicates jamás las actualizaría) → abortar y pedir --wipe.
+                          params={"ingest_batch": "like.hyq-v1-*"}).raise_for_status()
+            print("vintage global vaciado (--wipe, batches hyq-v1-*; los hyq-lote-* se conservan)")
+        # GUARDA DE VINTAGE DB↔npz (fix cross-model): filas de OTRO batch GLOBAL = mezcla
+        # silenciosa (ignore-duplicates jamás las actualizaría) → abortar y pedir --wipe.
+        # (dúo s315 #1) Los batches hyq-lote-* son vintages POR LOTE deliberadamente
+        # aditivos (contrato del pipeline #68): NO cuentan como mezcla.
         r = client.get(f"{SUPABASE_URL}/rest/v1/{TABLE}",
                        headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
-                       params={"select": "id", "ingest_batch": f"neq.{batch_tag}"})
+                       params={"select": "id",
+                               "and": (f"(ingest_batch.neq.{batch_tag},"
+                                       "ingest_batch.not.like.hyq-lote-*)")})
         if r.status_code not in (200, 206):     # (fix dúo #4) 404 aquí = tabla sin crear
             raise RuntimeError(f"GET {TABLE} → {r.status_code} — ¿migración 013 aplicada? "
                                f"body: {r.text[:200]}")
@@ -206,9 +213,15 @@ def main() -> int:
             print(f"⚠ {len(poison)} filas envenenadas → {plog}")
 
         # ── verificación EN EL MISMO RUN (Protocolo 1) ──
-        n1 = _table_count(client)
+        # (dúo s315 #1) contar SOLO el vintage global: con lotes hyq-lote-* presentes
+        # el count total ya no es comparable con el universo del npz global.
+        rv = client.get(f"{SUPABASE_URL}/rest/v1/{TABLE}",
+                        headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
+                        params={"select": "id", "ingest_batch": f"eq.{batch_tag}"})
+        n1 = int((rv.headers.get("content-range") or "/0").split("/")[-1])
         ok_count = n1 == len(questions)
-        print(f"count final: {n1} / universo {len(questions)} → {'✅' if ok_count else '❌ MISMATCH'}")
+        print(f"count del vintage global: {n1} / universo {len(questions)} → "
+              f"{'✅' if ok_count else '❌ MISMATCH'}")
         # smoke self-hit: la pregunta i debe recuperar SU chunk padre vía el RPC con sim≈1
         smoke_ok = True
         for i in (0, len(questions) // 2, len(questions) - 1):

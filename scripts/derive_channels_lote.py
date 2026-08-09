@@ -79,19 +79,6 @@ def _docs_del_lote(client: httpx.Client, since: str) -> list[dict]:
     return out
 
 
-def _cobertura(client: httpx.Client, doc_ids: list[str]) -> dict:
-    cov = {"enunciados_docs": 0, "hyq_docs": 0, "docs": len(doc_ids)}
-    for did in doc_ids:
-        r = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2_enunciados",
-                       headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
-                       params={"select": "id", "document_id": f"eq.{did}"})
-        if int((r.headers.get("content-range") or "/0").split("/")[-1]):
-            cov["enunciados_docs"] += 1
-    # hyq no lleva document_id: cobertura vía join por chunk_id no expuesto en REST
-    # simple → se cuenta por source_file en la fase V del recibo (aproximación honesta)
-    return cov
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     g = ap.add_mutually_exclusive_group(required=True)
@@ -120,6 +107,9 @@ def main() -> int:
                                 params={"select": "id", "source_file": f"eq.{sf}"})
                 n_chunks += int((rc.headers.get("content-range") or "/0").split("/")[-1])
 
+        if not src_files:
+            print("❌ lote vacío (0 source_files) — nada que derivar")
+            return 1
         docs_txt = ROOT / "evals" / f"derive_lote_{a.tag}_docs.txt"
         docs_txt.write_text("\n".join(src_files) + "\n", encoding="utf-8")
         c_lo = len(src_files) * COSTE_ENUN_POR_DOC[0]
@@ -132,45 +122,104 @@ def main() -> int:
             return 0
 
         py = sys.executable
-        fases: list[list[str]] = []
+        enun_tag = f"enunciados-v1:{a.tag}:h1"
+        ids_out = ROOT / "evals" / f"derive_lote_{a.tag}_enun_ids.json"
         if a.solo in (None, "enunciados"):
+            # (dúo s315 #7) --budget-usd del generador compara contra el LEDGER
+            # acumulado de por vida: pasar techo = gastado + margen del lote, o el
+            # lote N-ésimo se pararía en el doc 1 devolviendo éxito.
+            gastado = 0.0
+            ledger = ROOT / "evals" / "enunciados_ledger.json"
+            if ledger.exists():
+                led = json.loads(ledger.read_text(encoding="utf-8"))
+                gastado = sum((d.get("cost_usd") or 0)
+                              for d in led.get("docs", {}).values())
+            budget = round(gastado + max(10.0, 3 * c_hi), 2)
             e1 = [py, "scripts/enunciados_pass.py", "--tranche", a.tag,
                   "--docs", str(docs_txt), "--to-dump", "--resume",
-                  "--model", ENUN_MODEL, "--vintage", "h1"]
+                  "--model", ENUN_MODEL, "--vintage", "h1",
+                  "--budget-usd", str(budget)]
             if a.data_root:
                 e1 += ["--store",
                        str(Path(a.data_root) / "data" / "extraction"
                            / "agent_anthropic-sonnet-45")]
-            fases.append(e1)
-            fases.append([py, "scripts/s104_a3_load.py",
-                          "--dumps", f"evals/enunciados_dump_{a.tag}.jsonl",
-                          "--rewrite-batch-tag", f"enunciados-v1:{a.tag}:h1",
-                          "--ledger-check",
-                          "--ids-out", f"evals/derive_lote_{a.tag}_enun_ids.json",
-                          "--only-source-files", *src_files])
-        if a.solo in (None, "hyq"):
-            fases.append([py, "scripts/hyq_lote_pipeline.py", "--docs", str(docs_txt),
-                          "--tag", a.tag, "--aplicar"])
-        for cmd in fases:
-            print(f"\n── {' '.join(cmd[:3])} …")
-            rc = subprocess.call(cmd, cwd=str(ROOT))
+            print(f"\n── E1 enunciados (budget ledger {gastado:.2f} + lote → {budget}) …")
+            rc = subprocess.call(e1, cwd=str(ROOT))
             if rc:
-                print(f"❌ fase falló (rc={rc}) — corrige y re-lanza (todo reanuda)")
+                print(f"❌ E1 falló (rc={rc}) — corrige y re-lanza (reanuda por ledger)")
+                return rc
+            # (dúo s315 #2) --only-source-files debe llevar los docs CON FILAS EN EL
+            # DUMP: pasar la lista de entrada aborta E2 entero si un doc legítimo no
+            # produjo enunciados (sin store, todo-dup, 0 items) — y en un lote real
+            # eso es lo esperable, no la excepción.
+            dump = ROOT / "evals" / f"enunciados_dump_{a.tag}.jsonl"
+            docs_en_dump: set[str] = set()
+            if dump.exists():
+                for ln in dump.read_text(encoding="utf-8-sig").splitlines():
+                    try:
+                        docs_en_dump.add(json.loads(ln)["source_file"])
+                    except Exception:
+                        continue
+            sin_filas = sorted(set(src_files) - docs_en_dump)
+            if sin_filas:
+                print(f"  {len(sin_filas)} doc(s) del lote SIN enunciados en el dump "
+                      f"(sin store / todo-dup / 0 items) — se cargan los "
+                      f"{len(docs_en_dump)} restantes:")
+                for d in sin_filas[:10]:
+                    print(f"    - {d}")
+            if docs_en_dump:
+                e2 = [py, "scripts/s104_a3_load.py", "--dumps", str(dump),
+                      "--rewrite-batch-tag", enun_tag, "--ledger-check",
+                      "--ids-out", str(ids_out),
+                      "--only-source-files", *sorted(docs_en_dump)]
+                print("\n── E2 carga enunciados …")
+                rc = subprocess.call(e2, cwd=str(ROOT))
+                if rc:
+                    print(f"❌ E2 falló (rc={rc}) — corrige y re-lanza (resume por ids)")
+                    return rc
+            else:
+                print("  dump vacío — E2 saltada (¿--store correcto?)")
+        if a.solo in (None, "hyq"):
+            h = [py, "scripts/hyq_lote_pipeline.py", "--docs", str(docs_txt),
+                 "--tag", a.tag, "--aplicar"]
+            print("\n── H hyq por lote …")
+            rc = subprocess.call(h, cwd=str(ROOT))
+            if rc:
+                print(f"❌ H falló (rc={rc}) — corrige y re-lanza (todo reanuda)")
                 return rc
 
-        # V — verificación + recibo
-        doc_ids = [d["document_id"] for d in lote] if lote else []
-        cov = _cobertura(client, doc_ids) if doc_ids else {}
-        n_hyq = 0
-        for sf in src_files:
-            r = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2_hyq",
-                           headers={**HEADERS, "Prefer": "count=exact", "Range": "0-0"},
-                           params={"select": "id", "source_file": f"eq.{sf}"})
-            n_hyq += int((r.headers.get("content-range") or "/0").split("/")[-1])
+        # V — verificación de COMPLETITUD (dúo s315 #9): el manifest de ids que E2
+        # declaró es lo que se comprueba en DB, no un presence-check por doc.
+        enun_ids_ok = None
+        if ids_out.exists():
+            ids = json.loads(ids_out.read_text(encoding="utf-8"))
+            if isinstance(ids, dict):
+                ids = ids.get("ids") or []
+            presentes = 0
+            for b in range(0, len(ids), 100):
+                sub = ids[b:b + 100]
+                r = client.get(f"{SUPABASE_URL}/rest/v1/chunks_v2_enunciados",
+                               headers={**HEADERS, "Prefer": "count=exact",
+                                        "Range": "0-0"},
+                               params={"select": "id",
+                                       "id": f"in.({','.join(sub)})"})
+                presentes += int((r.headers.get("content-range") or "/0")
+                                 .split("/")[-1])
+            enun_ids_ok = {"manifest": len(ids), "en_db": presentes,
+                           "completo": presentes == len(ids)}
+            print(f"V enunciados: {presentes}/{len(ids)} ids del manifest en DB "
+                  f"→ {'✅' if enun_ids_ok['completo'] else '❌'}")
+        hyq_recibo = {}
+        hr = ROOT / "evals" / f"hyq_lote_{a.tag}_recibo.json"
+        if hr.exists():
+            hyq_recibo = json.loads(hr.read_text(encoding="utf-8"))
         recibo = {
             "motivo": "s315/#68: fase derivados del lote (enunciados + hyq)",
             "lote": a.tag, "docs": len(src_files), "chunks": n_chunks,
-            "cobertura": cov, "hyq_filas_por_source_file": n_hyq,
+            "enunciados": {"ingest_batch": enun_tag, "verificacion_ids": enun_ids_ok,
+                           "reversible": ("DELETE FROM chunks_v2_enunciados WHERE "
+                                          f"ingest_batch = '{enun_tag}'")},
+            "hyq": hyq_recibo,
             "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "pendiente": "VACUUM de chunks_v2_enunciados y chunks_v2_hyq (DEC-088)",
         }

@@ -450,10 +450,12 @@ def main() -> int:
                 dump_docs.add(json.loads(line).get("source_file"))
             except Exception:
                 pass
+    budget_stop = False
     for i, doc in enumerate(docs):
         if spent > a.budget_usd:
             print(f"TOPE DE GASTO alcanzado (${spent:.2f} > ${a.budget_usd}) — STOP (F10); "
                   f"revisar ledger y relanzar con --resume")
+            budget_stop = True
             break
         if a.resume and doc in led["docs"]:
             entry = led["docs"][doc]
@@ -495,6 +497,11 @@ def main() -> int:
                "results": results},
               open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"-> {out} · gasto acumulado ledger: ${spent:.2f}")
+    # (dúo s315 #7) el STOP por presupuesto devolvía 0 = «éxito» y el caller (p.ej.
+    # derive_channels_lote) cargaba un lote a medias creyéndolo completo. rc=2 lo
+    # distingue de un fallo duro (1) y de completado (0).
+    if budget_stop:
+        return 2
     return 0
 
 

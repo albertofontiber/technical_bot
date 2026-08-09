@@ -2189,6 +2189,19 @@ def _strip_blockquote_markers(text: str) -> str:
     )
 
 
+_HTML_BREAK_RX = re.compile(r"<br\s*/?>", re.IGNORECASE)
+
+
+def _strip_html_breaks(text: str) -> str:
+    """v7 (s315, respuesta viva NC-PF2 de Alberto): las celdas de tabla de LlamaParse
+    llevan ``<br/>`` embebidos y el formatter de Telegram los ESCAPA → el técnico ve
+    la etiqueta literal. Misma clase que los marcadores blockquote: artefacto de
+    extracción, no contenido técnico — presentación pura, se colapsa a ' · ' (el
+    separador visual del propio apéndice) y se normaliza el espacio resultante."""
+    out = _HTML_BREAK_RX.sub(" · ", text or "")
+    return re.sub(r"[ \t]{2,}", " ", out)
+
+
 def _appendix_emoji(has_mandatory: bool, has_disclosure: bool, has_table: bool) -> str:
     if has_mandatory:
         return APPENDIX_EMOJI_MANDATORY
@@ -2218,7 +2231,9 @@ def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
             has_mandatory = True
         fragment_number = meta.get("fragment_number")
         cite = f" [F{fragment_number}]" if fragment_number else ""
-        span = _strip_blockquote_markers(atom.get("span_text") or "").strip()
+        span = _strip_html_breaks(
+            _strip_blockquote_markers(atom.get("span_text") or "")
+        ).strip()
         if any(_is_pipe_row(line) for line in span.splitlines()):
             has_table = True
         if meta.get("conflict") and meta.get("enum_span_text"):
@@ -2228,9 +2243,9 @@ def render_appendix(missing_atoms: list[Atom], draft_answer: str) -> str:
             has_disclosure = True
             count_cite = f" [F{meta.get('count_fragment_number') or fragment_number}]"
             enum_cite = f" [F{meta.get('enum_fragment_number') or fragment_number}]"
-            enum_span = _strip_blockquote_markers(
+            enum_span = _strip_html_breaks(_strip_blockquote_markers(
                 str(meta.get("enum_span_text") or "")
-            ).strip()
+            )).strip()
             if any(_is_pipe_row(line) for line in enum_span.splitlines()):
                 has_table = True
             entries.append(

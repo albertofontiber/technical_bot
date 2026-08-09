@@ -40,10 +40,18 @@ encender AMBOS); (3) **barrido pm-de-familia APLICADO a producción y verificado
 (4) **panel = guía dashboard Supabase** (`docs/DASHBOARD_SUPABASE_GUIA.md`, DEC-183 se
 mantiene; las 6 vistas vivas y con datos); (5) **#68 NUEVO (pregunta de Alberto): los
 lotes de ingesta nuevos NO pasan por enunciados/hyq** (lote s314: 1.091 chunks = 0/0
-verificado) — trigger: ANTES del siguiente lote. **Deploy pendiente**: merge de la rama
-`claude/chatbot-pending-items-amutbm` (3 commits; push bloqueado por permisos de la
-GitHub App — 403 al crear refs) → Railway auto-deploy activa los timings; flags de links
-cuando Alberto quiera. Dúo con gap declarado (Sol sin key en el entorno; sub-agente Opus
+verificado) — trigger: ANTES del siguiente lote. **Deploy HECHO mismo día**: PR #228
+mergeada, App de GitHub instalada (403 resuelto), flags de links ON en Railway, timings
+VIVOS (primera atribución real: retrieve 11-27s ≈ 40-45% del turno — el sospechoso nº1
+de la rapidez ya no es solo la generación). **s315b (#68)**: fase de canales derivados
+por lote CONSTRUIDA (DEC-194; dúo NO-SÓLIDO → 13 fixes aplicados; contrato de vintages
+hyq global/lote) — **run del lote Casmar pendiente en máquina con claves**:
+`derive_channels_lote.py --since 2026-08-08 --tag casmar314 --data-root <OneDrive>`.
+Bugs vivos cazados por Alberto: `<br/>` en apéndice must_preserve (FIX + tests) ·
+carry-forward sobrevive al cambio de marca (#70) · disclaimer legal como obligación
+(#71, aparato protegido). Storage: bucket `manuales` + subida OneDrive (807 a subir,
+dry-run de Alberto hecho; --aplicar pendiente + diagnóstico de 269 sin-fila con el
+script v2). Dúo con gap declarado (Sol sin key en el entorno; sub-agente Opus
 12 hallazgos aplicados). **Cola de puntos de Alberto**: página cómo-utilizar (punto 4) ·
 fotos/pantallazos (punto 5 — sonda de alcanzabilidad con fotos reales ANTES de diseñar) ·
 Aritech/Edwards (recon listo `scripts/s315_casmar_recon.py`; egress bloqueado en la

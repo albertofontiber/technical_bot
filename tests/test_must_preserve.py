@@ -633,6 +633,28 @@ def test_render_v6_blockquote_marker_no_llega_crudo():
     assert '"Es **imprescindible**' in appendix
 
 
+def test_render_v7_html_breaks_no_llegan_crudos():
+    # respuesta viva NC-PF2 de Alberto (s315, 9-ago): las celdas de tabla de
+    # LlamaParse llevan <br/> embebidos y el formatter de Telegram los escapa →
+    # el técnico veía "Impedancia nominal<br/>Detector<br/>Pulsador" literal
+    atom = _mandatory_atom(1)
+    atom["span_text"] = (
+        "Es imprescindible respetar la impedancia nominal<br/>Detector<br/>"
+        "Pulsador · 500 nF: <br />De 160 Ω a 680 Ω<BR>100 Ω"
+    )
+    appendix = mp.render_appendix([atom], "draft")
+    assert "<br" not in appendix.lower()
+    assert "impedancia nominal · Detector · Pulsador" in appendix
+
+
+def test_strip_html_breaks_solo_toca_la_etiqueta():
+    assert mp._strip_html_breaks("De 160 Ω a 680 Ω") == "De 160 Ω a 680 Ω"
+    assert mp._strip_html_breaks("a<br/>b") == "a · b"
+    assert mp._strip_html_breaks("a<br />b<BR>c") == "a · b · c"
+    # la comparación "<" técnica NO se toca
+    assert mp._strip_html_breaks("< 3 V y < 55 Ω") == "< 3 V y < 55 Ω"
+
+
 def test_strip_blockquote_conserva_comparaciones_numericas():
     assert mp._strip_blockquote_markers("> Para evitar riesgos") == "Para evitar riesgos"
     assert mp._strip_blockquote_markers("> 100 mA de consumo") == "> 100 mA de consumo"

@@ -3070,3 +3070,22 @@ Edwards sin rastro en Casmar (fuente conocida: firesecurityproducts.com). Sol no
 determinista como compensación. Puntos 4 (página cómo-utilizar) y 5 (fotos: sonda de
 alcanzabilidad con fotos reales ANTES de diseñar) quedan en cola con diseño anotado.
 DEC-193.
+
+## s315b (9 ago 2026, noche) — El dúo corta el build del #68 (NO-SÓLIDO, 13 hallazgos aplicados) y los timings vivos señalan a retrieval
+
+La fase de derivados por lote se construyó reusando lo canónico y el sub-agente Opus la
+tumbó ANTES del run: el append de hyq inutilizaba el loader global (su --wipe habría
+borrado el lote — CRÍTICO → contrato de prefijos hyq-v1-*/hyq-lote-*), E2 abortaba el
+lote entero por un doc sin filas, el resume del loader A3 estaba roto por paginación
+(el mismo bug que s102 ya había arreglado en su gemelo), y la verificación fallaba en
+resumes parciales. Los 13 aplicados; suite verde; run del lote Casmar pendiente en local.
+DEC-194.
+
+Además, Alberto usando el bot cazó en una tarde: `<br/>` literales en el apéndice
+must_preserve (fix v7 de presentación, clase blockquote), el «Reply to…» del feedback
+reviviendo tras el «Anotado» (ReplyKeyboardRemove no desarma ForceReply → ahora la
+invitación se borra al capturar, con guarda estricta), el carry-forward ignorando su
+«pasemos a Morley» (#70, diagnóstico en query_logs: catalog_shortcut no toca el contexto)
+y un disclaimer legal citado como obligación de evidencia (#71, aparato protegido). Y los
+timings estrenados en producción dieron la primera atribución real: retrieve 11-27s por
+turno — el 40-45% de la latencia que nadie tenía en el radar.

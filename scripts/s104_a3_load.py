@@ -40,19 +40,23 @@ COLS = ["id", "content", "context", "parent_id", "ingest_batch", "source_file",
 
 
 def _existing_ids(client: httpx.Client) -> set:
+    # (dúo s315 #3) paginar a 1000: Supabase capa max-rows=1000 aunque el Range pida
+    # 10k — el patrón de 10k dejaba el resume en ~1.000 ids y un re-lanzamiento
+    # re-pagaba el embedding entero y biseccionaba 40k conflictos como «poison».
+    # Mismo fix que su gemelo s102_hyq_load._existing_pairs (verificado en vivo).
     ids: set = set()
     offset = 0
     while True:
         r = client.get(f"{SUPABASE_URL}/rest/v1/{TABLE}",
-                       headers={**HEADERS, "Range": f"{offset}-{offset + 9999}"},
+                       headers={**HEADERS, "Range": f"{offset}-{offset + 999}"},
                        params={"select": "id", "order": "id.asc"})
         if r.status_code not in (200, 206) or not r.json():
             break
         batch = r.json()
         ids.update(row["id"] for row in batch)
-        if len(batch) < 10000:
+        if len(batch) < 1000:
             break
-        offset += 10000
+        offset += 1000
     return ids
 
 
