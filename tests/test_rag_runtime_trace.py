@@ -491,3 +491,78 @@ def test_lane_statuses_and_selected_parent_ids_remain_truthful():
     outcome = trace["coverage"]["lane_outcomes"][0]
     assert outcome["status"] == "no_query_aligned_candidate"
     assert outcome["selected_rows"] == 1
+
+
+# --- s315 (punto 1): sección `timings` del trace ------------------------------
+
+
+def _trace_kwargs(**overrides):
+    base = dict(
+        coverage_trace={},
+        served_chunks=[],
+        must_preserve_trace=None,
+        must_preserve_outcome=None,
+        release_policy={"profile": "legacy"},
+        transport_parts=1,
+    )
+    base.update(overrides)
+    return base
+
+
+def test_timings_tri_estado_sin_medida():
+    """Caller sin timings (ruta orchestrator, fakes) ⇒ measured=false + ceros.
+
+    Igual que `retrieval` (s306): «sin medida» jamás puede parecer «rápido».
+    """
+    trace = build_rag_serving_trace(**_trace_kwargs())
+    assert trace["timings"] == {
+        "measured": False,
+        "retrieve_ms": 0,
+        "rerank_ms": 0,
+        "coverage_ms": 0,
+        "generate_ms": 0,
+    }
+    assert validate_rag_serving_trace(trace) == trace
+
+
+def test_timings_medidos_acotados_y_validables():
+    trace = build_rag_serving_trace(**_trace_kwargs(
+        stage_timings={
+            "retrieve_ms": 1200,
+            "rerank_ms": 2500,
+            "coverage_ms": 90,
+            "generate_ms": 30_000,
+            "extra_privado": "no-cruza",   # clave fuera de la lista cerrada
+        },
+    ))
+    assert trace["timings"] == {
+        "measured": True,
+        "retrieve_ms": 1200,
+        "rerank_ms": 2500,
+        "coverage_ms": 90,
+        "generate_ms": 30_000,
+    }
+    assert validate_rag_serving_trace(trace) == trace
+
+
+def test_timings_fuera_de_rango_se_acotan():
+    """Un colgado de 20 min no revienta el trace: se acota al techo declarado."""
+    trace = build_rag_serving_trace(**_trace_kwargs(
+        stage_timings={"retrieve_ms": 1_200_000, "rerank_ms": -5,
+                       "coverage_ms": "no-int", "generate_ms": True},
+    ))
+    assert trace["timings"]["retrieve_ms"] == 600_000
+    assert trace["timings"]["rerank_ms"] == 0
+    assert trace["timings"]["coverage_ms"] == 0
+    assert trace["timings"]["generate_ms"] == 0
+    assert validate_rag_serving_trace(trace) == trace
+
+
+def test_validator_exige_la_seccion_timings():
+    """El sink rechaza un trace sin `timings` — clave REQUERIDA, no opcional."""
+    trace = build_rag_serving_trace(**_trace_kwargs())
+    sin_timings = {k: v for k, v in trace.items() if k != "timings"}
+    assert validate_rag_serving_trace(sin_timings) is None
+    con_clave_extra = dict(trace)
+    con_clave_extra["timings"] = dict(trace["timings"], sorpresa=1)
+    assert validate_rag_serving_trace(con_clave_extra) is None

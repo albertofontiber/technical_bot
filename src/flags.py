@@ -395,6 +395,11 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv', 'strict_on_off'],
         "lectores": ('src/rag/generator.py', 'src/rag/source_legend.py'),
     },
+    "SOURCE_LEGEND_LINKS": {
+        "default_fuente": '"off"',
+        "via": ['getenv'],
+        "lectores": ('src/rag/source_legend.py',),
+    },
     "STRUCK_OCR_CONTEXT": {
         "default_fuente": '"off"',
         "via": ['strict_on_off'],

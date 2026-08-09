@@ -33,6 +33,61 @@ def source_legend_enabled() -> bool:
     return os.getenv("SOURCE_LEGEND", "off").strip().lower() == "on"
 
 
+def source_legend_links_enabled() -> bool:
+    """s315/punto-6: URL pública del manual en la leyenda (documents.source_url).
+
+    Flag SEPARADO de SOURCE_LEGEND a propósito: si la leyenda ya está ON en
+    producción, encender links es una decisión aparte (añade una llamada
+    PostgREST por turno) y OFF deja la leyenda byte-idéntica a hoy.
+    """
+    return os.getenv("SOURCE_LEGEND_LINKS", "off").strip().lower() == "on"
+
+
+_URL_FETCH_TIMEOUT_S = 3.0
+
+
+def _document_urls(chunks: list[dict], numeros: list[int]) -> dict[str, str]:
+    """``document_id -> source_url`` para los fragmentos citados. Fail-open a {}.
+
+    Una sola llamada PostgREST por turno (solo con el flag ON); un fallo de red
+    degrada a leyenda-sin-links, nunca rompe la respuesta.
+    """
+    doc_ids = sorted({
+        str(chunks[n - 1].get("document_id") or "")
+        for n in numeros
+        if 0 < n <= len(chunks) and chunks[n - 1].get("document_id")
+    })
+    if not doc_ids:
+        return {}
+    try:
+        import httpx
+
+        from ..config import SUPABASE_SERVICE_KEY, SUPABASE_URL
+
+        resp = httpx.get(
+            f"{SUPABASE_URL}/rest/v1/documents",
+            params={
+                "id": f"in.({','.join(doc_ids)})",
+                "select": "id,source_url",
+            },
+            headers={
+                "apikey": SUPABASE_SERVICE_KEY,
+                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
+            },
+            timeout=_URL_FETCH_TIMEOUT_S,
+        )
+        resp.raise_for_status()
+        return {
+            str(row.get("id")): str(row.get("source_url"))
+            for row in resp.json()
+            if isinstance(row, dict) and row.get("source_url")
+        }
+    except Exception:
+        logger.warning("source legend links fail-open: leyenda sin URLs",
+                       exc_info=True)
+        return {}
+
+
 def _manual_name(chunk: dict) -> str:
     source_file = str(chunk.get("source_file") or "")
     if not source_file:
@@ -41,12 +96,20 @@ def _manual_name(chunk: dict) -> str:
 
 
 def build_source_legend(
-    answer: str, chunks: list[dict], *, max_entries: int = MAX_ENTRIES
+    answer: str,
+    chunks: list[dict],
+    *,
+    max_entries: int = MAX_ENTRIES,
+    doc_urls: dict[str, str] | None = None,
 ) -> str:
     """Devuelve el bloque de leyenda, o "" si no hay nada que mapear.
 
     Orden ASCENDENTE por número de fragmento: el lector busca «F10», no «la más
     citada» — al revés que el adjunto de páginas, que ordena por relevancia.
+
+    ``doc_urls`` (s315): ``document_id -> URL pública del manual``. Sin él (o sin
+    entrada para un doc) la línea queda EXACTAMENTE como hasta ahora — el link es
+    aditivo, nunca condición. Con página, ancla ``#page=N`` (visor estándar).
     """
     numeros = sorted(
         {number for number, _citas, _pos in cited_fragments_ranked(answer, chunks)}
@@ -64,6 +127,9 @@ def build_source_legend(
         pagina = chunk.get("page_number")
         if isinstance(pagina, int):
             partes.append(f"p. {pagina}")
+        url = (doc_urls or {}).get(str(chunk.get("document_id") or ""))
+        if url:
+            partes.append(f"{url}#page={pagina}" if isinstance(pagina, int) else url)
         lineas.append(f"[F{number}] " + " · ".join(partes))
 
     if len(numeros) > max_entries:
@@ -82,7 +148,14 @@ def append_source_legend(result: dict, chunks: list[dict]) -> None:
     """
     try:
         answer = str(result.get("answer") or "")
-        legend = build_source_legend(answer, chunks)
+        doc_urls: dict[str, str] | None = None
+        if source_legend_links_enabled():
+            numeros = sorted({
+                number
+                for number, _citas, _pos in cited_fragments_ranked(answer, chunks)
+            })
+            doc_urls = _document_urls(chunks, numeros)
+        legend = build_source_legend(answer, chunks, doc_urls=doc_urls)
         if not legend:
             return
         result["answer"] = f"{answer}\n\n---\n{legend}"
