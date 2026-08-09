@@ -10,7 +10,15 @@ env/
 .vscode/
 .idea/
 *.swp
-.claude/
+# .claude: privado por defecto; SOLO se versionan el hook de arranque web y su
+# registro (sesiones cloud, s315c). Lo local (settings.local.json, otros hooks,
+# memoria) sigue ignorado. Si tu settings.json local tiene config privada,
+# muévela a .claude/settings.local.json antes de commitear.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+.claude/hooks/*
+!.claude/hooks/session-start.sh
 
 # OS
 .DS_Store
