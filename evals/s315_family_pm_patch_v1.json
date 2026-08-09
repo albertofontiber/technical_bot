@@ -1,0 +1,877 @@
+{
+ "motivo": "s315 barrido pm-de-familia (4a instancia clase findability, DEC-192): pm no contiene las variantes consultables; imatch busca el token de la query DENTRO del pm almacenado; convencion viva = lista con barras",
+ "reversible": "PATCH inverso con este mismo recibo (despues->antes por document_id)",
+ "metodo": "censo SQL corpus-wide (variantes atestadas en contenido, >=3 menciones, filtro imatch-mismatch) -> filtro de forma -> adjudicacion con extractos (agente 1) -> refutacion independiente por particiones (workflow 3 agentes) -> invariantes deterministas 104/104 (patron imatch replicado)",
+ "gap_declarado": "Sol (GPT-5.6) no ejecutable en esta sesion (sin OPENAI key); el duo quedo como adjudicador+refutadores mismo-proveedor. Sonda e2e de alcanzabilidad no ejecutable (sin VOYAGE key); verificacion = patron imatch determinista + post-apply SQL ~*",
+ "cambios": [
+  {
+   "document_id": "f5224079-3c15-421a-83fe-5506edbc3100",
+   "doc": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0.pdf",
+   "manufacturer": "Aritech",
+   "antes": "9-30441",
+   "despues": "9-30441/9-30441-JUM",
+   "variantes": [
+    {
+     "v": "9-30441-JUM",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "ff78087d-a0ad-4ff3-b079-8f74899ed2b2",
+   "doc": "AC1460R - CESI 03 ATEX 050",
+   "manufacturer": "COELBO",
+   "antes": "EFD",
+   "despues": "EFD/EFD-1/EFD-4",
+   "variantes": [
+    {
+     "v": "EFD-1",
+     "menciones": 4
+    },
+    {
+     "v": "EFD-4",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "e5e263f6-ba06-4c2f-9cc5-0c05450f6136",
+   "doc": "Manual_CAD-201-MI-715-es.pdf",
+   "manufacturer": "Detnov",
+   "antes": "CAD-201",
+   "despues": "CAD-201/CAD-201-PLUS/CAD-201-Z/CAD-201-ZPLUS",
+   "variantes": [
+    {
+     "v": "CAD-201-PLUS",
+     "menciones": 4
+    },
+    {
+     "v": "CAD-201-Z",
+     "menciones": 3
+    },
+    {
+     "v": "CAD-201-ZPLUS",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "d58f75b3-ce81-4bc7-add5-096933e254c7",
+   "doc": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+   "manufacturer": "Detnov",
+   "antes": "CAD-250",
+   "despues": "CAD-250/CAD-250-BLED",
+   "variantes": [
+    {
+     "v": "CAD-250-BLED",
+     "menciones": 7
+    }
+   ]
+  },
+  {
+   "document_id": "33fb05f0-4ecb-4b5f-ac0f-bcd5469ced63",
+   "doc": "Manual_DXD-2X0A (55321013 MI 606 m 2024 b)",
+   "manufacturer": "Detnov",
+   "antes": "DTD-210A",
+   "despues": "DTD-210A/DTD-210A-I",
+   "variantes": [
+    {
+     "v": "DTD-210A-I",
+     "menciones": 6
+    }
+   ]
+  },
+  {
+   "document_id": "e215ba53-983b-402f-9300-4ecb4eaf1208",
+   "doc": "Manual_MAD-465-I (55346500 MI 620 m 2024 c)",
+   "manufacturer": "Detnov",
+   "antes": "MAD-465",
+   "despues": "MAD-465/MAD-465-I/MAD-465-I-W",
+   "variantes": [
+    {
+     "v": "MAD-465-I",
+     "menciones": 4
+    },
+    {
+     "v": "MAD-465-I-W",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "5c036deb-9248-4908-be9b-69e697b20e38",
+   "doc": "Manual MAD-567_569 (55356900 Mi 535 m 2022 b)",
+   "manufacturer": "Detnov",
+   "antes": "MAD-567",
+   "despues": "MAD-567/MAD-567-I",
+   "variantes": [
+    {
+     "v": "MAD-567-I",
+     "menciones": 9
+    }
+   ]
+  },
+  {
+   "document_id": "6bdb1c32-0892-4e7f-bed9-8a55679ceaf5",
+   "doc": "LDA_ONE-LOOP_es_rev0",
+   "manufacturer": "Detnov",
+   "antes": "ONE-LOOP",
+   "despues": "ONE-LOOP/ONE-LOOP04/ONE-LOOP10",
+   "variantes": [
+    {
+     "v": "ONE-LOOP04",
+     "menciones": 3
+    },
+    {
+     "v": "ONE-LOOP10",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+   "doc": "NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO rev1_1_4",
+   "manufacturer": "LDA audioTech",
+   "antes": "NEO",
+   "despues": "NEO/NEO8060/NEO4500LE/NEO4500E/NEO4250E/NEO8250E",
+   "variantes": [
+    {
+     "v": "NEO8060",
+     "menciones": 10
+    },
+    {
+     "v": "NEO4500LE",
+     "menciones": 6
+    },
+    {
+     "v": "NEO4500E",
+     "menciones": 4
+    },
+    {
+     "v": "NEO4250E",
+     "menciones": 4
+    },
+    {
+     "v": "NEO8250E",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+   "doc": "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1",
+   "manufacturer": "LDA audioTech",
+   "antes": "ONE",
+   "despues": "ONE/ONE-LOOP",
+   "variantes": [
+    {
+     "v": "ONE-LOOP",
+     "menciones": 10
+    }
+   ]
+  },
+  {
+   "document_id": "99c77ba4-d772-4a5a-a243-93a255392ff3",
+   "doc": "MIE-MP-520rv04.pdf",
+   "manufacturer": "Morley",
+   "antes": "DX",
+   "despues": "DX/DX2E/DX4E/DX1E-20S/DX1E-40M/DX2E-40M/DX1E/DX4E-40L",
+   "variantes": [
+    {
+     "v": "DX2E",
+     "menciones": 15
+    },
+    {
+     "v": "DX4E",
+     "menciones": 14
+    },
+    {
+     "v": "DX1E-20S",
+     "menciones": 14
+    },
+    {
+     "v": "DX1E-40M",
+     "menciones": 12
+    },
+    {
+     "v": "DX2E-40M",
+     "menciones": 7
+    },
+    {
+     "v": "DX1E",
+     "menciones": 7
+    },
+    {
+     "v": "DX4E-40L",
+     "menciones": 6
+    }
+   ]
+  },
+  {
+   "document_id": "9b9a2119-61a7-4977-80c4-dba64c652f9b",
+   "doc": "MIE-MU-520rv02.pdf",
+   "manufacturer": "Morley",
+   "antes": "DX",
+   "despues": "DX/DX4E/DX2E/DX1E/DX2E-40M/DX1E-40M/DX4E-40L",
+   "variantes": [
+    {
+     "v": "DX4E",
+     "menciones": 5
+    },
+    {
+     "v": "DX2E",
+     "menciones": 5
+    },
+    {
+     "v": "DX1E",
+     "menciones": 4
+    },
+    {
+     "v": "DX2E-40M",
+     "menciones": 3
+    },
+    {
+     "v": "DX1E-40M",
+     "menciones": 3
+    },
+    {
+     "v": "DX4E-40L",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "a83b4e0b-7d5c-47df-83f8-d378a26fdf98",
+   "doc": "Guia Serie MIW.pdf",
+   "manufacturer": "Morley",
+   "antes": "MIW",
+   "despues": "MIW/MIW-INT/MIW-EXP",
+   "variantes": [
+    {
+     "v": "MIW-INT",
+     "menciones": 20
+    },
+    {
+     "v": "MIW-EXP",
+     "menciones": 9
+    }
+   ]
+  },
+  {
+   "document_id": "08828182-830a-4776-a6c4-32ab605c4665",
+   "doc": "MIE-MI-010.pdf",
+   "manufacturer": "Morley",
+   "antes": "MPS",
+   "despues": "MPS/MPS15/MPS25/MPS50",
+   "variantes": [
+    {
+     "v": "MPS15",
+     "menciones": 7
+    },
+    {
+     "v": "MPS25",
+     "menciones": 7
+    },
+    {
+     "v": "MPS50",
+     "menciones": 7
+    }
+   ]
+  },
+  {
+   "document_id": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
+   "doc": "TG-Honeywell_Usuario",
+   "manufacturer": "Morley",
+   "antes": "TG",
+   "despues": "TG/TG-HONEYWELL/TG-ID3000/TG-AFP200/TG-ID200/TG-ID50/TG-ID2000/TG-ID3002",
+   "variantes": [
+    {
+     "v": "TG-HONEYWELL",
+     "menciones": 10
+    },
+    {
+     "v": "TG-ID3000",
+     "menciones": 22
+    },
+    {
+     "v": "TG-AFP200",
+     "menciones": 8
+    },
+    {
+     "v": "TG-ID200",
+     "menciones": 8
+    },
+    {
+     "v": "TG-ID50",
+     "menciones": 6
+    },
+    {
+     "v": "TG-ID2000",
+     "menciones": 6
+    },
+    {
+     "v": "TG-ID3002",
+     "menciones": 6
+    }
+   ]
+  },
+  {
+   "document_id": "e009191b-62e0-445c-b066-258e8787ccb4",
+   "doc": "Tg-Honeywell_Tecnico",
+   "manufacturer": "Morley",
+   "antes": "TG",
+   "despues": "TG/TG-IP/TG-HONEYWELL",
+   "variantes": [
+    {
+     "v": "TG-IP",
+     "menciones": 18
+    },
+    {
+     "v": "TG-HONEYWELL",
+     "menciones": 5
+    }
+   ]
+  },
+  {
+   "document_id": "cfd77a9d-1429-46cb-8433-d0bb071ffee3",
+   "doc": "MIE-MI-160rv03",
+   "manufacturer": "Morley",
+   "antes": "VSN-CRA",
+   "despues": "VSN-CRA/VSN-CRA-GSM",
+   "variantes": [
+    {
+     "v": "VSN-CRA-GSM",
+     "menciones": 8
+    }
+   ]
+  },
+  {
+   "document_id": "c1834315-a779-4074-ba5f-baa590907a59",
+   "doc": "AM-8200 Manual Instalacion",
+   "manufacturer": "Notifier",
+   "antes": "AM-8200",
+   "despues": "AM-8200/AM-8200-BB/AM-8200-KLCD",
+   "variantes": [
+    {
+     "v": "AM-8200-BB",
+     "menciones": 29
+    },
+    {
+     "v": "AM-8200-KLCD",
+     "menciones": 12
+    }
+   ]
+  },
+  {
+   "document_id": "a89a7c31-4fed-45f6-88cc-f997d59c1ccb",
+   "doc": "AM-8200-manu-prog-spa",
+   "manufacturer": "Notifier",
+   "antes": "AM-8200",
+   "despues": "AM-8200/AM-8200-BB",
+   "variantes": [
+    {
+     "v": "AM-8200-BB",
+     "menciones": 6
+    }
+   ]
+  },
+  {
+   "document_id": "be6c1102-17df-4f74-8e16-eef098ee1a21",
+   "doc": "156-0881-010 B524IEFT-1",
+   "manufacturer": "Notifier",
+   "antes": "B524IEFT",
+   "despues": "B524IEFT/B524IEFT-1",
+   "variantes": [
+    {
+     "v": "B524IEFT-1",
+     "menciones": 9
+    }
+   ]
+  },
+  {
+   "document_id": "d67094a2-2e06-44f6-b7a2-498fac85da73",
+   "doc": "S-287.1-DSE-ESP Rev. A.1 ",
+   "manufacturer": "Notifier",
+   "antes": "DSE3-23",
+   "despues": "DSE3-23/DSE3-23-HW/DSE3-23-HQ",
+   "variantes": [
+    {
+     "v": "DSE3-23-HW",
+     "menciones": 6
+    },
+    {
+     "v": "DSE3-23-HQ",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
+   "doc": "2055M1000_ES MAN0987_ISS 1_Rev 4 FSL100 Technical Handbook",
+   "manufacturer": "Notifier",
+   "antes": "FSL100",
+   "despues": "FSL100/FSL100-TL/FSL100-UVIR/FSL100-TLX/FSL100-UV/FSL100-IR3/FSL100-SM21",
+   "variantes": [
+    {
+     "v": "FSL100-TL",
+     "menciones": 17
+    },
+    {
+     "v": "FSL100-UVIR",
+     "menciones": 12
+    },
+    {
+     "v": "FSL100-TLX",
+     "menciones": 12
+    },
+    {
+     "v": "FSL100-UV",
+     "menciones": 11
+    },
+    {
+     "v": "FSL100-IR3",
+     "menciones": 10
+    },
+    {
+     "v": "FSL100-SM21",
+     "menciones": 10
+    }
+   ]
+  },
+  {
+   "document_id": "acf63276-60d7-498d-8b97-c258dd53647f",
+   "doc": "MNDT503.pdf",
+   "manufacturer": "Notifier",
+   "antes": "G-100",
+   "despues": "G-100/G-100-R8/G-100-2SE",
+   "variantes": [
+    {
+     "v": "G-100-R8",
+     "menciones": 5
+    },
+    {
+     "v": "G-100-2SE",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "90787236-bb67-4f28-894d-8cff85bdd81d",
+   "doc": "MNDT500.pdf",
+   "manufacturer": "Notifier",
+   "antes": "G-500",
+   "despues": "G-500/G-500-S/G-500-2LR",
+   "variantes": [
+    {
+     "v": "G-500-S",
+     "menciones": 4
+    },
+    {
+     "v": "G-500-2LR",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "bd0c2e27-27ca-49e9-892e-4ba3fbb6046d",
+   "doc": "MIDT192_ID3004-001_Instal_esp",
+   "manufacturer": "Notifier",
+   "antes": "ID3004",
+   "despues": "ID3004/ID3004-001",
+   "variantes": [
+    {
+     "v": "ID3004-001",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "a38ad698-8a50-40c0-96e0-ac9f3549bb5f",
+   "doc": "MIDT193_ID3008-001_Instal_esp",
+   "manufacturer": "Notifier",
+   "antes": "ID3008",
+   "despues": "ID3008/ID3008-001",
+   "variantes": [
+    {
+     "v": "ID3008-001",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "0737509b-69c8-441a-a27a-cf0237e966d4",
+   "doc": "I56-3383-002 IDX-751 AE EN DE",
+   "manufacturer": "Notifier",
+   "antes": "IDX-751",
+   "despues": "IDX-751/IDX-751-AE",
+   "variantes": [
+    {
+     "v": "IDX-751-AE",
+     "menciones": 5
+    }
+   ]
+  },
+  {
+   "document_id": "add5fd9a-d6ec-40eb-9f99-3de400786adc",
+   "doc": "MNDT420.pdf",
+   "manufacturer": "Notifier",
+   "antes": "LDM",
+   "despues": "LDM/LDM-32/LDM-E32/LDM-R32/LDM-E32F/LDM-32F/LDM-CBL24/LDM-CBL48",
+   "variantes": [
+    {
+     "v": "LDM-32",
+     "menciones": 155
+    },
+    {
+     "v": "LDM-E32",
+     "menciones": 106
+    },
+    {
+     "v": "LDM-R32",
+     "menciones": 53
+    },
+    {
+     "v": "LDM-E32F",
+     "menciones": 15
+    },
+    {
+     "v": "LDM-32F",
+     "menciones": 8
+    },
+    {
+     "v": "LDM-CBL24",
+     "menciones": 3
+    },
+    {
+     "v": "LDM-CBL48",
+     "menciones": 3
+    }
+   ]
+  },
+  {
+   "document_id": "0a6f6be1-29b1-4b9b-b6db-dc079f0858f1",
+   "doc": "I56-3878-000 NFXI-BEAM(T)_ES",
+   "manufacturer": "Notifier",
+   "antes": "NFXI-BEAM",
+   "despues": "NFXI-BEAM/NFXI-BEAM-T",
+   "variantes": [
+    {
+     "v": "NFXI-BEAM-T",
+     "menciones": 5
+    }
+   ]
+  },
+  {
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "doc": "15090SP",
+   "manufacturer": "Notifier",
+   "antes": "NRT",
+   "despues": "NRT/NRT-586T/NRT-NET",
+   "variantes": [
+    {
+     "v": "NRT-586T",
+     "menciones": 23
+    },
+    {
+     "v": "NRT-NET",
+     "menciones": 7
+    }
+   ]
+  },
+  {
+   "document_id": "b1f8d80a-4259-436a-a8cd-b7065f29be29",
+   "doc": "MN-DT-959_OPC-RP1r",
+   "manufacturer": "Notifier",
+   "antes": "OPC-RP1r",
+   "despues": "OPC-RP1r/OPC-RP1rcfg",
+   "variantes": [
+    {
+     "v": "OPC-RP1rcfg",
+     "menciones": 4
+    }
+   ]
+  },
+  {
+   "document_id": "89a339cc-5c51-4542-b995-e9afa4e55578",
+   "doc": "MN-HON-POL-200-TS_EN_V03",
+   "manufacturer": "Notifier",
+   "antes": "POL-200",
+   "despues": "POL-200/POL-200-TS",
+   "variantes": [
+    {
+     "v": "POL-200-TS",
+     "menciones": 53
+    }
+   ]
+  },
+  {
+   "document_id": "ff8a30f1-6f39-43f4-902c-31b02c577d93",
+   "doc": "TB-HON-ES_POL200TS_04-19",
+   "manufacturer": "Notifier",
+   "antes": "POL-200",
+   "despues": "POL-200/POL-200-TS",
+   "variantes": [
+    {
+     "v": "POL-200-TS",
+     "menciones": 17
+    }
+   ]
+  },
+  {
+   "document_id": "7351b4b8-b32f-45bd-966e-9e4e3613e219",
+   "doc": "997-669-005-3_Instal-Comm_ES",
+   "manufacturer": "Notifier",
+   "antes": "Pearl",
+   "despues": "Pearl/PRL-D-1/PRL-D-2",
+   "variantes": [
+    {
+     "v": "PRL-D-1",
+     "menciones": 11
+    },
+    {
+     "v": "PRL-D-2",
+     "menciones": 24
+    }
+   ]
+  },
+  {
+   "document_id": "40f4f7ac-bf3c-4e78-9311-e404ee453c32",
+   "doc": "MNDT430.pdf",
+   "manufacturer": "Notifier",
+   "antes": "RPT-485W",
+   "despues": "RPT-485W/RPT-485WF",
+   "variantes": [
+    {
+     "v": "RPT-485WF",
+     "menciones": 9
+    }
+   ]
+  },
+  {
+   "document_id": "24e196e9-2c26-4d0b-bd54-bd83053db178",
+   "doc": "15888SP",
+   "manufacturer": "Notifier",
+   "antes": "XP",
+   "despues": "XP/XPP-1/XPC-8/XPM-8/XPR-8/XPM-8L/XPDP",
+   "variantes": [
+    {
+     "v": "XPP-1",
+     "menciones": 132
+    },
+    {
+     "v": "XPC-8",
+     "menciones": 74
+    },
+    {
+     "v": "XPM-8",
+     "menciones": 50
+    },
+    {
+     "v": "XPR-8",
+     "menciones": 40
+    },
+    {
+     "v": "XPM-8L",
+     "menciones": 25
+    },
+    {
+     "v": "XPDP",
+     "menciones": 6
+    }
+   ]
+  },
+  {
+   "document_id": "ded06552-d28a-45c3-b54a-27c3e4a0505f",
+   "doc": "085501987j_PY X-M-05_10_Installation_manual_D-GB-F-RU-IT",
+   "manufacturer": "Pfannenberg",
+   "antes": "PY-X-M-05",
+   "despues": "PY-X-M-05/PY-X-M-05-SSM",
+   "variantes": [
+    {
+     "v": "PY-X-M-05-SSM",
+     "menciones": 8
+    }
+   ]
+  },
+  {
+   "document_id": "1aa39581-cb93-434a-a4d1-1016ce45068d",
+   "doc": "ADW 535-1 ATEX_TD_003 007_en_a",
+   "manufacturer": "Securiton",
+   "antes": "ADW-535-1",
+   "despues": "ADW-535-1/ADW-535-1-ATEX",
+   "variantes": [
+    {
+     "v": "ADW-535-1-ATEX",
+     "menciones": 26
+    }
+   ]
+  },
+  {
+   "document_id": "d886bc8d-6eb3-40a9-833b-53ee36a5b993",
+   "doc": "33037_05_VESDA-E_VEA-040-A10_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEA",
+   "despues": "VESDA-E-VEA/VEA-040-A10",
+   "variantes": [
+    {
+     "v": "VEA-040-A10",
+     "menciones": 144
+    }
+   ]
+  },
+  {
+   "document_id": "0951df3f-2d52-46d2-9669-627ab7251776",
+   "doc": "33036_05_VESDA-E_VEA-040-A00_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEA",
+   "despues": "VESDA-E-VEA/VEA-040-A00",
+   "variantes": [
+    {
+     "v": "VEA-040-A00",
+     "menciones": 141
+    }
+   ]
+  },
+  {
+   "document_id": "e3bd61d5-d177-4b77-9f09-8dd7e81b60e4",
+   "doc": "33977_13_VESDA-E_VEP-A10-P_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEP",
+   "despues": "VESDA-E-VEP/VEP-A10-P",
+   "variantes": [
+    {
+     "v": "VEP-A10-P",
+     "menciones": 130
+    }
+   ]
+  },
+  {
+   "document_id": "b22fdb7f-f9e9-49d0-9e40-e840c24d25e9",
+   "doc": "33976_13_VESDA-E_VEP-A00-P_Product_Guide_A4_Spanish_lores.pdf",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEP",
+   "despues": "VESDA-E-VEP/VEP-A00-P/VEP-A00",
+   "variantes": [
+    {
+     "v": "VEP-A00-P",
+     "menciones": 112
+    },
+    {
+     "v": "VEP-A00",
+     "menciones": 13
+    }
+   ]
+  },
+  {
+   "document_id": "b37b71e7-dd47-4956-ab17-6d0b45b01e3d",
+   "doc": "35006_03_VESDA-E_VES-A10-P_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VES",
+   "despues": "VESDA-E-VES/VES-A10-P",
+   "variantes": [
+    {
+     "v": "VES-A10-P",
+     "menciones": 141
+    }
+   ]
+  },
+  {
+   "document_id": "7aa2b161-a7b7-4c5b-8877-1bf04daf4e88",
+   "doc": "35007_03_VESDA-E_VES-A00-P_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VES",
+   "despues": "VESDA-E-VES/VES-A00-P",
+   "variantes": [
+    {
+     "v": "VES-A00-P",
+     "menciones": 138
+    }
+   ]
+  },
+  {
+   "document_id": "2f7f38f0-bd8a-4486-8598-a7ad2e6df051",
+   "doc": "33979_12_VESDA-E_VEU-A10_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEU",
+   "despues": "VESDA-E-VEU/VEU-A10",
+   "variantes": [
+    {
+     "v": "VEU-A10",
+     "menciones": 129
+    }
+   ]
+  },
+  {
+   "document_id": "749f11a0-329a-4eb9-94d4-ef275088cd35",
+   "doc": "33978_12_VESDA-E_VEU-A00_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-E-VEU",
+   "despues": "VESDA-E-VEU/VEU-A00",
+   "variantes": [
+    {
+     "v": "VEU-A00",
+     "menciones": 125
+    }
+   ]
+  },
+  {
+   "document_id": "e2c7c875-aa95-4b3c-9ce2-3a2988f94ca8",
+   "doc": "11370_17_VESDA_VLF-500_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-VLF",
+   "despues": "VESDA-VLF/VLF-500",
+   "variantes": [
+    {
+     "v": "VLF-500",
+     "menciones": 69
+    }
+   ]
+  },
+  {
+   "document_id": "144d759a-400f-44e7-8496-e5ffd706ec5e",
+   "doc": "11369_22_VESDA_VLF-250_Product_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "VESDA-VLF",
+   "despues": "VESDA-VLF/VLF-250",
+   "variantes": [
+    {
+     "v": "VLF-250",
+     "menciones": 69
+    }
+   ]
+  },
+  {
+   "document_id": "349530b5-c9c2-4b3e-8744-f5039aa9f2cd",
+   "doc": "19150_00_ICAM_Commissioning_Guide_A4_Spanish_lores",
+   "manufacturer": "Xtralis",
+   "antes": "ICAM",
+   "despues": "ICAM/ICAM-IFT/ICAM-IAS/ICAM-ILS",
+   "variantes": [
+    {
+     "v": "ICAM-IFT",
+     "menciones": 12
+    },
+    {
+     "v": "ICAM-IAS",
+     "menciones": 11
+    },
+    {
+     "v": "ICAM-ILS",
+     "menciones": 8
+    }
+   ]
+  }
+ ],
+ "descartadas_por_refutacion": [],
+ "sin_veredicto_no_aplicadas": [],
+ "aplicado": {
+  "fecha": "2026-08-09",
+  "via": "MCP Supabase SQL (2 tandas, guardas pm=antes)",
+  "verificacion_post_apply": "49/49 docs con chunks_v2.product_model = esperado (0 chunks residuales con pm viejo) y 49/49 documents.product_model = esperado",
+  "sonda_imatch_serverside": "LDM-32/MPS25/VEU-A00/TG-IP/FSL100-IR3/PRL-D-1 -> todas matchean >=1 doc via ~* con el patron exacto del retriever (pre-patch: 0 por construccion del censo)"
+ },
+ "refutacion": {
+  "workflow": "3 refutadores independientes por particiones (SQL read-only, extractos del contenido)",
+  "resultado": "101/104 CONFIRMADO_SUJETO, 0 refutadas, 0 dudosas; 5 sin veredicto por mismatch de normalizacion -> verificadas DIRECTAS por el autor con extractos SQL (VES-A10-P, VEU-A00, ICAM-IFT/IAS/ILS)"
+ }
+}

@@ -5203,3 +5203,48 @@ Recibos: `evals/s314_casmar_kidde_cruce_v1.{md,json}` · `s314_casmar_batch_repo
 `s314_identity_{ncpf_patch,familias_kidde,2xat_kit,reconciliacion}_v1.json` ·
 `s314_alcanzabilidad_ncpf_v1.json` · `s314_etapa2_rediagnostico_v1.json` ·
 `s314_casmar_kidde_cruce_cierre_v1.json` · tally en `adversarial_review_log.jsonl`.
+
+## DEC-193 (s315) — Latencia instrumentada + links en la leyenda + barrido pm-de-familia aplicado a 49 docs; y el gap de canales derivados (#68)
+
+**Contexto.** Alberto retomó la cola s314 y añadió 6 puntos nuevos, adjudicando lanzar: rapidez
+(perfilado), links a manuales, y el barrido pm-de-familia; panel = dashboard Supabase (se
+mantiene DEC-183, guía en `docs/DASHBOARD_SUPABASE_GUIA.md`); Tyco/etc «más adelante»;
+Aritech/Edwards «vía Casmar si los lleva». Automode explícito a media sesión.
+
+**Decisiones.**
+(a) **Latencia: primero atribuir, después optimizar.** p50=34,5s/p95=57,6s sin desglose ⇒ se
+construye la instrumentación (`stage_timings` + sección `timings` tri-estado + vista) y NO se
+toca ningún lever de velocidad sin ~1 semana de datos. Candidatos quedan anotados (cap-rerank,
+retrieve=30, typing keep-alive), ninguno medido aún.
+(b) **Links: reusar el fetch batched del retriever** (hallazgo #1 del dúo) en vez de una
+llamada PostgREST nueva por turno — cero latencia añadida, y el flag `SOURCE_LEGEND_LINKS`
+(estricto) separa la decisión del SOURCE_LEGEND ya existente. `SOURCE_LEGEND_LINKS=on` es
+no-op si `SOURCE_LEGEND` está off.
+(c) **Barrido pm-de-familia = aplicación a escala de la clase DEC-192** (no un lever nuevo):
+censo por atestación en contenido propio + adjudicación 2 capas (agente con extractos +
+refutación independiente ×3) + invariantes deterministas del patrón imatch → patch reversible
+con recibo aplicado y verificado 49/49 (104 variantes). Regla conservada: SUJETO sí,
+compatibilidad no. Caveat declarado en el recibo: los TG-* hacen que queries de centrales
+(ID3000…) matcheen también el doc de la pasarela TG — es propiedad del matcher (\y interno),
+adjudicado aceptable (pool-level, rerank decide; el doc ES de la familia funcional).
+(d) **#68 (pregunta de Alberto): los lotes nuevos no pasan por enunciados/hyq** — verificado
+(1.091 chunks s314 = 0/0). Se estampa como deuda con trigger «antes del siguiente lote», no se
+cablea en caliente: los generadores tienen gates propios (QA Haiku DEC-102, cuota/parity
+DEC-099) y merecen su pasada con dúo.
+
+**Gaps declarados.** Sol no ejecutable en el entorno remoto (sin OPENAI key) — el dúo de esta
+sesión = sub-agente Opus (build, 12 hallazgos aplicados) + refutadores independientes (censo);
+la ronda Sol queda pendiente si Alberto la quiere sobre el diff. Sonda e2e de alcanzabilidad
+(Voyage) no ejecutable — sustituida por la verificación determinista del patrón + sonda
+imatch server-side 6/6 (el mecanismo exacto que estaba roto). Push a GitHub bloqueado por
+permisos de la App (403 en creación de refs) — commits locales pendientes de publicar.
+
+**Alternativas descartadas.** Panel web propio (re-litigar DEC-183 sin necesidad — auth+RGPD);
+optimizar latencia a ciegas (violaría eval-driven); aplicar el patch sin refutación
+independiente (zona de dolor corpus/identidad); llamada PostgREST nueva en la leyenda (dúo #1);
+cablear enunciados/hyq del lote en caliente (gates propios pendientes).
+
+**Recibos.** `evals/s315_family_pm_patch_v1.json` · `evals/s315_source_url_backfill_v1.json` ·
+migración `supabase/migration_proposals/20260809180000_s315_source_url_y_latencia_etapas.sql`
+(APLICADA vía MCP, postcondiciones OK) · suite 3644 passed (4 preexistentes de entorno,
+idénticos en árbol limpio).
