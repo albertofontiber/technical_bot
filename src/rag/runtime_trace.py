@@ -178,7 +178,14 @@ def _timings_section(stage_timings: Mapping[str, Any] | None) -> dict[str, Any]:
     no midió (ruta orchestrator, fakes de test) — distinguible de «midió y dio 0».
     Solo cruzan enteros acotados de una lista cerrada de etapas: nada de strings.
     """
-    measured = isinstance(stage_timings, Mapping)
+    # `measured` exige las 4 etapas como int reales — un mapping parcial o con
+    # tipos rotos NO puede disfrazarse de medida con ceros (hallazgo #8 del dúo
+    # s315; la clase exacta que el tri-estado existe para eliminar).
+    measured = isinstance(stage_timings, Mapping) and all(
+        isinstance(stage_timings.get(stage), int)
+        and not isinstance(stage_timings.get(stage), bool)
+        for stage in _TIMING_STAGES
+    )
     section: dict[str, Any] = {"measured": measured}
     for stage in _TIMING_STAGES:
         raw = stage_timings.get(stage) if measured else 0

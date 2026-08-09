@@ -549,13 +549,29 @@ def test_timings_fuera_de_rango_se_acotan():
     """Un colgado de 20 min no revienta el trace: se acota al techo declarado."""
     trace = build_rag_serving_trace(**_trace_kwargs(
         stage_timings={"retrieve_ms": 1_200_000, "rerank_ms": -5,
-                       "coverage_ms": "no-int", "generate_ms": True},
+                       "coverage_ms": 7, "generate_ms": 9},
     ))
+    assert trace["timings"]["measured"] is True
     assert trace["timings"]["retrieve_ms"] == 600_000
     assert trace["timings"]["rerank_ms"] == 0
-    assert trace["timings"]["coverage_ms"] == 0
-    assert trace["timings"]["generate_ms"] == 0
     assert validate_rag_serving_trace(trace) == trace
+
+
+def test_timings_parciales_o_rotos_no_se_disfrazan_de_medida():
+    """Mapping parcial o con tipos rotos ⇒ measured=false, jamás ceros que
+    parezcan medida (dúo s315 #8 — la clase «sin medida disfrazada» de s306)."""
+    for roto in (
+        {"retrieve_ms": 5},                                     # parcial
+        {"retrieve_ms": 5, "rerank_ms": "7",
+         "coverage_ms": 1, "generate_ms": 2},                   # tipo roto
+        {"retrieve_ms": 5, "rerank_ms": True,
+         "coverage_ms": 1, "generate_ms": 2},                   # bool no es int
+    ):
+        trace = build_rag_serving_trace(**_trace_kwargs(stage_timings=roto))
+        assert trace["timings"]["measured"] is False, roto
+        assert all(trace["timings"][s] == 0 for s in
+                   ("retrieve_ms", "rerank_ms", "coverage_ms", "generate_ms"))
+        assert validate_rag_serving_trace(trace) == trace
 
 
 def test_validator_exige_la_seccion_timings():

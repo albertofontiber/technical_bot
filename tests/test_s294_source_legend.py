@@ -143,67 +143,73 @@ def test_no_falsea_el_orden_del_adjunto_de_paginas():
 
 
 # --- s315 (punto 6): links a los manuales en la leyenda -----------------------
+#
+# La URL viene del chunk ENRIQUECIDO (document_source_url, estampado por el fetch
+# batched de documents del retriever) — cero llamadas de red en la leyenda (dúo
+# s315 #1). El render es aditivo y va tras el flag SOURCE_LEGEND_LINKS (estricto).
 
 
-def test_links_flag_default_off(monkeypatch):
+def _chunk_url(manual, section=None, page=None, url=None):
+    c = _chunk(manual, section, page)
+    if url is not None:
+        c["document_source_url"] = url
+    return c
+
+
+def test_links_flag_default_off_y_estricto(monkeypatch):
     from src.rag.source_legend import source_legend_links_enabled
 
     monkeypatch.delenv("SOURCE_LEGEND_LINKS", raising=False)
     assert source_legend_links_enabled() is False
     monkeypatch.setenv("SOURCE_LEGEND_LINKS", "on")
     assert source_legend_links_enabled() is True
+    # Convención del repo (_strict_on_off): un valor no reconocido REVIENTA,
+    # no se traga en silencio (dúo s315 #9).
+    monkeypatch.setenv("SOURCE_LEGEND_LINKS", "true")
+    with pytest.raises(RuntimeError):
+        source_legend_links_enabled()
 
 
 def test_link_con_pagina_ancla_page():
-    urls = {"doc-1": "https://ejemplo.com/manual.pdf"}
-    lineas = build_source_legend("ver [F1]", CHUNKS, doc_urls=urls).splitlines()[1:]
+    chunks = [_chunk_url("Manual_X", "6.1 Acceso", 25,
+                         url="https://ejemplo.com/manual.pdf")]
+    lineas = build_source_legend("ver [F1]", chunks, links=True).splitlines()[1:]
     assert lineas == [
-        "[F1] Manual_CAD-171-MI-716-es · 6.1 Acceso como administrador · p. 25"
-        " · https://ejemplo.com/manual.pdf#page=25",
+        "[F1] Manual_X · 6.1 Acceso · p. 25 · https://ejemplo.com/manual.pdf#page=25",
     ]
 
 
 def test_link_sin_pagina_no_inventa_ancla():
-    urls = {"doc-1": "https://ejemplo.com/ds.pdf"}
-    lineas = build_source_legend("ver [F3]", CHUNKS, doc_urls=urls).splitlines()[1:]
-    assert lineas == [
-        "[F3] Datasheet_CAD-171-DS-736-es · https://ejemplo.com/ds.pdf",
-    ]
+    chunks = [_chunk_url("DS_X", url="https://ejemplo.com/ds.pdf")]
+    lineas = build_source_legend("ver [F1]", chunks, links=True).splitlines()[1:]
+    assert lineas == ["[F1] DS_X · https://ejemplo.com/ds.pdf"]
 
 
 def test_sin_url_la_linea_queda_byte_identica():
     """El link es aditivo: un doc sin source_url no cambia NADA de su línea."""
-    con_mapa_vacio = build_source_legend("ver [F1]", CHUNKS, doc_urls={})
-    sin_mapa = build_source_legend("ver [F1]", CHUNKS)
-    assert con_mapa_vacio == sin_mapa
+    con_links = build_source_legend("ver [F1]", CHUNKS, links=True)
+    sin_links = build_source_legend("ver [F1]", CHUNKS)
+    assert con_links == sin_links
 
 
-def test_append_con_flag_off_no_llama_a_la_red(monkeypatch):
-    """SOURCE_LEGEND_LINKS=off ⇒ cero llamadas PostgREST (byte-idéntico a s294)."""
+def test_url_invalida_no_se_emite():
+    """Único dato de DB que cruza al mensaje: allowlist de forma (dúo #11)."""
+    malas = ["ftp://x.com/a.pdf", "javascript:alert(1)",
+             "https://x.com/a.pdf\ninyectada", "https://x.com/con espacio.pdf",
+             "https://" + "x" * 400 + ".pdf", 42]
+    for mala in malas:
+        chunks = [_chunk_url("M", None, 3, url=mala)]
+        lineas = build_source_legend("[F1]", chunks, links=True).splitlines()[1:]
+        assert lineas == ["[F1] M · p. 3"], f"URL no rechazada: {mala!r}"
+
+
+def test_flag_off_byte_identico_aunque_haya_url(monkeypatch):
+    """SOURCE_LEGEND_LINKS=off deja la leyenda byte-idéntica a s294."""
     import src.rag.source_legend as mod
 
     monkeypatch.delenv("SOURCE_LEGEND_LINKS", raising=False)
-
-    def boom(*_a, **_k):
-        raise AssertionError("no debe consultar documents con el flag off")
-
-    monkeypatch.setattr(mod, "_document_urls", boom)
+    chunks = [_chunk_url("Manual_X", "6.1", 25, url="https://ejemplo.com/m.pdf")]
     result = {"answer": "usa [F1]"}
-    mod.append_source_legend(result, CHUNKS)
+    mod.append_source_legend(result, chunks)
     assert LEGEND_HEADER in result["answer"]
     assert "https://" not in result["answer"]
-
-
-def test_append_con_flag_on_fetch_fail_open(monkeypatch):
-    """Si PostgREST falla, la leyenda sale SIN links — nunca se pierde."""
-    import src.config as config
-    import src.rag.source_legend as mod
-
-    monkeypatch.setenv("SOURCE_LEGEND_LINKS", "on")
-    # Puerto cerrado: la llamada interna de _document_urls falla y degrada a {}.
-    monkeypatch.setattr(config, "SUPABASE_URL", "http://127.0.0.1:9", raising=False)
-    monkeypatch.setattr(config, "SUPABASE_SERVICE_KEY", "test", raising=False)
-    result = {"answer": "usa [F1]"}
-    mod.append_source_legend(result, CHUNKS)
-    assert LEGEND_HEADER in result["answer"]
-    assert "http" not in result["answer"].split(LEGEND_HEADER, 1)[1]

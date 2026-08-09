@@ -84,15 +84,16 @@ def execute_rag_turn(
         target_models=target_models,
     )
     stage_timings["rerank_ms"] = int((time.perf_counter() - _t0) * 1000)
+    # coverage_ms cubre TODA la ventana rerank→generación (validaciones, copias,
+    # shadow y lanes): el reloj arranca aquí para que nada caiga en el «resto»
+    # (hallazgo #10 del dúo s315: telemetría y código deben decir lo mismo).
+    _t0 = time.perf_counter()
     if not isinstance(reranked, list) or any(
         not isinstance(row, dict) for row in reranked
     ):
         raise TypeError("reranker must return a list of chunk mappings")
     protected_prefix = copy.deepcopy(reranked)
 
-    # coverage_ms cubre la ventana completa rerank→generación (shadow + copias +
-    # lanes de coverage): es el cajón «pipeline intermedio», no solo las lanes.
-    _t0 = time.perf_counter()
     try:
         adapters.observe_structural_shadow(query, copy.deepcopy(protected_prefix))
     except Exception as exc:

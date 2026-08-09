@@ -1250,9 +1250,7 @@ async def _process_query(
             result = turn.generation
             answer = result["answer"]
             diagrams = result["diagrams"]
-            # La ruta orchestrator no instrumenta etapas (s315): tri-estado
-            # measured=false en el trace, jamás ceros que parezcan medida.
-            stage_timings = None
+            stage_timings = turn.stage_timings
         else:
             # One production seam shared with the deterministic release gate.  The
             # adapters are built here so existing handler tests can patch only I/O.

@@ -12,6 +12,14 @@ apéndices, para que una cita borrada por el conflict-guard no aparezca en la le
 
 Reusa `cited_fragments_ranked` — el MISMO parser de citas que ya alimenta el adjunto de
 páginas — para que ambos vean idéntico conjunto de referencias.
+
+**Links (s315/punto-6, flag `SOURCE_LEGEND_LINKS`)**: cada entrada puede llevar la URL
+pública del manual con ancla ``#page=N``. La URL viene del chunk ENRIQUECIDO
+(``document_source_url``, estampado por el fetch batched de documents que el retriever
+ya hace — hallazgo #1 del dúo s315: cero round-trips nuevos, cero bloqueo del event
+loop). Los chunks apendizados por lanes de coverage no pasan por ese fetch y quedan
+sin link — gap declarado, no silencioso. `SOURCE_LEGEND_LINKS=on` es NO-OP si
+`SOURCE_LEGEND` está off (la leyenda entera lo es).
 """
 
 from __future__ import annotations
@@ -19,6 +27,7 @@ from __future__ import annotations
 import logging
 import os
 
+from ..config import _strict_on_off
 from .visual_assets import cited_fragments_ranked
 
 logger = logging.getLogger(__name__)
@@ -27,6 +36,7 @@ LEGEND_HEADER = "📄 Referencias citadas:"
 # Cap declarado: una leyenda de 30 líneas es ruido. Si se recorta, se DICE (regla del
 # proyecto: ningún cap silencioso).
 MAX_ENTRIES = 12
+_URL_MAX_CHARS = 300
 
 
 def source_legend_enabled() -> bool:
@@ -34,58 +44,16 @@ def source_legend_enabled() -> bool:
 
 
 def source_legend_links_enabled() -> bool:
-    """s315/punto-6: URL pública del manual en la leyenda (documents.source_url).
+    """s315/punto-6: URL pública del manual en la leyenda.
 
-    Flag SEPARADO de SOURCE_LEGEND a propósito: si la leyenda ya está ON en
-    producción, encender links es una decisión aparte (añade una llamada
-    PostgREST por turno) y OFF deja la leyenda byte-idéntica a hoy.
+    Flag SEPARADO de SOURCE_LEGEND: si la leyenda ya está ON en producción,
+    encender links es una decisión aparte y OFF la deja byte-idéntica a hoy.
+    Lectura fail-fast (`_strict_on_off`, convención del repo): un valor no
+    reconocido revienta ANTES del fail-open de la leyenda, no se traga en
+    silencio (hallazgo #9 del dúo s315). Se lee en runtime → flip de Railway
+    sin reinicio.
     """
-    return os.getenv("SOURCE_LEGEND_LINKS", "off").strip().lower() == "on"
-
-
-_URL_FETCH_TIMEOUT_S = 3.0
-
-
-def _document_urls(chunks: list[dict], numeros: list[int]) -> dict[str, str]:
-    """``document_id -> source_url`` para los fragmentos citados. Fail-open a {}.
-
-    Una sola llamada PostgREST por turno (solo con el flag ON); un fallo de red
-    degrada a leyenda-sin-links, nunca rompe la respuesta.
-    """
-    doc_ids = sorted({
-        str(chunks[n - 1].get("document_id") or "")
-        for n in numeros
-        if 0 < n <= len(chunks) and chunks[n - 1].get("document_id")
-    })
-    if not doc_ids:
-        return {}
-    try:
-        import httpx
-
-        from ..config import SUPABASE_SERVICE_KEY, SUPABASE_URL
-
-        resp = httpx.get(
-            f"{SUPABASE_URL}/rest/v1/documents",
-            params={
-                "id": f"in.({','.join(doc_ids)})",
-                "select": "id,source_url",
-            },
-            headers={
-                "apikey": SUPABASE_SERVICE_KEY,
-                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
-            },
-            timeout=_URL_FETCH_TIMEOUT_S,
-        )
-        resp.raise_for_status()
-        return {
-            str(row.get("id")): str(row.get("source_url"))
-            for row in resp.json()
-            if isinstance(row, dict) and row.get("source_url")
-        }
-    except Exception:
-        logger.warning("source legend links fail-open: leyenda sin URLs",
-                       exc_info=True)
-        return {}
+    return _strict_on_off("SOURCE_LEGEND_LINKS", "off")
 
 
 def _manual_name(chunk: dict) -> str:
@@ -95,21 +63,41 @@ def _manual_name(chunk: dict) -> str:
     return source_file.rsplit(".pdf", 1)[0]
 
 
+def _chunk_url(chunk: dict) -> str | None:
+    """URL pública del doc del chunk, validada. None = sin link (línea intacta).
+
+    Único dato de DB que cruza al mensaje del técnico: allowlist de forma
+    (esquema http/https, sin saltos de línea, cap de longitud) — hallazgo #11.
+    """
+    url = chunk.get("document_source_url")
+    if not isinstance(url, str):
+        return None
+    url = url.strip()
+    if (
+        not url.startswith(("https://", "http://"))
+        or "\n" in url
+        or " " in url
+        or len(url) > _URL_MAX_CHARS
+    ):
+        return None
+    return url
+
+
 def build_source_legend(
     answer: str,
     chunks: list[dict],
     *,
     max_entries: int = MAX_ENTRIES,
-    doc_urls: dict[str, str] | None = None,
+    links: bool = False,
 ) -> str:
     """Devuelve el bloque de leyenda, o "" si no hay nada que mapear.
 
     Orden ASCENDENTE por número de fragmento: el lector busca «F10», no «la más
     citada» — al revés que el adjunto de páginas, que ordena por relevancia.
 
-    ``doc_urls`` (s315): ``document_id -> URL pública del manual``. Sin él (o sin
-    entrada para un doc) la línea queda EXACTAMENTE como hasta ahora — el link es
-    aditivo, nunca condición. Con página, ancla ``#page=N`` (visor estándar).
+    ``links=True`` añade la URL del manual (``document_source_url`` del chunk)
+    con ancla ``#page=N``. Sin URL válida la línea queda EXACTAMENTE como hasta
+    ahora — el link es aditivo, nunca condición.
     """
     numeros = sorted(
         {number for number, _citas, _pos in cited_fragments_ranked(answer, chunks)}
@@ -127,9 +115,12 @@ def build_source_legend(
         pagina = chunk.get("page_number")
         if isinstance(pagina, int):
             partes.append(f"p. {pagina}")
-        url = (doc_urls or {}).get(str(chunk.get("document_id") or ""))
-        if url:
-            partes.append(f"{url}#page={pagina}" if isinstance(pagina, int) else url)
+        if links:
+            url = _chunk_url(chunk)
+            if url:
+                partes.append(
+                    f"{url}#page={pagina}" if isinstance(pagina, int) else url
+                )
         lineas.append(f"[F{number}] " + " · ".join(partes))
 
     if len(numeros) > max_entries:
@@ -145,17 +136,14 @@ def append_source_legend(result: dict, chunks: list[dict]) -> None:
     Se llama la ÚLTIMA, después del adjunto de páginas: la leyenda introduce más
     ocurrencias de ``[F<n>]`` y contarlas como citas del técnico falsearía el orden
     de relevancia de las imágenes.
+
+    El flag de links se lee FUERA del try: un valor malconfigurado debe reventar
+    ruidosamente (convención `_strict_on_off`), no tragarse la leyenda entera.
     """
+    links = source_legend_links_enabled()
     try:
         answer = str(result.get("answer") or "")
-        doc_urls: dict[str, str] | None = None
-        if source_legend_links_enabled():
-            numeros = sorted({
-                number
-                for number, _citas, _pos in cited_fragments_ranked(answer, chunks)
-            })
-            doc_urls = _document_urls(chunks, numeros)
-        legend = build_source_legend(answer, chunks, doc_urls=doc_urls)
+        legend = build_source_legend(answer, chunks, links=links)
         if not legend:
             return
         result["answer"] = f"{answer}\n\n---\n{legend}"

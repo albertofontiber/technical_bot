@@ -2985,7 +2985,10 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
                 headers=headers,
                 params={
                     "id": f"in.({id_list})",
-                    "select": "id,status,revision,revision_date",
+                    # source_url (s315/punto-6): la leyenda de fuentes lo lee del
+                    # chunk enriquecido — reusar ESTE fetch batched evita un
+                    # round-trip nuevo por turno (hallazgo #1 del dúo s315).
+                    "select": "id,status,revision,revision_date,source_url",
                 },
             )
             resp.raise_for_status()
@@ -3016,6 +3019,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
         c["document_revision"] = doc.get("revision")
         c["document_revision_date"] = doc.get("revision_date")
         c["document_status"] = doc.get("status")
+        c["document_source_url"] = doc.get("source_url")
         filtered.append(c)
 
     return filtered
