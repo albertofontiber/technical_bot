@@ -5112,6 +5112,35 @@ aceptarlo (el contrato que dejó era exactamente el diseño correcto).
 Recibos: PRs #223/#224 · filas del scoreboard 2026-08-08/2026-08-08b ·
 `evals/adversarial_review_log.jsonl` (s311, s312, s313 complete).
 
+## DEC-191 (s314) — L3 NO-GO por medición: embed.py está pineado por recibos prereg s117; el blueprint queda CERRADO con 4/6 lotes ejecutados y 2 NO-GO medidos
+
+**Decisión.** L3 (mv `src/reingest/embed.py` → `src/ingestion/`, retiro de E2) NO se ejecuta.
+El pre-flight DEC-189 apuntado a embed.py (agente delegado; verificado con regla C por el autor)
+encontró 4 pins vivos `{path: src/reingest/embed.py, sha256: 61fc2412…}` en recibos prereg s117
+(m26 v1 + m2 v1/v2/v21), sha coincidente con el fichero actual. Único consumidor ejecutable: el
+replay de `scripts/s117_m26_independent_reuse_audit.py`, cuyo `preflight()` hash-verifica los
+`frozen_inputs` → moriría fail-closed tras el mv. Regla escrita de DEC-189: fichero con
+referencias-por-ruta desde sellos NO se mueve — se ancla y se declara. E2 permanece en el
+contrato de imports con su trigger declarado.
+
+**Motivo.** Proporcionalidad: el beneficio de L3 es retirar UNA excepción documentada de la
+matriz; el coste es romper la replayabilidad de un audit congelado (registro s117, DEC-147
+lo protege como intocable). El precedente L1 no cubría este caso (catalog_store: 0 pins en
+recibos, medido). La premisa del blueprint («0 refs desde congelados») era incompleta: el
+criterio s310 mide refs desde ficheros .py pineados, no recibos que pinan la ruta directamente
+— el instrumento nuevo `scripts/s314_audit_embed_pins.py` mide AMBAS dimensiones.
+
+**Alternativas descartadas.** (a) Proceder declarando el coste (matar el replay m26 v1):
+contradice la premisa sancionada del blueprint → exigiría re-sanción de Alberto para un lote
+cosmético; desproporcionado. (b) Editar los recibos prereg a la ruta nueva: viola DEC-147
+(registro intocable). (c) Shim `src/reingest/embed.py` re-exportando desde ingestion: el pin
+es por sha del CONTENIDO — cualquier edición lo rompe igual.
+
+**Estado del blueprint (cierre).** L0 ✓ · L1 ✓ · L2a NO-GO medido (DEC-189) · L2b ✓ · L2c ✓ ·
+L3 NO-GO medido (este DEC). Excepciones del contrato: 6→4 vigentes (E1 retirada en L1, E3c en
+L2c; quedan E2, E3a-b, E6, más E4/E5 como ciclos deliberados aparte), todas con trigger
+declarado. Recibo: `evals/s314_l3_medicion_pins_v1.txt`.
+
 ## DEC-192 (s314) — `ingest_new.py` estrenado con el lote Casmar/Kidde (74 docs, 1.091 chunks) y el hallazgo que re-clasifica el gap orgánico: era FINDABILITY, no corpus
 
 **Contexto.** Pregunta orgánica de Alberto: el bot admitió (honesto) no tener el manual de
@@ -5174,4 +5203,3 @@ Recibos: `evals/s314_casmar_kidde_cruce_v1.{md,json}` · `s314_casmar_batch_repo
 `s314_identity_{ncpf_patch,familias_kidde,2xat_kit,reconciliacion}_v1.json` ·
 `s314_alcanzabilidad_ncpf_v1.json` · `s314_etapa2_rediagnostico_v1.json` ·
 `s314_casmar_kidde_cruce_cierre_v1.json` · tally en `adversarial_review_log.jsonl`.
-

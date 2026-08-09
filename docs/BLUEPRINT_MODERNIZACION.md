@@ -148,15 +148,21 @@ ALTOS del veredicto vinieron de mirar solo los 42).
   justificada: aquí el shim es intra-`src/` y temporal hasta que la lane vetada muera o
   nazca). Sello: +2 entradas, **−1 obligatoria** (`:330` sale del manifest o el gate
   revienta por igualdad exacta). Diseño fino en su PR, con dúo.
-- **L3 — `embed.py` → `src/ingestion/` (retira E2, el más caro en sellos, el último).**
-  Cierra que cada query de producción ejecute un módulo del pipeline offline. Sello:
-  entrada `:346` + las DOS dinámicas `:391/:402` + **el propio
-  `s277_c1_p1_product_adapter.py` (SELLADO) importa `src.reingest.embed` en `:1204` y
-  se edita también** (hallazgo ALTO) + `test_s277_c1_p1_runner.py:1854/:1951-1953/:4135-4143`
-  + `test_s277_c1_p1_product_adapter.py:133` + `test_s117_m28:57-59` + **~13 scripts
-  vivos** que importan `src.reingest.embed` (gate.py, enunciados_pass.py, …) migran en
-  el mismo PR. Nota: el símbolo de `pipeline.py:47` es `embed_chunks`. Assessment:
-  `pipe_sha` nuevo → smoke + fila.
+- **L3 — `embed.py` → `src/ingestion/` — NO-GO POR MEDICIÓN (s314, misma clase que
+  L2a).** El pre-flight DEC-189 apuntado a `embed.py` encontró **4 pins vivos
+  `{path: src/reingest/embed.py, sha256: 61fc2412…}`** en recibos prereg s117
+  (`s117_m26_independent_audit_prereg_v1.yaml:44`, `s117_m2_legacy_reuse_prereg_v1/v2/v21`),
+  con el sha COINCIDIENDO con el fichero actual → pins vigentes, no stale. Consumidor
+  ejecutable: el replay de `scripts/s117_m26_independent_reuse_audit.py` (su
+  `preflight()` `:121-126` hash-verifica los `frozen_inputs` y fallaría fail-closed tras
+  el mv; m26 v1 es el ÚNICO prereg de ese instrumento). La premisa de este doc («0 refs
+  desde congelados») era INCOMPLETA: medía refs-desde-.py-pineados, no recibos que pinan
+  la ruta directamente. Regla DEC-189 aplicada a la letra: se ancla y se declara. E2 se
+  queda en el contrato con su trigger. Recibo: `evals/s314_l3_medicion_pins_v1.txt`
+  (instrumento promovido: `scripts/s314_audit_embed_pins.py`). Censo corregido para un
+  futuro re-intento: sumar la forma `from src.reingest import …, embed, …` de
+  `scripts/s117_m2_legacy_reuse_analysis.py:29` (viva vía 2 tests). Nota histórica: el
+  símbolo de `pipeline.py:47` es `embed_chunks`.
 
 ## 5. Lo que NO se hace (declarado)
 
