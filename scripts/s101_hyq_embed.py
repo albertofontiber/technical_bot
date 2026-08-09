@@ -33,7 +33,7 @@ CAP_PER_CHUNK = 4                    # prereg: "2-4 preguntas por chunk" — el 
 EXCLUDE_SRC = ("MIE-MI-310",)
 
 
-def parse_questions() -> tuple[list[str], list[str], list[str], dict]:
+def parse_questions(jsonl_path=None) -> tuple[list[str], list[str], list[str], dict]:
     """Parse PINEADO del jsonl (criterios dúo s101): keep-FIRST por chunk_id, cap 4/chunk,
     dedup global normalizado, len>=15, exclusión MIE-MI-310. Lo importa el loader s102 para
     garantizar que npz y tabla salen del MISMO universo de preguntas (paridad exacta)."""
@@ -42,7 +42,9 @@ def parse_questions() -> tuple[list[str], list[str], list[str], dict]:
     seen_global: set[str] = set()    # dedup GLOBAL normalizado (duplicados compiten por slots del pool)
     seen_chunks: set[str] = set()    # H1 (dúo s101): el jsonl s99 tiene 2 registros/chunk → keep-FIRST por chunk_id
     kept_by_chunk: dict[str, int] = {}
-    for line in HYQ.read_text(encoding="utf-8-sig").splitlines():
+    # (s315/#68) `jsonl_path` permite parsear un jsonl POR LOTE con los MISMOS criterios
+    # pineados; sin argumento el comportamiento es byte-idéntico (jsonl global s99).
+    for line in (jsonl_path or HYQ).read_text(encoding="utf-8-sig").splitlines():
         line = line.strip()
         if not line:
             continue
@@ -81,16 +83,9 @@ def parse_questions() -> tuple[list[str], list[str], list[str], dict]:
     return questions, chunk_ids, srcs, stats
 
 
-def main() -> int:
-    try:
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
-        pass
-    questions, chunk_ids, srcs, st = parse_questions()
-    print(f"{len(questions)} preguntas de {len(set(chunk_ids))} chunks "
-          f"({st['bad']} malas, {st['dup_chunk']} registros-dup-chunk, {st['dup_texto']} dups-texto, "
-          f"{st['sobre_cap']} sobre-cap, {st['excl_mi310']} excluidos MI-310)")
-
+def embed_questions(questions: list[str]):
+    """Receta de embedding PINEADA del canal (s315/#68 la factoriza para reuso por-lote):
+    texto crudo de la pregunta, voyage-4-large, input_type=document, L2-normalizado."""
     vo = voyageai.Client()          # VOYAGE_API_KEY del entorno
     embs = []
     for i in range(0, len(questions), BATCH):
@@ -102,7 +97,20 @@ def main() -> int:
     # normalizar para cos = dot (Voyage ya normaliza, pero garantizarlo es barato)
     norms = np.linalg.norm(arr, axis=1, keepdims=True)
     norms[norms == 0] = 1.0
-    arr = arr / norms
+    return arr / norms
+
+
+def main() -> int:
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+    questions, chunk_ids, srcs, st = parse_questions()
+    print(f"{len(questions)} preguntas de {len(set(chunk_ids))} chunks "
+          f"({st['bad']} malas, {st['dup_chunk']} registros-dup-chunk, {st['dup_texto']} dups-texto, "
+          f"{st['sobre_cap']} sobre-cap, {st['excl_mi310']} excluidos MI-310)")
+
+    arr = embed_questions(questions)
     np.savez_compressed(OUT, embeddings=arr,
                         chunk_ids=np.array(chunk_ids), sources=np.array(srcs),
                         questions=np.array(questions, dtype=object))

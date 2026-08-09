@@ -98,6 +98,13 @@ def main() -> int:
         if len(docs) >= FETCH_CAP:
             raise SystemExit(f"documents alcanzó el cap ({FETCH_CAP}): paginar antes de seguir")
         por_sha = {d["source_pdf_sha256"]: d for d in docs}
+        # Fallback por NOMBRE para el diagnóstico de los sin-fila: 159/1.243 docs
+        # llevan sha placeholder ('backfill:…', TECH_DEBT #4 Phase 3 sin hacer) y
+        # jamás casan por contenido. El nombre NO decide nada operativo (identidad
+        # = sha); solo clasifica el informe.
+        por_nombre = {}
+        for d in docs:
+            por_nombre.setdefault(str(d.get("source_pdf_filename") or "").lower(), d)
 
         plan, sin_fila, ya_enlazados = [], [], 0
         vistos: set[str] = set()
@@ -108,7 +115,17 @@ def main() -> int:
             vistos.add(sha)
             d = por_sha.get(sha)
             if d is None:
-                sin_fila.append(os.path.basename(path))
+                nombre = os.path.basename(path)
+                hom = por_nombre.get(nombre.lower())
+                if hom is None:
+                    clase = "AUSENTE_DEL_CORPUS"
+                elif str(hom.get("source_pdf_sha256", "")).startswith("backfill:"):
+                    clase = "EN_CORPUS_SHA_PLACEHOLDER"
+                else:
+                    clase = "EN_CORPUS_BYTES_DISTINTOS"  # ¿revisión/copia distinta? (#4)
+                sin_fila.append({"fichero": nombre, "sha256": sha, "path": path,
+                                 "clase": clase,
+                                 "doc_homonimo": hom.get("id") if hom else None})
                 continue
             if d.get("source_url") and not args.pisar_portal:
                 ya_enlazados += 1
@@ -118,12 +135,19 @@ def main() -> int:
             plan.append({"id": d["id"], "sha256": sha, "path": path,
                          "objeto": objeto, "doc": d.get("source_pdf_filename")})
 
+        clases = {}
+        for s in sin_fila:
+            clases[s["clase"]] = clases.get(s["clase"], 0) + 1
         print(f"a subir+enlazar: {len(plan)} · ya con URL (se conservan): {ya_enlazados} "
-              f"· PDFs sin fila en documents: {len(sin_fila)}")
-        for n in sin_fila[:20]:
-            print("  sin-fila:", n)
-        if len(sin_fila) > 20:
-            print(f"  (+{len(sin_fila)-20} más)")
+              f"· PDFs sin fila por sha: {len(sin_fila)} {clases}")
+        diag = os.path.join(REPO, "evals", "s315_storage_sinfila_diagnostico_v1.json")
+        json.dump({"nota": ("clasificación por NOMBRE, solo informativa; identidad=sha. "
+                            "AUSENTE_DEL_CORPUS = candidato a ingesta; "
+                            "EN_CORPUS_SHA_PLACEHOLDER = doc ya ingestado con sha falso "
+                            "(#4 Phase 3); EN_CORPUS_BYTES_DISTINTOS = posible revisión (#4)"),
+                   "sin_fila": sin_fila}, open(diag, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=1)
+        print(f"diagnóstico sin-fila -> {diag}")
 
         if not args.aplicar:
             print("(dry-run; --aplicar para subir y enlazar)")

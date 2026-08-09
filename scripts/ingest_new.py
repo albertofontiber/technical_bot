@@ -386,7 +386,10 @@ def main() -> None:
         print("\nRecordatorios post-lote: (1) actualizar data/Inventario_Manuales.xlsx "
               "(scripts/update_inventario.py --data-root <corpus>); (2) el corpus "
               "cambió → anotarlo en la próxima fila del assessment; (3) sonda de "
-              "alcanzabilidad de los docs nuevos.")
+              "alcanzabilidad de los docs nuevos; (4) fase DERIVADOS OBLIGATORIA "
+              "(#68, s315): scripts/derive_channels_lote.py --since <hoy> --tag "
+              "<lote> — sin ella los docs nuevos quedan fuera de los canales "
+              "enunciados/hyq vivos en producción.")
 
     logs = data_root / "logs"
     logs.mkdir(exist_ok=True)

@@ -417,8 +417,17 @@ def main() -> int:
                     help="(s104 F4) vintage del batch: p1=Sonnet piloto, h1=Haiku, ...")
     ap.add_argument("--budget-usd", type=float, default=180.0,
                     help="(s104 F10) tope DURO de gasto acumulado del ledger")
+    ap.add_argument("--store", default=None,
+                    help="(s315/#68) ruta del extraction store si no es la relativa al cwd "
+                         "(los lotes nuevos viven bajo --data-root de ingest_new, p.ej. "
+                         "<OneDrive>/data/extraction/agent_anthropic-sonnet-45)")
     ap.add_argument("--rollback")
     a = ap.parse_args()
+    if a.store:
+        # mismo patrón que el override de LLM_MODEL: ambos módulos leen su global.
+        import s94_f1_generate as _s94
+        globals()["STORE"] = a.store
+        _s94.STORE = a.store
     if a.rollback:
         return rollback(a.rollback)
     assert a.tranche and a.docs, "--tranche y --docs son obligatorios"
@@ -441,10 +450,12 @@ def main() -> int:
                 dump_docs.add(json.loads(line).get("source_file"))
             except Exception:
                 pass
+    budget_stop = False
     for i, doc in enumerate(docs):
         if spent > a.budget_usd:
             print(f"TOPE DE GASTO alcanzado (${spent:.2f} > ${a.budget_usd}) — STOP (F10); "
                   f"revisar ledger y relanzar con --resume")
+            budget_stop = True
             break
         if a.resume and doc in led["docs"]:
             entry = led["docs"][doc]
@@ -486,6 +497,11 @@ def main() -> int:
                "results": results},
               open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"-> {out} · gasto acumulado ledger: ${spent:.2f}")
+    # (dúo s315 #7) el STOP por presupuesto devolvía 0 = «éxito» y el caller (p.ej.
+    # derive_channels_lote) cargaba un lote a medias creyéndolo completo. rc=2 lo
+    # distingue de un fallo duro (1) y de completado (0).
+    if budget_stop:
+        return 2
     return 0
 
 

@@ -2477,11 +2477,13 @@ ciegos: `%lda%` casa demasiado). **Coste**: S.
 `scripts/ingest_new.py` no menciona ninguno de los dos canales. Ambos están VIVOS en producción
 (`ENUNCIADOS_MULTIVECTOR=on` DEC-090, `HYQ_TABLE=on` DEC-099) ⇒ todo doc nuevo entra SOLO por el
 canal vectorial + imatch de pm: los mecanismos que rescatan hechos de tabla y matching
-question-side no le aplican. **Fix estructural**: fase «derivados» en `ingest_new.py` (o driver
-hermano) que corra los generadores canónicos (R2-Haiku con QA-gate DEC-102; hyq v2 con
-cuota/barra/family-parity DEC-099) SOLO para los chunks del lote. Coste estimado: ~$1-2 por lote
-de este tamaño. **Trigger**: antes del siguiente lote de ingesta (Tyco/Hikvision/Dahua/Ajax o
-Aritech/Edwards) — ingestar otro lote sin esto agranda el corpus de segunda clase.
+question-side no le aplican. **CONSTRUIDO (s315b, DEC-194)**: `scripts/derive_channels_lote.py` (orquestador
+E1→E2→H→V, dry-run con coste) + `scripts/hyq_lote_pipeline.py` (vintage por lote
+append-seguro, contrato hyq-v1-*/hyq-lote-*) + camino acotado s273 de enunciados
+estrenado (`--store` nuevo). Dúo Opus NO-SÓLIDO → 13 hallazgos aplicados. **PENDIENTE:
+el RUN del lote Casmar** (máquina con claves + store OneDrive): dry-run →
+`--aplicar` (~$5-15) → recibos `evals/derive_lote_casmar314_*`. Trigger intacto: antes
+del siguiente lote de ingesta (Aritech/Edwards vía firesecurityproducts).
 
 ## #69 — `documents.source_url` solo cubre el manifiesto Casmar; el corpus histórico queda sin link (s315)
 
@@ -2498,3 +2500,26 @@ salvo `--pisar-portal`; recibo reversible). **Acción de Alberto**: correrlo des
 máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam es la
 misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
 a ingesta perdidos (revisarlos, no ignorarlos).
+
+## #70 — El carry-forward sobrevive al cambio de marca vía `catalog_shortcut` (s315, dato vivo de Alberto)
+
+**Verificado en query_logs (9-ago 21:58Z)**: tras una conversación sobre la NC-PF2 (Kidde),
+Alberto pidió «pasemos a productos Morley. ¿qué centrales de incendios Morley tienes?» →
+ruta `catalog_shortcut` (inventario, $0, correcta) → su siguiente turno («esto parece
+incluir muchos más productos…») entró a RAG con `product_models=[NC-PF2]` ARRASTRADO:
+la ruta de inventario ni actualiza ni limpia `last_detected_models`, así que el cambio de
+marca explícito del usuario no existe para el carry-forward y el bot siguió respondiendo
+sobre la serie NC de Kidde (con su apéndice de obligaciones citando docs Kidde). **Fix
+direction**: las rutas directas (`catalog_shortcut`/inventario) deben tocar el contexto
+conversacional — como mínimo limpiar `last_detected_models` y registrar la marca pedida.
+Toca el handler y el diseño del carry-forward (F1) → diseño + dúo propios, no hot-patch.
+
+## #71 — El disclaimer legal se captura como «obligación de evidencia» (evidence_contract, aparato PROTEGIDO)
+
+**Mismo turno**: el apéndice «Obligaciones de evidencia del manual» citó el párrafo de
+responsabilidad legal de KGS Fire & Security («no se hará responsable en ningún caso…»,
+bcn-3100017 p.4) como si fuera una obligación técnica del manual. El léxico del detector
+casa marcadores de obligación/advertencia que el boilerplate legal también usa. **Ojo**:
+`evidence_contract.py` es parte del aparato protegido (DEC-148 / NO_GO_PROTECTED_CONTRACT)
+— cualquier exclusión de la clase «disclaimer legal» exige adjudicación previa, no parche
+en caliente. Población pendiente de censar (¿cuántos docs llevan el boilerplate?).

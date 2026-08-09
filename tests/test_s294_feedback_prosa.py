@@ -236,6 +236,49 @@ def test_reply_anclado_se_captura_y_no_va_al_rag(monkeypatch):
     assert update.message.reply_text.calls[0]["args"][0] == bot._FEEDBACK_EXPLAIN_ACK
 
 
+def test_capturar_BORRA_la_invitacion_forcereply(monkeypatch):
+    """s315 (2º dato vivo, 9-ago): ReplyKeyboardRemove no desarma ForceReply — el
+    borrador «Reply to…» revive tras el Anotado. Capturada la explicación, la
+    INVITACIÓN se borra: muerto el mensaje, muere el borrador armado."""
+    monkeypatch.setattr(bot, "query_log_id_for_message", lambda c, m: str(uuid.uuid4()))
+    monkeypatch.setattr(bot, "set_feedback_comment", lambda *a: True)
+    invitacion = _bot_message()
+    invitacion.text = bot._FEEDBACK_EXPLAIN_PROMPT
+    invitacion.delete = _AsyncRecorder()
+    update = _message_update("el dato correcto es 40 ohmios", reply_to=invitacion)
+
+    assert asyncio.run(
+        bot._capture_reply_explanation(update, 7, "el dato correcto es 40 ohmios")
+    ) is True
+    assert invitacion.delete.calls, "la invitación ForceReply debe borrarse"
+
+
+def test_capturar_reply_a_RESPUESTA_tecnica_no_borra_nada(monkeypatch):
+    """La guarda es estricta: un reply espontáneo a una respuesta anclada se captura
+    igual, pero la respuesta técnica JAMÁS se borra (solo la invitación exacta)."""
+    monkeypatch.setattr(bot, "query_log_id_for_message", lambda c, m: str(uuid.uuid4()))
+    monkeypatch.setattr(bot, "set_feedback_comment", lambda *a: True)
+    respuesta = _bot_message()
+    respuesta.text = "La resistencia máxima por zona es 40 Ω [F1]…"
+    respuesta.delete = _AsyncRecorder()
+    update = _message_update("esto está mal", reply_to=respuesta)
+
+    assert asyncio.run(bot._capture_reply_explanation(update, 7, "esto está mal")) is True
+    assert not respuesta.delete.calls, "una respuesta técnica nunca se borra"
+
+
+def test_borrado_de_invitacion_fail_open(monkeypatch):
+    """Si Telegram rechaza el delete (>48h, permisos), la captura ya está hecha."""
+    monkeypatch.setattr(bot, "query_log_id_for_message", lambda c, m: str(uuid.uuid4()))
+    monkeypatch.setattr(bot, "set_feedback_comment", lambda *a: True)
+    invitacion = _bot_message()
+    invitacion.text = bot._FEEDBACK_EXPLAIN_PROMPT
+    invitacion.delete = _AsyncRecorder(raise_exc=RuntimeError("48h"))
+    update = _message_update("dato", reply_to=invitacion)
+
+    assert asyncio.run(bot._capture_reply_explanation(update, 7, "dato")) is True
+
+
 def test_mensaje_suelto_NO_se_captura(monkeypatch):
     """El aviso de Alberto: si pasa del feedback y pregunta, el bot RESPONDE."""
     monkeypatch.setattr(bot, "query_log_id_for_message", lambda c, m: "no-deberia")

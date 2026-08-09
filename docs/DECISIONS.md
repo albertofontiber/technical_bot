@@ -5248,3 +5248,49 @@ cablear enunciados/hyq del lote en caliente (gates propios pendientes).
 migración `supabase/migration_proposals/20260809180000_s315_source_url_y_latencia_etapas.sql`
 (APLICADA vía MCP, postcondiciones OK) · suite 3644 passed (4 preexistentes de entorno,
 idénticos en árbol limpio).
+
+## DEC-194 (s315b) — Fase de canales derivados por lote (#68): construida, dúo NO-SÓLIDO → 13 fixes; contrato de convivencia de vintages hyq
+
+**Decisión.** La fase incremental enunciados+hyq para lotes de ingesta REUSA los generadores
+canónicos en vez de reescribirlos: enunciados por el camino acotado s273 (nunca estrenado:
+`enunciados_pass --docs` + `s104_a3_load --only-source-files/--rewrite-batch-tag/--ledger-check`)
+con `--store` nuevo para el extraction store bajo `--data-root`; hyq con pipeline por-lote
+(`hyq_lote_pipeline.py`) porque el camino global asume vintage único. **Contrato nuevo de
+vintages hyq**: `hyq-v1-*` = vintage GLOBAL único (el loader s102 sigue abortando ante mezcla
+y su `--wipe` solo borra esa clase); `hyq-lote-*` = vintages POR LOTE aditivos (el loader
+global los ignora; cada lote deja recibo con su `ingest_batch` = asa de rollback selectivo).
+Pins anti-drift: hyq genera con sonnet-4-6 (vintage del corpus s102, NO hereda el Opus 5 vivo);
+enunciados con haiku h1 (GO DEC-102); few-shot pineado por sha12 contra el gold vivo.
+Orquestador `derive_channels_lote.py`: dry-run con coste, E1→E2→H→V, verificación por manifest
+de ids + recibo con ambos batch tags.
+
+**El dúo cortó de verdad (Protocolo 3, sub-agente Opus, Sol sin key — gap declarado):**
+NO-SÓLIDO con 13 hallazgos, 4 de ellos rompe-ejecución, TODOS aplicados: (#1 CRÍTICO) el
+append inutilizaba el loader global y su --wipe habría borrado el lote → contrato de prefijos;
+(#2) E2 abortaba el lote entero si UN doc no producía filas (esperable: sin store/todo-dup) →
+--only-source-files se deriva del DUMP; (#3) resume de s104_a3_load roto (paginaba 10k contra
+max-rows=1000 — el mismo bug que s102 ya arregló en su gemelo); (#4) la verificación hyq
+fallaba en cualquier resume parcial (delta vs universo); (#5) truncación silenciosa a 1.000
+chunks/doc; (#6) generaba hyq de chunks duplicate_of (la clase DEC-165); (#7) el tope de
+presupuesto devolvía éxito → rc=2 + budget dimensionado al lote desde el ledger; (#8)
+predicado de temperatura reintroducía el falso-positivo que s104-F3 corrigió; (#9-#13)
+verificación real por ids, no re-embeber npz vigente, líneas corruptas contadas, pin few-shot,
+aborto en lote vacío.
+
+**Bugs vivos de producción (datos de Alberto, mismo día):** apéndice must_preserve con
+`<br/>` literales de celdas LlamaParse → fix de presentación `_strip_html_breaks` (clase
+blockquote-v6, tests); el «Reply to…» del feedback revivía tras el «Anotado» →
+`ReplyKeyboardRemove` NO desarma un ForceReply: capturada la explicación se BORRA la
+invitación (guarda estricta por texto exacto — una respuesta técnica jamás se borra;
+3 tests); carry-forward sobrevive al cambio de marca vía catalog_shortcut →
+**#70** (diagnóstico verificado en query_logs, fix con diseño+dúo propio); disclaimer legal
+capturado como obligación de evidencia → **#71** (aparato protegido DEC-148, exige
+adjudicación). **Primera atribución de latencia en producción** (timings s315 vivos):
+62,9s = retrieve 27,0 + generate 33,1 + rerank 1,5 + coverage 1,2 — retrieval pesa 40-45%,
+mucho más de lo asumido; plan de ataque cuando haya ~1 semana de datos.
+
+**Run del lote Casmar PENDIENTE** (máquina con claves + store): dry-run → --aplicar (~$5-15).
+Recibos: `evals/derive_lote_*` cuando corra. Alternativas descartadas: reescribir generadores
+(drift de paridad); cargar el lote en el vintage global con --wipe+re-embed (70k filas de
+churn por lote); gate de desplazamiento obligatorio por lote (el instrumento enunciados_panel
+queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órdenes lejos).

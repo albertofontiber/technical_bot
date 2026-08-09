@@ -754,6 +754,18 @@ async def _capture_reply_explanation(update: Update, user_id: int, text: str) ->
         await update.message.reply_text(
             _FEEDBACK_EXPLAIN_ACK, reply_markup=ReplyKeyboardRemove()
         )
+        # s315 (2º dato vivo de Alberto, 9-ago): ReplyKeyboardRemove NO desarma un
+        # ForceReply — el borrador «Reply to…» que el cliente sincroniza apuntando a
+        # la INVITACIÓN revive tras el «Anotado». El remedio con dientes es borrar el
+        # mensaje-invitación: muerto el mensaje, muere el borrador armado. Guarda
+        # ESTRICTA: solo si lo respondido es EXACTAMENTE la invitación (constante) —
+        # este handler también captura replies a RESPUESTAS técnicas ancladas y esas
+        # jamás se borran. Fail-open aparte: la captura ya está consumada.
+        try:
+            if getattr(replied, "text", None) == _FEEDBACK_EXPLAIN_PROMPT:
+                await replied.delete()
+        except Exception:
+            logger.warning("borrado de la invitación falló open")
         return True
     except Exception:
         logger.warning("captura de explicación falló open")
