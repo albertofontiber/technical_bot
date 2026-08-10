@@ -5488,3 +5488,50 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   suite completa en curso al cierre de esta entrada. **Relacionado**: DEC-148/154 (gate
   MT), DEC-072/195 (controles), TECH_DEBT #70, `evals/s316_tech70_propuesta_v{1,2}.md`,
   `evals/s316_instrumento_mt_transporte_propuesta_v{1,2}.md`.
+
+## DEC-198 (s316b) — #70 etapa 1 SHIPPEADA contra el instrumento, y la medición que cierra el lever del dedup en 0,00%
+
+- **Fecha**: 10 ago 2026 (s316b). **Impacto**: ALTO (código de producción en el despacho de
+  mensajes del bot vivo + estado conversacional; zona de dolor).
+- **Contexto**: Alberto priorizó #70 (fallo ORGÁNICO de uso real) y adjudicó «instrumento
+  primero, BP/robusto/escalable». El instrumento (DEC-197) hizo su trabajo: el testigo salió
+  ROJO, el fix lo puso VERDE, y el segundo testigo mantiene honesta la mitad que falta.
+- **Decisión 1 — guardia de cambio de marca en `TypeHandler` grupo -1**. Punto ÚNICO por el
+  que pasan todos los updates: cubre las rutas tempranas Y el fall-through sin depender de
+  que cada ruta se acuerde de llamar a nada (el dúo cortó dos veces la variante «seam por
+  ruta» como convención olvidable). Cuatro condiciones simultáneas; fail-open y fail-soft.
+- **Decisión 2 — calibración PRECISIÓN-PRIMERO, y es el corazón de la decisión.** La v1
+  cableada era **PEOR que el bug**, medido end-to-end por el sub-agente y verificado:
+  `FUEGO` es un fabricante REAL de la DB (1 doc) y el resolutor casaba «fuego» ⇒ 8/19
+  consultas técnicas plausibles borraban contexto y convertían turnos contestados en
+  clarifies. Asimetría que manda: un FALSO POSITIVO rompe un turno que funcionaba; un MISS
+  solo deja el bug en fraseos raros ⇒ se sacrifica recall. Correcciones: resolutor estricto
+  (la heurística «primera palabra única» de `_marca_en_consulta` es segura solo tras un
+  pre-gate), `_MARCAS_AMBIGUAS`, `vamos` fuera de los verbos de switch, replies excluidos.
+- **Decisión 3 — lo estructural NO es la lista negra, es el detector de colisiones**:
+  `test_ninguna_marca_nueva_colisiona_con_el_dominio` rompe CI si se ingesta una marca
+  llamada «Alarma»/«Sirena»/«Central». Una lista negra se pudre; un detector no.
+- **MEDICIÓN QUE CIERRA EL LEVER DEL DEDUP (DEC-196)**: generado el lote completo
+  (939 chunks → 2.516 preguntas, ~$4) y cruzado contra los 70.126 textos del vintage
+  global: **`dup_cross_vintage` = 0 / 2.516 = 0,00%**. La regla que s316 quiso cambiar no
+  descarta NADA en este lote ⇒ el lever era un **no-op medido**. Revertir fue correcto y el
+  rediseño habría sido complejidad pagada por nada. **Lever CERRADO con dato, no con
+  razonamiento.**
+- **Medición de precisión sobre datos REALES**: 68 consultas distintas de `query_logs`
+  (abr–ago) → 7 disparos, 7 legítimos, **0 falsos positivos**. Declarado que NO exonera: la
+  muestra es Alberto probando con códigos de modelo, no técnicos con lenguaje de campo; la
+  corrección se hizo igual porque la colisión con «fuego» es un arma cargada.
+- **Alternativas descartadas**: (a) seam por ruta (no-op sobre el estado vivo + no cubre el
+  fall-through); (b) arreglar el clasificador de F1 (no cubre las rutas tempranas, que son
+  el fallo orgánico, y mueve un contrato congelado con gate MT propio); (c) hot-patch en las
+  3 salidas del catálogo; (d) dejar la heurística laxa confiando en los 0 FP medidos (la
+  muestra no es representativa de los usuarios reales).
+- **Gaps / riesgos declarados**: la etapa 2 sigue ABIERTA (testigo en `xfail(strict)`);
+  `_MARCAS_AMBIGUAS` es una lista negra —lo que la sostiene es el detector—; la voz se cubre
+  por contrato de FUENTE, no conduciendo audio; el doble del instrumento replica a mano el
+  orden de grupos de PTB; `user_data` es memoria de proceso (un redeploy lo borra); y no se
+  mide CALIDAD de respuesta, solo enrutado y estado.
+- **Estado**: ✅ **suite 3.693 passed / 46 skipped / 1 xfailed** · instrumento 27 passed /
+  1 xfailed · dúo COMPLETO ×4 rondas (2 caídas de red de Sol/sub-agente, relanzadas).
+  **Relacionado**: DEC-196 (el lever revertido, ahora cerrado con medición), DEC-197 (el
+  instrumento), TECH_DEBT #70 y #52.

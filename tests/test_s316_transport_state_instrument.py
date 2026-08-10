@@ -143,8 +143,18 @@ def transporte(monkeypatch):
 
 
 def _turno(bot, context, texto, n):
+    """Despacha un turno REPLICANDO el orden de grupos de python-telegram-bot.
+
+    En producción `run_bot` registra `brand_switch_guard` como `TypeHandler` en
+    **grupo -1** y `handle_message` en el grupo 0 por defecto; PTB ejecuta los grupos
+    en orden. El instrumento no levanta una `Application`, así que replica ese orden
+    a mano. `test_guardia_registrada_en_grupo_menos_uno` fija que el registro real
+    sigue siendo ese — si alguien mueve el grupo, este doble deja de ser fiel y ese
+    test lo canta.
+    """
     u = _update(texto, update_id=n)
-    asyncio.run(bot.handle_message(u, context))
+    asyncio.run(bot.brand_switch_guard(u, context))     # grupo -1
+    asyncio.run(bot.handle_message(u, context))         # grupo 0
     return u
 
 
@@ -159,12 +169,6 @@ def _sin_rama_de_error(update, rec, *, espera_generacion):
 
 
 # --- TESTIGO (rojo HOY = #70 documentado; XPASS estricto al aterrizar el fix) -
-@pytest.mark.xfail(
-    strict=True,
-    reason="TECH_DEBT #70: catalog_shortcut retorna sin tocar mt_working_state y el "
-           "turno siguiente genera con el producto de la marca ANTERIOR (fallo orgánico "
-           "query_logs 9-ago 21:58-21:59Z). Si esto pasa a XPASS, el fix aterrizó: "
-           "retira el marcador y promociona el test a contrato.")
 def test_testigo_cambio_de_marca_no_arrastra(transporte):
     import src.bot.telegram_bot as bot
 
@@ -219,6 +223,214 @@ def test_control_compatibilidad_conserva_carry(transporte):
     # compatibilidad no es un cambio de tema — el producto en curso se conserva.
     assert "NC-PF2" in transporte["generate_queries"][-1], (
         "regresión: la pregunta de compatibilidad perdió el carry-forward")
+
+
+# --- TESTIGO 2: el fall-through, causa (2) — SIGUE ROJO (etapa 2) ------------
+@pytest.mark.xfail(
+    strict=True,
+    reason="TECH_DEBT #70 causa (2), NO cubierta por la etapa 1: «¿y en Morley cómo se "
+           "hace el reset?» no declara switch ni pide inventario, así que la guardia no "
+           "dispara; el turno llega a F1 y la política lo clasifica "
+           "brand_compatibility_in_window (conversation_policy_impl:398-403) → arrastra. "
+           "Arreglarlo toca el clasificador, que tiene contrato congelado y gate MT "
+           "propio (DEC-154). XPASS ⇒ la etapa 2 aterrizó: retira el marcador.")
+def test_testigo_fallthrough_marca_sin_switch_explicito(transporte):
+    import src.bot.telegram_bot as bot
+
+    context = SimpleNamespace(user_data={})
+    _turno(bot, context, TURNO_A, 1)
+
+    uB = _turno(bot, context, "¿y en Morley cómo se hace el reset?", 2)
+    _sin_rama_de_error(uB, transporte, espera_generacion=True)
+    assert "NC-PF2" not in transporte["generate_queries"][-1], (
+        "el fall-through generó con el producto de la marca ANTERIOR: "
+        f"{transporte['generate_queries'][-1]!r}")
+
+
+# --- CONTROL: la guardia NO se traga un "cambio" a la MISMA marca ------------
+# (dúo s316, Sol M2) La v1 de este control usaba «¿qué más centrales Kidde tienes?»,
+# que NO casa `_ENUM_FABRICANTE` ⇒ `_marca_destino` devolvía None y el test quedaba
+# verde SIN llegar nunca a la comparación de fabricante. Era vacuo: pasaba aunque se
+# borrara la extensión de identidad. Aquí la frase SÍ resuelve destino, así que la
+# única razón de no limpiar es la comparación Kidde==Kidde.
+def test_control_misma_marca_ejerce_la_comparacion(transporte):
+    import src.bot.telegram_bot as bot
+
+    assert (bot._marca_destino("pasemos a Kidde") or "").lower() == "kidde", \
+        "precondición: la frase debe resolver destino, o el control vuelve a ser vacuo"
+
+    user_data = {"mt_working_state": WorkingState(last_target_models=("NC-PF2",),
+                                                  last_query=TURNO_A)}
+    invalidada = bot._invalidar_si_cambio_de_marca(user_data, "pasemos a Kidde")
+    assert invalidada is None, "la guardia invalidó con la MISMA marca (NC-PF2 es Kidde)"
+    assert user_data["mt_working_state"].last_target_models == ("NC-PF2",)
+
+
+def test_guardia_invalida_con_marca_distinta_unit(transporte):
+    """Espejo del anterior: misma frase, marca DISTINTA ⇒ sí invalida."""
+    import src.bot.telegram_bot as bot
+
+    user_data = {"mt_working_state": WorkingState(last_target_models=("NC-PF2",),
+                                                  last_query=TURNO_A),
+                 "last_detected_models": ["NC-PF2"]}
+    invalidada = bot._invalidar_si_cambio_de_marca(user_data, "pasemos a Morley")
+    assert (invalidada or "").lower() == "morley"
+    assert user_data["mt_working_state"].last_target_models == ()
+    # rollback-safe: el régimen legacy también queda limpio (si mañana se quita
+    # CONVERSATION_POLICY de Railway, #70 no revive con la guardia puesta).
+    assert "last_detected_models" not in user_data
+    # reset COMPLETO: last_query residual haría is_empty False y el turno siguiente
+    # contestaría «Ha pasado un rato» siendo mentira.
+    assert user_data["mt_working_state"].is_empty
+
+
+# --- PRECISIÓN: la guardia NO puede disparar con vocabulario del dominio -----
+# Batería del sub-agente s316 (medida end-to-end: con la v1 el bot pasaba de contestar
+# a pedir modelo). El daño de un FALSO POSITIVO es peor que el del bug: rompe un turno
+# que funcionaba. Por eso la guardia se calibra precisión-primero.
+_NO_DEBEN_DISPARAR = [
+    "y ahora la central de fuego no rearma, ¿cómo la reseteo?",
+    "¿y ahora cómo se rearma después de un fuego?",
+    "ahora con el detector de fuego en alarma, ¿cómo silencio la sirena?",
+    "ahora el panel de fuego marca avería de tierra",
+    "pasa a modo prueba y dime si el fuego se simula",
+    "vamos a ver si es compatible con detectores Morley",   # muletilla, no switch
+    "vamos a ver, ¿es compatible con Morley?",
+    "¿es compatible con Morley?",
+    "¿y en Morley cómo se hace el reset?",                  # etapa 2, no la guardia
+    "¿qué productos tienes?",
+]
+
+_DEBEN_DISPARAR = [
+    ("pasemos a productos Morley. ¿qué centrales de incendios Morley tienes?", "Morley"),
+    ("pasemos de Kidde a Morley", "Morley"),                # posicional: destino, no origen
+    ("pasemos a Xtralis", "Xtralis"),                       # marca solo-DB (fallo Securiton)
+    ("pasemos a Securiton", "Securiton"),
+    ("ahora con productos Morley", "Morley"),               # palabra intermedia
+    ("¿qué centrales de incendios Morley tienes?", "Morley"),
+]
+
+
+@pytest.mark.parametrize("consulta", _NO_DEBEN_DISPARAR)
+def test_precision_la_guardia_calla(consulta):
+    import src.bot.telegram_bot as bot
+    assert bot._marca_destino(consulta) is None, (
+        f"FALSO POSITIVO: la guardia borraría contexto legítimo en {consulta!r}")
+
+
+@pytest.mark.parametrize("consulta,esperada", _DEBEN_DISPARAR)
+def test_recall_la_guardia_dispara(consulta, esperada):
+    import src.bot.telegram_bot as bot
+    got = bot._marca_destino(consulta)
+    assert (got or "").lower() == esperada.lower(), f"{consulta!r} → {got!r}"
+
+
+def test_ninguna_marca_nueva_colisiona_con_el_dominio():
+    """LA parte estructural de `_MARCAS_AMBIGUAS`: una lista negra se pudre; un detector
+    de colisiones no. Si se ingesta una marca llamada «Alarma»/«Sirena»/«Central», este
+    test rompe y obliga a declararla conscientemente en vez de descubrirlo en campo
+    (como pasó con FUEGO: fabricante real de 1 documento cuyo nombre es la palabra más
+    común del sector). Sin red: si la DB no responde, se salta."""
+    import src.bot.telegram_bot as bot
+
+    try:
+        marcas = bot.get_available_manufacturers() or []
+    except Exception:                                  # noqa: BLE001
+        pytest.skip("sin acceso a la lista de fabricantes")
+    if not marcas:
+        pytest.skip("lista de fabricantes vacía")
+
+    colisiones = {m for m in marcas
+                  if m.lower() in bot._VOCABULARIO_DOMINIO
+                  and m.lower() not in bot._MARCAS_AMBIGUAS}
+    assert not colisiones, (
+        f"marcas nuevas que colisionan con vocabulario del dominio: {sorted(colisiones)}. "
+        "Decláralas en _MARCAS_AMBIGUAS o la guardia borrará contexto al nombrarlas.")
+
+
+# --- CONTRATO DE CABLEADO: la guardia vive en el grupo -1 --------------------
+def test_guardia_registrada_en_grupo_menos_uno():
+    """El doble de `_turno` replica el orden de grupos de PTB; si el registro real
+    cambia de grupo (o desaparece), el doble deja de ser fiel y esto lo canta."""
+    src = (ROOT / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8")
+    tree = ast.parse(src)
+    # (dúo s316, sub-agente) Acotado a run_bot: la v1 walkeaba el MÓDULO entero y
+    # pasaba con el registro en código muerto.
+    run_bot = next((n for n in ast.walk(tree)
+                    if isinstance(n, ast.FunctionDef) and n.name == "run_bot"), None)
+    assert run_bot is not None, "run_bot no existe"
+    encontrada = False
+    for node in ast.walk(run_bot):
+        if not (isinstance(node, ast.Call)
+                and getattr(node.func, "attr", None) == "add_handler"):
+            continue
+        arg0 = node.args[0] if node.args else None
+        if not (isinstance(arg0, ast.Call)
+                and getattr(arg0.func, "id", None) == "TypeHandler"):
+            continue
+        if any(getattr(a, "id", None) == "brand_switch_guard" for a in arg0.args):
+            # -1 llega al AST como UnaryOp(USub, Constant(1)), no como Constant(-1)
+            crudo = [k.value for k in node.keywords if k.arg == "group"]
+            assert crudo, "TypeHandler(brand_switch_guard) sin `group=`"
+            g = crudo[0]
+            valor = (-g.operand.value if isinstance(g, ast.UnaryOp)
+                     else getattr(g, "value", None))
+            assert valor == -1, f"la guardia está en el grupo {valor}, no en -1"
+            encontrada = True
+    assert encontrada, "brand_switch_guard NO está registrada como TypeHandler en run_bot"
+
+
+def test_guardia_ignora_los_replies_de_feedback():
+    """Un reply es feedback (#60 punto 5b), no un cambio de tema: la guardia debe
+    dejarlo pasar intacto para `_capture_reply_explanation`."""
+    import src.bot.telegram_bot as bot
+
+    context = SimpleNamespace(user_data={
+        "mt_working_state": WorkingState(last_target_models=("NC-PF2",),
+                                         last_query=TURNO_A)})
+    u = _update("pasemos a productos Morley", update_id=9)
+    u.message.reply_to_message = SimpleNamespace(message_id=123,
+                                                 chat=SimpleNamespace(id=42))
+    asyncio.run(bot.brand_switch_guard(u, context))
+    assert context.user_data["mt_working_state"].last_target_models == ("NC-PF2",), (
+        "la guardia borró contexto en un mensaje de FEEDBACK")
+
+
+def test_la_voz_tambien_invoca_la_guardia():
+    """`handle_voice` NO pasa por `handle_message`, así que el TypeHandler de grupo -1
+    no ve su texto: solo existe tras el ASR. La llamada explícita es el único punto que
+    cubre la voz — si desaparece, un cambio de marca DICHO en voz alta no invalidaría
+    contexto. Contrato de fuente (patrón `test_privacidad_esta_registrado_y_listado`):
+    el doble del instrumento solo conduce texto (gap declarado)."""
+    import inspect
+
+    import src.bot.telegram_bot as bot
+
+    cuerpo = inspect.getsource(bot.handle_voice)
+    assert "_invalidar_si_cambio_de_marca" in cuerpo, (
+        "handle_voice dejó de invocar la guardia: la voz queda sin cobertura de #70")
+    assert cuerpo.index("_invalidar_si_cambio_de_marca") < cuerpo.index("_process_query"), (
+        "la guardia debe invalidar ANTES de procesar la consulta")
+
+
+def test_guardia_no_paga_db_en_el_camino_caliente(monkeypatch):
+    """Sin frase de switch ni pre-gate de inventario, la guardia NO puede llamar a
+    `get_available_manufacturers` (httpx síncrono paginado dentro de un handler async
+    del grupo -1: 0,54 s en frío tras cada restart, en CADA mensaje)."""
+    import src.bot.telegram_bot as bot
+
+    llamadas = {"n": 0}
+
+    def _espia():
+        llamadas["n"] += 1
+        return ["Morley", "Kidde"]
+
+    monkeypatch.setattr(bot, "get_available_manufacturers", _espia)
+    for q in ("¿cuál es la tensión del lazo?", "no me funciona el rearme",
+              "gracias", "¿cómo silencio la sirena?"):
+        bot._marca_destino(q)
+    assert llamadas["n"] == 0, (
+        f"la guardia pagó {llamadas['n']} llamada(s) a DB en el camino caliente")
 
 
 # --- CENSO de ramas terminales (el unit del riesgo, no la ruta) --------------
