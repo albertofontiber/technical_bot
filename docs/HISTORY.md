@@ -3089,3 +3089,40 @@ invitación se borra al capturar, con guarda estricta), el carry-forward ignoran
 y un disclaimer legal citado como obligación de evidencia (#71, aparato protegido). Y los
 timings estrenados en producción dieron la primera atribución real: retrieve 11-27s por
 turno — el 40-45% de la latencia que nadie tenía en el radar.
+
+## s316 (10 ago 2026) — Retomar contra una sesión cloud: el dúo corta el run, y dos métodos que daban falsos negativos
+
+Alberto pidió retomar con cuidado porque la sesión anterior corrió en cloud. La
+reconciliación no encontró conflictos de código (local iba 5 commits por detrás, FF
+limpio) pero sí **dos agujeros de gobernanza**: s315c no existía en ningún doc canónico, y
+el hook que inyecta el digest de levers (DEC-072) llevaba caído quién sabe cuánto — el
+control anti-recall no se estaba ejecutando. Se reconstruyó y se VERSIONÓ, que era el gap
+que el propio DEC-072 había declarado y que se materializó.
+
+**El dúo hizo su trabajo, y dolió.** El run del lote Casmar (#68) estaba a un `--aplicar`
+de escribir en producción con el dúo declarado a medias (Sol no era ejecutable en cloud).
+En local sí lo era. Sol devolvió 3 críticos, todos de la misma clase: **el pipeline podía
+estampar recibo ✅ habiendo cubierto una fracción del lote**. Se corrigieron; la segunda
+ronda (Sol + sub-agente Opus 5) devolvió **NO-SÓLIDO** sobre los propios fixes, y la pieza
+central —cambiar el dedup hyq a keep-FIRST por documento— resultó ser **un no-op**:
+`parse_questions` ya deduplica global por texto, y un test del repo fija como contrato lo
+contrario de lo que yo había afirmado. Alberto adjudicó revertir. El dedup queda como
+lever ABIERTO sin medir, que es lo honesto: no es un fix, es un lever con coste (toca el
+techo `LIMIT 200` del RPC global, donde el filtro de familia corre DESPUÉS del truncado).
+Lo que sí quedó: fail-closed real, comprobación de fuga `source_file`, congelado de
+selección, y 8 tests — la crítica de que los fixes anteriores no traían ninguno era justa.
+
+**Dos métodos daban falsos negativos, y los dos se cazaron con controles.** El script de
+subida a Storage pedía `limit=10000` contra el cap de 1.000 de PostgREST: 243 documentos
+invisibles, y el `--aplicar` los habría saltado sin poblar su link. Y el barrido Casmar de
+s314 ya no funciona —`filters[sku]` dejó de filtrar— lo que hacía que un barrido de huecos
+devolviera «0» con toda naturalidad; se destapó corriendo **NC-PF2 como control positivo**
+antes de dar el resultado por bueno. El método real (los documentos viven en el `onclick`
+de la ficha, con un `attributeCode` que separa homologaciones de forma autoritativa) se
+descubrió con el navegador y quedó cableado.
+
+**Y una pregunta mal respondida.** Adjudiqué el frente Aritech/Edwards concluyendo que
+«AS250 es el único hueco real» — y Alberto corrigió el encuadre: no quiere productos
+nuevos, quiere **los manuales que faltan de los equipos que ya están**. Con la pregunta
+correcta y el método corregido: 19 candidatos Aritech, 0 Edwards. El criterio quedó en
+memoria para no repetir el error. DEC-195/195b/196.

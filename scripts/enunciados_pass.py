@@ -402,6 +402,10 @@ def _seed_t1(led: dict) -> None:
 
 
 def main() -> int:
+    try:  # consola Windows cp1252 vs los → ↔ del informe (convención del repo)
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("--tranche")
     ap.add_argument("--docs", help="fichero con un source_file por línea")

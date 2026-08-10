@@ -60,6 +60,10 @@ def _sha256(path: str) -> str:
 
 
 def main() -> int:
+    try:  # consola Windows cp1252 vs los → ↔ del informe (convención del repo)
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     ap = argparse.ArgumentParser()
     ap.add_argument("raices", nargs="+",
                     help="directorios o globs con los PDFs (p.ej. ...\\Manuales_*)")
@@ -88,15 +92,32 @@ def main() -> int:
     headers = {"apikey": SUPABASE_SERVICE_KEY,
                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
     with httpx.Client(base_url=SUPABASE_URL, headers=headers, timeout=120) as client:
-        resp = client.get(
-            "/rest/v1/documents",
-            params={"select": "id,source_pdf_sha256,source_pdf_filename,manufacturer,source_url",
-                    "source_pdf_sha256": "not.is.null", "limit": str(FETCH_CAP)},
-        )
-        resp.raise_for_status()
-        docs = resp.json()
-        if len(docs) >= FETCH_CAP:
-            raise SystemExit(f"documents alcanzó el cap ({FETCH_CAP}): paginar antes de seguir")
+        # (s316) PAGINACIÓN REAL. La v1 pedía `limit=10000` y comprobaba
+        # `len(docs) >= FETCH_CAP`, pero PostgREST capa en 1.000 filas POR SERVIDOR:
+        # con 1.243 documentos devolvía 1.000, la guarda (1.000 < 10.000) no
+        # disparaba y los 243 restantes quedaban INVISIBLES → sus PDFs se
+        # clasificaban como «sin fila por sha» y el --aplicar los habría SALTADO,
+        # dejando su source_url sin poblar. Misma clase de truncamiento silencioso
+        # que el dúo s315 ya corrigió en hyq_lote_pipeline (#5).
+        docs = []
+        offset = 0
+        while True:
+            resp = client.get(
+                "/rest/v1/documents",
+                headers={"Range": f"{offset}-{offset + 999}"},
+                params={"select": "id,source_pdf_sha256,source_pdf_filename,"
+                                  "manufacturer,source_url",
+                        "source_pdf_sha256": "not.is.null", "order": "id.asc"},
+            )
+            resp.raise_for_status()
+            pagina = resp.json()
+            docs.extend(pagina)
+            if len(pagina) < 1000:
+                break
+            offset += 1000
+            if offset >= FETCH_CAP:
+                raise SystemExit(f"documents superó el cap ({FETCH_CAP}): revisar")
+        print(f"documents con sha leídos: {len(docs)}")
         por_sha = {d["source_pdf_sha256"]: d for d in docs}
         # Fallback por NOMBRE para el diagnóstico de los sin-fila: 159/1.243 docs
         # llevan sha placeholder ('backfill:…', TECH_DEBT #4 Phase 3 sin hacer) y

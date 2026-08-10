@@ -4,25 +4,22 @@ Bot RAG de Telegram para técnicos de PCI (protección contra incendios): Claude
 (Sonnet genera) + Supabase pgvector. Responde SOLO desde manuales oficiales, cita
 fuente, y admite cuando no sabe. Contexto M&A (Fontiber); escala a 30+ fabricantes.
 
-## START HERE — continuidad S278 (22 jul 2026, gobernanza DEC-148)
+## START HERE
 
-Leer `docs/DECISIONS.md` DEC-148 + el bloque «Estado actual» del PLAN. Estado: la P1 fresca
-`b92ff51` completó 27/27 réplicas / 81/81 llamadas y quedó `P1_NO_GO / NO_GO_PROTECTED_CONTRACT`
-(10/27 respuestas limpias, 17/27 con fallos; 62 PASS / 29 FAIL **ítems semánticos**); el run es
-baseline inmutable (no editar/reanudar; hash audit reproducible). **Gobernanza simplificada
-(Alberto):** se conserva el aparato s277 pero SIN su obligación procesal — no hay segundo gate de
-receipts ni P1 ceremonial nueva. Camino vivo: implementar el diseño vNext
-(`evals/s278_vnext_design_v1.md`; dúo Protocolo 3 antes de cablear) → tests + oráculo offline $0
-(`scripts/s277_c1_p1_offline_counterfactual.py`; 62/62+93/93 preservados) → una pasada de harness
-~$3 sobre los 13 QIDs → lectura de Alberto → **merge de la PR #184 = flip de
-`COVERAGE_RELEASE_PROFILE` en Railway por construcción** (DEC-148; el contrato de
-`release_profiles.py` rechaza la config legacy actual en producción — no mergear sin preparar el
-flip). El detalle histórico de la P1: `docs/HANDOFF_P1_B92FF51_2026-07-22.md` (su §9 SUPERADO por
-DEC-148). No existe `P1_PASS` ni movimiento del KPI (146/154).
+**El estado de la sesión NO vive aquí.** Este fichero son instrucciones DURABLES; el estado
+es mutable y caduca (s316: este bloque llevaba 25 sesiones congelado en S278/22-jul mientras
+el trabajo iba por s315 — la misma clase de fallo que DEC-072 diagnosticó al prohibir tablas
+de estado en CLAUDE.md). Arranque canónico de CUALQUIER sesión, en este orden:
+
+1. **`docs/PLAN_RAG_2026.md` → bloque «Estado actual»** — doc CANÓNICO del estado y de qué
+   sigue. Manda sobre cualquier otro. Si un sub-doc lo contradice, gana el PLAN.
+2. **`docs/DECISIONS.md`** — las últimas `DEC-*` de la cola, para el rumbo vigente.
+3. El digest de levers llega **inyectado** por el hook `SessionStart` (DEC-072/DEC-195); si
+   no aparece en contexto, el control está caído — arréglalo antes de opinar sobre un lever.
 
 - Arquitectura: `docs/ARCHITECTURE.md` (el banner del inicio = estado actual).
-- Plan / roadmap: `docs/PLAN_RAG_2026.md`.
-- Deuda técnica: `TECH_DEBT.md`.
+- Deuda técnica: `TECH_DEBT.md`. · Historia narrada: `docs/HISTORY.md` (append-only).
+- Sesiones desde web/móvil: `docs/ENTORNO_CLOUD.md`.
 
 ## Comandos
 - Tests: `python -m pytest -q`
