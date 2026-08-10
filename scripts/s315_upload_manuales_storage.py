@@ -35,6 +35,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 import unicodedata
 from urllib.parse import quote
 
@@ -42,6 +43,30 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RECIBO = os.path.join(REPO, "evals", "s315_storage_upload_v1.json")
 BUCKET = "manuales"
 FETCH_CAP = 10_000
+
+
+_MAX_REINTENTOS = 5
+
+
+def _con_reintento(fn, etiqueta: str):
+    """Ejecuta `fn` reintentando ante caídas de TRANSPORTE (no de estado HTTP).
+
+    (s316c) La red de Alberto es inestable y la subida murió en el PRIMER fichero con
+    `httpx.ReadError` (WinError 10054), dejando 0/1008. HEAD/POST/PATCH aquí son
+    idempotentes (el objeto se sobreescribe igual y el PATCH fija el mismo valor), así
+    que reintentar es seguro por construcción.
+    """
+    import httpx as _hx
+    for intento in range(_MAX_REINTENTOS):
+        try:
+            return fn()
+        except _hx.TransportError as exc:
+            if intento == _MAX_REINTENTOS - 1:
+                raise
+            espera = 2 ** intento
+            print(f"  transporte caído en {etiqueta} ({type(exc).__name__}); "
+                  f"reintento {intento + 1}/{_MAX_REINTENTOS - 1} en {espera}s", flush=True)
+            time.sleep(espera)
 
 
 def _sano(nombre: str) -> str:
@@ -175,30 +200,50 @@ def main() -> int:
             return 0
 
         confirmadas = []
+        fallos: list[dict] = []
         try:
-            for c in plan:
+            for n, c in enumerate(plan, 1):
                 # skip-si-existe = reanudable (HEAD del objeto público)
                 pub = f"/storage/v1/object/public/{BUCKET}/{quote(c['objeto'])}"
-                existe = client.head(pub).status_code == 200
-                if not existe:
-                    with open(c["path"], "rb") as fh:
-                        up = client.post(
-                            f"/storage/v1/object/{BUCKET}/{quote(c['objeto'])}",
-                            content=fh.read(),
-                            headers={"Content-Type": "application/pdf"},
-                        )
-                    if up.status_code not in (200, 201):
-                        print(f"  FALLO subida {c['objeto']}: {up.status_code} {up.text[:120]}")
-                        continue
-                url = f"{SUPABASE_URL}{pub}"
-                params = {"id": f"eq.{c['id']}"}
-                if not args.pisar_portal:
-                    params["source_url"] = "is.null"
-                pr = client.patch("/rest/v1/documents", params=params,
-                                  json={"source_url": url},
-                                  headers={"Prefer": "return=minimal"})
-                pr.raise_for_status()
-                confirmadas.append({"id": c["id"], "doc": c["doc"], "url": url})
+                try:
+                    existe = _con_reintento(
+                        lambda: client.head(pub), f"HEAD {c['objeto']}"
+                    ).status_code == 200
+                    if not existe:
+                        with open(c["path"], "rb") as fh:
+                            datos = fh.read()
+                        up = _con_reintento(
+                            lambda: client.post(
+                                f"/storage/v1/object/{BUCKET}/{quote(c['objeto'])}",
+                                content=datos,
+                                headers={"Content-Type": "application/pdf"},
+                            ), f"POST {c['objeto']}")
+                        if up.status_code not in (200, 201):
+                            print(f"  FALLO subida {c['objeto']}: {up.status_code} "
+                                  f"{up.text[:120]}", flush=True)
+                            fallos.append({"objeto": c["objeto"],
+                                           "status": up.status_code})
+                            continue
+                    url = f"{SUPABASE_URL}{pub}"
+                    params = {"id": f"eq.{c['id']}"}
+                    if not args.pisar_portal:
+                        params["source_url"] = "is.null"
+                    pr = _con_reintento(
+                        lambda: client.patch("/rest/v1/documents", params=params,
+                                             json={"source_url": url},
+                                             headers={"Prefer": "return=minimal"}),
+                        f"PATCH {c['doc']}")
+                    pr.raise_for_status()
+                    confirmadas.append({"id": c["id"], "doc": c["doc"], "url": url})
+                except Exception as exc:                       # noqa: BLE001
+                    # (s316c) un fichero que agota reintentos NO tumba el lote: se anota
+                    # y se sigue. Con red inestable, abortar en el primero significaba
+                    # 0/1008 subidos — medido.
+                    print(f"  ERROR {c['objeto']}: {type(exc).__name__}", flush=True)
+                    fallos.append({"objeto": c["objeto"], "error": type(exc).__name__})
+                if n % 50 == 0:
+                    print(f"  {n}/{len(plan)} · ok={len(confirmadas)} "
+                          f"fallos={len(fallos)}", flush=True)
         finally:
             recibo = {
                 "motivo": "s315 punto 6b: corpus completo con link (Supabase Storage, bucket manuales)",

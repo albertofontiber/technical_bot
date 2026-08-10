@@ -26,6 +26,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -46,6 +47,7 @@ TABLE = "chunks_v2_hyq"
 HEADERS = {"apikey": SUPABASE_SERVICE_KEY,
            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
            "Content-Type": "application/json"}
+_MAX_REINTENTOS_TRANSPORTE = 5   # (s316c) conexiones cortadas a media carga
 INSERT_BATCH = 200          # 200 filas × 1024 floats ≈ 4 MB/request
 
 
@@ -103,14 +105,35 @@ def _existing_pairs(client: httpx.Client) -> set[tuple[str, str]]:
 
 
 def _insert_rows(client: httpx.Client, rows: list[dict], poison: list[dict]) -> int:
-    """POST batched con on_conflict=ignore-duplicates; en fallo, bisección (patrón s95)."""
+    """POST batched con on_conflict=ignore-duplicates; en fallo, bisección (patrón s95).
+
+    (s316c) REINTENTO ante errores de TRANSPORTE. La bisección solo cubría códigos de
+    estado HTTP; una conexión cortada a media carga (`httpx.ReadError` — WinError 10054
+    con lotes de ~4 MB) subía como excepción y mataba el run entero. Medido: la carga
+    del lote casmar314 avanzaba ~200 filas por intento y exigía relanzar. La inserción
+    es idempotente por `UNIQUE(chunk_id,question)`, así que reintentar es seguro por
+    construcción; el backoff da tiempo a que el pool rehaga la conexión.
+    """
     if not rows:
         return 0
-    r = client.post(f"{SUPABASE_URL}/rest/v1/{TABLE}",
-                    headers={**HEADERS,
-                             "Prefer": "resolution=ignore-duplicates,return=minimal"},
-                    params={"on_conflict": "chunk_id,question"},
-                    json=rows)
+    r = None
+    for intento in range(_MAX_REINTENTOS_TRANSPORTE):
+        try:
+            r = client.post(f"{SUPABASE_URL}/rest/v1/{TABLE}",
+                            headers={**HEADERS,
+                                     "Prefer": "resolution=ignore-duplicates,"
+                                               "return=minimal"},
+                            params={"on_conflict": "chunk_id,question"},
+                            json=rows)
+            break
+        except httpx.TransportError as exc:
+            if intento == _MAX_REINTENTOS_TRANSPORTE - 1:
+                raise
+            espera = 2 ** intento
+            print(f"  transporte caído ({type(exc).__name__}); reintento "
+                  f"{intento + 1}/{_MAX_REINTENTOS_TRANSPORTE - 1} en {espera}s",
+                  flush=True)
+            time.sleep(espera)
     if r.status_code in (200, 201, 204):
         return len(rows)
     if len(rows) == 1:

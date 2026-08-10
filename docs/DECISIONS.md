@@ -5535,3 +5535,44 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   1 xfailed · dúo COMPLETO ×4 rondas (2 caídas de red de Sol/sub-agente, relanzadas).
   **Relacionado**: DEC-196 (el lever revertido, ahora cerrado con medición), DEC-197 (el
   instrumento), TECH_DEBT #70 y #52.
+
+## DEC-199 (s316c) — #68 y #69 CERRADOS contra producción; y la red inestable destapa una clase de defecto que estaba en tres scripts
+
+- **Fecha**: 10 ago 2026 (s316c, madrugada). **Impacto**: ALTO (escribe en dos índices vivos
+  + poblá 1.007 objetos de Storage y 1.008 `source_url`).
+- **#68 CERRADO**: el lote Casmar/Kidde pasa de **0/0** a **10.161 enunciados + 2.516 hyq**,
+  verificado contra la DB (V: 10.161/10.161 ids del manifiesto; hyq: universo completo,
+  poison 0, smoke self-hit ✅). Coste real $18,67 (ledger enunciados) + ~$4 (hyq).
+- **#69 CERRADO**: `source_url` pasa de **76 → 1.084** de 1.243, con 1.007 objetos (1,30 GB)
+  en el bucket. **El residuo de 159 está EXPLICADO**: son exactamente los de sha placeholder
+  (`backfill:`, #4 Phase 3) y **cero documentos con sha real quedaron fuera** — verificado
+  con una consulta que separa ambos casos, no asumido. Coste marginal 0 € (Pro incluye
+  100 GB; se pasa de ~4,0 a ~5,3 GB).
+- **EL HALLAZGO DE PROCESO (→ TECH_DEBT #72)**: en una sola sesión, TRES scripts murieron
+  por la MISMA causa —excepción de TRANSPORTE (`httpx.ReadError`/WinError 10054) sin
+  capturar— y los parcheé de uno en uno según reventaban: `s102_hyq_load` (avanzaba ~200
+  filas por intento), `s315_upload_manuales_storage` (**0 de 1.008** subidos: murió en el
+  primer fichero) y `s104_a3_load` (tumbó E2 **después** de haber generado los 10.161
+  enunciados, con el dinero ya gastado). El patrón común: todos manejaban códigos de ESTADO
+  HTTP y ninguno excepciones de TRANSPORTE — son fallos distintos, uno devuelve respuesta y
+  el otro no llega a haberla.
+- **Decisión técnica que sí es de raíz (dentro de su script)**: cuando el reintento con
+  backoff no bastó (la caída duraba más que 1+2+4+8 s), en vez de subir el backoff a ciegas
+  se hizo que **bisecte el lote ante fallo de transporte**, reusando el patrón anti-poison
+  ya existente: un envío de 500 filas con embedding ronda los 10 MB y cuanta más superficie,
+  más fácil que la red lo corte; partiendo, el envío se ADAPTA a lo que la conexión aguante
+  y una fila irreductible acaba en `poison`, no en un run muerto. `INSERT_BATCH` 500→150.
+  Con eso E2 cargó a la primera. **Alternativas descartadas**: más backoff (no ataca la
+  superficie del envío); relanzar a mano N veces (lo estuve haciendo: no escala y depende
+  de que yo esté mirando).
+- **Deuda declarada, NO resuelta (#72)**: los tres parches son copias del mismo bucle. Falta
+  un cliente Supabase común con la política dentro + un test que impida clientes crudos.
+  Matiz que impide hacerlo mecánicamente: **la idempotencia que hace SEGURO reintentar no es
+  universal** (aquí la dan `UNIQUE(chunk_id,question)`, el skip-si-existe y el resume por
+  ids) ⇒ la política debe ser explícita por llamada, nunca mágica.
+- **Gaps declarados**: no se ha medido NINGÚN efecto en calidad — esto es cobertura, no
+  mejora demostrada; el `--aplicar` de Storage sube documentación de fabricante a un bucket
+  público-por-URL (alcance ya adjudicado en s315); y `ANALYZE` se corrió sobre las dos
+  tablas, pero el VACUUM-por-fantasmas de DEC-088 no aplica aquí (solo hubo INSERT).
+- **Estado**: ✅ verificado contra DB y bucket, no contra códigos de salida.
+  **Relacionado**: DEC-194/196/197/198, TECH_DEBT #68, #69, #72, #4 Phase 3.
