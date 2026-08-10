@@ -26,65 +26,36 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s316 — 10 ago 2026)
+## Estado actual (s316c — 10 ago 2026, madrugada)
 
-**Sesión de reconciliación post-cloud + el dúo cortando un run de producción.** Local iba 5
-commits por detrás (FF limpio a `f947fac`); sin PRs abiertas.
+**La sesión más larga del proyecto: reconciliación post-cloud, el dúo cortando tres diseños
+seguidos, y dos deudas grandes cerradas contra producción.**
 
-1. **#68 / run del lote Casmar: NO EJECUTADO, y con razón (DEC-196).** El dúo se completó
-   por fin (Sol xhigh ×2 rondas + sub-agente Opus 5) y devolvió **NO-SÓLIDO**: 3 CRÍTICOS
-   de clase *éxito silencioso* en el build de s315b, y 3 más en mis propios fixes. El
-   intento de cambiar el dedup hyq a keep-FIRST por documento **se revirtió por
-   adjudicación de Alberto**: era un no-op (`parse_questions` ya deduplica global) y el
-   contrario está FIJADO por un test del repo. **El dedup queda como LEVER ABIERTO sin
-   medir**; el número que lo decide (`dup_cross_vintage`) ya es visible. Consolidados los
-   fixes reales, con 8 tests nuevos. **Suite 3.666 passed / 0 failed** (venía con 1 rojo:
-   `UnicodeEncodeError` en Windows — 4 scripts del camino omitían la convención de
-   encoding del repo y habrían abortado el run a media carga). Dry-run verificado: 74 docs
-   · 1.091 chunks · firma `77e3ae58900afdc7`.
-2. **Subida a Storage: bug CRÍTICO arreglado, `--aplicar` EN ESPERA del dúo (Alberto).**
-   `limit=10000` contra el cap de 1.000 de PostgREST dejaba **243 documentos invisibles**;
-   el `--aplicar` los habría saltado sin poblar `source_url`. Corregido: a enlazar
-   807→**1.008**, «ya con URL» 69→**76** (casa con la DB), «sin fila» 269→**61**.
-3. **Gobernanza reparada (DEC-195/195b)**: el hook del digest de levers (DEC-072) estaba
-   CAÍDO y no se inyectaba; reconstruido y **versionado** (ya no depende del checkout, y
-   por primera vez aplica también en cloud). s315c retro-registrado. El `START HERE` de
-   CLAUDE.md deja de guardar narrativa de sesión (llevaba 25 sesiones en S278).
-4. **Frente de corpus RE-ENFOCADO por Alberto**: no productos nuevos — **manuales que
-   faltan de equipos que YA están en el corpus** (patrón NC-PF2), acotado a **Aritech y
-   Edwards**. El método Casmar de s314 estaba **ROTO** (`filters[sku]` ya no filtra;
-   verificado con NC-PF2 como control positivo) → daba falsos «0 huecos». Método nuevo
-   descubierto y aplicado (`checkPdf(url, sku, attributeCode)` en la ficha; el
-   `attributeCode` separa homologaciones de forma autoritativa):
-   **19 candidatos Aritech, 0 Edwards**, 18 certificados/homologaciones excluidos.
-   Recibo `evals/s316_casmar_gap_sweep_v1.json`. **Pendiente**: descargar y dedupar por
-   sha256 (el nombre NO decide identidad) → decisión de Alberto.
-   Vía Fire Security Products abierta y autenticada (Aritech=17271, Edwards=17286), con la
-   marca resuelta por `config/portal.yaml`, no por el PIM.
+1. **#68 CERRADO** (DEC-199). El lote Casmar/Kidde pasa de **0/0** a **10.161 enunciados +
+   2.516 hyq**, verificado en DB (V 10.161/10.161 ids; hyq universo completo, poison 0,
+   smoke ✅). Coste real $18,67 + ~$4.
+2. **#69 CERRADO** (DEC-199). `source_url` **76 → 1.084** de 1.243, con 1.007 objetos
+   (1,30 GB) en el bucket `manuales`. Residuo de 159 EXPLICADO: son exactamente los de sha
+   placeholder (#4 Phase 3); **cero docs con sha real quedaron fuera**. Coste marginal 0 €.
+3. **#70 etapa 1 SHIPPEADA** (DEC-198, PR #232). Guardia de cambio de marca como
+   `TypeHandler` en grupo -1. **La v1 cableada era PEOR que el bug** (`FUEGO` es fabricante
+   real y «fuego» la palabra más común del sector ⇒ 8/19 consultas borraban contexto):
+   recalibrada precisión-primero. **Etapa 2 ABIERTA** (el fall-through; toca el clasificador
+   de F1, con gate MT propio) — testigo en `xfail(strict)` que avisará por XPASS.
+4. **Instrumento de transporte VIVO** (DEC-197): conduce `handle_message` real, $0. Es lo
+   que permitió que el fix de #70 fuera demostrable y no otra corazonada.
+5. **Lever del dedup CERRADO CON DATO** (DEC-196→198): `dup_cross_vintage` = **0/2.516 =
+   0,00%**. Era un no-op medido; revertirlo fue correcto.
+6. **TECH_DEBT #72 NUEVO**: tres scripts murieron por la misma causa (excepción de
+   transporte sin capturar) y se parchearon uno a uno. Falta un cliente Supabase común con
+   política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
+   es universal.
 
-**s316b (misma jornada, tras merge de PR #230) — #70 re-diagnosticado + INSTRUMENTO
-construido (DEC-197):** Alberto priorizó #70; dos diseños de fix cayeron NO-SÓLIDO en el
-dúo (×3 rondas) y él adjudicó «instrumento primero». **Hallazgo que reordena: F1 está
-ACTIVO en producción** (`CONVERSATION_POLICY=impl` + `ORCHESTRATOR_PATH=on`, verificado
-contra la API de Railway) ⇒ `last_detected_models` es clave MUERTA y la fix-direction
-original de #70 era inválida (TECH_DEBT #70 re-escrito con el mecanismo real: ceguera de
-ruta + conflación `brand_compatibility_in_window`, y las restricciones para el fix).
-**Instrumento VIVO**: `tests/test_s316_transport_state_instrument.py` — testigo del fallo
-orgánico en `xfail(strict=True)` (ROJO hoy = #70 demostrable; XPASS forzará retirar el
-marcador) + control causal + control compat con marca servida + censo AST de ramas
-terminales (13/3). Primer run: 3 passed / 1 xfailed. **Ítems nuevos de la jornada**:
-Casmar sha-dedup HECHO (19→10 nuevos; Alberto acota a los 2 MANUALES, las 8 hojas de
-datos NO; staging local, sin ingestar) · fixes `<br/>`/ForceReply verificados DESPLEGADOS
-en Railway (22:45Z) pero SIN ejercitar aún (0 consultas post-deploy) · sub-agente del dúo:
-Alberto pasó la sesión principal a Fable 5; pin del sub-agente pendiente de su decisión
-(s292 fue por crédito agotado de Fable).
-
-**Qué sigue**: (a) **fix de #70 contra el instrumento** (diseño con las restricciones de
-DEC-197 + dúo propio; el testigo xfail es el gate); (b) medir `dup_cross_vintage`
-generando el lote sin cargar (~$4,4) para cerrar el lever del dedup; (c) `--aplicar` del
-lote y de Storage cuando Alberto lo abra; (d) ingesta de los 2 manuales Casmar (MI_AS236x,
-MI_KIDDE_2X_A_LB) con su gate; (e) canario pre/post del assessment como gate del
-`--aplicar` (Sol MEDIO aceptado, no cerrado en código).
+**Qué sigue**: (a) **#70 etapa 2** (el fall-through: `brand_compatibility_in_window`
+conflaciona compatibilidad con cambio de tema); (b) ingesta de los **2 manuales Casmar**
+(`MI_AS236x`, `MI_KIDDE_2X_A_LB`) que siguen en staging — Alberto descartó las 8 hojas de
+datos; (c) **#72** (cliente HTTP común); (d) rapidez fase 2 con ~1 semana de timings;
+(e) sentada B2 (de Alberto); (f) #71 (disclaimer como obligación de evidencia).
 
 ### s315 (9 ago 2026) — resumen
 

@@ -3157,3 +3157,30 @@ instalación y descarta las hojas de datos), y la verificación de que los fixes
 eran de 30-50 minutos antes del deploy — aunque sin ejercitar aún (0 consultas
 posteriores). TECH_DEBT #70 re-escrito con el mecanismo real y las restricciones pagadas;
 DEC-197.
+
+## s316c (10 ago 2026, madrugada) — Dos deudas grandes cerradas, y una clase de defecto que estaba en tres sitios
+
+Alberto se fue a dormir con la red inestable y el encargo de retomar solo. Los dos trabajos
+largos —los canales derivados del lote y la subida del corpus a Storage— acabaron cerrados,
+pero el camino fue más instructivo que el destino.
+
+**#68 y #69 cerrados.** El lote que en s314 entró como «corpus de segunda clase» ya tiene
+sus dos canales (10.161 enunciados, 2.516 hyq) y el corpus tiene link: 1.084 de 1.243
+documentos, con los 159 restantes explicados uno a uno —son los de sha placeholder, que por
+construcción no pueden casarse por contenido—. Ese «cero documentos con sha real quedaron
+fuera» se comprobó con una consulta que separa los dos casos, no se dedujo.
+
+**Lo que de verdad costó fue la red.** Tres scripts distintos murieron por la MISMA causa: una
+excepción de transporte sin capturar. Todos tenían bisección o manejo para códigos de estado
+HTTP; ninguno para una conexión cortada, que es un fallo de otra naturaleza —uno devuelve
+respuesta, el otro no llega a haberla—. El peor caso fue la subida a Storage: murió en el
+primer fichero y dejó 0 de 1.008. El más caro, E2: tumbó la carga DESPUÉS de generar los
+10.161 enunciados, con los $18,67 ya gastados.
+
+Los parcheé de uno en uno según reventaban, que es tapar y no arreglar; queda como
+TECH_DEBT #72 con el matiz que impide hacerlo mecánicamente: la idempotencia que hace seguro
+reintentar no es universal. Pero sí hubo un arreglo de fondo dentro de su script: cuando el
+backoff no bastó, en vez de subirlo a ciegas se hizo que **bisecte el lote ante fallo de
+transporte**. Un envío de 500 filas con embedding ronda los 10 MB, y cuanta más superficie
+más fácil que la red lo corte; partiendo, el envío se adapta a lo que la conexión aguante.
+Con eso, la carga que había fallado cuatro veces pasó a la primera. DEC-199.

@@ -18,6 +18,7 @@ Uso: python scripts/s104_a3_load.py --dumps evals/enunciados_dump_T3.jsonl [más
 import argparse
 import json
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -33,7 +34,7 @@ TABLE = "chunks_v2_enunciados"
 HEADERS = {"apikey": SUPABASE_SERVICE_KEY,
            "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
            "Content-Type": "application/json"}
-INSERT_BATCH = 500
+INSERT_BATCH = 150   # (s316c) 500 filas con embedding ≈ 10 MB: demasiada superficie para una red inestable
 COLS = ["id", "content", "context", "parent_id", "ingest_batch", "source_file",
         "page_number", "product_model", "manufacturer", "section_title", "doc_type",
         "content_type", "chunk_index", "document_id", "language", "extraction_sha256"]
@@ -60,11 +61,47 @@ def _existing_ids(client: httpx.Client) -> set:
     return ids
 
 
+_MAX_REINTENTOS_TRANSPORTE = 5   # (s316c) red inestable: ver docstring abajo
+
+
 def _insert_rows(client: httpx.Client, rows: list, poison: list) -> int:
+    """(s316c) Reintento ante caídas de TRANSPORTE, no solo bisección por estado HTTP.
+
+    Tercer script del repo que moría por lo mismo: `httpx.ReadError` (WinError 10054)
+    subía como excepción y tumbaba la carga entera. Aquí costó que E2 no cargara los
+    10.161 enunciados del lote casmar314 tras haberlos GENERADO (E1 completo, $18,67
+    gastados). La inserción reanuda por `--ids-out`, así que reintentar es seguro.
+    """
     if not rows:
         return 0
-    r = client.post(f"{SUPABASE_URL}/rest/v1/{TABLE}",
-                    headers={**HEADERS, "Prefer": "return=minimal"}, json=rows)
+    r = None
+    for intento in range(_MAX_REINTENTOS_TRANSPORTE):
+        try:
+            r = client.post(f"{SUPABASE_URL}/rest/v1/{TABLE}",
+                            headers={**HEADERS, "Prefer": "return=minimal"}, json=rows)
+            break
+        except httpx.TransportError as exc:
+            if intento < _MAX_REINTENTOS_TRANSPORTE - 1:
+                espera = 2 ** intento
+                print(f"  transporte caído ({type(exc).__name__}); reintento "
+                      f"{intento + 1}/{_MAX_REINTENTOS_TRANSPORTE - 1} en {espera}s",
+                      flush=True)
+                time.sleep(espera)
+                continue
+            # Agotados los reintentos: BISECAR en vez de morir. Un lote de 500 filas con
+            # embedding ronda los 10 MB; cuanto más grande el envío, más superficie para
+            # que la red lo corte. Partiendo, el envío se adapta a lo que la conexión
+            # aguanta — y una fila suelta que no pase acaba en `poison`, no en un run
+            # muerto con el dinero de la generación ya gastado.
+            if len(rows) == 1:
+                poison.append({"id": rows[0].get("id"), "status": "transporte",
+                               "body": type(exc).__name__})
+                return 0
+            mid = len(rows) // 2
+            print(f"  bisecando {len(rows)} → {mid}+{len(rows) - mid} por transporte",
+                  flush=True)
+            return (_insert_rows(client, rows[:mid], poison)
+                    + _insert_rows(client, rows[mid:], poison))
     if r.status_code in (200, 201, 204):
         return len(rows)
     if len(rows) == 1:

@@ -1,0 +1,43 @@
+{
+ "motivo": "s315/#68: fase derivados del lote (enunciados + hyq)",
+ "lote": "casmar314",
+ "docs": 74,
+ "chunks": 1091,
+ "seleccion_firma": "77e3ae58900afdc7",
+ "alcance": {
+  "solo": null,
+  "canales_ejecutados": [
+   "enunciados",
+   "hyq"
+  ]
+ },
+ "enunciados": {
+  "ingest_batch": "enunciados-v1:casmar314:h1",
+  "verificacion_ids": {
+   "manifest": 10161,
+   "en_db": 10161,
+   "completo": true
+  },
+  "docs_sin_enunciados": [],
+  "reversible": "DELETE FROM chunks_v2_enunciados WHERE ingest_batch = 'enunciados-v1:casmar314:h1'"
+ },
+ "hyq": {
+  "lote": "casmar314",
+  "ingest_batch": "hyq-lote-casmar314-51fce9308265d88a",
+  "universo": 2516,
+  "en_tabla": 2516,
+  "preguntas_parseadas": 2516,
+  "dup_cross_vintage": 0,
+  "dup_intra_lote_parse": 14,
+  "sobre_cap_por_chunk": 0,
+  "poison": 0,
+  "smoke_self_hit": true,
+  "veredicto": "COMPLETO",
+  "reversible": "DELETE FROM chunks_v2_hyq WHERE ingest_batch = 'hyq-lote-casmar314-51fce9308265d88a'"
+ },
+ "veredicto": "COMPLETO",
+ "avisos": [],
+ "fallos": [],
+ "fecha_utc": "2026-08-10T21:39:28+00:00",
+ "pendiente": "VACUUM de chunks_v2_enunciados y chunks_v2_hyq (DEC-088)"
+}

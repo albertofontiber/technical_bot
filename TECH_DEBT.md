@@ -2470,36 +2470,35 @@ palabra única ≥4 chars contra la lista real de la DB) pero **LDA queda fuera 
 `manufacturer_in_db`. **Fix candidato**: tabla de alias cortos curada (no comodines
 ciegos: `%lda%` casa demasiado). **Coste**: S.
 
-## #68 — Los canales derivados (enunciados + hyq) NO cubren lotes de ingesta nuevos (s315, pregunta de Alberto)
+## #68 — Los canales derivados no cubrían los lotes nuevos — **CERRADO (s316c)**
 
-**Verificado en DB (9-ago)**: los 1.091 chunks del lote Casmar/Kidde s314 tienen **0 filas en
-`chunks_v2_enunciados` y 0 en `chunks_v2_hyq`** (totales: 22.842 / 70.126 — todo corpus viejo), y
-`scripts/ingest_new.py` no menciona ninguno de los dos canales. Ambos están VIVOS en producción
-(`ENUNCIADOS_MULTIVECTOR=on` DEC-090, `HYQ_TABLE=on` DEC-099) ⇒ todo doc nuevo entra SOLO por el
-canal vectorial + imatch de pm: los mecanismos que rescatan hechos de tabla y matching
-question-side no le aplican. **CONSTRUIDO (s315b, DEC-194)**: `scripts/derive_channels_lote.py` (orquestador
-E1→E2→H→V, dry-run con coste) + `scripts/hyq_lote_pipeline.py` (vintage por lote
-append-seguro, contrato hyq-v1-*/hyq-lote-*) + camino acotado s273 de enunciados
-estrenado (`--store` nuevo). Dúo Opus NO-SÓLIDO → 13 hallazgos aplicados. **PENDIENTE:
-el RUN del lote Casmar** (máquina con claves + store OneDrive): dry-run →
-`--aplicar` (~$5-15) → recibos `evals/derive_lote_casmar314_*`. Trigger intacto: antes
-del siguiente lote de ingesta (Aritech/Edwards vía firesecurityproducts).
+El lote Casmar/Kidde (74 docs, 1.091 chunks) entró en s314 con **0 enunciados y 0 hyq**:
+`ingest_new.py` no corría los generadores de los dos canales vivos, así que todo doc nuevo
+era «corpus de segunda clase» para ellos.
 
-## #69 — `documents.source_url` solo cubre el manifiesto Casmar; el corpus histórico queda sin link (s315)
+**CERRADO y verificado contra producción (10-ago)**: enunciados **10.161** filas
+(`ingest_batch=enunciados-v1:casmar314:h1`, V 10.161/10.161 ids del manifiesto en DB) +
+hyq **2.516** filas (`hyq-lote-casmar314-…`, universo completo, poison 0, smoke self-hit
+✅). Coste real: $18,67 acumulado en el ledger de enunciados + ~$4 de generación hyq.
+Driver: `scripts/derive_channels_lote.py --since … --tag … --aplicar` (E1→E2→H→V).
 
-76/1.243 documents con URL (backfill por sha256, recibo `evals/s315_source_url_backfill_v1.json`).
-Los docs históricos (OneDrive, scrapes notifier/morley sin manifiesto sha) están a NULL ⇒ la
-leyenda no emite link para ellos (fail-open declarado, no silencioso).
+**Lo que costó de verdad no fue el diseño, fue la RED**: E2 y la carga hyq murieron cuatro
+veces por caídas de transporte. Ver **#72** — el fix de raíz de esa clase sigue abierto.
+**Trigger para el siguiente lote**: correr el driver como parte del alta, no después.
 
-**Ruta adjudicada (Alberto, s315 mismo día): corpus COMPLETO auto-alojado.** Bucket
-`manuales` de Supabase Storage CREADO (público-por-URL, 100MB/fichero, solo
-`application/pdf` — patrón `manual-images` del álbum). Script listo:
-`scripts/s315_upload_manuales_storage.py` (sube desde OneDrive, join por sha256,
-skip-si-existe reanudable, `source_url` solo-si-NULL — los links de portal se conservan
-salvo `--pisar-portal`; recibo reversible). **Acción de Alberto**: correrlo desde la
-máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam es la
-misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
-a ingesta perdidos (revisarlos, no ignorarlos).
+## #69 — `documents.source_url` solo cubría el manifiesto Casmar — **CERRADO (s316c)**
+
+Antes: 76/1.243 documentos con link (solo los del portal Casmar). Ahora: **1.084/1.243**,
+con **1.007 objetos (1,30 GB)** en el bucket `manuales` de Supabase Storage.
+
+**El residuo está explicado, no es un cabo suelto**: los 159 sin link son EXACTAMENTE los
+que llevan sha placeholder (`backfill:…`, TECH_DEBT #4 Phase 3) — **cero documentos con sha
+real quedaron fuera** (verificado en DB). Su identidad de CONTENIDO no existe, así que no
+pueden casarse con ningún PDF; se enlazarán cuando #4 Phase 3 calcule sus sha reales.
+
+Coste marginal: **0 €** (plan Pro incluye 100 GB de Storage; se pasa de ~4,0 a ~5,3 GB).
+Recibo: `evals/s315_storage_upload_v1.json`. Reversible: `UPDATE documents SET
+source_url=NULL WHERE id IN (…)` + borrado de objetos.
 
 ## #70 — El carry-forward sobrevive al cambio de marca (s315) — **ETAPA 1 CERRADA (s316b), etapa 2 abierta**
 
@@ -2549,3 +2548,31 @@ casa marcadores de obligación/advertencia que el boilerplate legal también usa
 `evidence_contract.py` es parte del aparato protegido (DEC-148 / NO_GO_PROTECTED_CONTRACT)
 — cualquier exclusión de la clase «disclaimer legal» exige adjudicación previa, no parche
 en caliente. Población pendiente de censar (¿cuántos docs llevan el boilerplate?).
+
+## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c)
+
+**Medido en una sola sesión**: TRES scripts murieron por la MISMA causa —una excepción de
+TRANSPORTE (`httpx.ReadError`, WinError 10054) que subía sin capturar y tumbaba el run
+entero— y los tres se parchearon por separado, según reventaban:
+- `s102_hyq_load._insert_rows` — la carga hyq avanzaba ~200 filas por intento; 7 caídas
+  recuperadas tras el fix;
+- `s315_upload_manuales_storage` — murió en el PRIMER fichero: **0 de 1.008 subidos**;
+- `s104_a3_load._insert_rows` — tumbó E2 tras haber GENERADO los 10.161 enunciados del
+  lote (E1 completo, $18,67 ya gastados).
+
+**El patrón común del defecto**: todos tenían bisección o manejo para códigos de ESTADO
+HTTP, y ninguno para excepciones de TRANSPORTE. Son fallos distintos: el primero devuelve
+respuesta, el segundo no llega a haberla.
+
+**Por qué es deuda y no «ya está arreglado»**: los tres parches son copias del mismo bucle
+`for intento in range(N): try/except TransportError + backoff`. El cuarto script que
+escriba alguien volverá a descubrirlo en producción, con dinero ya gastado. **Fix
+estructural**: un cliente httpx común (o un factory `cliente_supabase()`) con la política
+de reintentos ya dentro, más un test que falle si un script crea un `httpx.Client` crudo
+contra Supabase. Toca N scripts ⇒ diseño + dúo propios, no un barrido a ciegas.
+
+**Nota de alcance**: la idempotencia que hace SEGURO el reintento no es universal —
+`UNIQUE(chunk_id,question)`, el skip-si-existe del Storage y el resume por ids la dan en
+estos tres casos. Un cliente común NO debe reintentar POSTs no idempotentes: la política
+tiene que ser explícita por llamada, no mágica. **Coste**: M.
+

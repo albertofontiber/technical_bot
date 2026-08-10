@@ -1,0 +1,14 @@
+{
+ "lote": "casmar314",
+ "ingest_batch": "hyq-lote-casmar314-51fce9308265d88a",
+ "universo": 2516,
+ "en_tabla": 2516,
+ "preguntas_parseadas": 2516,
+ "dup_cross_vintage": 0,
+ "dup_intra_lote_parse": 14,
+ "sobre_cap_por_chunk": 0,
+ "poison": 0,
+ "smoke_self_hit": true,
+ "veredicto": "COMPLETO",
+ "reversible": "DELETE FROM chunks_v2_hyq WHERE ingest_batch = 'hyq-lote-casmar314-51fce9308265d88a'"
+}
