@@ -27,6 +27,7 @@ from telegram.ext import (
     CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
+    TypeHandler,
     filters,
     ContextTypes,
 )
@@ -240,6 +241,190 @@ _MANUFACTURER_NAMES = re.compile(
     r"detnov|securiton|pfannenberg|spectrex|lda)\b",
     re.IGNORECASE,
 )
+
+# --- #70 etapa 1: guardia de CAMBIO DE MARCA explícito (DEC-197, dúo s316 ×3) ---
+# El fallo orgánico (query_logs 9-ago 21:58Z): «pasemos a productos Morley…» enruta por
+# catalog_shortcut, que RESPONDE Y RETORNA en handle_message — 7 de sus 13 returns lo
+# hacen sin tocar estado — así que F1 nunca ve el cambio y el turno siguiente resuelve
+# con el producto Kidde anterior. La guardia corre ANTES del enrutado (TypeHandler en
+# grupo -1) para que ninguna rama terminal pueda saltársela: el punto único que el dúo
+# exigió frente a llamadas manuales por ruta (convención olvidable).
+# Frase de switch: solo localiza DÓNDE empieza la cola; la marca se resuelve después
+# con el resolutor DINÁMICO. (dúo s316) La v1 interpolaba `_MANUFACTURER_NAMES` aquí y
+# reincidía en el fallo Securiton de s307 —«el fix dependía de la MISMA constante que
+# diagnosticaba»—: «pasemos a Xtralis» (28 docs en corpus) no disparaba.
+# (dúo s316, sub-agente CRÍTICO) `vamos` FUERA: «vamos a ver si es compatible con
+# Morley» es una MULETILLA, no un cambio de tema — con ella dentro, la guardia
+# convertía preguntas de compatibilidad en switches y borraba contexto legítimo
+# (medido end-to-end). Los verbos que quedan son inequívocamente de cambio de tema.
+_SWITCH_FRASE = re.compile(
+    r"\b(?:pasemos|pasamos|pasa|cambiemos|cambiamos|cambiando|saltemos|"
+    r"hablemos|hablando)\b[^,.;:?!]*?\ba\b"
+    r"|\bahora\s+(?:con|para|de|el|los|las)\b"
+    r"|\by\s+ahora\b",
+    re.IGNORECASE,
+)
+
+# Marcas cuyo NOMBRE es también vocabulario corriente del dominio. Nombrarlas NO puede
+# significar, por sí solo, un cambio de marca. (dúo s316, sub-agente CRÍTICO, medido
+# end-to-end): «FUEGO» es un fabricante REAL de la DB con 1 documento, y «fuego» es la
+# palabra más común del sector — con ella dentro, «y ahora la central de fuego no
+# rearma» borraba el contexto y convertía un turno contestado en un clarify.
+# La lista es corta y honesta; lo que impide que se pudra es
+# `test_ninguna_marca_nueva_colisiona_con_el_dominio`, que CAZA colisiones nuevas.
+_MARCAS_AMBIGUAS = frozenset({"fuego"})
+
+# Vocabulario del dominio con el que un nombre de marca NO puede confundirse. Sirve al
+# test de colisión (no al serving): si mañana se ingesta una marca llamada «Alarma» o
+# «Sirena», el test rompe y obliga a declararla en _MARCAS_AMBIGUAS conscientemente.
+_VOCABULARIO_DOMINIO = frozenset({
+    "fuego", "incendio", "incendios", "alarma", "alarmas", "central", "centrales",
+    "detector", "detectores", "sirena", "sirenas", "pulsador", "pulsadores", "zona",
+    "zonas", "lazo", "bucle", "panel", "humo", "temperatura", "extincion", "extinción",
+    "evacuacion", "evacuación", "bateria", "batería", "aviso", "avisador",
+})
+
+
+def _marca_mencionada(texto: str) -> str | None:
+    """Marca servida en el texto, con resolución ESTRICTA para uso en la guardia.
+
+    Difiere de `_marca_en_consulta` a propósito: aquella corre DETRÁS de un pre-gate de
+    intención (`_PREGATE_INVENTARIO`) y puede permitirse la heurística de «primera
+    palabra única ≥4 chars» («argus» → Argus Security). La guardia corre en el grupo -1
+    sobre TODOS los updates, sin pre-gate, así que esa heurística es insegura aquí:
+    exige el nombre COMPLETO con frontera de palabra y descarta las marcas ambiguas.
+    """
+    m = _MANUFACTURER_NAMES.search(texto)      # curado: sin colisiones de dominio
+    if m and m.group(0).lower() not in _MARCAS_AMBIGUAS:
+        return m.group(0)
+    try:
+        marcas = get_available_manufacturers() or []
+    except Exception:                          # noqa: BLE001 — fail-open, nunca bloquea
+        return None
+    for marca in sorted(marcas, key=len, reverse=True):   # nombre largo antes que corto
+        if marca.lower() in _MARCAS_AMBIGUAS:
+            continue
+        if re.search(rf"\b{re.escape(marca)}\b", texto, re.IGNORECASE):
+            return marca
+    return None
+
+
+def _marca_destino(query: str) -> str | None:
+    """La marca a la que el usuario DECLARA cambiar, o None.
+
+    POSICIONAL a propósito (dúo s316): «pasemos de Kidde a Morley» debe resolver
+    *Morley*; buscar la primera marca del texto devolvería Kidde y la guardia
+    callaría por marcas-iguales. Por eso se resuelve sobre la COLA que sigue a la
+    frase de switch, no sobre la consulta entera.
+    """
+    m = _SWITCH_FRASE.search(query)
+    if m:
+        # La cola tras la frase: ahí vive la marca DESTINO, con o sin palabras en
+        # medio («ahora con productos Morley» — la v1 se paraba en «productos»).
+        destino = _marca_mencionada(query[m.end():])
+        if destino:
+            return destino
+    # Intención de inventario con UNA sola marca nombrada: «¿qué centrales Morley
+    # tienes?» tras hablar de otra marca es un cambio de tema, no una compatibilidad.
+    #
+    # (dúo s316, sub-agente) El pre-gate BARATO va PRIMERO y no es cosmético: sin él,
+    # `_marca_mencionada` caía a `get_available_manufacturers()` —httpx SÍNCRONO,
+    # paginado— en CADA mensaje que no trajera frase de switch, dentro de un handler
+    # async del grupo -1. Medido: 0,54 s en frío tras cada restart. Es exactamente la
+    # razón por la que `_PREGATE_INVENTARIO` existe en el paso 5-bis.
+    if not _PREGATE_INVENTARIO.search(query):
+        return None
+    unica = _marca_mencionada(query)
+    if unica:
+        otras = {mm.group(0).lower() for mm in _MANUFACTURER_NAMES.finditer(query)
+                 if mm.group(0).lower() not in _MARCAS_AMBIGUAS}
+        if len(otras) <= 1 and _intencion_inventario(query, unica):
+            return unica
+    return None
+
+
+def _modelos_reales(query: str) -> list[str]:
+    """`extract_product_models` sin códigos NO-producto NI normativos.
+
+    (dúo s316) Sin el primer filtro, «pasemos a Morley, ¿usa RS-485?» traería un
+    "modelo" y suprimiría la guardia en un switch genuino. Sin el segundo, tampoco
+    dispararía con «¿qué exige NFPA-13?»: NFPA-13 está en el catálogo COMO MODELO
+    (`data/model_catalog.json`), así que la denylist estrecha no basta — se reusa el
+    mismo criterio normativo que la política (`_NORMATIVE_CODE_RE`).
+    """
+    from ..orchestrator.conversation_policy import NON_PRODUCT_CODES
+    from ..orchestrator.conversation_policy_impl import _NORMATIVE_CODE_RE
+
+    fuera = {c.upper().replace("-", "").replace(" ", "") for c in NON_PRODUCT_CODES}
+    return [m for m in (extract_product_models(query) or [])
+            if m.upper().replace("-", "").replace(" ", "") not in fuera
+            and not _NORMATIVE_CODE_RE.fullmatch(m.strip())]
+
+
+def _invalidar_si_cambio_de_marca(user_data: dict, query: str) -> str | None:
+    """Núcleo SÍNCRONO y puro de la guardia. Devuelve la marca destino si invalidó.
+
+    Rollback-safe (restricción del dúo): limpia el estado de AMBOS regímenes —
+    `mt_working_state` (F1, el vivo) y `last_detected_models` (legacy, el que revive
+    si alguien quita `CONVERSATION_POLICY` de Railway, que es el rollback documentado).
+    Reset COMPLETO del WorkingState: dejar `last_query` residual haría `is_empty` False
+    y el turno siguiente contestaría «Ha pasado un rato» siendo mentira.
+    """
+    try:
+        destino = _marca_destino(query)
+        if not destino or _modelos_reales(query):
+            return None
+
+        from ..orchestrator.conversation_policy import WorkingState
+        from ..orchestrator.conversation_policy_impl import (
+            DeterministicConversationPolicy,
+        )
+
+        ws = user_data.get("mt_working_state")
+        estado_modelos = list(getattr(ws, "last_target_models", ()) or ())
+        estado_modelos += list(user_data.get("last_detected_models") or [])
+        if not estado_modelos:
+            return None
+
+        from ..rag.retriever import classify_model_manufacturer
+
+        marcas_estado = {classify_model_manufacturer(m) for m in estado_modelos}
+        marcas_estado.discard(None)
+        if not marcas_estado:
+            return None                      # fail-open: marca no resoluble, no se toca
+        # Misma marca => NO es switch. `_same_manufacturer` colapsa Honeywell hacia sus
+        # sub-marcas; su mapa solo tiene 4 entradas, así que se añade la identidad
+        # directa (Kidde, Aritech… no están en él y darían "distinta" siempre).
+        d = destino.lower()
+        if DeterministicConversationPolicy._same_manufacturer([d], estado_modelos) or \
+                any(d == (m or "").lower() for m in marcas_estado):
+            return None
+
+        user_data["mt_working_state"] = WorkingState()
+        user_data.pop("last_detected_models", None)
+        logger.info("guardia #70: cambio de marca a %r — contexto de producto invalidado",
+                    destino)
+        return destino
+    except Exception as exc:                 # fail-open TOTAL: jamás tumba un turno
+        logger.warning("guardia #70 no aplicada (%s)", type(exc).__name__)
+        return None
+
+
+async def brand_switch_guard(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """TypeHandler de grupo -1: corre ANTES de cualquier ruta y no responde nada.
+
+    (dúo s316, sub-agente) Los mensajes en REPLY quedan fuera: son territorio de
+    `_capture_reply_explanation` (feedback sobre una respuesta anclada, #60 punto 5b).
+    Un técnico explicando «y ahora me dice que el detector de fuego no existe» está
+    dando feedback, no cambiando de marca — y sin esta exclusión la guardia le borraba
+    el contexto antes de que el mensaje llegara siquiera a clasificarse.
+    """
+    mensaje = getattr(update, "message", None)
+    if getattr(mensaje, "reply_to_message", None) is not None:
+        return
+    texto = getattr(mensaje, "text", None)
+    if texto and isinstance(getattr(context, "user_data", None), dict):
+        _invalidar_si_cambio_de_marca(context.user_data, texto.strip())
 
 # s286 telemetría: feedback 1-tap 👍/👎. TELEGRAM_FEEDBACK (default off =
 # byte-idéntico) gatea SOLO el attach del keyboard; el CallbackQueryHandler se
@@ -707,6 +892,12 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
             confirmation += f"\n🔎 Modelo interpretado: {', '.join(recognized)}"
         # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
         await update.message.reply_text(confirmation)
+
+        # (#70) La guardia de grupo -1 no puede leer audio: el texto solo existe tras el
+        # ASR. Único punto de invocación explícito, declarado en el diseño — un cambio
+        # de marca DICHO en voz alta debe invalidar el contexto igual que uno escrito.
+        if isinstance(getattr(context, "user_data", None), dict):
+            _invalidar_si_cambio_de_marca(context.user_data, query)
 
         # Process the normalized query while preserving raw ASR for audits.
         await _process_query(
@@ -1700,6 +1891,13 @@ def run_bot():
     _resolver.mode()
 
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+
+    # (#70 etapa 1, DEC-197) Guardia de cambio de marca en grupo -1: corre ANTES de todo
+    # handler, para TODO update. No responde ni bloquea — solo invalida el producto en
+    # curso cuando el usuario declara cambio de marca. Va aquí y no en cada ruta porque
+    # 7 de los 13 returns de handle_message responden sin tocar estado: el dúo cortó dos
+    # veces la variante «llamada manual por ruta» como convención olvidable.
+    app.add_handler(TypeHandler(Update, brand_switch_guard), group=-1)
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("accept", accept_command))

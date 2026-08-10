@@ -2501,46 +2501,44 @@ máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam
 misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
 a ingesta perdidos (revisarlos, no ignorarlos).
 
-## #70 — El cambio de marca explícito no existe para el estado conversacional (s315, dato vivo de Alberto; RE-DIAGNOSTICADO s316)
+## #70 — El carry-forward sobrevive al cambio de marca (s315) — **ETAPA 1 CERRADA (s316b), etapa 2 abierta**
 
-**El fallo (query_logs 9-ago 21:58Z)**: tras una conversación sobre la NC-PF2 (Kidde),
-Alberto pidió «pasemos a productos Morley. ¿qué centrales de incendios Morley tienes?» →
-`catalog_shortcut` ($0, correcta) → su siguiente turno entró a RAG con `NC-PF2` ARRASTRADO
-y el bot siguió respondiendo Kidde (apéndice de obligaciones incluido).
+**Fallo orgánico** (query_logs 9-ago 21:58-21:59Z): tras hablar de la NC-PF2 (Kidde),
+Alberto pidió «pasemos a productos Morley…» → ruta `catalog_shortcut` → su siguiente turno
+entró a RAG con `NC-PF2` ARRASTRADO y el bot siguió respondiendo Kidde.
 
-**⚠ La «fix direction» original de esta entrada era INVÁLIDA** («limpiar
-`last_detected_models`»): esa clave está MUERTA en producción — Railway corre
-`CONVERSATION_POLICY=impl` + `ORCHESTRATOR_PATH=on` (verificado contra la API de Railway,
-s316), el carry-forward legacy está apagado (`if not f1_active`) y F1 lee
-`mt_working_state` (`telegram_bot.py:1176`). Un fix sobre la clave legacy pasaría sus
-tests sin cambiar nada (así murió el diseño v1, dúo NO-SÓLIDO).
+**DOS causas independientes** (dúo s316 ×4 rondas, Sol xhigh + sub-agente Opus 5):
+1. **Ceguera de ruta** — el turno del cambio responde y `return`a en `handle_message`
+   (7 de sus 13 `return` no tocan estado), así que F1 nunca lo ve. **← ETAPA 1, CERRADA.**
+2. **Conflación de la política** — `conversation_policy_impl:398-403` clasifica «marca sola
+   + in-window» como `brand_compatibility_in_window` (correcto para «¿es compatible con
+   X?», equivocado para un cambio de tema) ⇒ «¿y en Morley cómo se hace el reset?»
+   arrastra sin pasar por ninguna ruta temprana. **← ETAPA 2, ABIERTA.**
 
-**Mecanismo real (dúo s316, 3 rondas, todo anclado en código): DOS causas independientes.**
-(1) *Ceguera de ruta*: el turno del cambio de marca responde y retorna en `handle_message`
-(7 de sus 13 `return` responden sin tocar estado) ⇒ F1 nunca lo ve; el turno siguiente
-resuelve contra un `mt_working_state` intacto. (2) *Conflación de la política*: aunque F1
-viera el turno, `conversation_policy_impl:398-403` clasifica «marca sola + in-window» como
-`CARRY_FORWARD:"brand_compatibility_in_window"` — correcto para «¿es compatible con X?»,
-incorrecto para un cambio de tema. **Un fix completo toca las dos**; arreglar solo (1)
-deja el fall-through vivo («¿y en Morley cómo se hace el reset?» reproduce el fallo sin
-pasar por ninguna ruta temprana).
+**Etapa 1 (s316b, DEC-198)**: `brand_switch_guard` como `TypeHandler` en **grupo -1** —
+punto único por el que pasan todos los updates, imposible de olvidar para una ruta nueva.
+Invalida el producto en curso solo con las cuatro condiciones a la vez: frase de switch,
+sin token de producto real, marca resuelta en la COLA (posicional), y marca ≠ la del
+producto en curso. Testigo VERDE en `tests/test_s316_transport_state_instrument.py`.
 
-**Restricciones para el fix (aprendizajes pagados del dúo)**: rollback-safe (volver a
-`CONVERSATION_POLICY=stub` es el rollback documentado de una variable ⇒ el fix debe cubrir
-TAMBIÉN la clave legacy o sobrevivir al flip); `manufacturer_mismatch` debe FIJAR el
-modelo, no limpiarlo (la ruta invita al follow-up); invalidar modelos sin tocar
-`last_query`/`last_answer_excerpt` deja `is_empty=False` y produce un «Ha pasado un rato»
-mentiroso; el punto único real es un `TypeHandler` en grupo −1 (dos call-sites manuales
-son la convención olvidable de siempre); `extract_product_models` emite códigos
-no-producto (RS-485/EN-54) que suprimirían una guarda ingenua; y la comparación de marcas
-debe reusar `_same_manufacturer` (colapsa Honeywell↔Notifier/Morley), no inventar la
-séptima igualdad.
+**Restricciones PAGADAS que cualquier trabajo futuro debe respetar** (cada una costó una
+ronda del dúo):
+- **precisión > recall**: un falso positivo rompe un turno que funcionaba; un miss solo
+  deja el bug en fraseos raros. `FUEGO` es un fabricante REAL cuyo nombre es la palabra
+  más común del sector → `_MARCAS_AMBIGUAS` + `test_ninguna_marca_nueva_colisiona_con_el_dominio`;
+- la heurística «primera palabra única» de `_marca_en_consulta` es insegura sin pre-gate;
+- muletillas («vamos a ver») NO son switch;
+- los replies son feedback (#60 5b), no cambio de tema;
+- `manufacturer_mismatch` FIJA el modelo, no lo limpia;
+- rollback-safe: limpiar también `last_detected_models` (revive si se quita
+  `CONVERSATION_POLICY` de Railway);
+- reset COMPLETO del `WorkingState` (un `last_query` residual produce un «Ha pasado un
+  rato» mentiroso);
+- nada de httpx síncrono en el camino caliente del grupo -1 (0,54 s en frío/mensaje).
 
-**INSTRUMENTO LISTO (s316, el prerrequisito)**: `tests/test_s316_transport_state_instrument.py`
-conduce `handle_message` REAL con dobles $0 — testigo del fallo orgánico en
-`xfail(strict=True)` (ROJO hoy; el XPASS obligará a retirar el marcador cuando el fix
-aterrice) + control causal + control de compatibilidad con marca servida + censo AST de
-ramas terminales (13/3). El fix se diseña CONTRA este instrumento, con dúo propio.
+**Etapa 2**: toca el clasificador, que tiene contrato congelado y gate MT propio
+(DEC-154). Testigo `test_testigo_fallthrough_marca_sin_switch_explicito` en `xfail(strict)`:
+el XPASS avisará cuando aterrice. **Coste**: M.
 
 ## #71 — El disclaimer legal se captura como «obligación de evidencia» (evidence_contract, aparato PROTEGIDO)
 
