@@ -2501,18 +2501,46 @@ máquina que ve OneDrive (`dry-run` primero). A futuro (GCP u otra CDN): el seam
 misma columna. Los PDFs locales sin fila en `documents` que el dry-run liste = candidatos
 a ingesta perdidos (revisarlos, no ignorarlos).
 
-## #70 — El carry-forward sobrevive al cambio de marca vía `catalog_shortcut` (s315, dato vivo de Alberto)
+## #70 — El cambio de marca explícito no existe para el estado conversacional (s315, dato vivo de Alberto; RE-DIAGNOSTICADO s316)
 
-**Verificado en query_logs (9-ago 21:58Z)**: tras una conversación sobre la NC-PF2 (Kidde),
+**El fallo (query_logs 9-ago 21:58Z)**: tras una conversación sobre la NC-PF2 (Kidde),
 Alberto pidió «pasemos a productos Morley. ¿qué centrales de incendios Morley tienes?» →
-ruta `catalog_shortcut` (inventario, $0, correcta) → su siguiente turno («esto parece
-incluir muchos más productos…») entró a RAG con `product_models=[NC-PF2]` ARRASTRADO:
-la ruta de inventario ni actualiza ni limpia `last_detected_models`, así que el cambio de
-marca explícito del usuario no existe para el carry-forward y el bot siguió respondiendo
-sobre la serie NC de Kidde (con su apéndice de obligaciones citando docs Kidde). **Fix
-direction**: las rutas directas (`catalog_shortcut`/inventario) deben tocar el contexto
-conversacional — como mínimo limpiar `last_detected_models` y registrar la marca pedida.
-Toca el handler y el diseño del carry-forward (F1) → diseño + dúo propios, no hot-patch.
+`catalog_shortcut` ($0, correcta) → su siguiente turno entró a RAG con `NC-PF2` ARRASTRADO
+y el bot siguió respondiendo Kidde (apéndice de obligaciones incluido).
+
+**⚠ La «fix direction» original de esta entrada era INVÁLIDA** («limpiar
+`last_detected_models`»): esa clave está MUERTA en producción — Railway corre
+`CONVERSATION_POLICY=impl` + `ORCHESTRATOR_PATH=on` (verificado contra la API de Railway,
+s316), el carry-forward legacy está apagado (`if not f1_active`) y F1 lee
+`mt_working_state` (`telegram_bot.py:1176`). Un fix sobre la clave legacy pasaría sus
+tests sin cambiar nada (así murió el diseño v1, dúo NO-SÓLIDO).
+
+**Mecanismo real (dúo s316, 3 rondas, todo anclado en código): DOS causas independientes.**
+(1) *Ceguera de ruta*: el turno del cambio de marca responde y retorna en `handle_message`
+(7 de sus 13 `return` responden sin tocar estado) ⇒ F1 nunca lo ve; el turno siguiente
+resuelve contra un `mt_working_state` intacto. (2) *Conflación de la política*: aunque F1
+viera el turno, `conversation_policy_impl:398-403` clasifica «marca sola + in-window» como
+`CARRY_FORWARD:"brand_compatibility_in_window"` — correcto para «¿es compatible con X?»,
+incorrecto para un cambio de tema. **Un fix completo toca las dos**; arreglar solo (1)
+deja el fall-through vivo («¿y en Morley cómo se hace el reset?» reproduce el fallo sin
+pasar por ninguna ruta temprana).
+
+**Restricciones para el fix (aprendizajes pagados del dúo)**: rollback-safe (volver a
+`CONVERSATION_POLICY=stub` es el rollback documentado de una variable ⇒ el fix debe cubrir
+TAMBIÉN la clave legacy o sobrevivir al flip); `manufacturer_mismatch` debe FIJAR el
+modelo, no limpiarlo (la ruta invita al follow-up); invalidar modelos sin tocar
+`last_query`/`last_answer_excerpt` deja `is_empty=False` y produce un «Ha pasado un rato»
+mentiroso; el punto único real es un `TypeHandler` en grupo −1 (dos call-sites manuales
+son la convención olvidable de siempre); `extract_product_models` emite códigos
+no-producto (RS-485/EN-54) que suprimirían una guarda ingenua; y la comparación de marcas
+debe reusar `_same_manufacturer` (colapsa Honeywell↔Notifier/Morley), no inventar la
+séptima igualdad.
+
+**INSTRUMENTO LISTO (s316, el prerrequisito)**: `tests/test_s316_transport_state_instrument.py`
+conduce `handle_message` REAL con dobles $0 — testigo del fallo orgánico en
+`xfail(strict=True)` (ROJO hoy; el XPASS obligará a retirar el marcador cuando el fix
+aterrice) + control causal + control de compatibilidad con marca servida + censo AST de
+ramas terminales (13/3). El fix se diseña CONTRA este instrumento, con dúo propio.
 
 ## #71 — El disclaimer legal se captura como «obligación de evidencia» (evidence_contract, aparato PROTEGIDO)
 
