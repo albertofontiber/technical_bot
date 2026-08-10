@@ -5426,3 +5426,65 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   primera vez en este frente: Sol xhigh ×2 rondas + sub-agente Opus 5 (pin s292).
   **Relacionado**: DEC-194 (el build), DEC-102 (crowding del canal enunciados),
   TECH_DEBT #52 (techo top-200) y #68.
+
+## DEC-197 (s316b) — #70 re-diagnosticado (la fix direction original era inválida) y el INSTRUMENTO de transporte construido; el fix queda gateado por el instrumento
+
+- **Fecha**: 10 ago 2026 (s316b). **Impacto**: MEDIO-ALTO (zona de dolor: conversacional/
+  multi-turn; el fallo es ORGÁNICO de Alberto usando el bot; toca el diagnóstico de una
+  deuda viva y añade infraestructura de test que gateará el fix).
+- **Disparador**: Alberto priorizó #70. Dos diseños de fix consecutivos fueron NO-SÓLIDO
+  (dúo ×3 rondas: Sol xhigh + sub-agente Opus 5) — ambos habrían pasado sus tests sin
+  arreglar nada. Alberto adjudicó entonces «atacar el instrumento, no el fix, BP/robusto/
+  escalable».
+- **El hallazgo que reordena todo (Sol, ronda 1; verificado contra la API de Railway)**:
+  **F1 está ACTIVO en producción** (`CONVERSATION_POLICY=impl` + `ORCHESTRATOR_PATH=on`).
+  Mi inferencia de lo contrario («ninguna traza tiene clave `policy`») era inválida —
+  `runtime_trace.py` no emite política conversacional. Consecuencias: (a) la clave
+  `last_detected_models` está MUERTA en producción; (b) la «fix direction» escrita en
+  TECH_DEBT #70 (limpiarla) era inválida y quedó CORREGIDA; (c) el estado real es
+  `mt_working_state`.
+- **Mecanismo real de #70 (2 causas independientes, ancladas)**: ceguera de ruta (el
+  turno del cambio de marca retorna en `handle_message` sin que F1 lo vea; 7/13 returns
+  responden sin tocar estado) + conflación de la política
+  (`brand_compatibility_in_window`: marca sola in-window ⇒ carry, correcto para
+  compatibilidad, incorrecto para cambio de tema). Un fix completo toca ambas; el
+  fall-through («¿y en Morley cómo se hace el reset?») reproduce el fallo sin pasar por
+  ninguna ruta temprana — VERIFICADO ejecutando la heurística, no supuesto.
+- **Decisión 1 — INSTRUMENTO construido** (`tests/test_s316_transport_state_instrument.py`,
+  prescripción convergente de ambos revisores; revisarles su propia prescripción habría
+  sido ritual): conduce `handle_message` REAL con dobles $0 (patrón
+  `test_f1_activation_wiring`, flags congelados antes del import) — **testigo del fallo
+  orgánico en `xfail(strict=True)`** (ROJO hoy = #70 demostrable por primera vez; el
+  XPASS estricto obliga a retirar el marcador cuando el fix aterrice) + **control causal**
+  (estado limpiado a mano ⇒ VERDE: el rojo es el bug, no el doble) + **control de
+  no-regresión** (compatibilidad con marca SERVIDA — Hochiki era vacuo:
+  `manufacturer_no_model` la corta antes de la política) + **censo AST de ramas
+  terminales** (13/3; el unit del riesgo es la rama, no la ruta de log_query). Resultado
+  primer run: 3 passed, 1 xfailed — el criterio de aceptación («rojo sobre el código de
+  hoy») cumplido.
+- **Decisión 2 — el FIX queda pendiente y GATEADO por el instrumento**, con las
+  restricciones pagadas en las 3 rondas (estampadas en TECH_DEBT #70): rollback-safe ante
+  `CONVERSATION_POLICY=stub`; `manufacturer_mismatch` FIJA, no limpia; invalidar modelos
+  sin tocar `last_query` produce un «Ha pasado un rato» mentiroso; punto único =
+  `TypeHandler` grupo −1; `extract_product_models` emite códigos no-producto; reusar
+  `_same_manufacturer`.
+- **Alternativas descartadas**: hot-patch en las salidas del catálogo (no-op: clave
+  muerta); activar F1 como fix (ya está activo, y la política arrastraría igual);
+  YAML+censo-AST por rutas (mi v1 del instrumento: censo falso en 3 formas, ciego a 7/13
+  ramas — sobre-ingeniería sobre taxonomía equivocada; la canónica vive en el CHECK
+  `query_logs_route_check`); tocar `conversation_policy_impl` dentro del bugfix (contrato
+  con tests congelados y gate MT propio).
+- **Gaps / riesgos declarados**: el testigo reproduce el PRECONDICIONANTE de estado, no el
+  daño completo (generación stubeada); sin control de reloj (casos de ventana/expiración
+  fuera); `user_data` por-USUARIO (semántica PTB real, heredada); los stubs de deciders
+  DB son precondiciones calibradas a producción — si el corpus deja de servir Morley, el
+  control de compatibilidad miente; #70 SIGUE ABIERTO (el instrumento lo hace demostrable,
+  no lo arregla).
+- **Regla C / tally**: 3 rondas completadas en `adversarial_review_log.jsonl`
+  (16:57 caída API; 17:06 / 17:29 / 17:38 con findings confirmados y 0 FP). Refutación
+  bidireccional registrada: el menor de Opus sobre `route` NULL refutado con lectura
+  directa de `query_logs`.
+- **Estado**: ✅ instrumento en verde/xfail según diseño; TECH_DEBT #70 re-escrito;
+  suite completa en curso al cierre de esta entrada. **Relacionado**: DEC-148/154 (gate
+  MT), DEC-072/195 (controles), TECH_DEBT #70, `evals/s316_tech70_propuesta_v{1,2}.md`,
+  `evals/s316_instrumento_mt_transporte_propuesta_v{1,2}.md`.

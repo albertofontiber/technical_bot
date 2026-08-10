@@ -3126,3 +3126,34 @@ descubrió con el navegador y quedó cableado.
 nuevos, quiere **los manuales que faltan de los equipos que ya están**. Con la pregunta
 correcta y el método corregido: 19 candidatos Aritech, 0 Edwards. El criterio quedó en
 memoria para no repetir el error. DEC-195/195b/196.
+
+## s316b (10 ago 2026) — Tres rondas de dúo para descubrir que el fix imaginado era un no-op, y el instrumento que faltaba
+
+Alberto priorizó #70 (el bot respondió Kidde después de que él pidiera «pasemos a
+productos Morley» — fallo orgánico, de uso real). Dos diseños de fix murieron en el dúo
+la misma tarde, y la autopsia es la parte valiosa: **ambos habrían pasado sus tests sin
+arreglar nada**. El v1 limpiaba `last_detected_models` — y Sol cazó que esa clave está
+MUERTA: F1 corre en producción (`CONVERSATION_POLICY=impl`, verificado contra la API de
+Railway; mi inferencia por la traza era inválida porque la traza nunca emite política).
+El v2 prometía cubrir el fall-through con una heurística que, ejecutada, devuelve False
+para ese caso, y medirse con un harness que jamás toca `handle_message`.
+
+La lección estructural la dieron los dos revisores convergiendo: **el unit del riesgo es
+la rama terminal, no la ruta de log** (7 de los 13 `return` de `handle_message` responden
+sin registrar nada), y lo que faltaba no era el fix sino **la forma de VER el fallo**.
+Alberto adjudicó instrumento-primero, y la prescripción conjunta del dúo se construyó tal
+cual: un harness de transporte que conduce `handle_message` real con dobles $0 — el
+testigo del fallo orgánico (verbatim de query_logs) en `xfail(strict=True)`, un control
+causal que prueba que el rojo es el bug y no el doble, el control de compatibilidad con
+marca SERVIDA (el de Hochiki era vacuo: la ruta lo corta antes de llegar a la política), y
+un censo AST de ramas terminales que obliga a decidir qué hace con el estado cada rama
+nueva. Primer run: 3 passed, 1 xfailed — #70 es demostrable por primera vez, y el día que
+el fix aterrice el XPASS estricto obligará a retirar el marcador.
+
+De la misma jornada: el sha-dedup de Casmar (19 candidatos → 10 nuevos de verdad; 7 ya
+estaban en corpus con OTRO nombre, byte-idénticos; Alberto acota a los 2 manuales de
+instalación y descarta las hojas de datos), y la verificación de que los fixes de
+`<br/>`/ForceReply están DESPLEGADOS desde las 22:45Z del 9-ago — las capturas de Alberto
+eran de 30-50 minutos antes del deploy — aunque sin ejercitar aún (0 consultas
+posteriores). TECH_DEBT #70 re-escrito con el mecanismo real y las restricciones pagadas;
+DEC-197.

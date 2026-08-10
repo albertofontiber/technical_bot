@@ -62,10 +62,29 @@ commits por detrás (FF limpio a `f947fac`); sin PRs abiertas.
    Vía Fire Security Products abierta y autenticada (Aritech=17271, Edwards=17286), con la
    marca resuelta por `config/portal.yaml`, no por el PIM.
 
-**Qué sigue**: (a) medir `dup_cross_vintage` generando el lote sin cargar (~$4,4) para
-cerrar el lever del dedup; (b) `--aplicar` del lote y de Storage cuando Alberto lo abra;
-(c) sha-dedup de los 19 candidatos Casmar; (d) canario pre/post del assessment como gate
-del `--aplicar` (Sol MEDIO aceptado, no cerrado en código).
+**s316b (misma jornada, tras merge de PR #230) — #70 re-diagnosticado + INSTRUMENTO
+construido (DEC-197):** Alberto priorizó #70; dos diseños de fix cayeron NO-SÓLIDO en el
+dúo (×3 rondas) y él adjudicó «instrumento primero». **Hallazgo que reordena: F1 está
+ACTIVO en producción** (`CONVERSATION_POLICY=impl` + `ORCHESTRATOR_PATH=on`, verificado
+contra la API de Railway) ⇒ `last_detected_models` es clave MUERTA y la fix-direction
+original de #70 era inválida (TECH_DEBT #70 re-escrito con el mecanismo real: ceguera de
+ruta + conflación `brand_compatibility_in_window`, y las restricciones para el fix).
+**Instrumento VIVO**: `tests/test_s316_transport_state_instrument.py` — testigo del fallo
+orgánico en `xfail(strict=True)` (ROJO hoy = #70 demostrable; XPASS forzará retirar el
+marcador) + control causal + control compat con marca servida + censo AST de ramas
+terminales (13/3). Primer run: 3 passed / 1 xfailed. **Ítems nuevos de la jornada**:
+Casmar sha-dedup HECHO (19→10 nuevos; Alberto acota a los 2 MANUALES, las 8 hojas de
+datos NO; staging local, sin ingestar) · fixes `<br/>`/ForceReply verificados DESPLEGADOS
+en Railway (22:45Z) pero SIN ejercitar aún (0 consultas post-deploy) · sub-agente del dúo:
+Alberto pasó la sesión principal a Fable 5; pin del sub-agente pendiente de su decisión
+(s292 fue por crédito agotado de Fable).
+
+**Qué sigue**: (a) **fix de #70 contra el instrumento** (diseño con las restricciones de
+DEC-197 + dúo propio; el testigo xfail es el gate); (b) medir `dup_cross_vintage`
+generando el lote sin cargar (~$4,4) para cerrar el lever del dedup; (c) `--aplicar` del
+lote y de Storage cuando Alberto lo abra; (d) ingesta de los 2 manuales Casmar (MI_AS236x,
+MI_KIDDE_2X_A_LB) con su gate; (e) canario pre/post del assessment como gate del
+`--aplicar` (Sol MEDIO aceptado, no cerrado en código).
 
 ### s315 (9 ago 2026) — resumen
 
