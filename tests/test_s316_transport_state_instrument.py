@@ -311,41 +311,85 @@ _DEBEN_DISPARAR = [
 ]
 
 
+# Lista de marcas CONGELADA para precisión/recall: `_marca_en_consulta` consulta la DB
+# viva, así que sin esto el resultado depende del entorno — en CI (sin credenciales) la
+# resolución devolvía None y «pasemos a Xtralis» no disparaba, mientras en local sí.
+# Un instrumento cuyo veredicto cambia con el entorno no es un instrumento. Se fija el
+# vocabulario REAL de producción (30 marcas, verificado hoy contra la DB).
+_MARCAS_CONGELADAS = [
+    "Notifier", "Morley", "Kidde", "Detnov", "Aritech", "System Sensor", "Xtralis",
+    "Spectrex", "Pfannenberg", "Argus Security", "LDA audioTech", "Securiton",
+    "Fidegas", "Pepperl-Fuchs", "Edwards", "Sensitron", "Honeywell", "LGM Products",
+    "Avotec", "European Safety Systems", "Zellweger Analytics", "KAC", "FUEGO",
+    "OGGIONI", "SenseWare", "Sound Alert", "COELBO", "Testifire", "Venitem",
+    "Hosiden Besson",
+]
+
+
+@pytest.fixture
+def marcas_congeladas(monkeypatch):
+    """Congela la lista de fabricantes: sin DB, determinista, igual en local y en CI."""
+    import src.bot.telegram_bot as bot
+    monkeypatch.setattr(bot, "get_available_manufacturers",
+                        lambda: list(_MARCAS_CONGELADAS))
+    monkeypatch.setattr(bot, "_marcas_db_cache", None)
+    yield
+    bot._marcas_db_cache = None          # no contaminar tests vecinos
+
+
 @pytest.mark.parametrize("consulta", _NO_DEBEN_DISPARAR)
-def test_precision_la_guardia_calla(consulta):
+def test_precision_la_guardia_calla(consulta, marcas_congeladas):
     import src.bot.telegram_bot as bot
     assert bot._marca_destino(consulta) is None, (
         f"FALSO POSITIVO: la guardia borraría contexto legítimo en {consulta!r}")
 
 
 @pytest.mark.parametrize("consulta,esperada", _DEBEN_DISPARAR)
-def test_recall_la_guardia_dispara(consulta, esperada):
+def test_recall_la_guardia_dispara(consulta, esperada, marcas_congeladas):
     import src.bot.telegram_bot as bot
     got = bot._marca_destino(consulta)
     assert (got or "").lower() == esperada.lower(), f"{consulta!r} → {got!r}"
 
 
-def test_ninguna_marca_nueva_colisiona_con_el_dominio():
-    """LA parte estructural de `_MARCAS_AMBIGUAS`: una lista negra se pudre; un detector
-    de colisiones no. Si se ingesta una marca llamada «Alarma»/«Sirena»/«Central», este
-    test rompe y obliga a declararla conscientemente en vez de descubrirlo en campo
-    (como pasó con FUEGO: fabricante real de 1 documento cuyo nombre es la palabra más
-    común del sector). Sin red: si la DB no responde, se salta."""
+def _colisiones(bot, marcas):
+    return {m for m in marcas
+            if m.lower() in bot._VOCABULARIO_DOMINIO
+            and m.lower() not in bot._MARCAS_AMBIGUAS}
+
+
+def test_ninguna_marca_colisiona_con_el_dominio_SIEMPRE():
+    """LA parte estructural: una lista negra se pudre, un detector no. Corre SIEMPRE
+    —también en CI sin credenciales— sobre el vocabulario congelado, que es el que la
+    guardia va a ver en producción. (La v1 solo corría con DB y se SALTABA en CI:
+    la pieza que yo llamaba estructural era inerte justo donde debía proteger.)"""
+    import src.bot.telegram_bot as bot
+
+    colisiones = _colisiones(bot, _MARCAS_CONGELADAS)
+    assert not colisiones, (
+        f"marcas que colisionan con vocabulario del dominio: {sorted(colisiones)}. "
+        "Decláralas en _MARCAS_AMBIGUAS o la guardia borrará contexto al nombrarlas.")
+
+
+def test_la_lista_congelada_no_ha_derivado_de_la_DB():
+    """Tripwire de deriva: si el corpus gana un fabricante, la lista congelada deja de
+    representar producción y hay que actualizarla CONSCIENTEMENTE — que es cuando se
+    ejecuta el detector de arriba sobre el nombre nuevo. Requiere credenciales; en CI
+    se salta, y por eso el detector NO depende de este test."""
     import src.bot.telegram_bot as bot
 
     try:
-        marcas = bot.get_available_manufacturers() or []
+        vivas = bot.get_available_manufacturers() or []
     except Exception:                                  # noqa: BLE001
         pytest.skip("sin acceso a la lista de fabricantes")
-    if not marcas:
+    if not vivas:
         pytest.skip("lista de fabricantes vacía")
 
-    colisiones = {m for m in marcas
-                  if m.lower() in bot._VOCABULARIO_DOMINIO
-                  and m.lower() not in bot._MARCAS_AMBIGUAS}
-    assert not colisiones, (
-        f"marcas nuevas que colisionan con vocabulario del dominio: {sorted(colisiones)}. "
-        "Decláralas en _MARCAS_AMBIGUAS o la guardia borrará contexto al nombrarlas.")
+    nuevas = {m for m in vivas} - set(_MARCAS_CONGELADAS)
+    faltan = set(_MARCAS_CONGELADAS) - {m for m in vivas}
+    assert not nuevas and not faltan, (
+        f"la lista congelada derivó de la DB — nuevas: {sorted(nuevas)}, "
+        f"desaparecidas: {sorted(faltan)}. Actualiza _MARCAS_CONGELADAS y comprueba que "
+        "ninguna nueva colisiona con el vocabulario del dominio.")
 
 
 # --- CONTRATO DE CABLEADO: la guardia vive en el grupo -1 --------------------
