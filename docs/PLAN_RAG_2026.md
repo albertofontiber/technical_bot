@@ -60,13 +60,26 @@ los DOS gates del flip cerrados (s316h, DEC-204, dúo r12).**
    con proveniencia (`artefactos_sha256`, corrida final sobre el commit) · pegamento
    del handler gateado EN CI (instrumento de transporte). Flag OFF sigue byte-idéntico.
 
-**Qué sigue (s316h)**: (a) **EL FLIP es decisión de Alberto** (Railway:
-`INTENT_LLM=on` — los dos gates de DEC-203b están cerrados; DEC-204). Tras él: retirar
-el testigo XFAIL del fall-through y estampar el veredicto del lever en `LEVER_DIGEST`
-con la traza REAL de la 1ª semana (sección `intent` de `rag_trace`); (b) **#73** puerta
-de revisión en ingesta; (c) **#72** cliente HTTP común; (d) rapidez fase 2 con ~1 semana
-de timings; (e) sentada B2 (Alberto); (f) #71; (g) #74 solo si nace un consumidor de
-re-validación del trace (pregunta cero).
+8. **#73 CERRADO** (s317, DEC-205, dúo r13 aplicado entero): puerta de revisión en la
+   ingesta — señales de edición $0 (filename+portada, familias del corpus real), cruce
+   corpus PAGINADO + INTRA-LOTE, contrato >=, señal persistida en `documents.revision`,
+   override `--ignorar-revision [GLOB]` auditado. Censo: 1.069 activos → **1 par
+   supersedido vivo (DP312x 202503/202512) a adjudicación de Alberto**. Rumbo de la
+   sesión (Alberto): censo del 👎 APARCADO (sin técnicos activos); foco = arquitectura
+   y flujos.
+9. **Rapidez fase 2 DESBLOQUEADA sin esperar tráfico** (s317, perfil medido,
+   `evals/s317_perfil_retrieval_v1.md`): retrieve como el gordo del turno (11-27 s en
+   las 6 filas reales) y el perfil local atribuye **~10 s/turno a construir 14 clientes
+   httpx por consulta** (7,25 s de contextos SSL + handshakes) → **la fase 2 ES #72**
+   (cliente HTTP común); el residual (~8 s de RPCs secuenciales) es la fase siguiente.
+
+**Qué sigue (s317)**: (a) **EL FLIP de INTENT_LLM es decisión de Alberto** (Railway:
+`INTENT_LLM=on`; DEC-204) → tras él: retirar testigo XFAIL + estampar veredicto en
+`LEVER_DIGEST` con la traza real; (b) **adjudicación Alberto**: marcar supersedida la
+DP312x 202503 (censo s317); (c) **#72 = rapidez fase 2** (cliente HTTP común con el
+recibo del perfil; diseño → dúo → build); (d) sentada B2 (Alberto); (e) #71;
+(f) #74 solo si nace consumidor; (g) FULL fresco v3.2 (~$25) cuando se quiera re-medir
+calidad post-Casmar/Kidde.
 
 ### s315 (9 ago 2026) — resumen
 

@@ -5855,3 +5855,49 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   veredicto del lever en `LEVER_DIGEST` con la traza real de la 1ª semana.
 - **Relacionado**: DEC-203/203b, s306 (`retrieval`), s315 (`timings`), TECH_DEBT #74,
   ref tally `evals/adversarial_review_log.jsonl` ts=2026-08-11T23:11:00.
+
+## DEC-205 (s317) — Puerta de REVISIÓN en la ingesta construida (#73 CERRADO): el sha prueba bytes, la puerta prueba información
+
+- **Fecha**: 12 ago 2026 (s317). **Impacto**: MEDIO en zona de dolor (corpus/ingesta);
+  cero efecto en serving — solo el driver `ingest_new.py` cambia de conducta.
+- **Contexto**: Alberto redirige a «arquitectura y flujos» (el censo del 👎 se aparca:
+  sin técnicos activos no hay señal). #73 nació en s316d: los 2 candidatos «nuevos» del
+  barrido Casmar eran revisiones VIEJAS (INS570-3 vs issue 8; P/N …-03 vs …-04), cazadas
+  a mano — ingestar una revisión vieja = dos activos del mismo manual sin cadena (#4) y
+  el bot puede citar el caducado.
+- **Qué hay** (`src/reingest/revision_gate.py` + cableado en `gates()` +
+  `tests/test_s317_revision_gate.py` 35 tests + `scripts/s317_revision_census.py`):
+  señales de edición $0 (filename + portada PyMuPDF) en familias MUESTREADAS del corpus
+  real — pn_utc (P/N+`_rNNN` con doble coincidencia), rnnn, issue/INS, iss_fecha
+  (ddMMMyy), rev numérica/letra (jamás comparadas entre sí), fecha AAAAMM, v — ·
+  idioma=identidad · cruce corpus-wide PAGINADO (clase #72: PostgREST corta a 1000 en
+  silencio y `documents`=1.069) · contrato #73 LITERAL (corpus >= candidata ⇒ BLOQUEADO)
+  · cruce INTRA-LOTE (igualdad no-mutua) · señal PERSISTIDA en `documents.revision`/
+  `revision_date` (las columnas de migrations/001, NULL hasta hoy) e índice que las relee
+  · fail-open LISTADO sin señal · `--ignorar-revision [GLOB]` auditado en recibo.
+- **Dúo r13 (Sol 8 · Fable 7, convergentes en 3, 0 FP, TODO aplicado)**: los críticos
+  fueron la ceguera INTRA-LOTE (dos revisiones juntas pasaban las dos — así pudo nacer
+  el par vivo) y la señal NO persistida (una revisión solo-de-portada quedaba invisible
+  para lotes futuros). Fable PROBÓ que la fecha contaminaba la tupla de revisión
+  («rev 4 30-10-2024» → rev=(4,30,10), comparaba DÍAS) → extracción sobre CRUDO con
+  multi-parte solo `.`/`_`. Portada acotada a familias span-independientes (INS) con
+  guarda anti-cita. Y AMBOS volvieron a cazar framing mío (censo: «0 pares falsos»
+  absoluto, «lo habría bloqueado» incondicional) — 3ª ronda seguida con la misma clase;
+  el fix vuelve a ser declarar, no adornar.
+- **Censo del corpus real** (`evals/s317_revision_census_v1.json`): 1.069 activos ·
+  134 con señal (13%; cobertura sobre candidatos nuevos será mayor — portal trae fecha
+  sistemática — pero NO está medida) · **1 par multi-revisión intra-familia**
+  (MI_KIDDE_KE_DP312x 202503/202512) → **adjudicación de Alberto: marcar supersedida la
+  202503** · par inter-familia conocido INVISIBLE por diseño (MI-Casmar↔bcn, DEC-192).
+- **Alternativas descartadas**: comparar por `document_family` (no separa revisiones
+  con `_rNNN`/issue) · fail-closed total (87% sin señal → bloquearía lotes legítimos;
+  el TECH_DEBT predeclaró fail-open-listado) · LLM en portada (coste/no determinista) ·
+  poblar `supersedes_id` automático (escritura fuera del alcance; el recibo anota
+  candidatas).
+- **Gaps declarados**: cobertura 13% en nombres del corpus · revisiones raras
+  perdidas a propósito (RevIMarch, P/N sin _rNNN, rev pegado tipo MIEMI120rev05) ·
+  índice del corpus solo-filename+columna (portadas del corpus no están a mano) ·
+  dirección vieja-primero (SUPERSEDE procede; retirar a la vieja es la cadena #4).
+- **Relacionado**: TECH_DEBT #73 (cerrado) · #4 (cadena supersede — siguiente pieza
+  natural) · #72 (la paginación de aquí es su patrón) · DEC-192 · tally r13
+  ts=2026-08-12T00:25:09.

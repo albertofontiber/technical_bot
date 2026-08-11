@@ -395,8 +395,11 @@ def test_cifras_de_control():
     # instrumento: handle_message despacha lo que este módulo decide.
     # 118→119 (s316g): + orchestrator/intent_llm.py — el clasificador del lever
     # INTENT_LLM (DEC-203b): prompt/parser fuente única para gate y serving. Producto.
-    assert len(MODULOS) == 119, (
-        f"módulos en src/: {len(MODULOS)} (censo: 119). Si es PRODUCTO nuevo "
+    # 119→120 (s317): + reingest/revision_gate.py — puerta de revisiones
+    # supersedidas de la ingesta (#73): señales de edición + cruce contra
+    # documents. Producto del pipeline (lo consume ingest_new), no instrumento.
+    assert len(MODULOS) == 120, (
+        f"módulos en src/: {len(MODULOS)} (censo: 120). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."

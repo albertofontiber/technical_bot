@@ -2549,7 +2549,16 @@ casa marcadores de obligación/advertencia que el boilerplate legal también usa
 — cualquier exclusión de la clase «disclaimer legal» exige adjudicación previa, no parche
 en caliente. Población pendiente de censar (¿cuántos docs llevan el boilerplate?).
 
-## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c)
+## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c) — **AHORA CON RETORNO MEDIDO EN LATENCIA (s317)**
+
+**s317 — el perfil que lo convierte en EL lever de rapidez fase 2** (recibo
+`evals/s317_perfil_retrieval_v1.md`): en UNA llamada servida de `retrieve_chunks`
+se construyen **14 clientes httpx** — 7,25 s solo en crear contextos SSL (leer el
+bundle CA del disco 14 veces) + ~3,4 s de handshakes TCP/TLS repetidos, sobre
+19,0 s calientes totales (fría 53,5 s). **~10 s/turno (~30-50% del turno) son
+overhead de no reutilizar cliente**; el residual (~8 s de espera de RPCs) es la
+segunda fase (paralelizar canales). El cliente común ya no es solo robustez:
+es la palanca de velocidad más barata que existe ahora mismo.
 
 **Medido en una sola sesión**: TRES scripts murieron por la MISMA causa —una excepción de
 TRANSPORTE (`httpx.ReadError`, WinError 10054) que subía sin capturar y tumbaba el run
@@ -2577,7 +2586,15 @@ estos tres casos. Un cliente común NO debe reintentar POSTs no idempotentes: la
 tiene que ser explícita por llamada, no mágica. **Coste**: M.
 
 
-## #73 — La ingesta no detecta REVISIONES SUPERSEDIDAS: el sha prueba bytes distintos, no información nueva (s316d)
+## #73 — La ingesta no detecta REVISIONES SUPERSEDIDAS: el sha prueba bytes distintos, no información nueva (s316d) — **CERRADO (s317, DEC-205)**
+
+**CERRADO s317**: puerta construida (`src/reingest/revision_gate.py` + `gates()` de
+`ingest_new.py`), dúo r13 aplicado entero (Sol 8 · Fable 7, 0 FP), batería 35 tests
+sobre casos reales, censo del corpus 1.069 docs → 1 par supersedido vivo
+(DP312x 202503/202512, adjudicación de Alberto pendiente). Señal persistida en
+`documents.revision`/`revision_date`. Residual que NO cubre (declarado): pares
+inter-familia de nomenclatura (MI-Casmar↔bcn, DEC-192) y la retirada del viejo
+cuando llega el nuevo (eso es la cadena #4, no esta puerta). Detalle: DEC-205.
 
 **Cómo se descubrió (caso real, coste evitado por un pelo)**: el barrido Casmar dio 19
 candidatos; el dedup por **sha256** los dejó en 10 «realmente nuevos»; y al mirar la

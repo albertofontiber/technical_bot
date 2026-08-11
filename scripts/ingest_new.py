@@ -61,6 +61,15 @@ from src.reingest.extract import llamaparse_extract, CREDITS_PER_PAGE  # noqa: E
 from src.reingest.pipeline import process_file, DEFAULT_CONFIG  # noqa: E402
 from src.reingest.metadata import detect_document_metadata  # noqa: E402
 from src.reingest import sidecar  # noqa: E402
+from src.reingest.revision_gate import (  # noqa: E402
+    BLOQUEADO as _REV_BLOQUEADO,
+    SIN_SENAL as _REV_SIN_SENAL,
+    cruzar as _rev_cruzar,
+    indice_corpus as _rev_indice,
+    indice_de_senales as _rev_indice_lote,
+    senales_documento as _rev_senales,
+    serializar_senal as _rev_serializar,
+)
 from src.ingestion.supabase_client import SupabaseHTTP  # noqa: E402
 
 EXTRACT_MODE = "parse_page_with_agent"
@@ -122,18 +131,54 @@ def _document_family(filename: str) -> str:
     return " ".join(tokens)
 
 
-def _paginas(path: Path) -> int | None:
+def _pdf_info(path: Path) -> tuple[int | None, str]:
+    """(nº páginas, texto de la PORTADA). La portada alimenta la puerta de
+    revisión (#73): el caso real s316d solo era detectable por la primera
+    página (INS570-3). Fallo de lectura ⇒ (None, '') — el gate de integridad
+    ya excluye el PDF ilegible."""
     try:
         import fitz
         with fitz.open(str(path)) as doc:
-            return doc.page_count
+            portada = doc[0].get_text() if doc.page_count else ""
+            return doc.page_count, portada or ""
     except Exception:
+        return None, ""
+
+
+def _documents_activos(sb: SupabaseHTTP) -> list[dict]:
+    """`documents` activos COMPLETO, paginado. PostgREST corta a 1000 filas en
+    SILENCIO (la clase #72) y `documents` ya supera las mil: una página perdida
+    aquí = un supersede invisible = la puerta mentiría en verde."""
+    filas: list[dict] = []
+    off, pagina = 0, 1000
+    while True:
+        lote = sb.fetch_rows(
+            "documents", select="source_pdf_filename,language,revision",
+            filters={"status": "eq.active", "order": "id.asc",
+                     "offset": str(off)},
+            limit=pagina)
+        filas.extend(lote)
+        if len(lote) < pagina:
+            return filas
+        off += pagina
+
+
+def _fecha_de_senal(senal) -> str | None:
+    """`documents.revision_date` cuando la señal ES una fecha (AAAAMM del
+    portal → día 1; ISS ddMMMyy → día exacto)."""
+    if senal is None or senal.formato not in ("fecha", "iss_fecha"):
         return None
+    y, m = senal.rev[0], senal.rev[1]
+    d = senal.rev[2] if len(senal.rev) > 2 else 1
+    return f"{y:04d}-{m:02d}-{d:02d}"
 
 
-def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], list[dict]]:
+def gates(canal: str, data_root: Path, solo: str | None,
+          ignorar_revision: str | None = None) -> tuple[list[dict], list[dict]]:
     """Valida el lote y devuelve (candidatos, excluidos). Fail-closed en todo lo
-    que compromete identidad o dinero; las exclusiones de tipo se LISTAN."""
+    que compromete identidad o dinero; las exclusiones de tipo se LISTAN.
+    `ignorar_revision`: glob de override CONSCIENTE de la puerta #73 (None=off,
+    '*'=todo el lote); el uso queda AUDITADO en candidato y recibo."""
     carpeta = data_root / f"Manuales_{canal}"
     if not carpeta.is_dir():
         raise SystemExit(f"GATE: no existe {carpeta} — ¿data-root correcto? El corpus vive en OneDrive.")
@@ -152,7 +197,10 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
         raise SystemExit(f"GATE: no existe el store {store} — ¿data-root correcto?")
 
     sb = SupabaseHTTP()
+    # Índice de revisión (#73): UNA pasada paginada sobre documents activos.
+    indice_rev = _rev_indice(_documents_activos(sb))
     candidatos, excluidos = [], []
+    pre_candidatos: list[dict] = []   # 1ª pasada; la puerta #73 cruza en la 2ª
     vistos_lote: dict[str, str] = {}  # sha -> filename (dedup INTRA-lote, dúo s314)
     pdfs = sorted(p for p in carpeta.glob("*.pdf"))
     if solo:
@@ -167,7 +215,7 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
         if pdf.stat().st_size < 1024:
             excluidos.append({**registro, "motivo": f"tamaño sospechoso ({pdf.stat().st_size} B)"})
             continue
-        paginas = _paginas(pdf)
+        paginas, portada = _pdf_info(pdf)
         if not paginas:
             excluidos.append({**registro, "motivo": "PDF ilegible (PyMuPDF no lo abre)"})
             continue
@@ -192,13 +240,59 @@ def gates(canal: str, data_root: Path, solo: str | None) -> tuple[list[dict], li
         if entrada is None:
             excluidos.append({**registro, "motivo": "SIN entrada en _metadata.json (identidad) — añadirla antes de ingestar"})
             continue
+        pre_candidatos.append({"file": fn, "path": str(pdf), "sha256": sha,
+                               "paginas": paginas, "equipo": entrada.get("equipo"),
+                               "tipo_sidecar": entrada.get("tipo"),
+                               "_senales": _rev_senales(fn, portada)})
+
+    # Puerta de REVISIÓN (#73), SEGUNDA pasada: el sha prueba bytes, no
+    # información — una revisión ANTIGUA se BLOQUEA aquí (s316d: 2 de 2
+    # candidatos «nuevos» eran revisiones viejas). Doble cruce: contra el
+    # CORPUS (igualdad bloquea — contrato >=) y contra el RESTO DEL LOTE
+    # (r13 Sol C1/Fable F2: dos revisiones del mismo manual llegando juntas
+    # pasaban las dos; ahí la igualdad degrada a revisión-a-mano).
+    senales_lote = [c.pop("_senales") for c in pre_candidatos]
+    for i, c in enumerate(pre_candidatos):
+        fn, sha = c["file"], c["sha256"]
+        senales = senales_lote[i]
+        veredicto = _rev_cruzar(senales, indice_rev)
+        if veredicto.resultado != _REV_BLOQUEADO:
+            otros = [(s, pre_candidatos[j]["file"])
+                     for j in range(len(pre_candidatos)) if j != i
+                     for s in senales_lote[j]]
+            v_lote = _rev_cruzar(senales, _rev_indice_lote(otros),
+                                 igualdad_bloquea=False)
+            if v_lote.resultado != _REV_SIN_SENAL:
+                v_lote = type(v_lote)(v_lote.resultado,
+                                      f"INTRA-LOTE: {v_lote.motivo}",
+                                      v_lote.contra, v_lote.senal)
+                if v_lote.resultado == _REV_BLOQUEADO or \
+                        veredicto.resultado == _REV_SIN_SENAL:
+                    veredicto = v_lote
+        ignorada = bool(
+            veredicto.resultado == _REV_BLOQUEADO and ignorar_revision
+            and fnmatch.fnmatch(fn.lower(), ignorar_revision.lower()))
+        if veredicto.resultado == _REV_BLOQUEADO and not ignorada:
+            excluidos.append({**{"file": fn}, "sha256": sha,
+                              "motivo": (f"REVISIÓN supersedida — {veredicto.motivo} "
+                                         f"(vigente: {veredicto.contra}); override "
+                                         "consciente: --ignorar-revision")})
+            continue
+        if ignorada:
+            print(f"  ⚠ OVERRIDE de revisión ({fn}): {veredicto.motivo} — "
+                  f"ingesta ADJUDICADA pese a {veredicto.contra}")
+        senal_p = veredicto.senal or (senales[0] if senales else None)
+        c["revision"] = {"resultado": veredicto.resultado,
+                         "motivo": veredicto.motivo,
+                         "contra": veredicto.contra,
+                         "ignorada": ignorada,
+                         "senal": _rev_serializar(senal_p) if senal_p else None,
+                         "fecha": _fecha_de_senal(senal_p)}
         extraido = (store / f"{sha}.json").exists()
         documentado = bool(sb.fetch_rows("documents", select="id",
                                          filters={"source_pdf_sha256": f"eq.{sha}"}, limit=1))
-        candidatos.append({"file": fn, "path": str(pdf), "sha256": sha,
-                           "paginas": paginas, "equipo": entrada.get("equipo"),
-                           "tipo_sidecar": entrada.get("tipo"),
-                           "reanuda": {"extraido": extraido, "documentado": documentado}})
+        c["reanuda"] = {"extraido": extraido, "documentado": documentado}
+        candidatos.append(c)
     return candidatos, excluidos
 
 
@@ -212,6 +306,12 @@ def informe_dry(candidatos: list[dict]) -> list[dict]:
     print(f"  Coste extracción estimado: ~{creditos} créditos LlamaParse (~${creditos * 1.25 / 1000:.2f})")
     for c in candidatos:
         print(f"  · {c['file']}  ({c['paginas']} pág, equipo={c['equipo']})")
+        rev = c.get("revision") or {}
+        if rev.get("resultado") == _REV_SIN_SENAL:
+            print("      revisión: edición NO verificable (sin señal legible) — "
+                  "comparar portada a mano si el título suena a existente")
+        elif rev.get("resultado"):
+            print(f"      revisión: {rev['resultado']} — {rev['motivo']}")
     return candidatos
 
 
@@ -324,6 +424,11 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
     filas = sb.fetch_rows("documents", select="id",
                           filters={"source_pdf_sha256": f"eq.{sha}"}, limit=2)
     if not filas:
+        # (#73, Sol r13 C2) La señal de edición SE PERSISTE en las columnas que
+        # migrations/001 diseñó para esto (hoy siempre NULL): sin ella, una
+        # revisión solo-detectable-por-portada quedaría INVISIBLE para la
+        # puerta en lotes futuros (el índice relee documents).
+        rev = c.get("revision") or {}
         sb.insert_rows("documents", [{
             "document_family": _document_family(fn),
             "language": dry.get("language"),
@@ -333,6 +438,8 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
             "source_pdf_filename": fn,
             "source_pdf_sha256": sha,
             "status": "active",
+            "revision": rev.get("senal"),
+            "revision_date": rev.get("fecha"),
             "notes": nota,
         }])
         print(f"  documents ← {meta.manufacturer} / {meta.product_model} / {doc_type}")
@@ -345,7 +452,10 @@ def _ingesta_doc(c: dict, store: Path, sb: SupabaseHTTP, key: str, nota: str,
     resultados.append({"file": fn, "sha256": sha, "status": real["status"],
                        "chunks": real.get("indexed"), "document_id": real.get("document_id"),
                        "doc_type": doc_type, "chunks_doc_type": parcheados,
-                       "manufacturer": meta.manufacturer, "product_model": meta.product_model})
+                       "manufacturer": meta.manufacturer, "product_model": meta.product_model,
+                       # (#73, Sol r13 M5) el veredicto de revisión — y si hubo
+                       # override — queda AUDITADO en el recibo de commit.
+                       "revision": c.get("revision")})
     print(f"  indexado: {real.get('indexed')} chunks (document_id={real.get('document_id')}, "
           f"doc_type→{parcheados} chunks)")
 
@@ -360,10 +470,17 @@ def main() -> None:
                     help="ejecuta de verdad (extrae, alta en documents, indexa); sin él = dry-run")
     ap.add_argument("--nota", default=None,
                     help="nota para las filas nuevas de documents (procedencia del lote)")
+    ap.add_argument("--ignorar-revision", nargs="?", const="*", default=None,
+                    metavar="GLOB",
+                    help="override CONSCIENTE de la puerta de revisión (#73): ingesta "
+                         "aunque el corpus tenga revisión >= — sin valor aplica a todo "
+                         "el lote; con GLOB solo a los ficheros que casen (adjudicación "
+                         "por fichero). El uso queda auditado en el recibo")
     args = ap.parse_args()
 
     data_root = Path(args.data_root)
-    candidatos, excluidos = gates(args.canal, data_root, args.solo)
+    candidatos, excluidos = gates(args.canal, data_root, args.solo,
+                                  ignorar_revision=args.ignorar_revision)
 
     print(f"Canal {args.canal}: {len(candidatos)} candidatos nuevos, {len(excluidos)} excluidos")
     for e in excluidos:
@@ -382,6 +499,7 @@ def main() -> None:
         resultados, fallos = ejecutar(args.canal, data_root, candidatos, nota)
         recibo = {"modo": "commit", "canal": args.canal, "stamp": stamp, "nota": nota,
                   "fallos_verificacion": fallos,
+                  "ignorar_revision": args.ignorar_revision,
                   "resultados": resultados, "excluidos": excluidos}
         print("\nRecordatorios post-lote: (1) actualizar data/Inventario_Manuales.xlsx "
               "(scripts/update_inventario.py --data-root <corpus>); (2) el corpus "

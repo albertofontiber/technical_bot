@@ -3284,3 +3284,25 @@ dos, cero contradicciones, cero falsos positivos, todo aplicado. DEC-204, TECH_D
 
 El flip es ahora, por primera vez desde que #70 abrió este arco hace tres días, una
 decisión de UNA variable en Railway — con la traza lista para medir lo que pase después.
+
+## s317 (12 ago 2026) — La puerta de revisión, y el perfil que unió dos deudas
+
+Alberto redirigió la sesión: sin técnicos usando el bot, el censo del pulgar-abajo no
+tiene señal que censar — foco en arquitectura y flujos. Dos frentes en paralelo.
+
+Uno: #73 construido y cerrado. La puerta de revisión de la ingesta nació de los dos
+sustos reales de s316d (dos «nuevos» que eran revisiones viejas) y se diseñó con las
+familias de señal MUESTREADAS del corpus, no inventadas. El dúo r13 la hizo mejor en
+todo lo que importa: Sol cazó que era ciega INTRA-LOTE y que la señal no se persistía
+(una revisión solo-de-portada quedaba invisible para siempre); Fable PROBÓ que la fecha
+se colaba en la tupla de revisión y un candidato podía bloquearse comparando días. Y
+los dos, por tercera ronda consecutiva, me cazaron framing inflado en el censo. El
+censo final sobre 1.069 documentos reales: 134 con señal, un único par supersedido
+vivo (DP312x 202503/202512) que va a adjudicación de Alberto.
+
+Dos: el perfil de retrieval que la fase 2 de rapidez esperaba «con una semana de
+datos» que nunca llegaría sin tráfico. Seis filas reales bastaron para señalar al
+gordo (retrieve 11-27 s/turno) y el cProfile local hizo el resto: CATORCE clientes
+httpx construidos por consulta — siete segundos de contextos SSL leídos del disco,
+más handshakes — unos 10 s/turno de puro overhead. La fase 2 de rapidez y la deuda
+#72 resultaron ser el mismo trabajo, y ahora tiene recibo y retorno medido.
