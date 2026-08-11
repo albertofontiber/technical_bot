@@ -5707,3 +5707,45 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Estado**: ✅ suites afectadas + completa en verde (cifra final en el commit) · dúo
   completo · Railway desplegará al mergear — smoke de producción = la primera consulta
   real. **Relacionado**: DEC-200/201, #70, TECH_DEBT #52.
+
+## DEC-203 (s316g) — Lever INTENT_LLM: diseñado (dúo r10), y el gate de juicio pre-registrado corta en NO-GO — con UNA divergencia que va a adjudicación de Alberto
+
+- **Fecha**: 11 ago 2026 (s316g). **Impacto**: ALTO (lever de serving conversacional;
+  NADA cableado — el gate cortó antes, que es su trabajo).
+- **Diseño v2 VIGENTE** (`evals/s316g_lever_intent_llm_propuesta_v2.md`): clasificador de
+  intención inyectado en la rama B con el patrón del rewriter (política sin I/O; None =
+  diferir = byte-idéntico; fail-open total; decisión trazada en `rag_trace`). Ronda 10
+  del dúo: NO-SÓLIDO ×2 con veredicto de dirección; 17 hallazgos integrados (cohorte
+  congelada con umbral ASIMÉTRICO; identidad por palabra-primaria — classify devuelve
+  nombre completo y 8/26 fabricantes son multi-palabra, verificado; guarda de colisión
+  para BRAND_TOKENS; parser/prompt especificados; cirugía del harness declarada con
+  aserciones anti-verde-vacuo; gold del path no-servida conservado con cofem; async
+  to_thread; mt15; DEC-102 rebajado a heurística de coste).
+- **EL GATE DE JUICIO SE CORRIÓ** (cohorte congelada de 40 casos ES/EN etiquetada ANTES
+  de medir, K=3, umbrales pre-registrados: falsos SWITCH en COMPAT = 0 · accuracy ≥90%):
+  - **Haiku 4.5**: 38/40 (95%) · **2 falsos SWITCH** → **NO-GO**. Uno es grave y claro:
+    «which Hochiki bases fit this detector?» 3/3 SWITCH — borraría contexto en una
+    compatibilidad legítima EN.
+  - **Sonnet 4.6** (mismo prompt, misma cohorte — cambiar de MODELO está permitido por
+    el pre-registro; re-tunear el prompt no): 39/40 (97,5%) · **1 falso SWITCH** →
+    **NO-GO por el umbral estricto**. p50 1.333 ms · p95 4.409 ms.
+- **La divergencia única de Sonnet es el caso LÍMITE deliberado de la cohorte**:
+  «¿el mantenimiento de una Kidde es igual que el de esta?» — etiquetado COMPAT por el
+  autor (comparativo que referencia el producto en curso), juzgado SWITCH por AMBOS
+  modelos con 6/6 votos estables. Dos lecturas defendibles: carry (la comparación
+  necesita el producto en curso) o switch (el sujeto informativo es el mantenimiento
+  Kidde). **El autor NO se re-etiqueta a sí mismo post-hoc (anti-gate-shopping): la
+  etiqueta va a ADJUDICACIÓN DE ALBERTO**, que es su rol en la disciplina de golds
+  (precedente hp011#2: los 3 modelos contra el gold ⇒ adjudicar el alcance del gold).
+- **Decisión pendiente de Alberto**: (a) adjudicar la etiqueta del caso límite — si
+  SWITCH es aceptable, Sonnet queda 40/40 y el lever sigue su secuencia (harness →
+  build → dúo del diff → e2e → flip) con Sonnet como clasificador y su latencia
+  declarada; (b) mantener el NO-GO y aparcar el lever (el fall-through queda como
+  residuo declarado con testigo XFAIL); (c) cohorte v2 re-congelada con tier de
+  «límite» excluido del umbral estricto.
+- **Gaps**: la cohorte son 40 casos, no producción; la latencia de Sonnet (p95 4,4 s) es
+  material para la rama y va declarada; el «19%» de población sigue pendiente de recibo
+  versionado (build).
+- **Estado**: recibos `evals/s316g_intent_cohort_result_v1{,_sonnet}.json` · nada
+  cableado · flag inexistente aún. **Relacionado**: DEC-200/201/202, #70 etapa 2,
+  DEC-126 (anti-gate-shopping), DEC-154 (métrica MT propia).

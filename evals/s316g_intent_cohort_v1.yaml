@@ -1,0 +1,63 @@
+# s316g — Cohorte CONGELADA del gate de juicio del lever INTENT_LLM (v2 §1).
+#
+# PRE-REGISTRO: etiquetada ANTES de medir. Población: los contraejemplos de las 5
+# rondas de dúo de s316b-d (tildes, muletillas, «en» vs «con», temas-nuevos cortos),
+# el caso orgánico de #70, elípticos, comparativos límite y ≥8 casos EN.
+# Umbral PREDECLARADO y ASIMÉTRICO (v2 §1): falsos SWITCH en casos COMPAT = 0/K
+# (un falso SWITCH borra contexto legítimo — la clase FUEGO); accuracy global >= 0.90.
+# K = 3 repeticiones por caso (estabilidad). ANTI-GATE-SHOPPING (patrón DEC-126):
+# el prompt NO se re-tunea contra esta cohorte; revisar el prompt = cohorte nueva.
+#
+# `contexto`: el producto en curso (modelo + marca resuelta) que la rama B ya computó.
+# Todos los casos nombran marca DISTINTA a la del estado: es la única población que
+# llega al LLM (misma-marca queda exenta determinista antes).
+
+version: 1
+k: 3
+umbral_accuracy: 0.90
+umbral_falsos_switch_en_compat: 0
+
+casos:
+  # --- COMPAT: pregunta sobre el producto EN CURSO en relación a otra marca ---
+  - {q: "¿es compatible con equipos Morley?",                          contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿y con Notifier?",                                            contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿es compatible con detectores cofem?",                        contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿cómo sé si funciona con Hochiki?",                           contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿por qué no conecta con Apollo?",                             contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿admite detectores Apollo?",                                  contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "vamos a ver si es compatible con detectores Morley",          contexto: "NC-PF2 (Kidde)",   esperado: COMPAT}
+  - {q: "vamos a ver, ¿es compatible con Morley?",                     contexto: "NC-PF2 (Kidde)",   esperado: COMPAT}
+  - {q: "¿cuántos módulos Apollo soporta?",                            contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿es compatible con Hochiki? ¿y cómo se configura?",           contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿vale con sirenas Kilsen?",                                   contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿se puede usar con pulsadores Aritech?",                      contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿los detectores Siemens encajan con esta central?",           contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿qué detectores Apollo puedo conectar al lazo?",              contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿la sirena de Kilsen se puede dar de alta aquí?",             contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿los aisladores de Notifier sirven para este lazo?",          contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿y la pasarela de Honeywell se integra?",                     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "¿el mantenimiento de una Kidde es igual que el de esta?",     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "is it compatible with Apollo detectors?",                     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "does it work with Hochiki bases?",                            contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "can I connect Aritech call points to this panel?",            contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  - {q: "which Hochiki bases fit this detector?",                      contexto: "SDX-751 (Notifier)", esperado: COMPAT}
+
+  # --- SWITCH: cambio de tema a otra marca (el producto en curso deja de aplicar) ---
+  - {q: "¿y en Morley cómo se hace el reset?",                         contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "¿y con Morley cómo se hace el reset?",                        contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "en Morley, ¿cómo se silencia la sirena?",                     contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "y en morley como se hace el reset",                           contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "¿Morley tiene app?",                                          contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "¿Kidde saca centrales nuevas este año?",                      contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "¿qué garantía dan los equipos de Notifier?",                  contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "¿y las centrales Morley qué tal son?",                        contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "háblame de las centrales de Notifier",                        contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "¿cómo se programa una central Morley?",                       contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "me llaman por una avería en una central Morley, ¿qué reviso?", contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "ahora tengo delante un panel de Notifier",                    contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "¿y si fuera una Morley, cómo lo haría?",                      contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "los Detnov me dan problemas, mejor dime cómo va el de Morley", contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "switch to Morley",                                            contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "and on Morley, how do I reset it?",                           contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
+  - {q: "tell me about Kidde panels",                                  contexto: "CAD-250 (Detnov)", esperado: SWITCH}
+  - {q: "what about Morley, how is programming done there?",           contexto: "NC-PF2 (Kidde)",   esperado: SWITCH}
