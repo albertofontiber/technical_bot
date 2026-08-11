@@ -2576,3 +2576,44 @@ contra Supabase. Toca N scripts ⇒ diseño + dúo propios, no un barrido a cieg
 estos tres casos. Un cliente común NO debe reintentar POSTs no idempotentes: la política
 tiene que ser explícita por llamada, no mágica. **Coste**: M.
 
+
+## #73 — La ingesta no detecta REVISIONES SUPERSEDIDAS: el sha prueba bytes distintos, no información nueva (s316d)
+
+**Cómo se descubrió (caso real, coste evitado por un pelo)**: el barrido Casmar dio 19
+candidatos; el dedup por **sha256** los dejó en 10 «realmente nuevos»; y al mirar la
+PORTADA resultó que los 2 que se iban a ingestar eran **revisiones ANTIGUAS de documentos
+que ya están en el corpus**:
+- Serie 2000 sirenas-baliza: Casmar sirve **INS570-3**, el corpus tiene
+  `aritech_ins570-8_combined` (**issue 8**) — portada byte-comparable idéntica;
+- 2X-A-LB Loop Board: Casmar sirve P/N `00-3301-501-4000-**03**`, el corpus tiene
+  `…-**04**_r004`.
+
+**La lección, que es el fallo de razonamiento a corregir**: `sha256` distinto NO significa
+«documento nuevo» — una revisión distinta del MISMO manual tiene otro sha por definición.
+El dedup por contenido responde «¿tengo este fichero exacto?», no «¿tengo esta
+información?». La cadena real de filtros fue **19 → 10 (sha) → 0 (revisión)**, y el tercer
+filtro no existía: lo hice a mano.
+
+**Riesgo que corre HOY cualquier lote nuevo**: ingestar una revisión vieja junto a la nueva
+⇒ dos documentos ACTIVOS del mismo manual sin cadena de supersede (clase #4), y el bot
+puede citar la caducada a un técnico. Es peor que no ingestar nada.
+
+**Fix estructural propuesto — puerta de revisión en `ingest_new.py`, fail-closed**:
+1. **Extraer identidad de edición SIN LlamaParse** (pypdf, $0, primera página + nombre de
+   fichero): P/N (`00-3301-501-4000-03`), issue (`INS570-3`, `ISS 07NOV23`), `r0NN`.
+2. **Normalizar a (base, revisión)**: base = P/N sin el sufijo de revisión, o el código de
+   documento (`INS570`); revisión = el entero final.
+3. **Cruzar contra `documents`** por esa base; si existe con revisión **>=** la candidata →
+   **GATE: no ingestar**, informando cuál la supersede. Si la candidata es MAYOR → alta
+   normal + **candidata a cadena de supersede** (`supersedes_id`, que hoy está sin poblar).
+4. Sin señal de revisión legible → no bloquear (fail-open declarado), pero **listarlo** en
+   el informe del dry-run como «edición no verificable».
+
+**Por qué es BP**: convierte en automático un chequeo que hoy depende de que alguien mire
+la portada; usa señales gratuitas antes de gastar en extracción; y es fail-closed en la
+dirección segura (ante duda de superseder, no ingesta). **Escalable**: cada lote de cada
+fabricante pasa por la misma puerta. **Gap declarado**: los P/N no son homogéneos entre
+fabricantes ⇒ la extracción será heurística y necesitará su propia batería de casos
+reales (Notifier/Morley/Kidde/Aritech), como la que hizo falta en #70. **Coste**: M.
+
+**Relacionado**: #4 (revisiones activas sin cadena), DEC-192 (findability), #72.

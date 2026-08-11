@@ -5576,3 +5576,46 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   tablas, pero el VACUUM-por-fantasmas de DEC-088 no aplica aquí (solo hubo INSERT).
 - **Estado**: ✅ verificado contra DB y bucket, no contra códigos de salida.
   **Relacionado**: DEC-194/196/197/198, TECH_DEBT #68, #69, #72, #4 Phase 3.
+
+## DEC-200 (s316d) — Rediseño «punto de decisión único» adjudicado por el dúo (arquitectura sostenida, v3 vigente); pin del sub-agente RESTAURADO a Fable 5; y el barrido de manuales que terminó en 0
+
+- **Fecha**: 11 ago 2026 (s316d). **Impacto**: ALTO (rumbo arquitectónico del despacho
+  conversacional; aún SIN construir — gateado por GO de Alberto + dúo del diff).
+- **Contexto**: la etapa 2 de #70 fue NO-SÓLIDO ×2 y Alberto preguntó por la vía LLM y por
+  agentic/graph RAG; la respuesta canónica (digest + DEC-089/154) es que el cuello no es
+  multi-hop y el NO-GO agéntico no transfiere a lo conversacional. Alberto encargó el
+  rediseño estructural: «no quiero un Frankenstein».
+- **Decisión 1 — diseño v3 VIGENTE** (`evals/s316_rediseno_punto_decision_unico_v3.md`):
+  `plan_turn` puro en dos pasadas con CONTRATO DE HECHOS (léxico de marcas como hecho
+  permanente; hechos por-consulta a demanda; degradación inventario→RAG como
+  `fallback_ruta` del plan) + UN ESCRITOR (el despachador) con tres fuentes de transición
+  puras (plan / política / `transicion_basica` para rollback, QUIRK legacy incluido y
+  testeado) + flujo de datos fijado (la política resuelve DESDE el estado post-plan — sin
+  esto #70 revivía por construcción, Sol C3). Migración en dos fases; la voz NO se expande
+  (decisión de producto aparte); guardia −1 y `last_detected_models` se RETIRAN en fase B.
+- **Traza del dúo (rondas 6-7, 21 hallazgos, 0 falsos positivos)**: ronda 6 NO-SÓLIDO ×2
+  convergente en 2 críticos (pureza que no sobrevivía al I/O de mismatch/inventario;
+  rollback que leía un estado sin escritor) → v2 con hechos+un-escritor; ronda 7
+  NO-SÓLIDO ×2 pero con veredicto de que **la arquitectura se sostiene** y los hallazgos
+  son contratos sobre-afirmados (enmascaramiento de la guardia en fase A — convergente;
+  quirk de resurrección de ventana en rollback; clúster feedback sin dueño; 2 writes F1
+  fuera del alcance) → v3 con trazabilidad hallazgo→resolución.
+- **Decisión 2 — pin del sub-agente RESTAURADO a fable (Fable 5)**, adjudicado por
+  Alberto al volver el crédito; CLAUDE.md actualizado. El opus de s292 queda como lo que
+  fue: fallback por crédito, no preferencia. Primera ronda del pin restaurado: rindió
+  (6+9 hallazgos anclados, convergencia con Sol, verificaciones propias).
+- **Decisión 3 — Casmar/Aritech-Edwards CERRADO EN 0 con lección de proceso** (→ #73 y
+  memoria): 19 candidatos → 10 por sha → **0 tras comparar REVISIÓN de portada** (los 2
+  «manuales nuevos» eran ediciones ANTIGUAS de docs ya ingestados: INS570-3 vs ins570-8;
+  P/N …-03 vs …-04). sha256 distinto NO es documento nuevo; la puerta automática de
+  revisión queda diseñada en TECH_DEBT #73.
+- **Alternativas descartadas**: seguir parcheando la etapa 2 (2 NO-SÓLIDOS = la base no
+  aguanta más reglas); LLM orchestrator total (paga en el ~80% de turnos que las reglas
+  resuelven gratis); agentic/graph RAG (DEC-089 en su métrica + el grafo YA existe como
+  catálogo gobernado; reconsiderable si compatibilidad-cruzada emerge como clase medida);
+  seam Haiku anticipatorio (pregunta cero — eliminado del diseño).
+- **Gaps**: el diseño NO está construido; fase A exigirá dúo sobre el DIFF (lección FUEGO:
+  el diseño sólido no exime al código); léxico ES-only heredado; fall-through de #70 sigue
+  XFAIL hasta el lever LLM post-rediseño.
+- **Estado**: v3 listo para GO de Alberto. **Relacionado**: DEC-197/198/199, TECH_DEBT
+  #70 etapa 2, #72, #73.

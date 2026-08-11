@@ -1,0 +1,10 @@
+{
+ "motivo": "s316d: findability del manual de la Serie 2000 (DEC-192/193, pm=lista-con-barras para docs de familia)",
+ "documento": "aritech_ins570-8_combined.pdf",
+ "document_id": "5c9a921a-89fb-43f7-b714-e81d54208075",
+ "product_model_antes": "ASW2367",
+ "product_model_despues": "ASW2366/ASW2367",
+ "evidencia": "el manual documenta ASW2366 y ASW2367; estaba etiquetado solo ASW2367, así que el ASW2366 no lo encontraba por filtro de modelo",
+ "reversible": "UPDATE documents SET product_model='ASW2367' WHERE id='5c9a921a-89fb-43f7-b714-e81d54208075'",
+ "fecha_utc": "2026-08-10T22:11:09+00:00"
+}

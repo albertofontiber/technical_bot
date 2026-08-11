@@ -3184,3 +3184,20 @@ backoff no bastó, en vez de subirlo a ciegas se hizo que **bisecte el lote ante
 transporte**. Un envío de 500 filas con embedding ronda los 10 MB, y cuanta más superficie
 más fácil que la red lo corte; partiendo, el envío se adapta a lo que la conexión aguante.
 Con eso, la carga que había fallado cuatro veces pasó a la primera. DEC-199.
+
+## s316d (11 ago 2026) — El rediseño sobrevive al dúo (la arquitectura; los contratos, a la tercera), y el barrido de manuales termina honestamente en cero
+
+La pregunta de Alberto —«¿no hay una vía más elegante tipo LLM?»— destapó lo que los
+parches no decían: tres mecanismos tocando el estado conversacional y la mitad de los
+turnos sin pasar por la política. El rediseño (plan puro con contrato de hechos, un solo
+escritor, F1 intacta debajo) pasó dos rondas de dúo: la primera tumbó las dos claims de
+carga (pureza que no sobrevivía al I/O; rollback que leía un estado sin escritor), la
+segunda declaró la arquitectura sostenida y redujo el bite a contratos — el
+enmascaramiento de la guardia en fase A lo encontraron los dos revisores por separado.
+El v3 queda vigente a la espera del GO. Fable 5 volvió como sub-agente (pin restaurado
+por Alberto) y rindió.
+
+Y el punto 4 se cerró en cero, que es el cierre correcto: los «10 manuales nuevos» del
+barrido Casmar quedaron en NINGUNO al comparar la revisión de portada — dos eran
+ediciones antiguas de manuales ya ingestados. El sha prueba bytes, no información. La
+lección quedó como puerta automática diseñada (#73) y como memoria. DEC-200.
