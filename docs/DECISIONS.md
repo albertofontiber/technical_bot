@@ -5661,3 +5661,49 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Estado**: ✅ suite **3.720 passed / 46 skipped / 1 xfailed** (+27 tests nuevos) ·
   dúo de build completo · tally regla C con los veredictos cruzados.
   **Relacionado**: DEC-200 (el diseño), DEC-197/198 (instrumento y guardia), #70.
+
+
+## DEC-202 (s316f) — Fase B COMPLETADA: un estado, un escritor, la guardia retirada — y las tres divergencias del v3, declaradas con su porqué
+
+- **Fecha**: 11 ago 2026 (s316f). **Impacto**: ALTO (retira mecanismos vivos del bot en
+  producción; unifica el estado conversacional de ambos regímenes).
+- **Qué hay** (checklist del v3, ejecutado): guardia −1 RETIRADA (TypeHandler +
+  `brand_switch_guard` + núcleo) — la invalidación de #70 es `plan.transicion`, aplicada
+  por `_aplicar_estado` (escritor único) ANTES de ejecutar la ruta (contrato C3);
+  `last_detected_models` y `last_query_time` RETIRADAS — el régimen stub lee/escribe el
+  estado ÚNICO vía `transicion_basica` (QUIRK legacy reproducido y testeado: la ventana
+  se refresca en todo turno RAG); los 2 writes F1 pasan por el escritor; la voz decide
+  con el mismo predicado/escritor/caché; disciplina de caché consolidada en UNA
+  implementación (`_lexico_marcas_cacheado`).
+- **Las TRES divergencias del v3, con su porqué** (ninguna silenciosa):
+  1. **El trío de telemetría NO migra a WorkingState** (v3 §7 decía migrar):
+     `last_query`/`last_response`/`last_query_log_id` quedan como clúster de FEEDBACK con
+     dueño declarado (`_process_query`), fuera del invariante conversacional. Fable lo
+     adjudicó «defendible y mejor que el v3»: migrar cambiaría el anclaje del 👎 tras un
+     CLARIFY. Y Sol destapó que el anclaje YA era incoherente (texto nuevo + FK vieja) —
+     corregido con el patrón uuid de la ruta RAG: un 👎 tras un clarify ancla a la fila
+     del clarify.
+  2. **Los writes F1 no se izan literalmente** (v3 §8): el invariante real es el
+     CHOKE-POINT sintáctico (`_aplicar_estado`) + fuentes de transición declaradas —
+     izarlos solo movería glue sin cambiar conducta. El censo AST se endureció (tuplas,
+     Delete, update/setdefault, alcance a turn_plan) y DECLARA su límite: caza clave
+     literal, no alias — es un invariante de disciplina verificada, no una prueba total.
+  3. **HEAD refrescaba la ventana legacy también en CLARIFY/DECLINE de F1; el build no**:
+     solo observable en un flip de flag in-process (post-clarify→stub, HEAD podía
+     resucitar contexto expirado). Más sano; declarado en vez de reproducido.
+- **La ronda 9 del dúo (Sol 7 · Fable 6+juicio, 0 falsos positivos)**: el CRÍTICO fue de
+  Fable y contra MI testigo, no contra el código — el e2e del rollback daba verde SIN
+  carry («tensión» no está en `PCI_TERMS`; la vaga iba a RAG con o sin contexto).
+  Corregido con término que SÍ gatea + CONTROL de no-vacuidad (sin contexto DEBE
+  clarificar) → el verde es atribuible. Fable verificó por su cuenta que el código era
+  correcto (espió `build_turn_request`: el contexto llega a retrieval). Convergencia
+  Sol/Fable en la voz: fetch EAGER (paréntesis de más — el primer audio tras restart
+  pagaba 0,54 s) + fail-open perdido (el predicado propaga por contrato y la voz lo
+  llamaba desnudo) — ambos corregidos. `Hecho` con tope de 2 palabras (el vector real
+  «pasemos a Morley» pasaba el tope de 64 chars).
+- **Gaps**: el fall-through de #70 sigue XFAIL (siguiente: lever LLM con golds de compat
+  re-hechos sobre marcas servidas); `marca_no_servida` fetchea fresco DECLARADO
+  (presentación, HEAD-parity); el flip de flag in-process tiene la divergencia (3).
+- **Estado**: ✅ suites afectadas + completa en verde (cifra final en el commit) · dúo
+  completo · Railway desplegará al mergear — smoke de producción = la primera consulta
+  real. **Relacionado**: DEC-200/201, #70, TECH_DEBT #52.

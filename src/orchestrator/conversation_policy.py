@@ -105,10 +105,11 @@ NON_PRODUCT_CODES: frozenset[str] = frozenset(
 class WorkingState:
     """Durable per-conversation working state (design §6/§8).
 
-    In Phase 1 this is the single source of truth that REPLACES the in-memory
-    ``context.user_data['last_detected_models']`` carry-forward
-    (``telegram_bot`` step 1b). ``last_turn_at`` drives the 1-hour window; an
-    empty / expired state means "no context to carry".
+    Since s316f (fase B, DEC-202) this is the single conversational state for BOTH
+    regimes: the legacy keys (``last_detected_models``/``last_query_time``) are
+    RETIRED — the stub regime reads/writes this state via ``transicion_basica``.
+    ``last_turn_at`` drives the 1-hour window; an empty / expired state means
+    "no context to carry".
     """
 
     last_target_models: tuple[str, ...] = ()

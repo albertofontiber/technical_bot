@@ -26,7 +26,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s316e — 11 ago 2026)
+## Estado actual (s316f — 11 ago 2026, tarde)
 
 **La sesión más larga del proyecto: reconciliación post-cloud, el dúo cortando tres diseños
 seguidos, y dos deudas grandes cerradas contra producción.**
@@ -51,14 +51,12 @@ seguidos, y dos deudas grandes cerradas contra producción.**
    política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
    es universal.
 
-**Qué sigue (s316e)**: (a) **fase B del rediseño** (retirar guardia −1 y
-`last_detected_models`, `transicion_basica` con el quirk documentado, izar los 2 writes
-F1 al despachador, actualizar los tests pineados del instrumento, y decidir la
-disciplina de caché — Fable m6); la fase A está CONSTRUIDA, medida contra HEAD (0/32
-divergencias) y adjudicada (DEC-201); (b) tras fase B: el lever LLM de intención en la
-rama ambigua (cierra el fall-through de #70; golds de compat re-hechos con marcas
-SERVIDAS); (c) **#73** puerta de revisión en ingesta; (d) **#72** cliente HTTP común;
-(e) rapidez fase 2 con ~1 semana de timings; (f) sentada B2 (Alberto); (g) #71.
+**Qué sigue (s316f)**: la fase B está COMPLETADA (DEC-202: un estado, un escritor,
+guardia −1 retirada, rollback verificado con testigo no-vacuo) — el rediseño entero
+queda CERRADO. (a) **lever LLM de intención** en la rama ambigua (cierra el fall-through
+de #70, testigo XFAIL esperando; ANTES: re-hacer los golds de compat con marcas
+SERVIDAS); (b) **#73** puerta de revisión en ingesta; (c) **#72** cliente HTTP común;
+(d) rapidez fase 2 con ~1 semana de timings; (e) sentada B2 (Alberto); (f) #71.
 
 ### s315 (9 ago 2026) — resumen
 

@@ -27,7 +27,6 @@ from telegram.ext import (
     CallbackQueryHandler,
     CommandHandler,
     MessageHandler,
-    TypeHandler,
     filters,
     ContextTypes,
 )
@@ -146,6 +145,7 @@ logging.getLogger("httpcore").setLevel(logging.WARNING)
 # el punto de decision UNICO del turno. Aqui quedan re-exports (compatibilidad de
 # tests/scripts) y los WRAPPERS con el fetch perezoso de la lista de marcas.
 from ..orchestrator import turn_plan as _turn_plan  # noqa: E402
+from ..orchestrator.conversation_policy import WorkingState  # noqa: E402
 from ..orchestrator.turn_plan import (  # noqa: E402,F401 -- re-exports deliberados
     _BYE_PATTERNS, _CATALOG_PATTERNS, _ENUM_FABRICANTE, _FEEDBACK_PATTERNS,
     _GREETING_PATTERNS, _MANUFACTURER_NAMES, _MARCAS_AMBIGUAS, _PREGATE_INVENTARIO,
@@ -154,67 +154,44 @@ from ..orchestrator.turn_plan import (  # noqa: E402,F401 -- re-exports delibera
 )
 
 
-def _marca_mencionada(texto: str) -> str | None:
-    """Wrapper del core puro (`turn_plan.marca_mencionada`) con fetch PEREZOSO de la
-    lista DB -- el pre-gate barato de s316c intacto (0,54 s de httpx frio evitados)."""
-    return _turn_plan.marca_mencionada(texto, get_available_manufacturers)
+def _aplicar_estado(user_data: dict, ws) -> None:
+    """El UNICO punto de escritura de `mt_working_state` (invariante de fase B,
+    fijado por AST en el instrumento). Toda transicion -- plan (INVALIDAR), politica
+    F1 (resolve/backfill) o `transicion_basica` (regimen stub) -- se produce como
+    VALOR puro y se aplica aqui. El cluster de telemetria de feedback
+    (`last_query`/`last_response`/`last_query_log_id`) queda FUERA del invariante:
+    ancla feedback, no conversacion (dueno declarado: _process_query)."""
+    user_data["mt_working_state"] = ws
 
 
-def _marca_destino(query: str) -> str | None:
-    return _turn_plan.marca_destino(query, get_available_manufacturers)
-
-
-def _modelos_reales(query: str) -> list[str]:
-    return _turn_plan.modelos_reales(query)
+def _lexico_marcas_cacheado():
+    """La lista de marcas para la decision de invalidacion y el 5-bis: UNA disciplina
+    de cache (proceso, fallo no cacheado) para TODOS los consumidores. (Fable r-build
+    m6: la guardia historica hacia fetch FRESCO por turno de switch mientras el plan
+    usaba la cache -- al retirar la guardia, la disciplina queda unificada en cache;
+    coste: una marca ingestada mid-proceso no dispara switches hasta el restart, que
+    ya es la norma operativa del resto de consumidores de la lista)."""
+    global _marcas_db_cache
+    if _marcas_db_cache is None:
+        try:
+            _marcas_db_cache = get_available_manufacturers()
+        except Exception:                        # noqa: BLE001 -- fail-open
+            return None
+    return _marcas_db_cache
 
 
 def _estado_modelos_conversacion(user_data: dict) -> tuple[str, ...]:
     """Marshalling MECANICO (sin decision): los modelos del estado vivo + legacy."""
     ws = user_data.get("mt_working_state")
-    modelos = list(getattr(ws, "last_target_models", ()) or ())
-    modelos += list(user_data.get("last_detected_models") or [])
-    return tuple(modelos)
+    return tuple(getattr(ws, "last_target_models", ()) or ())
 
 
-def _invalidar_si_cambio_de_marca(user_data: dict, query: str) -> str | None:
-    """Nucleo sincrono de la guardia #70: DECIDE el predicado puro del plan
-    (`turn_plan._decidir_transicion` -- una sola implementacion, sin drift) y aplica
-    aqui la mutacion rollback-safe: ambos regimenes, reset COMPLETO del WorkingState
-    (un `last_query` residual haria `is_empty` False y el turno siguiente contestaria
-    "Ha pasado un rato" siendo mentira)."""
-    try:
-        transicion, destino = _turn_plan._decidir_transicion(
-            query, _estado_modelos_conversacion(user_data), Meta(),
-            get_available_manufacturers)
-        if transicion != _turn_plan.INVALIDAR:
-            return None
-        from ..orchestrator.conversation_policy import WorkingState
+# (fase B, DEC-200 v3) La guardia de grupo -1 (`brand_switch_guard`) y su nucleo
+# (`_invalidar_si_cambio_de_marca`) se RETIRARON: la invalidacion es la transicion del
+# plan, aplicada por el escritor unico en handle_message (texto) y handle_voice (voz).
+# El predicado sigue siendo turn_plan._decidir_transicion -- el mismo codigo que la
+# guardia ejecutaba, ahora con una sola fuente activa y sin doble computo por turno.
 
-        user_data["mt_working_state"] = WorkingState()
-        user_data.pop("last_detected_models", None)
-        logger.info("guardia #70: cambio de marca a %r -- contexto de producto invalidado",
-                    destino)
-        return destino
-    except Exception as exc:                 # fail-open TOTAL: jamas tumba un turno
-        logger.warning("guardia #70 no aplicada (%s)", type(exc).__name__)
-        return None
-
-
-async def brand_switch_guard(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """TypeHandler de grupo -1: corre ANTES de cualquier ruta y no responde nada.
-
-    (dúo s316, sub-agente) Los mensajes en REPLY quedan fuera: son territorio de
-    `_capture_reply_explanation` (feedback sobre una respuesta anclada, #60 punto 5b).
-    Un técnico explicando «y ahora me dice que el detector de fuego no existe» está
-    dando feedback, no cambiando de marca — y sin esta exclusión la guardia le borraba
-    el contexto antes de que el mensaje llegara siquiera a clasificarse.
-    """
-    mensaje = getattr(update, "message", None)
-    if getattr(mensaje, "reply_to_message", None) is not None:
-        return
-    texto = getattr(mensaje, "text", None)
-    if texto and isinstance(getattr(context, "user_data", None), dict):
-        _invalidar_si_cambio_de_marca(context.user_data, texto.strip())
 
 # s286 telemetría: feedback 1-tap 👍/👎. TELEGRAM_FEEDBACK (default off =
 # byte-idéntico) gatea SOLO el attach del keyboard; el CallbackQueryHandler se
@@ -401,13 +378,7 @@ def _marca_en_consulta(query: str) -> str | None:
     """Shell de `turn_plan.marca_en_texto` con la cache de proceso de la lista DB
     (semantica de hoy: el fallo de fetch NO se cachea -- el siguiente intento
     reintenta; los alias curados resuelven aun sin lista)."""
-    global _marcas_db_cache
-    if _marcas_db_cache is None:
-        try:
-            _marcas_db_cache = get_available_manufacturers()
-        except Exception:                                # noqa: BLE001
-            return _turn_plan.marca_en_texto(query, None)
-    return _turn_plan.marca_en_texto(query, _marcas_db_cache)
+    return _turn_plan.marca_en_texto(query, _lexico_marcas_cacheado())
 
 
 def _welcome_text() -> str:
@@ -655,11 +626,31 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Plain text avoids Telegram Markdown parse failures on arbitrary ASR.
         await update.message.reply_text(confirmation)
 
-        # (#70) La guardia de grupo -1 no puede leer audio: el texto solo existe tras el
-        # ASR. Único punto de invocación explícito, declarado en el diseño — un cambio
-        # de marca DICHO en voz alta debe invalidar el contexto igual que uno escrito.
+        # (#70, fase B) El texto de la voz solo existe tras el ASR, asi que la
+        # invalidacion se decide aqui -- con el MISMO predicado puro del plan, el MISMO
+        # escritor unico y la MISMA disciplina de cache que el camino de texto.
+        # (Expandir la voz al plan completo -- cortesia/catalogo hablados -- sigue
+        # siendo una decision de producto SEPARADA, v3 seccion 2.)
         if isinstance(getattr(context, "user_data", None), dict):
-            _invalidar_si_cambio_de_marca(context.user_data, query)
+            # (Sol fase-B M2) el proveedor va SIN llamar: MarcasDB acepta callable y el
+            # core solo lo invoca tras regex-miss + pre-gate — con parentesis, el
+            # primer audio tras un restart pagaba 0,54 s de httpx sincrono AUNQUE no
+            # hubiera ni estado ni senal de switch.
+            # (Sol fase-B M5) fail-open LOCAL con warning (paridad con la guardia
+            # historica): el predicado propaga excepciones a proposito, y sin esta
+            # frontera un fallo del clasificador tumbaria el turno de voz entero.
+            try:
+                _transicion_voz, _marca_voz = _turn_plan._decidir_transicion(
+                    query, _estado_modelos_conversacion(context.user_data),
+                    Meta(fuente="voz"), _lexico_marcas_cacheado)
+                if _transicion_voz == _turn_plan.INVALIDAR:
+                    _aplicar_estado(context.user_data, WorkingState())
+                    logger.info(
+                        "plan #70 (voz): cambio de marca a %r -- contexto invalidado",
+                        _marca_voz)
+            except Exception as exc:             # noqa: BLE001
+                logger.warning("invalidacion (voz) no aplicada (%s)",
+                               type(exc).__name__)
 
         # Process the normalized query while preserving raw ASR for audits.
         await _process_query(
@@ -756,9 +747,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     estado_modelos = _estado_modelos_conversacion(context.user_data)
     plan = plan_turn(query, estado_modelos, meta,
                      _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
-    # Fase A: plan.transicion NO se aplica -- la fuente ACTIVA de invalidacion es la
-    # guardia de grupo -1 (v3 seccion 5: UNA fuente por fase; el predicado es el MISMO
-    # codigo, verificado como funcion pura contra snapshots pre-guardia).
+    # Fase B: la transicion del plan ES la fuente de invalidacion (la guardia -1 se
+    # retiro). ORDEN = el contrato de flujo de datos del v3 (Sol r7 C3): la transicion
+    # se aplica ANTES de ejecutar la ruta, asi la politica F1 resuelve DESDE el estado
+    # post-plan -- sin esto, un carry-forward calculado sobre el estado viejo
+    # sobrescribiria la invalidacion y #70 reviviria por construccion.
+    if plan.transicion == _turn_plan.INVALIDAR:
+        _aplicar_estado(context.user_data, WorkingState())
+        logger.info("plan #70: cambio de marca a %r -- contexto de producto invalidado",
+                    plan.transicion_marca)
     await _ejecutar_plan(update, context, user_id, query, plan)
 
 
@@ -786,13 +783,7 @@ def _resolver_hechos(necesita) -> dict:
                 continue                     # el plan no lo consumira (short-circuit)
             hechos[h] = manufacturer_in_db(h.arg)
         elif h.tipo == "lexico_marcas":
-            if _marcas_db_cache is None:
-                try:
-                    _marcas_db_cache = get_available_manufacturers()
-                except Exception:                # noqa: BLE001 -- fail-open como hoy
-                    hechos[h] = None
-                    continue
-            hechos[h] = _marcas_db_cache
+            hechos[h] = _lexico_marcas_cacheado()   # UNA implementación del patrón
     return hechos
 
 
@@ -1019,9 +1010,14 @@ async def _process_query(
         if not f1_active:
             # Step 1b: Carry forward model context from previous query if within session
             if not target_models:
-                last_models = context.user_data.get("last_detected_models", [])
-                last_time = context.user_data.get("last_query_time", 0)
-                if last_models and (_time.time() - last_time) < SESSION_TIMEOUT:
+                # (fase B) el regimen stub lee el MISMO estado que F1; la ventana se
+                # mide sobre last_turn_at (test de conversion last_query_time->last_turn_at)
+                _ws_stub = context.user_data.get("mt_working_state")
+                last_models = list(getattr(_ws_stub, "last_target_models", ()) or ())
+                _lt = getattr(_ws_stub, "last_turn_at", None)
+                from datetime import datetime as _dt, timezone as _tz
+                if last_models and _lt is not None and \
+                        (_dt.now(_tz.utc) - _lt).total_seconds() < SESSION_TIMEOUT:
                     target_models = last_models
                     # Append model hint to retrieval query so retriever finds relevant chunks
                     query_for_retrieval = f"{query} (contexto: {', '.join(target_models)})"
@@ -1119,14 +1115,18 @@ async def _process_query(
                 # Persist working state. For CLARIFY/DECLINE advance_working_state
                 # returns the prior state INTACT (no model fixed, window NOT
                 # refreshed — an expired product stays expired).
-                context.user_data["mt_working_state"] = f1_new_state
+                _aplicar_estado(context.user_data, f1_new_state)
                 context.user_data["last_query"] = query
                 context.user_data["last_response"] = direct_reply[:500]
-                context.user_data["last_query_time"] = _time.time()
+                # (Sol fase-B M1) el anclaje del feedback era MIXTO: se sobrescribia el
+                # texto pero la FK seguia apuntando al RAG anterior — un 👎 tras un
+                # clarify mezclaba ambos. Mismo patron que la ruta RAG: uuid cliente →
+                # log → last_query_log_id coherente (o None si el log fallo).
+                _clarify_uuid = str(uuid.uuid4())
                 await update.message.reply_text(direct_reply)
                 # s301 (dúo): CLARIFY/DECLINE de F1 también son respuestas a consultas
                 # — sin log, «quién usa el bot y cuánto» tenía un agujero por aquí.
-                log_query(
+                _clarify_logged = log_query(
                     telegram_user_id=(update.effective_user.id
                                       if update.effective_user else 0),
                     query=query, source=source,
@@ -1134,7 +1134,10 @@ async def _process_query(
                            if f1_resolution.route is PolicyRoute.CLARIFY
                            else "decline"),
                     response=direct_reply, response_length=len(direct_reply),
+                    query_log_id=_clarify_uuid,
                 )
+                context.user_data["last_query_log_id"] = (
+                    _clarify_uuid if _clarify_logged else None)
                 return
 
             # Retrieving route: surface the resolved models to logging + state.
@@ -1223,11 +1226,17 @@ async def _process_query(
             answer = _EMPTY_ANSWER_FALLBACK
 
         # Store last query/response for feedback tracking + conversation context
+        # Telemetria de feedback (cluster DECLARADO fuera del invariante de estado:
+        # ancla el 👎 a la ultima respuesta; dueno = _process_query).
         context.user_data["last_query"] = query
         context.user_data["last_response"] = answer[:500]
-        context.user_data["last_query_time"] = _time.time()
-        if target_models:
-            context.user_data["last_detected_models"] = target_models
+        # (fase B) Regimen STUB: el estado conversacional se escribe como transicion
+        # PURA sobre el estado unico -- quirk legacy incluido (ver transicion_basica).
+        if not f1_active:
+            from datetime import datetime as _dt, timezone as _tz
+            _aplicar_estado(context.user_data, _turn_plan.transicion_basica(
+                context.user_data.get("mt_working_state"), target_models, query,
+                answer, _dt.now(_tz.utc)))
 
         # S281 Phase-1 (F1) durable working-state backfill — the TODO closed. After
         # generation, re-advance from the SAME prior state + resolution, now with
@@ -1237,14 +1246,14 @@ async def _process_query(
         if f1_active and f1_resolution is not None:
             from ..orchestrator.conversation_policy_impl import advance_working_state
 
-            context.user_data["mt_working_state"] = advance_working_state(
+            _aplicar_estado(context.user_data, advance_working_state(
                 f1_prev_state,
                 f1_resolution,
                 query,
                 answer,
                 f1_now,
                 f1_new_state.available_models,
-            )
+            ))
 
         # Render once: telemetry records the actual transport split and the
         # send loop consumes these exact same parts. A formatter defect must
@@ -1626,12 +1635,8 @@ def run_bot():
 
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
-    # (#70 etapa 1, DEC-197) Guardia de cambio de marca en grupo -1: corre ANTES de todo
-    # handler, para TODO update. No responde ni bloquea — solo invalida el producto en
-    # curso cuando el usuario declara cambio de marca. Va aquí y no en cada ruta porque
-    # 7 de los 13 returns de handle_message responden sin tocar estado: el dúo cortó dos
-    # veces la variante «llamada manual por ruta» como convención olvidable.
-    app.add_handler(TypeHandler(Update, brand_switch_guard), group=-1)
+    # (fase B) La guardia de grupo -1 se retiro: la invalidacion de #70 vive en el
+    # plan de turno (handle_message/handle_voice), no en un TypeHandler previo.
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("accept", accept_command))

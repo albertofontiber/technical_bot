@@ -309,6 +309,10 @@ def test_hecho_rechaza_texto_libre():
         Hecho("tipo_inventado", "x")
     with _pytest.raises(ValueError):
         Hecho("marca_servida", "un texto de usuario colado como si fuera un token de marca que claramente no lo es")
+    with _pytest.raises(ValueError):
+        # (Sol fase-B M3) el vector REAL: frase corta que pasaba el tope de 64 chars
+        Hecho("marca_servida", "pasemos a Morley")
+    Hecho("marca_servida", "System Sensor")      # 2 palabras: marca legitima, pasa
 
 
 # --- (Fable r-build, M2) el test de MECANICIDAD que el docstring declaraba ----
@@ -327,8 +331,11 @@ def test_resolver_hechos_es_mecanico_por_ast():
     # (1) su única entrada es la lista de hechos — sin texto, update ni context
     assert [a.arg for a in fn.args.args] == ["necesita"]
     # (2) whitelist de llamadas: el contrato completo, y nada más
+    # (fase B, Fable menor) el léxico va vía _lexico_marcas_cacheado — la ÚNICA
+    # implementación del patrón cache-fetch-failopen; el resolver ya no toca
+    # get_available_manufacturers directamente.
     permitidas = {"lookup_model_manufacturer", "manufacturer_in_db",
-                  "get_available_manufacturers", "sorted", "bool"}
+                  "_lexico_marcas_cacheado", "sorted", "bool"}
     llamadas = {n.func.id for n in ast.walk(fn)
                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
     assert llamadas <= permitidas, f"llamadas fuera del contrato: {llamadas - permitidas}"
@@ -370,3 +377,63 @@ def test_resolver_no_paga_marca_servida_si_el_modelo_resolvio(eq):
         assert Hecho("marca_servida", "morley") not in hechos
     finally:
         mp.undo()
+
+
+# --- FASE B: rollback (régimen stub) con el estado ÚNICO ----------------------
+def test_rollback_stub_conserva_carry_forward(eq, monkeypatch):
+    """Quitar CONVERSATION_POLICY de Railway es el rollback documentado. Fase B retiró
+    las claves legacy: el carry-forward stub lee/escribe `mt_working_state` vía
+    `transicion_basica`. Este flujo A→B es el que ANTES quedaba muerto en silencio
+    (crítico convergente de la ronda 6)."""
+    import src.bot.telegram_bot as bot
+
+    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)   # régimen stub
+    context = SimpleNamespace(user_data={})
+    _turno("¿cuáles son las especificaciones técnicas de la CAD-250?",
+           user_data=context.user_data)
+    ws = context.user_data.get("mt_working_state")
+    assert ws is not None and ws.last_target_models == ("CAD-250",), \
+        "transicion_basica no escribió el estado único tras el turno RAG"
+    assert ws.last_turn_at is not None
+
+    # La señal OBSERVABLE del carry en el régimen legacy no es la query de generación
+    # (eso fue el fix e2e de F1, deliberadamente NO retro-portado): es el paso 1c —
+    # una consulta corta+vaga CLARIFICA sin contexto y va a RAG con él.
+    #
+    # (Fable fase-B CRÍTICO) La v1 usaba «¿tensión?», que NO está en PCI_TERMS: iba a
+    # RAG con o sin contexto y el testigo daba verde SIN carry — vacuo justo en la
+    # garantía que el gate invoca. Ahora: término que SÍ gatea («sirena») + CONTROL de
+    # no-vacuidad (sin contexto DEBE clarificar) para que el verde sea atribuible.
+    ctx_control = SimpleNamespace(user_data={})
+    u_control = _turno("¿sirena?", user_data=ctx_control.user_data)
+    assert any("necesito saber el modelo" in r for r in u_control.message.replies), (
+        "CONTROL vacuo: la consulta vaga sin contexto no clarificó — el término no "
+        "gatea el paso 1c y este testigo no probaría nada")
+    assert len(eq["gen"]) == 1                     # el control NO generó
+
+    u = _turno("¿sirena?", user_data=context.user_data)
+    assert len(eq["gen"]) == 2, (
+        "el carry-forward stub no arrastró: la consulta vaga clarificó en vez de "
+        f"ir a RAG con el contexto ({u.message.replies!r})")
+    assert not any("necesito saber el modelo" in r for r in u.message.replies)
+
+
+def test_transicion_basica_reproduce_el_quirk_legacy():
+    """(Fable r7 · v3 punto 6) El quirk se REPRODUCE, no se arregla: un turno RAG sin
+    modelos refresca la ventana (last_turn_at) conservando los modelos previos — un
+    contexto expirado puede resucitar, como en el legacy. F1 lo arregló en SU régimen;
+    el rollback promete fidelidad, quirk incluido."""
+    from datetime import datetime, timedelta, timezone
+
+    from src.orchestrator.conversation_policy import WorkingState
+    from src.orchestrator.turn_plan import transicion_basica
+
+    hace_2h = datetime.now(timezone.utc) - timedelta(hours=2)
+    expirado = WorkingState(last_target_models=("NC-PF2",), last_query="q0",
+                            last_turn_at=hace_2h)
+    ahora = datetime.now(timezone.utc)
+    ws = transicion_basica(expirado, [], "¿seguro?", "resp", ahora)
+    assert ws.last_target_models == ("NC-PF2",)      # modelos PRESERVADOS
+    assert ws.last_turn_at == ahora                  # ventana REFRESCADA (el quirk)
+    ws2 = transicion_basica(ws, ["CAD-250"], "q2", "r2", ahora)
+    assert ws2.last_target_models == ("CAD-250",)    # con modelos: se sustituyen

@@ -143,18 +143,11 @@ def transporte(monkeypatch):
 
 
 def _turno(bot, context, texto, n):
-    """Despacha un turno REPLICANDO el orden de grupos de python-telegram-bot.
-
-    En producción `run_bot` registra `brand_switch_guard` como `TypeHandler` en
-    **grupo -1** y `handle_message` en el grupo 0 por defecto; PTB ejecuta los grupos
-    en orden. El instrumento no levanta una `Application`, así que replica ese orden
-    a mano. `test_guardia_registrada_en_grupo_menos_uno` fija que el registro real
-    sigue siendo ese — si alguien mueve el grupo, este doble deja de ser fiel y ese
-    test lo canta.
-    """
+    """Despacha un turno como PTB en fase B: SOLO handle_message (la guardia de
+    grupo -1 se retiro; la invalidacion es la transicion del plan, aplicada por el
+    escritor unico DENTRO de handle_message antes de ejecutar la ruta)."""
     u = _update(texto, update_id=n)
-    asyncio.run(bot.brand_switch_guard(u, context))     # grupo -1
-    asyncio.run(bot.handle_message(u, context))         # grupo 0
+    asyncio.run(bot.handle_message(u, context))
     return u
 
 
@@ -253,34 +246,33 @@ def test_testigo_fallthrough_marca_sin_switch_explicito(transporte):
 # verde SIN llegar nunca a la comparación de fabricante. Era vacuo: pasaba aunque se
 # borrara la extensión de identidad. Aquí la frase SÍ resuelve destino, así que la
 # única razón de no limpiar es la comparación Kidde==Kidde.
-def test_control_misma_marca_ejerce_la_comparacion(transporte):
-    import src.bot.telegram_bot as bot
+def test_control_misma_marca_ejerce_la_comparacion():
+    """(Sol s316b M2 heredado) La frase DEBE resolver destino — si no, el control es
+    vacuo — y la unica razon de no invalidar es la comparacion Kidde==Kidde."""
+    from src.orchestrator import turn_plan as tp
 
-    assert (bot._marca_destino("pasemos a Kidde") or "").lower() == "kidde", \
-        "precondición: la frase debe resolver destino, o el control vuelve a ser vacuo"
+    lex = ["Kidde", "Morley", "Detnov"]
+    assert (tp.marca_destino("pasemos a Kidde", lex) or "").lower() == "kidde", \
+        "precondicion: la frase debe resolver destino, o el control vuelve a ser vacuo"
+    transicion, _ = tp._decidir_transicion("pasemos a Kidde", ("NC-PF2",),
+                                           tp.Meta(), lex)
+    assert transicion == tp.PRESERVAR, "invalido con la MISMA marca (NC-PF2 es Kidde)"
+
+
+def test_plan_invalida_con_marca_distinta_y_reset_completo():
+    """Espejo: marca DISTINTA => INVALIDAR; y el escritor unico aplica el reset
+    COMPLETO (is_empty: un last_query residual haria que el turno siguiente
+    contestara "Ha pasado un rato" siendo mentira)."""
+    import src.bot.telegram_bot as bot
+    from src.orchestrator import turn_plan as tp
+
+    transicion, marca = tp._decidir_transicion(
+        "pasemos a Morley", ("NC-PF2",), tp.Meta(), ["Kidde", "Morley"])
+    assert transicion == tp.INVALIDAR and (marca or "").lower() == "morley"
 
     user_data = {"mt_working_state": WorkingState(last_target_models=("NC-PF2",),
                                                   last_query=TURNO_A)}
-    invalidada = bot._invalidar_si_cambio_de_marca(user_data, "pasemos a Kidde")
-    assert invalidada is None, "la guardia invalidó con la MISMA marca (NC-PF2 es Kidde)"
-    assert user_data["mt_working_state"].last_target_models == ("NC-PF2",)
-
-
-def test_guardia_invalida_con_marca_distinta_unit(transporte):
-    """Espejo del anterior: misma frase, marca DISTINTA ⇒ sí invalida."""
-    import src.bot.telegram_bot as bot
-
-    user_data = {"mt_working_state": WorkingState(last_target_models=("NC-PF2",),
-                                                  last_query=TURNO_A),
-                 "last_detected_models": ["NC-PF2"]}
-    invalidada = bot._invalidar_si_cambio_de_marca(user_data, "pasemos a Morley")
-    assert (invalidada or "").lower() == "morley"
-    assert user_data["mt_working_state"].last_target_models == ()
-    # rollback-safe: el régimen legacy también queda limpio (si mañana se quita
-    # CONVERSATION_POLICY de Railway, #70 no revive con la guardia puesta).
-    assert "last_detected_models" not in user_data
-    # reset COMPLETO: last_query residual haría is_empty False y el turno siguiente
-    # contestaría «Ha pasado un rato» siendo mentira.
+    bot._aplicar_estado(user_data, WorkingState())
     assert user_data["mt_working_state"].is_empty
 
 
@@ -338,17 +330,17 @@ def marcas_congeladas(monkeypatch):
 
 
 @pytest.mark.parametrize("consulta", _NO_DEBEN_DISPARAR)
-def test_precision_la_guardia_calla(consulta, marcas_congeladas):
-    import src.bot.telegram_bot as bot
-    assert bot._marca_destino(consulta) is None, (
-        f"FALSO POSITIVO: la guardia borraría contexto legítimo en {consulta!r}")
+def test_precision_el_predicado_calla(consulta):
+    from src.orchestrator import turn_plan as tp
+    assert tp.marca_destino(consulta, list(_MARCAS_CONGELADAS)) is None, (
+        f"FALSO POSITIVO: se borraria contexto legitimo en {consulta!r}")
 
 
 @pytest.mark.parametrize("consulta,esperada", _DEBEN_DISPARAR)
-def test_recall_la_guardia_dispara(consulta, esperada, marcas_congeladas):
-    import src.bot.telegram_bot as bot
-    got = bot._marca_destino(consulta)
-    assert (got or "").lower() == esperada.lower(), f"{consulta!r} → {got!r}"
+def test_recall_el_predicado_dispara(consulta, esperada):
+    from src.orchestrator import turn_plan as tp
+    got = tp.marca_destino(consulta, list(_MARCAS_CONGELADAS))
+    assert (got or "").lower() == esperada.lower(), f"{consulta!r} -> {got!r}"
 
 
 def _colisiones(bot, marcas):
@@ -393,51 +385,67 @@ def test_la_lista_congelada_no_ha_derivado_de_la_DB():
 
 
 # --- CONTRATO DE CABLEADO: la guardia vive en el grupo -1 --------------------
-def test_guardia_registrada_en_grupo_menos_uno():
-    """El doble de `_turno` replica el orden de grupos de PTB; si el registro real
-    cambia de grupo (o desaparece), el doble deja de ser fiel y esto lo canta."""
-    src = (ROOT / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8")
-    tree = ast.parse(src)
-    # (dúo s316, sub-agente) Acotado a run_bot: la v1 walkeaba el MÓDULO entero y
-    # pasaba con el registro en código muerto.
-    run_bot = next((n for n in ast.walk(tree)
-                    if isinstance(n, ast.FunctionDef) and n.name == "run_bot"), None)
-    assert run_bot is not None, "run_bot no existe"
-    encontrada = False
-    for node in ast.walk(run_bot):
-        if not (isinstance(node, ast.Call)
-                and getattr(node.func, "attr", None) == "add_handler"):
+def test_un_solo_escritor_de_estado_por_ast():
+    """Invariante de fase B (v3): la escritura de `mt_working_state` con clave LITERAL
+    vive solo en `_aplicar_estado`. Cazado: Assign (incl. tuplas), AnnAssign, AugAssign,
+    Delete, y .update()/.setdefault() con la clave como literal — en telegram_bot Y
+    turn_plan. LÍMITE DECLARADO (Fable fase-B): una escritura con la clave en variable
+    o un alias del dict escaparían; el invariante es el choke-point sintáctico + las
+    fuentes declaradas, no una prueba total. Claves legacy RETIRADAS."""
+    fuentes = [(ROOT / "src" / "bot" / "telegram_bot.py").read_text(encoding="utf-8"),
+               (ROOT / "src" / "orchestrator" / "turn_plan.py").read_text(encoding="utf-8")]
+    src = fuentes[0]
+    tree = ast.parse("\n\n".join(fuentes))
+    fuera_del_escritor = []
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
             continue
-        arg0 = node.args[0] if node.args else None
-        if not (isinstance(arg0, ast.Call)
-                and getattr(arg0.func, "id", None) == "TypeHandler"):
+        if fn.name == "_aplicar_estado":
             continue
-        if any(getattr(a, "id", None) == "brand_switch_guard" for a in arg0.args):
-            # -1 llega al AST como UnaryOp(USub, Constant(1)), no como Constant(-1)
-            crudo = [k.value for k in node.keywords if k.arg == "group"]
-            assert crudo, "TypeHandler(brand_switch_guard) sin `group=`"
-            g = crudo[0]
-            valor = (-g.operand.value if isinstance(g, ast.UnaryOp)
-                     else getattr(g, "value", None))
-            assert valor == -1, f"la guardia está en el grupo {valor}, no en -1"
-            encontrada = True
-    assert encontrada, "brand_switch_guard NO está registrada como TypeHandler en run_bot"
+        for n in ast.walk(fn):
+            # (Sol fase-B M4) no solo Assign: tambien AnnAssign/AugAssign sobre la
+            # clave, y llamadas .update()/.setdefault() que la traigan como literal.
+            tgts = []
+            if isinstance(n, ast.Assign):
+                for tg in n.targets:            # incluye tuplas: a, ud[k] = ...
+                    tgts.extend(tg.elts if isinstance(tg, ast.Tuple) else [tg])
+            elif isinstance(n, (ast.AnnAssign, ast.AugAssign)):
+                tgts = [n.target]
+            elif isinstance(n, ast.Delete):
+                tgts = list(n.targets)
+            for tgt in tgts:
+                if (isinstance(tgt, ast.Subscript)
+                        and isinstance(tgt.slice, ast.Constant)
+                        and tgt.slice.value == "mt_working_state"):
+                    fuera_del_escritor.append(fn.name)
+            if (isinstance(n, ast.Call)
+                    and isinstance(n.func, ast.Attribute)
+                    and n.func.attr in ("update", "setdefault")):
+                literales = {c.value for c in ast.walk(n)
+                             if isinstance(c, ast.Constant) and isinstance(c.value, str)}
+                if "mt_working_state" in literales:
+                    fuera_del_escritor.append(fn.name)
+    assert not fuera_del_escritor, (
+        f"mt_working_state se escribe fuera del escritor unico: {fuera_del_escritor}")
+    assert '"last_detected_models"' not in src and "'last_detected_models'" not in src
+    assert '"last_query_time"' not in src and "'last_query_time'" not in src
 
 
-def test_guardia_ignora_los_replies_de_feedback():
-    """Un reply es feedback (#60 punto 5b), no un cambio de tema: la guardia debe
-    dejarlo pasar intacto para `_capture_reply_explanation`."""
+def test_los_replies_no_invalidan():
+    """Un reply es feedback (#60 5b), no un cambio de tema. Dos capas: el predicado
+    PRESERVA con es_reply (unit) y handle_message construye es_reply del
+    reply_to_message real (contrato de wiring por fuente)."""
+    import inspect
+
     import src.bot.telegram_bot as bot
+    from src.orchestrator import turn_plan as tp
 
-    context = SimpleNamespace(user_data={
-        "mt_working_state": WorkingState(last_target_models=("NC-PF2",),
-                                         last_query=TURNO_A)})
-    u = _update("pasemos a productos Morley", update_id=9)
-    u.message.reply_to_message = SimpleNamespace(message_id=123,
-                                                 chat=SimpleNamespace(id=42))
-    asyncio.run(bot.brand_switch_guard(u, context))
-    assert context.user_data["mt_working_state"].last_target_models == ("NC-PF2",), (
-        "la guardia borró contexto en un mensaje de FEEDBACK")
+    transicion, _ = tp._decidir_transicion(
+        "pasemos a productos Morley", ("NC-PF2",), tp.Meta(es_reply=True),
+        ["Kidde", "Morley"])
+    assert transicion == tp.PRESERVAR, "un reply invalido contexto"
+    fuente = inspect.getsource(bot.handle_message)
+    assert "es_reply=update.message.reply_to_message is not None" in fuente
 
 
 def test_la_voz_tambien_invoca_la_guardia():
@@ -451,17 +459,18 @@ def test_la_voz_tambien_invoca_la_guardia():
     import src.bot.telegram_bot as bot
 
     cuerpo = inspect.getsource(bot.handle_voice)
-    assert "_invalidar_si_cambio_de_marca" in cuerpo, (
-        "handle_voice dejó de invocar la guardia: la voz queda sin cobertura de #70")
-    assert cuerpo.index("_invalidar_si_cambio_de_marca") < cuerpo.index("_process_query"), (
-        "la guardia debe invalidar ANTES de procesar la consulta")
+    assert "_decidir_transicion" in cuerpo, (
+        "handle_voice dejo de decidir la invalidacion: la voz queda sin cobertura de #70")
+    assert "_aplicar_estado" in cuerpo, "la voz no aplica por el escritor unico"
+    assert cuerpo.index("_decidir_transicion") < cuerpo.index("_process_query"), (
+        "la invalidacion debe decidirse ANTES de procesar la consulta")
 
 
-def test_guardia_no_paga_db_en_el_camino_caliente(monkeypatch):
-    """Sin frase de switch ni pre-gate de inventario, la guardia NO puede llamar a
-    `get_available_manufacturers` (httpx síncrono paginado dentro de un handler async
-    del grupo -1: 0,54 s en frío tras cada restart, en CADA mensaje)."""
-    import src.bot.telegram_bot as bot
+def test_camino_caliente_no_pide_lexico(monkeypatch):
+    """La restriccion PAGADA de s316c, en su forma de fase B: sin frase de switch ni
+    pre-gate de inventario, NI el plan pide el hecho `lexico_marcas` NI el core
+    perezoso toca el proveedor (0,54 s de httpx frio por mensaje era el coste)."""
+    from src.orchestrator import turn_plan as tp
 
     llamadas = {"n": 0}
 
@@ -469,12 +478,13 @@ def test_guardia_no_paga_db_en_el_camino_caliente(monkeypatch):
         llamadas["n"] += 1
         return ["Morley", "Kidde"]
 
-    monkeypatch.setattr(bot, "get_available_manufacturers", _espia)
     for q in ("¿cuál es la tensión del lazo?", "no me funciona el rearme",
               "gracias", "¿cómo silencio la sirena?"):
-        bot._marca_destino(q)
+        necesita = tp.plan_turn_hechos(q, ("CAD-250",), tp.Meta())
+        assert tp.Hecho("lexico_marcas") not in necesita, f"pidio lexico para {q!r}"
+        tp.marca_destino(q, _espia)
     assert llamadas["n"] == 0, (
-        f"la guardia pagó {llamadas['n']} llamada(s) a DB en el camino caliente")
+        f"se pagaron {llamadas['n']} llamada(s) a DB en el camino caliente")
 
 
 # --- CENSO de ramas terminales (el unit del riesgo, no la ruta) --------------
@@ -490,6 +500,21 @@ def test_guardia_no_paga_db_en_el_camino_caliente(monkeypatch):
 # declarados (vacío, consentimiento, reply-capture). Una ruta nueva ya no puede
 # nacer como if suelto: nace como ruta del plan, con su decisión de log y estado.
 _CENSO_RETURNS = {"handle_message": 3, "handle_voice": 3, "_ejecutar_plan": 8}
+
+
+def test_ventanas_iguales_en_ambos_regimenes():
+    """(v3 punto 6, Sol fase-B m6) El carry-forward stub y el de F1 miden la MISMA
+    ventana: el literal local de _process_query no puede derivar de WINDOW_SECONDS."""
+    import inspect
+    import re as _re
+
+    import src.bot.telegram_bot as bot
+    from src.orchestrator.conversation_policy_impl import WINDOW_SECONDS
+
+    fuente = inspect.getsource(bot._process_query)
+    m = _re.search(r"SESSION_TIMEOUT = (\d+)", fuente)
+    assert m, "SESSION_TIMEOUT ya no es un literal localizable: actualiza este test"
+    assert int(m.group(1)) == WINDOW_SECONDS == 3600
 
 
 def test_censo_ramas_terminales():

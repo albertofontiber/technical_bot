@@ -147,11 +147,18 @@ def test_orchestrator_path_on_but_policy_off_keeps_mt0d_path(monkeypatch):
     asyncio.run(bot._process_query(update, context, "pregunta tecnica generica"))
 
     assert update.message.replies == ["MT0D-ANSWER"]
-    assert "mt_working_state" not in context.user_data  # F1 never activated
+    # (fase B, DEC-202) el régimen stub TAMBIÉN escribe el estado ÚNICO — vía
+    # transicion_basica, no vía la política (que sigue sin activarse): antes del
+    # rediseño este camino escribía last_detected_models/last_query_time (claves
+    # RETIRADAS); el rollback de CONVERSATION_POLICY conserva así el carry-forward.
+    ws = context.user_data.get("mt_working_state")
+    assert ws is not None and ws.last_target_models == ()   # sin modelos detectados
+    assert ws.last_turn_at is not None
 
 
 def test_flags_all_off_no_working_state(monkeypatch):
-    """Default flags off => legacy inline pipeline, no F1 working state written."""
+    """Default flags off => legacy inline pipeline. (fase B) El estado ÚNICO se
+    escribe igualmente (transicion_basica) — lo que NO se activa es la política."""
     import src.bot.telegram_bot as bot
 
     monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
@@ -171,7 +178,9 @@ def test_flags_all_off_no_working_state(monkeypatch):
     asyncio.run(bot._process_query(update, context, "Conectar aislador ID2000"))
 
     assert update.message.replies == ["estable"]
-    assert "mt_working_state" not in context.user_data
+    # (fase B) el estado único se escribe también con flags off — ver el test gemelo
+    ws = context.user_data.get("mt_working_state")
+    assert ws is not None and ws.last_turn_at is not None
 
 
 # --- (2) carry-forward feeds the RESOLVED query to generation -----------------
