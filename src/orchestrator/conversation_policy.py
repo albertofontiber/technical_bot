@@ -96,6 +96,19 @@ ZERO_COST_ROUTES: frozenset[PolicyRoute] = frozenset(
 # Seed list, NOT exhaustive — the real guard belongs in the governed catalog
 # (DEC-069/2-etapa entity linking). Declared here so the eval can pin the
 # regression and MT-1a has a concrete starting denylist.
+# (s316g, rompe el ciclo impl->turn_plan->impl) Vocabulario de dominio compartido por
+# la guardia del plan (turn_plan) y la rama del lever (impl): marcas cuyo NOMBRE es
+# vocabulario corriente del sector (FUEGO es un fabricante REAL) y el lexicón del test
+# de colisión. Viven en la capa INTERFAZ — como NON_PRODUCT_CODES — para que ambos
+# consumidores importen hacia abajo y ninguno del otro.
+_MARCAS_AMBIGUAS: frozenset[str] = frozenset({"fuego"})
+_VOCABULARIO_DOMINIO: frozenset[str] = frozenset({
+    "fuego", "incendio", "incendios", "alarma", "alarmas", "central", "centrales",
+    "detector", "detectores", "sirena", "sirenas", "pulsador", "pulsadores", "zona",
+    "zonas", "lazo", "bucle", "panel", "humo", "temperatura", "extincion", "extinción",
+    "evacuacion", "evacuación", "bateria", "batería", "aviso", "avisador",
+})
+
 NON_PRODUCT_CODES: frozenset[str] = frozenset(
     {"RS-485", "RS485", "RS-232", "RS232", "IP54", "IP55", "IP66", "EN-54", "EN54"}
 )
@@ -170,6 +183,12 @@ class TurnResolution:
 # constructed inside the policy. In $0 contract mode it is None (not called).
 RewriteFn = Callable[[str, WorkingState], str]
 
+# (s316g, DEC-203) El clasificador de intencion del lever INTENT_LLM: mismo patron que
+# RewriteFn (la politica no hace I/O; el transporte inyecta; None = diferir = conducta
+# de hoy). Devuelve "compat" | "switch" | None; el contrato del parser vive en
+# orchestrator/intent_llm.py y todo valor fuera de el se trata como None.
+IntentFn = Callable[[str, "WorkingState"], str | None]
+
 
 class PolicyNotImplemented(NotImplementedError):
     """Raised by the stub so the eval reports PENDING instead of crashing."""
@@ -192,6 +211,7 @@ class ConversationPolicy(Protocol):
         working_state: WorkingState,
         now: datetime,
         rewrite: RewriteFn | None = None,
+        intent: "IntentFn | None" = None,
     ) -> TurnResolution:
         """Resolve one turn into a route + retrieval inputs.
 
@@ -221,6 +241,7 @@ class StubConversationPolicy:
         working_state: WorkingState,
         now: datetime,
         rewrite: RewriteFn | None = None,
+        intent: "IntentFn | None" = None,
     ) -> TurnResolution:
         raise PolicyNotImplemented(
             "ConversationPolicy is not implemented yet (MT-1a). MT-1b ships the "
@@ -257,6 +278,7 @@ __all__ = [
     "WorkingState",
     "TurnResolution",
     "RewriteFn",
+    "IntentFn",
     "ConversationPolicy",
     "PolicyNotImplemented",
     "StubConversationPolicy",

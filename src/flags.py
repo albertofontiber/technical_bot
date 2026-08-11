@@ -203,6 +203,11 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/retriever.py',),
     },
+    "INTENT_LLM": {
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/bot/telegram_bot.py',),
+    },
     "IDENTITY_FETCH": {
         "default_fuente": '""',
         "via": ['getenv'],

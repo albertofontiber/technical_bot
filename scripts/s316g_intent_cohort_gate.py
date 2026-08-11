@@ -41,50 +41,46 @@ import os as _os
 
 MODEL = _os.environ.get("INTENT_GATE_MODEL", "claude-haiku-4-5-20251001")
 
-# EL prompt del lever (v2 §4). Decisión única, un token, contexto mínimo.
-PROMPT = """Eres el enrutador de un asistente técnico de sistemas contra incendios.
-El técnico estaba consultando sobre este producto: {contexto}.
-Su siguiente mensaje es: «{q}»
+# EL prompt es EL DEL MÓDULO SERVIDO (una sola fuente — el prompt que se midió es el
+# que sirve; duplicarlo aquí sería el drift exacto que el dúo lleva cazando toda la
+# sesión). parse_decision también se importa: el parser medido es el servido.
+from src.orchestrator.intent_llm import PROMPT, parse_decision  # noqa: E402
 
-¿El mensaje pregunta por la COMPATIBILIDAD/integración de otra marca CON el producto en
-curso (la consulta sigue siendo sobre ese producto), o CAMBIA DE TEMA a la otra marca
-(el producto en curso deja de ser el sujeto)?
+def _clasificar(fn, q: str, contexto: str) -> tuple[str | None, int]:
+    """PARIDAD TOTAL con lo servido (Fable r11): el callable ES construir_intent_fn —
+    mismo cliente (timeout 6 s, max_retries=0), mismo prompt, mismo parser. El gate
+    mide la config que sirve, no una gemela."""
+    from types import SimpleNamespace
 
-Responde EXACTAMENTE una palabra: COMPAT o SWITCH."""
-
-
-def _clasificar(cl, q: str, contexto: str) -> tuple[str | None, int]:
-    """El callable del lever, tal cual irá a producción: parser estricto, todo lo
-    demás → None (fail-open)."""
+    ws = SimpleNamespace(last_target_models=(), _contexto=contexto)
     t0 = time.perf_counter()
-    try:
-        msg = cl.messages.create(
-            model=MODEL, max_tokens=4, temperature=0,
-            messages=[{"role": "user",
-                       "content": PROMPT.format(q=q, contexto=contexto)}])
-        raw = "".join(b.text for b in msg.content
-                      if getattr(b, "type", "") == "text")
-        ms = int((time.perf_counter() - t0) * 1000)
-        token = raw.strip().rstrip(".!").upper()
-        return (token if token in ("COMPAT", "SWITCH") else None), ms
-    except Exception:                            # noqa: BLE001 — fail-open como el lever
-        return None, int((time.perf_counter() - t0) * 1000)
+    d = fn(q, ws)
+    ms = fn.ultima["ms"] if getattr(fn, "ultima", None) else \
+        int((time.perf_counter() - t0) * 1000)
+    return ({"compat": "COMPAT", "switch": "SWITCH"}.get(d)), ms
 
 
 def main() -> int:
-    import anthropic
-
-    cohorte = yaml.safe_load(
-        (ROOT / "evals" / "s316g_intent_cohort_v1.yaml").read_text(encoding="utf-8"))
+    ruta_cohorte = ROOT / "evals" / "s316g_intent_cohort_v1.yaml"
+    crudo = ruta_cohorte.read_text(encoding="utf-8")
+    cohorte = yaml.safe_load(crudo)
     casos, k = cohorte["casos"], int(cohorte["k"])
-    cl = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    version = str(cohorte.get("version", "1"))
+    from src.orchestrator.intent_llm import PROMPT as _P, construir_intent_fn
+
+    fn = construir_intent_fn(ANTHROPIC_API_KEY, model=MODEL)
+    # el contexto del caso sustituye al derivado del estado (los casos ya traen
+    # "MODELO (Marca)" congelado): se parchea contexto_del_estado por el literal
+    import src.orchestrator.intent_llm as _il
+    _ctx_orig = _il.contexto_del_estado
+    _il.contexto_del_estado = lambda ws: getattr(ws, "_contexto", "desconocido")
 
     filas, aciertos, falsos_switch, indecisos = [], 0, 0, 0
     lat = []
     for i, c in enumerate(casos, 1):
         votos = []
         for _ in range(k):
-            v, ms = _clasificar(cl, c["q"], c["contexto"])
+            v, ms = _clasificar(fn, c["q"], c["contexto"])
             votos.append(v)
             lat.append(ms)
         ok = all(v == c["esperado"] for v in votos)   # estabilidad: K/K, no mayoría
@@ -109,8 +105,19 @@ def main() -> int:
     print(f"latencia por llamada: p50 {p50} ms · p95 {p95} ms")
     print(f"\nVEREDICTO DEL GATE: {'GO' if pasa else 'NO-GO'}")
 
+    import hashlib as _hl
+    import subprocess as _sp
+    try:
+        commit = _sp.check_output(["git", "rev-parse", "--short", "HEAD"],
+                                  cwd=str(ROOT), text=True).strip()
+    except Exception:                            # noqa: BLE001
+        commit = "desconocido"
     recibo = {
-        "gate": "s316g intent cohort v1", "modelo": MODEL, "k": k,
+        "gate": f"s316g intent cohort v{version}", "modelo": MODEL, "k": k,
+        "freeze": {"cohorte_sha256": _hl.sha256(crudo.encode("utf-8")).hexdigest()[:16],
+                   "prompt_sha256": _hl.sha256(_P.encode("utf-8")).hexdigest()[:16],
+                   "commit": commit,
+                   "paridad": "construir_intent_fn servido (timeout 6s, max_retries=0)"},
         "accuracy": round(acc, 4), "aciertos": aciertos, "casos": len(casos),
         "falsos_switch_en_compat": falsos_switch, "indecisos": indecisos,
         "latencia_ms": {"p50": p50, "p95": p95},
@@ -121,8 +128,9 @@ def main() -> int:
         "fecha_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "filas": filas,
     }
-    sufijo = "v1" if "haiku" in MODEL else f"v1_{MODEL.split('-')[1]}"
+    sufijo = f"v{version.replace('.', '_')}_{MODEL.split('-')[1]}"
     out = ROOT / "evals" / f"s316g_intent_cohort_result_{sufijo}.json"
+    _il.contexto_del_estado = _ctx_orig
     out.write_text(json.dumps(recibo, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"recibo → {out}")
     return 0 if pasa else 1

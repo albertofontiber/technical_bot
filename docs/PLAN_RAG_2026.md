@@ -51,12 +51,13 @@ seguidos, y dos deudas grandes cerradas contra producción.**
    política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
    es universal.
 
-**Qué sigue (s316f)**: la fase B está COMPLETADA (DEC-202: un estado, un escritor,
-guardia −1 retirada, rollback verificado con testigo no-vacuo) — el rediseño entero
-queda CERRADO. (a) **lever LLM de intención** en la rama ambigua (cierra el fall-through
-de #70, testigo XFAIL esperando; ANTES: re-hacer los golds de compat con marcas
-SERVIDAS); (b) **#73** puerta de revisión en ingesta; (c) **#72** cliente HTTP común;
-(d) rapidez fase 2 con ~1 semana de timings; (e) sentada B2 (Alberto); (f) #71.
+**Qué sigue (s316g)**: el lever INTENT_LLM está CONSTRUIDO con GO adjudicado del gate
+de juicio (DEC-203/203b: Sonnet 40/40 · 0 falsos SWITCH · recibo del runner con freeze).
+(a) **los 2 gates del flip**: paquete de observabilidad en `rag_trace` + e2e del camino
+servido con recibo — sin ambos, `INTENT_LLM` no se enciende en Railway; (b) tras el flip
+(decisión de Alberto): retirar el testigo XFAIL del fall-through y estampar el veredicto
+en `LEVER_DIGEST`; (c) **#73** puerta de revisión en ingesta; (d) **#72** cliente HTTP
+común; (e) rapidez fase 2 con ~1 semana de timings; (f) sentada B2 (Alberto); (g) #71.
 
 ### s315 (9 ago 2026) — resumen
 

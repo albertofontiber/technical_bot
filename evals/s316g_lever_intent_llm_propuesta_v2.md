@@ -1,5 +1,18 @@
 # s316g v2 — Lever INTENT_LLM: especificación completa tras la ronda 10 (DISEÑO VIGENTE)
 
+> ## Estado tras el gate y la ronda 11 (leer primero)
+> - **Modelo del lever = `claude-sonnet-4-6`** (Haiku NO-GO en el gate: 2 falsos SWITCH,
+>   uno claro en EN). Cifras reales: ~$0,003/disparo · p50 1,3 s / p95 4,4 s medidos con
+>   el cliente servido (timeout 6 s, max_retries=0). Las menciones a Haiku/300-500 ms de
+>   abajo quedan como registro del diseño pre-gate.
+> - **El FLIP queda BLOQUEADO por dos gates pendientes** (Sol r11): (1) el paquete de
+>   observabilidad en `rag_trace` (esquema cerrado: builder+validador+allowlist+tests —
+>   hasta entonces la decisión va a log estructurado); (2) el e2e del camino servido
+>   (cliente frío, timeout, fail-open) con recibo. Sin ambos, el flag NO se enciende.
+> - Paridad gate↔serving reparada en r11: exención `all()` sobre marcas mencionadas
+>   (el caso mixto de la cohorte ya llega al clasificador), tokenización con guion
+>   (Pepperl-Fuchs), lever alcanzable desde la rama same_mfr con marca ajena presente.
+
 **Qué es.** El v1 fue NO-SÓLIDO ×2 con veredicto de dirección («la arquitectura apunta a
 SÓLIDO con las reparaciones»). Este v2 integra los 17 hallazgos (Sol 7 · Fable 10, regla
 C aplicada — los anclados en código, verificados). El objetivo, la auditoría de levers y

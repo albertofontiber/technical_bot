@@ -12,7 +12,7 @@
 # Todos los casos nombran marca DISTINTA a la del estado: es la única población que
 # llega al LLM (misma-marca queda exenta determinista antes).
 
-version: 1
+version: 1.1   # v1 congelada 11-ago; v1.1 = SOLO la etiqueta adjudicada
 k: 3
 umbral_accuracy: 0.90
 umbral_falsos_switch_en_compat: 0
@@ -36,7 +36,12 @@ casos:
   - {q: "¿la sirena de Kilsen se puede dar de alta aquí?",             contexto: "CAD-250 (Detnov)", esperado: COMPAT}
   - {q: "¿los aisladores de Notifier sirven para este lazo?",          contexto: "CAD-250 (Detnov)", esperado: COMPAT}
   - {q: "¿y la pasarela de Honeywell se integra?",                     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
-  - {q: "¿el mantenimiento de una Kidde es igual que el de esta?",     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
+  # ADJUDICADO por Alberto (11-ago, s316g): caso límite deliberado; ambos modelos 6/6
+  # SWITCH contra la etiqueta COMPAT del autor. Alberto: «la respuesta-switch no es
+  # dañina» — el sujeto informativo es el mantenimiento Kidde; la comparación se
+  # reconstruye preguntando. Etiqueta v1.1 = SWITCH (precedente hp011#2: se adjudica
+  # el alcance del gold, no se fuerza al juez).
+  - {q: "¿el mantenimiento de una Kidde es igual que el de esta?",     contexto: "CAD-250 (Detnov)", esperado: SWITCH}
   - {q: "is it compatible with Apollo detectors?",                     contexto: "CAD-250 (Detnov)", esperado: COMPAT}
   - {q: "does it work with Hochiki bases?",                            contexto: "CAD-250 (Detnov)", esperado: COMPAT}
   - {q: "can I connect Aritech call points to this panel?",            contexto: "CAD-250 (Detnov)", esperado: COMPAT}

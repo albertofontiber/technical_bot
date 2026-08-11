@@ -5749,3 +5749,53 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Estado**: recibos `evals/s316g_intent_cohort_result_v1{,_sonnet}.json` · nada
   cableado · flag inexistente aún. **Relacionado**: DEC-200/201/202, #70 etapa 2,
   DEC-126 (anti-gate-shopping), DEC-154 (métrica MT propia).
+
+
+## DEC-203b (s316g) — Lever INTENT_LLM CONSTRUIDO tras el GO adjudicado; el flip queda BLOQUEADO por dos gates declarados
+
+- **Fecha**: 11 ago 2026 (s316g, cierre). **Impacto**: ALTO (rama de la política + flag
+  de transporte; default OFF byte-idéntico — verificado por ejecución y por tests).
+- **La adjudicación de Alberto (cierra DEC-203)**: la etiqueta del caso límite
+  («¿el mantenimiento de una Kidde es igual que el de esta?») pasa a SWITCH — «la
+  respuesta-switch no es dañina». Cohorte v1.1 con la nota de adjudicación EN el YAML
+  (precedente hp011#2: se adjudica el alcance del gold, no se fuerza al juez). Con ella:
+  **Sonnet 4.6 GO 40/40 · 0 falsos SWITCH**, primero re-puntuado (mismos votos, sin
+  re-tirar dados) y luego RE-CORRIDO por el runner con PARIDAD TOTAL con lo servido
+  (`construir_intent_fn`: timeout 6 s, max_retries=0) y freeze sha256 de
+  cohorte+prompt+commit en el recibo: **p50 1.101 ms · p95 1.663 ms**
+  (`evals/s316g_intent_cohort_result_v1_1_sonnet.json`). Haiku queda NO-GO por méritos
+  (falso SWITCH claro en EN), independiente de la adjudicación.
+- **Qué se construyó** (v2 §secuencia, pasos 2-3): `IntentFn` en las 3 superficies del
+  precedente rewrite · rama del lever en B con exención de misma-marca por token
+  primario (tokenización de `_config_brand_tokens` — el guion de Pepperl-Fuchs incluido)
+  y exclusión de `_MARCAS_AMBIGUAS` · `intent_llm.py` (prompt/parser ÚNICA fuente,
+  importada por el gate) · flag `INTENT_LLM` default OFF con construcción perezosa a
+  nivel PROCESO, fallo de construcción RUIDOSO (centinela, no reintento en caliente) y
+  resolución en `to_thread` con ON · harness MT con `stub_intent` por turno + aserción
+  de-stub-llamado + `rationale` (la aserción anti-verde-vacuo MORDIÓ en el primer run
+  de mt15 — un gold mal diseñado — y en un probe de Fable) · golds: mt13 con marcas
+  SERVIDAS + gold cofem (path no-servida-alcanzable) + mt15 (gemelos compat/switch)
+  → **gate MT re-congelado 52/52**.
+- **Ronda 11 del dúo (Sol 7 · Fable 6+3, 0 falsos positivos, TODO aplicado)**. Los que
+  cambiaron el build: (Sol C1, verificado ejecutando) la exención `any()` se tragaba el
+  caso mixto «los Detnov fallan, dime el de Morley» — el gate midió un camino que el
+  serving SALTABA; fix: exención `all()` + lever alcanzable desde la rama `same_mfr`
+  con marca ajena presente, con tests. (Fable M1, probado) `split()[0]` fallaba con el
+  único fabricante con GUION. (Fable M2) el gate había medido con cliente reutilizado y
+  el serving construía cliente por turno con max_retries=2 (~19 s de cola jamás medida)
+  → cliente a nivel proceso + max_retries=0 + gate en paridad. (Fable M3) el fallo de
+  construcción del cliente era un no-op SILENCIOSO con el flag ON.
+- **EL FLIP QUEDA BLOQUEADO** (Sol C3, declarado en el v2): (1) paquete de observabilidad
+  en `rag_trace` (esquema cerrado: builder+validador+allowlist+tests; hasta entonces,
+  log estructurado); (2) e2e del camino servido (cliente frío, timeout, fail-open) con
+  recibo. Sin ambos, `INTENT_LLM` no se enciende en Railway.
+- **Gaps**: cohorte = 40 casos (cota estadística declarada: 0/22 falsos SWITCH acota
+  ~14% con confianza razonable; el residuo lo tolera la ASIMETRÍA de daños — soltar
+  contexto de más es recuperable, responder de la marca equivocada es engañoso — y lo
+  medirá la traza); población de la rama = cota 13/69 = 18,8% versionada
+  (`evals/s316g_poblacion_rama_b_v1.json`, muestra no representativa de técnicos);
+  asimetría Honeywell (Fable, especulativo) declarada sin medir; RGPD anotado sin
+  decidir ([DECIDIR] intacto).
+- **Estado**: suites adyacentes 129 passed/1 xfailed · MT 52/52 · suite completa en
+  verificación final. **Relacionado**: DEC-203, DEC-200/201/202, #70 etapa 2 (el
+  testigo XFAIL se retira cuando Alberto flippee tras los dos gates).

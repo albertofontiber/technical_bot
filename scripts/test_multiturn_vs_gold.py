@@ -114,6 +114,10 @@ def validate_schema(flows: list[dict[str, Any]]) -> list[str]:
             route = exp.get("route")
             if route not in {r.value for r in PolicyRoute}:
                 errs.append(f"{fid} t{t.get('n')}: route inválido {route!r}")
+            # (s316g) stub del clasificador de intención: por turno, determinista.
+            si = t.get("stub_intent")
+            if si is not None and si not in ("compat", "switch"):
+                errs.append(f"{fid} t{t.get('n')}: stub_intent inválido {si!r}")
             # $0-guarantee declarada en el gold: requires_llm_rewrite True <=> rewrite.
             rlr = exp.get("requires_llm_rewrite", route == "rewrite")
             if (route == "rewrite") != bool(rlr):
@@ -176,6 +180,12 @@ def assert_resolution(resolution: TurnResolution, expect: dict[str, Any]) -> lis
         exp_models = set(expect["target_models"])
         if got_models != exp_models:
             fails.append(f"target_models {sorted(got_models)} != {sorted(exp_models)}")
+
+    # (s316g) rationale opcional: distingue el carry del lever del de hoy y del
+    # fail-open — sin esto el lado compat del stub sería verde-vacuo (Fable r10).
+    exp_rat = expect.get("rationale")
+    if exp_rat and exp_rat not in (resolution.rationale or ""):
+        fails.append(f"rationale {resolution.rationale!r} !~ esperado {exp_rat!r}")
 
     for forbidden in expect.get("must_not_target", []):
         if forbidden in got_models:
@@ -340,14 +350,30 @@ def run_contract(flows: list[dict[str, Any]], policy: Any | None = None) -> dict
                 continue
 
             # ---- policy REAL: aserciones deterministas ----
+            # (s316g) stub_intent declarado en el gold → callable determinista que
+            # REGISTRA si fue llamado; si el turno lo declara y la política no lo
+            # consultó, es FALLO (el gold dejaría de ejercer la rama del lever sin
+            # que nadie lo note — la clase verde-vacuo que Fable cazó dos veces).
+            stub_valor = t.get("stub_intent")
+            stub_reg = {"llamado": False}
+
+            def _stub_intent(_q, _ws, _v=stub_valor, _r=stub_reg):
+                _r["llamado"] = True
+                return _v
+
+            kwargs_intent = (
+                {"intent": _stub_intent} if stub_valor is not None else {})
             resolution = policy.resolve(
                 query=query,
                 turn_models=turn_models,
                 available_models=available,
                 working_state=ws,
                 now=now,
+                **kwargs_intent,
             )
             fails = assert_resolution(resolution, expect)
+            if stub_valor is not None and not stub_reg["llamado"]:
+                fails.append("stub_intent declarado pero la política NO lo consultó")
             answer_excerpt = None
             if not fails and resolution.route in _RETRIEVING_ROUTES:
                 served, answer_excerpt = _drive_turn_through_orchestrator(
