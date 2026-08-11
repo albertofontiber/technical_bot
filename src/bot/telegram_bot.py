@@ -141,271 +141,61 @@ def _plain_transport_parts(text: str) -> list[str]:
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
-# --- Pre-pipeline classifiers ---
-
-# Greetings / non-technical messages (skip RAG entirely)
-_GREETING_PATTERNS = re.compile(
-    r"^(hola|hey|buenas|buenos\s*días|buenas\s*tardes|buenas\s*noches|"
-    r"saludos|qué\s*tal|que\s*tal|hi|hello)[\s!.,?]*$",
-    re.IGNORECASE,
+# --- Pre-pipeline classifiers (s316e, fase A DEC-200) ---
+# Los clasificadores y el predicado de la guardia viven en orchestrator/turn_plan.py --
+# el punto de decision UNICO del turno. Aqui quedan re-exports (compatibilidad de
+# tests/scripts) y los WRAPPERS con el fetch perezoso de la lista de marcas.
+from ..orchestrator import turn_plan as _turn_plan  # noqa: E402
+from ..orchestrator.turn_plan import (  # noqa: E402,F401 -- re-exports deliberados
+    _BYE_PATTERNS, _CATALOG_PATTERNS, _ENUM_FABRICANTE, _FEEDBACK_PATTERNS,
+    _GREETING_PATTERNS, _MANUFACTURER_NAMES, _MARCAS_AMBIGUAS, _PREGATE_INVENTARIO,
+    _SWITCH_FRASE, _THANKS_PATTERNS, _VOCABULARIO_DOMINIO, Hecho, Meta, TurnPlan,
+    _intencion_inventario, plan_turn, plan_turn_hechos,
 )
-_THANKS_PATTERNS = re.compile(
-    r"^(gracias|muchas\s*gracias|genial|perfecto|ok|vale|entendido|"
-    r"de\s*acuerdo|recibido|thanks|thank\s*you)[\s!.,?]*$",
-    re.IGNORECASE,
-)
-_BYE_PATTERNS = re.compile(
-    r"^(adiós|adios|hasta\s*luego|chao|nos\s*vemos|bye)[\s!.,?]*$",
-    re.IGNORECASE,
-)
-
-# Catalog questions (answer with DB query, not RAG).
-# Includes "fabricantes" / "marcas" / "empresas" so queries like "¿qué
-# fabricantes tienes?" hit the catalog shortcut instead of leaking through
-# the RAG pipeline (sesión 21 smoke step 6: query produced a confusing
-# first sentence saying "solo Notifier" before listing the 3 manufacturers).
-_CATALOG_PATTERNS = re.compile(
-    r"(qué\s+(productos?|modelos?|equipos?|detectores?|centrales?|fabricantes?|marcas?|empresas?)\s+(tienes|hay|tenéis|tienen|soporta)|"
-    r"(listado|catálogo|catalogo|lista)\s+de\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)|"
-    r"para\s+qué\s+(productos?|modelos?|equipos?|fabricantes?|marcas?)\s+tienes\s+información|"
-    r"qué\s+información\s+tienes|"
-    r"qué\s+tienes)",
-    re.IGNORECASE,
-)
-
-# Known manufacturer names (for detection in queries — NOT for blocking)
-# (s307) Intención de INVENTARIO sobre un fabricante — 2º fallo orgánico: «¿qué
-# productos de Securiton tienes?» no casaba con _CATALOG_PATTERNS (exige «productos»
-# y «tienes» ADYACENTES) y caía al RAG, que enumeró una MUESTRA de 10 chunks como si
-# fuera el inventario (faltaron ASD531 y ASD535).
-#
-# v2 tras el dúo (H2: la v1 era ANCHA y desviaba consultas técnicas al listado —
-# «lista de averías/eventos» es vocabulario NUCLEAR de la UI de centrales PCI, y
-# «¿qué centrales Notifier tienen salida de relé?» es un filtro de specs, no un
-# inventario). Dos discriminadores, ambos empíricos:
-#   1. el verbo de posesión va AL FINAL — una pregunta de inventario TERMINA en el
-#      verbo («…tienes?»); una de specs continúa tras él («…tienen salida de relé»);
-#   2. la palabra-de-lista solo cuenta pegada a un sustantivo DE INVENTARIO
-#      («listado de productos» sí; «lista de averías» no) — o al nombre del
-#      fabricante, que se comprueba aparte porque no puede vivir en un regex.
-# `gama` FUERA (colisiona con recomendaciones: «¿qué central de la gama X me
-# recomiendas?»). OJO DEC-059: aquel fall-through medido es para preguntas DE
-# MODELO; esta ruta cubre INVENTARIO, población que DEC-059 no midió — el
-# fall-through de modelo queda INTACTO.
-_ENUM_FABRICANTE = re.compile(
-    r"(qu[eé]|cu[aá]l(?:es)?)\s+(productos?|modelos?|equipos?|centrales?|detectores?|"
-    r"manuales?|documentaci[oó]n|informaci[oó]n)[^?]{0,40}"
-    r"\b(tienes|ten[eé]is|tienen|hay|dispones?|dispon[eé]is|disponen|"
-    r"soportas?|cubres?|conoces)\s*\??\s*$"
-    r"|\b(listado|lista|cat[aá]logo|inventario)\s+de\s+"
-    r"(productos?|modelos?|equipos?|detectores?|centrales?|manuales?|documentaci[oó]n)\b"
-    # EN mínimo (Sol s307: el corpus y los técnicos son ES/EN; una consulta EN caía a
-    # RAG = status quo, pero cubrirla es barato con los MISMOS discriminadores). El
-    # orden inglés mete la MARCA entre medias («what Securiton products» · «list of
-    # Notifier panels») → se toleran 1-2 palabras antes del sustantivo:
-    r"|(what|which)\s+(?:[\w-]+\s+){0,2}(products?|models?|equipment|panels?|detectors?)"
-    r"[^?]{0,40}\b(do\s+you\s+(have|know|support|cover)|are\s+(there|available))\s*\??\s*$"
-    r"|\b(list|catalog(?:ue)?|inventory)\s+of\s+(?:[\w-]+\s+){0,2}"
-    r"(products?|models?|equipment|detectors?|panels?)\b",
-    re.IGNORECASE,
-)
-
-
-# Pre-gate barato del paso 5-bis: solo si hay señal de inventario se paga la
-# resolución de marca contra la DB. Cualquier término dispara el CHEQUEO, no la ruta.
-_PREGATE_INVENTARIO = re.compile(
-    r"\b(productos?|modelos?|equipos?|centrales?|detectores?|manuales?|"
-    r"documentaci[oó]n|informaci[oó]n|listado|lista|cat[aá]logo|inventario|"
-    r"products?|models?|equipment|panels?|detectors?|list|catalog|inventory)\b",
-    re.IGNORECASE,
-)
-
-
-def _intencion_inventario(query: str, marca: str | None = None) -> bool:
-    """¿La consulta pide el INVENTARIO? Regex estático + la variante con el nombre
-    del fabricante («catálogo de securiton»), que no puede pre-compilarse."""
-    if _ENUM_FABRICANTE.search(query):
-        return True
-    if marca:
-        return bool(re.search(
-            rf"\b(listado|lista|cat[aá]logo|inventario)\s+(de\s+)?{re.escape(marca)}\b",
-            query, re.IGNORECASE,
-        ))
-    return False
-
-_MANUFACTURER_NAMES = re.compile(
-    r"\b(notifier|honeywell|siemens|bosch|esser|kilsen|cerberus|"
-    r"tyco|johnson\s*controls|simplex|edwards|kidde|hochiki|"
-    r"apollo|nittan|morley|ziton|argus|fenwal|minimax|"
-    r"system\s*sensor|gamewell|vigilant|autronica|schrack|"
-    r"detnov|securiton|pfannenberg|spectrex|lda)\b",
-    re.IGNORECASE,
-)
-
-# --- #70 etapa 1: guardia de CAMBIO DE MARCA explícito (DEC-197, dúo s316 ×3) ---
-# El fallo orgánico (query_logs 9-ago 21:58Z): «pasemos a productos Morley…» enruta por
-# catalog_shortcut, que RESPONDE Y RETORNA en handle_message — 7 de sus 13 returns lo
-# hacen sin tocar estado — así que F1 nunca ve el cambio y el turno siguiente resuelve
-# con el producto Kidde anterior. La guardia corre ANTES del enrutado (TypeHandler en
-# grupo -1) para que ninguna rama terminal pueda saltársela: el punto único que el dúo
-# exigió frente a llamadas manuales por ruta (convención olvidable).
-# Frase de switch: solo localiza DÓNDE empieza la cola; la marca se resuelve después
-# con el resolutor DINÁMICO. (dúo s316) La v1 interpolaba `_MANUFACTURER_NAMES` aquí y
-# reincidía en el fallo Securiton de s307 —«el fix dependía de la MISMA constante que
-# diagnosticaba»—: «pasemos a Xtralis» (28 docs en corpus) no disparaba.
-# (dúo s316, sub-agente CRÍTICO) `vamos` FUERA: «vamos a ver si es compatible con
-# Morley» es una MULETILLA, no un cambio de tema — con ella dentro, la guardia
-# convertía preguntas de compatibilidad en switches y borraba contexto legítimo
-# (medido end-to-end). Los verbos que quedan son inequívocamente de cambio de tema.
-_SWITCH_FRASE = re.compile(
-    r"\b(?:pasemos|pasamos|pasa|cambiemos|cambiamos|cambiando|saltemos|"
-    r"hablemos|hablando)\b[^,.;:?!]*?\ba\b"
-    r"|\bahora\s+(?:con|para|de|el|los|las)\b"
-    r"|\by\s+ahora\b",
-    re.IGNORECASE,
-)
-
-# Marcas cuyo NOMBRE es también vocabulario corriente del dominio. Nombrarlas NO puede
-# significar, por sí solo, un cambio de marca. (dúo s316, sub-agente CRÍTICO, medido
-# end-to-end): «FUEGO» es un fabricante REAL de la DB con 1 documento, y «fuego» es la
-# palabra más común del sector — con ella dentro, «y ahora la central de fuego no
-# rearma» borraba el contexto y convertía un turno contestado en un clarify.
-# La lista es corta y honesta; lo que impide que se pudra es
-# `test_ninguna_marca_nueva_colisiona_con_el_dominio`, que CAZA colisiones nuevas.
-_MARCAS_AMBIGUAS = frozenset({"fuego"})
-
-# Vocabulario del dominio con el que un nombre de marca NO puede confundirse. Sirve al
-# test de colisión (no al serving): si mañana se ingesta una marca llamada «Alarma» o
-# «Sirena», el test rompe y obliga a declararla en _MARCAS_AMBIGUAS conscientemente.
-_VOCABULARIO_DOMINIO = frozenset({
-    "fuego", "incendio", "incendios", "alarma", "alarmas", "central", "centrales",
-    "detector", "detectores", "sirena", "sirenas", "pulsador", "pulsadores", "zona",
-    "zonas", "lazo", "bucle", "panel", "humo", "temperatura", "extincion", "extinción",
-    "evacuacion", "evacuación", "bateria", "batería", "aviso", "avisador",
-})
 
 
 def _marca_mencionada(texto: str) -> str | None:
-    """Marca servida en el texto, con resolución ESTRICTA para uso en la guardia.
-
-    Difiere de `_marca_en_consulta` a propósito: aquella corre DETRÁS de un pre-gate de
-    intención (`_PREGATE_INVENTARIO`) y puede permitirse la heurística de «primera
-    palabra única ≥4 chars» («argus» → Argus Security). La guardia corre en el grupo -1
-    sobre TODOS los updates, sin pre-gate, así que esa heurística es insegura aquí:
-    exige el nombre COMPLETO con frontera de palabra y descarta las marcas ambiguas.
-    """
-    m = _MANUFACTURER_NAMES.search(texto)      # curado: sin colisiones de dominio
-    if m and m.group(0).lower() not in _MARCAS_AMBIGUAS:
-        return m.group(0)
-    try:
-        marcas = get_available_manufacturers() or []
-    except Exception:                          # noqa: BLE001 — fail-open, nunca bloquea
-        return None
-    for marca in sorted(marcas, key=len, reverse=True):   # nombre largo antes que corto
-        if marca.lower() in _MARCAS_AMBIGUAS:
-            continue
-        if re.search(rf"\b{re.escape(marca)}\b", texto, re.IGNORECASE):
-            return marca
-    return None
+    """Wrapper del core puro (`turn_plan.marca_mencionada`) con fetch PEREZOSO de la
+    lista DB -- el pre-gate barato de s316c intacto (0,54 s de httpx frio evitados)."""
+    return _turn_plan.marca_mencionada(texto, get_available_manufacturers)
 
 
 def _marca_destino(query: str) -> str | None:
-    """La marca a la que el usuario DECLARA cambiar, o None.
-
-    POSICIONAL a propósito (dúo s316): «pasemos de Kidde a Morley» debe resolver
-    *Morley*; buscar la primera marca del texto devolvería Kidde y la guardia
-    callaría por marcas-iguales. Por eso se resuelve sobre la COLA que sigue a la
-    frase de switch, no sobre la consulta entera.
-    """
-    m = _SWITCH_FRASE.search(query)
-    if m:
-        # La cola tras la frase: ahí vive la marca DESTINO, con o sin palabras en
-        # medio («ahora con productos Morley» — la v1 se paraba en «productos»).
-        destino = _marca_mencionada(query[m.end():])
-        if destino:
-            return destino
-    # Intención de inventario con UNA sola marca nombrada: «¿qué centrales Morley
-    # tienes?» tras hablar de otra marca es un cambio de tema, no una compatibilidad.
-    #
-    # (dúo s316, sub-agente) El pre-gate BARATO va PRIMERO y no es cosmético: sin él,
-    # `_marca_mencionada` caía a `get_available_manufacturers()` —httpx SÍNCRONO,
-    # paginado— en CADA mensaje que no trajera frase de switch, dentro de un handler
-    # async del grupo -1. Medido: 0,54 s en frío tras cada restart. Es exactamente la
-    # razón por la que `_PREGATE_INVENTARIO` existe en el paso 5-bis.
-    if not _PREGATE_INVENTARIO.search(query):
-        return None
-    unica = _marca_mencionada(query)
-    if unica:
-        otras = {mm.group(0).lower() for mm in _MANUFACTURER_NAMES.finditer(query)
-                 if mm.group(0).lower() not in _MARCAS_AMBIGUAS}
-        if len(otras) <= 1 and _intencion_inventario(query, unica):
-            return unica
-    return None
+    return _turn_plan.marca_destino(query, get_available_manufacturers)
 
 
 def _modelos_reales(query: str) -> list[str]:
-    """`extract_product_models` sin códigos NO-producto NI normativos.
+    return _turn_plan.modelos_reales(query)
 
-    (dúo s316) Sin el primer filtro, «pasemos a Morley, ¿usa RS-485?» traería un
-    "modelo" y suprimiría la guardia en un switch genuino. Sin el segundo, tampoco
-    dispararía con «¿qué exige NFPA-13?»: NFPA-13 está en el catálogo COMO MODELO
-    (`data/model_catalog.json`), así que la denylist estrecha no basta — se reusa el
-    mismo criterio normativo que la política (`_NORMATIVE_CODE_RE`).
-    """
-    from ..orchestrator.conversation_policy import NON_PRODUCT_CODES
-    from ..orchestrator.conversation_policy_impl import _NORMATIVE_CODE_RE
 
-    fuera = {c.upper().replace("-", "").replace(" ", "") for c in NON_PRODUCT_CODES}
-    return [m for m in (extract_product_models(query) or [])
-            if m.upper().replace("-", "").replace(" ", "") not in fuera
-            and not _NORMATIVE_CODE_RE.fullmatch(m.strip())]
+def _estado_modelos_conversacion(user_data: dict) -> tuple[str, ...]:
+    """Marshalling MECANICO (sin decision): los modelos del estado vivo + legacy."""
+    ws = user_data.get("mt_working_state")
+    modelos = list(getattr(ws, "last_target_models", ()) or ())
+    modelos += list(user_data.get("last_detected_models") or [])
+    return tuple(modelos)
 
 
 def _invalidar_si_cambio_de_marca(user_data: dict, query: str) -> str | None:
-    """Núcleo SÍNCRONO y puro de la guardia. Devuelve la marca destino si invalidó.
-
-    Rollback-safe (restricción del dúo): limpia el estado de AMBOS regímenes —
-    `mt_working_state` (F1, el vivo) y `last_detected_models` (legacy, el que revive
-    si alguien quita `CONVERSATION_POLICY` de Railway, que es el rollback documentado).
-    Reset COMPLETO del WorkingState: dejar `last_query` residual haría `is_empty` False
-    y el turno siguiente contestaría «Ha pasado un rato» siendo mentira.
-    """
+    """Nucleo sincrono de la guardia #70: DECIDE el predicado puro del plan
+    (`turn_plan._decidir_transicion` -- una sola implementacion, sin drift) y aplica
+    aqui la mutacion rollback-safe: ambos regimenes, reset COMPLETO del WorkingState
+    (un `last_query` residual haria `is_empty` False y el turno siguiente contestaria
+    "Ha pasado un rato" siendo mentira)."""
     try:
-        destino = _marca_destino(query)
-        if not destino or _modelos_reales(query):
+        transicion, destino = _turn_plan._decidir_transicion(
+            query, _estado_modelos_conversacion(user_data), Meta(),
+            get_available_manufacturers)
+        if transicion != _turn_plan.INVALIDAR:
             return None
-
         from ..orchestrator.conversation_policy import WorkingState
-        from ..orchestrator.conversation_policy_impl import (
-            DeterministicConversationPolicy,
-        )
-
-        ws = user_data.get("mt_working_state")
-        estado_modelos = list(getattr(ws, "last_target_models", ()) or ())
-        estado_modelos += list(user_data.get("last_detected_models") or [])
-        if not estado_modelos:
-            return None
-
-        from ..rag.retriever import classify_model_manufacturer
-
-        marcas_estado = {classify_model_manufacturer(m) for m in estado_modelos}
-        marcas_estado.discard(None)
-        if not marcas_estado:
-            return None                      # fail-open: marca no resoluble, no se toca
-        # Misma marca => NO es switch. `_same_manufacturer` colapsa Honeywell hacia sus
-        # sub-marcas; su mapa solo tiene 4 entradas, así que se añade la identidad
-        # directa (Kidde, Aritech… no están en él y darían "distinta" siempre).
-        d = destino.lower()
-        if DeterministicConversationPolicy._same_manufacturer([d], estado_modelos) or \
-                any(d == (m or "").lower() for m in marcas_estado):
-            return None
 
         user_data["mt_working_state"] = WorkingState()
         user_data.pop("last_detected_models", None)
-        logger.info("guardia #70: cambio de marca a %r — contexto de producto invalidado",
+        logger.info("guardia #70: cambio de marca a %r -- contexto de producto invalidado",
                     destino)
         return destino
-    except Exception as exc:                 # fail-open TOTAL: jamás tumba un turno
+    except Exception as exc:                 # fail-open TOTAL: jamas tumba un turno
         logger.warning("guardia #70 no aplicada (%s)", type(exc).__name__)
         return None
 
@@ -504,14 +294,10 @@ def _feedback_keyboard(query_log_id: str) -> InlineKeyboardMarkup:
     ]])
 
 
-# Feedback detection
-_FEEDBACK_PATTERNS = re.compile(
-    r"(no\s+es\s+correcto|incorrecto|está\s+mal|esta\s+mal|"
-    r"eso\s+no\s+es|el\s+manual\s+dice\s+otra\s+cosa|"
-    r"error\s+en\s+la\s+respuesta|dato\s+erróneo|dato\s+erroneo|"
-    r"respuesta\s+incorrecta|información\s+incorrecta|informacion\s+incorrecta)",
-    re.IGNORECASE,
-)
+# Feedback detection: _FEEDBACK_PATTERNS vive en turn_plan (re-export arriba).
+# (Fable r-build, m3) Aqui habia un re.compile DUPLICADO que sombreaba el re-export:
+# funcionaba solo por el cache de `re`, y editar una copia desincronizaria el serving
+# (el plan usa la de turn_plan) de quien leyera bot._FEEDBACK_PATTERNS.
 
 
 # ── Resumen de fabricantes (s307) ────────────────────────────────────────────
@@ -612,40 +398,16 @@ _marcas_db_cache: list[str] | None = None
 
 
 def _marca_en_consulta(query: str) -> str | None:
-    """Nombre REAL (de la DB) de un fabricante mencionado en la consulta.
-
-    Cubre las marcas FUERA del regex hardcodeado `_MANUFACTURER_NAMES` (dúo s307/F2:
-    «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton literal — el fix
-    dependía de la misma constante que diagnosticaba). Matching conservador: nombre
-    completo con frontera de palabra, o su primera palabra si es ÚNICA entre las marcas
-    y ≥4 chars («argus» → Argus Security). Los nombres demasiado cortos para eso
-    («lda») se resuelven por la tabla de ALIAS curados (s308, cierra #67).
-    """
+    """Shell de `turn_plan.marca_en_texto` con la cache de proceso de la lista DB
+    (semantica de hoy: el fallo de fetch NO se cachea -- el siguiente intento
+    reintenta; los alias curados resuelven aun sin lista)."""
     global _marcas_db_cache
-    # (s308/#67) Alias curados primero. HONESTIDAD de alcance (sub-agente s308):
-    # para lda/argus este bucle es HOY inalcanzable en serving — ambos están en
-    # _MANUFACTURER_NAMES y el paso 5 los captura antes (donde el alias resuelve
-    # vía manufacturer_in_db + inventario). Se conserva para alias FUTUROS de
-    # marcas fuera del regex; el camino load-bearing está testeado aparte.
-    for alias, real in _MANUFACTURER_ALIASES.items():
-        if re.search(rf"\b{re.escape(alias)}\b", query, re.IGNORECASE):
-            return real
     if _marcas_db_cache is None:
         try:
             _marcas_db_cache = get_available_manufacturers()
         except Exception:                                # noqa: BLE001
-            return None      # fallo NO cacheado: el siguiente intento reintenta
-    primeras: dict[str, list[str]] = {}
-    for nombre in _marcas_db_cache:
-        primeras.setdefault(nombre.split()[0].lower(), []).append(nombre)
-    for nombre in _marcas_db_cache:
-        if re.search(rf"\b{re.escape(nombre)}\b", query, re.IGNORECASE):
-            return nombre
-        primera = nombre.split()[0]
-        if (len(primera) >= 4 and len(primeras[primera.lower()]) == 1
-                and re.search(rf"\b{re.escape(primera)}\b", query, re.IGNORECASE)):
-            return nombre
-    return None
+            return _turn_plan.marca_en_texto(query, None)
+    return _turn_plan.marca_en_texto(query, _marcas_db_cache)
 
 
 def _welcome_text() -> str:
@@ -984,167 +746,139 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if await _capture_reply_explanation(update, user_id, query):
         return
 
-    # --- Pre-pipeline classification (saves API calls) ---
+    # --- Plan de turno (fase A DEC-200): decision UNICA, ejecucion tonta ---
+    # La cascada entera (cortesia -> catalogo -> marca -> 5-bis -> feedback -> RAG)
+    # vive en turn_plan.plan_turn; aqui solo se resuelven los HECHOS que el plan
+    # declara y se ejecuta la ruta. La politica de log de cada ruta es un CAMPO del
+    # plan (la promesa del aviso v7 --cortesia sin log-- pasa de estar implicita en
+    # el orden de los ifs a ser dato verificable).
+    meta = Meta(es_reply=update.message.reply_to_message is not None)
+    estado_modelos = _estado_modelos_conversacion(context.user_data)
+    plan = plan_turn(query, estado_modelos, meta,
+                     _resolver_hechos(plan_turn_hechos(query, estado_modelos, meta)))
+    # Fase A: plan.transicion NO se aplica -- la fuente ACTIVA de invalidacion es la
+    # guardia de grupo -1 (v3 seccion 5: UNA fuente por fase; el predicado es el MISMO
+    # codigo, verificado como funcion pura contra snapshots pre-guardia).
+    await _ejecutar_plan(update, context, user_id, query, plan)
 
-    # s301 (#31): los shortcuts de CONSULTA loggean antes de retornar — sin esto, las
-    # métricas de uso por canal eran ciegas («¿qué fabricantes tienes?» no existía en
-    # query_logs). La CORTESÍA (saludo/gracias/adiós) NO se loggea, a conciencia: el
-    # aviso v7 promete literalmente «Los saludos y las despedidas no se registran» y la
-    # ponderación de interés legítimo usa esa minimización como argumento (§3 del LIA).
-    # Cazado por el dúo s301: loggearla habría ampliado el tratamiento contra el
-    # contrato aceptado. Los valores greeting/thanks/bye del CHECK quedan RESERVADOS
-    # para un aviso futuro que lo cambie; hoy ningún camino los emite.
 
-    # 1. Greetings (SIN log: promesa del aviso)
-    if _GREETING_PATTERNS.match(query):
-        await update.message.reply_text(
-            "¡Hola! 👋 Soy el asistente técnico PCI.\n\n"
-            "Pregúntame lo que necesites sobre instalación, conexionado, "
-            f"especificaciones o resolución de problemas de equipos de {_fabricantes_resumen()[0]}.\n\n"
-            "También puedes enviarme un audio 🎤",
-            parse_mode="Markdown",
-        )
-        return
+def _resolver_hechos(necesita) -> dict:
+    """Shell MECANICO del contrato de hechos: trae EXACTAMENTE lo pedido, con las
+    funciones y caches de hoy, y CERO decisiones -- este cuerpo no examina jamas el
+    texto del usuario (test de mecanicidad por AST)."""
+    global _marcas_db_cache
+    hechos: dict = {}
+    # (Fable r-build, M1) ORDEN DE DEPENDENCIA DECLARADO por el contrato (turn_plan):
+    # `marca_de_modelo` se resuelve PRIMERO, y `marca_servida` SOLO si aquel resulto
+    # falsy — el short-circuit historico de handle_message. Sin esto, cada turno
+    # modelo+marca (la consulta tecnica mas comun) pagaba un roundtrip Supabase extra
+    # que HEAD solo pagaba con lookup fallido, y un blip de red MATABA turnos de
+    # mismatch/misma-marca que jamas tocaban esa funcion. La dependencia examina
+    # VALORES de hechos, nunca el texto (test de mecanicidad).
+    orden = sorted(necesita, key=lambda h: 0 if h.tipo == "marca_de_modelo" else 1)
+    modelo_resuelto = False
+    for h in orden:
+        if h.tipo == "marca_de_modelo":
+            hechos[h] = lookup_model_manufacturer(h.arg)
+            modelo_resuelto = modelo_resuelto or bool(hechos[h])
+        elif h.tipo == "marca_servida":
+            if modelo_resuelto:
+                continue                     # el plan no lo consumira (short-circuit)
+            hechos[h] = manufacturer_in_db(h.arg)
+        elif h.tipo == "lexico_marcas":
+            if _marcas_db_cache is None:
+                try:
+                    _marcas_db_cache = get_available_manufacturers()
+                except Exception:                # noqa: BLE001 -- fail-open como hoy
+                    hechos[h] = None
+                    continue
+            hechos[h] = _marcas_db_cache
+    return hechos
 
-    # 2. Thanks (SIN log: promesa del aviso)
-    if _THANKS_PATTERNS.match(query):
-        await update.message.reply_text(
-            "De nada 👍 ¿Necesitas algo más?"
-        )
-        return
 
-    # 3. Bye (SIN log: promesa del aviso)
-    if _BYE_PATTERNS.match(query):
-        await update.message.reply_text(
-            "¡Hasta luego! Aquí estaré cuando lo necesites. 🔧"
-        )
-        return
-
-    # 4. Catalog questions (consulta de contenido: SÍ se loggea, como toda consulta)
-    if _CATALOG_PATTERNS.search(query):
-        await update.message.chat.send_action("typing")
-        await _handle_catalog(update)
-        # La respuesta vive dentro del handler (catálogo dinámico); para la métrica de
-        # canal basta la consulta y la ruta — no se duplica el texto aquí.
-        log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
-        asegurar_seudonimo(user_id)
-        return
-
-    # 5. Smart manufacturer detection (dynamic — queries Supabase)
-    manufacturer_match = _MANUFACTURER_NAMES.search(query)
-    if manufacturer_match:
-        mentioned_manufacturer = manufacturer_match.group(0)
-        models_in_query = extract_product_models(query)
-
-        if models_in_query:
-            # User mentioned a model + a manufacturer — check if the model exists
-            model = models_in_query[0]
-            actual_manufacturer = lookup_model_manufacturer(model)
-
-            if actual_manufacturer:
-                # (dúo s308) comparar contra el alias RESUELTO: sin esto, una
-                # consulta modelo+«lda» respondería «es de LDA audioTech, no de
-                # lda» — mismatch falso de la misma marca.
-                _mencionado_real = resolve_manufacturer_alias(mentioned_manufacturer)
-                if actual_manufacturer.lower() != _mencionado_real.lower():
-                    # Model exists but under a different manufacturer
-                    respuesta = (
-                        f"El *{model}* es un producto de *{actual_manufacturer}*, "
-                        f"no de _{mentioned_manufacturer}_.\n\n"
-                        f"¿Te refieres al *{model}* de *{actual_manufacturer}*? "
-                        f"Si es así, dime tu pregunta y te ayudo."
-                    )
-                    await update.message.reply_text(respuesta, parse_mode="Markdown")
-                    log_query(telegram_user_id=user_id, query=query,
-                              route="manufacturer_mismatch",
-                              response=respuesta, response_length=len(respuesta))
-                    asegurar_seudonimo(user_id)
-                    return
-                # else: correct manufacturer + model → fall through to RAG
-            else:
-                # Model not in the product_model index. That index is KNOWN to be
-                # desynced from the corpus (TECH_DEBT #49: marketing FAMILY vs stored
-                # VARIANT — CAD-150 vs CAD-150-8, ZXe vs ZX2e/ZX5e, 40/40 vs 40-40L/M).
-                # So None here does NOT mean "we lack this product". If we HAVE the
-                # mentioned manufacturer's manuals, fall through to RAG and let
-                # retrieval + the generator's conduct rules resolve it; hard-refuse
-                # only when the manufacturer itself is absent. (s77/DEC-059 — measured
-                # judge-free: scripts/s77_fallthrough_measure.py + s77_regression_probes.py
-                # → fall-through gives correct-mfr answer / refuse-inference / clarify,
-                # never cross-brand hallucination; absent or near-miss model under a
-                # known brand still admits no-info. The model-index is an unreliable
-                # oracle for availability; retrieval+generator see the real content.)
-                if not manufacturer_in_db(mentioned_manufacturer):
-                    available = get_available_manufacturers()
-                    manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                    respuesta = (
-                        f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
-                        f"Tengo información de: {manufacturers_str}.\n"
-                        f"¿Puedo ayudarte con alguno de estos?"
-                    )
-                    await update.message.reply_text(respuesta, parse_mode="Markdown")
-                    log_query(telegram_user_id=user_id, query=query,
-                              route="manufacturer_no_model",
-                              response=respuesta, response_length=len(respuesta))
-                    asegurar_seudonimo(user_id)
-                    return
-                # else: manufacturer IS in DB → fall through to RAG (model index desynced)
+async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                         user_id: int, query: str, plan: TurnPlan):
+    """Despachador TONTO: ejecuta la ruta del plan sin re-examinar el texto. Las
+    respuestas son las de hoy, byte a byte (tests de equivalencia s316e)."""
+    ruta = plan.ruta
+    # (Sol r8, C2) plan.typing y plan.log_consulta NO son decorativos: el despachador
+    # los CONSULTA. typing del plan cubre la ruta planificada (catálogo); el ejecutor
+    # conversacional envía el suyo propio (también cuando se llega por fallback, como
+    # hoy). log_consulta gatea TODO log_query de atajo — una ruta nueva que declare
+    # log_consulta=False y loggee, o viceversa, rompe sus tests, no la promesa v7.
+    if ruta == "inventario":
+        respuesta = _inventario_fabricante(plan.datos["marca"])
+        if respuesta is None:
+            # fail-open DECLARADO POR EL PLAN: la degradacion es fallback_ruta
+            # (feedback o conversacional), no una segunda decision del despachador.
+            ruta = plan.fallback_ruta or "conversacional"
         else:
-            # No model code, just a manufacturer name mentioned
-            if not manufacturer_in_db(mentioned_manufacturer):
-                # Manufacturer not in DB
-                available = get_available_manufacturers()
-                manufacturers_str = ", ".join(f"*{m}*" for m in available)
-                respuesta = (
-                    f"No dispongo de manuales de _{mentioned_manufacturer}_.\n\n"
-                    f"Tengo información de: {manufacturers_str}.\n"
-                    f"¿Puedo ayudarte con alguno de estos?"
-                )
-                await update.message.reply_text(respuesta, parse_mode="Markdown")
-                log_query(telegram_user_id=user_id, query=query,
-                          route="manufacturer_no_model",
-                          response=respuesta, response_length=len(respuesta))
-                asegurar_seudonimo(user_id)
-                return
-            if _intencion_inventario(query, mentioned_manufacturer):
-                # (s307) Pregunta de INVENTARIO sobre un fabricante que SÍ tenemos:
-                # se responde desde el inventario real (chunks curados × docs activos),
-                # completo por construcción — no desde la ventana del RAG. Fail-open:
-                # cualquier fallo cae al RAG de siempre, nunca a una respuesta peor.
-                respuesta = _inventario_fabricante(mentioned_manufacturer)
-                if respuesta is not None:
-                    await update.message.reply_text(respuesta, parse_mode="Markdown")
-                    log_query(telegram_user_id=user_id, query=query,
-                              route="catalog_shortcut",
-                              response=respuesta, response_length=len(respuesta))
-                    asegurar_seudonimo(user_id)
-                    return
-            # else: manufacturer IS in DB → fall through to RAG
-
-    # 5-bis (s307, dúo F2): inventario para marcas FUERA del regex hardcodeado de
-    # arriba — «¿qué productos de Xtralis tienes?» reproducía el fallo Securiton
-    # literal porque el fix dependía de la MISMA constante que diagnosticaba. El
-    # nombre se resuelve contra la lista REAL de la DB (cacheada); el pre-gate
-    # barato evita pagar la resolución en cada consulta normal.
-    if not manufacturer_match and _PREGATE_INVENTARIO.search(query) \
-            and not extract_product_models(query):
-        marca_db = _marca_en_consulta(query)
-        if marca_db and _intencion_inventario(query, marca_db):
-            respuesta = _inventario_fabricante(marca_db)
-            if respuesta is not None:
-                await update.message.reply_text(respuesta, parse_mode="Markdown")
+            await update.message.reply_text(respuesta, parse_mode="Markdown")
+            if plan.log_consulta:
                 log_query(telegram_user_id=user_id, query=query,
                           route="catalog_shortcut",
                           response=respuesta, response_length=len(respuesta))
                 asegurar_seudonimo(user_id)
-                return
-
-    # 6. Feedback
-    if _FEEDBACK_PATTERNS.search(query):
+            return
+    if ruta == "cortesia_saludo":
+        await update.message.reply_text(
+            "\u00a1Hola! \U0001f44b Soy el asistente t\u00e9cnico PCI.\n\n"
+            "Preg\u00fantame lo que necesites sobre instalaci\u00f3n, conexionado, "
+            f"especificaciones o resoluci\u00f3n de problemas de equipos de {_fabricantes_resumen()[0]}.\n\n"
+            "Tambi\u00e9n puedes enviarme un audio \U0001f3a4",
+            parse_mode="Markdown",
+        )
+        return
+    if ruta == "cortesia_gracias":
+        await update.message.reply_text(
+            "De nada \U0001f44d \u00bfNecesitas algo m\u00e1s?"
+        )
+        return
+    if ruta == "cortesia_adios":
+        await update.message.reply_text(
+            "\u00a1Hasta luego! Aqu\u00ed estar\u00e9 cuando lo necesites. \U0001f527"
+        )
+        return
+    if ruta == "catalogo":
+        if plan.typing:
+            await update.message.chat.send_action("typing")
+        await _handle_catalog(update)
+        if plan.log_consulta:
+            log_query(telegram_user_id=user_id, query=query, route="catalog_shortcut")
+            asegurar_seudonimo(user_id)
+        return
+    if ruta == "mismatch":
+        d = plan.datos
+        respuesta = (
+            f"El *{d['modelo']}* es un producto de *{d['marca_real']}*, "
+            f"no de _{d['marca_mencionada']}_.\n\n"
+            f"\u00bfTe refieres al *{d['modelo']}* de *{d['marca_real']}*? "
+            f"Si es as\u00ed, dime tu pregunta y te ayudo."
+        )
+        await update.message.reply_text(respuesta, parse_mode="Markdown")
+        if plan.log_consulta:
+            log_query(telegram_user_id=user_id, query=query, route="manufacturer_mismatch",
+                      response=respuesta, response_length=len(respuesta))
+            asegurar_seudonimo(user_id)
+        return
+    if ruta == "marca_no_servida":
+        available = get_available_manufacturers()
+        manufacturers_str = ", ".join(f"*{m}*" for m in available)
+        respuesta = (
+            f"No dispongo de manuales de _{plan.datos['marca_mencionada']}_.\n\n"
+            f"Tengo informaci\u00f3n de: {manufacturers_str}.\n"
+            f"\u00bfPuedo ayudarte con alguno de estos?"
+        )
+        await update.message.reply_text(respuesta, parse_mode="Markdown")
+        if plan.log_consulta:
+            log_query(telegram_user_id=user_id, query=query, route="manufacturer_no_model",
+                      response=respuesta, response_length=len(respuesta))
+            asegurar_seudonimo(user_id)
+        return
+    if ruta == "feedback":
         await _handle_feedback(update, context, query)
         return
-
-    # --- Normal RAG pipeline ---
+    # conversacional (default del plan y de los fallbacks)
     await update.message.chat.send_action("typing")
     await _process_query(update, context, query)
 

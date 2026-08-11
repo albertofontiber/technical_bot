@@ -224,16 +224,24 @@ def test_fuente_curada_activos_por_document_id_y_paginacion(monkeypatch):
 
 
 def test_dec059_intacto_el_fallthrough_de_modelo_no_se_toca():
-    """La rama modelo+fabricante sigue cayendo a RAG (DEC-059, medido s77): la ruta
-    nueva vive SOLO en la rama sin-modelo. Se ancla inspeccionando el fuente."""
+    """La rama modelo+fabricante sigue cayendo a RAG (DEC-059, medido s77): el
+    inventario se sirve SOLO en la rama sin-modelo. (s316e, fase A DEC-200: la cascada
+    vive en turn_plan.plan_turn — MISMO invariante, nuevo hogar; las anclas de fuente
+    se actualizan con él.)"""
     import inspect
-    fuente = inspect.getsource(bot)
-    # el inventario se sirve únicamente tras comprobar que NO hay modelo en la query
-    idx_enum = fuente.index("_intencion_inventario(query, mentioned_manufacturer)")
-    idx_rama_sin_modelo = fuente.index("# No model code, just a manufacturer name mentioned")
-    assert idx_enum > idx_rama_sin_modelo
+
+    from src.orchestrator import turn_plan
+
+    fuente = inspect.getsource(turn_plan)
+    # el inventario se sirve únicamente en la rama SIN modelo: su llamada aparece
+    # DESPUÉS del fall-through de misma-marca de la rama con-modelo
+    idx_enum = fuente.index("_intencion_inventario(texto, mencionada)")
+    # ancla UNICA (Fable r-build, m4: "misma marca" a secas ligaba al docstring del
+    # predicado, no al fall-through de la rama con-modelo, y el assert era vacuo)
+    idx_rama_con_modelo = fuente.index("misma marca → sigue la cascada")
+    assert idx_enum > idx_rama_con_modelo
     # y el paso 5-bis (marcas fuera del regex) también exige no-modelo antes de servir
-    assert "not extract_product_models(query)" in fuente
+    assert "not _retriever.extract_product_models(texto)" in fuente
 
 
 # ------------------------------------------------------------ alias curados (s308/#67)

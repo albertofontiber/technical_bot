@@ -478,11 +478,18 @@ def test_guardia_no_paga_db_en_el_camino_caliente(monkeypatch):
 
 
 # --- CENSO de ramas terminales (el unit del riesgo, no la ruta) --------------
-# 7 de los 13 returns de handle_message responden SIN log_query: una puerta por rutas
-# es ciega a esa mitad, y esa clase de rama ES #70. Si este censo rompe, añadiste o
-# quitaste una rama terminal: actualiza el número Y decide explícitamente qué hace la
-# rama nueva con el estado conversacional (deja el porqué en el commit).
-_CENSO_RETURNS = {"handle_message": 13, "handle_voice": 3}
+# Si este censo rompe, añadiste o quitaste una rama terminal: actualiza el número Y
+# decide explícitamente qué hace la rama nueva con el estado conversacional (deja el
+# porqué en el commit).
+#
+# HISTORIA DEL CENSO — s316b: handle_message tenía 13 returns y 7 respondían sin
+# log_query (la clase de rama que ES #70). s316e (fase A DEC-200): la cascada entera
+# vive en turn_plan.plan_turn y las ramas terminales de RESPUESTA se concentran en el
+# despachador _ejecutar_plan (8: inventario, cortesía ×3, catálogo, mismatch,
+# no_servida, mismatch/feedback); handle_message conserva solo los PRE-PASOS
+# declarados (vacío, consentimiento, reply-capture). Una ruta nueva ya no puede
+# nacer como if suelto: nace como ruta del plan, con su decisión de log y estado.
+_CENSO_RETURNS = {"handle_message": 3, "handle_voice": 3, "_ejecutar_plan": 8}
 
 
 def test_censo_ramas_terminales():
@@ -490,7 +497,7 @@ def test_censo_ramas_terminales():
     tree = ast.parse(src)
     visto = {}
     for fn in ast.walk(tree):
-        if isinstance(fn, ast.AsyncFunctionDef) and fn.name in _CENSO_RETURNS:
+        if isinstance(fn, (ast.AsyncFunctionDef, ast.FunctionDef))                 and fn.name in _CENSO_RETURNS:
             visto[fn.name] = sum(isinstance(n, ast.Return) for n in ast.walk(fn))
     assert visto == _CENSO_RETURNS, (
         f"ramas terminales cambiaron: {visto} != censo {_CENSO_RETURNS}. "

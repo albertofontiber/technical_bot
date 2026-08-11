@@ -3201,3 +3201,22 @@ Y el punto 4 se cerró en cero, que es el cierre correcto: los «10 manuales nue
 barrido Casmar quedaron en NINGUNO al comparar la revisión de portada — dos eran
 ediciones antiguas de manuales ya ingestados. El sha prueba bytes, no información. La
 lección quedó como puerta automática diseñada (#73) y como memoria. DEC-200.
+
+
+## s316e (11 ago 2026) — La fase A aterriza con la equivalencia medida, no prometida
+
+El GO de Alberto abrió el build del rediseño y el método pagó: los tests de equivalencia
+se escribieron ANTES de tocar nada y salieron verdes contra el código viejo — la conducta
+quedó fijada como espec, y el refactor tuvo que caber en ella. El punto de decisión único
+(`turn_plan`) absorbió la cascada entera; `handle_message` quedó en pre-pasos declarados,
+una llamada al plan y un despachador que no examina texto.
+
+El dúo de build dejó la vara alta: Fable dio el primer SÓLIDO de la sesión y no lo dio
+gratis — montó su propia batería diferencial de 32 casos contra HEAD en un worktree (cero
+divergencias), verificó el predicado perezoso en 72 combinaciones y aun así encontró la
+versión fase-A de la lección FUEGO: un sobre-fetch en el camino más caliente que añadía
+superficie de fallo de red a turnos que jamás la habían tenido. Sol, por su lado, cazó que
+dos campos del plan eran decorativos y que un test declarado en un docstring no existía.
+Todo aplicado; el test de mecanicidad mordió dos veces mientras nacía, que es la mejor
+señal de que no es de pelusa. Suite final: 3.720 en verde. La fase B queda pendiente con
+su checklist afilado. DEC-201.
