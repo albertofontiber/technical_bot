@@ -218,26 +218,15 @@ def test_control_compatibilidad_conserva_carry(transporte):
         "regresión: la pregunta de compatibilidad perdió el carry-forward")
 
 
-# --- TESTIGO 2: el fall-through, causa (2) — SIGUE ROJO (etapa 2) ------------
-@pytest.mark.xfail(
-    strict=True,
-    reason="TECH_DEBT #70 causa (2), NO cubierta por la etapa 1: «¿y en Morley cómo se "
-           "hace el reset?» no declara switch ni pide inventario, así que la guardia no "
-           "dispara; el turno llega a F1 y la política lo clasifica "
-           "brand_compatibility_in_window (conversation_policy_impl:398-403) → arrastra. "
-           "Arreglarlo toca el clasificador, que tiene contrato congelado y gate MT "
-           "propio (DEC-154). XPASS ⇒ la etapa 2 aterrizó: retira el marcador.")
-def test_testigo_fallthrough_marca_sin_switch_explicito(transporte):
-    import src.bot.telegram_bot as bot
-
-    context = SimpleNamespace(user_data={})
-    _turno(bot, context, TURNO_A, 1)
-
-    uB = _turno(bot, context, "¿y en Morley cómo se hace el reset?", 2)
-    _sin_rama_de_error(uB, transporte, espera_generacion=True)
-    assert "NC-PF2" not in transporte["generate_queries"][-1], (
-        "el fall-through generó con el producto de la marca ANTERIOR: "
-        f"{transporte['generate_queries'][-1]!r}")
+# --- TESTIGO 2 del fall-through: RETIRADO (s317b, mandato de DEC-204) --------
+# Vivió aquí como xfail(strict) documentando la causa (2) de #70: «¿y en Morley
+# cómo se hace el reset?» arrastraba el producto anterior. El mecanismo que lo
+# arregla (lever INTENT_LLM, DEC-203→205) está EN PRODUCCIÓN desde el 12-ago
+# (INTENT_LLM='on' en Railway, VERIFICADO vía API por servicio). Con flag OFF la
+# conducta legacy sigue siendo el arrastre — deliberado (byte-idéntico como
+# rollback) — así que el testigo ya no puede «avisar por XPASS»: su relevo vivo
+# es test_lever_intent_atraviesa_el_pegamento_del_handler (flag ON ⇒ el switch
+# suelta el carry y la traza lo registra) + el espejo flag-off.
 
 
 # --- PEGAMENTO DEL LEVER (s316h, Sol r12 C1): flag→seam→política→traza→log ---

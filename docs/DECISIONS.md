@@ -5901,3 +5901,21 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Relacionado**: TECH_DEBT #73 (cerrado) · #4 (cadena supersede — siguiente pieza
   natural) · #72 (la paginación de aquí es su patrón) · DEC-192 · tally r13
   ts=2026-08-12T00:25:09.
+
+## DEC-205b (s317b) — FLIP DE INTENT_LLM EJECUTADO por Alberto y VERIFICADO; testigo XFAIL retirado; veredicto de producción pendiente de tráfico
+
+- **Fecha**: 12 ago 2026. **Impacto**: registro de estado (la decisión fue DEC-203b/204;
+  el flip es acción de Alberto).
+- **Verificación (Protocolo 1, nunca inferir)**: API GraphQL de Railway por SERVICIO —
+  `worker.INTENT_LLM='on'` junto a la config esperada (CONVERSATION_POLICY=impl,
+  ORCHESTRATOR_PATH=on, CHUNKS_TABLE=chunks_v2, RERANK_TOP_K=10,
+  GENERATOR_PROMPT_VARIANT=fidelity). El lever corre en producción: #70 etapa 2 servida.
+- **Mandatos de DEC-204 ejecutados**: testigo XFAIL del fall-through RETIRADO del
+  instrumento de transporte (su relevo vivo = el test de pegamento flag-ON + espejo
+  flag-off); fila INTENT_LLM estampada en `LEVER_DIGEST` (suite pasa a 0 xfailed).
+- **Pendiente declarado**: el veredicto CONDUCTA-EN-PRODUCCIÓN se estampa con la traza
+  real (sección `intent` de rag_trace) cuando haya tráfico — sin técnicos activos no
+  hay filas que leer. Nota de secuencia: Alberto declaró «PR239 mergeada» pero la PR
+  estaba OPEN (checks verdes, MERGEABLE) — el merge a main queda en su mano; el flip es
+  VÁLIDO igualmente (el lever vive en main desde PR #238).
+- **Relacionado**: DEC-203/203b/204/205.
