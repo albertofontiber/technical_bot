@@ -393,8 +393,10 @@ def test_cifras_de_control():
     # 117→118 (s316e): + orchestrator/turn_plan.py — el punto de decisión único del
     # despacho conversacional (fase A del rediseño DEC-200). PRODUCTO deliberado, no
     # instrumento: handle_message despacha lo que este módulo decide.
-    assert len(MODULOS) == 118, (
-        f"módulos en src/: {len(MODULOS)} (censo: 118). Si es PRODUCTO nuevo "
+    # 118→119 (s316g): + orchestrator/intent_llm.py — el clasificador del lever
+    # INTENT_LLM (DEC-203b): prompt/parser fuente única para gate y serving. Producto.
+    assert len(MODULOS) == 119, (
+        f"módulos en src/: {len(MODULOS)} (censo: 119). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."

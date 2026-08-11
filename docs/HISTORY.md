@@ -3238,3 +3238,26 @@ de saberlo es intentar que falle. Sol, por su lado, destapó que el anclaje del 
 tras un clarify llevaba tiempo siendo incoherente — texto nuevo con FK vieja — y eso
 salió de defender una divergencia del diseño con un rationale que resultó falso: la
 corrección acabó siendo mejor que lo que el diseño pedía. DEC-202.
+
+
+## s316g (11 ago 2026) — El lever LLM: un gate que corta, una adjudicación limpia, y la ronda que salvó la paridad
+
+El lever de intención llegó a su gate pre-registrado y el gate hizo su trabajo dos veces.
+Primero cortó a Haiku con un fallo claro (una compatibilidad legítima en inglés juzgada
+switch, 3/3 estable). Luego dejó a Sonnet a una etiqueta del GO — y esa etiqueta era el
+caso límite deliberado de la cohorte, con dos modelos discrepando 6/6 de la etiqueta del
+autor. La adjudicación fue de Alberto, sobre el mérito del caso y no sobre el resultado
+del gate; con ella, Sonnet quedó 40/40 y el gate se RE-CORRIÓ con el cliente servido y
+freeze de hashes para que el recibo lo genere el runner, no una re-puntuación a mano.
+
+La ronda 11 del dúo pagó su precio otra vez: Sol demostró que la exención de misma-marca
+se tragaba el caso mixto de la propia cohorte — el gate había medido un camino que el
+serving se saltaba, la clase de divergencia medido↔servido más peligrosa que hay — y
+Fable probó ejecutando que el único fabricante con guion rompía la exención, que el
+serving pagaba una cola de reintentos que el gate jamás midió, y que un flag ON mal
+configurado fallaba en silencio. Todo aplicado y re-verificado; el gate MT quedó
+re-congelado en 52/52 con la aserción anti-verde-vacuo mordiendo de verdad.
+
+El flip queda bloqueado por dos gates declarados (observabilidad en rag_trace + e2e del
+camino servido). El fall-through de #70 — la causa (2) que abrió todo esto hace tres
+días — tiene por fin su mecanismo medido esperando el interruptor. DEC-203/203b.

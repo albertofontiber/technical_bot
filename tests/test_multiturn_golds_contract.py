@@ -172,7 +172,7 @@ class _ReferencePolicy:
     window_seconds: int = 3600
 
     def resolve(self, *, query, turn_models, available_models, working_state,
-                now, rewrite=None) -> TurnResolution:
+                now, rewrite=None, intent=None) -> TurnResolution:
         ql = query.lower()
         real = tuple(m for m in turn_models if m not in NON_PRODUCT_CODES)
 
@@ -225,8 +225,25 @@ class _ReferencePolicy:
                 target_models=models, requires_llm_rewrite=True,
                 rationale="content_anaphor",
             )
-        # (5) simple within-window follow-up -> deterministic carry-forward, $0.
+        # (4b) s316g lever INTENT_LLM: con `intent` inyectado (el harness solo lo
+        # pasa en turnos que declaran stub), el clasificador decide — espejo del
+        # seam real: switch suelta el estado, compat confirma el carry, None cae
+        # al carry de hoy. La referencia DOCUMENTA la conducta esperada del seam.
         hint = ", ".join(models)
+        if intent is not None:
+            decision = intent(query, working_state)
+            if decision == "switch":
+                return TurnResolution(
+                    route=PolicyRoute.STANDALONE, query_for_retrieval=query,
+                    target_models=(), rationale="new_brand_topic_switch_llm",
+                )
+            if decision == "compat":
+                return TurnResolution(
+                    route=PolicyRoute.CARRY_FORWARD,
+                    query_for_retrieval=f"{query} (contexto: {hint})",
+                    target_models=models, rationale="brand_compat_confirmed_llm",
+                )
+        # (5) simple within-window follow-up -> deterministic carry-forward, $0.
         return TurnResolution(
             route=PolicyRoute.CARRY_FORWARD,
             query_for_retrieval=f"{query} (contexto: {hint})",
@@ -248,7 +265,7 @@ class _AlwaysStandalone:
     IS_STUB: bool = False
 
     def resolve(self, *, query, turn_models, available_models, working_state,
-                now, rewrite=None) -> TurnResolution:
+                now, rewrite=None, intent=None) -> TurnResolution:
         return TurnResolution(
             route=PolicyRoute.STANDALONE, query_for_retrieval=query,
             target_models=tuple(turn_models),

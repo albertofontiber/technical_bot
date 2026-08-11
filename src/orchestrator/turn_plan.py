@@ -102,13 +102,11 @@ _SWITCH_FRASE = re.compile(
     r"|\by\s+ahora\b",
     re.IGNORECASE,
 )
-_MARCAS_AMBIGUAS = frozenset({"fuego"})
-_VOCABULARIO_DOMINIO = frozenset({
-    "fuego", "incendio", "incendios", "alarma", "alarmas", "central", "centrales",
-    "detector", "detectores", "sirena", "sirenas", "pulsador", "pulsadores", "zona",
-    "zonas", "lazo", "bucle", "panel", "humo", "temperatura", "extincion", "extinción",
-    "evacuacion", "evacuación", "bateria", "batería", "aviso", "avisador",
-})
+# (s316g) El vocabulario vive en la capa interfaz (conversation_policy) — re-export
+# para los consumidores históricos (telegram_bot, tests); una sola definición.
+from .conversation_policy import (  # noqa: E402,F401 — re-export deliberado
+    _MARCAS_AMBIGUAS, _VOCABULARIO_DOMINIO,
+)
 
 MarcasDB = Sequence[str] | Callable[[], Sequence[str]] | None
 

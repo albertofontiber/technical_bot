@@ -555,7 +555,7 @@ flows:
           target_models: ["CAD-250"]
           requires_llm_rewrite: false
       - n: 2
-        query: "¿es compatible con equipos Hochiki?"
+        query: "¿es compatible con equipos Morley?"   # s316g: marca SERVIDA (Hochiki era inalcanzable: manufacturer_no_model la corta antes de la política — artefacto del harness)
         advance_seconds: 60
         expect:
           route: carry_forward
@@ -564,14 +564,16 @@ flows:
           expected_behavior: refuse-inference
         note: "Marca ajena SIN token-modelo, en ventana -> follow-up de compatibilidad: carry-forward de CAD-250 (NO switch, NO drop). Conducta esperada refuse-inference (cross-marca)."
       - n: 3
-        query: "¿y con Apollo?"
+        query: "¿y con Notifier?"                    # s316g: ídem
         advance_seconds: 30
+        stub_intent: compat
         expect:
           route: carry_forward
           target_models: ["CAD-250"]
           requires_llm_rewrite: false
           expected_behavior: refuse-inference
-        note: "Otra marca ajena sola -> carry-forward CAD-250."
+          rationale: brand_compat_confirmed_llm
+        note: "Otra marca ajena sola + lever ON (stub compat): el clasificador CONFIRMA compatibilidad -> carry con rationale del lever (la aserción de rationale + la de stub-llamado impiden el verde-vacuo — Fable r10)."
       - n: 4
         query: "¿y Detnov fabrica algo con más lazos?"
         advance_seconds: 30
@@ -582,6 +584,16 @@ flows:
         note: "Nombra la MISMA marca del estado (Detnov) -> exenta del brand-gate (no es switch) -> carry-forward CAD-250."
 
   # ---- CLASS 13: continuacion_dominio_limitrofe (gate de gas ignora estado) ---
+      - n: 5
+        query: "¿es compatible con detectores cofem?"
+        advance_seconds: 30
+        expect:
+          route: carry_forward
+          target_models: ["CAD-250"]
+          requires_llm_rewrite: false
+          expected_behavior: refuse-inference
+        note: "s316g (Fable r10): cofem está en BRAND_TOKENS pero NO en _MANUFACTURER_NAMES ni en DB -> SÍ llega a la rama B en producción (cadena verificada). El path marca-no-servida-alcanzable CONSERVA gold; sin stub -> conducta de hoy (carry), con o sin lever."
+
   - flow_id: mt14_gas_maniobra_con_estado
     clase: continuacion_dominio_limitrofe
     descripcion: "Continuación en ventana que menciona 'caldera de gas' (léxico del gate) NO se declina: carry-forward."
@@ -605,3 +617,38 @@ flows:
           requires_llm_rewrite: false
           expected_behavior: answer
         note: "'caldera de gas' está en el léxico fuera-de-dominio, PERO hay estado en ventana -> el gate de gas NO dispara (in_window se computa antes de C): carry-forward de CAD-250 (F4). Sin el fix: DECLINE indebido."
+
+  - flow_id: mt15_fallthrough_switch
+    clase: compatibilidad_marca
+    descripcion: "s316g (DEC-203): el fall-through de #70 — marca sola in-window que NO es compatibilidad sino cambio de tema; el lever (stub switch) suelta el estado."
+    conversation: mt15
+    reuses_golds: [hp001]
+    entity_source: "Morley = marca servida; el caso orgánico del fall-through (query_logs 9-ago) reformulado sobre estado NC-PF2 (Kidde)."
+    turns:
+      - n: 1
+        query: "¿cuáles son las especificaciones técnicas de la NC-PF2?"
+        advance_seconds: 0
+        expect:
+          route: standalone
+          target_models: ["NC-PF2"]
+          requires_llm_rewrite: false
+      - n: 2
+        query: "¿y en Morley cómo se hace el reset?"
+        advance_seconds: 60
+        stub_intent: compat
+        expect:
+          route: carry_forward
+          target_models: ["NC-PF2"]
+          requires_llm_rewrite: false
+          rationale: brand_compat_confirmed_llm
+        note: "Contra-gemelo PRIMERO (con el estado aún vivo): el MISMO texto con veredicto compat -> carry NC-PF2. Fija que la RUTA la decide el clasificador, no el texto. (El orden compat->switch evita la trampa de estado-vacío que la aserción anti-verde-vacuo cazó en el primer run de este gold.)"
+      - n: 3
+        query: "¿y en Morley cómo se hace el reset?"
+        advance_seconds: 30
+        stub_intent: switch
+        expect:
+          route: standalone
+          target_models: []
+          requires_llm_rewrite: false
+          rationale: new_brand_topic_switch_llm
+        note: "La causa (2) de #70: hoy esta consulta ARRASTRA NC-PF2 (brand_compatibility_in_window). Con el lever (stub switch) -> STANDALONE sin modelos: el gemelo-ON de política del testigo XFAIL del instrumento."

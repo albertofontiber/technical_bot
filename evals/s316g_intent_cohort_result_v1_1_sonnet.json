@@ -1,0 +1,468 @@
+{
+ "gate": "s316g intent cohort v1.1",
+ "modelo": "claude-sonnet-4-6",
+ "k": 3,
+ "freeze": {
+  "cohorte_sha256": "c19d041f71b29437",
+  "prompt_sha256": "6fa56fcda826b2cb",
+  "commit": "f278c40",
+  "paridad": "construir_intent_fn servido (timeout 6s, max_retries=0)"
+ },
+ "accuracy": 1.0,
+ "aciertos": 40,
+ "casos": 40,
+ "falsos_switch_en_compat": 0,
+ "indecisos": 0,
+ "latencia_ms": {
+  "p50": 1101,
+  "p95": 1663
+ },
+ "veredicto": "GO",
+ "umbrales_preregistrados": {
+  "accuracy": 0.9,
+  "falsos_switch_en_compat": 0
+ },
+ "fecha_utc": "2026-08-11T20:03:22+00:00",
+ "filas": [
+  {
+   "q": "¿es compatible con equipos Morley?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y con Notifier?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿es compatible con detectores cofem?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿cómo sé si funciona con Hochiki?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿por qué no conecta con Apollo?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿admite detectores Apollo?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "vamos a ver si es compatible con detectores Morley",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "vamos a ver, ¿es compatible con Morley?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿cuántos módulos Apollo soporta?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿es compatible con Hochiki? ¿y cómo se configura?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿vale con sirenas Kilsen?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿se puede usar con pulsadores Aritech?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿los detectores Siemens encajan con esta central?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿qué detectores Apollo puedo conectar al lazo?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿la sirena de Kilsen se puede dar de alta aquí?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿los aisladores de Notifier sirven para este lazo?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y la pasarela de Honeywell se integra?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿el mantenimiento de una Kidde es igual que el de esta?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "is it compatible with Apollo detectors?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "does it work with Hochiki bases?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "can I connect Aritech call points to this panel?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "which Hochiki bases fit this detector?",
+   "esperado": "COMPAT",
+   "votos": [
+    "COMPAT",
+    "COMPAT",
+    "COMPAT"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y en Morley cómo se hace el reset?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y con Morley cómo se hace el reset?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "en Morley, ¿cómo se silencia la sirena?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "y en morley como se hace el reset",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿Morley tiene app?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿Kidde saca centrales nuevas este año?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿qué garantía dan los equipos de Notifier?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y las centrales Morley qué tal son?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "háblame de las centrales de Notifier",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿cómo se programa una central Morley?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "me llaman por una avería en una central Morley, ¿qué reviso?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "ahora tengo delante un panel de Notifier",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "¿y si fuera una Morley, cómo lo haría?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "los Detnov me dan problemas, mejor dime cómo va el de Morley",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "switch to Morley",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "and on Morley, how do I reset it?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "tell me about Kidde panels",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  },
+  {
+   "q": "what about Morley, how is programming done there?",
+   "esperado": "SWITCH",
+   "votos": [
+    "SWITCH",
+    "SWITCH",
+    "SWITCH"
+   ],
+   "ok": true,
+   "falso_switch": false
+  }
+ ]
+}

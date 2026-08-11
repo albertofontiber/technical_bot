@@ -319,6 +319,63 @@ class DeterministicConversationPolicy:
                 return True
         return False
 
+    def _intent_brand_switch(self, query, matched_brands, working_state,
+                             intent, avail):
+        """Rama del lever (v2 §2-§4). None => sigue la cascada (carry de hoy).
+
+        Exención de MISMA MARCA por palabra PRIMARIA (F able r10, verificado:
+        `classify_model_manufacturer` devuelve el nombre COMPLETO -- 'Argus Security' --
+        y el token de la rama es la palabra primaria -- 'argus'; 8/26 fabricantes son
+        multi-palabra y la comparación directa fallaba). Multi-modelo: exime si el
+        token casa con CUALQUIERA de las marcas del estado. Tokens de
+        `_MARCAS_AMBIGUAS` ('fuego') NO disparan el juicio (la clase FUEGO de s316b).
+        Si ninguna marca del estado resuelve -> None (sin base de comparación: carry
+        de hoy, fail-open declarado). El error del LLM JAMÁS rompe el turno.
+        """
+        from .conversation_policy import _MARCAS_AMBIGUAS
+
+        tokens = [b for b in matched_brands if b not in _MARCAS_AMBIGUAS]
+        if not tokens:
+            return None
+        from ..rag.retriever import classify_model_manufacturer
+
+        marcas_estado = set()
+        for m in working_state.last_target_models:
+            mfr = classify_model_manufacturer(m)
+            if mfr:
+                # MISMA tokenizacion que _config_brand_tokens: primer tramo
+                # alfanumerico. (Fable r11, probado: 'Pepperl-Fuchs'.split()[0] daba
+                # 'pepperl-fuchs' vs token 'pepperl' -> el unico fabricante con guion
+                # NO eximia y un switch erroneo borraba estado de la MISMA marca.)
+                primario = re.split(r"[^a-z0-9]+", mfr.lower())
+                if primario and primario[0]:
+                    marcas_estado.add(primario[0])
+        if not marcas_estado:
+            return None
+        # Exencion SOLO si TODAS las marcas mencionadas son las del estado (Sol r11
+        # C1: con any(), 'los Detnov fallan, dime el de Morley' quedaba exento y el
+        # caso que el gate midio como SWITCH jamas llegaba al LLM en serving —
+        # paridad gate<->serving rota). Marca ajena presente => juzga el clasificador.
+        if all(tok in marcas_estado for tok in tokens):
+            return None                      # solo la(s) marca(s) propia(s): $0
+        try:
+            decision = intent(query, working_state)
+        except Exception:                    # noqa: BLE001 -- fail-open total
+            decision = None
+        if decision == "switch":
+            return TurnResolution(
+                route=PolicyRoute.STANDALONE,
+                query_for_retrieval=query,
+                target_models=(),
+                available_models=avail,
+                rationale="new_brand_topic_switch_llm",
+            )
+        if decision == "compat":
+            return self._carry_forward(
+                query, working_state.last_target_models, "brand_compat_confirmed_llm")
+        return self._carry_forward(
+            query, working_state.last_target_models, "brand_compat_failopen_llm")
+
     @staticmethod
     def _family_divergence(models: Sequence[str], ql: str) -> bool:
         """True when a state model is a known family AND the question hits its
@@ -352,6 +409,7 @@ class DeterministicConversationPolicy:
         working_state: WorkingState,
         now: datetime,
         rewrite: RewriteFn | None = None,
+        intent=None,
     ) -> TurnResolution:
         ql = query.lower()
         # A-filter: drop bus/protocol (NON_PRODUCT_CODES) AND normative/standards
@@ -385,6 +443,16 @@ class DeterministicConversationPolicy:
                 matched_brands, working_state.last_target_models
             )
             if same_mfr:
+                # (Sol r11 C1) same_mfr=True con marca AJENA co-presente («los Detnov
+                # fallan, mejor dime el de Morley»): el lever debe juzgar — sin esto,
+                # el fall-through conserva la marca vieja y el caso que el gate midió
+                # como SWITCH nunca llega al clasificador. Con intent=None (OFF):
+                # conducta histórica byte-idéntica.
+                if intent is not None and in_window:
+                    via_llm = self._intent_brand_switch(
+                        query, matched_brands, working_state, intent, avail)
+                    if via_llm is not None:
+                        return via_llm
                 pass  # naming your OWN brand is not a switch -> fall through to C/D.
             elif self._has_model_type_token(ql):
                 # Brand + concrete model code -> new product -> switch, drop state.
@@ -396,6 +464,19 @@ class DeterministicConversationPolicy:
                     rationale="new_brand_switch_model_token",
                 )
             elif in_window:
+                # (s316g lever INTENT_LLM, DEC-203) La conflacion de esta rama es la
+                # causa (2) de #70: "marca sola + in-window" NO siempre es
+                # compatibilidad ("¿y en Morley cómo se hace el reset?" es cambio de
+                # tema). Con `intent` inyectado (flag ON), un clasificador decide; con
+                # None (flag OFF / modo contrato / $0) el camino es BYTE-IDÉNTICO a
+                # hoy. 5 rondas de dúo establecieron que las reglas de vocabulario no
+                # convergen aquí; el gate de juicio (cohorte v1.1, GO adjudicado por
+                # Alberto) estableció que sonnet-4-6 sí: 40/40, 0 falsos SWITCH.
+                if intent is not None:
+                    via_llm = self._intent_brand_switch(
+                        query, matched_brands, working_state, intent, avail)
+                    if via_llm is not None:
+                        return via_llm
                 # Brand alone, in-window -> compatibility follow-up about the state
                 # product (e.g. "¿es compatible con Hochiki?") -> carry-forward.
                 return self._carry_forward(
@@ -534,6 +615,7 @@ def resolve_conversational_turn(
     working_state: WorkingState,
     now: datetime,
     rewrite: RewriteFn | None = None,
+    intent=None,
 ) -> tuple[TurnResolution, WorkingState]:
     """Compose ``extract_product_models`` + the policy into a resolved turn.
 
@@ -558,6 +640,7 @@ def resolve_conversational_turn(
         working_state=working_state,
         now=now,
         rewrite=rewrite,
+        intent=intent,
     )
     new_state = advance_working_state(
         working_state, resolution, query, None, now, available

@@ -18,6 +18,12 @@ Alberto CON validación legal (DPO / asesor). Ingeniería NO las supone.**
 
 ## Contexto que la firma debe fijar (transversal a todas las filas)
 
+- *(Nota s316g, sin decidir nada aquí)*: el lever INTENT_LLM (flag, default OFF) añade
+  un flujo NUEVO al mismo encargado LLM ya listado (Anthropic): la consulta del turno +
+  los modelos del producto en curso viajan a la API para clasificar la intención
+  (compat/switch). Mismo encargado, sin categorías nuevas de datos; la valoración de riesgo queda para la firma de la matriz (retención/contrato/base legal siguen [DECIDIR]);
+  se anota para que la matriz lo recoja cuando Alberto la firme. El [DECIDIR] de abajo
+  queda intacto.
 - **Responsable / encargado del tratamiento:** [DECIDIR] (Fontiber como responsable; canal Telegram y proveedores LLM como encargados).
 - **Base legal por defecto candidata:** [DECIDIR] (¿interés legítimo del servicio técnico? ¿ejecución de contrato? ¿consentimiento para memoria durable opt-in?).
 - **Aviso / información al interesado (técnico):** [DECIDIR] (texto y momento — p.ej. mensaje de bienvenida del bot).

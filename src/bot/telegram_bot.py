@@ -34,6 +34,7 @@ from telegram.ext import (
 from ..config import (
     TELEGRAM_BOT_TOKEN,
     OPENAI_API_KEY,
+    ANTHROPIC_API_KEY,
     RETRIEVAL_TOP_K,
     RERANK_TOP_K,
     LLM_MODEL,
@@ -372,6 +373,10 @@ def _inventario_fabricante(nombre: str) -> str | None:
 
 
 _marcas_db_cache: list[str] | None = None
+
+# (s316g) Cliente del clasificador de intencion: UNA construccion por proceso
+# (False = construccion fallida, no reintentar en caliente; un restart la reintenta).
+_INTENT_FN_CELL: dict = {}
 
 
 def _marca_en_consulta(query: str) -> str | None:
@@ -1099,9 +1104,57 @@ async def _process_query(
                 stored_state if isinstance(stored_state, WorkingState) else WorkingState()
             )
             f1_now = datetime.now(timezone.utc)
-            f1_resolution, f1_new_state = resolve_conversational_turn(
-                query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
-            )
+            # (s316g lever INTENT_LLM, DEC-203) Clasificador de intención para la rama
+            # ambigua de la política, MISMO patrón perezoso que el rewriter: import y
+            # construcción diferidos hasta que la rama lo llame de verdad ($0 si no).
+            # Flag default OFF = intent None = byte-idéntico. Con ON, la resolución
+            # entera se mueve a to_thread: el resolve corre en el event loop y una
+            # llamada síncrona de segundos lo bloquearía TODO (Sol r10 M2).
+            _intent_fn = None
+            if os.getenv("INTENT_LLM", "").strip().lower() in {"1", "on", "true"}:
+                def _lazy_intent(q_amb, ws):
+                    # celda a nivel PROCESO (Fable r11: por-turno reconstruia el
+                    # cliente httpx en cada turno = TLS frio por llamada; el gate
+                    # midio con cliente reutilizado — paridad medido<->servido).
+                    fn = _INTENT_FN_CELL.get("fn")
+                    if fn is None:
+                        # (Fable r11) el fallo de CONSTRUCCION (key mala, import)
+                        # seria tragado por el try de la rama del lever => flag ON
+                        # roto en SILENCIO justo en el rollout. Ruidoso y fail-open.
+                        try:
+                            from ..orchestrator.intent_llm import construir_intent_fn
+
+                            fn = construir_intent_fn(ANTHROPIC_API_KEY)
+                        except Exception as exc:      # noqa: BLE001
+                            logger.error("intent_llm: construccion FALLO (%s) — "
+                                         "flag ON degradado a conducta OFF",
+                                         type(exc).__name__)
+                            fn = False                # centinela: no reintentar
+                        _INTENT_FN_CELL["fn"] = fn
+                    if fn is False:
+                        return None                   # fail-open declarado
+                    return fn(q_amb, ws)
+
+                _intent_fn = _lazy_intent
+            if _intent_fn is not None:
+                import asyncio as _aio
+
+                f1_resolution, f1_new_state = await _aio.to_thread(
+                    resolve_conversational_turn,
+                    query, f1_prev_state, f1_now,
+                    rewrite=_lazy_rewrite, intent=_intent_fn,
+                )
+                _fn_real = _INTENT_FN_CELL.get("fn") or None
+                if _fn_real is not None and getattr(_fn_real, "ultima", None):
+                    # decisión → log estructurado (la extensión de rag_trace es
+                    # esquema CERRADO — Sol r10 M4 — y va como paquete aparte antes
+                    # del flip; hasta entonces la observabilidad es este log).
+                    logger.info("intent_llm: %s en %d ms",
+                                _fn_real.ultima["decision"], _fn_real.ultima["ms"])
+            else:
+                f1_resolution, f1_new_state = resolve_conversational_turn(
+                    query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
+                )
 
             if f1_resolution.route in (PolicyRoute.CLARIFY, PolicyRoute.DECLINE):
                 # $0 direct answer — NO retrieval, NO generation.

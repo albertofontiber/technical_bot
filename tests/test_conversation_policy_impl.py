@@ -479,7 +479,9 @@ def test_real_policy_satisfies_all_multiturn_golds():
     report = harness.run_contract(flows, policy=DeterministicConversationPolicy())
     assert report["policy_stub"] is False
     assert report["fail"] == 0, report["failures"]
-    assert report["pass"] == report["turns"] == 48
+    # (s316g) 48→52: mt13 gana t3-con-stub + t5-cofem; mt15 nuevo (contrato
+    # re-congelado con el lever — DEC-203)
+    assert report["pass"] == report["turns"] == 52
 
 
 def test_default_policy_is_stub_by_default_and_real_when_activated(monkeypatch):

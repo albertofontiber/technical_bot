@@ -5707,3 +5707,95 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Estado**: ✅ suites afectadas + completa en verde (cifra final en el commit) · dúo
   completo · Railway desplegará al mergear — smoke de producción = la primera consulta
   real. **Relacionado**: DEC-200/201, #70, TECH_DEBT #52.
+
+## DEC-203 (s316g) — Lever INTENT_LLM: diseñado (dúo r10), y el gate de juicio pre-registrado corta en NO-GO — con UNA divergencia que va a adjudicación de Alberto
+
+- **Fecha**: 11 ago 2026 (s316g). **Impacto**: ALTO (lever de serving conversacional;
+  NADA cableado — el gate cortó antes, que es su trabajo).
+- **Diseño v2 VIGENTE** (`evals/s316g_lever_intent_llm_propuesta_v2.md`): clasificador de
+  intención inyectado en la rama B con el patrón del rewriter (política sin I/O; None =
+  diferir = byte-idéntico; fail-open total; decisión trazada en `rag_trace`). Ronda 10
+  del dúo: NO-SÓLIDO ×2 con veredicto de dirección; 17 hallazgos integrados (cohorte
+  congelada con umbral ASIMÉTRICO; identidad por palabra-primaria — classify devuelve
+  nombre completo y 8/26 fabricantes son multi-palabra, verificado; guarda de colisión
+  para BRAND_TOKENS; parser/prompt especificados; cirugía del harness declarada con
+  aserciones anti-verde-vacuo; gold del path no-servida conservado con cofem; async
+  to_thread; mt15; DEC-102 rebajado a heurística de coste).
+- **EL GATE DE JUICIO SE CORRIÓ** (cohorte congelada de 40 casos ES/EN etiquetada ANTES
+  de medir, K=3, umbrales pre-registrados: falsos SWITCH en COMPAT = 0 · accuracy ≥90%):
+  - **Haiku 4.5**: 38/40 (95%) · **2 falsos SWITCH** → **NO-GO**. Uno es grave y claro:
+    «which Hochiki bases fit this detector?» 3/3 SWITCH — borraría contexto en una
+    compatibilidad legítima EN.
+  - **Sonnet 4.6** (mismo prompt, misma cohorte — cambiar de MODELO está permitido por
+    el pre-registro; re-tunear el prompt no): 39/40 (97,5%) · **1 falso SWITCH** →
+    **NO-GO por el umbral estricto**. p50 1.333 ms · p95 4.409 ms.
+- **La divergencia única de Sonnet es el caso LÍMITE deliberado de la cohorte**:
+  «¿el mantenimiento de una Kidde es igual que el de esta?» — etiquetado COMPAT por el
+  autor (comparativo que referencia el producto en curso), juzgado SWITCH por AMBOS
+  modelos con 6/6 votos estables. Dos lecturas defendibles: carry (la comparación
+  necesita el producto en curso) o switch (el sujeto informativo es el mantenimiento
+  Kidde). **El autor NO se re-etiqueta a sí mismo post-hoc (anti-gate-shopping): la
+  etiqueta va a ADJUDICACIÓN DE ALBERTO**, que es su rol en la disciplina de golds
+  (precedente hp011#2: los 3 modelos contra el gold ⇒ adjudicar el alcance del gold).
+- **Decisión pendiente de Alberto**: (a) adjudicar la etiqueta del caso límite — si
+  SWITCH es aceptable, Sonnet queda 40/40 y el lever sigue su secuencia (harness →
+  build → dúo del diff → e2e → flip) con Sonnet como clasificador y su latencia
+  declarada; (b) mantener el NO-GO y aparcar el lever (el fall-through queda como
+  residuo declarado con testigo XFAIL); (c) cohorte v2 re-congelada con tier de
+  «límite» excluido del umbral estricto.
+- **Gaps**: la cohorte son 40 casos, no producción; la latencia de Sonnet (p95 4,4 s) es
+  material para la rama y va declarada; el «19%» de población sigue pendiente de recibo
+  versionado (build).
+- **Estado**: recibos `evals/s316g_intent_cohort_result_v1{,_sonnet}.json` · nada
+  cableado · flag inexistente aún. **Relacionado**: DEC-200/201/202, #70 etapa 2,
+  DEC-126 (anti-gate-shopping), DEC-154 (métrica MT propia).
+
+
+## DEC-203b (s316g) — Lever INTENT_LLM CONSTRUIDO tras el GO adjudicado; el flip queda BLOQUEADO por dos gates declarados
+
+- **Fecha**: 11 ago 2026 (s316g, cierre). **Impacto**: ALTO (rama de la política + flag
+  de transporte; default OFF byte-idéntico — verificado por ejecución y por tests).
+- **La adjudicación de Alberto (cierra DEC-203)**: la etiqueta del caso límite
+  («¿el mantenimiento de una Kidde es igual que el de esta?») pasa a SWITCH — «la
+  respuesta-switch no es dañina». Cohorte v1.1 con la nota de adjudicación EN el YAML
+  (precedente hp011#2: se adjudica el alcance del gold, no se fuerza al juez). Con ella:
+  **Sonnet 4.6 GO 40/40 · 0 falsos SWITCH**, primero re-puntuado (mismos votos, sin
+  re-tirar dados) y luego RE-CORRIDO por el runner con PARIDAD TOTAL con lo servido
+  (`construir_intent_fn`: timeout 6 s, max_retries=0) y freeze sha256 de
+  cohorte+prompt+commit en el recibo: **p50 1.101 ms · p95 1.663 ms**
+  (`evals/s316g_intent_cohort_result_v1_1_sonnet.json`). Haiku queda NO-GO por méritos
+  (falso SWITCH claro en EN), independiente de la adjudicación.
+- **Qué se construyó** (v2 §secuencia, pasos 2-3): `IntentFn` en las 3 superficies del
+  precedente rewrite · rama del lever en B con exención de misma-marca por token
+  primario (tokenización de `_config_brand_tokens` — el guion de Pepperl-Fuchs incluido)
+  y exclusión de `_MARCAS_AMBIGUAS` · `intent_llm.py` (prompt/parser ÚNICA fuente,
+  importada por el gate) · flag `INTENT_LLM` default OFF con construcción perezosa a
+  nivel PROCESO, fallo de construcción RUIDOSO (centinela, no reintento en caliente) y
+  resolución en `to_thread` con ON · harness MT con `stub_intent` por turno + aserción
+  de-stub-llamado + `rationale` (la aserción anti-verde-vacuo MORDIÓ en el primer run
+  de mt15 — un gold mal diseñado — y en un probe de Fable) · golds: mt13 con marcas
+  SERVIDAS + gold cofem (path no-servida-alcanzable) + mt15 (gemelos compat/switch)
+  → **gate MT re-congelado 52/52**.
+- **Ronda 11 del dúo (Sol 7 · Fable 6+3, 0 falsos positivos, TODO aplicado)**. Los que
+  cambiaron el build: (Sol C1, verificado ejecutando) la exención `any()` se tragaba el
+  caso mixto «los Detnov fallan, dime el de Morley» — el gate midió un camino que el
+  serving SALTABA; fix: exención `all()` + lever alcanzable desde la rama `same_mfr`
+  con marca ajena presente, con tests. (Fable M1, probado) `split()[0]` fallaba con el
+  único fabricante con GUION. (Fable M2) el gate había medido con cliente reutilizado y
+  el serving construía cliente por turno con max_retries=2 (~19 s de cola jamás medida)
+  → cliente a nivel proceso + max_retries=0 + gate en paridad. (Fable M3) el fallo de
+  construcción del cliente era un no-op SILENCIOSO con el flag ON.
+- **EL FLIP QUEDA BLOQUEADO** (Sol C3, declarado en el v2): (1) paquete de observabilidad
+  en `rag_trace` (esquema cerrado: builder+validador+allowlist+tests; hasta entonces,
+  log estructurado); (2) e2e del camino servido (cliente frío, timeout, fail-open) con
+  recibo. Sin ambos, `INTENT_LLM` no se enciende en Railway.
+- **Gaps**: cohorte = 40 casos (cota estadística declarada: 0/22 falsos SWITCH acota
+  ~14% con confianza razonable; el residuo lo tolera la ASIMETRÍA de daños — soltar
+  contexto de más es recuperable, responder de la marca equivocada es engañoso — y lo
+  medirá la traza); población de la rama = cota 13/69 = 18,8% versionada
+  (`evals/s316g_poblacion_rama_b_v1.json`, muestra no representativa de técnicos);
+  asimetría Honeywell (Fable, especulativo) declarada sin medir; RGPD anotado sin
+  decidir ([DECIDIR] intacto).
+- **Estado**: suites adyacentes 129 passed/1 xfailed · MT 52/52 · suite completa en
+  verificación final. **Relacionado**: DEC-203, DEC-200/201/202, #70 etapa 2 (el
+  testigo XFAIL se retira cuando Alberto flippee tras los dos gates).
