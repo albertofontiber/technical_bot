@@ -16,12 +16,16 @@ rollback — los dos ejes donde el v2 volvía a sobre-afirmar.
    restricción de rutas en voz viven en el CONTRATO, no en el orden de llamadas. Cubre
    también los replies no-capturados que siguen el camino normal.
 
-2. **El léxico de marcas es un HECHO PERMANENTE, no a demanda** (Sol C2 · Fable 5-bis):
-   el shell suministra SIEMPRE `lexico = {marcas_servidas (lista DB cacheada),
-   marcas_ambiguas, alias}` — sin él, la primera pasada no puede ni reconocer «Xtralis»
-   (el reconocimiento mismo usa la lista dinámica: `telegram_bot.py:300-309`). El matching
-   texto↔léxico ocurre EN el plan (paso 1, puro); el shell solo trae la lista. Los hechos
-   a demanda quedan para lo por-consulta: `marca_de_modelo(M)`, `inventario(X)`.
+2. **El léxico de marcas es un HECHO A DEMANDA con necesidad computada PURAMENTE**
+   (§enmendado en ronda 8 — el build lo implementó así y Sol confirmó que el «SIEMPRE»
+   de la versión anterior de este punto era un sobre-claim que CHOCABA con la
+   restricción pagada de s316c: cero httpx síncrono en el camino caliente — 0,54 s en
+   frío por mensaje; el test `test_guardia_no_paga_db_en_el_camino_caliente` la fija).
+   La primera pasada DETERMINA con regexes puros si la resolución dinámica hará falta
+   (`_necesita_lexico_para_invalidar` + la condición del 5-bis) y solo entonces pide
+   `lexico_marcas`; el matching texto↔léxico ocurre EN el plan. La caché de proceso y
+   su semántica (fallo NO cacheado) son las de hoy. Los demás hechos a demanda:
+   `marca_de_modelo(M)`, `marca_servida(X)`.
 
 3. **Flujo de datos fijado: la política resuelve DESDE el estado post-plan** (Sol C3 — el
    más peligroso): el despachador aplica `plan.transicion` ANTES de invocar la resolución
@@ -89,7 +93,17 @@ la eliminación del seam Haiku anticipatorio.
 
 - Rondas 6 y 7 del dúo completas (Sol + Fable 5, pin restaurado). Veredicto de ronda 7:
   arquitectura sostenida; hallazgos = precisión de claims y alcance → este v3.
-- **Siguiente gate**: el BUILD de la fase A lleva su propio dúo SOBRE EL DIFF (la lección
-  de s316b: el diseño sólido no exime al código — FUEGO apareció en el build, no en el
-  diseño). No se cablea nada sin ese paso.
-- Pendiente de Alberto: GO para construir la fase A.
+- **Fase A CONSTRUIDA y adjudicada (ronda 8)**: GO de Alberto 11-ago → build → dúo sobre
+  el diff. **Fable: SÓLIDO con la equivalencia MEDIDA** (batería diferencial de 32 casos
+  contra HEAD en un worktree: 0 divergencias de conducta; 72 combinaciones del predicado
+  perezoso exactas; templates byte-idénticos). Sol: NO-SÓLIDO de contratos, los 2 críticos
+  aplicados (campos del plan load-bearing; léxico enmendado §2 — el build tenía razón).
+  Los 2 medios de Fable aplicados: short-circuit de `marca_servida` como dependencia
+  DECLARADA del resolver (la versión fase-A de la lección FUEGO: el sobre-fetch añadía
+  roundtrip y superficie de fallo al camino más caliente) y el test de mecanicidad AST
+  construido (mordió dos veces al nacer). Nota para el checklist de fase B (Fable m6):
+  la guardia resuelve la lista FRESCA por turno y el léxico del plan usa la caché de
+  proceso — al retirar la guardia, la invalidación pasaría a caché-estancada; decidir
+  la disciplina de caché ANTES de retirar.
+- **Fase B: PENDIENTE** (retirar guardia −1 y `last_detected_models`, `transicion_basica`,
+  izar los 2 writes F1, actualizar los tests pineados del instrumento).

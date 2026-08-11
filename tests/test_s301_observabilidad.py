@@ -150,7 +150,11 @@ def test_las_consultas_loggean_su_ruta_y_la_cortesia_NO():
     for ruta in ("catalog_shortcut", "manufacturer_mismatch",
                  "manufacturer_no_model", "clarify", "decline"):
         assert f'"{ruta}"' in fuente, f"consulta sin log de ruta: {ruta}"
-    assert fuente.count('route="manufacturer_no_model"') == 2   # con y sin modelo
+    # (s316e, fase A DEC-200) los DOS call-sites históricos (con y sin modelo) se
+    # UNIFICARON en un solo ejecutor del despachador — la ruta la decide el plan
+    # (turn_plan.plan_turn emite marca_no_servida en ambas ramas; equivalencia
+    # fijada en test_s316e_fase_a_equivalencia con un caso por rama).
+    assert fuente.count('route="manufacturer_no_model"') == 1
     for cortesia in ("greeting", "thanks", "bye"):
         assert f'route="{cortesia}"' not in fuente, (
             f"la cortesía {cortesia} se está loggeando: el aviso v7 promete que NO"

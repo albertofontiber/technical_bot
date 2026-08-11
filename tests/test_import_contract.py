@@ -390,8 +390,11 @@ def test_cifras_de_control():
     # rerank_pool_coverage en pool_selection (motor compartido) + obligation_warning
     # (reserva viva); el residual queda como lane vetada en cuarentena. Cero código
     # nuevo: solo bloques movidos.
-    assert len(MODULOS) == 117, (
-        f"módulos en src/: {len(MODULOS)} (censo: 117). Si es PRODUCTO nuevo "
+    # 117→118 (s316e): + orchestrator/turn_plan.py — el punto de decisión único del
+    # despacho conversacional (fase A del rediseño DEC-200). PRODUCTO deliberado, no
+    # instrumento: handle_message despacha lo que este módulo decide.
+    assert len(MODULOS) == 118, (
+        f"módulos en src/: {len(MODULOS)} (censo: 118). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."

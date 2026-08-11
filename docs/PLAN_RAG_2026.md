@@ -26,7 +26,7 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s316c — 10 ago 2026, madrugada)
+## Estado actual (s316e — 11 ago 2026)
 
 **La sesión más larga del proyecto: reconciliación post-cloud, el dúo cortando tres diseños
 seguidos, y dos deudas grandes cerradas contra producción.**
@@ -51,13 +51,13 @@ seguidos, y dos deudas grandes cerradas contra producción.**
    política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
    es universal.
 
-**Qué sigue (s316d)**: (a) **GO de Alberto para la fase A del rediseño** «punto de
-decisión único» (v3 adjudicado por el dúo ×2 rondas, arquitectura sostenida —
-`evals/s316_rediseno_punto_decision_unico_v3.md`, DEC-200); el build llevará dúo sobre
-el DIFF; (b) tras fase B: el lever LLM de intención en la rama ambigua (diseño+gate MT
-propios) — cierra el fall-through de #70 (etapa 2 re-planteada; los golds de compat se
-re-harán con marcas SERVIDAS); (c) **#73** puerta de revisión en ingesta (los 2 manuales
-Casmar resultaron ediciones VIEJAS → nada que ingestar); (d) **#72** cliente HTTP común;
+**Qué sigue (s316e)**: (a) **fase B del rediseño** (retirar guardia −1 y
+`last_detected_models`, `transicion_basica` con el quirk documentado, izar los 2 writes
+F1 al despachador, actualizar los tests pineados del instrumento, y decidir la
+disciplina de caché — Fable m6); la fase A está CONSTRUIDA, medida contra HEAD (0/32
+divergencias) y adjudicada (DEC-201); (b) tras fase B: el lever LLM de intención en la
+rama ambigua (cierra el fall-through de #70; golds de compat re-hechos con marcas
+SERVIDAS); (c) **#73** puerta de revisión en ingesta; (d) **#72** cliente HTTP común;
 (e) rapidez fase 2 con ~1 semana de timings; (f) sentada B2 (Alberto); (g) #71.
 
 ### s315 (9 ago 2026) — resumen

@@ -5619,3 +5619,45 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   XFAIL hasta el lever LLM post-rediseño.
 - **Estado**: v3 listo para GO de Alberto. **Relacionado**: DEC-197/198/199, TECH_DEBT
   #70 etapa 2, #72, #73.
+
+
+## DEC-201 (s316e) — Fase A del rediseño CONSTRUIDA y adjudicada: la equivalencia no se afirmó, se MIDIÓ
+
+- **Fecha**: 11 ago 2026 (s316e). **Impacto**: ALTO (refactor del despacho del bot vivo;
+  cero cambio de conducta — y eso es un dato medido, no una promesa).
+- **Qué se construyó** (GO de Alberto sobre el v3, DEC-200): `src/orchestrator/turn_plan.py`
+  — el punto de decisión ÚNICO — con el contrato de hechos (dos pasadas puras; léxico a
+  demanda con necesidad computada puramente; short-circuit de `marca_servida` como
+  dependencia DECLARADA del resolver) + `handle_message` reescrito como pre-pasos
+  declarados → plan → despachador tonto cuyos campos (`typing`, `log_consulta`) son
+  LOAD-BEARING. La guardia −1 sigue viva (fuente activa de fase A) pero DELEGA en el
+  predicado del plan: una implementación, drift imposible. 13 returns entrelazados → 3
+  pre-pasos + 8 ejecutores censados.
+- **El método que hizo la diferencia**: los 19 tests de equivalencia se escribieron ANTES
+  del refactor y salieron verdes contra el código viejo — fijaron la conducta como espec.
+  Y el dúo de build lo verificó con hierro: **Fable dio el primer SÓLIDO de la sesión**
+  con una batería diferencial propia de 32 casos contra HEAD en un worktree (0
+  divergencias), 72 combinaciones del predicado perezoso y comparación AST de templates.
+- **Los hallazgos del dúo de build, TODOS aplicados** (Sol 6 · Fable 6, 0 falsos
+  positivos): campos del plan decorativos → load-bearing con test; sobre-fetch de
+  `marca_servida` en el camino más caliente (roundtrip extra + un blip de red mataba
+  turnos que jamás tocaban esa función — la versión fase-A de la lección FUEGO) →
+  short-circuit declarado con test espía; test de mecanicidad AST declarado-pero-inexistente
+  → construido (mordió 2 veces al nacer); tests del plan contra snapshots PRE-guardia
+  (el enmascaramiento de fase A, ahora ejercitado); `Hecho` validado (tokens, no texto);
+  duplicado sombreante de `_FEEDBACK_PATTERNS` fuera; ancla vacua de DEC-059 corregida;
+  observabilidad del predicado restaurada; rama voz muerta eliminada; léxico del v3
+  enmendado (el build tenía razón; el «SIEMPRE» del doc chocaba con la restricción
+  pagada de coste).
+- **Censos actualizados con justificación en el propio assert**: módulos de src/ 117→118
+  (turn_plan = producto deliberado); call-sites de `manufacturer_no_model` 2→1 (los dos
+  sitios históricos UNIFICADOS en un ejecutor — el propósito del rediseño); censo de
+  ramas terminales 13/3 → 3/3/8 con su historia.
+- **Gaps**: fase B PENDIENTE (retirar guardia y clave legacy, `transicion_basica`, izar
+  los 2 writes F1, actualizar tests pineados del instrumento, y la decisión de disciplina
+  de caché que Fable anotó — al retirar la guardia, la invalidación pasaría de
+  lista-fresca a caché-estancada); la transición del plan corre ENMASCARADA hasta
+  entonces; el fall-through de #70 sigue XFAIL (se cierra con el lever LLM post-fase-B).
+- **Estado**: ✅ suite **3.720 passed / 46 skipped / 1 xfailed** (+27 tests nuevos) ·
+  dúo de build completo · tally regla C con los veredictos cruzados.
+  **Relacionado**: DEC-200 (el diseño), DEC-197/198 (instrumento y guardia), #70.
