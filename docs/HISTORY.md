@@ -3220,3 +3220,21 @@ dos campos del plan eran decorativos y que un test declarado en un docstring no 
 Todo aplicado; el test de mecanicidad mordió dos veces mientras nacía, que es la mejor
 señal de que no es de pelusa. Suite final: 3.720 en verde. La fase B queda pendiente con
 su checklist afilado. DEC-201.
+
+
+## s316f (11 ago 2026, tarde) — La fase B cierra el rediseño, y el crítico de la ronda fue contra el testigo, no contra el código
+
+La fase B retiró lo que la fase A había dejado andamiado: fuera la guardia de grupo −1,
+fuera las claves legacy, un solo estado conversacional con un solo escritor y el rollback
+de CONVERSATION_POLICY conservando el carry-forward — el escenario que en la ronda 6 del
+diseño estaba roto en silencio.
+
+Lo notable de la ronda 9 es dónde mordió: Fable ejecutó el control de vacuidad de mi
+testigo e2e y demostró que daba verde SIN carry — «tensión» no está en PCI_TERMS, así que
+la consulta vaga iba a RAG con o sin contexto. El código era correcto (lo verificó
+espiando build_turn_request); el testigo no. Es la misma lección del instrumento de
+transporte, en espejo: un test que no puede fallar no es una garantía, y la única forma
+de saberlo es intentar que falle. Sol, por su lado, destapó que el anclaje del feedback
+tras un clarify llevaba tiempo siendo incoherente — texto nuevo con FK vieja — y eso
+salió de defender una divergencia del diseño con un rationale que resultó falso: la
+corrección acabó siendo mejor que lo que el diseño pedía. DEC-202.

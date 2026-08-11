@@ -113,6 +113,30 @@ _VOCABULARIO_DOMINIO = frozenset({
 MarcasDB = Sequence[str] | Callable[[], Sequence[str]] | None
 
 
+def transicion_basica(estado, modelos, query, respuesta, ts):
+    """Regimen STUB (rollback de CONVERSATION_POLICY): la regla legacy expresada como
+    transicion PURA sobre el estado UNICO. Fase B retira `last_detected_models` y
+    `last_query_time`; el carry-forward legacy lee `mt_working_state` y esta funcion
+    lo escribe tras cada turno RAG.
+
+    QUIRK REPRODUCIDO A CONCIENCIA (Fable r7, v3 punto 6): `last_turn_at` se refresca
+    en TODO turno RAG, con o sin modelos detectados -- igual que el `last_query_time`
+    historico -- asi que un contexto expirado puede RESUCITAR si un turno sin modelos
+    cae dentro de la ventana. F1 arreglo ese quirk a conciencia en SU regimen
+    (advance_working_state); el rollback promete fidelidad al legacy, quirk incluido:
+    importar el fix aqui seria un cambio de conducta silencioso justo donde se promete
+    equivalencia. Test dedicado del quirk + de la ventana."""
+    from .conversation_policy import WorkingState
+
+    previos = tuple(getattr(estado, "last_target_models", ()) or ())
+    return WorkingState(
+        last_target_models=tuple(modelos) if modelos else previos,
+        last_query=query,
+        last_answer_excerpt=(respuesta or "")[:500],
+        last_turn_at=ts,
+    )
+
+
 def _lista(marcas_db: MarcasDB) -> Sequence[str] | None:
     """Resuelve el proveedor perezoso; None = lista no disponible (fail-open)."""
     if callable(marcas_db):
@@ -225,7 +249,10 @@ class Hecho:
     def __post_init__(self):
         if self.tipo not in _TIPOS_HECHO:
             raise ValueError(f"tipo de hecho desconocido: {self.tipo!r}")
-        if len(self.arg) > 64 or "\n" in self.arg:
+        if len(self.arg) > 64 or "\n" in self.arg or len(self.arg.split()) > 2:
+            # (Sol fase-B M3) el tope de longitud solo no bastaba: «pasemos a Morley»
+            # son 17 chars. Un token de marca/modelo real tiene a lo sumo 2 palabras
+            # (System Sensor, Argus Security); 3+ palabras = frase colada.
             raise ValueError("el arg de un hecho es un TOKEN corto, no texto libre")
 
 
