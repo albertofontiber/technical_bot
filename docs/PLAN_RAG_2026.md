@@ -51,11 +51,14 @@ seguidos, y dos deudas grandes cerradas contra producción.**
    política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
    es universal.
 
-**Qué sigue**: (a) **#70 etapa 2** (el fall-through: `brand_compatibility_in_window`
-conflaciona compatibilidad con cambio de tema); (b) ingesta de los **2 manuales Casmar**
-(`MI_AS236x`, `MI_KIDDE_2X_A_LB`) que siguen en staging — Alberto descartó las 8 hojas de
-datos; (c) **#72** (cliente HTTP común); (d) rapidez fase 2 con ~1 semana de timings;
-(e) sentada B2 (de Alberto); (f) #71 (disclaimer como obligación de evidencia).
+**Qué sigue (s316d)**: (a) **GO de Alberto para la fase A del rediseño** «punto de
+decisión único» (v3 adjudicado por el dúo ×2 rondas, arquitectura sostenida —
+`evals/s316_rediseno_punto_decision_unico_v3.md`, DEC-200); el build llevará dúo sobre
+el DIFF; (b) tras fase B: el lever LLM de intención en la rama ambigua (diseño+gate MT
+propios) — cierra el fall-through de #70 (etapa 2 re-planteada; los golds de compat se
+re-harán con marcas SERVIDAS); (c) **#73** puerta de revisión en ingesta (los 2 manuales
+Casmar resultaron ediciones VIEJAS → nada que ingestar); (d) **#72** cliente HTTP común;
+(e) rapidez fase 2 con ~1 semana de timings; (f) sentada B2 (Alberto); (g) #71.
 
 ### s315 (9 ago 2026) — resumen
 
