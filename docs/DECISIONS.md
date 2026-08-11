@@ -5799,3 +5799,59 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Estado**: suites adyacentes 129 passed/1 xfailed · MT 52/52 · suite completa en
   verificación final. **Relacionado**: DEC-203, DEC-200/201/202, #70 etapa 2 (el
   testigo XFAIL se retira cuando Alberto flippee tras los dos gates).
+
+## DEC-204 (s316h) — Los DOS gates del flip de INTENT_LLM cerrados: sección `intent` en el esquema cerrado de rag_trace + e2e del camino servido; el flip queda EN MANOS DE ALBERTO
+
+- **Fecha**: 11 ago 2026 (s316h). **Impacto**: MEDIO (esquema de telemetría persistida +
+  refactor del seam del handler; conducta del bot INTACTA — flag OFF sigue byte-idéntico,
+  y el gate MT + el instrumento de transporte lo verifican).
+- **Gate 1 (observabilidad)**: sección `intent` REQUERIDA en `rag_serving_trace_v1`
+  (`src/rag/runtime_trace.py`): `{status ∈ {not_wired, off, not_invoked, invoked,
+  construction_failed}, decision ∈ {none, compat, switch, fail_open}, latency_ms ≤ 60 s}`
+  con COHERENCIA CERRADA (sin invocación ⇒ none/0 — coerción en builder, RECHAZO en
+  validador; invocado ⇒ decisión obligatoria: `fail_open` ES decisión). **`not_wired` ≠
+  `off`** (Sol r12 M1): «telemetría sin cablear» no puede disfrazarse de «lever apagado» —
+  la distinción que `measured` da a `retrieval` (s306) y `timings` (s315); el handler
+  estampa `off` EXPLÍCITO. **Captura POR TURNO**: `_intent_seam(intent_obs)` extraído del
+  handler; el wrapper estampa en el hilo de la llamada — la lectura de `fn.ultima`
+  (estado compartido de proceso, carrera entre turnos concurrentes) SALE del camino
+  servido; `ultima` queda para el gate de juicio (secuencial). Token de esquema se
+  mantiene v1 (precedente s306/s315); el riesgo de acreción queda declarado en
+  **TECH_DEBT #74** (Sol r12 M3 — fix cuando exista consumidor de re-validación).
+- **Gate 2 (e2e servido)**: `scripts/s316h_intent_e2e.py` ejecuta LA composición servida
+  (el `_intent_seam` del bot + resolve real con `rewrite` centinela + to_thread +
+  build/validate de la traza) — recibo `evals/s316h_intent_e2e_result_v1.json` **PASS
+  6/6 legs**: off byte-inerte · frío (TLS real + ATESTACIÓN de config servida: timeout
+  6 s / max_retries 0, criterio de PASS — Sol r12 M2) · caliente (cliente de proceso) ·
+  timeout ⇒ fail-open inmediato sin cola de retries · key mala sin excepción ·
+  construcción fallida ruidosa + centinela + trazada. Criterio PASS = SOLO mecánica
+  (canarios de la cohorte congelada 5/5, INFORMATIVO — anti-gate-shopping). Recibo con
+  PROVENIENCIA: `artefactos_sha256` de los 6 ficheros ejecutados + `git_estado`; la
+  corrida final se genera SOBRE el commit (Sol r12 C2 + Fable F3).
+- **El pegamento del handler quedó gateado EN CI** (Sol r12 C1, el hallazgo que cambió el
+  diseño): el e2e no conduce `handle_message`, así que la costura
+  flag→seam→política→build site→log_query se fija en el instrumento de transporte
+  (`test_lever_intent_atraviesa_el_pegamento_del_handler` + espejo flag-off): la clase
+  «el gate mide un camino que el serving salta» (r11) no puede volver sin CI en rojo.
+  Bonus del e2e: su 1ª corrida cazó que el rationale servido lleva prefijo de ruta
+  (`carry_forward:brand_compat_confirmed_llm`) — un símil habría pasado.
+- **Dúo r12 (Sol 6 · Fable 5, convergentes, 0 contradicciones, 0 FP, TODO aplicado)**:
+  además de lo anterior — cifras de la prosa re-ancladas al recibo (F1/menor: la
+  propuesta citaba la corrida FAIL previa; corregido NO re-copiando números), `rewrite`
+  centinela (F2: el handler siempre pasa rewrite — paridad de firma), supuestos
+  documentados (F4: el parser estricto es el guard anti-drift del enum; F5: celda sin
+  lock = last-write-wins benigno). Fable verificó a favor la mecánica («la coherencia
+  builder+validador es real y CERRADA»). Tally: regla C completa, adjudicado.
+- **Alternativas descartadas**: traza en clarify/decline (toda decisión invocada resuelve
+  retrieve; `not_invoked` no lleva información de decisión) · telemetría vía `fn.ultima`
+  (carrera) · bump del token a v2 (aparato sin consumidor — #74 lo vigila) · e2e vía
+  Telegram real (el seam extraído ejecuta el código del handler sin transporte vivo).
+- **Gaps declarados**: filas clarify/decline sin sección intent · leg construcción con
+  inyección declarada de fallo · leg timeout con constructor real a 0,05 s primado en
+  celda (el default servido lo atesta el leg frío) · latencia del wrapper = turno real
+  (incluye `contexto_del_estado`).
+- **EL FLIP ES DE ALBERTO** (Railway: `INTENT_LLM=on`; los dos gates de DEC-203b están
+  cerrados). Tras el flip: retirar el testigo XFAIL del fall-through y estampar el
+  veredicto del lever en `LEVER_DIGEST` con la traza real de la 1ª semana.
+- **Relacionado**: DEC-203/203b, s306 (`retrieval`), s315 (`timings`), TECH_DEBT #74,
+  ref tally `evals/adversarial_review_log.jsonl` ts=2026-08-11T23:11:00.

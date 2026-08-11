@@ -379,6 +379,65 @@ _marcas_db_cache: list[str] | None = None
 _INTENT_FN_CELL: dict = {}
 
 
+def _intent_seam(intent_obs: dict):
+    """(s316h — gates del flip, DEC-203b) Seam INTENT_LLM del transporte.
+
+    Extraido del handler para que el e2e del gate 2 ejecute ESTE codigo, no un
+    simil (leccion r11: paridad medido<->servido). Devuelve el IntentFn perezoso
+    con el flag ON, o None con OFF (= intent ausente en el resolve, byte-identico).
+
+    `intent_obs` es POR TURNO y es el UNICO canal de telemetria del lever hacia
+    la seccion `intent` de rag_trace (gate 1): el wrapper mide y estampa aqui, en
+    el mismo hilo de la llamada. La lectura post-resolve de `fn.ultima` (atributo
+    compartido a nivel proceso) sale del camino servido: dos turnos concurrentes
+    podian pisarse la decision. `ultima` queda para el gate de juicio (secuencial).
+    """
+    if os.getenv("INTENT_LLM", "").strip().lower() not in {"1", "on", "true"}:
+        intent_obs.update(status="off", decision="none", latency_ms=0)
+        return None
+    intent_obs.update(status="not_invoked", decision="none", latency_ms=0)
+
+    def _lazy_intent(q_amb, ws):
+        # celda a nivel PROCESO (Fable r11: por-turno reconstruia el cliente
+        # httpx en cada turno = TLS frio por llamada; el gate midio con cliente
+        # reutilizado — paridad medido<->servido). Sin lock a proposito (Fable
+        # r12): dos primeros turnos concurrentes pueden construir dos clientes;
+        # last-write-wins es benigno y un lock seria peso en el camino caliente.
+        fn = _INTENT_FN_CELL.get("fn")
+        if fn is None:
+            # (Fable r11) el fallo de CONSTRUCCION (key mala, import) seria
+            # tragado por el try de la rama del lever => flag ON roto en
+            # SILENCIO justo en el rollout. Ruidoso y fail-open.
+            try:
+                from ..orchestrator.intent_llm import construir_intent_fn
+
+                fn = construir_intent_fn(ANTHROPIC_API_KEY)
+            except Exception as exc:      # noqa: BLE001
+                logger.error("intent_llm: construccion FALLO (%s) — "
+                             "flag ON degradado a conducta OFF",
+                             type(exc).__name__)
+                fn = False                # centinela: no reintentar
+            _INTENT_FN_CELL["fn"] = fn
+        if fn is False:
+            intent_obs["status"] = "construction_failed"
+            return None                   # fail-open declarado
+        t0 = _time.perf_counter()
+        decision = fn(q_amb, ws)
+        # Todo lo que no es compat/switch se estampa fail_open porque ESO es lo
+        # que la politica sirve (carry). El parser ESTRICTO de intent_llm ya
+        # reduce el enum a {compat, switch, None}; un token nuevo del clasificador
+        # jamas llega aqui sin tocar ese parser (Fable r12: el guard anti-drift
+        # es el parser, no esta coercion).
+        intent_obs.update(
+            status="invoked",
+            decision=decision if decision in ("compat", "switch") else "fail_open",
+            latency_ms=int((_time.perf_counter() - t0) * 1000),
+        )
+        return decision
+
+    return _lazy_intent
+
+
 def _marca_en_consulta(query: str) -> str | None:
     """Shell de `turn_plan.marca_en_texto` con la cache de proceso de la lista DB
     (semantica de hoy: el fallo de fetch NO se cachea -- el siguiente intento
@@ -1074,6 +1133,11 @@ async def _process_query(
         f1_prev_state = None
         f1_new_state = None
         f1_now = None
+        # (s316h gate 1) Telemetria POR TURNO del lever INTENT_LLM. Se estampa
+        # "off" EXPLICITO (F1 inactivo = lever inalcanzable, medido); el seam lo
+        # sobreescribe si corre. Un dict sin estampar degrada a "not_wired" en el
+        # builder (Sol r12 M1): «sin cablear» jamas se disfraza de «apagado».
+        intent_obs: dict = {"status": "off", "decision": "none", "latency_ms": 0}
         if f1_active:
             from datetime import datetime, timezone
 
@@ -1104,53 +1168,23 @@ async def _process_query(
                 stored_state if isinstance(stored_state, WorkingState) else WorkingState()
             )
             f1_now = datetime.now(timezone.utc)
-            # (s316g lever INTENT_LLM, DEC-203) Clasificador de intención para la rama
-            # ambigua de la política, MISMO patrón perezoso que el rewriter: import y
-            # construcción diferidos hasta que la rama lo llame de verdad ($0 si no).
-            # Flag default OFF = intent None = byte-idéntico. Con ON, la resolución
+            # (s316g lever INTENT_LLM, DEC-203; seam extraido a _intent_seam en
+            # s316h — gate 2 del flip: el e2e ejecuta ese codigo, no un simil).
+            # Flag default OFF = seam None = byte-idéntico. Con ON, la resolución
             # entera se mueve a to_thread: el resolve corre en el event loop y una
             # llamada síncrona de segundos lo bloquearía TODO (Sol r10 M2).
-            _intent_fn = None
-            if os.getenv("INTENT_LLM", "").strip().lower() in {"1", "on", "true"}:
-                def _lazy_intent(q_amb, ws):
-                    # celda a nivel PROCESO (Fable r11: por-turno reconstruia el
-                    # cliente httpx en cada turno = TLS frio por llamada; el gate
-                    # midio con cliente reutilizado — paridad medido<->servido).
-                    fn = _INTENT_FN_CELL.get("fn")
-                    if fn is None:
-                        # (Fable r11) el fallo de CONSTRUCCION (key mala, import)
-                        # seria tragado por el try de la rama del lever => flag ON
-                        # roto en SILENCIO justo en el rollout. Ruidoso y fail-open.
-                        try:
-                            from ..orchestrator.intent_llm import construir_intent_fn
-
-                            fn = construir_intent_fn(ANTHROPIC_API_KEY)
-                        except Exception as exc:      # noqa: BLE001
-                            logger.error("intent_llm: construccion FALLO (%s) — "
-                                         "flag ON degradado a conducta OFF",
-                                         type(exc).__name__)
-                            fn = False                # centinela: no reintentar
-                        _INTENT_FN_CELL["fn"] = fn
-                    if fn is False:
-                        return None                   # fail-open declarado
-                    return fn(q_amb, ws)
-
-                _intent_fn = _lazy_intent
+            _intent_fn = _intent_seam(intent_obs)
             if _intent_fn is not None:
-                import asyncio as _aio
-
-                f1_resolution, f1_new_state = await _aio.to_thread(
+                f1_resolution, f1_new_state = await asyncio.to_thread(
                     resolve_conversational_turn,
                     query, f1_prev_state, f1_now,
                     rewrite=_lazy_rewrite, intent=_intent_fn,
                 )
-                _fn_real = _INTENT_FN_CELL.get("fn") or None
-                if _fn_real is not None and getattr(_fn_real, "ultima", None):
-                    # decisión → log estructurado (la extensión de rag_trace es
-                    # esquema CERRADO — Sol r10 M4 — y va como paquete aparte antes
-                    # del flip; hasta entonces la observabilidad es este log).
+                if intent_obs.get("status") == "invoked":
+                    # decisión → log operacional; la traza PERSISTIDA es la
+                    # sección `intent` de rag_trace (gate 1 del flip, s316h).
                     logger.info("intent_llm: %s en %d ms",
-                                _fn_real.ultima["decision"], _fn_real.ultima["ms"])
+                                intent_obs["decision"], intent_obs["latency_ms"])
             else:
                 f1_resolution, f1_new_state = resolve_conversational_turn(
                     query, f1_prev_state, f1_now, rewrite=_lazy_rewrite
@@ -1345,6 +1379,7 @@ async def _process_query(
                 transport_error_type=transport_error_type,
                 retrieval_health=retrieval_health,
                 stage_timings=stage_timings,
+                intent_obs=intent_obs,
             )
         except Exception as exc:
             logger.warning("RAG runtime trace failed open (%s)", type(exc).__name__)

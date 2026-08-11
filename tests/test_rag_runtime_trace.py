@@ -582,3 +582,95 @@ def test_validator_exige_la_seccion_timings():
     con_clave_extra = dict(trace)
     con_clave_extra["timings"] = dict(trace["timings"], sorpresa=1)
     assert validate_rag_serving_trace(con_clave_extra) is None
+
+
+# --- s316h (gate 1 del flip, DEC-203b): sección `intent` del trace ------------
+
+
+def test_intent_sin_cablear_es_not_wired_no_off():
+    """(Sol r12 M1) Telemetría AUSENTE (None, dict vacío, status roto) ⇒ not_wired,
+    JAMÁS off: un caller que olvide cablear no puede producir una fila
+    indistinguible de «lever apagado de verdad» — la distinción que `measured`
+    da a retrieval/timings. El "off" solo lo estampa el serving explícitamente."""
+    for obs in (None, {}):
+        trace = build_rag_serving_trace(**_trace_kwargs(intent_obs=obs))
+        assert trace["intent"] == {
+            "status": "not_wired", "decision": "none", "latency_ms": 0,
+        }
+        assert validate_rag_serving_trace(trace) == trace
+    explicito = build_rag_serving_trace(**_trace_kwargs(
+        intent_obs={"status": "off", "decision": "none", "latency_ms": 0},
+    ))
+    assert explicito["intent"]["status"] == "off"
+    assert validate_rag_serving_trace(explicito) == explicito
+
+
+def test_intent_invocado_cruza_decision_y_latencia_acotada():
+    for decision in ("compat", "switch", "fail_open"):
+        trace = build_rag_serving_trace(**_trace_kwargs(
+            intent_obs={"status": "invoked", "decision": decision,
+                        "latency_ms": 1663},
+        ))
+        assert trace["intent"] == {
+            "status": "invoked", "decision": decision, "latency_ms": 1663,
+        }
+        assert validate_rag_serving_trace(trace) == trace
+    colgado = build_rag_serving_trace(**_trace_kwargs(
+        intent_obs={"status": "invoked", "decision": "compat",
+                    "latency_ms": 10**9},
+    ))
+    assert colgado["intent"]["latency_ms"] == 60_000
+
+
+def test_intent_sin_invocacion_no_disfraza_decision():
+    """off/not_invoked/construction_failed coercen decisión/latencia a none/0 en
+    el builder — un estado sin invocación jamás puede parecer una decisión."""
+    for status in ("not_wired", "off", "not_invoked", "construction_failed"):
+        trace = build_rag_serving_trace(**_trace_kwargs(
+            intent_obs={"status": status, "decision": "switch",
+                        "latency_ms": 900},
+        ))
+        assert trace["intent"] == {
+            "status": status, "decision": "none", "latency_ms": 0,
+        }
+        assert validate_rag_serving_trace(trace) == trace
+
+
+def test_intent_tokens_libres_no_cruzan():
+    privado = "PrivateDecisionABC"
+    trace = build_rag_serving_trace(**_trace_kwargs(
+        intent_obs={"status": privado, "decision": privado, "latency_ms": 5},
+    ))
+    assert privado not in json.dumps(trace)
+    assert trace["intent"] == {
+        "status": "not_wired", "decision": "none", "latency_ms": 0,
+    }
+    # invocado con decisión fuera de la lista ⇒ fail_open (coincide con la
+    # conducta servida: todo lo que no es compat/switch siguió con carry).
+    roto = build_rag_serving_trace(**_trace_kwargs(
+        intent_obs={"status": "invoked", "decision": privado, "latency_ms": 5},
+    ))
+    assert privado not in json.dumps(roto)
+    assert roto["intent"]["decision"] == "fail_open"
+
+
+def test_validator_exige_y_cierra_la_seccion_intent():
+    """Clave REQUERIDA + coherencia CERRADA: el sink rechaza las combinaciones
+    que el builder jamás produce (decisión sin invocación, invocación sin
+    decisión, latencia fantasma) — defensa en profundidad, como el resto."""
+    trace = build_rag_serving_trace(**_trace_kwargs())
+    sin_intent = {k: v for k, v in trace.items() if k != "intent"}
+    assert validate_rag_serving_trace(sin_intent) is None
+    for intent_roto in (
+        {"status": "off", "decision": "compat", "latency_ms": 0},
+        {"status": "off", "decision": "none", "latency_ms": 3},
+        {"status": "not_invoked", "decision": "fail_open", "latency_ms": 0},
+        {"status": "invoked", "decision": "none", "latency_ms": 3},
+        {"status": "invoked", "decision": "compat", "latency_ms": 999_999},
+        {"status": "invoked", "decision": "compat"},
+        {"status": "invoked", "decision": "compat", "latency_ms": 3, "raw": "x"},
+        {"status": "encendido", "decision": "none", "latency_ms": 0},
+    ):
+        mutado = dict(trace)
+        mutado["intent"] = intent_roto
+        assert validate_rag_serving_trace(mutado) is None, intent_roto

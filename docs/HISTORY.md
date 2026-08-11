@@ -3261,3 +3261,26 @@ re-congelado en 52/52 con la aserción anti-verde-vacuo mordiendo de verdad.
 El flip queda bloqueado por dos gates declarados (observabilidad en rag_trace + e2e del
 camino servido). El fall-through de #70 — la causa (2) que abrió todo esto hace tres
 días — tiene por fin su mecanismo medido esperando el interruptor. DEC-203/203b.
+
+## s316h (11 ago 2026, noche) — Los dos gates del flip, cerrados
+
+PR #237 mergeada por la mañana; Alberto: «sigue a por los dos gates del flip». Gate 1:
+la decisión del clasificador deja de vivir en un logger.info — sección `intent` en el
+esquema cerrado de rag_trace, con el patrón de la casa (enums cerrados, coherencia
+builder+validador, trinquete de clave requerida) y dos mejoras que el log no tenía:
+captura POR TURNO (la lectura de `fn.ultima` era estado de proceso compartido — carrera
+entre turnos concurrentes) y `not_wired` ≠ `off` (telemetría sin cablear jamás se
+disfraza de lever apagado). El seam del lever se extrajo del handler (`_intent_seam`)
+para que el gate 2 no fuera un símil: el e2e ejecuta EL código servido — frío, caliente,
+timeout, key mala, construcción rota — y PASA 6/6 con recibo y proveniencia.
+
+El dúo r12 fue el de los espejos: Sol demostró que el e2e NO conducía handle_message
+(la misma clase de agujero que el propio e2e presumía de cerrar) → el pegamento
+flag→seam→política→traza→log quedó gateado EN CI dentro del instrumento de transporte,
+que existía justo para esto. Y los dos revisores, por separado, cazaron que mi prosa
+citaba las latencias de la corrida FAIL previa en vez de las del recibo adjunto — el
+fix estructural fue dejar de duplicar cifras, no corregirlas. Once hallazgos entre los
+dos, cero contradicciones, cero falsos positivos, todo aplicado. DEC-204, TECH_DEBT #74.
+
+El flip es ahora, por primera vez desde que #70 abrió este arco hace tres días, una
+decisión de UNA variable en Railway — con la traza lista para medir lo que pase después.
