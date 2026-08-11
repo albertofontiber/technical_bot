@@ -2617,3 +2617,20 @@ fabricantes ⇒ la extracción será heurística y necesitará su propia baterí
 reales (Notifier/Morley/Kidde/Aritech), como la que hizo falta en #70. **Coste**: M.
 
 **Relacionado**: #4 (revisiones activas sin cadena), DEC-192 (findability), #72.
+
+## #74 — `rag_serving_trace_v1`: el token de esquema no versiona las claves requeridas que crecen (s316h, Sol r12)
+
+**El hecho**: el esquema cerrado de `rag_trace` mantiene el token `rag_serving_trace_v1`
+mientras las claves REQUERIDAS crecen por acreción (`retrieval` s306, `timings` s315,
+`intent` s316h). El validador corre SOLO en el sink de escritura y las filas históricas
+no se re-validan — hoy no rompe nada, y es la convención deliberada de la casa.
+
+**El riesgo (Sol r12 M3, confianza media)**: el mismo token describe formas
+incompatibles entre sí. Si algún día aparece un consumidor que re-valide filas
+históricas (replay, migración, export RGPD), las filas v1 antiguas fallarían el
+validador actual con su propio nombre de esquema en la mano.
+
+**Fix cuando toque (no antes)**: si nace un consumidor de re-validación, introducir
+bump explícito de token + validadores por versión (o un campo `schema_rev` entero).
+Hacerlo HOY sería aparato sin consumidor (pregunta cero). **Coste**: S cuando exista
+el consumidor. **Relacionado**: DEC-204, s306/s315 (el precedente), DEC-094.

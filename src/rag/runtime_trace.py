@@ -127,6 +127,19 @@ _ALLOWED_DOCUMENT_LOCAL_SEED_ROUTES = frozenset(
 _ALLOWED_DOCUMENT_LOCAL_SATISFACTION_ROUTES = frozenset(
     {"none", "coverage_append", "already_served"}
 )
+# (s316h — gate 1 del flip, DEC-203b) Sección `intent`: la decisión del lever
+# INTENT_LLM (s316g) por turno. Tokens CERRADOS: la política solo produce
+# compat/switch/None y el seam del transporte solo estampa sus estados —
+# jamás cruza texto del técnico ni del modelo. `not_wired` (Sol r12 M1) es la
+# marca de «nadie estampó»: solo el builder la produce, nunca el seam — así
+# «flag OFF declarado» y «telemetría sin cablear» son distinguibles, la misma
+# distinción que `measured` da a `retrieval` (s306) y `timings` (s315).
+_ALLOWED_INTENT_STATUSES = frozenset(
+    {"not_wired", "off", "not_invoked", "invoked", "construction_failed"}
+)
+_ALLOWED_INTENT_DECISIONS = frozenset({"none", "compat", "switch", "fail_open"})
+# Timeout servido = 6 s con max_retries=0; 60 s ya es un colgado, no una medida.
+_INTENT_LATENCY_MAX_MS = 60_000
 
 # Used only by tests/audits; no value from these fields is ever copied.
 SENSITIVE_RAW_KEYS = frozenset(
@@ -223,6 +236,39 @@ def _retrieval_section(retrieval_health: Mapping[str, Any] | None) -> dict[str, 
                 "error_type": _safe_error_type(item.get("error_type")),
             })
     return {"measured": measured, "channel_failures": failures}
+
+
+def _intent_section(intent_obs: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Sección `intent` (s316h/DEC-203b, gate 1 del flip): el lever por turno.
+
+    Mismo contrato de coherencia que el resto del esquema: `decision` y
+    `latency_ms` solo existen (≠ none/0) cuando hubo invocación REAL — un estado
+    off/not_invoked/construction_failed no puede disfrazar una decisión, y una
+    invocación no puede colarse sin decisión (`fail_open` ES una decisión del
+    seam: el clasificador devolvió None y la política siguió con carry).
+    Un mapping ausente, vacío o roto degrada a "not_wired" (Sol r12 M1) — jamás
+    a "off": un caller futuro que olvide cablear la telemetría no puede producir
+    una fila indistinguible de «lever apagado de verdad».
+    """
+    if not isinstance(intent_obs, Mapping):
+        return {"status": "not_wired", "decision": "none", "latency_ms": 0}
+    status = _safe_enum(
+        intent_obs.get("status"), _ALLOWED_INTENT_STATUSES, default="not_wired"
+    )
+    if status != "invoked":
+        return {"status": status, "decision": "none", "latency_ms": 0}
+    decision = _safe_enum(
+        intent_obs.get("decision"),
+        _ALLOWED_INTENT_DECISIONS - {"none"},
+        default="fail_open",
+    )
+    return {
+        "status": "invoked",
+        "decision": decision,
+        "latency_ms": _bounded_int(
+            intent_obs.get("latency_ms"), maximum=_INTENT_LATENCY_MAX_MS
+        ),
+    }
 
 
 def _selected_count(lane_trace: Mapping[str, Any]) -> int:
@@ -414,6 +460,7 @@ def build_rag_serving_trace(
     transport_error_type: str | None = None,
     retrieval_health: Mapping[str, Any] | None = None,
     stage_timings: Mapping[str, Any] | None = None,
+    intent_obs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build the only runtime trace shape allowed into ``query_logs``."""
     profile = _safe_enum(
@@ -433,6 +480,7 @@ def build_rag_serving_trace(
         ),
         "retrieval": _retrieval_section(retrieval_health),
         "timings": _timings_section(stage_timings),
+        "intent": _intent_section(intent_obs),
         "transport": {
             "message_parts": _bounded_int(transport_parts, maximum=100),
             "render_status": _safe_enum(
@@ -479,8 +527,11 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
         # fallos» — la clase exacta que esta sección elimina. Solo el sink de
         # escritura valida (verificado): las filas históricas no se re-validan.
         # `timings` (s315) es REQUERIDA por la misma razón: tri-estado explícito.
+        # `intent` (s316h) también: si fuera opcional, un builder que la omitiera
+        # confundiría «lever apagado» con «telemetría no cableada» — la clase de
+        # silencio que el gate 1 del flip existe para eliminar.
         {"schema", "release_profile", "coverage", "must_preserve", "retrieval",
-         "timings", "transport"},
+         "timings", "transport", "intent"},
     ):
         return None
     retrieval = value["retrieval"]
@@ -494,6 +545,22 @@ def _validate_rag_serving_trace(value: Any) -> dict[str, Any] | None:
     if any(not safe_int(timings[stage], _TIMING_MAX_MS) for stage in _TIMING_STAGES):
         return None
     if type(retrieval["measured"]) is not bool:
+        return None
+    intent = value["intent"]
+    if not exact_keys(intent, {"status", "decision", "latency_ms"}):
+        return None
+    if (
+        intent["status"] not in _ALLOWED_INTENT_STATUSES
+        or intent["decision"] not in _ALLOWED_INTENT_DECISIONS
+        or not safe_int(intent["latency_ms"], _INTENT_LATENCY_MAX_MS)
+    ):
+        return None
+    # Coherencia CERRADA (no advisory): sin invocación no hay decisión ni
+    # latencia; con invocación la decisión es obligatoria (fail_open incluido).
+    if intent["status"] != "invoked":
+        if intent["decision"] != "none" or intent["latency_ms"] != 0:
+            return None
+    elif intent["decision"] == "none":
         return None
     channel_failures = retrieval["channel_failures"]
     if (

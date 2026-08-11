@@ -127,15 +127,92 @@ def test_brand_tokens_no_colisiona_con_el_dominio():
 
 
 def test_flag_off_no_construye_cliente(monkeypatch):
-    """Sin INTENT_LLM en el entorno, _process_query no debe ni importar el módulo del
-    clasificador (patrón perezoso del rewriter): el flag OFF es $0 y byte-inerte."""
+    """Sin INTENT_LLM en el entorno, el seam devuelve None sin importar el módulo del
+    clasificador (patrón perezoso del rewriter): el flag OFF es $0 y byte-inerte.
+    (s316h: el gate del flag vive en _intent_seam, extraído del handler para el e2e.)"""
     monkeypatch.delenv("INTENT_LLM", raising=False)
     import src.bot.telegram_bot as bot
     import inspect
 
-    fuente = inspect.getsource(bot._process_query)
+    fuente = inspect.getsource(bot._intent_seam)
     assert 'os.getenv("INTENT_LLM"' in fuente          # el gate del flag existe
     assert "construir_intent_fn" in fuente             # y la construcción es local/lazy
+    assert "_intent_seam(intent_obs)" in inspect.getsource(bot._process_query)
+    assert bot._intent_seam({}) is None                # OFF ⇒ seam ausente
+
+
+# --- s316h (gates del flip, DEC-203b): el seam extraído y su telemetría -------
+
+
+def _seam_on(monkeypatch):
+    import src.bot.telegram_bot as bot
+
+    monkeypatch.setenv("INTENT_LLM", "on")
+    monkeypatch.setattr(bot, "_INTENT_FN_CELL", {})    # celda de proceso limpia
+    return bot
+
+
+def test_seam_off_estampa_off_en_la_telemetria(monkeypatch):
+    import src.bot.telegram_bot as bot
+
+    monkeypatch.delenv("INTENT_LLM", raising=False)
+    obs: dict = {}
+    assert bot._intent_seam(obs) is None
+    assert obs == {"status": "off", "decision": "none", "latency_ms": 0}
+
+
+def test_seam_estampa_por_turno_sin_estado_cruzado(monkeypatch):
+    """La telemetría es POR TURNO (dict del handler), no `fn.ultima` (atributo de
+    proceso): dos turnos con wrappers distintos no pueden pisarse la decisión."""
+    bot = _seam_on(monkeypatch)
+    bot._INTENT_FN_CELL["fn"] = lambda q, w: "switch"
+
+    obs_a: dict = {}
+    obs_b: dict = {}
+    wrapper_a = bot._intent_seam(obs_a)
+    wrapper_b = bot._intent_seam(obs_b)
+    assert wrapper_a("¿y morley?", None) == "switch"
+    assert obs_a["status"] == "invoked" and obs_a["decision"] == "switch"
+    assert isinstance(obs_a["latency_ms"], int) and obs_a["latency_ms"] >= 0
+    # el turno B no invocó: su telemetría queda not_invoked, intacta
+    assert wrapper_b is not None
+    assert obs_b == {"status": "not_invoked", "decision": "none", "latency_ms": 0}
+
+
+def test_seam_mapea_none_y_basura_a_fail_open(monkeypatch):
+    """El clasificador devolviendo None (timeout/parse) o basura fuera del contrato
+    se estampa como fail_open — que ES lo que la política sirvió (carry)."""
+    bot = _seam_on(monkeypatch)
+    for devuelto in (None, "COMPAT!", 42):
+        bot._INTENT_FN_CELL["fn"] = lambda q, w, _d=devuelto: _d
+        obs: dict = {}
+        assert bot._intent_seam(obs)("¿y morley?", None) == devuelto
+        assert obs["status"] == "invoked" and obs["decision"] == "fail_open", devuelto
+
+
+def test_seam_construccion_fallida_ruidosa_y_trazada(monkeypatch, caplog):
+    """(Fable r11 + gate 1) Key mala/import roto: centinela False (sin reintento en
+    caliente), logger.error, y la telemetría dice construction_failed — el flag ON
+    roto deja de ser invisible también en la traza persistida."""
+    import src.orchestrator.intent_llm as intent_llm
+
+    bot = _seam_on(monkeypatch)
+
+    def _revienta(*_a, **_k):
+        raise RuntimeError("key mala")
+
+    monkeypatch.setattr(intent_llm, "construir_intent_fn", _revienta)
+    obs: dict = {}
+    wrapper = bot._intent_seam(obs)
+    with caplog.at_level("ERROR"):
+        assert wrapper("¿y morley?", None) is None     # fail-open declarado
+    assert obs["status"] == "construction_failed"
+    assert bot._INTENT_FN_CELL["fn"] is False          # centinela: no reintenta
+    assert any("construccion FALLO" in m for m in caplog.messages)
+    # segunda llamada: mismo fail-open, sin reconstruir (el centinela manda)
+    obs2: dict = {}
+    assert bot._intent_seam(obs2)("¿y morley?", None) is None
+    assert obs2["status"] == "construction_failed"
 
 
 # --- ronda 11 (Sol C1 + Fable M1): paridad gate<->serving y el guion ----------

@@ -26,10 +26,11 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s316f — 11 ago 2026, tarde)
+## Estado actual (s316h — 11 ago 2026, noche)
 
-**La sesión más larga del proyecto: reconciliación post-cloud, el dúo cortando tres diseños
-seguidos, y dos deudas grandes cerradas contra producción.**
+**La sesión más larga del proyecto: reconciliación post-cloud, dos deudas grandes cerradas,
+el rediseño completo (s316d-f), el lever INTENT_LLM con GO adjudicado (s316g, PR #237) y
+los DOS gates del flip cerrados (s316h, DEC-204, dúo r12).**
 
 1. **#68 CERRADO** (DEC-199). El lote Casmar/Kidde pasa de **0/0** a **10.161 enunciados +
    2.516 hyq**, verificado en DB (V 10.161/10.161 ids; hyq universo completo, poison 0,
@@ -51,13 +52,21 @@ seguidos, y dos deudas grandes cerradas contra producción.**
    política de reintentos; el matiz que lo impide hacer mecánico es que la idempotencia no
    es universal.
 
-**Qué sigue (s316g)**: el lever INTENT_LLM está CONSTRUIDO con GO adjudicado del gate
-de juicio (DEC-203/203b: Sonnet 40/40 · 0 falsos SWITCH · recibo del runner con freeze).
-(a) **los 2 gates del flip**: paquete de observabilidad en `rag_trace` + e2e del camino
-servido con recibo — sin ambos, `INTENT_LLM` no se enciende en Railway; (b) tras el flip
-(decisión de Alberto): retirar el testigo XFAIL del fall-through y estampar el veredicto
-en `LEVER_DIGEST`; (c) **#73** puerta de revisión en ingesta; (d) **#72** cliente HTTP
-común; (e) rapidez fase 2 con ~1 semana de timings; (f) sentada B2 (Alberto); (g) #71.
+7. **Lever INTENT_LLM: construido, medido y con los GATES DEL FLIP CERRADOS**
+   (s316g→h, DEC-203/203b/204, PR #237 + rama s316h): gate de juicio GO adjudicado
+   (Sonnet 40/40 · 0 falsos SWITCH · freeze) · sección `intent` en el esquema cerrado
+   de `rag_trace` (`not_wired`≠`off`, coherencia cerrada, captura POR TURNO — la
+   carrera de `fn.ultima` fuera del camino servido) · e2e del camino servido PASS 6/6
+   con proveniencia (`artefactos_sha256`, corrida final sobre el commit) · pegamento
+   del handler gateado EN CI (instrumento de transporte). Flag OFF sigue byte-idéntico.
+
+**Qué sigue (s316h)**: (a) **EL FLIP es decisión de Alberto** (Railway:
+`INTENT_LLM=on` — los dos gates de DEC-203b están cerrados; DEC-204). Tras él: retirar
+el testigo XFAIL del fall-through y estampar el veredicto del lever en `LEVER_DIGEST`
+con la traza REAL de la 1ª semana (sección `intent` de `rag_trace`); (b) **#73** puerta
+de revisión en ingesta; (c) **#72** cliente HTTP común; (d) rapidez fase 2 con ~1 semana
+de timings; (e) sentada B2 (Alberto); (f) #71; (g) #74 solo si nace un consumidor de
+re-validación del trace (pregunta cero).
 
 ### s315 (9 ago 2026) — resumen
 

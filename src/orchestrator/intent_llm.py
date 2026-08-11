@@ -83,4 +83,9 @@ def construir_intent_fn(api_key: str, model: str = INTENT_MODEL,
         return decision
 
     _intent.ultima = None
+    # Atestación de config (Sol r12 M2): el e2e del flip verifica que el fn que
+    # el seam construyó lleva EXACTAMENTE la config servida (timeout 6 s,
+    # max_retries=0) — sin esto, un leg con cliente alterado no puede probar
+    # nada sobre el default de producción.
+    _intent.config = {"model": model, "timeout_s": timeout_s, "max_retries": 0}
     return _intent

@@ -240,6 +240,68 @@ def test_testigo_fallthrough_marca_sin_switch_explicito(transporte):
         f"{transporte['generate_queries'][-1]!r}")
 
 
+# --- PEGAMENTO DEL LEVER (s316h, Sol r12 C1): flag→seam→política→traza→log ---
+def test_lever_intent_atraviesa_el_pegamento_del_handler(transporte, monkeypatch):
+    """El e2e real-API (scripts/s316h_intent_e2e.py) NO conduce handle_message; ESTE
+    test fija el pegamento en CI: con INTENT_LLM=on, el seam se construye por su
+    cableado real (constructor stubeado — el clasificador es lo ÚNICO doblado), la
+    política invoca el clasificador en el fall-through, y la fila persistida vía
+    log_query lleva rag_trace.intent con la decisión. La clase «el gate mide un
+    camino que el serving salta» (r11) no puede volver sin poner esto en rojo."""
+    import src.bot.telegram_bot as bot
+    import src.orchestrator.intent_llm as intent_llm
+    from src.rag.runtime_trace import validate_rag_serving_trace
+
+    monkeypatch.setenv("INTENT_LLM", "on")
+    monkeypatch.setattr(bot, "_INTENT_FN_CELL", {})
+    llamadas = {"n": 0}
+
+    def _clasificador_stub(q, ws):
+        llamadas["n"] += 1
+        return "switch"
+
+    monkeypatch.setattr(intent_llm, "construir_intent_fn",
+                        lambda *_a, **_k: _clasificador_stub)
+
+    context = SimpleNamespace(user_data={})
+    uA = _turno(bot, context, TURNO_A, 1)
+    _sin_rama_de_error(uA, transporte, espera_generacion=True)
+    # Turno A: flag ON pero la política no llegó a la rama ambigua ⇒ el seam
+    # existe sin invocar y la traza lo dice (not_invoked, sin decisión fantasma).
+    traza_a = transporte["logs"][-1].get("rag_trace")
+    assert traza_a and traza_a["intent"] == {
+        "status": "not_invoked", "decision": "none", "latency_ms": 0}
+
+    uB = _turno(bot, context, "¿y en Morley cómo se hace el reset?", 2)
+    _sin_rama_de_error(uB, transporte, espera_generacion=True)
+    assert llamadas["n"] == 1, "la política no invocó el clasificador (pegamento roto)"
+    # La decisión switch DEBE soltar el carry (esto es #70 etapa 2 con el flag ON;
+    # el testigo XFAIL de arriba documenta que con OFF sigue arrastrando).
+    assert "NC-PF2" not in transporte["generate_queries"][-1], (
+        "switch del clasificador y aun así generó con el producto anterior")
+    traza_b = transporte["logs"][-1].get("rag_trace")
+    assert traza_b is not None, "la fila RAG no llevó rag_trace"
+    assert traza_b["intent"]["status"] == "invoked"
+    assert traza_b["intent"]["decision"] == "switch"
+    assert isinstance(traza_b["intent"]["latency_ms"], int)
+    # Y la traza que el handler construyó pasa el validador del sink tal cual.
+    assert validate_rag_serving_trace(traza_b) == traza_b
+
+
+def test_flag_off_la_traza_dice_off_explicito(transporte, monkeypatch):
+    """Espejo $0 del pegamento: sin flag, la fila RAG lleva intent.status=off
+    EXPLÍCITO (estampado por el serving), nunca not_wired — la distinción M1."""
+    import src.bot.telegram_bot as bot
+
+    monkeypatch.delenv("INTENT_LLM", raising=False)
+    context = SimpleNamespace(user_data={})
+    uA = _turno(bot, context, TURNO_A, 1)
+    _sin_rama_de_error(uA, transporte, espera_generacion=True)
+    traza = transporte["logs"][-1].get("rag_trace")
+    assert traza and traza["intent"] == {
+        "status": "off", "decision": "none", "latency_ms": 0}
+
+
 # --- CONTROL: la guardia NO se traga un "cambio" a la MISMA marca ------------
 # (dúo s316, Sol M2) La v1 de este control usaba «¿qué más centrales Kidde tienes?»,
 # que NO casa `_ENUM_FABRICANTE` ⇒ `_marca_destino` devolvía None y el test quedaba
