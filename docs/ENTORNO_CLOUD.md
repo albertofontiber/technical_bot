@@ -57,3 +57,18 @@ claude.ai/code (web o móvil) → New session sobre `albertofontiber/technical_b
 → escribir el encargo. El arranque canónico de cualquier sesión es el bloque
 «Estado actual» de `docs/PLAN_RAG_2026.md` (CLAUDE.md lo manda leer), así que un
 encargo de una línea («sigue con X del PLAN») basta.
+
+## Backup lógico del corpus (s319, DEC-209 — correr en LOCAL, no en cloud)
+
+Tras cada lote de ingesta (mínimo: mensual):
+
+```
+python scripts/backup_supabase.py --data-root "C:\Users\Admin\OneDrive - fontiber com\Documents\Claude\Technical Bot"
+```
+
+Vuelca la capa corpus/identidad (documents + chunks_v2 + enunciados + hyq, sin
+embeddings ni PII) a `<data-root>/backups/<UTC>/` y NO da recibo sin pasar el
+drill de restauración (SQLite + counts + FK). Recibo en `evals/`. RPO ≤1 lote;
+RTO horas. La capa de datos personales queda FUERA a conciencia (retención RGPD
+— DEC-209 [DECIDIR]); el desastre total lo cubre el backup gestionado de
+Supabase. Retención de dumps: 3 rotaciones (borrar la más vieja al crear la 4ª).

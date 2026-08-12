@@ -1,0 +1,67 @@
+{
+ "que_es": "Backup lógico de la capa corpus/identidad (sin PII, sin embeddings) + drill de restauración. RPO ≤1 lote/1 mes; RTO horas. Capa PII fuera (DEC-209 [DECIDIR]).",
+ "utc": "20260812T140113Z",
+ "carpeta": "C:\\Users\\Admin\\OneDrive - fontiber com\\Documents\\Claude\\Technical Bot\\backups\\20260812T140113Z",
+ "tablas": {
+  "documents": {
+   "filas": 1243,
+   "sha256": "91be26c42ea78a57eefc7cc35f53622462d2b7be4c3d4f51208c66852df643f6",
+   "bytes": 165064,
+   "segundos": 0.7
+  },
+  "chunks_v2": {
+   "filas": 26215,
+   "sha256": "6407b45284c2d8423ec0a9036d49f49ddb3d35e8c5ef72434f3139920ecb977e",
+   "bytes": 23678047,
+   "segundos": 23.7
+  },
+  "chunks_v2_enunciados": {
+   "filas": 33003,
+   "sha256": "5bdb86115ae9a510d1e11b40dee0d11f812ea6a960abc72c1f033a6ab2983604",
+   "bytes": 8141720,
+   "segundos": 19.4
+  },
+  "chunks_v2_hyq": {
+   "filas": 72642,
+   "sha256": "3adefe935b9712010fde860cd4aad7c9b9cdb5f284dc8237153f1b1264f14624",
+   "bytes": 8003063,
+   "segundos": 29.1
+  }
+ },
+ "counts_pre_post_iguales": true,
+ "drill_restauracion": {
+  "ok": true,
+  "chunks_sin_document": 0,
+  "spot_check_sha256": {
+   "documents": [
+    "196c270a1239fa1d404cd66da4d282413960b7aa454486addb5ebcd696daa1a9",
+    "ce6c46bcf08f81f70091c57841bf24518ed04f6f9fa0799a7e9f44e38e37e648",
+    "a13d43616ef535fed23d1208a7c3cdf6a5f6b155849c15d291d7430b21be991b",
+    "65dd3298687466c53720a6efbfdab5450b197a092149b0c35e78712cc56e8b92",
+    "8a5a24878ae70e64dcaca9c7b5a28178d14887424ab6011a195bbbc61035fd53"
+   ],
+   "chunks_v2": [
+    "c42855e02189431c51bea3121039ecfa02a04a80ce37aaf61d0417aebdf088f8",
+    "ba680d69a54868931d14013a99047ba0c8e81248af93037b5ece468907ce73f2",
+    "7dd41334d0b800c3e10a3b2028b080a8f8686e7c79ab1f15dc8b56c7fb7f816a",
+    "8a9b01ab36174471eebc58937042c9dbf06b25a6db1deb03072eac825c1ec5f9",
+    "dd7e63ee8365371d4a84fe4e2f2af2486c8f15be2b66191cf4b1ceacd5879fae"
+   ],
+   "chunks_v2_enunciados": [
+    "862128ef29a09dc1449c6eb215a4af1d6edf3e85a1fb24e02b26ffc9bb4b7bf3",
+    "fa201ba260197188b8eb00471e8ddd95fad9dc14dbd984465da4516c38693ee6",
+    "2242573cef78b81db6098047f4f33043f4a4709a5d4e26539e9524d2454a1c45",
+    "7b41eb96adae78580033977ed277845af3997be8817c56470e704b31136fe849",
+    "ef96a56d03d9768a63cea18b8958d2ce83e2264857e6fd4f05b9ef23e6fa3ab6"
+   ],
+   "chunks_v2_hyq": [
+    "d46976469f12e80f4052431b507518c140ceea4b011573a0a8d08f1eec470896",
+    "3ff3892e7cb76bcee13dd7915d7fffaff06b67f4d517afe7f729a76c2479bf7a",
+    "15357b0b2b6eb886b8bf4aa1e79bb2e04e667dca849516dd84f9636b5e60bbe6",
+    "c82e02062e6f78bbe5f52dacbcc0d6e7e173253ff88f420e89b70558640c3d72",
+    "873a493a7edbb8ad22376506320b23497060a355cd1324787849e9e366c1a9c5"
+   ]
+  },
+  "nota_huerfanos": "0 = cadena íntegra; >0 NO aborta: documenta (chunks pre-datan el alta de documents en tablas históricas)"
+ }
+}
