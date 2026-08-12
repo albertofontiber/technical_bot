@@ -105,12 +105,14 @@ _ALLOWED_LANES = frozenset(
     }
 )
 _ALLOWED_MP_REASONS = frozenset({"identity_unresolved"})
-# (s306/#63) Canales de retrieval con fail-open registrable. Cerrado a los 4 sitios
-# reales del retriever (s289 el exterior, s306 los 3 interiores) — un canal nuevo
-# exige tocar esta allowlist a la vez que su `except`, que es el punto: el trace
-# jamás persiste strings libres.
+# (s306/#63) Canales de retrieval con fail-open registrable. Cerrado a los sitios
+# reales del retriever (s289 el exterior, s306 los 3 interiores; s317/#72 fase 2
+# añade CONTENT y DIVERSIFY — Sol r15 M5: sus fail-open eran INVISIBLES, y con
+# reintentos el fallo que persiste es señal fuerte) — un canal nuevo exige tocar
+# esta allowlist a la vez que su `except`, que es el punto: el trace jamás
+# persiste strings libres.
 _ALLOWED_CHANNELS = frozenset(
-    {"VECTOR", "ENUNCIADOS", "HYQ_TABLE", "HYQ_HYDRATE"}
+    {"VECTOR", "ENUNCIADOS", "HYQ_TABLE", "HYQ_HYDRATE", "CONTENT", "DIVERSIFY"}
 )
 _MAX_CHANNEL_FAILURES = 8
 _ALLOWED_RENDER_STATUSES = frozenset(

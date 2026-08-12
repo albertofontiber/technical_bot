@@ -161,6 +161,10 @@ ALLOWED_SAFE_VALUES = {
     # s317/#72: kill-switch del cliente HTTP compartido (transporte, no
     # conducta — paridad medida en DEC-206). Valores canonicos on/off.
     "HTTP_POOL": frozenset({"on", "off"}),
+    # s317/#72 fase 2: kill-switches PROPIOS de reintentos-de-red y del
+    # paralelismo del retrieval (Sol r15 M1: cada mecanismo lleva el suyo).
+    "HTTP_RETRIES": frozenset({"on", "off"}),
+    "RETRIEVAL_PARALLEL": frozenset({"on", "off"}),
 }
 
 # Dynamic getenv sites are bounded separately: their domains are the profile,

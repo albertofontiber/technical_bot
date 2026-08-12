@@ -9,3 +9,11 @@
 import os
 
 os.environ.setdefault("HTTP_POOL", "off")
+
+# (s317/#72 fase 2) Mismo contrato para los DOS mecanismos nuevos: la suite
+# corre con reintentos y paralelismo APAGADOS — cada test existente conserva su
+# conteo de llamadas y su determinismo de hoy; los caminos ON tienen tests
+# dedicados que los encienden explícitamente (monkeypatch), y el gate de
+# paridad exacta secuencial-vs-paralelo corre fuera de CI con red real.
+os.environ.setdefault("HTTP_RETRIES", "off")
+os.environ.setdefault("RETRIEVAL_PARALLEL", "off")

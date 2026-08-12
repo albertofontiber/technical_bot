@@ -1,0 +1,229 @@
+{
+ "total_s": 8.94,
+ "eventos": [
+  {
+   "t_ini_ms": 228,
+   "ms": 170,
+   "metodo": "POST",
+   "ruta": "/rest/v1/rpc/match_chunks_v2",
+   "caller": "retrieve_chunks>vector_search"
+  },
+  {
+   "t_ini_ms": 404,
+   "ms": 91,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>keyword_search"
+  },
+  {
+   "t_ini_ms": 497,
+   "ms": 800,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 1298,
+   "ms": 87,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 1386,
+   "ms": 793,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 2181,
+   "ms": 92,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 2273,
+   "ms": 769,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 3044,
+   "ms": 89,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 3134,
+   "ms": 769,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 3904,
+   "ms": 87,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 3993,
+   "ms": 793,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 4787,
+   "ms": 89,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 4877,
+   "ms": 857,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 5736,
+   "ms": 88,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 5826,
+   "ms": 818,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 6644,
+   "ms": 86,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>content_search>_rank_window_by_authority"
+  },
+  {
+   "t_ini_ms": 6731,
+   "ms": 742,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>content_search"
+  },
+  {
+   "t_ini_ms": 7475,
+   "ms": 101,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>_filter_by_document_status"
+  },
+  {
+   "t_ini_ms": 7577,
+   "ms": 158,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_get_source_files_for_model"
+  },
+  {
+   "t_ini_ms": 7737,
+   "ms": 89,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_sources_with_only_inactive_docs"
+  },
+  {
+   "t_ini_ms": 7827,
+   "ms": 95,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_sources_with_only_inactive_docs"
+  },
+  {
+   "t_ini_ms": 7923,
+   "ms": 91,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8015,
+   "ms": 95,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8111,
+   "ms": 92,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8205,
+   "ms": 93,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8299,
+   "ms": 89,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8389,
+   "ms": 90,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8480,
+   "ms": 91,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8573,
+   "ms": 89,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8663,
+   "ms": 91,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8755,
+   "ms": 91,
+   "metodo": "GET",
+   "ruta": "/rest/v1/chunks_v2",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_fetch_top_chunks_by_source_file"
+  },
+  {
+   "t_ini_ms": 8847,
+   "ms": 93,
+   "metodo": "GET",
+   "ruta": "/rest/v1/documents",
+   "caller": "retrieve_chunks>_diversify_by_source_file>_filter_by_document_status"
+  }
+ ]
+}

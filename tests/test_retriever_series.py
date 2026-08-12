@@ -220,7 +220,7 @@ def diversify_mocks(monkeypatch):
     def fake_pm_for_sources(sfs):
         return {sf: pm_by_source[sf] for sf in sfs if sf in pm_by_source}
 
-    def fake_fetch(source_file, query, limit=2):
+    def fake_fetch(source_file, query, limit=2, _trace=None):
         fetched.append(source_file)
         pm = pm_by_source.get(source_file, "X")
         did = fetched.docid_by_source.get(source_file) or \

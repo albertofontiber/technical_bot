@@ -5978,3 +5978,45 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   SECUENCIAL de ~14 RPCs sobre conexión viva).
 - **Relacionado**: DEC-205 (perfil v1) · TECH_DEBT #72 · tally r14
   ts=2026-08-12T01:18:06.
+
+## DEC-207 (s317c) — #72 FASE 2: paralelización de canales léxicos + retries transitorios read-only (dúo r15): mediana de retrieval 4,2 → 2,6 s con PARIDAD EXACTA
+
+- **Fecha**: 12 ago 2026 (s317c, rumbo autónomo). **Impacto**: ALTO en zona de dolor
+  (conducta de carga del serving) — dúo completo r15 ANTES del build.
+- **Qué hay** (sobre el pool de DEC-206, que sigue intacto):
+  - **2a — paralelización**: los canales léxicos 3a/3b del retriever (content/diagram/
+    keyword/synonym/full-query, hasta 6 tareas GET read-only) se ejecutan en
+    `ThreadPoolExecutor` con orden DETERMINISTA por submit-order (el resultado se
+    ensambla en el orden del bucle secuencial de hoy, byte-idéntico por construcción).
+    Flag propio `RETRIEVAL_PARALLEL` (default on, Railway) — el kill-switch del pool NO
+    cubre esta fase (Sol r15 M1: cada mecanismo lleva el suyo).
+  - **2b — retries**: `abierto(timeout=X, reintentos=1)` OPT-IN por sitio, solo
+    serving read-only SIN veredicto previo de no-retry. El set reintentable EXCLUYE
+    `PoolTimeout` (Fable r15 F2: es backpressure LOCAL — reintentarlo amplifica carga
+    justo bajo saturación, que 2a agrava). Backoff fijo 0,2 s, N=1: cubre el
+    transitorio de red; el corte LARGO sigue siendo trabajo de la reanudación/bisección
+    (Sol r15 M4 — la clase s316c NO se re-litiga con retries). Los 4 canales s306
+    (VECTOR/ENUNCIADOS/HYQ_*) conservan su fail-open MEDIDO intacto; los scripts con
+    bisección+poison (s104/s315) quedan FUERA (retry de POST sin upsert = duplicados;
+    Sol r15 M3 verificado leyendo s104). Flag `HTTP_RETRIES` (default on).
+  - **Observabilidad**: canales `CONTENT`/`DIVERSIFY` añadidos a la allowlist CERRADA
+    de `rag_trace` con su `except` cableado (Sol r15 M5: content_search y el fetch del
+    diversify tragaban excepciones sin traza) — el patrón s306 exacto.
+- **Medido** (recibos `s317_rpc_timeline_v2_paralelo.json` + `s317_fase2_paridad_v1.json`):
+  turno perfilado 30 RPCs en **5,19 s** wall-clock · gate de paridad A/B (3 queries ×
+  3 reps): **PARIDAD_EXACTA de ids servidos en las 3** · mediana **4,2 → 2,6 s (−38%**
+  sobre el pool ya activo; acumulado desde el perfil v1: **19,0 → 2,6 s, −86%**).
+- **Dúo r15 (Sol 6 · Fable 5, convergentes en el precedente hueco, 0 FP, TODO
+  aplicado)**: mi claim «3c lo hace desde s59» era HUECO (fan-out real = 1 por el
+  `break`; 5ª ronda consecutiva cazando framing del autor) → la conducta de carga se
+  trató como NUEVA: cap de workers, gate de paridad, kill-switch propio. PoolTimeout
+  excluido del set reintentable. `diagram_search` cubierto explícitamente (Fable F3).
+  Proyecciones re-etiquetadas como diana-de-gate, no promesa (Fable F4, Sol m6).
+- **Alternativas descartadas**: asyncio (reescritura del pipeline; el executor ya es
+  el patrón de la casa) · retry en los 4 canales s306 (re-litigaría DEC-089/#63 sin
+  evidencia nueva) · retry en scripts (política de reanudación ya existente y mejor) ·
+  backoff exponencial en serving (un turno interactivo no puede esperar 1+2+4 s).
+- **Qué queda de #72 (fase 3, si algún día paga)**: contratos de idempotencia por
+  upsert en los WRITES de scripts — hoy cubierto por bisección+poison; sin señal de
+  que duela. La deuda #72 queda CERRADA en lo que el serving necesita.
+- **Relacionado**: DEC-205/205b/206 · tally r15 ts=2026-08-12T08:28:43.

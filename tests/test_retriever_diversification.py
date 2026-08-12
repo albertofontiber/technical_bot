@@ -141,7 +141,7 @@ def mock_corpus(monkeypatch):
 
     supplementary_pool: dict[str, list[dict]] = {}
 
-    def _fetch(sf, query, limit=2):
+    def _fetch(sf, query, limit=2, _trace=None):
         # return canned chunks for the requested source_file
         return supplementary_pool.get(sf, [])
 

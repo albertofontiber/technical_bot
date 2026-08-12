@@ -430,7 +430,7 @@ def keyword_search(
         params["order"] = "page_number.asc,id.asc"
         params["limit"] = "15"
 
-    with abierto(timeout=15.0) as client:
+    with abierto(timeout=15.0, reintentos=1) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -483,7 +483,7 @@ def diagram_search(
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with abierto(timeout=15.0) as client:
+    with abierto(timeout=15.0, reintentos=1) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -510,7 +510,7 @@ def typed_search(
     if not pattern:
         return []
 
-    with abierto(timeout=15.0) as client:
+    with abierto(timeout=15.0, reintentos=1) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -571,7 +571,7 @@ def _rank_window_by_authority(rows: list[dict], limit: int) -> list[dict]:
             "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
         }
         id_list = ",".join(f'"{d}"' for d in doc_ids)
-        with abierto(timeout=3.0) as client:
+        with abierto(timeout=3.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
@@ -595,6 +595,7 @@ def content_search(
     search_term: str,
     limit: int = 5,
     product_model: str | None = None,
+    _trace: dict | None = None,
 ) -> list[dict]:
     """Search chunks by content (+ optional model filter).
 
@@ -640,7 +641,7 @@ def content_search(
             "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
         }
         try:
-            with abierto(timeout=3.0) as client:
+            with abierto(timeout=3.0, reintentos=1) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers_get,
@@ -651,7 +652,11 @@ def content_search(
             for row in rows:
                 row["similarity"] = base_score
             return rows
-        except Exception:
+        except Exception as exc:
+            # (#72 fase 2b, Sol r15 M5) el fail-open de CONTENT era INVISIBLE:
+            # tras agotar el reintento, el canal degradaba sin dejar rastro en
+            # la traza — mismo patrón s306 que los 4 canales originales.
+            _record_channel_failure(_trace, "CONTENT", exc)
             return []
 
     # --- Path B: no product_model → RPC fts (category filter uses composite GIN) ---
@@ -668,7 +673,7 @@ def content_search(
         "match_limit": limit,
     }
     try:
-        with abierto(timeout=3.0) as client:
+        with abierto(timeout=3.0, reintentos=1) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/rpc/search_chunks_text{RPC_SUFFIX}",
                 headers=headers_post,
@@ -692,7 +697,7 @@ def content_search(
         "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
     }
     try:
-        with abierto(timeout=3.0) as client:
+        with abierto(timeout=3.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers_get,
@@ -703,7 +708,8 @@ def content_search(
         for row in rows:
             row["similarity"] = base_score
         return rows
-    except Exception:
+    except Exception as exc:
+        _record_channel_failure(_trace, "CONTENT", exc)  # (s306/M5 r15)
         return []
 
 
@@ -1751,6 +1757,39 @@ def _enunciados_swap(chunks: list[dict]) -> list[dict]:
     return out
 
 
+def _parallel_activo() -> bool:
+    """Kill-switch PROPIO de la paralelización del retrieval (#72 fase 2a,
+    Sol r15 M1: el kill-switch del pool NO cubre esta conducta). off = los
+    bucles secuenciales de hoy, byte-idénticos."""
+    return os.getenv("RETRIEVAL_PARALLEL", "on").strip().lower() not in {"off", "0", "false"}
+
+
+def _ejecutar_tareas_modelo(tareas: list) -> list[dict]:
+    """(#72 fase 2a, dúo r15) Ejecuta las búsquedas por-modelo (3a+3b) en
+    paralelo conservando la composición secuencial EXACTA: mismas llamadas,
+    mismos límites, boost y tag aplicados en ORDEN DE LISTA (submit-order) —
+    jamás en orden de finalización. Una tarea = (thunk, boost|None, canal).
+
+    Honestidad de carga (Sol r15 M2 ≡ Fable F1): el executor de 3c tiene
+    fan-out máximo 1 en prod (un solo PCI term con break) — esto SÍ es conducta
+    de carga nueva (hasta 6 ILIKE concurrentes contra PostgREST), por eso lleva
+    flag propio y gate de paridad pre-registrado, no la etiqueta «ya validado».
+    Una excepción de tarea propaga igual que en el bucle secuencial."""
+    if len(tareas) > 1 and _parallel_activo():
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            futuros = [pool.submit(thunk) for thunk, _, _ in tareas]
+            resultados = [f.result() for f in futuros]
+    else:
+        resultados = [thunk() for thunk, _, _ in tareas]
+    salida: list[dict] = []
+    for (_, boost, canal), rows in zip(tareas, resultados):
+        if boost is not None:
+            for c in rows:
+                c["similarity"] = boost
+        salida.extend(_tag_channel(rows, canal))
+    return salida
+
+
 def retrieve_chunks(
     query: str,
     top_k: int = RETRIEVAL_TOP_K,
@@ -1850,7 +1889,12 @@ def retrieve_chunks(
         kw_chunks = keyword_search(model, limit=5)
         keyword_results.extend(_tag_channel(kw_chunks, "MODEL"))
 
-    # Step 3a-intent: Intent-based targeted search for each model
+    # Step 3a-intent + 3b: búsquedas por-modelo como LISTA DE TAREAS en el
+    # orden exacto de los bucles históricos, ejecutadas por
+    # _ejecutar_tareas_modelo (#72 fase 2a: paralelo con extensión en orden de
+    # lista; RETRIEVAL_PARALLEL=off = secuencial de hoy). El timeline v1 midió
+    # este bloque en 7,0 de 8,9 s — 8 ILIKE de ~790 ms EN SERIE.
+    tareas_modelo: list = []
     if models:
         query_lower_intent = query.lower()
 
@@ -1859,20 +1903,18 @@ def retrieve_chunks(
             spec_keywords = ["especificaciones", "tensión", "consumo", "temperatura", "dimensiones"]
             for model in models:
                 for kw in spec_keywords:
-                    spec_results = content_search(kw, limit=3, product_model=model)
-                    for c in spec_results:
-                        c["similarity"] = 0.85  # Boost spec matches
-                    keyword_results.extend(_tag_channel(spec_results, "TARGETED"))
+                    tareas_modelo.append((
+                        lambda kw=kw, model=model, _t=_trace: content_search(kw, limit=3, product_model=model, _trace=_t),
+                        0.85, "TARGETED"))  # Boost spec matches
 
         # Troubleshooting intent → search for troubleshooting keywords
         if TROUBLESHOOT_INTENT.search(query_lower_intent):
             trouble_keywords = ["avería", "fallo", "problema", "diagnóstico"]
             for model in models:
                 for kw in trouble_keywords:
-                    trouble_results = content_search(kw, limit=3, product_model=model)
-                    for c in trouble_results:
-                        c["similarity"] = 0.85
-                    keyword_results.extend(_tag_channel(trouble_results, "TARGETED"))
+                    tareas_modelo.append((
+                        lambda kw=kw, model=model, _t=_trace: content_search(kw, limit=3, product_model=model, _trace=_t),
+                        0.85, "TARGETED"))
 
         # Wiring/installation intent → guarantee at least a few diagram chunks
         # for the model. Diagram density (~3-5% of corpus) is too low for
@@ -1882,9 +1924,12 @@ def retrieve_chunks(
         # the reranker correctly drops them as irrelevant — an 'off-topic
         # diagram' is worse than no diagram).
         if WIRING_INTENT.search(query):
+            # (Fable r15 F3) diagram_search entra en la MISMA lista de tareas
+            # — dejarlo secuencial partiría el bloque paralelo en tres tandas.
             for model in models:
-                diag_results = diagram_search(model, content_type="wiring", limit=3)
-                keyword_results.extend(_tag_channel(diag_results, "TARGETED"))
+                tareas_modelo.append((
+                    lambda model=model: diagram_search(model, content_type="wiring", limit=3),
+                    None, "TARGETED"))
 
     # Step 3b: Content search within detected model's chunks using query keywords + synonyms
     if models:
@@ -1900,22 +1945,26 @@ def retrieve_chunks(
         for model in models:
             # Search each keyword individually
             for kw in query_keywords:
-                kw_content = content_search(kw, limit=10, product_model=model)
-                keyword_results.extend(_tag_channel(kw_content, "CONTENT"))
+                tareas_modelo.append((
+                    lambda kw=kw, model=model, _t=_trace: content_search(kw, limit=10, product_model=model, _trace=_t),
+                    None, "CONTENT"))
 
             # Synonym-based searches get boosted score (they target the actual topic)
             for kw in synonym_keywords:
-                kw_content = content_search(kw, limit=10, product_model=model)
-                for c in kw_content:
-                    c["similarity"] = 0.85  # Boost synonym matches
-                keyword_results.extend(_tag_channel(kw_content, "TARGETED"))
+                tareas_modelo.append((
+                    lambda kw=kw, model=model, _t=_trace: content_search(kw, limit=10, product_model=model, _trace=_t),
+                    0.85, "TARGETED"))  # Boost synonym matches
 
             # Also search for the full query text (without model) to find chunks
             # containing multiple keywords together (e.g. "fallo alimentación")
             query_no_model = MODEL_PATTERN.sub("", query).strip()
             if len(query_no_model) > 10:
-                full_content = content_search(query_no_model[:60], limit=5, product_model=model)
-                keyword_results.extend(_tag_channel(full_content, "CONTENT"))
+                tareas_modelo.append((
+                    lambda q=query_no_model[:60], model=model, _t=_trace: content_search(q, limit=5, product_model=model, _trace=_t),
+                    None, "CONTENT"))
+
+    if tareas_modelo:
+        keyword_results.extend(_ejecutar_tareas_modelo(tareas_modelo))
 
     # Step 3c: Content search when no specific model is detected
     # All content_search calls run in PARALLEL to avoid sequential latency.
@@ -2056,7 +2105,8 @@ def retrieve_chunks(
         merged = _diversify_by_source_file(merged, top_k,
                                            models, query, query_keywords=None,
                                            include_superseded=include_superseded,
-                                           supplement_rescore_fn=supp_fn)
+                                           supplement_rescore_fn=supp_fn,
+                                           _trace=_trace)
         if _hyq_aside:
             # (fix #1 dúo r2) dedup: al apartar el surrogate, el diversify deja de ver su
             # fichero → el fetch suplementario puede re-traer EL MISMO chunk-padre → id
@@ -2415,7 +2465,7 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
     try:
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2457,7 +2507,7 @@ def _sources_with_only_inactive_docs(source_files: list[str]) -> set[str]:
     }
     try:
         quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2477,7 +2527,7 @@ def _sources_with_only_inactive_docs(source_files: list[str]) -> set[str]:
         if not all_ids:
             return set()
         id_list = ",".join(f'"{d}"' for d in all_ids)
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp2 = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
@@ -2511,7 +2561,7 @@ def _get_pm_for_sources(source_files: list[str]) -> dict[str, str]:
     }
     quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
     try:
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2557,6 +2607,7 @@ def _fetch_top_chunks_by_source_file(
     source_file: str,
     query: str,
     limit: int = 2,
+    _trace: dict | None = None,
 ) -> list[dict]:
     """Fetch chunks from a specific source_file, ranked by relevance to query.
 
@@ -2579,7 +2630,7 @@ def _fetch_top_chunks_by_source_file(
     if keywords:
         fts_query = " & ".join(keywords[:3])
         try:
-            with abierto(timeout=3.0) as client:
+            with abierto(timeout=3.0, reintentos=1) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2594,8 +2645,10 @@ def _fetch_top_chunks_by_source_file(
                     rows = resp.json()
                     if rows:
                         return rows
-        except Exception:
-            pass
+        except Exception as exc:
+            # (#72 fase 2b, Sol r15 M5) fail-open de DIVERSIFY visible en la
+            # traza — el fallback ilike sigue intentándolo igual que hoy.
+            _record_channel_failure(_trace, "DIVERSIFY", exc)
 
     # Fallback: ilike on each keyword (stemmed as prefix to catch conjugations)
     # e.g. keyword 'conectan' is stored as 'Conexión' / 'conecte' — so stem
@@ -2603,7 +2656,7 @@ def _fetch_top_chunks_by_source_file(
     for kw in keywords[:3]:
         stem = kw[:6] if len(kw) > 6 else kw  # rough stem
         try:
-            with abierto(timeout=3.0) as client:
+            with abierto(timeout=3.0, reintentos=1) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2618,7 +2671,8 @@ def _fetch_top_chunks_by_source_file(
                     rows = resp.json()
                     if rows:
                         return rows
-        except Exception:
+        except Exception as exc:
+            _record_channel_failure(_trace, "DIVERSIFY", exc)  # (s306/M5 r15)
             continue
     return []
 
@@ -2643,7 +2697,7 @@ def _fetch_chunk_index_by_id(ids: list[str]) -> dict[str, int]:
             continue
         inlist = "(" + ",".join(batch) + ")"
         try:
-            with abierto(timeout=5.0) as client:
+            with abierto(timeout=5.0, reintentos=1) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                     params={"id": f"in.{inlist}", "select": "id,chunk_index",
@@ -2663,7 +2717,7 @@ def _fetch_neighbor_chunks(source_file: str, indices: list[int]) -> list[dict]:
                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
     inlist = "(" + ",".join(str(j) for j in sorted(set(indices))) + ")"
     try:
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                 params=_no_surrogates({"source_file": f"eq.{source_file}",
@@ -2747,6 +2801,7 @@ def _diversify_by_source_file(
     query_keywords: list[str] | None = None,
     include_superseded: bool = False,
     supplement_rescore_fn=None,
+    _trace: dict | None = None,
 ) -> list[dict]:
     """Guarantee at least one chunk per source_file when a product has
     multiple docs in corpus.
@@ -2828,8 +2883,21 @@ def _diversify_by_source_file(
 
     seen_ids = {c.get("id") for c in chunks if c.get("id")}
     supplementary: list[dict] = []
-    for sf in missing_sources[:4]:
-        extra = _fetch_top_chunks_by_source_file(sf, original_query, limit=2)
+    fuentes = missing_sources[:4]
+    # (#72 fase 2a, dúo r15) Fetches por-source en PARALELO con composición
+    # EXACTA a la secuencial: mismas llamadas y cinturones aplicados en ORDEN
+    # DE LISTA (jamás de finalización). RETRIEVAL_PARALLEL=off = bucle de hoy.
+    if len(fuentes) > 1 and _parallel_activo():
+        with ThreadPoolExecutor(max_workers=4) as _pool:
+            _futs = [_pool.submit(_fetch_top_chunks_by_source_file,
+                                  sf, original_query, 2, _trace)
+                     for sf in fuentes]
+            extras = [f.result() for f in _futs]
+    else:
+        extras = [_fetch_top_chunks_by_source_file(sf, original_query, limit=2,
+                                                   _trace=_trace)
+                  for sf in fuentes]
+    for extra in extras:
         # (s63 FINAL §1c-3) Cinturón post-fetch: el MISMO predicado del filtro
         # sobre los suplementos (sin fail-open — el pool principal ya está).
         if series_active:
@@ -2944,7 +3012,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
                 "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
             }
             id_list = ",".join(f'"{i}"' for i in missing_ids)
-            with abierto(timeout=5.0) as client:
+            with abierto(timeout=5.0, reintentos=1) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2981,7 +3049,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
         }
         # PostgREST "in.()" filter for batch lookup
         id_list = ",".join(f'"{d}"' for d in doc_ids)
-        with abierto(timeout=5.0) as client:
+        with abierto(timeout=5.0, reintentos=1) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
