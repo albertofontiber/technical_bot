@@ -91,11 +91,15 @@ medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con parida
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s317c cierre)**: (a) **adjudicación Alberto**: marcar supersedida la
-DP312x 202503 (censo s317); (b) sentada B2 (Alberto); (c) #71; (d) #74 solo si nace
-consumidor; (e) FULL fresco v3.2 (~$25) para re-medir calidad post-Casmar/Kidde +
-verificar pool+paralelización en `salud_latencia_etapas_v1` cuando haya tráfico;
-(f) leer la traza `intent` cuando haya filas.
+**Qué sigue (s318 cierre)**: (a) **SENTADA ÚNICA de Alberto** —
+`evals/s318_sentada_adjudicacion_packet_v1.md`: DP312x supersedida (sí/no) + sentada
+B2 (packet v3) + encender `EC_LEGAL_DISCLAIMER_SKIP` (#71, construido flag-off,
+DEC-208, 83 removidas/0 colaterales/28 mixtas a la vista); (b) tras la sentada:
+**FULL fresco v3.2** (~$25, smoke primero) + estampar scoreboard; (c) #74 solo si
+nace consumidor; (d) verificar pool+paralelización en `salud_latencia_etapas_v1` y
+leer la traza `intent` cuando haya tráfico; (e) si Alberto quiere abrir el bot a
+DGs externos: paquete de apertura (aviso v8 [DECIDIR base jurídica + revisión
+legal] + modelo de acceso + bienvenida) — preparable a demanda.
 
 ### s315 (9 ago 2026) — resumen
 

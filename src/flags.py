@@ -203,6 +203,11 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/retriever.py',),
     },
+    "EC_LEGAL_DISCLAIMER_SKIP": {
+        "default_fuente": '""',
+        "via": ['getenv'],
+        "lectores": ('src/rag/evidence_contract.py',),
+    },
     "HTTP_POOL": {
         "default_fuente": '"on"',
         "via": ['getenv'],

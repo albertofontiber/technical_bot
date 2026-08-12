@@ -2539,9 +2539,18 @@ ronda del dúo):
 (DEC-154). Testigo `test_testigo_fallthrough_marca_sin_switch_explicito` en `xfail(strict)`:
 el XPASS avisará cuando aterrice. **Coste**: M.
 
-## #71 — El disclaimer legal se captura como «obligación de evidencia» (evidence_contract, aparato PROTEGIDO)
+## #71 — El disclaimer legal se captura como «obligación de evidencia» (evidence_contract, aparato PROTEGIDO) — **CONSTRUIDO flag-off (s318, DEC-208); el ON espera la adjudicación de Alberto**
 
-**Mismo turno**: el apéndice «Obligaciones de evidencia del manual» citó el párrafo de
+**s318 (DEC-208, dúo r16)**: frame `legal_disclaimer` construido en la familia
+`_universal_frame_skip`, flag `EC_LEGAL_DISCLAIMER_SKIP` default OFF byte-idéntico.
+Población: 105 docs activos con boilerplate. Sonda v2 por el CAMINO REAL con
+pregunta-oráculo: 83 obligaciones legales removidas (70 docs) · 0 técnicas
+cambiadas · 28 mixtas listadas verbatim (`evals/s318_disclaimer_probe_v2.json`).
+**La adjudicación del ON viaja en `evals/s318_sentada_adjudicacion_packet_v1.md`**
+(sentada única: DP312x + B2 + #71). Clase GARANTÍA fuera a conciencia; rama PT
+defensiva (0 en censo); guarda de contexto de exención simétrica ES/EN.
+
+**Origen (mismo turno)**: el apéndice «Obligaciones de evidencia del manual» citó el párrafo de
 responsabilidad legal de KGS Fire & Security («no se hará responsable en ningún caso…»,
 bcn-3100017 p.4) como si fuera una obligación técnica del manual. El léxico del detector
 casa marcadores de obligación/advertencia que el boilerplate legal también usa. **Ojo**:

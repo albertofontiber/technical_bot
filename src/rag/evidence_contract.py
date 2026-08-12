@@ -66,6 +66,7 @@ Iteración-2 de precisión/recall (medida contra el oráculo offline, $0):
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 from typing import Any
 
@@ -148,6 +149,22 @@ _THRESHOLD = {
 # clase (sustantivos de infraestructura omnipresentes en manuales PCI y verbos de
 # capacidad), jamás un identificador de pregunta/documento.
 LEXICON_VERSION = "ec_precision_lexicon_v2"
+# (s318/#71) v3 = v2 + frame legal_disclaimer. La versión EFECTIVA depende del
+# flag: el recibo debe decir qué léxico JUZGÓ este turno, no cuál está escrito
+# en el fichero (un recibo v3 con el frame apagado mentiría).
+_LEXICON_VERSION_V3 = "ec_precision_lexicon_v3_legal_disclaimer"
+
+
+def lexicon_version_efectiva() -> str:
+    return _LEXICON_VERSION_V3 if _legal_skip_activo() else LEXICON_VERSION
+
+
+def _legal_skip_activo() -> bool:
+    """#71 — flag del frame legal_disclaimer, DEFAULT OFF: `evidence_contract`
+    es aparato PROTEGIDO (DEC-148) y la exclusión de la clase «disclaimer
+    legal» solo se enciende con adjudicación de Alberto (no parche en
+    caliente). Censo s318: 108 docs / 119 chunks llevan el boilerplate."""
+    return os.getenv("EC_LEGAL_DISCLAIMER_SKIP", "").strip().lower() in {"1", "on", "true"}
 
 # Sustantivos de dominio tan genéricos que matchear por ellos no liga la evidencia
 # a la pregunta (cualquier manual PCI los trae en casi cada página) + verbos de
@@ -166,6 +183,34 @@ _DOMAIN_STOPSTEMS = frozenset({
 _FRAME_SKIP_RX = re.compile(
     r"\bpuede(n)?\b|\bpermite(n)?\b|\bes posible\b"
     r"|\bde (igual|la misma) forma\b|\bal igual que\b|\bdisponibles?\b"
+)
+# (s318/#71) Frame legal_disclaimer: cláusulas de EXENCIÓN DE RESPONSABILIDAD
+# del fabricante — boilerplate legal que usa el mismo vocabulario que una
+# obligación («en ningún caso…» lleva cuantificador universal: por eso el caso
+# KGS bcn-3100017 p.4 entró al apéndice como si fuera técnica). Clase
+# RESPONSABILIDAD bilingüe, sobre texto FOLDED (sin tildes). La clase
+# GARANTÍA queda FUERA a conciencia: «la garantía se anula si se abre la
+# carcasa» sí carga contenido operativo útil (límite declarado, no olvido).
+_LEGAL_DISCLAIMER_RX = re.compile(
+    # Formas FUERTES (léxico jurídico inequívoco, sin guarda):
+    r"declina (toda )?responsabilidad|no asume (ninguna )?responsabilidad"
+    r"|queda excluida la responsabilidad|exime de (toda )?responsabilidad"
+    r"|en ningun caso (sera|seran|se hara|se haran|es|son) responsable"
+    # Formas NEGADAS «no … responsable» SOLO con contexto de EXENCIÓN a la
+    # vista (≤90 chars: daños/pérdidas/uso indebido/omisiones/derivados…).
+    # Fable r16: «el módulo no es responsable de generar la alarma» es
+    # arquitectura REAL — la guarda que el EN ya tenía, simétrica en ES
+    # (preferimos un disclaimer colado a una obligación perdida).
+    r"|no (se hara|se haran|se hace|se hacen|sera|seran|es|son|nos hacemos) responsables?"
+    r"(?=.{0,90}(dan(o|os)\b|perdid|gasto|perjuicio|uso (indebido|incorrecto)"
+    r"|mal uso|abuso|omision|incumplim|derivad|fortuito|indirecto|reclamacion))"
+    # EN (guardas desde v1):
+    r"|shall not be liable|assumes? no (liability|responsibility)"
+    r"|not be held liable|disclaims? (all )?liability"
+    r"|no liability (for|is accepted|shall|will)"
+    r"|in no event (shall|will|is|are) .{0,80}(liab|responsib)"
+    # PT: DEFENSIVO — 0 documentos en el censo (Fable r16 F3, declarado):
+    r"|nao se responsabiliza|nao sera responsavel"
 )
 # Frames por POSICIÓN de arranque de la cláusula (foldeada y sin markup/etiqueta):
 #   conditional    «si/cuando/como/al+infinitivo …»  escenario subordinado — no
@@ -651,6 +696,9 @@ def _universal_frame_skip(folded: str) -> bool:
         or _STEP_LEAD_RX.match(lead)
         or _FRAME_SKIP_RX.search(folded)
         or _EXAMPLE_FRAME_RX.search(folded)
+        # (s318/#71, flag-gated) el boilerplate legal no es una obligación
+        # técnica del manual — ver _LEGAL_DISCLAIMER_RX arriba.
+        or (_legal_skip_activo() and _LEGAL_DISCLAIMER_RX.search(folded))
     )
 
 
@@ -1392,7 +1440,7 @@ def apply_evidence_contract(
         "skipped_unanchored": 0,
         "skipped_display_parity": 0,
         "skipped_answer_gate": 0,
-        "lexicon_version": LEXICON_VERSION,
+        "lexicon_version": lexicon_version_efectiva(),
     }
     if not answer_text.strip() or not served_cards:
         receipt["reason"] = "empty_answer_or_no_served_context"

@@ -3345,3 +3345,22 @@ diversify tragaban excepciones sin traza → canales CONTENT/DIVERSIFY en el esq
 cerrado. Medido con gate de paridad: PARIDAD EXACTA de ids en las 3 queries y mediana
 4,2 → 2,6 s. Acumulado de la sesión de rapidez: el retrieval que costaba 19 s en el
 perfil v1 cuesta 2,6 s (−86%). #72 cerrada para el serving; DEC-207.
+
+## s318 (12-ago-2026) — #71 construido flag-off con dúo r16; el paquete de sentada única queda en manos de Alberto
+
+La sesión ejecutó #71 de punta a punta sin encenderlo: censo (108 docs con
+boilerplate de responsabilidad; 105 activos), frame `legal_disclaimer` en la
+familia `_universal_frame_skip` con flag default-off (aparato protegido DEC-148),
+y la sonda que el dúo obligó a rehacer — la v1 medía el regex y vendía «129
+frases que desaparecerían»; la v2 ejecuta `_universal_obligations` con
+pregunta-oráculo y da la cifra honesta: 83 obligaciones legales removidas en
+70 docs, 0 técnicas cambiadas, 28 mixtas listadas verbatim para adjudicación.
+Sol metió dos críticos contra mis propios recibos (la sonda-regex y la
+contradicción de las mixtas) y Fable cazó la guarda ES ausente («el módulo no
+es responsable de generar la alarma» es arquitectura, no exención) — sexta
+ronda consecutiva cazando framing del autor. Todo aplicado; 24 tests
+incluyendo el camino real off/on. La decisión del ON viaja en
+`evals/s318_sentada_adjudicacion_packet_v1.md` (sentada única: DP312x + B2 +
+#71), con el FULL fresco detrás, en la secuencia que Alberto fijó. También:
+explicado el proceso de compartir el bot con DGs externos (aviso v8 + modelo
+de acceso + bienvenida como pre-requisitos; paquete preparable a demanda).
