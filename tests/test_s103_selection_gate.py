@@ -21,6 +21,18 @@ from src.rag.generator import (  # noqa: E402
     _selection_block_on,
 )
 
+@pytest.fixture(autouse=True)
+def _prompt_legacy(monkeypatch):
+    """s319 graduación: estos tests miden el AISLAMIENTO del bloque de selección;
+    los otros flags de prompt (fidelity/followups/anti-invención, ahora ship por
+    default) se pinean a su mundo pre-graduación para que las igualdades
+    byte-exactas midan SOLO el bloque bajo test."""
+    monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
+    monkeypatch.setenv("GENERATOR_FOLLOWUPS", "on")
+    monkeypatch.setenv("ANTI_DIAGRAM_INVENTION", "off")
+    monkeypatch.setenv("GENERATOR_DIRECT_FIRST", "off")
+
+
 Q_SELECCION = ("Necesito un detector de llama SharpEye «40/40» (Spectrex / Notifier) "
                "para una instalación; ¿qué modelo pido?")
 Q_SPEC = ("¿Qué resistencia de final de línea llevan las salidas de sirena de la "
@@ -64,6 +76,8 @@ def test_regex_positivos_seleccion_con_relleno():
 
 
 def test_flag_off_prompt_identico(monkeypatch):
+    # r18 (Sol M2): SELECTION_BLOCK quedó FUERA del lote de graduación —
+    # DEC-101 es «candidato pendiente de GO» (cat021 flaky) → default off.
     monkeypatch.delenv("GENERATOR_SELECTION_BLOCK", raising=False)
     assert _SELECTION_BLOCK not in _assemble_system(Q_SELECCION)
 

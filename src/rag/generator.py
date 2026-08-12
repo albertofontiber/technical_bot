@@ -573,6 +573,9 @@ intacta para averías/configuración de un equipo ya instalado (ahí sí: pregun
 def _selection_block_on() -> bool:
     """(s102 L4 → s103b code-gated) Flag del bloque de selección. Parser estricto fail-fast
     (lección s96-H3: un typo no puede medio-apagar un lever)."""
+    # s319: FUERA del lote de graduación (r18, Sol M2 — DEC-101 lo dejó como
+    # «candidato pendiente de GO» con cat021 flaky en su historia: Railway=on
+    # es estado operativo, no veredicto settled). El default sigue off.
     raw = os.getenv("GENERATOR_SELECTION_BLOCK", "off").strip().lower()
     if raw == "on":
         return True
@@ -586,26 +589,49 @@ def _is_selection_query(query: str) -> bool:
     return bool(_SELECTION_INTENT.search(query or ""))
 
 
+def _guard_estricto(nombre: str, raw: str) -> bool:
+    """(s319 r18, Sol M3) Parser ESTRICTO de los guards de SEGURIDAD graduados:
+    un typo en Railway NO puede medio-apagarlos en SILENCIO (espejo del
+    precedente HYQ fail-fast, retriever._hyq_table_on). Runtime a propósito —
+    el toggle por env sigue vivo; un valor no reconocido revienta RUIDOSO en
+    vez de degradar un guard de seguridad a no-op. El `os.getenv` LITERAL vive
+    en el call-site (el censo de flags escanea literales — L2b)."""
+    valor = (raw or "").strip().lower()
+    if valor in ("1", "true", "yes", "on"):
+        return True
+    if valor in ("0", "false", "no", "off"):
+        return False
+    raise RuntimeError(f"{nombre}={raw!r} no reconocido (on|off) — fail-fast")
+
+
 def _assemble_system(
     query: str | None = None, *, enforced_policy: bool = False
 ) -> str:
-    """A/B s69: GENERATOR_PROMPT_VARIANT=base|fidelity (env, leído en RUNTIME para togglear
-    el A/B en un mismo proceso; default base). base == SYSTEM_PROMPT BYTE-IDÉNTICO (el test
-    de paridad `tests/test_s69_prompt_variant.py` lo asserta sin llamar al LLM — el
-    aislamiento NO se prueba con output, que es no-determinista, DEC-015). fidelity añade
-    `_FIDELITY_BLOCK`. Reversible como GENERATOR_INCLUDE_CONTEXT; default INERTE = prod.
-    (s103b) + `_SELECTION_BLOCK` SOLO si GENERATOR_SELECTION_BLOCK=on ∧ la query dispara
-    `_SELECTION_INTENT` (trigger en código, no en el prompt — ver bloque arriba)."""
+    """Prompt del generador, compuesto por flags leídos en RUNTIME (togglear en
+    un mismo proceso). s319 (DEC-210): el DEFAULT sin env = conducta SHIP
+    verificada en Railway — fidelity + followups-off + anti-invención-on; el
+    mundo legacy (SYSTEM_PROMPT byte-idéntico) sigue construible con env
+    explícito y `tests/test_s69_prompt_variant.py` asserta AMBOS sin llamar al
+    LLM (el aislamiento no se prueba con output — DEC-015).
+    (s103b) + `_SELECTION_BLOCK` SOLO si GENERATOR_SELECTION_BLOCK=on ∧ la
+    query dispara `_SELECTION_INTENT` (fuera del lote de graduación r18:
+    DEC-101 = candidato pendiente de GO)."""
     base = SYSTEM_PROMPT
-    if os.getenv("GENERATOR_PROMPT_VARIANT", "base") == "fidelity":
+    # s319 graduación (DEC-098 SHIP + Railway=fidelity verificado)
+    if os.getenv("GENERATOR_PROMPT_VARIANT", "fidelity") == "fidelity":
         base = SYSTEM_PROMPT + _FIDELITY_BLOCK
-    if os.getenv("GENERATOR_FOLLOWUPS", "on").strip().lower() == "off":
+    # s319 graduación (DEC-162e: métrica 10/10→0/12, recomendación D1 «OFF»
+    # APLICADA en Railway=off — cita honesta r18/Fable F2: el paquete D1-D11
+    # sigue formalmente sin adjudicar; lo graduado es el estado verificado)
+    if os.getenv("GENERATOR_FOLLOWUPS", "off").strip().lower() == "off":
         base = base.replace(_FOLLOWUP_BLOCK, "")
     if os.getenv("GENERATOR_DIRECT_FIRST", "off").strip().lower() == "on":
         base = base + _DIRECT_FIRST_BLOCK
     if _selection_block_on() and query is not None and _is_selection_query(query):
         base = base + _SELECTION_BLOCK
-    if os.getenv("ANTI_DIAGRAM_INVENTION", "off").strip().lower() == "on":
+    # s319 graduación (DEC-162a peligro 10/10→0/20 + Railway=on verificado)
+    if _guard_estricto("ANTI_DIAGRAM_INVENTION",
+                       os.getenv("ANTI_DIAGRAM_INVENTION", "on")):
         base = base + _ANTI_DIAGRAM_BLOCK
     if enforced_policy:
         base = base + render_enforced_system_policy()
@@ -981,7 +1007,9 @@ Responde la pregunta del técnico basándote exclusivamente en los fragmentos an
     # Contrato de posición: tras apply_answer_planner y ANTES de must_preserve →
     # conflict_guard → EC, para que los appenders re-validen sobre el texto guardado.
     wiring_guard_trace = None
-    if os.getenv("WIRING_TOPOLOGY_GUARD", "off").strip().lower() == "on":
+    # s319 graduación (DEC-162a supresiones 0/48 + Railway=on verificado)
+    if _guard_estricto("WIRING_TOPOLOGY_GUARD",
+                       os.getenv("WIRING_TOPOLOGY_GUARD", "on")):
         answer, wiring_guard_trace = apply_wiring_topology_guard(relevant_chunks, answer)
         if wiring_guard_trace.get("action") != "noop":
             logger.warning(

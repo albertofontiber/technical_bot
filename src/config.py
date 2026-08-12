@@ -70,14 +70,18 @@ EMBEDDING_DIMENSIONS = 1536
 # (por contenido, reranker.py) elige top-5 de un pool ancho; evita el burial del CORTE
 # merged[:15], que enterraba chunks de coseno real bajo keyword-stamps planos (0.80-0.85).
 # Medido A/B K=3 HyDE-off (test_bot_vs_gold): FALLO ~6→1 estable (3 réplicas idénticas),
-# 7 mejoras / 1 regresión (hp013, completitud). RERANK_TOP_K (generador) se queda en 5.
+# 7 mejoras / 1 regresión (hp013, completitud).
 RETRIEVAL_TOP_K = 50
-# s98/s99: ancho de la ventana SERVIDA al generador (rerank top-N). Default 5 = prod histórico
-# (DEC-018 "generate narrow"). SWAP reversible por entorno (patrón CHUNKS_TABLE/RERANKER_BACKEND).
+# s98/s99: ancho de la ventana SERVIDA al generador (rerank top-N).
 # s99: gate de NO-REGRESIÓN PASADO (K=5 juez K-mayoría; las 3 "regresiones" verificadas = artefactos
-# del juez, el bot sirve MÁS info correcta con fuente, 0 invención) + GO de Alberto → SHIPPEABLE.
-# En Railway se pone RERANK_TOP_K=10 (con LLM_MAX_TOKENS=3500, ver abajo). DEC-092. Rollback = quitar.
-RERANK_TOP_K = int(os.getenv("RERANK_TOP_K", "5"))
+# del juez, el bot sirve MÁS info correcta con fuente, 0 invención) + GO de Alberto → SHIP (DEC-092b).
+# Rollback = env var en Railway (el override por entorno sigue mandando).
+# s319 graduación (DEC-092b + Railway=10 verificado): el ancho servido top-10
+# rescató 11/13 rerank-miss con 0 regresión real. Se gradúa EN PAREJA con
+# LLM_MAX_TOKENS=3500 (r18, Sol M1/Fable F1: el 10 se validó ACOPLADO al 3500 —
+# con 2048 cat019 truncó `stop=max_tokens`; un default 10+2048 sería la
+# combinación medida como mala).
+RERANK_TOP_K = int(os.getenv("RERANK_TOP_K", "10"))
 CHUNK_MAX_TOKENS = 1500
 CHUNK_OVERLAP_TOKENS = 200
 
@@ -302,11 +306,12 @@ LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
 # la disciplina de DEC-186). El rewriter solo se cambia deliberadamente, y portándole
 # los fixes de compatibilidad primero.
 REWRITER_MODEL = os.getenv("REWRITER_MODEL", "claude-sonnet-4-6")
-# s99: tope de tokens de SALIDA del generador. SWAP reversible por entorno (patrón RERANK_TOP_K)
-# — default 2048 = prod histórico INERTE. Se sube a 3500 en Railway JUNTO con RERANK_TOP_K=10:
-# servir 10 chunks produce respuestas más completas que a veces rozaban el cap de 2048 (cat019
-# truncaba, TECH_DEBT #74). Sin el bump, top-10 truncaría respuestas verbosas. DEC-092.
-LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2048"))
+# s99: tope de tokens de SALIDA del generador. s319 graduación EN PAREJA con
+# RERANK_TOP_K=10 (r18): el default es el valor RECIBIDO (DEC-092b: «0 truncado
+# con 3500»; a 2048 cat019 truncaba) — NO el de Railway, que hoy es 8000 SIN
+# recibo en DECISIONS (discrepancia señalada, adjudicación de Alberto pendiente;
+# producción no cambia: su env var manda).
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "3500"))
 
 # Validator post-generación: experimentado s13 y REVERTIDO (net-neutral, 2-3x coste/latencia);
 # código borrado en s56 tras 7 semanas muerto (TECH_DEBT #11i; rationale completo y el código

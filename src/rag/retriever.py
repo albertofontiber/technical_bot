@@ -1610,11 +1610,14 @@ def _hyq_pilot_hits(query_embedding: list[float], threshold: float) -> dict:
 
 
 def _hyq_table_on() -> bool:
-    """(s102 ship hyq, D2/DEC-095) Flag PERMANENTE del canal question-side servido por la
-    tabla chunks_v2_hyq (migración 013). off (default) = ni RPC ni servicio — prod inerte.
-    Parser estricto (espejo de _multivector_on, lección s96-H3): el paso de ship es
-    literalmente "env var en Railway"; un typo no puede medio-apagar el canal."""
-    raw = os.getenv("HYQ_TABLE", "off").strip().lower()
+    """(s102 ship hyq, D2/DEC-095 · s319 graduación DEC-210) Flag PERMANENTE del canal
+    question-side servido por la tabla chunks_v2_hyq (migración 013). Default ON desde
+    s319 (= producción verificada; DEC-099 + verificado en prod); off explícito = ni RPC
+    ni servicio (rollback en Railway sin deploy). Parser estricto (espejo de
+    _multivector_on, lección s96-H3): un typo no puede medio-apagar el canal."""
+    # s319 graduación (DEC-099 verificado en prod + Railway=on): el canal
+    # question-side ES la conducta ship — el default deja de esconderlo.
+    raw = os.getenv("HYQ_TABLE", "on").strip().lower()
     if raw in ("1", "true", "yes", "on"):
         return True
     if raw in ("", "0", "false", "no", "off"):
@@ -1692,10 +1695,13 @@ def _hyq_table_hits(client: httpx.Client, query_embedding: list[float],
 
 
 def _multivector_on() -> bool:
-    """(T0 s94b) Flag PERMANENTE del multi-vector de enunciados (sustituye al PILOT_*
-    del piloto s94). off (default) = los surrogates ni se piden al RPC ni se sirven
-    (invariante de no-servicio en 007 + _no_surrogates)."""
-    raw = os.getenv("ENUNCIADOS_MULTIVECTOR", "off").strip().lower()
+    """(T0 s94b · s319 graduación DEC-210) Flag PERMANENTE del multi-vector de
+    enunciados. Default ON desde s319 (= producción: LEVER_DIGEST fila A3 —
+    PR #111 + Railway=on + verificado en prod 5-jul); off explícito = los
+    surrogates ni se piden al RPC ni se sirven (invariante de no-servicio en
+    007 + _no_surrogates; rollback en Railway sin deploy)."""
+    # s319 graduación (DEC-090 gate 4/4 + verificado en prod + Railway=on)
+    raw = os.getenv("ENUNCIADOS_MULTIVECTOR", "on").strip().lower()
     if raw in ("1", "true", "yes", "on"):
         return True
     if raw in ("", "0", "false", "no", "off"):

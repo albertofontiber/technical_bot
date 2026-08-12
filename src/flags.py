@@ -1,6 +1,6 @@
 """src/flags.py — REGISTRO declarativo de la configuración por entorno (L2b, s311).
 
-Qué ES: el censo ejecutable de las 91 flags que `src/` lee del entorno — censo v5,
+Qué ES: el censo ejecutable de las 97 flags que `src/` lee del entorno — censo v5,
 fuente UNICA en `tests/_censo_flags.py` (8 vias, ambas comillas, profile-owned por
 import del constante, y flags data-driven de los YAML de fabricantes), con default (como TEXTO fuente — el lector real
 es quien lo resuelve), vía y lectores por flag. Generado del árbol y VERIFICADO contra
@@ -39,7 +39,7 @@ REGISTRO: dict[str, dict] = {
         "divergencia": ['""', 'None'],  # VISIBLE a proposito (L2b: el pin detecta, no corrige)
     },
     "ANTI_DIAGRAM_INVENTION": {
-        "default_fuente": '"off"',
+        "default_fuente": '"on"',
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
@@ -124,7 +124,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/reingest/embed.py',),
     },
     "ENUNCIADOS_MULTIVECTOR": {
-        "default_fuente": '"off"',
+        "default_fuente": '"on"',
         "via": ['getenv'],
         "lectores": ('src/rag/retriever.py',),
     },
@@ -154,7 +154,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/rag/generator.py',),
     },
     "GENERATOR_FOLLOWUPS": {
-        "default_fuente": '"on"',
+        "default_fuente": '"off"',
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
@@ -164,7 +164,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/rag/generator.py',),
     },
     "GENERATOR_PROMPT_VARIANT": {
-        "default_fuente": '"base"',
+        "default_fuente": '"fidelity"',
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
@@ -199,7 +199,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/rag/retriever.py',),
     },
     "HYQ_TABLE": {
-        "default_fuente": '"off"',
+        "default_fuente": '"on"',
         "via": ['getenv'],
         "lectores": ('src/rag/retriever.py',),
     },
@@ -270,7 +270,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/rag/catalog_resolver.py', 'src/rag/retriever.py'),
     },
     "LLM_MAX_TOKENS": {
-        "default_fuente": '"2048"',
+        "default_fuente": '"3500"',
         "via": ['getenv'],
         "lectores": ('src/config.py',),
     },
@@ -401,7 +401,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/config.py',),
     },
     "RERANK_TOP_K": {
-        "default_fuente": '"5"',
+        "default_fuente": '"10"',
         "via": ['getenv'],
         "lectores": ('src/config.py',),
     },
@@ -518,7 +518,7 @@ REGISTRO: dict[str, dict] = {
         "sensible": True,
     },
     "WIRING_TOPOLOGY_GUARD": {
-        "default_fuente": '"off"',
+        "default_fuente": '"on"',
         "via": ['getenv'],
         "lectores": ('src/rag/generator.py',),
     },
