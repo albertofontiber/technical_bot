@@ -684,9 +684,22 @@ def advance_working_state(
 # process. ``conversation_policy.default_policy()`` calls this.
 # ---------------------------------------------------------------------------
 def conversation_policy_active() -> bool:
-    """True when ``CONVERSATION_POLICY=impl`` (default OFF -> the stub, keeping
-    the frozen contract tests green until the orchestrator activates Phase 1)."""
-    return os.getenv("CONVERSATION_POLICY", "stub").strip().lower() == "impl"
+    """True when ``CONVERSATION_POLICY=impl``. s319 PR-C (DEC-211): default
+    ``impl`` — la política F1 ES producción desde su ship verificado; el
+    régimen stub queda disponible por env EXPLÍCITO (``CONVERSATION_POLICY=
+    stub``) para el instrumento MT y los tests de contrato congelados.
+
+    Parser ESTRICTO (r19, Sol M1): un typo en Railway degradaba al stub EN
+    SILENCIO — un cambio de conducta servida sin señal. Enum cerrado
+    impl|stub; cualquier otro valor revienta RUIDOSO (espejo del precedente
+    HYQ/_guard_estricto)."""
+    raw = os.getenv("CONVERSATION_POLICY", "impl").strip().lower()
+    if raw == "impl":
+        return True
+    if raw == "stub":
+        return False
+    raise RuntimeError(
+        f"CONVERSATION_POLICY={raw!r} no reconocido (impl|stub) — fail-fast")
 
 
 __all__ = [

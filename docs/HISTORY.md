@@ -3364,3 +3364,39 @@ incluyendo el camino real off/on. La decisión del ON viaja en
 #71), con el FULL fresco detrás, en la secuencia que Alberto fijó. También:
 explicado el proceso de compartir el bot con DGs externos (aviso v8 + modelo
 de acceso + bienvenida como pre-requisitos; paquete preparable a demanda).
+
+## s319 (12-ago-2026) — Sesión de CONSOLIDACIÓN estructural completa: backup restaurable + backfill + graduación de flags + retirada del camino legacy (3 PRs, dúos r17-r19)
+
+Alberto adjudicó la sesión de consolidación (1+2+3+4) con los puntos 1/4 del
+paquete de apertura en paralelo, y el elefante (catálogo DEC-074) detrás. Se
+ejecutó entera en tres PRs con dúo POR DISEÑO antes de cada build:
+
+**PR-A (#244, mergeada)**: primer backup lógico restaurable bajo nuestro
+control (drill de restauración obligatorio — 133.103 filas, PASS; capa PII
+fuera con DECIDIR); backfill de revisión (94 docs, colisión única = DP312x,
+auto-valida el censo s317); borrador del aviso v8 (6 DECIDIR para abogado) +
+censo de primer tráfico con redacción de PII. El dúo r17 (Sol 10 con 2
+críticos · Fable 3) rediseñó el backup ANTES de construirlo (recibo de bytes
+≠ recuperación; un dump estático no hereda la retención RGPD) y cazó un ancla
+falsa del autor («verificado import» que era un dict).
+
+**PR-B (#245, mergeada)**: graduación de flags lote 1 — 7 + 1 pareja de 97:
+el default del código deja de mentir sobre producción. El gate de
+pre-verificación contra Railway disparó DOS veces (LLM_MAX_TOKENS=8000 sin
+recibo → adjudicable; SELECTION_BLOCK no-settled → fuera), y el dúo r18 cazó
+que el lote v1 rompía el ACOPLAMIENTO 10+3500 medido en DEC-092b. Los guards
+de seguridad ganaron parser estricto (typo ya no degrada en silencio).
+
+**PR-C**: el camino LEGACY de serving RETIRADO — run_turn es la ruta única,
+ORCHESTRATOR_PATH muerto, CONVERSATION_POLICY graduado a impl con enum
+estricto. Onda expansiva 68 tests → 0 en cuatro clases previstas. El dúo r19
+cazó el fail-silent del rollback (typo → stub sin señal), las degradaciones
+sin declarar del rollback-a-stub (INTENT_LLM inalcanzable) y la contaminación
+legacy en DOCS y contratos («la clase que la PR decía eliminar estaba también
+en la prosa»). Rollback re-documentado: por-lever preferente; stub = último
+recurso explícito.
+
+Racha del dúo: rondas 12-19 consecutivas cazando framing del autor — la
+lección acumulada de la semana: los verdes dicen que el sistema pasa sus
+pruebas; solo el adversario mirando la costura medido↔servido↔documentado
+dice que las pruebas hablan del sistema.

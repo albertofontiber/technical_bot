@@ -38,7 +38,7 @@ def eq(monkeypatch):
     import src.orchestrator as orch
     import src.rag.retriever as retriever
 
-    monkeypatch.setattr(bot, "ORCHESTRATOR_PATH", True)
+    # s319 PR-C: ORCHESTRATOR_PATH retirado — la ruta orquestador es incondicional
     monkeypatch.setenv("CONVERSATION_POLICY", "impl")
 
     rec = {"logs": [], "seud": [], "gen": [], "catalogo": 0, "feedback": [],
@@ -381,13 +381,14 @@ def test_resolver_no_paga_marca_servida_si_el_modelo_resolvio(eq):
 
 # --- FASE B: rollback (régimen stub) con el estado ÚNICO ----------------------
 def test_rollback_stub_conserva_carry_forward(eq, monkeypatch):
-    """Quitar CONVERSATION_POLICY de Railway es el rollback documentado. Fase B retiró
-    las claves legacy: el carry-forward stub lee/escribe `mt_working_state` vía
-    `transicion_basica`. Este flujo A→B es el que ANTES quedaba muerto en silencio
-    (crítico convergente de la ronda 6)."""
+    """CONVERSATION_POLICY=stub EXPLÍCITO es el rollback documentado desde s319
+    PR-C (el default graduó a impl — quitar la var ya no baja al stub). Fase B
+    retiró las claves legacy: el carry-forward stub lee/escribe
+    `mt_working_state` vía `transicion_basica`. Este flujo A→B es el que ANTES
+    quedaba muerto en silencio (crítico convergente de la ronda 6)."""
     import src.bot.telegram_bot as bot
 
-    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)   # régimen stub
+    monkeypatch.setenv("CONVERSATION_POLICY", "stub")   # régimen stub explícito
     context = SimpleNamespace(user_data={})
     _turno("¿cuáles son las especificaciones técnicas de la CAD-250?",
            user_data=context.user_data)

@@ -108,7 +108,7 @@ def transporte(monkeypatch):
     import src.orchestrator as orch
     import src.rag.retriever as retriever
 
-    monkeypatch.setattr(bot, "ORCHESTRATOR_PATH", True)
+    # s319 PR-C: ORCHESTRATOR_PATH retirado — la ruta orquestador es incondicional
     monkeypatch.setenv("CONVERSATION_POLICY", "impl")
 
     rec = {"generate_queries": [], "logs": [], "replies": []}

@@ -1,6 +1,6 @@
 """src/flags.py — REGISTRO declarativo de la configuración por entorno (L2b, s311).
 
-Qué ES: el censo ejecutable de las 97 flags que `src/` lee del entorno — censo v5,
+Qué ES: el censo ejecutable de las 96 flags que `src/` lee del entorno — censo v5,
 fuente UNICA en `tests/_censo_flags.py` (8 vias, ambas comillas, profile-owned por
 import del constante, y flags data-driven de los YAML de fabricantes), con default (como TEXTO fuente — el lector real
 es quien lo resuelve), vía y lectores por flag. Generado del árbol y VERIFICADO contra
@@ -69,7 +69,7 @@ REGISTRO: dict[str, dict] = {
         "lectores": ('src/config.py',),
     },
     "CONVERSATION_POLICY": {
-        "default_fuente": '"stub"',
+        "default_fuente": '"impl"',
         "via": ['getenv'],
         "lectores": ('src/orchestrator/conversation_policy_impl.py',),
     },
@@ -359,11 +359,6 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/config.py',),
         "sensible": True,
-    },
-    "ORCHESTRATOR_PATH": {
-        "default_fuente": '"off"',
-        "via": ['strict_on_off'],
-        "lectores": ('src/config.py',),
     },
     "POST_RERANK_COVERAGE": {
         "default_fuente": '"off"',
