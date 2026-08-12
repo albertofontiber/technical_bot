@@ -6020,3 +6020,45 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   upsert en los WRITES de scripts — hoy cubierto por bisección+poison; sin señal de
   que duela. La deuda #72 queda CERRADA en lo que el serving necesita.
 - **Relacionado**: DEC-205/205b/206 · tally r15 ts=2026-08-12T08:28:43.
+
+## DEC-208 (s318) — #71: frame `legal_disclaimer` en el evidence_contract CONSTRUIDO flag-off; el ON es adjudicación de Alberto (DEC-148); dúo r16 con dos críticos contra los recibos del autor
+
+- **Fecha**: 12 ago 2026 (s318). **Impacto**: MEDIO en zona de dolor (aparato protegido
+  del contrato de evidencia) — dúo completo r16.
+- **El defecto (#71)**: el apéndice «Obligaciones de evidencia del manual» citó el
+  párrafo de responsabilidad legal de KGS (bcn-3100017 p.4) como obligación técnica.
+  Mecanismo confirmado en el gate real: el boilerplate lleva cuantificador universal
+  («en ningún caso», «cualquier pérdida») + vocabulario modal — pasa TODOS los gates de
+  `_universal_obligations` y entra al apéndice.
+- **Qué hay**: frame `legal_disclaimer` en la familia `_universal_frame_skip` (encaje
+  estructural: la familia que ya salta capability/conditional/example) ·
+  `_LEGAL_DISCLAIMER_RX` clase RESPONSABILIDAD con formas fuertes sin guarda y formas
+  negadas CON guarda de contexto de exención (≤90 chars) SIMÉTRICA ES/EN (Fable r16 F1:
+  «el módulo no es responsable de generar la alarma» es arquitectura real) · clase
+  GARANTÍA fuera a conciencia · PT defensivo (0 en censo, declarado) · flag
+  `EC_LEGAL_DISCLAIMER_SKIP` default OFF byte-idéntico + versión de léxico EFECTIVA en
+  el recibo (v2 off / v3 on — un recibo v3 con el frame apagado mentiría) · 24 tests
+  incluyendo el CAMINO REAL (la cláusula Notifier entra con OFF, desaparece con ON,
+  control técnico invariante).
+- **Población y efecto medidos**: censo 108 docs/119 chunks (105 ACTIVOS — Sol M5) ·
+  sonda v2 por `_universal_obligations` con pregunta-oráculo (patrón DEC-173):
+  **83 obligaciones legales removidas (70 docs) · 0 no-legales cambiadas · 28 mixtas
+  listadas verbatim** (`evals/s318_disclaimer_probe_v2.json`).
+- **Dúo r16 (Sol 5 crítico-máx · Fable 4 SÓLIDO-CON-RESERVA, 0 FP, TODO aplicado)**:
+  Sol C1 — la sonda v1 medía el REGEX y vendía «129 frases que desaparecerían»
+  cuando el contrato exige cuantificador+compuesto+forma+aplicabilidad → sonda v2 por
+  el camino real (129→83, la cifra honesta). Sol C2 — «mixta no observada» se
+  contradecía con la propia sonda → 28 listadas. Sol M3 — 2 variantes del censo fuera
+  del regex «que el runtime cubriría» (falso) → añadidas con tests. Sol M4 — tests sin
+  el camino protegido → test del gate real. Fable F1 — guarda ES ausente (la reserva).
+  6ª ronda consecutiva cazando framing del autor.
+- **EL ON NO SE DECIDE AQUÍ**: aparato protegido (DEC-148) — la adjudicación viaja en
+  el paquete de sentada única (`evals/s318_sentada_adjudicacion_packet_v1.md`:
+  DP312x + B2 + #71) y el FULL fresco queda detrás de la sentada (secuencia de
+  Alberto). Con el flag OFF el merge no cambia NADA.
+- **Alternativas descartadas**: excluir por página/posición (el boilerplate no siempre
+  abre el doc); listar docs a mano (no escala a 30+); tocar el detector de callouts
+  `safety_mandatory` (el defecto entró por la ruta universal; otra ruta = evidencia
+  nueva); clase GARANTÍA dentro (pierde contenido operativo real).
+- **Relacionado**: TECH_DEBT #71 · DEC-148 · DEC-173 (patrón oráculo) · tally r16
+  ts=2026-08-12T11:15:56.
