@@ -13,6 +13,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 
+from ..http_pool import abierto
+
 from ..config import (SUPABASE_URL, SUPABASE_SERVICE_KEY, RETRIEVAL_TOP_K,
                       CHUNKS_TABLE, RPC_SUFFIX, MERGE_STRATEGY)
 from ..ingestion.embedder import embed_query
@@ -428,7 +430,7 @@ def keyword_search(
         params["order"] = "page_number.asc,id.asc"
         params["limit"] = "15"
 
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -481,7 +483,7 @@ def diagram_search(
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -508,7 +510,7 @@ def typed_search(
     if not pattern:
         return []
 
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -569,7 +571,7 @@ def _rank_window_by_authority(rows: list[dict], limit: int) -> list[dict]:
             "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
         }
         id_list = ",".join(f'"{d}"' for d in doc_ids)
-        with httpx.Client(timeout=3.0) as client:
+        with abierto(timeout=3.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
@@ -638,7 +640,7 @@ def content_search(
             "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
         }
         try:
-            with httpx.Client(timeout=3.0) as client:
+            with abierto(timeout=3.0) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers_get,
@@ -666,7 +668,7 @@ def content_search(
         "match_limit": limit,
     }
     try:
-        with httpx.Client(timeout=3.0) as client:
+        with abierto(timeout=3.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/rpc/search_chunks_text{RPC_SUFFIX}",
                 headers=headers_post,
@@ -690,7 +692,7 @@ def content_search(
         "limit": str(limit * _CONTENT_SEARCH_WINDOW_FACTOR),
     }
     try:
-        with httpx.Client(timeout=3.0) as client:
+        with abierto(timeout=3.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers_get,
@@ -809,7 +811,7 @@ def lookup_model_manufacturer(product_model: str) -> str | None:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -847,7 +849,7 @@ def get_available_manufacturers() -> list[str]:
     # smoke s65: Aritech/Kidde/Edwards invisibles tras el backfill). Paginar.
     rows: list[dict] = []
     offset = 0
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         while True:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
@@ -895,7 +897,7 @@ def manufacturer_in_db(manufacturer_name: str) -> bool:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -930,7 +932,7 @@ def get_manufacturers_by_docs() -> list[tuple[str, int]]:
     # truncado EN SILENCIO en el doc nº 1001. La lección estaba 50 líneas más arriba,
     # en get_available_manufacturers, y no la apliqué).
     offset, page = 0, 500
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         while True:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
@@ -979,7 +981,7 @@ def get_products_by_manufacturer(manufacturer: str) -> list[tuple[str, int]]:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         activos: set[str] = set()
         offset, page = 0, 500
         while True:
@@ -1041,7 +1043,7 @@ def get_all_models_by_category() -> dict[str, list[str]]:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -1072,7 +1074,7 @@ def get_category_models(category: str) -> list[str]:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=15.0) as client:
+    with abierto(timeout=15.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -1149,7 +1151,7 @@ def vector_search(
         "Content-Type": "application/json",
     }
 
-    with httpx.Client(timeout=30.0) as client:
+    with abierto(timeout=30.0) as client:
         resp = client.post(
             f"{SUPABASE_URL}/rest/v1/rpc/match_chunks{RPC_SUFFIX}",
             headers=headers,
@@ -1349,7 +1351,7 @@ def _fetch_embeddings_by_id(ids: list[str]) -> dict[str, list[float]]:
     for i in range(0, len(ids), 80):
         id_list = ",".join(f'"{x}"' for x in ids[i:i + 80])
         try:
-            with httpx.Client(timeout=30.0) as client:
+            with abierto(timeout=30.0) as client:
                 r = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                                params={"select": "id,embedding", "id": f"in.({id_list})"})
             for row in r.json():
@@ -1714,7 +1716,7 @@ def _enunciados_swap(chunks: list[dict]) -> list[dict]:
     for i in range(0, len(parent_ids), 40):
         ids = ",".join(f'"{x}"' for x in parent_ids[i:i + 40])
         try:
-            with httpx.Client(timeout=5.0) as client:
+            with abierto(timeout=5.0) as client:
                 resp = client.get(f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                                   params={"select": _HYDRATE_SELECT, "id": f"in.({ids})"})
                 resp.raise_for_status()
@@ -2413,7 +2415,7 @@ def _get_source_files_for_model(product_model: str) -> list[str]:
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
     try:
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2455,7 +2457,7 @@ def _sources_with_only_inactive_docs(source_files: list[str]) -> set[str]:
     }
     try:
         quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2475,7 +2477,7 @@ def _sources_with_only_inactive_docs(source_files: list[str]) -> set[str]:
         if not all_ids:
             return set()
         id_list = ",".join(f'"{d}"' for d in all_ids)
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp2 = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
@@ -2509,7 +2511,7 @@ def _get_pm_for_sources(source_files: list[str]) -> dict[str, str]:
     }
     quoted = ",".join('"' + sf.replace('"', '\\"') + '"' for sf in source_files)
     try:
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                 headers=headers,
@@ -2577,7 +2579,7 @@ def _fetch_top_chunks_by_source_file(
     if keywords:
         fts_query = " & ".join(keywords[:3])
         try:
-            with httpx.Client(timeout=3.0) as client:
+            with abierto(timeout=3.0) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2601,7 +2603,7 @@ def _fetch_top_chunks_by_source_file(
     for kw in keywords[:3]:
         stem = kw[:6] if len(kw) > 6 else kw  # rough stem
         try:
-            with httpx.Client(timeout=3.0) as client:
+            with abierto(timeout=3.0) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2641,7 +2643,7 @@ def _fetch_chunk_index_by_id(ids: list[str]) -> dict[str, int]:
             continue
         inlist = "(" + ",".join(batch) + ")"
         try:
-            with httpx.Client(timeout=5.0) as client:
+            with abierto(timeout=5.0) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                     params={"id": f"in.{inlist}", "select": "id,chunk_index",
@@ -2661,7 +2663,7 @@ def _fetch_neighbor_chunks(source_file: str, indices: list[int]) -> list[dict]:
                "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}"}
     inlist = "(" + ",".join(str(j) for j in sorted(set(indices))) + ")"
     try:
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}", headers=headers,
                 params=_no_surrogates({"source_file": f"eq.{source_file}",
@@ -2942,7 +2944,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
                 "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
             }
             id_list = ",".join(f'"{i}"' for i in missing_ids)
-            with httpx.Client(timeout=5.0) as client:
+            with abierto(timeout=5.0) as client:
                 resp = client.get(
                     f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
                     headers=headers,
@@ -2979,7 +2981,7 @@ def _filter_by_document_status(chunks: list[dict]) -> list[dict]:
         }
         # PostgREST "in.()" filter for batch lookup
         id_list = ",".join(f'"{d}"' for d in doc_ids)
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/documents",
                 headers=headers,
@@ -3038,7 +3040,7 @@ def _get_all_known_manufacturers() -> list[str]:
         "apikey": SUPABASE_SERVICE_KEY,
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         resp = client.get(
             f"{SUPABASE_URL}/rest/v1/{CHUNKS_TABLE}",
             headers=headers,
@@ -3088,7 +3090,7 @@ def _vector_search_by_manufacturer(
             "Content-Type": "application/json",
         }
 
-        with httpx.Client(timeout=15.0) as client:
+        with abierto(timeout=15.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/rpc/match_chunks{RPC_SUFFIX}",
                 headers=headers,

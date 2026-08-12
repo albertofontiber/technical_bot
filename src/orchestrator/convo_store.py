@@ -37,6 +37,8 @@ from typing import Any, Protocol, TypedDict
 
 import httpx
 
+from ..http_pool import abierto
+
 
 # --- default lifecycle knobs (mirror the SQL DEFAULTs) -----------------------
 DEFAULT_LEASE_SECONDS = 60
@@ -345,7 +347,7 @@ class PostgRESTConvoStore:
 
     def _call(self, fn: str, body: dict[str, Any]) -> dict[str, Any]:
         """POST /rpc/<fn>; a jsonb-returning function yields the object directly."""
-        with httpx.Client(timeout=self._timeout) as client:
+        with abierto(timeout=self._timeout) as client:
             resp = client.post(
                 f"{self._rpc_url}/{fn}", headers=self._headers, json=body
             )
@@ -354,7 +356,7 @@ class PostgRESTConvoStore:
 
     def _call_rows(self, fn: str, body: dict[str, Any]) -> list[dict[str, Any]]:
         """POST /rpc/<fn> for a SETOF-jsonb read RPC; yields the row array."""
-        with httpx.Client(timeout=self._timeout) as client:
+        with abierto(timeout=self._timeout) as client:
             resp = client.post(
                 f"{self._rpc_url}/{fn}", headers=self._headers, json=body
             )

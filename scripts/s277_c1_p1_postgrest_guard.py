@@ -775,6 +775,7 @@ class P1PostgrestGuard:
         self._lock_owned = True
         try:
             self._validate_live_credential()
+            from src import http_pool
             from src.rag import (
                 document_local_coverage,
                 retriever,
@@ -783,6 +784,14 @@ class P1PostgrestGuard:
             )
 
             proxy = _ScopedHttpxProxy(self)
+            # (s317/#72) Los 4 módulos de producto rutean ahora por el cliente
+            # COMPARTIDO (src/http_pool): sin cubrir esa superficie, su tráfico
+            # ESQUIVARÍA este guard (lo cazó el test del fetch estructural).
+            # Dentro del scope: (a) el singleton del pool se cierra — ningún
+            # cliente real pre-construido sobrevive; (b) el kill-switch se
+            # FUERZA — cada bloque construye su cliente vía el proxy; (c) el
+            # httpx del pool ES el proxy. Todo en _saved, restaurado al salir.
+            http_pool.cerrar()
             patches = (
                 (retriever, "httpx", proxy),
                 (retriever, "SUPABASE_URL", self._supabase_url),
@@ -796,6 +805,8 @@ class P1PostgrestGuard:
                 (document_local_coverage, "httpx", proxy),
                 (document_local_coverage, "SUPABASE_URL", self._supabase_url),
                 (document_local_coverage, "SUPABASE_SERVICE_KEY", self._jwt),
+                (http_pool, "httpx", proxy),
+                (http_pool, "_pool_activo", lambda: False),
             )
             for module, name, replacement in patches:
                 self._saved.append((module, name, getattr(module, name)))

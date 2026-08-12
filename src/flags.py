@@ -203,6 +203,11 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/rag/retriever.py',),
     },
+    "HTTP_POOL": {
+        "default_fuente": '"on"',
+        "via": ['getenv'],
+        "lectores": ('src/http_pool.py',),
+    },
     "INTENT_LLM": {
         "default_fuente": '""',
         "via": ['getenv'],

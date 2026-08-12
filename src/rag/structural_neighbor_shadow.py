@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 import httpx
+
+from ..http_pool import abierto
 import yaml
 
 from ..config import (
@@ -162,7 +164,7 @@ def fetch_structural_neighbor_rows(
         return payload
 
     context = (
-        httpx.Client(timeout=timeout_seconds) if client is None else nullcontext(client)
+        abierto(timeout=timeout_seconds) if client is None else nullcontext(client)
     )
     with context as request_client:
         hydrated_rows = get_rows(

@@ -307,6 +307,10 @@ IMPLEMENTATION_PYTHON_SOURCES = (
     "src/bot/__init__.py",
     "src/bot/response_formatter.py",
     "src/config.py",
+    # s317/#72: el cliente HTTP compartido entra al closure via retriever y
+    # los modulos de coverage (sellado CONSCIENTE; los runs historicos fallan
+    # cerrado por diseño — son recibos archivados, no re-ejecutables).
+    "src/http_pool.py",
     "src/ingestion/__init__.py",
     "src/ingestion/embedder.py",
     "src/rag/__init__.py",

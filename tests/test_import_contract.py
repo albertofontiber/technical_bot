@@ -398,8 +398,11 @@ def test_cifras_de_control():
     # 119→120 (s317): + reingest/revision_gate.py — puerta de revisiones
     # supersedidas de la ingesta (#73): señales de edición + cruce contra
     # documents. Producto del pipeline (lo consume ingest_new), no instrumento.
-    assert len(MODULOS) == 120, (
-        f"módulos en src/: {len(MODULOS)} (censo: 120). Si es PRODUCTO nuevo "
+    # 120→121 (s317/#72): + http_pool.py (raíz) — cliente HTTP compartido de
+    # proceso; 55 sitios de serving migrados del patrón cliente-por-llamada
+    # (perfil: 14 clientes/consulta = ~10 s/turno). Producto transversal.
+    assert len(MODULOS) == 121, (
+        f"módulos en src/: {len(MODULOS)} (censo: 121). Si es PRODUCTO nuevo "
         f"deliberado: sube esta cifra y explica el módulo en el PR. Si es un "
         f"experimento/instrumento: NO va en src/ — su casa es scripts/ (o harness/ "
         f"tras L2a). La acreción empezaba exactamente así."

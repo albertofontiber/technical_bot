@@ -73,13 +73,23 @@ los DOS gates del flip cerrados (s316h, DEC-204, dúo r12).**
    httpx por consulta** (7,25 s de contextos SSL + handshakes) → **la fase 2 ES #72**
    (cliente HTTP común); el residual (~8 s de RPCs secuenciales) es la fase siguiente.
 
-**Qué sigue (s317)**: (a) **EL FLIP de INTENT_LLM es decisión de Alberto** (Railway:
-`INTENT_LLM=on`; DEC-204) → tras él: retirar testigo XFAIL + estampar veredicto en
-`LEVER_DIGEST` con la traza real; (b) **adjudicación Alberto**: marcar supersedida la
-DP312x 202503 (censo s317); (c) **#72 = rapidez fase 2** (cliente HTTP común con el
-recibo del perfil; diseño → dúo → build); (d) sentada B2 (Alberto); (e) #71;
-(f) #74 solo si nace consumidor; (g) FULL fresco v3.2 (~$25) cuando se quiera re-medir
-calidad post-Casmar/Kidde.
+10. **FLIP de INTENT_LLM EJECUTADO por Alberto y VERIFICADO** (s317b, DEC-205b): API
+    Railway por servicio → `worker.INTENT_LLM='on'`. #70 etapa 2 corre en producción.
+    Testigo XFAIL retirado (relevo = test de pegamento flag-ON); fila estampada en
+    LEVER_DIGEST. Veredicto conducta-en-producción pendiente de TRÁFICO.
+11. **#72 FASE 1 CERRADA** (s317, DEC-206, dúo r14 aplicado entero): cliente HTTP
+    compartido de proceso — retrieval caliente **19,0→4,5 s (−76%)**, mediana
+    intercalada 11,9→4,6 s, paridad A/B limpia (cross-mode = within-mode en las 3
+    queries). 55 sitios migrados; `HTTP_POOL=off` = rollback sin deploy; default ON
+    entra CON el merge. Fase 2 abierta: política de reintentos idempotencia-aware +
+    paralelizar los ~14 RPCs secuenciales (residual ~4,4 s).
+
+**Qué sigue (s317 cierre)**: (a) **adjudicación Alberto**: marcar supersedida la
+DP312x 202503 (censo s317); (b) **#72 fase 2** (retries idempotencia-aware +
+paralelización de canales, dúo propio); (c) sentada B2 (Alberto); (d) #71; (e) #74
+solo si nace consumidor; (f) FULL fresco v3.2 (~$25) para re-medir calidad
+post-Casmar/Kidde + verificar el efecto del pool en `salud_latencia_etapas_v1`
+cuando haya tráfico; (g) leer la traza `intent` cuando haya filas.
 
 ### s315 (9 ago 2026) — resumen
 

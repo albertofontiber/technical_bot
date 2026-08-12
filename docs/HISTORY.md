@@ -3306,3 +3306,27 @@ gordo (retrieve 11-27 s/turno) y el cProfile local hizo el resto: CATORCE client
 httpx construidos por consulta — siete segundos de contextos SSL leídos del disco,
 más handshakes — unos 10 s/turno de puro overhead. La fase 2 de rapidez y la deuda
 #72 resultaron ser el mismo trabajo, y ahora tiene recibo y retorno medido.
+
+## s317b (12 ago 2026, madrugada) — El flip encendido y el turno partido por la mitad
+
+Alberto mergeó #239, añadió la variable, y pidió plan claro + autonomía. Bloque 0:
+verificar el flip contra la API de Railway (por servicio — el detalle que la memoria
+ya guardaba), retirar el testigo XFAIL que llevaba tres días documentando el bug, y
+estampar el lever en LEVER_DIGEST. #70 entero, causa 1 y causa 2, quedó cerrado en
+producción en cuatro días de arco.
+
+Bloque 1: #72 fase 1. El perfil había señalado ~10 s/turno de puro overhead de
+transporte; el fix fue un cliente de proceso con un shim de UN token por sitio (55
+migrados, cuerpos intactos) y la suite entera corriendo en modo kill-switch para que
+veinte ficheros de fakes siguieran interceptando sin tocar una línea. El dúo r14 pagó
+como siempre: Sol probó que mis limits eran código muerto (un HTTPTransport explícito
+los ignora — expiry real de 5 s, no mis 30 prometidos) y que el kill-switch no era «la
+forma de hoy»; Fable probó que mi «retries=1 cubre la conexión caducada» era falso y
+me obligó a declararlo como riesgo residual. Cuarta ronda consecutiva cazándome
+framing. Los tripwires de la casa (sello P1, registro de flags) cazaron el resto.
+
+Resultado medido con la comparación correcta (within vs cross-mode, A/B intercalado):
+retrieval 19→4,5 s caliente, paridad = jitter base exacto, cero efecto del pool en los
+ids servidos. El turno del técnico — cuando vuelva a haber técnicos — baja del orden
+de 30 s al de 15-20. La fase 2 (retries con idempotencia + paralelizar canales) queda
+abierta con su residual medido: 4,4 s de espera secuencial.
