@@ -1,0 +1,45 @@
+{
+ "que_es": "Censo de tráfico real desde --desde. Sin PII: uid=hash12, sin textos (van a data-root con --con-texto).",
+ "desde": "2026-08-01",
+ "utc": "20260812T140514Z",
+ "consultas": 25,
+ "usuarios_distintos": 1,
+ "consultas_por_usuario_hash": {
+  "61eba671ba4d": 25
+ },
+ "por_dia": {
+  "2026-08-01": 4,
+  "2026-08-02": 3,
+  "2026-08-07": 3,
+  "2026-08-08": 6,
+  "2026-08-09": 7,
+  "2026-08-10": 1,
+  "2026-08-11": 1
+ },
+ "por_ruta": {
+  "?": 7,
+  "rag": 15,
+  "catalog_shortcut": 3
+ },
+ "por_fuente": {
+  "text": 25
+ },
+ "latencia_ms": {
+  "mediana": 34988,
+  "n": 25
+ },
+ "timings_mediana_ms": {
+  "retrieve_ms": 16109,
+  "rerank_ms": 1875,
+  "coverage_ms": 1670,
+  "generate_ms": 14126
+ },
+ "intent": {
+  "not_invoked:none": 1
+ },
+ "feedback": {
+  "total": 5,
+  "negativos": 0,
+  "detalle_negativos": []
+ }
+}

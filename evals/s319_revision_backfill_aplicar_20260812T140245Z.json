@@ -1,0 +1,591 @@
+{
+ "que_es": "Backfill FILENAME-ONLY de documents.revision (avance parcial de #4; portadas tras gate de equivalencia; cambios de status = adjudicación).",
+ "modo": "aplicar",
+ "docs_activos": 1069,
+ "con_revision_previa": 110,
+ "backfill_planificado": 94,
+ "backfill_aplicado": 94,
+ "sin_senal_filename": 865,
+ "colisiones_para_adjudicar": [
+  {
+   "base": "mi kidde ke dp312x snx es",
+   "formato": "fecha",
+   "revisiones": [
+    {
+     "rev": "2025.3",
+     "file": "MI_KIDDE_KE_DP312x_SNx_202503_ES_acf9.pdf"
+    },
+    {
+     "rev": "2025.12",
+     "file": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf"
+    }
+   ]
+  }
+ ],
+ "plan": [
+  {
+   "id": "06715fb0-b774-4437-96a0-a4026ab18136",
+   "file": "15274 RevB - RZA-4X_Eng",
+   "revision": "[rev_letra] 15274 rza 4x eng = B",
+   "revision_date": null
+  },
+  {
+   "id": "06c08203-1665-4503-aebb-8f4051adc0c9",
+   "file": "MIDT951_v5-87",
+   "revision": "[v] midt951 = 5.87",
+   "revision_date": null
+  },
+  {
+   "id": "0a33955c-8334-4213-b1fb-faad7a78d010",
+   "file": "4188-1132-PT issue 4_04_2025-Qref.pdf",
+   "revision": "[issue] 4188 1132 pt qref = 4",
+   "revision_date": null
+  },
+  {
+   "id": "0ad0a70f-f97b-4f88-90ff-65fad585ce51",
+   "file": "MA-AL-T500-01-07 Manual TUL500esp rev1",
+   "revision": "[rev_num] ma al t500 01 07 manual tul500esp = 1",
+   "revision_date": null
+  },
+  {
+   "id": "10a002fb-87ee-419c-a6af-7f9be317a791",
+   "file": "MI_KE_DBA_SKTW_202407_ES_a20b.pdf",
+   "revision": "[fecha] mi ke dba sktw es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "16e317f8-645c-4f09-b81d-a4656353605a",
+   "file": "HOP-338-9PT-issue 4_01-2026_Op",
+   "revision": "[issue] hop 338 9pt op = 4",
+   "revision_date": null
+  },
+  {
+   "id": "1d45b3bc-1564-45d8-bcc9-873bacc73c6f",
+   "file": "DS_KIDDE_2X_AT_FR_S_202602_ES_904a.pdf",
+   "revision": "[fecha] ds kidde 2x at fr s es = 2026.2",
+   "revision_date": "2026-02-01"
+  },
+  {
+   "id": "1db30b32-471c-4c81-a900-a743c4002ac7",
+   "file": "ATxxxS0x-MU - Manual Usuario AT Series rev1_0",
+   "revision": "[rev_num] atxxxs0x mu manual usuario at series = 1.0",
+   "revision_date": null
+  },
+  {
+   "id": "1f06789a-7bd2-4601-8df5-4389cc4c80a6",
+   "file": "VGS TOXICOS _SP rev 1",
+   "revision": "[rev_num] vgs toxicos sp = 1",
+   "revision_date": null
+  },
+  {
+   "id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+   "file": "4188-1124-PT issue 4_01-2026_To.pdf",
+   "revision": "[issue] 4188 1124 pt to = 4",
+   "revision_date": null
+  },
+  {
+   "id": "22051497-1edb-4f7c-9f78-499a12b1418e",
+   "file": "DS_KIDDE_N_IO_SBX_2G_202505_ES_6eb1.pdf",
+   "revision": "[fecha] ds kidde n io sbx 2g es = 2025.5",
+   "revision_date": "2025-05-01"
+  },
+  {
+   "id": "2ae52062-cc73-4367-9886-d6affb9c5767",
+   "file": "HD_KE_IU3110_202407_ES_42d6.pdf",
+   "revision": "[fecha] hd ke iu3110 es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+   "file": "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+   "revision": "[rev_num] am 8200n manual de usuario y programacion = 3",
+   "revision_date": null
+  },
+  {
+   "id": "2fe43110-b498-4701-ac26-9200c58d59d0",
+   "file": "MI_KIDDE_ZLSM_MD_202604_ING_1875.pdf",
+   "revision": "[fecha] mi kidde zlsm md ing = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "32911b9c-f190-4973-a6ca-271485c729c8",
+   "file": "MI_KIDDE_KE_DP312x_SNx_202503_ES_acf9.pdf",
+   "revision": "[fecha] mi kidde ke dp312x snx es = 2025.3",
+   "revision_date": "2025-03-01"
+  },
+  {
+   "id": "34b8c1d4-996c-440d-8db8-1a4487603b61",
+   "file": "MI_KE_IU3110_202407_ES_5e36.pdf",
+   "revision": "[fecha] mi ke iu3110 es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "39f70cad-de2e-4f3b-9d7b-de759f60b4e9",
+   "file": "2055M1000_ES MAN0987_ISS 1_Rev 4 FSL100 Technical Handbook",
+   "revision": "[issue] 2055m1000 es man0987 rev 4 fsl100 technical handbook = 1",
+   "revision_date": null
+  },
+  {
+   "id": "3d197ca3-80af-414b-8492-b62aec054795",
+   "file": "HD_KE_DP3021B_202407_ES_861a.pdf",
+   "revision": "[fecha] hd ke dp3021b es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "3de1b719-2aa7-4300-b321-9fd1325f67c0",
+   "file": "SMART 3 TOXICOS MTEX 4749_SP REV 3",
+   "revision": "[rev_num] smart 3 toxicos mtex 4749 sp = 3",
+   "revision_date": null
+  },
+  {
+   "id": "3e598db2-d0f0-4f1e-acef-64f153bb9621",
+   "file": "DS_KIDDE_N_IO_SBX_1G_202505_ES_b086.pdf",
+   "revision": "[fecha] ds kidde n io sbx 1g es = 2025.5",
+   "revision_date": "2025-05-01"
+  },
+  {
+   "id": "3eb8d79f-b1e4-43e5-9a8f-67cca25867bb",
+   "file": "1998M0901_FS24X_ES-AR54-10_ES-AR_RevB_17July2015",
+   "revision": "[rev_letra] 1998m0901 fs24x es ar54 10 es ar 17july2015 = B",
+   "revision_date": null
+  },
+  {
+   "id": "47f37ad4-91b3-4d5d-a0e0-9a5c33d6da11",
+   "file": "DS_KIDDE_ZLSM_MR_202604_ES_6a09.pdf",
+   "revision": "[fecha] ds kidde zlsm mr es = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "484dd402-3e32-4792-b81f-9f1419114154",
+   "file": "4188-1125-ES issue 5_11-2025_Li",
+   "revision": "[issue] 4188 1125 es li = 5",
+   "revision_date": null
+  },
+  {
+   "id": "4c3ee6fc-38b7-449a-a6aa-16d194257bad",
+   "file": "30012012  TARJETAS IDIOMAS VISION SUPRA rev A",
+   "revision": "[rev_letra] 30012012 tarjetas idiomas vision supra = A",
+   "revision_date": null
+  },
+  {
+   "id": "4d759502-dff9-4ed3-8af0-ff92b6445733",
+   "file": "MI_KIDDE_ZLSM_ME_202604_ING_29a1.pdf",
+   "revision": "[fecha] mi kidde zlsm me ing = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "5159ff7d-127e-47eb-9cbd-6323575bf2c9",
+   "file": "DS_KIDDE_KIT_2X_AFR_C_09_202412_ES_c976.pdf",
+   "revision": "[fecha] ds kidde kit 2x afr c 09 es = 2024.12",
+   "revision_date": "2024-12-01"
+  },
+  {
+   "id": "54b64d56-1e78-4a56-89c8-a21a82a676ce",
+   "file": "DS_KIDDE_N_IO_MBX_2_202505_ES_b34f.pdf",
+   "revision": "[fecha] ds kidde n io mbx 2 es = 2025.5",
+   "revision_date": "2025-05-01"
+  },
+  {
+   "id": "54dd1a71-78c2-45b6-8892-0942aea027dd",
+   "file": "MANUAL DETECTOR DE GAS VGN _SP rev 0",
+   "revision": "[rev_num] manual detector de gas vgn sp = 0",
+   "revision_date": null
+  },
+  {
+   "id": "559fb0e9-9e96-4dc6-b02d-c4ab8439154b",
+   "file": "VGS EXPLOSIVOS _SP rev 1",
+   "revision": "[rev_num] vgs explosivos sp = 1",
+   "revision_date": null
+  },
+  {
+   "id": "5c9a921a-89fb-43f7-b714-e81d54208075",
+   "file": "aritech_ins570-8_combined.pdf",
+   "revision": "[issue] ins570 = 8",
+   "revision_date": null
+  },
+  {
+   "id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
+   "file": "MN-DT-951_v7.2",
+   "revision": "[v] mn dt 951 = 7.2",
+   "revision_date": null
+  },
+  {
+   "id": "5fb4587b-a1bd-4212-83a9-4a816696fdd8",
+   "file": "DS_KIDDE_ZLSM_ME_202604_ES_c3d9.pdf",
+   "revision": "[fecha] ds kidde zlsm me es = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "64a96095-ad3a-4558-9642-71e3de28aaa5",
+   "file": "DS_KIDDE_KE_DBA_ADPW_KIL_202501_ING_c855.pdf",
+   "revision": "[fecha] ds kidde ke dba adpw kil ing = 2025.1",
+   "revision_date": "2025-01-01"
+  },
+  {
+   "id": "65b21059-4f13-48ff-aac0-63ab4775a0ce",
+   "file": "MPS8ZS02 - MU-MANUAL DE USUARIO SERIE MPS rev2",
+   "revision": "[rev_num] mps8zs02 mu manual de usuario serie mps = 2",
+   "revision_date": null
+  },
+  {
+   "id": "681e506b-daaa-4f78-8336-aa732695962c",
+   "file": "MI-DT-951_V7.2",
+   "revision": "[v] mi dt 951 = 7.2",
+   "revision_date": null
+  },
+  {
+   "id": "68b7230c-15d3-4632-8c6b-d486bd6617bc",
+   "file": "HOP-138-8PT-issue 5_01-2026_Co-",
+   "revision": "[issue] hop 138 8pt co = 5",
+   "revision_date": null
+  },
+  {
+   "id": "6b2e16bc-2a60-4602-aa72-d32d8c42397a",
+   "file": "HOP-338-9ES issue 4_01-2026_Op",
+   "revision": "[issue] hop 338 9es op = 4",
+   "revision_date": null
+  },
+  {
+   "id": "6bdb1c32-0892-4e7f-bed9-8a55679ceaf5",
+   "file": "LDA_ONE-LOOP_es_rev0",
+   "revision": "[rev_num] lda one loop es = 0",
+   "revision_date": null
+  },
+  {
+   "id": "6e9d06c4-2292-4478-8e21-0b8af5d9cf5c",
+   "file": "UCIP MODBUS AM8200 V5.1",
+   "revision": "[v] ucip modbus am8200 = 5.1",
+   "revision_date": null
+  },
+  {
+   "id": "71f782df-5842-4d97-ad43-956286d82f6f",
+   "file": "SMART 3G ZONA 2 MTEX4805__SP Rev 3",
+   "revision": "[rev_num] smart 3g zona 2 mtex4805 sp = 3",
+   "revision_date": null
+  },
+  {
+   "id": "757dc354-4ade-4099-91e8-bd28f5385245",
+   "file": "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1",
+   "revision": "[v] one500s01 mu manual de usuario serie one = 2.1",
+   "revision_date": null
+  },
+  {
+   "id": "79a3471a-f774-4824-8a0c-ec0a934508ff",
+   "file": "HOP-138-9ES issue 5_11-2025_In",
+   "revision": "[issue] hop 138 9es in = 5",
+   "revision_date": null
+  },
+  {
+   "id": "7ff88597-117b-4940-8fdb-d4a423908699",
+   "file": "MI_KE_DBA_RECW_202407_ES_aacc.pdf",
+   "revision": "[fecha] mi ke dba recw es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "80d2a866-2507-4d86-8540-092e2d97d768",
+   "file": "HD_KE_DBA_LABW_LxS_202407_ES_2fc1.pdf",
+   "revision": "[fecha] hd ke dba labw lxs es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "80e1b7d2-1455-454d-8545-18b858ba9a70",
+   "file": "HOP-138-8ES  issue 6_01-2026_Co",
+   "revision": "[issue] hop 138 8es co = 6",
+   "revision_date": null
+  },
+  {
+   "id": "81b7197a-f122-4ac1-aeb4-33e56128792b",
+   "file": "DS_KIDDE_N_IO_MBX_1_202505_ES_07ca.pdf",
+   "revision": "[fecha] ds kidde n io mbx 1 es = 2025.5",
+   "revision_date": "2025-05-01"
+  },
+  {
+   "id": "81c783f5-ebfd-452b-8a13-214482eccfc1",
+   "file": "4188-1132-ES issue 3_04_2025_Qref",
+   "revision": "[issue] 4188 1132 es qref = 3",
+   "revision_date": null
+  },
+  {
+   "id": "89963a7b-7402-48d3-a53c-c068d8e0864e",
+   "file": "D391 Issue 3 WR2001 ",
+   "revision": "[issue] d391 wr2001 = 3",
+   "revision_date": null
+  },
+  {
+   "id": "8b1b642b-ae69-4c83-aee8-8fd3b53be4b4",
+   "file": "Manual central de Gas NFG-8 Rev_3",
+   "revision": "[rev_num] manual central de gas nfg 8 = 3",
+   "revision_date": null
+  },
+  {
+   "id": "8c3628fb-f3ef-4af9-9109-7887547e28de",
+   "file": "4188-1122-ES issue 4_04-2025_Cyb",
+   "revision": "[issue] 4188 1122 es cyb = 4",
+   "revision_date": null
+  },
+  {
+   "id": "8cf4a4f0-75d8-4eac-95d6-50c90d524970",
+   "file": "DS_KIDDE_KE_DM3110R_IP_202412_ES_8165.pdf",
+   "revision": "[fecha] ds kidde ke dm3110r ip es = 2024.12",
+   "revision_date": "2024-12-01"
+  },
+  {
+   "id": "902d8cde-2907-4ef4-a19c-3876c90bb779",
+   "file": "MI_KIDDE_ZLSM_MR_202604_ING_252a.pdf",
+   "revision": "[fecha] mi kidde zlsm mr ing = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "92b152e3-f6e1-4506-9598-470ddef1aaed",
+   "file": "MI_N_IO_MBX_X_202505_ES__1__1fd1.pdf",
+   "revision": "[fecha] mi n io mbx x es = 2025.5",
+   "revision_date": "2025-05-01"
+  },
+  {
+   "id": "9473e211-8f2f-4f59-b208-dd8dffe1fa6f",
+   "file": "HD_KE_DP3121B_202407_ES_8c51.pdf",
+   "revision": "[fecha] hd ke dp3121b es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "99143cc8-110d-4a73-9155-abeadd169cf4",
+   "file": "HD_KE_DBA_TAGW_202407_ES_4b26.pdf",
+   "revision": "[fecha] hd ke dba tagw es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "9c89483a-1392-4686-806e-a09e68f846be",
+   "file": "D716 issue 1 - M700KAC-KACI_Eng",
+   "revision": "[issue] d716 m700kac kaci eng = 1",
+   "revision_date": null
+  },
+  {
+   "id": "9eb1b891-3ec8-4b08-902b-952f7c878635",
+   "file": "G_INST_KIDDE_NC_PFx_202502_ES_ac3d.pdf",
+   "revision": "[fecha] g inst kidde nc pfx es = 2025.2",
+   "revision_date": "2025-02-01"
+  },
+  {
+   "id": "9fcb0b76-466c-400d-9ac1-b928a2e1a908",
+   "file": "MI_KE_DBA_IPW_202407_ES_cc56.pdf",
+   "revision": "[fecha] mi ke dba ipw es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "a00b76a9-6a2f-4d33-b9ec-7860bcf97960",
+   "file": "HD_KE_DBA_RECW_202407_ES_bb2b.pdf",
+   "revision": "[fecha] hd ke dba recw es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "a136aaee-8280-4de1-bae8-aab6b16cbeef",
+   "file": "MI_KIDDE_NC_PFx_202502_ES_62f8.pdf",
+   "revision": "[fecha] mi kidde nc pfx es = 2025.2",
+   "revision_date": "2025-02-01"
+  },
+  {
+   "id": "a19a1763-d27f-40de-9cae-9d0dea20d151",
+   "file": "HD_KE_DB3010B_202407_ES_1065.pdf",
+   "revision": "[fecha] hd ke db3010b es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "a1b514c9-36d6-4775-a5f3-91de770e9818",
+   "file": "DS_KIDDE_ZLSM_MD_202604_ES_8d42.pdf",
+   "revision": "[fecha] ds kidde zlsm md es = 2026.4",
+   "revision_date": "2026-04-01"
+  },
+  {
+   "id": "a33bc56a-a19e-4034-b144-0b81fd767b23",
+   "file": "TMP2_QRefnotiES_Rev_1_4_HLSI 2018",
+   "revision": "[rev_num] tmp2 qrefnoties hlsi = 1.4",
+   "revision_date": null
+  },
+  {
+   "id": "b08df410-5149-47e3-b3d1-ff8e788c67a6",
+   "file": "DS_KIDDE_2X_AT_FR_FB_S_202602_ES_4276.pdf",
+   "revision": "[fecha] ds kidde 2x at fr fb s es = 2026.2",
+   "revision_date": "2026-02-01"
+  },
+  {
+   "id": "b17017ec-2201-4ba1-b4b4-1e239f469b69",
+   "file": "D427 Issue 2 WW_WY_WR4001 ",
+   "revision": "[issue] d427 ww wy wr4001 = 2",
+   "revision_date": null
+  },
+  {
+   "id": "b1778f78-ec6e-4b86-9485-d7353887df33",
+   "file": "4188-1124-ES issue 6_01-2026_To",
+   "revision": "[issue] 4188 1124 es to = 6",
+   "revision_date": null
+  },
+  {
+   "id": "b2529152-714a-42f6-a45a-25d3104a298b",
+   "file": "HD_KE_DBA_SKTW_202407_ING_2da9.pdf",
+   "revision": "[fecha] hd ke dba sktw ing = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "b2551c3c-4b41-4619-ad96-1681ad1da357",
+   "file": "D391 Issue 3 WW_WY_WR2001 ",
+   "revision": "[issue] d391 ww wy wr2001 = 3",
+   "revision_date": null
+  },
+  {
+   "id": "ba004f77-f200-42ad-9563-f0261f6377b8",
+   "file": "DS_KIDDE_KE_DP3121W_SN_202503_ES_5938.pdf",
+   "revision": "[fecha] ds kidde ke dp3121w sn es = 2025.3",
+   "revision_date": "2025-03-01"
+  },
+  {
+   "id": "bb0b336d-be38-41c3-a21d-f9c0db811f34",
+   "file": "HOP-138-9PT-issue 6_01-2026_In",
+   "revision": "[issue] hop 138 9pt in = 6",
+   "revision_date": null
+  },
+  {
+   "id": "bb395b53-e18d-4901-81fe-d3e3c1abb91b",
+   "file": "HD_KE_DT3101W_HAB_202407_ES_30e0.pdf",
+   "revision": "[fecha] hd ke dt3101w hab es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "bf2270ff-b639-4539-8f26-abdf4c2c14f6",
+   "file": "HD_KE_DBA_IPW_202407_ING_ffaf.pdf",
+   "revision": "[fecha] hd ke dba ipw ing = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "c0995537-d8fa-47f6-8b8a-9c8da4be3c09",
+   "file": "DS_KIDDE_KE_DP3121B_SNV_202503_ES_b5bc.pdf",
+   "revision": "[fecha] ds kidde ke dp3121b snv es = 2025.3",
+   "revision_date": "2025-03-01"
+  },
+  {
+   "id": "c57c1bc8-c8f4-46dc-ad92-78757857b7a3",
+   "file": "HD_KE_DBA_CAPW_202407_ING_d87d.pdf",
+   "revision": "[fecha] hd ke dba capw ing = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "c5bf341f-4846-47dd-9feb-75b667d6bb93",
+   "file": "MI_KE_IU3111_ZME_202407_ES_fde1.pdf",
+   "revision": "[fecha] mi ke iu3111 zme es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "c79207a7-0950-48a8-81f7-cb236bb3dba5",
+   "file": "ZES22S02-MU Manual de Usuario ZES-22 Rev 3.2",
+   "revision": "[rev_num] zes22s02 mu manual de usuario zes 22 = 3.2",
+   "revision_date": null
+  },
+  {
+   "id": "c8bcb60a-835e-40de-8836-11d858ce7911",
+   "file": "MI_KIDDE_KE_AS3XXX_202602_ES_0854.pdf",
+   "revision": "[fecha] mi kidde ke as3xxx es = 2026.2",
+   "revision_date": "2026-02-01"
+  },
+  {
+   "id": "c91ba972-32e1-40f8-9325-5eb4aa56f192",
+   "file": "HD_KE_DP3021W_202407_ES_778e.pdf",
+   "revision": "[fecha] hd ke dp3021w es = 2024.7",
+   "revision_date": "2024-07-01"
+  },
+  {
+   "id": "ca5fb7bc-62ad-44fe-8d1d-2f6bb84ee1f1",
+   "file": "VAP1S0x-MU - Manual Usuario VAP rev3_1",
+   "revision": "[rev_num] vap1s0x mu manual usuario vap = 3.1",
+   "revision_date": null
+  },
+  {
+   "id": "ca92063d-9e8f-4e83-aed5-7a45f4095adf",
+   "file": "G_INST_KIDDE_KE_DBA_ADPW_202502_ES_70e7.pdf",
+   "revision": "[fecha] g inst kidde ke dba adpw es = 2025.2",
+   "revision_date": "2025-02-01"
+  },
+  {
+   "id": "cdef7266-4954-4589-b0a3-0eba174e0304",
+   "file": "27012012 ETIQUETA INSTRUCCIONES VISION SUPRA REV A ",
+   "revision": "[rev_letra] 27012012 etiqueta instrucciones vision supra = A",
+   "revision_date": null
+  },
+  {
+   "id": "d67094a2-2e06-44f6-b7a2-498fac85da73",
+   "file": "S-287.1-DSE-ESP Rev. A.1 ",
+   "revision": "[rev_letra] s 287 1 dse esp = A.1",
+   "revision_date": null
+  },
+  {
+   "id": "dcc4eb7c-cfec-4c5c-a861-7081ce626f93",
+   "file": "TFL2S01-MU Manual de usuario TFL-2 Rev.1",
+   "revision": "[rev_num] tfl2s01 mu manual de usuario tfl 2 = 1",
+   "revision_date": null
+  },
+  {
+   "id": "e3e37118-b636-429c-8a74-017abb1d355e",
+   "file": "50478 RevA - MPS-24AE _Eng",
+   "revision": "[rev_letra] 50478 mps 24ae eng = A",
+   "revision_date": null
+  },
+  {
+   "id": "e9683a61-3e19-4e9f-838c-84f1f2dd6710",
+   "file": "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+   "revision": "[rev_num] smart 3 explosivos mtex 4446 sp = 3",
+   "revision_date": null
+  },
+  {
+   "id": "ea22db26-ecc0-4148-8cc3-39ae3c251ddf",
+   "file": "1998M0901_FS24X_PT-BR54-10_PT-BR_RevB_20July2015.pdf",
+   "revision": "[rev_letra] 1998m0901 fs24x pt br54 10 pt br 20july2015 = B",
+   "revision_date": null
+  },
+  {
+   "id": "eb11141d-9b4a-41b9-885d-1c1a52c95d69",
+   "file": "ONELOOPxxS01-MU-ES - MANUAL DE USUARIO SERIE ONELOOP R01",
+   "revision": "[rnnn] oneloopxxs01 mu es manual de usuario serie oneloop = 1",
+   "revision_date": null
+  },
+  {
+   "id": "ee95110d-4242-4416-9233-6d73d0f9d24d",
+   "file": "1998M0902_FS20X_ES_AR54-10_ES_AR_RevB_20July2015",
+   "revision": "[rev_letra] 1998m0902 fs20x es ar54 10 es ar 20july2015 = B",
+   "revision_date": null
+  },
+  {
+   "id": "efa5fb93-2b53-4d65-95e1-68f81ebea87a",
+   "file": "DS_KIDDE_KE_DBA_ADPW_ZIT_202501_ING_ed63.pdf",
+   "revision": "[fecha] ds kidde ke dba adpw zit ing = 2025.1",
+   "revision_date": "2025-01-01"
+  },
+  {
+   "id": "f1d3db52-c955-472e-9237-9019a007ba83",
+   "file": "AM-8100 manual de usuario y programacion rev 4 30-10-2024",
+   "revision": "[rev_num] am 8100 manual de usuario y programacion = 4",
+   "revision_date": null
+  },
+  {
+   "id": "f1dc59b2-796b-49d8-9fcc-d07bb5708f55",
+   "file": "NEO8060S02-MU - MANUAL DE USUARIO SERIE NEO rev1_1_4",
+   "revision": "[rev_num] neo8060s02 mu manual de usuario serie neo = 1.1.4",
+   "revision_date": null
+  },
+  {
+   "id": "fa0d58ce-7cfa-4246-81d3-d14b162f0f4a",
+   "file": "MI_KIDDE_KE_DP312x_SNx_202512_ES_242d.pdf",
+   "revision": "[fecha] mi kidde ke dp312x snx es = 2025.12",
+   "revision_date": "2025-12-01"
+  },
+  {
+   "id": "fa162139-6e55-4688-83fa-73da75262b11",
+   "file": "G_USO_KIDDE_NC_PFx_202502_ES_99d2.pdf",
+   "revision": "[fecha] g uso kidde nc pfx es = 2025.2",
+   "revision_date": "2025-02-01"
+  },
+  {
+   "id": "fa85c7b8-73ce-4534-aff8-3ee32d280bb1",
+   "file": "DS_KIDDE_KE_DP3121W_SNV_202503_ES_8699.pdf",
+   "revision": "[fecha] ds kidde ke dp3121w snv es = 2025.3",
+   "revision_date": "2025-03-01"
+  }
+ ]
+}

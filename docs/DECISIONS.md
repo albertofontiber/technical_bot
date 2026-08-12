@@ -6062,3 +6062,47 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   nueva); clase GARANTÍA dentro (pierde contenido operativo real).
 - **Relacionado**: TECH_DEBT #71 · DEC-148 · DEC-173 (patrón oráculo) · tally r16
   ts=2026-08-12T11:15:56.
+
+## DEC-209 (s319) — Consolidación PR-A: backup lógico restaurable + backfill de revisión + paquete de apertura preparado (dúo r17 PRE-build)
+
+- **Fecha**: 12 ago 2026 (s319; mandato de Alberto: sesión de consolidación 1+2+3+4 +
+  puntos 1/4 de apertura; el elefante DEC-074 detrás). **Impacto**: MEDIO (writes
+  mecánicos a documents; scripts nuevos; cero cambios de serving).
+- **Dúo r17 PRE-BUILD** (Sol 10 — 2 críticos — · Fable 3, 0 FP, NO SÓLIDO ambos →
+  propuesta v2 con TODO aplicado ANTES de construir): los críticos re-diseñaron el
+  backup (sin gate de restauración un recibo prueba bytes, no recuperación; y un dump
+  estático NO hereda la retención RGPD de la tabla). Fable cazó un ANCLA FALSA mía
+  («verificado import en s277_c1_p1.py:210» — era un dict; la attestation es POR
+  STRING en :5891) — 7ª ronda consecutiva de framing del autor, la clase más grave.
+- **A.1 Backup** (`scripts/backup_supabase.py` + runbook en ENTORNO_CLOUD): capa
+  CORPUS/IDENTIDAD (documents · chunks_v2 · chunks_v2_enunciados · chunks_v2_hyq,
+  columnas derivadas DINÁMICAMENTE de la fila real — las listas a mano fallaron 4/4 —
+  sin embedding/search_vector) → JSONL.gz en OneDrive + **drill de restauración
+  obligatorio** (SQLite: counts + FK docs↔chunks + spot-check) + coherencia pre/post.
+  **Primera corrida: PASS** — 1.243 + 26.215 + 33.003 + 72.642 filas
+  (`evals/s319_backup_receipt_20260812T140113Z.json`). RPO ≤1 lote/1 mes · RTO horas.
+  **La capa de DATOS PERSONALES (7 tablas) queda FUERA** — [DECIDIR-Alberto]: (A)
+  así se queda (el desastre lo cubre el backup gestionado de Supabase) o (B) entra
+  con TTL/cifrado/borrado verificable. Claim corregido (Sol m): lo que no existía
+  era backup LÓGICO restaurable bajo nuestro control.
+- **A.2 Backfill de revisión** (`scripts/s319_revision_backfill.py`): FILENAME-ONLY
+  (la portada del store es OTRA fuente que la PyMuPDF de la puerta — pase de
+  portadas solo tras gate de equivalencia muestral) · **94 aplicados** sobre 1.069
+  activos (110 ya poblados por la puerta; 865 sin señal de filename — límite
+  honesto) · reversible (solo NULL→valor, ids en recibo) · **avance PARCIAL de #4**
+  (document_family y cadenas NO van aquí). **El censo de colisiones resultante
+  encontró EXACTAMENTE 1 par: DP312x 202503/202512 — valida cruzado el censo s317**
+  (el par MI/bcn de DEC-192 es inter-familia: ceguera declarada).
+- **A.3 Apertura, puntos 1/4**: `docs/AVISO_PRIVACIDAD_V8_BORRADOR.md` (6 [DECIDIR]
+  tabulados: base jurídica, retención, claim de cobertura 3→30+, cláusula
+  profesional-externo, incentivos, banner beta; NO desplegable sin abogado; bump
+  v7→v8 = re-aceptación de todos, gate por versión s295) ·
+  `scripts/s319_trafico_census.py` (join answer_feedback + REDACCIÓN: uid→hash12,
+  textos fuera del repo con --con-texto; smoke contra datos reales: 25 consultas/
+  1 usuario/5 feedback desde 1-ago).
+- **Alternativas descartadas**: pg_dump binario (sin postgres local; PostgREST
+  paginado basta y reusa #72) · incluir PII con TTL propio (aparato sin decisión) ·
+  backfill con portadas del store (fuente no validada) · automatizar el backup con
+  cron (hasta que el manual duela).
+- **Relacionado**: DEC-205 (puerta #73) · TECH_DEBT #4 (parcial) · tally r17
+  ts=2026-08-12T15:53:58 · PR-B/PR-C siguen en esta sesión.
