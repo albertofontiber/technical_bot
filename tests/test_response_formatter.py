@@ -136,16 +136,18 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
             self.replies.append((text, kwargs))
 
     update = types.SimpleNamespace(
-        message=Message(), effective_user=types.SimpleNamespace(id=9)
+        message=Message(), effective_user=types.SimpleNamespace(id=9),
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        update_id=1, effective_chat=types.SimpleNamespace(id=9),
     )
     context = types.SimpleNamespace(user_data={})
     chunks = [{"id": "c1", "content": "evidence"}]
 
     monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["ID_3000"])
-    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
-    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *_args, **_kwargs: chunks)
     monkeypatch.setattr(
-        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+        "src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
         serving_pipeline,
@@ -163,8 +165,7 @@ def test_real_handler_logs_raw_answer_and_sends_safe_html(monkeypatch):
         ),
     )
     monkeypatch.setattr(
-        telegram_bot,
-        "generate_answer",
+        "src.rag.generator.generate_answer",
         lambda *_args, **_kwargs: {"answer": raw_answer, "diagrams": []},
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
@@ -197,15 +198,17 @@ def test_handler_logs_and_sends_plain_text_when_formatter_fails(monkeypatch):
             self.replies.append((text, kwargs))
 
     update = types.SimpleNamespace(
-        message=Message(), effective_user=types.SimpleNamespace(id=9)
+        message=Message(), effective_user=types.SimpleNamespace(id=9),
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        update_id=1, effective_chat=types.SimpleNamespace(id=9),
     )
     context = types.SimpleNamespace(user_data={})
     chunks = [{"id": "c1", "content": "evidence"}]
     monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
-    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
-    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *_args, **_kwargs: chunks)
     monkeypatch.setattr(
-        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+        "src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
         serving_pipeline,
@@ -216,8 +219,7 @@ def test_handler_logs_and_sends_plain_text_when_formatter_fails(monkeypatch):
         ),
     )
     monkeypatch.setattr(
-        telegram_bot,
-        "generate_answer",
+        "src.rag.generator.generate_answer",
         lambda *_args, **_kwargs: {"answer": raw_answer, "diagrams": []},
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
@@ -267,15 +269,17 @@ def test_handler_never_logs_or_sends_an_empty_generation(monkeypatch, empty_answ
             self.replies.append((text, kwargs))
 
     update = types.SimpleNamespace(
-        message=Message(), effective_user=types.SimpleNamespace(id=9)
+        message=Message(), effective_user=types.SimpleNamespace(id=9),
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        update_id=1, effective_chat=types.SimpleNamespace(id=9),
     )
     context = types.SimpleNamespace(user_data={})
     chunks = [{"id": "c1", "content": "evidence"}]
     monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
-    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
-    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *_args, **_kwargs: chunks)
     monkeypatch.setattr(
-        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+        "src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
         serving_pipeline,
@@ -286,8 +290,7 @@ def test_handler_never_logs_or_sends_an_empty_generation(monkeypatch, empty_answ
         ),
     )
     monkeypatch.setattr(
-        telegram_bot,
-        "generate_answer",
+        "src.rag.generator.generate_answer",
         lambda *_args, **_kwargs: {"answer": empty_answer, "diagrams": []},
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
@@ -320,15 +323,17 @@ def test_handler_rejects_empty_formatter_parts_and_uses_plain_fallback(
             self.replies.append((text, kwargs))
 
     update = types.SimpleNamespace(
-        message=Message(), effective_user=types.SimpleNamespace(id=9)
+        message=Message(), effective_user=types.SimpleNamespace(id=9),
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        update_id=1, effective_chat=types.SimpleNamespace(id=9),
     )
     context = types.SimpleNamespace(user_data={})
     chunks = [{"id": "c1", "content": "evidence"}]
     monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
-    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: chunks)
-    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *_args, **_kwargs: chunks)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *_args, **_kwargs: chunks)
     monkeypatch.setattr(
-        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+        "src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
         serving_pipeline,
@@ -339,8 +344,7 @@ def test_handler_rejects_empty_formatter_parts_and_uses_plain_fallback(
         ),
     )
     monkeypatch.setattr(
-        telegram_bot,
-        "generate_answer",
+        "src.rag.generator.generate_answer",
         lambda *_args, **_kwargs: {"answer": raw_answer, "diagrams": []},
     )
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
@@ -372,17 +376,19 @@ def test_handler_wires_appended_coverage_through_generation_and_receipt(monkeypa
             self.replies.append((text, kwargs))
 
     update = types.SimpleNamespace(
-        message=Message(), effective_user=types.SimpleNamespace(id=9)
+        message=Message(), effective_user=types.SimpleNamespace(id=9),
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        update_id=1, effective_chat=types.SimpleNamespace(id=9),
     )
     context = types.SimpleNamespace(user_data={})
     prefix = [{"id": "prefix", "content": "base"}]
     appended = {"id": "coverage", "content": "bounded evidence"}
 
     monkeypatch.setattr(telegram_bot, "extract_product_models", lambda _query: ["P"])
-    monkeypatch.setattr(telegram_bot, "retrieve_chunks", lambda *_args, **_kwargs: prefix)
-    monkeypatch.setattr(telegram_bot, "rerank", lambda *_args, **_kwargs: prefix)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *_args, **_kwargs: prefix)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *_args, **_kwargs: prefix)
     monkeypatch.setattr(
-        telegram_bot, "observe_structural_neighbor_shadow", lambda *_args: None
+        "src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *_args: None
     )
     monkeypatch.setattr(
         serving_pipeline,
@@ -407,7 +413,7 @@ def test_handler_wires_appended_coverage_through_generation_and_receipt(monkeypa
         generated["ids"] = [chunk["id"] for chunk in chunks]
         return {"answer": "Respuesta [F2]", "diagrams": []}
 
-    monkeypatch.setattr(telegram_bot, "generate_answer", generate)
+    monkeypatch.setattr("src.rag.generator.generate_answer", generate)
     monkeypatch.setattr(telegram_bot, "log_query", lambda **kwargs: logged.update(kwargs))
 
     asyncio.run(telegram_bot._process_query(update, context, "Pregunta P"))

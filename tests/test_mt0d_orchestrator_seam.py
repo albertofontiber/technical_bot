@@ -174,11 +174,12 @@ def test_phase0_flags_default_off():
     import src.config as config
     import src.bot.telegram_bot as bot
 
-    assert config.ORCHESTRATOR_PATH is False
+    # s319 PR-C (DEC-211): ORCHESTRATOR_PATH RETIRADO — el orquestador es la
+    # ruta única; el testigo de la retirada es que el símbolo ya no existe.
+    assert not hasattr(config, "ORCHESTRATOR_PATH")
+    assert not hasattr(bot, "ORCHESTRATOR_PATH")
     assert config.CONVO_SHADOW is False
     assert config.CONVO_MAINTENANCE is False
-    # The bot imported the same immutable values.
-    assert bot.ORCHESTRATOR_PATH is False
     assert bot.CONVO_SHADOW is False
     assert bot.CONVO_MAINTENANCE is False
 
@@ -198,13 +199,13 @@ def test_default_handler_path_never_touches_shadow(monkeypatch):
     )
 
     monkeypatch.setattr(bot, "extract_product_models", lambda _q: ["ID2000"])
-    monkeypatch.setattr(bot, "retrieve_chunks", lambda *a, **k: [{"id": "p", "content": "P"}])
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *a, **k: [{"id": "p", "content": "P"}])
     monkeypatch.setattr(
-        bot, "rerank", lambda *a, **k: [{"id": "s", "content": "S", "similarity": 1.0}]
+        "src.rag.reranker.rerank", lambda *a, **k: [{"id": "s", "content": "S", "similarity": 1.0}]
     )
-    monkeypatch.setattr(bot, "observe_structural_neighbor_shadow", lambda *a, **k: None)
+    monkeypatch.setattr("src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *a, **k: None)
     monkeypatch.setattr(
-        bot, "generate_answer", lambda *a, **k: {"answer": "estable", "diagrams": []}
+        "src.rag.generator.generate_answer", lambda *a, **k: {"answer": "estable", "diagrams": []}
     )
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 
@@ -270,10 +271,13 @@ def test_build_turn_request_preserves_none_vs_empty_and_fields():
     assert r3.available_models is None
 
 
-# --- (3) ORCHESTRATOR_PATH parity --------------------------------------------
+# --- (3) paridad run_turn ↔ seam execute_rag_turn ----------------------------
+# (s319 PR-C: el flag ORCHESTRATOR_PATH murió; esta paridad sigue viva porque
+# compara el orquestador con el SEAM de serving_pipeline — el que conduce el
+# release gate P1 — no con una ruta del handler.)
 def test_adapter_route_matches_direct_pipeline_byte_for_byte(captured_envelopes):
-    """build_turn_request -> run_turn is byte-identical to the direct
-    execute_rag_turn call the handler makes today (same resolved inputs)."""
+    """build_turn_request -> run_turn is byte-identical to a direct
+    execute_rag_turn call on the shared seam (same resolved inputs)."""
     adapters = replay_adapters(retrieved=_FIXTURE, generate=gen.generate_answer)
 
     # DIRECT — the handler's inline call: target_models=[] (empty list).
@@ -324,7 +328,7 @@ def test_orchestrator_path_on_real_handler_matches(monkeypatch):
     monkeypatch.setattr(
         orch, "from_production", lambda: replay_adapters(retrieved=_FIXTURE, generate=_gen)
     )
-    monkeypatch.setattr(bot, "ORCHESTRATOR_PATH", True)
+    # s319 PR-C: ORCHESTRATOR_PATH retirado — la ruta orquestador es incondicional
     monkeypatch.setattr(bot, "extract_product_models", lambda _q: [])
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 
@@ -377,10 +381,10 @@ def test_shadow_persists_turn_answer_ready_outbox_pending_no_delivery():
     assert len(store._outbox) == 1
 
 
-def test_handler_shadow_persists_via_pipeline(monkeypatch):
-    """CONVO_SHADOW on + ORCHESTRATOR_PATH off: the handler answers via the
-    historical inline pipeline AND shadow-persists that turn (through
-    turn_result_from_pipeline)."""
+def test_handler_shadow_persists_turn_del_orquestador(monkeypatch):
+    """CONVO_SHADOW on (s319 PR-C re-contrato): el handler responde por la ruta
+    ÚNICA (run_turn) y el shadow persiste ESE TurnResult — la pierna
+    turn_result_from_pipeline murió con el pipeline inline."""
     import src.bot.telegram_bot as bot
     import src.orchestrator.shadow as shadow
 
@@ -389,11 +393,11 @@ def test_handler_shadow_persists_via_pipeline(monkeypatch):
     monkeypatch.setattr(bot, "CONVO_SHADOW", True)
 
     monkeypatch.setattr(bot, "extract_product_models", lambda _q: [])
-    monkeypatch.setattr(bot, "retrieve_chunks", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
-    monkeypatch.setattr(bot, "rerank", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
-    monkeypatch.setattr(bot, "observe_structural_neighbor_shadow", lambda *a, **k: None)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
+    monkeypatch.setattr("src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *a, **k: None)
     monkeypatch.setattr(
-        bot, "generate_answer", lambda *a, **k: {"answer": "respuesta servida", "diagrams": []}
+        "src.rag.generator.generate_answer", lambda *a, **k: {"answer": "respuesta servida", "diagrams": []}
     )
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 
@@ -453,11 +457,11 @@ def test_handler_shadow_failopen_does_not_tumble_the_reply(monkeypatch):
     monkeypatch.setattr(bot, "CONVO_SHADOW", True)
 
     monkeypatch.setattr(bot, "extract_product_models", lambda _q: [])
-    monkeypatch.setattr(bot, "retrieve_chunks", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
-    monkeypatch.setattr(bot, "rerank", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
-    monkeypatch.setattr(bot, "observe_structural_neighbor_shadow", lambda *a, **k: None)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *a, **k: [{"id": "a", "content": "A", "similarity": 0.9}])
+    monkeypatch.setattr("src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *a, **k: None)
     monkeypatch.setattr(
-        bot, "generate_answer", lambda *a, **k: {"answer": "respuesta intacta", "diagrams": []}
+        "src.rag.generator.generate_answer", lambda *a, **k: {"answer": "respuesta intacta", "diagrams": []}
     )
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 

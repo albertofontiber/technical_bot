@@ -57,27 +57,9 @@ def get_shadow_store() -> ConvoStore | None:
     return _SHADOW_STORE
 
 
-def turn_result_from_pipeline(
-    request: TurnRequest, pipeline: dict[str, Any]
-) -> TurnResult:
-    """Shape a ``TurnResult`` from a raw ``execute_rag_turn`` dict (the live OFF
-    path). Mirrors ``run_turn``'s tail so the shadow persists the same object
-    whether or not ``ORCHESTRATOR_PATH`` drove the compute."""
-    generation = pipeline["generation"]
-    retrieval = RetrievalResult(
-        chunks=tuple(pipeline["chunks"]),
-        coverage_trace=pipeline["coverage_trace"],
-        retrieval_rows=pipeline["retrieval_rows"],
-        reranked_rows=pipeline["reranked_rows"],
-    )
-    return TurnResult(
-        answer=generation.get("answer", ""),
-        diagrams=tuple(generation.get("diagrams") or ()),
-        plan=plan_turn(request),
-        compute_status="answer_ready",
-        retrieval=retrieval,
-        generation=generation,
-    )
+# s319 PR-C (DEC-211): `turn_result_from_pipeline` RETIRADO — era el adaptador
+# del camino inline (`execute_rag_turn` en el handler), que murió con la ruta
+# legacy; el shadow persiste siempre el TurnResult del orquestador.
 
 
 def _shadow_answer_payload(result: TurnResult) -> dict[str, Any]:

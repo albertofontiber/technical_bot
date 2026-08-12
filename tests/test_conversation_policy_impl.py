@@ -484,13 +484,15 @@ def test_real_policy_satisfies_all_multiturn_golds():
     assert report["pass"] == report["turns"] == 52
 
 
-def test_default_policy_is_stub_by_default_and_real_when_activated(monkeypatch):
+def test_default_policy_is_impl_and_stub_by_env_explicito(monkeypatch):
+    # s319 PR-C (DEC-211): el default graduó a impl (= producción); el stub
+    # queda para el instrumento por env EXPLÍCITO — el rollback documentado.
     monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
-    assert getattr(default_policy(), "IS_STUB", False) is True  # frozen contract stays green
-    monkeypatch.setenv("CONVERSATION_POLICY", "impl")
     active = default_policy()
     assert getattr(active, "IS_STUB", True) is False
     assert isinstance(active, DeterministicConversationPolicy)
+    monkeypatch.setenv("CONVERSATION_POLICY", "stub")
+    assert getattr(default_policy(), "IS_STUB", False) is True
 
 
 # ===========================================================================

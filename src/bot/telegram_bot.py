@@ -41,23 +41,22 @@ from ..config import (
     REWRITER_MODEL,
     VOICE_TRANSCRIPTION_MODEL,
     COVERAGE_RELEASE_POLICY,
-    ORCHESTRATOR_PATH,
     CONVO_SHADOW,
     CONVO_MAINTENANCE,
     validate_config,
 )
 from ..rag.retriever import (
-    retrieve_chunks, extract_product_models, get_category_models,
+    extract_product_models, get_category_models,
     get_manufacturers_by_docs, get_products_by_manufacturer,
     _MANUFACTURER_ALIASES, resolve_manufacturer_alias,
     get_all_models_by_category, CATEGORY_TERMS, PCI_TERMS,
     lookup_model_manufacturer, get_available_manufacturers, manufacturer_in_db,
 )
-from ..rag.reranker import rerank
-from ..rag.generator import generate_answer
+# s319 PR-C: retrieve_chunks/rerank/generate_answer/RagServingAdapters/
+# execute_rag_turn ya NO se importan aquí — el handler dejó de construir el
+# pipeline inline; los adapters de producción los arma el orquestador
+# (from_production) y el seam execute_rag_turn vive en serving_pipeline.
 from ..rag.runtime_trace import build_rag_serving_trace
-from ..rag.serving_pipeline import RagServingAdapters, execute_rag_turn
-from ..rag.structural_neighbor_shadow import observe_structural_neighbor_shadow
 from ..logging_db import (
     log_query,
     log_feedback,
@@ -1048,19 +1047,15 @@ async def _process_query(
         # Step 1a: Extract models from current query
         target_models = extract_product_models(query)
 
-        # S281 Phase-1 (F1) activation gate — default OFF, read at RUNTIME so a
-        # Railway flip / in-process A/B toggles without a restart. Requires BOTH
-        # the MT-0d ORCHESTRATOR_PATH seam (import-time constant) AND
-        # CONVERSATION_POLICY=impl (the runtime flag conversation_policy_active()
-        # already reads). When OFF everything below is the historical single-turn
-        # path; the full suite is the byte-invariance guard. The import is skipped
-        # unless ORCHESTRATOR_PATH is on, so the legacy hot path pays nothing.
-        f1_active = False
-        if ORCHESTRATOR_PATH:
-            from ..orchestrator.conversation_policy_impl import (
-                conversation_policy_active,
-            )
-            f1_active = conversation_policy_active()
+        # S281 Phase-1 (F1) activation gate — leído en RUNTIME (un flip de
+        # CONVERSATION_POLICY en Railway togglea sin restart). s319 PR-C: el
+        # candado a ORCHESTRATOR_PATH murió con la ruta legacy — el orquestador
+        # es la ruta única y F1 depende SOLO de su propio flag (el régimen stub
+        # sigue disponible por env explícito para el instrumento MT).
+        from ..orchestrator.conversation_policy_impl import (
+            conversation_policy_active,
+        )
+        f1_active = conversation_policy_active()
 
         # Step 1b/1c/2b: legacy single-turn resolution (in-memory carry-forward +
         # vague-query clarify + category options). RETIRED when the Phase-1 policy
@@ -1230,80 +1225,57 @@ async def _process_query(
             # Retrieving route: surface the resolved models to logging + state.
             target_models = list(f1_resolution.target_models or ())
 
-        # Transport-neutral orchestrator seam (MT-0d), default OFF. The request
-        # is built only when a Phase-0 seam is active; with both flags OFF this
-        # block reduces to the historical inline pipeline (the ``else`` below is
-        # textually the old path — the full suite is the byte-invariance guard).
-        if ORCHESTRATOR_PATH or CONVO_SHADOW:
-            from ..orchestrator.telegram_adapter import build_turn_request
-            if f1_active:
-                # FIX MEDIDO: the RESOLVED query fills BOTH query (-> generation)
-                # and query_for_retrieval (-> retrieval); target/available come from
-                # the resolution. For STANDALONE the resolved query == the raw
-                # query, so this is byte-identical to the historical path.
-                request = build_turn_request(
-                    query=f1_resolution.query_for_retrieval,
-                    query_for_retrieval=f1_resolution.query_for_retrieval,
-                    target_models=f1_resolution.target_models,
-                    available_models=f1_resolution.available_models,
-                    update_id=update.update_id,
-                    chat_id=update.effective_chat.id,
-                    source=source,
-                    transcription=transcription,
-                )
-            else:
-                request = build_turn_request(
-                    query=query,
-                    query_for_retrieval=query_for_retrieval,
-                    target_models=target_models,
-                    available_models=available_models,
-                    update_id=update.update_id,
-                    chat_id=update.effective_chat.id,
-                    source=source,
-                    transcription=transcription,
-                )
-
-        if ORCHESTRATOR_PATH:
-            # Drive the turn through the orchestrator; isolate the synchronous
-            # hot path in an executor so the event loop is never blocked.
-            from ..orchestrator import from_production, run_turn
-            turn = await asyncio.to_thread(run_turn, request, from_production())
-            chunks = list(turn.retrieval.chunks)
-            coverage_trace = turn.retrieval.coverage_trace
-            retrieval_health = (
-                {"channel_failures": list(turn.retrieval.channel_failures)}
-                if turn.retrieval.retrieval_measured else None
+        # Transport-neutral orchestrator request (MT-0d; ruta única desde s319
+        # PR-C — el request se construye SIEMPRE porque run_turn es el único
+        # camino de serving).
+        from ..orchestrator.telegram_adapter import build_turn_request
+        if f1_active:
+            # FIX MEDIDO: the RESOLVED query fills BOTH query (-> generation)
+            # and query_for_retrieval (-> retrieval); target/available come from
+            # the resolution. For STANDALONE the resolved query == the raw
+            # query, so this is byte-identical to the historical path.
+            request = build_turn_request(
+                query=f1_resolution.query_for_retrieval,
+                query_for_retrieval=f1_resolution.query_for_retrieval,
+                target_models=f1_resolution.target_models,
+                available_models=f1_resolution.available_models,
+                update_id=update.update_id,
+                chat_id=update.effective_chat.id,
+                source=source,
+                transcription=transcription,
             )
-            result = turn.generation
-            answer = result["answer"]
-            diagrams = result["diagrams"]
-            stage_timings = turn.stage_timings
         else:
-            # One production seam shared with the deterministic release gate.  The
-            # adapters are built here so existing handler tests can patch only I/O.
-            pipeline = execute_rag_turn(
+            # régimen STUB (env explícito): el request se construye desde la
+            # extracción legacy — mismo shape, misma ruta run_turn.
+            request = build_turn_request(
                 query=query,
                 query_for_retrieval=query_for_retrieval,
                 target_models=target_models,
                 available_models=available_models,
-                retrieval_top_k=RETRIEVAL_TOP_K,
-                rerank_top_k=RERANK_TOP_K,
-                adapters=RagServingAdapters(
-                    retrieve=retrieve_chunks,
-                    rerank=rerank,
-                    observe_structural_shadow=observe_structural_neighbor_shadow,
-                    generate=generate_answer,
-                ),
+                update_id=update.update_id,
+                chat_id=update.effective_chat.id,
+                source=source,
+                transcription=transcription,
             )
-            chunks = pipeline["chunks"]
-            coverage_trace = pipeline["coverage_trace"]
-            retrieval_health = pipeline.get("retrieval_health") or {}
-            stage_timings = pipeline.get("stage_timings")
 
-            # Step 3: Generate answer from reranked + governed coverage chunks.
-            result = pipeline["generation"]
-            answer = result["answer"]
-            diagrams = result["diagrams"]
+        # s319 PR-C (DEC-211): el orquestador es la ruta ÚNICA de serving. El
+        # `else` histórico (execute_rag_turn inline) se retiró tras el período
+        # de asentamiento en producción — dos rutas que deben evolucionar
+        # juntas son la clase que produjo #70. El SEAM `execute_rag_turn`
+        # sigue vivo en serving_pipeline.py (el release gate P1 lo atestigua
+        # por string y lo conduce directamente).
+        from ..orchestrator import from_production, run_turn
+        turn = await asyncio.to_thread(run_turn, request, from_production())
+        chunks = list(turn.retrieval.chunks)
+        coverage_trace = turn.retrieval.coverage_trace
+        retrieval_health = (
+            {"channel_failures": list(turn.retrieval.channel_failures)}
+            if turn.retrieval.retrieval_measured else None
+        )
+        result = turn.generation
+        answer = result["answer"]
+        diagrams = result["diagrams"]
+        stage_timings = turn.stage_timings
 
         empty_answer_fallback = not _has_visible_text(answer)
         if empty_answer_fallback:
@@ -1514,15 +1486,10 @@ async def _process_query(
         # In Phase 0 only tests inject a store (no store -> no-op logged once).
         if CONVO_SHADOW:
             try:
-                from ..orchestrator.shadow import (
-                    maybe_shadow_persist,
-                    turn_result_from_pipeline,
-                )
-                shadow_result = (
-                    turn if ORCHESTRATOR_PATH
-                    else turn_result_from_pipeline(request, pipeline)
-                )
-                maybe_shadow_persist(request, shadow_result)
+                from ..orchestrator.shadow import maybe_shadow_persist
+                # s319 PR-C: la pierna pipeline murió con la ruta legacy —
+                # el turn del orquestador es el único resultado que existe.
+                maybe_shadow_persist(request, turn)
             except Exception as exc:
                 logger.warning(
                     "CONVO_SHADOW block failed open (%s)", type(exc).__name__

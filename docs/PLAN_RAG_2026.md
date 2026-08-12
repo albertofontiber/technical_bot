@@ -91,15 +91,21 @@ medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con parida
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s318 cierre)**: (a) **SENTADA ÚNICA de Alberto** —
-`evals/s318_sentada_adjudicacion_packet_v1.md`: DP312x supersedida (sí/no) + sentada
-B2 (packet v3) + encender `EC_LEGAL_DISCLAIMER_SKIP` (#71, construido flag-off,
-DEC-208, 83 removidas/0 colaterales/28 mixtas a la vista); (b) tras la sentada:
-**FULL fresco v3.2** (~$25, smoke primero) + estampar scoreboard; (c) #74 solo si
-nace consumidor; (d) verificar pool+paralelización en `salud_latencia_etapas_v1` y
-leer la traza `intent` cuando haya tráfico; (e) si Alberto quiere abrir el bot a
-DGs externos: paquete de apertura (aviso v8 [DECIDIR base jurídica + revisión
-legal] + modelo de acceso + bienvenida) — preparable a demanda.
+**Qué sigue (s319 cierre — sesión de consolidación COMPLETA, DEC-209/210/211)**:
+(a) **SENTADA ÚNICA de Alberto** — `evals/s318_sentada_adjudicacion_packet_v1.md`:
+DP312x supersedida (sí/no) + sentada B2 (packet v3) + encender
+`EC_LEGAL_DISCLAIMER_SKIP` (#71, DEC-208); **+ 2 adjudicaciones nuevas de s319**:
+LLM_MAX_TOKENS 8000-vs-3500 (el 8000 vive en Railway SIN recibo, DEC-210) y las
+vars de Railway ahora redundantes (listas en DEC-210/211 — retirarlas cuando
+quiera); (b) tras la sentada: **FULL fresco v3.2** (~$25, smoke primero) +
+estampar scoreboard; (c) **EL ELEFANTE** (mandato s319): completar el
+entity-linking del catálogo canónico (DEC-074/091b, 4-7 sesiones) — el
+workstream de escalabilidad a 30+; (d) apertura a DGs: los puntos 1/4 están
+PREPARADOS (aviso v8 borrador con 6 DECIDIR + censo de tráfico listo); faltan
+2/3 (modelo de acceso + bienvenida) — a demanda; (e) verificar
+pool+paralelización en `salud_latencia_etapas_v1` y leer la traza `intent`
+cuando haya tráfico; (f) backup mensual (runbook ENTORNO_CLOUD); (g) #74 solo
+si nace consumidor.
 
 ### s315 (9 ago 2026) — resumen
 

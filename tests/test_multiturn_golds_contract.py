@@ -85,9 +85,9 @@ def test_every_flow_traces_to_a_source():
 # 2. Interface stability + $0 invariants (conversation_policy contract surface)
 # ===========================================================================
 def test_stub_is_detected_and_raises(monkeypatch):
-    # TEST-ENV-LEAK (F11): a leaked CONVERSATION_POLICY=impl from another test/env
-    # must not turn the stub real under us — pin the default.
-    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
+    # s319 PR-C: el default graduó a impl — el régimen stub que este contrato
+    # prueba se PINEA explícito (era el default hasta DEC-211).
+    monkeypatch.setenv("CONVERSATION_POLICY", "stub")
     policy = default_policy()
     assert getattr(policy, "IS_STUB", False) is True
     with pytest.raises(PolicyNotImplemented):
@@ -131,7 +131,7 @@ def test_working_state_window():
 # 3. Stub-mode harness: green + non-vacuous plumbing ($0)
 # ===========================================================================
 def test_contract_stub_mode_reports_pending_and_drives_orchestrator(monkeypatch):
-    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)  # TEST-ENV-LEAK (F11)
+    monkeypatch.setenv("CONVERSATION_POLICY", "stub")  # s319 PR-C: stub explícito
     report = harness.run_contract(FLOWS)  # default_policy() = stub
     assert report["policy_stub"] is True
     assert report["fail"] == 0

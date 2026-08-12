@@ -89,7 +89,7 @@ def f1_env(monkeypatch):
     import src.orchestrator as orch
     import src.rag.retriever as retriever
 
-    monkeypatch.setattr(bot, "ORCHESTRATOR_PATH", True)
+    # s319 PR-C: ORCHESTRATOR_PATH retirado — la ruta orquestador es incondicional
     monkeypatch.setenv("CONVERSATION_POLICY", "impl")
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 
@@ -117,11 +117,27 @@ def f1_env(monkeypatch):
 
 
 # --- (1) byte-invariance OFF -------------------------------------------------
-def test_conversation_policy_default_off():
+def test_conversation_policy_default_impl(monkeypatch):
     from src.orchestrator.conversation_policy_impl import conversation_policy_active
 
-    # No CONVERSATION_POLICY set in the ambient env => stub route.
+    # s319 PR-C (DEC-211): sin env, la política F1 está ACTIVA (= producción);
+    # el régimen stub exige CONVERSATION_POLICY=stub explícito.
+    monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
+    assert conversation_policy_active() is True
+    monkeypatch.setenv("CONVERSATION_POLICY", "stub")
     assert conversation_policy_active() is False
+
+
+def test_conversation_policy_typo_revienta_ruidoso(monkeypatch):
+    # (r19, Sol M1) un typo en Railway degradaba al stub EN SILENCIO — un
+    # cambio de conducta servida sin señal. Enum estricto impl|stub.
+    import pytest as _pytest
+
+    from src.orchestrator.conversation_policy_impl import conversation_policy_active
+
+    monkeypatch.setenv("CONVERSATION_POLICY", "imppl")
+    with _pytest.raises(RuntimeError):
+        conversation_policy_active()
 
 
 def test_orchestrator_path_on_but_policy_off_keeps_mt0d_path(monkeypatch):
@@ -131,7 +147,7 @@ def test_orchestrator_path_on_but_policy_off_keeps_mt0d_path(monkeypatch):
     import src.orchestrator as orch
 
     monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
-    monkeypatch.setattr(bot, "ORCHESTRATOR_PATH", True)
+    # s319 PR-C: ORCHESTRATOR_PATH retirado — la ruta orquestador es incondicional
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
     monkeypatch.setattr(bot, "extract_product_models", lambda q: [])
 
@@ -163,13 +179,13 @@ def test_flags_all_off_no_working_state(monkeypatch):
 
     monkeypatch.delenv("CONVERSATION_POLICY", raising=False)
     monkeypatch.setattr(bot, "extract_product_models", lambda q: ["ID2000"])
-    monkeypatch.setattr(bot, "retrieve_chunks", lambda *a, **k: [{"id": "p", "content": "P"}])
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *a, **k: [{"id": "p", "content": "P"}])
     monkeypatch.setattr(
-        bot, "rerank", lambda *a, **k: [{"id": "s", "content": "S", "similarity": 1.0}]
+        "src.rag.reranker.rerank", lambda *a, **k: [{"id": "s", "content": "S", "similarity": 1.0}]
     )
-    monkeypatch.setattr(bot, "observe_structural_neighbor_shadow", lambda *a, **k: None)
+    monkeypatch.setattr("src.rag.structural_neighbor_shadow.observe_structural_neighbor_shadow", lambda *a, **k: None)
     monkeypatch.setattr(
-        bot, "generate_answer", lambda *a, **k: {"answer": "estable", "diagrams": []}
+        "src.rag.generator.generate_answer", lambda *a, **k: {"answer": "estable", "diagrams": []}
     )
     monkeypatch.setattr(bot, "log_query", lambda **k: None)
 

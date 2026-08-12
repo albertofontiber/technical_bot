@@ -39,6 +39,9 @@ class _Update:
     def __init__(self, media_group_error=None):
         self.message = _Message(media_group_error)
         self.effective_user = types.SimpleNamespace(id=7)
+        # s319 PR-C: el request del orquestador lee update_id/chat
+        self.update_id = 1
+        self.effective_chat = types.SimpleNamespace(id=7)
 
 
 def _diagram(n, content_type="wiring"):
@@ -53,11 +56,10 @@ def _diagram(n, content_type="wiring"):
 def _run_pipeline(monkeypatch, update, diagrams):
     served = [{"id": "served", "content": "evidencia", "similarity": 1.0}]
     monkeypatch.setattr(bot, "extract_product_models", lambda _q: ["CAD-250"])
-    monkeypatch.setattr(bot, "retrieve_chunks", lambda *a, **k: served)
-    monkeypatch.setattr(bot, "rerank", lambda *a, **k: served)
+    monkeypatch.setattr("src.rag.retriever.retrieve_chunks", lambda *a, **k: served)
+    monkeypatch.setattr("src.rag.reranker.rerank", lambda *a, **k: served)
     monkeypatch.setattr(
-        bot,
-        "generate_answer",
+        "src.rag.generator.generate_answer",
         lambda *a, **k: {"answer": "respuesta", "diagrams": diagrams},
     )
     monkeypatch.setattr(bot, "log_query", lambda **_k: None)

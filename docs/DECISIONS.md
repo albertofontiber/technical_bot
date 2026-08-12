@@ -6147,3 +6147,40 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   INTENT_LLM, CONVERSATION_POLICY, ORCHESTRATOR_PATH (PR-C).
 - **Relacionado**: DEC-209 (PR-A) · propuesta v2 r17 · lote doc
   `evals/s319_graduacion_lote1_v1.md` · tally r18 ts=2026-08-12T16:44:43.
+
+## DEC-211 (s319) — Consolidación PR-C: el camino LEGACY de serving RETIRADO; el orquestador + F1 son la ruta ÚNICA y el default (dúo r19)
+
+- **Fecha**: 12 ago 2026 (s319, cierre de la sesión de consolidación). **Impacto**: ALTO
+  (ruta única de serving) — dúo completo r19 (Sol 5 · Fable 4, 0 FP, TODO aplicado).
+- **Qué murió**: el `else` inline del handler (`execute_rag_turn` en `_process_query`) y
+  el flag `ORCHESTRATOR_PATH` (config, registro, imports; testigo: `not hasattr`). Dos
+  rutas que deben evolucionar juntas eran la clase que produjo #70. También RETIRADO
+  `turn_result_from_pipeline` (shadow.py — adaptador de la pierna muerta; r19 Sol m5).
+- **Qué graduó**: `CONVERSATION_POLICY` default `stub`→`impl` (= producción verificada
+  desde su ship, DEC-205b) con **enum ESTRICTO impl|stub** (r19 Sol M1 ≡ Fable: un typo
+  degradaba al stub EN SILENCIO — cambio de conducta servida sin señal; ahora revienta).
+- **EL ROLLBACK CAMBIA (documentado en ARCHITECTURE + aquí)**: quitar la var YA NO baja
+  al stub (deja impl). Rollback = `CONVERSATION_POLICY=stub` EXPLÍCITO, y es **ÚLTIMO
+  RECURSO con degradaciones declaradas** (r19 Sol M2): (a) deja `INTENT_LLM`
+  INALCANZABLE — reabre el fall-through de #70; (b) resucita el quirk de contexto
+  expirado del régimen legacy (testeado como testigo). El rollback fino preferente es
+  POR-LEVER (`INTENT_LLM=off`, etc.). El stub existe para el instrumento MT y los
+  contratos congelados, no como modo de operación.
+- **El seam queda**: `execute_rag_turn`/`RagServingAdapters` INTACTOS en
+  serving_pipeline.py — el release gate P1 los conduce directamente y atestigua el
+  entrypoint POR STRING (fallaría tarde-y-distinto ante un rename: por eso la batería
+  P1 es gate de esta PR y de cualquier futura que toque el seam).
+- **Onda expansiva medida (68 tests → 0, cuatro clases previstas)**: (A) 34 fixtures
+  forzaban el flag muerto; (B) ~25 tests de handler parcheaban el pipeline inline →
+  parchean los módulos FUENTE (from_production importa perezoso) + fake-updates con
+  update_id/chat; (C) 6 contratos del default viejo → re-contratados con AMBOS mundos
+  assertados; (D) los tests de paridad legacy↔orquestador re-anclados a la paridad
+  run_turn↔seam (r19 Fable: uno había quedado «hecho-pasar» con docstring del mundo
+  muerto — re-contratado de verdad). Docs/comentarios del mundo muerto reconciliados
+  (conversation_policy interfaz, config header, ARCHITECTURE runbook).
+- **Pre-condición cumplida**: ORCHESTRATOR_PATH=on + CONVERSATION_POLICY=impl
+  verificados en Railway (API, s317b) + e2e propio del ship (DEC-205b) + sin incidentes.
+- **Vars de Railway ahora redundantes** (retirar = Alberto): ORCHESTRATOR_PATH (nadie
+  la lee), CONVERSATION_POLICY=impl (coincide con el default).
+- **Relacionado**: DEC-209/210 (PR-A/B) · propuesta r17 · doc
+  `evals/s319_retirada_legacy_v1.md` · tally r19 ts=2026-08-12T17:33:31.

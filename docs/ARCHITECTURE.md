@@ -91,8 +91,12 @@
 > **Multi-turn: Fase 0 + Fase 1 VIVAS EN PRODUCCIÓN** (PRs #185/#186 mergeadas, `bot_version`
 > `f1bee30` verificado en `query_logs` con carry-forward conversacional real): orquestador
 > transport-neutral con paridad byte-a-byte, runtime effectively-once (store/fake/driver/janitor,
-> dúo focal 6/6-0FP) y `ORCHESTRATOR_PATH=on` + `CONVERSATION_POLICY=impl` en Railway (rollback =
-> quitar las variables). Las propuestas DDL del schema `convo` siguen **NO aplicadas** (gateadas
+> dúo focal 6/6-0FP). **s319 PR-C (DEC-211): el orquestador + F1 son la ruta ÚNICA y el
+> DEFAULT del código** — `ORCHESTRATOR_PATH` retirado; el rollback ya NO es quitar variables:
+> es `CONVERSATION_POLICY=stub` EXPLÍCITO (enum estricto, un typo revienta), y es ÚLTIMO
+> RECURSO con degradaciones declaradas (deja `INTENT_LLM` inalcanzable — reabre el
+> fall-through #70 — y resucita el quirk de contexto expirado); el rollback fino preferente
+> es por-lever (`INTENT_LLM=off`, etc.). Las propuestas DDL del schema `convo` siguen **NO aplicadas** (gateadas
 > por la matriz RGPD de Alberto). **Campaña H0 de identidad EJECUTADA EN DB (s285, DEC-161)**:
 > T3 (221 chunks re-tagueados, 2 docs eliminados) + T2 (533 `doc_type` + 301 `language`
 > fill-only verificado 1:1) → **chunks `unknown` activos 318→1**; cifras vivas **1.243 docs

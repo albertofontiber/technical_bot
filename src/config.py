@@ -264,15 +264,16 @@ if STRUCTURAL_NEIGHBOR_SHADOW and not re.fullmatch(
 #                      cliente-side de los léxicos); sin boosts.
 MERGE_STRATEGY = os.getenv("MERGE_STRATEGY", "stamps")
 
-# --- S281 multi-turn Phase 0 seams (MT-0d). All default OFF, strict on|off. ---
-# The suite (3146/0) is the byte-invariance guard: with all three OFF the bot
-# path is textually the historical one.
+# --- S281 multi-turn seams (MT-0d). s319 PR-C: quedan DOS flags Phase-0
+# (CONVO_SHADOW/CONVO_MAINTENANCE, default OFF estricto). La promesa histórica
+# «con todo OFF el path es textualmente el histórico» MURIÓ con la ruta legacy
+# — la guarda de conducta es el replay congelado del instrumento de transporte.
 #
-# ORCHESTRATOR_PATH: route ``_process_query``'s pipeline call through the
-# transport-neutral orchestrator (``run_turn`` in an executor, off the event
-# loop) instead of the inline ``execute_rag_turn``. Compute only — NO store
-# dependency; byte-invariant with the historical path when OFF.
-ORCHESTRATOR_PATH = _strict_on_off("ORCHESTRATOR_PATH")
+# ORCHESTRATOR_PATH: RETIRADO en s319 PR-C (DEC-211) — el orquestador es la
+# ruta ÚNICA de serving desde que el flag llevaba semanas ON en producción; el
+# `else` inline (execute_rag_turn en el handler) murió con él. El seam
+# execute_rag_turn sigue en serving_pipeline.py (lo conduce el release gate).
+# La var puede seguir en Railway: nadie la lee (retirarla = lista DEC-210).
 
 # CONVO_SHADOW: after answering, shadow-persist the turn into the effectively-
 # once ``convo`` store (durability of the existing retrieval/coverage traces).
