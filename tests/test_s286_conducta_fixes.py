@@ -99,11 +99,11 @@ class TestPromptFlagsConducta:
         import src.rag.generator as g
         assert g._FOLLOWUP_BLOCK in g.SYSTEM_PROMPT
 
-    def test_default_byte_identico(self, monkeypatch):
-        # Hermetico: limpia TODAS las vars que _assemble_system lee (no solo
-        # las de conducta) via monkeypatch (restaura al salir) - un test
-        # anterior de la suite completa puede dejar variant/anti-diagram en
-        # el entorno y este assert no vigila fugas ajenas, sino el default.
+    def test_default_es_la_conducta_ship(self, monkeypatch):
+        # s319 graduación (DEC-210): el default SIN env ya no es el SYSTEM_PROMPT
+        # desnudo — es la conducta de producción verificada en Railway (fidelity
+        # + followups-off + anti-invención-on). Hermético: limpia TODAS las vars
+        # que _assemble_system lee (un test anterior puede dejar fugas).
         import src.rag.generator as g
         for k in (
             "GENERATOR_FOLLOWUPS",
@@ -112,6 +112,30 @@ class TestPromptFlagsConducta:
             "ANTI_DIAGRAM_INVENTION",
         ):
             monkeypatch.delenv(k, raising=False)
+        esperado = ((g.SYSTEM_PROMPT + g._FIDELITY_BLOCK)
+                    .replace(g._FOLLOWUP_BLOCK, "") + g._ANTI_DIAGRAM_BLOCK)
+        assert g._assemble_system(None) == esperado
+
+    def test_guards_parser_estricto_fail_fast(self):
+        # (s319 r18, Sol M3) un typo en Railway no puede medio-apagar un guard
+        # de SEGURIDAD en silencio — espejo del precedente HYQ fail-fast.
+        import pytest as _pytest
+
+        import src.rag.generator as g
+        for flag in ("ANTI_DIAGRAM_INVENTION", "WIRING_TOPOLOGY_GUARD"):
+            assert g._guard_estricto(flag, "on") is True
+            assert g._guard_estricto(flag, "off") is False
+            with _pytest.raises(RuntimeError):
+                g._guard_estricto(flag, "typo")
+
+    def test_mundo_legacy_sigue_construible(self, monkeypatch):
+        # la graduación cambia el default, no borra la vuelta: el env explícito
+        # reconstruye el prompt histórico byte-idéntico.
+        import src.rag.generator as g
+        monkeypatch.setenv("GENERATOR_PROMPT_VARIANT", "base")
+        monkeypatch.setenv("GENERATOR_FOLLOWUPS", "on")
+        monkeypatch.setenv("ANTI_DIAGRAM_INVENTION", "off")
+        monkeypatch.setenv("GENERATOR_DIRECT_FIRST", "off")
         assert g._assemble_system(None) == g.SYSTEM_PROMPT
 
     def test_followups_off_retira_el_bloque(self, monkeypatch):

@@ -6106,3 +6106,44 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   cron (hasta que el manual duela).
 - **Relacionado**: DEC-205 (puerta #73) · TECH_DEBT #4 (parcial) · tally r17
   ts=2026-08-12T15:53:58 · PR-B/PR-C siguen en esta sesión.
+
+## DEC-210 (s319) — Consolidación PR-B: graduación de flags lote 1 (7 + 1 pareja de 97); dúo r18 tumbó dos candidatos y endureció los guards
+
+- **Fecha**: 12 ago 2026 (s319). **Impacto**: MEDIO en zona de dolor (defaults del
+  serving) — dúo completo r18 (Sol 5 · Fable 5, 0 FP, TODO aplicado).
+- **Regla del lote** (r17): SETTLED con métrica + valor VIVO en Railway (verificado por
+  API, patrón DEC-195) + cero intención de volver. El default cambia EN CÓDIGO; las
+  vars de Railway quedan redundantes (la lista de retirables es de Alberto, abajo).
+- **GRADUADOS (default viejo → nuevo)**: GENERATOR_PROMPT_VARIANT base→fidelity
+  (DEC-098) · RERANK_TOP_K 5→10 **EN PAREJA con** LLM_MAX_TOKENS 2048→3500 (r18 Sol
+  M1≡Fable F1: el 10 se validó ACOPLADO al 3500 — DEC-092b «0 truncado con 3500»; un
+  default 10+2048 era la combinación MEDIDA como mala; el 3500 es el valor RECIBIDO,
+  no el de Railway) · ENUNCIADOS_MULTIVECTOR off→on (LEVER_DIGEST fila A3: PR #111 +
+  verificado en prod — ancla corregida por Fable F3) · HYQ_TABLE off→on (DEC-099) ·
+  GENERATOR_FOLLOWUPS on→off (métrica 10/10→0/12; cita honesta r18/Fable F2: la
+  recomendación D1 sigue formalmente sin adjudicar — se gradúa el estado APLICADO en
+  Railway) · ANTI_DIAGRAM_INVENTION off→on + WIRING_TOPOLOGY_GUARD off→on (DEC-162a),
+  ambos con **parser ESTRICTO nuevo** (r18 Sol M3: un typo en Railway degradaba un
+  guard de SEGURIDAD a no-op silencioso; ahora RuntimeError ruidoso, espejo HYQ).
+- **EL GATE DE PRE-VERIFICACIÓN DISPARÓ 2 VECES (para esto existe)**:
+  (1) `LLM_MAX_TOKENS` Railway=8000 SIN recibo en DECISIONS (verificado por ambos
+  revisores: 0 hits) → la discrepancia 8000-vs-3500 queda ADJUDICABLE por Alberto
+  (¿deliberado con el swap de modelo?); el default graduado es el recibido.
+  (2) `GENERATOR_SELECTION_BLOCK` FUERA del lote (r18 Sol M2): DEC-101 = «candidato
+  pendiente de GO» con cat021 flaky — Railway=on es estado operativo, no veredicto.
+  También fuera (r17): GENERATOR_DIRECT_FIRST y VISUAL_ASSETS_LISTING_GATE
+  (asentamiento sin métrica).
+- **Onda expansiva medida**: 11 tests de 3.829 codificaban el contrato viejo
+  («default off/base») → actualizados uno a uno manteniendo SIEMPRE el mundo legacy
+  construible por env explícito (byte-comparado). El default sin env ahora ES la
+  conducta ship compuesta (fidelity+followups-off+guards-on), assertada exacta.
+- **Rollback**: idéntico al de siempre — una env var en Railway por flag (nada se
+  borra del código). CI/dev sin vars pasa a conducta ship (objetivo declarado).
+- **Lista de vars de Railway ahora redundantes (retirarlas = decisión Alberto, sin
+  prisa)**: GENERATOR_PROMPT_VARIANT, RERANK_TOP_K, ENUNCIADOS_MULTIVECTOR,
+  HYQ_TABLE, GENERATOR_FOLLOWUPS, ANTI_DIAGRAM_INVENTION, WIRING_TOPOLOGY_GUARD.
+  NO redundantes (siguen mandando): LLM_MAX_TOKENS=8000 (adjudicable),
+  GENERATOR_SELECTION_BLOCK=on, GENERATOR_DIRECT_FIRST, VISUAL_ASSETS_LISTING_GATE,
+  INTENT_LLM, CONVERSATION_POLICY, ORCHESTRATOR_PATH (PR-C).
+- **Relacionado**: DEC-209 (PR-A) · propuesta v2 r17 · lote doc
+  `evals/s319_graduacion_lote1_v1.md` · tally r18 ts=2026-08-12T16:44:43.

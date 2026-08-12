@@ -24,7 +24,9 @@ whole-answer + escalada fail-closed; cero llamadas a modelo/red):
 - ACCIÓN: bloque unsafe → notice determinista (detector-clean POR CONTRATO, ver test);
   re-validación del resultado; si sigue unsafe → fail-closed de respuesta completa.
 
-Flag: ``WIRING_TOPOLOGY_GUARD`` (default off). Posición: tras ``apply_answer_planner``
+Flag: ``WIRING_TOPOLOGY_GUARD`` (default ON desde s319/DEC-210 — graduación del
+lote Railway s286; off explícito = rollback sin deploy; parser ESTRICTO en el
+lector, generator._guard_estricto). Posición: tras ``apply_answer_planner``
 (generator) y ANTES de must_preserve → conflict_guard → EC, para que los appenders
 re-validen sobre el texto ya guardado.
 """

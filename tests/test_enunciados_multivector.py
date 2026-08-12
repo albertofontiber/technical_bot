@@ -64,8 +64,12 @@ def fake_http(monkeypatch):
     return _FakeClient
 
 
-def test_flag_default_off():
-    assert os.getenv("ENUNCIADOS_MULTIVECTOR", "off") == "off"
+def test_flag_default_on(monkeypatch):
+    # s319 graduación (DEC-090/210): el default ES la conducta ship; el canal
+    # se apaga con env EXPLÍCITO (rollback en Railway sin deploy).
+    monkeypatch.delenv("ENUNCIADOS_MULTIVECTOR", raising=False)
+    assert retriever._multivector_on() is True
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "off")
     assert retriever._multivector_on() is False
 
 
@@ -89,11 +93,14 @@ def test_keyword_search_lleva_el_filtro(fake_http, monkeypatch):
     assert fake_http.last_get_params.get("parent_id") == "is.null"
 
 
-def test_rpc_sin_flag_una_sola_llamada(fake_http, monkeypatch):
-    monkeypatch.delenv("ENUNCIADOS_MULTIVECTOR", raising=False)
+def test_rpc_con_flag_off_no_llama_enunciados(fake_http, monkeypatch):
+    # s319: el mundo sin-canal exige env explícito (era el default pre-graduación).
+    # OJO: ya no se asserta «1 llamada» — HYQ_TABLE también graduó a on y su RPC
+    # es legítimo aquí; lo que este flag gobierna es SOLO el canal enunciados.
+    monkeypatch.setenv("ENUNCIADOS_MULTIVECTOR", "off")
     retriever.vector_search("query", 5, 0.3, None, None, [0.0] * 4)
-    assert len(fake_http.posts) == 1
-    assert "match_chunks_v2_enunciados" not in fake_http.posts[0][0]
+    assert all("match_chunks_v2_enunciados" not in url
+               for url, _ in fake_http.posts)
 
 
 def test_rpc_con_flag_llama_al_canal_enunciados(fake_http, monkeypatch):
