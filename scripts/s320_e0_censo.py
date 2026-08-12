@@ -66,12 +66,22 @@ with abierto(timeout=30.0) as client:
     chunks_pm = _paginado(client, "chunks_v2", {
         "select": "product_model,source_file", "order": "id.asc"})
 
-# 1) cobertura doc_map
+# 1) cobertura doc_map — POR document_id, la clave estable del contrato
+#    (r21 Sol C1: el cruce v1 por source_file contaba renames como ausencias
+#    y podía chocar con ids ya mapeados; el contrato §clave-estable manda)
 doc_map = _jsonl("doc_map.jsonl")
-mapeados = {_norm(e.get("doc") or e.get("source_file") or "") for e in doc_map}
-activos = {_norm(d["source_pdf_filename"]): d for d in docs}
-sin_entrada = sorted(set(activos) - mapeados)
-por_marca_sin = Counter(activos[f].get("manufacturer") or "?" for f in sin_entrada)
+ids_mapeados = {e.get("document_id") for e in doc_map if e.get("document_id")}
+sin_entrada_docs = sorted((d for d in docs if d["id"] not in ids_mapeados),
+                          key=lambda d: d.get("source_pdf_filename") or "")
+sin_entrada = [_norm(d["source_pdf_filename"]) for d in sin_entrada_docs]
+sin_entrada_ids = [d["id"] for d in sin_entrada_docs]
+por_marca_sin = Counter(d.get("manufacturer") or "?" for d in sin_entrada_docs)
+# diagnóstico del delta entre claves: mapeados por id cuyo filename cambió
+renombrados = sorted(
+    _norm(d["source_pdf_filename"]) for d in docs
+    if d["id"] in ids_mapeados
+    and _norm(d["source_pdf_filename"]) not in
+    {_norm(e.get("source_file") or "") for e in doc_map})
 
 # 2) pm genérico/familia sin umbral (heurística declarada: pm sin dígito
 #    O pm que es prefijo-familia de >=2 pm distintos del corpus)
@@ -110,9 +120,12 @@ recibo = {
     "docs_activos": len(docs),
     "chunks_totales": len(chunks_pm),
     "doc_map": {"entradas": len(doc_map),
+                "cruce": "document_id (clave estable del contrato — r21 C1)",
                 "activos_sin_entrada": len(sin_entrada),
                 "sin_entrada_por_marca": dict(por_marca_sin.most_common()),
-                "sin_entrada_lista": sin_entrada},
+                "sin_entrada_lista": sin_entrada,
+                "sin_entrada_ids": sin_entrada_ids,
+                "mapeados_con_filename_cambiado": renombrados},
     "pm_generico": {"pms_distintos_docs": len(pms_docs),
                     "sin_digito": sin_digito},
     "unknown": {"chunks": unknown_chunks, "source_files": unknown_files},

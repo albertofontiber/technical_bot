@@ -1,0 +1,693 @@
+{
+ "que_es": "E1a v2 (r21 aplicado): derivación doc_map por Catalog.resolve, cruce por document_id, tokenización resolution-first (pm entero primero; split solo si TODAS las partes resuelven; jamás fragmentos). NADA escrito: tier A = propuesta de escritura post-dúo; B/C/no-producto = packet.",
+ "utc": "20260812T194107Z",
+ "objetivo_censo": 279,
+ "encontrados_activos": 279,
+ "tiers": {
+  "a": 46,
+  "b": 67,
+  "c": 162,
+  "no_producto": 4
+ },
+ "muestras": {
+  "a": [
+   {
+    "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+    "source_file": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+    "pm": "FHSD8310",
+    "manufacturer": "Edwards",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "FHSD8310",
+      "via": "exact",
+      "ids": [
+       "edwards:fhsd8310"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+     "source_file": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+     "entries": [
+      {
+       "id": "edwards:fhsd8310",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "41b80879-37f7-45b5-9801-4ab4a0b6ebbd",
+    "source_file": "997-671-007-3_configuration_pt",
+    "pm": "Pearl",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "Pearl",
+      "via": "exact",
+      "ids": [
+       "notifier:pearl"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "41b80879-37f7-45b5-9801-4ab4a0b6ebbd",
+     "source_file": "997-671-007-3_configuration_pt",
+     "entries": [
+      {
+       "id": "notifier:pearl",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "e1c4a9b3-aba9-453b-8cf2-0c36e3c989a2",
+    "source_file": "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+    "pm": "KE-AS3005W-WM",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "KE-AS3005W-WM",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3005w-wm"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "e1c4a9b3-aba9-453b-8cf2-0c36e3c989a2",
+     "source_file": "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+     "entries": [
+      {
+       "id": "kidde:ke-as3005w-wm",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "2e98a3e7-014e-42ba-9f53-ac054e83d61f",
+    "source_file": "ds_kidde_ke_as3010r_2602_161a",
+    "pm": "KE-AS3010R",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "KE-AS3010R",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3010r"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "2e98a3e7-014e-42ba-9f53-ac054e83d61f",
+     "source_file": "ds_kidde_ke_as3010r_2602_161a",
+     "entries": [
+      {
+       "id": "kidde:ke-as3010r",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "1448d940-0564-410c-a5bd-b2291786a2e1",
+    "source_file": "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+    "pm": "KE-AS3010R/KE-AS3010R-IP",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "split-completo",
+    "trazas": [
+     {
+      "token": "KE-AS3010R",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3010r"
+      ],
+      "expand": true
+     },
+     {
+      "token": "KE-AS3010R-IP",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3010r-ip"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "1448d940-0564-410c-a5bd-b2291786a2e1",
+     "source_file": "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+     "entries": [
+      {
+       "id": "kidde:ke-as3010r",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      },
+      {
+       "id": "kidde:ke-as3010r-ip",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "ec020ac9-0918-4afc-8830-f311aa895502",
+    "source_file": "ds_kidde_ke_as3010w_2602_es_3217",
+    "pm": "KE-AS3010W",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "KE-AS3010W",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3010w"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "ec020ac9-0918-4afc-8830-f311aa895502",
+     "source_file": "ds_kidde_ke_as3010w_2602_es_3217",
+     "entries": [
+      {
+       "id": "kidde:ke-as3010w",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "ebe5d365-4540-4259-a412-99b29dde72b1",
+    "source_file": "ds_kidde_ke_as3011r_2602_es_3a29",
+    "pm": "KE-AS3011R",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "KE-AS3011R",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3011r"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "ebe5d365-4540-4259-a412-99b29dde72b1",
+     "source_file": "ds_kidde_ke_as3011r_2602_es_3a29",
+     "entries": [
+      {
+       "id": "kidde:ke-as3011r",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   },
+   {
+    "document_id": "b9175dcd-c9d1-45c3-bf80-c82fd1b0254b",
+    "source_file": "ds_kidde_ke_as3011r_ip_2602_ing_9304",
+    "pm": "KE-AS3011R/KE-AS3011R-IP",
+    "manufacturer": "Kidde",
+    "doc_type": "datasheet",
+    "modo": "split-completo",
+    "trazas": [
+     {
+      "token": "KE-AS3011R",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3011r"
+      ],
+      "expand": true
+     },
+     {
+      "token": "KE-AS3011R-IP",
+      "via": "exact",
+      "ids": [
+       "kidde:ke-as3011r-ip"
+      ],
+      "expand": true
+     }
+    ],
+    "propuesta": {
+     "document_id": "b9175dcd-c9d1-45c3-bf80-c82fd1b0254b",
+     "source_file": "ds_kidde_ke_as3011r_ip_2602_ing_9304",
+     "entries": [
+      {
+       "id": "kidde:ke-as3011r",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      },
+      {
+       "id": "kidde:ke-as3011r-ip",
+       "role": "primary",
+       "scope": "doc",
+       "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+      }
+     ]
+    }
+   }
+  ],
+  "b": [
+   {
+    "document_id": "63b73ee7-602d-449c-bc36-2c7f82a7a23c",
+    "source_file": "00-3280-508-4009-03_r003_2x-a_series_quick_operation_guide_es",
+    "pm": "2X-A/2X-AT-F2/2X-AT-F2-FB",
+    "manufacturer": "Aritech",
+    "doc_type": "usuario",
+    "modo": "split-parcial",
+    "trazas": [
+     {
+      "token": "2X-A",
+      "via": null,
+      "ids": [],
+      "expand": null
+     },
+     {
+      "token": "2X-AT-F2",
+      "via": "exact",
+      "ids": [
+       "kidde:2x-at-f2"
+      ],
+      "expand": true
+     },
+     {
+      "token": "2X-AT-F2-FB",
+      "via": "exact",
+      "ids": [
+       "kidde:2x-at-f2-fb"
+      ],
+      "expand": true
+     }
+    ]
+   },
+   {
+    "document_id": "b22fdb7f-f9e9-49d0-9e40-e840c24d25e9",
+    "source_file": "33976_13_vesda-e_vep-a00-p_product_guide_a4_spanish_lores",
+    "pm": "VESDA-E-VEP/VEP-A00-P/VEP-A00",
+    "manufacturer": "Xtralis",
+    "doc_type": "instalacion",
+    "modo": "split-parcial",
+    "trazas": [
+     {
+      "token": "VESDA-E-VEP",
+      "via": null,
+      "ids": [],
+      "expand": null
+     },
+     {
+      "token": "VEP-A00-P",
+      "via": "exact",
+      "ids": [
+       "xtralis:vep-a00-p"
+      ],
+      "expand": true
+     },
+     {
+      "token": "VEP-A00",
+      "via": "alias",
+      "ids": [
+       "xtralis:vep-a00-1p"
+      ],
+      "expand": true
+     }
+    ]
+   },
+   {
+    "document_id": "0a33955c-8334-4213-b1fb-faad7a78d010",
+    "source_file": "4188-1132-pt issue 4_04_2025-qref",
+    "pm": "INSPIRE E10/E15",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "split-completo",
+    "trazas": [
+     {
+      "token": "INSPIRE E10",
+      "via": "exact",
+      "ids": [
+       "notifier:inspire-e10"
+      ],
+      "expand": true
+     },
+     {
+      "token": "E15",
+      "via": "homonimo-candidate",
+      "ids": [],
+      "expand": false
+     }
+    ]
+   },
+   {
+    "document_id": "564b775d-294d-4d67-97ae-99d9c617b3ee",
+    "source_file": "996-130-000-3 manuel d'utilisation zx_hlsi",
+    "pm": "ZX",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "ZX",
+      "via": "homonimo",
+      "ids": [
+       "morley:zx50",
+       "morley:zx2e",
+       "morley:zx2se",
+       "morley:zxae",
+       "morley:zxhe",
+       "morley:zxce"
+      ],
+      "expand": false
+     }
+    ]
+   },
+   {
+    "document_id": "52c20421-70ff-4efd-a4dc-9eb41993f849",
+    "source_file": "asd harsh environments_sp",
+    "pm": "FAAST",
+    "manufacturer": "Xtralis",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "FAAST",
+      "via": "paraguas",
+      "ids": [
+       "notifier:fl0111e-hs",
+       "notifier:fl0112e-hs",
+       "notifier:fl0122e-hs",
+       "notifier:fl2011ei-hs",
+       "notifier:fl2012ei-hs",
+       "notifier:fl2022ei-hs",
+       "notifier:nfxi-asd11-hs",
+       "notifier:nfxi-asd12-hs",
+       "notifier:nfxi-asd22-hs",
+       "morley:mi-fl2011ei",
+       "morley:mi-fl2012ei",
+       "morley:mi-fl2022ei",
+       "notifier:faast-8100e"
+      ],
+      "expand": true
+     }
+    ]
+   },
+   {
+    "document_id": "eb749df8-87db-4800-90dd-7d65889822fa",
+    "source_file": "averia-de-resistencia-de-baterias-en-central-dxc",
+    "pm": "DXc",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "DXc",
+      "via": "paraguas",
+      "ids": [
+       "morley:dxc1",
+       "morley:dxc2",
+       "morley:dxc4"
+      ],
+      "expand": true
+     }
+    ]
+   },
+   {
+    "document_id": "0119436e-4676-4110-a351-9c8da48e472f",
+    "source_file": "con-que-sistema-operativo-es-compatible-el-programa-de-la-dxc-connexion",
+    "pm": "DXc",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "entero",
+    "trazas": [
+     {
+      "token": "DXc",
+      "via": "paraguas",
+      "ids": [
+       "morley:dxc1",
+       "morley:dxc2",
+       "morley:dxc4"
+      ],
+      "expand": true
+     }
+    ]
+   },
+   {
+    "document_id": "9a8054ff-85cb-4a82-a0c2-e36e1b34323a",
+    "source_file": "con-que-sistema-operativo-es-compatible-el-programa-de-la-zx-y-dx",
+    "pm": "ZX/DX",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "split-parcial",
+    "trazas": [
+     {
+      "token": "ZX",
+      "via": "homonimo",
+      "ids": [
+       "morley:zx50",
+       "morley:zx2e",
+       "morley:zx2se",
+       "morley:zxae",
+       "morley:zxhe",
+       "morley:zxce"
+      ],
+      "expand": false
+     },
+     {
+      "token": "DX",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   }
+  ],
+  "c": [
+   {
+    "document_id": "84365c09-608f-4b5e-abc3-ff610a7acd41",
+    "source_file": "00-3280-507-4003-03_r003_2x-a_series_quick_installation_guide_en",
+    "pm": "2X-A Táctil",
+    "manufacturer": "Aritech",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "2X-A Táctil",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "91446365-9b15-4f75-aebd-b022d2368bcf",
+    "source_file": "00-3280-507-4009-03_r003_2x-a_series_quick_installation_guide_es",
+    "pm": "2X-A",
+    "manufacturer": "Aritech",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "2X-A",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "4c3ee6fc-38b7-449a-a6aa-16d194257bad",
+    "source_file": "30012012  tarjetas idiomas vision supra rev a",
+    "pm": "Vision Supra",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "Vision Supra",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "20160a6b-26bd-477d-a9a7-e76ee152cee3",
+    "source_file": "4188-1124-pt issue 4_01-2026_to",
+    "pm": "CLSS Configuration Tool",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "CLSS Configuration Tool",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "8c7aa118-eed6-4775-8729-e35811ce4b5c",
+    "source_file": "asd cold environments_sp",
+    "pm": "FAAST LT",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "FAAST LT",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "6ae27b44-3115-4249-9391-0338f781bf26",
+    "source_file": "actulización histórico tg",
+    "pm": "TG",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "TG",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "eb8cb51c-6683-4534-80e3-ce735e5558e3",
+    "source_file": "al cambiar-el-nombre-del-plano-a desaparecido-el-plano-y-los-equipos",
+    "pm": "TG",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "TG",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "8b2aa620-213b-49b4-a2a7-15d097ad7484",
+    "source_file": "como-solucionar-la-incidencia-table-is-full-en-el-tg",
+    "pm": "TG",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "TG",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   }
+  ],
+  "no_producto": [
+   {
+    "document_id": "69081b67-2e25-42f8-8ff5-634c84f9b715",
+    "source_file": "997-493-002-2",
+    "pm": "EN54 2-8 Zone",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "EN54 2-8 Zone",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "0216c070-9a50-4109-b161-de0a583c9696",
+    "source_file": "asd in rail transportation applications_es",
+    "pm": "MARCH-2011",
+    "manufacturer": "Notifier",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "MARCH-2011",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "a04eafd1-48d0-4ed6-9de8-4ff93ca6a3da",
+    "source_file": "compatibilidad-entre-equipos-notifier-y-morley",
+    "pm": "unknown",
+    "manufacturer": "Morley",
+    "doc_type": null,
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "unknown",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   },
+   {
+    "document_id": "0cb982a1-389c-4ae6-9e6d-2278b9f96cd6",
+    "source_file": "d686 ema1224b4r_w ns4r",
+    "pm": "EN-54-3",
+    "manufacturer": "Notifier",
+    "doc_type": "instalacion",
+    "modo": "sin-resolver",
+    "trazas": [
+     {
+      "token": "EN-54-3",
+      "via": null,
+      "ids": [],
+      "expand": null
+     }
+    ]
+   }
+  ]
+ },
+ "detalle_completo": "evals/s320_e1_docmap_derivacion_v2_detalle.json"
+}
