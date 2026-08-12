@@ -26,11 +26,12 @@
 > gap honesto.
 
 <a id="estado-actual-s277--22-jul-2026"></a>
-## Estado actual (s316h — 11 ago 2026, noche)
+## Estado actual (s317c — 12 ago 2026)
 
-**La sesión más larga del proyecto: reconciliación post-cloud, dos deudas grandes cerradas,
-el rediseño completo (s316d-f), el lever INTENT_LLM con GO adjudicado (s316g, PR #237) y
-los DOS gates del flip cerrados (s316h, DEC-204, dúo r12).**
+**El arco s316→s317: reconciliación post-cloud, el rediseño completo (s316d-f), el lever
+INTENT_LLM construido→flippeado→verificado en producción (s316g→s317b, PRs #237/#238),
+#73 puerta de revisión (DEC-205, PR #239) y #72 cerrada para el serving en dos fases
+medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con paridad.**
 
 1. **#68 CERRADO** (DEC-199). El lote Casmar/Kidde pasa de **0/0** a **10.161 enunciados +
    2.516 hyq**, verificado en DB (V 10.161/10.161 ids; hyq universo completo, poison 0,
