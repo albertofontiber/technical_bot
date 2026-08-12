@@ -21,9 +21,12 @@ la 202512 es 9 meses más nueva; ambas ACTIVAS y compitiendo en retrieval).
 
 ## 2. Sentada B2 de gold-review — packet existente
 
-**Doc**: `evals/s312_goldreview_b2_packet_v3.md` (9 ítems + 1 nuevo de s305).
+**Doc**: `evals/s312_goldreview_b2_packet_v3.md` — ⚠️ **8 ítems adjudicables, no 9+1**.
 Resuelve 4-5 de los 16 fallos del assessment vigente — son alcance de gold, no
 ingeniería. Cada ítem lleva su evidencia y las opciones de etiqueta.
+**El ítem 2 (`hp011#2`, el que venía de s305) NO se adjudica**: su evidencia quedó retirada en
+s320c porque el instrumento que la produjo no medía (TECH_DEBT #75). El packet ya lo lleva marcado
+con ⛔ arriba del ítem.
 
 ---
 

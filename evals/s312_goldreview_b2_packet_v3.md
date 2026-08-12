@@ -37,7 +37,40 @@ verificada exacta contra FULL:6684-6902** (conveyed 0/5, `omitted` 5/5, `reaches
 
 ---
 
-## 2 · `hp011#2` — `t.A`: r.i / default / rango · **FUSIONADO (era ítems 2+10)** · el más consecuente
+## 2 · `hp011#2` — `t.A`: r.i / default / rango · ⛔ **NO ADJUDICAR — evidencia retirada (s320c, 12-ago)**
+
+> ⛔ **NO marques ninguna de las opciones de este ítem.** La capa 2 de su evidencia (s305) **nunca
+> midió nada**: el script sumaba sobre las CLAVES del dict que devuelve el juez ⇒ la cifra valía
+> **siempre 2**, en las 9 reps de los 3 brazos, sin consultar al juez. El «máx 2/5 uniforme» que
+> este ítem interpretaba como «umbral del juez sobre el hecho compuesto» **no existe** (TECH_DEBT
+> #75). Re-juzgadas las respuestas que el recibo sí guardó, con el juez canónico y en dos corridas
+> idénticas: **sonnet-4-6 2/3 firmes · opus-5 2/3**, con correlación **9/9** entre «firme» y la
+> aparición literal del valor ⇒ el juez discrimina limpio, y en **4 de las 9 respuestas de aquella
+> corrida el hecho SÍ se transmitió entero** (rango + default). Es decir: las opciones A y B te
+> pedían **recortar el alcance de un gold legítimo para compensar un fallo que nunca se midió**, y
+> la C se apoyaba en una «fragilidad del juez» que la correlación 9/9 desmiente.
+>
+> **Precisión (dúo s320c)**: esto NO dice «el techo era del modelo». Con el brazo de control
+> transmitiendo, lo que corresponde es «montaje no comparable» — la corrida del 7-ago contradice a
+> la del 2-ago (s293, medición válida) con el mismo modelo. Queda **inconcluyente**, y por eso hace
+> falta la medición fresca antes de que este ítem vuelva —o no— a la sentada.
+>
+> ✅ **RE-MEDICIÓN FRESCA HECHA (s320c, `evals/s320c_techo_modelo_ab_v2.json`, 5 reps/brazo): el
+> hecho SÍ es alcanzable hoy en los TRES brazos** — sonnet-4-6 1/5 firmes · sonnet-5 1/5 · opus-5
+> **4/5**, max 5/5 los tres. **⇒ Este ítem sale del packet y el gold se queda COMO ESTÁ.** No hay
+> nada que adjudicar: el bot puede transmitir el hecho, y el gold no se mueve por cómo se comportó
+> un modelo (DEC-025).
+>
+> Lo que el número sí destapa **no es materia de sentada, es de ingeniería**: la transmisión es
+> **inestable** (6/15 firmes teniendo la evidencia perfecta delante) y el brazo `base` da 0/5 en 14
+> de 15 ⇒ el hueco es de **serving**. Eso vuelve a la cola de ingeniería, no a tu mesa.
+>
+> **Los otros 8 ítems del packet están sanos**: ninguno se apoya en s305 (verificado uno a uno).
+>
+> Recibos: `evals/s320c_rejudge_s305_stored_v1.json` · el roto
+> `evals/s305_techo_modelo_ab_v1.json` se conserva como prueba.
+
+*(lo de abajo queda como registro de lo que el packet pedía antes de retirarse la evidencia)*
 
 > **Por qué la fusión (crítico CONVERGENTE del dúo)**: v1 te pedía DOS decisiones sobre el
 > MISMO hecho con opciones contradictorias (ítem 2: «t.A entero → SUPPLEMENTARY» · ítem 10:

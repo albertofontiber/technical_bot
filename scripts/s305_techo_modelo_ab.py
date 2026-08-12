@@ -27,6 +27,17 @@ queda CONFIRMADO con evidencia mucho más fuerte que antes, y la clase se cierra
 Lo que NO mide: PASS ni el resto del eval. Es la sonda de alcanzabilidad, una clase, un
 hecho. Un «alcanzable con Opus» NO es un GO de despliegue — es el permiso para diseñar.
 
+⚠️ **BUG DE LECTURA DEL JUEZ, corregido el 12-ago-2026 (s320c).** La v1 de este script hacía
+`sum(1 for v in judge_conveyed21(...) if v)` sobre el retorno del juez, que es un DICT
+(`{"yes": int, "n_fail": int}`): iterar un dict recorre sus CLAVES, dos strings no vacías ⇒ la
+suma valía **siempre 2**, sin consultar al juez. Por eso `evals/s305_techo_modelo_ab_v1.json`
+tiene `base_yes = oracle_yes = 2` en las 9 reps de los 3 brazos, `oracle_firme` (≥4) salía 0 por
+construcción y el veredicto «TECHO CONFIRMADO» era INFALSABLE — la guarda del control no podía
+dispararse nunca. `s293_reachability_probe.py:183` usaba el mismo juez BIEN (`votes["yes"]`): el
+fallo era de este único llamador. **DEC-186 se apoyó en esa cifra.** El recibo v1 se CONSERVA
+como prueba (por eso esta versión escribe a fichero nuevo). Añadido además el detector de
+aguja-atascada: si todos los brazos devuelven la misma pareja de cifras, el veredicto no se lee.
+
 Uso:  python scripts/s305_techo_modelo_ab.py [reps]     (default 3, como DEC-173)
 """
 from __future__ import annotations
@@ -61,6 +72,30 @@ BRAZOS = [
     ("B_sonnet_5", "claude-sonnet-5"),
     ("C_opus_5", "claude-opus-5"),
 ]
+
+
+# El recibo v1 (roto) se CONSERVA como prueba de sobre qué se apoyó DEC-186 ⇒ fichero NUEVO.
+DESTINO = "evals/s320c_techo_modelo_ab_v2.json"
+
+
+def _volcar(hecho: str, valor: str, texto: str, reps: int,
+            resumen: dict, resultados: dict, parcial: bool) -> None:
+    """Vuelca el recibo. Se llama tras CADA brazo: una corrida larga que muera en el último
+    brazo no puede llevarse por delante los brazos ya medidos."""
+    with open(DESTINO, "w", encoding="utf-8") as fh:
+        json.dump({"probe": "s320c_techo_modelo_ab_v2",
+                   "corrige": ("evals/s305_techo_modelo_ab_v1.json — bug de lectura del juez "
+                               "(sum sobre las CLAVES del dict ⇒ constante 2). DEC-186 se apoyó "
+                               "en esa cifra."),
+                   "parcial": parcial,
+                   "ts": datetime.now(timezone.utc).isoformat(),
+                   "git_sha": subprocess.run(["git", "rev-parse", "HEAD"],
+                                             capture_output=True).stdout.decode().strip(),
+                   "qid": QID, "fact": hecho, "valor": valor, "texto": texto,
+                   "inject": INJECT, "reps_por_brazo": reps,
+                   "THRESH_FIRM": FA.THRESH_FIRM, "juez": "judge_conveyed21 K=5",
+                   "resumen": resumen, "brazos": resultados}, fh,
+                  ensure_ascii=False, indent=2)
 
 
 _MODELOS_ENVIADOS: list[str] = []
@@ -133,12 +168,21 @@ def _medir(modelo: str, question: str, valor: str, texto: str,
             oraculo = PROBE.run_turn(question, inject_rows)
             base_votos = FA.judge_conveyed21(valor, texto, base["answer"])
             oraculo_votos = FA.judge_conveyed21(valor, texto, oraculo["answer"])
+            # `judge_conveyed21` devuelve {"yes": int, "n_fail": int} — se LEE POR CLAVE.
+            # (v1 sumaba sobre el dict ⇒ constante 2; ver la nota del docstring.)
             fila = {"rep": i,
-                    "base_yes": sum(1 for v in base_votos if v),
-                    "oracle_yes": sum(1 for v in oraculo_votos if v),
-                    "oracle_answer": oraculo["answer"][:1500]}
+                    "base_yes": base_votos["yes"],
+                    "oracle_yes": oraculo_votos["yes"],
+                    "base_n_fail": base_votos["n_fail"],
+                    "oracle_n_fail": oraculo_votos["n_fail"],
+                    # ENTERAS, no truncadas: el truncado a 1.500 de la v1 dejó el recibo
+                    # inservible para re-juzgar (el dato podía caer más allá del corte).
+                    "base_answer": base["answer"],
+                    "oracle_answer": oraculo["answer"]}
             salida.append(fila)
-            print(f"    rep {i}: base={fila['base_yes']}/5 · oráculo={fila['oracle_yes']}/5",
+            fallos = fila["base_n_fail"] + fila["oracle_n_fail"]
+            print(f"    rep {i}: base={fila['base_yes']}/5 · oráculo={fila['oracle_yes']}/5"
+                  + (f"  ⚠️ {fallos} votos fallidos" if fallos else ""),
                   flush=True)
         enviados = set(_MODELOS_ENVIADOS)
         # El testigo manda sobre la intención: si el proveedor no recibió ESTE modelo, el
@@ -192,6 +236,7 @@ def main() -> int:
             print(f"    ABORTADO: {type(e).__name__}: {str(e)[:200]}")
             resultados[nombre] = {"modelo": modelo, "error":
                                   f"{type(e).__name__}: {str(e)[:300]}", "reps": []}
+        _volcar(hecho["key"], valor, texto, reps, {}, resultados, parcial=True)
 
     firme = FA.THRESH_FIRM
     print("\n--- veredicto ---")
@@ -207,6 +252,27 @@ def main() -> int:
         print(f"  {nombre:16s} {datos['modelo']:20s} oráculo firme {oraculo_firme}/{len(rs)}"
               f" · max {maximo}/5 → {estado}"
               + (f"  [{datos['error'][:60]}]" if datos.get("error") else ""))
+
+    # ── DETECTOR DE AGUJA ATASCADA (nace del bug de la v1, s320c) ──────────────────────────
+    # Un instrumento que no mide se delata dando la MISMA cifra en todas las observaciones.
+    # La v1 dio (2,2) en las 9 reps de los 3 brazos y nadie lo leyó como síntoma: se leyó como
+    # «consistencia». Ahora el propio script se niega a emitir veredicto en ese caso.
+    parejas = {(r["base_yes"], r["oracle_yes"])
+               for d in resultados.values() for r in (d.get("reps") or [])}
+    n_obs = sum(len(d.get("reps") or []) for d in resultados.values())
+    fallos = sum(r.get("base_n_fail", 0) + r.get("oracle_n_fail", 0)
+                 for d in resultados.values() for r in (d.get("reps") or []))
+    atascada = n_obs >= 4 and len(parejas) == 1
+    if fallos:
+        print(f"\n⚠️  {fallos} votos del juez FALLIDOS: un 0 puede ser API caída, no un «no».")
+    if atascada:
+        print(f"\n=> INSTRUMENTO SOSPECHOSO: las {n_obs} observaciones de los "
+              f"{len(resultados)} brazos dan la MISMA pareja {parejas.pop()}. Con modelos "
+              "distintos y brazos base/oráculo distintos, eso no es consistencia: es una "
+              "aguja atascada. NO leas el veredicto — audita el instrumento primero.")
+        _volcar(hecho["key"], valor, texto, reps, resumen, resultados, parcial=False)
+        print(f"\nrecibo: {DESTINO}")
+        return 1
 
     control = resumen.get("A_control_prod", {})
     fuertes = [v for k, v in resumen.items() if k != "A_control_prod"]
@@ -236,18 +302,8 @@ def main() -> int:
         print("   superior transmite el hecho con la evidencia ideal delante. La clase se")
         print("   cierra de verdad; no hay lever de serving NI de modelo que la pague.")
 
-    destino = "evals/s305_techo_modelo_ab_v1.json"
-    with open(destino, "w", encoding="utf-8") as fh:
-        json.dump({"probe": "s305_techo_modelo_ab_v1",
-                   "ts": datetime.now(timezone.utc).isoformat(),
-                   "git_sha": subprocess.run(["git", "rev-parse", "HEAD"],
-                                             capture_output=True).stdout.decode().strip(),
-                   "qid": QID, "fact": hecho["key"], "valor": valor, "texto": texto,
-                   "inject": INJECT, "reps_por_brazo": reps,
-                   "THRESH_FIRM": firme, "juez": "judge_conveyed21 K=5",
-                   "resumen": resumen, "brazos": resultados}, fh,
-                  ensure_ascii=False, indent=2)
-    print(f"\nrecibo: {destino}")
+    _volcar(hecho["key"], valor, texto, reps, resumen, resultados, parcial=False)
+    print(f"\nrecibo: {DESTINO}")
     return 0
 
 

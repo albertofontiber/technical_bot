@@ -143,10 +143,17 @@ El **acceso** al menú sí está en el manual que tenemos.
 > ronda 1 sobraba. Retrieval e identidad quedan DESCARTADOS para este caso, ahora por dos
 > vías independientes.
 >
-> ⇒ ~~Sigue abierta … ¿el techo es del sistema o del MODELO?~~ **CERRADA (s305,
+> ⇒ ~~Sigue abierta … ¿el techo es del sistema o del MODELO?~~ ~~**CERRADA (s305,
 > DEC-186)**: medido con Sonnet 4.6 / Sonnet 5 / Opus 5 sobre el oráculo de DEC-173 —
-> 0/3 firmes los tres. **El techo NO es del modelo.** Recibo:
-> `evals/s305_techo_modelo_ab_v1.json`.
+> 0/3 firmes los tres. **El techo NO es del modelo.**~~
+> ⚠️ **RE-ABIERTA (s320c, 12-ago)**: ese «0/3 firmes» nunca salió del juez — el script sumaba
+> sobre las CLAVES del dict del juez ⇒ constante 2, veredicto infalsable (TECH_DEBT #75).
+> Re-juzgadas las respuestas guardadas: sonnet-4-6 2/3 firmes · opus-5 2/3. La pregunta del techo
+> por el eje MODELO vuelve a estar **abierta** (resultado corregido = inconcluyente por montaje),
+> pendiente de re-medición fresca y de la reescritura de DEC-186 con dúo. **Ojo**: esto NO toca el
+> veredicto de arriba —selección-de-sección con la evidencia delante, DEC-185—, que tiene
+> instrumento propio. Recibos: `evals/s320c_rejudge_s305_stored_v1.json` · el roto
+> `evals/s305_techo_modelo_ab_v1.json` se conserva como prueba.
 
 ## La clase del fallo — y por qué importa más que el caso
 
