@@ -1,0 +1,3737 @@
+{
+ "que_es": "E1b: pre-clasificación de candidates para QA TOTAL (620/620). Atestación = COUNT de chunks cuyo CONTENIDO menciona el modelo (nunca metadata). Los lotes ordenan, la decisión es de Alberto.",
+ "utc": "20260812T200227Z",
+ "total": 620,
+ "lotes": {
+  "confirmar": 359,
+  "retirar": 0,
+  "revisar": 261
+ },
+ "detalle": {
+  "confirmar": [
+   {
+    "id": "aritech:apic",
+    "modelo": "APIC",
+    "chunks_con_mencion": 62,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:cad-250-bled",
+    "modelo": "CAD-250-BLED",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:cad-250b",
+    "modelo": "CAD-250B",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:ccd-102",
+    "modelo": "CCD-102",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:ccd-104",
+    "modelo": "CCD-104",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:ccd-108",
+    "modelo": "CCD-108",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:ccd-112",
+    "modelo": "CCD-112",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:scd-250",
+    "modelo": "SCD-250",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:sgd-151",
+    "modelo": "SGD-151",
+    "chunks_con_mencion": 22,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:00051",
+    "modelo": "00051",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:cs4",
+    "modelo": "CS4",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "firebeam:adaptador",
+    "modelo": "ADAPTADOR",
+    "chunks_con_mencion": 226,
+    "veneno_lexico": false
+   },
+   {
+    "id": "firebeam:firebeam-xtra",
+    "modelo": "Firebeam Xtra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "hosiden:ls-28",
+    "modelo": "LS 28",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:2010-1-sb",
+    "modelo": "2010-1-SB",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:2x-at",
+    "modelo": "2X-AT",
+    "chunks_con_mencion": 66,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3010rs06",
+    "modelo": "KE-DM3010RS06",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3010rs18",
+    "modelo": "KE-DM3010RS18",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3010rs27",
+    "modelo": "KE-DM3010RS27",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3010rsch",
+    "modelo": "KE-DM3010RSCH",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3010rscl",
+    "modelo": "KE-DM3010RSCL",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3110rs06",
+    "modelo": "KE-DM3110RS06",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3110rs18",
+    "modelo": "KE-DM3110RS18",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3110rs27",
+    "modelo": "KE-DM3110RS27",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3110rsch",
+    "modelo": "KE-DM3110RSCH",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:ke-dm3110rscl",
+    "modelo": "KE-DM3110RSCL",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:nc-mc-0-o",
+    "modelo": "NC-MC-0-O",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:nc-mc-0-u",
+    "modelo": "NC-MC-0-U",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:nc-mc-0-w",
+    "modelo": "NC-MC-0-W",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:nc-mc-0-y",
+    "modelo": "NC-MC-0-Y",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:nc-mc-560-u",
+    "modelo": "NC-MC-560-U",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:standard-display-module",
+    "modelo": "Standard Display Module",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx1e",
+    "modelo": "DX1e",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx1e-20s",
+    "modelo": "DX1e-20S",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx2e",
+    "modelo": "DX2e",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx2e-40m",
+    "modelo": "DX2e-40M",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx4e",
+    "modelo": "DX4e",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:dx4e-40l",
+    "modelo": "DX4e-40L",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:ess12-2plus",
+    "modelo": "ESS12-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:ess4-2plus",
+    "modelo": "ESS4-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:ess8-2plus",
+    "modelo": "ESS8-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:exp-004",
+    "modelo": "EXP-004",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:exp-004b",
+    "modelo": "EXP-004B",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:exp-005",
+    "modelo": "EXP-005",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:mcx-55m",
+    "modelo": "MCX-55M",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:mi-200",
+    "modelo": "MI-200",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:mi-lzr",
+    "modelo": "MI-LZR",
+    "chunks_con_mencion": 36,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:mmx-10m",
+    "modelo": "MMX-10M",
+    "chunks_con_mencion": 16,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:nfs12-supra",
+    "modelo": "NFS12-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:nfs4-supra",
+    "modelo": "NFS4-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:nfs8-supra",
+    "modelo": "NFS8-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:nfs8rel",
+    "modelo": "NFS8REL",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn-12-plus",
+    "modelo": "VSN 12 PLUS",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn-ll",
+    "modelo": "VSN-LL",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn4",
+    "modelo": "VSN4",
+    "chunks_con_mencion": 26,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:911a",
+    "modelo": "911A",
+    "chunks_con_mencion": 18,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:afm-16at",
+    "modelo": "AFM-16AT",
+    "chunks_con_mencion": 26,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:afm-32a",
+    "modelo": "AFM-32A",
+    "chunks_con_mencion": 20,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:aim-200",
+    "modelo": "AIM-200",
+    "chunks_con_mencion": 42,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:am-200",
+    "modelo": "AM-200",
+    "chunks_con_mencion": 29,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:am-8200n",
+    "modelo": "AM-8200N",
+    "chunks_con_mencion": 107,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:am-lcd",
+    "modelo": "AM-LCD",
+    "chunks_con_mencion": 31,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:amg-x4",
+    "modelo": "AMG-X4",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:apic",
+    "modelo": "APIC",
+    "chunks_con_mencion": 62,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:aw70pc0",
+    "modelo": "AW70PC0",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:be-1010n",
+    "modelo": "BE-1010N",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:be-2020n",
+    "modelo": "BE-2020N",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:be-400",
+    "modelo": "BE-400",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:bm-1",
+    "modelo": "BM-1",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:bp-1",
+    "modelo": "BP-1",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:bp-3",
+    "modelo": "BP-3",
+    "chunks_con_mencion": 15,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:bx-501",
+    "modelo": "BX-501",
+    "chunks_con_mencion": 21,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-400aa",
+    "modelo": "CAB-400AA",
+    "chunks_con_mencion": 60,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-a3",
+    "modelo": "CAB-A3",
+    "chunks_con_mencion": 28,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-b3",
+    "modelo": "CAB-B3",
+    "chunks_con_mencion": 25,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-c3",
+    "modelo": "CAB-C3",
+    "chunks_con_mencion": 28,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-d3",
+    "modelo": "CAB-D3",
+    "chunks_con_mencion": 25,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ccm-1",
+    "modelo": "CCM-1",
+    "chunks_con_mencion": 29,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cdi",
+    "modelo": "CDI",
+    "chunks_con_mencion": 243,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cmx",
+    "modelo": "CMX",
+    "chunks_con_mencion": 411,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cmx-1",
+    "modelo": "CMX-1",
+    "chunks_con_mencion": 72,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cmx-10",
+    "modelo": "CMX-10",
+    "chunks_con_mencion": 36,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cmx-10r",
+    "modelo": "CMX-10R",
+    "chunks_con_mencion": 29,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cp6",
+    "modelo": "CP6",
+    "chunks_con_mencion": 22,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cpx-551",
+    "modelo": "CPX-551",
+    "chunks_con_mencion": 49,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cpx-751",
+    "modelo": "CPX-751",
+    "chunks_con_mencion": 35,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cre-4",
+    "modelo": "CRE-4",
+    "chunks_con_mencion": 55,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:crm-4",
+    "modelo": "CRM-4",
+    "chunks_con_mencion": 54,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:crt-1",
+    "modelo": "CRT-1",
+    "chunks_con_mencion": 28,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dia",
+    "modelo": "DIA",
+    "chunks_con_mencion": 9238,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dia-1010",
+    "modelo": "DIA-1010",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dia-2020",
+    "modelo": "DIA-2020",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dib",
+    "modelo": "DIB",
+    "chunks_con_mencion": 784,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dp-1",
+    "modelo": "DP-1",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dts-240",
+    "modelo": "DTS 240",
+    "chunks_con_mencion": 54,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dust",
+    "modelo": "DUST",
+    "chunks_con_mencion": 524,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:e-sib",
+    "modelo": "E-SIB",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:e10",
+    "modelo": "E10",
+    "chunks_con_mencion": 195,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:e15",
+    "modelo": "E15",
+    "chunks_con_mencion": 184,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:eia-485",
+    "modelo": "EIA-485",
+    "chunks_con_mencion": 260,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:esser-edp",
+    "modelo": "ESSER EDP",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fa30",
+    "modelo": "FA30",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fat3000",
+    "modelo": "FAT3000",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fdx-551",
+    "modelo": "FDX-551",
+    "chunks_con_mencion": 70,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fdx-551r",
+    "modelo": "FDX-551R",
+    "chunks_con_mencion": 30,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fil-nas-2",
+    "modelo": "FIL-NAS-2",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fs-1",
+    "modelo": "FS-1",
+    "chunks_con_mencion": 22,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:g-10",
+    "modelo": "G-10",
+    "chunks_con_mencion": 82,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:h-gtw",
+    "modelo": "H-GTW",
+    "chunks_con_mencion": 24,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:h-gtw-n",
+    "modelo": "H-GTW-N",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-131-206",
+    "modelo": "HOP-131-206",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-134-412",
+    "modelo": "HOP-134-412",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-208-111",
+    "modelo": "HOP-208-111",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hsp-121b",
+    "modelo": "HSP-121B",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:id-3000",
+    "modelo": "ID-3000",
+    "chunks_con_mencion": 50,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:id1000",
+    "modelo": "ID1000",
+    "chunks_con_mencion": 195,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:idx-751",
+    "modelo": "IDX-751",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:idx-751-ae",
+    "modelo": "IDX-751 AE",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:inspire",
+    "modelo": "INSPIRE",
+    "chunks_con_mencion": 209,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ipx-751",
+    "modelo": "IPX-751",
+    "chunks_con_mencion": 29,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:irx-751ctem-w",
+    "modelo": "IRX-751CTEM-W",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:laserstar",
+    "modelo": "LaserStar",
+    "chunks_con_mencion": 77,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lcd-80",
+    "modelo": "LCD-80",
+    "chunks_con_mencion": 189,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lcd-80tm",
+    "modelo": "LCD-80TM",
+    "chunks_con_mencion": 16,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lcd-8200",
+    "modelo": "LCD-8200",
+    "chunks_con_mencion": 42,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lib",
+    "modelo": "LIB",
+    "chunks_con_mencion": 1806,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lib-8200",
+    "modelo": "LIB-8200",
+    "chunks_con_mencion": 25,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lisa-2",
+    "modelo": "LISA 2",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lnk-boxmb",
+    "modelo": "LNK-BoxMB",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lp-2",
+    "modelo": "LP-2",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lpm",
+    "modelo": "LPM",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lpx",
+    "modelo": "LPX",
+    "chunks_con_mencion": 38,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lpx-751",
+    "modelo": "LPX-751",
+    "chunks_con_mencion": 22,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lts-240",
+    "modelo": "LTS-240",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:m710-cz",
+    "modelo": "M710-CZ",
+    "chunks_con_mencion": 29,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mcx-55m",
+    "modelo": "MCX-55M",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mini-vista",
+    "modelo": "Mini Vista",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mmx",
+    "modelo": "MMX",
+    "chunks_con_mencion": 328,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mmx-10m",
+    "modelo": "MMX-10M",
+    "chunks_con_mencion": 16,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mod-1",
+    "modelo": "MOD-1",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mon-17b",
+    "modelo": "MON-17B",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mon-21",
+    "modelo": "MON-21",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:mp-1",
+    "modelo": "MP-1",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:n-elr",
+    "modelo": "N-ELR",
+    "chunks_con_mencion": 35,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nas",
+    "modelo": "NAS",
+    "chunks_con_mencion": 6329,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nas-2",
+    "modelo": "NAS-2",
+    "chunks_con_mencion": 44,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nfs-supra",
+    "modelo": "NFS Supra",
+    "chunks_con_mencion": 156,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nfs4",
+    "modelo": "NFS4",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nfs8rel",
+    "modelo": "NFS8REL",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:notifier-inspire-e10",
+    "modelo": "Notifier INSPIRE E10",
+    "chunks_con_mencion": 110,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:notifier-inspire-e15",
+    "modelo": "Notifier INSPIRE E15",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nport-5210",
+    "modelo": "NPort 5210",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nr45-24e",
+    "modelo": "NR45-24E",
+    "chunks_con_mencion": 17,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nrt",
+    "modelo": "NRT",
+    "chunks_con_mencion": 165,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nrt-586t",
+    "modelo": "NRT-586T",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ntg-24",
+    "modelo": "NTG 24",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:omni",
+    "modelo": "OMNI",
+    "chunks_con_mencion": 71,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pan-avd1",
+    "modelo": "PAN-AVD1",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pclb-5",
+    "modelo": "PCLB-5",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pk-8200",
+    "modelo": "PK-8200",
+    "chunks_con_mencion": 21,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pk-id3000",
+    "modelo": "PK-ID3000",
+    "chunks_con_mencion": 134,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pl4",
+    "modelo": "PL4",
+    "chunks_con_mencion": 96,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:prn-id",
+    "modelo": "PRN-ID",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:prn2000",
+    "modelo": "PRN2000",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:prn80",
+    "modelo": "PRN80",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:psu3a",
+    "modelo": "PSU3A",
+    "chunks_con_mencion": 21,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:rhistorico.exe",
+    "modelo": "RHistorico.exe",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:rtm-8",
+    "modelo": "RTM-8",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:rtu01",
+    "modelo": "RTU01",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2138sd",
+    "modelo": "S2138SD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2139sd",
+    "modelo": "S2139SD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2140nd",
+    "modelo": "S2140ND",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2141nd",
+    "modelo": "S2141ND",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2142cl",
+    "modelo": "S2142CL",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2143cl",
+    "modelo": "S2143CL",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2147hc",
+    "modelo": "S2147HC",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2170sd",
+    "modelo": "S2170SD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2171sd",
+    "modelo": "S2171SD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2172nd",
+    "modelo": "S2172ND",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2173nd",
+    "modelo": "S2173ND",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2174cl",
+    "modelo": "S2174CL",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2175cl",
+    "modelo": "S2175CL",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:s2311hc",
+    "modelo": "S2311HC",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sdx-551",
+    "modelo": "SDX-551",
+    "chunks_con_mencion": 54,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:securnet-plus",
+    "modelo": "Securnet Plus",
+    "chunks_con_mencion": 27,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sensenet",
+    "modelo": "SENSENET",
+    "chunks_con_mencion": 72,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sensortube",
+    "modelo": "SensorTube",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:serie-800",
+    "modelo": "Serie 800",
+    "chunks_con_mencion": 31,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sistema-5000",
+    "modelo": "Sistema 5000",
+    "chunks_con_mencion": 170,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart-3-cc",
+    "modelo": "SMART 3 CC",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart-3-cc-cd",
+    "modelo": "SMART 3 CC-CD",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart-3g",
+    "modelo": "SMART 3G",
+    "chunks_con_mencion": 20,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart3g-d",
+    "modelo": "SMART3G-D",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart4",
+    "modelo": "SMART4",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smb-t",
+    "modelo": "SMB-T",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:stpl4",
+    "modelo": "STPL4",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:system-5000",
+    "modelo": "System 5000",
+    "chunks_con_mencion": 22,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tcm-2",
+    "modelo": "TCM-2",
+    "chunks_con_mencion": 19,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tcm-4",
+    "modelo": "TCM-4",
+    "chunks_con_mencion": 18,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tg-1020",
+    "modelo": "TG-1020",
+    "chunks_con_mencion": 47,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tg-6000",
+    "modelo": "TG-6000",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tg-notifier",
+    "modelo": "TG-NOTIFIER",
+    "chunks_con_mencion": 69,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tmp",
+    "modelo": "TMP",
+    "chunks_con_mencion": 41,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tr-500",
+    "modelo": "TR-500",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:transponder-serie-xp",
+    "modelo": "Transponder serie XP",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:uds-3n",
+    "modelo": "UDS-3N",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:updl-1020",
+    "modelo": "UPDL-1020",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:updl-2020",
+    "modelo": "UPDL-2020",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:view",
+    "modelo": "VIEW",
+    "chunks_con_mencion": 1648,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vision-plus",
+    "modelo": "Vision Plus",
+    "chunks_con_mencion": 66,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vp-1",
+    "modelo": "VP-1",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vs4095",
+    "modelo": "VS4095",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vsn-2plus",
+    "modelo": "VSN-2PLUS",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vsn-ll",
+    "modelo": "VSN-LL",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:vsn-plus",
+    "modelo": "VSN-Plus",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:xp5-c",
+    "modelo": "XP5-C",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:xp5-m",
+    "modelo": "XP5-M",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:xpdp",
+    "modelo": "XPDP",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ze4",
+    "modelo": "ZE4",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:zmx",
+    "modelo": "ZMX",
+    "chunks_con_mencion": 86,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:zs4",
+    "modelo": "ZS4",
+    "chunks_con_mencion": 20,
+    "veneno_lexico": false
+   },
+   {
+    "id": "patrol:ssm",
+    "modelo": "-SSM",
+    "chunks_con_mencion": 26,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z705",
+    "modelo": "Z705",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:acb-35",
+    "modelo": "ACB 35",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:afs-32",
+    "modelo": "AFS 32",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:afu-32",
+    "modelo": "AFU 32",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:amb-31",
+    "modelo": "AMB 31",
+    "chunks_con_mencion": 36,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:amb-33",
+    "modelo": "AMB 33",
+    "chunks_con_mencion": 49,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:amb-35",
+    "modelo": "AMB 35",
+    "chunks_con_mencion": 53,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:bcb-35",
+    "modelo": "BCB 35",
+    "chunks_con_mencion": 21,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:leb-35",
+    "modelo": "LEB 35",
+    "chunks_con_mencion": 28,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:lmb-35",
+    "modelo": "LMB 35",
+    "chunks_con_mencion": 63,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:lsu-35",
+    "modelo": "LSU 35",
+    "chunks_con_mencion": 18,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:smm-535",
+    "modelo": "SMM 535",
+    "chunks_con_mencion": 34,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:ssd-31",
+    "modelo": "SSD 31",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "securiton:ssd-533",
+    "modelo": "SSD 533",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "sense-ware:sm21",
+    "modelo": "SM21",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "sensitron:pl4",
+    "modelo": "PL4",
+    "chunks_con_mencion": 96,
+    "veneno_lexico": false
+   },
+   {
+    "id": "sensitron:pl4+",
+    "modelo": "PL4+",
+    "chunks_con_mencion": 52,
+    "veneno_lexico": false
+   },
+   {
+    "id": "spectrex:777650",
+    "modelo": "777650",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "spectrex:winhost",
+    "modelo": "WinHost",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:8100e-faast",
+    "modelo": "8100E FAAST",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:agileiq",
+    "modelo": "AgileIQ",
+    "chunks_con_mencion": 43,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000b",
+    "modelo": "ECO1000B",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000brelx",
+    "modelo": "ECO1000BRELx",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000brx",
+    "modelo": "ECO1000BRx",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000brxsd",
+    "modelo": "ECO1000BRxSD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000bsd",
+    "modelo": "ECO1000BSD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000db",
+    "modelo": "ECO1000DB",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000dbrx",
+    "modelo": "ECO1000DBRx",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000dbrxsd",
+    "modelo": "ECO1000DBRxSD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:eco1000dbsd",
+    "modelo": "ECO1000DBSD",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:rts451key",
+    "modelo": "RTS451KEY",
+    "chunks_con_mencion": 33,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:st-1.5",
+    "modelo": "ST-1.5",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:st-10",
+    "modelo": "ST-10",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:st-3",
+    "modelo": "ST-3",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:st-5",
+    "modelo": "ST-5",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd20en",
+    "modelo": "WFD20EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd25en",
+    "modelo": "WFD25EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd30en",
+    "modelo": "WFD30EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd40en",
+    "modelo": "WFD40EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd60en",
+    "modelo": "WFD60EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd80en",
+    "modelo": "WFD80EN",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:solo-760",
+    "modelo": "Solo 760",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:tc3",
+    "modelo": "TC3",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:ts3",
+    "modelo": "TS3",
+    "chunks_con_mencion": 33,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:am8200",
+    "modelo": "AM8200",
+    "chunks_con_mencion": 178,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:autosat-10",
+    "modelo": "AutoSAT 10",
+    "chunks_con_mencion": 24,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:autosat-20",
+    "modelo": "AutoSAT 20",
+    "chunks_con_mencion": 24,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:calypso-ii",
+    "modelo": "CALYPSO-II",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:calypso-ii-r",
+    "modelo": "Calypso-II-R",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ccd-103",
+    "modelo": "CCD-103",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dod-220",
+    "modelo": "DOD-220",
+    "chunks_con_mencion": 15,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dod-220a",
+    "modelo": "DOD-220A",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dod-220a-i",
+    "modelo": "DOD-220A-I",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dotd-230",
+    "modelo": "DOTD-230",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dotd-230a",
+    "modelo": "DOTD-230A",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dotd-230a-i",
+    "modelo": "DOTD-230A-I",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-10",
+    "modelo": "DS 10",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-5",
+    "modelo": "DS 5",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-210",
+    "modelo": "DTD-210",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-210a",
+    "modelo": "DTD-210A",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-210a-i",
+    "modelo": "DTD-210A-I",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-215",
+    "modelo": "DTD-215",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-215a",
+    "modelo": "DTD-215A",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dtd-215a-i",
+    "modelo": "DTD-215A-I",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:eco1000",
+    "modelo": "ECO1000",
+    "chunks_con_mencion": 48,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ess-rp1r-plus",
+    "modelo": "ESS RP1r Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ess12-2plus",
+    "modelo": "ESS12-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ess4-2plus",
+    "modelo": "ESS4-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ess8-2plus",
+    "modelo": "ESS8-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fs20x",
+    "modelo": "FS20X",
+    "chunks_con_mencion": 39,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fs24x",
+    "modelo": "FS24X",
+    "chunks_con_mencion": 43,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fs24x-2",
+    "modelo": "FS24X-2",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fs24x-9",
+    "modelo": "FS24X-9",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-ir3",
+    "modelo": "FSL100-IR3",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-sm21",
+    "modelo": "FSL100-SM21",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-tl",
+    "modelo": "FSL100-TL",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-tlx",
+    "modelo": "FSL100-TLX",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-uv",
+    "modelo": "FSL100-UV",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-uvir",
+    "modelo": "FSL100-UVIR",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:h-gtw-1",
+    "modelo": "H-GTW-1",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:h-gtw-n",
+    "modelo": "H-GTW-N",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:hls-ps25",
+    "modelo": "HLS PS25",
+    "chunks_con_mencion": 23,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:hls-ps50",
+    "modelo": "HLS PS50",
+    "chunks_con_mencion": 23,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:id50",
+    "modelo": "ID50",
+    "chunks_con_mencion": 487,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:id60",
+    "modelo": "ID60",
+    "chunks_con_mencion": 103,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:indicator",
+    "modelo": "INDICATOR",
+    "chunks_con_mencion": 1421,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:itac",
+    "modelo": "ITAC",
+    "chunks_con_mencion": 806,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:itac-2.0",
+    "modelo": "ITAC 2.0",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:m710-czr",
+    "modelo": "M710-CZR",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-402",
+    "modelo": "MAD-402",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-412",
+    "modelo": "MAD-412",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-422",
+    "modelo": "MAD-422",
+    "chunks_con_mencion": 11,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-432",
+    "modelo": "MAD-432",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-442",
+    "modelo": "MAD-442",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-450",
+    "modelo": "MAD-450",
+    "chunks_con_mencion": 13,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-461",
+    "modelo": "MAD-461",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-464-i",
+    "modelo": "MAD-464-I",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-465-i",
+    "modelo": "MAD-465-I",
+    "chunks_con_mencion": 7,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-472",
+    "modelo": "MAD-472",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-564-i",
+    "modelo": "MAD-564-I",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-565-i",
+    "modelo": "MAD-565-I",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-567-i",
+    "modelo": "MAD-567-I",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-569-i",
+    "modelo": "MAD-569-I",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mi-lzr",
+    "modelo": "MI-LZR",
+    "chunks_con_mencion": 36,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nfs12-supra",
+    "modelo": "NFS12-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nfs4-supra",
+    "modelo": "NFS4-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nfs8-supra",
+    "modelo": "NFS8-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nfsx-supra",
+    "modelo": "NFSx-Supra",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:pgd-200",
+    "modelo": "PGD-200",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:pol-200-ts",
+    "modelo": "POL-200-TS",
+    "chunks_con_mencion": 39,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:s-hsf",
+    "modelo": "S-HSF",
+    "chunks_con_mencion": 17,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:s300zdu",
+    "modelo": "S300ZDU",
+    "chunks_con_mencion": 8,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:simei",
+    "modelo": "SIMEI",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:sm4",
+    "modelo": "SM4",
+    "chunks_con_mencion": 20,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tg-gsm",
+    "modelo": "TG-GSM",
+    "chunks_con_mencion": 10,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tg-hlsi",
+    "modelo": "TG HLSI",
+    "chunks_con_mencion": 18,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tg-honeywell",
+    "modelo": "TG-HONEYWELL",
+    "chunks_con_mencion": 38,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tg-modbus",
+    "modelo": "TG MODBUS",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tl-1055",
+    "modelo": "TL-1055",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tl-2055",
+    "modelo": "TL-2055",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vision-plus",
+    "modelo": "VISION PLUS",
+    "chunks_con_mencion": 66,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vision-rp1r-plus",
+    "modelo": "Vision RP1r Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn-2p",
+    "modelo": "VSN-2P",
+    "chunks_con_mencion": 9,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn-co",
+    "modelo": "VSN-CO",
+    "chunks_con_mencion": 12,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn12-2plus",
+    "modelo": "VSN12-2Plus",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vw2w100",
+    "modelo": "VW2W100",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-30441",
+    "modelo": "9-30441",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:honeywell-smartconfig-app",
+    "modelo": "Honeywell SmartConfig App",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:icam-ias",
+    "modelo": "ICAM IAS",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:icam-ift",
+    "modelo": "ICAM IFT",
+    "chunks_con_mencion": 6,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:icam-ils",
+    "modelo": "ICAM ILS",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:ift-15",
+    "modelo": "IFT-15",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-dcl",
+    "modelo": "LT-ACC-DCL",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-poe-24-adr",
+    "modelo": "LT-ACC-POE-24-ADR",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:vesda-vli",
+    "modelo": "VESDA VLI",
+    "chunks_con_mencion": 79,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:vli-880",
+    "modelo": "VLI-880",
+    "chunks_con_mencion": 3,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:vsp-961",
+    "modelo": "VSP-961",
+    "chunks_con_mencion": 14,
+    "veneno_lexico": false
+   }
+  ],
+  "retirar": [],
+  "revisar": [
+   {
+    "id": "detnov:cad-171-r",
+    "modelo": "CAD-171 (R)",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:pad-20",
+    "modelo": "PAD-20",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "detnov:spr_250",
+    "modelo": "SPR_250",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:00052",
+    "modelo": "00052",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:03382",
+    "modelo": "03382",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:03383",
+    "modelo": "03383",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:cs4-analgica",
+    "modelo": "CS4 Analógica",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "fidegas:cs4-digital",
+    "modelo": "CS4 Digital",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "firebeam:thefirebeam-xtra",
+    "modelo": "thefirebeam Xtra",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:1x-f8-sc",
+    "modelo": "1X-F8-SC",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "kidde:2010-1-nb",
+    "modelo": "2010-1-NB",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "lda:etx-1",
+    "modelo": "ETX-1",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "lda:ldaneotfl",
+    "modelo": "LDANEOTFL",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "menvier:1471",
+    "modelo": "1471",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": true
+   },
+   {
+    "id": "morley:mi-cmo",
+    "modelo": "MI-CMO",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:sp-200",
+    "modelo": "SP-200",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn-12-plus2",
+    "modelo": "VSN-12 Plus2",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn-4-plus2",
+    "modelo": "VSN-4 Plus2",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn-8-plus2",
+    "modelo": "VSN-8 Plus2",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn4-2plus",
+    "modelo": "VSN4-2Plus",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "morley:vsn8-2plus",
+    "modelo": "VSN8-2Plus",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:1.5ke51ca",
+    "modelo": "1.5KE51CA",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:124-297",
+    "modelo": "124-297",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:210-5033",
+    "modelo": "210-5033",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:29087",
+    "modelo": "29087",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:29146",
+    "modelo": "29146",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:5554",
+    "modelo": "5554",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": true
+   },
+   {
+    "id": "notifier:72051ei",
+    "modelo": "72051EI",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ad-pe",
+    "modelo": "AD-PE",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:afp1020",
+    "modelo": "AFP1020",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:am-82-top",
+    "modelo": "AM-82-TOP",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:amg-zc",
+    "modelo": "AMG-ZC",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:avd-evj",
+    "modelo": "AVD EVJ",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:bani-g-24",
+    "modelo": "BANI-G-24",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:c-160-14-to1a",
+    "modelo": "C-160-14-TO1A",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-sa1",
+    "modelo": "CAB-SA1",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cab-sb2",
+    "modelo": "CAB-SB2",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cfp-ze4",
+    "modelo": "CFP-ZE4",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:cfp-zs4",
+    "modelo": "CFP-ZS4",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:dg",
+    "modelo": "DG",
+    "chunks_con_mencion": 433,
+    "veneno_lexico": true
+   },
+   {
+    "id": "notifier:dp-aa",
+    "modelo": "DP-AA",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:e-sib-m",
+    "modelo": "E-SIB-M",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:eev2",
+    "modelo": "EEV(2)",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fs-2",
+    "modelo": "FS-2",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:fs-4",
+    "modelo": "FS-4",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:g10016r",
+    "modelo": "G10016R",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:gc-1",
+    "modelo": "GC-1",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hon-cgw-mbb",
+    "modelo": "HON-CGW-MBB",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-133-206",
+    "modelo": "HOP-133-206",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-136-412",
+    "modelo": "HOP-136-412",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-238-110",
+    "modelo": "HOP-238-110",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hop-238-115",
+    "modelo": "HOP-238-115",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hssd-2a",
+    "modelo": "HSSD-2A",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:hssd-2n",
+    "modelo": "HSSD-2N",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ica-6",
+    "modelo": "ICA-6",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:interface-rs485-serie-800",
+    "modelo": "Interface RS485 serie 800",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:iso232-id3000",
+    "modelo": "ISO232-ID3000",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:keltron-90",
+    "modelo": "Keltron 90",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:laserstar-mster",
+    "modelo": "LASERSTAR MÁSTER",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:laserstar-repetidor",
+    "modelo": "LaserStar Repetidor",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lisa-2-eex-d",
+    "modelo": "LISA 2 EEx d",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:lisa-2-eex-na",
+    "modelo": "LISA 2 EEx nA",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:n-gas-100",
+    "modelo": "N-GAS-100",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nfs-plus",
+    "modelo": "NFS-PLUS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nfs8-2plus",
+    "modelo": "NFS8-2PLUS",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:np12-12fr",
+    "modelo": "NP12-12FR",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:np24-12fr",
+    "modelo": "NP24-12FR",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:np38-12fr",
+    "modelo": "NP38-12FR",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nport-5110",
+    "modelo": "NPort 5110",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nrt-586tf",
+    "modelo": "NRT-586TF",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nrt-586tw",
+    "modelo": "NRT-586TW",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nrt-586twf",
+    "modelo": "NRT-586TWF",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:nxfi-copt22",
+    "modelo": "NXFI-COPT22",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pan-2",
+    "modelo": "PAN-2",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pinnacle-7251",
+    "modelo": "PINNACLE 7251",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pk-afp200e",
+    "modelo": "PK-AFP200E",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pkid200e",
+    "modelo": "PKID200E",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:pl4-e",
+    "modelo": "PL4-E",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ref.-30752",
+    "modelo": "Ref.: 30752",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:ref.-30753",
+    "modelo": "Ref.: 30753",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:rp1001e",
+    "modelo": "RP1001E",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sdx-751-tem",
+    "modelo": "SDX-751-TEM",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart-1",
+    "modelo": "SMART 1",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:smart-3-cd",
+    "modelo": "SMART 3 CD",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:sp-200",
+    "modelo": "SP-200",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:st.pl4+",
+    "modelo": "ST.PL4+",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tf-b3000",
+    "modelo": "TF-B3000",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tg",
+    "modelo": "TG",
+    "chunks_con_mencion": 618,
+    "veneno_lexico": true
+   },
+   {
+    "id": "notifier:tg-6000-net",
+    "modelo": "TG-6000 Net",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:tx",
+    "modelo": "TX",
+    "chunks_con_mencion": 538,
+    "veneno_lexico": true
+   },
+   {
+    "id": "notifier:ucip-modbus-e20m",
+    "modelo": "UCIP-MODBUS E20M",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "notifier:verifire-1020",
+    "modelo": "VERIFIRE 1020",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z040",
+    "modelo": "Z040",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z041",
+    "modelo": "Z041",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z042",
+    "modelo": "Z042",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z710",
+    "modelo": "Z710",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z713",
+    "modelo": "Z713",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z715",
+    "modelo": "Z715",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z715.1k",
+    "modelo": "Z715.1K",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z722",
+    "modelo": "Z722",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z728.cl",
+    "modelo": "Z728.CL",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z731",
+    "modelo": "Z731",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z755",
+    "modelo": "Z755",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z757",
+    "modelo": "Z757",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z763",
+    "modelo": "Z763",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z764",
+    "modelo": "Z764",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z765",
+    "modelo": "Z765",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z772",
+    "modelo": "Z772",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z778",
+    "modelo": "Z778",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z779",
+    "modelo": "Z779",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z779.h",
+    "modelo": "Z779.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z786",
+    "modelo": "Z786",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z787",
+    "modelo": "Z787",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z787.h",
+    "modelo": "Z787.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z788",
+    "modelo": "Z788",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z788.h",
+    "modelo": "Z788.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z788.r",
+    "modelo": "Z788.R",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z789",
+    "modelo": "Z789",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z796",
+    "modelo": "Z796",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z810",
+    "modelo": "Z810",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z810.cl",
+    "modelo": "Z810.CL",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z813",
+    "modelo": "Z813",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z822",
+    "modelo": "Z822",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z828",
+    "modelo": "Z828",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z828.h",
+    "modelo": "Z828.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z857",
+    "modelo": "Z857",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z864",
+    "modelo": "Z864",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z865",
+    "modelo": "Z865",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z872",
+    "modelo": "Z872",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z878",
+    "modelo": "Z878",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z886",
+    "modelo": "Z886",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z887",
+    "modelo": "Z887",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z888",
+    "modelo": "Z888",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z888.h",
+    "modelo": "Z888.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z896",
+    "modelo": "Z896",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z905",
+    "modelo": "Z905",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z910",
+    "modelo": "Z910",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z915",
+    "modelo": "Z915",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z915.1k",
+    "modelo": "Z915.1K",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z922",
+    "modelo": "Z922",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z928",
+    "modelo": "Z928",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z954",
+    "modelo": "Z954",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z955",
+    "modelo": "Z955",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z960",
+    "modelo": "Z960",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z961",
+    "modelo": "Z961",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z961.h",
+    "modelo": "Z961.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z964",
+    "modelo": "Z964",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z965",
+    "modelo": "Z965",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z966",
+    "modelo": "Z966",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z966.h",
+    "modelo": "Z966.H",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z967",
+    "modelo": "Z967",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z969",
+    "modelo": "Z969",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pepperl-fuchs:z972",
+    "modelo": "Z972",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pyra:py-x-m-05-ssm",
+    "modelo": "PY X-M-05-SSM",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pyra:py-x-m-10-ssm",
+    "modelo": "PY X-M-10-SSM",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pyra:py-x-ma-05-ssm",
+    "modelo": "PY X-MA-05-SSM",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "pyra:py-x-ma-10-ssm",
+    "modelo": "PY X-MA-10-SSM",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "sensitron:smart-2-twin",
+    "modelo": "SMART 2 TWIN",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "spectrex:380114-2",
+    "modelo": "380114-2",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "spectrex:777670",
+    "modelo": "777670",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "spectrex:model-787640",
+    "modelo": "Model 787640",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:1551",
+    "modelo": "1551",
+    "chunks_con_mencion": 21,
+    "veneno_lexico": true
+   },
+   {
+    "id": "systemsensor:2551",
+    "modelo": "2551",
+    "chunks_con_mencion": 4,
+    "veneno_lexico": true
+   },
+   {
+    "id": "systemsensor:wfd20n",
+    "modelo": "WFD20N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd25n",
+    "modelo": "WFD25N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd30n",
+    "modelo": "WFD30N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd40n",
+    "modelo": "WFD40N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd60n",
+    "modelo": "WFD60N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "systemsensor:wfd80n",
+    "modelo": "WFD80N",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:solo-725",
+    "modelo": "Solo 725",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-1001",
+    "modelo": "Testifire 1001",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-2001",
+    "modelo": "Testifire 2001",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-6001",
+    "modelo": "Testifire 6001",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-6201",
+    "modelo": "Testifire 6201",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-9001",
+    "modelo": "Testifire 9001",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "testifire:testifire-9201",
+    "modelo": "Testifire 9201",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-590",
+    "modelo": "020-590",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-591",
+    "modelo": "020-591",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-592",
+    "modelo": "020-592",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-593",
+    "modelo": "020-593",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-594",
+    "modelo": "020-594",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-595",
+    "modelo": "020-595",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-596",
+    "modelo": "020-596",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-598",
+    "modelo": "020-598",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:020-606",
+    "modelo": "020-606",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:230-539-009",
+    "modelo": "230-539-009",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:34110400",
+    "modelo": "34110400",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:34115311",
+    "modelo": "34115311",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:3466",
+    "modelo": "3466",
+    "chunks_con_mencion": 5,
+    "veneno_lexico": true
+   },
+   {
+    "id": "unresolved:55320103",
+    "modelo": "55320103",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:55350007",
+    "modelo": "55350007",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:cmd-500",
+    "modelo": "CMD-500",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:d-1100-4-sounder",
+    "modelo": "D 1100-4 Sounder",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:dmdx-500",
+    "modelo": "DMDX-500",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-10--tas",
+    "modelo": "DS 10 -TAS",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-10--tav",
+    "modelo": "DS 10 -TAV",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-10-gl",
+    "modelo": "DS 10-GL",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-5--gl",
+    "modelo": "DS 5 -GL",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-5--tas",
+    "modelo": "DS 5 -TAS",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:ds-5--tav",
+    "modelo": "DS 5 -TAV",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:esense",
+    "modelo": "e²sense",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:f3000m",
+    "modelo": "F3000M",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:f5k",
+    "modelo": "F5K",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:f5k-2h",
+    "modelo": "F5K-2H",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fad-902",
+    "modelo": "FAD-902",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fad-905",
+    "modelo": "FAD-905",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fl01xx-e-hs",
+    "modelo": "FL01XX E-HS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fl20xx-ei-hs",
+    "modelo": "FL20XX EI-HS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-ir3-w",
+    "modelo": "FSL100-IR3-W",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-uv-w",
+    "modelo": "FSL100-UV-W",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fsl100-uvir-w",
+    "modelo": "FSL100-UVIR-W",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:fvr-01",
+    "modelo": "FVR-01",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:itac-supra",
+    "modelo": "ITAC Supra",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-432-mdulo-1-sirena",
+    "modelo": "MAD-432 Módulo 1 Sirena",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-432-mdulo-2-sirenas",
+    "modelo": "MAD-432 Módulo 2 Sirenas",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-464-i-w",
+    "modelo": "MAD-464-I-W",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-465-i-w",
+    "modelo": "MAD-465-I-W",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-471",
+    "modelo": "MAD-471",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-491",
+    "modelo": "MAD-491",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-564-i-w",
+    "modelo": "MAD-564-I-W",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mad-565-i-w",
+    "modelo": "MAD-565-I-W",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mi-dczrm",
+    "modelo": "MI-DCZRM",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:mi-fl20xxxx-ei-hs",
+    "modelo": "MI-FL20XXXX EI-HS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nap-100ac",
+    "modelo": "NAP 100AC",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:nfxi-asd-xxxx-hs",
+    "modelo": "NFXI-ASD-XXXX-HS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:pad-10a",
+    "modelo": "PAD-10A",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:scd-100",
+    "modelo": "SCD-100",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:scd-110",
+    "modelo": "SCD-110",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:scd-110-con-flash",
+    "modelo": "SCD-110 con flash",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:scd-120",
+    "modelo": "SCD-120",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tbud-150",
+    "modelo": "TBUD-150",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tcd-106",
+    "modelo": "TCD-106",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tg",
+    "modelo": "TG",
+    "chunks_con_mencion": 618,
+    "veneno_lexico": true
+   },
+   {
+    "id": "unresolved:tg-ip-1-sec",
+    "modelo": "TG-IP-1-SEC",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tmd-100",
+    "modelo": "TMD-100",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:trd-100",
+    "modelo": "TRD-100",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:trmd-50x",
+    "modelo": "TRMD-50X",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:tsd-100",
+    "modelo": "TSD-100",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vision-supra",
+    "modelo": "VISION SUPRA",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn-2plus",
+    "modelo": "VSN 2Plus",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn-rp1r-2plus",
+    "modelo": "VSN-RP1r-2PLUS",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn4-2plus",
+    "modelo": "VSN4-2Plus",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:vsn8-2plus",
+    "modelo": "VSN8-2Plus",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "unresolved:z-200-r",
+    "modelo": "Z-200-R",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10900",
+    "modelo": "9-10900",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10906",
+    "modelo": "9-10906",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10908",
+    "modelo": "9-10908",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10909",
+    "modelo": "9-10909",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10927",
+    "modelo": "9-10927",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:9-10954-100",
+    "modelo": "9-10954-100",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-ipa",
+    "modelo": "LT-ACC-IPA",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-pcl",
+    "modelo": "LT-ACC-PCL",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-rly",
+    "modelo": "LT-ACC-RLY",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:lt-acc-scl",
+    "modelo": "LT-ACC-SCL",
+    "chunks_con_mencion": 2,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:mgate-mb3270",
+    "modelo": "MGate MB3270",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:vrt-q00",
+    "modelo": "VRT-Q00",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "xtralis:vrt-t00",
+    "modelo": "VRT-T00",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "zareba:2306b1000",
+    "modelo": "2306B1000",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "zareba:2306b2000",
+    "modelo": "2306B2000",
+    "chunks_con_mencion": 1,
+    "veneno_lexico": false
+   },
+   {
+    "id": "zareba:unipoint-ma",
+    "modelo": "Unipoint mA",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   },
+   {
+    "id": "zareba:unipoint-mv",
+    "modelo": "Unipoint mV",
+    "chunks_con_mencion": 0,
+    "veneno_lexico": false
+   }
+  ]
+ }
+}

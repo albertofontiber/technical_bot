@@ -291,5 +291,322 @@
  "hallazgo_pre": {
   "que": "20/46 tier-A YA presentes en allowed_sources ANTES de escribir: entradas de doc_map con el MISMO source_file bajo document_id STALE (re-ingestas renovaron el UUID sin actualizar el mapa). Verificado en 3 casos (mndt150/250/255: id_mapa != id_actual). CONSECUENCIA: tier A se parte en A-alta (ausentes reales) y A-reconciliacion (UPDATE del document_id stale preservando entries+provenance adjudicados); la misma reconciliacion por source_file debe censarse en B/C — la clase exacta que Sol r21 C1 predijo. NINGUNA escritura hasta ese censo + writer dual.",
   "siguiente": "censo de reconciliacion source_file<->id sobre los 279 + writer dual alta/update + re-sonda PRE con el censo limpio"
+ },
+ "fase_post": {
+  "utc": "20260812T194919Z",
+  "commit": "0845af8",
+  "queries": 46,
+  "docs_presentes_en_alcance": 46,
+  "detalle": [
+   {
+    "query": "FHSD8310",
+    "source_file": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "Pearl",
+    "source_file": "997-671-007-3_configuration_pt",
+    "presente": true,
+    "n_allowed": 7
+   },
+   {
+    "query": "KE-AS3005W-WM",
+    "source_file": "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "KE-AS3010R",
+    "source_file": "ds_kidde_ke_as3010r_2602_161a",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3010R/KE-AS3010R-IP",
+    "source_file": "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+    "presente": true,
+    "n_allowed": 5
+   },
+   {
+    "query": "KE-AS3010W",
+    "source_file": "ds_kidde_ke_as3010w_2602_es_3217",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "KE-AS3011R",
+    "source_file": "ds_kidde_ke_as3011r_2602_es_3a29",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3011R/KE-AS3011R-IP",
+    "source_file": "ds_kidde_ke_as3011r_ip_2602_ing_9304",
+    "presente": true,
+    "n_allowed": 5
+   },
+   {
+    "query": "KE-AS3011W",
+    "source_file": "ds_kidde_ke_as3011w_2602_es_fb30",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "KE-AS3015R-WM/KE-AS3015R-WMIP",
+    "source_file": "ds_kidde_ke_as3015r_wmip_2602_ing_92b3",
+    "presente": true,
+    "n_allowed": 5
+   },
+   {
+    "query": "KE-AS3015R-WM",
+    "source_file": "ds_kidde_ke_as3015r_wm_2602_es_5cb3",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3015W-WM/KE-AS3105W-WM",
+    "source_file": "ds_kidde_ke_as3015w_wm_2602_es_8142",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3105W-WM",
+    "source_file": "ds_kidde_ke_as3105w_wm_2602_es_7bbc",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3110R",
+    "source_file": "ds_kidde_ke_as3110r_2602_es_7e88",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3110R/KE-AS3110R-IP",
+    "source_file": "ds_kidde_ke_as3110r_ip_2602_ing_5e66",
+    "presente": true,
+    "n_allowed": 5
+   },
+   {
+    "query": "KE-AS3110W",
+    "source_file": "ds_kidde_ke_as3110w_2602_es_75f3",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "KE-AS3111R",
+    "source_file": "ds_kidde_ke_as3111r_2602_es_8dce",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "KE-AS3111R/KE-AS3111R-IP",
+    "source_file": "ds_kidde_ke_as3111r_ip_2602_ing_72bd",
+    "presente": true,
+    "n_allowed": 5
+   },
+   {
+    "query": "KE-AS3111W",
+    "source_file": "ds_kidde_ke_as3111w_2602_es_027c",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "KE-AS3115W-WM",
+    "source_file": "ds_kidde_ke_as3115w_wm_2602_es_488d",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "ID-3002",
+    "source_file": "enlace entre tg",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "PEARL",
+    "source_file": "guia basico inst_pearl_port",
+    "presente": true,
+    "n_allowed": 7
+   },
+   {
+    "query": "KE-DB3010B",
+    "source_file": "hd_ke_db3010b_202407_es_1065",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "AFP-400",
+    "source_file": "madt236",
+    "presente": true,
+    "n_allowed": 13
+   },
+   {
+    "query": "KE-AS3005W-WM/KE-AS3010R/KE-AS3010R-IP/KE-AS3010W/KE-AS3011R/KE-AS3015R-WM/KE-AS3015W-WM/KE-AS3105W-WM/KE-AS3110R/KE-AS3110W/KE-AS3111R/KE-AS3111W/KE-AS3115W-WM",
+    "source_file": "mi_kidde_ke_as3xxx_202602_es_0854",
+    "presente": true,
+    "n_allowed": 20
+   },
+   {
+    "query": "ID-200",
+    "source_file": "mndt150",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "AM-6000",
+    "source_file": "mndt250",
+    "presente": true,
+    "n_allowed": 4
+   },
+   {
+    "query": "LCD-6000",
+    "source_file": "mndt255",
+    "presente": true,
+    "n_allowed": 1
+   },
+   {
+    "query": "AM-2000",
+    "source_file": "mndt260",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "UDACT",
+    "source_file": "mndt390",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "EL NIB-96",
+    "source_file": "mndt440",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "PARK 2000",
+    "source_file": "mndt530p",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "NAS-1U",
+    "source_file": "mndt744i_b",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "NAS-10",
+    "source_file": "mndt747",
+    "presente": true,
+    "n_allowed": 1
+   },
+   {
+    "query": "NAS-20",
+    "source_file": "mndt748",
+    "presente": true,
+    "n_allowed": 1
+   },
+   {
+    "query": "POL-1",
+    "source_file": "mndt960i",
+    "presente": true,
+    "n_allowed": 2
+   },
+   {
+    "query": "AFP-400",
+    "source_file": "mpdt170",
+    "presente": true,
+    "n_allowed": 13
+   },
+   {
+    "query": "ID2000",
+    "source_file": "mpdt180",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "AFP4000",
+    "source_file": "mpdt230",
+    "presente": true,
+    "n_allowed": 7
+   },
+   {
+    "query": "AFP1010",
+    "source_file": "mpdt281",
+    "presente": true,
+    "n_allowed": 15
+   },
+   {
+    "query": "NCO-10",
+    "source_file": "nco-10-multinglingual",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "NF30/NF50",
+    "source_file": "nf30-50_manuel_d'utilisation_lr",
+    "presente": true,
+    "n_allowed": 1
+   },
+   {
+    "query": "SMART 2",
+    "source_file": "smart 2_mt251_ita-eng",
+    "presente": true,
+    "n_allowed": 3
+   },
+   {
+    "query": "ID-3000",
+    "source_file": "tg-como-solucionar-problema-de-error-crc",
+    "presente": true,
+    "n_allowed": 21
+   },
+   {
+    "query": "ID3000",
+    "source_file": "tidt104",
+    "presente": true,
+    "n_allowed": 21
+   },
+   {
+    "query": "ID3000",
+    "source_file": "tidt108",
+    "presente": true,
+    "n_allowed": 21
+   }
+  ]
+ },
+ "veredicto": {
+  "gate": "PASS (adjudicado con las clases del censo de reconciliación)",
+  "explicacion": "El esperado ingenuo (todo PRE-ausente flipea) era erróneo: los 20 PRE-presentes eran mapeos por source_file bajo id stale (4 reconciliados en el writer + 16 colisiones a packet, NO escritas). Los flips REALES esperados eran las 26 ALTAS de tier-A — y son EXACTAMENTE los 26 observados (verificado por igualdad de conjuntos en este script). POST 46/46 presentes.",
+  "flips_observados": [
+   "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+   "997-671-007-3_configuration_pt",
+   "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+   "ds_kidde_ke_as3010r_2602_161a",
+   "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+   "ds_kidde_ke_as3010w_2602_es_3217",
+   "ds_kidde_ke_as3011r_2602_es_3a29",
+   "ds_kidde_ke_as3011r_ip_2602_ing_9304",
+   "ds_kidde_ke_as3011w_2602_es_fb30",
+   "ds_kidde_ke_as3015r_wm_2602_es_5cb3",
+   "ds_kidde_ke_as3015r_wmip_2602_ing_92b3",
+   "ds_kidde_ke_as3015w_wm_2602_es_8142",
+   "ds_kidde_ke_as3105w_wm_2602_es_7bbc",
+   "ds_kidde_ke_as3110r_2602_es_7e88",
+   "ds_kidde_ke_as3110r_ip_2602_ing_5e66",
+   "ds_kidde_ke_as3110w_2602_es_75f3",
+   "ds_kidde_ke_as3111r_2602_es_8dce",
+   "ds_kidde_ke_as3111r_ip_2602_ing_72bd",
+   "ds_kidde_ke_as3111w_2602_es_027c",
+   "ds_kidde_ke_as3115w_wm_2602_es_488d",
+   "enlace entre tg",
+   "guia basico inst_pearl_port",
+   "hd_ke_db3010b_202407_es_1065",
+   "madt236",
+   "mi_kidde_ke_as3xxx_202602_es_0854",
+   "tg-como-solucionar-problema-de-error-crc"
+  ],
+  "flips_esperados_altas": 26
  }
 }

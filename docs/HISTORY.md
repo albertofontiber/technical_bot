@@ -3400,3 +3400,20 @@ Racha del dúo: rondas 12-19 consecutivas cazando framing del autor — la
 lección acumulada de la semana: los verdes dicen que el sistema pasa sus
 pruebas; solo el adversario mirando la costura medido↔servido↔documentado
 dice que las pruebas hablan del sistema.
+
+## s320b (12-ago-2026) — E1 del elefante: el mapa se completa con la puerta y las sondas cazan lo que nadie había visto
+
+E1 corrió entero en autónomo con la disciplina de la semana: derivar con la
+maquinaria adjudicada (Catalog.resolve, jamás fuzzy), dúo sobre el diseño (r21
+con dos críticos de Sol — el cruce por filename y los pm compuestos — y r22
+fresco tras el aborto de Fable por tamaño de subject), freeze-contract y sonda
+PRE antes de escribir. La sonda pagó: 20 de los 46 «sin entrada» eran UUIDs
+stale de re-ingestas, y el censo de reconciliación descubrió 49 colisiones con
+el id viejo aún vivo — posibles documentos duplicados activos que nadie había
+visto. Se escribió solo lo que pasó todos los gates (26 altas + 11
+reconciliaciones; doc_map 861→887, POST 46/46 con los 26 flips exactos) y todo
+lo demás quedó en packets para la sentada: 49 colisiones, 67 ambiguos con
+trazas, 133 candidates propuestos en draft, 4 de revisión humana, y los 620
+candidates históricos pre-clasificados 620/620 contra contenido (359 confirmar
+/ 261 revisar). Suite 3.833 verde. E2-E4 esperan; la sentada de Alberto decide
+los packets.

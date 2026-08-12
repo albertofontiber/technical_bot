@@ -6184,3 +6184,35 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   la lee), CONVERSATION_POLICY=impl (coincide con el default).
 - **Relacionado**: DEC-209/210 (PR-A/B) · propuesta r17 · doc
   `evals/s319_retirada_legacy_v1.md` · tally r19 ts=2026-08-12T17:33:31.
+
+## DEC-212 (s320) — E1 del elefante EJECUTADO: doc_map +26 altas/+11 reconciliaciones con sonda PASS; 3 clases nuevas de integridad al packet; candidates 620/620 pre-clasificados
+
+- **Fecha**: 12 ago 2026 (s320, autónomo adjudicado). **Impacto**: MEDIO-ALTO (catálogo
+  gobernado = zona de dolor) — dúos r21 (Sol-only, Fable abortado por tamaño de subject,
+  registrado) y r22 (dúo completo, seeds compactos), 0 FP entre ambos.
+- **La cadena derivar→dúo→sondar ANTES de escribir cazó 3 clases reales**:
+  (1) r21/r22: cruce por filename vs document_id (279 objetivo real, no 219) + pm
+  compuesto fabricando candidatos falsos (split-parcial→B) + atestación circular +
+  marca por substring → derivación v3 (A 46 · B 67 · C 162 · no-producto 4).
+  (2) La sonda PRE del freeze-contract: 20/46 tier-A YA presentes = document_id STALE
+  en doc_map (re-ingestas renovaron UUIDs sin actualizar el mapa).
+  (3) El censo de reconciliación: **49 COLISIONES con el id viejo VIVO en documents =
+  posibles documentos DUPLICADOS activos** (clase de integridad nueva, al packet).
+- **ESCRITO (freeze-contract `evals/s320_e1_freeze_contract_v1.md`)**: 26 altas tier-A
+  (triple coincidencia exact/alias + prefijo de marca + vendido_bajo) + 11
+  reconciliaciones de id stale-muerto (entries adjudicadas INTACTAS) → doc_map 861→887
+  vía `write_jsonl` (valida el conjunto: 0 errores) · sonda POST 46/46 presentes con
+  **exactamente los 26 flips esperados** (veredicto PASS por igualdad de conjuntos) ·
+  109 tests de catálogo + suite completa 3.833/46 verdes.
+- **PACKETS a la sentada** (`evals/s320_e1_packet_adjudicacion_v1.md`): §1 49
+  colisiones · §2 67 tier B con trazas · §3 133 candidates propuestos (draft FUERA del
+  catálogo: `s320_e1_candidates_draft.jsonl`) + 29 bloqueados por colisión · §4 4
+  revisión-humana de pm sucio. **E1b**: 620/620 candidates pre-clasificados con
+  atestación contra CONTENIDO (confirmar 359 — coherente con el T1≈363 de DEC-093 —
+  · retirar 0 · revisar 261; `s320_e1b_candidates_preclasificacion_v1.json`).
+- **Gaps declarados**: el gate de escritura es de ALCANCE+no-regresión (identidad ⊥
+  cuello, DEC-094); las colisiones pueden implicar cirugía de documents (supersede/
+  borrado) = adjudicación; los 261 «revisar» de E1b llevan conteo pero no ranking
+  fino; tier B/C no se escriben sin sentada.
+- **Relacionado**: plan v2 (dúo r20) · DEC-074/084/091b/148-150 · tallies r21
+  ts=2026-08-12T21:27:29 · r22 ts=2026-08-12T21:36:00.

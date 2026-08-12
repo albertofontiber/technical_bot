@@ -1,0 +1,499 @@
+{
+ "que_es": "Writer dual E1 (freeze evals/s320_e1_freeze_contract_v1.md): altas tier-A + reconciliaciones de id stale (entries intactas). Colisiones y tiers B/C: packet, jamás aquí.",
+ "modo": "dry-run",
+ "utc": "20260812T194852Z",
+ "altas_planificadas": 26,
+ "altas_escritas": 0,
+ "reconciliaciones": [
+  {
+   "source_file": "mndt285",
+   "de": "e18e2113-fbd9-4725-b76a-af54a31abb72",
+   "a": "e1c0c914-a6d9-4f30-8c4e-f5f161e68b32",
+   "entries_preservadas": 2
+  },
+  {
+   "source_file": "mndt420",
+   "de": "ee6a53da-27f7-4143-90b5-0ea8b04f24a1",
+   "a": "add5fd9a-d6ec-40eb-9f99-3de400786adc",
+   "entries_preservadas": 3
+  },
+  {
+   "source_file": "mndt747",
+   "de": "edbca278-8884-4dce-badc-4eb9fe500e8a",
+   "a": "b550e716-a752-4257-b2bf-1901b748c831",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "mndt748",
+   "de": "e3a75419-aa70-477f-a79c-e7950dba9535",
+   "a": "5f6287b0-1680-472d-93bf-8dbe32183ee7",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "mndt951i",
+   "de": "dc3e30ba-6af9-4d87-b021-f506368bfe8d",
+   "a": "65669851-7431-412f-b727-bd65af27a170",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "mp-dt-951_v7.2",
+   "de": "e2b1f1cf-2f1b-4512-94f1-0f978e1ccea4",
+   "a": "067598cb-58b2-4ca1-850d-5cb8cc8dfafe",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "mpdt180",
+   "de": "f643f5d6-66d3-452f-9305-b54dbdb01d3c",
+   "a": "d02cfdd5-dee9-4226-a9e0-38d225d0ff6d",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "mpdt951i",
+   "de": "dbc8f8e8-6619-4e85-bf5b-8485874f4bff",
+   "a": "38d6a8f3-8012-4fb3-869e-0ad13a7e8af3",
+   "entries_preservadas": 1
+  },
+  {
+   "source_file": "nf30-50_manuel_d'utilisation_lr",
+   "de": "e16430a0-3853-4dc6-bc10-37616ede411b",
+   "a": "afb89db0-7b09-4540-ba0d-40846c78a5a6",
+   "entries_preservadas": 2
+  },
+  {
+   "source_file": "nfs4_nfs8-2plus_manu_ita",
+   "de": "e737a5b6-bec6-486b-a94d-829a2f6a0f4a",
+   "a": "6ec89dc4-3b59-4a51-8d94-f6bfa245fedc",
+   "entries_preservadas": 3
+  },
+  {
+   "source_file": "pl4_mt574e_eng",
+   "de": "d925ad4b-6e75-48be-a336-b7f40949b2b7",
+   "a": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+   "entries_preservadas": 1
+  }
+ ],
+ "doc_map_antes": 861,
+ "doc_map_despues": 887,
+ "detalle_altas": [
+  {
+   "document_id": "e3c8df3a-0452-48d9-9432-afb4ef9765d3",
+   "source_file": "04-4001-501-2009-12_r012_modulaser_en_54-20_installation_manual_es_edwards_0",
+   "entries": [
+    {
+     "id": "edwards:fhsd8310",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "41b80879-37f7-45b5-9801-4ab4a0b6ebbd",
+   "source_file": "997-671-007-3_configuration_pt",
+   "entries": [
+    {
+     "id": "notifier:pearl",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "e1c4a9b3-aba9-453b-8cf2-0c36e3c989a2",
+   "source_file": "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+   "entries": [
+    {
+     "id": "kidde:ke-as3005w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "2e98a3e7-014e-42ba-9f53-ac054e83d61f",
+   "source_file": "ds_kidde_ke_as3010r_2602_161a",
+   "entries": [
+    {
+     "id": "kidde:ke-as3010r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "1448d940-0564-410c-a5bd-b2291786a2e1",
+   "source_file": "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+   "entries": [
+    {
+     "id": "kidde:ke-as3010r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3010r-ip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "ec020ac9-0918-4afc-8830-f311aa895502",
+   "source_file": "ds_kidde_ke_as3010w_2602_es_3217",
+   "entries": [
+    {
+     "id": "kidde:ke-as3010w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "ebe5d365-4540-4259-a412-99b29dde72b1",
+   "source_file": "ds_kidde_ke_as3011r_2602_es_3a29",
+   "entries": [
+    {
+     "id": "kidde:ke-as3011r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "b9175dcd-c9d1-45c3-bf80-c82fd1b0254b",
+   "source_file": "ds_kidde_ke_as3011r_ip_2602_ing_9304",
+   "entries": [
+    {
+     "id": "kidde:ke-as3011r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3011r-ip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "b15ce754-447f-4320-9690-f6ecb4a0c0b3",
+   "source_file": "ds_kidde_ke_as3011w_2602_es_fb30",
+   "entries": [
+    {
+     "id": "kidde:ke-as3011w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "3f044d11-40d1-4022-b115-24d1c02f1e96",
+   "source_file": "ds_kidde_ke_as3015r_wmip_2602_ing_92b3",
+   "entries": [
+    {
+     "id": "kidde:ke-as3015r-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3015r-wmip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "9e3193b5-1e14-4151-8235-91b53c43f742",
+   "source_file": "ds_kidde_ke_as3015r_wm_2602_es_5cb3",
+   "entries": [
+    {
+     "id": "kidde:ke-as3015r-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "27ff0708-13ae-4d99-9627-afa4291bd67c",
+   "source_file": "ds_kidde_ke_as3015w_wm_2602_es_8142",
+   "entries": [
+    {
+     "id": "kidde:ke-as3015w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3105w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "55edd2e9-be51-481e-ba0e-8b5c685de13c",
+   "source_file": "ds_kidde_ke_as3105w_wm_2602_es_7bbc",
+   "entries": [
+    {
+     "id": "kidde:ke-as3105w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "ed3f84b1-fc55-4857-b6ef-462daeddd0a7",
+   "source_file": "ds_kidde_ke_as3110r_2602_es_7e88",
+   "entries": [
+    {
+     "id": "kidde:ke-as3110r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "a699e8ca-bece-4b33-b692-28c87f5a9a71",
+   "source_file": "ds_kidde_ke_as3110r_ip_2602_ing_5e66",
+   "entries": [
+    {
+     "id": "kidde:ke-as3110r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3110r-ip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "7dd89cb5-935d-47de-99bd-a24102c6e686",
+   "source_file": "ds_kidde_ke_as3110w_2602_es_75f3",
+   "entries": [
+    {
+     "id": "kidde:ke-as3110w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "b2d849fd-ee41-4b96-8bf6-b7bc1d4f45bb",
+   "source_file": "ds_kidde_ke_as3111r_2602_es_8dce",
+   "entries": [
+    {
+     "id": "kidde:ke-as3111r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "34016a97-a8ca-458a-8400-e9745ff26c1d",
+   "source_file": "ds_kidde_ke_as3111r_ip_2602_ing_72bd",
+   "entries": [
+    {
+     "id": "kidde:ke-as3111r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3111r-ip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "0769bc67-aa31-408f-a30b-b2c71eb00f7c",
+   "source_file": "ds_kidde_ke_as3111w_2602_es_027c",
+   "entries": [
+    {
+     "id": "kidde:ke-as3111w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "5a816101-b1bb-4fea-a61f-7e8844cdc6bc",
+   "source_file": "ds_kidde_ke_as3115w_wm_2602_es_488d",
+   "entries": [
+    {
+     "id": "kidde:ke-as3115w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "a6b55f34-a310-4273-9a41-0721e0de05c3",
+   "source_file": "enlace entre tg",
+   "entries": [
+    {
+     "id": "notifier:id3002",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "b3745b9d-a64b-414d-a4b0-ee084ea97f53",
+   "source_file": "guia basico inst_pearl_port",
+   "entries": [
+    {
+     "id": "notifier:pearl",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "a19a1763-d27f-40de-9cae-9d0dea20d151",
+   "source_file": "hd_ke_db3010b_202407_es_1065",
+   "entries": [
+    {
+     "id": "kidde:ke-db3010b",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "9b38b791-8ec8-4e4f-bda4-41a6fc719f3f",
+   "source_file": "madt236",
+   "entries": [
+    {
+     "id": "notifier:afp-400",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "c8bcb60a-835e-40de-8836-11d858ce7911",
+   "source_file": "mi_kidde_ke_as3xxx_202602_es_0854",
+   "entries": [
+    {
+     "id": "kidde:ke-as3005w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3010r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3010r-ip",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3010w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3011r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3015r-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3015w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3105w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3110r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3110w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3111r",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3111w",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    },
+    {
+     "id": "kidde:ke-as3115w-wm",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  },
+  {
+   "document_id": "39795638-b4ec-4bbe-a68d-76d27f2d5d2b",
+   "source_file": "tg-como-solucionar-problema-de-error-crc",
+   "entries": [
+    {
+     "id": "notifier:id3000",
+     "role": "primary",
+     "scope": "doc",
+     "provenance": "s320-e1 derivacion resolve(exact|alias)+marca-coherente"
+    }
+   ]
+  }
+ ]
+}
