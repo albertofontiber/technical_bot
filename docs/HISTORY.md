@@ -3330,3 +3330,18 @@ retrieval 19→4,5 s caliente, paridad = jitter base exacto, cero efecto del poo
 ids servidos. El turno del técnico — cuando vuelva a haber técnicos — baja del orden
 de 30 s al de 15-20. La fase 2 (retries con idempotencia + paralelizar canales) queda
 abierta con su residual medido: 4,4 s de espera secuencial.
+
+## s317c (12 ago 2026) — #72 fase 2: el retrieval queda en 2,6 s
+
+La fase 2 se diseñó ANTES de construirse y el dúo r15 (Sol 6 · Fable 5, 0 FP) trabajó
+sobre el diseño: mi precedente «3c paraleliza desde s59» resultó HUECO (fan-out real =
+1 por un `break` — quinta ronda consecutiva cazándome framing), el kill-switch de fase
+1 no cubría la fase 2 (flags propios `RETRIEVAL_PARALLEL`/`HTTP_RETRIES`), PoolTimeout
+quedó EXCLUIDO del set reintentable (backpressure local no se reintenta — Fable), y
+los retries se acotaron a serving read-only: los 4 canales s306 conservan su fail-open
+medido y los scripts su bisección+poison (un retry de POST sin upsert duplica — Sol,
+verificado leyendo s104). De regalo estructural: content_search y el fetch del
+diversify tragaban excepciones sin traza → canales CONTENT/DIVERSIFY en el esquema
+cerrado. Medido con gate de paridad: PARIDAD EXACTA de ids en las 3 queries y mediana
+4,2 → 2,6 s. Acumulado de la sesión de rapidez: el retrieval que costaba 19 s en el
+perfil v1 cuesta 2,6 s (−86%). #72 cerrada para el serving; DEC-207.

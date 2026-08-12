@@ -41,10 +41,15 @@ infraestructura de transporte con paridad medida (recibo v2: A/B intercalado
 """
 from __future__ import annotations
 
+import logging
 import os
 import threading
+import time
+from urllib.parse import urlsplit
 
 import httpx
+
+logger = logging.getLogger(__name__)
 
 _LOCK = threading.Lock()
 _CLIENTE: httpx.Client | None = None
@@ -57,6 +62,24 @@ _LIMITS = httpx.Limits(max_connections=40, max_keepalive_connections=10,
 
 def _pool_activo() -> bool:
     return os.getenv("HTTP_POOL", "on").strip().lower() not in {"off", "0", "false"}
+
+
+def _retries_activo() -> bool:
+    """Kill-switch PROPIO de los reintentos (#72 fase 2b, Sol r15 M1: el
+    kill-switch del pool no cubre la fase 2 — cada mecanismo lleva el suyo)."""
+    return os.getenv("HTTP_RETRIES", "on").strip().lower() not in {"off", "0", "false"}
+
+
+# (Fable r15 F2) El set reintentable EXCLUYE PoolTimeout a conciencia:
+# PoolTimeout ⊂ TransportError pero es agotamiento de recurso LOCAL (el pool
+# saturado), no un transitorio de red — reintentarlo convierte backpressure en
+# amplificación de carga justo bajo saturación. Se reintenta la RED
+# (connect/read/write/protocolo), una vez, tras 0,2 s.
+_BACKOFF_S = 0.2
+
+
+def _es_reintentable(exc: Exception) -> bool:
+    return isinstance(exc, httpx.TransportError) and not isinstance(exc, httpx.PoolTimeout)
 
 
 def _cliente_proceso() -> httpx.Client:
@@ -82,10 +105,20 @@ class _Shim:
     """Fachada por-SITIO sobre el cliente de proceso: aplica el timeout que el
     sitio declaraba y no cierra nada del proceso al salir del `with`."""
 
-    __slots__ = ("_timeout", "_cm", "_local")
+    __slots__ = ("_timeout", "_reintentos", "_cm", "_local")
 
-    def __init__(self, timeout: float | httpx.Timeout | None):
+    def __init__(self, timeout: float | httpx.Timeout | None,
+                 reintentos: int = 0):
         self._timeout = timeout
+        # (#72 fase 2b) La idempotencia SE DECLARA por sitio, jamás se infiere
+        # del verbo (hay POST /rpc/* de solo lectura y GETs con side-effects
+        # posibles): reintentos>0 SOLO en sitios de solo-lectura declarados.
+        # Alcance v1: sitios del serving SIN veredicto previo de no-retry —
+        # los 4 canales s306 (VECTOR/ENUNCIADOS/HYQ_*) conservan su fail-open
+        # MEDIDO intacto (dúo r15: no anidar ni re-litigar DEC-089/#63); los
+        # scripts con bisección+poison (s104/s315) quedan FUERA (su política
+        # de reanudación ya existe y un retry de POST sin upsert duplicaría).
+        self._reintentos = max(0, int(reintentos))
         self._cm = None
         self._local = None
 
@@ -110,6 +143,23 @@ class _Shim:
 
     # --- delegación ----------------------------------------------------------
     def _request(self, metodo: str, url: str, **kwargs):
+        intentos = 1 + (self._reintentos if _retries_activo() else 0)
+        for intento in range(intentos):
+            try:
+                return self._enviar(metodo, url, **kwargs)
+            except Exception as exc:               # noqa: BLE001
+                if intento + 1 >= intentos or not _es_reintentable(exc):
+                    raise
+                # Ruidoso: el reintento es un evento de red real, no un detalle
+                # (el fallo que PERSISTA tras esto propaga y lo registra el
+                # manejo del sitio — trace de canal o fail-open declarado).
+                logger.warning("http_pool: %s %s falló (%s) — reintento en %ss",
+                               metodo, urlsplit(url).path,
+                               type(exc).__name__, _BACKOFF_S)
+                time.sleep(_BACKOFF_S)
+        raise AssertionError("unreachable")
+
+    def _enviar(self, metodo: str, url: str, **kwargs):
         if self._local is not None:
             return getattr(self._local, metodo.lower())(url, **kwargs)
         if _pool_activo():
@@ -142,11 +192,16 @@ class _Shim:
         return self._request(metodo, url, **kwargs)
 
 
-def abierto(timeout: float | httpx.Timeout | None = None) -> _Shim:
+def abierto(timeout: float | httpx.Timeout | None = None,
+            reintentos: int = 0) -> _Shim:
     """Sustituto de `httpx.Client(timeout=X)` en un `with`: mismo cuerpo, mismo
     timeout, transporte compartido. También sirve SIN `with` (p. ej. el cliente
-    persistente de `SupabaseHTTP`)."""
-    return _Shim(timeout)
+    persistente de `SupabaseHTTP`).
+
+    `reintentos` (#72 fase 2b): SOLO para sitios de solo-lectura DECLARADOS —
+    reintenta transitorios de RED (TransportError sin PoolTimeout), jamás
+    respuestas HTTP. Default 0 = byte-idéntico a hoy."""
+    return _Shim(timeout, reintentos)
 
 
 def cerrar() -> None:

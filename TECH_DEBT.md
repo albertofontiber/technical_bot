@@ -2549,18 +2549,21 @@ casa marcadores de obligación/advertencia que el boilerplate legal también usa
 — cualquier exclusión de la clase «disclaimer legal» exige adjudicación previa, no parche
 en caliente. Población pendiente de censar (¿cuántos docs llevan el boilerplate?).
 
-## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c) — **FASE 1 CERRADA (s317, DEC-206): transporte compartido, −76% en retrieval; fase 2 (política de reintentos + paralelización) ABIERTA**
+## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c) — **CERRADO PARA EL SERVING (s317c, DEC-206+207): fases 1+2 medidas; residual fase 3 = upserts en writes de scripts, sin señal de dolor**
 
-**FASE 1 CERRADA s317**: `src/http_pool.py` + 55 sitios de serving migrados (dúo r14
-aplicado entero: limits al transporte, cero retries, kill-switch por-bloque,
-trinquete estructural). Retrieval caliente 19,0→4,5 s (−76%), frío 53,5→12,4 s;
-paridad A/B intercalada limpia. `HTTP_POOL=off` = rollback sin deploy. **Lo que
-QUEDA de #72 (fase 2, dúo propio)**: (a) la política de reintentos consciente-de-
-idempotencia original de esta deuda — sigue sin existir, y los scripts siguen
-descubriendo la red por su cuenta; (b) paralelizar los ~14 RPCs secuenciales del
-retrieval (residual ~4,4 s). Riesgos residuales declarados del pool: keep-alive
-muerta ⇒ ReadError sin reintento (mitigación expiry 30 s); PoolTimeout bajo picos
-(max 40 conexiones). Detalle: DEC-206.
+**FASE 1 CERRADA s317 (DEC-206)**: `src/http_pool.py` + 55 sitios migrados (dúo r14).
+Retrieval caliente 19,0→4,5 s (−76%); paridad A/B intercalada limpia. `HTTP_POOL=off`
+= rollback sin deploy. **FASE 2 CERRADA s317c (DEC-207, dúo r15 pre-build)**: (a)
+paralelización de los canales léxicos 3a/3b (≤6 tareas GET read-only, orden
+determinista por submit-order, flag `RETRIEVAL_PARALLEL`) — mediana 4,2→2,6 s con
+PARIDAD EXACTA de ids (acumulado v1: 19,0→2,6 s, −86%); (b) retries transitorios
+`reintentos=1` OPT-IN por sitio read-only, PoolTimeout EXCLUIDO del set (backpressure
+local no se reintenta), backoff 0,2 s, flag `HTTP_RETRIES`; los 4 canales s306
+conservan su fail-open medido y los scripts con bisección+poison quedan FUERA (retry
+de POST sin upsert = duplicados); (c) canales `CONTENT`/`DIVERSIFY` en la traza
+cerrada. **Residual (fase 3, abrir solo con señal)**: contratos upsert en los WRITES
+de scripts — hoy la bisección+poison los cubre y no duele. Riesgos residuales
+declarados: keep-alive muerta (expiry 30 s), PoolTimeout bajo picos (max 40).
 
 **s317 — el perfil que lo convierte en EL lever de rapidez fase 2** (recibo
 `evals/s317_perfil_retrieval_v1.md`): en UNA llamada servida de `retrieve_chunks`

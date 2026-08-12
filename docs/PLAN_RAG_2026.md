@@ -77,19 +77,24 @@ los DOS gates del flip cerrados (s316h, DEC-204, dúo r12).**
     Railway por servicio → `worker.INTENT_LLM='on'`. #70 etapa 2 corre en producción.
     Testigo XFAIL retirado (relevo = test de pegamento flag-ON); fila estampada en
     LEVER_DIGEST. Veredicto conducta-en-producción pendiente de TRÁFICO.
-11. **#72 FASE 1 CERRADA** (s317, DEC-206, dúo r14 aplicado entero): cliente HTTP
-    compartido de proceso — retrieval caliente **19,0→4,5 s (−76%)**, mediana
+11. **#72 FASE 1 CERRADA** (s317, DEC-206, dúo r14 aplicado entero, PR #240): cliente
+    HTTP compartido de proceso — retrieval caliente **19,0→4,5 s (−76%)**, mediana
     intercalada 11,9→4,6 s, paridad A/B limpia (cross-mode = within-mode en las 3
-    queries). 55 sitios migrados; `HTTP_POOL=off` = rollback sin deploy; default ON
-    entra CON el merge. Fase 2 abierta: política de reintentos idempotencia-aware +
-    paralelizar los ~14 RPCs secuenciales (residual ~4,4 s).
+    queries). 55 sitios migrados; `HTTP_POOL=off` = rollback sin deploy; EN MAIN.
+12. **#72 FASE 2 CERRADA → LA DEUDA QUEDA CERRADA PARA EL SERVING** (s317c, DEC-207,
+    dúo r15 PRE-build aplicado entero): paralelización de canales léxicos 3a/3b
+    (≤6 tareas GET, orden determinista, flag `RETRIEVAL_PARALLEL`) + retries
+    transitorios opt-in read-only (`reintentos=1`, PoolTimeout EXCLUIDO, flag
+    `HTTP_RETRIES`; canales s306 y scripts FUERA a conciencia) + canales
+    CONTENT/DIVERSIFY en la traza cerrada. **Mediana 4,2→2,6 s con PARIDAD EXACTA de
+    ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
+    en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s317 cierre)**: (a) **adjudicación Alberto**: marcar supersedida la
-DP312x 202503 (censo s317); (b) **#72 fase 2** (retries idempotencia-aware +
-paralelización de canales, dúo propio); (c) sentada B2 (Alberto); (d) #71; (e) #74
-solo si nace consumidor; (f) FULL fresco v3.2 (~$25) para re-medir calidad
-post-Casmar/Kidde + verificar el efecto del pool en `salud_latencia_etapas_v1`
-cuando haya tráfico; (g) leer la traza `intent` cuando haya filas.
+**Qué sigue (s317c cierre)**: (a) **adjudicación Alberto**: marcar supersedida la
+DP312x 202503 (censo s317); (b) sentada B2 (Alberto); (c) #71; (d) #74 solo si nace
+consumidor; (e) FULL fresco v3.2 (~$25) para re-medir calidad post-Casmar/Kidde +
+verificar pool+paralelización en `salud_latencia_etapas_v1` cuando haya tráfico;
+(f) leer la traza `intent` cuando haya filas.
 
 ### s315 (9 ago 2026) — resumen
 

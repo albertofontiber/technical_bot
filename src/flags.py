@@ -208,6 +208,16 @@ REGISTRO: dict[str, dict] = {
         "via": ['getenv'],
         "lectores": ('src/http_pool.py',),
     },
+    "HTTP_RETRIES": {
+        "default_fuente": '"on"',
+        "via": ['getenv'],
+        "lectores": ('src/http_pool.py',),
+    },
+    "RETRIEVAL_PARALLEL": {
+        "default_fuente": '"on"',
+        "via": ['getenv'],
+        "lectores": ('src/rag/retriever.py',),
+    },
     "INTENT_LLM": {
         "default_fuente": '""',
         "via": ['getenv'],
