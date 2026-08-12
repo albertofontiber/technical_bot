@@ -1,4 +1,37 @@
-# s320 — EL ELEFANTE re-dimensionado: lo que QUEDA del entity-linking (DEC-074/091b) — plan v1
+# s320 — EL ELEFANTE re-dimensionado: lo que QUEDA del entity-linking (DEC-074/091b) — plan v2 (tras dúo r20)
+
+> **v1→v2 (dúo r20: Sol 6 · Fable 5, 0 FP — el dúo sobre el PLAN, el sitio más barato
+> para estar equivocado):**
+> 1. **E2 re-declarada como APUESTA ESTRUCTURAL no-eval-driven** (Fable F2 + Sol M6):
+>    DEC-093 MIDIÓ que cablear detector→catálogo gobernado no arregla golds (identidad
+>    ⊥ cuello, DEC-094) — el valor de E2 es escala-30+ y matar la clase dual-path, y
+>    sus gates son de **EQUIVALENCIA (Δ≈0 pre-registrado)** en sweep-39/famtie/
+>    assessment, no de mejora. Además exige ANTES: inventario COMPLETO de lectores de
+>    `catalog.py` (no solo el detector: models/manufacturers/brands alimentan voz, OEM
+>    y clasificación) + política multi-marca, y solo entonces elegir brazo
+>    (sustitución vs snapshot-derivado-con-recibo).
+> 2. **Los gates de aceptación son los del CONTRATO §7, con umbral** (Sol M1): hp018
+>    4/4 SIN regresar hp009 · hp011→Supra · PASS ±2 · 100% provenance + tally — no
+>    solo el criterio de escala.
+> 3. **E3 = F3a SOLO mono-producto** (Sol M2, contrato §F3): multi-producto =
+>    multi-valor o paraguas, NUNCA colapso; F3b por-página sigue GATED out-of-scope.
+>    «Corpus-wide» se retira del framing.
+> 4. **E1: QA TOTAL de candidates, no muestras** (Sol M3, DEC-093: veneno alfanumérico
+>    y promover mueve top_k budget): mi pre-filtrado/pre-clasificación abarata los
+>    lotes de Alberto, pero la cobertura es total. Tamaños: los fija E0, no cifras de
+>    s99b (Fable F4).
+> 5. **Las «3 filas en bandeja» ERAN TRABAJO CERRADO** (Sol M4): DEC-150 las adjudicó
+>    y aplicó el 22-jul (quarantine vaciada) — fuera del plan. Mi propio censo estaba
+>    stale: regla C también para censos.
+> 6. **E4 = SUSTITUIR el seed hardcoded** (Sol M5): clarify-por-divergencia YA vive en
+>    producción vía `FAMILY_REGISTRY` (ZXe/ZXSe, conversation_policy_impl.py:177-180)
+>    cuyo comentario promete «the durable version reads the catalog's variant table»
+>    — E4 cumple esa promesa (una sola fuente), jamás añade una segunda vía.
+> 7. Anclas corregidas (Fable F1/F3/F5): «#50»/«#49.2» eran numeración fantasma → las
+>    anclas canónicas son las fases del contrato (`IDENTITY_CATALOG_CONTRACT.md` F4) ·
+>    el gap doc_map es 853/1014 con el corte activo a precisar en E0 · E0 censa
+>    TAMBIÉN la frescura del snapshot `model_catalog.json` (regenerado ~18-jul,
+>    pre-Kidde).
 
 **Mandato** (Alberto, 12-ago): «vamos a por el elefante», arrancable independiente de su
 sentada (costuras declaradas: los gates medidos finales quieren el FULL post-sentada como
