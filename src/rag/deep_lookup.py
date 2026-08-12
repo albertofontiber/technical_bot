@@ -21,6 +21,8 @@ from pathlib import Path
 
 import httpx
 
+from ..http_pool import abierto
+
 from src.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
 
 STORE = Path(__file__).resolve().parent.parent.parent / "data" / "extraction" / "agent_anthropic-sonnet-45"
@@ -39,7 +41,7 @@ _DOC_CACHE: dict = {}
 
 def _sha_for_doc(source_file: str) -> str | None:
     try:
-        with httpx.Client(timeout=5.0) as c:
+        with abierto(timeout=5.0) as c:
             r = c.get(f"{SUPABASE_URL}/rest/v1/{os.getenv('CHUNKS_TABLE', 'chunks_v2')}",
                       headers=_H,
                       params={"select": "extraction_sha256",
@@ -142,7 +144,7 @@ def fetch_pages_chunks(source_file: str, pages: list[int]) -> list[dict]:
     window = sorted({q for p in exact for q in (p - 1, p + 1)} - set(exact))
     out: list[dict] = []
     try:
-        with httpx.Client(timeout=5.0) as c:
+        with abierto(timeout=5.0) as c:
             for group in (exact, window):
                 if not group or len(out) >= FETCH_PER_DOC_LLM:
                     continue

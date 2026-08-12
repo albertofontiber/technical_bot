@@ -9,6 +9,8 @@ from typing import Any
 
 import httpx
 
+from ..http_pool import abierto
+
 from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 
 logger = logging.getLogger(__name__)
@@ -31,7 +33,7 @@ class SupabaseHTTP:
             "Content-Type": "application/json",
             "Prefer": "return=minimal",
         }
-        self.client = httpx.Client(timeout=60.0)
+        self.client = abierto(timeout=60.0)
 
     def insert_rows(self, table: str, rows: list[dict],
                     on_conflict: str | None = None):

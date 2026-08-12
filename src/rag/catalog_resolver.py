@@ -60,6 +60,7 @@ ROOT = Path(__file__).resolve().parents[2]
 # RELATIVO estático (blueprint L1, retiro F4 cumplido); la mutación de sys.path que E1
 # permitía queda RETIRADA (el contrato de imports exige ahora CERO mutaciones en src/).
 from . import catalog_store  # noqa: E402
+from ..http_pool import abierto
 
 logger = logging.getLogger(__name__)
 
@@ -337,7 +338,7 @@ def _corpus_fingerprint() -> tuple[str, str]:
     from src.config import SUPABASE_URL
     url = f"{SUPABASE_URL}/rest/v1/{_chunks_table()}"
     headers = _supabase_headers()
-    with httpx.Client(timeout=10.0) as client:
+    with abierto(timeout=10.0) as client:
         r = client.get(url, headers={**headers, "Prefer": "count=exact", "Range": "0-0"},
                        params={"select": "id"})
         if r.status_code not in (200, 206):
@@ -380,7 +381,7 @@ def _inactive_document_ids() -> frozenset[str] | None:
     ids: set[str] = set()
     pages = 0
     try:
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             while True:
                 r = client.get(f"{SUPABASE_URL}/rest/v1/documents", headers=headers,
                                params={"select": "id",
@@ -424,7 +425,7 @@ def _fetch_corpus_pm_elements() -> frozenset[str]:
     inactive = _inactive_document_ids()
     elements: set[str] = set()
     pages = 0
-    with httpx.Client(timeout=20.0) as client:
+    with abierto(timeout=20.0) as client:
         while True:
             r = client.get(url, headers=headers,
                            params={"select": "product_model,document_id",
@@ -688,7 +689,7 @@ def _shadow_log(query: str, models_before: list[str], models_after: list[str],
             headers = {"apikey": SUPABASE_SERVICE_KEY,
                        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
                        "Content-Type": "application/json", "Prefer": "return=minimal"}
-            with httpx.Client(timeout=5.0) as client:
+            with abierto(timeout=5.0) as client:
                 resp = client.post(f"{SUPABASE_URL}/rest/v1/identity_resolve_shadow",
                                    headers=headers, json=row)
                 if resp.status_code >= 400:
@@ -803,7 +804,7 @@ def fetch_missing_doc_chunks(query: str, res: dict, pool: list[dict]) -> list[di
         # F8: timeout 5.0 (patrón de la casa); F3: order=id.asc — PostgREST sin order es
         # NO-DETERMINISTA y limit=300 truncaría un set distinto por run (15088SP=342 chunks);
         # la famtie compara chunk-ids EXACTOS → el brazo debe ser reproducible
-        with httpx.Client(timeout=5.0) as client:
+        with abierto(timeout=5.0) as client:
             for src in missing[:FETCH_MAX_DOCS]:
                 r = client.get(f"{SUPABASE_URL}/rest/v1/{os.getenv('CHUNKS_TABLE', 'chunks_v2')}",
                                headers=headers,

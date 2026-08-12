@@ -5917,5 +5917,64 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   real (sección `intent` de rag_trace) cuando haya tráfico — sin técnicos activos no
   hay filas que leer. Nota de secuencia: Alberto declaró «PR239 mergeada» pero la PR
   estaba OPEN (checks verdes, MERGEABLE) — el merge a main queda en su mano; el flip es
-  VÁLIDO igualmente (el lever vive en main desde PR #238).
+  VÁLIDO igualmente (el lever vive en main desde PR #238). [Resuelto: Alberto la mergeó
+  después — main 65166b6.]
 - **Relacionado**: DEC-203/203b/204/205.
+
+## DEC-206 (s317) — Cliente HTTP compartido de proceso (#72 FASE 1 = rapidez fase 2): retrieval −76% medido, paridad A/B, dúo r14
+
+- **Fecha**: 12 ago 2026 (s317, rumbo autónomo adjudicado por Alberto: arquitectura/
+  flujos + velocidad). **Impacto**: ALTO en zona de dolor (transporte de TODO el
+  serving path) — dúo completo r14.
+- **El hecho que lo justifica** (perfil v1, DEC-205): 14 `httpx.Client` construidos POR
+  CONSULTA = 7,25 s de contextos SSL + ~3,4 s de handshakes ≈ **~10 s/turno de overhead
+  puro** sobre 19 s calientes de retrieval. 55 sitios de `src/` repetían el patrón.
+- **Qué hay** (`src/http_pool.py` + migración de 55 sitios + `conftest.py` raíz +
+  `tests/test_s317_http_pool.py`): UN cliente por proceso (limits EN el transporte:
+  keep-alive 10, expiry 30 s, max 40) · shim `abierto(timeout=X)` de UN token por sitio
+  (cuerpos intactos, timeouts por-sitio idénticos, jamás inyecta None) · CERO reintentos
+  (ni de connect — hasta eso es política; fase 2 de #72) · kill-switch `HTTP_POOL=off`
+  (Railway, sin deploy) con cliente fresco POR BLOQUE `with` (la forma exacta de hoy) ·
+  **default ON** (infra de transporte con paridad medida, no conducta).
+- **Medido** (recibos v1→v2 del perfil): retrieval caliente **19,0 → 4,5 s (−76%)** ·
+  frío **53,5 → 12,4 s (−77%)** · paridad A/B INTERCALADA (3 queries × 3 reps/modo):
+  cero diferencia atribuible al pool con el jitter base medido en el control off-off ·
+  proyección sobre la traza real (retrieve 11-27 s/turno): ~3-8 s.
+- **Testabilidad (decisión estructural)**: la suite ENTERA corre con `HTTP_POOL=off`
+  (conftest raíz) — los ~20 ficheros que fingen la red parcheando `httpx.Client` siguen
+  interceptando SIN churn y verifican la EQUIVALENCIA de los 55 sitios; el pool ON tiene
+  tests dedicados (pool EFECTIVO, no kwargs) + trinquete estructural (`httpx.Client(`
+  prohibido en `src/**` salvo http_pool) + la medición real. **Gap declarado**: el
+  camino pool-ON del serving no corre en CI — coste aceptado y mitigado.
+- **Dúo r14 (Sol 5 · Fable 4, 0 FP, TODO aplicado)**: Sol M1 VERIFICADO ejecutando —
+  los `limits` del cliente eran CÓDIGO MUERTO con transporte explícito (expiry real 5 s,
+  no 30) → limits al transporte + test del pool efectivo. Sol M3/Fable F1: «retries=1
+  cubre la conexión caducada» era FALSO (solo cubre connect) → retries retirado y el
+  modo de fallo keep-alive-muerta DECLARADO residual (una petición sobre conexión que el
+  servidor cerró falla con ReadError sin reintento; mitigación expiry 30 s). Sol M2:
+  kill-switch por-bloque, no por-petición. Sol C1/M5≡Fable F2: la evidencia n=1 no
+  sostenía el default ON → sonda reforzada + declaración del PoolTimeout bajo picos.
+  Fable F3: footgun timeout=None. Fable F4: trinquete estructural. 4ª ronda consecutiva
+  con hallazgo de FRAMING mío (esta vez «cubierto» donde era «residual»).
+- **Colaterales cazados por CUATRO TRIPWIRES independientes de la casa** (no por el
+  dúo): (1) el sello de implementación de P1 exigió añadir `http_pool.py` al manifest;
+  (2) el registro de flags exigió declarar `HTTP_POOL`; (3) el inventario de lecturas
+  de entorno de la release-config exigió clasificarlo (`ALLOWED_SAFE_VALUES`, on/off);
+  (4) **el más serio**: el test del guard PostgREST de P1 cazó que el pool ESQUIVABA la
+  frontera de seguridad — el guard parchea el `httpx` de 4 módulos de producto (a
+  propósito, sin tocar el global) y los 4 ruteaban ya por `http_pool` → el guard cubre
+  ahora también esa superficie (cierra el singleton, fuerza el kill-switch en su scope
+  y su `httpx` es el proxy; todo en `_saved`, fail-closed). Además el fix del
+  kill-switch por-bloque reventó 54 fakes hasta delegar en el PROTOCOLO `with` del
+  cliente (no `.close()`) — los fakes de la suite son el contrato de forma, y lo
+  hicieron valer. Lección de la clase: **un cliente compartido re-rutea superficies que
+  otros aparatos creían locales** — cada guard/patch/fake por-módulo es un consumidor a
+  censar antes de mover el transporte.
+- **Alternativas descartadas**: refactor con dedent (blast radius de 60 cuerpos) ·
+  async-izar el pipeline (otra obra) · retries de petición ahora (fase 2, idempotencia
+  no universal) · migrar los caminos offline (no pagan por turno).
+- **FASE 2 de #72 (pendiente, con su dúo)**: política de reintentos consciente-de-
+  idempotencia + paralelizar los canales de retrieval (el residual son ~4,4 s de espera
+  SECUENCIAL de ~14 RPCs sobre conexión viva).
+- **Relacionado**: DEC-205 (perfil v1) · TECH_DEBT #72 · tally r14
+  ts=2026-08-12T01:18:06.

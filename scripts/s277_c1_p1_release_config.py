@@ -158,6 +158,9 @@ ALLOWED_SAFE_VALUES = {
     **{name: frozenset({value}) for name, value in REQUIRED_EXACT_VALUES.items()},
     **{name: frozenset({value}) for name, value in SAFE_DEFAULTS.items()},
     "VISUAL_ASSETS_REGISTRY": frozenset({"on", "off"}),
+    # s317/#72: kill-switch del cliente HTTP compartido (transporte, no
+    # conducta — paridad medida en DEC-206). Valores canonicos on/off.
+    "HTTP_POOL": frozenset({"on", "off"}),
 }
 
 # Dynamic getenv sites are bounded separately: their domains are the profile,

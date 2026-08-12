@@ -27,6 +27,8 @@ from typing import Any, Callable
 
 import httpx
 
+from ..http_pool import abierto
+
 from ..config import SUPABASE_SERVICE_KEY, SUPABASE_URL
 from ..release_profiles import (
     DOCUMENT_LOCAL_LANE as LANE,
@@ -749,7 +751,7 @@ def fetch_document_local_candidates(
         "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
     }
     started = time.monotonic()
-    context = httpx.Client(timeout=timeout_seconds) if client is None else nullcontext(client)
+    context = abierto(timeout=timeout_seconds) if client is None else nullcontext(client)
     with context as request_client:
         remaining = timeout_seconds - (time.monotonic() - started)
         if remaining <= 0:

@@ -30,6 +30,8 @@ import re
 
 import httpx
 
+from ..http_pool import abierto
+
 from ..config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 
 logger = logging.getLogger(__name__)
@@ -76,7 +78,7 @@ def lookup_visual_assets(document_id: str, page_number: int) -> list[dict]:
         "visual_role": f"in.({','.join(SERVABLE_VISUAL_ROLES)})",
         "order": "asset_scope.asc,asset_sha256.asc",
     }
-    with httpx.Client(timeout=_LOOKUP_TIMEOUT_S) as client:
+    with abierto(timeout=_LOOKUP_TIMEOUT_S) as client:
         response = client.get(
             f"{SUPABASE_URL}/rest/v1/{VISUAL_ASSETS_TABLE}",
             headers=headers,

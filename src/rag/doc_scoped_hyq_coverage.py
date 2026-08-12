@@ -44,6 +44,8 @@ from typing import Any
 
 import httpx
 
+from ..http_pool import abierto
+
 from ..config import SUPABASE_SERVICE_KEY, SUPABASE_URL
 from .catalog_resolver import resolve_query
 from .evidence_coverage import POOL_COMPLEMENT_CONFIG, select_evidence_coverage_cards
@@ -465,7 +467,7 @@ def fetch_document_scoped_rows(
         return payload
 
     context = (
-        httpx.Client(timeout=timeout_seconds) if client is None else nullcontext(client)
+        abierto(timeout=timeout_seconds) if client is None else nullcontext(client)
     )
     with context as request_client:
         # Request 1/6 — authority.  Runs before navigation so the scope handed

@@ -2549,7 +2549,18 @@ casa marcadores de obligación/advertencia que el boilerplate legal también usa
 — cualquier exclusión de la clase «disclaimer legal» exige adjudicación previa, no parche
 en caliente. Población pendiente de censar (¿cuántos docs llevan el boilerplate?).
 
-## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c) — **AHORA CON RETORNO MEDIDO EN LATENCIA (s317)**
+## #72 — Sin política de reintentos COMÚN: cada script descubre por su cuenta que la red se cae (s316c) — **FASE 1 CERRADA (s317, DEC-206): transporte compartido, −76% en retrieval; fase 2 (política de reintentos + paralelización) ABIERTA**
+
+**FASE 1 CERRADA s317**: `src/http_pool.py` + 55 sitios de serving migrados (dúo r14
+aplicado entero: limits al transporte, cero retries, kill-switch por-bloque,
+trinquete estructural). Retrieval caliente 19,0→4,5 s (−76%), frío 53,5→12,4 s;
+paridad A/B intercalada limpia. `HTTP_POOL=off` = rollback sin deploy. **Lo que
+QUEDA de #72 (fase 2, dúo propio)**: (a) la política de reintentos consciente-de-
+idempotencia original de esta deuda — sigue sin existir, y los scripts siguen
+descubriendo la red por su cuenta; (b) paralelizar los ~14 RPCs secuenciales del
+retrieval (residual ~4,4 s). Riesgos residuales declarados del pool: keep-alive
+muerta ⇒ ReadError sin reintento (mitigación expiry 30 s); PoolTimeout bajo picos
+(max 40 conexiones). Detalle: DEC-206.
 
 **s317 — el perfil que lo convierte en EL lever de rapidez fase 2** (recibo
 `evals/s317_perfil_retrieval_v1.md`): en UNA llamada servida de `retrieve_chunks`

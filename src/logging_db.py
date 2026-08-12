@@ -11,6 +11,8 @@ from typing import Any
 
 import httpx
 
+from .http_pool import abierto
+
 from .config import SUPABASE_URL, SUPABASE_SERVICE_KEY
 from .rag.runtime_trace import validate_rag_serving_trace
 from .version import get_bot_version
@@ -179,7 +181,7 @@ def log_query(
             row["id"] = query_log_id
         if safe_trace is not None:
             row["rag_trace"] = safe_trace
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/query_logs",
                 headers=_HEADERS,
@@ -239,7 +241,7 @@ def log_feedback(
         }
         if query_log_id is not None:
             row["query_log_id"] = query_log_id
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/feedback",
                 headers=_HEADERS,
@@ -313,7 +315,7 @@ def log_answer_feedback(
             "verdict": verdict,
         }
         headers = {**_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/answer_feedback",
                 headers=headers,
@@ -357,7 +359,7 @@ def set_feedback_reason(
             "telegram_user_id": f"eq.{telegram_user_id}",
             "select": "id",
         }
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.patch(
                 f"{SUPABASE_URL}/rest/v1/answer_feedback",
                 headers=headers,
@@ -399,7 +401,7 @@ def set_feedback_comment(
             "telegram_user_id": f"eq.{telegram_user_id}",
             "select": "id",
         }
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.patch(
                 f"{SUPABASE_URL}/rest/v1/answer_feedback",
                 headers=headers,
@@ -431,7 +433,7 @@ def has_feedback_reason(query_log_id: str, telegram_user_id: int) -> bool:
             "select": "id",
             "limit": "1",
         }
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/answer_feedback",
                 headers=_HEADERS,
@@ -485,7 +487,7 @@ def stamp_answer_messages(
             for index, message_id in enumerate(message_ids)
         ]
         headers = {**_HEADERS, "Prefer": "resolution=ignore-duplicates,return=minimal"}
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/answer_messages",
                 headers=headers,
@@ -520,7 +522,7 @@ def query_log_id_for_message(
             "select": "query_log_id",
             "limit": "1",
         }
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/answer_messages",
                 headers=_HEADERS,
@@ -560,7 +562,7 @@ def has_consent(telegram_user_id: int) -> bool:
             "select": "telegram_user_id",
             "limit": "1",
         }
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/user_consent",
                 headers=_HEADERS,
@@ -588,7 +590,7 @@ def seudonimo_de(telegram_user_id: int) -> str | None:
     Fail-open: si no se puede emitir, devuelve None. Nunca debe romper una respuesta.
     """
     try:
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.get(
                 f"{SUPABASE_URL}/rest/v1/persona_seudonimo",
                 headers={**_HEADERS, "Prefer": "return=representation"},
@@ -664,7 +666,7 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
         # deja intacta la anterior, que es la prueba de que en su día aceptó aquella. Antes
         # el upsert iba por PK de persona y machacaba el histórico de aceptaciones.
         headers = {**_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}
-        with httpx.Client(timeout=10.0) as client:
+        with abierto(timeout=10.0) as client:
             resp = client.post(
                 f"{SUPABASE_URL}/rest/v1/user_consent"
                 "?on_conflict=telegram_user_id,terms_version",
@@ -688,7 +690,7 @@ def set_consent(telegram_user_id: int, display_name: str | None = None) -> bool:
         # usuario quedaba atascado en la caché de misses. Bloquear la entrada porque falló
         # la evidencia sería desproporcionado; la divergencia queda declarada en la matriz.
         try:
-            with httpx.Client(timeout=10.0) as client:
+            with abierto(timeout=10.0) as client:
                 evento = client.post(
                     f"{SUPABASE_URL}/rest/v1/consent_events",
                     headers=_HEADERS,
