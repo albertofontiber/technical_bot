@@ -91,7 +91,7 @@ medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con parida
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s320b, E1 cerrado)**: (a) SENTADA ÚNICA ampliada — packet E1 (`evals/s320_e1_packet_adjudicacion_v1.md`: 49 colisiones-integridad + 67 tier B + 133 candidates draft + 4 revisión) + E1b (359 confirmar/261 revisar) + los packets previos (s318 + LLM_MAX_TOKENS + vars Railway); (b) FULL fresco tras la sentada; (c) E2 doble-catálogo (apuesta estructural, gates de equivalencia) · E3 re-tag F3a · E4 clarify sustituye FAMILY_REGISTRY — cada una con su dúo.
+**Qué sigue (s320b, E1 cerrado)**: (a) SENTADA ÚNICA ampliada — packet E1 (`evals/s320_e1_packet_adjudicacion_v1.md`: 49 colisiones-integridad + 67 tier B + 133 candidates draft + 4 revisión) + E1b (359 confirmar/261 revisar) + los packets previos (s318 + LLM_MAX_TOKENS + vars Railway); (b) FULL fresco tras la sentada; (c) E2 CERRADO v1 (DEC-213: mecanismo gobernado + packet `s320_e2_packet_adjudicacion_v1.md`); E2-swap con datos tras adjudicación · estructural, gates de equivalencia) · E3 re-tag F3a · E4 clarify sustituye FAMILY_REGISTRY — cada una con su dúo.
 
 **Qué sigue (s319 cierre — sesión de consolidación COMPLETA, DEC-209/210/211)**:
 (a) **SENTADA ÚNICA de Alberto** — `evals/s318_sentada_adjudicacion_packet_v1.md`:

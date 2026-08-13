@@ -9,6 +9,27 @@
 > medida · recomendación. Marca: `[ ] ✅ · [ ] ✏️ (anota) · [ ] ❌`. Yo aplico después vía
 > `gold_store` (DEC-025: **el gold es tuyo**). Nada se edita sin tu marca.
 >
+> **⚠️ s320d — AUDITORÍA DE PROCEDENCIA de mis lecturas de fuente (la cazó Alberto).** En s320c
+> consulté el corpus con `ilike` sobre la tabla ENTERA para ahorrarle criterio a Alberto, **sin
+> comprobar a qué producto pertenecía cada manual**. Auditadas las 5 contra
+> `chunks_v2.product_model`:
+>
+> | ítem | la pregunta es de | manual que cité | `product_model` real | veredicto |
+> |---|---|---|---|---|
+> | 5 `hp006#2` | Notifier **AFP-400** | `15088SP` · `50253SP` | **AM-2020** · **AFP-300** | ❌ **otros paneles — CORREGIDO** |
+> | 7 `hp001#2` | Detnov **CAD-250** | `CAD150R` | **CAD-150R** | ❌ **otro modelo — CORREGIDO** |
+> | 4 `cat018#2` | Notifier **AM-8200** | `AM-8200N` | **AM-8200N** | ⚠️ variante hermana — declarado |
+> | 9 CAD-171 | Detnov **CAD-171** | `MI-716` | **CAD-171** | ✅ |
+> | 6 `cat020#2` | Morley **DXc** | `DXc_variaciones` | **DXc** | ✅ |
+>
+> Las dos corregidas cambiaron de sentido: en el 5 el manual propio dice «avería» genérica (no
+> «corto») y **deshace** el sesgo hacia el demote; en el 7 la CAD-250 documenta la estructura de
+> niveles y **refuerza** el hecho. Es la misma clase que el fallo de s305 —usar un resultado sin
+> preguntar si la fuente podía responder a esa pregunta—, aquí en la capa de corpus en vez de la de
+> instrumento. **Lección**: filtrar por `product_model` NO es opcional cuando la pregunta nombra un
+> modelo; el proyecto tiene maquinaria de familia/serie (DEC-043/044) precisamente para esto y un
+> `ilike` global la salta.
+>
 > **⚠️ Staleness del generador, declarada (dúo)**: todas las «respuestas congeladas»
 > citadas son del FULL v3.2 generado con `claude-sonnet-4-6`; producción corre **Opus 5
 > desde s308**. Para los ítems de ALCANCE (1, 3, 4, 5, 6, 8) la decisión es
@@ -210,6 +231,12 @@ respecto de «cómo programar una CBE».
 > separadas (índice: «Tabla de resumen tipo SW para módulos», p35). **Partir está justificado desde
 > la fuente.**
 >
+> *(Precisión s320d, tras la auditoría de procedencia: la cita de la EVACUACIÓN sale del manual de la
+> variante **AM-8200N** (`product_model = AM-8200N`), mientras el índice del p35 sale de
+> `AM-8200-manu-prog-spa` (`product_model = AM-8200/AM-8200-BB`), que es el del gold. Misma línea de
+> producto y variante hermana — muy lejos del cruce de paneles del ítem 5 — pero queda dicho: si
+> quieres el ancla en el manual exacto del gold, la quote verbatim hay que sacarla de p61.)*
+>
 > **Retiro mi recomendación anterior de «ambas CORE»** (crítico convergente del dúo): la justifiqué
 > con `fact_match_score`, con el serving del carrier y con un precedente tuyo de s269 — las tres son
 > circularidad, no fuente. Si «Tipo SW» es CORE para *esta* pregunta es alcance, y el alcance es tuyo.
@@ -246,23 +273,42 @@ escribí yo en v1 y la respuesta no lo dice (sobre-afirmación mía, cazada por 
 procedimiento de acotado de un fallo de tierra. s284 lo llamaba «core y mecanismo real de
 acotación»; revertir eso exige tu criterio PCI, no mi prosa. **Decisión genuinamente tuya:**
 
-> ### s320c · **sin recomendación mía: la fuente se contradice y esto es tuyo**
+> ### ⚠️ s320d · **CORRECCIÓN: mi lectura de fuente era de OTROS PANELES** (lo cazó Alberto)
 >
-> Leí el corpus para ahorrarte la decisión y **no pude**: dice las dos cosas.
-> - **Mecanismo** — `15088SP p70`: «El ISO-X **ve este corto** y desconecta la rama fallante,
->   aislando efectivamente la rama fallante del resto del lazo. Una vez que la falla ha sido
->   removida, el ISO-X reaplica la alimentación». Y el pie de figura: «**Cortos** en el resto de
->   este Lazo SLC… serán aislados».
-> - **Descripción** — `50253SP p89`: aísla una zona «cual permite que un segmento… funcione **si un
->   circuito falla**»; y el índice de equipos lo llama «**Módulo aislador de Falla de Lazo**».
+> El bloque anterior (s320c) apoyaba «la fuente dice que el ISO-X ve el CORTO» en dos manuales que
+> **no son de la AFP-400**. Alberto lo vio en la portada del 15088SP. Verificado contra
+> `chunks_v2.product_model`:
 >
-> Uno describe cortocircuito; el otro, falla genérica. **Ante conflicto de fuentes lo correcto es
-> enseñarte las dos, no elegir yo** (ambos revisores me marcaron que recomendar el demote
-> sobrepasaba la evidencia).
+> | manual que cité | `product_model` REAL | qué saqué de ahí |
+> |---|---|---|
+> | `15088SP` | **AM-2020** (AM2020/AFP1010, doc. 15088SP rev H, 1998) | «el ISO-X **ve este corto**» |
+> | `50253SP` | **AFP-300** | «si un circuito falla» · «Módulo aislador de Falla de Lazo» |
+>
+> Si un texto de la AM-2020 o de la AFP-300 gobierna para la AFP-400 **no es cosa de un grep**: es
+> justo la pregunta que resuelve la maquinaria de familia/serie del catálogo (DEC-043/044). Yo la
+> salté consultando la tabla entera con `ilike`. Misma clase que el fallo de s305: usar un
+> resultado sin preguntar si la fuente podía responder a esa pregunta.
+>
+> **Lo que dice el manual que SÍ aplica** (`product_model = AFP-400`):
+> - `MIDT170 p17` — «El ISO-X es un interruptor automático que abre la tensión del circuito a una o
+>   varias ramas del lazo de comunicaciones **siempre que se detecta una avería en el circuito**. El
+>   resto del lazo… continúa funcionando sin verse afectado por la avería.»
+> - `MFDT170 p17` — «**El Estilo 7 requiere el uso de módulos ISO-X**.»
+>
+> **«Avería en el circuito», genérico — no «corto».** Eso apunta en dirección CONTRARIA a la que
+> insinuaba mi bloque anterior: un fallo de tierra ES una avería del circuito, así que el manual de
+> la AFP-400 **no excluye** el ISO-X del acotado. No lo zanja —«avería» es compatible con ambas
+> lecturas— pero deshace el sesgo hacia el demote que yo había introducido.
+>
+> **Y el dato de fondo, del propio gold** (`gold_answers_v1.yaml:755`): «…ISO-X) en **MIDT170, que
+> el autor NO consultó**». Este ítem lleva discutiéndose desde su autoría **sin el manual aplicable
+> encima de la mesa**. Los `pdfs_used` del gold traen `50253SP` (anotado «MPS-400» — legítimo para
+> la fuente de alimentación, que sí es de la familia) pero el mecanismo del ISO-X se ancló ahí.
 >
 > **Tuyo, y en una frase:** cuando llegas con **«Tierra»** en pantalla, ¿el ISO-X forma parte de tu
 > procedimiento de acotado —¿partes el lazo por los aisladores?— o la tierra la localizas por
-> regletas y el ISO-X no pinta nada porque solo abre ante cortocircuito?
+> regletas y el ISO-X no pinta, porque en la práctica solo abre ante cortocircuito aunque el manual
+> diga «avería»?
 >
 > **Si marcas demote**: hay que **reescribir en el mismo upsert** la prosa del `gold_answer`
 > (líneas 686 y 688), que hoy afirma ante el juez de PASS justo lo que el label negaría. Un demote a
@@ -333,17 +379,31 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 > 1111, que **NO da acceso a la configuración avanzada completa** (solo el nivel de usuario)»,
 > `cita: MU-376 p10`.
 >
-> **La fuente (leída en s320c) reconcilia la divergencia del dúo.** El manual del modelo hermano
-> (`CAD150R Instalación` p19) da: «**User level code 1111** · **Installator level code 2222**» — y
-> **no dice nada** sobre «configuración avanzada». O sea: la negación es **derivable** de que existen
-> dos niveles distintos, pero **no está citada** en ninguna página.
-> *(Sol la llamaba circular por apoyarse en el error medido; Fable la daba por sólida desde la
-> fuente. La fuente dice: ambos a medias.)*
+> **⚠️ s320d — CORRECCIÓN: mi lectura de s320c era del modelo EQUIVOCADO.** Cité
+> `55315501 CAD150R Instalación` p19, que en `chunks_v2` es **`product_model = CAD-150R`**, para una
+> pregunta de la **CAD-250**. Mismo error que en el ítem 5 (allí, manuales de la AM-2020 y la
+> AFP-300 para una pregunta de la AFP-400). Lo destapó Alberto por la portada del 15088SP.
 >
-> **Mi recomendación: ✏️ reformular la negación como la ESTRUCTURA DE NIVELES**, que sí está en la
-> fuente — «clave de usuario por defecto **1111** (nivel de usuario); el nivel de
-> configuración/instalador requiere **2222**» — en vez de una afirmación sobre «lo avanzado» que
-> ninguna página sostiene. Y editar en el mismo upsert la cláusula gemela del `gold_answer`.
+> **La fuente CORRECTA — manuales cuyo `product_model` es CAD-250:**
+> - `MU-376` **p10** (§4 Nivel usuario): «La clave de usuario por defecto es **1111**.»
+> - `CAD-250-MS-416-es` **p27** (§4.14.3 Configuración de usuarios y permisos): lista de usuarios
+>   `USUARIO | 1111` frente a `INSTALADOR | 22`, y «**Acceso nivel 3**: o de instalador y
+>   configuración le permitirá realizar **todas las acciones de configuración** del sistema o
+>   acciones de diagnóstico»; el **nivel 4** queda para lo que exige abrir la central.
+>
+> Esto es **mejor** que lo que traía mi bloque anterior: la CAD-250 documenta una **estructura de
+> niveles explícita** en la que la configuración vive en el nivel 3 (instalador) y 1111 es de
+> usuario. La negación del hecho («1111 NO da acceso a la configuración») queda **derivada de la
+> estructura de niveles del manual propio**, no de un modelo hermano.
+> *(Sol la llamaba circular por apoyarse en el error medido; Fable la daba por sólida desde la
+> fuente. Con el manual correcto delante, Fable tenía razón — y mi «ambos a medias» de s320c se
+> apoyaba en el manual de otro panel.)*
+>
+> **Mi recomendación (mantiene el fondo, corrige el ancla): ✏️ reformular la negación como la
+> ESTRUCTURA DE NIVELES de la propia CAD-250** — «clave de usuario por defecto **1111** (nivel de
+> usuario); las acciones de configuración requieren el **nivel 3 / instalador**» — en vez de una
+> afirmación sobre «lo avanzado completo» que ninguna página sostiene. Y editar en el mismo upsert
+> la cláusula gemela del `gold_answer`.
 >
 > **Tuyo:** en una CAD-250 real con 1111, **¿se ve algo de configuración avanzada, o no hay nada?**
 > Si hay avanzado parcial, «completa» es correcta y la ✅ del packet sería un empeoramiento.
@@ -387,7 +447,7 @@ la referencia al manual → **expectativa de CITA** (ya cumplida).
 > («la Detnov ADW535») mantiene la clase. Y «cero impacto métrico» está medido **para la redacción
 > de hoy**: cambiar el texto cambia la query del harness, así que habría que re-correr el smoke.
 
-`[ ] ✅ armonizar · [ ] ✏️ otra redacción · [ ] ❌ dejarlo`
+`[X] ✅ armonizar · [ ] ✏️ otra redacción · [ ] ❌ dejarlo`
 
 ---
 
@@ -443,7 +503,7 @@ de uso real.
 > producción corre Opus 5. Puede que el fallo ya no se reproduzca — en ese caso el gold nace como
 > **centinela anti-regresión** en vez de como medida de un fallo vivo. Sigue mereciendo existir.
 
-`[ ] ✅ crear el gold ASÍ (core=ruta, suppl=acceso) · [ ] ✏️ crearlo con cambios (anota) · [ ] ❌ no crearlo (hp001 basta)`
+`[ ] ✅ crear el gold ASÍ (core=ruta, suppl=acceso) · [X] ✏️ crearlo con cambios (anota): tiene que mencionar candado + clave 2222, porque si no no va a poder acceder a "AVANZADO" en primer lugar. ¿seguro que lo del "2222" es supplementary en hp001? · [ ] ❌ no crearlo (hp001 basta)`
 
 ---
 
