@@ -1,0 +1,1161 @@
+{
+ "que_es": "E3 censo F3a v2 (r24): docs MONO-producto activos con producto CONSUMIBLE cuyo pm de chunks no matchea el patrón imatch del canonical_model (la semántica del filtro). Contabilidad total assertada; partición por provenance leída de las entries.",
+ "utc": "20260813T215516Z",
+ "doc_map_entradas": 887,
+ "buckets": {
+  "mono_con_mismatch": 104,
+  "mono_ya_coherentes": 273,
+  "multi_producto_fuera_f3a": 272,
+  "mono_sin_chunks": 0,
+  "inactivo_o_stale": 60,
+  "sin_entry_primary_doc": 12,
+  "producto_no_consumible": 166
+ },
+ "suma_verificada": 887,
+ "chunks_afectados": 1462,
+ "mismatch_por_lote": {
+  "adjudicado": 102,
+  "derivado": 2
+ },
+ "muestras_mismatch": [
+  {
+   "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+   "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+   "producto": "pfannenberg:py-x-l-15-cpr",
+   "canonical_model": "PY X-L-15-CPR",
+   "pm_doc": "PYX-L-15",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 21,
+   "chunks_mismatch": 21,
+   "pms_mismatch": {
+    "PYX-L-15": 21
+   }
+  },
+  {
+   "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
+   "source_file": "15584",
+   "producto": "notifier:cpu-5000",
+   "canonical_model": "CPU-5000",
+   "pm_doc": "System 5000",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 50,
+   "chunks_mismatch": 50,
+   "pms_mismatch": {
+    "System 5000": 50
+   }
+  },
+  {
+   "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
+   "source_file": "156-0394-007R - PIBV2_Eng",
+   "producto": "systemsensor:pibv2",
+   "canonical_model": "PIBV2",
+   "pm_doc": "NFPA-13",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 10,
+   "chunks_mismatch": 10,
+   "pms_mismatch": {
+    "NFPA-13": 10
+   }
+  },
+  {
+   "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+   "source_file": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+   "producto": "aritech:fd2705-10r",
+   "canonical_model": "FD2705-10R",
+   "pm_doc": "FD2705R",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 9,
+   "chunks_mismatch": 9,
+   "pms_mismatch": {
+    "FD2705R": 9
+   }
+  },
+  {
+   "document_id": "e3e37118-b636-429c-8a74-017abb1d355e",
+   "source_file": "50478 RevA - MPS-24AE _Eng",
+   "producto": "notifier:mps-24ae",
+   "canonical_model": "MPS-24AE",
+   "pm_doc": "ECN-96-200",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 1,
+   "chunks_mismatch": 1,
+   "pms_mismatch": {
+    "ECN-96-200": 1
+   }
+  },
+  {
+   "document_id": "91970fa3-1f21-47a8-af0a-88415c5155c6",
+   "source_file": "55315015_Guia_rapida_TED-151-CL_ES",
+   "producto": "detnov:ted-151-cl",
+   "canonical_model": "TED-151-CL",
+   "pm_doc": "TED-151",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 1,
+   "chunks_mismatch": 1,
+   "pms_mismatch": {
+    "TED-151": 1
+   }
+  },
+  {
+   "document_id": "fc070e20-3ff7-4a9c-8991-3dddda3dd693",
+   "source_file": "997-267-000-6_Eng",
+   "producto": "notifier:020-543",
+   "canonical_model": "020-543",
+   "pm_doc": "DTP/Booster",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 4,
+   "chunks_mismatch": 4,
+   "pms_mismatch": {
+    "DTP/Booster": 4
+   }
+  },
+  {
+   "document_id": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+   "source_file": "ASD533_TD_T140287es_e",
+   "producto": "securiton:asd-533-1",
+   "canonical_model": "ASD 533-1",
+   "pm_doc": "ASD533",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 202,
+   "chunks_mismatch": 202,
+   "pms_mismatch": {
+    "ASD533": 202
+   }
+  },
+  {
+   "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+   "source_file": "BANI-G-24_Eng",
+   "producto": "hosiden:is-28-mk-4-banshee",
+   "canonical_model": "IS 28 Mk 4 Banshee",
+   "pm_doc": "IS 28 Mk 4",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 16,
+   "chunks_mismatch": 16,
+   "pms_mismatch": {
+    "IS 28 Mk 4": 16
+   }
+  },
+  {
+   "document_id": "2c299ef1-4304-4253-9438-f37ab44a795e",
+   "source_file": "D 1148-1 BRS Notifier",
+   "producto": "notifier:nfxi-bsf-wcs",
+   "canonical_model": "NFXI-BSF-WCS",
+   "pm_doc": "SP-20",
+   "lote": "adjudicado",
+   "provenance": "s83 found_by=both",
+   "chunks_total": 8,
+   "chunks_mismatch": 8,
+   "pms_mismatch": {
+    "SP-20": 8
+   }
+  }
+ ],
+ "no_consumible_detalle": [
+  {
+   "document_id": "f1c0c15b-86d2-4460-b2a1-e8462fb06d07",
+   "source_file": "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+   "id": "kidde:2x-at",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "6d6e4b64-5203-4fc3-a24b-05fb8daff749",
+   "source_file": "0044-033-01 Guia F5000",
+   "id": "unresolved:f5000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f5224079-3c15-421a-83fe-5506edbc3100",
+   "source_file": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0",
+   "id": "aritech:apic",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "c373b045-10a6-44eb-bc34-e4df3e47b7b9",
+   "source_file": "12484_Ezsense_Ops Manual_EN",
+   "id": "unresolved:esense",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
+   "source_file": "15037SP",
+   "id": "notifier:lcd-80",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "source_file": "15090SP",
+   "id": "notifier:nrt-586t",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "017af6a2-e90c-4405-a500-0b2bd1a39d63",
+   "source_file": "18995_03_VESDA_VLI_Installation_Sheet_lores_A3",
+   "id": "xtralis:vesda-vli",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ae46ee11-5e8e-4766-a096-3c4b5361254d",
+   "source_file": "19152_00_ICAM_Maintenance_Guide_A4_Spanish_lores",
+   "id": "xtralis:ift-15",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ea22db26-ecc0-4148-8cc3-39ae3c251ddf",
+   "source_file": "1998M0901_FS24X_PT-BR54-10_PT-BR_RevB_20July2015",
+   "id": "unresolved:fs24x",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "ee95110d-4242-4416-9233-6d73d0f9d24d",
+   "source_file": "1998M0902_FS20X_ES_AR54-10_ES_AR_RevB_20July2015",
+   "id": "unresolved:fs20x",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "cdef7266-4954-4589-b0a3-0eba174e0304",
+   "source_file": "27012012 ETIQUETA INSTRUCCIONES VISION SUPRA REV A ",
+   "id": "unresolved:vision-supra",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "3c7c5af9-9c87-453b-923c-957cf902b41b",
+   "source_file": "37430_00_FAAST_FLEX_Bluetooth_User_Guide_(A05-0600-000_ES)_A4_Spanish",
+   "id": "xtralis:honeywell-smartconfig-app",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ed62f8fb-17c3-471e-9c7f-7a420efecfc4",
+   "source_file": "55310008 Manual Tarjeta Modbus TMD-100 Instalacion ES FR GB IT",
+   "id": "unresolved:tmd-100",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "9d575fc3-bd5a-445c-9b89-6a382216c688",
+   "source_file": "55310401 Manual Sirenas Convencionales SCD-100 ES FR GB IT",
+   "id": "unresolved:scd-100",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "bc163277-ad9e-4ced-950f-c0e63de35a0a",
+   "source_file": "55310600 Manual TCD-106 kit_ES",
+   "id": "unresolved:tcd-106",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "dfc03017-e414-4ed5-b083-8f786b33397c",
+   "source_file": "55312000 SCD-120_Manual_ES",
+   "id": "unresolved:scd-120",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "53d322d7-6834-42ec-9a17-4a4daf3b40a8",
+   "source_file": "55315012 Manual Tarjeta de bucle TBUD-150 Instalacion ES FR GB IT",
+   "id": "unresolved:tbud-150",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "3a2c783c-e0ca-4808-9481-64fcddd80495",
+   "source_file": "55320002 Manual Programador PGD-200 ES FR GB IT",
+   "id": "unresolved:pgd-200",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f560fd92-586e-42fe-a039-1d021fbd0b34",
+   "source_file": "55320011 Manual zocalo con relé Z-200-R",
+   "id": "unresolved:z-200-r",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "fe0a3e56-b314-44ad-ab96-8dba45a5880f",
+   "source_file": "55320102 Manual Buzzer Analogico PAD-10A ES FR GB IT (x8)",
+   "id": "unresolved:pad-10a",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "9c023513-1321-4e1f-9147-e4fff05e2e5a",
+   "source_file": "55320103 Manual Zocalo Conexion ES FR GB IT_V2",
+   "id": "unresolved:55320103",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "1a1e1521-c589-47df-bb87-cccd61ed4daf",
+   "source_file": "55340103 Manual Modulo 1-2 Entradas Tecnicas MAD-402 ES FR GB IT",
+   "id": "unresolved:mad-402",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f7af1d6b-255b-4b32-862f-8454cdca90a3",
+   "source_file": "55341101 Manual Modulo 1-2 Reles libre de tensión MAD-412 ES FR GB IT",
+   "id": "unresolved:mad-412",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "821c0406-ebff-41db-b2ee-aafbed9fbe7b",
+   "source_file": "55342102 Manual Modulo 1-2 Entradas 1-2 Salidas MAD-422 ES FR GB IT_v3",
+   "id": "unresolved:mad-422",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "26c4f513-3e80-4286-8aea-1684190348df",
+   "source_file": "55344103 Manual Modulo 1-2 Zonas MAD-442 ES FR GB IT",
+   "id": "unresolved:mad-442",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "0c7ae4c5-82cb-43c7-a5e0-bf84075fba0b",
+   "source_file": "55345103 Manual Pulsador Analogico MAD-450 ES FR GB IT",
+   "id": "unresolved:mad-450",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f00d814e-666b-4487-a0e9-fdbe01b7c410",
+   "source_file": "55346102 Manual Sirena Analogica MAD-461 ES FR GB IT",
+   "id": "unresolved:mad-461",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "15015287-4b41-4623-96a5-e8076641560b",
+   "source_file": "55347101 Manual Sirena Analogica MAD-471 ES FR GB IT",
+   "id": "unresolved:mad-471",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "27dec7c7-4277-41a8-891a-a3ada52eeb7a",
+   "source_file": "55347200 Manual Sirena Analogica MAD-472 ES GB FR IT_V2",
+   "id": "unresolved:mad-472",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "56e086f4-b3f0-436b-97a2-a61ba1de21c4",
+   "source_file": "55348101 Manual Modulo 1 Rele 240VAC MAD-481 ES FR GB IT",
+   "id": "unresolved:mad-481",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e4d762dd-0b65-4df0-8d22-9fc6bcfb371f",
+   "source_file": "55349102 Manual Modulo Aislador MAD-491 ES FR GB IT",
+   "id": "unresolved:mad-491",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f1a60b0d-54af-42eb-bb25-d999a174336f",
+   "source_file": "55350005 Manual Central Monoxido CMD-500 ES FR GB IT",
+   "id": "unresolved:cmd-500",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "b2a29604-2726-40cd-afb6-9310ddcd24ef",
+   "source_file": "55350008 Manual Detectores Monoxido DMDX-500 ES FR GB IT",
+   "id": "unresolved:dmdx-500",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "3d2c8a30-73af-44e8-872d-0e41b1a41b3c",
+   "source_file": "997-528-000-1",
+   "id": "notifier:nas-2",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "82e7acbb-d6de-4ff1-a589-e06492be0ac0",
+   "source_file": "AM 8200N-manual instalacion RV 4 30-01-2025",
+   "id": "notifier:am-8200n",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "2d71f027-a0ff-473f-b4cc-a89154f8f1f4",
+   "source_file": "AM-8200N manual de usuario y programacion rev 3 30-10-2024",
+   "id": "notifier:am-8200n",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ae03fe9a-7336-43a2-aaca-d4ee4a8751e6",
+   "source_file": "AM-LCD manual de instalacion y usuario RV 0",
+   "id": "notifier:am-lcd",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "36d2ba3e-d043-43c9-8a4c-dd02837ef08f",
+   "source_file": "ASD in Custodial Applications_ES",
+   "id": "notifier:nxfi-copt22",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "49f79dcf-5963-41af-8fe6-fdacf53cbd65",
+   "source_file": "Actualizacion del firmware de INSPIRE a R1.35",
+   "id": "notifier:inspire",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f3896ae9-00bf-48f7-9a1a-e053bd0e80f6",
+   "source_file": "BTDT017",
+   "id": "notifier:lcd-80",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "79142789-8f2a-4f0c-af7d-2863316d3438",
+   "source_file": "CALYPSO-II-R_manual",
+   "id": "unresolved:calypso-ii-r",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "8a59e59a-8f69-4dea-97c6-e8e56862c16a",
+   "source_file": "CALYPSO-II_manual",
+   "id": "unresolved:calypso-ii",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "3ccb6d93-be26-41af-ac7f-fc7a9e90581a",
+   "source_file": "CCD-103_Manual_ES_FR_GB_IT",
+   "id": "unresolved:ccd-103",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e8b63990-d547-4fc3-ae41-bf6cdfe3c626",
+   "source_file": "Como-configurar-correos-en-un-TG-HONEYWELL",
+   "id": "unresolved:tg",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "fc5d53c5-b08f-461e-b3c1-a1758065c71d",
+   "source_file": "D 1100-4 Sounder",
+   "id": "unresolved:d-1100-4-sounder",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "b2b94062-4bc4-49ff-ba98-9b6db305fbec",
+   "source_file": "DXC-Connexion-Instalacion-y-configuracion-del-modulo-de-comunicacion-RS232",
+   "id": "unresolved:795-122",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "8f22ebbf-2ec4-4037-8219-7c05d3fb6134",
+   "source_file": "ECO1000-CONEXIONADO-BASE-ECO1000",
+   "id": "unresolved:eco1000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "efc1fc19-dd5e-411c-8950-3ada56d2b717",
+   "source_file": "F3000M_Spanish User Guide_0044-047-02-ES",
+   "id": "unresolved:f3000m",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "65de59c3-094c-4525-84ae-8ba70e17fc66",
+   "source_file": "F5K-2H-UserGuide-SPANISH_Manual F5000",
+   "id": "unresolved:f5k-2h",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "2c19ad01-0cc6-490d-b1d6-2b20e91e8e3a",
+   "source_file": "F5K-Additional-Information-Spanish",
+   "id": "unresolved:f5k",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "2515fc32-1108-44c5-8fd4-f96274c2cb8f",
+   "source_file": "Firebeam Xtra User Guide 060619",
+   "id": "firebeam:firebeam-xtra",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "d4d1be3f-1109-4657-ac54-300276654270",
+   "source_file": "GT-HLSI-1102 ITAC 2_1  25-02-2025 v4",
+   "id": "unresolved:itac-2.0",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "5f54612a-3347-439e-b6cf-8355185644ab",
+   "source_file": "HLSI-DT-963_POL-200-TS_PT",
+   "id": "unresolved:pol-200-ts",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "56098df1-42eb-45bc-8834-aa2003bfb3f0",
+   "source_file": "HLSI-MA-103_01_Itac",
+   "id": "unresolved:itac-supra",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "22767771-f64c-4107-97d6-9fde8fe0d342",
+   "source_file": "HLSI-MA-202_01_Guia-MiniVista",
+   "id": "notifier:mini-vista",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "e97a2405-21e7-44af-824d-a4591c471283",
+   "source_file": "HLSI-MN-025-I_NFS Supra Series FR 25_03_2014 Sbr",
+   "id": "notifier:nfs-supra",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "0426c906-5080-499a-afb3-f45766907458",
+   "source_file": "HLSI-MN-963_POL-200-TS",
+   "id": "unresolved:pol-200-ts",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "10da2e50-643d-492e-90ff-c95044110b54",
+   "source_file": "HLSI-TI-006",
+   "id": "unresolved:tg-modbus",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "c379c84f-3889-4e4d-8269-0bfb51b09972",
+   "source_file": "HLSI_MA-DT-1412_01_TG-IP1-SEC_QG",
+   "id": "unresolved:tg-ip-1-sec",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "77f1a59a-f210-46b4-bc18-ee35f68a1c29",
+   "source_file": "HLSI_MN-DT-1412_TG-IP1-SEC_MN",
+   "id": "unresolved:tg-ip-1-sec",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "528dcc09-d816-4bee-a017-16771fec3225",
+   "source_file": "HLSI_MN1007",
+   "id": "unresolved:itac",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e988cce8-368f-478d-835a-2bb91be216d8",
+   "source_file": "I56-1320-001 SDX-751TEM",
+   "id": "notifier:sdx-751-tem",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "1bfccc71-5d59-421f-b682-3c24ed6aec2b",
+   "source_file": "I56-1731-000 S300ZDU ",
+   "id": "unresolved:s300zdu",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "6bc1d609-b81a-4c33-8778-e3cf649c567b",
+   "source_file": "I56-2129-002 M710-CZ",
+   "id": "notifier:m710-cz",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "0737509b-69c8-441a-a27a-cf0237e966d4",
+   "source_file": "I56-3383-002 IDX-751 AE EN DE",
+   "id": "notifier:idx-751-ae",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "9a5791a3-df8f-4311-90fd-1e4468716eca",
+   "source_file": "I56-3836-006_FAAST_XM_8100E_ML",
+   "id": "systemsensor:8100e-faast",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "63974306-9990-450c-a786-ffa45fd6bc30",
+   "source_file": "I56-3909-010_A_AgileIQ_ES",
+   "id": "systemsensor:agileiq",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "5cfbede1-6742-4890-9881-7f3858e8f3cc",
+   "source_file": "ITAC-Como-asignar-la-direccion-en-el-ITAC",
+   "id": "unresolved:itac",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "eb0e9e0a-4df5-4576-ac38-ddb0fccbc589",
+   "source_file": "ITAC-no-reconocido-por-la-Central",
+   "id": "unresolved:itac",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "24ac9fe2-eb6e-4c9e-be83-61ff09920aeb",
+   "source_file": "Indicator Honeywell Manual SP",
+   "id": "unresolved:indicator",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f5f8f64a-3a7a-4125-b985-e2129e21cb0c",
+   "source_file": "LCD-8200-manu-spa",
+   "id": "notifier:lcd-8200",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "cca29ddc-4475-492c-9b5d-41a116fba39d",
+   "source_file": "LEER PRIMERO_MADT951_10",
+   "id": "unresolved:tg-honeywell",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "b7706a88-3ca0-4a69-889b-0ec6c2696916",
+   "source_file": "MADT015_02",
+   "id": "notifier:nfs8rel",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "25ced063-ef23-4dd4-bf21-f8a9455e4c48",
+   "source_file": "MADT155_01",
+   "id": "unresolved:id50",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "6ed7eb29-a4d5-47ab-b9e1-af88c33d6e47",
+   "source_file": "MADT155_02",
+   "id": "unresolved:id60",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e2f8edbf-60fe-41e1-8237-f534f356866b",
+   "source_file": "MADT190_06",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "6afb0c2d-49f6-4077-83b9-be1e3e040759",
+   "source_file": "MADT190_07",
+   "id": "notifier:pk-id3000",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "96995185-3f74-403c-8204-c9544bd9894f",
+   "source_file": "MADT190_11",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "197bcdcf-7bef-46fa-a823-ae24d9577fd4",
+   "source_file": "MADT190_12",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "97d304e1-a64e-473e-b937-389ee53f6108",
+   "source_file": "MADT190_13",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "ae2e41cc-e3f1-43c1-be2b-10d0a71cc018",
+   "source_file": "MADT190_14",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "35380bd3-d118-44a7-992d-65d6c1e38c29",
+   "source_file": "MADT575_01",
+   "id": "notifier:securnet-plus",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "e17a6689-a817-4a21-81e3-dadb58d7256c",
+   "source_file": "MADT608",
+   "id": "notifier:eev2",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "af1fdc9a-c53b-406f-a683-b575c8627d65",
+   "source_file": "MADT635_01",
+   "id": "notifier:lisa-2",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "350cdd7b-c5ec-44c6-93ed-794ce242eb52",
+   "source_file": "MADT951_02",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "58037512-ab67-45df-9de4-55cf33eb44ca",
+   "source_file": "MADT951_04",
+   "id": "notifier:rhistorico.exe",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "fbdfa18c-ae97-4800-a66e-f91a625d91bf",
+   "source_file": "MCDT120",
+   "id": "notifier:pk-afp200e",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "b598ad1d-a7b4-42cf-a646-8c074c299921",
+   "source_file": "MCDT155",
+   "id": "unresolved:id50",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "d57e015a-db8f-4d7d-a065-067aeb47b023",
+   "source_file": "MCDT190",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "3456a624-aa68-4f81-a261-ffac7481da9a",
+   "source_file": "MCDT280",
+   "id": "notifier:updl-2020",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "1c6eff80-d065-4074-a229-55c8ed391b3e",
+   "source_file": "MFDT1070",
+   "id": "notifier:lts-240",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "70ad5f07-7c99-4b60-a8d9-878e90aff920",
+   "source_file": "MFDT155",
+   "id": "unresolved:id50",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "c0697e6c-6dc3-43f4-9858-a995aaea56fa",
+   "source_file": "MFDT190",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "75aeced9-c959-4eea-9df3-b22dd54288e8",
+   "source_file": "MF_HSF_280_rv004",
+   "id": "unresolved:s-hsf",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "681e506b-daaa-4f78-8336-aa732695962c",
+   "source_file": "MI-DT-951_V7.2",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "64c71c8a-e6f5-47a3-867e-e2947b0f8bc7",
+   "source_file": "MIDT1452_Inst_via radio",
+   "id": "unresolved:vw2w100",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "d5d10c1b-fc91-4f98-8ff5-a8473533f4c1",
+   "source_file": "MIDT155",
+   "id": "unresolved:id50",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "38266cec-8563-4dbb-9e55-37534d8ab7a8",
+   "source_file": "MIDT190",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "06c08203-1665-4503-aebb-8f4051adc0c9",
+   "source_file": "MIDT951_v5-87",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "39a17062-7c8a-4bc2-ad43-6757043022d8",
+   "source_file": "MIE-MI-110",
+   "id": "morley:mi-200",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "fea0ec1d-2f2d-4b88-9b91-3e41a2234e46",
+   "source_file": "MIE-MI-480",
+   "id": "morley:mcx-55m",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f3e9aaa9-ffc2-4f2f-bb41-a61a971053e1",
+   "source_file": "MIE-MI-490",
+   "id": "morley:mmx-10m",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f4f88041-c12c-4132-8e6d-34bc4e6830c7",
+   "source_file": "MIE-MI-505rv01",
+   "id": "unresolved:tg-hlsi",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "147b5946-eff4-4027-b1d4-46f581472f94",
+   "source_file": "MIEMA130",
+   "id": "unresolved:vision-plus",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "5e483105-7539-45be-9858-d50ecbdc5cd0",
+   "source_file": "MN-DT-951_v7.2",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "89a339cc-5c51-4542-b995-e9afa4e55578",
+   "source_file": "MN-HON-POL-200-TS_EN_V03",
+   "id": "unresolved:pol-200-ts",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "fcf37548-02d0-41d1-bd5b-d5d9dc00cdbd",
+   "source_file": "MNDT020",
+   "id": "notifier:serie-800",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f9206530-c571-462b-abbf-ac7a47fd4a54",
+   "source_file": "MNDT060",
+   "id": "notifier:sistema-5000",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "d8c868af-0221-4071-883e-0b1a165220e6",
+   "source_file": "MNDT1001",
+   "id": "notifier:cmx-10r",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "797aeff7-f43e-491a-8a07-48b86fba4967",
+   "source_file": "MNDT1005",
+   "id": "notifier:mcx-55m",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "c714abc5-36ba-4923-880f-b10b60c55b81",
+   "source_file": "MNDT1006",
+   "id": "notifier:mmx-10m",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "89c05a46-a026-44b5-bebe-d7c67d36c588",
+   "source_file": "MNDT1020",
+   "id": "notifier:idx-751",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "15af678b-b2c7-4bf2-8d20-be83eca45671",
+   "source_file": "MNDT105_A",
+   "id": "notifier:am-200",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "6d84be7f-0ada-4647-9852-6089d690f8fc",
+   "source_file": "MNDT1070",
+   "id": "notifier:lts-240",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f5560bbb-67d7-49ce-b70a-4ff11a4b8b7d",
+   "source_file": "MNDT1071",
+   "id": "notifier:lts-240",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "dd0734bf-e05a-4809-99b8-2e32e4d1dec1",
+   "source_file": "MNDT1310",
+   "id": "unresolved:autosat-10",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e46d7ef9-e678-4cba-bf02-1fe8103b845c",
+   "source_file": "MNDT1311",
+   "id": "unresolved:autosat-20",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "782efe98-c918-4efa-b9b2-4d0af2edba03",
+   "source_file": "MNDT370",
+   "id": "notifier:nrt",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "06887ff1-3783-4c29-9f4b-0012facfebb1",
+   "source_file": "MNDT516",
+   "id": "notifier:st.pl4+",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "b001f716-1054-46a8-abad-b929817005a1",
+   "source_file": "MNDT740P",
+   "id": "notifier:nas",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "382d7c61-ec68-4b24-b9d3-e31d7a475dbd",
+   "source_file": "MNDT741I",
+   "id": "notifier:nas",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "62872159-0fb9-4051-9a02-25e89c46d6a0",
+   "source_file": "MNDT742_G",
+   "id": "notifier:nas-2",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "65669851-7431-412f-b727-bd65af27a170",
+   "source_file": "MNDT951I",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "eb273187-51a4-4fc0-97af-6cd6f312a0e9",
+   "source_file": "MNDT955",
+   "id": "notifier:tg-6000-net",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "067598cb-58b2-4ca1-850d-5cb8cc8dfafe",
+   "source_file": "MP-DT-951_v7.2",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "1fbe2926-1af1-4d2c-af45-ae8abe53e100",
+   "source_file": "MPDT190",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "38d6a8f3-8012-4fb3-869e-0ad13a7e8af3",
+   "source_file": "MPDT951I",
+   "id": "notifier:tg-notifier",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "e85ec483-f4ed-4862-87f6-189f8ef5ed6b",
+   "source_file": "Manual SIMEI-HLSI_SP-EN",
+   "id": "unresolved:simei",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "fa676e67-1143-45a1-a92f-5782cb6fc2cb",
+   "source_file": "Manual_PAD-20 (MU 591 m 2024 a)",
+   "id": "detnov:pad-20",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "34fb6d89-7458-43bd-b493-167656b6f249",
+   "source_file": "NSRE24",
+   "id": "unresolved:nsre24",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "7ade556d-6cd5-429c-9b7e-b53dc392496d",
+   "source_file": "No-aparecen-el-el-TG-ID3000-los-elementos-Auxiliares-AUX",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "6b527113-be12-49a1-8485-56425e681a99",
+   "source_file": "PAN AVD2_SPANISH",
+   "id": "unresolved:pan-avd2",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "4c2534f7-45d1-4d46-bf61-615124737c0c",
+   "source_file": "PK-8200 manu-spa",
+   "id": "notifier:pk-8200",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "38fa6760-cb28-413e-8a4d-b7d7ee2ccc1d",
+   "source_file": "PL4_MT574E_Eng",
+   "id": "sensitron:pl4",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ca1dfb1e-678b-42ef-9e5c-82d5914b8404",
+   "source_file": "S3466R_Eng_ital",
+   "id": "unresolved:3466",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "ac08957f-6488-4304-a8ec-173a7a4f08cd",
+   "source_file": "SFD-220_Manual_EN",
+   "id": "unresolved:vtb-32e",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "1984cd59-355d-446b-84f7-56956880ac36",
+   "source_file": "SGD-151 MC-399 es",
+   "id": "detnov:sgd-151",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "e9683a61-3e19-4e9f-838c-84f1f2dd6710",
+   "source_file": "SMART 3 EXPLOSIVOS MTEX 4446_SP REV 3",
+   "id": "notifier:smart-3g",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "3de1b719-2aa7-4300-b321-9fd1325f67c0",
+   "source_file": "SMART 3 TOXICOS MTEX 4749_SP REV 3",
+   "id": "notifier:smart-3g",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "ff8a30f1-6f39-43f4-902c-31b02c577d93",
+   "source_file": "TB-HON-ES_POL200TS_04-19",
+   "id": "unresolved:pol-200-ts",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "ecefafba-3b66-45b1-bdf3-695e53d0f823",
+   "source_file": "TG-1020-INT",
+   "id": "notifier:tg-1020",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "1e5830eb-b2e0-4626-b785-f7df0dc82f21",
+   "source_file": "TG-Como-exportar-el-historico-desde-el-programa-de-gestion-grafica",
+   "id": "unresolved:tg",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "26df1e27-96c2-497e-aed1-5f5f47f6abb9",
+   "source_file": "TG-GSM-Fallo-al-enviar-SMS-desde-TG",
+   "id": "unresolved:tg-gsm",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "71654eda-7c94-4aec-9ce3-4310fb254e7e",
+   "source_file": "TG-Honeywell_Usuario",
+   "id": "unresolved:tg-honeywell",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "1a4434be-3ee3-4c29-abc0-8ce621661301",
+   "source_file": "TG-Honeywell_Usuario_PT",
+   "id": "notifier:id-3000",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "f0b9b790-f2e2-40cb-b793-289e11b82f4f",
+   "source_file": "TG-IP-1-SEC-Que-direccion-IP-tiene-por-defecto",
+   "id": "unresolved:tg-ip-1-sec",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "7a89e64d-7a94-4c6a-9954-c76a25419a4e",
+   "source_file": "TG-IP1-SEC-Como-volver-a-fabrica-el-dispositivo",
+   "id": "unresolved:tg-ip-1-sec",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "6985a8f7-9b30-4991-a8ef-e6a4a3d2184b",
+   "source_file": "TIDT096",
+   "id": "unresolved:id3000",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "a7bf5098-6187-4df9-863b-b24d62d0687e",
+   "source_file": "Tg-Honeywell_Introduccion",
+   "id": "unresolved:tg-honeywell",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e009191b-62e0-445c-b066-258e8787ccb4",
+   "source_file": "Tg-Honeywell_Tecnico",
+   "id": "notifier:tg",
+   "motivo": "candidate"
+  },
+  {
+   "document_id": "4ab719b2-34da-43e8-9336-70759fea4bf2",
+   "source_file": "UCIP-Acceso-a-comandos-AT-para-chequeo",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "5c223ffe-4296-457c-95cb-1023b870e2a6",
+   "source_file": "UCIP-Borrado-a-valores-de-fabrica",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "ca05027c-6814-4811-a7fb-0db800b6bcbf",
+   "source_file": "UCIP-Borrar-datos-de-CRA1-o-2",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "7f2b752c-4f10-41af-8d23-8c7362d13996",
+   "source_file": "UCIP-Cambio-de-puerto-TCP-en-GPRS",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "e3323da7-65ff-4927-a2db-edb651fb8e8d",
+   "source_file": "UCIP-Cambio-de-puerto-TCP-red-LAN",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "1e1450f6-c905-4112-bb33-fca526de7491",
+   "source_file": "UCIP-Como hacer una Actualizacion",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "d90756e2-e023-44ce-be67-9b7b3e0a79c5",
+   "source_file": "UCIP-Como-configurar-envio-de-eventos-por-equipo",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "34359e60-b822-4daa-89b1-6dd7b57e2669",
+   "source_file": "UCIP-Compatibilidades-con-centrales-actuales",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "a4d46ae3-226e-46c1-a98b-201494b4c234",
+   "source_file": "UCIP-Configurar-envio-de-SMS",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "969c3f17-c429-4aff-9bbf-c04f6e55fbb8",
+   "source_file": "UCIP-Configurar-puerto-UART-de-UCIP",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "0e11bf91-bb4d-43c3-8bab-9dd5b612787b",
+   "source_file": "UCIP-No-conecta-por-IP",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "4775e676-1974-4077-83f7-2c4e6cb9236a",
+   "source_file": "UCIP-Programacion-IP-de-equipo",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "c3a3eb01-e91f-4732-9beb-b5e0cd011c44",
+   "source_file": "UCIP-Tabla-de-compatibilidad-con-receptoras-y-centrales",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "f255ef6e-e3ef-457b-b299-c1c9c6124bff",
+   "source_file": "UCIP-Ver-configuracion-de-equipo",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "4a34c56f-dc71-4332-8edf-eba05a5b9c76",
+   "source_file": "UCIP-Verificar-cobertura-GSM",
+   "id": "unresolved:ucip",
+   "motivo": "unresolved"
+  },
+  {
+   "document_id": "59c3b0c6-5b23-44d8-af5d-efb672f8fdae",
+   "source_file": "VSN-CO-Mantenimiento-y-vida-util-del-detector",
+   "id": "unresolved:vsn-co",
+   "motivo": "unresolved"
+  }
+ ],
+ "detalle_completo": "evals/s321_e3_censo_v2_detalle.json"
+}

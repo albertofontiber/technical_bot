@@ -6292,3 +6292,35 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   variante-de-familia va como mejora adjudicable, no automática.
 - **Relacionado**: plan v2 elefante · DEC-093/094 · DEC-212 (E1) · tally r23
   ts=2026-08-13T21:56:44.
+
+## DEC-214 (s321) — E3 F3a EJECUTADO: 579 chunks re-tagueados con identidad adjudicada (dúos r24+r25, findability PASS); residuo en packet con recomendaciones LLM fundamentadas
+
+- **Fecha**: 14 ago 2026 (s321, nocturno autónomo mandatado). **Impacto**: ALTO
+  (identidad servida de chunks) — dúos r24 (3 críticos) y r25 (crítico convergente
+  atestación≠sujeto), TODO aplicado; 1 FP de Fable en 13 rondas (cita «pm JAMÁS
+  auto» que SÍ existe — DEC-156b:3651, línea-kilométrica omitida por grep),
+  documentado con mecanismo.
+- **La cadena censo→dúo→atestación estrechó el lote con evidencia**: censo v1
+  161 docs → v2 (consumable-gate + semántica imatch + contabilidad 887 asserted)
+  104 docs/1.462 chunks, partición por provenance LEÍDA (102 adjudicados / 2
+  derivados) · atestación r25 (sujeto-dominante + hermanas + producto-real→packet
+  + fix del criterio circular snapshot) → **AUTO = 55 parejas / 579 chunks**.
+- **APLICADO (recibo `s321_e3_writer_aplicar_20260813T222611Z.json`)**: 579/579
+  por-chunk con CAS id+pm_prev (el bulk-por-pm dio 500 server-side: rollback
+  verificado, migrado a fila-a-fila) · backup por-chunk versionado (rollback por
+  id) · **findability_post PASS fail-closed** (los 55 docs recuperables por su
+  canónico; pm-familia DEC-192/193 intactos por construcción) · **E2-POST: el
+  conservador re-derivado = 0 altas/0 bajas** (diff pre-registrado = cero,
+  explicado: ya estaban doc_map-atestados) · suite 3.833/46.
+- **Residuo (packet `s321_e3_packet_adjudicacion_v1.md`)**: 47 parejas/878 chunks
+  con pasada LLM mandatada por Alberto (claude-fable-5, contenido real, cita
+  VERIFICADA contra muestra, alta-sin-cita degradada): §0 = 15 aplicables-en-
+  bloque con su asentimiento · §1 = 32 una-a-una (28 producto-real→multi-valor,
+  hermanas, no-dominantes; 11 NO_DECIDIBLE honestos; 1 MANTENER_PREV).
+- **Incidencias de instrumento cazadas en la noche**: criterio producto-real
+  CIRCULAR vía snapshot (el snapshot nació de estos pm) → solo catálogo
+  gobernado · patrón imatch asimétrico por diseño → forma por normkey+signos ·
+  `temperature` deprecada en modelos 2026 (clase DEC-092).
+- **Relacionado**: DEC-212/213 · contrato §F3 · tallies r24
+  ts=2026-08-13T23:49:46 · r25 ts=2026-08-14T00:12:43 · TECH_DEBT #76 (alta
+  esta noche: categoría+atributos, mandato Alberto).

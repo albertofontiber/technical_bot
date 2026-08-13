@@ -3471,3 +3471,19 @@ una «baja real» (VESDA-E-VEP) resultó estar sostenida por una query gold. El
 v1 que queda es honesto: mecanismo gobernado con PASS total byte-idéntico en
 conducta, y TODOS los cambios de datos (altas, bajas, gaps) en un packet
 adjudicable por lotes. Dúo r23 pre-build completo (Sol 4 · Fable 3, 0 FP).
+
+## s321 (14-ago-2026, nocturno) — E3: la identidad adjudicada llega a los chunks, con el dúo estrechando el lote hasta que la evidencia aguantó
+
+Alberto preguntó «¿lo ha validado el dúo?» en el momento exacto: el split del
+dry-run era mío y sin revisar. r25 lo rehizo (atestación=sujeto-dominante, no
+mención; producto-real jamás se colapsa solo; hermanas sobre todas las
+aplicables) y de 102 parejas quedaron 55 AUTO — que se aplicaron limpias:
+579/579 chunks por-CAS con backup por fila, findability PASS fail-closed, y la
+sonda E2-POST dando el cero pre-registrado. El residuo (47) viajó al packet con
+la pasada LLM que Alberto mandó antes de dormir: fable-5 leyendo el contenido
+real y citando verbatim — 15 quedaron «aplicables en bloque si asiente», 11
+NO_DECIDIBLE honestos, y 1 donde el modelo defiende el pm actual contra el
+mapa. Tres bugs de instrumento cazados por el camino (criterio circular vía
+snapshot, patrón imatch asimétrico, temperature deprecada). TECH_DEBT #76
+anotada por mandato: categoría+atributos de producto (el caso Detnov/Kidde).
+E4 arranca a continuación.

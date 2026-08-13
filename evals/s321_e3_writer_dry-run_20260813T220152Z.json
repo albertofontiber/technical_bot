@@ -1,0 +1,1544 @@
+{
+ "que_es": "E3 writer F3a, patrón T3 (backup por-chunk + CAS + gate findability). Lote ADJUDICADO solo; derivados/no-consumibles jamás por aquí.",
+ "modo": "dry-run",
+ "utc": "20260813T220152Z",
+ "lote_censo": 102,
+ "docs_en_recibo": 102,
+ "saltados_por_drift": [],
+ "chunks_backup": 1457,
+ "chunks_aplicados": 0,
+ "docs_abortados_cas": 0,
+ "findability_post": null,
+ "detalle": [
+  {
+   "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+   "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+   "canonical_model": "PY X-L-15-CPR",
+   "chunks_objetivo": 21,
+   "ops": [
+    {
+     "pm_prev": "PYX-L-15",
+     "pm_nuevo": "PY X-L-15-CPR",
+     "esperado": 21,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
+   "source_file": "15584",
+   "canonical_model": "CPU-5000",
+   "chunks_objetivo": 50,
+   "ops": [
+    {
+     "pm_prev": "System 5000",
+     "pm_nuevo": "CPU-5000",
+     "esperado": 50,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
+   "source_file": "156-0394-007R - PIBV2_Eng",
+   "canonical_model": "PIBV2",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "NFPA-13",
+     "pm_nuevo": "PIBV2",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+   "source_file": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+   "canonical_model": "FD2705-10R",
+   "chunks_objetivo": 9,
+   "ops": [
+    {
+     "pm_prev": "FD2705R",
+     "pm_nuevo": "FD2705-10R",
+     "esperado": 9,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e3e37118-b636-429c-8a74-017abb1d355e",
+   "source_file": "50478 RevA - MPS-24AE _Eng",
+   "canonical_model": "MPS-24AE",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "ECN-96-200",
+     "pm_nuevo": "MPS-24AE",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "91970fa3-1f21-47a8-af0a-88415c5155c6",
+   "source_file": "55315015_Guia_rapida_TED-151-CL_ES",
+   "canonical_model": "TED-151-CL",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "TED-151",
+     "pm_nuevo": "TED-151-CL",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "fc070e20-3ff7-4a9c-8991-3dddda3dd693",
+   "source_file": "997-267-000-6_Eng",
+   "canonical_model": "020-543",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "DTP/Booster",
+     "pm_nuevo": "020-543",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+   "source_file": "ASD533_TD_T140287es_e",
+   "canonical_model": "ASD 533-1",
+   "chunks_objetivo": 202,
+   "ops": [
+    {
+     "pm_prev": "ASD533",
+     "pm_nuevo": "ASD 533-1",
+     "esperado": 202,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+   "source_file": "BANI-G-24_Eng",
+   "canonical_model": "IS 28 Mk 4 Banshee",
+   "chunks_objetivo": 16,
+   "ops": [
+    {
+     "pm_prev": "IS 28 Mk 4",
+     "pm_nuevo": "IS 28 Mk 4 Banshee",
+     "esperado": 16,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "2c299ef1-4304-4253-9438-f37ab44a795e",
+   "source_file": "D 1148-1 BRS Notifier",
+   "canonical_model": "NFXI-BSF-WCS",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "SP-20",
+     "pm_nuevo": "NFXI-BSF-WCS",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "04bb1360-c5a9-4e96-83d3-ba4d50a66f7a",
+   "source_file": "D 1149-1 BGL Notifier",
+   "canonical_model": "NFXI-BF-WCH",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "SP-20",
+     "pm_nuevo": "NFXI-BF-WCH",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "5cc954dc-e6bb-4950-a6c0-4a0764c06307",
+   "source_file": "D 1152-1 BGL Morley",
+   "canonical_model": "MI-BGL-PC-I",
+   "chunks_objetivo": 7,
+   "ops": [
+    {
+     "pm_prev": "SP-20",
+     "pm_nuevo": "MI-BGL-PC-I",
+     "esperado": 7,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "06480ab0-ba4d-45a6-8ba9-f0842f278421",
+   "source_file": "DXC-Como-conectar-una-sirena-de-lazo",
+   "canonical_model": "B501AP",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "DXc",
+     "pm_nuevo": "B501AP",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "62d99550-6dd0-408b-9233-9ef11ae7776d",
+   "source_file": "Datasheet-CAD-171-DS-737-en",
+   "canonical_model": "CAD-171",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "DS-737",
+     "pm_nuevo": "CAD-171",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "6c923380-fc7f-4125-8b98-7b38585215f6",
+   "source_file": "Datasheet_CAD-171-DS-736-es",
+   "canonical_model": "CAD-171",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "DS-736",
+     "pm_nuevo": "CAD-171",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "8512b687-e1be-44be-affd-16a7e7cafd74",
+   "source_file": "E56-6514ES-000_Notifier_NFXI-OSI-RIE_Installation_Guide",
+   "canonical_model": "NFXI-OSI-RIE",
+   "chunks_objetivo": 41,
+   "ops": [
+    {
+     "pm_prev": "DEL-20",
+     "pm_nuevo": "NFXI-OSI-RIE",
+     "esperado": 41,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "09c2bab5-60e3-40a8-ae25-8c194ccc7850",
+   "source_file": "FAAST Understanding EN54-20_SP",
+   "canonical_model": "FAAST 8100E",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "FAAST",
+     "pm_nuevo": "FAAST 8100E",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "80369d69-1ebd-4e27-bbbb-9609780acc62",
+   "source_file": "I56-0784-014 ZMX-1E_Eng",
+   "canonical_model": "ZMX-1E",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "SENSOR-6424",
+     "pm_nuevo": "ZMX-1E",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "3dd9d550-b744-4512-a68a-82fb0c6e7435",
+   "source_file": "I56-1267-000 SMB500",
+   "canonical_model": "SMB500",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "SMB-500",
+     "pm_nuevo": "SMB500",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d4cff1fa-ca16-4184-811a-3ad8a5c67559",
+   "source_file": "I56-1291-002_FDX-551REM Manual",
+   "canonical_model": "FDX-551REM",
+   "chunks_objetivo": 9,
+   "ops": [
+    {
+     "pm_prev": "LOCAL-360",
+     "pm_nuevo": "FDX-551REM",
+     "esperado": 9,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "24672fcb-d616-452d-83b4-bf784a007325",
+   "source_file": "I56-1292-002_FDX-551HTEM Manual",
+   "canonical_model": "FDX-551HTEM",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "LOCAL-360",
+     "pm_nuevo": "FDX-551HTEM",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "9d6efdf7-4b2c-46e9-9332-65f113b8000a",
+   "source_file": "I56-1306-002_SDX-751EM",
+   "canonical_model": "SDX-751EM",
+   "chunks_objetivo": 13,
+   "ops": [
+    {
+     "pm_prev": "LOCAL-360",
+     "pm_nuevo": "SDX-751EM",
+     "esperado": 13,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "af1720ce-2389-4af7-a97a-619a9fa62cc2",
+   "source_file": "I56-1641-002_FDX-551EM Manual",
+   "canonical_model": "FDX-551EM",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "LOCAL-360",
+     "pm_nuevo": "FDX-551EM",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "cb3696ed-24c7-41a5-bafb-b3ddba45f36d",
+   "source_file": "I56-1651-023 ECO1002",
+   "canonical_model": "ECO1002",
+   "chunks_objetivo": 6,
+   "ops": [
+    {
+     "pm_prev": "ECO-1002",
+     "pm_nuevo": "ECO1002",
+     "esperado": 6,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "c6a3ffda-e4b2-42e2-b5ef-2665f5133056",
+   "source_file": "I56-1653-022 ECO1003",
+   "canonical_model": "ECO1003",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "ECO-1003",
+     "pm_nuevo": "ECO1003",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "78bbb66e-d355-4f04-838a-89288fd409fb",
+   "source_file": "I56-1657-001 MI-PTSE",
+   "canonical_model": "MI-PTSE",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "DE-15",
+     "pm_nuevo": "MI-PTSE",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d132927a-ad97-4e14-a1e8-3483869333c1",
+   "source_file": "I56-1732-002_SD-851TE",
+   "canonical_model": "SD-851TE",
+   "chunks_objetivo": 13,
+   "ops": [
+    {
+     "pm_prev": "WEIGHT-96G",
+     "pm_nuevo": "SD-851TE",
+     "esperado": 13,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "ae58e36a-3abe-4d2b-a4a3-13cf3ad58492",
+   "source_file": "I56-2001-002 M700X Manual",
+   "canonical_model": "M700X",
+   "chunks_objetivo": 3,
+   "ops": [
+    {
+     "pm_prev": "RH-15",
+     "pm_nuevo": "M700X",
+     "esperado": 3,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "aa0d4deb-817c-4036-b402-9e47c8d9d38d",
+   "source_file": "I56-2082-013 MI-LPB2_ES",
+   "canonical_model": "MI-LPB2",
+   "chunks_objetivo": 16,
+   "ops": [
+    {
+     "pm_prev": "EL-6500",
+     "pm_nuevo": "MI-LPB2",
+     "esperado": 16,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "9b3e221e-a76e-42b3-802c-c177132feaf9",
+   "source_file": "I56-2128-003 MI-DCZM",
+   "canonical_model": "MI-DCZM",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "MIN-17",
+     "pm_nuevo": "MI-DCZM",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
+   "source_file": "I56-2166-02R DH500ACDC-E",
+   "canonical_model": "DH500ACDC-E",
+   "chunks_objetivo": 23,
+   "ops": [
+    {
+     "pm_prev": "PA400",
+     "pm_nuevo": "DH500ACDC-E",
+     "esperado": 23,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "b39514f2-62a9-45d7-bf5d-225f158961a9",
+   "source_file": "I56-2253-00 SC6",
+   "canonical_model": "SC-6",
+   "chunks_objetivo": 18,
+   "ops": [
+    {
+     "pm_prev": "CABOTO-19",
+     "pm_nuevo": "SC-6",
+     "esperado": 18,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "327e1347-57ea-47c6-862d-4020874faf15",
+   "source_file": "I56-2255-00 CR6",
+   "canonical_model": "CR-6",
+   "chunks_objetivo": 5,
+   "ops": [
+    {
+     "pm_prev": "CABOTO-19",
+     "pm_nuevo": "CR-6",
+     "esperado": 5,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "4f727994-849d-4d57-93ba-e445aec0d5ca",
+   "source_file": "I56-2955-000_prelim",
+   "canonical_model": "MI-CR6",
+   "chunks_objetivo": 6,
+   "ops": [
+    {
+     "pm_prev": "RH-15",
+     "pm_nuevo": "MI-CR6",
+     "esperado": 6,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "8edeedac-12d9-4c9e-a1a2-9b7030eba719",
+   "source_file": "I56-3536-003R D2E",
+   "canonical_model": "D2E",
+   "chunks_objetivo": 19,
+   "ops": [
+    {
+     "pm_prev": "TO-60",
+     "pm_nuevo": "D2E",
+     "esperado": 19,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e4b80e33-792a-41ff-aaf8-af7b74748b35",
+   "source_file": "I56-3538-002R DNRE",
+   "canonical_model": "DNRE",
+   "chunks_objetivo": 18,
+   "ops": [
+    {
+     "pm_prev": "TO-60",
+     "pm_nuevo": "DNRE",
+     "esperado": 18,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "05e3e05f-d6cf-4c4f-a707-3be673f9b31f",
+   "source_file": "I56-3674-000 M710-CZR",
+   "canonical_model": "M710-CZR",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "TO-28",
+     "pm_nuevo": "M710-CZR",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "3a13c6db-1153-4c45-a8aa-d636203c08ca",
+   "source_file": "I56-372-04-RMK400_Eng",
+   "canonical_model": "RMK400",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "RMK-400",
+     "pm_nuevo": "RMK400",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "fae0d680-4511-4fb2-af9d-bcfaf15660d4",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_EN",
+   "canonical_model": "MI-LPB2-S2I",
+   "chunks_objetivo": 19,
+   "ops": [
+    {
+     "pm_prev": "THE-6500",
+     "pm_nuevo": "MI-LPB2-S2I",
+     "esperado": 19,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "dc74e6e9-85a8-4cdb-a489-37cb9959ba3b",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_ES",
+   "canonical_model": "MI-LPB2-S2I",
+   "chunks_objetivo": 19,
+   "ops": [
+    {
+     "pm_prev": "EL-6500",
+     "pm_nuevo": "MI-LPB2-S2I",
+     "esperado": 19,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+   "source_file": "I56-3918-001 IM-10EA_multi",
+   "canonical_model": "IM-10EA",
+   "chunks_objetivo": 11,
+   "ops": [
+    {
+     "pm_prev": "FROM-01",
+     "pm_nuevo": "IM-10EA",
+     "esperado": 11,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+   "source_file": "I56-3920-001 CR-6EA_multi",
+   "canonical_model": "CR-6EA",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "FROM-01",
+     "pm_nuevo": "CR-6EA",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "44388f6f-ab24-4c94-b69c-e20e847ebfa5",
+   "source_file": "I56-3976-001 NFXI-MM10",
+   "canonical_model": "NFXI-MM10",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "MM-10",
+     "pm_nuevo": "NFXI-MM10",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e59a8287-e411-4ca7-be47-81d9114e7b96",
+   "source_file": "I56-3990-000 NFX-MM1M",
+   "canonical_model": "NFX-MM1M",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "TO-49",
+     "pm_nuevo": "NFX-MM1M",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "0ecc3914-de9a-449e-9e7c-5bae66e12e3d",
+   "source_file": "I56-3991-000 MI-MM3E-S2",
+   "canonical_model": "MI-MM3E-S2",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "TO-49",
+     "pm_nuevo": "MI-MM3E-S2",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "3caeba69-e786-4fde-89c2-3249f44519ae",
+   "source_file": "I56-4205-001 NRX-SMT3 Web",
+   "canonical_model": "NRX-SMT3",
+   "chunks_objetivo": 19,
+   "ops": [
+    {
+     "pm_prev": "EN-54-25",
+     "pm_nuevo": "NRX-SMT3",
+     "esperado": 19,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "a84230bc-ad58-468f-b48d-2fa5d873e694",
+   "source_file": "I56-4207-001 NRXI-GATE Gateway Web",
+   "canonical_model": "NRXI-GATE",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "CASE-32",
+     "pm_nuevo": "NRXI-GATE",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "49b547a5-8225-47b5-8aee-19f188558219",
+   "source_file": "I56-4208-001 NRX-REP Repeater Web",
+   "canonical_model": "NRX-REP",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "WITH-48",
+     "pm_nuevo": "NRX-REP",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "840f8169-a44c-47c2-b195-27a2b23e6307",
+   "source_file": "I56-4209-001 NRX-WCP Call Point Web",
+   "canonical_model": "NRX-WCP",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "TO-70",
+     "pm_nuevo": "NRX-WCP",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "a6d93291-43e7-464f-b0da-8b888f5a0ab0",
+   "source_file": "I56-4225-001 NRX-OPT Web",
+   "canonical_model": "NRX-OPT",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "EN-54-25",
+     "pm_nuevo": "NRX-OPT",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d62472f8-8b3e-41fc-a93d-81f59b7d886b",
+   "source_file": "I56-4259-000 MI-Gate Gateway",
+   "canonical_model": "MI-GATE",
+   "chunks_objetivo": 13,
+   "ops": [
+    {
+     "pm_prev": "CASE-32",
+     "pm_nuevo": "MI-GATE",
+     "esperado": 13,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "c57c3b9d-5333-470c-8f72-f9e84c53f6d1",
+   "source_file": "I56-4294-002 NRX-M711 Module",
+   "canonical_model": "NRX-M711",
+   "chunks_objetivo": 15,
+   "ops": [
+    {
+     "pm_prev": "SMB-500",
+     "pm_nuevo": "NRX-M711",
+     "esperado": 15,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "b18c0760-c4fe-4512-afba-827157df3971",
+   "source_file": "I56-4405-002 M701E",
+   "canonical_model": "M701E",
+   "chunks_objetivo": 9,
+   "ops": [
+    {
+     "pm_prev": "AT-60",
+     "pm_nuevo": "M701E",
+     "esperado": 9,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d4c59e83-c811-4356-876d-b38e48dca373",
+   "source_file": "I56-4407-001 MI-DCMOE",
+   "canonical_model": "MI-DCMOE",
+   "chunks_objetivo": 7,
+   "ops": [
+    {
+     "pm_prev": "MM-82",
+     "pm_nuevo": "MI-DCMOE",
+     "esperado": 7,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "7b13e257-8a36-4baa-bdbb-753009f4c7d5",
+   "source_file": "I56-4422-000 M701E-240",
+   "canonical_model": "M701E-240",
+   "chunks_objetivo": 10,
+   "ops": [
+    {
+     "pm_prev": "OF-48V",
+     "pm_nuevo": "M701E-240",
+     "esperado": 10,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "a6a307fa-2df8-4ad8-848a-315d7c0da6bd",
+   "source_file": "I56-4428-000 MI-D240CMOE",
+   "canonical_model": "MI-D240CMOE",
+   "chunks_objetivo": 7,
+   "ops": [
+    {
+     "pm_prev": "OF-60",
+     "pm_nuevo": "MI-D240CMOE",
+     "esperado": 7,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "1ab950d2-d94e-41d2-8acc-7659308a30b3",
+   "source_file": "I56-469-05 RTS451_eng",
+   "canonical_model": "RTS451",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "RTS-451",
+     "pm_nuevo": "RTS451",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "ee4231ab-e74a-411f-b2da-b71315a93eda",
+   "source_file": "I56-5005-002_D Notifier Sounder Strobe",
+   "canonical_model": "W*A-*C-I02",
+   "chunks_objetivo": 6,
+   "ops": [
+    {
+     "pm_prev": "WRA-PC-I02/WRA-RC-I02/WWA-PC-I02/WWA-RC-I02",
+     "pm_nuevo": "W*A-*C-I02",
+     "esperado": 6,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "13ce71e2-9476-4464-b7b1-c1351bbdbf7e",
+   "source_file": "I56-6296-000_B NFXI-VIEW",
+   "canonical_model": "NFXI-VIEW",
+   "chunks_objetivo": 9,
+   "ops": [
+    {
+     "pm_prev": "TO-55",
+     "pm_nuevo": "NFXI-VIEW",
+     "esperado": 9,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "83804f9f-73b7-4509-9ffd-3ac82d84c499",
+   "source_file": "I56-699-15R 5451EIS_Eng",
+   "canonical_model": "5451EIS",
+   "chunks_objetivo": 7,
+   "ops": [
+    {
+     "pm_prev": "RP-126",
+     "pm_nuevo": "5451EIS",
+     "esperado": 7,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "f08d3e78-cece-4653-8f03-837c9be62f02",
+   "source_file": "I56-720-13R 1151EIS_Eng",
+   "canonical_model": "1151EIS",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "RP-126",
+     "pm_nuevo": "1151EIS",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "aeb3af4c-9835-4df0-b027-37d6a825d135",
+   "source_file": "Instrucciones_PUL-VSN_MULTI",
+   "canonical_model": "PA-RZ1",
+   "chunks_objetivo": 7,
+   "ops": [
+    {
+     "pm_prev": "DE-25M",
+     "pm_nuevo": "PA-RZ1",
+     "esperado": 7,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "64a64b99-8c6d-4f85-ae50-02b1f5292f5a",
+   "source_file": "Instruction Manual SGCWE100",
+   "canonical_model": "SGCWE100",
+   "chunks_objetivo": 14,
+   "ops": [
+    {
+     "pm_prev": "SGCWE-100",
+     "pm_nuevo": "SGCWE100",
+     "esperado": 14,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e2f0c96f-c1ac-4bab-9d22-95574cecb194",
+   "source_file": "Instruction Manual SGFI200-S",
+   "canonical_model": "SGFI200-S",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "SGFI200",
+     "pm_nuevo": "SGFI200-S",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "f648a252-1789-41fd-96e0-7d9143c3212e",
+   "source_file": "LocatorPlus-EN-Installation-Manual-1.0",
+   "canonical_model": "LocatorPlus-EN",
+   "chunks_objetivo": 19,
+   "ops": [
+    {
+     "pm_prev": "UNIT-15",
+     "pm_nuevo": "LocatorPlus-EN",
+     "esperado": 19,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+   "source_file": "LocatorPlus-Installation-Manual-1.3",
+   "canonical_model": "Signaline LocatorPlus",
+   "chunks_objetivo": 16,
+   "ops": [
+    {
+     "pm_prev": "LocatorPlus",
+     "pm_nuevo": "Signaline LocatorPlus",
+     "esperado": 16,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "293b7ca0-da28-4f8e-b2f9-58bc6fc3ebb7",
+   "source_file": "MADT190_02",
+   "canonical_model": "ISO-RS232",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "ID3000",
+     "pm_nuevo": "ISO-RS232",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "36ffe9bc-31b8-42e9-abbc-226631108cc4",
+   "source_file": "MADT190_05",
+   "canonical_model": "NGU",
+   "chunks_objetivo": 17,
+   "ops": [
+    {
+     "pm_prev": "ID3000",
+     "pm_nuevo": "NGU",
+     "esperado": 17,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "217117c0-5b56-4225-9734-e600e5c4d8c7",
+   "source_file": "MADT212",
+   "canonical_model": "124-065-XXX",
+   "chunks_objetivo": 6,
+   "ops": [
+    {
+     "pm_prev": "ID1000",
+     "pm_nuevo": "124-065-XXX",
+     "esperado": 6,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "a84773c1-7570-4022-a723-0da2e9e460d6",
+   "source_file": "MADT230_01",
+   "canonical_model": "AFP4000",
+   "chunks_objetivo": 5,
+   "ops": [
+    {
+     "pm_prev": "AFP-4000",
+     "pm_nuevo": "AFP4000",
+     "esperado": 5,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "1c430ba4-0d25-4c75-8eee-01797abc8ccc",
+   "source_file": "MADT231",
+   "canonical_model": "AFP4000",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "AFP-400",
+     "pm_nuevo": "AFP4000",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "78d436eb-e371-4be1-9b50-11b76da6425e",
+   "source_file": "MADT232",
+   "canonical_model": "AFP4000",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "AFP-400",
+     "pm_nuevo": "AFP4000",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "17ce3219-99a4-4ec9-9233-0fba9544bac3",
+   "source_file": "MADT233",
+   "canonical_model": "AFP4000",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "AFP-4000",
+     "pm_nuevo": "AFP4000",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "aafa668c-f724-442f-ab27-d9abfbf84c7a",
+   "source_file": "MADT235",
+   "canonical_model": "AFP4000",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "ART1194",
+     "pm_nuevo": "AFP4000",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "ae01f36c-750e-4765-a31b-84109aa20fdc",
+   "source_file": "MIDT1041",
+   "canonical_model": "DH500ACDC-E",
+   "chunks_objetivo": 23,
+   "ops": [
+    {
+     "pm_prev": "PA400",
+     "pm_nuevo": "DH500ACDC-E",
+     "esperado": 23,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d7d5adb9-a30b-4ecf-8bef-c7aba4855a9b",
+   "source_file": "MIDT734",
+   "canonical_model": "MINILASER 100",
+   "chunks_objetivo": 65,
+   "ops": [
+    {
+     "pm_prev": "MINILÁSER100",
+     "pm_nuevo": "MINILASER 100",
+     "esperado": 65,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "27b8f6ec-a6d0-473b-8973-372a2dfcc06d",
+   "source_file": "MIE-MU-215",
+   "canonical_model": "FIRECONTROL",
+   "chunks_objetivo": 8,
+   "ops": [
+    {
+     "pm_prev": "ZXCE",
+     "pm_nuevo": "FIRECONTROL",
+     "esperado": 8,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e43724ba-6bd4-46c7-982f-02b9c2a765e1",
+   "source_file": "MIW-INT-Asignar-de-direccion-pasarela-detectores-y-Modulos-Via-radio-Morley",
+   "canonical_model": "MIW-INT",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "MENOS-32",
+     "pm_nuevo": "MIW-INT",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "f204e658-e7ca-4f2c-a80a-3e95d58e31ea",
+   "source_file": "MIW-INT-Averia-de-TAMPER",
+   "canonical_model": "MIW-INT",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "EQUIPO-20",
+     "pm_nuevo": "MIW-INT",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "1ba3dc05-484b-4cc1-b7f0-3ce395ec80be",
+   "source_file": "MIW-INT-Averias-baterias-pilas-via-radio-Morley",
+   "canonical_model": "MIW-INT",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "CR-123A",
+     "pm_nuevo": "MIW-INT",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "fd5cf489-d608-4e12-ba2c-ebc7d30721ca",
+   "source_file": "MIW-INT-Cuantos-expansores-puedo-conectar-al-Interface-pasarela",
+   "canonical_model": "MIW-INT",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "TO-3200M",
+     "pm_nuevo": "MIW-INT",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "fc05552b-2425-4c51-a7dd-c21651a7e9d2",
+   "source_file": "MIW-INT-La-central-DXC-indica-corto-tras-instalar-el-Interface",
+   "canonical_model": "MIW-INT",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "DXc",
+     "pm_nuevo": "MIW-INT",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "cca256d4-457a-4fa3-9d67-fb6919a85766",
+   "source_file": "MN-DT-958I_iBox-MBS-NID3000",
+   "canonical_model": "IBOX-MBS-NID3000",
+   "chunks_objetivo": 39,
+   "ops": [
+    {
+     "pm_prev": "iBox Modbus Server",
+     "pm_nuevo": "IBOX-MBS-NID3000",
+     "esperado": 39,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "fefc815f-128f-4d05-9d3c-29d73f935dd3",
+   "source_file": "MNDT101",
+   "canonical_model": "RP1002E",
+   "chunks_objetivo": 47,
+   "ops": [
+    {
+     "pm_prev": "RP-1002E",
+     "pm_nuevo": "RP1002E",
+     "esperado": 47,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d44a69c9-940e-48fe-b104-d5267c23f741",
+   "source_file": "MNDT512",
+   "canonical_model": "SENTOX-4",
+   "chunks_objetivo": 12,
+   "ops": [
+    {
+     "pm_prev": "MNDT-512",
+     "pm_nuevo": "SENTOX-4",
+     "esperado": 12,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "95b262df-63e0-410b-90fa-9434ce01e051",
+   "source_file": "MNDT513_SENTOX-IDI",
+   "canonical_model": "SENTOX IDI+",
+   "chunks_objetivo": 49,
+   "ops": [
+    {
+     "pm_prev": "SENTOX IDI",
+     "pm_nuevo": "SENTOX IDI+",
+     "esperado": 49,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "2942d1e2-3841-4064-a59e-9c2313931dd7",
+   "source_file": "MNDT958",
+   "canonical_model": "IBOX-MBS-NID3000",
+   "chunks_objetivo": 40,
+   "ops": [
+    {
+     "pm_prev": "IBOX MODBUS SERVER",
+     "pm_nuevo": "IBOX-MBS-NID3000",
+     "esperado": 40,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "be1b6b42-721f-442f-a453-477a5e4dc795",
+   "source_file": "MNDT960I_iBox-BACnet",
+   "canonical_model": "IBOX-BAC-NID3000",
+   "chunks_objetivo": 85,
+   "ops": [
+    {
+     "pm_prev": "IBOX BACNET",
+     "pm_nuevo": "IBOX-BAC-NID3000",
+     "esperado": 85,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "c0b61450-07ab-418b-ac27-02351e4f0206",
+   "source_file": "Manual NFG-8_PT",
+   "canonical_model": "NFG-8",
+   "chunks_objetivo": 4,
+   "ops": [
+    {
+     "pm_prev": "DE-16",
+     "pm_nuevo": "NFG-8",
+     "esperado": 4,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "e9adf2b8-b5e0-4dfd-9582-76bd679142a7",
+   "source_file": "Manual de usuario Issue 0165-02 v2 MI 546 es 2022 FIREBEAM BLUE",
+   "canonical_model": "Firebeam Blue",
+   "chunks_objetivo": 28,
+   "ops": [
+    {
+     "pm_prev": "theFirebeam BLUE",
+     "pm_nuevo": "Firebeam Blue",
+     "esperado": 28,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "6e9bbb8e-cac7-4aaa-9d29-747499b45636",
+   "source_file": "Manual-de-Usuario-MS3RS485_V1",
+   "canonical_model": "MS3-RS485",
+   "chunks_objetivo": 3,
+   "ops": [
+    {
+     "pm_prev": "RS-485",
+     "pm_nuevo": "MS3-RS485",
+     "esperado": 3,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "690e40c9-a582-4b02-a8df-60c229831e8b",
+   "source_file": "NFXI-RM6_DS_EN_I56-3977-001_2013_Multi",
+   "canonical_model": "NFXI-RM6",
+   "chunks_objetivo": 9,
+   "ops": [
+    {
+     "pm_prev": "FROM-01",
+     "pm_nuevo": "NFXI-RM6",
+     "esperado": 9,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+   "source_file": "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1",
+   "canonical_model": "ONE 500",
+   "chunks_objetivo": 69,
+   "ops": [
+    {
+     "pm_prev": "ONE/ONE-LOOP",
+     "pm_nuevo": "ONE 500",
+     "esperado": 69,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "d07cfed0-c5a4-4e07-a807-e5f725992d06",
+   "source_file": "Puesta-en-marcha-repetidor-ZXrA-en-central-CONNEXION",
+   "canonical_model": "ZXR50A",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "ZXrA",
+     "pm_nuevo": "ZXR50A",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+   "source_file": "TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es",
+   "canonical_model": "ART 535-10",
+   "chunks_objetivo": 20,
+   "ops": [
+    {
+     "pm_prev": "ART 535-x",
+     "pm_nuevo": "ART 535-10",
+     "esperado": 20,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "dcc4eb7c-cfec-4c5c-a861-7081ce626f93",
+   "source_file": "TFL2S01-MU Manual de usuario TFL-2 Rev.1",
+   "canonical_model": "TFL-2",
+   "chunks_objetivo": 2,
+   "ops": [
+    {
+     "pm_prev": "PARA-400R",
+     "pm_nuevo": "TFL-2",
+     "esperado": 2,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "a7fd8fd5-2180-47ce-a5f6-868f853920de",
+   "source_file": "TIDT105",
+   "canonical_model": "777163",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "TIDT-105",
+     "pm_nuevo": "777163",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "c0b1e530-f0ee-4060-8f0a-1ad39b2d5dfe",
+   "source_file": "UCIP-Borrar-configuracion-completa",
+   "canonical_model": "UCIP-GPRS",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "UCIP",
+     "pm_nuevo": "UCIP-GPRS",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "2096e504-08a9-4977-9ab0-12c6c8a20475",
+   "source_file": "UCIP-Como-conectar-con-TG",
+   "canonical_model": "UCIP",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "ID-3000",
+     "pm_nuevo": "UCIP",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "4777ad8f-c33a-4e53-8a94-4912dc89b630",
+   "source_file": "UCIP-Conectar-con-equipo-via-Serie",
+   "canonical_model": "UCIP-GPRS",
+   "chunks_objetivo": 1,
+   "ops": [
+    {
+     "pm_prev": "ID-3000",
+     "pm_nuevo": "UCIP-GPRS",
+     "esperado": 1,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "1791d18f-313f-4482-9e64-df7352e76e25",
+   "source_file": "VSN4-PLUS_ITA",
+   "canonical_model": "VSN 4 PLUS",
+   "chunks_objetivo": 3,
+   "ops": [
+    {
+     "pm_prev": "VSN-232",
+     "pm_nuevo": "VSN 4 PLUS",
+     "esperado": 3,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  },
+  {
+   "document_id": "6ff80de4-54ca-4f2e-9e09-bd10225ae25f",
+   "source_file": "Z728_installation manual",
+   "canonical_model": "Z728.H",
+   "chunks_objetivo": 3,
+   "ops": [
+    {
+     "pm_prev": "Z728",
+     "pm_nuevo": "Z728.H",
+     "esperado": 3,
+     "afectadas": null
+    }
+   ],
+   "findability_post_ok": null
+  }
+ ]
+}
