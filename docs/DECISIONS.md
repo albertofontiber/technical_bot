@@ -4958,6 +4958,49 @@ que cayó) · `scripts/s304_identidad_propagacion.py` v2 · `evals/adversarial_r
 
 ## DEC-186 (s305) — El techo de la clase «elemento vecino» NO es del modelo; y de paso, el generador no se podía cambiar de modelo (#64, resuelto)
 
+> ⚠️ **EN REVISIÓN desde s320c (12-ago-2026) — NO citar la cifra ni la conclusión de esta entrada.**
+> La cifra que sostiene todo lo de abajo («0/3 firmes los tres, máx 2/5») **nunca salió del juez**:
+> `s305_techo_modelo_ab.py` sumaba sobre las CLAVES del dict que devuelve `judge_conveyed21` ⇒
+> constante 2 en las 9 reps de los 3 brazos; `oracle_firme` era 0 por construcción y las ramas
+> «MONTAJE NO COMPARABLE» y «EL TECHO ERA DEL MODELO» eran inalcanzables (TECH_DEBT #75).
+> Re-juzgadas con el juez canónico las respuestas que el recibo sí guardó
+> (`evals/s320c_rejudge_s305_stored_v1.json` — dos pasadas dieron los mismos 9 votos, pero **solo
+> una está versionada**: la otra corrió en scratchpad, así que la reproducibilidad citable es de
+> UN recibo): **sonnet-4-6 2/3 firmes ·
+> sonnet-5 0/3 · opus-5 2/3**, correlación 9/9 con la aparición literal del valor.
+> **Qué cae**: «TECHO CONFIRMADO» y el «NO hay lever de modelo». **Qué lo sustituye**: no «el techo
+> era del modelo», sino **INCONCLUYENTE por montaje** — con el control alcanzable, la rama que
+> corresponde es «el control SÍ transmite, contradiciendo el 0/5 de DEC-173: explica la divergencia
+> antes de leer nada». Y con n=3 por brazo el eje modelo nunca tuvo potencia (p≈4/9 ⇒ P(0 de 3)=0,17).
+> **Qué NO cae**: DEC-173 (recibo s293 válido: lectura por clave, respuestas sin truncar, «295»
+> ausente en las 3) ni el colateral #64/PR #215 (código real anclado por `tests/test_s305_compat_modelo.py`).
+> **También es falso el párrafo «Motivo»** de abajo: las 9 respuestas NO «hacen lo mismo» — 4 de 9
+> citan el rango verbatim; nadie las leyó.
+> **Re-medición fresca CERRADA** (`evals/s320c_techo_modelo_ab_v2.json`, 5 reps/brazo, 0 votos de
+> juez fallidos, respuestas sin truncar): **los TRES brazos ALCANZABLES** — sonnet-4-6 **1/5**
+> firmes · sonnet-5 **1/5** · **opus-5 4/5**, max 5/5 los tres ⇒ el script dispara su guarda
+> **MONTAJE NO COMPARABLE**. Deja cuatro cosas: (a) el hecho **es alcanzable hoy**, luego el «NO
+> alcanzable» de DEC-173 no describe el sistema actual y su corolario «la pair-completion que s292
+> iba a diseñar NO pagaría» queda **CONTESTADO**; (b) **este hecho, bajo estas configuraciones,
+> transmite de forma MIXTA** (6/15 firmes con evidencia perfecta) — lo cual NO reclasifica la clase
+> «elemento vecino» entera: es una sonda de UN hecho, los 15 son 3 generadores distintos y no 15
+> réplicas de una población, y la otra instancia (CAD-171) **no se ha re-medido** (corrección del
+> dúo s320c a mi «la clase real es transmisión INESTABLE»); (c) `base` = 0/5 en 14 de 15 ⇒ **la
+> inyección del carrier aporta un delta claro**, lo que NO localiza el hueco en serving: base y
+> oráculo son **generaciones independientes** y el recibo v2 no guardaba la composición servida por
+> rep; además 9/15 oráculos fallan **teniendo la evidencia ideal delante**; (d) opus-5 4/5 frente a
+> 2/10 **apunta** a un eje de modelo pero **no lo establece**, y conviene darlo como **rango de
+> sensibilidad**: p=0,089 con las 15 reps · **p=0,061 con las 12 limpias** (C 4/4 vs A+B 2/8) ·
+> C vs A p=0,206. En ninguna lectura se establece. (Fable estimó ≈0,03 para el caso limpio;
+> recalculado da 0,061 — regla C.)
+> **Caveat declarado**: 3 de las 15 reps corrieron con canal degradado (2 fail-open de hyq-table,
+> 1 de enunciados por `ReadError`) y **las 3 dieron 0/5** — incluida la única no-firme de opus-5.
+> Correlación sugerente, no establecida (n=3, atribuida por orden de stdout). La corrida NO es un
+> freeze-contract limpio.
+> **Pendiente**: reescritura de esta entrada CON DÚO (y revisar si DEC-173/DEC-175 siguen cerrando
+> etapa 3 sobre una premisa que hoy no se sostiene). Hasta entonces, el ítem 2 del packet B2 no se
+> adjudica.
+
 **Decisión**: la clase `hp011#2`/CAD-171 queda cerrada TAMBIÉN por el eje modelo: con el
 oráculo de DEC-173 reusado tal cual (misma evidencia inyectada, mismo juez K=5, 3 reps,
 única variable = generador), **Sonnet 4.6, Sonnet 5 y Opus 5 dan 0/3 firmes (máx 2/5) los

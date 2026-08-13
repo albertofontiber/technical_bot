@@ -3417,3 +3417,45 @@ trazas, 133 candidates propuestos en draft, 4 de revisión humana, y los 620
 candidates históricos pre-clasificados 620/620 contra contenido (359 confirmar
 / 261 revisar). Suite 3.833 verde. E2-E4 esperan; la sentada de Alberto decide
 los packets.
+
+
+## s320c (12-13 ago 2026) — el recibo que nunca leyó al juez, y una sentada que se salvó por dos vueltas de tuerca
+
+Alberto preguntaba, antes de sentarse a adjudicar el packet B2, qué le recomendaba para
+el ítem 2 (`hp011#2`, el alcance de `t.A`). Verificar la evidencia de ese ítem destapó
+que la cifra que lo sostenía —el «0/3 firmes, máx 2/5» de s305— **nunca salió del juez**:
+`s305_techo_modelo_ab.py` consumía `judge_conveyed21` con `sum(1 for v in <dict> if v)`,
+que itera las CLAVES del dict y por tanto vale **siempre 2**. De ahí que el recibo tuviera
+`base_yes = oracle_yes = 2` en las 9 reps de los 3 brazos, que `oracle_firme` fuera 0 por
+construcción, y que el script solo pudiera imprimir «TECHO CONFIRMADO». DEC-186 se
+construyó sobre eso. La clase, que es lo que lo hace deuda (#75): un juez que devuelve un
+dict y un llamador que lo consume sin extraer la clave produce un número **plausible y
+estable** — la peor forma de fallo, porque se lee como consistencia.
+
+El dato de gobernanza duele más que el bug: el control adversarial **sí disparó** el 8-ago
+—Sol emitió un crítico anclado en el recibo, con el patrón exacto— y se absorbió como
+«matiz del umbral del juez». La cadena verificaba *prosa contra recibo*; faltaba el eslabón
+*recibo contra instrumento*.
+
+Re-juzgadas las respuestas guardadas con el juez canónico: correlación 9/9 entre «firme» y
+la aparición literal del valor. Re-medición fresca (5 reps × 3 brazos, sellos nuevos): los
+**tres brazos alcanzables**, opus-5 4/5 frente a 2/10 — que apunta a un eje de modelo sin
+establecerlo (p=0,089 con las 15 reps, 0,061 con las 12 limpias). El script dispara su
+propia guarda de «montaje no comparable». DEC-173 no cae: lo que hay es tensión empírica
+entre dos composiciones con el mismo modelo de control.
+
+Lo que la sesión enseñó de método fue más caro que el bug. Al retirar el ítem 2 argumenté
+«el gold es legítimo porque el bot SÍ transmite el hecho» — el **mismo pecado en sentido
+contrario**, decidir el alcance de un gold por el comportamiento de un modelo. Lo cazó Sol.
+Después, una auditoría de los 8 ítems vivos devolvió «7 de 8 no marcables», y resultó que
+el sesgo lo había puesto yo en el encargo («encuentra por qué NO marcar»): un pase de
+falsación con el prior contrario tumbó 5 de las 7 acusaciones. Y al firmar 7
+recomendaciones, el dúo tumbó por circularidad la mitad-de-alcance de tres —justificadas
+con el scorer, con el serving y con el marcador— y el ancla de génesis de una cuarta.
+
+Lo que sí funcionó fue **gastar lecturas de fuente en vez del criterio de Alberto**: cinco
+consultas al corpus (AM-8200 p7, 15088SP p70, 50253SP p89, variaciones p5-6, CAD150R p19,
+MI-716 p26/34/35) convirtieron cuatro preguntas abiertas en recomendaciones ancladas, y
+confirmaron que la quinta —el ISO-X ante un fallo de tierra— tiene la fuente partida y es
+genuinamente de Alberto. El packet quedó cerrado con tres columnas separadas por ítem: qué
+escribe la marca, qué dice la fuente, qué decide él.

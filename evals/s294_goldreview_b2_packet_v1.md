@@ -210,7 +210,14 @@ donde el bot contestó con `r.i` en vez de `t.A`). Detalle completo en
 
 ---
 
-## 10 · `hp011#2` — rango vs default del parámetro `t.A` · **NUEVO (s305, medido con 3 modelos)**
+## 10 · `hp011#2` — rango vs default del parámetro `t.A` · ⛔ **EVIDENCIA RETIRADA (s320c) — NO ADJUDICAR**
+
+> ⛔ **s320c (12-ago-2026)**: todo lo que sigue se apoya en una cifra que **nunca salió del juez**
+> (el script de s305 sumaba sobre las CLAVES del dict ⇒ constante 2; TECH_DEBT #75). En particular,
+> «no es un fallo de un modelo · los tres coinciden en describir el DEFAULT» es **falso en 4 de las
+> 9 respuestas** del propio recibo, que citan el rango verbatim. Este packet es **v1**: el vigente
+> es `evals/s312_goldreview_b2_packet_v3.md`, donde el ítem está fusionado y marcado NO ADJUDICAR.
+> Se conserva como registro.
 
 **Pregunta:** «El sistema no vuelve a estado normal tras resetear después de una extinción»
 (RP1r-Supra).

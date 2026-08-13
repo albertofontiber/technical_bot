@@ -296,16 +296,22 @@ CONVO_MAINTENANCE = _strict_on_off("CONVO_MAINTENANCE")
 # modelo (temperature rechazada; ThinkingBlock en content[0]) están resueltos y
 # testeados desde s305 (#64). OJO al declarar resultados: las cifras históricas de
 # eval son con sonnet-4-6 — tras un swap, la primera medición exige re-baseline
-# declarado (DEC-186: en la clase medida el modelo NO mueve el techo; el swap compra
-# lo NO medido). El RERANKER no se toca (RERANK_MODEL propio, freeze de una variable).
+# declarado. ~~(DEC-186: en la clase medida el modelo NO mueve el techo; el swap compra
+# lo NO medido)~~ **RETIRADO s320c**: esa conclusión salía de un recibo que nunca leyó al
+# juez (TECH_DEBT #75). La re-medición fresca da los TRES brazos alcanzables y opus-5 4/5
+# frente a 2/10 — no establece el eje modelo (p=0,089-0,061), pero **desde luego no
+# sostiene lo contrario**: el swap podría comprar también lo YA medido. No cites DEC-186
+# aquí hasta que se reescriba. El RERANKER no se toca (RERANK_MODEL propio, freeze de una
+# variable).
 LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-4-6")
 # (dúo s308, crítico CONVERGENTE — ambos lados): LLM_MODEL también pineaba el REWRITER
 # multi-turn, que NO tiene los fixes del #64 (manda `temperature` siempre y lee
 # `content[0].text`) → con Opus 5 en Railway, el 100% del slice anafórico habría dado
 # 400 y degradado a carry_forward EN SILENCIO. Variable PROPIA con default pineado al
 # modelo histórico: el swap del generador mueve UN componente («una sola variable»,
-# la disciplina de DEC-186). El rewriter solo se cambia deliberadamente, y portándole
-# los fixes de compatibilidad primero.
+# la disciplina del freeze-contract, DEC-023/DEC-001 — antes se citaba aquí DEC-186, que
+# está EN REVISIÓN). El rewriter solo se cambia deliberadamente, y portándole los fixes
+# de compatibilidad primero.
 REWRITER_MODEL = os.getenv("REWRITER_MODEL", "claude-sonnet-4-6")
 # s99: tope de tokens de SALIDA del generador. s319 graduación EN PAREJA con
 # RERANK_TOP_K=10 (r18): el default es el valor RECIBIDO (DEC-092b: «0 truncado

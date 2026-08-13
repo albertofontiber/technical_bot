@@ -1,0 +1,128 @@
+{
+  "probe": "s320c_rejudge_s305_stored_v1",
+  "ts": "2026-08-12T20:22:38.138164+00:00",
+  "git_sha": "1c03da1b7c76de344687c7a181389798dcf03755",
+  "que_mide": "re-juicio de las 9 `oracle_answer` guardadas por s305 con el juez canónico; el recibo original nunca leyó al juez (sumaba sobre las CLAVES del dict ⇒ constante 2)",
+  "limitaciones": "respuestas truncadas a 1.500 chars en el recibo original ⇒ LOWER BOUND (un «transmite» es sólido; un «no transmite» puede ser el corte); sin brazo base; mide la corrida del 7-ago, no el estado de hoy",
+  "fuente": "evals/s305_techo_modelo_ab_v1.json",
+  "fact": "hp011#2:05 a 295 seg",
+  "valor": "05 a 295 seg",
+  "texto": "Parametro t.A \"Duracion de la descarga\" (soak time): variable de 05 a 295 seg; \"--\"=circuito activado hasta el rearme de la central (POR DEFECTO)",
+  "juez": {
+    "model": "gpt-5.5",
+    "K": 5,
+    "THRESH_FIRM": 4
+  },
+  "correlacion_firme_vs_valor_literal": "9/9",
+  "n_fail_total": 0,
+  "brazos": {
+    "A_control_prod": {
+      "modelo": "claude-sonnet-4-6",
+      "n": 3,
+      "oracle_firme": 2,
+      "max_oracle": 5,
+      "alcanzable_lower_bound": true,
+      "reps": [
+        {
+          "rep": 0,
+          "yes": 5,
+          "n_fail": 0,
+          "firme": true,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": true
+        },
+        {
+          "rep": 1,
+          "yes": 5,
+          "n_fail": 0,
+          "firme": true,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": true
+        },
+        {
+          "rep": 2,
+          "yes": 0,
+          "n_fail": 0,
+          "firme": false,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": false
+        }
+      ]
+    },
+    "B_sonnet_5": {
+      "modelo": "claude-sonnet-5",
+      "n": 3,
+      "oracle_firme": 0,
+      "max_oracle": 0,
+      "alcanzable_lower_bound": false,
+      "reps": [
+        {
+          "rep": 0,
+          "yes": 0,
+          "n_fail": 0,
+          "firme": false,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": false
+        },
+        {
+          "rep": 1,
+          "yes": 0,
+          "n_fail": 0,
+          "firme": false,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": false
+        },
+        {
+          "rep": 2,
+          "yes": 0,
+          "n_fail": 0,
+          "firme": false,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": false
+        }
+      ]
+    },
+    "C_opus_5": {
+      "modelo": "claude-opus-5",
+      "n": 3,
+      "oracle_firme": 2,
+      "max_oracle": 5,
+      "alcanzable_lower_bound": true,
+      "reps": [
+        {
+          "rep": 0,
+          "yes": 0,
+          "n_fail": 0,
+          "firme": false,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": false
+        },
+        {
+          "rep": 1,
+          "yes": 5,
+          "n_fail": 0,
+          "firme": true,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": true
+        },
+        {
+          "rep": 2,
+          "yes": 5,
+          "n_fail": 0,
+          "firme": true,
+          "yes_del_recibo_roto": 2,
+          "len_guardada": 1500,
+          "contiene_295": true
+        }
+      ]
+    }
+  }
+}

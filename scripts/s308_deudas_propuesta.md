@@ -9,8 +9,13 @@ Tres GOs explícitos de Alberto: (1) **#65** backfill one-shot de `documents.pro
 desde los chunks CURADOS (stale post-H0: `MADT235` = `AFP4000` allí, `ART1194` en chunks
 curados; casi entra como fuente del inventario en s307); (2) **#67** alias curados de
 marca (`lda`→`LDA audioTech`, `argus`→`Argus Security`); (3) `LLM_MODEL` por entorno para
-el swap a **Opus 5** (GO de Alberto CON DEC-186 en mano: la clase medida no mejora — el
-swap compra lo NO medido; primera eval post-swap exigirá re-baseline, declarado).
+el swap a **Opus 5** (~~GO de Alberto CON DEC-186 en mano: la clase medida no mejora — el
+swap compra lo NO medido~~; primera eval post-swap exigirá re-baseline, declarado).
+⛔ **s320c**: la premisa tachada se apoyaba en DEC-186, cuya cifra **nunca salió del juez**
+(TECH_DEBT #75). El GO del swap NO se re-litiga —ya está desplegado y su justificación
+operativa no dependía de esto—, pero **el argumento «la clase medida no mejora» queda
+retirado**: la re-medición fresca da opus-5 4/5 frente a 2/10, sin establecer el eje
+(p=0,089-0,061). Si alguien re-usa esta propuesta como precedente, que use el número real.
 **Métrica**: ningún lever de eval; serving byte-idéntico sin variables nuevas; la
 migración solo toca los **591 inequívocos** (dimensionado vivo: 0 ambiguos, 413
 coinciden, 165 sin chunks curados intactos).

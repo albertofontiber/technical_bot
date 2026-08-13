@@ -2674,3 +2674,105 @@ validador actual con su propio nombre de esquema en la mano.
 bump explícito de token + validadores por versión (o un campo `schema_rev` entero).
 Hacerlo HOY sería aparato sin consumidor (pregunta cero). **Coste**: S cuando exista
 el consumidor. **Relacionado**: DEC-204, s306/s315 (el precedente), DEC-094.
+
+## #75 — Consumir el retorno de un juez sin extraer su clave: el instrumento «mide» una CONSTANTE (s320c)
+
+**El hecho (verificado, no inferido)**: `judge_conveyed21` devuelve `{"yes": int, "n_fail": int}`
+(`scripts/factlevel_assessment.py:497-502`). `scripts/s305_techo_modelo_ab.py` lo consumía con
+`sum(1 for v in judge_conveyed21(...) if v)`: iterar un dict recorre sus CLAVES —dos strings no
+vacías, ambas truthy— ⇒ **la suma valía siempre 2**, sin mirar al juez. Por eso
+`evals/s305_techo_modelo_ab_v1.json` tiene `base_yes = oracle_yes = 2` en las **9 reps de los 3
+brazos**; `oracle_firme` (≥ `THRESH_FIRM`=4) salía 0 por construcción y el flujo caía **SIEMPRE** en la rama
+«TECHO CONFIRMADO»: con `oracle_yes` clavado en 2, las ramas «MONTAJE NO COMPARABLE» y «EL TECHO
+ERA DEL MODELO» eran **inalcanzables por construcción**. (Precisión del dúo: la guarda de brazos
+abortados SÍ podía dispararse — no depende del juez.) **DEC-186 se apoyó en esa cifra.**
+`scripts/s293_reachability_probe.py:183` usa el MISMO juez bien (`votes["yes"]`) — el fallo era de
+un único llamador, no del juez.
+
+**Lo que la cifra real dice**: re-juzgadas con el juez canónico las respuestas que el recibo sí
+guardó (`evals/s320c_rejudge_s305_stored_v1.json`; dos pasadas dieron los 9 votos idénticos, pero
+**solo una está versionada** — la otra corrió en scratchpad, así que la reproducibilidad citable es
+de UN recibo): sonnet-4-6 **2/3 firmes**, sonnet-5 0/3, opus-5 **2/3**, y correlación **9/9** entre
+«firme» y la aparición literal del valor ⇒ el juez discrimina limpio (no hay «fragilidad del juez»
+que afilar). **Qué cae exactamente, con precisión**: cae «TECHO CONFIRMADO» — pero lo que lo
+sustituye NO es «el techo era del modelo», sino la OTRA rama del propio script: con el brazo de
+CONTROL alcanzable, dispara «MONTAJE NO COMPARABLE — el control SÍ transmite, contradiciendo el
+0/5 de DEC-173; explica la divergencia antes de leer nada más». El resultado corregido es
+**INCONCLUYENTE por montaje**, no un lever de modelo. **DEC-173 NO cae**: su recibo (s293) es
+medición válida —lectura por clave, respuestas SIN truncar, «295» ausente en las 3— así que lo que
+hay es **tensión empírica** entre dos composiciones (2-ago vs 7-ago) con el MISMO modelo de
+control, no una refutación. Declarado: el re-juicio es LOWER BOUND (respuestas truncadas a 1.500
+chars) sobre la corrida del 7-ago, no una medición de hoy. **Y el eje modelo nunca tuvo potencia**:
+con p≈4/9, P(0 de 3)=0,17 — n=3 por brazo no separa modelos ni con el juez arreglado, así que el
+0/3 del brazo sonnet-5 no autoriza ninguna lectura de modelo.
+
+**La CLASE, que es lo que hace esto deuda y no una anécdota**: los jueces del instrumento
+devuelven DICTS de veredicto (`judge_conveyed21`, `judge_conveyed_dual`, `judge_fact`…) y nada
+obliga al llamador a extraer la clave. Consumirlos con `sum`/`len`/`for … in`/desempaquetado
+produce un número **plausible y estable** — la peor forma de fallo posible, porque **se lee como
+consistencia**. Este caso sobrevivió a: el smoke de su propio autor, una decisión med/alto en
+`DECISIONS.md`, la fila del `LEVER_DIGEST` que el hook inyecta en CADA sesión, y una revisión con
+dúo (Fable + Sol) que verificó la prosa contra el recibo pero nunca el recibo contra el juez.
+
+**El dato de gobernanza que más duele (verificado, s320c)**: el control adversarial **SÍ disparó**
+y aun así no cazó la causa. Sol (GPT-5.6 xhigh) emitió el 8-ago un CRÍTICO de confianza alta
+anclado en el propio recibo — «Sonnet 4.6 menciona `05 a 295` en 2/3 respuestas y Opus 5 en 2/3»,
+exactamente el patrón que hoy tumba el veredicto (`evals/adversarial_reviews/2026-08-08T17-02-25_
+gpt-5.6-sol_87f2f8c020e9.md:1`). Pero atribuyó la discrepancia al **umbral del juez sobre un hecho
+compuesto**, y el aviso se absorbió como «matiz del ítem 10 del packet». La pregunta que nadie
+hizo —«¿y si el número no viene del juez?»— es la que faltaba. **Lección de procedimiento**: la
+cadena de revisión verificaba *prosa contra recibo*; falta el eslabón *recibo contra instrumento*.
+
+**Radio de la clase, MEDIDO (negativo verificado, no silencio)**: barrido de los 20 llamadores
+restantes de los tres jueces-dict (`judge_conveyed21`, `judge_conveyed_dual`, `judge_support_dual`)
+⇒ **todos consumen por clave**. Corroboración empírica independiente: detector de campo-constante
+sobre los **886 JSON del nivel superior de `evals/`** (~1.200 valores de juez) ⇒ `s305_..._v1.json`
+es el **ÚNICO** fichero con un campo de juez invariante. Control positivo que descarta «el juez
+está roto»: los recibos hermanos de s293 con el mismo juez recorren 0..5 y separan base de oráculo
+(cat017 base 0/0/0 vs oracle 5/5/5). **Sin barrer**: los 209 JSON en subdirectorios de `evals/`
+(`archive/`, `adversarial_reviews/`, `calibration_v2/`…).
+
+**Defecto de freeze-contract descubierto de paso**: el `git_sha` que el recibo estampa
+(`006e379…`) **no contiene** `scripts/s305_techo_modelo_ab.py` — el script estaba untracked al
+correr y entró después (`bc3435f`). El sha estampado no identifica el código que corrió. Un recibo
+debería sellar el estado del script que lo produjo, no el del HEAD.
+
+**Aplicado ya (s320c)**: lectura por clave · `n_fail` persistido por rep · respuestas ENTERAS en
+el recibo (la v1 truncaba a 1.500 chars, lo que estuvo a punto de impedir el forense) · volcado
+parcial tras cada brazo · **validación del CONTRATO del juez** (`_leer_votos`: si el retorno no es
+un dict con `yes` entero en 0..K, ABORTA en vez de inferir una cifra — este es el control
+primario, y el que hace imposible repetir el fallo) · **umbral proporcional a los votos válidos**
+(un `yes` bajo con votos perdidos ya no cuenta como «no»: la rep se invalida) · **sello de salud
+por turno** (captura los `fail-open` del canal, que antes solo existían en el orden del stdout) ·
+sellos de reproducibilidad en el recibo (sha del script + freeze-contract, porque `git_sha` no
+basta: el de la v1 ni siquiera contenía el script) · y un **olfato secundario de aguja atascada**
+que AVISA —no aborta— y **excluye el caso `(0,0)` uniforme**, que es un techo REAL y el resultado
+más esperable de esta sonda. *(Mi primera versión de ese detector abortaba también en `(0,0)`:
+reintroducía la clase que corregía, dejando inalcanzable la rama «TECHO CONFIRMADO» en su caso más
+probable. Lo cazó el dúo s320c antes de mergear.)*
+
+**Re-medición fresca CERRADA (s320c, `evals/s320c_techo_modelo_ab_v2.json`, 5 reps/brazo, 0 votos
+de juez fallidos, respuestas sin truncar)**: los **tres brazos ALCANZABLES** — sonnet-4-6 1/5
+firmes · sonnet-5 1/5 · **opus-5 4/5**, max 5/5 los tres. El script dispara su propia guarda:
+**MONTAJE NO COMPARABLE**. Lecturas: (a) el hecho **sí es alcanzable hoy**, luego el «NO
+alcanzable» de DEC-173 no describe el sistema actual; (b) **este hecho, bajo estas
+configuraciones, transmite de forma MIXTA** — 6/15 firmes con la evidencia perfecta delante. Eso
+NO reclasifica la clase «elemento vecino»: es una sonda de UN hecho, los 15 son 3 generadores
+distintos (no 15 réplicas de una población) y CAD-171 no se ha re-medido *(corrección del dúo a mi
+«la clase real es transmisión INESTABLE»)*; (c) `base` = 0/5 en 14 de 15 ⇒ **la inyección aporta un
+delta claro**, lo que NO localiza el hueco en serving: base y oráculo son **generaciones
+independientes**, el recibo v2 no guardaba composición servida por rep, y 9/15 oráculos fallan
+**con la evidencia ideal delante**; (d) opus-5 4/5 frente a 2/10 **apunta** a un eje de modelo sin
+establecerlo, y va como **rango de sensibilidad**: p=0,089 con las 15 · **p=0,061 con las 12
+limpias** (C 4/4 vs A+B 2/8) · C vs A p=0,206.
+**Caveat de freeze-contract declarado**: 3 de las 15 reps corrieron con canal degradado (2
+fail-open de hyq-table en el brazo B, 1 de enunciados en el C por `ReadError` 10054) y **las 3
+dieron 0/5**, incluida la única no-firme de opus-5 — correlación sugerente, no establecida (n=3),
+y atribuida por el orden del stdout. La corrida NO es un freeze-contract limpio.
+
+**Fix pendiente · trigger: la próxima vez que se toque el instrumento**. Que el juez exponga el
+entero directamente (accesor `…_yes()` o un objeto de veredicto), de modo que ningún llamador
+futuro pueda consumir el dict mal. Toca a TODOS los llamadores ⇒ medio impacto en zona de dolor
+⇒ **dúo obligatorio**; por eso NO se acopló a la medición de s320c. **Coste**: S.
+**Relacionado**: DEC-173, DEC-186 (EN REVISIÓN), fila etapa-3 de `docs/LEVER_DIGEST.md`, ítem 2
+de `evals/s312_goldreview_b2_packet_v3.md`.

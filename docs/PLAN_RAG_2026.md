@@ -163,10 +163,12 @@ responde con el **elemento vecino**. **Dos instancias, una de uso real, el mismo
 abrió el canal.** ⇒ la población que DEC-175 quería fabricar con una cohorte **empieza a entrar
 sola**; la prioridad pasa de construir instrumento a **dejar entrar señal**.
 
-**Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 9 ítems + 1 NUEVO de s305**
-(hp011#2: los 3 modelos —Opus 5 incluido— responden el DEFAULT del parámetro, no el RANGO
-que pide el gold ⇒ adjudicar si el alcance del gold es el correcto), packet listo con
-recomendación por fila y 2 discrepancias declaradas (`evals/s294_goldreview_b2_packet_v1.md`);
+**Qué sigue (nada bloqueado):** (1) **sentada B2 de gold-review — 8 ítems adjudicables**; el packet
+vigente es **`evals/s312_goldreview_b2_packet_v3.md`** (el v1 y su ítem 10 quedan como registro).
+⚠️ **El ítem 2 (`hp011#2`) NO se adjudica**: su evidencia de s305 quedó retirada en s320c — el
+instrumento no medía (TECH_DEBT #75), así que «los 3 modelos responden el DEFAULT y no el RANGO»
+es **falso en 4 de las 9 respuestas** del propio recibo. Vuelve a la sentada solo si la re-medición
+fresca lo justifica;
 (2) ~~lista de adquisición: 44 documentos + la Guía Avanzada de la CAD-171~~ **CORREGIDO
 (s302, DEC-184): eran 7-8, no 44 — y la Guía de la CAD-171 YA LA TENEMOS.** El packet
 adjudicado (`evals/s302_adquisicion_packet_v1.md`) desmonta 37 de los 44 candidatos: 18 ya
@@ -236,13 +238,30 @@ es ALCANZABILIDAD (la granularidad de familia es deliberada); y la identidad SÍ
 el seam 2 doc_map-aware + `series_registry` — que para ESTE caso declara la serie Vesta
 desde s63/DEC-043. Instrumento v2 corregido: residual 4,1%/55 ids, casi todos `unresolved:`
 (candidatos que el catálogo declara no consumir). **No hay lever ahí.** DEC-185.
-· **s305 — el techo NO es del MODELO**: oráculo de DEC-173 reusado tal cual (misma
-evidencia inyectada, juez K=5, 3 reps), única variable el generador → Sonnet 4.6 / Sonnet 5
-/ **Opus 5** = 0/3 firmes los tres (máx 2/5; 9 respuestas con hash distinto — sin caché;
-testigo del modelo REALMENTE enviado en verde). Los 3 modelos responden el DEFAULT del
-parámetro en vez del RANGO que pide el gold ⇒ apunta a **alcance de GOLD** → ítem para la
-sentada B2. Control 2/5 (no el 0/5 de agosto: corpus tocado — declarado, ambos bajo
-umbral). DEC-186 · `evals/s305_techo_modelo_ab_v1.json`.
+· ⚠️ **s305 — «el techo NO es del MODELO»: EN REVISIÓN desde s320c (12-ago), NO citar como
+settled.** Lo publicado (Sonnet 4.6 / Sonnet 5 / Opus 5 = 0/3 firmes los tres, máx 2/5) **no
+procede del juez**: el script sumaba sobre las CLAVES del dict que devuelve `judge_conveyed21`
+⇒ constante 2 en las 9 reps de los 3 brazos, `oracle_firme` 0 por construcción, veredicto
+infalsable — ni la guarda del control podía dispararse (TECH_DEBT #75). Re-juzgadas con el juez
+canónico las respuestas que el recibo sí guardó: **sonnet-4-6 2/3 firmes · opus-5 2/3**,
+correlación 9/9 entre «firme» y la aparición literal del valor ⇒ **cae «TECHO CONFIRMADO»**, y por
+la lógica del propio script (control alcanzable) lo que queda es **«MONTAJE NO COMPARABLE» /
+INCONCLUYENTE**, NO «el techo era del modelo» — con n=3 por brazo el eje modelo nunca tuvo
+potencia (p≈4/9 ⇒ P(0 de 3)=0,17). **DEC-173 NO cae**: su recibo (s293) es medición válida y lo
+que hay es tensión empírica 2-ago vs 7-ago con el mismo control (lower bound: respuestas truncadas
+a 1.500 chars, corrida del 7-ago).
+**Re-medición fresca CERRADA** (`evals/s320c_techo_modelo_ab_v2.json`, 5 reps/brazo, 0 votos de
+juez fallidos): **los TRES brazos ALCANZABLES** — sonnet-4-6 **1/5** firmes · sonnet-5 **1/5** ·
+**opus-5 4/5**, max 5/5 los tres ⇒ el script dispara **MONTAJE NO COMPARABLE**. Lo que deja: (a)
+el hecho **sí es alcanzable hoy** ⇒ el «NO alcanzable» de DEC-173 no describe el sistema actual y
+su corolario «la pair-completion NO pagaría» queda **contestado**; (b) la clase real es
+**transmisión INESTABLE** (6/15 firmes con evidencia perfecta), no «techo»; (c) `base`=0/5 en 14
+de 15 ⇒ el hueco es de **serving**; (d) opus-5 4/5 vs 2/10 apunta a eje de modelo **sin
+establecerlo** (Fisher agrupado p=0,089 — el diseño nunca tuvo potencia). Caveat: 3 de 15 reps con
+canal degradado (fail-open) y las 3 dieron 0/5 ⇒ no es freeze-contract limpio. Hasta el dúo: la
+clase «elemento vecino» NO está cerrada por el eje modelo y el ítem 2 del packet B2 no se
+adjudica. Recibos: `evals/s320c_rejudge_s305_stored_v1.json` · el roto
+`evals/s305_techo_modelo_ab_v1.json` se conserva como prueba. DEC-186 pendiente de reescritura.
 · **TECH_DEBT #64 RESUELTO** (PR #215): el generador ya puede cambiar de modelo
 (`temperature` aprendida en runtime ante rechazo + bloque de texto por tipo con
 equivalencia histórica exacta — mi 1ª versión rompió 29 tests por ser más estricta que el
