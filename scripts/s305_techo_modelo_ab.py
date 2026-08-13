@@ -42,10 +42,15 @@ Uso:  python scripts/s305_techo_modelo_ab.py [reps]     (default 3, como DEC-173
 """
 from __future__ import annotations
 
+import contextlib
+import hashlib
+import io
 import json
+import math
 import os
 import subprocess
 import sys
+import textwrap
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.getcwd())
@@ -93,7 +98,23 @@ def _volcar(hecho: str, valor: str, texto: str, reps: int,
                                              capture_output=True).stdout.decode().strip(),
                    "qid": QID, "fact": hecho, "valor": valor, "texto": texto,
                    "inject": INJECT, "reps_por_brazo": reps,
-                   "THRESH_FIRM": FA.THRESH_FIRM, "juez": "judge_conveyed21 K=5",
+                   "THRESH_FIRM": FA.THRESH_FIRM,
+                   "juez": {"model": FA.JUDGE_MODEL, "K": FA.K},
+                   # SELLOS DE REPRODUCIBILIDAD (dúo s320c/Sol): `git_sha` NO basta —el recibo v1
+                   # estampaba un sha que ni siquiera contenía este script, que corría untracked.
+                   # Sin la huella del código y del freeze-contract, «el sistema de hoy» no es
+                   # una afirmación auditable.
+                   "sha256_script": hashlib.sha256(
+                       open(__file__, "rb").read()).hexdigest()[:16],
+                   "freeze": {"CHUNKS_TABLE": FA.CHUNKS_TABLE,
+                              "RETRIEVAL_TOP_K": FA.RETRIEVAL_TOP_K,
+                              "RERANK_TOP_K": FA.RERANK_TOP_K,
+                              "RERANKER_BACKEND": FA.RERANKER_BACKEND,
+                              "LLM_MAX_TOKENS": FA.LLM_MAX_TOKENS,
+                              "MERGE_STRATEGY": FA.MERGE_STRATEGY,
+                              "GENERATOR_PROMPT_VARIANT":
+                                  os.getenv("GENERATOR_PROMPT_VARIANT"),
+                              "INSTRUMENT_VERSION": FA.INSTRUMENT_VERSION},
                    "resumen": resumen, "brazos": resultados}, fh,
                   ensure_ascii=False, indent=2)
 
@@ -152,6 +173,54 @@ def _parchear_cliente():
     return lambda: setattr(anthropic.resources.messages.Messages, "create", original)
 
 
+def _leer_votos(votos, etiqueta: str) -> tuple[int, int]:
+    """Lee el veredicto del juez VALIDANDO SU CONTRATO. Esta es la anti-regresión real del #75.
+
+    La v1 no falló por una línea descuidada: falló por **leer una estructura sin comprobar que
+    fuera la que creía**. `sum()` sobre un dict no lanza — devuelve basura plausible. Aquí, si el
+    juez cambia de forma o de rango, el instrumento ABORTA en vez de emitir un número inventado.
+    (El detector de invarianza de más abajo es solo un olfato secundario; el control es ESTE.)"""
+    if not isinstance(votos, dict) or "yes" not in votos or "n_fail" not in votos:
+        raise RuntimeError(
+            f"{etiqueta}: el juez devolvió {type(votos).__name__} {str(votos)[:120]!r} — se "
+            f"esperaba un dict con 'yes' y 'n_fail'. NO se infiere ninguna cifra de esto.")
+    si, fallos = votos["yes"], votos["n_fail"]
+    if not isinstance(si, int) or not isinstance(fallos, int) or not 0 <= si <= FA.K:
+        raise RuntimeError(
+            f"{etiqueta}: veredicto fuera de contrato (yes={si!r}, n_fail={fallos!r}, K={FA.K}).")
+    return si, fallos
+
+
+def _turno_con_testigo(question: str, inject_rows: list[dict]) -> tuple[dict, list[str]]:
+    """Turno con SELLO DE SALUD: captura los avisos de degradación del canal (fail-open).
+
+    Nace del dúo s320c (Fable): la corrida de 15 reps tuvo 3 con canal degradado —y las 3 dieron
+    0/5— pero el confound solo constaba en el ORDEN DEL STDOUT, no en el recibo. Un recibo que no
+    sella la salud del turno no es auditable, por muy limpio que salga el número."""
+    buffer = io.StringIO()
+    with contextlib.redirect_stdout(buffer):
+        salida = PROBE.run_turn(question, inject_rows)
+    ruido = buffer.getvalue()
+    avisos = [ln.strip() for ln in ruido.splitlines()
+              if "fail-open" in ln.lower() or "degrad" in ln.lower()]
+    if ruido.strip():                      # no se traga la traza: se re-emite indentada
+        print(textwrap.indent(ruido.rstrip(), "      "), flush=True)
+    return salida, avisos
+
+
+def _es_firme(fila: dict) -> bool | None:
+    """True/False/None, donde **None = NO INTERPRETABLE**.
+
+    Dúo s320c (Sol): con votos perdidos, un `yes` bajo NO es un «no» — el umbral se hace
+    PROPORCIONAL a los votos válidos (la misma regla C2 que ya usa `judge_conveyed_dual`), y si no
+    queda ningún voto válido la rep se INVALIDA en vez de contarse como fallo. Convertir ausencia
+    de dato en un cero es exactamente la familia de errores que abrió esta sesión."""
+    validos = FA.K - fila["oracle_n_fail"]
+    if validos <= 0:
+        return None
+    return fila["oracle_yes"] >= math.ceil(FA.THRESH_FIRM * validos / FA.K)
+
+
 def _medir(modelo: str, question: str, valor: str, texto: str,
            inject_rows: list[dict], reps: int) -> list[dict]:
     """Un brazo completo. El modelo se conmuta EN `generator`, no en `config`:
@@ -164,25 +233,31 @@ def _medir(modelo: str, question: str, valor: str, texto: str,
     try:
         salida = []
         for i in range(reps):
-            base = PROBE.run_turn(question, [])
-            oraculo = PROBE.run_turn(question, inject_rows)
-            base_votos = FA.judge_conveyed21(valor, texto, base["answer"])
-            oraculo_votos = FA.judge_conveyed21(valor, texto, oraculo["answer"])
-            # `judge_conveyed21` devuelve {"yes": int, "n_fail": int} — se LEE POR CLAVE.
-            # (v1 sumaba sobre el dict ⇒ constante 2; ver la nota del docstring.)
+            base, avisos_base = _turno_con_testigo(question, [])
+            oraculo, avisos_oraculo = _turno_con_testigo(question, inject_rows)
+            # `judge_conveyed21` devuelve {"yes": int, "n_fail": int} — se lee POR CLAVE y
+            # VALIDANDO el contrato (v1 sumaba sobre el dict ⇒ constante 2; docstring del módulo).
+            base_yes, base_nf = _leer_votos(
+                FA.judge_conveyed21(valor, texto, base["answer"]), f"rep{i}/base")
+            oraculo_yes, oraculo_nf = _leer_votos(
+                FA.judge_conveyed21(valor, texto, oraculo["answer"]), f"rep{i}/oráculo")
             fila = {"rep": i,
-                    "base_yes": base_votos["yes"],
-                    "oracle_yes": oraculo_votos["yes"],
-                    "base_n_fail": base_votos["n_fail"],
-                    "oracle_n_fail": oraculo_votos["n_fail"],
+                    "base_yes": base_yes, "oracle_yes": oraculo_yes,
+                    "base_n_fail": base_nf, "oracle_n_fail": oraculo_nf,
+                    "oracle_votos_validos": FA.K - oraculo_nf,
+                    # SELLO DE SALUD del turno (dúo s320c): sin esto, el confound de una corrida
+                    # degradada solo vive en el orden del stdout y muere con la consola.
+                    "canal_degradado": bool(avisos_base or avisos_oraculo),
+                    "avisos_canal": {"base": avisos_base, "oracle": avisos_oraculo},
                     # ENTERAS, no truncadas: el truncado a 1.500 de la v1 dejó el recibo
                     # inservible para re-juzgar (el dato podía caer más allá del corte).
                     "base_answer": base["answer"],
                     "oracle_answer": oraculo["answer"]}
             salida.append(fila)
-            fallos = fila["base_n_fail"] + fila["oracle_n_fail"]
-            print(f"    rep {i}: base={fila['base_yes']}/5 · oráculo={fila['oracle_yes']}/5"
-                  + (f"  ⚠️ {fallos} votos fallidos" if fallos else ""),
+            fallos = base_nf + oraculo_nf
+            print(f"    rep {i}: base={base_yes}/{FA.K} · oráculo={oraculo_yes}/{FA.K}"
+                  + (f"  ⚠️ {fallos} votos fallidos" if fallos else "")
+                  + ("  ⚠️ CANAL DEGRADADO" if fila["canal_degradado"] else ""),
                   flush=True)
         enviados = set(_MODELOS_ENVIADOS)
         # El testigo manda sobre la intención: si el proveedor no recibió ESTE modelo, el
@@ -243,14 +318,26 @@ def main() -> int:
     resumen = {}
     for nombre, datos in resultados.items():
         rs = datos.get("reps") or []
-        oraculo_firme = sum(1 for r in rs if r["oracle_yes"] >= firme)
+        estados = [_es_firme(r) for r in rs]
+        oraculo_firme = sum(1 for e in estados if e is True)
+        n_invalidas = sum(1 for e in estados if e is None)
+        n_degradadas = sum(1 for r in rs if r.get("canal_degradado"))
         maximo = max((r["oracle_yes"] for r in rs), default=0)
+        # Reps LIMPIAS = ni votos perdidos ni canal degradado. Se estampan aparte para que el
+        # confound sea legible sin recalcularlo (dúo s320c): con 3 de 15 degradadas y las 3 en
+        # 0/5, la lectura del brazo cambia según se incluyan o no.
+        limpias = [r for r, e in zip(rs, estados) if e is not None and not r.get("canal_degradado")]
+        firme_limpias = sum(1 for r in limpias if _es_firme(r))
         resumen[nombre] = {"modelo": datos["modelo"], "n": len(rs),
                            "oracle_firme": oraculo_firme, "max_oracle": maximo,
+                           "n_reps_invalidas": n_invalidas, "n_reps_degradadas": n_degradadas,
+                           "n_reps_limpias": len(limpias), "oracle_firme_limpias": firme_limpias,
                            "alcanzable": oraculo_firme > 0}
         estado = "ALCANZABLE" if oraculo_firme else "no alcanzable"
         print(f"  {nombre:16s} {datos['modelo']:20s} oráculo firme {oraculo_firme}/{len(rs)}"
-              f" · max {maximo}/5 → {estado}"
+              f" · max {maximo}/{FA.K} → {estado}"
+              + (f"  · solo reps limpias: {firme_limpias}/{len(limpias)}"
+                 if n_degradadas or n_invalidas else "")
               + (f"  [{datos['error'][:60]}]" if datos.get("error") else ""))
 
     # ── DETECTOR DE AGUJA ATASCADA (nace del bug de la v1, s320c) ──────────────────────────
@@ -262,17 +349,22 @@ def main() -> int:
     n_obs = sum(len(d.get("reps") or []) for d in resultados.values())
     fallos = sum(r.get("base_n_fail", 0) + r.get("oracle_n_fail", 0)
                  for d in resultados.values() for r in (d.get("reps") or []))
-    atascada = n_obs >= 4 and len(parejas) == 1
+    # DOS excepciones que el dúo s320c cazó en mi primera versión de este detector:
+    # (a) `(0,0)` uniforme es un TECHO REAL — el resultado más esperable de esta sonda, y el que
+    #     DEC-173 documentó (0/5 en 3/3). Bloquearlo reintroducía justo la clase que corregía:
+    #     dejaba inalcanzable la rama «TECHO CONFIRMADO» en su caso más probable.
+    # (b) por eso AVISA y sigue, en vez de abortar. Un instrumento que se niega a emitir el
+    #     resultado legítimo más probable es peor que el bug que intentaba cazar.
+    # El control PRIMARIO no es este olfato: es `_leer_votos`, que valida el contrato del juez.
+    sospechosa = n_obs >= 4 and len(parejas) == 1 and parejas != {(0, 0)}
     if fallos:
-        print(f"\n⚠️  {fallos} votos del juez FALLIDOS: un 0 puede ser API caída, no un «no».")
-    if atascada:
-        print(f"\n=> INSTRUMENTO SOSPECHOSO: las {n_obs} observaciones de los "
-              f"{len(resultados)} brazos dan la MISMA pareja {parejas.pop()}. Con modelos "
-              "distintos y brazos base/oráculo distintos, eso no es consistencia: es una "
-              "aguja atascada. NO leas el veredicto — audita el instrumento primero.")
-        _volcar(hecho["key"], valor, texto, reps, resumen, resultados, parcial=False)
-        print(f"\nrecibo: {DESTINO}")
-        return 1
+        print(f"\n⚠️  {fallos} votos del juez FALLIDOS: un `yes` bajo con votos perdidos NO es "
+              "un «no» — esas reps van con umbral proporcional, o invalidadas.")
+    if sospechosa:
+        print(f"\n⚠️  OLFATO DE AGUJA ATASCADA: las {n_obs} observaciones de los "
+              f"{len(resultados)} brazos dan la MISMA pareja {next(iter(parejas))}, y no es "
+              "(0,0). Con modelos distintos y brazos base/oráculo distintos eso no es "
+              "consistencia. Audita el instrumento ANTES de citar este veredicto.")
 
     control = resumen.get("A_control_prod", {})
     fuertes = [v for k, v in resumen.items() if k != "A_control_prod"]

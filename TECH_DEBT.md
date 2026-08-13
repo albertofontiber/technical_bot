@@ -2690,8 +2690,9 @@ abortados SÍ podía dispararse — no depende del juez.) **DEC-186 se apoyó en
 un único llamador, no del juez.
 
 **Lo que la cifra real dice**: re-juzgadas con el juez canónico las respuestas que el recibo sí
-guardó (`evals/s320c_rejudge_s305_stored_v1.json`; **dos corridas independientes con los 9 votos
-idénticos**): sonnet-4-6 **2/3 firmes**, sonnet-5 0/3, opus-5 **2/3**, y correlación **9/9** entre
+guardó (`evals/s320c_rejudge_s305_stored_v1.json`; dos pasadas dieron los 9 votos idénticos, pero
+**solo una está versionada** — la otra corrió en scratchpad, así que la reproducibilidad citable es
+de UN recibo): sonnet-4-6 **2/3 firmes**, sonnet-5 0/3, opus-5 **2/3**, y correlación **9/9** entre
 «firme» y la aparición literal del valor ⇒ el juez discrimina limpio (no hay «fragilidad del juez»
 que afilar). **Qué cae exactamente, con precisión**: cae «TECHO CONFIRMADO» — pero lo que lo
 sustituye NO es «el techo era del modelo», sino la OTRA rama del propio script: con el brazo de
@@ -2738,18 +2739,32 @@ debería sellar el estado del script que lo produjo, no el del HEAD.
 
 **Aplicado ya (s320c)**: lectura por clave · `n_fail` persistido por rep · respuestas ENTERAS en
 el recibo (la v1 truncaba a 1.500 chars, lo que estuvo a punto de impedir el forense) · volcado
-parcial tras cada brazo · y **detector de aguja atascada**: si todas las observaciones de todos
-los brazos dan la misma pareja de cifras, el script se niega a emitir veredicto y sale con
-código 1.
+parcial tras cada brazo · **validación del CONTRATO del juez** (`_leer_votos`: si el retorno no es
+un dict con `yes` entero en 0..K, ABORTA en vez de inferir una cifra — este es el control
+primario, y el que hace imposible repetir el fallo) · **umbral proporcional a los votos válidos**
+(un `yes` bajo con votos perdidos ya no cuenta como «no»: la rep se invalida) · **sello de salud
+por turno** (captura los `fail-open` del canal, que antes solo existían en el orden del stdout) ·
+sellos de reproducibilidad en el recibo (sha del script + freeze-contract, porque `git_sha` no
+basta: el de la v1 ni siquiera contenía el script) · y un **olfato secundario de aguja atascada**
+que AVISA —no aborta— y **excluye el caso `(0,0)` uniforme**, que es un techo REAL y el resultado
+más esperable de esta sonda. *(Mi primera versión de ese detector abortaba también en `(0,0)`:
+reintroducía la clase que corregía, dejando inalcanzable la rama «TECHO CONFIRMADO» en su caso más
+probable. Lo cazó el dúo s320c antes de mergear.)*
 
 **Re-medición fresca CERRADA (s320c, `evals/s320c_techo_modelo_ab_v2.json`, 5 reps/brazo, 0 votos
 de juez fallidos, respuestas sin truncar)**: los **tres brazos ALCANZABLES** — sonnet-4-6 1/5
 firmes · sonnet-5 1/5 · **opus-5 4/5**, max 5/5 los tres. El script dispara su propia guarda:
 **MONTAJE NO COMPARABLE**. Lecturas: (a) el hecho **sí es alcanzable hoy**, luego el «NO
-alcanzable» de DEC-173 no describe el sistema actual; (b) la transmisión es **INESTABLE** — 6/15
-firmes con la evidencia perfecta delante; (c) `base` = 0/5 en 14 de 15 ⇒ la inyección sí aporta:
-el hueco es de **serving**, no de generación; (d) opus-5 4/5 frente a 2/10 de los otros dos
-**apunta** a un eje de modelo pero **no lo establece** (Fisher agrupado p=0,089; C vs A p=0,206).
+alcanzable» de DEC-173 no describe el sistema actual; (b) **este hecho, bajo estas
+configuraciones, transmite de forma MIXTA** — 6/15 firmes con la evidencia perfecta delante. Eso
+NO reclasifica la clase «elemento vecino»: es una sonda de UN hecho, los 15 son 3 generadores
+distintos (no 15 réplicas de una población) y CAD-171 no se ha re-medido *(corrección del dúo a mi
+«la clase real es transmisión INESTABLE»)*; (c) `base` = 0/5 en 14 de 15 ⇒ **la inyección aporta un
+delta claro**, lo que NO localiza el hueco en serving: base y oráculo son **generaciones
+independientes**, el recibo v2 no guardaba composición servida por rep, y 9/15 oráculos fallan
+**con la evidencia ideal delante**; (d) opus-5 4/5 frente a 2/10 **apunta** a un eje de modelo sin
+establecerlo, y va como **rango de sensibilidad**: p=0,089 con las 15 · **p=0,061 con las 12
+limpias** (C 4/4 vs A+B 2/8) · C vs A p=0,206.
 **Caveat de freeze-contract declarado**: 3 de las 15 reps corrieron con canal degradado (2
 fail-open de hyq-table en el brazo B, 1 de enunciados en el C por `ReadError` 10054) y **las 3
 dieron 0/5**, incluida la única no-firme de opus-5 — correlación sugerente, no establecida (n=3),
