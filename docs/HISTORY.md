@@ -3459,3 +3459,15 @@ MI-716 p26/34/35) convirtieron cuatro preguntas abiertas en recomendaciones ancl
 confirmaron que la quinta —el ISO-X ante un fallo de tierra— tiene la fuente partida y es
 genuinamente de Alberto. El packet quedó cerrado con tres columnas separadas por ítem: qué
 escribe la marca, qué dice la fuente, qué decide él.
+
+## s320d (13-ago-2026) — E2: el snapshot del detector deja de nacer de un SQL suelto, y el gate de equivalencia demostró por qué existe
+
+La apuesta estructural del doble catálogo se ejecutó con el freno puesto donde
+debía: el generador nuevo deriva del catálogo gobernado con la puerta
+adjudicada del resolver, y el gate de equivalencia paró el build tres veces —
+el derivado pleno era una expansión del detector disfrazada (1.235 altas), las
+formas duplicadas del vivo se re-ordenaban cambiando qué servía el match, y
+una «baja real» (VESDA-E-VEP) resultó estar sostenida por una query gold. El
+v1 que queda es honesto: mecanismo gobernado con PASS total byte-idéntico en
+conducta, y TODOS los cambios de datos (altas, bajas, gaps) en un packet
+adjudicable por lotes. Dúo r23 pre-build completo (Sol 4 · Fable 3, 0 FP).

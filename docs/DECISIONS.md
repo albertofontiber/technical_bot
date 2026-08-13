@@ -6259,3 +6259,36 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   fino; tier B/C no se escriben sin sentada.
 - **Relacionado**: plan v2 (dúo r20) · DEC-074/084/091b/148-150 · tallies r21
   ts=2026-08-12T21:27:29 · r22 ts=2026-08-12T21:36:00.
+
+## DEC-213 (s320d) — E2 del elefante: la DERIVACIÓN del snapshot del detector se GOBIERNA; el gate de equivalencia pagó tres veces en el build; el swap de DATOS queda adjudicable
+
+- **Fecha**: 13 ago 2026 (s320d, autónomo). **Impacto**: MEDIO (apuesta ESTRUCTURAL
+  declarada no-eval-driven — DEC-093/094: identidad ⊥ cuello; valor = una fuente para
+  escala-30+). Dúo r23 PRE-build (Sol 4 · Fable 3, 0 FP, todo aplicado).
+- **Qué hay**: `scripts/s320_e2_snapshot_derivado.py` — generador v2 del
+  `model_catalog.json` DESDE el catálogo gobernado vía `_resolvable_terms()` (la puerta
+  adjudicada del resolver, jamás una re-implementación) ∩ atestación ACTIVA (documento
+  activo con chunks servibles; las 49 colisiones E1 excluidas) + cinturón anti-ruido +
+  modo `--conservador` · `scripts/s320_e2_gates.py` — G1 detector sobre las 39 queries
+  gold (STOP en pérdida REAL por normkey; forma aparte) + G2 voz EXHAUSTIVO (lista
+  ordenada — Whisper trunca — + mapa mfr + prompt byte + known_manufacturers).
+- **EL GATE PAGÓ 3 VECES EN EL BUILD** (para esto se pre-registró):
+  (1) el derivado PLENO = 1.235 altas / 301 bajas — NO es equivalencia (el brazo A
+  descartado colándose por el B); (2) el conservador v1 re-ordenaba FORMAS duplicadas
+  del vivo (ID3000/ID-3000) y el detector cambiaba de forma servida; (3) el v2 tenía
+  a `VESDA-E-VEP` como baja «real» — y una query GOLD lo necesita (los pm re-tagueados
+  desde julio rompen la atestación exacta) → **CERO bajas automáticas**.
+- **Resultado v1 (PASS TOTAL)**: candidato conservador CONDUCTA-IDÉNTICO (G1 0/0 ·
+  G2 lista/prompt byte-iguales; la lista de modelos es la viva EXACTA) — el ship de E2
+  v1 es el MECANISMO (generador gobernado + gates + recibos de diff); TODO cambio de
+  datos viaja en el packet: §1 backlog de 1.235 altas del gobernado por lotes · §2 las
+  23 bajas candidatas UNA A UNA (VESDA-E-VEP marcada ⚠️ GOLD) · §3 gaps del catálogo
+  (feedback a E1). `build_model_catalog.py` (SQL suelto) queda para retiro cuando el
+  swap se adjudique.
+- **Gaps declarados**: el swap del fichero vivo NO se hace aquí (el candidato es
+  byte-equivalente en conducta: hacerlo sería ceremonial hasta que haya altas
+  adjudicadas); famtie/assessment-smoke del freeze quedan como gate del PRIMER swap
+  con datos; la atestación exacta por normkey es estricta (VESDA lo probó) — la
+  variante-de-familia va como mejora adjudicable, no automática.
+- **Relacionado**: plan v2 elefante · DEC-093/094 · DEC-212 (E1) · tally r23
+  ts=2026-08-13T21:56:44.
