@@ -91,7 +91,9 @@ medidas (DEC-206/207, PRs #240/#241): retrieval 19,0→2,6 s (−86%) con parida
     ids; acumulado desde el perfil v1: 19,0→2,6 s (−86%).** Residual fase 3 (upserts
     en writes de scripts) solo con señal de dolor.
 
-**Qué sigue (s321, E3 cerrado)**: (a) SENTADA de Alberto — packet E3 (§0 15-en-bloque + §1 32) + packet E2 (1.235 altas/23 bajas) + packets E1/E1b + LLM_MAX_TOKENS + vars Railway; (b) E4 (clarify gobernado sustituye FAMILY_REGISTRY) en curso nocturno; (c) FULL fresco tras la sentada; (d) #76 categoría+atributos (mandato 13-ago) tras E4.
+**Qué sigue (s321b — EL ELEFANTE COMPLETO)**: (a) SENTADA ÚNICA de Alberto — packets E3 (§0 15-en-bloque + §1 32) + E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway; (b) FULL fresco v3.2 tras la sentada; (c) #76 categoría+atributos (mandato 13-ago, diseño con dúo — consume el esquema clarify de E4); (d) leer traza intent/latencia cuando haya tráfico.
+
+**Qué sigue (s321, E3 cerrado — histórico)**: (a) SENTADA de Alberto — packet E3 (§0 15-en-bloque + §1 32) + packet E2 (1.235 altas/23 bajas) + packets E1/E1b + LLM_MAX_TOKENS + vars Railway; (b) E4 (clarify gobernado sustituye FAMILY_REGISTRY) en curso nocturno; (c) FULL fresco tras la sentada; (d) #76 categoría+atributos (mandato 13-ago) tras E4.
 
 **Qué sigue (s320b, E1 cerrado — histórico)**: (a) SENTADA ÚNICA ampliada — packet E1 (`evals/s320_e1_packet_adjudicacion_v1.md`: 49 colisiones-integridad + 67 tier B + 133 candidates draft + 4 revisión) + E1b (359 confirmar/261 revisar) + los packets previos (s318 + LLM_MAX_TOKENS + vars Railway); (b) FULL fresco tras la sentada; (c) E2 CERRADO v1 (DEC-213: mecanismo gobernado + packet `s320_e2_packet_adjudicacion_v1.md`); E2-swap con datos tras adjudicación · estructural, gates de equivalencia) · E3 re-tag F3a · E4 clarify sustituye FAMILY_REGISTRY — cada una con su dúo.
 

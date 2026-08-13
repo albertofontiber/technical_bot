@@ -6324,3 +6324,32 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Relacionado**: DEC-212/213 · contrato §F3 · tallies r24
   ts=2026-08-13T23:49:46 · r25 ts=2026-08-14T00:12:43 · TECH_DEBT #76 (alta
   esta noche: categoría+atributos, mandato Alberto).
+
+## DEC-215 (s321) — E4 EJECUTADO: el clarify-por-divergencia lee el CATÁLOGO gobernado; el seed FAMILY_REGISTRY retirado (dúo r26) — EL ELEFANTE (DEC-074/091b) QUEDA COMPLETO
+
+- **Fecha**: 14 ago 2026 (s321 nocturno). **Impacto**: MEDIO (ruta E del clarify de
+  la política F1) — dúo r26 (Sol 3 · Fable 4, 0 FP, TODO aplicado).
+- **Qué hay**: campo `clarify` OPCIONAL y ADJUDICABLE en umbrellas
+  (`{eje_terminos[], provenance}` — la puerta VETA declarar `variantes`: se DERIVAN
+  de los canonical_model de los miembros, prefijo/sufijo común fuera → «1/2/5») ·
+  migración de ZXe/ZXSe con provenance SEPARADA por componente (membresía s78/s90
+  intacta · eje = GT s78-80 + seed s281, adjudicación formal del léxico PENDIENTE
+  declarada) · consumo vía la instancia ÚNICA del proceso
+  (`catalog_resolver.catalogo_cargado`, r26: sin segunda caché) · fail-open
+  DECLARADO como divergencia con el seed (catálogo roto → sin clarify + warning) ·
+  fallback hardcoded «1/2/5/10» RETIRADO (tercera copia) · `FAMILY_REGISTRY`/
+  `_FamilySpec` eliminados.
+- **Gates**: tests de TEXTO EXACTO del clarify pre/post (Sol M2: el gate MT solo
+  assertaba no-vacío) + eje positivo/negativo + guard hp009/DEC-082 (divergent:true
+  sin eje JAMÁS clarifica) + derivación de variantes + fail-open → 8/8 · suite
+  completa 3.841/46 · catálogo validate 0 errores.
+- **Añadir una familia nueva** = una fila de catálogo con provenance (antes: un PR
+  de código). La costura para #76 queda puesta: `eje_terminos` es vocabulario de
+  consulta; los atributos TIPADOS (categoría/tecnología/lazos) son #76.
+- **EL ELEFANTE COMPLETO**: E0 censo (DEC-211-era) · E1 datos+packets (DEC-212) ·
+  E2 derivación gobernada (DEC-213) · E3 re-tag 579 chunks (DEC-214) · E4 clarify
+  gobernado (esta). El workstream DEC-074/091b de 4-7 sesiones se ejecutó en su
+  RESTANTE real en ~3 (s320-s321); los residuos son PACKETS de datos adjudicables,
+  no ingeniería.
+- **Relacionado**: DEC-069 (la promesa del comentario) · DEC-074/082/084/091b ·
+  tally r26 ts=2026-08-14T00:43:11.

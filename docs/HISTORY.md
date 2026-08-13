@@ -3487,3 +3487,17 @@ mapa. Tres bugs de instrumento cazados por el camino (criterio circular vía
 snapshot, patrón imatch asimétrico, temperature deprecada). TECH_DEBT #76
 anotada por mandato: categoría+atributos de producto (el caso Detnov/Kidde).
 E4 arranca a continuación.
+
+## s321b (14-ago-2026, madrugada) — E4 cierra el elefante: el clarify lee el catálogo y la promesa de DEC-069 queda cumplida
+
+El último tramo nocturno retiró el seed FAMILY_REGISTRY cumpliendo la promesa
+que su propio comentario llevaba semanas haciendo: el clarify-por-divergencia
+lee ahora el campo `clarify` adjudicable de las umbrellas, con las variantes
+DERIVADAS de los miembros (el dúo r26 vetó re-declararlas y mató de paso el
+fallback hardcoded, tercera copia del mismo dato), la provenance separada por
+componente tras cazar Sol mi «datos T3» falso, y una sola instancia de
+catálogo por proceso. Tests de texto-exacto donde el gate MT solo pedía
+no-vacío; guard hp009 assertado; suite 3.841. Con E4, el elefante DEC-074/091b
+está COMPLETO: lo que era «4-7 sesiones» aparcadas resultó ser ~3 de restante
+real una vez el censo separó lo ya-ejecutado — y todos los residuos son
+packets de datos esperando la sentada, no ingeniería pendiente.

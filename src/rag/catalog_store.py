@@ -10,7 +10,9 @@ Fuente REPO-FIRST (D1): `data/catalog/*.jsonl`, un objeto por línea:
                     estado: activo|retirado|redirect, redirect_to?, candidate?, provenance, added_by}
   aliases.jsonl    {alias, id, tipo, provenance, added_by}
   umbrellas.jsonl  {termino, ids[], tipo: familia|serie|rango, divergent: true|false|unknown,
-                    candidate, provenance, added_by}
+                    candidate, provenance, added_by,
+                    clarify?: {eje_terminos[], provenance}}   # s321 E4: spec adjudicable del
+                    # clarify-por-divergencia (variantes NUNCA declaradas: se derivan de ids)
   homonyms.jsonl   {termino, ids[], politica: clarify|prefer:<id>|fail-open, candidate,
                     provenance, added_by}
   relations.jsonl  {origen, destino, tipo: variant-of|rebrand-of|shared-doc|supersedes, provenance}
@@ -315,6 +317,26 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
             errors.append(f"umbrellas[{u.get('termino')}]: ids vacío")
         for pid in u.get("ids") or []:
             _check_ref("umbrellas", u.get("termino", "?"), pid)
+        # (s321 E4, DEC-215) `clarify` OPCIONAL: la spec ADJUDICABLE del
+        # clarify-por-divergencia (sustituye al seed FAMILY_REGISTRY).
+        # eje_terminos = vocabulario de consulta del eje divergente (los
+        # atributos tipados son #76, no esto); provenance PROPIA obligatoria.
+        cl = u.get("clarify")
+        if cl is not None:
+            terminos = cl.get("eje_terminos") if isinstance(cl, dict) else None
+            if (not isinstance(cl, dict)
+                    or not isinstance(terminos, list) or not terminos
+                    or not all(isinstance(t, str) and t.strip()
+                               for t in terminos)
+                    or not str(cl.get("provenance") or "").strip()):
+                errors.append(
+                    f"umbrellas[{u.get('termino')}]: clarify inválido — exige "
+                    "eje_terminos (lista de strings no vacía) + provenance")
+            if isinstance(cl, dict) and "variantes" in cl:
+                errors.append(
+                    f"umbrellas[{u.get('termino')}]: clarify.variantes NO se "
+                    "declara — se DERIVA de los miembros (dúo r26: "
+                    "re-declararla duplicaría la membresía)")
     seen_hterms: set[str] = set()
     for h in _read_jsonl(catalog_dir / FILES["homonyms"]):
         tk = norm_token(h.get("termino", ""))

@@ -214,6 +214,15 @@ def _build() -> None:
         _pattern = re.compile(r"\b(" + "|".join(alts) + r")(?![a-z0-9])")
 
 
+def catalogo_cargado():
+    """(s321 E4, dúo r26) La instancia ÚNICA del catálogo de este proceso,
+    para consumidores fuera del resolver (hoy: el clarify gobernado de la
+    política conversacional). Lazy + fail-open como todo el módulo: None si
+    el catálogo no carga — el consumidor decide su degradación."""
+    _ensure()
+    return _cat
+
+
 def _ensure() -> None:
     if not _loaded:
         _build()
