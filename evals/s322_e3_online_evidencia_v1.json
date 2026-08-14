@@ -1,0 +1,31 @@
+{
+ "que_es": "Carril EVIDENCIA ONLINE (diseñado en s322b, primer uso): para las 3 filas E3-§1 irreducibles con corpus tras la repesca v2. La evidencia informa la ADJUDICACIÓN de Alberto — jamás se escribe al doc_map/chunks sin su sí. Fecha de consulta: 2026-08-14.",
+ "fecha_consulta": "2026-08-14",
+ "filas": {
+  "FD2705R|22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_refle": {
+   "hallazgo": "«FD2705-10R» NO existe como modelo en el mercado: la familia Aritech serie 2000 es FD2705R (reflective beam 5-50 m) y FD2710R (50-100 m). El «canónico» adjudicado parece ARTEFACTO del nombre de fichero (fd2705-10r ≈ FD2705R+FD2710R), y el doc probablemente cubre AMBOS modelos.",
+   "recomendacion": "MULTI_VALOR «FD2705R/FD2710R» (o MANTENER FD2705R si el contenido solo trata el de 50 m) — y revisar el canónico FD2705-10R del doc_map, que sería artefacto.",
+   "evidencia": [
+    {"url": "https://www.acornfiresecurity.com/aritech-fd2705r-2000-series-addressable-reflective-beam-detector-50m", "quote": "Aritech FD2705R 2000 Series Addressable Reflective Beam Detector (50m)"},
+    {"url": "https://www.acornfiresecurity.com/aritech-fd2710r-2000-series-addressable-reflective-beam-detector-100m", "quote": "Aritech FD2710R 2000 Series Addressable Reflective Beam Detector (100m)"},
+    {"url": "https://www.aritechfire.com.ph/sites/default/files/downloads-products/FD2710R%20%20Addr%20Beam%20Detector%20(100m).pdf", "quote": "FD2710R 2000 series addressable reflective beam detector 50 to 100 m"}
+   ]
+  },
+  "ZXrA|Puesta-en-marcha-repetidor-ZXrA-en-central-CONNEXION": {
+   "hallazgo": "ZXR50A SÍ existe: es el nombre del repetidor activo Morley-IAS en el mercado ESPAÑOL (manual oficial MIE-MI-440 «Repetidores ZXR50A y ZXR50P» en morley-ias.es). ZXr-A es el nombre UK del repetidor activo (manual 996-144 «ZXr-A & ZXr-P»). Todo apunta a MISMO producto con naming por mercado.",
+   "recomendacion": "RETAG_CANONICO a ZXR50A defendible si adjudicas que ZXr-A(UK)=ZXR50A(ES); alternativa conservadora: MANTENER ZXrA. GAP DE CORPUS candidato: el manual MIE-MI-440 (morley-ias.es) no está ingestado — ingestarlo anclaría la identidad con cita propia.",
+   "evidencia": [
+    {"url": "https://www.morley-ias.es/documentacion/morley/manualesdes/MIE-MI-440.pdf", "quote": "Doc.MIE-MI-440 Repetidores ZXR50A y ZXR50P Manual de Instalación"},
+    {"url": "https://www.ravensecurity.co.uk/manuals/fire-alarm-user-manuals/996-144-ZX-Repeater-User-Manual.pdf", "quote": "ZXr-A Document No. 996-144 Issue 02 operation & installation manual ZXr-P"}
+   ]
+  },
+  "ECN-96-200|50478 RevA - MPS-24AE _Eng": {
+   "hallazgo": "MPS-24AE SÍ existe: versión 220 VAC de la fuente de alimentación principal Notifier MPS-24A (datasheet Honeywell DN-0786; «primary input power 220 V, 50/60 Hz»). El pm actual «ECN-96-200» no existe como producto — artefacto de extracción.",
+   "recomendacion": "RETAG_CANONICO a MPS-24AE (la repesca v2 ya lo recomendó con cita ✓; la confianza baja era por doc de 1 chunk — el online la sube).",
+   "evidencia": [
+    {"url": "https://prod-edam.honeywell.com/content/dam/honeywell-edam/hbt/en-us/documents/literature-and-specs/datasheets/notifier-us/hon-ba-fire-dn-0786.pdf", "quote": "MPS-24A Main Power Supply … MPS-24AE (220 VAC version)"},
+    {"url": "https://firealarmdepot.com/products/notifier-mps-24a-power-supply", "quote": "Notifier MPS-24A Power Supply"}
+   ]
+  }
+ }
+}

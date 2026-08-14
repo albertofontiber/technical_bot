@@ -6513,3 +6513,18 @@ el builder no propaga los pins a `prereg_v2/v3` ni al scorer, y hay que copiarlo
 (TECH_DEBT #77). Ejecutada entera: 4/4 ficheros de test en verde, manifest intacto.
 
 Recibos: `evals/s321_reanclaje_propuesta_v1.md` · dúo ts=2026-08-14T17:54:01 (Sol xhigh + Fable 5).
+
+**Actualización DEC-217 #2 (14-ago tarde, pregunta de Alberto sobre el packet E3)**:
+mismo patrón aplicado al residuo E3 — de las 32 filas §1 del packet v1, 12 eran
+`parse-fail` del MISMO bug max_tokens=400 y ~17 eran altas castigadas solo por
+hermanas. **Repesca v2** (800 tokens, muestreo doc-entero+canónico, verificación
+full-text, `hermanas_sujeto` con cita = criterio de máquina): 26 RETAG alta+cita✓,
+2 MANTENER alta, 1 MULTI_VALOR alta con lista. **Packet v2 SUPERSEDE al v1: §0 23 +
+§0-bis 20 (hermanas resueltas con cita) + §1 4** — la sentada E3 pasa de 32
+decisiones a 2 síes en bloque + 4 filas. **Primer uso del carril EVIDENCIA ONLINE**
+(3 filas irreducibles): ZXR50A confirmado real (naming ES del ZXr-A UK; manual
+MIE-MI-440 en morley-ias.es → candidato a gap de corpus), MPS-24AE confirmado real
+(fuente 220 VAC, DN-0786), y «FD2705-10R» detectado como PROBABLE ARTEFACTO de
+nombre de fichero (la familia real es FD2705R/FD2710R) — recomendación MULTI_VALOR.
+URL+quote+fecha en el packet; nada escrito sin adjudicación. Recibos:
+`s321_e3_llm_recomendaciones_v2.json` (v1 intacto) · `s322_e3_online_evidencia_v1.json`.
