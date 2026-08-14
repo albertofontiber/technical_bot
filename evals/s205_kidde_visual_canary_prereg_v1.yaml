@@ -13,7 +13,7 @@ geometry_frozen_in_prior_commit: af6de65
 #   TRIPWIRE (fuerza ceremonia visible), no un autenticador. Adjudicado a favor de Fable porque
 #   el registro de lo que la ejecución consumió NO vive aquí: vive en git y en el manifest.
 #   ⚠️ Léase 'status' con ese matiz: este fichero es una guarda VIVA re-anclable, no el acta de
-#   lo que s2xx ejecutó. Criterio canónico documentado en DECISIONS (DEC-217).
+#   lo que s2xx ejecutó. Criterio canónico documentado en DECISIONS (DEC-218).
 frozen_inputs:
   design: {path: evals/s205_kidde_visual_canary_design_v1.md, sha256: a9dfa8dab3587ef7f67e83f248e40b7ebdb04b3552dd461982f39049632a287f}
   packet: {path: evals/s205_kidde_visual_canary_packet_v1.json, sha256: 143c5a021db382f4a90cd3e6ac6c119537ea969b7c5fa74a315636cd13aa2fa8}

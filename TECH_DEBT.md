@@ -2860,6 +2860,6 @@ apunta lo deja irreproducible, no preservado.
 recibo del builder hashee **solo los qids del contrato** en vez del ledger entero — quita el falso
 acoplamiento de raíz; (b) versionar contrato+prereg juntos por DEC-147 («versionar, no relajar»)
 cuando exista un consumidor contemporáneo que lo necesite; (c) resolver las autoridades desde blob
-sellado (propuesta de Sol, ver DEC-217). **Trigger**: la próxima vez que una adjudicación de gold
+sellado (propuesta de Sol, ver DEC-218). **Trigger**: la próxima vez que una adjudicación de gold
 tenga que convivir con el gate de release, o que alguien necesite reproducir b92ff51. **Coste**: M.
-**Relacionado**: DEC-217, DEC-147, #75.
+**Relacionado**: DEC-218, DEC-147, #75.

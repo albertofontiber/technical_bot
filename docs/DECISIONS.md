@@ -6439,7 +6439,7 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Relacionado**: DEC-216 · TECH_DEBT #76/#76b · propuesta+adenda
   `evals/s322_76_propuesta_r28_v1.md` · recibos `s322_76_{lazos_vesta,
   zonas_ncpf,writer_rescate,migra_base_opcional,verifica_citas,fix_rmsdk}_*`.
-## DEC-217 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
+## DEC-218 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
 
 **Decisión**: los preregs de los canarios `s203/s204/s205` son **guardas VIVAS (tripwires)** sobre el
 ledger de golds, y **se re-anclan** cuando Alberto adjudica un gold — con una acotación OBLIGATORIA.
