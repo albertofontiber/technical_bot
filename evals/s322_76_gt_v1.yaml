@@ -1,0 +1,145 @@
+# s322 #76 — mini-GT de población (30 productos, 15 Detnov + 15 Kidde)
+# Etiquetado A MANO por el autor LEYENDO las muestras de contenido
+# (evals/s322_76_gt_muestras_v1.json) ANTES de la pasada LLM (r27 Sol M3).
+# Convención de dominio DECLARADA: analogica ≈ direccionable/inteligente
+# (Detnov escribe «analógica», Kidde «addressable/direccionable» — uso PCI
+# estándar en ES; al packet como nota de enum-semántica).
+# `duda: true` = el etiquetador no está seguro (fuera del denominador del gate).
+
+- id: detnov:55310011
+  categoria: pasarela
+  cita: "Pasarela de Centrales Convencionales a Loop Analógico"
+- id: detnov:cad-150-1
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 1, max: 1}
+  cita: "La Central Analógica de 1 y 2 lazos"
+- id: detnov:cad-150-2
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 2, max: 2}
+  cita: "La Central Analógica de 1 y 2 lazos"
+- id: detnov:cad-150-2-mb
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 2, max: 2}
+  cita: "Centrales de detección de incendio analógicas"
+- id: detnov:cad-150-4
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 4, max: 4}
+  cita: "Centrales de detección de incendio analógicas"
+- id: detnov:cad-150-8
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 8, max: 8}
+  cita: "Centrales de detección de incendio analógicas"
+- id: detnov:cad-150-8-plus
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 8, max: 8}
+  cita: "Centrales de detección de incendio analógicas"
+- id: detnov:cad-150r
+  categoria: repetidor
+  tecnologia: analogica
+  cita: "Repetidores analógicos"
+- id: detnov:cad-171
+  categoria: central
+  tecnologia: analogica
+  cita: "GUIA DE CONFIGURACION CENTRALES VESTA"
+- id: detnov:cad-201
+  categoria: central
+  tecnologia: analogica
+  cita: "Centrales Analógicas Serie VESTA"
+- id: detnov:cad-201-plus
+  categoria: central
+  tecnologia: analogica
+  cita: "Centrales Analógicas Serie VESTA"
+- id: detnov:cad-201-z
+  categoria: central
+  tecnologia: analogica
+  cita: "CAD-201, CAD-201-PLUS, CAD-201-Z y CAD-201-ZPLUS"
+- id: detnov:cad-201-zplus
+  categoria: central
+  tecnologia: analogica
+  cita: "CAD-201, CAD-201-PLUS, CAD-201-Z y CAD-201-ZPLUS"
+- id: detnov:cad-250
+  categoria: central
+  tecnologia: analogica
+  cita: "GUIA DE CONFIGURACION CENTRALES VESTA"
+- id: detnov:cad-250-p
+  categoria: central
+  tecnologia: analogica
+  cita: "GUIA DE CONFIGURACION CENTRALES VESTA"
+- id: kidde:2010-2-pak-rmsdk
+  categoria: accesorio
+  cita: "Centrales analógicas: código activación servicios SDK"
+- id: kidde:2x-af1-fb-s
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 1, max: 1}
+  duda_lazos: true   # sufijo F1; la muestra no muestra el rango por variante
+  cita: "2X-A Series Installation Manual"
+- id: kidde:2x-af2-fb-prt
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 2, max: 2}
+  duda_lazos: true
+  cita: "2X-A Series Installation Manual"
+- id: kidde:2x-af2-scfb-p
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 2, max: 2}
+  duda_lazos: true
+  cita: "2X-A Series Installation Manual"
+- id: kidde:2x-at-f2-fb
+  categoria: central
+  tecnologia: analogica
+  lazos: {base: 2, max: 4}
+  cita: "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+  # CORRECCIÓN DOCUMENTADA (v1.1): el GT del autor decía {2,2} etiquetado desde
+  # la línea de portada («…2 lazos»); la pasada encontró la cita verbatim de
+  # ampliación (verificada contra el contenido del doc) → base 2 / max 4.
+  # ESTA es la clase AFP1010 exacta por la que r27-Sol-C1 exigió multi-valor
+  # {base,max}. El fallo del gate era del GT, no del modelo — corregido con
+  # evidencia, NO tuneado (el recibo s322_76_gate_gt_v1.json conserva el FAIL
+  # original como traza).
+- id: kidde:2x-at-fr-s
+  categoria: repetidor
+  tecnologia: analogica
+  duda: true   # nomenclatura FR=fire repeater; la muestra no lo confirma
+  cita: "Guía de inicio rápido de la serie 2X-AT"
+- id: kidde:ad105ss
+  categoria: detector
+  cita: "Alarmline II Digital Linear Heat Sensor Cable"
+- id: kidde:ad68p
+  categoria: detector
+  cita: "Alarmline II Digital Linear Heat Sensor Cable"
+- id: kidde:ke-as3010r
+  categoria: sirena
+  tecnologia: analogica
+  cita: "Excellence Series Intelligent Addressable Indoor Notification Device"
+- id: kidde:ke-as3015r-cmip
+  categoria: sirena
+  tecnologia: analogica
+  cita: "Excellence Series Intelligent Addressable Outdoor Notification Device"
+- id: kidde:ke-as3105w-wm
+  categoria: sirena
+  tecnologia: analogica
+  cita: "Excellence Series Intelligent Addressable Indoor Notification Device"
+- id: kidde:ke-as3115r-cm
+  categoria: sirena
+  tecnologia: analogica
+  cita: "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+- id: kidde:ke-as3115w-cm
+  categoria: sirena
+  tecnologia: analogica
+  cita: "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+- id: kidde:ke-dm3010r-kit
+  categoria: pulsador
+  tecnologia: analogica
+  cita: "Pulsador direccionable inteligente de la serie Excellence"
+- id: kidde:ke-io3101
+  categoria: modulo
+  tecnologia: analogica
+  cita: "Unidad inteligente direccionable de 1 salida con aislador"

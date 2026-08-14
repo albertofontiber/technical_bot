@@ -1,0 +1,346 @@
+# s322 #76 — Packet de POBLACIÓN del catálogo (generado 20260814T084743Z)
+
+**GATE de precisión (pre-registrado)**: alta-confianza vs mini-GT sin-duda →
+**19/19 = 100%** → **PASS**.
+(GT: 30 etiquetados a mano leyendo docs ANTES de la pasada; recibo del gate abajo.)
+
+**Nota de enum-semántica para tu adjudicación**: `analogica` ≈ direccionable/
+inteligente/addressable (uso PCI-ES estándar; Detnov escribe «analógica», Kidde
+«addressable»). Si prefieres separarlas, dilo y re-etiqueto.
+
+## §0 — Aplicables EN BLOQUE con tu sí (114)
+
+Alta confianza + citas verificadas contra el contenido. Un «sí al §0» y las
+escribo vía la puerta (validación completa + recibo).
+
+- [ ] `detnov:55310011` (55310011) → **pasarela** · analogica (alta, citas ✓)
+  - cita: «PASARELA SISTEMA CONVENCIONAL ANALÓGICO»
+- [ ] `detnov:cad-150-1` (CAD-150-1) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150-2` (CAD-150-2) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150-2-mb` (CAD-150-2-MB) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150-8` (CAD-150-8) → **central** · analogica (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150-8-plus` (CAD-150-8-PLUS) → **central** · analogica (alta, citas ✓)
+  - cita: «Centrales de detección de incendio analógicas»
+- [ ] `detnov:cad-150r` (CAD-150R) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «Repetidores analógicos»
+- [ ] `detnov:cad-171` (CAD-171) → **central** · analogica (alta, citas ✓)
+  - cita: «The new CAD-171 addressable control panel from the VESTA series offers the benefits of simple and flexible programming, »
+- [ ] `detnov:cad-201` (CAD-201) → **central** · analogica (alta, citas ✓)
+  - cita: «La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece caract»
+- [ ] `detnov:dgd-600` (DGD-600) → **detector** (alta, citas ✓)
+  - cita: «DETECTORES DE GAS AUTÓNOMO»
+- [ ] `detnov:dgd-620` (DGD-620) → **detector** (alta, citas ✓)
+  - cita: «DETECTORES DE GAS AUTÓNOMO»
+- [ ] `detnov:mad-450` (MAD-450) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.»
+- [ ] `detnov:mad-450-i` (MAD-450-I) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.»
+- [ ] `detnov:mad-450-iw` (MAD-450-IW) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.»
+- [ ] `detnov:mad-451-i` (MAD-451-I) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.»
+- [ ] `detnov:mad-481` (MAD-481) → **modulo** · analogica (alta, citas ✓)
+  - cita: «El módulo de 1 relé de 240V proporcionan al sistema de detección de incendio analógico 1 relé libres de tensión»
+- [ ] `detnov:pcd-100` (PCD-100) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «PULSADOR CONVENCIONAL
+
+## PCD-100»
+- [ ] `detnov:tcd-100` (TCD-100) → **pasarela** (alta, citas ✓)
+  - cita: «la posibilidad de retransmitir de forma segura todos los eventos de alarma recogidos por el sistema a una Central Recept»
+- [ ] `kidde:2010-2-pak-rmsdk` (2010-2-PAK-RMSDK) → **accesorio** · analogica (alta, citas ✓)
+  - cita: «These USB dongles are called PAK, which stands for Panel Activation Key. The use of the PAK will activate additional hig»
+- [ ] `kidde:2010-2a-pak-hpl` (2010-2A-PAK-HPL) → **accesorio** · analogica (alta, citas ✓)
+  - cita: «The 2010−2A-PAK-HPL Panel Activation Key (PAK) increases the maximum loop output from 500 mA to 800 mA (high-powered loo»
+- [ ] `kidde:2x-a-lb` (2X-A-LB) → **accesorio** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Accesorio central de incendios direccionable, placa de expansión de lazo, 2 lazos»
+- [ ] `kidde:2x-af2-09` (2X-AF2-09) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Central de incendios direccionable, 2 lazos, español»
+- [ ] `kidde:2x-at-f2` (2X-AT-F2) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande»
+- [ ] `kidde:2x-at-f2-fb` (2X-AT-F2-FB) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja grande»
+- [ ] `kidde:2x-at-f2-fb-p` (2X-AT-F2-FB-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Addressable fire panel with tocuhscreen fire brigade controls, 2 loop, with bigger PSU»
+- [ ] `kidde:2x-at-f2-fb-s` (2X-AT-F2-FB-S) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja pequeña»
+- [ ] `kidde:2x-at-f2-p` (2X-AT-F2-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Panel de incendios direccionable con pantalla táctil, Fuente de alimentación grande, 2 lazos, caja grande»
+- [ ] `kidde:2x-at-f2-s` (2X-AT-F2-S) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña»
+- [ ] `kidde:9-30780-kid-en` (9-30780-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
+  - cita: «ModuLaser manual de instalación del detector de humo por aspiración modular»
+- [ ] `kidde:9-30782-kid-en` (9-30782-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
+  - cita: «ModuLaser manual de instalación del detector de humo por aspiración modular»
+- [ ] `kidde:9-30783-kid-en` (9-30783-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
+  - cita: «ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and tak»
+- [ ] `kidde:ad105` (AD105) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad105p` (AD105P) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad105ss` (AD105SS) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad185n` (AD185N) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad185ss` (AD185SS) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad68` (AD68) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad68n` (AD68N) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad68n-0100` (AD68N-0100) → **detector** · convencional (alta, citas ✓)
+  - cita: «El cable lineal de calor AD68N-0100 es un cable térmico lineal (LHD) calibrado a una temperatura de activación fija de 6»
+- [ ] `kidde:ad68ss` (AD68SS) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad88` (AD88) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad88n` (AD88N) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad88p` (AD88P) → **detector** · convencional (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ad88ss` (AD88SS) → **detector** (alta, citas ✓)
+  - cita: «Alarmline II Digital Linear Heat Sensor Cable Technical Manual»
+- [ ] `kidde:ke-as3005w-cm` (KE-AS3005W-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3005w-wm` (KE-AS3005W-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3010r` (KE-AS3010R) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3010r-ip` (KE-AS3010R-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «KE-AS3010R-IP | Intelligent addressable outdoor sounder (red body) | SDn»
+- [ ] `kidde:ke-as3010w` (KE-AS3010W) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3010w-ip` (KE-AS3010W-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «KE-AS3010W-IP | Intelligent addressable outdoor sounder (white body) | SDn»
+- [ ] `kidde:ke-as3011r` (KE-AS3011R) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3011r-ip` (KE-AS3011R-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3011w` (KE-AS3011W) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3015r-cm` (KE-AS3015R-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3015r-cmip` (KE-AS3015R-CMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3015r-wm` (KE-AS3015R-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3015r-wmip` (KE-AS3015R-WMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3015w-cm` (KE-AS3015W-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3015w-cmip` (KE-AS3015W-CMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual»
+- [ ] `kidde:ke-as3015w-wm` (KE-AS3015W-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3015w-wmip` (KE-AS3015W-WMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual»
+- [ ] `kidde:ke-as3105w-cm` (KE-AS3105W-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3105w-wm` (KE-AS3105W-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3110r` (KE-AS3110R) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3110r-ip` (KE-AS3110R-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «KE-AS3110R-IP | Intelligent addressable outdoor sounder with integrated isolator (red body)»
+- [ ] `kidde:ke-as3110w` (KE-AS3110W) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3110w-ip` (KE-AS3110W-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «KE-AS3110W-IP | Intelligent addressable outdoor sounder with integrated isolator (white body)»
+- [ ] `kidde:ke-as3111r` (KE-AS3111R) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3111r-ip` (KE-AS3111R-IP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «KE-AS3111R-IP | Intelligent addressable outdoor sounder/VID with integrated isolator (red body, red flash) | SDBni»
+- [ ] `kidde:ke-as3111w` (KE-AS3111W) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet»
+- [ ] `kidde:ke-as3115r-cm` (KE-AS3115R-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)»
+- [ ] `kidde:ke-as3115r-cmip` (KE-AS3115R-CMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3115r-cmw` (KE-AS3115R-CMW) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)»
+- [ ] `kidde:ke-as3115r-cmwip` (KE-AS3115R-CMWIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3115r-wm` (KE-AS3115R-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Sirena/Alarma visual direccionable inteligente Serie Excellence con aislador, montaje en pared»
+- [ ] `kidde:ke-as3115r-wmip` (KE-AS3115R-WMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «weatherproof addressable wall mount sounder & visual alarm device (VAD) with integrated isolation»
+- [ ] `kidde:ke-as3115r-wmw` (KE-AS3115R-WMW) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, white flash)»
+- [ ] `kidde:ke-as3115r-wmwip` (KE-AS3115R-WMWIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual»
+- [ ] `kidde:ke-as3115w-cm` (KE-AS3115W-CM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)»
+- [ ] `kidde:ke-as3115w-cmip` (KE-AS3115W-CMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-as3115w-wm` (KE-AS3115W-WM) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)»
+- [ ] `kidde:ke-as3115w-wmip` (KE-AS3115W-WMIP) → **sirena** · analogica (alta, citas ✓)
+  - cita: «Excellence Series intelligent addressable outdoor audible and visual notification devices»
+- [ ] `kidde:ke-db3010b` (KE-DB3010B) → **accesorio** · analogica (alta, citas ✓)
+  - cita: «Standard mounting base for 3000 Series intelligent addressable detectors (black)»
+- [ ] `kidde:ke-db3010w` (KE-DB3010W) → **accesorio** · analogica (alta, citas ✓)
+  - cita: «Accesorio detector inteligente serie Excellence - base estándar»
+- [ ] `kidde:ke-dba-auxw` (KE-DBA-AUXW) → **accesorio** · analogica (alta, citas ✓)
+  - cita: «El KE-DBA-AUXW es un accesorio de base de montaje en superficie de la serie Excellence. Permite instalar el cableado pas»
+- [ ] `kidde:ke-dm3010r` (KE-DM3010R) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «El KE-DM3010R es un pulsador rojo de acción simple para interiores con un indicador funcional de casa en llamas.»
+- [ ] `kidde:ke-dm3010r-kit` (KE-DM3010R-KIT) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «Pulsador direccionable inteligente de la serie Excellence con caja de superficie»
+- [ ] `kidde:ke-dm3110r` (KE-DM3110R) → **pulsador** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Manual Call Point Installation Sheet»
+- [ ] `kidde:ke-dp3020w` (KE-DP3020W) → **detector** · analogica (alta, citas ✓)
+  - cita: «Detector de humo óptico dual direccionable inteligente serie Excellence»
+- [ ] `kidde:ke-dp3120w` (KE-DP3120W) → **detector** · analogica (alta, citas ✓)
+  - cita: «Detector de humo óptico dual direccionable inteligente serie Excellence con aislador»
+- [ ] `kidde:ke-dt3001w-hab` (KE-DT3001W-HAB) → **detector** · analogica (alta, citas ✓)
+  - cita: «Detector de calor direccionable inteligente serie Excellence»
+- [ ] `kidde:ke-dt3101w-hab` (KE-DT3101W-HAB) → **detector** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Class A/B Heat Detector Installation Sheet»
+- [ ] `kidde:ke-io3001` (KE-IO3001) → **modulo** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Single Output Module Installation Sheet»
+- [ ] `kidde:ke-io3044` (KE-IO3044) → **modulo** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Two/Four Input/Output Module Installation Sheet»
+- [ ] `kidde:ke-io3101` (KE-IO3101) → **modulo** · analogica (alta, citas ✓)
+  - cita: «Excellence Series Intelligent Addressable Single Output Module Installation Sheet»
+- [ ] `kidde:ke-io3122` (KE-IO3122) → **modulo** · analogica (alta, citas ✓)
+  - cita: «Unidad inteligente direccionable de 2 entradas/2 salidas con aislador»
+- [ ] `kidde:ke-io3144` (KE-IO3144) → **modulo** · analogica (alta, citas ✓)
+  - cita: «Unidad inteligente direccionable de 4 entradas/4 salidas con aislador»
+- [ ] `kidde:n-mc-bb-g` (N-MC-BB-G) → **accesorio** (alta, citas ✓)
+  - cita: «Accesorio pulsador, caja trasera de pulsador manual inteligente, verde»
+- [ ] `kidde:n-mc-bb-o` (N-MC-BB-O) → **accesorio** (alta, citas ✓)
+  - cita: «N-MC-BB Series Backbox Installation Sheet»
+- [ ] `kidde:n-mc-bb-r` (N-MC-BB-R) → **accesorio** (alta, citas ✓)
+  - cita: «N-MC-BB Series Backbox Installation Sheet»
+- [ ] `kidde:n-mc-bb-u` (N-MC-BB-U) → **accesorio** (alta, citas ✓)
+  - cita: «N-MC-BB Series Backbox Installation Sheet»
+- [ ] `kidde:n-mc-bb-w` (N-MC-BB-W) → **accesorio** (alta, citas ✓)
+  - cita: «N-MC-BB Series Backbox Installation Sheet»
+- [ ] `kidde:n-mc-bb-y` (N-MC-BB-Y) → **accesorio** (alta, citas ✓)
+  - cita: «N-MC-BB Series Backbox Installation Sheet»
+- [ ] `kidde:nc-mc-0-g` (NC-MC-0-G) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «Pulsador manual inteligente convencional para montaje empotrado - 0 Ω (Verde)»
+- [ ] `kidde:nc-mc-0-r` (NC-MC-0-R) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire pa»
+- [ ] `kidde:nc-mc-100-r` (NC-MC-100-R) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire pa»
+- [ ] `kidde:nc-mc-470-r` (NC-MC-470-R) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire pa»
+- [ ] `kidde:nc-mc-560-r` (NC-MC-560-R) → **pulsador** · convencional (alta, citas ✓)
+  - cita: «The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire pa»
+- [ ] `kidde:nc-pf2` (NC-PF2) → **central** · convencional (alta, citas ✓)
+  - cita: «El NC-PF2 es un panel de control de alarma contra incendios convencional. Se suministra con 2 zonas que admiten hasta 32»
+- [ ] `kidde:nc-pf2-sc` (NC-PF2-SC) → **central** · convencional (alta, citas ✓)
+  - cita: «Manual de instalación de las centrales de incendio convencionales de la Serie NC»
+- [ ] `kidde:nc-pf4` (NC-PF4) → **central** · convencional (alta, citas ✓)
+  - cita: «El NC-PF4 es un panel de control de alarma contra incendios convencional. Se suministra con 4 zonas que admiten hasta 32»
+- [ ] `kidde:nc-pf4-sc` (NC-PF4-SC) → **central** · convencional (alta, citas ✓)
+  - cita: «The NC-PF4-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 4 zones that»
+- [ ] `kidde:nc-pf8` (NC-PF8) → **central** · convencional (alta, citas ✓)
+  - cita: «El NC-PF8 es un panel de control de alarma contra incendios convencional. Se suministra con 8 zonas que admiten hasta 32»
+- [ ] `kidde:nc-pf8-sc` (NC-PF8-SC) → **central** · convencional (alta, citas ✓)
+  - cita: «The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 8 zones that »
+
+
+## §1 — Una a una (46)
+
+- [ ] `detnov:cad-150-4` (CAD-150-4) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:cad-201-plus` (CAD-201-PLUS) → **central** · analogica (media)
+  - cita: «La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece caract»
+- [ ] `detnov:cad-201-z` (CAD-201-Z) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:cad-201-zplus` (CAD-201-ZPLUS) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:cad-250` (CAD-250) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:cad-250-p` (CAD-250-P) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:firebeam-blue` (Firebeam Blue) → **barrera** · convencional (media)
+  - cita: «Enhorabuena por adquirir el detector de humo de haz óptico reflejado the **fire**beam*BLUE*.»
+- [ ] `detnov:tbud-ng` (TBUD-NG) → **None** (baja)
+  - cita: «—»
+- [ ] `detnov:ted-151-cl` (TED-151-CL) → **pasarela** (media)
+  - cita: «Tarjeta Cloud *TED-151-CL* ... Conectar la tarjeta a la red a través del puerto RJ-45»
+- [ ] `detnov:tled-ng` (TLED-NG) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-ae1` (2X-AE1) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-ae2` (2X-AE2) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-ae2-p` (2X-AE2-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af1` (2X-AF1) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af1-fb` (2X-AF1-FB) → **central** (media, citas ✓)
+  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
+- [ ] `kidde:2x-af1-fb-s` (2X-AF1-FB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af1-s` (2X-AF1-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af1-scfb` (2X-AF1-SCFB) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af1-scfb-s` (2X-AF1-SCFB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2` (2X-AF2) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-fb` (2X-AF2-FB) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-fb-p` (2X-AF2-FB-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-fb-prt` (2X-AF2-FB-PRT) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-fb-prt-p` (2X-AF2-FB-PRT-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-fb-s` (2X-AF2-FB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-p` (2X-AF2-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-prt` (2X-AF2-PRT) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-prt-p` (2X-AF2-PRT-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-s` (2X-AF2-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-scfb` (2X-AF2-SCFB) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-scfb-p` (2X-AF2-SCFB-P) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-af2-scfb-s` (2X-AF2-SCFB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-afr` (2X-AFR) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-afr-fb` (2X-AFR-FB) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-afr-fb-s` (2X-AFR-FB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-afr-s` (2X-AFR-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-at-f1-fb-s` (2X-AT-F1-FB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-at-fr` (2X-AT-FR) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-at-fr-fb` (2X-AT-FR-FB) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-at-fr-fb-s` (2X-AT-FR-FB-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:2x-at-fr-s` (2X-AT-FR-S) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:9-30781-kid-en` (9-30781-KID-EN) → **aspiracion** · aspiracion (media)
+  - cita: «Kidde ModuLaser, Standard display module ... ModuLaser is a scalable aspirating smoke detection solution»
+- [ ] `kidde:ad105n` (AD105N) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:ad218` (AD218) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:ad218ss` (AD218SS) → **None** (baja)
+  - cita: «—»
+- [ ] `kidde:ad68p` (AD68P) → **None** (baja)
+  - cita: «—»
+
+
+---
+*Recibos: `s322_76_poblacion_v1.json` · `s322_76_gt_v1.yaml` ·
+gate: {"aciertos": 19, "n": 19, "precision": 1.0, "pass": true}*

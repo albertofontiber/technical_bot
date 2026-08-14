@@ -6386,5 +6386,14 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   en-bloque (r27 Fable M3: NADA se escribe sin el sí de Alberto — el precedente
   candidate-birth manda). Hasta poblar, el bot responde el inventario completo
   con el aviso honesto (conducta estrictamente mejor que la de hoy).
+- **FASE 2 EJECUTADA (mismo dia)**: diana 160 (Detnov 28 + Kidde 132) · mini-GT 30
+  a mano ANTES de la pasada · poblacion fable-5 con cita POR CAMPO verificada ·
+  **gate 19/19 = 100% PASS** — con historia: el unico FAIL original (18/19) era
+  ERROR DEL GT del autor (2X-AT-F2-FB: etiquete {2,2} desde la portada; el modelo
+  encontro la cita verbatim «2 lazos ampliables a 4» = la clase AFP1010 exacta del
+  multi-valor de r27) → corregido DOCUMENTADO con el recibo FAIL preservado
+  (s322_76_gate_gt_v1_FAIL_original.json), jamas tuneado. Packet: §0 114
+  en-bloque + §1 46 una-a-una + nota enum-semantica (analogica≈direccionable).
+  NADA escrito al catalogo sin el si de Alberto.
 - **Relacionado**: TECH_DEBT #76 · DEC-215 (la costura E4) · tally r27
   ts=2026-08-14T09:10:15.
