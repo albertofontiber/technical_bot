@@ -513,22 +513,22 @@
     "Manual_CAD-201-MI-715-es"
    ],
    "llm": {
-    "categoria": "modulo",
-    "categoria_cita": "TBUD-NG | Placa expansión de lazos.",
-    "tecnologia": "analogica",
-    "tecnologia_cita": "Capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG.",
+    "categoria": "accesorio",
+    "categoria_cita": "VERDE   | TBUD-NG     | Placa expansión de lazos.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
     "lazos": [
      {
       "base": 2,
       "max": 2,
-      "cita": "tarjetas de 2 lazos ref. TBUD-NG"
+      "cita": "Capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG."
      }
     ],
-    "confianza": "media",
-    "razon": "Es una tarjeta/placa de expansión de 2 lazos para la central analógica direccionable CAD-201, no una central en sí."
+    "confianza": "alta",
+    "razon": "TBUD-NG es una tarjeta opcional de expansión de 2 lazos para la central CAD-201, no un equipo de campo ni una central en sí misma."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "detnov:tcd-100",
@@ -660,21 +660,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "2X-AE1 | One-loop addressable fire and evacuation alarm control panel",
+    "categoria_cita": "2X-AE1        | One-loop addressable fire and evacuation alarm control panel",
     "tecnologia": "analogica",
     "tecnologia_cita": "One-loop addressable fire and evacuation alarm control panel",
     "lazos": [
      {
       "base": 1,
       "max": 1,
-      "cita": "One-loop addressable fire and evacuation alarm control panel"
+      "cita": "Central de alarma de incendio y evacuación direccionable de un lazo"
      }
     ],
-    "confianza": "media",
-    "razon": "La tabla de modelos del manual identifica el 2X-AE1 explícitamente como central de alarma de incendio y evacuación direccionable de un lazo."
+    "confianza": "alta",
+    "razon": "El modelo 2X-AE1 está explícitamente descrito en varios documentos como central de alarma de incendio y evacuación direccionable de un lazo."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-ae2",
@@ -714,7 +714,7 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "2X-AE2-P | Two-loop addressable fire and evacuation alarm control panel",
+    "categoria_cita": "Two-loop addressable fire and evacuation alarm control panel",
     "tecnologia": "analogica",
     "tecnologia_cita": "Central de alarma de incendio y evacuación direccionable de dos lazos",
     "lazos": [
@@ -724,11 +724,11 @@
       "cita": "Two-loop addressable fire and evacuation alarm control panel"
      }
     ],
-    "confianza": "media",
-    "razon": "La tabla de modelos ancla explícitamente el sufijo 2X-AE2-P como central direccionable de dos lazos para incendio y evacuación."
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente al 2X-AE2-P como central direccionable de dos lazos de alarma de incendio y evacuación."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af1",
@@ -743,7 +743,7 @@
     "categoria": "central",
     "categoria_cita": "2X-AF1 | One-loop addressable fire alarm control panel",
     "tecnologia": "analogica",
-    "tecnologia_cita": "One-loop addressable fire alarm control panel",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
     "lazos": [
      {
       "base": 1,
@@ -751,11 +751,11 @@
       "cita": "2X-AF1 | One-loop addressable fire alarm control panel"
      }
     ],
-    "confianza": "media",
-    "razon": "El documento identifica explícitamente el 2X-AF1 como central de alarma de incendio direccionable de un lazo (one-loop addressable fire alarm control panel)."
+    "confianza": "alta",
+    "razon": "Las tablas de gama de producto identifican explícitamente el 2X-AF1 como central de alarma de incendio direccionable de un lazo (módulo grande, hasta 6 A)."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af1-fb",
@@ -876,21 +876,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "categoria_cita": "Central de alarma de incendio direccionable de un lazo SS 3654 con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo SS 3654 con controles de protección y enrutado de fuego",
     "lazos": [
      {
       "base": 1,
       "max": 1,
-      "cita": "2X-AF1-S      | Central de alarma de incendio direccionable de un lazo"
+      "cita": "One-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls"
      }
     ],
-    "confianza": "media",
-    "razon": "Es una central de alarma de incendio direccionable de la serie 2X-A; el sufijo AF1 ancla la variante de un lazo (tabla de centrales de módulo pequeño), aunque la fila exacta 2X-AF1-SCFB-S está truncada en la muestra."
+    "confianza": "alta",
+    "razon": "Los manuales identifican explícitamente el 2X-AF1-SCFB-S como central direccionable de un lazo SS 3654 con controles de protección y enrutado de fuego."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2",
@@ -903,21 +903,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel",
+    "categoria_cita": "2X-AF2        | Two-loop addressable fire alarm control panel",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Two-loop addressable fire alarm control panel",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos",
     "lazos": [
      {
       "base": 2,
       "max": 2,
-      "cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel"
+      "cita": "2X-AF2        | Two-loop addressable fire alarm control panel"
      }
     ],
-    "confianza": "media",
-    "razon": "El sufijo AF2 ancla la variante de dos lazos direccionable de la serie 2X-A, aunque las muestras solo listan verbatim las variantes -P y no la fila exacta del modelo 2X-AF2."
+    "confianza": "alta",
+    "razon": "El manual identifica explícitamente el modelo 2X-AF2 como central de alarma de incendio direccionable de dos lazos."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-09",
@@ -954,21 +954,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "categoria_cita": "2X-AF2-FB | Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego",
     "lazos": [
      {
       "base": 2,
       "max": 2,
-      "cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls"
+      "cita": "2X-AF2-FB | Two-loop addressable fire alarm control panel with fire routing and fire protection controls"
      }
     ],
-    "confianza": "media",
-    "razon": "El manual 2X-A lista las variantes AF2 como centrales direccionables de dos lazos; la fila exacta 2X-AF2-FB no aparece verbatim en las muestras, pero su variante de alimentación 2X-AF2-FB-P confirma dos lazos, direccionable y funciones de ruteo/protección contra incendios."
+    "confianza": "alta",
+    "razon": "El manual identifica explícitamente 2X-AF2-FB como central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-fb-p",
@@ -981,7 +981,7 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "categoria_cita": "2X-AF2-FB-P | Central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
     "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
     "lazos": [
@@ -991,11 +991,11 @@
       "cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls"
      }
     ],
-    "confianza": "media",
-    "razon": "El manual ancla explícitamente el modelo 2X-AF2-FB-P como central de alarma de incendio direccionable de dos lazos con enrutado de fuego y controles de protección."
+    "confianza": "alta",
+    "razon": "El manual identifica explícitamente 2X-AF2-FB-P como central de alarma de incendio direccionable de dos lazos (variante -P de módulo grande con salida de hasta 10 A) con controles de protección y enrutado de fuego."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-fb-prt",
@@ -1062,15 +1062,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.",
+    "categoria_cita": "Central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
-    "lazos": null,
-    "confianza": "media",
-    "razon": "El 2X-AF2-FB-S pertenece a la gama de centrales direccionables 2X-A (variante de 2 lazos por sufijo AF2), pero las muestras del documento no incluyen la fila verbatim de esta variante para citar sus lazos."
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Addressable fire panel with fire brigade controls, 2 loop, small cabinet"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El datasheet y los manuales identifican el 2X-AF2-FB-S explícitamente como central de alarma de incendio direccionable de dos lazos con controles de bomberos."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-p",
@@ -1137,9 +1143,9 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "2X-AF2-PRT-P | Two-loop addressable fire alarm control panel with internal printer",
+    "categoria_cita": "2X-AF2-PRT-P | Central de alarma de incendio direccionable de dos lazos con impresora interna",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Two-loop addressable fire alarm control panel with internal printer",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos con impresora interna",
     "lazos": [
      {
       "base": 2,
@@ -1147,11 +1153,11 @@
       "cita": "Two-loop addressable fire alarm control panel with internal printer"
      }
     ],
-    "confianza": "media",
-    "razon": "La tabla de modelos ancla explícitamente el sufijo 2X-AF2-PRT-P como central de alarma de incendio direccionable de dos lazos con impresora interna."
+    "confianza": "alta",
+    "razon": "El propio manual identifica el modelo 2X-AF2-PRT-P como central de alarma de incendio direccionable de dos lazos con impresora interna."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-s",
@@ -1164,21 +1170,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "categoria_cita": "2X-AF2-S      | Two-loop addressable fire alarm control panel",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Two-loop addressable fire alarm control panel",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos",
     "lazos": [
      {
       "base": 2,
       "max": 2,
-      "cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel"
+      "cita": "2X-AF2-S      | Two-loop addressable fire alarm control panel"
      }
     ],
-    "confianza": "media",
-    "razon": "Es una central de la serie 2X-A; el prefijo 2X-AF2 identifica las variantes de dos lazos direccionables, aunque la fila exacta del modelo 2X-AF2-S no aparece verbatim en las muestras."
+    "confianza": "alta",
+    "razon": "El manual identifica explícitamente al 2X-AF2-S como central de alarma de incendio direccionable de dos lazos (módulo pequeño, hasta 4 A)."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-scfb",
@@ -1191,15 +1197,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "categoria_cita": "2X-AF2-SCFB | Two-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
-    "lazos": null,
-    "confianza": "media",
-    "razon": "Es una central de alarma de incendio de la serie 2X-A (el sufijo AF2 sugiere 2 lazos direccionables, pero las muestras del documento no anclan verbatim ni la tecnología ni el número de lazos de esta variante)."
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado de fuego",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-SCFB | Two-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el modelo 2X-AF2-SCFB como central de alarma de incendio direccionable de dos lazos SS 3654 con enrutado y protección de fuego."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-scfb-p",
@@ -1212,15 +1224,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.",
+    "categoria_cita": "2X-AF2-SCFB-P   | Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
-    "lazos": null,
-    "confianza": "media",
-    "razon": "El manual identifica la serie 2X-A como centrales de alarma de incendio; el sufijo F2 sugiere central de 2 lazos direccionables pero las muestras no lo anclan verbatim por variante."
+    "tecnologia_cita": "Two-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado de fuego"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente el modelo 2X-AF2-SCFB-P como central de alarma de incendio direccionable (addressable) de dos lazos con controles de protección y enrutado de fuego."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-af2-scfb-s",
@@ -1233,15 +1251,21 @@
    ],
    "llm": {
     "categoria": "central",
-    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "categoria_cita": "2X-AF2-SCFB-S | Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
-    "lazos": null,
-    "confianza": "media",
-    "razon": "El manual cubre las centrales de alarma de incendio de la serie 2X-A y el sufijo F2 indica variante de central de 2 lazos, pero las muestras no anclan verbatim el número de lazos ni la tecnología direccionable de esta variante concreta."
+    "tecnologia_cita": "Addressable fire panel with Integrated scandinavian UI, 2 loop, small cabinet",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "with 2 High Power Loops that supports up to 256 devices in 512 zones"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El datasheet y los manuales identifican el 2X-AF2-SCFB-S como central de alarma de incendio direccionable de dos lazos con interfaz escandinava SS 3654."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-afr",
@@ -1254,15 +1278,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
-    "tecnologia": null,
-    "tecnologia_cita": null,
+    "categoria_cita": "2X-AFR    | Addressable fire alarm repeater panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "media",
-    "razon": "El sufijo FR de 2X-AFR corresponde a la variante repetidor dentro de la serie 2X-A, cuyo manual cubre centrales, repetidores y paneles de evacuación, pero las muestras no anclan lazos ni tecnología específicos de esta variante."
+    "confianza": "alta",
+    "razon": "El 2X-AFR aparece explícitamente en las tablas de gama de producto como panel repetidor de alarma de incendio direccionable, sin lazos propios al ser repetidor."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-afr-fb",
@@ -1275,15 +1299,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "categoria_cita": "2X-AFR-FB | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego",
     "lazos": null,
-    "confianza": "media",
-    "razon": "El sufijo 'FR' en 2X-AFR-FB corresponde a la variante repetidor de la serie 2X-A (centrales analógicas/direccionables), cuyo manual cubre centrales, repetidores y paneles de evacuación, aunque no hay cita verbatim que ancle la tecnología ni lazos para esta variante concreta."
+    "confianza": "alta",
+    "razon": "Los documentos identifican de forma explícita el 2X-AFR-FB como repetidor de alarma de incendio direccionable (sin lazos propios, es panel repetidor) con controles de protección y enrutado de fuego."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-afr-fb-s",
@@ -1296,15 +1320,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "categoria_cita": "2X-AFR-FB-S | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "media",
-    "razon": "El sufijo 'FR' en la nomenclatura de la serie 2X-A denota panel repetidor (la serie incluye 'fire alarm, repeater, and evacuation control panels') dentro de una gama direccionable, pero las muestras no incluyen la fila exacta de la tabla para 2X-AFR-FB-S."
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el 2X-AFR-FB-S como repetidor de alarma de incendio direccionable (addressable fire alarm repeater panel), sin lazos propios al ser un repetidor."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-afr-s",
@@ -1317,15 +1341,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "categoria_cita": "2X-AFR-S      | Repetidor de alarma de incendio direccionable",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "tecnologia_cita": "Addressable fire alarm repeater panel",
     "lazos": null,
-    "confianza": "media",
-    "razon": "El sufijo 'R' en 2X-AFR-S corresponde a los paneles repetidores de la serie 2X-A (fire alarm, repeater, and evacuation control panels), sistema direccionable, pero las muestras no anclan explícitamente este modelo a una fila de tabla con sus lazos."
+    "confianza": "alta",
+    "razon": "Los documentos identifican explícitamente el 2X-AFR-S como repetidor de alarma de incendio direccionable, sin lazos propios al ser un panel repetidor."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-at-f1-fb-s",
@@ -1510,16 +1534,16 @@
     "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
    ],
    "llm": {
-    "categoria": "central",
-    "categoria_cita": "puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior",
+    "categoria": "repetidor",
+    "categoria_cita": "2X-AT-FR    | Repetidor de alarma de incendio direccionable",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "media",
-    "razon": "La guía describe la serie 2X-AT como centrales de incendio (panel con pantalla táctil, zonas, tarjetas de expansión, firmware), de tecnología direccionable aunque el texto mostrado no lo cita verbatim, y no ancla el número de lazos de la variante -FR."
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el modelo 2X-AT-FR como repetidor de alarma de incendio direccionable (módulo grande), sin lazos propios."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-at-fr-fb",
@@ -1530,15 +1554,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.",
+    "categoria_cita": "2X-AT-FR-FB | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego",
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "baja",
-    "razon": "El sufijo FR en la nomenclatura de la serie 2X indica panel repetidor (con FB = enrutado de fuego), pero las muestras del documento no incluyen la fila específica de este modelo que lo confirme verbatim."
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el modelo 2X-AT-FR-FB como repetidor direccionable con controles de protección y enrutado de fuego, sin lazos propios al ser un repetidor."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-at-fr-fb-s",
@@ -1548,16 +1572,16 @@
     "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
    ],
    "llm": {
-    "categoria": "central",
-    "categoria_cita": "puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior",
+    "categoria": "repetidor",
+    "categoria_cita": "2X-AT-FR-FB-S | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego",
     "tecnologia": "analogica",
-    "tecnologia_cita": null,
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "media",
-    "razon": "La serie 2X-AT de Kidde es una central de detección de incendios (el doc habla de 'centrales', firmware, EN 54-21, tarjetas de expansión), analógica direccionable por conocimiento de gama, pero sin cita verbatim de tecnología ni de número de lazos para esta variante concreta."
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente el modelo 2X-AT-FR-FB-S como repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego, sin lazos propios al ser repetidor."
    },
-   "citas_verificadas": false,
-   "repesca": "max_tokens 400->800"
+   "citas_verificadas": true,
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:2x-at-fr-s",
@@ -1568,15 +1592,15 @@
    ],
    "llm": {
     "categoria": "repetidor",
-    "categoria_cita": "Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.",
+    "categoria_cita": "2X-AT-FR-S    | Repetidor de alarma de incendio direccionable",
     "tecnologia": "analogica",
-    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos",
+    "tecnologia_cita": "Repetidor de alarma de incendio direccionable",
     "lazos": null,
-    "confianza": "baja",
-    "razon": "El sufijo FR en la serie 2X-AT designa por convención al panel repetidor (fire repeater), pero las muestras del documento no incluyen la fila de la tabla que describe verbatim el modelo 2X-AT-FR-S, por lo que no hay cita directa ni lazos anclables a esta variante."
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente el 2X-AT-FR-S como repetidor de alarma de incendio direccionable, sin lazos propios al ser un repetidor."
    },
    "citas_verificadas": true,
-   "repesca": "max_tokens 400->800"
+   "repesca": "v3 tabla-modelos full-text"
   },
   {
    "id": "kidde:9-30780-kid-en",
@@ -3280,5 +3304,6 @@
    "citas_verificadas": true
   }
  ],
- "repesca_utc": "20260814T160406Z"
+ "repesca_utc": "20260814T160406Z",
+ "repesca_v3_utc": "20260814T173413Z"
 }

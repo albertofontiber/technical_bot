@@ -2812,14 +2812,20 @@ con honestidad sin-clasificar. **Resta la POBLACIÓN** (mini-GT → fable-5
 con citas → gate ≥95% → packet §0): hasta entonces el bot da la lista
 completa con aviso honesto.
 
-**s322b (DEC-217): CERRADO para Detnov+Kidde** — §0 escrito (138 productos
-clasificados; 292 citas re-verificadas full-text, 3 derivadas declaradas,
-1 invención cazada y retirada), semántica de capacidad «N = hasta N»
-(adjudicada), clave `zonas` para convencionales, lazos VESTA con la
-ampliación modular CAD-250 {max 32} anclada verbatim, inventario genérico
-AGRUPADO por tipología/familia (adjudicado 14-ago), dúo r28 completo (12
-hallazgos, 0 FP, todo aplicado). Restan: §1 (~22 filas) en el packet de
-Alberto y la población del resto de marcas (por packets, mismo pipeline).
+**s322b (DEC-217): CERRADO para Detnov+Kidde AL 100%** — clasificación
+completa: censo 160/160 + censo-extra firebeam 2/2 (la repesca v3 dirigida a
+la TABLA DE MODELOS convirtió las 22 §1 en §0 con cita verbatim full-text —
+la pregunta de Alberto «¿reviso online?» se respondió con el corpus: era
+muestreo, no ausencia; gate final 29/29 = 100% PASS; 348 citas re-verificadas
+full-text, 3 derivadas declaradas, 1 invención cazada y retirada), semántica
+de capacidad «N = hasta N» (adjudicada), clave `zonas` para convencionales,
+lazos VESTA con la ampliación modular CAD-250 {max 32} anclada verbatim,
+inventario genérico AGRUPADO por tipología/familia (adjudicado 14-ago), dúo
+r28 completo (12 hallazgos, 0 FP, todo aplicado). Resta: población del resto
+de marcas (por packets, mismo pipeline — con el gatillo #76b antes de
+multi-mercado). El carril «evidencia online» queda DISEÑADO para censos
+futuros donde el corpus de verdad no ancle: URL+quote+fecha al packet como
+tier declarado, jamás al catálogo sin adjudicación.
 
 ## #76b — Divergencia multi-mercado en atributos de capacidad: hoy se serviría fusionada (dúo r28 Sol S1, LATENTE) — s322b
 

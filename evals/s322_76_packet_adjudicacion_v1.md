@@ -1,14 +1,14 @@
-# s322 #76 — Packet de POBLACIÓN del catálogo (generado 20260814T160407Z)
+# s322 #76 — Packet de POBLACIÓN del catálogo (generado 20260814T173414Z)
 
 **GATE de precisión (pre-registrado)**: alta-confianza vs mini-GT sin-duda →
-**28/28 = 100%** → **PASS**.
+**29/29 = 100%** → **PASS**.
 (GT: 30 etiquetados a mano leyendo docs ANTES de la pasada; recibo del gate abajo.)
 
 **Nota de enum-semántica para tu adjudicación**: `analogica` ≈ direccionable/
 inteligente/addressable (uso PCI-ES estándar; Detnov escribe «analógica», Kidde
 «addressable»). Si prefieres separarlas, dilo y re-etiqueto.
 
-## §0 — Aplicables EN BLOQUE con tu sí (138)
+## §0 — Aplicables EN BLOQUE con tu sí (160)
 
 Alta confianza + citas verificadas contra el contenido. Un «sí al §0» y las
 escribo vía la puerta (validación completa + recibo).
@@ -64,6 +64,8 @@ Serie VESTA»
   - cita: «PULSADOR CONVENCIONAL
 
 ## PCD-100»
+- [ ] `detnov:tbud-ng` (TBUD-NG) → **accesorio** · lazos 2 (alta, citas ✓)
+  - cita: «VERDE   | TBUD-NG     | Placa expansión de lazos.»
 - [ ] `detnov:tcd-100` (TCD-100) → **pasarela** (alta, citas ✓)
   - cita: «la posibilidad de retransmitir de forma segura todos los eventos de alarma recogidos por el sistema a una Central Recept»
 - [ ] `detnov:ted-151-cl` (TED-151-CL) → **pasarela** (alta, citas ✓)
@@ -76,8 +78,14 @@ Serie VESTA»
   - cita: «The 2010−2A-PAK-HPL Panel Activation Key (PAK) increases the maximum loop output from 500 mA to 800 mA (high-powered loo»
 - [ ] `kidde:2x-a-lb` (2X-A-LB) → **accesorio** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Accesorio central de incendios direccionable, placa de expansión de lazo, 2 lazos»
+- [ ] `kidde:2x-ae1` (2X-AE1) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «2X-AE1        | One-loop addressable fire and evacuation alarm control panel»
 - [ ] `kidde:2x-ae2` (2X-AE2) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «2X-AE2        | Two-loop addressable fire and evacuation alarm control panel»
+- [ ] `kidde:2x-ae2-p` (2X-AE2-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Two-loop addressable fire and evacuation alarm control panel»
+- [ ] `kidde:2x-af1` (2X-AF1) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «2X-AF1 | One-loop addressable fire alarm control panel»
 - [ ] `kidde:2x-af1-fb` (2X-AF1-FB) → **central** · analogica · lazos 1 (alta, citas ✓)
   - cita: «2X-AF1-FB     | One-loop addressable fire alarm control panel with fire routing and fire protection controls»
 - [ ] `kidde:2x-af1-fb-s` (2X-AF1-FB-S) → **central** · analogica · lazos 1 (alta, citas ✓)
@@ -86,16 +94,44 @@ Serie VESTA»
   - cita: «| 2X-AF1-S      | Central de alarma de incendio direccionable de un lazo                                                »
 - [ ] `kidde:2x-af1-scfb` (2X-AF1-SCFB) → **central** · analogica · lazos 1 (alta, citas ✓)
   - cita: «2X-AF1-SCFB   | One-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls»
+- [ ] `kidde:2x-af1-scfb-s` (2X-AF1-SCFB-S) → **central** · analogica · lazos 1 (alta, citas ✓)
+  - cita: «Central de alarma de incendio direccionable de un lazo SS 3654 con controles de protección y enrutado de fuego»
+- [ ] `kidde:2x-af2` (2X-AF2) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2        | Two-loop addressable fire alarm control panel»
 - [ ] `kidde:2x-af2-09` (2X-AF2-09) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Central de incendios direccionable, 2 lazos, español»
+- [ ] `kidde:2x-af2-fb` (2X-AF2-FB) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-FB | Two-loop addressable fire alarm control panel with fire routing and fire protection controls»
+- [ ] `kidde:2x-af2-fb-p` (2X-AF2-FB-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-FB-P | Central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego»
 - [ ] `kidde:2x-af2-fb-prt` (2X-AF2-FB-PRT) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing»
 - [ ] `kidde:2x-af2-fb-prt-p` (2X-AF2-FB-PRT-P) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing»
+- [ ] `kidde:2x-af2-fb-s` (2X-AF2-FB-S) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «Central de alarma de incendio direccionable de dos lazos con controles de protección y enrutado de fuego»
 - [ ] `kidde:2x-af2-p` (2X-AF2-P) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «2X-AF2-P        | Two-loop addressable fire alarm control panel»
 - [ ] `kidde:2x-af2-prt` (2X-AF2-PRT) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «2X-AF2-PRT-P    | Two-loop addressable fire alarm control panel with internal printer»
+- [ ] `kidde:2x-af2-prt-p` (2X-AF2-PRT-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-PRT-P | Central de alarma de incendio direccionable de dos lazos con impresora interna»
+- [ ] `kidde:2x-af2-s` (2X-AF2-S) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-S      | Two-loop addressable fire alarm control panel»
+- [ ] `kidde:2x-af2-scfb` (2X-AF2-SCFB) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-SCFB | Two-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls»
+- [ ] `kidde:2x-af2-scfb-p` (2X-AF2-SCFB-P) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-SCFB-P   | Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutad»
+- [ ] `kidde:2x-af2-scfb-s` (2X-AF2-SCFB-S) → **central** · analogica · lazos 2 (alta, citas ✓)
+  - cita: «2X-AF2-SCFB-S | Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado »
+- [ ] `kidde:2x-afr` (2X-AFR) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AFR    | Addressable fire alarm repeater panel»
+- [ ] `kidde:2x-afr-fb` (2X-AFR-FB) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AFR-FB | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego»
+- [ ] `kidde:2x-afr-fb-s` (2X-AFR-FB-S) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AFR-FB-S | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego»
+- [ ] `kidde:2x-afr-s` (2X-AFR-S) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AFR-S      | Repetidor de alarma de incendio direccionable»
 - [ ] `kidde:2x-at-f1-fb-s` (2X-AT-F1-FB-S) → **central** · analogica · lazos 1 (alta, citas ✓)
   - cita: «Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego»
 - [ ] `kidde:2x-at-f2` (2X-AT-F2) → **central** · analogica · lazos 2 (alta, citas ✓)
@@ -110,6 +146,14 @@ Serie VESTA»
   - cita: «Panel de incendios direccionable con pantalla táctil, Fuente de alimentación grande, 2 lazos, caja grande»
 - [ ] `kidde:2x-at-f2-s` (2X-AT-F2-S) → **central** · analogica · lazos 2 (alta, citas ✓)
   - cita: «Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña»
+- [ ] `kidde:2x-at-fr` (2X-AT-FR) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AT-FR    | Repetidor de alarma de incendio direccionable»
+- [ ] `kidde:2x-at-fr-fb` (2X-AT-FR-FB) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AT-FR-FB | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego»
+- [ ] `kidde:2x-at-fr-fb-s` (2X-AT-FR-FB-S) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AT-FR-FB-S | Repetidor de alarma de incendio direccionable con controles de protección y enrutado de fuego»
+- [ ] `kidde:2x-at-fr-s` (2X-AT-FR-S) → **repetidor** · analogica (alta, citas ✓)
+  - cita: «2X-AT-FR-S    | Repetidor de alarma de incendio direccionable»
 - [ ] `kidde:9-30780-kid-en` (9-30780-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
   - cita: «ModuLaser manual de instalación del detector de humo por aspiración modular»
 - [ ] `kidde:9-30781-kid-en` (9-30781-KID-EN) → **aspiracion** · aspiracion (alta, citas ✓)
@@ -294,54 +338,10 @@ Serie VESTA»
   - cita: «The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 8 zones that »
 
 
-## §1 — Una a una (22)
+## §1 — Una a una (0)
 
-- [ ] `detnov:tbud-ng` (TBUD-NG) → **modulo** · analogica · lazos 2 (media)
-  - cita: «TBUD-NG | Placa expansión de lazos.»
-- [ ] `kidde:2x-ae1` (2X-AE1) → **central** · analogica · lazos 1 (media)
-  - cita: «2X-AE1 | One-loop addressable fire and evacuation alarm control panel»
-- [ ] `kidde:2x-ae2-p` (2X-AE2-P) → **central** · analogica · lazos 2 (media)
-  - cita: «2X-AE2-P | Two-loop addressable fire and evacuation alarm control panel»
-- [ ] `kidde:2x-af1` (2X-AF1) → **central** · analogica · lazos 1 (media)
-  - cita: «2X-AF1 | One-loop addressable fire alarm control panel»
-- [ ] `kidde:2x-af1-scfb-s` (2X-AF1-SCFB-S) → **central** · analogica · lazos 1 (media, citas ✓)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
-- [ ] `kidde:2x-af2` (2X-AF2) → **central** · analogica · lazos 2 (media, citas ✓)
-  - cita: «2X-AF2-P        | Two-loop addressable fire alarm control panel»
-- [ ] `kidde:2x-af2-fb` (2X-AF2-FB) → **central** · analogica · lazos 2 (media)
-  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
-- [ ] `kidde:2x-af2-fb-p` (2X-AF2-FB-P) → **central** · analogica · lazos 2 (media)
-  - cita: «2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls»
-- [ ] `kidde:2x-af2-fb-s` (2X-AF2-FB-S) → **central** · analogica (media, citas ✓)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.»
-- [ ] `kidde:2x-af2-prt-p` (2X-AF2-PRT-P) → **central** · analogica · lazos 2 (media)
-  - cita: «2X-AF2-PRT-P | Two-loop addressable fire alarm control panel with internal printer»
-- [ ] `kidde:2x-af2-s` (2X-AF2-S) → **central** · analogica · lazos 2 (media, citas ✓)
-  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
-- [ ] `kidde:2x-af2-scfb` (2X-AF2-SCFB) → **central** · analogica (media)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
-- [ ] `kidde:2x-af2-scfb-p` (2X-AF2-SCFB-P) → **central** · analogica (media)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.»
-- [ ] `kidde:2x-af2-scfb-s` (2X-AF2-SCFB-S) → **central** · analogica (media)
-  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
-- [ ] `kidde:2x-afr` (2X-AFR) → **repetidor** (media, citas ✓)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
-- [ ] `kidde:2x-afr-fb` (2X-AFR-FB) → **repetidor** · analogica (media)
-  - cita: «Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A»
-- [ ] `kidde:2x-afr-fb-s` (2X-AFR-FB-S) → **repetidor** · analogica (media, citas ✓)
-  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
-- [ ] `kidde:2x-afr-s` (2X-AFR-S) → **repetidor** · analogica (media, citas ✓)
-  - cita: «This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.»
-- [ ] `kidde:2x-at-fr` (2X-AT-FR) → **central** · analogica (media)
-  - cita: «puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior»
-- [ ] `kidde:2x-at-fr-fb` (2X-AT-FR-FB) → **repetidor** · analogica (baja, citas ✓)
-  - cita: «Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.»
-- [ ] `kidde:2x-at-fr-fb-s` (2X-AT-FR-FB-S) → **central** · analogica (media)
-  - cita: «puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior»
-- [ ] `kidde:2x-at-fr-s` (2X-AT-FR-S) → **repetidor** · analogica (baja, citas ✓)
-  - cita: «Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.»
 
 
 ---
 *Recibos: `s322_76_poblacion_v1.json` · `s322_76_gt_v1.yaml` ·
-gate: {"aciertos": 28, "n": 28, "precision": 1.0, "pass": true}*
+gate: {"aciertos": 29, "n": 29, "precision": 1.0, "pass": true}*
