@@ -66,8 +66,11 @@ def eq(monkeypatch):
 
     inventario_respuesta = {"valor": "*Inventario stub*"}
 
-    def _inventario(marca):
+    def _inventario(marca, filtros=None):
+        # (s322 #76) el despachador pasa los filtros TIPADOS del plan; el
+        # instrumento los registra para poder assertarlos por caso.
         rec["inventario_de"].append(marca)
+        rec.setdefault("inventario_filtros", []).append(filtros)
         return inventario_respuesta["valor"]
 
     monkeypatch.setattr(bot, "_inventario_fabricante", _inventario)

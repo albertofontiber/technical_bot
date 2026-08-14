@@ -4,6 +4,7 @@ Receives questions, queries the RAG pipeline, and returns formatted answers with
 """
 
 import asyncio
+import json
 import logging
 import os
 import re
@@ -324,16 +325,128 @@ def _pm_plano(pm: str) -> str:
     return pm.replace("*", "").replace("_", " ").replace("`", "")
 
 
-def _inventario_fabricante(nombre: str) -> str | None:
+def _norm_marca(s: str) -> str:
+    import unicodedata as _ud
+    plano = _ud.normalize("NFKD", s or "")
+    plano = "".join(c for c in plano if not _ud.combining(c)).lower()
+    return re.sub(r"[^a-z0-9]", "", plano)
+
+
+def _inventario_filtrado(nombre: str, filtros: dict) -> str | None:
+    """(s322 #76, DEC-216) Vista de inventario CON FILTROS, desde el CATÁLOGO
+    gobernado (r27 Fable C1: los pm de chunks son strings de FAMILIA por diseño
+    T3 — el join es catálogo ∩ doc_map, no los pm). None → el llamador degrada
+    a la lista completa con línea honesta (jamás lista falsa ni omisión muda).
+    """
+    from ..rag.catalog_resolver import catalogo_cargado
+
+    cat = catalogo_cargado()
+    if cat is None:
+        return None
+    marca_nk = _norm_marca(nombre)
+    con_docs = set()
+    for dm in cat.doc_map:
+        for e in dm.get("entries") or ():
+            con_docs.add(cat.follow_redirect(e["id"]))
+    propios = []
+    for pid, p in cat.products.items():
+        if p.get("estado") != "activo" or p.get("candidate"):
+            continue
+        if not (pid.split(":")[0] == marca_nk
+                or any(_norm_marca(v) == marca_nk
+                       for v in p.get("vendido_bajo") or ())):
+            continue
+        if cat.follow_redirect(pid) in con_docs:
+            propios.append(p)
+    if not propios:
+        return None
+    clasificados = [p for p in propios if p.get("clasificacion")]
+    sin_clasificar = len(propios) - len(clasificados)
+
+    def _casa(p: dict) -> str | None:
+        """None = no casa; str = descripción de atributos citados."""
+        partes = []
+        if "categoria" in filtros:
+            if p["clasificacion"].get("categoria") != filtros["categoria"]:
+                return None
+            partes.append(p["clasificacion"]["categoria"])
+        at = p.get("atributos") or {}
+        if "tecnologia" in filtros:
+            vals = {v.get("valor") for v in at.get("tecnologia") or ()}
+            if filtros["tecnologia"] not in vals:
+                return None
+            partes.append(filtros["tecnologia"])
+        if "lazos" in filtros:
+            n = filtros["lazos"]
+            rangos = [(v.get("base"), v.get("max", v.get("base")))
+                      for v in at.get("lazos") or ()]
+            if not any(isinstance(b, int) and b <= n <= m for b, m in rangos):
+                return None
+            partes.append(f"{n} lazos")
+        return ", ".join(partes)
+
+    casan = [(p, _casa(p)) for p in clasificados]
+    casan = [(p, d) for p, d in casan if d is not None]
+    if not clasificados:
+        return None                # población pendiente → lista completa honesta
+    nombre_visible = nombre if nombre != nombre.lower() else nombre.title()
+    desc = " ".join(str(filtros[k]) for k in ("categoria", "tecnologia", "lazos")
+                    if k in filtros)
+    if not casan:
+        lineas = [f"📦 De *{nombre_visible}*, ninguno de los {len(clasificados)} "
+                  f"productos clasificados casa con «{desc}»."]
+        if sin_clasificar:
+            lineas.append(f"_(hay {sin_clasificar} productos aún sin clasificar "
+                          f"— puedo estar ciego ahí)_")
+        lineas.append("¿Quieres el inventario completo o pregunto de otra forma?")
+        return "\n".join(lineas)
+    lineas = [f"📦 *{nombre_visible} — {desc}* "
+              f"({len(casan)} de {len(propios)} productos):\n"]
+    for p, d in sorted(casan, key=lambda x: x[0].get("canonical_model") or ""):
+        lineas.append(f"• *{_pm_plano(p.get('canonical_model') or p['id'])}* — {d}")
+    if sin_clasificar:
+        lineas.append(f"\n_(y {sin_clasificar} productos de {nombre_visible} "
+                      f"aún sin clasificar por categoría/atributos)_")
+    lineas.append("\n¿Sobre cuál necesitas información?")
+    return "\n".join(lineas)
+
+
+def _inventario_fabricante(nombre: str, filtros: dict | None = None) -> str | None:
     """Respuesta de inventario para un fabricante, o None para caer al RAG.
 
     Del corpus, no de una ventana de retrieval; ACOTADA a `_PRESUPUESTO_MSG` por
     construcción (las que no caben se resumen en «…y N más»); «referencias» y no
     «modelos» (varias marcas taguean a FAMILIA — deliberado, T3/s285). Éxito
     cacheado por proceso; fallo NO cacheado pero con backoff (60 s) y → RAG.
+    s322 #76: `filtros` tipados del plan → vista del catálogo gobernado con
+    clave de caché COMPUESTA (r27: la caché por-marca se contaminaría); si la
+    vista no puede (catálogo caído / marca sin catalogar / sin clasificación),
+    degrada a la lista completa CON línea honesta de por qué.
     """
     global _inventario_falla_ts
     nombre = resolve_manufacturer_alias(nombre)   # s308/#67: «lda» → LDA audioTech
+    if filtros:
+        clave_f = (nombre.strip().lower() + "|"
+                   + json.dumps(filtros, sort_keys=True))
+        if clave_f in _inventario_cache:
+            return _inventario_cache[clave_f]
+        try:
+            respuesta = _inventario_filtrado(nombre, filtros)
+        except Exception as exc:                  # noqa: BLE001
+            logger.warning("inventario filtrado fail-open a lista completa (%s)",
+                           type(exc).__name__)
+            respuesta = None
+        if respuesta is not None:
+            _inventario_cache[clave_f] = respuesta
+            return respuesta
+        completo = _inventario_fabricante(nombre)
+        if completo is None:
+            return None
+        respuesta = ("_Aún no tengo la clasificación por categoría/atributos "
+                     "cargada para este fabricante — te muestro el inventario "
+                     "completo:_\n\n" + completo)
+        _inventario_cache[clave_f] = respuesta
+        return respuesta
     clave = nombre.strip().lower()
     if clave in _inventario_cache:
         return _inventario_cache[clave]
@@ -861,7 +974,8 @@ async def _ejecutar_plan(update: Update, context: ContextTypes.DEFAULT_TYPE,
     # hoy). log_consulta gatea TODO log_query de atajo — una ruta nueva que declare
     # log_consulta=False y loggee, o viceversa, rompe sus tests, no la promesa v7.
     if ruta == "inventario":
-        respuesta = _inventario_fabricante(plan.datos["marca"])
+        respuesta = _inventario_fabricante(plan.datos["marca"],
+                                           plan.datos.get("filtros"))
         if respuesta is None:
             # fail-open DECLARADO POR EL PLAN: la degradacion es fallback_ruta
             # (feedback o conversacional), no una segunda decision del despachador.
