@@ -31,8 +31,9 @@ from src.rag.catalog_store import CATALOG_DIR, _read_jsonl, write_jsonl  # noqa:
 SB = os.environ["SUPABASE_URL"].rstrip("/")
 HS = {"apikey": os.environ["SUPABASE_SERVICE_KEY"],
       "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_KEY']}"}
-PROV = ("s322-76 poblacion fable-5, gate GT PASS; §0 adjudicado por Alberto "
-        "14-ago; rescate de atribucion (doc completo, recibo writer 160408Z)")
+PROV = ("s322-76 poblacion fable-5 (+repescas v1-v3), gate GT PASS; criterio "
+        "§0 adjudicado por Alberto 14-ago (alta + citas verificadas full-text); "
+        "atribucion contra doc completo")
 
 pob = json.loads((ROOT / "evals" / "s322_76_poblacion_v1.json")
                  .read_text(encoding="utf-8"))

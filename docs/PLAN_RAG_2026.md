@@ -102,11 +102,12 @@ LATENTE) con gatillo duro antes de poblar Notifier. Arco previo s316→s317
     en writes de scripts) solo con señal de dolor.
 
 **Qué sigue (s322b)**: (a) **SENTADA ÚNICA de Alberto** — packets E3 (§0 15 + §1 32)
-+ E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway **+ §1 de
-#76 (22 filas Detnov/Kidde, `evals/s322_76_packet_adjudicacion_v1.md`)**; (b) FULL
-fresco v3.2 tras la sentada; (c) poblar #76 en más marcas por packets — con el
-**gatillo #76b** (flag de divergencia + `alcance`) OBLIGATORIO antes de
-Notifier/multi-mercado; (d) leer traza intent/latencia cuando haya tráfico.
++ E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway (el §1 de
+#76 quedó VACÍO: la repesca v3 a tabla-de-modelos cerró Detnov+Kidde al 100% con
+cita verbatim — nada de #76 pendiente de sentada); (b) FULL fresco v3.2 tras la
+sentada; (c) poblar #76 en más marcas por packets — con el **gatillo #76b** (flag
+de divergencia + `alcance`) OBLIGATORIO antes de Notifier/multi-mercado; (d) leer
+traza intent/latencia cuando haya tráfico.
 
 **Qué sigue (s321b — histórico)**: (a) SENTADA ÚNICA de Alberto — packets E3 (§0 15-en-bloque + §1 32) + E2 (1.235/23) + E1/E1b + s318-restante + LLM_MAX_TOKENS + vars Railway; (b) FULL fresco v3.2 tras la sentada; (c) #76 categoría+atributos (mandato 13-ago, diseño con dúo — consume el esquema clarify de E4); (d) leer traza intent/latencia cuando haya tráfico.
 
