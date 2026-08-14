@@ -6292,3 +6292,54 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   variante-de-familia va como mejora adjudicable, no automática.
 - **Relacionado**: plan v2 elefante · DEC-093/094 · DEC-212 (E1) · tally r23
   ts=2026-08-13T21:56:44.
+
+## DEC-214 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
+
+**Decisión**: los preregs de los canarios `s203/s204/s205` son **guardas VIVAS (tripwires)** sobre el
+ledger de golds, y **se re-anclan** cuando Alberto adjudica un gold — con una acotación OBLIGATORIA.
+Los artefactos de `s277` (contrato sellado, prereg de release, manifest histórico) **NO se tocan**.
+
+**El criterio, escrito una vez para no re-litigarlo** (lo pidió Fable; hasta hoy solo vivía en prosa
+de mensajes de commit):
+- **Registro histórico** = el acta de contra qué corrió una ejecución pasada. Vive en **git y en el
+  manifest**, no en el prereg. **Intocable.**
+- **Guarda viva** = el pin que dice «esta entrada no se ha movido desde que la aprobé». Su valor NO es
+  autenticar: es **forzar ceremonia visible** ante cualquier cambio del ruler. Se re-ancla
+  deliberadamente, con la causa escrita en el propio fichero.
+- ⚠️ El `status: FROZEN_BEFORE_FRONTIER_EXECUTION` de esos preregs **induce a error**: sus
+  `frozen_inputs` ya mutaron en s286, s287 y ahora s321. Se conserva el literal porque tres runners
+  lo assertan; el matiz queda anotado en cabecera. **Renombrarlo es deuda pendiente**, no urgente.
+
+**Acotación OBLIGATORIA antes de re-anclar** (convergencia del dúo; sin esto el re-anclaje bendice
+CUALQUIER deriva acumulada, no solo la adjudicada): localizar el commit cuyo fichero casa con el sha
+pinneado y **diffear contra él**, verificando que solo contiene lo adjudicado. Ejecutado en s321:
+pin `79701140…` → commit `972e96b` (s287); diff = 14 líneas, todas en `hp001`, cero qids
+añadidos/quitados. **«Lo explico en el commit» NO es mitigación** (Sol, medio).
+
+**Motivo + alternativas descartadas**: el dúo DIVERGIÓ de frente. **Sol (2 críticos)**: re-anclar
+falsifica la declaración `FROZEN_BEFORE_...`; el arreglo estructural es resolver el ledger desde un
+**blob sellado** (`git cat-file`), patrón que YA existe en `tests/test_s277_c1_p1_contract.py:29-56`
+con su razón escrita («hashear el árbol vivo reportaría el desarrollo como manipulación»; DEC-147:
+versionar, no relajar). **Fable**: pinnear el fichero vivo NO es defecto — es un tripwire, no un
+autenticador, y un snapshot lo silenciaría **para siempre**; que 4 tests se pongan rojos ante una
+adjudicación es la guarda funcionando. **Adjudicado a favor de Fable** por un hecho que él mismo
+aporta y que reconcilia a los dos: el prereg **ya no registra** lo que la ejecución consumió — eso
+vive en git/manifest — luego re-anclar **no destruye evidencia**. La propuesta de Sol queda
+**registrada como candidata**, no descartada: si algún día se quiere una guarda que distinga
+«legítimo» de «manipulación» (y no solo *que* cambió), el blob sellado es el camino.
+
+**Lo que NO se hizo, y por qué** (Sol, crítico 1, CONFIRMADO en ejecución): regenerar
+`s277_c1_p1_fact_contract_v1.json` por su builder **satisface un test y rompe otro** —
+`test_contract_rebuilds_byte_semantically_from_frozen_authorities` exige rebuild==stored, y el
+preflight del runner exige que el hash case con el pin sellado del prereg. No pueden cumplirse a la
+vez cuando una entrada legítima cambia. Se **restauraron** los tres artefactos de s277 y se dejó el
+test de rebuild en rojo, documentado como **TECH_DEBT #76**: es un defecto de sobre-pinneo
+preexistente que esta adjudicación solo destapó, y cascar re-anclajes dentro de una puerta de
+release no es algo que se haga de madrugada sin decisión propia.
+
+**Coste declarado para la sentada B2**: cada tanda de marcas exige re-anclar los 3 canarios, con su
+diff acotado, y **marcas + re-anclaje deben ir en UN commit** — si van separados, la suite queda roja
+en cada frontera intermedia, se normaliza el rojo y una deriva ajena que entre en esa ventana queda
+enmascarada (Fable, medio).
+
+Recibos: `evals/s321_reanclaje_propuesta_v1.md` · dúo ts=2026-08-14T17:54:01 (Sol xhigh + Fable 5).

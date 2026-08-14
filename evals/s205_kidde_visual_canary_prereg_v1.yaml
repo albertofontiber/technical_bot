@@ -5,6 +5,15 @@ geometry_frozen_in_prior_commit: af6de65
 
 # re-anclado s286: gold ledger editado por ADJUDICACIÓN de Alberto (r1+r2+hp018)
 # re-anclado s287: gold cat008 editado por ADJUDICACIÓN de Alberto (auditoría píxel A-D + citations/pdfs_used)
+# re-anclado s321: hp001#2 editado por ADJUDICACIÓN de Alberto («configuración avanzada» =
+#   el submenú AVANZADO). Diff acotado VERIFICADO contra 972e96b (el commit cuyo ledger casaba
+#   con el sha anterior): 14 líneas, todas dentro de hp001, cero qids añadidos o quitados ⇒ el
+#   re-anclaje no bendice ninguna deriva ajena. Dúo s321 (Sol xhigh + Fable 5), divergente:
+#   Sol pedía NO re-anclar y resolver desde blob sellado; Fable sostiene que esta guarda es un
+#   TRIPWIRE (fuerza ceremonia visible), no un autenticador. Adjudicado a favor de Fable porque
+#   el registro de lo que la ejecución consumió NO vive aquí: vive en git y en el manifest.
+#   ⚠️ Léase 'status' con ese matiz: este fichero es una guarda VIVA re-anclable, no el acta de
+#   lo que s2xx ejecutó. Criterio canónico documentado en DECISIONS (DEC-214).
 frozen_inputs:
   design: {path: evals/s205_kidde_visual_canary_design_v1.md, sha256: a9dfa8dab3587ef7f67e83f248e40b7ebdb04b3552dd461982f39049632a287f}
   packet: {path: evals/s205_kidde_visual_canary_packet_v1.json, sha256: 143c5a021db382f4a90cd3e6ac6c119537ea969b7c5fa74a315636cd13aa2fa8}
@@ -15,7 +24,7 @@ frozen_inputs:
   runner: {path: scripts/s205_run_kidde_visual_canary.py, sha256: 4d509c3d0955b96b76376e4f8a6c50954a65306b280a457606d685c96479e0b0}
   gate_tests: {path: tests/test_visual_gold.py, sha256: d9c2e16644bfffa774ebeb642b5d8e48704cc710d2635b9056c5a64401d8714c}
   cohort_tests: {path: tests/test_s205_kidde_visual_canary.py, sha256: f95ba2b65be531d23f57d4523a77ed4fea8d756a19c2e0f1e30f50b87643a66a}
-  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: 79701140dff096aef8cac0faf1833bb14b1df080e2d466803109fc81ece25e1d}
+  existing_gold_ledger: {path: evals/gold_answers_v1.yaml, sha256: a306b126fffaa33a5df02b172d0644c3f3f7781888dea15800a787045204fa9a}
   retriever_hyq_ledger: {path: evals/s99_hyq_generated.jsonl, sha256: 74ea2a346c9fb135a0e3f527d00d4098e42dc15037661294ce112991befdc4e9}
 
 packet_sha256: bb7b0ec24bbb0a25b4125b63c6b9607ec30ed001bbaf85bdd1a424a065b1b4de

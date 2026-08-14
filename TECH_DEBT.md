@@ -2776,3 +2776,31 @@ futuro pueda consumir el dict mal. Toca a TODOS los llamadores ⇒ medio impacto
 ⇒ **dúo obligatorio**; por eso NO se acopló a la medición de s320c. **Coste**: S.
 **Relacionado**: DEC-173, DEC-186 (EN REVISIÓN), fila etapa-3 de `docs/LEVER_DIGEST.md`, ítem 2
 de `evals/s312_goldreview_b2_packet_v3.md`.
+
+## #76 — El contrato `s277_c1_p1_fact_contract_v1.json` está SOBRE-PINNEADO: dos guardas incompatibles (s321)
+
+**El hecho (verificado en ejecución, no inferido)**: el contrato está fijado por DOS mecanismos con
+expectativas opuestas. `tests/test_s277_c1_p1_contract.py::test_contract_rebuilds_byte_semantically_from_frozen_authorities`
+lo **reconstruye** desde sus autoridades y exige `rebuilt == stored`; el preflight del runner
+(`scripts/s277_c1_p1.py:456`) exige que su hash LF case con el pin sellado de
+`evals/s277_c1_p1_prereg_v1.yaml`. Cuando una autoridad legítima cambia, **regenerar arregla el
+primero y rompe el segundo; no regenerar hace lo contrario**. Comprobado ejecutando el builder y
+revirtiendo.
+
+**Por qué se dispara con algo que no le incumbe**: `hp001` **ni siquiera está** en los `QIDS` del
+builder (`scripts/s277_build_c1_p1_contract.py:25-43`, 13 qids). El rebuild cambia solo porque el
+builder mete un recibo del **ledger ENTERO** (`:669-696`). Acoplamiento por hash de fichero completo,
+no dependencia real.
+
+**Agravante (Sol, crítico)**: el manifest histórico fija el contrato a `3ac742…`
+(`evals/s277_c1_p1_b92ff51_handoff_manifest_v1.json`) mientras el prereg ya declara `a4d29396…`. **La
+deriva es PREEXISTENTE**: dejar el manifest «intacto» mientras se sustituye el único contrato al que
+apunta lo deja irreproducible, no preservado.
+
+**Fix cuando toque (no antes)**: decidir cuál de las dos guardas manda. Candidatos: (a) que el
+recibo del builder hashee **solo los qids del contrato** en vez del ledger entero — quita el falso
+acoplamiento de raíz; (b) versionar contrato+prereg juntos por DEC-147 («versionar, no relajar»)
+cuando exista un consumidor contemporáneo que lo necesite; (c) resolver las autoridades desde blob
+sellado (propuesta de Sol, ver DEC-214). **Trigger**: la próxima vez que una adjudicación de gold
+tenga que convivir con el gate de release, o que alguien necesite reproducir b92ff51. **Coste**: M.
+**Relacionado**: DEC-214, DEC-147, #75.

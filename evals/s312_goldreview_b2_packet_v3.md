@@ -464,7 +464,25 @@ de AJUSTES ⇒ quitarla puede hacer el hecho falso.
 > `qid#idx:valor` si no cambias el `valor`, así que las filas históricas seguirán pareando como si
 > midieran lo mismo: decláralo al re-basear.
 
-`[ ] ✅ aplicar la propuesta · [ ] ✏️ tu redacción (anota) · [ ] ❌ dejarlo`
+`[X] ✅ aplicar la propuesta · [ ] ✏️ tu redacción (anota) · [ ] ❌ dejarlo`
+
+> ✅ **ADJUDICADO Y APLICADO (Alberto, s321)** — «configuración avanzada» = **el submenú AVANZADO**.
+> Con esa lectura 1111 no alcanza nada de él, luego «completa» sobraba. **Aplicado vía `gold_store`**
+> (validación 0 errores):
+> - `texto`: «La clave de USUARIO por defecto es 1111, que NO da acceso al **submenu AVANZADO de
+>   AJUSTES** (nivel de usuario; AVANZADO y USUARIOS requieren permiso de instalador)»
+> - `cita`: `MU-376 p10 + MC-380 p31 (5.4 AVANZADO) + MC-380 p15 (3.1: AJUSTES de nivel usuario)`,
+>   con **quote verbatim añadido** a `citations`. El término «AVANZADO» queda anclado en la fuente de
+>   la PROPIA CAD-250, no importado de la CAD-171.
+>   *(Corregido por el dúo: mi primera cita decía «p29», que es la paginación de **otra revisión** del
+>   MC-380. El `pdfs_used` de este gold usa `CAD-250-MC-380-es.pdf`, donde el mismo §5.4 está en
+>   **p31**. Y faltaba el quote: la cláusula adjudicada era la MENOS respaldada del ítem.)*
+> - `_provenance`: p31 añadida declarando el método REAL (lectura del chunk de corpus, **no**
+>   `render_pdf + cross_model` como p20-21). Declarado, no equiparado.
+> - Cláusula gemela del `gold_answer` actualizada en el mismo upsert (si no, el gold afirmaría ante
+>   el juez de PASS lo que el hecho niega).
+> - `valor` **intacto** (`'1111'`) ⇒ la clave de join `qid#idx:valor` se conserva y las filas
+>   históricas siguen pareando.
 
 ---
 
