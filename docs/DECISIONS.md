@@ -6353,3 +6353,38 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   no ingeniería.
 - **Relacionado**: DEC-069 (la promesa del comentario) · DEC-074/082/084/091b ·
   tally r26 ts=2026-08-14T00:43:11.
+
+## DEC-216 (s322) — #76 MECANISMO COMPLETO (dúo r27): clasificacion+atributos multi-valor en el catálogo, filtros tipados en el plan, inventario filtrado con honestidad — la población es la fase 2
+
+- **Fecha**: 14 ago 2026 (s322). **Impacto**: MEDIO-ALTO (esquema del catálogo +
+  ruta de inventario de fase A) — dúo r27 PRE-build (Sol 3 · Fable 4, 2 críticos,
+  0 FP, TODO aplicado).
+- **El caso que manda** (Alberto 13-ago): «¿Qué centrales de cuatro lazos
+  analógicas de Detnov tienes?» → listaba TODO Detnov. Verificado en build: el
+  intent YA disparaba (por eso listó) — el fix es la capa de filtro, no el disparo
+  (gap del regex ensanchado {0,40}→{0,70} igualmente).
+- **Esquema** (catalog_store, cerrado): `clasificacion {categoria∈enum13, cita,
+  provenance}` + `atributos {tecnologia|lazos|protocolo}` **MULTI-VALOR POR-FUENTE**
+  (r27 Sol C1 — AFP1010: 2 lazos en docs España y 4 en US; cada valor lleva SU doc
+  y SU cita; divergencia se adjudica, jamás se fusiona). El campo legacy `categoria`
+  (19 filas de texto libre del seed s91) se TOLERA como pista-semilla — la capa
+  tipada es `clasificacion` (colisión cazada por la propia puerta en el build).
+- **Plan**: `filtros_inventario()` puro y $0 (léxico cerrado es/en: categoría +
+  tecnología + N-lazos con numerales); viaja TIPADO en `datos["filtros"]` (r27 Sol
+  M2: sin contrato en el plan, la caché por-marca se contaminaría). El caso dorado
+  parsea `{central, analogica, 4}` — test pineado.
+- **Consumo**: `_inventario_filtrado` desde **catálogo ∩ doc_map** (r27 Fable C1:
+  los pm de chunks son strings de FAMILIA por diseño T3 — el join es EL aparato,
+  no una extensión trivial); caché COMPUESTA (marca|filtros); honestidad
+  estructural: «N sin clasificar» siempre visible, ninguno-casa lo dice, catálogo
+  caído degrada a lista completa CON aviso — jamás lista falsa ni omisión muda.
+  La ruta SIN filtro no toca el catálogo (test: byte-igual, caché y truncado).
+- **Gates pasados**: puerta 29/29 · #76 9/9 · instrumentos s316e+transporte
+  re-contratados (2 fakes mordieron por forma — su trabajo) · suite 3.850/46.
+- **FASE 2 (población, pendiente en esta rama)**: mini-GT 30 a mano → pasada
+  fable-5 con cita verificada por doc_map → gate precisión ≥95% → packet §0
+  en-bloque (r27 Fable M3: NADA se escribe sin el sí de Alberto — el precedente
+  candidate-birth manda). Hasta poblar, el bot responde el inventario completo
+  con el aviso honesto (conducta estrictamente mejor que la de hoy).
+- **Relacionado**: TECH_DEBT #76 · DEC-215 (la costura E4) · tally r27
+  ts=2026-08-14T09:10:15.

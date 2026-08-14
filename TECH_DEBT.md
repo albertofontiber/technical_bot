@@ -2805,3 +2805,9 @@ dato: eje divergente = atributo).
 
 **Prioridad**: alta para la apertura a DGs (es la clase de pregunta que un
 Director General hace primero). Añadida s321 por mandato de Alberto.
+
+**s322 (DEC-216): MECANISMO COMPLETO** — esquema cerrado multi-valor en la
+puerta + filtros tipados en el plan + inventario filtrado catálogo∩doc_map
+con honestidad sin-clasificar. **Resta la POBLACIÓN** (mini-GT → fable-5
+con citas → gate ≥95% → packet §0): hasta entonces el bot da la lista
+completa con aviso honesto.
