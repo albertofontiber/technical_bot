@@ -6528,3 +6528,21 @@ MIE-MI-440 en morley-ias.es → candidato a gap de corpus), MPS-24AE confirmado 
 nombre de fichero (la familia real es FD2705R/FD2710R) — recomendación MULTI_VALOR.
 URL+quote+fecha en el packet; nada escrito sin adjudicación. Recibos:
 `s321_e3_llm_recomendaciones_v2.json` (v1 intacto) · `s322_e3_online_evidencia_v1.json`.
+
+**Actualización DEC-217 #3 (14-ago noche — adjudicación E3 de Alberto APLICADA, s322d)**:
+«sí al §0 y §0-bis» + §1 de su mensaje → **44 retags · 674 chunks · 0 aborts ·
+findability OK** con la mecánica T3 (backup por-chunk + CAS + gate redirect-aware;
+recibos `s322_e3_writer_packet_aplicar_20260814T193541Z*`; 3 MANTENER no-op; un
+segundo --aplicar accidental fue no-op limpio por CAS — recibo conservado).
+Adjudicaciones de dominio de Alberto incorporadas: **FD2705-10R = artefacto** (la
+realidad son FD2705R+FD2710R, ambos detectores lineales IR; doc_map de la guía
+22318 → ambos productos, artefacto `aritech:fd2705-10r` → estado retirado, chunks
+de guía+addendum → multi «FD2705R/FD2710R»); **ART 535-x → multi ART 535-10/-30**;
+**ECN-96-200 → MPS-24AE** (nota suya: tipología = fuentes de alimentación, 15888SP
+— para la futura población #76 Notifier). **Corrección al carril online**: el gap
+que propuse de MIE-MI-440 era FALSO — el manual YA está ingestado (content hits en
+MIE-MI-440 y MIE-MI-431rv2); la clase de fallo: afirmé «candidato a gap» sin
+consultar el corpus (bias #51: nunca de memoria). **Queda SOLO ZXrA**: recomendación
+retag-a-ZXR50A en vez de borrar el doc (FAQ es-ES con el único paso-a-paso del
+repetidor en DXc Connexion; el catálogo ya tiene morley:zxr50a y el doc_map ya
+apunta ahí) — decisión de Alberto pendiente.
