@@ -1,0 +1,49 @@
+{
+ "que_es": "Lazos VESTA (CAD-171/201/201-PLUS/250/250-P) + tecnologia CAD-250, citas verbatim verificadas contra el doc completo. Origen: Alberto 14-ago (171/201 deben llevar lazos; 250 ampliable a 32 con módulos, CAD-250-32 no existe como modelo). Reversible: quitar las entradas listadas.",
+ "utc": "20260814T163857Z",
+ "escritas": [
+  {
+   "id": "detnov:cad-250-p",
+   "lazos": [
+    {
+     "base": 8,
+     "max": 8,
+     "doc": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+     "cita": "**8** lazos y **2000** dispositivos (250 por lazo)."
+    },
+    {
+     "base": 1,
+     "max": 32,
+     "doc": "CAD-250-MC-380-es",
+     "cita": "El sistema CAD-250 soporta hasta 32 lazos en un único NODO"
+    }
+   ]
+  },
+  {
+   "id": "detnov:cad-250-p",
+   "tecnologia": {
+    "valor": "analogica",
+    "doc": "Manual instalacion CAD-250 (MI_372_es_2024 e)",
+    "cita": "La CAD-250 es una central analógica con características de configuración y funcionales avanzadas"
+   }
+  }
+ ],
+ "saltadas": [
+  {
+   "id": "detnov:cad-171",
+   "motivo": "lazos ya anclados"
+  },
+  {
+   "id": "detnov:cad-201",
+   "motivo": "lazos ya anclados"
+  },
+  {
+   "id": "detnov:cad-201-plus",
+   "motivo": "lazos ya anclados"
+  },
+  {
+   "id": "detnov:cad-250",
+   "motivo": "lazos ya anclados"
+  }
+ ]
+}

@@ -67,7 +67,7 @@ CATEGORIAS = {
 }
 TECNOLOGIAS = {"analogica", "convencional", "algoritmica", "aspiracion",
                "via_radio"}
-CLAVES_ATRIBUTO = {"tecnologia", "lazos", "protocolo"}
+CLAVES_ATRIBUTO = {"tecnologia", "lazos", "zonas", "protocolo"}
 TIPOS_REL = {"variant-of", "rebrand-of", "shared-doc", "supersedes"}
 TIPOS_DOCREL = {"language-variant-of", "revision-of"}
 ROLES = {"primary", "secondary"}
@@ -302,13 +302,25 @@ def validate(catalog_dir: Path = CATALOG_DIR) -> list[str]:
                             errors.append(
                                 f"products[{pid}]: tecnologia inválida "
                                 f"{v.get('valor')!r}")
-                        if clave == "lazos":
+                        if clave in ("lazos", "zonas"):
+                            # zonas (s322, Alberto): la característica análoga
+                            # de una central CONVENCIONAL — misma forma que
+                            # lazos, jamás se fusionan (conceptos distintos).
+                            # `base` OPCIONAL (dúo r28 Sol M2): solo cuando el
+                            # doc declara dotación de serie — un suelo base=1
+                            # inventado sería un hecho falso indistinguible a
+                            # máquina. El filtro de capacidad solo usa `max`.
                             base, mx = v.get("base"), v.get("max", v.get("base"))
-                            if (not isinstance(base, int) or base < 1
-                                    or not isinstance(mx, int) or mx < base):
+                            if not isinstance(mx, int) or mx < 1:
                                 errors.append(
-                                    f"products[{pid}]: lazos exige base:int≥1 "
-                                    "y max≥base")
+                                    f"products[{pid}]: {clave} exige max:int≥1")
+                            elif base is not None and (
+                                    not isinstance(base, int) or base < 1
+                                    or mx < base):
+                                errors.append(
+                                    f"products[{pid}]: {clave} base debe ser "
+                                    "int≥1 y ≤max (u omitirse si el doc no "
+                                    "declara dotación)")
                         if clave == "protocolo" and not str(v.get("valor") or "").strip():
                             errors.append(
                                 f"products[{pid}]: protocolo sin valor")

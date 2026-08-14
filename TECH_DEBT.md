@@ -2811,3 +2811,28 @@ puerta + filtros tipados en el plan + inventario filtrado catálogo∩doc_map
 con honestidad sin-clasificar. **Resta la POBLACIÓN** (mini-GT → fable-5
 con citas → gate ≥95% → packet §0): hasta entonces el bot da la lista
 completa con aviso honesto.
+
+**s322b (DEC-217): CERRADO para Detnov+Kidde** — §0 escrito (138 productos
+clasificados; 292 citas re-verificadas full-text, 3 derivadas declaradas,
+1 invención cazada y retirada), semántica de capacidad «N = hasta N»
+(adjudicada), clave `zonas` para convencionales, lazos VESTA con la
+ampliación modular CAD-250 {max 32} anclada verbatim, inventario genérico
+AGRUPADO por tipología/familia (adjudicado 14-ago), dúo r28 completo (12
+hallazgos, 0 FP, todo aplicado). Restan: §1 (~22 filas) en el packet de
+Alberto y la población del resto de marcas (por packets, mismo pipeline).
+
+## #76b — Divergencia multi-mercado en atributos de capacidad: hoy se serviría fusionada (dúo r28 Sol S1, LATENTE) — s322b
+
+**Qué es**: el esquema multi-valor por-fuente registra cada dato con su doc,
+pero el consumidor publica «hasta max(todas las entradas)» sin distinguir
+ALCANCE (mercado/variante). Hoy es correcto — el único max divergente es
+CAD-250 8-de-serie/32-por-nodo (intra-mercado, capacidad real) — pero la
+clase AFP1010 (2 lazos en docs ES / 4 en US) serviría «hasta 4» a un técnico
+español. NO está poblada (Notifier fuera del censo s322).
+
+**Forma BP (antes de poblar Notifier/clase-AFP1010)**: (a) marcador de
+`alcance` adjudicable en la entrada (mercado/variante/idioma del doc);
+(b) el gate de población FLAGEA divergencia de max entre docs → packet de
+adjudicación, jamás write-fusión; (c) el display distingue capacidad
+(serie/ampliable, se fusiona bien) de divergencia de alcance (se muestra
+por-fuente). **Gatillo duro**: poblar cualquier marca con docs multi-mercado.

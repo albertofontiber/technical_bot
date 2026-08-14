@@ -1,0 +1,1923 @@
+{
+ "que_es": "Writer §0 #76 (adjudicado). Reversible: rollback = quitar clasificacion/atributos de los ids listados.",
+ "utc": "20260814T154721Z",
+ "bloque": 114,
+ "escritas": 114,
+ "saltadas": [],
+ "detalle": [
+  {
+   "id": "detnov:55310011",
+   "clasificacion": {
+    "categoria": "pasarela",
+    "cita": "PASARELA SISTEMA CONVENCIONAL ANALÓGICO",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55310011- Tarjeta de Pasarela ES GB_FR_IT",
+      "cita": "Esta tarjeta permite conectar las centrales convencionales y de extinción Detnov al bucle analógico."
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-1",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Centrales de detección de incendio analógicas",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+      "cita": "Centrales de detección de incendio analógicas"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "doc": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-2",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Centrales de detección de incendio analógicas",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "doc": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-2-mb",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Centrales de detección de incendio analógicas",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+      "cita": "Centrales de detección de incendio analógicas"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "doc": "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT",
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-8",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Centrales de detección de incendio analógicas",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+      "cita": "Centrales de detección de incendio analógicas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150-8-plus",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Centrales de detección de incendio analógicas",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+      "cita": "Centrales de detección de incendio analógicas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-150r",
+   "clasificacion": {
+    "categoria": "repetidor",
+    "cita": "Repetidores analógicos",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55315501 CAD150R Instalacion ES GB 191018",
+      "cita": "El Repetidor Analógico"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-171",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "The new CAD-171 addressable control panel from the VESTA series offers the benefits of simple and flexible programming, along with advanced features such as remote connectivity and a 7-inch touchscree",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Datasheet-CAD-171-DS-737-en",
+      "cita": "Addressables control panel\nVESTA Series"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:cad-201",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece características avanzadas, como la conectividad remota y una pantalla táctil de 7 pulg",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Datasheet_CAD-201-DS-740-es",
+      "cita": "Centrales Analógicas\nSerie VESTA"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:dgd-600",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "DETECTORES DE GAS AUTÓNOMO",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "detnov:dgd-620",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "DETECTORES DE GAS AUTÓNOMO",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "detnov:mad-450",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Manual_MAD-45X (55345104 MI 554 m 2022 d)",
+      "cita": "Las alarmas producidas por la activación del pulsador serán registradas por la central analógica del sistema."
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:mad-450-i",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Manual_MAD-45X (55345104 MI 554 m 2022 d)",
+      "cita": "El pulsador analógico está disponible en dos modelos, con o sin aislador."
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:mad-450-iw",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Manual_MAD-45X (55345104 MI 554 m 2022 d)",
+      "cita": "PULSADOR ANALÓGICO"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:mad-451-i",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "Manual_MAD-45X (55345104 MI 554 m 2022 d)",
+      "cita": "Las alarmas producidas por la activación del pulsador serán registradas por la central analógica del sistema."
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:mad-481",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "El módulo de 1 relé de 240V proporcionan al sistema de detección de incendio analógico 1 relé libres de tensión",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "55348101 Manual Modulo 1 Rele 240VAC MAD-481 ES FR GB IT",
+      "cita": "El modulo de 1 relé, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:pcd-100",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "PULSADOR CONVENCIONAL\n\n## PCD-100",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "Manual_PCD-100 (55310009 MI 608 m 2024 b)",
+      "cita": "El pulsador convencional esta diseñado en base a la actual Norma Europea UNE EN54-11"
+     }
+    ]
+   }
+  },
+  {
+   "id": "detnov:tcd-100",
+   "clasificacion": {
+    "categoria": "pasarela",
+    "cita": "la posibilidad de retransmitir de forma segura todos los eventos de alarma recogidos por el sistema a una Central Receptora de Alarmas (CRA)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:2010-2-pak-rmsdk",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "These USB dongles are called PAK, which stands for Panel Activation Key. The use of the PAK will activate additional high-end feature(s) in the panel.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2010-2-pak-rmsdk-161721-es",
+      "cita": "enables custom event reporting and command control using the Edwards software development kit (SDK) on compatible addressable control panels with firmware 3.1 or higher"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2010-2a-pak-hpl",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "The 2010−2A-PAK-HPL Panel Activation Key (PAK) increases the maximum loop output from 500 mA to 800 mA (high-powered loop) on compatible 2X-A addressable control panels.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml",
+      "cita": "on compatible 2X-A addressable control panels"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-a-lb",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "Accesorio central de incendios direccionable, placa de expansión de lazo, 2 lazos",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-a-lb-161721-es",
+      "cita": "agrega 2 bucles adicionales a su panel de incendios direccionable de gama baja de 2 bucles"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "doc": "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+      "cita": "The 2X-A-LB Loop Board provides two additional loops (LOOP3 and LOOP4)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-af2-09",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Central de incendios direccionable, 2 lazos, español",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-af2-09-161721-es",
+      "cita": "Central de incendios direccionable, 2 lazos, español"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "doc": "2x-af2-09-161721-es",
+      "cita": "2 lazos de alta potencia expandibles a 4 con 500mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-161721-es",
+      "cita": "Con detección direccionable de bucle de alta potencia"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "doc": "2x-at-f2-161721-es",
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-fb",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja grande",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-fb-161721-es",
+      "cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "doc": "2x-at-f2-fb-161721-es",
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-fb-p",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Addressable fire panel with tocuhscreen fire brigade controls, 2 loop, with bigger PSU",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-fb-p-161721-es",
+      "cita": "The new 2X-A series life safety control systems bring the speed and functionality of high-end intelligent processing to small to mid-sized addressable applications"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "doc": "2x-at-f2-fb-p-161721-es",
+      "cita": "2 High Power Loops expandable to 4 with 500 mA per loop"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-fb-s",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja pequeña",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-fb-s-161721-es",
+      "cita": "Con detección direccionable de bucle de alta potencia"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "doc": "2x-at-f2-fb-s-161721-es",
+      "cita": "2 lazos de alta potencia con 500 mA por lazo y controles de bomberos y protección contra incendios"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-p",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Panel de incendios direccionable con pantalla táctil, Fuente de alimentación grande, 2 lazos, caja grande",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-p-161721-es",
+      "cita": "Con detección direccionable de bucle de alta potencia"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "doc": "2x-at-f2-p-161721-es",
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-at-f2-s",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "2x-at-f2-s-161721-es",
+      "cita": "Con detección direccionable de bucle de alta potencia"
+     }
+    ],
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "doc": "2x-at-f2-s-161721-es",
+      "cita": "2 lazos de alta potencia con 500 mA por lazo"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:9-30780-kid-en",
+   "clasificacion": {
+    "categoria": "aspiracion",
+    "cita": "ModuLaser manual de instalación del detector de humo por aspiración modular",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "aspiracion",
+      "doc": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "cita": "Este es el manual de instalación y funcionamiento del detector de humo por aspiración modular ModuLaser."
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:9-30782-kid-en",
+   "clasificacion": {
+    "categoria": "aspiracion",
+    "cita": "ModuLaser manual de instalación del detector de humo por aspiración modular",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "aspiracion",
+      "doc": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "cita": "detector de humo por aspiración modular ModuLaser"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:9-30783-kid-en",
+   "clasificacion": {
+    "categoria": "aspiracion",
+    "cita": "ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and takes applications further than traditional air sampling detectors",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "aspiracion",
+      "doc": "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+      "cita": "detector de humo por aspiración modular ModuLaser"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad105",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:ad105p",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad105ss",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad185n",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad185ss",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:ad68",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:ad68n",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Sensor Cable"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad68n-0100",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "El cable lineal de calor AD68N-0100 es un cable térmico lineal (LHD) calibrado a una temperatura de activación fija de 68ºC",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "ad68n-0100-1-es",
+      "cita": "proporciona un sistema de detección térmica por temperatura fija que es particularmente conveniente para usos donde los detectores térmicos puntuales no pueden ser utilizados"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad68ss",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad88",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:ad88n",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad88p",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en",
+      "cita": "Alarmline II Digital Linear Heat Detection systems are as simple to install as possible"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ad88ss",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:ke-as3005w-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3005w-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Set the device address using the DIP switch, located in the battery compartment (see Figure 3, item 1). The address range is 001-128."
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3010r",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3010r-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "KE-AS3010R-IP | Intelligent addressable outdoor sounder (red body) | SDn",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3010w",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3010w-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "KE-AS3010W-IP | Intelligent addressable outdoor sounder (white body) | SDn",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3011r",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3011r-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3011w",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015r-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015r-cmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015r-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, red flash)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015r-wmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015w-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015w-cmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series Intelligent Addressable Outdoor Notification Device"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015w-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3015w-wmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series Intelligent Addressable Outdoor Notification Device Installation Sheet"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3105w-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3105w-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3110r",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3110r-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "KE-AS3110R-IP | Intelligent addressable outdoor sounder with integrated isolator (red body)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3110w",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3110w-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "KE-AS3110W-IP | Intelligent addressable outdoor sounder with integrated isolator (white body)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3111r",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3111r-ip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "KE-AS3111R-IP | Intelligent addressable outdoor sounder/VID with integrated isolator (red body, red flash) | SDBni",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3111w",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-cmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "intelligent addressable outdoor audible and visual notification devices"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-cmw",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Set the device address using the DIP switch, located in the battery compartment (see Figure 3, item 1). The address range is 001-128."
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-cmwip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable outdoor sounder with integrated isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Sirena/Alarma visual direccionable inteligente Serie Excellence con aislador, montaje en pared",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, red flash)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-wmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "weatherproof addressable wall mount sounder & visual alarm device (VAD) with integrated isolation",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-as3115r-wmip-161721-es",
+      "cita": "Excellence Series intelligent addressable weatherproof sounder/visual alarm w/ isolator, wall mount"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-wmw",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, white flash)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115r-wmwip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable outdoor sounder with integrated isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115w-cm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115w-cmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable outdoor sounder with integrated isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115w-wm",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-as3115w-wmip",
+   "clasificacion": {
+    "categoria": "sirena",
+    "cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+      "cita": "Intelligent addressable outdoor sounder with integrated isolator"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-db3010b",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "Standard mounting base for 3000 Series intelligent addressable detectors (black)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet",
+      "cita": "Standard mounting base for 3000 Series intelligent addressable detectors (black)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-db3010w",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "Accesorio detector inteligente serie Excellence - base estándar",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet",
+      "cita": "Standard mounting base for 3000 Series intelligent addressable detectors (white)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dba-auxw",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "El KE-DBA-AUXW es un accesorio de base de montaje en superficie de la serie Excellence. Permite instalar el cableado pasando un conducto eléctrico estándar directamente a la base, sin dejar cables exp",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dba-auxw-161721-es",
+      "cita": "Accesorio base direccionable inteligente - Base Profunda (Blanca)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dm3010r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "El KE-DM3010R es un pulsador rojo de acción simple para interiores con un indicador funcional de casa en llamas.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dm3010r-161721-es",
+      "cita": "La serie KE-DM3000 es una gama inteligente de pulsadores direccionables."
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dm3010r-kit",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "Pulsador direccionable inteligente de la serie Excellence con caja de superficie",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dm3010r-kit-161721-es",
+      "cita": "La serie KE-DM3000 es una gama inteligente de pulsadores manuales direccionables de la Serie Excellence"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dm3110r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "Excellence Series Intelligent Addressable Manual Call Point Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+      "cita": "The Excellence Series Intelligent Addressable Manual Call Point is designed for indoor use and supports the Kidde Excellence protocol."
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dp3020w",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Detector de humo óptico dual direccionable inteligente serie Excellence",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dp3020w-161721-es",
+      "cita": "El DP3020W es un detector óptico dual direccionable de señal blanca de la serie Kidde Excellence"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dp3120w",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Detector de humo óptico dual direccionable inteligente serie Excellence con aislador",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dp3120w-161721-es",
+      "cita": "El DP3120W es un detector óptico dual direccionable de señal blanca de la serie Kidde Excellence con aislamiento de cortocircuito integrado"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dt3001w-hab",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Detector de calor direccionable inteligente serie Excellence",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-dt3001w-hab-161721-es",
+      "cita": "El DT3001W-HAB es un detector de calor direccionable de señal blanca de la serie Kidde Excellence"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-dt3101w-hab",
+   "clasificacion": {
+    "categoria": "detector",
+    "cita": "Excellence Series Intelligent Addressable Class A/B Heat Detector Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet",
+      "cita": "Intelligent Addressable Class A/B Heat Detectors"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-io3001",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "Excellence Series Intelligent Addressable Single Output Module Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet",
+      "cita": "Intelligent Addressable Single Output Module"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-io3044",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "Excellence Series Intelligent Addressable Two/Four Input/Output Module Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet",
+      "cita": "Intelligent Addressable Two/Four Input/Output Module"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-io3101",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "Excellence Series Intelligent Addressable Single Output Module Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-io3101-161721-es",
+      "cita": "Unidad inteligente direccionable de 1 salida con aislador"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-io3122",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "Unidad inteligente direccionable de 2 entradas/2 salidas con aislador",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "ke-io3122-161721-es",
+      "cita": "La innovadora serie Excellence de dispositivos direccionables inteligentes ofrece funciones avanzadas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:ke-io3144",
+   "clasificacion": {
+    "categoria": "modulo",
+    "cita": "Unidad inteligente direccionable de 4 entradas/4 salidas con aislador",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "analogica",
+      "doc": "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet",
+      "cita": "Excellence Series Intelligent Addressable Two/Four Input/Output Module"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:n-mc-bb-g",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "Accesorio pulsador, caja trasera de pulsador manual inteligente, verde",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:n-mc-bb-o",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "N-MC-BB Series Backbox Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:n-mc-bb-r",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "N-MC-BB Series Backbox Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:n-mc-bb-u",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "N-MC-BB Series Backbox Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:n-mc-bb-w",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "N-MC-BB Series Backbox Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:n-mc-bb-y",
+   "clasificacion": {
+    "categoria": "accesorio",
+    "cita": "N-MC-BB Series Backbox Installation Sheet",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": null
+  },
+  {
+   "id": "kidde:nc-mc-0-g",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "Pulsador manual inteligente convencional para montaje empotrado - 0 Ω (Verde)",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-mc-0-g-161721-es",
+      "cita": "Compatibilidad       | Sistemas de detección convencionales"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-mc-0-r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0",
+      "cita": "designed for indoor use with compatible conventional fire panels"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-mc-100-r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0",
+      "cita": "designed for indoor use with compatible conventional fire panels"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-mc-470-r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0",
+      "cita": "designed for indoor use with compatible conventional fire panels. Each unit includes a built-in resistor (0, 100, 470, or 560 Ω, depending on the model purchased)"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-mc-560-r",
+   "clasificacion": {
+    "categoria": "pulsador",
+    "cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0",
+      "cita": "designed for indoor use with compatible conventional fire panels"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf2",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "El NC-PF2 es un panel de control de alarma contra incendios convencional. Se suministra con 2 zonas que admiten hasta 32 dispositivos por zona",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-pf2-161721-es",
+      "cita": "Central de incendios convencional, 2 zonas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf2-sc",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "Manual de instalación de las centrales de incendio convencionales de la Serie NC",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+      "cita": "centrales de incendio convencionales de la Serie NC"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf4",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "El NC-PF4 es un panel de control de alarma contra incendios convencional. Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-pf4-161721-es",
+      "cita": "Central de incendios convencional, 4 zonas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf4-sc",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "The NC-PF4-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 4 zones that support up to 32 devices per zone",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-pf4-sc-161721-es",
+      "cita": "Conventional Fire Panel with Scandinavian Key - 4 Zone"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf8",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "El NC-PF8 es un panel de control de alarma contra incendios convencional. Se suministra con 8 zonas que admiten hasta 32 dispositivos por zona",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-pf8-161721-es",
+      "cita": "Central de incendios convencional, 8 zonas"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:nc-pf8-sc",
+   "clasificacion": {
+    "categoria": "central",
+    "cita": "The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 8 zones that support up to 32 devices per zone",
+    "provenance": "s322-76 poblacion fable-5, gate GT 19/19 PASS (evals/s322_76_gate_gt_v1.json); §0 adjudicado por Alberto 14-ago"
+   },
+   "atributos": {
+    "tecnologia": [
+     {
+      "valor": "convencional",
+      "doc": "nc-pf8-sc-161721-es",
+      "cita": "Conventional Fire Panel with Scandinavian Key - 8 Zone"
+     }
+    ]
+   }
+  }
+ ]
+}

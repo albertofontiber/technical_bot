@@ -1,0 +1,3284 @@
+{
+ "que_es": "Población #76 (fable-5, citas por campo verificadas). NADA escrito: gate-vs-GT y packet deciden.",
+ "utc": "20260814T084532Z",
+ "modelo": "claude-fable-5",
+ "total": 160,
+ "resumen": {
+  "pasarela:alta": 2,
+  "central:alta": 20,
+  "None:baja": 41,
+  "repetidor:alta": 1,
+  "central:media": 2,
+  "detector:alta": 19,
+  "barrera:media": 1,
+  "pulsador:alta": 13,
+  "modulo:alta": 6,
+  "pasarela:media": 1,
+  "accesorio:alta": 12,
+  "aspiracion:alta": 3,
+  "aspiracion:media": 1,
+  "sirena:alta": 38
+ },
+ "detalle": [
+  {
+   "id": "detnov:55310011",
+   "canonical": "55310011",
+   "marca": "detnov",
+   "docs": [
+    "55310011- Tarjeta de Pasarela ES GB_FR_IT"
+   ],
+   "llm": {
+    "categoria": "pasarela",
+    "categoria_cita": "PASARELA SISTEMA CONVENCIONAL ANALÓGICO",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Esta tarjeta permite conectar las centrales convencionales y de extinción Detnov al bucle analógico.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una tarjeta pasarela que integra centrales convencionales/extinción en el lazo analógico direccionable Detnov, requiriendo direccionamiento propio."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150-1",
+   "canonical": "CAD-150-1",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales de detección de incendio analógicas",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "Los manuales lo describen como central de detección de incendio analógica y el sufijo -1 del modelo lo ancla a la variante de 1 lazo descrita en la sección 'La Central Analógica de 1 y 2 lazos'."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150-2",
+   "canonical": "CAD-150-2",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La Central Analógica de 1 y 2 lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento describe centrales de detección de incendio analógicas de 1 y 2 lazos; el sufijo -2 del producto ancla la variante de 2 lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150-2-mb",
+   "canonical": "CAD-150-2-MB",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales de detección de incendio analógicas",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "La Central Analógica de 1 y 2 lazos"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "Es una central analógica de detección de incendios de la serie CAD-150, y el sufijo -2 del producto lo ancla a la variante de 2 lazos descrita en el manual."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150-4",
+   "canonical": "CAD-150-4",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales de detección de incendio analógicas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los manuales lo identifican claramente como central de detección de incendio analógica, pero el documento solo ancla explícitamente las variantes de 1 y 2 lazos y no la variante -4, por lo que no se puede citar el número de lazos de este producto."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:cad-150-8",
+   "canonical": "CAD-150-8",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales de detección de incendio analógicas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los manuales la describen explícitamente como central de detección de incendio analógica; los lazos no se pueden anclar al sufijo -8 porque el doc solo describe la variante de 1 y 2 lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150-8-plus",
+   "canonical": "CAD-150-8-PLUS",
+   "marca": "detnov",
+   "docs": [
+    "55315008-Manual-Centrales-Analogicas-CAD-150-8-Usuario-ES-FR-GB-IT",
+    "55315013 Manual Centrales Analogicas CAD-150-8 Instalacion ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales de detección de incendio analógicas",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales de detección de incendio analógicas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los manuales de usuario e instalación describen explícitamente 'Centrales de detección de incendio analógicas'; el doc cubre varias variantes (sección de '1 y 2 lazos') sin anclar los lazos del sufijo -8-PLUS, por lo que lazos=null."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-150r",
+   "canonical": "CAD-150R",
+   "marca": "detnov",
+   "docs": [
+    "55315501 CAD150R Instalacion ES GB 191018"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Repetidores analógicos",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El Repetidor Analógico",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El manual lo describe explícitamente como repetidor analógico conectado por puerto RS485, sin lazos propios."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-171",
+   "canonical": "CAD-171",
+   "marca": "detnov",
+   "docs": [
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "Datasheet-CAD-171-DS-737-en"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "The new CAD-171 addressable control panel from the VESTA series offers the benefits of simple and flexible programming, along with advanced features such as remote connectivity and a 7-inch touchscreen.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Addressables control panel\nVESTA Series",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El datasheet DS-737 identifica explícitamente al CAD-171 como central direccionable (addressable) de la serie VESTA, pero no se indica el número de lazos base/máximo en los fragmentos disponibles."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-201",
+   "canonical": "CAD-201",
+   "marca": "detnov",
+   "docs": [
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c",
+    "CAD-250_Manual-software-configuracion-MS-416-es-2026-b",
+    "Datasheet_CAD-201-DS-740-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación y ofrece características avanzadas, como la conectividad remota y una pantalla táctil de 7 pulgadas.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Centrales Analógicas\nSerie VESTA",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El datasheet identifica explícitamente el CAD-201 como central analógica de la serie VESTA, pero no se especifica el número de lazos (solo el máximo de 250 dispositivos por lazo)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:cad-201-plus",
+   "canonical": "CAD-201-PLUS",
+   "marca": "detnov",
+   "docs": [
+    "Datasheet_CAD-201-DS-740-es",
+    "Datasheet_CAD-201-DS-741-en",
+    "Manual_CAD-201-MI-715-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Centrales Analógicas\nSerie VESTA",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La nueva central analógica CAD-201 de la serie VESTA aporta ventajas de una sencilla y ágil programación",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es explícitamente una central analógica/direccionable (addressable control panel) de la serie VESTA; el número de lazos no aparece en los fragmentos (solo 'Máximo de 250 dispositivos por lazo'), por lo que lazos=null."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:cad-201-z",
+   "canonical": "CAD-201-Z",
+   "marca": "detnov",
+   "docs": [
+    "Manual_CAD-201-MI-715-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Addressable control panel 2-8 loops and their accessories.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central analógica ampliable de 2 a 8 lazos y sus accesorios.",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 8,
+      "cita": "Central analógica ampliable de 2 a 8 lazos y sus accesorios."
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La Declaración de Prestaciones identifica CAD-201-Z entre los modelos de la central analógica direccionable ampliable de 2 a 8 lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:cad-201-zplus",
+   "canonical": "CAD-201-ZPLUS",
+   "marca": "detnov",
+   "docs": [
+    "Manual_CAD-201-MI-715-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Addressable control panel 2-8 loops and their accessories. Central analógica ampliable de 2 a 8 lazos y sus accesorios.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central analógica ampliable de 2 a 8 lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 8,
+      "cita": "Central analógica ampliable de 2 a 8 lazos y sus accesorios"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La Declaración de Prestaciones identifica el CAD-201-ZPLUS como central analógica/direccionable ampliable de 2 a 8 lazos, aplicable a toda la familia CAD-201 incluida esta variante."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:cad-250",
+   "canonical": "CAD-250",
+   "marca": "detnov",
+   "docs": [
+    "CAD-250-MC-380-es",
+    "CAD-250-MS-416-es",
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Antes de instalar la central CAD-250 debe comprobar que se cumplen una serie de criterios.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Los documentos identifican explícitamente el producto como 'la central CAD-250' (central de incendios de la gama Vesta de Detnov), pero las muestras no contienen citas verbatim sobre tecnología ni número de lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:cad-250-p",
+   "canonical": "CAD-250-P",
+   "marca": "detnov",
+   "docs": [
+    "CAD-250-MC-380-es",
+    "CAD-250-MS-416-es",
+    "CAD-250_Manual-Configuracion-MC-380-es-2026-c"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Si su modelo de central es la CAD-250-P este submenú estará disponible. Para acceder a la categoría de AJUSTES pulse:",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el CAD-250-P como un modelo de central de incendios (variante con impresora de la CAD-250), pero no hay citas verbatim sobre tecnología ni número de lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:dgd-600",
+   "canonical": "DGD-600",
+   "marca": "detnov",
+   "docs": [
+    "55360004 Manual Detector Gas DGD-600 ES EN IT FR"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "DETECTORES DE GAS AUTÓNOMO",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector de gas autónomo (stand-alone) con relés, no conectado a lazo analógico ni zona convencional, por lo que la tecnología no aplica."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:dgd-620",
+   "canonical": "DGD-620",
+   "marca": "detnov",
+   "docs": [
+    "55360004 Manual Detector Gas DGD-600 ES EN IT FR"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "DETECTORES DE GAS AUTÓNOMO",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector de gas autónomo (stand-alone) con salidas de relé, no conectado a lazo de central, por lo que no aplica tecnología de lazo ni capacidad de lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:firebeam-blue",
+   "canonical": "Firebeam Blue",
+   "marca": "detnov",
+   "docs": [
+    "Manual de usuario Issue 0165-02 v2 MI 546 es 2022 FIREBEAM BLUE"
+   ],
+   "llm": {
+    "categoria": "barrera",
+    "categoria_cita": "Enhorabuena por adquirir el detector de humo de haz óptico reflejado the **fire**beam*BLUE*.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector lineal de humo por haz óptico reflejado (barrera), sin indicación explícita de tecnología analógica o convencional en las muestras."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:mad-450",
+   "canonical": "MAD-450",
+   "marca": "detnov",
+   "docs": [
+    "Manual_MAD-45X (55345104 MI 554 m 2022 d)"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Las alarmas producidas por la activación del pulsador serán registradas por la central analógica del sistema.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente un pulsador (manual call point) analógico para sistemas de detección de incendios, sin datos de lazos por variante."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:mad-450-i",
+   "canonical": "MAD-450-I",
+   "marca": "detnov",
+   "docs": [
+    "Manual_MAD-45X (55345104 MI 554 m 2022 d)"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El pulsador analógico está disponible en dos modelos, con o sin aislador.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El manual identifica explícitamente el MAD-450-I como pulsador manual analógico (analogue manual call point) con aislador."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:mad-450-iw",
+   "canonical": "MAD-450-IW",
+   "marca": "detnov",
+   "docs": [
+    "Manual_MAD-45X (55345104 MI 554 m 2022 d)"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "PULSADOR ANALÓGICO",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El manual describe explícitamente un pulsador manual analógico (analogue manual call point) para sistemas de detección de incendio."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:mad-451-i",
+   "canonical": "MAD-451-I",
+   "marca": "detnov",
+   "docs": [
+    "Manual_MAD-45X (55345104 MI 554 m 2022 d)"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "El modulo pulsador analógico proporciona al sistema de detección de incendio un punto de activación de alarma manual.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Las alarmas producidas por la activación del pulsador serán registradas por la central analógica del sistema.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El manual describe explícitamente el MAD-451-I como pulsador analógico manual de alarma para sistemas de detección de incendio."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:mad-481",
+   "canonical": "MAD-481",
+   "marca": "detnov",
+   "docs": [
+    "55348101 Manual Modulo 1 Rele 240VAC MAD-481 ES FR GB IT"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "El módulo de 1 relé de 240V proporcionan al sistema de detección de incendio analógico 1 relé libres de tensión",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El modulo de 1 relé, forma parte del sistema analógico, por lo cual precisa de direccionamiento para su identificación",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de salida de 1 relé 240V direccionable para sistemas analógicos de detección de incendios, ocupando 1 dirección de lazo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:pcd-100",
+   "canonical": "PCD-100",
+   "marca": "detnov",
+   "docs": [
+    "Manual_PCD-100 (55310009 MI 608 m 2024 b)"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "PULSADOR CONVENCIONAL\n\n## PCD-100",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "El pulsador convencional esta diseñado en base a la actual Norma Europea UNE EN54-11",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el PCD-100 como pulsador (manual call point) convencional según EN54-11."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:tbud-ng",
+   "canonical": "TBUD-NG",
+   "marca": "detnov",
+   "docs": [
+    "Manual_CAD-201-MI-715-es"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "TBUD-NG | Placa expansión de lazos.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Capacidad para la instalación de 3 tarjetas de 2 lazos ref. TBUD-NG.",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "tarjetas de 2 lazos ref. TBUD-NG"
+     }
+    ],
+    "confianza": "media",
+    "razon": "Es una tarjeta/placa de expansión de 2 lazos para la central analógica direccionable CAD-201, no una central en sí."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:tcd-100",
+   "canonical": "TCD-100",
+   "marca": "detnov",
+   "docs": [
+    "TCD-100 Tarjeta comunicadora a CRA ES GB"
+   ],
+   "llm": {
+    "categoria": "pasarela",
+    "categoria_cita": "la posibilidad de retransmitir de forma segura todos los eventos de alarma recogidos por el sistema a una Central Receptora de Alarmas (CRA)",
+    "tecnologia": null,
+    "tecnologia_cita": "ofrecen tanto a la gama de Centrales Analógicas como a la gama de centrales convencionales",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una tarjeta comunicadora que actúa como pasarela de eventos hacia una CRA vía RTC/GPRS/Ethernet, compatible con centrales analógicas y convencionales."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "detnov:ted-151-cl",
+   "canonical": "TED-151-CL",
+   "marca": "detnov",
+   "docs": [
+    "55315015_Guia_rapida_TED-151-CL_ES"
+   ],
+   "llm": {
+    "categoria": "pasarela",
+    "categoria_cita": "Conectar la tarjeta a la red a través del puerto RJ-45",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una tarjeta Cloud que conecta la central a la red (RJ-45) para acceso remoto vía app, funcionando como pasarela de comunicaciones; compatible con centrales convencionales y analógicas mediante jumper, por lo que no tiene tecnología única."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "detnov:tled-ng",
+   "canonical": "TLED-NG",
+   "marca": "detnov",
+   "docs": [
+    "Manual_CAD-201-MI-715-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "AZUL    | TLED-NG     | Tarjeta de indicación.",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "TLED-NG es una tarjeta de indicación (placa de LEDs) interna para la central CAD-201, es decir, un accesorio/componente de la central y no un equipo de campo ni la central en sí."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2010-2-pak-rmsdk",
+   "canonical": "2010-2-PAK-RMSDK",
+   "marca": "kidde",
+   "docs": [
+    "2010-2-pak-rmsdk-161721-es",
+    "bcn-3100032-ml_r002_2010-2-pak-rmsdk_registration_guide"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "These USB dongles are called PAK, which stands for Panel Activation Key. The use of the PAK will activate additional high-end feature(s) in the panel.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "enables custom event reporting and command control using the Edwards software development kit (SDK) on compatible addressable control panels with firmware 3.1 or higher",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una llave de activación de panel (PAK) en formato dongle USB para habilitar servicios SDK en centrales analógicas/direccionables, lo que según las reglas corresponde a accesorio."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2010-2a-pak-hpl",
+   "canonical": "2010-2A-PAK-HPL",
+   "marca": "kidde",
+   "docs": [
+    "00-3301-501-4100-04_r004_2010-2a-pak-hpl_registration_guide_ml",
+    "2010-2a-pak-hpl-161721-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "The 2010−2A-PAK-HPL Panel Activation Key (PAK) increases the maximum loop output from 500 mA to 800 mA (high-powered loop) on compatible 2X-A addressable control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "on compatible 2X-A addressable control panels",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una llave de activación (PAK) tipo dongle USB para centrales direccionables 2X-A, es decir, un accesorio que habilita lazos de alta potencia sin modificar el número de lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-a-lb",
+   "canonical": "2X-A-LB",
+   "marca": "kidde",
+   "docs": [
+    "00-3301-501-4000-04_r004_2x-a-lb_loop_board_installation_sheet_ml",
+    "2x-a-lb-161721-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Accesorio central de incendios direccionable, placa de expansión de lazo, 2 lazos",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "agrega 2 bucles adicionales a su panel de incendios direccionable de gama baja de 2 bucles",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "The 2X-A-LB Loop Board provides two additional loops (LOOP3 and LOOP4)"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "Es una placa de expansión (accesorio) para centrales direccionables 2X-A que añade 2 lazos adicionales y 4 salidas supervisadas."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-ae1",
+   "canonical": "2X-AE1",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AE1 | One-loop addressable fire and evacuation alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "One-loop addressable fire and evacuation alarm control panel",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "One-loop addressable fire and evacuation alarm control panel"
+     }
+    ],
+    "confianza": "media",
+    "razon": "La tabla de modelos del manual identifica el 2X-AE1 explícitamente como central de alarma de incendio y evacuación direccionable de un lazo."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-ae2",
+   "canonical": "2X-AE2",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AE2        | Two-loop addressable fire and evacuation alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire and evacuation alarm control panel",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AE2        | Two-loop addressable fire and evacuation alarm control panel"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el 2X-AE2 como central de alarma de incendio y evacuación direccionable de dos lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-ae2-p",
+   "canonical": "2X-AE2-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AE2-P | Two-loop addressable fire and evacuation alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio y evacuación direccionable de dos lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Two-loop addressable fire and evacuation alarm control panel"
+     }
+    ],
+    "confianza": "media",
+    "razon": "La tabla de modelos ancla explícitamente el sufijo 2X-AE2-P como central direccionable de dos lazos para incendio y evacuación."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1",
+   "canonical": "2X-AF1",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF1 | One-loop addressable fire alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "One-loop addressable fire alarm control panel",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1 | One-loop addressable fire alarm control panel"
+     }
+    ],
+    "confianza": "media",
+    "razon": "El documento identifica explícitamente el 2X-AF1 como central de alarma de incendio direccionable de un lazo (one-loop addressable fire alarm control panel)."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1-fb",
+   "canonical": "2X-AF1-FB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF1-FB     | One-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "One-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1-FB     | One-loop addressable fire alarm control panel with fire routing and fire protection controls"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El manual identifica el 2X-AF1-FB explícitamente como central de alarma de incendio direccionable de un lazo con controles de transmisión y protección contra incendios."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1-fb-s",
+   "canonical": "2X-AF1-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF1-FB-S   | Central de alarma de incendio direccionable de un l",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un l",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1-FB-S   | Central de alarma de incendio direccionable de un l"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La tabla de gama de productos identifica el 2X-AF1-FB-S como central de alarma de incendio direccionable de un lazo (módulo pequeño, serie 2X-A)."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1-s",
+   "canonical": "2X-AF1-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "| 2X-AF1-S      | Central de alarma de incendio direccionable de un lazo                                                                |",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1-S      | Central de alarma de incendio direccionable de un lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La tabla de gama de productos del manual en español ancla explícitamente el modelo 2X-AF1-S como central de alarma de incendio direccionable de un lazo."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1-scfb",
+   "canonical": "2X-AF1-SCFB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF1-SCFB   | One-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "One-loop addressable SS 3654 fire alarm control panel",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "One-loop addressable SS 3654 fire alarm control panel with fire routing and fire protection controls"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La tabla del manual describe explícitamente el modelo 2X-AF1-SCFB como central de alarma de incendio direccionable de un lazo con controles de transmisión y protección contra incendios."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af1-scfb-s",
+   "canonical": "2X-AF1-SCFB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AF1-S      | Central de alarma de incendio direccionable de un lazo"
+     }
+    ],
+    "confianza": "media",
+    "razon": "Es una central de alarma de incendio direccionable de la serie 2X-A; el sufijo AF1 ancla la variante de un lazo (tabla de centrales de módulo pequeño), aunque la fila exacta 2X-AF1-SCFB-S está truncada en la muestra."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2",
+   "canonical": "2X-AF2",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel"
+     }
+    ],
+    "confianza": "media",
+    "razon": "El sufijo AF2 ancla la variante de dos lazos direccionable de la serie 2X-A, aunque las muestras solo listan verbatim las variantes -P y no la fila exacta del modelo 2X-AF2."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-09",
+   "canonical": "2X-AF2-09",
+   "marca": "kidde",
+   "docs": [
+    "2x-af2-09-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central de incendios direccionable, 2 lazos, español",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de incendios direccionable, 2 lazos, español",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 lazos de alta potencia expandibles a 4 con 500mA por lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente una central de incendios direccionable con 2 lazos expandibles a 4 mediante placa adicional."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-af2-fb",
+   "canonical": "2X-AF2-FB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls"
+     }
+    ],
+    "confianza": "media",
+    "razon": "El manual 2X-A lista las variantes AF2 como centrales direccionables de dos lazos; la fila exacta 2X-AF2-FB no aparece verbatim en las muestras, pero su variante de alimentación 2X-AF2-FB-P confirma dos lazos, direccionable y funciones de ruteo/protección contra incendios."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-fb-p",
+   "canonical": "2X-AF2-FB-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing and fire protection controls",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-FB-P | Two-loop addressable fire alarm control panel with fire routing and fire protection controls"
+     }
+    ],
+    "confianza": "media",
+    "razon": "El manual ancla explícitamente el modelo 2X-AF2-FB-P como central de alarma de incendio direccionable de dos lazos con enrutado de fuego y controles de protección."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-fb-prt",
+   "canonical": "2X-AF2-FB-PRT",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Two-loop addressable fire alarm control panel with fire routing"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El manual de la serie 2X-A lista la variante 2X-AF2-FB-PRT(-P) como central de alarma de incendio direccionable de dos lazos con enrutado de fuego, controles de protección e impresora interna."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-fb-prt-p",
+   "canonical": "2X-AF2-FB-PRT-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with fire routing",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-FB-PRT-P | Two-loop addressable fire alarm control panel with fire routing"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "La tabla de modelos ancla explícitamente el sufijo 2X-AF2-FB-PRT-P como central de alarma de incendio direccionable de dos lazos con enrutado de fuego e impresora interna."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-fb-s",
+   "canonical": "2X-AF2-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El 2X-AF2-FB-S pertenece a la gama de centrales direccionables 2X-A (variante de 2 lazos por sufijo AF2), pero las muestras del documento no incluyen la fila verbatim de esta variante para citar sus lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-p",
+   "canonical": "2X-AF2-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el modelo 2X-AF2-P como central de alarma de incendio direccionable de dos lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-prt",
+   "canonical": "2X-AF2-PRT",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-PRT-P    | Two-loop addressable fire alarm control panel with internal printer",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with internal printer",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Two-loop addressable fire alarm control panel with internal printer"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica la variante 2X-AF2-PRT como central de alarma de incendio direccionable de dos lazos con impresora interna, dentro de la gama 2X-A."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-prt-p",
+   "canonical": "2X-AF2-PRT-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "2X-AF2-PRT-P | Two-loop addressable fire alarm control panel with internal printer",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel with internal printer",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Two-loop addressable fire alarm control panel with internal printer"
+     }
+    ],
+    "confianza": "media",
+    "razon": "La tabla de modelos ancla explícitamente el sufijo 2X-AF2-PRT-P como central de alarma de incendio direccionable de dos lazos con impresora interna."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-s",
+   "canonical": "2X-AF2-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Two-loop addressable fire alarm control panel",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2X-AF2-P        | Two-loop addressable fire alarm control panel"
+     }
+    ],
+    "confianza": "media",
+    "razon": "Es una central de la serie 2X-A; el prefijo 2X-AF2 identifica las variantes de dos lazos direccionables, aunque la fila exacta del modelo 2X-AF2-S no aparece verbatim en las muestras."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-scfb",
+   "canonical": "2X-AF2-SCFB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "Es una central de alarma de incendio de la serie 2X-A (el sufijo AF2 sugiere 2 lazos direccionables, pero las muestras del documento no anclan verbatim ni la tecnología ni el número de lazos de esta variante)."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-scfb-p",
+   "canonical": "2X-AF2-SCFB-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El manual identifica la serie 2X-A como centrales de alarma de incendio; el sufijo F2 sugiere central de 2 lazos direccionables pero las muestras no lo anclan verbatim por variante."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-af2-scfb-s",
+   "canonical": "2X-AF2-SCFB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El manual cubre las centrales de alarma de incendio de la serie 2X-A y el sufijo F2 indica variante de central de 2 lazos, pero las muestras no anclan verbatim el número de lazos ni la tecnología direccionable de esta variante concreta."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-afr",
+   "canonical": "2X-AFR",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El sufijo FR de 2X-AFR corresponde a la variante repetidor dentro de la serie 2X-A, cuyo manual cubre centrales, repetidores y paneles de evacuación, pero las muestras no anclan lazos ni tecnología específicos de esta variante."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-afr-fb",
+   "canonical": "2X-AFR-FB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Este es el manual de instalación de las centrales de alarma de incendio, repetidores y evacuación de serie 2X-A",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El sufijo 'FR' en 2X-AFR-FB corresponde a la variante repetidor de la serie 2X-A (centrales analógicas/direccionables), cuyo manual cubre centrales, repetidores y paneles de evacuación, aunque no hay cita verbatim que ancle la tecnología ni lazos para esta variante concreta."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-afr-fb-s",
+   "canonical": "2X-AFR-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El sufijo 'FR' en la nomenclatura de la serie 2X-A denota panel repetidor (la serie incluye 'fire alarm, repeater, and evacuation control panels') dentro de una gama direccionable, pero las muestras no incluyen la fila exacta de la tabla para 2X-AFR-FB-S."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-afr-s",
+   "canonical": "2X-AFR-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-501-4003-05_r005_2x-a_series_installation_manual_en_0",
+    "00-3280-501-4009-05_r005_2x-a_series_installation_manual_es",
+    "00-3280-505-4009-04_r004_2x-a_series_operation_manual_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "This is the installation manual for the 2X-A Series fire alarm, repeater, and evacuation control panels.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": null,
+    "confianza": "media",
+    "razon": "El sufijo 'R' en 2X-AFR-S corresponde a los paneles repetidores de la serie 2X-A (fire alarm, repeater, and evacuation control panels), sistema direccionable, pero las muestras no anclan explícitamente este modelo a una fila de tabla con sus lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-at-f1-fb-s",
+   "canonical": "2X-AT-F1-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo",
+    "lazos": [
+     {
+      "base": 1,
+      "max": 1,
+      "cita": "2X-AT-F1-FB-S | Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el modelo 2X-AT-F1-FB-S como central de alarma de incendio direccionable de un lazo."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-at-f2",
+   "canonical": "2X-AT-F2",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Panel de incendios direccionable con pantalla táctil, 2 lazos, caja grande",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Con detección direccionable de bucle de alta potencia",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente un panel de incendios direccionable con 2 lazos ampliables a 4."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-f2-fb",
+   "canonical": "2X-AT-F2-FB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-fb-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja grande",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento describe explícitamente un panel de incendios direccionable de 2 lazos ampliables a 4, lo que corresponde a una central analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-f2-fb-p",
+   "canonical": "2X-AT-F2-FB-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-fb-p-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Addressable fire panel with tocuhscreen fire brigade controls, 2 loop, with bigger PSU",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "The new 2X-A series life safety control systems bring the speed and functionality of high-end intelligent processing to small to mid-sized addressable applications",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 High Power Loops expandable to 4 with 500 mA per loop"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El datasheet lo describe explícitamente como central de incendios direccionable de 2 lazos ampliable a 4, con controles de bomberos y pantalla táctil."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-f2-fb-s",
+   "canonical": "2X-AT-F2-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-fb-s-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Panel de incendios direccionable con pantalla táctil y controles de bomberos, 2 lazos, caja pequeña",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Con detección direccionable de bucle de alta potencia",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2 lazos de alta potencia con 500 mA por lazo y controles de bomberos y protección contra incendios"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "Es un panel (central) de incendios direccionable de 2 lazos con pantalla táctil y controles de bomberos, explícito en el título y las características del datasheet."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-f2-p",
+   "canonical": "2X-AT-F2-P",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-p-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Panel de incendios direccionable con pantalla táctil, Fuente de alimentación grande, 2 lazos, caja grande",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Con detección direccionable de bucle de alta potencia",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 4,
+      "cita": "2 lazos de alta potencia ampliables a 4 con 500 mA por lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "Es un panel (central) de incendios direccionable de 2 lazos ampliables a 4, con pantalla táctil, según su propia hoja de datos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-f2-s",
+   "canonical": "2X-AT-F2-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es",
+    "2x-at-f2-s-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Panel de incendios direccionable con pantalla táctil, 2 lazos, caja pequeña",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Con detección direccionable de bucle de alta potencia",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "2 lazos de alta potencia con 500 mA por lazo"
+     }
+    ],
+    "confianza": "alta",
+    "razon": "El documento del producto lo describe explícitamente como panel de incendios direccionable de 2 lazos con pantalla táctil."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:2x-at-fr",
+   "canonical": "2X-AT-FR",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "La guía describe la serie 2X-AT como centrales de incendio (panel con pantalla táctil, zonas, tarjetas de expansión, firmware), de tecnología direccionable aunque el texto mostrado no lo cita verbatim, y no ancla el número de lazos de la variante -FR."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-at-fr-fb",
+   "canonical": "2X-AT-FR-FB",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de un lazo con controles de protección y enrutado de fuego",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El sufijo FR en la nomenclatura de la serie 2X indica panel repetidor (con FB = enrutado de fuego), pero las muestras del documento no incluyen la fila específica de este modelo que lo confirme verbatim."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-at-fr-fb-s",
+   "canonical": "2X-AT-FR-FB-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "puede encontrar información acerca de las centrales que ejecutan la versión del firmware 5.5 o posterior",
+    "tecnologia": "analogica",
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "media",
+    "razon": "La serie 2X-AT de Kidde es una central de detección de incendios (el doc habla de 'centrales', firmware, EN 54-21, tarjetas de expansión), analógica direccionable por conocimiento de gama, pero sin cita verbatim de tecnología ni de número de lazos para esta variante concreta."
+   },
+   "citas_verificadas": false,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:2x-at-fr-s",
+   "canonical": "2X-AT-FR-S",
+   "marca": "kidde",
+   "docs": [
+    "00-3280-508-4109-06_r006_2x-at_series_quick_start_guide_es"
+   ],
+   "llm": {
+    "categoria": "repetidor",
+    "categoria_cita": "Consulte a continuación la gama completa de centrales con pantalla táctil de la serie 2X-AT.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Central de alarma de incendio direccionable de dos lazos",
+    "lazos": null,
+    "confianza": "baja",
+    "razon": "El sufijo FR en la serie 2X-AT designa por convención al panel repetidor (fire repeater), pero las muestras del documento no incluyen la fila de la tabla que describe verbatim el modelo 2X-AT-FR-S, por lo que no hay cita directa ni lazos anclables a esta variante."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:9-30780-kid-en",
+   "canonical": "9-30780-KID-EN",
+   "marca": "kidde",
+   "docs": [
+    "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "ModuLaser manual de instalación del detector de humo por aspiración modular",
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": "Este es el manual de instalación y funcionamiento del detector de humo por aspiración modular ModuLaser.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento identifica explícitamente el producto como detector de humo por aspiración modular ModuLaser (EN 54-20)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:9-30781-kid-en",
+   "canonical": "9-30781-KID-EN",
+   "marca": "kidde",
+   "docs": [
+    "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+    "9-30781-kid-en-161721-es"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "Kidde ModuLaser, Standard display module",
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": "ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and takes applications further than traditional air sampling detectors",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es el módulo de visualización estándar del sistema de detección de humo por aspiración ModuLaser, componente propio de sistemas de aspiración y sin concepto de lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:9-30782-kid-en",
+   "canonical": "9-30782-KID-EN",
+   "marca": "kidde",
+   "docs": [
+    "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "ModuLaser manual de instalación del detector de humo por aspiración modular",
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": "detector de humo por aspiración modular ModuLaser",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento es el manual de instalación del detector de humo por aspiración ModuLaser, lo que identifica claramente el producto como sistema de aspiración."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:9-30783-kid-en",
+   "canonical": "9-30783-KID-EN",
+   "marca": "kidde",
+   "docs": [
+    "3103092-es_r003_modulaser_en_54-20_installation_manual_kidde_0",
+    "9-30783-kid-en-161721-es"
+   ],
+   "llm": {
+    "categoria": "aspiracion",
+    "categoria_cita": "ModuLaser is a scalable aspirating smoke detection solution that makes installation easier, maintenance quicker, and takes applications further than traditional air sampling detectors",
+    "tecnologia": "aspiracion",
+    "tecnologia_cita": "detector de humo por aspiración modular ModuLaser",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es el módulo detector del sistema de detección de humo por aspiración ModuLaser, sin concepto de lazos aplicable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad105",
+   "canonical": "AD105",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor de calor lineal (LHD), que según las reglas se clasifica como detector; el documento no especifica tecnología de lazo ni capacidades de lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad105n",
+   "canonical": "AD105N",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD), que según las reglas se clasifica como detector; la documentación no especifica verbatim la tecnología de lazo ni parámetros de lazos."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:ad105p",
+   "canonical": "AD105P",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) Alarmline II Digital, que por regla se clasifica como detector; los LHD digitales actúan por temperatura fija tipo interruptor, tecnología convencional."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad105ss",
+   "canonical": "AD105SS",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital Alarmline II, que según las reglas se clasifica como detector; los LHD digitales operan como detección convencional de temperatura fija."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad185n",
+   "canonical": "AD185N",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital, que actúa como detector de temperatura fija de tipo convencional."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad185ss",
+   "canonical": "AD185SS",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD), que según las reglas se clasifica como detector; el documento no especifica verbatim la tecnología (analógica/convencional) del sistema."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad218",
+   "canonical": "AD218",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor de detección lineal de calor (LHD), que según las reglas se clasifica como detector; no se especifica tecnología de lazo ni lazos en el contenido."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:ad218ss",
+   "canonical": "AD218SS",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital tipo Alarmline II, que actúa como detector térmico de tipo conmutación/convencional."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:ad68",
+   "canonical": "AD68",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD), que según las reglas se clasifica como detector; no hay cita verbatim que precise la tecnología de conexión."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad68n",
+   "canonical": "AD68N",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Sensor Cable",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital Alarmline II, que actúa como detector de tipo convencional (contacto por temperatura fija), sin lazos direccionables."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad68n-0100",
+   "canonical": "AD68N-0100",
+   "marca": "kidde",
+   "docs": [
+    "ad68n-0100-1-es"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "El cable lineal de calor AD68N-0100 es un cable térmico lineal (LHD) calibrado a una temperatura de activación fija de 68ºC",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "proporciona un sistema de detección térmica por temperatura fija que es particularmente conveniente para usos donde los detectores térmicos puntuales no pueden ser utilizados",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor térmico lineal (LHD) de temperatura fija, que por regla se clasifica como detector con tecnología convencional al no ser direccionable ni analógico."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad68p",
+   "canonical": "AD68P",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital Alarmline II, que actúa como detector de temperatura fija de tipo convencional."
+   },
+   "citas_verificadas": true,
+   "repesca": "max_tokens 400->800"
+  },
+  {
+   "id": "kidde:ad68ss",
+   "canonical": "AD68SS",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) Alarmline II Digital, que según las reglas se clasifica como detector de tecnología convencional (activación digital por temperatura fija)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad88",
+   "canonical": "AD88",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD), que según las reglas se clasifica como detector; la tecnología (convencional) no se cita verbatim en las muestras."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad88n",
+   "canonical": "AD88N",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) Alarmline II Digital, que actúa como detector térmico de tipo digital/convencional, sin lazos direccionables."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad88p",
+   "canonical": "AD88P",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Alarmline II Digital Linear Heat Detection systems are as simple to install as possible",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) digital, que actúa como detector de temperatura fija de tipo convencional (contacto/cortocircuito al alcanzar la temperatura de alarma)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ad88ss",
+   "canonical": "AD88SS",
+   "marca": "kidde",
+   "docs": [
+    "20-8501-509-dl03-04_alarmline_ii_digital_lhd_cable_technical_manual_en"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Alarmline II Digital Linear Heat Sensor Cable Technical Manual",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un cable sensor lineal de calor (LHD) Alarmline II Digital, que según las reglas se clasifica como detector; el documento no especifica tecnología de lazo ni configuración de lazos para este sufijo (AD88SS)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3005w-cm",
+   "canonical": "KE-AS3005W-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (VAD/sounder) direccionable inteligente de la serie Excellence, clasificado como sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3005w-wm",
+   "canonical": "KE-AS3005W-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3005w_wm_2602_es_88a2",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Set the device address using the DIP switch, located in the battery compartment (see Figure 3, item 1). The address range is 001-128.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder) inteligente direccionable de la serie Excellence de Kidde; la variante exacta KE-AS3005W-WM pertenece a la familia de sirenas/VAD direccionables documentada, sin datos de lazos aplicables."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3010r",
+   "canonical": "KE-AS3010R",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3010r_2602_161a",
+    "ds_kidde_ke_as3010r_ip_2602_ing_a4e2"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) inteligente direccionable de la serie Excellence, con direccionamiento por DIP switch (001-128)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3010r-ip",
+   "canonical": "KE-AS3010R-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3010r_ip_2602_ing_a4e2",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "KE-AS3010R-IP | Intelligent addressable outdoor sounder (red body) | SDn",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena exterior direccionable (intelligent addressable outdoor sounder) de la serie Excellence de Kidde, sin datos de lazos aplicables."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3010w",
+   "canonical": "KE-AS3010W",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3010w_2602_es_3217",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) inteligente direccionable de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3010w-ip",
+   "canonical": "KE-AS3010W-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "KE-AS3010W-IP | Intelligent addressable outdoor sounder (white body) | SDn",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El documento identifica el modelo exacto como sirena exterior direccionable inteligente (outdoor sounder) de cuerpo blanco."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3011r",
+   "canonical": "KE-AS3011R",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3011r_2602_es_3a29",
+    "ds_kidde_ke_as3011r_ip_2602_ing_9304"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder) direccionable inteligente de la serie Excellence, con direccionamiento 001-128 por DIP switch, lo que confirma sirena de tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3011r-ip",
+   "canonical": "KE-AS3011R-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3011r_ip_2602_ing_9304"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VID de notificación exterior direccionable (inteligente) de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3011w",
+   "canonical": "KE-AS3011W",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3011w_2602_es_fb30"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) inteligente direccionable de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015r-cm",
+   "canonical": "KE-AS3015R-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable inteligente (montaje en techo, cuerpo rojo), lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015r-cmip",
+   "canonical": "KE-AS3015R-CMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente de exterior de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015r-wm",
+   "canonical": "KE-AS3015R-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3015r_wmip_2602_ing_92b3",
+    "ds_kidde_ke_as3015r_wm_2602_es_5cb3"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, red flash)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable (inteligente) de la serie Excellence, montaje en pared, cuerpo rojo, por lo que clasifica como sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015r-wmip",
+   "canonical": "KE-AS3015R-WMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3015r_wmip_2602_ing_92b3"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) exterior direccionable de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015w-cm",
+   "canonical": "KE-AS3015W-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) direccionable inteligente de la serie Excellence, con direccionamiento por DIP switch (rango 001-128), lo que lo clasifica como sirena de tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015w-cmip",
+   "canonical": "KE-AS3015W-CMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series Intelligent Addressable Outdoor Notification Device",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente para exterior de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015w-wm",
+   "canonical": "KE-AS3015W-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3015w_wm_2602_es_8142",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VAD (dispositivo de notificación) direccionable/inteligente de la serie Excellence, con direccionamiento 001-128 por DIP switch; los sounder/VAD se clasifican como sirena."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3015w-wmip",
+   "canonical": "KE-AS3015W-WMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series Intelligent Addressable Outdoor Notification Device Installation Sheet",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) exterior direccionable inteligente de la serie Excellence, por lo que se clasifica como sirena analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3105w-cm",
+   "canonical": "KE-AS3105W-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable inteligente de la serie Excellence (montaje en techo, cuerpo blanco), lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3105w-wm",
+   "canonical": "KE-AS3105W-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3015w_wm_2602_es_8142",
+    "ds_kidde_ke_as3105w_wm_2602_es_7bbc"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VAD (dispositivo de notificación) direccionable inteligente con aislador integrado, montaje en pared, cuerpo blanco y flash rojo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3110r",
+   "canonical": "KE-AS3110R",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3110r_2602_es_7e88",
+    "ds_kidde_ke_as3110r_ip_2602_ing_5e66"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) direccionable inteligente de la serie Excellence, por lo que se clasifica como sirena de tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3110r-ip",
+   "canonical": "KE-AS3110R-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3110r_ip_2602_ing_5e66"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "KE-AS3110R-IP | Intelligent addressable outdoor sounder with integrated isolator (red body)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena exterior direccionable (sounder) de la serie Excellence con aislador integrado, identificada explícitamente por su modelo en la tabla del documento."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3110w",
+   "canonical": "KE-AS3110W",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3110w_2602_es_75f3",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder/VAD) direccionable inteligente de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3110w-ip",
+   "canonical": "KE-AS3110W-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "KE-AS3110W-IP | Intelligent addressable outdoor sounder with integrated isolator (white body)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena (sounder) exterior direccionable/inteligente con aislador integrado, según la tabla del documento que ancla el modelo exacto KE-AS3110W-IP."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3111r",
+   "canonical": "KE-AS3111R",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3111r_2602_es_8dce",
+    "ds_kidde_ke_as3111r_ip_2602_ing_72bd"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación (sounder) direccionable inteligente de la serie Excellence, montaje interior, cuerpo rojo (sufijo R)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3111r-ip",
+   "canonical": "KE-AS3111R-IP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3111r_ip_2602_ing_72bd"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "KE-AS3111R-IP | Intelligent addressable outdoor sounder/VID with integrated isolator (red body, red flash) | SDBni",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una sirena exterior direccionable (inteligente) con indicador visual (VID) y aislador integrado, según la tabla de modelos del documento de instalación."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3111w",
+   "canonical": "KE-AS3111W",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3111w_2602_es_027c",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable inteligente de la serie Excellence, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-cm",
+   "canonical": "KE-AS3115R-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series Intelligent Addressable Indoor Notification Device Installation Sheet",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VAD direccionable inteligente de la serie Excellence (dispositivo de notificación), montaje en techo, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-cmip",
+   "canonical": "KE-AS3115R-CMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "intelligent addressable outdoor audible and visual notification devices",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente de exterior de la serie Excellence, aunque la variante exacta -CMIP no aparece anclada en las muestras."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-cmw",
+   "canonical": "KE-AS3115R-CMW",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Set the device address using the DIP switch, located in the battery compartment (see Figure 3, item 1). The address range is 001-128.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VAD (sirena con señalización visual) direccionable inteligente de la serie Excellence, variante montaje en techo, cuerpo rojo y flash blanco."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-cmwip",
+   "canonical": "KE-AS3115R-CMWIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable outdoor sounder with integrated isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual exterior (sounder/VAD) de la serie Excellence, direccionable inteligente, por lo que se clasifica como sirena analógica."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-wm",
+   "canonical": "KE-AS3115R-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ke-as3115r-wm-161721-es"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Sirena/Alarma visual direccionable inteligente Serie Excellence con aislador, montaje en pared",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, red flash)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable (inteligente) alimentado por lazo de la serie Excellence, no un equipo de control con lazos propios."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-wmip",
+   "canonical": "KE-AS3115R-WMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet",
+    "ke-as3115r-wmip-161721-es"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "weatherproof addressable wall mount sounder & visual alarm device (VAD) with integrated isolation",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series intelligent addressable weatherproof sounder/visual alarm w/ isolator, wall mount",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sonoro/visual (sounder/VAD) direccionable e inteligente para sistemas Excellence, no una central con lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-wmw",
+   "canonical": "KE-AS3115R-WMW",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, red body, white flash)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable (inteligente) de montaje en pared, cuerpo rojo y flash blanco, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115r-wmwip",
+   "canonical": "KE-AS3115R-WMWIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "This installation sheet includes information on the Excellence Series intelligent addressable outdoor audible and visual notification devices shown in the table below.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable outdoor sounder with integrated isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente de la serie Excellence para exteriores, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115w-cm",
+   "canonical": "KE-AS3115W-CM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (ceiling mount, white body, red flash)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un sounder/VAD de notificación direccionable (addressable), lo que corresponde a sirena con tecnología analógica según el uso PCI-ES estándar."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115w-cmip",
+   "canonical": "KE-AS3115W-CMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable outdoor sounder with integrated isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente de exterior de la serie Excellence, por lo que se clasifica como sirena analógica."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115w-wm",
+   "canonical": "KE-AS3115W-WM",
+   "marca": "kidde",
+   "docs": [
+    "3103072-ml_r004_excellence_series_intelligent_addressable_indoor_notification_device_installation_sheet",
+    "ds_kidde_ke_as3115w_wm_2602_es_488d",
+    "mi_kidde_ke_as3xxx_202602_es_0854"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator (wall mount, white body, red flash)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable sounder/VAD with integrated short circuit isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación sounder/VAD direccionable inteligente montado en pared, lo que corresponde a sirena con tecnología analógica/direccionable."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-as3115w-wmip",
+   "canonical": "KE-AS3115W-WMIP",
+   "marca": "kidde",
+   "docs": [
+    "3103198-ml_r002_excellence_series_intelligent_addressable_outdoor_notification_device_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "sirena",
+    "categoria_cita": "Excellence Series intelligent addressable outdoor audible and visual notification devices",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent addressable outdoor sounder with integrated isolator",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un dispositivo de notificación acústico/visual (sounder/VAD) direccionable inteligente para exterior de la serie Excellence."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-db3010b",
+   "canonical": "KE-DB3010B",
+   "marca": "kidde",
+   "docs": [
+    "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet",
+    "hd_ke_db3010b_202407_es_1065"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Standard mounting base for 3000 Series intelligent addressable detectors (black)",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Standard mounting base for 3000 Series intelligent addressable detectors (black)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una base de montaje estándar (accesorio) para detectores direccionables inteligentes de la serie 3000, en color negro (sufijo B)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-db3010w",
+   "canonical": "KE-DB3010W",
+   "marca": "kidde",
+   "docs": [
+    "3102987-ml_r003_excellence_series_standard_mounting_base_installation_sheet",
+    "ke-db3010w-161721-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Accesorio detector inteligente serie Excellence - base estándar",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Standard mounting base for 3000 Series intelligent addressable detectors (white)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una base de montaje estándar para detectores direccionables inteligentes de la serie Excellence, es decir, un accesorio de instalación, no un detector en sí."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dba-auxw",
+   "canonical": "KE-DBA-AUXW",
+   "marca": "kidde",
+   "docs": [
+    "3103013-ml_r002_ke-dba-auxw_deep_accessory_for_standard_mounting_base_installation_sheet",
+    "ke-dba-auxw-161721-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "El KE-DBA-AUXW es un accesorio de base de montaje en superficie de la serie Excellence. Permite instalar el cableado pasando un conducto eléctrico estándar directamente a la base, sin dejar cables expuestos.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Accesorio base direccionable inteligente - Base Profunda (Blanca)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una base profunda accesoria de montaje en superficie para bases de detectores direccionables de la serie Excellence, sin electrónica de detección propia."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dm3010r",
+   "canonical": "KE-DM3010R",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml",
+    "ke-dm3010r-161721-es"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "El KE-DM3010R es un pulsador rojo de acción simple para interiores con un indicador funcional de casa en llamas.",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La serie KE-DM3000 es una gama inteligente de pulsadores direccionables.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual (manual call point) direccionable/inteligente de la Serie Excellence, claramente documentado como tal."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dm3010r-kit",
+   "canonical": "KE-DM3010R-KIT",
+   "marca": "kidde",
+   "docs": [
+    "ke-dm3010r-kit-161721-es"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "Pulsador direccionable inteligente de la serie Excellence con caja de superficie",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La serie KE-DM3000 es una gama inteligente de pulsadores manuales direccionables de la Serie Excellence",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es explícitamente un pulsador manual direccionable/inteligente de la serie Excellence, tecnología analógica según convención PCI-ES."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dm3110r",
+   "canonical": "KE-DM3110R",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4300-06_r006_excellence_series_addressable_mcp_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "Excellence Series Intelligent Addressable Manual Call Point Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "The Excellence Series Intelligent Addressable Manual Call Point is designed for indoor use and supports the Kidde Excellence protocol.",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual de alarma (manual call point) direccionable/inteligente del protocolo Kidde Excellence, lo que corresponde a tecnología analógica en el uso PCI estándar."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dp3020w",
+   "canonical": "KE-DP3020W",
+   "marca": "kidde",
+   "docs": [
+    "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet",
+    "ke-dp3020w-161721-es"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Detector de humo óptico dual direccionable inteligente serie Excellence",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El DP3020W es un detector óptico dual direccionable de señal blanca de la serie Kidde Excellence",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector de humo óptico dual direccionable (inteligente) de la serie Excellence, alimentado por lazo, sin datos de lazos aplicables al ser un dispositivo de campo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dp3120w",
+   "canonical": "KE-DP3120W",
+   "marca": "kidde",
+   "docs": [
+    "3102984-ml_r003_excellence_series_intelligent_addressable_dual_optical_detector_installation_sheet",
+    "ke-dp3120w-161721-es"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Detector de humo óptico dual direccionable inteligente serie Excellence con aislador",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El DP3120W es un detector óptico dual direccionable de señal blanca de la serie Kidde Excellence con aislamiento de cortocircuito integrado",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector óptico dual direccionable (inteligente) de la serie Excellence con aislador integrado; el concepto de lazos no aplica a un detector individual."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dt3001w-hab",
+   "canonical": "KE-DT3001W-HAB",
+   "marca": "kidde",
+   "docs": [
+    "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet",
+    "ke-dt3001w-hab-161721-es"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Detector de calor direccionable inteligente serie Excellence",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "El DT3001W-HAB es un detector de calor direccionable de señal blanca de la serie Kidde Excellence",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector de calor direccionable (inteligente) de la serie Excellence de Kidde, alimentado por bucle."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-dt3101w-hab",
+   "canonical": "KE-DT3101W-HAB",
+   "marca": "kidde",
+   "docs": [
+    "3102986-ml_r002_excellence_series_intelligent_addressable_class_a-b_heat_detector_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "detector",
+    "categoria_cita": "Excellence Series Intelligent Addressable Class A/B Heat Detector Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent Addressable Class A/B Heat Detectors",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un detector de calor inteligente direccionable (analógico) de la serie Excellence de Kidde, según su hoja de instalación."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-io3001",
+   "canonical": "KE-IO3001",
+   "marca": "kidde",
+   "docs": [
+    "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Excellence Series Intelligent Addressable Single Output Module Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent Addressable Single Output Module",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de salida direccionable/inteligente de la serie Excellence, con direccionamiento por DIP switch en lazo analógico."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-io3044",
+   "canonical": "KE-IO3044",
+   "marca": "kidde",
+   "docs": [
+    "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Excellence Series Intelligent Addressable Two/Four Input/Output Module Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Intelligent Addressable Two/Four Input/Output Module",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de entradas/salidas direccionable (inteligente) para lazo analógico, con direccionamiento por DIP switch 001-128."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-io3101",
+   "canonical": "KE-IO3101",
+   "marca": "kidde",
+   "docs": [
+    "3103062-ml_r003_excellence_series_addressable_single_output_module_installation_sheet",
+    "ke-io3101-161721-es"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Excellence Series Intelligent Addressable Single Output Module Installation Sheet",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Unidad inteligente direccionable de 1 salida con aislador",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de salida direccionable (relé) alimentado por lazo con aislador, de la serie inteligente Excellence."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-io3122",
+   "canonical": "KE-IO3122",
+   "marca": "kidde",
+   "docs": [
+    "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet",
+    "ke-io3122-161721-es"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Unidad inteligente direccionable de 2 entradas/2 salidas con aislador",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "La innovadora serie Excellence de dispositivos direccionables inteligentes ofrece funciones avanzadas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de entradas/salidas direccionable (2 entradas/2 salidas con aislador) alimentado por lazo de la serie Excellence."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:ke-io3144",
+   "canonical": "KE-IO3144",
+   "marca": "kidde",
+   "docs": [
+    "3103063-ml_r003_excellence_series_addressable_two-four_input-output_module_installation_sheet",
+    "ke-io3144-161721-es"
+   ],
+   "llm": {
+    "categoria": "modulo",
+    "categoria_cita": "Unidad inteligente direccionable de 4 entradas/4 salidas con aislador",
+    "tecnologia": "analogica",
+    "tecnologia_cita": "Excellence Series Intelligent Addressable Two/Four Input/Output Module",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un módulo de entradas/salidas direccionable (inteligente) alimentado por lazo de la serie Excellence, no una central, por lo que no aplican lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-g",
+   "canonical": "N-MC-BB-G",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml",
+    "n-mc-bb-g-161721-es"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "Accesorio pulsador, caja trasera de pulsador manual inteligente, verde",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja posterior de montaje en superficie (backbox) para pulsadores manuales, es decir, un accesorio sin electrónica de detección."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-o",
+   "canonical": "N-MC-BB-O",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "N-MC-BB Series Backbox Installation Sheet",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja trasera (backbox) de montaje para pulsadores serie N-MC, es decir, un accesorio mecánico sin electrónica ni tecnología de detección."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-r",
+   "canonical": "N-MC-BB-R",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "N-MC-BB Series Backbox Installation Sheet",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja trasera (backbox) de montaje para pulsadores de la serie N-MC, es decir, un accesorio mecánico sin electrónica de detección."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-u",
+   "canonical": "N-MC-BB-U",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "N-MC-BB Series Backbox Installation Sheet",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja trasera (backbox) de montaje para pulsadores manuales de la serie N-MC, es decir, un accesorio de instalación sin electrónica de detección."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-w",
+   "canonical": "N-MC-BB-W",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "N-MC-BB Series Backbox Installation Sheet",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja trasera (backbox) de montaje para pulsadores manuales de la serie N-MC, es decir, un accesorio de instalación, no un dispositivo activo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:n-mc-bb-y",
+   "canonical": "N-MC-BB-Y",
+   "marca": "kidde",
+   "docs": [
+    "03-0210-501-4301-02_r002_n-mc_series_mcp_backbox_installation_sheet_ml"
+   ],
+   "llm": {
+    "categoria": "accesorio",
+    "categoria_cita": "N-MC-BB Series Backbox Installation Sheet",
+    "tecnologia": null,
+    "tecnologia_cita": null,
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una caja trasera (backbox) de montaje para pulsadores manuales serie N-MC, es decir, un accesorio de instalación sin electrónica de detección."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-mc-0-g",
+   "canonical": "NC-MC-0-G",
+   "marca": "kidde",
+   "docs": [
+    "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0",
+    "nc-mc-0-g-161721-es"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "Pulsador manual inteligente convencional para montaje empotrado - 0 Ω (Verde)",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Compatibilidad       | Sistemas de detección convencionales",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual (manual call point) convencional con resistencia de 0 Ω para paneles convencionales, sin concepto de lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-mc-0-r",
+   "canonical": "NC-MC-0-R",
+   "marca": "kidde",
+   "docs": [
+    "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "designed for indoor use with compatible conventional fire panels",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador de alarma manual (manual call point) convencional para paneles convencionales, variante con resistencia 0 Ω según el sufijo del modelo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-mc-100-r",
+   "canonical": "NC-MC-100-R",
+   "marca": "kidde",
+   "docs": [
+    "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "designed for indoor use with compatible conventional fire panels",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual de alarma (manual call point) convencional para paneles convencionales, con resistencia integrada según modelo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-mc-470-r",
+   "canonical": "NC-MC-470-R",
+   "marca": "kidde",
+   "docs": [
+    "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "designed for indoor use with compatible conventional fire panels. Each unit includes a built-in resistor (0, 100, 470, or 560 Ω, depending on the model purchased)",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual de alarma (Manual Call Point) convencional con resistencia integrada de 470 Ω según su sufijo, para paneles convencionales."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-mc-560-r",
+   "canonical": "NC-MC-560-R",
+   "marca": "kidde",
+   "docs": [
+    "03-0211-501-3000-05_r005_nc_series_conventional_mcp_installation_sheet_ml_0"
+   ],
+   "llm": {
+    "categoria": "pulsador",
+    "categoria_cita": "The NC Series Intelligent Conventional Manual Call Point is designed for indoor use with compatible conventional fire panels.",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "designed for indoor use with compatible conventional fire panels",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es un pulsador manual de alarma (Manual Call Point) convencional para paneles convencionales, con resistencia integrada de 560 Ω según el sufijo del modelo."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf2",
+   "canonical": "NC-PF2",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+    "nc-pf2-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "El NC-PF2 es un panel de control de alarma contra incendios convencional. Se suministra con 2 zonas que admiten hasta 32 dispositivos por zona",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Central de incendios convencional, 2 zonas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "La hoja de producto identifica explícitamente al NC-PF2 como central de incendios convencional de 2 zonas (sin lazos analógicos, al ser tecnología convencional por zonas)."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf2-sc",
+   "canonical": "NC-PF2-SC",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "Manual de instalación de las centrales de incendio convencionales de la Serie NC",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "centrales de incendio convencionales de la Serie NC",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una central de incendio convencional de la Serie NC (variante de 2 zonas según sufijo PF2); al ser convencional trabaja con zonas y no con lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf4",
+   "canonical": "NC-PF4",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+    "nc-pf4-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "El NC-PF4 es un panel de control de alarma contra incendios convencional. Se suministra con 4 zonas que admiten hasta 32 dispositivos por zona",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Central de incendios convencional, 4 zonas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "La ficha técnica y los manuales identifican explícitamente el NC-PF4 como central (panel de control) de incendios convencional de 4 zonas; al ser convencional no tiene lazos analógicos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf4-sc",
+   "canonical": "NC-PF4-SC",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+    "nc-pf4-sc-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "The NC-PF4-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 4 zones that support up to 32 devices per zone",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Conventional Fire Panel with Scandinavian Key - 4 Zone",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una central de incendio convencional de 4 zonas de la Serie NC; al ser convencional trabaja con zonas y no con lazos analógicos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf8",
+   "canonical": "NC-PF8",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+    "nc-pf8-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "El NC-PF8 es un panel de control de alarma contra incendios convencional. Se suministra con 8 zonas que admiten hasta 32 dispositivos por zona",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Central de incendios convencional, 8 zonas",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "El datasheet identifica explícitamente el NC-PF8 como panel de control de incendios convencional de 8 zonas; al ser tecnología convencional por zonas, no aplican lazos."
+   },
+   "citas_verificadas": true
+  },
+  {
+   "id": "kidde:nc-pf8-sc",
+   "canonical": "NC-PF8-SC",
+   "marca": "kidde",
+   "docs": [
+    "bcn-3100017-es_r002_nc_series_fire_alarm_control_panel_installation_manual",
+    "bcn-3100018-es_r002_nc_series_fire_alarm_control_panel_operation_manual",
+    "nc-pf8-sc-161721-es"
+   ],
+   "llm": {
+    "categoria": "central",
+    "categoria_cita": "The 1X-F8-SC is a conventional fire alarm control panel with Scandinavian key support. It is supplied with 8 zones that support up to 32 devices per zone",
+    "tecnologia": "convencional",
+    "tecnologia_cita": "Conventional Fire Panel with Scandinavian Key - 8 Zone",
+    "lazos": null,
+    "confianza": "alta",
+    "razon": "Es una central de incendio convencional de 8 zonas (Serie NC); al ser convencional trabaja con zonas y no con lazos analógicos."
+   },
+   "citas_verificadas": true
+  }
+ ],
+ "repesca_utc": "20260814T160406Z"
+}
