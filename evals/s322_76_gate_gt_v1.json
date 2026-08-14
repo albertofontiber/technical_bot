@@ -1,7 +1,7 @@
 {
- "utc": "20260814T160407Z",
- "aciertos": 28,
- "n": 28,
+ "utc": "20260814T173414Z",
+ "aciertos": 29,
+ "n": 29,
  "precision": 1.0,
  "gate_pass": true,
  "umbral": 0.95,
@@ -320,6 +320,29 @@
       "base": 2,
       "max": 2,
       "cita": "Two-loop addressable fire alarm control panel with fire routing"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kidde:2x-af2-scfb-p",
+   "ok": true,
+   "gt": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": {
+     "base": 2,
+     "max": 2
+    }
+   },
+   "llm": {
+    "categoria": "central",
+    "tecnologia": "analogica",
+    "lazos": [
+     {
+      "base": 2,
+      "max": 2,
+      "cita": "Central de alarma de incendio direccionable de dos lazos SS 3654 con controles de protección y enrutado de fuego"
      }
     ]
    }

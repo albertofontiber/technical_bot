@@ -6439,6 +6439,19 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
 - **Relacionado**: DEC-216 · TECH_DEBT #76/#76b · propuesta+adenda
   `evals/s322_76_propuesta_r28_v1.md` · recibos `s322_76_{lazos_vesta,
   zonas_ncpf,writer_rescate,migra_base_opcional,verifica_citas,fix_rmsdk}_*`.
+
+**Actualización DEC-217 (mismo día, pregunta de Alberto «¿reviso online los no-alta?»)**:
+la respuesta correcta resultó ser corpus-first — el censo de las 22 §1 mostró 1-12
+menciones del modelo en SUS docs (fallo de MUESTREO: la fila de la tabla de modelos
+2X-A no caía en la ventana), no ausencia de corpus. **Repesca v3 dirigida a
+tabla-de-modelos: 22/22 → §0 con cita verbatim verificada FULL-TEXT** (incluido
+tbud-ng «Placa expansión de lazos» y las 3 2X-AT-FR de 1 mención) + censo-extra
+firebeam 2/2 (kits vendido_bajo Detnov, fuera del censo v1 por prefijo de marca).
+**Detnov+Kidde = clasificación 100 % (162 productos), gate 29/29 PASS, 348 citas
+re-verificadas full-text, 0 fallos, §1 = ∅.** El carril «evidencia online» queda
+diseñado para censos futuros donde el corpus NO ancle: URL+quote+fecha al packet
+como tier DECLARADO (nunca al catálogo sin adjudicación); no hizo falta usarlo.
+
 ## DEC-218 (s321) — Guarda VIVA vs REGISTRO HISTÓRICO: cuándo se re-ancla un prereg y con qué acotación
 
 **Decisión**: los preregs de los canarios `s203/s204/s205` son **guardas VIVAS (tripwires)** sobre el
