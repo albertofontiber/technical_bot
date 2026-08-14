@@ -6292,3 +6292,64 @@ queda disponible; a escala 1k chunks el precedente NO-GO de DEC-102 queda 2 órd
   variante-de-familia va como mejora adjudicable, no automática.
 - **Relacionado**: plan v2 elefante · DEC-093/094 · DEC-212 (E1) · tally r23
   ts=2026-08-13T21:56:44.
+
+## DEC-214 (s321) — E3 F3a EJECUTADO: 579 chunks re-tagueados con identidad adjudicada (dúos r24+r25, findability PASS); residuo en packet con recomendaciones LLM fundamentadas
+
+- **Fecha**: 14 ago 2026 (s321, nocturno autónomo mandatado). **Impacto**: ALTO
+  (identidad servida de chunks) — dúos r24 (3 críticos) y r25 (crítico convergente
+  atestación≠sujeto), TODO aplicado; 1 FP de Fable en 13 rondas (cita «pm JAMÁS
+  auto» que SÍ existe — DEC-156b:3651, línea-kilométrica omitida por grep),
+  documentado con mecanismo.
+- **La cadena censo→dúo→atestación estrechó el lote con evidencia**: censo v1
+  161 docs → v2 (consumable-gate + semántica imatch + contabilidad 887 asserted)
+  104 docs/1.462 chunks, partición por provenance LEÍDA (102 adjudicados / 2
+  derivados) · atestación r25 (sujeto-dominante + hermanas + producto-real→packet
+  + fix del criterio circular snapshot) → **AUTO = 55 parejas / 579 chunks**.
+- **APLICADO (recibo `s321_e3_writer_aplicar_20260813T222611Z.json`)**: 579/579
+  por-chunk con CAS id+pm_prev (el bulk-por-pm dio 500 server-side: rollback
+  verificado, migrado a fila-a-fila) · backup por-chunk versionado (rollback por
+  id) · **findability_post PASS fail-closed** (los 55 docs recuperables por su
+  canónico; pm-familia DEC-192/193 intactos por construcción) · **E2-POST: el
+  conservador re-derivado = 0 altas/0 bajas** (diff pre-registrado = cero,
+  explicado: ya estaban doc_map-atestados) · suite 3.833/46.
+- **Residuo (packet `s321_e3_packet_adjudicacion_v1.md`)**: 47 parejas/878 chunks
+  con pasada LLM mandatada por Alberto (claude-fable-5, contenido real, cita
+  VERIFICADA contra muestra, alta-sin-cita degradada): §0 = 15 aplicables-en-
+  bloque con su asentimiento · §1 = 32 una-a-una (28 producto-real→multi-valor,
+  hermanas, no-dominantes; 11 NO_DECIDIBLE honestos; 1 MANTENER_PREV).
+- **Incidencias de instrumento cazadas en la noche**: criterio producto-real
+  CIRCULAR vía snapshot (el snapshot nació de estos pm) → solo catálogo
+  gobernado · patrón imatch asimétrico por diseño → forma por normkey+signos ·
+  `temperature` deprecada en modelos 2026 (clase DEC-092).
+- **Relacionado**: DEC-212/213 · contrato §F3 · tallies r24
+  ts=2026-08-13T23:49:46 · r25 ts=2026-08-14T00:12:43 · TECH_DEBT #76 (alta
+  esta noche: categoría+atributos, mandato Alberto).
+
+## DEC-215 (s321) — E4 EJECUTADO: el clarify-por-divergencia lee el CATÁLOGO gobernado; el seed FAMILY_REGISTRY retirado (dúo r26) — EL ELEFANTE (DEC-074/091b) QUEDA COMPLETO
+
+- **Fecha**: 14 ago 2026 (s321 nocturno). **Impacto**: MEDIO (ruta E del clarify de
+  la política F1) — dúo r26 (Sol 3 · Fable 4, 0 FP, TODO aplicado).
+- **Qué hay**: campo `clarify` OPCIONAL y ADJUDICABLE en umbrellas
+  (`{eje_terminos[], provenance}` — la puerta VETA declarar `variantes`: se DERIVAN
+  de los canonical_model de los miembros, prefijo/sufijo común fuera → «1/2/5») ·
+  migración de ZXe/ZXSe con provenance SEPARADA por componente (membresía s78/s90
+  intacta · eje = GT s78-80 + seed s281, adjudicación formal del léxico PENDIENTE
+  declarada) · consumo vía la instancia ÚNICA del proceso
+  (`catalog_resolver.catalogo_cargado`, r26: sin segunda caché) · fail-open
+  DECLARADO como divergencia con el seed (catálogo roto → sin clarify + warning) ·
+  fallback hardcoded «1/2/5/10» RETIRADO (tercera copia) · `FAMILY_REGISTRY`/
+  `_FamilySpec` eliminados.
+- **Gates**: tests de TEXTO EXACTO del clarify pre/post (Sol M2: el gate MT solo
+  assertaba no-vacío) + eje positivo/negativo + guard hp009/DEC-082 (divergent:true
+  sin eje JAMÁS clarifica) + derivación de variantes + fail-open → 8/8 · suite
+  completa 3.841/46 · catálogo validate 0 errores.
+- **Añadir una familia nueva** = una fila de catálogo con provenance (antes: un PR
+  de código). La costura para #76 queda puesta: `eje_terminos` es vocabulario de
+  consulta; los atributos TIPADOS (categoría/tecnología/lazos) son #76.
+- **EL ELEFANTE COMPLETO**: E0 censo (DEC-211-era) · E1 datos+packets (DEC-212) ·
+  E2 derivación gobernada (DEC-213) · E3 re-tag 579 chunks (DEC-214) · E4 clarify
+  gobernado (esta). El workstream DEC-074/091b de 4-7 sesiones se ejecutó en su
+  RESTANTE real en ~3 (s320-s321); los residuos son PACKETS de datos adjudicables,
+  no ingeniería.
+- **Relacionado**: DEC-069 (la promesa del comentario) · DEC-074/082/084/091b ·
+  tally r26 ts=2026-08-14T00:43:11.

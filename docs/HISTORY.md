@@ -3471,3 +3471,33 @@ una «baja real» (VESDA-E-VEP) resultó estar sostenida por una query gold. El
 v1 que queda es honesto: mecanismo gobernado con PASS total byte-idéntico en
 conducta, y TODOS los cambios de datos (altas, bajas, gaps) en un packet
 adjudicable por lotes. Dúo r23 pre-build completo (Sol 4 · Fable 3, 0 FP).
+
+## s321 (14-ago-2026, nocturno) — E3: la identidad adjudicada llega a los chunks, con el dúo estrechando el lote hasta que la evidencia aguantó
+
+Alberto preguntó «¿lo ha validado el dúo?» en el momento exacto: el split del
+dry-run era mío y sin revisar. r25 lo rehizo (atestación=sujeto-dominante, no
+mención; producto-real jamás se colapsa solo; hermanas sobre todas las
+aplicables) y de 102 parejas quedaron 55 AUTO — que se aplicaron limpias:
+579/579 chunks por-CAS con backup por fila, findability PASS fail-closed, y la
+sonda E2-POST dando el cero pre-registrado. El residuo (47) viajó al packet con
+la pasada LLM que Alberto mandó antes de dormir: fable-5 leyendo el contenido
+real y citando verbatim — 15 quedaron «aplicables en bloque si asiente», 11
+NO_DECIDIBLE honestos, y 1 donde el modelo defiende el pm actual contra el
+mapa. Tres bugs de instrumento cazados por el camino (criterio circular vía
+snapshot, patrón imatch asimétrico, temperature deprecada). TECH_DEBT #76
+anotada por mandato: categoría+atributos de producto (el caso Detnov/Kidde).
+E4 arranca a continuación.
+
+## s321b (14-ago-2026, madrugada) — E4 cierra el elefante: el clarify lee el catálogo y la promesa de DEC-069 queda cumplida
+
+El último tramo nocturno retiró el seed FAMILY_REGISTRY cumpliendo la promesa
+que su propio comentario llevaba semanas haciendo: el clarify-por-divergencia
+lee ahora el campo `clarify` adjudicable de las umbrellas, con las variantes
+DERIVADAS de los miembros (el dúo r26 vetó re-declararlas y mató de paso el
+fallback hardcoded, tercera copia del mismo dato), la provenance separada por
+componente tras cazar Sol mi «datos T3» falso, y una sola instancia de
+catálogo por proceso. Tests de texto-exacto donde el gate MT solo pedía
+no-vacío; guard hp009 assertado; suite 3.841. Con E4, el elefante DEC-074/091b
+está COMPLETO: lo que era «4-7 sesiones» aparcadas resultó ser ~3 de restante
+real una vez el censo separó lo ya-ejecutado — y todos los residuos son
+packets de datos esperando la sentada, no ingeniería pendiente.

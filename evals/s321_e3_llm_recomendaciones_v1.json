@@ -1,0 +1,805 @@
+{
+ "que_es": "Recomendaciones LLM (claude-fable-5) para el residuo E3. NADA auto-aplicado: alta+cita-verificada = «aplicable en bloque si Alberto asiente»; el resto, recomendación.",
+ "utc": "20260813T223755Z",
+ "modelo": "claude-fable-5",
+ "total": 47,
+ "resumen": {
+  "RETAG_CANONICO:alta": 32,
+  "NO_DECIDIBLE:baja": 11,
+  "MANTENER_PREV:alta": 1,
+  "RETAG_CANONICO:media": 3
+ },
+ "detalle": [
+  {
+   "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+   "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+   "pm_prev": "PYX-L-15",
+   "canonico": "PY X-L-15-CPR",
+   "chunks": 21,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Operating and installation instruction for PY X-L-15-CPR beacon",
+    "razon": "El documento trata explícitamente el producto PY X-L-15-CPR como sujeto (título y aprobación VdS 0786-CPR-21563), siendo «PY X-L-15» solo la forma abreviada en la tabla técnica."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "b8e3d761-0f6d-46fa-8e02-e2f0a328f235",
+   "source_file": "22318.18.08_-_aritech_ra_-_fd2705-10r_english_std_reflective_user_guide_-_en",
+   "pm_prev": "FD2705R",
+   "canonico": "FD2705-10R",
+   "chunks": 9,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": ""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "1cc97b71-972e-4163-8d1d-548a4b57f275",
+   "source_file": "ASD533_TD_T140287es_e",
+   "pm_prev": "ASD533",
+   "canonico": "ASD 533-1",
+   "chunks": 202,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "MANTENER_PREV",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "# ASD 533\n\n## Detector de humos por aspiración\n\n## Descripción técnica",
+    "razon": "El contenido (portada, título, hoja de datos 'Hoja de datos ASD 533 T 140 288') trata exclusivamente del ASD 533 sin mención alguna de la variante '-1', por lo que el pm actual «ASD533» es correcto y el canónico «ASD 533-1» no está respaldado por el documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "d5f66882-38fc-449f-ad69-58e36e49eb4d",
+   "source_file": "BANI-G-24_Eng",
+   "pm_prev": "IS 28 Mk 4",
+   "canonico": "IS 28 Mk 4 Banshee",
+   "chunks": 16,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "IS 28 Mk 4 Banshee Audible Warning Device",
+    "razon": "El documento trata como sujeto único al «IS 28 Mk 4 Banshee», nombre completo que aparece verbatim en el título y encabezados, por lo que el pm actual «IS 28 Mk 4» está truncado respecto al canónico."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "06480ab0-ba4d-45a6-8ba9-f0842f278421",
+   "source_file": "DXC-Como-conectar-una-sirena-de-lazo",
+   "pm_prev": "DXc",
+   "canonico": "B501AP",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": ""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "09c2bab5-60e3-40a8-ae25-8c194ccc7850",
+   "source_file": "FAAST Understanding EN54-20_SP",
+   "pm_prev": "FAAST",
+   "canonico": "FAAST 8100E",
+   "chunks": 2,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"MANTENER_PREV\",\n \"multi_valor\": null,\n \"otro_producto\": null,\n \"confianza\": \"media\",\n \"cita\": \"Se detallan las aplicaciones típicas dentro de cada clase EN54-20 (A-C), junto a las especificaciones relevantes de cada modelo FAAST.\",\n \"razon\": \"El documento es una guía de diseño EN54-20"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "c57c3b9d-5333-470c-8f72-f9e84c53f6d1",
+   "source_file": "I56-4294-002 NRX-M711 Module",
+   "pm_prev": "SMB-500",
+   "canonico": "NRX-M711",
+   "chunks": 15,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "NRX-M711\nRADIO SYSTEM INPUT/OUTPUT MODULE\nINSTALLATION INSTRUCTIONS",
+    "razon": "El documento es el manual de instalación del módulo NRX-M711; el SMB-500 solo aparece como accesorio (back box) en la lista de partes, no como sujeto del documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "b18c0760-c4fe-4512-afba-827157df3971",
+   "source_file": "I56-4405-002 M701E",
+   "pm_prev": "AT-60",
+   "canonico": "M701E",
+   "chunks": 9,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "INSTALLATION INSTRUCTIONS FOR THE M701E OUTPUT MODULE",
+    "razon": "El documento trata exclusivamente del módulo de salida M701E (especificaciones, cableado, direccionamiento), sin mención alguna de AT-60."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "ee4231ab-e74a-411f-b2da-b71315a93eda",
+   "source_file": "I56-5005-002_D Notifier Sounder Strobe",
+   "pm_prev": "WRA-PC-I02/WRA-RC-I02/WWA-PC-I02/WWA-RC-I02",
+   "canonico": "W*A-*C-I02",
+   "chunks": 6,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": ""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "ab3623e3-3697-4b2f-bc5d-bdb106b0cb94",
+   "source_file": "LocatorPlus-Installation-Manual-1.3",
+   "pm_prev": "LocatorPlus",
+   "canonico": "Signaline LocatorPlus",
+   "chunks": 16,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "The Signaline LocatorPlus is a dual zone module for monitoring up to two zones of Signaline FT or FT-R Digital Linear Heat Detection",
+    "razon": "El contenido trata el producto consistentemente como «Signaline LocatorPlus» (marca Signaline HEAT), por lo que el canónico adjudicado es el sujeto real del documento y el tag actual «LocatorPlus» es solo una forma truncada."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "293b7ca0-da28-4f8e-b2f9-58bc6fc3ebb7",
+   "source_file": "MADT190_02",
+   "pm_prev": "ID3000",
+   "canonico": "ISO-RS232",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Conexionado Tarjeta Aislada ISO-RS232 con PC / Impresora",
+    "razon": "El documento trata específicamente el conexionado de la tarjeta ISO-RS232 como sujeto principal; la central ID3000 solo se menciona como contexto de ubicación de la tarjeta."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "36ffe9bc-31b8-42e9-abbc-226631108cc4",
+   "source_file": "MADT190_05",
+   "pm_prev": "ID3000",
+   "canonico": "NGU",
+   "chunks": 17,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "media",
+    "cita": "INSTALACIÓN DEL MÓDULO DE RED NGU — El módulo de red (NGU) (Ref.: 002-467) consta de una caja posterior (con tapa) con los siguientes componentes",
+    "razon": "El documento son instrucciones de instalación cuyo sujeto es el módulo de red NGU; la central ID3000 solo aparece como contexto/host de instalación, por lo que el producto canónico NGU es el correcto.",
+    "nota": "cita no verificada en muestra → degradada"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "1c430ba4-0d25-4c75-8eee-01797abc8ccc",
+   "source_file": "MADT231",
+   "pm_prev": "AFP-400",
+   "canonico": "AFP4000",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "EJEMPLO DE EXTINCIÓN EN LA AFP4000",
+    "razon": "El contenido trata explícitamente la central AFP4000 (título y «CENTRAL AFP4000»), por lo que el tag actual AFP-400 es erróneo y debe corregirse al canónico."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "78d436eb-e371-4be1-9b50-11b76da6425e",
+   "source_file": "MADT232",
+   "pm_prev": "AFP-400",
+   "canonico": "AFP4000",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Entre la fuente de alimentación y la Central **AFP4000** deberá instalarse dos líneas independientes de 24 Vdc",
+    "razon": "El contenido del documento menciona explícitamente y en repetidas ocasiones la Central AFP4000 como sujeto (también «Conector de entradas digitales de la Central AFP4000»), no AFP-400."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "27b8f6ec-a6d0-473b-8973-372a2dfcc06d",
+   "source_file": "MIE-MU-215",
+   "pm_prev": "ZXCE",
+   "canonico": "FIRECONTROL",
+   "chunks": 8,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"RETAG_CANONICO\",\n \""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "fc05552b-2425-4c51-a7dd-c21651a7e9d2",
+   "source_file": "MIW-INT-La-central-DXC-indica-corto-tras-instalar-el-Interface",
+   "pm_prev": "DXc",
+   "canonico": "MIW-INT",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"RETAG_CANONICO\", \"multi_valor\": null, \"otro_producto\": null, \"confianza\": \"alta\", \"cita\": \"¿Qué hacer en caso de la central DXC indicar corto trás instalar y autoprogramar el Interface MIW-INT?\", \"razon\": \"El documento trata como sujeto el interface MIW-INT (su programación, la avería"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "cca256d4-457a-4fa3-9d67-fb6919a85766",
+   "source_file": "MN-DT-958I_iBox-MBS-NID3000",
+   "pm_prev": "iBox Modbus Server",
+   "canonico": "IBOX-MBS-NID3000",
+   "chunks": 39,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "(IBOX-MBS-NID3000_EN / v10 r12 eng)",
+    "razon": "El documento es el manual de usuario del gateway iBox Modbus Server para centrales Notifier ID3000, cuyo código de producto explícito en portada es IBOX-MBS-NID3000, coincidiendo con el canónico adjudicado."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "95b262df-63e0-410b-90fa-9434ce01e051",
+   "source_file": "MNDT513_SENTOX-IDI",
+   "pm_prev": "SENTOX IDI",
+   "canonico": "SENTOX IDI+",
+   "chunks": 49,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "# SENTOX IDI+\n\n## MANUAL DE USUARIO E INSTALACIÓN",
+    "razon": "El documento es el manual de usuario e instalación del SENTOX IDI+ (con el sufijo '+'), mencionado consistentemente en portada, encabezados y secciones (p.ej. '3.1) FUNCIONAMIENTO DE LA CENTRAL DE GAS SENTOX IDI+'), por lo que el pm actual 'SENTOX IDI' omite el '+' y debe corregirse al canónico."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "2942d1e2-3841-4064-a59e-9c2313931dd7",
+   "source_file": "MNDT958",
+   "pm_prev": "IBOX MODBUS SERVER",
+   "canonico": "IBOX-MBS-NID3000",
+   "chunks": 40,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "media",
+    "cita": "MN-DT-958_A\n20 JUNIO 2011\n(IBOX-MBS-NID3000 / v10 r13 esp)",
+    "razon": "El documento es el manual de la pasarela iBox Modbus Server cuya referencia comercial exacta IBOX-MBS-NID3000 aparece verbatim en la portada, siendo 'iBox Modbus Server' solo el nombre descriptivo del mismo producto.",
+    "nota": "cita no verificada en muestra → degradada"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "e9adf2b8-b5e0-4dfd-9582-76bd679142a7",
+   "source_file": "Manual de usuario Issue 0165-02 v2 MI 546 es 2022 FIREBEAM BLUE",
+   "pm_prev": "theFirebeam BLUE",
+   "canonico": "Firebeam Blue",
+   "chunks": 28,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Enhorabuena por adquirir el detector de humo de haz óptico reflejado the **fire**beam*BLUE*.",
+    "razon": "El documento trata exclusivamente el detector Firebeam Blue como sujeto (manual de usuario del producto BLUE con su app), por lo que corresponde alinear el product_model al canónico «Firebeam Blue»."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "757dc354-4ade-4099-91e8-bd28f5385245",
+   "source_file": "ONE500S01-MU - MANUAL DE USUARIO SERIE ONE v2.1",
+   "pm_prev": "ONE/ONE-LOOP",
+   "canonico": "ONE 500",
+   "chunks": 69,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": ""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "d07cfed0-c5a4-4e07-a807-e5f725992d06",
+   "source_file": "Puesta-en-marcha-repetidor-ZXrA-en-central-CONNEXION",
+   "pm_prev": "ZXrA",
+   "canonico": "ZXR50A",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": ""
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "623276d6-4902-467f-b499-52c7559a85c0",
+   "source_file": "TD 003 006c_Technische Dokumentation_Externer Temperatursensor ART 535-x_es",
+   "pm_prev": "ART 535-x",
+   "canonico": "ART 535-10",
+   "chunks": 20,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"MULTI_VALOR\", \"multi_valor\": \"ART 535-10/ART 535-10 / 400 °C/ART 535-30 / 400 °C / zona EX 1/21/ART 535-30 / 60 °C / zona EX 1/21\", \"otro_producto\": null, \"confianza\": \"alta\", \"cita\": \"4.1 | Sensor de temperatura externo ART 535-10 | 12 | | 4.2 | Sensor de temperatura externo ART 535-"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "c0b1e530-f0ee-4060-8f0a-1ad39b2d5dfe",
+   "source_file": "UCIP-Borrar-configuracion-completa",
+   "pm_prev": "UCIP",
+   "canonico": "UCIP-GPRS",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "¿Como borrar la configuración de UCIP-GPRS?",
+    "razon": "El contenido del documento identifica explícitamente al UCIP-GPRS como el producto sujeto del procedimiento, coincidiendo con el canónico adjudicado."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "2096e504-08a9-4977-9ab0-12c6c8a20475",
+   "source_file": "UCIP-Como-conectar-con-TG",
+   "pm_prev": "ID-3000",
+   "canonico": "UCIP",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Como configurar el UCIP para que comunique vía IP con el TG",
+    "razon": "El sujeto del documento es el UCIP (su configuración, IP por defecto, comandos); ID-3000 solo aparece como una de varias centrales compatibles con distintas velocidades, no como tema del documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "4777ad8f-c33a-4e53-8a94-4912dc89b630",
+   "source_file": "UCIP-Conectar-con-equipo-via-Serie",
+   "pm_prev": "ID-3000",
+   "canonico": "UCIP-GPRS",
+   "chunks": 1,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Requisitos y herramientas para conectar con *UCIP-GPRS*, por puerto SERIE.",
+    "razon": "El sujeto del documento es el módulo UCIP-GPRS y su conexión serie; las centrales (ID3000, ID50-60, VSN2+, RP1r) solo se mencionan como equipos periféricos a los que se cablea, no como tema del documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "1791d18f-313f-4482-9e64-df7352e76e25",
+   "source_file": "VSN4-PLUS_ITA",
+   "pm_prev": "VSN-232",
+   "canonico": "VSN 4 PLUS",
+   "chunks": 3,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Manuale Utente\nDoc. M-061.1-VSN4-PLUS-ITA Rev A.1\n\nVSN4-PLUS",
+    "razon": "El contenido trata inequívocamente el panel VSN4-PLUS como sujeto (título, código de documento y diagramas), no el VSN-232 del tag actual."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "6ff80de4-54ca-4f2e-9e09-bd10225ae25f",
+   "source_file": "Z728_installation manual",
+   "pm_prev": "Z728",
+   "canonico": "Z728.H",
+   "chunks": 3,
+   "clase": "pm_prev_producto_real",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "Barrera Zener                                                                                            Z728.H",
+    "razon": "El encabezado del documento identifica explícitamente el producto como Z728.H, y el contenido lo confirma («Versión de alto rendimiento», sufijo .H), por lo que el modelo canónico adjudicado es el sujeto real del documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "9d6efdf7-4b2c-46e9-9332-65f113b8000a",
+   "source_file": "I56-1306-002_SDX-751EM",
+   "pm_prev": "LOCAL-360",
+   "canonico": "SDX-751EM",
+   "chunks": 13,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "INSTALLATION AND MAINTENANCE INSTRUCTIONS FOR MODEL SDX-751EM ANALOGUE ADDRESSABLE PHOTOELECTRONIC SMOKE SENSOR",
+    "razon": "El documento trata exclusivamente el sensor SDX-751EM como sujeto; «LOCAL-360» es una extracción errónea de la frase 'local 360° visible sensor indication' y no es un modelo de producto."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "dd6d3f72-8a37-4f98-b044-589708b606d9",
+   "source_file": "I56-2166-02R DH500ACDC-E",
+   "pm_prev": "PA400",
+   "canonico": "DH500ACDC-E",
+   "chunks": 23,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "# DH500ACDC-E Intelligent Air Duct Smoke Detector Housing",
+    "razon": "El contenido trata exclusivamente del DH500ACDC-E como sujeto (título, especificaciones, descripción general y kit), y el pm actual «PA400» no aparece en el documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "05e3e05f-d6cf-4c4f-a707-3be673f9b31f",
+   "source_file": "I56-3674-000 M710-CZR",
+   "pm_prev": "TO-28",
+   "canonico": "M710-CZR",
+   "chunks": 10,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "INSTALLATION INSTRUCTIONS FOR M710-CZR CONVENTIONAL ZONE INTERFACE MODULE",
+    "razon": "El documento es explícitamente el manual de instalación del M710-CZR como producto sujeto, por lo que el tag actual «TO-28» es incorrecto y debe reetiquetarse al canónico."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "fae0d680-4511-4fb2-af9d-bcfaf15660d4",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_EN",
+   "pm_prev": "THE-6500",
+   "canonico": "MI-LPB2-S2I",
+   "chunks": 19,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "The model MI-LPB2-S2I is an addressable long range projected beam smoke detector designed to provide open area protection.",
+    "razon": "El documento trata el MI-LPB2-S2I como sujeto único; las menciones '6500' (6500-SMK/BEAMSMK, 6500-MMK/BEAMMMK) son solo accesorios de montaje, no el producto del manual."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "dc74e6e9-85a8-4cdb-a489-37cb9959ba3b",
+   "source_file": "I56-3879-000 MI-LPB2-S2I_ES",
+   "pm_prev": "EL-6500",
+   "canonico": "MI-LPB2-S2I",
+   "chunks": 19,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "El modelo MI-LPB2-S2I es un detector de humo analógico por rayo proyectado de largo alcance, diseñado para proteger áreas diáfanas.",
+    "razon": "El contenido trata explícita y exclusivamente el MI-LPB2-S2I como producto sujeto; las menciones '6500' son solo accesorios (6500-LRK, 6500-MMK, 6500-SMK), no el producto del manual."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "d08c1c49-0849-41ec-9abd-a01b1921210a",
+   "source_file": "I56-3918-001 IM-10EA_multi",
+   "pm_prev": "FROM-01",
+   "canonico": "IM-10EA",
+   "chunks": 11,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "# IM-10EA\n\n# Ten Input Monitor Module",
+    "razon": "El documento es el manual de instalación y mantenimiento del IM-10EA (título y referencias de cableado 'All wiring to the IM-10EA'), no del FROM-01."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "f34f4dab-3f79-4b18-b902-5a68597d47f0",
+   "source_file": "I56-3920-001 CR-6EA_multi",
+   "pm_prev": "FROM-01",
+   "canonico": "CR-6EA",
+   "chunks": 12,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "# CR-6EA\n\n# Six Relay Control Module",
+    "razon": "El documento trata exclusivamente el módulo de seis relés CR-6EA como sujeto (título, especificaciones e instrucciones propias), por lo que el pm actual «FROM-01» es incorrecto y debe retiquetarse al canónico."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "3caeba69-e786-4fde-89c2-3249f44519ae",
+   "source_file": "I56-4205-001 NRX-SMT3 Web",
+   "pm_prev": "EN-54-25",
+   "canonico": "NRX-SMT3",
+   "chunks": 19,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "The NRX-SMT3 radio sensor is a battery operated RF device designed for use with the NRXI-GATE radio gateway.",
+    "razon": "El documento es el manual de instalación del sensor NRX-SMT3 (título y descripción lo confirman); el pm actual «EN-54-25» es una norma europea, no un producto."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "49b547a5-8225-47b5-8aee-19f188558219",
+   "source_file": "I56-4208-001 NRX-REP Repeater Web",
+   "pm_prev": "WITH-48",
+   "canonico": "NRX-REP",
+   "chunks": 12,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "media",
+    "cita": "NRX-REP RADIO SYSTEM REPEATER INSTALLATION INSTRUCTIONS",
+    "razon": "El documento es el manual de instalación del repetidor NRX-REP; el pm actual «WITH-48» es un artefacto de extracción (proviene del diagrama de peso '48 g component') y no un producto real.",
+    "nota": "cita no verificada en muestra → degradada"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "a6d93291-43e7-464f-b0da-8b888f5a0ab0",
+   "source_file": "I56-4225-001 NRX-OPT Web",
+   "pm_prev": "EN-54-25",
+   "canonico": "NRX-OPT",
+   "chunks": 12,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "NRX-OPT WIRELESS OPTICAL SMOKE SENSOR INSTALLATION AND MAINTENANCE INSTRUCTIONS",
+    "razon": "El documento trata inequívocamente del sensor NRX-OPT como sujeto principal; el pm actual «EN-54-25» es una norma de conformidad (EN54-25), no un producto."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "d4c59e83-c811-4356-876d-b38e48dca373",
+   "source_file": "I56-4407-001 MI-DCMOE",
+   "pm_prev": "MM-82",
+   "canonico": "MI-DCMOE",
+   "chunks": 7,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "EN INSTALLATION INSTRUCTIONS FOR THE MI-DCMOE OUTPUT MODULE",
+    "razon": "El documento trata exclusivamente el módulo de salida MI-DCMOE; el pm actual «MM-82» parece derivar erróneamente de la dimensión «82 mm» del dibujo."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "7b13e257-8a36-4baa-bdbb-753009f4c7d5",
+   "source_file": "I56-4422-000 M701E-240",
+   "pm_prev": "OF-48V",
+   "canonico": "M701E-240",
+   "chunks": 10,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "M701E-240\nINSTALLATION INSTRUCTIONS FOR MAINS SWITCHING OUTPUT MODULE",
+    "razon": "El documento es el manual de instalación del módulo M701E-240 como sujeto único (M200E-SMB es solo la caja de montaje accesoria), y el pm actual «OF-48V» proviene de una extracción errónea de la nota sobre cables con voltajes superiores a 48V."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "ae01f36c-750e-4765-a31b-84109aa20fdc",
+   "source_file": "MIDT1041",
+   "pm_prev": "PA400",
+   "canonico": "DH500ACDC-E",
+   "chunks": 23,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "CARCASA DEL DETECTOR ANALÓGICO DE HUMO POR CONDUCTO DE AIRE DH500AC/DC",
+    "razon": "El documento es el manual de instalación y mantenimiento del DH500AC/DC (con valores de alimentación específicos para DH500ACDC-E), mientras que PA400 solo aparece como fila accesoria en una tabla, no como sujeto del documento."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "fd5cf489-d608-4e12-ba2c-ebc7d30721ca",
+   "source_file": "MIW-INT-Cuantos-expansores-puedo-conectar-al-Interface-pasarela",
+   "pm_prev": "TO-3200M",
+   "canonico": "MIW-INT",
+   "chunks": 1,
+   "clase": "ambigua_hermanas",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "¿Cuantos expansores MIW-EXP puedo conectar al Interface / pasarela MIW-INT?",
+    "razon": "El sujeto del documento es el interface MIW-INT; el pm actual «TO-3200M» es un falso positivo derivado de la distancia «hasta 3200m» mencionada en el contenido, no un producto."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "fc070e20-3ff7-4a9c-8991-3dddda3dd693",
+   "source_file": "997-267-000-6_Eng",
+   "pm_prev": "DTP/Booster",
+   "canonico": "020-543",
+   "chunks": 4,
+   "clase": "no_dominante",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"RETAG_CANONICO\", \"multi_valor\": null, \"otro_producto\": null, \"confianza\": \"alta\", \"cita\": \"The Dual Transmission Path (DTP)/Booster kit (PN: 020-543) is very simple to fit to the main chassis\", \"razon\": \"El documento es la instrucción de instalación del kit DTP/Booster c"
+   },
+   "cita_verificada": false
+  },
+  {
+   "document_id": "04bb1360-c5a9-4e96-83d3-ba4d50a66f7a",
+   "source_file": "D 1149-1 BGL Notifier",
+   "pm_prev": "SP-20",
+   "canonico": "NFXI-BF-WCH",
+   "chunks": 4,
+   "clase": "no_dominante",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "EN 54-17:2005\n\nFire detection and fire alarm\nsystems - Short-circuit isolators.\n\nNFXI-BF-WCH",
+    "razon": "El contenido trata una base sonora/VAD con detector (EN 54-23/EN 54-17) cuyo bloque de certificación identifica explícitamente el producto como NFXI-BF-WCH, mientras que «SP-20» solo aparece como referencia a un documento externo (SP20-3250) de especificaciones del aislante."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "a84230bc-ad58-468f-b48d-2fa5d873e694",
+   "source_file": "I56-4207-001 NRXI-GATE Gateway Web",
+   "pm_prev": "CASE-32",
+   "canonico": "NRXI-GATE",
+   "chunks": 12,
+   "clase": "no_dominante",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "The NRXI-GATE is an advanced RF device designed for use with Notifier addressable intelligent fire systems that use a compatible proprietary communication protocol for monitoring and control.",
+    "razon": "El documento es la instrucción de instalación del gateway NRXI-GATE como sujeto principal, y el pm actual «CASE-32» no corresponde al contenido."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "be1b6b42-721f-442f-a453-477a5e4dc795",
+   "source_file": "MNDT960I_iBox-BACnet",
+   "pm_prev": "IBOX BACNET",
+   "canonico": "IBOX-BAC-NID3000",
+   "chunks": 85,
+   "clase": "no_dominante",
+   "llm": {
+    "veredicto": "RETAG_CANONICO",
+    "multi_valor": null,
+    "otro_producto": null,
+    "confianza": "alta",
+    "cita": "(IBOX-BAC-NID3000 / r1 eng)",
+    "razon": "La portada del manual identifica explícitamente el producto como IBOX-BAC-NID3000, gateway para integrar centrales Notifier ID3000 en BACnet/IP, coincidiendo con el canónico adjudicado."
+   },
+   "cita_verificada": true
+  },
+  {
+   "document_id": "e3e37118-b636-429c-8a74-017abb1d355e",
+   "source_file": "50478 RevA - MPS-24AE _Eng",
+   "pm_prev": "ECN-96-200",
+   "canonico": "MPS-24AE",
+   "chunks": 1,
+   "clase": "no_atestada",
+   "llm": {
+    "veredicto": "NO_DECIDIBLE",
+    "confianza": "baja",
+    "cita": null,
+    "razon": "parse-fail",
+    "raw": "{\"veredicto\": \"RETAG_CANONICO\", \"multi_valor\": null, \"otro_producto\": null, \"confianza\": \"baja\", \"cita\": \"Document"
+   },
+   "cita_verificada": false
+  }
+ ]
+}

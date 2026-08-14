@@ -1,0 +1,133 @@
+{
+ "que_es": "E3 censo F3a: docs MONO-producto activos cuyo pm de chunks ≠ canonical_model (normkey). Multi-producto CENSADO y FUERA (contrato: jamás colapsar). Solo lectura.",
+ "utc": "20260813T214421Z",
+ "doc_map_entradas": 887,
+ "mono_con_mismatch": 161,
+ "chunks_afectados": 3928,
+ "mono_ya_coherentes": 382,
+ "multi_producto_fuera_f3a": 272,
+ "mono_sin_chunks": 0,
+ "muestras_mismatch": [
+  {
+   "document_id": "f1c0c15b-86d2-4460-b2a1-e8462fb06d07",
+   "source_file": "00-3280-508-4209-02_r002_2x-at_series_quick_operation_guide_es",
+   "producto": "kidde:2x-at",
+   "canonical_model": "2X-AT",
+   "pm_doc": "2X-A Táctil",
+   "chunks_total": 5,
+   "chunks_mismatch": 5,
+   "pms_mismatch": {
+    "2X-A Táctil": 5
+   }
+  },
+  {
+   "document_id": "6d6e4b64-5203-4fc3-a24b-05fb8daff749",
+   "source_file": "0044-033-01 Guia F5000",
+   "producto": "unresolved:f5000",
+   "canonical_model": "F5000",
+   "pm_doc": "OF-50",
+   "chunks_total": 10,
+   "chunks_mismatch": 10,
+   "pms_mismatch": {
+    "OF-50": 10
+   }
+  },
+  {
+   "document_id": "f5224079-3c15-421a-83fe-5506edbc3100",
+   "source_file": "04-4001-501-1700-06_r006_aritech_apic_installation_sheet_ml_0",
+   "producto": "aritech:apic",
+   "canonical_model": "APIC",
+   "pm_doc": "9-30441/9-30441-JUM",
+   "chunks_total": 10,
+   "chunks_mismatch": 10,
+   "pms_mismatch": {
+    "9-30441/9-30441-JUM": 10
+   }
+  },
+  {
+   "document_id": "e837f20c-e05e-4cb3-9504-6ab35b6c3b23",
+   "source_file": "085501996d_PYX-L-15-CPR_Installation_manual_D-GB-F-RU-I",
+   "producto": "pfannenberg:py-x-l-15-cpr",
+   "canonical_model": "PY X-L-15-CPR",
+   "pm_doc": "PYX-L-15",
+   "chunks_total": 21,
+   "chunks_mismatch": 21,
+   "pms_mismatch": {
+    "PYX-L-15": 21
+   }
+  },
+  {
+   "document_id": "144d759a-400f-44e7-8496-e5ffd706ec5e",
+   "source_file": "11369_22_VESDA_VLF-250_Product_Guide_A4_Spanish_lores",
+   "producto": "xtralis:vlf-250",
+   "canonical_model": "VLF-250",
+   "pm_doc": "VESDA-VLF/VLF-250",
+   "chunks_total": 84,
+   "chunks_mismatch": 84,
+   "pms_mismatch": {
+    "VESDA-VLF/VLF-250": 84
+   }
+  },
+  {
+   "document_id": "e2c7c875-aa95-4b3c-9ce2-3a2988f94ca8",
+   "source_file": "11370_17_VESDA_VLF-500_Product_Guide_A4_Spanish_lores",
+   "producto": "xtralis:vlf-500",
+   "canonical_model": "VLF-500",
+   "pm_doc": "VESDA-VLF/VLF-500",
+   "chunks_total": 86,
+   "chunks_mismatch": 86,
+   "pms_mismatch": {
+    "VESDA-VLF/VLF-500": 86
+   }
+  },
+  {
+   "document_id": "a292a31b-9b02-49e1-96fa-6ce32d0bf510",
+   "source_file": "15037SP",
+   "producto": "notifier:lcd-80",
+   "canonical_model": "LCD-80",
+   "pm_doc": "AM-2020",
+   "chunks_total": 42,
+   "chunks_mismatch": 42,
+   "pms_mismatch": {
+    "AM-2020": 42
+   }
+  },
+  {
+   "document_id": "e6dfbbc3-2a49-416f-9fc1-4563fc581cd2",
+   "source_file": "15090SP",
+   "producto": "notifier:nrt-586t",
+   "canonical_model": "NRT-586T",
+   "pm_doc": "NRT/NRT-586T/NRT-NET",
+   "chunks_total": 134,
+   "chunks_mismatch": 134,
+   "pms_mismatch": {
+    "NRT/NRT-586T/NRT-NET": 134
+   }
+  },
+  {
+   "document_id": "4a781b5b-6d7a-4d85-96a7-a5fab15d972c",
+   "source_file": "15584",
+   "producto": "notifier:cpu-5000",
+   "canonical_model": "CPU-5000",
+   "pm_doc": "System 5000",
+   "chunks_total": 50,
+   "chunks_mismatch": 50,
+   "pms_mismatch": {
+    "System 5000": 50
+   }
+  },
+  {
+   "document_id": "29bc9220-19a1-4169-b638-4ccc4b168390",
+   "source_file": "156-0394-007R - PIBV2_Eng",
+   "producto": "systemsensor:pibv2",
+   "canonical_model": "PIBV2",
+   "pm_doc": "NFPA-13",
+   "chunks_total": 10,
+   "chunks_mismatch": 10,
+   "pms_mismatch": {
+    "NFPA-13": 10
+   }
+  }
+ ],
+ "detalle_completo": "evals/s321_e3_censo_v1_detalle.json"
+}

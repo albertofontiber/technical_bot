@@ -2776,3 +2776,32 @@ futuro pueda consumir el dict mal. Toca a TODOS los llamadores ⇒ medio impacto
 ⇒ **dúo obligatorio**; por eso NO se acopló a la medición de s320c. **Coste**: S.
 **Relacionado**: DEC-173, DEC-186 (EN REVISIÓN), fila etapa-3 de `docs/LEVER_DIGEST.md`, ítem 2
 de `evals/s312_goldreview_b2_packet_v3.md`.
+
+## #76 — El bot no filtra por CATEGORÍA ni ATRIBUTOS de producto («¿qué centrales analógicas de 4 lazos de Detnov tienes?» → lista TODO Detnov) — hallazgo orgánico de Alberto, 13-ago
+
+**Evidencia (2 queries reales de Alberto, 13-ago-2026)**: «¿Qué centrales de
+cuatro lazos analógica de Detnov tienes?» devolvió TODOS los productos Detnov
+(ni siquiera solo centrales analógicas); caso análogo con Kidde. La ruta de
+inventario por marca (fase A s316) lista productos de una marca, pero no sabe
+NI categoría (¿cuáles son centrales de incendio?) NI atributos (¿analógica o
+convencional? ¿cuántos lazos soporta/admite ampliación a 4?).
+
+**Por qué es estructural y dónde encaja**: es la capa de ATRIBUTOS NORMALIZADOS
+que el contrato de identidad dejó señalada (IDENTITY_CATALOG_CONTRACT §riesgo:
+«diverge no es decidible query-side sin atributos normalizados/EVPI») y la
+extensión natural del catálogo gobernado (workstream DEC-074): products hoy
+tiene id/canonical/aliases pero no `categoria` (central/detector/sirena/módulo…)
+ni atributos técnicos (tecnología analógica/convencional/algorítmica, nº lazos
+base/máx, protocolo). Con 30+ fabricantes, «¿qué X con atributo Y tienes?» es
+funcionalidad de mostrador básica.
+
+**Forma BP esperable (a diseñar con dúo, NO aquí)**: (a) esquema de categoría +
+atributos EN el catálogo gobernado (adjudicables, con provenance por manual);
+(b) población asistida desde specs de manuales con QA por lotes (patrón E1b);
+(c) ruta de respuesta que consuma el catálogo para queries de
+inventario-con-filtro (extensión de la ruta de inventario fase A, no un canal
+RAG nuevo). Relacionado: E4 (clarify por divergencia consume el MISMO tipo de
+dato: eje divergente = atributo).
+
+**Prioridad**: alta para la apertura a DGs (es la clase de pregunta que un
+Director General hace primero). Añadida s321 por mandato de Alberto.

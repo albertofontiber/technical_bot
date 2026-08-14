@@ -51,12 +51,15 @@ performs NO I/O and NO LLM call itself; the rewriter is the injected callable.
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 from .conversation_policy import (
     NON_PRODUCT_CODES,
@@ -150,34 +153,81 @@ _NORMATIVE_CODE_RE = re.compile(
 )
 
 
-@dataclass(frozen=True)
-class _FamilySpec:
-    """A model umbrella that denotes a SERIES of variants (GT-anchored). The
-    ``divergent_axis`` keywords are the attributes whose answer DIFFERS by variant
-    (here: number of loops/zones). ``variants`` is the GT variant list (by number
-    of loops) used to render the clarify question precisely. A question hitting the
-    axis on the umbrella is a real divergence -> clarify; any other question is
-    answered family-generic."""
-
-    divergent_axis: tuple[str, ...]
-    variants: tuple[str, ...]
+# (s321 E4) `_FamilySpec` retirado con el seed: la spec de familia vive en el
+# campo `clarify` de las umbrellas del catálogo gobernado (ver _clarify_specs).
 
 
-_LOOP_AXIS: tuple[str, ...] = (
-    "cuántos lazos", "cuantos lazos", "número de lazos", "numero de lazos",
-    "cuántos bucles", "cuantos bucles", "lazos y zonas",
-    "cuántas zonas", "cuantas zonas", "número de zonas", "numero de zonas",
-)
+# s321 E4 (DEC-215, dúo r26): el seed hardcoded FAMILY_REGISTRY se RETIRÓ —
+# la promesa de su propio comentario («the durable version reads the catalog's
+# variant table», DEC-069) se cumple: el clarify-por-divergencia lee el campo
+# `clarify` ADJUDICABLE de las umbrellas del catálogo gobernado, vía la
+# instancia ÚNICA del proceso (catalog_resolver.catalogo_cargado — r26: nada
+# de segunda caché). Las VARIANTES no se re-declaran: se DERIVAN de los
+# canonical_model de los miembros (prefijo/sufijo común fuera → 1/2/5).
+# Fail-open DECLARADO como divergencia con el seed (que nunca fallaba): sin
+# catálogo → sin clarify de familia, con warning una vez.
+_clarify_specs_cache: dict | None = None
+_clarify_warned = False
 
-# Morley ZXSe / ZXe families by number of loops — Alberto GT (memory
-# reference_morley_zx_rp1r, s78/s79/s80). ZXSe {ZX1Se..ZX10Se}, ZXe {ZX1e..ZX5e}.
-# The umbrella token (as ``extract_product_models`` emits it, normalized upper)
-# maps to its divergent axis + variant list. Seed; the durable version reads the
-# catalog's variant table (DEC-069). NON_PRODUCT_CODES can never be families.
-FAMILY_REGISTRY: dict[str, _FamilySpec] = {
-    "ZXSE": _FamilySpec(divergent_axis=_LOOP_AXIS, variants=("1", "2", "5", "10")),
-    "ZXE": _FamilySpec(divergent_axis=_LOOP_AXIS, variants=("1", "2", "5")),
-}
+
+def _clarify_specs() -> dict[str, dict]:
+    """{TOKEN_UPPER: {"eje": [...], "variantes": "1/2/5", "ids": [...]}}."""
+    global _clarify_specs_cache, _clarify_warned
+    if _clarify_specs_cache is not None:
+        return _clarify_specs_cache
+    try:
+        from ..rag.catalog_resolver import catalogo_cargado
+
+        cat = catalogo_cargado()
+        assert cat is not None
+        specs: dict[str, dict] = {}
+        for u in cat.umbrellas:
+            cl = u.get("clarify")
+            if not cl or u.get("candidate"):
+                continue
+            canonicos = [
+                (cat.products.get(cat.follow_redirect(i)) or {})
+                .get("canonical_model", "") for i in u.get("ids", ())]
+            canonicos = [c for c in canonicos if c]
+            specs[str(u["termino"]).upper()] = {
+                "eje": tuple(cl["eje_terminos"]),
+                "variantes": _variantes_de_miembros(canonicos),
+                "ids": tuple(u.get("ids", ())),
+            }
+        _clarify_specs_cache = specs
+    except Exception as exc:                     # noqa: BLE001
+        if not _clarify_warned:
+            logger.warning(
+                "clarify gobernado: catálogo no disponible (%s) — familia "
+                "sin clarify este proceso (divergencia declarada con el seed)",
+                type(exc).__name__)
+            _clarify_warned = True
+        _clarify_specs_cache = {}
+    return _clarify_specs_cache
+
+
+def _variantes_de_miembros(canonicos: list[str]) -> str:
+    """«ZX1e/ZX2e/ZX5e» → «1/2/5»: quita el prefijo y sufijo comunes de los
+    canonical_model de los miembros; el core que queda ES la variante. Si el
+    stripping degenera (core vacío), cae a los canónicos completos — jamás a
+    una lista hardcoded (r26: el fallback «1/2/5/10» era una tercera copia)."""
+    if not canonicos:
+        return ""
+    if len(canonicos) == 1:
+        return canonicos[0]
+    pre = 0
+    while all(len(c) > pre and c[pre].lower() == canonicos[0][pre].lower()
+              for c in canonicos):
+        pre += 1
+    suf = 0
+    while all(len(c) > pre + suf
+              and c[-1 - suf].lower() == canonicos[0][-1 - suf].lower()
+              for c in canonicos):
+        suf += 1
+    cores = [c[pre:len(c) - suf] if suf else c[pre:] for c in canonicos]
+    if any(not c for c in cores):
+        return "/".join(canonicos)
+    return "/".join(cores)
 
 # Attributes that are INVARIANT across a family's variants -> never clarify on
 # them (DEC-092: end-of-line resistance is family-generic in the e-series). A
@@ -382,9 +432,10 @@ class DeterministicConversationPolicy:
         divergent axis AND does not ask about an invariant attribute."""
         if any(term in ql for term in _INVARIANT_ATTRS):
             return False
+        specs = _clarify_specs()
         for m in models:
-            spec = FAMILY_REGISTRY.get(m)
-            if spec and any(term in ql for term in spec.divergent_axis):
+            spec = specs.get(m)
+            if spec and any(term in ql for term in spec["eje"]):
                 return True
         return False
 
@@ -509,10 +560,14 @@ class DeterministicConversationPolicy:
             models = working_state.last_target_models
 
             # E. Family umbrella + divergent-axis question -> clarify (real divergence).
+            # (s321 E4) La spec viene del CATÁLOGO; _family_divergence ya
+            # garantizó que hay umbrella con eje disparado — sin fallback
+            # hardcoded (r26: el «1/2/5/10» era una tercera copia; retirado).
             if self._family_divergence(models, ql):
-                umbrella = next((m for m in models if m in FAMILY_REGISTRY), models[0])
-                spec = FAMILY_REGISTRY.get(umbrella)
-                variants = "/".join(spec.variants) if spec else "1/2/5/10"
+                specs = _clarify_specs()
+                umbrella = next((m for m in models if m in specs), models[0])
+                spec = specs.get(umbrella)
+                variants = spec["variantes"] if spec else ""
                 return TurnResolution(
                     route=PolicyRoute.CLARIFY,
                     query_for_retrieval=query,
@@ -705,7 +760,6 @@ def conversation_policy_active() -> bool:
 __all__ = [
     "WINDOW_SECONDS",
     "BRAND_TOKENS",
-    "FAMILY_REGISTRY",
     "DeterministicConversationPolicy",
     "detect_turn_signals",
     "resolve_conversational_turn",
