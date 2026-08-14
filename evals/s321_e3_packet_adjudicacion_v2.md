@@ -5,9 +5,13 @@
 > artefacto FD2705-10R retirado ✓ — extensión al addendum que él citó).
 > **APLICADO**: 44 retags · 674 chunks · 0 aborts · findability OK (recibo
 > `s322_e3_writer_packet_aplicar_20260814T193541Z.json`; 3 MANTENER = no-op).
-> **PENDIENTE SOLO**: la fila ZXrA — verificación hecha: NO hay gap (MIE-MI-440
-> ya ingestado); recomendación retag-a-ZXR50A en vez de borrar (la FAQ es-ES
-> tiene el único paso-a-paso del repetidor en la DXc Connexion).
+> **ZXrA — CERRADO (s322e)**: Alberto adjudicó con el MIE-MI-440 en la mano que
+> **ZXr-A/ZXr-P ≠ ZXR50A/ZXR50P** (los ZXR50 son del panel ZX50; los ZXr de
+> DXc/DX/ZXe/ZXSe) — el colapso del GT s78 queda REVOCADO: nacen
+> `morley:zxr-a`/`zxr-p`, MIE-MI-431rv2 y la FAQ remapeadas y retagueadas
+> (18+1 chunks), aliases retirados, MIE-MI-440 intacto. La FAQ se CONSERVA
+> (no se borra: es el único paso-a-paso es-ES del repetidor en la Connexion).
+> Recibo `s322_e3_zxra_split_v1.json`. **El packet E3 queda COMPLETO.**
 
 Los 55 docs AUTO ya están aplicados. Repesca v2 (s322c): los 12 «parse-fail»
 del v1 eran el bug max_tokens=400 (mismo del censo #76), y las hermanas ahora
