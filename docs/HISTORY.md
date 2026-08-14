@@ -3529,3 +3529,16 @@ inaplicable≠faltante (una convencional no «carece» de lazos), la colisión
 Cierre: 138 clasificados Detnov+Kidde, 36/36 centrales con capacidad, smoke de
 las 5 queries de mostrador en verde, deuda #76b (divergencia multi-mercado)
 declarada con gatillo duro antes de Notifier. DEC-217.
+
+### s322c (14 ago, tarde) — El packet E3 encogido y el estreno del carril online
+
+Alberto preguntó si valía la pena revisar online las 32 filas no-alta del packet
+E3. El censo dijo otra cosa: 12 eran parse-fails del mismo max_tokens=400 cazado
+en #76, y 17 eran altas castigadas solo por hermanas sin resolver. La repesca v2
+(muestreo doc-entero, full-text, hermanas-con-cita) dejó la sentada en 2 síes en
+bloque (23+20) y 4 filas — y el carril online, estrenado en las 3 irreducibles,
+pagó doble: confirmó ZXR50A (naming español del ZXr-A) y MPS-24AE como productos
+reales, y destapó que «FD2705-10R» probablemente NO existe — es el nombre del
+fichero fusionando FD2705R+FD2710R, un artefacto sentado en el doc_map como
+canónico. La evidencia viaja en el packet con URL+quote+fecha; nada se escribe
+sin adjudicación.
